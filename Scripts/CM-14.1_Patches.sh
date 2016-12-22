@@ -2,8 +2,11 @@
 
 #TODO: Aggressive Doze (Verify Extended Doze First), App-based battery profiles, Change connectivity check URL, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Update WebView for arm
 
+#Build UberTC
+#cd /home/tad/Android/Build/UBERTC/scripts && repo sync -j18 && ./arm-eabi-4.8 && ./arm-linux-androideabi-4.9 && ./aarch64-linux-android-4.9
+
 #Delete Everything
-#rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore
+#rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu
 
 #Start a build
 #repo sync -j24 --force-sync && sh ../../Scripts/CM-14.1_Patches.sh && source device/motorola/clark/setup-makefiles.sh && source build/envsetup.sh && export ANDROID_HOME=/home/tad/Android/Build/CyanogenMod-14.1/prebuilts/sdk/current && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch mako
@@ -46,6 +49,12 @@ enter "build"
 #git revert 6f9c2e115aeccd7090f92f1fb91bc6052522cdd1 #Enable dex pre-optimization by default again
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing
 
+#enter "bootable/recovery" #https://gerrit.omnirom.org/#/q/project:android_bootable_recovery
+#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/37/20837/1 && git cherry-pick FETCH_HEAD
+#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/80/20880/3 && git cherry-pick FETCH_HEAD
+#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/79/20879/5 && git cherry-pick FETCH_HEAD
+#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/00/20700/7 && git cherry-pick FETCH_HEAD
+
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 patch -p1 < $patches"android_system_core/0001-Hardening.patch" #Misc hardening
@@ -82,7 +91,7 @@ rm app/src/main/res/xml/preferences.xml.orig
 enter "packages/apps/FDroidPrivilegedExtension" #XXX: Janky af
 patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0001-Update_Build_Tools.patch" #Update build tools
 patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Release_Key.patch" #Change to release key
-patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0003-Test_Keys.patch" #Add test-keys XXX: TEMPORARY UNTIL WE'VE MIGRATED TO SIGNED BUILDS
+patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0003-Test_Keys.patch" #Add test-keys XXX: ONLY USE FOR TEST BUILDS
 #release-keys: CB:1E:E2:EC:40:D0:5E:D6:78:F4:2A:E7:01:CD:FA:29:EE:A7:9D:0E:6D:63:32:76:DE:23:0B:F3:49:40:67:C3
 #test-keys: C8:A2:E9:BC:CF:59:7C:2F:B6:DC:66:BE:E2:93:FC:13:F2:FC:47:EC:77:BC:6B:2B:0D:52:C1:1F:51:19:2A:B8
 
@@ -112,21 +121,20 @@ git revert e80d30e3968308cd2941b893608279220dfcf34f #don't add more sprint blobs
 patch -p1 < $patches"android_device_motorola_clark/0002-Remove_Sprint_DM.patch" #Removes Sprint Device Manager FIXME: Rebase
 patch -p1 < $patches"android_device_motorola_clark/0003-Enable_Dex_Preopt.patch" #Force enables dex pre-optimization
 patch -p1 < $patches"android_device_motorola_clark/0004-Remove_Widevine.patch" #Removes Google Widevine and disables the DRM server
-enter "kernel/motorola/msm8992"
-patch -p1 < $patches"android_kernel_motorola_msm8992/0001-Overclock.patch" #a57: 1.82Ghz -> 2.01Ghz, a53 1.44Ghz -> 1.63Ghz	=+1.14Ghz
-patch -p1 < $patches"android_kernel_motorola_msm8992/0002-Underclock.patch" #384Mhz -> 300Mhz
-patch -p1 < $patches"android_kernel_motorola_msm8992/0003-MMC_Tweak.patch" #Improves MMC performance
-patch -p1 < $patches"android_kernel_motorola_msm8992/0004-Enable_Overclock.patch" #Enables the overclock by default FIXME: Still not default
+#patch -p1 < $patches"android_device_motorola_clark/0005-TWRP.patch" #Add TWRP support
 
+enter "kernel/motorola/msm8992"
+patch -p1 < $patches"android_kernel_motorola_msm8992/0001-OverUnderClock.patch" #a57: 1.82Ghz -> 2.01Ghz, a53 1.44Ghz -> 1.63Ghz, 384Mhz -> 300Mhz	=+1.14Ghz TODO: Enable by default
+patch -p1 < $patches"android_kernel_motorola_msm8992/0002-MMC_Tweak.patch" #Improves MMC performance
 
 enter "device/oneplus/bacon"
 patch -p1 < $patches"android_device_oneplus_bacon/0001-Remove_DRM.patch" #Removes Microsoft PlayReady and Google Widevine
 patch -p1 < $patches"android_device_oneplus_bacon/0002-Enable_Dex_Preopt.patch" #Force enables dex pre-optimization
+
 enter "kernel/oneplus/msm8974"
 #patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock.patch" #300Mhz -> 268Mhz, 2.45Ghz -> 2.88Ghz	=+1.72Ghz
 patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock-EXTREME.patch" #300Mhz -> 268Mhz, 2.45Ghz -> 2.95Ghz	=+2.02Ghz XXX: Not 100% stable under intense workloads
 patch -p1 < $patches"android_kernel_oneplus_msm8974/0002-Enable_Diag.patch" #Enables Qualcomm diag (SnoopSnitch)
-
 
 enter "device/lge/mako"
 patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed)
@@ -134,10 +142,14 @@ enter "kernel/lge/mako"
 patch -p1 < $patches"android_kernel_lge_mako/0001-OverUnderClock.patch" #384Mhz -> 81Mhz, 1.51Ghz -> 1.94Ghz	=+1.72Ghz TODO: Test this
 
 enter "kernel/lge/hammerhead"
-patch -p1 < $patches"android_device_lge_hammerhead/0001-OverUnderClock.patch" #2.26Ghz -> 2.95Ghz (=+)
+patch -p1 < $patches"android_kernel_lge_hammerhead/0001-OverUnderClock.patch" #2.26Ghz -> 2.95Ghz	=+2.76Ghz
 
 enter "kernel/moto/shamu"
-patch -p1 < $patches"android_kernel_moto_shamu/0001-OverUnderClock.patch" #300Mhz -> 35Mhz, 2.64Ghz -> 2.88Ghz (=+0.96Ghz)
+patch -p1 < $patches"android_kernel_moto_shamu/0001-OverUnderClock.patch" #300Mhz -> 35Mhz, 2.64Ghz -> 2.88Ghz	=+0.96Ghz
+
+enter "kernel/lge/bullhead"
+patch -p1 < $patches"android_kernel_lge_bullhead/0001-OverUnderClock.patch" #a57: 1.82Ghz -> 2.01Ghz, a53 1.44Ghz -> 1.63Ghz, 384Mhz -> 300Mhz	=+1.14Ghz TODO: Enable by default
+patch -p1 < $patches"android_kernel_lge_bullhead/0002-MMC_Tweak.patch" #Improves MMC performance
 #
 #END OF DEVICE CHANGES
 #
