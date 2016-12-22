@@ -1,0 +1,46 @@
+Last Updated: 12/20/2016
+General Changes
+	- Added support for Chromium monochrome
+	- Builds are dex-preopted on supported devices
+	- Builds are signed with private release-keys
+	- Bundled in our custom DNS blocklist
+	- Compiled with OpenJDK 8
+	- Doze is re-enabled on devices without real Google Play Services
+	- Hardened IPv4 and IPv6 stacks
+	- Hardened special file systems
+	- Hardened SQLite
+	- Removed unnecessary/outdated/insecure packages
+	- Updated Chromium WebView on arm64 devices
+	- F-Droid
+		- F-Droid and FDroidPrivilegedExtension are included by default
+		- FDroidPrivilegedExtension ONLY allows access to our signed version of F-Droid
+	- MicroG
+		- GmsCore, GsfProxy, and FakeStore are included by default
+		- Required signature spoofing permission is ONLY granted to signed system apps unlike other ROMs
+	- Settings
+		- NFC and NDEF are disabled by default
+		- Passwords are hidden by default
+Device Changes
+	- bacon
+		- Overclocked from 2.45Ghz to 2.95Ghz (=+2.02Ghz)
+		- Underclocked from 300Mhz to 268Mhz
+		- Qualcomm DIAG enabled
+		- Removed bundled Google Widevine DRM and Microsoft PlayReady DRM firmware files
+	- bullhead
+		- Overclocked a57 from 1.82Ghz to 2.01Ghz, overclocked a53 from 1.44Ghz to 1.63Ghz (=+1.14Ghz)
+		- Underclocked both from 384Mhz to 300Mhz
+		- MMC performance slightly increased
+	- clark
+		- Overclocked a57 from 1.82Ghz to 2.01Ghz, overclocked a53 from 1.44Ghz to 1.63Ghz (=+1.14Ghz)
+		- Underclocked both from 384Mhz to 300Mhz
+		- MMC performance slightly increased
+		- Removed bundled Google Widevine DRM and Microsoft PlayReady DRM firmware files
+	- mako
+		- Overclocked from 1.51Ghz to 1.94Ghz (=+1.72Ghz)
+		- Underclocked from 384Mhz to 81Mhz
+		- Enabled LTE support (Requires LTE hybrid modem to be flashed)
+	- hammerhead
+		- Overclocked from 2.26Ghz to 2.95Ghz (=+2.75Ghz)
+	- shamu
+		- Overclocked from 2.64Ghz to 2.88Ghz (=+0.96Ghz)
+		- Underclocked from 300Mhz to 35Mhz

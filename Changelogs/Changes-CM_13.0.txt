@@ -1,0 +1,53 @@
+Last Updated: 08/11/2016
+General changes
+	- Changed network connectivity check URL to personal server (with logging disabled on server)
+	- Compiled with UBERTC GCC 4.9 and AOSP NDK 4.9 using JustArchi's v4.1 optimization flags
+	- Compiled with OpenJDK 8
+	- Doze is significantly more aggressive
+	- Instant shutdown after 5 failed unlock attempts
+	- Fixed Profiles failing to change to user's prefered network type
+	- Miscellaneous hardening
+	- Removed Cyanogen AmbientSDK from various repos and packages
+	- Removed CyanogenMod analytics from various repos and packages
+	- Removed Gello from supported devices
+	- Removed unnecessary/outdated packages
+	- Replaced outdated AOSP webview with newer Chromium-based webview
+	- Browser
+		- Changed default home page to DuckDuckGo
+		- Changed default search engine to DuckDuckGo
+		- Link preloading is disabled by default
+		- Plugins are disabled by default
+		- Removed referrer flags from DuckDuckGo
+		- Removed RLZ tracking
+		- Search result preloading is disabled by default
+	- Camera2
+		- Location recording is disabled by default
+	- Settings
+		- NFC and NDEF are disabled by default
+		- Passwords are hidden by default
+		- Senisitive notification content is hidden by default
+
+Device Changes
+	- bacon
+		- Kernel
+			- Overclocked from 2.45Ghz to 2.95Ghz
+				- No thats not a typo, its actually pretty stable
+			- Underclocked from 300Mhz to 268Mhz
+		- Device
+			- Basic performance/battery build.prop optimizations
+			- Removed bundled Google Widevine DRM and Microsoft PlayReady DRM firmware files
+			- Removed as many unnecessary proprietary Qualcomm blobs (CNE/DPM/Location/QTI)
+	- mako
+		- Device
+			- Enabled LTE support
+			- Increase speaker and microphone volume by 4dB
+			- Fixed dexopt related bootloop
+
+To Do
+	- Implement ARMORED (TRESOR)
+	- Implement DNScrypt support
+	- Implement MAC address and hostname randomization
+	- Remove CMStats from Trebuchet, currently only disabled code still there
+	- Remove DRM server
+	- Remove RemoteFolder from Trebuchet
+	- Remove unnecessary proprietary blobs
