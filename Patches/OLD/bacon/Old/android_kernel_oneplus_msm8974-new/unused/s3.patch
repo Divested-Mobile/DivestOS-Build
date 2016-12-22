@@ -1,0 +1,98 @@
+From 297aa104900af483185e01fa8a47b2e1a6babe1c Mon Sep 17 00:00:00 2001
+From: anarkia1976 <stefano.villa1976@gmail.com>
+Date: Wed, 15 Apr 2015 15:24:38 +0200
+Subject: [PATCH] block: scheduler: add ZEN v2
+
+---
+ block/zen-iosched.c | 32 +++++++++++++++-----------------
+ 1 file changed, 15 insertions(+), 17 deletions(-)
+
+diff --git a/block/zen-iosched.c b/block/zen-iosched.c
+index 77145de..a3fc2c0 100644
+--- a/block/zen-iosched.c
++++ b/block/zen-iosched.c
+@@ -16,8 +16,8 @@
+ 
+ enum zen_data_dir { ASYNC, SYNC };
+ 
+-static const int sync_expire  = HZ / 4;    /* max time before a sync is submitted. */
+-static const int async_expire = 2 * HZ;    /* ditto for async, these limits are SOFT! */
++static const int sync_expire  = HZ / 2;    /* max time before a sync is submitted. */
++static const int async_expire = 5 * HZ;    /* ditto for async, these limits are SOFT! */
+ static const int fifo_batch = 1;
+ 
+ struct zen_data {
+@@ -25,7 +25,7 @@ struct zen_data {
+ 	/* Requests are only present on fifo_list */
+ 	struct list_head fifo_list[2];
+ 
+-        unsigned int batching;          /* number of sequential requests made */
++	unsigned int batching;		/* number of sequential requests made */
+ 
+ 	/* tunables */
+ 	int fifo_expire[2];
+@@ -40,17 +40,17 @@ zen_get_data(struct request_queue *q) {
+ static void zen_dispatch(struct zen_data *, struct request *);
+ 
+ static void
+-zen_merged_requests(struct request_queue *q, struct request *rq,
++zen_merged_requests(struct request_queue *q, struct request *req,
+                     struct request *next)
+ {
+ 	/*
+ 	 * if next expires before rq, assign its expire time to arq
+ 	 * and move into next position (next will be deleted) in fifo
+ 	 */
+-	if (!list_empty(&rq->queuelist) && !list_empty(&next->queuelist)) {
+-		if (time_before(rq_fifo_time(next), rq_fifo_time(rq))) {
+-			list_move(&rq->queuelist, &next->queuelist);
+-			rq_set_fifo_time(rq, rq_fifo_time(next));
++	if (!list_empty(&req->queuelist) && !list_empty(&next->queuelist)) {
++		if (time_before(rq_fifo_time(next), rq_fifo_time(req))) {
++			list_move(&req->queuelist, &next->queuelist);
++			rq_set_fifo_time(req, rq_fifo_time(next));
+ 		}
+ 	}
+ 
+@@ -61,11 +61,11 @@ zen_merged_requests(struct request_queue *q, struct request *rq,
+ static void zen_add_request(struct request_queue *q, struct request *rq)
+ {
+ 	struct zen_data *zdata = zen_get_data(q);
+-	const int dir = rq_data_dir(rq);
++	const int sync = rq_is_sync(rq);
+ 
+-	if (zdata->fifo_expire[dir]) {
+-		rq_set_fifo_time(rq, jiffies + zdata->fifo_expire[dir]);
+-		list_add_tail(&rq->queuelist, &zdata->fifo_list[dir]);
++	if (zdata->fifo_expire[sync]) {
++		rq_set_fifo_time(rq, jiffies + zdata->fifo_expire[sync]);
++		list_add_tail(&rq->queuelist, &zdata->fifo_list[sync]);
+ 	}
+ }
+ 
+@@ -91,7 +91,7 @@ zen_expired_request(struct zen_data *zdata, int ddir)
+                 return NULL;
+ 
+         rq = rq_entry_fifo(zdata->fifo_list[ddir].next);
+-        if (time_after(jiffies, rq_fifo_time(rq)))
++        if (time_after_eq(jiffies, rq_fifo_time(rq)))
+                 return rq;
+ 
+         return NULL;
+@@ -257,9 +257,7 @@ static struct elevator_type iosched_zen = {
+ 
+ static int __init zen_init(void)
+ {
+-	elv_register(&iosched_zen);
+-
+-	return 0;
++	return elv_register(&iosched_zen);
+ }
+ 
+ static void __exit zen_exit(void)
+@@ -274,4 +272,4 @@ module_exit(zen_exit);
+ MODULE_AUTHOR("Brandon Berhent");
+ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("Zen IO scheduler");
+-MODULE_VERSION("1.0");
++MODULE_VERSION("1.1");

@@ -1,0 +1,35 @@
+From ce457c4d401e9ccc72a7f7806d0413a93a4ee89b Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Tue, 17 Nov 2015 10:06:29 -0500
+Subject: [PATCH] Sepolicy fixes
+
+Change-Id: Idc72b9ccf46405bc09bd8117d0d0c5c134663d21
+---
+ sepolicy/mediaserver.te   | 3 +++
+ sepolicy/system_server.te | 2 ++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/sepolicy/mediaserver.te b/sepolicy/mediaserver.te
+index 550b069..b986249 100644
+--- a/sepolicy/mediaserver.te
++++ b/sepolicy/mediaserver.te
+@@ -3,3 +3,6 @@ allow mediaserver camera_prop:property_service set;
+ 
+ # check sound card status
+ allow mediaserver audiod:binder call;
++
++# For text relocations in /system/vendor/lib/libmmjpeg.so
++allow mediaserver system_file:file execmod;
+diff --git a/sepolicy/system_server.te b/sepolicy/system_server.te
+index 2edd5b7..a276326 100644
+--- a/sepolicy/system_server.te
++++ b/sepolicy/system_server.te
+@@ -7,3 +7,5 @@ allow system_server vibeamp_sysfs:file rw_file_perms;
+ 
+ # timerfd
+ allow system_server rtc_device:chr_file rw_file_perms;
++
++allow system_server system_file:file execmod;
+-- 
+2.6.2
+

@@ -1,0 +1,23 @@
+From 868adf173741eb6a3f0693d6b14fb92148a48db1 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 20 Nov 2015 00:13:54 -0500
+Subject: [PATCH] remove analytics support
+
+---
+ .../vendor/cmsdk/packages/CMSettingsProvider/res/values/defaults.xml | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/overlay/common/vendor/cmsdk/packages/CMSettingsProvider/res/values/defaults.xml b/overlay/common/vendor/cmsdk/packages/CMSettingsProvider/res/values/defaults.xml
+index eec242d..27ec5fe 100644
+--- a/overlay/common/vendor/cmsdk/packages/CMSettingsProvider/res/values/defaults.xml
++++ b/overlay/common/vendor/cmsdk/packages/CMSettingsProvider/res/values/defaults.xml
+@@ -22,9 +22,4 @@
+          1. Right
+          2. Left -->
+     <integer name="def_qs_quick_pulldown">1</integer>
+-
+-    <!-- Defaults for Secure -->
+-
+-    <!-- Default for CMSettings.Secure.STATS_COLLECTION -->
+-    <bool name="def_stats_collection">true</bool>
+ </resources>

@@ -1,0 +1,53 @@
+From 4edf341b3b70c3bfe391dff53a7e63691c9e7bcb Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Mon, 21 Nov 2016 21:30:33 -0500
+Subject: [PATCH] Enable LTE
+
+Change-Id: I69afb82cc409bd2590b320f5b85636ee2f1de327
+---
+ device.mk                                                 | 2 +-
+ overlay/frameworks/base/core/res/res/values/config.xml    | 2 +-
+ overlay/packages/services/Telephony/res/values/config.xml | 3 +++
+ 3 files changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/device.mk b/device.mk
+index 1960be2..69fe0b8 100644
+--- a/device.mk
++++ b/device.mk
+@@ -234,7 +234,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+ 	rild.libpath=/system/lib/libril-qc-qmi-1.so
+ 
+ PRODUCT_PROPERTY_OVERRIDES += \
+-	telephony.lteOnCdmaDevice=0
++	telephony.lteOnCdmaDevice=1
+ 
+ ifeq ($(findstring tiny, $(TARGET_PRODUCT)),)
+ PRODUCT_PROPERTY_OVERRIDES += \
+diff --git a/overlay/frameworks/base/core/res/res/values/config.xml b/overlay/frameworks/base/core/res/res/values/config.xml
+index 6c68c1d..6febaf2 100644
+--- a/overlay/frameworks/base/core/res/res/values/config.xml
++++ b/overlay/frameworks/base/core/res/res/values/config.xml
+@@ -231,7 +231,7 @@
+          Empty is viewed as "all".  Only used on devices which
+          don't support RIL_REQUEST_GET_RADIO_CAPABILITY
+          format is UMTS|LTE|... -->
+-    <string translatable="false" name="config_radio_access_family">GSM|WCDMA</string>
++    <string translatable="false" name="config_radio_access_family">GPRS|EDGE|UMTS|HSDPA|HSUPA|HSPA|LTE|HSPAP|GSM|WCDMA</string>
+ 
+     <!-- Set to true to add links to Cell Broadcast app from Settings and MMS app. -->
+     <bool name="config_cellBroadcastAppLinks">true</bool>
+diff --git a/overlay/packages/services/Telephony/res/values/config.xml b/overlay/packages/services/Telephony/res/values/config.xml
+index af352a4..22c65ea 100644
+--- a/overlay/packages/services/Telephony/res/values/config.xml
++++ b/overlay/packages/services/Telephony/res/values/config.xml
+@@ -21,4 +21,7 @@
+          are routed through the android.media.AudioManager class (true) or through
+          the com.android.internal.telephony.Phone interface (false). -->
+     <bool name="send_mic_mute_to_AudioManager">true</bool>
++
++    <!-- Show enabled lte option for lte device -->
++    <bool name="config_enabled_lte" translatable="false">true</bool>
+ </resources>
+-- 
+2.9.3
+

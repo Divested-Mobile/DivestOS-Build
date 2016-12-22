@@ -1,0 +1,82 @@
+From 1eb98914209cda9bab7b9fc18f4de0c61c586c7d Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Wed, 28 Oct 2015 12:27:28 -0400
+Subject: [PATCH] Fix breakage by 8ca6f59430d96290d8140d77f1ff53f2564546b3
+
+---
+ fs/dcache.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/fs/dcache.c b/fs/dcache.c
+index 70921c9..c6a7aca 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -2595,11 +2595,11 @@ char *__d_path(const struct path *path,
+ 	int error;
+ 
+ 	prepend(&res, &buflen, "\0", 1);
+-	br_read_lock(vfsmount_lock);
++	br_read_lock(&vfsmount_lock);
+ 	write_seqlock(&rename_lock);
+ 	error = prepend_path(path, root, &res, &buflen);
+ 	write_sequnlock(&rename_lock);
+-	br_read_unlock(vfsmount_lock);
++	br_read_unlock(&vfsmount_lock);
+ 
+ 	if (error < 0)
+ 		return ERR_PTR(error);
+@@ -2616,11 +2616,11 @@ char *d_absolute_path(const struct path *path,
+ 	int error;
+ 
+ 	prepend(&res, &buflen, "\0", 1);
+-	br_read_lock(vfsmount_lock);
++	br_read_lock(&vfsmount_lock);
+ 	write_seqlock(&rename_lock);
+ 	error = prepend_path(path, &root, &res, &buflen);
+ 	write_sequnlock(&rename_lock);
+-	br_read_unlock(vfsmount_lock);
++	br_read_unlock(&vfsmount_lock);
+ 
+ 	if (error > 1)
+ 		error = -EINVAL;
+@@ -2684,11 +2684,11 @@ char *d_path(const struct path *path, char *buf, int buflen)
+ 		return path->dentry->d_op->d_dname(path->dentry, buf, buflen);
+ 
+ 	get_fs_root(current->fs, &root);
+-	br_read_lock(vfsmount_lock);
++	br_read_lock(&vfsmount_lock);
+ 	write_seqlock(&rename_lock);
+ 	error = path_with_deleted(path, &root, &res, &buflen);
+ 	write_sequnlock(&rename_lock);
+-	br_read_unlock(vfsmount_lock);
++	br_read_unlock(&vfsmount_lock);
+ 	if (error < 0)
+ 		res = ERR_PTR(error);
+ 	path_put(&root);
+@@ -2845,7 +2845,7 @@ SYSCALL_DEFINE2(getcwd, char __user *, buf, unsigned long, size)
+ 	get_fs_root_and_pwd(current->fs, &root, &pwd);
+ 
+ 	error = -ENOENT;
+-	br_read_lock(vfsmount_lock);
++	br_read_lock(&vfsmount_lock);
+ 	write_seqlock(&rename_lock);
+ 	if (!d_unlinked(pwd.dentry)) {
+ 		unsigned long len;
+@@ -2855,7 +2855,7 @@ SYSCALL_DEFINE2(getcwd, char __user *, buf, unsigned long, size)
+ 		prepend(&cwd, &buflen, "\0", 1);
+ 		error = prepend_path(&pwd, &root, &cwd, &buflen);
+ 		write_sequnlock(&rename_lock);
+-		br_read_unlock(vfsmount_lock);
++		br_read_unlock(&vfsmount_lock);
+ 
+ 		if (error < 0)
+ 			goto out;
+@@ -2876,7 +2876,7 @@ SYSCALL_DEFINE2(getcwd, char __user *, buf, unsigned long, size)
+ 		}
+ 	} else {
+ 		write_sequnlock(&rename_lock);
+-		br_read_unlock(vfsmount_lock);
++		br_read_unlock(&vfsmount_lock);
+ 	}
+ 
+ out:

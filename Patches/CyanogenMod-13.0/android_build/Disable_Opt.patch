@@ -1,0 +1,26 @@
+From d90bf77e8215c26ae50c221ae346894bc8b37568 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 25 Feb 2016 05:59:06 -0500
+Subject: [PATCH] Disable 5.3 opt
+
+Change-Id: I166e24efeeeec3555efbadf590363bc40fb5468c
+---
+ core/archidroid.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/archidroid.mk b/core/archidroid.mk
+index 9ab4918..29bd257 100644
+--- a/core/archidroid.mk
++++ b/core/archidroid.mk
+@@ -45,7 +45,7 @@ ARCHIDROID_GCC_LDFLAGS := -Wl,-O3 -Wl,--as-needed -Wl,--gc-sections -Wl,--relax
+ # Flags below are applied to specific targets only, use them if your flag is not compatible for both compilers
+ 
+ # We use GCC 5.3 for arm-linux-androideabi, make sure to remove flags below if you decided to stick with 4.9
+-ARCHIDROID_GCC_CFLAGS_32 := -Wno-error=bool-compare -Wno-error=logical-not-parentheses -Wno-error=sizeof-array-argument
++#ARCHIDROID_GCC_CFLAGS_32 := -Wno-error=bool-compare -Wno-error=logical-not-parentheses -Wno-error=sizeof-array-argument
+ 
+ # We use GCC 4.9 for aarch64-linux-android, so we don't have any extra flags for it
+ ARCHIDROID_GCC_CFLAGS_64 := 
+-- 
+2.5.0
+

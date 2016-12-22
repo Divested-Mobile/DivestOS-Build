@@ -1,0 +1,31 @@
+From 4b908ef94233b911fe3d6f2d93a6076a7ab92151 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sun, 5 Apr 2015 00:57:23 -0400
+Subject: [PATCH] remove duckduckgo referral strings
+
+---
+ res/values/all_search_engines.xml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/res/values/all_search_engines.xml b/res/values/all_search_engines.xml
+index a87c880..51ebfe4 100644
+--- a/res/values/all_search_engines.xml
++++ b/res/values/all_search_engines.xml
+@@ -752,7 +752,7 @@ http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_4#OpenSearch_1.1_p
+     <item>DuckDuckGo</item>
+     <item>duckduckgo.com</item>
+     <item>https://duckduckgo.com/favicon.ico</item>
+-    <item>https://duckduckgo.com/?q={searchTerms}&amp;t=cyanogenmod</item>
++    <item>https://duckduckgo.com/?q={searchTerms}</item>
+     <item>UTF-8</item>
+     <item></item>
+   </string-array>
+@@ -760,7 +760,7 @@ http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_4#OpenSearch_1.1_p
+     <item>DuckDuckGo (UK)</item>
+     <item>duckduckgo.com</item>
+     <item>https://duckduckgo.com/favicon.ico</item>
+-    <item>https://duckduckgo.com/?q={searchTerms}%20r:uk&amp;t=cyanogenmod</item>
++    <item>https://duckduckgo.com/?q={searchTerms}%20r:uk</item>
+     <item>UTF-8</item>
+     <item></item>
+   </string-array>

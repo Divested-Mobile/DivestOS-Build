@@ -1,0 +1,198 @@
+From 0985c9dc829bd54d29335231704bff3bda2750b3 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 27 Jun 2015 12:39:17 -0400
+Subject: [PATCH] support replacing a separate encryption password
+
+---
+ AndroidManifest.xml                                |  2 +
+ res/values/strings.xml                             |  6 ++
+ res/xml/security_settings_encrypted.xml            | 10 +++
+ .../settings/ReplaceEncryptionPassword.java        | 99 ++++++++++++++++++++++
+ src/com/android/settings/SecuritySettings.java     | 10 +++
+ 5 files changed, 127 insertions(+)
+ create mode 100644 src/com/android/settings/ReplaceEncryptionPassword.java
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index a561d7e..c54e4fa 100755
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -1527,6 +1527,8 @@
+         <activity android:name="ChooseEncryptionPassword" android:exported="false"
+             android:windowSoftInputMode="stateVisible|adjustResize"/>
+ 
++        <activity android:name="ReplaceEncryptionPassword" android:exported="false"/>
++
+         <activity android:name=".SetupEncryptionInterstitial"
+             android:taskAffinity="com.android.wizard"
+             android:theme="@style/SetupWizardDisableAppStartingTheme"/>
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index d5324f1..224c91e 100755
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -946,6 +946,12 @@
+     <!-- Header on first screen of choose encryption password [CHAR LIMIT=30] -->
+     <string name="crypt_keeper_choose_your_password_header">Set encryption password</string>
+ 
++    <!--  Title for PreferenceScreen to replace encryption password [CHAR LIMIT=22]  -->
++    <string name="crypt_keeper_replace_password_title">Replace encryption password</string>
++
++    <!--  Summary for PreferenceScreen to replace encryption password [CHAR LIMIT=45]  -->
++    <string name="crypt_keeper_replace_password_summary">Remove the separate encryption password</string>
++
+     <!-- Unlock Picker Settings --><skip />
+ 
+     <!-- Security Picker --><skip />
+diff --git a/res/xml/security_settings_encrypted.xml b/res/xml/security_settings_encrypted.xml
+index f05bad5..e068541 100644
+--- a/res/xml/security_settings_encrypted.xml
++++ b/res/xml/security_settings_encrypted.xml
+@@ -37,6 +37,16 @@
+                     android:targetClass="com.android.settings.ChooseEncryptionPassword" />
+         </Preference>
+ 
++        <Preference
++            android:key="crypt_keeper_replace_password"
++            android:title="@string/crypt_keeper_replace_password_title"
++            android:summary="@string/crypt_keeper_replace_password_summary">
++
++                <intent android:action="android.intent.action.MAIN"
++                    android:targetPackage="com.android.settings"
++                    android:targetClass="com.android.settings.ReplaceEncryptionPassword" />
++        </Preference>
++
+     </PreferenceCategory>
+ 
+ 
+diff --git a/src/com/android/settings/ReplaceEncryptionPassword.java b/src/com/android/settings/ReplaceEncryptionPassword.java
+new file mode 100644
+index 0000000..84dcc48
+--- /dev/null
++++ b/src/com/android/settings/ReplaceEncryptionPassword.java
+@@ -0,0 +1,99 @@
++/*
++ * Copyright (C) 2015 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.settings;
++
++import com.android.internal.widget.LockPatternUtils;
++import com.android.internal.widget.LockPatternUtils.RequestThrottledException;
++
++import android.app.Activity;
++import android.app.Fragment;
++import android.content.Intent;
++import android.content.res.Resources;
++import android.os.Bundle;
++import android.os.storage.StorageManager;
++import android.os.UserHandle;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++
++public class ReplaceEncryptionPassword extends SettingsActivity {
++    @Override
++    public Intent getIntent() {
++        Intent modIntent = new Intent(super.getIntent());
++        modIntent.putExtra(EXTRA_SHOW_FRAGMENT, getFragmentClass().getName());
++        return modIntent;
++    }
++
++    @Override
++    protected boolean isValidFragment(String fragmentName) {
++        if (ReplaceEncryptionPasswordFragment.class.getName().equals(fragmentName)) return true;
++        return false;
++    }
++
++    /* package */ Class<? extends Fragment> getFragmentClass() {
++        return ReplaceEncryptionPasswordFragment.class;
++    }
++
++    public static class ReplaceEncryptionPasswordFragment extends Fragment {
++        private static final int KEYGUARD_REQUEST = 55;
++
++        @Override
++        public void onCreate(Bundle savedInstanceState) {
++            super.onCreate(savedInstanceState);
++            if (!(getActivity() instanceof ReplaceEncryptionPassword)) {
++                throw new SecurityException("Fragment contained in wrong activity");
++            }
++        }
++
++        @Override
++        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
++            Resources res = getActivity().getResources();
++            ChooseLockSettingsHelper helper = new ChooseLockSettingsHelper(getActivity(), this);
++
++            helper.launchConfirmationActivity(KEYGUARD_REQUEST,
++                    res.getText(R.string.unlock_set_unlock_password_title),
++                    true);
++
++            return null;
++        }
++
++        @Override
++        public void onActivityResult(int requestCode, int resultCode, Intent data) {
++            super.onActivityResult(requestCode, resultCode, data);
++
++            if (requestCode != KEYGUARD_REQUEST) {
++                return;
++            }
++
++            // If the user entered a valid keyguard trace, present the final
++            // confirmation prompt; otherwise, go back to the initial state.
++            if (resultCode == Activity.RESULT_OK && data != null) {
++                LockPatternUtils utils = new LockPatternUtils(getActivity());
++                int type = data.getIntExtra(ChooseLockSettingsHelper.EXTRA_KEY_TYPE, -1);
++                String password = data.getStringExtra(ChooseLockSettingsHelper.EXTRA_KEY_PASSWORD);
++                if (type == StorageManager.CRYPT_TYPE_PATTERN) {
++                    utils.replaceSeparateEncryptionPasswordWithPattern(
++                            utils.stringToPattern(password, utils.getLockPatternSize()));
++                } else {
++                    utils.replaceSeparateEncryptionPassword(password);
++                }
++            }
++
++            getActivity().finish();
++        }
++    }
++}
+diff --git a/src/com/android/settings/SecuritySettings.java b/src/com/android/settings/SecuritySettings.java
+index 4d76f08..7cab5ca 100644
+--- a/src/com/android/settings/SecuritySettings.java
++++ b/src/com/android/settings/SecuritySettings.java
+@@ -110,6 +110,7 @@
+     private static final String PACKAGE_MIME_TYPE = "application/vnd.android.package-archive";
+     private static final String KEY_TRUST_AGENT = "trust_agent";
+     private static final String KEY_SCREEN_PINNING = "screen_pinning_settings";
++    private static final String KEY_REPLACE_ENCRYPTION_PASSWORD = "crypt_keeper_replace_password";
+     private static final String KEY_SMS_SECURITY_CHECK_PREF = "sms_security_check_limit";
+ 
+     // malloc configuration
+@@ -270,6 +271,15 @@ public boolean onPreferenceClick(Preference preference) {
+             if (LockPatternUtils.isDeviceEncryptionEnabled()) {
+                 // The device is currently encrypted.
+                 addPreferencesFromResource(R.xml.security_settings_encrypted);
++                if (!mLockPatternUtils.isSeparateEncryptionPasswordEnabled()) {
++                    PreferenceGroup securityCategory =
++                            (PreferenceGroup)root.findPreference(KEY_SECURITY_CATEGORY);
++                    if (securityCategory != null) {
++                        Preference replaceEncryptionPassword =
++                                root.findPreference(KEY_REPLACE_ENCRYPTION_PASSWORD);
++                        securityCategory.removePreference(replaceEncryptionPassword);
++                    }
++                }
+             } else {
+                 // This device supports encryption but isn't encrypted.
+                 addPreferencesFromResource(R.xml.security_settings_unencrypted);

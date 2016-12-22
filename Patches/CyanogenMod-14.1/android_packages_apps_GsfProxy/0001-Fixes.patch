@@ -1,0 +1,48 @@
+From a60baa9277642fe76672d5f05cce86f31c9a31e8 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sun, 18 Dec 2016 16:54:23 -0500
+Subject: [PATCH] Build fixes
+
+Change-Id: I81326811788ed53b420d5cd6c27dd26f3649ab2e
+---
+ Android.mk                            | 4 ++--
+ services-framework-proxy/build.gradle | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Android.mk b/Android.mk
+index 50889ae..5193277 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -21,14 +21,14 @@ LOCAL_PACKAGE_NAME := GsfProxy
+ 
+ gsfproxy_root  := $(LOCAL_PATH)
+ gsfproxy_dir   := services-framework-proxy
+-gsfproxy_out   := $(OUT_DIR)/target/common/obj/APPS/$(LOCAL_MODULE)_intermediates
++gsfproxy_out   := $(PWD)/$(OUT_DIR)/target/common/obj/APPS/$(LOCAL_MODULE)_intermediates
+ gsfproxy_build := $(gsfproxy_root)/$(gsfproxy_dir)/build
+ gsfproxy_apk   := build/outputs/apk/services-framework-proxy-release-unsigned.apk
+ 
+ $(gsfproxy_root)/$(gsfproxy_dir)/$(gsfproxy_apk):
+ 	rm -Rf $(gsfproxy_build)
+ 	mkdir -p $(gsfproxy_out)
+-	ln -s $(gsfproxy_out) $(gsfproxy_build)
++	ln -sf $(gsfproxy_out) $(gsfproxy_build)
+ 	echo "sdk.dir=$(ANDROID_HOME)" > $(gsfproxy_root)/local.properties
+ 	cd $(gsfproxy_root) && git submodule update --recursive --init
+ 	cd $(gsfproxy_root)/$(gsfproxy_dir) && JAVA_TOOL_OPTIONS="$(JAVA_TOOL_OPTIONS) -Dfile.encoding=UTF8" ../gradlew assembleRelease
+diff --git a/services-framework-proxy/build.gradle b/services-framework-proxy/build.gradle
+index 6824f94..8d2556b 100644
+--- a/services-framework-proxy/build.gradle
++++ b/services-framework-proxy/build.gradle
+@@ -45,7 +45,7 @@ int getMyVersionCode() {
+ 
+ android {
+     compileSdkVersion 23
+-    buildToolsVersion "23.0.2"
++    buildToolsVersion "25.0.1"
+ 
+     defaultConfig {
+         versionName getMyVersionName()
+-- 
+2.9.3
+

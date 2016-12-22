@@ -1,0 +1,22 @@
+From 9e6be08fe83c1204f8076b86d1346f18f92b8e5d Mon Sep 17 00:00:00 2001
+From: franciscofranco <franciscofranco.1990@gmail.com>
+Date: Fri, 27 Feb 2015 15:59:50 +0000
+Subject: [PATCH] arm: use -mtune=cortex-a15 for Krait targets
+
+Signed-off-by: franciscofranco <franciscofranco.1990@gmail.com>
+---
+ arch/arm/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/Makefile b/arch/arm/Makefile
+index 0dd6592..37632ba 100644
+--- a/arch/arm/Makefile
++++ b/arch/arm/Makefile
+@@ -102,6 +102,7 @@ tune-$(CONFIG_CPU_XSC3)		:=$(call cc-option,-mtune=xscale,-mtune=strongarm110) -
+ tune-$(CONFIG_CPU_FEROCEON)	:=$(call cc-option,-mtune=marvell-f,-mtune=xscale)
+ tune-$(CONFIG_CPU_V6)		:=$(call cc-option,-mtune=arm1136j-s,-mtune=strongarm)
+ tune-$(CONFIG_CPU_V6K)		:=$(call cc-option,-mtune=arm1136j-s,-mtune=strongarm)
++tune-$(CONFIG_ARCH_MSM_KRAIT)   :=-mtune=cortex-a15
+ 
+ ifeq ($(CONFIG_AEABI),y)
+ CFLAGS_ABI	:=-mabi=aapcs-linux -mno-thumb-interwork

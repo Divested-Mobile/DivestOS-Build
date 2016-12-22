@@ -1,0 +1,38 @@
+From a8ab4ef7ef255f907104ff45a7cbbb2299a5aba5 Mon Sep 17 00:00:00 2001
+From: Jaegeuk Kim <jaegeuk@kernel.org>
+Date: Mon, 19 Jan 2015 11:06:13 -0600
+Subject: [PATCH] fs: f2fs: introduce a generic shutdown ioctl
+
+This patch introduces a generic ioctl for fs shutdown.
+
+Change-Id: I452ee16b0078a2704b8026962e5bd07b67710c06
+---
+ include/linux/fs.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 5fc613c..c26de24 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -332,6 +332,7 @@ struct inodes_stat_t {
+ #define FIFREEZE	_IOWR('X', 119, int)	/* Freeze */
+ #define FITHAW		_IOWR('X', 120, int)	/* Thaw */
+ #define FITRIM		_IOWR('X', 121, struct fstrim_range)	/* Trim */
++#define FS_IOC_SHUTDOWN		_IOR('X', 125, __u32)	/* Shutdown */
+ 
+ #define FIDTRIM	_IOWR('f', 128, struct fstrim_range)	/* Deep discard trim */
+ 
+@@ -382,6 +383,13 @@ struct inodes_stat_t {
+ #define SYNC_FILE_RANGE_WRITE		2
+ #define SYNC_FILE_RANGE_WAIT_AFTER	4
+ 
++/*
++ * Flags for going down operation used by FS_IOC_GOINGDOWN
++ */
++#define FS_GOING_DOWN_FULLSYNC	0x0	/* going down with full sync */
++#define FS_GOING_DOWN_METASYNC	0x1	/* going down with metadata */
++#define FS_GOING_DOWN_NOSYNC	0x2	/* going down */
++
+ #ifdef __KERNEL__
+ 
+ #include <linux/linkage.h>

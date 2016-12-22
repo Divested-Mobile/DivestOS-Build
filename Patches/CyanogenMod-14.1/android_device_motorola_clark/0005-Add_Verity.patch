@@ -1,0 +1,82 @@
+From b433f4cfbd38a8f4ff4ef5251113c21b648f30cf Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Mon, 21 Nov 2016 02:28:14 -0500
+Subject: [PATCH] Add dm-verity support
+
+Change-Id: I6e17bf595c735a19515d1c3080b075ef3a98f6e8
+---
+ device.mk                 |  5 +++++
+ rootdir/fstab-verity.qcom | 23 +++++++++++++++++++++++
+ rootdir/init.qcom.rc      |  6 ++++++
+ 3 files changed, 34 insertions(+)
+ create mode 100644 rootdir/fstab-verity.qcom
+
+diff --git a/device.mk b/device.mk
+index cfb3322..dc5b8ee 100644
+--- a/device.mk
++++ b/device.mk
+@@ -240,3 +240,8 @@ PRODUCT_PACKAGES += \
+     libwpa_client \
+     wpa_supplicant \
+     wpa_supplicant.conf
++
++#Verity
++PRODUCT_COPY_FILES += device/motorola/clark/rootdir/fstab-verity.qcom:root/fstab.qcom
++PRODUCT_SYSTEM_VERITY_PARTITION := /dev/block/platform/soc.0/f9824900.sdhci/by-name/system
++$(call inherit-product, build/target/product/verity.mk)
+diff --git a/rootdir/fstab-verity.qcom b/rootdir/fstab-verity.qcom
+new file mode 100644
+index 0000000..685e6ee
+--- /dev/null
++++ b/rootdir/fstab-verity.qcom
+@@ -0,0 +1,23 @@
++# Android fstab file.
++# The filesystem that contains the filesystem checker binary (typically /system) cannot
++# specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
++
++#TODO: Add 'check' as fs_mgr_flags with data partition.
++# Currently we dont have e2fsck compiled. So fs check would failed.
++
++#<src>                                                <mnt_point>  <type>  <mnt_flags and options>                     <fs_mgr_flags>
++/dev/block/bootdevice/by-name/boot         /boot        emmc    defaults                                                                       defaults
++/dev/block/bootdevice/by-name/recovery     /recovery    emmc    defaults                                                                       defaults
++/dev/block/bootdevice/by-name/system       /system      ext4    ro,barrier=1                                                                   wait,verify=/dev/block/bootdevice/by-name/metadata
++/dev/block/bootdevice/by-name/userdata     /data        f2fs    rw,nosuid,nodev,noatime,nodiratime,inline_xattr,inline_data,data_flush         wait,check,formattable,encryptable=/dev/block/bootdevice/by-name/metadata
++/dev/block/bootdevice/by-name/userdata     /data        ext4    rw,nosuid,nodev,noatime,nodiratime,noauto_da_alloc,nobarrier,journal_async_commit        wait,check,formattable,encryptable=/dev/block/bootdevice/by-name/metadata
++/dev/block/bootdevice/by-name/cache        /cache       f2fs    rw,nosuid,nodev,noatime,nodiratime,inline_xattr,flush_merge,data_flush         wait,check
++/dev/block/bootdevice/by-name/cache        /cache       ext4    rw,noatime,nosuid,nodev,barrier=1,data=ordered,journal_async_commit            wait,check,formattable
++/dev/block/bootdevice/by-name/fsg          /fsg         ext4    ro,nosuid,nodev,barrier=0,context=u:object_r:fsg_file:s0                       wait
++/dev/block/bootdevice/by-name/persist      /persist     ext4    nosuid,nodev,barrier=1,defcontext=u:object_r:persist_file:s0                   wait,notrim
++/dev/block/bootdevice/by-name/modem        /firmware    ext4    ro,nosuid,nodev,context=u:object_r:firmware_file:s0                            wait,notrim
++/dev/block/bootdevice/by-name/bluetooth    /bt_firmware ext4    ro,nosuid,nodev,context=u:object_r:bt_firmware_file:s0                         wait,notrim
++/dev/block/bootdevice/by-name/misc         /misc        emmc    defaults                                                                       defaults
++/devices/soc.0/f98a4900.sdhci/mmc_host/*   auto         auto    defaults                          wait,voldmanaged=sdcard1:auto,encryptable=userdata
++/devices/*/xhci-hcd.0.auto/usb*                       auto         auto    defaults                 voldmanaged=usb:auto
++#/dev/block/zram0                                      none         swap    defaults                 zramsize=536870912,zramstreams=4,notrim
+diff --git a/rootdir/init.qcom.rc b/rootdir/init.qcom.rc
+index 88b3e38..bc804cc 100755
+--- a/rootdir/init.qcom.rc
++++ b/rootdir/init.qcom.rc
+@@ -6,6 +6,9 @@ on early-init
+     mount debugfs debugfs /sys/kernel/debug
+ 
+ on init
++    # Load persistent dm-verity state
++    verity_load_state
++
+     # Symbols required for motorola blobs
+     export LD_SHIM_LIBS /system/lib/libjustshoot.so|libshim_camera.so:/system/lib/libjscore.so|libshim_camera.so
+ 
+@@ -150,6 +153,9 @@ on boot
+     symlink /firmware/image/modem_pr/mbn_ota /data/misc/radio/modem_config
+     write /data/misc/radio/copy_complete 1
+ 
++    # Update dm-verity state and set partition.*.verified properties
++    verity_update_state
++
+ on post-fs
+     mkdir /persist/camera 02755 mot_tcmd mot_tcmd
+     mkdir /persist/camera/ledcal 0755 camera mot_tcmd
+-- 
+2.9.3
+

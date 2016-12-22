@@ -1,0 +1,33 @@
+From aceee7358fa39da71425c6db7fe6c984c846128a Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Mon, 8 Aug 2016 16:04:56 -0400
+Subject: [PATCH] Add radio tile (2/2)
+
+Change-Id: Iacc6ed7ce384d955ff2494e55c318e054b7ff206
+---
+ sdk/src/java/org/cyanogenmod/internal/util/QSConstants.java | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sdk/src/java/org/cyanogenmod/internal/util/QSConstants.java b/sdk/src/java/org/cyanogenmod/internal/util/QSConstants.java
+index c5e62eb..a2b5269 100644
+--- a/sdk/src/java/org/cyanogenmod/internal/util/QSConstants.java
++++ b/sdk/src/java/org/cyanogenmod/internal/util/QSConstants.java
+@@ -48,6 +48,7 @@ public class QSConstants {
+     public static final String TILE_SCREEN_TIMEOUT = "screen_timeout";
+     public static final String TILE_USB_TETHER = "usb_tether";
+     public static final String TILE_HEADS_UP = "heads_up";
++    public static final String TILE_RADIO_POWER = "radio_power";
+     public static final String TILE_AMBIENT_DISPLAY = "ambient_display";
+     public static final String TILE_SYNC = "sync";
+     public static final String TILE_BATTERY_SAVER = "battery_saver";
+@@ -96,6 +97,7 @@ public class QSConstants {
+         STATIC_TILES_AVAILABLE.add(TILE_SCREEN_TIMEOUT);
+         STATIC_TILES_AVAILABLE.add(TILE_USB_TETHER);
+         STATIC_TILES_AVAILABLE.add(TILE_HEADS_UP);
++	STATIC_TILES_AVAILABLE.add(TILE_RADIO_POWER);
+         STATIC_TILES_AVAILABLE.add(TILE_AMBIENT_DISPLAY);
+         STATIC_TILES_AVAILABLE.add(TILE_SYNC);
+         STATIC_TILES_AVAILABLE.add(TILE_BATTERY_SAVER);
+-- 
+2.7.4
+

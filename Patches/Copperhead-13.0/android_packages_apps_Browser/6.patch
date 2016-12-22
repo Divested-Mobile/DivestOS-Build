@@ -1,0 +1,36 @@
+From 093e38c00f3e46f875726f1e14190e2f120d3ed7 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 7 Apr 2015 02:18:09 -0400
+Subject: [PATCH] disable plugins by default
+
+---
+ res/xml-sw600dp/advanced_preferences.xml | 2 +-
+ res/xml/advanced_preferences.xml         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/res/xml-sw600dp/advanced_preferences.xml b/res/xml-sw600dp/advanced_preferences.xml
+index ae19504..93ccbf1 100644
+--- a/res/xml-sw600dp/advanced_preferences.xml
++++ b/res/xml-sw600dp/advanced_preferences.xml
+@@ -46,7 +46,7 @@
+     <ListPreference
+             android:key="plugin_state"
+             android:title="@string/pref_content_plugins"
+-            android:defaultValue="ON"
++            android:defaultValue="OFF"
+             android:entries="@array/pref_content_plugins_choices"
+             android:entryValues="@array/pref_content_plugins_values"
+             android:dialogTitle="@string/pref_content_plugins" />
+diff --git a/res/xml/advanced_preferences.xml b/res/xml/advanced_preferences.xml
+index f068330..0996bab 100644
+--- a/res/xml/advanced_preferences.xml
++++ b/res/xml/advanced_preferences.xml
+@@ -51,7 +51,7 @@
+     <ListPreference
+             android:key="plugin_state"
+             android:title="@string/pref_content_plugins"
+-            android:defaultValue="ON"
++            android:defaultValue="OFF"
+             android:entries="@array/pref_content_plugins_choices"
+             android:entryValues="@array/pref_content_plugins_values"
+             android:dialogTitle="@string/pref_content_plugins" />

@@ -1,0 +1,72 @@
+From 01bf91ff2abb5a7cd698513aeae3a50bc1cc32a7 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Mon, 17 Nov 2014 05:28:09 -0500
+Subject: [PATCH] add MAC randomization
+
+based on https://grsecurity.net/~spender/random_mac.diff
+---
+ net/core/dev.c             | 19 +++++++++++++++++++
+ net/core/sysctl_net_core.c | 10 ++++++++++
+ 2 files changed, 29 insertions(+)
+
+diff --git a/net/core/dev.c b/net/core/dev.c
+index 06ea934..a1efb0c 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -178,6 +178,7 @@
+ static DEFINE_SPINLOCK(ptype_lock);
+ static struct list_head ptype_base[PTYPE_HASH_SIZE] __read_mostly;
+ static struct list_head ptype_all __read_mostly;	/* Taps */
++int randomize_mac = 1;
+ 
+ /*
+  * The @dev_base_head list is protected by @dev_base_lock and the rtnl
+@@ -4734,6 +4735,24 @@ int dev_change_flags(struct net_device *dev, unsigned int flags)
+ 		rtmsg_ifinfo(RTM_NEWLINK, dev, changes);
+ 
+ 	__dev_notify_flags(dev, old_flags);
++
++	if (randomize_mac && (changes & IFF_UP) && !(old_flags & IFF_UP)) {
++		/* randomize MAC whenever interface is brought up */
++		struct sockaddr sa;
++		unsigned int mac4;
++		unsigned short mac2;
++
++		mac4 = random32();
++		mac2 = random32();
++		memcpy(sa.sa_data, &mac4, sizeof(mac4));
++		memcpy((char *)sa.sa_data + sizeof(mac4), &mac2, sizeof(mac2));
++		if (!is_valid_ether_addr(sa.sa_data))
++			sa.sa_data[5] = 1;
++		sa.sa_data[0] &= 0xFC;
++		sa.sa_family = dev->type;
++		dev_set_mac_address(dev, &sa);
++	}
++
+ 	return ret;
+ }
+ EXPORT_SYMBOL(dev_change_flags);
+diff --git a/net/core/sysctl_net_core.c b/net/core/sysctl_net_core.c
+index 69ba338..6095cfc 100644
+--- a/net/core/sysctl_net_core.c
++++ b/net/core/sysctl_net_core.c
+@@ -88,9 +88,19 @@ static int rps_sock_flow_sysctl(ctl_table *table, int write,
+ }
+ #endif /* CONFIG_RPS */
+ 
++extern int randomize_mac;
++
+ static struct ctl_table net_core_table[] = {
+ #ifdef CONFIG_NET
+ 	{
++		.procname	= "randomize_mac",
++		.data		= &randomize_mac,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec
++	},
++
++	{
+ 		.procname	= "wmem_max",
+ 		.data		= &sysctl_wmem_max,
+ 		.maxlen		= sizeof(int),

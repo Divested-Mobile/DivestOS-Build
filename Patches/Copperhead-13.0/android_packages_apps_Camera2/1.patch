@@ -1,0 +1,24 @@
+From cd7f624c7ead431469813ddf146f1b94c57eeda3 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 13 Oct 2015 17:36:00 -0400
+Subject: [PATCH] disable location recording by default
+
+---
+ src/com/android/camera/settings/Keys.java | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/com/android/camera/settings/Keys.java b/src/com/android/camera/settings/Keys.java
+index f59591f..5092bfa 100644
+--- a/src/com/android/camera/settings/Keys.java
++++ b/src/com/android/camera/settings/Keys.java
+@@ -182,6 +182,10 @@ public static void setDefaults(SettingsManager settingsManager, Context context)
+ 
+         settingsManager.setDefaults(KEY_SHOULD_SHOW_SETTINGS_BUTTON_CLING, true);
+ 
++        settingsManager.setDefaults(KEY_RECORD_LOCATION, false);
++        if (!settingsManager.isSet(SettingsManager.SCOPE_GLOBAL, KEY_RECORD_LOCATION)) {
++            settingsManager.setToDefault(SettingsManager.SCOPE_GLOBAL, KEY_RECORD_LOCATION);
++        }
+     }
+ 
+     /** Helper functions for some defined keys. */

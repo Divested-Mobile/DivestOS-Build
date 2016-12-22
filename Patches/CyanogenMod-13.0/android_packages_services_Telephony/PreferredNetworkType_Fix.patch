@@ -1,0 +1,89 @@
+From b003454ab2ece62db5ae6c621aa6ec5c93c5c0b5 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sun, 20 Mar 2016 14:40:17 -0400
+Subject: [PATCH] Actually fix profiles failing to set users preferred network
+ type
+
+Change-Id: I325430f971b35b07d6852f3647fa60ec935a5b52
+---
+ src/com/android/phone/PhoneToggler.java | 38 +++++++++++++++++++++++++++++----
+ 1 file changed, 34 insertions(+), 4 deletions(-)
+
+diff --git a/src/com/android/phone/PhoneToggler.java b/src/com/android/phone/PhoneToggler.java
+index 90234f9..a38dd68 100644
+--- a/src/com/android/phone/PhoneToggler.java
++++ b/src/com/android/phone/PhoneToggler.java
+@@ -21,6 +21,8 @@ import android.content.Context;
+ import android.content.Intent;
+ import android.telephony.SubscriptionManager;
+ import android.util.Log;
++import android.os.Handler;
++import android.os.Message;
+ 
+ import com.android.internal.telephony.Phone;
+ import com.android.internal.telephony.PhoneFactory;
+@@ -42,6 +44,15 @@ public class PhoneToggler extends BroadcastReceiver {
+     private static final String LOG_TAG = "PhoneToggler";
+     private static final boolean DBG = false;
+ 
++    private MyHandler mHandler;
++
++    private MyHandler getHandler() {
++        if (mHandler == null) {
++            mHandler = new MyHandler();
++        }
++        return mHandler;
++    }
++
+     @Override
+     public void onReceive(Context context, Intent intent) {
+         String action = intent.getAction();
+@@ -51,8 +62,7 @@ public class PhoneToggler extends BroadcastReceiver {
+                 SubscriptionController subCtrl = SubscriptionController.getInstance();
+ 
+                 int networkMode = intent.getExtras().getInt(EXTRA_NETWORK_MODE, -1);
+-                int subId = intent.getExtras().getInt(EXTRA_SUB_ID,
+-                        SubscriptionManager.getDefaultDataSubId());
++                int subId = SubscriptionManager.getDefaultDataSubId();
+ 
+                 // since the caller must be a system app, it's assumed that they have already
+                 // chosen a valid network mode for this subId, so only basic validation is done
+@@ -60,8 +70,9 @@ public class PhoneToggler extends BroadcastReceiver {
+                     if (DBG) Log.d(LOG_TAG, "Changing network mode to " + networkMode);
+                     subCtrl.setUserNwMode(subId, networkMode);
+                     try {
+-                        PhoneFactory.getPhone(SubscriptionManager.getPhoneId(subId))
+-                                .setPreferredNetworkType(networkMode, null);
++			Phone phone = PhoneFactory.getPhone(SubscriptionManager.getPhoneId(subId));
++			Message response = getHandler().obtainMessage(MyHandler.MESSAGE_SET_PREFERRED_NETWORK_TYPE);
++                        phone.setPreferredNetworkType(networkMode, response);
+                     } catch (Throwable t) {
+                         Log.d(LOG_TAG, "error setting preferred network", t);
+                     }
+@@ -117,4 +128,23 @@ public class PhoneToggler extends BroadcastReceiver {
+         }
+     }
+ 
++    private class MyHandler extends Handler {
++        private static final int MESSAGE_SET_PREFERRED_NETWORK_TYPE = 0;
++
++        @Override
++        public void handleMessage(Message msg) {
++            switch (msg.what) {
++                case MESSAGE_SET_PREFERRED_NETWORK_TYPE:
++                    handleSetPreferredNetworkTypeResponse(msg);
++                    break;
++            }
++        }
++
++        private void handleSetPreferredNetworkTypeResponse(Message msg) {
++		if (DBG) {
++                	Log.e(LOG_TAG, "handleSetPreferredNetworkTypeResponse() called");
++		}
++        }
++    }
++
+ }
+-- 
+2.7.4
+

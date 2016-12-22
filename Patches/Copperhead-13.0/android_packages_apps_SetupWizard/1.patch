@@ -1,0 +1,1016 @@
+From 0cf457b9be7e1bc6841b48c67f707e3522d10e18 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Mon, 6 Apr 2015 00:05:13 -0400
+Subject: [PATCH] remove analytics support
+
+---
+ AndroidManifest.xml                                |   1 -
+ res/layout/setup_cyanogen_services.xml             |  36 -----
+ .../setupwizard/cmstats/SetupStats.java            | 162 ---------------------
+ .../setupwizard/cmstats/StatsUtils.java            |  44 ------
+ .../setupwizard/setup/BluetoothSetupPage.java      |   7 -
+ .../setupwizard/setup/ChooseDataSimPage.java       |   5 -
+ .../setupwizard/setup/CyanogenServicesPage.java    |  13 --
+ .../setupwizard/setup/CyanogenSettingsPage.java    |  56 -------
+ .../setupwizard/setup/DateTimePage.java            |  19 ---
+ .../setupwizard/setup/FingerprintSetupPage.java    |   4 -
+ .../setupwizard/setup/GmsAccountPage.java          |  22 ---
+ .../setupwizard/setup/MobileDataPage.java          |   4 -
+ .../setupwizard/setup/OtherSettingsPage.java       |  16 --
+ .../cyanogenmod/setupwizard/setup/SetupPage.java   |   7 -
+ .../cyanogenmod/setupwizard/setup/WelcomePage.java |  14 --
+ .../setupwizard/setup/WifiSetupPage.java           |  27 +---
+ .../setupwizard/ui/SetupPageFragment.java          |   3 -
+ .../setupwizard/ui/SetupWizardActivity.java        |  11 --
+ .../util/EnableAccessibilityController.java        |   3 -
+ 19 files changed, 1 insertion(+), 453 deletions(-)
+ delete mode 100644 src/com/cyanogenmod/setupwizard/cmstats/SetupStats.java
+ delete mode 100644 src/com/cyanogenmod/setupwizard/cmstats/StatsUtils.java
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 6717cb5..d576e44 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -43,7 +43,6 @@
+     <uses-permission android:name="android.permission.BACKUP" />
+     <uses-permission android:name="cyanogenmod.permission.FINISH_SETUP" />
+     <uses-permission android:name="cyanogenmod.permission.LEGALESE" />
+-    <uses-permission android:name="com.cyngn.stats.SEND_ANALYTICS" />
+     <uses-permission android:name="com.cyanogen.permission.REQUEST_KILL_SWITCH_OP" />
+     <uses-permission android:name="cyanogenmod.permission.WRITE_SETTINGS"/>
+     <uses-permission android:name="cyanogenmod.permission.WRITE_SECURE_SETTINGS"/>
+diff --git a/res/layout/setup_cyanogen_services.xml b/res/layout/setup_cyanogen_services.xml
+index 3ab26c7..128500f 100644
+--- a/res/layout/setup_cyanogen_services.xml
++++ b/res/layout/setup_cyanogen_services.xml
+@@ -102,42 +102,6 @@
+ 
+                 </LinearLayout>
+ 
+-                <!-- Whether or not to enable metrics -->
+-                <LinearLayout
+-                    android:id="@+id/metrics"
+-                    android:orientation="horizontal"
+-                    android:layout_width="match_parent"
+-                    android:layout_height="wrap_content"
+-                    android:paddingLeft="@dimen/location_margin_left"
+-                    android:paddingRight="@dimen/content_margin_right"
+-                    android:background="?android:attr/selectableItemBackground"
+-                    android:clickable="true">
+-
+-
+-                    <CheckBox
+-                        android:id="@+id/enable_metrics_checkbox"
+-                        android:layout_width="wrap_content"
+-                        android:layout_height="wrap_content"
+-                        android:layout_gravity="top"
+-                        android:layout_marginTop="5dp"
+-                        android:duplicateParentState="true"
+-                        android:clickable="false"/>
+-
+-                    <TextView
+-                        android:id="@+id/enable_metrics_summary"
+-                        android:layout_width="0px"
+-                        android:layout_height="wrap_content"
+-                        android:layout_weight="1"
+-                        android:textSize="15sp"
+-                        android:lineSpacingExtra="@dimen/setup_line_spacing"
+-                        android:gravity="top"
+-                        android:layout_marginLeft="@dimen/location_text_margin_left"
+-                        android:layout_marginRight="@dimen/location_text_margin_right"
+-                        android:paddingBottom="@dimen/content_margin_bottom"
+-                        android:text="@string/services_metrics_label"/>
+-
+-                </LinearLayout>
+-
+                 <!-- Whether or not to enable default theme -->
+                 <LinearLayout
+                     android:id="@+id/theme"
+diff --git a/src/com/cyanogenmod/setupwizard/cmstats/SetupStats.java b/src/com/cyanogenmod/setupwizard/cmstats/SetupStats.java
+deleted file mode 100644
+index 6eb527f..0000000
+--- a/src/com/cyanogenmod/setupwizard/cmstats/SetupStats.java
++++ /dev/null
+@@ -1,162 +0,0 @@
+-/*
+- * Copyright (C) 2014 The CyanogenMod Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package com.cyanogenmod.setupwizard.cmstats;
+-
+-import android.content.Context;
+-import android.content.Intent;
+-import android.os.UserHandle;
+-import android.util.Log;
+-
+-import java.util.LinkedList;
+-
+-
+-public class SetupStats {
+-
+-    private static final String TAG = SetupStats.class.getSimpleName();
+-
+-    private static final String ANALYTIC_INTENT = "com.cyngn.stats.action.SEND_ANALYTIC_EVENT";
+-    private static final String ANALYTIC_PERMISSION = "com.cyngn.stats.SEND_ANALYTICS";
+-
+-    public static final String TRACKING_ID = "tracking_id";
+-
+-    private final LinkedList<Event> mEvents = new LinkedList<Event>();
+-
+-    private static final SetupStats sInstance = new SetupStats();
+-
+-    private static final boolean DEBUG = false;
+-
+-    private SetupStats() {}
+-
+-    public static void addEvent(String category, String action,
+-            String label, String value) {
+-        sInstance.mEvents.add(new Event(category, action, label, value));
+-    }
+-
+-    public static void addEvent(String category, String action) {
+-        sInstance.mEvents.add(new Event(category, action, null, null));
+-    }
+-
+-    public static void sendEvents(Context context) {
+-        while (!sInstance.mEvents.isEmpty()) {
+-            sInstance.sendEvent(context, sInstance.mEvents.remove());
+-        }
+-    }
+-
+-    private void sendEvent(Context context, Event event) {
+-
+-        if (!StatsUtils.isStatsPackageInstalled(context)
+-                || !StatsUtils.isStatsCollectionEnabled(context)) {
+-            return;
+-        }
+-
+-        // Create new intent
+-        Intent intent = new Intent();
+-        intent.setAction(ANALYTIC_INTENT);
+-
+-        // add tracking id
+-        intent.putExtra(TRACKING_ID, context.getPackageName());
+-        // append
+-        intent.putExtra(Fields.EVENT_CATEGORY, event.category);
+-        if (DEBUG) Log.d(TAG, Fields.EVENT_CATEGORY + "=" + event.category);
+-        intent.putExtra(Fields.EVENT_ACTION, event.action);
+-        if (DEBUG) Log.d(TAG, Fields.EVENT_ACTION + "=" + event.action);
+-        // check if exist
+-        if (event.label != null) {
+-            intent.putExtra(Fields.EVENT_LABEL, event.label);
+-            if (DEBUG) Log.d(TAG, Fields.EVENT_LABEL + "=" + event.label);
+-        }
+-
+-        if (event.value != null) {
+-            intent.putExtra(Fields.EVENT_VALUE, event.value);
+-            if (DEBUG) Log.d(TAG, Fields.EVENT_VALUE + "=" + event.value);
+-        }
+-
+-        // broadcast for internal package
+-        context.sendBroadcastAsUser(intent,
+-                new UserHandle(UserHandle.USER_CURRENT), ANALYTIC_PERMISSION);
+-    }
+-
+-    private static final class Event {
+-        private final String category;
+-        private final String action;
+-        private final String label;
+-        private final String value;
+-
+-        public Event(String category, String action, String label, String value) {
+-            this.action = action;
+-            this.category = category;
+-            this.label = label;
+-            this.value = value;
+-        }
+-    }
+-
+-    public static final class Fields {
+-        public static final String EVENT_CATEGORY = "category";
+-        public static final String EVENT_ACTION = "action";
+-        public static final String EVENT_LABEL = "label";
+-        public static final String EVENT_VALUE = "value";
+-    }
+-
+-    public static final class Categories {
+-        public static final String APP_LAUNCH = "app_launch";
+-        public static final String APP_FINISHED = "app_finish";
+-        public static final String PAGE_LOAD = "page_load";
+-        public static final String EXTERNAL_PAGE_LOAD = "external_page_load";
+-        public static final String BUTTON_CLICK = "button_click";
+-        public static final String SETTING_CHANGED = "setting_changed";
+-    }
+-
+-    public static final class Action {
+-        public static final String PAGE_LOADED = "page_loaded";
+-        public static final String PREVIOUS_BUTTON = "previous_button";
+-        public static final String NEXT_BUTTON = "next_button";
+-        public static final String CHANGE_LOCALE = "change_local";
+-        public static final String EXTERNAL_PAGE_LAUNCH = "external_page_launch";
+-        public static final String EXTERNAL_PAGE_RESULT = "external_page_result";
+-        public static final String ENABLE_MOBILE_DATA = "enable_mobile_data";
+-        public static final String PREFERRED_DATA_SIM = "preferred_data_sim";
+-        public static final String APPLY_CUSTOM_THEME = "apply_custom_theme";
+-        public static final String USE_SECURE_SMS = "use_secure_sms";
+-        public static final String ENABLE_BACKUP = "enable_backup";
+-        public static final String ENABLE_NAV_KEYS = "enable_nav_keys";
+-        public static final String ENABLE_LOCATION = "enable_location";
+-        public static final String ENABLE_NETWORK_LOCATION = "enable_network_location";
+-        public static final String ENABLE_GPS_LOCATION = "enable_gps_location";
+-        public static final String DATE_CHANGED = "date_changed";
+-        public static final String TIME_CHANGED = "time_changed";
+-        public static final String TIMEZONE_CHANGED = "timezone_changed";
+-    }
+-
+-    public static final class Label {
+-        public static final String PAGE = "page";
+-        public static final String LOCALE = "local";
+-        public static final String RESULT = "result";
+-        public static final String WIFI_SETUP = "wifi_setup";
+-        public static final String BLUETOOTH_SETUP = "bluetooth_setup";
+-        public static final String CYANOGEN_ACCOUNT = "cyanogen_account_setup";
+-        public static final String CAPTIVE_PORTAL_LOGIN = "captive_portal_login";
+-        public static final String EMERGENCY_CALL = "emergency_call";
+-        public static final String GMS_ACCOUNT = "gms_account";
+-        public static final String RESTORE = "restore";
+-        public static final String CHECKED = "checked";
+-        public static final String VALUE = "value";
+-        public static final String SLOT = "slot";
+-        public static final String TOTAL_TIME = "total_time";
+-        public static final String FINGERPRINT_SETUP = "fingerprint_setup";
+-    }
+-
+-}
+diff --git a/src/com/cyanogenmod/setupwizard/cmstats/StatsUtils.java b/src/com/cyanogenmod/setupwizard/cmstats/StatsUtils.java
+deleted file mode 100644
+index 8be8fad..0000000
+--- a/src/com/cyanogenmod/setupwizard/cmstats/StatsUtils.java
++++ /dev/null
+@@ -1,44 +0,0 @@
+-
+-/*
+- * Copyright (C) 2014 The CyanogenMod Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package com.cyanogenmod.setupwizard.cmstats;
+-
+-import android.content.Context;
+-import android.content.pm.ApplicationInfo;
+-import android.content.pm.PackageInfo;
+-import android.content.pm.PackageManager;
+-
+-import cyanogenmod.providers.CMSettings;
+-
+-public class StatsUtils {
+-    private static final String STATS_PACKAGE = "com.cyngn.stats";
+-
+-    public static boolean isStatsCollectionEnabled(Context context) {
+-        return CMSettings.Secure.getInt(context.getContentResolver(),
+-                CMSettings.Secure.STATS_COLLECTION, 1) != 0;
+-    }
+-
+-    public static boolean isStatsPackageInstalled(Context context) {
+-        try {
+-            PackageInfo pi = context.getPackageManager().getPackageInfo(STATS_PACKAGE, 0);
+-            return pi.applicationInfo.enabled
+-                    && ((pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+-        } catch (PackageManager.NameNotFoundException e) {
+-            return false;
+-        }
+-    }
+-}
+diff --git a/src/com/cyanogenmod/setupwizard/setup/BluetoothSetupPage.java b/src/com/cyanogenmod/setupwizard/setup/BluetoothSetupPage.java
+index 915abec..8609dbb 100644
+--- a/src/com/cyanogenmod/setupwizard/setup/BluetoothSetupPage.java
++++ b/src/com/cyanogenmod/setupwizard/setup/BluetoothSetupPage.java
+@@ -28,7 +28,6 @@ import android.util.Log;
+ 
+ import com.cyanogenmod.setupwizard.R;
+ import com.cyanogenmod.setupwizard.SetupWizardApp;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ import com.cyanogenmod.setupwizard.ui.LoadingFragment;
+ import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
+ import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
+@@ -91,9 +90,6 @@ public class BluetoothSetupPage extends SetupPage {
+     @Override
+     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+         if (requestCode == SetupWizardApp.REQUEST_CODE_SETUP_BLUETOOTH) {
+-            SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                    SetupStats.Action.EXTERNAL_PAGE_RESULT,
+-                    SetupStats.Label.BLUETOOTH_SETUP, "success");
+             getCallbacks().onNextPage();
+         }  else {
+             return false;
+@@ -111,9 +107,6 @@ public class BluetoothSetupPage extends SetupPage {
+                 ActivityOptions.makeCustomAnimation(mContext,
+                         android.R.anim.fade_in,
+                         android.R.anim.fade_out);
+-        SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                SetupStats.Action.EXTERNAL_PAGE_LAUNCH,
+-                SetupStats.Label.PAGE,  SetupStats.Label.BLUETOOTH_SETUP);
+         mLoadingFragment.startActivityForResult(intent,
+                 SetupWizardApp.REQUEST_CODE_SETUP_BLUETOOTH, options.toBundle());
+     }
+diff --git a/src/com/cyanogenmod/setupwizard/setup/ChooseDataSimPage.java b/src/com/cyanogenmod/setupwizard/setup/ChooseDataSimPage.java
+index 255cbad..ceffabd 100644
+--- a/src/com/cyanogenmod/setupwizard/setup/ChooseDataSimPage.java
++++ b/src/com/cyanogenmod/setupwizard/setup/ChooseDataSimPage.java
+@@ -47,7 +47,6 @@ import com.android.internal.telephony.TelephonyIntents;
+ 
+ import com.cyanogenmod.setupwizard.R;
+ import com.cyanogenmod.setupwizard.SetupWizardApp;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
+ import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
+ 
+@@ -356,13 +355,9 @@ public class ChooseDataSimPage extends SetupPage {
+                 for (int i = 0; i < mCheckBoxes.size(); i++) {
+                     if (subInfoRecord.getSimSlotIndex() == i) {
+                         mCheckBoxes.get(i).setChecked(true);
+-                        SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
+-                                SetupStats.Action.PREFERRED_DATA_SIM,
+-                                SetupStats.Label.SLOT, String.valueOf(i + 1));
+                     } else {
+                         mCheckBoxes.get(i).setChecked(false);
+                     }
+-
+                 }
+             }
+         }
+diff --git a/src/com/cyanogenmod/setupwizard/setup/CyanogenServicesPage.java b/src/com/cyanogenmod/setupwizard/setup/CyanogenServicesPage.java
+index e71dd79..5bfe3b0 100644
+--- a/src/com/cyanogenmod/setupwizard/setup/CyanogenServicesPage.java
++++ b/src/com/cyanogenmod/setupwizard/setup/CyanogenServicesPage.java
+@@ -32,7 +32,6 @@ import android.util.Log;
+ 
+ import com.cyanogenmod.setupwizard.R;
+ import com.cyanogenmod.setupwizard.SetupWizardApp;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ import com.cyanogenmod.setupwizard.ui.LoadingFragment;
+ import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
+ 
+@@ -95,10 +94,6 @@ public class CyanogenServicesPage extends SetupPage {
+     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+         if (requestCode == SetupWizardApp.REQUEST_CODE_SETUP_CYANOGEN) {
+             if (resultCode == Activity.RESULT_OK || resultCode == Activity.RESULT_FIRST_USER) {
+-                SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                        SetupStats.Action.EXTERNAL_PAGE_RESULT,
+-                        SetupStats.Label.CYANOGEN_ACCOUNT,
+-                        resultCode == Activity.RESULT_OK ? "success" : "skipped");
+                 if (SetupWizardUtils.accountExists(mContext,
+                         mContext.getString(R.string.cm_account_type))) {
+                     if (SetupWizardUtils.isDeviceLocked()) {
+@@ -108,9 +103,6 @@ public class CyanogenServicesPage extends SetupPage {
+                 }
+                 getCallbacks().onNextPage();
+             } else if (resultCode == Activity.RESULT_CANCELED) {
+-                SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                        SetupStats.Action.EXTERNAL_PAGE_RESULT,
+-                        SetupStats.Label.CYANOGEN_ACCOUNT, "canceled");
+                 getCallbacks().onPreviousPage();
+             }
+         }
+@@ -136,11 +128,6 @@ public class CyanogenServicesPage extends SetupPage {
+                                             ActivityOptions.makeCustomAnimation(mContext,
+                                                     android.R.anim.fade_in,
+                                                     android.R.anim.fade_out);
+-                                    SetupStats
+-                                            .addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                                                    SetupStats.Action.EXTERNAL_PAGE_LAUNCH,
+-                                                    SetupStats.Label.PAGE,
+-                                                    SetupStats.Label.CYANOGEN_ACCOUNT);
+                                     mFragment.startActivityForResult(intent,
+                                             SetupWizardApp.REQUEST_CODE_SETUP_CYANOGEN,
+                                             options.toBundle());
+diff --git a/src/com/cyanogenmod/setupwizard/setup/CyanogenSettingsPage.java b/src/com/cyanogenmod/setupwizard/setup/CyanogenSettingsPage.java
+index 4827090..697896d 100644
+--- a/src/com/cyanogenmod/setupwizard/setup/CyanogenSettingsPage.java
++++ b/src/com/cyanogenmod/setupwizard/setup/CyanogenSettingsPage.java
+@@ -43,7 +43,6 @@ import android.widget.TextView;
+ 
+ import com.cyanogenmod.setupwizard.R;
+ import com.cyanogenmod.setupwizard.SetupWizardApp;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
+ import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
+ 
+@@ -54,7 +53,6 @@ public class CyanogenSettingsPage extends SetupPage {
+ 
+     public static final String TAG = "CyanogenSettingsPage";
+ 
+-    public static final String KEY_SEND_METRICS = "send_metrics";
+     public static final String DISABLE_NAV_KEYS = "disable_nav_keys";
+     public static final String KEY_APPLY_DEFAULT_THEME = "apply_default_theme";
+     public static final String KEY_BUTTON_BACKLIGHT = "pre_navbar_button_backlight";
+@@ -116,37 +114,18 @@ public class CyanogenSettingsPage extends SetupPage {
+             @Override
+             public void run() {
+                 if (getData().containsKey(DISABLE_NAV_KEYS)) {
+-                    SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
+-                            SetupStats.Action.ENABLE_NAV_KEYS,
+-                            SetupStats.Label.CHECKED,
+-                            String.valueOf(getData().getBoolean(DISABLE_NAV_KEYS)));
+                     writeDisableNavkeysOption(mContext, getData().getBoolean(DISABLE_NAV_KEYS));
+                 }
+             }
+         });
+-        handleEnableMetrics();
+         handleDefaultThemeSetup();
+     }
+ 
+-    private void handleEnableMetrics() {
+-        Bundle privacyData = getData();
+-        if (privacyData != null
+-                && privacyData.containsKey(KEY_SEND_METRICS)) {
+-            CMSettings.Secure.putInt(mContext.getContentResolver(),
+-                    CMSettings.Secure.STATS_COLLECTION, privacyData.getBoolean(KEY_SEND_METRICS)
+-                            ? 1 : 0);
+-        }
+-    }
+-
+     private void handleDefaultThemeSetup() {
+         Bundle privacyData = getData();
+         if (!SetupWizardUtils.getDefaultThemePackageName(mContext).equals(
+                 ThemeConfig.SYSTEM_DEFAULT) && privacyData != null &&
+                 privacyData.getBoolean(KEY_APPLY_DEFAULT_THEME)) {
+-            SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
+-                    SetupStats.Action.APPLY_CUSTOM_THEME,
+-                    SetupStats.Label.CHECKED,
+-                    String.valueOf(privacyData.getBoolean(KEY_APPLY_DEFAULT_THEME)));
+             Log.i(TAG, "Applying default theme");
+             final ThemeManager tm = (ThemeManager) mContext.getSystemService(Context.THEME_SERVICE);
+             tm.applyDefaultTheme();
+@@ -176,26 +155,14 @@ public class CyanogenSettingsPage extends SetupPage {
+         private View mKillSwitchView;
+         private TextView mKillSwitchTitle;
+         private ImageView mKillSwitchStatus;
+-        private View mMetricsRow;
+         private View mDefaultThemeRow;
+         private View mNavKeysRow;
+-        private CheckBox mMetrics;
+         private CheckBox mDefaultTheme;
+         private CheckBox mNavKeys;
+ 
+         private boolean mHideNavKeysRow = false;
+         private boolean mHideThemeRow = false;
+ 
+-
+-        private View.OnClickListener mMetricsClickListener = new View.OnClickListener() {
+-            @Override
+-            public void onClick(View view) {
+-                boolean checked = !mMetrics.isChecked();
+-                mMetrics.setChecked(checked);
+-                mPage.getData().putBoolean(KEY_SEND_METRICS, checked);
+-            }
+-        };
+-
+         private View.OnClickListener mDefaultThemeClickListener = new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+@@ -253,19 +220,6 @@ public class CyanogenSettingsPage extends SetupPage {
+                 }
+             }
+ 
+-            mMetricsRow = mRootView.findViewById(R.id.metrics);
+-            mMetricsRow.setOnClickListener(mMetricsClickListener);
+-            String metricsHelpImproveCM =
+-                    getString(R.string.services_help_improve_cm, getString(R.string.os_name));
+-            String metricsSummary = getString(R.string.services_metrics_label,
+-                    metricsHelpImproveCM, getString(R.string.os_name));
+-            final SpannableStringBuilder metricsSpan = new SpannableStringBuilder(metricsSummary);
+-            metricsSpan.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+-                    0, metricsHelpImproveCM.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+-            TextView metrics = (TextView) mRootView.findViewById(R.id.enable_metrics_summary);
+-            metrics.setText(metricsSpan);
+-            mMetrics = (CheckBox) mRootView.findViewById(R.id.enable_metrics_checkbox);
+-
+             mDefaultThemeRow = mRootView.findViewById(R.id.theme);
+             mHideThemeRow = hideThemeSwitch(getActivity());
+             if (mHideThemeRow) {
+@@ -314,19 +268,9 @@ public class CyanogenSettingsPage extends SetupPage {
+         public void onResume() {
+             super.onResume();
+             updateDisableNavkeysOption();
+-            updateMetricsOption();
+             updateThemeOption();
+         }
+ 
+-        private void updateMetricsOption() {
+-            final Bundle myPageBundle = mPage.getData();
+-            boolean metricsChecked =
+-                    !myPageBundle.containsKey(KEY_SEND_METRICS) || myPageBundle
+-                            .getBoolean(KEY_SEND_METRICS);
+-            mMetrics.setChecked(metricsChecked);
+-            myPageBundle.putBoolean(KEY_SEND_METRICS, metricsChecked);
+-        }
+-
+         private void updateThemeOption() {
+             if (!mHideThemeRow) {
+                 final Bundle myPageBundle = mPage.getData();
+diff --git a/src/com/cyanogenmod/setupwizard/setup/DateTimePage.java b/src/com/cyanogenmod/setupwizard/setup/DateTimePage.java
+index 7a5922b..a669163 100644
+--- a/src/com/cyanogenmod/setupwizard/setup/DateTimePage.java
++++ b/src/com/cyanogenmod/setupwizard/setup/DateTimePage.java
+@@ -42,7 +42,6 @@ import android.widget.TextView;
+ import android.widget.TimePicker;
+ 
+ import com.cyanogenmod.setupwizard.R;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
+ 
+ import org.xmlpull.v1.XmlPullParserException;
+@@ -136,8 +135,6 @@ public class DateTimePage extends SetupPage {
+             mDateView.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View view) {
+-                    SetupStats.addEvent(SetupStats.Categories.BUTTON_CLICK,
+-                            "date_picker");
+                     showDatePicker();
+                 }
+             });
+@@ -145,8 +142,6 @@ public class DateTimePage extends SetupPage {
+             mTimeView.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View view) {
+-                    SetupStats.addEvent(SetupStats.Categories.BUTTON_CLICK,
+-                            "time_picker");
+                     showTimePicker();
+                 }
+             });
+@@ -167,17 +162,11 @@ public class DateTimePage extends SetupPage {
+                             final Map<?, ?> map = (Map<?, ?>) adapterView.getItemAtPosition(position);
+                             final String tzId = (String) map.get(KEY_ID);
+                             if (mCurrentTimeZone != null && !mCurrentTimeZone.getID().equals(tzId)) {
+-                                SetupStats.addEvent(SetupStats.Categories.BUTTON_CLICK,
+-                                        "timezone_picker");
+                                 // Update the system timezone value
+                                 final Activity activity = getActivity();
+                                 final AlarmManager alarm = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
+                                 alarm.setTimeZone(tzId);
+                                 mCurrentTimeZone = TimeZone.getTimeZone(tzId);
+-                                SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
+-                                        SetupStats.Action.TIMEZONE_CHANGED,
+-                                        SetupStats.Label.VALUE,
+-                                        mCurrentTimeZone.getDisplayName());
+                             }
+ 
+                         }
+@@ -232,10 +221,6 @@ public class DateTimePage extends SetupPage {
+             if (activity != null) {
+                 setDate(activity, year, month, day);
+                 updateTimeAndDateDisplay(activity);
+-                SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
+-                        SetupStats.Action.DATE_CHANGED,
+-                        SetupStats.Label.VALUE,
+-                        month+"/"+day+"/"+year);
+             }
+         }
+ 
+@@ -245,10 +230,6 @@ public class DateTimePage extends SetupPage {
+             if (activity != null) {
+                 setTime(activity, hourOfDay, minute);
+                 updateTimeAndDateDisplay(activity);
+-                SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
+-                        SetupStats.Action.TIME_CHANGED,
+-                        SetupStats.Label.VALUE,
+-                        hourOfDay+":"+minute);
+             }
+         }
+ 
+diff --git a/src/com/cyanogenmod/setupwizard/setup/FingerprintSetupPage.java b/src/com/cyanogenmod/setupwizard/setup/FingerprintSetupPage.java
+index 890a4f6..c9174c6 100644
+--- a/src/com/cyanogenmod/setupwizard/setup/FingerprintSetupPage.java
++++ b/src/com/cyanogenmod/setupwizard/setup/FingerprintSetupPage.java
+@@ -28,7 +28,6 @@ import android.widget.TextView;
+ import com.android.internal.widget.LockPatternUtils;
+ import com.cyanogenmod.setupwizard.R;
+ import com.cyanogenmod.setupwizard.SetupWizardApp;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
+ 
+ public class FingerprintSetupPage extends SetupPage {
+@@ -113,9 +112,6 @@ public class FingerprintSetupPage extends SetupPage {
+                     ActivityOptions.makeCustomAnimation(getActivity(),
+                             android.R.anim.fade_in,
+                             android.R.anim.fade_out);
+-            SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                    SetupStats.Action.EXTERNAL_PAGE_LAUNCH,
+-                    SetupStats.Label.PAGE,  SetupStats.Label.FINGERPRINT_SETUP);
+             startActivityForResult(intent, SetupWizardApp.REQUEST_CODE_SETUP_FINGERPRINT,
+                     options.toBundle());
+         }
+diff --git a/src/com/cyanogenmod/setupwizard/setup/GmsAccountPage.java b/src/com/cyanogenmod/setupwizard/setup/GmsAccountPage.java
+index 34a344c..b4fd658 100644
+--- a/src/com/cyanogenmod/setupwizard/setup/GmsAccountPage.java
++++ b/src/com/cyanogenmod/setupwizard/setup/GmsAccountPage.java
+@@ -37,7 +37,6 @@ import android.util.Log;
+ 
+ import com.cyanogenmod.setupwizard.R;
+ import com.cyanogenmod.setupwizard.SetupWizardApp;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ import com.cyanogenmod.setupwizard.ui.LoadingFragment;
+ import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
+ 
+@@ -123,9 +122,6 @@ public class GmsAccountPage extends SetupPage {
+     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+         if (requestCode == SetupWizardApp.REQUEST_CODE_SETUP_GMS) {
+             if (!mBackupEnabled && SetupWizardUtils.isOwner() && resultCode == Activity.RESULT_OK) {
+-                SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                        SetupStats.Action.EXTERNAL_PAGE_RESULT,
+-                        SetupStats.Label.GMS_ACCOUNT, "success");
+                 launchGmsRestorePage();
+             } else {
+                 handleResult(requestCode, resultCode);
+@@ -150,24 +146,12 @@ public class GmsAccountPage extends SetupPage {
+ 
+     private void handleResult(int requestCode, int resultCode) {
+         if (resultCode == Activity.RESULT_CANCELED) {
+-            SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                    SetupStats.Action.EXTERNAL_PAGE_RESULT,
+-                    requestCode == SetupWizardApp.REQUEST_CODE_SETUP_GMS ?
+-                            SetupStats.Label.GMS_ACCOUNT : SetupStats.Label.RESTORE, "canceled");
+             getCallbacks().onPreviousPage();
+         }  else {
+             if (resultCode == Activity.RESULT_OK) {
+-                SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                        SetupStats.Action.EXTERNAL_PAGE_RESULT,
+-                        requestCode == SetupWizardApp.REQUEST_CODE_SETUP_GMS ?
+-                                SetupStats.Label.GMS_ACCOUNT : SetupStats.Label.RESTORE, "success");
+                 getCallbacks().onNextPage();
+             } else {
+                 if (canSkip()) {
+-                    SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                            SetupStats.Action.EXTERNAL_PAGE_RESULT,
+-                            requestCode == SetupWizardApp.REQUEST_CODE_SETUP_GMS ?
+-                                    SetupStats.Label.GMS_ACCOUNT : SetupStats.Label.RESTORE, "skipped");
+                     getCallbacks().onNextPage();
+                 } else {
+                     getCallbacks().onPreviousPage();
+@@ -195,9 +179,6 @@ public class GmsAccountPage extends SetupPage {
+                         ActivityOptions.makeCustomAnimation(mContext,
+                                 android.R.anim.fade_in,
+                                 android.R.anim.fade_out);
+-                SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                        SetupStats.Action.EXTERNAL_PAGE_LAUNCH,
+-                        SetupStats.Label.PAGE, SetupStats.Label.RESTORE);
+                 mFragment.startActivityForResult(
+                         intent,
+                         SetupWizardApp.REQUEST_CODE_RESTORE_GMS, options.toBundle());
+@@ -238,9 +219,6 @@ public class GmsAccountPage extends SetupPage {
+                                     ActivityOptions.makeCustomAnimation(mContext,
+                                             android.R.anim.fade_in,
+                                             android.R.anim.fade_out);
+-                            SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                                    SetupStats.Action.EXTERNAL_PAGE_LAUNCH,
+-                                    SetupStats.Label.PAGE, SetupStats.Label.GMS_ACCOUNT);
+                             mFragment.startActivityForResult(intent,
+                                     SetupWizardApp.REQUEST_CODE_SETUP_GMS, options.toBundle());
+                         } catch (OperationCanceledException e) {
+diff --git a/src/com/cyanogenmod/setupwizard/setup/MobileDataPage.java b/src/com/cyanogenmod/setupwizard/setup/MobileDataPage.java
+index caffc41..a472ca6 100644
+--- a/src/com/cyanogenmod/setupwizard/setup/MobileDataPage.java
++++ b/src/com/cyanogenmod/setupwizard/setup/MobileDataPage.java
+@@ -37,7 +37,6 @@ import android.widget.TextView;
+ 
+ import com.cyanogenmod.setupwizard.R;
+ import com.cyanogenmod.setupwizard.SetupWizardApp;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
+ import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
+ 
+@@ -124,9 +123,6 @@ public class MobileDataPage extends SetupPage {
+                 boolean checked = !mEnableMobileData.isChecked();
+                 SetupWizardUtils.setMobileDataEnabled(getActivity(), checked);
+                 mEnableMobileData.setChecked(checked);
+-                SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
+-                        SetupStats.Action.ENABLE_MOBILE_DATA,
+-                        SetupStats.Label.CHECKED, String.valueOf(checked));
+             }
+         };
+ 
+diff --git a/src/com/cyanogenmod/setupwizard/setup/OtherSettingsPage.java b/src/com/cyanogenmod/setupwizard/setup/OtherSettingsPage.java
+index 0ed17ff..e5da518 100644
+--- a/src/com/cyanogenmod/setupwizard/setup/OtherSettingsPage.java
++++ b/src/com/cyanogenmod/setupwizard/setup/OtherSettingsPage.java
+@@ -40,7 +40,6 @@ import android.widget.TextView;
+ 
+ import com.cyanogenmod.setupwizard.R;
+ import com.cyanogenmod.setupwizard.SetupWizardApp;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
+ import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
+ 
+@@ -233,9 +232,6 @@ public class OtherSettingsPage extends SetupPage {
+         private void onToggleBackup(boolean checked) {
+             try {
+                 mBackupManager.setBackupEnabled(checked);
+-                SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
+-                        SetupStats.Action.ENABLE_BACKUP,
+-                        SetupStats.Label.CHECKED, String.valueOf(checked));
+             } catch (RemoteException e) {}
+             updateBackupToggle();
+         }
+@@ -309,10 +305,6 @@ public class OtherSettingsPage extends SetupPage {
+         }
+ 
+         private void onToggleLocationAccess(boolean checked) {
+-            SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
+-                    SetupStats.Action.ENABLE_LOCATION,
+-                    SetupStats.Label.CHECKED, String.valueOf(checked));
+-
+             if (checked) {
+                 setLocationMode(Settings.Secure.LOCATION_MODE_SENSORS_ONLY);
+             } else {
+@@ -321,10 +313,6 @@ public class OtherSettingsPage extends SetupPage {
+         }
+ 
+         private void onToggleBatterySaving(boolean checked) {
+-            /* SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
+-                    SetupStats.Action.ENABLE_BATTERY_SAVING_LOCATION,
+-                    SetupStats.Label.CHECKED, String.valueOf(checked)); */
+-
+             if (checked) {
+                 setLocationMode(Settings.Secure.LOCATION_MODE_BATTERY_SAVING);
+             } else {
+@@ -333,10 +321,6 @@ public class OtherSettingsPage extends SetupPage {
+         }
+ 
+         private void onToggleNetwork(boolean checked) {
+-            SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
+-                    SetupStats.Action.ENABLE_NETWORK_LOCATION,
+-                    SetupStats.Label.CHECKED, String.valueOf(checked));
+-
+             if (checked) {
+                 setLocationMode(Settings.Secure.LOCATION_MODE_HIGH_ACCURACY);
+             } else {
+diff --git a/src/com/cyanogenmod/setupwizard/setup/SetupPage.java b/src/com/cyanogenmod/setupwizard/setup/SetupPage.java
+index 1a19fb0..9804049 100644
+--- a/src/com/cyanogenmod/setupwizard/setup/SetupPage.java
++++ b/src/com/cyanogenmod/setupwizard/setup/SetupPage.java
+@@ -26,7 +26,6 @@ import android.transition.Transition;
+ import android.view.Gravity;
+ 
+ import com.cyanogenmod.setupwizard.R;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ 
+ 
+ public abstract class SetupPage implements Page {
+@@ -76,18 +75,12 @@ public abstract class SetupPage implements Page {
+     public void doLoadAction(FragmentManager fragmentManager, int action) {
+         Fragment fragment = getFragment(fragmentManager, action);
+         if (action == Page.ACTION_NEXT) {
+-            SetupStats.addEvent(SetupStats.Categories.BUTTON_CLICK,
+-                    SetupStats.Action.NEXT_BUTTON, getKey(),
+-                    String.valueOf(System.currentTimeMillis()));
+             Transition t = new Slide(Gravity.RIGHT);
+             fragment.setEnterTransition(t);
+             fragmentManager.beginTransaction()
+                     .replace(R.id.content,fragment, getKey())
+                     .commit();
+         } else {
+-            SetupStats.addEvent(SetupStats.Categories.BUTTON_CLICK,
+-                    SetupStats.Action.PREVIOUS_BUTTON, getKey(),
+-                    String.valueOf(System.currentTimeMillis()));
+             Transition t = new Slide(Gravity.LEFT);
+             fragment.setEnterTransition(t);
+             fragmentManager.beginTransaction()
+diff --git a/src/com/cyanogenmod/setupwizard/setup/WelcomePage.java b/src/com/cyanogenmod/setupwizard/setup/WelcomePage.java
+index e09c2a1..eedb24d 100644
+--- a/src/com/cyanogenmod/setupwizard/setup/WelcomePage.java
++++ b/src/com/cyanogenmod/setupwizard/setup/WelcomePage.java
+@@ -42,7 +42,6 @@ import android.widget.Toast;
+ import com.android.internal.telephony.MccTable;
+ import com.cyanogenmod.setupwizard.R;
+ import com.cyanogenmod.setupwizard.SetupWizardApp;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ import com.cyanogenmod.setupwizard.ui.LocalePicker;
+ import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
+ import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
+@@ -87,7 +86,6 @@ public class WelcomePage extends SetupPage {
+             return true;
+         } else {
+             if (mWelcomeFragment != null) {
+-                mWelcomeFragment.sendLocaleStats();
+             }
+             return super.doNextAction();
+         }
+@@ -102,10 +100,6 @@ public class WelcomePage extends SetupPage {
+                 ActivityOptions.makeCustomAnimation(mContext,
+                         android.R.anim.fade_in,
+                         android.R.anim.fade_out);
+-        SetupStats.addEvent(SetupStats.Categories.BUTTON_CLICK, SetupStats.Label.EMERGENCY_CALL);
+-        SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                SetupStats.Action.EXTERNAL_PAGE_LAUNCH,
+-                SetupStats.Label.PAGE,  SetupStats.Label.EMERGENCY_CALL);
+         mContext.startActivity(intent, options.toBundle());
+         return true;
+     }
+@@ -269,14 +263,6 @@ public class WelcomePage extends SetupPage {
+             return R.layout.setup_welcome_page;
+         }
+ 
+-        public void sendLocaleStats() {
+-            if (!mCurrentLocale.equals(mInitialLocale)) {
+-                SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
+-                        SetupStats.Action.CHANGE_LOCALE, SetupStats.Label.LOCALE,
+-                        mCurrentLocale.getDisplayName());
+-            }
+-        }
+-
+         public void fetchAndUpdateSimLocale() {
+             if (mIgnoreSimLocale || isDetached()) {
+                 return;
+diff --git a/src/com/cyanogenmod/setupwizard/setup/WifiSetupPage.java b/src/com/cyanogenmod/setupwizard/setup/WifiSetupPage.java
+index 56beddf..5ebe5c8 100644
+--- a/src/com/cyanogenmod/setupwizard/setup/WifiSetupPage.java
++++ b/src/com/cyanogenmod/setupwizard/setup/WifiSetupPage.java
+@@ -31,7 +31,6 @@ import android.util.Log;
+ 
+ import com.cyanogenmod.setupwizard.R;
+ import com.cyanogenmod.setupwizard.SetupWizardApp;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ import com.cyanogenmod.setupwizard.ui.LoadingFragment;
+ import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
+ import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
+@@ -83,9 +82,6 @@ public class WifiSetupPage extends SetupPage {
+                             ActivityOptions.makeCustomAnimation(mContext,
+                                     android.R.anim.fade_in,
+                                     android.R.anim.fade_out);
+-                    SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                            SetupStats.Action.EXTERNAL_PAGE_LAUNCH,
+-                            SetupStats.Label.PAGE,  SetupStats.Label.CAPTIVE_PORTAL_LOGIN);
+                     mLoadingFragment.startActivityForResult(intent,
+                             SetupWizardApp.REQUEST_CODE_SETUP_CAPTIVE_PORTAL,
+                             options.toBundle());
+@@ -154,19 +150,10 @@ public class WifiSetupPage extends SetupPage {
+     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+         if (requestCode == SetupWizardApp.REQUEST_CODE_SETUP_WIFI) {
+             if (resultCode == Activity.RESULT_CANCELED) {
+-                SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                        SetupStats.Action.EXTERNAL_PAGE_RESULT,
+-                        SetupStats.Label.WIFI_SETUP, "canceled");
+-                        getCallbacks().onPreviousPage();
++                getCallbacks().onPreviousPage();
+             } else if (resultCode == Activity.RESULT_OK) {
+-                SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                        SetupStats.Action.EXTERNAL_PAGE_RESULT,
+-                        SetupStats.Label.WIFI_SETUP, "success");
+                 checkForCaptivePortal();
+             } else {
+-                SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                        SetupStats.Action.EXTERNAL_PAGE_RESULT,
+-                        SetupStats.Label.WIFI_SETUP, "skipped");
+                 getCallbacks().onNextPage();
+             }
+         } else if (requestCode == SetupWizardApp.REQUEST_CODE_SETUP_CAPTIVE_PORTAL) {
+@@ -176,20 +163,11 @@ public class WifiSetupPage extends SetupPage {
+             }
+             String token = data.getStringExtra("response_token");
+             if (token != null && !token.equals(mResponseToken)) {
+-                SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                        SetupStats.Action.EXTERNAL_PAGE_RESULT,
+-                        SetupStats.Label.CAPTIVE_PORTAL_LOGIN, "token_mismatch");
+                 launchWifiSetup();
+             } else {
+                 if (resultCode == Activity.RESULT_CANCELED) {
+-                    SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                            SetupStats.Action.EXTERNAL_PAGE_RESULT,
+-                            SetupStats.Label.CAPTIVE_PORTAL_LOGIN, "canceled");
+                     launchWifiSetup();
+                 } else {
+-                    SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                            SetupStats.Action.EXTERNAL_PAGE_RESULT,
+-                            SetupStats.Label.CAPTIVE_PORTAL_LOGIN, "success");
+                     getCallbacks().onNextPage();
+                 }
+             }
+@@ -253,9 +231,6 @@ public class WifiSetupPage extends SetupPage {
+                 ActivityOptions.makeCustomAnimation(mContext,
+                         android.R.anim.fade_in,
+                         android.R.anim.fade_out);
+-        SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
+-                SetupStats.Action.EXTERNAL_PAGE_LAUNCH,
+-                SetupStats.Label.PAGE,  SetupStats.Label.WIFI_SETUP);
+         mLoadingFragment.startActivityForResult(intent,
+                 SetupWizardApp.REQUEST_CODE_SETUP_WIFI, options.toBundle());
+     }
+diff --git a/src/com/cyanogenmod/setupwizard/ui/SetupPageFragment.java b/src/com/cyanogenmod/setupwizard/ui/SetupPageFragment.java
+index b0df440..33c61c7 100644
+--- a/src/com/cyanogenmod/setupwizard/ui/SetupPageFragment.java
++++ b/src/com/cyanogenmod/setupwizard/ui/SetupPageFragment.java
+@@ -26,7 +26,6 @@ import android.view.ViewGroup;
+ import android.widget.TextView;
+ 
+ import com.cyanogenmod.setupwizard.R;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ import com.cyanogenmod.setupwizard.setup.Page;
+ import com.cyanogenmod.setupwizard.setup.SetupDataCallbacks;
+ 
+@@ -43,8 +42,6 @@ public abstract class SetupPageFragment extends Fragment {
+     public void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setRetainInstance(true);
+-        SetupStats.addEvent(SetupStats.Categories.PAGE_LOAD, SetupStats.Action.PAGE_LOADED,
+-                mKey, String.valueOf(System.currentTimeMillis()));
+     }
+ 
+     @Override
+diff --git a/src/com/cyanogenmod/setupwizard/ui/SetupWizardActivity.java b/src/com/cyanogenmod/setupwizard/ui/SetupWizardActivity.java
+index d8a5abb..1a7a310 100644
+--- a/src/com/cyanogenmod/setupwizard/ui/SetupWizardActivity.java
++++ b/src/com/cyanogenmod/setupwizard/ui/SetupWizardActivity.java
+@@ -42,7 +42,6 @@ import android.widget.ProgressBar;
+ 
+ import com.cyanogenmod.setupwizard.R;
+ import com.cyanogenmod.setupwizard.SetupWizardApp;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ import com.cyanogenmod.setupwizard.setup.CMSetupWizardData;
+ import com.cyanogenmod.setupwizard.setup.Page;
+ import com.cyanogenmod.setupwizard.setup.SetupDataCallbacks;
+@@ -78,8 +77,6 @@ public class SetupWizardActivity extends Activity implements SetupDataCallbacks,
+ 
+     private volatile boolean mIsFinishing = false;
+ 
+-    private static long sLaunchTime = 0;
+-
+     private final ArrayList<Runnable> mFinishRunnables = new ArrayList<Runnable>();
+ 
+     public void onCreate(Bundle savedInstanceState) {
+@@ -100,10 +97,6 @@ public class SetupWizardActivity extends Activity implements SetupDataCallbacks,
+                         }
+                     }
+                 });
+-        if (sLaunchTime == 0) {
+-            SetupStats.addEvent(SetupStats.Categories.APP_LAUNCH, TAG);
+-            sLaunchTime = System.nanoTime();
+-        }
+         setContentView(R.layout.setup_main);
+         mRootView = findViewById(R.id.root);
+         mRootView.setSystemUiVisibility(UI_FLAGS);
+@@ -345,9 +338,6 @@ public class SetupWizardActivity extends Activity implements SetupDataCallbacks,
+     @Override
+     public void finishSetup() {
+         if (!mIsFinishing) {
+-            SetupStats.addEvent(SetupStats.Categories.APP_FINISHED, TAG,
+-                    SetupStats.Label.TOTAL_TIME, String.valueOf(
+-                            System.nanoTime() - sLaunchTime));
+             final SetupWizardApp setupWizardApp = (SetupWizardApp)getApplication();
+             setupWizardApp.sendStickyBroadcastAsUser(
+                     new Intent(SetupWizardApp.ACTION_FINISHED),
+@@ -436,7 +426,6 @@ public class SetupWizardActivity extends Activity implements SetupDataCallbacks,
+                 final ThemeManager tm =
+                         (ThemeManager) SetupWizardActivity.this.getSystemService(THEME_SERVICE);
+                 tm.removeClient(SetupWizardActivity.this);
+-                SetupStats.sendEvents(SetupWizardActivity.this);
+                 SetupWizardUtils.disableGMSSetupWizard(SetupWizardActivity.this);
+                 final WallpaperManager wallpaperManager =
+                         WallpaperManager.getInstance(SetupWizardActivity.this);
+diff --git a/src/com/cyanogenmod/setupwizard/util/EnableAccessibilityController.java b/src/com/cyanogenmod/setupwizard/util/EnableAccessibilityController.java
+index 440129b..47d6de5 100644
+--- a/src/com/cyanogenmod/setupwizard/util/EnableAccessibilityController.java
++++ b/src/com/cyanogenmod/setupwizard/util/EnableAccessibilityController.java
+@@ -39,7 +39,6 @@ import android.view.accessibility.AccessibilityManager;
+ import android.view.accessibility.IAccessibilityManager;
+ 
+ import com.android.internal.R;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ 
+ import java.util.ArrayList;
+ import java.util.Iterator;
+@@ -284,8 +283,6 @@ public class EnableAccessibilityController {
+             // Turn on accessibility mode last.
+             Settings.Secure.putIntForUser(resolver, Settings.Secure.ACCESSIBILITY_ENABLED,
+                     1, userId);
+-            SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
+-                    "accessibility_enabled");
+         } else if (keyguardLocked) {
+             try {
+                 mAccessibilityManager.temporaryEnableAccessibilityStateUntilKeyguardRemoved(
+-- 
+2.5.0
+

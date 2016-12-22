@@ -1,0 +1,22 @@
+From 7c6c27ed01f94b9daf7e73414d9f1b58e07bab21 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 12 May 2015 20:03:43 -0400
+Subject: [PATCH] fix PaX ACCESS_ONCE issue caused by TSYNC backport
+
+---
+ kernel/seccomp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+index 829a2ca..96b22b5 100644
+--- a/kernel/seccomp.c
++++ b/kernel/seccomp.c
+@@ -336,7 +336,7 @@ static inline void seccomp_sync_threads(void)
+ 		 */
+ 		put_seccomp_filter(thread);
+ 		smp_mb();
+-		ACCESS_ONCE(thread->seccomp.filter) = caller->seccomp.filter;
++		ACCESS_ONCE_RW(thread->seccomp.filter) = caller->seccomp.filter;
+ 		/*
+ 		 * Opt the other thread into seccomp if needed.
+ 		 * As threads are considered to be trust-realm

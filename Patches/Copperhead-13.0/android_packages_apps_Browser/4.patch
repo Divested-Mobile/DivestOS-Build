@@ -1,0 +1,22 @@
+From defa0e59c0f38e8f0ea6429ee05414a9402bbd8b Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sun, 5 Apr 2015 01:27:56 -0400
+Subject: [PATCH] disable link preloading by default
+
+---
+ res/values/strings.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 0899df9..8529cf6 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -684,7 +684,7 @@
+     <string name="pref_link_prefetch_value_never" translatable="false">NEVER</string>
+     <string name="pref_link_prefetch_value_wifi_only" translatable="false">WIFI_ONLY</string>
+     <string name="pref_link_prefetch_value_always" translatable="false">ALWAYS</string>
+-    <string name="pref_link_prefetch_default_value" translatable="false">@string/pref_link_prefetch_value_wifi_only</string>
++    <string name="pref_link_prefetch_default_value" translatable="false">@string/pref_link_prefetch_value_never</string>
+     <string-array name="pref_link_prefetch_values" translatable="false">
+         <item><xliff:g>@string/pref_link_prefetch_value_never</xliff:g></item>
+         <item><xliff:g>@string/pref_link_prefetch_value_wifi_only</xliff:g></item>

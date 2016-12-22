@@ -1,0 +1,22 @@
+From f7704509fc9ae1abed312e5e4276ce51f1c541ad Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 14 Aug 2015 15:07:33 -0400
+Subject: [PATCH] slow down the service respawning rate
+
+---
+ init/init.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/init/init.cpp b/init/init.cpp
+index 78859a5..11ed674 100644
+--- a/init/init.cpp
++++ b/init/init.cpp
+@@ -465,7 +465,7 @@ void property_changed(const char *name, const char *value)
+ 
+ static void restart_service_if_needed(struct service *svc)
+ {
+-    time_t next_start_time = svc->time_started + 5;
++    time_t next_start_time = svc->time_started + 10;
+ 
+     if (next_start_time <= gettime()) {
+         svc->flags &= (~SVC_RESTARTING);

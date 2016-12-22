@@ -1,0 +1,40 @@
+From 6ee2fef0118b2e2955bcec974af36c5ed107deb3 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Mon, 18 Apr 2016 09:21:48 -0400
+Subject: [PATCH] Implement hostname Randomization
+
+Change-Id: I938b7e896716ea4cb79b4a2e9d852dbe968a778d
+---
+ services/core/java/com/android/server/ConnectivityService.java | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/ConnectivityService.java b/services/core/java/com/android/server/ConnectivityService.java
+index 2a47460..4dccc03 100644
+--- a/services/core/java/com/android/server/ConnectivityService.java
++++ b/services/core/java/com/android/server/ConnectivityService.java
+@@ -146,6 +146,7 @@ import java.io.PrintWriter;
+ import java.net.Inet4Address;
+ import java.net.InetAddress;
+ import java.net.UnknownHostException;
++import java.security.SecureRandom;
+ import java.util.ArrayDeque;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+@@ -646,8 +647,13 @@ public class ConnectivityService extends IConnectivityManager.Stub
+         mTrackerHandler = new NetworkStateTrackerHandler(mHandlerThread.getLooper());
+ 
+         // setup our unique device name
+-        String hostname = CMSettings.Secure.getString(context.getContentResolver(),
++	String hostname;
++	if(SystemProperties.getBoolean("persist.privacy.randomize_host", true)) {
++		hostname = Long.toHexString(new SecureRandom().nextLong());
++	} else {
++		hostname = CMSettings.Secure.getString(context.getContentResolver(),
+                 CMSettings.Secure.DEVICE_HOSTNAME);
++	}
+         if (TextUtils.isEmpty(hostname) &&
+                 TextUtils.isEmpty(SystemProperties.get("net.hostname"))) {
+             String id = Settings.Secure.getString(context.getContentResolver(),
+-- 
+2.8.0
+

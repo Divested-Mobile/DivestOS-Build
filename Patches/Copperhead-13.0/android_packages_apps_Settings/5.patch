@@ -1,0 +1,73 @@
+From a29c050a986312d6863d2a7ed6cceb1f1b0b9fac Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sun, 28 Jun 2015 13:31:54 -0400
+Subject: [PATCH] fix usage of ChooseLockSettingsHelper
+
+The fragment was not being passed, so the ChooseLock* fragments are not
+informed if authentication fails (i.e. the cancel button is pushed) and
+continue on as if it was successful. This wasn't noticed because this
+code isn't used in the normal path where authentication happens before
+entering the preferences menu to choose the authentication method.
+
+The authentication support built-in to these fragments may even be dead
+code, but it should work correctly if it's there because it may be the
+basis of new code.
+---
+ src/com/android/settings/ChooseEncryptionPassword.java | 2 +-
+ src/com/android/settings/ChooseLockGeneric.java        | 2 +-
+ src/com/android/settings/ChooseLockPassword.java       | 2 +-
+ src/com/android/settings/ChooseLockPattern.java        | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/com/android/settings/ChooseEncryptionPassword.java b/src/com/android/settings/ChooseEncryptionPassword.java
+index 43e2b0e..761603a 100644
+--- a/src/com/android/settings/ChooseEncryptionPassword.java
++++ b/src/com/android/settings/ChooseEncryptionPassword.java
+@@ -237,7 +237,7 @@ public void onCreate(Bundle savedInstanceState) {
+                     mPasswordMinNonLetter), mLockPatternUtils.getRequestedPasswordMinimumNonLetter(
+                     UserHandle.myUserId()));
+ 
+-            mChooseLockSettingsHelper = new ChooseLockSettingsHelper(getActivity());
++            mChooseLockSettingsHelper = new ChooseLockSettingsHelper(getActivity(), this);
+         }
+ 
+         @Override
+diff --git a/src/com/android/settings/ChooseLockGeneric.java b/src/com/android/settings/ChooseLockGeneric.java
+index 7f5960f..b177d11 100644
+--- a/src/com/android/settings/ChooseLockGeneric.java
++++ b/src/com/android/settings/ChooseLockGeneric.java
+@@ -137,7 +137,7 @@ public void onCreate(Bundle savedInstanceState) {
+                 (FingerprintManager) getActivity().getSystemService(Context.FINGERPRINT_SERVICE);
+             mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+             mKeyStore = KeyStore.getInstance();
+-            mChooseLockSettingsHelper = new ChooseLockSettingsHelper(this.getActivity());
++            mChooseLockSettingsHelper = new ChooseLockSettingsHelper(this.getActivity(), this);
+             mLockPatternUtils = new LockPatternUtils(getActivity());
+             mLockPatternUtils.sanitizePassword();
+ 
+diff --git a/src/com/android/settings/ChooseLockPassword.java b/src/com/android/settings/ChooseLockPassword.java
+index 54c3620..59d1153 100644
+--- a/src/com/android/settings/ChooseLockPassword.java
++++ b/src/com/android/settings/ChooseLockPassword.java
+@@ -237,7 +237,7 @@ public void onCreate(Bundle savedInstanceState) {
+                     mPasswordMinNonLetter), mLockPatternUtils.getRequestedPasswordMinimumNonLetter(
+                     UserHandle.myUserId()));
+ 
+-            mChooseLockSettingsHelper = new ChooseLockSettingsHelper(getActivity());
++            mChooseLockSettingsHelper = new ChooseLockSettingsHelper(getActivity(), this);
+         }
+ 
+         @Override
+diff --git a/src/com/android/settings/ChooseLockPattern.java b/src/com/android/settings/ChooseLockPattern.java
+index c85e604..f6f0b7e 100644
+--- a/src/com/android/settings/ChooseLockPattern.java
++++ b/src/com/android/settings/ChooseLockPattern.java
+@@ -366,7 +366,7 @@ public void run() {
+         @Override
+         public void onCreate(Bundle savedInstanceState) {
+             super.onCreate(savedInstanceState);
+-            mChooseLockSettingsHelper = new ChooseLockSettingsHelper(getActivity());
++            mChooseLockSettingsHelper = new ChooseLockSettingsHelper(getActivity(), this);
+             if (!(getActivity() instanceof ChooseLockPattern)) {
+                 throw new SecurityException("Fragment contained in wrong activity");
+             }

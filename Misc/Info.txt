@@ -1,0 +1,32 @@
+General Changes
+	Build
+		- Browser: Changed some default settings
+		- Camera2: Disabled location saving by default
+		- Compiled with UBERTC GCC 4.9 and AOSP NDK 4.9 using JustArchi's v4.1 optimization flags
+		- Miscellaneous hardening
+		- Removed analytics from various packages
+		- Removed some packages for privacy reasons
+		- Removed useless packages
+		- Settings: Senisitive notification content is hidden by default
+	To Do
+		- Add more governors
+		- Add more I/O schedulers
+		- DNScrypt support
+		- Implement Quick Wakeup
+		- Implement UKSM
+		- LZ4 boot support
+		- Remove DRM server
+		- Remove unneeded Qualcomm blobs
+
+Bacon Changes
+	Kernel
+		- Overclocked from 2.45Ghz to 2.88Ghz
+		- Underclocked from 300Mhz to 268Mhz
+	Device
+		- Basic performance/battery build.prop optimizations
+		- Removed bundled Google Widevine DRM and Microsoft PlayReady DRM firmware files
+
+Mako Changes
+	Kernel
+		- Overclocked from 1.51Ghz to 1.94Ghz
+		- Underclocked from 384Mhz to 81Mhz

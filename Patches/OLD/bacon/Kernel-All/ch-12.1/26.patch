@@ -1,0 +1,24 @@
+From c6f91d613a8fe5bf02967c2d8445aa4fb2a55c86 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 12 May 2015 20:13:49 -0400
+Subject: [PATCH] disable errors on section mismatches with PaX
+
+This is used by PaX to determine how many writeable function pointers
+exist in the compiled code.
+---
+ scripts/mod/modpost.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index cc11c0e..a6bb927 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -2173,7 +2173,7 @@ int main(int argc, char **argv)
+ 			warn_unresolved = 1;
+ 			break;
+ 		case 'E':
+-			section_error_on_mismatch = 1;
++			/* ignored due to PaX */
+ 			break;
+ 		default:
+ 			exit(1);

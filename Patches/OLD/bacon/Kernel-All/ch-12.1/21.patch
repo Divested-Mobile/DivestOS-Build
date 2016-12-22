@@ -1,0 +1,3698 @@
+From 63caea4637e5dfa2ffaabb6d30b0aa4db9d3fe87 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 19 Nov 2015 07:14:38 -0500
+Subject: [PATCH] deal with rejected PaX patch hunks
+
+---
+ arch/arm/include/asm/atomic.h                  | 204 ++++++++++++++--
+ arch/arm/include/asm/atomic.h.rej              | 321 -------------------------
+ arch/arm/include/asm/elf.h                     |   4 -
+ arch/arm/include/asm/elf.h.rej                 |  11 -
+ arch/arm/kernel/process.c                      |   3 +-
+ arch/arm/kernel/process.c.rej                  |  13 -
+ arch/x86/boot/Makefile                         |   3 +
+ arch/x86/boot/Makefile.rej                     |  11 -
+ arch/x86/ia32/ia32entry.S                      |   3 +-
+ arch/x86/ia32/ia32entry.S.rej                  |  16 --
+ arch/x86/include/asm/fpu-internal.h            |   2 +-
+ arch/x86/include/asm/fpu-internal.h.rej        |  11 -
+ arch/x86/include/asm/paravirt_types.h          |   6 +-
+ arch/x86/include/asm/paravirt_types.h.rej      |  26 --
+ arch/x86/include/asm/pgtable_64_types.h        |   5 +
+ arch/x86/include/asm/pgtable_64_types.h.rej    |  13 -
+ arch/x86/kernel/entry_32.S                     |  17 +-
+ arch/x86/kernel/entry_32.S.rej                 |  47 ----
+ arch/x86/kernel/entry_64.S                     |   2 +-
+ arch/x86/kernel/entry_64.S.rej                 |  11 -
+ arch/x86/kernel/irq.c                          |   2 +-
+ arch/x86/kernel/irq.c.rej                      |  15 --
+ arch/x86/kernel/relocate_kernel_64.S           |   1 +
+ arch/x86/kernel/relocate_kernel_64.S.rej       |  18 --
+ arch/x86/kernel/setup.c                        |   2 +-
+ arch/x86/kernel/setup.c.rej                    |  10 -
+ arch/x86/kernel/sys_x86_64.c.rej               |  11 -
+ arch/x86/mm/fault.c                            |  16 ++
+ arch/x86/mm/fault.c.rej                        |  23 --
+ arch/x86/mm/init.c                             |   2 +-
+ arch/x86/mm/init.c.rej                         |  11 -
+ arch/x86/mm/ioremap.c.rej                      |  11 -
+ arch/x86/mm/mmap.c                             |  16 +-
+ arch/x86/mm/mmap.c.rej                         |  28 ---
+ arch/x86/xen/xen-asm_32.S                      |  12 +-
+ arch/x86/xen/xen-asm_32.S.rej                  |  23 --
+ drivers/base/power/wakeup.c                    |   2 +-
+ drivers/base/power/wakeup.c.rej                |  11 -
+ drivers/gpu/drm/drm_fops.c                     |   4 +-
+ drivers/gpu/drm/drm_fops.c.rej                 |  13 -
+ drivers/gpu/drm/i915/i915_gem_execbuffer.c     |   4 +-
+ drivers/gpu/drm/i915/i915_gem_execbuffer.c.rej |  14 --
+ drivers/gpu/drm/i915/intel_display.c           |   9 +-
+ drivers/gpu/drm/i915/intel_display.c.rej       |  32 ---
+ drivers/staging/speakup/speakup_soft.c.rej     |  15 --
+ fs/binfmt_elf.c                                |  14 ++
+ fs/binfmt_elf.c.rej                            |  22 --
+ fs/compat_ioctl.c                              |   8 +-
+ fs/compat_ioctl.c.rej                          |  40 ---
+ fs/libfs.c                                     |   3 +
+ fs/libfs.c.rej                                 |  12 -
+ fs/nfs/inode.c.rej                             |  11 -
+ fs/proc/nommu.c                                |   2 +-
+ fs/proc/nommu.c.rej                            |  11 -
+ fs/proc/task_mmu.c                             |  16 +-
+ fs/proc/task_mmu.c.rej                         |  39 ---
+ fs/proc/task_nommu.c                           |   2 +-
+ fs/proc/task_nommu.c.rej                       |  10 -
+ include/linux/efi.h                            |   2 +-
+ include/linux/efi.h.rej                        |  11 -
+ include/linux/gfp.h.rej                        |  10 -
+ include/linux/if_team.h                        |   2 +-
+ include/linux/if_team.h.rej                    |  10 -
+ include/linux/sysctl.h                         |   6 +-
+ include/linux/sysctl.h.rej                     |  14 --
+ include/linux/vmalloc.h                        |   7 +-
+ include/linux/vmalloc.h.rej                    |  23 --
+ include/net/inetpeer.h                         |   4 +-
+ include/net/inetpeer.h.rej                     |  26 --
+ include/sound/soc.h                            |   2 +-
+ include/sound/soc.h.rej                        |  11 -
+ kernel/audit.c                                 |   2 +-
+ kernel/audit.c.rej                             |  11 -
+ kernel/module.c                                |  16 +-
+ kernel/module.c.rej                            |  26 --
+ kernel/power/process.c                         |   3 +-
+ kernel/power/process.c.rej                     |  19 --
+ kernel/rcutree.h                               |   2 +-
+ kernel/rcutree.h.rej                           |  11 -
+ kernel/smp.c                                   |   8 +-
+ kernel/smp.c.rej                               |  28 ---
+ kernel/trace/trace_stack.c                     |   2 +-
+ kernel/trace/trace_stack.c.rej                 |  11 -
+ lib/bitmap.c                                   |   2 +-
+ lib/bitmap.c.rej                               |  10 -
+ mm/hugetlb.c                                   |   4 +
+ mm/hugetlb.c.rej                               |  12 -
+ mm/memory-failure.c                            |   5 +-
+ mm/memory-failure.c.rej                        |  20 --
+ mm/memory.c                                    |  93 +++----
+ mm/memory.c.rej                                | 149 ------------
+ mm/mmap.c                                      |  49 +++-
+ mm/mmap.c.rej                                  | 103 --------
+ mm/swap.c                                      |   2 +
+ mm/swap.c.rej                                  |  18 --
+ net/bluetooth/hci_conn.c.rej                   |  10 -
+ net/bluetooth/l2cap_core.c.rej                 |  15 --
+ net/compat.c                                   |   6 +-
+ net/compat.c.rej                               |  14 --
+ net/ipv4/inetpeer.c                            |   4 +-
+ net/ipv4/inetpeer.c.rej                        |  13 -
+ net/ipv4/ping.c                                |   2 +-
+ net/ipv4/ping.c.rej                            |  11 -
+ net/ipv4/route.c                               |   2 +-
+ net/ipv4/route.c.rej                           |  11 -
+ net/ipv4/udp.c                                 |   2 +-
+ net/ipv4/udp.c.rej                             |  11 -
+ net/phonet/socket.c                            |   2 +-
+ net/phonet/socket.c.rej                        |  11 -
+ net/socket.c                                   |   2 +-
+ net/socket.c.rej                               |  11 -
+ security/keys/compat.c                         |   2 +-
+ security/keys/compat.c.rej                     |  11 -
+ security/keys/keyctl.c                         |   2 +-
+ security/keys/keyctl.c.rej                     |  11 -
+ security/selinux/hooks.c                       |   2 +-
+ security/selinux/hooks.c.rej                   |  10 -
+ sound/soc/soc-pcm.c.rej                        |  11 -
+ sound/usb/card.h.rej                           |  18 --
+ usr/gen_init_cpio.c                            |  10 +-
+ usr/gen_init_cpio.c.rej                        |  24 --
+ 121 files changed, 455 insertions(+), 1731 deletions(-)
+ delete mode 100644 arch/arm/include/asm/atomic.h.rej
+ delete mode 100644 arch/arm/include/asm/elf.h.rej
+ delete mode 100644 arch/arm/kernel/process.c.rej
+ delete mode 100644 arch/x86/boot/Makefile.rej
+ delete mode 100644 arch/x86/ia32/ia32entry.S.rej
+ delete mode 100644 arch/x86/include/asm/fpu-internal.h.rej
+ delete mode 100644 arch/x86/include/asm/paravirt_types.h.rej
+ delete mode 100644 arch/x86/include/asm/pgtable_64_types.h.rej
+ delete mode 100644 arch/x86/kernel/entry_32.S.rej
+ delete mode 100644 arch/x86/kernel/entry_64.S.rej
+ delete mode 100644 arch/x86/kernel/irq.c.rej
+ delete mode 100644 arch/x86/kernel/relocate_kernel_64.S.rej
+ delete mode 100644 arch/x86/kernel/setup.c.rej
+ delete mode 100644 arch/x86/kernel/sys_x86_64.c.rej
+ delete mode 100644 arch/x86/mm/fault.c.rej
+ delete mode 100644 arch/x86/mm/init.c.rej
+ delete mode 100644 arch/x86/mm/ioremap.c.rej
+ delete mode 100644 arch/x86/mm/mmap.c.rej
+ delete mode 100644 arch/x86/xen/xen-asm_32.S.rej
+ delete mode 100644 drivers/base/power/wakeup.c.rej
+ delete mode 100644 drivers/gpu/drm/drm_fops.c.rej
+ delete mode 100644 drivers/gpu/drm/i915/i915_gem_execbuffer.c.rej
+ delete mode 100644 drivers/gpu/drm/i915/intel_display.c.rej
+ delete mode 100644 drivers/staging/speakup/speakup_soft.c.rej
+ delete mode 100644 fs/binfmt_elf.c.rej
+ delete mode 100644 fs/compat_ioctl.c.rej
+ delete mode 100644 fs/libfs.c.rej
+ delete mode 100644 fs/nfs/inode.c.rej
+ delete mode 100644 fs/proc/nommu.c.rej
+ delete mode 100644 fs/proc/task_mmu.c.rej
+ delete mode 100644 fs/proc/task_nommu.c.rej
+ delete mode 100644 include/linux/efi.h.rej
+ delete mode 100644 include/linux/gfp.h.rej
+ delete mode 100644 include/linux/if_team.h.rej
+ delete mode 100644 include/linux/sysctl.h.rej
+ delete mode 100644 include/linux/vmalloc.h.rej
+ delete mode 100644 include/net/inetpeer.h.rej
+ delete mode 100644 include/sound/soc.h.rej
+ delete mode 100644 kernel/audit.c.rej
+ delete mode 100644 kernel/module.c.rej
+ delete mode 100644 kernel/power/process.c.rej
+ delete mode 100644 kernel/rcutree.h.rej
+ delete mode 100644 kernel/smp.c.rej
+ delete mode 100644 kernel/trace/trace_stack.c.rej
+ delete mode 100644 lib/bitmap.c.rej
+ delete mode 100644 mm/hugetlb.c.rej
+ delete mode 100644 mm/memory-failure.c.rej
+ delete mode 100644 mm/memory.c.rej
+ delete mode 100644 mm/mmap.c.rej
+ delete mode 100644 mm/swap.c.rej
+ delete mode 100644 net/bluetooth/hci_conn.c.rej
+ delete mode 100644 net/bluetooth/l2cap_core.c.rej
+ delete mode 100644 net/compat.c.rej
+ delete mode 100644 net/ipv4/inetpeer.c.rej
+ delete mode 100644 net/ipv4/ping.c.rej
+ delete mode 100644 net/ipv4/route.c.rej
+ delete mode 100644 net/ipv4/udp.c.rej
+ delete mode 100644 net/phonet/socket.c.rej
+ delete mode 100644 net/socket.c.rej
+ delete mode 100644 security/keys/compat.c.rej
+ delete mode 100644 security/keys/keyctl.c.rej
+ delete mode 100644 security/selinux/hooks.c.rej
+ delete mode 100644 sound/soc/soc-pcm.c.rej
+ delete mode 100644 sound/usb/card.h.rej
+ delete mode 100644 usr/gen_init_cpio.c.rej
+
+diff --git a/arch/arm/include/asm/atomic.h b/arch/arm/include/asm/atomic.h
+index 621d737..8cc89ab 100644
+--- a/arch/arm/include/asm/atomic.h
++++ b/arch/arm/include/asm/atomic.h
+@@ -108,6 +108,42 @@ static inline int atomic_add_return(int i, atomic_t *v)
+ 	prefetchw(&v->counter);
+ 
+ 	__asm__ __volatile__("@ atomic_add_return\n"
++"1:	ldrex	%1, [%3]\n"
++"	adds	%0, %1, %4\n"
++
++#ifdef CONFIG_PAX_REFCOUNT
++"	bvc	3f\n"
++"	mov	%0, %1\n"
++"2:	bkpt	0xf103\n"
++"3:\n"
++#endif
++
++"	strex	%1, %0, [%3]\n"
++"	teq	%1, #0\n"
++"	bne	1b"
++
++#ifdef CONFIG_PAX_REFCOUNT
++"\n4:\n"
++	_ASM_EXTABLE(2b, 4b)
++#endif
++
++	: "=&r" (result), "=&r" (tmp), "+Qo" (v->counter)
++	: "r" (&v->counter), "Ir" (i)
++	: "cc");
++
++	smp_mb();
++
++	return result;
++}
++
++static inline int atomic_add_return_unchecked(int i, atomic_unchecked_t *v)
++{
++	unsigned long tmp;
++	int result;
++
++	smp_mb();
++
++	__asm__ __volatile__("@ atomic_add_return_unchecked\n"
+ "1:	ldrex	%0, [%3]\n"
+ "	add	%0, %0, %4\n"
+ "	strex	%1, %0, [%3]\n"
+@@ -176,11 +212,25 @@ static inline int atomic_sub_return(int i, atomic_t *v)
+ 	prefetchw(&v->counter);
+ 
+ 	__asm__ __volatile__("@ atomic_sub_return\n"
+-"1:	ldrex	%0, [%3]\n"
+-"	sub	%0, %0, %4\n"
++"1:	ldrex	%1, [%3]\n"
++"	subs	%0, %1, %4\n"
++
++#ifdef CONFIG_PAX_REFCOUNT
++"	bvc	3f\n"
++"	mov	%0, %1\n"
++"2:	bkpt	0xf103\n"
++"3:\n"
++#endif
++
+ "	strex	%1, %0, [%3]\n"
+ "	teq	%1, #0\n"
+ "	bne	1b"
++
++#ifdef CONFIG_PAX_REFCOUNT
++"\n4:\n"
++	_ASM_EXTABLE(2b, 4b)
++#endif
++
+ 	: "=&r" (result), "=&r" (tmp), "+Qo" (v->counter)
+ 	: "r" (&v->counter), "Ir" (i)
+ 	: "cc");
+@@ -213,6 +263,28 @@ static inline int atomic_cmpxchg(atomic_t *ptr, int old, int new)
+ 	return oldval;
+ }
+ 
++static inline int atomic_cmpxchg_unchecked(atomic_unchecked_t *ptr, int old, int new)
++{
++	unsigned long oldval, res;
++
++	smp_mb();
++
++	do {
++		__asm__ __volatile__("@ atomic_cmpxchg_unchecked\n"
++		"ldrex	%1, [%3]\n"
++		"mov	%0, #0\n"
++		"teq	%1, %4\n"
++		"strexeq %0, %5, [%3]\n"
++		    : "=&r" (res), "=&r" (oldval), "+Qo" (ptr->counter)
++		    : "r" (&ptr->counter), "Ir" (old), "r" (new)
++		    : "cc");
++	} while (res);
++
++	smp_mb();
++
++	return oldval;
++}
++
+ static inline int __atomic_add_unless(atomic_t *v, int a, int u)
+ {
+ 	int oldval, newval;
+@@ -302,6 +374,11 @@ static inline int atomic_cmpxchg(atomic_t *v, int old, int new)
+ 	return ret;
+ }
+ 
++static inline int atomic_cmpxchg_unchecked(atomic_unchecked_t *v, int old, int new)
++{
++	return atomic_cmpxchg(v, old, new);
++}
++
+ static inline int __atomic_add_unless(atomic_t *v, int a, int u)
+ {
+ 	int c, old;
+@@ -316,12 +393,33 @@ static inline int __atomic_add_unless(atomic_t *v, int a, int u)
+ 
+ #define atomic_xchg(v, new) (xchg(&((v)->counter), new))
+ 
++static inline int atomic_xchg_unchecked(atomic_unchecked_t *v, int new)
++{
++	return xchg(&v->counter, new);
++}
++
+ #define atomic_inc(v)		atomic_add(1, v)
++static inline void atomic_inc_unchecked(atomic_unchecked_t *v)
++{
++	atomic_add_unchecked(1, v);
++}
+ #define atomic_dec(v)		atomic_sub(1, v)
++static inline void atomic_dec_unchecked(atomic_unchecked_t *v)
++{
++	atomic_sub_unchecked(1, v);
++}
+ 
+ #define atomic_inc_and_test(v)	(atomic_add_return(1, v) == 0)
++static inline int atomic_inc_and_test_unchecked(atomic_unchecked_t *v)
++{
++	return atomic_add_return_unchecked(1, v) == 0;
++}
+ #define atomic_dec_and_test(v)	(atomic_sub_return(1, v) == 0)
+ #define atomic_inc_return(v)    (atomic_add_return(1, v))
++static inline int atomic_inc_return_unchecked(atomic_unchecked_t *v)
++{
++	return atomic_add_return_unchecked(1, v);
++}
+ #define atomic_dec_return(v)    (atomic_sub_return(1, v))
+ #define atomic_sub_and_test(i, v) (atomic_sub_return(i, v) == 0)
+ 
+@@ -337,6 +435,14 @@ typedef struct {
+ 	u64 __aligned(8) counter;
+ } atomic64_t;
+ 
++#ifdef CONFIG_PAX_REFCOUNT
++typedef struct {
++	u64 __aligned(8) counter;
++} atomic64_unchecked_t;
++#else
++typedef atomic64_t atomic64_unchecked_t;
++#endif
++
+ #define ATOMIC64_INIT(i) { (i) }
+ 
+ #ifdef CONFIG_ARM_LPAE
+@@ -401,6 +507,20 @@ static inline void atomic64_set(atomic64_t *v, u64 i)
+ 	: "r" (&v->counter), "r" (i)
+ 	: "cc");
+ }
++
++static inline void atomic64_set_unchecked(atomic64_unchecked_t *v, u64 i)
++{
++	u64 tmp;
++
++	__asm__ __volatile__("@ atomic64_set_unchecked\n"
++"1:	ldrexd	%0, %H0, [%2]\n"
++"	strexd	%0, %3, %H3, [%2]\n"
++"	teq	%0, #0\n"
++"	bne	1b"
++	: "=&r" (tmp), "=Qo" (v->counter)
++	: "r" (&v->counter), "r" (i)
++	: "cc");
++}
+ #endif
+ 
+ static inline void atomic64_add(u64 i, atomic64_t *v)
+@@ -452,13 +572,50 @@ static inline void atomic64_add_unchecked(u64 i, atomic64_unchecked_t *v)
+ 
+ static inline u64 atomic64_add_return(u64 i, atomic64_t *v)
+ {
++	u64 result, tmp;
++
++	smp_mb();
++
++	__asm__ __volatile__("@ atomic64_add_return\n"
++"1:	ldrexd	%1, %H1, [%3]\n"
++"	adds	%0, %1, %4\n"
++"	adcs	%H0, %H1, %H4\n"
++
++#ifdef CONFIG_PAX_REFCOUNT
++"	bvc	3f\n"
++"	mov	%0, %1\n"
++"	mov	%H0, %H1\n"
++"2:	bkpt	0xf103\n"
++"3:\n"
++#endif
++
++"	strexd	%1, %0, %H0, [%3]\n"
++"	teq	%1, #0\n"
++"	bne	1b"
++
++#ifdef CONFIG_PAX_REFCOUNT
++"\n4:\n"
++	_ASM_EXTABLE(2b, 4b)
++#endif
++
++	: "=&r" (result), "=&r" (tmp), "+Qo" (v->counter)
++	: "r" (&v->counter), "r" (i)
++	: "cc");
++
++	smp_mb();
++
++	return result;
++}
++
++static inline u64 atomic64_add_return_unchecked(u64 i, atomic64_unchecked_t *v)
++{
+ 	u64 result;
+ 	unsigned long tmp;
+ 
+ 	smp_mb();
+ 	prefetchw(&v->counter);
+ 
+-	__asm__ __volatile__("@ atomic64_add_return\n"
++	__asm__ __volatile__("@ atomic64_add_return_unchecked\n"
+ "1:	ldrexd	%0, %H0, [%3]\n"
+ "	adds	%0, %0, %4\n"
+ "	adc	%H0, %H0, %H4\n"
+@@ -482,7 +639,14 @@ static inline void atomic64_sub(u64 i, atomic64_t *v)
+ 	__asm__ __volatile__("@ atomic64_sub\n"
+ "1:	ldrexd	%0, %H0, [%3]\n"
+ "	subs	%0, %0, %4\n"
+-"	sbc	%H0, %H0, %H4\n"
++"	sbcs	%H0, %H0, %H4\n"
++
++#ifdef CONFIG_PAX_REFCOUNT
++"	bvc	3f\n"
++"2:	bkpt	0xf103\n"
++"3:\n"
++#endif
++
+ "	strexd	%1, %0, %H0, [%3]\n"
+ "	teq	%1, #0\n"
+ "	bne	1b"
+@@ -491,15 +655,14 @@ static inline void atomic64_sub(u64 i, atomic64_t *v)
+ 	: "cc");
+ }
+ 
+-static inline u64 atomic64_sub_return(u64 i, atomic64_t *v)
++static inline void atomic64_sub_unchecked(u64 i, atomic64_unchecked_t *v)
+ {
+ 	u64 result;
+ 	unsigned long tmp;
+ 
+-	smp_mb();
+ 	prefetchw(&v->counter);
+ 
+-	__asm__ __volatile__("@ atomic64_sub_return\n"
++	__asm__ __volatile__("@ atomic64_sub_unchecked\n"
+ "1:	ldrexd	%0, %H0, [%3]\n"
+ "	subs	%0, %0, %4\n"
+ "	sbc	%H0, %H0, %H4\n"
+@@ -621,22 +784,35 @@ static inline u64 atomic64_xchg(atomic64_t *ptr, u64 new)
+ 
+ static inline u64 atomic64_dec_if_positive(atomic64_t *v)
+ {
+-	u64 result;
+-	unsigned long tmp;
++	u64 result, tmp;
+ 
+ 	smp_mb();
+ 	prefetchw(&v->counter);
+ 
+ 	__asm__ __volatile__("@ atomic64_dec_if_positive\n"
+-"1:	ldrexd	%0, %H0, [%3]\n"
+-"	subs	%0, %0, #1\n"
+-"	sbc	%H0, %H0, #0\n"
++"1:	ldrexd	%1, %H1, [%3]\n"
++"	subs	%0, %1, #1\n"
++"	sbcs	%H0, %H1, #0\n"
++
++#ifdef CONFIG_PAX_REFCOUNT
++"	bvc	3f\n"
++"	mov	%0, %1\n"
++"	mov	%H0, %H1\n"
++"2:	bkpt	0xf103\n"
++"3:\n"
++#endif
++
+ "	teq	%H0, #0\n"
+-"	bmi	2f\n"
++"	bmi	4f\n"
+ "	strexd	%1, %0, %H0, [%3]\n"
+ "	teq	%1, #0\n"
+ "	bne	1b\n"
+-"2:"
++"4:\n"
++
++#ifdef CONFIG_PAX_REFCOUNT
++	_ASM_EXTABLE(2b, 4b)
++#endif
++
+ 	: "=&r" (result), "=&r" (tmp), "+Qo" (v->counter)
+ 	: "r" (&v->counter)
+ 	: "cc");
+diff --git a/arch/arm/include/asm/atomic.h.rej b/arch/arm/include/asm/atomic.h.rej
+deleted file mode 100644
+index 635cf3d..0000000
+--- a/arch/arm/include/asm/atomic.h.rej
++++ /dev/null
+@@ -1,321 +0,0 @@
+-diff a/arch/arm/include/asm/atomic.h b/arch/arm/include/asm/atomic.h	(rejected hunks)
+-@@ -60,6 +107,42 @@ static inline int atomic_add_return(int i, atomic_t *v)
+- 	smp_mb();
+- 
+- 	__asm__ __volatile__("@ atomic_add_return\n"
+-+"1:	ldrex	%1, [%3]\n"
+-+"	adds	%0, %1, %4\n"
+-+
+-+#ifdef CONFIG_PAX_REFCOUNT
+-+"	bvc	3f\n"
+-+"	mov	%0, %1\n"
+-+"2:	bkpt	0xf103\n"
+-+"3:\n"
+-+#endif
+-+
+-+"	strex	%1, %0, [%3]\n"
+-+"	teq	%1, #0\n"
+-+"	bne	1b"
+-+
+-+#ifdef CONFIG_PAX_REFCOUNT
+-+"\n4:\n"
+-+	_ASM_EXTABLE(2b, 4b)
+-+#endif
+-+
+-+	: "=&r" (result), "=&r" (tmp), "+Qo" (v->counter)
+-+	: "r" (&v->counter), "Ir" (i)
+-+	: "cc");
+-+
+-+	smp_mb();
+-+
+-+	return result;
+-+}
+-+
+-+static inline int atomic_add_return_unchecked(int i, atomic_unchecked_t *v)
+-+{
+-+	unsigned long tmp;
+-+	int result;
+-+
+-+	smp_mb();
+-+
+-+	__asm__ __volatile__("@ atomic_add_return_unchecked\n"
+- "1:	ldrex	%0, [%3]\n"
+- "	add	%0, %0, %4\n"
+- "	strex	%1, %0, [%3]\n"
+-@@ -98,11 +210,25 @@ static inline int atomic_sub_return(int i, atomic_t *v)
+- 	smp_mb();
+- 
+- 	__asm__ __volatile__("@ atomic_sub_return\n"
+--"1:	ldrex	%0, [%3]\n"
+--"	sub	%0, %0, %4\n"
+-+"1:	ldrex	%1, [%3]\n"
+-+"	subs	%0, %1, %4\n"
+-+
+-+#ifdef CONFIG_PAX_REFCOUNT
+-+"	bvc	3f\n"
+-+"	mov	%0, %1\n"
+-+"2:	bkpt	0xf103\n"
+-+"3:\n"
+-+#endif
+-+
+- "	strex	%1, %0, [%3]\n"
+- "	teq	%1, #0\n"
+- "	bne	1b"
+-+
+-+#ifdef CONFIG_PAX_REFCOUNT
+-+"\n4:\n"
+-+	_ASM_EXTABLE(2b, 4b)
+-+#endif
+-+
+- 	: "=&r" (result), "=&r" (tmp), "+Qo" (v->counter)
+- 	: "r" (&v->counter), "Ir" (i)
+- 	: "cc");
+-@@ -134,6 +260,28 @@ static inline int atomic_cmpxchg(atomic_t *ptr, int old, int new)
+- 	return oldval;
+- }
+- 
+-+static inline int atomic_cmpxchg_unchecked(atomic_unchecked_t *ptr, int old, int new)
+-+{
+-+	unsigned long oldval, res;
+-+
+-+	smp_mb();
+-+
+-+	do {
+-+		__asm__ __volatile__("@ atomic_cmpxchg_unchecked\n"
+-+		"ldrex	%1, [%3]\n"
+-+		"mov	%0, #0\n"
+-+		"teq	%1, %4\n"
+-+		"strexeq %0, %5, [%3]\n"
+-+		    : "=&r" (res), "=&r" (oldval), "+Qo" (ptr->counter)
+-+		    : "r" (&ptr->counter), "Ir" (old), "r" (new)
+-+		    : "cc");
+-+	} while (res);
+-+
+-+	smp_mb();
+-+
+-+	return oldval;
+-+}
+-+
+- static inline void atomic_clear_mask(unsigned long mask, unsigned long *addr)
+- {
+- 	unsigned long tmp, tmp2;
+-@@ -197,6 +359,11 @@ static inline int atomic_cmpxchg(atomic_t *v, int old, int new)
+- 	return ret;
+- }
+- 
+-+static inline int atomic_cmpxchg_unchecked(atomic_unchecked_t *v, int old, int new)
+-+{
+-+	return atomic_cmpxchg(v, old, new);
+-+}
+-+
+- static inline void atomic_clear_mask(unsigned long mask, unsigned long *addr)
+- {
+- 	unsigned long flags;
+-@@ -209,6 +376,10 @@ static inline void atomic_clear_mask(unsigned long mask, unsigned long *addr)
+- #endif /* __LINUX_ARM_ARCH__ */
+- 
+- #define atomic_xchg(v, new) (xchg(&((v)->counter), new))
+-+static inline int atomic_xchg_unchecked(atomic_unchecked_t *v, int new)
+-+{
+-+	return xchg(&v->counter, new);
+-+}
+- 
+- static inline int __atomic_add_unless(atomic_t *v, int a, int u)
+- {
+-@@ -221,11 +392,27 @@ static inline int __atomic_add_unless(atomic_t *v, int a, int u)
+- }
+- 
+- #define atomic_inc(v)		atomic_add(1, v)
+-+static inline void atomic_inc_unchecked(atomic_unchecked_t *v)
+-+{
+-+	atomic_add_unchecked(1, v);
+-+}
+- #define atomic_dec(v)		atomic_sub(1, v)
+-+static inline void atomic_dec_unchecked(atomic_unchecked_t *v)
+-+{
+-+	atomic_sub_unchecked(1, v);
+-+}
+- 
+- #define atomic_inc_and_test(v)	(atomic_add_return(1, v) == 0)
+-+static inline int atomic_inc_and_test_unchecked(atomic_unchecked_t *v)
+-+{
+-+	return atomic_add_return_unchecked(1, v) == 0;
+-+}
+- #define atomic_dec_and_test(v)	(atomic_sub_return(1, v) == 0)
+- #define atomic_inc_return(v)    (atomic_add_return(1, v))
+-+static inline int atomic_inc_return_unchecked(atomic_unchecked_t *v)
+-+{
+-+	return atomic_add_return_unchecked(1, v);
+-+}
+- #define atomic_dec_return(v)    (atomic_sub_return(1, v))
+- #define atomic_sub_and_test(i, v) (atomic_sub_return(i, v) == 0)
+- 
+-@@ -241,6 +428,14 @@ typedef struct {
+- 	u64 __aligned(8) counter;
+- } atomic64_t;
+- 
+-+#ifdef CONFIG_PAX_REFCOUNT
+-+typedef struct {
+-+	u64 __aligned(8) counter;
+-+} atomic64_unchecked_t;
+-+#else
+-+typedef atomic64_t atomic64_unchecked_t;
+-+#endif
+-+
+- #define ATOMIC64_INIT(i) { (i) }
+- 
+- static inline u64 atomic64_read(atomic64_t *v)
+-@@ -270,6 +478,20 @@ static inline void atomic64_set(atomic64_t *v, u64 i)
+- 	: "cc");
+- }
+- 
+-+static inline void atomic64_set_unchecked(atomic64_unchecked_t *v, u64 i)
+-+{
+-+	u64 tmp;
+-+
+-+	__asm__ __volatile__("@ atomic64_set_unchecked\n"
+-+"1:	ldrexd	%0, %H0, [%2]\n"
+-+"	strexd	%0, %3, %H3, [%2]\n"
+-+"	teq	%0, #0\n"
+-+"	bne	1b"
+-+	: "=&r" (tmp), "=Qo" (v->counter)
+-+	: "r" (&v->counter), "r" (i)
+-+	: "cc");
+-+}
+-+
+- static inline void atomic64_add(u64 i, atomic64_t *v)
+- {
+- 	u64 result;
+-@@ -289,12 +541,49 @@ static inline void atomic64_add(u64 i, atomic64_t *v)
+- 
+- static inline u64 atomic64_add_return(u64 i, atomic64_t *v)
+- {
+-+	u64 result, tmp;
+-+
+-+	smp_mb();
+-+
+-+	__asm__ __volatile__("@ atomic64_add_return\n"
+-+"1:	ldrexd	%1, %H1, [%3]\n"
+-+"	adds	%0, %1, %4\n"
+-+"	adcs	%H0, %H1, %H4\n"
+-+
+-+#ifdef CONFIG_PAX_REFCOUNT
+-+"	bvc	3f\n"
+-+"	mov	%0, %1\n"
+-+"	mov	%H0, %H1\n"
+-+"2:	bkpt	0xf103\n"
+-+"3:\n"
+-+#endif
+-+
+-+"	strexd	%1, %0, %H0, [%3]\n"
+-+"	teq	%1, #0\n"
+-+"	bne	1b"
+-+
+-+#ifdef CONFIG_PAX_REFCOUNT
+-+"\n4:\n"
+-+	_ASM_EXTABLE(2b, 4b)
+-+#endif
+-+
+-+	: "=&r" (result), "=&r" (tmp), "+Qo" (v->counter)
+-+	: "r" (&v->counter), "r" (i)
+-+	: "cc");
+-+
+-+	smp_mb();
+-+
+-+	return result;
+-+}
+-+
+-+static inline u64 atomic64_add_return_unchecked(u64 i, atomic64_unchecked_t *v)
+-+{
+- 	u64 result;
+- 	unsigned long tmp;
+- 
+- 	smp_mb();
+- 
+--	__asm__ __volatile__("@ atomic64_add_return\n"
+-+	__asm__ __volatile__("@ atomic64_add_return_unchecked\n"
+- "1:	ldrexd	%0, %H0, [%3]\n"
+- "	adds	%0, %0, %4\n"
+- "	adc	%H0, %H0, %H4\n"
+-@@ -318,23 +607,34 @@ static inline void atomic64_sub(u64 i, atomic64_t *v)
+- 	__asm__ __volatile__("@ atomic64_sub\n"
+- "1:	ldrexd	%0, %H0, [%3]\n"
+- "	subs	%0, %0, %4\n"
+--"	sbc	%H0, %H0, %H4\n"
+-+"	sbcs	%H0, %H0, %H4\n"
+-+
+-+#ifdef CONFIG_PAX_REFCOUNT
+-+"	bvc	3f\n"
+-+"2:	bkpt	0xf103\n"
+-+"3:\n"
+-+#endif
+-+
+- "	strexd	%1, %0, %H0, [%3]\n"
+- "	teq	%1, #0\n"
+- "	bne	1b"
+-+
+-+#ifdef CONFIG_PAX_REFCOUNT
+-+"\n4:\n"
+-+	_ASM_EXTABLE(2b, 4b)
+-+#endif
+-+
+- 	: "=&r" (result), "=&r" (tmp), "+Qo" (v->counter)
+- 	: "r" (&v->counter), "r" (i)
+- 	: "cc");
+- }
+- 
+--static inline u64 atomic64_sub_return(u64 i, atomic64_t *v)
+-+static inline void atomic64_sub_unchecked(u64 i, atomic64_unchecked_t *v)
+- {
+- 	u64 result;
+- 	unsigned long tmp;
+- 
+--	smp_mb();
+--
+--	__asm__ __volatile__("@ atomic64_sub_return\n"
+-+	__asm__ __volatile__("@ atomic64_sub_unchecked\n"
+- "1:	ldrexd	%0, %H0, [%3]\n"
+- "	subs	%0, %0, %4\n"
+- "	sbc	%H0, %H0, %H4\n"
+-@@ -397,21 +754,34 @@ static inline u64 atomic64_xchg(atomic64_t *ptr, u64 new)
+- 
+- static inline u64 atomic64_dec_if_positive(atomic64_t *v)
+- {
+--	u64 result;
+--	unsigned long tmp;
+-+	u64 result, tmp;
+- 
+- 	smp_mb();
+- 
+- 	__asm__ __volatile__("@ atomic64_dec_if_positive\n"
+--"1:	ldrexd	%0, %H0, [%3]\n"
+--"	subs	%0, %0, #1\n"
+--"	sbc	%H0, %H0, #0\n"
+-+"1:	ldrexd	%1, %H1, [%3]\n"
+-+"	subs	%0, %1, #1\n"
+-+"	sbcs	%H0, %H1, #0\n"
+-+
+-+#ifdef CONFIG_PAX_REFCOUNT
+-+"	bvc	3f\n"
+-+"	mov	%0, %1\n"
+-+"	mov	%H0, %H1\n"
+-+"2:	bkpt	0xf103\n"
+-+"3:\n"
+-+#endif
+-+
+- "	teq	%H0, #0\n"
+--"	bmi	2f\n"
+-+"	bmi	4f\n"
+- "	strexd	%1, %0, %H0, [%3]\n"
+- "	teq	%1, #0\n"
+- "	bne	1b\n"
+--"2:"
+-+"4:\n"
+-+
+-+#ifdef CONFIG_PAX_REFCOUNT
+-+	_ASM_EXTABLE(2b, 4b)
+-+#endif
+-+
+- 	: "=&r" (result), "=&r" (tmp), "+Qo" (v->counter)
+- 	: "r" (&v->counter)
+- 	: "cc");
+diff --git a/arch/arm/include/asm/elf.h b/arch/arm/include/asm/elf.h
+index ce6e306..5c9b3a1 100644
+--- a/arch/arm/include/asm/elf.h
++++ b/arch/arm/include/asm/elf.h
+@@ -126,10 +126,6 @@ int dump_task_regs(struct task_struct *t, elf_gregset_t *elfregs);
+ extern void elf_set_personality(const struct elf32_hdr *);
+ #define SET_PERSONALITY(ex)	elf_set_personality(&(ex))
+ 
+-struct mm_struct;
+-extern unsigned long arch_randomize_brk(struct mm_struct *mm);
+-#define arch_randomize_brk arch_randomize_brk
+-
+ #ifdef CONFIG_MMU
+ #define ARCH_HAS_SETUP_ADDITIONAL_PAGES 1
+ struct linux_binprm;
+diff --git a/arch/arm/include/asm/elf.h.rej b/arch/arm/include/asm/elf.h.rej
+deleted file mode 100644
+index 732816df6..0000000
+--- a/arch/arm/include/asm/elf.h.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- arch/arm/include/asm/elf.h	2012-05-21 11:32:31.723926261 +0200
+-+++ arch/arm/include/asm/elf.h	2012-05-21 12:10:08.424048829 +0200
+-@@ -133,8 +140,4 @@ int dump_task_regs(struct task_struct *t
+- extern void elf_set_personality(const struct elf32_hdr *);
+- #define SET_PERSONALITY(ex)	elf_set_personality(&(ex))
+-
+--struct mm_struct;
+--extern unsigned long arch_randomize_brk(struct mm_struct *mm);
+--#define arch_randomize_brk arch_randomize_brk
+--
+- #endif
+diff --git a/arch/arm/kernel/process.c b/arch/arm/kernel/process.c
+index c422585..07be50c 100644
+--- a/arch/arm/kernel/process.c
++++ b/arch/arm/kernel/process.c
+@@ -354,6 +354,7 @@ void machine_power_off(void)
+ 
+ 	if (pm_power_off)
+ 		pm_power_off();
++	BUG();
+ }
+ 
+ /*
+@@ -367,7 +368,7 @@ void machine_power_off(void)
+  * executing pre-reset code, and using RAM that the primary CPU's code wishes
+  * to use. Implementing such co-ordination would be essentially impossible.
+  */
+-void machine_restart(char *cmd)
++__noreturn void machine_restart(char *cmd)
+ {
+ 	smp_send_stop();
+ 
+diff --git a/arch/arm/kernel/process.c.rej b/arch/arm/kernel/process.c.rej
+deleted file mode 100644
+index 0b8d034..0000000
+--- a/arch/arm/kernel/process.c.rej
++++ /dev/null
+@@ -1,13 +0,0 @@
+-diff a/arch/arm/kernel/process.c b/arch/arm/kernel/process.c	(rejected hunks)
+-@@ -332,9 +331,10 @@ void machine_power_off(void)
+- 	machine_shutdown();
+- 	if (pm_power_off)
+- 		pm_power_off();
+-+	BUG();
+- }
+- 
+--void machine_restart(char *cmd)
+-+__noreturn void machine_restart(char *cmd)
+- {
+- 	machine_shutdown();
+- 
+diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
+index 8dfb1ff..c04c68c 100644
+--- a/arch/x86/boot/Makefile
++++ b/arch/x86/boot/Makefile
+@@ -64,6 +64,9 @@ KBUILD_CFLAGS	:= $(LINUXINCLUDE) -m32 -g -Os -D_SETUP -D__KERNEL__ \
+ 		   $(call cc-option, -fno-unit-at-a-time)) \
+ 		   $(call cc-option, -fno-stack-protector) \
+ 		   $(call cc-option, -mpreferred-stack-boundary=2)
++ifdef CONSTIFY_PLUGIN
++KBUILD_CFLAGS	+= $(CONSTIFY_PLUGIN) -fplugin-arg-constify_plugin-no-constify
++endif
+ KBUILD_AFLAGS	:= $(KBUILD_CFLAGS) -D__ASSEMBLY__
+ GCOV_PROFILE := n
+ 
+diff --git a/arch/x86/boot/Makefile.rej b/arch/x86/boot/Makefile.rej
+deleted file mode 100644
+index f90340c..0000000
+--- a/arch/x86/boot/Makefile.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- arch/x86/boot/Makefile	2012-05-21 11:32:56.723927619 +0200
+-+++ arch/x86/boot/Makefile	2012-05-21 12:10:09.268048874 +0200
+-@@ -64,6 +64,9 @@ KBUILD_CFLAGS	:= $(LINUXINCLUDE) -g -Os
+-		   $(call cc-option, -fno-stack-protector) \
+-		   $(call cc-option, -mpreferred-stack-boundary=2)
+- KBUILD_CFLAGS	+= $(call cc-option, -m32)
+-+ifdef CONSTIFY_PLUGIN
+-+KBUILD_CFLAGS	+= $(CONSTIFY_PLUGIN) -fplugin-arg-constify_plugin-no-constify
+-+endif
+- KBUILD_AFLAGS	:= $(KBUILD_CFLAGS) -D__ASSEMBLY__
+- GCOV_PROFILE := n
+diff --git a/arch/x86/ia32/ia32entry.S b/arch/x86/ia32/ia32entry.S
+index 6f3a5e3..3ca82b9 100644
+--- a/arch/x86/ia32/ia32entry.S
++++ b/arch/x86/ia32/ia32entry.S
+@@ -256,11 +256,12 @@ sysexit_from_sys_call:
+ 1:	setbe %al		/* 1 if error, 0 if not */
+ 	movzbl %al,%edi		/* zero-extend that into %edi */
+ 	call __audit_syscall_exit
++	GET_THREAD_INFO(%r11)
+ 	movq RAX-ARGOFFSET(%rsp),%rax	/* reload syscall return value */
+ 	movl $(_TIF_ALLWORK_MASK & ~_TIF_SYSCALL_AUDIT),%edi
+ 	DISABLE_INTERRUPTS(CLBR_NONE)
+ 	TRACE_IRQS_OFF
+-	testl %edi,TI_flags+THREAD_INFO(%rsp,RIP-ARGOFFSET)
++	testl %edi,TI_flags(%r11)
+ 	jz \exit
+ 	CLEAR_RREGS -ARGOFFSET
+ 	jmp int_with_check
+diff --git a/arch/x86/ia32/ia32entry.S.rej b/arch/x86/ia32/ia32entry.S.rej
+deleted file mode 100644
+index 164a807..0000000
+--- a/arch/x86/ia32/ia32entry.S.rej
++++ /dev/null
+@@ -1,16 +0,0 @@
+---- arch/x86/ia32/ia32entry.S	2012-03-19 10:38:56.404050007 +0100
+-+++ arch/x86/ia32/ia32entry.S	2012-05-21 12:10:09.300048875 +0200
+-@@ -256,11 +299,12 @@ sysexit_from_sys_call:
+- 1:	setbe %al		/* 1 if error, 0 if not */
+-	movzbl %al,%edi		/* zero-extend that into %edi */
+-	call __audit_syscall_exit
+-+	GET_THREAD_INFO(%r11)
+-	movq RAX-ARGOFFSET(%rsp),%rax	/* reload syscall return value */
+-	movl $(_TIF_ALLWORK_MASK & ~_TIF_SYSCALL_AUDIT),%edi
+-	cli
+-	TRACE_IRQS_OFF
+--	testl %edi,TI_flags+THREAD_INFO(%rsp,RIP-ARGOFFSET)
+-+	testl %edi,TI_flags(%r11)
+-	jz \exit
+-	CLEAR_RREGS -ARGOFFSET
+-	jmp int_with_check
+diff --git a/arch/x86/include/asm/fpu-internal.h b/arch/x86/include/asm/fpu-internal.h
+index 1da9ad0..19caec5 100644
+--- a/arch/x86/include/asm/fpu-internal.h
++++ b/arch/x86/include/asm/fpu-internal.h
+@@ -281,7 +281,7 @@ static inline int restore_fpu_checking(struct task_struct *tsk)
+ 			"fnclex\n\t"
+ 			"emms\n\t"
+ 			"fildl %P[addr]"	/* set F?P to defined value */
+-			: : [addr] "m" (tsk->thread.fpu.has_fpu));
++			: : [addr] "m" (init_tss[smp_processor_id()].x86_tss.sp0));
+ 	}
+ 
+ 	return fpu_restore_checking(&tsk->thread.fpu);
+diff --git a/arch/x86/include/asm/fpu-internal.h.rej b/arch/x86/include/asm/fpu-internal.h.rej
+deleted file mode 100644
+index 625c8ea..0000000
+--- a/arch/x86/include/asm/fpu-internal.h.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- arch/x86/include/asm/fpu-internal.h	2012-05-21 11:32:56.839927625 +0200
+-+++ arch/x86/include/asm/fpu-internal.h	2012-05-21 12:10:09.348048879 +0200
+-@@ -281,7 +291,7 @@ static inline int restore_fpu_checking(s
+-		"emms\n\t"		/* clear stack tags */
+-		"fildl %P[addr]",	/* set F?P to defined value */
+-		X86_FEATURE_FXSAVE_LEAK,
+--		[addr] "m" (tsk->thread.fpu.has_fpu));
+-+		[addr] "m" (init_tss[smp_processor_id()].x86_tss.sp0));
+-
+-	return fpu_restore_checking(&tsk->thread.fpu);
+- }
+diff --git a/arch/x86/include/asm/paravirt_types.h b/arch/x86/include/asm/paravirt_types.h
+index 8428be1..53d3344 100644
+--- a/arch/x86/include/asm/paravirt_types.h
++++ b/arch/x86/include/asm/paravirt_types.h
+@@ -84,7 +84,7 @@ struct pv_init_ops {
+ 	 */
+ 	unsigned (*patch)(u8 type, u16 clobber, void *insnbuf,
+ 			  unsigned long addr, unsigned len);
+-};
++} __no_const;
+ 
+ 
+ struct pv_lazy_ops {
+@@ -92,13 +92,13 @@ struct pv_lazy_ops {
+ 	void (*enter)(void);
+ 	void (*leave)(void);
+ 	void (*flush)(void);
+-};
++} __no_const;
+ 
+ struct pv_time_ops {
+ 	unsigned long long (*sched_clock)(void);
+ 	unsigned long long (*steal_clock)(int cpu);
+ 	unsigned long (*get_tsc_khz)(void);
+-};
++} __no_const;
+ 
+ struct pv_cpu_ops {
+ 	/* hooks for various privileged instructions */
+diff --git a/arch/x86/include/asm/paravirt_types.h.rej b/arch/x86/include/asm/paravirt_types.h.rej
+deleted file mode 100644
+index 72d0834..0000000
+--- a/arch/x86/include/asm/paravirt_types.h.rej
++++ /dev/null
+@@ -1,26 +0,0 @@
+---- arch/x86/include/asm/paravirt_types.h	2011-10-24 12:48:26.123091780 +0200
+-+++ arch/x86/include/asm/paravirt_types.h	2012-05-21 12:10:09.376048880 +0200
+-@@ -84,20 +84,20 @@ struct pv_init_ops {
+-	 */
+-	unsigned (*patch)(u8 type, u16 clobber, void *insnbuf,
+-			  unsigned long addr, unsigned len);
+--};
+-+} __no_const;
+-
+-
+- struct pv_lazy_ops {
+-	/* Set deferred update mode, used for batching operations. */
+-	void (*enter)(void);
+-	void (*leave)(void);
+--};
+-+} __no_const;
+-
+- struct pv_time_ops {
+-	unsigned long long (*sched_clock)(void);
+-	unsigned long long (*steal_clock)(int cpu);
+-	unsigned long (*get_tsc_khz)(void);
+--};
+-+} __no_const;
+-
+- struct pv_cpu_ops {
+-	/* hooks for various privileged instructions */
+diff --git a/arch/x86/include/asm/pgtable_64_types.h b/arch/x86/include/asm/pgtable_64_types.h
+index 51817fa..8c2c4e4 100644
+--- a/arch/x86/include/asm/pgtable_64_types.h
++++ b/arch/x86/include/asm/pgtable_64_types.h
+@@ -61,5 +61,10 @@ typedef struct { pteval_t pte; } pte_t;
+ #define MODULES_LEN   (MODULES_END - MODULES_VADDR)
+ #define ESPFIX_PGD_ENTRY _AC(-2, UL)
+ #define ESPFIX_BASE_ADDR (ESPFIX_PGD_ENTRY << PGDIR_SHIFT)
++#define MODULES_EXEC_VADDR MODULES_VADDR
++#define MODULES_EXEC_END MODULES_END
++
++#define ktla_ktva(addr)		(addr)
++#define ktva_ktla(addr)		(addr)
+ 
+ #endif /* _ASM_X86_PGTABLE_64_DEFS_H */
+diff --git a/arch/x86/include/asm/pgtable_64_types.h.rej b/arch/x86/include/asm/pgtable_64_types.h.rej
+deleted file mode 100644
+index 3bb8f29..0000000
+--- a/arch/x86/include/asm/pgtable_64_types.h.rej
++++ /dev/null
+@@ -1,13 +0,0 @@
+---- arch/x86/include/asm/pgtable_64_types.h	2011-07-22 04:17:23.000000000 +0200
+-+++ arch/x86/include/asm/pgtable_64_types.h	2012-05-21 12:10:09.388048880 +0200
+-@@ -59,5 +59,10 @@ typedef struct { pteval_t pte; } pte_t;
+- #define MODULES_VADDR    _AC(0xffffffffa0000000, UL)
+- #define MODULES_END      _AC(0xffffffffff000000, UL)
+- #define MODULES_LEN   (MODULES_END - MODULES_VADDR)
+-+#define MODULES_EXEC_VADDR MODULES_VADDR
+-+#define MODULES_EXEC_END MODULES_END
+-+
+-+#define ktla_ktva(addr)		(addr)
+-+#define ktva_ktla(addr)		(addr)
+-
+- #endif /* _ASM_X86_PGTABLE_64_DEFS_H */
+diff --git a/arch/x86/kernel/entry_32.S b/arch/x86/kernel/entry_32.S
+index 80cdf03..4b7eecc 100644
+--- a/arch/x86/kernel/entry_32.S
++++ b/arch/x86/kernel/entry_32.S
+@@ -878,25 +878,29 @@ syscall_exit_work:
+ 	movl %esp, %eax
+ 	call syscall_trace_leave
+ 	jmp resume_userspace
+-END(syscall_exit_work)
++ENDPROC(syscall_exit_work)
+ 	CFI_ENDPROC
+ 
+ 	RING0_INT_FRAME			# can't unwind into user space anyway
+ syscall_fault:
++#ifdef CONFIG_PAX_MEMORY_UDEREF
++	push %ss
++	pop %ds
++#endif
+ 	GET_THREAD_INFO(%ebp)
+ 	movl $-EFAULT,PT_EAX(%esp)
+ 	jmp resume_userspace
+-END(syscall_fault)
++ENDPROC(syscall_fault)
+ 
+ syscall_badsys:
+ 	movl $-ENOSYS,%eax
+ 	jmp syscall_after_call
+-END(syscall_badsys)
++ENDPROC(syscall_badsys)
+ 
+ sysenter_badsys:
+ 	movl $-ENOSYS,%eax
+ 	jmp sysenter_after_call
+-END(syscall_badsys)
++ENDPROC(syscall_badsys) 		#This might not belong
+ 	CFI_ENDPROC
+ /*
+  * End of kprobes section
+@@ -1639,13 +1643,16 @@ nmi_espfix_stack:
+ 	FIXUP_ESPFIX_STACK		# %eax == %esp
+ 	xorl %edx,%edx			# zero error code
+ 	call do_nmi
++
++	pax_exit_kernel
++
+ 	RESTORE_REGS
+ 	lss 12+4(%esp), %esp		# back to espfix stack
+ 	CFI_ADJUST_CFA_OFFSET -24
+ 	jmp irq_return
+ #endif
+ 	CFI_ENDPROC
+-END(nmi)
++ENDPROC(nmi)
+ 
+ ENTRY(int3)
+ 	RING0_INT_FRAME
+diff --git a/arch/x86/kernel/entry_32.S.rej b/arch/x86/kernel/entry_32.S.rej
+deleted file mode 100644
+index 39bbe03..0000000
+--- a/arch/x86/kernel/entry_32.S.rej
++++ /dev/null
+@@ -1,47 +0,0 @@
+---- arch/x86/kernel/entry_32.S	2012-05-21 11:32:57.475927660 +0200
+-+++ arch/x86/kernel/entry_32.S	2012-05-21 12:10:09.520048888 +0200
+-@@ -877,20 +1083,24 @@ syscall_exit_work:
+-	movl %esp, %eax
+-	call syscall_trace_leave
+-	jmp resume_userspace
+--END(syscall_exit_work)
+-+ENDPROC(syscall_exit_work)
+-	CFI_ENDPROC
+-
+-	RING0_INT_FRAME			# can't unwind into user space anyway
+- syscall_fault:
+-+#ifdef CONFIG_PAX_MEMORY_UDEREF
+-+	push %ss
+-+	pop %ds
+-+#endif
+-	GET_THREAD_INFO(%ebp)
+-	movl $-EFAULT,PT_EAX(%esp)
+-	jmp resume_userspace
+--END(syscall_fault)
+-+ENDPROC(syscall_fault)
+-
+- syscall_badsys:
+-	movl $-ENOSYS,PT_EAX(%esp)
+-	jmp resume_userspace
+--END(syscall_badsys)
+-+ENDPROC(syscall_badsys)
+-	CFI_ENDPROC
+- /*
+-  * End of kprobes section
+-@@ -1625,12 +1878,15 @@ nmi_espfix_stack:
+-	FIXUP_ESPFIX_STACK		# %eax == %esp
+-	xorl %edx,%edx			# zero error code
+-	call do_nmi
+-+
+-+	pax_exit_kernel
+-+
+-	RESTORE_REGS
+-	lss 12+4(%esp), %esp		# back to espfix stack
+-	CFI_ADJUST_CFA_OFFSET -24
+-	jmp irq_return
+-	CFI_ENDPROC
+--END(nmi)
+-+ENDPROC(nmi)
+-
+- ENTRY(int3)
+-	RING0_INT_FRAME
+diff --git a/arch/x86/kernel/entry_64.S b/arch/x86/kernel/entry_64.S
+index d5e04292..3781f9d 100644
+--- a/arch/x86/kernel/entry_64.S
++++ b/arch/x86/kernel/entry_64.S
+@@ -1310,7 +1310,7 @@ ENTRY(retint_kernel)
+ 	jmp exit_intr
+ #endif
+ 	CFI_ENDPROC
+-END(common_interrupt)
++ENDPROC(common_interrupt)
+ 
+ /*
+  * End of kprobes section
+diff --git a/arch/x86/kernel/entry_64.S.rej b/arch/x86/kernel/entry_64.S.rej
+deleted file mode 100644
+index 9d787a754..0000000
+--- a/arch/x86/kernel/entry_64.S.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- arch/x86/kernel/entry_64.S	2012-05-21 11:32:57.479927660 +0200
+-+++ arch/x86/kernel/entry_64.S	2012-05-21 12:10:09.524048888 +0200
+-@@ -1293,7 +1607,7 @@ ENTRY(retint_kernel)
+- #endif
+-
+-	CFI_ENDPROC
+--END(common_interrupt)
+-+ENDPROC(common_interrupt)
+- /*
+-  * End of kprobes section
+-  */
+diff --git a/arch/x86/kernel/irq.c b/arch/x86/kernel/irq.c
+index 145b03af..3e707a2 100644
+--- a/arch/x86/kernel/irq.c
++++ b/arch/x86/kernel/irq.c
+@@ -164,7 +164,7 @@ u64 arch_irq_stat_cpu(unsigned int cpu)
+ 
+ u64 arch_irq_stat(void)
+ {
+-	u64 sum = atomic_read(&irq_err_count);
++	u64 sum = atomic_read_unchecked(&irq_err_count);
+ 	return sum;
+ }
+ 
+diff --git a/arch/x86/kernel/irq.c.rej b/arch/x86/kernel/irq.c.rej
+deleted file mode 100644
+index a8779b5..0000000
+--- a/arch/x86/kernel/irq.c.rej
++++ /dev/null
+@@ -1,15 +0,0 @@
+---- arch/x86/kernel/irq.c	2012-05-21 11:32:57.491927661 +0200
+-+++ arch/x86/kernel/irq.c	2012-05-21 12:10:09.552048890 +0200
+-@@ -164,10 +164,10 @@ u64 arch_irq_stat_cpu(unsigned int cpu)
+-
+- u64 arch_irq_stat(void)
+- {
+--	u64 sum = atomic_read(&irq_err_count);
+-+	u64 sum = atomic_read_unchecked(&irq_err_count);
+-
+- #ifdef CONFIG_X86_IO_APIC
+--	sum += atomic_read(&irq_mis_count);
+-+	sum += atomic_read_unchecked(&irq_mis_count);
+- #endif
+-	return sum;
+- }
+diff --git a/arch/x86/kernel/relocate_kernel_64.S b/arch/x86/kernel/relocate_kernel_64.S
+index b5a911a..bed145d7 100644
+--- a/arch/x86/kernel/relocate_kernel_64.S
++++ b/arch/x86/kernel/relocate_kernel_64.S
+@@ -168,6 +168,7 @@ identity_mapped:
+ 	xorq	%r14, %r14
+ 	xorq	%r15, %r15
+ 
++	pax_force_retaddr 0, 1
+ 	ret
+ 
+ 1:
+diff --git a/arch/x86/kernel/relocate_kernel_64.S.rej b/arch/x86/kernel/relocate_kernel_64.S.rej
+deleted file mode 100644
+index 2ff6a6df..0000000
+--- a/arch/x86/kernel/relocate_kernel_64.S.rej
++++ /dev/null
+@@ -1,18 +0,0 @@
+---- arch/x86/kernel/relocate_kernel_64.S	2011-10-24 12:48:26.271091772 +0200
+-+++ arch/x86/kernel/relocate_kernel_64.S	2012-05-21 12:10:09.608048893 +0200
+-@@ -161,13 +162,14 @@ identity_mapped:
+-	xorq    %rbp, %rbp
+-	xorq	%r8,  %r8
+-	xorq	%r9,  %r9
+--	xorq	%r10, %r9
+-+	xorq	%r10, %r10
+-	xorq	%r11, %r11
+-	xorq	%r12, %r12
+-	xorq	%r13, %r13
+-	xorq	%r14, %r14
+-	xorq	%r15, %r15
+-
+-+	pax_force_retaddr 0, 1
+-	ret
+-
+- 1:
+diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+index e0723df..95fa25a 100644
+--- a/arch/x86/kernel/setup.c
++++ b/arch/x86/kernel/setup.c
+@@ -717,7 +717,7 @@ static void __init trim_bios_range(void)
+ 	 * area (640->1Mb) as ram even though it is not.
+ 	 * take them out.
+ 	 */
+-	e820_remove_range(BIOS_BEGIN, BIOS_END - BIOS_BEGIN, E820_RAM, 1);
++	e820_remove_range(ISA_START_ADDRESS, ISA_END_ADDRESS - ISA_START_ADDRESS, E820_RAM, 1);
+ 
+ 	sanitize_e820_map(e820.map, ARRAY_SIZE(e820.map), &e820.nr_map);
+ }
+diff --git a/arch/x86/kernel/setup.c.rej b/arch/x86/kernel/setup.c.rej
+deleted file mode 100644
+index 27c0bc0..0000000
+--- a/arch/x86/kernel/setup.c.rej
++++ /dev/null
+@@ -1,10 +0,0 @@
+---- arch/x86/kernel/setup.c	2012-05-21 11:32:57.635927669 +0200
+-+++ arch/x86/kernel/setup.c	2012-05-21 12:10:09.608048893 +0200
+-@@ -639,7 +639,7 @@ static void __init trim_bios_range(void)
+-	 * area (640->1Mb) as ram even though it is not.
+-	 * take them out.
+-	 */
+--	e820_remove_range(BIOS_BEGIN, BIOS_END - BIOS_BEGIN, E820_RAM, 1);
+-+	e820_remove_range(ISA_START_ADDRESS, ISA_END_ADDRESS - ISA_START_ADDRESS, E820_RAM, 1);
+-	sanitize_e820_map(e820.map, ARRAY_SIZE(e820.map), &e820.nr_map);
+- }
+diff --git a/arch/x86/kernel/sys_x86_64.c.rej b/arch/x86/kernel/sys_x86_64.c.rej
+deleted file mode 100644
+index d74c3f9..0000000
+--- a/arch/x86/kernel/sys_x86_64.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- arch/x86/kernel/sys_x86_64.c	2012-05-21 11:32:57.659927670 +0200
+-+++ arch/x86/kernel/sys_x86_64.c	2012-05-21 12:10:09.624048894 +0200
+-@@ -115,7 +115,7 @@ static void find_start_end(unsigned long
+-				*begin = new_begin;
+-		}
+-	} else {
+--		*begin = TASK_UNMAPPED_BASE;
+-+		*begin = mm->mmap_base;
+-		*end = TASK_SIZE;
+-	}
+- }
+diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+index e16e973..2d0f632 100644
+--- a/arch/x86/mm/fault.c
++++ b/arch/x86/mm/fault.c
+@@ -825,6 +825,22 @@ __bad_area_nosemaphore(struct pt_regs *regs, unsigned long error_code,
+ 				return;
+ 		}
+ #endif
++
++#if defined(CONFIG_PAX_PAGEEXEC) || defined(CONFIG_PAX_SEGMEXEC)
++		if (pax_is_fetch_fault(regs, error_code, address)) {
++
++#ifdef CONFIG_PAX_EMUTRAMP
++			switch (pax_handle_fetch_fault(regs)) {
++			case 2:
++				return;
++			}
++#endif
++
++			pax_report_fault(regs, (void *)regs->ip, (void *)regs->sp);
++			do_group_exit(SIGKILL);
++		}
++#endif
++
+ 		/* Kernel addresses are always protection faults: */
+ 		if (address >= TASK_SIZE)
+ 			error_code |= PF_PROT;
+diff --git a/arch/x86/mm/fault.c.rej b/arch/x86/mm/fault.c.rej
+deleted file mode 100644
+index 51b534c..0000000
+--- a/arch/x86/mm/fault.c.rej
++++ /dev/null
+@@ -1,23 +0,0 @@
+---- arch/x86/mm/fault.c	2012-05-21 11:32:57.831927679 +0200
+-+++ arch/x86/mm/fault.c	2012-05-26 01:07:07.428801082 +0200
+-@@ -824,6 +900,21 @@ __bad_area_nosemaphore(struct pt_regs *r
+-		}
+- #endif
+-
+-+#if defined(CONFIG_PAX_PAGEEXEC) || defined(CONFIG_PAX_SEGMEXEC)
+-+		if (pax_is_fetch_fault(regs, error_code, address)) {
+-+
+-+#ifdef CONFIG_PAX_EMUTRAMP
+-+			switch (pax_handle_fetch_fault(regs)) {
+-+			case 2:
+-+				return;
+-+			}
+-+#endif
+-+
+-+			pax_report_fault(regs, (void *)regs->ip, (void *)regs->sp);
+-+			do_group_exit(SIGKILL);
+-+		}
+-+#endif
+-+
+-		if (unlikely(show_unhandled_signals))
+-			show_signal_msg(regs, error_code, address, tsk);
+diff --git a/arch/x86/mm/init.c b/arch/x86/mm/init.c
+index 250a08c..01bfdea 100644
+--- a/arch/x86/mm/init.c
++++ b/arch/x86/mm/init.c
+@@ -44,7 +44,7 @@ struct map_range {
+ static void __init find_early_table_space(struct map_range *mr, int nr_range)
+ {
+ 	int i;
+-	unsigned long puds = 0, pmds = 0, ptes = 0, tables;
++	unsigned long puds = 0, pmds = 0, ptes = 0, tables, start = 0x100000, good_end = end;
+ 	unsigned long start = 0, good_end;
+ 	unsigned long pgd_extra = 0;
+ 	phys_addr_t base;
+diff --git a/arch/x86/mm/init.c.rej b/arch/x86/mm/init.c.rej
+deleted file mode 100644
+index 24e81e8..0000000
+--- a/arch/x86/mm/init.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- arch/x86/mm/init.c	2012-05-21 11:32:57.855927681 +0200
+-+++ arch/x86/mm/init.c	2012-05-21 12:10:09.756048901 +0200
+-@@ -33,7 +34,7 @@ int direct_gbpages
+- static void __init find_early_table_space(unsigned long end, int use_pse,
+-					  int use_gbpages)
+- {
+--	unsigned long puds, pmds, ptes, tables, start = 0, good_end = end;
+-+	unsigned long puds, pmds, ptes, tables, start = 0x100000, good_end = end;
+-	phys_addr_t base;
+-
+-	puds = (end + PUD_SIZE - 1) >> PUD_SHIFT;
+diff --git a/arch/x86/mm/ioremap.c.rej b/arch/x86/mm/ioremap.c.rej
+deleted file mode 100644
+index 08d957c..0000000
+--- a/arch/x86/mm/ioremap.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- arch/x86/mm/ioremap.c	2011-07-22 04:17:23.000000000 +0200
+-+++ arch/x86/mm/ioremap.c	2012-05-21 12:10:09.760048901 +0200
+-@@ -97,7 +97,7 @@ static void __iomem *__ioremap_caller(re
+-	for (pfn = phys_addr >> PAGE_SHIFT; pfn <= last_pfn; pfn++) {
+-		int is_ram = page_is_ram(pfn);
+-
+--		if (is_ram && pfn_valid(pfn) && !PageReserved(pfn_to_page(pfn)))
+-+		if (is_ram && pfn_valid(pfn) && (pfn >= 0x100 || !PageReserved(pfn_to_page(pfn))))
+-			return NULL;
+-		WARN_ON_ONCE(is_ram);
+-	}
+diff --git a/arch/x86/mm/mmap.c b/arch/x86/mm/mmap.c
+index f8b50a1..6153cc6 100644
+--- a/arch/x86/mm/mmap.c
++++ b/arch/x86/mm/mmap.c
+@@ -126,10 +126,22 @@ static unsigned long mmap_legacy_base(struct mm_struct *mm)
+ void arch_pick_mmap_layout(struct mm_struct *mm)
+ {
+ 	mm->mmap_legacy_base = mmap_legacy_base();
+-	mm->mmap_base = mmap_base();
++		mm->mmap_base = mmap_base(mm);
++
++#ifdef CONFIG_PAX_RANDMMAP
++		if (mm->pax_flags & MF_PAX_RANDMMAP)
++			mm->mmap_base -= mm->delta_mmap + mm->delta_stack;
++#endif
++
+ 
+ 	if (mmap_is_legacy()) {
+-		mm->mmap_base = mm->mmap_legacy_base;
++		mm->mmap_base = mmap_legacy_base(mm);
++
++#ifdef CONFIG_PAX_RANDMMAP
++		if (mm->pax_flags & MF_PAX_RANDMMAP)
++			mm->mmap_base += mm->delta_mmap;
++#endif
++
+ 		mm->get_unmapped_area = arch_get_unmapped_area;
+ 		mm->unmap_area = arch_unmap_area;
+ 	} else {
+diff --git a/arch/x86/mm/mmap.c.rej b/arch/x86/mm/mmap.c.rej
+deleted file mode 100644
+index 1a9121a..0000000
+--- a/arch/x86/mm/mmap.c.rej
++++ /dev/null
+@@ -1,28 +0,0 @@
+---- arch/x86/mm/mmap.c	2012-03-19 10:38:56.692049991 +0100
+-+++ arch/x86/mm/mmap.c	2012-05-21 12:10:09.764048901 +0200
+-@@ -126,11 +139,23 @@ static unsigned long mmap_legacy_base(vo
+- void arch_pick_mmap_layout(struct mm_struct *mm)
+- {
+-	if (mmap_is_legacy()) {
+--		mm->mmap_base = mmap_legacy_base();
+-+		mm->mmap_base = mmap_legacy_base(mm);
+-+
+-+#ifdef CONFIG_PAX_RANDMMAP
+-+		if (mm->pax_flags & MF_PAX_RANDMMAP)
+-+			mm->mmap_base += mm->delta_mmap;
+-+#endif
+-+
+-		mm->get_unmapped_area = arch_get_unmapped_area;
+-		mm->unmap_area = arch_unmap_area;
+-	} else {
+--		mm->mmap_base = mmap_base();
+-+		mm->mmap_base = mmap_base(mm);
+-+
+-+#ifdef CONFIG_PAX_RANDMMAP
+-+		if (mm->pax_flags & MF_PAX_RANDMMAP)
+-+			mm->mmap_base -= mm->delta_mmap + mm->delta_stack;
+-+#endif
+-+
+-		mm->get_unmapped_area = arch_get_unmapped_area_topdown;
+-		mm->unmap_area = arch_unmap_area_topdown;
+-	}
+diff --git a/arch/x86/xen/xen-asm_32.S b/arch/x86/xen/xen-asm_32.S
+index 7328f71..c457aa7 100644
+--- a/arch/x86/xen/xen-asm_32.S
++++ b/arch/x86/xen/xen-asm_32.S
+@@ -83,14 +83,14 @@ ENTRY(xen_iret)
+ 	ESP_OFFSET=4	# bytes pushed onto stack
+ 
+ 	/*
+-	 * Store vcpu_info pointer for easy access.  Do it this way to
+-	 * avoid having to reload %fs
++	 * Store vcpu_info pointer for easy access.
+ 	 */
+ #ifdef CONFIG_SMP
+-	GET_THREAD_INFO(%eax)
+-	movl %ss:TI_cpu(%eax), %eax
+-	movl %ss:__per_cpu_offset(,%eax,4), %eax
+-	mov %ss:xen_vcpu(%eax), %eax
++	push %fs
++	mov $(__KERNEL_PERCPU), %eax
++	mov %eax, %fs
++	mov PER_CPU_VAR(xen_vcpu), %eax
++	pop %fs
+ #else
+ 	movl %ss:xen_vcpu, %eax
+ #endif
+diff --git a/arch/x86/xen/xen-asm_32.S.rej b/arch/x86/xen/xen-asm_32.S.rej
+deleted file mode 100644
+index b3a8af9..0000000
+--- a/arch/x86/xen/xen-asm_32.S.rej
++++ /dev/null
+@@ -1,23 +0,0 @@
+---- arch/x86/xen/xen-asm_32.S	2011-10-24 12:48:26.419091764 +0200
+-+++ arch/x86/xen/xen-asm_32.S	2012-05-21 12:10:09.824048905 +0200
+-@@ -83,14 +83,14 @@ ENTRY(xen_iret)
+-	ESP_OFFSET=4	# bytes pushed onto stack
+-
+-	/*
+--	 * Store vcpu_info pointer for easy access.  Do it this way to
+--	 * avoid having to reload %fs
+-+	 * Store vcpu_info pointer for easy access.
+-	 */
+- #ifdef CONFIG_SMP
+--	GET_THREAD_INFO(%eax)
+--	movl TI_cpu(%eax), %eax
+--	movl __per_cpu_offset(,%eax,4), %eax
+--	mov xen_vcpu(%eax), %eax
+-+	push %fs
+-+	mov $(__KERNEL_PERCPU), %eax
+-+	mov %eax, %fs
+-+	mov PER_CPU_VAR(xen_vcpu), %eax
+-+	pop %fs
+- #else
+-	movl xen_vcpu, %eax
+- #endif
+diff --git a/drivers/base/power/wakeup.c b/drivers/base/power/wakeup.c
+index d87d93e..cdfcdbc 100644
+--- a/drivers/base/power/wakeup.c
++++ b/drivers/base/power/wakeup.c
+@@ -516,7 +516,7 @@ static void wakeup_source_deactivate(struct wakeup_source *ws)
+ 	 * Increment the counter of registered wakeup events and decrement the
+ 	 * couter of wakeup events in progress simultaneously.
+ 	 */
+-	cec = atomic_add_return(MAX_IN_PROGRESS, &combined_event_count);
++	cec = atomic_add_return_unchecked(MAX_IN_PROGRESS, &combined_event_count);
+ 	trace_wakeup_source_deactivate(ws->name, cec);
+ 
+ 	split_counters(&cnt, &inpr);
+diff --git a/drivers/base/power/wakeup.c.rej b/drivers/base/power/wakeup.c.rej
+deleted file mode 100644
+index f0caa9b..0000000
+--- a/drivers/base/power/wakeup.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- drivers/base/power/wakeup.c	2012-05-21 11:32:59.075927747 +0200
+-+++ drivers/base/power/wakeup.c	2012-05-21 12:10:09.948048911 +0200
+-@@ -475,7 +475,7 @@ static void wakeup_source_deactivate(str
+-	 * Increment the counter of registered wakeup events and decrement the
+-	 * couter of wakeup events in progress simultaneously.
+-	 */
+--	atomic_add(MAX_IN_PROGRESS, &combined_event_count);
+-+	atomic_add_unchecked(MAX_IN_PROGRESS, &combined_event_count);
+- }
+-
+- /**
+diff --git a/drivers/gpu/drm/drm_fops.c b/drivers/gpu/drm/drm_fops.c
+index b09cbb5..d597f0b 100644
+--- a/drivers/gpu/drm/drm_fops.c
++++ b/drivers/gpu/drm/drm_fops.c
+@@ -138,8 +138,8 @@ int drm_open(struct inode *inode, struct file *filp)
+ 
+ 	retcode = drm_open_helper(inode, filp, dev);
+ 	if (!retcode) {
+-		atomic_inc(&dev->counts[_DRM_STAT_OPENS]);
+-		if (!dev->open_count++) {
++		atomic_inc_unchecked(&dev->counts[_DRM_STAT_OPENS]);
++		if (local_inc_return(&dev->open_count) == 1) {
+ 			retcode = drm_setup(dev);
+ 			if (retcode)
+ 				dev->open_count--;
+diff --git a/drivers/gpu/drm/drm_fops.c.rej b/drivers/gpu/drm/drm_fops.c.rej
+deleted file mode 100644
+index c38ea83..0000000
+--- a/drivers/gpu/drm/drm_fops.c.rej
++++ /dev/null
+@@ -1,13 +0,0 @@
+---- drivers/gpu/drm/drm_fops.c	2012-05-21 11:33:00.935927848 +0200
+-+++ drivers/gpu/drm/drm_fops.c	2012-05-21 12:10:10.048048917 +0200
+-@@ -138,8 +138,8 @@ int drm_open(struct inode *inode, struct
+-
+-	retcode = drm_open_helper(inode, filp, dev);
+-	if (!retcode) {
+--		atomic_inc(&dev->counts[_DRM_STAT_OPENS]);
+--		if (!dev->open_count++)
+-+		atomic_inc_unchecked(&dev->counts[_DRM_STAT_OPENS]);
+-+		if (local_inc_return(&dev->open_count) == 1)
+-			retcode = drm_setup(dev);
+-	}
+-	if (!retcode) {
+diff --git a/drivers/gpu/drm/i915/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/i915_gem_execbuffer.c
+index de46c99..90f7e4c 100644
+--- a/drivers/gpu/drm/i915/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/i915_gem_execbuffer.c
+@@ -954,9 +954,9 @@ i915_gem_check_execbuffer(struct drm_i915_gem_execbuffer2 *exec)
+ 
+ static int
+ validate_exec_list(struct drm_i915_gem_exec_object2 *exec,
+-		   int count)
++		   unsigned int count)
+ {
+-	int i;
++	unsigned int i;
+ 	int relocs_total = 0;
+ 	int relocs_max = INT_MAX / sizeof(struct drm_i915_gem_relocation_entry);
+ 
+diff --git a/drivers/gpu/drm/i915/i915_gem_execbuffer.c.rej b/drivers/gpu/drm/i915/i915_gem_execbuffer.c.rej
+deleted file mode 100644
+index b147b40..0000000
+--- a/drivers/gpu/drm/i915/i915_gem_execbuffer.c.rej
++++ /dev/null
+@@ -1,14 +0,0 @@
+---- drivers/gpu/drm/i915/i915_gem_execbuffer.c	2012-05-21 11:33:01.339927870 +0200
+-+++ drivers/gpu/drm/i915/i915_gem_execbuffer.c	2012-05-21 12:10:10.076048918 +0200
+-@@ -933,9 +933,9 @@ i915_gem_check_execbuffer(struct drm_i91
+-
+- static int
+- validate_exec_list(struct drm_i915_gem_exec_object2 *exec,
+--		   int count)
+-+		   unsigned int count)
+- {
+--	int i;
+-+	unsigned int i;
+-
+-	for (i = 0; i < count; i++) {
+-		char __user *ptr = (char __user *)(uintptr_t)exec[i].relocs_ptr;
+diff --git a/drivers/gpu/drm/i915/intel_display.c b/drivers/gpu/drm/i915/intel_display.c
+index 915b222..852cbf7 100644
+--- a/drivers/gpu/drm/i915/intel_display.c
++++ b/drivers/gpu/drm/i915/intel_display.c
+@@ -7297,10 +7297,9 @@ static void do_intel_finish_page_flip(struct drm_device *dev,
+ 
+ 	obj = work->old_fb_obj;
+ 
+-	atomic_clear_mask(1 << intel_crtc->plane,
+-			  &obj->pending_flip.counter);
+-
+-	wake_up(&dev_priv->pending_flip_queue);
++	atomic_clear_mask_unchecked(1 << intel_crtc->plane, &obj->pending_flip);
++	if (atomic_read_unchecked(&obj->pending_flip) == 0)
++		wake_up(&dev_priv->pending_flip_queue);
+ 	schedule_work(&work->work);
+ 
+ 	trace_i915_flip_complete(intel_crtc->plane, work->pending_flip_obj);
+@@ -7659,7 +7658,7 @@ static int intel_crtc_page_flip(struct drm_crtc *crtc,
+ 	return 0;
+ 
+ cleanup_pending:
+-	atomic_sub(1 << intel_crtc->plane, &work->old_fb_obj->pending_flip);
++	atomic_sub_unchecked(1 << intel_crtc->plane, &work->old_fb_obj->pending_flip);
+ 	crtc->fb = old_fb;
+ 	drm_gem_object_unreference(&work->old_fb_obj->base);
+ 	drm_gem_object_unreference(&obj->base);
+diff --git a/drivers/gpu/drm/i915/intel_display.c.rej b/drivers/gpu/drm/i915/intel_display.c.rej
+deleted file mode 100644
+index 8b5bc41..0000000
+--- a/drivers/gpu/drm/i915/intel_display.c.rej
++++ /dev/null
+@@ -1,32 +0,0 @@
+---- drivers/gpu/drm/i915/intel_display.c	2012-06-11 19:12:28.596366966 +0200
+-+++ drivers/gpu/drm/i915/intel_display.c	2012-07-04 19:33:49.496065642 +0200
+-@@ -2919,7 +2919,7 @@ static void intel_crtc_wait_for_pending_
+-	obj = to_intel_framebuffer(crtc->fb)->obj;
+-	dev_priv = crtc->dev->dev_private;
+-	wait_event(dev_priv->pending_flip_queue,
+--		   atomic_read(&obj->pending_flip) == 0);
+-+		   atomic_read_unchecked(&obj->pending_flip) == 0);
+- }
+-
+- static bool intel_crtc_driving_pch(struct drm_crtc *crtc)
+-@@ -7284,9 +7284,8 @@ static void do_intel_finish_page_flip(st
+-
+-	obj = work->old_fb_obj;
+-
+--	atomic_clear_mask(1 << intel_crtc->plane,
+--			  &obj->pending_flip.counter);
+--	if (atomic_read(&obj->pending_flip) == 0)
+-+	atomic_clear_mask_unchecked(1 << intel_crtc->plane, &obj->pending_flip);
+-+	if (atomic_read_unchecked(&obj->pending_flip) == 0)
+-		wake_up(&dev_priv->pending_flip_queue);
+-
+-	schedule_work(&work->work);
+-@@ -7596,7 +7595,7 @@ static int intel_crtc_page_flip(struct d
+-	return 0;
+-
+- cleanup_pending:
+--	atomic_sub(1 << intel_crtc->plane, &work->old_fb_obj->pending_flip);
+-+	atomic_sub_unchecked(1 << intel_crtc->plane, &work->old_fb_obj->pending_flip);
+-	drm_gem_object_unreference(&work->old_fb_obj->base);
+-	drm_gem_object_unreference(&obj->base);
+-	mutex_unlock(&dev->struct_mutex);
+diff --git a/drivers/staging/speakup/speakup_soft.c.rej b/drivers/staging/speakup/speakup_soft.c.rej
+deleted file mode 100644
+index 296a85f..0000000
+--- a/drivers/staging/speakup/speakup_soft.c.rej
++++ /dev/null
+@@ -1,15 +0,0 @@
+---- drivers/staging/speakup/speakup_soft.c	2011-10-24 12:48:37.219091188 +0200
+-+++ drivers/staging/speakup/speakup_soft.c	2012-05-21 12:10:10.868048961 +0200
+-@@ -241,11 +241,11 @@ static ssize_t softsynth_read(struct fil
+-			break;
+-		} else if (!initialized) {
+-			if (*init) {
+--				ch = *init;
+-				init++;
+-			} else {
+-				initialized = 1;
+-			}
+-+			ch = *init;
+-		} else {
+-			ch = synth_buffer_getc();
+-		}
+diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
+index 46af0db..5432fe8 100644
+--- a/fs/binfmt_elf.c
++++ b/fs/binfmt_elf.c
+@@ -1210,6 +1210,20 @@ static int load_elf_binary(struct linux_binprm *bprm, struct pt_regs *regs)
+ #else
+ 			load_bias = ELF_PAGESTART(ELF_ET_DYN_BASE - vaddr);
+ #endif
++
++#ifdef CONFIG_PAX_RANDMMAP
++			/* PaX: randomize base address at the default exe base if requested */
++			if ((current->mm->pax_flags & MF_PAX_RANDMMAP) && elf_interpreter) {
++#ifdef CONFIG_SPARC64
++				load_bias = (pax_get_random_long() & ((1UL << PAX_DELTA_MMAP_LEN) - 1)) << (PAGE_SHIFT+1);
++#else
++				load_bias = (pax_get_random_long() & ((1UL << PAX_DELTA_MMAP_LEN) - 1)) << PAGE_SHIFT;
++#endif
++				load_bias = ELF_PAGESTART(PAX_ELF_ET_DYN_BASE - vaddr + load_bias);
++				elf_flags |= MAP_FIXED;
++			}
++#endif
++
+ 			total_size = total_mapping_size(elf_phdata,
+ 							loc->elf_ex.e_phnum);
+ 			if (!total_size) {
+diff --git a/fs/binfmt_elf.c.rej b/fs/binfmt_elf.c.rej
+deleted file mode 100644
+index f60f6971..0000000
+--- a/fs/binfmt_elf.c.rej
++++ /dev/null
+@@ -1,22 +0,0 @@
+-diff a/fs/binfmt_elf.c b/fs/binfmt_elf.c	(rejected hunks)
+-@@ -805,6 +1209,20 @@ static int load_elf_binary(struct linux_binprm *bprm, struct pt_regs *regs)
+- #else
+- 			load_bias = ELF_PAGESTART(ELF_ET_DYN_BASE - vaddr);
+- #endif
+-+
+-+#ifdef CONFIG_PAX_RANDMMAP
+-+			/* PaX: randomize base address at the default exe base if requested */
+-+			if ((current->mm->pax_flags & MF_PAX_RANDMMAP) && elf_interpreter) {
+-+#ifdef CONFIG_SPARC64
+-+				load_bias = (pax_get_random_long() & ((1UL << PAX_DELTA_MMAP_LEN) - 1)) << (PAGE_SHIFT+1);
+-+#else
+-+				load_bias = (pax_get_random_long() & ((1UL << PAX_DELTA_MMAP_LEN) - 1)) << PAGE_SHIFT;
+-+#endif
+-+				load_bias = ELF_PAGESTART(PAX_ELF_ET_DYN_BASE - vaddr + load_bias);
+-+				elf_flags |= MAP_FIXED;
+-+			}
+-+#endif
+-+
+- 		}
+- 
+- 		error = elf_map(bprm->file, load_bias + vaddr, elf_ppnt,
+diff --git a/fs/compat_ioctl.c b/fs/compat_ioctl.c
+index bf3be45..ef639f8 100644
+--- a/fs/compat_ioctl.c
++++ b/fs/compat_ioctl.c
+@@ -623,7 +623,7 @@ static int serial_struct_ioctl(unsigned fd, unsigned cmd,
+ 			return -EFAULT;
+                 if (__get_user(udata, &ss32->iomem_base))
+ 			return -EFAULT;
+-                ss.iomem_base = compat_ptr(udata);
++                ss.iomem_base = (unsigned char __force_kernel *)compat_ptr(udata);
+                 if (__get_user(ss.iomem_reg_shift, &ss32->iomem_reg_shift) ||
+ 		    __get_user(ss.port_high, &ss32->port_high))
+ 			return -EFAULT;
+@@ -798,7 +798,7 @@ static int compat_ioctl_preallocate(struct file *file,
+ 	    copy_in_user(&p->l_len,	&p32->l_len,	sizeof(s64)) ||
+ 	    copy_in_user(&p->l_sysid,	&p32->l_sysid,	sizeof(s32)) ||
+ 	    copy_in_user(&p->l_pid,	&p32->l_pid,	sizeof(u32)) ||
+-	    copy_in_user(&p->l_pad,	&p32->l_pad,	4*sizeof(u32)))
++	    copy_in_user(p->l_pad,	&p32->l_pad,	4*sizeof(u32)))
+ 		return -EFAULT;
+ 
+ 	return ioctl_preallocate(file, p);
+@@ -1613,8 +1613,8 @@ asmlinkage long compat_sys_ioctl(unsigned int fd, unsigned int cmd,
+ static int __init init_sys32_ioctl_cmp(const void *p, const void *q)
+ {
+ 	unsigned int a, b;
+-	a = *(unsigned int *)p;
+-	b = *(unsigned int *)q;
++	a = *(const unsigned int *)p;
++	b = *(const unsigned int *)q;
+ 	if (a > b)
+ 		return 1;
+ 	if (a < b)
+diff --git a/fs/compat_ioctl.c.rej b/fs/compat_ioctl.c.rej
+deleted file mode 100644
+index 6ac40a2..0000000
+--- a/fs/compat_ioctl.c.rej
++++ /dev/null
+@@ -1,40 +0,0 @@
+---- fs/compat_ioctl.c	2012-05-21 11:33:34.635929678 +0200
+-+++ fs/compat_ioctl.c	2012-05-21 12:10:11.084048973 +0200
+-@@ -210,6 +210,8 @@ static int do_video_set_spu_palette(unsi
+-
+-	err  = get_user(palp, &up->palette);
+-	err |= get_user(length, &up->length);
+-+	if (err)
+-+		return -EFAULT;
+-
+-	up_native = compat_alloc_user_space(sizeof(struct video_spu_palette));
+-	err  = put_user(compat_ptr(palp), &up_native->palette);
+-@@ -621,7 +623,7 @@ static int serial_struct_ioctl(unsigned
+-			return -EFAULT;
+-                 if (__get_user(udata, &ss32->iomem_base))
+-			return -EFAULT;
+--                ss.iomem_base = compat_ptr(udata);
+-+                ss.iomem_base = (unsigned char __force_kernel *)compat_ptr(udata);
+-                 if (__get_user(ss.iomem_reg_shift, &ss32->iomem_reg_shift) ||
+-		    __get_user(ss.port_high, &ss32->port_high))
+-			return -EFAULT;
+-@@ -796,7 +798,7 @@ static int compat_ioctl_preallocate(stru
+-	    copy_in_user(&p->l_len,	&p32->l_len,	sizeof(s64)) ||
+-	    copy_in_user(&p->l_sysid,	&p32->l_sysid,	sizeof(s32)) ||
+-	    copy_in_user(&p->l_pid,	&p32->l_pid,	sizeof(u32)) ||
+--	    copy_in_user(&p->l_pad,	&p32->l_pad,	4*sizeof(u32)))
+-+	    copy_in_user(p->l_pad,	&p32->l_pad,	4*sizeof(u32)))
+-		return -EFAULT;
+-
+-	return ioctl_preallocate(file, p);
+-@@ -1610,8 +1612,8 @@ asmlinkage long compat_sys_ioctl(unsigne
+- static int __init init_sys32_ioctl_cmp(const void *p, const void *q)
+- {
+-	unsigned int a, b;
+--	a = *(unsigned int *)p;
+--	b = *(unsigned int *)q;
+-+	a = *(const unsigned int *)p;
+-+	b = *(const unsigned int *)q;
+-	if (a > b)
+-		return 1;
+-	if (a < b)
+diff --git a/fs/libfs.c b/fs/libfs.c
+index 83cee1c..abc00d3 100644
+--- a/fs/libfs.c
++++ b/fs/libfs.c
+@@ -165,6 +165,9 @@ int dcache_readdir(struct file * filp, void * dirent, filldir_t filldir)
+ 
+ 			for (p=q->next; p != &dentry->d_subdirs; p=p->next) {
+ 				struct dentry *next;
++				char d_name[sizeof(next->d_iname)];
++				const unsigned char *name;
++
+ 				next = list_entry(p, struct dentry, d_u.d_child);
+ 				spin_lock_nested(&next->d_lock, DENTRY_D_LOCK_NESTED);
+ 				if (!simple_positive(next)) {
+diff --git a/fs/libfs.c.rej b/fs/libfs.c.rej
+deleted file mode 100644
+index 8470aa1..0000000
+--- a/fs/libfs.c.rej
++++ /dev/null
+@@ -1,12 +0,0 @@
+---- fs/libfs.c	2012-05-21 11:33:35.695929736 +0200
+-+++ fs/libfs.c	2012-05-21 12:10:11.168048978 +0200
+-@@ -165,6 +165,9 @@ int dcache_readdir(struct file * filp, v
+-
+-			for (p=q->next; p != &dentry->d_subdirs; p=p->next) {
+-				struct dentry *next;
+-+				char d_name[sizeof(next->d_iname)];
+-+				const unsigned char *name;
+-+
+-				next = list_entry(p, struct dentry, d_u.d_child);
+-				spin_lock_nested(&next->d_lock, DENTRY_D_LOCK_NESTED);
+-				if (!simple_positive(next)) {
+diff --git a/fs/nfs/inode.c.rej b/fs/nfs/inode.c.rej
+deleted file mode 100644
+index 3928e5c..0000000
+--- a/fs/nfs/inode.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- fs/nfs/inode.c	2012-05-21 11:33:35.907929747 +0200
+-+++ fs/nfs/inode.c	2012-05-21 12:10:11.184048978 +0200
+-@@ -152,7 +152,7 @@ static void nfs_zap_caches_locked(struct
+-	nfsi->attrtimeo = NFS_MINATTRTIMEO(inode);
+-	nfsi->attrtimeo_timestamp = jiffies;
+-
+--	memset(NFS_COOKIEVERF(inode), 0, sizeof(NFS_COOKIEVERF(inode)));
+-+	memset(NFS_COOKIEVERF(inode), 0, sizeof(NFS_I(inode)->cookieverf));
+-	if (S_ISREG(mode) || S_ISDIR(mode) || S_ISLNK(mode))
+-		nfsi->cache_validity |= NFS_INO_INVALID_ATTR|NFS_INO_INVALID_DATA|NFS_INO_INVALID_ACCESS|NFS_INO_INVALID_ACL|NFS_INO_REVAL_PAGECACHE;
+-	else
+diff --git a/fs/proc/nommu.c b/fs/proc/nommu.c
+index 501ae3a..c7a5528 100644
+--- a/fs/proc/nommu.c
++++ b/fs/proc/nommu.c
+@@ -64,7 +64,7 @@ static int nommu_region_show(struct seq_file *m, struct vm_region *region)
+ 
+ 	if (file) {
+ 		seq_pad(m, ' ');
+-		seq_path(m, &file->f_path, "");
++		seq_path(m, &file->f_path, "\n\\");
+ 	}
+ 
+ 	seq_putc(m, '\n');
+diff --git a/fs/proc/nommu.c.rej b/fs/proc/nommu.c.rej
+deleted file mode 100644
+index 186828f..0000000
+--- a/fs/proc/nommu.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- fs/proc/nommu.c	2011-07-22 04:17:23.000000000 +0200
+-+++ fs/proc/nommu.c	2012-05-21 12:10:11.232048981 +0200
+-@@ -66,7 +66,7 @@ static int nommu_region_show(struct seq_
+-		if (len < 1)
+-			len = 1;
+-		seq_printf(m, "%*c", len, ' ');
+--		seq_path(m, &file->f_path, "");
+-+		seq_path(m, &file->f_path, "\n\\");
+-	}
+-
+-	seq_putc(m, '\n');
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index d44f967..6f08b99 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -283,21 +283,25 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma, int is_pid)
+ 		pgoff = ((loff_t)vma->vm_pgoff) << PAGE_SHIFT;
+ 	}
+ 
+-	/* We don't show the stack guard page in /proc/maps */
++
+ 	start = vma->vm_start;
+-	if (stack_guard_page_start(vma, start))
+-		start += PAGE_SIZE;
+ 	end = vma->vm_end;
+-	if (stack_guard_page_end(vma, end))
+-		end -= PAGE_SIZE;
+ 
+ 	seq_setwidth(m, 25 + sizeof(void *) * 6 - 1);
+ 	seq_printf(m, "%08lx-%08lx %c%c%c%c %08llx %02x:%02x %lu ",
+ 			start,
+ 			end,
++
++#if 0
++			flags & VM_MAYREAD ? flags & VM_READ ? 'R' : '+' : flags & VM_READ ? 'r' : '-',
++			flags & VM_MAYWRITE ? flags & VM_WRITE ? 'W' : '+' : flags & VM_WRITE ? 'w' : '-',
++			flags & VM_MAYEXEC ? flags & VM_EXEC ? 'X' : '+' : flags & VM_EXEC ? 'x' : '-',
++#else
+ 			flags & VM_READ ? 'r' : '-',
+ 			flags & VM_WRITE ? 'w' : '-',
+ 			flags & VM_EXEC ? 'x' : '-',
++#endif
++
+ 			flags & VM_MAYSHARE ? 's' : 'p',
+ 			pgoff,
+ 			MAJOR(dev), MINOR(dev), ino);
+@@ -308,7 +312,7 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma, int is_pid)
+ 	 */
+ 	if (file) {
+ 		seq_pad(m, ' ');
+-		seq_path(m, &file->f_path, "\n");
++		seq_path(m, &file->f_path, "\n\\");
+ 		goto done;
+ 	}
+ 
+diff --git a/fs/proc/task_mmu.c.rej b/fs/proc/task_mmu.c.rej
+deleted file mode 100644
+index 0a6886b..0000000
+--- a/fs/proc/task_mmu.c.rej
++++ /dev/null
+@@ -1,39 +0,0 @@
+---- fs/proc/task_mmu.c	2012-06-11 19:12:31.104367105 +0200
+-+++ fs/proc/task_mmu.c	2012-06-11 19:17:09.188382567 +0200
+-@@ -242,20 +253,23 @@ show_map_vma(struct seq_file *m, struct
+-		pgoff = ((loff_t)vma->vm_pgoff) << PAGE_SHIFT;
+-	}
+-
+--	/* We don't show the stack guard page in /proc/maps */
+-	start = vma->vm_start;
+--	if (stack_guard_page_start(vma, start))
+--		start += PAGE_SIZE;
+-	end = vma->vm_end;
+--	if (stack_guard_page_end(vma, end))
+--		end -= PAGE_SIZE;
+-
+-	seq_printf(m, "%08lx-%08lx %c%c%c%c %08llx %02x:%02x %lu %n",
+-			start,
+-			end,
+-+
+-+#if 0
+-+			flags & VM_MAYREAD ? flags & VM_READ ? 'R' : '+' : flags & VM_READ ? 'r' : '-',
+-+			flags & VM_MAYWRITE ? flags & VM_WRITE ? 'W' : '+' : flags & VM_WRITE ? 'w' : '-',
+-+			flags & VM_MAYEXEC ? flags & VM_EXEC ? 'X' : '+' : flags & VM_EXEC ? 'x' : '-',
+-+#else
+-			flags & VM_READ ? 'r' : '-',
+-			flags & VM_WRITE ? 'w' : '-',
+-			flags & VM_EXEC ? 'x' : '-',
+-+#endif
+-+
+-			flags & VM_MAYSHARE ? 's' : 'p',
+-			pgoff,
+-			MAJOR(dev), MINOR(dev), ino, &len);
+-@@ -266,7 +280,7 @@ show_map_vma(struct seq_file *m, struct
+-	 */
+-	if (file) {
+-		pad_len_spaces(m, len);
+--		seq_path(m, &file->f_path, "\n");
+-+		seq_path(m, &file->f_path, "\n\\");
+-		goto done;
+-	}
+diff --git a/fs/proc/task_nommu.c b/fs/proc/task_nommu.c
+index 473f497..52cc71a 100644
+--- a/fs/proc/task_nommu.c
++++ b/fs/proc/task_nommu.c
+@@ -161,7 +161,7 @@ static int nommu_vma_show(struct seq_file *m, struct vm_area_struct *vma,
+ 
+ 	if (file) {
+ 		seq_pad(m, ' ');
+-		seq_path(m, &file->f_path, "");
++		seq_path(m, &file->f_path, "\n\\");
+ 	} else if (mm) {
+ 		pid_t tid = vm_is_stack(priv->task, vma, is_pid);
+ 
+diff --git a/fs/proc/task_nommu.c.rej b/fs/proc/task_nommu.c.rej
+deleted file mode 100644
+index 4757380..0000000
+--- a/fs/proc/task_nommu.c.rej
++++ /dev/null
+@@ -1,10 +0,0 @@
+---- fs/proc/task_nommu.c	2012-05-21 11:33:36.239929765 +0200
+-+++ fs/proc/task_nommu.c	2012-05-21 12:10:11.236048981 +0200
+-@@ -168,7 +168,7 @@ static int nommu_vma_show(struct seq_fil
+-
+-	if (file) {
+-		pad_len_spaces(m, len);
+--		seq_path(m, &file->f_path, "");
+-+		seq_path(m, &file->f_path, "\n\\");
+-	} else if (mm) {
+-		pid_t tid = vm_is_stack(priv->task, vma, is_pid);
+diff --git a/include/linux/efi.h b/include/linux/efi.h
+index 6bf8394..9f64717 100644
+--- a/include/linux/efi.h
++++ b/include/linux/efi.h
+@@ -665,7 +665,7 @@ struct efivar_operations {
+ 	efi_get_next_variable_t *get_next_variable;
+ 	efi_set_variable_t *set_variable;
+ 	efi_query_variable_store_t *query_variable_store;
+-};
++} __no_const;
+ 
+ struct efivars {
+ 	/*
+diff --git a/include/linux/efi.h.rej b/include/linux/efi.h.rej
+deleted file mode 100644
+index e4f1b70..0000000
+--- a/include/linux/efi.h.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- include/linux/efi.h	2012-05-21 11:33:37.395929829 +0200
+-+++ include/linux/efi.h	2012-05-21 12:10:11.384048989 +0200
+-@@ -635,7 +635,7 @@ struct efivar_operations {
+-	efi_get_variable_t *get_variable;
+-	efi_get_next_variable_t *get_next_variable;
+-	efi_set_variable_t *set_variable;
+--};
+-+} __no_const;
+-
+- struct efivars {
+-	/*
+diff --git a/include/linux/gfp.h.rej b/include/linux/gfp.h.rej
+deleted file mode 100644
+index 46a5762..0000000
+--- a/include/linux/gfp.h.rej
++++ /dev/null
+@@ -1,10 +0,0 @@
+-diff a/include/linux/gfp.h b/include/linux/gfp.h	(rejected hunks)
+-@@ -97,7 +104,7 @@ struct vm_area_struct;
+-  */
+- #define __GFP_NOTRACK_FALSE_POSITIVE (__GFP_NOTRACK)
+- 
+--#define __GFP_BITS_SHIFT 25	/* Room for N __GFP_FOO bits */
+-+#define __GFP_BITS_SHIFT 26	/* Room for N __GFP_FOO bits */
+- #define __GFP_BITS_MASK ((__force gfp_t)((1 << __GFP_BITS_SHIFT) - 1))
+- 
+- /* This equals 0, but use constants in case they ever change */
+diff --git a/include/linux/if_team.h b/include/linux/if_team.h
+index 458a073..d89036e 100644
+--- a/include/linux/if_team.h
++++ b/include/linux/if_team.h
+@@ -113,7 +113,7 @@ struct team {
+ 	struct list_head option_list;
+ 
+ 	const struct team_mode *mode;
+-	struct team_mode_ops ops;
++	team_mode_ops_no_const ops;
+ 	bool port_mtu_change_allowed;
+ 	long mode_priv[TEAM_MODE_PRIV_LONGS];
+ };
+diff --git a/include/linux/if_team.h.rej b/include/linux/if_team.h.rej
+deleted file mode 100644
+index 1641669..0000000
+--- a/include/linux/if_team.h.rej
++++ /dev/null
+@@ -1,10 +0,0 @@
+---- include/linux/if_team.h	2012-03-19 10:39:10.972049232 +0100
+-+++ include/linux/if_team.h	2012-05-21 12:10:11.452048993 +0200
+-@@ -113,7 +114,7 @@ struct team {
+-	struct list_head option_list;
+-
+-	const struct team_mode *mode;
+--	struct team_mode_ops ops;
+-+	team_mode_ops_no_const ops;
+-	long mode_priv[TEAM_MODE_PRIV_LONGS];
+- };
+diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
+index d950b5c..3b79441 100644
+--- a/include/linux/sysctl.h
++++ b/include/linux/sysctl.h
+@@ -157,7 +157,11 @@ enum
+ 	KERN_COLD_BOOT = 78, /* int: identify if system cold booted */
+ };
+ 
+-
++#ifdef CONFIG_PAX_SOFTMODE
++enum {
++	PAX_SOFTMODE=1		/* PaX: disable/enable soft mode */
++};
++#endif
+ 
+ /* CTL_VM names: */
+ enum
+diff --git a/include/linux/sysctl.h.rej b/include/linux/sysctl.h.rej
+deleted file mode 100644
+index 910abfd..0000000
+--- a/include/linux/sysctl.h.rej
++++ /dev/null
+@@ -1,14 +0,0 @@
+-diff a/include/linux/sysctl.h b/include/linux/sysctl.h	(rejected hunks)
+-@@ -156,7 +156,11 @@ enum
+- 	KERN_BOOT_REASON = 77, /* int: identify reason system was booted */
+- };
+- 
+--
+-+#ifdef CONFIG_PAX_SOFTMODE
+-+enum {
+-+	PAX_SOFTMODE=1		/* PaX: disable/enable soft mode */
+-+};
+-+#endif
+- 
+- /* CTL_VM names: */
+- enum
+diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
+index 2553845..36fbb63 100644
+--- a/include/linux/vmalloc.h
++++ b/include/linux/vmalloc.h
+@@ -14,6 +14,11 @@ struct vm_area_struct;		/* vma defining user mapping in mm_types.h */
+ #define VM_USERMAP	0x00000008	/* suitable for remap_vmalloc_range */
+ #define VM_VPAGES	0x00000010	/* buffer for pages was vmalloc'ed */
+ #define VM_UNLIST	0x00000020	/* vm_struct is not listed in vmlist */
++
++#if defined(CONFIG_MODULES) && defined(CONFIG_X86) && defined(CONFIG_PAX_KERNEXEC)
++#define VM_KERNEXEC	0x00000040	/* allocate from executable kernel memory range */
++#endif
++
+ #define VM_LOWMEM	0x00000040	/* Tracking of direct mapped lowmem */
+ /* bits [20..32] reserved for arch specific ioremap internals */
+ 
+@@ -63,7 +68,7 @@ extern void *vmalloc_32_user(unsigned long size);
+ extern void *__vmalloc(unsigned long size, gfp_t gfp_mask, pgprot_t prot);
+ extern void *__vmalloc_node_range(unsigned long size, unsigned long align,
+ 			unsigned long start, unsigned long end, gfp_t gfp_mask,
+-			pgprot_t prot, int node, const void *caller);
++			pgprot_t prot, int node, const void *caller) __size_overflow(1);
+ extern void vfree(const void *addr);
+ 
+ extern void *vmap(struct page **pages, unsigned int count,
+diff --git a/include/linux/vmalloc.h.rej b/include/linux/vmalloc.h.rej
+deleted file mode 100644
+index 0e3c8fa..0000000
+--- a/include/linux/vmalloc.h.rej
++++ /dev/null
+@@ -1,23 +0,0 @@
+---- include/linux/vmalloc.h	2012-03-19 10:39:11.388049209 +0100
+-+++ include/linux/vmalloc.h	2012-05-22 15:28:31.531384607 +0200
+-@@ -14,6 +14,11 @@ struct vm_area_struct;		/* vma defining
+- #define VM_USERMAP	0x00000008	/* suitable for remap_vmalloc_range */
+- #define VM_VPAGES	0x00000010	/* buffer for pages was vmalloc'ed */
+- #define VM_UNLIST	0x00000020	/* vm_struct is not listed in vmlist */
+-+
+-+#if defined(CONFIG_MODULES) && defined(CONFIG_X86) && defined(CONFIG_PAX_KERNEXEC)
+-+#define VM_KERNEXEC	0x00000040	/* allocate from executable kernel memory range */
+-+#endif
+-+
+- /* bits [20..32] reserved for arch specific ioremap internals */
+-
+- /*
+-@@ -62,7 +67,7 @@ extern void *vmalloc_32_user(unsigned lo
+- extern void *__vmalloc(unsigned long size, gfp_t gfp_mask, pgprot_t prot);
+- extern void *__vmalloc_node_range(unsigned long size, unsigned long align,
+-			unsigned long start, unsigned long end, gfp_t gfp_mask,
+--			pgprot_t prot, int node, void *caller);
+-+			pgprot_t prot, int node, void *caller) __size_overflow(1);
+- extern void vfree(const void *addr);
+-
+- extern void *vmap(struct page **pages, unsigned int count,
+diff --git a/include/net/inetpeer.h b/include/net/inetpeer.h
+index 2d64364..e617e3e 100644
+--- a/include/net/inetpeer.h
++++ b/include/net/inetpeer.h
+@@ -51,8 +51,8 @@ struct inet_peer {
+ 	 */
+ 	union {
+ 		struct {
+-			atomic_t			rid;		/* Frag reception counter */
+-			atomic_t			ip_id_count;	/* IP ID for the next packet */
++			atomic_unchecked_t		rid;		/* Frag reception counter */
++			atomic_unchecked_t		ip_id_count;	/* IP ID for the next packet */
+ 			__u32				tcp_ts;
+ 			__u32				tcp_ts_stamp;
+ 		};
+diff --git a/include/net/inetpeer.h.rej b/include/net/inetpeer.h.rej
+deleted file mode 100644
+index 7a07598..0000000
+--- a/include/net/inetpeer.h.rej
++++ /dev/null
+@@ -1,26 +0,0 @@
+---- include/net/inetpeer.h	2012-07-21 01:28:45.278708106 +0200
+-+++ include/net/inetpeer.h	2012-07-21 01:28:56.938708446 +0200
+-@@ -51,8 +51,8 @@ struct inet_peer {
+-	 */
+-	union {
+-		struct {
+--			atomic_t			rid;		/* Frag reception counter */
+--			atomic_t			ip_id_count;	/* IP ID for the next packet */
+-+			atomic_unchecked_t		rid;		/* Frag reception counter */
+-+			atomic_unchecked_t		ip_id_count;	/* IP ID for the next packet */
+-			__u32				tcp_ts;
+-			__u32				tcp_ts_stamp;
+-		};
+-@@ -118,11 +118,11 @@ static inline int inet_getid(struct inet
+-	more++;
+-	inet_peer_refcheck(p);
+-	do {
+--		old = atomic_read(&p->ip_id_count);
+-+		old = atomic_read_unchecked(&p->ip_id_count);
+-		new = old + more;
+-		if (!new)
+-			new = 1;
+--	} while (atomic_cmpxchg(&p->ip_id_count, old, new) != old);
+-+	} while (atomic_cmpxchg_unchecked(&p->ip_id_count, old, new) != old);
+-	return new;
+- }
+diff --git a/include/sound/soc.h b/include/sound/soc.h
+index 59b176f..5bb3fdd 100644
+--- a/include/sound/soc.h
++++ b/include/sound/soc.h
+@@ -779,7 +779,7 @@ struct snd_soc_platform_driver {
+ 	int (*write)(struct snd_soc_platform *, unsigned int, unsigned int);
+ 
+ 	int (*bespoke_trigger)(struct snd_pcm_substream *, int);
+-};
++} __do_const;
+ 
+ struct snd_soc_platform {
+ 	const char *name;
+diff --git a/include/sound/soc.h.rej b/include/sound/soc.h.rej
+deleted file mode 100644
+index b207cdf..0000000
+--- a/include/sound/soc.h.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- include/sound/soc.h	2012-05-21 11:33:39.179929925 +0200
+-+++ include/sound/soc.h	2012-05-21 12:10:11.664049005 +0200
+-@@ -711,7 +711,7 @@ struct snd_soc_platform_driver {
+-	/* platform IO - used for platform DAPM */
+-	unsigned int (*read)(struct snd_soc_platform *, unsigned int);
+-	int (*write)(struct snd_soc_platform *, unsigned int, unsigned int);
+--};
+-+} __do_const;
+-
+- struct snd_soc_platform {
+-	const char *name;
+diff --git a/kernel/audit.c b/kernel/audit.c
+index a80d715..9762e8a 100644
+--- a/kernel/audit.c
++++ b/kernel/audit.c
+@@ -256,7 +256,7 @@ void audit_log_lost(const char *message)
+ 			printk(KERN_WARNING
+ 				"audit: audit_lost=%d audit_rate_limit=%d "
+ 				"audit_backlog_limit=%d\n",
+-				atomic_read(&audit_lost),
++				atomic_read_unchecked(&audit_lost),
+ 				audit_rate_limit,
+ 				audit_backlog_limit);
+ 		audit_panic(message);
+diff --git a/kernel/audit.c.rej b/kernel/audit.c.rej
+deleted file mode 100644
+index 7a429c2..0000000
+--- a/kernel/audit.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- kernel/audit.c	2012-05-21 11:33:39.347929934 +0200
+-+++ kernel/audit.c	2012-05-21 12:10:11.704049007 +0200
+-@@ -256,7 +256,7 @@ void audit_log_lost(const char *message)
+-			printk(KERN_WARNING
+-				"audit: audit_lost=%d audit_rate_limit=%d "
+-				"audit_backlog_limit=%d\n",
+--				atomic_read(&audit_lost),
+-+				atomic_read_unchecked(&audit_lost),
+-				audit_rate_limit,
+-				audit_backlog_limit);
+-		audit_panic(message);
+diff --git a/kernel/module.c b/kernel/module.c
+index 4199198..1e2ed11 100644
+--- a/kernel/module.c
++++ b/kernel/module.c
+@@ -3109,16 +3109,16 @@ SYSCALL_DEFINE3(init_module, void __user *, umod,
+ 			MODULE_STATE_COMING, mod);
+ 
+ 	/* Set RO and NX regions for core */
+-	set_section_ro_nx(mod->module_core,
+-				mod->core_text_size,
+-				mod->core_ro_size,
+-				mod->core_size);
++	set_section_ro_nx(mod->module_core_rx,
++				mod->core_size_rx,
++				mod->core_size_rx,
++				mod->core_size_rx);
+ 
+ 	/* Set RO and NX regions for init */
+-	set_section_ro_nx(mod->module_init,
+-				mod->init_text_size,
+-				mod->init_ro_size,
+-				mod->init_size);
++	set_section_ro_nx(mod->module_init_rx,
++				mod->init_size_rx,
++				mod->init_size_rx,
++				mod->init_size_rx);
+ 
+ 	do_mod_ctors(mod);
+ 	/* Start the module */
+diff --git a/kernel/module.c.rej b/kernel/module.c.rej
+deleted file mode 100644
+index d5a4f7d..0000000
+--- a/kernel/module.c.rej
++++ /dev/null
+@@ -1,26 +0,0 @@
+-diff a/kernel/module.c b/kernel/module.c	(rejected hunks)
+-@@ -3320,16 +3392,16 @@ SYSCALL_DEFINE3(init_module, void __user *, umod,
+- #endif
+- 
+- 	/* Set RO and NX regions for core */
+--	set_section_ro_nx(mod->module_core,
+--				mod->core_text_size,
+--				mod->core_ro_size,
+--				mod->core_size);
+-+	set_section_ro_nx(mod->module_core_rx,
+-+				mod->core_size_rx,
+-+				mod->core_size_rx,
+-+				mod->core_size_rx);
+- 
+- 	/* Set RO and NX regions for init */
+--	set_section_ro_nx(mod->module_init,
+--				mod->init_text_size,
+--				mod->init_ro_size,
+--				mod->init_size);
+-+	set_section_ro_nx(mod->module_init_rx,
+-+				mod->init_size_rx,
+-+				mod->init_size_rx,
+-+				mod->init_size_rx);
+- 
+- 	do_mod_ctors(mod);
+- 	/* Start the module */
+diff --git a/kernel/power/process.c b/kernel/power/process.c
+index 8ec05f5..fed362a 100644
+--- a/kernel/power/process.c
++++ b/kernel/power/process.c
+@@ -36,6 +36,7 @@ static int try_to_freeze_tasks(bool user_only)
+ 	u64 elapsed_msecs64;
+ 	unsigned int elapsed_msecs;
+ 	bool wakeup = false;
++	bool timedout = false;
+ 	int sleep_usecs = USEC_PER_MSEC;
+ 	char suspend_abort[MAX_SUSPEND_ABORT_LEN];
+ 
+@@ -80,7 +81,7 @@ static int try_to_freeze_tasks(bool user_only)
+ 			todo += wq_busy;
+ 		}
+ 
+-		if (!todo || time_after(jiffies, end_time))
++		if (!todo || timedout)
+ 			break;
+ 
+ 		if (pm_wakeup_pending()) {
+diff --git a/kernel/power/process.c.rej b/kernel/power/process.c.rej
+deleted file mode 100644
+index d110847..0000000
+--- a/kernel/power/process.c.rej
++++ /dev/null
+@@ -1,19 +0,0 @@
+---- kernel/power/process.c	2012-05-21 11:33:39.551929945 +0200
+-+++ kernel/power/process.c	2012-05-21 12:10:11.796049012 +0200
+-@@ -33,6 +33,7 @@ static int try_to_freeze_tasks(bool user
+-	u64 elapsed_csecs64;
+-	unsigned int elapsed_csecs;
+-	bool wakeup = false;
+-+	bool timedout = false;
+-
+-	do_gettimeofday(&start);
+-
+-@@ -75,7 +82,7 @@ static int try_to_freeze_tasks(bool user
+-			todo += wq_busy;
+-		}
+-
+--		if (!todo || time_after(jiffies, end_time))
+-+		if (!todo || timedout)
+-			break;
+-
+-		if (pm_wakeup_pending()) {
+diff --git a/kernel/rcutree.h b/kernel/rcutree.h
+index a178ac1..94beb76 100644
+--- a/kernel/rcutree.h
++++ b/kernel/rcutree.h
+@@ -87,7 +87,7 @@ struct rcu_dynticks {
+ 	long long dynticks_nesting; /* Track irq/process nesting level. */
+ 				    /* Process level is worth LLONG_MAX/2. */
+ 	int dynticks_nmi_nesting;   /* Track NMI nesting level. */
+-	atomic_t dynticks;	    /* Even value for idle, else odd. */
++	atomic_unchecked_t dynticks;	    /* Even value for idle, else odd. */
+ #ifdef CONFIG_RCU_FAST_NO_HZ
+ 	int dyntick_drain;	    /* Prepare-for-idle state variable. */
+ 	unsigned long dyntick_holdoff;
+diff --git a/kernel/rcutree.h.rej b/kernel/rcutree.h.rej
+deleted file mode 100644
+index a05a1d5..0000000
+--- a/kernel/rcutree.h.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- kernel/rcutree.h	2012-05-21 11:33:39.615929950 +0200
+-+++ kernel/rcutree.h	2012-05-21 12:10:11.820049014 +0200
+-@@ -87,7 +87,7 @@ struct rcu_dynticks {
+-	long long dynticks_nesting; /* Track irq/process nesting level. */
+-				    /* Process level is worth LLONG_MAX/2. */
+-	int dynticks_nmi_nesting;   /* Track NMI nesting level. */
+--	atomic_t dynticks;	    /* Even value for idle, else odd. */
+-+	atomic_unchecked_t dynticks;/* Even value for idle, else odd. */
+- };
+-
+- /* RCU's kthread states for tracing. */
+diff --git a/kernel/smp.c b/kernel/smp.c
+index fcaaa42..6848980 100644
+--- a/kernel/smp.c
++++ b/kernel/smp.c
+@@ -471,22 +471,22 @@ int smp_call_function(smp_call_func_t func, void *info, int wait)
+ EXPORT_SYMBOL(smp_call_function);
+ 
+ #ifndef CONFIG_USE_GENERIC_SMP_HELPERS
+-void ipi_call_lock(void)
++void ipi_call_lock(void) __acquires(call_function.lock)
+ {
+ 	raw_spin_lock(&call_function.lock);
+ }
+ 
+-void ipi_call_unlock(void)
++void ipi_call_unlock(void) __releases(call_function.lock)
+ {
+ 	raw_spin_unlock(&call_function.lock);
+ }
+ 
+-void ipi_call_lock_irq(void)
++void ipi_call_lock_irq(void) __acquires(call_function.lock)
+ {
+ 	raw_spin_lock_irq(&call_function.lock);
+ }
+ 
+-void ipi_call_unlock_irq(void)
++void ipi_call_unlock_irq(void) __releases(call_function.lock)
+ {
+ 	raw_spin_unlock_irq(&call_function.lock);
+ }
+diff --git a/kernel/smp.c.rej b/kernel/smp.c.rej
+deleted file mode 100644
+index 0067c8c..0000000
+--- a/kernel/smp.c.rej
++++ /dev/null
+@@ -1,28 +0,0 @@
+-diff a/kernel/smp.c b/kernel/smp.c	(rejected hunks)
+-@@ -594,22 +594,22 @@ int smp_call_function(smp_call_func_t func, void *info, int wait)
+- }
+- EXPORT_SYMBOL(smp_call_function);
+- 
+--void ipi_call_lock(void)
+-+void ipi_call_lock(void) __acquires(call_function.lock)
+- {
+- 	raw_spin_lock(&call_function.lock);
+- }
+- 
+--void ipi_call_unlock(void)
+-+void ipi_call_unlock(void) __releases(call_function.lock)
+- {
+- 	raw_spin_unlock(&call_function.lock);
+- }
+- 
+--void ipi_call_lock_irq(void)
+-+void ipi_call_lock_irq(void) __acquires(call_function.lock)
+- {
+- 	raw_spin_lock_irq(&call_function.lock);
+- }
+- 
+--void ipi_call_unlock_irq(void)
+-+void ipi_call_unlock_irq(void) __releases(call_function.lock)
+- {
+- 	raw_spin_unlock_irq(&call_function.lock);
+- }
+diff --git a/kernel/trace/trace_stack.c b/kernel/trace/trace_stack.c
+index 8298997..88c977e 100644
+--- a/kernel/trace/trace_stack.c
++++ b/kernel/trace/trace_stack.c
+@@ -69,7 +69,7 @@ check_stack(unsigned long ip, unsigned long *stack)
+ 		return;
+ 
+ 	/* we do not handle interrupt stacks yet */
+-	if (!object_is_on_stack(stack))
++	if (!object_starts_on_stack(stack))
+ 		return;
+ 
+ 	local_irq_save(flags);
+diff --git a/kernel/trace/trace_stack.c.rej b/kernel/trace/trace_stack.c.rej
+deleted file mode 100644
+index a6ab037..0000000
+--- a/kernel/trace/trace_stack.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- kernel/trace/trace_stack.c	2012-03-19 10:39:11.988049175 +0100
+-+++ kernel/trace/trace_stack.c	2012-05-21 12:10:11.900049018 +0200
+-@@ -53,7 +53,7 @@ static inline void check_stack(void)
+-		return;
+-
+-	/* we do not handle interrupt stacks yet */
+--	if (!object_is_on_stack(&this_size))
+-+	if (!object_starts_on_stack(&this_size))
+-		return;
+-
+-	local_irq_save(flags);
+diff --git a/lib/bitmap.c b/lib/bitmap.c
+index 757b69e..088d207 100644
+--- a/lib/bitmap.c
++++ b/lib/bitmap.c
+@@ -604,7 +604,7 @@ static int __bitmap_parselist(const char *buf, unsigned int buflen,
+ {
+ 	unsigned a, b;
+ 	int c, old_c, totaldigits;
+-	const char __user __force *ubuf = (const char __user __force *)buf;
++	const char __user *ubuf = (const char __force_user *)buf;
+ 	int at_start, in_range;
+ 
+ 	totaldigits = c = 0;
+diff --git a/lib/bitmap.c.rej b/lib/bitmap.c.rej
+deleted file mode 100644
+index 750189f..0000000
+--- a/lib/bitmap.c.rej
++++ /dev/null
+@@ -1,10 +0,0 @@
+-diff a/lib/bitmap.c b/lib/bitmap.c	(rejected hunks)
+-@@ -604,7 +604,7 @@ static int __bitmap_parselist(const char *buf, unsigned int buflen,
+- {
+- 	unsigned a, b;
+- 	int c, old_c, totaldigits;
+--	const char __user __force *ubuf = (const char __user __force *)buf;
+-+	const char __user *ubuf = (const char __force_user *)buf;
+- 	int exp_digit, in_range;
+- 
+- 	totaldigits = c = 0;
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 6ad964d..ca2adb8 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -2829,6 +2829,10 @@ int hugetlb_fault(struct mm_struct *mm, struct vm_area_struct *vma,
+ 	struct hstate *h = hstate_vma(vma);
+ 	int need_wait_lock = 0;
+ 
++#ifdef CONFIG_PAX_SEGMEXEC
++	struct vm_area_struct *vma_m;
++#endif
++
+ 	address &= huge_page_mask(h);
+ 
+ 	ptep = huge_pte_offset(mm, address);
+diff --git a/mm/hugetlb.c.rej b/mm/hugetlb.c.rej
+deleted file mode 100644
+index fb998d0..0000000
+--- a/mm/hugetlb.c.rej
++++ /dev/null
+@@ -1,12 +0,0 @@
+-diff a/mm/hugetlb.c b/mm/hugetlb.c	(rejected hunks)
+-@@ -2814,6 +2844,10 @@ int hugetlb_fault(struct mm_struct *mm, struct vm_area_struct *vma,
+- 	static DEFINE_MUTEX(hugetlb_instantiation_mutex);
+- 	struct hstate *h = hstate_vma(vma);
+- 
+-+#ifdef CONFIG_PAX_SEGMEXEC
+-+	struct vm_area_struct *vma_m;
+-+#endif
+-+
+- 	address &= huge_page_mask(h);
+- 
+- 	ptep = huge_pte_offset(mm, address);
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index 5727a5b..3c1349b 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -1070,7 +1070,7 @@ int memory_failure(unsigned long pfn, int trapno, int flags)
+ 			if (PageHWPoison(hpage)) {
+ 				if ((hwpoison_filter(p) && TestClearPageHWPoison(p))
+ 				    || (p != hpage && TestSetPageHWPoison(hpage))) {
+-					atomic_long_sub(nr_pages, &mce_bad_pages);
++					atomic_long_sub_unchecked(nr_pages, &mce_bad_pages);
+ 					unlock_page(hpage);
+ 					return 0;
+ 				}
+@@ -1456,8 +1456,7 @@ static int soft_offline_huge_page(struct page *page, int flags)
+ 	/* overcommit hugetlb page will be freed to buddy */
+ 	if (PageHuge(hpage)) {
+ 		if (!PageHWPoison(hpage))
+-			atomic_long_add(1 << compound_trans_order(hpage),
+-					&mce_bad_pages);
++			atomic_long_add_unchecked(1 << compound_trans_order(hpage), &mce_bad_pages);
+ 		set_page_hwpoison_huge_page(hpage);
+ 		dequeue_hwpoisoned_huge_page(hpage);
+ 	} else {
+diff --git a/mm/memory-failure.c.rej b/mm/memory-failure.c.rej
+deleted file mode 100644
+index 10a09a0..0000000
+--- a/mm/memory-failure.c.rej
++++ /dev/null
+@@ -1,20 +0,0 @@
+---- mm/memory-failure.c	2012-08-09 20:18:52.153847491 +0200
+-+++ mm/memory-failure.c	2012-08-09 20:19:06.153846744 +0200
+-@@ -1068,7 +1068,7 @@ int memory_failure(unsigned long pfn, in
+-			if (!PageHWPoison(hpage)
+-			    || (hwpoison_filter(p) && TestClearPageHWPoison(p))
+-			    || (p != hpage && TestSetPageHWPoison(hpage))) {
+--				atomic_long_sub(nr_pages, &mce_bad_pages);
+-+				atomic_long_sub_unchecked(nr_pages, &mce_bad_pages);
+-				return 0;
+-			}
+-			set_page_hwpoison_huge_page(hpage);
+-@@ -1448,7 +1448,7 @@ static int soft_offline_huge_page(struct
+-	}
+- done:
+-	if (!PageHWPoison(hpage))
+--		atomic_long_add(1 << compound_trans_order(hpage), &mce_bad_pages);
+-+		atomic_long_add_unchecked(1 << compound_trans_order(hpage), &mce_bad_pages);
+-	set_page_hwpoison_huge_page(hpage);
+-	dequeue_hwpoisoned_huge_page(hpage);
+-	/* keep elevated page count for bad page */
+diff --git a/mm/memory.c b/mm/memory.c
+index 50a6c25..b5d8d5f 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -3370,40 +3370,6 @@ static int do_swap_page(struct mm_struct *mm, struct vm_area_struct *vma,
+ }
+ 
+ /*
+- * This is like a special single-page "expand_{down|up}wards()",
+- * except we must first make sure that 'address{-|+}PAGE_SIZE'
+- * doesn't hit another vma.
+- */
+-static inline int check_stack_guard_page(struct vm_area_struct *vma, unsigned long address)
+-{
+-	address &= PAGE_MASK;
+-	if ((vma->vm_flags & VM_GROWSDOWN) && address == vma->vm_start) {
+-		struct vm_area_struct *prev = vma->vm_prev;
+-
+-		/*
+-		 * Is there a mapping abutting this one below?
+-		 *
+-		 * That's only ok if it's the same stack mapping
+-		 * that has gotten split..
+-		 */
+-		if (prev && prev->vm_end == address)
+-			return prev->vm_flags & VM_GROWSDOWN ? 0 : -ENOMEM;
+-
+-		return expand_downwards(vma, address - PAGE_SIZE);
+-	}
+-	if ((vma->vm_flags & VM_GROWSUP) && address + PAGE_SIZE == vma->vm_end) {
+-		struct vm_area_struct *next = vma->vm_next;
+-
+-		/* As VM_GROWSDOWN but s/below/above/ */
+-		if (next && next->vm_start == address + PAGE_SIZE)
+-			return next->vm_flags & VM_GROWSUP ? 0 : -ENOMEM;
+-
+-		return expand_upwards(vma, address + PAGE_SIZE);
+-	}
+-	return 0;
+-}
+-
+-/*
+  * We enter with non-exclusive mmap_sem (to exclude vma changes,
+  * but allow concurrent faults), and pte mapped but not yet locked.
+  * We return with mmap_sem still held, but pte unmapped and unlocked.
+@@ -3412,27 +3378,23 @@ static int do_anonymous_page(struct mm_struct *mm, struct vm_area_struct *vma,
+ 		unsigned long address, pte_t *page_table, pmd_t *pmd,
+ 		unsigned int flags)
+ {
+-	struct page *page;
++	struct page *page = NULL;
+ 	spinlock_t *ptl;
+ 	pte_t entry;
+ 
+-	pte_unmap(page_table);
+-
+-	/* Check if we need to add a guard page to the stack */
+-	if (check_stack_guard_page(vma, address) < 0)
+-		return VM_FAULT_SIGSEGV;
+-
+-	/* Use the zero-page for reads */
+ 	if (!(flags & FAULT_FLAG_WRITE)) {
+ 		entry = pte_mkspecial(pfn_pte(my_zero_pfn(address),
+ 						vma->vm_page_prot));
+-		page_table = pte_offset_map_lock(mm, pmd, address, &ptl);
++		ptl = pte_lockptr(mm, pmd);
++		spin_lock(ptl);
+ 		if (!pte_none(*page_table))
+ 			goto unlock;
+ 		goto setpte;
+ 	}
+ 
+ 	/* Allocate our own private page. */
++	pte_unmap(page_table);
++
+ 	if (unlikely(anon_vma_prepare(vma)))
+ 		goto oom;
+ 	page = alloc_zeroed_user_highpage_movable(vma, address);
+@@ -3876,7 +3838,7 @@ int handle_mm_fault(struct mm_struct *mm, struct vm_area_struct *vma,
+ 	 * run pte_offset_map on the pmd, if an huge pmd could
+ 	 * materialize from under us from a different thread.
+ 	 */
+-	if (unlikely(pmd_none(*pmd)) && __pte_alloc(mm, vma, pmd, address))
++	if (unlikely(pmd_none(*pmd) && __pte_alloc(mm, vma, pmd, address)))
+ 		return VM_FAULT_OOM;
+ 	/* if an huge pmd materialized from under us just retry later */
+ 	if (unlikely(pmd_trans_huge(*pmd)))
+@@ -3913,6 +3875,23 @@ int __pud_alloc(struct mm_struct *mm, pgd_t *pgd, unsigned long address)
+ 	spin_unlock(&mm->page_table_lock);
+ 	return 0;
+ }
++
++int __pud_alloc_kernel(struct mm_struct *mm, pgd_t *pgd, unsigned long address)
++{
++	pud_t *new = pud_alloc_one(mm, address);
++	if (!new)
++		return -ENOMEM;
++
++	smp_wmb(); /* See comment in __pte_alloc */
++
++	spin_lock(&mm->page_table_lock);
++	if (pgd_present(*pgd))		/* Another has populated it */
++		pud_free(mm, new);
++	else
++		pgd_populate_kernel(mm, pgd, new);
++	spin_unlock(&mm->page_table_lock);
++	return 0;
++}
+ #endif /* __PAGETABLE_PUD_FOLDED */
+ 
+ #ifndef __PAGETABLE_PMD_FOLDED
+@@ -3943,6 +3922,30 @@ int __pmd_alloc(struct mm_struct *mm, pud_t *pud, unsigned long address)
+ 	spin_unlock(&mm->page_table_lock);
+ 	return 0;
+ }
++
++int __pmd_alloc_kernel(struct mm_struct *mm, pud_t *pud, unsigned long address)
++{
++	pmd_t *new = pmd_alloc_one(mm, address);
++	if (!new)
++		return -ENOMEM;
++
++	smp_wmb(); /* See comment in __pte_alloc */
++
++	spin_lock(&mm->page_table_lock);
++#ifndef __ARCH_HAS_4LEVEL_HACK
++	if (pud_present(*pud))		/* Another has populated it */
++		pmd_free(mm, new);
++	else
++		pud_populate_kernel(mm, pud, new);
++#else
++	if (pgd_present(*pud))		/* Another has populated it */
++		pmd_free(mm, new);
++	else
++		pgd_populate_kernel(mm, pud, new);
++#endif /* __ARCH_HAS_4LEVEL_HACK */
++	spin_unlock(&mm->page_table_lock);
++	return 0;
++}
+ #endif /* __PAGETABLE_PMD_FOLDED */
+ 
+ int make_pages_present(unsigned long addr, unsigned long end)
+@@ -3980,7 +3983,7 @@ static int __init gate_vma_init(void)
+ 	gate_vma.vm_start = FIXADDR_USER_START;
+ 	gate_vma.vm_end = FIXADDR_USER_END;
+ 	gate_vma.vm_flags = VM_READ | VM_MAYREAD | VM_EXEC | VM_MAYEXEC;
+-	gate_vma.vm_page_prot = __P101;
++	gate_vma.vm_page_prot = vm_get_page_prot(gate_vma.vm_flags);
+ 
+ 	return 0;
+ }
+diff --git a/mm/memory.c.rej b/mm/memory.c.rej
+deleted file mode 100644
+index b18c29f..0000000
+--- a/mm/memory.c.rej
++++ /dev/null
+@@ -1,149 +0,0 @@
+---- mm/memory.c	2012-05-21 11:33:40.095929975 +0200
+-+++ mm/memory.c	2012-05-21 12:10:11.964049021 +0200
+-@@ -3276,40 +3493,6 @@ out_release:
+- }
+-
+- /*
+-- * This is like a special single-page "expand_{down|up}wards()",
+-- * except we must first make sure that 'address{-|+}PAGE_SIZE'
+-- * doesn't hit another vma.
+-- */
+--static inline int check_stack_guard_page(struct vm_area_struct *vma, unsigned long address)
+--{
+--	address &= PAGE_MASK;
+--	if ((vma->vm_flags & VM_GROWSDOWN) && address == vma->vm_start) {
+--		struct vm_area_struct *prev = vma->vm_prev;
+--
+--		/*
+--		 * Is there a mapping abutting this one below?
+--		 *
+--		 * That's only ok if it's the same stack mapping
+--		 * that has gotten split..
+--		 */
+--		if (prev && prev->vm_end == address)
+--			return prev->vm_flags & VM_GROWSDOWN ? 0 : -ENOMEM;
+--
+--		expand_downwards(vma, address - PAGE_SIZE);
+--	}
+--	if ((vma->vm_flags & VM_GROWSUP) && address + PAGE_SIZE == vma->vm_end) {
+--		struct vm_area_struct *next = vma->vm_next;
+--
+--		/* As VM_GROWSDOWN but s/below/above/ */
+--		if (next && next->vm_start == address + PAGE_SIZE)
+--			return next->vm_flags & VM_GROWSUP ? 0 : -ENOMEM;
+--
+--		expand_upwards(vma, address + PAGE_SIZE);
+--	}
+--	return 0;
+--}
+--
+--/*
+-  * We enter with non-exclusive mmap_sem (to exclude vma changes,
+-  * but allow concurrent faults), and pte mapped but not yet locked.
+-  * We return with mmap_sem still held, but pte unmapped and unlocked.
+-@@ -3318,27 +3501,23 @@ static int do_anonymous_page(struct mm_s
+-		unsigned long address, pte_t *page_table, pmd_t *pmd,
+-		unsigned int flags)
+- {
+--	struct page *page;
+-+	struct page *page = NULL;
+-	spinlock_t *ptl;
+-	pte_t entry;
+-
+--	pte_unmap(page_table);
+--
+--	/* Check if we need to add a guard page to the stack */
+--	if (check_stack_guard_page(vma, address) < 0)
+--		return VM_FAULT_SIGBUS;
+--
+--	/* Use the zero-page for reads */
+-	if (!(flags & FAULT_FLAG_WRITE)) {
+-		entry = pte_mkspecial(pfn_pte(my_zero_pfn(address),
+-						vma->vm_page_prot));
+--		page_table = pte_offset_map_lock(mm, pmd, address, &ptl);
+-+		ptl = pte_lockptr(mm, pmd);
+-+		spin_lock(ptl);
+-		if (!pte_none(*page_table))
+-			goto unlock;
+-		goto setpte;
+-	}
+-
+-	/* Allocate our own private page. */
+-+	pte_unmap(page_table);
+-+
+-	if (unlikely(anon_vma_prepare(vma)))
+-		goto oom;
+-	page = alloc_zeroed_user_highpage_movable(vma, address);
+-@@ -3798,7 +4040,7 @@ int handle_mm_fault(struct mm_struct *mm
+-	 * run pte_offset_map on the pmd, if an huge pmd could
+-	 * materialize from under us from a different thread.
+-	 */
+--	if (unlikely(pmd_none(*pmd)) && __pte_alloc(mm, vma, pmd, address))
+-+	if (unlikely(pmd_none(*pmd) && __pte_alloc(mm, vma, pmd, address)))
+-		return VM_FAULT_OOM;
+-	/* if an huge pmd materialized from under us just retry later */
+-	if (unlikely(pmd_trans_huge(*pmd)))
+-@@ -3835,6 +4077,23 @@ int __pud_alloc(struct mm_struct *mm, pg
+-	spin_unlock(&mm->page_table_lock);
+-	return 0;
+- }
+-+
+-+int __pud_alloc_kernel(struct mm_struct *mm, pgd_t *pgd, unsigned long address)
+-+{
+-+	pud_t *new = pud_alloc_one(mm, address);
+-+	if (!new)
+-+		return -ENOMEM;
+-+
+-+	smp_wmb(); /* See comment in __pte_alloc */
+-+
+-+	spin_lock(&mm->page_table_lock);
+-+	if (pgd_present(*pgd))		/* Another has populated it */
+-+		pud_free(mm, new);
+-+	else
+-+		pgd_populate_kernel(mm, pgd, new);
+-+	spin_unlock(&mm->page_table_lock);
+-+	return 0;
+-+}
+- #endif /* __PAGETABLE_PUD_FOLDED */
+-
+- #ifndef __PAGETABLE_PMD_FOLDED
+-@@ -3865,6 +4124,30 @@ int __pmd_alloc(struct mm_struct *mm, pu
+-	spin_unlock(&mm->page_table_lock);
+-	return 0;
+- }
+-+
+-+int __pmd_alloc_kernel(struct mm_struct *mm, pud_t *pud, unsigned long address)
+-+{
+-+	pmd_t *new = pmd_alloc_one(mm, address);
+-+	if (!new)
+-+		return -ENOMEM;
+-+
+-+	smp_wmb(); /* See comment in __pte_alloc */
+-+
+-+	spin_lock(&mm->page_table_lock);
+-+#ifndef __ARCH_HAS_4LEVEL_HACK
+-+	if (pud_present(*pud))		/* Another has populated it */
+-+		pmd_free(mm, new);
+-+	else
+-+		pud_populate_kernel(mm, pud, new);
+-+#else
+-+	if (pgd_present(*pud))		/* Another has populated it */
+-+		pmd_free(mm, new);
+-+	else
+-+		pgd_populate_kernel(mm, pud, new);
+-+#endif /* __ARCH_HAS_4LEVEL_HACK */
+-+	spin_unlock(&mm->page_table_lock);
+-+	return 0;
+-+}
+- #endif /* __PAGETABLE_PMD_FOLDED */
+-
+- int make_pages_present(unsigned long addr, unsigned long end)
+-@@ -3902,7 +4185,7 @@ static int __init gate_vma_init(void)
+-	gate_vma.vm_start = FIXADDR_USER_START;
+-	gate_vma.vm_end = FIXADDR_USER_END;
+-	gate_vma.vm_flags = VM_READ | VM_MAYREAD | VM_EXEC | VM_MAYEXEC;
+--	gate_vma.vm_page_prot = __P101;
+-+	gate_vma.vm_page_prot = vm_get_page_prot(gate_vma.vm_flags);
+-
+-	return 0;
+- }
+diff --git a/mm/mmap.c b/mm/mmap.c
+index c2eb66c..acccaf4 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -747,6 +747,12 @@ can_vma_merge_before(struct vm_area_struct *vma, unsigned long vm_flags,
+ 	struct anon_vma *anon_vma, struct file *file, pgoff_t vm_pgoff,
+ 	const char __user *anon_name)
+ {
++
++#ifdef CONFIG_PAX_SEGMEXEC
++	if ((vma->vm_mm->pax_flags & MF_PAX_SEGMEXEC) && vma->vm_start == SEGMEXEC_TASK_SIZE)
++		return 0;
++#endif
++
+ 	if (is_mergeable_vma(vma, file, vm_flags, anon_name) &&
+ 	    is_mergeable_anon_vma(anon_vma, vma->anon_vma, vma)) {
+ 		if (vma->vm_pgoff == vm_pgoff)
+@@ -767,6 +773,12 @@ can_vma_merge_after(struct vm_area_struct *vma, unsigned long vm_flags,
+ 	struct anon_vma *anon_vma, struct file *file, pgoff_t vm_pgoff,
+ 	const char __user *anon_name)
+ {
++
++#ifdef CONFIG_PAX_SEGMEXEC
++	if ((vma->vm_mm->pax_flags & MF_PAX_SEGMEXEC) && vma->vm_end == SEGMEXEC_TASK_SIZE)
++		return 0;
++#endif
++
+ 	if (is_mergeable_vma(vma, file, vm_flags, anon_name) &&
+ 	    is_mergeable_anon_vma(anon_vma, vma->anon_vma, vma)) {
+ 		pgoff_t vm_pglen;
+@@ -817,6 +829,13 @@ struct vm_area_struct *vma_merge(struct mm_struct *mm,
+ 	struct vm_area_struct *area, *next;
+ 	int err;
+ 
++#ifdef CONFIG_PAX_SEGMEXEC
++	unsigned long addr_m = addr + SEGMEXEC_TASK_SIZE, end_m = end + SEGMEXEC_TASK_SIZE;
++	struct vm_area_struct *area_m = NULL, *next_m = NULL, *prev_m = NULL;
++
++	BUG_ON((mm->pax_flags & MF_PAX_SEGMEXEC) && SEGMEXEC_TASK_SIZE < end);
++#endif
++
+ 	/*
+ 	 * We later require that vma->vm_flags == vm_flags,
+ 	 * so this tests vma->vm_flags & VM_SPECIAL, too.
+@@ -891,12 +910,27 @@ struct vm_area_struct *vma_merge(struct mm_struct *mm,
+  			mpol_equal(policy, vma_policy(next)) &&
+ 			can_vma_merge_before(next, vm_flags, anon_vma,
+ 					file, pgoff+pglen, anon_name)) {
+-		if (prev && addr < prev->vm_end)	/* case 4 */
++		if (prev && addr < prev->vm_end) {	/* case 4 */
+ 			err = vma_adjust(prev, prev->vm_start,
+ 				addr, prev->vm_pgoff, NULL);
+-		else					/* cases 3, 8 */
++
++#ifdef CONFIG_PAX_SEGMEXEC
++			if (!err && prev_m)
++				err = vma_adjust(prev_m, prev_m->vm_start,
++						addr_m, prev_m->vm_pgoff, NULL);
++#endif
++
++		} else {				/* cases 3, 8 */
+ 			err = vma_adjust(area, addr, next->vm_end,
+ 				next->vm_pgoff - pglen, NULL);
++
++#ifdef CONFIG_PAX_SEGMEXEC
++			if (!err && area_m)
++				err = vma_adjust(area_m, addr_m, next_m->vm_end,
++						next_m->vm_pgoff - pglen, NULL);
++#endif
++
++		}
+ 		if (err)
+ 			return NULL;
+ 		khugepaged_enter_vma_merge(area, vm_flags);
+@@ -2109,11 +2143,22 @@ int expand_downwards(struct vm_area_struct *vma,
+ 			if (!error) {
+ 				vma->vm_start = address;
+ 				vma->vm_pgoff -= grow;
++				track_exec_limit(vma->vm_mm, vma->vm_start, vma->vm_end, vma->vm_flags);
++
++#ifdef CONFIG_PAX_SEGMEXEC
++				if (vma_m) {
++					vma_m->vm_start -= grow << PAGE_SHIFT;
++					vma_m->vm_pgoff -= grow;
++				}
++#endif
++
+ 				perf_event_mmap(vma);
+ 			}
+ 		}
+ 	}
+ 	vma_unlock_anon_vma(vma);
++	if (lockprev)
++		vma_unlock_anon_vma(prev);
+ 	khugepaged_enter_vma_merge(vma, vma->vm_flags);
+ 	return error;
+ }
+diff --git a/mm/mmap.c.rej b/mm/mmap.c.rej
+deleted file mode 100644
+index 3979d2d..0000000
+--- a/mm/mmap.c.rej
++++ /dev/null
+@@ -1,103 +0,0 @@
+---- mm/mmap.c	2012-05-21 11:33:40.107929975 +0200
+-+++ mm/mmap.c	2012-05-22 16:53:56.195111150 +0200
+-@@ -711,6 +732,12 @@ static int
+- can_vma_merge_before(struct vm_area_struct *vma, unsigned long vm_flags,
+-	struct anon_vma *anon_vma, struct file *file, pgoff_t vm_pgoff)
+- {
+-+
+-+#ifdef CONFIG_PAX_SEGMEXEC
+-+	if ((vma->vm_mm->pax_flags & MF_PAX_SEGMEXEC) && vma->vm_start == SEGMEXEC_TASK_SIZE)
+-+		return 0;
+-+#endif
+-+
+-	if (is_mergeable_vma(vma, file, vm_flags) &&
+-	    is_mergeable_anon_vma(anon_vma, vma->anon_vma, vma)) {
+-		if (vma->vm_pgoff == vm_pgoff)
+-@@ -730,6 +757,12 @@ static int
+- can_vma_merge_after(struct vm_area_struct *vma, unsigned long vm_flags,
+-	struct anon_vma *anon_vma, struct file *file, pgoff_t vm_pgoff)
+- {
+-+
+-+#ifdef CONFIG_PAX_SEGMEXEC
+-+	if ((vma->vm_mm->pax_flags & MF_PAX_SEGMEXEC) && vma->vm_end == SEGMEXEC_TASK_SIZE)
+-+		return 0;
+-+#endif
+-+
+-	if (is_mergeable_vma(vma, file, vm_flags) &&
+-	    is_mergeable_anon_vma(anon_vma, vma->anon_vma, vma)) {
+-		pgoff_t vm_pglen;
+-@@ -772,13 +805,20 @@ can_vma_merge_after(struct vm_area_struc
+- struct vm_area_struct *vma_merge(struct mm_struct *mm,
+-			struct vm_area_struct *prev, unsigned long addr,
+-			unsigned long end, unsigned long vm_flags,
+--		     	struct anon_vma *anon_vma, struct file *file,
+-+			struct anon_vma *anon_vma, struct file *file,
+-			pgoff_t pgoff, struct mempolicy *policy)
+- {
+-	pgoff_t pglen = (end - addr) >> PAGE_SHIFT;
+-	struct vm_area_struct *area, *next;
+-	int err;
+-
+-+#ifdef CONFIG_PAX_SEGMEXEC
+-+	unsigned long addr_m = addr + SEGMEXEC_TASK_SIZE, end_m = end + SEGMEXEC_TASK_SIZE;
+-+	struct vm_area_struct *area_m = NULL, *next_m = NULL, *prev_m = NULL;
+-+
+-+	BUG_ON((mm->pax_flags & MF_PAX_SEGMEXEC) && SEGMEXEC_TASK_SIZE < end);
+-+#endif
+-+
+-	/*
+-	 * We later require that vma->vm_flags == vm_flags,
+-	 * so this tests vma->vm_flags & VM_SPECIAL, too.
+-@@ -853,12 +917,27 @@ struct vm_area_struct *vma_merge(struct
+-			mpol_equal(policy, vma_policy(next)) &&
+-			can_vma_merge_before(next, vm_flags,
+-					anon_vma, file, pgoff+pglen)) {
+--		if (prev && addr < prev->vm_end)	/* case 4 */
+-+		if (prev && addr < prev->vm_end) {	/* case 4 */
+-			err = vma_adjust(prev, prev->vm_start,
+-				addr, prev->vm_pgoff, NULL);
+--		else					/* cases 3, 8 */
+-+
+-+#ifdef CONFIG_PAX_SEGMEXEC
+-+			if (!err && prev_m)
+-+				err = vma_adjust(prev_m, prev_m->vm_start,
+-+						addr_m, prev_m->vm_pgoff, NULL);
+-+#endif
+-+
+-+		} else {				/* cases 3, 8 */
+-			err = vma_adjust(area, addr, next->vm_end,
+-				next->vm_pgoff - pglen, NULL);
+-+
+-+#ifdef CONFIG_PAX_SEGMEXEC
+-+			if (!err && area_m)
+-+				err = vma_adjust(area_m, addr_m, next_m->vm_end,
+-+						next_m->vm_pgoff - pglen, NULL);
+-+#endif
+-+
+-+		}
+-		if (err)
+-			return NULL;
+-		khugepaged_enter_vma_merge(area);
+-@@ -2050,11 +2314,22 @@ int expand_downwards(struct vm_area_stru
+-			if (!error) {
+-				vma->vm_start = address;
+-				vma->vm_pgoff -= grow;
+-+				track_exec_limit(vma->vm_mm, vma->vm_start, vma->vm_end, vma->vm_flags);
+-+
+-+#ifdef CONFIG_PAX_SEGMEXEC
+-+				if (vma_m) {
+-+					vma_m->vm_start -= grow << PAGE_SHIFT;
+-+					vma_m->vm_pgoff -= grow;
+-+				}
+-+#endif
+-+
+-				perf_event_mmap(vma);
+-			}
+-		}
+-	}
+-	vma_unlock_anon_vma(vma);
+-+	if (lockprev)
+-+		vma_unlock_anon_vma(prev);
+-	khugepaged_enter_vma_merge(vma);
+-	return error;
+- }
+diff --git a/mm/swap.c b/mm/swap.c
+index f689e9a..4a937cf 100644
+--- a/mm/swap.c
++++ b/mm/swap.c
+@@ -72,6 +72,8 @@ static void __put_compound_page(struct page *page)
+ 	if (!PageHuge(page))
+ 		__page_cache_release(page);
+ 	dtor = get_compound_page_dtor(page);
++	if (!PageHuge(page))
++		BUG_ON(dtor != free_compound_page);
+ 	(*dtor)(page);
+ }
+ 
+diff --git a/mm/swap.c.rej b/mm/swap.c.rej
+deleted file mode 100644
+index f011efb..0000000
+--- a/mm/swap.c.rej
++++ /dev/null
+@@ -1,18 +0,0 @@
+---- mm/swap.c	2012-05-21 11:33:40.171929979 +0200
+-+++ mm/swap.c	2012-05-21 12:10:12.044049025 +0200
+-@@ -30,6 +30,7 @@
+- #include <linux/backing-dev.h>
+- #include <linux/memcontrol.h>
+- #include <linux/gfp.h>
+-+#include <linux/hugetlb.h>
+-
+- #include "internal.h"
+-
+-@@ -70,6 +71,8 @@ static void __put_compound_page(struct p
+-
+-	__page_cache_release(page);
+-	dtor = get_compound_page_dtor(page);
+-+	if (!PageHuge(page))
+-+		BUG_ON(dtor != free_compound_page);
+-	(*dtor)(page);
+- }
+diff --git a/net/bluetooth/hci_conn.c.rej b/net/bluetooth/hci_conn.c.rej
+deleted file mode 100644
+index bd8d5ef..0000000
+--- a/net/bluetooth/hci_conn.c.rej
++++ /dev/null
+@@ -1,10 +0,0 @@
+-diff a/net/bluetooth/hci_conn.c b/net/bluetooth/hci_conn.c	(rejected hunks)
+-@@ -404,7 +404,7 @@ void hci_le_ltk_reply(struct hci_conn *conn, u8 ltk[16])
+- 	memset(&cp, 0, sizeof(cp));
+- 
+- 	cp.handle = cpu_to_le16(conn->handle);
+--	memcpy(cp.ltk, ltk, sizeof(ltk));
+-+	memcpy(cp.ltk, ltk, sizeof(cp.ltk));
+- 
+- 	hci_send_cmd(hdev, HCI_OP_LE_LTK_REPLY, sizeof(cp), &cp);
+- }
+diff --git a/net/bluetooth/l2cap_core.c.rej b/net/bluetooth/l2cap_core.c.rej
+deleted file mode 100644
+index 2ab9548..0000000
+--- a/net/bluetooth/l2cap_core.c.rej
++++ /dev/null
+@@ -1,15 +0,0 @@
+---- net/bluetooth/l2cap_core.c	2012-05-21 11:33:40.879930017 +0200
+-+++ net/bluetooth/l2cap_core.c	2012-05-21 12:10:12.092049029 +0200
+-@@ -2587,8 +2589,10 @@ static void l2cap_conf_rfc_get(struct l2
+-
+-		switch (type) {
+-		case L2CAP_CONF_RFC:
+--			if (olen == sizeof(rfc))
+--				memcpy(&rfc, (void *)val, olen);
+-+			if (olen != sizeof(rfc))
+-+				break;
+-+
+-+			memcpy(&rfc, (void *)val, olen);
+-			goto done;
+-		}
+-	}
+diff --git a/net/compat.c b/net/compat.c
+index e7353fc..abb5f2e 100644
+--- a/net/compat.c
++++ b/net/compat.c
+@@ -80,9 +80,9 @@ int get_compat_msghdr(struct msghdr *kmsg, struct compat_msghdr __user *umsg)
+ 
+ 	if (kmsg->msg_namelen > sizeof(struct sockaddr_storage))
+ 		kmsg->msg_namelen = sizeof(struct sockaddr_storage);
+-	kmsg->msg_name = compat_ptr(tmp1);
+-	kmsg->msg_iov = compat_ptr(tmp2);
+-	kmsg->msg_control = compat_ptr(tmp3);
++	kmsg->msg_name = (void __force_kernel *)compat_ptr(tmp1);
++	kmsg->msg_iov = (void __force_kernel *)compat_ptr(tmp2);
++	kmsg->msg_control = (void __force_kernel *)compat_ptr(tmp3);
+ 	return 0;
+ }
+ 
+diff --git a/net/compat.c.rej b/net/compat.c.rej
+deleted file mode 100644
+index 79fee55..0000000
+--- a/net/compat.c.rej
++++ /dev/null
+@@ -1,14 +0,0 @@
+---- net/compat.c	2012-08-09 20:18:52.173847490 +0200
+-+++ net/compat.c	2012-08-09 20:19:41.993844830 +0200
+-@@ -71,9 +71,9 @@ int get_compat_msghdr(struct msghdr *kms
+-	    __get_user(kmsg->msg_controllen, &umsg->msg_controllen) ||
+-	    __get_user(kmsg->msg_flags, &umsg->msg_flags))
+-		return -EFAULT;
+--	kmsg->msg_name = compat_ptr(tmp1);
+--	kmsg->msg_iov = compat_ptr(tmp2);
+--	kmsg->msg_control = compat_ptr(tmp3);
+-+	kmsg->msg_name = (void __force_kernel *)compat_ptr(tmp1);
+-+	kmsg->msg_iov = (void __force_kernel *)compat_ptr(tmp2);
+-+	kmsg->msg_control = (void __force_kernel *)compat_ptr(tmp3);
+-	return 0;
+- }
+diff --git a/net/ipv4/inetpeer.c b/net/ipv4/inetpeer.c
+index d63a926..013947b 100644
+--- a/net/ipv4/inetpeer.c
++++ b/net/ipv4/inetpeer.c
+@@ -487,8 +487,8 @@ struct inet_peer *inet_getpeer(const struct inetpeer_addr *daddr, int create)
+ 	if (p) {
+ 		p->daddr = *daddr;
+ 		atomic_set(&p->refcnt, 1);
+-		atomic_set(&p->rid, 0);
+-		atomic_set(&p->ip_id_count,
++		atomic_set_unchecked(&p->rid, 0);
++		atomic_set_unchecked(&p->ip_id_count,
+ 				(daddr->family == AF_INET) ?
+ 					secure_ip_id(daddr->addr.a4) :
+ 					secure_ipv6_id(daddr->addr.a6));
+diff --git a/net/ipv4/inetpeer.c.rej b/net/ipv4/inetpeer.c.rej
+deleted file mode 100644
+index d0bed373..0000000
+--- a/net/ipv4/inetpeer.c.rej
++++ /dev/null
+@@ -1,13 +0,0 @@
+---- net/ipv4/inetpeer.c	2012-07-21 01:28:45.442708108 +0200
+-+++ net/ipv4/inetpeer.c	2012-07-21 01:28:57.122708454 +0200
+-@@ -487,8 +487,8 @@ relookup:
+-	if (p) {
+-		p->daddr = *daddr;
+-		atomic_set(&p->refcnt, 1);
+--		atomic_set(&p->rid, 0);
+--		atomic_set(&p->ip_id_count,
+-+		atomic_set_unchecked(&p->rid, 0);
+-+		atomic_set_unchecked(&p->ip_id_count,
+-				(daddr->family == AF_INET) ?
+-					secure_ip_id(daddr->addr.a4) :
+-					secure_ipv6_id(daddr->addr.a6));
+diff --git a/net/ipv4/ping.c b/net/ipv4/ping.c
+index bc374ad..55ea376 100644
+--- a/net/ipv4/ping.c
++++ b/net/ipv4/ping.c
+@@ -1108,7 +1108,7 @@ static void ping_format_sock(struct sock *sp, struct seq_file *f,
+ 		sk_rmem_alloc_get(sp),
+ 		0, 0L, 0, sock_i_uid(sp), 0, sock_i_ino(sp),
+ 		atomic_read(&sp->sk_refcnt), sp,
+-		atomic_read(&sp->sk_drops), len);
++		atomic_read_unchecked(&sp->sk_drops), len);
+ }
+ 
+ static int ping_seq_show(struct seq_file *seq, void *v)
+diff --git a/net/ipv4/ping.c.rej b/net/ipv4/ping.c.rej
+deleted file mode 100644
+index 0f3a592..0000000
+--- a/net/ipv4/ping.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- net/ipv4/ping.c	2012-05-21 11:33:41.183930034 +0200
+-+++ net/ipv4/ping.c	2012-05-21 12:10:12.164049032 +0200
+-@@ -838,7 +838,7 @@ static void ping_format_sock(struct sock
+-		sk_rmem_alloc_get(sp),
+-		0, 0L, 0, sock_i_uid(sp), 0, sock_i_ino(sp),
+-		atomic_read(&sp->sk_refcnt), sp,
+--		atomic_read(&sp->sk_drops), len);
+-+		atomic_read_unchecked(&sp->sk_drops), len);
+- }
+-
+- static int ping_seq_show(struct seq_file *seq, void *v)
+diff --git a/net/ipv4/route.c b/net/ipv4/route.c
+index b65d0c6..1ff48d3 100644
+--- a/net/ipv4/route.c
++++ b/net/ipv4/route.c
+@@ -3050,7 +3050,7 @@ static int rt_fill_info(struct net *net,
+ 	error = rt->dst.error;
+ 	if (peer) {
+ 		inet_peer_refcheck(rt->peer);
+-		id = atomic_read(&peer->ip_id_count) & 0xffff;
++		id = atomic_read_unchecked(&peer->ip_id_count) & 0xffff;
+ 		if (peer->tcp_ts_stamp) {
+ 			ts = peer->tcp_ts;
+ 			tsage = get_seconds() - peer->tcp_ts_stamp;
+diff --git a/net/ipv4/route.c.rej b/net/ipv4/route.c.rej
+deleted file mode 100644
+index fe8448d..0000000
+--- a/net/ipv4/route.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- net/ipv4/route.c	2012-05-21 11:33:41.191930034 +0200
+-+++ net/ipv4/route.c	2012-05-21 12:10:12.176049032 +0200
+-@@ -3009,7 +3009,7 @@ static int rt_fill_info(struct net *net,
+-	error = rt->dst.error;
+-	if (peer) {
+-		inet_peer_refcheck(rt->peer);
+--		id = atomic_read(&peer->ip_id_count) & 0xffff;
+-+		id = atomic_read_unchecked(&peer->ip_id_count) & 0xffff;
+-		if (peer->tcp_ts_stamp) {
+-			ts = peer->tcp_ts;
+-			tsage = get_seconds() - peer->tcp_ts_stamp;
+diff --git a/net/ipv4/udp.c b/net/ipv4/udp.c
+index 2c19509..80b32cd 100644
+--- a/net/ipv4/udp.c
++++ b/net/ipv4/udp.c
+@@ -2098,7 +2098,7 @@ static void udp4_format_sock(struct sock *sp, struct seq_file *f,
+ 		sk_rmem_alloc_get(sp),
+ 		0, 0L, 0, sock_i_uid(sp), 0, sock_i_ino(sp),
+ 		atomic_read(&sp->sk_refcnt), sp,
+-		atomic_read(&sp->sk_drops));
++		atomic_read_unchecked(&sp->sk_drops));
+ }
+ 
+ int udp4_seq_show(struct seq_file *seq, void *v)
+diff --git a/net/ipv4/udp.c.rej b/net/ipv4/udp.c.rej
+deleted file mode 100644
+index 7f49fc5..0000000
+--- a/net/ipv4/udp.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- net/ipv4/udp.c	2012-05-21 11:33:41.259930038 +0200
+-+++ net/ipv4/udp.c	2012-05-21 12:10:12.180049033 +0200
+-@@ -2095,7 +2095,7 @@ static void udp4_format_sock(struct sock
+-		sk_rmem_alloc_get(sp),
+-		0, 0L, 0, sock_i_uid(sp), 0, sock_i_ino(sp),
+-		atomic_read(&sp->sk_refcnt), sp,
+--		atomic_read(&sp->sk_drops), len);
+-+		atomic_read_unchecked(&sp->sk_drops), len);
+- }
+-
+- int udp4_seq_show(struct seq_file *seq, void *v)
+diff --git a/net/phonet/socket.c b/net/phonet/socket.c
+index 0e3c6ec..6626a58 100644
+--- a/net/phonet/socket.c
++++ b/net/phonet/socket.c
+@@ -613,7 +613,7 @@ static int pn_sock_seq_show(struct seq_file *seq, void *v)
+ 			sk_wmem_alloc_get(sk), sk_rmem_alloc_get(sk),
+ 			sock_i_uid(sk), sock_i_ino(sk),
+ 			atomic_read(&sk->sk_refcnt), sk,
+-			atomic_read(&sk->sk_drops));
++			atomic_read_unchecked(&sk->sk_drops));
+ 	}
+ 	seq_pad(seq, '\n');
+ 	return 0;
+diff --git a/net/phonet/socket.c.rej b/net/phonet/socket.c.rej
+deleted file mode 100644
+index 36ff5fd..0000000
+--- a/net/phonet/socket.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- net/phonet/socket.c	2012-03-19 10:39:14.136049059 +0100
+-+++ net/phonet/socket.c	2012-05-21 12:10:12.268049037 +0200
+-@@ -614,7 +614,7 @@ static int pn_sock_seq_show(struct seq_f
+-			sk_wmem_alloc_get(sk), sk_rmem_alloc_get(sk),
+-			sock_i_uid(sk), sock_i_ino(sk),
+-			atomic_read(&sk->sk_refcnt), sk,
+--			atomic_read(&sk->sk_drops), &len);
+-+			atomic_read_unchecked(&sk->sk_drops), &len);
+-	}
+-	seq_printf(seq, "%*s\n", 127 - len, "");
+-	return 0;
+diff --git a/net/socket.c b/net/socket.c
+index aff24ac..ed7a698 100644
+--- a/net/socket.c
++++ b/net/socket.c
+@@ -2191,7 +2191,7 @@ static int ___sys_recvmsg(struct socket *sock, struct msghdr __user *msg,
+ 	/* Save the user-mode address (verify_iovec will change the
+ 	 * kernel msghdr to use the kernel address space)
+ 	 */
+-	uaddr = (__force void __user *)msg_sys->msg_name;
++	uaddr = (void __force_user *)msg_sys->msg_name;
+ 	uaddr_len = COMPAT_NAMELEN(msg);
+ 	if (MSG_CMSG_COMPAT & flags)
+ 		err = verify_compat_iovec(msg_sys, iov, &addr, VERIFY_WRITE);
+diff --git a/net/socket.c.rej b/net/socket.c.rej
+deleted file mode 100644
+index a137006..0000000
+--- a/net/socket.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- net/socket.c	2012-08-09 20:18:52.313847482 +0200
+-+++ net/socket.c	2012-08-09 20:19:06.321846735 +0200
+-@@ -2139,7 +2139,7 @@ static int __sys_recvmsg(struct socket *
+-	 *      kernel msghdr to use the kernel address space)
+-	 */
+-
+--	uaddr = (__force void __user *)msg_sys->msg_name;
+-+	uaddr = (void __force_user *)msg_sys->msg_name;
+-	uaddr_len = COMPAT_NAMELEN(msg);
+-	if (MSG_CMSG_COMPAT & flags) {
+-		err = verify_compat_iovec(msg_sys, iov, &addr, VERIFY_WRITE);
+diff --git a/security/keys/compat.c b/security/keys/compat.c
+index 1b0b7bf..9476b92 100644
+--- a/security/keys/compat.c
++++ b/security/keys/compat.c
+@@ -44,7 +44,7 @@ long compat_keyctl_instantiate_key_iov(
+ 	if (ret == 0)
+ 		goto no_payload_free;
+ 
+-	ret = keyctl_instantiate_key_common(id, iov, ioc, ret, ringid);
++	ret = keyctl_instantiate_key_common(id, (const struct iovec __force_user *)iov, ioc, ret, ringid);
+ err:
+ 	if (iov != iovstack)
+ 		kfree(iov);
+diff --git a/security/keys/compat.c.rej b/security/keys/compat.c.rej
+deleted file mode 100644
+index 7a74d9d..0000000
+--- a/security/keys/compat.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- security/keys/compat.c	2012-01-08 19:48:31.735470731 +0100
+-+++ security/keys/compat.c	2012-05-21 12:10:12.400049045 +0200
+-@@ -44,7 +44,7 @@ long compat_keyctl_instantiate_key_iov(
+-	if (ret == 0)
+-		goto no_payload_free;
+-
+--	ret = keyctl_instantiate_key_common(id, iov, ioc, ret, ringid);
+-+	ret = keyctl_instantiate_key_common(id, (const struct iovec __force_user *)iov, ioc, ret, ringid);
+-
+-	if (iov != iovstack)
+-		kfree(iov);
+diff --git a/security/keys/keyctl.c b/security/keys/keyctl.c
+index dc57d2b..07bb546 100644
+--- a/security/keys/keyctl.c
++++ b/security/keys/keyctl.c
+@@ -1085,7 +1085,7 @@ long keyctl_instantiate_key_iov(key_serial_t id,
+ 	if (ret == 0)
+ 		goto no_payload_free;
+ 
+-	ret = keyctl_instantiate_key_common(id, iov, ioc, ret, ringid);
++	ret = keyctl_instantiate_key_common(id, (const struct iovec __force_user *)iov, ioc, ret, ringid);
+ err:
+ 	if (iov != iovstack)
+ 		kfree(iov);
+diff --git a/security/keys/keyctl.c.rej b/security/keys/keyctl.c.rej
+deleted file mode 100644
+index 60237fb..0000000
+--- a/security/keys/keyctl.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- security/keys/keyctl.c	2012-05-21 11:33:42.531930107 +0200
+-+++ security/keys/keyctl.c	2012-05-21 12:10:12.404049045 +0200
+-@@ -1085,7 +1085,7 @@ long keyctl_instantiate_key_iov(key_seri
+-	if (ret == 0)
+-		goto no_payload_free;
+-
+--	ret = keyctl_instantiate_key_common(id, iov, ioc, ret, ringid);
+-+	ret = keyctl_instantiate_key_common(id, (const struct iovec __force_user *)iov, ioc, ret, ringid);
+-
+-	if (iov != iovstack)
+-		kfree(iov);
+diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+index 8ca7b07..6cb5d78 100644
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -5780,7 +5780,7 @@ static int selinux_key_getsecurity(struct key *key, char **_buffer)
+ 
+ #endif
+ 
+-static struct security_operations selinux_ops = {
++static struct security_operations selinux_ops __read_only = {
+ 	.name =				"selinux",
+ 
+ 	.binder_set_context_mgr =	selinux_binder_set_context_mgr,
+diff --git a/security/selinux/hooks.c.rej b/security/selinux/hooks.c.rej
+deleted file mode 100644
+index 1e2910c..0000000
+--- a/security/selinux/hooks.c.rej
++++ /dev/null
+@@ -1,10 +0,0 @@
+-diff a/security/selinux/hooks.c b/security/selinux/hooks.c	(rejected hunks)
+-@@ -5801,7 +5801,7 @@ static int selinux_bprm_check_security (struct linux_binprm *bprm)
+- #endif
+- /* TmmSecure end */
+- 
+--static struct security_operations selinux_ops = {
+-+static struct security_operations selinux_ops __read_only = {
+- 	.name =				"selinux",
+- 
+- 	.binder_set_context_mgr =	selinux_binder_set_context_mgr,
+diff --git a/sound/soc/soc-pcm.c.rej b/sound/soc/soc-pcm.c.rej
+deleted file mode 100644
+index 9673a52..0000000
+--- a/sound/soc/soc-pcm.c.rej
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- sound/soc/soc-pcm.c	2012-05-21 11:33:44.919930237 +0200
+-+++ sound/soc/soc-pcm.c	2012-05-21 12:10:12.480049049 +0200
+-@@ -641,7 +641,7 @@ int soc_new_pcm(struct snd_soc_pcm_runti
+-	struct snd_soc_platform *platform = rtd->platform;
+-	struct snd_soc_dai *codec_dai = rtd->codec_dai;
+-	struct snd_soc_dai *cpu_dai = rtd->cpu_dai;
+--	struct snd_pcm_ops *soc_pcm_ops = &rtd->ops;
+-+	snd_pcm_ops_no_const *soc_pcm_ops = &rtd->ops;
+-	struct snd_pcm *pcm;
+-	char new_name[64];
+-	int ret = 0, playback = 0, capture = 0;
+diff --git a/sound/usb/card.h.rej b/sound/usb/card.h.rej
+deleted file mode 100644
+index eae6a2b..0000000
+--- a/sound/usb/card.h.rej
++++ /dev/null
+@@ -1,18 +0,0 @@
+-diff a/sound/usb/card.h b/sound/usb/card.h	(rejected hunks)
+-@@ -45,6 +45,7 @@ struct snd_urb_ops {
+- 	int (*prepare_sync)(struct snd_usb_substream *subs, struct snd_pcm_runtime *runtime, struct urb *u);
+- 	int (*retire_sync)(struct snd_usb_substream *subs, struct snd_pcm_runtime *runtime, struct urb *u);
+- };
+-+typedef struct snd_urb_ops __no_const snd_urb_ops_no_const;
+- 
+- struct snd_usb_substream {
+- 	struct snd_usb_stream *stream;
+-@@ -96,7 +97,7 @@ struct snd_usb_substream {
+- 	struct snd_pcm_hw_constraint_list rate_list;	/* limited rates */
+- 	spinlock_t lock;
+- 
+--	struct snd_urb_ops ops;		/* callbacks (must be filled at init) */
+-+	snd_urb_ops_no_const ops;	/* callbacks (must be filled at init) */
+- 	int last_frame_number;          /* stored frame number */
+- 	int last_delay;                 /* stored delay */
+- };
+diff --git a/usr/gen_init_cpio.c b/usr/gen_init_cpio.c
+index aca6edc..86cd399 100644
+--- a/usr/gen_init_cpio.c
++++ b/usr/gen_init_cpio.c
+@@ -392,12 +392,10 @@ static char *cpio_replace_env(char *new_location)
+ 			*env_var = *expanded = '\0';
+ 			strncat(env_var, start + 2, end - start - 2);
+ 			strncat(expanded, new_location, start - new_location);
+-			strncat(expanded, getenv(env_var),
+-				PATH_MAX - strlen(expanded));
+-			strncat(expanded, end + 1,
+-				PATH_MAX - strlen(expanded));
+-			strncpy(new_location, expanded, PATH_MAX);
+-			new_location[PATH_MAX] = 0;
++                        strncat(expanded, getenv(env_var), PATH_MAX - strlen(expanded));
++                        strncat(expanded, end + 1, PATH_MAX - strlen(expanded));
++                        strncpy(new_location, expanded, PATH_MAX);
++                        new_location[PATH_MAX] = 0;
+ 		} else
+ 			break;
+ 	}
+diff --git a/usr/gen_init_cpio.c.rej b/usr/gen_init_cpio.c.rej
+deleted file mode 100644
+index 3e1b7ce..0000000
+--- a/usr/gen_init_cpio.c.rej
++++ /dev/null
+@@ -1,24 +0,0 @@
+---- usr/gen_init_cpio.c	2011-07-22 04:17:23.000000000 +0200
+-+++ usr/gen_init_cpio.c	2012-05-21 12:10:12.504049050 +0200
+-@@ -303,7 +303,7 @@ static int cpio_mkfile(const char *name,
+-	int retval;
+-	int rc = -1;
+-	int namesize;
+--	int i;
+-+	unsigned int i;
+-
+-	mode |= S_IFREG;
+-
+-@@ -392,9 +392,10 @@ static char *cpio_replace_env(char *new_
+-                        *env_var = *expanded = '\0';
+-                        strncat(env_var, start + 2, end - start - 2);
+-                        strncat(expanded, new_location, start - new_location);
+--                       strncat(expanded, getenv(env_var), PATH_MAX);
+--                       strncat(expanded, end + 1, PATH_MAX);
+-+                       strncat(expanded, getenv(env_var), PATH_MAX - strlen(expanded));
+-+                       strncat(expanded, end + 1, PATH_MAX - strlen(expanded));
+-                        strncpy(new_location, expanded, PATH_MAX);
+-+                       new_location[PATH_MAX] = 0;
+-                } else
+-                        break;
+-        }

@@ -1,0 +1,26 @@
+From d3774f2251a1fcaadd097de56f2494698b576034 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 25 Feb 2016 09:57:28 -0500
+Subject: [PATCH] Disable opt
+
+Change-Id: I53a1075347b33690ad694fb400d06290a19e2666
+---
+ media/libstagefright/id3/ID3.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/media/libstagefright/id3/ID3.cpp b/media/libstagefright/id3/ID3.cpp
+index 76d65f0..0ff541a 100644
+--- a/media/libstagefright/id3/ID3.cpp
++++ b/media/libstagefright/id3/ID3.cpp
+@@ -500,7 +500,7 @@ void ID3::Iterator::getString(String8 *id, String8 *comment) const {
+ // comment fields (COM/COMM) contain an initial short descriptor, followed by \0,
+ // followed by more data. The data following the \0 can be retrieved by setting
+ // "otherdata" to true.
+-void ID3::Iterator::getstring(String8 *id, bool otherdata) const {
++void __attribute__((optimize("no-tree-vectorize"))) ID3::Iterator::getstring(String8 *id, bool otherdata) const {
+     id->setTo("");
+ 
+     size_t size;
+-- 
+2.7.1
+

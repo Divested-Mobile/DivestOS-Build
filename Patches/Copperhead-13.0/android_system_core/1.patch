@@ -1,0 +1,24 @@
+From fe1708406e0b31214fcb9a9abf2a4b7c944fab6d Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 27 Mar 2015 02:55:14 -0400
+Subject: [PATCH] add back dmesg_restrict
+
+The debugging use case with the shell user is not very compelling. This
+is supposed to enforced elsewhere via SELinux now but there's no harm in
+redundancy.
+---
+ rootdir/init.rc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 5c6b606..b98443a 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -105,6 +105,7 @@ on init
+     write /proc/sys/kernel/sched_child_runs_first 0
+ 
+     write /proc/sys/kernel/randomize_va_space 2
++    write /proc/sys/kernel/dmesg_restrict 1
+     write /proc/sys/kernel/kptr_restrict 2
+     write /proc/sys/vm/mmap_min_addr 32768
+     write /proc/sys/net/ipv4/ping_group_range "0 2147483647"

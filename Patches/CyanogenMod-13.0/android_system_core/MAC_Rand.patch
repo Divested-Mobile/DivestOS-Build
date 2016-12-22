@@ -1,0 +1,26 @@
+From 978d511140a6391ef82243fe6500e207697b9b41 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Mon, 18 Apr 2016 08:54:51 -0400
+Subject: [PATCH] Implement MAC Randomization
+
+Change-Id: I3276bfb674801572ab9ff286fb1b036253eaf409
+---
+ rootdir/init.rc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 78adacc..8cff499 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -559,6 +559,8 @@ on property:sys.sysctl.extra_free_kbytes=*
+ on property:sys.sysctl.tcp_def_init_rwnd=*
+     write /proc/sys/net/ipv4/tcp_default_init_rwnd ${sys.sysctl.tcp_def_init_rwnd}
+ 
++on property:persist.privacy.randomize_mac=*
++    write /proc/sys/net/core/randomize_mac ${persist.privacy.randomize_mac}
+ 
+ ## Daemon processes to be run by init.
+ ##
+-- 
+2.8.0
+

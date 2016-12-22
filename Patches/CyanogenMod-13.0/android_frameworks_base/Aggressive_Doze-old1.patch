@@ -1,0 +1,71 @@
+From e565d5688ac11ee1440d7622a84ae5a688f7f3b5 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sat, 16 Apr 2016 22:49:51 -0400
+Subject: [PATCH] Aggressive Doze
+
+Change-Id: If28d95b48fc283d88999a200112ee579dd9a4bc2
+---
+ .../com/android/server/DeviceIdleController.java   | 47 ++++++++--------------
+ 1 file changed, 16 insertions(+), 31 deletions(-)
+
+diff --git a/services/core/java/com/android/server/DeviceIdleController.java b/services/core/java/com/android/server/DeviceIdleController.java
+index 0f541d1..44cc490 100644
+--- a/services/core/java/com/android/server/DeviceIdleController.java
++++ b/services/core/java/com/android/server/DeviceIdleController.java
+@@ -553,37 +553,22 @@ public class DeviceIdleController extends SystemService
+                     Slog.e(TAG, "Bad device idle settings", e);
+                 }
+ 
+-                INACTIVE_TIMEOUT = mParser.getLong(KEY_INACTIVE_TIMEOUT,
+-                        30000L);
+-                SENSING_TIMEOUT = mParser.getLong(KEY_SENSING_TIMEOUT,
+-                        0L);
+-                LOCATING_TIMEOUT = mParser.getLong(KEY_LOCATING_TIMEOUT,
+-                        0L);
+-                LOCATION_ACCURACY = mParser.getFloat(KEY_LOCATION_ACCURACY, 20);
+-                MOTION_INACTIVE_TIMEOUT = mParser.getLong(KEY_MOTION_INACTIVE_TIMEOUT,
+-                        0L);
+-                IDLE_AFTER_INACTIVE_TIMEOUT = mParser.getLong(KEY_IDLE_AFTER_INACTIVE_TIMEOUT,
+-                        0L);
+-                IDLE_PENDING_TIMEOUT = mParser.getLong(KEY_IDLE_PENDING_TIMEOUT,
+-                        12000L);
+-                MAX_IDLE_PENDING_TIMEOUT = mParser.getLong(KEY_MAX_IDLE_PENDING_TIMEOUT,
+-                        12000L);
+-                IDLE_PENDING_FACTOR = mParser.getFloat(KEY_IDLE_PENDING_FACTOR,
+-                        2f);
+-                IDLE_TIMEOUT = mParser.getLong(KEY_IDLE_TIMEOUT,
+-                        60000L);
+-                MAX_IDLE_TIMEOUT = mParser.getLong(KEY_MAX_IDLE_TIMEOUT,
+-                        21600000L);
+-                IDLE_FACTOR = mParser.getFloat(KEY_IDLE_FACTOR,
+-                        2f);
+-                MIN_TIME_TO_ALARM = mParser.getLong(KEY_MIN_TIME_TO_ALARM,
+-                        600000L);
+-                MAX_TEMP_APP_WHITELIST_DURATION = mParser.getLong(
+-                        KEY_MAX_TEMP_APP_WHITELIST_DURATION, 10000L);
+-                MMS_TEMP_APP_WHITELIST_DURATION = mParser.getLong(
+-                        KEY_MMS_TEMP_APP_WHITELIST_DURATION, 10000L);
+-                SMS_TEMP_APP_WHITELIST_DURATION = mParser.getLong(
+-                        KEY_SMS_TEMP_APP_WHITELIST_DURATION, 10000L);
++                INACTIVE_TIMEOUT = 300000L;//5m
++                SENSING_TIMEOUT = 15000L;//15s
++                LOCATING_TIMEOUT = 15000L;//15s
++                LOCATION_ACCURACY = 30f;
++                MOTION_INACTIVE_TIMEOUT = 15000L;//15s
++                IDLE_AFTER_INACTIVE_TIMEOUT = 15000L;//15s
++                IDLE_PENDING_TIMEOUT = 15000L;//15s
++                MAX_IDLE_PENDING_TIMEOUT = 60000L;//60s
++                IDLE_PENDING_FACTOR = 2f;
++                IDLE_TIMEOUT = 600000L;//10m
++                MAX_IDLE_TIMEOUT = 21600000L;//6h
++                IDLE_FACTOR = 2f;
++                MIN_TIME_TO_ALARM = 600000L;//10m
++                MAX_TEMP_APP_WHITELIST_DURATION = 120000L;//2m
++                MMS_TEMP_APP_WHITELIST_DURATION = 60000L;//1m
++                SMS_TEMP_APP_WHITELIST_DURATION = 30000L;//30s
+             }
+         }
+ 
+-- 
+2.8.0
+

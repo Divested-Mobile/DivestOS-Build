@@ -1,0 +1,1230 @@
+From 63088e28c95fb7235308ed6c6677a4796de24aa4 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Fri, 8 Apr 2016 21:33:05 -0400
+Subject: [PATCH] Remove analytics
+
+Change-Id: Ie162b463d2bf591cc99937dc074d781d6ef8cb88
+---
+ AndroidManifest_cm.xml                             |  14 -
+ src/com/android/contacts/ContactsApplication.java  |   2 -
+ .../contacts/activities/PeopleActivity.java        |   8 +-
+ .../editor/CompactContactEditorFragment.java       |   2 -
+ .../contacts/editor/ContactEditorFragment.java     |   2 -
+ .../contacts/incall/InCallMetricsDbHelper.java     | 330 -------------
+ .../contacts/incall/InCallMetricsHelper.java       | 533 ---------------------
+ .../contacts/incall/InCallMetricsReceiver.java     |  33 --
+ .../contacts/incall/InCallMetricsService.java      |  35 --
+ .../list/PluginContactBrowseListFragment.java      |  13 +-
+ .../quickcontact/QuickContactActivity.java         |  40 +-
+ 11 files changed, 4 insertions(+), 1008 deletions(-)
+ delete mode 100644 src/com/android/contacts/incall/InCallMetricsDbHelper.java
+ delete mode 100644 src/com/android/contacts/incall/InCallMetricsHelper.java
+ delete mode 100644 src/com/android/contacts/incall/InCallMetricsReceiver.java
+ delete mode 100644 src/com/android/contacts/incall/InCallMetricsService.java
+
+diff --git a/AndroidManifest_cm.xml b/AndroidManifest_cm.xml
+index 1f1e29e..1e33223 100644
+--- a/AndroidManifest_cm.xml
++++ b/AndroidManifest_cm.xml
+@@ -20,8 +20,6 @@
+     <!-- Connect to AmbientCore to use InCall Plugins -->
+     <uses-permission android:name="com.cyanogen.ambient.permission.BIND_INCALL_SERVICE" />
+     <uses-permission android:name="com.cyanogen.ambient.permission.PLUGIN_STATUS_CHANGED" />
+-    <permission android:name="com.android.contacts.incall.METRICS_PERMISSION"
+-                android:protectionLevel="signatureOrSystem" />
+     <application>
+         <receiver android:name=".incall.CallMethodStatusReceiver"
+                   android:enabled="true"
+@@ -30,17 +28,5 @@
+                 <action android:name="cyanogen.ambient.core.plugin.incall.action.plugin_status_changed"/>
+             </intent-filter>
+         </receiver>
+-
+-        <!-- IntentService for InCall plugin metrics update -->
+-        <service android:name=".incall.InCallMetricsService" android:exported="false"/>
+-        <receiver android:name=".incall.InCallMetricsReceiver"
+-                  android:exported="true">
+-            <intent-filter>
+-                <action android:name="com.android.contacts.incall.CONTACTS_AUTO_MERGE"/>
+-            </intent-filter>
+-        </receiver>
+-
+-        <meta-data android:name="com.cyanogen.ambient.analytics.key"
+-                   android:value="e8d60c6f3e05621d6437e67db27ef3b1d8b94e43"/>
+     </application>
+ </manifest>
+diff --git a/src/com/android/contacts/ContactsApplication.java b/src/com/android/contacts/ContactsApplication.java
+index f0f86e9..74fb9e5 100644
+--- a/src/com/android/contacts/ContactsApplication.java
++++ b/src/com/android/contacts/ContactsApplication.java
+@@ -37,7 +37,6 @@ import com.android.contacts.common.testing.InjectedServices;
+ import com.android.contacts.common.util.Constants;
+ import com.android.contacts.commonbind.analytics.AnalyticsUtil;
+ import com.android.contacts.incall.InCallPluginHelper;
+-import com.android.contacts.incall.InCallMetricsHelper;
+ import com.android.phone.common.incall.CallMethodHelper;
+ 
+ import com.google.common.annotations.VisibleForTesting;
+@@ -128,7 +127,6 @@ public final class ContactsApplication extends Application {
+ 
+         AnalyticsUtil.initialize(this);
+         InCallPluginHelper.init(this);
+-        InCallMetricsHelper.init(this);
+     }
+ 
+     private class DelayedInitializer extends AsyncTask<Void, Void, Void> {
+diff --git a/src/com/android/contacts/activities/PeopleActivity.java b/src/com/android/contacts/activities/PeopleActivity.java
+index 5df9ebe..c42d6d3 100644
+--- a/src/com/android/contacts/activities/PeopleActivity.java
++++ b/src/com/android/contacts/activities/PeopleActivity.java
+@@ -56,11 +56,9 @@ import android.view.Window;
+ import android.widget.ImageButton;
+ import android.widget.Toast;
+ import android.widget.Toolbar;
+-
+-import com.android.contacts.ContactsActivity;
+-import com.android.contacts.incall.InCallMetricsHelper;
+ import com.android.contacts.incall.InCallPluginHelper;
+ import com.android.contacts.incall.InCallPluginInfo;
++import com.android.contacts.ContactsActivity;
+ import com.android.contacts.R;
+ import com.android.contacts.activities.ActionBarAdapter.TabState;
+ import com.android.contacts.common.ContactsUtils;
+@@ -971,10 +969,6 @@ public class PeopleActivity extends ContactsActivity implements
+                 if (fragment != null) {
+                     fragment.setUserVisibleHint(true);
+                 }
+-                if (mCurrentPrimaryItem instanceof PluginContactBrowseListFragment) {
+-                    InCallMetricsHelper.increaseImpressionCount(PeopleActivity.this,
+-                        ((PluginContactBrowseListFragment) mCurrentPrimaryItem).getPluginInfo());
+-                }
+                 mCurrentPrimaryItem = fragment;
+             }
+         }
+diff --git a/src/com/android/contacts/editor/CompactContactEditorFragment.java b/src/com/android/contacts/editor/CompactContactEditorFragment.java
+index 28bf078..656c5ae 100644
+--- a/src/com/android/contacts/editor/CompactContactEditorFragment.java
++++ b/src/com/android/contacts/editor/CompactContactEditorFragment.java
+@@ -26,7 +26,6 @@ import com.android.contacts.common.model.ValuesDelta;
+ import com.android.contacts.common.model.account.AccountType;
+ import com.android.contacts.common.util.ImplicitIntentsUtil;
+ import com.android.contacts.detail.PhotoSelectionHandler;
+-import com.android.contacts.incall.InCallMetricsHelper;
+ import com.android.contacts.util.ContactPhotoUtils;
+ 
+ import android.app.Activity;
+@@ -326,7 +325,6 @@ public class CompactContactEditorFragment extends ContactEditorBaseFragment impl
+                 mContext, mContactIdForJoin, contactId, CompactContactEditorActivity.class,
+                 CompactContactEditorActivity.ACTION_JOIN_COMPLETED);
+         mContext.startService(intent);
+-        InCallMetricsHelper.increaseContactManualMergeCount(mContext, mContactIdForJoin, contactId);
+     }
+ 
+     @Override
+diff --git a/src/com/android/contacts/editor/ContactEditorFragment.java b/src/com/android/contacts/editor/ContactEditorFragment.java
+index bd15b62..31e8d51 100644
+--- a/src/com/android/contacts/editor/ContactEditorFragment.java
++++ b/src/com/android/contacts/editor/ContactEditorFragment.java
+@@ -46,7 +46,6 @@ import com.android.contacts.common.util.AccountsListAdapter;
+ import com.android.contacts.common.util.AccountsListAdapter.AccountListFilter;
+ import com.android.contacts.detail.PhotoSelectionHandler;
+ import com.android.contacts.editor.Editor.EditorListener;
+-import com.android.contacts.incall.InCallMetricsHelper;
+ import com.android.contacts.util.ContactPhotoUtils;
+ import com.android.contacts.util.UiClosables;
+ 
+@@ -536,7 +535,6 @@ public class ContactEditorFragment extends ContactEditorBaseFragment implements
+                 mContext, mContactIdForJoin, contactId, ContactEditorActivity.class,
+                 ContactEditorActivity.ACTION_JOIN_COMPLETED);
+         mContext.startService(intent);
+-        InCallMetricsHelper.increaseContactManualMergeCount(mContext, mContactIdForJoin, contactId);
+     }
+ 
+     /**
+diff --git a/src/com/android/contacts/incall/InCallMetricsDbHelper.java b/src/com/android/contacts/incall/InCallMetricsDbHelper.java
+deleted file mode 100644
+index c511227..0000000
+--- a/src/com/android/contacts/incall/InCallMetricsDbHelper.java
++++ /dev/null
+@@ -1,330 +0,0 @@
+-/*
+- * Copyright (C) 2016 The CyanogenMod Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package com.android.contacts.incall;
+-
+-import android.content.ContentValues;
+-import android.content.Context;
+-import android.database.Cursor;
+-import android.database.DatabaseUtils;
+-import android.database.sqlite.SQLiteDatabase;
+-import android.database.sqlite.SQLiteOpenHelper;
+-import android.util.Log;
+-
+-import com.google.common.base.Preconditions;
+-
+-import java.util.LinkedList;
+-import java.util.List;
+-
+-public class InCallMetricsDbHelper extends SQLiteOpenHelper {
+-    private static final String TAG = InCallMetricsDbHelper.class.getSimpleName();
+-    private static final boolean DEBUG = false;
+-
+-    private static InCallMetricsDbHelper mInstance = null;
+-
+-    private static final int DATABASE_VERSION = 1;
+-    private static final String DATABASE_NAME = "contacts_incall_metrics.db";
+-
+-    private final Context mContext;
+-
+-    // db query select statements
+-    private static final String SELECT_NUDGE_ID_AND_ACCEPT_TIME =
+-            InAppColumns.NUDGE_ID + "==? AND " + InAppColumns.EVENT_ACCEPTANCE_TIME + " ==? ";
+-    private static final String SELECT_PROVIDER_AND_EVENT =
+-            UserActionsColumns.PROVIDER_NAME + "==? AND " + UserActionsColumns.EVENT_NAME + " ==?";
+-
+-    public interface Tables {
+-        // stores events in the INAPP_ACTIONS category
+-        static final String INAPP_TABLE = "inapp_metrics";
+-        // store events in the USER_ACTIONS category
+-        static final String USER_ACTIONS_TABLE = "user_actions_metrics";
+-    }
+-
+-    public interface InAppColumns {
+-        static final String _ID = "id";
+-        static final String CATEGORY = "category";
+-        static final String EVENT_NAME = "event_name";
+-        static final String COUNT = "count";
+-        static final String NUDGE_ID = "nudge_id";
+-        static final String EVENT_ACCEPTANCE = "event_acceptance";
+-        static final String EVENT_ACCEPTANCE_TIME = "event_acceptance_time";
+-        static final String PROVIDER_NAME = "provider_name";
+-    }
+-
+-    public interface UserActionsColumns {
+-        static final String _ID = "id";
+-        static final String CATEGORY = "category";
+-        static final String EVENT_NAME = "event_name";
+-        static final String COUNT = "count";
+-        static final String PROVIDER_NAME = "provider_name";
+-        static final String RAW_ID = "raw_id";
+-    }
+-
+-    private static final String[] INAPP_PROJECTION = new String[] {
+-            InAppColumns._ID,
+-            InAppColumns.CATEGORY,
+-            InAppColumns.EVENT_NAME,
+-            InAppColumns.COUNT,
+-            InAppColumns.NUDGE_ID,
+-            InAppColumns.EVENT_ACCEPTANCE,
+-            InAppColumns.EVENT_ACCEPTANCE_TIME,
+-            InAppColumns.PROVIDER_NAME
+-    };
+-
+-    private static final String[] USER_ACTIONS_PROJECTION = new String[] {
+-            UserActionsColumns._ID,
+-            UserActionsColumns.CATEGORY,
+-            UserActionsColumns.EVENT_NAME,
+-            UserActionsColumns.COUNT,
+-            UserActionsColumns.PROVIDER_NAME,
+-            UserActionsColumns.RAW_ID
+-    };
+-
+-    /**
+-     * If there's an existing entry that matches the NUDGE_ID and the EVENT_ACCEPTANCE_TIME
+-     * is not set, increment the count stored "colName" column. Otherwise, create a new entry.
+-     *
+-     * @param  provider  component name of the InCall provider
+-     * @param  event     metric event
+-     * @param  cat       metric category
+-     * @param  nudgeId   metric nudge ID
+-     * @param  colName   database column name to increment
+-     */
+-    public void incrementInAppParam(String provider, String event, String cat, String nudgeId,
+-            String colName) {
+-        // find entries that match nudge_id, and timestamp 0 to increment count
+-        if (nudgeId == null) {
+-            nudgeId = InCallMetricsHelper.NUDGE_ID_INVALID;
+-        }
+-        ContentValues entry = new ContentValues();
+-        entry.put(InAppColumns.EVENT_NAME, event);
+-        entry.put(InAppColumns.CATEGORY, cat);
+-        entry.put(InAppColumns.NUDGE_ID, nudgeId);
+-        entry.put(InAppColumns.PROVIDER_NAME, provider);
+-        String[] selectionArgs = new String[] {nudgeId, String.valueOf(0)};
+-        SQLiteDatabase db = getWritableDatabase();
+-        Cursor queryCursor = db.query(
+-                Tables.INAPP_TABLE,
+-                INAPP_PROJECTION,
+-                SELECT_NUDGE_ID_AND_ACCEPT_TIME,
+-                selectionArgs,
+-                null,
+-                null,
+-                null);
+-        if (queryCursor != null && queryCursor.moveToFirst()) {
+-            // increment existing entry
+-            entry.put(colName, queryCursor.getInt(queryCursor.getColumnIndex(colName)) + 1);
+-            db.update(Tables.INAPP_TABLE, entry, SELECT_NUDGE_ID_AND_ACCEPT_TIME, selectionArgs);
+-        } else {
+-            // no entry where acceptance time is not set
+-            entry.put(colName, 1);
+-            db.insert(Tables.INAPP_TABLE, null, entry);
+-        }
+-        queryCursor.close();
+-    }
+-
+-    /**
+-     * Tables.INAPP_TABLE stores in-app nudge related interaction events. When a user
+-     * accepts (accept set to 1)/dismisses (accept set to 0) the in-app nudge, the timestamp
+-     * is stored in EVENT_ACCEPTANCE_TIME. Once that timestamp is captured, any subsequent in-app
+-     * nudge interaction events should be recorded in a new entry.
+-     * If there's an existing entry that matches the NUDGE_ID and the EVENT_ACCEPTANCE_TIME
+-     * is not set, set the EVENT_ACCEPTANCE and EVENT_ACCEPTANCE_TIME. Otherwise, create a new
+-     * entry.
+-     *
+-     * @param  provider  component name of the InCall provider
+-     * @param  event     metric event
+-     * @param  cat       metric category
+-     * @param  nudgeId   metric nudge ID
+-     */
+-    public void setInAppAcceptance(String provider, String event, String cat, Integer accept,
+-            String nudgeId) {
+-        // find entries that match nudge_id, and timestamp 0
+-        // if all matche entries have timestamp set, create a new entry
+-        if (nudgeId == null) {
+-            nudgeId = InCallMetricsHelper.NUDGE_ID_INVALID;
+-        }
+-        String[] selectionArgs = new String[] {nudgeId, String.valueOf(0)};
+-        SQLiteDatabase db = getWritableDatabase();
+-        Cursor queryCursor = db.query(
+-                Tables.INAPP_TABLE,
+-                INAPP_PROJECTION,
+-                SELECT_NUDGE_ID_AND_ACCEPT_TIME,
+-                selectionArgs,
+-                null,
+-                null,
+-                null);
+-        ContentValues entry = new ContentValues();
+-        entry.put(InAppColumns.EVENT_NAME, event);
+-        entry.put(InAppColumns.CATEGORY, cat);
+-        entry.put(InAppColumns.NUDGE_ID, nudgeId);
+-        entry.put(InAppColumns.PROVIDER_NAME, provider);
+-        entry.put(InAppColumns.EVENT_ACCEPTANCE, accept);
+-        entry.put(InAppColumns.EVENT_ACCEPTANCE_TIME, System.currentTimeMillis());
+-        if (queryCursor != null && queryCursor.moveToFirst()) {
+-            db.update(Tables.INAPP_TABLE, entry, SELECT_NUDGE_ID_AND_ACCEPT_TIME, selectionArgs);
+-        } else {
+-            db.insert(Tables.INAPP_TABLE, null, entry);
+-        }
+-        queryCursor.close();
+-    }
+-
+-    /**
+-     * Tables.USER_ACTIONS_TABLE stores auto/manual merge counts and invite counts.
+-     * If there's an existing entry that matches the PROVIDER_NAME and the EVENT_NAME,
+-     * increment the count stored in the "colName" column. Otherwise, create a new entry.
+-     *
+-     * @param  provider  component name of the InCall provider
+-     * @param  event     metric event
+-     * @param  cat       metric category
+-     * @param  colName   database column name to increment
+-     */
+-    public void incrementUserActionsParam(String provider, String rawIds, String event, String
+-            cat, String colName) {
+-        // query for event type, update, if not found insert
+-        ContentValues entry = new ContentValues();
+-        entry.put(UserActionsColumns.EVENT_NAME, event);
+-        entry.put(UserActionsColumns.CATEGORY, cat);
+-        entry.put(UserActionsColumns.PROVIDER_NAME, provider);
+-        entry.put(UserActionsColumns.RAW_ID, rawIds);
+-
+-        String[] selectionArgs = new String[] {provider, event};
+-        SQLiteDatabase db = getWritableDatabase();
+-        Cursor queryCursor = db.query(
+-                Tables.USER_ACTIONS_TABLE,
+-                USER_ACTIONS_PROJECTION,
+-                SELECT_PROVIDER_AND_EVENT,
+-                selectionArgs,
+-                null,
+-                null,
+-                null);
+-        if (queryCursor != null && queryCursor.moveToFirst()) {
+-            // increment existing entry, only increment if it's manual merge
+-            if (event.equals(InCallMetricsHelper.Events.CONTACTS_MANUAL_MERGED)) {
+-                entry.put(colName,
+-                        queryCursor.getInt(queryCursor.getColumnIndex(colName)) + 1);
+-                db.update(Tables.USER_ACTIONS_TABLE, entry, SELECT_PROVIDER_AND_EVENT,
+-                        selectionArgs);
+-            }
+-        } else {
+-            // no existing entry, create one
+-            entry.put(colName, 1);
+-            db.insert(Tables.USER_ACTIONS_TABLE, null, entry);
+-        }
+-        queryCursor.close();
+-    }
+-
+-    /**
+-     * Return all entries in the table storing events from the corresponding category
+-     *
+-     * @param  cat     metric category
+-     * @param  clear   if the database table should be cleared afterwards
+-     * @return List of ContentValues in the respective table
+-     */
+-    public List<ContentValues> getAllEntries(InCallMetricsHelper.Categories cat, boolean clear) {
+-        List<ContentValues> list = new LinkedList<ContentValues>();
+-        String table = "";
+-        switch (cat) {
+-            case USER_ACTIONS:
+-                table = Tables.USER_ACTIONS_TABLE;
+-                break;
+-            case INAPP_NUDGES:
+-                table = Tables.INAPP_TABLE;
+-                break;
+-            default:
+-                return list;
+-        }
+-        SQLiteDatabase db = getWritableDatabase();
+-        Cursor cursor = db.rawQuery("SELECT * FROM " + table, null);
+-        if (cursor != null && cursor.moveToFirst()) {
+-            do {
+-                ContentValues entry = new ContentValues();
+-                DatabaseUtils.cursorRowToContentValues(cursor, entry);
+-                list.add(entry);
+-            } while (cursor.moveToNext());
+-        }
+-        if (!DEBUG && clear) {
+-            db.delete(table, null, null);
+-        }
+-        cursor.close();
+-        return list;
+-    }
+-
+-    @Override
+-    public void onCreate(SQLiteDatabase db) {
+-        setupTables(db);
+-    }
+-
+-    @Override
+-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+-        if (oldVersion == 0) {
+-            Log.e(TAG, "Malformed database version..recreating database");
+-        }
+-
+-        if (oldVersion <= newVersion) {
+-            setupTables(db);
+-        }
+-    }
+-
+-    public static synchronized InCallMetricsDbHelper getInstance(Context context) {
+-        if (DEBUG) {
+-            Log.v(TAG, "Getting Instance");
+-        }
+-        if (mInstance == null) {
+-            // Use application context instead of activity context because this is a singleton,
+-            // and we don't want to leak the activity if the activity is not running but the
+-            // database helper is still doing work.
+-            mInstance = new InCallMetricsDbHelper(context.getApplicationContext(), DATABASE_NAME);
+-        }
+-        return mInstance;
+-    }
+-
+-    protected InCallMetricsDbHelper(Context context, String databaseName) {
+-        this(context, databaseName, DATABASE_VERSION);
+-    }
+-
+-    protected InCallMetricsDbHelper(Context context, String databaseName, int dbVersion) {
+-        super(context, databaseName, null, dbVersion);
+-        mContext = context;
+-    }
+-
+-    private void setupTables(SQLiteDatabase db) {
+-        dropTables(db);
+-        db.execSQL("CREATE TABLE " + Tables.INAPP_TABLE + " (" +
+-                InAppColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+-                InAppColumns.CATEGORY + " TEXT, " +
+-                InAppColumns.EVENT_NAME + " TEXT, " +
+-                InAppColumns.COUNT + " INTEGER DEFAULT 0, " +
+-                InAppColumns.NUDGE_ID + " TEXT, " +
+-                InAppColumns.EVENT_ACCEPTANCE + " INTEGER DEFAULT -1, " +
+-                InAppColumns.EVENT_ACCEPTANCE_TIME + " INTEGER DEFAULT 0, " +
+-                InAppColumns.PROVIDER_NAME + " TEXT" +
+-                ");");
+-        db.execSQL("CREATE TABLE " + Tables.USER_ACTIONS_TABLE + " (" +
+-                UserActionsColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+-                UserActionsColumns.CATEGORY + " TEXT, " +
+-                UserActionsColumns.EVENT_NAME + " TEXT, " +
+-                UserActionsColumns.COUNT + " INTEGER DEFAULT 0, " +
+-                UserActionsColumns.PROVIDER_NAME + " TEXT, " +
+-                UserActionsColumns.RAW_ID + " INTEGER DEFAULT 0" +
+-                ");");
+-    }
+-
+-    public void dropTables(SQLiteDatabase db) {
+-        db.execSQL("DROP TABLE IF EXISTS " + Tables.INAPP_TABLE);
+-        db.execSQL("DROP TABLE IF EXISTS " + Tables.USER_ACTIONS_TABLE);
+-    }
+-}
+\ No newline at end of file
+diff --git a/src/com/android/contacts/incall/InCallMetricsHelper.java b/src/com/android/contacts/incall/InCallMetricsHelper.java
+deleted file mode 100644
+index 5b041a2..0000000
+--- a/src/com/android/contacts/incall/InCallMetricsHelper.java
++++ /dev/null
+@@ -1,533 +0,0 @@
+-/*
+- * Copyright (C) 2016 The CyanogenMod Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package com.android.contacts.incall;
+-
+-import android.app.AlarmManager;
+-import android.app.PendingIntent;
+-import android.content.ComponentName;
+-import android.content.ContentValues;
+-import android.content.Context;
+-import android.content.Intent;
+-import android.database.Cursor;
+-
+-import android.os.Handler;
+-import android.os.HandlerThread;
+-import android.os.SystemClock;
+-import android.provider.ContactsContract.RawContacts;
+-import android.util.Log;
+-
+-import com.android.phone.common.ambient.AmbientConnection;
+-import com.android.phone.common.incall.CallMethodInfo;
+-import com.cyanogen.ambient.analytics.AnalyticsServices;
+-import com.cyanogen.ambient.analytics.Event;
+-import com.cyanogen.ambient.incall.InCallServices;
+-import com.google.common.base.Joiner;
+-import cyanogenmod.providers.CMSettings;
+-
+-import java.util.ArrayList;
+-import java.util.Arrays;
+-import java.util.Collections;
+-import java.util.HashMap;
+-import java.util.HashSet;
+-import java.util.List;
+-import java.util.Set;
+-
+-public class InCallMetricsHelper {
+-    private static final String TAG = InCallMetricsHelper.class.getSimpleName();
+-
+-    private static final boolean DEBUG = false;
+-    private static final String CATEGORY_PREFIX = "contacts.incall.";
+-    private static final int REQUEST_CODE = 777;
+-
+-    public static final String NUDGE_ID_INVALID = "-1";
+-    public static final int EVENT_DISMISS = 0;
+-    public static final int EVENT_ACCEPT = 1;
+-
+-    private static InCallMetricsHelper sInstance;
+-    private InCallMetricsDbHelper mDbHelper;
+-    private static final String HANDLER_THREAD_NAME = "InCallMetricsHandler";
+-    private HandlerThread mHandlerThread;
+-    private Handler mHandler;
+-    private Context mContext;
+-
+-    public enum Categories {
+-        USER_ACTIONS("USER_ACTIONS"),
+-        INAPP_NUDGES("INAPP_NUDGES"),
+-        UNKNOWN("UNKNOWN");
+-
+-        private String mValue;
+-        Categories(String s) {
+-            mValue = s;
+-        }
+-        public String value() {
+-            return mValue;
+-        }
+-    }
+-
+-    public enum Events {
+-        CONTACTS_MANUAL_MERGED("CONTACTS_MANUAL_MERGED"),
+-        CONTACTS_AUTO_MERGED("CONTACTS_AUTO_MERGED"),
+-        INVITES_SENT("INVITES_SENT"),
+-        INAPP_NUDGE_CONTACTS_LOGIN("INAPP_NUDGE_CONTACTS_LOGIN"),
+-        INAPP_NUDGE_CONTACTS_INSTALL("INAPP_NUDGE_CONTACTS_INSTALL"),
+-        INAPP_NUDGE_CONTACTS_TAB_LOGIN("INAPP_NUDGE_CONTACTS_TAB_LOGIN"),
+-        UNKNOWN("UNKNOWN");
+-
+-        private String mValue;
+-        Events(String s) {
+-            mValue = s;
+-        }
+-        public String value() {
+-            return mValue;
+-        }
+-    }
+-
+-    public enum Parameters {
+-        ACTION_LOCATION("ACTION_LOCATION"),
+-        CATEGORY("CATEGORY"),
+-        COUNT("COUNT"),
+-        EVENT_ACCEPTANCE("EVENT_ACCEPTANCE"),
+-        EVENT_ACCEPTANCE_TIME("EVENT_ACCEPTANCE_TIME"),
+-        EVENT_NAME("EVENT_NAME"),
+-        NUDGE_ID("NUDGE_ID"),
+-        PROVIDER_NAME("PROVIDER_NAME");
+-
+-        private String mValue;
+-
+-        Parameters(String s) {
+-            mValue = s;
+-        }
+-
+-        public String value() {
+-            return mValue;
+-        }
+-
+-        public String toCol() {
+-            return mValue.toLowerCase();
+-        }
+-   }
+-
+-    public static void init(Context context) {
+-        InCallMetricsHelper helper = getInstance(context);
+-        AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+-        Intent i = new Intent(context, InCallMetricsService.class);
+-
+-        // scheduled every 24h
+-        PendingIntent pendingIntent = PendingIntent.getService(context, REQUEST_CODE, i,
+-                PendingIntent.FLAG_UPDATE_CURRENT);
+-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(),
+-                AlarmManager.INTERVAL_DAY, pendingIntent);
+-    }
+-
+-    public static synchronized InCallMetricsHelper getInstance(Context context) {
+-        if (sInstance == null) {
+-            sInstance = new InCallMetricsHelper();
+-            sInstance.mContext = context;
+-            // init handler
+-            sInstance.mHandlerThread = new HandlerThread(HANDLER_THREAD_NAME);
+-            sInstance.mHandlerThread.start();
+-            sInstance.mHandler = new Handler(sInstance.mHandlerThread.getLooper());
+-            sInstance.mDbHelper = InCallMetricsDbHelper.getInstance(context);
+-        }
+-        return sInstance;
+-    }
+-
+-    /**
+-     * Gather all metrics entries from tables and send to Ambient. Called from
+-     * InCallMetricsService (IntentService)
+-     *
+-     * @param  context  context to be used in db
+-     */
+-    public static void prepareAndSend(Context context) {
+-        if (!statsOptIn(context)) {
+-            return;
+-        }
+-
+-        InCallMetricsHelper helper = getInstance(context);
+-        // In App events
+-        List<ContentValues> allList = helper.mDbHelper.getAllEntries(Categories.INAPP_NUDGES, true);
+-        // User Actions events
+-        allList.addAll(helper.mDbHelper.getAllEntries(Categories.USER_ACTIONS, true));
+-        for (ContentValues cv : allList) {
+-            Categories cat = cv.containsKey(Parameters.CATEGORY.toCol()) ?
+-                    Categories.valueOf(cv.getAsString(Parameters.CATEGORY.toCol())) :
+-                    Categories.UNKNOWN;
+-            Events event = cv.containsKey(Parameters.EVENT_NAME.toCol()) ?
+-                    Events.valueOf(cv.getAsString(Parameters.EVENT_NAME.toCol())) :
+-                    Events.UNKNOWN;
+-            Set<String> plugins = InCallPluginHelper.getAllPluginComponentNames();
+-            sendEvent(context, cat, event, getExtraFields(cat, event, cv), plugins);
+-        }
+-    }
+-
+-    /**
+-     * Map ContentValues pair from db to <Parameters, value> pairs
+-     *
+-     * @param  event    metric event
+-     * @param  cat      metric category
+-     * @param  cv
+-     */
+-    private static HashMap<Parameters, Object> getExtraFields(Categories cat, Events event,
+-            ContentValues cv) {
+-        HashMap<Parameters, Object> map = new HashMap<Parameters, Object>();
+-        map.put(Parameters.PROVIDER_NAME, cv.getAsString(Parameters.PROVIDER_NAME.toCol()));
+-        switch (cat) {
+-            case INAPP_NUDGES:
+-                switch (event) {
+-                    case INAPP_NUDGE_CONTACTS_LOGIN:
+-                    case INAPP_NUDGE_CONTACTS_INSTALL:
+-                    case INAPP_NUDGE_CONTACTS_TAB_LOGIN:
+-                        map.put(Parameters.COUNT, cv.getAsInteger(Parameters.COUNT.toCol()));
+-                        map.put(Parameters.NUDGE_ID, cv.getAsString(Parameters.NUDGE_ID.toCol()));
+-                        map.put(Parameters.EVENT_ACCEPTANCE_TIME,
+-                                cv.getAsInteger(Parameters.EVENT_ACCEPTANCE_TIME.toCol()));
+-                        map.put(Parameters.EVENT_ACCEPTANCE,
+-                                cv.getAsInteger(Parameters.EVENT_ACCEPTANCE.toCol()) == 0 ?
+-                                        Boolean.FALSE : Boolean.TRUE);
+-                        break;
+-                    default:
+-                        break;
+-                }
+-                break;
+-            case USER_ACTIONS:
+-                switch (event) {
+-                    case CONTACTS_AUTO_MERGED:
+-                    case CONTACTS_MANUAL_MERGED:
+-                    case INVITES_SENT:
+-                        map.put(Parameters.COUNT, cv.getAsInteger(Parameters.COUNT.toCol()));
+-                        break;
+-                    default:
+-                        break;
+-                }
+-                break;
+-            default:
+-                break;
+-        }
+-        return map;
+-    }
+-
+-    /**
+-     * Send AnalyticsService events to Ambient and InCall plugins
+-     *
+-     * @param  context      context
+-     * @param  cat          metric category
+-     * @param  eventName    metric event name
+-     * @param  extraFields  <Parameter, Object> pairs to be included in Ambient Event
+-     * @param  pluginSet    a set of available plugin component names for sending lookup
+-     */
+-    private static void sendEvent(Context context, Categories cat, Events eventName,
+-            HashMap<Parameters, Object> extraFields, Set<String> pluginSet) {
+-        Event.Builder eventBuilder = new Event.Builder(CATEGORY_PREFIX + cat.value(), eventName
+-                .value());
+-        if (extraFields != null && extraFields.size() > 0) {
+-            for (Parameters param : extraFields.keySet()) {
+-                eventBuilder.addField(param.value(), String.valueOf(extraFields.get(param)));
+-            }
+-        }
+-        Event event = eventBuilder.build();
+-        if (DEBUG) Log.d(TAG, event.toString());
+-        // send to Ambient
+-        AnalyticsServices.AnalyticsApi.sendEvent(AmbientConnection.CLIENT.get(context), event);
+-        // send to selective plugin
+-        String providers = extraFields.containsKey(Parameters.PROVIDER_NAME) ?
+-                (String) extraFields.get(Parameters.PROVIDER_NAME) : "";
+-        sendEventToProviders(context, cat, eventName, event, providers, pluginSet);
+-    }
+-
+-    /**
+-     * Send Ambient Events to InCall providers, if they exist in the set of currently available
+-     * InCall plugins
+-     *
+-     * @param  context      context
+-     * @param  cat          metric category
+-     * @param  eventName    metric event name
+-     * @param  pluginSet    a set of available plugin component names for sending lookup
+-     */
+-    private static void sendEventToProviders(Context context, Categories cat, Events eventName,
+-            Event event, String providers, Set<String> pluginSet) {
+-        if (!isWhiteListed(cat, eventName)) {
+-            return;
+-        }
+-        if (DEBUG) Log.d(TAG, "sendEventToProviders:" + providers);
+-        String[] providerList = providers.split(",");
+-        for (String provider : providerList) {
+-            if (pluginSet.contains(provider)) {
+-                if (DEBUG) Log.d(TAG, "sendEventToProvider:" + provider);
+-                InCallServices.getInstance().sendAnalyticsEventToPlugin(
+-                        AmbientConnection.CLIENT.get(context),
+-                        ComponentName.unflattenFromString(provider), event);
+-            }
+-        }
+-    }
+-
+-    /**
+-     * Check if the category/event are whitelisted to be able to sent to InCall providers
+-     *
+-     * @param  cat          metric category
+-     * @param  eventName    metric event name
+-     */
+-    private static boolean isWhiteListed(Categories cat, Events eventName) {
+-        return true;
+-    }
+-
+-    public static void increaseInviteCount(final Context context, final String provider) {
+-        final InCallMetricsHelper helper = getInstance(context);
+-        helper.mHandler.post(new Runnable() {
+-            @Override
+-            public void run() {
+-                if (!statsOptIn(context)) {
+-                    return;
+-                }
+-                helper.mDbHelper.incrementUserActionsParam(provider, "",
+-                        Events.INVITES_SENT.value(),
+-                        Categories.USER_ACTIONS.value(),
+-                        Parameters.COUNT.value().toLowerCase());
+-            }
+-        });
+-    }
+-
+-    /**
+-     * Set a specific parameter to a certain value
+-     *
+-     * @param  context      context
+-     * @param  component    InCall provider component name
+-     * @param  cat          metric category
+-     * @param  event        metric event name
+-     * @param  param        metric parameter to set
+-     * @param  value        metric parameter value to set to
+-     * @param  nudgeId      nudge ID corresponding to the
+-     */
+-    public static void setValue(final Context context, final ComponentName component,
+-            final Categories cat, final Events event, final Parameters param,
+-            final Object value, final String nudgeId) {
+-        final InCallMetricsHelper helper = getInstance(context);
+-        helper.mHandler.post(new Runnable() {
+-            @Override
+-            public void run() {
+-                if (!statsOptIn(context)) {
+-                    return;
+-                }
+-                switch (cat) {
+-                    case INAPP_NUDGES:
+-                        switch (param) {
+-                            case EVENT_ACCEPTANCE:
+-                                helper.mDbHelper.setInAppAcceptance(component.flattenToString(),
+-                                        event.value(), cat.value(), (Integer) value, nudgeId);
+-                                break;
+-                            default:
+-                                break;
+-                        }
+-                        break;
+-                    default:
+-                        break;
+-                }
+-            }
+-        });
+-    }
+-
+-    /**
+-     * Increases the impression count for different nudges in contacts card
+-     *
+-     * @param  context  context
+-     * @param  cmi      CallMethodInfo for the entry
+-     * @pram   even     Events type
+-     */
+-    public static void increaseImpressionCount(final Context context, final CallMethodInfo cmi,
+-            final Events event) {
+-        if (cmi == null) {
+-            return;
+-        }
+-        final InCallMetricsHelper helper = getInstance(context);
+-        helper.mHandler.post(new Runnable() {
+-            @Override
+-            public void run() {
+-                if (!statsOptIn(context)) {
+-                    return;
+-                }
+-                switch (event) {
+-                    case INAPP_NUDGE_CONTACTS_INSTALL:
+-                        helper.mDbHelper.incrementInAppParam(cmi.mComponent.flattenToString(),
+-                                event.value(), Categories.INAPP_NUDGES.value(),
+-                                generateNudgeId(cmi.mInstallNudgeSubtitle),
+-                                Parameters.COUNT.toCol());
+-                        break;
+-                    case INAPP_NUDGE_CONTACTS_LOGIN:
+-                        helper.mDbHelper.incrementInAppParam(cmi.mComponent.flattenToString(),
+-                                event.value(), Categories.INAPP_NUDGES.value(),
+-                                generateNudgeId(cmi.mLoginNudgeSubtitle),
+-                                Parameters.COUNT.toCol());
+-                        break;
+-                    default:
+-                        break;
+-                }
+-            }
+-        });
+-    }
+-
+-    /**
+-     * Increases the impression count for contacts tab login
+-     *
+-     * @param  context    context
+-     * @param  pluginInfo list of plugin info
+-     */
+-    public static void increaseImpressionCount(final Context context, final InCallPluginInfo
+-            pluginInfo) {
+-        final InCallMetricsHelper helper = getInstance(context);
+-        if (pluginInfo == null) {
+-            return;
+-        }
+-        helper.mHandler.post(new Runnable() {
+-            @Override
+-            public void run() {
+-                if (!statsOptIn(context)) {
+-                    return;
+-                }
+-                CallMethodInfo cmi = pluginInfo.mCallMethodInfo;
+-                if (!cmi.mIsAuthenticated) {
+-                    helper.mDbHelper.incrementInAppParam(cmi.mComponent.flattenToString(),
+-                            Events.INAPP_NUDGE_CONTACTS_TAB_LOGIN.value(),
+-                            Categories.INAPP_NUDGES.value(), generateNudgeId(cmi.mLoginSubtitle),
+-                            Parameters.COUNT.toCol());
+-                }
+-            }
+-        });
+-    }
+-
+-    /**
+-     * Increases contact merge counts
+-     *
+-     * @param  context          context
+-     * @param  contactIdForJoin the primary contact ID to be merged
+-     * @param  contactId        the secondary contact ID to be merged
+-     */
+-    public static void increaseContactManualMergeCount(final Context context,
+-            final long contactIdForJoin, final long contactId) {
+-        final InCallMetricsHelper helper = getInstance(context);
+-        helper.mHandler.post(new Runnable() {
+-            @Override
+-            public void run() {
+-                if (!statsOptIn(context)) {
+-                    return;
+-                }
+-                HashMap<ComponentName, CallMethodInfo> plugins = InCallPluginHelper
+-                        .getAllCallMethods();
+-                HashMap<String, String> pluginMap = new HashMap<String, String>();
+-                for (CallMethodInfo cmi : plugins.values()) {
+-                    if (DEBUG) {
+-                        Log.d(TAG, "increaseContactMergeCount:" + cmi.mAccountType + " " +
+-                                cmi.mComponent.flattenToString());
+-                    }
+-                    pluginMap.put(cmi.mAccountType, cmi.mComponent.flattenToString());
+-                }
+-                Set<String> providerSet = queryContactProviderByContactIds(context,
+-                        contactIdForJoin, contactId, pluginMap);
+-
+-                List<String> providerList = new ArrayList<String>(providerSet);
+-                Collections.sort(providerList);
+-                String joinedProvider = providerList.size() == 0 ? "" :
+-                        Joiner.on(",").skipNulls().join(providerList);
+-                helper.mDbHelper.incrementUserActionsParam(joinedProvider, "",
+-                        InCallMetricsHelper.Events.CONTACTS_MANUAL_MERGED.value(),
+-                        Categories.USER_ACTIONS.value(), Parameters.COUNT.toCol());
+-            }
+-        });
+-    }
+-
+-    public static void increaseContactAutoMergeCount(final Context context, final String rawIds) {
+-        final InCallMetricsHelper helper = getInstance(context);
+-        helper.mHandler.post(new Runnable() {
+-            @Override
+-            public void run() {
+-                if (!statsOptIn(context)) {
+-                    return;
+-                }
+-                String[] rawIdArray = rawIds.split(",");
+-                Arrays.sort(rawIdArray);
+-                Set<String> providerSet = queryContactProviderByRawContactIds(context, rawIdArray);
+-
+-                List<String> providerList = new ArrayList<String>(providerSet);
+-                Collections.sort(providerList);
+-                String joinedProvider = providerList.size() == 0 ? "" :
+-                        Joiner.on(",").skipNulls().join(providerList);
+-                String joinedRawIds = rawIdArray.length == 0 ? "" :
+-                        Joiner.on(",").skipNulls().join(rawIdArray);
+-                helper.mDbHelper.incrementUserActionsParam(joinedProvider,
+-                        joinedRawIds,
+-                        InCallMetricsHelper.Events.CONTACTS_AUTO_MERGED.value(),
+-                        Categories.USER_ACTIONS.value(), Parameters.COUNT.toCol());
+-            }
+-        });
+-
+-    }
+-
+-    /**
+-     * Check if the provided contact IDs is from an account type that matches a InCall
+-     * provider.
+-     *
+-     * @param  context          context
+-     * @param  contactId        the primary contact ID to be merged
+-     * @param  contactId2       the secondary contact ID to be merged
+-     * @parma  pluginMap        the <accountType, plugin name> pairs for lookup
+-     */
+-    private static Set<String> queryContactProviderByContactIds(Context context, long contactId,
+-            long contactId2, HashMap<String, String> pluginMap) {
+-        Set<String> providerSet = new HashSet<String>();
+-        Cursor cursor = context.getContentResolver().query(RawContacts.CONTENT_URI,
+-                new String[] {RawContacts.ACCOUNT_TYPE},
+-                RawContacts.CONTACT_ID + "=? OR " + RawContacts.CONTACT_ID + "=?",
+-                new String[]{String.valueOf(contactId), String.valueOf(contactId2)}, null);
+-        if (cursor != null && cursor.moveToFirst()) {
+-            do {
+-                providerSet.add(cursor.getString(0));
+-                if (DEBUG) Log.d(TAG, "queryContactProvider:" + cursor.getString(0));
+-            } while (cursor.moveToNext());
+-        }
+-        cursor.close();
+-        return providerSet;
+-    }
+-
+-    private static Set<String> queryContactProviderByRawContactIds(Context context, String[]
+-            rawIds) {
+-        Set<String> providerSet = new HashSet<String>();
+-        Cursor cursor = null;
+-        for (String rawId : rawIds) {
+-            cursor = context.getContentResolver().query(RawContacts.CONTENT_URI,
+-                    new String[]{RawContacts.ACCOUNT_TYPE},
+-                    RawContacts._ID + "=?",
+-                    new String[]{rawId}, null);
+-            if (cursor != null && cursor.moveToFirst()) {
+-                do {
+-                    providerSet.add(cursor.getString(0));
+-                    if (DEBUG) Log.d(TAG, "queryContactProvider:" + cursor.getString(0));
+-                } while (cursor.moveToNext());
+-            }
+-        }
+-        if (cursor != null) {
+-            cursor.close();
+-        }
+-        return providerSet;
+-    }
+-
+-    public static String generateNudgeId(String data) {
+-        return java.util.UUID.nameUUIDFromBytes(data.getBytes()).toString();
+-    }
+-
+-    private static boolean statsOptIn(Context context) {
+-        return CMSettings.Secure.getInt(context.getContentResolver(),
+-                CMSettings.Secure.STATS_COLLECTION, 1) == 1;
+-    }
+-}
+\ No newline at end of file
+diff --git a/src/com/android/contacts/incall/InCallMetricsReceiver.java b/src/com/android/contacts/incall/InCallMetricsReceiver.java
+deleted file mode 100644
+index 507c7fa..0000000
+--- a/src/com/android/contacts/incall/InCallMetricsReceiver.java
++++ /dev/null
+@@ -1,33 +0,0 @@
+-/*
+- * Copyright (C) 2016 The CyanogenMod Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package com.android.contacts.incall;
+-
+-import android.content.BroadcastReceiver;
+-import android.content.Context;
+-import android.content.Intent;
+-
+-public class InCallMetricsReceiver extends BroadcastReceiver {
+-    private static final String CONTACT_AUTO_MERGE_KEY_RAW_IDS = "RAW_IDS";
+-
+-    @Override
+-    public void onReceive(Context context, Intent intent) {
+-        String rawIds = intent.getStringExtra(CONTACT_AUTO_MERGE_KEY_RAW_IDS);
+-        if (rawIds != null) {
+-            InCallMetricsHelper.increaseContactAutoMergeCount(context, rawIds);
+-        }
+-    }
+-}
+diff --git a/src/com/android/contacts/incall/InCallMetricsService.java b/src/com/android/contacts/incall/InCallMetricsService.java
+deleted file mode 100644
+index fa56267..0000000
+--- a/src/com/android/contacts/incall/InCallMetricsService.java
++++ /dev/null
+@@ -1,35 +0,0 @@
+-/*
+- * Copyright (C) 2016 The CyanogenMod Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package com.android.contacts.incall;
+-
+-import android.app.IntentService;
+-import android.content.Intent;
+-
+-
+-public class InCallMetricsService extends IntentService {
+-    static final String TAG = InCallMetricsService.class.getSimpleName();
+-    private static final boolean DEBUG = true;
+-
+-    public InCallMetricsService () {
+-        super(InCallMetricsService.class.getSimpleName());
+-    }
+-
+-    @Override
+-    protected void onHandleIntent(Intent intent) {
+-        InCallMetricsHelper.prepareAndSend(this);
+-    }
+-}
+\ No newline at end of file
+diff --git a/src/com/android/contacts/list/PluginContactBrowseListFragment.java b/src/com/android/contacts/list/PluginContactBrowseListFragment.java
+index 29ef148..954fc88 100644
+--- a/src/com/android/contacts/list/PluginContactBrowseListFragment.java
++++ b/src/com/android/contacts/list/PluginContactBrowseListFragment.java
+@@ -49,7 +49,7 @@ import com.android.contacts.common.list.AutoScrollListView;
+ import com.android.contacts.common.list.ContactEntryListFragment;
+ import com.android.contacts.common.list.DirectoryPartition;
+ import com.android.contacts.common.util.ContactLoaderUtils;
+-import com.android.contacts.incall.InCallMetricsHelper;
++import com.android.contacts.incall.InCallPluginHelper;
+ import com.android.contacts.incall.InCallPluginInfo;
+ import com.android.contacts.R;
+ import com.android.contacts.common.list.ContactListAdapter;
+@@ -650,15 +650,6 @@ public class PluginContactBrowseListFragment extends ContactEntryListFragment<Co
+                 if (view == mLoginBtn) {
+                     if (mInCallPluginInfo.mCallMethodInfo.mLoginIntent != null) {
+                         mInCallPluginInfo.mCallMethodInfo.mLoginIntent.send();
+-                        InCallMetricsHelper.setValue(
+-                                getActivity(),
+-                                mInCallPluginInfo.mCallMethodInfo.mComponent,
+-                                InCallMetricsHelper.Categories.INAPP_NUDGES,
+-                                InCallMetricsHelper.Events.INAPP_NUDGE_CONTACTS_TAB_LOGIN,
+-                                InCallMetricsHelper.Parameters.EVENT_ACCEPTANCE,
+-                                InCallMetricsHelper.EVENT_ACCEPT,
+-                                InCallMetricsHelper.generateNudgeId(mInCallPluginInfo
+-                                        .mCallMethodInfo.mLoginSubtitle));
+                     }
+                 } else if (view == mEmptyView) {
+                     if (mInCallPluginInfo.mCallMethodInfo.mDefaultDirectorySearchIntent != null) {
+@@ -793,4 +784,4 @@ public class PluginContactBrowseListFragment extends ContactEntryListFragment<Co
+             mEmptyView.setOnClickListener(this);
+         }
+     }
+-}
+\ No newline at end of file
++}
+diff --git a/src/com/android/contacts/quickcontact/QuickContactActivity.java b/src/com/android/contacts/quickcontact/QuickContactActivity.java
+index 8ad67e0..041902e 100644
+--- a/src/com/android/contacts/quickcontact/QuickContactActivity.java
++++ b/src/com/android/contacts/quickcontact/QuickContactActivity.java
+@@ -152,9 +152,8 @@ import com.android.contacts.common.util.ViewUtil;
+ import com.android.contacts.detail.ContactDisplayUtils;
+ import com.android.contacts.editor.ContactEditorFragment;
+ import com.android.contacts.editor.EditorIntents;
+-import com.android.contacts.incall.InCallMetricsHelper;
+ import com.android.contacts.incall.InCallPluginHelper;
+-import com.android.contacts.incall.InCallPluginUtils;
++import com.android.contacts.incall.InCallPluginInfo;
+ import com.android.contacts.interactions.CalendarInteractionsLoader;
+ import com.android.contacts.interactions.CallLogInteraction;
+ import com.android.contacts.interactions.CallLogInteractionsLoader;
+@@ -3484,8 +3483,6 @@ public class QuickContactActivity extends ContactsActivity implements
+                 if (DEBUG) Log.d(TAG, "Adding INSTALL NUDGE");
+                 containerList.add(entry);
+                 parentList.add(containerList);
+-                InCallMetricsHelper.increaseImpressionCount(this, cmi,
+-                        InCallMetricsHelper.Events.INAPP_NUDGE_CONTACTS_INSTALL);
+             }
+         } else if (cmi.mStatus == PluginStatus.ENABLED) {
+             if (!hasPluginAccount) {
+@@ -3539,8 +3536,6 @@ public class QuickContactActivity extends ContactsActivity implements
+                         if (DEBUG) Log.d(TAG, "Adding LOGIN NUDGE");
+                         containerList.add(entry);
+                         parentList.add(containerList);
+-                        InCallMetricsHelper.increaseImpressionCount(this, cmi,
+-                                InCallMetricsHelper.Events.INAPP_NUDGE_CONTACTS_LOGIN);
+                     }
+                 }
+             }
+@@ -3628,48 +3623,16 @@ public class QuickContactActivity extends ContactsActivity implements
+             if(intent.getAction().equals(ACTION_INCALL_PLUGIN_INSTALL)) {
+                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" +
+                         cmi.mDependentPackage)));
+-                InCallMetricsHelper.setValue(
+-                        this,
+-                        cmi.mComponent,
+-                        InCallMetricsHelper.Categories.INAPP_NUDGES,
+-                        InCallMetricsHelper.Events.INAPP_NUDGE_CONTACTS_INSTALL,
+-                        InCallMetricsHelper.Parameters.EVENT_ACCEPTANCE,
+-                        InCallMetricsHelper.EVENT_ACCEPT,
+-                        InCallMetricsHelper.generateNudgeId(cmi.mInstallNudgeSubtitle));
+             } else if (intent.getAction().equals(ACTION_INCALL_PLUGIN_DISMISS_NUDGE)) {
+                 String nudgeKey = intent.getStringExtra(InCallPluginUtils.KEY_NUDGE_KEY);
+                 dismissNudge(tag, nudgeKey);
+                 if (TextUtils.equals(nudgeKey, NudgeKey.INCALL_CONTACT_CARD_LOGIN)) {
+-                    InCallMetricsHelper.setValue(
+-                            this,
+-                            cmi.mComponent,
+-                            InCallMetricsHelper.Categories.INAPP_NUDGES,
+-                            InCallMetricsHelper.Events.INAPP_NUDGE_CONTACTS_LOGIN,
+-                            InCallMetricsHelper.Parameters.EVENT_ACCEPTANCE,
+-                            InCallMetricsHelper.EVENT_DISMISS,
+-                            InCallMetricsHelper.generateNudgeId(cmi.mLoginNudgeSubtitle));
+                 } else if (TextUtils.equals(nudgeKey, NudgeKey.INCALL_CONTACT_CARD_DOWNLOAD)) {
+-                    InCallMetricsHelper.setValue(
+-                            this,
+-                            cmi.mComponent,
+-                            InCallMetricsHelper.Categories.INAPP_NUDGES,
+-                            InCallMetricsHelper.Events.INAPP_NUDGE_CONTACTS_INSTALL,
+-                            InCallMetricsHelper.Parameters.EVENT_ACCEPTANCE,
+-                            InCallMetricsHelper.EVENT_DISMISS,
+-                            InCallMetricsHelper.generateNudgeId(cmi.mInstallNudgeSubtitle));
+                 }
+             } else if (intent.getAction().equals(ACTION_INCALL_PLUGIN_LOGIN)) {
+                 if (cmi.mLoginIntent != null) {
+                     cmi.mLoginIntent.send();
+                 }
+-                InCallMetricsHelper.setValue(
+-                        this,
+-                        cmi.mComponent,
+-                        InCallMetricsHelper.Categories.INAPP_NUDGES,
+-                        InCallMetricsHelper.Events.INAPP_NUDGE_CONTACTS_LOGIN,
+-                        InCallMetricsHelper.Parameters.EVENT_ACCEPTANCE,
+-                        InCallMetricsHelper.EVENT_ACCEPT,
+-                        InCallMetricsHelper.generateNudgeId(cmi.mLoginNudgeSubtitle));
+             } else if (intent.getAction().equals(ACTION_INCALL_PLUGIN_INVITE)) {
+                 if (cmi.mInviteIntent != null) {
+                     cmi.mInviteIntent.send();
+@@ -3680,7 +3643,6 @@ public class QuickContactActivity extends ContactsActivity implements
+                         cmi.mInviteIntent.send();
+                     }
+                 }
+-                InCallMetricsHelper.increaseInviteCount(this, cmi.mComponent.flattenToString());
+             } else if (intent.getAction().equals(ACTION_INCALL_PLUGIN_DIRECTORY_SEARCH)) {
+                 if (cmi.mDirectorySearchIntent != null) {
+                     cmi.mDirectorySearchIntent.send();
+-- 
+2.8.0
+

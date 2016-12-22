@@ -1,0 +1,35 @@
+From 87a5b2ff5c53d13f937bdcb20ab462e4aaa61e3b Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Fri, 18 Nov 2016 12:38:14 -0500
+Subject: [PATCH] Enable overclock by default
+
+Change-Id: Idc640d7f58271892ae91678de847d9d1fcc4b281
+---
+ drivers/cpufreq/qcom-cpufreq.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/cpufreq/qcom-cpufreq.c b/drivers/cpufreq/qcom-cpufreq.c
+index dd3a589..4cc8680 100644
+--- a/drivers/cpufreq/qcom-cpufreq.c
++++ b/drivers/cpufreq/qcom-cpufreq.c
+@@ -31,7 +31,7 @@
+ 
+ static DEFINE_MUTEX(l2bw_lock);
+ 
+-static unsigned long arg_cpu_max_a53 = 1440000;
++static unsigned long arg_cpu_max_a53 = 1632000;
+ 
+ static int __init cpufreq_read_cpu_max_a53(char *cpu_max_a53)
+ {
+@@ -48,7 +48,7 @@ static int __init cpufreq_read_cpu_max_a53(char *cpu_max_a53)
+ }
+ __setup("cpu_max_a53=", cpufreq_read_cpu_max_a53);
+ 
+-static unsigned long arg_cpu_max_a57 = 1824000;
++static unsigned long arg_cpu_max_a57 = 2016000;
+ 
+ static int __init cpufreq_read_cpu_max_a57(char *cpu_max_a57)
+ {
+-- 
+2.9.3
+

@@ -1,0 +1,27 @@
+From b7e34e5b5ef15124c80e0e5a374b44222e43c6d1 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Tue, 26 May 2015 20:58:59 -0400
+Subject: [PATCH] defconfig: enable f2fs
+
+---
+ arch/arm/configs/cyanogenmod_bacon_defconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/configs/cyanogenmod_bacon_defconfig b/arch/arm/configs/cyanogenmod_bacon_defconfig
+index fdf8db0..1fb7df9 100644
+--- a/arch/arm/configs/cyanogenmod_bacon_defconfig
++++ b/arch/arm/configs/cyanogenmod_bacon_defconfig
+@@ -3252,11 +3252,12 @@ CONFIG_ECRYPT_FS=y
+ # CONFIG_SYSV_FS is not set
+ # CONFIG_UFS_FS is not set
+ CONFIG_F2FS_FS=y
+-CONFIG_F2FS_STAT_FS=y
++# CONFIG_F2FS_STAT_FS is not set
+ CONFIG_F2FS_FS_XATTR=y
+ CONFIG_F2FS_FS_POSIX_ACL=y
+ CONFIG_F2FS_FS_SECURITY=y
+ # CONFIG_F2FS_CHECK_FS is not set
++CONFIG_F2FS_IO_TRACE=y
+ CONFIG_NETWORK_FILESYSTEMS=y
+ # CONFIG_NFS_FS is not set
+ # CONFIG_NFSD is not set

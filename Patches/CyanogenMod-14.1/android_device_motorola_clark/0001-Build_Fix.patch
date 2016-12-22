@@ -1,0 +1,37 @@
+From 6fdf689f450e577750212ac5f0d3ffce50965651 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 17 Nov 2016 15:39:23 -0500
+Subject: [PATCH] Fix build failure
+
+Change-Id: I94282a3df32daa97992c17476b0eb3e8f21e2499
+---
+ overlay/frameworks/base/core/res/res/values/config.xml | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/overlay/frameworks/base/core/res/res/values/config.xml b/overlay/frameworks/base/core/res/res/values/config.xml
+index e0358e2..0b0549b 100644
+--- a/overlay/frameworks/base/core/res/res/values/config.xml
++++ b/overlay/frameworks/base/core/res/res/values/config.xml
+@@ -421,9 +421,6 @@
+          format is UMTS|LTE|... -->
+     <string translatable="false" name="config_radio_access_family">GSM | WCDMA | LTE | CDMA | EVDO</string>
+ 
+-    <!-- Component name of the service providing geofence API support. -->
+-    <string name="config_geofenceProvider" translatable="false">com.qualcomm.location</string>
+-
+     <string-array name="config_mobile_tcp_buffers">
+         <item>"lte:2097152,4194304,8388608,262144,524288,1048576"</item>
+         <item>"lte_ca:2097152,4194304,8388608,262144,524288,1048576"</item>
+@@ -442,9 +439,6 @@
+          rmem_min,rmem_def,rmem_max,wmem_min,wmem_def,wmem_max -->
+     <string name="config_wifi_tcp_buffers" translatable="false">524288,2097152,4194304,262144,524288,1048576</string>
+ 
+-    <!-- Enable blur support -->
+-    <bool name="config_ui_blur_enabled">true</bool>
+-
+     <!-- Boolean indicating if current platform supports BLE peripheral mode -->
+     <bool name="config_bluetooth_le_peripheral_mode_supported">true</bool>
+ 
+-- 
+2.9.3
+

@@ -1,0 +1,3667 @@
+From 6b0c0232ad176fad8d5a7518dbae49cf726547f1 Mon Sep 17 00:00:00 2001
+From: Zefan Li <lizefan@huawei.com>
+Date: Thu, 22 Oct 2015 09:20:09 +0800
+Subject: [PATCH] Linux 3.4.110
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+hrtimer: Allow concurrent hrtimer_start() for self restarting timers
+
+commit 5de2755c8c8b3a6b8414870e2c284914a2b42e4d upstream.
+
+Because we drop cpu_base->lock around calling hrtimer::function, it is
+possible for hrtimer_start() to come in between and enqueue the timer.
+
+If hrtimer::function then returns HRTIMER_RESTART we'll hit the BUG_ON
+because HRTIMER_STATE_ENQUEUED will be set.
+
+Since the above is a perfectly valid scenario, remove the BUG_ON and
+make the enqueue_hrtimer() call conditional on the timer not being
+enqueued already.
+
+NOTE: in that concurrent scenario its entirely common for both sites
+to want to modify the hrtimer, since hrtimers don't provide
+serialization themselves be sure to provide some such that the
+hrtimer::function and the hrtimer_start() caller don't both try and
+fudge the expiration state at the same time.
+
+To that effect, add a WARN when someone tries to forward an already
+enqueued timer, the most common way to change the expiry of self
+restarting timers. Ideally we'd put the WARN in everything modifying
+the expiry but most of that is inlines and we don't need the bloat.
+
+Fixes: 2d44ae4d7135 ("hrtimer: clean up cpu->base locking tricks")
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: Ben Segall <bsegall@google.com>
+Cc: Roman Gushchin <klamm@yandex-team.ru>
+Cc: Paul Turner <pjt@google.com>
+Link: http://lkml.kernel.org/r/20150415113105.GT5029@twins.programming.kicks-ass.net
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+mtd: fix: avoid race condition when accessing mtd->usecount
+
+commit 073db4a51ee43ccb827f54a4261c0583b028d5ab upstream.
+
+On A MIPS 32-cores machine a BUG_ON was triggered because some acesses to
+mtd->usecount were done without taking mtd_table_mutex.
+kernel: Call Trace:
+kernel: [<ffffffff80401818>] __put_mtd_device+0x20/0x50
+kernel: [<ffffffff804086f4>] blktrans_release+0x8c/0xd8
+kernel: [<ffffffff802577e0>] __blkdev_put+0x1a8/0x200
+kernel: [<ffffffff802579a4>] blkdev_close+0x1c/0x30
+kernel: [<ffffffff8022006c>] __fput+0xac/0x250
+kernel: [<ffffffff80171208>] task_work_run+0xd8/0x120
+kernel: [<ffffffff8012c23c>] work_notifysig+0x10/0x18
+kernel:
+kernel:
+        Code: 2442ffff  ac8202d8  000217fe <00020336> dc820128  10400003
+               00000000  0040f809  00000000
+kernel: ---[ end trace 080fbb4579b47a73 ]---
+
+Fixed by taking the mutex in blktrans_open and blktrans_release.
+
+Note that this locking is already suggested in
+include/linux/mtd/blktrans.h:
+
+struct mtd_blktrans_ops {
+...
+	/* Called with mtd_table_mutex held; no race with add/remove */
+	int (*open)(struct mtd_blktrans_dev *dev);
+	void (*release)(struct mtd_blktrans_dev *dev);
+...
+};
+
+But we weren't following it.
+
+Originally reported by (and patched by) Zhang and Giuseppe,
+independently. Improved and rewritten.
+
+Reported-by: Zhang Xingcai <zhangxingcai@huawei.com>
+Reported-by: Giuseppe Cantavenera <giuseppe.cantavenera.ext@nokia.com>
+Tested-by: Giuseppe Cantavenera <giuseppe.cantavenera.ext@nokia.com>
+Acked-by: Alexander Sverdlin <alexander.sverdlin@nokia.com>
+Signed-off-by: Brian Norris <computersforpeace@gmail.com>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+crypto: talitos - avoid memleak in talitos_alg_alloc()
+
+commit 5fa7dadc898567ce14d6d6d427e7bd8ce6eb5d39 upstream.
+
+Fixes: 1d11911a8c57 ("crypto: talitos - fix warning: 'alg' may be used uninitialized in this function")
+Signed-off-by: Horia Geanta <horia.geanta@freescale.com>
+Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+ASoC: wm8737: Fixup setting VMID Impedance control register
+
+commit 14ba3ec1de043260cecd9e828ea2e3a0ad302893 upstream.
+
+According to the datasheet:
+R10 (0Ah) VMID Impedance Control
+
+BIT 3:2 VMIDSEL DEFAULT 00
+
+DESCRIPTION: VMID impedance selection control
+00: 75kΩ output
+01: 300kΩ output
+10: 2.5kΩ output
+
+WM8737_VMIDSEL_MASK is 0xC (VMIDSEL - [3:2]),
+so it needs to left shift WM8737_VMIDSEL_SHIFT bits for setting these bits.
+
+Signed-off-by: Axel Lin <axel.lin@ingics.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+ASoC: wm8903: Fix define for WM8903_VMID_RES_250K
+
+commit ebb6ad73e645b8f2d098dd3c41d2ff0da4146a02 upstream.
+
+VMID Control 0 BIT[2:1] is VMID Divider Enable and Select
+
+00 = VMID disabled (for OFF mode)
+01 = 2 x 50kΩ divider (for normal operation)
+10 = 2 x 250kΩ divider (for low power standby)
+11 = 2 x 5kΩ divider (for fast start-up)
+
+So WM8903_VMID_RES_250K should be 2 << 1, which is 4.
+
+Signed-off-by: Axel Lin <axel.lin@ingics.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+ASoC: wm8955: Fix setting wrong register for WM8955_K_8_0_MASK bits
+
+commit 12c350050538c7dc779c083b7342bfd20f74949c upstream.
+
+WM8955_K_8_0_MASK bits is controlled by WM8955_PLL_CONTROL_3 rather than
+WM8955_PLL_CONTROL_2.
+
+Signed-off-by: Axel Lin <axel.lin@ingics.com>
+Acked-by: Charles Keepax <ckeepax@opensource.wolfsonmicro.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+pktgen: adjust spacing in proc file interface output
+
+commit d079abd181950a44cdf31daafd1662388a6c4d2e upstream.
+
+Too many spaces were introduced in commit 63adc6fb8ac0 ("pktgen: cleanup
+checkpatch warnings"), thus misaligning "src_min:" to other columns.
+
+Fixes: 63adc6fb8ac0 ("pktgen: cleanup checkpatch warnings")
+Signed-off-by: Jesper Dangaard Brouer <brouer@redhat.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+pktgen: document ability to add same device to several threads
+
+commit 2a1ddf27e8189e1d68336c55dd2f305b224ae8f1 upstream.
+
+The pktgen.txt documentation still claimed that adding same device to
+multiple threads were not supported, but it have been since 2008 via
+commit e6fce5b916cd7 ("pktgen: multiqueue etc.").
+
+Document this and describe the naming scheme dev@X, as the procfile name
+still need to be unique.
+
+Fixes: e6fce5b916cd7 ("pktgen: multiqueue etc.")
+Signed-off-by: Jesper Dangaard Brouer <brouer@redhat.com>
+Acked-by: Alexei Starovoitov <ast@plumgrid.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+tty/serial: at91: RS485 mode: 0 is valid for delay_rts_after_send
+
+commit 8687634b7908c42eb700e0469e110e02833611d1 upstream.
+
+In RS485 mode, we may want to set the delay_rts_after_send value to 0.
+In the datasheet, the 0 value is said to "disable" the Transmitter Timeguard but
+this is exactly the expected behavior if we want no delay...
+
+Moreover, if the value was set to non-zero value by device-tree or earlier
+ioctl command, it was impossible to change it back to zero.
+
+Reported-by: Sami Pietikäinen <Sami.Pietikainen@wapice.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@atmel.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+[lizf: Backported to 3.4: adjust context]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+rndis_wlan: harmless issue calling set_bit()
+
+commit e3958e9d60b4570fff709f397ef5c6b8483f40f7 upstream.
+
+These are used like:
+
+	set_bit(WORK_LINK_UP, &priv->work_pending);
+
+The problem is that set_bit() takes the actual bit number and not a mask
+so static checkers get upset.  It doesn't affect run time because we do
+it consistently, but we may as well clean it up.
+
+Fixes: 6010ce07a66c ('rndis_wlan: do link-down state change in worker thread')
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Kalle Valo <kvalo@codeaurora.org>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+drm/radeon: take the mode_config mutex when dealing with hpds (v2)
+
+commit 39fa10f7e21574a70cecf1fed0f9b36535aa68a0 upstream.
+
+Since we are messing with state in the worker.
+
+v2: drop the changes in the mst worker
+
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+rcu: Correctly handle non-empty Tiny RCU callback list with none ready
+
+commit 6e91f8cb138625be96070b778d9ba71ce520ea7e upstream.
+
+If, at the time __rcu_process_callbacks() is invoked,  there are callbacks
+in Tiny RCU's callback list, but none of them are ready to be invoked,
+the current list-management code will knit the non-ready callbacks out
+of the list.  This can result in hangs and possibly worse.  This commit
+therefore inserts a check for there being no callbacks that can be
+invoked immediately.
+
+This bug is unlikely to occur -- you have to get a new callback between
+the time rcu_sched_qs() or rcu_bh_qs() was called, but before we get to
+__rcu_process_callbacks().  It was detected by the addition of RCU-bh
+testing to rcutorture, which in turn was instigated by Iftekhar Ahmed's
+mutation testing.  Although this bug was made much more likely by
+915e8a4fe45e (rcu: Remove fastpath from __rcu_process_callbacks()), this
+did not cause the bug, but rather made it much more probable.   That
+said, it takes more than 40 hours of rcutorture testing, on average,
+for this bug to appear, so this fix cannot be considered an emergency.
+
+Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+Reviewed-by: Josh Triplett <josh@joshtriplett.org>
+[lizf: Backported to 3.4: adjust filename ]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+mtd: dc21285: use raw spinlock functions for nw_gpio_lock
+
+commit e5babdf928e5d0c432a8d4b99f20421ce14d1ab6 upstream.
+
+Since commit bd31b85960a7 (which is in 3.2-rc1) nw_gpio_lock is a raw spinlock
+that needs usage of the corresponding raw functions.
+
+This fixes:
+
+  drivers/mtd/maps/dc21285.c: In function 'nw_en_write':
+  drivers/mtd/maps/dc21285.c:41:340: warning: passing argument 1 of 'spinlock_check' from incompatible pointer type
+    spin_lock_irqsave(&nw_gpio_lock, flags);
+
+  In file included from include/linux/seqlock.h:35:0,
+                   from include/linux/time.h:5,
+                   from include/linux/stat.h:18,
+                   from include/linux/module.h:10,
+                   from drivers/mtd/maps/dc21285.c:8:
+  include/linux/spinlock.h:299:102: note: expected 'struct spinlock_t *' but argument is of type 'struct raw_spinlock_t *'
+   static inline raw_spinlock_t *spinlock_check(spinlock_t *lock)
+                                                                                                        ^
+  drivers/mtd/maps/dc21285.c:43:25: warning: passing argument 1 of 'spin_unlock_irqrestore' from incompatible pointer type
+    spin_unlock_irqrestore(&nw_gpio_lock, flags);
+                           ^
+  In file included from include/linux/seqlock.h:35:0,
+                   from include/linux/time.h:5,
+                   from include/linux/stat.h:18,
+                   from include/linux/module.h:10,
+                   from drivers/mtd/maps/dc21285.c:8:
+  include/linux/spinlock.h:370:91: note: expected 'struct spinlock_t *' but argument is of type 'struct raw_spinlock_t *'
+   static inline void spin_unlock_irqrestore(spinlock_t *lock, unsigned long flags)
+
+Fixes: bd31b85960a7 ("locking, ARM: Annotate low level hw locks as raw")
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Signed-off-by: Brian Norris <computersforpeace@gmail.com>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+staging: rtl8712: prevent buffer overrun in recvbuf2recvframe
+
+commit cab462140f8a183e3cca0b51c8b59ef715cb6148 upstream.
+
+With an RTL8191SU USB adaptor, sometimes the hints for a fragmented
+packet are set, but the packet length is too large. Allocate enough
+space to prevent memory corruption and a resulting kernel panic [1].
+
+[1] http://www.spinics.net/lists/linux-wireless/msg136546.html
+
+Signed-off-by: Haggai Eran <haggai.eran@gmail.com>
+ACKed-by: Larry Finger <Larry.Finger@lwfinger.net>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+usb: core: Fix USB 3.0 devices lost in NOTATTACHED state after a hub port reset
+
+commit fb6d1f7df5d25299fd7b3e84b72b8851d3634764 upstream.
+
+Fix USB 3.0 devices lost in NOTATTACHED state after a hub port reset.
+
+Dissolve the function hub_port_finish_reset() completely and divide the
+actions to be taken into those which need to be done after each reset
+attempt and those which need to be done after the full procedure is
+complete, and place them in the appropriate places in hub_port_reset().
+Also, remove an unneeded forward declaration of hub_port_reset().
+
+Verbose Problem Description:
+
+USB 3.0 devices may be "lost for good" during a hub port reset.
+This makes Linux unable to boot from USB 3.0 devices in certain
+constellations of host controllers and devices, because the USB device is
+lost during initialization, preventing the rootfs from being mounted.
+
+The underlying problem is that in the affected constellations, during the
+processing inside hub_port_reset(), the hub link state goes from 0 to
+SS.inactive after the initial reset, and back to 0 again only after the
+following "warm" reset.
+
+However, hub_port_finish_reset() is called after each reset attempt and
+sets the state the connected USB device based on the "preliminary" status
+of the hot reset to USB_STATE_NOTATTACHED due to SS.inactive, yet when
+the following warm reset is complete and hub_port_finish_reset() is
+called again, its call to set the device to USB_STATE_DEFAULT is blocked
+by usb_set_device_state() which does not allow taking USB devices out of
+USB_STATE_NOTATTACHED state.
+
+Thanks to Alan Stern for guiding me to the proper solution and how to
+submit it.
+
+Link: http://lkml.kernel.org/r/trinity-25981484-72a9-4d46-bf17-9c1cf9301a31-1432073240136%20()%203capp-gmx-bs27
+Signed-off-by: Robert Schlabbach <robert_s@gmx.net>
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+[lizf: Backported to 3.4:
+ - adjust context
+ - s/usb_clear_port_feature/clear_port_feature
+ - hub_port_warm_reset_required() takes only two arguments]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+fixing infinite OPEN loop in 4.0 stateid recovery
+
+commit e8d975e73e5fa05f983fbf2723120edcf68e0b38 upstream.
+
+Problem: When an operation like WRITE receives a BAD_STATEID, even though
+recovery code clears the RECLAIM_NOGRACE recovery flag before recovering
+the open state, because of clearing delegation state for the associated
+inode, nfs_inode_find_state_and_recover() gets called and it makes the
+same state with RECLAIM_NOGRACE flag again. As a results, when we restart
+looking over the open states, we end up in the infinite loop instead of
+breaking out in the next test of state flags.
+
+Solution: unset the RECLAIM_NOGRACE set because of
+calling of nfs_inode_find_state_and_recover() after returning from calling
+recover_open() function.
+
+Signed-off-by: Olga Kornievskaia <kolga@netapp.com>
+Signed-off-by: Trond Myklebust <trond.myklebust@primarydata.com>
+[lizf: Backported to 3.4: adjust context]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+NFS: Fix size of NFSACL SETACL operations
+
+commit d683cc49daf7c5afca8cd9654aaa1bf63cdf2ad9 upstream.
+
+When encoding the NFSACL SETACL operation, reserve just the estimated
+size of the ACL rather than a fixed maximum. This eliminates needless
+zero padding on the wire that the server ignores.
+
+Fixes: ee5dc7732bd5 ('NFS: Fix "kernel BUG at fs/nfs/nfs3xdr.c:1338!"')
+Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+Signed-off-by: Trond Myklebust <trond.myklebust@primarydata.com>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+SUNRPC: Fix a memory leak in the backchannel code
+
+commit 88de6af24f2b48b06c514d3c3d0a8f22fafe30bd upstream.
+
+req->rq_private_buf isn't initialised when xprt_setup_backchannel calls
+xprt_free_allocation.
+
+Fixes: fb7a0b9addbdb ("nfs41: New backchannel helper routines")
+Signed-off-by: Trond Myklebust <trond.myklebust@primarydata.com>
+[lizf: Backported to 3.4: adjust context]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+ipr: Increase default adapter init stage change timeout
+
+commit 45c44b5ff9caa743ed9c2bfd44307c536c9caf1e upstream.
+
+Increase the default init stage change timeout from 15 seconds to 30 seconds.
+This resolves issues we have seen with some adapters not transitioning
+to the first init stage within 15 seconds, which results in adapter
+initialization failures.
+
+Signed-off-by: Brian King <brking@linux.vnet.ibm.com>
+Signed-off-by: James Bottomley <JBottomley@Odin.com>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+ath9k: fix DMA stop sequence for AR9003+
+
+commit 300f77c08ded96d33f492aaa02549103852f0c12 upstream.
+
+AR93xx and newer needs to stop rx before tx to avoid getting the DMA
+engine or MAC into a stuck state.
+This should reduce/fix the occurence of "Failed to stop Tx DMA" logspam.
+
+Signed-off-by: Felix Fietkau <nbd@openwrt.org>
+Signed-off-by: Kalle Valo <kvalo@codeaurora.org>
+[lizf: Backported to 3.4:
+ - initialize ret
+ - ath_drain_all_txq() takes a second argument]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+regulator: core: fix constraints output buffer
+
+commit a7068e3932eee8268c4ce4e080a338ee7b8a27bf upstream.
+
+The buffer for condtraints debug isn't big enough to hold the output
+in all cases. So fix this issue by increasing the buffer.
+
+Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+x86/PCI: Use host bridge _CRS info on Foxconn K8M890-8237A
+
+commit 1dace0116d0b05c967d94644fc4dfe96be2ecd3d upstream.
+
+The Foxconn K8M890-8237A has two PCI host bridges, and we can't assign
+resources correctly without the information from _CRS that tells us which
+address ranges are claimed by which bridge.  In the bugs mentioned below,
+we incorrectly assign a sound card address (this example is from 1033299):
+
+  bus: 00 index 2 [mem 0x80000000-0xfcffffffff]
+  ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-7f])
+  pci_root PNP0A08:00: host bridge window [mem 0x80000000-0xbfefffff] (ignored)
+  pci_root PNP0A08:00: host bridge window [mem 0xc0000000-0xdfffffff] (ignored)
+  pci_root PNP0A08:00: host bridge window [mem 0xf0000000-0xfebfffff] (ignored)
+  ACPI: PCI Root Bridge [PCI1] (domain 0000 [bus 80-ff])
+  pci_root PNP0A08:01: host bridge window [mem 0xbff00000-0xbfffffff] (ignored)
+  pci 0000:80:01.0: [1106:3288] type 0 class 0x000403
+  pci 0000:80:01.0: reg 10: [mem 0xbfffc000-0xbfffffff 64bit]
+  pci 0000:80:01.0: address space collision: [mem 0xbfffc000-0xbfffffff 64bit] conflicts with PCI Bus #00 [mem 0x80000000-0xfcffffffff]
+  pci 0000:80:01.0: BAR 0: assigned [mem 0xfd00000000-0xfd00003fff 64bit]
+  BUG: unable to handle kernel paging request at ffffc90000378000
+  IP: [<ffffffffa0345f63>] azx_create+0x37c/0x822 [snd_hda_intel]
+
+We assigned 0xfd_0000_0000, but that is not in any of the host bridge
+windows, and the sound card doesn't work.
+
+Turn on pci=use_crs automatically for this system.
+
+Link: https://bugs.launchpad.net/ubuntu/+source/alsa-driver/+bug/931368
+Link: https://bugs.launchpad.net/ubuntu/+source/alsa-driver/+bug/1033299
+Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+dmaengine: mv_xor: bug fix for racing condition in descriptors cleanup
+
+commit 9136291f1dbc1d4d1cacd2840fb35f4f3ce16c46 upstream.
+
+This patch fixes a bug in the XOR driver where the cleanup function can be
+called and free descriptors that never been processed by the engine (which
+result in data errors).
+
+The cleanup function will free descriptors based on the ownership bit in
+the descriptors.
+
+Fixes: ff7b04796d98 ("dmaengine: DMA engine driver for Marvell XOR engine")
+Signed-off-by: Lior Amsalem <alior@marvell.com>
+Signed-off-by: Maxime Ripard <maxime.ripard@free-electrons.com>
+Reviewed-by: Ofer Heifetz <oferh@marvell.com>
+Signed-off-by: Vinod Koul <vinod.koul@intel.com>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+ASoC: wm8960: the enum of "DAC Polarity" should be wm8960_enum[1]
+
+commit a077e81ec61e07a7f86997d045109f06719fbffe upstream.
+
+the enum of "DAC Polarity" should be wm8960_enum[1].
+
+Signed-off-by: Zidan Wang <zidan.wang@freescale.com>
+Acked-by: Charles Keepax <ckeepax@opensource.wolfsonmicro.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+ext4: fix race between truncate and __ext4_journalled_writepage()
+
+commit bdf96838aea6a265f2ae6cbcfb12a778c84a0b8e upstream.
+
+The commit cf108bca465d: "ext4: Invert the locking order of page_lock
+and transaction start" caused __ext4_journalled_writepage() to drop
+the page lock before the page was written back, as part of changing
+the locking order to jbd2_journal_start -> page_lock.  However, this
+introduced a potential race if there was a truncate racing with the
+data=journalled writeback mode.
+
+Fix this by grabbing the page lock after starting the journal handle,
+and then checking to see if page had gotten truncated out from under
+us.
+
+This fixes a number of different warnings or BUG_ON's when running
+xfstests generic/086 in data=journalled mode, including:
+
+jbd2_journal_dirty_metadata: vdc-8: bad jh for block 115643: transaction (ee3fe7
+c0, 164), jh->b_transaction (  (null), 0), jh->b_next_transaction (  (null), 0), jlist 0
+
+	      	      	  - and -
+
+kernel BUG at /usr/projects/linux/ext4/fs/jbd2/transaction.c:2200!
+    ...
+Call Trace:
+ [<c02b2ded>] ? __ext4_journalled_invalidatepage+0x117/0x117
+ [<c02b2de5>] __ext4_journalled_invalidatepage+0x10f/0x117
+ [<c02b2ded>] ? __ext4_journalled_invalidatepage+0x117/0x117
+ [<c027d883>] ? lock_buffer+0x36/0x36
+ [<c02b2dfa>] ext4_journalled_invalidatepage+0xd/0x22
+ [<c0229139>] do_invalidatepage+0x22/0x26
+ [<c0229198>] truncate_inode_page+0x5b/0x85
+ [<c022934b>] truncate_inode_pages_range+0x156/0x38c
+ [<c0229592>] truncate_inode_pages+0x11/0x15
+ [<c022962d>] truncate_pagecache+0x55/0x71
+ [<c02b913b>] ext4_setattr+0x4a9/0x560
+ [<c01ca542>] ? current_kernel_time+0x10/0x44
+ [<c026c4d8>] notify_change+0x1c7/0x2be
+ [<c0256a00>] do_truncate+0x65/0x85
+ [<c0226f31>] ? file_ra_state_init+0x12/0x29
+
+	      	      	  - and -
+
+WARNING: CPU: 1 PID: 1331 at /usr/projects/linux/ext4/fs/jbd2/transaction.c:1396
+irty_metadata+0x14a/0x1ae()
+    ...
+Call Trace:
+ [<c01b879f>] ? console_unlock+0x3a1/0x3ce
+ [<c082cbb4>] dump_stack+0x48/0x60
+ [<c0178b65>] warn_slowpath_common+0x89/0xa0
+ [<c02ef2cf>] ? jbd2_journal_dirty_metadata+0x14a/0x1ae
+ [<c0178bef>] warn_slowpath_null+0x14/0x18
+ [<c02ef2cf>] jbd2_journal_dirty_metadata+0x14a/0x1ae
+ [<c02d8615>] __ext4_handle_dirty_metadata+0xd4/0x19d
+ [<c02b2f44>] write_end_fn+0x40/0x53
+ [<c02b4a16>] ext4_walk_page_buffers+0x4e/0x6a
+ [<c02b59e7>] ext4_writepage+0x354/0x3b8
+ [<c02b2f04>] ? mpage_release_unused_pages+0xd4/0xd4
+ [<c02b1b21>] ? wait_on_buffer+0x2c/0x2c
+ [<c02b5a4b>] ? ext4_writepage+0x3b8/0x3b8
+ [<c02b5a5b>] __writepage+0x10/0x2e
+ [<c0225956>] write_cache_pages+0x22d/0x32c
+ [<c02b5a4b>] ? ext4_writepage+0x3b8/0x3b8
+ [<c02b6ee8>] ext4_writepages+0x102/0x607
+ [<c019adfe>] ? sched_clock_local+0x10/0x10e
+ [<c01a8a7c>] ? __lock_is_held+0x2e/0x44
+ [<c01a8ad5>] ? lock_is_held+0x43/0x51
+ [<c0226dff>] do_writepages+0x1c/0x29
+ [<c0276bed>] __writeback_single_inode+0xc3/0x545
+ [<c0277c07>] writeback_sb_inodes+0x21f/0x36d
+    ...
+
+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+Disable write buffering on Toshiba ToPIC95
+
+commit 2fb22a8042fe96b4220843f79241c116d90922c4 upstream.
+
+Disable write buffering on the Toshiba ToPIC95 if it is enabled by
+somebody (it is not supposed to be a power-on default according to
+the datasheet). On the ToPIC95, practically no 32-bit Cardbus card
+will work under heavy load without locking up the whole system if
+this is left enabled. I tried about a dozen. It does not affect
+16-bit cards. This is similar to the O2 bugs in early controller
+revisions it seems.
+
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=55961
+Signed-off-by: Ryan C. Underwood <nemesis@icequake.net>
+Signed-off-by: Dominik Brodowski <linux@dominikbrodowski.net>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+sctp: fix ASCONF list handling
+
+commit 2d45a02d0166caf2627fe91897c6ffc3b19514c4 upstream.
+
+->auto_asconf_splist is per namespace and mangled by functions like
+sctp_setsockopt_auto_asconf() which doesn't guarantee any serialization.
+
+Also, the call to inet_sk_copy_descendant() was backuping
+->auto_asconf_list through the copy but was not honoring
+->do_auto_asconf, which could lead to list corruption if it was
+different between both sockets.
+
+This commit thus fixes the list handling by using ->addr_wq_lock
+spinlock to protect the list. A special handling is done upon socket
+creation and destruction for that. Error handlig on sctp_init_sock()
+will never return an error after having initialized asconf, so
+sctp_destroy_sock() can be called without addrq_wq_lock. The lock now
+will be take on sctp_close_sock(), before locking the socket, so we
+don't do it in inverse order compared to sctp_addr_wq_timeout_handler().
+
+Instead of taking the lock on sctp_sock_migrate() for copying and
+restoring the list values, it's preferred to avoid rewritting it by
+implementing sctp_copy_descendant().
+
+Issue was found with a test application that kept flipping sysctl
+default_auto_asconf on and off, but one could trigger it by issuing
+simultaneous setsockopt() calls on multiple sockets or by
+creating/destroying sockets fast enough. This is only triggerable
+locally.
+
+Fixes: 9f7d653b67ae ("sctp: Add Auto-ASCONF support (core).")
+Reported-by: Ji Jianwen <jiji@redhat.com>
+Suggested-by: Neil Horman <nhorman@tuxdriver.com>
+Suggested-by: Hannes Frederic Sowa <hannes@stressinduktion.org>
+Acked-by: Hannes Frederic Sowa <hannes@stressinduktion.org>
+Signed-off-by: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+[lizf: Backported to 3.4:
+ - use global spinlock instead of per-namespace lock]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+jbd2: use GFP_NOFS in jbd2_cleanup_journal_tail()
+
+commit b4f1afcd068f6e533230dfed00782cd8a907f96b upstream.
+
+jbd2_cleanup_journal_tail() can be invoked by jbd2__journal_start()
+So allocations should be done with GFP_NOFS
+
+[Full stack trace snipped from 3.10-rh7]
+[<ffffffff815c4bd4>] dump_stack+0x19/0x1b
+[<ffffffff8105dba1>] warn_slowpath_common+0x61/0x80
+[<ffffffff8105dcca>] warn_slowpath_null+0x1a/0x20
+[<ffffffff815c2142>] slab_pre_alloc_hook.isra.31.part.32+0x15/0x17
+[<ffffffff8119c045>] kmem_cache_alloc+0x55/0x210
+[<ffffffff811477f5>] ? mempool_alloc_slab+0x15/0x20
+[<ffffffff811477f5>] mempool_alloc_slab+0x15/0x20
+[<ffffffff81147939>] mempool_alloc+0x69/0x170
+[<ffffffff815cb69e>] ? _raw_spin_unlock_irq+0xe/0x20
+[<ffffffff8109160d>] ? finish_task_switch+0x5d/0x150
+[<ffffffff811f1a8e>] bio_alloc_bioset+0x1be/0x2e0
+[<ffffffff8127ee49>] blkdev_issue_flush+0x99/0x120
+[<ffffffffa019a733>] jbd2_cleanup_journal_tail+0x93/0xa0 [jbd2] -->GFP_KERNEL
+[<ffffffffa019aca1>] jbd2_log_do_checkpoint+0x221/0x4a0 [jbd2]
+[<ffffffffa019afc7>] __jbd2_log_wait_for_space+0xa7/0x1e0 [jbd2]
+[<ffffffffa01952d8>] start_this_handle+0x2d8/0x550 [jbd2]
+[<ffffffff811b02a9>] ? __memcg_kmem_put_cache+0x29/0x30
+[<ffffffff8119c120>] ? kmem_cache_alloc+0x130/0x210
+[<ffffffffa019573a>] jbd2__journal_start+0xba/0x190 [jbd2]
+[<ffffffff811532ce>] ? lru_cache_add+0xe/0x10
+[<ffffffffa01c9549>] ? ext4_da_write_begin+0xf9/0x330 [ext4]
+[<ffffffffa01f2c77>] __ext4_journal_start_sb+0x77/0x160 [ext4]
+[<ffffffffa01c9549>] ext4_da_write_begin+0xf9/0x330 [ext4]
+[<ffffffff811446ec>] generic_file_buffered_write_iter+0x10c/0x270
+[<ffffffff81146918>] __generic_file_write_iter+0x178/0x390
+[<ffffffff81146c6b>] __generic_file_aio_write+0x8b/0xb0
+[<ffffffff81146ced>] generic_file_aio_write+0x5d/0xc0
+[<ffffffffa01bf289>] ext4_file_write+0xa9/0x450 [ext4]
+[<ffffffff811c31d9>] ? pipe_read+0x379/0x4f0
+[<ffffffff811b93f0>] do_sync_write+0x90/0xe0
+[<ffffffff811b9b6d>] vfs_write+0xbd/0x1e0
+[<ffffffff811ba5b8>] SyS_write+0x58/0xb0
+[<ffffffff815d4799>] system_call_fastpath+0x16/0x1b
+
+Signed-off-by: Dmitry Monakhov <dmonakhov@openvz.org>
+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+regmap: Fix regmap_bulk_read in BE mode
+
+commit 15b8d2c41fe5839582029f65c5f7004db451cc2b upstream.
+
+In big endian mode regmap_bulk_read gives incorrect data
+for byte reads.
+
+This is because memcpy of a single byte from an address
+after full word read gives different results when
+endianness differs. ie. we get little-end in LE and big-end in BE.
+
+Signed-off-by: Arun Chandran <achandran@mvista.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+[lizf: Backported to 3.4: format_val() takes only two arguments]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+jbd2: fix ocfs2 corrupt when updating journal superblock fails
+
+commit 6f6a6fda294506dfe0e3e0a253bb2d2923f28f0a upstream.
+
+If updating journal superblock fails after journal data has been
+flushed, the error is omitted and this will mislead the caller as a
+normal case.  In ocfs2, the checkpoint will be treated successfully
+and the other node can get the lock to update. Since the sb_start is
+still pointing to the old log block, it will rewrite the journal data
+during journal recovery by the other node. Thus the new updates will
+be overwritten and ocfs2 corrupts.  So in above case we have to return
+the error, and ocfs2_commit_cache will take care of the error and
+prevent the other node to do update first.  And only after recovering
+journal it can do the new updates.
+
+The issue discussion mail can be found at:
+https://oss.oracle.com/pipermail/ocfs2-devel/2015-June/010856.html
+http://comments.gmane.org/gmane.comp.file-systems.ext4/48841
+
+[ Fixed bug in patch which allowed a non-negative error return from
+  jbd2_cleanup_journal_tail() to leak out of jbd2_fjournal_flush(); this
+  was causing xfstests ext4/306 to fail. -- Ted ]
+
+Reported-by: Yiwen Jiang <jiangyiwen@huawei.com>
+Signed-off-by: Joseph Qi <joseph.qi@huawei.com>
+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
+Tested-by: Yiwen Jiang <jiangyiwen@huawei.com>
+Cc: Junxiao Bi <junxiao.bi@oracle.com>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+ideapad: fix software rfkill setting
+
+commit 4b200b4604bec3388426159f1656109d19fadf6e upstream.
+
+This fixes a several year old regression that I found while trying
+to get the Yoga 3 11 to work. The ideapad_rfk_set function is meant
+to send a command to the embedded controller through ACPI, but
+as of c1f73658ed, it sends the index of the rfkill device instead
+of the command, and ignores the opcode field.
+
+This changes it back to the original behavior, which indeed
+flips the rfkill state as seen in the debugfs interface.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Fixes: c1f73658ed ("ideapad: pass ideapad_priv as argument (part 2)")
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+[lizf: Backported to 3.4: @data is not a pointer but the device idx]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+nfs: increase size of EXCHANGE_ID name string buffer
+
+commit 764ad8ba8cd4c6f836fca9378f8c5121aece0842 upstream.
+
+The current buffer is much too small if you have a relatively long
+hostname. Bring it up to the size of the one that SETCLIENTID has.
+
+Reported-by: Michael Skralivetsky <michael.skralivetsky@primarydata.com>
+Signed-off-by: Jeff Layton <jeff.layton@primarydata.com>
+Signed-off-by: Trond Myklebust <trond.myklebust@primarydata.com>
+[lizf: Backported to 3.4: adjust context]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+bridge: fix br_stp_set_bridge_priority race conditions
+
+commit 2dab80a8b486f02222a69daca6859519e05781d9 upstream.
+
+After the ->set() spinlocks were removed br_stp_set_bridge_priority
+was left running without any protection when used via sysfs. It can
+race with port add/del and could result in use-after-free cases and
+corrupted lists. Tested by running port add/del in a loop with stp
+enabled while setting priority in a loop, crashes are easily
+reproducible.
+The spinlocks around sysfs ->set() were removed in commit:
+14f98f258f19 ("bridge: range check STP parameters")
+There's also a race condition in the netlink priority support that is
+fixed by this change, but it was introduced recently and the fixes tag
+covers it, just in case it's needed the commit is:
+af615762e972 ("bridge: add ageing_time, stp_state, priority over netlink")
+
+Signed-off-by: Nikolay Aleksandrov <razor@blackwall.org>
+Fixes: 14f98f258f19 ("bridge: range check STP parameters")
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+ext4: call sync_blockdev() before invalidate_bdev() in put_super()
+
+commit 89d96a6f8e6491f24fc8f99fd6ae66820e85c6c1 upstream.
+
+Normally all of the buffers will have been forced out to disk before
+we call invalidate_bdev(), but there will be some cases, where a file
+system operation was aborted due to an ext4_error(), where there may
+still be some dirty buffers in the buffer cache for the device.  So
+try to force them out to memory before calling invalidate_bdev().
+
+This fixes a warning triggered by generic/081:
+
+WARNING: CPU: 1 PID: 3473 at /usr/projects/linux/ext4/fs/block_dev.c:56 __blkdev_put+0xb5/0x16f()
+
+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+packet: read num_members once in packet_rcv_fanout()
+
+commit f98f4514d07871da7a113dd9e3e330743fd70ae4 upstream.
+
+We need to tell compiler it must not read f->num_members multiple
+times. Otherwise testing if num is not zero is flaky, and we could
+attempt an invalid divide by 0 in fanout_demux_cpu()
+
+Note bug was present in packet_rcv_fanout_hash() and
+packet_rcv_fanout_lb() but final 3.1 had a simple location
+after commit 95ec3eb417115fb ("packet: Add 'cpu' fanout policy.")
+
+Fixes: dc99f600698dc ("packet: Add fanout support.")
+Signed-off-by: Eric Dumazet <edumazet@google.com>
+Cc: Willem de Bruijn <willemb@google.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+[lizf: Backported to 3.4: use ACCESS_ONCE() instead of READ_ONCE()]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+packet: avoid out of bounds read in round robin fanout
+
+commit 468479e6043c84f5a65299cc07cb08a22a28c2b1 upstream.
+
+PACKET_FANOUT_LB computes f->rr_cur such that it is modulo
+f->num_members. It returns the old value unconditionally, but
+f->num_members may have changed since the last store. Ensure
+that the return value is always < num.
+
+When modifying the logic, simplify it further by replacing the loop
+with an unconditional atomic increment.
+
+Fixes: dc99f600698d ("packet: Add fanout support.")
+Suggested-by: Eric Dumazet <edumazet@google.com>
+Signed-off-by: Willem de Bruijn <willemb@google.com>
+Acked-by: Eric Dumazet <edumazet@google.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+[lizf: Backported to 3.4:
+ - adjust context
+ - fanout_demux_lb() returns a pointer]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+ext4: don't retry file block mapping on bigalloc fs with non-extent file
+
+commit 292db1bc6c105d86111e858859456bcb11f90f91 upstream.
+
+ext4 isn't willing to map clusters to a non-extent file.  Don't signal
+this with an out of space error, since the FS will retry the
+allocation (which didn't fail) forever.  Instead, return EUCLEAN so
+that the operation will fail immediately all the way back to userspace.
+
+(The fix is either to run e2fsck -E bmap2extent, or to chattr +e the file.)
+
+Signed-off-by: Darrick J. Wong <darrick.wong@oracle.com>
+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+watchdog: omap: assert the counter being stopped before reprogramming
+
+commit 530c11d432727c697629ad5f9d00ee8e2864d453 upstream.
+
+The omap watchdog has the annoying behaviour that writes to most
+registers don't have any effect when the watchdog is already running.
+Quoting the AM335x reference manual:
+
+	To modify the timer counter value (the WDT_WCRR register),
+	prescaler ratio (the WDT_WCLR[4:2] PTV bit field), delay
+	configuration value (the WDT_WDLY[31:0] DLY_VALUE bit field), or
+	the load value (the WDT_WLDR[31:0] TIMER_LOAD bit field), the
+	watchdog timer must be disabled by using the start/stop sequence
+	(the WDT_WSPR register).
+
+Currently the timer is stopped in the .probe callback but still there
+are possibilities that yield to a situation where omap_wdt_start is
+entered with the timer running (e.g. when /dev/watchdog is closed
+without stopping and then reopened). In such a case programming the
+timeout silently fails!
+
+To circumvent this stop the timer before reprogramming.
+
+Assuming one of the first things the watchdog user does is setting the
+timeout explicitly nothing too bad should happen because this explicit
+setting works fine.
+
+Fixes: 7768a13c252a ("[PATCH] OMAP: Add Watchdog driver support")
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Wim Van Sebroeck <wim@iguana.be>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+bridge: multicast: restore router configuration on port link down/up
+
+commit 754bc547f0a79f7568b5b81c7fc0a8d044a6571a upstream.
+
+When a port goes through a link down/up the multicast router configuration
+is not restored.
+
+Signed-off-by: Satish Ashok <sashok@cumulusnetworks.com>
+Signed-off-by: Nikolay Aleksandrov <nikolay@cumulusnetworks.com>
+Fixes: 0909e11758bd ("bridge: Add multicast_router sysfs entries")
+Acked-by: Herbert Xu <herbert@gondor.apana.org.au>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+[lizf: Backported to 3.4: adjust context]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+stmmac: troubleshoot unexpected bits in des0 & des1
+
+commit f1590670ce069eefeb93916391a67643e6ad1630 upstream.
+
+Current implementation of descriptor init procedure only takes
+care about setting/clearing ownership flag in "des0"/"des1"
+fields while it is perfectly possible to get unexpected bits
+set because of the following factors:
+
+ [1] On driver probe underlying memory allocated with
+     dma_alloc_coherent() might not be zeroed and so
+     it will be filled with garbage.
+
+ [2] During driver operation some bits could be set by SD/MMC
+     controller (for example error flags etc).
+
+And unexpected and/or randomly set flags in "des0"/"des1"
+fields may lead to unpredictable behavior of GMAC DMA block.
+
+This change addresses both items above with:
+
+ [1] Use of dma_zalloc_coherent() instead of simple
+     dma_alloc_coherent() to make sure allocated memory is
+     zeroed. That shouldn't affect performance because
+     this allocation only happens once on driver probe.
+
+ [2] Do explicit zeroing of both "des0" and "des1" fields
+     of all buffer descriptors during initialization of
+     DMA transfer.
+
+And while at it fixed identation of dma_free_coherent()
+counterpart as well.
+
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+Cc: Giuseppe Cavallaro <peppe.cavallaro@st.com>
+Cc: arc-linux-dev@synopsys.com
+Cc: linux-kernel@vger.kernel.org
+Cc: David Miller <davem@davemloft.net>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+[lizf: Backported to 3.4:
+ - adjust contest
+ - adjust allocations in init_dma_desc_rings()]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+mm: kmemleak: allow safe memory scanning during kmemleak disabling
+
+commit c5f3b1a51a591c18c8b33983908e7fdda6ae417e upstream.
+
+The kmemleak scanning thread can run for minutes.  Callbacks like
+kmemleak_free() are allowed during this time, the race being taken care
+of by the object->lock spinlock.  Such lock also prevents a memory block
+from being freed or unmapped while it is being scanned by blocking the
+kmemleak_free() -> ...  -> __delete_object() function until the lock is
+released in scan_object().
+
+When a kmemleak error occurs (e.g.  it fails to allocate its metadata),
+kmemleak_enabled is set and __delete_object() is no longer called on
+freed objects.  If kmemleak_scan is running at the same time,
+kmemleak_free() no longer waits for the object scanning to complete,
+allowing the corresponding memory block to be freed or unmapped (in the
+case of vfree()).  This leads to kmemleak_scan potentially triggering a
+page fault.
+
+This patch separates the kmemleak_free() enabling/disabling from the
+overall kmemleak_enabled nob so that we can defer the disabling of the
+object freeing tracking until the scanning thread completed.  The
+kmemleak_free_part() is deliberately ignored by this patch since this is
+only called during boot before the scanning thread started.
+
+Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+Reported-by: Vignesh Radhakrishnan <vigneshr@codeaurora.org>
+Tested-by: Vignesh Radhakrishnan <vigneshr@codeaurora.org>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+[lizf: Backported to 3.4: adjust context]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+dell-laptop: Fix allocating & freeing SMI buffer page
+
+commit b8830a4e71b15d0364ac8e6c55301eea73f211da upstream.
+
+This commit fix kernel crash when probing for rfkill devices in dell-laptop
+driver failed. Function free_page() was incorrectly used on struct page *
+instead of virtual address of SMI buffer.
+
+This commit also simplify allocating page for SMI buffer by using
+__get_free_page() function instead of sequential call of functions
+alloc_page() and page_address().
+
+Signed-off-by: Pali Rohár <pali.rohar@gmail.com>
+Acked-by: Michal Hocko <mhocko@suse.cz>
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+[lizf: Backported to 3.4: adjust context]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+tracing/filter: Do not WARN on operand count going below zero
+
+commit b4875bbe7e68f139bd3383828ae8e994a0df6d28 upstream.
+
+When testing the fix for the trace filter, I could not come up with
+a scenario where the operand count goes below zero, so I added a
+WARN_ON_ONCE(cnt < 0) to the logic. But there is legitimate case
+that it can happen (although the filter would be wrong).
+
+ # echo '>' > /sys/kernel/debug/events/ext4/ext4_truncate_exit/filter
+
+That is, a single operation without any operands will hit the path
+where the WARN_ON_ONCE() can trigger. Although this is harmless,
+and the filter is reported as a error. But instead of spitting out
+a warning to the kernel dmesg, just fail nicely and report it via
+the proper channels.
+
+Link: http://lkml.kernel.org/r/558C6082.90608@oracle.com
+
+Reported-by: Vince Weaver <vincent.weaver@maine.edu>
+Reported-by: Sasha Levin <sasha.levin@oracle.com>
+Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+tracing/filter: Do not allow infix to exceed end of string
+
+commit 6b88f44e161b9ee2a803e5b2b1fbcf4e20e8b980 upstream.
+
+While debugging a WARN_ON() for filtering, I found that it is possible
+for the filter string to be referenced after its end. With the filter:
+
+ # echo '>' > /sys/kernel/debug/events/ext4/ext4_truncate_exit/filter
+
+The filter_parse() function can call infix_get_op() which calls
+infix_advance() that updates the infix filter pointers for the cnt
+and tail without checking if the filter is already at the end, which
+will put the cnt to zero and the tail beyond the end. The loop then calls
+infix_next() that has
+
+	ps->infix.cnt--;
+	return ps->infix.string[ps->infix.tail++];
+
+The cnt will now be below zero, and the tail that is returned is
+already passed the end of the filter string. So far the allocation
+of the filter string usually has some buffer that is zeroed out, but
+if the filter string is of the exact size of the allocated buffer
+there's no guarantee that the charater after the nul terminating
+character will be zero.
+
+Luckily, only root can write to the filter.
+
+Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+__bitmap_parselist: fix bug in empty string handling
+
+commit 2528a8b8f457d7432552d0e2b6f0f4046bb702f4 upstream.
+
+bitmap_parselist("", &mask, nmaskbits) will erroneously set bit zero in
+the mask.  The same bug is visible in cpumask_parselist() since it is
+layered on top of the bitmask code, e.g.  if you boot with "isolcpus=",
+you will actually end up with cpu zero isolated.
+
+The bug was introduced in commit 4b060420a596 ("bitmap, irq: add
+smp_affinity_list interface to /proc/irq") when bitmap_parselist() was
+generalized to support userspace as well as kernelspace.
+
+Fixes: 4b060420a596 ("bitmap, irq: add smp_affinity_list interface to /proc/irq")
+Signed-off-by: Chris Metcalf <cmetcalf@ezchip.com>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+agp/intel: Fix typo in needs_ilk_vtd_wa()
+
+commit 8b572a4200828b4e75cc22ed2f494b58d5372d65 upstream.
+
+In needs_ilk_vtd_wa(), we pass in the GPU device but compared it against
+the ids for the mobile GPU and the mobile host bridge. That latter is
+impossible and so likely was just a typo for the desktop GPU device id
+(which is also buggy).
+
+Fixes commit da88a5f7f7d434e2cde1b3e19d952e6d84533662
+Author: Chris Wilson <chris@chris-wilson.co.uk>
+Date:   Wed Feb 13 09:31:53 2013 +0000
+
+    drm/i915: Disable WC PTE updates to w/a buggy IOMMU on ILK
+
+Reported-by: Ting-Wei Lan <lantw44@gmail.com>
+Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=91127
+References: https://bugzilla.freedesktop.org/show_bug.cgi?id=60391
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+crush: fix a bug in tree bucket decode
+
+commit 82cd003a77173c91b9acad8033fb7931dac8d751 upstream.
+
+struct crush_bucket_tree::num_nodes is u8, so ceph_decode_8_safe()
+should be used.  -Wconversion catches this, but I guess it went
+unnoticed in all the noise it spews.  The actual problem (at least for
+common crushmaps) isn't the u32 -> u8 truncation though - it's the
+advancement by 4 bytes instead of 1 in the crushmap buffer.
+
+Fixes: http://tracker.ceph.com/issues/2759
+
+Signed-off-by: Ilya Dryomov <idryomov@gmail.com>
+Reviewed-by: Josh Durgin <jdurgin@redhat.com>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+fuse: initialize fc->release before calling it
+
+commit 0ad0b3255a08020eaf50e34ef0d6df5bdf5e09ed upstream.
+
+fc->release is called from fuse_conn_put() which was used in the error
+cleanup before fc->release was initialized.
+
+[Jeremiah Mahler <jmmahler@gmail.com>: assign fc->release after calling
+fuse_conn_init(fc) instead of before.]
+
+Signed-off-by: Miklos Szeredi <mszeredi@suse.cz>
+Fixes: a325f9b92273 ("fuse: update fuse_conn_init() and separate out fuse_conn_kill()")
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+ACPICA: Tables: Fix an issue that FACS initialization is performed twice
+
+commit c04be18448355441a0c424362df65b6422e27bda upstream.
+
+ACPICA commit 90f5332a15e9d9ba83831ca700b2b9f708274658
+
+This patch adds a new FACS initialization flag for acpi_tb_initialize().
+acpi_enable_subsystem() might be invoked several times in OS bootup process,
+and we don't want FACS initialization to be invoked twice. Lv Zheng.
+
+Link: https://github.com/acpica/acpica/commit/90f5332a
+Signed-off-by: Lv Zheng <lv.zheng@intel.com>
+Signed-off-by: Bob Moore <robert.moore@intel.com>
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+[lizf: Backported to 3.4: adjust filename]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+KVM: x86: make vapics_in_nmi_mode atomic
+
+commit 42720138b06301cc8a7ee8a495a6d021c4b6a9bc upstream.
+
+Writes were a bit racy, but hard to turn into a bug at the same time.
+(Particularly because modern Linux doesn't use this feature anymore.)
+
+Signed-off-by: Radim Krčmář <rkrcmar@redhat.com>
+[Actually the next patch makes it much, much easier to trigger the race
+ so I'm including this one for stable@ as well. - Paolo]
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+[lizf: Backported to 3.4: adjust context]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+KVM: x86: properly restore LVT0
+
+commit db1385624c686fe99fe2d1b61a36e1537b915d08 upstream.
+
+Legacy NMI watchdog didn't work after migration/resume, because
+vapics_in_nmi_mode was left at 0.
+
+Signed-off-by: Radim Krčmář <rkrcmar@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+[lizf: Backported to 3.4:
+ - adjust context
+ - s/kvm_apic_get_reg/apic_get_reg/]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+9p: forgetting to cancel request on interrupted zero-copy RPC
+
+commit a84b69cb6e0a41e86bc593904faa6def3b957343 upstream.
+
+If we'd already sent a request and decide to abort it, we *must*
+issue TFLUSH properly and not just blindly reuse the tag, or
+we'll get seriously screwed when response eventually arrives
+and we confuse it for response to later request that had reused
+the same tag.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+Revert "drm/i915: Don't skip request retirement if the active list is empty"
+
+commit 245ec9d85696c3e539b23e210f248698b478379c upstream.
+
+This reverts commit 0aedb1626566efd72b369c01992ee7413c82a0c5.
+
+I messed things up while applying [1] to drm-intel-fixes. Rectify.
+
+[1] http://mid.gmane.org/1432827156-9605-1-git-send-email-ville.syrjala@linux.intel.com
+
+Fixes: 0aedb1626566 ("drm/i915: Don't skip request retirement if the active list is empty")
+Acked-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+[lizf: Backported to 3.4: adjust context]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+Revert "drm/radeon: Use drm_calloc_ab for CS relocs"
+
+This reverts commit 961bd13539b9e7ca5d2e667668141496b7a1d6bc.
+
+Both Satoshi-san and Cal reported a kernel crash due to this commit.
+
+Reported-by: Satoshi Iwamoto <satoshi.iwamoto@nifty.ne.jp>
+Reported-by: Cal Peake <cp@absolutedigital.net>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+drm/radeon: partially revert "fix VM_CONTEXT*_PAGE_TABLE_END_ADDR handling"
+
+commit 7c0411d2fabc2e2702c9871ffb603e251158b317 upstream.
+
+We have that bug for years and some users report side effects when fixing it on older hardware.
+
+So revert it for VM_CONTEXT0_PAGE_TABLE_END_ADDR, but keep it for VM 1-15.
+
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+[lizf: Backported to 3.4: drop the change to clk.c]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+crypto: s390/ghash: Fix incorrect backport of a1cae34e23b1
+
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+ARM: Fix incorrect backport of 0b59d8806a31
+
+Reported-by: Jim Faulkner <jfaulkne@ccs.neu.edu>
+Fixed-by: Nicolas Schichan <nschichan@freebox.fr>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+jbd2: avoid infinite loop when destroying aborted journal
+
+commit 841df7df196237ea63233f0f9eaa41db53afd70f upstream.
+
+Commit 6f6a6fda2945 "jbd2: fix ocfs2 corrupt when updating journal
+superblock fails" changed jbd2_cleanup_journal_tail() to return EIO
+when the journal is aborted. That makes logic in
+jbd2_log_do_checkpoint() bail out which is fine, except that
+jbd2_journal_destroy() expects jbd2_log_do_checkpoint() to always make
+a progress in cleaning the journal. Without it jbd2_journal_destroy()
+just loops in an infinite loop.
+
+Fix jbd2_journal_destroy() to cleanup journal checkpoint lists of
+jbd2_log_do_checkpoint() fails with error.
+
+Reported-by: Eryu Guan <guaneryu@gmail.com>
+Tested-by: Eryu Guan <guaneryu@gmail.com>
+Fixes: 6f6a6fda294506dfe0e3e0a253bb2d2923f28f0a
+Signed-off-by: Jan Kara <jack@suse.com>
+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
+[lizf: Backported to 3.4: adjust context]
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+IB/qib: Change lkey table allocation to support more MRs
+
+commit d6f1c17e162b2a11e708f28fa93f2f79c164b442 upstream.
+
+The lkey table is allocated with with a get_user_pages() with an
+order based on a number of index bits from a module parameter.
+
+The underlying kernel code cannot allocate that many contiguous pages.
+
+There is no reason the underlying memory needs to be physically
+contiguous.
+
+This patch:
+- switches the allocation/deallocation to vmalloc/vfree
+- caps the number of bits to 23 to insure at least 1 generation bit
+  o this matches the module parameter description
+
+Reviewed-by: Vinit Agnihotri <vinit.abhay.agnihotri@intel.com>
+Signed-off-by: Mike Marciniszyn <mike.marciniszyn@intel.com>
+Signed-off-by: Doug Ledford <dledford@redhat.com>
+[bwh: Backported to 3.2:
+ - Adjust context
+ - Add definition of qib_dev_warn(), added upstream by commit ddb887658970
+   ("IB/qib: Convert opcode counters to per-context")]
+Signed-off-by: Ben Hutchings <ben@decadent.org.uk>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+dcache: Handle escaped paths in prepend_path
+
+commit cde93be45a8a90d8c264c776fab63487b5038a65 upstream.
+
+A rename can result in a dentry that by walking up d_parent
+will never reach it's mnt_root.  For lack of a better term
+I call this an escaped path.
+
+prepend_path is called by four different functions __d_path,
+d_absolute_path, d_path, and getcwd.
+
+__d_path only wants to see paths are connected to the root it passes
+in.  So __d_path needs prepend_path to return an error.
+
+d_absolute_path similarly wants to see paths that are connected to
+some root.  Escaped paths are not connected to any mnt_root so
+d_absolute_path needs prepend_path to return an error greater
+than 1.  So escaped paths will be treated like paths on lazily
+unmounted mounts.
+
+getcwd needs to prepend "(unreachable)" so getcwd also needs
+prepend_path to return an error.
+
+d_path is the interesting hold out.  d_path just wants to print
+something, and does not care about the weird cases.  Which raises
+the question what should be printed?
+
+Given that <escaped_path>/<anything> should result in -ENOENT I
+believe it is desirable for escaped paths to be printed as empty
+paths.  As there are not really any meaninful path components when
+considered from the perspective of a mount tree.
+
+So tweak prepend_path to return an empty path with an new error
+code of 3 when it encounters an escaped path.
+
+Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+
+vfs: Test for and handle paths that are unreachable from their mnt_root
+
+commit 397d425dc26da728396e66d392d5dcb8dac30c37 upstream.
+
+In rare cases a directory can be renamed out from under a bind mount.
+In those cases without special handling it becomes possible to walk up
+the directory tree to the root dentry of the filesystem and down
+from the root dentry to every other file or directory on the filesystem.
+
+Like division by zero .. from an unconnected path can not be given
+a useful semantic as there is no predicting at which path component
+the code will realize it is unconnected.  We certainly can not match
+the current behavior as the current behavior is a security hole.
+
+Therefore when encounting .. when following an unconnected path
+return -ENOENT.
+
+- Add a function path_connected to verify path->dentry is reachable
+  from path->mnt.mnt_root.  AKA to validate that rename did not do
+  something nasty to the bind mount.
+
+  To avoid races path_connected must be called after following a path
+  component to it's next path component.
+
+Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Failing to send a CLOSE if file is opened WRONLY and server reboots on a 4.x mount
+
+commit a41cbe86df3afbc82311a1640e20858c0cd7e065 upstream.
+
+A test case is as the description says:
+open(foobar, O_WRONLY);
+sleep()  --> reboot the server
+close(foobar)
+
+The bug is because in nfs4state.c in nfs4_reclaim_open_state() a few
+line before going to restart, there is
+clear_bit(NFS4CLNT_RECLAIM_NOGRACE, &state->flags).
+
+NFS4CLNT_RECLAIM_NOGRACE is a flag for the client states not open
+owner states. Value of NFS4CLNT_RECLAIM_NOGRACE is 4 which is the
+value of NFS_O_WRONLY_STATE in nfs4_state->flags. So clearing it wipes
+out state and when we go to close it, “call_close” doesn’t get set as
+state flag is not set and CLOSE doesn’t go on the wire.
+
+Signed-off-by: Olga Kornievskaia <aglo@umich.edu>
+Signed-off-by: Trond Myklebust <trond.myklebust@primarydata.com>
+Signed-off-by: Zefan Li <lizefan@huawei.com>
+---
+ Documentation/networking/pktgen.txt               | 77 +++++++++++++--------
+ Makefile                                          |  2 +-
+ arch/arm/net/bpf_jit_32.c                         |  2 +-
+ arch/s390/crypto/ghash_s390.c                     |  2 +-
+ arch/x86/include/asm/kvm_host.h                   |  2 +-
+ arch/x86/kvm/i8254.c                              |  2 +-
+ arch/x86/kvm/lapic.c                              |  5 +-
+ arch/x86/pci/acpi.c                               | 11 +++
+ drivers/acpi/acpica/utxface.c                     | 10 +--
+ drivers/base/regmap/regmap.c                      |  2 +-
+ drivers/char/agp/intel-gtt.c                      |  2 +-
+ drivers/crypto/talitos.c                          |  1 +
+ drivers/dma/mv_xor.c                              | 72 ++++++++++++--------
+ drivers/dma/mv_xor.h                              |  1 +
+ drivers/gpu/drm/i915/i915_gem.c                   |  3 +
+ drivers/gpu/drm/radeon/evergreen.c                |  2 +-
+ drivers/gpu/drm/radeon/ni.c                       |  2 +-
+ drivers/gpu/drm/radeon/r600.c                     |  2 +-
+ drivers/gpu/drm/radeon/radeon_cs.c                |  4 +-
+ drivers/gpu/drm/radeon/radeon_irq_kms.c           |  2 +
+ drivers/gpu/drm/radeon/rv770.c                    |  2 +-
+ drivers/gpu/drm/radeon/si.c                       |  2 +-
+ drivers/infiniband/hw/qib/qib.h                   |  4 ++
+ drivers/infiniband/hw/qib/qib_keys.c              |  4 ++
+ drivers/infiniband/hw/qib/qib_verbs.c             | 14 ++--
+ drivers/infiniband/hw/qib/qib_verbs.h             |  2 +
+ drivers/mtd/maps/dc21285.c                        |  4 +-
+ drivers/mtd/mtd_blkdevs.c                         |  5 ++
+ drivers/net/ethernet/stmicro/stmmac/descs.h       |  2 +
+ drivers/net/ethernet/stmicro/stmmac/enh_desc.c    |  4 +-
+ drivers/net/ethernet/stmicro/stmmac/norm_desc.c   |  4 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 18 +++--
+ drivers/net/wireless/ath/ath9k/main.c             | 13 ++--
+ drivers/net/wireless/rndis_wlan.c                 |  6 +-
+ drivers/pcmcia/topic.h                            | 16 +++++
+ drivers/platform/x86/dell-laptop.c                |  8 +--
+ drivers/platform/x86/ideapad-laptop.c             |  3 +-
+ drivers/regulator/core.c                          |  2 +-
+ drivers/scsi/ipr.h                                |  2 +-
+ drivers/staging/rtl8712/rtl8712_recv.c            |  3 +-
+ drivers/tty/serial/atmel_serial.c                 | 11 +--
+ drivers/usb/core/hub.c                            | 81 +++++++++--------------
+ drivers/watchdog/omap_wdt.c                       |  7 ++
+ fs/dcache.c                                       | 10 +++
+ fs/ext4/indirect.c                                |  2 +-
+ fs/ext4/inode.c                                   | 22 +++++-
+ fs/ext4/super.c                                   |  1 +
+ fs/fuse/inode.c                                   |  2 +-
+ fs/jbd2/checkpoint.c                              | 46 ++++++++++---
+ fs/jbd2/commit.c                                  |  2 +-
+ fs/jbd2/journal.c                                 | 49 +++++++++++---
+ fs/namei.c                                        | 29 +++++++-
+ fs/nfs/nfs3xdr.c                                  |  2 +-
+ fs/nfs/nfs4state.c                                |  2 +
+ include/acpi/actypes.h                            |  1 +
+ include/linux/jbd2.h                              |  7 +-
+ include/linux/nfs_xdr.h                           |  2 +-
+ include/net/sctp/structs.h                        |  5 ++
+ kernel/hrtimer.c                                  | 12 +++-
+ kernel/rcutiny.c                                  |  5 ++
+ kernel/trace/trace_events_filter.c                | 10 ++-
+ lib/bitmap.c                                      | 17 ++---
+ mm/kmemleak.c                                     | 19 +++++-
+ net/9p/client.c                                   |  3 +-
+ net/bridge/br_ioctl.c                             |  2 -
+ net/bridge/br_multicast.c                         |  5 ++
+ net/bridge/br_stp_if.c                            |  4 +-
+ net/ceph/osdmap.c                                 |  2 +-
+ net/core/pktgen.c                                 |  2 +-
+ net/packet/af_packet.c                            | 20 +-----
+ net/sctp/socket.c                                 | 43 +++++++++---
+ net/sunrpc/backchannel_rqst.c                     |  2 +-
+ sound/soc/codecs/wm8737.c                         |  6 +-
+ sound/soc/codecs/wm8903.h                         |  2 +-
+ sound/soc/codecs/wm8955.c                         |  2 +-
+ sound/soc/codecs/wm8960.c                         |  2 +-
+ 76 files changed, 511 insertions(+), 252 deletions(-)
+
+diff --git a/Documentation/networking/pktgen.txt b/Documentation/networking/pktgen.txt
+index 75e4fd7..a03239c 100644
+--- a/Documentation/networking/pktgen.txt
++++ b/Documentation/networking/pktgen.txt
+@@ -24,17 +24,33 @@ For monitoring and control pktgen creates:
+         /proc/net/pktgen/ethX
+ 
+ 
+-Viewing threads
+-===============
+-/proc/net/pktgen/kpktgend_0 
+-Name: kpktgend_0  max_before_softirq: 10000
+-Running: 
+-Stopped: eth1 
+-Result: OK: max_before_softirq=10000
++Kernel threads
++==============
++Pktgen creates a thread for each CPU with affinity to that CPU.
++Which is controlled through procfile /proc/net/pktgen/kpktgend_X.
++
++Example: /proc/net/pktgen/kpktgend_0
++
++ Running:
++ Stopped: eth4@0
++ Result: OK: add_device=eth4@0
++
++Most important are the devices assigned to the thread.
+ 
+-Most important the devices assigned to thread. Note! A device can only belong 
+-to one thread.
++The two basic thread commands are:
++ * add_device DEVICE@NAME -- adds a single device
++ * rem_device_all         -- remove all associated devices
+ 
++When adding a device to a thread, a corrosponding procfile is created
++which is used for configuring this device. Thus, device names need to
++be unique.
++
++To support adding the same device to multiple threads, which is useful
++with multi queue NICs, a the device naming scheme is extended with "@":
++ device@something
++
++The part after "@" can be anything, but it is custom to use the thread
++number.
+ 
+ Viewing devices
+ ===============
+@@ -42,29 +58,32 @@ Viewing devices
+ Parm section holds configured info. Current hold running stats. 
+ Result is printed after run or after interruption. Example:
+ 
+-/proc/net/pktgen/eth1       
++/proc/net/pktgen/eth4@0
+ 
+-Params: count 10000000  min_pkt_size: 60  max_pkt_size: 60
+-     frags: 0  delay: 0  clone_skb: 1000000  ifname: eth1
++ Params: count 100000  min_pkt_size: 60  max_pkt_size: 60
++     frags: 0  delay: 0  clone_skb: 64  ifname: eth4@0
+      flows: 0 flowlen: 0
+-     dst_min: 10.10.11.2  dst_max: 
+-     src_min:   src_max: 
+-     src_mac: 00:00:00:00:00:00  dst_mac: 00:04:23:AC:FD:82
+-     udp_src_min: 9  udp_src_max: 9  udp_dst_min: 9  udp_dst_max: 9
+-     src_mac_count: 0  dst_mac_count: 0 
+-     Flags: 
+-Current:
+-     pkts-sofar: 10000000  errors: 39664
+-     started: 1103053986245187us  stopped: 1103053999346329us idle: 880401us
+-     seq_num: 10000011  cur_dst_mac_offset: 0  cur_src_mac_offset: 0
+-     cur_saddr: 0x10a0a0a  cur_daddr: 0x20b0a0a
+-     cur_udp_dst: 9  cur_udp_src: 9
++     queue_map_min: 0  queue_map_max: 0
++     dst_min: 192.168.81.2  dst_max:
++     src_min:   src_max:
++     src_mac: 90:e2:ba:0a:56:b4 dst_mac: 00:1b:21:3c:9d:f8
++     udp_src_min: 9  udp_src_max: 109  udp_dst_min: 9  udp_dst_max: 9
++     src_mac_count: 0  dst_mac_count: 0
++     Flags: UDPSRC_RND  NO_TIMESTAMP  QUEUE_MAP_CPU
++ Current:
++     pkts-sofar: 100000  errors: 0
++     started: 623913381008us  stopped: 623913396439us idle: 25us
++     seq_num: 100001  cur_dst_mac_offset: 0  cur_src_mac_offset: 0
++     cur_saddr: 192.168.8.3  cur_daddr: 192.168.81.2
++     cur_udp_dst: 9  cur_udp_src: 42
++     cur_queue_map: 
+      flows: 0
+-Result: OK: 13101142(c12220741+d880401) usec, 10000000 (60byte,0frags)
+-  763292pps 390Mb/sec (390805504bps) errors: 39664
++ Result: OK: 15430(c15405d25) usec, 100000 (60byte,0frags)
++  6480562pps 3110Mb/sec (3110669760bps) errors: 0
+ 
+-Configuring threads and devices
+-================================
++
++Configuring devices
++===================
+ This is done via the /proc interface easiest done via pgset in the scripts
+ 
+ Examples:
+@@ -177,6 +196,8 @@ Note when adding devices to a specific CPU there good idea to also assign
+ /proc/irq/XX/smp_affinity so the TX-interrupts gets bound to the same CPU.
+ as this reduces cache bouncing when freeing skb's.
+ 
++Plus using the device flag QUEUE_MAP_CPU, which maps the SKBs TX queue
++to the running threads CPU (directly from smp_processor_id()).
+ 
+ Current commands and configuration options
+ ==========================================
+diff --git a/Makefile b/Makefile
+index 29cdac6..b3e529a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,6 +1,6 @@
+ VERSION = 3
+ PATCHLEVEL = 4
+-SUBLEVEL = 109
++SUBLEVEL = 110
+ EXTRAVERSION =
+ NAME = Saber-toothed Squirrel
+ 
+diff --git a/arch/arm/net/bpf_jit_32.c b/arch/arm/net/bpf_jit_32.c
+index ad94145..77026415 100644
+--- a/arch/arm/net/bpf_jit_32.c
++++ b/arch/arm/net/bpf_jit_32.c
+@@ -899,7 +899,7 @@ void bpf_jit_compile(struct sk_filter *fp)
+ 		if (ctx.imm_count)
+ 			kfree(ctx.imms);
+ #endif
+-		bpf_jit_binary_free(header);
++		module_free(NULL, ctx.target);
+ 		goto out;
+ 	}
+ 	build_epilogue(&ctx);
+diff --git a/arch/s390/crypto/ghash_s390.c b/arch/s390/crypto/ghash_s390.c
+index c2dac2e..69b5a4b 100644
+--- a/arch/s390/crypto/ghash_s390.c
++++ b/arch/s390/crypto/ghash_s390.c
+@@ -115,7 +115,7 @@ static int ghash_final(struct shash_desc *desc, u8 *dst)
+ 	struct ghash_desc_ctx *dctx = shash_desc_ctx(desc);
+ 
+ 	ghash_flush(dctx);
+-	memcpy(dst, dtx->icv, GHASH_BLOCK_SIZE);
++	memcpy(dst, dctx->icv, GHASH_BLOCK_SIZE);
+ 
+ 	return 0;
+ }
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 4f78757..d60facb 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -509,7 +509,7 @@ struct kvm_arch {
+ 	struct kvm_pic *vpic;
+ 	struct kvm_ioapic *vioapic;
+ 	struct kvm_pit *vpit;
+-	int vapics_in_nmi_mode;
++	atomic_t vapics_in_nmi_mode;
+ 
+ 	unsigned int tss_addr;
+ 	struct page *apic_access_page;
+diff --git a/arch/x86/kvm/i8254.c b/arch/x86/kvm/i8254.c
+index db336f9..eaad49a 100644
+--- a/arch/x86/kvm/i8254.c
++++ b/arch/x86/kvm/i8254.c
+@@ -317,7 +317,7 @@ static void pit_do_work(struct work_struct *work)
+ 		 * LVT0 to NMI delivery. Other PIC interrupts are just sent to
+ 		 * VCPU0, and only if its LVT0 is in EXTINT mode.
+ 		 */
+-		if (kvm->arch.vapics_in_nmi_mode > 0)
++		if (atomic_read(&kvm->arch.vapics_in_nmi_mode) > 0)
+ 			kvm_for_each_vcpu(i, vcpu, kvm)
+ 				kvm_apic_nmi_wd_deliver(vcpu);
+ 	}
+diff --git a/arch/x86/kvm/lapic.c b/arch/x86/kvm/lapic.c
+index 578613d..53454a6 100644
+--- a/arch/x86/kvm/lapic.c
++++ b/arch/x86/kvm/lapic.c
+@@ -761,10 +761,10 @@ static void apic_manage_nmi_watchdog(struct kvm_lapic *apic, u32 lvt0_val)
+ 		if (!nmi_wd_enabled) {
+ 			apic_debug("Receive NMI setting on APIC_LVT0 "
+ 				   "for cpu %d\n", apic->vcpu->vcpu_id);
+-			apic->vcpu->kvm->arch.vapics_in_nmi_mode++;
++			atomic_inc(&apic->vcpu->kvm->arch.vapics_in_nmi_mode);
+ 		}
+ 	} else if (nmi_wd_enabled)
+-		apic->vcpu->kvm->arch.vapics_in_nmi_mode--;
++		atomic_dec(&apic->vcpu->kvm->arch.vapics_in_nmi_mode);
+ }
+ 
+ static int apic_reg_write(struct kvm_lapic *apic, u32 reg, u32 val)
+@@ -1257,6 +1257,7 @@ void kvm_apic_post_state_restore(struct kvm_vcpu *vcpu)
+ 
+ 	apic_update_ppr(apic);
+ 	hrtimer_cancel(&apic->lapic_timer.timer);
++	apic_manage_nmi_watchdog(apic, apic_get_reg(apic, APIC_LVT0));
+ 	update_divide_count(apic);
+ 	start_apic_timer(apic);
+ 	apic->irr_pending = true;
+diff --git a/arch/x86/pci/acpi.c b/arch/x86/pci/acpi.c
+index ed2835e..65cf4f2 100644
+--- a/arch/x86/pci/acpi.c
++++ b/arch/x86/pci/acpi.c
+@@ -70,6 +70,17 @@ static const struct dmi_system_id pci_use_crs_table[] __initconst = {
+ 			DMI_MATCH(DMI_BIOS_VENDOR, "Phoenix Technologies, LTD"),
+ 		},
+ 	},
++	/* https://bugs.launchpad.net/ubuntu/+source/alsa-driver/+bug/931368 */
++	/* https://bugs.launchpad.net/ubuntu/+source/alsa-driver/+bug/1033299 */
++	{
++		.callback = set_use_crs,
++		.ident = "Foxconn K8M890-8237A",
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "Foxconn"),
++			DMI_MATCH(DMI_BOARD_NAME, "K8M890-8237A"),
++			DMI_MATCH(DMI_BIOS_VENDOR, "Phoenix Technologies, LTD"),
++		},
++	},
+ 
+ 	/* Now for the blacklist.. */
+ 
+diff --git a/drivers/acpi/acpica/utxface.c b/drivers/acpi/acpica/utxface.c
+index afa94f5..0985ab7 100644
+--- a/drivers/acpi/acpica/utxface.c
++++ b/drivers/acpi/acpica/utxface.c
+@@ -166,10 +166,12 @@ acpi_status acpi_enable_subsystem(u32 flags)
+ 	 * Obtain a permanent mapping for the FACS. This is required for the
+ 	 * Global Lock and the Firmware Waking Vector
+ 	 */
+-	status = acpi_tb_initialize_facs();
+-	if (ACPI_FAILURE(status)) {
+-		ACPI_WARNING((AE_INFO, "Could not map the FACS table"));
+-		return_ACPI_STATUS(status);
++	if (!(flags & ACPI_NO_FACS_INIT)) {
++		status = acpi_tb_initialize_facs();
++		if (ACPI_FAILURE(status)) {
++			ACPI_WARNING((AE_INFO, "Could not map the FACS table"));
++			return_ACPI_STATUS(status);
++		}
+ 	}
+ #endif				/* !ACPI_REDUCED_HARDWARE */
+ 
+diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
+index 8e81f85..0ac67ac 100644
+--- a/drivers/base/regmap/regmap.c
++++ b/drivers/base/regmap/regmap.c
+@@ -784,7 +784,7 @@ int regmap_bulk_read(struct regmap *map, unsigned int reg, void *val,
+ 			ret = regmap_read(map, reg + i, &ival);
+ 			if (ret != 0)
+ 				return ret;
+-			memcpy(val + (i * val_bytes), &ival, val_bytes);
++			map->format.format_val(val + (i * val_bytes), ival);
+ 		}
+ 	}
+ 
+diff --git a/drivers/char/agp/intel-gtt.c b/drivers/char/agp/intel-gtt.c
+index 7f025fb..4e985cd 100644
+--- a/drivers/char/agp/intel-gtt.c
++++ b/drivers/char/agp/intel-gtt.c
+@@ -1194,7 +1194,7 @@ static inline int needs_idle_maps(void)
+ 	/* Query intel_iommu to see if we need the workaround. Presumably that
+ 	 * was loaded first.
+ 	 */
+-	if ((gpu_devid == PCI_DEVICE_ID_INTEL_IRONLAKE_M_HB ||
++	if ((gpu_devid == PCI_DEVICE_ID_INTEL_IRONLAKE_D_IG ||
+ 	     gpu_devid == PCI_DEVICE_ID_INTEL_IRONLAKE_M_IG) &&
+ 	     intel_iommu_gfx_mapped)
+ 		return 1;
+diff --git a/drivers/crypto/talitos.c b/drivers/crypto/talitos.c
+index 921039e..a759fdc 100644
+--- a/drivers/crypto/talitos.c
++++ b/drivers/crypto/talitos.c
+@@ -2653,6 +2653,7 @@ static struct talitos_crypto_alg *talitos_alg_alloc(struct device *dev,
+ 		break;
+ 	default:
+ 		dev_err(dev, "unknown algorithm type %d\n", t_alg->algt.type);
++		kfree(t_alg);
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+diff --git a/drivers/dma/mv_xor.c b/drivers/dma/mv_xor.c
+index fa5d55f..c8fecbc 100644
+--- a/drivers/dma/mv_xor.c
++++ b/drivers/dma/mv_xor.c
+@@ -390,7 +390,8 @@ static void __mv_xor_slot_cleanup(struct mv_xor_chan *mv_chan)
+ 	dma_cookie_t cookie = 0;
+ 	int busy = mv_chan_is_busy(mv_chan);
+ 	u32 current_desc = mv_chan_get_current_desc(mv_chan);
+-	int seen_current = 0;
++	int current_cleaned = 0;
++	struct mv_xor_desc *hw_desc;
+ 
+ 	dev_dbg(mv_chan->device->common.dev, "%s %d\n", __func__, __LINE__);
+ 	dev_dbg(mv_chan->device->common.dev, "current_desc %x\n", current_desc);
+@@ -402,38 +403,57 @@ static void __mv_xor_slot_cleanup(struct mv_xor_chan *mv_chan)
+ 
+ 	list_for_each_entry_safe(iter, _iter, &mv_chan->chain,
+ 					chain_node) {
+-		prefetch(_iter);
+-		prefetch(&_iter->async_tx);
+ 
+-		/* do not advance past the current descriptor loaded into the
+-		 * hardware channel, subsequent descriptors are either in
+-		 * process or have not been submitted
+-		 */
+-		if (seen_current)
+-			break;
++		/* clean finished descriptors */
++		hw_desc = iter->hw_desc;
++		if (hw_desc->status & XOR_DESC_SUCCESS) {
++			cookie = mv_xor_run_tx_complete_actions(iter, mv_chan,
++								cookie);
+ 
+-		/* stop the search if we reach the current descriptor and the
+-		 * channel is busy
+-		 */
+-		if (iter->async_tx.phys == current_desc) {
+-			seen_current = 1;
+-			if (busy)
++			/* done processing desc, clean slot */
++			mv_xor_clean_slot(iter, mv_chan);
++
++			/* break if we did cleaned the current */
++			if (iter->async_tx.phys == current_desc) {
++				current_cleaned = 1;
++				break;
++			}
++		} else {
++			if (iter->async_tx.phys == current_desc) {
++				current_cleaned = 0;
+ 				break;
++			}
+ 		}
+-
+-		cookie = mv_xor_run_tx_complete_actions(iter, mv_chan, cookie);
+-
+-		if (mv_xor_clean_slot(iter, mv_chan))
+-			break;
+ 	}
+ 
+ 	if ((busy == 0) && !list_empty(&mv_chan->chain)) {
+-		struct mv_xor_desc_slot *chain_head;
+-		chain_head = list_entry(mv_chan->chain.next,
+-					struct mv_xor_desc_slot,
+-					chain_node);
+-
+-		mv_xor_start_new_chain(mv_chan, chain_head);
++		if (current_cleaned) {
++			/*
++			 * current descriptor cleaned and removed, run
++			 * from list head
++			 */
++			iter = list_entry(mv_chan->chain.next,
++					  struct mv_xor_desc_slot,
++					  chain_node);
++			mv_xor_start_new_chain(mv_chan, iter);
++		} else {
++			if (!list_is_last(&iter->chain_node, &mv_chan->chain)) {
++				/*
++				 * descriptors are still waiting after
++				 * current, trigger them
++				 */
++				iter = list_entry(iter->chain_node.next,
++						  struct mv_xor_desc_slot,
++						  chain_node);
++				mv_xor_start_new_chain(mv_chan, iter);
++			} else {
++				/*
++				 * some descriptors are still waiting
++				 * to be cleaned
++				 */
++				tasklet_schedule(&mv_chan->irq_tasklet);
++			}
++		}
+ 	}
+ 
+ 	if (cookie > 0)
+diff --git a/drivers/dma/mv_xor.h b/drivers/dma/mv_xor.h
+index 654876b..0af0377 100644
+--- a/drivers/dma/mv_xor.h
++++ b/drivers/dma/mv_xor.h
+@@ -30,6 +30,7 @@
+ #define XOR_OPERATION_MODE_XOR		0
+ #define XOR_OPERATION_MODE_MEMCPY	2
+ #define XOR_OPERATION_MODE_MEMSET	4
++#define XOR_DESC_SUCCESS		0x40000000
+ 
+ #define XOR_CURR_DESC(chan)	(chan->mmr_base + 0x210 + (chan->idx * 4))
+ #define XOR_NEXT_DESC(chan)	(chan->mmr_base + 0x200 + (chan->idx * 4))
+diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+index e1c744d..b1f1d10 100644
+--- a/drivers/gpu/drm/i915/i915_gem.c
++++ b/drivers/gpu/drm/i915/i915_gem.c
+@@ -1779,6 +1779,9 @@ i915_gem_retire_requests_ring(struct intel_ring_buffer *ring)
+ 	uint32_t seqno;
+ 	int i;
+ 
++	if (list_empty(&ring->request_list))
++		return;
++
+ 	WARN_ON(i915_verify_lists(ring->dev));
+ 
+ 	seqno = ring->get_seqno(ring);
+diff --git a/drivers/gpu/drm/radeon/evergreen.c b/drivers/gpu/drm/radeon/evergreen.c
+index db4df97..c5fe79e 100644
+--- a/drivers/gpu/drm/radeon/evergreen.c
++++ b/drivers/gpu/drm/radeon/evergreen.c
+@@ -1079,7 +1079,7 @@ int evergreen_pcie_gart_enable(struct radeon_device *rdev)
+ 	WREG32(MC_VM_MB_L1_TLB2_CNTL, tmp);
+ 	WREG32(MC_VM_MB_L1_TLB3_CNTL, tmp);
+ 	WREG32(VM_CONTEXT0_PAGE_TABLE_START_ADDR, rdev->mc.gtt_start >> 12);
+-	WREG32(VM_CONTEXT0_PAGE_TABLE_END_ADDR, (rdev->mc.gtt_end >> 12) - 1);
++	WREG32(VM_CONTEXT0_PAGE_TABLE_END_ADDR, rdev->mc.gtt_end >> 12);
+ 	WREG32(VM_CONTEXT0_PAGE_TABLE_BASE_ADDR, rdev->gart.table_addr >> 12);
+ 	WREG32(VM_CONTEXT0_CNTL, ENABLE_CONTEXT | PAGE_TABLE_DEPTH(0) |
+ 				RANGE_PROTECTION_FAULT_ENABLE_DEFAULT);
+diff --git a/drivers/gpu/drm/radeon/ni.c b/drivers/gpu/drm/radeon/ni.c
+index 1f45179..461262e 100644
+--- a/drivers/gpu/drm/radeon/ni.c
++++ b/drivers/gpu/drm/radeon/ni.c
+@@ -1075,7 +1075,7 @@ int cayman_pcie_gart_enable(struct radeon_device *rdev)
+ 	       L2_CACHE_BIGK_FRAGMENT_SIZE(6));
+ 	/* setup context0 */
+ 	WREG32(VM_CONTEXT0_PAGE_TABLE_START_ADDR, rdev->mc.gtt_start >> 12);
+-	WREG32(VM_CONTEXT0_PAGE_TABLE_END_ADDR, (rdev->mc.gtt_end >> 12) - 1);
++	WREG32(VM_CONTEXT0_PAGE_TABLE_END_ADDR, rdev->mc.gtt_end >> 12);
+ 	WREG32(VM_CONTEXT0_PAGE_TABLE_BASE_ADDR, rdev->gart.table_addr >> 12);
+ 	WREG32(VM_CONTEXT0_PROTECTION_FAULT_DEFAULT_ADDR,
+ 			(u32)(rdev->dummy_page.addr >> 12));
+diff --git a/drivers/gpu/drm/radeon/r600.c b/drivers/gpu/drm/radeon/r600.c
+index d441aed..9c7062d 100644
+--- a/drivers/gpu/drm/radeon/r600.c
++++ b/drivers/gpu/drm/radeon/r600.c
+@@ -930,7 +930,7 @@ int r600_pcie_gart_enable(struct radeon_device *rdev)
+ 	WREG32(MC_VM_L1_TLB_MCB_RD_SEM_CNTL, tmp | ENABLE_SEMAPHORE_MODE);
+ 	WREG32(MC_VM_L1_TLB_MCB_WR_SEM_CNTL, tmp | ENABLE_SEMAPHORE_MODE);
+ 	WREG32(VM_CONTEXT0_PAGE_TABLE_START_ADDR, rdev->mc.gtt_start >> 12);
+-	WREG32(VM_CONTEXT0_PAGE_TABLE_END_ADDR, (rdev->mc.gtt_end >> 12) - 1);
++	WREG32(VM_CONTEXT0_PAGE_TABLE_END_ADDR, rdev->mc.gtt_end >> 12);
+ 	WREG32(VM_CONTEXT0_PAGE_TABLE_BASE_ADDR, rdev->gart.table_addr >> 12);
+ 	WREG32(VM_CONTEXT0_CNTL, ENABLE_CONTEXT | PAGE_TABLE_DEPTH(0) |
+ 				RANGE_PROTECTION_FAULT_ENABLE_DEFAULT);
+diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeon/radeon_cs.c
+index d66d2cd..f3ee360 100644
+--- a/drivers/gpu/drm/radeon/radeon_cs.c
++++ b/drivers/gpu/drm/radeon/radeon_cs.c
+@@ -49,7 +49,7 @@ int radeon_cs_parser_relocs(struct radeon_cs_parser *p)
+ 	if (p->relocs_ptr == NULL) {
+ 		return -ENOMEM;
+ 	}
+-	p->relocs = drm_calloc_large(p->nrelocs, sizeof(struct radeon_bo_list));
++	p->relocs = kcalloc(p->nrelocs, sizeof(struct radeon_cs_reloc), GFP_KERNEL);
+ 	if (p->relocs == NULL) {
+ 		return -ENOMEM;
+ 	}
+@@ -324,7 +324,7 @@ static void radeon_cs_parser_fini(struct radeon_cs_parser *parser, int error)
+ 		}
+ 	}
+ 	kfree(parser->track);
+-	drm_free_large(parser->relocs);
++	kfree(parser->relocs);
+ 	kfree(parser->relocs_ptr);
+ 	for (i = 0; i < parser->nchunks; i++) {
+ 		kfree(parser->chunks[i].kdata);
+diff --git a/drivers/gpu/drm/radeon/radeon_irq_kms.c b/drivers/gpu/drm/radeon/radeon_irq_kms.c
+index 645dcbf..77c456d 100644
+--- a/drivers/gpu/drm/radeon/radeon_irq_kms.c
++++ b/drivers/gpu/drm/radeon/radeon_irq_kms.c
+@@ -51,10 +51,12 @@ static void radeon_hotplug_work_func(struct work_struct *work)
+ 	struct drm_mode_config *mode_config = &dev->mode_config;
+ 	struct drm_connector *connector;
+ 
++	mutex_lock(&mode_config->mutex);
+ 	if (mode_config->num_connector) {
+ 		list_for_each_entry(connector, &mode_config->connector_list, head)
+ 			radeon_connector_hotplug(connector);
+ 	}
++	mutex_unlock(&mode_config->mutex);
+ 	/* Just fire off a uevent and let userspace tell us what to do */
+ 	drm_helper_hpd_irq_event(dev);
+ }
+diff --git a/drivers/gpu/drm/radeon/rv770.c b/drivers/gpu/drm/radeon/rv770.c
+index 3358730..1ec1255 100644
+--- a/drivers/gpu/drm/radeon/rv770.c
++++ b/drivers/gpu/drm/radeon/rv770.c
+@@ -158,7 +158,7 @@ int rv770_pcie_gart_enable(struct radeon_device *rdev)
+ 	WREG32(MC_VM_MB_L1_TLB2_CNTL, tmp);
+ 	WREG32(MC_VM_MB_L1_TLB3_CNTL, tmp);
+ 	WREG32(VM_CONTEXT0_PAGE_TABLE_START_ADDR, rdev->mc.gtt_start >> 12);
+-	WREG32(VM_CONTEXT0_PAGE_TABLE_END_ADDR, (rdev->mc.gtt_end >> 12) - 1);
++	WREG32(VM_CONTEXT0_PAGE_TABLE_END_ADDR, rdev->mc.gtt_end >> 12);
+ 	WREG32(VM_CONTEXT0_PAGE_TABLE_BASE_ADDR, rdev->gart.table_addr >> 12);
+ 	WREG32(VM_CONTEXT0_CNTL, ENABLE_CONTEXT | PAGE_TABLE_DEPTH(0) |
+ 				RANGE_PROTECTION_FAULT_ENABLE_DEFAULT);
+diff --git a/drivers/gpu/drm/radeon/si.c b/drivers/gpu/drm/radeon/si.c
+index 3b6e641..6609a23 100644
+--- a/drivers/gpu/drm/radeon/si.c
++++ b/drivers/gpu/drm/radeon/si.c
+@@ -2537,7 +2537,7 @@ int si_pcie_gart_enable(struct radeon_device *rdev)
+ 	       L2_CACHE_BIGK_FRAGMENT_SIZE(0));
+ 	/* setup context0 */
+ 	WREG32(VM_CONTEXT0_PAGE_TABLE_START_ADDR, rdev->mc.gtt_start >> 12);
+-	WREG32(VM_CONTEXT0_PAGE_TABLE_END_ADDR, (rdev->mc.gtt_end >> 12) - 1);
++	WREG32(VM_CONTEXT0_PAGE_TABLE_END_ADDR, rdev->mc.gtt_end >> 12);
+ 	WREG32(VM_CONTEXT0_PAGE_TABLE_BASE_ADDR, rdev->gart.table_addr >> 12);
+ 	WREG32(VM_CONTEXT0_PROTECTION_FAULT_DEFAULT_ADDR,
+ 			(u32)(rdev->dummy_page.addr >> 12));
+diff --git a/drivers/infiniband/hw/qib/qib.h b/drivers/infiniband/hw/qib/qib.h
+index c7d4ef1..dcff64f 100644
+--- a/drivers/infiniband/hw/qib/qib.h
++++ b/drivers/infiniband/hw/qib/qib.h
+@@ -1429,6 +1429,10 @@ extern struct mutex qib_mutex;
+ 			qib_get_unit_name((dd)->unit), ##__VA_ARGS__); \
+ 	} while (0)
+ 
++#define qib_dev_warn(dd, fmt, ...) \
++	dev_warn(&(dd)->pcidev->dev, "%s: " fmt, \
++		qib_get_unit_name((dd)->unit), ##__VA_ARGS__)
++
+ #define qib_dev_porterr(dd, port, fmt, ...) \
+ 	do { \
+ 		dev_err(&(dd)->pcidev->dev, "%s: IB%u:%u " fmt, \
+diff --git a/drivers/infiniband/hw/qib/qib_keys.c b/drivers/infiniband/hw/qib/qib_keys.c
+index 8fd19a4..ca6e6cf 100644
+--- a/drivers/infiniband/hw/qib/qib_keys.c
++++ b/drivers/infiniband/hw/qib/qib_keys.c
+@@ -69,6 +69,10 @@ int qib_alloc_lkey(struct qib_lkey_table *rkt, struct qib_mregion *mr)
+ 	 * unrestricted LKEY.
+ 	 */
+ 	rkt->gen++;
++	/*
++	 * bits are capped in qib_verbs.c to insure enough bits
++	 * for generation number
++	 */
+ 	mr->lkey = (r << (32 - ib_qib_lkey_table_size)) |
+ 		((((1 << (24 - ib_qib_lkey_table_size)) - 1) & rkt->gen)
+ 		 << 8);
+diff --git a/drivers/infiniband/hw/qib/qib_verbs.c b/drivers/infiniband/hw/qib/qib_verbs.c
+index 7b6c3bf..395d9d6 100644
+--- a/drivers/infiniband/hw/qib/qib_verbs.c
++++ b/drivers/infiniband/hw/qib/qib_verbs.c
+@@ -40,6 +40,7 @@
+ #include <linux/rculist.h>
+ #include <linux/mm.h>
+ #include <linux/random.h>
++#include <linux/vmalloc.h>
+ 
+ #include "qib.h"
+ #include "qib_common.h"
+@@ -2058,10 +2059,16 @@ int qib_register_ib_device(struct qib_devdata *dd)
+ 	 * the LKEY).  The remaining bits act as a generation number or tag.
+ 	 */
+ 	spin_lock_init(&dev->lk_table.lock);
++	/* insure generation is at least 4 bits see keys.c */
++	if (ib_qib_lkey_table_size > MAX_LKEY_TABLE_BITS) {
++		qib_dev_warn(dd, "lkey bits %u too large, reduced to %u\n",
++			ib_qib_lkey_table_size, MAX_LKEY_TABLE_BITS);
++		ib_qib_lkey_table_size = MAX_LKEY_TABLE_BITS;
++	}
+ 	dev->lk_table.max = 1 << ib_qib_lkey_table_size;
+ 	lk_tab_size = dev->lk_table.max * sizeof(*dev->lk_table.table);
+ 	dev->lk_table.table = (struct qib_mregion **)
+-		__get_free_pages(GFP_KERNEL, get_order(lk_tab_size));
++		vmalloc(lk_tab_size);
+ 	if (dev->lk_table.table == NULL) {
+ 		ret = -ENOMEM;
+ 		goto err_lk;
+@@ -2231,7 +2238,7 @@ int qib_register_ib_device(struct qib_devdata *dd)
+ 					sizeof(struct qib_pio_header),
+ 				  dev->pio_hdrs, dev->pio_hdrs_phys);
+ err_hdrs:
+-	free_pages((unsigned long) dev->lk_table.table, get_order(lk_tab_size));
++	vfree(dev->lk_table.table);
+ err_lk:
+ 	kfree(dev->qp_table);
+ err_qpt:
+@@ -2285,7 +2292,6 @@ void qib_unregister_ib_device(struct qib_devdata *dd)
+ 					sizeof(struct qib_pio_header),
+ 				  dev->pio_hdrs, dev->pio_hdrs_phys);
+ 	lk_tab_size = dev->lk_table.max * sizeof(*dev->lk_table.table);
+-	free_pages((unsigned long) dev->lk_table.table,
+-		   get_order(lk_tab_size));
++	vfree(dev->lk_table.table);
+ 	kfree(dev->qp_table);
+ }
+diff --git a/drivers/infiniband/hw/qib/qib_verbs.h b/drivers/infiniband/hw/qib/qib_verbs.h
+index 0c19ef0..66f7f62 100644
+--- a/drivers/infiniband/hw/qib/qib_verbs.h
++++ b/drivers/infiniband/hw/qib/qib_verbs.h
+@@ -622,6 +622,8 @@ struct qib_qpn_table {
+ 	struct qpn_map map[QPNMAP_ENTRIES];
+ };
+ 
++#define MAX_LKEY_TABLE_BITS 23
++
+ struct qib_lkey_table {
+ 	spinlock_t lock; /* protect changes in this struct */
+ 	u32 next;               /* next unused index (speeds search) */
+diff --git a/drivers/mtd/maps/dc21285.c b/drivers/mtd/maps/dc21285.c
+index 080f060..86598a1 100644
+--- a/drivers/mtd/maps/dc21285.c
++++ b/drivers/mtd/maps/dc21285.c
+@@ -38,9 +38,9 @@ static void nw_en_write(void)
+ 	 * we want to write a bit pattern XXX1 to Xilinx to enable
+ 	 * the write gate, which will be open for about the next 2ms.
+ 	 */
+-	spin_lock_irqsave(&nw_gpio_lock, flags);
++	raw_spin_lock_irqsave(&nw_gpio_lock, flags);
+ 	nw_cpld_modify(CPLD_FLASH_WR_ENABLE, CPLD_FLASH_WR_ENABLE);
+-	spin_unlock_irqrestore(&nw_gpio_lock, flags);
++	raw_spin_unlock_irqrestore(&nw_gpio_lock, flags);
+ 
+ 	/*
+ 	 * let the ISA bus to catch on...
+diff --git a/drivers/mtd/mtd_blkdevs.c b/drivers/mtd/mtd_blkdevs.c
+index 5cf14d9..503172b 100644
+--- a/drivers/mtd/mtd_blkdevs.c
++++ b/drivers/mtd/mtd_blkdevs.c
+@@ -214,6 +214,7 @@ static int blktrans_open(struct block_device *bdev, fmode_t mode)
+ 		return -ERESTARTSYS; /* FIXME: busy loop! -arnd*/
+ 
+ 	mutex_lock(&dev->lock);
++	mutex_lock(&mtd_table_mutex);
+ 
+ 	if (dev->open)
+ 		goto unlock;
+@@ -237,6 +238,7 @@ static int blktrans_open(struct block_device *bdev, fmode_t mode)
+ 
+ unlock:
+ 	dev->open++;
++	mutex_unlock(&mtd_table_mutex);
+ 	mutex_unlock(&dev->lock);
+ 	blktrans_dev_put(dev);
+ 	return ret;
+@@ -247,6 +249,7 @@ static int blktrans_open(struct block_device *bdev, fmode_t mode)
+ error_put:
+ 	module_put(dev->tr->owner);
+ 	kref_put(&dev->ref, blktrans_dev_release);
++	mutex_unlock(&mtd_table_mutex);
+ 	mutex_unlock(&dev->lock);
+ 	blktrans_dev_put(dev);
+ 	return ret;
+@@ -261,6 +264,7 @@ static int blktrans_release(struct gendisk *disk, fmode_t mode)
+ 		return ret;
+ 
+ 	mutex_lock(&dev->lock);
++	mutex_lock(&mtd_table_mutex);
+ 
+ 	if (--dev->open)
+ 		goto unlock;
+@@ -273,6 +277,7 @@ static int blktrans_release(struct gendisk *disk, fmode_t mode)
+ 		__put_mtd_device(dev->mtd);
+ 	}
+ unlock:
++	mutex_unlock(&mtd_table_mutex);
+ 	mutex_unlock(&dev->lock);
+ 	blktrans_dev_put(dev);
+ 	return ret;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/descs.h b/drivers/net/ethernet/stmicro/stmmac/descs.h
+index 9820ec8..e93a0bf 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/descs.h
++++ b/drivers/net/ethernet/stmicro/stmmac/descs.h
+@@ -153,6 +153,8 @@ struct dma_desc {
+ 			u32 buffer2_size:13;
+ 			u32 reserved4:3;
+ 		} etx;		/* -- enhanced -- */
++
++		u64 all_flags;
+ 	} des01;
+ 	unsigned int des2;
+ 	unsigned int des3;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/enh_desc.c b/drivers/net/ethernet/stmicro/stmmac/enh_desc.c
+index ad1b627..e0db6f6 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/enh_desc.c
++++ b/drivers/net/ethernet/stmicro/stmmac/enh_desc.c
+@@ -232,6 +232,7 @@ static void enh_desc_init_rx_desc(struct dma_desc *p, unsigned int ring_size,
+ {
+ 	int i;
+ 	for (i = 0; i < ring_size; i++) {
++		p->des01.all_flags = 0;
+ 		p->des01.erx.own = 1;
+ 		p->des01.erx.buffer1_size = BUF_SIZE_8KiB - 1;
+ 
+@@ -248,7 +249,7 @@ static void enh_desc_init_tx_desc(struct dma_desc *p, unsigned int ring_size)
+ 	int i;
+ 
+ 	for (i = 0; i < ring_size; i++) {
+-		p->des01.etx.own = 0;
++		p->des01.all_flags = 0;
+ 		ehn_desc_tx_set_on_ring_chain(p, (i == ring_size - 1));
+ 		p++;
+ 	}
+@@ -271,6 +272,7 @@ static void enh_desc_set_tx_owner(struct dma_desc *p)
+ 
+ static void enh_desc_set_rx_owner(struct dma_desc *p)
+ {
++	p->des01.all_flags = 0;
+ 	p->des01.erx.own = 1;
+ }
+ 
+diff --git a/drivers/net/ethernet/stmicro/stmmac/norm_desc.c b/drivers/net/ethernet/stmicro/stmmac/norm_desc.c
+index 25953bb..9703340 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/norm_desc.c
++++ b/drivers/net/ethernet/stmicro/stmmac/norm_desc.c
+@@ -126,6 +126,7 @@ static void ndesc_init_rx_desc(struct dma_desc *p, unsigned int ring_size,
+ {
+ 	int i;
+ 	for (i = 0; i < ring_size; i++) {
++		p->des01.all_flags = 0;
+ 		p->des01.rx.own = 1;
+ 		p->des01.rx.buffer1_size = BUF_SIZE_2KiB - 1;
+ 
+@@ -141,7 +142,7 @@ static void ndesc_init_tx_desc(struct dma_desc *p, unsigned int ring_size)
+ {
+ 	int i;
+ 	for (i = 0; i < ring_size; i++) {
+-		p->des01.tx.own = 0;
++		p->des01.all_flags = 0;
+ 		ndesc_tx_set_on_ring_chain(p, (i == (ring_size - 1)));
+ 		p++;
+ 	}
+@@ -164,6 +165,7 @@ static void ndesc_set_tx_owner(struct dma_desc *p)
+ 
+ static void ndesc_set_rx_owner(struct dma_desc *p)
+ {
++	p->des01.all_flags = 0;
+ 	p->des01.rx.own = 1;
+ }
+ 
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index 9bdfaba..88c8645 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -424,19 +424,17 @@ static void init_dma_desc_rings(struct net_device *dev)
+ 	priv->rx_skbuff =
+ 	    kmalloc(sizeof(struct sk_buff *) * rxsize, GFP_KERNEL);
+ 	priv->dma_rx =
+-	    (struct dma_desc *)dma_alloc_coherent(priv->device,
+-						  rxsize *
+-						  sizeof(struct dma_desc),
+-						  &priv->dma_rx_phy,
+-						  GFP_KERNEL);
++	    (struct dma_desc *)dma_zalloc_coherent(priv->device, rxsize *
++						   sizeof(struct dma_desc),
++						   &priv->dma_rx_phy,
++						   GFP_KERNEL);
+ 	priv->tx_skbuff = kmalloc(sizeof(struct sk_buff *) * txsize,
+ 				       GFP_KERNEL);
+ 	priv->dma_tx =
+-	    (struct dma_desc *)dma_alloc_coherent(priv->device,
+-						  txsize *
+-						  sizeof(struct dma_desc),
+-						  &priv->dma_tx_phy,
+-						  GFP_KERNEL);
++	    (struct dma_desc *)dma_zalloc_coherent(priv->device, txsize *
++						   sizeof(struct dma_desc),
++						   &priv->dma_tx_phy,
++						   GFP_KERNEL);
+ 
+ 	if ((priv->dma_rx == NULL) || (priv->dma_tx == NULL)) {
+ 		pr_err("%s:ERROR allocating the DMA Tx/Rx desc\n", __func__);
+diff --git a/drivers/net/wireless/ath/ath9k/main.c b/drivers/net/wireless/ath/ath9k/main.c
+index ef26056..7e7bd15 100644
+--- a/drivers/net/wireless/ath/ath9k/main.c
++++ b/drivers/net/wireless/ath/ath9k/main.c
+@@ -235,7 +235,7 @@ static bool ath_prepare_reset(struct ath_softc *sc, bool retry_tx, bool flush)
+ {
+ 	struct ath_hw *ah = sc->sc_ah;
+ 	struct ath_common *common = ath9k_hw_common(ah);
+-	bool ret;
++	bool ret = true;
+ 
+ 	ieee80211_stop_queues(sc->hw);
+ 
+@@ -245,10 +245,13 @@ static bool ath_prepare_reset(struct ath_softc *sc, bool retry_tx, bool flush)
+ 	ath9k_debug_samp_bb_mac(sc);
+ 	ath9k_hw_disable_interrupts(ah);
+ 
+-	ret = ath_drain_all_txq(sc, retry_tx);
+-
+-	if (!ath_stoprecv(sc))
+-		ret = false;
++	if (AR_SREV_9300_20_OR_LATER(ah)) {
++		ret &= ath_stoprecv(sc);
++		ret &= ath_drain_all_txq(sc, retry_tx);
++	} else {
++		ret &= ath_drain_all_txq(sc, retry_tx);
++		ret &= ath_stoprecv(sc);
++	}
+ 
+ 	if (!flush) {
+ 		if (ah->caps.hw_caps & ATH9K_HW_CAP_EDMA)
+diff --git a/drivers/net/wireless/rndis_wlan.c b/drivers/net/wireless/rndis_wlan.c
+index d66e298..414ac49 100644
+--- a/drivers/net/wireless/rndis_wlan.c
++++ b/drivers/net/wireless/rndis_wlan.c
+@@ -407,9 +407,9 @@ struct ndis_80211_pmkid {
+ #define CAP_MODE_80211G		4
+ #define CAP_MODE_MASK		7
+ 
+-#define WORK_LINK_UP		(1<<0)
+-#define WORK_LINK_DOWN		(1<<1)
+-#define WORK_SET_MULTICAST_LIST	(1<<2)
++#define WORK_LINK_UP		0
++#define WORK_LINK_DOWN		1
++#define WORK_SET_MULTICAST_LIST	2
+ 
+ #define RNDIS_WLAN_ALG_NONE	0
+ #define RNDIS_WLAN_ALG_WEP	(1<<0)
+diff --git a/drivers/pcmcia/topic.h b/drivers/pcmcia/topic.h
+index 615a45a..582688f 100644
+--- a/drivers/pcmcia/topic.h
++++ b/drivers/pcmcia/topic.h
+@@ -104,6 +104,9 @@
+ #define TOPIC_EXCA_IF_CONTROL		0x3e	/* 8 bit */
+ #define TOPIC_EXCA_IFC_33V_ENA		0x01
+ 
++#define TOPIC_PCI_CFG_PPBCN		0x3e	/* 16-bit */
++#define TOPIC_PCI_CFG_PPBCN_WBEN	0x0400
++
+ static void topic97_zoom_video(struct pcmcia_socket *sock, int onoff)
+ {
+ 	struct yenta_socket *socket = container_of(sock, struct yenta_socket, socket);
+@@ -138,6 +141,7 @@ static int topic97_override(struct yenta_socket *socket)
+ static int topic95_override(struct yenta_socket *socket)
+ {
+ 	u8 fctrl;
++	u16 ppbcn;
+ 
+ 	/* enable 3.3V support for 16bit cards */
+ 	fctrl = exca_readb(socket, TOPIC_EXCA_IF_CONTROL);
+@@ -146,6 +150,18 @@ static int topic95_override(struct yenta_socket *socket)
+ 	/* tell yenta to use exca registers to power 16bit cards */
+ 	socket->flags |= YENTA_16BIT_POWER_EXCA | YENTA_16BIT_POWER_DF;
+ 
++	/* Disable write buffers to prevent lockups under load with numerous
++	   Cardbus cards, observed on Tecra 500CDT and reported elsewhere on the
++	   net.  This is not a power-on default according to the datasheet
++	   but some BIOSes seem to set it. */
++	if (pci_read_config_word(socket->dev, TOPIC_PCI_CFG_PPBCN, &ppbcn) == 0
++	    && socket->dev->revision <= 7
++	    && (ppbcn & TOPIC_PCI_CFG_PPBCN_WBEN)) {
++		ppbcn &= ~TOPIC_PCI_CFG_PPBCN_WBEN;
++		pci_write_config_word(socket->dev, TOPIC_PCI_CFG_PPBCN, ppbcn);
++		dev_info(&socket->dev->dev, "Disabled ToPIC95 Cardbus write buffers.\n");
++	}
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/platform/x86/dell-laptop.c b/drivers/platform/x86/dell-laptop.c
+index e6c08ee..3d67591 100644
+--- a/drivers/platform/x86/dell-laptop.c
++++ b/drivers/platform/x86/dell-laptop.c
+@@ -216,7 +216,6 @@ static struct dmi_system_id __devinitdata dell_quirks[] = {
+ };
+ 
+ static struct calling_interface_buffer *buffer;
+-static struct page *bufferpage;
+ static DEFINE_MUTEX(buffer_mutex);
+ 
+ static int hwswitch_state;
+@@ -714,11 +713,10 @@ static int __init dell_init(void)
+ 	 * Allocate buffer below 4GB for SMI data--only 32-bit physical addr
+ 	 * is passed to SMI handler.
+ 	 */
+-	bufferpage = alloc_page(GFP_KERNEL | GFP_DMA32);
++	buffer = (void *)__get_free_page(GFP_KERNEL | GFP_DMA32);
+ 
+-	if (!bufferpage)
++	if (!buffer)
+ 		goto fail_buffer;
+-	buffer = page_address(bufferpage);
+ 
+ 	ret = dell_setup_rfkill();
+ 
+@@ -787,7 +785,7 @@ static int __init dell_init(void)
+ fail_filter:
+ 	dell_cleanup_rfkill();
+ fail_rfkill:
+-	free_page((unsigned long)bufferpage);
++	free_page((unsigned long)buffer);
+ fail_buffer:
+ 	platform_device_del(platform_device);
+ fail_platform_device2:
+diff --git a/drivers/platform/x86/ideapad-laptop.c b/drivers/platform/x86/ideapad-laptop.c
+index ac902f7..34e9fcf 100644
+--- a/drivers/platform/x86/ideapad-laptop.c
++++ b/drivers/platform/x86/ideapad-laptop.c
+@@ -407,7 +407,8 @@ const struct ideapad_rfk_data ideapad_rfk_data[] = {
+ 
+ static int ideapad_rfk_set(void *data, bool blocked)
+ {
+-	unsigned long opcode = (unsigned long)data;
++	unsigned long dev = (unsigned long)data;
++	int opcode = ideapad_rfk_data[dev].opcode;
+ 
+ 	return write_ec_cmd(ideapad_handle, opcode, !blocked);
+ }
+diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
+index 82111f0..821454e 100644
+--- a/drivers/regulator/core.c
++++ b/drivers/regulator/core.c
+@@ -779,7 +779,7 @@ static int suspend_prepare(struct regulator_dev *rdev, suspend_state_t state)
+ static void print_constraints(struct regulator_dev *rdev)
+ {
+ 	struct regulation_constraints *constraints = rdev->constraints;
+-	char buf[80] = "";
++	char buf[160] = "";
+ 	int count = 0;
+ 	int ret;
+ 
+diff --git a/drivers/scsi/ipr.h b/drivers/scsi/ipr.h
+index 153b8bd..19ff8b2 100644
+--- a/drivers/scsi/ipr.h
++++ b/drivers/scsi/ipr.h
+@@ -251,7 +251,7 @@
+ #define IPR_RUNTIME_RESET				0x40000000
+ 
+ #define IPR_IPL_INIT_MIN_STAGE_TIME			5
+-#define IPR_IPL_INIT_DEFAULT_STAGE_TIME                 15
++#define IPR_IPL_INIT_DEFAULT_STAGE_TIME                 30
+ #define IPR_IPL_INIT_STAGE_UNKNOWN			0x0
+ #define IPR_IPL_INIT_STAGE_TRANSOP			0xB0000000
+ #define IPR_IPL_INIT_STAGE_MASK				0xff000000
+diff --git a/drivers/staging/rtl8712/rtl8712_recv.c b/drivers/staging/rtl8712/rtl8712_recv.c
+index 887a807..549b8ab 100644
+--- a/drivers/staging/rtl8712/rtl8712_recv.c
++++ b/drivers/staging/rtl8712/rtl8712_recv.c
+@@ -1074,7 +1074,8 @@ static int recvbuf2recvframe(struct _adapter *padapter, struct sk_buff *pskb)
+ 		/* for first fragment packet, driver need allocate 1536 +
+ 		 * drvinfo_sz + RXDESC_SIZE to defrag packet. */
+ 		if ((mf == 1) && (frag == 0))
+-			alloc_sz = 1658;/*1658+6=1664, 1664 is 128 alignment.*/
++			/*1658+6=1664, 1664 is 128 alignment.*/
++			alloc_sz = max_t(u16, tmp_len, 1658);
+ 		else
+ 			alloc_sz = tmp_len;
+ 		/* 2 is for IP header 4 bytes alignment in QoS packet case.
+diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
+index ff58d28..85c28e3 100644
+--- a/drivers/tty/serial/atmel_serial.c
++++ b/drivers/tty/serial/atmel_serial.c
+@@ -229,8 +229,7 @@ void atmel_config_rs485(struct uart_port *port, struct serial_rs485 *rs485conf)
+ 	if (rs485conf->flags & SER_RS485_ENABLED) {
+ 		dev_dbg(port->dev, "Setting UART to RS485\n");
+ 		atmel_port->tx_done_mask = ATMEL_US_TXEMPTY;
+-		if ((rs485conf->delay_rts_after_send) > 0)
+-			UART_PUT_TTGR(port, rs485conf->delay_rts_after_send);
++		UART_PUT_TTGR(port, rs485conf->delay_rts_after_send);
+ 		mode |= ATMEL_US_USMODE_RS485;
+ 	} else {
+ 		dev_dbg(port->dev, "Setting UART to RS232\n");
+@@ -305,9 +304,7 @@ static void atmel_set_mctrl(struct uart_port *port, u_int mctrl)
+ 
+ 	if (atmel_port->rs485.flags & SER_RS485_ENABLED) {
+ 		dev_dbg(port->dev, "Setting UART to RS485\n");
+-		if ((atmel_port->rs485.delay_rts_after_send) > 0)
+-			UART_PUT_TTGR(port,
+-					atmel_port->rs485.delay_rts_after_send);
++		UART_PUT_TTGR(port, atmel_port->rs485.delay_rts_after_send);
+ 		mode |= ATMEL_US_USMODE_RS485;
+ 	} else {
+ 		dev_dbg(port->dev, "Setting UART to RS232\n");
+@@ -1239,9 +1236,7 @@ static void atmel_set_termios(struct uart_port *port, struct ktermios *termios,
+ 
+ 	if (atmel_port->rs485.flags & SER_RS485_ENABLED) {
+ 		dev_dbg(port->dev, "Setting UART to RS485\n");
+-		if ((atmel_port->rs485.delay_rts_after_send) > 0)
+-			UART_PUT_TTGR(port,
+-					atmel_port->rs485.delay_rts_after_send);
++		UART_PUT_TTGR(port, atmel_port->rs485.delay_rts_after_send);
+ 		mode |= ATMEL_US_USMODE_RS485;
+ 	} else {
+ 		dev_dbg(port->dev, "Setting UART to RS232\n");
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 6c8b20b..bd346ac 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -2261,9 +2261,6 @@ static unsigned hub_is_wusb(struct usb_hub *hub)
+ #define HUB_LONG_RESET_TIME	200
+ #define HUB_RESET_TIMEOUT	800
+ 
+-static int hub_port_reset(struct usb_hub *hub, int port1,
+-			struct usb_device *udev, unsigned int delay, bool warm);
+-
+ /* Is a USB 3.0 port in the Inactive or Complinance Mode state?
+  * Port worm reset is required to recover
+  */
+@@ -2343,44 +2340,6 @@ static int hub_port_wait_reset(struct usb_hub *hub, int port1,
+ 	return -EBUSY;
+ }
+ 
+-static void hub_port_finish_reset(struct usb_hub *hub, int port1,
+-			struct usb_device *udev, int *status)
+-{
+-	switch (*status) {
+-	case 0:
+-		/* TRSTRCY = 10 ms; plus some extra */
+-		msleep(10 + 40);
+-		if (udev) {
+-			struct usb_hcd *hcd = bus_to_hcd(udev->bus);
+-
+-			update_devnum(udev, 0);
+-			/* The xHC may think the device is already reset,
+-			 * so ignore the status.
+-			 */
+-			if (hcd->driver->reset_device)
+-				hcd->driver->reset_device(hcd, udev);
+-		}
+-		/* FALL THROUGH */
+-	case -ENOTCONN:
+-	case -ENODEV:
+-		clear_port_feature(hub->hdev,
+-				port1, USB_PORT_FEAT_C_RESET);
+-		if (hub_is_superspeed(hub->hdev)) {
+-			clear_port_feature(hub->hdev, port1,
+-					USB_PORT_FEAT_C_BH_PORT_RESET);
+-			clear_port_feature(hub->hdev, port1,
+-					USB_PORT_FEAT_C_PORT_LINK_STATE);
+-			clear_port_feature(hub->hdev, port1,
+-					USB_PORT_FEAT_C_CONNECTION);
+-		}
+-		if (udev)
+-			usb_set_device_state(udev, *status
+-					? USB_STATE_NOTATTACHED
+-					: USB_STATE_DEFAULT);
+-		break;
+-	}
+-}
+-
+ /* Handle port reset and port warm(BH) reset (for USB3 protocol ports) */
+ static int hub_port_reset(struct usb_hub *hub, int port1,
+ 			struct usb_device *udev, unsigned int delay, bool warm)
+@@ -2403,13 +2362,9 @@ static int hub_port_reset(struct usb_hub *hub, int port1,
+ 		 * If the caller hasn't explicitly requested a warm reset,
+ 		 * double check and see if one is needed.
+ 		 */
+-		status = hub_port_status(hub, port1,
+-					&portstatus, &portchange);
+-		if (status < 0)
+-			goto done;
+-
+-		if (hub_port_warm_reset_required(hub, portstatus))
+-			warm = true;
++		if (hub_port_status(hub, port1, &portstatus, &portchange) == 0)
++			if (hub_port_warm_reset_required(hub, portstatus))
++				warm = true;
+ 	}
+ 
+ 	/* Reset the port */
+@@ -2432,11 +2387,19 @@ static int hub_port_reset(struct usb_hub *hub, int port1,
+ 
+ 		/* Check for disconnect or reset */
+ 		if (status == 0 || status == -ENOTCONN || status == -ENODEV) {
+-			hub_port_finish_reset(hub, port1, udev, &status);
++			clear_port_feature(hub->hdev, port1,
++					USB_PORT_FEAT_C_RESET);
+ 
+ 			if (!hub_is_superspeed(hub->hdev))
+ 				goto done;
+ 
++			clear_port_feature(hub->hdev, port1,
++					USB_PORT_FEAT_C_BH_PORT_RESET);
++			clear_port_feature(hub->hdev, port1,
++					USB_PORT_FEAT_C_PORT_LINK_STATE);
++			clear_port_feature(hub->hdev, port1,
++					USB_PORT_FEAT_C_CONNECTION);
++
+ 			/*
+ 			 * If a USB 3.0 device migrates from reset to an error
+ 			 * state, re-issue the warm reset.
+@@ -2470,6 +2433,26 @@ static int hub_port_reset(struct usb_hub *hub, int port1,
+ 		port1);
+ 
+ done:
++	if (status == 0) {
++		/* TRSTRCY = 10 ms; plus some extra */
++		msleep(10 + 40);
++		if (udev) {
++			struct usb_hcd *hcd = bus_to_hcd(udev->bus);
++
++			update_devnum(udev, 0);
++			/* The xHC may think the device is already reset,
++			 * so ignore the status.
++			 */
++			if (hcd->driver->reset_device)
++				hcd->driver->reset_device(hcd, udev);
++
++			usb_set_device_state(udev, USB_STATE_DEFAULT);
++		}
++	} else {
++		if (udev)
++			usb_set_device_state(udev, USB_STATE_NOTATTACHED);
++	}
++
+ 	if (!hub_is_superspeed(hub->hdev))
+ 		up_read(&ehci_cf_port_reset_rwsem);
+ 
+diff --git a/drivers/watchdog/omap_wdt.c b/drivers/watchdog/omap_wdt.c
+index 8285d65..c080be5 100644
+--- a/drivers/watchdog/omap_wdt.c
++++ b/drivers/watchdog/omap_wdt.c
+@@ -152,6 +152,13 @@ static int omap_wdt_open(struct inode *inode, struct file *file)
+ 
+ 	pm_runtime_get_sync(wdev->dev);
+ 
++	/*
++	 * Make sure the watchdog is disabled. This is unfortunately required
++	 * because writing to various registers with the watchdog running has no
++	 * effect.
++	 */
++	omap_wdt_disable(wdev);
++
+ 	/* initialize prescaler */
+ 	while (__raw_readl(base + OMAP_WATCHDOG_WPS) & 0x01)
+ 		cpu_relax();
+diff --git a/fs/dcache.c b/fs/dcache.c
+index 09e2eda..9f8c58d 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -2510,6 +2510,8 @@ static int prepend_path(const struct path *path,
+ 	struct dentry *dentry = path->dentry;
+ 	struct vfsmount *vfsmnt = path->mnt;
+ 	struct mount *mnt = real_mount(vfsmnt);
++	char *orig_buffer = *buffer;
++	int orig_len = *buflen;
+ 	bool slash = false;
+ 	int error = 0;
+ 
+@@ -2517,6 +2519,14 @@ static int prepend_path(const struct path *path,
+ 		struct dentry * parent;
+ 
+ 		if (dentry == vfsmnt->mnt_root || IS_ROOT(dentry)) {
++			/* Escaped? */
++			if (dentry != vfsmnt->mnt_root) {
++				*buffer = orig_buffer;
++				*buflen = orig_len;
++				slash = false;
++				error = 3;
++				goto global_root;
++			}
+ 			/* Global root? */
+ 			if (!mnt_has_parent(mnt))
+ 				goto global_root;
+diff --git a/fs/ext4/indirect.c b/fs/ext4/indirect.c
+index 6dc6153..f819837 100644
+--- a/fs/ext4/indirect.c
++++ b/fs/ext4/indirect.c
+@@ -705,7 +705,7 @@ int ext4_ind_map_blocks(handle_t *handle, struct inode *inode,
+ 				       EXT4_FEATURE_RO_COMPAT_BIGALLOC)) {
+ 		EXT4_ERROR_INODE(inode, "Can't allocate blocks for "
+ 				 "non-extent mapped inodes with bigalloc");
+-		return -ENOSPC;
++		return -EUCLEAN;
+ 	}
+ 
+ 	goal = ext4_find_goal(inode, map->m_lblk, partial);
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index c68d3e1..9256acb 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -1848,18 +1848,32 @@ static int __ext4_journalled_writepage(struct page *page,
+ 	page_bufs = page_buffers(page);
+ 	BUG_ON(!page_bufs);
+ 	walk_page_buffers(handle, page_bufs, 0, len, NULL, bget_one);
+-	/* As soon as we unlock the page, it can go away, but we have
+-	 * references to buffers so we are safe */
++	/*
++	 * We need to release the page lock before we start the
++	 * journal, so grab a reference so the page won't disappear
++	 * out from under us.
++	 */
++	get_page(page);
+ 	unlock_page(page);
+ 
+ 	handle = ext4_journal_start(inode, ext4_writepage_trans_blocks(inode));
+ 	if (IS_ERR(handle)) {
+ 		ret = PTR_ERR(handle);
+-		goto out;
++		put_page(page);
++		goto out_no_pagelock;
+ 	}
+ 
+ 	BUG_ON(!ext4_handle_valid(handle));
+ 
++	lock_page(page);
++	put_page(page);
++	if (page->mapping != mapping) {
++		/* The page got truncated from under us */
++		ext4_journal_stop(handle);
++		ret = 0;
++		goto out;
++	}
++
+ 	ret = walk_page_buffers(handle, page_bufs, 0, len, NULL,
+ 				do_journal_get_write_access);
+ 
+@@ -1875,6 +1889,8 @@ static int __ext4_journalled_writepage(struct page *page,
+ 	walk_page_buffers(handle, page_bufs, 0, len, NULL, bput_one);
+ 	ext4_set_inode_state(inode, EXT4_STATE_JDATA);
+ out:
++	unlock_page(page);
++out_no_pagelock:
+ 	return ret;
+ }
+ 
+diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+index dec4d19..1ebab61 100644
+--- a/fs/ext4/super.c
++++ b/fs/ext4/super.c
+@@ -889,6 +889,7 @@ static void ext4_put_super(struct super_block *sb)
+ 		dump_orphan_list(sb, sbi);
+ 	J_ASSERT(list_empty(&sbi->s_orphan));
+ 
++	sync_blockdev(sb->s_bdev);
+ 	invalidate_bdev(sb->s_bdev);
+ 	if (sbi->journal_bdev && sbi->journal_bdev != sb->s_bdev) {
+ 		/*
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index a5c8b34..d8bc0a8 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -981,6 +981,7 @@ static int fuse_fill_super(struct super_block *sb, void *data, int silent)
+ 		goto err_fput;
+ 
+ 	fuse_conn_init(fc);
++	fc->release = fuse_free_conn;
+ 
+ 	fc->dev = sb->s_dev;
+ 	fc->sb = sb;
+@@ -995,7 +996,6 @@ static int fuse_fill_super(struct super_block *sb, void *data, int silent)
+ 		fc->dont_mask = 1;
+ 	sb->s_flags |= MS_POSIXACL;
+ 
+-	fc->release = fuse_free_conn;
+ 	fc->flags = d.flags;
+ 	fc->user_id = d.user_id;
+ 	fc->group_id = d.group_id;
+diff --git a/fs/jbd2/checkpoint.c b/fs/jbd2/checkpoint.c
+index c78841e..4fd7856 100644
+--- a/fs/jbd2/checkpoint.c
++++ b/fs/jbd2/checkpoint.c
+@@ -440,7 +440,7 @@ int jbd2_cleanup_journal_tail(journal_t *journal)
+ 	unsigned long	blocknr;
+ 
+ 	if (is_journal_aborted(journal))
+-		return 1;
++		return -EIO;
+ 
+ 	if (!jbd2_journal_get_log_tail(journal, &first_tid, &blocknr))
+ 		return 1;
+@@ -455,10 +455,9 @@ int jbd2_cleanup_journal_tail(journal_t *journal)
+ 	 * jbd2_cleanup_journal_tail() doesn't get called all that often.
+ 	 */
+ 	if (journal->j_flags & JBD2_BARRIER)
+-		blkdev_issue_flush(journal->j_fs_dev, GFP_KERNEL, NULL);
++		blkdev_issue_flush(journal->j_fs_dev, GFP_NOFS, NULL);
+ 
+-	__jbd2_update_log_tail(journal, first_tid, blocknr);
+-	return 0;
++	return __jbd2_update_log_tail(journal, first_tid, blocknr);
+ }
+ 
+ 
+@@ -468,14 +467,14 @@ int jbd2_cleanup_journal_tail(journal_t *journal)
+  * journal_clean_one_cp_list
+  *
+  * Find all the written-back checkpoint buffers in the given list and
+- * release them.
++ * release them. If 'destroy' is set, clean all buffers unconditionally.
+  *
+  * Called with the journal locked.
+  * Called with j_list_lock held.
+  * Returns number of buffers reaped (for debug)
+  */
+ 
+-static int journal_clean_one_cp_list(struct journal_head *jh, int *released)
++static int journal_clean_one_cp_list(struct journal_head *jh, int *released, bool destroy)
+ {
+ 	struct journal_head *last_jh;
+ 	struct journal_head *next_jh = jh;
+@@ -489,7 +488,10 @@ static int journal_clean_one_cp_list(struct journal_head *jh, int *released)
+ 	do {
+ 		jh = next_jh;
+ 		next_jh = jh->b_cpnext;
+-		ret = __try_to_free_cp_buf(jh);
++		if (!destroy)
++			ret = __try_to_free_cp_buf(jh);
++		else
++			ret = __jbd2_journal_remove_checkpoint(jh) + 1;
+ 		if (ret) {
+ 			freed++;
+ 			if (ret == 2) {
+@@ -515,12 +517,14 @@ static int journal_clean_one_cp_list(struct journal_head *jh, int *released)
+  *
+  * Find all the written-back checkpoint buffers in the journal and release them.
+  *
++ * If 'destroy' is set, release all buffers unconditionally.
++ *
+  * Called with the journal locked.
+  * Called with j_list_lock held.
+  * Returns number of buffers reaped (for debug)
+  */
+ 
+-int __jbd2_journal_clean_checkpoint_list(journal_t *journal)
++int __jbd2_journal_clean_checkpoint_list(journal_t *journal, bool destroy)
+ {
+ 	transaction_t *transaction, *last_transaction, *next_transaction;
+ 	int ret = 0;
+@@ -536,7 +540,7 @@ int __jbd2_journal_clean_checkpoint_list(journal_t *journal)
+ 		transaction = next_transaction;
+ 		next_transaction = transaction->t_cpnext;
+ 		ret += journal_clean_one_cp_list(transaction->
+-				t_checkpoint_list, &released);
++				t_checkpoint_list, &released, destroy);
+ 		/*
+ 		 * This function only frees up some memory if possible so we
+ 		 * dont have an obligation to finish processing. Bail out if
+@@ -552,7 +556,7 @@ int __jbd2_journal_clean_checkpoint_list(journal_t *journal)
+ 		 * we can possibly see not yet submitted buffers on io_list
+ 		 */
+ 		ret += journal_clean_one_cp_list(transaction->
+-				t_checkpoint_io_list, &released);
++				t_checkpoint_io_list, &released, destroy);
+ 		if (need_resched())
+ 			goto out;
+ 	} while (transaction != last_transaction);
+@@ -561,6 +565,28 @@ int __jbd2_journal_clean_checkpoint_list(journal_t *journal)
+ }
+ 
+ /*
++ * Remove buffers from all checkpoint lists as journal is aborted and we just
++ * need to free memory
++ */
++void jbd2_journal_destroy_checkpoint(journal_t *journal)
++{
++	/*
++	 * We loop because __jbd2_journal_clean_checkpoint_list() may abort
++	 * early due to a need of rescheduling.
++	 */
++	while (1) {
++		spin_lock(&journal->j_list_lock);
++		if (!journal->j_checkpoint_transactions) {
++			spin_unlock(&journal->j_list_lock);
++			break;
++		}
++		__jbd2_journal_clean_checkpoint_list(journal, true);
++		spin_unlock(&journal->j_list_lock);
++		cond_resched();
++	}
++}
++
++/*
+  * journal_remove_checkpoint: called after a buffer has been committed
+  * to disk (either by being write-back flushed to disk, or being
+  * committed to the log).
+diff --git a/fs/jbd2/commit.c b/fs/jbd2/commit.c
+index a0dcbd62..259f28d 100644
+--- a/fs/jbd2/commit.c
++++ b/fs/jbd2/commit.c
+@@ -438,7 +438,7 @@ void jbd2_journal_commit_transaction(journal_t *journal)
+ 	 * frees some memory
+ 	 */
+ 	spin_lock(&journal->j_list_lock);
+-	__jbd2_journal_clean_checkpoint_list(journal);
++	__jbd2_journal_clean_checkpoint_list(journal, false);
+ 	spin_unlock(&journal->j_list_lock);
+ 
+ 	jbd_debug(3, "JBD2: commit phase 1\n");
+diff --git a/fs/jbd2/journal.c b/fs/jbd2/journal.c
+index 92b9acd..f909fb8 100644
+--- a/fs/jbd2/journal.c
++++ b/fs/jbd2/journal.c
+@@ -823,9 +823,10 @@ int jbd2_journal_get_log_tail(journal_t *journal, tid_t *tid,
+  *
+  * Requires j_checkpoint_mutex
+  */
+-void __jbd2_update_log_tail(journal_t *journal, tid_t tid, unsigned long block)
++int __jbd2_update_log_tail(journal_t *journal, tid_t tid, unsigned long block)
+ {
+ 	unsigned long freed;
++	int ret;
+ 
+ 	BUG_ON(!mutex_is_locked(&journal->j_checkpoint_mutex));
+ 
+@@ -835,7 +836,10 @@ void __jbd2_update_log_tail(journal_t *journal, tid_t tid, unsigned long block)
+ 	 * space and if we lose sb update during power failure we'd replay
+ 	 * old transaction with possibly newly overwritten data.
+ 	 */
+-	jbd2_journal_update_sb_log_tail(journal, tid, block, WRITE_FUA);
++	ret = jbd2_journal_update_sb_log_tail(journal, tid, block, WRITE_FUA);
++	if (ret)
++		goto out;
++
+ 	write_lock(&journal->j_state_lock);
+ 	freed = block - journal->j_tail;
+ 	if (block < journal->j_tail)
+@@ -851,6 +855,9 @@ void __jbd2_update_log_tail(journal_t *journal, tid_t tid, unsigned long block)
+ 	journal->j_tail_sequence = tid;
+ 	journal->j_tail = block;
+ 	write_unlock(&journal->j_state_lock);
++
++out:
++	return ret;
+ }
+ 
+ /*
+@@ -1264,7 +1271,7 @@ static int journal_reset(journal_t *journal)
+ 	return jbd2_journal_start_thread(journal);
+ }
+ 
+-static void jbd2_write_superblock(journal_t *journal, int write_op)
++static int jbd2_write_superblock(journal_t *journal, int write_op)
+ {
+ 	struct buffer_head *bh = journal->j_sb_buffer;
+ 	int ret;
+@@ -1301,7 +1308,10 @@ static void jbd2_write_superblock(journal_t *journal, int write_op)
+ 		printk(KERN_ERR "JBD2: Error %d detected when updating "
+ 		       "journal superblock for %s.\n", ret,
+ 		       journal->j_devname);
++		jbd2_journal_abort(journal, ret);
+ 	}
++
++	return ret;
+ }
+ 
+ /**
+@@ -1314,10 +1324,11 @@ static void jbd2_write_superblock(journal_t *journal, int write_op)
+  * Update a journal's superblock information about log tail and write it to
+  * disk, waiting for the IO to complete.
+  */
+-void jbd2_journal_update_sb_log_tail(journal_t *journal, tid_t tail_tid,
++int jbd2_journal_update_sb_log_tail(journal_t *journal, tid_t tail_tid,
+ 				     unsigned long tail_block, int write_op)
+ {
+ 	journal_superblock_t *sb = journal->j_superblock;
++	int ret;
+ 
+ 	BUG_ON(!mutex_is_locked(&journal->j_checkpoint_mutex));
+ 	jbd_debug(1, "JBD2: updating superblock (start %lu, seq %u)\n",
+@@ -1326,13 +1337,18 @@ void jbd2_journal_update_sb_log_tail(journal_t *journal, tid_t tail_tid,
+ 	sb->s_sequence = cpu_to_be32(tail_tid);
+ 	sb->s_start    = cpu_to_be32(tail_block);
+ 
+-	jbd2_write_superblock(journal, write_op);
++	ret = jbd2_write_superblock(journal, write_op);
++	if (ret)
++		goto out;
+ 
+ 	/* Log is no longer empty */
+ 	write_lock(&journal->j_state_lock);
+ 	WARN_ON(!sb->s_sequence);
+ 	journal->j_flags &= ~JBD2_FLUSHED;
+ 	write_unlock(&journal->j_state_lock);
++
++out:
++	return ret;
+ }
+ 
+ /**
+@@ -1575,8 +1591,17 @@ int jbd2_journal_destroy(journal_t *journal)
+ 	while (journal->j_checkpoint_transactions != NULL) {
+ 		spin_unlock(&journal->j_list_lock);
+ 		mutex_lock(&journal->j_checkpoint_mutex);
+-		jbd2_log_do_checkpoint(journal);
++		err = jbd2_log_do_checkpoint(journal);
+ 		mutex_unlock(&journal->j_checkpoint_mutex);
++		/*
++		 * If checkpointing failed, just free the buffers to avoid
++		 * looping forever
++		 */
++		if (err) {
++			jbd2_journal_destroy_checkpoint(journal);
++			spin_lock(&journal->j_list_lock);
++			break;
++		}
+ 		spin_lock(&journal->j_list_lock);
+ 	}
+ 
+@@ -1785,7 +1810,14 @@ int jbd2_journal_flush(journal_t *journal)
+ 		return -EIO;
+ 
+ 	mutex_lock(&journal->j_checkpoint_mutex);
+-	jbd2_cleanup_journal_tail(journal);
++	if (!err) {
++		err = jbd2_cleanup_journal_tail(journal);
++		if (err < 0) {
++			mutex_unlock(&journal->j_checkpoint_mutex);
++			goto out;
++		}
++		err = 0;
++	}
+ 
+ 	/* Finally, mark the journal as really needing no recovery.
+ 	 * This sets s_start==0 in the underlying superblock, which is
+@@ -1801,7 +1833,8 @@ int jbd2_journal_flush(journal_t *journal)
+ 	J_ASSERT(journal->j_head == journal->j_tail);
+ 	J_ASSERT(journal->j_tail_sequence == journal->j_transaction_sequence);
+ 	write_unlock(&journal->j_state_lock);
+-	return 0;
++out:
++	return err;
+ }
+ 
+ /**
+diff --git a/fs/namei.c b/fs/namei.c
+index 377d57a..3c71607 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -399,6 +399,24 @@ void path_put(struct path *path)
+ }
+ EXPORT_SYMBOL(path_put);
+ 
++/**
++ * path_connected - Verify that a path->dentry is below path->mnt.mnt_root
++ * @path: nameidate to verify
++ *
++ * Rename can sometimes move a file or directory outside of a bind
++ * mount, path_connected allows those cases to be detected.
++ */
++static bool path_connected(const struct path *path)
++{
++	struct vfsmount *mnt = path->mnt;
++
++	/* Only bind mounts can have disconnected paths */
++	if (mnt->mnt_root == mnt->mnt_sb->s_root)
++		return true;
++
++	return is_subdir(path->dentry, mnt->mnt_root);
++}
++
+ /*
+  * Path walking has 2 modes, rcu-walk and ref-walk (see
+  * Documentation/filesystems/path-lookup.txt).  In situations when we can't
+@@ -947,6 +965,8 @@ static int follow_dotdot_rcu(struct nameidata *nd)
+ 				goto failed;
+ 			nd->path.dentry = parent;
+ 			nd->seq = seq;
++			if (unlikely(!path_connected(&nd->path)))
++				goto failed;
+ 			break;
+ 		}
+ 		if (!follow_up_rcu(&nd->path))
+@@ -1031,7 +1051,7 @@ static void follow_mount(struct path *path)
+ 	}
+ }
+ 
+-static void follow_dotdot(struct nameidata *nd)
++static int follow_dotdot(struct nameidata *nd)
+ {
+ 	if (!nd->root.mnt)
+ 		set_root(nd);
+@@ -1047,6 +1067,10 @@ static void follow_dotdot(struct nameidata *nd)
+ 			/* rare case of legitimate dget_parent()... */
+ 			nd->path.dentry = dget_parent(nd->path.dentry);
+ 			dput(old);
++			if (unlikely(!path_connected(&nd->path))) {
++				path_put(&nd->path);
++				return -ENOENT;
++			}
+ 			break;
+ 		}
+ 		if (!follow_up(&nd->path))
+@@ -1054,6 +1078,7 @@ static void follow_dotdot(struct nameidata *nd)
+ 	}
+ 	follow_mount(&nd->path);
+ 	nd->inode = nd->path.dentry->d_inode;
++	return 0;
+ }
+ 
+ /*
+@@ -1254,7 +1279,7 @@ static inline int handle_dots(struct nameidata *nd, int type)
+ 			if (follow_dotdot_rcu(nd))
+ 				return -ECHILD;
+ 		} else
+-			follow_dotdot(nd);
++			return follow_dotdot(nd);
+ 	}
+ 	return 0;
+ }
+diff --git a/fs/nfs/nfs3xdr.c b/fs/nfs/nfs3xdr.c
+index a77cc9a..e60bbe2 100644
+--- a/fs/nfs/nfs3xdr.c
++++ b/fs/nfs/nfs3xdr.c
+@@ -1333,7 +1333,7 @@ static void nfs3_xdr_enc_setacl3args(struct rpc_rqst *req,
+ 	if (args->npages != 0)
+ 		xdr_write_pages(xdr, args->pages, 0, args->len);
+ 	else
+-		xdr_reserve_space(xdr, NFS_ACL_INLINE_BUFSIZE);
++		xdr_reserve_space(xdr, args->len);
+ 
+ 	error = nfsacl_encode(xdr->buf, base, args->inode,
+ 			    (args->mask & NFS_ACL) ?
+diff --git a/fs/nfs/nfs4state.c b/fs/nfs/nfs4state.c
+index c4600b5..282af88 100644
+--- a/fs/nfs/nfs4state.c
++++ b/fs/nfs/nfs4state.c
+@@ -1279,6 +1279,8 @@ static int nfs4_reclaim_open_state(struct nfs4_state_owner *sp, const struct nfs
+ 				}
+ 				spin_unlock(&state->state_lock);
+ 				nfs4_put_open_state(state);
++				clear_bit(NFS_STATE_RECLAIM_NOGRACE,
++					&state->flags);
+ 				goto restart;
+ 			}
+ 		}
+diff --git a/include/acpi/actypes.h b/include/acpi/actypes.h
+index 6d52429..0460073 100644
+--- a/include/acpi/actypes.h
++++ b/include/acpi/actypes.h
+@@ -495,6 +495,7 @@ typedef u64 acpi_integer;
+ #define ACPI_NO_ACPI_ENABLE             0x10
+ #define ACPI_NO_DEVICE_INIT             0x20
+ #define ACPI_NO_OBJECT_INIT             0x40
++#define ACPI_NO_FACS_INIT               0x80
+ 
+ /*
+  * Initialization state
+diff --git a/include/linux/jbd2.h b/include/linux/jbd2.h
+index 2ffbf99..2179d78 100644
+--- a/include/linux/jbd2.h
++++ b/include/linux/jbd2.h
+@@ -974,15 +974,16 @@ extern struct journal_head * jbd2_journal_get_descriptor_buffer(journal_t *);
+ int jbd2_journal_next_log_block(journal_t *, unsigned long long *);
+ int jbd2_journal_get_log_tail(journal_t *journal, tid_t *tid,
+ 			      unsigned long *block);
+-void __jbd2_update_log_tail(journal_t *journal, tid_t tid, unsigned long block);
++int __jbd2_update_log_tail(journal_t *journal, tid_t tid, unsigned long block);
+ void jbd2_update_log_tail(journal_t *journal, tid_t tid, unsigned long block);
+ 
+ /* Commit management */
+ extern void jbd2_journal_commit_transaction(journal_t *);
+ 
+ /* Checkpoint list management */
+-int __jbd2_journal_clean_checkpoint_list(journal_t *journal);
++int __jbd2_journal_clean_checkpoint_list(journal_t *journal, bool destroy);
+ int __jbd2_journal_remove_checkpoint(struct journal_head *);
++void jbd2_journal_destroy_checkpoint(journal_t *journal);
+ void __jbd2_journal_insert_checkpoint(struct journal_head *, transaction_t *);
+ 
+ 
+@@ -1093,7 +1094,7 @@ extern int	   jbd2_journal_recover    (journal_t *journal);
+ extern int	   jbd2_journal_wipe       (journal_t *, int);
+ extern int	   jbd2_journal_skip_recovery	(journal_t *);
+ extern void	   jbd2_journal_update_sb_errno(journal_t *);
+-extern void	   jbd2_journal_update_sb_log_tail	(journal_t *, tid_t,
++extern int	   jbd2_journal_update_sb_log_tail	(journal_t *, tid_t,
+ 				unsigned long, int);
+ extern void	   __jbd2_journal_abort_hard	(journal_t *);
+ extern void	   jbd2_journal_abort      (journal_t *, int);
+diff --git a/include/linux/nfs_xdr.h b/include/linux/nfs_xdr.h
+index 7ba3551..845b402 100644
+--- a/include/linux/nfs_xdr.h
++++ b/include/linux/nfs_xdr.h
+@@ -1061,7 +1061,7 @@ struct nfstime4 {
+ };
+ 
+ #ifdef CONFIG_NFS_V4_1
+-#define NFS4_EXCHANGE_ID_LEN	(48)
++#define NFS4_EXCHANGE_ID_LEN	(127)
+ struct nfs41_exchange_id_args {
+ 	struct nfs_client		*client;
+ 	nfs4_verifier			*verifier;
+diff --git a/include/net/sctp/structs.h b/include/net/sctp/structs.h
+index 88949a9..4ea0ec6 100644
+--- a/include/net/sctp/structs.h
++++ b/include/net/sctp/structs.h
+@@ -209,6 +209,7 @@ extern struct sctp_globals {
+ 	struct list_head addr_waitq;
+ 	struct timer_list addr_wq_timer;
+ 	struct list_head auto_asconf_splist;
++	/* Lock that protects both addr_waitq and auto_asconf_splist */
+ 	spinlock_t addr_wq_lock;
+ 
+ 	/* Lock that protects the local_addr_list writers */
+@@ -355,6 +356,10 @@ struct sctp_sock {
+ 	atomic_t pd_mode;
+ 	/* Receive to here while partial delivery is in effect. */
+ 	struct sk_buff_head pd_lobby;
++
++	/* These must be the last fields, as they will skipped on copies,
++	 * like on accept and peeloff operations
++	 */
+ 	struct list_head auto_asconf_list;
+ 	int do_auto_asconf;
+ };
+diff --git a/kernel/hrtimer.c b/kernel/hrtimer.c
+index 3c9ca94..db4dc6b 100644
+--- a/kernel/hrtimer.c
++++ b/kernel/hrtimer.c
+@@ -854,6 +854,9 @@ u64 hrtimer_forward(struct hrtimer *timer, ktime_t now, ktime_t interval)
+ 	if (delta.tv64 < 0)
+ 		return 0;
+ 
++	if (WARN_ON(timer->state & HRTIMER_STATE_ENQUEUED))
++		return 0;
++
+ 	if (interval.tv64 < timer->base->resolution.tv64)
+ 		interval.tv64 = timer->base->resolution.tv64;
+ 
+@@ -1266,11 +1269,14 @@ static void __run_hrtimer(struct hrtimer *timer, ktime_t *now)
+ 	 * Note: We clear the CALLBACK bit after enqueue_hrtimer and
+ 	 * we do not reprogramm the event hardware. Happens either in
+ 	 * hrtimer_start_range_ns() or in hrtimer_interrupt()
++	 *
++	 * Note: Because we dropped the cpu_base->lock above,
++	 * hrtimer_start_range_ns() can have popped in and enqueued the timer
++	 * for us already.
+ 	 */
+-	if (restart != HRTIMER_NORESTART) {
+-		BUG_ON(timer->state != HRTIMER_STATE_CALLBACK);
++	if (restart != HRTIMER_NORESTART &&
++	    !(timer->state & HRTIMER_STATE_ENQUEUED))
+ 		enqueue_hrtimer(timer, base);
+-	}
+ 
+ 	WARN_ON_ONCE(!(timer->state & HRTIMER_STATE_CALLBACK));
+ 
+diff --git a/kernel/rcutiny.c b/kernel/rcutiny.c
+index 37a5444..60a56f4 100644
+--- a/kernel/rcutiny.c
++++ b/kernel/rcutiny.c
+@@ -279,6 +279,11 @@ static void __rcu_process_callbacks(struct rcu_ctrlblk *rcp)
+ 
+ 	/* Move the ready-to-invoke callbacks to a local list. */
+ 	local_irq_save(flags);
++	if (rcp->donetail == &rcp->rcucblist) {
++		/* No callbacks ready, so just leave. */
++		local_irq_restore(flags);
++		return;
++	}
+ 	RCU_TRACE(trace_rcu_batch_start(rcp->name, 0, rcp->qlen, -1));
+ 	list = rcp->rcucblist;
+ 	rcp->rcucblist = *rcp->donetail;
+diff --git a/kernel/trace/trace_events_filter.c b/kernel/trace/trace_events_filter.c
+index 196f46b..b155328 100644
+--- a/kernel/trace/trace_events_filter.c
++++ b/kernel/trace/trace_events_filter.c
+@@ -1044,6 +1044,9 @@ static void parse_init(struct filter_parse_state *ps,
+ 
+ static char infix_next(struct filter_parse_state *ps)
+ {
++	if (!ps->infix.cnt)
++		return 0;
++
+ 	ps->infix.cnt--;
+ 
+ 	return ps->infix.string[ps->infix.tail++];
+@@ -1059,6 +1062,9 @@ static char infix_peek(struct filter_parse_state *ps)
+ 
+ static void infix_advance(struct filter_parse_state *ps)
+ {
++	if (!ps->infix.cnt)
++		return;
++
+ 	ps->infix.cnt--;
+ 	ps->infix.tail++;
+ }
+@@ -1372,7 +1378,9 @@ static int check_preds(struct filter_parse_state *ps)
+ 		}
+ 		cnt--;
+ 		n_normal_preds++;
+-		WARN_ON_ONCE(cnt < 0);
++		/* all ops should have operands */
++		if (cnt < 0)
++			break;
+ 	}
+ 
+ 	if (cnt != 1 || !n_normal_preds || n_logical_preds >= n_normal_preds) {
+diff --git a/lib/bitmap.c b/lib/bitmap.c
+index b46ce02..3ed0f82 100644
+--- a/lib/bitmap.c
++++ b/lib/bitmap.c
+@@ -605,12 +605,12 @@ static int __bitmap_parselist(const char *buf, unsigned int buflen,
+ 	unsigned a, b;
+ 	int c, old_c, totaldigits;
+ 	const char __user __force *ubuf = (const char __user __force *)buf;
+-	int exp_digit, in_range;
++	int at_start, in_range;
+ 
+ 	totaldigits = c = 0;
+ 	bitmap_zero(maskp, nmaskbits);
+ 	do {
+-		exp_digit = 1;
++		at_start = 1;
+ 		in_range = 0;
+ 		a = b = 0;
+ 
+@@ -639,11 +639,10 @@ static int __bitmap_parselist(const char *buf, unsigned int buflen,
+ 				break;
+ 
+ 			if (c == '-') {
+-				if (exp_digit || in_range)
++				if (at_start || in_range)
+ 					return -EINVAL;
+ 				b = 0;
+ 				in_range = 1;
+-				exp_digit = 1;
+ 				continue;
+ 			}
+ 
+@@ -653,16 +652,18 @@ static int __bitmap_parselist(const char *buf, unsigned int buflen,
+ 			b = b * 10 + (c - '0');
+ 			if (!in_range)
+ 				a = b;
+-			exp_digit = 0;
++			at_start = 0;
+ 			totaldigits++;
+ 		}
+ 		if (!(a <= b))
+ 			return -EINVAL;
+ 		if (b >= nmaskbits)
+ 			return -ERANGE;
+-		while (a <= b) {
+-			set_bit(a, maskp);
+-			a++;
++		if (!at_start) {
++			while (a <= b) {
++				set_bit(a, maskp);
++				a++;
++			}
+ 		}
+ 	} while (buflen && c == ',');
+ 	return 0;
+diff --git a/mm/kmemleak.c b/mm/kmemleak.c
+index ad6ee88..c74827c 100644
+--- a/mm/kmemleak.c
++++ b/mm/kmemleak.c
+@@ -193,6 +193,8 @@ static struct kmem_cache *scan_area_cache;
+ 
+ /* set if tracing memory operations is enabled */
+ static atomic_t kmemleak_enabled = ATOMIC_INIT(0);
++/* same as above but only for the kmemleak_free() callback */
++static int kmemleak_free_enabled;
+ /* set in the late_initcall if there were no errors */
+ static atomic_t kmemleak_initialized = ATOMIC_INIT(0);
+ /* enables or disables early logging of the memory operations */
+@@ -936,7 +938,7 @@ void __ref kmemleak_free(const void *ptr)
+ {
+ 	pr_debug("%s(0x%p)\n", __func__, ptr);
+ 
+-	if (atomic_read(&kmemleak_enabled) && ptr && !IS_ERR(ptr))
++	if (kmemleak_free_enabled && ptr && !IS_ERR(ptr))
+ 		delete_object_full((unsigned long)ptr);
+ 	else if (atomic_read(&kmemleak_early_log))
+ 		log_early(KMEMLEAK_FREE, ptr, 0, 0);
+@@ -976,7 +978,7 @@ void __ref kmemleak_free_percpu(const void __percpu *ptr)
+ 
+ 	pr_debug("%s(0x%p)\n", __func__, ptr);
+ 
+-	if (atomic_read(&kmemleak_enabled) && ptr && !IS_ERR(ptr))
++	if (kmemleak_free_enabled && ptr && !IS_ERR(ptr))
+ 		for_each_possible_cpu(cpu)
+ 			delete_object_full((unsigned long)per_cpu_ptr(ptr,
+ 								      cpu));
+@@ -1690,6 +1692,13 @@ static void kmemleak_do_cleanup(struct work_struct *work)
+ 	mutex_lock(&scan_mutex);
+ 	stop_scan_thread();
+ 
++	/*
++	 * Once the scan thread has stopped, it is safe to no longer track
++	 * object freeing. Ordering of the scan thread stopping and the memory
++	 * accesses below is guaranteed by the kthread_stop() function.
++	  */
++	kmemleak_free_enabled = 0;
++
+ 	if (cleanup) {
+ 		rcu_read_lock();
+ 		list_for_each_entry_rcu(object, &object_list, object_list)
+@@ -1717,6 +1726,8 @@ static void kmemleak_disable(void)
+ 	/* check whether it is too early for a kernel thread */
+ 	if (atomic_read(&kmemleak_initialized))
+ 		schedule_work(&cleanup_work);
++	else
++		kmemleak_free_enabled = 0;
+ 
+ 	pr_info("Kernel memory leak detector disabled\n");
+ }
+@@ -1782,8 +1793,10 @@ void __init kmemleak_init(void)
+ 	if (atomic_read(&kmemleak_error)) {
+ 		local_irq_restore(flags);
+ 		return;
+-	} else
++	} else {
+ 		atomic_set(&kmemleak_enabled, 1);
++		kmemleak_free_enabled = 1;
++	}
+ 	local_irq_restore(flags);
+ 
+ 	/*
+diff --git a/net/9p/client.c b/net/9p/client.c
+index b23a17c..32df0a3 100644
+--- a/net/9p/client.c
++++ b/net/9p/client.c
+@@ -833,7 +833,8 @@ static struct p9_req_t *p9_client_zc_rpc(struct p9_client *c, int8_t type,
+ 	if (err < 0) {
+ 		if (err == -EIO)
+ 			c->status = Disconnected;
+-		goto reterr;
++		if (err != -ERESTARTSYS)
++			goto reterr;
+ 	}
+ 	if (req->status == REQ_STATUS_ERROR) {
+ 		p9_debug(P9_DEBUG_ERROR, "req_status error %d\n", req->t_err);
+diff --git a/net/bridge/br_ioctl.c b/net/bridge/br_ioctl.c
+index 7222fe1..ea0e15c 100644
+--- a/net/bridge/br_ioctl.c
++++ b/net/bridge/br_ioctl.c
+@@ -246,9 +246,7 @@ static int old_dev_ioctl(struct net_device *dev, struct ifreq *rq, int cmd)
+ 		if (!capable(CAP_NET_ADMIN))
+ 			return -EPERM;
+ 
+-		spin_lock_bh(&br->lock);
+ 		br_stp_set_bridge_priority(br, args[1]);
+-		spin_unlock_bh(&br->lock);
+ 		return 0;
+ 
+ 	case BRCTL_SET_PORT_PRIORITY:
+diff --git a/net/bridge/br_multicast.c b/net/bridge/br_multicast.c
+index a80d93f..5eac1a2 100644
+--- a/net/bridge/br_multicast.c
++++ b/net/bridge/br_multicast.c
+@@ -36,6 +36,9 @@
+ #define mlock_dereference(X, br) \
+ 	rcu_dereference_protected(X, lockdep_is_held(&br->multicast_lock))
+ 
++static void br_multicast_add_router(struct net_bridge *br,
++				    struct net_bridge_port *port);
++
+ #if IS_ENABLED(CONFIG_IPV6)
+ static inline int ipv6_is_transient_multicast(const struct in6_addr *addr)
+ {
+@@ -848,6 +851,8 @@ void br_multicast_enable_port(struct net_bridge_port *port)
+ 		goto out;
+ 
+ 	__br_multicast_enable_port(port);
++	if (port->multicast_router == 2 && hlist_unhashed(&port->rlist))
++		br_multicast_add_router(br, port);
+ 
+ out:
+ 	spin_unlock(&br->multicast_lock);
+diff --git a/net/bridge/br_stp_if.c b/net/bridge/br_stp_if.c
+index 2f100cc..23ea159 100644
+--- a/net/bridge/br_stp_if.c
++++ b/net/bridge/br_stp_if.c
+@@ -242,12 +242,13 @@ bool br_stp_recalculate_bridge_id(struct net_bridge *br)
+ 	return true;
+ }
+ 
+-/* called under bridge lock */
++/* Acquires and releases bridge lock */
+ void br_stp_set_bridge_priority(struct net_bridge *br, u16 newprio)
+ {
+ 	struct net_bridge_port *p;
+ 	int wasroot;
+ 
++	spin_lock_bh(&br->lock);
+ 	wasroot = br_is_root_bridge(br);
+ 
+ 	list_for_each_entry(p, &br->port_list, list) {
+@@ -265,6 +266,7 @@ void br_stp_set_bridge_priority(struct net_bridge *br, u16 newprio)
+ 	br_port_state_selection(br);
+ 	if (br_is_root_bridge(br) && !wasroot)
+ 		br_become_root_bridge(br);
++	spin_unlock_bh(&br->lock);
+ }
+ 
+ /* called under bridge lock */
+diff --git a/net/ceph/osdmap.c b/net/ceph/osdmap.c
+index 7fbe210..d4fbcb6 100644
+--- a/net/ceph/osdmap.c
++++ b/net/ceph/osdmap.c
+@@ -102,7 +102,7 @@ static int crush_decode_tree_bucket(void **p, void *end,
+ {
+ 	int j;
+ 	dout("crush_decode_tree_bucket %p to %p\n", *p, end);
+-	ceph_decode_32_safe(p, end, b->num_nodes, bad);
++	ceph_decode_8_safe(p, end, b->num_nodes, bad);
+ 	b->node_weights = kcalloc(b->num_nodes, sizeof(u32), GFP_NOFS);
+ 	if (b->node_weights == NULL)
+ 		return -ENOMEM;
+diff --git a/net/core/pktgen.c b/net/core/pktgen.c
+index 92c682e..27ff6e5 100644
+--- a/net/core/pktgen.c
++++ b/net/core/pktgen.c
+@@ -554,7 +554,7 @@ static int pktgen_if_show(struct seq_file *seq, void *v)
+ 			   "     dst_min: %s  dst_max: %s\n",
+ 			   pkt_dev->dst_min, pkt_dev->dst_max);
+ 		seq_printf(seq,
+-			   "        src_min: %s  src_max: %s\n",
++			   "     src_min: %s  src_max: %s\n",
+ 			   pkt_dev->src_min, pkt_dev->src_max);
+ 	}
+ 
+diff --git a/net/packet/af_packet.c b/net/packet/af_packet.c
+index 31a80ca..62c3592 100644
+--- a/net/packet/af_packet.c
++++ b/net/packet/af_packet.c
+@@ -1169,16 +1169,6 @@ static void packet_sock_destruct(struct sock *sk)
+ 	sk_refcnt_debug_dec(sk);
+ }
+ 
+-static int fanout_rr_next(struct packet_fanout *f, unsigned int num)
+-{
+-	int x = atomic_read(&f->rr_cur) + 1;
+-
+-	if (x >= num)
+-		x = 0;
+-
+-	return x;
+-}
+-
+ static struct sock *fanout_demux_hash(struct packet_fanout *f, struct sk_buff *skb, unsigned int num)
+ {
+ 	u32 idx, hash = skb->rxhash;
+@@ -1190,13 +1180,9 @@ static struct sock *fanout_demux_hash(struct packet_fanout *f, struct sk_buff *s
+ 
+ static struct sock *fanout_demux_lb(struct packet_fanout *f, struct sk_buff *skb, unsigned int num)
+ {
+-	int cur, old;
++	unsigned int val = atomic_inc_return(&f->rr_cur);
+ 
+-	cur = atomic_read(&f->rr_cur);
+-	while ((old = atomic_cmpxchg(&f->rr_cur, cur,
+-				     fanout_rr_next(f, num))) != cur)
+-		cur = old;
+-	return f->arr[cur];
++	return f->arr[val % num];
+ }
+ 
+ 
+@@ -1211,7 +1197,7 @@ static int packet_rcv_fanout(struct sk_buff *skb, struct net_device *dev,
+ 			     struct packet_type *pt, struct net_device *orig_dev)
+ {
+ 	struct packet_fanout *f = pt->af_packet_priv;
+-	unsigned int num = f->num_members;
++	unsigned int num = ACCESS_ONCE(f->num_members);
+ 	struct packet_sock *po;
+ 	struct sock *sk;
+ 
+diff --git a/net/sctp/socket.c b/net/sctp/socket.c
+index 0c0bd2f..bc7b5de 100644
+--- a/net/sctp/socket.c
++++ b/net/sctp/socket.c
+@@ -1539,8 +1539,10 @@ SCTP_STATIC void sctp_close(struct sock *sk, long timeout)
+ 
+ 	/* Supposedly, no process has access to the socket, but
+ 	 * the net layers still may.
++	 * Also, sctp_destroy_sock() needs to be called with addr_wq_lock
++	 * held and that should be grabbed before socket lock.
+ 	 */
+-	sctp_local_bh_disable();
++	spin_lock_bh(&sctp_globals.addr_wq_lock);
+ 	sctp_bh_lock_sock(sk);
+ 
+ 	/* Hold the sock, since sk_common_release() will put sock_put()
+@@ -1550,7 +1552,7 @@ SCTP_STATIC void sctp_close(struct sock *sk, long timeout)
+ 	sk_common_release(sk);
+ 
+ 	sctp_bh_unlock_sock(sk);
+-	sctp_local_bh_enable();
++	spin_unlock_bh(&sctp_globals.addr_wq_lock);
+ 
+ 	sock_put(sk);
+ 
+@@ -3492,6 +3494,7 @@ static int sctp_setsockopt_auto_asconf(struct sock *sk, char __user *optval,
+ 	if ((val && sp->do_auto_asconf) || (!val && !sp->do_auto_asconf))
+ 		return 0;
+ 
++	spin_lock_bh(&sctp_globals.addr_wq_lock);
+ 	if (val == 0 && sp->do_auto_asconf) {
+ 		list_del(&sp->auto_asconf_list);
+ 		sp->do_auto_asconf = 0;
+@@ -3500,6 +3503,7 @@ static int sctp_setsockopt_auto_asconf(struct sock *sk, char __user *optval,
+ 		    &sctp_auto_asconf_splist);
+ 		sp->do_auto_asconf = 1;
+ 	}
++	spin_unlock_bh(&sctp_globals.addr_wq_lock);
+ 	return 0;
+ }
+ 
+@@ -3935,18 +3939,28 @@ SCTP_STATIC int sctp_init_sock(struct sock *sk)
+ 	local_bh_disable();
+ 	percpu_counter_inc(&sctp_sockets_allocated);
+ 	sock_prot_inuse_add(sock_net(sk), sk->sk_prot, 1);
++
++	/* Nothing can fail after this block, otherwise
++	 * sctp_destroy_sock() will be called without addr_wq_lock held
++	 */
+ 	if (sctp_default_auto_asconf) {
++		spin_lock(&sctp_globals.addr_wq_lock);
+ 		list_add_tail(&sp->auto_asconf_list,
+ 		    &sctp_auto_asconf_splist);
+ 		sp->do_auto_asconf = 1;
+-	} else
++		spin_unlock(&sctp_globals.addr_wq_lock);
++	} else {
+ 		sp->do_auto_asconf = 0;
++	}
++
+ 	local_bh_enable();
+ 
+ 	return 0;
+ }
+ 
+-/* Cleanup any SCTP per socket resources.  */
++/* Cleanup any SCTP per socket resources. Must be called with
++ * sctp_globals.addr_wq_lock held if sp->do_auto_asconf is true
++ */
+ SCTP_STATIC void sctp_destroy_sock(struct sock *sk)
+ {
+ 	struct sctp_sock *sp;
+@@ -6746,6 +6760,19 @@ void sctp_copy_sock(struct sock *newsk, struct sock *sk,
+ 	newinet->mc_list = NULL;
+ }
+ 
++static inline void sctp_copy_descendant(struct sock *sk_to,
++					const struct sock *sk_from)
++{
++	int ancestor_size = sizeof(struct inet_sock) +
++			    sizeof(struct sctp_sock) -
++			    offsetof(struct sctp_sock, auto_asconf_list);
++
++	if (sk_from->sk_family == PF_INET6)
++		ancestor_size += sizeof(struct ipv6_pinfo);
++
++	__inet_sk_copy_descendant(sk_to, sk_from, ancestor_size);
++}
++
+ /* Populate the fields of the newsk from the oldsk and migrate the assoc
+  * and its messages to the newsk.
+  */
+@@ -6760,7 +6787,6 @@ static void sctp_sock_migrate(struct sock *oldsk, struct sock *newsk,
+ 	struct sk_buff *skb, *tmp;
+ 	struct sctp_ulpevent *event;
+ 	struct sctp_bind_hashbucket *head;
+-	struct list_head tmplist;
+ 
+ 	/* Migrate socket buffer sizes and all the socket level options to the
+ 	 * new socket.
+@@ -6768,12 +6794,7 @@ static void sctp_sock_migrate(struct sock *oldsk, struct sock *newsk,
+ 	newsk->sk_sndbuf = oldsk->sk_sndbuf;
+ 	newsk->sk_rcvbuf = oldsk->sk_rcvbuf;
+ 	/* Brute force copy old sctp opt. */
+-	if (oldsp->do_auto_asconf) {
+-		memcpy(&tmplist, &newsp->auto_asconf_list, sizeof(tmplist));
+-		inet_sk_copy_descendant(newsk, oldsk);
+-		memcpy(&newsp->auto_asconf_list, &tmplist, sizeof(tmplist));
+-	} else
+-		inet_sk_copy_descendant(newsk, oldsk);
++	sctp_copy_descendant(newsk, oldsk);
+ 
+ 	/* Restore the ep value that was overwritten with the above structure
+ 	 * copy.
+diff --git a/net/sunrpc/backchannel_rqst.c b/net/sunrpc/backchannel_rqst.c
+index 31def68..617b955 100644
+--- a/net/sunrpc/backchannel_rqst.c
++++ b/net/sunrpc/backchannel_rqst.c
+@@ -60,7 +60,7 @@ static void xprt_free_allocation(struct rpc_rqst *req)
+ 
+ 	dprintk("RPC:        free allocations for req= %p\n", req);
+ 	BUG_ON(test_bit(RPC_BC_PA_IN_USE, &req->rq_bc_pa_state));
+-	xbufp = &req->rq_private_buf;
++	xbufp = &req->rq_rcv_buf;
+ 	free_page((unsigned long)xbufp->head[0].iov_base);
+ 	xbufp = &req->rq_snd_buf;
+ 	free_page((unsigned long)xbufp->head[0].iov_base);
+diff --git a/sound/soc/codecs/wm8737.c b/sound/soc/codecs/wm8737.c
+index 4fe9d19..80460d2 100644
+--- a/sound/soc/codecs/wm8737.c
++++ b/sound/soc/codecs/wm8737.c
+@@ -484,7 +484,8 @@ static int wm8737_set_bias_level(struct snd_soc_codec *codec,
+ 
+ 			/* Fast VMID ramp at 2*2.5k */
+ 			snd_soc_update_bits(codec, WM8737_MISC_BIAS_CONTROL,
+-					    WM8737_VMIDSEL_MASK, 0x4);
++					    WM8737_VMIDSEL_MASK,
++					    2 << WM8737_VMIDSEL_SHIFT);
+ 
+ 			/* Bring VMID up */
+ 			snd_soc_update_bits(codec, WM8737_POWER_MANAGEMENT,
+@@ -498,7 +499,8 @@ static int wm8737_set_bias_level(struct snd_soc_codec *codec,
+ 
+ 		/* VMID at 2*300k */
+ 		snd_soc_update_bits(codec, WM8737_MISC_BIAS_CONTROL,
+-				    WM8737_VMIDSEL_MASK, 2);
++				    WM8737_VMIDSEL_MASK,
++				    1 << WM8737_VMIDSEL_SHIFT);
+ 
+ 		break;
+ 
+diff --git a/sound/soc/codecs/wm8903.h b/sound/soc/codecs/wm8903.h
+index db94931..0bb4a64 100644
+--- a/sound/soc/codecs/wm8903.h
++++ b/sound/soc/codecs/wm8903.h
+@@ -172,7 +172,7 @@ extern int wm8903_mic_detect(struct snd_soc_codec *codec,
+ #define WM8903_VMID_BUF_ENA_WIDTH                    1  /* VMID_BUF_ENA */
+ 
+ #define WM8903_VMID_RES_50K                          2
+-#define WM8903_VMID_RES_250K                         3
++#define WM8903_VMID_RES_250K                         4
+ #define WM8903_VMID_RES_5K                           6
+ 
+ /*
+diff --git a/sound/soc/codecs/wm8955.c b/sound/soc/codecs/wm8955.c
+index 4696f66..07b78a9 100644
+--- a/sound/soc/codecs/wm8955.c
++++ b/sound/soc/codecs/wm8955.c
+@@ -298,7 +298,7 @@ static int wm8955_configure_clocking(struct snd_soc_codec *codec)
+ 		snd_soc_update_bits(codec, WM8955_PLL_CONTROL_2,
+ 				    WM8955_K_17_9_MASK,
+ 				    (pll.k >> 9) & WM8955_K_17_9_MASK);
+-		snd_soc_update_bits(codec, WM8955_PLL_CONTROL_2,
++		snd_soc_update_bits(codec, WM8955_PLL_CONTROL_3,
+ 				    WM8955_K_8_0_MASK,
+ 				    pll.k & WM8955_K_8_0_MASK);
+ 		if (pll.k)
+diff --git a/sound/soc/codecs/wm8960.c b/sound/soc/codecs/wm8960.c
+index ed986e6..bd3c6ef 100644
+--- a/sound/soc/codecs/wm8960.c
++++ b/sound/soc/codecs/wm8960.c
+@@ -183,7 +183,7 @@ SOC_SINGLE("PCM Playback -6dB Switch", WM8960_DACCTL1, 7, 1, 0),
+ SOC_ENUM("ADC Polarity", wm8960_enum[0]),
+ SOC_SINGLE("ADC High Pass Filter Switch", WM8960_DACCTL1, 0, 1, 0),
+ 
+-SOC_ENUM("DAC Polarity", wm8960_enum[2]),
++SOC_ENUM("DAC Polarity", wm8960_enum[1]),
+ SOC_SINGLE_BOOL_EXT("DAC Deemphasis Switch", 0,
+ 		    wm8960_get_deemph, wm8960_put_deemph),
+ 

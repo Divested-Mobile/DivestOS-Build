@@ -1,0 +1,36 @@
+From 382f9153c766ef96ac03adbd1ad8ec5bae2fa193 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 2 Dec 2015 00:14:29 -0500
+Subject: [PATCH] hide passwords by default
+
+---
+ src/com/android/settings/CryptKeeperConfirm.java | 2 +-
+ src/com/android/settings/SecuritySettings.java   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/settings/CryptKeeperConfirm.java b/src/com/android/settings/CryptKeeperConfirm.java
+index 45b50f6..bb0c7e5 100644
+--- a/src/com/android/settings/CryptKeeperConfirm.java
++++ b/src/com/android/settings/CryptKeeperConfirm.java
+@@ -130,7 +130,7 @@ public void onClick(View v) {
+             }
+             int value = Settings.System.getInt(getContext().getContentResolver(),
+                                                Settings.System.TEXT_SHOW_PASSWORD,
+-                                               1);
++                                               0);
+             utils.setVisiblePasswordEnabled(value != 0, UserHandle.USER_OWNER);
+ 
+             Intent intent = new Intent(getActivity(), Blank.class);
+diff --git a/src/com/android/settings/SecuritySettings.java b/src/com/android/settings/SecuritySettings.java
+index c0e5b73..ec04136 100644
+--- a/src/com/android/settings/SecuritySettings.java
++++ b/src/com/android/settings/SecuritySettings.java
+@@ -661,7 +661,7 @@ public void onResume() {
+ 
+         if (mShowPassword != null) {
+             mShowPassword.setChecked(Settings.System.getInt(getContentResolver(),
+-                    Settings.System.TEXT_SHOW_PASSWORD, 1) != 0);
++                    Settings.System.TEXT_SHOW_PASSWORD, 0) != 0);
+         }
+ 
+         if (mResetCredentials != null) {

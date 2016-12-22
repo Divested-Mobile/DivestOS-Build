@@ -1,0 +1,55 @@
+From 7f3bc85d7d81c979fc0dd6127b9b5c2f4037d157 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 19 Nov 2015 08:31:10 -0500
+Subject: [PATCH] Build fixes
+
+---
+ arch/arm/include/asm/elf.h                                    | 7 +++++++
+ drivers/base/power/wakeup.c                                   | 2 +-
+ drivers/staging/prima/CORE/WDI/TRP/DTS/src/wlan_qct_wdi_dts.c | 2 +-
+ 3 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/include/asm/elf.h b/arch/arm/include/asm/elf.h
+index 5c9b3a1..1d9ca7e 100644
+--- a/arch/arm/include/asm/elf.h
++++ b/arch/arm/include/asm/elf.h
+@@ -118,6 +118,13 @@ int dump_task_regs(struct task_struct *t, elf_gregset_t *elfregs);
+ 
+ #define ELF_ET_DYN_BASE	(TASK_SIZE / 3 * 2)
+ 
++#ifdef CONFIG_PAX_ASLR
++#define PAX_ELF_ET_DYN_BASE	0x00008000UL
++
++#define PAX_DELTA_MMAP_LEN	((current->personality == PER_LINUX_32BIT) ? 16 : 10)
++#define PAX_DELTA_STACK_LEN	((current->personality == PER_LINUX_32BIT) ? 16 : 10)
++#endif
++
+ /* When the program starts, a1 contains a pointer to a function to be 
+    registered with atexit, as per the SVR4 ABI.  A value of 0 means we 
+    have no such handler.  */
+diff --git a/drivers/base/power/wakeup.c b/drivers/base/power/wakeup.c
+index cdfcdbc..4d3eaa7 100644
+--- a/drivers/base/power/wakeup.c
++++ b/drivers/base/power/wakeup.c
+@@ -390,7 +390,7 @@ static void wakeup_source_activate(struct wakeup_source *ws)
+ 		ws->start_prevent_time = ws->last_time;
+ 
+ 	/* Increment the counter of events in progress. */
+-	cec = atomic_inc_return(&combined_event_count);
++	cec = atomic_inc_return_unchecked(&combined_event_count);
+ 
+ 	trace_wakeup_source_activate(ws->name, cec);
+ }
+diff --git a/drivers/staging/prima/CORE/WDI/TRP/DTS/src/wlan_qct_wdi_dts.c b/drivers/staging/prima/CORE/WDI/TRP/DTS/src/wlan_qct_wdi_dts.c
+index 27953ac..8ff0ad3 100644
+--- a/drivers/staging/prima/CORE/WDI/TRP/DTS/src/wlan_qct_wdi_dts.c
++++ b/drivers/staging/prima/CORE/WDI/TRP/DTS/src/wlan_qct_wdi_dts.c
+@@ -611,7 +611,7 @@ wpt_status WDTS_RxPacket (void *pContext, wpt_packet *pFrame, WDTS_ChannelType c
+ 
+       if(VPKT_SIZE_BUFFER_ALIGNED < (usMPDULen+ucMPDUHOffset)){
+         WPAL_TRACE(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_FATAL,
+-                   "Invalid Frame size, might memory corrupted(%d+%d/%d)",
++                   "Invalid Frame size, might memory corrupted(%d+%d/%lu)",
+                    usMPDULen, ucMPDUHOffset, VPKT_SIZE_BUFFER_ALIGNED);
+ 
+         /* Size of the packet tranferred by the DMA engine is

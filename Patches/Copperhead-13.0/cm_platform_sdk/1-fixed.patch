@@ -1,0 +1,107 @@
+From 882d5f332dfa9e0904c1e931440712fddbccf034 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Fri, 18 Dec 2015 20:27:11 -0500
+Subject: [PATCH] remove analytics support
+
+Change-Id: Ie3e0541398747d43ab24bad9b9b93c81df4877b9
+---
+ host/migration/src/CMSettings.java                          |  7 -------
+ packages/CMSettingsProvider/res/values/defaults.xml         |  5 +----
+ .../src/org/cyanogenmod/cmsettings/CMDatabaseHelper.java    |  3 ---
+ src/java/cyanogenmod/providers/CMSettings.java              | 13 -------------
+ 4 files changed, 1 insertion(+), 27 deletions(-)
+
+diff --git a/host/migration/src/CMSettings.java b/host/migration/src/CMSettings.java
+index 0d57b0d..b4f5be9 100644
+--- a/host/migration/src/CMSettings.java
++++ b/host/migration/src/CMSettings.java
+@@ -833,12 +833,6 @@ public final class CMSettings {
+         public static final String QS_USE_MAIN_TILES = "sysui_qs_main_tiles";
+ 
+         /**
+-         * Global stats collection
+-         * @hide
+-         */
+-        public static final String STATS_COLLECTION = "stats_collection";
+-
+-        /**
+          * Boolean value whether to link ringtone and notification volume
+          *
+          * @hide
+@@ -1021,7 +1015,6 @@ public final class CMSettings {
+                 CMSettings.Secure.DEV_FORCE_SHOW_NAVBAR,
+                 CMSettings.Secure.KEYBOARD_BRIGHTNESS,
+                 CMSettings.Secure.POWER_MENU_ACTIONS,
+-                CMSettings.Secure.STATS_COLLECTION,
+                 CMSettings.Secure.QS_SHOW_BRIGHTNESS_SLIDER,
+                 CMSettings.Secure.QS_TILES,
+                 CMSettings.Secure.QS_USE_MAIN_TILES,
+diff --git a/packages/CMSettingsProvider/res/values/defaults.xml b/packages/CMSettingsProvider/res/values/defaults.xml
+index 3a514f8..96af970 100644
+--- a/packages/CMSettingsProvider/res/values/defaults.xml
++++ b/packages/CMSettingsProvider/res/values/defaults.xml
+@@ -41,9 +41,6 @@
+          Comma-delimited, quick settings tiles. See QSConstants.java for a list of all available tiles -->
+     <string name="def_qs_tiles">wifi,bt,cell,airplane,rotation,flashlight,location,cast,visualizer,hotspot,live_display</string>
+ 
+-    <!-- Default for CMSettings.Secure.STATS_COLLECTION -->
+-    <bool name="def_stats_collection">false</bool>
+-
+     <!-- Default for CMSettings.Secure.QS_USE_MAIN_TILES -->
+     <bool name="def_sysui_qs_main_tiles">true</bool>
+ 
+@@ -76,4 +73,4 @@
+     <!-- Default value for whether or not to use multiple notification LEDs
+          on devices equiped with more than one LED -->
+     <bool name="def_notification_multiple_leds">false</bool>
+-</resources>
+\ No newline at end of file
++</resources>
+diff --git a/packages/CMSettingsProvider/src/org/cyanogenmod/cmsettings/CMDatabaseHelper.java b/packages/CMSettingsProvider/src/org/cyanogenmod/cmsettings/CMDatabaseHelper.java
+index 5d40866..de0fe19 100644
+--- a/packages/CMSettingsProvider/src/org/cyanogenmod/cmsettings/CMDatabaseHelper.java
++++ b/packages/CMSettingsProvider/src/org/cyanogenmod/cmsettings/CMDatabaseHelper.java
+@@ -234,9 +234,6 @@ public class CMDatabaseHelper extends SQLiteOpenHelper{
+         loadBooleanSetting(db, CMTableNames.TABLE_SECURE, CMSettings.Secure.QS_USE_MAIN_TILES,
+                 R.bool.def_sysui_qs_main_tiles);
+ 
+-        loadBooleanSetting(db, CMTableNames.TABLE_SECURE, CMSettings.Secure.STATS_COLLECTION,
+-                R.bool.def_stats_collection);
+-
+         loadBooleanSetting(db, CMTableNames.TABLE_SECURE,
+                 CMSettings.Secure.LOCKSCREEN_VISUALIZER_ENABLED, R.bool.def_lockscreen_visualizer);
+     }
+diff --git a/src/java/cyanogenmod/providers/CMSettings.java b/src/java/cyanogenmod/providers/CMSettings.java
+index 9da713b..9d63a9b 100644
+--- a/src/java/cyanogenmod/providers/CMSettings.java
++++ b/src/java/cyanogenmod/providers/CMSettings.java
+@@ -2464,18 +2464,6 @@ public final class CMSettings {
+         public static final String QS_USE_MAIN_TILES = "sysui_qs_main_tiles";
+ 
+         /**
+-         * Global stats collection
+-         * @hide
+-         */
+-        public static final String STATS_COLLECTION = "stats_collection";
+-
+-        /**
+-         * Whether the global stats collection setting has been successfully reported to server
+-         * @hide
+-         */
+-        public static final String STATS_COLLECTION_REPORTED = "stats_collection_reported";
+-
+-        /**
+          * Whether newly installed apps should run with privacy guard by default
+          * @hide
+          */
+@@ -2631,7 +2619,6 @@ public final class CMSettings {
+                 CMSettings.Secure.DEV_FORCE_SHOW_NAVBAR,
+                 CMSettings.Secure.KEYBOARD_BRIGHTNESS,
+                 CMSettings.Secure.POWER_MENU_ACTIONS,
+-                CMSettings.Secure.STATS_COLLECTION,
+                 CMSettings.Secure.QS_SHOW_BRIGHTNESS_SLIDER,
+                 CMSettings.Secure.QS_TILES,
+                 CMSettings.Secure.QS_USE_MAIN_TILES,
+-- 
+2.6.4
+

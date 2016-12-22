@@ -1,0 +1,36 @@
+From 58bde4cc16f1a0544526fed769542b707b7dc516 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 20 Mar 2015 18:13:23 -0400
+Subject: [PATCH] switch default search engine to duckduckgo
+
+---
+ res/xml-sw600dp/advanced_preferences.xml | 2 +-
+ res/xml/advanced_preferences.xml         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/res/xml-sw600dp/advanced_preferences.xml b/res/xml-sw600dp/advanced_preferences.xml
+index f3107d8..ae19504 100644
+--- a/res/xml-sw600dp/advanced_preferences.xml
++++ b/res/xml-sw600dp/advanced_preferences.xml
+@@ -21,7 +21,7 @@
+     <com.android.browser.search.SearchEnginePreference
+             android:key="search_engine"
+             android:title="@string/pref_content_search_engine"
+-            android:defaultValue="google"
++            android:defaultValue="duckduckgo"
+             android:summary="@string/pref_content_search_engine_summary"
+             android:dialogTitle="@string/pref_content_search_engine" />
+ 
+diff --git a/res/xml/advanced_preferences.xml b/res/xml/advanced_preferences.xml
+index 1b051f8..f068330 100644
+--- a/res/xml/advanced_preferences.xml
++++ b/res/xml/advanced_preferences.xml
+@@ -21,7 +21,7 @@
+     <com.android.browser.search.SearchEnginePreference
+             android:key="search_engine"
+             android:title="@string/pref_content_search_engine"
+-            android:defaultValue="google"
++            android:defaultValue="duckduckgo"
+             android:summary="@string/pref_content_search_engine_summary"
+             android:dialogTitle="@string/pref_content_search_engine" />
+ 

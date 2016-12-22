@@ -1,0 +1,26 @@
+From 5eb07e6823e9e68e30f25e4d85466d9b1fccf48d Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 6 Feb 2015 11:46:34 -0500
+Subject: [PATCH] tighten up mount permissions
+
+---
+ init/init.cpp | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/init/init.cpp b/init/init.cpp
+index 542c35e..c7275b1 100644
+--- a/init/init.cpp
++++ b/init/init.cpp
+@@ -1039,9 +1039,9 @@ int main(int argc, char** argv) {
+         mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755");
+         mkdir("/dev/pts", 0755);
+         mkdir("/dev/socket", 0755);
+-        mount("devpts", "/dev/pts", "devpts", 0, NULL);
+-        mount("proc", "/proc", "proc", 0, NULL);
+-        mount("sysfs", "/sys", "sysfs", 0, NULL);
++        mount("devpts", "/dev/pts", "devpts", MS_NOSUID|MS_NOEXEC, NULL);
++        mount("proc", "/proc", "proc", MS_NOSUID|MS_NODEV|MS_NOEXEC, NULL);
++        mount("sysfs", "/sys", "sysfs", MS_NOSUID|MS_NODEV|MS_NOEXEC, NULL);
+     }
+ 
+     // We must have some place other than / to create the device nodes for

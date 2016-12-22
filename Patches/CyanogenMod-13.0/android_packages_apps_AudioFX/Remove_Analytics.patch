@@ -1,0 +1,535 @@
+From 7af4441cada12ddb125c2b747eab897729b62961 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 13 Oct 2016 19:10:14 -0400
+Subject: [PATCH] Remove analytics
+
+Change-Id: Idc9e1bd67d81ffbf62fc5cb8680828603f94c886
+---
+ Android.mk                                         |   2 -
+ .../cyanogenmod/audiofx/AudioFxApplication.java    |  11 --
+ .../audiofx/activity/ActivityMusic.java            |  13 --
+ .../audiofx/activity/EqualizerManager.java         |  13 --
+ .../audiofx/fragment/AudioFxFragment.java          |   2 -
+ .../audiofx/fragment/ControlsFragment.java         |   4 -
+ .../audiofx/fragment/EqualizerFragment.java        |   4 -
+ src/org/cyanogenmod/audiofx/knobs/RadialKnob.java  |   3 -
+ src/org/cyanogenmod/audiofx/stats/AppState.java    |  53 -----
+ src/org/cyanogenmod/audiofx/stats/UserSession.java | 215 ---------------------
+ 10 files changed, 320 deletions(-)
+ delete mode 100644 src/org/cyanogenmod/audiofx/stats/AppState.java
+ delete mode 100644 src/org/cyanogenmod/audiofx/stats/UserSession.java
+
+diff --git a/Android.mk b/Android.mk
+index e2553d0..d9a1b99 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -20,9 +20,7 @@ LOCAL_PROGUARD_ENABLED := disabled
+ 
+ LOCAL_RESOURCE_DIR := $(addprefix $(LOCAL_PATH)/, res)
+ LOCAL_AAPT_FLAGS := --auto-add-overlay
+-LOCAL_AAPT_FLAGS += --extra-packages com.cyanogen.ambient
+ 
+-LOCAL_STATIC_JAVA_AAR_LIBRARIES := ambientsdk
+ 
+ LOCAL_PRIVILEGED_MODULE := true
+ LOCAL_CERTIFICATE := platform
+diff --git a/src/org/cyanogenmod/audiofx/AudioFxApplication.java b/src/org/cyanogenmod/audiofx/AudioFxApplication.java
+index 9f08a0c..54819fe 100644
+--- a/src/org/cyanogenmod/audiofx/AudioFxApplication.java
++++ b/src/org/cyanogenmod/audiofx/AudioFxApplication.java
+@@ -18,30 +18,19 @@ package org.cyanogenmod.audiofx;
+ import android.app.Application;
+ import android.util.Log;
+ 
+-import com.cyanogen.ambient.analytics.AnalyticsServices;
+-import com.cyanogen.ambient.analytics.Event;
+-import com.cyanogen.ambient.common.api.AmbientApiClient;
+-
+ public class AudioFxApplication extends Application {
+ 
+     private static final String TAG = AudioFxApplication.class.getSimpleName();
+     private static final boolean DEBUG = false;
+ 
+-    private AmbientApiClient mClient;
+-
+     @Override
+     public void onCreate() {
+         super.onCreate();
+-        mClient = new AmbientApiClient.Builder(this)
+-                .addApi(AnalyticsServices.API)
+-                .build();
+-        mClient.connect();
+     }
+ 
+     public void sendEvent(Event event) {
+         if (DEBUG) {
+             Log.i(TAG, "sendEvent() called with event = [" + event + "]");
+         }
+-        AnalyticsServices.AnalyticsApi.sendEvent(mClient, event);
+     }
+ }
+diff --git a/src/org/cyanogenmod/audiofx/activity/ActivityMusic.java b/src/org/cyanogenmod/audiofx/activity/ActivityMusic.java
+index 411ba45..54ede87 100644
+--- a/src/org/cyanogenmod/audiofx/activity/ActivityMusic.java
++++ b/src/org/cyanogenmod/audiofx/activity/ActivityMusic.java
+@@ -28,7 +28,6 @@ import android.view.View;
+ import android.view.ViewStub;
+ import android.widget.CheckBox;
+ import android.widget.CompoundButton;
+-import com.cyanogen.ambient.analytics.Event;
+ import org.cyanogenmod.audiofx.AudioFxApplication;
+ import org.cyanogenmod.audiofx.Constants;
+ import org.cyanogenmod.audiofx.R;
+@@ -36,8 +35,6 @@ import org.cyanogenmod.audiofx.fragment.AudioFxFragment;
+ import org.cyanogenmod.audiofx.knobs.KnobCommander;
+ import org.cyanogenmod.audiofx.service.AudioFxService;
+ import org.cyanogenmod.audiofx.service.DevicePreferenceManager;
+-import org.cyanogenmod.audiofx.stats.AppState;
+-import org.cyanogenmod.audiofx.stats.UserSession;
+ 
+ public class ActivityMusic extends Activity {
+ 
+@@ -59,9 +56,6 @@ public class ActivityMusic extends Activity {
+         @Override
+         public void onCheckedChanged(final CompoundButton buttonView,
+                                      final boolean isChecked) {
+-            if (UserSession.getInstance() != null) {
+-                UserSession.getInstance().deviceEnabledDisabled();
+-            }
+             mConfig.setCurrentDeviceEnabled(isChecked);
+         }
+     };
+@@ -174,20 +168,13 @@ public class ActivityMusic extends Activity {
+         if (DEBUG) Log.i(TAG, "onResume() called with " + "");
+         super.onResume();
+ 
+-        // initiate a new session
+-        new UserSession(mCallingPackage);
+     }
+ 
+     @Override
+     protected void onPause() {
+         super.onPause();
+ 
+-        if (DEBUG) Log.d(TAG, "Session: " + UserSession.getInstance());
+ 
+-        final Event.Builder builder = new Event.Builder("session", "ended");
+-        UserSession.getInstance().append(builder);
+-        AppState.appendState(mConfig, KnobCommander.getInstance(this), builder);
+-        ((AudioFxApplication) getApplicationContext()).sendEvent(builder.build());
+     }
+ 
+     @Override
+diff --git a/src/org/cyanogenmod/audiofx/activity/EqualizerManager.java b/src/org/cyanogenmod/audiofx/activity/EqualizerManager.java
+index a9e0a6d..0fc928f 100644
+--- a/src/org/cyanogenmod/audiofx/activity/EqualizerManager.java
++++ b/src/org/cyanogenmod/audiofx/activity/EqualizerManager.java
+@@ -26,7 +26,6 @@ import org.cyanogenmod.audiofx.Preset;
+ import org.cyanogenmod.audiofx.R;
+ import org.cyanogenmod.audiofx.eq.EqUtils;
+ import org.cyanogenmod.audiofx.service.AudioFxService;
+-import org.cyanogenmod.audiofx.stats.UserSession;
+ 
+ import java.util.ArrayList;
+ import java.util.Arrays;
+@@ -274,10 +273,6 @@ public class EqualizerManager {
+      * @return the index that the levels were copied to
+      */
+     private int addPreset(float[] levels) {
+-        if (UserSession.getInstance() != null) {
+-            UserSession.getInstance().presetCreated();
+-        }
+-
+         final int customPresets = Constants.getCustomPresets(mContext, mNumBands).size();
+         // format the name so it's like "Custom <N>", start with "Custom 2"
+         final String name = String.format(mContext.getString(R.string.custom_n), customPresets + 2);
+@@ -588,10 +583,6 @@ public class EqualizerManager {
+     }
+ 
+     public void renameCurrentPreset(String s) {
+-        if (UserSession.getInstance() != null) {
+-            UserSession.getInstance().presetRenamed();
+-        }
+-
+         if (isUserPreset()) {
+             ((Preset.CustomPreset) getCurrentPreset()).setName(s);
+         }
+@@ -602,10 +593,6 @@ public class EqualizerManager {
+     }
+ 
+     public boolean removePreset(int index) {
+-        if (UserSession.getInstance() != null) {
+-            UserSession.getInstance().presetRemoved();
+-        }
+-
+         if (index > mEQCustomPresetPosition) {
+             mEqPresets.remove(index);
+             mConfig.getCallbacks().notifyPresetsChanged();
+diff --git a/src/org/cyanogenmod/audiofx/fragment/AudioFxFragment.java b/src/org/cyanogenmod/audiofx/fragment/AudioFxFragment.java
+index 582e3d6..89e4b91 100644
+--- a/src/org/cyanogenmod/audiofx/fragment/AudioFxFragment.java
++++ b/src/org/cyanogenmod/audiofx/fragment/AudioFxFragment.java
+@@ -45,7 +45,6 @@ import org.cyanogenmod.audiofx.activity.ActivityMusic;
+ import org.cyanogenmod.audiofx.activity.EqualizerManager;
+ import org.cyanogenmod.audiofx.activity.MasterConfigControl;
+ import org.cyanogenmod.audiofx.activity.StateCallbacks;
+-import org.cyanogenmod.audiofx.stats.UserSession;
+ import org.cyanogenmod.audiofx.widget.InterceptableLinearLayout;
+ 
+ import java.util.List;
+@@ -337,7 +336,6 @@ public class AudioFxFragment extends Fragment implements StateCallbacks.DeviceCh
+         AudioDeviceInfo device = mMenuItems.get(item);
+ 
+         if (device != null) {
+-            UserSession.getInstance().deviceChanged();
+             mDeviceChanging = true;
+             if (item.isCheckable()) {
+                 item.setChecked(!item.isChecked());
+diff --git a/src/org/cyanogenmod/audiofx/fragment/ControlsFragment.java b/src/org/cyanogenmod/audiofx/fragment/ControlsFragment.java
+index 4a0eed6..9c9f5eb 100644
+--- a/src/org/cyanogenmod/audiofx/fragment/ControlsFragment.java
++++ b/src/org/cyanogenmod/audiofx/fragment/ControlsFragment.java
+@@ -29,7 +29,6 @@ import org.cyanogenmod.audiofx.R;
+ import org.cyanogenmod.audiofx.activity.MasterConfigControl;
+ import org.cyanogenmod.audiofx.knobs.KnobCommander;
+ import org.cyanogenmod.audiofx.knobs.KnobContainer;
+-import org.cyanogenmod.audiofx.stats.UserSession;
+ 
+ public class ControlsFragment extends AudioFxBaseFragment {
+ 
+@@ -44,9 +43,6 @@ public class ControlsFragment extends AudioFxBaseFragment {
+             = new CompoundButton.OnCheckedChangeListener() {
+         @Override
+         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+-            if (mConfig.getMaxxVolumeEnabled() != isChecked) {
+-                UserSession.getInstance().maxxVolumeToggled();
+-            }
+             mConfig.setMaxxVolumeEnabled(isChecked);
+         }
+     };
+diff --git a/src/org/cyanogenmod/audiofx/fragment/EqualizerFragment.java b/src/org/cyanogenmod/audiofx/fragment/EqualizerFragment.java
+index 0f95365..7b459cf 100644
+--- a/src/org/cyanogenmod/audiofx/fragment/EqualizerFragment.java
++++ b/src/org/cyanogenmod/audiofx/fragment/EqualizerFragment.java
+@@ -46,7 +46,6 @@ import org.cyanogenmod.audiofx.eq.EqContainerView;
+ import org.cyanogenmod.audiofx.preset.InfinitePagerAdapter;
+ import org.cyanogenmod.audiofx.preset.InfiniteViewPager;
+ import org.cyanogenmod.audiofx.preset.PresetPagerAdapter;
+-import org.cyanogenmod.audiofx.stats.UserSession;
+ import org.cyanogenmod.audiofx.viewpagerindicator.CirclePageIndicator;
+ 
+ public class EqualizerFragment extends AudioFxBaseFragment
+@@ -516,9 +515,6 @@ public class EqualizerFragment extends AudioFxBaseFragment
+             mSelectedPosition = position;
+             if (!mDeviceChanging) {
+                 mSelectedPositionBands = mEqManager.getPresetLevels(mSelectedPosition);
+-                if (UserSession.getInstance() != null) {
+-                    UserSession.getInstance().presetSelected();
+-                }
+             }
+         }
+ 
+diff --git a/src/org/cyanogenmod/audiofx/knobs/RadialKnob.java b/src/org/cyanogenmod/audiofx/knobs/RadialKnob.java
+index 9f35835..b9bd045 100644
+--- a/src/org/cyanogenmod/audiofx/knobs/RadialKnob.java
++++ b/src/org/cyanogenmod/audiofx/knobs/RadialKnob.java
+@@ -49,7 +49,6 @@ import android.view.View;
+ import android.view.animation.AccelerateInterpolator;
+ import android.widget.Toast;
+ import org.cyanogenmod.audiofx.R;
+-import org.cyanogenmod.audiofx.stats.UserSession;
+ 
+ public class RadialKnob extends View {
+ 
+@@ -456,8 +455,6 @@ public class RadialKnob extends View {
+                     }
+                 }
+                 if (mMoved) {
+-                    UserSession.getInstance()
+-                            .knobOptionsAdjusted(((KnobContainer.KnobInfo)getTag()).whichKnob);
+                 }
+                 mLastX = -1;
+                 mLastY = -1;
+diff --git a/src/org/cyanogenmod/audiofx/stats/AppState.java b/src/org/cyanogenmod/audiofx/stats/AppState.java
+deleted file mode 100644
+index 7ca0c9c..0000000
+--- a/src/org/cyanogenmod/audiofx/stats/AppState.java
++++ /dev/null
+@@ -1,53 +0,0 @@
+-/*
+- * Copyright (C) 2016 The CyanogenMod Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-package org.cyanogenmod.audiofx.stats;
+-
+-import com.cyanogen.ambient.analytics.Event;
+-import org.cyanogenmod.audiofx.Preset;
+-import org.cyanogenmod.audiofx.activity.MasterConfigControl;
+-import org.cyanogenmod.audiofx.eq.EqUtils;
+-import org.cyanogenmod.audiofx.knobs.KnobCommander;
+-
+-public class AppState {
+-    public static void appendState(MasterConfigControl control,
+-                                   KnobCommander knobs, Event.Builder builder) {
+-        // what's the current output device?
+-        builder.addField("state_current_device", control.getCurrentDeviceIdentifier());
+-
+-        // what preset? if custom, what name/values?
+-        builder.addField("state_preset_name", control.getEqualizerManager().getCurrentPreset().getName());
+-
+-        if (control.getEqualizerManager().getCurrentPreset() instanceof Preset.CustomPreset) {
+-            builder.addField("state_custom_preset_values",
+-                    EqUtils.floatLevelsToString(control.getEqualizerManager().getCurrentPreset().getLevels()));
+-        }
+-
+-        // knob states
+-        if (control.hasMaxxAudio()) {
+-            builder.addField("state_maxx_volume", control.getMaxxVolumeEnabled());
+-        }
+-
+-        if (knobs.hasBassBoost()) {
+-            builder.addField("state_knob_bass", knobs.getBassStrength());
+-        }
+-        if (knobs.hasTreble()) {
+-            builder.addField("state_knob_treble", knobs.getTrebleStrength());
+-        }
+-        if (knobs.hasVirtualizer()) {
+-            builder.addField("state_knob_virtualizer", knobs.getVirtualizerStrength());
+-        }
+-    }
+-}
+diff --git a/src/org/cyanogenmod/audiofx/stats/UserSession.java b/src/org/cyanogenmod/audiofx/stats/UserSession.java
+deleted file mode 100644
+index 285edb3..0000000
+--- a/src/org/cyanogenmod/audiofx/stats/UserSession.java
++++ /dev/null
+@@ -1,215 +0,0 @@
+-/*
+- * Copyright (C) 2016 The CyanogenMod Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-package org.cyanogenmod.audiofx.stats;
+-
+-import android.os.Parcel;
+-import android.os.Parcelable;
+-import com.cyanogen.ambient.analytics.Event;
+-import org.cyanogenmod.audiofx.Preset;
+-import org.cyanogenmod.audiofx.knobs.KnobCommander;
+-
+-public class UserSession implements Parcelable {
+-
+-    private static final String SOURCE_NONE = "none";
+-
+-    private static UserSession sSession;
+-    public static final UserSession getInstance() {
+-        return sSession;
+-    }
+-
+-    private String mSource;
+-    private int mDevicesChanged;
+-    private int mEnabledDisabledToggles;
+-    private int mPresetsSelected;
+-    private int mPresetsCreated;
+-    private int mPresetsRemoved;
+-    private int mPresetsRenamed;
+-    private int mMaxxVolumeToggled;
+-    private int mTrebleKnobAdjusted;
+-    private int mBassKnobAdjusted;
+-    private int mVirtualizerKnobAdjusted;
+-
+-    public UserSession(String incomingPackageSource) {
+-        if (incomingPackageSource == null) {
+-            mSource = SOURCE_NONE;
+-        } else {
+-            mSource = incomingPackageSource;
+-        }
+-        sSession = this;
+-    }
+-
+-    public void deviceChanged() {
+-        mDevicesChanged++;
+-    }
+-
+-    public void deviceEnabledDisabled() {
+-        mEnabledDisabledToggles++;
+-    }
+-
+-    public void presetSelected() {
+-        mPresetsSelected++;
+-    }
+-
+-    public void presetRemoved() {
+-        mPresetsRemoved++;
+-    }
+-
+-    public void presetRenamed() {
+-        mPresetsRenamed++;
+-    }
+-
+-    public void presetCreated() {
+-        mPresetsCreated++;
+-    }
+-
+-    public void maxxVolumeToggled() {
+-        mMaxxVolumeToggled++;
+-    }
+-
+-    public void knobOptionsAdjusted(int knob) {
+-        switch (knob) {
+-            case KnobCommander.KNOB_BASS:
+-                mBassKnobAdjusted++;
+-                break;
+-            case KnobCommander.KNOB_TREBLE:
+-                mTrebleKnobAdjusted++;
+-                break;
+-            case KnobCommander.KNOB_VIRTUALIZER:
+-                mVirtualizerKnobAdjusted++;
+-                break;
+-        }
+-    }
+-
+-    public void append(Event.Builder builder) {
+-        builder.addField("session_source", mSource);
+-        if (mDevicesChanged > 0)
+-            builder.addField("session_devices_changed_count", mDevicesChanged);
+-        if (mEnabledDisabledToggles > 0)
+-            builder.addField("session_devices_enabled_disabled_count", mEnabledDisabledToggles);
+-        if (mPresetsSelected > 0)
+-            builder.addField("session_presets_changed_count", mPresetsSelected);
+-        if (mPresetsCreated > 0)
+-            builder.addField("session_presets_created_count", mPresetsCreated);
+-        if (mPresetsRemoved > 0)
+-            builder.addField("session_presets_removed_count", mPresetsRemoved);
+-        if (mPresetsRenamed > 0)
+-            builder.addField("session_presets_renamed_count", mPresetsRenamed);
+-        if (mMaxxVolumeToggled > 0)
+-            builder.addField("session_maxx_volume_toggled", mMaxxVolumeToggled);
+-        if (mBassKnobAdjusted > 0)
+-            builder.addField("session_knobs_bass_adjusted_count", mBassKnobAdjusted);
+-        if (mVirtualizerKnobAdjusted > 0)
+-            builder.addField("session_knobs_virtualizer_adjusted_count", mVirtualizerKnobAdjusted);
+-        if (mTrebleKnobAdjusted > 0)
+-            builder.addField("session_knobs_treble_adjusted_count", mTrebleKnobAdjusted);
+-    }
+-
+-    @Override
+-    public String toString() {
+-        StringBuilder s = new StringBuilder(getClass().getName() + "[");
+-        if (mSource != null) {
+-            s.append("mSource=").append(mSource).append(", ");
+-        }
+-        if (mDevicesChanged > 0) {
+-            s.append("mDevicesChanged=").append(mDevicesChanged).append(", ");
+-        }
+-        if (mEnabledDisabledToggles > 0) {
+-            s.append("mEnabledDisabledToggles=").append(mEnabledDisabledToggles).append(", ");
+-        }
+-        if (mPresetsSelected > 0) {
+-            s.append("mPresetsSelected=").append(mPresetsSelected).append(", ");
+-        }
+-        if (mPresetsCreated > 0) {
+-            s.append("mPresetsCreated=").append(mPresetsCreated).append(", ");
+-        }
+-        if (mPresetsRemoved > 0) {
+-            s.append("mPresetsRemoved=").append(mPresetsRemoved).append(", ");
+-        }
+-        if (mPresetsRenamed > 0) {
+-            s.append("mPresetsRenamed=").append(mPresetsRenamed).append(", ");
+-        }
+-        if (mMaxxVolumeToggled > 0) {
+-            s.append("mMaxxVolumeToggled=").append(mMaxxVolumeToggled).append(", ");
+-        }
+-        if (mBassKnobAdjusted > 0) {
+-            s.append("mBassKnobAdjusted=").append(mBassKnobAdjusted).append(", ");
+-        }
+-        if (mVirtualizerKnobAdjusted > 0) {
+-            s.append("mVirtualizerKnobAdjusted=").append(mVirtualizerKnobAdjusted).append(", ");
+-        }
+-        if (mTrebleKnobAdjusted > 0) {
+-            s.append("mTrebleKnobAdjusted=").append(mTrebleKnobAdjusted).append(", ");
+-        }
+-        if (s.charAt(s.length() - 2) == ',') {
+-            s.delete(s.length() - 2, s.length());
+-        }
+-        s.append("]");
+-
+-        return s.toString();
+-    }
+-
+-    public static final Creator<UserSession> CREATOR = new Creator<UserSession>() {
+-        @Override
+-        public UserSession createFromParcel(Parcel in) {
+-            return new UserSession(in);
+-        }
+-
+-        @Override
+-        public UserSession[] newArray(int size) {
+-            return new UserSession[size];
+-        }
+-    };
+-
+-    @Override
+-    public int describeContents() {
+-        return 0;
+-    }
+-
+-    protected UserSession(Parcel in) {
+-        mSource = in.readString();
+-        mDevicesChanged = in.readInt();
+-        mEnabledDisabledToggles = in.readInt();
+-        mPresetsSelected = in.readInt();
+-        mPresetsCreated = in.readInt();
+-        mPresetsRemoved = in.readInt();
+-        mPresetsRenamed = in.readInt();
+-        mBassKnobAdjusted = in.readInt();
+-        mVirtualizerKnobAdjusted = in.readInt();
+-        mTrebleKnobAdjusted = in.readInt();
+-        mMaxxVolumeToggled = in.readInt();
+-    }
+-
+-    @Override
+-    public void writeToParcel(Parcel dest, int flags) {
+-        dest.writeString(mSource);
+-        dest.writeInt(mDevicesChanged);
+-        dest.writeInt(mEnabledDisabledToggles);
+-        dest.writeInt(mPresetsSelected);
+-        dest.writeInt(mPresetsCreated);
+-        dest.writeInt(mPresetsRemoved);
+-        dest.writeInt(mPresetsRenamed);
+-        dest.writeInt(mBassKnobAdjusted);
+-        dest.writeInt(mVirtualizerKnobAdjusted);
+-        dest.writeInt(mTrebleKnobAdjusted);
+-        dest.writeInt(mMaxxVolumeToggled);
+-    }
+-
+-    private static class State {
+-        private String mOutputDevice;
+-        private Preset mPreset;
+-        private String mKnobsOpts;
+-    }
+-}
+-- 
+2.9.3
+

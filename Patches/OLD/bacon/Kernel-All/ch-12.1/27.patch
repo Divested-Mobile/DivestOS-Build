@@ -1,0 +1,46 @@
+From 29fccb041a751054275e8d0b2035066ffd842722 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 22 Jul 2015 21:08:21 -0400
+Subject: [PATCH] adapt mach-msm assembly to PaX
+
+---
+ arch/arm/mach-msm/memutils/copy_from_user.S | 4 ++--
+ arch/arm/mach-msm/memutils/copy_to_user.S   | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/mach-msm/memutils/copy_from_user.S b/arch/arm/mach-msm/memutils/copy_from_user.S
+index b6ea5b4..c17e97c 100644
+--- a/arch/arm/mach-msm/memutils/copy_from_user.S
++++ b/arch/arm/mach-msm/memutils/copy_from_user.S
+@@ -103,11 +103,11 @@
+ 
+ 	.text
+ 
+-ENTRY(__copy_from_user)
++ENTRY(___copy_from_user)
+ 
+ #include "copy_template.S"
+ 
+-ENDPROC(__copy_from_user)
++ENDPROC(___copy_from_user)
+ 
+ 	.pushsection .fixup,"ax"
+ 	.align 0
+diff --git a/arch/arm/mach-msm/memutils/copy_to_user.S b/arch/arm/mach-msm/memutils/copy_to_user.S
+index ca54c28..3570918 100644
+--- a/arch/arm/mach-msm/memutils/copy_to_user.S
++++ b/arch/arm/mach-msm/memutils/copy_to_user.S
+@@ -107,11 +107,11 @@
+ 	.text
+ 
+ ENTRY(__copy_to_user_std)
+-WEAK(__copy_to_user)
++WEAK(___copy_to_user)
+ 
+ #include "copy_template.S"
+ 
+-ENDPROC(__copy_to_user)
++ENDPROC(___copy_to_user)
+ ENDPROC(__copy_to_user_std)
+ 
+ 	.pushsection .fixup,"ax"

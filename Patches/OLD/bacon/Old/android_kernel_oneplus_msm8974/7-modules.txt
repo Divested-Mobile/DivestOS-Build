@@ -1,0 +1,22 @@
+From f495e7a9a44a02e2f0f80242d5eb8ce40a015ee6 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sun, 29 Mar 2015 23:24:16 -0400
+Subject: [PATCH] Enable modules
+
+---
+ arch/arm/configs/cyanogenmod_bacon_defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/configs/cyanogenmod_bacon_defconfig b/arch/arm/configs/cyanogenmod_bacon_defconfig
+index 9c3ca28..66bed02 100644
+--- a/arch/arm/configs/cyanogenmod_bacon_defconfig
++++ b/arch/arm/configs/cyanogenmod_bacon_defconfig
+@@ -185,7 +185,7 @@ CONFIG_HAVE_ARCH_SECCOMP_FILTER=y
+ CONFIG_HAVE_GENERIC_DMA_COHERENT=y
+ CONFIG_RT_MUTEXES=y
+ CONFIG_BASE_SMALL=0
+-# CONFIG_MODULES is not set
++CONFIG_MODULES=y
+ CONFIG_STOP_MACHINE=y
+ CONFIG_BLOCK=y
+ CONFIG_LBDAF=y

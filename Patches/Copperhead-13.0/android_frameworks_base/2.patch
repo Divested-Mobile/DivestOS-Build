@@ -1,0 +1,154 @@
+From a798817de09cc787850ee957c7326fb36dc6c5a5 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 3 Dec 2015 14:27:34 -0500
+Subject: [PATCH] support separate encryption/lockscreen passwords
+
+This adds the necessary infrastructure for allowing users to opt-in to a
+distinct device encryption passphrase. The passwords are still tied
+together by default. This makes it possible to use a complex encryption
+passphrase without losing the convenience of a very simple lockscreen
+pin.
+
+This feature can be combined with a forced reboot after a chosen number
+of failed unlocking attempts to prevent brute-forcing by requiring the
+entry of the encryption password instead.
+---
+ core/java/android/provider/Settings.java           |  7 +++
+ .../android/internal/widget/LockPatternUtils.java  | 72 +++++++++++++++++++++-
+ .../com/android/server/LockSettingsService.java    |  1 +
+ 3 files changed, 77 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index e107fd1..a6be540 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -4850,6 +4850,13 @@ public static boolean putFloatForUser(ContentResolver cr, String name, float val
+                 "lock_screen_allow_private_notifications";
+ 
+         /**
++         * Separate password for encryption and the lockscreen.
++         * @hide
++         */
++        public static final String LOCK_SEPARATE_ENCRYPTION_PASSWORD =
++                "lock_separate_encryption_password";
++
++        /**
+          * Set by the system to track if the user needs to see the call to action for
+          * the lockscreen notification policy.
+          * @hide
+diff --git a/core/java/com/android/internal/widget/LockPatternUtils.java b/core/java/com/android/internal/widget/LockPatternUtils.java
+index ae22b50..25f56e7 100644
+--- a/core/java/com/android/internal/widget/LockPatternUtils.java
++++ b/core/java/com/android/internal/widget/LockPatternUtils.java
+@@ -457,7 +457,8 @@ public void clearLock(int userHandle) {
+             // well, we tried...
+         }
+ 
+-        if (userHandle == UserHandle.USER_OWNER) {
++        if (userHandle == UserHandle.USER_OWNER
++                && !isSeparateEncryptionPasswordEnabled()) {
+             // Set the encryption password to default.
+             updateEncryptionPassword(StorageManager.CRYPT_TYPE_DEFAULT, null);
+         }
+@@ -518,7 +519,8 @@ public void saveLockPattern(List<LockPatternView.Cell> pattern, String savedPatt
+ 
+             // Update the device encryption password.
+             if (userId == UserHandle.USER_OWNER
+-                    && LockPatternUtils.isDeviceEncryptionEnabled()) {
++                    && LockPatternUtils.isDeviceEncryptionEnabled()
++                    && !isSeparateEncryptionPasswordEnabled()) {
+                 if (!shouldEncryptWithCredentials(true)) {
+                     clearEncryptionPassword();
+                 } else {
+@@ -727,7 +729,8 @@ public void saveLockPassword(String password, String savedPassword, int quality,
+ 
+             // Update the device encryption password.
+             if (userHandle == UserHandle.USER_OWNER
+-                    && LockPatternUtils.isDeviceEncryptionEnabled()) {
++                    && LockPatternUtils.isDeviceEncryptionEnabled()
++                    && !isSeparateEncryptionPasswordEnabled()) {
+                 if (!shouldEncryptWithCredentials(true)) {
+                     clearEncryptionPassword();
+                 } else {
+@@ -1071,6 +1074,69 @@ public void setVisiblePasswordEnabled(boolean enabled, int userId) {
+         }
+     }
+ 
++    private void updateEncryptionPasswordFromPassword(String password) {
++        if (!TextUtils.isEmpty(password)) {
++            int computedQuality = computePasswordQuality(password);
++            boolean numeric = computedQuality
++                == DevicePolicyManager.PASSWORD_QUALITY_NUMERIC;
++            boolean numericComplex = computedQuality
++                == DevicePolicyManager.PASSWORD_QUALITY_NUMERIC_COMPLEX;
++            int type = numeric || numericComplex ? StorageManager.CRYPT_TYPE_PIN
++                : StorageManager.CRYPT_TYPE_PASSWORD;
++            updateEncryptionPassword(type, password);
++        } else {
++            clearEncryptionPassword();
++        }
++    }
++
++    /**
++     * Set the encryption password separately from the lockscreen password.
++     *
++     * @param password The password to save
++     */
++    public void setSeparateEncryptionPassword(String password) {
++        updateEncryptionPasswordFromPassword(password);
++        setSeparateEncryptionPasswordEnabled(true);
++    }
++
++    /**
++     * Replace the separate encryption password by tying it to the lockscreen
++     * password. No change will occur if the provided lockscreen password is
++     * incorrect.
++     *
++     * @param password The current lockscreen password
++     * @return Whether the lockscreen password was correct.
++     */
++    public void replaceSeparateEncryptionPassword(String password) {
++        updateEncryptionPasswordFromPassword(password);
++        setSeparateEncryptionPasswordEnabled(false);
++    }
++
++    /**
++     * Replace the separate encryption password by tying it to the lockscreen
++     * pattern. No change will occur if the provided lockscreen password is
++     * incorrect.
++     *
++     * @param pattern The current lockscreen pattern
++     * @return Whether the lockscreen pattern was correct.
++     */
++    public void replaceSeparateEncryptionPasswordWithPattern(List<LockPatternView.Cell> pattern) {
++        String stringPattern = patternToString(pattern);
++        updateEncryptionPassword(StorageManager.CRYPT_TYPE_PATTERN, stringPattern);
++        setSeparateEncryptionPasswordEnabled(false);
++    }
++
++    /**
++     * @return Whether the encryption password is separate from the lockscreen password.
++     */
++    public boolean isSeparateEncryptionPasswordEnabled() {
++        return getBoolean(Settings.Secure.LOCK_SEPARATE_ENCRYPTION_PASSWORD, false, UserHandle.USER_OWNER);
++    }
++
++    private void setSeparateEncryptionPasswordEnabled(boolean enabled) {
++        setBoolean(Settings.Secure.LOCK_SEPARATE_ENCRYPTION_PASSWORD, enabled, UserHandle.USER_OWNER);
++    }
++
+     /**
+      * @return Whether tactile feedback for the pattern is enabled.
+      */
+diff --git a/services/core/java/com/android/server/LockSettingsService.java b/services/core/java/com/android/server/LockSettingsService.java
+index bb0615d..6e05fde 100644
+--- a/services/core/java/com/android/server/LockSettingsService.java
++++ b/services/core/java/com/android/server/LockSettingsService.java
+@@ -813,6 +813,7 @@ public void requireStrongAuth(int strongAuthReason, int userId) {
+         Secure.LOCK_PATTERN_SIZE,
+         Secure.LOCK_DOTS_VISIBLE,
+         Secure.LOCK_SHOW_ERROR_PATH,
++        Secure.LOCK_SEPARATE_ENCRYPTION_PASSWORD
+     };
+ 
+     // Reading these settings needs the contacts permission

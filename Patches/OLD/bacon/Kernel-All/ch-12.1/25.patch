@@ -1,0 +1,36 @@
+From b75f892f057aaee43bd147c5c62f2515d893b5e7 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 23 Jul 2015 02:07:35 -0400
+Subject: [PATCH] fix -Werror issues caused by unsigned cache size
+
+---
+ mm/shmem.c | 2 +-
+ mm/slub.c  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 8e92d3b..5614f74 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -2367,7 +2367,7 @@ int shmem_fill_super(struct super_block *sb, void *data, int silent)
+ 	int err = -ENOMEM;
+ 
+ 	/* Round up to L1_CACHE_BYTES to resist false sharing */
+-	sbinfo = kzalloc(max(sizeof(struct shmem_sb_info), L1_CACHE_BYTES), GFP_KERNEL);
++	sbinfo = kzalloc(max(sizeof(struct shmem_sb_info), (size_t)L1_CACHE_BYTES), GFP_KERNEL);
+ 	if (!sbinfo)
+ 		return -ENOMEM;
+ 
+diff --git a/mm/slub.c b/mm/slub.c
+index 5657a81..bd49009 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -3931,7 +3931,7 @@ void __init kmem_cache_init(void)
+ #endif
+ 
+ 	printk(KERN_INFO
+-		"SLUB: Genslabs=%d, HWalign=%d, Order=%d-%d, MinObjects=%d,"
++		"SLUB: Genslabs=%d, HWalign=%lu, Order=%d-%d, MinObjects=%d,"
+ 		" CPUs=%d, Nodes=%d\n",
+ 		caches, cache_line_size(),
+ 		slub_min_order, slub_max_order, slub_min_objects,

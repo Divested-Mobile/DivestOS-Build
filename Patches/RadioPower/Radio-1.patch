@@ -1,0 +1,198 @@
+From f00b971d99ae9320cf463f32c860640a4b67b179 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Mon, 8 Aug 2016 16:01:07 -0400
+Subject: [PATCH] Add radio tile (1/2)
+
+Change-Id: I5d1cb2fede884b9aa044e0de0cf6459d225e0016
+---
+ packages/SystemUI/res/drawable/ic_qs_radio_off.xml | 10 +++
+ packages/SystemUI/res/drawable/ic_qs_radio_on.xml  | 10 +++
+ packages/SystemUI/res/values/cm_strings.xml        |  1 +
+ .../src/com/android/systemui/qs/RadioTile.java     | 92 ++++++++++++++++++++++
+ .../systemui/statusbar/phone/QSTileHost.java       |  4 +
+ 5 files changed, 117 insertions(+)
+ create mode 100644 packages/SystemUI/res/drawable/ic_qs_radio_off.xml
+ create mode 100644 packages/SystemUI/res/drawable/ic_qs_radio_on.xml
+ create mode 100644 packages/SystemUI/src/com/android/systemui/qs/RadioTile.java
+
+diff --git a/packages/SystemUI/res/drawable/ic_qs_radio_off.xml b/packages/SystemUI/res/drawable/ic_qs_radio_off.xml
+new file mode 100644
+index 0000000..1cb4918
+--- /dev/null
++++ b/packages/SystemUI/res/drawable/ic_qs_radio_off.xml
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="utf-8"?>
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="64dp"
++    android:height="64dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24">
++    <path
++        android:fillColor="#4DFFFFFF"
++        android:pathData="M12,5c-3.87,0 -7,3.13 -7,7h2c0,-2.76 2.24,-5 5,-5s5,2.24 5,5h2c0,-3.87 -3.13,-7 -7,-7zM13,14.29c0.88,-0.39 1.5,-1.26 1.5,-2.29 0,-1.38 -1.12,-2.5 -2.5,-2.5S9.5,10.62 9.5,12c0,1.02 0.62,1.9 1.5,2.29v3.3L7.59,21 9,22.41l3,-3 3,3L16.41,21 13,17.59v-3.3zM12,1C5.93,1 1,5.93 1,12h2c0,-4.97 4.03,-9 9,-9s9,4.03 9,9h2c0,-6.07 -4.93,-11 -11,-11z" />
++</vector>
+diff --git a/packages/SystemUI/res/drawable/ic_qs_radio_on.xml b/packages/SystemUI/res/drawable/ic_qs_radio_on.xml
+new file mode 100644
+index 0000000..d446deb
+--- /dev/null
++++ b/packages/SystemUI/res/drawable/ic_qs_radio_on.xml
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="utf-8"?>
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="64dp"
++    android:height="64dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24">
++    <path
++        android:fillColor="#FFFFFFFF"
++        android:pathData="M12,5c-3.87,0 -7,3.13 -7,7h2c0,-2.76 2.24,-5 5,-5s5,2.24 5,5h2c0,-3.87 -3.13,-7 -7,-7zM13,14.29c0.88,-0.39 1.5,-1.26 1.5,-2.29 0,-1.38 -1.12,-2.5 -2.5,-2.5S9.5,10.62 9.5,12c0,1.02 0.62,1.9 1.5,2.29v3.3L7.59,21 9,22.41l3,-3 3,3L16.41,21 13,17.59v-3.3zM12,1C5.93,1 1,5.93 1,12h2c0,-4.97 4.03,-9 9,-9s9,4.03 9,9h2c0,-6.07 -4.93,-11 -11,-11z" />
++</vector>
+diff --git a/packages/SystemUI/res/values/cm_strings.xml b/packages/SystemUI/res/values/cm_strings.xml
+index 2996d21..41b65ae 100644
+--- a/packages/SystemUI/res/values/cm_strings.xml
++++ b/packages/SystemUI/res/values/cm_strings.xml
+@@ -103,6 +103,7 @@
+     <string name="quick_settings_profiles">System profiles</string>
+     <string name="quick_settings_profiles_off">Profiles disabled</string>
+     <string name="quick_settings_heads_up_label">Heads up</string>
++    <string name="quick_settings_radio_power_label">Radio power</string>
+     <string name="quick_settings_battery_saver_label">Battery saver</string>
+     <!-- quick settings battery saver label to show when device is charging and tile is disabled -->
+     <string name="quick_settings_battery_saver_label_charging">Battery saver (charging)</string>
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/RadioTile.java b/packages/SystemUI/src/com/android/systemui/qs/RadioTile.java
+new file mode 100644
+index 0000000..74cc6c0
+--- /dev/null
++++ b/packages/SystemUI/src/com/android/systemui/qs/RadioTile.java
+@@ -0,0 +1,92 @@
++package com.android.systemui.qs.tiles;
++
++import android.content.BroadcastReceiver;
++import android.content.Context;
++import android.content.Intent;
++import android.content.IntentFilter;
++
++import android.util.Log;
++import com.android.systemui.R;
++import com.android.systemui.qs.QSTile;
++import org.cyanogenmod.internal.util.QSUtils;
++
++import com.android.internal.telephony.Phone;
++import com.android.internal.telephony.PhoneFactory;
++
++public class RadioTile extends QSTile<QSTile.BooleanState> {
++
++    private boolean mListening;
++    private Phone phone = null;
++
++    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
++        @Override
++        public void onReceive(Context context, Intent intent) {
++            refreshState();
++        }
++    };
++
++    public RadioTile(Host host) {
++        super(host);
++	phone = PhoneFactory.getDefaultPhone();
++    }
++
++    @Override
++    protected BooleanState newTileState() {
++        return new BooleanState();
++    }
++
++    @Override
++    protected void handleClick() {
++        boolean newState = !getState().value;
++        setState(newState);
++        refreshState();
++    }
++
++    @Override
++    protected void handleLongClick() {
++	Intent lauchRadioInfo = new Intent();
++	launchRadioInfo.setClassName("com.android.settings", "com.android.settings.RadioInfo");
++        mHost.startActivityDismissingKeyguard(lauchRadioInfo);
++    }
++
++    private void setEnabled(boolean enabled) {
++        phone.setRadioPower(enabled);
++    }
++
++    @Override
++    protected void handleUpdateState(BooleanState state, Object arg) {
++	state.visible = true;
++	final boolean radioPower = arg instanceof Boolean ? (boolean) arg : phone.isRadioOn();
++	state.value = radioPower;
++	state.label = mContext.getString(R.string.quick_settings_radio_power_label);
++	if(state.value) {
++		state.icon = ResourceIcon.get(R.drawable.ic_qs_radio_on);
++	} else {
++		state.icon = ResourceIcon.get(R.drawable.ic_qs_radio_off);
++	}
++    }
++
++    @Override
++    public void setListening(boolean listening) {
++        if (mListening == listening) return;
++        mListening = listening;
++        if (listening) {
++            final IntentFilter filter = new IntentFilter();
++            filter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
++            mContext.registerReceiver(mReceiver, filter);
++        } else {
++            mContext.unregisterReceiver(mReceiver);
++        }
++        mSetting.setListening(listening);
++    }
++
++    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
++        @Override
++        public void onReceive(Context context, Intent intent) {
++            if (Intent.ACTION_AIRPLANE_MODE_CHANGED.equals(intent.getAction())) {
++                refreshState();
++            }
++        }
++    };
++}
++}
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/QSTileHost.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/QSTileHost.java
+index e88ed73..e6116b7 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/QSTileHost.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/QSTileHost.java
+@@ -59,6 +59,7 @@ import com.android.systemui.qs.tiles.LockscreenToggleTile;
+ import com.android.systemui.qs.tiles.NfcTile;
+ import com.android.systemui.qs.tiles.PerfProfileTile;
+ import com.android.systemui.qs.tiles.ProfilesTile;
++import com.android.systemui.qs.tiles.RadioTile;
+ import com.android.systemui.qs.tiles.RotationLockTile;
+ import com.android.systemui.qs.tiles.ScreenTimeoutTile;
+ import com.android.systemui.qs.tiles.SyncTile;
+@@ -371,6 +372,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
+         else if (tileSpec.equals("lockscreen")) return  new LockscreenToggleTile(this);
+         else if (tileSpec.equals("ambient_display")) return new AmbientDisplayTile(this);
+         else if (tileSpec.equals("heads_up")) return new HeadsUpTile(this);
++	else if (tileSpec.equals("radio_power")) return new RadioTile(this);
+         else if (tileSpec.equals("battery_saver")) return new BatterySaverTile(this);
+         else if (tileSpec.equals("caffeine")) return new CaffeineTile(this);
+         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
+@@ -468,6 +470,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
+         else if (spec.equals("lockscreen")) return R.string.quick_settings_lockscreen_label;
+         else if (spec.equals("ambient_display")) return R.string.quick_settings_ambient_display_label;
+         else if (spec.equals("heads_up")) return R.string.quick_settings_heads_up_label;
++	else if (spec.equals("radio_power")) return R.string.quick_settings_radio_power_label;
+         else if (spec.equals("battery_saver")) return R.string.quick_settings_battery_saver_label;
+         else if (spec.equals("caffeine")) return R.string.quick_settings_caffeine_label;
+         return 0;
+@@ -498,6 +501,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
+         else if (spec.equals("lockscreen")) return R.drawable.ic_qs_lock_screen_on;
+         else if (spec.equals("ambient_display")) return R.drawable.ic_qs_ambientdisplay_on;
+         else if (spec.equals("heads_up")) return R.drawable.ic_qs_heads_up_on;
++	else if (spec.equals("radio_power")) return R.drawable.ic_qs_radio_on;
+         else if (spec.equals("battery_saver")) return R.drawable.ic_qs_battery_saver_on;
+         else if (spec.equals("caffeine")) return R.drawable.ic_qs_caffeine_on;
+         return 0;
+-- 
+2.7.4
+

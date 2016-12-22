@@ -1,0 +1,29 @@
+From 18ed733d195061e992adf5fa8ed060727aa801b9 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 20 Nov 2014 22:02:18 -0500
+Subject: [PATCH] harden configuration
+
+---
+ arch/arm/configs/cyanogenmod_bacon_defconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/configs/cyanogenmod_bacon_defconfig b/arch/arm/configs/cyanogenmod_bacon_defconfig
+index a79f77b..35f1bb0 100644
+--- a/arch/arm/configs/cyanogenmod_bacon_defconfig
++++ b/arch/arm/configs/cyanogenmod_bacon_defconfig
+@@ -3432,13 +3432,13 @@ CONFIG_ARM_UNWIND=y
+ CONFIG_KEYS=y
+ # CONFIG_ENCRYPTED_KEYS is not set
+ # CONFIG_KEYS_DEBUG_PROC_KEYS is not set
+-# CONFIG_SECURITY_DMESG_RESTRICT is not set
++CONFIG_SECURITY_DMESG_RESTRICT
+ CONFIG_SECURITY=y
+ # CONFIG_SECURITYFS is not set
+ CONFIG_SECURITY_NETWORK=y
+ # CONFIG_SECURITY_NETWORK_XFRM is not set
+ # CONFIG_SECURITY_PATH is not set
+-CONFIG_LSM_MMAP_MIN_ADDR=4096
++CONFIG_LSM_MMAP_MIN_ADDR=32768
+ CONFIG_SECURITY_SELINUX=y
+ # CONFIG_SECURITY_SELINUX_BOOTPARAM is not set
+ # CONFIG_SECURITY_SELINUX_DISABLE is not set

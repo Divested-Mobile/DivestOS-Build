@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+<!-- START OF UNNECESSARY REPO REMOVAL -->
+	<remove-project name="CyanogenMod/android_external_ant-wireless_ant_native" />
+	<remove-project name="CyanogenMod/android_external_ant-wireless_ant_service" />
+	<remove-project name="CyanogenMod/android_external_gello_build" />
+	<remove-project name="CyanogenMod/android_hardware_intel_common_libmix" />
+	<remove-project name="CyanogenMod/android_hardware_intel_common_libva" />
+	<remove-project name="CyanogenMod/android_hardware_intel_common_libwsbm" />
+	<remove-project name="CyanogenMod/android_hardware_intel_common_omx-components" />
+	<remove-project name="CyanogenMod/android_hardware_intel_common_utils" />
+	<remove-project name="CyanogenMod/android_hardware_intel_img_hwcomposer" />
+	<remove-project name="CyanogenMod/android_hardware_intel_img_psb_headers" />
+	<remove-project name="CyanogenMod/android_hardware_intel_img_psb_video" />
+	<remove-project name="CyanogenMod/android_hardware_ti_omap4xxx" />
+	<remove-project name="CyanogenMod/android_packages_apps_CMBugreport" />
+	<remove-project name="CyanogenMod/android_packages_apps_FMRadio" />
+	<remove-project name="CyanogenMod/CyanogenMod/android_packages_apps_Gello" />
+	<remove-project name="CyanogenMod/android_packages_apps_ManagedProvisioning" />
+	<remove-project name="CyanogenMod/android_packages_apps_Stk" />
+	<remove-project name="CyanogenMod/android_packages_apps_TvSettings" />
+	<remove-project name="CyanogenMod/android_packages_providers_PartnerBookmarksProvider" />
+	<remove-project name="CyanogenMod/android_packages_providers_TvProvider" />
+	<remove-project name="CyanogenMod/android_packages_screensavers_Basic" />
+	<remove-project name="CyanogenMod/android_packages_screensavers_PhotoTable" />
+	<remove-project name="CyanogenMod/android_packages_screensavers_WebView" />
+	<remove-project name="CyanogenMod/android_packages_services_Car" />
+	<remove-project name="CyanogenMod/android_prebuilts_gcc_darwin-x86_aarch64_aarch64-linux-android-4.9" />
+	<remove-project name="CyanogenMod/android_prebuilts_gcc_darwin-x86_arm_arm-linux-androideabi-4.9" />
+	<remove-project name="CyanogenMod/android_prebuilts_gcc_darwin-x86_x86_x86_64-linux-android-4.9" />
+	<remove-project name="device/generic/goldfish" />
+	<remove-project name="device/generic/mini-emulator-arm64" />
+	<remove-project name="device/generic/mini-emulator-armv7-a-neon" />
+	<remove-project name="device/generic/mini-emulator-x86" />
+	<remove-project name="device/generic/mini-emulator-x86_64" />
+	<remove-project name="device/generic/qemu" />
+	<remove-project name="device/sample" />
+	<remove-project name="platform/cts" />
+	<remove-project name="platform/hardware/intel/audio_media" />
+	<remove-project name="platform/hardware/intel/bootstub" />
+	<remove-project name="platform/hardware/intel/common/bd_prov" />
+	<remove-project name="platform/hardware/intel/common/libstagefrighthw" />
+	<remove-project name="platform/hardware/intel/common/wrs_omxil_core" />
+	<remove-project name="platform/hardware/intel/sensors" />
+	<remove-project name="platform/hardware/ti/omap3" />
+	<remove-project name="platform/hardware/ti/omap4-aah" />
+	<remove-project name="platform/packages/apps/Provision" />
+	<remove-project name="platform/prebuilts/clang/darwin-x86/host/3.6" />
+	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-eabi-4.8" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/host/i686-apple-darwin-4.2.1" />
+	<remove-project name="platform/prebuilts/gdb/darwin-x86" />
+	<remove-project name="platform/prebuilts/go/darwin-x86" />
+	<remove-project name="platform/prebuilts/ninja/darwin-x86" />
+	<remove-project name="platform/prebuilts/python/darwin-x86/2.7.5" />
+<!-- END OF UNNECESSARY REPO REMOVAL -->
+
+
+<!-- START OF REPLACEMENT REPOS -->
+	<!-- Updated WebView 
+	<remove-project name="platform/external/chromium-webview" /> -->
+
+	<!-- OpenDelta Updater -->
+	<remove-project name="CyanogenMod/android_packages_apps_CMUpdater" />
+	<project path="packages/apps/OpenDelta" name="omnirom/android_packages_apps_OpenDelta" remote="github" revision="android-7.1" />
+
+	<!-- TWRP 
+	<remove-project name="CyanogenMod/android_bootable_recovery" />
+	<project path="bootable/recovery" name="omnirom/android_bootable_recovery" remote="github" revision="android-7.0" />-->
+
+	<!-- MicroG -->
+	<project path="packages/apps/GmsCore" name="microg/android_packages_apps_GmsCore" remote="github" revision="master" />
+	<project path="packages/apps/GsfProxy" name="microg/android_packages_apps_GsfProxy" remote="github" revision="master" />
+	<project path="packages/apps/FakeStore" name="microg/android_packages_apps_FakeStore" remote="github" revision="master" />
+
+	<!-- F-Droid -->
+	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
+	<project path="packages/apps/FDroidPrivilegedExtension" name="privileged-extension.git" remote="fdroid" revision="master" />
+	<project path="packages/apps/FDroid" name="fdroidclient.git" remote="fdroid" revision="master" />
+<!-- END OF REPLACEMENT REPOS -->
+
+
+<!-- START OF DEVICE REPOS -->
+	<!-- Common -->
+	<project path="packages/resources/devicesettings" name="CyanogenMod/android_packages_resources_devicesettings" remote="github" />
+	<project path="device/oppo/common" name="CyanogenMod/android_device_oppo_common" remote="github" />
+	<project path="device/qcom/common" name="CyanogenMod/android_device_qcom_common" remote="github" />
+	<project path="hardware/samsung" name="CyanogenMod/android_hardware_samsung" remote="github" />
+	<project path="hardware/sony/thermanager" name="CyanogenMod/android_hardware_sony_thermanager" remote="github" />
+	<project path="kernel/google/msm" name="CyanogenMod/android_kernel_google_msm" remote="github" />
+
+	<!-- Nexus 4 (Mako) -->
+	<project path="device/lge/mako" name="CyanogenMod/android_device_lge_mako" remote="github" />
+	<project path="kernel/lge/mako" name="CyanogenMod/lge-kernel-mako" remote="github" />
+
+	<!-- Nexus 5 (Hammerhead) -->
+	<project path="device/lge/hammerhead" name="CyanogenMod/android_device_lge_hammerhead" remote="github" />
+	<project path="kernel/lge/hammerhead" name="CyanogenMod/android_kernel_lge_hammerhead" remote="github" />
+
+	<!-- Nexus 6 (Shamu) -->
+	<project path="device/moto/shamu" name="CyanogenMod/android_device_moto_shamu" remote="github" />
+	<project path="kernel/moto/shamu" name="CyanogenMod/android_kernel_moto_shamu" remote="github" />
+
+	<!-- Nexus 5X (Bullhead) -->
+	<project path="device/lge/bullhead" name="CyanogenMod/android_device_lge_bullhead" remote="github" />
+	<project path="kernel/lge/bullhead" name="CyanogenMod/android_kernel_lge_bullhead" remote="github" />
+
+	<!-- Nexus 6P (Angler) -->
+	<project path="device/huawei/angler" name="CyanogenMod/android_device_huawei_angler" remote="github" />
+	<project path="kernel/huawei/angler" name="CyanogenMod/android_kernel_huawei_angler" remote="github" />
+
+	<!-- Asus Zenfone 2 Laser (Z00T) -->
+	<project name="CyanogenMod/android_device_asus_msm8916-common" path="device/asus/msm8916-common" remote="github" />
+	<project name="CyanogenMod/android_device_asus_Z00T" path="device/asus/Z00T" remote="github" />
+	<project name="CyanogenMod/android_kernel_asus_msm8916" path="kernel/asus/msm8916" remote="github" />
+
+	<!-- LG G3 (VS985) -->
+	<project path="device/lge/g3-common" name="CyanogenMod/android_device_lge_g3-common" remote="github" />
+	<project path="device/lge/vs985" name="CyanogenMod/android_device_lge_vs985" remote="github" />
+	<project path="kernel/lge/g3" name="CyanogenMod/android_kernel_lge_g3" remote="github" />
+
+	<!-- Moto X Pure Edition (XT1575) -->
+	<project path="device/motorola/clark" name="CyanogenMod/android_device_motorola_clark" remote="github" />
+	<project path="kernel/motorola/msm8992" name="CyanogenMod/android_kernel_motorola_msm8992" remote="github" />
+
+	<!-- OnePlus One (Bacon) -->
+	<project path="device/oneplus/bacon" name="CyanogenMod/android_device_oneplus_bacon" remote="github" />
+	<project path="device/oppo/msm8974-common" name="CyanogenMod/android_device_oppo_msm8974-common" remote="github" />
+	<project path="kernel/oneplus/msm8974" name="CyanogenMod/android_kernel_oneplus_msm8974" remote="github" />
+
+	<!-- Samsung Galaxy Note 4 (trltetmo)
+	<project path="device/samsung/trlte-common" name="CyanogenMod/android_device_samsung_trlte-common" remote="github" />
+	<project path="device/samsung/trltetmo" name="CyanogenMod/android_device_samsung_trltetmo" remote="github" />
+	<project path="kernel/samsung/trlte" name="CyanogenMod/android_kernel_samsung_trlte" remote="github" />-->
+
+	<!-- Proprietary Blobs -->
+	<project path="vendor/asus" name="TheMuppets/proprietary_vendor_asus" remote="github" />
+	<project path="vendor/huawei" name="TheMuppets/proprietary_vendor_huawei" remote="github" />
+	<project path="vendor/lge" name="TheMuppets/proprietary_vendor_lge" remote="github" />
+	<project path="vendor/motorola" name="TheMuppets/proprietary_vendor_motorola" remote="github" />
+	<project path="vendor/oneplus" name="TheMuppets/proprietary_vendor_oneplus" remote="github" />
+	<project path="vendor/oppo" name="TheMuppets/proprietary_vendor_oppo" remote="github" />
+	<project path="vendor/samsung" name="TheMuppets/proprietary_vendor_samsung" remote="github" />
+	<project path="vendor/qcom/binaries" name="TheMuppets/proprietary_vendor_qcom_binaries" remote="github" />
+<!-- END OF DEVICE REPOS -->
+
+</manifest>

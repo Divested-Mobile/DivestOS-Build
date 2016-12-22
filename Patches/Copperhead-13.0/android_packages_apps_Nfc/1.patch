@@ -1,0 +1,25 @@
+From 8d7a463afe1ab6aaecdff9707576b4fe74fab713 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 6 Jun 2015 10:40:51 -0400
+Subject: [PATCH] disable NFC and NDEF Push by default
+
+---
+ src/com/android/nfc/NfcService.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/nfc/NfcService.java b/src/com/android/nfc/NfcService.java
+index 6aa0dfc..cd4b819 100755
+--- a/src/com/android/nfc/NfcService.java
++++ b/src/com/android/nfc/NfcService.java
+@@ -98,9 +98,9 @@
+     public static final String PREF = "NfcServicePrefs";
+ 
+     static final String PREF_NFC_ON = "nfc_on";
+-    static final boolean NFC_ON_DEFAULT = true;
++    static final boolean NFC_ON_DEFAULT = false;
+     static final String PREF_NDEF_PUSH_ON = "ndef_push_on";
+-    static final boolean NDEF_PUSH_ON_DEFAULT = true;
++    static final boolean NDEF_PUSH_ON_DEFAULT = false;
+     static final String PREF_FIRST_BEAM = "first_beam";
+     static final String PREF_FIRST_BOOT = "first_boot";
+     static final String PREF_AIRPLANE_OVERRIDE = "airplane_override";

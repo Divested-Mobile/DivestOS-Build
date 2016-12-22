@@ -1,0 +1,40 @@
+From bffe81a931165fbc57bbf7a7ff688f6b09b911cd Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Wed, 20 Jul 2016 00:06:16 -0400
+Subject: [PATCH] Change default connectivity check URLs
+
+Change-Id: I8d75ab078f179e23b2ae983b7a4e5653f1eca08e
+---
+ .../src/com/android/captiveportallogin/CaptivePortalLoginActivity.java  | 2 +-
+ services/core/java/com/android/server/connectivity/NetworkMonitor.java  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/packages/CaptivePortalLogin/src/com/android/captiveportallogin/CaptivePortalLoginActivity.java b/packages/CaptivePortalLogin/src/com/android/captiveportallogin/CaptivePortalLoginActivity.java
+index ed9c111..09a8898 100644
+--- a/packages/CaptivePortalLogin/src/com/android/captiveportallogin/CaptivePortalLoginActivity.java
++++ b/packages/CaptivePortalLogin/src/com/android/captiveportallogin/CaptivePortalLoginActivity.java
+@@ -86,7 +86,7 @@ public class CaptivePortalLoginActivity extends Activity {
+         if (server == null) server = DEFAULT_SERVER;
+         mCm = ConnectivityManager.from(this);
+         try {
+-            mURL = new URL("http", server, "/generate_204");
++            mURL = new URL("https://spotco.us/gen204.php");
+         } catch (MalformedURLException e) {
+             // System misconfigured, bail out in a way that at least provides network access.
+             Log.e(TAG, "Invalid captive portal URL, server=" + server);
+diff --git a/services/core/java/com/android/server/connectivity/NetworkMonitor.java b/services/core/java/com/android/server/connectivity/NetworkMonitor.java
+index 5108564..0ebf739 100644
+--- a/services/core/java/com/android/server/connectivity/NetworkMonitor.java
++++ b/services/core/java/com/android/server/connectivity/NetworkMonitor.java
+@@ -640,7 +640,7 @@ public class NetworkMonitor extends StateMachine {
+         HttpURLConnection urlConnection = null;
+         int httpResponseCode = 599;
+         try {
+-            URL url = new URL("http", mServer, "/generate_204");
++            URL url = new URL("https://spotco.us/gen204.php");
+             // On networks with a PAC instead of fetching a URL that should result in a 204
+             // reponse, we instead simply fetch the PAC script.  This is done for a few reasons:
+             // 1. At present our PAC code does not yet handle multiple PACs on multiple networks
+-- 
+2.7.4
+

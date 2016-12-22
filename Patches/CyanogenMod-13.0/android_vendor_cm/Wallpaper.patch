@@ -1,0 +1,27 @@
+From 3698eabdc4057a2e977ffb4db60bffb1cea062fa Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sun, 19 Jun 2016 15:13:50 -0400
+Subject: [PATCH] Bring back the custom wallpaper picker [5/5]
+
+Change-Id: Icb52423c63206927b45b72f1d1785c3574f2c0d6
+---
+ config/common.mk | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/config/common.mk b/config/common.mk
+index 75191ba..c2a15ae 100644
+--- a/config/common.mk
++++ b/config/common.mk
+@@ -154,7 +154,8 @@ PRODUCT_PACKAGES += \
+     CMSettingsProvider \
+     ExactCalculator \
+     LiveLockScreenService \
+-    WeatherProvider
++    WeatherProvider \
++    WallpaperPicker
+ 
+ # Exchange support
+ PRODUCT_PACKAGES += \
+-- 
+2.7.4
+

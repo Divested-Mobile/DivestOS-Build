@@ -1,0 +1,62 @@
+From 255e9ab26b965fe004a0081e95f8d2a5550c5663 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 22 Jul 2015 18:51:11 -0400
+Subject: [PATCH] enable PaX features
+
+---
+ arch/arm/configs/cyanogenmod_bacon_defconfig | 42 ++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
+
+diff --git a/arch/arm/configs/cyanogenmod_bacon_defconfig b/arch/arm/configs/cyanogenmod_bacon_defconfig
+index 35bd0f0..73ca036 100644
+--- a/arch/arm/configs/cyanogenmod_bacon_defconfig
++++ b/arch/arm/configs/cyanogenmod_bacon_defconfig
+@@ -3442,6 +3442,48 @@ CONFIG_ARM_UNWIND=y
+ #
+ # Security options
+ #
++
++#
++# PaX
++#
++CONFIG_PAX_USERCOPY_SLABS=y
++CONFIG_PAX=y
++
++#
++# PaX Control
++#
++CONFIG_PAX_SOFTMODE=y
++# CONFIG_PAX_EI_PAX is not set
++# CONFIG_PAX_PT_PAX_FLAGS is not set
++CONFIG_PAX_XATTR_PAX_FLAGS=y
++CONFIG_PAX_NO_ACL_FLAGS=y
++# CONFIG_PAX_HAVE_ACL_FLAGS is not set
++# CONFIG_PAX_HOOK_ACL_FLAGS is not set
++
++#
++# Non-executable pages
++#
++CONFIG_PAX_NOEXEC=y
++CONFIG_PAX_PAGEEXEC=y
++CONFIG_PAX_MPROTECT=y
++# CONFIG_PAX_ELFRELOCS is not set
++CONFIG_PAX_KERNEXEC_PLUGIN_METHOD=""
++
++#
++# Address Space Layout Randomization
++#
++CONFIG_PAX_ASLR=y
++CONFIG_PAX_RANDUSTACK=y
++CONFIG_PAX_RANDMMAP=y
++
++#
++# Miscellaneous hardening features
++#
++CONFIG_PAX_MEMORY_SANITIZE=y
++CONFIG_PAX_REFCOUNT=y
++CONFIG_PAX_USERCOPY=y
++# CONFIG_PAX_CONSTIFY_PLUGIN is not set
++# CONFIG_PAX_LATENT_ENTROPY is not set
+ CONFIG_KEYS=y
+ # CONFIG_ENCRYPTED_KEYS is not set
+ # CONFIG_KEYS_DEBUG_PROC_KEYS is not set
