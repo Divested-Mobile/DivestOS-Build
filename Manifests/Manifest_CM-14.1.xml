@@ -16,7 +16,7 @@
 	<remove-project name="CyanogenMod/android_hardware_ti_omap4xxx" />
 	<remove-project name="CyanogenMod/android_packages_apps_CMBugreport" />
 	<remove-project name="CyanogenMod/android_packages_apps_FMRadio" />
-	<remove-project name="CyanogenMod/CyanogenMod/android_packages_apps_Gello" />
+	<remove-project name="CyanogenMod/android_packages_apps_Gello" />
 	<remove-project name="CyanogenMod/android_packages_apps_ManagedProvisioning" />
 	<remove-project name="CyanogenMod/android_packages_apps_Stk" />
 	<remove-project name="CyanogenMod/android_packages_apps_TvSettings" />
@@ -65,9 +65,10 @@
 	<remove-project name="CyanogenMod/android_packages_apps_CMUpdater" />
 	<project path="packages/apps/OpenDelta" name="omnirom/android_packages_apps_OpenDelta" remote="github" revision="android-7.1" />
 
-	<!-- TWRP 
+	<!-- TWRP
 	<remove-project name="CyanogenMod/android_bootable_recovery" />
-	<project path="bootable/recovery" name="omnirom/android_bootable_recovery" remote="github" revision="android-7.0" />-->
+	<project path="bootable/recovery" name="omnirom/android_bootable_recovery" remote="github" revision="android-7.1" />
+	<project path="external/busybox" name="omnirom/android_external_busybox" remote="github" revision="android-7.1" /> -->
 
 	<!-- MicroG -->
 	<project path="packages/apps/GmsCore" name="microg/android_packages_apps_GmsCore" remote="github" revision="master" />
@@ -84,10 +85,12 @@
 <!-- START OF DEVICE REPOS -->
 	<!-- Common -->
 	<project path="packages/resources/devicesettings" name="CyanogenMod/android_packages_resources_devicesettings" remote="github" />
+	<project path="device/amazon/hdx-common" name="CyanogenMod/android_device_amazon_hdx-common" remote="github" />
 	<project path="device/oppo/common" name="CyanogenMod/android_device_oppo_common" remote="github" />
 	<project path="device/qcom/common" name="CyanogenMod/android_device_qcom_common" remote="github" />
 	<project path="hardware/samsung" name="CyanogenMod/android_hardware_samsung" remote="github" />
 	<project path="hardware/sony/thermanager" name="CyanogenMod/android_hardware_sony_thermanager" remote="github" />
+	<project path="kernel/amazon/hdx-common" name="CyanogenMod/android_kernel_amazon_hdx-common" remote="github" />
 	<project path="kernel/google/msm" name="CyanogenMod/android_kernel_google_msm" remote="github" />
 
 	<!-- Nexus 4 (Mako) -->
@@ -109,6 +112,9 @@
 	<!-- Nexus 6P (Angler) -->
 	<project path="device/huawei/angler" name="CyanogenMod/android_device_huawei_angler" remote="github" />
 	<project path="kernel/huawei/angler" name="CyanogenMod/android_kernel_huawei_angler" remote="github" />
+
+	<!-- Amazon Kindle Fire HDX 7 3rd Gen (Thor)-->
+	<project path="device/amazon/thor" name="CyanogenMod/android_device_amazon_thor" remote="github" />
 
 	<!-- Asus Zenfone 2 Laser (Z00T) -->
 	<project name="CyanogenMod/android_device_asus_msm8916-common" path="device/asus/msm8916-common" remote="github" />
@@ -135,6 +141,7 @@
 	<project path="kernel/samsung/trlte" name="CyanogenMod/android_kernel_samsung_trlte" remote="github" />-->
 
 	<!-- Proprietary Blobs -->
+	<project path="vendor/amazon" name="TheMuppets/proprietary_vendor_amazon" remote="github" />
 	<project path="vendor/asus" name="TheMuppets/proprietary_vendor_asus" remote="github" />
 	<project path="vendor/huawei" name="TheMuppets/proprietary_vendor_huawei" remote="github" />
 	<project path="vendor/lge" name="TheMuppets/proprietary_vendor_lge" remote="github" />
