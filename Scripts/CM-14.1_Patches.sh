@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#TODO: Aggressive Doze (Verify Extended Doze First), App-based battery profiles, Change connectivity check URL, Optimized build flags, Optimized toolchain, OTA Updates, Remove CMAnalytics, Ship Chromium, Update WebView for arm
+#TODO: Aggressive Doze (Verify Extended Doze First), App-based battery profiles, Change connectivity check URL, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Update WebView for arm
 
 #Build UberTC
 #cd /home/tad/Android/Build/UBERTC/scripts && repo sync -j18 && ./arm-eabi-4.8 && ./arm-linux-androideabi-4.9 && ./aarch64-linux-android-4.9
 
 #Delete Everything
-#rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu bootable/recovery
+#rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu bootable/recovery packages/apps/CMParts
 
 #Start a build
 #repo sync -j24 --force-sync && sh ../../Scripts/CM-14.1_Patches.sh && source device/motorola/clark/setup-makefiles.sh && source build/envsetup.sh && export ANDROID_HOME=/home/tad/Android/Build/CyanogenMod-14.1/prebuilts/sdk/current && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch mako
@@ -106,6 +106,9 @@ patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such 
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 patch -p1 < $patches"android_vendor_cm/0002-Monochromium.patch" #Add Chromium webview support
 
+enter "packages/apps/CMParts"
+patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove analytics
+
 enter "frameworks/base"
 git revert 2aaa0472da8d254da1f07aa65a664012b52410f4 #re-enable doze on devices without gms
 #patch -p1 < $patches"android_frameworks_base/0001-Userspace_Location.patch" #Allow location providers outside of /system (MicroG/UnifiedNLP) XXX: This is insecure
@@ -123,6 +126,7 @@ rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core
 #
 enter "device/motorola/clark"
 git fetch https://review.cyanogenmod.org/CyanogenMod/android_device_motorola_clark refs/changes/47/175747/3 && git cherry-pick FETCH_HEAD #sepolicies
+git fetch https://review.cyanogenmod.org/CyanogenMod/android_device_motorola_clark refs/changes/31/178831/1 && git cherry-pick FETCH_HEAD #private sensors
 git revert e80d30e3968308cd2941b893608279220dfcf34f #don't add more sprint blobs
 patch -p1 < $patches"android_device_motorola_clark/0002-Remove_Sprint_DM.patch" #Removes Sprint Device Manager FIXME: Rebase
 patch -p1 < $patches"android_device_motorola_clark/0003-Enable_Dex_Preopt.patch" #Force enables dex pre-optimization
