@@ -14,6 +14,7 @@
 	<remove-project name="CyanogenMod/android_hardware_intel_img_psb_headers" />
 	<remove-project name="CyanogenMod/android_hardware_intel_img_psb_video" />
 	<remove-project name="CyanogenMod/android_hardware_ti_omap4xxx" />
+	<remove-project name="CyanogenMod/android_packages_apps_Browser" />
 	<remove-project name="CyanogenMod/android_packages_apps_CMBugreport" />
 	<remove-project name="CyanogenMod/android_packages_apps_FMRadio" />
 	<remove-project name="CyanogenMod/android_packages_apps_Gello" />
@@ -67,8 +68,8 @@
 
 	<!-- TWRP
 	<remove-project name="CyanogenMod/android_bootable_recovery" />
-	<project path="bootable/recovery" name="omnirom/android_bootable_recovery" remote="github" revision="android-7.1" />
-	<project path="external/busybox" name="omnirom/android_external_busybox" remote="github" revision="android-7.1" /> -->
+	<project path="bootable/recovery" name="omnirom/android_bootable_recovery" remote="github" revision="android-7.1" /> -->
+	<!-- <project path="external/busybox" name="omnirom/android_external_busybox" remote="github" revision="android-7.1" />-->
 
 	<!-- MicroG -->
 	<project path="packages/apps/GmsCore" name="microg/android_packages_apps_GmsCore" remote="github" revision="master" />

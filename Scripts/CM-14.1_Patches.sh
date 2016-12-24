@@ -6,7 +6,7 @@
 #cd /home/tad/Android/Build/UBERTC/scripts && repo sync -j18 && ./arm-eabi-4.8 && ./arm-linux-androideabi-4.9 && ./aarch64-linux-android-4.9
 
 #Delete Everything
-#rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu
+#rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu bootable/recovery
 
 #Start a build
 #repo sync -j24 --force-sync && sh ../../Scripts/CM-14.1_Patches.sh && source device/motorola/clark/setup-makefiles.sh && source build/envsetup.sh && export ANDROID_HOME=/home/tad/Android/Build/CyanogenMod-14.1/prebuilts/sdk/current && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch mako
@@ -50,10 +50,15 @@ enter "build"
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing
 
 #enter "bootable/recovery" #https://gerrit.omnirom.org/#/q/project:android_bootable_recovery
+#The following 8 commits are to get TWRP 3.0.3 building with CyanogenMod 14.1
+#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/31/20831/1 && git cherry-pick FETCH_HEAD
 #git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/37/20837/1 && git cherry-pick FETCH_HEAD
-#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/80/20880/3 && git cherry-pick FETCH_HEAD
 #git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/79/20879/5 && git cherry-pick FETCH_HEAD
-#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/00/20700/7 && git cherry-pick FETCH_HEAD
+#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/87/20887/1 && git cherry-pick FETCH_HEAD
+#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/80/20880/4 && git cherry-pick FETCH_HEAD
+#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/00/20700/8 && git cherry-pick FETCH_HEAD
+#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/90/20890/1 && git cherry-pick FETCH_HEAD
+#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/88/20888/2 && git cherry-pick FETCH_HEAD
 
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
@@ -121,7 +126,7 @@ git revert e80d30e3968308cd2941b893608279220dfcf34f #don't add more sprint blobs
 patch -p1 < $patches"android_device_motorola_clark/0002-Remove_Sprint_DM.patch" #Removes Sprint Device Manager FIXME: Rebase
 patch -p1 < $patches"android_device_motorola_clark/0003-Enable_Dex_Preopt.patch" #Force enables dex pre-optimization
 patch -p1 < $patches"android_device_motorola_clark/0004-Remove_Widevine.patch" #Removes Google Widevine and disables the DRM server
-#patch -p1 < $patches"android_device_motorola_clark/0005-TWRP.patch" #Add TWRP support
+patch -p1 < $patches"android_device_motorola_clark/0005-TWRP.patch" #Add TWRP support
 
 enter "kernel/motorola/msm8992"
 patch -p1 < $patches"android_kernel_motorola_msm8992/0001-OverUnderClock.patch" #a57: 1.82Ghz -> 2.01Ghz, a53 1.44Ghz -> 1.63Ghz, 384Mhz -> 300Mhz	=+1.14Ghz TODO: Enable by default
