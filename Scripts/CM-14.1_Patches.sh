@@ -89,7 +89,6 @@ enter "packages/apps/FDroid"
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Enable privigled module
 #patch -p1 < $patches"android_packages_apps_FDroid/0002.patch" #Remove privigled module settings
 patch -p1 < $patches"android_packages_apps_FDroid/0003.patch" #Hide app updates for apps that are installed to /system
-patch -p1 < $patches"android_packages_apps_FDroid/0004.patch" #Update build tools
 #TODO: Create updated build tools patch
 rm app/src/main/res/xml/preferences.xml.orig
 
@@ -149,7 +148,7 @@ patch -p1 < $patches"android_kernel_oneplus_msm8974/0002-Enable_Diag.patch" #Ena
 enter "device/lge/mako"
 patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed)
 enter "kernel/lge/mako"
-patch -p1 < $patches"android_kernel_lge_mako/0001-OverUnderClock.patch" #384Mhz -> 81Mhz, 1.51Ghz -> 1.94Ghz	=+1.72Ghz TODO: Test this
+patch -p1 < $patches"android_kernel_lge_mako/0001-OverUnderClock.patch" #384Mhz -> 81Mhz, 1.51Ghz -> 1.94Ghz	=+1.72Ghz TODO: Test for performance regression
 
 enter "kernel/lge/hammerhead"
 patch -p1 < $patches"android_kernel_lge_hammerhead/0001-OverUnderClock.patch" #2.26Ghz -> 2.95Ghz	=+2.76Ghz

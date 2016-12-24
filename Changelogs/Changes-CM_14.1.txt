@@ -9,6 +9,7 @@ General Changes
 	- Hardened IPv4 and IPv6 stacks
 	- Hardened special file systems
 	- Hardened SQLite
+	- Nuked CMAnalytics from orbit
 	- Removed unnecessary/outdated/insecure packages. Warning: No Browser is included, please install getChromium or IceCat from F-Droid
 	- Updated Chromium WebView on arm64 devices
 	- F-Droid
