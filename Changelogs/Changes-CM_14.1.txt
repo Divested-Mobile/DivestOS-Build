@@ -1,4 +1,4 @@
-Last Updated: 12/20/2016
+Last Updated: 12/23/2016
 General Changes
 	- Added support for Chromium monochrome
 	- Builds are dex-preopted on supported devices
@@ -9,7 +9,7 @@ General Changes
 	- Hardened IPv4 and IPv6 stacks
 	- Hardened special file systems
 	- Hardened SQLite
-	- Removed unnecessary/outdated/insecure packages
+	- Removed unnecessary/outdated/insecure packages. Warning: No Browser is included, please install getChromium or IceCat from F-Droid
 	- Updated Chromium WebView on arm64 devices
 	- F-Droid
 		- F-Droid and FDroidPrivilegedExtension are included by default

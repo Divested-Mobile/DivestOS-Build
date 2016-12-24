@@ -1,13 +1,13 @@
-From a60baa9277642fe76672d5f05cce86f31c9a31e8 Mon Sep 17 00:00:00 2001
+From e81a668b7d57f230c4b2e924981d579d13d78ce4 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Sun, 18 Dec 2016 16:54:23 -0500
-Subject: [PATCH] Build fixes
+Date: Fri, 23 Dec 2016 19:58:47 -0500
+Subject: [PATCH] Fix build tools
 
-Change-Id: I81326811788ed53b420d5cd6c27dd26f3649ab2e
+Change-Id: I7e30cb163233980e1faded4041791f5311a3ebda
 ---
  Android.mk                            | 4 ++--
- services-framework-proxy/build.gradle | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ services-framework-proxy/build.gradle | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/Android.mk b/Android.mk
 index 50889ae..5193277 100644
@@ -31,14 +31,16 @@ index 50889ae..5193277 100644
  	cd $(gsfproxy_root) && git submodule update --recursive --init
  	cd $(gsfproxy_root)/$(gsfproxy_dir) && JAVA_TOOL_OPTIONS="$(JAVA_TOOL_OPTIONS) -Dfile.encoding=UTF8" ../gradlew assembleRelease
 diff --git a/services-framework-proxy/build.gradle b/services-framework-proxy/build.gradle
-index 6824f94..8d2556b 100644
+index 6824f94..7243816 100644
 --- a/services-framework-proxy/build.gradle
 +++ b/services-framework-proxy/build.gradle
-@@ -45,7 +45,7 @@ int getMyVersionCode() {
+@@ -44,8 +44,8 @@ int getMyVersionCode() {
+ }
  
  android {
-     compileSdkVersion 23
+-    compileSdkVersion 23
 -    buildToolsVersion "23.0.2"
++    compileSdkVersion 24
 +    buildToolsVersion "25.0.1"
  
      defaultConfig {

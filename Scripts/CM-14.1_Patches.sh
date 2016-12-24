@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#TODO: Aggressive Doze (Verify Extended Doze First), App-based battery profiles, Change connectivity check URL, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Update WebView for arm
+#TODO: Aggressive Doze (Verify Extended Doze First), App-based battery profiles, Change connectivity check URL, Optimized build flags, Optimized toolchain, OTA Updates, Remove CMAnalytics, Ship Chromium, Update WebView for arm
 
 #Build UberTC
 #cd /home/tad/Android/Build/UBERTC/scripts && repo sync -j18 && ./arm-eabi-4.8 && ./arm-linux-androideabi-4.9 && ./aarch64-linux-android-4.9
@@ -80,20 +80,20 @@ enter "packages/apps/GmsCore"
 patch -p1 < $patches"android_packages_apps_GmsCore/0001-Fixes.patch" #Update output paths and build tools
 
 enter "packages/apps/GsfProxy"
-patch -p1 < $patches"android_packages_apps_GsfProxy/0001-Fixes.patch" #Update output paths and build tools FIXME: Update SDK to 24
+patch -p1 < $patches"android_packages_apps_GsfProxy/0001-Fixes.patch" #Update output paths and build tools
 
 enter "packages/apps/FakeStore"
 patch -p1 < $patches"android_packages_apps_FakeStore/0001-Fixes.patch" #Update output paths and build tools
 
 enter "packages/apps/FDroid"
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Enable privigled module
-patch -p1 < $patches"android_packages_apps_FDroid/0002.patch" #Remove privigled module settings
+#patch -p1 < $patches"android_packages_apps_FDroid/0002.patch" #Remove privigled module settings
 patch -p1 < $patches"android_packages_apps_FDroid/0003.patch" #Hide app updates for apps that are installed to /system
 patch -p1 < $patches"android_packages_apps_FDroid/0004.patch" #Update build tools
 #TODO: Create updated build tools patch
 rm app/src/main/res/xml/preferences.xml.orig
 
-enter "packages/apps/FDroidPrivilegedExtension" #XXX: Janky af
+enter "packages/apps/FDroidPrivilegedExtension"
 patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0001-Update_Build_Tools.patch" #Update build tools
 patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Release_Key.patch" #Change to release key
 patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0003-Test_Keys.patch" #Add test-keys XXX: ONLY USE FOR TEST BUILDS
@@ -101,6 +101,7 @@ patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0003-Test_K
 #test-keys: C8:A2:E9:BC:CF:59:7C:2F:B6:DC:66:BE:E2:93:FC:13:F2:FC:47:EC:77:BC:6B:2B:0D:52:C1:1F:51:19:2A:B8
 
 enter "vendor/cm"
+rm -rf gello #Gello is built out-of-tree and bundles Google Play Services library
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 patch -p1 < $patches"android_vendor_cm/0002-Monochromium.patch" #Add Chromium webview support
@@ -126,7 +127,7 @@ git revert e80d30e3968308cd2941b893608279220dfcf34f #don't add more sprint blobs
 patch -p1 < $patches"android_device_motorola_clark/0002-Remove_Sprint_DM.patch" #Removes Sprint Device Manager FIXME: Rebase
 patch -p1 < $patches"android_device_motorola_clark/0003-Enable_Dex_Preopt.patch" #Force enables dex pre-optimization
 patch -p1 < $patches"android_device_motorola_clark/0004-Remove_Widevine.patch" #Removes Google Widevine and disables the DRM server
-patch -p1 < $patches"android_device_motorola_clark/0005-TWRP.patch" #Add TWRP support
+#patch -p1 < $patches"android_device_motorola_clark/0005-TWRP.patch" #Add TWRP support
 
 enter "kernel/motorola/msm8992"
 patch -p1 < $patches"android_kernel_motorola_msm8992/0001-OverUnderClock.patch" #a57: 1.82Ghz -> 2.01Ghz, a53 1.44Ghz -> 1.63Ghz, 384Mhz -> 300Mhz	=+1.14Ghz TODO: Enable by default
