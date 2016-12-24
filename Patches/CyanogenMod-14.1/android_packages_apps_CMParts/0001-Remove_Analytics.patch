@@ -1,15 +1,16 @@
-From 9ad75e1fc15a693e811ce21c7bf3825234b1da4a Mon Sep 17 00:00:00 2001
+From 3b221ea04b84cf9df2098598c0d4979446b0c914 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Fri, 23 Dec 2016 20:17:06 -0500
+Date: Fri, 23 Dec 2016 23:09:33 -0500
 Subject: [PATCH] Remove stats
 
-Change-Id: I7221d21e1af24bb584a5b7c9000497962deee05d
+Change-Id: I13313c99c3a839f6ae53d5d87a9999da23fb1103
 ---
  AndroidManifest.xml                                |  25 --
  proguard.flags                                     |   1 -
  res/values/config.xml                              |   5 -
  res/values/strings.xml                             |  22 --
  res/xml/anonymous_stats.xml                        |  32 ---
+ res/xml/parts_catalog.xml                          |   5 -
  res/xml/preview_data.xml                           |  52 ----
  res/xml/privacy_settings.xml                       |   8 -
  .../cmparts/cmstats/AnonymousStats.java            | 101 -------
@@ -18,7 +19,7 @@ Change-Id: I7221d21e1af24bb584a5b7c9000497962deee05d
  .../cmparts/cmstats/ReportingServiceManager.java   | 123 ---------
  .../cmparts/cmstats/StatsUploadJobService.java     | 291 ---------------------
  src/org/cyanogenmod/cmparts/cmstats/Utilities.java | 102 --------
- 13 files changed, 917 deletions(-)
+ 14 files changed, 922 deletions(-)
  delete mode 100644 res/xml/anonymous_stats.xml
  delete mode 100644 res/xml/preview_data.xml
  delete mode 100644 src/org/cyanogenmod/cmparts/cmstats/AnonymousStats.java
@@ -163,6 +164,22 @@ index b29885c..0000000
 -        android:fragment="org.cyanogenmod.cmparts.cmstats.PreviewData" />
 -
 -</PreferenceScreen>
+diff --git a/res/xml/parts_catalog.xml b/res/xml/parts_catalog.xml
+index 07329d9..649e808 100644
+--- a/res/xml/parts_catalog.xml
++++ b/res/xml/parts_catalog.xml
+@@ -73,11 +73,6 @@
+           android:fragment="org.cyanogenmod.cmparts.statusbar.StatusBarSettings"
+           cm:xmlRes="@xml/status_bar_settings" />
+ 
+-    <part android:key="cmstats"
+-          android:title="@string/anonymous_statistics_title"
+-          android:fragment="org.cyanogenmod.cmparts.cmstats.AnonymousStats"
+-          cm:xmlRes="@xml/anonymous_stats" />
+-
+     <part android:key="power_menu"
+           android:title="@string/power_menu_title"
+           android:fragment="org.cyanogenmod.cmparts.input.PowerMenuActions"
 diff --git a/res/xml/preview_data.xml b/res/xml/preview_data.xml
 deleted file mode 100644
 index 025524c..0000000
