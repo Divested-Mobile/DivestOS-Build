@@ -108,6 +108,9 @@ patch -p1 < $patches"android_vendor_cm/0002-Monochromium.patch" #Add Chromium we
 enter "packages/apps/CMParts"
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove analytics
 
+enter "packages/apps/SetupWizard"
+patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove analytics
+
 enter "frameworks/base"
 git revert 2aaa0472da8d254da1f07aa65a664012b52410f4 #re-enable doze on devices without gms
 #patch -p1 < $patches"android_frameworks_base/0001-Userspace_Location.patch" #Allow location providers outside of /system (MicroG/UnifiedNLP) XXX: This is insecure
