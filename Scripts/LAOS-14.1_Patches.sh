@@ -9,7 +9,7 @@
 #rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu bootable/recovery packages/apps/CMParts
 
 #Start a build
-#repo sync -j24 --force-sync && sh ../../Scripts/CM-14.1_Patches.sh && source device/motorola/clark/setup-makefiles.sh && source build/envsetup.sh && export ANDROID_HOME=/home/tad/Android/Build/LineageOS-14.1/prebuilts/sdk/current && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch mako
+#repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source device/motorola/clark/setup-makefiles.sh && source build/envsetup.sh && export ANDROID_HOME=/home/emy/Android/Build/LineageOS-14.1/prebuilts/sdk/current && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch mako
 
 #
 #START OF PREPRATION
@@ -127,8 +127,8 @@ rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core
 #START OF DEVICE CHANGES
 #
 enter "device/motorola/clark"
-git fetch https://review.LineageOS.org/LineageOS/android_device_motorola_clark refs/changes/47/175747/3 && git cherry-pick FETCH_HEAD #sepolicies
-git fetch https://review.LineageOS.org/LineageOS/android_device_motorola_clark refs/changes/31/178831/1 && git cherry-pick FETCH_HEAD #private sensors
+git fetch https://review.lineageos.org/LineageOS/android_device_motorola_clark refs/changes/75/23575/3 && git cherry-pick FETCH_HEAD #sepolicies
+git fetch https://review.lineageos.org/LineageOS/android_device_motorola_clark refs/changes/86/153986/1 && git cherry-pick FETCH_HEAD #speedup dex2oat
 git revert e80d30e3968308cd2941b893608279220dfcf34f #don't add more sprint blobs
 patch -p1 < $patches"android_device_motorola_clark/0002-Remove_Sprint_DM.patch" #Removes Sprint Device Manager FIXME: Rebase
 patch -p1 < $patches"android_device_motorola_clark/0003-Enable_Dex_Preopt.patch" #Force enables dex pre-optimization
