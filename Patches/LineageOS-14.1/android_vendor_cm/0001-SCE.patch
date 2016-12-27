@@ -1,0 +1,27 @@
+From 5b06904bd8fa8009881cf215a0ddecce2a48bdd5 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sun, 18 Dec 2016 10:40:41 -0500
+Subject: [PATCH] SC Extras
+
+Change-Id: Iee06a1cf026e00fc7312454d90a0fef6fcda16e3
+---
+ config/common.mk | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/config/common.mk b/config/common.mk
+index ab54327..577235b 100644
+--- a/config/common.mk
++++ b/config/common.mk
+@@ -125,6 +125,9 @@ include vendor/cm/config/cm_audio.mk
+ # Theme engine
+ include vendor/cm/config/themes_common.mk
+ 
++# SC Extras
++include vendor/cm/config/sce.mk
++
+ ifneq ($(TARGET_DISABLE_CMSDK), true)
+ # CMSDK
+ include vendor/cm/config/cmsdk_common.mk
+-- 
+2.9.3
+

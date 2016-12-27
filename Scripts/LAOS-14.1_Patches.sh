@@ -15,8 +15,8 @@
 #START OF PREPRATION
 #
 #Set some variables for use later on
-base="/home/tad/Android/Build/LineageOS-14.1/"
-patches="/home/tad/Android/Patches/LineageOS-14.1/"
+base="/home/emy/Android/Build/LineageOS-14.1/"
+patches="/home/emy/Android/Patches/LineageOS-14.1/"
 ANDROID_HOME=/home/tad/Android/Build/LineageOS-14.1/prebuilts/sdk/current
 
 #Download some out-of-tree files for use later on

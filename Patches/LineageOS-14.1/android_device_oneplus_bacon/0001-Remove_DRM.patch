@@ -1,0 +1,48 @@
+From 5debdc1dd573384f7a1556a6db2d6960bd7259c5 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 17 Nov 2016 16:35:14 -0500
+Subject: [PATCH] Remove Widevine
+
+Change-Id: I531feb804092b596af47e75530fa88b5c85f628a
+---
+ Android.mk | 24 ------------------------
+ 1 file changed, 24 deletions(-)
+
+diff --git a/Android.mk b/Android.mk
+index dde02c7..08fc62e 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -124,30 +124,6 @@ $(MC_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
+ 
+ ALL_DEFAULT_INSTALLED_MODULES += $(MC_SYMLINKS)
+ 
+-PLAYREADY_IMAGES := \
+-    playread.b00 playread.b01 playread.b02 playread.b03 playread.mdt
+-
+-PLAYREADY_SYMLINKS := $(addprefix $(TARGET_OUT_ETC)/firmware/,$(notdir $(PLAYREADY_IMAGES)))
+-$(PLAYREADY_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
+-	@echo "Playready firmware link: $@"
+-	@mkdir -p $(dir $@)
+-	@rm -rf $@
+-	$(hide) ln -sf /firmware/image/$(notdir $@) $@
+-
+-ALL_DEFAULT_INSTALLED_MODULES += $(PLAYREADY_SYMLINKS)
+-
+-WV_IMAGES := \
+-    widevine.b00 widevine.b01 widevine.b02 widevine.b03 widevine.mdt
+-
+-WV_SYMLINKS := $(addprefix $(TARGET_OUT_ETC)/firmware/,$(notdir $(WV_IMAGES)))
+-$(WV_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
+-	@echo "Widevine firmware link: $@"
+-	@mkdir -p $(dir $@)
+-	@rm -rf $@
+-	$(hide) ln -sf /firmware/image/$(notdir $@) $@
+-
+-ALL_DEFAULT_INSTALLED_MODULES += $(WV_SYMLINKS)
+-
+ # Create links for audcal data files
+ $(shell mkdir -p $(TARGET_OUT)/etc/firmware/wcd9320; \
+ 	ln -sf /data/misc/audio/wcd9320_anc.bin \
+-- 
+2.9.3
+

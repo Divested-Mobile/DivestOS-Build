@@ -1,0 +1,24 @@
+From 44299d2cda16b60235cc682988d59dd3dcd823a5 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Fri, 18 Nov 2016 02:21:47 -0500
+Subject: [PATCH] Enable Dex-preopt
+
+Change-Id: I7634ebac4af7a977cff21a6be83bbda11dc943f4
+---
+ BoardConfig.mk | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/BoardConfig.mk b/BoardConfig.mk
+index 40022b4..250bbb5 100644
+--- a/BoardConfig.mk
++++ b/BoardConfig.mk
+@@ -182,3 +182,6 @@ TARGET_USES_WCNSS_MAC_ADDR_REV   := true
+ WIFI_DRIVER_FW_PATH_STA          := "sta"
+ WIFI_DRIVER_FW_PATH_AP           := "ap"
+ WPA_SUPPLICANT_VERSION           := VER_0_8_X
++
++#Dex pre-optimization
++WITH_DEXPREOPT := true
+-- 
+2.9.3
+

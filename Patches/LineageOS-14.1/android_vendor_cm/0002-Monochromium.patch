@@ -1,0 +1,26 @@
+From 99c3d764e8d8f374d327735d729d7ece1c760c9e Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sun, 18 Dec 2016 18:14:40 -0500
+Subject: [PATCH] Add Chromium webview support
+
+Change-Id: I58c429c88d224af0e7c55ddd27eda85a8448379e
+---
+ .../common/frameworks/base/core/res/res/xml/config_webview_packages.xml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/overlay/common/frameworks/base/core/res/res/xml/config_webview_packages.xml b/overlay/common/frameworks/base/core/res/res/xml/config_webview_packages.xml
+index e05f4aa..fe6f40b 100644
+--- a/overlay/common/frameworks/base/core/res/res/xml/config_webview_packages.xml
++++ b/overlay/common/frameworks/base/core/res/res/xml/config_webview_packages.xml
+@@ -32,6 +32,8 @@
+         <signature>MIIDuzCCAqOgAwIBAgIJANi6DgBQG4ZTMA0GCSqGSIb3DQEBBQUAMHQxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMRYwFAYDVQQHDA1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKDAtHb29nbGUgSW5jLjEQMA4GA1UECwwHQW5kcm9pZDEQMA4GA1UEAwwHd2VidmlldzAeFw0xNDA4MDgyMzIwMjBaFw00MTEyMjQyMzIwMjBaMHQxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMRYwFAYDVQQHDA1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKDAtHb29nbGUgSW5jLjEQMA4GA1UECwwHQW5kcm9pZDEQMA4GA1UEAwwHd2VidmlldzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMbtaFX0r5aZJMAbPVMAgK1ZZ29dTn91VsGxXv2hqrQo7IpqEy2JmPvPnoMsSiuTAe+UcQy8oKDQ2aYVSAd1DGIy+nSRyFTt3LSIAdwSBkB1qT4a+OqkpsR6bSNXQXQ18lCQu9gREY3h3QlYBQAyzRxw4hRGlrXAzuSz1Ec4W+6x4nLG5DG61MAMR8ClF9XSqbmGB3kyZ70A0X9OPYYxiMWP1ExaYvpaVqjyZZcrPwr+vtW8oCuGBUtHpBUH3OoG+9s2YMcgLG7vCK9awKDqlPcJSpIAAj6uGs4gORmkqxZRMskLSTWbhP4p+3Ap8jYzTVB6Y1/DMVmYTWRMcPW0macCAwEAAaNQME4wHQYDVR0OBBYEFJ6bAR6/QVm4w9LRSGQiaR5Rhp3TMB8GA1UdIwQYMBaAFJ6bAR6/QVm4w9LRSGQiaR5Rhp3TMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADggEBAEQu8QiVxax7/diEiJrgKE1LwdXsIygJK/KnaKdnYEkAQpeu/QmrLiycm+OFbL1qHJIB7OuI/PQBUtcaNSiJSCVgtwtEbZWWIdsynqG/Nf4aGOndXegSQNRH54M05sRHLoeRycPrY7xQlEwGikNFR76+5UdwFBQI3Gn22g6puJnVukQm/wXQ+ajoiS4QclrNlixoDQsZ4STLH4+Wju2wIWKFFArIhVEIlbamq+p6BghuzH3aIz/Fy0YTQKi7SA+0fuNeCaqlSm5pYSt6p5CH89y1Fr+wFc5r3iLRnUwRcy08ESC7bZJnxV3d/YQ5valTxBbzku/dQbXVj/xg69H8l8M</signature>
+     </webviewprovider>
+ 
++    <webviewprovider description="Chromium" packageName="org.chromium.chrome" />
++
+     <!-- The default WebView implementation -->
+     <webviewprovider description="AOSP WebView" packageName="com.android.webview" availableByDefault="true" />
+ 
+-- 
+2.9.3
+

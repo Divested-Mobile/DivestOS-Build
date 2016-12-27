@@ -1,0 +1,23 @@
+From 94d13624a7710818698d5787a7bcd7f8a272762b Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sat, 17 Oct 2015 20:50:31 -0400
+Subject: [PATCH] Update defconfig
+
+---
+ arch/arm/configs/cyanogenmod_bacon_defconfig | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/arch/arm/configs/cyanogenmod_bacon_defconfig b/arch/arm/configs/cyanogenmod_bacon_defconfig
+index 33ceebd..8cb1936 100644
+--- a/arch/arm/configs/cyanogenmod_bacon_defconfig
++++ b/arch/arm/configs/cyanogenmod_bacon_defconfig
+@@ -591,3 +591,6 @@ CONFIG_CRYPTO_TWOFISH=y
+ CONFIG_CRYPTO_DEV_QCRYPTO=y
+ CONFIG_CRYPTO_DEV_QCE=y
+ CONFIG_CRYPTO_DEV_QCEDEV=y
++
++CONFIG_DIAG_CHAR=y
++CONFIG_DIAG_OVER_USB=y
+-- 
+2.10.2
+

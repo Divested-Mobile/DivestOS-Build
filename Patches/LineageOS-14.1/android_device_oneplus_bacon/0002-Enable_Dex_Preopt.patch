@@ -1,0 +1,25 @@
+From e12aa9baa815d0279aab7756edc4e9c130f0bbff Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Fri, 18 Nov 2016 02:23:46 -0500
+Subject: [PATCH] Enable Dex-preopt
+
+Change-Id: Id0ee761ca93a2a4cab0d40959610520b193d0528
+---
+ BoardConfig.mk | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/BoardConfig.mk b/BoardConfig.mk
+index 35bde5d..ff476f7 100644
+--- a/BoardConfig.mk
++++ b/BoardConfig.mk
+@@ -197,4 +197,7 @@ TARGET_LDPRELOAD := libNimsWrap.so
+ endif
+ endif
+ 
++#Dex pre-optimization
++WITH_DEXPREOPT := true
++
+ -include vendor/oneplus/bacon/BoardConfigVendor.mk
+-- 
+2.9.3
+

@@ -1,0 +1,484 @@
+From 28793d3021e480bba68fe8b76d9848a6b8aee5d5 Mon Sep 17 00:00:00 2001
+From: flar2 <asegaert@gmail.com>
+Date: Tue, 3 Nov 2015 21:21:34 -0500
+Subject: [PATCH 1/3] msm8992 initial overclocking
+
+---
+ arch/arm/boot/dts/qcom/msm8992-regulator.dtsi | 30 ++++++++++++--------
+ arch/arm/boot/dts/qcom/msm8992.dtsi           | 40 +++++++++++++++++++-------
+ drivers/clk/qcom/clock-cpu-8994.c             |  8 +++---
+ drivers/cpufreq/qcom-cpufreq.c                | 41 +++++++++++++++++++++++++++
+ 4 files changed, 93 insertions(+), 26 deletions(-)
+
+diff --git a/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi b/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi
+index d5f6860..23b23ba 100644
+--- a/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi
++++ b/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi
+@@ -605,7 +605,7 @@
+ 		regulator-name = "apc0_corner";
+ 		qcom,cpr-fuse-corners = <4>;
+ 		regulator-min-microvolt = <1>;
+-		regulator-max-microvolt = <10>;
++		regulator-max-microvolt = <12>;
+ 
+ 		qcom,cpr-voltage-ceiling = <900000 900000 1000000 1180000>;
+ 		qcom,cpr-voltage-floor =   <640000 700000  800000  850000>;
+@@ -669,15 +669,15 @@
+ 		qcom,cpr-init-voltage-ref = <900000 900000 1000000 1230000>;
+ 		qcom,cpr-init-voltage-step = <10000>;
+ 
+-		qcom,cpr-corner-map = <1 1 2 2 3 3 4 4 4 4>;
++		qcom,cpr-corner-map = <1 1 2 2 3 3 4 4 4 4 4 4>;
+ 		qcom,cpr-voltage-ceiling-override =
+ 				<0xFFFFFFFF 0  800000  800000  900000  900000
+ 					      1000000 1000000 1115000 1115000
+-					      1180000 1180000>;
++					      1180000 1180000 1180000 1180000>;
+ 		qcom,cpr-voltage-floor-override =
+ 				<0xFFFFFFFF 0  640000  655000  700000  735000
+ 					       800000  835000  850000  875000
+-					       950000 1000000>;
++					       950000 1000000 1000000 1000000>;
+ 		qcom,cpr-fuse-version-map =
+ 				<0 0xffffffff 0 0 0 0 0>,
+ 				<0 0xffffffff 1 0 0 0 0>,
+@@ -759,10 +759,12 @@
+ 				<7   864000000>,
+ 				<8   960000000>,
+ 				<9  1248000000>,
+-				<10 1440000000>;
++				<10 1440000000>,
++				<11 1536000000>,
++				<12 1632000000>;
+ 		qcom,cpr-speed-bin-max-corners =
+ 				<0 0 2 4 6 9>,
+-				<1 0 2 4 6 10>;
++				<1 0 2 4 6 12>;
+ 		qcom,cpr-enable;
+ 	};
+ 
+@@ -774,7 +776,7 @@
+ 		regulator-name = "apc1_corner";
+ 		qcom,cpr-fuse-corners = <4>;
+ 		regulator-min-microvolt = <1>;
+-		regulator-max-microvolt = <15>;
++		regulator-max-microvolt = <17>;
+ 
+ 		qcom,cpr-voltage-ceiling = <900000 900000 1000000 1180000>;
+ 		qcom,cpr-voltage-floor =   <640000 640000  745000  850000>;
+@@ -841,17 +843,19 @@
+ 		qcom,cpr-init-voltage-ref = <900000 900000 1000000 1230000>;
+ 		qcom,cpr-init-voltage-step = <10000>;
+ 
+-		qcom,cpr-corner-map = <1 2 2 2 2 3 3 3 4 4 4 4 4 4 4>;
++		qcom,cpr-corner-map = <1 2 2 2 2 3 3 3 4 4 4 4 4 4 4 4 4>;
+ 		qcom,cpr-voltage-ceiling-override =
+ 				<0xFFFFFFFF 0  900000  900000  900000  900000
+ 					       900000 1000000 1000000 1000000
+ 					      1115000 1115000 1115000 1115000
+-					      1115000 1115000 1180000>;
++					      1115000 1115000 1180000 1180000
++					      1180000>;
+ 		qcom,cpr-voltage-floor-override =
+ 				<0xFFFFFFFF 0  640000  640000  665000  690000
+ 					       735000  745000  770000  785000
+ 					       850000  860000  880000  900000
+-					       920000  935000 1000000>;
++					       920000  935000 1000000 1000000
++					      1000000>;
+ 		qcom,cpr-fuse-version-map =
+ 				<0xffffffff 0xffffffff 0 4 4 4 4>,
+ 				<0xffffffff 0xffffffff 1 4 4 4 4>,
+@@ -908,9 +912,11 @@
+ 				<12 1536000000>,
+ 				<13 1632000000>,
+ 				<14 1689600000>,
+-				<15 1824000000>;
++				<15 1824000000>,
++				<16 1958400000>,
++				<17 2016000000>;
+ 		qcom,cpr-speed-bin-max-corners =
+-				<0xFFFFFFFF 0 1 5 8 15>;
++				<0xFFFFFFFF 0 1 5 8 17>;
+ 		qcom,cpr-enable;
+ 	};
+ 
+diff --git a/arch/arm/boot/dts/qcom/msm8992.dtsi b/arch/arm/boot/dts/qcom/msm8992.dtsi
+index 5ba420c..8892b56 100644
+--- a/arch/arm/boot/dts/qcom/msm8992.dtsi
++++ b/arch/arm/boot/dts/qcom/msm8992.dtsi
+@@ -852,7 +852,9 @@
+ 				<  787200  3509 >,
+ 				<  864000  4173 >,
+ 				<  960000  5271 >,
+-				< 1440000  7102 >;
++				< 1440000  7102 >,
++				< 1536000  7102 >,
++				< 1632000  7102 >;
+ 			cpu-to-dev-map-4 =
+ 				<  384000  1525 >,
+ 				<  633600  2288 >,
+@@ -860,16 +862,22 @@
+ 				<  864000  4173 >,
+ 				<  960000  5271 >,
+ 				< 1344000  5928 >,
+-				< 1824000  7102 >;
++				< 1824000  7102 >,
++				< 1958400  7102 >,
++				< 2016000  7102 >;
+ 		};
+ 
+ 		mincpubw-cpufreq {
+ 			target-dev = <&mincpubw>;
+ 			cpu-to-dev-map-0 =
+-				< 1440000 1525 >;
++				< 1440000 1525 >,
++				< 1536000 1525 >,
++				< 1632000 1525 >;
+ 			cpu-to-dev-map-4 =
+ 				< 1689600 1525 >,
+-				< 1824000 5928 >;
++				< 1824000 1525 >,
++				< 1958400 1525 >,
++				< 2016000 5928 >;
+ 		};
+ 
+ 		cci-cpufreq {
+@@ -880,7 +888,9 @@
+ 				<  787200 384000 >,
+ 				<  864000 556800 >,
+ 				<  960000 729600 >,
+-				< 1440000 787200 >;
++				< 1440000 787200 >,
++				< 1536000 787200 >,
++				< 1632000 787200 >;
+ 			cpu-to-dev-map-4 =
+ 				<  384000 134400 >,
+ 				<  480000 300000 >,
+@@ -888,7 +898,9 @@
+ 				<  768000 556800 >,
+ 				<  960000 600000 >,
+ 				< 1440000 729600 >,
+-				< 1824000 787200 >;
++				< 1824000 787200 >,
++				< 1958400 787200 >,
++				< 2016000 787200 >;
+ 		};
+ 	};
+ 
+@@ -915,7 +927,9 @@
+ 			<  864000 >,
+ 			<  960000 >,
+ 			< 1248000 >,
+-			< 1440000 >;
++			< 1440000 >,
++			< 1536000 >,
++			< 1632000 >;
+ 
+ 		qcom,cpufreq-table-4 =
+ 			<  384000 >,
+@@ -930,7 +944,9 @@
+ 			< 1536000 >,
+ 			< 1632000 >,
+ 			< 1689600 >,
+-			< 1824000 >;
++			< 1824000 >,
++			< 1958400 >,
++			< 2016000 >;
+ 
+ 	};
+ 
+@@ -968,7 +984,9 @@
+ 				<  864000000 7>,
+ 				<  960000000 8>,
+ 				< 1248000000 9>,
+-				< 1440000000 10>;
++				< 1440000000 10>,
++				< 1536000000 11>,
++				< 1632000000 12>;
+ 		qcom,a57-speedbin0-v0 =
+ 				<	   0 0>,
+ 				<  384000000 5>,
+@@ -983,7 +1001,9 @@
+ 				< 1536000000 12>,
+ 				< 1632000000 13>,
+ 				< 1689600000 14>,
+-				< 1824000000 15>;
++				< 1824000000 15>,
++				< 1958400000 16>,
++				< 2016000000 17>;
+ 		qcom,cci-speedbin0-v0 =
+ 				<	   0 0>,
+ 				<  134400000 2>,
+diff --git a/drivers/clk/qcom/clock-cpu-8994.c b/drivers/clk/qcom/clock-cpu-8994.c
+index 6eb346b..de3d72f 100644
+--- a/drivers/clk/qcom/clock-cpu-8994.c
++++ b/drivers/clk/qcom/clock-cpu-8994.c
+@@ -191,13 +191,13 @@ static struct pll_clk a57_pll0 = {
+ 		.test_ctl_lo_val = 0x00010000,
+ 	},
+ 	.min_rate = 1209600000,
+-	.max_rate = 1996800000,
++	.max_rate = 2073600000,
+ 	.base = &vbases[C1_PLL_BASE],
+ 	.c = {
+ 		.parent = &xo_ao.c,
+ 		.dbg_name = "a57_pll0",
+ 		.ops = &clk_ops_variable_rate_pll,
+-		VDD_DIG_FMAX_MAP2(LOW, 1593600000, NOMINAL, 1996800000),
++		VDD_DIG_FMAX_MAP2(LOW, 1593600000, NOMINAL, 2073600000),
+ 		CLK_INIT(a57_pll0.c),
+ 	},
+ };
+@@ -229,13 +229,13 @@ static struct pll_clk a57_pll1 = {
+ 	/* Necessary since we'll be setting a rate before handoff on V1 */
+ 	.src_rate = 19200000,
+ 	.min_rate = 1209600000,
+-	.max_rate = 1996800000,
++	.max_rate = 2073600000,
+ 	.base = &vbases[C1_PLL_BASE],
+ 	.c = {
+ 		.parent = &xo_ao.c,
+ 		.dbg_name = "a57_pll1",
+ 		.ops = &clk_ops_variable_rate_pll,
+-		VDD_DIG_FMAX_MAP2(LOW, 1593600000, NOMINAL, 1996800000),
++		VDD_DIG_FMAX_MAP2(LOW, 1593600000, NOMINAL, 2073600000),
+ 		CLK_INIT(a57_pll1.c),
+ 	},
+ };
+diff --git a/drivers/cpufreq/qcom-cpufreq.c b/drivers/cpufreq/qcom-cpufreq.c
+index e30b0cb..dd3a589 100644
+--- a/drivers/cpufreq/qcom-cpufreq.c
++++ b/drivers/cpufreq/qcom-cpufreq.c
+@@ -31,6 +31,40 @@
+ 
+ static DEFINE_MUTEX(l2bw_lock);
+ 
++static unsigned long arg_cpu_max_a53 = 1440000;
++
++static int __init cpufreq_read_cpu_max_a53(char *cpu_max_a53)
++{
++	unsigned long ui_khz;
++	int ret;
++
++	ret = kstrtoul(cpu_max_a53, 0, &ui_khz);
++	if (ret)
++		return -EINVAL;
++
++	arg_cpu_max_a53 = ui_khz;
++	printk("cpu_max_a53=%lu\n", arg_cpu_max_a53);
++	return ret;
++}
++__setup("cpu_max_a53=", cpufreq_read_cpu_max_a53);
++
++static unsigned long arg_cpu_max_a57 = 1824000;
++
++static int __init cpufreq_read_cpu_max_a57(char *cpu_max_a57)
++{
++	unsigned long ui_khz;
++	int ret;
++
++	ret = kstrtoul(cpu_max_a57, 0, &ui_khz);
++	if (ret)
++		return -EINVAL;
++
++	arg_cpu_max_a57 = ui_khz;
++	printk("cpu_max_a57=%lu\n", arg_cpu_max_a57);
++	return ret;
++}
++__setup("cpu_max_a57=", cpufreq_read_cpu_max_a57);
++
+ static struct clk *cpu_clk[NR_CPUS];
+ static struct clk *l2_clk;
+ static DEFINE_PER_CPU(struct cpufreq_frequency_table *, freq_table);
+@@ -364,6 +398,13 @@ static struct cpufreq_frequency_table *cpufreq_parse_dt(struct device *dev,
+ 		if (i > 0 && f <= ftbl[i-1].frequency)
+ 			break;
+ 
++		//Custom max freq
++		if ((cpu < 4 && f > arg_cpu_max_a53) ||
++				(cpu >= 4 && f > arg_cpu_max_a57)) {
++			nf = i;
++			break;
++		}
++
+ 		ftbl[i].driver_data = i;
+ 		ftbl[i].frequency = f;
+ 	}
+-- 
+2.9.3
+
+
+From 9dfe99b9f8eead920f7cdefdb2ae7b1cea776d9b Mon Sep 17 00:00:00 2001
+From: dirtyhank <dirtyhank@gmail.com>
+Date: Thu, 14 Jan 2016 12:56:07 +0100
+Subject: [PATCH 2/3] CPU underclocking
+
+  Based on underclocking to Nexus 6P by anarkia1976
+---
+ arch/arm/boot/dts/qcom/msm8992-regulator.dtsi |  6 +++---
+ arch/arm/boot/dts/qcom/msm8992.dtsi           | 14 +++++++++++---
+ 2 files changed, 14 insertions(+), 6 deletions(-)
+
+diff --git a/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi b/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi
+index 23b23ba..1ef9eb3 100644
+--- a/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi
++++ b/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi
+@@ -750,7 +750,7 @@
+ 		qcom,cpr-voltage-scaling-factor-max = <0 0 2000 2000>;
+ 		qcom,cpr-quot-adjust-scaling-factor-max = <0 2000 2000 2000>;
+ 		qcom,cpr-corner-frequency-map =
+-				<1   300000000>,
++				<1   302400000>,
+ 				<2   384000000>,
+ 				<3   460800000>,
+ 				<4   600000000>,
+@@ -898,8 +898,8 @@
+ 		qcom,cpr-voltage-scaling-factor-max = <0 0 2000 2000>;
+ 		qcom,cpr-quot-adjust-scaling-factor-max = <0 0 2000 2000>;
+ 		qcom,cpr-corner-frequency-map =
+-				<1   300000000>, /* SVS Fmin for "SVS2" */
+-				<2   300000000>,
++				<1   302400000>, /* SVS Fmin for "SVS2" */
++				<2   302400000>,
+ 				<3   384000000>,
+ 				<4   480000000>,
+ 				<5   633600000>,
+diff --git a/arch/arm/boot/dts/qcom/msm8992.dtsi b/arch/arm/boot/dts/qcom/msm8992.dtsi
+index 8892b56..f6a39cd 100644
+--- a/arch/arm/boot/dts/qcom/msm8992.dtsi
++++ b/arch/arm/boot/dts/qcom/msm8992.dtsi
+@@ -796,7 +796,7 @@
+ 		governor = "cpufreq";
+ 		freq-tbl-khz =
+ 			<  134400 >,
+-			<  300000 >,
++			<  302400 >,
+ 			<  384000 >,
+ 			<  556800 >,
+ 			<  600000 >,
+@@ -856,7 +856,8 @@
+ 				< 1536000  7102 >,
+ 				< 1632000  7102 >;
+ 			cpu-to-dev-map-4 =
+-				<  384000  1525 >,
++ 				<  302400  1525 >,
++ 				<  384000  1525 >,
+ 				<  633600  2288 >,
+ 				<  768000  3509 >,
+ 				<  864000  4173 >,
+@@ -883,6 +884,7 @@
+ 		cci-cpufreq {
+ 			target-dev = <&cci_cache>;
+ 			cpu-to-dev-map-0 =
++				<  302400 134400 >,
+ 				<  384000 134400 >,
+ 				<  600000 300000 >,
+ 				<  787200 384000 >,
+@@ -892,6 +894,7 @@
+ 				< 1536000 787200 >,
+ 				< 1632000 787200 >;
+ 			cpu-to-dev-map-4 =
++				<  302400 134400 >,
+ 				<  384000 134400 >,
+ 				<  480000 300000 >,
+ 				<  633600 384000 >,
+@@ -919,6 +922,7 @@
+ 		qcom,governor-per-policy;
+ 
+ 		qcom,cpufreq-table-0 =
++			<  302400 >,
+ 			<  384000 >,
+ 			<  460800 >,
+ 			<  600000 >,
+@@ -932,6 +936,7 @@
+ 			< 1632000 >;
+ 
+ 		qcom,cpufreq-table-4 =
++			<  302400 >,
+ 			<  384000 >,
+ 			<  480000 >,
+ 			<  633600 >,
+@@ -966,6 +971,7 @@
+ 		vdd-dig-supply = <&pm8994_s2_corner_ao>;
+ 		qcom,a53-speedbin0-v0 =
+ 				<	   0 0>,
++				<  302400000 1>,
+ 				<  384000000 2>,
+ 				<  460800000 3>,
+ 				<  600000000 4>,
+@@ -976,6 +982,7 @@
+ 				< 1248000000 9>;
+ 		qcom,a53-speedbin1-v0 =
+ 				<	   0 0>,
++				<  302400000 1>,
+ 				<  384000000 2>,
+ 				<  460800000 3>,
+ 				<  600000000 4>,
+@@ -989,6 +996,7 @@
+ 				< 1632000000 12>;
+ 		qcom,a57-speedbin0-v0 =
+ 				<	   0 0>,
++				<  302400000 5>,
+ 				<  384000000 5>,
+ 				<  480000000 5>,
+ 				<  633600000 5>,
+@@ -1007,7 +1015,7 @@
+ 		qcom,cci-speedbin0-v0 =
+ 				<	   0 0>,
+ 				<  134400000 2>,
+-				<  300000000 4>,
++				<  302400000 4>,
+ 				<  384000000 6>,
+ 				<  556800000 6>,
+ 				<  600000000 8>,
+-- 
+2.9.3
+
+
+From b7e24657fb125b77bb5d9a39493040e1234c7c83 Mon Sep 17 00:00:00 2001
+From: flar2 <asegaert@gmail.com>
+Date: Mon, 21 Nov 2016 21:40:09 -0500
+Subject: [PATCH 3/3] msm8992: bump oc voltages
+
+---
+ arch/arm/boot/dts/qcom/msm8992-regulator.dtsi | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi b/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi
+index 1ef9eb3..d2a875b 100644
+--- a/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi
++++ b/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi
+@@ -673,11 +673,11 @@
+ 		qcom,cpr-voltage-ceiling-override =
+ 				<0xFFFFFFFF 0  800000  800000  900000  900000
+ 					      1000000 1000000 1115000 1115000
+-					      1180000 1180000 1180000 1180000>;
++					      1180000 1180000 1180000 1200000>;
+ 		qcom,cpr-voltage-floor-override =
+ 				<0xFFFFFFFF 0  640000  655000  700000  735000
+ 					       800000  835000  850000  875000
+-					       950000 1000000 1000000 1000000>;
++					       950000 1000000 1000000 1100000>;
+ 		qcom,cpr-fuse-version-map =
+ 				<0 0xffffffff 0 0 0 0 0>,
+ 				<0 0xffffffff 1 0 0 0 0>,
+@@ -849,13 +849,13 @@
+ 					       900000 1000000 1000000 1000000
+ 					      1115000 1115000 1115000 1115000
+ 					      1115000 1115000 1180000 1180000
+-					      1180000>;
++					      1200000>;
+ 		qcom,cpr-voltage-floor-override =
+ 				<0xFFFFFFFF 0  640000  640000  665000  690000
+ 					       735000  745000  770000  785000
+ 					       850000  860000  880000  900000
+ 					       920000  935000 1000000 1000000
+-					      1000000>;
++					      1100000>;
+ 		qcom,cpr-fuse-version-map =
+ 				<0xffffffff 0xffffffff 0 4 4 4 4>,
+ 				<0xffffffff 0xffffffff 1 4 4 4 4>,
+-- 
+2.9.3
+
