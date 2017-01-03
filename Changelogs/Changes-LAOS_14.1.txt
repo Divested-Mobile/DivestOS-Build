@@ -1,5 +1,5 @@
-Last Updated: 12/23/2016
-Credits: CyanogenMod, CopperheadOS, OmniROM, TeamWin, F-Droid, MicroG, anarkia1976, bhb27, Daniel Micay, dirtyhank, Evisceration, Felipe de Leon, flar2, franciscofranco, hellsgod, mar-v-in, nikhil18, Paul Reioux, savoca, stefano.villa1976, WedyDQ10, XileForce
+Last Updated: 01/02/2017
+Credits: LineageOS, CyanogenMod, CopperheadOS, OmniROM, TeamWin, F-Droid, MicroG, anarkia1976, bhb27, Daniel Micay, dirtyhank, Evisceration, Felipe de Leon, flar2, franciscofranco, hellsgod, mar-v-in, nikhil18, Paul Reioux, savoca, stefano.villa1976, WedyDQ10, XileForce
 General Changes
 	- Added support for Chromium monochrome
 	- Builds are dex-preopted on supported devices

@@ -49,17 +49,6 @@ enter "build"
 #git revert 6f9c2e115aeccd7090f92f1fb91bc6052522cdd1 #Enable dex pre-optimization by default again
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing
 
-#enter "bootable/recovery" #https://gerrit.omnirom.org/#/q/project:android_bootable_recovery
-#The following 8 commits are to get TWRP 3.0.3 building with LineageOS 14.1
-#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/31/20831/1 && git cherry-pick FETCH_HEAD
-#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/37/20837/1 && git cherry-pick FETCH_HEAD
-#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/79/20879/5 && git cherry-pick FETCH_HEAD
-#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/87/20887/1 && git cherry-pick FETCH_HEAD
-#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/80/20880/4 && git cherry-pick FETCH_HEAD
-#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/00/20700/8 && git cherry-pick FETCH_HEAD
-#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/90/20890/1 && git cherry-pick FETCH_HEAD
-#git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/88/20888/2 && git cherry-pick FETCH_HEAD
-
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 patch -p1 < $patches"android_system_core/0001-Hardening.patch" #Misc hardening
@@ -106,7 +95,8 @@ cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 patch -p1 < $patches"android_vendor_cm/0002-Monochromium.patch" #Add Chromium webview support
 
 enter "packages/apps/CMParts"
-patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove analytics
+git revert 5b40a9be9e8bb3e5dee428c442cf7451a1d14c0c 4675ff3e918eba2156338753d81fbfb8351f077e fed965cd2980b3cab5d950f38921191d83b3c23d 3e7c02893affcd217d16bac9400ee361613b0692 ae1f124858943f7d99e9eb1e100e01297da5cc52 #revert stat changes
+patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove analytics FIXME: Rebase
 
 enter "packages/apps/SetupWizard"
 patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove analytics
