@@ -1,4 +1,4 @@
-Last Updated: 01/02/2017
+Last Updated: 01/03/2017
 Credits: LineageOS, CyanogenMod, CopperheadOS, OmniROM, TeamWin, F-Droid, MicroG, anarkia1976, bhb27, Daniel Micay, dirtyhank, Evisceration, Felipe de Leon, flar2, franciscofranco, hellsgod, mar-v-in, nikhil18, Paul Reioux, savoca, stefano.villa1976, WedyDQ10, XileForce
 General Changes
 	- Added support for Chromium monochrome
@@ -12,6 +12,7 @@ General Changes
 	- Hardened SQLite
 	- Nuked CMAnalytics from orbit
 	- Removed unnecessary/outdated/insecure packages. Warning: No Browser is included, please install getChromium or IceCat from F-Droid
+	- Replaced stock emoji font with EmojiOne (Standardized and Legible)
 	- Updated Chromium WebView on arm64 devices
 	- F-Droid
 		- F-Droid and FDroidPrivilegedExtension are included by default

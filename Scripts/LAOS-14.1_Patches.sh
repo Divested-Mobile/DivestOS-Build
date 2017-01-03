@@ -9,21 +9,22 @@
 #rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu bootable/recovery packages/apps/CMParts
 
 #Start a build
-#repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source device/motorola/clark/setup-makefiles.sh && source build/envsetup.sh && export ANDROID_HOME=/home/emy/Android/Build/LineageOS-14.1/prebuilts/sdk/current && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch mako
+#repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source device/motorola/clark/setup-makefiles.sh && source build/envsetup.sh && export ANDROID_HOME="/home/tad/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch mako
 
 #
 #START OF PREPRATION
 #
 #Set some variables for use later on
-base="/home/emy/Android/Build/LineageOS-14.1/"
-patches="/home/emy/Android/Patches/LineageOS-14.1/"
-ANDROID_HOME=/home/tad/Android/Build/LineageOS-14.1/prebuilts/sdk/current
+base="/home/tad/Android/Build/LineageOS-14.1/"
+patches="/home/tad/Android/Patches/LineageOS-14.1/"
+ANDROID_HOME="/home/tad/Android/SDK"
 
 #Download some out-of-tree files for use later on
 mkdir -p /tmp/ar
 cd /tmp/ar
 wget https://spotco.us/hosts -N
 wget https://gitlab.com/copperhead/platform_external_chromium-webview/raw/nougat-mr1-release/prebuilt/arm64/webview.apk -N
+wget https://github.com/Ranks/emojione/raw/master/assets/fonts/emojione-android.ttf
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
 mkdir -p "$ANDROID_HOME/licenses"
@@ -48,6 +49,9 @@ enter() {
 enter "build"
 #git revert 6f9c2e115aeccd7090f92f1fb91bc6052522cdd1 #Enable dex pre-optimization by default again
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing
+
+enter "external/noto-fonts"
+cp /tmp/ar/emojione-android.ttf other/NotoColorEmoji.ttf #Change emoji font to EmojiOne
 
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
