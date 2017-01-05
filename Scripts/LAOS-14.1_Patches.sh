@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#TODO: Aggressive Doze (Verify Extended Doze First), App-based battery profiles, Change connectivity check URL, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Update WebView for arm
+#TODO: Aggressive Doze (Verify Extended Doze First), App-based battery profiles, Change connectivity check URL, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium
 
 #Build UberTC
 #cd /home/tad/Android/Build/UBERTC/scripts && repo sync -j18 && ./arm-eabi-4.8 && ./arm-linux-androideabi-4.9 && ./aarch64-linux-android-4.9
@@ -24,7 +24,7 @@ mkdir -p /tmp/ar
 cd /tmp/ar
 wget https://spotco.us/hosts -N
 wget https://gitlab.com/copperhead/platform_external_chromium-webview/raw/nougat-mr1-release/prebuilt/arm64/webview.apk -N
-wget https://github.com/Ranks/emojione/raw/master/assets/fonts/emojione-android.ttf
+wget https://github.com/Ranks/emojione/raw/master/assets/fonts/emojione-android.ttf -N
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
 mkdir -p "$ANDROID_HOME/licenses"
@@ -47,7 +47,7 @@ enter() {
 #START OF ROM CHANGES
 #
 enter "build"
-#git revert 6f9c2e115aeccd7090f92f1fb91bc6052522cdd1 #Enable dex pre-optimization by default again
+git revert 6f9c2e115aeccd7090f92f1fb91bc6052522cdd1 #Enable dex pre-optimization by default again
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing
 
 enter "external/noto-fonts"
@@ -97,8 +97,10 @@ rm -rf gello #Gello is built out-of-tree and bundles Google Play Services librar
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 patch -p1 < $patches"android_vendor_cm/0002-Monochromium.patch" #Add Chromium webview support
+echo drawable-hdpi drawable-nodpi drawable-sw600dp-nodpi drawable-sw720dp-nodpi drawable-xhdpi drawable-xxhdpi drawable-xxxhdpi | xargs -n 1 cp $patches"android_vendor_cm/default_wallpaper.png" #Change the default wallpaper
 
 enter "packages/apps/CMParts"
+git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/44/154844/1 && git cherry-pick FETCH_HEAD #fix crash
 git revert 5b40a9be9e8bb3e5dee428c442cf7451a1d14c0c 4675ff3e918eba2156338753d81fbfb8351f077e fed965cd2980b3cab5d950f38921191d83b3c23d 3e7c02893affcd217d16bac9400ee361613b0692 ae1f124858943f7d99e9eb1e100e01297da5cc52 #revert stat changes
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove analytics FIXME: Rebase
 

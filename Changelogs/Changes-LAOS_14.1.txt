@@ -1,10 +1,11 @@
-Last Updated: 01/03/2017
-Credits: LineageOS, CyanogenMod, CopperheadOS, OmniROM, TeamWin, F-Droid, MicroG, anarkia1976, bhb27, Daniel Micay, dirtyhank, Evisceration, Felipe de Leon, flar2, franciscofranco, hellsgod, mar-v-in, nikhil18, Paul Reioux, savoca, stefano.villa1976, WedyDQ10, XileForce
+Last Updated: 01/05/2017
+Credits: LineageOS, CyanogenMod, CopperheadOS, OmniROM, TeamWin, F-Droid, MicroG, EmojiOne, anarkia1976, bhb27, Daniel Micay, dirtyhank, Evisceration, Felipe de Leon, flar2, franciscofranco, hellsgod, mar-v-in, nikhil18, Paul Reioux, savoca, stefano.villa1976, WedyDQ10, XileForce
 General Changes
 	- Added support for Chromium monochrome
 	- Builds are dex-preopted on supported devices
 	- Builds are signed with private release-keys
 	- Bundled in our custom DNS blocklist
+	- Changed the default wallpaper
 	- Compiled with OpenJDK 8
 	- Doze is re-enabled on devices without real Google Play Services
 	- Hardened IPv4 and IPv6 stacks
@@ -13,7 +14,8 @@ General Changes
 	- Nuked CMAnalytics from orbit
 	- Removed unnecessary/outdated/insecure packages. Warning: No Browser is included, please install getChromium or IceCat from F-Droid
 	- Replaced stock emoji font with EmojiOne (Standardized and Legible)
-	- Updated Chromium WebView on arm64 devices
+	- Switched from userdebug to user builds (Faster and More Secure)
+	- Updated Chromium WebView
 	- F-Droid
 		- F-Droid and FDroidPrivilegedExtension are included by default
 		- FDroidPrivilegedExtension ONLY allows access to our signed version of F-Droid

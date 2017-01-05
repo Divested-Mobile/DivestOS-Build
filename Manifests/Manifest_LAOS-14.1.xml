@@ -2,23 +2,11 @@
 <manifest>
 
 <!-- START OF UNNECESSARY REPO REMOVAL -->
-	<remove-project name="LineageOS/android_external_ant-wireless_ant_native" />
-	<remove-project name="LineageOS/android_external_ant-wireless_ant_service" />
 	<remove-project name="LineageOS/android_external_gello_build" />
-	<remove-project name="LineageOS/android_hardware_intel_common_libmix" />
-	<remove-project name="LineageOS/android_hardware_intel_common_libva" />
-	<remove-project name="LineageOS/android_hardware_intel_common_libwsbm" />
-	<remove-project name="LineageOS/android_hardware_intel_common_omx-components" />
-	<remove-project name="LineageOS/android_hardware_intel_common_utils" />
-	<remove-project name="LineageOS/android_hardware_intel_img_hwcomposer" />
-	<remove-project name="LineageOS/android_hardware_intel_img_psb_headers" />
-	<remove-project name="LineageOS/android_hardware_intel_img_psb_video" />
-	<remove-project name="LineageOS/android_hardware_ti_omap4xxx" />
 	<remove-project name="LineageOS/android_packages_apps_Browser" />
 	<remove-project name="LineageOS/android_packages_apps_CMBugreport" />
-	<remove-project name="LineageOS/android_packages_apps_FMRadio" />
 	<remove-project name="LineageOS/android_packages_apps_Gello" />
-	<remove-project name="LineageOS/android_packages_apps_ManagedProvisioning" />
+	<!--<remove-project name="LineageOS/android_packages_apps_ManagedProvisioning" />-->
 	<remove-project name="LineageOS/android_packages_apps_Stk" />
 	<remove-project name="LineageOS/android_packages_apps_TvSettings" />
 	<remove-project name="LineageOS/android_packages_providers_PartnerBookmarksProvider" />
@@ -26,7 +14,6 @@
 	<remove-project name="LineageOS/android_packages_screensavers_Basic" />
 	<remove-project name="LineageOS/android_packages_screensavers_PhotoTable" />
 	<remove-project name="LineageOS/android_packages_screensavers_WebView" />
-	<remove-project name="LineageOS/android_packages_services_Car" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_aarch64_aarch64-linux-android-4.9" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_arm_arm-linux-androideabi-4.9" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_x86_x86_64-linux-android-4.9" />
@@ -37,16 +24,7 @@
 	<remove-project name="device/generic/mini-emulator-x86_64" />
 	<remove-project name="device/generic/qemu" />
 	<remove-project name="device/sample" />
-	<remove-project name="platform/cts" />
-	<remove-project name="platform/hardware/intel/audio_media" />
-	<remove-project name="platform/hardware/intel/bootstub" />
-	<remove-project name="platform/hardware/intel/common/bd_prov" />
-	<remove-project name="platform/hardware/intel/common/libstagefrighthw" />
-	<remove-project name="platform/hardware/intel/common/wrs_omxil_core" />
-	<remove-project name="platform/hardware/intel/sensors" />
-	<remove-project name="platform/hardware/ti/omap3" />
-	<remove-project name="platform/hardware/ti/omap4-aah" />
-	<remove-project name="platform/packages/apps/Provision" />
+	<!--<remove-project name="platform/packages/apps/Provision" />-->
 	<remove-project name="platform/prebuilts/clang/darwin-x86/host/3.6" />
 	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
 	<remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-eabi-4.8" />
@@ -59,12 +37,13 @@
 
 
 <!-- START OF REPLACEMENT REPOS -->
-	<!-- Updated WebView 
-	<remove-project name="platform/external/chromium-webview" /> -->
+	<!-- Updated WebView -->
+	<remove-project name="platform/external/chromium-webview" />
+	<project path="external/chromium-webview" name="LineageOS/android_external_chromium-webview" remote="github" />
 
 	<!-- OpenDelta Updater -->
 	<remove-project name="LineageOS/android_packages_apps_CMUpdater" />
-	<project path="packages/apps/OpenDelta" name="omnirom/android_packages_apps_OpenDelta" remote="github" revision="android-7.1" />
+	<!--<project path="packages/apps/OpenDelta" name="omnirom/android_packages_apps_OpenDelta" remote="github" revision="android-7.1" />-->
 
 	<!-- TWRP
 	<remove-project name="LineageOS/android_bootable_recovery" />
