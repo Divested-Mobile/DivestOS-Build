@@ -5,7 +5,6 @@ General Changes
 	- Builds are dex-preopted on supported devices
 	- Builds are signed with private release-keys
 	- Bundled in our custom DNS blocklist
-	- Changed the default wallpaper
 	- Compiled with OpenJDK 8
 	- Doze is re-enabled on devices without real Google Play Services
 	- Hardened IPv4 and IPv6 stacks

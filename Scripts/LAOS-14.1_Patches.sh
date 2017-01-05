@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#TODO: Aggressive Doze (Verify Extended Doze First), App-based battery profiles, Change connectivity check URL, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium
+#TODO: Aggressive Doze (Verify Extended Doze First), App-based battery profiles, Change connectivity check URL, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Wallpaper
 
 #Build UberTC
 #cd /home/tad/Android/Build/UBERTC/scripts && repo sync -j18 && ./arm-eabi-4.8 && ./arm-linux-androideabi-4.9 && ./aarch64-linux-android-4.9
