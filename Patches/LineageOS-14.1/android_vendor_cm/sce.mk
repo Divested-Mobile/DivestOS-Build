@@ -8,7 +8,3 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     F-Droid \
     FDroidPrivilegedExtension
-
-# Superuser
-PRODUCT_PACKAGES += \
-    su

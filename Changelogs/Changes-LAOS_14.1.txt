@@ -13,7 +13,6 @@ General Changes
 	- Nuked CMAnalytics from orbit
 	- Removed unnecessary/outdated/insecure packages. Warning: No Browser is included, please install getChromium or IceCat from F-Droid
 	- Replaced stock emoji font with EmojiOne (Standardized and Legible)
-	- Switched from userdebug to user builds (Faster and More Secure)
 	- Updated Chromium WebView
 	- F-Droid
 		- F-Droid and FDroidPrivilegedExtension are included by default
