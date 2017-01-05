@@ -97,7 +97,6 @@ rm -rf gello #Gello is built out-of-tree and bundles Google Play Services librar
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 patch -p1 < $patches"android_vendor_cm/0002-Monochromium.patch" #Add Chromium webview support
-echo drawable-hdpi drawable-nodpi drawable-sw600dp-nodpi drawable-sw720dp-nodpi drawable-xhdpi drawable-xxhdpi drawable-xxxhdpi | xargs -n 1 cp $patches"android_vendor_cm/default_wallpaper.png" #Change the default wallpaper
 
 enter "packages/apps/CMParts"
 git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/44/154844/1 && git cherry-pick FETCH_HEAD #fix crash
