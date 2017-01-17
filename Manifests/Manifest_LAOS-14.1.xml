@@ -41,6 +41,9 @@
 	<remove-project name="platform/external/chromium-webview" />
 	<project path="external/chromium-webview" name="LineageOS/android_external_chromium-webview" remote="github" />
 
+	<!-- Quick Tiles -->
+	<project path="packages/apps/CustomTiles" name="zwliew/android_packages_apps_CustomTiles" remote="github" />
+
 	<!-- OpenDelta Updater -->
 	<remove-project name="LineageOS/android_packages_apps_CMUpdater" />
 	<!--<project path="packages/apps/OpenDelta" name="omnirom/android_packages_apps_OpenDelta" remote="github" revision="android-7.1" />-->
