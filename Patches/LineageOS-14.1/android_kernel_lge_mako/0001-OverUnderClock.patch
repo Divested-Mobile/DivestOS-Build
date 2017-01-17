@@ -1,16 +1,30 @@
-From 92d396b53cbdf91a7b61a857ca335f39cdb0f8bb Mon Sep 17 00:00:00 2001
+From 96b13d96a52a122a3028cd85b77937688672aebf Mon Sep 17 00:00:00 2001
 From: anarkia1976 <stefano.villa1976@gmail.com>
-Date: Sun, 12 Jan 2014 20:26:27 +0100
-Subject: [PATCH 1/4] msm: cpu: overclock: added low (162Mhz) and high
- (1944Mhz) cpu
+Date: Tue, 17 Jan 2017 18:26:50 -0500
+Subject: [PATCH] OverUnderClock
 
+Change-Id: I341ea6c07898001ecea1dee2f81f4a05e0058292
 ---
- arch/arm/mach-msm/Kconfig           | 12 +++++
- arch/arm/mach-msm/acpuclock-8064.c  | 91 +++++++++++++++++++++++++++++++++++++
- arch/arm/mach-msm/acpuclock-krait.c |  8 +++-
- arch/arm/mach-msm/msm_dcvs.c        |  5 ++
- 4 files changed, 115 insertions(+), 1 deletion(-)
+ arch/arm/configs/lineageos_mako_defconfig |   2 +
+ arch/arm/mach-msm/Kconfig                 |  12 ++
+ arch/arm/mach-msm/acpuclock-8064.c        | 259 +++++++++++++++++++++---------
+ arch/arm/mach-msm/acpuclock-krait.c       |   8 +-
+ arch/arm/mach-msm/msm_dcvs.c              |   5 +
+ 5 files changed, 205 insertions(+), 81 deletions(-)
 
+diff --git a/arch/arm/configs/lineageos_mako_defconfig b/arch/arm/configs/lineageos_mako_defconfig
+index 75d20f2..432caa2 100644
+--- a/arch/arm/configs/lineageos_mako_defconfig
++++ b/arch/arm/configs/lineageos_mako_defconfig
+@@ -451,6 +451,8 @@ CONFIG_MSM_IPC_ROUTER_SMD_XPRT=y
+ # CONFIG_MSM_IPC_ROUTER_SECURITY is not set
+ # CONFIG_MSM_DALRPC is not set
+ # CONFIG_MSM_CPU_FREQ_SET_MIN_MAX is not set
++CONFIG_LOW_CPUCLOCKS=y
++CONFIG_CPU_OVERCLOCK=y
+ CONFIG_MSM_AVS_HW=y
+ # CONFIG_MSM_HW3D is not set
+ CONFIG_AMSS_7X25_VERSION_2009=y
 diff --git a/arch/arm/mach-msm/Kconfig b/arch/arm/mach-msm/Kconfig
 index 5f37d1d..b5ab505 100644
 --- a/arch/arm/mach-msm/Kconfig
@@ -35,7 +49,7 @@ index 5f37d1d..b5ab505 100644
  	bool "Enable Adaptive Voltage Scaling (AVS)"
  	default n
 diff --git a/arch/arm/mach-msm/acpuclock-8064.c b/arch/arm/mach-msm/acpuclock-8064.c
-index 8262946..f40edd3 100644
+index 8262946..611776e 100644
 --- a/arch/arm/mach-msm/acpuclock-8064.c
 +++ b/arch/arm/mach-msm/acpuclock-8064.c
 @@ -47,7 +47,11 @@ static struct scalable scalable[] __initdata = {
@@ -86,9 +100,18 @@ index 8262946..f40edd3 100644
  		.vreg[VREG_MEM]  = { "krait3_mem", 1150000 },
  		.vreg[VREG_DIG]  = { "krait3_dig", 1150000 },
  		.vreg[VREG_HFPLL_A] = { "krait3_hfpll", 1800000 },
-@@ -116,6 +132,24 @@ static struct msm_bus_scale_pdata bus_scale_data __initdata = {
+@@ -115,7 +131,33 @@ static struct msm_bus_scale_pdata bus_scale_data __initdata = {
+ 	.name = "acpuclk-8064",
  };
  
++#ifdef CONFIG_LOW_CPUCLOCKS
++#define L2_BW_MID 6
++#define L2_BW_HIGH 15
++#else
++#define L2_BW_MID 5
++#define L2_BW_HIGH 14
++#endif
++
  static struct l2_level l2_freq_tbl[] __initdata = {
 +#ifdef CONFIG_LOW_CPUCLOCKS
 +	[0]  = { {  378000, HFPLL, 2, 0x1C },  950000, 1050000, 1 },
@@ -111,7 +134,7 @@ index 8262946..f40edd3 100644
  	[0]  = { {  384000, PLL_8, 0, 0x00 },  950000, 1050000, 1 },
  	[1]  = { {  432000, HFPLL, 2, 0x20 }, 1050000, 1050000, 2 },
  	[2]  = { {  486000, HFPLL, 2, 0x24 }, 1050000, 1050000, 2 },
-@@ -131,11 +165,19 @@ static struct l2_level l2_freq_tbl[] __initdata = {
+@@ -131,110 +173,167 @@ static struct l2_level l2_freq_tbl[] __initdata = {
  	[12] = { { 1026000, HFPLL, 1, 0x26 }, 1150000, 1150000, 5 },
  	[13] = { { 1080000, HFPLL, 1, 0x28 }, 1150000, 1150000, 5 },
  	[14] = { { 1134000, HFPLL, 1, 0x2A }, 1150000, 1150000, 5 },
@@ -121,20 +144,55 @@ index 8262946..f40edd3 100644
  
  static struct acpu_level tbl_slow[] __initdata = {
 +#ifdef CONFIG_LOW_CPUCLOCKS
++	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
 +	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   875000 },
 +	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   900000 },
-+	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   950000 },
 +	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(1),   925000 },
 +#else
  	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(0),   950000 },
+-	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(5),   975000 },
+-	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(5),   975000 },
+-	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(5),  1000000 },
+-	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(5),  1000000 },
+-	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(5),  1025000 },
+-	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(5),  1025000 },
+-	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(5),  1075000 },
+-	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(5),  1075000 },
+-	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(5),  1100000 },
+-	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(5),  1100000 },
+-	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(5),  1125000 },
+-	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(5),  1125000 },
+-	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(14), 1175000 },
+-	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(14), 1175000 },
+-	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(14), 1200000 },
+-	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(14), 1200000 },
+-	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(14), 1225000 },
+-	{ 1, {  1350000, HFPLL, 1, 0x32 }, L2(14), 1225000 },
+-	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(14), 1237500 },
+-	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(14), 1237500 },
+-	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(14), 1250000 },
 +#endif
- 	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(5),   975000 },
- 	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(5),   975000 },
- 	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(5),  1000000 },
-@@ -157,11 +199,25 @@ static struct acpu_level tbl_slow[] __initdata = {
- 	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(14), 1237500 },
- 	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(14), 1237500 },
- 	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(14), 1250000 },
++	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(L2_BW_MID),   975000 },
++	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(L2_BW_MID),   975000 },
++	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(L2_BW_MID),  1000000 },
++	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(L2_BW_MID),  1000000 },
++	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(L2_BW_MID),  1025000 },
++	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(L2_BW_HIGH), 1025000 },
++	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(L2_BW_HIGH), 1075000 },
++	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(L2_BW_HIGH), 1075000 },
++	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(L2_BW_HIGH), 1100000 },
++	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(L2_BW_HIGH), 1100000 },
++	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(L2_BW_HIGH), 1125000 },
++	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(L2_BW_HIGH), 1125000 },
++	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(L2_BW_HIGH), 1175000 },
++	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(L2_BW_HIGH), 1175000 },
++	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(L2_BW_HIGH), 1200000 },
++	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(L2_BW_HIGH), 1200000 },
++	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(L2_BW_HIGH), 1225000 },
++	{ 1, {  1350000, HFPLL, 1, 0x32 }, L2(L2_BW_HIGH), 1225000 },
++	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(L2_BW_HIGH), 1237500 },
++	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(L2_BW_HIGH), 1237500 },
++	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(L2_BW_HIGH), 1250000 },
 +#ifdef CONFIG_CPU_OVERCLOCK
 +	{ 1, {  1620000, HFPLL, 1, 0x3C }, L2(15), 1300000 },
 +	{ 1, {  1728000, HFPLL, 1, 0x40 }, L2(15), 1350000 },
@@ -147,20 +205,55 @@ index 8262946..f40edd3 100644
  
  static struct acpu_level tbl_nom[] __initdata = {
 +#ifdef CONFIG_LOW_CPUCLOCKS
++	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
 +	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   825000 },
 +	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   850000 },
-+	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   900000 },
 +	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(1),   875000 },
 +#else
  	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(0),   900000 },
+-	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(5),   925000 },
+-	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(5),   925000 },
+-	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(5),   950000 },
+-	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(5),   950000 },
+-	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(5),   975000 },
+-	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(5),   975000 },
+-	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(5),  1025000 },
+-	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(5),  1025000 },
+-	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(5),  1050000 },
+-	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(5),  1050000 },
+-	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(5),  1075000 },
+-	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(5),  1075000 },
+-	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(14), 1125000 },
+-	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(14), 1125000 },
+-	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(14), 1150000 },
+-	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(14), 1150000 },
+-	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(14), 1175000 },
+-	{ 1, {  1350000, HFPLL, 1, 0x32 }, L2(14), 1175000 },
+-	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(14), 1187500 },
+-	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(14), 1187500 },
+-	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(14), 1200000 },
 +#endif
- 	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(5),   925000 },
- 	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(5),   925000 },
- 	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(5),   950000 },
-@@ -183,11 +239,25 @@ static struct acpu_level tbl_nom[] __initdata = {
- 	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(14), 1187500 },
- 	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(14), 1187500 },
- 	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(14), 1200000 },
++	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(L2_BW_MID),   925000 },
++	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(L2_BW_MID),   925000 },
++	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(L2_BW_MID),   950000 },
++	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(L2_BW_MID),   950000 },
++	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(L2_BW_MID),   975000 },
++	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(L2_BW_HIGH),  975000 },
++	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(L2_BW_HIGH), 1025000 },
++	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(L2_BW_HIGH), 1025000 },
++	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(L2_BW_HIGH), 1050000 },
++	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(L2_BW_HIGH), 1050000 },
++	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(L2_BW_HIGH), 1075000 },
++	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(L2_BW_HIGH), 1075000 },
++	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(L2_BW_HIGH), 1125000 },
++	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(L2_BW_HIGH), 1125000 },
++	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(L2_BW_HIGH), 1150000 },
++	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(L2_BW_HIGH), 1150000 },
++	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(L2_BW_HIGH), 1175000 },
++	{ 1, {  1350000, HFPLL, 1, 0x32 }, L2(L2_BW_HIGH), 1175000 },
++	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(L2_BW_HIGH), 1187500 },
++	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(L2_BW_HIGH), 1187500 },
++	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(L2_BW_HIGH), 1200000 },
 +#ifdef CONFIG_CPU_OVERCLOCK
 +	{ 1, {  1620000, HFPLL, 1, 0x3C }, L2(15), 1250000 },
 +	{ 1, {  1728000, HFPLL, 1, 0x40 }, L2(15), 1300000 },
@@ -173,20 +266,55 @@ index 8262946..f40edd3 100644
  
  static struct acpu_level tbl_fast[] __initdata = {
 +#ifdef CONFIG_LOW_CPUCLOCKS
++	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
 +	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   775000 },
 +	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   800000 },
-+	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   850000 },
 +	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(1),   825000 },
 +#else
  	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(0),   850000 },
+-	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(5),   875000 },
+-	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(5),   875000 },
+-	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(5),   900000 },
+-	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(5),   900000 },
+-	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(5),   925000 },
+-	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(5),   925000 },
+-	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(5),   975000 },
+-	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(5),   975000 },
+-	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(5),  1000000 },
+-	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(5),  1000000 },
+-	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(5),  1025000 },
+-	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(5),  1025000 },
+-	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(14), 1075000 },
+-	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(14), 1075000 },
+-	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(14), 1100000 },
+-	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(14), 1100000 },
+-	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(14), 1125000 },
+-	{ 1, {  1350000, HFPLL, 1, 0x32 }, L2(14), 1125000 },
+-	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(14), 1137500 },
+-	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(14), 1137500 },
+-	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(14), 1150000 },
 +#endif
- 	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(5),   875000 },
- 	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(5),   875000 },
- 	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(5),   900000 },
-@@ -209,11 +279,25 @@ static struct acpu_level tbl_fast[] __initdata = {
- 	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(14), 1137500 },
- 	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(14), 1137500 },
- 	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(14), 1150000 },
++	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(L2_BW_MID),   875000 },
++	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(L2_BW_MID),   875000 },
++	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(L2_BW_MID),   900000 },
++	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(L2_BW_MID),   900000 },
++	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(L2_BW_MID),   925000 },
++	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(L2_BW_HIGH),  925000 },
++	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(L2_BW_HIGH),  975000 },
++	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(L2_BW_HIGH),  975000 },
++	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(L2_BW_HIGH), 1000000 },
++	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(L2_BW_HIGH), 1000000 },
++	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(L2_BW_HIGH), 1025000 },
++	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(L2_BW_HIGH), 1025000 },
++	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(L2_BW_HIGH), 1075000 },
++	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(L2_BW_HIGH), 1075000 },
++	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(L2_BW_HIGH), 1100000 },
++	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(L2_BW_HIGH), 1100000 },
++	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(L2_BW_HIGH), 1125000 },
++	{ 1, {  1350000, HFPLL, 1, 0x32 }, L2(L2_BW_HIGH), 1125000 },
++	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(L2_BW_HIGH), 1137500 },
++	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(L2_BW_HIGH), 1137500 },
++	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(L2_BW_HIGH), 1150000 },
 +#ifdef CONFIG_CPU_OVERCLOCK
 +	{ 1, {  1620000, HFPLL, 1, 0x3C }, L2(15), 1200000 },
 +	{ 1, {  1728000, HFPLL, 1, 0x40 }, L2(15), 1250000 },
@@ -199,17 +327,48 @@ index 8262946..f40edd3 100644
  
  static struct acpu_level tbl_faster[] __initdata = {
 +#ifdef CONFIG_LOW_CPUCLOCKS
++	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
 +	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   775000 },
 +	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   800000 },
-+	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   850000 },
 +	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(1),   825000 },
 +#else
  	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(0),   850000 },
+-	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(5),   875000 },
+-	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(5),   875000 },
+-	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(5),   900000 },
+-	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(5),   900000 },
+-	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(5),   925000 },
+-	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(5),   925000 },
+-	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(5),   962500 },
+-	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(5),   962500 },
+-	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(5),   975000 },
+-	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(5),   975000 },
+-	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(5),  1000000 },
+-	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(5),  1000000 },
+-	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(14), 1050000 },
+-	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(14), 1050000 },
+-	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(14), 1075000 },
+-	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(14), 1075000 },
+-	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(14), 1100000 },
 +#endif
- 	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(5),   875000 },
- 	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(5),   875000 },
- 	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(5),   900000 },
-@@ -235,6 +319,13 @@ static struct acpu_level tbl_faster[] __initdata = {
++	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(L2_BW_MID),   875000 },
++	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(L2_BW_MID),   875000 },
++	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(L2_BW_MID),   900000 },
++	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(L2_BW_MID),   900000 },
++	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(L2_BW_MID),   925000 },
++	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(L2_BW_HIGH),  925000 },
++	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(L2_BW_HIGH),  962500 },
++	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(L2_BW_HIGH),  962500 },
++	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(L2_BW_HIGH),  975000 },
++	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(L2_BW_HIGH),  975000 },
++	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(L2_BW_HIGH), 1000000 },
++	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(L2_BW_HIGH), 1000000 },
++	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(L2_BW_HIGH), 1050000 },
++	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(L2_BW_HIGH), 1050000 },
++	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(L2_BW_HIGH), 1075000 },
++	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(L2_BW_HIGH), 1075000 },
++	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(L2_BW_HIGH), 1100000 },
+ 	{ 1, {  1350000, HFPLL, 1, 0x32 }, L2(14), 1100000 },
  	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(14), 1112500 },
  	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(14), 1112500 },
  	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(14), 1125000 },
@@ -224,7 +383,7 @@ index 8262946..f40edd3 100644
  };
  
 diff --git a/arch/arm/mach-msm/acpuclock-krait.c b/arch/arm/mach-msm/acpuclock-krait.c
-index e3a3f54..97f6f39 100644
+index e3a3f54..695b709 100644
 --- a/arch/arm/mach-msm/acpuclock-krait.c
 +++ b/arch/arm/mach-msm/acpuclock-krait.c
 @@ -45,6 +45,12 @@
@@ -232,7 +391,7 @@ index e3a3f54..97f6f39 100644
  #define PRI_SRC_SEL_HFPLL_DIV2	2
  
 +#ifdef CONFIG_LOW_CPUCLOCKS
-+#define FREQ_TABLE_SIZE		39
++#define FREQ_TABLE_SIZE		40
 +#else
 +#define FREQ_TABLE_SIZE		35
 +#endif
@@ -267,343 +426,5 @@ index 1a919fc..1d5e289 100644
  static unsigned num_cpu_freqs;
  static struct msm_dcvs_platform_data *dcvs_pdata;
 -- 
-2.10.2
-
-
-From f498c327190b1a30c25010e0ba3600470fc9251b Mon Sep 17 00:00:00 2001
-From: anarkia1976 <stefano.villa1976@gmail.com>
-Date: Wed, 5 Feb 2014 07:15:12 +0100
-Subject: [PATCH 2/4] msm: cpu: overclock: added ultra low (81Mhz) cpu clock
- frequencies
-
----
- arch/arm/mach-msm/acpuclock-8064.c  | 4 ++++
- arch/arm/mach-msm/acpuclock-krait.c | 2 +-
- 2 files changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm/mach-msm/acpuclock-8064.c b/arch/arm/mach-msm/acpuclock-8064.c
-index f40edd3..ba8fe72 100644
---- a/arch/arm/mach-msm/acpuclock-8064.c
-+++ b/arch/arm/mach-msm/acpuclock-8064.c
-@@ -171,6 +171,7 @@ static struct l2_level l2_freq_tbl[] __initdata = {
- 
- static struct acpu_level tbl_slow[] __initdata = {
- #ifdef CONFIG_LOW_CPUCLOCKS
-+	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
- 	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   875000 },
- 	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   900000 },
- 	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   950000 },
-@@ -211,6 +212,7 @@ static struct acpu_level tbl_slow[] __initdata = {
- 
- static struct acpu_level tbl_nom[] __initdata = {
- #ifdef CONFIG_LOW_CPUCLOCKS
-+	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
- 	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   825000 },
- 	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   850000 },
- 	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   900000 },
-@@ -251,6 +253,7 @@ static struct acpu_level tbl_nom[] __initdata = {
- 
- static struct acpu_level tbl_fast[] __initdata = {
- #ifdef CONFIG_LOW_CPUCLOCKS
-+	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
- 	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   775000 },
- 	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   800000 },
- 	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   850000 },
-@@ -291,6 +294,7 @@ static struct acpu_level tbl_fast[] __initdata = {
- 
- static struct acpu_level tbl_faster[] __initdata = {
- #ifdef CONFIG_LOW_CPUCLOCKS
-+	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
- 	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   775000 },
- 	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   800000 },
- 	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   850000 },
-diff --git a/arch/arm/mach-msm/acpuclock-krait.c b/arch/arm/mach-msm/acpuclock-krait.c
-index 97f6f39..695b709 100644
---- a/arch/arm/mach-msm/acpuclock-krait.c
-+++ b/arch/arm/mach-msm/acpuclock-krait.c
-@@ -46,7 +46,7 @@
- #define PRI_SRC_SEL_HFPLL_DIV2	2
- 
- #ifdef CONFIG_LOW_CPUCLOCKS
--#define FREQ_TABLE_SIZE		39
-+#define FREQ_TABLE_SIZE		40
- #else
- #define FREQ_TABLE_SIZE		35
- #endif
--- 
-2.10.2
-
-
-From 0eb77b9339850d3a7a9854197f2d02756270e5af Mon Sep 17 00:00:00 2001
-From: anarkia1976 <stefano.villa1976@gmail.com>
-Date: Sun, 12 Jan 2014 21:12:55 +0100
-Subject: [PATCH 3/4] ak_mako_defconfig: enable LOW_CPU and CPU_OVERCLOCK
-
----
- arch/arm/configs/cyanogen_mako_defconfig | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/arch/arm/configs/cyanogen_mako_defconfig b/arch/arm/configs/cyanogen_mako_defconfig
-index 316b320..1059cb6 100644
---- a/arch/arm/configs/cyanogen_mako_defconfig
-+++ b/arch/arm/configs/cyanogen_mako_defconfig
-@@ -451,6 +451,8 @@ CONFIG_MSM_IPC_ROUTER_SMD_XPRT=y
- # CONFIG_MSM_IPC_ROUTER_SECURITY is not set
- # CONFIG_MSM_DALRPC is not set
- # CONFIG_MSM_CPU_FREQ_SET_MIN_MAX is not set
-+CONFIG_LOW_CPUCLOCKS=y
-+CONFIG_CPU_OVERCLOCK=y
- CONFIG_MSM_AVS_HW=y
- # CONFIG_MSM_HW3D is not set
- CONFIG_AMSS_7X25_VERSION_2009=y
--- 
-2.10.2
-
-
-From cc891d49f60d6d0ad4d570c14711db9a568b49e5 Mon Sep 17 00:00:00 2001
-From: anarkia1976 <stefano.villa1976@gmail.com>
-Date: Wed, 5 Feb 2014 07:12:48 +0100
-Subject: [PATCH 4/4] msm: cpu: overclock: use higher bus speed at lower CPU
- freqs
-
-Thanks to @bedalus and @mrg666
-
-Bedalus suggested that if lower CPU frequencies can offer higher bus
-speed,
-GPU use during games wouldn't require higher CPU frequency.
-My testing demonstrated 4C drop in CPU temp during 3DMark benchmark.
-Still needs to be tested for everyday use.
----
- arch/arm/mach-msm/acpuclock-8064.c | 172 +++++++++++++++++++------------------
- 1 file changed, 88 insertions(+), 84 deletions(-)
-
-diff --git a/arch/arm/mach-msm/acpuclock-8064.c b/arch/arm/mach-msm/acpuclock-8064.c
-index ba8fe72..611776e 100644
---- a/arch/arm/mach-msm/acpuclock-8064.c
-+++ b/arch/arm/mach-msm/acpuclock-8064.c
-@@ -131,6 +131,14 @@ static struct msm_bus_scale_pdata bus_scale_data __initdata = {
- 	.name = "acpuclk-8064",
- };
- 
-+#ifdef CONFIG_LOW_CPUCLOCKS
-+#define L2_BW_MID 6
-+#define L2_BW_HIGH 15
-+#else
-+#define L2_BW_MID 5
-+#define L2_BW_HIGH 14
-+#endif
-+
- static struct l2_level l2_freq_tbl[] __initdata = {
- #ifdef CONFIG_LOW_CPUCLOCKS
- 	[0]  = { {  378000, HFPLL, 2, 0x1C },  950000, 1050000, 1 },
-@@ -174,32 +182,31 @@ static struct acpu_level tbl_slow[] __initdata = {
- 	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
- 	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   875000 },
- 	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   900000 },
--	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   950000 },
- 	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(1),   925000 },
- #else
- 	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(0),   950000 },
- #endif
--	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(5),   975000 },
--	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(5),   975000 },
--	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(5),  1000000 },
--	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(5),  1000000 },
--	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(5),  1025000 },
--	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(5),  1025000 },
--	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(5),  1075000 },
--	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(5),  1075000 },
--	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(5),  1100000 },
--	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(5),  1100000 },
--	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(5),  1125000 },
--	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(5),  1125000 },
--	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(14), 1175000 },
--	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(14), 1175000 },
--	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(14), 1200000 },
--	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(14), 1200000 },
--	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(14), 1225000 },
--	{ 1, {  1350000, HFPLL, 1, 0x32 }, L2(14), 1225000 },
--	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(14), 1237500 },
--	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(14), 1237500 },
--	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(14), 1250000 },
-+	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(L2_BW_MID),   975000 },
-+	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(L2_BW_MID),   975000 },
-+	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(L2_BW_MID),  1000000 },
-+	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(L2_BW_MID),  1000000 },
-+	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(L2_BW_MID),  1025000 },
-+	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(L2_BW_HIGH), 1025000 },
-+	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(L2_BW_HIGH), 1075000 },
-+	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(L2_BW_HIGH), 1075000 },
-+	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(L2_BW_HIGH), 1100000 },
-+	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(L2_BW_HIGH), 1100000 },
-+	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(L2_BW_HIGH), 1125000 },
-+	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(L2_BW_HIGH), 1125000 },
-+	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(L2_BW_HIGH), 1175000 },
-+	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(L2_BW_HIGH), 1175000 },
-+	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(L2_BW_HIGH), 1200000 },
-+	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(L2_BW_HIGH), 1200000 },
-+	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(L2_BW_HIGH), 1225000 },
-+	{ 1, {  1350000, HFPLL, 1, 0x32 }, L2(L2_BW_HIGH), 1225000 },
-+	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(L2_BW_HIGH), 1237500 },
-+	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(L2_BW_HIGH), 1237500 },
-+	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(L2_BW_HIGH), 1250000 },
- #ifdef CONFIG_CPU_OVERCLOCK
- 	{ 1, {  1620000, HFPLL, 1, 0x3C }, L2(15), 1300000 },
- 	{ 1, {  1728000, HFPLL, 1, 0x40 }, L2(15), 1350000 },
-@@ -215,32 +222,31 @@ static struct acpu_level tbl_nom[] __initdata = {
- 	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
- 	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   825000 },
- 	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   850000 },
--	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   900000 },
- 	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(1),   875000 },
- #else
- 	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(0),   900000 },
- #endif
--	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(5),   925000 },
--	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(5),   925000 },
--	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(5),   950000 },
--	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(5),   950000 },
--	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(5),   975000 },
--	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(5),   975000 },
--	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(5),  1025000 },
--	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(5),  1025000 },
--	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(5),  1050000 },
--	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(5),  1050000 },
--	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(5),  1075000 },
--	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(5),  1075000 },
--	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(14), 1125000 },
--	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(14), 1125000 },
--	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(14), 1150000 },
--	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(14), 1150000 },
--	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(14), 1175000 },
--	{ 1, {  1350000, HFPLL, 1, 0x32 }, L2(14), 1175000 },
--	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(14), 1187500 },
--	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(14), 1187500 },
--	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(14), 1200000 },
-+	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(L2_BW_MID),   925000 },
-+	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(L2_BW_MID),   925000 },
-+	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(L2_BW_MID),   950000 },
-+	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(L2_BW_MID),   950000 },
-+	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(L2_BW_MID),   975000 },
-+	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(L2_BW_HIGH),  975000 },
-+	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(L2_BW_HIGH), 1025000 },
-+	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(L2_BW_HIGH), 1025000 },
-+	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(L2_BW_HIGH), 1050000 },
-+	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(L2_BW_HIGH), 1050000 },
-+	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(L2_BW_HIGH), 1075000 },
-+	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(L2_BW_HIGH), 1075000 },
-+	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(L2_BW_HIGH), 1125000 },
-+	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(L2_BW_HIGH), 1125000 },
-+	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(L2_BW_HIGH), 1150000 },
-+	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(L2_BW_HIGH), 1150000 },
-+	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(L2_BW_HIGH), 1175000 },
-+	{ 1, {  1350000, HFPLL, 1, 0x32 }, L2(L2_BW_HIGH), 1175000 },
-+	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(L2_BW_HIGH), 1187500 },
-+	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(L2_BW_HIGH), 1187500 },
-+	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(L2_BW_HIGH), 1200000 },
- #ifdef CONFIG_CPU_OVERCLOCK
- 	{ 1, {  1620000, HFPLL, 1, 0x3C }, L2(15), 1250000 },
- 	{ 1, {  1728000, HFPLL, 1, 0x40 }, L2(15), 1300000 },
-@@ -256,32 +262,31 @@ static struct acpu_level tbl_fast[] __initdata = {
- 	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
- 	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   775000 },
- 	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   800000 },
--	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   850000 },
- 	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(1),   825000 },
- #else
- 	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(0),   850000 },
- #endif
--	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(5),   875000 },
--	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(5),   875000 },
--	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(5),   900000 },
--	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(5),   900000 },
--	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(5),   925000 },
--	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(5),   925000 },
--	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(5),   975000 },
--	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(5),   975000 },
--	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(5),  1000000 },
--	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(5),  1000000 },
--	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(5),  1025000 },
--	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(5),  1025000 },
--	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(14), 1075000 },
--	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(14), 1075000 },
--	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(14), 1100000 },
--	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(14), 1100000 },
--	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(14), 1125000 },
--	{ 1, {  1350000, HFPLL, 1, 0x32 }, L2(14), 1125000 },
--	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(14), 1137500 },
--	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(14), 1137500 },
--	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(14), 1150000 },
-+	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(L2_BW_MID),   875000 },
-+	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(L2_BW_MID),   875000 },
-+	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(L2_BW_MID),   900000 },
-+	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(L2_BW_MID),   900000 },
-+	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(L2_BW_MID),   925000 },
-+	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(L2_BW_HIGH),  925000 },
-+	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(L2_BW_HIGH),  975000 },
-+	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(L2_BW_HIGH),  975000 },
-+	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(L2_BW_HIGH), 1000000 },
-+	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(L2_BW_HIGH), 1000000 },
-+	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(L2_BW_HIGH), 1025000 },
-+	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(L2_BW_HIGH), 1025000 },
-+	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(L2_BW_HIGH), 1075000 },
-+	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(L2_BW_HIGH), 1075000 },
-+	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(L2_BW_HIGH), 1100000 },
-+	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(L2_BW_HIGH), 1100000 },
-+	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(L2_BW_HIGH), 1125000 },
-+	{ 1, {  1350000, HFPLL, 1, 0x32 }, L2(L2_BW_HIGH), 1125000 },
-+	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(L2_BW_HIGH), 1137500 },
-+	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(L2_BW_HIGH), 1137500 },
-+	{ 1, {  1512000, HFPLL, 1, 0x38 }, L2(L2_BW_HIGH), 1150000 },
- #ifdef CONFIG_CPU_OVERCLOCK
- 	{ 1, {  1620000, HFPLL, 1, 0x3C }, L2(15), 1200000 },
- 	{ 1, {  1728000, HFPLL, 1, 0x40 }, L2(15), 1250000 },
-@@ -297,28 +302,27 @@ static struct acpu_level tbl_faster[] __initdata = {
- 	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
- 	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   775000 },
- 	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   800000 },
--	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   850000 },
- 	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(1),   825000 },
- #else
- 	{ 1, {   384000, PLL_8, 0, 0x00 }, L2(0),   850000 },
- #endif
--	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(5),   875000 },
--	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(5),   875000 },
--	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(5),   900000 },
--	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(5),   900000 },
--	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(5),   925000 },
--	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(5),   925000 },
--	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(5),   962500 },
--	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(5),   962500 },
--	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(5),   975000 },
--	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(5),   975000 },
--	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(5),  1000000 },
--	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(5),  1000000 },
--	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(14), 1050000 },
--	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(14), 1050000 },
--	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(14), 1075000 },
--	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(14), 1075000 },
--	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(14), 1100000 },
-+	{ 0, {   432000, HFPLL, 2, 0x20 }, L2(L2_BW_MID),   875000 },
-+	{ 1, {   486000, HFPLL, 2, 0x24 }, L2(L2_BW_MID),   875000 },
-+	{ 0, {   540000, HFPLL, 2, 0x28 }, L2(L2_BW_MID),   900000 },
-+	{ 1, {   594000, HFPLL, 1, 0x16 }, L2(L2_BW_MID),   900000 },
-+	{ 0, {   648000, HFPLL, 1, 0x18 }, L2(L2_BW_MID),   925000 },
-+	{ 1, {   702000, HFPLL, 1, 0x1A }, L2(L2_BW_HIGH),  925000 },
-+	{ 0, {   756000, HFPLL, 1, 0x1C }, L2(L2_BW_HIGH),  962500 },
-+	{ 1, {   810000, HFPLL, 1, 0x1E }, L2(L2_BW_HIGH),  962500 },
-+	{ 0, {   864000, HFPLL, 1, 0x20 }, L2(L2_BW_HIGH),  975000 },
-+	{ 1, {   918000, HFPLL, 1, 0x22 }, L2(L2_BW_HIGH),  975000 },
-+	{ 0, {   972000, HFPLL, 1, 0x24 }, L2(L2_BW_HIGH), 1000000 },
-+	{ 1, {  1026000, HFPLL, 1, 0x26 }, L2(L2_BW_HIGH), 1000000 },
-+	{ 0, {  1080000, HFPLL, 1, 0x28 }, L2(L2_BW_HIGH), 1050000 },
-+	{ 1, {  1134000, HFPLL, 1, 0x2A }, L2(L2_BW_HIGH), 1050000 },
-+	{ 0, {  1188000, HFPLL, 1, 0x2C }, L2(L2_BW_HIGH), 1075000 },
-+	{ 1, {  1242000, HFPLL, 1, 0x2E }, L2(L2_BW_HIGH), 1075000 },
-+	{ 0, {  1296000, HFPLL, 1, 0x30 }, L2(L2_BW_HIGH), 1100000 },
- 	{ 1, {  1350000, HFPLL, 1, 0x32 }, L2(14), 1100000 },
- 	{ 0, {  1404000, HFPLL, 1, 0x34 }, L2(14), 1112500 },
- 	{ 1, {  1458000, HFPLL, 1, 0x36 }, L2(14), 1112500 },
--- 
-2.10.2
+2.9.3
 
