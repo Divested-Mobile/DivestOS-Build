@@ -1,35 +1,35 @@
-From 16ad98fe210328d994c264e258d77379e350d8fb Mon Sep 17 00:00:00 2001
+From 4261628fb0a6636c10e07467f18565e264d6b0f6 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Fri, 23 Dec 2016 22:21:15 -0500
+Date: Tue, 17 Jan 2017 18:12:24 -0500
 Subject: [PATCH] Remove stats
 
-Change-Id: I4fbf5ce0d2878d7ffce49771b025d6a35b12ed29
+Change-Id: I878ab8ddb22a256ab0e4a4a851325d611ae79b73
 ---
  AndroidManifest.xml                                |   1 -
  .../setupwizard/cmstats/SetupStats.java            | 163 ---------------------
  .../setupwizard/cmstats/StatsUtils.java            |  44 ------
  .../setupwizard/setup/BluetoothSetupPage.java      |   7 -
- .../setupwizard/setup/ChooseDataSimPage.java       |   6 +-
- .../setupwizard/setup/CyanogenServicesPage.java    |  13 --
- .../setupwizard/setup/CyanogenSettingsPage.java    |  20 ---
+ .../setupwizard/setup/ChooseDataSimPage.java       |   4 -
+ .../setupwizard/setup/CyanogenSettingsPage.java    |  19 ---
  .../setupwizard/setup/DateTimePage.java            |  19 ---
  .../setupwizard/setup/FingerprintSetupPage.java    |   4 -
- .../setupwizard/setup/GmsAccountPage.java          |  25 +---
+ .../setupwizard/setup/GmsAccountPage.java          |  22 ---
+ .../cyanogenmod/setupwizard/setup/LocalePage.java  |  12 --
  .../setupwizard/setup/MobileDataPage.java          |   4 -
  .../setupwizard/setup/OtherSettingsPage.java       |  13 --
  .../setupwizard/setup/ScreenLockSetupPage.java     |   4 -
  .../cyanogenmod/setupwizard/setup/SetupPage.java   |   7 -
- .../cyanogenmod/setupwizard/setup/WelcomePage.java |  16 --
+ .../cyanogenmod/setupwizard/setup/WelcomePage.java |   5 -
  .../setupwizard/setup/WifiSetupPage.java           |  25 ----
  .../setupwizard/ui/SetupPageFragment.java          |   3 -
  .../setupwizard/ui/SetupWizardActivity.java        |   6 -
  .../util/EnableAccessibilityController.java        |   3 -
- 19 files changed, 2 insertions(+), 381 deletions(-)
+ 19 files changed, 365 deletions(-)
  delete mode 100644 src/com/cyanogenmod/setupwizard/cmstats/SetupStats.java
  delete mode 100644 src/com/cyanogenmod/setupwizard/cmstats/StatsUtils.java
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index deb607c..c5878fa 100644
+index 2353fb7..51ba684 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
 @@ -43,7 +43,6 @@
@@ -260,10 +260,10 @@ index 8be8fad..0000000
 -    }
 -}
 diff --git a/src/com/cyanogenmod/setupwizard/setup/BluetoothSetupPage.java b/src/com/cyanogenmod/setupwizard/setup/BluetoothSetupPage.java
-index 915abec..8609dbb 100644
+index d1532ac..829f24f 100644
 --- a/src/com/cyanogenmod/setupwizard/setup/BluetoothSetupPage.java
 +++ b/src/com/cyanogenmod/setupwizard/setup/BluetoothSetupPage.java
-@@ -28,7 +28,6 @@ import android.util.Log;
+@@ -29,7 +29,6 @@ import android.util.Log;
  
  import com.cyanogenmod.setupwizard.R;
  import com.cyanogenmod.setupwizard.SetupWizardApp;
@@ -271,7 +271,7 @@ index 915abec..8609dbb 100644
  import com.cyanogenmod.setupwizard.ui.LoadingFragment;
  import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
  import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
-@@ -91,9 +90,6 @@ public class BluetoothSetupPage extends SetupPage {
+@@ -96,9 +95,6 @@ public class BluetoothSetupPage extends SetupPage {
      @Override
      public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
          if (requestCode == SetupWizardApp.REQUEST_CODE_SETUP_BLUETOOTH) {
@@ -281,7 +281,7 @@ index 915abec..8609dbb 100644
              getCallbacks().onNextPage();
          }  else {
              return false;
-@@ -111,9 +107,6 @@ public class BluetoothSetupPage extends SetupPage {
+@@ -116,9 +112,6 @@ public class BluetoothSetupPage extends SetupPage {
                  ActivityOptions.makeCustomAnimation(mContext,
                          android.R.anim.fade_in,
                          android.R.anim.fade_out);
@@ -292,10 +292,10 @@ index 915abec..8609dbb 100644
                  SetupWizardApp.REQUEST_CODE_SETUP_BLUETOOTH, options.toBundle());
      }
 diff --git a/src/com/cyanogenmod/setupwizard/setup/ChooseDataSimPage.java b/src/com/cyanogenmod/setupwizard/setup/ChooseDataSimPage.java
-index a302d8f..5505031 100644
+index 073d6d9..6ab9ae9 100644
 --- a/src/com/cyanogenmod/setupwizard/setup/ChooseDataSimPage.java
 +++ b/src/com/cyanogenmod/setupwizard/setup/ChooseDataSimPage.java
-@@ -48,7 +48,6 @@ import com.android.internal.telephony.TelephonyIntents;
+@@ -49,7 +49,6 @@ import com.android.internal.telephony.TelephonyIntents;
  
  import com.cyanogenmod.setupwizard.R;
  import com.cyanogenmod.setupwizard.SetupWizardApp;
@@ -303,68 +303,21 @@ index a302d8f..5505031 100644
  import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
  import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
  
-@@ -355,10 +354,7 @@ public class ChooseDataSimPage extends SetupPage {
+@@ -360,9 +359,6 @@ public class ChooseDataSimPage extends SetupPage {
                  for (int i = 0; i < mCheckBoxes.size(); i++) {
                      if (subInfoRecord.getSimSlotIndex() == i) {
                          mCheckBoxes.get(i).setChecked(true);
 -                        SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
 -                                SetupStats.Action.PREFERRED_DATA_SIM,
 -                                SetupStats.Label.SLOT, String.valueOf(i + 1));
--                    } else {
-+	                    } else {
+                     } else {
                          mCheckBoxes.get(i).setChecked(false);
                      }
- 
-diff --git a/src/com/cyanogenmod/setupwizard/setup/CyanogenServicesPage.java b/src/com/cyanogenmod/setupwizard/setup/CyanogenServicesPage.java
-index e71dd79..5bfe3b0 100644
---- a/src/com/cyanogenmod/setupwizard/setup/CyanogenServicesPage.java
-+++ b/src/com/cyanogenmod/setupwizard/setup/CyanogenServicesPage.java
-@@ -32,7 +32,6 @@ import android.util.Log;
- 
- import com.cyanogenmod.setupwizard.R;
- import com.cyanogenmod.setupwizard.SetupWizardApp;
--import com.cyanogenmod.setupwizard.cmstats.SetupStats;
- import com.cyanogenmod.setupwizard.ui.LoadingFragment;
- import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
- 
-@@ -95,10 +94,6 @@ public class CyanogenServicesPage extends SetupPage {
-     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-         if (requestCode == SetupWizardApp.REQUEST_CODE_SETUP_CYANOGEN) {
-             if (resultCode == Activity.RESULT_OK || resultCode == Activity.RESULT_FIRST_USER) {
--                SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
--                        SetupStats.Action.EXTERNAL_PAGE_RESULT,
--                        SetupStats.Label.CYANOGEN_ACCOUNT,
--                        resultCode == Activity.RESULT_OK ? "success" : "skipped");
-                 if (SetupWizardUtils.accountExists(mContext,
-                         mContext.getString(R.string.cm_account_type))) {
-                     if (SetupWizardUtils.isDeviceLocked()) {
-@@ -108,9 +103,6 @@ public class CyanogenServicesPage extends SetupPage {
-                 }
-                 getCallbacks().onNextPage();
-             } else if (resultCode == Activity.RESULT_CANCELED) {
--                SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
--                        SetupStats.Action.EXTERNAL_PAGE_RESULT,
--                        SetupStats.Label.CYANOGEN_ACCOUNT, "canceled");
-                 getCallbacks().onPreviousPage();
-             }
-         }
-@@ -136,11 +128,6 @@ public class CyanogenServicesPage extends SetupPage {
-                                             ActivityOptions.makeCustomAnimation(mContext,
-                                                     android.R.anim.fade_in,
-                                                     android.R.anim.fade_out);
--                                    SetupStats
--                                            .addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
--                                                    SetupStats.Action.EXTERNAL_PAGE_LAUNCH,
--                                                    SetupStats.Label.PAGE,
--                                                    SetupStats.Label.CYANOGEN_ACCOUNT);
-                                     mFragment.startActivityForResult(intent,
-                                             SetupWizardApp.REQUEST_CODE_SETUP_CYANOGEN,
-                                             options.toBundle());
 diff --git a/src/com/cyanogenmod/setupwizard/setup/CyanogenSettingsPage.java b/src/com/cyanogenmod/setupwizard/setup/CyanogenSettingsPage.java
-index 03a04b6..080e9b1 100644
+index 866371d..e989484 100644
 --- a/src/com/cyanogenmod/setupwizard/setup/CyanogenSettingsPage.java
 +++ b/src/com/cyanogenmod/setupwizard/setup/CyanogenSettingsPage.java
-@@ -42,7 +42,6 @@ import android.widget.TextView;
+@@ -43,7 +43,6 @@ import android.widget.TextView;
  
  import com.cyanogenmod.setupwizard.R;
  import com.cyanogenmod.setupwizard.SetupWizardApp;
@@ -372,7 +325,7 @@ index 03a04b6..080e9b1 100644
  import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
  import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
  
-@@ -116,37 +115,18 @@ public class CyanogenSettingsPage extends SetupPage {
+@@ -123,10 +122,6 @@ public class CyanogenSettingsPage extends SetupPage {
              @Override
              public void run() {
                  if (getData().containsKey(DISABLE_NAV_KEYS)) {
@@ -383,9 +336,8 @@ index 03a04b6..080e9b1 100644
                      writeDisableNavkeysOption(mContext, getData().getBoolean(DISABLE_NAV_KEYS));
                  }
              }
-         });
--        handleEnableMetrics();
-         handleDefaultThemeSetup();
+@@ -136,25 +131,11 @@ public class CyanogenSettingsPage extends SetupPage {
+         handlePrivacyGuard();
      }
  
 -    private void handleEnableMetrics() {
@@ -411,10 +363,10 @@ index 03a04b6..080e9b1 100644
              final ThemeManager tm = ThemeManager.getInstance(mContext);
              tm.applyDefaultTheme();
 diff --git a/src/com/cyanogenmod/setupwizard/setup/DateTimePage.java b/src/com/cyanogenmod/setupwizard/setup/DateTimePage.java
-index 7a5922b..a669163 100644
+index f42240f..7e045ad 100644
 --- a/src/com/cyanogenmod/setupwizard/setup/DateTimePage.java
 +++ b/src/com/cyanogenmod/setupwizard/setup/DateTimePage.java
-@@ -42,7 +42,6 @@ import android.widget.TextView;
+@@ -43,7 +43,6 @@ import android.widget.TextView;
  import android.widget.TimePicker;
  
  import com.cyanogenmod.setupwizard.R;
@@ -422,7 +374,7 @@ index 7a5922b..a669163 100644
  import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
  
  import org.xmlpull.v1.XmlPullParserException;
-@@ -136,8 +135,6 @@ public class DateTimePage extends SetupPage {
+@@ -142,8 +141,6 @@ public class DateTimePage extends SetupPage {
              mDateView.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View view) {
@@ -431,7 +383,7 @@ index 7a5922b..a669163 100644
                      showDatePicker();
                  }
              });
-@@ -145,8 +142,6 @@ public class DateTimePage extends SetupPage {
+@@ -151,8 +148,6 @@ public class DateTimePage extends SetupPage {
              mTimeView.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View view) {
@@ -440,7 +392,7 @@ index 7a5922b..a669163 100644
                      showTimePicker();
                  }
              });
-@@ -167,17 +162,11 @@ public class DateTimePage extends SetupPage {
+@@ -173,17 +168,11 @@ public class DateTimePage extends SetupPage {
                              final Map<?, ?> map = (Map<?, ?>) adapterView.getItemAtPosition(position);
                              final String tzId = (String) map.get(KEY_ID);
                              if (mCurrentTimeZone != null && !mCurrentTimeZone.getID().equals(tzId)) {
@@ -458,7 +410,7 @@ index 7a5922b..a669163 100644
                              }
  
                          }
-@@ -232,10 +221,6 @@ public class DateTimePage extends SetupPage {
+@@ -238,10 +227,6 @@ public class DateTimePage extends SetupPage {
              if (activity != null) {
                  setDate(activity, year, month, day);
                  updateTimeAndDateDisplay(activity);
@@ -469,7 +421,7 @@ index 7a5922b..a669163 100644
              }
          }
  
-@@ -245,10 +230,6 @@ public class DateTimePage extends SetupPage {
+@@ -251,10 +236,6 @@ public class DateTimePage extends SetupPage {
              if (activity != null) {
                  setTime(activity, hourOfDay, minute);
                  updateTimeAndDateDisplay(activity);
@@ -481,10 +433,10 @@ index 7a5922b..a669163 100644
          }
  
 diff --git a/src/com/cyanogenmod/setupwizard/setup/FingerprintSetupPage.java b/src/com/cyanogenmod/setupwizard/setup/FingerprintSetupPage.java
-index 890a4f6..c9174c6 100644
+index 8d78127..f079146 100644
 --- a/src/com/cyanogenmod/setupwizard/setup/FingerprintSetupPage.java
 +++ b/src/com/cyanogenmod/setupwizard/setup/FingerprintSetupPage.java
-@@ -28,7 +28,6 @@ import android.widget.TextView;
+@@ -29,7 +29,6 @@ import android.widget.TextView;
  import com.android.internal.widget.LockPatternUtils;
  import com.cyanogenmod.setupwizard.R;
  import com.cyanogenmod.setupwizard.SetupWizardApp;
@@ -492,7 +444,7 @@ index 890a4f6..c9174c6 100644
  import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
  
  public class FingerprintSetupPage extends SetupPage {
-@@ -113,9 +112,6 @@ public class FingerprintSetupPage extends SetupPage {
+@@ -119,9 +118,6 @@ public class FingerprintSetupPage extends SetupPage {
                      ActivityOptions.makeCustomAnimation(getActivity(),
                              android.R.anim.fade_in,
                              android.R.anim.fade_out);
@@ -503,10 +455,10 @@ index 890a4f6..c9174c6 100644
                      options.toBundle());
          }
 diff --git a/src/com/cyanogenmod/setupwizard/setup/GmsAccountPage.java b/src/com/cyanogenmod/setupwizard/setup/GmsAccountPage.java
-index 436da08..79b5f2c 100644
+index 747765e..a646997 100644
 --- a/src/com/cyanogenmod/setupwizard/setup/GmsAccountPage.java
 +++ b/src/com/cyanogenmod/setupwizard/setup/GmsAccountPage.java
-@@ -35,7 +35,6 @@ import android.util.Log;
+@@ -36,7 +36,6 @@ import android.util.Log;
  import com.android.setupwizardlib.util.ResultCodes;
  import com.cyanogenmod.setupwizard.R;
  import com.cyanogenmod.setupwizard.SetupWizardApp;
@@ -514,18 +466,17 @@ index 436da08..79b5f2c 100644
  import com.cyanogenmod.setupwizard.ui.LoadingFragment;
  import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
  
-@@ -148,10 +147,6 @@ public class GmsAccountPage extends SetupPage {
-                 boolean restorePicker = !data.hasExtra(EXTRA_RESTORE_TOKEN)
+@@ -155,9 +154,6 @@ public class GmsAccountPage extends SetupPage {
                          && !data.hasExtra(EXTRA_RESTORE_ACCOUNT) &&
                          data.hasExtra(EXTRA_AUTH_ACCOUNT);
--
+ 
 -                SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
 -                        SetupStats.Action.EXTERNAL_PAGE_RESULT,
 -                        SetupStats.Label.GMS_ACCOUNT, "success");
                  launchGmsRestorePage(restorePicker);
              } else {
                  handleResult(requestCode, resultCode);
-@@ -179,24 +174,12 @@ public class GmsAccountPage extends SetupPage {
+@@ -185,24 +181,12 @@ public class GmsAccountPage extends SetupPage {
  
      private void handleResult(int requestCode, int resultCode) {
          if (resultCode == Activity.RESULT_CANCELED) {
@@ -550,7 +501,7 @@ index 436da08..79b5f2c 100644
                      getCallbacks().onNextPage();
                  } else {
                      getCallbacks().onPreviousPage();
-@@ -236,9 +219,6 @@ public class GmsAccountPage extends SetupPage {
+@@ -242,9 +226,6 @@ public class GmsAccountPage extends SetupPage {
                          ActivityOptions.makeCustomAnimation(mContext,
                                  android.R.anim.fade_in,
                                  android.R.anim.fade_out);
@@ -560,23 +511,58 @@ index 436da08..79b5f2c 100644
                  mFragment.startActivityForResult(
                          intent,
                          SetupWizardApp.REQUEST_CODE_RESTORE_GMS, options.toBundle());
-@@ -310,10 +290,7 @@ public class GmsAccountPage extends SetupPage {
+@@ -316,9 +297,6 @@ public class GmsAccountPage extends SetupPage {
                                      ActivityOptions.makeCustomAnimation(mContext,
                                              android.R.anim.fade_in,
                                              android.R.anim.fade_out);
 -                            SetupStats.addEvent(SetupStats.Categories.EXTERNAL_PAGE_LOAD,
 -                                    SetupStats.Action.EXTERNAL_PAGE_LAUNCH,
 -                                    SetupStats.Label.PAGE, SetupStats.Label.GMS_ACCOUNT);
--                            mFragment.startActivityForResult(intent,
-+	                            mFragment.startActivityForResult(intent,
+                             mFragment.startActivityForResult(intent,
                                      SetupWizardApp.REQUEST_CODE_SETUP_GMS, options.toBundle());
                          } catch (OperationCanceledException e) {
-                             error = true;
+diff --git a/src/com/cyanogenmod/setupwizard/setup/LocalePage.java b/src/com/cyanogenmod/setupwizard/setup/LocalePage.java
+index e9717a5..e8a86ac 100644
+--- a/src/com/cyanogenmod/setupwizard/setup/LocalePage.java
++++ b/src/com/cyanogenmod/setupwizard/setup/LocalePage.java
+@@ -43,7 +43,6 @@ import android.widget.Toast;
+ import com.android.internal.telephony.MccTable;
+ import com.cyanogenmod.setupwizard.R;
+ import com.cyanogenmod.setupwizard.SetupWizardApp;
+-import com.cyanogenmod.setupwizard.cmstats.SetupStats;
+ import com.cyanogenmod.setupwizard.ui.LocalePicker;
+ import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
+ import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
+@@ -90,9 +89,6 @@ public class LocalePage extends SetupPage {
+             confirmCyanogenCredentials(mLocaleFragment);
+             return true;
+         } else {
+-            if (mLocaleFragment != null) {
+-                mLocaleFragment.sendLocaleStats();
+-            }
+             return super.doNextAction();
+         }
+     }
+@@ -248,14 +244,6 @@ public class LocalePage extends SetupPage {
+             return R.layout.setup_locale;
+         }
+ 
+-        public void sendLocaleStats() {
+-            if (!mCurrentLocale.equals(mInitialLocale)) {
+-                SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
+-                        SetupStats.Action.CHANGE_LOCALE, SetupStats.Label.LOCALE,
+-                        mCurrentLocale.getDisplayName());
+-            }
+-        }
+-
+         public void fetchAndUpdateSimLocale() {
+             if (mIgnoreSimLocale || isDetached()) {
+                 return;
 diff --git a/src/com/cyanogenmod/setupwizard/setup/MobileDataPage.java b/src/com/cyanogenmod/setupwizard/setup/MobileDataPage.java
-index 9f96b1d..cfbc676 100644
+index 32a5c86..eb1484c 100644
 --- a/src/com/cyanogenmod/setupwizard/setup/MobileDataPage.java
 +++ b/src/com/cyanogenmod/setupwizard/setup/MobileDataPage.java
-@@ -38,7 +38,6 @@ import android.widget.TextView;
+@@ -39,7 +39,6 @@ import android.widget.TextView;
  
  import com.cyanogenmod.setupwizard.R;
  import com.cyanogenmod.setupwizard.SetupWizardApp;
@@ -584,7 +570,7 @@ index 9f96b1d..cfbc676 100644
  import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
  import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
  
-@@ -147,9 +146,6 @@ public class MobileDataPage extends SetupPage {
+@@ -153,9 +152,6 @@ public class MobileDataPage extends SetupPage {
                  } else {
                      onDataStateReady();
                  }
@@ -595,10 +581,10 @@ index 9f96b1d..cfbc676 100644
          };
  
 diff --git a/src/com/cyanogenmod/setupwizard/setup/OtherSettingsPage.java b/src/com/cyanogenmod/setupwizard/setup/OtherSettingsPage.java
-index 7ed23dc..270ac41 100644
+index 5c0b91d..980b974 100644
 --- a/src/com/cyanogenmod/setupwizard/setup/OtherSettingsPage.java
 +++ b/src/com/cyanogenmod/setupwizard/setup/OtherSettingsPage.java
-@@ -17,7 +17,6 @@
+@@ -18,7 +18,6 @@
  package com.cyanogenmod.setupwizard.setup;
  
  import com.cyanogenmod.setupwizard.R;
@@ -606,7 +592,7 @@ index 7ed23dc..270ac41 100644
  import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
  import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
  
-@@ -229,10 +228,6 @@ public class OtherSettingsPage extends SetupPage {
+@@ -231,10 +230,6 @@ public class OtherSettingsPage extends SetupPage {
          }
  
          private void onToggleLocationAccess(boolean checked) {
@@ -617,7 +603,7 @@ index 7ed23dc..270ac41 100644
              if (checked) {
                  setLocationMode(Settings.Secure.LOCATION_MODE_SENSORS_ONLY);
              } else {
-@@ -241,10 +236,6 @@ public class OtherSettingsPage extends SetupPage {
+@@ -243,10 +238,6 @@ public class OtherSettingsPage extends SetupPage {
          }
  
          private void onToggleBatterySaving(boolean checked) {
@@ -628,7 +614,7 @@ index 7ed23dc..270ac41 100644
              if (checked) {
                  setLocationMode(Settings.Secure.LOCATION_MODE_BATTERY_SAVING);
              } else {
-@@ -253,10 +244,6 @@ public class OtherSettingsPage extends SetupPage {
+@@ -255,10 +246,6 @@ public class OtherSettingsPage extends SetupPage {
          }
  
          private void onToggleNetwork(boolean checked) {
@@ -640,18 +626,18 @@ index 7ed23dc..270ac41 100644
                  setLocationMode(Settings.Secure.LOCATION_MODE_HIGH_ACCURACY);
              } else {
 diff --git a/src/com/cyanogenmod/setupwizard/setup/ScreenLockSetupPage.java b/src/com/cyanogenmod/setupwizard/setup/ScreenLockSetupPage.java
-index 3c9da33..72ee3f7 100644
+index abbb2de..3483764 100644
 --- a/src/com/cyanogenmod/setupwizard/setup/ScreenLockSetupPage.java
 +++ b/src/com/cyanogenmod/setupwizard/setup/ScreenLockSetupPage.java
-@@ -27,7 +27,6 @@ import android.view.View;
- import android.widget.TextView;
+@@ -28,7 +28,6 @@ import android.widget.Button;
+ import android.view.View;
  import com.cyanogenmod.setupwizard.R;
  import com.cyanogenmod.setupwizard.SetupWizardApp;
 -import com.cyanogenmod.setupwizard.cmstats.SetupStats;
  import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
  
  public class ScreenLockSetupPage extends SetupPage {
-@@ -106,9 +105,6 @@ public class ScreenLockSetupPage extends SetupPage {
+@@ -112,9 +111,6 @@ public class ScreenLockSetupPage extends SetupPage {
                      ActivityOptions.makeCustomAnimation(getActivity(),
                              android.R.anim.fade_in,
                              android.R.anim.fade_out);
@@ -693,28 +679,18 @@ index 05bf9c5..142c04a 100644
              fragment.setEnterTransition(t);
              fragmentManager.beginTransaction()
 diff --git a/src/com/cyanogenmod/setupwizard/setup/WelcomePage.java b/src/com/cyanogenmod/setupwizard/setup/WelcomePage.java
-index 460a0ac..3a3d029 100644
+index 2e63085..73d1e1a 100644
 --- a/src/com/cyanogenmod/setupwizard/setup/WelcomePage.java
 +++ b/src/com/cyanogenmod/setupwizard/setup/WelcomePage.java
-@@ -42,7 +42,6 @@ import android.widget.Toast;
- import com.android.internal.telephony.MccTable;
+@@ -27,7 +27,6 @@ import android.os.Bundle;
+ 
  import com.cyanogenmod.setupwizard.R;
  import com.cyanogenmod.setupwizard.SetupWizardApp;
 -import com.cyanogenmod.setupwizard.cmstats.SetupStats;
- import com.cyanogenmod.setupwizard.ui.LocalePicker;
  import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
- import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
-@@ -86,9 +85,6 @@ public class WelcomePage extends SetupPage {
-             confirmCyanogenCredentials(mWelcomeFragment);
-             return true;
-         } else {
--            if (mWelcomeFragment != null) {
--                mWelcomeFragment.sendLocaleStats();
--            }
-             return super.doNextAction();
-         }
-     }
-@@ -102,10 +98,6 @@ public class WelcomePage extends SetupPage {
+ 
+ public class WelcomePage extends SetupPage {
+@@ -79,10 +78,6 @@ public class WelcomePage extends SetupPage {
                  ActivityOptions.makeCustomAnimation(mContext,
                          android.R.anim.fade_in,
                          android.R.anim.fade_out);
@@ -725,26 +701,11 @@ index 460a0ac..3a3d029 100644
          mContext.startActivity(intent, options.toBundle());
          return true;
      }
-@@ -269,14 +261,6 @@ public class WelcomePage extends SetupPage {
-             return R.layout.setup_welcome_page;
-         }
- 
--        public void sendLocaleStats() {
--            if (!mCurrentLocale.equals(mInitialLocale)) {
--                SetupStats.addEvent(SetupStats.Categories.SETTING_CHANGED,
--                        SetupStats.Action.CHANGE_LOCALE, SetupStats.Label.LOCALE,
--                        mCurrentLocale.getDisplayName());
--            }
--        }
--
-         public void fetchAndUpdateSimLocale() {
-             if (mIgnoreSimLocale || isDetached()) {
-                 return;
 diff --git a/src/com/cyanogenmod/setupwizard/setup/WifiSetupPage.java b/src/com/cyanogenmod/setupwizard/setup/WifiSetupPage.java
-index 2d8084a..3a131f7 100644
+index 051cbc3..22ad6b7 100644
 --- a/src/com/cyanogenmod/setupwizard/setup/WifiSetupPage.java
 +++ b/src/com/cyanogenmod/setupwizard/setup/WifiSetupPage.java
-@@ -31,7 +31,6 @@ import android.util.Log;
+@@ -32,7 +32,6 @@ import android.util.Log;
  
  import com.cyanogenmod.setupwizard.R;
  import com.cyanogenmod.setupwizard.SetupWizardApp;
@@ -752,7 +713,7 @@ index 2d8084a..3a131f7 100644
  import com.cyanogenmod.setupwizard.ui.LoadingFragment;
  import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
  import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
-@@ -86,9 +85,6 @@ public class WifiSetupPage extends SetupPage {
+@@ -87,9 +86,6 @@ public class WifiSetupPage extends SetupPage {
                              ActivityOptions.makeCustomAnimation(mContext,
                                      android.R.anim.fade_in,
                                      android.R.anim.fade_out);
@@ -762,7 +723,7 @@ index 2d8084a..3a131f7 100644
                      mLoadingFragment.startActivityForResult(intent,
                              SetupWizardApp.REQUEST_CODE_SETUP_CAPTIVE_PORTAL,
                              options.toBundle());
-@@ -157,19 +153,10 @@ public class WifiSetupPage extends SetupPage {
+@@ -162,19 +158,10 @@ public class WifiSetupPage extends SetupPage {
      public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
          if (requestCode == SetupWizardApp.REQUEST_CODE_SETUP_WIFI) {
              if (resultCode == Activity.RESULT_CANCELED) {
@@ -782,7 +743,7 @@ index 2d8084a..3a131f7 100644
                  getCallbacks().onNextPage();
              }
          } else if (requestCode == SetupWizardApp.REQUEST_CODE_SETUP_CAPTIVE_PORTAL) {
-@@ -179,20 +166,11 @@ public class WifiSetupPage extends SetupPage {
+@@ -184,20 +171,11 @@ public class WifiSetupPage extends SetupPage {
              }
              String token = data.getStringExtra("response_token");
              if (token != null && !token.equals(mResponseToken)) {
@@ -803,7 +764,7 @@ index 2d8084a..3a131f7 100644
                      getCallbacks().onNextPage();
                  }
              }
-@@ -256,9 +234,6 @@ public class WifiSetupPage extends SetupPage {
+@@ -261,9 +239,6 @@ public class WifiSetupPage extends SetupPage {
                  ActivityOptions.makeCustomAnimation(mContext,
                          android.R.anim.fade_in,
                          android.R.anim.fade_out);
@@ -814,10 +775,10 @@ index 2d8084a..3a131f7 100644
                  SetupWizardApp.REQUEST_CODE_SETUP_WIFI, options.toBundle());
      }
 diff --git a/src/com/cyanogenmod/setupwizard/ui/SetupPageFragment.java b/src/com/cyanogenmod/setupwizard/ui/SetupPageFragment.java
-index b0df440..33c61c7 100644
+index 2ec8e3a..2770b14 100644
 --- a/src/com/cyanogenmod/setupwizard/ui/SetupPageFragment.java
 +++ b/src/com/cyanogenmod/setupwizard/ui/SetupPageFragment.java
-@@ -26,7 +26,6 @@ import android.view.ViewGroup;
+@@ -27,7 +27,6 @@ import android.widget.ImageView;
  import android.widget.TextView;
  
  import com.cyanogenmod.setupwizard.R;
@@ -825,7 +786,7 @@ index b0df440..33c61c7 100644
  import com.cyanogenmod.setupwizard.setup.Page;
  import com.cyanogenmod.setupwizard.setup.SetupDataCallbacks;
  
-@@ -43,8 +42,6 @@ public abstract class SetupPageFragment extends Fragment {
+@@ -45,8 +44,6 @@ public abstract class SetupPageFragment extends Fragment {
      public void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
          setRetainInstance(true);
@@ -835,7 +796,7 @@ index b0df440..33c61c7 100644
  
      @Override
 diff --git a/src/com/cyanogenmod/setupwizard/ui/SetupWizardActivity.java b/src/com/cyanogenmod/setupwizard/ui/SetupWizardActivity.java
-index 9f3b27a..bcc4425 100644
+index d371bff..6cc651a 100644
 --- a/src/com/cyanogenmod/setupwizard/ui/SetupWizardActivity.java
 +++ b/src/com/cyanogenmod/setupwizard/ui/SetupWizardActivity.java
 @@ -45,7 +45,6 @@ import android.widget.ProgressBar;
@@ -854,7 +815,7 @@ index 9f3b27a..bcc4425 100644
              sLaunchTime = System.nanoTime();
          }
          setContentView(R.layout.setup_main);
-@@ -371,9 +369,6 @@ public class SetupWizardActivity extends Activity implements SetupDataCallbacks,
+@@ -361,9 +359,6 @@ public class SetupWizardActivity extends Activity implements SetupDataCallbacks,
      @Override
      public void finishSetup() {
          if (!mIsFinishing) {
@@ -864,7 +825,7 @@ index 9f3b27a..bcc4425 100644
              final SetupWizardApp setupWizardApp = (SetupWizardApp)getApplication();
              setupWizardApp.sendStickyBroadcastAsUser(
                      new Intent(SetupWizardApp.ACTION_FINISHED),
-@@ -463,7 +458,6 @@ public class SetupWizardActivity extends Activity implements SetupDataCallbacks,
+@@ -453,7 +448,6 @@ public class SetupWizardActivity extends Activity implements SetupDataCallbacks,
                  }
                  final ThemeManager tm = ThemeManager.getInstance(SetupWizardActivity.this);
                  tm.unregisterThemeChangeListener(SetupWizardActivity.this);

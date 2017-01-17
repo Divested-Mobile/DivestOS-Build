@@ -9,7 +9,7 @@
 #rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu bootable/recovery packages/apps/CMParts packages/apps/SetupWizard
 
 #Start a build
-#repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source device/motorola/clark/setup-makefiles.sh && source build/envsetup.sh && export WITH_SU=true && export ANDROID_HOME="/home/tad/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch mako
+#repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source device/motorola/clark/setup-makefiles.sh && source build/envsetup.sh && export WITH_SU=true && export ANDROID_HOME="/home/tad/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch mako && brunch thor
 
 #
 #START OF PREPRATION
@@ -73,7 +73,7 @@ enter "packages/apps/GmsCore"
 patch -p1 < $patches"android_packages_apps_GmsCore/0001-Fixes.patch" #Update output paths and build tools
 
 enter "packages/apps/GsfProxy"
-#patch -p1 < $patches"android_packages_apps_GsfProxy/0001-Fixes.patch" #Update output paths and build tools
+patch -p1 < $patches"android_packages_apps_GsfProxy/0001-Fixes.patch" #Update output paths and build tools
 
 enter "packages/apps/FakeStore"
 patch -p1 < $patches"android_packages_apps_FakeStore/0001-Fixes.patch" #Update output paths and build tools
@@ -104,17 +104,14 @@ patch -p1 < $patches"android_vendor_cm/0002-Monochromium.patch" #Add Chromium we
 
 enter "packages/apps/CMParts"
 git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/6 && git cherry-pick FETCH_HEAD #Network Traffic
-git revert 9b59f2772e6b2472c6525a9e47756be6fe224ecd 5b40a9be9e8bb3e5dee428c442cf7451a1d14c0c 4675ff3e918eba2156338753d81fbfb8351f077e fed965cd2980b3cab5d950f38921191d83b3c23d 3e7c02893affcd217d16bac9400ee361613b0692 ae1f124858943f7d99e9eb1e100e01297da5cc52 #revert stat changes
-patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove analytics FIXME: Rebase
+patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove analytics
 
 enter "packages/apps/SetupWizard"
-git revert 52a78fd21c8d23bd9cecd393a03b8f36f1fd1cdd #rebase
 patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove analytics
 
 enter "frameworks/base"
 git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/2 && git cherry-pick FETCH_HEAD #Network Traffic
 git revert 2aaa0472da8d254da1f07aa65a664012b52410f4 #re-enable doze on devices without gms
-#patch -p1 < $patches"android_frameworks_base/0001-Userspace_Location.patch" #Allow location providers outside of /system (MicroG/UnifiedNLP) XXX: This is insecure
 #patch -p1 < $patches"android_frameworks_base/0002-Failed_Unlock_Shutdown.patch" #Shutdown after five failed unlock attempts FIXME: Update shutdown() to match new args
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
 patch -p1 < $patches"android_frameworks_base/0004-Hide_Passwords.patch" #Hide passwords by default
@@ -128,9 +125,7 @@ rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core
 #START OF DEVICE CHANGES
 #
 enter "device/motorola/clark"
-#git fetch https://review.lineageos.org/LineageOS/android_device_motorola_clark refs/changes/75/23575/3 && git cherry-pick FETCH_HEAD #sepolicies
-git revert e80d30e3968308cd2941b893608279220dfcf34f #don't add more sprint blobs
-patch -p1 < $patches"android_device_motorola_clark/0002-Remove_Sprint_DM.patch" #Removes Sprint Device Manager FIXME: Rebase
+patch -p1 < $patches"android_device_motorola_clark/0002-Remove_Sprint_DM.patch" #Removes Sprint Device Manager
 patch -p1 < $patches"android_device_motorola_clark/0003-Enable_Dex_Preopt.patch" #Force enables dex pre-optimization
 patch -p1 < $patches"android_device_motorola_clark/0004-Remove_Widevine.patch" #Removes Google Widevine and disables the DRM server
 #patch -p1 < $patches"android_device_motorola_clark/0005-TWRP.patch" #Add TWRP support

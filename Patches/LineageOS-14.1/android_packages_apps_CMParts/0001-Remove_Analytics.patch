@@ -1,25 +1,25 @@
-From 3b221ea04b84cf9df2098598c0d4979446b0c914 Mon Sep 17 00:00:00 2001
+From 526dadc1170fb3deea60fd3d2e93ab62e54a00ab Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Fri, 23 Dec 2016 23:09:33 -0500
+Date: Tue, 17 Jan 2017 18:04:09 -0500
 Subject: [PATCH] Remove stats
 
-Change-Id: I13313c99c3a839f6ae53d5d87a9999da23fb1103
+Change-Id: If22fca4b2b641f8b68247ece20441b5cc7724709
 ---
- AndroidManifest.xml                                |  25 --
+ AndroidManifest.xml                                |  25 ---
  proguard.flags                                     |   1 -
- res/values/config.xml                              |   5 -
- res/values/strings.xml                             |  22 --
- res/xml/anonymous_stats.xml                        |  32 ---
+ res/values/config.xml                              |   3 -
+ res/values/strings.xml                             |  22 ---
+ res/xml/anonymous_stats.xml                        |  32 ----
  res/xml/parts_catalog.xml                          |   5 -
- res/xml/preview_data.xml                           |  52 ----
+ res/xml/preview_data.xml                           |  52 ------
  res/xml/privacy_settings.xml                       |   8 -
- .../cmparts/cmstats/AnonymousStats.java            | 101 -------
- .../cyanogenmod/cmparts/cmstats/PreviewData.java   |  49 ----
- .../cmparts/cmstats/ReportingService.java          | 106 --------
- .../cmparts/cmstats/ReportingServiceManager.java   | 123 ---------
- .../cmparts/cmstats/StatsUploadJobService.java     | 291 ---------------------
- src/org/cyanogenmod/cmparts/cmstats/Utilities.java | 102 --------
- 14 files changed, 922 deletions(-)
+ .../cmparts/cmstats/AnonymousStats.java            |  73 --------
+ .../cyanogenmod/cmparts/cmstats/PreviewData.java   |  49 -----
+ .../cmparts/cmstats/ReportingService.java          |  82 ---------
+ .../cmparts/cmstats/ReportingServiceManager.java   | 109 -----------
+ .../cmparts/cmstats/StatsUploadJobService.java     | 205 ---------------------
+ src/org/cyanogenmod/cmparts/cmstats/Utilities.java | 102 ----------
+ 14 files changed, 768 deletions(-)
  delete mode 100644 res/xml/anonymous_stats.xml
  delete mode 100644 res/xml/preview_data.xml
  delete mode 100644 src/org/cyanogenmod/cmparts/cmstats/AnonymousStats.java
@@ -30,10 +30,10 @@ Change-Id: I13313c99c3a839f6ae53d5d87a9999da23fb1103
  delete mode 100644 src/org/cyanogenmod/cmparts/cmstats/Utilities.java
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index 1bdf33d..ceec90e 100644
+index d4f37a2..a574d98 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
-@@ -179,31 +179,6 @@
+@@ -180,31 +180,6 @@
                  android:value="status_bar_settings" />
          </activity-alias>
  
@@ -78,23 +78,21 @@ index 581d61f..61c9254 100644
  -keep class org.cyanogenmod.cmparts.hardware.*
  -keep class org.cyanogenmod.cmparts.input.*
 diff --git a/res/values/config.xml b/res/values/config.xml
-index f66ec0e..318c7dd 100644
+index be0cc53..57ab696 100644
 --- a/res/values/config.xml
 +++ b/res/values/config.xml
-@@ -16,11 +16,6 @@
+@@ -17,9 +17,6 @@
  
  <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
  
--    <!-- Metrics server endpoints -->
--    <string name="stats_cm_url">https://stats.cyanogenmod.org/submit</string>
--    <string name="stats_cyanogen_url">https://shopvac.cyngn.com/community/heartbeat</string>
--    <string name="stats_cyanogen_token_url">https://account.cyngn.com/api/v1/community/heartbeat_token</string>
+-    <!-- Metrics server endpoint -->
+-    <string name="stats_cm_url">https://stats.lineageos.org/api/v1/stats</string>
 -
      <!-- When true, weather options will be displayed in settings dashboard -->
      <bool name="config_showWeatherMenu">true</bool>
  
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 0557279..cfcf049 100644
+index 3037cdd..79988d6 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -483,28 +483,6 @@
@@ -103,11 +101,11 @@ index 0557279..cfcf049 100644
  
 -    <!-- Anonymous Statistics #CM -->
 -    <!-- About device screen, list item title. Takes the user to the screen about opting in or out of anonymous statistics. -->
--    <string name="anonymous_statistics_title">CyanogenMod statistics</string>
--    <string name="anonymous_statistics_summary">Help make CyanogenMod better by opting into anonymous statistics reporting</string>
+-    <string name="anonymous_statistics_title">LineageOS statistics</string>
+-    <string name="anonymous_statistics_summary">Help make LineageOS better by opting into anonymous statistics reporting</string>
 -    <string name="anonymous_statistics_warning_title">About</string>
--    <string name="anonymous_statistics_warning">Opting into CyanogenMod Statistics will allow non-personal data to be submitted to the
--        developers of CyanogenMod to track unique installations across devices. The information submitted includes an unique identifier,
+-    <string name="anonymous_statistics_warning">Opting into LineageOS Statistics will allow non-personal data to be submitted to the
+-        developers of LineageOS to track unique installations across devices. The information submitted includes an unique identifier,
 -        which does not compromise your privacy or personal data. The data is submitted during each boot.\n\nFor an example of the data that is submitted, tap on Preview Data.</string>
 -    <string name="enable_reporting_title">Enable reporting</string>
 -    <string name="preview_data_title">Preview data</string>
@@ -257,10 +255,10 @@ index 5ae923a..45df2a1 100644
  </PreferenceScreen>
 diff --git a/src/org/cyanogenmod/cmparts/cmstats/AnonymousStats.java b/src/org/cyanogenmod/cmparts/cmstats/AnonymousStats.java
 deleted file mode 100644
-index 7c6294e..0000000
+index 3a6669d..0000000
 --- a/src/org/cyanogenmod/cmparts/cmstats/AnonymousStats.java
 +++ /dev/null
-@@ -1,101 +0,0 @@
+@@ -1,73 +0,0 @@
 -/*
 - * Copyright (C) 2015 The CyanogenMod Project
 - *
@@ -283,15 +281,8 @@ index 7c6294e..0000000
 -import android.content.SharedPreferences;
 -import android.os.Bundle;
 -
--import android.os.UserHandle;
--import android.support.v7.preference.Preference;
--import android.support.v7.preference.PreferenceScreen;
--import android.support.v14.preference.SwitchPreference;
--
 -import org.cyanogenmod.cmparts.R;
 -import org.cyanogenmod.cmparts.SettingsPreferenceFragment;
--
--import cyanogenmod.providers.CMSettings;
 -
 -public class AnonymousStats extends SettingsPreferenceFragment {
 -
@@ -302,10 +293,6 @@ index 7c6294e..0000000
 -    /* package */ static final String KEY_LAST_JOB_ID = "last_job_id";
 -    /* package */ static final int QUEUE_MAX_THRESHOLD = 1000;
 -
--    public static final String KEY_STATS = "stats_collection";
--
--    SwitchPreference mStatsSwitch;
--
 -    public static SharedPreferences getPreferences(Context context) {
 -        return context.getSharedPreferences(PREF_FILE_NAME, 0);
 -    }
@@ -314,23 +301,6 @@ index 7c6294e..0000000
 -    public void onCreate(Bundle savedInstanceState) {
 -        super.onCreate(savedInstanceState);
 -        addPreferencesFromResource(R.xml.anonymous_stats);
--        mStatsSwitch = (SwitchPreference) findPreference(KEY_STATS);
--    }
--
--    @Override
--    public boolean onPreferenceTreeClick(Preference preference) {
--        if (preference == mStatsSwitch) {
--            boolean checked = mStatsSwitch.isChecked();
--            if (checked) {
--                // clear opt out flags
--                CMSettings.Secure.putIntForUser(getContentResolver(),
--                        CMSettings.Secure.STATS_COLLECTION_REPORTED, 0, UserHandle.USER_OWNER);
--            }
--            // will initiate opt out sequence if necessary
--            ReportingServiceManager.setAlarm(getActivity());
--            return true;
--        }
--        return super.onPreferenceTreeClick(preference);
 -    }
 -
 -    public static void updateLastSynced(Context context) {
@@ -419,12 +389,13 @@ index a14f76b..0000000
 -}
 diff --git a/src/org/cyanogenmod/cmparts/cmstats/ReportingService.java b/src/org/cyanogenmod/cmparts/cmstats/ReportingService.java
 deleted file mode 100644
-index 0725676..0000000
+index d1cd8e6..0000000
 --- a/src/org/cyanogenmod/cmparts/cmstats/ReportingService.java
 +++ /dev/null
-@@ -1,106 +0,0 @@
+@@ -1,82 +0,0 @@
 -/*
 - * Copyright (C) 2015 The CyanogenMod Project
+- *           (C) 2017 The LineageOS Project
 - *
 - * Licensed under the Apache License, Version 2.0 (the "License");
 - * you may not use this file except in compliance with the License.
@@ -458,8 +429,6 @@ index 0725676..0000000
 -    /* package */ static final String TAG = "CMStats";
 -    private static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
 -
--    public static final String EXTRA_OPTING_OUT = "cmstats::opt_out";
--
 -    public ReportingService() {
 -        super(ReportingService.class.getSimpleName());
 -    }
@@ -474,40 +443,23 @@ index 0725676..0000000
 -        String deviceCountry = Utilities.getCountryCode(getApplicationContext());
 -        String deviceCarrier = Utilities.getCarrier(getApplicationContext());
 -        String deviceCarrierId = Utilities.getCarrierId(getApplicationContext());
--        boolean optOut = intent.getBooleanExtra(EXTRA_OPTING_OUT, false);
 -
--        final int cyanogenJobId = AnonymousStats.getNextJobId(getApplicationContext());
 -        final int cmOrgJobId = AnonymousStats.getNextJobId(getApplicationContext());
 -
--        if (DEBUG) Log.d(TAG, "scheduling jobs id: " + cyanogenJobId + ", " + cmOrgJobId);
+-        if (DEBUG) Log.d(TAG, "scheduling job id: " + cmOrgJobId);
 -
--        PersistableBundle cyanogenBundle = new PersistableBundle();
--        cyanogenBundle.putBoolean(StatsUploadJobService.KEY_OPT_OUT, optOut);
--        cyanogenBundle.putString(StatsUploadJobService.KEY_DEVICE_NAME, deviceName);
--        cyanogenBundle.putString(StatsUploadJobService.KEY_UNIQUE_ID, deviceId);
--        cyanogenBundle.putString(StatsUploadJobService.KEY_VERSION, deviceVersion);
--        cyanogenBundle.putString(StatsUploadJobService.KEY_COUNTRY, deviceCountry);
--        cyanogenBundle.putString(StatsUploadJobService.KEY_CARRIER, deviceCarrier);
--        cyanogenBundle.putString(StatsUploadJobService.KEY_CARRIER_ID, deviceCarrierId);
--        cyanogenBundle.putLong(StatsUploadJobService.KEY_TIMESTAMP, System.currentTimeMillis());
--
--        // get snapshot and persist it
--        PersistableBundle cmBundle = new PersistableBundle(cyanogenBundle);
+-        PersistableBundle cmBundle = new PersistableBundle();
+-        cmBundle.putString(StatsUploadJobService.KEY_DEVICE_NAME, deviceName);
+-        cmBundle.putString(StatsUploadJobService.KEY_UNIQUE_ID, deviceId);
+-        cmBundle.putString(StatsUploadJobService.KEY_VERSION, deviceVersion);
+-        cmBundle.putString(StatsUploadJobService.KEY_COUNTRY, deviceCountry);
+-        cmBundle.putString(StatsUploadJobService.KEY_CARRIER, deviceCarrier);
+-        cmBundle.putString(StatsUploadJobService.KEY_CARRIER_ID, deviceCarrierId);
+-        cmBundle.putLong(StatsUploadJobService.KEY_TIMESTAMP, System.currentTimeMillis());
 -
 -        // set job types
--        cyanogenBundle.putInt(StatsUploadJobService.KEY_JOB_TYPE,
--                StatsUploadJobService.JOB_TYPE_CYANOGEN);
 -        cmBundle.putInt(StatsUploadJobService.KEY_JOB_TYPE,
 -                StatsUploadJobService.JOB_TYPE_CMORG);
--
--        // schedule cyanogen stats upload
--        js.schedule(new JobInfo.Builder(cyanogenJobId, new ComponentName(getPackageName(),
--                StatsUploadJobService.class.getName()))
--                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
--                .setMinimumLatency(1000)
--                .setExtras(cyanogenBundle)
--                .setPersisted(true)
--                .build());
 -
 -        // schedule cmorg stats upload
 -        js.schedule(new JobInfo.Builder(cmOrgJobId, new ComponentName(getPackageName(),
@@ -518,12 +470,6 @@ index 0725676..0000000
 -                .setPersisted(true)
 -                .build());
 -
--        if (optOut) {
--            // we've successfully scheduled the opt out.
--            CMSettings.Secure.putIntForUser(getContentResolver(),
--                    CMSettings.Secure.STATS_COLLECTION_REPORTED, 1, UserHandle.USER_OWNER);
--        }
--
 -        // reschedule
 -        AnonymousStats.updateLastSynced(this);
 -        ReportingServiceManager.setAlarm(this);
@@ -531,12 +477,13 @@ index 0725676..0000000
 -}
 diff --git a/src/org/cyanogenmod/cmparts/cmstats/ReportingServiceManager.java b/src/org/cyanogenmod/cmparts/cmstats/ReportingServiceManager.java
 deleted file mode 100644
-index 8264739..0000000
+index ef53a0a..0000000
 --- a/src/org/cyanogenmod/cmparts/cmstats/ReportingServiceManager.java
 +++ /dev/null
-@@ -1,123 +0,0 @@
+@@ -1,109 +0,0 @@
 -/*
 - * Copyright (C) 2012 The CyanogenMod Project
+- *           (C) 2017 The LineageOS Project
 - *
 - * Licensed under the Apache License, Version 2.0 (the "License");
 - * you may not use this file except in compliance with the License.
@@ -584,27 +531,12 @@ index 8264739..0000000
 -        }
 -    }
 -
--    /**
--     * opt out if we haven't yet
--     */
--    public static void initiateOptOut(Context context) {
--        final boolean optOutReported = CMSettings.Secure.getIntForUser(context.getContentResolver(),
--                CMSettings.Secure.STATS_COLLECTION_REPORTED, 0, UserHandle.USER_OWNER) == 1;
--        if (!optOutReported) {
--            Intent intent = new Intent();
--            intent.setClass(context, ReportingService.class);
--            intent.putExtra(ReportingService.EXTRA_OPTING_OUT, true);
--            context.startServiceAsUser(intent, UserHandle.OWNER);
--        }
--    }
--
 -    public static void setAlarm(Context context) {
 -        SharedPreferences prefs = AnonymousStats.getPreferences(context);
 -        if (prefs.contains(AnonymousStats.ANONYMOUS_OPT_IN)) {
 -            migrate(context, prefs);
 -        }
 -        if (!Utilities.isStatsCollectionEnabled(context)) {
--            initiateOptOut(context);
 -            return;
 -        }
 -        long lastSynced = prefs.getLong(AnonymousStats.ANONYMOUS_LAST_CHECKED, 0);
@@ -660,12 +592,13 @@ index 8264739..0000000
 -}
 diff --git a/src/org/cyanogenmod/cmparts/cmstats/StatsUploadJobService.java b/src/org/cyanogenmod/cmparts/cmstats/StatsUploadJobService.java
 deleted file mode 100644
-index 09f4ea1..0000000
+index 16f918b..0000000
 --- a/src/org/cyanogenmod/cmparts/cmstats/StatsUploadJobService.java
 +++ /dev/null
-@@ -1,291 +0,0 @@
+@@ -1,205 +0,0 @@
 -/*
 - * Copyright (C) 2015 The CyanogenMod Project
+- *           (C) 2017 The LineageOS project
 - *
 - * Licensed under the Apache License, Version 2.0 (the "License");
 - * you may not use this file except in compliance with the License.
@@ -712,8 +645,7 @@ index 09f4ea1..0000000
 -    private static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
 -
 -    public static final String KEY_JOB_TYPE = "job_type";
--    public static final int JOB_TYPE_CYANOGEN = 1;
--    public static final int JOB_TYPE_CMORG = 2;
+-    public static final int JOB_TYPE_CMORG = 1;
 -
 -    public static final String KEY_UNIQUE_ID = "uniqueId";
 -    public static final String KEY_DEVICE_NAME = "deviceName";
@@ -722,7 +654,6 @@ index 09f4ea1..0000000
 -    public static final String KEY_CARRIER = "carrier";
 -    public static final String KEY_CARRIER_ID = "carrierId";
 -    public static final String KEY_TIMESTAMP = "timeStamp";
--    public static final String KEY_OPT_OUT = "optOut";
 -
 -    private final Map<JobParameters, StatsUploadTask> mCurrentJobs
 -            = Collections.synchronizedMap(new ArrayMap<JobParameters, StatsUploadTask>());
@@ -731,6 +662,11 @@ index 09f4ea1..0000000
 -    public boolean onStartJob(JobParameters jobParameters) {
 -        if (DEBUG)
 -            Log.d(TAG, "onStartJob() called with " + "jobParameters = [" + jobParameters + "]");
+-
+-        if (!Utilities.isStatsCollectionEnabled(this)) {
+-            return false;
+-        }
+-
 -        final StatsUploadTask uploadTask = new StatsUploadTask(jobParameters);
 -        mCurrentJobs.put(jobParameters, uploadTask);
 -        uploadTask.execute((Void) null);
@@ -774,37 +710,18 @@ index 09f4ea1..0000000
 -            String deviceCarrier = extras.getString(KEY_CARRIER);
 -            String deviceCarrierId = extras.getString(KEY_CARRIER_ID);
 -            long timeStamp = extras.getLong(KEY_TIMESTAMP);
--            boolean optOut = extras.getBoolean(KEY_OPT_OUT);
 -
 -            boolean success = false;
 -            int jobType = extras.getInt(KEY_JOB_TYPE, -1);
 -            if (!isCancelled()) {
 -                switch (jobType) {
--                    case JOB_TYPE_CYANOGEN:
--                        try {
--                            JSONObject json = new JSONObject();
--                            json.put("optOut", optOut);
--                            json.put("uniqueId", deviceId);
--                            json.put("deviceName", deviceName);
--                            json.put("version", deviceVersion);
--                            json.put("country", deviceCountry);
--                            json.put("carrier", deviceCarrier);
--                            json.put("carrierId", deviceCarrierId);
--                            json.put("timestamp", timeStamp);
--
--                            success = uploadToCyanogen(json);
--                        } catch (IOException | JSONException e) {
--                            Log.e(TAG, "Could not upload stats checkin to cyanogen server", e);
--                            success = false;
--                        }
--                        break;
--
 -                    case JOB_TYPE_CMORG:
 -                        try {
--                            success = uploadToCM(deviceId, deviceName, deviceVersion, deviceCountry,
--                                    deviceCarrier, deviceCarrierId, optOut);
--                        } catch (IOException e) {
--                            Log.e(TAG, "Could not upload stats checkin to commnity server", e);
+-                            JSONObject json = buildStatsRequest(deviceId, deviceName,
+-                                    deviceVersion, deviceCountry, deviceCarrier, deviceCarrierId);
+-                            success = uploadToCM(json);
+-                        } catch (IOException | JSONException e) {
+-                            Log.e(TAG, "Could not upload stats checkin to community server", e);
 -                            success = false;
 -                        }
 -                        break;
@@ -823,26 +740,32 @@ index 09f4ea1..0000000
 -        }
 -    }
 -
+-    private JSONObject buildStatsRequest(String deviceId, String deviceName, String deviceVersion,
+-                                         String deviceCountry, String deviceCarrier,
+-                                         String deviceCarrierId) throws JSONException {
+-        JSONObject request = new JSONObject();
+-        request.put("device_hash", deviceId);
+-        request.put("device_name", deviceName);
+-        request.put("device_version", deviceVersion);
+-        request.put("device_country", deviceCountry);
+-        request.put("device_carrier", deviceCarrier);
+-        request.put("device_carrier_id", deviceCarrierId);
+-        return request;
+-    }
 -
--    private boolean uploadToCM(String deviceId, String deviceName, String deviceVersion,
--                               String deviceCountry, String deviceCarrier, String deviceCarrierId,
--                               boolean optOut)
--            throws IOException {
--
--        final Uri uri = Uri.parse(getString(R.string.stats_cm_url)).buildUpon()
--                .appendQueryParameter("opt_out", optOut ? "1" : "0")
--                .appendQueryParameter("device_hash", deviceId)
--                .appendQueryParameter("device_name", deviceName)
--                .appendQueryParameter("device_version", deviceVersion)
--                .appendQueryParameter("device_country", deviceCountry)
--                .appendQueryParameter("device_carrier", deviceCarrier)
--                .appendQueryParameter("device_carrier_id", deviceCarrierId).build();
+-    private boolean uploadToCM(JSONObject json) throws IOException {
+-        final Uri uri = Uri.parse(getString(R.string.stats_cm_url));
 -        URL url = new URL(uri.toString());
 -        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 -        try {
 -            urlConnection.setInstanceFollowRedirects(true);
 -            urlConnection.setDoOutput(true);
--            urlConnection.connect();
+-            urlConnection.setDoInput(true);
+-            urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+-
+-            OutputStream os = urlConnection.getOutputStream();
+-            os.write(json.toString().getBytes("UTF-8"));
+-            os.close();
 -
 -            final int responseCode = urlConnection.getResponseCode();
 -            if (DEBUG) Log.d(TAG, "cm server response code=" + responseCode);
@@ -856,83 +779,6 @@ index 09f4ea1..0000000
 -            urlConnection.disconnect();
 -        }
 -
--    }
--
--    private boolean uploadToCyanogen(JSONObject json)
--            throws IOException, JSONException {
--        String authToken = getAuthToken();
--
--        if (authToken.isEmpty()) {
--            Log.w(TAG, "no auth token!");
--        }
--
--        URL url = new URL(getString(R.string.stats_cyanogen_url));
--        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
--        try {
--            urlConnection.setInstanceFollowRedirects(true);
--            urlConnection.setDoInput(true);
--            urlConnection.setDoOutput(true);
--
--            urlConnection.setRequestProperty("Accept-Encoding", "identity");
--            urlConnection.setRequestProperty("Authorization", authToken);
--            urlConnection.setRequestProperty("Content-Type", "application/json");
--
--            OutputStream os = urlConnection.getOutputStream();
--            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
--            writer.write(json.toString());
--            writer.flush();
--            writer.close();
--            os.close();
--
--            urlConnection.connect();
--
--            final int responseCode = urlConnection.getResponseCode();
--            final boolean success = responseCode == HttpURLConnection.HTTP_OK;
--
--            final String response = getResponse(urlConnection, !success);
--            if (DEBUG)
--                Log.d(TAG, "server responseCode: " + responseCode +", response=" + response);
--
--            if (!success) {
--                Log.w(TAG, "failed sending, server returned: " + response);
--            }
--            return success;
--        } finally {
--            urlConnection.disconnect();
--        }
--    }
--
--    private String getAuthToken() {
--        HttpURLConnection urlConnection = null;
--        try {
--            URL url = new URL(getString(R.string.stats_cyanogen_token_url));
--            urlConnection = (HttpURLConnection) url.openConnection();
--            urlConnection.setInstanceFollowRedirects(true);
--            urlConnection.setDoInput(true);
--
--            urlConnection.setRequestProperty("Accept-Encoding", "identity");
--            urlConnection.setRequestProperty("Content-Type", "text/plain");
--
--            urlConnection.connect();
--
--            final int responseCode = urlConnection.getResponseCode();
--            final boolean success = responseCode == HttpURLConnection.HTTP_OK;
--            if (DEBUG) Log.d(TAG, "server auth response code=" + responseCode);
--            final String response = getResponse(urlConnection, !success);
--            if (DEBUG)
--                Log.d(TAG, "server auth response=" + response);
--
--            if (success) {
--                return response;
--            }
--        } catch (IOException e) {
--            Log.e(TAG, "error getting auth token", e);
--        } finally {
--            if (urlConnection != null) {
--                urlConnection.disconnect();
--            }
--        }
--        return "";
 -    }
 -
 -    private String getResponse(HttpURLConnection httpUrlConnection, boolean errorStream)
@@ -957,7 +803,7 @@ index 09f4ea1..0000000
 -}
 diff --git a/src/org/cyanogenmod/cmparts/cmstats/Utilities.java b/src/org/cyanogenmod/cmparts/cmstats/Utilities.java
 deleted file mode 100644
-index eefafba..0000000
+index efb7379..0000000
 --- a/src/org/cyanogenmod/cmparts/cmstats/Utilities.java
 +++ /dev/null
 @@ -1,102 +0,0 @@
@@ -1035,7 +881,7 @@ index eefafba..0000000
 -
 -    public static String digest(String input) {
 -        try {
--            MessageDigest md = MessageDigest.getInstance("MD5");
+-            MessageDigest md = MessageDigest.getInstance("SHA-256");
 -            return new BigInteger(1, md.digest(input.getBytes())).toString(16).toUpperCase();
 -        } catch (Exception e) {
 -            return null;
