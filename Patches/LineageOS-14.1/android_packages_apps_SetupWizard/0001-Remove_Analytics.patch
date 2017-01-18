@@ -1,16 +1,16 @@
-From 4261628fb0a6636c10e07467f18565e264d6b0f6 Mon Sep 17 00:00:00 2001
+From e7d0e4c5b24240b013478013799c39baabdac547 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Tue, 17 Jan 2017 18:12:24 -0500
+Date: Tue, 17 Jan 2017 20:35:41 -0500
 Subject: [PATCH] Remove stats
 
-Change-Id: I878ab8ddb22a256ab0e4a4a851325d611ae79b73
+Change-Id: I1329ce8a8eb88d395f71f84e070bbb335e290065
 ---
  AndroidManifest.xml                                |   1 -
  .../setupwizard/cmstats/SetupStats.java            | 163 ---------------------
  .../setupwizard/cmstats/StatsUtils.java            |  44 ------
  .../setupwizard/setup/BluetoothSetupPage.java      |   7 -
  .../setupwizard/setup/ChooseDataSimPage.java       |   4 -
- .../setupwizard/setup/CyanogenSettingsPage.java    |  19 ---
+ .../setupwizard/setup/CyanogenSettingsPage.java    |  55 -------
  .../setupwizard/setup/DateTimePage.java            |  19 ---
  .../setupwizard/setup/FingerprintSetupPage.java    |   4 -
  .../setupwizard/setup/GmsAccountPage.java          |  22 ---
@@ -24,7 +24,7 @@ Change-Id: I878ab8ddb22a256ab0e4a4a851325d611ae79b73
  .../setupwizard/ui/SetupPageFragment.java          |   3 -
  .../setupwizard/ui/SetupWizardActivity.java        |   6 -
  .../util/EnableAccessibilityController.java        |   3 -
- 19 files changed, 365 deletions(-)
+ 19 files changed, 401 deletions(-)
  delete mode 100644 src/com/cyanogenmod/setupwizard/cmstats/SetupStats.java
  delete mode 100644 src/com/cyanogenmod/setupwizard/cmstats/StatsUtils.java
 
@@ -314,7 +314,7 @@ index 073d6d9..6ab9ae9 100644
                          mCheckBoxes.get(i).setChecked(false);
                      }
 diff --git a/src/com/cyanogenmod/setupwizard/setup/CyanogenSettingsPage.java b/src/com/cyanogenmod/setupwizard/setup/CyanogenSettingsPage.java
-index 866371d..e989484 100644
+index 866371d..2cf7ad9 100644
 --- a/src/com/cyanogenmod/setupwizard/setup/CyanogenSettingsPage.java
 +++ b/src/com/cyanogenmod/setupwizard/setup/CyanogenSettingsPage.java
 @@ -43,7 +43,6 @@ import android.widget.TextView;
@@ -325,7 +325,15 @@ index 866371d..e989484 100644
  import com.cyanogenmod.setupwizard.ui.SetupPageFragment;
  import com.cyanogenmod.setupwizard.util.SetupWizardUtils;
  
-@@ -123,10 +122,6 @@ public class CyanogenSettingsPage extends SetupPage {
+@@ -55,7 +54,6 @@ public class CyanogenSettingsPage extends SetupPage {
+ 
+     public static final String TAG = "CyanogenSettingsPage";
+ 
+-    public static final String KEY_SEND_METRICS = "send_metrics";
+     public static final String DISABLE_NAV_KEYS = "disable_nav_keys";
+     public static final String KEY_APPLY_DEFAULT_THEME = "apply_default_theme";
+     public static final String KEY_BUTTON_BACKLIGHT = "pre_navbar_button_backlight";
+@@ -123,38 +121,19 @@ public class CyanogenSettingsPage extends SetupPage {
              @Override
              public void run() {
                  if (getData().containsKey(DISABLE_NAV_KEYS)) {
@@ -336,7 +344,9 @@ index 866371d..e989484 100644
                      writeDisableNavkeysOption(mContext, getData().getBoolean(DISABLE_NAV_KEYS));
                  }
              }
-@@ -136,25 +131,11 @@ public class CyanogenSettingsPage extends SetupPage {
+         });
+-        handleEnableMetrics();
+         handleDefaultThemeSetup();
          handlePrivacyGuard();
      }
  
@@ -362,6 +372,74 @@ index 866371d..e989484 100644
              Log.i(TAG, "Applying default theme");
              final ThemeManager tm = ThemeManager.getInstance(mContext);
              tm.applyDefaultTheme();
+@@ -193,11 +172,9 @@ public class CyanogenSettingsPage extends SetupPage {
+         private View mKillSwitchView;
+         private TextView mKillSwitchTitle;
+         private ImageView mKillSwitchStatus;
+-        private View mMetricsRow;
+         private View mDefaultThemeRow;
+         private View mNavKeysRow;
+         private View mPrivacyGuardRow;
+-        private CheckBox mMetrics;
+         private CheckBox mDefaultTheme;
+         private CheckBox mNavKeys;
+         private CheckBox mPrivacyGuard;
+@@ -206,15 +183,6 @@ public class CyanogenSettingsPage extends SetupPage {
+         private boolean mHideThemeRow = false;
+ 
+ 
+-        private View.OnClickListener mMetricsClickListener = new View.OnClickListener() {
+-            @Override
+-            public void onClick(View view) {
+-                boolean checked = !mMetrics.isChecked();
+-                mMetrics.setChecked(checked);
+-                mPage.getData().putBoolean(KEY_SEND_METRICS, checked);
+-            }
+-        };
+-
+         private View.OnClickListener mDefaultThemeClickListener = new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+@@ -283,19 +251,6 @@ public class CyanogenSettingsPage extends SetupPage {
+                 }
+             }
+ 
+-            mMetricsRow = mRootView.findViewById(R.id.metrics);
+-            mMetricsRow.setOnClickListener(mMetricsClickListener);
+-            String metricsHelpImproveCM =
+-                    getString(R.string.services_help_improve_cm, getString(R.string.os_name));
+-            String metricsSummary = getString(R.string.services_metrics_label,
+-                    metricsHelpImproveCM, getString(R.string.os_name));
+-            final SpannableStringBuilder metricsSpan = new SpannableStringBuilder(metricsSummary);
+-            metricsSpan.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+-                    0, metricsHelpImproveCM.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+-            TextView metrics = (TextView) mRootView.findViewById(R.id.enable_metrics_summary);
+-            metrics.setText(metricsSpan);
+-            mMetrics = (CheckBox) mRootView.findViewById(R.id.enable_metrics_checkbox);
+-
+             mDefaultThemeRow = mRootView.findViewById(R.id.theme);
+             mHideThemeRow = hideThemeSwitch(getActivity());
+             if (mHideThemeRow) {
+@@ -350,19 +305,9 @@ public class CyanogenSettingsPage extends SetupPage {
+         public void onResume() {
+             super.onResume();
+             updateDisableNavkeysOption();
+-            updateMetricsOption();
+             updateThemeOption();
+         }
+ 
+-        private void updateMetricsOption() {
+-            final Bundle myPageBundle = mPage.getData();
+-            boolean metricsChecked =
+-                    !myPageBundle.containsKey(KEY_SEND_METRICS) || myPageBundle
+-                            .getBoolean(KEY_SEND_METRICS);
+-            mMetrics.setChecked(metricsChecked);
+-            myPageBundle.putBoolean(KEY_SEND_METRICS, metricsChecked);
+-        }
+-
+         private void updateThemeOption() {
+             if (!mHideThemeRow) {
+                 final Bundle myPageBundle = mPage.getData();
 diff --git a/src/com/cyanogenmod/setupwizard/setup/DateTimePage.java b/src/com/cyanogenmod/setupwizard/setup/DateTimePage.java
 index f42240f..7e045ad 100644
 --- a/src/com/cyanogenmod/setupwizard/setup/DateTimePage.java
