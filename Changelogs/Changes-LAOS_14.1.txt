@@ -29,10 +29,6 @@ Device Changes
 		- Underclocked from 300Mhz to 268Mhz
 		- Qualcomm DIAG enabled
 		- Removed bundled Google Widevine DRM and Microsoft PlayReady DRM firmware files
-	- bullhead
-		- Overclocked a57 from 1.82Ghz to 2.01Ghz, overclocked a53 from 1.44Ghz to 1.63Ghz (=+1.14Ghz)
-		- Underclocked both from 384Mhz to 300Mhz
-		- MMC performance slightly increased
 	- clark
 		- Overclocked a57 from 1.82Ghz to 2.01Ghz, overclocked a53 from 1.44Ghz to 1.63Ghz (=+1.14Ghz)
 		- Underclocked both from 384Mhz to 300Mhz
@@ -47,3 +43,7 @@ Device Changes
 	- shamu
 		- Overclocked from 2.64Ghz to 2.88Ghz (=+0.96Ghz)
 		- Underclocked from 300Mhz to 35Mhz
+	- bullhead
+		- Overclocked a57 from 1.82Ghz to 2.01Ghz, overclocked a53 from 1.44Ghz to 1.63Ghz (=+1.14Ghz)
+		- Underclocked both from 384Mhz to 300Mhz
+		- MMC performance slightly increased
