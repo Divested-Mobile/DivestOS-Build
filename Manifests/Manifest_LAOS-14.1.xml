@@ -96,6 +96,10 @@
 	<project path="device/huawei/angler" name="LineageOS/android_device_huawei_angler" remote="github" />
 	<project path="kernel/huawei/angler" name="LineageOS/android_kernel_huawei_angler" remote="github" />
 
+	<!-- Google Pixel (Marlin) -->
+	<project path="device/google_marlin" name="LineageOS/android_device_google_marlin" remote="github" />
+	<project path="kernel/google_marlin" name="LineageOS/android_kernel_google_marlin" remote="github" />
+
 	<!-- Amazon Kindle Fire HDX 7 3rd Gen (Thor)-->
 	<project path="device/amazon/thor" name="LineageOS/android_device_amazon_thor" remote="github" />
 
@@ -127,6 +131,7 @@
 	<project path="vendor/amazon" name="TheMuppets/proprietary_vendor_amazon" remote="github" />
 	<project path="vendor/asus" name="TheMuppets/proprietary_vendor_asus" remote="github" />
 	<project path="vendor/huawei" name="TheMuppets/proprietary_vendor_huawei" remote="github" />
+	<project path="vendor/google" name="TheMuppets/proprietary_vendor_google" remote="github" />
 	<project path="vendor/lge" name="TheMuppets/proprietary_vendor_lge" remote="github" />
 	<project path="vendor/motorola" name="TheMuppets/proprietary_vendor_motorola" remote="github" />
 	<project path="vendor/oneplus" name="TheMuppets/proprietary_vendor_oneplus" remote="github" />
