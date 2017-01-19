@@ -23,7 +23,7 @@ ANDROID_HOME="/home/tad/Android/SDK"
 mkdir -p /tmp/ar
 cd /tmp/ar
 wget https://spotco.us/hosts -N
-wget https://gitlab.com/copperhead/platform_external_chromium-webview/raw/nougat-mr1-release/prebuilt/arm64/webview.apk -N
+wget https://gitlab.com/copperhead/platform_external_chromium-webview/raw/nougat-mr1.1-release/prebuilt/arm64/webview.apk -N
 wget https://github.com/Ranks/emojione/raw/master/assets/fonts/emojione-android.ttf -N
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
@@ -96,7 +96,7 @@ enter "vendor/cmsdk"
 git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/3 && git cherry-pick FETCH_HEAD #Network Traffic
 
 enter "vendor/cm"
-git fetch https://review.lineageos.org/LineageOS/android_vendor_cm refs/changes/01/156601/4 && git cherry-pick FETCH_HEAD #CustomTiles
+git fetch https://review.lineageos.org/LineageOS/android_vendor_cm refs/changes/01/156601/8 && git cherry-pick FETCH_HEAD #CustomTiles
 rm -rf gello #Gello is built out-of-tree and bundles Google Play Services library
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
@@ -110,7 +110,7 @@ enter "packages/apps/SetupWizard"
 patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove analytics
 
 enter "frameworks/base"
-git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/2 && git cherry-pick FETCH_HEAD #Network Traffic
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/4 && git cherry-pick FETCH_HEAD #Network Traffic
 git revert 2aaa0472da8d254da1f07aa65a664012b52410f4 #re-enable doze on devices without gms
 #patch -p1 < $patches"android_frameworks_base/0002-Failed_Unlock_Shutdown.patch" #Shutdown after five failed unlock attempts FIXME: Update shutdown() to match new args
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
