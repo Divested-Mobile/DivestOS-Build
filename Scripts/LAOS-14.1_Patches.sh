@@ -9,7 +9,10 @@
 #rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu bootable/recovery packages/apps/CMParts packages/apps/SetupWizard
 
 #Start a build
-#repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source device/motorola/clark/setup-makefiles.sh && source build/envsetup.sh && export WITH_SU=true && export ANDROID_HOME="/home/tad/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch mako && brunch thor
+#repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source device/motorola/clark/setup-makefiles.sh && source build/envsetup.sh && export ANDROID_HOME="/home/tad/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && brunch clark && make addonsu && brunch mako && make addonsu && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch bacon && make addonsu && brunch thor && make addonsu
+
+#Build in su
+#export WITH_SU=true
 
 #
 #START OF PREPRATION
@@ -25,6 +28,7 @@ cd /tmp/ar
 wget https://spotco.us/hosts -N
 wget https://gitlab.com/copperhead/platform_external_chromium-webview/raw/nougat-mr1.1-release/prebuilt/arm64/webview.apk -N
 wget https://github.com/Ranks/emojione/raw/master/assets/fonts/emojione-android.ttf -N
+wget https://gitlab.com/fdroid/fdroidclient/merge_requests/425.patch -N
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
 mkdir -p "$ANDROID_HOME/licenses"
@@ -82,7 +86,7 @@ enter "packages/apps/FDroid"
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Enable privigled module
 #patch -p1 < $patches"android_packages_apps_FDroid/0002.patch" #Remove privigled module settings
 patch -p1 < $patches"android_packages_apps_FDroid/0003.patch" #Hide app updates for apps that are installed to /system
-#TODO: Create updated build tools patch
+#git am /tmp/ar/425.patch #New UI (WIP)
 rm app/src/main/res/xml/preferences.xml.orig
 
 enter "packages/apps/FDroidPrivilegedExtension"
@@ -93,24 +97,25 @@ patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0003-Test_K
 #test-keys: C8:A2:E9:BC:CF:59:7C:2F:B6:DC:66:BE:E2:93:FC:13:F2:FC:47:EC:77:BC:6B:2B:0D:52:C1:1F:51:19:2A:B8
 
 enter "vendor/cmsdk"
-git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/3 && git cherry-pick FETCH_HEAD #Network Traffic
+git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/4 && git cherry-pick FETCH_HEAD #Network Traffic
 
 enter "vendor/cm"
 git fetch https://review.lineageos.org/LineageOS/android_vendor_cm refs/changes/01/156601/8 && git cherry-pick FETCH_HEAD #CustomTiles
+git fetch https://review.lineageos.org/LineageOS/android_vendor_cm refs/changes/24/157524/5 && git cherry-pick FETCH_HEAD #Addon SU
 rm -rf gello #Gello is built out-of-tree and bundles Google Play Services library
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 patch -p1 < $patches"android_vendor_cm/0002-Monochromium.patch" #Add Chromium webview support
 
 enter "packages/apps/CMParts"
-git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/6 && git cherry-pick FETCH_HEAD #Network Traffic
+git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/9 && git cherry-pick FETCH_HEAD #Network Traffic
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove analytics
 
 enter "packages/apps/SetupWizard"
 patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove analytics
 
 enter "frameworks/base"
-git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/4 && git cherry-pick FETCH_HEAD #Network Traffic
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/7 && git cherry-pick FETCH_HEAD #Network Traffic
 git revert 2aaa0472da8d254da1f07aa65a664012b52410f4 #re-enable doze on devices without gms
 #patch -p1 < $patches"android_frameworks_base/0002-Failed_Unlock_Shutdown.patch" #Shutdown after five failed unlock attempts FIXME: Update shutdown() to match new args
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)

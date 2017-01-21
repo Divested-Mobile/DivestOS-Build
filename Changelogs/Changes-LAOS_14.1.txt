@@ -1,8 +1,19 @@
-Last Updated: 01/05/2017
+Last Updated: 01/21/2017
 Credits: LineageOS, CyanogenMod, CopperheadOS, OmniROM, TeamWin, F-Droid, MicroG, EmojiOne, anarkia1976, bhb27, Daniel Micay, dirtyhank, Evisceration, Felipe de Leon, flar2, franciscofranco, hellsgod, mar-v-in, nikhil18, Paul Reioux, savoca, stefano.villa1976, WedyDQ10, XileForce
+
+Warnings
+	- Do *NOT* flash Xposed, it will SEVERELY decrease the security of your device
+	- Do *NOT* use AdAway or any other Adblocker
+	- Flashing of any Gapps is not recommended, but it should work without issue.
+	- No browser is installed by default, please install getChromium or IceCat from F-Droid. Chromium will be included in future releases.
+	- Root is *NOT* included, please flash the accompaning addonsu.zip for your device. Only use open source SU solutions such as LAOS/Phh/Magisk, proprietary ones such as SuperSU should be treated as rootkits and avoided at all cost.
+
+Recommended Apps
+	- Visit https://spotco.us/faa after flashing to find a very comprehensive list of apps that can replace what you're used to
+
 General Changes
 	- Added support for Chromium monochrome
-	- Builds are dex-preopted on supported devices
+	- Builds are dex-preopted on capable devices
 	- Builds are signed with private release-keys
 	- Bundled in our custom DNS blocklist
 	- Compiled with OpenJDK 8
@@ -11,7 +22,7 @@ General Changes
 	- Hardened special file systems
 	- Hardened SQLite
 	- Nuked CMAnalytics from orbit
-	- Removed unnecessary/outdated/insecure packages. Warning: No Browser is included, please install getChromium or IceCat from F-Droid
+	- Removed unnecessary/outdated/insecure packages.
 	- Replaced stock emoji font with EmojiOne (Standardized and Legible)
 	- Updated Chromium WebView
 	- F-Droid
@@ -23,6 +34,7 @@ General Changes
 	- Settings
 		- NFC and NDEF are disabled by default
 		- Passwords are hidden by default
+
 Device Changes
 	- bacon
 		- Overclocked from 2.45Ghz to 2.95Ghz (=+2.02Ghz)

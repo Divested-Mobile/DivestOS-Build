@@ -37,9 +37,9 @@
 
 
 <!-- START OF REPLACEMENT REPOS -->
-	<!-- Updated WebView -->
+	<!-- Updated WebView 
 	<remove-project name="platform/external/chromium-webview" />
-	<project path="external/chromium-webview" name="LineageOS/android_external_chromium-webview" remote="github" />
+	<project path="external/chromium-webview" name="LineageOS/android_external_chromium-webview" remote="github" />-->
 
 	<!-- OpenDelta Updater -->
 	<remove-project name="LineageOS/android_packages_apps_CMUpdater" />
