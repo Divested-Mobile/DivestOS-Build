@@ -21,7 +21,7 @@ General Changes
 	- Hardened IPv4 and IPv6 stacks
 	- Hardened special file systems
 	- Hardened SQLite
-	- Nuked a bunch of proprietary blobs
+	- Nuked a *ton* of proprietary blobs
 	- Nuked CMAnalytics from orbit
 	- Removed unnecessary/outdated/insecure packages.
 	- Replaced stock emoji font with EmojiOne (Standardized and Legible)
