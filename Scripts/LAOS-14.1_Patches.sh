@@ -9,7 +9,7 @@
 #repo forall -c 'git add -A && git reset --hard'
 
 #Delete Everything
-#rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu bootable/recovery packages/apps/CMParts vendor/cmsdk
+#rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu bootable/recovery packages/apps/CMParts vendor/cmsdk packages/apps/SetupWizard
 
 #Start a build
 #repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && sh ../../Scripts/LAOS-14.1_Deblob.sh && source build/envsetup.sh && export WITH_SU=true && export ANDROID_HOME="/home/tad/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && brunch mako && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch thor
@@ -98,7 +98,6 @@ patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0003-Test_K
 
 enter "vendor/cmsdk"
 git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/4 && git cherry-pick FETCH_HEAD #Network Traffic
-patch -p1 < $patches"cm_platform_sdk/0001-Provision.patch"
 
 enter "vendor/cm"
 git fetch https://review.lineageos.org/LineageOS/android_vendor_cm refs/changes/01/156601/8 && git cherry-pick FETCH_HEAD #CustomTiles
@@ -112,6 +111,11 @@ git revert 311172074c5e18e39d88d34db0b9dd6532317811 #TODO: Rebase
 git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/11 && git cherry-pick FETCH_HEAD #Network Traffic
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove analytics
 rm res/xml/parts_catalog.xml.orig res/values/strings.xml.orig
+
+enter "packages/apps/SetupWizard"
+git fetch https://review.lineageos.org/LineageOS/android_packages_apps_SetupWizard refs/changes/42/158142/4 && git cherry-pick FETCH_HEAD #remove GMS
+patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove analytics
+patch -p1 < $patches"android_packages_apps_SetupWizard/0002-No_GMS.patch" #Disable GMS page
 
 enter "frameworks/base"
 git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/8 && git cherry-pick FETCH_HEAD #Network Traffic
