@@ -1,0 +1,39 @@
+From dc758da1d79c1717610564e6cb9258a2dc4a755f Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Wed, 25 Jan 2017 04:09:31 -0500
+Subject: [PATCH] Provision
+
+Change-Id: I67ffa548835499c063cc9e6349b06ddcc3e48494
+---
+ .../src/org/cyanogenmod/cmsettings/CMDatabaseHelper.java          | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/packages/CMSettingsProvider/src/org/cyanogenmod/cmsettings/CMDatabaseHelper.java b/packages/CMSettingsProvider/src/org/cyanogenmod/cmsettings/CMDatabaseHelper.java
+index 9b46847..606d2b9 100644
+--- a/packages/CMSettingsProvider/src/org/cyanogenmod/cmsettings/CMDatabaseHelper.java
++++ b/packages/CMSettingsProvider/src/org/cyanogenmod/cmsettings/CMDatabaseHelper.java
+@@ -193,9 +193,7 @@ public class CMDatabaseHelper extends SQLiteOpenHelper{
+                 try {
+                     stmt = db.compileStatement("INSERT INTO secure(name,value)"
+                             + " VALUES(?,?);");
+-                    final String provisionedFlag = Settings.Global.getString(
+-                            mContext.getContentResolver(), Settings.Global.DEVICE_PROVISIONED);
+-                    loadSetting(stmt, CMSettings.Secure.CM_SETUP_WIZARD_COMPLETED, provisionedFlag);
++                    loadSetting(stmt, CMSettings.Secure.CM_SETUP_WIZARD_COMPLETED, "1");
+                     db.setTransactionSuccessful();
+                 } finally {
+                     if (stmt != null) stmt.close();
+@@ -378,9 +376,7 @@ public class CMDatabaseHelper extends SQLiteOpenHelper{
+                     CMSettings.Secure.ENABLED_EVENT_LIVE_LOCKS_KEY,
+                     R.string.def_enabled_event_lls_components);
+ 
+-            final String provisionedFlag = Settings.Global.getString(mContext.getContentResolver(),
+-                    Settings.Global.DEVICE_PROVISIONED);
+-            loadSetting(stmt, CMSettings.Secure.CM_SETUP_WIZARD_COMPLETED, provisionedFlag);
++            loadSetting(stmt, CMSettings.Secure.CM_SETUP_WIZARD_COMPLETED, "1");
+         } finally {
+             if (stmt != null) stmt.close();
+         }
+-- 
+2.9.3
+

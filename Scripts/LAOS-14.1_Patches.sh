@@ -95,6 +95,7 @@ patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0003-Test_K
 
 enter "vendor/cmsdk"
 git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/4 && git cherry-pick FETCH_HEAD #Network Traffic
+patch -p1 < $patches"cm_platform_sdk/0001-Provision.patch"
 
 enter "vendor/cm"
 git fetch https://review.lineageos.org/LineageOS/android_vendor_cm refs/changes/01/156601/8 && git cherry-pick FETCH_HEAD #CustomTiles
