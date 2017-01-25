@@ -4,6 +4,7 @@ deblob() {
 	blobList=$2;
 	cd $base$dir; #Enter the target directory
 	echo "[DEBLOBBING] "$dir; #Inform the user
+	initialSize="$(wc -l < $blobList)"; #Record the initial size
 	cp $blobList $blobList".bak"; #Make a backup
 	#
 	#START OF REMOVAL
@@ -28,6 +29,9 @@ deblob() {
 	#END OF REMOVAL
 	#
 	mv $blobList".new" $blobList; #Move the new list into place
+	finalSize="$(wc -l < $blobList)"; #Record the final size
+	delta=$(($initialSize - $finalSize)); #Calculate the difference in size
+	echo "Removed "$delta" blobs from "$blobList; #Inform the user
 	source setup-makefiles.sh; #Update the make files
 }
 
