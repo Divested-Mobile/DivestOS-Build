@@ -7,29 +7,31 @@ deblob() { #TODO: GPS, IZat, Location Provider, Tether Extensions
 	cp $blobList $blobList".bak"; #Make a backup
 	blobs="";
 	
-	#ATFWD
+	#Blobs to *NOT* remove: ADSP (Hardware audio decoding), Venus (Hardware video decoding), Keystore/Qseecom/Trustzone (Hardware encryption)
+
+	#ATFWD (Wireless Display)
 	blobs=$blobs"ATFWD-daemon|atfwd.apk";
 
-	#CNE/DPM XXX: Requires unsetting 'BOARD_USES_QCNE' in BoardConfig.mk and 'persist.cne.feature'/'persist.dpm.feature' in system.prop. XXX: Breaks radio, requires hexediting
+	#CNE/DPM (Automatic Cell/Wi-Fi Switching) XXX: Requires unsetting 'BOARD_USES_QCNE' in BoardConfig.mk and 'persist.cne.feature'/'persist.dpm.feature' in system.prop. XXX: Breaks radio
 	#blobs=$blobs"|andsfCne.xml|ATT_profiles.xml|cnd|cneapiclient.jar|cneapiclient.xml|CNEService.apk|com.qti.dpmframework.jar|com.qti.dpmframework.xml|com.quicinc.cne.jar|com.quicinc.cne.xml|ConnectivityExt.jar|ConnectivityExt.xml|dpmapi.jar|dpmapi.xml|dpm.conf|dpmd|dpmserviceapp.apk|libcneapiclient.so|libcneconn.so|libcneqmiutils.so|libcne.so|libdpmframework.so|libdpmnsrm.so|libNimsWrap.so|libvendorconn.so|libwqe.so|NsrmConfiguration.xml|ROW_profiles.xml|SwimConfig.xml|VZW_profiles.xml";
 
-	#DivX
+	#DivX (DRM)
 	blobs=$blobs"|dxhdcp2.b00|dxhdcp2.b01|dxhdcp2.b02|dxhdcp2.b03|dxhdcp2.mdt|libDxHdcp.so|libSHIMDivxDrm.so";
 
-	#DRM XXX: Breaks FDE
+	#DRM XXX: Breaks full disk encryption
 	#blobs=$blobs"|libdrmdecrypt.so|libdrmfs.so|libdrmtime.so|libtzdrmgenprov.so";
 
-	#Google Widevine
+	#Google Widevine (DRM)
 	blobs=$blobs"|com.google.widevine.software.drm.jar|com.google.widevine.software.drm.xml|libdrmwvmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|widevine.b00|widevine.b01|widevine.b02|widevine.b03|widevine.mdt";
 
-	#HDCP
+	#HDCP (DRM)
 	blobs=$blobs"|libmm-hdcpmgr.so";
 
-	#IPACM
+	#IPACM (Splits traffic between Cell/Wi-Fi)
 	blobs=$blobs"|ipacm|ipacm-diag";
 	rm -rf data-ipa-cfg-mgr;
 
-	#Microsoft Playready
+	#Microsoft Playready (DRM)
 	blobs=$blobs"|playread.b00|playread.b01|playread.b02|playread.b03|playread.mdt";
 
 	#Misc
@@ -40,9 +42,6 @@ deblob() { #TODO: GPS, IZat, Location Provider, Tether Extensions
 
 	#Sprint
 	blobs=$blobs"|com.android.omadm.service.xml|ConnMO.apk|CQATest.apk|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|GCS.apk|HiddenMenu.apk|libdmengine.so|libdmjavaplugin.so|LifetimeData.apk|SprintDM.apk|SprintHM.apk|whitelist_com.android.omadm.service.xml";
-
-	#Venus
-	#blobs=$blobs"|venus.b00|venus.b01|venus.b02|venus.b03|venus.b04|venus.mbn|venus.mdt";
 
 	#Verizon
 	blobs=$blobs"|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.provider.xml|VerizonUnifiedSettings.jar|VZWAPNLib.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml|com.vzw.vzwapnlib.xml";
