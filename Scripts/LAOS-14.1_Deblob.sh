@@ -4,8 +4,6 @@ deblob() {
 	dir=$1
 	blobList=$2;
 	cd $base$dir; #Enter the target directory
-	echo "[DEBLOBBING] "$dir$blobList; #Inform the user
-	initialSize="$(wc -l < $blobList)"; #Record the initial size
 	cp $blobList $blobList".bak"; #Make a backup
 	#
 	#START OF REMOVAL
@@ -14,9 +12,9 @@ deblob() {
 	#
 	#grep -vE "()" $blobList > $blobList".new";
 
-	#Nuke CNE/DPM XXX: Requires unsetting 'BOARD_USES_QCNE' in BoardConfig.mk and 'persist.cne.feature'/'persist.dpm.feature' in system.prop
-	grep -vE "(andsfCne.xml|ATT_profiles.xml|cnd|cneapiclient.jar|cneapiclient.xml|CNEService.apk|com.motorola.motosignature.jar|com.motorola.motosignature.xml|com.qti.dpmframework.jar|com.qti.dpmframework.xml|com.quicinc.cne.jar|com.quicinc.cne.xml|ConnectivityExt.jar|ConnectivityExt.xml|dpmapi.jar|dpmapi.xml|dpm.conf|dpmd|dpmserviceapp.apk|libcneapiclient.so|libcneconn.so|libcneqmiutils.so|libcne.so|libdpmframework.so|libdpmnsrm.so|libNimsWrap.so|libvendorconn.so|libwqe.so|NsrmConfiguration.xml|ROW_profiles.xml|SwimConfig.xml|VZW_profiles.xml)" $blobList > $blobList".new";
-	mv $blobList".new" $blobList; #Move the new list into place
+	#Nuke CNE/DPM XXX: Requires unsetting 'BOARD_USES_QCNE' in BoardConfig.mk and 'persist.cne.feature'/'persist.dpm.feature' in system.prop. XXX: Breaks radio, requires hexediting
+	#grep -vE "(andsfCne.xml|ATT_profiles.xml|cnd|cneapiclient.jar|cneapiclient.xml|CNEService.apk|com.motorola.motosignature.jar|com.motorola.motosignature.xml|com.qti.dpmframework.jar|com.qti.dpmframework.xml|com.quicinc.cne.jar|com.quicinc.cne.xml|ConnectivityExt.jar|ConnectivityExt.xml|dpmapi.jar|dpmapi.xml|dpm.conf|dpmd|dpmserviceapp.apk|libcneapiclient.so|libcneconn.so|libcneqmiutils.so|libcne.so|libdpmframework.so|libdpmnsrm.so|libNimsWrap.so|libvendorconn.so|libwqe.so|NsrmConfiguration.xml|ROW_profiles.xml|SwimConfig.xml|VZW_profiles.xml)" $blobList > $blobList".new";
+	#mv $blobList".new" $blobList; #Move the new list into place
 
 	#Nuke DivX files
 	grep -vE "(dxhdcp2.b00|dxhdcp2.b01|dxhdcp2.b02|dxhdcp2.b03|dxhdcp2.mdt|libDxHdcp.so|libSHIMDivxDrm.so)" $blobList > $blobList".new";
@@ -45,10 +43,9 @@ deblob() {
 	#
 	#END OF REMOVAL
 	#
-	finalSize="$(wc -l < $blobList)"; #Record the final size
-	delta=$(($initialSize - $finalSize)); #Calculate the difference in size
+	delta=$(($(wc -l < $blobList".bak") - $(wc -l < $blobList))); #Calculate the difference in size
 	echo "Removed "$delta" blobs from "$blobList; #Inform the user
-	sh -c "cd $base$dir && ./setup-makefiles.sh";
+	sh -c "cd $base$dir && ./setup-makefiles.sh"; #Update the makefiles
 }
 
 deblob "device/amazon/hdx-common/" "proprietary-adreno-files.txt";
@@ -64,7 +61,7 @@ deblob "device/lge/bullhead/" "proprietary-blobs.txt";
 deblob "device/lge/bullhead/" "proprietary-blobs-vendorimg.txt";
 deblob "device/lge/g3-common/" "proprietary-files.txt";
 deblob "device/lge/hammerhead/" "proprietary-blobs.txt";
-deblob "device/lge/mako/" "proprietary-blobs.txt";
+#deblob "device/lge/mako/" "proprietary-blobs.txt"; #FIXME: Creates malformed makefiles for some reason
 deblob "device/lge/vs985/" "proprietary-files.txt";
 deblob "device/motorola/clark/" "proprietary-files.txt";
 deblob "device/moto/shamu/" "device-proprietary-files.txt";
