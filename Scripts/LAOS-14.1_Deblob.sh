@@ -8,6 +8,8 @@ deblob() {
 	#
 	#START OF REMOVAL
 	#
+	#TODO: GPS, IZat, Location Provider, Tether Extensions, Wireless Display
+	#
 	#grep -vE "()" $blobList > $blobList".new";
 
 	#Nuke CNE/DPM
