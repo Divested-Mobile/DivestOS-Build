@@ -1,6 +1,6 @@
 #!/bin/bash
 base="/home/tad/Android/Build/LineageOS-14.1/"
-deblob() { #TODO: 
+deblob() {
 	dir=$1
 	blobList=$2;
 	cd $base$dir; #Enter the target directory
@@ -12,7 +12,7 @@ deblob() { #TODO:
 	#ATFWD (Wireless Display)
 	blobs=$blobs"ATFWD-daemon|atfwd.apk";
 
-	#CNE/DPM (Automatic Cell/Wi-Fi Switching) XXX: Requires unsetting 'BOARD_USES_QCNE' in BoardConfig.mk and 'persist.cne.feature'/'persist.dpm.feature' in system.prop. XXX: Breaks radio
+	#CNE/DPM (Automatic Cell/Wi-Fi Switching) XXX: Requires unsetting 'BOARD_USES_QCNE' in BoardConfig.mk and 'persist.cne.feature' in system.prop. XXX: Breaks radio
 	#blobs=$blobs"|andsfCne.xml|ATT_profile1.xml|ATT_profile2.xml|ATT_profile3.xml|ATT_profile4.xml|ATT_profiles.xml|cnd|cneapiclient.jar|cneapiclient.xml|CNEService.apk|com.quicinc.cne.jar|com.quicinc.cne.xml|ConnectivityExt.jar|ConnectivityExt.xml|libcneapiclient.so|libcneconn.so|libcneqmiutils.so|libcne.so|libNimsWrap.so|libvendorconn.so|libwqe.so|libxml.so|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile1.xml|ROW_profile2.xml|ROW_profile3.xml|ROW_profile4.xml|ROW_profile5.xml|ROW_profiles.xml|SwimConfig.xml|VZW_profile1.xml|VZW_profile2.xml|VZW_profile3.xml|VZW_profile4.xml|VZW_profile5.xml|VZW_profile6.xml|VZW_profiles.xml";
 
 	#DivX (DRM)
@@ -27,15 +27,15 @@ deblob() { #TODO:
 	#Google Widevine (DRM)
 	blobs=$blobs"|com.google.widevine.software.drm.jar|com.google.widevine.software.drm.xml|libdrmwvmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|widevine.b00|widevine.b01|widevine.b02|widevine.b03|widevine.mdt";
 
-	#GPS XXX: TEST THIS
-	#blobs=$blobs"|com.qti.location.sdk.jar|com.qti.location.sdk.xml|com.qualcomm.location.apk|com.qualcomm.location.vzw_library.jar|com.qualcomm.location.vzw_library.xml|com.qualcomm.location.xml|flp.conf|izat.xt.srv.jar|izat.xt.srv.xml|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|libflp.so|libgdtap.so|libgeofence.so|libgps.utils.so|libizat_core.so|liblbs_core.so|libloc_api_v02.so|liblocationservice_glue.so|liblocationservice.so|libloc_core.so|libloc_ds_api.so|libloc_eng.so|libloc_ext.so|liblowi_client.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libulp2.so|libxtadapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so|location-mq|loc_launcher|lowi-server|slim_ap_daemon|slim_daemon|xtwifi-client|xtwifi-inet-agent";
-
 	#HDCP (DRM)
 	blobs=$blobs"|libmm-hdcpmgr.so";
 
 	#IPACM (Splits traffic between Cell/Wi-Fi)
 	blobs=$blobs"|ipacm|ipacm-diag";
 	rm -rf data-ipa-cfg-mgr; #Remove the second half of IPACM
+
+	#Location
+	blobs=$blobs"|com.qti.location.sdk.jar|com.qti.location.sdk.xml|com.qualcomm.location.apk|com.qualcomm.location.vzw_library.jar|com.qualcomm.location.vzw_library.xml|com.qualcomm.location.xml|flp.conf|izat.xt.srv.jar|izat.xt.srv.xml|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|libflp.so|libgdtap.so|libgeofence.so|libgps.utils.so|libizat_core.so|liblbs_core.so|libloc_api_v02.so|liblocationservice_glue.so|liblocationservice.so|libloc_core.so|libloc_ds_api.so|libloc_eng.so|libloc_ext.so|liblowi_client.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libulp2.so|libxtadapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so|location-mq|loc_launcher|lowi-server|slim_ap_daemon|slim_daemon|xtwifi-client|xtwifi-inet-agent";
 
 	#Microsoft Playready (DRM)
 	blobs=$blobs"|playread.b00|playread.b01|playread.b02|playread.b03|playread.mdt";
@@ -44,7 +44,7 @@ deblob() { #TODO:
 	blobs=$blobs"|libuiblur.so";
 
 	#Motorola
-	blobs=$blobs"|com.motorola.motosignature.jar|com.motorola.motosignature.xml|MotoSignatureApp.apk|com.motorola.DirectedSMSProxy.xml|AppDirectedSMSProxy.apk";
+	blobs=$blobs"|AppDirectedSMSProxy.apk|com.motorola.DirectedSMSProxy.xml|com.motorola.motosignature.jar|com.motorola.motosignature.xml|com.motorola.triggerenroll.xml|MotoSignatureApp.apk|TriggerEnroll.apk|TriggerTrainingService.apk";
 
 	#QTI (Tethering Extensions)
 	blobs=$blobs"|libQtiTether.so|QtiTetherService.apk";
@@ -59,7 +59,7 @@ deblob() { #TODO:
 	blobs=$blobs"|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.provider.xml|VerizonUnifiedSettings.jar|VZWAPNLib.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml|com.vzw.vzwapnlib.xml";
 
 	#Voice recognition
-	blobs=$blobs"|aonvr1.bin|aonvr2.bin|com.motorola.triggerenroll.xml|HotwordEnrollment.apk|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|sound_trigger.primary.msm8996.so|TriggerEnroll.apk|TriggerTrainingService.apk";
+	blobs=$blobs"|aonvr1.bin|aonvr2.bin|HotwordEnrollment.apk|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|sound_trigger.primary.msm8996.so";
 
 	grep -vE "("$blobs")" $blobList > $blobList".new"; #Remove the bad blobs from the manifest
 	mv $blobList".new" $blobList; #Move the new list into place
@@ -68,7 +68,7 @@ deblob() { #TODO:
 	sh -c "cd $base$dir && ./setup-makefiles.sh"; #Update the makefiles
 }
 
-#Find all using: cd device && find . -name "*proprietary*" | grep -v ".bak"
+#Find all using: cd device && find . -name "*proprietary*.txt" | grep -v ".bak"
 deblob "device/amazon/hdx-common/" "proprietary-adreno-files.txt";
 deblob "device/amazon/hdx-common/" "proprietary-files.txt";
 deblob "device/amazon/thor/" "proprietary-files.txt";
