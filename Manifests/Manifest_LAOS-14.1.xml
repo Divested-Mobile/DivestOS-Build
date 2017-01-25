@@ -55,7 +55,7 @@
 	<remove-project name="platform/hardware/intel/sensors" />
 	<remove-project name="platform/hardware/ti/omap3" />
 	<remove-project name="platform/hardware/ti/omap4-aah" />
-	<remove-project name="platform/packages/apps/Provision" />
+	<!--<remove-project name="platform/packages/apps/Provision" />-->
 	<remove-project name="platform/prebuilts/clang/darwin-x86/host/3.6" />
 	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
 	<remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-eabi-4.8" />

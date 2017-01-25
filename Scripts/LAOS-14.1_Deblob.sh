@@ -36,7 +36,7 @@ deblob() {
 	grep -vE "(com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.provider.xml|VerizonUnifiedSettings.jar|VZWAPNLib.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml)" $blobList > $blobList".new";
 	mv $blobList".new" $blobList; #Move the new list into place
 
-	#Nuke Widevine files
+	#Nuke Google Widevine files
 	grep -vE "(com.google.widevine.software.drm.jar|com.google.widevine.software.drm.xml|libdrmwvmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|widevine.b00|widevine.b01|widevine.b02|widevine.b03|widevine.mdt)" $blobList > $blobList".new";
 	mv $blobList".new" $blobList; #Move the new list into place
 
@@ -44,7 +44,7 @@ deblob() {
 	#END OF REMOVAL
 	#
 	delta=$(($(wc -l < $blobList".bak") - $(wc -l < $blobList))); #Calculate the difference in size
-	echo "Removed "$delta" blobs from "$blobList; #Inform the user
+	echo "Removed "$delta" blobs from "$dir$blobList; #Inform the user
 	sh -c "cd $base$dir && ./setup-makefiles.sh"; #Update the makefiles
 }
 

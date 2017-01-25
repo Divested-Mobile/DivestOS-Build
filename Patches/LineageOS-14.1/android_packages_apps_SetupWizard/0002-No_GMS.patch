@@ -1,25 +1,26 @@
-From c6832ae47a5c0b3fa6b0862509c4ebae0f1ec08d Mon Sep 17 00:00:00 2001
+From 488e469493fc3a748ef2e517732382b82d129b09 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Mon, 23 Jan 2017 16:58:35 -0500
-Subject: [PATCH] Disable GMS page during setup
+Date: Wed, 25 Jan 2017 10:33:07 -0500
+Subject: [PATCH] Nuke GMS
 
-Change-Id: Ic115cdf15ad31f59200f2286d9e3fd6dc0a7810b
+Change-Id: I898d6456f30be064a92bf59db4c0a5b8a2c02026
 ---
- .../setupwizard/setup/CMSetupWizardData.java       |   6 +-
- .../setupwizard/setup/GmsAccountPage.java          | 322 ---------------------
+ .../setupwizard/setup/CMSetupWizardData.java       |   7 +-
+ .../setupwizard/setup/GmsAccountPage.java          | 321 ---------------------
  .../setupwizard/ui/SetupWizardActivity.java        |   9 -
  3 files changed, 1 insertion(+), 336 deletions(-)
  delete mode 100644 src/com/cyanogenmod/setupwizard/setup/GmsAccountPage.java
 
 diff --git a/src/com/cyanogenmod/setupwizard/setup/CMSetupWizardData.java b/src/com/cyanogenmod/setupwizard/setup/CMSetupWizardData.java
-index f0f2c6b..5b2792a 100644
+index 5c90b4e..a97e217 100644
 --- a/src/com/cyanogenmod/setupwizard/setup/CMSetupWizardData.java
 +++ b/src/com/cyanogenmod/setupwizard/setup/CMSetupWizardData.java
-@@ -68,11 +68,7 @@ public class CMSetupWizardData extends AbstractSetupData {
+@@ -70,12 +70,7 @@ public class CMSetupWizardData extends AbstractSetupData {
              pages.add(new MobileDataPage(mContext, this)
                      .setHidden(!isSimInserted() || mMobileDataEnabled));
          }
--        final boolean hasGMS = SetupWizardUtils.hasGMS(mContext);
+-        final boolean hasGMS = PackageManagerUtils
+-                .isAppInstalled(mContext, "com.google.android.gms");
 -        if (hasGMS) {
 -            pages.add(new GmsAccountPage(mContext, this));
 -        }
@@ -30,10 +31,10 @@ index f0f2c6b..5b2792a 100644
          }
 diff --git a/src/com/cyanogenmod/setupwizard/setup/GmsAccountPage.java b/src/com/cyanogenmod/setupwizard/setup/GmsAccountPage.java
 deleted file mode 100644
-index a646997..0000000
+index aec3da2..0000000
 --- a/src/com/cyanogenmod/setupwizard/setup/GmsAccountPage.java
 +++ /dev/null
-@@ -1,322 +0,0 @@
+@@ -1,321 +0,0 @@
 -/*
 - * Copyright (C) 2013 The CyanogenMod Project
 - * Copyright (C) 2017 The LineageOS Project
@@ -316,8 +317,7 @@ index a646997..0000000
 -        bundle.putBoolean(SetupWizardApp.EXTRA_FIRST_RUN, true);
 -        bundle.putBoolean(SetupWizardApp.EXTRA_ALLOW_SKIP, true);
 -        bundle.putBoolean(SetupWizardApp.EXTRA_USE_IMMERSIVE, true);
--        bundle.putBoolean(SetupWizardApp.EXTRA_SUPRESS_D2D_SETUP, !mContext.getPackageManager()
--                .hasSystemFeature(PackageManager.FEATURE_NFC));
+-        bundle.putBoolean(SetupWizardApp.EXTRA_SUPRESS_D2D_SETUP, true);
 -
 -        AccountManager
 -                .get(mContext).addAccount(SetupWizardApp.ACCOUNT_TYPE_GMS, null, null,
