@@ -5,11 +5,14 @@
 #Build UberTC
 #cd /home/tad/Android/Build/UBERTC/scripts && repo sync -j18 && ./arm-eabi-4.8 && ./arm-linux-androideabi-4.9 && ./aarch64-linux-android-4.9
 
+#Hard reset repos
+#repo forall -c 'git add -A && git reset --hard'
+
 #Delete Everything
-#rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu bootable/recovery packages/apps/CMParts
+#rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu bootable/recovery packages/apps/CMParts vendor/cmsdk
 
 #Start a build
-#repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source device/motorola/clark/setup-makefiles.sh && source build/envsetup.sh && export WITH_SU=true && export ANDROID_HOME="/home/tad/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && brunch mako && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch thor
+#repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && sh ../../Scripts/LAOS-14.1_Deblob.sh && source build/envsetup.sh && export WITH_SU=true && export ANDROID_HOME="/home/tad/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && brunch mako && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch thor
 
 #
 #START OF PREPRATION
