@@ -6,7 +6,7 @@
 #cd /home/tad/Android/Build/UBERTC/scripts && repo sync -j18 && ./arm-eabi-4.8 && ./arm-linux-androideabi-4.9 && ./aarch64-linux-android-4.9
 
 #Delete Everything
-#rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu bootable/recovery packages/apps/CMParts packages/apps/SetupWizard packages/apps/LockClock
+#rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu bootable/recovery packages/apps/CMParts
 
 #Start a build
 #repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source device/motorola/clark/setup-makefiles.sh && source build/envsetup.sh && export WITH_SU=true && export ANDROID_HOME="/home/tad/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && brunch mako && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch thor
@@ -108,14 +108,6 @@ git revert 311172074c5e18e39d88d34db0b9dd6532317811 #TODO: Rebase
 git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/11 && git cherry-pick FETCH_HEAD #Network Traffic
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove analytics
 rm res/xml/parts_catalog.xml.orig res/values/strings.xml.orig
-
-enter "packages/apps/SetupWizard"
-git fetch https://review.lineageos.org/LineageOS/android_packages_apps_SetupWizard refs/changes/42/158142/4 && git cherry-pick FETCH_HEAD #remove GMS
-patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove analytics
-patch -p1 < $patches"android_packages_apps_SetupWizard/0002-No_GMS.patch" #Disable GMS page
-
-enter "packages/apps/LockClock"
-git fetch https://review.lineageos.org/LineageOS/android_packages_apps_LockClock refs/changes/41/158141/6 && git cherry-pick FETCH_HEAD #remove GMS
 
 enter "frameworks/base"
 git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/8 && git cherry-pick FETCH_HEAD #Network Traffic
