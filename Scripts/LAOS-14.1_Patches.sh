@@ -2,9 +2,6 @@
 
 #TODO: Aggressive Doze (Verify Extended Doze First), App-based battery profiles, Change connectivity check URL, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Wallpaper
 
-#Build UberTC
-#cd /home/tad/Android/Build/UBERTC/scripts && repo sync -j18 && ./arm-eabi-4.8 && ./arm-linux-androideabi-4.9 && ./aarch64-linux-android-4.9
-
 #Hard reset repos
 #repo forall -c 'git add -A && git reset --hard'
 
@@ -84,7 +81,6 @@ patch -p1 < $patches"android_packages_apps_FakeStore/0001-Fixes.patch" #Update o
 
 enter "packages/apps/FDroid"
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Enable privigled module
-#patch -p1 < $patches"android_packages_apps_FDroid/0002.patch" #Remove privigled module settings
 patch -p1 < $patches"android_packages_apps_FDroid/0003.patch" #Hide app updates for apps that are installed to /system
 #git am /tmp/ar/425.patch #New UI (WIP)
 rm app/src/main/res/xml/preferences.xml.orig
@@ -104,7 +100,6 @@ git fetch https://review.lineageos.org/LineageOS/android_vendor_cm refs/changes/
 rm -rf gello #Gello is built out-of-tree and bundles Google Play Services library
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
-patch -p1 < $patches"android_vendor_cm/0002-Monochromium.patch" #Add Chromium webview support
 
 enter "packages/apps/CMParts"
 git revert 311172074c5e18e39d88d34db0b9dd6532317811 #TODO: Rebase
