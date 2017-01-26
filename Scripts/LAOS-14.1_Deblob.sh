@@ -9,9 +9,7 @@ deblob() {
 	dir=$1
 	blobList=$2;
 	cd $base$dir; #Enter the target directory
-	cp Android.mk Android.mk.bak;
-	cp system.prop system.prop.bak;
-	cp $blobList $blobList".bak"; #Make a backup
+	cp $blobList $blobList".bak";
 	blobs="";
 	
 	#Blobs to *NOT* remove: ADSP/Hexagon (Hardware audio decoding), Venus (Hardware video decoding), WCNSS (Wi-Fi), Gatekeeper/Keystore/Qsee/Trustzone (Hardware encryption)
@@ -24,8 +22,8 @@ deblob() {
 
 	#CNE (Automatic Cell/Wi-Fi Switching)
 	blobs=$blobs"|andsfCne.xml|ATT_profile1.xml|ATT_profile2.xml|ATT_profile3.xml|ATT_profile4.xml|ATT_profiles.xml|cnd|cneapiclient.jar|cneapiclient.xml|CNEService.apk|com.quicinc.cne.jar|com.quicinc.cne.xml|ConnectivityExt.jar|ConnectivityExt.xml|libcneconn.so|libcneqmiutils.so|libcne.so|libNimsWrap.so|libvendorconn.so|libwqe.so|libxml.so|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile1.xml|ROW_profile2.xml|ROW_profile3.xml|ROW_profile4.xml|ROW_profile5.xml|ROW_profiles.xml|SwimConfig.xml|VZW_profile1.xml|VZW_profile2.xml|VZW_profile3.xml|VZW_profile4.xml|VZW_profile5.xml|VZW_profile6.xml|VZW_profiles.xml";
-	sed -i 's/persist.cne.feature=1/persist.cne.feature=0/' system.prop;
-	sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk;
+	if [ -f system.prop ]; then sed -i 's/persist.cne.feature=./persist.cne.feature=0/' system.prop; fi
+	if [ -f BoardConfig.mk ]; then sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; fi;
 
 	#Diag
 	blobs=$blobs"|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag/mdm|diag_qshrink4_daemon|test_diag";
@@ -33,15 +31,13 @@ deblob() {
 	#DivX (DRM)
 	blobs=$blobs"|DxHDCP.cfg|dxhdcp2.b00|dxhdcp2.b01|dxhdcp2.b02|dxhdcp2.b03|dxhdcp2.mdt|libDxHdcp.so|libSHIMDivxDrm.so";
 
-	#DPM (? Related to CNE)
+	#DPM (Data Power Management)
 	blobs=$blobs"|com.qti.dpmframework.jar|com.qti.dpmframework.xml|dpmapi.jar|dpmapi.xml|dpm.conf|dpmd|dpmserviceapp.apk|libdpmctmgr.so|libdpmfdmgr.so|libdpmframework.so|libdpmnsrm.so|libdpmtcm.so|NsrmConfiguration.xml|tcmclient.jar";
-	sed -i 's/persist.dpm.feature=3/persist.dpm.feature=0/' system.prop;
-	sed -i 's/persist.dpm.feature=2/persist.dpm.feature=0/' system.prop;
-	sed -i 's/persist.dpm.feature=1/persist.dpm.feature=0/' system.prop; #TODO: Minify this
+	if [ -f system.prop ]; then sed -i 's/persist.dpm.feature=./persist.dpm.feature=0/' system.prop; fi;
 
 	#DRM XXX: Breaks full disk encryption
 	#blobs=$blobs"|libdrmdecrypt.so|libdrmfs.so|libdrmtime.so|libtzdrmgenprov.so";
-	echo "drm.service.enabled=false" >> system.prop; #Disable the DRM server TODO: Add a check so we don't add this multiple times
+	if [ -f system.prop ]; then if grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; fi;
 
 	#Google Project Fi
 	blobs=$blobs"|Tycho.apk";
@@ -63,7 +59,7 @@ deblob() {
 
 	#Location
 	blobs=$blobs"|com.qti.location.sdk.jar|com.qti.location.sdk.xml|com.qualcomm.location.apk|com.qualcomm.location.vzw_library.jar|com.qualcomm.location.vzw_library.xml|com.qualcomm.location.xml|izat.xt.srv.jar|izat.xt.srv.xml|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|libgdtap.so|libgeofence.so|libizat_core.so|liblbs_core.so|liblocationservice_glue.so|liblocationservice.so|liblowi_client.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libulp2.so|libxtadapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so|location-mq|loc_launcher|lowi-server|slim_ap_daemon|slim_daemon|xtwifi-client|xtwifi-inet-agent";
-	sed -i 's/persist.gps.qc_nlp_in_use=1/persist.gps.qc_nlp_in_use=0/' system.prop;
+	if [ -f system.prop ]; then sed -i 's/persist.gps.qc_nlp_in_use=1/persist.gps.qc_nlp_in_use=0/' system.prop; fi;
 
 	#Microsoft Playready (DRM)
 	blobs=$blobs"|playread.b00|playread.b01|playread.b02|playread.b03|playread.mdt";
@@ -120,5 +116,6 @@ deblob "device/lge/vs985/" "proprietary-files.txt";
 deblob "device/motorola/clark/" "proprietary-files.txt";
 deblob "device/moto/shamu/" "device-proprietary-files.txt";
 deblob "device/moto/shamu/" "proprietary-blobs.txt";
+echo "vendor/lib/libcneapiclient.so" >> device/oneplus/bacon/proprietary-files-qc.txt; #Commit b7b6d94529e17ce51566aa6509cebab6436b153d disabled CNE but left this binary in the makefile since NetMgr requires it. Without this rerunning setup-makefiles.sh breaks cell service, since the resulting build will be missing it.
 deblob "device/oneplus/bacon/" "proprietary-files-qc.txt";
 deblob "device/oneplus/bacon/" "proprietary-files.txt";
