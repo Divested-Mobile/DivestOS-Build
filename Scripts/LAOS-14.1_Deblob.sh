@@ -84,7 +84,7 @@ deblob() {
 	#Verizon
 	blobs=$blobs"|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.provider.xml|VerizonUnifiedSettings.jar|VZWAPNLib.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml|com.vzw.vzwapnlib.xml";
 
-	#Voice recognition
+	#Voice Recognition
 	blobs=$blobs"|aonvr1.bin|aonvr2.bin|audiomonitor|HotwordEnrollment.apk|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|sound_trigger.primary.msm8916.so|sound_trigger.primary.msm8996.so";
 
 	grep -vE "("$blobs")" $blobList > $blobList".new"; #Remove the bad blobs from the manifest
@@ -111,7 +111,7 @@ deblob "device/google/marlin/" "device-proprietary-files.txt";
 deblob "device/lge/bullhead/" "proprietary-blobs.txt";
 deblob "device/lge/bullhead/" "proprietary-blobs-vendorimg.txt";
 deblob "device/lge/hammerhead/" "proprietary-blobs.txt";
-#deblob "device/lge/mako/" "proprietary-blobs.txt"; #FIXME: Creates malformed makefiles for some reason
+#deblob "device/lge/mako/" "proprietary-blobs.txt"; #FIXME: Creates malformed makefiles due to commit a85aa35fda31ef77b7424d0be108b0a5a2e71edf
 deblob "device/lge/vs985/" "proprietary-files.txt";
 deblob "device/motorola/clark/" "proprietary-files.txt";
 deblob "device/moto/shamu/" "device-proprietary-files.txt";
