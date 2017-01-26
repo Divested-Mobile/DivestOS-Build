@@ -14,7 +14,7 @@ deblob() {
 	cp $blobList $blobList".bak"; #Make a backup
 	blobs="";
 	
-	#Blobs to *NOT* remove: ADSP/Hexagon (Hardware audio decoding), Venus (Hardware video decoding), Gatekeeper/Keystore/Qseecom/Trustzone (Hardware encryption)
+	#Blobs to *NOT* remove: ADSP/Hexagon (Hardware audio decoding), Venus (Hardware video decoding), WCNSS (Wi-Fi), Gatekeeper/Keystore/Qsee/Trustzone (Hardware encryption)
 
 	#ATFWD (Wireless Display)
 	blobs=$blobs"ATFWD-daemon|atfwd.apk";
@@ -96,8 +96,11 @@ deblob() {
 #Find all using: cd device && find . -name "*proprietary*.txt" | grep -v ".bak"
 deblob "device/amazon/hdx-common/" "proprietary-adreno-files.txt";
 deblob "device/amazon/hdx-common/" "proprietary-files.txt";
-deblob "device/amazon/thor/" "proprietary-files.txt";
 deblob "device/asus/msm8916-common/" "proprietary-files.txt";
+deblob "device/lge/g3-common/" "proprietary-files.txt";
+deblob "device/oppo/msm8974-common/" "device-proprietary-files.txt";
+deblob "device/oppo/msm8974-common/" "proprietary-files.txt";
+deblob "device/amazon/thor/" "proprietary-files.txt";
 deblob "device/asus/Z00T/" "proprietary-files.txt";
 deblob "device/huawei/angler/" "lineage-proprietary-blobs.txt";
 deblob "device/huawei/angler/" "lineage-proprietary-blobs-vendorimg.txt";
@@ -105,7 +108,6 @@ deblob "device/huawei/angler/" "proprietary-blobs.txt";
 deblob "device/google/marlin/" "device-proprietary-files.txt";
 deblob "device/lge/bullhead/" "proprietary-blobs.txt";
 deblob "device/lge/bullhead/" "proprietary-blobs-vendorimg.txt";
-deblob "device/lge/g3-common/" "proprietary-files.txt";
 deblob "device/lge/hammerhead/" "proprietary-blobs.txt";
 #deblob "device/lge/mako/" "proprietary-blobs.txt"; #FIXME: Creates malformed makefiles for some reason
 deblob "device/lge/vs985/" "proprietary-files.txt";
@@ -114,5 +116,3 @@ deblob "device/moto/shamu/" "device-proprietary-files.txt";
 deblob "device/moto/shamu/" "proprietary-blobs.txt";
 deblob "device/oneplus/bacon/" "proprietary-files-qc.txt";
 deblob "device/oneplus/bacon/" "proprietary-files.txt";
-deblob "device/oppo/msm8974-common/" "device-proprietary-files.txt";
-deblob "device/oppo/msm8974-common/" "proprietary-files.txt";
