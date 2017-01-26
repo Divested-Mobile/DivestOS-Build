@@ -2,11 +2,11 @@ Last Updated: 01/24/2017
 Credits: LineageOS, CyanogenMod, CopperheadOS, OmniROM, TeamWin, F-Droid, MicroG, EmojiOne, anarkia1976, bhb27, Daniel Micay, dirtyhank, Evisceration, faux123, flar2, franciscofranco, hellsgod, mar-v-in, mimi89999, nikhil18, nvllsvm, savoca, stefano.villa1976, WedyDQ10, XileForce
 
 Warnings
-	- Do *NOT* flash Xposed, it will SEVERELY decrease the security of your device
-	- Do *NOT* use AdAway or any other Adblocker
-	- Flashing of any Gapps is not recommended, but it should work without issue.
+	- Do *not* flash Xposed, it will *severly* decrease the security of your device
+	- Do *not* use AdAway or any other Adblocker
+	- Flashing of any Gapps is not recommended and most likely won't work.
 	- No browser is installed by default, please install getChromium or IceCat from F-Droid. Chromium will be included in future releases.
-	- Root is *NOT* included, please flash the accompaning addonsu.zip for your device. Only use open source SU solutions such as LAOS/Phh/Magisk, proprietary ones such as SuperSU should be treated as rootkits and avoided at all cost.
+	- Root is *not* included, please flash the accompaning addonsu.zip for your device. Only use open source SU solutions such as LAOS/Phh/Magisk, proprietary ones such as SuperSU should be treated as rootkits and avoided at all cost.
 
 Recommended Apps
 	- Visit https://spotco.us/faa after flashing to find a very comprehensive list of apps that can replace what you're used to
