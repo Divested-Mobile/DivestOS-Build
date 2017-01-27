@@ -1,18 +1,18 @@
-From 62df30a59b494a7410cf671a901aba3f60b80979 Mon Sep 17 00:00:00 2001
+From 0f5855241796b323b7a71b0c2f02df15b69fbbe1 Mon Sep 17 00:00:00 2001
 From: nguyenquangduc2000 <nguyenquangduc2000@gmail.com>
 Date: Thu, 7 Jul 2016 15:08:14 +0700
 Subject: [PATCH] Overclock 1.9Ghz/720Mhz
 
 ---
- arch/arm/boot/dts/qcom/msm8916-gpu.dtsi         | 116 ++++++++++++++++++------
+ arch/arm/boot/dts/qcom/msm8916-gpu.dtsi         | 114 ++++++++++++++++++------
  arch/arm/boot/dts/qcom/msm8916-moto-common.dtsi |  36 +++++++-
- arch/arm/boot/dts/qcom/msm8916-regulator.dtsi   |  27 ++++--
- arch/arm/boot/dts/qcom/msm8916.dtsi             |  40 +++++++-
- drivers/clk/qcom/clock-gcc-8916.c               |  35 +++++--
- 5 files changed, 195 insertions(+), 59 deletions(-)
+ arch/arm/boot/dts/qcom/msm8916-regulator.dtsi   |  27 +++---
+ arch/arm/boot/dts/qcom/msm8916.dtsi             |  40 +++++++--
+ drivers/clk/qcom/clock-gcc-8916.c               |  35 +++++---
+ 5 files changed, 195 insertions(+), 57 deletions(-)
 
 diff --git a/arch/arm/boot/dts/qcom/msm8916-gpu.dtsi b/arch/arm/boot/dts/qcom/msm8916-gpu.dtsi
-index a9b9f1e..8fda26e 100644
+index 84e183f..d9269d7 100644
 --- a/arch/arm/boot/dts/qcom/msm8916-gpu.dtsi
 +++ b/arch/arm/boot/dts/qcom/msm8916-gpu.dtsi
 @@ -27,9 +27,8 @@
@@ -167,14 +167,8 @@ index a9b9f1e..8fda26e 100644
  					qcom,gpu-freq = <19200000>;
  					qcom,bus-freq = <0>;
  				};
-@@ -154,5 +212,3 @@
- 		};
- 	};
- };
--
--
 diff --git a/arch/arm/boot/dts/qcom/msm8916-moto-common.dtsi b/arch/arm/boot/dts/qcom/msm8916-moto-common.dtsi
-index e256ca6..5a16760 100644
+index 5ef1add..453531d 100644
 --- a/arch/arm/boot/dts/qcom/msm8916-moto-common.dtsi
 +++ b/arch/arm/boot/dts/qcom/msm8916-moto-common.dtsi
 @@ -30,7 +30,14 @@
@@ -307,7 +301,7 @@ index c456002..79de247 100644
  		qcom,cpr-enable;
  	};
 diff --git a/arch/arm/boot/dts/qcom/msm8916.dtsi b/arch/arm/boot/dts/qcom/msm8916.dtsi
-index 5aa61e3..ab38e42 100644
+index 07c754a..b572220 100644
 --- a/arch/arm/boot/dts/qcom/msm8916.dtsi
 +++ b/arch/arm/boot/dts/qcom/msm8916.dtsi
 @@ -24,7 +24,7 @@
@@ -386,10 +380,10 @@ index 5aa61e3..ab38e42 100644
  
  	qcom,sps {
 diff --git a/drivers/clk/qcom/clock-gcc-8916.c b/drivers/clk/qcom/clock-gcc-8916.c
-index 4798ad8..7d5fbe2 100644
+index 7ed59c1..c7e4fe94 100644
 --- a/drivers/clk/qcom/clock-gcc-8916.c
 +++ b/drivers/clk/qcom/clock-gcc-8916.c
-@@ -347,6 +347,11 @@ static struct pll_freq_tbl apcs_pll_freq[] = {
+@@ -348,6 +348,11 @@ static struct pll_freq_tbl apcs_pll_freq[] = {
  	F_APCS_PLL(1248000000, 65, 0x0, 0x1, 0x0, 0x0, 0x0),
  	F_APCS_PLL(1363200000, 71, 0x0, 0x1, 0x0, 0x0, 0x0),
  	F_APCS_PLL(1401600000, 73, 0x0, 0x1, 0x0, 0x0, 0x0),
@@ -401,7 +395,7 @@ index 4798ad8..7d5fbe2 100644
  	PLL_F_END
  };
  
-@@ -550,7 +555,10 @@ static struct clk_freq_tbl ftbl_gcc_camss_vfe0_clk[] = {
+@@ -551,7 +556,10 @@ static struct clk_freq_tbl ftbl_gcc_camss_vfe0_clk[] = {
  	F( 266670000,	   gpll0,   3,	  0,	0),
  	F( 320000000,	   gpll0, 2.5,	  0,	0),
  	F( 400000000,	   gpll0,   2,	  0,	0),
@@ -413,7 +407,7 @@ index 4798ad8..7d5fbe2 100644
  	F_END
  };
  
-@@ -564,12 +572,12 @@ static struct rcg_clk vfe0_clk_src = {
+@@ -565,12 +573,12 @@ static struct rcg_clk vfe0_clk_src = {
  		.dbg_name = "vfe0_clk_src",
  		.ops = &clk_ops_rcg,
  		VDD_DIG_FMAX_MAP3(LOW, 160000000, NOMINAL, 320000000, HIGH,
@@ -428,7 +422,7 @@ index 4798ad8..7d5fbe2 100644
  	F(  19200000,	      xo,   1,	  0,	0),
  	F(  50000000,  gpll0_aux,  16,	  0,	0),
  	F(  80000000,  gpll0_aux,  10,	  0,	0),
-@@ -581,7 +589,10 @@ static struct clk_freq_tbl ftbl_gcc_oxili_gfx3d_465_clk[] = {
+@@ -582,7 +590,10 @@ static struct clk_freq_tbl ftbl_gcc_oxili_gfx3d_465_clk[] = {
  	F( 294912000,	   gpll1,   3,	  0,	0),
  	F( 310000000,	   gpll2,   3,	  0,	0),
  	F( 400000000,  gpll0_aux,   2,	  0,	0),
@@ -440,7 +434,7 @@ index 4798ad8..7d5fbe2 100644
  	F_END
  };
  
-@@ -597,6 +608,10 @@ static struct clk_freq_tbl ftbl_gcc_oxili_gfx3d_clk[] = {
+@@ -598,6 +609,10 @@ static struct clk_freq_tbl ftbl_gcc_oxili_gfx3d_clk[] = {
  	F( 294912000,	   gpll1,   3,	  0,	0),
  	F( 310000000,	   gpll2,   3,	  0,	0),
  	F( 400000000,  gpll0_aux,   2,	  0,	0),
@@ -451,7 +445,7 @@ index 4798ad8..7d5fbe2 100644
  	F_END
  };
  
-@@ -609,8 +624,8 @@ static struct rcg_clk gfx3d_clk_src = {
+@@ -610,8 +625,8 @@ static struct rcg_clk gfx3d_clk_src = {
  	.c = {
  		.dbg_name = "gfx3d_clk_src",
  		.ops = &clk_ops_rcg,
@@ -462,7 +456,7 @@ index 4798ad8..7d5fbe2 100644
  		CLK_INIT(gfx3d_clk_src.c),
  	},
  };
-@@ -994,7 +1009,7 @@ static struct rcg_clk csi1phytimer_clk_src = {
+@@ -995,7 +1010,7 @@ static struct rcg_clk csi1phytimer_clk_src = {
  static struct clk_freq_tbl ftbl_gcc_camss_cpp_clk[] = {
  	F( 160000000,	   gpll0,   5,	  0,	0),
  	F( 320000000,	   gpll0, 2.5,	  0,	0),
@@ -471,7 +465,7 @@ index 4798ad8..7d5fbe2 100644
  	F_END
  };
  
-@@ -1008,7 +1023,7 @@ static struct rcg_clk cpp_clk_src = {
+@@ -1009,7 +1024,7 @@ static struct rcg_clk cpp_clk_src = {
  		.dbg_name = "cpp_clk_src",
  		.ops = &clk_ops_rcg,
  		VDD_DIG_FMAX_MAP3(LOW, 160000000, NOMINAL, 320000000, HIGH,
@@ -480,7 +474,7 @@ index 4798ad8..7d5fbe2 100644
  		CLK_INIT(cpp_clk_src.c),
  	},
  };
-@@ -2782,8 +2797,8 @@ static void gcc_gfx3d_fmax(struct platform_device *pdev)
+@@ -2798,8 +2813,8 @@ static void gcc_gfx3d_fmax(struct platform_device *pdev)
  	pr_info("%s, Version: %d, bin: %d\n", __func__, version,
  					bin);
  
@@ -491,3 +485,6 @@ index 4798ad8..7d5fbe2 100644
  }
  
  static int msm_gcc_probe(struct platform_device *pdev)
+-- 
+2.9.3
+
