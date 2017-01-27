@@ -161,7 +161,7 @@ patch -p1 < $patches"android_kernel_lge_bullhead/0001-OverUnderClock.patch" #a57
 patch -p1 < $patches"android_kernel_lge_bullhead/0002-MMC_Tweak.patch" #Improves MMC performance
 
 enter "kernel/motorola/msm8916"
-patch -p1 < $patches"android_kernel_motorola_msm8916/Overclock.patch" #1.57Ghz -> 1.94Ghz	=+ 1.58Ghz
+patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch" #1.57Ghz -> 1.94Ghz	=+ 1.58Ghz
 #
 #END OF DEVICE CHANGES
 #

@@ -46,6 +46,8 @@ Device Changes
 		- Underclocked both from 384Mhz to 300Mhz
 		- MMC performance slightly increased
 		- Removed bundled Google Widevine DRM and Microsoft PlayReady DRM firmware files
+	- osprey
+		- Overclocked from 1.57Ghz to 1.94Ghz (=+1.58Ghz)
 	- mako
 		- Overclocked from 1.51Ghz to 1.94Ghz (=+1.72Ghz)
 		- Underclocked from 384Mhz to 81Mhz
