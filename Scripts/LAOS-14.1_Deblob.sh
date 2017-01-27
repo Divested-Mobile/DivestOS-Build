@@ -103,6 +103,7 @@ deblob "device/amazon/hdx-common/" "proprietary-adreno-files.txt";
 deblob "device/amazon/hdx-common/" "proprietary-files.txt";
 deblob "device/asus/msm8916-common/" "proprietary-files.txt";
 deblob "device/lge/g3-common/" "proprietary-files.txt";
+deblob "device/motorola/msm8916-common/" "proprietary-files.txt";
 deblob "device/oppo/msm8974-common/" "device-proprietary-files.txt";
 deblob "device/oppo/msm8974-common/" "proprietary-files.txt";
 deblob "device/amazon/thor/" "proprietary-files.txt";
@@ -118,6 +119,7 @@ deblob "device/lge/mako/" "proprietary-blobs.txt";
 cd "vendor/lge/mako" && mv mako-vendor-blobs.mk mako-vendor.mk && echo "endif" >> Android.mk; #Creates malformed makefiles due to commit a85aa35fda31ef77b7424d0be108b0a5a2e71edf
 deblob "device/lge/vs985/" "proprietary-files.txt";
 deblob "device/motorola/clark/" "proprietary-files.txt";
+deblob "device/motorola/osprey/" "proprietary-files.txt";
 deblob "device/moto/shamu/" "device-proprietary-files.txt";
 deblob "device/moto/shamu/" "proprietary-blobs.txt";
 echo "vendor/lib/libcneapiclient.so" >> device/oneplus/bacon/proprietary-files-qc.txt; #Commit b7b6d94529e17ce51566aa6509cebab6436b153d disabled CNE but left this binary in the makefile vendor since NetMgr requires it. Without this line rerunning setup-makefiles.sh breaks cell service, since the resulting build will be missing it.

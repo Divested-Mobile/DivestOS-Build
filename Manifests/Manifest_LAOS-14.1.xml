@@ -55,7 +55,6 @@
 	<remove-project name="platform/hardware/intel/sensors" />
 	<remove-project name="platform/hardware/ti/omap3" />
 	<remove-project name="platform/hardware/ti/omap4-aah" />
-	<!--<remove-project name="platform/packages/apps/Provision" />-->
 	<remove-project name="platform/prebuilts/clang/darwin-x86/host/3.6" />
 	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
 	<remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-eabi-4.8" />
@@ -98,12 +97,10 @@
 <!-- START OF DEVICE REPOS -->
 	<!-- Common -->
 	<project path="packages/resources/devicesettings" name="LineageOS/android_packages_resources_devicesettings" remote="github" />
-	<project path="device/amazon/hdx-common" name="LineageOS/android_device_amazon_hdx-common" remote="github" />
 	<project path="device/oppo/common" name="LineageOS/android_device_oppo_common" remote="github" />
 	<project path="device/qcom/common" name="LineageOS/android_device_qcom_common" remote="github" />
 	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
 	<project path="hardware/sony/thermanager" name="LineageOS/android_hardware_sony_thermanager" remote="github" />
-	<project path="kernel/amazon/hdx-common" name="LineageOS/android_kernel_amazon_hdx-common" remote="github" />
 	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 
 	<!-- Nexus 4 (Mako) -->
@@ -131,7 +128,9 @@
 	<project path="kernel/google/marlin" name="LineageOS/android_kernel_google_marlin" remote="github" />
 
 	<!-- Amazon Kindle Fire HDX 7 3rd Gen (Thor)-->
+	<project path="device/amazon/hdx-common" name="LineageOS/android_device_amazon_hdx-common" remote="github" />
 	<project path="device/amazon/thor" name="LineageOS/android_device_amazon_thor" remote="github" />
+	<project path="kernel/amazon/hdx-common" name="LineageOS/android_kernel_amazon_hdx-common" remote="github" />
 
 	<!-- Asus Zenfone 2 Laser (Z00T) -->
 	<project name="LineageOS/android_device_asus_msm8916-common" path="device/asus/msm8916-common" remote="github" />
@@ -142,6 +141,11 @@
 	<project path="device/lge/g3-common" name="LineageOS/android_device_lge_g3-common" remote="github" />
 	<project path="device/lge/vs985" name="LineageOS/android_device_lge_vs985" remote="github" />
 	<project path="kernel/lge/g3" name="LineageOS/android_kernel_lge_g3" remote="github" />
+
+	<!-- Moto G 3rd Gen (Osprey) -->
+	<project path="device/motorola/msm8916-common" name="LineageOS/android_device_motorola_msm8916-common" remote="github" />
+	<project path="device/motorola/osprey" name="LineageOS/android_device_motorola_osprey" remote="github" />
+	<project path="kernel/motorola/msm8916" name="LineageOS/android_kernel_motorola_msm8916" remote="github" />
 
 	<!-- Moto X Pure Edition (XT1575) -->
 	<project path="device/motorola/clark" name="LineageOS/android_device_motorola_clark" remote="github" />
