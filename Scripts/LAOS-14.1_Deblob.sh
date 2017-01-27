@@ -28,7 +28,7 @@ deblob() {
 	#Diagnostics
 	blobs=$blobs"|/diag/|diag_callback_client|diag_dci_sample|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag/mdm|diag_qshrink4_daemon|diag_socket_log|diag_uart_log|drmdiagapp|ibdrmdiag.so|ssr_diag|test_diag";
 
-	#Discretix (DRM)
+	#Discretix (DRM/HDCP)
 	blobs=$blobs"|discretix|DxHDCP.cfg|dxhdcp2.b00|dxhdcp2.b01|dxhdcp2.b02|dxhdcp2.b03|dxhdcp2.mdt|libDxHdcp.so";
 
 	#DivX (DRM)
@@ -50,7 +50,7 @@ deblob() {
 	#grep -v "WV_SYMLINKS := $(addprefix $(TARGET_OUT_ETC)/firmware/,$(notdir $(WV_IMAGES)))" Android.mk >> Android.mk.new; #FIXME: Figure out a way to do this
 	#mv Android.mk.new Android.mk;
 
-	#GPS
+	#GPS XXX: Breaks GPS
 	#blobs=$blobs"|flp.conf|flp.default.so|flp.msm8084.so|flp.msm8960.so|gpsd|gps.msm8084.so|gps.msm8960.so|libflp.so|libgps.utils.so|libloc_api_v02.so|libloc_core.so|libloc_ds_api.so|libloc_eng.so|libloc_ext.so";
 
 	#HDCP (DRM)

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#TODO: Aggressive Doze (Verify Extended Doze First), App-based battery profiles, Change connectivity check URL, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Wallpaper
+#TODO: Aggressive Doze (Verify Extended Doze First), Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Wallpaper
 
 #Hard reset repos
 #repo forall -c 'git add -A && git reset --hard'
