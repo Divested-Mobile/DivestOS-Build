@@ -14,7 +14,7 @@ deblob() {
 	
 	#Blobs to *NOT* remove: ADSP/Hexagon (Hardware audio decoding), Venus (Hardware video decoding), WCNSS (Wi-Fi), Gatekeeper/Keystore/Qsee/Trustzone (Hardware encryption)
 
-	#ATFWD (Wireless Display)
+	#ATFWD (Miracast/Wireless Display)
 	blobs=$blobs"ATFWD-daemon|atfwd.apk";
 
 	#CNE Core XXX: Breaks radio
@@ -25,11 +25,11 @@ deblob() {
 	if [ -f system.prop ]; then sed -i 's/persist.cne.feature=./persist.cne.feature=0/' system.prop; fi
 	if [ -f BoardConfig.mk ]; then sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; fi;
 
-	#Diag
+	#Diagnostics
 	blobs=$blobs"|/diag/|diag_callback_client|diag_dci_sample|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag/mdm|diag_qshrink4_daemon|diag_socket_log|diag_uart_log|drmdiagapp|ibdrmdiag.so|ssr_diag|test_diag";
 
-	#DivX (DRM)
-	blobs=$blobs"|DxHDCP.cfg|dxhdcp2.b00|dxhdcp2.b01|dxhdcp2.b02|dxhdcp2.b03|dxhdcp2.mdt|libDivxDrm.so|libDxHdcp.so|libSHIMDivxDrm.so";
+	#Discretix (DRM)
+	blobs=$blobs"|discretix|DxHDCP.cfg|dxhdcp2.b00|dxhdcp2.b01|dxhdcp2.b02|dxhdcp2.b03|dxhdcp2.mdt|libDivxDrm.so|libDxHdcp.so|libSHIMDivxDrm.so";
 
 	#DPM (Data Power Management)
 	blobs=$blobs"|com.qti.dpmframework.jar|com.qti.dpmframework.xml|dpmapi.jar|dpmapi.xml|dpm.conf|dpmd|dpmserviceapp.apk|libdpmctmgr.so|libdpmfdmgr.so|libdpmframework.so|libdpmnsrm.so|libdpmtcm.so|NsrmConfiguration.xml|tcmclient.jar";
@@ -48,7 +48,7 @@ deblob() {
 	#mv Android.mk.new Android.mk;
 
 	#GPS
-	#blobs=$blobs"|flp.conf|flp.default.so|flp.msm8084.so|gpsd|gps.msm8084.so|libflp.so|libgps.utils.so|libloc_api_v02.so|libloc_core.so|libloc_ds_api.so|libloc_eng.so|libloc_ext.so";
+	#blobs=$blobs"|flp.conf|flp.default.so|flp.msm8084.so|flp.msm8960.so|gpsd|gps.msm8084.so|gps.msm8960.so|libflp.so|libgps.utils.so|libloc_api_v02.so|libloc_core.so|libloc_ds_api.so|libloc_eng.so|libloc_ext.so";
 
 	#HDCP (DRM)
 	blobs=$blobs"|libmm-hdcpmgr.so";
@@ -57,7 +57,7 @@ deblob() {
 	blobs=$blobs"|ipacm|ipacm-diag";
 	rm -rf data-ipa-cfg-mgr; #Remove the second half of IPACM
 
-	#Location (gpsOne/gpsOneXTRA/IZat/Lumicast)
+	#Location (gpsOne/gpsOneXTRA/IZat/Lumicast/QUIP)
 	blobs=$blobs"|com.qti.location.sdk.jar|com.qti.location.sdk.xml|com.qualcomm.location.apk|com.qualcomm.location.vzw_library.jar|com.qualcomm.location.vzw_library.xml|com.qualcomm.location.xml|gpsone_daemon|izat.xt.srv.jar|izat.xt.srv.xml|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|libgdtap.so|libgeofence.so|libizat_core.so|liblbs_core.so|liblocationservice_glue.so|liblocationservice.so|liblowi_client.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libulp2.so|libxtadapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so|location-mq|loc_launcher|lowi-server|slim_ap_daemon|slim_daemon|xtwifi-client|xtwifi-inet-agent";
 	if [ -f system.prop ]; then sed -i 's/persist.gps.qc_nlp_in_use=1/persist.gps.qc_nlp_in_use=0/' system.prop; fi;
 
@@ -111,11 +111,12 @@ deblob "device/google/marlin/" "device-proprietary-files.txt";
 deblob "device/lge/bullhead/" "proprietary-blobs.txt";
 deblob "device/lge/bullhead/" "proprietary-blobs-vendorimg.txt";
 deblob "device/lge/hammerhead/" "proprietary-blobs.txt";
-#deblob "device/lge/mako/" "proprietary-blobs.txt"; #FIXME: Creates malformed makefiles due to commit a85aa35fda31ef77b7424d0be108b0a5a2e71edf
+deblob "device/lge/mako/" "proprietary-blobs.txt";
+cd "vendor/lge/mako" && mv mako-vendor-blobs.mk mako-vendor.mk && echo "endif" >> Android.mk; #Creates malformed makefiles due to commit a85aa35fda31ef77b7424d0be108b0a5a2e71edf
 deblob "device/lge/vs985/" "proprietary-files.txt";
 deblob "device/motorola/clark/" "proprietary-files.txt";
 deblob "device/moto/shamu/" "device-proprietary-files.txt";
 deblob "device/moto/shamu/" "proprietary-blobs.txt";
-echo "vendor/lib/libcneapiclient.so" >> device/oneplus/bacon/proprietary-files-qc.txt; #Commit b7b6d94529e17ce51566aa6509cebab6436b153d disabled CNE but left this binary in the makefile since NetMgr requires it. Without this rerunning setup-makefiles.sh breaks cell service, since the resulting build will be missing it.
+echo "vendor/lib/libcneapiclient.so" >> device/oneplus/bacon/proprietary-files-qc.txt; #Commit b7b6d94529e17ce51566aa6509cebab6436b153d disabled CNE but left this binary in the makefile vendor since NetMgr requires it. Without this line rerunning setup-makefiles.sh breaks cell service, since the resulting build will be missing it.
 deblob "device/oneplus/bacon/" "proprietary-files-qc.txt";
 deblob "device/oneplus/bacon/" "proprietary-files.txt";
