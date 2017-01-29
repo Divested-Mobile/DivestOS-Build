@@ -1,13 +1,13 @@
-From e81a668b7d57f230c4b2e924981d579d13d78ce4 Mon Sep 17 00:00:00 2001
+From a81802188eb54670b838386dbad88e23d523d6be Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Fri, 23 Dec 2016 19:58:47 -0500
+Date: Tue, 17 Jan 2017 18:00:03 -0500
 Subject: [PATCH] Fix build tools
 
-Change-Id: I7e30cb163233980e1faded4041791f5311a3ebda
+Change-Id: I6600bf9bd000ae0c6d900613e487776ddd383527
 ---
- Android.mk                            | 4 ++--
- services-framework-proxy/build.gradle | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ Android.mk   | 4 ++--
+ build.gradle | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/Android.mk b/Android.mk
 index 50889ae..5193277 100644
@@ -30,21 +30,19 @@ index 50889ae..5193277 100644
  	echo "sdk.dir=$(ANDROID_HOME)" > $(gsfproxy_root)/local.properties
  	cd $(gsfproxy_root) && git submodule update --recursive --init
  	cd $(gsfproxy_root)/$(gsfproxy_dir) && JAVA_TOOL_OPTIONS="$(JAVA_TOOL_OPTIONS) -Dfile.encoding=UTF8" ../gradlew assembleRelease
-diff --git a/services-framework-proxy/build.gradle b/services-framework-proxy/build.gradle
-index 6824f94..7243816 100644
---- a/services-framework-proxy/build.gradle
-+++ b/services-framework-proxy/build.gradle
-@@ -44,8 +44,8 @@ int getMyVersionCode() {
+diff --git a/build.gradle b/build.gradle
+index 3ec4bfc..8a7d2e2 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -26,7 +26,7 @@ buildscript {
+ 
+ allprojects {
+     apply plugin: 'idea'
+-    ext.androidBuildVersionTools = "24.0.3"
++    ext.androidBuildVersionTools = "25.0.1"
+     ext.isReleaseVersion = false
  }
  
- android {
--    compileSdkVersion 23
--    buildToolsVersion "23.0.2"
-+    compileSdkVersion 24
-+    buildToolsVersion "25.0.1"
- 
-     defaultConfig {
-         versionName getMyVersionName()
 -- 
 2.9.3
 
