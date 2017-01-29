@@ -79,6 +79,9 @@ patch -p1 < $patches"android_packages_apps_GsfProxy/0001-Fixes.patch" #Update ou
 enter "packages/apps/FakeStore"
 patch -p1 < $patches"android_packages_apps_FakeStore/0001-Fixes.patch" #Update output paths and build tools
 
+enter "packages/apps/IchnaeaNlpBackend"
+patch -p1 < $patches"android_packages_apps_IchnaeaNlpBackend/0001-Fixes.patch" #Update output paths and build tools
+
 enter "packages/apps/FDroid"
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Enable privigled module
 patch -p1 < $patches"android_packages_apps_FDroid/0003.patch" #Hide app updates for apps that are installed to /system
@@ -113,7 +116,8 @@ patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.pat
 patch -p1 < $patches"android_packages_apps_SetupWizard/0002-No_GMS.patch" #Disable GMS page
 
 enter "frameworks/base"
-git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/8 && git cherry-pick FETCH_HEAD #Network Traffic
+#git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/11/154011/2 && git cherry-pick FETCH_HEAD #Pixel Colors
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/10 && git cherry-pick FETCH_HEAD #Network Traffic
 git revert 2aaa0472da8d254da1f07aa65a664012b52410f4 #re-enable doze on devices without gms
 #patch -p1 < $patches"android_frameworks_base/0002-Failed_Unlock_Shutdown.patch" #Shutdown after five failed unlock attempts FIXME: Update shutdown() to match new args
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)

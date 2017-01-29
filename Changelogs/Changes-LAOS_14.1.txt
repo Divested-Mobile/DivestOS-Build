@@ -7,6 +7,7 @@ Warnings
 	- Do *not* use AdAway or any other Adblocker
 	- Flashing of any Gapps is not recommended and most likely won't work.
 	- No browser is installed by default, please install getChromium or IceCat from F-Droid. Chromium will be included in future releases.
+	- To enable Cell/Wi-Fi location resolving: microG Settings > UnifiedNlp Settings > Configure location backends > Check 'Mozilla Location Service'.
 
 Recommended Apps
 	- Visit https://spotco.us/faa after flashing to find a very comprehensive list of apps that can replace what you're used to

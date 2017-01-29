@@ -86,6 +86,7 @@
 	<project path="packages/apps/GmsCore" name="microg/android_packages_apps_GmsCore" remote="github" revision="master" />
 	<project path="packages/apps/GsfProxy" name="microg/android_packages_apps_GsfProxy" remote="github" revision="master" />
 	<project path="packages/apps/FakeStore" name="microg/android_packages_apps_FakeStore" remote="github" revision="master" />
+	<project path="packages/apps/IchnaeaNlpBackend" name="microg/IchnaeaNlpBackend" remote="github" revision="master" />
 
 	<!-- F-Droid -->
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
