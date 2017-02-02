@@ -4,6 +4,12 @@
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
 #This script and subsequent builds have been tested
 
+#
+#Device Status
+#
+#Fully Functional: clark
+#LTE Broken (Potentially Unrelated): bacon, mako
+
 base="/home/tad/Android/Build/LineageOS-14.1/"
 deblob() {
 	dir=$1

@@ -1,4 +1,4 @@
-Last Updated: 01/27/2017
+Last Updated: 01/29/2017
 Credits: LineageOS, CyanogenMod, CopperheadOS, OmniROM, TeamWin, F-Droid, MicroG, EmojiOne, anarkia1976, bhb27, Daniel Micay, dirtyhank, Evisceration, faux123, flar2, franciscofranco, hellsgod, mar-v-in, mimi89999, nikhil18, nvllsvm, savoca, stefano.villa1976, WedyDQ10, XileForce
 
 Warnings
@@ -7,7 +7,7 @@ Warnings
 	- Do *not* use AdAway or any other Adblocker
 	- Flashing of any Gapps is not recommended and most likely won't work.
 	- No browser is installed by default, please install getChromium or IceCat from F-Droid. Chromium will be included in future releases.
-	- To enable Cell/Wi-Fi location resolving: Install a UnifiedNlp backend from F-Droid and then goto microG Settings > UnifiedNlp Settings > Configure location backends
+	- To enable Cell/Wi-Fi location resolving: Install a UnifiedNlp backend from F-Droid and then go to microG Settings > UnifiedNlp Settings > Configure location backends
 
 Recommended Apps
 	- Visit https://spotco.us/faa after flashing to find a very comprehensive list of apps that can replace what you're used to
