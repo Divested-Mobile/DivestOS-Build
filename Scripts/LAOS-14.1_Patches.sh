@@ -105,8 +105,8 @@ cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 
 enter "packages/apps/CMParts"
 git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/15 && git cherry-pick FETCH_HEAD #Network Traffic
-rm -rf src/org/cyanogenmod/cmparts/cmstats/ #Nuke part of CMStats
-patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics_Partial.patch" #Remove the rest of CMStats
+rm -rf src/org/cyanogenmod/cmparts/cmstats/ xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of CMStats
+patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove the rest of CMStats
 rm res/xml/parts_catalog.xml.orig res/values/strings.xml.orig
 
 enter "packages/apps/SetupWizard"
@@ -130,6 +130,8 @@ rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core
 #
 enter "device/motorola/clark"
 git fetch https://review.lineageos.org/LineageOS/android_device_motorola_clark refs/changes/99/160699/1 && git cherry-pick FETCH_HEAD #selinux
+git fetch https://review.lineageos.org/LineageOS/android_device_motorola_clark refs/changes/91/160791/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_device_motorola_clark refs/changes/90/160790/1 && git cherry-pick FETCH_HEAD
 patch -p1 < $patches"android_device_motorola_clark/0003-Enable_Dex_Preopt.patch" #Force enables dex pre-optimization
 patch -p1 < $patches"android_device_motorola_clark/0004-Remove_Widevine.patch" #Removes Google Widevine and disables the DRM server
 #patch -p1 < $patches"android_device_motorola_clark/0005-TWRP.patch" #Add TWRP support
