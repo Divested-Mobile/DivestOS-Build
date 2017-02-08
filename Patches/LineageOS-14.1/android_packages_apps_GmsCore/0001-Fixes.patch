@@ -1,16 +1,15 @@
-From 98f96597bc7ac50a9a1968f57921c751585977c3 Mon Sep 17 00:00:00 2001
+From 58a843a4197360a4522290897571017469eec6fa Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Sun, 18 Dec 2016 16:53:19 -0500
+Date: Wed, 8 Feb 2017 14:48:17 -0500
 Subject: [PATCH] Build fixes
 
-Change-Id: Icfae5b47655f9e1a8dceb48f2f4ab08c6bbe5001
+Change-Id: I227db20b7e0bdee8e13decf3ef3c51c17627973a
 ---
- Android.mk   | 4 ++--
- build.gradle | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ Android.mk | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/Android.mk b/Android.mk
-index 516e72b..bfb2794 100644
+index ddd5608..35414f3 100644
 --- a/Android.mk
 +++ b/Android.mk
 @@ -21,14 +21,14 @@ LOCAL_PACKAGE_NAME := GmsCore
@@ -24,25 +23,12 @@ index 516e72b..bfb2794 100644
  
  $(gmscore_root)/$(gmscore_dir)/$(gmscore_apk):
  	rm -Rf $(gmscore_build)
- 	mkdir -p $(gmscore_out)
--	ln -s $(gmscore_out) $(gmscore_build)
-+	ln -sf $(gmscore_out) $(gmscore_build)
+ 	mkdir -p $(ANDROID_BUILD_TOP)/$(gmscore_out)
+-	ln -s $(ANDROID_BUILD_TOP)/$(gmscore_out) $(ANDROID_BUILD_TOP)/$(gmscore_build)
++	ln -sf $(ANDROID_BUILD_TOP)/$(gmscore_out) $(ANDROID_BUILD_TOP)/$(gmscore_build)
  	echo "sdk.dir=$(ANDROID_HOME)" > $(gmscore_root)/local.properties
  	cd $(gmscore_root) && git submodule update --recursive --init
  	cd $(gmscore_root)/$(gmscore_dir) && JAVA_TOOL_OPTIONS="$(JAVA_TOOL_OPTIONS) -Dfile.encoding=UTF8" ../gradlew assembleRelease
-diff --git a/build.gradle b/build.gradle
-index 3ec4bfc..8a7d2e2 100644
---- a/build.gradle
-+++ b/build.gradle
-@@ -26,7 +26,7 @@ buildscript {
- 
- allprojects {
-     apply plugin: 'idea'
--    ext.androidBuildVersionTools = "24.0.3"
-+    ext.androidBuildVersionTools = "25.0.1"
-     ext.isReleaseVersion = false
- }
- 
 -- 
 2.9.3
 

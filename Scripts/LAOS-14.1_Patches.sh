@@ -91,23 +91,22 @@ rm app/src/main/res/xml/preferences.xml.orig
 enter "packages/apps/FDroidPrivilegedExtension"
 patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0001-Update_Build_Tools.patch" #Update build tools
 patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Release_Key.patch" #Change to release key
-patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0003-Test_Keys.patch" #Add test-keys XXX: ONLY USE FOR TEST BUILDS
+#patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0003-Test_Keys.patch" #Add test-keys XXX: ONLY USE FOR TEST BUILDS
 #release-keys: CB:1E:E2:EC:40:D0:5E:D6:78:F4:2A:E7:01:CD:FA:29:EE:A7:9D:0E:6D:63:32:76:DE:23:0B:F3:49:40:67:C3
 #test-keys: C8:A2:E9:BC:CF:59:7C:2F:B6:DC:66:BE:E2:93:FC:13:F2:FC:47:EC:77:BC:6B:2B:0D:52:C1:1F:51:19:2A:B8
 
 enter "vendor/cmsdk"
-git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/5 && git cherry-pick FETCH_HEAD #Network Traffic
+git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/7 && git cherry-pick FETCH_HEAD #Network Traffic
 
 enter "vendor/cm"
-git fetch https://review.lineageos.org/LineageOS/android_vendor_cm refs/changes/01/156601/8 && git cherry-pick FETCH_HEAD #CustomTiles
 rm -rf gello #Gello is built out-of-tree and bundles Google Play Services library
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 
 enter "packages/apps/CMParts"
-git revert 311172074c5e18e39d88d34db0b9dd6532317811 #TODO: Rebase
-git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/12 && git cherry-pick FETCH_HEAD #Network Traffic
-patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove analytics
+git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/15 && git cherry-pick FETCH_HEAD #Network Traffic
+rm -rf src/org/cyanogenmod/cmparts/cmstats/ #Nuke part of CMStats
+patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics_Partial.patch" #Remove the rest of CMStats
 rm res/xml/parts_catalog.xml.orig res/values/strings.xml.orig
 
 enter "packages/apps/SetupWizard"
@@ -115,8 +114,7 @@ patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.pat
 patch -p1 < $patches"android_packages_apps_SetupWizard/0002-No_GMS.patch" #Disable GMS page
 
 enter "frameworks/base"
-#git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/11/154011/2 && git cherry-pick FETCH_HEAD #Pixel Colors
-git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/11 && git cherry-pick FETCH_HEAD #Network Traffic
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/17 && git cherry-pick FETCH_HEAD #Network Traffic
 git revert 2aaa0472da8d254da1f07aa65a664012b52410f4 #re-enable doze on devices without gms
 #patch -p1 < $patches"android_frameworks_base/0002-Failed_Unlock_Shutdown.patch" #Shutdown after five failed unlock attempts FIXME: Update shutdown() to match new args
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
@@ -131,6 +129,7 @@ rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core
 #START OF DEVICE CHANGES
 #
 enter "device/motorola/clark"
+git fetch https://review.lineageos.org/LineageOS/android_device_motorola_clark refs/changes/99/160699/1 && git cherry-pick FETCH_HEAD #selinux
 patch -p1 < $patches"android_device_motorola_clark/0003-Enable_Dex_Preopt.patch" #Force enables dex pre-optimization
 patch -p1 < $patches"android_device_motorola_clark/0004-Remove_Widevine.patch" #Removes Google Widevine and disables the DRM server
 #patch -p1 < $patches"android_device_motorola_clark/0005-TWRP.patch" #Add TWRP support
