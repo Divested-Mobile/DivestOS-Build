@@ -25,7 +25,6 @@ cd /tmp/ar
 wget https://spotco.us/hosts -N
 wget https://gitlab.com/copperhead/platform_external_chromium-webview/raw/nougat-mr1.1-release/prebuilt/arm64/webview.apk -N
 wget https://github.com/Ranks/emojione/raw/master/assets/fonts/emojione-android.ttf -N
-wget https://gitlab.com/fdroid/fdroidclient/merge_requests/425.patch -N
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
 mkdir -p "$ANDROID_HOME/licenses"
@@ -85,8 +84,6 @@ patch -p1 < $patches"android_packages_apps_IchnaeaNlpBackend/0001-Fixes.patch" #
 enter "packages/apps/FDroid"
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Enable privigled module
 patch -p1 < $patches"android_packages_apps_FDroid/0003.patch" #Hide app updates for apps that are installed to /system
-#git am /tmp/ar/425.patch #New UI (WIP)
-rm app/src/main/res/xml/preferences.xml.orig
 
 enter "packages/apps/FDroidPrivilegedExtension"
 patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0001-Update_Build_Tools.patch" #Update build tools
@@ -105,9 +102,8 @@ cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 
 enter "packages/apps/CMParts"
 git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/15 && git cherry-pick FETCH_HEAD #Network Traffic
-rm -rf src/org/cyanogenmod/cmparts/cmstats/ xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of CMStats
+rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of CMStats
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove the rest of CMStats
-rm res/xml/parts_catalog.xml.orig res/values/strings.xml.orig
 
 enter "packages/apps/SetupWizard"
 patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove analytics
