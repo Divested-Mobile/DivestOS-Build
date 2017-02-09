@@ -93,7 +93,7 @@ patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Releas
 #test-keys: C8:A2:E9:BC:CF:59:7C:2F:B6:DC:66:BE:E2:93:FC:13:F2:FC:47:EC:77:BC:6B:2B:0D:52:C1:1F:51:19:2A:B8
 
 enter "vendor/cmsdk"
-git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/7 && git cherry-pick FETCH_HEAD #Network Traffic
+git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/8 && git cherry-pick FETCH_HEAD #Network Traffic
 
 enter "vendor/cm"
 rm -rf gello #Gello is built out-of-tree and bundles Google Play Services library
@@ -110,7 +110,7 @@ patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.pat
 patch -p1 < $patches"android_packages_apps_SetupWizard/0002-No_GMS.patch" #Disable GMS page
 
 enter "frameworks/base"
-git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/17 && git cherry-pick FETCH_HEAD #Network Traffic
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/18 && git cherry-pick FETCH_HEAD #Network Traffic
 git revert 2aaa0472da8d254da1f07aa65a664012b52410f4 #re-enable doze on devices without gms
 #patch -p1 < $patches"android_frameworks_base/0002-Failed_Unlock_Shutdown.patch" #Shutdown after five failed unlock attempts FIXME: Update shutdown() to match new args
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
@@ -126,8 +126,6 @@ rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core
 #
 enter "device/motorola/clark"
 git fetch https://review.lineageos.org/LineageOS/android_device_motorola_clark refs/changes/99/160699/1 && git cherry-pick FETCH_HEAD #selinux
-git fetch https://review.lineageos.org/LineageOS/android_device_motorola_clark refs/changes/91/160791/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.lineageos.org/LineageOS/android_device_motorola_clark refs/changes/90/160790/1 && git cherry-pick FETCH_HEAD
 patch -p1 < $patches"android_device_motorola_clark/0003-Enable_Dex_Preopt.patch" #Force enables dex pre-optimization
 patch -p1 < $patches"android_device_motorola_clark/0004-Remove_Widevine.patch" #Removes Google Widevine and disables the DRM server
 #patch -p1 < $patches"android_device_motorola_clark/0005-TWRP.patch" #Add TWRP support

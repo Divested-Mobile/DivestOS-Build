@@ -123,7 +123,7 @@ deblob "device/lge/bullhead/" "proprietary-blobs.txt";
 deblob "device/lge/bullhead/" "proprietary-blobs-vendorimg.txt";
 deblob "device/lge/hammerhead/" "proprietary-blobs.txt";
 deblob "device/lge/mako/" "proprietary-blobs.txt";
-cd "vendor/lge/mako" && mv mako-vendor-blobs.mk mako-vendor.mk && echo "endif" >> Android.mk; #Creates malformed makefiles due to commit a85aa35fda31ef77b7424d0be108b0a5a2e71edf
+#cd "vendor/lge/mako" && mv mako-vendor-blobs.mk mako-vendor.mk; #Creates malformed makefiles due to commit a85aa35fda31ef77b7424d0be108b0a5a2e71edf
 deblob "device/lge/vs985/" "proprietary-files.txt";
 deblob "device/motorola/clark/" "proprietary-files.txt";
 deblob "device/motorola/osprey/" "proprietary-files.txt";
