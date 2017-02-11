@@ -1,19 +1,21 @@
-Last Updated: 01/29/2017
+Last Updated: 02/11/2017
 Credits: LineageOS, CyanogenMod, CopperheadOS, OmniROM, TeamWin, F-Droid, MicroG, EmojiOne, anarkia1976, bhb27, Daniel Micay, dirtyhank, Evisceration, faux123, flar2, franciscofranco, hellsgod, mar-v-in, mimi89999, nikhil18, nvllsvm, savoca, stefano.villa1976, WedyDQ10, XileForce
 
-Warnings
+Super Important Stuff
 	- Do *not* flash any root frameworks, root is already included.
 	- Do *not* flash Xposed, it will *severly* decrease the security of your device
-	- Do *not* use AdAway or any other Adblocker
+	- Do *not* use AdAway or any other Adblocker as a HOSTS list is already included
 	- Flashing of any Gapps is not recommended and most likely won't work.
-	- No browser is installed by default, please install getChromium or IceCat from F-Droid. Chromium will be included in future releases.
+	- No browser is installed by default, please install 'Auto Updater for Chromium' or 'IceCat' from F-Droid. Chromium will be included in future releases.
 	- To enable Cell/Wi-Fi location resolving: Install a UnifiedNlp backend from F-Droid and then go to microG Settings > UnifiedNlp Settings > Configure location backends
+	- To get Play Store apps, install 'Yalp Store' from F-Droid
+	- To pass SafetyNet add 'https://microg.org/fdroid/repo' to your F-Droid repos and install 'MicroG DroidGuard Helper' then enable it under microG Settings > SafetyNet
 
 Recommended Apps
 	- Visit https://spotco.us/faa after flashing to find a very comprehensive list of apps that can replace what you're used to
 
 General Changes
-	- Builds are dex-preopted on capable devices
+	- Builds are dex-preopted on select devices
 	- Builds are signed with private release-keys
 	- Bundled in our custom DNS blocklist
 	- Compiled with OpenJDK 8
@@ -22,7 +24,7 @@ General Changes
 	- Hardened special file systems
 	- Hardened SQLite
 	- Nuked a *ton* of proprietary blobs
-	- Nuked CMAnalytics from orbit
+	- Nuked CMStats from orbit
 	- Removed unnecessary/outdated/insecure packages.
 	- Replaced stock emoji font with EmojiOne (Standardized and Legible)
 	- Updated Chromium WebView
@@ -40,12 +42,10 @@ Device Changes
 	- bacon
 		- Overclocked from 2.45Ghz to 2.95Ghz (=+2.02Ghz)
 		- Underclocked from 300Mhz to 268Mhz
-		- Qualcomm DIAG enabled
 		- Removed bundled Google Widevine DRM and Microsoft PlayReady DRM firmware files
 	- clark
 		- Overclocked a57 from 1.82Ghz to 2.01Ghz, overclocked a53 from 1.44Ghz to 1.63Ghz (=+1.14Ghz)
 		- Underclocked both from 384Mhz to 300Mhz
-		- MMC performance slightly increased
 		- Removed bundled Google Widevine DRM and Microsoft PlayReady DRM firmware files
 	- osprey
 		- Overclocked from 1.57Ghz to 1.94Ghz (=+1.58Ghz)
@@ -61,4 +61,3 @@ Device Changes
 	- bullhead
 		- Overclocked a57 from 1.82Ghz to 2.01Ghz, overclocked a53 from 1.44Ghz to 1.63Ghz (=+1.14Ghz)
 		- Underclocked both from 384Mhz to 300Mhz
-		- MMC performance slightly increased
