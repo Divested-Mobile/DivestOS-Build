@@ -125,7 +125,7 @@ rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core
 #START OF DEVICE CHANGES
 #
 enter "device/motorola/clark"
-git fetch https://review.lineageos.org/LineageOS/android_device_motorola_clark refs/changes/99/160699/1 && git cherry-pick FETCH_HEAD #selinux
+git fetch https://review.lineageos.org/LineageOS/android_device_motorola_clark refs/changes/99/160699/2 && git cherry-pick FETCH_HEAD #selinux
 patch -p1 < $patches"android_device_motorola_clark/0003-Enable_Dex_Preopt.patch" #Force enables dex pre-optimization
 patch -p1 < $patches"android_device_motorola_clark/0004-Remove_Widevine.patch" #Removes Google Widevine and disables the DRM server
 #patch -p1 < $patches"android_device_motorola_clark/0005-TWRP.patch" #Add TWRP support
