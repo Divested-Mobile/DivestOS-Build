@@ -65,23 +65,7 @@
 	<remove-project name="platform/prebuilts/python/darwin-x86/2.7.5" />
 <!-- END OF UNNECESSARY REPO REMOVAL -->
 
-
-<!-- START OF REPLACEMENT REPOS -->
-	<!-- Updated WebView 
-	<remove-project name="platform/external/chromium-webview" />
-	<project path="external/chromium-webview" name="LineageOS/android_external_chromium-webview" remote="github" />-->
-
-	<!-- TWRP
-	<remove-project name="LineageOS/android_bootable_recovery" />
-	<project path="bootable/recovery" name="omnirom/android_bootable_recovery" remote="github" revision="android-7.1" /> -->
-	<!-- <project path="external/busybox" name="omnirom/android_external_busybox" remote="github" revision="android-7.1" />-->
-<!-- END OF REPLACEMENT REPOS -->
-
-
 <!-- START OF ADDITIONAL REPOS -->
-	<!-- Quick Tiles -->
-	<project path="packages/apps/CustomTiles" name="zwliew/android_packages_apps_CustomTiles" remote="github" />
-
 	<!-- MicroG -->
 	<project path="packages/apps/GmsCore" name="microg/android_packages_apps_GmsCore" remote="github" revision="master" />
 	<project path="packages/apps/GsfProxy" name="microg/android_packages_apps_GsfProxy" remote="github" revision="master" />
