@@ -11,7 +11,6 @@
 #LTE Broken (Potentially Unrelated): mako
 
 base="/home/tad/Android/Build/LineageOS-14.1/";
-blobsRemoved=0;
 deblob() {
 	dir=$1;
 	blobList=$2;
@@ -101,8 +100,7 @@ deblob() {
 	grep -vE "("$blobs")" $blobList > $blobList".new"; #Remove the bad blobs from the manifest
 	mv $blobList".new" $blobList; #Move the new list into place
 	delta=$(($(wc -l < $blobList".bak") - $(wc -l < $blobList))); #Calculate the difference in size
-	blobsRemoved=$(($blobsRemoved + $delta));
-	echo "Removed "$delta" blobs from "$dir$blobList; #Inform the user
+	if(($delta > 0)); then echo "Removed "$delta" blobs from "$dir$blobList; fi; #Inform the user
 	sh -c "cd $base$dir && ./setup-makefiles.sh"; #Update the makefiles
 	cd $base;
 }
@@ -114,8 +112,7 @@ deblobMk() {
 	grep -vE "("$blobs")" $mkfile> $mkfile".new"; #Remove the bad blobs from the makefile
 	mv $mkfile".new" $mkfile; #Move the new list into place
 	delta=$(($(wc -l < $mkfile".bak") - $(wc -l < $mkfile))); #Calculate the difference in size
-	blobsRemoved=$(($blobsRemoved + $delta));
-	echo "Removed "$delta" blobs from "$mkfile; #Inform the user
+	if(($delta > 0)); then echo "Removed "$delta" blobs from "$mkfile; fi; #Inform the user
 }
 
 #
@@ -155,6 +152,3 @@ export base;
 export blobs;
 export -f deblobMk;
 find vendor -name "*vendor*.mk" -type f -exec bash -c 'deblobMk "$0"' {} \;
-
-
-echo "Removed "$blobsRemoved" blobs from workspace!";

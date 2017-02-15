@@ -12,7 +12,6 @@
 	<remove-project name="LineageOS/android_external_ant-wireless_ant_native" />
 	<remove-project name="LineageOS/android_external_ant-wireless_ant_service" />
 	<remove-project name="LineageOS/android_external_gello_build" />
-	<remove-project name="LineageOS/android_external_google" />
 	<remove-project name="LineageOS/android_external_unrar" />
 	<remove-project name="LineageOS/android_hardware_intel_common_libmix" />
 	<remove-project name="LineageOS/android_hardware_intel_common_libva" />
