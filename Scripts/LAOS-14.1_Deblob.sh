@@ -10,9 +10,10 @@
 #Fully Functional: bacon, clark
 #LTE Broken (Potentially Unrelated): mako
 
-base="/home/tad/Android/Build/LineageOS-14.1/"
+base="/home/tad/Android/Build/LineageOS-14.1/";
+blobsRemoved=0;
 deblob() {
-	dir=$1
+	dir=$1;
 	blobList=$2;
 	cd $base$dir; #Enter the target directory
 	cp $blobList $blobList".bak";
@@ -100,12 +101,27 @@ deblob() {
 	grep -vE "("$blobs")" $blobList > $blobList".new"; #Remove the bad blobs from the manifest
 	mv $blobList".new" $blobList; #Move the new list into place
 	delta=$(($(wc -l < $blobList".bak") - $(wc -l < $blobList))); #Calculate the difference in size
+	blobsRemoved=$(($blobsRemoved + $delta));
 	echo "Removed "$delta" blobs from "$dir$blobList; #Inform the user
 	sh -c "cd $base$dir && ./setup-makefiles.sh"; #Update the makefiles
 	cd $base;
 }
 
-#Find all using: cd device && find . -name "*proprietary*.txt" | grep -v ".bak"
+deblobMk() {
+	cd $base;
+	mkfile=$1;
+	cp $mkfile $mkfile".bak";
+	grep -vE "("$blobs")" $mkfile> $mkfile".new"; #Remove the bad blobs from the makefile
+	mv $mkfile".new" $mkfile; #Move the new list into place
+	delta=$(($(wc -l < $mkfile".bak") - $(wc -l < $mkfile))); #Calculate the difference in size
+	blobsRemoved=$(($blobsRemoved + $delta));
+	echo "Removed "$delta" blobs from "$mkfile; #Inform the user
+}
+
+#
+#Deblob all the device proprietary-blobs manifests
+#Find all using: cd device && find . -name "*proprietary*.txt"
+#
 deblob "device/amazon/hdx-common/" "proprietary-adreno-files.txt";
 deblob "device/amazon/hdx-common/" "proprietary-files.txt";
 deblob "device/asus/msm8916-common/" "proprietary-files.txt";
@@ -131,3 +147,14 @@ deblob "device/moto/shamu/" "proprietary-blobs.txt";
 echo "vendor/lib/libcneapiclient.so" >> device/oneplus/bacon/proprietary-files-qc.txt; #Commit b7b6d94529e17ce51566aa6509cebab6436b153d disabled CNE but left this binary in the makefile vendor since NetMgr requires it. Without this line rerunning setup-makefiles.sh breaks cell service, since the resulting build will be missing it.
 deblob "device/oneplus/bacon/" "proprietary-files-qc.txt";
 deblob "device/oneplus/bacon/" "proprietary-files.txt";
+
+#
+#Deblob all the makefiles
+#
+export base;
+export blobs;
+export -f deblobMk;
+find vendor -name "*vendor*.mk" -type f -exec bash -c 'deblobMk "$0"' {} \;
+
+
+echo "Removed "$blobsRemoved" blobs from workspace!";
