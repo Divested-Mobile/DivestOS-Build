@@ -1,5 +1,15 @@
 #!/bin/bash
 
+#Goal: Remove as many proprietary blobs without breaking core functionality
+#Outcome: Increased battery/performance/privacy/security, Decreased ROM size
+
+#
+#Device Status (Tested under LineageOS 14.1)
+#
+#Fully Functional: bacon, clark
+#LTE Broken (Potentially Unrelated): mako
+
+
 base="/home/tad/Android/Build/LineageOS-14.1/";
 export base;
 
@@ -86,16 +96,16 @@ deblobDevice() {
 	devicePath=$1;
 	cd $base$devicePath;
 	if [ -f BoardConfig.mk ]; then 
-		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; 
+		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; #Disable CNE
 	fi;
 	if [ -f system.prop ]; then
-		sed -i 's/persist.cne.feature=./persist.cne.feature=0/' system.prop;
-		sed -i 's/persist.dpm.feature=./persist.dpm.feature=0/' system.prop;
-		sed -i 's/persist.gps.qc_nlp_in_use=1/persist.gps.qc_nlp_in_use=0/' system.prop;
-		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi;
+		sed -i 's/persist.cne.feature=./persist.cne.feature=0/' system.prop; #Disable CNE
+		sed -i 's/persist.dpm.feature=./persist.dpm.feature=0/' system.prop; #Disable DPM
+		sed -i 's/persist.gps.qc_nlp_in_use=1/persist.gps.qc_nlp_in_use=0/' system.prop; #Disable QC Location Provider
+		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
 	fi;
 	rm -rf data-ipa-cfg-mgr; #Remove the second half of IPACM
-	rm -rf libshimwvm; #Remove the compatibility module
+	rm -rf libshimwvm; #Remove the Widevine compatibility module
 	if [ -f setup-makefiles.sh ]; then
 		awk -i inplace '!/'$blobs'/' *proprietary*.txt; #Remove all blob references from blob manifest
 		sh -c "cd $base$devicePath && ./setup-makefiles.sh"; #Update the makefiles
@@ -106,7 +116,7 @@ export -f deblobDevice;
 
 deblobVendors() {
 	cd $base;
-	find vendor -regextype posix-extended -regex '.*('$blobs')' -type f -delete;
+	find vendor -regextype posix-extended -regex '.*('$blobs')' -type f -delete; #Delete all blobs
 }
 
 deblobVendor() {
