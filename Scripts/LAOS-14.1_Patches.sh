@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#TODO: Aggressive Doze (Verify Extended Doze First), Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Wallpaper
+#TODO: Aggressive Doze (Verify Extended Doze First), Failed Unlock Shutdown, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Wallpaper
 
 #Hard reset repos
 #repo forall -c 'git add -A && git reset --hard'
@@ -66,18 +66,6 @@ cp /tmp/ar/webview.apk prebuilt/arm64/webview.apk #Update arm64 WebView to Coppe
 enter "external/sqlite"
 patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch" #Enable secure_delete by default
 
-enter "packages/apps/Nfc"
-patch -p1 < $patches"android_packages_apps_Nfc/0001-Disable_NFC.patch" #Disable NFC and NDEF by default
-
-enter "packages/apps/Settings"
-patch -p1 < $patches"android_packages_apps_Settings/0001-Hide_Passwords.patch" #Hide passwords by default
-
-enter "packages/apps/GmsCore"
-patch -p1 < $patches"android_packages_apps_GmsCore/0001-Fixes.patch" #Update output paths and build tools
-
-enter "packages/apps/GsfProxy"
-patch -p1 < $patches"android_packages_apps_GsfProxy/0001-Fixes.patch" #Update output paths and build tools
-
 enter "packages/apps/FakeStore"
 patch -p1 < $patches"android_packages_apps_FakeStore/0001-Fixes.patch" #Update output paths and build tools
 
@@ -106,9 +94,7 @@ patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" 
 
 enter "frameworks/base"
 git revert 2aaa0472da8d254da1f07aa65a664012b52410f4 #re-enable doze on devices without gms
-#patch -p1 < $patches"android_frameworks_base/0002-Failed_Unlock_Shutdown.patch" #Shutdown after five failed unlock attempts FIXME: Update shutdown() to match new args
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
-patch -p1 < $patches"android_frameworks_base/0004-Hide_Passwords.patch" #Hide passwords by default
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core/res/AndroidManifest.xml.orig
 #

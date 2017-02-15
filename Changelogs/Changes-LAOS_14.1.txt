@@ -34,9 +34,6 @@ General Changes
 	- MicroG
 		- GmsCore, GsfProxy, and FakeStore are included by default
 		- Required signature spoofing permission is ONLY granted to signed system apps unlike other ROMs
-	- Settings
-		- NFC and NDEF are disabled by default
-		- Passwords are hidden by default
 
 Device Changes
 	- bacon
