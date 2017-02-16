@@ -92,6 +92,9 @@ enter "packages/apps/CMParts"
 rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of CMStats
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove the rest of CMStats
 
+enter "packages/apps/SetupWizard"
+patch -p1 < $patches"android_packages_apps_SetupWizard/0001-No_GMS.patch" #Disable GMS pages
+
 enter "frameworks/base"
 git revert 2aaa0472da8d254da1f07aa65a664012b52410f4 #re-enable doze on devices without gms
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)

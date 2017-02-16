@@ -21,6 +21,9 @@ export base;
 	#ATFWD (Miracast/Wireless Display)
 	blobs=$blobs"ATFWD-daemon|atfwd.apk";
 
+	#Clearkey (DRM)
+	blobs=$blobs"|libdrmclearkeyplugin.so";
+
 	#CNE Core XXX: Breaks radio
 	#blobs=$blobs"|libcneapiclient.so";
 
