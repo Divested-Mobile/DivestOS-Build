@@ -18,8 +18,11 @@ export base;
 #
 	blobs="";
 
+	#aptX (Bluetooth Audio Compression Codec)
+	blobs=$blobs"libaptX-1.0.0-rel-Android21-ARMv7A.so|libaptXHD-1.0.0-rel-Android21-ARMv7A.so|libaptXScheduler.so|libaptX";
+
 	#ATFWD (Miracast/Wireless Display)
-	blobs=$blobs"ATFWD-daemon|atfwd.apk";
+	blobs=$blobs"|ATFWD-daemon|atfwd.apk";
 
 	#Clearkey (DRM)
 	blobs=$blobs"|libdrmclearkeyplugin.so";
@@ -56,6 +59,9 @@ export base;
 
 	#HDCP (DRM)
 	blobs=$blobs"|libmm-hdcpmgr.so";
+
+	#HTC
+	blobs=$blobs"|htc_drmprov.b00|htc_drmprov.b01|htc_drmprov.b02|htc_drmprov.b03|htc_drmprov.b04|htc_drmprov.b05|htc_drmprov.b06|htc_drmprov.mdt";
 
 	#IPACM (Loadbalances traffic between Cell/Wi-Fi)
 	blobs=$blobs"|ipacm|ipacm-diag";
@@ -102,6 +108,7 @@ deblobDevice() {
 		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; #Disable CNE
 	fi;
 	if [ -f system.prop ]; then
+		sed -i 's/persist.bt.enableAptXHD=true/persist.bt.enableAptXHD=false' system.prop; #Disable aptX
 		sed -i 's/persist.cne.feature=./persist.cne.feature=0/' system.prop; #Disable CNE
 		sed -i 's/persist.dpm.feature=./persist.dpm.feature=0/' system.prop; #Disable DPM
 		sed -i 's/persist.gps.qc_nlp_in_use=1/persist.gps.qc_nlp_in_use=0/' system.prop; #Disable QC Location Provider

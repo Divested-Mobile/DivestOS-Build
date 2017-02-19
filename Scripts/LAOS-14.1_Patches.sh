@@ -6,7 +6,7 @@
 #repo forall -c 'git add -A && git reset --hard'
 
 #Delete Everything
-#rm -rf build vendor/cm device/motorola/clark device/oneplus/bacon device/lge/mako kernel/lge/mako kernel/oneplus/msm8974 kernel/motorola/msm8992 packages/apps/Settings frameworks/base build system/core external/sqlite packages/apps/Nfc packages/apps/Settings packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/FakeStore kernel/lge/hammerhead kernel/moto/shamu bootable/recovery packages/apps/CMParts vendor/cmsdk packages/apps/SetupWizard
+#rm -rf build external/noto-fonts system/core external/chromium-webview external/sqlite packages/apps/FakeStore packages/apps/IchnaeaNlpBackend packages/apps/FDroid packages/apps/FDroidPrivilegedExtension vendor/cm packages/apps/CMParts packages/apps/SetupWizard
 
 #Start a build
 #repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export WITH_SU=true && export ANDROID_HOME="/home/tad/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && brunch mako && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch thor
@@ -140,7 +140,7 @@ patch -p1 < $patches"android_kernel_lge_bullhead/0001-OverUnderClock.patch" #a57
 patch -p1 < $patches"android_kernel_lge_bullhead/0002-MMC_Tweak.patch" #Improves MMC performance
 
 enter "kernel/motorola/msm8916"
-patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch" #1.57Ghz -> 1.94Ghz	=+ 1.58Ghz
+patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch" #1.36Ghz -> 1.88Ghz	=+ 2.07Ghz
 #
 #END OF DEVICE CHANGES
 #
