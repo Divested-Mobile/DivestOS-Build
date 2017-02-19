@@ -18,14 +18,23 @@ export base;
 #
 	blobs="";
 
+	#Alipay (Alibaba Payment Platform)
+	blobs=$blobs"alipay.b00|alipay.b01|alipay.b02|alipay.b03|alipay.b04|alipay.b05|alipay.b06|alipay.mdt";
+
 	#aptX (Bluetooth Audio Compression Codec)
-	blobs=$blobs"libaptX-1.0.0-rel-Android21-ARMv7A.so|libaptXHD-1.0.0-rel-Android21-ARMv7A.so|libaptXScheduler.so|libaptX";
+	blobs=$blobs"|libaptX-1.0.0-rel-Android21-ARMv7A.so|libaptXHD-1.0.0-rel-Android21-ARMv7A.so|libaptXScheduler.so";
 
 	#ATFWD (Miracast/Wireless Display)
 	blobs=$blobs"|ATFWD-daemon|atfwd.apk";
 
+	#Chromatix (Camera Presets) XXX: UNTESTED
+	#blobs=$blobs"|chromatix";
+
 	#Clearkey (DRM)
 	blobs=$blobs"|libdrmclearkeyplugin.so";
+
+	#CMN (DRM)
+	blobs=$blobs"|cmnlib.b00|cmnlib.b01|cmnlib.b02|cmnlib.b03|cmnlib.b04|cmnlib.b05|cmnlib.mdt|cmnlib64.b00|cmnlib64.b01|cmnlib64.b02|cmnlib64.b03|cmnlib64.b04|cmnlib64.b05|cmnlib64.mdt";
 
 	#CNE Core XXX: Breaks radio
 	#blobs=$blobs"|libcneapiclient.so";
@@ -58,7 +67,7 @@ export base;
 	#blobs=$blobs"|flp.conf|flp.default.so|flp.msm8084.so|flp.msm8960.so|gpsd|gps.msm8084.so|gps.msm8960.so|libflp.so|libgps.utils.so|libloc_api_v02.so|libloc_core.so|libloc_ds_api.so|libloc_eng.so|libloc_ext.so";
 
 	#HDCP (DRM)
-	blobs=$blobs"|libmm-hdcpmgr.so";
+	blobs=$blobs"|libmm-hdcpmgr.so|hdcp1.b00|hdcp1.b01|hdcp1.b02|hdcp1.b03|hdcp1.b04|hdcp1.b05|hdcp1.b06|hdcp1.mdt";
 
 	#HTC
 	blobs=$blobs"|htc_drmprov.b00|htc_drmprov.b01|htc_drmprov.b02|htc_drmprov.b03|htc_drmprov.b04|htc_drmprov.b05|htc_drmprov.b06|htc_drmprov.mdt";
@@ -79,7 +88,7 @@ export base;
 	blobs=$blobs"|AppDirectedSMSProxy.apk|BuaContactAdapter.apk|com.motorola.DirectedSMSProxy.xml|com.motorola.motosignature.jar|com.motorola.motosignature.xml|com.motorola.triggerenroll.xml|MotoSignatureApp.apk|TriggerEnroll.apk|TriggerTrainingService.apk";
 
 	#QTI (Tethering Extensions)
-	blobs=$blobs"|libQtiTether.so|QtiTetherService.apk";
+	blobs=$blobs"|libconnctrl.so|libQtiTether.so|QtiTetherService.apk";
 
 	#Sprint
 	blobs=$blobs"|com.android.omadm.service.xml|ConnMO.apk|CQATest.apk|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|GCS.apk|HiddenMenu.apk|libdmengine.so|libdmjavaplugin.so|LifetimeData.apk|SprintDM.apk|SprintHM.apk|whitelist_com.android.omadm.service.xml";
