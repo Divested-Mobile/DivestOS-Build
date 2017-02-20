@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#Background: Devices before 2013 shipped with less then 50 blobs, now they ship with 50-400 blobs
+#Background: Devices before 2013 shipped with less then 50 blobs, now they ship with 50-300 blobs
 #Goal: Remove as many proprietary blobs without breaking core functionality
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
 
@@ -70,7 +70,7 @@ export base;
 	blobs=$blobs"|libmm-hdcpmgr.so|hdcp1.b00|hdcp1.b01|hdcp1.b02|hdcp1.b03|hdcp1.b04|hdcp1.b05|hdcp1.b06|hdcp1.mdt|tzhdcp.b00|tzhdcp.b01|tzhdcp.b02|tzhdcp.b03|tzhdcp.mdt";
 
 	#HTC
-	blobs=$blobs"|htc_drmprov.b00|htc_drmprov.b01|htc_drmprov.b02|htc_drmprov.b03|htc_drmprov.b04|htc_drmprov.b05|htc_drmprov.b06|htc_drmprov.mdt";
+	blobs=$blobs"|htc_drmprov.b00|htc_drmprov.b01|htc_drmprov.b02|htc_drmprov.b03|htc_drmprov.b04|htc_drmprov.b05|htc_drmprov.b06|htc_drmprov.mdt|gptauuid.xml|gpsample.mbn";
 
 	#IPACM (Loadbalances traffic between Cell/Wi-Fi)
 	blobs=$blobs"|ipacm|ipacm-diag";
