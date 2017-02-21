@@ -32,8 +32,8 @@ export base;
 	#ATFWD (Miracast/Wireless Display)
 	blobs=$blobs"|ATFWD-daemon|atfwd.apk";
 
-	#Audio Effects TODO: TEST THIS
-	#blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so";
+	#AudioFX (Audio Effects)
+	blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so";
 
 	#Camera XXX: I tried, don't waste your time...
 	#FUN FACT: The Huawei Honor 5x ships with eight-hundred-and-thirty-five (*835*) proprietary camera blobs.
