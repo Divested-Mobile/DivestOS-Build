@@ -27,8 +27,7 @@ export base;
 	#ATFWD (Miracast/Wireless Display)
 	blobs=$blobs"|ATFWD-daemon|atfwd.apk";
 
-	#Chromatix (Camera Presets) XXX: UNTESTED
-	#blobs=$blobs"|chromatix";
+	#Camera XXX: I tried, don't waste your time..., 
 
 	#Clearkey (DRM)
 	blobs=$blobs"|libdrmclearkeyplugin.so";
@@ -82,10 +81,10 @@ export base;
 	blobs=$blobs"|playread.b00|playread.b01|playread.b02|playread.b03|playread.mdt";
 
 	#Misc
-	blobs=$blobs"|libuiblur.so|libwifiscanner.so";
+	blobs=$blobs"|libjni_latinime.so|libuiblur.so|libwifiscanner.so";
 
 	#Motorola
-	blobs=$blobs"|AppDirectedSMSProxy.apk|BuaContactAdapter.apk|com.motorola.DirectedSMSProxy.xml|com.motorola.motosignature.jar|com.motorola.motosignature.xml|com.motorola.triggerenroll.xml|MotoSignatureApp.apk|TriggerEnroll.apk|TriggerTrainingService.apk";
+	blobs=$blobs"|AppDirectedSMSProxy.apk|BuaContactAdapter.apk|com.motorola.DirectedSMSProxy.xml|com.motorola.motosignature.jar|com.motorola.motosignature.xml|com.motorola.camera.xml|com.motorola.gallery.xml|com.motorola.triggerenroll.xml|MotoSignatureApp.apk|TriggerEnroll.apk|TriggerTrainingService.apk";
 
 	#QTI (Tethering Extensions)
 	blobs=$blobs"|libQtiTether.so|QtiTetherService.apk";
