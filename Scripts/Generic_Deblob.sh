@@ -32,7 +32,11 @@ export base;
 	#ATFWD (Miracast/Wireless Display)
 	blobs=$blobs"|ATFWD-daemon|atfwd.apk";
 
+	#Audio Effects TODO: TEST THIS
+	#blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so";
+
 	#Camera XXX: I tried, don't waste your time...
+	#FUN FACT: The Huawei Honor 5x ships with eight-hundred-and-thirty-five (*835*) proprietary camera blobs.
 	#blobs=$blobs"|";
 
 	#Clearkey (DRM)
@@ -52,6 +56,9 @@ export base;
 
 	#Discretix (DRM/HDCP)
 	blobs=$blobs"|discretix|DxHDCP.cfg|dxhdcp2.b00|dxhdcp2.b01|dxhdcp2.b02|dxhdcp2.b03|dxhdcp2.mdt|libDxHdcp.so";
+
+	#Display Color Tuning TODO: TEST THIS
+	#blobs=$blobs"|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|mm-pp-daemon";
 
 	#DivX (DRM)
 	blobs=$blobs"|libDivxDrm.so|libSHIMDivxDrm.so";
@@ -77,6 +84,9 @@ export base;
 	#HTC
 	blobs=$blobs"|htc_drmprov.b00|htc_drmprov.b01|htc_drmprov.b02|htc_drmprov.b03|htc_drmprov.b04|htc_drmprov.b05|htc_drmprov.b06|htc_drmprov.mdt|gptauuid.xml|gpsample.mbn";
 
+	#I/O Prefetcher TODO: TEST THIS
+	#blobs=$blobs"|iop|libqti-iop-client.so|libqti-iop.so";
+
 	#IPACM (Loadbalances traffic between Cell/Wi-Fi)
 	blobs=$blobs"|ipacm|ipacm-diag";
 
@@ -92,6 +102,9 @@ export base;
 	#Motorola
 	blobs=$blobs"|AppDirectedSMSProxy.apk|BuaContactAdapter.apk|com.motorola.DirectedSMSProxy.xml|com.motorola.motosignature.jar|com.motorola.motosignature.xml|com.motorola.camera.xml|com.motorola.gallery.xml|com.motorola.triggerenroll.xml|MotoSignatureApp.apk|TriggerEnroll.apk|TriggerTrainingService.apk";
 
+	#Performance Profiles
+	#blobs=$blobs"|libqc-opt.so|libqti-perfd-client.so|mpdecision|msm_irqbalance|perfd|perf-profile0.conf|perf-profile1.conf|perf-profile2.conf|perf-profile3.conf|perf-profile4.conf|perf-profile5.conf";
+
 	#QTI (Tethering Extensions)
 	blobs=$blobs"|libQtiTether.so|QtiTetherService.apk";
 
@@ -100,6 +113,9 @@ export base;
 
 	#Sprint
 	blobs=$blobs"|com.android.omadm.service.xml|ConnMO.apk|CQATest.apk|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|GCS.apk|HiddenMenu.apk|libdmengine.so|libdmjavaplugin.so|LifetimeData.apk|SprintDM.apk|SprintHM.apk|whitelist_com.android.omadm.service.xml";
+
+	#Thermal Throttling
+	#blobs=$blobs"|libthermalclient.so|libthermalioctl.so|thermal-engine";
 
 	#Time Service XXX: Breaks time, can be replaced with https://github.com/LineageOS/android_hardware_sony_timekeep
 	#blobs=$blobs"|libtime_genoff.so|libTimeService.so|time_daemon|TimeService.apk";
