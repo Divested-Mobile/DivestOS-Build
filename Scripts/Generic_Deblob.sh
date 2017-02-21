@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#Background: Devices before 2013 shipped with less then 50 blobs, now they ship with 50-300 blobs
 #Goal: Remove as many proprietary blobs without breaking core functionality
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
 
@@ -18,6 +17,12 @@ export base;
 #
 	blobs="";
 
+	#ACDB (Audio Configurations) XXX: Breaks audio output
+	#blobs=$blobs"acdb";
+
+	#ADSP/Hexagon (Hardware Audio Decoding)
+	#blobs=$blobs"adsprpcd|libadsprpc.so|libadsprpc.so|libfastcvadsp_stub.so|libfastcvopt.so|libadsp_fd_skel.so";
+
 	#Alipay (Alibaba Payment Platform)
 	blobs=$blobs"alipay.b00|alipay.b01|alipay.b02|alipay.b03|alipay.b04|alipay.b05|alipay.b06|alipay.mdt";
 
@@ -27,7 +32,8 @@ export base;
 	#ATFWD (Miracast/Wireless Display)
 	blobs=$blobs"|ATFWD-daemon|atfwd.apk";
 
-	#Camera XXX: I tried, don't waste your time..., 
+	#Camera XXX: I tried, don't waste your time...
+	#blobs=$blobs"|";
 
 	#Clearkey (DRM)
 	blobs=$blobs"|libdrmclearkeyplugin.so";
@@ -105,7 +111,7 @@ export base;
 	blobs=$blobs"|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.provider.xml|VerizonUnifiedSettings.jar|VZWAPNLib.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.xml";
 
 	#Voice Recognition
-	blobs=$blobs"|aonvr1.bin|aonvr2.bin|audiomonitor|HotwordEnrollment.apk|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|sound_trigger.primary.msm8916.so|sound_trigger.primary.msm8996.so";
+	blobs=$blobs"|aonvr1.bin|aonvr2.bin|audiomonitor|es305_fw.bin|HotwordEnrollment.apk|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|sound_trigger.primary.msm8916.so|sound_trigger.primary.msm8996.so";
 
 	export blobs;
 #
