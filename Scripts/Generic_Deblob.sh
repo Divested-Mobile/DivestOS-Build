@@ -58,7 +58,7 @@ export base;
 	blobs=$blobs"|discretix|DxHDCP.cfg|dxhdcp2.b00|dxhdcp2.b01|dxhdcp2.b02|dxhdcp2.b03|dxhdcp2.mdt|libDxHdcp.so";
 
 	#Display Color Tuning TODO: TEST THIS
-	#blobs=$blobs"|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|mm-pp-daemon";
+	blobs=$blobs"|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|mm-pp-daemon";
 
 	#DivX (DRM)
 	blobs=$blobs"|libDivxDrm.so|libSHIMDivxDrm.so";
@@ -85,7 +85,7 @@ export base;
 	blobs=$blobs"|htc_drmprov.b00|htc_drmprov.b01|htc_drmprov.b02|htc_drmprov.b03|htc_drmprov.b04|htc_drmprov.b05|htc_drmprov.b06|htc_drmprov.mdt|gptauuid.xml|gpsample.mbn";
 
 	#I/O Prefetcher TODO: TEST THIS
-	#blobs=$blobs"|iop|libqti-iop-client.so|libqti-iop.so";
+	blobs=$blobs"|iop|libqti-iop-client.so|libqti-iop.so";
 
 	#IPACM (Loadbalances traffic between Cell/Wi-Fi)
 	blobs=$blobs"|ipacm|ipacm-diag";
@@ -178,6 +178,7 @@ export -f deblobVendor;
 #
 #START OF DEBLOBBING
 #
+echo "vendor/lib/libcneapiclient.so" >> device/oneplus/bacon/proprietary-files-qc.txt; #Commit b7b6d94529e17ce51566aa6509cebab6436b153d disabled CNE but left this binary in the makefile vendor since NetMgr requires it. Without this line rerunning setup-makefiles.sh breaks cell service, since the resulting build will be missing it.
 find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \; #Deblob all device directories
 find vendor -name "*vendor*.mk" -type f -exec bash -c 'deblobVendor "$0"' {} \; #Deblob all makefiles
 deblobVendors; #Deblob entire vendor directory
