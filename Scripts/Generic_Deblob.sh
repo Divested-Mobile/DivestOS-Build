@@ -57,7 +57,7 @@ export base;
 	#Discretix (DRM/HDCP)
 	blobs=$blobs"|discretix|DxHDCP.cfg|dxhdcp2.b00|dxhdcp2.b01|dxhdcp2.b02|dxhdcp2.b03|dxhdcp2.mdt|libDxHdcp.so";
 
-	#Display Color Tuning TODO: TEST THIS
+	#Display Color Tuning
 	blobs=$blobs"|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|mm-pp-daemon";
 
 	#DivX (DRM)
@@ -84,7 +84,7 @@ export base;
 	#HTC
 	blobs=$blobs"|htc_drmprov.b00|htc_drmprov.b01|htc_drmprov.b02|htc_drmprov.b03|htc_drmprov.b04|htc_drmprov.b05|htc_drmprov.b06|htc_drmprov.mdt|gptauuid.xml|gpsample.mbn";
 
-	#I/O Prefetcher TODO: TEST THIS
+	#I/O Prefetcher
 	blobs=$blobs"|iop|libqti-iop-client.so|libqti-iop.so";
 
 	#IPACM (Loadbalances traffic between Cell/Wi-Fi)
