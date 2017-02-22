@@ -2,9 +2,6 @@
 
 #TODO: Aggressive Doze (Verify Extended Doze First), Failed Unlock Shutdown, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Wallpaper
 
-#Speedup
-#export TZ=:/etc/localtime
-
 #Hard reset repos
 #repo forall -c 'git add -A && git reset --hard'
 

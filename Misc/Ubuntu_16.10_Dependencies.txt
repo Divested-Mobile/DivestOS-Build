@@ -8,3 +8,4 @@ sudo apt-get install autoconf automake bc bison build-essential ccache curl expa
 
 echo "export EXPERIMENTAL_USE_JAVA8=true" >> .bashrc
 echo 'export PATH=$PATH:~/Chromium/depot_tools' >> .bashrc
+echo "export TZ=:/etc/localtime" >> .bashrc
