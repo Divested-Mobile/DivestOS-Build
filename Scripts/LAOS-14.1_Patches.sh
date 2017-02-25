@@ -42,6 +42,8 @@ enter() {
 enableDexPreOpt() {
 	echo "WITH_DEXPREOPT := true" >> BoardConfig.mk
 }
+
+rm -rf packages/apps/GsfProxy/services-framework-proxy/build packages/apps/GmsCore/play-services-core/build
 #
 #END OF PREPRATION
 #
@@ -117,7 +119,7 @@ enter "device/oneplus/bacon"
 enableDexPreOpt
 patch -p1 < $patches"android_device_oneplus_bacon/0001-Remove_DRM.patch" #Removes Microsoft PlayReady and Google Widevine
 
-enter "kernel/oneplus/msm8974" #Consider switching to https://github.com/erorcun/android_kernel_oneplus_msm8974-3.10
+enter "kernel/oneplus/msm8974"
 #patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock.patch" #300Mhz -> 268Mhz, 2.45Ghz -> 2.88Ghz	=+1.72Ghz
 patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock-EXTREME.patch" #300Mhz -> 268Mhz, 2.45Ghz -> 2.95Ghz	=+2.02Ghz XXX: Not 100% stable under intense workloads
 

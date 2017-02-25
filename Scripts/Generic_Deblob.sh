@@ -2,6 +2,7 @@
 
 #Goal: Remove as many proprietary blobs without breaking core functionality
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
+#TODO: Automate TimeKeep replacing, Clean Android.mk, Clean init*.rc files, Create TWRP version, Remove more variants
 
 #
 #Device Status (Tested under LineageOS 14.1)
@@ -180,6 +181,7 @@ echo "vendor/lib/libcneapiclient.so" >> device/oneplus/bacon/proprietary-files-q
 find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \; #Deblob all device directories
 find vendor -name "*vendor*.mk" -type f -exec bash -c 'deblobVendor "$0"' {} \; #Deblob all makefiles
 deblobVendors; #Deblob entire vendor directory
+rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove the rest of Clearkey DRM
 #
 #END OF DEBLOBBING
 #
