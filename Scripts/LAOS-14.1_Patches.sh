@@ -22,9 +22,9 @@ ANDROID_HOME="/home/tad/Android/SDK"
 #Download some out-of-tree files for use later on
 mkdir -p /tmp/ar
 cd /tmp/ar
-wget https://spotco.us/hosts -N
-wget https://gitlab.com/copperhead/platform_external_chromium-webview/raw/nougat-mr1.1-release/prebuilt/arm64/webview.apk -N
-wget https://github.com/Ranks/emojione/raw/master/assets/fonts/emojione-android.ttf -N
+wget https://spotco.us/hosts -N #XXX: Non-commercial use only + Requires attribuition of all 63 lists
+wget https://gitlab.com/copperhead/platform_external_chromium-webview/raw/nougat-mr1.1-release/prebuilt/arm64/webview.apk -N #XXX: Non-commercial use only
+wget https://github.com/Ranks/emojione/raw/master/assets/fonts/emojione-android.ttf -N #XXX: Requires attribuition
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
 mkdir -p "$ANDROID_HOME/licenses"
