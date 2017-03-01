@@ -23,7 +23,6 @@ ANDROID_HOME="/home/tad/Android/SDK"
 mkdir -p /tmp/ar
 cd /tmp/ar
 wget https://spotco.us/hosts -N #XXX: Non-commercial use only + Requires attribuition of all 63 lists
-wget https://gitlab.com/copperhead/platform_external_chromium-webview/raw/nougat-mr1.1-release/prebuilt/arm64/webview.apk -N #XXX: Non-commercial use only
 wget https://github.com/Ranks/emojione/raw/master/assets/fonts/emojione-android.ttf -N #XXX: Requires attribuition
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
@@ -61,9 +60,6 @@ cp /tmp/ar/emojione-android.ttf other/NotoColorEmoji.ttf #Change emoji font to E
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 patch -p1 < $patches"android_system_core/0001-Hardening.patch" #Misc hardening
-
-enter "external/chromium-webview"
-cp /tmp/ar/webview.apk prebuilt/arm64/webview.apk #Update arm64 WebView to Copperhead's
 
 enter "external/sqlite"
 patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch" #Enable secure_delete by default
