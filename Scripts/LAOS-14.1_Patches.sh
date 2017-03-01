@@ -86,6 +86,7 @@ enter "vendor/cm"
 rm -rf gello #Gello is built out-of-tree and bundles Google Play Services library
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
+sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dsc/' config/common.mk;
 
 enter "packages/apps/CMParts"
 rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of CMStats

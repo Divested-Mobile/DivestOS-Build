@@ -1,4 +1,4 @@
-Last Updated: 02/26/2017
+Last Updated: 02/28/2017
 Credits: LineageOS, CyanogenMod, CopperheadOS, OmniROM, TeamWin, F-Droid, MicroG, EmojiOne, anarkia1976, bhb27, Daniel Micay, dirtyhank, Evisceration, faux123, flar2, franciscofranco, hellsgod, mar-v-in, mimi89999, nikhil18, nvllsvm, savoca, stefano.villa1976, WedyDQ10, XileForce
 
 Super Important Stuff
@@ -27,7 +27,6 @@ General Changes
 	- Nuked CMStats from orbit
 	- Removed unnecessary/outdated/insecure packages.
 	- Replaced stock emoji font with EmojiOne (Standardized and Legible)
-	- Updated Chromium WebView
 	- F-Droid
 		- F-Droid and FDroidPrivilegedExtension are included by default
 		- FDroidPrivilegedExtension ONLY allows access to our signed version of F-Droid
