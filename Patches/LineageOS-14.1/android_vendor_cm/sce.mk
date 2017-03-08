@@ -9,3 +9,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     F-Droid \
     FDroidPrivilegedExtension
+
+PRODUCT_PACKAGES += \
+    CustomTiles

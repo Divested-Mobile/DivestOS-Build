@@ -65,6 +65,8 @@
 <!-- END OF UNNECESSARY REPO REMOVAL -->
 
 <!-- START OF ADDITIONAL REPOS -->
+	<project path="packages/apps/CustomTiles" name="LineageOS/android_packages_apps_CustomTiles" remote="github" revision="master" />
+
 	<!-- MicroG -->
 	<project path="packages/apps/GmsCore" name="microg/android_packages_apps_GmsCore" remote="github" revision="master" />
 	<project path="packages/apps/GsfProxy" name="microg/android_packages_apps_GsfProxy" remote="github" revision="master" />
@@ -155,7 +157,6 @@
 	<project path="vendor/oneplus" name="TheMuppets/proprietary_vendor_oneplus" remote="github" />
 	<project path="vendor/oppo" name="TheMuppets/proprietary_vendor_oppo" remote="github" />
 	<project path="vendor/samsung" name="TheMuppets/proprietary_vendor_samsung" remote="github" />
-	<project path="vendor/qcom/binaries" name="TheMuppets/proprietary_vendor_qcom_binaries" remote="github" />
 <!-- END OF DEVICE REPOS -->
 
 </manifest>

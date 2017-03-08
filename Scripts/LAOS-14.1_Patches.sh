@@ -6,7 +6,7 @@
 #repo forall -c 'git add -A && git reset --hard'
 
 #Delete Everything
-#rm -rf build external/noto-fonts system/core external/chromium-webview external/sqlite packages/apps/FakeStore packages/apps/IchnaeaNlpBackend packages/apps/FDroid packages/apps/FDroidPrivilegedExtension vendor/cm packages/apps/CMParts packages/apps/SetupWizard
+#rm -rf build external/noto-fonts external/sqlite frameworks/base packages/apps/CMParts packages/apps/FakeStore packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/IchnaeaNlpBackend packages/apps/SetupWizard system/core vendor/cm out
 
 #Start a build
 #repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export WITH_SU=true && export ANDROID_HOME="/home/tad/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && brunch mako && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch clark && brunch bacon && brunch thor
@@ -22,7 +22,7 @@ ANDROID_HOME="/home/tad/Android/SDK"
 #Download some out-of-tree files for use later on
 mkdir -p /tmp/ar
 cd /tmp/ar
-wget https://spotco.us/hosts -N #XXX: Non-commercial use only + Requires attribuition of all 63 lists
+wget https://spotco.us/hosts -N #XXX: Hosts is built from non-commercial use files, switch to /hsc for release
 wget https://github.com/Ranks/emojione/raw/master/assets/fonts/emojione-android.ttf -N #XXX: Requires attribuition
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
@@ -41,8 +41,6 @@ enter() {
 enableDexPreOpt() {
 	echo "WITH_DEXPREOPT := true" >> BoardConfig.mk
 }
-
-rm -rf packages/apps/GsfProxy/services-framework-proxy/build packages/apps/GmsCore/play-services-core/build
 #
 #END OF PREPRATION
 #
