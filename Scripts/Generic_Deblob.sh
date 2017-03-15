@@ -138,11 +138,11 @@ deblobDevice() {
 	devicePath=$1;
 	cd $base$devicePath;
 	if [ -f Android.mk ]; then
-		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Don't ship CMN (DRM) firmware
-		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(DXHDCP2_SYMLINKS)//' Android.mk; #Don't ship Discretix (DRM/HDCP) firmware
-		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(PLAYREADY_SYMLINKS)//' Android.mk; #Don't ship Microsoft Playready (DRM) firmware
-		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WIDEVINE_SYMLINKS)//' Android.mk; #Don't ship Google Widevine (DRM) firmware
-		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WV_SYMLINKS)//' Android.mk; #Don't ship Google Widevine (DRM) firmware
+		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Remove CMN firmware
+		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(DXHDCP2_SYMLINKS)//' Android.mk; #Remove Discretix firmware
+		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(PLAYREADY_SYMLINKS)//' Android.mk; #Remove Microsoft Playready firmware
+		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WIDEVINE_SYMLINKS)//' Android.mk; #Remove Google Widevine firmware
+		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WV_SYMLINKS)//' Android.mk; #Remove Google Widevine firmware
 	fi;
 	if [ -f BoardConfig.mk ]; then 
 		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; #Disable CNE
@@ -154,8 +154,8 @@ deblobDevice() {
 		sed -i 's/persist.gps.qc_nlp_in_use=1/persist.gps.qc_nlp_in_use=0/' system.prop; #Disable QC Location Provider
 		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
 	fi;
-	rm -rf data-ipa-cfg-mgr; #Remove the second half of IPACM
-	rm -rf libshimwvm; #Remove the Google Widevine (DRM) compatibility module
+	rm -rf data-ipa-cfg-mgr; #Remove IPACM
+	rm -rf libshimwvm; #Remove Google Widevine compatibility module
 	if [ -f setup-makefiles.sh ]; then
 		awk -i inplace '!/'$blobs'/' *proprietary*.txt; #Remove all blob references from blob manifest
 		sh -c "cd $base$devicePath && ./setup-makefiles.sh"; #Update the makefiles
@@ -186,7 +186,7 @@ echo "vendor/lib/libcneapiclient.so" >> device/oneplus/bacon/proprietary-files-q
 find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \; #Deblob all device directories
 find vendor -name "*vendor*.mk" -type f -exec bash -c 'deblobVendor "$0"' {} \; #Deblob all makefiles
 deblobVendors; #Deblob entire vendor directory
-rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove the rest of Clearkey DRM
+rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove Clearkey (DRM)
 #
 #END OF DEBLOBBING
 #
