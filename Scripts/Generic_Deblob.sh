@@ -2,7 +2,7 @@
 
 #Goal: Remove as many proprietary blobs without breaking core functionality
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
-#TODO: Automate TimeKeep replacing, Clean Android.mk, Clean init*.rc files, Create TWRP version, Remove more variants
+#TODO: Automate TimeKeep replacing, Clean init*.rc files, Create TWRP version, Remove more variants
 
 #
 #Device Status (Tested under LineageOS 14.1)
@@ -137,6 +137,10 @@ export base;
 deblobDevice() {
 	devicePath=$1;
 	cd $base$devicePath;
+	if [ -f Android.mk ]; then
+		sed -i 's/$(PLAYREADY_SYMLINKS)//' Android.mk; #Don't ship Microsoft Playready (DRM) firmware
+		sed -i 's/$(WV_SYMLINKS)//' Android.mk; #Don't ship Google Widevine (DRM) firmware
+	fi;
 	if [ -f BoardConfig.mk ]; then 
 		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; #Disable CNE
 	fi;
@@ -148,7 +152,7 @@ deblobDevice() {
 		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
 	fi;
 	rm -rf data-ipa-cfg-mgr; #Remove the second half of IPACM
-	rm -rf libshimwvm; #Remove the Widevine compatibility module
+	rm -rf libshimwvm; #Remove the Google Widevine (DRM) compatibility module
 	if [ -f setup-makefiles.sh ]; then
 		awk -i inplace '!/'$blobs'/' *proprietary*.txt; #Remove all blob references from blob manifest
 		sh -c "cd $base$devicePath && ./setup-makefiles.sh"; #Update the makefiles

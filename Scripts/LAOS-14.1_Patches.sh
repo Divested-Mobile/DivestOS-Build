@@ -106,7 +106,6 @@ rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core
 #
 enter "device/motorola/clark"
 enableDexPreOpt
-patch -p1 < $patches"android_device_motorola_clark/0004-Remove_Widevine.patch" #Removes Google Widevine and disables the DRM server
 
 enter "kernel/motorola/msm8992"
 patch -p1 < $patches"android_kernel_motorola_msm8992/0001-OverUnderClock.patch" #a57: 1.82Ghz -> 2.01Ghz, a53 1.44Ghz -> 1.63Ghz, 384Mhz -> 300Mhz	=+1.14Ghz TODO: Enable by default
@@ -114,7 +113,6 @@ patch -p1 < $patches"android_kernel_motorola_msm8992/0002-MMC_Tweak.patch" #Impr
 
 enter "device/oneplus/bacon"
 enableDexPreOpt
-patch -p1 < $patches"android_device_oneplus_bacon/0001-Remove_DRM.patch" #Removes Microsoft PlayReady and Google Widevine
 
 enter "kernel/oneplus/msm8974"
 #patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock.patch" #300Mhz -> 268Mhz, 2.45Ghz -> 2.88Ghz	=+1.72Ghz
