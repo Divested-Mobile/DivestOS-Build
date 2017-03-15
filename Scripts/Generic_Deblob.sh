@@ -138,8 +138,8 @@ deblobDevice() {
 	devicePath=$1;
 	cd $base$devicePath;
 	if [ -f Android.mk ]; then
-		sed -i 's/$(PLAYREADY_SYMLINKS)//' Android.mk; #Don't ship Microsoft Playready (DRM) firmware
-		sed -i 's/$(WV_SYMLINKS)//' Android.mk; #Don't ship Google Widevine (DRM) firmware
+		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(PLAYREADY_SYMLINKS)//' Android.mk; #Don't ship Microsoft Playready (DRM) firmware
+		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WV_SYMLINKS)//' Android.mk; #Don't ship Google Widevine (DRM) firmware
 	fi;
 	if [ -f BoardConfig.mk ]; then 
 		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; #Disable CNE
