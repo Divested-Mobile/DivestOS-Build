@@ -138,7 +138,10 @@ deblobDevice() {
 	devicePath=$1;
 	cd $base$devicePath;
 	if [ -f Android.mk ]; then
+		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Don't ship CMN (DRM) firmware
+		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(DXHDCP2_SYMLINKS)//' Android.mk; #Don't ship Discretix (DRM/HDCP) firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(PLAYREADY_SYMLINKS)//' Android.mk; #Don't ship Microsoft Playready (DRM) firmware
+		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WIDEVINE_SYMLINKS)//' Android.mk; #Don't ship Google Widevine (DRM) firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WV_SYMLINKS)//' Android.mk; #Don't ship Google Widevine (DRM) firmware
 	fi;
 	if [ -f BoardConfig.mk ]; then 
