@@ -1,0 +1,34 @@
+From 90b0885a265a65230691d9ee8544ae2b817fd2d3 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Wed, 15 Mar 2017 12:51:35 -0400
+Subject: [PATCH] TEMPORARY fix camera not working on user builds
+
+Change-Id: I7590d396599fdbccba884391b333e309dbea4bb5
+---
+ common/mediaserver.te | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/common/mediaserver.te b/common/mediaserver.te
+index 4c6c024..b0a6801 100644
+--- a/common/mediaserver.te
++++ b/common/mediaserver.te
+@@ -13,12 +13,10 @@ binder_call(mediaserver, rild)
+ qmux_socket(mediaserver)
+ allow mediaserver camera_data_file:sock_file w_file_perms;
+ 
+-userdebug_or_eng(`
+-  allow mediaserver camera_data_file:dir rw_dir_perms;
+-  allow mediaserver camera_data_file:file create_file_perms;
+-  # Access to audio
+-  #allow mediaserver debugfs:file rw_file_perms;
+-')
++allow mediaserver camera_data_file:dir rw_dir_perms;
++allow mediaserver camera_data_file:file create_file_perms;
++# Access to audio
++#allow mediaserver debugfs:file rw_file_perms;
+ 
+ r_dir_file(mediaserver, sysfs_esoc)
+ allow mediaserver system_app_data_file:file rw_file_perms;
+-- 
+2.9.3
+

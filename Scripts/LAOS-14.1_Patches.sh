@@ -97,6 +97,9 @@ git revert 2aaa0472da8d254da1f07aa65a664012b52410f4 #re-enable doze on devices w
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core/res/AndroidManifest.xml.orig
+
+enter "device/qcom/sepolicy"
+patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix camera on user builds
 #
 #END OF ROM CHANGES
 #
