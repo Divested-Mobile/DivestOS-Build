@@ -75,7 +75,7 @@
 
 	<!-- F-Droid -->
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
-	<project path="packages/apps/FDroidPrivilegedExtension" name="privileged-extension.git" remote="fdroid" revision="refs/tags/0.2.1" />
+	<project path="packages/apps/FDroidPrivilegedExtension" name="privileged-extension.git" remote="fdroid" revision="refs/tags/0.2.2" />
 	<project path="packages/apps/FDroid" name="fdroidclient.git" remote="fdroid" revision="stable-v0.102" />
 <!-- END OF ADDITIONAL REPOS -->
 
