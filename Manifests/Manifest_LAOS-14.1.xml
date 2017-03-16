@@ -89,6 +89,13 @@
 	<project path="hardware/sony/thermanager" name="LineageOS/android_hardware_sony_thermanager" remote="github" />
 	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 
+	<!-- Nexus 7 2012 (Grouper) -->
+	<project path="device/asus/grouper" name="LineageOS/android_device_asus_grouper" remote="github" />
+	<project path="kernel/asus/grouper" name="LineageOS/android_device_asus_grouper" remote="github" />
+
+	<!-- Nexus 7 2013 (Flo) -->
+	<project path="device/asus/flo" name="LineageOS/android_device_asus_flo" remote="github" />
+
 	<!-- Nexus 4 (Mako) -->
 	<project path="device/lge/mako" name="LineageOS/android_device_lge_mako" remote="github" />
 	<project path="kernel/lge/mako" name="LineageOS/lge-kernel-mako" remote="github" />
