@@ -164,6 +164,13 @@
 	<project path="vendor/oneplus" name="TheMuppets/proprietary_vendor_oneplus" remote="github" />
 	<project path="vendor/oppo" name="TheMuppets/proprietary_vendor_oppo" remote="github" />
 	<project path="vendor/samsung" name="TheMuppets/proprietary_vendor_samsung" remote="github" />
+
+	<project path="vendor/broadcom" name="TheMuppets/proprietary_vendor_broadcom" remote="github" />
+	<project path="vendor/elan" name="TheMuppets/proprietary_vendor_elan" remote="github" />
+	<project path="vendor/invensense" name="TheMuppets/proprietary_vendor_invensense" remote="github" />
+	<project path="vendor/nvidia" name="TheMuppets/proprietary_vendor_nvidia" remote="github" />
+	<project path="vendor/nxp" name="TheMuppets/proprietary_vendor_nxp" remote="github" />
+	<project path="vendor/widevine" name="TheMuppets/proprietary_vendor_widevine" remote="github" />
 <!-- END OF DEVICE REPOS -->
 
 </manifest>
