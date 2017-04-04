@@ -197,6 +197,7 @@ ln -s . bin/bin;
 ln -s . etc/etc;
 ln -s . framework/framework;
 ln -s . priv-app/priv-app;
+cd $base;
 #
 #END OF DEBLOBBING
 #

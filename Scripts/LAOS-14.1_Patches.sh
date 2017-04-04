@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#TODO: Aggressive Doze (Verify Extended Doze First), Failed Unlock Shutdown, FIX PATCH AUTHORS, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Wallpaper
+#TODO: Aggressive Doze (Verify Extended Doze First), Failed Unlock Shutdown, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Wallpaper
 
 #Delete Everything
 #repo forall -c 'git add -A && git reset --hard' && rm -rf build external/noto-fonts external/sqlite frameworks/base packages/apps/CMParts packages/apps/FakeStore packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/IchnaeaNlpBackend packages/apps/SetupWizard system/core vendor/cm out
@@ -59,10 +59,10 @@ cp /tmp/ar/emojione-android.ttf other/NotoColorEmoji.ttf #Change emoji font to E
 
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
-patch -p1 < $patches"android_system_core/0001-Hardening.patch" #Misc hardening
+patch -p1 < $patches"android_system_core/0001-Hardening.patch" #Misc hardening TODO: Fix patch author
 
 enter "external/sqlite"
-patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch" #Enable secure_delete by default
+patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch" #Enable secure_delete by default TODO: Fix patch author
 
 enter "packages/apps/FakeStore"
 patch -p1 < $patches"android_packages_apps_FakeStore/0001-Fixes.patch" #Update output paths and build tools
@@ -72,7 +72,7 @@ patch -p1 < $patches"android_packages_apps_IchnaeaNlpBackend/0001-Fixes.patch" #
 
 enter "packages/apps/FDroid"
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Enable privigled module
-patch -p1 < $patches"android_packages_apps_FDroid/0003.patch" #Hide app updates for apps that are installed to /system
+#patch -p1 < $patches"android_packages_apps_FDroid/0003.patch" #Hide app updates for apps that are installed to /system
 
 enter "packages/apps/FDroidPrivilegedExtension"
 patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Release_Key.patch" #Change to release key
@@ -81,7 +81,7 @@ patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Releas
 #test-keys: C8:A2:E9:BC:CF:59:7C:2F:B6:DC:66:BE:E2:93:FC:13:F2:FC:47:EC:77:BC:6B:2B:0D:52:C1:1F:51:19:2A:B8
 
 enter "vendor/cm"
-git revert 430f569db3ac2ae0a625c917d95459d634575f6d && dd4ee0c2e3ae674671551687c6dea4c3bd921af8 #April fools
+git revert 430f569db3ac2ae0a625c917d95459d634575f6d dd4ee0c2e3ae674671551687c6dea4c3bd921af8 #April fools
 rm -rf gello #Gello is built out-of-tree and bundles Google Play Services library
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
@@ -93,7 +93,7 @@ patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" 
 
 enter "frameworks/base"
 git revert 2aaa0472da8d254da1f07aa65a664012b52410f4 #re-enable doze on devices without gms
-patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
+patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG) TODO: Fix patch author
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core/res/AndroidManifest.xml.orig
 
@@ -117,7 +117,7 @@ enter "device/oneplus/bacon"
 enableDexPreOpt
 
 enter "kernel/oneplus/msm8974"
-#patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock.patch" #300Mhz -> 268Mhz, 2.45Ghz -> 2.88Ghz	=+1.72Ghz
+#patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock.patch" #300Mhz -> 268Mhz, 2.45Ghz -> 2.88Ghz	=+1.72Ghz TODO: Fix patch author
 patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock-EXTREME.patch" #300Mhz -> 268Mhz, 2.45Ghz -> 2.95Ghz	=+2.02Ghz XXX: Not 100% stable under intense workloads
 
 enter "device/lge/mako"
