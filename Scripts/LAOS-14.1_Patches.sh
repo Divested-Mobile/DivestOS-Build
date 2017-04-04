@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#TODO: Aggressive Doze (Verify Extended Doze First), Failed Unlock Shutdown, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Wallpaper
+#TODO: Aggressive Doze (Verify Extended Doze First), Failed Unlock Shutdown, FIX PATCH AUTHORS, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Wallpaper
 
 #Delete Everything
 #repo forall -c 'git add -A && git reset --hard' && rm -rf build external/noto-fonts external/sqlite frameworks/base packages/apps/CMParts packages/apps/FakeStore packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/IchnaeaNlpBackend packages/apps/SetupWizard system/core vendor/cm out
@@ -81,7 +81,7 @@ patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Releas
 #test-keys: C8:A2:E9:BC:CF:59:7C:2F:B6:DC:66:BE:E2:93:FC:13:F2:FC:47:EC:77:BC:6B:2B:0D:52:C1:1F:51:19:2A:B8
 
 enter "vendor/cm"
-#git fetch https://review.lineageos.org/LineageOS/android_vendor_cm refs/changes/24/157524/12 && git cherry-pick FETCH_HEAD #addonsu
+git revert 430f569db3ac2ae0a625c917d95459d634575f6d && dd4ee0c2e3ae674671551687c6dea4c3bd921af8 #April fools
 rm -rf gello #Gello is built out-of-tree and bundles Google Play Services library
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk

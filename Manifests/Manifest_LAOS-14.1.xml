@@ -30,6 +30,7 @@
 	<remove-project name="LineageOS/android_packages_apps_ManagedProvisioning" />
 	<remove-project name="LineageOS/android_packages_apps_OpenWeatherMapProvider" />
 	<remove-project name="LineageOS/android_packages_apps_Stk" />
+	<remove-project name="LineageOS/android_packages_apps_Terminal" />
 	<remove-project name="LineageOS/android_packages_apps_TvSettings" />
 	<remove-project name="LineageOS/android_packages_apps_WundergroundWeatherProvider" />
 	<remove-project name="LineageOS/android_packages_apps_YahooWeatherProvider" />
@@ -45,6 +46,13 @@
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_aarch64_aarch64-linux-android-4.9" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_arm_arm-linux-androideabi-4.9" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_x86_x86_64-linux-android-4.9" />
+	<remove-project name="LineageOS/cm_crowdin" />
+	<remove-project name="LineageOS/cve_tracker" />
+	<remove-project name="LineageOS/hudson" />
+	<remove-project name="LineageOS/lineageos_updater" />
+	<remove-project name="LineageOS/mirror" />
+	<remove-project name="LineageOS/tribble-tracker" />
+	<remove-project name="LineageOS/www" />
 	<remove-project name="platform/cts" />
 	<remove-project name="platform/hardware/intel/audio_media" />
 	<remove-project name="platform/hardware/intel/bootstub" />
