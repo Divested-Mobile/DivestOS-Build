@@ -81,7 +81,6 @@ patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Releas
 #test-keys: C8:A2:E9:BC:CF:59:7C:2F:B6:DC:66:BE:E2:93:FC:13:F2:FC:47:EC:77:BC:6B:2B:0D:52:C1:1F:51:19:2A:B8
 
 enter "vendor/cm"
-git revert 430f569db3ac2ae0a625c917d95459d634575f6d dd4ee0c2e3ae674671551687c6dea4c3bd921af8 #April fools
 rm -rf gello #Gello is built out-of-tree and bundles Google Play Services library
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
