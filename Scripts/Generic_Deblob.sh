@@ -69,6 +69,9 @@ export base;
 	#blobs=$blobs"|libdrmdecrypt.so|libdrmfs.so|libdrmtime.so|libtzdrmgenprov.so"; #XXX: Breaks full disk encryption
 	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so";
 
+	#Face Unlock
+	blobs=$blobs"|libfacenet.so|libfilterpack_facedetect.so|libfrsdk.so";
+
 	#Google Project Fi
 	blobs=$blobs"|Tycho.apk";
 
@@ -182,6 +185,7 @@ export -f deblobVendor;
 #
 #START OF DEBLOBBING
 #
+cd vendor/lge; git revert 846315c52044dd60a77da84b5180d4d93bb22ceb; cd $base; #Commit 846315c52044dd60a77da84b5180d4d93bb22ceb moves blobs but doesn't update their location in mako device tree
 echo "vendor/lib/libcneapiclient.so" >> device/oneplus/bacon/proprietary-files-qc.txt; #Commit b7b6d94529e17ce51566aa6509cebab6436b153d disabled CNE but left this binary in the makefile vendor since NetMgr requires it. Without this line rerunning setup-makefiles.sh breaks cell service, since the resulting build will be missing it.
 find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \; #Deblob all device directories
 find vendor -name "*vendor*.mk" -type f -exec bash -c 'deblobVendor "$0"' {} \; #Deblob all makefiles
