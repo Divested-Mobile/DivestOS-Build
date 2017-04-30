@@ -46,10 +46,12 @@
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_aarch64_aarch64-linux-android-4.9" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_arm_arm-linux-androideabi-4.9" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_x86_x86_64-linux-android-4.9" />
+        <remove-project name="LineageOS/ansible" />
 	<remove-project name="LineageOS/cm_crowdin" />
 	<remove-project name="LineageOS/cve_tracker" />
 	<remove-project name="LineageOS/hudson" />
 	<remove-project name="LineageOS/lineageos_updater" />
+        <remove-project name="LineageOS/lineage_wiki" />
 	<remove-project name="LineageOS/mirror" />
 	<remove-project name="LineageOS/tribble-tracker" />
 	<remove-project name="LineageOS/www" />
@@ -59,7 +61,6 @@
 	<remove-project name="platform/hardware/intel/common/bd_prov" />
 	<remove-project name="platform/hardware/intel/common/libstagefrighthw" />
 	<remove-project name="platform/hardware/intel/common/wrs_omxil_core" />
-	<remove-project name="platform/hardware/intel/sensors" />
 	<remove-project name="platform/hardware/ti/omap3" />
 	<remove-project name="platform/hardware/ti/omap4-aah" />
 	<remove-project name="platform/prebuilts/clang/darwin-x86/host/3.6" />
@@ -81,8 +82,8 @@
 
 	<!-- F-Droid -->
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
-	<project path="packages/apps/FDroidPrivilegedExtension" name="privileged-extension.git" remote="fdroid" revision="refs/tags/0.2.2" />
-	<project path="packages/apps/FDroid" name="fdroidclient.git" remote="fdroid" revision="stable-v0.102" />
+	<project path="packages/apps/FDroidPrivilegedExtension" name="privileged-extension.git" remote="fdroid" revision="master" />
+	<project path="packages/apps/FDroid" name="fdroidclient.git" remote="fdroid" revision="master" />
 <!-- END OF ADDITIONAL REPOS -->
 
 
