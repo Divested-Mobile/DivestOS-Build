@@ -2,7 +2,7 @@
 
 #Goal: Remove as many proprietary blobs without breaking core functionality
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
-#TODO: Automate TimeKeep replacing, Clean CPP system.prop initializers, Clean init*.rc files, Create TWRP version, Remove more variants
+#TODO: Automate TimeKeep replacing, Clean init*.rc files, Create TWRP version, Remove more variants
 
 #
 #Device Status (Tested under LineageOS 14.1)
@@ -191,6 +191,16 @@ deblobDevice() {
 		sed -i 's|<bool name="config_device_volte_available">true</bool>|<bool name="config_device_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
 		sed -i 's|<bool name="config_device_vt_available">true</bool>|<bool name="config_device_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
 		sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|'  overlay/frameworks/base/core/res/res/values/config.xml;
+	fi;
+	if [ -f init/init_*.cpp ]; then
+		#Disable IMS
+		sed -i 's/property_set("persist.ims.volte", "true");/property_set("persist.ims.volte", "false");/' init/init_*.cpp;
+		sed -i 's/property_set("persist.ims.vt", "true");/property_set("persist.ims.vt", "false");/' init/init_*.cpp;
+		sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "1");/' init/init_*.cpp;
+		sed -i 's/property_set("persist.radio.calls.on.ims", "true");/property_set("persist.radio.calls.on.ims", "false");/' init/init_*.cpp;
+		sed -i 's/property_set("persist.radio.jbims", ".");/property_set("persist.radio.jbims", "0");/' init/init_*.cpp;
+		sed -i 's/property_set("persist.radio.VT_ENABLE", ".");/property_set("persist.radio.VT_ENABLE", "0");/' init/init_*.cpp;
+		sed -i 's/property_set("persist.radio.VT_HYBRID_ENABLE", ".");/property_set("persist.radio.VT_HYBRID_ENABLE", "0");/' init/init_*.cpp;
 	fi;
 	rm -f rootdir/etc/init.qti.ims.sh #Remove IMS startup script
 	rm -rf IMSEnabler; #Remove IMS compatibility module

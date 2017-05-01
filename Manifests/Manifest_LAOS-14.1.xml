@@ -22,7 +22,6 @@
 	<remove-project name="LineageOS/android_hardware_intel_img_psb_headers" />
 	<remove-project name="LineageOS/android_hardware_intel_img_psb_video" />
 	<remove-project name="LineageOS/android_hardware_ti_omap4xxx" />
-	<remove-project name="LineageOS/android_packages_apps_Browser" />
 	<remove-project name="LineageOS/android_packages_apps_CMBugreport" />
 	<remove-project name="LineageOS/android_packages_apps_CMUpdater" />
 	<remove-project name="LineageOS/android_packages_apps_Gello" />
