@@ -90,7 +90,15 @@ export base;
 	#I/O Prefetcher
 	blobs=$blobs"|iop|libqti-iop-client.so|libqti-iop.so";
 
-	#IMS (RCS/VoLTE/Wi-Fi Calling) #XXX: Calls drop to 3g and it takes a few seconds to get LTE back afterwards as expected
+	#IMS (RCS/VoLTE/Wi-Fi Calling)
+	#XXX: This is a *VERY* aggressive change and might be disabled in the future
+	#XXX: Its unknown how this affects devices on carriers like AT&T who are phasing out 2G
+	#XXX: Logcat is spammed with ~6 lines every 15 seconds by ims-common during calls
+	#XXX: Drops to 3G during a call
+	#XXX: SMS works fine
+	#XXX: Takes 2-60 seconds to go back to LTE
+	#XXX: When on Wi-Fi data appears to be turned off
+	#XXX: When Wi-Fi is lost, data connection takes a few seconds to establish
 	blobs=$blobs"[/]volte_modem[/]|com.motorola.msimsettings.xml|com.verizon.ims.jar|com.verizon.ims.xml|ims.apk|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|ims_rtp_daemon|imssettings.apk|ims.xml|lib-dplmedia.so|libimscamera_jni.so|lib-imscamera.so|lib-imsdpl.so|libimsmedia_jni.so|lib-imsqimf.so|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|libNimsWrap.so|librcc.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|libvcel.so|libvoice-svc.so|qti_permissions.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|rcsimssettings.jar";
 
 	#IPACM (Loadbalances traffic between Cell/Wi-Fi)
