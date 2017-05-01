@@ -2,7 +2,7 @@
 
 #Goal: Remove as many proprietary blobs without breaking core functionality
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
-#TODO: Automate TimeKeep replacing, Clean init*.rc files, Create TWRP version, Remove more variants
+#TODO: Automate TimeKeep replacing, Clean CPP system.prop initializers, Clean init*.rc files, Create TWRP version, Remove more variants
 
 #
 #Device Status (Tested under LineageOS 14.1)
@@ -90,7 +90,7 @@ export base;
 	#I/O Prefetcher
 	blobs=$blobs"|iop|libqti-iop-client.so|libqti-iop.so";
 
-	#IMS (VoLTE)
+	#IMS (RCS/VoLTE/Wi-Fi Calling) #XXX: Calls drop to 3g and it takes a few seconds to get LTE back afterwards as expected
 	blobs=$blobs"[/]volte_modem[/]|com.motorola.msimsettings.xml|com.verizon.ims.jar|com.verizon.ims.xml|ims.apk|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|ims_rtp_daemon|imssettings.apk|ims.xml|lib-dplmedia.so|libimscamera_jni.so|lib-imscamera.so|lib-imsdpl.so|libimsmedia_jni.so|lib-imsqimf.so|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|libNimsWrap.so|librcc.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|libvcel.so|libvoice-svc.so|qti_permissions.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|rcsimssettings.jar";
 
 	#IPACM (Loadbalances traffic between Cell/Wi-Fi)
@@ -160,7 +160,7 @@ deblobDevice() {
 		sed -i 's/persist.dpm.feature=./persist.dpm.feature=0/' system.prop; #Disable DPM
 		sed -i 's/persist.gps.qc_nlp_in_use=1/persist.gps.qc_nlp_in_use=0/' system.prop; #Disable QC Location Provider
 		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
-		#sed -i 's/ro.use_data_netmgrd=true/ro.use_data_netmgrd=false/' system.prop; #Disable NetMgr
+		#sed -i 's/ro.use_data_netmgrd=true/ro.use_data_netmgrd=false/' system.prop; #Disable NetMgr XXX: Not tested, most likely requires RIL modifications
 		#Disable IMS
 		sed -i 's/persist.data.iwlan.enable=true/persist.data.iwlan.enable=false/' system.prop;
 		sed -i 's/persist.ims.volte=true/persist.ims.volte=false/' system.prop;
@@ -173,7 +173,7 @@ deblobDevice() {
 		sed -i 's/persist.radio.VT_ENABLE=./persist.radio.VT_ENABLE=0/' system.prop;
 		sed -i 's/persist.radio.VT_HYBRID_ENABLE=./persist.radio.VT_HYBRID_ENABLE=0/' system.prop;
 		sed -i 's/persist.rcs.supported=./persist.rcs.supported=0/' system.prop;
-		sed -i 's/persist.volte_enalbed_by_hw=./persist.volte_enalbed_by_hw=0/' system.prop;
+		sed -i 's/persist.volte_enabled_by_hw=./persist.volte_enabled_by_hw=0/' system.prop;
 	fi;
 	if [ -f overlay/frameworks/base/core/res/res/values/config.xml ]; then
 		sed -i 's|<bool name="config_uiBlurEnabled">true</bool>|<bool name="config_uiBlurEnabled">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml; #Disable UIBlur
@@ -184,9 +184,8 @@ deblobDevice() {
 		sed -i 's|<bool name="config_carrier_vt_available">true</bool>|<bool name="config_carrier_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
 		sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|'  overlay/frameworks/base/core/res/res/values/config.xml;
 	fi;
-	rm rootdir/etc/init.qti.ims.sh #Remove IMS startup script
+	rm -f rootdir/etc/init.qti.ims.sh #Remove IMS startup script
 	rm -rf IMSEnabler; #Remove IMS compatibility module
-	rm -rf telephony/ims; #Remove IMS userspace firmware
 	rm -rf data-ipa-cfg-mgr; #Remove IPACM
 	rm -rf libshimwvm; #Remove Google Widevine compatibility module
 	if [ -f setup-makefiles.sh ]; then
