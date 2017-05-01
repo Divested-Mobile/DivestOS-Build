@@ -95,7 +95,7 @@ export base;
 	#XXX: Its unknown how this affects devices on carriers like AT&T who are phasing out 2G
 	#XXX: Logcat is spammed with ~6 lines every 15 seconds by ims-common during calls
 	#XXX: Drops to 3G during a call
-	#XXX: SMS works fine
+	#XXX: Call holding, Conference calls, and SMS work fine
 	#XXX: Takes 2-60 seconds to go back to LTE
 	#XXX: When on Wi-Fi data appears to be turned off
 	#XXX: When Wi-Fi is lost data connection takes a few seconds to establish
@@ -228,7 +228,11 @@ find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {}
 find vendor -name "*vendor*.mk" -type f -exec bash -c 'deblobVendor "$0"' {} \; #Deblob all makefiles
 deblobVendors; #Deblob entire vendor directory
 rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove Clearkey
+#
+#END OF DEBLOBBING
+#
 
+#Fixes marlin building, really janky and probably not the best place for it
 cd vendor/google/marlin/proprietary;
 ln -s . vendor;
 ln -s . lib/lib;
@@ -239,6 +243,3 @@ ln -s . etc/etc;
 ln -s . framework/framework;
 ln -s . priv-app/priv-app;
 cd $base;
-#
-#END OF DEBLOBBING
-#
