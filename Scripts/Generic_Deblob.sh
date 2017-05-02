@@ -197,11 +197,11 @@ deblobDevice() {
 		sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "1");/' init/init_*.cpp;
 	fi;
 	rm -f rootdir/etc/init.qti.ims.sh #Remove IMS startup script
-	#rm -rf telephony/ims; #Remove IMS
+	#rm -rf telephony/ims; #Remove ims-common
 	rm -rf IMSEnabler; #Remove IMS compatibility module
 	rm -rf data-ipa-cfg-mgr; #Remove IPACM
 	rm -rf libshimwvm; #Remove Google Widevine compatibility module
-	if [ -f setup-makefiles.sh ]; then
+	if [ -f setup-makefiles.sh ]; then #FIXME: This breaks some devices using shared device trees (eg. osprey) when removing blobs that are listed in Android.mk of vendor repositories
 		awk -i inplace '!/'$blobs'/' *proprietary*.txt; #Remove all blob references from blob manifest
 		sh -c "cd $base$devicePath && ./setup-makefiles.sh"; #Update the makefiles
 	fi;
@@ -232,7 +232,7 @@ echo "vendor/lib/libcneapiclient.so" >> device/oneplus/bacon/proprietary-files-q
 find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \; #Deblob all device directories
 find vendor -name "*vendor*.mk" -type f -exec bash -c 'deblobVendor "$0"' {} \; #Deblob all makefiles
 deblobVendors; #Deblob entire vendor directory
-#rm -rf vendor/codeaurora/telephony/ims; #Remove IMS
+#rm -rf vendor/codeaurora/telephony/ims; #Remove ims-common
 rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove Clearkey
 #
 #END OF DEBLOBBING

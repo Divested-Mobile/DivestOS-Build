@@ -8,10 +8,8 @@
 #Prepare a build
 #repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/home/tad/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys
 
-#Generate a signed userdebug build with root
-#export WITH_SU=true && brunch clark && brunch bacon && brunch mako
 #Generate a signed user build
-#brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_mako-user
+#brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_mako-user && brunch lineage_hammerhead-user && brunch lineage_shamu-user && brunch lineage_bullhead-user && brunch lineage_angler-user && brunch lineage_flo-user && brunch lineage_marlin-user
 
 #
 #START OF PREPRATION
@@ -25,7 +23,7 @@ ANDROID_HOME="/home/tad/Android/SDK"
 mkdir -p /tmp/ar
 cd /tmp/ar
 wget https://spotco.us/hosts -N #XXX: Hosts is built from non-commercial use files, switch to /hsc for release
-wget https://github.com/Ranks/emojione/raw/master/assets/fonts/emojione-android.ttf -N #XXX: Requires attribuition
+wget https://github.com/Ranks/emojione/raw/master/extras/fonts/emojione-android.ttf -N #XXX: Requires attribuition
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
 mkdir -p "$ANDROID_HOME/licenses"
