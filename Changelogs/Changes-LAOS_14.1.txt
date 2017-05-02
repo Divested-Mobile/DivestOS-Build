@@ -1,4 +1,4 @@
-Last Updated: 02/28/2017
+Last Updated: 05/01/2017
 Credits: LineageOS, CyanogenMod, CopperheadOS, OmniROM, TeamWin, F-Droid, MicroG, EmojiOne, anarkia1976, bhb27, Daniel Micay, dirtyhank, Evisceration, faux123, flar2, franciscofranco, hellsgod, mar-v-in, mimi89999, nikhil18, nvllsvm, savoca, stefano.villa1976, WedyDQ10, XileForce
 
 Super Important Stuff
@@ -6,7 +6,6 @@ Super Important Stuff
 	- Do *not* flash Xposed, it will *severly* decrease the security of your device
 	- Do *not* use AdAway or any other Adblocker as a HOSTS list is already included
 	- Flashing of any Gapps is not recommended and most likely won't work.
-	- No browser is installed by default, please install 'Auto Updater for Chromium' or 'IceCat' from F-Droid. Chromium will be included in future releases.
 	- To enable Cell/Wi-Fi location resolving: Install a UnifiedNlp backend from F-Droid and then go to microG Settings > UnifiedNlp Settings > Configure location backends
 	- To get Play Store apps, install 'Yalp Store' from F-Droid
 	- To pass SafetyNet add 'https://microg.org/fdroid/repo' to your F-Droid repos and install 'MicroG DroidGuard Helper' then enable it under microG Settings > SafetyNet
