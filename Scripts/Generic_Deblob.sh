@@ -93,7 +93,7 @@ export base;
 	#IMS (RCS/VoLTE/Wi-Fi Calling)
 	#XXX: This is a *VERY* aggressive change and might be disabled in the future
 	#XXX: Logcat is spammed with ~6 lines every 15 seconds by ims-common during calls
-	blobs=$blobs"[/]volte_modem[/]|com.motorola.msimsettings.xml|com.verizon.ims.jar|com.verizon.ims.xml|ims.apk|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|ims_rtp_daemon|imssettings.apk|ims.xml|lib-dplmedia.so|libimscamera_jni.so|lib-imscamera.so|lib-imsdpl.so|libimsmedia_jni.so|lib-imsqimf.so|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|libNimsWrap.so|librcc.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|libvcel.so|libvoice-svc.so|qti_permissions.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|rcsimssettings.jar";
+	blobs=$blobs"com.motorola.msimsettings.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.jar|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.jar|com.verizon.ims.xml|ims.apk|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|ims_rtp_daemon|imssettings.apk|ims.xml|lib-dplmedia.so|libimscamera_jni.so|lib-imscamera.so|lib-imsdpl.so|libimsmedia_jni.so|lib-imsqimf.so|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|libNimsWrap.so|librcc.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|libvcel.so|libvoice-svc.so|qti_permissions.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|volte_modem[/]";
 
 	#IPACM (Loadbalances traffic between Cell/Wi-Fi)
 	blobs=$blobs"|ipacm|ipacm-diag";
@@ -129,7 +129,7 @@ export base;
 	#blobs=$blobs"|venus.b00|venus.b01|venus.b02|venus.b03|venus.b04|venus.mbn|venus.mdt";
 
 	#Verizon
-	blobs=$blobs"|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.xml|VerizonUnifiedSettings.jar|VZWAPNLib.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml";
+	blobs=$blobs"|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.lte.jar|com.verizon.ims.jar|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.xml|VerizonUnifiedSettings.jar|VZWAPNLib.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml";
 
 	#Voice Recognition
 	blobs=$blobs"|aonvr1.bin|aonvr2.bin|audiomonitor|es305_fw.bin|HotwordEnrollment.apk|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|libqvop-service.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|qvop-daemon|sound_trigger.primary.msm8916.so|sound_trigger.primary.msm8996.so";
