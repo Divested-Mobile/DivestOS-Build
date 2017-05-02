@@ -94,11 +94,6 @@ export base;
 	#XXX: This is a *VERY* aggressive change and might be disabled in the future
 	#XXX: Its unknown how this affects devices on carriers like AT&T who are phasing out 2G
 	#XXX: Logcat is spammed with ~6 lines every 15 seconds by ims-common during calls
-	#XXX: Drops to 3G during a call
-	#XXX: Call holding, Conference calls, and SMS work fine
-	#XXX: Takes 2-60 seconds to go back to LTE
-	#XXX: When on Wi-Fi data appears to be turned off
-	#XXX: When Wi-Fi is lost data connection takes a few seconds to establish
 	blobs=$blobs"[/]volte_modem[/]|com.motorola.msimsettings.xml|com.verizon.ims.jar|com.verizon.ims.xml|ims.apk|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|ims_rtp_daemon|imssettings.apk|ims.xml|lib-dplmedia.so|libimscamera_jni.so|lib-imscamera.so|lib-imsdpl.so|libimsmedia_jni.so|lib-imsqimf.so|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|libNimsWrap.so|librcc.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|libvcel.so|libvoice-svc.so|qti_permissions.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|rcsimssettings.jar";
 
 	#IPACM (Loadbalances traffic between Cell/Wi-Fi)
@@ -196,13 +191,14 @@ deblobDevice() {
 		#Disable IMS
 		sed -i 's/property_set("persist.ims.volte", "true");/property_set("persist.ims.volte", "false");/' init/init_*.cpp;
 		sed -i 's/property_set("persist.ims.vt", "true");/property_set("persist.ims.vt", "false");/' init/init_*.cpp;
-		sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "1");/' init/init_*.cpp;
 		sed -i 's/property_set("persist.radio.calls.on.ims", "true");/property_set("persist.radio.calls.on.ims", "false");/' init/init_*.cpp;
 		sed -i 's/property_set("persist.radio.jbims", ".");/property_set("persist.radio.jbims", "0");/' init/init_*.cpp;
 		sed -i 's/property_set("persist.radio.VT_ENABLE", ".");/property_set("persist.radio.VT_ENABLE", "0");/' init/init_*.cpp;
 		sed -i 's/property_set("persist.radio.VT_HYBRID_ENABLE", ".");/property_set("persist.radio.VT_HYBRID_ENABLE", "0");/' init/init_*.cpp;
+		sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "1");/' init/init_*.cpp;
 	fi;
 	rm -f rootdir/etc/init.qti.ims.sh #Remove IMS startup script
+	#rm -rf telephony/ims; #Remove IMS
 	rm -rf IMSEnabler; #Remove IMS compatibility module
 	rm -rf data-ipa-cfg-mgr; #Remove IPACM
 	rm -rf libshimwvm; #Remove Google Widevine compatibility module
@@ -237,12 +233,13 @@ echo "vendor/lib/libcneapiclient.so" >> device/oneplus/bacon/proprietary-files-q
 find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \; #Deblob all device directories
 find vendor -name "*vendor*.mk" -type f -exec bash -c 'deblobVendor "$0"' {} \; #Deblob all makefiles
 deblobVendors; #Deblob entire vendor directory
+#rm -rf vendor/codeaurora/telephony/ims; #Remove IMS
 rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove Clearkey
 #
 #END OF DEBLOBBING
 #
 
-#Fixes marlin building, really janky and probably not the best place for it
+#Fixes marlin building, really janky (recursive symlinks) and probably not the best place for it
 cd vendor/google/marlin/proprietary;
 ln -s . vendor;
 ln -s . lib/lib;
