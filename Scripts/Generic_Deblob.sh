@@ -93,7 +93,7 @@ export base;
 	#IMS (RCS/VoLTE/Wi-Fi Calling)
 	#XXX: This is a *VERY* aggressive change and might be disabled in the future
 	#XXX: Logcat is spammed with ~6 lines every 15 seconds by ims-common during calls
-	blobs=$blobs"com.motorola.msimsettings.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.jar|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.jar|com.verizon.ims.xml|ims.apk|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|ims_rtp_daemon|imssettings.apk|ims.xml|lib-dplmedia.so|libimscamera_jni.so|lib-imscamera.so|lib-imsdpl.so|libimsmedia_jni.so|lib-imsqimf.so|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|libNimsWrap.so|librcc.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|libvcel.so|libvoice-svc.so|qti_permissions.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|volte_modem[/]";
+	#blobs=$blobs"com.motorola.msimsettings.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.jar|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.jar|com.verizon.ims.xml|ims.apk|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|ims_rtp_daemon|imssettings.apk|ims.xml|lib-dplmedia.so|libimscamera_jni.so|lib-imscamera.so|lib-imsdpl.so|libimsmedia_jni.so|lib-imsqimf.so|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|libNimsWrap.so|librcc.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|libvcel.so|libvoice-svc.so|qti_permissions.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|volte_modem[/]";
 
 	#IPACM (Loadbalances traffic between Cell/Wi-Fi)
 	blobs=$blobs"|ipacm|ipacm-diag";
@@ -164,41 +164,41 @@ deblobDevice() {
 		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
 		#sed -i 's/ro.use_data_netmgrd=true/ro.use_data_netmgrd=false/' system.prop; #Disable NetMgr XXX: Not tested, most likely requires RIL modifications
 		#Disable IMS
-		sed -i 's/persist.data.iwlan.enable=true/persist.data.iwlan.enable=false/' system.prop;
-		sed -i 's/persist.ims.volte=true/persist.ims.volte=false/' system.prop;
-		sed -i 's/persist.ims.vt=true/persist.ims.vt=false/' system.prop;
-		sed -i 's/persist.radio.calls.on.ims=true/persist.radio.calls.on.ims=false/' system.prop;
-		sed -i 's/persist.radio.hw_mbn_update=./persist.radio.hw_mbn_update=0/' system.prop;
-		sed -i 's/persist.radio.jbims=./persist.radio.jbims=0/' system.prop;
-		sed -i 's/persist.radio.sw_mbn_update=./persist.radio.sw_mbn_update=0/' system.prop;
-		sed -i 's/persist.radio.sw_mbn_volte=./persist.radio.sw_mbn_volte=0/' system.prop;
-		sed -i 's/persist.radio.VT_ENABLE=./persist.radio.VT_ENABLE=0/' system.prop;
-		sed -i 's/persist.radio.VT_HYBRID_ENABLE=./persist.radio.VT_HYBRID_ENABLE=0/' system.prop;
-		sed -i 's/persist.rcs.supported=./persist.rcs.supported=0/' system.prop;
-		sed -i 's/persist.volte_enabled_by_hw=./persist.volte_enabled_by_hw=0/' system.prop;
+		#sed -i 's/persist.data.iwlan.enable=true/persist.data.iwlan.enable=false/' system.prop;
+		#sed -i 's/persist.ims.volte=true/persist.ims.volte=false/' system.prop;
+		#sed -i 's/persist.ims.vt=true/persist.ims.vt=false/' system.prop;
+		#sed -i 's/persist.radio.calls.on.ims=true/persist.radio.calls.on.ims=false/' system.prop;
+		#sed -i 's/persist.radio.hw_mbn_update=./persist.radio.hw_mbn_update=0/' system.prop;
+		#sed -i 's/persist.radio.jbims=./persist.radio.jbims=0/' system.prop;
+		#sed -i 's/persist.radio.sw_mbn_update=./persist.radio.sw_mbn_update=0/' system.prop;
+		#sed -i 's/persist.radio.sw_mbn_volte=./persist.radio.sw_mbn_volte=0/' system.prop;
+		#sed -i 's/persist.radio.VT_ENABLE=./persist.radio.VT_ENABLE=0/' system.prop;
+		#sed -i 's/persist.radio.VT_HYBRID_ENABLE=./persist.radio.VT_HYBRID_ENABLE=0/' system.prop;
+		#sed -i 's/persist.rcs.supported=./persist.rcs.supported=0/' system.prop;
+		#sed -i 's/persist.volte_enabled_by_hw=./persist.volte_enabled_by_hw=0/' system.prop;
 	fi;
 	if [ -f overlay/frameworks/base/core/res/res/values/config.xml ]; then
 		sed -i 's|<bool name="config_uiBlurEnabled">true</bool>|<bool name="config_uiBlurEnabled">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml; #Disable UIBlur
 		#Disable IMS
-		sed -i 's|<bool name="config_carrier_volte_available">true</bool>|<bool name="config_carrier_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-		sed -i 's|<bool name="config_carrier_vt_available">true</bool>|<bool name="config_carrier_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-		sed -i 's|<bool name="config_device_volte_available">true</bool>|<bool name="config_device_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-		sed -i 's|<bool name="config_device_vt_available">true</bool>|<bool name="config_device_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-		sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|'  overlay/frameworks/base/core/res/res/values/config.xml;
+		#sed -i 's|<bool name="config_carrier_volte_available">true</bool>|<bool name="config_carrier_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+		#sed -i 's|<bool name="config_carrier_vt_available">true</bool>|<bool name="config_carrier_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+		#sed -i 's|<bool name="config_device_volte_available">true</bool>|<bool name="config_device_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+		#sed -i 's|<bool name="config_device_vt_available">true</bool>|<bool name="config_device_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+		#sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|'  overlay/frameworks/base/core/res/res/values/config.xml;
 	fi;
 	if [ -f init/init_*.cpp ]; then
 		#Disable IMS
-		sed -i 's/property_set("persist.ims.volte", "true");/property_set("persist.ims.volte", "false");/' init/init_*.cpp;
-		sed -i 's/property_set("persist.ims.vt", "true");/property_set("persist.ims.vt", "false");/' init/init_*.cpp;
-		sed -i 's/property_set("persist.radio.calls.on.ims", "true");/property_set("persist.radio.calls.on.ims", "false");/' init/init_*.cpp;
-		sed -i 's/property_set("persist.radio.jbims", ".");/property_set("persist.radio.jbims", "0");/' init/init_*.cpp;
-		sed -i 's/property_set("persist.radio.VT_ENABLE", ".");/property_set("persist.radio.VT_ENABLE", "0");/' init/init_*.cpp;
-		sed -i 's/property_set("persist.radio.VT_HYBRID_ENABLE", ".");/property_set("persist.radio.VT_HYBRID_ENABLE", "0");/' init/init_*.cpp;
-		sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "1");/' init/init_*.cpp;
+		#sed -i 's/property_set("persist.ims.volte", "true");/property_set("persist.ims.volte", "false");/' init/init_*.cpp;
+		#sed -i 's/property_set("persist.ims.vt", "true");/property_set("persist.ims.vt", "false");/' init/init_*.cpp;
+		#sed -i 's/property_set("persist.radio.calls.on.ims", "true");/property_set("persist.radio.calls.on.ims", "false");/' init/init_*.cpp;
+		#sed -i 's/property_set("persist.radio.jbims", ".");/property_set("persist.radio.jbims", "0");/' init/init_*.cpp;
+		#sed -i 's/property_set("persist.radio.VT_ENABLE", ".");/property_set("persist.radio.VT_ENABLE", "0");/' init/init_*.cpp;
+		#sed -i 's/property_set("persist.radio.VT_HYBRID_ENABLE", ".");/property_set("persist.radio.VT_HYBRID_ENABLE", "0");/' init/init_*.cpp;
+		#sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "1");/' init/init_*.cpp;
 	fi;
-	rm -f rootdir/etc/init.qti.ims.sh #Remove IMS startup script
+	#rm -f rootdir/etc/init.qti.ims.sh #Remove IMS startup script
 	#rm -rf telephony/ims; #Remove ims-common
-	rm -rf IMSEnabler; #Remove IMS compatibility module
+	#rm -rf IMSEnabler; #Remove IMS compatibility module
 	rm -rf data-ipa-cfg-mgr; #Remove IPACM
 	rm -rf libshimwvm; #Remove Google Widevine compatibility module
 	if [ -f setup-makefiles.sh ]; then #FIXME: This breaks some devices using shared device trees (eg. osprey) when removing blobs that are listed in Android.mk of vendor repositories
