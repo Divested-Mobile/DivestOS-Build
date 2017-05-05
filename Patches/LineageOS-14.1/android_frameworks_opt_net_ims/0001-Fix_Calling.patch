@@ -1,16 +1,16 @@
-From 6f3e436fcffc5abeff735899eb9ce26f4094e88b Mon Sep 17 00:00:00 2001
+From d9c1c969e9bb78894e58f280cfdd9a1a26c84dbd Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Thu, 4 May 2017 21:40:05 -0400
+Date: Fri, 5 May 2017 12:39:04 -0400
 Subject: [PATCH] Fix calling after VoLTE is removed from devices that had it
  previously enabled
 
-Change-Id: Id5e3b8f7793d0783104b8b59581688c8ef821396
+Change-Id: I594f8b538726734f51f48982f8cc98b34c94ea41
 ---
  src/java/com/android/ims/ImsManager.java | 11 +----------
  1 file changed, 1 insertion(+), 10 deletions(-)
 
 diff --git a/src/java/com/android/ims/ImsManager.java b/src/java/com/android/ims/ImsManager.java
-index 7bba3f4..f40c9cf 100644
+index 7bba3f4..58a5bd2 100644
 --- a/src/java/com/android/ims/ImsManager.java
 +++ b/src/java/com/android/ims/ImsManager.java
 @@ -218,16 +218,7 @@ public class ImsManager {
@@ -27,7 +27,7 @@ index 7bba3f4..f40c9cf 100644
 -                    context.getContentResolver(),
 -                    android.provider.Settings.Global.ENHANCED_4G_MODE_ENABLED, ImsConfig.FeatureValueConstants.ON);
 -        return (enabled == 1) ? true : false;
-+	return false
++	return false;
      }
  
      /**
