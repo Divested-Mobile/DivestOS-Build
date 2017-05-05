@@ -62,6 +62,9 @@ patch -p1 < $patches"android_system_core/0001-Hardening.patch" #Misc hardening T
 enter "external/sqlite"
 patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch" #Enable secure_delete by default TODO: Fix patch author
 
+enter "frameworks/opt/net/ims"
+patch -p1 < $patches"android_frameworks_opt_net_ims/0001-Fix_Calling.patch" #Fix calling after we remove IMS
+
 enter "packages/apps/FakeStore"
 patch -p1 < $patches"android_packages_apps_FakeStore/0001-Fixes.patch" #Update output paths and build tools
 

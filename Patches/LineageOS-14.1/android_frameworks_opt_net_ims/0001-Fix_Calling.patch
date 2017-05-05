@@ -1,0 +1,36 @@
+From 6f3e436fcffc5abeff735899eb9ce26f4094e88b Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 4 May 2017 21:40:05 -0400
+Subject: [PATCH] Fix calling after VoLTE is removed from devices that had it
+ previously enabled
+
+Change-Id: Id5e3b8f7793d0783104b8b59581688c8ef821396
+---
+ src/java/com/android/ims/ImsManager.java | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
+
+diff --git a/src/java/com/android/ims/ImsManager.java b/src/java/com/android/ims/ImsManager.java
+index 7bba3f4..f40c9cf 100644
+--- a/src/java/com/android/ims/ImsManager.java
++++ b/src/java/com/android/ims/ImsManager.java
+@@ -218,16 +218,7 @@ public class ImsManager {
+      * Returns the user configuration of Enhanced 4G LTE Mode setting
+      */
+     public static boolean isEnhanced4gLteModeSettingEnabledByUser(Context context) {
+-        // If user can't edit Enhanced 4G LTE Mode, it assumes Enhanced 4G LTE Mode is always true.
+-        // If user changes SIM from editable mode to uneditable mode, need to return true.
+-        if (!getBooleanCarrierConfig(context,
+-                    CarrierConfigManager.KEY_EDITABLE_ENHANCED_4G_LTE_BOOL)) {
+-            return true;
+-        }
+-        int enabled = android.provider.Settings.Global.getInt(
+-                    context.getContentResolver(),
+-                    android.provider.Settings.Global.ENHANCED_4G_MODE_ENABLED, ImsConfig.FeatureValueConstants.ON);
+-        return (enabled == 1) ? true : false;
++	return false
+     }
+ 
+     /**
+-- 
+2.9.3
+
