@@ -2,7 +2,7 @@
 
 #Goal: Remove as many proprietary blobs without breaking core functionality
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
-#TODO: Automate TimeKeep replacing, Clean init*.rc files, Create TWRP version, Remove more variants
+#TODO: Automate TimeKeep replacing, Clean init*.rc files, Create TWRP version, Remove fingerprint blobs?, Remove more variants
 
 #
 #Device Status (Tested under LineageOS 14.1)
@@ -18,121 +18,130 @@ export base;
 #
 	blobs="";
 
-	#ACDB (Audio Configurations) XXX: Breaks audio output
+	#ACDB (Audio Configurations) [Qualcomm] XXX: Breaks audio output
 	#blobs=$blobs"acdb";
 
-	#ADSP/Hexagon (Hardware Audio Decoding)
+	#ADSP/Hexagon (Hardware Audio Decoding) [Qualcomm]
 	#blobs=$blobs"adsprpcd|libadsprpc.so|libadsprpc.so|libfastcvadsp_stub.so|libfastcvopt.so|libadsp_fd_skel.so";
 
-	#Alipay (Alibaba Payment Platform)
+	#Alipay (Payment Platform) [Alibaba]
 	blobs=$blobs"alipay.b00|alipay.b01|alipay.b02|alipay.b03|alipay.b04|alipay.b05|alipay.b06|alipay.mdt";
 
-	#aptX (Bluetooth Audio Compression Codec)
+	#aptX (Bluetooth Audio Compression Codec) [Qualcomm]
 	blobs=$blobs"|libaptX-1.0.0-rel-Android21-ARMv7A.so|libaptXHD-1.0.0-rel-Android21-ARMv7A.so|libaptXScheduler.so";
 
-	#ATFWD (Miracast/Wireless Display)
+	#ATFWD (Miracast/Wireless Display) [Qualcomm]
 	blobs=$blobs"|ATFWD-daemon|atfwd.apk";
 
-	#AudioFX (Audio Effects)
+	#AudioFX (Audio Effects) [Qualcomm]
 	blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so";
 
 	#Camera XXX: I tried, don't waste your time...
 	#FUN FACT: The Huawei Honor 5x ships with eight-hundred-and-thirty-five (*835*) proprietary camera blobs.
 	#blobs=$blobs"|";
 
-	#Clearkey (DRM)
+	#Clearkey (DRM) [Google]
 	blobs=$blobs"|libdrmclearkeyplugin.so";
 
-	#CMN (DRM)
+	#CMN (DRM) [Unknown]
 	blobs=$blobs"|cmnlib.b00|cmnlib.b01|cmnlib.b02|cmnlib.b03|cmnlib.b04|cmnlib.b05|cmnlib.mdt|cmnlib64.b00|cmnlib64.b01|cmnlib64.b02|cmnlib64.b03|cmnlib64.b04|cmnlib64.b05|cmnlib64.mdt";
 
-	#CNE (Automatic Cell/Wi-Fi Switching)
+	#CNE (Automatic Cell/Wi-Fi Switching) [Qualcomm]
 	#blobs=$blobs"|libcneapiclient.so"; #XXX: Breaks radio
 	blobs=$blobs"|andsfCne.xml|ATT_profile1.xml|ATT_profile2.xml|ATT_profile3.xml|ATT_profile4.xml|ATT_profiles.xml|cnd|cneapiclient.jar|cneapiclient.xml|CNEService.apk|com.quicinc.cne.jar|com.quicinc.cne.xml|ConnectivityExt.jar|ConnectivityExt.xml|libcneconn.so|libcneqmiutils.so|libcne.so|libNimsWrap.so|libvendorconn.so|libwqe.so|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile1.xml|ROW_profile2.xml|ROW_profile3.xml|ROW_profile4.xml|ROW_profile5.xml|ROW_profiles.xml|SwimConfig.xml|VZW_profile1.xml|VZW_profile2.xml|VZW_profile3.xml|VZW_profile4.xml|VZW_profile5.xml|VZW_profile6.xml|VZW_profiles.xml";
 
-	#Diagnostics
+	#Diagnostics [Qualcomm]
 	blobs=$blobs"|[/]diag[/]|diag_callback_client|diag_dci_sample|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag[/]mdm|diag_qshrink4_daemon|diag_socket_log|diag_uart_log|drmdiagapp|ibdrmdiag.so|ssr_diag|test_diag";
 
-	#Discretix (DRM/HDCP)
+	#Discretix (DRM/HDCP) [Discretix Technologies]
 	blobs=$blobs"|discretix|DxHDCP.cfg|dxhdcp2.b00|dxhdcp2.b01|dxhdcp2.b02|dxhdcp2.b03|dxhdcp2.mdt|libDxHdcp.so";
 
-	#Display Color Tuning
+	#Display Color Tuning [Qualcomm]
 	blobs=$blobs"|colorservice.apk|com.qti.snapdragon.sdk.display.jar|com.qti.snapdragon.sdk.display.xml|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|mm-pp-daemon|mm-pp-dpps";
 
-	#DivX (DRM)
+	#DivX (DRM) [DivX]
 	blobs=$blobs"|libDivxDrm.so|libSHIMDivxDrm.so";
 
-	#DPM (Data Power Management)
+	#DPM (Data Power Management) [Qualcomm]
 	blobs=$blobs"|com.qti.dpmframework.jar|com.qti.dpmframework.xml|dpmapi.jar|dpmapi.xml|dpm.conf|dpmd|dpmserviceapp.apk|libdpmctmgr.so|libdpmfdmgr.so|libdpmframework.so|libdpmnsrm.so|libdpmtcm.so|NsrmConfiguration.xml|tcmclient.jar";
 
 	#DRM
 	#blobs=$blobs"|libdrmdecrypt.so|libdrmfs.so|libdrmtime.so|libtzdrmgenprov.so"; #XXX: Breaks full disk encryption
 	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so";
 
-	#Face Unlock
+	#Face Unlock [Google]
 	blobs=$blobs"|libfacenet.so|libfilterpack_facedetect.so|libfrsdk.so";
 
-	#Google Project Fi
-	blobs=$blobs"|Tycho.apk";
-
-	#Google Widevine (DRM)
-	blobs=$blobs"|com.google.widevine.software.drm.jar|com.google.widevine.software.drm.xml|libdrmwvmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|tzwidevine.b00|tzwidevine.b01|tzwidevine.b02|tzwidevine.b03|tzwidevine.mdt|widevine.b00|widevine.b01|widevine.b02|widevine.b03|widevine.b04|widevine.b05|widevine.b06|widevine.mbn|widevine.mdt";
-
-	#GPS
+	#GPS [Qualcomm]
 	#blobs=$blobs"|flp.conf|flp.default.so|flp.msm8084.so|flp.msm8960.so|gpsd|gps.msm8084.so|gps.msm8960.so|libflp.so|libgps.utils.so|libloc_api_v02.so|libloc_core.so|libloc_ds_api.so|libloc_eng.so|libloc_ext.so";
 
 	#HDCP (DRM)
 	blobs=$blobs"|libmm-hdcpmgr.so|hdcp1.b00|hdcp1.b01|hdcp1.b02|hdcp1.b03|hdcp1.b04|hdcp1.b05|hdcp1.b06|hdcp1.mdt|tzhdcp.b00|tzhdcp.b01|tzhdcp.b02|tzhdcp.b03|tzhdcp.mdt";
 
-	#HTC
+	#[HTC]
 	blobs=$blobs"|htc_drmprov.b00|htc_drmprov.b01|htc_drmprov.b02|htc_drmprov.b03|htc_drmprov.b04|htc_drmprov.b05|htc_drmprov.b06|htc_drmprov.mdt|gptauuid.xml|gpsample.mbn";
 
-	#I/O Prefetcher
-	blobs=$blobs"|iop|libqti-iop-client.so|libqti-iop.so";
+	#I/O Prefetcher [Qualcomm]
+	blobs=$blobs"|iop|libqc-opt.so|libqti-iop-client.so|libqti-iop.so";
 
-	#IMS (RCS/VoLTE/Wi-Fi Calling)
+	#IMS (RCS/VoLTE/Wi-Fi Calling) [Qualcomm]
 	#XXX: This is a *VERY* aggressive change and might be disabled in the future
 	#XXX: Logcat is spammed with ~6 lines every 15 seconds by ims-common during calls
 	blobs=$blobs"com.motorola.msimsettings.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.jar|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.jar|com.verizon.ims.xml|ims.apk|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|ims_rtp_daemon|imssettings.apk|ims.xml|lib-dplmedia.so|libimscamera_jni.so|lib-imscamera.so|lib-imsdpl.so|libimsmedia_jni.so|lib-imsqimf.so|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|libNimsWrap.so|librcc.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|libvcel.so|libvoice-svc.so|qti_permissions.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|volte_modem[/]";
 
-	#IPACM (Loadbalances traffic between Cell/Wi-Fi)
+	#IPACM (Loadbalances traffic between Cell/Wi-Fi) [Qualcomm]
 	blobs=$blobs"|ipacm|ipacm-diag";
 
-	#Location (gpsOne/gpsOneXTRA/IZat/Lumicast/QUIP)
+	#Location (gpsOne/gpsOneXTRA/IZat/Lumicast/QUIP) [Qualcomm]
 	blobs=$blobs"|com.qti.location.sdk.jar|com.qti.location.sdk.xml|com.qualcomm.location.apk|com.qualcomm.location.vzw_library.jar|com.qualcomm.location.vzw_library.xml|com.qualcomm.location.xml|gpsone_daemon|izat.conf|izat.xt.srv.jar|izat.xt.srv.xml|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|libgdtap.so|libgeofence.so|libizat_core.so|liblbs_core.so|liblocationservice_glue.so|liblocationservice.so|libloc_ext.so|libloc_xtra.so|liblowi_client.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libulp2.so|libxtadapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so|location-mq|loc_launcher|lowi.conf|lowi-server|slim_ap_daemon|slim_daemon|xtra_t_app.apk|xtwifi-client|xtwifi-inet-agent";
-
-	#Microsoft Playready (DRM)
-	blobs=$blobs"|playread.b00|playread.b01|playread.b02|playread.b03|playread.mdt";
 
 	#Misc
 	blobs=$blobs"|libjni_latinime.so|libuiblur.so|libwifiscanner.so";
 
-	#Motorola
+	#[Motorola]
 	blobs=$blobs"|AppDirectedSMSProxy.apk|BuaContactAdapter.apk|batt_health|com.motorola.DirectedSMSProxy.xml|com.motorola.motosignature.jar|com.motorola.motosignature.xml|com.motorola.camera.xml|com.motorola.gallery.xml|com.motorola.triggerenroll.xml|MotoDisplayFWProxy.apk|MotoSignatureApp.apk|TriggerEnroll.apk|TriggerTrainingService.apk";
 
-	#Performance Profiles
-	#blobs=$blobs"|libqc-opt.so|libqti-perfd-client.so|mpdecision|msm_irqbalance|perfd|perf-profile0.conf|perf-profile1.conf|perf-profile2.conf|perf-profile3.conf|perf-profile4.conf|perf-profile5.conf";
+	#Performance Profiles [Qualcomm]
+	#blobs=$blobs"|libqti-perfd-client.so|mpdecision|msm_irqbalance|perfd|perf-profile0.conf|perf-profile1.conf|perf-profile2.conf|perf-profile3.conf|perf-profile4.conf|perf-profile5.conf";
 
-	#QTI (Tethering Extensions)
+	#Playready (DRM) [Microsoft]
+	blobs=$blobs"|playread.b00|playread.b01|playread.b02|playread.b03|playread.mdt";
+
+	#Project Fi [Google]
+	blobs=$blobs"|Tycho.apk";
+
+	#QTI (Tethering Extensions) [Qualcomm]
 	blobs=$blobs"|libQtiTether.so|QtiTetherService.apk";
 
-	#Sprint
+	#SoundFX [Sony]
+	blobs=$blobs"|libsonypostprocbundle.so|libsonysweffect.so";
+
+	#[Sprint]
 	blobs=$blobs"|com.android.omadm.service.xml|ConnMO.apk|CQATest.apk|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|GCS.apk|HiddenMenu.apk|libdmengine.so|libdmjavaplugin.so|LifetimeData.apk|SprintDM.apk|SprintHM.apk|whitelist_com.android.omadm.service.xml";
 
-	#Thermal Throttling
+	#Thermal Throttling [Qualcomm]
 	#blobs=$blobs"|libthermalclient.so|libthermalioctl.so|thermal-engine";
 
-	#Time Service XXX: Breaks time, can be replaced with https://github.com/LineageOS/android_hardware_sony_timekeep
+	#Time Service [Qualcomm] XXX: Breaks time, can be replaced with https://github.com/LineageOS/android_hardware_sony_timekeep
 	#blobs=$blobs"|libtime_genoff.so|libTimeService.so|time_daemon|TimeService.apk";
 
-	#Venus (Hardware Video Decoding)
+	#Venus (Hardware Video Decoding) [Qualcomm]
 	#blobs=$blobs"|venus.b00|venus.b01|venus.b02|venus.b03|venus.b04|venus.mbn|venus.mdt";
 
-	#Verizon
+	#[Verizon]
 	blobs=$blobs"|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.lte.jar|com.verizon.ims.jar|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.xml|VerizonUnifiedSettings.jar|VZWAPNLib.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml";
 
 	#Voice Recognition
 	blobs=$blobs"|aonvr1.bin|aonvr2.bin|audiomonitor|es305_fw.bin|HotwordEnrollment.apk|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|libqvop-service.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|qvop-daemon|sound_trigger.primary.msm8916.so|sound_trigger.primary.msm8996.so";
+
+	#Vulkan [Qualcomm]
+	#blobs=$blobs"|libllvm-qgl.so|vulkan.msm*.so";
+
+	#Widevine (DRM) [Google]
+	blobs=$blobs"|com.google.widevine.software.drm.jar|com.google.widevine.software.drm.xml|libdrmwvmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|tzwidevine.b00|tzwidevine.b01|tzwidevine.b02|tzwidevine.b03|tzwidevine.mdt|widevine.b00|widevine.b01|widevine.b02|widevine.b03|widevine.b04|widevine.b05|widevine.b06|widevine.mbn|widevine.mdt";
+
+	#WiPower (Wireless Charging) [Qualcomm]
+	blobs=$blobs"|a4wpservice.apk|com.quicinc.wbc.jar|com.quicinc.wbcserviceapp.apk|com.quicinc.wbcservice.jar|com.quicinc.wbcservice.xml|com.quicinc.wbc.xml|libwbc_jni.so|wbc_hal.default.so";
 
 	export blobs;
 #
@@ -201,6 +210,7 @@ deblobDevice() {
 	rm -rf IMSEnabler; #Remove IMS compatibility module
 	rm -rf data-ipa-cfg-mgr; #Remove IPACM
 	rm -rf libshimwvm; #Remove Google Widevine compatibility module
+	rm -rf board/qcom-wipower.mk product/qcom-wipower.mk; #Remove WiPower makefiles
 	if [ -f setup-makefiles.sh ]; then #FIXME: This breaks some devices using shared device trees (eg. osprey) when removing blobs that are listed in Android.mk of vendor repositories
 		awk -i inplace '!/'$blobs'/' *proprietary*.txt; #Remove all blob references from blob manifest
 		sh -c "cd $base$devicePath && ./setup-makefiles.sh"; #Update the makefiles
