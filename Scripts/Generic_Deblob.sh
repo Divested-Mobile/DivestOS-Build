@@ -2,7 +2,7 @@
 
 #Goal: Remove as many proprietary blobs without breaking core functionality
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
-#TODO: Automate TimeKeep replacing, Clean init*.rc files, Create TWRP version, Remove fingerprint blobs?, Remove more variants
+#TODO: Automate TimeKeep replacing, Clean init*.rc files, Create TWRP version, Remove fingerprint blobs?, Remove more variants, Remove WiPower from device.mk
 
 #
 #Device Status (Tested under LineageOS 14.1)
@@ -57,7 +57,7 @@ export base;
 	blobs=$blobs"|discretix|DxHDCP.cfg|dxhdcp2.b00|dxhdcp2.b01|dxhdcp2.b02|dxhdcp2.b03|dxhdcp2.mdt|libDxHdcp.so";
 
 	#Display Color Tuning [Qualcomm]
-	blobs=$blobs"|colorservice.apk|com.qti.snapdragon.sdk.display.jar|com.qti.snapdragon.sdk.display.xml|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|mm-pp-daemon|mm-pp-dpps";
+	blobs=$blobs"|colorservice.apk|com.qti.snapdragon.sdk.display.jar|com.qti.snapdragon.sdk.display.xml|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|mm-pp-daemon|mm-pp-dpps|PPPreference.apk";
 
 	#DivX (DRM) [DivX]
 	blobs=$blobs"|libDivxDrm.so|libSHIMDivxDrm.so";
@@ -109,6 +109,9 @@ export base;
 
 	#Project Fi [Google]
 	blobs=$blobs"|Tycho.apk";
+
+	#Quickboot [Qualcomm]
+	blobs=$blobs"|QuickBoot.apk";
 
 	#QTI (Tethering Extensions) [Qualcomm]
 	blobs=$blobs"|libQtiTether.so|QtiTetherService.apk";
@@ -164,14 +167,16 @@ deblobDevice() {
 	fi;
 	if [ -f BoardConfig.mk ]; then 
 		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; #Disable CNE
+		sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig.mk; #Disable WiPower
 	fi;
 	if [ -f system.prop ]; then
+		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
 		sed -i 's/persist.bt.enableAptXHD=true/persist.bt.enableAptXHD=false/' system.prop; #Disable aptX
 		sed -i 's/persist.cne.feature=./persist.cne.feature=0/' system.prop; #Disable CNE
 		sed -i 's/persist.dpm.feature=./persist.dpm.feature=0/' system.prop; #Disable DPM
 		sed -i 's/persist.gps.qc_nlp_in_use=1/persist.gps.qc_nlp_in_use=0/' system.prop; #Disable QC Location Provider
-		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
-		#sed -i 's/ro.use_data_netmgrd=true/ro.use_data_netmgrd=false/' system.prop; #Disable NetMgr XXX: Not tested, most likely requires RIL modifications
+		sed -i 's/ro.bluetooth.emb_wp_mode=true/ro.bluetooth.emb_wp_mode=false/' system.prop; #Disable WiPower
+		sed -i 's/ro.bluetooth.wipower=true/ro.bluetooth.wipower=false/' system.prop; #Disable WiPower
 		#Disable IMS
 		sed -i 's/persist.data.iwlan.enable=true/persist.data.iwlan.enable=false/' system.prop;
 		sed -i 's/persist.ims.volte=true/persist.ims.volte=false/' system.prop;
