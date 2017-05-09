@@ -6,7 +6,7 @@
 #repo forall -c 'git add -A && git reset --hard' && rm -rf build external/noto-fonts external/sqlite frameworks/base packages/apps/CMParts packages/apps/FakeStore packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/IchnaeaNlpBackend packages/apps/SetupWizard system/core vendor/cm frameworks/opt/net/ims out
 
 #Prepare a build
-#repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/home/tad/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys
+#repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/mnt/adw/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys
 
 #Generate a signed user build
 #brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_mako-user && brunch lineage_hammerhead-user && brunch lineage_shamu-user && brunch lineage_bullhead-user && brunch lineage_angler-user && brunch lineage_flo-user && brunch lineage_marlin-user
@@ -15,9 +15,9 @@
 #START OF PREPRATION
 #
 #Set some variables for use later on
-base="/home/tad/Android/Build/LineageOS-14.1/"
-patches="/home/tad/Android/Patches/LineageOS-14.1/"
-ANDROID_HOME="/home/tad/Android/SDK"
+base="/mnt/adw/Android/Build/LineageOS-14.1/"
+patches="/mnt/adw/Android/Patches/LineageOS-14.1/"
+ANDROID_HOME="/mnt/adw/Android/SDK"
 
 #Download some out-of-tree files for use later on
 mkdir -p /tmp/ar
@@ -31,6 +31,7 @@ echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/a
 echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
 
 enter() {
+	echo "================================================================================================"
 	dir=$1;
 	#project=${$dir//'/'/'_'}; #TODO: Add project conversion, to simplify patching
 	cd $base$dir;
@@ -92,7 +93,10 @@ rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove the rest of CMStats
 
 enter "frameworks/base"
-git revert 2aaa0472da8d254da1f07aa65a664012b52410f4 #re-enable doze on devices without gms
+git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3 #re-enable doze on devices without gms
+sed -i 's/DEFAULT_AGE_SECONDS = 3 * 86400;/DEFAULT_AGE_SECONDS = 60;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
+sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
+rm -rf services/usage; #Disable UsageStats
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG) TODO: Fix patch author
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core/res/AndroidManifest.xml.orig

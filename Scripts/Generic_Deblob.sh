@@ -10,7 +10,7 @@
 #Fully Functional: bacon, clark
 #LTE Broken (Potentially Unrelated): mako
 
-base="/home/tad/Android/Build/LineageOS-14.1/";
+base="/mnt/adw/Android/Build/LineageOS-14.1/";
 export base;
 
 #
