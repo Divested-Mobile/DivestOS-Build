@@ -6,7 +6,7 @@
 #repo forall -c 'git add -A && git reset --hard' && rm -rf build external/noto-fonts external/sqlite frameworks/base packages/apps/CMParts packages/apps/FakeStore packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/IchnaeaNlpBackend packages/apps/SetupWizard system/core vendor/cm frameworks/opt/net/ims out
 
 #Prepare a build
-#repo sync -j24 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/mnt/adw/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys
+#repo sync -j20 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/mnt/adw/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys
 
 #Generate a signed user build
 #brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_mako-user && brunch lineage_hammerhead-user && brunch lineage_shamu-user && brunch lineage_bullhead-user && brunch lineage_angler-user && brunch lineage_flo-user && brunch lineage_marlin-user
@@ -40,7 +40,8 @@ enter() {
 }
 
 enableDexPreOpt() {
-	echo "WITH_DEXPREOPT := true" >> BoardConfig.mk
+	echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
+	echo "Enabled dexpreopt";
 }
 #
 #END OF PREPRATION
@@ -62,6 +63,9 @@ patch -p1 < $patches"android_system_core/0001-Hardening.patch" #Misc hardening T
 
 enter "external/sqlite"
 patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch" #Enable secure_delete by default TODO: Fix patch author
+
+enter "packages/apps/CustomTiles"
+git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CustomTiles refs/changes/69/167069/1 && git cherry-pick FETCH_HEAD # System profiles tile
 
 enter "frameworks/opt/net/ims"
 patch -p1 < $patches"android_frameworks_opt_net_ims/0001-Fix_Calling.patch" #Fix calling after we remove IMS
@@ -88,21 +92,27 @@ patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such 
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dsc/' config/common.mk;
 
+enter "vendor/cmsdk"
+git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/12 && git cherry-pick FETCH_HEAD #network traffic
+
 enter "packages/apps/CMParts"
 rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of CMStats
+git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/23 && git cherry-pick FETCH_HEAD #network traffic
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove the rest of CMStats
 
 enter "frameworks/base"
 git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3 #re-enable doze on devices without gms
-sed -i 's/DEFAULT_AGE_SECONDS = 3 * 86400;/DEFAULT_AGE_SECONDS = 60;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/31 && git cherry-pick FETCH_HEAD #network traffic
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
-rm -rf services/usage; #Disable UsageStats
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG) TODO: Fix patch author
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core/res/AndroidManifest.xml.orig
 
 enter "device/qcom/sepolicy"
 patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix camera on user builds
+
+enter "packages/apps/Snap"
+sed -i 's/LOCAL_OVERRIDES_PACKAGES := Camera2/#LOCAL_OVERRIDES_PACKAGES := Camera2/' config/common.mk; #Ship both cameras, let the user disable which one they don't want
 #
 #END OF ROM CHANGES
 #
