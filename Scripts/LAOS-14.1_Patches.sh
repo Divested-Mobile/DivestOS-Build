@@ -65,7 +65,7 @@ enter "external/sqlite"
 patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch" #Enable secure_delete by default TODO: Fix patch author
 
 enter "packages/apps/CustomTiles"
-git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CustomTiles refs/changes/69/167069/1 && git cherry-pick FETCH_HEAD # System profiles tile
+git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CustomTiles refs/changes/69/167069/1 && git cherry-pick FETCH_HEAD #System profiles tile
 
 enter "frameworks/opt/net/ims"
 patch -p1 < $patches"android_frameworks_opt_net_ims/0001-Fix_Calling.patch" #Fix calling after we remove IMS
@@ -78,11 +78,9 @@ patch -p1 < $patches"android_packages_apps_IchnaeaNlpBackend/0001-Fixes.patch" #
 
 enter "packages/apps/FDroid"
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Enable privigled module
-#patch -p1 < $patches"android_packages_apps_FDroid/0003.patch" #Hide app updates for apps that are installed to /system
 
 enter "packages/apps/FDroidPrivilegedExtension"
 patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Release_Key.patch" #Change to release key
-#patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0003-Test_Keys.patch" #Add test-keys XXX: ONLY USE FOR TEST BUILDS
 #release-keys: CB:1E:E2:EC:40:D0:5E:D6:78:F4:2A:E7:01:CD:FA:29:EE:A7:9D:0E:6D:63:32:76:DE:23:0B:F3:49:40:67:C3
 #test-keys: C8:A2:E9:BC:CF:59:7C:2F:B6:DC:66:BE:E2:93:FC:13:F2:FC:47:EC:77:BC:6B:2B:0D:52:C1:1F:51:19:2A:B8
 
@@ -110,9 +108,6 @@ rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core
 
 enter "device/qcom/sepolicy"
 patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix camera on user builds
-
-enter "packages/apps/Snap"
-sed -i 's/LOCAL_OVERRIDES_PACKAGES := Camera2/#LOCAL_OVERRIDES_PACKAGES := Camera2/' config/common.mk; #Ship both cameras, let the user disable which one they don't want
 #
 #END OF ROM CHANGES
 #
