@@ -50,7 +50,7 @@ export base;
 	#CNE (Automatic Cell/Wi-Fi Switching) [Qualcomm]
 	#blobs=$blobs"|libcneapiclient.so"; #XXX: Breaks radio
 	blobs=$blobs"|andsfCne.xml|ATT_profile1.xml|ATT_profile2.xml|ATT_profile3.xml|ATT_profile4.xml|ATT_profiles.xml|cnd|cneapiclient.jar|cneapiclient.xml|CNEService.apk|com.quicinc.cne.jar|com.quicinc.cne.xml|ConnectivityExt.jar|ConnectivityExt.xml|libcneconn.so|libcneqmiutils.so|libcne.so|libNimsWrap.so|libvendorconn.so|libwqe.so|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile1.xml|ROW_profile2.xml|ROW_profile3.xml|ROW_profile4.xml|ROW_profile5.xml|ROW_profiles.xml|SwimConfig.xml|VZW_profile1.xml|VZW_profile2.xml|VZW_profile3.xml|VZW_profile4.xml|VZW_profile5.xml|VZW_profile6.xml|VZW_profiles.xml";
-	makes=$makes"|libcnefeatureconfig";
+	makes=$makes"libcnefeatureconfig";
 
 	#Diagnostics [Qualcomm]
 	blobs=$blobs"|[/]diag[/]|diag_callback_client|diag_dci_sample|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag[/]mdm|diag_qshrink4_daemon|diag_socket_log|diag_uart_log|drmdiagapp|ibdrmdiag.so|ssr_diag|test_diag";
@@ -175,9 +175,11 @@ deblobDevice() {
 		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; #Disable CNE
 		sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig.mk; #Disable WiPower
 	fi;
-	if [ -f device.mk || -f "${PWD##*/}".mk ]; then
-		awk -i inplace '!/'$makes'/' device.mk; #Remove all shim references from device makefile
-		awk -i inplace '!/'$makes'/' "${PWD##*/}".mk; #Remove all shim references from device makefile
+	if [ -f device.mk ]; then
+		#awk -i inplace '!/'$makes'/' device.mk; #Remove all shim references from device makefile FIXME: Deletes the entire makefile for some reason
+	fi;
+	if [ -f "${PWD##*/}".mk ]; then
+		#awk -i inplace '!/'$makes'/' "${PWD##*/}".mk; #Remove all shim references from device makefile FIXME: Deletes the entire makefile for some reason
 	fi;
 	if [ -f system.prop ]; then
 		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
@@ -221,7 +223,6 @@ deblobDevice() {
 		sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|'  overlay/frameworks/base/core/res/res/values/config.xml;
 	fi;
 	rm -f rootdir/etc/init.qti.ims.sh #Remove IMS startup script
-	#rm -rf telephony/ims; #Remove ims-common
 	rm -rf IMSEnabler; #Remove IMS compatibility module
 	rm -rf data-ipa-cfg-mgr; #Remove IPACM
 	rm -rf libshimwvm; #Remove Google Widevine compatibility module
