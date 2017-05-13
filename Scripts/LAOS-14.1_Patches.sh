@@ -22,7 +22,7 @@ ANDROID_HOME="/mnt/adw/Android/SDK"
 #Download some out-of-tree files for use later on
 mkdir -p /tmp/ar
 cd /tmp/ar
-wget https://spotco.us/hosts -N #XXX: Hosts is built from non-commercial use files, switch to /hsc for release
+wget https://spotco.us/hosts -N #XXX: /hosts is built from non-commercial use files, switch to /hsc for release
 wget https://github.com/Ranks/emojione/raw/master/extras/fonts/emojione-android.ttf -N #XXX: Requires attribuition
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
