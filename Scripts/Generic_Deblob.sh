@@ -175,12 +175,12 @@ deblobDevice() {
 		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; #Disable CNE
 		sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig.mk; #Disable WiPower
 	fi;
-	if [ -f device.mk ]; then
+	#if [ -f device.mk ]; then
 		#awk -i inplace '!/'$makes'/' device.mk; #Remove all shim references from device makefile FIXME: Deletes the entire makefile for some reason
-	fi;
-	if [ -f "${PWD##*/}".mk ]; then
+	#fi;
+	#if [ -f "${PWD##*/}".mk ]; then
 		#awk -i inplace '!/'$makes'/' "${PWD##*/}".mk; #Remove all shim references from device makefile FIXME: Deletes the entire makefile for some reason
-	fi;
+	#fi;
 	if [ -f system.prop ]; then
 		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
 		sed -i 's/persist.bt.enableAptXHD=true/persist.bt.enableAptXHD=false/' system.prop; #Disable aptX

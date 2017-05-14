@@ -146,6 +146,10 @@
 	<project path="device/motorola/clark" name="LineageOS/android_device_motorola_clark" remote="github" />
 	<project path="kernel/motorola/msm8992" name="LineageOS/android_kernel_motorola_msm8992" remote="github" />
 
+	<!-- Nextbit Robin (ether) -->
+	<project path="device/nextbit/ether" name="LineageOS/android_device_nextbit_ether" remote="github" />
+	<project path="kernel/nextbit/msm8992" name="LineageOS/android_kernel_nextbit_msm8992" remote="github" />
+
 	<!-- OnePlus One (Bacon) -->
 	<project path="device/oneplus/bacon" name="LineageOS/android_device_oneplus_bacon" remote="github" />
 	<project path="device/oppo/msm8974-common" name="LineageOS/android_device_oppo_msm8974-common" remote="github" />

@@ -147,6 +147,10 @@ patch -p1 < $patches"android_kernel_lge_bullhead/0002-MMC_Tweak.patch" #Improves
 
 enter "kernel/motorola/msm8916"
 patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch" #1.36Ghz -> 1.88Ghz	=+ 2.07Ghz
+
+enter "kernel/nextbit/msm8992"
+patch -p1 < $patches"android_kernel_nextbit_msm8992/0001-OverUnderClock.patch" #a57: 1.82Ghz -> 2.01Ghz, a53 1.44Ghz -> 1.63Ghz, 384Mhz -> 300Mhz	=+1.14Ghz TODO: Enable by default
+patch -p1 < $patches"android_kernel_nextbit_msm8992/0002-MMC_Tweak.patch" #Improves MMC performance
 #
 #END OF DEVICE CHANGES
 #
