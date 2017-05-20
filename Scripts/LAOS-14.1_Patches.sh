@@ -107,6 +107,9 @@ rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core
 
 enter "device/qcom/sepolicy"
 patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix camera on user builds
+
+enter "external/svox"
+git fetch https://android.googlesource.com/platform/external/svox refs/changes/72/302872/2 && git cherry-pick FETCH_HEAD #Fix garbled output See https://android-review.googlesource.com/#/c/302872/
 #
 #END OF ROM CHANGES
 #
