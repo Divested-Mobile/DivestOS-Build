@@ -3,13 +3,13 @@
 #TODO: Aggressive Doze (Verify Extended Doze First), Failed Unlock Shutdown, Optimized build flags, Optimized toolchain, OTA Updates, Ship Chromium, Wallpaper
 
 #Delete Everything
-#repo forall -c 'git add -A && git reset --hard' && rm -rf build external/noto-fonts external/sqlite frameworks/base packages/apps/CMParts packages/apps/FakeStore packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/IchnaeaNlpBackend packages/apps/SetupWizard system/core vendor/cm frameworks/opt/net/ims out
+#repo forall -c 'git add -A && git reset --hard' && rm -rf build external/noto-fonts external/sqlite frameworks/base packages/apps/CMParts packages/apps/FakeStore packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/IchnaeaNlpBackend packages/apps/SetupWizard system/core vendor/cm frameworks/opt/net/ims packages/apps/Settings out
 
 #Prepare a build
 #repo sync -j20 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/mnt/adw/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys
 
-#Generate a signed user build
-#brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_hammerhead-user && brunch lineage_shamu-user && brunch lineage_bullhead-user && brunch lineage_angler-user && brunch lineage_flo-user && brunch lineage_marlin-user && brunch lineage_ether-user && brunch lineage_Z00T-user
+#Build!
+#brunch lineage_clark-user && brunch lineage_bacon-user && brunch mako && brunch lineage_hammerhead-user && brunch lineage_shamu-user && brunch lineage_bullhead-user && brunch lineage_angler-user && brunch lineage_flo-user && brunch lineage_marlin-user && brunch lineage_ether-user && brunch lineage_Z00T-user
 
 #
 #START OF PREPRATION
@@ -107,6 +107,10 @@ rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core
 
 enter "device/qcom/sepolicy"
 patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix camera on user builds
+
+enter "packages/apps/Settings"
+sed -i 's/Global.ENABLE_EPHEMERAL_FEATURE, 1/Global.ENABLE_EPHEMERAL_FEATURE, 0/' src/com/android/settings/applications/ManageDomainUrls.java; #Disable "Instant Apps"
+sed -i 's/Settings.Secure.WEB_ACTION_ENABLED, 1/Settings.Secure.WEB_ACTION_ENABLED, 0/' src/com/android/settings/applications/ManageDomainUrls.java; #Disable "Instant Apps"
 
 enter "external/svox"
 git fetch https://android.googlesource.com/platform/external/svox refs/changes/72/302872/2 && git cherry-pick FETCH_HEAD #Fix garbled output See https://android-review.googlesource.com/#/c/302872/

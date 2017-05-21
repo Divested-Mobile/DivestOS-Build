@@ -1,5 +1,5 @@
-Last Updated: 05/01/2017
-Credits: LineageOS, CyanogenMod, CopperheadOS, OmniROM, TeamWin, F-Droid, MicroG, EmojiOne, anarkia1976, bhb27, Daniel Micay, dirtyhank, Evisceration, faux123, flar2, franciscofranco, hellsgod, mar-v-in, mimi89999, nikhil18, nvllsvm, savoca, stefano.villa1976, WedyDQ10, XileForce
+Last Updated: 05/021/2017
+Credits: LineageOS, CyanogenMod, AOSP, CopperheadOS, OmniROM, TeamWin, F-Droid, MicroG, EmojiOne, anarkia1976, bhb27, Daniel Micay, dirtyhank, Evisceration, faux123, flar2, franciscofranco, hellsgod, mar-v-in, mimi89999, nikhil18, nvllsvm, savoca, stefano.villa1976, WedyDQ10, XileForce
 
 Super Important Stuff
 	- Do *not* flash any root frameworks, root is already included.
@@ -18,6 +18,7 @@ General Changes
 	- Builds are signed with private release-keys
 	- Bundled in our custom DNS blocklist
 	- Compiled with OpenJDK 8
+	- Disabled "Instant Apps"
 	- Doze is re-enabled on devices without real Google Play Services
 	- Hardened IPv4 and IPv6 stacks
 	- Hardened special file systems
@@ -55,5 +56,8 @@ Device Changes
 		- Overclocked from 2.64Ghz to 2.88Ghz (=+0.96Ghz)
 		- Underclocked from 300Mhz to 35Mhz
 	- bullhead
+		- Overclocked a57 from 1.82Ghz to 2.01Ghz, overclocked a53 from 1.44Ghz to 1.63Ghz (=+1.14Ghz)
+		- Underclocked both from 384Mhz to 300Mhz
+	- robin
 		- Overclocked a57 from 1.82Ghz to 2.01Ghz, overclocked a53 from 1.44Ghz to 1.63Ghz (=+1.14Ghz)
 		- Underclocked both from 384Mhz to 300Mhz
