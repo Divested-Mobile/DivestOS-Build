@@ -109,8 +109,8 @@ enter "device/qcom/sepolicy"
 patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix camera on user builds
 
 enter "packages/apps/Settings"
-sed -i 's/Global.ENABLE_EPHEMERAL_FEATURE, 1/Global.ENABLE_EPHEMERAL_FEATURE, 0/' src/com/android/settings/applications/ManageDomainUrls.java; #Disable "Instant Apps"
 sed -i 's/Settings.Secure.WEB_ACTION_ENABLED, 1/Settings.Secure.WEB_ACTION_ENABLED, 0/' src/com/android/settings/applications/ManageDomainUrls.java; #Disable "Instant Apps"
+sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
 
 enter "external/svox"
 git fetch https://android.googlesource.com/platform/external/svox refs/changes/72/302872/2 && git cherry-pick FETCH_HEAD #Fix garbled output See https://android-review.googlesource.com/#/c/302872/
