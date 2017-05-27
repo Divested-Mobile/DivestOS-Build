@@ -5,7 +5,7 @@
 #TODO: Automate TimeKeep replacing, Clean init*.rc files, Create TWRP version, Remove more variants
 
 #
-#Device Status (Tested under LineageOS 14.1)
+#Device Status (Tested under LineageOS 14.1 and 11.0)
 #
 #Fully Functional: bacon, clark
 #LTE Broken (Potentially Unrelated): mako
