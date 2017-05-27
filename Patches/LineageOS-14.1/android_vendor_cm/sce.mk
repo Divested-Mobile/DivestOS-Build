@@ -11,5 +11,5 @@ PRODUCT_PACKAGES += \
     FDroidPrivilegedExtension
 
 # Chromium
-PRODUCT_PACKAGES += \
-    chromium
+#PRODUCT_PACKAGES += \
+#    chromium

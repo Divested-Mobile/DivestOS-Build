@@ -70,11 +70,11 @@
 	<remove-project name="platform/prebuilts/python/darwin-x86/2.7.5" />
 <!-- END OF UNNECESSARY REPO REMOVAL -->
 
-<!-- START OF CUSTOM REPOS
+<!-- START OF CUSTOM REPOS 
 	<remote name="dsc" fetch="https://gogs.spotco.us:3000/DeblobbedAndroid/" />
 	<remove-project name="LineageOS/android_external_chromium-webview" />
 	<project path="external/chromium-webview" name="android_packages_apps_chromium-webview.git" remote="dsc" revision="cm-14.1" />
-	<project path="external/chromium" name="android_packages_apps_Chromium.git" remote="dsc" revision="master" /> -->
+	<project path="external/chromium" name="android_packages_apps_Chromium.git" remote="dsc" revision="master" />-->
 <!-- END OF CUSTOM REPOS -->
 
 <!-- START OF ADDITIONAL REPOS -->
