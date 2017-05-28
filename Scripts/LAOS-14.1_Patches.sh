@@ -6,7 +6,7 @@
 #repo forall -c 'git add -A && git reset --hard' && rm -rf build external/noto-fonts external/sqlite frameworks/base packages/apps/CMParts packages/apps/FakeStore packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/IchnaeaNlpBackend packages/apps/SetupWizard system/core vendor/cm frameworks/opt/net/ims packages/apps/Settings out
 
 #Prepare a build
-#repo sync -j20 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/mnt/adw/Android/SDK" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m"
+#repo sync -j20 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/home/$USER/Android/Sdk" && export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m" && export KBUILD_BUILD_USER=emy && export KBUILD_BUILD_HOST=dscbm1
 
 #Build!
 #brunch lineage_mako-user && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_hammerhead-user && brunch lineage_shamu-user && brunch lineage_bullhead-user && brunch lineage_angler-user && brunch lineage_flo-user && brunch lineage_marlin-user && brunch lineage_ether-user && brunch lineage_Z00T-user
@@ -15,9 +15,9 @@
 #START OF PREPRATION
 #
 #Set some variables for use later on
-base="/mnt/adw/Android/Build/LineageOS-14.1/"
-patches="/mnt/adw/Android/Patches/LineageOS-14.1/"
-ANDROID_HOME="/mnt/adw/Android/SDK"
+base="/mnt/Drive-1/Development/Other/Android_ROMs/Build/LineageOS-14.1/";
+patches="/mnt/Drive-1/Development/Other/Android_ROMs/Patches/LineageOS-14.1/"
+ANDROID_HOME="/home/$USER/Android/Sdk"
 
 #Download some out-of-tree files for use later on
 mkdir -p /tmp/ar
