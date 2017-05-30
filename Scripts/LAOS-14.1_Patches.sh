@@ -68,7 +68,7 @@ enter "external/noto-fonts"
 cp /tmp/ar/emojione-android.ttf other/NotoColorEmoji.ttf #Change emoji font to EmojiOne
 
 enter "external/sqlite"
-patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch" #Enable secure_delete by default TODO: Fix patch author
+patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch" #Enable secure_delete by default
 
 enter "external/svox"
 git fetch https://android.googlesource.com/platform/external/svox refs/changes/72/302872/2 && git cherry-pick FETCH_HEAD #Fix garbled output See https://android-review.googlesource.com/#/c/302872/
@@ -77,7 +77,7 @@ enter "frameworks/base"
 git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3 #re-enable doze on devices without gms
 git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/31 && git cherry-pick FETCH_HEAD #network traffic
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
-patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG) TODO: Fix patch author
+patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core/res/AndroidManifest.xml.orig
 
@@ -123,7 +123,7 @@ sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.
 
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
-patch -p1 < $patches"android_system_core/0001-Hardening.patch" #Misc hardening TODO: Fix patch author
+patch -p1 < $patches"android_system_core/0001-Hardening.patch" #Misc hardening
 
 #enter "system/netd"
 #patch -p1 < $patches"android_systemd_netd/0001-iptables.patch"; #Network hardening via iptables XXX: Untested
@@ -131,7 +131,7 @@ patch -p1 < $patches"android_system_core/0001-Hardening.patch" #Misc hardening T
 enter "vendor/cm"
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
-sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dsc/' config/common.mk;
+sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dsc/' config/common.mk; #Change buildtype
 
 enter "vendor/cmsdk"
 git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/12 && git cherry-pick FETCH_HEAD #network traffic

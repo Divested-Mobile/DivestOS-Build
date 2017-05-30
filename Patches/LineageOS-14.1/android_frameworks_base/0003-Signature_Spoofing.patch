@@ -1,5 +1,5 @@
 From 44cda6f5e47c33e91980ae35c8bc6d88e4d3763c Mon Sep 17 00:00:00 2001
-From: Tad <tad@spotco.us>
+From: be-neth <bmauduit@beneth.fr>
 Date: Thu, 24 Nov 2016 13:01:30 -0500
 Subject: [PATCH] Allow packages to spoof their signature
 
