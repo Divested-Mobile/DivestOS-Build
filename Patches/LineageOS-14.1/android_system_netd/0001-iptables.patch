@@ -1,33 +1,31 @@
-From 468c7af6d84d1b2c7bafd10c0a109d7ba8512c0b Mon Sep 17 00:00:00 2001
+From 9663281c60b56be2d2cf00cd7ed11625a6ac1998 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Mon, 29 May 2017 20:01:31 -0400
+Date: Mon, 29 May 2017 21:36:29 -0400
 Subject: [PATCH] Network hardening via iptables
 
-Change-Id: I4b7c330a50aa55ad9259e0ced8aee71d4acaf508
+Change-Id: Ic128a37ccbc1885b4f92cee5bd6eb4408fa78105
 
 Credit: https://javapipe.com/iptables-ddos-protection
 ---
- server/CommandListener.cpp | 51 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ server/CommandListener.cpp | 49 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
 diff --git a/server/CommandListener.cpp b/server/CommandListener.cpp
-index b16da18..0a318fc 100755
+index b16da18..06db5b9 100755
 --- a/server/CommandListener.cpp
 +++ b/server/CommandListener.cpp
-@@ -145,6 +145,12 @@ static const char* RAW_PREROUTING[] = {
+@@ -145,6 +145,10 @@ static const char* RAW_PREROUTING[] = {
          NULL,
  };
  
 +static const char* MANGLE_PREROUTING[] = {
-+        BandwidthController::LOCAL_MANGLE_PREROUTING,
-+        IdletimerController::LOCAL_MANGLE_PREROUTING,
 +        NULL,
 +};
 +
  static const char* MANGLE_POSTROUTING[] = {
          BandwidthController::LOCAL_MANGLE_POSTROUTING,
          IdletimerController::LOCAL_MANGLE_POSTROUTING,
-@@ -225,11 +231,56 @@ CommandListener::CommandListener() :
+@@ -225,11 +229,56 @@ CommandListener::CommandListener() :
      createChildChains(V4V6, "filter", "FORWARD", FILTER_FORWARD);
      createChildChains(V4V6, "filter", "OUTPUT", FILTER_OUTPUT);
      createChildChains(V4V6, "raw", "PREROUTING", RAW_PREROUTING);

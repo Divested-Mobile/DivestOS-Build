@@ -182,6 +182,7 @@ deblobDevice() {
 		#awk -i inplace '!/'$makes'/' "${PWD##*/}".mk; #Remove all shim references from device makefile FIXME: Deletes the entire makefile for some reason
 	#fi;
 	if [ -f system.prop ]; then
+		sed -i 's/drm.service.enabled=true/drm.service.enabled=false/' system.prop;
 		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
 		sed -i 's/persist.bt.enableAptXHD=true/persist.bt.enableAptXHD=false/' system.prop; #Disable aptX
 		sed -i 's/persist.cne.feature=./persist.cne.feature=0/' system.prop; #Disable CNE
