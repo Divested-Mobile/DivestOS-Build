@@ -1,14 +1,5 @@
-Last Updated: 05/021/2017
+Last Updated: 05/30/2017
 Credits: LineageOS, CyanogenMod, AOSP, CopperheadOS, OmniROM, TeamWin, F-Droid, MicroG, EmojiOne, anarkia1976, bhb27, Daniel Micay, dirtyhank, Evisceration, faux123, flar2, franciscofranco, hellsgod, mar-v-in, mimi89999, nikhil18, nvllsvm, savoca, stefano.villa1976, WedyDQ10, XileForce
-
-Super Important Stuff
-	- Do *not* flash any root frameworks, root is already included.
-	- Do *not* flash Xposed, it will *severly* decrease the security of your device
-	- Do *not* use AdAway or any other Adblocker as a HOSTS list is already included
-	- Flashing of any Gapps is not recommended and most likely won't work.
-	- To enable Cell/Wi-Fi location resolving: Install a UnifiedNlp backend from F-Droid and then go to microG Settings > UnifiedNlp Settings > Configure location backends
-	- To get Play Store apps, install 'Yalp Store' from F-Droid
-	- To pass SafetyNet add 'https://microg.org/fdroid/repo' to your F-Droid repos and install 'MicroG DroidGuard Helper' then enable it under microG Settings > SafetyNet
 
 Recommended Apps
 	- Visit https://spotco.us/de/apps.html after flashing to find a very comprehensive list of apps that can replace what you're used to
@@ -18,15 +9,17 @@ General Changes
 	- Builds are signed with private release-keys
 	- Bundled in our custom DNS blocklist
 	- Compiled with OpenJDK 8
-	- Disabled "Instant Apps"
 	- Doze is re-enabled on devices without real Google Play Services
-	- Hardened IPv4 and IPv6 stacks
-	- Hardened special file systems
-	- Hardened SQLite
 	- Nuked a *ton* of proprietary blobs
 	- Nuked CMStats from orbit
 	- Removed unnecessary/outdated/insecure packages.
 	- Replaced stock emoji font with EmojiOne (Standardized and Legible)
+	- Replaced default profiles with better ones
+	- Dialer
+		- Disabled FLP and PLP by default
+	- Settings
+		- Increased max password length
+		- Disabled "Instant Apps"
 	- F-Droid
 		- F-Droid and FDroidPrivilegedExtension are included by default
 		- FDroidPrivilegedExtension ONLY allows access to our signed version of F-Droid
