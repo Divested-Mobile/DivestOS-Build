@@ -128,8 +128,8 @@ enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 patch -p1 < $patches"android_system_core/0001-Hardening.patch" #Misc hardening
 
-#enter "system/netd"
-#patch -p1 < $patches"android_systemd_netd/0001-iptables.patch"; #Network hardening via iptables XXX: Untested
+enter "system/netd"
+patch -p1 < $patches"android_system_netd/0001-iptables.patch"; #Network hardening via iptables XXX: Untested
 
 enter "vendor/cm"
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
