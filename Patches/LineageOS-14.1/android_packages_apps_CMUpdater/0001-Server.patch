@@ -1,0 +1,106 @@
+From 0318e9e28c1534fe93404fa2cf4f40790e088e13 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Tue, 30 May 2017 14:30:19 -0400
+Subject: [PATCH] Switch to our update server
+
+Change-Id: I542009b3301c7344342164d62026ff1dbc61792b
+---
+ .../updater/requests/UpdatesJsonObjectRequest.java |  3 ++-
+ .../updater/service/UpdateCheckService.java        | 27 ++--------------------
+ src/com/cyanogenmod/updater/utils/Utils.java       | 17 +-------------
+ 3 files changed, 5 insertions(+), 42 deletions(-)
+
+diff --git a/src/com/cyanogenmod/updater/requests/UpdatesJsonObjectRequest.java b/src/com/cyanogenmod/updater/requests/UpdatesJsonObjectRequest.java
+index 13d22b7..10975df 100644
+--- a/src/com/cyanogenmod/updater/requests/UpdatesJsonObjectRequest.java
++++ b/src/com/cyanogenmod/updater/requests/UpdatesJsonObjectRequest.java
+@@ -10,6 +10,7 @@
+ package com.cyanogenmod.updater.requests;
+ 
+ import com.android.volley.AuthFailureError;
++import com.android.volley.Request;
+ import com.android.volley.Response;
+ import com.android.volley.toolbox.JsonObjectRequest;
+ import org.json.JSONObject;
+@@ -23,7 +24,7 @@ public class UpdatesJsonObjectRequest extends JsonObjectRequest {
+ 
+     public UpdatesJsonObjectRequest(String url, String userAgent, JSONObject jsonRequest,
+             Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
+-        super(url, jsonRequest, listener, errorListener);
++        super(Request.Method.GET, url, jsonRequest, listener, errorListener);
+         mUserAgent = userAgent;
+     }
+ 
+diff --git a/src/com/cyanogenmod/updater/service/UpdateCheckService.java b/src/com/cyanogenmod/updater/service/UpdateCheckService.java
+index 319f68b..52d52a9 100644
+--- a/src/com/cyanogenmod/updater/service/UpdateCheckService.java
++++ b/src/com/cyanogenmod/updater/service/UpdateCheckService.java
+@@ -200,35 +200,12 @@ public class UpdateCheckService extends IntentService
+     }
+ 
+     private String getRomType() {
+-        String type;
+-        switch (Utils.getUpdateType()) {
+-            case Constants.UPDATE_TYPE_SNAPSHOT:
+-                type = Constants.CM_RELEASETYPE_SNAPSHOT;
+-                break;
+-            case Constants.UPDATE_TYPE_NIGHTLY:
+-                type = Constants.CM_RELEASETYPE_NIGHTLY;
+-                break;
+-            case Constants.UPDATE_TYPE_EXPERIMENTAL:
+-                type = Constants.CM_RELEASETYPE_EXPERIMENTAL;
+-                break;
+-            case Constants.UPDATE_TYPE_UNOFFICIAL:
+-            default:
+-                type = Constants.CM_RELEASETYPE_UNOFFICIAL;
+-                break;
+-        }
++        String type = Constants.CM_RELEASETYPE_NIGHTLY;
+         return type.toLowerCase();
+     }
+ 
+     private URI getServerURI() {
+-        String updateUri = SystemProperties.get("cm.updater.uri");
+-        if (TextUtils.isEmpty(updateUri)) {
+-            updateUri = getString(R.string.conf_update_server_url_def);
+-        }
+-
+-        String incrementalVersion = SystemProperties.get("ro.build.version.incremental");
+-        updateUri += "/v1/" + Utils.getDeviceType() + "/" + getRomType() + "/" + incrementalVersion;
+-
+-        return URI.create(updateUri);
++        return URI.create("https://spotco.us/de/devices/" + Utils.getDeviceType() + "/um.json");
+     }
+ 
+     private void getAvailableUpdates() {
+diff --git a/src/com/cyanogenmod/updater/utils/Utils.java b/src/com/cyanogenmod/updater/utils/Utils.java
+index 72f12bd..6b89988 100644
+--- a/src/com/cyanogenmod/updater/utils/Utils.java
++++ b/src/com/cyanogenmod/updater/utils/Utils.java
+@@ -174,22 +174,7 @@ public class Utils {
+             releaseType = Constants.CM_RELEASETYPE_UNOFFICIAL;
+         }
+ 
+-        int updateType;
+-        switch (releaseType) {
+-            case Constants.CM_RELEASETYPE_SNAPSHOT:
+-                updateType = Constants.UPDATE_TYPE_SNAPSHOT;
+-                break;
+-            case Constants.CM_RELEASETYPE_NIGHTLY:
+-                updateType = Constants.UPDATE_TYPE_NIGHTLY;
+-                break;
+-            case Constants.CM_RELEASETYPE_EXPERIMENTAL:
+-                updateType = Constants.UPDATE_TYPE_EXPERIMENTAL;
+-                break;
+-            case Constants.CM_RELEASETYPE_UNOFFICIAL:
+-            default:
+-                updateType = Constants.UPDATE_TYPE_UNOFFICIAL;
+-                break;
+-        }
++        int updateType = Constants.UPDATE_TYPE_NIGHTLY;
+         return updateType;
+     }
+ 
+-- 
+2.13.0
+
