@@ -1,9 +1,9 @@
-From 0318e9e28c1534fe93404fa2cf4f40790e088e13 Mon Sep 17 00:00:00 2001
+From dd8a7a049bb22eb8a4245f848bdef3cadae7f667 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Tue, 30 May 2017 14:30:19 -0400
+Date: Tue, 30 May 2017 15:05:11 -0400
 Subject: [PATCH] Switch to our update server
 
-Change-Id: I542009b3301c7344342164d62026ff1dbc61792b
+Change-Id: I6964ad96bc65d1ba055d48c6df5a631327d434a8
 ---
  .../updater/requests/UpdatesJsonObjectRequest.java |  3 ++-
  .../updater/service/UpdateCheckService.java        | 27 ++--------------------
@@ -32,7 +32,7 @@ index 13d22b7..10975df 100644
      }
  
 diff --git a/src/com/cyanogenmod/updater/service/UpdateCheckService.java b/src/com/cyanogenmod/updater/service/UpdateCheckService.java
-index 319f68b..52d52a9 100644
+index 319f68b..729708b 100644
 --- a/src/com/cyanogenmod/updater/service/UpdateCheckService.java
 +++ b/src/com/cyanogenmod/updater/service/UpdateCheckService.java
 @@ -200,35 +200,12 @@ public class UpdateCheckService extends IntentService
@@ -69,7 +69,7 @@ index 319f68b..52d52a9 100644
 -        updateUri += "/v1/" + Utils.getDeviceType() + "/" + getRomType() + "/" + incrementalVersion;
 -
 -        return URI.create(updateUri);
-+        return URI.create("https://spotco.us/de/devices/" + Utils.getDeviceType() + "/um.json");
++        return URI.create("https://spotco.us/de/updater.php?device=" + Utils.getDeviceType());
      }
  
      private void getAvailableUpdates() {
