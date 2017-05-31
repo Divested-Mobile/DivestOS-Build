@@ -31,7 +31,7 @@ export base;
 	#aptX (Bluetooth Audio Compression Codec) [Qualcomm]
 	blobs=$blobs"|libaptX-1.0.0-rel-Android21-ARMv7A.so|libaptXHD-1.0.0-rel-Android21-ARMv7A.so|libaptXScheduler.so";
 
-	#ATFWD (Miracast/Wireless Display) [Qualcomm]
+	#ATFWD [Qualcomm]
 	blobs=$blobs"|ATFWD-daemon|atfwd.apk";
 
 	#AudioFX (Audio Effects) [Qualcomm]
@@ -84,7 +84,7 @@ export base;
 	blobs=$blobs"|htc_drmprov.b00|htc_drmprov.b01|htc_drmprov.b02|htc_drmprov.b03|htc_drmprov.b04|htc_drmprov.b05|htc_drmprov.b06|htc_drmprov.mdt|gptauuid.xml|gpsample.mbn";
 
 	#I/O Prefetcher [Qualcomm]
-	blobs=$blobs"|iop|libqc-opt.so|libqti-iop-client.so|libqti-iop.so";
+	blobs=$blobs"|iop|libqc-opt.so|libqti-iop-client.so|libqti-iop.so|QPerformance.jar";
 
 	#IMS (RCS/VoLTE/Wi-Fi Calling) [Qualcomm]
 	#XXX: This is a *VERY* aggressive change and might be disabled in the future
@@ -120,6 +120,9 @@ export base;
 	#QTI (Tethering Extensions) [Qualcomm]
 	blobs=$blobs"|libQtiTether.so|QtiTetherService.apk";
 
+	#SecProtect [Qualcomm]
+	blobs=$blobs"|SecProtect.apk";
+
 	#SoundFX [Sony]
 	blobs=$blobs"|libsonypostprocbundle.so|libsonysweffect.so";
 
@@ -143,6 +146,9 @@ export base;
 
 	#Vulkan [Qualcomm]
 	#blobs=$blobs"|libllvm-qgl.so|vulkan.msm*.so";
+
+	#Wfd (Wireless Display) [Qualcomm]
+	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdcommonutils.so|libwfdhdcpcp.so|libwfdmmsink.so|libwfdmmsrc.so|libwfdmmutils.so|libwfdnative.so|libwfdrtsp.so|libwfdservice.so|libwfdsm.so|libwfduibcinterface.so|libwfduibcsinkinterface.so|libwfduibcsink.so|libwfduibcsrcinterface.so|libwfduibcsrc.so|WfdCommon.jar|wfdconfigsink.xml|wfdconfig.xml|wfdservice|WfdService.apk";
 
 	#Widevine (DRM) [Google]
 	blobs=$blobs"|com.google.widevine.software.drm.jar|com.google.widevine.software.drm.xml|libdrmwvmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|tzwidevine.b00|tzwidevine.b01|tzwidevine.b02|tzwidevine.b03|tzwidevine.mdt|widevine.b00|widevine.b01|widevine.b02|widevine.b03|widevine.b04|widevine.b05|widevine.b06|widevine.mbn|widevine.mdt";

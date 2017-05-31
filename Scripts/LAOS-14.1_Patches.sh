@@ -135,6 +135,7 @@ patch -p1 < $patches"android_system_core/0001-Hardening.patch" #Misc hardening
 #patch -p1 < $patches"android_system_netd/0001-iptables.patch"; #Network hardening via iptables XXX: Doesn't seem to do anything?
 
 enter "vendor/cm"
+awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dsc/' config/common.mk; #Change buildtype
