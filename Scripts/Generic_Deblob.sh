@@ -2,7 +2,7 @@
 
 #Goal: Remove as many proprietary blobs without breaking core functionality
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
-#TODO: Clean init*.rc files, Create TWRP version, Remove more variants
+#TODO: Clean init*.rc files, Create TWRP version, Don't add Sony TimeKeep to devices that don't need it, Remove more variants
 
 #
 #Device Status (Tested under LineageOS 14.1 and 11.0)
@@ -245,18 +245,16 @@ deblobDevice() {
 		sed -i 's|<bool name="config_device_vt_available">true</bool>|<bool name="config_device_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
 		sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|'  overlay/frameworks/base/core/res/res/values/config.xml;
 	fi;
-	if [ -f rootdir ]; then
-		sed -i 's|service time_daemon /system/bin/time_daemon|service timekeep /system/bin/timekeep restore\n    oneshot|' rootdir/init.*.rc rootdir/etc/init.*.rc; #Switch to Sony TimeKeep
-	fi;
-	if [ -f sepolicy ]; then
+	if [ -d sepolicy ]; then
 		#Switch to Sony TimeKeep
-		echo "https://github.com/LineageOS/android_device_motorola_clark" >> sepolicy/file_contexts;
+		echo "/system/bin/timekeep                            u:object_r:timekeep_exec:s0" >> sepolicy/file_contexts;
 		echo "type timekeep_prop, property_type;" >> sepolicy/property.te;
 		echo "persist.sys.timeadjust          u:object_r:timekeep_prop:s0" >> sepolicy/property_contexts;
 		echo "com.sony.timekeep           u:object_r:timekeep_service:s0" >> sepolicy/service_contexts;
 		echo "allow system_app timekeep_prop:property_service set" >> sepolicy/system_app.te;
 		echo -e "type timekeep, domain;\ntype timekeep_exec, exec_type, file_type;\ntype timekeep_service, service_manager_type;\ninit_daemon_domain(timekeep)\nallow timekeep self:capability { sys_time };" >> sepolicy/timekeep.te;
 	fi;
+	sed -i 's|service time_daemon /system/bin/time_daemon|service timekeep /system/bin/timekeep restore\n    oneshot|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true; #Switch to Sony TimeKeep
 	rm -f rootdir/etc/init.qti.ims.sh #Remove IMS startup script
 	rm -rf IMSEnabler; #Remove IMS compatibility module
 	rm -rf data-ipa-cfg-mgr; #Remove IPACM
