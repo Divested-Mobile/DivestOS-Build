@@ -2,7 +2,7 @@
 
 #Goal: Remove as many proprietary blobs without breaking core functionality
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
-#TODO: Clean init*.rc files, Create TWRP version, Don't add Sony TimeKeep to devices that don't need it, Remove more variants
+#TODO: Clean init*.rc files, Create TWRP version, Remove more variants
 
 #
 #Device Status (Tested under LineageOS 14.1 and 11.0)
@@ -247,20 +247,8 @@ deblobDevice() {
 	fi;
 	if [ -d sepolicy ]; then
 		#Switch to Sony TimeKeep
-		echo "set_prop(system_app, timekeep_prop)" >> sepolicy/system_app.te;
-		echo "r_dir_file(system_app, sysfs_timekeep)" >> sepolicy/system_app.te;
 		echo "allow system_app time_data_file:dir { create_dir_perms search };" >> sepolicy/system_app.te;
 		echo "allow system_app time_data_file:file create_file_perms;" >> sepolicy/system_app.te;
-		echo "get_prop(shell, timekeep_prop)" >> sepolicy/shell.te;
-		echo "com.sony.timekeep u:object_r:timekeep_service:s0" >> sepolicy/service_contexts;
-		echo "type timekeep_service, service_manager_type;" >> sepolicy/service.te;
-		echo "user=system seinfo=platform name=com.sony.timekeep domain=system_app type=system_app_data_fil" >> sepolicy/seapp_contexts;
-		echo "persist.sys.timeadjust u:object_r:timekeep_prop:s0" >> sepolicy/property_contexts;
-		echo "type timekeep_prop, property_type;" >> sepolicy/property.te;
-		echo "/system/bin/timekeep u:object_r:timekeep_exec:s0" >> sepolicy/file_contexts;
-		echo "/sys/devices(/soc\.0|/soc)?/00-qcom,pm(8226|8941|8950|8974|8992|8994)_rtc/rtc/rtc0/since_epoch u:object_r:sysfs_timekeep:s0" >> sepolicy/file_contexts;
-		echo "type sysfs_timekeep, fs_type, sysfs_type;" >> sepolicy/file.te;
-		cp /tmp/ar/timekeep.te sepolicy/timekeep.te;
 	fi;
 	sed -i 's|service time_daemon /system/bin/time_daemon|service timekeep /system/bin/timekeep restore\n    oneshot|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true; #Switch to Sony TimeKeep
 	rm -f rootdir/etc/init.qti.ims.sh #Remove IMS startup script
