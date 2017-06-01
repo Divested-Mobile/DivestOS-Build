@@ -24,6 +24,7 @@ mkdir -p /tmp/ar
 cd /tmp/ar
 wget https://spotco.us/hosts -N #XXX: /hosts is built from non-commercial use files, switch to /hsc for release
 wget https://github.com/Ranks/emojione/raw/master/extras/fonts/emojione-android.ttf -N #XXX: Requires attribuition
+wget https://raw.githubusercontent.com/omnirom/android_device_sony_loire-common/android-7.1/sepolicy/timekeep.te
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
 mkdir -p "$ANDROID_HOME/licenses"
