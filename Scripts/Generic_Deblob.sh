@@ -2,7 +2,7 @@
 
 #Goal: Remove as many proprietary blobs without breaking core functionality
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
-#TODO: Automate TimeKeep replacing, Clean init*.rc files, Create TWRP version, Remove more variants
+#TODO: Clean init*.rc files, Create TWRP version, Remove more variants
 
 #
 #Device Status (Tested under LineageOS 14.1 and 11.0)
@@ -135,8 +135,9 @@ export base;
 	#Thermal Throttling [Qualcomm]
 	#blobs=$blobs"|libthermalclient.so|libthermalioctl.so|thermal-engine";
 
-	#Time Service [Qualcomm] XXX: Breaks time, can be replaced with https://github.com/LineageOS/android_hardware_sony_timekeep
-	#blobs=$blobs"|libtime_genoff.so|libTimeService.so|time_daemon|TimeService.apk";
+	#Time Service [Qualcomm] XXX: Requires that https://github.com/LineageOS/android_hardware_sony_timekeep be included in repo manifest
+	#blobs=$blobs"|libtime_genoff.so"; #The radio needs this
+	blobs=$blobs"|libTimeService.so|time_daemon|TimeService.apk";
 
 	#Venus (Hardware Video Decoding) [Qualcomm]
 	#blobs=$blobs"|venus.b00|venus.b01|venus.b02|venus.b03|venus.b04|venus.mbn|venus.mdt";
@@ -182,14 +183,17 @@ deblobDevice() {
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WV_SYMLINKS)//' Android.mk; #Remove Google Widevine firmware
 	fi;
 	if [ -f BoardConfig.mk ]; then 
+		sed -i 's/BOARD_USES_QC_TIME_SERVICES := true/BOARD_USES_QC_TIME_SERVICES := false/' BoardConfig.mk; #Switch to Sony TimeKeep
 		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; #Disable CNE
 		sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig.mk; #Disable WiPower
 	fi;
 	if [ -f device.mk ]; then
 		awk -i inplace '!/'$makes'/' device.mk; #Remove all shim references from device makefile
+		echo -e "PRODUCT_PACKAGES +=\ \n    timekeep \ \n    TimeKeep\n" >> device.mk; #Switch to Sony TimeKeep
 	fi;
 	if [ -f "${PWD##*/}".mk ]; then
 		awk -i inplace '!/'$makes'/' "${PWD##*/}".mk; #Remove all shim references from device makefile
+		echo -e "PRODUCT_PACKAGES +=\ \n    timekeep \ \n    TimeKeep\n" >> device.mk; #Switch to Sony TimeKeep
 	fi;
 	if [ -f system.prop ]; then
 		sed -i 's/drm.service.enabled=true/drm.service.enabled=false/' system.prop;
@@ -233,6 +237,18 @@ deblobDevice() {
 		sed -i 's|<bool name="config_device_volte_available">true</bool>|<bool name="config_device_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
 		sed -i 's|<bool name="config_device_vt_available">true</bool>|<bool name="config_device_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
 		sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|'  overlay/frameworks/base/core/res/res/values/config.xml;
+	fi;
+	if [ -f rootdir ]; then
+		sed -i 's|service time_daemon /system/bin/time_daemon|service timekeep /system/bin/timekeep restore\n    oneshot|' rootdir/init.*.rc rootdir/etc/init.*.rc; #Switch to Sony TimeKeep
+	fi;
+	if [ -f sepolicy ]; then
+		#Switch to Sony TimeKeep
+		echo "https://github.com/LineageOS/android_device_motorola_clark" >> sepolicy/file_contexts;
+		echo "type timekeep_prop, property_type;" >> sepolicy/property.te;
+		echo "persist.sys.timeadjust          u:object_r:timekeep_prop:s0" >> sepolicy/property_contexts;
+		echo "com.sony.timekeep           u:object_r:timekeep_service:s0" >> sepolicy/service_contexts;
+		echo "allow system_app timekeep_prop:property_service set" >> sepolicy/system_app.te;
+		echo -e "type timekeep, domain;\ntype timekeep_exec, exec_type, file_type;\ntype timekeep_service, service_manager_type;\ninit_daemon_domain(timekeep)\nallow timekeep self:capability { sys_time };" >> sepolicy/timekeep.te;
 	fi;
 	rm -f rootdir/etc/init.qti.ims.sh #Remove IMS startup script
 	rm -rf IMSEnabler; #Remove IMS compatibility module
