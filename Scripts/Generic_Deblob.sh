@@ -7,8 +7,7 @@
 #
 #Device Status (Tested under LineageOS 14.1 and 11.0)
 #
-#Fully Functional: bacon, clark
-#LTE Broken (Potentially Unrelated): mako
+#Fully Functional: bacon, clark, mako
 
 base="/mnt/Drive-1/Development/Other/Android_ROMs/Build/LineageOS-14.1/";
 export base;
@@ -174,7 +173,6 @@ export base;
 deblobDevice() {
 	devicePath=$1;
 	cd $base$devicePath;
-	if grep -q "time_daemon" *proprietary*.txt; then replaceTime="true" fi; #Enable TimeKeep replacement
 	if [ -f Android.mk ]; then
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Remove CMN firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(DXHDCP2_SYMLINKS)//' Android.mk; #Remove Discretix firmware
@@ -184,30 +182,24 @@ deblobDevice() {
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WV_SYMLINKS)//' Android.mk; #Remove Google Widevine firmware
 	fi;
 	if [ -f BoardConfig.mk ]; then 
-		if [ -z "$replaceTime" ]; then 
-			sed -i 's/BOARD_USES_QC_TIME_SERVICES := true/BOARD_USES_QC_TIME_SERVICES := false/' BoardConfig.mk; #Switch to Sony TimeKeep
-			if ! grep -q "BOARD_USES_QC_TIME_SERVICES := false" BoardConfig.mk; then echo "BOARD_USES_QC_TIME_SERVICES := false" >> BoardConfig.mk; fi; #Switch to Sony TimeKeep
-		fi;
+		sed -i 's/BOARD_USES_QC_TIME_SERVICES := true/BOARD_USES_QC_TIME_SERVICES := false/' BoardConfig.mk; #Switch to Sony TimeKeep
+		if ! grep -q "BOARD_USES_QC_TIME_SERVICES := false" BoardConfig.mk; then echo "BOARD_USES_QC_TIME_SERVICES := false" >> BoardConfig.mk; fi; #Switch to Sony TimeKeep
 		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; #Disable CNE
 		sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig.mk; #Disable WiPower
 	fi;
 	if [ -f device.mk ]; then
 		awk -i inplace '!/'$makes'/' device.mk; #Remove all shim references from device makefile
-		if [ -z "$replaceTime" ]; then 
-			#Switch to Sony TimeKeep
-			echo "PRODUCT_PACKAGES += \\" >> device.mk;
-			echo "    timekeep \\" >> device.mk;
-			echo "    TimeKeep" >> device.mk;
-		fi;
+		#Switch to Sony TimeKeep
+		echo "PRODUCT_PACKAGES += \\" >> device.mk;
+		echo "    timekeep \\" >> device.mk;
+		echo "    TimeKeep" >> device.mk;
 	fi;
 	if [ -f "${PWD##*/}".mk ] && [ "${PWD##*/}".mk != "sepolicy" ]; then
 		awk -i inplace '!/'$makes'/' "${PWD##*/}".mk; #Remove all shim references from device makefile
-		if [ -z "$replaceTime" ]; then 
-			#Switch to Sony TimeKeep
-			echo "PRODUCT_PACKAGES += \\" >> device.mk;
-			echo "    timekeep \\" >> device.mk;
-			echo "    TimeKeep" >> device.mk;
-		fi;
+		#Switch to Sony TimeKeep
+		echo "PRODUCT_PACKAGES += \\" >> device.mk;
+		echo "    timekeep \\" >> device.mk;
+		echo "    TimeKeep" >> device.mk;
 	fi;
 	if [ -f system.prop ]; then
 		sed -i 's/drm.service.enabled=true/drm.service.enabled=false/' system.prop;
@@ -252,14 +244,12 @@ deblobDevice() {
 		sed -i 's|<bool name="config_device_vt_available">true</bool>|<bool name="config_device_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
 		sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|'  overlay/frameworks/base/core/res/res/values/config.xml;
 	fi;
-	if [ -d sepolicy ]; then
-		if [ -z "$replaceTime" ]; then 
-			#Switch to Sony TimeKeep
-			echo "allow system_app time_data_file:dir { create_dir_perms search };" >> sepolicy/system_app.te;
-			echo "allow system_app time_data_file:file create_file_perms;" >> sepolicy/system_app.te;
-		fi;
+	if [ -d sepolicy ] && [ "${PWD##*/}".mk != "flo" ]; then
+		#Switch to Sony TimeKeep
+		echo "allow system_app time_data_file:dir { create_dir_perms search };" >> sepolicy/system_app.te;
+		echo "allow system_app time_data_file:file create_file_perms;" >> sepolicy/system_app.te;
 	fi;
-	if [ -z "$replaceTime" ]; then sed -i 's|service time_daemon /system/bin/time_daemon|service timekeep /system/bin/timekeep restore\n    oneshot|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true; fi; #Switch to Sony TimeKeep
+	sed -i 's|service time_daemon /system/bin/time_daemon|service timekeep /system/bin/timekeep restore\n    oneshot|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true; #Switch to Sony TimeKeep
 	rm -f rootdir/etc/init.qti.ims.sh #Remove IMS startup script
 	rm -rf IMSEnabler; #Remove IMS compatibility module
 	rm -rf data-ipa-cfg-mgr; #Remove IPACM
