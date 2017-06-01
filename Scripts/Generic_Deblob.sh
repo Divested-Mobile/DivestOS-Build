@@ -184,16 +184,23 @@ deblobDevice() {
 	fi;
 	if [ -f BoardConfig.mk ]; then 
 		sed -i 's/BOARD_USES_QC_TIME_SERVICES := true/BOARD_USES_QC_TIME_SERVICES := false/' BoardConfig.mk; #Switch to Sony TimeKeep
+		if ! grep -q "BOARD_USES_QC_TIME_SERVICES := false" BoardConfig.mk; then echo "BOARD_USES_QC_TIME_SERVICES := false" >> BoardConfig.mk; fi; #Switch to Sony TimeKeep
 		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; #Disable CNE
 		sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig.mk; #Disable WiPower
 	fi;
 	if [ -f device.mk ]; then
 		awk -i inplace '!/'$makes'/' device.mk; #Remove all shim references from device makefile
-		echo -e "PRODUCT_PACKAGES +=\ \n    timekeep \ \n    TimeKeep\n" >> device.mk; #Switch to Sony TimeKeep
+		#Switch to Sony TimeKeep
+		echo "PRODUCT_PACKAGES += \\" >> device.mk;
+		echo "    timekeep \\" >> device.mk;
+		echo "    TimeKeep" >> device.mk;
 	fi;
-	if [ -f "${PWD##*/}".mk ]; then
+	if [ -f "${PWD##*/}".mk ] && [ "${PWD##*/}".mk != "sepolicy" ]; then
 		awk -i inplace '!/'$makes'/' "${PWD##*/}".mk; #Remove all shim references from device makefile
-		echo -e "PRODUCT_PACKAGES +=\ \n    timekeep \ \n    TimeKeep\n" >> device.mk; #Switch to Sony TimeKeep
+		#Switch to Sony TimeKeep
+		echo "PRODUCT_PACKAGES += \\" >> device.mk;
+		echo "    timekeep \\" >> device.mk;
+		echo "    TimeKeep" >> device.mk;
 	fi;
 	if [ -f system.prop ]; then
 		sed -i 's/drm.service.enabled=true/drm.service.enabled=false/' system.prop;
