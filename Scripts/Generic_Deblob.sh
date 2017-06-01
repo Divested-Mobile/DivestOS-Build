@@ -105,8 +105,11 @@ export base;
 	blobs=$blobs"|AppDirectedSMSProxy.apk|BuaContactAdapter.apk|batt_health|com.motorola.DirectedSMSProxy.xml|com.motorola.motosignature.jar|com.motorola.motosignature.xml|com.motorola.camera.xml|com.motorola.gallery.xml|com.motorola.triggerenroll.xml|MotoDisplayFWProxy.apk|MotoSignatureApp.apk|TriggerEnroll.apk|TriggerTrainingService.apk";
 	makes=$makes"|com.motorola.cameraone.xml";
 
+	#Performance [Qualcomm]
+	#blobs=$blobs"|mpdecision|msm_irqbalance";
+
 	#Performance Profiles [Qualcomm]
-	#blobs=$blobs"|libqti-perfd-client.so|mpdecision|msm_irqbalance|perfd|perf-profile0.conf|perf-profile1.conf|perf-profile2.conf|perf-profile3.conf|perf-profile4.conf|perf-profile5.conf";
+	blobs=$blobs"|libqti-perfd-client.so|perfd|perf-profile0.conf|perf-profile1.conf|perf-profile2.conf|perf-profile3.conf|perf-profile4.conf|perf-profile5.conf";
 
 	#Playready (DRM) [Microsoft]
 	blobs=$blobs"|playread.b00|playread.b01|playread.b02|playread.b03|playread.mdt";
@@ -156,9 +159,10 @@ export base;
 
 	#WiPower (Wireless Charging) [Qualcomm]
 	blobs=$blobs"|a4wpservice.apk|com.quicinc.wbc.jar|com.quicinc.wbcserviceapp.apk|com.quicinc.wbcservice.jar|com.quicinc.wbcservice.xml|com.quicinc.wbc.xml|libwbc_jni.so|wbc_hal.default.so";
-	makes=$makes"|android.wipower|android.wipower.xml|com.quicinc.wbcserviceapps|libwipower_jni|wipowerservice"
+	makes=$makes"|android.wipower|android.wipower.xml|com.quicinc.wbcserviceapps|libwipower_jni|wipowerservice";
 
 	export blobs;
+	export makes;
 #
 #END OF BLOBS ARRAY
 #
@@ -181,12 +185,12 @@ deblobDevice() {
 		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; #Disable CNE
 		sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig.mk; #Disable WiPower
 	fi;
-	#if [ -f device.mk ]; then
-		#awk -i inplace '!/'$makes'/' device.mk; #Remove all shim references from device makefile FIXME: Deletes the entire makefile for some reason
-	#fi;
-	#if [ -f "${PWD##*/}".mk ]; then
-		#awk -i inplace '!/'$makes'/' "${PWD##*/}".mk; #Remove all shim references from device makefile FIXME: Deletes the entire makefile for some reason
-	#fi;
+	if [ -f device.mk ]; then
+		awk -i inplace '!/'$makes'/' device.mk; #Remove all shim references from device makefile
+	fi;
+	if [ -f "${PWD##*/}".mk ]; then
+		awk -i inplace '!/'$makes'/' "${PWD##*/}".mk; #Remove all shim references from device makefile
+	fi;
 	if [ -f system.prop ]; then
 		sed -i 's/drm.service.enabled=true/drm.service.enabled=false/' system.prop;
 		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
