@@ -105,10 +105,8 @@ export base;
 	makes=$makes"|com.motorola.cameraone.xml";
 
 	#Performance [Qualcomm]
-	#blobs=$blobs"|mpdecision|msm_irqbalance";
-
-	#Performance Profiles [Qualcomm]
-	blobs=$blobs"|libqti-perfd-client.so|perfd|perf-profile0.conf|perf-profile1.conf|perf-profile2.conf|perf-profile3.conf|perf-profile4.conf|perf-profile5.conf";
+	#blobs=$blobs"|msm_irqbalance";
+	blobs=$blobs"|mpdecision|libqti-perfd-client.so|perfd|perf-profile0.conf|perf-profile1.conf|perf-profile2.conf|perf-profile3.conf|perf-profile4.conf|perf-profile5.conf";
 
 	#Playready (DRM) [Microsoft]
 	blobs=$blobs"|playread.b00|playread.b01|playread.b02|playread.b03|playread.mdt";
@@ -137,7 +135,7 @@ export base;
 	#Time Service [Qualcomm]
 	#XXX: Requires that https://github.com/LineageOS/android_hardware_sony_timekeep be included in repo manifest
 	#XXX: This is another aggressive change and might be disabled in the future
-	#XXX: Time seems to be set properly with these blobs removed without Sony TimeKeep, so there may be more shenanigans here
+	#XXX: Time seems to be set properly with these blobs removed without Sony TimeKeep, so there may be more shenanigans here unless thats just NTP
 	#blobs=$blobs"|libtime_genoff.so"; #XXX: Breaks radio
 	blobs=$blobs"|libTimeService.so|time_daemon|TimeService.apk";
 

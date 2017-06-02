@@ -48,6 +48,16 @@ disableDexPreOpt() {
 	sed -i 's/WITH_DEXPREOPT := true/WITH_DEXPREOPT := false/' BoardConfig.mk;
 	echo "Disable dexpreopt";
 }
+
+addMPD() {
+	cp $patches"msm_kernel/msm_dcvs.c" arch/arm/mach-msm/msm_dcvs.c;
+	cp $patches"msm_kernel/msm_dcvs.h" arch/arm/mach-msm/include/mach/msm_dcvs.h;
+	cp $patches"msm_kernel/msm_dcvs_scm.h" arch/arm/mach-msm/include/mach/msm_dcvs_scm.h;
+	cp $patches"msm_kernel/mpdcvs_trace.h" include/trace/events/mpdcvs_trace.h;
+	cp $patches"msm_kernel/msm_mpdecision.c" arch/arm/mach-msm/msm_mpdecision.c;
+	echo "obj-$(CONFIG_MSM_DCVS) += msm_dcvs_scm.o msm_dcvs.o msm_mpdecision.o" >> arch/arm/mach-msm/Makefile;
+	echo "Added msm_mpdecision";
+}
 #
 #END OF PREPRATION
 #
@@ -138,6 +148,7 @@ enter "vendor/cm"
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
+cp $patches"android_vendor_cm/99mpdecision" prebuilt/common/etc/init.d/99mpdecision #Credit: Cl3Kener
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dsc/' config/common.mk; #Change buildtype
 
 enter "vendor/cmsdk"
@@ -154,6 +165,7 @@ enter "device/motorola/clark"
 enableDexPreOpt
 
 enter "kernel/motorola/msm8992"
+addMPD
 patch -p1 < $patches"android_kernel_motorola_msm8992/0001-OverUnderClock.patch" #a57: 1.82Ghz -> 2.01Ghz, a53 1.44Ghz -> 1.63Ghz, 384Mhz -> 300Mhz	=+1.14Ghz TODO: Enable by default
 patch -p1 < $patches"android_kernel_motorola_msm8992/0002-MMC_Tweak.patch" #Improves MMC performance
 
@@ -168,25 +180,38 @@ enter "device/lge/mako"
 disableDexPreOpt #bootloops
 patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed)
 
-enter "kernel/lge/mako"
-patch -p1 < $patches"android_kernel_lge_mako/0001-OverUnderClock.patch" #384Mhz -> 81Mhz, 1.51Ghz -> 1.94Ghz	=+1.72Ghz
+#enter "kernel/lge/mako"
+#patch -p1 < $patches"android_kernel_lge_mako/0001-OverUnderClock.patch" #384Mhz -> 81Mhz, 1.51Ghz -> 1.94Ghz	=+1.72Ghz #XXX: Causes excessively long boot times
+
+enter "kernel/asus/msm8916"
+addMPD
 
 enter "kernel/lge/hammerhead"
 patch -p1 < $patches"android_kernel_lge_hammerhead/0001-OverUnderClock.patch" #2.26Ghz -> 2.95Ghz	=+2.76Ghz
 
 enter "kernel/moto/shamu"
+addMPD
 patch -p1 < $patches"android_kernel_moto_shamu/0001-OverUnderClock.patch" #300Mhz -> 35Mhz, 2.64Ghz -> 2.88Ghz	=+0.96Ghz
 
 enter "kernel/lge/bullhead"
+addMPD
 patch -p1 < $patches"android_kernel_lge_bullhead/0001-OverUnderClock.patch" #a57: 1.82Ghz -> 2.01Ghz, a53 1.44Ghz -> 1.63Ghz, 384Mhz -> 300Mhz	=+1.14Ghz TODO: Enable by default
 patch -p1 < $patches"android_kernel_lge_bullhead/0002-MMC_Tweak.patch" #Improves MMC performance
 
 enter "kernel/motorola/msm8916"
+addMPD
 patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch" #1.36Ghz -> 1.88Ghz	=+ 2.07Ghz
 
 enter "kernel/nextbit/msm8992"
+addMPD
 patch -p1 < $patches"android_kernel_nextbit_msm8992/0001-OverUnderClock.patch" #a57: 1.82Ghz -> 2.01Ghz, a53 1.44Ghz -> 1.63Ghz, 384Mhz -> 300Mhz	=+1.14Ghz TODO: Enable by default
 patch -p1 < $patches"android_kernel_nextbit_msm8992/0002-MMC_Tweak.patch" #Improves MMC performance
+
+enter "kernel/huawei/angler"
+addMPD
+
+enter "kernel/google/marlin"
+addMPD
 #
 #END OF DEVICE CHANGES
 #
