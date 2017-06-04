@@ -17,4 +17,4 @@ PRODUCT_PACKAGES += \
 
 # Chromium
 #PRODUCT_PACKAGES += \
-#    chromium
+#    Chromium
