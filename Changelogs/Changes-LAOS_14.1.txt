@@ -1,9 +1,10 @@
 Last Updated: 06/04/2017
 Credits
-	- ROMs: LineageOS, CyanogenMod, CopperheadOS, OmniROM, and AOSP
-	- Apps: MicroG, F-Droid
-	- Misc: Emojione/Ranks
-	- People: anarkia1976, bhb27, dirtyhank, Evisceration, faux123, flar2, franciscofranco, hellsgod, mar-v-in, mimi89999, nikhil18, nvllsvm, savoca, stefano.villa1976, thestinger, WedyDQ10, XileForce
+	- Google and the Android Open Source Project
+	- ROMs: LineageOS/CyanogenMod, CopperheadOS, OmniROM
+	- Apps: F-Droid, MicroG
+	- Misc: Emojione/Ranks, Stack Exchange Network
+	- People: anarkia1976, bhb27, dirtyhank, Evisceration, faux123, flar2, franciscofranco, hellsgod, mar-v-in, mimi89999, nikhil18, nvllsvm, p4block, savoca, stefano.villa1976, thestinger, WedyDQ10, XileForce
 
 Recommended Apps
 	- Visit https://spotco.us/de/apps.html after flashing to find a very comprehensive list of apps that can replace what you're used to
