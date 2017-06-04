@@ -1,5 +1,9 @@
-Last Updated: 05/30/2017
-Credits: LineageOS, CyanogenMod, AOSP, CopperheadOS, OmniROM, TeamWin, F-Droid, MicroG, EmojiOne, anarkia1976, bhb27, Daniel Micay, dirtyhank, Evisceration, faux123, flar2, franciscofranco, hellsgod, mar-v-in, mimi89999, nikhil18, nvllsvm, savoca, stefano.villa1976, WedyDQ10, XileForce
+Last Updated: 06/04/2017
+Credits
+	- ROMs: LineageOS, CyanogenMod, CopperheadOS, OmniROM, and AOSP
+	- Apps: MicroG, F-Droid
+	- Misc: Emojione/Ranks
+	- People: anarkia1976, bhb27, dirtyhank, Evisceration, faux123, flar2, franciscofranco, hellsgod, mar-v-in, mimi89999, nikhil18, nvllsvm, savoca, stefano.villa1976, thestinger, WedyDQ10, XileForce
 
 Recommended Apps
 	- Visit https://spotco.us/de/apps.html after flashing to find a very comprehensive list of apps that can replace what you're used to

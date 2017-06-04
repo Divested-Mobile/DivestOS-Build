@@ -88,6 +88,9 @@
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
 	<project path="packages/apps/FDroidPrivilegedExtension" name="privileged-extension.git" remote="fdroid" revision="master" />
 	<project path="packages/apps/FDroid" name="fdroidclient.git" remote="fdroid" revision="master" />
+
+	<!-- Misc -->
+	<project path="packages/apps/offline-calendar" name="SufficientlySecure/offline-calendar" remote="github" revision="master" />
 <!-- END OF ADDITIONAL REPOS -->
 
 

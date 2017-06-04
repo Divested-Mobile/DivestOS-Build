@@ -1,4 +1,5 @@
 #!/bin/bash
+#Copyright (c) 2017 Spot Communications, Inc.
 
 #Goal: Remove as many proprietary blobs without breaking core functionality
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size

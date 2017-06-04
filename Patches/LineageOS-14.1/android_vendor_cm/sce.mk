@@ -11,6 +11,10 @@ PRODUCT_PACKAGES += \
     F-Droid \
     FDroidPrivilegedExtension
 
+# Misc
+#PRODUCT_PACKAGES += \
+#    OfflineCalendar
+
 # Chromium
 #PRODUCT_PACKAGES += \
 #    chromium
