@@ -36,7 +36,8 @@ export base;
 	#AudioFX (Audio Effects) [Qualcomm]
 	blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so";
 
-	#Camera XXX: I tried, don't waste your time...
+	#Camera
+	#I tried, don't waste your time...
 	#FUN FACT: The Huawei Honor 5x ships with eight-hundred-and-thirty-five (*835*) proprietary camera blobs.
 	#blobs=$blobs"|";
 
@@ -105,7 +106,9 @@ export base;
 	makes=$makes"|com.motorola.cameraone.xml";
 
 	#Performance [Qualcomm]
-	#blobs=$blobs"|msm_irqbalance";
+	#blobs=$blobs"|msm_irqbalance"; #TODO: Try and replace this with vanilla irqbalance
+	#New devices don't seem to hotplug cores without this
+	#I tried to replace this with showp1984's msm_mpdecision, but the newer kernels simply don't have the mach_msm dependencies that are needed
 	#blobs=$blobs"|mpdecision|libqti-perfd-client.so|perfd|perf-profile0.conf|perf-profile1.conf|perf-profile2.conf|perf-profile3.conf|perf-profile4.conf|perf-profile5.conf";
 
 	#Playready (DRM) [Microsoft]

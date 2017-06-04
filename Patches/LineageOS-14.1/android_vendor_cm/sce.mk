@@ -2,8 +2,9 @@
 PRODUCT_PACKAGES += \
     GmsCore \
     GsfProxy \
-    FakeStore #\
-#    IchnaeaNlpBackend
+    FakeStore \
+    IchnaeaNlpBackend \
+    NominatimNlpBackend
 
 # F-Droid
 PRODUCT_PACKAGES += \
