@@ -1,7 +1,7 @@
 #!/bin/bash
-#Copyright (c) 2017 Spot Communications, Inc.
+#Copyright (c) 2015-2017 Spot Communications, Inc.
 
-#TODO: Aggressive Doze (Verify Extended Doze First), Failed Unlock Shutdown, Optimized build flags, Optimized toolchain, Ship Chromium, Wallpaper
+#TODO: Aggressive Doze (Verify Extended Doze First), Failed Unlock Shutdown, Optimized build flags, Optimized toolchain, Ship Chromium and Offline Calendar, Wallpaper
 
 #Delete Everything
 #repo forall -c 'git add -A && git reset --hard' && rm -rf build external/noto-fonts external/sqlite frameworks/base packages/apps/CMParts packages/apps/FakeStore packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/IchnaeaNlpBackend packages/apps/SetupWizard system/core vendor/cm frameworks/opt/net/ims packages/apps/Settings out
@@ -169,7 +169,7 @@ disableDexPreOpt #bootloops
 patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed)
 
 #enter "kernel/lge/mako"
-#patch -p1 < $patches"android_kernel_lge_mako/0001-OverUnderClock.patch" #384Mhz -> 81Mhz, 1.51Ghz -> 1.94Ghz	=+1.72Ghz #XXX: Causes excessively long boot times
+#patch -p1 < $patches"android_kernel_lge_mako/0001-OverUnderClock.patch" #384Mhz -> 81Mhz, 1.51Ghz -> 1.94Ghz	=+1.72Ghz #XXX: Causes *excessively* long boot times
 
 enter "kernel/lge/hammerhead"
 patch -p1 < $patches"android_kernel_lge_hammerhead/0001-OverUnderClock.patch" #2.26Ghz -> 2.95Ghz	=+2.76Ghz
