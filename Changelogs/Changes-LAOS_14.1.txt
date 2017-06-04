@@ -7,7 +7,7 @@ Credits
 	- People: anarkia1976, bhb27, dirtyhank, Evisceration, faux123, flar2, franciscofranco, hellsgod, mar-v-in, mimi89999, nikhil18, nvllsvm, p4block, savoca, stefano.villa1976, thestinger, WedyDQ10, XileForce
 
 Recommended Apps
-	- Visit https://spotco.us/de/apps.html after flashing to find a very comprehensive list of apps that can replace what you're used to
+	- Visit https://divestos.xyz/apps.html after flashing to find a very comprehensive list of apps that can replace what you're used to
 
 General Changes
 	- Builds are dex-preopted on select devices
