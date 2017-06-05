@@ -18,6 +18,7 @@ export base;
 #
 	blobs="";
 	makes="";
+	kernel="";
 
 	#ACDB (Audio Configurations) [Qualcomm] XXX: Breaks audio output
 	#blobs=$blobs"acdb";
@@ -92,9 +93,11 @@ export base;
 	#XXX: Logcat is spammed with ~6 lines every 15 seconds by ims-common during calls
 	blobs=$blobs"com.motorola.msimsettings.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.jar|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.jar|com.verizon.ims.xml|ims.apk|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|ims_rtp_daemon|imssettings.apk|ims.xml|lib-dplmedia.so|libimscamera_jni.so|lib-imscamera.so|lib-imsdpl.so|libimsmedia_jni.so|lib-imsqimf.so|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|libNimsWrap.so|librcc.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|libvcel.so|libvoice-svc.so|qti_permissions.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|volte_modem[/]";
 
-	#IPACM (Loadbalances traffic between Cell/Wi-Fi) [Qualcomm]
-	blobs=$blobs"|ipacm|ipacm-diag";
-	makes=$makes"|ipacm|IPACM_cfg.xml";
+	#IPA (Internet Packet Accelerator) [Qualcomm]
+	#blobs=$blobs"|ipacm";
+	blobs=$blobs"|ipacm-diag";
+	#makes=$makes"|ipacm|IPACM_cfg.xml";
+	#kernel="|drivers/platform/msm/ipa";
 
 	#Location (gpsOne/gpsOneXTRA/IZat/Lumicast/QUIP) [Qualcomm]
 	blobs=$blobs"|com.qti.location.sdk.jar|com.qti.location.sdk.xml|com.qualcomm.location.apk|com.qualcomm.location.vzw_library.jar|com.qualcomm.location.vzw_library.xml|com.qualcomm.location.xml|gpsone_daemon|izat.conf|izat.xt.srv.jar|izat.xt.srv.xml|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|libgdtap.so|libgeofence.so|libizat_core.so|liblbs_core.so|liblocationservice_glue.so|liblocationservice.so|libloc_ext.so|libloc_xtra.so|liblowi_client.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libulp2.so|libxtadapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so|location-mq|loc_launcher|lowi.conf|lowi-server|slim_ap_daemon|slim_daemon|xtra_t_app.apk|xtwifi-client|xtwifi-inet-agent";
@@ -268,7 +271,7 @@ deblobDevice() {
 	if [ -z "$replaceTime" ]; then sed -i 's|service time_daemon /system/bin/time_daemon|service timekeep /system/bin/timekeep restore\n    oneshot|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true; fi; #Switch to Sony TimeKeep
 	rm -f rootdir/etc/init.qti.ims.sh rootdir/init.qti.ims.sh init.qti.ims.sh; #Remove IMS startup script
 	rm -rf IMSEnabler; #Remove IMS compatibility module
-	rm -rf data-ipa-cfg-mgr; #Remove IPACM
+	#rm -rf data-ipa-cfg-mgr; #Remove IPA
 	rm -rf libshimwvm; #Remove Google Widevine compatibility module
 	rm -rf board/qcom-wipower.mk product/qcom-wipower.mk; #Remove WiPower makefiles
 	if [ -f setup-makefiles.sh ]; then #FIXME: This breaks some devices using shared device trees (eg. osprey) when removing blobs that are listed in Android.mk of vendor repositories
