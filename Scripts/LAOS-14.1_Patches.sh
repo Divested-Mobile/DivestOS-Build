@@ -157,6 +157,7 @@ enableDexPreOpt
 enter "kernel/motorola/msm8992"
 patch -p1 < $patches"android_kernel_common_msm8992/0001-OverUnderClock.patch" #a57: 1.82Ghz -> 2.01Ghz, a53 1.44Ghz -> 1.63Ghz, 384Mhz -> 300Mhz	=+1.14Ghz TODO: Enable by default
 patch -p1 < $patches"android_kernel_common_msm8992/0002-MMC_Tweak.patch" #Improves MMC performance
+source $patches"android_kernel_motorola_msm8992/cve_fix.sh"
 
 enter "device/oneplus/bacon"
 enableDexPreOpt
@@ -183,6 +184,7 @@ patch -p1 < $patches"android_kernel_common_msm8992/0002-MMC_Tweak.patch" #Improv
 
 enter "kernel/motorola/msm8916"
 patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch" #1.36Ghz -> 1.88Ghz	=+ 2.07Ghz
+source $patches"android_kernel_motorola_msm8916/cve_fix.sh"
 
 enter "kernel/nextbit/msm8992"
 patch -p1 < $patches"android_kernel_common_msm8992/0001-OverUnderClock.patch" #a57: 1.82Ghz -> 2.01Ghz, a53 1.44Ghz -> 1.63Ghz, 384Mhz -> 300Mhz	=+1.14Ghz TODO: Enable by default
