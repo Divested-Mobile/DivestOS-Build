@@ -18,7 +18,7 @@ export base;
 #
 	blobs="";
 	makes="";
-	kernel="";
+	kernels="";
 
 	#ACDB (Audio Configurations) [Qualcomm] XXX: Breaks audio output
 	#blobs=$blobs"acdb";
@@ -89,15 +89,21 @@ export base;
 	blobs=$blobs"|iop|libqc-opt.so|libqti-iop-client.so|libqti-iop.so|QPerformance.jar";
 
 	#IMS (RCS/VoLTE/Wi-Fi Calling) [Qualcomm]
-	#XXX: This is a *VERY* aggressive change and might be disabled in the future
+	#TODO: Deeply consider the security benefit of always being able to utilize LTE's superior encryption against the benefit from having fewer blobs
+	#TODO: Test on a carrier that has phased out 2G (such as AT&T)
+	#XXX: This is a *VERY* aggressive change and will most likely be disabled in the future
 	#XXX: Logcat is spammed with ~6 lines every 15 seconds by ims-common during calls
-	blobs=$blobs"com.motorola.msimsettings.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.jar|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.jar|com.verizon.ims.xml|ims.apk|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|ims_rtp_daemon|imssettings.apk|ims.xml|lib-dplmedia.so|libimscamera_jni.so|lib-imscamera.so|lib-imsdpl.so|libimsmedia_jni.so|lib-imsqimf.so|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|libNimsWrap.so|librcc.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|libvcel.so|libvoice-svc.so|qti_permissions.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|volte_modem[/]";
+	blobs=$blobs"|ims.apk|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|ims_rtp_daemon|imssettings.apk|ims.xml|libimscamera_jni.so|lib-imscamera.so|lib-imsdpl.so|libimsmedia_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so"; #IMS
+	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so"; #RCS
+	blobs=$blobs"|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so"; #RTP
+	blobs=$blobs"|lib-dplmedia.so|libNimsWrap.so|librcc.so|libvcel.so|libvoice-svc.so|qti_permissions.xml|volte_modem[/]"; #Misc.
 
 	#IPA (Internet Packet Accelerator) [Qualcomm]
-	#blobs=$blobs"|ipacm";
+	#XXX: This is actually open source (excluding -diag), but doesn't seem that benefical and has been shown vunerable before
+	blobs=$blobs"|ipacm";
 	blobs=$blobs"|ipacm-diag";
-	#makes=$makes"|ipacm|IPACM_cfg.xml";
-	#kernel="|drivers/platform/msm/ipa";
+	makes=$makes"|ipacm|IPACM_cfg.xml";
+	kernels=$kernels" drivers/platform/msm/ipa";
 
 	#Location (gpsOne/gpsOneXTRA/IZat/Lumicast/QUIP) [Qualcomm]
 	blobs=$blobs"|com.qti.location.sdk.jar|com.qti.location.sdk.xml|com.qualcomm.location.apk|com.qualcomm.location.vzw_library.jar|com.qualcomm.location.vzw_library.xml|com.qualcomm.location.xml|gpsone_daemon|izat.conf|izat.xt.srv.jar|izat.xt.srv.xml|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|libgdtap.so|libgeofence.so|libizat_core.so|liblbs_core.so|liblocationservice_glue.so|liblocationservice.so|libloc_ext.so|libloc_xtra.so|liblowi_client.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libulp2.so|libxtadapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so|location-mq|loc_launcher|lowi.conf|lowi-server|slim_ap_daemon|slim_daemon|xtra_t_app.apk|xtwifi-client|xtwifi-inet-agent";
@@ -106,7 +112,7 @@ export base;
 	blobs=$blobs"|libjni_latinime.so|libuiblur.so|libwifiscanner.so";
 
 	#[Motorola]
-	blobs=$blobs"|AppDirectedSMSProxy.apk|BuaContactAdapter.apk|batt_health|com.motorola.DirectedSMSProxy.xml|com.motorola.motosignature.jar|com.motorola.motosignature.xml|com.motorola.camera.xml|com.motorola.gallery.xml|com.motorola.triggerenroll.xml|MotoDisplayFWProxy.apk|MotoSignatureApp.apk|TriggerEnroll.apk|TriggerTrainingService.apk";
+	blobs=$blobs"|AppDirectedSMSProxy.apk|BuaContactAdapter.apk|batt_health|com.motorola.DirectedSMSProxy.xml|com.motorola.motosignature.jar|com.motorola.motosignature.xml|com.motorola.camera.xml|com.motorola.gallery.xml|com.motorola.msimsettings.xml|com.motorola.triggerenroll.xml|MotoDisplayFWProxy.apk|MotoSignatureApp.apk|TriggerEnroll.apk|TriggerTrainingService.apk";
 	makes=$makes"|com.motorola.cameraone.xml";
 
 	#Performance [Qualcomm]
@@ -150,7 +156,7 @@ export base;
 	#blobs=$blobs"|venus.b00|venus.b01|venus.b02|venus.b03|venus.b04|venus.mbn|venus.mdt";
 
 	#[Verizon]
-	blobs=$blobs"|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.lte.jar|com.verizon.ims.jar|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.xml|VerizonUnifiedSettings.jar|VZWAPNLib.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml";
+	blobs=$blobs"|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.jar|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.jar|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|VerizonUnifiedSettings.jar|VZWAPNLib.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml";
 
 	#Voice Recognition
 	blobs=$blobs"|aonvr1.bin|aonvr2.bin|audiomonitor|es305_fw.bin|HotwordEnrollment.apk|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|libqvop-service.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|qvop-daemon|sound_trigger.primary.msm8916.so|sound_trigger.primary.msm8996.so";
@@ -171,6 +177,7 @@ export base;
 
 	export blobs;
 	export makes;
+	export kernels;
 #
 #END OF BLOBS ARRAY
 #
@@ -253,6 +260,7 @@ deblobDevice() {
 		sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "1");/' init/init_*.cpp;
 	fi;
 	if [ -f overlay/frameworks/base/core/res/res/values/config.xml ]; then
+		#sed -i 's|<bool name="config_enableWifiDisplay">true</bool>|<bool name="config_enableWifiDisplay">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
 		sed -i 's|<bool name="config_uiBlurEnabled">true</bool>|<bool name="config_uiBlurEnabled">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml; #Disable UIBlur
 		#Disable IMS
 		sed -i 's|<bool name="config_carrier_volte_available">true</bool>|<bool name="config_carrier_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
@@ -271,7 +279,7 @@ deblobDevice() {
 	if [ -z "$replaceTime" ]; then sed -i 's|service time_daemon /system/bin/time_daemon|service timekeep /system/bin/timekeep restore\n    oneshot|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true; fi; #Switch to Sony TimeKeep
 	rm -f rootdir/etc/init.qti.ims.sh rootdir/init.qti.ims.sh init.qti.ims.sh; #Remove IMS startup script
 	rm -rf IMSEnabler; #Remove IMS compatibility module
-	#rm -rf data-ipa-cfg-mgr; #Remove IPA
+	rm -rf data-ipa-cfg-mgr; #Remove IPA
 	rm -rf libshimwvm; #Remove Google Widevine compatibility module
 	rm -rf board/qcom-wipower.mk product/qcom-wipower.mk; #Remove WiPower makefiles
 	if [ -f setup-makefiles.sh ]; then #FIXME: This breaks some devices using shared device trees (eg. osprey) when removing blobs that are listed in Android.mk of vendor repositories
@@ -282,10 +290,19 @@ deblobDevice() {
 }
 export -f deblobDevice;
 
+deblobKernel() {
+	kernelPath=$1;
+	cd $base$kernelPath;
+	rm -rf $kernels;
+	cd $base;
+}
+export -f deblobKernel;
+
 deblobVendors() {
 	cd $base;
 	find vendor -regextype posix-extended -regex '.*('$blobs')' -type f -delete; #Delete all blobs
 }
+export -f deblobVendors;
 
 deblobVendor() {
 	makefile=$1;
@@ -297,12 +314,22 @@ export -f deblobVendor;
 #END OF FUNCTIONS
 #
 
+
 #
-#START OF DEBLOBBING
+#Start of device fixes [LAOS SPECIFIC]
 #
 cd vendor/lge; git revert 846315c52044dd60a77da84b5180d4d93bb22ceb; cd $base; #Commit 846315c52044dd60a77da84b5180d4d93bb22ceb moves blobs but doesn't update their location in mako device tree
 echo "vendor/lib/libcneapiclient.so" >> device/oneplus/bacon/proprietary-files-qc.txt; #Commit b7b6d94529e17ce51566aa6509cebab6436b153d disabled CNE but left this binary in the makefile vendor since NetMgr requires it. Without this line rerunning setup-makefiles.sh breaks cell service, since the resulting build will be missing it.
+#
+#End of device fixes
+#
+
+
+#
+#START OF DEBLOBBING
+#
 find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \; #Deblob all device directories
+#find kernel -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobKernel "$0"' {} \; #Deblob all kernel directories
 find vendor -name "*vendor*.mk" -type f -exec bash -c 'deblobVendor "$0"' {} \; #Deblob all makefiles
 deblobVendors; #Deblob entire vendor directory
 rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove Clearkey
@@ -310,7 +337,9 @@ rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove Clearkey
 #END OF DEBLOBBING
 #
 
-#Fixes marlin building, really janky (recursive symlinks) and probably not the best place for it
+
+
+#Fixes marlin building, really janky (recursive symlinks) and probably not the best place for it [LAOS SPECIFIC]
 cd vendor/google/marlin/proprietary;
 ln -s . vendor;
 ln -s . lib/lib;
