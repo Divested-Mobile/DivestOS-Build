@@ -88,23 +88,22 @@ export base;
 	#I/O Prefetcher [Qualcomm]
 	blobs=$blobs"|iop|libqc-opt.so|libqti-iop-client.so|libqti-iop.so|QPerformance.jar";
 
-	#IMS (RCS/VoLTE/Wi-Fi Calling) [Qualcomm]
+	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
 	#TODO: Deeply consider the security benefit of always being able to utilize LTE's superior encryption against the benefit from having fewer blobs
 	#TODO: Test on a carrier that has phased out 2G (such as AT&T)
 	#XXX: This is a *VERY* aggressive change and will most likely be disabled in the future
 	#XXX: Logcat is spammed with ~6 lines every 15 seconds by ims-common during calls
 	#blobs=$blobs"|ims.apk|ims.xml|lib-imscamera.so|libimsmedia_jni.so"; #IMS (Core)
 	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|libimscamera_jni.so|lib-imsdpl.so||lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so"; #IMS
-	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so"; #RCS
 	blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so"; #RTP
 	blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so|qti_permissions.xml|volte_modem[/]"; #Misc.
 
 	#IPA (Internet Packet Accelerator) [Qualcomm]
 	#XXX: This is actually open source (excluding -diag), but doesn't seem that benefical and has been shown vulnerable before
-	blobs=$blobs"|ipacm";
+	#blobs=$blobs"|ipacm";
 	blobs=$blobs"|ipacm-diag";
-	makes=$makes"|ipacm|IPACM_cfg.xml";
-	kernels=$kernels" drivers/platform/msm/ipa";
+	#makes=$makes"|ipacm|IPACM_cfg.xml";
+	#kernels=$kernels" drivers/platform/msm/ipa";
 
 	#Location (gpsOne/gpsOneXTRA/IZat/Lumicast/QUIP) [Qualcomm]
 	blobs=$blobs"|com.qti.location.sdk.jar|com.qti.location.sdk.xml|com.qualcomm.location.apk|com.qualcomm.location.xml|gpsone_daemon|izat.conf|izat.xt.srv.jar|izat.xt.srv.xml|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|libgdtap.so|libgeofence.so|libizat_core.so|liblbs_core.so|liblocationservice_glue.so|liblocationservice.so|libloc_ext.so|libloc_xtra.so|liblowi_client.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libulp2.so|libxtadapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so|location-mq|loc_launcher|lowi.conf|lowi-server|slim_ap_daemon|slim_daemon|xtra_t_app.apk|xtwifi-client|xtwifi-inet-agent";
@@ -133,6 +132,9 @@ export base;
 
 	#QTI (Tethering Extensions) [Qualcomm]
 	blobs=$blobs"|libQtiTether.so|QtiTetherService.apk";
+
+	#RCS (Proprietary messaging protocol)
+	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so"; #RCS
 
 	#SecProtect [Qualcomm]
 	blobs=$blobs"|SecProtect.apk";
@@ -234,6 +236,7 @@ deblobDevice() {
 		sed -i 's/persist.dpm.feature=./persist.dpm.feature=0/' system.prop; #Disable DPM
 		sed -i 's/persist.gps.qc_nlp_in_use=./persist.gps.qc_nlp_in_use=0/' system.prop; #Disable QC Location Provider
 		sed -i 's/persist.sys.dpmd.nsrm=./persist.sys.dpmd.nsrm=0/' system.prop; #Disable DPM
+		sed -i 's/persist.rcs.supported=./persist.rcs.supported=0/' system.prop; #Disable RCS
 		sed -i 's/ro.bluetooth.emb_wp_mode=true/ro.bluetooth.emb_wp_mode=false/' system.prop; #Disable WiPower
 		sed -i 's/ro.bluetooth.wipower=true/ro.bluetooth.wipower=false/' system.prop; #Disable WiPower
 		#Disable IMS
@@ -247,10 +250,10 @@ deblobDevice() {
 		#sed -i 's/persist.radio.sw_mbn_volte=./persist.radio.sw_mbn_volte=0/' system.prop;
 		#sed -i 's/persist.radio.VT_ENABLE=./persist.radio.VT_ENABLE=0/' system.prop;
 		#sed -i 's/persist.radio.VT_HYBRID_ENABLE=./persist.radio.VT_HYBRID_ENABLE=0/' system.prop;
-		sed -i 's/persist.rcs.supported=./persist.rcs.supported=0/' system.prop;
 		#sed -i 's/persist.volte_enabled_by_hw=./persist.volte_enabled_by_hw=0/' system.prop;
 	fi;
 	if [ -f init/init_*.cpp ]; then
+		sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "1");/' init/init_*.cpp; #Disable RCS
 		#Disable IMS
 		#sed -i 's/property_set("persist.ims.volte", "true");/property_set("persist.ims.volte", "false");/' init/init_*.cpp;
 		#sed -i 's/property_set("persist.ims.vt", "true");/property_set("persist.ims.vt", "false");/' init/init_*.cpp;
@@ -258,7 +261,6 @@ deblobDevice() {
 		#sed -i 's/property_set("persist.radio.jbims", ".");/property_set("persist.radio.jbims", "0");/' init/init_*.cpp;
 		#sed -i 's/property_set("persist.radio.VT_ENABLE", ".");/property_set("persist.radio.VT_ENABLE", "0");/' init/init_*.cpp;
 		#sed -i 's/property_set("persist.radio.VT_HYBRID_ENABLE", ".");/property_set("persist.radio.VT_HYBRID_ENABLE", "0");/' init/init_*.cpp;
-		sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "1");/' init/init_*.cpp;
 	fi;
 	if [ -f overlay/frameworks/base/core/res/res/values/config.xml ]; then
 		#sed -i 's|<bool name="config_enableWifiDisplay">true</bool>|<bool name="config_enableWifiDisplay">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
@@ -280,7 +282,7 @@ deblobDevice() {
 	if [ -z "$replaceTime" ]; then sed -i 's|service time_daemon /system/bin/time_daemon|service timekeep /system/bin/timekeep restore\n    oneshot|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true; fi; #Switch to Sony TimeKeep
 	rm -f rootdir/etc/init.qti.ims.sh rootdir/init.qti.ims.sh init.qti.ims.sh; #Remove IMS startup script
 	rm -rf IMSEnabler; #Remove IMS compatibility module
-	rm -rf data-ipa-cfg-mgr; #Remove IPA
+	#rm -rf data-ipa-cfg-mgr; #Remove IPA
 	rm -rf libshimwvm; #Remove Google Widevine compatibility module
 	rm -rf board/qcom-wipower.mk product/qcom-wipower.mk; #Remove WiPower makefiles
 	if [ -f setup-makefiles.sh ]; then #FIXME: This breaks some devices using shared device trees (eg. osprey) when removing blobs that are listed in Android.mk of vendor repositories
