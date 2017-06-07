@@ -95,7 +95,7 @@ export base;
 	blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so|qti_permissions.xml|volte_modem[/]"; #Misc.
 
 	#IPA (Internet Packet Accelerator) [Qualcomm]
-	#This is actually open source (excluding -diag), but doesn't seem that benefical and has been shown vulnerable before
+	#This is actually open source (excluding -diag)
 	#blobs=$blobs"|ipacm";
 	blobs=$blobs"|ipacm-diag";
 	#makes=$makes"|ipacm|IPACM_cfg.xml";
@@ -145,7 +145,7 @@ export base;
 	#blobs=$blobs"|libthermalclient.so|libthermalioctl.so|thermal-engine";
 
 	#Time Service [Qualcomm]
-	#XXX: Requires that https://github.com/LineageOS/android_hardware_sony_timekeep be included in repo manifest
+	#Requires that https://github.com/LineageOS/android_hardware_sony_timekeep be included in repo manifest
 	#blobs=$blobs"|libtime_genoff.so"; #XXX: Breaks radio
 	blobs=$blobs"|libTimeService.so|time_daemon|TimeService.apk";
 

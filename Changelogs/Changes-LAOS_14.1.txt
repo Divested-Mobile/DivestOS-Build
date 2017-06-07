@@ -1,7 +1,7 @@
 Last Updated: 06/06/2017
 Credits
 	- Google and the Android Open Source Project
-	- ROMs: LineageOS, CyanogenMod, CopperheadOS, OmniROM
+	- Distros: LineageOS, CyanogenMod, CopperheadOS, OmniROM, Code Aurora Forum
 	- Apps: F-Droid (and community), MicroG (mar-v-in)
 	- Patches: anarkia1976, be-neth, bhb27, Evisceration, faux123, fglfgl27, flar2, hellsgod, nguyenquangduc2000, nikhil18, reioux, savoca, thestinger, WedyDQ10, XileForce
 	- Misc: nvllsvm, p4block, Emojione/Ranks, Stack Exchange Network
