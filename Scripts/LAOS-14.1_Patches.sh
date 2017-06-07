@@ -8,7 +8,7 @@
 #repo sync -j20 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/home/$USER/Android/Sdk" && export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation" && export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}" && GRADLE_OPTS=-Xmx2048m && export KBUILD_BUILD_USER=emy && export KBUILD_BUILD_HOST=dosbm
 
 #Build!
-#brunch lineage_mako-user && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_hammerhead-user && brunch lineage_shamu-user && brunch lineage_bullhead-user && brunch lineage_angler-user && brunch lineage_flo-user && brunch lineage_marlin-user && brunch lineage_ether-user && brunch lineage_Z00T-user
+#brunch lineage_mako-user && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_hammerhead-user && brunch lineage_shamu-user && brunch lineage_bullhead-user && brunch lineage_angler-user && brunch lineage_flo-user && brunch lineage_marlin-user && brunch lineage_ether-user && brunch lineage_Z00T-user && brunch lineage_osprey-user
 
 #
 #START OF PREPRATION
@@ -23,7 +23,6 @@ mkdir -p /tmp/ar
 cd /tmp/ar
 wget https://spotco.us/hosts -N #XXX: /hosts is built from non-commercial use files, switch to /hsc for release
 wget https://github.com/emojione/emojione/raw/master/extras/fonts/emojione-android.ttf -N #XXX: Requires attribuition
-wget https://patch-diff.githubusercontent.com/raw/TheMuppets/proprietary_vendor_oneplus/pull/81.patch -N
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
 mkdir -p "$ANDROID_HOME/licenses"
@@ -152,11 +151,7 @@ cp $patches"cm_platform_sdk/profile_default.xml" cm/res/res/xml/profile_default.
 enter "device/motorola/clark"
 enableDexPreOpt
 
-enter "vendor/oneplus"
-git am /tmp/ar/81.patch #OSS Camera HAL
-
 enter "device/oneplus/bacon"
-git fetch https://review.lineageos.org/LineageOS/android_device_oneplus_bacon refs/changes/82/158782/5 && git cherry-pick FETCH_HEAD #OSS Camera HAL
 enableDexPreOpt
 
 enter "kernel/oneplus/msm8974"
