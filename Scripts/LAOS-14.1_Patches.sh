@@ -1,10 +1,8 @@
 #!/bin/bash
 #Copyright (c) 2015-2017 Spot Communications, Inc.
 
-#TODO: Aggressive Doze (Verify Extended Doze First), Failed Unlock Shutdown, Optimized build flags, Optimized toolchain, Ship Chromium and Offline Calendar, Wallpaper
-
 #Delete Everything
-#repo forall -c 'git add -A && git reset --hard' && rm -rf build external/noto-fonts external/sqlite frameworks/base packages/apps/CMParts packages/apps/FakeStore packages/apps/FDroid packages/apps/FDroidPrivilegedExtension packages/apps/GmsCore packages/apps/GsfProxy packages/apps/IchnaeaNlpBackend packages/apps/SetupWizard system/core vendor/cm frameworks/opt/net/ims packages/apps/Settings out
+#repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/GmsCore out
 
 #Prepare a build
 #repo sync -j20 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/home/$USER/Android/Sdk" && export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation" && export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}" && GRADLE_OPTS=-Xmx2048m && export KBUILD_BUILD_USER=emy && export KBUILD_BUILD_HOST=dosbm
@@ -25,6 +23,7 @@ mkdir -p /tmp/ar
 cd /tmp/ar
 wget https://spotco.us/hosts -N #XXX: /hosts is built from non-commercial use files, switch to /hsc for release
 wget https://github.com/emojione/emojione/raw/master/extras/fonts/emojione-android.ttf -N #XXX: Requires attribuition
+wget https://patch-diff.githubusercontent.com/raw/TheMuppets/proprietary_vendor_oneplus/pull/81.patch -N
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
 mkdir -p "$ANDROID_HOME/licenses"
@@ -34,7 +33,6 @@ echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/a
 enter() {
 	echo "================================================================================================"
 	dir=$1;
-	#project=${$dir//'/'/'_'}; #TODO: Add project conversion, to simplify patching
 	cd $base$dir;
 	echo "[ENTERING] "$dir;
 	git add -A && git reset --hard;
@@ -143,7 +141,7 @@ sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Ch
 
 enter "vendor/cmsdk"
 git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/12 && git cherry-pick FETCH_HEAD #network traffic
-cp $patches"cm_platform_sdk/profile_default.xml" cm/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
+cp $patches"cm_platform_sdk/profile_default.xml" cm/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones #TODO: 2G/3G -> LTE
 #
 #END OF ROM CHANGES
 #
@@ -154,11 +152,11 @@ cp $patches"cm_platform_sdk/profile_default.xml" cm/res/res/xml/profile_default.
 enter "device/motorola/clark"
 enableDexPreOpt
 
-enter "kernel/motorola/msm8992"
-patch -p1 < $patches"android_kernel_common_msm8992/0001-OverUnderClock.patch" #a57: 1.82Ghz -> 2.01Ghz, a53 1.44Ghz -> 1.63Ghz, 384Mhz -> 300Mhz	=+1.14Ghz TODO: Enable by default
-patch -p1 < $patches"android_kernel_common_msm8992/0002-MMC_Tweak.patch" #Improves MMC performance
+enter "vendor/oneplus"
+git am /tmp/ar/81.patch #OSS Camera HAL
 
 enter "device/oneplus/bacon"
+git fetch https://review.lineageos.org/LineageOS/android_device_oneplus_bacon refs/changes/82/158782/5 && git cherry-pick FETCH_HEAD #OSS Camera HAL
 enableDexPreOpt
 
 enter "kernel/oneplus/msm8974"
@@ -177,16 +175,8 @@ patch -p1 < $patches"android_kernel_lge_hammerhead/0001-OverUnderClock.patch" #2
 enter "kernel/moto/shamu"
 patch -p1 < $patches"android_kernel_moto_shamu/0001-OverUnderClock.patch" #300Mhz -> 35Mhz, 2.64Ghz -> 2.88Ghz	=+0.96Ghz
 
-enter "kernel/lge/bullhead"
-patch -p1 < $patches"android_kernel_common_msm8992/0001-OverUnderClock.patch" #a57: 1.82Ghz -> 2.01Ghz, a53 1.44Ghz -> 1.63Ghz, 384Mhz -> 300Mhz	=+1.14Ghz TODO: Enable by default
-patch -p1 < $patches"android_kernel_common_msm8992/0002-MMC_Tweak.patch" #Improves MMC performance
-
 enter "kernel/motorola/msm8916"
 patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch" #1.36Ghz -> 1.88Ghz	=+ 2.07Ghz
-
-enter "kernel/nextbit/msm8992"
-patch -p1 < $patches"android_kernel_common_msm8992/0001-OverUnderClock.patch" #a57: 1.82Ghz -> 2.01Ghz, a53 1.44Ghz -> 1.63Ghz, 384Mhz -> 300Mhz	=+1.14Ghz TODO: Enable by default
-patch -p1 < $patches"android_kernel_common_msm8992/0002-MMC_Tweak.patch" #Improves MMC performance
 #
 #END OF DEVICE CHANGES
 #

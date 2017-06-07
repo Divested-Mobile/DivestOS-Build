@@ -3,12 +3,12 @@
 
 #Goal: Remove as many proprietary blobs without breaking core functionality
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
-#TODO: Clean init*.rc files, Create TWRP version, Modularize, Remove more variants
+#TODO: Clean init*.rc files, Modularize, Remove more variants
 
 #
-#Device Status (Tested under LineageOS 14.1 and 11.0)
+#Device Status (Tested under LineageOS 14.1)
 #
-#Fully Functional: bacon, clark, mako
+#Functioning as Expected: bacon, clark, mako
 
 base="/mnt/Drive-1/Development/Other/Android_ROMs/Build/LineageOS-14.1/";
 export base;
@@ -89,17 +89,13 @@ export base;
 	blobs=$blobs"|iop|libqc-opt.so|libqti-iop-client.so|libqti-iop.so|QPerformance.jar";
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
-	#TODO: Deeply consider the security benefit of always being able to utilize LTE's superior encryption against the benefit from having fewer blobs
-	#TODO: Test on a carrier that has phased out 2G (such as AT&T)
-	#XXX: This is a *VERY* aggressive change and will most likely be disabled in the future
-	#XXX: Logcat is spammed with ~6 lines every 15 seconds by ims-common during calls
-	#blobs=$blobs"|ims.apk|ims.xml|lib-imscamera.so|libimsmedia_jni.so"; #IMS (Core)
-	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|lib-imsdpl.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so"; #IMS
+	#blobs=$blobs"|ims.apk|ims.xml|libimsmedia_jni.so"; #IMS (Core)
+	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|lib-imsdpl.so|lib-imscamera.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so"; #IMS
 	blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so"; #RTP
 	blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so|qti_permissions.xml|volte_modem[/]"; #Misc.
 
 	#IPA (Internet Packet Accelerator) [Qualcomm]
-	#XXX: This is actually open source (excluding -diag), but doesn't seem that benefical and has been shown vulnerable before
+	#This is actually open source (excluding -diag), but doesn't seem that benefical and has been shown vulnerable before
 	#blobs=$blobs"|ipacm";
 	blobs=$blobs"|ipacm-diag";
 	#makes=$makes"|ipacm|IPACM_cfg.xml";
@@ -116,7 +112,7 @@ export base;
 	makes=$makes"|com.motorola.cameraone.xml";
 
 	#Performance [Qualcomm]
-	#blobs=$blobs"|msm_irqbalance"; #TODO: Try and replace this with vanilla irqbalance
+	#blobs=$blobs"|msm_irqbalance";
 	#New devices don't seem to hotplug cores without this
 	#I tried to replace this with showp1984's msm_mpdecision, but the newer kernels simply don't have the mach_msm dependencies that are needed
 	#blobs=$blobs"|mpdecision|libqti-perfd-client.so|perfd|perf-profile0.conf|perf-profile1.conf|perf-profile2.conf|perf-profile3.conf|perf-profile4.conf|perf-profile5.conf";
@@ -150,8 +146,6 @@ export base;
 
 	#Time Service [Qualcomm]
 	#XXX: Requires that https://github.com/LineageOS/android_hardware_sony_timekeep be included in repo manifest
-	#XXX: This is another aggressive change and might be disabled in the future
-	#XXX: Time seems to be set properly with these blobs removed without Sony TimeKeep, so there may be more shenanigans here unless thats just NTP
 	#blobs=$blobs"|libtime_genoff.so"; #XXX: Breaks radio
 	blobs=$blobs"|libTimeService.so|time_daemon|TimeService.apk";
 
