@@ -125,8 +125,9 @@
 	<project path="device/huawei/angler" name="LineageOS/android_device_huawei_angler" remote="github" />
 	<project path="kernel/huawei/angler" name="LineageOS/android_kernel_huawei_angler" remote="github" />
 
-	<!-- Google Pixel (Marlin) -->
+	<!-- Google Pixel (Marlin/Sailfish) -->
 	<project path="device/google/marlin" name="LineageOS/android_device_google_marlin" remote="github" />
+	<project path="device/google/sailfish" name="LineageOS/android_device_google_sailfish" remote="github" />
 	<project path="kernel/google/marlin" name="LineageOS/android_kernel_google_marlin" remote="github" />
 
 	<!-- Amazon Kindle Fire HDX 7 3rd Gen (Thor)-->
