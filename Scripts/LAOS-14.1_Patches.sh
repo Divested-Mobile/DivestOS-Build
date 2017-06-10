@@ -2,7 +2,7 @@
 #Copyright (c) 2015-2017 Spot Communications, Inc.
 
 #Delete Everything
-#repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/GmsCore out
+#repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/F-Droid packages/apps/GmsCore out
 
 #Prepare a build
 #repo sync -j20 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/home/$USER/Android/Sdk" && export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation" && export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}" && GRADLE_OPTS=-Xmx2048m && export KBUILD_BUILD_USER=emy && export KBUILD_BUILD_HOST=dosbm
@@ -69,7 +69,7 @@ enter "external/sqlite"
 patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch" #Enable secure_delete by default
 
 enter "external/svox"
-git fetch https://android.googlesource.com/platform/external/svox refs/changes/72/302872/2 && git cherry-pick FETCH_HEAD #Fix garbled output See https://android-review.googlesource.com/#/c/302872/
+patch -p1 < $patches"android_external_svox/94d2ddb.diff" #Fix garbled output See https://android-review.googlesource.com/#/c/302872/
 
 enter "frameworks/base"
 git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3 #re-enable doze on devices without gms
@@ -77,6 +77,7 @@ git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/ch
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
+rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core/res/AndroidManifest.xml.orig
 
 #enter "frameworks/opt/net/ims"
@@ -104,6 +105,7 @@ patch -p1 < $patches"android_packages_apps_FakeStore/0001-Fixes.patch" #Update o
 
 enter "packages/apps/FDroid"
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Enable privigled module
+patch -p1 < $patches"android_packages_apps_FDroid/0002-Repos.patch" #Add IzzySoft and microG repos
 
 enter "packages/apps/FDroidPrivilegedExtension"
 patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Release_Key.patch" #Change to release key
