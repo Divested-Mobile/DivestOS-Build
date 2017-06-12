@@ -19,7 +19,7 @@ patches="/mnt/Drive-1/Development/Other/Android_ROMs/Patches/LineageOS-14.1/"
 ANDROID_HOME="/home/$USER/Android/Sdk"
 
 #Download some out-of-tree files for use later on
-mkdir -p /tmp/ar
+mkdir /tmp/ar
 cd /tmp/ar
 wget https://spotco.us/hosts -N #XXX: /hosts is built from non-commercial use files, switch to /hsc for release
 wget https://github.com/emojione/emojione/raw/master/extras/fonts/emojione-android.ttf -N #XXX: Requires attribuition
@@ -54,7 +54,6 @@ disableDexPreOpt() {
 #START OF ROM CHANGES
 #
 enter "build"
-#git revert 6f9c2e115aeccd7090f92f1fb91bc6052522cdd1 #Enable dex pre-optimization by default again
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing
 sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
 sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/buildinfo.sh; #Override build host
@@ -73,7 +72,7 @@ patch -p1 < $patches"android_external_svox/94d2ddb.diff" #Fix garbled output See
 
 enter "frameworks/base"
 git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3 #re-enable doze on devices without gms
-git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/31 && git cherry-pick FETCH_HEAD #network traffic
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/32 && git cherry-pick FETCH_HEAD #network traffic
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
@@ -85,7 +84,7 @@ rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core
 
 enter "packages/apps/CMParts"
 rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of CMStats
-git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/23 && git cherry-pick FETCH_HEAD #network traffic
+git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/24 && git cherry-pick FETCH_HEAD #network traffic
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove the rest of CMStats
 
 enter "packages/apps/CMUpdater"
@@ -141,7 +140,7 @@ cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 
 enter "vendor/cmsdk"
-git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/12 && git cherry-pick FETCH_HEAD #network traffic
+git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/13 && git cherry-pick FETCH_HEAD #network traffic
 cp $patches"cm_platform_sdk/profile_default.xml" cm/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
 #
 #END OF ROM CHANGES
