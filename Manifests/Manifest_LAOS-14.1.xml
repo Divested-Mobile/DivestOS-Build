@@ -88,6 +88,7 @@
 
 	<!-- Misc -->
 	<project path="packages/apps/offline-calendar" name="SufficientlySecure/offline-calendar" remote="github" revision="master" />
+	<project path="packages/apps/Silence" name="SilenceIM/Silence" remote="github" revision="master" />
 <!-- END OF ADDITIONAL REPOS -->
 
 
