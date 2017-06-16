@@ -21,8 +21,8 @@ $(silence_root)/$(silence_apk):
 	cd $(silence_root) && gradle assembleRelease
 
 LOCAL_CERTIFICATE := platform
-LOCAL_PRIVILEGED_MODULE := true
-#LOCAL_OVERRIDES_PACKAGES := Messaging
+LOCAL_OVERRIDES_PACKAGES := messaging
+LOCAL_DEX_PREOPT := false
 LOCAL_SRC_FILES := $(silence_apk)
 LOCAL_MODULE_CLASS := APPS
 LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
