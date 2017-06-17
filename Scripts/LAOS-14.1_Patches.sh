@@ -44,7 +44,7 @@ enableDexPreOpt() {
 
 disableDexPreOpt() {
 	sed -i 's/WITH_DEXPREOPT := true/WITH_DEXPREOPT := false/' BoardConfig.mk;
-	echo "Disable dexpreopt";
+	echo "Disabled dexpreopt";
 }
 #
 #END OF PREPRATION
@@ -74,6 +74,7 @@ enter "frameworks/base"
 git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3 #re-enable doze on devices without gms
 git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/32 && git cherry-pick FETCH_HEAD #network traffic
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
+sed -i '0,/wifi,cell,battery/s/wifi,cell,battery,dnd,flashlight,rotation,bt,airplane/wifi,cell,bt,dnd,flashlight,rotation,battery,hotspot,location,airplane,saver,nfc/' packages/SystemUI/res/values/config.xml;
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
