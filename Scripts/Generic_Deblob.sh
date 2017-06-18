@@ -57,6 +57,9 @@ export base;
 	#Diagnostics [Qualcomm]
 	blobs=$blobs"|[/]diag[/]|diag_callback_client|diag_dci_sample|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag[/]mdm|diag_qshrink4_daemon|diag_socket_log|diag_uart_log|drmdiagapp|ibdrmdiag.so|ssr_diag|test_diag";
 
+	#Dirac (Audio Effects) [Dirac]
+	blobs=$blobs"|diracmobile.config|libDiracAPI_SHARED.so|libdirac.so";
+
 	#Discretix (DRM/HDCP) [Discretix Technologies]
 	blobs=$blobs"|discretix|DxHDCP.cfg|dxhdcp2.b00|dxhdcp2.b01|dxhdcp2.b02|dxhdcp2.b03|dxhdcp2.mdt|libDxHdcp.so";
 

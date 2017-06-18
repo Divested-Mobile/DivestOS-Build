@@ -46,6 +46,14 @@ disableDexPreOpt() {
 	sed -i 's/WITH_DEXPREOPT := true/WITH_DEXPREOPT := false/' BoardConfig.mk;
 	echo "Disabled dexpreopt";
 }
+
+enableGlonass() {
+	#GLONASS
+	sed -i 's/#A_GLONASS_POS_PROTOCOL_SELECT/A_GLONASS_POS_PROTOCOL_SELECT/' gps.conf gps/gps.conf configs/gps.conf || true;
+	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT = 0/A_GLONASS_POS_PROTOCOL_SELECT = 15/' gps.conf gps/gps.conf configs/gps.conf || true;
+	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT=0/A_GLONASS_POS_PROTOCOL_SELECT=15/' overlay/frameworks/base/core/res/res/values-*/*.xml || true;
+	echo "Enabled GLONASS";
+}
 #
 #END OF PREPRATION
 #
@@ -167,15 +175,18 @@ cp $patches"cm_platform_sdk/profile_default.xml" cm/res/res/xml/profile_default.
 #
 enter "device/motorola/clark"
 enableDexPreOpt
+enableGlonass
 
 enter "device/oneplus/bacon"
 enableDexPreOpt
+enableGlonass
 
 enter "kernel/oneplus/msm8974"
 patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock-EXTREME.patch" #300Mhz -> 268Mhz, 2.45Ghz -> 2.95Ghz	=+2.02Ghz XXX: Not 100% stable under intense workloads
 
 enter "device/lge/mako"
 disableDexPreOpt #bootloops
+enableGlonass
 patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed)
 
 #enter "kernel/lge/mako"
