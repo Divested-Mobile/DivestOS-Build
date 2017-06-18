@@ -82,7 +82,7 @@ enter "frameworks/base"
 git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3 #re-enable doze on devices without gms
 git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/32 && git cherry-pick FETCH_HEAD #network traffic
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
-sed -i '0,/wifi,cell,battery/s/wifi,cell,battery,dnd,flashlight,rotation,bt,airplane/wifi,cell,bt,dnd,flashlight,rotation,battery,hotspot,location,airplane,saver,nfc/' packages/SystemUI/res/values/config.xml;
+sed -i '0,/wifi,cell,battery/s/wifi,cell,battery,dnd,flashlight,rotation,bt,airplane/wifi,cell,bt,dnd,flashlight,rotation,battery,saver,location,airplane,hotspot,nfc/' packages/SystemUI/res/values/config.xml;
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
@@ -98,6 +98,7 @@ patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" 
 
 enter "packages/apps/CMUpdater"
 patch -p1 < $patches"android_packages_apps_CMUpdater/0001-Server.patch" #Switch to our server
+sed -i 's/CM_RELEASE_TYPE_DEFAULT = "UNOFFICIAL";/CM_RELEASE_TYPE_DEFAULT = "DivestOS";/'; #Change buildtype
 
 enter "packages/apps/CustomTiles"
 patch -p1 < $patches"android_packages_apps_CustomTiles/0001-Profiles.patch" #System profiles tile
@@ -161,7 +162,7 @@ enter "vendor/cm"
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
-sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
+sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := DivestOS/' config/common.mk; #Change buildtype
 
 enter "vendor/cmsdk"
 git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/13 && git cherry-pick FETCH_HEAD #network traffic
@@ -187,7 +188,7 @@ patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock-EXTREME.
 enter "device/lge/mako"
 disableDexPreOpt #bootloops
 enableGlonass
-patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed)
+#patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed) XXX: Doesn't seem to work under 7.x
 
 #enter "kernel/lge/mako"
 #patch -p1 < $patches"android_kernel_lge_mako/0001-OverUnderClock.patch" #384Mhz -> 81Mhz, 1.51Ghz -> 1.94Ghz	=+1.72Ghz XXX: Causes *excessively* long boot times
