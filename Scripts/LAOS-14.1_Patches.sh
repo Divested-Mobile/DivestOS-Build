@@ -98,7 +98,8 @@ patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" 
 
 enter "packages/apps/CMUpdater"
 patch -p1 < $patches"android_packages_apps_CMUpdater/0001-Server.patch" #Switch to our server
-sed -i 's/CM_RELEASE_TYPE_DEFAULT = "UNOFFICIAL";/CM_RELEASE_TYPE_DEFAULT = "DivestOS";/'; #Change buildtype
+sed -i 's/CM_RELEASE_TYPE_DEFAULT = "UNOFFICIAL";/CM_RELEASE_TYPE_DEFAULT = "dos";/' src/com/cyanogenmod/updater/misc/Constants.java; #Change buildtype
+sed -i 's/subStrings[3].length() < 7/subStrings[3].length() <= 3/' src/com/cyanogenmod/updater/utils/Utils.java; #Fix not allowing buildtypes length < 7
 
 enter "packages/apps/CustomTiles"
 patch -p1 < $patches"android_packages_apps_CustomTiles/0001-Profiles.patch" #System profiles tile
@@ -162,7 +163,7 @@ enter "vendor/cm"
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
-sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := DivestOS/' config/common.mk; #Change buildtype
+sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 
 enter "vendor/cmsdk"
 git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/13 && git cherry-pick FETCH_HEAD #network traffic
