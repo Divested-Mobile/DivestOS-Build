@@ -22,7 +22,7 @@ ANDROID_HOME="/home/$USER/Android/Sdk"
 mkdir /tmp/ar
 cd /tmp/ar
 wget https://spotco.us/hosts -N #XXX: /hosts is built from non-commercial use files, switch to /hsc for release
-wget https://github.com/emojione/emojione/raw/master/extras/fonts/emojione-android.ttf -N #XXX: Requires attribuition
+wget https://github.com/EmojiTwo/emojitwo/raw/master/fonts/emojione-android.ttf -N #XXX: Requires attribuition
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
 mkdir -p "$ANDROID_HOME/licenses"
@@ -70,7 +70,7 @@ enter "device/qcom/sepolicy"
 patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix camera on user builds
 
 enter "external/noto-fonts"
-cp /tmp/ar/emojione-android.ttf other/NotoColorEmoji.ttf #Change emoji font to EmojiOne
+cp /tmp/ar/emojione-android.ttf other/NotoColorEmoji.ttf #Change emoji font to EmojiTwo
 
 enter "external/sqlite"
 patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch" #Enable secure_delete by default
