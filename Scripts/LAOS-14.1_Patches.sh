@@ -99,7 +99,7 @@ patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" 
 enter "packages/apps/CMUpdater"
 patch -p1 < $patches"android_packages_apps_CMUpdater/0001-Server.patch" #Switch to our server
 sed -i 's/CM_RELEASE_TYPE_DEFAULT = "UNOFFICIAL";/CM_RELEASE_TYPE_DEFAULT = "dos";/' src/com/cyanogenmod/updater/misc/Constants.java; #Change buildtype
-sed -i 's/subStrings[3].length() < 7/subStrings[3].length() <= 3/' src/com/cyanogenmod/updater/utils/Utils.java; #Fix not allowing buildtypes length < 7
+sed -i 's/subStrings\[3\]\.length() < 7/subStrings\[3\]\.length() < 3/' src/com/cyanogenmod/updater/utils/Utils.java; #Fix not allowing buildtypes length < 7
 
 enter "packages/apps/CustomTiles"
 patch -p1 < $patches"android_packages_apps_CustomTiles/0001-Profiles.patch" #System profiles tile
