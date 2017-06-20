@@ -280,7 +280,7 @@ deblobDevice() {
 	rm -f rootdir/etc/init.qti.ims.sh rootdir/init.qti.ims.sh init.qti.ims.sh; #Remove IMS startup script
 	rm -rf IMSEnabler; #Remove IMS compatibility module
 	#rm -rf data-ipa-cfg-mgr; #Remove IPA
-	rm -rf libshimwvm; #Remove Google Widevine compatibility module
+	rm -rf libshimwvm libshims/wvm_shim.cpp; #Remove Google Widevine compatibility module
 	rm -rf board/qcom-wipower.mk product/qcom-wipower.mk; #Remove WiPower makefiles
 	if [ -f setup-makefiles.sh ]; then #FIXME: This breaks some devices using shared device trees (eg. osprey) when removing blobs that are listed in Android.mk of vendor repositories
 		awk -i inplace '!/'$blobs'/' *proprietary*.txt; #Remove all blob references from blob manifest
@@ -319,7 +319,6 @@ export -f deblobVendor;
 #Start of device fixes [LAOS SPECIFIC]
 #
 cd vendor/lge; git revert 846315c52044dd60a77da84b5180d4d93bb22ceb; cd $base; #Commit 846315c52044dd60a77da84b5180d4d93bb22ceb moves blobs but doesn't update their location in mako device tree
-echo "vendor/lib/libcneapiclient.so" >> device/oneplus/bacon/proprietary-files-qc.txt; #Commit b7b6d94529e17ce51566aa6509cebab6436b153d disabled CNE but left this binary in the makefile vendor since NetMgr requires it. Without this line rerunning setup-makefiles.sh breaks cell service, since the resulting build will be missing it.
 #
 #End of device fixes
 #
