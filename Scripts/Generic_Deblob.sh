@@ -39,7 +39,7 @@ export base;
 	blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so";
 
 	#Camera
-	#I tried, don't waste your time...
+	#Attempted, don't waste your time...
 	#FUN FACT: The Huawei Honor 5x ships with eight-hundred-and-thirty-five (*835*) proprietary camera blobs.
 	#blobs=$blobs"|";
 
@@ -73,8 +73,8 @@ export base;
 	blobs=$blobs"|com.qti.dpmframework.jar|com.qti.dpmframework.xml|dpmapi.jar|dpmapi.xml|dpm.conf|dpmd|dpmserviceapp.apk|libdpmctmgr.so|libdpmfdmgr.so|libdpmframework.so|libdpmnsrm.so|libdpmtcm.so|NsrmConfiguration.xml|tcmclient.jar";
 
 	#DRM
-	#blobs=$blobs"|libdrmdecrypt.so|libdrmfs.so|libdrmtime.so|libtzdrmgenprov.so"; #XXX: Breaks full disk encryption
 	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so";
+	blobs=$blobs"|liboemcrypto.so|libpvr.so|librmp.so|libsi.so|libSSEPKCS11.so|libtzdrmgenprov.so";
 
 	#Face Unlock [Google]
 	blobs=$blobs"|libfacenet.so|libfilterpack_facedetect.so|libfrsdk.so";
@@ -92,10 +92,11 @@ export base;
 	blobs=$blobs"|iop|libqc-opt.so|libqti-iop-client.so|libqti-iop.so|QPerformance.jar";
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
-	#blobs=$blobs"|ims.apk|ims.xml|libimsmedia_jni.so"; #IMS (Core)
-	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|lib-imsdpl.so|lib-imscamera.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so"; #IMS
+	#blobs=$blobs"|ims.apk|ims.xml|libimsmedia_jni.so"; #IMS (Core) (To support carriers that have phased out 2G)
+	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so"; #IMS
 	blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so"; #RTP
-	blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so|qti_permissions.xml|volte_modem[/]"; #Misc.
+	blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so|qti_permissions.xml"; #Misc.
+	#blobs=$blobs"|volte_modem[/]";
 
 	#IPA (Internet Packet Accelerator) [Qualcomm]
 	#This is actually open source (excluding -diag)
@@ -103,6 +104,9 @@ export base;
 	blobs=$blobs"|ipacm-diag";
 	#makes=$makes"|ipacm|IPACM_cfg.xml";
 	#kernels=$kernels" drivers/platform/msm/ipa";
+
+	#Keystore/TrustZone (HW Crypto) [Qualcomm]
+	#blobs=$blobs"|qseecomd|keystore.qcom.so|libdrmfs.so|libdrmtime.so|libQSEEComAPI.so|librpmb.so|libssd.so";
 
 	#Location (gpsOne/gpsOneXTRA/IZat/Lumicast/QUIP) [Qualcomm]
 	blobs=$blobs"|com.qti.location.sdk.jar|com.qti.location.sdk.xml|com.qualcomm.location.apk|com.qualcomm.location.xml|gpsone_daemon|izat.conf|izat.xt.srv.jar|izat.xt.srv.xml|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|libgdtap.so|libgeofence.so|libizat_core.so|liblbs_core.so|liblocationservice_glue.so|liblocationservice.so|libloc_ext.so|libloc_xtra.so|liblowi_client.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libulp2.so|libxtadapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so|location-mq|loc_launcher|lowi.conf|lowi-server|slim_ap_daemon|slim_daemon|xtra_t_app.apk|xtwifi-client|xtwifi-inet-agent";
@@ -116,8 +120,8 @@ export base;
 
 	#Performance [Qualcomm]
 	#blobs=$blobs"|msm_irqbalance";
-	#New devices don't seem to hotplug cores without this
-	#I tried to replace this with showp1984's msm_mpdecision, but the newer kernels simply don't have the mach_msm dependencies that are needed
+	#Devices utilizing perfd won't hotplug cores without it
+	#Attempted to replace this with showp1984's msm_mpdecision, but the newer kernels simply don't have the mach_msm dependencies that are needed
 	#blobs=$blobs"|mpdecision|libqti-perfd-client.so|perfd|perf-profile0.conf|perf-profile1.conf|perf-profile2.conf|perf-profile3.conf|perf-profile4.conf|perf-profile5.conf";
 
 	#Playready (DRM) [Microsoft]
@@ -192,6 +196,7 @@ deblobDevice() {
 		replaceTime="false";
 	fi;
 	if [ -f Android.mk ]; then
+		#These are merely symlinks to the device's firmware partition
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Remove CMN firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(DXHDCP2_SYMLINKS)//' Android.mk; #Remove Discretix firmware
 		#sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(IMS_SYMLINKS)//' Android.mk; #Remove IMS firmware

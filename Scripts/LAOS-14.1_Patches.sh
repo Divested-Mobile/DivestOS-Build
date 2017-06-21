@@ -80,7 +80,7 @@ patch -p1 < $patches"android_external_svox/94d2ddb.diff" #Fix garbled output See
 
 enter "frameworks/base"
 git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3 #re-enable doze on devices without gms
-git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/32 && git cherry-pick FETCH_HEAD #network traffic
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/34 && git cherry-pick FETCH_HEAD #network traffic
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i '0,/wifi,cell,battery/s/wifi,cell,battery,dnd,flashlight,rotation,bt,airplane/wifi,cell,bt,dnd,flashlight,rotation,battery,saver,location,airplane,hotspot,nfc/' packages/SystemUI/res/values/config.xml;
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
@@ -93,7 +93,7 @@ rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core
 
 enter "packages/apps/CMParts"
 rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of CMStats
-git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/24 && git cherry-pick FETCH_HEAD #network traffic
+git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/25 && git cherry-pick FETCH_HEAD #network traffic
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove the rest of CMStats
 
 enter "packages/apps/CMUpdater"
@@ -166,7 +166,7 @@ cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 
 enter "vendor/cmsdk"
-git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/13 && git cherry-pick FETCH_HEAD #network traffic
+git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/14 && git cherry-pick FETCH_HEAD #network traffic
 cp $patches"cm_platform_sdk/profile_default.xml" cm/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
 #
 #END OF ROM CHANGES
