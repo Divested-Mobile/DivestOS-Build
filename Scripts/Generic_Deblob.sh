@@ -196,7 +196,7 @@ deblobDevice() {
 		replaceTime="false";
 	fi;
 	if [ -f Android.mk ]; then
-		#These are merely symlinks to the device's firmware partition
+		#Some devices store these in a dedicated firmware partition, others in /system/vendor/firmware, either way the following are just symlinks
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Remove CMN firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(DXHDCP2_SYMLINKS)//' Android.mk; #Remove Discretix firmware
 		#sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(IMS_SYMLINKS)//' Android.mk; #Remove IMS firmware
