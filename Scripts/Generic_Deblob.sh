@@ -60,7 +60,7 @@ export base;
 	blobs=$blobs"|[/]diag[/]|diag_callback_client|diag_dci_sample|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag[/]mdm|diag_qshrink4_daemon|diag_socket_log|diag_uart_log|drmdiagapp|ibdrmdiag.so|ssr_diag|test_diag";
 
 	#Dirac (Audio Effects) [Dirac]
-	blobs=$blobs"|diracmobile.config|libDiracAPI_SHARED.so|libdirac.so";
+	blobs=$blobs"|diracmobile.config|libDiracAPI_SHARED.so|libdirac.so|libdirac-appi.so";
 
 	#Discretix (DRM/HDCP) [Discretix Technologies]
 	blobs=$blobs"|discretix|DxHDCP.cfg|dxhdcp2.b00|dxhdcp2.b01|dxhdcp2.b02|dxhdcp2.b03|dxhdcp2.mdt|libDxHdcp.so";
@@ -258,6 +258,9 @@ deblobDevice() {
 		#sed -i 's/persist.radio.VT_ENABLE=./persist.radio.VT_ENABLE=0/' system.prop;
 		#sed -i 's/persist.radio.VT_HYBRID_ENABLE=./persist.radio.VT_HYBRID_ENABLE=0/' system.prop;
 		#sed -i 's/persist.volte_enabled_by_hw=./persist.volte_enabled_by_hw=0/' system.prop;
+	fi;
+	if [ -f configs/qmi_config.xml ]; then
+		sed -i 's|name="dpm_enabled" type="int"> 1 <|name="dpm_enabled" type="int"> 0 <|' configs/qmi_config.xml; #Disable DPM
 	fi;
 	if [ -f init/init_*.cpp ]; then
 		sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "0");/' init/init_*.cpp; #Disable RCS

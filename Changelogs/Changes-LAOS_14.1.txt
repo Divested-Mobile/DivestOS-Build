@@ -1,6 +1,6 @@
-Last Updated: 06/12/2017
+Last Updated: 06/25/2017
 Credits: https://divestos.xyz/about.html
-Recommended Apps: ttps://divestos.xyz/apps.html
+Recommended Apps: https://divestos.xyz/apps.html
 
 General Changes
 	- Builds are dex-preopted on select devices
@@ -13,6 +13,7 @@ General Changes
 	- Removed unnecessary/outdated/insecure packages.
 	- Replaced stock emoji font with EmojiOne (Standardized and Legible)
 	- Replaced default profiles with better ones
+	- Replace default SMS app with Silence
 	- Dialer
 		- Disabled FLP and PLP by default
 	- Settings
