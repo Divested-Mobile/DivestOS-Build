@@ -8,7 +8,7 @@
 #repo sync -j20 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/home/$USER/Android/Sdk" && export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation" && export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}" && GRADLE_OPTS=-Xmx2048m && export KBUILD_BUILD_USER=emy && export KBUILD_BUILD_HOST=dosbm
 
 #Build!
-#brunch lineage_mako-user && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_hammerhead-user && brunch lineage_shamu-user && brunch lineage_bullhead-user && brunch lineage_angler-user && brunch lineage_flo-user && brunch lineage_marlin-user && brunch lineage_sailfish-user && brunch lineage_ether-user && brunch lineage_Z00T-user && brunch lineage_osprey-user
+#brunch lineage_mako-user && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_hammerhead-user && brunch lineage_shamu-user && brunch lineage_bullhead-user && brunch lineage_angler-user && brunch lineage_flo-user && brunch lineage_marlin-user && brunch lineage_sailfish-user && brunch lineage_ether-user && brunch lineage_Z00T-user && brunch lineage_osprey-user && brunch lineage_thor-userdebug
 
 #
 #START OF PREPRATION
@@ -155,10 +155,10 @@ patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch" #R
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid
-patch -p1 < $patches"android_system_core/0002-Harden_Network.patch" #Harden network via sysctls
+#patch -p1 < $patches"android_system_core/0002-Harden_Network.patch" #Harden network via sysctls
 
-enter "system/netd"
-patch -p1 < $patches"android_system_netd/0001-Harden_Network.patch"; #Harden network via iptables
+#enter "system/netd"
+#patch -p1 < $patches"android_system_netd/0001-Harden_Network.patch"; #Harden network via iptables
 
 enter "vendor/cm"
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
