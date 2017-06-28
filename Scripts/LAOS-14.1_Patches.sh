@@ -155,10 +155,10 @@ patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch" #R
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid
-patch -p1 < $patches"android_system_core/0002-Harden_Network.patch" #Harden network via sysctls
+#patch -p1 < $patches"android_system_core/0002-Harden_Network.patch" #Harden network via sysctls
 
-enter "system/netd"
-patch -p1 < $patches"android_system_netd/0001-Harden_Network.patch"; #Harden network via iptables
+#enter "system/netd"
+#patch -p1 < $patches"android_system_netd/0001-Harden_Network.patch"; #Harden network via iptables
 
 enter "vendor/cm"
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
@@ -183,6 +183,7 @@ enableGlonass
 enter "device/oneplus/bacon"
 enableDexPreOpt
 enableGlonass
+sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
 enter "kernel/oneplus/msm8974"
 patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock-EXTREME.patch" #300Mhz -> 268Mhz, 2.45Ghz -> 2.95Ghz	=+2.02Ghz XXX: Not 100% stable under intense workloads
