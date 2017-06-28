@@ -1,29 +1,26 @@
-From b99315589e2ede5e9b7e7f8b091bf720a1ee3fab Mon Sep 17 00:00:00 2001
+From a93c335e6eaed29e1537c63514b8bd94a79ba552 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Wed, 28 Jun 2017 09:24:54 -0400
+Date: Wed, 28 Jun 2017 12:30:56 -0400
 Subject: [PATCH] Harden network via iptables
 
-Change-Id: Icd1e950a2448435ad234913f896844a820b12dd8
+Change-Id: I42392ed3dcd7d2f42c312bb36f65ccb12914d13b
 ---
- server/CommandListener.cpp | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ server/CommandListener.cpp | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
 diff --git a/server/CommandListener.cpp b/server/CommandListener.cpp
-index b16da18..71d91af 100755
+index b16da18..5247878 100755
 --- a/server/CommandListener.cpp
 +++ b/server/CommandListener.cpp
-@@ -230,6 +230,44 @@ CommandListener::CommandListener() :
+@@ -230,6 +230,41 @@ CommandListener::CommandListener() :
      createChildChains(V4, "nat", "PREROUTING", NAT_PREROUTING);
      createChildChains(V4, "nat", "POSTROUTING", NAT_POSTROUTING);
  
 +
-+    //drop routed, and allow outgoing
-+    execIptables(V4V6, "-w", "-P", "FORWARD", "DROP", NULL);
-+    execIptables(V4V6, "-w", "-P", "OUTPUT", "ACCEPT", NULL);
 +    //Drop invalid packets
-+    execIptables(V4V6, "-w", "-A", "INPUT", "-m", "conntrack", "--ctstate", "INVALID", "-j", "DROP", NULL);
-+    execIptables(V4V6, "-w", "-A", "OUTPUT", "-m", "conntrack", "--ctstate", "INVALID", "-j", "DROP", NULL);
-+    execIptables(V4V6, "-w", "-A", "FORWARD", "-m", "conntrack", "--ctstate", "INVALID", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-I", "INPUT", "-m", "conntrack", "--ctstate", "INVALID", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-I", "OUTPUT", "-m", "conntrack", "--ctstate", "INVALID", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-I", "FORWARD", "-m", "conntrack", "--ctstate", "INVALID", "-j", "DROP", NULL);
 +    //Credit: https://javapipe.com/iptables46-ddos-protection
 +    //Drop TCP packets that are new and are not SYN
 +    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "!", "--syn", "-m", "conntrack", "--ctstate", "NEW", "-j", "DROP", NULL);
