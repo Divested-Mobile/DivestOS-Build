@@ -1,87 +1,52 @@
-From 9663281c60b56be2d2cf00cd7ed11625a6ac1998 Mon Sep 17 00:00:00 2001
+From 3ce5afa60fe949d5f4a272ebaed92bf24aad0b11 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Mon, 29 May 2017 21:36:29 -0400
+Date: Tue, 27 Jun 2017 23:18:10 -0400
 Subject: [PATCH] Network hardening via iptables
 
-Change-Id: Ic128a37ccbc1885b4f92cee5bd6eb4408fa78105
-
-Credit: https://javapipe.com/iptables-ddos-protection
+Change-Id: I3a3d36af792641522e74ce45b0de3fa7ff791d58
 ---
- server/CommandListener.cpp | 49 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ server/CommandListener.cpp | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
 diff --git a/server/CommandListener.cpp b/server/CommandListener.cpp
-index b16da18..06db5b9 100755
+index b16da18..7f5e99d 100755
 --- a/server/CommandListener.cpp
 +++ b/server/CommandListener.cpp
-@@ -145,6 +145,10 @@ static const char* RAW_PREROUTING[] = {
-         NULL,
- };
- 
-+static const char* MANGLE_PREROUTING[] = {
-+        NULL,
-+};
-+
- static const char* MANGLE_POSTROUTING[] = {
-         BandwidthController::LOCAL_MANGLE_POSTROUTING,
-         IdletimerController::LOCAL_MANGLE_POSTROUTING,
-@@ -225,11 +229,56 @@ CommandListener::CommandListener() :
-     createChildChains(V4V6, "filter", "FORWARD", FILTER_FORWARD);
-     createChildChains(V4V6, "filter", "OUTPUT", FILTER_OUTPUT);
-     createChildChains(V4V6, "raw", "PREROUTING", RAW_PREROUTING);
-+    createChildChains(V4V6, "mangle", "PREROUTING", MANGLE_PREROUTING);
-     createChildChains(V4V6, "mangle", "POSTROUTING", MANGLE_POSTROUTING);
-     createChildChains(V4V6, "mangle", "FORWARD", MANGLE_FORWARD);
+@@ -230,6 +230,34 @@ CommandListener::CommandListener() :
      createChildChains(V4, "nat", "PREROUTING", NAT_PREROUTING);
      createChildChains(V4, "nat", "POSTROUTING", NAT_POSTROUTING);
  
 +
 +    //Credit: https://javapipe.com/iptables-ddos-protection
-+    //Drop invalid packets
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-m" "conntrack" "--ctstate" "INVALID" "-j" "DROP", NULL);
-+    //Drop TCP packets that are new and are not SYN
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "!" "--syn" "-m" "conntrack" "--ctstate" "NEW" "-j" "DROP", NULL);
-+    //Drop SYN packets with suspicious MSS value
-+    execIptables(V4, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "-m" "conntrack" "--ctstate" "NEW" "-m" "tcpmss" "!" "--mss" "536:65535" "-j" "DROP", NULL);
-+    execIptables(V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "-m" "conntrack" "--ctstate" "NEW" "-m" "tcpmss" "!" "--mss" "1220:65535" "-j" "DROP", NULL);
-+    //Drop packets with bogus TCP flags
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "--tcp-flags" "FIN,SYN,RST,PSH,ACK,URG" "NONE" "-j" "DROP", NULL);
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "--tcp-flags" "FIN,SYN" "FIN,SYN" "-j" "DROP", NULL);
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "--tcp-flags" "SYN,RST" "SYN,RST" "-j" "DROP", NULL);
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "--tcp-flags" "SYN,FIN" "SYN,FIN" "-j" "DROP", NULL);
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "--tcp-flags" "FIN,RST" "FIN,RST" "-j" "DROP", NULL);
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "--tcp-flags" "FIN,ACK" "FIN" "-j" "DROP", NULL);
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "--tcp-flags" "ACK,URG" "URG" "-j" "DROP", NULL);
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "--tcp-flags" "ACK,FIN" "FIN" "-j" "DROP", NULL);
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "--tcp-flags" "ACK,PSH" "PSH" "-j" "DROP", NULL);
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "--tcp-flags" "ALL" "ALL" "-j" "DROP", NULL);
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "--tcp-flags" "ALL" "NONE" "-j" "DROP", NULL);
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "--tcp-flags" "ALL" "FIN,PSH,URG" "-j" "DROP", NULL);
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "--tcp-flags" "ALL" "SYN,FIN,PSH,URG" "-j" "DROP", NULL);
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-p" "tcp" "--tcp-flags" "ALL" "SYN,RST,ACK,FIN,URG" "-j" "DROP", NULL);
-+    //Drop spoofed packets
-+    execIptables(V4,  "-t" "mangle" "-A" "PREROUTING" "-s" "127.0.0.0/8" "!" "-i" "lo" "-j" "DROP", NULL);
-+    //Drop ICMP packets
-+    execIptables(V4,  "-t" "mangle" "-A" "PREROUTING" "-p" "icmp" "-j" "DROP", NULL);
-+    //Drop fragments
-+    execIptables(V4V6, "-t" "mangle" "-A" "PREROUTING" "-f" "-j" "DROP", NULL);
-+    //Restrict IP addresses to 128 connections
-+    execIptables(V4V6, "-A" "INPUT" "-p" "tcp" "-m" "connlimit" "--connlimit-above" "128" "-j" "DROP", NULL);
-+    //Restrict RST packets to 2 per second
-+    execIptables(V4V6, "-A" "INPUT" "-p" "tcp" "--tcp-flags" "RST" "RST" "-m" "limit" "--limit" "2/s" "--limit-burst" "2" "-j" "ACCEPT", NULL);
-+    execIptables(V4V6, "-A" "INPUT" "-p" "tcp" "--tcp-flags" "RST" "RST" "-j" "DROP", NULL);
-+    //Restrict TCP connections to 32 connections per second
-+    execIptables(V4V6, "-A" "INPUT" "-p" "tcp" "-m" "conntrack" "--ctstate" "NEW" "-m" "limit" "--limit" "32/s" "--limit-burst" "20" "-j" "ACCEPT", NULL);
-+    execIptables(V4V6, "-A" "INPUT" "-p" "tcp" "-m" "conntrack" "--ctstate" "NEW" "-j" "DROP", NULL);
-+    //Port scanning protection
-+    execIptables(V4V6, "-N" "port-scanning", NULL);
-+    execIptables(V4V6, "-A" "port-scanning" "-p" "tcp" "--tcp-flags" "SYN,ACK,FIN,RST" "RST" "-m" "limit" "--limit" "1/s" "--limit-burst" "2" "-j" "RETURN", NULL);
-+    execIptables(V4V6, "-A" "port-scanning" "-j" "DROP", NULL);
++    execIptables(V4V6, "-w", "-A", "INPUT", "-m", "conntrack", "--ctstate", "INVALID", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-A", "OUTPUT", "-m", "conntrack", "--ctstate", "INVALID", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-A", "FORWARD", "-m", "conntrack", "--ctstate", "INVALID", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "!", "--syn", "-m", "conntrack", "--ctstate", "NEW", "-j", "DROP", NULL);
++    execIptables(V4, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "-m", "conntrack", "--ctstate", "NEW", "-m", "tcpmss", "!", "--mss", "536:65535", "-j", "DROP", NULL);
++    execIptables(V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "-m", "conntrack", "--ctstate", "NEW", "-m", "tcpmss", "!", "--mss", "1220:65535", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "FIN,SYN,RST,PSH,ACK,URG", "NONE", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "FIN,SYN", "FIN,SYN", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "SYN,RST", "SYN,RST", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "SYN,FIN", "SYN,FIN", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "FIN,RST", "FIN,RST", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "FIN,ACK", "FIN", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ACK,URG", "URG", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ACK,FIN", "FIN", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ACK,PSH", "PSH", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ALL", "ALL", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ALL", "NONE", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ALL", "FIN,PSH,URG", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ALL", "SYN,FIN,PSH,URG", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ALL", "SYN,RST,ACK,FIN,URG", "-j", "DROP", NULL);
++    execIptables(V4, "-w", "-t", "raw", "-A", "PREROUTING", "-s", "0.0.0.0/8", "-j", "DROP", NULL);
++    execIptables(V4, "-w", "-t", "raw", "-A", "PREROUTING", "-s", "127.0.0.0/8", "!", "-i", "lo", "-j", "DROP", NULL);
++    execIptables(V4, "-w", "-t", "raw", "-A", "PREROUTING", "-f", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-A", "INPUT", "-p", "tcp", "-m", "connlimit", "--connlimit-above", "64", "!", "-i", "lo", "-j", "REJECT", NULL);
 +
 +
      // Let each module setup their child chains
      setupOemIptablesHook();
  
 -- 
-2.13.0
+2.13.2
 
