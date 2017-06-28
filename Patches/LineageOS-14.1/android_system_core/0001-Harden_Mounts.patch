@@ -1,13 +1,13 @@
-From f744a5628bbc7c97065b9355282c97d4c4cb1d60 Mon Sep 17 00:00:00 2001
+From 77d7a0338ceecd3aa08f51f615cb22e3687b4c7e Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
-Date: Mon, 29 May 2017 20:13:03 -0400
-Subject: [PATCH] Harden mounts and network
+Date: Wed, 28 Jun 2017 07:54:49 -0400
+Subject: [PATCH] Harden mounts
 
-Change-Id: I56e8371048f83f429009c3024f8aff99c9952d9c
+Change-Id: I46e3fc4ac896a509ab8ca90ae4ce09b820da434b
 ---
- init/init.cpp   |  6 +++---
- rootdir/init.rc | 16 ++++++++++++++++
- 2 files changed, 19 insertions(+), 3 deletions(-)
+ init/init.cpp   | 6 +++---
+ rootdir/init.rc | 1 +
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
 index 7a370596e..35bf44a7b 100755
@@ -28,7 +28,7 @@ index 7a370596e..35bf44a7b 100755
  
      // We must have some place other than / to create the device nodes for
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 671c6b71f..a5da76318 100644
+index 31b4e3566..da2071b15 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -126,6 +126,7 @@ on init
@@ -39,28 +39,6 @@ index 671c6b71f..a5da76318 100644
      write /proc/sys/kernel/kptr_restrict 2
      write /proc/sys/vm/mmap_min_addr 32768
      write /proc/sys/net/ipv4/ping_group_range "0 2147483647"
-@@ -144,6 +145,21 @@ on init
-     write /proc/sys/net/ipv4/conf/all/accept_redirects 0
-     write /proc/sys/net/ipv6/conf/all/accept_redirects 0
- 
-+    # IPv4 hardening
-+    #
-+    # reverse path filtering is done with netfilter for consistency with IPv6
-+    write /proc/sys/net/ipv4/tcp_rfc1337 1
-+    write /proc/sys/net/ipv4/conf/all/accept_source_route 0
-+    write /proc/sys/net/ipv4/conf/default/accept_source_route 0
-+    write /proc/sys/net/ipv4/conf/default/accept_redirects 0
-+    write /proc/sys/net/ipv4/conf/all/send_redirects 0
-+    write /proc/sys/net/ipv4/conf/default/send_redirects 0
-+
-+    # IPv6 hardening
-+    write /proc/sys/net/ipv6/conf/default/accept_redirects 0
-+    write /proc/sys/net/ipv6/conf/all/use_tempaddr 2
-+    write /proc/sys/net/ipv6/conf/default/use_tempaddr 2
-+
-     # Create cgroup mount points for process groups
-     mkdir /dev/cpuctl
-     mount cgroup none /dev/cpuctl cpu
 -- 
-2.13.0
+2.13.2
 

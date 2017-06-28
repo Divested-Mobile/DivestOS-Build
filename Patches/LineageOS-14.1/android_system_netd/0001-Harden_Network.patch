@@ -1,0 +1,93 @@
+From f705d1c7cae38ca9070f24ff5c076b06ab827244 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Wed, 28 Jun 2017 08:19:00 -0400
+Subject: [PATCH] Harden network via iptables
+
+Change-Id: I37eca1211768b9d3aa63fa59a40112e35c5e8c62
+---
+ server/CommandListener.cpp | 69 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
+
+diff --git a/server/CommandListener.cpp b/server/CommandListener.cpp
+index b16da18..6aca8aa 100755
+--- a/server/CommandListener.cpp
++++ b/server/CommandListener.cpp
+@@ -230,6 +230,75 @@ CommandListener::CommandListener() :
+     createChildChains(V4, "nat", "PREROUTING", NAT_PREROUTING);
+     createChildChains(V4, "nat", "POSTROUTING", NAT_POSTROUTING);
+ 
++
++    //Drop incoming, drop routed, and allow outgoing
++    execIptables(V4V6, "-w", "-P", "INPUT", "DROP", NULL);
++    execIptables(V4V6, "-w", "-P", "FORWARD", "DROP", NULL);
++    execIptables(V4V6, "-w", "-P", "OUTPUT", "ACCEPT", NULL);
++    //Drop invalid packets
++    execIptables(V4V6, "-w", "-A", "INPUT", "-m", "conntrack", "--ctstate", "INVALID", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-A", "OUTPUT", "-m", "conntrack", "--ctstate", "INVALID", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-A", "FORWARD", "-m", "conntrack", "--ctstate", "INVALID", "-j", "DROP", NULL);
++    //Drop TCP packets that are new and are not SYN
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "!", "--syn", "-m", "conntrack", "--ctstate", "NEW", "-j", "DROP", NULL);
++    //Drop SYN packets with suspicious MSS value
++    execIptables(V4, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "-m", "conntrack", "--ctstate", "NEW", "-m", "tcpmss", "!", "--mss", "536:65535", "-j", "DROP", NULL);
++    execIptables(V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "-m", "conntrack", "--ctstate", "NEW", "-m", "tcpmss", "!", "--mss", "1220:65535", "-j", "DROP", NULL);
++    //Drop packets with bogus TCP flags
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "FIN,SYN,RST,PSH,ACK,URG", "NONE", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "FIN,SYN", "FIN,SYN", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "SYN,RST", "SYN,RST", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "SYN,FIN", "SYN,FIN", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "FIN,RST", "FIN,RST", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "FIN,ACK", "FIN", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ACK,URG", "URG", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ACK,FIN", "FIN", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ACK,PSH", "PSH", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ALL", "ALL", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ALL", "NONE", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ALL", "FIN,PSH,URG", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ALL", "SYN,FIN,PSH,URG", "-j", "DROP", NULL);
++    execIptables(V4V6, "-w", "-t", "raw", "-A", "PREROUTING", "-p", "tcp", "--tcp-flags", "ALL", "SYN,RST,ACK,FIN,URG", "-j", "DROP", NULL);
++    //Drop spoofed packets
++    execIptables(V4, "-w", "-t", "raw", "-A", "PREROUTING", "-s", "0.0.0.0/8", "-j", "DROP", NULL);
++    execIptables(V4, "-w", "-t", "raw", "-A", "PREROUTING", "-s", "127.0.0.0/8", "!", "-i", "lo", "-j", "DROP", NULL);
++    //Drop fragments
++    execIptables(V4, "-w", "-t", "raw", "-A", "PREROUTING", "-f", "-j", "DROP", NULL);
++    //Limit connections per source IP
++    execIptables(V4V6, "-w", "-A", "INPUT", "-p", "tcp", "-m", "connlimit", "--connlimit-above", "64", "!", "-i", "lo", "-j", "REJECT", NULL);
++    //Allow certain ICMP types
++    execIptables(V4, "-w", "-A", "INPUT", "-p", "icmp", "--icmp-type", "0", "-m", "conntrack", "--ctstate", "NEW", "-j", "ACCEPT", NULL);
++    execIptables(V4, "-w", "-A", "INPUT", "-p", "icmp", "--icmp-type", "3", "-m", "conntrack", "--ctstate", "NEW", "-j", "ACCEPT", NULL);
++    execIptables(V4, "-w", "-A", "INPUT", "-p", "icmp", "--icmp-type", "8", "-m", "conntrack", "--ctstate", "NEW", "-j", "ACCEPT", NULL);
++    execIptables(V4, "-w", "-A", "INPUT", "-p", "icmp", "--icmp-type", "11", "-m", "conntrack", "--ctstate", "NEW", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-p", "ipv6-icmp", "--icmpv6-type", "1", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-p", "ipv6-icmp", "--icmpv6-type", "2", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-p", "ipv6-icmp", "--icmpv6-type", "3", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-p", "ipv6-icmp", "--icmpv6-type", "4", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-p", "ipv6-icmp", "--icmpv6-type", "128", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-p", "ipv6-icmp", "--icmpv6-type", "133", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-p", "ipv6-icmp", "--icmpv6-type", "134", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-p", "ipv6-icmp", "--icmpv6-type", "135", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-p", "ipv6-icmp", "--icmpv6-type", "136", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-p", "ipv6-icmp", "--icmpv6-type", "137", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-p", "ipv6-icmp", "--icmpv6-type", "141", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-p", "ipv6-icmp", "--icmpv6-type", "142", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-s", "fe80::/10", "-p", "ipv6-icmp", "--icmpv6-type", "130", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-s", "fe80::/10", "-p", "ipv6-icmp", "--icmpv6-type", "131", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-s", "fe80::/10", "-p", "ipv6-icmp", "--icmpv6-type", "132", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-s", "fe80::/10", "-p", "ipv6-icmp", "--icmpv6-type", "143", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-p", "ipv6-icmp", "--icmpv6-type", "148", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-p", "ipv6-icmp", "--icmpv6-type", "149", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-s", "fe80::/10", "-p", "ipv6-icmp", "--icmpv6-type", "151", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-s", "fe80::/10", "-p", "ipv6-icmp", "--icmpv6-type", "152", "-j", "ACCEPT", NULL);
++    execIptables(V6, "-w", "-A", "INPUT", "-s", "fe80::/10", "-p", "ipv6-icmp", "--icmpv6-type", "153", "-j", "ACCEPT", NULL);
++    //Allow related/existing connections
++    execIptables(V4V6, "-w", "-A", "INPUT", "-i", "lo", "-j", "ACCEPT", NULL);
++    execIptables(V4V6, "-w", "-A", "OUTPUT", "-o", "lo", "-j", "ACCEPT", NULL);
++    execIptables(V4V6, "-w", "-A", "INPUT", "-m", "conntrack", "--ctstate", "ESTABLISHED,RELATED", "-j", "ACCEPT", NULL);
++    execIptables(V4V6, "-w", "-A", "OUTPUT", "-m", "conntrack", "--ctstate", "ESTABLISHED,RELATED", "-j", "ACCEPT", NULL);
++
++
+     // Let each module setup their child chains
+     setupOemIptablesHook();
+ 
+-- 
+2.13.2
+
