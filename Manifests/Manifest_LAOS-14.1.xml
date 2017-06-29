@@ -110,6 +110,7 @@
 	<project path="hardware/sony/thermanager" name="LineageOS/android_hardware_sony_thermanager" remote="github" />
 	<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />
 	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
+	<project path="packages/apps/SamsungServiceMode" name="LineageOS/android_packages_apps_SamsungServiceMode" remote="github" />
 
 	<!-- Nexus 7 2013 (Flo) -->
 	<project path="device/asus/flo" name="LineageOS/android_device_asus_flo" remote="github" />
@@ -171,6 +172,12 @@
 	<project path="device/oneplus/bacon" name="LineageOS/android_device_oneplus_bacon" remote="github" />
 	<project path="device/oppo/msm8974-common" name="LineageOS/android_device_oppo_msm8974-common" remote="github" />
 	<project path="kernel/oneplus/msm8974" name="LineageOS/android_kernel_oneplus_msm8974" remote="github" />
+
+	<!-- Samsung Galaxy Note 8.0 Wi-Fi (n5110) -->
+	<project path="device/samsung/kona-common" name="LineageOS/android_device_samsung_kona-common" remote="github" />
+	<project path="device/samsung/n5110" name="LineageOS/android_device_samsung_n5110" remote="github" />
+	<project path="device/samsung/smdk4412-common" name="LineageOS/android_device_samsung_smdk4412-common" remote="github" />
+	<project path="kernel/samsung/smdk4412" name="LineageOS/android_kernel_samsung_smdk4412" remote="github" />
 
 	<!-- Proprietary Blobs -->
 	<project path="vendor/amazon" name="TheMuppets/proprietary_vendor_amazon" remote="github" />

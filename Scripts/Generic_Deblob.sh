@@ -93,7 +93,8 @@ export base;
 	blobs=$blobs"|htc_drmprov.b00|htc_drmprov.b01|htc_drmprov.b02|htc_drmprov.b03|htc_drmprov.b04|htc_drmprov.b05|htc_drmprov.b06|htc_drmprov.mdt|gptauuid.xml|gpsample.mbn";
 
 	#I/O Prefetcher [Qualcomm]
-	blobs=$blobs"|iop|libqc-opt.so|libqti-iop-client.so|libqti-iop.so|QPerformance.jar";
+	blobs=$blobs"|libqc-opt.so";
+	blobs=$blobs"|iop|libqti-iop-client.so|libqti-iop.so|QPerformance.jar";
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
 	#blobs=$blobs"|ims.apk|ims.xml|libimsmedia_jni.so"; #IMS (Core) (To support carriers that have phased out 2G)
@@ -198,7 +199,7 @@ export base;
 deblobDevice() {
 	devicePath=$1;
 	cd $base$devicePath;
-	if [ "${PWD##*/}" == "flo" ] || [ "${PWD##*/}" == "mako" ]; then #Older devices don't seem to use time_daemon TODO: Automate or extend this
+	if [ "${PWD##*/}" == "flo" ] || [ "${PWD##*/}" == "mako" ]; then #Some devices don't need/like TimeKeep
 		replaceTime="false";
 	fi;
 	if [ -f Android.mk ]; then
