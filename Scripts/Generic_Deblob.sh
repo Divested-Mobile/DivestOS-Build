@@ -199,7 +199,7 @@ export base;
 deblobDevice() {
 	devicePath=$1;
 	cd $base$devicePath;
-	if [ "${PWD##*/}" == "flo" ] || [ "${PWD##*/}" == "mako" ]; then #Some devices don't need/like TimeKeep
+	if [ "${PWD##*/}" == "flo" ] || [ "${PWD##*/}" == "mako" ] || [ "${PWD##*/}" == "kona-common" ] || [ "${PWD##*/}" == "n5110" ] || [ "${PWD##*/}" == "smdk4412-common" ]; then #Some devices don't need/like TimeKeep
 		replaceTime="false";
 	fi;
 	if [ -f Android.mk ]; then
@@ -350,6 +350,7 @@ find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {}
 find vendor -name "*vendor*.mk" -type f -exec bash -c 'deblobVendor "$0"' {} \; #Deblob all makefiles
 deblobVendors; #Deblob entire vendor directory
 rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove Clearkey
+rm -rf vendor/samsung/nodevice;
 #
 #END OF DEBLOBBING
 #
