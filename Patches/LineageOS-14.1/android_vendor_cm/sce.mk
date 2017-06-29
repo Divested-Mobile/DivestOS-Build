@@ -14,7 +14,3 @@ PRODUCT_PACKAGES += \
 # Offline Calendar
 #PRODUCT_PACKAGES += \
 #    OfflineCalendar
-
-# Slience
-PRODUCT_PACKAGES += \
-    Silence
