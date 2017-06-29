@@ -9,6 +9,7 @@
 #Device Status (Tested under LineageOS 14.1)
 #
 #Functioning as Expected: bacon, clark, mako
+#Not booting: thor
 
 base="/mnt/Drive-1/Development/Other/Android_ROMs/Build/LineageOS-14.1/";
 export base;
@@ -48,8 +49,8 @@ export base;
 	#Clearkey (DRM) [Google]
 	blobs=$blobs"|libdrmclearkeyplugin.so";
 
-	#CMN (DRM) [Unknown]
-	blobs=$blobs"|cmnlib.b00|cmnlib.b01|cmnlib.b02|cmnlib.b03|cmnlib.b04|cmnlib.b05|cmnlib.mdt|cmnlib64.b00|cmnlib64.b01|cmnlib64.b02|cmnlib64.b03|cmnlib64.b04|cmnlib64.b05|cmnlib64.mdt";
+	#CMN (TrustZone?) [Qualcomm?]
+	#blobs=$blobs"|cmnlib.b00|cmnlib.b01|cmnlib.b02|cmnlib.b03|cmnlib.b04|cmnlib.b05|cmnlib.mdt|cmnlib64.b00|cmnlib64.b01|cmnlib64.b02|cmnlib64.b03|cmnlib64.b04|cmnlib64.b05|cmnlib64.mdt";
 
 	#CNE (Automatic Cell/Wi-Fi Switching) [Qualcomm]
 	#blobs=$blobs"|libcneapiclient.so"; #XXX: Breaks radio
@@ -76,7 +77,8 @@ export base;
 
 	#DRM
 	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so";
-	blobs=$blobs"|liboemcrypto.so|libpvr.so|librmp.so|libsi.so|libSSEPKCS11.so|libtzdrmgenprov.so";
+	blobs=$blobs"|liboemcrypto.so|libSSEPKCS11.so|libtzdrmgenprov.so";
+	blobs=$blobs"|libpvr.so|librmp.so|libsi.so";
 
 	#Face Unlock [Google]
 	blobs=$blobs"|libfacenet.so|libfilterpack_facedetect.so|libfrsdk.so";
@@ -201,7 +203,7 @@ deblobDevice() {
 	fi;
 	if [ -f Android.mk ]; then
 		#Some devices store these in a dedicated firmware partition, others in /system/vendor/firmware, either way the following are just symlinks
-		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Remove CMN firmware
+		#sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Remove CMN firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(DXHDCP2_SYMLINKS)//' Android.mk; #Remove Discretix firmware
 		#sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(IMS_SYMLINKS)//' Android.mk; #Remove IMS firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(PLAYREADY_SYMLINKS)//' Android.mk; #Remove Microsoft Playready firmware
