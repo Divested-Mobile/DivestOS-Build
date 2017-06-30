@@ -198,7 +198,7 @@ export base;
 deblobDevice() {
 	devicePath=$1;
 	cd $base$devicePath;
-	if [ "${PWD##*/}" == "flo" ] || [ "${PWD##*/}" == "mako" ] || [ "${PWD##*/}" == "kona-common" ] || [ "${PWD##*/}" == "n5110" ] || [ "${PWD##*/}" == "smdk4412-common" ] || [ "${PWD##*/}" == "hdx-common" ] || [ "${PWD##*/}" == "thor" ]; then #Some devices don't need/like TimeKeep
+	if [ "${PWD##*/}" == "flo" ] || [ "${PWD##*/}" == "mako" ] || [ "${PWD##*/}" == "kona-common" ] || [ "${PWD##*/}" == "n5110" ] || [ "${PWD##*/}" == "smdk4412-common" ] || [ "${PWD##*/}" == "hdx-common" ] || [ "${PWD##*/}" == "thor" ] || [ "${PWD##*/}" == "flounder" ]; then #Some devices don't need/like TimeKeep
 		replaceTime="false";
 	fi;
 	if [ -f Android.mk ]; then

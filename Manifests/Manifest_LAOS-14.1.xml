@@ -115,6 +115,10 @@
 	<!-- Nexus 7 2013 (flo) -->
 	<project path="device/asus/flo" name="LineageOS/android_device_asus_flo" remote="github" />
 
+	<!-- Nexus 9 (flounder) -->
+	<project path="device/htc/flounder" name="LineageOS/android_device_htc_flounder" remote="github" />
+	<project path="kernel/htc/flounder" name="LineageOS/android_kernel_htc_flounder" remote="github" />
+
 	<!-- Nexus 4 (mako) -->
 	<project path="device/lge/mako" name="LineageOS/android_device_lge_mako" remote="github" />
 	<project path="kernel/lge/mako" name="LineageOS/lge-kernel-mako" remote="github" />
@@ -160,7 +164,7 @@
 	<project path="device/motorola/osprey" name="LineageOS/android_device_motorola_osprey" remote="github" />
 	<project path="kernel/motorola/msm8916" name="LineageOS/android_kernel_motorola_msm8916" remote="github" />
 
-	<!-- Moto X Pure Edition (xt1575) -->
+	<!-- Moto X Pure Edition (clark) -->
 	<project path="device/motorola/clark" name="LineageOS/android_device_motorola_clark" remote="github" />
 	<project path="kernel/motorola/msm8992" name="LineageOS/android_kernel_motorola_msm8992" remote="github" />
 
@@ -182,8 +186,9 @@
 	<!-- Proprietary Blobs -->
 	<project path="vendor/amazon" name="TheMuppets/proprietary_vendor_amazon" remote="github" />
 	<project path="vendor/asus" name="TheMuppets/proprietary_vendor_asus" remote="github" />
-	<project path="vendor/huawei" name="TheMuppets/proprietary_vendor_huawei" remote="github" />
 	<project path="vendor/google" name="TheMuppets/proprietary_vendor_google" remote="github" />
+	<project path="vendor/htc" name="TheMuppets/proprietary_vendor_htc" remote="github" />
+	<project path="vendor/huawei" name="TheMuppets/proprietary_vendor_huawei" remote="github" />
 	<project path="vendor/lge" name="TheMuppets/proprietary_vendor_lge" remote="github" />
 	<project path="vendor/motorola" name="TheMuppets/proprietary_vendor_motorola" remote="github" />
 	<project path="vendor/nextbit" name="TheMuppets/proprietary_vendor_nextbit" remote="github" />
