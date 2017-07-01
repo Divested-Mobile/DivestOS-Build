@@ -154,11 +154,6 @@
 	<project name="LineageOS/android_device_asus_Z00T" path="device/asus/Z00T" remote="github" />
 	<project name="LineageOS/android_kernel_asus_msm8916" path="kernel/asus/msm8916" remote="github" />
 
-	<!-- LG G3 (vs985) -->
-	<project path="device/lge/g3-common" name="LineageOS/android_device_lge_g3-common" remote="github" />
-	<project path="device/lge/vs985" name="LineageOS/android_device_lge_vs985" remote="github" />
-	<project path="kernel/lge/g3" name="LineageOS/android_kernel_lge_g3" remote="github" />
-
 	<!-- Moto G 3rd Gen (osprey) -->
 	<project path="device/motorola/msm8916-common" name="LineageOS/android_device_motorola_msm8916-common" remote="github" />
 	<project path="device/motorola/osprey" name="LineageOS/android_device_motorola_osprey" remote="github" />

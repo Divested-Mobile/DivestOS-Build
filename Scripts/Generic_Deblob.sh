@@ -159,7 +159,7 @@ export base;
 	#Time Service [Qualcomm]
 	#Requires that https://github.com/LineageOS/android_hardware_sony_timekeep be included in repo manifest
 	#blobs=$blobs"|libtime_genoff.so"; #XXX: Breaks radio
-	blobs=$blobs"|libTimeService.so|time_daemon|TimeService.apk";
+	#blobs=$blobs"|libTimeService.so|time_daemon|TimeService.apk";
 
 	#Venus (Hardware Video Decoding) [Qualcomm]
 	#blobs=$blobs"|venus.b00|venus.b01|venus.b02|venus.b03|venus.b04|venus.mbn|venus.mdt";
@@ -201,6 +201,7 @@ deblobDevice() {
 	if [ "${PWD##*/}" == "flo" ] || [ "${PWD##*/}" == "mako" ] || [ "${PWD##*/}" == "kona-common" ] || [ "${PWD##*/}" == "n5110" ] || [ "${PWD##*/}" == "smdk4412-common" ] || [ "${PWD##*/}" == "hdx-common" ] || [ "${PWD##*/}" == "thor" ] || [ "${PWD##*/}" == "flounder" ]; then #Some devices don't need/like TimeKeep
 		replaceTime="false";
 	fi;
+	replaceTime="false"; #Temp disable replacement
 	if [ -f Android.mk ]; then
 		#Some devices store these in a dedicated firmware partition, others in /system/vendor/firmware, either way the following are just symlinks
 		#sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Remove CMN firmware
