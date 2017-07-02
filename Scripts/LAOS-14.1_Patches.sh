@@ -64,7 +64,7 @@ enter "build"
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing
 sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
 sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/buildinfo.sh; #Override build host
-sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence TODO: Refine this
+sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 
 enter "device/qcom/sepolicy"
 patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix camera on user builds
@@ -77,7 +77,7 @@ patch -p1 < $patches"android_external_svox/94d2ddb.diff" #Fix garbled output See
 
 enter "frameworks/base"
 git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3 #re-enable doze on devices without gms
-git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/34 && git cherry-pick FETCH_HEAD #network traffic
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/35 && git cherry-pick FETCH_HEAD #network traffic
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i '0,/wifi,cell,battery/s/wifi,cell,battery,dnd,flashlight,rotation,bt,airplane/wifi,cell,bt,dnd,flashlight,rotation,battery,saver,location,airplane,hotspot,nfc/' packages/SystemUI/res/values/config.xml;
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
@@ -97,9 +97,6 @@ enter "packages/apps/CMUpdater"
 patch -p1 < $patches"android_packages_apps_CMUpdater/0001-Server.patch" #Switch to our server
 sed -i 's/CM_RELEASE_TYPE_DEFAULT = "UNOFFICIAL";/CM_RELEASE_TYPE_DEFAULT = "dos";/' src/com/cyanogenmod/updater/misc/Constants.java; #Change buildtype
 sed -i 's/subStrings\[3\]\.length() < 7/subStrings\[3\]\.length() < 3/' src/com/cyanogenmod/updater/utils/Utils.java; #Fix not allowing buildtypes length < 7
-
-enter "packages/apps/CustomTiles"
-patch -p1 < $patches"android_packages_apps_CustomTiles/0001-Profiles.patch" #System profiles tile
 
 enter "packages/apps/Dialer"
 sed -i 's/FLP_DEFAULT = FLP_GOOGLE;/FLP_DEFAULT = FLP_OPENSTREETMAP;/' src/com/android/dialer/lookup/LookupSettings.java; #Change default FLP to OpenStreetMap
@@ -162,6 +159,7 @@ awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always us
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
+sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
 
 enter "vendor/cmsdk"
 git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/14 && git cherry-pick FETCH_HEAD #network traffic
