@@ -1,192 +1,206 @@
-From afec965282704a1ab20a0fe08ba684e42e45d7db Mon Sep 17 00:00:00 2001
+From 1f7df74ef3d8af9226260dd2e1a324b851df968a Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Sat, 1 Jul 2017 19:52:42 -0400
+Date: Sat, 1 Jul 2017 22:24:40 -0400
 Subject: [PATCH] Per App Performance Profiles
 
-Change-Id: I5e3812a6d99f07c73cba448d2e84a3b4f03eaf0b
+Change-Id: I65185e76ac0f66f9d8926538ae164a527cc7eb7b
 ---
- cm/res/res/values/config.xml | 170 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 170 insertions(+)
+ .../internal/PerformanceManagerService.java        |   2 +-
+ cm/res/res/values/config.xml                       | 170 +++++++++++++++++++++
+ 2 files changed, 171 insertions(+), 1 deletion(-)
 
+diff --git a/cm/lib/main/java/org/cyanogenmod/platform/internal/PerformanceManagerService.java b/cm/lib/main/java/org/cyanogenmod/platform/internal/PerformanceManagerService.java
+index 378050e..fd9db05 100644
+--- a/cm/lib/main/java/org/cyanogenmod/platform/internal/PerformanceManagerService.java
++++ b/cm/lib/main/java/org/cyanogenmod/platform/internal/PerformanceManagerService.java
+@@ -218,7 +218,7 @@ public class PerformanceManagerService extends CMSystemService {
+             }
+             float weight = Float.valueOf(profileWeights[i]);
+             mProfiles.put(profileIds[i], new PerformanceProfile(profileIds[i],
+-                    weight, profileNames[i], profileDescs[i], shouldUseOptimizations(weight)));
++                    weight, profileNames[i], profileDescs[i], true));
+         }
+     }
+ 
 diff --git a/cm/res/res/values/config.xml b/cm/res/res/values/config.xml
-index a85365f..75b3950 100644
+index a85365f..f19b6cc 100644
 --- a/cm/res/res/values/config.xml
 +++ b/cm/res/res/values/config.xml
 @@ -43,7 +43,177 @@
      <!-- Automatic power profile management per app.
           Each item should list the fully-qualified activity
           name and the power profile id, separated by a comma. -->
-+    <!-- 0: Power Save, 1: Efficiency, 2: Balanced, 3: Quick, 4: Performance -->
++    <!-- 0: Power Save, 3: Efficiency, 1: Balanced, 4: Quick, 2: Performance -->
      <string-array name="config_auto_perf_activities" translatable="false">
 +        <!-- FOSS Apps -->
-+        <item>acr.browser.lightning.*,2</item>
++        <item>acr.browser.lightning.*,1</item>
 +        <item>at.bitfire.davdroid.*,0</item>
 +        <item>be.uhasselt.privacypolice.*,0</item>
-+        <item>br.usp.ime.retrobreaker.*,1</item>
-+        <item>ch.blinkenlights.android.vanilla.*,1</item>
-+        <item>ch.logixisland.anuto.*,1</item>
++        <item>br.usp.ime.retrobreaker.*,3</item>
++        <item>ch.blinkenlights.android.vanilla.*,3</item>
++        <item>ch.logixisland.anuto.*,3</item>
 +        <item>com.a5corp.weather.*,0</item>
-+        <item>com.aaronjwood.portauthority.*,2</item>
-+        <item>com.anddevw.getchromium.*,3</item>
++        <item>com.aaronjwood.portauthority.*,1</item>
++        <item>com.anddevw.getchromium.*,4</item>
 +        <item>com.android.calculator2.*,0</item>
 +        <item>com.android.calendar.*,0</item>
-+        <item>com.android.contacts.*,1</item>
++        <item>com.android.contacts.*,3</item>
 +        <item>com.android.deskclock.*,0</item>
-+        <item>com.android.dialer.*,2</item>
-+        <item>com.android.documentsui.*,1</item>
-+        <item>com.android.gallery3d.*,1</item>
-+        <item>com.android.keepass.*,1</item>
-+        <item>com.android.settings.*,1</item>
++        <item>com.android.dialer.*,1</item>
++        <item>com.android.documentsui.*,3</item>
++        <item>com.android.gallery3d.*,3</item>
++        <item>com.android.keepass.*,3</item>
++        <item>com.android.settings.*,3</item>
 +        <item>com.catchingnow.tinyclipboardmanager.*,0</item>
-+        <item>com.commit451.gitlab.*,2</item>
-+        <item>com.darshancomputing.BatteryIndicatorPro.*,1</item>
-+        <item>com.dosse.chromiumautoupdater.*,3</item>
-+        <item>com.dozingcatsoftware.bouncy.*,1</item>
-+        <item>com.fsck.k9.*,2</item>
-+        <item>com.github.pires.obd.reader.*,1</item>
-+        <item>com.github.yeriomin.yalpstore.*,2</item>
-+        <item>com.google.android.gms.*,1</item>
-+        <item>com.google.zxing.client.android.*,1</item>
-+        <item>com.grarak.kerneladiutor.*,1</item>
-+        <item>com.jbirdvegas.mgerrit.*,1</item>
-+        <item>com.jefftharris.passwdsafe.*,1</item>
-+        <item>com.mitzuli.*,2</item>
-+        <item>com.morlunk.mumbleclient.*,1</item>
-+        <item>com.nextcloud.android.beta.*,1</item>
-+        <item>com.nononsenseapps.feeder.*,1</item>
-+        <item>com.nutomic.syncthingandroid.*,2</item>
-+        <item>com.orgzly.*,1</item>
-+        <item>com.pandoroid.*,1</item>
++        <item>com.commit451.gitlab.*,1</item>
++        <item>com.darshancomputing.BatteryIndicatorPro.*,3</item>
++        <item>com.dosse.chromiumautoupdater.*,4</item>
++        <item>com.dozingcatsoftware.bouncy.*,3</item>
++        <item>com.fsck.k9.*,1</item>
++        <item>com.github.pires.obd.reader.*,3</item>
++        <item>com.github.yeriomin.yalpstore.*,1</item>
++        <item>com.google.android.gms.*,3</item>
++        <item>com.google.zxing.client.android.*,3</item>
++        <item>com.grarak.kerneladiutor.*,3</item>
++        <item>com.jbirdvegas.mgerrit.*,3</item>
++        <item>com.jefftharris.passwdsafe.*,3</item>
++        <item>com.mitzuli.*,1</item>
++        <item>com.morlunk.mumbleclient.*,3</item>
++        <item>com.nextcloud.android.beta.*,3</item>
++        <item>com.nononsenseapps.feeder.*,3</item>
++        <item>com.nutomic.syncthingandroid.*,1</item>
++        <item>com.orgzly.*,3</item>
++        <item>com.pandoroid.*,3</item>
 +        <item>com.physphil.android.unitconverterultimate.*,0</item>
-+        <item>com.reddyetwo.hashmypass.app.*,1</item>
-+        <item>com.saibotd.bitbeaker.*,2</item>
-+        <item>com.shatteredpixel.shatteredpixeldungeon.*,1</item>
-+        <item>com.simplemobiletools.gallery.*,1</item>
-+        <item>com.stoutner.privacybrowser.standard.*,2</item>
-+        <item>com.termux.*,1</item>
-+        <item>com.twistedplane.sealnote.*,1</item>
-+        <item>com.vonglasow.michael.satstat.*,1</item>
++        <item>com.reddyetwo.hashmypass.app.*,3</item>
++        <item>com.saibotd.bitbeaker.*,1</item>
++        <item>com.shatteredpixel.shatteredpixeldungeon.*,3</item>
++        <item>com.simplemobiletools.gallery.*,3</item>
++        <item>com.stoutner.privacybrowser.standard.*,1</item>
++        <item>com.termux.*,3</item>
++        <item>com.twistedplane.sealnote.*,3</item>
++        <item>com.vonglasow.michael.satstat.*,3</item>
 +        <item>com.xargsgrep.portknocker.*,0</item>
-+        <item>com.yassirh.digitalocean.*,1</item>
-+        <item>com.yubico.yubioath.*,1</item>
-+        <item>com.zeapo.pwdstore.*,1</item>
++        <item>com.yassirh.digitalocean.*,3</item>
++        <item>com.yubico.yubioath.*,3</item>
++        <item>com.zeapo.pwdstore.*,3</item>
 +        <item>cz.martykan.forecastie.*,0</item>
 +        <item>de.baumann.sieben.*,0</item>
-+        <item>de.blinkt.openvpn.*,1</item>
-+        <item>de.schildbach.wallet.*,2</item>
-+        <item>de.srlabs.snoopsnitch.*,1</item>
++        <item>de.blinkt.openvpn.*,3</item>
++        <item>de.schildbach.wallet.*,1</item>
++        <item>de.srlabs.snoopsnitch.*,3</item>
 +        <item>de.tobiasbielefeld.solitaire.*,0</item>
-+        <item>dev.ukanth.ufirewall.*,1</item>
-+        <item>dk.jens.backup.*,3</item>
-+        <item>eu.faircode.netguard.*,2</item>
-+        <item>eu.siacs.conversations.*,1</item>
-+        <item>fly.speedmeter.grub.*,1</item>
-+        <item>free.rm.skytube.oss.*,2</item>
-+        <item>im.vector.alpha.*,2</item>
-+        <item>info.guardianproject.orfox.*,2</item>
-+        <item>info.guardianproject.pixelknot.*,3</item>
-+        <item>io.github.benoitduffez.cupsprint.*,1</item>
-+        <item>io.github.hidroh.materialistic.*,1</item>
-+        <item>jp.forkhub.*,2</item>
-+        <item>me.ccrama.redditslide.*,2</item>
-+        <item>me.johnmh.boogdroid.*,1</item>
-+        <item>me.zeeroooo.materialfb.*,2</item>
-+        <item>net.i2p.android.router.*,2</item>
-+        <item>net.minetest.minetest.*,3</item>
++        <item>dev.ukanth.ufirewall.*,3</item>
++        <item>dk.jens.backup.*,4</item>
++        <item>eu.faircode.netguard.*,1</item>
++        <item>eu.siacs.conversations.*,3</item>
++        <item>fly.speedmeter.grub.*,3</item>
++        <item>free.rm.skytube.oss.*,1</item>
++        <item>im.vector.alpha.*,1</item>
++        <item>info.guardianproject.orfox.*,1</item>
++        <item>info.guardianproject.pixelknot.*,4</item>
++        <item>io.github.benoitduffez.cupsprint.*,3</item>
++        <item>io.github.hidroh.materialistic.*,3</item>
++        <item>jp.forkhub.*,1</item>
++        <item>me.ccrama.redditslide.*,1</item>
++        <item>me.johnmh.boogdroid.*,3</item>
++        <item>me.zeeroooo.materialfb.*,1</item>
++        <item>net.i2p.android.router.*,1</item>
++        <item>net.minetest.minetest.*,4</item>
 +        <item>net.nightwhistler.pageturner.*,0</item>
-+        <item>net.nullsum.audinaut.*,1</item>
-+        <item>net.osmand.plus.*,3</item>
-+        <item>org.adaway.*,3</item>
++        <item>net.nullsum.audinaut.*,3</item>
++        <item>net.osmand.plus.*,4</item>
++        <item>org.adaway.*,4</item>
 +        <item>org.asdtm.goodweather.*,0</item>
 +        <item>org.billthefarmer.diary.*,0</item>
-+        <item>org.blockinger.game.*,1</item>
++        <item>org.blockinger.game.*,3</item>
 +        <item>org.cipherdyne.fwknop2.*,0</item>
-+        <item>org.connectbot.*,1</item>
-+        <item>org.csploit.android.*,3</item>
-+        <item>org.cyanogenmod.audiofx.*,1</item>
-+        <item>org.cyanogenmod.snap.*,2</item>
-+        <item>org.documentfoundation.libreoffice.*,2</item>
-+        <item>org.eehouse.android.xw4.*,1</item>
-+        <item>org.fdroid.fdroid.*,2</item>
++        <item>org.connectbot.*,3</item>
++        <item>org.csploit.android.*,4</item>
++        <item>org.cyanogenmod.audiofx.*,3</item>
++        <item>org.cyanogenmod.snap.*,1</item>
++        <item>org.documentfoundation.libreoffice.*,1</item>
++        <item>org.eehouse.android.xw4.*,3</item>
++        <item>org.fdroid.fdroid.*,1</item>
 +        <item>org.fedorahosted.freeotp.*,0</item>
-+        <item>org.fitchfamily.android.gsmlocation.*,3</item>
-+        <item>org.fitchfamily.android.wifi_backend.*,1</item>
-+        <item>org.floens.chan.*,1</item>
-+        <item>org.gateshipone.malp.*,1</item>
-+        <item>org.gnu.icecat.*,2</item>
-+        <item>org.indywidualni.fblite.*,1</item>
-+        <item>org.isoron.uhabits.*,1</item>
-+        <item>org.jak_linux.dns66.*,2</item>
-+        <item>org.kiwix.kiwixmobile.*,2</item>
++        <item>org.fitchfamily.android.gsmlocation.*,4</item>
++        <item>org.fitchfamily.android.wifi_backend.*,3</item>
++        <item>org.floens.chan.*,3</item>
++        <item>org.gateshipone.malp.*,3</item>
++        <item>org.gnu.icecat.*,1</item>
++        <item>org.indywidualni.fblite.*,3</item>
++        <item>org.isoron.uhabits.*,3</item>
++        <item>org.jak_linux.dns66.*,1</item>
++        <item>org.kiwix.kiwixmobile.*,1</item>
 +        <item>org.ligi.survivalmanual.*,0</item>
-+        <item>org.lineageos.jelly.*,2</item>
-+        <item>org.lineageos.recorder.*,2</item>
-+        <item>org.linphone.*,2</item>
-+        <item>org.lumicall.android.*,2</item>
-+        <item>org.mariotaku.twidere.*,2</item>
-+        <item>org.microg.nlp.backend.ichnaea.*,1</item>
++        <item>org.lineageos.jelly.*,1</item>
++        <item>org.lineageos.recorder.*,1</item>
++        <item>org.linphone.*,1</item>
++        <item>org.lumicall.android.*,1</item>
++        <item>org.mariotaku.twidere.*,1</item>
++        <item>org.microg.nlp.backend.ichnaea.*,3</item>
 +        <item>org.microg.nlp.backend.nominatim.*,0</item>
-+        <item>org.mozilla.fennec_fdroid.*,2</item>
-+        <item>org.ppsspp.ppsspp.*,3</item>
-+        <item>org.primftpd.*,1</item>
-+        <item>org.proninyaroslav.libretorrent.*,2</item>
-+        <item>org.quantumbadger.redreader.*,1</item>
++        <item>org.mozilla.fennec_fdroid.*,1</item>
++        <item>org.ppsspp.ppsspp.*,4</item>
++        <item>org.primftpd.*,3</item>
++        <item>org.proninyaroslav.libretorrent.*,1</item>
++        <item>org.quantumbadger.redreader.*,3</item>
 +        <item>org.schabi.etherwake.*,0</item>
-+        <item>org.schabi.newpipe.*,2</item>
-+        <item>org.secuso.privacyfriendlyactivitytracker.*,1</item>
-+        <item>org.secuso.privacyfriendlynetmonitor.*,1</item>
++        <item>org.schabi.newpipe.*,1</item>
++        <item>org.secuso.privacyfriendlyactivitytracker.*,3</item>
++        <item>org.secuso.privacyfriendlynetmonitor.*,3</item>
 +        <item>org.secuso.privacyfriendlynotes.*,0</item>
 +        <item>org.secuso.privacyfriendlysudoku.*,0</item>
-+        <item>org.smssecure.smssecure.*,1</item>
-+        <item>org.sufficientlysecure.keychain.*,2</item>
++        <item>org.smssecure.smssecure.*,3</item>
++        <item>org.sufficientlysecure.keychain.*,1</item>
 +        <item>org.sufficientlysecure.localcalendar.*,0</item>
-+        <item>org.sufficientlysecure.viewer.*,1</item>
-+        <item>org.tasks.*,1</item>
-+        <item>org.telegram.messenger.*,2</item>
-+        <item>org.thoughtcrime.securesms.*,2</item>
-+        <item>org.torproject.android.*,1</item>
-+        <item>org.totschnig.myexpenses.*,1</item>
++        <item>org.sufficientlysecure.viewer.*,3</item>
++        <item>org.tasks.*,3</item>
++        <item>org.telegram.messenger.*,1</item>
++        <item>org.thoughtcrime.securesms.*,1</item>
++        <item>org.torproject.android.*,3</item>
++        <item>org.totschnig.myexpenses.*,3</item>
 +        <item>org.transdroid.full.*,0</item>
-+        <item>org.videolan.vlc.*,2</item>
-+        <item>org.wikipedia.*,1</item>
-+        <item>org.xbmc.kodi.*,2</item>
-+        <item>org.xbmc.kore.*,1</item>
++        <item>org.videolan.vlc.*,1</item>
++        <item>org.wikipedia.*,3</item>
++        <item>org.xbmc.kodi.*,1</item>
++        <item>org.xbmc.kore.*,3</item>
 +        <item>protect.card_locker.*,0</item>
 +        <item>tk.jordynsmediagroup.simpleirc.fdroid.*,0</item>
 +        <!-- Proprietary Apps -->
-+        <item>com.a1dev.sdbench.*,4</item>
-+        <item>com.amazon.kindle.*,1</item>
-+        <item>com.amazon.mp3.*,1</item>
-+        <item>com.antutu.ABenchMark.*,4</item>
-+        <item>com.antutu.benchmark.full.*,4</item>
-+        <item>com.apple.android.music.*,1</item>
-+        <item>com.aurorasoftworks.quadrant.ui.standard.*,4</item>
-+        <item>com.authy.authy.*,1</item>
-+        <item>com.facebook.mlite.*,1</item>
-+        <item>com.facebook.orca.*,2</item>
-+        <item>com.futuremark.dmandroid.application.*,4</item>
-+        <item>com.futuremark.pcmark.android.benchmark.*,4</item>
-+        <item>com.google.android.apps.fireball.*,2</item>
-+        <item>com.google.android.apps.googlevoice.*,1</item>
-+        <item>com.google.android.apps.maps.*,2</item>
-+        <item>com.google.android.apps.photos.*,2</item>
-+        <item>com.google.android.apps.tachyon.*,2</item>
-+        <item>com.google.android.apps.translate.*,2</item>
-+        <item>com.google.android.apps.youtube.music.*,2</item>
-+        <item>com.google.android.music.*,1</item>
-+        <item>com.google.android.talk.*,2</item>
-+        <item>com.google.android.youtube.*,2</item>
-+        <item>com.netflix.mediaclient.*,2</item>
-+        <item>com.pandora.android.*,1</item>
-+        <item>com.passmark.pt_mobile.*,4</item>
-+        <item>com.primatelabs.geekbench.*,4</item>
-+        <item>com.rightware.BasemarkOSII.*,4</item>
-+        <item>com.snapchat.android.*,2</item>
-+        <item>com.soundcloud.android.*,1</item>
-+        <item>com.spotify.music.*,1</item>
-+        <item>com.squareup.*,2</item>
-+        <item>com.whatsapp.*,1</item>
-+        <item>eu.chainfire.cfbench.*,4</item>
++        <item>com.a1dev.sdbench.*,2</item>
++        <item>com.amazon.kindle.*,3</item>
++        <item>com.amazon.mp3.*,3</item>
++        <item>com.antutu.ABenchMark.*,2</item>
++        <item>com.antutu.benchmark.full.*,2</item>
++        <item>com.apple.android.music.*,3</item>
++        <item>com.aurorasoftworks.quadrant.ui.standard.*,2</item>
++        <item>com.authy.authy.*,3</item>
++        <item>com.facebook.mlite.*,3</item>
++        <item>com.facebook.orca.*,1</item>
++        <item>com.futuremark.dmandroid.application.*,2</item>
++        <item>com.futuremark.pcmark.android.benchmark.*,2</item>
++        <item>com.google.android.apps.fireball.*,1</item>
++        <item>com.google.android.apps.googlevoice.*,3</item>
++        <item>com.google.android.apps.maps.*,1</item>
++        <item>com.google.android.apps.photos.*,1</item>
++        <item>com.google.android.apps.tachyon.*,1</item>
++        <item>com.google.android.apps.translate.*,1</item>
++        <item>com.google.android.apps.youtube.music.*,1</item>
++        <item>com.google.android.music.*,3</item>
++        <item>com.google.android.talk.*,1</item>
++        <item>com.google.android.youtube.*,1</item>
++        <item>com.netflix.mediaclient.*,1</item>
++        <item>com.pandora.android.*,3</item>
++        <item>com.passmark.pt_mobile.*,2</item>
++        <item>com.primatelabs.geekbench.*,2</item>
++        <item>com.rightware.BasemarkOSII.*,2</item>
++        <item>com.snapchat.android.*,1</item>
++        <item>com.soundcloud.android.*,3</item>
++        <item>com.spotify.music.*,3</item>
++        <item>com.squareup.*,1</item>
++        <item>com.whatsapp.*,3</item>
++        <item>eu.chainfire.cfbench.*,2</item>
      </string-array>
  
      <!-- Default value for proximity check on screen wake
