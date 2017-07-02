@@ -1,0 +1,37 @@
+From 5014507023494ab87345ff36ef4f8d7f4d2d39f5 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sun, 2 Jul 2017 18:32:16 -0400
+Subject: [PATCH] Fix Adreno blobs
+
+Change-Id: I2bc785760126a6e7bb72c644b34ceff063cd9691
+---
+ proprietary-files-qc.txt | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/proprietary-files-qc.txt b/proprietary-files-qc.txt
+index 867b8f7..d9b95f3 100644
+--- a/proprietary-files-qc.txt
++++ b/proprietary-files-qc.txt
+@@ -44,18 +44,17 @@ vendor/lib/egl/libGLESv1_CM_adreno.so
+ vendor/lib/egl/libGLESv2_adreno.so
+ vendor/lib/egl/libq3dtools_adreno.so
+ vendor/lib/libadreno_utils.so
+-vendor/lib/libbccQTI.so
+ vendor/lib/libC2D2.so
+ vendor/lib/libCB.so
+ vendor/lib/libc2d30-a3xx.so
+ vendor/lib/libgsl.so
+ vendor/lib/libllvm-qcom.so
+ vendor/lib/libOpenCL.so
++vendor/lib/libOpenVG.so
+ vendor/lib/libsc-a3xx.so
+ vendor/lib/libRSDriver_adreno.so
+ vendor/lib/librs_adreno.so
+ vendor/lib/librs_adreno_sha1.so
+-vendor/lib/libscale.so
+ vendor/lib/libuiblur.so
+ 
+ # Graphics firmware
+-- 
+2.13.2
+

@@ -11,10 +11,7 @@
 	<remove-project name="device/sample" />
 	<remove-project name="LineageOS/android_external_ant-wireless_ant_native" />
 	<remove-project name="LineageOS/android_external_ant-wireless_ant_service" />
-	<remove-project name="LineageOS/android_external_htop" />
-	<remove-project name="LineageOS/android_external_powertop" />
 	<remove-project name="LineageOS/android_external_unrar" />
-	<remove-project name="LineageOS/android_external_vim" />
 	<remove-project name="LineageOS/android_hardware_intel_common_libmix" />
 	<remove-project name="LineageOS/android_hardware_intel_common_libva" />
 	<remove-project name="LineageOS/android_hardware_intel_common_libwsbm" />
@@ -36,12 +33,10 @@
 	<remove-project name="LineageOS/android_packages_apps_YahooWeatherProvider" />
 	<remove-project name="LineageOS/android_packages_providers_PartnerBookmarksProvider" />
 	<remove-project name="LineageOS/android_packages_providers_TvProvider" />
-	<remove-project name="LineageOS/android_packages_providers_WeatherProvider" />
 	<remove-project name="LineageOS/android_packages_screensavers_Basic" />
 	<remove-project name="LineageOS/android_packages_screensavers_PhotoTable" />
 	<remove-project name="LineageOS/android_packages_screensavers_WebView" />
 	<remove-project name="LineageOS/android_packages_services_Car" />
-	<remove-project name="LineageOS/android_packages_services_WeatherService" />
 	<remove-project name="LineageOS/android_packages_themes_HexoLibre" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_aarch64_aarch64-linux-android-4.9" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_arm_arm-linux-androideabi-4.9" />

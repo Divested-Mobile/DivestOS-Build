@@ -180,6 +180,7 @@ enter "device/oneplus/bacon"
 enableDexPreOpt
 enableGlonass
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
+patch -p1 < $patches"android_device_oneplus_bacon/0001-Fix_Adreno_Blobs.patch"; #Fix setup-makefiles
 
 enter "kernel/oneplus/msm8974"
 patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock-EXTREME.patch" #300Mhz -> 268Mhz, 2.45Ghz -> 2.95Ghz	=+2.02Ghz XXX: Not 100% stable under intense workloads
@@ -188,6 +189,7 @@ enter "device/lge/mako"
 disableDexPreOpt #bootloops
 enableGlonass
 #patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed) XXX: Doesn't seem to work under 7.x
+patch -p1 < $patches"android_device_lge_mako/0002-Fix_TZ_Path.patch" #Fix setup-makefiles
 
 #enter "kernel/lge/mako"
 #patch -p1 < $patches"android_kernel_lge_mako/0001-OverUnderClock.patch" #384Mhz -> 81Mhz, 1.51Ghz -> 1.94Ghz	=+1.72Ghz XXX: Causes *excessively* long boot times

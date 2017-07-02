@@ -334,15 +334,6 @@ export -f deblobVendor;
 
 
 #
-#Start of device fixes [LAOS SPECIFIC]
-#
-cd vendor/lge; git revert 846315c52044dd60a77da84b5180d4d93bb22ceb; cd $base; #Commit 846315c52044dd60a77da84b5180d4d93bb22ceb moves blobs but doesn't update their location in mako device tree
-#
-#End of device fixes
-#
-
-
-#
 #START OF DEBLOBBING
 #
 find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \; #Deblob all device directories

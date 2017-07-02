@@ -1,0 +1,41 @@
+From bf7f848e0817004401db6b450e6172ca2d39c29e Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sun, 2 Jul 2017 18:30:52 -0400
+Subject: [PATCH] Fix TZ path
+
+Change-Id: I072a9f1468eae67e898a4cad4c717d052aa36589
+---
+ proprietary-blobs.txt | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/proprietary-blobs.txt b/proprietary-blobs.txt
+index 44884fa..c099ca5 100644
+--- a/proprietary-blobs.txt
++++ b/proprietary-blobs.txt
+@@ -23,11 +23,6 @@ bin/usbhub
+ bin/usbhub_init
+ bin/v4l2-qcamera-app
+ etc/DxHDCP.cfg
+-etc/firmware/tzapps.b00
+-etc/firmware/tzapps.b01
+-etc/firmware/tzapps.b02
+-etc/firmware/tzapps.b03
+-etc/firmware/tzapps.mdt
+ etc/firmware/vidc_1080p.fw
+ etc/firmware/vidc.b00
+ etc/firmware/vidc.b01
+@@ -149,6 +144,11 @@ vendor/firmware/q6.b04
+ vendor/firmware/q6.b05
+ vendor/firmware/q6.b06
+ vendor/firmware/q6.mdt
++vendor/firmware/tzapps.b00
++vendor/firmware/tzapps.b01
++vendor/firmware/tzapps.b02
++vendor/firmware/tzapps.b03
++vendor/firmware/tzapps.mdt
+ vendor/firmware/wcnss.b00
+ vendor/firmware/wcnss.b01
+ vendor/firmware/wcnss.b02
+-- 
+2.13.2
+
