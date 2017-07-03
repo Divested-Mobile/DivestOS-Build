@@ -1,13 +1,13 @@
-From 1f7df74ef3d8af9226260dd2e1a324b851df968a Mon Sep 17 00:00:00 2001
+From bf751ddb83109faeeffebe85363ce8edd00fc6f6 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Sat, 1 Jul 2017 22:24:40 -0400
+Date: Sun, 2 Jul 2017 23:28:25 -0400
 Subject: [PATCH] Per App Performance Profiles
 
-Change-Id: I65185e76ac0f66f9d8926538ae164a527cc7eb7b
+Change-Id: Ifcfa1738bcd823973db317f7d34eb57a1fd31856
 ---
  .../internal/PerformanceManagerService.java        |   2 +-
- cm/res/res/values/config.xml                       | 170 +++++++++++++++++++++
- 2 files changed, 171 insertions(+), 1 deletion(-)
+ cm/res/res/values/config.xml                       | 173 +++++++++++++++++++++
+ 2 files changed, 174 insertions(+), 1 deletion(-)
 
 diff --git a/cm/lib/main/java/org/cyanogenmod/platform/internal/PerformanceManagerService.java b/cm/lib/main/java/org/cyanogenmod/platform/internal/PerformanceManagerService.java
 index 378050e..fd9db05 100644
@@ -23,10 +23,10 @@ index 378050e..fd9db05 100644
      }
  
 diff --git a/cm/res/res/values/config.xml b/cm/res/res/values/config.xml
-index a85365f..f19b6cc 100644
+index a85365f..d517ea7 100644
 --- a/cm/res/res/values/config.xml
 +++ b/cm/res/res/values/config.xml
-@@ -43,7 +43,177 @@
+@@ -43,7 +43,180 @@
      <!-- Automatic power profile management per app.
           Each item should list the fully-qualified activity
           name and the power profile id, separated by a comma. -->
