@@ -111,7 +111,7 @@ sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools =
 
 enter "packages/apps/FDroid"
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Enable privigled module
-patch -p1 < $patches"android_packages_apps_FDroid/0002-Repos.patch" #Add IzzySoft and microG repos
+patch -p1 < $patches"android_packages_apps_FDroid/0002-Repos.patch" #Add IzzySoft, microG, and Eutopia repos
 
 enter "packages/apps/FDroidPrivilegedExtension"
 patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Release_Key.patch" #Change to release key
@@ -149,22 +149,23 @@ patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch" #R
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid
-#patch -p1 < $patches"android_system_core/0002-Harden_Network.patch" #Harden network via sysctls
+#patch -p1 < $patches"android_system_core/0002-Harden_Network.patch" #Harden network via sysctls FIXME: Tethering
 
-enter "system/netd"
-patch -p1 < $patches"android_system_netd/0001-Harden_Network.patch"; #Harden network via iptables
+#enter "system/netd"
+#patch -p1 < $patches"android_system_netd/0001-Harden_Network.patch"; #Harden network via iptables FIXME: Tethering
 
 enter "vendor/cm"
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
+cp $patches"android_vendor_cm/config.xml" overlay/common/vendor/cmsdk/cm/res/res/values/config.xml; #Per app performance profiles
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
 
 enter "vendor/cmsdk"
 git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/14 && git cherry-pick FETCH_HEAD #network traffic
-patch -p1 < $patches"cm_platform_sdk/0001-PAPP.patch"; #Per app performance profiles
 cp $patches"cm_platform_sdk/profile_default.xml" cm/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
+sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod/platform/internal/PerformanceManagerService.java;
 #
 #END OF ROM CHANGES
 #
