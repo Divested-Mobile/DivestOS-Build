@@ -8,7 +8,7 @@
 #repo sync -j20 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/home/$USER/Android/Sdk" && export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation" && export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}" && GRADLE_OPTS=-Xmx2048m && export KBUILD_BUILD_USER=emy && export KBUILD_BUILD_HOST=dosbm
 
 #Build!
-#brunch lineage_mako-user && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_thor-userdebug && brunch lineage_angler-user && brunch lineage_bullhead-user && brunch lineage_ether-user && brunch lineage_flounder-user && brunch lineage_flo-user && brunch lineage_hammerhead-user && brunch lineage_marlin-user && brunch lineage_sailfish-user && brunch lineage_osprey-user && brunch lineage_shamu-user && brunch lineage_Z00T-user
+#brunch lineage_mako-user && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_thor-userdebug && brunch lineage_angler-user && brunch lineage_bullhead-user && brunch lineage_ether-user && brunch lineage_flounder-user && brunch lineage_flo-user && brunch lineage_hammerhead-user && brunch lineage_marlin-user && brunch lineage_sailfish-user && brunch lineage_n5110-user && brunch lineage_osprey-user && brunch lineage_shamu-user && brunch lineage_Z00T-user
 
 #
 #START OF PREPRATION
@@ -52,6 +52,14 @@ enableGlonass() {
 	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT = 0/A_GLONASS_POS_PROTOCOL_SELECT = 15/' gps.conf gps/gps.conf configs/gps.conf || true;
 	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT=0/A_GLONASS_POS_PROTOCOL_SELECT=15/' overlay/frameworks/base/core/res/res/values-*/*.xml || true;
 	echo "Enabled GLONASS";
+}
+
+addZram() {
+	echo "#/dev/block/zram0 none swap defaults zramsize=536870912,zramstreams=4,notrim" $1;
+}
+
+enableZram() {
+	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* rootdir/fstab.* rootdir/etc/fstab.* || true;
 }
 #
 #END OF PREPRATION
@@ -165,7 +173,7 @@ sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app w
 enter "vendor/cmsdk"
 git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/14 && git cherry-pick FETCH_HEAD #network traffic
 cp $patches"cm_platform_sdk/profile_default.xml" cm/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
-sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod/platform/internal/PerformanceManagerService.java;
+sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod/platform/internal/PerformanceManagerService.java; #Per app performance profiles fix
 #
 #END OF ROM CHANGES
 #
@@ -176,12 +184,13 @@ sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod
 enter "device/motorola/clark"
 enableDexPreOpt
 enableGlonass
+enableZram
 
 enter "device/oneplus/bacon"
 enableDexPreOpt
 enableGlonass
+enableZram
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
-patch -p1 < $patches"android_device_oneplus_bacon/0001-Fix_Adreno_Blobs.patch"; #Fix setup-makefiles
 
 enter "kernel/oneplus/msm8974"
 patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock-EXTREME.patch" #300Mhz -> 268Mhz, 2.45Ghz -> 2.95Ghz	=+2.02Ghz XXX: Not 100% stable under intense workloads
@@ -193,7 +202,7 @@ enableGlonass
 patch -p1 < $patches"android_device_lge_mako/0002-Fix_TZ_Path.patch" #Fix setup-makefiles
 
 #enter "kernel/lge/mako"
-#patch -p1 < $patches"android_kernel_lge_mako/0001-OverUnderClock.patch" #384Mhz -> 81Mhz, 1.51Ghz -> 1.94Ghz	=+1.72Ghz XXX: Causes *excessively* long boot times
+#patch -p1 < $patches"android_kernel_lge_mako/0001-OverUnderClock.patch" #384Mhz -> 81Mhz, 1.51Ghz -> 1.94Ghz	=+1.72Ghz XXX: Causes *excessively* long boot times, thermal throttling?
 
 enter "kernel/lge/hammerhead"
 patch -p1 < $patches"android_kernel_lge_hammerhead/0001-OverUnderClock.patch" #2.26Ghz -> 2.95Ghz	=+2.76Ghz
