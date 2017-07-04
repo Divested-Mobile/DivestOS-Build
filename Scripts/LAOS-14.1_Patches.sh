@@ -54,12 +54,9 @@ enableGlonass() {
 	echo "Enabled GLONASS";
 }
 
-addZram() {
-	echo "#/dev/block/zram0 none swap defaults zramsize=536870912,zramstreams=4,notrim" $1;
-}
-
 enableZram() {
 	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* rootdir/fstab.* rootdir/etc/fstab.* || true;
+	echo "Enabled zram";
 }
 #
 #END OF PREPRATION
@@ -203,6 +200,9 @@ patch -p1 < $patches"android_device_lge_mako/0002-Fix_TZ_Path.patch" #Fix setup-
 
 #enter "kernel/lge/mako"
 #patch -p1 < $patches"android_kernel_lge_mako/0001-OverUnderClock.patch" #384Mhz -> 81Mhz, 1.51Ghz -> 1.94Ghz	=+1.72Ghz XXX: Causes *excessively* long boot times, thermal throttling?
+
+enter "device/nextbit/ether"
+enableZram
 
 enter "kernel/lge/hammerhead"
 patch -p1 < $patches"android_kernel_lge_hammerhead/0001-OverUnderClock.patch" #2.26Ghz -> 2.95Ghz	=+2.76Ghz
