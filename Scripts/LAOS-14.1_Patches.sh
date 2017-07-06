@@ -195,7 +195,6 @@ enter "device/lge/mako"
 disableDexPreOpt #bootloops
 enableGlonass
 #patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed) XXX: Doesn't seem to work under 7.x
-patch -p1 < $patches"android_device_lge_mako/0002-Fix_TZ_Path.patch" #Fix setup-makefiles
 
 #enter "kernel/lge/mako"
 #patch -p1 < $patches"android_kernel_lge_mako/0001-OverUnderClock.patch" #384Mhz -> 81Mhz, 1.51Ghz -> 1.94Ghz	=+1.72Ghz XXX: Causes *excessively* long boot times, thermal throttling?
