@@ -1,0 +1,14 @@
+Copyright (c) 2017 Spot Communications, Inc.
+
+Below are the license mappings for all of the files found in this repository. All attempts have been made to ensure accuracy of the corresponding license files. If you've found an issue please file an issue or pull request.
+
+Changelogs - [TBDLICENSE]
+Manifests - [TBDLICENSE]
+Misc - [TBDLICENSE]
+Patches/LineageOS-14.1/
+	android_packages_apps_FDroid* - GPLv2
+	android_kernel_* - GPLv2
+	offline-calendar - GPLv2
+	Silence - GPLv2
+	[Everything Else] - Apache2
+Scripts - [TBDLICENSE]
