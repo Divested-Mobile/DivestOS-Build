@@ -1,13 +1,13 @@
-From c4f32c685eb310b57285e26136c999be9cd2b770 Mon Sep 17 00:00:00 2001
+From 1de0dbda5227a5f6be82df0575db75f354de486b Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Sun, 18 Jun 2017 10:20:13 -0400
+Date: Wed, 12 Jul 2017 05:18:42 -0400
 Subject: [PATCH] Switch to our update server
 
-Change-Id: I53fc23e0e51ae03e449cd174591e1d3533bbdd74
+Change-Id: Ia0faf61ab2dd3b300ac65841f1ce7e15d403552c
 ---
- .../updater/requests/UpdatesJsonObjectRequest.java            |  3 ++-
- src/com/cyanogenmod/updater/service/UpdateCheckService.java   | 11 +----------
- 2 files changed, 3 insertions(+), 11 deletions(-)
+ .../updater/requests/UpdatesJsonObjectRequest.java           |  3 ++-
+ src/com/cyanogenmod/updater/service/UpdateCheckService.java  | 12 ++----------
+ 2 files changed, 4 insertions(+), 11 deletions(-)
 
 diff --git a/src/com/cyanogenmod/updater/requests/UpdatesJsonObjectRequest.java b/src/com/cyanogenmod/updater/requests/UpdatesJsonObjectRequest.java
 index 13d22b7..af9980b 100644
@@ -31,10 +31,10 @@ index 13d22b7..af9980b 100644
      }
  
 diff --git a/src/com/cyanogenmod/updater/service/UpdateCheckService.java b/src/com/cyanogenmod/updater/service/UpdateCheckService.java
-index 9fc81d6..f76910a 100644
+index 9fc81d6..18a3bf0 100644
 --- a/src/com/cyanogenmod/updater/service/UpdateCheckService.java
 +++ b/src/com/cyanogenmod/updater/service/UpdateCheckService.java
-@@ -200,16 +200,7 @@ public class UpdateCheckService extends IntentService
+@@ -200,16 +200,8 @@ public class UpdateCheckService extends IntentService
      }
  
      private URI getServerURI() {
@@ -48,10 +48,11 @@ index 9fc81d6..f76910a 100644
 -                Utils.getInstalledBuildType() + "/" + incrementalVersion;
 -
 -        return URI.create(updateUri);
-+        return URI.create("https://divestos.xyz/updater.php?device=" + Utils.getDeviceType());
++	String incrementalVersion = SystemProperties.get("ro.build.version.incremental");
++        return URI.create("https://divestos.xyz/updater.php?device=" + Utils.getDeviceType() + "&inc=" + incrementalVersion);
      }
  
      private void getAvailableUpdates() {
 -- 
-2.13.1
+2.13.2
 
