@@ -155,6 +155,13 @@ sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.
 enter "packages/apps/Silence"
 cp $patches"Silence/Android.mk" Android.mk #Add a build file
 
+enter "packages/apps/Trebuchet"
+#rm -f res/xml/default_workspace_*.xml #Remove default screens TODO: remove the references in src/com/android/launcher3/InvariantDeviceProfile.java 
+sed -i 's|homescreen_search_default">true|homescreen_search_default">false|' res/values/preferences_defaults.xml;
+sed -i 's|drawer_compact_default">false|drawer_compact_default">true|' res/values/preferences_defaults.xml;
+sed -i 's|use_scroller_default">true|use_scroller_default">false|' res/values/preferences_defaults.xml;
+sed -i 's|drawer_search_default">true|drawer_search_default">false|' res/values/preferences_defaults.xml;
+
 enter "packages/inputmethods/LatinIME"
 patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch" #Remove voice input key
 
