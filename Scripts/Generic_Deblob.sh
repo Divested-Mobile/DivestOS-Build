@@ -9,7 +9,6 @@
 #Device Status (Tested under LineageOS 14.1)
 #
 #Functioning as Expected: bacon, clark, mako, marlin, sailfish, thor
-#Broken: shamu
 
 base="/mnt/Drive-1/Development/Other/Android_ROMs/Build/LineageOS-14.1/";
 export base;

@@ -123,7 +123,7 @@ sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools =
 enter "packages/apps/FDroid"
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Enable privigled module
 patch -p1 < $patches"android_packages_apps_FDroid/0002-Repos.patch" #Add IzzySoft, microG, and Eutopia repos
-sed -i 's|cd $(fdroid_root)/$(fdroid_dir) && gradle assembleRelease|cd $(fdroid_root) && ./gradlew assembleRelease|' Android.mk; #Gradle 4.0 fix
+#sed -i 's|cd $(fdroid_root)/$(fdroid_dir) && gradle assembleRelease|cd $(fdroid_root) && ./gradlew assembleRelease|' Android.mk; #Gradle 4.0 fix #FIXME: Doesn't work?
 
 enter "packages/apps/FDroidPrivilegedExtension"
 patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Release_Key.patch" #Change to release key
@@ -210,14 +210,8 @@ disableDexPreOpt #bootloops
 enableGlonass
 #patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed) XXX: Doesn't seem to work under 7.x
 
-#enter "kernel/lge/mako"
-#patch -p1 < $patches"android_kernel_lge_mako/0001-OverUnderClock.patch" #384Mhz -> 81Mhz, 1.51Ghz -> 1.94Ghz	=+1.72Ghz XXX: Causes *excessively* long boot times, thermal throttling?
-
 enter "kernel/lge/hammerhead"
 patch -p1 < $patches"android_kernel_lge_hammerhead/0001-OverUnderClock.patch" #2.26Ghz -> 2.95Ghz	=+2.76Ghz
-
-enter "kernel/moto/shamu"
-patch -p1 < $patches"android_kernel_moto_shamu/0001-OverUnderClock.patch" #300Mhz -> 35Mhz, 2.64Ghz -> 2.88Ghz	=+0.96Ghz
 
 enter "kernel/motorola/msm8916"
 patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch" #1.36Ghz -> 1.88Ghz	=+ 2.07Ghz
