@@ -1,16 +1,16 @@
-From 54fe20779952fd850eb1d7a70054fb48dfbc63fa Mon Sep 17 00:00:00 2001
+From f9c63a4aa80bd9b4aab7c709d73fded90076de9d Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
-Date: Tue, 18 Jul 2017 21:07:37 -0400
+Date: Tue, 18 Jul 2017 22:46:21 -0400
 Subject: [PATCH] LTE only option
 
 This is a modified version of thestinger's implementation in CopperheadOS from a time when the repo was/is still licensed under Apache2
 https://github.com/CopperheadOS/platform_packages_services_Telephony/commit/567b8daca2d5d570e4eeecd548aa03c606ee9c18
 
-Change-Id: I56f9e0934bb671635b87e672baf9e4f196260ca6
+Change-Id: Ic359205d2f353981589b4374a98383607e2f518e
 ---
  res/values/strings.xml                           | 16 ++++++++++++++++
- src/com/android/phone/MobileNetworkSettings.java | 10 ++++++++--
- 2 files changed, 24 insertions(+), 2 deletions(-)
+ src/com/android/phone/MobileNetworkSettings.java |  8 +++++++-
+ 2 files changed, 23 insertions(+), 1 deletion(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
 index 4ec44534..17f2ecb7 100644
@@ -113,7 +113,7 @@ index 4ec44534..17f2ecb7 100644
          <item>"1"</item>
      </string-array>
 diff --git a/src/com/android/phone/MobileNetworkSettings.java b/src/com/android/phone/MobileNetworkSettings.java
-index 71feff8b..87d97837 100644
+index 71feff8b..bc62d147 100644
 --- a/src/com/android/phone/MobileNetworkSettings.java
 +++ b/src/com/android/phone/MobileNetworkSettings.java
 @@ -819,6 +819,7 @@ public class MobileNetworkSettings extends PreferenceActivity
@@ -133,15 +133,6 @@ index 71feff8b..87d97837 100644
                  break;
              case Phone.NT_MODE_LTE_TDSCDMA_GSM:
                  mButtonPreferredNetworkMode.setSummary(
-@@ -1041,7 +1042,7 @@ public class MobileNetworkSettings extends PreferenceActivity
-                             R.string.preferred_network_mode_global_summary);
-                 } else {
-                     mButtonPreferredNetworkMode.setSummary(
--                            R.string.preferred_network_mode_lte_summary);
-+                            R.string.preferred_network_mode_lte_only_summary);
-                 }
-                 break;
-             case Phone.NT_MODE_TDSCDMA_CDMA_EVDO_GSM_WCDMA:
 @@ -1108,6 +1109,11 @@ public class MobileNetworkSettings extends PreferenceActivity
                      break;
                  }
