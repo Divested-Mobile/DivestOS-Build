@@ -1,19 +1,19 @@
-From f9c63a4aa80bd9b4aab7c709d73fded90076de9d Mon Sep 17 00:00:00 2001
+From 741499c77cbd21d408be9fba833b845cd9fa272f Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
-Date: Tue, 18 Jul 2017 22:46:21 -0400
+Date: Tue, 18 Jul 2017 23:03:05 -0400
 Subject: [PATCH] LTE only option
 
 This is a modified version of thestinger's implementation in CopperheadOS from a time when the repo was/is still licensed under Apache2
 https://github.com/CopperheadOS/platform_packages_services_Telephony/commit/567b8daca2d5d570e4eeecd548aa03c606ee9c18
 
-Change-Id: Ic359205d2f353981589b4374a98383607e2f518e
+Change-Id: Ic69c6ad330ee1c04d1607f08fbd08f5356c108ae
 ---
  res/values/strings.xml                           | 16 ++++++++++++++++
  src/com/android/phone/MobileNetworkSettings.java |  8 +++++++-
  2 files changed, 23 insertions(+), 1 deletion(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 4ec44534..17f2ecb7 100644
+index 4ec44534..bf251f88 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -423,6 +423,8 @@
@@ -43,8 +43,8 @@ index 4ec44534..17f2ecb7 100644
          <item>@string/network_3G</item>
      </string-array>
      <string-array name="enabled_networks_except_gsm_4g_choices" translatable="false">
-+        <item>@string/network_4G_only</item>
          <item>@string/network_4G</item>
++        <item>@string/network_4G_only</item>
          <item>@string/network_3G</item>
      </string-array>
      <string-array name="enabled_networks_except_gsm_values" translatable="false">

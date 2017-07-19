@@ -121,7 +121,7 @@ sed -i 's/ln -s /ln -sf /' Android.mk;
 sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools = "25.0.3"/' build.gradle;
 
 enter "packages/apps/FDroid"
-patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Enable privigled module
+patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Mark as privigled
 patch -p1 < $patches"android_packages_apps_FDroid/0002-Repos.patch" #Add IzzySoft, microG, and Eutopia repos
 #sed -i 's|cd $(fdroid_root)/$(fdroid_dir) && gradle assembleRelease|cd $(fdroid_root) && ./gradlew assembleRelease|' Android.mk; #Gradle 4.0 fix #FIXME: Doesn't work?
 
@@ -165,8 +165,8 @@ sed -i 's|drawer_search_default">true|drawer_search_default">false|' res/values/
 enter "packages/inputmethods/LatinIME"
 patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch" #Remove voice input key
 
-enter "packages/services/Telephony"
-patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch" #LTE only preferred network mode choice
+#enter "packages/services/Telephony"
+#patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch" #LTE only preferred network mode choice FIXME: b32ed854afebe0060b9dc06476a1ecfd4ea4961d butchered everything
 
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file

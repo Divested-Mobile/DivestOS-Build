@@ -23,7 +23,6 @@ General Changes
 		- Disabled "Instant Apps"
 		- Increased animation speed
 		- Increased max password length
-		- Forced LTE only option
 		- Per app performance profiles for 170 apps
 		- Replaced default profiles with better ones
 	- Trebuchet
