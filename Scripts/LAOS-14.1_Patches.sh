@@ -165,6 +165,9 @@ sed -i 's|drawer_search_default">true|drawer_search_default">false|' res/values/
 enter "packages/inputmethods/LatinIME"
 patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch" #Remove voice input key
 
+enter "packages/services/Telephony"
+patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch" #LTE only preferred network mode choice #XXX: Only useful on VoLTE devices. TODO: Add override to isEnhanced4gLteModeSettingEnabledByUser() in ImsManager
+
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid
@@ -180,7 +183,7 @@ cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 cp $patches"android_vendor_cm/config.xml" overlay/common/vendor/cmsdk/cm/res/res/values/config.xml; #Per app performance profiles
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
-sed -i 's/mka bacon/mka bacon target-files-package dist/' build/envsetup.sh; #Create target-files for incrementals
+#sed -i 's/mka bacon/mka bacon target-files-package dist/' build/envsetup.sh; #Create target-files for incrementals
 
 enter "vendor/cmsdk"
 git fetch https://review.lineageos.org/LineageOS/cm_platform_sdk refs/changes/21/148321/14 && git cherry-pick FETCH_HEAD #network traffic
