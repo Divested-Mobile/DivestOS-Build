@@ -1,28 +1,33 @@
-Last Updated: 06/25/2017
-Credits: https://divestos.xyz/about.html
-Recommended Apps: https://divestos.xyz/apps.html
+Last Updated: 07/18/2017
+Credits: https://divestos.xyz/pages/about.html
+Recommended Apps: https://divestos.xyz/pages/apps.php
 
 General Changes
 	- Builds are dex-preopted on select devices
 	- Builds are signed with private release-keys
 	- Bundled in our custom DNS blocklist
-	- Compiled with OpenJDK 8
 	- Doze is re-enabled on devices without real Google Play Services
+	- Enabled GLONASS on select devices
 	- Nuked a *ton* of proprietary blobs
 	- Nuked CMStats from orbit
 	- Removed unnecessary/outdated/insecure packages.
-	- Replaced stock emoji font with EmojiOne (Standardized and Legible)
-	- Replaced default profiles with better ones
 	- Replace default SMS app with Silence
 	- Dialer
-		- Disabled FLP and PLP by default
-	- Settings
-		- Increased max password length
-		- Disabled "Instant Apps"
+		- Disabled FLP, PLP, and RLP by default
 	- F-Droid
 		- F-Droid and FDroidPrivilegedExtension are included by default
 	- MicroG
 		- GmsCore, GsfProxy, and FakeStore are included by default
+	- Settings
+		- Changed default quick tiles
+		- Disabled "Instant Apps"
+		- Increased animation speed
+		- Increased max password length
+		- Forced LTE only option
+		- Per app performance profiles for 170 apps
+		- Replaced default profiles with better ones
+	- Trebuchet
+		- Changed default settings
 
 Device Changes
 	- bacon
@@ -31,10 +36,5 @@ Device Changes
 	- osprey
 		- Overclocked from 1.36Ghz to 1.88Ghz (=+2.07Ghz)
 		- Overclocked GPU by 255Mhz
-	- mako
-		- Enabled LTE support (Requires LTE hybrid modem to be flashed)
 	- hammerhead
 		- Overclocked from 2.26Ghz to 2.95Ghz (=+2.75Ghz)
-	- shamu
-		- Overclocked from 2.64Ghz to 2.88Ghz (=+0.96Ghz)
-		- Underclocked from 300Mhz to 35Mhz
