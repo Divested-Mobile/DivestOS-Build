@@ -1,16 +1,16 @@
-From 741499c77cbd21d408be9fba833b845cd9fa272f Mon Sep 17 00:00:00 2001
+From 5a0424ac9cc4bf5978694c76fb1c46ed42d7f4f5 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
-Date: Tue, 18 Jul 2017 23:03:05 -0400
+Date: Wed, 16 Aug 2017 08:35:43 -0400
 Subject: [PATCH] LTE only option
 
 This is a modified version of thestinger's implementation in CopperheadOS from a time when the repo was/is still licensed under Apache2
 https://github.com/CopperheadOS/platform_packages_services_Telephony/commit/567b8daca2d5d570e4eeecd548aa03c606ee9c18
 
-Change-Id: Ic69c6ad330ee1c04d1607f08fbd08f5356c108ae
+Change-Id: I708135604960f83c1f92ed41d0584a3b48a7886a
 ---
  res/values/strings.xml                           | 16 ++++++++++++++++
- src/com/android/phone/MobileNetworkSettings.java |  8 +++++++-
- 2 files changed, 23 insertions(+), 1 deletion(-)
+ src/com/android/phone/MobileNetworkSettings.java | 10 ++++++++--
+ 2 files changed, 24 insertions(+), 2 deletions(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
 index 4ec44534..bf251f88 100644
@@ -113,7 +113,7 @@ index 4ec44534..bf251f88 100644
          <item>"1"</item>
      </string-array>
 diff --git a/src/com/android/phone/MobileNetworkSettings.java b/src/com/android/phone/MobileNetworkSettings.java
-index 71feff8b..bc62d147 100644
+index 71feff8b..2a68c99a 100644
 --- a/src/com/android/phone/MobileNetworkSettings.java
 +++ b/src/com/android/phone/MobileNetworkSettings.java
 @@ -819,6 +819,7 @@ public class MobileNetworkSettings extends PreferenceActivity
@@ -133,18 +133,27 @@ index 71feff8b..bc62d147 100644
                  break;
              case Phone.NT_MODE_LTE_TDSCDMA_GSM:
                  mButtonPreferredNetworkMode.setSummary(
-@@ -1108,6 +1109,11 @@ public class MobileNetworkSettings extends PreferenceActivity
+@@ -1107,7 +1108,6 @@ public class MobileNetworkSettings extends PreferenceActivity
+                     controlGsmOptions(true);
                      break;
                  }
-             case Phone.NT_MODE_LTE_ONLY:
+-            case Phone.NT_MODE_LTE_ONLY:
+             case Phone.NT_MODE_LTE_WCDMA:
+                 if (!mIsGlobalCdma) {
+                     mButtonEnabledNetworks.setValue(
+@@ -1120,6 +1120,12 @@ public class MobileNetworkSettings extends PreferenceActivity
+                     mButtonEnabledNetworks.setSummary(R.string.network_global);
+                 }
+                 break;
++            case Phone.NT_MODE_LTE_ONLY:
 +		mButtonEnabledNetworks.setValue(
 +                            Integer.toString(Phone.NT_MODE_LTE_ONLY));
 +		mButtonEnabledNetworks.setSummary((mShow4GForLTE == true)
 +		            ? R.string.network_4G_only : R.string.network_lte_only);
 +		break;
-             case Phone.NT_MODE_LTE_WCDMA:
-                 if (!mIsGlobalCdma) {
-                     mButtonEnabledNetworks.setValue(
+             case Phone.NT_MODE_LTE_CDMA_AND_EVDO:
+                 if (isWorldMode()) {
+                     mButtonEnabledNetworks.setSummary(
 -- 
-2.13.3
+2.14.1
 

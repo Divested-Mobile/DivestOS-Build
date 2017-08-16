@@ -165,8 +165,8 @@ sed -i 's|drawer_search_default">true|drawer_search_default">false|' res/values/
 enter "packages/inputmethods/LatinIME"
 patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch" #Remove voice input key
 
-#enter "packages/services/Telephony"
-#patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch" #LTE only preferred network mode choice FIXME: b32ed854afebe0060b9dc06476a1ecfd4ea4961d butchered everything
+enter "packages/services/Telephony"
+patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch" #LTE only preferred network mode choice
 
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
