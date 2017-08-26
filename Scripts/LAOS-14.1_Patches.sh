@@ -104,10 +104,8 @@ rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/
 git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/25 && git cherry-pick FETCH_HEAD #network traffic
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove the rest of CMStats
 
-enter "packages/apps/CMUpdater"
-patch -p1 < $patches"android_packages_apps_CMUpdater/0001-Server.patch" #Switch to our server
-sed -i 's/CM_RELEASE_TYPE_DEFAULT = "UNOFFICIAL";/CM_RELEASE_TYPE_DEFAULT = "dos";/' src/com/cyanogenmod/updater/misc/Constants.java; #Change buildtype
-sed -i 's/subStrings\[3\]\.length() < 7/subStrings\[3\]\.length() < 3/' src/com/cyanogenmod/updater/utils/Utils.java; #Fix not allowing buildtypes length < 7
+enter "packages/apps/Updater"
+patch -p1 < $patches"android_packages_apps_Updater/0001-Server.patch" #Switch to our server
 
 enter "packages/apps/Dialer"
 sed -i 's/FLP_DEFAULT = FLP_GOOGLE;/FLP_DEFAULT = FLP_OPENSTREETMAP;/' src/com/android/dialer/lookup/LookupSettings.java; #Change default FLP to OpenStreetMap
