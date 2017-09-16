@@ -1,4 +1,4 @@
-From 104095f3a7590ccbd60f2b6dc4fc5242198469c5 Mon Sep 17 00:00:00 2001
+From 69ccfefd7b6d37b0b103a29095465fa4d29a3429 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Wed, 28 Jun 2017 08:03:36 -0400
 Subject: [PATCH] Harden IPv4/6
@@ -9,14 +9,14 @@ Credit: https://www.cyberciti.biz/faq/linux-kernel-etcsysctl-conf-security-harde
 
 Change-Id: I6941a9b418112ffeb68b4749b803b6e5558db039
 ---
- rootdir/init.rc | 44 +++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 41 insertions(+), 3 deletions(-)
+ rootdir/init.rc | 41 ++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 38 insertions(+), 3 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index da2071b15..5676edbff 100644
+index 0de027bf1..80dd9a437 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -141,9 +141,47 @@ on init
+@@ -140,9 +140,44 @@ on init
      # set fwmark on accepted sockets
      write /proc/sys/net/ipv4/tcp_fwmark_accept 1
  
@@ -28,19 +28,16 @@ index da2071b15..5676edbff 100644
 +    write /proc/net/net/ipv4/conf/all/accept_source_route 0
 +    write /proc/net/net/ipv4/conf/all/log_martians 1
 +    write /proc/net/net/ipv4/conf/all/rp_filter 1
-+    write /proc/net/net/ipv4/conf/all/secure_redirects 0
-+    write /proc/net/net/ipv4/conf/all/send_redirects 0
++    write /proc/net/net/ipv4/conf/all/secure_redirects 1
 +    write /proc/net/net/ipv4/conf/default/accept_redirects 0
 +    write /proc/net/net/ipv4/conf/default/accept_source_route 0
 +    write /proc/net/net/ipv4/conf/default/log_martians 1
 +    write /proc/net/net/ipv4/conf/default/rp_filter 1
-+    write /proc/net/net/ipv4/conf/default/secure_redirects 0
-+    write /proc/net/net/ipv4/conf/default/send_redirects 0
++    write /proc/net/net/ipv4/conf/default/secure_redirects 1
 +    write /proc/net/net/ipv4/icmp_echo_ignore_all 0
 +    write /proc/net/net/ipv4/icmp_echo_ignore_broadcasts 1
 +    write /proc/net/net/ipv4/icmp_errors_use_inbound_ifaddr 0
 +    write /proc/net/net/ipv4/icmp_ignore_bogus_error_responses 1
-+    write /proc/net/net/ipv4/ip_forward 0
 +    write /proc/net/net/ipv4/tcp_rfc1337 1
 +    write /proc/net/net/ipv4/tcp_syncookies 1
 +    write /proc/net/net/ipv4/tcp_timestamps 1
@@ -68,5 +65,5 @@ index da2071b15..5676edbff 100644
      # Create cgroup mount points for process groups
      mkdir /dev/cpuctl
 -- 
-2.13.2
+2.14.1
 
