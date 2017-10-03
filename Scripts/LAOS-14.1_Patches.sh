@@ -52,18 +52,18 @@ disableDexPreOpt() {
 }
 
 enableGlonass() {
-	cd $base$1;
-	sed -i 's/#A_GLONASS_POS_PROTOCOL_SELECT/A_GLONASS_POS_PROTOCOL_SELECT/' gps.conf gps/gps.conf configs/gps.conf || true;
-	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT = 0.*/A_GLONASS_POS_PROTOCOL_SELECT = 15/' gps.conf gps/gps.conf configs/gps.conf || true;
-	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT=0.*/A_GLONASS_POS_PROTOCOL_SELECT=15/' overlay/frameworks/base/core/res/res/values-*/*.xml || true;
-	echo "Enabled GLONASS";
+	cd $1;
+	sed -i 's/#A_GLONASS_POS_PROTOCOL_SELECT/A_GLONASS_POS_PROTOCOL_SELECT/' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
+	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT = 0.*/A_GLONASS_POS_PROTOCOL_SELECT = 15/' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
+	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT=0.*/A_GLONASS_POS_PROTOCOL_SELECT=15/' overlay/frameworks/base/core/res/res/values-*/*.xml &>/dev/null || true;
+	echo "Enabled GLONASS for $1";
 }
 export -f enableGlonass;
 
 enableXtraHttps() {
-	cd $base$1;
-	sed -i 's|http://xtrapath|https://xtrapath|' overlay/frameworks/base/core/res/res/values-*/*.xml gps.conf gps/gps.conf configs/gps.conf || true;
-	echo "Switched XTRA to HTTPS";
+	cd $1;
+	sed -i 's|http://xtra|https://xtra|' overlay/frameworks/base/core/res/res/values-*/*.xml gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
+	echo "Switched XTRA to HTTPS for $1";
 }
 export -f enableXtraHttps;
 
