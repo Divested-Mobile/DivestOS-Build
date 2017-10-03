@@ -52,15 +52,17 @@ disableDexPreOpt() {
 }
 
 enableGlonass() {
-	sed -i 's/#A_GLONASS_POS_PROTOCOL_SELECT/A_GLONASS_POS_PROTOCOL_SELECT/' $1/gps.conf $1/gps/gps.conf $1/configs/gps.conf || true;
-	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT = 0.*/A_GLONASS_POS_PROTOCOL_SELECT = 15/' $1/gps.conf $1/gps/gps.conf $1/configs/gps.conf || true;
+	cd $base$1;
+	sed -i 's/#A_GLONASS_POS_PROTOCOL_SELECT/A_GLONASS_POS_PROTOCOL_SELECT/' gps.conf gps/gps.conf configs/gps.conf || true;
+	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT = 0.*/A_GLONASS_POS_PROTOCOL_SELECT = 15/' gps.conf gps/gps.conf configs/gps.conf || true;
 	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT=0.*/A_GLONASS_POS_PROTOCOL_SELECT=15/' overlay/frameworks/base/core/res/res/values-*/*.xml || true;
 	echo "Enabled GLONASS";
 }
 export -f enableGlonass;
 
 enableXtraHttps() {
-	sed -i 's|http://xtrapath|https://xtrapath|' $1/overlay/frameworks/base/core/res/res/values-*/*.xml $1/gps.conf $1/gps/gps.conf $1/configs/gps.conf || true;
+	cd $base$1;
+	sed -i 's|http://xtrapath|https://xtrapath|' overlay/frameworks/base/core/res/res/values-*/*.xml gps.conf gps/gps.conf configs/gps.conf || true;
 	echo "Switched XTRA to HTTPS";
 }
 export -f enableXtraHttps;
@@ -73,7 +75,6 @@ enableZram() {
 #Enable GLONASS and HTTPS XTRA for all devices
 find $base"device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableGlonass "$0"' {} \;
 find $base"device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableXtraHttps "$0"' {} \;
-exit
 
 #
 #END OF PREPRATION
