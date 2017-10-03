@@ -52,17 +52,29 @@ disableDexPreOpt() {
 }
 
 enableGlonass() {
-	#GLONASS
-	sed -i 's/#A_GLONASS_POS_PROTOCOL_SELECT/A_GLONASS_POS_PROTOCOL_SELECT/' gps.conf gps/gps.conf configs/gps.conf || true;
-	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT = 0/A_GLONASS_POS_PROTOCOL_SELECT = 15/' gps.conf gps/gps.conf configs/gps.conf || true;
-	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT=0/A_GLONASS_POS_PROTOCOL_SELECT=15/' overlay/frameworks/base/core/res/res/values-*/*.xml || true;
+	sed -i 's/#A_GLONASS_POS_PROTOCOL_SELECT/A_GLONASS_POS_PROTOCOL_SELECT/' $1/gps.conf $1/gps/gps.conf $1/configs/gps.conf || true;
+	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT = 0.*/A_GLONASS_POS_PROTOCOL_SELECT = 15/' $1/gps.conf $1/gps/gps.conf $1/configs/gps.conf || true;
+	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT=0.*/A_GLONASS_POS_PROTOCOL_SELECT=15/' overlay/frameworks/base/core/res/res/values-*/*.xml || true;
 	echo "Enabled GLONASS";
 }
+export -f enableGlonass;
+
+enableXtraHttps() {
+	sed -i 's|http://xtrapath|https://xtrapath|' $1/overlay/frameworks/base/core/res/res/values-*/*.xml $1/gps.conf $1/gps/gps.conf $1/configs/gps.conf || true;
+	echo "Switched XTRA to HTTPS";
+}
+export -f enableXtraHttps;
 
 enableZram() {
 	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* rootdir/fstab.* rootdir/etc/fstab.* || true;
 	echo "Enabled zram";
 }
+
+#Enable GLONASS and HTTPS XTRA for all devices
+find $base"device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableGlonass "$0"' {} \;
+find $base"device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableXtraHttps "$0"' {} \;
+exit
+
 #
 #END OF PREPRATION
 #
@@ -81,9 +93,6 @@ patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix ca
 
 enter "external/sqlite"
 patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch" #Enable secure_delete by default
-
-enter "external/svox"
-patch -p1 < $patches"android_external_svox/94d2ddb.diff" #Fix garbled output See https://android-review.googlesource.com/#/c/302872/
 
 enter "frameworks/base"
 git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3 #re-enable doze on devices without gms
@@ -196,11 +205,9 @@ sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod
 #
 enter "device/motorola/clark"
 enableDexPreOpt
-enableGlonass
 
 enter "device/oneplus/bacon"
 enableDexPreOpt
-enableGlonass
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
 enter "kernel/oneplus/msm8974"
@@ -208,7 +215,6 @@ patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock-EXTREME.
 
 enter "device/lge/mako"
 disableDexPreOpt #bootloops
-enableGlonass
 #patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed) XXX: Doesn't seem to work under 7.x
 
 enter "kernel/lge/hammerhead"

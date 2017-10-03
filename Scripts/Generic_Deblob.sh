@@ -77,8 +77,8 @@ export base;
 
 	#DRM
 	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so";
-	blobs=$blobs"|liboemcrypto.so|libSSEPKCS11.so|libtzdrmgenprov.so";
-	blobs=$blobs"|libpvr.so|librmp.so|libsi.so";
+	blobs=$blobs"|liboemcrypto.so|libtzdrmgenprov.so";
+	blobs=$blobs"|libpvr.so|librmp.so|libsi.so|libSSEPKCS11.so";
 
 	#Face Unlock [Google]
 	blobs=$blobs"|libfacenet.so|libfilterpack_facedetect.so|libfrsdk.so";
