@@ -52,7 +52,7 @@ disableDexPreOpt() {
 }
 
 enableGlonass() {
-	cd $1;
+	cd $base$1;
 	sed -i 's/#A_GLONASS_POS_PROTOCOL_SELECT/A_GLONASS_POS_PROTOCOL_SELECT/' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
 	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT = 0.*/A_GLONASS_POS_PROTOCOL_SELECT = 15/' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
 	sed -i 's|A_GLONASS_POS_PROTOCOL_SELECT=0.*</item>|A_GLONASS_POS_PROTOCOL_SELECT=15</item>|' overlay/frameworks/base/core/res/res/values-*/*.xml &>/dev/null || true;
@@ -61,7 +61,7 @@ enableGlonass() {
 export -f enableGlonass;
 
 enableXtraHttps() {
-	cd $1;
+	cd $base$1;
 	sed -i 's|http://xtra|https://xtra|' overlay/frameworks/base/core/res/res/values-*/*.xml gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
 	echo "Switched XTRA to HTTPS for $1";
 }
@@ -71,11 +71,6 @@ enableZram() {
 	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* rootdir/fstab.* rootdir/etc/fstab.* || true;
 	echo "Enabled zram";
 }
-
-#Enable GLONASS and HTTPS XTRA for all devices
-find $base"device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableGlonass "$0"' {} \;
-find $base"device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableXtraHttps "$0"' {} \;
-
 #
 #END OF PREPRATION
 #
@@ -223,6 +218,10 @@ patch -p1 < $patches"android_kernel_lge_hammerhead/0001-OverUnderClock.patch" #2
 
 enter "kernel/motorola/msm8916"
 patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch" #1.36Ghz -> 1.88Ghz	=+ 2.07Ghz
+
+#Enable GLONASS and XTRA over HTTPS for all devices
+find $base"device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableGlonass "$0"' {} \;
+find $base"device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableXtraHttps "$0"' {} \;
 #
 #END OF DEVICE CHANGES
 #
