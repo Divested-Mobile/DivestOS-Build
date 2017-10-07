@@ -100,7 +100,7 @@ sed -i 's/ScaleSetting = 1.0f;/ScaleSetting = 0.5f;/' services/core/java/com/and
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
-rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig core/res/AndroidManifest.xml.orig
+rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig
 
 #enter "frameworks/opt/net/ims"
 #patch -p1 < $patches"android_frameworks_opt_net_ims/0001-Fix_Calling.patch" #Fix calling after we remove IMS
@@ -202,7 +202,7 @@ sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod
 #
 enter "device/motorola/clark"
 enableDexPreOpt
-patch -p1 < $patches"android_device_motorola_Clark/0001-Tri_State_Torch.patch" #Tri-state torch
+patch -p1 < $patches"android_device_motorola_clark/0001-Tri_State_Torch.patch" #Tri-state torch
 
 enter "device/oneplus/bacon"
 enableDexPreOpt

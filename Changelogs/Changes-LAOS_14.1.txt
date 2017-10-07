@@ -1,4 +1,4 @@
-Last Updated: 07/18/2017
+Last Updated: 10/06/2017
 Credits: https://divestos.xyz/pages/about.html
 Recommended Apps: https://divestos.xyz/pages/apps.php
 
@@ -7,9 +7,9 @@ General Changes
 	- Builds are signed with private release-keys
 	- Bundled in our custom DNS blocklist
 	- Doze is re-enabled on devices without real Google Play Services
-	- Enabled GLONASS on select devices
-	- Nuked a *ton* of proprietary blobs
-	- Nuked CMStats from orbit
+	- Enabled GLONASS and HTTPS AGPS downloads on all devices
+	- Nuked a *ton* of proprietary blobs from orbit
+	- Removed CMStats
 	- Removed unnecessary/outdated/insecure packages.
 	- Replace default SMS app with Silence
 	- Dialer
@@ -32,6 +32,8 @@ Device Changes
 	- bacon
 		- Overclocked from 2.45Ghz to 2.95Ghz (=+2.02Ghz)
 		- Underclocked from 300Mhz to 268Mhz
+	- clark
+		- Changed flashlight gesture to a tri-state one: back, front, off
 	- osprey
 		- Overclocked from 1.36Ghz to 1.88Ghz (=+2.07Ghz)
 		- Overclocked GPU by 255Mhz
