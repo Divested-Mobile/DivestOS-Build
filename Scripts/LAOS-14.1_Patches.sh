@@ -93,7 +93,6 @@ patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch" #Enable s
 enter "frameworks/base"
 git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3 #re-enable doze on devices without gms
 git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/37 && git cherry-pick FETCH_HEAD #network traffic
-git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/28/191728/1 && git cherry-pick FETCH_HEAD #revert protected apps nonsense
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i '0,/wifi,cell,battery/s/wifi,cell,battery,dnd,flashlight,rotation,bt,airplane/wifi,cell,bt,dnd,flashlight,rotation,battery,profiles,location,airplane,saver,hotspot,nfc/' packages/SystemUI/res/values/config.xml;
 sed -i 's/ScaleSetting = 1.0f;/ScaleSetting = 0.5f;/' services/core/java/com/android/server/wm/WindowManagerService.java; #Speedup animation scale
