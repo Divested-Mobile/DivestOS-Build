@@ -1,0 +1,155 @@
+From 04dc166ba80b5364f71d15b617083e772a1e35ac Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Wed, 18 Oct 2017 07:40:33 -0400
+Subject: [PATCH] Remove CMStats
+
+Change-Id: I5aeb0bf59e9d7e64831ecaec7b917dfc3b5386df
+---
+ res/layout/setup_lineage_settings.xml              | 36 ----------------------
+ .../setupwizard/LineageSettingsActivity.java       | 35 ---------------------
+ .../cyanogenmod/setupwizard/SetupWizardApp.java    |  1 -
+ 3 files changed, 72 deletions(-)
+
+diff --git a/res/layout/setup_lineage_settings.xml b/res/layout/setup_lineage_settings.xml
+index 42b4c2d..5792c06 100644
+--- a/res/layout/setup_lineage_settings.xml
++++ b/res/layout/setup_lineage_settings.xml
+@@ -51,42 +51,6 @@
+                     android:text="@string/services_explanation"
+                     android:clickable="true"/>
+ 
+-                <!-- Whether or not to enable metrics -->
+-                <LinearLayout
+-                    android:id="@+id/metrics"
+-                    android:orientation="horizontal"
+-                    android:layout_width="match_parent"
+-                    android:layout_height="wrap_content"
+-                    android:paddingLeft="@dimen/location_margin_left"
+-                    android:paddingRight="@dimen/content_margin_right"
+-                    android:background="?android:attr/selectableItemBackground"
+-                    android:clickable="true">
+-
+-
+-                    <CheckBox
+-                        android:id="@+id/enable_metrics_checkbox"
+-                        android:layout_width="wrap_content"
+-                        android:layout_height="wrap_content"
+-                        android:layout_gravity="top"
+-                        android:layout_marginTop="5dp"
+-                        android:duplicateParentState="true"
+-                        android:clickable="false"/>
+-
+-                    <TextView
+-                        android:id="@+id/enable_metrics_summary"
+-                        android:layout_width="0px"
+-                        android:layout_height="wrap_content"
+-                        android:layout_weight="1"
+-                        android:textSize="15sp"
+-                        android:lineSpacingExtra="@dimen/setup_line_spacing"
+-                        android:gravity="top"
+-                        android:layout_marginLeft="@dimen/location_text_margin_left"
+-                        android:layout_marginRight="@dimen/location_text_margin_right"
+-                        android:paddingBottom="@dimen/content_margin_bottom"
+-                        android:text="@string/services_metrics_label"/>
+-
+-                </LinearLayout>
+-
+                 <!-- Checkbox for using on-screen nav keys -->
+                 <LinearLayout
+                     android:id="@+id/nav_keys"
+diff --git a/src/com/cyanogenmod/setupwizard/LineageSettingsActivity.java b/src/com/cyanogenmod/setupwizard/LineageSettingsActivity.java
+index b222c72..5bf8d9f 100644
+--- a/src/com/cyanogenmod/setupwizard/LineageSettingsActivity.java
++++ b/src/com/cyanogenmod/setupwizard/LineageSettingsActivity.java
+@@ -20,7 +20,6 @@ package com.cyanogenmod.setupwizard;
+ import static com.cyanogenmod.setupwizard.SetupWizardApp.DISABLE_NAV_KEYS;
+ import static com.cyanogenmod.setupwizard.SetupWizardApp.KEY_APPLY_DEFAULT_THEME;
+ import static com.cyanogenmod.setupwizard.SetupWizardApp.KEY_PRIVACY_GUARD;
+-import static com.cyanogenmod.setupwizard.SetupWizardApp.KEY_SEND_METRICS;
+ 
+ import android.app.Activity;
+ import android.content.Context;
+@@ -57,24 +56,13 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
+ 
+     private SetupWizardApp mSetupWizardApp;
+ 
+-    private View mMetricsRow;
+     private View mNavKeysRow;
+     private View mPrivacyGuardRow;
+-    private CheckBox mMetrics;
+     private CheckBox mNavKeys;
+     private CheckBox mPrivacyGuard;
+ 
+     private boolean mHideNavKeysRow = false;
+ 
+-    private View.OnClickListener mMetricsClickListener = new View.OnClickListener() {
+-        @Override
+-        public void onClick(View view) {
+-            boolean checked = !mMetrics.isChecked();
+-            mMetrics.setChecked(checked);
+-            mSetupWizardApp.getSettingsBundle().putBoolean(KEY_SEND_METRICS, checked);
+-        }
+-    };
+-
+     private View.OnClickListener mNavKeysClickListener = new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+@@ -122,19 +110,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
+         privacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
+         privacyPolicy.setText(ss);
+ 
+-        mMetricsRow = findViewById(R.id.metrics);
+-        mMetricsRow.setOnClickListener(mMetricsClickListener);
+-        String metricsHelpImproveCM =
+-                getString(R.string.services_help_improve_cm, getString(R.string.os_name));
+-        String metricsSummary = getString(R.string.services_metrics_label,
+-                metricsHelpImproveCM, getString(R.string.os_name));
+-        final SpannableStringBuilder metricsSpan = new SpannableStringBuilder(metricsSummary);
+-        metricsSpan.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+-                0, metricsHelpImproveCM.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+-        TextView metrics = (TextView) findViewById(R.id.enable_metrics_summary);
+-        metrics.setText(metricsSpan);
+-        mMetrics = (CheckBox) findViewById(R.id.enable_metrics_checkbox);
+-
+         mNavKeysRow = findViewById(R.id.nav_keys);
+         mNavKeysRow.setOnClickListener(mNavKeysClickListener);
+         mNavKeys = (CheckBox) findViewById(R.id.nav_keys_checkbox);
+@@ -163,7 +138,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
+     public void onResume() {
+         super.onResume();
+         updateDisableNavkeysOption();
+-        updateMetricsOption();
+         updatePrivacyGuardOption();
+     }
+ 
+@@ -198,15 +172,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
+         return R.drawable.ic_features;
+     }
+ 
+-    private void updateMetricsOption() {
+-        final Bundle myPageBundle = mSetupWizardApp.getSettingsBundle();
+-        boolean metricsChecked =
+-                !myPageBundle.containsKey(KEY_SEND_METRICS) || myPageBundle
+-                        .getBoolean(KEY_SEND_METRICS);
+-        mMetrics.setChecked(metricsChecked);
+-        myPageBundle.putBoolean(KEY_SEND_METRICS, metricsChecked);
+-    }
+-
+     private void updateDisableNavkeysOption() {
+         if (!mHideNavKeysRow) {
+             final Bundle myPageBundle = mSetupWizardApp.getSettingsBundle();
+diff --git a/src/com/cyanogenmod/setupwizard/SetupWizardApp.java b/src/com/cyanogenmod/setupwizard/SetupWizardApp.java
+index f10a917..f916f5b 100644
+--- a/src/com/cyanogenmod/setupwizard/SetupWizardApp.java
++++ b/src/com/cyanogenmod/setupwizard/SetupWizardApp.java
+@@ -59,7 +59,6 @@ public class SetupWizardApp extends Application {
+     public static final String EXTRA_RESULT_CODE = "com.android.setupwizard.ResultCode";
+ 
+     public static final String KEY_DETECT_CAPTIVE_PORTAL = "captive_portal_detection_enabled";
+-    public static final String KEY_SEND_METRICS = "send_metrics";
+     public static final String DISABLE_NAV_KEYS = "disable_nav_keys";
+     public static final String KEY_APPLY_DEFAULT_THEME = "apply_default_theme";
+     public static final String KEY_BUTTON_BACKLIGHT = "pre_navbar_button_backlight";
+-- 
+2.14.2
+
