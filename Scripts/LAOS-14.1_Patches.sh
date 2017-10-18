@@ -5,7 +5,7 @@
 #repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/{FDroid,GmsCore,Silence} out
 
 #Prepare a build
-#repo sync -j20 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Rebrand-14.1.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/home/$USER/Android/Sdk" && export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation" && export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}" && GRADLE_OPTS=-Xmx2048m && export KBUILD_BUILD_USER=emy && export KBUILD_BUILD_HOST=dosbm
+#repo sync -j20 --force-sync && sh ../../Scripts/LAOS-14.1_Patches.sh && source ../../Scripts/Rebrand-14.1.sh && source ../../Scripts/Theme-14.1.sh && source ../../Scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/home/$USER/Android/Sdk" && export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation" && export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}" && GRADLE_OPTS=-Xmx2048m && export KBUILD_BUILD_USER=emy && export KBUILD_BUILD_HOST=dosbm
 
 #Build!
 #brunch lineage_mako-user && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_thor-userdebug && brunch lineage_angler-user && brunch lineage_bullhead-user && brunch lineage_ether-user && brunch lineage_flounder-user && brunch lineage_flo-user && brunch lineage_hammerhead-user && brunch lineage_marlin-user && brunch lineage_sailfish-user && brunch lineage_n5110-user && brunch lineage_osprey-user && brunch lineage_shamu-user && brunch lineage_Z00T-user
@@ -96,7 +96,6 @@ git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/ch
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i '0,/wifi,cell,battery/s/wifi,cell,battery,dnd,flashlight,rotation,bt,airplane/wifi,cell,bt,dnd,flashlight,rotation,battery,profiles,location,airplane,saver,hotspot,nfc/' packages/SystemUI/res/values/config.xml;
 sed -i 's/ScaleSetting = 1.0f;/ScaleSetting = 0.5f;/' services/core/java/com/android/server/wm/WindowManagerService.java; #Speedup animation scale
-patch -p1 < $patches"android_frameworks_base/0001-Accent_Colors.patch" #Change accent from teal to orange
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
