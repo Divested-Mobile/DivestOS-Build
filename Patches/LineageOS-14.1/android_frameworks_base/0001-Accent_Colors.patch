@@ -1,0 +1,36 @@
+From 389daad51a6e77c1908f2fde082e0fe0e8f27878 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Wed, 18 Oct 2017 10:40:06 -0400
+Subject: [PATCH] Tweak accent colors
+
+Change-Id: Ie531c7b7c91678bef0743c403286b17518cc794d
+---
+ core/res/res/values/colors_material.xml | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/core/res/res/values/colors_material.xml b/core/res/res/values/colors_material.xml
+index 4e4b88d4b97..27d08fa537b 100644
+--- a/core/res/res/values/colors_material.xml
++++ b/core/res/res/values/colors_material.xml
+@@ -86,12 +86,12 @@
+     <color name="material_grey_100">#fff5f5f5</color>
+     <color name="material_grey_50">#fffafafa</color>
+ 
+-    <color name="material_deep_teal_50">#ffe0f2f1</color>
+-    <color name="material_deep_teal_100">#ffb2dfdb</color>
+-    <color name="material_deep_teal_200">#ff80cbc4</color>
+-    <color name="material_deep_teal_300">#ff4db6ac</color>
+-    <color name="material_deep_teal_500">#ff009688</color>
+-    <color name="material_deep_teal_700">#ff00796b</color>
++    <color name="material_deep_teal_50">#ffFFD54F</color>
++    <color name="material_deep_teal_100">#ffFFCA28</color>
++    <color name="material_deep_teal_200">#ffFFA726</color>
++    <color name="material_deep_teal_300">#ffFF9800</color>
++    <color name="material_deep_teal_500">#ffFF5722</color>
++    <color name="material_deep_teal_700">#ffE64A19</color>
+ 
+     <color name="material_blue_grey_200">#ffb0bec5</color>
+     <color name="material_blue_grey_700">#ff455a64</color>
+-- 
+2.14.2
+
