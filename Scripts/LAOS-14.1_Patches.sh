@@ -187,6 +187,8 @@ awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always us
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk
 cp $patches"android_vendor_cm/config.xml" overlay/common/vendor/cmsdk/cm/res/res/values/config.xml; #Per app performance profiles
+cp $patches"android_vendor_cm/bootanimation/bootanimation.tar" bootanimation/bootanimation.tar
+cp $patches"android_vendor_cm/bootanimation/desc.txt" bootanimation/desc.txt
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
 #sed -i 's/mka bacon/mka bacon target-files-package dist/' build/envsetup.sh; #Create target-files for incrementals
