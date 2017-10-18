@@ -1,18 +1,18 @@
 #!/bin/bash
 #Copyright (c) 2015-2017 Spot Communications, Inc.
 
-#Replaces teal accents with dark orange ones
+#Replaces teal accents with orange/yellow ones
 
 base="/mnt/Drive-1/Development/Other/Android_ROMs/Build/LineageOS-14.1/"
 
 echo "Applying theme..."
 
-export themeOverride50="fbe9e7"
-export themeOverride100="ffccbc"
-export themeOverride200="ffab91"
-export themeOverride300="ff8a65"
-export themeOverride500="ff5722"
-export themeOverride700="e64a19"
+export themeOverride50="FFCA28"
+export themeOverride100="FFC107"
+export themeOverride200="FFA726"
+export themeOverride300="FF9800"
+export themeOverride500="FF5722"
+export themeOverride700="E64A19"
 
 cd $base"frameworks/base"
 sed -i "s/#ffe0f2f1/#ff$themeOverride50/" core/res/res/values/colors_material.xml
@@ -22,17 +22,23 @@ sed -i "s/#ff4db6ac/#ff$themeOverride300/" core/res/res/values/colors_material.x
 sed -i "s/#ff009688/#ff$themeOverride500/" core/res/res/values/colors_material.xml
 sed -i "s/#ff00796b/#ff$themeOverride700/" core/res/res/values/colors_material.xml
 
+cd $base"packages/apps/CMParts"
+sed -i "s/#ff009688/#ff$themeOverride500/" res/values/colors.xml
+
 cd $base"packages/apps/GmsCore"
 sed -i "s/#ff7fcac3/#ff$themeOverride300/" microg-ui-tools/src/main/res/values/colors.xml
 sed -i "s/#ff009688/#ff$themeOverride500/" microg-ui-tools/src/main/res/values/colors.xml
 
 #cd $base"packages/apps/Settings"
-#sed -i "s///" res/values/colors.xml
-#TODO: Fix 'Storage'
+sed -i "s/#ff009688/#ff$themeOverride500/" res/values/styles.xml
 
 cd $base"packages/apps/Trebuchet"
 sed -i "s/009688/$themeOverride500/" res/values/*colors.xml
+sed -i "s/009688/$themeOverride500/" WallpaperPicker/res/values/*colors.xml
 mogrify -format png -fill "#$themeOverride500" -opaque "#009688" res/drawable*/cling_bg.9.png
+
+cd $base"packages/apps/Updater"
+sed -i "s/#ff009688/#ff$themeOverride500/" res/values/colors.xml
 
 cd $base"packages/inputmethods/LatinIME"
 sed -i "s/#80CBC4/#$themeOverride200/" java/res/values/colors.xml
