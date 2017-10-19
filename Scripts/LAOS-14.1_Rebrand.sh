@@ -7,6 +7,10 @@ base="/mnt/Drive-1/Development/Other/Android_ROMs/Build/LineageOS-14.1/"
 
 echo "Rebranding..."
 
+cd $base"build"
+sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
+sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/buildinfo.sh; #Override build host
+
 cd $base"packages/apps/Settings"
 sed -i '/.*cmlicense_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml
 sed -i '/.*cmupdate_settings_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml
