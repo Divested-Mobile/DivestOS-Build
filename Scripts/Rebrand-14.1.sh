@@ -23,7 +23,7 @@ sed -i 's|>LineageOS|>DivestOS|' res/values*/strings.xml
 cd $base"vendor/cm"
 sed -i 's|http://lineageos.org/legal|https://divestos.xyz/pages/about.html|' config/common.mk;
 #sed -i '/.*ZIPFILE=/s/lineage/divestos/' build/envsetup.sh
-#TODO: Boot animation
+rm -rf bootanimation #TODO: Create a boot animation
 
 cd $base
 echo "Rebranding complete!"
