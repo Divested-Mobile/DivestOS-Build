@@ -31,11 +31,13 @@ sed -i "s/#ff009688/#ff$themeOverride500/" microg-ui-tools/src/main/res/values/c
 
 cd $base"packages/apps/Settings"
 sed -i "s/#ff009688/#ff$themeOverride500/" res/values/styles.xml
+#TODO: Fix: Storage, Profiles
 
 cd $base"packages/apps/Trebuchet"
 sed -i "s/009688/$themeOverride500/" res/values/*colors.xml
 sed -i "s/009688/$themeOverride500/" WallpaperPicker/res/values/colors.xml
 mogrify -format png -fill "#$themeOverride500" -opaque "#009688" -fuzz 10% res/drawable*/cling_bg.9.png
+#TODO: Fix: Open app icon
 
 cd $base"packages/apps/Updater"
 sed -i "s/#ff009688/#ff$themeOverride500/" res/values/colors.xml

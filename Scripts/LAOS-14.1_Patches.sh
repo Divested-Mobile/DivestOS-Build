@@ -51,21 +51,32 @@ disableDexPreOpt() {
 	echo "Disabled dexpreopt";
 }
 
-enableGlonass() {
+enhanceLocation() {
 	cd $base$1;
+	#Enable GLONASS
 	sed -i 's/#A_GLONASS_POS_PROTOCOL_SELECT/A_GLONASS_POS_PROTOCOL_SELECT/' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
 	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT = 0.*/A_GLONASS_POS_PROTOCOL_SELECT = 15/' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
 	sed -i 's|A_GLONASS_POS_PROTOCOL_SELECT=0.*</item>|A_GLONASS_POS_PROTOCOL_SELECT=15</item>|' overlay/frameworks/base/core/res/res/values-*/*.xml &>/dev/null || true;
-	echo "Enabled GLONASS for $1";
-}
-export -f enableGlonass;
-
-enableXtraHttps() {
-	cd $base$1;
+	#Recommended reading: https://wwws.nightwatchcybersecurity.com/2016/12/05/cve-2016-5341/
+	#XTRA: Use defined URLs
+	sed -i 's|XTRA_SERVER_QUERY=1|XTRA_SERVER_QUERY=0|' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
+	sed -i 's|#XTRA_SERVER|XTRA_SERVER|' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
+	#XTRA: Enable HTTPS
 	sed -i 's|http://xtra|https://xtra|' overlay/frameworks/base/core/res/res/values-*/*.xml gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
-	echo "Switched XTRA to HTTPS for $1";
+	#XTRA: Use format version 3
+	if grep -sq "XTRA_VERSION_CHECK" gps.conf gps/gps.conf configs/gps.conf; then #Using hardware/qcom/gps OR precompiled blob OR device specific implementation
+		sed -i 's|XTRA_VERSION_CHECK=0|XTRA_VERSION_CHECK=1|' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
+		sed -i 's|xtra2.bin|xtra3grc.bin|' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
+		echo "Enabled XTRA3";
+	elif grep -sq "BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := true" BoardConfig.mk boards/*gps.mk; then #XXX: EXPERIMENTAL!
+		if ! grep -sq "USE_DEVICE_SPECIFIC_LOC_API := true" BoardConfig.mk boards/*gps.mk; then #Using hardware/qcom/gps
+			sed -i 's|xtra2.bin|xtra3grc.bin|' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
+			echo "Force enabled XTRA3";
+		fi;
+	fi;
+	echo "Enhanced location services for $1";
 }
-export -f enableXtraHttps;
+export -f enhanceLocation;
 
 enableZram() {
 	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* rootdir/fstab.* rootdir/etc/fstab.* || true;
@@ -96,6 +107,7 @@ git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/ch
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i '0,/wifi,cell,battery/s/wifi,cell,battery,dnd,flashlight,rotation,bt,airplane/wifi,cell,bt,dnd,flashlight,rotation,battery,profiles,location,airplane,saver,hotspot,nfc/' packages/SystemUI/res/values/config.xml;
 sed -i 's/ScaleSetting = 1.0f;/ScaleSetting = 0.5f;/' services/core/java/com/android/server/wm/WindowManagerService.java; #Speedup animation scale
+sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
@@ -226,9 +238,8 @@ patch -p1 < $patches"android_kernel_lge_hammerhead/0001-OverUnderClock.patch" #2
 enter "kernel/motorola/msm8916"
 patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch" #1.36Ghz -> 1.88Ghz	=+ 2.07Ghz
 
-#Enable GLONASS and XTRA over HTTPS for all devices
-find $base"device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableGlonass "$0"' {} \;
-find $base"device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableXtraHttps "$0"' {} \;
+#Enhance and improve security of GPS for all devices
+find $base"device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enhanceLocation "$0"' {} \;
 #
 #END OF DEVICE CHANGES
 #

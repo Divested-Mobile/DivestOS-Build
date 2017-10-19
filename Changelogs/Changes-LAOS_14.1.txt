@@ -7,7 +7,7 @@ General Changes
 	- Builds are signed with private release-keys
 	- Bundled in our custom DNS blocklist
 	- Doze is re-enabled on devices without real Google Play Services
-	- Enabled GLONASS and HTTPS AGPS downloads on all devices
+	- Enabled GLONASS and improved security of A-GPS downloads on all devices
 	- Nuked a *ton* of proprietary blobs from orbit
 	- Rebranded select strings
 	- Removed boot animation
