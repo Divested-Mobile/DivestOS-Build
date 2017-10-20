@@ -1,33 +1,32 @@
-From 56c76ff50e2c410aec349110c23b95556d0f2ade Mon Sep 17 00:00:00 2001
+From 1f5d2697b801e4f4ddfdd4edad464b09f39c416e Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Fri, 20 Oct 2017 18:57:18 -0400
+Date: Fri, 20 Oct 2017 19:54:57 -0400
 Subject: [PATCH] Reduced Resolution Feature 2/2
 
-Change-Id: If18913234f902410f87f8664f1017c83944544ee
+Change-Id: Iafa177e66dca11da1a595ea6c1bbc3171b71eb67
 ---
- core/java/android/os/IPowerManager.aidl            |  2 +
- core/java/android/os/PowerManager.java             | 30 +++++++++
- .../android/server/power/PowerManagerService.java  | 72 ++++++++++++++++++++++
- 3 files changed, 104 insertions(+)
+ core/java/android/os/IPowerManager.aidl            |  3 +
+ core/java/android/os/PowerManager.java             | 32 ++++++++++
+ .../android/server/power/PowerManagerService.java  | 73 ++++++++++++++++++++++
+ 3 files changed, 108 insertions(+)
 
 diff --git a/core/java/android/os/IPowerManager.aidl b/core/java/android/os/IPowerManager.aidl
-index 26eb7f169a0..38bd8a4e386 100644
+index 26eb7f169a0..d6051d0db74 100644
 --- a/core/java/android/os/IPowerManager.aidl
 +++ b/core/java/android/os/IPowerManager.aidl
-@@ -46,6 +46,8 @@ interface IPowerManager
-     boolean isInteractive();
-     boolean isPowerSaveMode();
-     boolean setPowerSaveMode(boolean mode);
+@@ -75,4 +75,7 @@ interface IPowerManager
+     void setKeyboardLight(boolean on, int key);
+ 
+     void wakeUpWithProximityCheck(long time, String reason, String opPackageName);
++
 +    boolean isReducedResolution();
 +    boolean setReducedResolution(boolean mode);
-     boolean isDeviceIdleMode();
-     boolean isLightDeviceIdleMode();
- 
+ }
 diff --git a/core/java/android/os/PowerManager.java b/core/java/android/os/PowerManager.java
-index 5c8effec0ed..54dd5965373 100644
+index 5c8effec0ed..8c1d2fdf65b 100644
 --- a/core/java/android/os/PowerManager.java
 +++ b/core/java/android/os/PowerManager.java
-@@ -988,6 +988,36 @@ public final class PowerManager {
+@@ -988,6 +988,38 @@ public final class PowerManager {
          }
      }
  
@@ -35,6 +34,8 @@ index 5c8effec0ed..54dd5965373 100644
 +     * Returns true if the WindowManager is running at a reduced resolution
 +     *
 +     * @return Returns true if WindowManager is set to a reduced resolution, else false.
++     *
++     * @hide
 +     */
 +    public boolean isReducedResolution() {
 +        try {
@@ -65,7 +66,7 @@ index 5c8effec0ed..54dd5965373 100644
       * Returns true if the device is currently in idle mode.  This happens when a device
       * has been sitting unused and unmoving for a sufficiently long period of time, so that
 diff --git a/services/core/java/com/android/server/power/PowerManagerService.java b/services/core/java/com/android/server/power/PowerManagerService.java
-index 55d0809ee4e..668176dc761 100644
+index 55d0809ee4e..c1620ea74f8 100644
 --- a/services/core/java/com/android/server/power/PowerManagerService.java
 +++ b/services/core/java/com/android/server/power/PowerManagerService.java
 @@ -29,6 +29,7 @@ import android.content.IntentFilter;
@@ -76,7 +77,15 @@ index 55d0809ee4e..668176dc761 100644
  import android.hardware.Sensor;
  import android.hardware.SensorEvent;
  import android.hardware.SensorEventListener;
-@@ -67,6 +68,7 @@ import android.util.Slog;
+@@ -49,6 +50,7 @@ import android.os.PowerManager;
+ import android.os.PowerManagerInternal;
+ import android.os.Process;
+ import android.os.RemoteException;
++import android.os.ServiceManager;
+ import android.os.SystemClock;
+ import android.os.SystemProperties;
+ import android.os.Trace;
+@@ -67,6 +69,7 @@ import android.util.Slog;
  import android.util.SparseIntArray;
  import android.util.TimeUtils;
  import android.view.Display;
@@ -84,7 +93,7 @@ index 55d0809ee4e..668176dc761 100644
  import android.view.WindowManagerPolicy;
  
  import com.android.internal.app.IAppOpsService;
-@@ -203,6 +205,7 @@ public final class PowerManagerService extends SystemService
+@@ -203,6 +206,7 @@ public final class PowerManagerService extends SystemService
      private final Context mContext;
      private final ServiceThread mHandlerThread;
      private final PowerManagerHandler mHandler;
@@ -92,7 +101,7 @@ index 55d0809ee4e..668176dc761 100644
  
      private LightsManager mLightsManager;
      private BatteryManagerInternal mBatteryManagerInternal;
-@@ -583,6 +586,8 @@ public final class PowerManagerService extends SystemService
+@@ -583,6 +587,8 @@ public final class PowerManagerService extends SystemService
                  Process.THREAD_PRIORITY_DISPLAY, false /*allowIo*/);
          mHandlerThread.start();
          mHandler = new PowerManagerHandler(mHandlerThread.getLooper());
@@ -101,7 +110,7 @@ index 55d0809ee4e..668176dc761 100644
          qcNsrmPowExt = new QCNsrmPowerExtension(this);
          synchronized (mLock) {
              mWakeLockSuspendBlocker = createSuspendBlockerLocked("PowerManagerService.WakeLocks");
-@@ -2658,6 +2663,46 @@ public final class PowerManagerService extends SystemService
+@@ -2658,6 +2664,46 @@ public final class PowerManagerService extends SystemService
          }
      }
  
@@ -117,7 +126,7 @@ index 55d0809ee4e..668176dc761 100644
 +        }
 +    }
 +
-+    private boolean isLowPowerModeInternal(boolean mode) {
++    private boolean setReducedResolutionInternal(boolean mode) {
 +        synchronized (mLock) {
 +            if (mode) {
 +                Point initialSize = new Point();
@@ -148,12 +157,12 @@ index 55d0809ee4e..668176dc761 100644
      boolean isDeviceIdleModeInternal() {
          synchronized (mLock) {
              return mDeviceIdleMode;
-@@ -3833,6 +3878,28 @@ public final class PowerManagerService extends SystemService
+@@ -3833,6 +3879,28 @@ public final class PowerManagerService extends SystemService
              }
          }
  
 +        @Override // Binder call
-+        public boolean isReducedResolutionMode() {
++        public boolean isReducedResolution() {
 +            final long ident = Binder.clearCallingIdentity();
 +            try {
 +                return isReducedResolutionInternal();
@@ -163,7 +172,7 @@ index 55d0809ee4e..668176dc761 100644
 +        }
 +
 +        @Override // Binder call
-+        public boolean setReducedResolutionode(boolean mode) {
++        public boolean setReducedResolution(boolean mode) {
 +            mContext.enforceCallingOrSelfPermission(
 +                    android.Manifest.permission.DEVICE_POWER, null);
 +            final long ident = Binder.clearCallingIdentity();
@@ -177,7 +186,7 @@ index 55d0809ee4e..668176dc761 100644
          @Override // Binder call
          public boolean isDeviceIdleMode() {
              final long ident = Binder.clearCallingIdentity();
-@@ -4214,6 +4281,11 @@ public final class PowerManagerService extends SystemService
+@@ -4214,6 +4282,11 @@ public final class PowerManagerService extends SystemService
              return setLowPowerModeInternal(mode);
          }
  
