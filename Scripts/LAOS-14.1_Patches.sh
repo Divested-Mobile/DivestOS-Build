@@ -21,7 +21,7 @@ base="/mnt/Drive-1/Development/Other/Android_ROMs/Build/LineageOS-14.1/"
 patches="/mnt/Drive-1/Development/Other/Android_ROMs/Patches/LineageOS-14.1/"
 ANDROID_HOME="/home/$USER/Android/Sdk"
 
-#Download some out-of-tree files for use later on
+#Download some (non-executable) out-of-tree files for use later on
 mkdir /tmp/ar
 cd /tmp/ar
 wget https://spotco.us/hosts -N #XXX: /hosts is built from non-commercial use files, switch to /hsc for release

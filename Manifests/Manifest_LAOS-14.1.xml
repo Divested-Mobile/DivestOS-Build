@@ -21,7 +21,6 @@
 	<remove-project name="LineageOS/android_hardware_intel_img_psb_headers" />
 	<remove-project name="LineageOS/android_hardware_intel_img_psb_video" />
 	<remove-project name="LineageOS/android_hardware_ti_omap4xxx" />
-	<remove-project name="LineageOS/android_packages_apps_CMBugreport" />
 	<remove-project name="LineageOS/android_packages_apps_LockClock" />
 	<remove-project name="LineageOS/android_packages_apps_ManagedProvisioning" />
 	<remove-project name="LineageOS/android_packages_apps_OpenWeatherMapProvider" />
@@ -39,7 +38,6 @@
 	<remove-project name="LineageOS/android_packages_screensavers_WebView" />
 	<remove-project name="LineageOS/android_packages_services_Car" />
 	<remove-project name="LineageOS/android_packages_services_WeatherService" />
-	<remove-project name="LineageOS/android_packages_themes_HexoLibre" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_aarch64_aarch64-linux-android-4.9" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_arm_arm-linux-androideabi-4.9" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_x86_x86_64-linux-android-4.9" />
@@ -93,6 +91,10 @@
 	<!-- Misc -->
 	<project path="packages/apps/offline-calendar" name="SufficientlySecure/offline-calendar" remote="github" revision="master" />
 	<project path="packages/apps/Silence" name="SilenceIM/Silence" remote="github" revision="master" />
+
+	<!-- Mesa3D -->
+	<remove-project name="platform/external/mesa3d" />
+	<project path="external/mesa3d" name="mesa3d/mesa" remote="github" revision="17.2" />
 <!-- END OF ADDITIONAL REPOS -->
 
 

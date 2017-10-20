@@ -3,6 +3,8 @@
 
 #Attempts to increase performance and battery life
 
+#TODO: Aggressive Doze (Easy), Lower screen resolutions (Hard)
+
 base="/mnt/Drive-1/Development/Other/Android_ROMs/Build/LineageOS-14.1/"
 
 echo "Optimizing..."
