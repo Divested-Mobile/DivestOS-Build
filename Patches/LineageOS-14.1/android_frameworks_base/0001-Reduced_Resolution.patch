@@ -1,0 +1,84 @@
+From 259267c0ffa34a99aad3af08d58dfd5aa340bd04 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Fri, 20 Oct 2017 15:29:25 -0400
+Subject: [PATCH] Reduced Resolution Feature 2/2
+
+Change-Id: Ib3d363e4fc66821ebb5303a974589c0b18c5ef9b
+---
+ core/java/android/os/PowerManager.java | 46 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
+
+diff --git a/core/java/android/os/PowerManager.java b/core/java/android/os/PowerManager.java
+index 5c8effec0ed..62954ddadea 100644
+--- a/core/java/android/os/PowerManager.java
++++ b/core/java/android/os/PowerManager.java
+@@ -438,6 +438,8 @@ public final class PowerManager {
+     final IPowerManager mService;
+     final Handler mHandler;
+ 
++    final IWindowManager mWm;
++
+     IDeviceIdleController mIDeviceIdleController;
+ 
+     /**
+@@ -447,6 +449,9 @@ public final class PowerManager {
+         mContext = context;
+         mService = service;
+         mHandler = handler;
++
++        mWm = IWindowManager.Stub.asInterface(ServiceManager.checkService(
++                        Context.WINDOW_SERVICE));
+     }
+ 
+     /**
+@@ -988,6 +993,47 @@ public final class PowerManager {
+         }
+     }
+ 
++    public boolean isReducedResolution() {
++        try {
++            Point initialSize = new Point();
++            Point baseSize = new Point();
++
++            mWm.getInitialDisplaySize(Display.DEFAULT_DISPLAY, initialSize);
++            mWm.getBaseDisplaySize(Display.DEFAULT_DISPLAY, baseSize);
++
++            return !initialSize.equals(baseSize);
++        } catch (Exception e) {
++            throw e.rethrowFromSystemServer();
++        }
++    }
++
++    public boolean setReducedResolution(boolean mode) {
++        try {
++            if (mode) {
++                Point initialSize = new Point();
++                mWm.getInitialDisplaySize(Display.DEFAULT_DISPLAY, initialSize);
++
++                Point newSize;
++
++                switch(initialSize.x) {
++                    case 1440:
++                        newSize = new Point(1080, 1920);
++                    case 1080:
++                        newSize = new Point(720, 1280);
++                    default:
++                        return false;
++                }
++
++                mWm.setForcedDisplaySize(Display.DEFAULT_DISPLAY, newSize.x, newSize.y);
++            } else {
++                mWm.clearForcedDisplaySize(Display.DEFAULT_DISPLAY);
++            }
++            return isReducedResolution();
++        } catch (Exception e) {
++            throw e.rethrowFromSystemServer();
++        }
++    }
++
+     /**
+      * Returns true if the device is currently in idle mode.  This happens when a device
+      * has been sitting unused and unmoving for a sufficiently long period of time, so that
+-- 
+2.14.2
+

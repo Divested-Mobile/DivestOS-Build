@@ -1,0 +1,16 @@
+//frameworks/base/cmds/wm/src/com/android/commands/wm/Wm.java
+
+IWindowManager mWm = IWindowManager.Stub.asInterface(ServiceManager.checkService(
+                        Context.WINDOW_SERVICE));
+
+Point initialSize = new Point();
+Point baseSize = new Point();
+mWm.getInitialDisplaySize(Display.DEFAULT_DISPLAY, initialSize); //Get true size
+mWm.getBaseDisplaySize(Display.DEFAULT_DISPLAY, baseSize); //Get current size
+
+mWm.setForcedDisplaySize(Display.DEFAULT_DISPLAY, w, h); //Set to custom size
+mWm.clearForcedDisplaySize(Display.DEFAULT_DISPLAY); //Reset to true size
+
+1440*2560
+1080*1920
+720*1280

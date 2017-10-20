@@ -108,6 +108,7 @@ sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/co
 sed -i 's|config_longPressOnHomeBehavior">2|config_longPressOnHomeBehavior">0|' core/res/res/values/config.xml;
 sed -i 's|config_doubleTapOnHomeBehavior">0|config_doubleTapOnHomeBehavior">8|' core/res/res/values/config.xml;
 sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml;
+patch -p1 < $patches"android_frameworks_base/0001-Reduced_Resolution.patch" #Allow reducing resolution to save power
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
@@ -121,6 +122,7 @@ rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/
 git fetch https://review.lineageos.org/LineageOS/android_packages_apps_CMParts refs/changes/15/113415/25 && git cherry-pick FETCH_HEAD #network traffic
 sed -i 's|config_showWeatherMenu">true|config_showWeatherMenu">false|' res/values/config.xml; #Disable Weather
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove the rest of CMStats
+patch -p1 < $patches"android_packages_apps_CMParts/0002-Reduced_Resolution.patch" #Allow reducing resolution to save power
 
 enter "packages/apps/Updater"
 patch -p1 < $patches"android_packages_apps_Updater/0001-Server.patch" #Switch to our server
