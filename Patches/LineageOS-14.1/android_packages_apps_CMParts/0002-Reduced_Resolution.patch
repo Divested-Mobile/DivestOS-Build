@@ -1,25 +1,26 @@
-From 4205a403acba83df87feef538bd9495f3f49c951 Mon Sep 17 00:00:00 2001
+From c7055d7cb2cf5c72d98742b0f2a09c96cc69e9f5 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Fri, 20 Oct 2017 15:28:00 -0400
+Date: Fri, 20 Oct 2017 16:36:00 -0400
 Subject: [PATCH] Reduced Resolution Feature 1/2
 
-Change-Id: Id76c429a7bf806db59726d7d64a4dca267cb36c1
+Change-Id: Ia23616825fb70e3abfe9c71508e60c5452dea39d
 ---
- res/values/strings.xml                                   |  2 ++
+ res/values/strings.xml                                   |  3 +++
  res/xml/perf_profile_settings.xml                        |  5 +++++
  .../cyanogenmod/cmparts/power/PerfProfileSettings.java   | 16 ++++++++++++++++
- 3 files changed, 23 insertions(+)
+ 3 files changed, 24 insertions(+)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index a7e31ca..cfaef0b 100644
+index 21b8b78..1fee482 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -576,6 +576,8 @@
+@@ -576,6 +576,9 @@
      <string name="power_save_category_title">Battery saving</string>
      <string name="power_save_title">Extreme power saver</string>
      <string name="power_save_summary">Restrict device performance and background activity to save power</string>
 +    <string name="reduce_resolution_title">Reduce screen resolution</string>
 +    <string name="reduce_resolution_summary">Lowers the screen resolution to save power</string>
++    <string name="reduce_resolution_fail_toast">Unable to set a lower screen resolution</string>
      <string name="auto_power_save_title">Automatic power saver</string>
      <string name="auto_power_save_summary_on">Automatically enable power save mode at %s battery</string>
      <string name="auto_power_save_summary_off">Do not enable power save mode automatically</string>
@@ -40,7 +41,7 @@ index 3585cb7..0513137 100644
              android:key="auto_power_save"
              android:title="@string/auto_power_save_title"
 diff --git a/src/org/cyanogenmod/cmparts/power/PerfProfileSettings.java b/src/org/cyanogenmod/cmparts/power/PerfProfileSettings.java
-index ec2138d..d77c51c 100644
+index ec2138d..80b0b28 100644
 --- a/src/org/cyanogenmod/cmparts/power/PerfProfileSettings.java
 +++ b/src/org/cyanogenmod/cmparts/power/PerfProfileSettings.java
 @@ -56,11 +56,13 @@ public class PerfProfileSettings extends SettingsPreferenceFragment
@@ -81,7 +82,7 @@ index ec2138d..d77c51c 100644
 +            if (!mPowerManager.setReducedResolution((boolean) newValue)) {
 +                // Don't just fail silently, inform the user as well
 +                Toast.makeText(getActivity(),
-+                        R.string.perf_profile_fail_toast, Toast.LENGTH_SHORT).show();
++                        R.string.reduce_resolution_fail_toast, Toast.LENGTH_SHORT).show();
 +                return false;
 +            }
 +            updateReducedResolutionValue();
