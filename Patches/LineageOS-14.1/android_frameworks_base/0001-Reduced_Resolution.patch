@@ -1,14 +1,15 @@
-From 1f5d2697b801e4f4ddfdd4edad464b09f39c416e Mon Sep 17 00:00:00 2001
+From f2bcdb23270812840f2ff4bdab22a711a8b89045 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Fri, 20 Oct 2017 19:54:57 -0400
+Date: Sat, 21 Oct 2017 00:36:49 -0400
 Subject: [PATCH] Reduced Resolution Feature 2/2
 
-Change-Id: Iafa177e66dca11da1a595ea6c1bbc3171b71eb67
+Change-Id: Ie6245ae8ac97aaa05fb52106d1356122e2587b80
 ---
  core/java/android/os/IPowerManager.aidl            |  3 +
- core/java/android/os/PowerManager.java             | 32 ++++++++++
- .../android/server/power/PowerManagerService.java  | 73 ++++++++++++++++++++++
- 3 files changed, 108 insertions(+)
+ core/java/android/os/PowerManager.java             | 32 +++++++++
+ core/java/android/os/PowerManagerInternal.java     |  2 +
+ .../android/server/power/PowerManagerService.java  | 84 ++++++++++++++++++++++
+ 4 files changed, 121 insertions(+)
 
 diff --git a/core/java/android/os/IPowerManager.aidl b/core/java/android/os/IPowerManager.aidl
 index 26eb7f169a0..d6051d0db74 100644
@@ -65,8 +66,21 @@ index 5c8effec0ed..8c1d2fdf65b 100644
      /**
       * Returns true if the device is currently in idle mode.  This happens when a device
       * has been sitting unused and unmoving for a sufficiently long period of time, so that
+diff --git a/core/java/android/os/PowerManagerInternal.java b/core/java/android/os/PowerManagerInternal.java
+index bbafb5662cd..e0c71a044a5 100644
+--- a/core/java/android/os/PowerManagerInternal.java
++++ b/core/java/android/os/PowerManagerInternal.java
+@@ -173,6 +173,8 @@ public abstract class PowerManagerInternal {
+ 
+     public abstract boolean setPowerSaveMode(boolean mode);
+ 
++    public abstract boolean setReducedResolution(boolean mode);
++
+     public abstract void setFeature(int featureId, int data);
+ 
+     public abstract int getFeature(int featureId);
 diff --git a/services/core/java/com/android/server/power/PowerManagerService.java b/services/core/java/com/android/server/power/PowerManagerService.java
-index 55d0809ee4e..c1620ea74f8 100644
+index 55d0809ee4e..76a275db073 100644
 --- a/services/core/java/com/android/server/power/PowerManagerService.java
 +++ b/services/core/java/com/android/server/power/PowerManagerService.java
 @@ -29,6 +29,7 @@ import android.content.IntentFilter;
@@ -101,63 +115,67 @@ index 55d0809ee4e..c1620ea74f8 100644
  
      private LightsManager mLightsManager;
      private BatteryManagerInternal mBatteryManagerInternal;
-@@ -583,6 +587,8 @@ public final class PowerManagerService extends SystemService
-                 Process.THREAD_PRIORITY_DISPLAY, false /*allowIo*/);
-         mHandlerThread.start();
-         mHandler = new PowerManagerHandler(mHandlerThread.getLooper());
-+        mWm = IWindowManager.Stub.asInterface(ServiceManager.checkService(
-+                        Context.WINDOW_SERVICE));
-         qcNsrmPowExt = new QCNsrmPowerExtension(this);
-         synchronized (mLock) {
-             mWakeLockSuspendBlocker = createSuspendBlockerLocked("PowerManagerService.WakeLocks");
-@@ -2658,6 +2664,46 @@ public final class PowerManagerService extends SystemService
+@@ -2658,6 +2662,59 @@ public final class PowerManagerService extends SystemService
          }
      }
  
 +    private boolean isReducedResolutionInternal() {
 +        synchronized (mLock) {
-+            Point initialSize = new Point();
-+            Point baseSize = new Point();
++            try {
++                Point initialSize = new Point();
++                Point baseSize = new Point();
 +
-+            mWm.getInitialDisplaySize(Display.DEFAULT_DISPLAY, initialSize);
-+            mWm.getBaseDisplaySize(Display.DEFAULT_DISPLAY, baseSize);
++                mWm = IWindowManager.Stub.asInterface(ServiceManager.checkService(
++                        Context.WINDOW_SERVICE));
 +
-+            return !initialSize.equals(baseSize);
++                mWm.getInitialDisplaySize(Display.DEFAULT_DISPLAY, initialSize);
++                mWm.getBaseDisplaySize(Display.DEFAULT_DISPLAY, baseSize);
++
++                return !initialSize.equals(baseSize);
++            } catch (RemoteException e) {
++                throw e.rethrowFromSystemServer();
++            }
 +        }
 +    }
 +
 +    private boolean setReducedResolutionInternal(boolean mode) {
 +        synchronized (mLock) {
-+            if (mode) {
-+                Point initialSize = new Point();
-+                mWm.getInitialDisplaySize(Display.DEFAULT_DISPLAY, initialSize);
++            try {
++                mWm = IWindowManager.Stub.asInterface(ServiceManager.checkService(
++                        Context.WINDOW_SERVICE));
++                if (mode) {
++                    Point initialSize = new Point();
++                    mWm.getInitialDisplaySize(Display.DEFAULT_DISPLAY, initialSize);
 +
-+                Point newSize;
++                    Point newSize;
 +
-+                if (initialSize.x == 1440 && initialSize.y == 2560) {//16:9
-+                    newSize = new Point(1080, 1920);//.75
-+                } else if(initialSize.x == 1200 && initialSize.y == 1920) {//16:10
-+                    newSize = new Point(900, 1440);//.75
-+                } else if(initialSize.x == 1080 && initialSize.y == 1920) {//16:9
-+                    newSize = new Point(720, 1280);//.50
-+                } else if(initialSize.x == 768 && initialSize.y == 1280) {//5:3
-+                    newSize = new Point(576, 960);//.75
++                    if (initialSize.x == 1440 && initialSize.y == 2560) {//16:9
++                        newSize = new Point(1080, 1920);//.75
++                    } else if(initialSize.x == 1200 && initialSize.y == 1920) {//16:10
++                        newSize = new Point(900, 1440);//.75
++                    } else if(initialSize.x == 1080 && initialSize.y == 1920) {//16:9
++                        newSize = new Point(720, 1280);//.50
++                    } else if(initialSize.x == 768 && initialSize.y == 1280) {//5:3
++                        newSize = new Point(576, 960);//.75
++                    } else {
++                        return false;
++                    }
++
++                    mWm.setForcedDisplaySize(Display.DEFAULT_DISPLAY, newSize.x, newSize.y);
 +                } else {
-+                    return false;
++                    mWm.clearForcedDisplaySize(Display.DEFAULT_DISPLAY);
 +                }
-+
-+                mWm.setForcedDisplaySize(Display.DEFAULT_DISPLAY, newSize.x, newSize.y);
-+            } else {
-+                mWm.clearForcedDisplaySize(Display.DEFAULT_DISPLAY);
++                return isReducedResolutionInternal();
++            } catch (RemoteException e) {
++                throw e.rethrowFromSystemServer();
 +            }
-+            return isReducedResolutionInternal();
 +        }
 +    }
 +
      boolean isDeviceIdleModeInternal() {
          synchronized (mLock) {
              return mDeviceIdleMode;
-@@ -3833,6 +3879,28 @@ public final class PowerManagerService extends SystemService
+@@ -3833,6 +3890,28 @@ public final class PowerManagerService extends SystemService
              }
          }
  
@@ -186,7 +204,7 @@ index 55d0809ee4e..c1620ea74f8 100644
          @Override // Binder call
          public boolean isDeviceIdleMode() {
              final long ident = Binder.clearCallingIdentity();
-@@ -4214,6 +4282,11 @@ public final class PowerManagerService extends SystemService
+@@ -4214,6 +4293,11 @@ public final class PowerManagerService extends SystemService
              return setLowPowerModeInternal(mode);
          }
  

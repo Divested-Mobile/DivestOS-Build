@@ -1,9 +1,9 @@
-From c7055d7cb2cf5c72d98742b0f2a09c96cc69e9f5 Mon Sep 17 00:00:00 2001
+From fcfd534bd46ee9bb96dd6da068671647d500ec4d Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Fri, 20 Oct 2017 16:36:00 -0400
+Date: Sat, 21 Oct 2017 00:38:33 -0400
 Subject: [PATCH] Reduced Resolution Feature 1/2
 
-Change-Id: Ia23616825fb70e3abfe9c71508e60c5452dea39d
+Change-Id: I6209ebf286aab5a4342255fa6defb8331650d1b2
 ---
  res/values/strings.xml                                   |  3 +++
  res/xml/perf_profile_settings.xml                        |  5 +++++
@@ -25,7 +25,7 @@ index 21b8b78..1fee482 100644
      <string name="auto_power_save_summary_on">Automatically enable power save mode at %s battery</string>
      <string name="auto_power_save_summary_off">Do not enable power save mode automatically</string>
 diff --git a/res/xml/perf_profile_settings.xml b/res/xml/perf_profile_settings.xml
-index 3585cb7..0513137 100644
+index 3585cb7..870e393 100644
 --- a/res/xml/perf_profile_settings.xml
 +++ b/res/xml/perf_profile_settings.xml
 @@ -29,6 +29,11 @@
@@ -35,13 +35,13 @@ index 3585cb7..0513137 100644
 +        <SwitchPreference
 +            android:key="reduce_resolution"
 +            android:title="@string/reduce_resolution_title"
-+            android:summary="@string/reduce_resoution_summary" />
++            android:summary="@string/reduce_resolution_summary" />
 +
          <ListPreference
              android:key="auto_power_save"
              android:title="@string/auto_power_save_title"
 diff --git a/src/org/cyanogenmod/cmparts/power/PerfProfileSettings.java b/src/org/cyanogenmod/cmparts/power/PerfProfileSettings.java
-index ec2138d..80b0b28 100644
+index ec2138d..2773df3 100644
 --- a/src/org/cyanogenmod/cmparts/power/PerfProfileSettings.java
 +++ b/src/org/cyanogenmod/cmparts/power/PerfProfileSettings.java
 @@ -56,11 +56,13 @@ public class PerfProfileSettings extends SettingsPreferenceFragment
@@ -78,14 +78,14 @@ index ec2138d..80b0b28 100644
              final int level = Integer.parseInt((String) newValue);
              Global.putInt(getContentResolver(), Global.LOW_POWER_MODE_TRIGGER_LEVEL, level);
              updateAutoPowerSaveSummary(level);
-+        } else if (preference = mReduceResolutionPref) {
++        } else if (preference == mReduceResolutionPref) {
 +            if (!mPowerManager.setReducedResolution((boolean) newValue)) {
 +                // Don't just fail silently, inform the user as well
 +                Toast.makeText(getActivity(),
 +                        R.string.reduce_resolution_fail_toast, Toast.LENGTH_SHORT).show();
 +                return false;
 +            }
-+            updateReducedResolutionValue();
++            updateReduceResolutionValue();
          }
          return true;
      }
@@ -94,7 +94,7 @@ index ec2138d..80b0b28 100644
      }
  
 +    private void updateReduceResolutionValue() {
-+	mReduceResolution.setChecked(mPowerManager.isReducedResolution());
++	mReduceResolutionPref.setChecked(mPowerManager.isReducedResolution());
 +    }
 +
      private void updateAutoPowerSaveValue() {
