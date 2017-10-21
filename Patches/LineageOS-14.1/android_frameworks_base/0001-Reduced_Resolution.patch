@@ -1,15 +1,15 @@
-From 661b40435f4b761e0a24687653b10b519d43eaa7 Mon Sep 17 00:00:00 2001
+From 78c9088dabac1c042567faa3196dfd21fae900ef Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Sat, 21 Oct 2017 09:09:48 -0400
+Date: Sat, 21 Oct 2017 11:53:09 -0400
 Subject: [PATCH] Reduced Resolution Feature 2/2
 
-Change-Id: I9111d55f0127151ee3a7530aa071e7e3298a4cc9
+Change-Id: If92489ee9dc119acdeeb8f05f0d70970eef55817
 ---
  core/java/android/os/IPowerManager.aidl            |  3 +
- core/java/android/os/PowerManager.java             | 32 +++++++++
+ core/java/android/os/PowerManager.java             | 32 ++++++++
  core/java/android/os/PowerManagerInternal.java     |  2 +
- .../android/server/power/PowerManagerService.java  | 84 ++++++++++++++++++++++
- 4 files changed, 121 insertions(+)
+ .../android/server/power/PowerManagerService.java  | 85 ++++++++++++++++++++++
+ 4 files changed, 122 insertions(+)
 
 diff --git a/core/java/android/os/IPowerManager.aidl b/core/java/android/os/IPowerManager.aidl
 index 26eb7f169a0..d6051d0db74 100644
@@ -80,7 +80,7 @@ index bbafb5662cd..e0c71a044a5 100644
  
      public abstract int getFeature(int featureId);
 diff --git a/services/core/java/com/android/server/power/PowerManagerService.java b/services/core/java/com/android/server/power/PowerManagerService.java
-index 55d0809ee4e..24f9425898f 100644
+index 55d0809ee4e..33cb0a93bb7 100644
 --- a/services/core/java/com/android/server/power/PowerManagerService.java
 +++ b/services/core/java/com/android/server/power/PowerManagerService.java
 @@ -29,6 +29,7 @@ import android.content.IntentFilter;
@@ -115,7 +115,7 @@ index 55d0809ee4e..24f9425898f 100644
  
      private LightsManager mLightsManager;
      private BatteryManagerInternal mBatteryManagerInternal;
-@@ -2658,6 +2662,59 @@ public final class PowerManagerService extends SystemService
+@@ -2658,6 +2662,60 @@ public final class PowerManagerService extends SystemService
          }
      }
  
@@ -162,10 +162,11 @@ index 55d0809ee4e..24f9425898f 100644
 +                    }
 +
 +                    mWm.setForcedDisplaySize(Display.DEFAULT_DISPLAY, newSize.x, newSize.y);
++                    return isReducedResolutionInternal();
 +                } else {
 +                    mWm.clearForcedDisplaySize(Display.DEFAULT_DISPLAY);
++                    return !isReducedResolutionInternal();
 +                }
-+                return isReducedResolutionInternal();
 +            } catch (RemoteException e) {
 +                throw e.rethrowFromSystemServer();
 +            }
@@ -175,7 +176,7 @@ index 55d0809ee4e..24f9425898f 100644
      boolean isDeviceIdleModeInternal() {
          synchronized (mLock) {
              return mDeviceIdleMode;
-@@ -3833,6 +3890,28 @@ public final class PowerManagerService extends SystemService
+@@ -3833,6 +3891,28 @@ public final class PowerManagerService extends SystemService
              }
          }
  
@@ -204,7 +205,7 @@ index 55d0809ee4e..24f9425898f 100644
          @Override // Binder call
          public boolean isDeviceIdleMode() {
              final long ident = Binder.clearCallingIdentity();
-@@ -4214,6 +4293,11 @@ public final class PowerManagerService extends SystemService
+@@ -4214,6 +4294,11 @@ public final class PowerManagerService extends SystemService
              return setLowPowerModeInternal(mode);
          }
  
