@@ -1,4 +1,4 @@
-Last Updated: 10/19/2017
+Last Updated: 10/21/2017
 Credits: https://divestos.xyz/pages/about.html
 Recommended Apps: https://divestos.xyz/pages/apps.php
 
@@ -22,6 +22,7 @@ General Changes
 	- MicroG
 		- GmsCore, GsfProxy, and FakeStore are included by default
 	- Settings
+		- Added an option to lower screen resolution to (marginally) increase battery life
 		- Changed default quick tiles
 		- Disabled "Instant Apps"
 		- Increased animation speed

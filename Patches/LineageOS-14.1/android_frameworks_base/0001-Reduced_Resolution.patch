@@ -1,9 +1,9 @@
-From f2bcdb23270812840f2ff4bdab22a711a8b89045 Mon Sep 17 00:00:00 2001
+From 661b40435f4b761e0a24687653b10b519d43eaa7 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Sat, 21 Oct 2017 00:36:49 -0400
+Date: Sat, 21 Oct 2017 09:09:48 -0400
 Subject: [PATCH] Reduced Resolution Feature 2/2
 
-Change-Id: Ie6245ae8ac97aaa05fb52106d1356122e2587b80
+Change-Id: I9111d55f0127151ee3a7530aa071e7e3298a4cc9
 ---
  core/java/android/os/IPowerManager.aidl            |  3 +
  core/java/android/os/PowerManager.java             | 32 +++++++++
@@ -80,7 +80,7 @@ index bbafb5662cd..e0c71a044a5 100644
  
      public abstract int getFeature(int featureId);
 diff --git a/services/core/java/com/android/server/power/PowerManagerService.java b/services/core/java/com/android/server/power/PowerManagerService.java
-index 55d0809ee4e..76a275db073 100644
+index 55d0809ee4e..24f9425898f 100644
 --- a/services/core/java/com/android/server/power/PowerManagerService.java
 +++ b/services/core/java/com/android/server/power/PowerManagerService.java
 @@ -29,6 +29,7 @@ import android.content.IntentFilter;
@@ -111,7 +111,7 @@ index 55d0809ee4e..76a275db073 100644
      private final Context mContext;
      private final ServiceThread mHandlerThread;
      private final PowerManagerHandler mHandler;
-+    private final IWindowManager mWm;
++    private IWindowManager mWm;
  
      private LightsManager mLightsManager;
      private BatteryManagerInternal mBatteryManagerInternal;

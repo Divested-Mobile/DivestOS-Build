@@ -1,14 +1,14 @@
-From fcfd534bd46ee9bb96dd6da068671647d500ec4d Mon Sep 17 00:00:00 2001
+From a1e8c666a77d575c8d78a0d1269b3d06a7cb5d41 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Sat, 21 Oct 2017 00:38:33 -0400
+Date: Sat, 21 Oct 2017 09:05:09 -0400
 Subject: [PATCH] Reduced Resolution Feature 1/2
 
-Change-Id: I6209ebf286aab5a4342255fa6defb8331650d1b2
+Change-Id: I925a23e61ebf3ce06dc78898952085d87ad10410
 ---
- res/values/strings.xml                                   |  3 +++
- res/xml/perf_profile_settings.xml                        |  5 +++++
- .../cyanogenmod/cmparts/power/PerfProfileSettings.java   | 16 ++++++++++++++++
- 3 files changed, 24 insertions(+)
+ res/values/strings.xml                                  |  3 +++
+ res/xml/perf_profile_settings.xml                       |  6 ++++++
+ .../cyanogenmod/cmparts/power/PerfProfileSettings.java  | 17 +++++++++++++++++
+ 3 files changed, 26 insertions(+)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
 index 21b8b78..1fee482 100644
@@ -25,23 +25,24 @@ index 21b8b78..1fee482 100644
      <string name="auto_power_save_summary_on">Automatically enable power save mode at %s battery</string>
      <string name="auto_power_save_summary_off">Do not enable power save mode automatically</string>
 diff --git a/res/xml/perf_profile_settings.xml b/res/xml/perf_profile_settings.xml
-index 3585cb7..870e393 100644
+index 3585cb7..ce99c6c 100644
 --- a/res/xml/perf_profile_settings.xml
 +++ b/res/xml/perf_profile_settings.xml
-@@ -29,6 +29,11 @@
-             android:summary="@string/power_save_summary"
+@@ -34,6 +34,12 @@
+             android:title="@string/auto_power_save_title"
              android:persistent="false" />
  
 +        <SwitchPreference
 +            android:key="reduce_resolution"
 +            android:title="@string/reduce_resolution_title"
-+            android:summary="@string/reduce_resolution_summary" />
++            android:summary="@string/reduce_resolution_summary"
++            android:persistent="false" />
 +
-         <ListPreference
-             android:key="auto_power_save"
-             android:title="@string/auto_power_save_title"
+     </PreferenceCategory>
+ 
+     <PreferenceCategory
 diff --git a/src/org/cyanogenmod/cmparts/power/PerfProfileSettings.java b/src/org/cyanogenmod/cmparts/power/PerfProfileSettings.java
-index ec2138d..2773df3 100644
+index ec2138d..5fdc8f1 100644
 --- a/src/org/cyanogenmod/cmparts/power/PerfProfileSettings.java
 +++ b/src/org/cyanogenmod/cmparts/power/PerfProfileSettings.java
 @@ -56,11 +56,13 @@ public class PerfProfileSettings extends SettingsPreferenceFragment
@@ -66,15 +67,16 @@ index ec2138d..2773df3 100644
          mPerAppProfilesPref = (SwitchPreference) findPreference(KEY_PER_APP_PROFILES);
  
          mPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-@@ -124,6 +127,7 @@ public class PerfProfileSettings extends SettingsPreferenceFragment
+@@ -124,6 +127,8 @@ public class PerfProfileSettings extends SettingsPreferenceFragment
          updateAutoPowerSaveValue();
          mAutoPowerSavePref.setOnPreferenceChangeListener(this);
          mPowerSavePref.setOnPreferenceChangeListener(this);
 +        mReduceResolutionPref.setOnPreferenceChangeListener(this);
++        updateReduceResolutionValue();
      }
  
  
-@@ -245,6 +249,14 @@ public class PerfProfileSettings extends SettingsPreferenceFragment
+@@ -245,6 +250,14 @@ public class PerfProfileSettings extends SettingsPreferenceFragment
              final int level = Integer.parseInt((String) newValue);
              Global.putInt(getContentResolver(), Global.LOW_POWER_MODE_TRIGGER_LEVEL, level);
              updateAutoPowerSaveSummary(level);
@@ -89,7 +91,7 @@ index ec2138d..2773df3 100644
          }
          return true;
      }
-@@ -262,6 +274,10 @@ public class PerfProfileSettings extends SettingsPreferenceFragment
+@@ -262,6 +275,10 @@ public class PerfProfileSettings extends SettingsPreferenceFragment
          PartsUpdater.notifyChanged(getActivity(), getPreferenceScreen().getKey());
      }
  

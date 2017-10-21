@@ -13,6 +13,8 @@
 base="/mnt/Drive-1/Development/Other/Android_ROMs/Build/LineageOS-14.1/";
 export base;
 
+echo "Deblobbing..."
+
 #
 #START OF BLOBS ARRAY
 #
@@ -365,3 +367,5 @@ ln -s . etc/etc;
 ln -s . framework/framework;
 ln -s . priv-app/priv-app;
 cd $base;
+
+echo "Deblobbing complete!"
