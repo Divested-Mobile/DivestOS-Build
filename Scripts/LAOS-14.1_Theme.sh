@@ -7,12 +7,19 @@ base="/mnt/Drive-1/Development/Other/Android_ROMs/Build/LineageOS-14.1/"
 
 echo "Applying theme..."
 
-export themeOverride50="FFCA28"
-export themeOverride100="FFC107"
-export themeOverride200="FFA726"
-export themeOverride300="FF9800"
-export themeOverride500="FF5722"
-export themeOverride700="E64A19"
+export themeOverride50="FFCA28" #Amber 400
+export themeOverride100="FFC107" #Amber 500
+export themeOverride200="FFA726" #Orange 400
+export themeOverride300="FF9800" #Orange 500
+export themeOverride500="FF5722" #Deep Orange 500
+export themeOverride700="E64A19" #Deep Orange 700
+
+#export themeOverride50="26C6DA" #Cyan 400
+#export themeOverride100="00BCD4" #Cyan 500
+#export themeOverride200="29B6F6" #Light Blue 400
+#export themeOverride300="03A9F4" #Light Blue 500
+#export themeOverride500="2196F3" #Blue 500
+#export themeOverride700="1976D2" #Blue 700
 
 cd $base"frameworks/base"
 sed -i "s/#ffe0f2f1/#ff$themeOverride50/" core/res/res/values/colors_material.xml
@@ -21,6 +28,7 @@ sed -i "s/#ff80cbc4/#ff$themeOverride200/" core/res/res/values/colors_material.x
 sed -i "s/#ff4db6ac/#ff$themeOverride300/" core/res/res/values/colors_material.xml
 sed -i "s/#ff009688/#ff$themeOverride500/" core/res/res/values/colors_material.xml
 sed -i "s/#ff00796b/#ff$themeOverride700/" core/res/res/values/colors_material.xml
+sed -i "s/#fff4511e/#ffe53935/" core/res/res/values/colors.xml
 
 cd $base"packages/apps/CMParts"
 sed -i "s/#ff009688/#ff$themeOverride500/" res/values/colors.xml
