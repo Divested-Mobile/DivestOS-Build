@@ -153,6 +153,10 @@
 	<project name="LineageOS/android_device_asus_Z00T" path="device/asus/Z00T" remote="github" />
 	<project name="LineageOS/android_kernel_asus_msm8916" path="kernel/asus/msm8916" remote="github" />
 
+	<!-- Fairphone 2 (FP2) -->
+	<project path="device/fairphone/FP2" name="LineageOS/android_device_fairphone_FP2" remote="github" />
+	<project path="kernel/fairphone/msm8974" name="LineageOS/android_kernel_fairphone_msm8974" remote="github" />
+
 	<!-- Moto G 3rd Gen (osprey) -->
 	<project path="device/motorola/msm8916-common" name="LineageOS/android_device_motorola_msm8916-common" remote="github" />
 	<project path="device/motorola/osprey" name="LineageOS/android_device_motorola_osprey" remote="github" />
@@ -180,6 +184,7 @@
 	<!-- Proprietary Blobs -->
 	<project path="vendor/amazon" name="TheMuppets/proprietary_vendor_amazon" remote="github" />
 	<project path="vendor/asus" name="TheMuppets/proprietary_vendor_asus" remote="github" />
+	<project path="vendor/fairphone" name="TheMuppets/proprietary_vendor_fairphone" remote="github" />
 	<project path="vendor/google" name="TheMuppets/proprietary_vendor_google" remote="github" />
 	<project path="vendor/htc" name="TheMuppets/proprietary_vendor_htc" remote="github" />
 	<project path="vendor/huawei" name="TheMuppets/proprietary_vendor_huawei" remote="github" />
