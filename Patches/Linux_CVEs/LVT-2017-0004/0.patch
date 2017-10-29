@@ -1,0 +1,52 @@
+From d710842e8f38921571a19b6df18a078d6622f842 Mon Sep 17 00:00:00 2001
+From: Andrea Arcangeli <andrea@cpushare.com>
+Date: Tue, 25 Jul 2017 22:22:45 +0200
+Subject: [PATCH] fs/exec: fix use after free in execve
+
+"file" can be already freed if bprm->file is NULL after
+search_binary_handler() return. binfmt_script will do exactly that for
+example. If the VM reuses the file after fput run(), this will result in
+a use ater free.
+
+So obtain d_is_su before search_binary_handler() runs.
+
+This should explain this crash:
+
+[25333.009554] Unable to handle kernel NULL pointer dereference at virtual address 00000185
+[..]
+[25333.009918] [2:             am:21861] PC is at do_execve+0x354/0x474
+
+Change-Id: I2a8a814d1c0aa75625be83cb30432cf13f1a0681
+Signed-off-by: Kevin F. Haggerty <haggertk@lineageos.org>
+---
+ fs/exec.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/fs/exec.c b/fs/exec.c
+index 09f2a8ccde6..b48461148cb 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -1531,6 +1531,7 @@ static int do_execve_common(const char *filename,
+ 	bool clear_in_exec;
+ 	int retval;
+ 	const struct cred *cred = current_cred();
++	bool is_su;
+ 
+ 	/*
+ 	 * We move the actual failure in case of RLIMIT_NPROC excess from
+@@ -1607,11 +1608,14 @@ static int do_execve_common(const char *filename,
+ 	if (retval < 0)
+ 		goto out;
+ 
++	/* search_binary_handler can release file and it may be freed */
++	is_su = d_is_su(file->f_dentry);
++
+ 	retval = search_binary_handler(bprm,regs);
+ 	if (retval < 0)
+ 		goto out;
+ 
+-	if (d_is_su(file->f_dentry) && capable(CAP_SYS_ADMIN)) {
++	if (is_su && capable(CAP_SYS_ADMIN)) {
+ 		current->flags |= PF_SU;
+ 		su_exec();
+ 	}

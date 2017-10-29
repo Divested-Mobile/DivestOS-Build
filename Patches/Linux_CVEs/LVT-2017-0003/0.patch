@@ -1,0 +1,33 @@
+From 29bcc180806c11559706af51f284b7217825c372 Mon Sep 17 00:00:00 2001
+From: Alberto97 <albertop2197@gmail.com>
+Date: Tue, 23 May 2017 21:47:00 +0200
+Subject: [PATCH] fs: readdir: Fix su hide patch for non-iterate filesystems
+
+* 3.10 doesn't normally use iterate for filesystems,
+  but it was backported in hopes of removing vfs_readdir()
+* Because the romnt variable was only set for filesystems
+  using iterate, the su hide patches were broken for many
+  filesytems like ext4, which still use vfs_readdir()
+  instead of iterate_dir() like their mainline counterparts
+* Remove the iterate check around setting romnt to fix this
+
+Change-Id: I26426683df0fd199a80f053294f352e31754bec5
+---
+ fs/readdir.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/readdir.c b/fs/readdir.c
+index d52d18d9887..b22bbbfabee 100644
+--- a/fs/readdir.c
++++ b/fs/readdir.c
+@@ -37,9 +37,9 @@ int iterate_dir(struct file *file, struct dir_context *ctx)
+ 
+ 	res = -ENOENT;
+ 	if (!IS_DEADDIR(inode)) {
++		ctx->romnt = (inode->i_sb->s_flags & MS_RDONLY);
+ 		if (file->f_op->iterate) {
+ 			ctx->pos = file->f_pos;
+-			ctx->romnt = (inode->i_sb->s_flags & MS_RDONLY);
+ 			res = file->f_op->iterate(file, ctx);
+ 			file->f_pos = ctx->pos;
+ 		} else {
