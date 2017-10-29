@@ -5,6 +5,7 @@
 
 echo "Patching CVEs..."
 
+source $cveScripts"*.sh";
 
 cd $base
 echo "Patched CVEs!"

@@ -1,0 +1,23 @@
+#!/bin/bash
+cd $base"kernel/oneplus/msm8974"
+git apply $cvePatches"CVE-2014-9781"/*.patch && echo 'Applied fix for CVE-2014-9781'
+git apply $cvePatches"CVE-2014-9880"/*.patch && echo 'Applied fix for CVE-2014-9880'
+git apply $cvePatches"CVE-2016-3134"/*.patch && echo 'Applied fix for CVE-2016-3134'
+git apply $cvePatches"CVE-2016-3672"/*.patch && echo 'Applied fix for CVE-2016-3672'
+git apply $cvePatches"CVE-2016-6672"/*.patch && echo 'Applied fix for CVE-2016-6672'
+git apply $cvePatches"CVE-2016-8404"/*.patch && echo 'Applied fix for CVE-2016-8404'
+git apply $cvePatches"CVE-2017-0750"/*.patch && echo 'Applied fix for CVE-2017-0750'
+git apply $cvePatches"CVE-2017-0751"/*.patch && echo 'Applied fix for CVE-2017-0751'
+git apply $cvePatches"CVE-2017-0786"/*.patch && echo 'Applied fix for CVE-2017-0786'
+git apply $cvePatches"CVE-2017-1000365"/*.patch && echo 'Applied fix for CVE-2017-1000365'
+git apply $cvePatches"CVE-2017-11000"/*.patch && echo 'Applied fix for CVE-2017-11000'
+git apply $cvePatches"CVE-2017-11048"/*.patch && echo 'Applied fix for CVE-2017-11048'
+git apply $cvePatches"CVE-2017-11059"/*.patch && echo 'Applied fix for CVE-2017-11059'
+git apply $cvePatches"CVE-2017-12153"/*.patch && echo 'Applied fix for CVE-2017-12153'
+git apply $cvePatches"CVE-2017-15265"/*.patch && echo 'Applied fix for CVE-2017-15265'
+git apply $cvePatches"CVE-2017-7487"/*.patch && echo 'Applied fix for CVE-2017-7487'
+git apply $cvePatches"CVE-2017-8247"/*.patch && echo 'Applied fix for CVE-2017-8247'
+git apply $cvePatches"CVE-2017-9242"/*.patch && echo 'Applied fix for CVE-2017-9242'
+git apply $cvePatches"CVE-2017-9706"/*.patch && echo 'Applied fix for CVE-2017-9706'
+git apply $cvePatches"CVE-2017-9725"/*.patch && echo 'Applied fix for CVE-2017-9725'
+cd $base

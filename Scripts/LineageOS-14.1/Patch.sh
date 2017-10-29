@@ -5,10 +5,10 @@
 #repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/{FDroid,GmsCore,Silence} out
 
 #Initialize some variables
-#sh ../../Scripts/LineageOS-14.1/00init.sh
+#source ../../Scripts/LineageOS-14.1/00init.sh
 
 #Prepare a build
-#repo sync -j20 --force-sync && && sh $scripts/Patch.sh && source $scripts/Optimize.sh && source $scripts/Rebrand.sh && source $scripts/Theme.sh && source $scripts/Generic_Deblob.sh && source build/envsetup.sh && export ANDROID_HOME="/home/$USER/Android/Sdk" && export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation" && export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}" && GRADLE_OPTS=-Xmx2048m && export KBUILD_BUILD_USER=emy && export KBUILD_BUILD_HOST=dosbm
+#repo sync -j20 --force-sync && source $scripts/Patch.sh && source $scripts/Optimize.sh && source $scripts/Rebrand.sh && source $scripts/Theme.sh && source $scripts/Generic_Deblob.sh && source $scripts/Patch_CVE.sh && source build/envsetup.sh && export ANDROID_HOME="/home/$USER/Android/Sdk" && export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation" && export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}" && GRADLE_OPTS=-Xmx2048m && export KBUILD_BUILD_USER=emy && export KBUILD_BUILD_HOST=dosbm
 
 #Build!
 #brunch lineage_mako-user && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_thor-userdebug && brunch lineage_angler-user && brunch lineage_bullhead-user && brunch lineage_ether-user && brunch lineage_flounder-user && brunch lineage_flo-user && brunch lineage_FP2-user && brunch lineage_hammerhead-user && brunch lineage_marlin-user && brunch lineage_sailfish-user && brunch lineage_n5110-user && brunch lineage_osprey-user && brunch lineage_shamu-user && brunch lineage_Z00T-user
