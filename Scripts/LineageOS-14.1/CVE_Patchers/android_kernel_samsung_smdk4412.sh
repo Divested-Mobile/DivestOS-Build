@@ -1,31 +1,31 @@
 #!/bin/bash
 cd $base"kernel/samsung/smdk4412"
-git apply $cvePatches"CVE-2014-1739"/*.patch && echo 'Applied fix for CVE-2014-1739'
-git apply $cvePatches"CVE-2014-4656"/*.patch && echo 'Applied fix for CVE-2014-4656'
-git apply $cvePatches"CVE-2014-7822"/*.patch && echo 'Applied fix for CVE-2014-7822'
-git apply $cvePatches"CVE-2014-9420"/*.patch && echo 'Applied fix for CVE-2014-9420'
-git apply $cvePatches"CVE-2014-9781"/*.patch && echo 'Applied fix for CVE-2014-9781'
-git apply $cvePatches"CVE-2014-9870"/*.patch && echo 'Applied fix for CVE-2014-9870'
-git apply $cvePatches"CVE-2014-9900"/*.patch && echo 'Applied fix for CVE-2014-9900'
-git apply $cvePatches"CVE-2015-8944"/*.patch && echo 'Applied fix for CVE-2015-8944'
-git apply $cvePatches"CVE-2016-0819"/*.patch && echo 'Applied fix for CVE-2016-0819'
-git apply $cvePatches"CVE-2016-2185"/*.patch && echo 'Applied fix for CVE-2016-2185'
-git apply $cvePatches"CVE-2016-2186"/*.patch && echo 'Applied fix for CVE-2016-2186'
-git apply $cvePatches"CVE-2016-2544"/*.patch && echo 'Applied fix for CVE-2016-2544'
-git apply $cvePatches"CVE-2016-3134"/*.patch && echo 'Applied fix for CVE-2016-3134'
-git apply $cvePatches"CVE-2016-6753"/*.patch && echo 'Applied fix for CVE-2016-6753'
-git apply $cvePatches"CVE-2016-9604"/*.patch && echo 'Applied fix for CVE-2016-9604'
-git apply $cvePatches"CVE-2017-0403"/*.patch && echo 'Applied fix for CVE-2017-0403'
-git apply $cvePatches"CVE-2017-0404"/*.patch && echo 'Applied fix for CVE-2017-0404'
-git apply $cvePatches"CVE-2017-0430"/*.patch && echo 'Applied fix for CVE-2017-0430'
-git apply $cvePatches"CVE-2017-0786"/*.patch && echo 'Applied fix for CVE-2017-0786'
-git apply $cvePatches"CVE-2017-1000365"/*.patch && echo 'Applied fix for CVE-2017-1000365'
-git apply $cvePatches"CVE-2017-10662"/*.patch && echo 'Applied fix for CVE-2017-10662'
-git apply $cvePatches"CVE-2017-12153"/*.patch && echo 'Applied fix for CVE-2017-12153'
-git apply $cvePatches"CVE-2017-15265"/*.patch && echo 'Applied fix for CVE-2017-15265'
-git apply $cvePatches"CVE-2017-2618"/*.patch && echo 'Applied fix for CVE-2017-2618'
-git apply $cvePatches"CVE-2017-6074"/*.patch && echo 'Applied fix for CVE-2017-6074'
-git apply $cvePatches"CVE-2017-6345"/*.patch && echo 'Applied fix for CVE-2017-6345'
-git apply $cvePatches"CVE-2017-6348"/*.patch && echo 'Applied fix for CVE-2017-6348'
-git apply $cvePatches"CVE-2017-7487"/*.patch && echo 'Applied fix for CVE-2017-7487'
+git apply $cvePatches/CVE-2014-1739/0.patch
+git apply $cvePatches/CVE-2014-4656/0.patch
+git apply $cvePatches/CVE-2014-7822/0.patch
+git apply $cvePatches/CVE-2014-9420/0.patch
+git apply $cvePatches/CVE-2014-9781/0.patch
+git apply $cvePatches/CVE-2014-9870/0.patch
+git apply $cvePatches/CVE-2014-9900/0.patch
+git apply $cvePatches/CVE-2015-8944/0.patch
+git apply $cvePatches/CVE-2016-0819/0.patch
+git apply $cvePatches/CVE-2016-2185/0.patch
+git apply $cvePatches/CVE-2016-2186/0.patch
+git apply $cvePatches/CVE-2016-2544/0.patch
+git apply $cvePatches/CVE-2016-3134/0.patch
+git apply $cvePatches/CVE-2016-6753/0.patch
+git apply $cvePatches/CVE-2016-9604/0.patch
+git apply $cvePatches/CVE-2017-0403/0.patch
+git apply $cvePatches/CVE-2017-0404/0.patch
+git apply $cvePatches/CVE-2017-0430/0.patch
+git apply $cvePatches/CVE-2017-0786/0.patch
+git apply $cvePatches/CVE-2017-1000365/0.patch
+git apply $cvePatches/CVE-2017-10662/0.patch
+git apply $cvePatches/CVE-2017-12153/0.patch
+git apply $cvePatches/CVE-2017-15265/0.patch
+git apply $cvePatches/CVE-2017-2618/0.patch
+git apply $cvePatches/CVE-2017-6074/0.patch
+git apply $cvePatches/CVE-2017-6345/0.patch
+git apply $cvePatches/CVE-2017-6348/0.patch
+git apply $cvePatches/CVE-2017-7487/0.patch
 cd $base

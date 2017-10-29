@@ -1,28 +1,29 @@
 #!/bin/bash
 cd $base"kernel/htc/flounder"
-git apply $cvePatches"CVE-2014-9892"/*.patch && echo 'Applied fix for CVE-2014-9892'
-git apply $cvePatches"CVE-2014-9900"/*.patch && echo 'Applied fix for CVE-2014-9900'
-git apply $cvePatches"CVE-2015-4177"/*.patch && echo 'Applied fix for CVE-2015-4177'
-git apply $cvePatches"CVE-2015-8944"/*.patch && echo 'Applied fix for CVE-2015-8944'
-git apply $cvePatches"CVE-2016-0819"/*.patch && echo 'Applied fix for CVE-2016-0819'
-git apply $cvePatches"CVE-2016-8453"/*.patch && echo 'Applied fix for CVE-2016-8453'
-git apply $cvePatches"CVE-2016-8464"/*.patch && echo 'Applied fix for CVE-2016-8464'
-git apply $cvePatches"CVE-2016-8650"/*.patch && echo 'Applied fix for CVE-2016-8650'
-git apply $cvePatches"CVE-2016-9604"/*.patch && echo 'Applied fix for CVE-2016-9604'
-git apply $cvePatches"CVE-2017-0449"/*.patch && echo 'Applied fix for CVE-2017-0449'
-git apply $cvePatches"CVE-2017-0537"/*.patch && echo 'Applied fix for CVE-2017-0537'
-git apply $cvePatches"CVE-2017-0750"/*.patch && echo 'Applied fix for CVE-2017-0750'
-git apply $cvePatches"CVE-2017-0794"/*.patch && echo 'Applied fix for CVE-2017-0794'
-git apply $cvePatches"CVE-2017-1000365"/*.patch && echo 'Applied fix for CVE-2017-1000365'
-git apply $cvePatches"CVE-2017-10996"/*.patch && echo 'Applied fix for CVE-2017-10996'
-git apply $cvePatches"CVE-2017-12153"/*.patch && echo 'Applied fix for CVE-2017-12153'
-git apply $cvePatches"CVE-2017-15265"/*.patch && echo 'Applied fix for CVE-2017-15265'
-git apply $cvePatches"CVE-2017-2671"/*.patch && echo 'Applied fix for CVE-2017-2671'
-git apply $cvePatches"CVE-2017-5669"/*.patch && echo 'Applied fix for CVE-2017-5669'
-git apply $cvePatches"CVE-2017-5970"/*.patch && echo 'Applied fix for CVE-2017-5970'
-git apply $cvePatches"CVE-2017-6345"/*.patch && echo 'Applied fix for CVE-2017-6345'
-git apply $cvePatches"CVE-2017-6348"/*.patch && echo 'Applied fix for CVE-2017-6348'
-git apply $cvePatches"CVE-2017-6951"/*.patch && echo 'Applied fix for CVE-2017-6951'
-git apply $cvePatches"CVE-2017-7472"/*.patch && echo 'Applied fix for CVE-2017-7472'
-git apply $cvePatches"CVE-2017-9242"/*.patch && echo 'Applied fix for CVE-2017-9242'
+git apply $cvePatches/CVE-2012-6703/0.patch
+git apply $cvePatches/CVE-2014-9892/0.patch
+git apply $cvePatches/CVE-2014-9900/0.patch
+git apply $cvePatches/CVE-2015-4177/0.patch
+git apply $cvePatches/CVE-2015-8944/0.patch
+git apply $cvePatches/CVE-2016-0819/0.patch
+git apply $cvePatches/CVE-2016-8453/0.patch
+git apply $cvePatches/CVE-2016-8464/0.patch
+git apply $cvePatches/CVE-2016-8650/0.patch
+git apply $cvePatches/CVE-2016-9604/0.patch
+git apply $cvePatches/CVE-2017-0449/0.patch
+git apply $cvePatches/CVE-2017-0537/0.patch
+git apply $cvePatches/CVE-2017-0750/0.patch
+git apply $cvePatches/CVE-2017-0794/0.patch
+git apply $cvePatches/CVE-2017-1000365/0.patch
+git apply $cvePatches/CVE-2017-10996/0.patch
+git apply $cvePatches/CVE-2017-12153/0.patch
+git apply $cvePatches/CVE-2017-15265/0.patch
+git apply $cvePatches/CVE-2017-2671/0.patch
+git apply $cvePatches/CVE-2017-5669/0.patch
+git apply $cvePatches/CVE-2017-5970/0.patch
+git apply $cvePatches/CVE-2017-6345/0.patch
+git apply $cvePatches/CVE-2017-6348/0.patch
+git apply $cvePatches/CVE-2017-6951/0.patch
+git apply $cvePatches/CVE-2017-7472/0.patch
+git apply $cvePatches/CVE-2017-9242/0.patch
 cd $base

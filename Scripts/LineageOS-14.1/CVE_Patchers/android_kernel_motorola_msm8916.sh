@@ -1,22 +1,25 @@
 #!/bin/bash
 cd $base"kernel/motorola/msm8916"
-git apply $cvePatches"CVE-2014-9420"/*.patch && echo 'Applied fix for CVE-2014-9420'
-git apply $cvePatches"CVE-2014-9781"/*.patch && echo 'Applied fix for CVE-2014-9781'
-git apply $cvePatches"CVE-2015-1593"/*.patch && echo 'Applied fix for CVE-2015-1593'
-git apply $cvePatches"CVE-2015-8967"/*.patch && echo 'Applied fix for CVE-2015-8967'
-git apply $cvePatches"CVE-2016-3134"/*.patch && echo 'Applied fix for CVE-2016-3134'
-git apply $cvePatches"CVE-2016-3137"/*.patch && echo 'Applied fix for CVE-2016-3137'
-git apply $cvePatches"CVE-2016-3672"/*.patch && echo 'Applied fix for CVE-2016-3672'
-git apply $cvePatches"CVE-2016-3865"/*.patch && echo 'Applied fix for CVE-2016-3865'
-git apply $cvePatches"CVE-2016-3902"/*.patch && echo 'Applied fix for CVE-2016-3902'
-git apply $cvePatches"CVE-2016-5858"/*.patch && echo 'Applied fix for CVE-2016-5858'
-git apply $cvePatches"CVE-2016-5859"/*.patch && echo 'Applied fix for CVE-2016-5859'
-git apply $cvePatches"CVE-2016-5867"/*.patch && echo 'Applied fix for CVE-2016-5867'
-git apply $cvePatches"CVE-2016-6672"/*.patch && echo 'Applied fix for CVE-2016-6672'
-git apply $cvePatches"CVE-2017-0750"/*.patch && echo 'Applied fix for CVE-2017-0750'
-git apply $cvePatches"CVE-2017-0794"/*.patch && echo 'Applied fix for CVE-2017-0794'
-git apply $cvePatches"CVE-2017-12153"/*.patch && echo 'Applied fix for CVE-2017-12153'
-git apply $cvePatches"CVE-2017-15265"/*.patch && echo 'Applied fix for CVE-2017-15265'
-git apply $cvePatches"CVE-2017-6345"/*.patch && echo 'Applied fix for CVE-2017-6345'
-git apply $cvePatches"CVE-2017-6348"/*.patch && echo 'Applied fix for CVE-2017-6348'
+git apply $cvePatches/CVE-2012-6703/0.patch
+git apply $cvePatches/CVE-2014-9420/0.patch
+git apply $cvePatches/CVE-2014-9781/0.patch
+git apply $cvePatches/CVE-2015-1593/0.patch
+git apply $cvePatches/CVE-2015-8967/0.patch
+git apply $cvePatches/CVE-2016-3134/0.patch
+git apply $cvePatches/CVE-2016-3137/0.patch
+git apply $cvePatches/CVE-2016-3672/0.patch
+git apply $cvePatches/CVE-2016-3865/0.patch
+git apply $cvePatches/CVE-2016-3865/1.patch
+git apply $cvePatches/CVE-2016-3902/0.patch
+git apply $cvePatches/CVE-2016-5858/0.patch
+git apply $cvePatches/CVE-2016-5858/1.patch
+git apply $cvePatches/CVE-2016-5859/0.patch
+git apply $cvePatches/CVE-2016-5867/0.patch
+git apply $cvePatches/CVE-2016-6672/0.patch
+git apply $cvePatches/CVE-2017-0750/0.patch
+git apply $cvePatches/CVE-2017-0794/0.patch
+git apply $cvePatches/CVE-2017-12153/0.patch
+git apply $cvePatches/CVE-2017-15265/0.patch
+git apply $cvePatches/CVE-2017-6345/0.patch
+git apply $cvePatches/CVE-2017-6348/0.patch
 cd $base
