@@ -1,0 +1,57 @@
+From 2b97ce290c589827e21838c70c9c5601b663037a Mon Sep 17 00:00:00 2001
+From: Jin Qian <jinqian@android.com>
+Date: Thu, 11 May 2017 16:15:15 -0700
+Subject: [PATCH] BACKPORT: f2fs: sanity check checkpoint segno and blkoff
+
+Make sure segno and blkoff read from raw image are valid.
+
+Fixed conflicts due to missing commit 1e968fdfe69e
+("f2fs: introduce f2fs_cp_error for readability") and commit 6bacf52fb58a
+("f2fs: add unlikely() macro for compiler more aggressively").
+
+(url https://sourceforge.net/p/linux-f2fs/mailman/message/35835945)
+
+Signed-off-by: Jin Qian <jinqian@google.com>
+Signed-off-by: Siqi Lin <siqilin@google.com>
+Bug: 36588520
+Change-Id: Iba66ab97d3d0870ea48b5ef192d9075f225a934a
+---
+ fs/f2fs/super.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
+index 77b2cd5ddd569..787d51b7b30d7 100644
+--- a/fs/f2fs/super.c
++++ b/fs/f2fs/super.c
+@@ -450,6 +450,8 @@ static int sanity_check_ckpt(struct f2fs_sb_info *sbi)
+ 	unsigned int total, fsmeta;
+ 	struct f2fs_super_block *raw_super = F2FS_RAW_SUPER(sbi);
+ 	struct f2fs_checkpoint *ckpt = F2FS_CKPT(sbi);
++	unsigned int main_segs, blocks_per_seg;
++	int i;
+ 
+ 	total = le32_to_cpu(raw_super->segment_count);
+ 	fsmeta = le32_to_cpu(raw_super->segment_count_ckpt);
+@@ -461,6 +463,22 @@ static int sanity_check_ckpt(struct f2fs_sb_info *sbi)
+ 	if (fsmeta >= total)
+ 		return 1;
+ 
++	main_segs = le32_to_cpu(sbi->raw_super->segment_count_main);
++	blocks_per_seg = sbi->blocks_per_seg;
++
++	for (i = 0; i < NR_CURSEG_NODE_TYPE; i++) {
++		if (le32_to_cpu(ckpt->cur_node_segno[i]) >= main_segs ||
++		    le16_to_cpu(ckpt->cur_node_blkoff[i]) >= blocks_per_seg) {
++			return 1;
++		}
++	}
++	for (i = 0; i < NR_CURSEG_DATA_TYPE; i++) {
++		if (le32_to_cpu(ckpt->cur_data_segno[i]) >= main_segs ||
++		    le16_to_cpu(ckpt->cur_data_blkoff[i]) >= blocks_per_seg) {
++			return 1;
++		}
++	}
++
+ 	if (is_set_ckpt_flags(ckpt, CP_ERROR_FLAG)) {
+ 		f2fs_msg(sbi->sb, KERN_ERR, "A bug case: need to run fsck");
+ 		return 1;

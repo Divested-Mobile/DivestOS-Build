@@ -1,0 +1,69 @@
+From 5328a92fa26eabe2ba259b1d813f9de488efc9ec Mon Sep 17 00:00:00 2001
+From: "Se Wang (Patrick) Oh" <sewango@codeaurora.org>
+Date: Mon, 29 Jun 2015 11:43:39 -0700
+Subject: ion: Fix unprotected userspace access
+
+After enabling KASan, unprotected userspace access causes
+a PTE translation fault as it can covers only kernel memory
+region. Following is the crash error for the reference.
+
+Unable to handle kernel paging request at virtual address dfffff901ff64b84
+pgd = ffffffc083266000
+[dfffff901ff64b84] *pgd=0000000000000000, *pud=0000000000000000
+Internal error: Oops: 96000004 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 1 PID: 8527 Comm: iveaudiolatency Tainted: G        W      3.18.0-g5a4a5d5-07255-g8e80921-dirty #21
+Hardware name: Qualcomm Technologies, Inc. MSM 8996 v2 + PMI8994 MTP (DT)
+task: ffffffc02bfeb600 ti: ffffffc083378000 task.ti: ffffffc083378000
+PC is at compat_msm_ion_ioctl+0x23c/0x614
+LR is at compat_msm_ion_ioctl+0x1d8/0x614
+pc : [<ffffffc0012bd570>] lr : [<ffffffc0012bd50c>] pstate: 80000145
+sp : ffffffc08337faf0
+x29: ffffffc08337faf0 x28: 0000000000000000
+x27: ffffffc083378000 x26: 00000000ffb25c20
+x25: 00000000e2fa6000 x24: 0000000000000000
+x23: 00000000ffb25c18 x22: 0000000000000000
+x21: ffffffc08fcaa640 x20: 00000000c0144d00
+x19: 00000000ffb25c74 x18: 0000000000000000
+x17: 0000000000000000 x16: ffffffc000385a88
+x15: 0000000000000000 x14: 00000000f73517c9
+x13: 00000000ffb25c30 x12: 0000000000000001
+x11: 00000000ffffffff x10: ffffff881066ff3a
+x9 : 1ffffff81066ff3a x8 : dfffff9000000000
+x7 : 0000000000000036 x6 : ffffffc08337f9d4
+x5 : 0000000000000003 x4 : 00000000ffb25c30
+x3 : ffffffc0012bd334 x2 : 0000000000000001
+x1 : 000000001ff64b84 x0 : dfffff9000000000
+
+Process iveaudiolatency (pid: 8527, stack limit = 0xffffffc083378058)
+Call trace:
+[<ffffffc0012bd570>] compat_msm_ion_ioctl+0x23c/0x614
+[<ffffffc0012aea84>] ion_ioctl+0x4dc/0x680
+[<ffffffc0012bb254>] compat_ion_ioctl+0xb98/0xbc0
+[<ffffffc000385d10>] compat_SyS_ioctl+0x288/0x2048
+Code: 910022fa d2dff200 d343ff41 f2fbffe0 (38e06820)
+---[ end trace 490ef1c3bde7b96c ]---
+coresight-tmc 3028000.tmc: TMC aborted
+
+Change-Id: I7595bbf5f311182d40f7158654df56dc8bcf672a
+Signed-off-by: Se Wang (Patrick) Oh <sewango@codeaurora.org>
+---
+ drivers/staging/android/ion/msm/compat_msm_ion.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/android/ion/msm/compat_msm_ion.c b/drivers/staging/android/ion/msm/compat_msm_ion.c
+index c34b3a7..ddb9fc7 100644
+--- a/drivers/staging/android/ion/msm/compat_msm_ion.c
++++ b/drivers/staging/android/ion/msm/compat_msm_ion.c
+@@ -58,7 +58,7 @@ static int compat_get_ion_flush_data(
+ 	err |= put_user(i, &data->fd);
+ 	err |= get_user(u, &data32->vaddr);
+ 	/* upper bits won't get set, zero them */
+-	data->vaddr = NULL;
++	err |= put_user(NULL, &data->vaddr);
+ 	err |= put_user(u, (compat_uptr_t *)&data->vaddr);
+ 	err |= get_user(l, &data32->offset);
+ 	err |= put_user(l, &data->offset);
+-- 
+cgit v1.1
+

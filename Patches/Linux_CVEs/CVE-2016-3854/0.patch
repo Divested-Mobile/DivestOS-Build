@@ -1,0 +1,34 @@
+From cc96def76dfd18fba88575065b29f2ae9191fafa Mon Sep 17 00:00:00 2001
+From: Terence Ho <terenceh@codeaurora.org>
+Date: Thu, 5 Nov 2015 14:49:03 -0500
+Subject: msm: camera: Add check to prevent array index out of bounds
+
+Add check in msm_mctl_buf_return_buf to prevent array index
+out-of-bounds.
+
+Change-Id: Ie0bbbb1c97e8851ef004074726e90c78d5cdefa7
+Signed-off-by: Terence Ho <terenceh@codeaurora.org>
+---
+ drivers/media/video/msm/msm_mctl_buf.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/media/video/msm/msm_mctl_buf.c b/drivers/media/video/msm/msm_mctl_buf.c
+index e258097..8b37391 100644
+--- a/drivers/media/video/msm/msm_mctl_buf.c
++++ b/drivers/media/video/msm/msm_mctl_buf.c
+@@ -917,6 +917,12 @@ int msm_mctl_buf_return_buf(struct msm_cam_media_controller *pmctl,
+ 	struct msm_cam_v4l2_device *pcam = pmctl->pcam_ptr;
+ 	unsigned long flags = 0;
+ 
++	if (image_mode < 0 || image_mode >= MSM_MAX_IMG_MODE) {
++		pr_err("%s: image_mode %d out-of-bounds",
++				__func__, image_mode);
++		return -EINVAL;
++	}
++
+ 	if (pcam->mctl_node.dev_inst_map[image_mode]) {
+ 		idx = pcam->mctl_node.dev_inst_map[image_mode]->my_index;
+ 		pcam_inst = pcam->mctl_node.dev_inst[idx];
+-- 
+cgit v1.1
+

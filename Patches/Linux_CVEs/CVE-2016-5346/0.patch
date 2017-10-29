@@ -1,0 +1,48 @@
+From 6298a474322fb2182f795a622b2faa64abfd8474 Mon Sep 17 00:00:00 2001
+From: Xiaoyu Ye <benyxy@codeaurora.org>
+Date: Wed, 7 Dec 2016 16:35:07 -0800
+Subject: drivers: soc: qcom: Add error handling in function avtimer_ioctl
+
+Error handling is added to prevent garbage value being passed to
+user space by the uninitialized local variable avtimer_tick.
+
+CRs-Fixed: 1097878
+Change-Id: I3f895deaae3acf329088cf8135859cc41e781763
+Signed-off-by: Xiaoyu Ye <benyxy@codeaurora.org>
+---
+ drivers/platform/msm/avtimer.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/platform/msm/avtimer.c b/drivers/platform/msm/avtimer.c
+index 2bded5e..4331af8 100644
+--- a/drivers/platform/msm/avtimer.c
++++ b/drivers/platform/msm/avtimer.c
+@@ -1,4 +1,4 @@
+-/* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
++/* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+ 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+@@ -331,9 +331,17 @@ static long avtimer_ioctl(struct file *file, unsigned int ioctl_num,
+ 	switch (ioctl_num) {
+ 	case IOCTL_GET_AVTIMER_TICK:
+ 	{
+-		uint64_t avtimer_tick;
++		uint64_t avtimer_tick = 0;
++		int rc;
++
++		rc = avcs_core_query_timer(&avtimer_tick);
++
++		if (rc) {
++			pr_err("%s: Error: Invalid AV Timer tick, rc = %d\n",
++				__func__, rc);
++			return rc;
++		}
+ 
+-		avcs_core_query_timer(&avtimer_tick);
+ 		pr_debug_ratelimited("%s: AV Timer tick: time %llx\n",
+ 		__func__, avtimer_tick);
+ 		if (copy_to_user((void *) ioctl_param, &avtimer_tick,
+-- 
+cgit v1.1
+

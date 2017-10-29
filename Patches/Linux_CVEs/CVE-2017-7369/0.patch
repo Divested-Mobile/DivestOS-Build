@@ -1,0 +1,50 @@
+From 75ed08a822cf378ffed0d2f177d06555bd77a006 Mon Sep 17 00:00:00 2001
+From: Walter Yang <yandongy@codeaurora.org>
+Date: Thu, 2 Mar 2017 12:13:34 +0800
+Subject: ASoC: Add backend user count checking
+
+Add backend user count checking to protect the index
+boundary.
+
+Change-Id: Ic1b61d1f7130252cc54da0b16553858714988dbd
+CRs-Fixed: 2009216
+Signed-off-by: Walter Yang <yandongy@codeaurora.org>
+---
+ sound/soc/soc-compress.c | 5 +++++
+ sound/soc/soc-pcm.c      | 4 ++++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/sound/soc/soc-compress.c b/sound/soc/soc-compress.c
+index 8902662..3b30818 100644
+--- a/sound/soc/soc-compress.c
++++ b/sound/soc/soc-compress.c
+@@ -569,6 +569,11 @@ static int soc_compr_set_params_fe(struct snd_compr_stream *cstream,
+ 				cstream, &async_domain);
+ 			} else {
+ 				be_list[j++] = be;
++				if (j == DPCM_MAX_BE_USERS) {
++					dev_dbg(fe->dev,
++						"ASoC: MAX backend users!\n");
++					break;
++				}
+ 			}
+ 		}
+ 		for (i = 0; i < j; i++) {
+diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
+index 7e2b2f3..21e503c 100644
+--- a/sound/soc/soc-pcm.c
++++ b/sound/soc/soc-pcm.c
+@@ -1851,6 +1851,10 @@ void dpcm_be_dai_prepare_async(struct snd_soc_pcm_runtime *fe, int stream,
+ 							    dpcm, domain);
+ 		} else {
+ 			dpcm_async[i++] = dpcm;
++			if (i == DPCM_MAX_BE_USERS) {
++				dev_dbg(fe->dev, "ASoC: MAX backend users!\n");
++				break;
++			}
+ 		}
+ 	}
+ 
+-- 
+cgit v1.1
+

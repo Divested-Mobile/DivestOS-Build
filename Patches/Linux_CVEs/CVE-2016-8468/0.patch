@@ -1,0 +1,36 @@
+From 0d37d64f02e18a301867ae7684c3801bd99c5df2 Mon Sep 17 00:00:00 2001
+From: Martijn Coenen <maco@android.com>
+Date: Tue, 8 Nov 2016 20:12:16 +0100
+Subject: [PATCH] Android: binder: check set_context_mgr permission on time.
+
+Bug: 32394425
+Change-Id: I860c6aab97850bff05a56e96cd3f4b41691bfd96
+Signed-off-by: Martijn Coenen <maco@android.com>
+---
+ drivers/staging/android/binder.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/android/binder.c b/drivers/staging/android/binder.c
+index ad902dbac8fa5..56f9713de523c 100644
+--- a/drivers/staging/android/binder.c
++++ b/drivers/staging/android/binder.c
+@@ -2784,6 +2784,9 @@ static int binder_ioctl_set_ctx_mgr(struct file *filp)
+ 		ret = -EBUSY;
+ 		goto out;
+ 	}
++	ret = security_binder_set_context_mgr(proc->tsk);
++	if (ret < 0)
++		goto out;
+ 	if (uid_valid(binder_context_mgr_uid)) {
+ 		if (!uid_eq(binder_context_mgr_uid, curr_euid)) {
+ 			pr_err("BINDER_SET_CONTEXT_MGR bad uid %d != %d\n",
+@@ -2849,9 +2852,6 @@ static long binder_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ 		ret = binder_ioctl_set_ctx_mgr(filp);
+ 		if (ret)
+ 			goto err;
+-		ret = security_binder_set_context_mgr(proc->tsk);
+-		if (ret < 0)
+-			goto err;
+ 		break;
+ 	case BINDER_THREAD_EXIT:
+ 		binder_debug(BINDER_DEBUG_THREADS, "%d:%d exit\n",

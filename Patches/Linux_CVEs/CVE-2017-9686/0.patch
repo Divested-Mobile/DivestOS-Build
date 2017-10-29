@@ -1,0 +1,193 @@
+From de875dd095d3ec0906c77518d28f793e6c69a9da Mon Sep 17 00:00:00 2001
+From: Siva Kumar Akkireddi <sivaa@codeaurora.org>
+Date: Thu, 11 May 2017 15:29:47 +0530
+Subject: msm: sps: Fix race condition in SPS debugfs APIs
+
+SPS debugfs APIs can be called concurrently which can result
+in dangling pointer access. This change synchronizes access
+to the SPS debugfs buffer.
+
+Change-Id: I409b3f0618f760cb67eba47b43c81d166cdae4aa
+Signed-off-by: Siva Kumar Akkireddi <sivaa@codeaurora.org>
+---
+ drivers/platform/msm/sps/sps.c  | 15 ++++++++++++++-
+ drivers/platform/msm/sps/spsi.h | 17 -----------------
+ 2 files changed, 14 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/platform/msm/sps/sps.c b/drivers/platform/msm/sps/sps.c
+index b812960..e2abeaf 100644
+--- a/drivers/platform/msm/sps/sps.c
++++ b/drivers/platform/msm/sps/sps.c
+@@ -1,4 +1,4 @@
+-/* Copyright (c) 2011-2016	, The Linux Foundation. All rights reserved.
++/* Copyright (c) 2011-2017, The Linux Foundation. All rights reserved.
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2 and
+@@ -67,6 +67,7 @@ static char *debugfs_buf;
+ static u32 debugfs_buf_size;
+ static u32 debugfs_buf_used;
+ static int wraparound;
++static struct mutex sps_debugfs_lock;
+ 
+ struct dentry *dent;
+ struct dentry *dfile_info;
+@@ -85,6 +86,7 @@ static struct sps_bam *phy2bam(phys_addr_t phys_addr);
+ /* record debug info for debugfs */
+ void sps_debugfs_record(const char *msg)
+ {
++	mutex_lock(&sps_debugfs_lock);
+ 	if (debugfs_record_enabled) {
+ 		if (debugfs_buf_used + MAX_MSG_LEN >= debugfs_buf_size) {
+ 			debugfs_buf_used = 0;
+@@ -98,6 +100,7 @@ void sps_debugfs_record(const char *msg)
+ 					debugfs_buf_size - debugfs_buf_used,
+ 					"\n**** end line of sps log ****\n\n");
+ 	}
++	mutex_unlock(&sps_debugfs_lock);
+ }
+ 
+ /* read the recorded debug info to userspace */
+@@ -107,6 +110,7 @@ static ssize_t sps_read_info(struct file *file, char __user *ubuf,
+ 	int ret = 0;
+ 	int size;
+ 
++	mutex_lock(&sps_debugfs_lock);
+ 	if (debugfs_record_enabled) {
+ 		if (wraparound)
+ 			size = debugfs_buf_size - MAX_MSG_LEN;
+@@ -116,6 +120,7 @@ static ssize_t sps_read_info(struct file *file, char __user *ubuf,
+ 		ret = simple_read_from_buffer(ubuf, count, ppos,
+ 				debugfs_buf, size);
+ 	}
++	mutex_unlock(&sps_debugfs_lock);
+ 
+ 	return ret;
+ }
+@@ -161,11 +166,13 @@ static ssize_t sps_set_info(struct file *file, const char __user *buf,
+ 
+ 	new_buf_size = buf_size_kb * SZ_1K;
+ 
++	mutex_lock(&sps_debugfs_lock);
+ 	if (debugfs_record_enabled) {
+ 		if (debugfs_buf_size == new_buf_size) {
+ 			/* need do nothing */
+ 			pr_info("sps:debugfs: input buffer size "
+ 				"is the same as before.\n");
++			mutex_unlock(&sps_debugfs_lock);
+ 			return count;
+ 		} else {
+ 			/* release the current buffer */
+@@ -185,12 +192,14 @@ static ssize_t sps_set_info(struct file *file, const char __user *buf,
+ 	if (!debugfs_buf) {
+ 		debugfs_buf_size = 0;
+ 		pr_err("sps:fail to allocate memory for debug_fs.\n");
++		mutex_unlock(&sps_debugfs_lock);
+ 		return -ENOMEM;
+ 	}
+ 
+ 	debugfs_buf_used = 0;
+ 	wraparound = false;
+ 	debugfs_record_enabled = true;
++	mutex_unlock(&sps_debugfs_lock);
+ 
+ 	return count;
+ }
+@@ -239,6 +248,7 @@ static ssize_t sps_set_logging_option(struct file *file, const char __user *buf,
+ 		return count;
+ 	}
+ 
++	mutex_lock(&sps_debugfs_lock);
+ 	if (((option == 0) || (option == 2)) &&
+ 		((logging_option == 1) || (logging_option == 3))) {
+ 		debugfs_record_enabled = false;
+@@ -250,6 +260,7 @@ static ssize_t sps_set_logging_option(struct file *file, const char __user *buf,
+ 	}
+ 
+ 	logging_option = option;
++	mutex_unlock(&sps_debugfs_lock);
+ 
+ 	return count;
+ }
+@@ -587,6 +598,8 @@ static void sps_debugfs_init(void)
+ 		goto bam_log_level_err;
+ 	}
+ 
++	mutex_init(&sps_debugfs_lock);
++
+ 	return;
+ 
+ bam_log_level_err:
+diff --git a/drivers/platform/msm/sps/spsi.h b/drivers/platform/msm/sps/spsi.h
+index ccf761e..abf4b04 100644
+--- a/drivers/platform/msm/sps/spsi.h
++++ b/drivers/platform/msm/sps/spsi.h
+@@ -145,11 +145,6 @@ extern u8 print_limit_option;
+ 				pr_info(msg, ##args);	\
+ 		} \
+ 	} while (0)
+-#define SPS_DEBUGFS(msg, args...) do {					\
+-		char buf[MAX_MSG_LEN];		\
+-		snprintf(buf, MAX_MSG_LEN, msg"\n", ##args);	\
+-		sps_debugfs_record(buf);	\
+-	} while (0)
+ #define SPS_ERR(dev, msg, args...) do {					\
+ 		if (logging_option != 1) {	\
+ 			if (unlikely(print_limit_option > 2))	\
+@@ -157,8 +152,6 @@ extern u8 print_limit_option;
+ 			else	\
+ 				pr_err(msg, ##args);	\
+ 		}	\
+-		if (unlikely(debugfs_record_enabled))	\
+-			SPS_DEBUGFS(msg, ##args);	\
+ 		SPS_IPC(3, dev, msg, args); \
+ 	} while (0)
+ #define SPS_INFO(dev, msg, args...) do {				\
+@@ -168,8 +161,6 @@ extern u8 print_limit_option;
+ 			else	\
+ 				pr_info(msg, ##args);	\
+ 		}	\
+-		if (unlikely(debugfs_record_enabled))	\
+-			SPS_DEBUGFS(msg, ##args);	\
+ 		SPS_IPC(3, dev, msg, args); \
+ 	} while (0)
+ #define SPS_DBG(dev, msg, args...) do {					\
+@@ -181,8 +172,6 @@ extern u8 print_limit_option;
+ 				pr_info(msg, ##args);	\
+ 		} else	\
+ 			pr_debug(msg, ##args);	\
+-		if (unlikely(debugfs_record_enabled))	\
+-			SPS_DEBUGFS(msg, ##args);	\
+ 		if (dev) { \
+ 			if ((dev)->ipc_loglevel <= 0)	\
+ 				SPS_IPC(0, dev, msg, args); \
+@@ -197,8 +186,6 @@ extern u8 print_limit_option;
+ 				pr_info(msg, ##args);	\
+ 		} else	\
+ 			pr_debug(msg, ##args);	\
+-		if (unlikely(debugfs_record_enabled))	\
+-			SPS_DEBUGFS(msg, ##args);	\
+ 		if (dev) { \
+ 			if ((dev)->ipc_loglevel <= 1)	\
+ 				SPS_IPC(1, dev, msg, args);	\
+@@ -213,8 +200,6 @@ extern u8 print_limit_option;
+ 				pr_info(msg, ##args);	\
+ 		} else	\
+ 			pr_debug(msg, ##args);	\
+-		if (unlikely(debugfs_record_enabled))	\
+-			SPS_DEBUGFS(msg, ##args);	\
+ 		if (dev) { \
+ 			if ((dev)->ipc_loglevel <= 2)	\
+ 				SPS_IPC(2, dev, msg, args); \
+@@ -229,8 +214,6 @@ extern u8 print_limit_option;
+ 				pr_info(msg, ##args);	\
+ 		} else	\
+ 			pr_debug(msg, ##args);	\
+-		if (unlikely(debugfs_record_enabled))	\
+-			SPS_DEBUGFS(msg, ##args);	\
+ 		if (dev) { \
+ 			if ((dev)->ipc_loglevel <= 3)	\
+ 				SPS_IPC(3, dev, msg, args); \
+-- 
+cgit v1.1
+

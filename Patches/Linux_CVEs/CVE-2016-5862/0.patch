@@ -1,0 +1,31 @@
+From 4199451e83729a3add781eeafaee32994ff65b04 Mon Sep 17 00:00:00 2001
+From: Aditya Bavanari <abavanar@codeaurora.org>
+Date: Thu, 22 Dec 2016 16:41:27 +0530
+Subject: ASoC: msm8996: Fix kernel crash in "Speaker Function" mixer control
+
+Use snd_soc_kcontrol_codec instead of snd_kcontrol_chip
+to obtain the codec information from the kcontrol.
+
+CRs-Fixed: 1099607
+Change-Id: Iba3004c2745e5f0bbe778e44c803826351b3b939
+Signed-off-by: Aditya Bavanari <abavanar@codeaurora.org>
+---
+ sound/soc/msm/msm8996.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/msm/msm8996.c b/sound/soc/msm/msm8996.c
+index 84d4ede..4eafd32 100644
+--- a/sound/soc/msm/msm8996.c
++++ b/sound/soc/msm/msm8996.c
+@@ -351,7 +351,7 @@ static int msm8996_get_spk(struct snd_kcontrol *kcontrol,
+ static int msm8996_set_spk(struct snd_kcontrol *kcontrol,
+ 			      struct snd_ctl_elem_value *ucontrol)
+ {
+-	struct snd_soc_codec *codec = snd_kcontrol_chip(kcontrol);
++	struct snd_soc_codec *codec = snd_soc_kcontrol_codec(kcontrol);
+ 
+ 	pr_debug("%s() ucontrol->value.integer.value[0] = %ld\n",
+ 		 __func__, ucontrol->value.integer.value[0]);
+-- 
+cgit v1.1
+

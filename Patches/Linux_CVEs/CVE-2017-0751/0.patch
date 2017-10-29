@@ -1,0 +1,47 @@
+From ee4aa31b9f24c28064e509e22c1f9013df768f5f Mon Sep 17 00:00:00 2001
+From: Dennis Cagle <d-cagle@codeaurora.org>
+Date: Wed, 31 May 2017 16:28:01 -0700
+Subject: [PATCH] qcdev: Check the digest length during the SHA operations
+
+Check the digest length to avoid buffer overflow while
+doing the SHA operations.
+
+Bug: 36591162
+CRs-Fixed: 2045061
+Change-Id: I4d3fb20723f59e905a672edaf84ee5d0865905b1
+Signed-off-by: Brahmaji K <bkomma@codeaurora.org>
+Signed-off-by: Dennis Cagle <d-cagle@codeaurora.org>
+---
+ drivers/crypto/msm/qcedev.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/drivers/crypto/msm/qcedev.c b/drivers/crypto/msm/qcedev.c
+index ef4b5e15b4fad..f42d19a5cf59e 100644
+--- a/drivers/crypto/msm/qcedev.c
++++ b/drivers/crypto/msm/qcedev.c
+@@ -1709,6 +1709,12 @@ long qcedev_ioctl(struct file *file, unsigned cmd, unsigned long arg)
+ 		err = qcedev_hash_final(&qcedev_areq, handle);
+ 		if (err)
+ 			return err;
++
++		if (handle->sha_ctxt.diglen > QCEDEV_MAX_SHA_DIGEST) {
++			pr_err("Invalid sha_ctxt.diglen %d\n",
++					handle->sha_ctxt.diglen);
++			return -EINVAL;
++		}
+ 		qcedev_areq.sha_op_req.diglen = handle->sha_ctxt.diglen;
+ 		memcpy(&qcedev_areq.sha_op_req.digest[0],
+ 				&handle->sha_ctxt.digest[0],
+@@ -1737,6 +1743,12 @@ long qcedev_ioctl(struct file *file, unsigned cmd, unsigned long arg)
+ 		err = qcedev_hash_final(&qcedev_areq, handle);
+ 		if (err)
+ 			return err;
++
++		if (handle->sha_ctxt.diglen > QCEDEV_MAX_SHA_DIGEST) {
++			pr_err("Invalid sha_ctxt.diglen %d\n",
++					handle->sha_ctxt.diglen);
++			return -EINVAL;
++		}
+ 		qcedev_areq.sha_op_req.diglen =	handle->sha_ctxt.diglen;
+ 		memcpy(&qcedev_areq.sha_op_req.digest[0],
+ 				&handle->sha_ctxt.digest[0],

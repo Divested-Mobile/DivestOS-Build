@@ -1,0 +1,58 @@
+From b3f0b1f694258b3b3debc5256eec94bb2a9eb454 Mon Sep 17 00:00:00 2001
+From: Swetha Chikkaboraiah <schikk@codeaurora.org>
+Date: Wed, 27 Jan 2016 11:46:54 +0530
+Subject: [PATCH] msm: perf: Protect buffer overflow due to malicious user
+
+In function krait_pmu_disable_event, parameter hwc comes from
+userspace and is untrusted.The function krait_clearpmu is called
+after the function get_krait_evtinfo.
+Function get_krait_evtinfo as parameter krait_evt_type variable
+which is used to extract the groupcode(reg) which is bound to
+ KRAIT_MAX_L1_REG (is 3). After validation,one code path modifies
+groupcode(reg):If this code path executes, groupcode(reg) can be
+3,4, 5, or 6. In krait_clearpmu groupcode used to access array
+krait_functions whose size is 3. Since groupcode can be 3,4,5,6
+accessing array krait_functions lead to bufferoverlflow.
+This change will validate groupcode not to exceed 3.
+
+CVE-2016-0805 Bug:ANDROID-25773204
+
+Change-Id: I48c92adda137d8a074b4e1a367a468195a810ca1
+CRs-fixed: 962450
+Signed-off-by: Swetha Chikkaboraiah <schikk@codeaurora.org>
+Signed-off-by: Karthik Jadala <karthikjk@codeaurora.org>
+---
+ arch/arm/kernel/perf_event_msm_krait.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/kernel/perf_event_msm_krait.c b/arch/arm/kernel/perf_event_msm_krait.c
+index 49aae5a66b650..34f9b4e5b099d 100644
+--- a/arch/arm/kernel/perf_event_msm_krait.c
++++ b/arch/arm/kernel/perf_event_msm_krait.c
+@@ -1,5 +1,5 @@
+ /*
+- * Copyright (c) 2011-2014, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2011-2014, 2016 The Linux Foundation. All rights reserved.
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2 and
+@@ -208,9 +208,6 @@ static unsigned int get_krait_evtinfo(unsigned int krait_evt_type,
+ 	code = (krait_evt_type & 0x00FF0) >> 4;
+ 	group = krait_evt_type & 0x0000F;
+ 
+-	if ((group > 3) || (reg > KRAIT_MAX_L1_REG))
+-		return -EINVAL;
+-
+ 	if (prefix != KRAIT_EVT_PREFIX && prefix != KRAIT_VENUMEVT_PREFIX)
+ 		return -EINVAL;
+ 
+@@ -221,6 +218,9 @@ static unsigned int get_krait_evtinfo(unsigned int krait_evt_type,
+ 			reg += VENUM_BASE_OFFSET;
+ 	}
+ 
++	if ((group > 3) || (reg > KRAIT_MAX_L1_REG))
++		return -EINVAL;
++
+ 	evtinfo->group_setval = 0x80000000 | (code << (group * 8));
+ 	evtinfo->groupcode = reg;
+ 	evtinfo->armv7_evt_type = evt_type_base[reg] | group;

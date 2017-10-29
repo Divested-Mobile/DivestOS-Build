@@ -1,0 +1,62 @@
+From ad376e4053b87bd58f62f45b6df2c5544bc21aee Mon Sep 17 00:00:00 2001
+From: Jayant Shekhar <jshekhar@codeaurora.org>
+Date: Tue, 20 Jan 2015 16:12:43 +0530
+Subject: msm: mdss: Unmap only when buffer was mapped
+
+Currently buffer is unmapped if iommu is attached.
+This can lead to potential unmap issues if wrong
+addresses are sent and are tried to unmap without
+mapping. Hence ensure unmap is done only when
+buffer is mapped.
+
+Change-Id: I6d7f1eb1e951cd314a4c3c35551c87930af5118e
+Signed-off-by: Jayant Shekhar <jshekhar@codeaurora.org>
+---
+ drivers/video/msm/mdss/mdss_mdp.h      | 1 +
+ drivers/video/msm/mdss/mdss_mdp_util.c | 4 +++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/video/msm/mdss/mdss_mdp.h b/drivers/video/msm/mdss/mdss_mdp.h
+index f5f5770..99ea0cd 100644
+--- a/drivers/video/msm/mdss/mdss_mdp.h
++++ b/drivers/video/msm/mdss/mdss_mdp.h
+@@ -279,6 +279,7 @@ struct mdss_mdp_img_data {
+ 	u32 len;
+ 	u32 flags;
+ 	int p_need;
++	bool mapped;
+ 	struct file *srcp_file;
+ 	struct ion_handle *srcp_ihdl;
+ };
+diff --git a/drivers/video/msm/mdss/mdss_mdp_util.c b/drivers/video/msm/mdss/mdss_mdp_util.c
+index 01745fd..dd93dce 100644
+--- a/drivers/video/msm/mdss/mdss_mdp_util.c
++++ b/drivers/video/msm/mdss/mdss_mdp_util.c
+@@ -502,7 +502,7 @@ int mdss_mdp_put_img(struct mdss_mdp_img_data *data)
+ 			pr_err("invalid ion client\n");
+ 			return -ENOMEM;
+ 		} else {
+-			if (is_mdss_iommu_attached()) {
++			if (data->mapped) {
+ 				int domain;
+ 				if (data->flags & MDP_SECURE_OVERLAY_SESSION)
+ 					domain = MDSS_IOMMU_DOMAIN_SECURE;
+@@ -515,6 +515,7 @@ int mdss_mdp_put_img(struct mdss_mdp_img_data *data)
+ 					msm_ion_unsecure_buffer(iclient,
+ 							data->srcp_ihdl);
+ 				}
++				data->mapped = false;
+ 			}
+ 			ion_free(iclient, data->srcp_ihdl);
+ 			data->srcp_ihdl = NULL;
+@@ -593,6 +594,7 @@ int mdss_mdp_get_img(struct msmfb_data *img, struct mdss_mdp_img_data *data)
+ 			if (ret && (domain == MDSS_IOMMU_DOMAIN_SECURE))
+ 				msm_ion_unsecure_buffer(iclient,
+ 						data->srcp_ihdl);
++			data->mapped = true;
+ 		} else {
+ 			ret = ion_phys(iclient, data->srcp_ihdl, start,
+ 				       (size_t *) len);
+-- 
+cgit v1.1
+

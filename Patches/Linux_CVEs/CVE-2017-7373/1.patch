@@ -1,0 +1,33 @@
+From eac4a77bb71750b02e91508b15c9aaf4fe2b94ae Mon Sep 17 00:00:00 2001
+From: Sachin Bhayare <sachin.bhayare@codeaurora.org>
+Date: Fri, 23 Dec 2016 11:22:44 +0530
+Subject: msm: mdss: Fix invalid dma attachment during fb shutdown
+
+If DMA attachment fail during fb_mmap, all ION memory will get free. It
+is necessary to reset the fbmem and fb_attachemnt pointer to NULL,
+otherwise during shutdown will perform another free and causing issue.
+
+CRs-Fixed: 1090244
+Change-Id: I92affcf2ce039eecfc72b7c191e058f37815c726
+Signed-off-by: Benjamin Chan <bkchan@codeaurora.org>
+Signed-off-by: Sachin Bhayare <sachin.bhayare@codeaurora.org>
+---
+ drivers/video/msm/mdss/mdss_fb.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/video/msm/mdss/mdss_fb.c b/drivers/video/msm/mdss/mdss_fb.c
+index 2e8092d..c2d1441 100644
+--- a/drivers/video/msm/mdss/mdss_fb.c
++++ b/drivers/video/msm/mdss/mdss_fb.c
+@@ -1660,6 +1660,8 @@ int mdss_fb_alloc_fb_ion_memory(struct msm_fb_data_type *mfd, size_t fb_size)
+ 
+ fb_mmap_failed:
+ 	ion_free(mfd->fb_ion_client, mfd->fb_ion_handle);
++	mfd->fb_ion_handle = NULL;
++	mfd->fbmem_buf = NULL;
+ 	return rc;
+ }
+ 
+-- 
+cgit v1.1
+

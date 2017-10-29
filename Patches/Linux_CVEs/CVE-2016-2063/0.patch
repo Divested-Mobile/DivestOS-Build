@@ -1,0 +1,41 @@
+From ab3f46119ca10de87a11fe966b0723c48f27acd4 Mon Sep 17 00:00:00 2001
+From: Manaf Meethalavalappu Pallikunhi <manafm@codeaurora.org>
+Date: Wed, 30 Mar 2016 17:12:16 +0530
+Subject: msm: limits: Check user buffer size before copying to local buffer
+
+User input data is passed in from userspace through debugfs interface
+of supply lm core to validate supply lm core functionality. Ensure
+user buffer size is not greater than expected stack buffer size
+to avoid out of bounds array accesses.
+
+Change-Id: I5a93774855241b50895c5e2b3ff939e4c33a0185
+Signed-off-by: Manaf Meethalavalappu Pallikunhi <manafm@codeaurora.org>
+---
+ drivers/thermal/supply_lm_core.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/thermal/supply_lm_core.c b/drivers/thermal/supply_lm_core.c
+index fc8e807..a4d137f 100644
+--- a/drivers/thermal/supply_lm_core.c
++++ b/drivers/thermal/supply_lm_core.c
+@@ -1,4 +1,4 @@
+-/* Copyright (c) 2015, The Linux Foundation. All rights reserved.
++/* Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2 and
+@@ -303,6 +303,11 @@ static ssize_t supply_lm_input_write(struct file *fp,
+ 	enum corner_state gpu;
+ 	enum corner_state modem;
+ 
++	if (count > (MODE_MAX - 1)) {
++		pr_err("Invalid user input\n");
++		return -EINVAL;
++	}
++
+ 	if (copy_from_user(&buf, user_buffer, count))
+ 		return -EFAULT;
+ 
+-- 
+cgit v1.1
+

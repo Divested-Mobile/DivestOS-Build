@@ -1,0 +1,162 @@
+From 5ea820046ee399214221c0bb817eb35d304c9604 Mon Sep 17 00:00:00 2001
+From: Hannes Frederic Sowa <hannes@stressinduktion.org>
+Date: Wed, 3 Feb 2016 02:11:03 +0100
+Subject: unix: correctly track in-flight fds in sending process user_struct
+
+commit 415e3d3e90ce9e18727e8843ae343eda5a58fad6 upstream.
+
+The commit referenced in the Fixes tag incorrectly accounted the number
+of in-flight fds over a unix domain socket to the original opener
+of the file-descriptor. This allows another process to arbitrary
+deplete the original file-openers resource limit for the maximum of
+open files. Instead the sending processes and its struct cred should
+be credited.
+
+To do so, we add a reference counted struct user_struct pointer to the
+scm_fp_list and use it to account for the number of inflight unix fds.
+
+Fixes: 712f4aad406bb1 ("unix: properly account for FDs passed over unix sockets")
+Reported-by: David Herrmann <dh.herrmann@gmail.com>
+Cc: David Herrmann <dh.herrmann@gmail.com>
+Cc: Willy Tarreau <w@1wt.eu>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Hannes Frederic Sowa <hannes@stressinduktion.org>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+[bwh: Backported to 3.2: adjust context]
+Signed-off-by: Ben Hutchings <ben@decadent.org.uk>
+---
+ include/net/af_unix.h | 4 ++--
+ include/net/scm.h     | 1 +
+ net/core/scm.c        | 7 +++++++
+ net/unix/af_unix.c    | 4 ++--
+ net/unix/garbage.c    | 8 ++++----
+ 5 files changed, 16 insertions(+), 8 deletions(-)
+
+diff --git a/include/net/af_unix.h b/include/net/af_unix.h
+index f4842f7..a69bfee 100644
+--- a/include/net/af_unix.h
++++ b/include/net/af_unix.h
+@@ -6,8 +6,8 @@
+ #include <linux/mutex.h>
+ #include <net/sock.h>
+ 
+-extern void unix_inflight(struct file *fp);
+-extern void unix_notinflight(struct file *fp);
++extern void unix_inflight(struct user_struct *user, struct file *fp);
++extern void unix_notinflight(struct user_struct *user, struct file *fp);
+ extern void unix_gc(void);
+ extern void wait_for_unix_gc(void);
+ extern struct sock *unix_get_socket(struct file *filp);
+diff --git a/include/net/scm.h b/include/net/scm.h
+index 5da0a7b..9822a68 100644
+--- a/include/net/scm.h
++++ b/include/net/scm.h
+@@ -16,6 +16,7 @@ struct scm_fp_list {
+ 	struct list_head	list;
+ 	short			count;
+ 	short			max;
++	struct user_struct	*user;
+ 	struct file		*fp[SCM_MAX_FD];
+ };
+ 
+diff --git a/net/core/scm.c b/net/core/scm.c
+index 51b4d52..9adabed 100644
+--- a/net/core/scm.c
++++ b/net/core/scm.c
+@@ -80,6 +80,7 @@ static int scm_fp_copy(struct cmsghdr *cmsg, struct scm_fp_list **fplp)
+ 		*fplp = fpl;
+ 		fpl->count = 0;
+ 		fpl->max = SCM_MAX_FD;
++		fpl->user = NULL;
+ 	}
+ 	fpp = &fpl->fp[fpl->count];
+ 
+@@ -100,6 +101,10 @@ static int scm_fp_copy(struct cmsghdr *cmsg, struct scm_fp_list **fplp)
+ 		*fpp++ = file;
+ 		fpl->count++;
+ 	}
++
++	if (!fpl->user)
++		fpl->user = get_uid(current_user());
++
+ 	return num;
+ }
+ 
+@@ -124,6 +129,7 @@ void __scm_destroy(struct scm_cookie *scm)
+ 				list_del(&fpl->list);
+ 				for (i=fpl->count-1; i>=0; i--)
+ 					fput(fpl->fp[i]);
++				free_uid(fpl->user);
+ 				kfree(fpl);
+ 			}
+ 
+@@ -342,6 +348,7 @@ struct scm_fp_list *scm_fp_dup(struct scm_fp_list *fpl)
+ 		for (i = 0; i < fpl->count; i++)
+ 			get_file(fpl->fp[i]);
+ 		new_fpl->max = new_fpl->count;
++		new_fpl->user = get_uid(fpl->user);
+ 	}
+ 	return new_fpl;
+ }
+diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
+index 6798b3c..390e079 100644
+--- a/net/unix/af_unix.c
++++ b/net/unix/af_unix.c
+@@ -1454,7 +1454,7 @@ static void unix_detach_fds(struct scm_cookie *scm, struct sk_buff *skb)
+ 	UNIXCB(skb).fp = NULL;
+ 
+ 	for (i = scm->fp->count-1; i >= 0; i--)
+-		unix_notinflight(scm->fp->fp[i]);
++		unix_notinflight(scm->fp->user, scm->fp->fp[i]);
+ }
+ 
+ static void unix_destruct_scm(struct sk_buff *skb)
+@@ -1520,7 +1520,7 @@ static int unix_attach_fds(struct scm_cookie *scm, struct sk_buff *skb)
+ 		return -ENOMEM;
+ 
+ 	for (i = scm->fp->count - 1; i >= 0; i--)
+-		unix_inflight(scm->fp->fp[i]);
++		unix_inflight(scm->fp->user, scm->fp->fp[i]);
+ 	return max_level;
+ }
+ 
+diff --git a/net/unix/garbage.c b/net/unix/garbage.c
+index fd1a840..33a21260 100644
+--- a/net/unix/garbage.c
++++ b/net/unix/garbage.c
+@@ -122,7 +122,7 @@ struct sock *unix_get_socket(struct file *filp)
+  *	descriptor if it is for an AF_UNIX socket.
+  */
+ 
+-void unix_inflight(struct file *fp)
++void unix_inflight(struct user_struct *user, struct file *fp)
+ {
+ 	struct sock *s = unix_get_socket(fp);
+ 
+@@ -138,11 +138,11 @@ void unix_inflight(struct file *fp)
+ 		}
+ 		unix_tot_inflight++;
+ 	}
+-	fp->f_cred->user->unix_inflight++;
++	user->unix_inflight++;
+ 	spin_unlock(&unix_gc_lock);
+ }
+ 
+-void unix_notinflight(struct file *fp)
++void unix_notinflight(struct user_struct *user, struct file *fp)
+ {
+ 	struct sock *s = unix_get_socket(fp);
+ 
+@@ -155,7 +155,7 @@ void unix_notinflight(struct file *fp)
+ 			list_del_init(&u->link);
+ 		unix_tot_inflight--;
+ 	}
+-	fp->f_cred->user->unix_inflight--;
++	user->unix_inflight--;
+ 	spin_unlock(&unix_gc_lock);
+ }
+ 
+-- 
+cgit v1.1
+

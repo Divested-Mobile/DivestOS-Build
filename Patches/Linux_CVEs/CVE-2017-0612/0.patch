@@ -1,0 +1,43 @@
+From 05efafc998dc86c3b75af9803ca71255ddd7a8eb Mon Sep 17 00:00:00 2001
+From: Brahmaji K <bkomma@codeaurora.org>
+Date: Tue, 13 Dec 2016 20:32:24 +0530
+Subject: msm-3.18: drivers : added validation of input/output buffer sizes
+
+This change fixes issues reagrding the ioctl
+QSEECOM_IOCTL_MDTP_CIPHER_DIP_REQ uncovered by fuzzy tests.
+Modified handler of above ioctl, not to allow input/output
+buffer sizes greater than a fixed defined size.
+
+Change-Id: I69f94a29d939341564f6f3ebfda48fceaa934542
+Signed-off-by: Brahmaji K <bkomma@codeaurora.org>
+---
+ drivers/misc/qseecom.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/misc/qseecom.c b/drivers/misc/qseecom.c
+index baea36b..34b70fd 100644
+--- a/drivers/misc/qseecom.c
++++ b/drivers/misc/qseecom.c
+@@ -80,6 +80,9 @@
+ /* Encrypt/Decrypt Data Integrity Partition (DIP) for MDTP */
+ #define SCM_MDTP_CIPHER_DIP		0x01
+ 
++/* Maximum Allowed Size (128K) of Data Integrity Partition (DIP) for MDTP */
++#define MAX_DIP			0x20000
++
+ #define RPMB_SERVICE			0x2000
+ #define SSD_SERVICE			0x3000
+ 
+@@ -6029,7 +6032,8 @@ static int qseecom_mdtp_cipher_dip(void __user *argp)
+ 		}
+ 
+ 		if (req.in_buf == NULL || req.out_buf == NULL ||
+-			req.in_buf_size == 0 || req.out_buf_size == 0 ||
++			req.in_buf_size == 0 || req.in_buf_size > MAX_DIP ||
++			req.out_buf_size == 0 || req.out_buf_size > MAX_DIP ||
+ 				req.direction > 1) {
+ 				pr_err("invalid parameters\n");
+ 				ret = -EINVAL;
+-- 
+cgit v1.1
+

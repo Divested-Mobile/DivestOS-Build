@@ -1,0 +1,32 @@
+From 01dcc0a7cc23f23a89adf72393d5a27c6d576cd0 Mon Sep 17 00:00:00 2001
+From: Krishnankutty Kolathappilly <kkolatha@codeaurora.org>
+Date: Mon, 14 Nov 2016 18:46:12 -0800
+Subject: msm: camera: fix bound check of offset to avoid overread overwrite
+
+fix bound check of hw_cmd_p->offset in msm_jpeg_hw_exec_cmds
+to avoid overread overwrite.
+
+CRs-Fixed: 1088824
+
+Change-Id: Ifaa4b5387d4285ddce16d8e745aa0500c64c568b
+Signed-off-by: Krishnankutty Kolathappilly <kkolatha@codeaurora.org>
+---
+ drivers/media/platform/msm/camera_v2/jpeg_10/msm_jpeg_hw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/msm/camera_v2/jpeg_10/msm_jpeg_hw.c b/drivers/media/platform/msm/camera_v2/jpeg_10/msm_jpeg_hw.c
+index d67ab11..9bc37a0 100644
+--- a/drivers/media/platform/msm/camera_v2/jpeg_10/msm_jpeg_hw.c
++++ b/drivers/media/platform/msm/camera_v2/jpeg_10/msm_jpeg_hw.c
+@@ -501,7 +501,7 @@ int msm_jpeg_hw_exec_cmds(struct msm_jpeg_hw_cmd *hw_cmd_p, uint32_t m_cmds,
+ 	uint32_t data;
+ 
+ 	while (m_cmds--) {
+-		if (hw_cmd_p->offset > max_size) {
++		if (hw_cmd_p->offset >= max_size) {
+ 			JPEG_PR_ERR("%s:%d] %d exceed hw region %d\n", __func__,
+ 				__LINE__, hw_cmd_p->offset, max_size);
+ 			return -EFAULT;
+-- 
+cgit v1.1
+

@@ -1,0 +1,44 @@
+From 2fca425d781572393fbe51abe2e27a932d24a768 Mon Sep 17 00:00:00 2001
+From: Skylar Chang <chiaweic@codeaurora.org>
+Date: Fri, 22 Jul 2016 15:03:16 -0700
+Subject: msm: ipa: handle information leak on ADD_FLT_RULE_INDEX ioctl
+
+IPA might have Information leak and device crash due to
+kernel heap overread in IPA driver when processing
+WAN_IOC_ADD_FLT_RULE_INDEX ioctl. The fix is to add
+check on max number of filter rules send to modem.
+
+Change-Id: I454e04d05cfcb7af8fc4bd2b4a1bade55c4684d0
+Signed-off-by: Skylar Chang <chiaweic@codeaurora.org>
+---
+ drivers/platform/msm/ipa/ipa_qmi_service.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/platform/msm/ipa/ipa_qmi_service.c b/drivers/platform/msm/ipa/ipa_qmi_service.c
+index d68350a..58d7c181 100644
+--- a/drivers/platform/msm/ipa/ipa_qmi_service.c
++++ b/drivers/platform/msm/ipa/ipa_qmi_service.c
+@@ -491,7 +491,7 @@ int qmi_filter_request_send(struct ipa_install_fltr_rule_req_msg_v01 *req)
+ 	if (req->filter_spec_list_len == 0) {
+ 		IPAWANDBG("IPACM pass zero rules to Q6\n");
+ 	} else {
+-		IPAWANDBG("IPACM pass %d rules to Q6\n",
++		IPAWANDBG("IPACM pass %u rules to Q6\n",
+ 		req->filter_spec_list_len);
+ 	}
+ 
+@@ -622,6 +622,11 @@ int qmi_filter_notify_send(struct ipa_fltr_installed_notif_req_msg_v01 *req)
+ 		IPAWANERR(" delete UL filter rule for pipe %d\n",
+ 		req->source_pipe_index);
+ 		return -EINVAL;
++	} else if (req->filter_index_list_len > QMI_IPA_MAX_FILTERS_V01) {
++		IPAWANERR(" UL filter rule for pipe %d exceed max (%u)\n",
++		req->source_pipe_index,
++		req->filter_index_list_len);
++		return -EINVAL;
+ 	} else if (req->filter_index_list[0].filter_index == 0 &&
+ 		req->source_pipe_index !=
+ 		ipa_get_ep_mapping(IPA_CLIENT_APPS_LAN_WAN_PROD)) {
+-- 
+cgit v1.1
+

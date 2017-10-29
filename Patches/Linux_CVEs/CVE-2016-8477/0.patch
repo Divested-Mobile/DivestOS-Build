@@ -1,0 +1,65 @@
+From 33c9042e38506b04461fa99e304482bc20923508 Mon Sep 17 00:00:00 2001
+From: guyang <guyang@codeaurora.org>
+Date: Tue, 6 Dec 2016 18:30:38 +0800
+Subject: msm: camera: sensor: Validate eeprom_name string length
+
+Validate eeprom_name string length before copying into
+the userspace buffer.
+If more data than required is copied, userspace has the access to
+some of kernel data which is not intended.
+
+CRs-Fixed: 1090007
+Change-Id: Id40a287e0b1a93cc15d9b02c757fe9f347e285f2
+Signed-off-by: Rajesh Bondugula <rajeshb@codeaurora.org>
+Signed-off-by: VijayaKumar T M <vtmuni@codeaurora.org>
+Signed-off-by: Yang Guang <guyang@codeaurora.org>
+---
+ .../media/platform/msm/camera_v2/sensor/eeprom/msm_eeprom.c   | 11 +++++++++--
+ include/media/msm_cam_sensor.h                                |  2 +-
+ 2 files changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/platform/msm/camera_v2/sensor/eeprom/msm_eeprom.c b/drivers/media/platform/msm/camera_v2/sensor/eeprom/msm_eeprom.c
+index 059780d..13ad58e 100644
+--- a/drivers/media/platform/msm/camera_v2/sensor/eeprom/msm_eeprom.c
++++ b/drivers/media/platform/msm/camera_v2/sensor/eeprom/msm_eeprom.c
+@@ -140,15 +140,22 @@ static int msm_eeprom_config(struct msm_eeprom_ctrl_t *e_ctrl,
+ 	struct msm_eeprom_cfg_data *cdata =
+ 		(struct msm_eeprom_cfg_data *)argp;
+ 	int rc = 0;
++	size_t length = 0;
+ 
+ 	CDBG("%s E\n", __func__);
+ 	switch (cdata->cfgtype) {
+ 	case CFG_EEPROM_GET_INFO:
+ 		CDBG("%s E CFG_EEPROM_GET_INFO\n", __func__);
+ 		cdata->is_supported = e_ctrl->is_supported;
++		length = strlen(e_ctrl->eboard_info->eeprom_name) + 1;
++		if (length > MAX_EEPROM_NAME) {
++			pr_err("%s:%d invalid eeprom_name length %d\n",
++				__func__,__LINE__, (int)length);
++			rc = -EINVAL;
++			break;
++		}
+ 		memcpy(cdata->cfg.eeprom_name,
+-			e_ctrl->eboard_info->eeprom_name,
+-			sizeof(cdata->cfg.eeprom_name));
++			e_ctrl->eboard_info->eeprom_name, length);
+ 		break;
+ 	case CFG_EEPROM_GET_CAL_DATA:
+ 		CDBG("%s E CFG_EEPROM_GET_CAL_DATA\n", __func__);
+diff --git a/include/media/msm_cam_sensor.h b/include/media/msm_cam_sensor.h
+index 9497875..7ff89a4 100644
+--- a/include/media/msm_cam_sensor.h
++++ b/include/media/msm_cam_sensor.h
+@@ -446,7 +446,7 @@ struct msm_eeprom_cfg_data {
+ 	enum eeprom_cfg_type_t cfgtype;
+ 	uint8_t is_supported;
+ 	union {
+-		char eeprom_name[MAX_SENSOR_NAME];
++		char eeprom_name[MAX_EEPROM_NAME];
+ 		struct eeprom_get_t get_data;
+ 		struct eeprom_read_t read_data;
+ 		struct eeprom_write_t write_data;
+-- 
+cgit v1.1
+

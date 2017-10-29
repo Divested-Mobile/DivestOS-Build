@@ -1,0 +1,33 @@
+From bc77232707df371ff6bab9350ae39676535c0e9d Mon Sep 17 00:00:00 2001
+From: Krishnankutty Kolathappilly <kkolatha@codeaurora.org>
+Date: Wed, 16 Nov 2016 18:22:58 -0800
+Subject: msm: cpp: Fix for buffer overflow in cpp.
+
+Fix for buffer overflow while handling ioctl.
+Instead of checking for length boundary, fix checks
+for exact length.
+
+CRs-Fixed: 518731
+Change-Id: I9002f84b219e8b06ae0672d87c2d999e728a75aa
+Signed-off-by: Krishnankutty Kolathappilly <kkolatha@codeaurora.org>
+---
+ drivers/media/platform/msm/camera_v2/pproc/cpp/msm_cpp.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/msm/camera_v2/pproc/cpp/msm_cpp.c b/drivers/media/platform/msm/camera_v2/pproc/cpp/msm_cpp.c
+index 022dd6b..0792380 100644
+--- a/drivers/media/platform/msm/camera_v2/pproc/cpp/msm_cpp.c
++++ b/drivers/media/platform/msm/camera_v2/pproc/cpp/msm_cpp.c
+@@ -2070,8 +2070,7 @@ long msm_cpp_subdev_ioctl(struct v4l2_subdev *sd,
+ 		uint32_t identity;
+ 		struct msm_cpp_buff_queue_info_t *buff_queue_info;
+ 		CPP_DBG("VIDIOC_MSM_CPP_DEQUEUE_STREAM_BUFF_INFO\n");
+-		if ((ioctl_ptr->len == 0) ||
+-		    (ioctl_ptr->len > sizeof(uint32_t))) {
++		if (ioctl_ptr->len != sizeof(uint32_t)) {
+ 			mutex_unlock(&cpp_dev->mutex);
+ 			return -EINVAL;
+ 		}
+-- 
+cgit v1.1
+

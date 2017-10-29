@@ -1,0 +1,35 @@
+From 84f8c42e5d848b1d04f49d253f98296e8c2280b9 Mon Sep 17 00:00:00 2001
+From: Trishansh Bhardwaj <tbhardwa@codeaurora.org>
+Date: Fri, 7 Apr 2017 11:16:29 +0530
+Subject: msm: camera: Allow driver file to be opend only once.
+
+Use proper synchronization to ensure driver file is opened
+only once.
+
+CRs-Fixed: 2023513
+Change-Id: I71e55e2d487fe561d3f596590b3e8102c5e921b5
+Signed-off-by: Trishansh Bhardwaj <tbhardwa@codeaurora.org>
+---
+ drivers/media/platform/msm/camera_v2/msm.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/media/platform/msm/camera_v2/msm.c b/drivers/media/platform/msm/camera_v2/msm.c
+index c2b42a8..d8bdef5 100644
+--- a/drivers/media/platform/msm/camera_v2/msm.c
++++ b/drivers/media/platform/msm/camera_v2/msm.c
+@@ -1012,11 +1012,9 @@ static int msm_open(struct file *filep)
+ 	BUG_ON(!pvdev);
+ 
+ 	/* !!! only ONE open is allowed !!! */
+-	if (atomic_read(&pvdev->opened))
++	if (atomic_cmpxchg(&pvdev->opened, 0, 1))
+ 		return -EBUSY;
+ 
+-	atomic_set(&pvdev->opened, 1);
+-
+ 	spin_lock_irqsave(&msm_pid_lock, flags);
+ 	msm_pid = get_pid(task_pid(current));
+ 	spin_unlock_irqrestore(&msm_pid_lock, flags);
+-- 
+cgit v1.1
+

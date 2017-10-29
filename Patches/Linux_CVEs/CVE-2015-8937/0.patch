@@ -1,0 +1,36 @@
+From c66202b9288cc4ab1c38f7c928fa1005c285c170 Mon Sep 17 00:00:00 2001
+From: Ravi Aravamudhan <aravamud@codeaurora.org>
+Date: Wed, 11 Feb 2015 17:21:11 -0800
+Subject: diag: Make fixes to diag_switch_logging
+
+Diag driver holds on to the socket process task structure even
+after signaling the process to exit. This patch clears the internal
+handle after signaling.
+
+Change-Id: I642fb595fc2caebc6f2f5419efed4fb560e4e4db
+Signed-off-by: Ravi Aravamudhan <aravamud@codeaurora.org>
+---
+ drivers/char/diag/diagchar_core.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/char/diag/diagchar_core.c b/drivers/char/diag/diagchar_core.c
+index 331ed97..b8343c3 100644
+--- a/drivers/char/diag/diagchar_core.c
++++ b/drivers/char/diag/diagchar_core.c
+@@ -1,4 +1,4 @@
+-/* Copyright (c) 2008-2014, The Linux Foundation. All rights reserved.
++/* Copyright (c) 2008-2015, The Linux Foundation. All rights reserved.
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2 and
+@@ -930,6 +930,7 @@ static int diag_switch_logging(int requested_mode)
+ 				pr_err("socket process, status: %d\n",
+ 					status);
+ 			}
++			driver->socket_process = NULL;
+ 		}
+ 	} else if (driver->logging_mode == SOCKET_MODE) {
+ 		driver->socket_process = current;
+-- 
+cgit v1.1
+

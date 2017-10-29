@@ -1,0 +1,35 @@
+From bd9a8fc6d7f6bd1a0b936994630006de450df657 Mon Sep 17 00:00:00 2001
+From: Neeraj Soni <neersoni@codeaurora.org>
+Date: Mon, 28 Nov 2016 18:23:33 +0530
+Subject: qcrypto: protect potential integer overflow.
+
+Adding user passed parameters without check might
+lead to Integer overflow and unpredictable system
+behaviour.
+
+Change-Id: Iaf8259e3c4a157e1790f1447b1b62a646988b7c4
+Signed-off-by: Neeraj Soni <neersoni@codeaurora.org>
+---
+ drivers/crypto/msm/qce50.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/crypto/msm/qce50.c b/drivers/crypto/msm/qce50.c
+index b33d879..9788e0e 100644
+--- a/drivers/crypto/msm/qce50.c
++++ b/drivers/crypto/msm/qce50.c
+@@ -4913,6 +4913,12 @@ int qce_aead_req(void *handle, struct qce_req *q_req)
+ 	else
+ 		q_req->cryptlen = areq->cryptlen - authsize;
+ 
++	if ((q_req->cryptlen > UINT_MAX - areq->assoclen) ||
++		(q_req->cryptlen + areq->assoclen > UINT_MAX - ivsize)) {
++			pr_err("Integer overflow on total aead req length.\n");
++			return -EINVAL;
++	}
++
+ 	totallen = q_req->cryptlen + areq->assoclen + ivsize;
+ 
+ 	if (pce_dev->support_cmd_dscr) {
+-- 
+cgit v1.1
+

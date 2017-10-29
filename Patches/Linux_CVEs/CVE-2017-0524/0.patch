@@ -1,0 +1,118 @@
+From e1fb1600fc222337989e3084d68df929882deae5 Mon Sep 17 00:00:00 2001
+From: Andrew Chant <achant@google.com>
+Date: Tue, 17 Jan 2017 07:37:52 -0800
+Subject: [PATCH] input: synaptics: put offset checks under mutex.
+
+Place file offset validity checks under mutex.
+
+BUG: 33555878
+BUG: 33002026
+
+Change-Id: I1945cfc8af7d1a310ae0d7bbb85002d4c448f30b
+Signed-off-by: Andrew Chant <achant@google.com>
+---
+ drivers/input/touchscreen/synaptics_rmi_dev.c | 52 ++++++++++++++++++---------
+ 1 file changed, 36 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/input/touchscreen/synaptics_rmi_dev.c b/drivers/input/touchscreen/synaptics_rmi_dev.c
+index e2d7c27eb6832..e7c19d00c0544 100644
+--- a/drivers/input/touchscreen/synaptics_rmi_dev.c
++++ b/drivers/input/touchscreen/synaptics_rmi_dev.c
+@@ -299,18 +299,26 @@ static ssize_t rmidev_read(struct file *filp, char __user *buf,
+ 		return -EBADF;
+ 	}
+ 
+-	if (count == 0)
+-		return 0;
++	mutex_lock(&(dev_data->file_mutex));
+ 
+ 	if (count > (REG_ADDR_LIMIT - *f_pos))
+ 		count = REG_ADDR_LIMIT - *f_pos;
+ 
+-	tmpbuf = kzalloc(count + 1, GFP_KERNEL);
+-	if (!tmpbuf)
+-		return -ENOMEM;
++	if (count == 0) {
++		retval = 0;
++		goto unlock;
++	}
+ 
+-	mutex_lock(&(dev_data->file_mutex));
++	if (*f_pos > REG_ADDR_LIMIT) {
++		retval = -EFAULT;
++		goto unlock;
++	}
+ 
++	tmpbuf = kzalloc(count + 1, GFP_KERNEL);
++	if (!tmpbuf) {
++		retval = -ENOMEM;
++		goto unlock;
++	}
+ 	retval = rmidev->fn_ptr->read(rmidev->rmi4_data,
+ 			*f_pos,
+ 			tmpbuf,
+@@ -324,9 +332,10 @@ static ssize_t rmidev_read(struct file *filp, char __user *buf,
+ 		*f_pos += retval;
+ 
+ clean_up:
++	kfree(tmpbuf);
++unlock:
+ 	mutex_unlock(&(dev_data->file_mutex));
+ 
+-	kfree(tmpbuf);
+ 	return retval;
+ }
+ 
+@@ -350,23 +359,32 @@ static ssize_t rmidev_write(struct file *filp, const char __user *buf,
+ 		return -EBADF;
+ 	}
+ 
+-	if (count == 0)
+-		return 0;
++	mutex_lock(&(dev_data->file_mutex));
++
++	if (*f_pos > REG_ADDR_LIMIT) {
++		retval = -EFAULT;
++		goto unlock;
++	}
+ 
+ 	if (count > (REG_ADDR_LIMIT - *f_pos))
+ 		count = REG_ADDR_LIMIT - *f_pos;
+ 
++	if (count == 0) {
++		retval = 0;
++		goto unlock;
++	}
++
+ 	tmpbuf = kzalloc(count + 1, GFP_KERNEL);
+-	if (!tmpbuf)
+-		return -ENOMEM;
++	if (!tmpbuf) {
++		retval = -ENOMEM;
++		goto unlock;
++	}
+ 
+ 	if (copy_from_user(tmpbuf, buf, count)) {
+-		kfree(tmpbuf);
+-		return -EFAULT;
++		retval = -EFAULT;
++		goto clean_up;
+ 	}
+ 
+-	mutex_lock(&(dev_data->file_mutex));
+-
+ 	retval = rmidev->fn_ptr->write(rmidev->rmi4_data,
+ 			*f_pos,
+ 			tmpbuf,
+@@ -374,8 +392,10 @@ static ssize_t rmidev_write(struct file *filp, const char __user *buf,
+ 	if (retval >= 0)
+ 		*f_pos += retval;
+ 
+-	mutex_unlock(&(dev_data->file_mutex));
++clean_up:
+ 	kfree(tmpbuf);
++unlock:
++	mutex_unlock(&(dev_data->file_mutex));
+ 	return retval;
+ }
+ 

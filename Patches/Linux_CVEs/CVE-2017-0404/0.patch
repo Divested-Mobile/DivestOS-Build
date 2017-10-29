@@ -1,0 +1,41 @@
+From 4faa6d2e9b53546823882d8889820ff9ce3c372f Mon Sep 17 00:00:00 2001
+From: Siqi Lin <siqilin@google.com>
+Date: Wed, 2 Nov 2016 16:51:08 -0700
+Subject: [PATCH] ALSA: info: Check for integer overflow in
+ snd_info_entry_write()
+
+snd_info_entry_write() resizes the buffer with an unsigned long
+size argument that gets truncated because resize_info_buffer()
+takes the size parameter as an unsigned int. On 64-bit kernels,
+this causes the following copy_to_user() to write out-of-bounds
+if (pos + count) can't be represented by an unsigned int.
+
+Bug: 32510733
+Change-Id: I9e8b55f93f2bd606b4a73b5a4525b71ee88c7c23
+Signed-off-by: Siqi Lin <siqilin@google.com>
+---
+ sound/core/info.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/sound/core/info.c b/sound/core/info.c
+index 418b4ec43cadb..a4af0ba92d30f 100644
+--- a/sound/core/info.c
++++ b/sound/core/info.c
+@@ -253,6 +253,7 @@ static ssize_t snd_info_entry_write(struct file *file, const char __user *buffer
+ 	struct snd_info_buffer *buf;
+ 	ssize_t size = 0;
+ 	loff_t pos;
++	unsigned long realloc_size;
+ 
+ 	data = file->private_data;
+ 	if (snd_BUG_ON(!data))
+@@ -261,7 +262,8 @@ static ssize_t snd_info_entry_write(struct file *file, const char __user *buffer
+ 	pos = *offset;
+ 	if (pos < 0 || (long) pos != pos || (ssize_t) count < 0)
+ 		return -EIO;
+-	if ((unsigned long) pos + (unsigned long) count < (unsigned long) pos)
++	realloc_size = (unsigned long) pos + (unsigned long) count;
++	if (realloc_size < (unsigned long) pos || realloc_size > UINT_MAX)
+ 		return -EIO;
+ 	switch (entry->content) {
+ 	case SNDRV_INFO_CONTENT_TEXT:

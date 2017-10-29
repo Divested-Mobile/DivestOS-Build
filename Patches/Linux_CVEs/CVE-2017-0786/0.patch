@@ -1,0 +1,41 @@
+From 68acc6ab1474e9dde68880a7856e8a74ff86aa19 Mon Sep 17 00:00:00 2001
+From: Insun Song <insun.song@broadcom.com>
+Date: Mon, 5 Jun 2017 10:21:10 -0700
+Subject: net: wireless: bcmdhd: adding boudary check in wl_escan_handler
+
+WLC_E_ESCAN_RESULT event could be manipulated especially two length field
+inside, one is for escan_result buffer length and another one is
+bss_info length, the forged fields may bypass current length check and
+corrupt kernel heap memory.
+
+so added checking validation for two length fields in WLC_E_ESCAN_RESULT
+event.
+
+Signed-off-by: Insun Song <insun.song@broadcom.com>
+Bug: 37351060
+Change-Id: I31e9fccc48fc06278fb3a87a76ef7337296c2b0d
+---
+ drivers/net/wireless/bcmdhd/wl_cfg80211.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/net/wireless/bcmdhd/wl_cfg80211.c b/drivers/net/wireless/bcmdhd/wl_cfg80211.c
+index 021f69f7..d8c748d 100644
+--- a/drivers/net/wireless/bcmdhd/wl_cfg80211.c
++++ b/drivers/net/wireless/bcmdhd/wl_cfg80211.c
+@@ -10513,6 +10513,13 @@ static s32 wl_escan_handler(struct bcm_cfg80211 *cfg, bcm_struct_cfgdev *cfgdev,
+ 			WL_ERR(("Invalid escan result (NULL pointer)\n"));
+ 			goto exit;
+ 		}
++		if ((dtoh32(escan_result->buflen) > ESCAN_BUF_SIZE) ||
++		    (dtoh32(escan_result->buflen) <
++			sizeof(wl_escan_result_t))) {
++			WL_ERR(("Invalid escan buffer len:%d\n",
++				dtoh32(escan_result->buflen)));
++			goto exit;
++		}
+ 		if (dtoh16(escan_result->bss_count) != 1) {
+ 			WL_ERR(("Invalid bss_count %d: ignoring\n", escan_result->bss_count));
+ 			goto exit;
+-- 
+cgit v1.1
+

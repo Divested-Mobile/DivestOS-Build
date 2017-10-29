@@ -1,0 +1,76 @@
+From 5db4167c9924c68ab9554bba3a98ecfd14b91a8e Mon Sep 17 00:00:00 2001
+From: Adrian Salido <salidoa@google.com>
+Date: Thu, 1 Dec 2016 18:07:42 -0800
+Subject: [PATCH] fs/proc/array.c: make safe access to group_leader
+
+As mentioned in commit 52ee2dfdd4f51cf422ea6a96a0846dc94244aa37
+("pids: refactor vnr/nr_ns helpers to make them safe"). *_nr_ns
+helpers used to be buggy. The commit addresses most of the helpers but
+is missing task_tgid_xxx()
+
+Without this protection there is a possible use after free reported by
+kasan instrumented kernel:
+
+==================================================================
+BUG: KASAN: use-after-free in task_tgid_nr_ns+0x2c/0x44 at addr ***
+Read of size 8 by task cat/2472
+CPU: 1 PID: 2472 Comm: cat Tainted: ****
+Hardware name: Google Tegra210 Smaug Rev 1,3+ (DT)
+Call trace:
+[<ffffffc00020ad2c>] dump_backtrace+0x0/0x17c
+[<ffffffc00020aec0>] show_stack+0x18/0x24
+[<ffffffc0011573d0>] dump_stack+0x94/0x100
+[<ffffffc0003c7dc0>] kasan_report+0x308/0x554
+[<ffffffc0003c7518>] __asan_load8+0x20/0x7c
+[<ffffffc00025a54c>] task_tgid_nr_ns+0x28/0x44
+[<ffffffc00046951c>] proc_pid_status+0x444/0x1080
+[<ffffffc000460f60>] proc_single_show+0x8c/0xdc
+[<ffffffc0004081b0>] seq_read+0x2e8/0x6f0
+[<ffffffc0003d1420>] vfs_read+0xd8/0x1e0
+[<ffffffc0003d1b98>] SyS_read+0x68/0xd4
+
+Accessing group_leader while holding rcu_lock and using the now safe
+helpers introduced in the commit mentioned, this race condition is
+addressed.
+
+Signed-off-by: Adrian Salido <salidoa@google.com>
+Change-Id: I4315217922dda375a30a3581c0c1740dda7b531b
+Bug: 31495866
+---
+ fs/proc/array.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/fs/proc/array.c b/fs/proc/array.c
+index 09f0d9c374a32..6ed95802239df 100644
+--- a/fs/proc/array.c
++++ b/fs/proc/array.c
+@@ -168,16 +168,16 @@ static inline void task_state(struct seq_file *m, struct pid_namespace *ns,
+ 	int g;
+ 	struct fdtable *fdt = NULL;
+ 	const struct cred *cred;
+-	pid_t ppid, tpid;
++	pid_t ppid = 0, tpid = 0;
++	struct task_struct *leader = NULL;
+ 
+ 	rcu_read_lock();
+-	ppid = pid_alive(p) ?
+-		task_tgid_nr_ns(rcu_dereference(p->real_parent), ns) : 0;
+-	tpid = 0;
+ 	if (pid_alive(p)) {
+ 		struct task_struct *tracer = ptrace_parent(p);
+ 		if (tracer)
+ 			tpid = task_pid_nr_ns(tracer, ns);
++		ppid = task_tgid_nr_ns(rcu_dereference(p->real_parent), ns);
++		leader = p->group_leader;
+ 	}
+ 	cred = get_task_cred(p);
+ 	seq_printf(m,
+@@ -189,7 +189,7 @@ static inline void task_state(struct seq_file *m, struct pid_namespace *ns,
+ 		"Uid:\t%d\t%d\t%d\t%d\n"
+ 		"Gid:\t%d\t%d\t%d\t%d\n",
+ 		get_task_state(p),
+-		task_tgid_nr_ns(p, ns),
++		leader ? task_pid_nr_ns(leader, ns) : 0,
+ 		pid_nr_ns(pid, ns),
+ 		ppid, tpid,
+ 		from_kuid_munged(user_ns, cred->uid),

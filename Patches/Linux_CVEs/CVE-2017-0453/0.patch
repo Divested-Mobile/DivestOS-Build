@@ -1,0 +1,38 @@
+From 05af1f34723939f477cb7d25adb320d016d68513 Mon Sep 17 00:00:00 2001
+From: Manjeet Singh <manjee@codeaurora.org>
+Date: Tue, 27 Dec 2016 17:48:37 +0530
+Subject: qcacld-2.0: Add buf len check in wlan_hdd_cfg80211_testmode
+
+In __wlan_hdd_cfg80211_testmode API no checks are in place that
+ensure that buflen is smaller or equal the size of the stack
+variable hb_params. Hence, the vos_mem_copy() call can overflow
+stack memory.
+
+Add buf len check to avoid stack overflow
+
+CRs-Fixed: 1105085
+Change-Id: I6af6a74cc38ebce3337120adcf7e9595f22d3d8c
+---
+ CORE/HDD/src/wlan_hdd_cfg80211.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/CORE/HDD/src/wlan_hdd_cfg80211.c b/CORE/HDD/src/wlan_hdd_cfg80211.c
+index 1ad4ef2..54605a2 100644
+--- a/CORE/HDD/src/wlan_hdd_cfg80211.c
++++ b/CORE/HDD/src/wlan_hdd_cfg80211.c
+@@ -26336,6 +26336,12 @@ static int __wlan_hdd_cfg80211_testmode(struct wiphy *wiphy,
+                 (hb_params_temp->params.lphbTcpParamReq.timePeriodSec == 0))
+                 return -EINVAL;
+ 
++            if (buf_len > sizeof(*hb_params)) {
++                hddLog(LOGE, FL("buf_len=%d exceeded hb_params size limit"),
++                       buf_len);
++                return -ERANGE;
++            }
++
+             hb_params = (tSirLPHBReq *)vos_mem_malloc(sizeof(tSirLPHBReq));
+             if (NULL == hb_params) {
+                 hddLog(LOGE, FL("Request Buffer Alloc Fail"));
+-- 
+cgit v1.1
+

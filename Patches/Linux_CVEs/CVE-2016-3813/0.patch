@@ -1,0 +1,51 @@
+From 3c0add95808fdada98ba0ab465c0b4ba49e71d26 Mon Sep 17 00:00:00 2001
+From: Vijayavardhan Vennapusa <vvreddy@codeaurora.org>
+Date: Thu, 5 May 2016 14:37:08 +0530
+Subject: USB: dwc3: debugfs: Add boundary check in dwc3_store_ep_num()
+
+User can pass arguments as part of write to requests and endpoint number
+will be calculated based on the arguments. There is a chance that driver
+can access ep structue that is not allocated due to invalid arguments
+passed by user. Hence fix the issue by having check and return error in
+case of invalid arguments.
+
+Change-Id: I060ea878b55ce0f9983b91c50e58718c8a2c2fa1
+Signed-off-by: Vijayavardhan Vennapusa <vvreddy@codeaurora.org>
+---
+ drivers/usb/dwc3/debugfs.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/dwc3/debugfs.c b/drivers/usb/dwc3/debugfs.c
+index 857b413..fc3f959 100644
+--- a/drivers/usb/dwc3/debugfs.c
++++ b/drivers/usb/dwc3/debugfs.c
+@@ -650,7 +650,7 @@ static ssize_t dwc3_store_ep_num(struct file *file, const char __user *ubuf,
+ 	struct seq_file		*s = file->private_data;
+ 	struct dwc3		*dwc = s->private;
+ 	char			kbuf[10];
+-	unsigned int		num, dir;
++	unsigned int		num, dir, temp;
+ 	unsigned long		flags;
+ 
+ 	memset(kbuf, 0, 10);
+@@ -661,8 +661,16 @@ static ssize_t dwc3_store_ep_num(struct file *file, const char __user *ubuf,
+ 	if (sscanf(kbuf, "%u %u", &num, &dir) != 2)
+ 		return -EINVAL;
+ 
++	if (dir != 0 && dir != 1)
++		return -EINVAL;
++
++	temp = (num << 1) + dir;
++	if (temp >= (dwc->num_in_eps + dwc->num_out_eps) ||
++					temp >= DWC3_ENDPOINTS_NUM)
++		return -EINVAL;
++
+ 	spin_lock_irqsave(&dwc->lock, flags);
+-	ep_num = (num << 1) + dir;
++	ep_num = temp;
+ 	spin_unlock_irqrestore(&dwc->lock, flags);
+ 
+ 	return count;
+-- 
+cgit v1.1
+

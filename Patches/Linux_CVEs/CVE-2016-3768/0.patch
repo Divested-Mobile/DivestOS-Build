@@ -1,0 +1,52 @@
+From 84d8c81420aaa7c6cd6f57cb52daccf07b1f7a50 Mon Sep 17 00:00:00 2001
+From: Veena Sambasivan <veenas@codeaurora.org>
+Date: Thu, 19 May 2016 18:47:15 -0700
+Subject: [PATCH] msm: perf: Do not allocate new hw_event if event is
+ duplicate.
+
+During a perf_event_enable, kernel/events/core.c calls pmu->add() which
+is platform implementation(arch/arm/kernel/perf_event.c). Due to the
+duplicate constraints, arch/arm/mach-msm/perf_event_msm_krait_l2.c
+drivers marks the event as OFF but returns TRUE to perf_event.c which
+goes ahead and allocates the hw_event and enables it.
+Since event is marked OFF, kernel events core will try to enable this event
+again during next perf_event_enable. Which results in same event enabled
+on multiple hw_events. But during the perf_release, event struct is freed
+and only one hw_event is released. This results in dereferencing the
+invalid pointer and hence the crash.
+Fix this by returning error in case of constraint event duplicate. Hence
+avoiding the same event programmed on multiple hw event counters.
+
+bug: 28172137
+Change-Id: Ia3360be027dfe87ac753191ffe7e0bc947e72455
+Signed-off-by: Arun KS <arunks@codeaurora.org>
+Signed-off-by: Veena Sambasivan <veenas@codeaurora.org>
+---
+ arch/arm/kernel/perf_event.c                | 1 +
+ arch/arm/mach-msm/perf_event_msm_krait_l2.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/arch/arm/kernel/perf_event.c b/arch/arm/kernel/perf_event.c
+index 0f288a7c035f9..a0c1e318a7905 100644
+--- a/arch/arm/kernel/perf_event.c
++++ b/arch/arm/kernel/perf_event.c
+@@ -240,6 +240,7 @@ armpmu_add(struct perf_event *event, int flags)
+ 			pr_err("Event: %llx failed constraint check.\n",
+ 					event->attr.config);
+ 			event->state = PERF_EVENT_STATE_OFF;
++			err = -EPERM;
+ 			goto out;
+ 		}
+ 
+diff --git a/arch/arm/mach-msm/perf_event_msm_krait_l2.c b/arch/arm/mach-msm/perf_event_msm_krait_l2.c
+index 65a5d2f8e1bcd..cc39b719b33fb 100644
+--- a/arch/arm/mach-msm/perf_event_msm_krait_l2.c
++++ b/arch/arm/mach-msm/perf_event_msm_krait_l2.c
+@@ -468,6 +468,7 @@ static int msm_l2_test_set_ev_constraint(struct perf_event *event)
+ 			if (!(event->cpu < 0)) {
+ 				event->state = PERF_EVENT_STATE_OFF;
+ 				event->attr.constraint_duplicate = 1;
++				err = -EPERM;
+ 			}
+ 	}
+ out:

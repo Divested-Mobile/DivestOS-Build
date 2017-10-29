@@ -1,0 +1,46 @@
+From cd4a40174b71acd021877341684d8bb1dc8ea4ae Mon Sep 17 00:00:00 2001
+From: "Eric W. Biederman" <ebiederm@xmission.com>
+Date: Wed, 7 Jan 2015 14:28:26 -0600
+Subject: [PATCH] mnt: Fail collect_mounts when applied to unmounted mounts
+
+The only users of collect_mounts are in audit_tree.c
+
+In audit_trim_trees and audit_add_tree_rule the path passed into
+collect_mounts is generated from kern_path passed an audit_tree
+pathname which is guaranteed to be an absolute path.   In those cases
+collect_mounts is obviously intended to work on mounted paths and
+if a race results in paths that are unmounted when collect_mounts
+it is reasonable to fail early.
+
+The paths passed into audit_tag_tree don't have the absolute path
+check.  But are used to play with fsnotify and otherwise interact with
+the audit_trees, so again operating only on mounted paths appears
+reasonable.
+
+Avoid having to worry about what happens when we try and audit
+unmounted filesystems by restricting collect_mounts to mounts
+that appear in the mount tree.
+
+Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+---
+ fs/namespace.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/fs/namespace.c b/fs/namespace.c
+index 2b12b7a9455d0..acc5583764dc0 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -1669,8 +1669,11 @@ struct vfsmount *collect_mounts(struct path *path)
+ {
+ 	struct mount *tree;
+ 	namespace_lock();
+-	tree = copy_tree(real_mount(path->mnt), path->dentry,
+-			 CL_COPY_ALL | CL_PRIVATE);
++	if (!check_mnt(real_mount(path->mnt)))
++		tree = ERR_PTR(-EINVAL);
++	else
++		tree = copy_tree(real_mount(path->mnt), path->dentry,
++				 CL_COPY_ALL | CL_PRIVATE);
+ 	namespace_unlock();
+ 	if (IS_ERR(tree))
+ 		return ERR_CAST(tree);

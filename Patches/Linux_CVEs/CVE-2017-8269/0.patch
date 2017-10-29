@@ -1,0 +1,38 @@
+From b925d9f76164475abb6f6a557327095156c9b249 Mon Sep 17 00:00:00 2001
+From: Skylar Chang <chiaweic@codeaurora.org>
+Date: Fri, 14 Apr 2017 19:23:05 -0700
+Subject: msm: rmnet_ipa: fix security issue
+
+Fix the security issue where mux channel name might
+not be null-terminated in ipa wan driver.
+
+Change-Id: I3ef440b62cf3861464fb60c1e7f65f2be5e39ed0
+Acked-by: Shihuan Liu <shihuanl@qti.qualcomm.com>
+Signed-off-by: Skylar Chang <chiaweic@codeaurora.org>
+---
+ drivers/platform/msm/ipa/rmnet_ipa.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/platform/msm/ipa/rmnet_ipa.c b/drivers/platform/msm/ipa/rmnet_ipa.c
+index 3f073f2..a2c838b 100644
+--- a/drivers/platform/msm/ipa/rmnet_ipa.c
++++ b/drivers/platform/msm/ipa/rmnet_ipa.c
+@@ -1,4 +1,4 @@
+-/* Copyright (c) 2014, The Linux Foundation. All rights reserved.
++/* Copyright (c) 2017, The Linux Foundation. All rights reserved.
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2 and
+@@ -1236,6 +1236,9 @@ static int ipa_wwan_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ 			memcpy(mux_channel[rmnet_index].vchannel_name,
+ 				extend_ioctl_data.u.rmnet_mux_val.vchannel_name,
+ 				sizeof(mux_channel[rmnet_index].vchannel_name));
++			mux_channel[rmnet_index].vchannel_name[
++				IFNAMSIZ - 1] = '\0';
++
+ 			IPAWANDBG("cashe device[%s:%d] in IPA_wan[%d]\n",
+ 				mux_channel[rmnet_index].vchannel_name,
+ 				mux_channel[rmnet_index].mux_id,
+-- 
+cgit v1.1
+

@@ -1,0 +1,45 @@
+From 9ffb3cdd7279b011a509267caa4a5119fd6346c0 Mon Sep 17 00:00:00 2001
+From: Siena Richard <sienar@codeaurora.org>
+Date: Wed, 11 Jan 2017 11:09:24 -0800
+Subject: ASoC: msm: qdsp6v2: extend validation of virtual address
+
+Validate a buffer virtual address is fully within the region before
+returning the region to ensure functionality for an extended edge case.
+
+Change-Id: Iba3e080889980f393d6a9f0afe0231408b92d654
+Signed-off-by: Siena Richard <sienar@codeaurora.org>
+CRs-fixed: 1108461
+
+Bug: 38195131
+Change-Id: Ib527a380a857719bff8254be514133528bd64c75
+---
+ drivers/misc/qcom/qdsp6v2/audio_utils_aio.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/misc/qcom/qdsp6v2/audio_utils_aio.c b/drivers/misc/qcom/qdsp6v2/audio_utils_aio.c
+index 07de5a2..42a3ea7 100644
+--- a/drivers/misc/qcom/qdsp6v2/audio_utils_aio.c
++++ b/drivers/misc/qcom/qdsp6v2/audio_utils_aio.c
+@@ -1,6 +1,6 @@
+ /* Copyright (C) 2008 Google, Inc.
+  * Copyright (C) 2008 HTC Corporation
+- * Copyright (c) 2009-2016, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2009-2017, The Linux Foundation. All rights reserved.
+  *
+  * This software is licensed under the terms of the GNU General Public
+  * License version 2, as published by the Free Software Foundation, and
+@@ -119,7 +119,10 @@ static int audio_aio_ion_lookup_vaddr(struct q6audio_aio *audio, void *addr,
+ 	list_for_each_entry(region_elt, &audio->ion_region_queue, list) {
+ 		if (addr >= region_elt->vaddr &&
+ 			addr < region_elt->vaddr + region_elt->len &&
+-			addr + len <= region_elt->vaddr + region_elt->len) {
++			addr + len <= region_elt->vaddr + region_elt->len &&
++			addr + len > addr) {
++			/* to avoid integer addition overflow */
++
+ 			/* offset since we could pass vaddr inside a registerd
+ 			* ion buffer
+ 			*/
+-- 
+cgit v1.1
+

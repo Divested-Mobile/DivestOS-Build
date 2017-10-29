@@ -1,0 +1,480 @@
+From 2f2fa073b95d4700de88c0f7558b4a18c13ac552 Mon Sep 17 00:00:00 2001
+From: SaidiReddy Yenuga <c_saidir@qti.qualcomm.com>
+Date: Tue, 9 Aug 2016 16:10:39 +0530
+Subject: qcacld-2.0: Remove the support for iw_set_priv ioctl
+
+iw_set_priv is obsolete, now hdd_ioctl handles the
+driver commands.
+
+Remove the code related to iw_set_priv ioctl
+
+CRs-Fixed: 1048052
+Change-Id: Ic64a45aab2d23669d6d1219f6d2d8a465d34ac10
+---
+ CORE/HDD/src/wlan_hdd_wext.c | 436 +------------------------------------------
+ 1 file changed, 1 insertion(+), 435 deletions(-)
+
+diff --git a/CORE/HDD/src/wlan_hdd_wext.c b/CORE/HDD/src/wlan_hdd_wext.c
+index e8d0578..90431ea 100644
+--- a/CORE/HDD/src/wlan_hdd_wext.c
++++ b/CORE/HDD/src/wlan_hdd_wext.c
+@@ -4023,69 +4023,6 @@ static int iw_get_linkspeed_priv(struct net_device *dev,
+ 	return ret;
+ }
+ 
+-/*
+- * Support for the RSSI & RSSI-APPROX private commands
+- * Per the WiFi framework the response must be of the form
+- *         "<ssid> rssi <xx>"
+- * unless we are not associated, in which case the response is
+- *         "OK"
+- */
+-static int iw_get_rssi(struct net_device *dev,
+-                       struct iw_request_info *info,
+-                       union iwreq_data *wrqu, char *extra)
+-{
+-   hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
+-   char *cmd = extra;
+-   int len = wrqu->data.length;
+-   v_S7_t s7Rssi = 0;
+-   hdd_station_ctx_t *pHddStaCtx = WLAN_HDD_GET_STATION_CTX_PTR(pAdapter);
+-   int ssidlen = pHddStaCtx->conn_info.SSID.SSID.length;
+-   VOS_STATUS vosStatus;
+-   int rc;
+-
+-   if ((eConnectionState_Associated != pHddStaCtx->conn_info.connState) ||
+-       (0 == ssidlen) || (ssidlen >= len))
+-   {
+-      /* we are not connected or our SSID is too long
+-         so we cannot report an rssi */
+-      rc = scnprintf(cmd, len, "OK");
+-   }
+-   else
+-   {
+-      /* we are connected with a valid SSID
+-         so we can write the SSID into the return buffer
+-         (note that it is not NUL-terminated) */
+-      memcpy(cmd, pHddStaCtx->conn_info.SSID.SSID.ssId, ssidlen );
+-
+-      vosStatus = wlan_hdd_get_rssi(pAdapter, &s7Rssi);
+-
+-      if (VOS_STATUS_SUCCESS == vosStatus)
+-      {
+-          /* append the rssi to the ssid in the format required by
+-             the WiFI Framework */
+-          rc = scnprintf(&cmd[ssidlen], len - ssidlen, " rssi %d", s7Rssi);
+-          rc += ssidlen;
+-      }
+-      else
+-      {
+-          rc = -1;
+-      }
+-   }
+-
+-   /* verify that we wrote a valid response */
+-   if ((rc < 0) || (rc >= len))
+-   {
+-      // encoding or length error?
+-      hddLog(VOS_TRACE_LEVEL_ERROR,
+-             "%s: Unable to encode RSSI, got [%s]",
+-             __func__, cmd);
+-      return -EIO;
+-   }
+-
+-   /* a value is being successfully returned */
+-   return rc;
+-}
+-
+ VOS_STATUS  wlan_hdd_enter_bmps(hdd_adapter_t *pAdapter, int mode)
+ {
+    struct statsContext context;
+@@ -4323,377 +4260,6 @@ void* wlan_hdd_change_country_code_callback(void *pAdapter)
+ }
+ 
+ /**
+- * __iw_set_priv() - SIOCSIWPRIV ioctl handler
+- * @dev: device upon which the ioctl was received
+- * @info: ioctl request information
+- * @wrqu: ioctl request data
+- * @extra: ioctl extra data
+- *
+- * Return: 0 on success, non-zero on error
+- */
+-static int __iw_set_priv(struct net_device *dev, struct iw_request_info *info,
+-			 union iwreq_data *wrqu, char *extra)
+-{
+-    hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
+-    char *cmd = NULL;
+-    int cmd_len = wrqu->data.length;
+-    int ret = 0;
+-    int rc = 0;
+-    VOS_STATUS vos_status = VOS_STATUS_SUCCESS;
+-
+-    hdd_context_t *pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
+-
+-    ENTER();
+-    cmd = mem_alloc_copy_from_user_helper(wrqu->data.pointer,
+-                                          wrqu->data.length);
+-    if (NULL == cmd)
+-    {
+-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
+-                  "mem_alloc_copy_from_user_helper fail");
+-        return -ENOMEM;
+-    }
+-
+-    if (ioctl_debug)
+-    {
+-       pr_info("%s: req [%s] len [%d]\n", __func__, cmd, cmd_len);
+-    }
+-
+-    hddLog(VOS_TRACE_LEVEL_INFO_MED,
+-           "%s: ***Received %s cmd from Wi-Fi GUI***", __func__, cmd);
+-
+-    if (pHddCtx->isLogpInProgress) {
+-        if (ioctl_debug)
+-        {
+-            pr_info("%s: RESTART in progress\n", __func__);
+-        }
+-
+-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
+-                 "%s:LOGP in Progress. Ignore!!!",__func__);
+-        vos_mem_free(cmd);
+-        return -EBUSY;
+-    }
+-
+-    if (strncmp(cmd, "CSCAN", 5) == 0 )
+-    {
+-       if (eHAL_STATUS_SUCCESS != iw_set_cscan(dev, info, wrqu, cmd)) {
+-           VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
+-                     "%s: Error in iw_set_scan!", __func__);
+-          rc = -EINVAL;
+-       }
+-    }
+-    else if( strcasecmp(cmd, "start") == 0 ) {
+-
+-        hddLog(VOS_TRACE_LEVEL_INFO_HIGH, "Start command");
+-        /*Exit from Deep sleep or standby if we get the driver START cmd from android GUI*/
+-
+-        vos_status = wlan_hdd_exit_lowpower(pHddCtx, pAdapter);
+-        if (vos_status == VOS_STATUS_SUCCESS)
+-        {
+-            union iwreq_data wrqu;
+-            char buf[10];
+-
+-            memset(&wrqu, 0, sizeof(wrqu));
+-            wrqu.data.length = strlcpy(buf, "START", sizeof(buf));
+-            wireless_send_event(pAdapter->dev, IWEVCUSTOM, &wrqu, buf);
+-        }
+-        else
+-        {
+-            hddLog(VOS_TRACE_LEVEL_ERROR, "%s: START CMD Status %d", __func__, vos_status);
+-            rc = -EIO;
+-        }
+-        goto done;
+-    }
+-    else if( strcasecmp(cmd, "stop") == 0 )
+-    {
+-        union iwreq_data wrqu;
+-        char buf[10];
+-
+-        hddLog(VOS_TRACE_LEVEL_INFO_HIGH, "Stop command");
+-
+-        wlan_hdd_enter_lowpower(pHddCtx);
+-        memset(&wrqu, 0, sizeof(wrqu));
+-        wrqu.data.length = strlcpy(buf, "STOP", sizeof(buf));
+-        wireless_send_event(pAdapter->dev, IWEVCUSTOM, &wrqu, buf);
+-        goto done;
+-    }
+-    else if (strcasecmp(cmd, "macaddr") == 0)
+-    {
+-        ret = snprintf(cmd, cmd_len, "Macaddr = " MAC_ADDRESS_STR,
+-                       MAC_ADDR_ARRAY(pAdapter->macAddressCurrent.bytes));
+-    }
+-    else if (strcasecmp(cmd, "scan-active") == 0)
+-    {
+-        hdd_context_t *pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
+-        hddLog(LOG1, FL("making default scan to active"));
+-        pHddCtx->ioctl_scan_mode = eSIR_ACTIVE_SCAN;
+-        ret = snprintf(cmd, cmd_len, "OK");
+-    }
+-    else if (strcasecmp(cmd, "scan-passive") == 0)
+-    {
+-        hdd_context_t *pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
+-        hddLog(LOG1, FL("making default scan to active"));
+-        pHddCtx->ioctl_scan_mode = eSIR_PASSIVE_SCAN;
+-        ret = snprintf(cmd, cmd_len, "OK");
+-    }
+-    else if( strcasecmp(cmd, "scan-mode") == 0 )
+-    {
+-        ret = snprintf(cmd, cmd_len, "ScanMode = %u", pAdapter->scan_info.scan_mode);
+-    }
+-    else if( strcasecmp(cmd, "linkspeed") == 0 )
+-    {
+-        ret = iw_get_linkspeed(dev, info, wrqu, cmd);
+-    }
+-    else if( strncasecmp(cmd, "COUNTRY", 7) == 0 ) {
+-        char *country_code;
+-        unsigned long rc;
+-        eHalStatus eHal_status;
+-
+-        country_code =  cmd + 8;
+-
+-        init_completion(&pAdapter->change_country_code);
+-
+-        eHal_status = sme_ChangeCountryCode(pHddCtx->hHal,
+-                                            (void *)(tSmeChangeCountryCallback)wlan_hdd_change_country_code_callback,
+-                                            country_code,
+-                                            pAdapter,
+-                                            pHddCtx->pvosContext,
+-                                            eSIR_TRUE,
+-                                            eSIR_TRUE);
+-
+-        /* Wait for completion */
+-        rc = wait_for_completion_timeout(&pAdapter->change_country_code,
+-                                  msecs_to_jiffies(WLAN_WAIT_TIME_STATS));
+-
+-        if (!rc) {
+-            hddLog(VOS_TRACE_LEVEL_ERROR,
+-               FL("SME timedout while setting country code"));
+-        }
+-
+-        if (eHAL_STATUS_SUCCESS != eHal_status)
+-        {
+-            VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+-                       "%s: SME Change Country code fail", __func__);
+-            vos_mem_free(cmd);
+-            return -EIO;
+-        }
+-    }
+-    else if( strncasecmp(cmd, "rssi", 4) == 0 )
+-    {
+-        ret = iw_get_rssi(dev, info, wrqu, cmd);
+-    }
+-    else if( strncasecmp(cmd, "powermode", 9) == 0 ) {
+-        int mode;
+-        char *ptr;
+-
+-        if (9 < cmd_len)
+-        {
+-            ptr = (char*)(cmd + 9);
+-
+-        }else{
+-              VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
+-                        "CMD LENGTH %d is not correct",cmd_len);
+-              vos_mem_free(cmd);
+-              return -EINVAL;
+-        }
+-
+-        if (1 != sscanf(ptr,"%d",&mode))
+-        {
+-            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
+-                      "powermode input %s is not correct",ptr);
+-            vos_mem_free(cmd);
+-            return -EIO;
+-        }
+-
+-        if(!pHddCtx->cfg_ini->enablePowersaveOffload)
+-            wlan_hdd_enter_bmps(pAdapter, mode);
+-        else
+-            wlan_hdd_set_powersave(pAdapter, mode);
+-    }
+-    else if (strncasecmp(cmd, "getpower", 8) == 0 ) {
+-        v_U32_t pmc_state;
+-        v_U16_t value;
+-
+-        pmc_state = pmcGetPmcState(WLAN_HDD_GET_HAL_CTX(pAdapter));
+-        if(pmc_state == BMPS) {
+-           value = DRIVER_POWER_MODE_AUTO;
+-        }
+-        else {
+-           value = DRIVER_POWER_MODE_ACTIVE;
+-        }
+-        ret = snprintf(cmd, cmd_len, "powermode = %u", value);
+-    }
+-    else if( strncasecmp(cmd, "btcoexmode", 10) == 0 ) {
+-        hddLog( VOS_TRACE_LEVEL_INFO, "btcoexmode");
+-        /*TODO: set the btcoexmode*/
+-    }
+-    else if( strcasecmp(cmd, "btcoexstat") == 0 ) {
+-
+-        hddLog(VOS_TRACE_LEVEL_INFO, "BtCoex Status");
+-        /*TODO: Return the btcoex status*/
+-    }
+-    else if( strcasecmp(cmd, "rxfilter-start") == 0 ) {
+-
+-        hddLog(VOS_TRACE_LEVEL_INFO, "Rx Data Filter Start command");
+-
+-        /*TODO: Enable Rx data Filter*/
+-    }
+-    else if( strcasecmp(cmd, "rxfilter-stop") == 0 ) {
+-
+-        hddLog(VOS_TRACE_LEVEL_INFO, "Rx Data Filter Stop command");
+-
+-        /*TODO: Disable Rx data Filter*/
+-    }
+-    else if( strcasecmp(cmd, "rxfilter-statistics") == 0 ) {
+-
+-        hddLog( VOS_TRACE_LEVEL_INFO, "Rx Data Filter Statistics command");
+-        /*TODO: rxfilter-statistics*/
+-    }
+-    else if( strncasecmp(cmd, "rxfilter-add", 12) == 0 ) {
+-
+-        hddLog( VOS_TRACE_LEVEL_INFO, "rxfilter-add");
+-        /*TODO: rxfilter-add*/
+-    }
+-    else if( strncasecmp(cmd, "rxfilter-remove",15) == 0 ) {
+-
+-        hddLog( VOS_TRACE_LEVEL_INFO, "rxfilter-remove");
+-        /*TODO: rxfilter-remove*/
+-    }
+-#ifdef FEATURE_WLAN_SCAN_PNO
+-    else if( strncasecmp(cmd, "pnosetup", 8) == 0 ) {
+-        hddLog( VOS_TRACE_LEVEL_INFO, "pnosetup");
+-        /*TODO: support pnosetup*/
+-    }
+-    else if( strncasecmp(cmd, "pnoforce", 8) == 0 ) {
+-        hddLog( VOS_TRACE_LEVEL_INFO, "pnoforce");
+-        /*TODO: support pnoforce*/
+-    }
+-    else if( strncasecmp(cmd, "pno",3) == 0 ) {
+-
+-        hddLog( VOS_TRACE_LEVEL_INFO, "pno");
+-        ret = iw_set_pno(dev, info, wrqu, cmd, 3);
+-        vos_mem_free(cmd);
+-        return ret;
+-    }
+-#endif /*FEATURE_WLAN_SCAN_PNO*/
+-    else if( strncasecmp(cmd, "powerparams",11) == 0 ) {
+-      hddLog( VOS_TRACE_LEVEL_INFO, "powerparams");
+-      vos_status = iw_set_power_params(dev, info, wrqu, cmd, 11);
+-      vos_mem_free(cmd);
+-      return (vos_status == VOS_STATUS_SUCCESS) ? 0 : -EINVAL;
+-    }
+-    else if( 0 == strncasecmp(cmd, "CONFIG-TX-TRACKING", 18) ) {
+-        tSirTxPerTrackingParam tTxPerTrackingParam;
+-        char *ptr;
+-
+-        if (18 < cmd_len)
+-        {
+-           ptr = (char*)(cmd + 18);
+-        }else{
+-               VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
+-                         "CMD LENGTH %d is not correct",cmd_len);
+-               vos_mem_free(cmd);
+-               return -EINVAL;
+-        }
+-
+-        if (4 != sscanf(ptr,"%hhu %hhu %hhu %u",
+-                        &(tTxPerTrackingParam.ucTxPerTrackingEnable),
+-                        &(tTxPerTrackingParam.ucTxPerTrackingPeriod),
+-                        &(tTxPerTrackingParam.ucTxPerTrackingRatio),
+-                        &(tTxPerTrackingParam.uTxPerTrackingWatermark)))
+-        {
+-            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
+-                      "CONFIG-TX-TRACKING %s input is not correct",ptr);
+-                      vos_mem_free(cmd);
+-                      return -EIO;
+-        }
+-
+-        // parameters checking
+-        // period has to be larger than 0
+-        if (0 == tTxPerTrackingParam.ucTxPerTrackingPeriod)
+-        {
+-            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN, "Period input is not correct");
+-            vos_mem_free(cmd);
+-            return -EIO;
+-        }
+-
+-        // use default value 5 is the input is not reasonable. in unit of 10%
+-        if ((tTxPerTrackingParam.ucTxPerTrackingRatio > TX_PER_TRACKING_MAX_RATIO) || (0 == tTxPerTrackingParam.ucTxPerTrackingRatio))
+-        {
+-            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN, "Ratio input is not good. use default 5");
+-            tTxPerTrackingParam.ucTxPerTrackingRatio = TX_PER_TRACKING_DEFAULT_RATIO;
+-        }
+-
+-        // default is 5
+-        if (0 == tTxPerTrackingParam.uTxPerTrackingWatermark)
+-        {
+-            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN, "Tx Packet number input is not good. use default 5");
+-            tTxPerTrackingParam.uTxPerTrackingWatermark = TX_PER_TRACKING_DEFAULT_WATERMARK;
+-        }
+-
+-        if (eHAL_STATUS_SUCCESS !=
+-            sme_SetTxPerTracking(pHddCtx->hHal,
+-                                 hdd_tx_per_hit_cb,
+-                                 (void*)pAdapter, &tTxPerTrackingParam)) {
+-           VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN, "Set Tx PER Tracking Failed!");
+-            rc = -EIO;
+-        }
+-    }
+-    else {
+-        hddLog( VOS_TRACE_LEVEL_WARN, "%s: Unsupported GUI command %s",
+-                __func__, cmd);
+-    }
+-done:
+-    /* many of the commands write information back into the command
+-       string using snprintf().  check the return value here in one
+-       place */
+-    if ((ret < 0) || (ret >= cmd_len))
+-    {
+-       /* there was an encoding error or overflow */
+-       rc = -EINVAL;
+-    }
+-    else if (ret > 0)
+-    {
+-       if (copy_to_user(wrqu->data.pointer, cmd, ret))
+-       {
+-          hddLog(VOS_TRACE_LEVEL_ERROR,
+-                 "%s: failed to copy data to user buffer", __func__);
+-          vos_mem_free(cmd);
+-          return -EFAULT;
+-       }
+-       wrqu->data.length = ret;
+-    }
+-
+-    if (ioctl_debug)
+-    {
+-       pr_info("%s: rsp [%s] len [%d] status %d\n",
+-               __func__, cmd, wrqu->data.length, rc);
+-    }
+-    vos_mem_free(cmd);
+-    return rc;
+-}
+-
+-/**
+- * iw_set_priv() - SSR wrapper for __iw_set_priv()
+- * @dev: pointer to net_device
+- * @info: pointer to iw_request_info
+- * @wrqu: pointer to iwreq_data
+- * @extra: pointer to extra ioctl payload
+- *
+- * Return: 0 on success, error number otherwise
+- */
+-static int iw_set_priv(struct net_device *dev, struct iw_request_info *info,
+-		       union iwreq_data *wrqu, char *extra)
+-{
+-	int ret;
+-
+-	vos_ssr_protect(__func__);
+-	ret = __iw_set_priv(dev, info, wrqu, extra);
+-	vos_ssr_unprotect(__func__);
+-
+-	return ret;
+-}
+-
+-/**
+  * __iw_set_nick() - set nick
+  * @dev: pointer to net_device
+  * @info: pointer to iw_request_info
+@@ -11418,7 +10984,7 @@ static const iw_handler      we_handler[] =
+    (iw_handler) NULL,              /* SIOCGIWSENS */
+    (iw_handler) NULL,             /* SIOCSIWRANGE */
+    (iw_handler) iw_get_range,      /* SIOCGIWRANGE */
+-   (iw_handler) iw_set_priv,       /* SIOCSIWPRIV */
++   (iw_handler) NULL,             /* SIOCSIWPRIV */
+    (iw_handler) NULL,             /* SIOCGIWPRIV */
+    (iw_handler) NULL,             /* SIOCSIWSTATS */
+    (iw_handler) NULL,             /* SIOCGIWSTATS */
+-- 
+cgit v1.1
+

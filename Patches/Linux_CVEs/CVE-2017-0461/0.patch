@@ -1,0 +1,53 @@
+From ce5d6f84420a2e6ca6aad6b866992970dd313a65 Mon Sep 17 00:00:00 2001
+From: Srinivas Girigowda <sgirigow@codeaurora.org>
+Date: Mon, 12 Dec 2016 18:45:32 -0800
+Subject: qcacld-2.0: Fix array out-of-bounds & integer underflow in
+ _iw_set_genie
+
+'wrqu->data.length' holds the total number of IE data buffer.
+Add a check to make sure the number of remaining data to be read is
+greater than or equal to IE length.
+
+Also, advance the buffer pointer to point to the next element only
+if next element is present.
+
+Change-Id: Ic60f3e0650f365955dab4099eb8740e9789e00cc
+CRs-Fixed: 1100132
+---
+ CORE/HDD/src/wlan_hdd_wext.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/CORE/HDD/src/wlan_hdd_wext.c b/CORE/HDD/src/wlan_hdd_wext.c
+index 0549c3c..574b1ef 100644
+--- a/CORE/HDD/src/wlan_hdd_wext.c
++++ b/CORE/HDD/src/wlan_hdd_wext.c
+@@ -2755,6 +2755,13 @@ static int __iw_set_genie(struct net_device *dev, struct iw_request_info *info,
+         hddLog(VOS_TRACE_LEVEL_INFO, "%s: IE[0x%X], LEN[%d]",
+             __func__, elementId, eLen);
+ 
++        if (remLen < eLen) {
++            hddLog(LOGE, "Remaining len: %u less than ie len: %u",
++                   remLen, eLen);
++            ret = -EINVAL;
++            goto exit;
++        }
++
+         switch ( elementId )
+          {
+             case IE_EID_VENDOR:
+@@ -2837,8 +2844,11 @@ static int __iw_set_genie(struct net_device *dev, struct iw_request_info *info,
+                 hddLog (LOGE, "%s Set UNKNOWN IE %X",__func__, elementId);
+                 goto exit;
+     }
+-        genie += eLen;
+         remLen -= eLen;
++
++        /* Move genie only if next element is present */
++        if (remLen >= 2)
++            genie += eLen;
+     }
+ exit:
+     EXIT();
+-- 
+cgit v1.1
+

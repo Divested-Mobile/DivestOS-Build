@@ -1,0 +1,59 @@
+From 5f69ccf3b011c1d14a1b1b00dbaacf74307c9132 Mon Sep 17 00:00:00 2001
+From: Zhen Kong <zkong@codeaurora.org>
+Date: Fri, 29 Jul 2016 15:32:31 -0700
+Subject: msm: crypto: Fix integer over flow check in qcedev driver
+
+Integer overflow check always fails when ULONG_MAX is used,
+as ULONG_MAX is 2^64-1, while req->data[i].len and total
+are uint32_t. Make change to use U32_MAX instead of
+ULONG_MAX.
+
+CRs-fixed: 1046507
+Change-Id: Iccf9c32400ecc7ffc0afae16f58c38e5d78a5b64
+Signed-off-by: Zhen Kong <zkong@codeaurora.org>
+---
+ drivers/crypto/msm/qcedev.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/crypto/msm/qcedev.c b/drivers/crypto/msm/qcedev.c
+index 51f5069..e63f061 100644
+--- a/drivers/crypto/msm/qcedev.c
++++ b/drivers/crypto/msm/qcedev.c
+@@ -1,6 +1,6 @@
+ /* Qualcomm CE device driver.
+  *
+- * Copyright (c) 2010-2015, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2010-2016, The Linux Foundation. All rights reserved.
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2 and
+@@ -1543,7 +1543,7 @@ static int qcedev_check_cipher_params(struct qcedev_cipher_op_req *req,
+ 	}
+ 	/* Check for sum of all dst length is equal to data_len  */
+ 	for (i = 0; i < req->entries; i++) {
+-		if (req->vbuf.dst[i].len >= ULONG_MAX - total) {
++		if (req->vbuf.dst[i].len >= U32_MAX - total) {
+ 			pr_err("%s: Integer overflow on total req dst vbuf length\n",
+ 				__func__);
+ 			goto error;
+@@ -1557,7 +1557,7 @@ static int qcedev_check_cipher_params(struct qcedev_cipher_op_req *req,
+ 	}
+ 	/* Check for sum of all src length is equal to data_len  */
+ 	for (i = 0, total = 0; i < req->entries; i++) {
+-		if (req->vbuf.src[i].len > ULONG_MAX - total) {
++		if (req->vbuf.src[i].len > U32_MAX - total) {
+ 			pr_err("%s: Integer overflow on total req src vbuf length\n",
+ 				__func__);
+ 			goto error;
+@@ -1619,7 +1619,7 @@ static int qcedev_check_sha_params(struct qcedev_sha_op_req *req,
+ 
+ 	/* Check for sum of all src length is equal to data_len  */
+ 	for (i = 0, total = 0; i < req->entries; i++) {
+-		if (req->data[i].len > ULONG_MAX - total) {
++		if (req->data[i].len > U32_MAX - total) {
+ 			pr_err("%s: Integer overflow on total req buf length\n",
+ 				__func__);
+ 			goto sha_error;
+-- 
+cgit v1.1
+

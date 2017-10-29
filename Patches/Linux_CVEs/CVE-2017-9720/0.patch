@@ -1,0 +1,30 @@
+From c74dbab508c7c07d8e2cf8230cc78bff4b710272 Mon Sep 17 00:00:00 2001
+From: Fei Zhang <feizhang@codeaurora.org>
+Date: Wed, 17 May 2017 15:33:02 +0800
+Subject: msm:camera: correct stats query out of boundary
+
+fix one potential out of boundary query of stats info.
+
+Bug: 36264696
+Change-Id: I13e4bf8802fcce529f9268c272e4727619d5ad8f
+Signed-off-by: Fei Zhang <feizhang@codeaurora.org>
+---
+ drivers/media/platform/msm/camera_v2/isp/msm_isp_stats_util.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/msm/camera_v2/isp/msm_isp_stats_util.c b/drivers/media/platform/msm/camera_v2/isp/msm_isp_stats_util.c
+index a0eed95..82da3e0 100644
+--- a/drivers/media/platform/msm/camera_v2/isp/msm_isp_stats_util.c
++++ b/drivers/media/platform/msm/camera_v2/isp/msm_isp_stats_util.c
+@@ -803,7 +803,7 @@ int msm_isp_update_stats_stream(struct vfe_device *vfe_dev, void *arg)
+ 		update_info = &update_cmd->update_info[i];
+ 		/*check array reference bounds*/
+ 		if (STATS_IDX(update_info->stream_handle)
+-			> vfe_dev->hw_info->stats_hw_info->num_stats_type) {
++			>= vfe_dev->hw_info->stats_hw_info->num_stats_type) {
+ 			pr_err("%s: stats idx %d out of bound!", __func__,
+ 				STATS_IDX(update_info->stream_handle));
+ 			return -EINVAL;
+-- 
+cgit v1.1
+

@@ -1,0 +1,40 @@
+From cc95d644ee8a043f2883d65dda20e16f95041de3 Mon Sep 17 00:00:00 2001
+From: Zhen Kong <zkong@codeaurora.org>
+Date: Tue, 16 Aug 2016 12:46:12 -0700
+Subject: msm: crypto: Fix integer over flow check in qcrypto driver
+
+Integer overflow check is invalid when ULONG_MAX is used,
+as ULONG_MAX has typeof 'unsigned long', while req->assoclen,
+req->crytlen, and qreq.ivsize are 'unsigned int'. Make change
+to use UINT_MAX instead of ULONG_MAX.
+
+CRs-fixed: 1050970
+Change-Id: I3782ea7ed2eaacdcad15b34e047a4699bf4f9e4f
+Signed-off-by: Zhen Kong <zkong@codeaurora.org>
+---
+ drivers/crypto/msm/qcrypto.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/crypto/msm/qcrypto.c b/drivers/crypto/msm/qcrypto.c
+index 40a4105..2d83304 100644
+--- a/drivers/crypto/msm/qcrypto.c
++++ b/drivers/crypto/msm/qcrypto.c
+@@ -1870,12 +1870,12 @@ static int _qcrypto_process_aead(struct  crypto_engine *pengine,
+ 			 * include  assoicated data, ciphering data stream,
+ 			 * generated MAC, and CCM padding.
+ 			 */
+-			if ((MAX_ALIGN_SIZE * 2 > ULONG_MAX - req->assoclen) ||
++			if ((MAX_ALIGN_SIZE * 2 > UINT_MAX - req->assoclen) ||
+ 				((MAX_ALIGN_SIZE * 2 + req->assoclen) >
+-						ULONG_MAX - qreq.ivsize) ||
++						UINT_MAX - qreq.ivsize) ||
+ 				((MAX_ALIGN_SIZE * 2 + req->assoclen
+ 					+ qreq.ivsize)
+-						> ULONG_MAX - req->cryptlen)) {
++						> UINT_MAX - req->cryptlen)) {
+ 				pr_err("Integer overflow on aead req length.\n");
+ 				return -EINVAL;
+ 			}
+-- 
+cgit v1.1
+

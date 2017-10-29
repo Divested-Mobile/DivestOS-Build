@@ -1,0 +1,57 @@
+From a5edb54e93ba85719091fe2bc426d75fa7059834 Mon Sep 17 00:00:00 2001
+From: Amir Samuelov <amirs@codeaurora.org>
+Date: Tue, 29 Nov 2016 10:58:54 +0200
+Subject: spcom: check user space command size
+
+The user space spcomlib provides command buffer
+for various commands.
+Verify that the command buffer size matches the expected
+command struct size.
+
+CRs-Fixed: 1094143
+Change-Id: If3ead54bd03368fa9338921e299b2ad8fb078297
+Signed-off-by: Amir Samuelov <amirs@codeaurora.org>
+---
+ drivers/soc/qcom/spcom.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/soc/qcom/spcom.c b/drivers/soc/qcom/spcom.c
+index 0c5f3b8..ebb6b13 100644
+--- a/drivers/soc/qcom/spcom.c
++++ b/drivers/soc/qcom/spcom.c
+@@ -1539,13 +1539,18 @@ static int spcom_handle_lock_ion_buf_command(struct spcom_channel *ch,
+ 	struct ion_handle *ion_handle;
+ 	int i;
+ 
++	if (size != sizeof(*cmd)) {
++		pr_err("cmd size [%d] , expected [%d].\n",
++		       (int) size,  (int) sizeof(*cmd));
++		return -EINVAL;
++	}
++
+ 	/* Check ION client */
+ 	if (spcom_dev->ion_client == NULL) {
+ 		pr_err("invalid ion client.\n");
+ 		return -ENODEV;
+ 	}
+ 
+-
+ 	/* Get ION handle from fd - this increments the ref count */
+ 	ion_handle = ion_import_dma_buf(spcom_dev->ion_client, fd);
+ 	if (ion_handle == NULL) {
+@@ -1591,6 +1596,12 @@ static int spcom_handle_unlock_ion_buf_command(struct spcom_channel *ch,
+ 	struct ion_client *ion_client = spcom_dev->ion_client;
+ 	int i;
+ 
++	if (size != sizeof(*cmd)) {
++		pr_err("cmd size [%d] , expected [%d].\n",
++		       (int) size,  (int) sizeof(*cmd));
++		return -EINVAL;
++	}
++
+ 	/* Check ION client */
+ 	if (ion_client == NULL) {
+ 		pr_err("fail to create ion client.\n");
+-- 
+cgit v1.1
+

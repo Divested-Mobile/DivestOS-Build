@@ -1,0 +1,32 @@
+From 232ec805c7cc4150f05aa06a98335378ab272ec7 Mon Sep 17 00:00:00 2001
+From: chengengjia <chengjia4574@gmail.com>
+Date: Wed, 14 Sep 2016 14:10:56 +0800
+Subject: usb: diag: prevent showing the address of kernel variable 'port'
+
+The format specifier %p can leak kernel address while not valuing the kptr_strict system settings.
+The fix is designed to use %pK instead of %p, which also evaluates whether kptr_restrict is set.
+
+Signed-off-by: chengengjia <chengjia4574@gmail.com>
+Test: compile
+Bug: 31496950
+Change-Id: Ib93c0defdd68f4afe46b5a818ce4d1a2b850cf46
+---
+ drivers/usb/gadget/u_ctrl_hsic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/u_ctrl_hsic.c b/drivers/usb/gadget/u_ctrl_hsic.c
+index ff3fbf3..1c5f160 100644
+--- a/drivers/usb/gadget/u_ctrl_hsic.c
++++ b/drivers/usb/gadget/u_ctrl_hsic.c
+@@ -557,7 +557,7 @@ static ssize_t gctrl_read_stats(struct file *file, char __user *ubuf,
+ 
+ 		temp += scnprintf(buf + temp, DEBUG_BUF_SIZE - temp,
+ 				"\nName:        %s\n"
+-				"#PORT:%d port: %p\n"
++				"#PORT:%d port: %pK\n"
+ 				"to_usbhost:    %lu\n"
+ 				"to_modem:      %lu\n"
+ 				"cpkt_drp_cnt:  %lu\n"
+-- 
+cgit v1.1
+

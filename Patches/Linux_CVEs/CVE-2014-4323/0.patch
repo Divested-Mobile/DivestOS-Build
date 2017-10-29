@@ -1,0 +1,33 @@
+From 014fa8def84c62893fa016e873c12de1da498603 Mon Sep 17 00:00:00 2001
+From: raghavendra ambadas <rambad@codeaurora.org>
+Date: Mon, 6 Oct 2014 14:59:57 +0530
+Subject: msm: mdp: Validate input arguments from user space
+
+Fully verify the input arguments from user client are safe
+to use.
+
+Change-Id: Ie14332443b187951009c63ebfb78456dcd9ba60f
+Signed-off-by: Raghavendra Ambadas <rambad@codeaurora.org>
+---
+ drivers/video/msm/mdp.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/video/msm/mdp.c b/drivers/video/msm/mdp.c
+index 4ede0b52..c00bd78 100644
+--- a/drivers/video/msm/mdp.c
++++ b/drivers/video/msm/mdp.c
+@@ -485,6 +485,11 @@ static int mdp_lut_hw_update(struct fb_cmap *cmap)
+ 	c[1] = cmap->blue;
+ 	c[2] = cmap->red;
+ 
++	if (cmap->start > MDP_HIST_LUT_SIZE || cmap->len > MDP_HIST_LUT_SIZE ||
++			(cmap->start + cmap->len > MDP_HIST_LUT_SIZE)) {
++		pr_err("mdp_lut_hw_update invalid arguments\n");
++		return -EINVAL;
++	}
+ 	for (i = 0; i < cmap->len; i++) {
+ 		if (copy_from_user(&r, cmap->red++, sizeof(r)) ||
+ 		    copy_from_user(&g, cmap->green++, sizeof(g)) ||
+-- 
+cgit v1.1
+

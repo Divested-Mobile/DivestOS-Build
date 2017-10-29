@@ -1,0 +1,42 @@
+From 2c5c1fd0d2a2a96fab750fa332cb703022c16c04 Mon Sep 17 00:00:00 2001
+From: John Dias <joaodias@google.com>
+Date: Wed, 9 Nov 2016 11:03:57 -0800
+Subject: [PATCH] perf: don't leave group_entry on sibling list
+ (use-after-free)
+
+When perf_group_detach is called on a group leader,
+it should empty its sibling list. Otherwise, when
+a sibling is later deallocated, list_del_event()
+removes the sibling's group_entry from its current
+list, which can be the now-deallocated group leader's
+sibling list (use-after-free bug).
+
+Bug: 32402548
+Change-Id: I99f6bc97c8518df1cb0035814368012ba72ab1f1
+Signed-off-by: John Dias <joaodias@google.com>
+---
+ kernel/events/core.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index 01eab13ec0e7e..b7e1e224f07e9 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -1449,10 +1449,17 @@ static void perf_group_detach(struct perf_event *event)
+ 	 * If this was a group event with sibling events then
+ 	 * upgrade the siblings to singleton events by adding them
+ 	 * to whatever list we are on.
++	 * If this isn't on a list, make sure we still remove the sibling's
++	 * group_entry from this sibling_list; otherwise, when that sibling
++	 * is later deallocated, it will try to remove itself from this
++	 * sibling_list, which may well have been deallocated already,
++	 * resulting in a use-after-free.
+ 	 */
+ 	list_for_each_entry_safe(sibling, tmp, &event->sibling_list, group_entry) {
+ 		if (list)
+ 			list_move_tail(&sibling->group_entry, list);
++		else
++			list_del_init(&sibling->group_entry);
+ 		sibling->group_leader = sibling;
+ 
+ 		/* Inherit group flags from the previous leader */

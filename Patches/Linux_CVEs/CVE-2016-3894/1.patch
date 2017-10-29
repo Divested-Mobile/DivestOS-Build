@@ -1,0 +1,31 @@
+From de3e3e5930b1edfebec7870390443279ec5b65fe Mon Sep 17 00:00:00 2001
+From: Srinivasarao P <spathi@codeaurora.org>
+Date: Fri, 22 Jul 2016 12:48:33 +0530
+Subject: msm : dma_test: Initialize newly allocated memory
+
+The MSM_DMA_IOALLOC ioctl command allocates kernel memory and
+this memory can be read back using the MSM_DMA_IORBUF ioctl command.
+This memory is not zero-initialized and may contain sensitive data.
+
+Change-Id: I8c55d6fe500e7607690b89806715893783eecf9c
+Signed-off-by: Srinivasarao P <spathi@codeaurora.org>
+---
+ arch/arm/mach-msm/dma_test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/mach-msm/dma_test.c b/arch/arm/mach-msm/dma_test.c
+index 3d13e4e..1d717c3 100644
+--- a/arch/arm/mach-msm/dma_test.c
++++ b/arch/arm/mach-msm/dma_test.c
+@@ -99,7 +99,7 @@ static int buffer_req(struct msm_dma_alloc_req *req)
+ 	if (i >= MAX_TEST_BUFFERS)
+ 		goto error;
+ 
+-	buffers[i] = kmalloc(req->size, GFP_KERNEL | __GFP_DMA);
++	buffers[i] = kzalloc(req->size, GFP_KERNEL | __GFP_DMA);
+ 	if (buffers[i] == 0)
+ 		goto error;
+ 	sizes[i] = req->size;
+-- 
+cgit v1.1
+

@@ -1,0 +1,48 @@
+From 5ff192e2c758298680b0c6cd364a55c59850901f Mon Sep 17 00:00:00 2001
+From: Vidyakumar Athota <vathota@codeaurora.org>
+Date: Tue, 20 Jun 2017 16:39:00 -0700
+Subject: [PATCH] ASoC: msm: qdsp6v2: add size check to fix out of bounds issue
+
+Before calling audio calibration ioctl functions, compare the
+allocated buffer size to the size of the header and cal type header
+to ensure the buffer is big enough.
+
+Bug: 37623773
+Change-Id: I601bb37ddcc34d459c207cf579f29744fe912d7b
+Signed-off-by: Vidyakumar Athota <vathota@codeaurora.org>
+---
+ sound/soc/msm/qdsp6v2/audio_calibration.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/sound/soc/msm/qdsp6v2/audio_calibration.c b/sound/soc/msm/qdsp6v2/audio_calibration.c
+index 60d09dfaeb7f7..2a1b34776b686 100644
+--- a/sound/soc/msm/qdsp6v2/audio_calibration.c
++++ b/sound/soc/msm/qdsp6v2/audio_calibration.c
+@@ -453,6 +453,12 @@ static long audio_cal_shared_ioctl(struct file *file, unsigned int cmd,
+ 			data->cal_type.cal_hdr.buffer_number);
+ 		ret = -EINVAL;
+ 		goto done;
++	} else if ((data->hdr.cal_type_size + sizeof(data->hdr)) > size) {
++		pr_err("%s: cal type hdr size %zd + cal type size %d is greater than user buffer size %d\n",
++			__func__, sizeof(data->hdr), data->hdr.cal_type_size,
++			size);
++		ret = -EFAULT;
++		goto done;
+ 	}
+ 
+ 
+@@ -490,13 +496,7 @@ static long audio_cal_shared_ioctl(struct file *file, unsigned int cmd,
+ 			goto unlock;
+ 		if (data == NULL)
+ 			goto unlock;
+-		if ((sizeof(data->hdr) + data->hdr.cal_type_size) > size) {
+-			pr_err("%s: header size %zd plus cal type size %d are greater than data buffer size %d\n",
+-				__func__, sizeof(data->hdr),
+-				data->hdr.cal_type_size, size);
+-			ret = -EFAULT;
+-			goto unlock;
+-		} else if (copy_to_user((void *)arg, data,
++		if (copy_to_user(arg, data,
+ 			sizeof(data->hdr) + data->hdr.cal_type_size)) {
+ 			pr_err("%s: Could not copy cal type to user\n",
+ 				__func__);

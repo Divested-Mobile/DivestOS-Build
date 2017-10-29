@@ -1,0 +1,53 @@
+From daf0acd54a6a80de227baef9a06285e4aa5f8c93 Mon Sep 17 00:00:00 2001
+From: Sriharsha Allenki <sallenki@codeaurora.org>
+Date: Thu, 22 Dec 2016 14:57:44 +0530
+Subject: hid: usbhid: Changes to prevent buffer overflow
+
+Moved some value checks to right positions to prevent
+buffer flow, which may be possible before. Previously
+these value checks are in an else statement which may
+not be executed.
+
+Change-Id: I02dbecd074183581a6bdae6377097bc004bd3d3c
+CRs-fixed: 1102936
+Signed-off-by: Sriharsha Allenki <sallenki@codeaurora.org>
+---
+ drivers/hid/usbhid/hiddev.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/hid/usbhid/hiddev.c b/drivers/hid/usbhid/hiddev.c
+index 2f1ddca..602f163 100644
+--- a/drivers/hid/usbhid/hiddev.c
++++ b/drivers/hid/usbhid/hiddev.c
+@@ -510,18 +510,19 @@ static noinline int hiddev_ioctl_usage(struct hiddev *hiddev, unsigned int cmd,
+ 				goto inval;
+ 
+ 			field = report->field[uref->field_index];
++		}
+ 
+-			if (cmd == HIDIOCGCOLLECTIONINDEX) {
+-				if (uref->usage_index >= field->maxusage)
+-					goto inval;
+-			} else if (uref->usage_index >= field->report_count)
++		if (cmd == HIDIOCGCOLLECTIONINDEX) {
++			if (uref->usage_index >= field->maxusage)
+ 				goto inval;
++		} else if (uref->usage_index >= field->report_count)
++			goto inval;
+ 
+-			else if ((cmd == HIDIOCGUSAGES || cmd == HIDIOCSUSAGES) &&
+-				 (uref_multi->num_values > HID_MAX_MULTI_USAGES ||
+-				  uref->usage_index + uref_multi->num_values > field->report_count))
+-				goto inval;
+-		}
++		else if ((cmd == HIDIOCGUSAGES || cmd == HIDIOCSUSAGES) &&
++			 (uref_multi->num_values > HID_MAX_MULTI_USAGES ||
++			uref->usage_index + uref_multi->num_values >
++			field->report_count))
++			goto inval;
+ 
+ 		switch (cmd) {
+ 		case HIDIOCGUSAGE:
+-- 
+cgit v1.1
+

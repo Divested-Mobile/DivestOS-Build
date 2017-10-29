@@ -1,0 +1,86 @@
+From 92242610894d1dc26759e486af1d11f2eb78c922 Mon Sep 17 00:00:00 2001
+From: Biswajit Paul <biswajitpaul@codeaurora.org>
+Date: Thu, 30 Jun 2016 19:00:50 -0700
+Subject: [PATCH] input: synaptics_dsx: allocate heap memory for temp buf
+
+rmidev file operations structure include write() and
+read() which accepts data from user space. Temp
+buffers are allocated through variable length arrays
+which can pose security problems. So allocate memory
+on heap instead of stack to avoid this.
+
+Bug: 28799389
+CRs-Fixed: 1032459
+Change-Id: I44443f91d435715dd0097ef8e8dfc48e291f93fc
+Signed-off-by: Mohan Pallaka <mpallaka@codeaurora.org>
+Signed-off-by: Biswajit Paul <biswajitpaul@codeaurora.org>
+---
+ .../touchscreen/synaptics_dsx/synaptics_dsx_rmi_dev.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_rmi_dev.c b/drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_rmi_dev.c
+index 4c341ffb60940..bb9ddd9873cb1 100644
+--- a/drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_rmi_dev.c
++++ b/drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_rmi_dev.c
+@@ -347,7 +347,7 @@ static ssize_t rmidev_read(struct file *filp, char __user *buf,
+ 		size_t count, loff_t *f_pos)
+ {
+ 	ssize_t retval;
+-	unsigned char tmpbuf[count + 1];
++	unsigned char *tmpbuf;
+ 	struct rmidev_data *dev_data = filp->private_data;
+ 
+ 	if (IS_ERR(dev_data)) {
+@@ -361,6 +361,10 @@ static ssize_t rmidev_read(struct file *filp, char __user *buf,
+ 	if (count > (REG_ADDR_LIMIT - *f_pos))
+ 		count = REG_ADDR_LIMIT - *f_pos;
+ 
++	tmpbuf = kzalloc(count + 1, GFP_KERNEL);
++	if (!tmpbuf)
++		return -ENOMEM;
++
+ 	mutex_lock(&(dev_data->file_mutex));
+ 
+ 	retval = synaptics_rmi4_reg_read(rmidev->rmi4_data,
+@@ -378,6 +382,7 @@ static ssize_t rmidev_read(struct file *filp, char __user *buf,
+ clean_up:
+ 	mutex_unlock(&(dev_data->file_mutex));
+ 
++	kfree(tmpbuf);
+ 	return retval;
+ }
+ 
+@@ -393,7 +398,7 @@ static ssize_t rmidev_write(struct file *filp, const char __user *buf,
+ 		size_t count, loff_t *f_pos)
+ {
+ 	ssize_t retval;
+-	unsigned char tmpbuf[count + 1];
++	unsigned char *tmpbuf;
+ 	struct rmidev_data *dev_data = filp->private_data;
+ 
+ 	if (IS_ERR(dev_data)) {
+@@ -407,8 +412,14 @@ static ssize_t rmidev_write(struct file *filp, const char __user *buf,
+ 	if (count > (REG_ADDR_LIMIT - *f_pos))
+ 		count = REG_ADDR_LIMIT - *f_pos;
+ 
+-	if (copy_from_user(tmpbuf, buf, count))
++	tmpbuf = kzalloc(count + 1, GFP_KERNEL);
++	if (!tmpbuf)
++		return -ENOMEM;
++
++	if (copy_from_user(tmpbuf, buf, count)) {
++		kfree(tmpbuf);
+ 		return -EFAULT;
++	}
+ 
+ 	mutex_lock(&(dev_data->file_mutex));
+ 
+@@ -420,7 +431,7 @@ static ssize_t rmidev_write(struct file *filp, const char __user *buf,
+ 		*f_pos += retval;
+ 
+ 	mutex_unlock(&(dev_data->file_mutex));
+-
++	kfree(tmpbuf);
+ 	return retval;
+ }
+ 

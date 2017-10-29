@@ -1,0 +1,97 @@
+From fbd40ea0180a2d328c5adc61414dc8bab9335ce2 Mon Sep 17 00:00:00 2001
+From: "David S. Miller" <davem@davemloft.net>
+Date: Sun, 13 Mar 2016 23:28:00 -0400
+Subject: ipv4: Don't do expensive useless work during inetdev destroy.
+
+When an inetdev is destroyed, every address assigned to the interface
+is removed.  And in this scenerio we do two pointless things which can
+be very expensive if the number of assigned interfaces is large:
+
+1) Address promotion.  We are deleting all addresses, so there is no
+   point in doing this.
+
+2) A full nf conntrack table purge for every address.  We only need to
+   do this once, as is already caught by the existing
+   masq_dev_notifier so masq_inet_event() can skip this.
+
+Reported-by: Solar Designer <solar@openwall.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Tested-by: Cyrill Gorcunov <gorcunov@openvz.org>
+---
+ net/ipv4/devinet.c                          |  4 ++++
+ net/ipv4/fib_frontend.c                     |  4 ++++
+ net/ipv4/netfilter/nf_nat_masquerade_ipv4.c | 12 ++++++++++--
+ 3 files changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/net/ipv4/devinet.c b/net/ipv4/devinet.c
+index 65e76a4..e333bc8 100644
+--- a/net/ipv4/devinet.c
++++ b/net/ipv4/devinet.c
+@@ -334,6 +334,9 @@ static void __inet_del_ifa(struct in_device *in_dev, struct in_ifaddr **ifap,
+ 
+ 	ASSERT_RTNL();
+ 
++	if (in_dev->dead)
++		goto no_promotions;
++
+ 	/* 1. Deleting primary ifaddr forces deletion all secondaries
+ 	 * unless alias promotion is set
+ 	 **/
+@@ -380,6 +383,7 @@ static void __inet_del_ifa(struct in_device *in_dev, struct in_ifaddr **ifap,
+ 			fib_del_ifaddr(ifa, ifa1);
+ 	}
+ 
++no_promotions:
+ 	/* 2. Unlink it */
+ 
+ 	*ifap = ifa1->ifa_next;
+diff --git a/net/ipv4/fib_frontend.c b/net/ipv4/fib_frontend.c
+index 4734475..21add55 100644
+--- a/net/ipv4/fib_frontend.c
++++ b/net/ipv4/fib_frontend.c
+@@ -922,6 +922,9 @@ void fib_del_ifaddr(struct in_ifaddr *ifa, struct in_ifaddr *iprim)
+ 		subnet = 1;
+ 	}
+ 
++	if (in_dev->dead)
++		goto no_promotions;
++
+ 	/* Deletion is more complicated than add.
+ 	 * We should take care of not to delete too much :-)
+ 	 *
+@@ -997,6 +1000,7 @@ void fib_del_ifaddr(struct in_ifaddr *ifa, struct in_ifaddr *iprim)
+ 		}
+ 	}
+ 
++no_promotions:
+ 	if (!(ok & BRD_OK))
+ 		fib_magic(RTM_DELROUTE, RTN_BROADCAST, ifa->ifa_broadcast, 32, prim);
+ 	if (subnet && ifa->ifa_prefixlen < 31) {
+diff --git a/net/ipv4/netfilter/nf_nat_masquerade_ipv4.c b/net/ipv4/netfilter/nf_nat_masquerade_ipv4.c
+index c6eb421..ea91058 100644
+--- a/net/ipv4/netfilter/nf_nat_masquerade_ipv4.c
++++ b/net/ipv4/netfilter/nf_nat_masquerade_ipv4.c
+@@ -108,10 +108,18 @@ static int masq_inet_event(struct notifier_block *this,
+ 			   unsigned long event,
+ 			   void *ptr)
+ {
+-	struct net_device *dev = ((struct in_ifaddr *)ptr)->ifa_dev->dev;
++	struct in_device *idev = ((struct in_ifaddr *)ptr)->ifa_dev;
+ 	struct netdev_notifier_info info;
+ 
+-	netdev_notifier_info_init(&info, dev);
++	/* The masq_dev_notifier will catch the case of the device going
++	 * down.  So if the inetdev is dead and being destroyed we have
++	 * no work to do.  Otherwise this is an individual address removal
++	 * and we have to perform the flush.
++	 */
++	if (idev->dead)
++		return NOTIFY_DONE;
++
++	netdev_notifier_info_init(&info, idev->dev);
+ 	return masq_device_event(this, event, &info);
+ }
+ 
+-- 
+cgit v1.1
+

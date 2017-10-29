@@ -1,0 +1,32 @@
+From 4b9ae9048d63ef9fe9f8cc9d0e33cc38148b268d Mon Sep 17 00:00:00 2001
+From: Ariel Yin <ayin@google.com>
+Date: Wed, 12 Oct 2016 14:02:14 -0700
+Subject: [PATCH] input: synaptics_dsx: add checks of user input data for image
+ name
+
+Add checks of the user input count to avoid possible heap overflow
+
+Signed-off-by: Min Chong <mchong@google.com>
+Change-Id: I1d50a103a0abcbff5eb6bf204607170e9278dec3
+Bug: 31913197
+---
+ drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_fw_update.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_fw_update.c b/drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_fw_update.c
+index 282e06d9aabaa..1f7409efb1565 100644
+--- a/drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_fw_update.c
++++ b/drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_fw_update.c
+@@ -1767,6 +1767,12 @@ static ssize_t fwu_sysfs_image_name_store(struct device *dev,
+ 		struct device_attribute *attr, const char *buf, size_t count)
+ {
+ 	ssize_t retval;
++	if (!buf || count > MAX_IMAGE_NAME_LEN) {
++		dev_err(fwu->rmi4_data->pdev->dev.parent,
++				"%s: Failed to copy image file name\n",
++				__func__);
++		return -EINVAL;
++	}
+ 
+ 	if (!mutex_trylock(&dsx_fwu_sysfs_mutex))
+ 		return -EBUSY;

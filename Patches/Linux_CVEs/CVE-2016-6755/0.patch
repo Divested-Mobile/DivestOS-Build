@@ -1,0 +1,58 @@
+From b5df02edbcdf53dbbab77903d28162772edcf6e0 Mon Sep 17 00:00:00 2001
+From: Suman Mukherjee <sumam@codeaurora.org>
+Date: Thu, 22 Sep 2016 09:06:48 +0530
+Subject: msm: sensor: validate the i2c table index before use
+
+Verifying the i2c table index value before accessing
+the i2c table to avoid memory corruption issues.
+CRs-Fixed: 1065916
+
+Change-Id: I0e31c22f90006f27a77cd420288334b8355cee95
+Signed-off-by: Sureshnaidu Laveti <lsuresh@codeaurora.org>
+Signed-off-by: Suman Mukherjee <sumam@codeaurora.org>
+---
+ .../platform/msm/camera_v2/sensor/actuator/msm_actuator.c  | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/platform/msm/camera_v2/sensor/actuator/msm_actuator.c b/drivers/media/platform/msm/camera_v2/sensor/actuator/msm_actuator.c
+index 1f4eaa1..bebe691 100644
+--- a/drivers/media/platform/msm/camera_v2/sensor/actuator/msm_actuator.c
++++ b/drivers/media/platform/msm/camera_v2/sensor/actuator/msm_actuator.c
+@@ -91,11 +91,6 @@ static void msm_actuator_parse_i2c_params(struct msm_actuator_ctrl_t *a_ctrl,
+ 	struct msm_camera_i2c_reg_array *i2c_tbl = a_ctrl->i2c_reg_tbl;
+ 	CDBG("Enter\n");
+ 	for (i = 0; i < size; i++) {
+-		/* check that the index into i2c_tbl cannot grow larger that
+-		the allocated size of i2c_tbl */
+-		if ((a_ctrl->total_steps + 1) < (a_ctrl->i2c_tbl_index)) {
+-			break;
+-		}
+ 		if (write_arr[i].reg_write_type == MSM_ACTUATOR_WRITE_DAC) {
+ 			value = (next_lens_position <<
+ 				write_arr[i].data_shift) |
+@@ -109,6 +104,11 @@ static void msm_actuator_parse_i2c_params(struct msm_actuator_ctrl_t *a_ctrl,
+ 					i2c_byte2 = value & 0xFF;
+ 					CDBG("byte1:0x%x, byte2:0x%x\n",
+ 						i2c_byte1, i2c_byte2);
++					if (a_ctrl->i2c_tbl_index >
++						a_ctrl->total_steps) {
++						pr_err("failed:i2c table index out of bound\n");
++						break;
++					}
+ 					i2c_tbl[a_ctrl->i2c_tbl_index].
+ 						reg_addr = i2c_byte1;
+ 					i2c_tbl[a_ctrl->i2c_tbl_index].
+@@ -129,6 +129,10 @@ static void msm_actuator_parse_i2c_params(struct msm_actuator_ctrl_t *a_ctrl,
+ 			i2c_byte2 = (hw_dword & write_arr[i].hw_mask) >>
+ 				write_arr[i].hw_shift;
+ 		}
++		if (a_ctrl->i2c_tbl_index > a_ctrl->total_steps) {
++			pr_err("failed: i2c table index out of bound\n");
++			break;
++		}
+ 		CDBG("i2c_byte1:0x%x, i2c_byte2:0x%x\n", i2c_byte1, i2c_byte2);
+ 		i2c_tbl[a_ctrl->i2c_tbl_index].reg_addr = i2c_byte1;
+ 		i2c_tbl[a_ctrl->i2c_tbl_index].reg_data = i2c_byte2;
+-- 
+cgit v1.1
+

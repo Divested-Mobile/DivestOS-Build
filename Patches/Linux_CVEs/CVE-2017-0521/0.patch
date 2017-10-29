@@ -1,0 +1,46 @@
+From dbe4f26f200db10deaf38676b96d8738afcc10c8 Mon Sep 17 00:00:00 2001
+From: Kumar Behera <mohanb@codeaurora.org>
+Date: Fri, 9 Dec 2016 09:55:00 -0800
+Subject: msm: cpp: Fix for integer overflow in cpp
+
+Due to integer overflow ,the bound check in config frame function
+may pass and this may allow user to access invalid buffer. This
+fix takes care of proper bound and don't allow integer overflow.
+
+CRs-Fxied: 1097709
+Change-Id: I504ad591633afaba82268b5ee27a321691d75c80
+Signed-off-by: Kumar Behera <mohanb@codeaurora.org>
+---
+ drivers/media/platform/msm/camera_v2/pproc/cpp/msm_cpp.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/msm/camera_v2/pproc/cpp/msm_cpp.c b/drivers/media/platform/msm/camera_v2/pproc/cpp/msm_cpp.c
+index f64f79b..e81a9f9 100644
+--- a/drivers/media/platform/msm/camera_v2/pproc/cpp/msm_cpp.c
++++ b/drivers/media/platform/msm/camera_v2/pproc/cpp/msm_cpp.c
+@@ -2376,7 +2376,7 @@ static int msm_cpp_cfg_frame(struct cpp_device *cpp_dev,
+ 	struct msm_buf_mngr_info buff_mgr_info, dup_buff_mgr_info;
+ 	int32_t in_fd;
+ 	int32_t num_output_bufs = 1;
+-	int32_t stripe_base = 0;
++	uint32_t stripe_base = 0;
+ 	uint32_t stripe_size;
+ 	uint8_t tnr_enabled;
+ 	enum msm_camera_buf_mngr_buf_type buf_type =
+@@ -2411,6 +2411,13 @@ static int msm_cpp_cfg_frame(struct cpp_device *cpp_dev,
+ 		return -EINVAL;
+ 	}
+ 
++	if (stripe_base == UINT_MAX || new_frame->num_strips >
++		(UINT_MAX - 1 - stripe_base) / stripe_size) {
++		pr_err("Invalid frame message,num_strips %d is large\n",
++			new_frame->num_strips);
++		return -EINVAL;
++	}
++
+ 	if ((stripe_base + new_frame->num_strips * stripe_size + 1) !=
+ 		new_frame->msg_len) {
+ 		pr_err("Invalid frame message,len=%d,expected=%d\n",
+-- 
+cgit v1.1
+

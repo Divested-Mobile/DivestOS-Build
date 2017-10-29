@@ -1,0 +1,75 @@
+From 5bb646471da76d3d5cd02cf3da7a03ce6e3cb582 Mon Sep 17 00:00:00 2001
+From: Hamad Kadmany <hkadmany@codeaurora.org>
+Date: Sun, 18 Dec 2016 15:03:11 +0200
+Subject: wil6210: Block write ioctl to the card by default
+
+The ability to write to the card is used for debug purposes.
+The ability is disabled by default to prevent misuse of
+this functionality.
+
+CRs-Fixed: 1096945
+Change-Id: I8fc3f646a0127ec705239be6a7de858a4f805acc
+Signed-off-by: Hamad Kadmany <hkadmany@codeaurora.org>
+---
+ drivers/net/wireless/ath/wil6210/Kconfig | 11 +++++++++++
+ drivers/net/wireless/ath/wil6210/ioctl.c |  4 ++++
+ 2 files changed, 15 insertions(+)
+
+diff --git a/drivers/net/wireless/ath/wil6210/Kconfig b/drivers/net/wireless/ath/wil6210/Kconfig
+index 481680a..eaa5a9d 100644
+--- a/drivers/net/wireless/ath/wil6210/Kconfig
++++ b/drivers/net/wireless/ath/wil6210/Kconfig
+@@ -40,6 +40,17 @@ config WIL6210_TRACING
+ 
+ 	  If unsure, say Y to make it easier to debug problems.
+ 
++config WIL6210_WRITE_IOCTL
++	bool "wil6210 write ioctl to the device"
++	depends on WIL6210
++	default n
++	---help---
++	  Say Y here to allow write-access from user-space to
++	  the device memory through ioctl. This is useful for
++	  debugging purposes only.
++
++	  If unsure, say N.
++
+ config WIL6210_PLATFORM_MSM
+ 	bool "wil6210 MSM platform specific support"
+ 	depends on WIL6210
+diff --git a/drivers/net/wireless/ath/wil6210/ioctl.c b/drivers/net/wireless/ath/wil6210/ioctl.c
+index e9c0673..f5ad473 100644
+--- a/drivers/net/wireless/ath/wil6210/ioctl.c
++++ b/drivers/net/wireless/ath/wil6210/ioctl.c
+@@ -79,10 +79,12 @@ static int wil_ioc_memio_dword(struct wil6210_priv *wil, void __user *data)
+ 		io.val = ioread32(a);
+ 		need_copy = true;
+ 		break;
++#if defined(CONFIG_WIL6210_WRITE_IOCTL)
+ 	case wil_mmio_write:
+ 		iowrite32(io.val, a);
+ 		wmb(); /* make sure write propagated to HW */
+ 		break;
++#endif
+ 	default:
+ 		wil_err(wil, "Unsupported operation, op = 0x%08x\n", io.op);
+ 		return -EINVAL;
+@@ -139,6 +141,7 @@ static int wil_ioc_memio_block(struct wil6210_priv *wil, void __user *data)
+ 			goto out_free;
+ 		}
+ 		break;
++#if defined(CONFIG_WIL6210_WRITE_IOCTL)
+ 	case wil_mmio_write:
+ 		if (copy_from_user(block, io.block, io.size)) {
+ 			rc = -EFAULT;
+@@ -148,6 +151,7 @@ static int wil_ioc_memio_block(struct wil6210_priv *wil, void __user *data)
+ 		wmb(); /* make sure write propagated to HW */
+ 		wil_hex_dump_ioctl("Write ", block, io.size);
+ 		break;
++#endif
+ 	default:
+ 		wil_err(wil, "Unsupported operation, op = 0x%08x\n", io.op);
+ 		rc = -EINVAL;
+-- 
+cgit v1.1
+

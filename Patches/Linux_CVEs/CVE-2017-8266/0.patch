@@ -1,0 +1,52 @@
+From 42627c94cf8c189332a6f5bfdd465ea662777911 Mon Sep 17 00:00:00 2001
+From: Harsh Sahu <hsahu@codeaurora.org>
+Date: Thu, 13 Apr 2017 15:38:46 -0700
+Subject: msm: mdss: fix race condition during mdp debugfs release
+
+Fix race condition in the release of the mdp debugfs functions
+panel_debug_base_release and mdss_debug_base_release by adding
+the lock for unpreempted freeing of the buffer so that multiple
+concurrent processes cannot affect the release which can possibly
+lead to use-after-free operation on the buffer.
+
+Change-Id: I9586081b65ae2eb0e7f6e30c606ee748ae9ef7e8
+Signed-off-by: Harsh Sahu <hsahu@codeaurora.org>
+---
+ drivers/video/msm/mdss/mdss_debug.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/video/msm/mdss/mdss_debug.c b/drivers/video/msm/mdss/mdss_debug.c
+index 920babf..78bfe50 100644
+--- a/drivers/video/msm/mdss/mdss_debug.c
++++ b/drivers/video/msm/mdss/mdss_debug.c
+@@ -57,11 +57,13 @@ static int panel_debug_base_open(struct inode *inode, struct file *file)
+ static int panel_debug_base_release(struct inode *inode, struct file *file)
+ {
+ 	struct mdss_debug_base *dbg = file->private_data;
++	mutex_lock(&mdss_debug_lock);
+ 	if (dbg && dbg->buf) {
+ 		kfree(dbg->buf);
+ 		dbg->buf_len = 0;
+ 		dbg->buf = NULL;
+ 	}
++	mutex_unlock(&mdss_debug_lock);
+ 	return 0;
+ }
+ 
+@@ -386,11 +388,13 @@ static int mdss_debug_base_open(struct inode *inode, struct file *file)
+ static int mdss_debug_base_release(struct inode *inode, struct file *file)
+ {
+ 	struct mdss_debug_base *dbg = file->private_data;
++	mutex_lock(&mdss_debug_lock);
+ 	if (dbg && dbg->buf) {
+ 		kfree(dbg->buf);
+ 		dbg->buf_len = 0;
+ 		dbg->buf = NULL;
+ 	}
++	mutex_unlock(&mdss_debug_lock);
+ 	return 0;
+ }
+ 
+-- 
+cgit v1.1
+

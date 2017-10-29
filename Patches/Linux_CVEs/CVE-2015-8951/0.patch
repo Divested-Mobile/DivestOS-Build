@@ -1,0 +1,76 @@
+From ccff36b07bfc49efc77b9f1b55ed2bf0900b1d5b Mon Sep 17 00:00:00 2001
+From: Vidyakumar Athota <vathota@codeaurora.org>
+Date: Wed, 16 Dec 2015 15:42:39 -0800
+Subject: ASoC: msm-lsm-client: free lsm client data in msm_lsm_close
+
+Currently lsm client data is deallocated when q6lsm_open() fails
+which can cause memory corruption if lsm client data is accessed
+after freed. Fix this issue by deallocating the client data only
+in msm_lsm_close().
+
+Change-Id: If048c26a0ffd8a346a28622183cbf2ba1e7e5ff3
+Signed-off-by: Vidyakumar Athota <vathota@codeaurora.org>
+---
+ include/sound/q6lsm.h                  |  1 +
+ sound/soc/msm/qdsp6v2/msm-lsm-client.c | 10 +++++++---
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/include/sound/q6lsm.h b/include/sound/q6lsm.h
+index 6045b7f..d410a9b 100644
+--- a/include/sound/q6lsm.h
++++ b/include/sound/q6lsm.h
+@@ -71,6 +71,7 @@ struct lsm_client {
+ 	uint16_t	connect_to_port;
+ 	uint8_t		num_confidence_levels;
+ 	uint8_t		*confidence_levels;
++	bool		opened;
+ 	bool		started;
+ 	dma_addr_t	lsm_cal_phy_addr;
+ 	uint32_t	lsm_cal_size;
+diff --git a/sound/soc/msm/qdsp6v2/msm-lsm-client.c b/sound/soc/msm/qdsp6v2/msm-lsm-client.c
+index f0a164f..2337f91 100644
+--- a/sound/soc/msm/qdsp6v2/msm-lsm-client.c
++++ b/sound/soc/msm/qdsp6v2/msm-lsm-client.c
+@@ -747,10 +747,9 @@ static int msm_lsm_ioctl_shared(struct snd_pcm_substream *substream,
+ 			dev_err(rtd->dev,
+ 				"%s: lsm open failed, %d\n",
+ 				__func__, ret);
+-			q6lsm_client_free(prtd->lsm_client);
+-			kfree(prtd);
+ 			return ret;
+ 		}
++		prtd->lsm_client->opened = true;
+ 		dev_dbg(rtd->dev, "%s: Session_ID = %d, APP ID = %d\n",
+ 			__func__,
+ 			prtd->lsm_client->session,
+@@ -1697,6 +1696,7 @@ static int msm_lsm_open(struct snd_pcm_substream *substream)
+ 		runtime->private_data = NULL;
+ 		return -ENOMEM;
+ 	}
++	prtd->lsm_client->opened = false;
+ 	return 0;
+ }
+ 
+@@ -1769,7 +1769,10 @@ static int msm_lsm_close(struct snd_pcm_substream *substream)
+ 				 __func__);
+ 	}
+ 
+-	q6lsm_close(prtd->lsm_client);
++	if (prtd->lsm_client->opened) {
++		q6lsm_close(prtd->lsm_client);
++		prtd->lsm_client->opened = false;
++	}
+ 	q6lsm_client_free(prtd->lsm_client);
+ 
+ 	spin_lock_irqsave(&prtd->event_lock, flags);
+@@ -1777,6 +1780,7 @@ static int msm_lsm_close(struct snd_pcm_substream *substream)
+ 	prtd->event_status = NULL;
+ 	spin_unlock_irqrestore(&prtd->event_lock, flags);
+ 	kfree(prtd);
++	runtime->private_data = NULL;
+ 
+ 	return 0;
+ }
+-- 
+cgit v1.1
+

@@ -1,0 +1,36 @@
+From 9f91ae0d7203714fc39ae78e1f1c4fd71ed40498 Mon Sep 17 00:00:00 2001
+From: Karthik Reddy Katta <a_katta@codeaurora.org>
+Date: Wed, 28 Dec 2016 11:24:33 +0530
+Subject: drivers: soc: qcom: Add overflow check for sound model size
+
+Overflow check is added for sound model size to prevent
+heap overflow while allocating memory for sound model data.
+
+CRs-Fixed: 1100682
+Change-Id: Id38523a5e79028c692670e84d5fe924a855a5a10
+Signed-off-by: Karthik Reddy Katta <a_katta@codeaurora.org>
+---
+ sound/soc/msm/msm-cpe-lsm.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/sound/soc/msm/msm-cpe-lsm.c b/sound/soc/msm/msm-cpe-lsm.c
+index ef4c9b0..5b90cc1 100644
+--- a/sound/soc/msm/msm-cpe-lsm.c
++++ b/sound/soc/msm/msm-cpe-lsm.c
+@@ -1878,6 +1878,13 @@ static int msm_cpe_lsm_reg_model(struct snd_pcm_substream *substream,
+ 
+ 	lsm_ops->lsm_get_snd_model_offset(cpe->core_handle,
+ 			session, &offset);
++	/* Check if 'p_info->param_size + offset' crosses U32_MAX. */
++	if (p_info->param_size > U32_MAX - offset) {
++		dev_err(rtd->dev,
++			"%s: Invalid param_size %d\n",
++			__func__, p_info->param_size);
++		return -EINVAL;
++	}
+ 	session->snd_model_size = p_info->param_size + offset;
+ 
+ 	session->snd_model_data = vzalloc(session->snd_model_size);
+-- 
+cgit v1.1
+

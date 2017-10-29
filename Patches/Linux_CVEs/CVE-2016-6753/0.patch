@@ -1,0 +1,32 @@
+From 5ee75a32931dc70a7af2be42650ac5f14db99674 Mon Sep 17 00:00:00 2001
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Mon, 12 Sep 2016 15:47:42 -0700
+Subject: cgroup: prefer %pK to %p
+
+Prevents leaking kernel pointers when using kptr_restrict.
+
+Bug: 30149174
+Change-Id: I0fa3cd8d4a0d9ea76d085bba6020f1eda073c09b
+Git-repo: https://android.googlesource.com/kernel/msm.git
+Git-commit: 505e48f32f1321ed7cf80d49dd5f31b16da445a8
+Signed-off-by: Srinivasa Rao Kuppala <srkupp@codeaurora.org>
+---
+ kernel/cgroup.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/cgroup.c b/kernel/cgroup.c
+index 05b36e7..1e2c358 100644
+--- a/kernel/cgroup.c
++++ b/kernel/cgroup.c
+@@ -5449,7 +5449,7 @@ static int cgroup_css_links_read(struct cgroup *cont,
+ 		struct css_set *cg = link->cg;
+ 		struct task_struct *task;
+ 		int count = 0;
+-		seq_printf(seq, "css_set %p\n", cg);
++		seq_printf(seq, "css_set %pK\n", cg);
+ 		list_for_each_entry(task, &cg->tasks, cg_list) {
+ 			if (count++ > MAX_TASKS_SHOWN_PER_CSS) {
+ 				seq_puts(seq, "  ...\n");
+-- 
+cgit v1.1
+

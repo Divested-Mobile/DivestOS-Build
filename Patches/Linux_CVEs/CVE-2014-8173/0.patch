@@ -1,0 +1,51 @@
+From ee53664bda169f519ce3c6a22d378f0b946c8178 Mon Sep 17 00:00:00 2001
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Date: Fri, 20 Dec 2013 15:10:03 +0200
+Subject: [PATCH] mm: Fix NULL pointer dereference in madvise(MADV_WILLNEED)
+ support
+
+Sasha Levin found a NULL pointer dereference that is due to a missing
+page table lock, which in turn is due to the pmd entry in question being
+a transparent huge-table entry.
+
+The code - introduced in commit 1998cc048901 ("mm: make
+madvise(MADV_WILLNEED) support swap file prefetch") - correctly checks
+for this situation using pmd_none_or_trans_huge_or_clear_bad(), but it
+turns out that that function doesn't work correctly.
+
+pmd_none_or_trans_huge_or_clear_bad() expected that pmd_bad() would
+trigger if the transparent hugepage bit was set, but it doesn't do that
+if pmd_numa() is also set. Note that the NUMA bit only gets set on real
+NUMA machines, so people trying to reproduce this on most normal
+development systems would never actually trigger this.
+
+Fix it by removing the very subtle (and subtly incorrect) expectation,
+and instead just checking pmd_trans_huge() explicitly.
+
+Reported-by: Sasha Levin <sasha.levin@oracle.com>
+Acked-by: Andrea Arcangeli <aarcange@redhat.com>
+[ Additionally remove the now stale test for pmd_trans_huge() inside the
+  pmd_bad() case - Linus ]
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+---
+ include/asm-generic/pgtable.h | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
+index b12079afbd5f2..db09234589409 100644
+--- a/include/asm-generic/pgtable.h
++++ b/include/asm-generic/pgtable.h
+@@ -599,11 +599,10 @@ static inline int pmd_none_or_trans_huge_or_clear_bad(pmd_t *pmd)
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ 	barrier();
+ #endif
+-	if (pmd_none(pmdval))
++	if (pmd_none(pmdval) || pmd_trans_huge(pmdval))
+ 		return 1;
+ 	if (unlikely(pmd_bad(pmdval))) {
+-		if (!pmd_trans_huge(pmdval))
+-			pmd_clear_bad(pmd);
++		pmd_clear_bad(pmd);
+ 		return 1;
+ 	}
+ 	return 0;
