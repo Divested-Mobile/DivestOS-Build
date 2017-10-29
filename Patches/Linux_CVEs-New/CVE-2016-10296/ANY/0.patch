@@ -1,0 +1,88 @@
+From a5e46d8635a2e28463b365aacdeab6750abd0d49 Mon Sep 17 00:00:00 2001
+From: Sahitya Tummala <stummala@codeaurora.org>
+Date: Fri, 3 Feb 2017 13:24:19 +0530
+Subject: uio: fix potential use after free issue when accessing debug_buffer
+
+The variable debug_buffer is a global variable which is allocated
+and free'd when open/close is called on debugfs file -
+"/sys/kernel/debug/rmt_storage/info". The current code doesn't
+have locks to handle concurrent accesses to the above file.
+This results into use after free issue when debug_buffer is
+accessed by two threads at the same time. Fix this by adding
+a mutex lock to protect this global variable.
+
+Change-Id: I6bc3f0ae2d7fca3ca9fe8561612f5863b6c3268a
+Signed-off-by: Sahitya Tummala <stummala@codeaurora.org>
+---
+ drivers/uio/msm_sharedmem/sharedmem_qmi.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/uio/msm_sharedmem/sharedmem_qmi.c b/drivers/uio/msm_sharedmem/sharedmem_qmi.c
+index 48fb17e..fd95dee 100644
+--- a/drivers/uio/msm_sharedmem/sharedmem_qmi.c
++++ b/drivers/uio/msm_sharedmem/sharedmem_qmi.c
+@@ -1,4 +1,4 @@
+-/* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
++/* Copyright (c) 2014-2015, 2017, The Linux Foundation. All rights reserved.
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2 and
+@@ -223,6 +223,7 @@ static int sharedmem_qmi_req_cb(struct qmi_handle *handle, void *conn_h,
+ #define DEBUG_BUF_SIZE (2048)
+ static char *debug_buffer;
+ static u32 debug_data_size;
++static struct mutex dbg_buf_lock;	/* mutex for debug_buffer */
+ 
+ static ssize_t debug_read(struct file *file, char __user *buf,
+ 			  size_t count, loff_t *file_pos)
+@@ -279,21 +280,29 @@ static int debug_open(struct inode *inode, struct file *file)
+ {
+ 	u32 buffer_size;
+ 
+-	if (debug_buffer != NULL)
++	mutex_lock(&dbg_buf_lock);
++	if (debug_buffer != NULL) {
++		mutex_unlock(&dbg_buf_lock);
+ 		return -EBUSY;
++	}
+ 	buffer_size = DEBUG_BUF_SIZE;
+ 	debug_buffer = kzalloc(buffer_size, GFP_KERNEL);
+-	if (debug_buffer == NULL)
++	if (debug_buffer == NULL) {
++		mutex_unlock(&dbg_buf_lock);
+ 		return -ENOMEM;
++	}
+ 	debug_data_size = fill_debug_info(debug_buffer, buffer_size);
++	mutex_unlock(&dbg_buf_lock);
+ 	return 0;
+ }
+ 
+ static int debug_close(struct inode *inode, struct file *file)
+ {
++	mutex_lock(&dbg_buf_lock);
+ 	kfree(debug_buffer);
+ 	debug_buffer = NULL;
+ 	debug_data_size = 0;
++	mutex_unlock(&dbg_buf_lock);
+ 	return 0;
+ }
+ 
+@@ -324,6 +333,7 @@ static void debugfs_init(void)
+ {
+ 	struct dentry *f_ent;
+ 
++	mutex_init(&dbg_buf_lock);
+ 	dir_ent = debugfs_create_dir("rmt_storage", NULL);
+ 	if (IS_ERR(dir_ent)) {
+ 		pr_err("Failed to create debug_fs directory\n");
+@@ -352,6 +362,7 @@ static void debugfs_init(void)
+ static void debugfs_exit(void)
+ {
+ 	debugfs_remove_recursive(dir_ent);
++	mutex_destroy(&dbg_buf_lock);
+ }
+ 
+ static void sharedmem_qmi_svc_recv_msg(struct work_struct *work)
+-- 
+cgit v1.1
+
