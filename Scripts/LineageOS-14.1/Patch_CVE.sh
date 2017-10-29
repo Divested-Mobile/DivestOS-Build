@@ -5,7 +5,11 @@
 
 echo "Patching CVEs..."
 
-source $cveScripts"*.sh";
+cd $base
+for patcher in $cveScripts/*.sh; do
+	echo "Running " $patcher;
+	source $patcher;
+done;
 
 cd $base
 echo "Patched CVEs!"
