@@ -1,0 +1,246 @@
+From 32c16ee3bef6a2d5edeb4e23bdb84e59a0387b3e Mon Sep 17 00:00:00 2001
+From: Tom Marshall <tdm.code@gmail.com>
+Date: Wed, 25 Jan 2017 18:01:03 +0100
+Subject: [PATCH] kernel: Only expose su when daemon is running
+
+It has been claimed that the PG implementation of 'su' has security
+vulnerabilities even when disabled.  Unfortunately, the people that
+find these vulnerabilities often like to keep them private so they
+can profit from exploits while leaving users exposed to malicious
+hackers.
+
+In order to reduce the attack surface for vulnerabilites, it is
+therefore necessary to make 'su' completely inaccessible when it
+is not in use (except by the root and system users).
+
+Change-Id: I79716c72f74d0b7af34ec3a8054896c6559a181d
+---
+
+diff --git a/fs/exec.c b/fs/exec.c
+index b079500..e529a95 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -1537,6 +1537,11 @@
+ 	if (retval < 0)
+ 		goto out;
+ 
++	if (capable(CAP_SYS_ADMIN) && d_is_su(file->f_dentry)) {
++		current->flags |= PF_SU;
++		su_exec();
++	}
++
+ 	/* execve succeeded */
+ 	current->fs->in_exec = 0;
+ 	current->in_execve = 0;
+diff --git a/fs/namei.c b/fs/namei.c
+index a14912e..e07a2dc 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -2025,6 +2025,14 @@
+ 		}
+ 	}
+ 
++	if (!err) {
++		struct super_block *sb = nd->inode->i_sb;
++		if (sb->s_flags & MS_RDONLY) {
++			if (d_is_su(nd->path.dentry) && !su_visible())
++				err = -ENOENT;
++		}
++	}
++
+ out:
+ 	if (base)
+ 		fput(base);
+diff --git a/fs/readdir.c b/fs/readdir.c
+index 33fd922..b3089a1 100644
+--- a/fs/readdir.c
++++ b/fs/readdir.c
+@@ -39,6 +39,7 @@
+ 	res = -ENOENT;
+ 	if (!IS_DEADDIR(inode)) {
+ 		ctx->pos = file->f_pos;
++		ctx->romnt = (inode->i_sb->s_flags & MS_RDONLY);
+ 		res = file->f_op->iterate(file, ctx);
+ 		file->f_pos = ctx->pos;
+ 		fsnotify_access(file);
+@@ -49,6 +50,14 @@
+ 	return res;
+ }
+ EXPORT_SYMBOL(iterate_dir);
++
++static bool hide_name(const char *name, int namlen)
++{
++	if (namlen == 2 && !memcmp(name, "su", 2))
++		if (!su_visible())
++			return true;
++	return false;
++}
+ 
+ /*
+  * Traditional linux readdir() handling..
+@@ -88,6 +97,8 @@
+ 		buf->result = -EOVERFLOW;
+ 		return -EOVERFLOW;
+ 	}
++	if (hide_name(name, namlen) && buf->ctx.romnt)
++		return 0;
+ 	buf->result++;
+ 	dirent = buf->dirent;
+ 	if (!access_ok(VERIFY_WRITE, dirent,
+@@ -165,6 +176,8 @@
+ 		buf->error = -EOVERFLOW;
+ 		return -EOVERFLOW;
+ 	}
++	if (hide_name(name, namlen) && buf->ctx.romnt)
++		return 0;
+ 	dirent = buf->previous;
+ 	if (dirent) {
+ 		if (__put_user(offset, &dirent->d_off))
+@@ -243,6 +256,8 @@
+ 	buf->error = -EINVAL;	/* only used if we fail.. */
+ 	if (reclen > buf->count)
+ 		return -EINVAL;
++	if (hide_name(name, namlen) && buf->ctx.romnt)
++		return 0;
+ 	dirent = buf->previous;
+ 	if (dirent) {
+ 		if (__put_user(offset, &dirent->d_off))
+diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+index 3cf440f..16bca1a 100644
+--- a/include/linux/dcache.h
++++ b/include/linux/dcache.h
+@@ -465,6 +465,11 @@
+ 	return !d_is_negative(dentry);
+ }
+ 
++static inline bool d_is_su(const struct dentry *dentry)
++{
++	return dentry->d_name.len == 2 && !memcmp(dentry->d_name.name, "su", 2);
++}
++
+ extern int sysctl_vfs_cache_pressure;
+ 
+ static inline unsigned long vfs_pressure_ratio(unsigned long val)
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 06334de..755a391 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -1495,6 +1495,7 @@
+ struct dir_context {
+ 	const filldir_t actor;
+ 	loff_t pos;
++	bool romnt;
+ };
+ 
+ struct block_device_operations;
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 353a291..83af519 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -61,6 +61,12 @@
+ 
+ #include <asm/processor.h>
+ 
++int  su_instances(void);
++bool su_running(void);
++bool su_visible(void);
++void su_exec(void);
++void su_exit(void);
++
+ #define SCHED_ATTR_SIZE_VER0	48	/* sizeof first published struct */
+ 
+ /*
+@@ -2073,6 +2079,8 @@
+ #define PF_FREEZER_SKIP	0x40000000	/* Freezer should not count it as freezable */
+ #define PF_SUSPEND_TASK 0x80000000      /* this thread called freeze_processes and should not be frozen */
+ 
++#define PF_SU		0x10000000      /* task is su */
++
+ /*
+  * Only the _current_ task can read/write to tsk->flags, but other
+  * tasks can access tsk->flags in readonly mode for example
+diff --git a/include/linux/uidgid.h b/include/linux/uidgid.h
+index 2d1f9b6..ef26f3f 100644
+--- a/include/linux/uidgid.h
++++ b/include/linux/uidgid.h
+@@ -42,6 +42,9 @@
+ #define GLOBAL_ROOT_UID KUIDT_INIT(0)
+ #define GLOBAL_ROOT_GID KGIDT_INIT(0)
+ 
++#define GLOBAL_SYSTEM_UID KUIDT_INIT(1000)
++#define GLOBAL_SYSTEM_GID KGIDT_INIT(1000)
++
+ #define INVALID_UID KUIDT_INIT(-1)
+ #define INVALID_GID KGIDT_INIT(-1)
+ 
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 31003c7..d3a962e 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -730,6 +730,10 @@
+ 
+ 	sched_exit(tsk);
+ 
++	if (tsk->flags & PF_SU) {
++		su_exit();
++	}
++
+ 	/*
+ 	 * tsk->flags are checked in the futex code to protect against
+ 	 * an exiting task cleaning up the robust pi futexes.
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 600956b..390dbc3 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -339,6 +339,8 @@
+ 	if (err)
+ 		goto free_ti;
+ 
++	tsk->flags &= ~PF_SU;
++
+ 	tsk->stack = ti;
+ #ifdef CONFIG_SECCOMP
+ 	/*
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index e7d3367..74b268f4 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -96,6 +96,38 @@
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/sched.h>
+ 
++static atomic_t __su_instances;
++
++int su_instances(void)
++{
++	return atomic_read(&__su_instances);
++}
++
++bool su_running(void)
++{
++	return su_instances() > 0;
++}
++
++bool su_visible(void)
++{
++	kuid_t uid = current_uid();
++	if (su_running())
++		return true;
++	if (uid_eq(uid, GLOBAL_ROOT_UID) || uid_eq(uid, GLOBAL_SYSTEM_UID))
++		return true;
++	return false;
++}
++
++void su_exec(void)
++{
++	atomic_inc(&__su_instances);
++}
++
++void su_exit(void)
++{
++	atomic_dec(&__su_instances);
++}
++
+ const char *task_event_names[] = {"PUT_PREV_TASK", "PICK_NEXT_TASK",
+ 				  "TASK_WAKE", "TASK_MIGRATE", "TASK_UPDATE",
+ 				"IRQ_UPDATE"};

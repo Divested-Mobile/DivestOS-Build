@@ -1,0 +1,246 @@
+From 9bf58feca7c29ccff89abce4b4fce3394ebaf437 Mon Sep 17 00:00:00 2001
+From: Tom Marshall <tdm.code@gmail.com>
+Date: Wed, 25 Jan 2017 18:01:03 +0100
+Subject: [PATCH] kernel: Only expose su when daemon is running
+
+It has been claimed that the PG implementation of 'su' has security
+vulnerabilities even when disabled.  Unfortunately, the people that
+find these vulnerabilities often like to keep them private so they
+can profit from exploits while leaving users exposed to malicious
+hackers.
+
+In order to reduce the attack surface for vulnerabilites, it is
+therefore necessary to make 'su' completely inaccessible when it
+is not in use (except by the root and system users).
+
+Change-Id: I79716c72f74d0b7af34ec3a8054896c6559a181d
+---
+
+diff --git a/fs/exec.c b/fs/exec.c
+index 227eb92..6f3965a 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -1564,6 +1564,11 @@
+ 	if (retval < 0)
+ 		goto out;
+ 
++	if (capable(CAP_SYS_ADMIN) && d_is_su(file->f_dentry)) {
++		current->flags |= PF_SU;
++		su_exec();
++	}
++
+ 	/* execve succeeded */
+ 	current->fs->in_exec = 0;
+ 	current->in_execve = 0;
+diff --git a/fs/namei.c b/fs/namei.c
+index 827f0eb..a52456c 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -2000,6 +2000,14 @@
+ 		}
+ 	}
+ 
++	if (!err) {
++		struct super_block *sb = nd->inode->i_sb;
++		if (sb->s_flags & MS_RDONLY) {
++			if (d_is_su(nd->path.dentry) && !su_visible())
++				err = -ENOENT;
++		}
++	}
++
+ 	if (base)
+ 		fput(base);
+ 
+diff --git a/fs/readdir.c b/fs/readdir.c
+index d46eca8..d52d18d 100644
+--- a/fs/readdir.c
++++ b/fs/readdir.c
+@@ -39,6 +39,7 @@
+ 	if (!IS_DEADDIR(inode)) {
+ 		if (file->f_op->iterate) {
+ 			ctx->pos = file->f_pos;
++			ctx->romnt = (inode->i_sb->s_flags & MS_RDONLY);
+ 			res = file->f_op->iterate(file, ctx);
+ 			file->f_pos = ctx->pos;
+ 		} else {
+@@ -52,6 +53,14 @@
+ 	return res;
+ }
+ EXPORT_SYMBOL(iterate_dir);
++
++static bool hide_name(const char *name, int namlen)
++{
++	if (namlen == 2 && !memcmp(name, "su", 2))
++		if (!su_visible())
++			return true;
++	return false;
++}
+ 
+ /*
+  * Traditional linux readdir() handling..
+@@ -91,6 +100,8 @@
+ 		buf->result = -EOVERFLOW;
+ 		return -EOVERFLOW;
+ 	}
++	if (hide_name(name, namlen) && buf->ctx.romnt)
++		return 0;
+ 	buf->result++;
+ 	dirent = buf->dirent;
+ 	if (!access_ok(VERIFY_WRITE, dirent,
+@@ -168,6 +179,8 @@
+ 		buf->error = -EOVERFLOW;
+ 		return -EOVERFLOW;
+ 	}
++	if (hide_name(name, namlen) && buf->ctx.romnt)
++		return 0;
+ 	dirent = buf->previous;
+ 	if (dirent) {
+ 		if (__put_user(offset, &dirent->d_off))
+@@ -246,6 +259,8 @@
+ 	buf->error = -EINVAL;	/* only used if we fail.. */
+ 	if (reclen > buf->count)
+ 		return -EINVAL;
++	if (hide_name(name, namlen) && buf->ctx.romnt)
++		return 0;
+ 	dirent = buf->previous;
+ 	if (dirent) {
+ 		if (__put_user(offset, &dirent->d_off))
+diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+index f84e0ee..5b04e17 100644
+--- a/include/linux/dcache.h
++++ b/include/linux/dcache.h
+@@ -413,6 +413,11 @@
+ 	return dentry->d_flags & DCACHE_MOUNTED;
+ }
+ 
++static inline bool d_is_su(const struct dentry *dentry)
++{
++	return dentry->d_name.len == 2 && !memcmp(dentry->d_name.name, "su", 2);
++}
++
+ extern int sysctl_vfs_cache_pressure;
+ 
+ #endif	/* __LINUX_DCACHE_H */
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 8aae0ef..d07e5a1 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -1538,6 +1538,7 @@
+ struct dir_context {
+ 	const filldir_t actor;
+ 	loff_t pos;
++	bool romnt;
+ };
+ 
+ static inline bool dir_emit(struct dir_context *ctx,
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 9152f12..349a064 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -55,6 +55,12 @@
+ 
+ #include <asm/processor.h>
+ 
++int  su_instances(void);
++bool su_running(void);
++bool su_visible(void);
++void su_exec(void);
++void su_exit(void);
++
+ #define SCHED_ATTR_SIZE_VER0	48	/* sizeof first published struct */
+ 
+ /*
+@@ -1822,6 +1828,8 @@
+ #define PF_FREEZER_SKIP	0x40000000	/* Freezer should not count it as freezable */
+ #define PF_WAKE_UP_IDLE 0x80000000	/* try to wake up on an idle CPU */
+ 
++#define PF_SU		0x10000000      /* task is su */
++
+ /*
+  * Only the _current_ task can read/write to tsk->flags, but other
+  * tasks can access tsk->flags in readonly mode for example
+diff --git a/include/linux/uidgid.h b/include/linux/uidgid.h
+index 8e522cbc..cb4c867 100644
+--- a/include/linux/uidgid.h
++++ b/include/linux/uidgid.h
+@@ -64,6 +64,9 @@
+ #define GLOBAL_ROOT_UID KUIDT_INIT(0)
+ #define GLOBAL_ROOT_GID KGIDT_INIT(0)
+ 
++#define GLOBAL_SYSTEM_UID KUIDT_INIT(1000)
++#define GLOBAL_SYSTEM_GID KGIDT_INIT(1000)
++
+ #define INVALID_UID KUIDT_INIT(-1)
+ #define INVALID_GID KGIDT_INIT(-1)
+ 
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 540bad4..e58c525 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -777,6 +777,10 @@
+ 
+ 	sched_exit(tsk);
+ 
++	if (tsk->flags & PF_SU) {
++		su_exit();
++	}
++
+ 	/*
+ 	 * tsk->flags are checked in the futex code to protect against
+ 	 * an exiting task cleaning up the robust pi futexes.
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 924c17c..fc5b8c4 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -326,6 +326,8 @@
+ 	if (err)
+ 		goto free_ti;
+ 
++	tsk->flags &= ~PF_SU;
++
+ 	tsk->stack = ti;
+ #ifdef CONFIG_SECCOMP
+ 	/*
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index f888065..5f80d13 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -114,6 +114,38 @@
+ 	local_irq_restore(dflags);			\
+ } while (0)
+ 
++static atomic_t __su_instances;
++
++int su_instances(void)
++{
++	return atomic_read(&__su_instances);
++}
++
++bool su_running(void)
++{
++	return su_instances() > 0;
++}
++
++bool su_visible(void)
++{
++	kuid_t uid = current_uid();
++	if (su_running())
++		return true;
++	if (uid_eq(uid, GLOBAL_ROOT_UID) || uid_eq(uid, GLOBAL_SYSTEM_UID))
++		return true;
++	return false;
++}
++
++void su_exec(void)
++{
++	atomic_inc(&__su_instances);
++}
++
++void su_exit(void)
++{
++	atomic_dec(&__su_instances);
++}
++
+ const char *task_event_names[] = {"PUT_PREV_TASK", "PICK_NEXT_TASK",
+ 				  "TASK_WAKE", "TASK_MIGRATE", "TASK_UPDATE",
+ 				"IRQ_UPDATE"};

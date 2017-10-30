@@ -1,0 +1,24 @@
+From 3a4bd3fb9eb3db4ccb8103ba37ea5082836dba36 Mon Sep 17 00:00:00 2001
+From: Tom Marshall <tdm.code@gmail.com>
+Date: Thu, 18 May 2017 23:50:22 +0000
+Subject: [PATCH] kernel: Fix potential refcount leak in su check
+
+Change-Id: I8d2c8bed65a01eb0928308df638a04449a5bd881
+---
+
+diff --git a/fs/namei.c b/fs/namei.c
+index e07a2dc..f588830 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -2028,8 +2028,10 @@
+ 	if (!err) {
+ 		struct super_block *sb = nd->inode->i_sb;
+ 		if (sb->s_flags & MS_RDONLY) {
+-			if (d_is_su(nd->path.dentry) && !su_visible())
++			if (d_is_su(nd->path.dentry) && !su_visible()) {
++				path_put(&nd->path);
+ 				err = -ENOENT;
++			}
+ 		}
+ 	}
+ 

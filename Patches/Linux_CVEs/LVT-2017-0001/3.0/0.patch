@@ -1,0 +1,213 @@
+From 37639228b9d0c6b7ae27f706c777305fd8c93b83 Mon Sep 17 00:00:00 2001
+From: Tom Marshall <tdm.code@gmail.com>
+Date: Fri, 28 Apr 2017 22:46:37 +0000
+Subject: [PATCH] kernel: Only expose su when daemon is running
+
+Note: this is for the 3.0 kernel and lacks the read-only mount point
+logic due to the non-extensible readdir implementation.
+
+It has been claimed that the PG implementation of 'su' has security
+vulnerabilities even when disabled.  Unfortunately, the people that
+find these vulnerabilities often like to keep them private so they
+can profit from exploits while leaving users exposed to malicious
+hackers.
+
+In order to reduce the attack surface for vulnerabilites, it is
+therefore necessary to make 'su' completely inaccessible when it
+is not in use (except by the root and system users).
+
+Change-Id: Ia7d50ba46c3d932c2b0ca5fc8e9ec69ec9045f85
+---
+
+diff --git a/fs/exec.c b/fs/exec.c
+index 21379c3..5188cea 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -1538,6 +1538,11 @@
+ 	if (retval < 0)
+ 		goto out;
+ 
++	if (capable(CAP_SYS_ADMIN) && d_is_su(file->f_dentry)) {
++		current->flags |= PF_SU;
++		su_exec();
++	}
++
+ 	/* execve succeeded */
+ 	current->fs->in_exec = 0;
+ 	current->in_execve = 0;
+diff --git a/fs/namei.c b/fs/namei.c
+index c78d051..60e83a2 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -1616,6 +1616,11 @@
+ 		}
+ 	}
+ 
++	if (!err) {
++		if (d_is_su(nd->path.dentry) && !su_visible())
++			err = -ENOENT;
++	}
++
+ 	if (base)
+ 		fput(base);
+ 
+diff --git a/fs/readdir.c b/fs/readdir.c
+index 356f715..0362f9e 100644
+--- a/fs/readdir.c
++++ b/fs/readdir.c
+@@ -47,6 +47,14 @@
+ 
+ EXPORT_SYMBOL(vfs_readdir);
+ 
++static bool hide_name(const char *name, int namlen)
++{
++	if (namlen == 2 && !memcmp(name, "su", 2))
++		if (!su_visible())
++			return true;
++	return false;
++}
++
+ /*
+  * Traditional linux readdir() handling..
+  *
+@@ -84,6 +92,8 @@
+ 		buf->result = -EOVERFLOW;
+ 		return -EOVERFLOW;
+ 	}
++	if (hide_name(name, namlen))
++		return 0;
+ 	buf->result++;
+ 	dirent = buf->dirent;
+ 	if (!access_ok(VERIFY_WRITE, dirent,
+@@ -163,6 +173,8 @@
+ 		buf->error = -EOVERFLOW;
+ 		return -EOVERFLOW;
+ 	}
++	if (hide_name(name, namlen))
++		return 0;
+ 	dirent = buf->previous;
+ 	if (dirent) {
+ 		if (__put_user(offset, &dirent->d_off))
+@@ -244,6 +256,8 @@
+ 	buf->error = -EINVAL;	/* only used if we fail.. */
+ 	if (reclen > buf->count)
+ 		return -EINVAL;
++	if (hide_name(name, namlen))
++		return 0;
+ 	dirent = buf->previous;
+ 	if (dirent) {
+ 		if (__put_user(offset, &dirent->d_off))
+diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+index 33cf6ce..81982da 100644
+--- a/include/linux/dcache.h
++++ b/include/linux/dcache.h
+@@ -427,6 +427,11 @@
+ 
+ extern struct dentry *lookup_create(struct nameidata *nd, int is_dir);
+ 
++static inline bool d_is_su(const struct dentry *dentry)
++{
++	return dentry && dentry->d_name.len == 2 && !memcmp(dentry->d_name.name, "su", 2);
++}
++
+ extern int sysctl_vfs_cache_pressure;
+ 
+ #endif	/* __LINUX_DCACHE_H */
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 18203a1..b6cf92f 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -93,6 +93,12 @@
+ 
+ #include <asm/processor.h>
+ 
++int  su_instances(void);
++bool su_running(void);
++bool su_visible(void);
++void su_exec(void);
++void su_exit(void);
++
+ struct exec_domain;
+ struct futex_pi_state;
+ struct robust_list_head;
+@@ -1811,6 +1817,8 @@
+ #define PF_FREEZER_SKIP	0x40000000	/* Freezer should not count it as freezable */
+ #define PF_FREEZER_NOSIG 0x80000000	/* Freezer won't send signals to it */
+ 
++#define PF_SU		0x00001000      /* task is su */
++
+ /*
+  * Only the _current_ task can read/write to tsk->flags, but other
+  * tasks can access tsk->flags in readonly mode for example
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 1e019f3..a0aca0c 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -956,6 +956,11 @@
+ 	exit_irq_thread();
+ 
+ 	exit_signals(tsk);  /* sets PF_EXITING */
++
++	if (tsk->flags & PF_SU) {
++		su_exit();
++	}
++
+ 	/*
+ 	 * tsk->flags are checked in the futex code to protect against
+ 	 * an exiting task cleaning up the robust pi futexes.
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 3c26774..84cbf39 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -291,6 +291,8 @@
+ 	if (err)
+ 		goto out;
+ 
++	tsk->flags &= ~PF_SU;
++
+ 	tsk->stack = ti;
+ 
+ 	err = prop_local_init_single(&tsk->dirties);
+diff --git a/kernel/sched.c b/kernel/sched.c
+index cc6d028..1b64dac 100644
+--- a/kernel/sched.c
++++ b/kernel/sched.c
+@@ -84,6 +84,38 @@
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/sched.h>
+ 
++static atomic_t __su_instances;
++
++int su_instances(void)
++{
++	return atomic_read(&__su_instances);
++}
++
++bool su_running(void)
++{
++	return su_instances() > 0;
++}
++
++bool su_visible(void)
++{
++	uid_t uid = current_uid();
++	if (su_running())
++		return true;
++	if (uid == 0 || uid == 1000)
++		return true;
++	return false;
++}
++
++void su_exec(void)
++{
++	atomic_inc(&__su_instances);
++}
++
++void su_exit(void)
++{
++	atomic_dec(&__su_instances);
++}
++
+ ATOMIC_NOTIFIER_HEAD(migration_notifier_head);
+ 
+ /*

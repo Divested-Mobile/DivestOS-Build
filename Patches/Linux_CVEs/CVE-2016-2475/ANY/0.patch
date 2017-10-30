@@ -1,0 +1,16 @@
+diff --git a/drivers/net/wireless/bcmdhd/wl_android.c b/drivers/net/wireless/bcmdhd/wl_android.c
+index c67c975..35fa6cb 100644
+--- a/drivers/net/wireless/bcmdhd/wl_android.c
++++ b/drivers/net/wireless/bcmdhd/wl_android.c
+@@ -1288,6 +1288,11 @@
+ 		goto exit;
+ 	}
+ 
++	if (!capable(CAP_NET_ADMIN)) {
++		ret = -EPERM;
++		goto exit;
++	}
++
+ #ifdef CONFIG_COMPAT
+ 	if (is_compat_task()) {
+ 		compat_android_wifi_priv_cmd compat_priv_cmd;
