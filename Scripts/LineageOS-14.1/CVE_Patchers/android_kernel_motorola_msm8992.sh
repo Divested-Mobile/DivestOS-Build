@@ -1,5 +1,4 @@
 #!/bin/bash
-#Tested working 2017/10/29
 cd $base"kernel/motorola/msm8992"
 git apply $cvePatches/CVE-2014-9781/ANY/0.patch
 git apply $cvePatches/CVE-2015-8019/3.10/0.patch
@@ -42,6 +41,7 @@ git apply $cvePatches/CVE-2017-0457/3.10/1.patch
 git apply $cvePatches/CVE-2017-0459/3.10/1.patch
 git apply $cvePatches/CVE-2017-0460/3.10/1.patch
 git apply $cvePatches/CVE-2017-0463/ANY/0.patch
+git apply $cvePatches/CVE-2017-0510/ANY/2.patch
 git apply $cvePatches/CVE-2017-0516/ANY/0.patch
 git apply $cvePatches/CVE-2017-0523/ANY/0.patch
 git apply $cvePatches/CVE-2017-0537/ANY/0.patch
@@ -50,11 +50,14 @@ git apply $cvePatches/CVE-2017-0606/ANY/0.patch
 git apply $cvePatches/CVE-2017-0611/ANY/0.patch
 git apply $cvePatches/CVE-2017-0627/ANY/0.patch
 git apply $cvePatches/CVE-2017-0631/ANY/0.patch
+git apply $cvePatches/CVE-2017-0648/ANY/0.patch
+git apply $cvePatches/CVE-2017-0710/ANY/0.patch
 git apply $cvePatches/CVE-2017-0746/ANY/0.patch
 git apply $cvePatches/CVE-2017-0748/ANY/0.patch
 git apply $cvePatches/CVE-2017-0750/ANY/0.patch
 git apply $cvePatches/CVE-2017-0751/ANY/0.patch
 #git apply $cvePatches/CVE-2017-0794/3.10/0.patch
+git apply $cvePatches/CVE-2017-1000365/3.10/0.patch
 git apply $cvePatches/CVE-2017-10997/ANY/0.patch
 git apply $cvePatches/CVE-2017-10998/3.10/0.patch
 git apply $cvePatches/CVE-2017-11048/3.10/0.patch
@@ -63,7 +66,7 @@ git apply $cvePatches/CVE-2017-11059/3.10/0.patch
 git apply $cvePatches/CVE-2017-15265/ANY/0.patch
 git apply $cvePatches/CVE-2017-2618/3.10/0.patch
 git apply $cvePatches/CVE-2017-2671/ANY/0.patch
-git apply $cvePatches/CVE-2017-5669/ANY/1.patch
+git apply $cvePatches/CVE-2017-5669/ANY/0.patch
 git apply $cvePatches/CVE-2017-5970/ANY/0.patch
 git apply $cvePatches/CVE-2017-6074/ANY/0.patch
 git apply $cvePatches/CVE-2017-6348/ANY/0.patch
@@ -76,6 +79,7 @@ git apply $cvePatches/CVE-2017-8242/ANY/0.patch
 git apply $cvePatches/CVE-2017-8247/ANY/0.patch
 git apply $cvePatches/CVE-2017-8251/3.10/0.patch
 git apply $cvePatches/CVE-2017-8260/3.10/0.patch
+git apply $cvePatches/CVE-2017-8262/3.10/1.patch
 git apply $cvePatches/CVE-2017-8265/ANY/0.patch
 git apply $cvePatches/CVE-2017-8280/ANY/0.patch
 git apply $cvePatches/CVE-2017-9242/ANY/0.patch
@@ -84,4 +88,5 @@ git apply $cvePatches/CVE-2017-9694/ANY/0.patch
 git apply $cvePatches/CVE-2017-9720/ANY/0.patch
 git apply $cvePatches/CVE-2017-9724/ANY/0.patch
 git apply $cvePatches/CVE-2017-9725/ANY/0.patch
+git apply $cvePatches/LVT-2017-0003/3.10/0.patch
 cd $base

@@ -37,13 +37,17 @@ git apply $cvePatches/CVE-2017-0510/3.10/0.patch
 git apply $cvePatches/CVE-2017-0516/ANY/0.patch
 git apply $cvePatches/CVE-2017-0523/ANY/0.patch
 git apply $cvePatches/CVE-2017-0537/ANY/0.patch
+git apply $cvePatches/CVE-2017-0648/ANY/0.patch
+git apply $cvePatches/CVE-2017-1000365/3.10/0.patch
 git apply $cvePatches/CVE-2017-15265/ANY/0.patch
 git apply $cvePatches/CVE-2017-2618/3.10/0.patch
 git apply $cvePatches/CVE-2017-2671/ANY/0.patch
-git apply $cvePatches/CVE-2017-5669/ANY/1.patch
+git apply $cvePatches/CVE-2017-5669/ANY/0.patch
+git apply $cvePatches/CVE-2017-5967/3.10/1.patch
 git apply $cvePatches/CVE-2017-6348/ANY/0.patch
 git apply $cvePatches/CVE-2017-6951/ANY/0.patch
 git apply $cvePatches/CVE-2017-7472/ANY/0.patch
 git apply $cvePatches/CVE-2017-7487/ANY/0.patch
 git apply $cvePatches/CVE-2017-9242/ANY/0.patch
+git apply $cvePatches/LVT-2017-0003/3.10/0.patch
 cd $base
