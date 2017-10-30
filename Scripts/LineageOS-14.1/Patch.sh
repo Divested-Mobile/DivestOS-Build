@@ -70,6 +70,7 @@ enhanceLocation() {
 		fi;
 	fi;
 	echo "Enhanced location services for $1";
+	cd $base;
 }
 export -f enhanceLocation;
 
@@ -77,6 +78,14 @@ enableZram() {
 	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* rootdir/fstab.* rootdir/etc/fstab.* || true;
 	echo "Enabled zram";
 }
+
+enabledForcedEncryption() {
+	cd $base$1;
+	sed -i 's|encryptable=/|forceencrypt,encryptable=/|' fstab.* rootdir/fstab.* rootdir/etc/fstab.* || true;
+	echo "Enabled forceencrypt";
+	cd $base;
+}
+export -f enabledForcedEncryption;
 #
 #END OF PREPRATION
 #
@@ -190,10 +199,6 @@ patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch" #L
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid
-#patch -p1 < $patches"android_system_core/0002-Harden_Network.patch" #Harden network via sysctls FIXME: Tethering
-
-#enter "system/netd"
-#patch -p1 < $patches"android_system_netd/0001-Harden_Network.patch"; #Harden network via iptables FIXME: Tethering
 
 enter "vendor/cm"
 rm -rf overlay/common/vendor/cmsdk/packages #Remove analytics
@@ -230,7 +235,7 @@ patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock-EXTREME.
 
 enter "device/lge/mako"
 disableDexPreOpt #bootloops
-patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed) XXX: Doesn't seem to work under 7.x
+#patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed) XXX: Doesn't seem to work under 7.x
 
 enter "kernel/lge/hammerhead"
 patch -p1 < $patches"android_kernel_lge_hammerhead/0001-OverUnderClock.patch" #2.26Ghz -> 2.95Ghz	=+2.76Ghz
@@ -238,9 +243,10 @@ patch -p1 < $patches"android_kernel_lge_hammerhead/0001-OverUnderClock.patch" #2
 enter "kernel/motorola/msm8916"
 patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch" #1.36Ghz -> 1.88Ghz	=+ 2.07Ghz
 
-#Enhance and improve security of GPS for all devices
+#Make changes to all devices
 cd $base
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enhanceLocation "$0"' {} \;
+find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enabledForcedEncryption "$0"' {} \;
 cd $base
 #
 #END OF DEVICE CHANGES
