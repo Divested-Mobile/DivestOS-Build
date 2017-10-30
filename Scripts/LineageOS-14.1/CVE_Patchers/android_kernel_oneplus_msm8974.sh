@@ -1,4 +1,5 @@
 #!/bin/bash
+#Tested working 2017/10/29
 cd $base"kernel/oneplus/msm8974"
 git apply $cvePatches/CVE-2014-9781/ANY/0.patch
 git apply $cvePatches/CVE-2014-9876/3.4/1.patch

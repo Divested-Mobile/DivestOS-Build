@@ -8,7 +8,7 @@ export base;
 patches="/mnt/Drive-1/Development/Other/Android_ROMs/Patches/LineageOS-14.1/";
 export patches;
 
-cvePatches="/mnt/Drive-1/Development/Other/Android_ROMs/Patches/Linux_CVEs/";
+cvePatches="/mnt/Drive-1/Development/Other/Android_ROMs/Patches/Linux_CVEs-New/";
 export cvePatches;
 
 scripts="/mnt/Drive-1/Development/Other/Android_ROMs/Scripts/LineageOS-14.1/";

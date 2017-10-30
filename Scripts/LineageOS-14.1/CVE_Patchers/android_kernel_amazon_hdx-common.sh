@@ -1,4 +1,5 @@
 #!/bin/bash
+#Tested working 2017/10/30????
 cd $base"kernel/amazon/hdx-common"
 git apply $cvePatches/CVE-2012-6704/ANY/0.patch
 git apply $cvePatches/CVE-2014-1739/ANY/0.patch
