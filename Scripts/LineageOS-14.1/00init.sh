@@ -2,20 +2,21 @@
 
 #Sets settings used by all other scripts
 
-base="/mnt/Drive-1/Development/Other/Android_ROMs/Build/LineageOS-14.1/";
-export base;
+export androidWorkspace="/mnt/Drive-1/Development/Other/Android_ROMs/";
+export base=$androidWorkspace"Build/LineageOS-14.1/";
 
-patches="/mnt/Drive-1/Development/Other/Android_ROMs/Patches/LineageOS-14.1/";
-export patches;
+export patches=$androidWorkspace"Patches/LineageOS-14.1/";
+export cvePatches=$androidWorkspace"Patches/Linux_CVEs/";
 
-cvePatches="/mnt/Drive-1/Development/Other/Android_ROMs/Patches/Linux_CVEs/";
-export cvePatches;
+export scripts=$androidWorkspace"Scripts/LineageOS-14.1/";
+export cveScripts=$scripts"CVE_Patchers/";
 
-scripts="/mnt/Drive-1/Development/Other/Android_ROMs/Scripts/LineageOS-14.1/";
-export scripts;
+export ANDROID_HOME="/home/$USER/Android/Sdk";
 
-cveScripts=$scripts"CVE_Patchers/";
-export cveScripts;
+export KBUILD_BUILD_USER=emy
+export KBUILD_BUILD_HOST=dosbm
 
-ANDROID_HOME="/home/$USER/Android/Sdk";
-export ANDROID_HOME;
+export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation"
+export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}"
+
+export GRADLE_OPTS=-Xmx2048m
