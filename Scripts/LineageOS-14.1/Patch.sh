@@ -81,8 +81,8 @@ enableZram() {
 
 enabledForcedEncryption() {
 	cd $base$1;
-	sed -i 's|encryptable=/|forceencrypt,encryptable=/|' fstab.* rootdir/fstab.* rootdir/etc/fstab.* || true;
-	echo "Enabled forceencrypt";
+	sed -i 's|encryptable=/|forceencrypt=/|' fstab.* rootdir/fstab.* rootdir/etc/fstab.* || true;
+	echo "Enabled forceencrypt for $1";
 	cd $base;
 }
 export -f enabledForcedEncryption;

@@ -1,5 +1,5 @@
 #!/bin/bash
-#Copyright (c) 2015-2017 Spot Communications, Inc.
+#Copyright (c) 2017 Spot Communications, Inc.
 
 #Attempts to increase performance and battery life
 

@@ -1,4 +1,5 @@
 #!/bin/bash
+#Copyright (c) 2017 Spot Communications, Inc.
 
 #Sets settings used by all other scripts
 
