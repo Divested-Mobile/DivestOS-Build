@@ -4,6 +4,7 @@ git apply $cvePatches/CVE-2014-9900/ANY/0.patch
 git apply $cvePatches/CVE-2015-2041/ANY/0.patch
 git apply $cvePatches/CVE-2015-7515/ANY/0.patch
 git apply $cvePatches/CVE-2015-8966/ANY/0.patch
+git apply $cvePatches/CVE-2016-10088/ANY/0.patch
 git apply $cvePatches/CVE-2016-10153/ANY/0.patch
 git apply $cvePatches/CVE-2016-10231/ANY/1.patch
 git apply $cvePatches/CVE-2016-2187/ANY/0.patch
@@ -11,6 +12,7 @@ git apply $cvePatches/CVE-2016-2544/ANY/0.patch
 git apply $cvePatches/CVE-2016-2549/ANY/0.patch
 git apply $cvePatches/CVE-2016-2847/ANY/0.patch
 git apply $cvePatches/CVE-2016-3136/ANY/0.patch
+git apply $cvePatches/CVE-2016-3137/ANY/0.patch
 git apply $cvePatches/CVE-2016-3140/ANY/0.patch
 git apply $cvePatches/CVE-2016-3156/ANY/0.patch
 git apply $cvePatches/CVE-2016-3865/ANY/0.patch
@@ -27,6 +29,7 @@ git apply $cvePatches/CVE-2016-6672/ANY/0.patch
 git apply $cvePatches/CVE-2016-7042/ANY/0.patch
 git apply $cvePatches/CVE-2016-8418/ANY/0.patch
 git apply $cvePatches/CVE-2016-8483/3.18/0.patch
+git apply $cvePatches/CVE-2016-9191/ANY/0.patch
 git apply $cvePatches/CVE-2016-9604/ANY/0.patch
 git apply $cvePatches/CVE-2017-0510/3.18/1.patch
 git apply $cvePatches/CVE-2017-0537/ANY/0.patch
@@ -42,8 +45,11 @@ git apply $cvePatches/CVE-2017-12146/ANY/0.patch
 git apply $cvePatches/CVE-2017-15265/ANY/0.patch
 git apply $cvePatches/CVE-2017-2671/ANY/0.patch
 git apply $cvePatches/CVE-2017-5669/ANY/0.patch
+git apply $cvePatches/CVE-2017-5986/ANY/0.patch
+git apply $cvePatches/CVE-2017-6345/ANY/0.patch
 git apply $cvePatches/CVE-2017-6346/3.18/1.patch
 git apply $cvePatches/CVE-2017-6348/ANY/0.patch
+git apply $cvePatches/CVE-2017-6353/ANY/0.patch
 git apply $cvePatches/CVE-2017-6951/ANY/0.patch
 git apply $cvePatches/CVE-2017-7371/ANY/0.patch
 git apply $cvePatches/CVE-2017-7372/ANY/0.patch
@@ -53,6 +59,7 @@ git apply $cvePatches/CVE-2017-7616/ANY/0.patch
 git apply $cvePatches/CVE-2017-7618/ANY/0.patch
 git apply $cvePatches/CVE-2017-8247/ANY/0.patch
 git apply $cvePatches/CVE-2017-8280/ANY/0.patch
+git apply $cvePatches/CVE-2017-9075/ANY/0.patch
 git apply $cvePatches/CVE-2017-9242/ANY/0.patch
 git apply $cvePatches/CVE-2017-9676/ANY/0.patch
 git apply $cvePatches/CVE-2017-9686/3.18/0.patch
