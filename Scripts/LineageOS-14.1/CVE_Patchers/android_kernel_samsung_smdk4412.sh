@@ -7,7 +7,6 @@ git apply $cvePatches/CVE-2014-9781/ANY/0.patch
 git apply $cvePatches/CVE-2014-9870/ANY/0.patch
 git apply $cvePatches/CVE-2014-9900/ANY/0.patch
 git apply $cvePatches/CVE-2015-8944/ANY/0.patch
-git apply $cvePatches/CVE-2016-0819/ANY/0.patch
 git apply $cvePatches/CVE-2016-2185/ANY/0.patch
 git apply $cvePatches/CVE-2016-2186/ANY/0.patch
 git apply $cvePatches/CVE-2016-2544/ANY/0.patch
