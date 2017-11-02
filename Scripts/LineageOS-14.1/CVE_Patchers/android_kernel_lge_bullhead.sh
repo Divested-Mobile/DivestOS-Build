@@ -1,125 +1,56 @@
 #!/bin/bash
 cd $base"kernel/lge/bullhead"
-git apply --3way $cvePatches/CVE-2012-6657/ANY/0.patch
-git apply --3way $cvePatches/CVE-2014-1739/ANY/0.patch
-git apply --3way $cvePatches/CVE-2014-3145/3.10/1.patch
-git apply --3way $cvePatches/CVE-2014-4323/3.10/0.patch
-git apply --3way $cvePatches/CVE-2014-8160/^3.18/0.patch
-git apply --3way $cvePatches/CVE-2014-8173/ANY/0.patch
-git apply --3way $cvePatches/CVE-2014-9420/^3.18/0.patch
-git apply --3way $cvePatches/CVE-2014-9781/ANY/0.patch
-git apply --3way $cvePatches/CVE-2014-9786/ANY/0.patch
-git apply --3way $cvePatches/CVE-2014-9885/ANY/0.patch
-git apply --3way $cvePatches/CVE-2014-9892/ANY/0.patch
-git apply --3way $cvePatches/CVE-2014-9895/ANY/1.patch
-git apply --3way $cvePatches/CVE-2014-9899/ANY/0.patch
-git apply --3way $cvePatches/CVE-2014-9900/ANY/0.patch
-git apply --3way $cvePatches/CVE-2015-0569/3.10/2.patch
-git apply --3way $cvePatches/CVE-2015-2041/ANY/0.patch
-git apply --3way $cvePatches/CVE-2015-4170/ANY/0.patch
-git apply --3way $cvePatches/CVE-2015-4177/ANY/0.patch
-git apply --3way $cvePatches/CVE-2015-7515/^4.4/0.patch
-git apply --3way $cvePatches/CVE-2015-7550/ANY/0.patch
-git apply --3way $cvePatches/CVE-2015-8019/3.10/0.patch
-git apply --3way $cvePatches/CVE-2015-8937/ANY/0.patch
-git apply --3way $cvePatches/CVE-2015-8940/ANY/0.patch
-git apply --3way $cvePatches/CVE-2015-8942/ANY/0.patch
-git apply --3way $cvePatches/CVE-2015-8944/ANY/0.patch
-git apply --3way $cvePatches/CVE-2015-8964/3.10/1.patch
-git apply --3way $cvePatches/CVE-2016-0805/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-0821/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-10231/ANY/1.patch
-git apply --3way $cvePatches/CVE-2016-10233/3.10/1.patch
-git apply --3way $cvePatches/CVE-2016-2063/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-2185/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-2186/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-2187/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-2384/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-2503/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-2544/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-2545/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-2547/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-2549/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-3070/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-3134/3.10/0.patch
-git apply --3way $cvePatches/CVE-2016-3136/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-3137/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-3140/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-3672/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-3689/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-3768/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-3775/3.10/0.patch
-git apply --3way $cvePatches/CVE-2016-3809/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-3813/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-3841/3.10/1.patch
-git apply --3way $cvePatches/CVE-2016-3857/3.10/0.patch
-git apply --3way $cvePatches/CVE-2016-3893/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-3907/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-5195/3.10/1.patch
-git apply --3way $cvePatches/CVE-2016-5340/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-5345/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-5859/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-5867/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-5870/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-6672/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-6681/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-6682/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-6742/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-6753/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-8402/3.10/0.patch
-git apply --3way $cvePatches/CVE-2016-8404/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-8406/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-8417/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-8444/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-8481/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-8481/ANY/1.patch
-git apply --3way $cvePatches/CVE-2016-8650/ANY/0.patch
-git apply --3way $cvePatches/CVE-2016-9604/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-0427/3.10/1.patch
-git apply --3way $cvePatches/CVE-2017-0435/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-0435/ANY/1.patch
-git apply --3way $cvePatches/CVE-2017-0436/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-0457/3.10/0.patch
-git apply --3way $cvePatches/CVE-2017-0457/3.10/1.patch
-git apply --3way $cvePatches/CVE-2017-0460/3.10/1.patch
-git apply --3way $cvePatches/CVE-2017-0460/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-0510/3.10/0.patch
-git apply --3way $cvePatches/CVE-2017-0516/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-0523/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-0537/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-0604/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-0606/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-0627/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-0648/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-0746/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-1000365/3.10/0.patch
-git apply --3way $cvePatches/CVE-2017-10662/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-10663/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-10997/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-10998/3.10/0.patch
-git apply --3way $cvePatches/CVE-2017-10999/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-11000/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-11002/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-11046/3.10/0.patch
-git apply --3way $cvePatches/CVE-2017-11056/3.10/0.patch
-git apply --3way $cvePatches/CVE-2017-11057/3.10/0.patch
-git apply --3way $cvePatches/CVE-2017-11059/3.10/0.patch
-git apply --3way $cvePatches/CVE-2017-15265/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-2618/3.10/0.patch
-git apply --3way $cvePatches/CVE-2017-2671/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-5669/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-5967/3.10/1.patch
-git apply --3way $cvePatches/CVE-2017-6345/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-6348/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-6951/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-7472/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-7487/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-8245/3.10/0.patch
-git apply --3way $cvePatches/CVE-2017-8251/3.10/0.patch
-git apply --3way $cvePatches/CVE-2017-9242/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-9706/3.10/0.patch
-git apply --3way $cvePatches/CVE-2017-9720/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-9724/ANY/0.patch
-git apply --3way $cvePatches/CVE-2017-9725/ANY/0.patch
-git apply --3way $cvePatches/LVT-2017-0003/3.10/0.patch
+git apply $cvePatches/CVE-2014-8160/^3.18/0.patch
+git apply $cvePatches/CVE-2014-8173/ANY/0.patch
+git apply $cvePatches/CVE-2014-9781/ANY/0.patch
+git apply $cvePatches/CVE-2015-2041/ANY/0.patch
+git apply $cvePatches/CVE-2015-4170/ANY/0.patch
+git apply $cvePatches/CVE-2015-4177/ANY/0.patch
+git apply $cvePatches/CVE-2015-7515/^4.4/0.patch
+git apply $cvePatches/CVE-2015-7550/ANY/0.patch
+git apply $cvePatches/CVE-2016-0805/ANY/0.patch
+git apply $cvePatches/CVE-2016-10231/ANY/1.patch
+git apply $cvePatches/CVE-2016-10233/3.10/1.patch
+git apply $cvePatches/CVE-2016-2063/ANY/0.patch
+git apply $cvePatches/CVE-2016-2185/ANY/0.patch
+git apply $cvePatches/CVE-2016-2186/ANY/0.patch
+git apply $cvePatches/CVE-2016-2187/ANY/0.patch
+git apply $cvePatches/CVE-2016-2384/ANY/0.patch
+git apply $cvePatches/CVE-2016-2544/ANY/0.patch
+git apply $cvePatches/CVE-2016-2545/ANY/0.patch
+git apply $cvePatches/CVE-2016-2547/ANY/0.patch
+git apply $cvePatches/CVE-2016-2549/ANY/0.patch
+git apply $cvePatches/CVE-2016-3070/ANY/0.patch
+git apply $cvePatches/CVE-2016-3134/3.10/0.patch
+git apply $cvePatches/CVE-2016-3136/ANY/0.patch
+git apply $cvePatches/CVE-2016-3137/ANY/0.patch
+git apply $cvePatches/CVE-2016-3140/ANY/0.patch
+git apply $cvePatches/CVE-2016-3672/ANY/0.patch
+git apply $cvePatches/CVE-2016-3689/ANY/0.patch
+git apply $cvePatches/CVE-2016-3857/3.10/0.patch
+git apply $cvePatches/CVE-2016-5345/ANY/0.patch
+git apply $cvePatches/CVE-2016-5859/ANY/0.patch
+git apply $cvePatches/CVE-2016-5867/ANY/0.patch
+git apply $cvePatches/CVE-2016-5870/ANY/0.patch
+git apply $cvePatches/CVE-2016-8404/ANY/0.patch
+git apply $cvePatches/CVE-2016-9604/ANY/0.patch
+git apply $cvePatches/CVE-2017-0436/ANY/0.patch
+git apply $cvePatches/CVE-2017-0510/3.10/0.patch
+git apply $cvePatches/CVE-2017-0516/ANY/0.patch
+git apply $cvePatches/CVE-2017-0523/ANY/0.patch
+git apply $cvePatches/CVE-2017-0537/ANY/0.patch
+git apply $cvePatches/CVE-2017-0648/ANY/0.patch
+git apply $cvePatches/CVE-2017-1000365/3.10/0.patch
+git apply $cvePatches/CVE-2017-15265/ANY/0.patch
+git apply $cvePatches/CVE-2017-2618/3.10/0.patch
+git apply $cvePatches/CVE-2017-2671/ANY/0.patch
+git apply $cvePatches/CVE-2017-5669/ANY/0.patch
+git apply $cvePatches/CVE-2017-5967/3.10/1.patch
+git apply $cvePatches/CVE-2017-6345/ANY/0.patch
+git apply $cvePatches/CVE-2017-6348/ANY/0.patch
+git apply $cvePatches/CVE-2017-6951/ANY/0.patch
+git apply $cvePatches/CVE-2017-7472/ANY/0.patch
+git apply $cvePatches/CVE-2017-7487/ANY/0.patch
+git apply $cvePatches/CVE-2017-9242/ANY/0.patch
+git apply $cvePatches/LVT-2017-0003/3.10/0.patch
 cd $base
