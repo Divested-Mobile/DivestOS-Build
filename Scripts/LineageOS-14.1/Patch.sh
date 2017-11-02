@@ -246,7 +246,7 @@ patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch" #1.36
 #Make changes to all devices
 cd $base
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enhanceLocation "$0"' {} \;
-find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enabledForcedEncryption "$0"' {} \;
+#find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enabledForcedEncryption "$0"' {} \;
 cd $base
 #
 #END OF DEVICE CHANGES
