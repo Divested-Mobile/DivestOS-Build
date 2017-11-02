@@ -13,3 +13,4 @@ mv CVE-2017-5669/ANY/1.patch CVE-2017-5669/ANY/1.patch.dupe
 mv CVE-2017-6074/ANY/1.patch CVE-2017-6074/ANY/1.patch.dupe
 mv CVE-2017-7371/ANY/1.patch CVE-2017-7371/ANY/1.patch.dupe
 mv CVE-2016-3137/ANY/1.patch CVE-2016-3137/ANY/1.patch.dupe
+mv CVE-2016-0774/ANY/0.patch CVE-2016-0774/ANY/0.patch.disabled
