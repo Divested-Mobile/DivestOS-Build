@@ -1,9 +1,9 @@
 #!/bin/bash
 cd $base"kernel/motorola/msm8916"
-git apply $cvePatches/CVE-2014-9420/ANY/0.patch
+git apply $cvePatches/CVE-2014-9420/3.2-^3.18/1.patch
 git apply $cvePatches/CVE-2014-9781/ANY/0.patch
 git apply $cvePatches/CVE-2015-1593/ANY/0.patch
-git apply $cvePatches/CVE-2015-7515/ANY/0.patch
+git apply $cvePatches/CVE-2015-7515/^4.4/0.patch
 git apply $cvePatches/CVE-2015-8967/ANY/0.patch
 git apply $cvePatches/CVE-2016-10231/ANY/1.patch
 git apply $cvePatches/CVE-2016-10233/3.10/1.patch

@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/lge/bullhead"
+cd $base"kernel/huawei/angler"
 git apply $cvePatches/CVE-2014-8160/^3.18/0.patch
 git apply $cvePatches/CVE-2014-8173/ANY/0.patch
 git apply $cvePatches/CVE-2014-9781/ANY/0.patch
@@ -16,6 +16,7 @@ git apply $cvePatches/CVE-2016-2185/ANY/0.patch
 git apply $cvePatches/CVE-2016-2186/ANY/0.patch
 git apply $cvePatches/CVE-2016-2187/ANY/0.patch
 git apply $cvePatches/CVE-2016-2384/ANY/0.patch
+git apply $cvePatches/CVE-2016-2475/ANY/0.patch
 git apply $cvePatches/CVE-2016-2544/ANY/0.patch
 git apply $cvePatches/CVE-2016-2545/ANY/0.patch
 git apply $cvePatches/CVE-2016-2547/ANY/0.patch
@@ -24,14 +25,17 @@ git apply $cvePatches/CVE-2016-3070/ANY/0.patch
 git apply $cvePatches/CVE-2016-3134/3.10/0.patch
 git apply $cvePatches/CVE-2016-3136/ANY/0.patch
 git apply $cvePatches/CVE-2016-3137/ANY/0.patch
+git apply $cvePatches/CVE-2016-3138/ANY/0.patch
 git apply $cvePatches/CVE-2016-3140/ANY/0.patch
 git apply $cvePatches/CVE-2016-3672/ANY/0.patch
 git apply $cvePatches/CVE-2016-3689/ANY/0.patch
 git apply $cvePatches/CVE-2016-3857/3.10/0.patch
+git apply $cvePatches/CVE-2016-5342/ANY/0.patch
 git apply $cvePatches/CVE-2016-5345/ANY/0.patch
 git apply $cvePatches/CVE-2016-5859/ANY/0.patch
 git apply $cvePatches/CVE-2016-5867/ANY/0.patch
 git apply $cvePatches/CVE-2016-5870/ANY/0.patch
+git apply $cvePatches/CVE-2016-6672/ANY/0.patch
 git apply $cvePatches/CVE-2016-8404/ANY/0.patch
 git apply $cvePatches/CVE-2016-9604/ANY/0.patch
 git apply $cvePatches/CVE-2017-0436/ANY/0.patch
@@ -51,6 +55,7 @@ git apply $cvePatches/CVE-2017-6348/ANY/0.patch
 git apply $cvePatches/CVE-2017-6951/ANY/0.patch
 git apply $cvePatches/CVE-2017-7472/ANY/0.patch
 git apply $cvePatches/CVE-2017-7487/ANY/0.patch
+git apply $cvePatches/CVE-2017-8280/ANY/0.patch
 git apply $cvePatches/CVE-2017-9242/ANY/0.patch
 git apply $cvePatches/LVT-2017-0003/3.10/0.patch
 cd $base

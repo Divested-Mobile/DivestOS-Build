@@ -3,7 +3,7 @@ cd $base"kernel/htc/flounder"
 git apply $cvePatches/CVE-2014-9892/ANY/0.patch
 git apply $cvePatches/CVE-2014-9900/ANY/0.patch
 git apply $cvePatches/CVE-2015-4177/ANY/0.patch
-git apply $cvePatches/CVE-2015-7515/ANY/0.patch
+git apply $cvePatches/CVE-2015-7515/^4.4/0.patch
 git apply $cvePatches/CVE-2015-8944/ANY/0.patch
 git apply $cvePatches/CVE-2016-2475/ANY/0.patch
 git apply $cvePatches/CVE-2016-8453/ANY/0.patch

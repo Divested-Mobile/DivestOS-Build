@@ -3,8 +3,9 @@ cd $base"kernel/amazon/hdx-common"
 git apply $cvePatches/CVE-2012-6704/ANY/0.patch
 git apply $cvePatches/CVE-2014-1739/ANY/0.patch
 git apply $cvePatches/CVE-2014-4656/ANY/0.patch
+git apply $cvePatches/CVE-2014-7822/3.2-^3.16/0.patch
 git apply $cvePatches/CVE-2014-8709/ANY/0.patch
-git apply $cvePatches/CVE-2014-9420/ANY/0.patch
+git apply $cvePatches/CVE-2014-9420/3.2-^3.18/1.patch
 git apply $cvePatches/CVE-2014-9781/ANY/0.patch
 git apply $cvePatches/CVE-2014-9876/3.4/1.patch
 git apply $cvePatches/CVE-2014-9880/ANY/0.patch

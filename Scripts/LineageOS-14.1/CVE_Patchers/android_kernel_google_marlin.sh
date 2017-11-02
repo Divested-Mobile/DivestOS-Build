@@ -2,7 +2,7 @@
 cd $base"kernel/google/marlin"
 git apply $cvePatches/CVE-2014-9900/ANY/0.patch
 git apply $cvePatches/CVE-2015-2041/ANY/0.patch
-git apply $cvePatches/CVE-2015-7515/ANY/0.patch
+git apply $cvePatches/CVE-2015-7515/^4.4/0.patch
 git apply $cvePatches/CVE-2015-8966/ANY/0.patch
 git apply $cvePatches/CVE-2016-10088/ANY/0.patch
 git apply $cvePatches/CVE-2016-10153/ANY/0.patch
