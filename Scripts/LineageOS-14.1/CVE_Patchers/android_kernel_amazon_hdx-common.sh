@@ -37,6 +37,8 @@ git apply $cvePatches/CVE-2017-0786/ANY/0.patch
 git apply $cvePatches/CVE-2017-10662/ANY/0.patch
 git apply $cvePatches/CVE-2017-11000/ANY/0.patch
 git apply $cvePatches/CVE-2017-13080/ANY/0.patch
+git apply $cvePatches/CVE-2017-13080-Extra/ANY/0.patch
+git apply $cvePatches/CVE-2017-13080-Extra/ANY/1.patch
 git apply $cvePatches/CVE-2017-15265/ANY/0.patch
 git apply $cvePatches/CVE-2017-2671/ANY/0.patch
 git apply $cvePatches/CVE-2017-5970/ANY/0.patch
