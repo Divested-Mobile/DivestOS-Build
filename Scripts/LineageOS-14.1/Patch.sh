@@ -93,6 +93,7 @@ export -f enabledForcedEncryption;
 #
 #START OF ROM CHANGES
 #
+#Too much sed? Read this https://unix.stackexchange.com/a/33005
 enter "build"
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
@@ -145,7 +146,8 @@ sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools =
 enter "packages/apps/FDroid"
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Mark as privigled
 cp $patches"android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add IzzySoft, microG, Eutopia, Briar, and DivestOS repos
-#sed -i 's|cd $(fdroid_root)/$(fdroid_dir) && gradle assembleRelease|cd $(fdroid_root) && ./gradlew assembleRelease|' Android.mk; #Gradle 4.0 fix #FIXME: Doesn't work?
+sed -i 's|gradle|./gradlew|' Android.mk; #Gradle 4.0 fix
+sed -i 's|/$(fdroid_dir) \&\&| \&\&|' Android.mk; #One line wouldn't work... no matter what I tried.
 
 enter "packages/apps/FDroidPrivilegedExtension"
 patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Release_Key.patch" #Change to release key
@@ -193,8 +195,11 @@ sed -i 's|drawer_search_default">true|drawer_search_default">false|' res/values/
 enter "packages/apps/WallpaperPicker"
 rm res/drawable-nodpi/{*.png,*.jpg} res/values-nodpi/wallpapers.xml; #Remove old ones
 cp -r $dosWallpapers'Compressed/.' res/drawable-nodpi/;
-cp -r $dosWallpapers"Thumb/." res/drawable-nodpi/;
+cp -r $dosWallpapers"Thumbs/." res/drawable-nodpi/;
 cp $dosWallpapers"wallpapers.xml" res/values-nodpi/wallpapers.xml;
+sed -i 's/req.touchEnabled = touchEnabled;/req.touchEnabled = true;/' src/com/android/wallpaperpicker/WallpaperCropActivity.java; #Allow scrolling
+sed -i 's/mCropView.setTouchEnabled(req.touchEnabled);/mCropView.setTouchEnabled(true);/' src/com/android/wallpaperpicker/WallpaperCropActivity.java;
+sed -i 's/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0);/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0.5f);/' src/com/android/wallpaperpicker/WallpaperPickerActivity.java; #Center aligned by default
 
 enter "packages/inputmethods/LatinIME"
 patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch" #Remove voice input key
