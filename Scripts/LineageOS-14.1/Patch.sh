@@ -144,7 +144,7 @@ sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools =
 
 enter "packages/apps/FDroid"
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Mark as privigled
-patch -p1 < $patches"android_packages_apps_FDroid/0002-Repos.patch" #Add IzzySoft, microG, and Eutopia repos
+cp $patches"android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add IzzySoft, microG, Eutopia, Briar, and DivestOS repos
 #sed -i 's|cd $(fdroid_root)/$(fdroid_dir) && gradle assembleRelease|cd $(fdroid_root) && ./gradlew assembleRelease|' Android.mk; #Gradle 4.0 fix #FIXME: Doesn't work?
 
 enter "packages/apps/FDroidPrivilegedExtension"
@@ -189,6 +189,12 @@ sed -i 's|homescreen_search_default">true|homescreen_search_default">false|' res
 sed -i 's|drawer_compact_default">false|drawer_compact_default">true|' res/values/preferences_defaults.xml;
 sed -i 's|use_scroller_default">true|use_scroller_default">false|' res/values/preferences_defaults.xml;
 sed -i 's|drawer_search_default">true|drawer_search_default">false|' res/values/preferences_defaults.xml;
+
+enter "packages/apps/WallpaperPicker"
+rm res/drawable-nodpi/{*.png,*.jpg} res/values-nodpi/wallpapers.xml; #Remove old ones
+cp -r $dosWallpapers'Compressed/.' res/drawable-nodpi/;
+cp -r $dosWallpapers"Thumb/." res/drawable-nodpi/;
+cp $dosWallpapers"wallpapers.xml" res/values-nodpi/wallpapers.xml;
 
 enter "packages/inputmethods/LatinIME"
 patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch" #Remove voice input key

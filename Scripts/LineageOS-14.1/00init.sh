@@ -8,6 +8,7 @@ export base=$androidWorkspace"Build/LineageOS-14.1/";
 
 export patches=$androidWorkspace"Patches/LineageOS-14.1/";
 export cvePatches=$androidWorkspace"Patches/Linux_CVEs/";
+export dosWallpapers=$androidWorkspace"Patches/DivestOS_Wallpapers/";
 
 export scripts=$androidWorkspace"Scripts/LineageOS-14.1/";
 export cveScripts=$scripts"CVE_Patchers/";
