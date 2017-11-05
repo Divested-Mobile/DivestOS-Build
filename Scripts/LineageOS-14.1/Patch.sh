@@ -145,7 +145,9 @@ sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools =
 
 enter "packages/apps/FDroid"
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Mark as privigled
-cp $patches"android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add IzzySoft, microG, Eutopia, Briar, and DivestOS repos
+cp $patches"android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add IzzySoft, microG, Eutopia, and DivestOS repos #TODO: Briar repo
+sed -i 's|DEFAULT_ROOTED = true;|DEFAULT_ROOTED = false;|' app/src/main/java/org/fdroid/fdroid/Preferences.java;
+sed -i 's|DEFAULT_HIDE_ANTI_FEATURE_APPS = false;|DEFAULT_HIDE_ANTI_FEATURE_APPS = true;|' app/src/main/java/org/fdroid/fdroid/Preferences.java;
 sed -i 's|gradle|./gradlew|' Android.mk; #Gradle 4.0 fix
 sed -i 's|/$(fdroid_dir) \&\&| \&\&|' Android.mk; #One line wouldn't work... no matter what I tried.
 
