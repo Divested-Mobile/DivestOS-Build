@@ -78,6 +78,7 @@ echo "Deblobbing..."
 	#Discretix (DRM/HDCP) [Discretix Technologies]
 	blobs=$blobs"|discretix|DxHDCP.cfg|libDxHdcp.so";
 	blobs=$blobs"|dxhdcp2.b00|dxhdcp2.b01|dxhdcp2.b02|dxhdcp2.b03|dxhdcp2.mdt";
+	blobs=$blobs"|dxcprm.b00|dxcprm.b01|dxcprm.b02|dxcprm.b03|dxcprm.mdt";
 
 	#Display Color Tuning [Qualcomm]
 	blobs=$blobs"|colorservice.apk|com.qti.snapdragon.sdk.display.jar|com.qti.snapdragon.sdk.display.xml|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|mm-pp-daemon|mm-pp-dpps|PPPreference.apk";

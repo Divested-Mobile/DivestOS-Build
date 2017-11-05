@@ -20,6 +20,9 @@
 export androidWorkspace="/mnt/Drive-1/Development/Other/Android_ROMs/";
 export base=$androidWorkspace"Build/LineageOS-14.1/";
 
+#export SIGNING_KEY_DIR=$androidWorkspace"Signing_Keys";
+#export OTA_PACKAGE_SIGNING_KEY=$SIGNING_KEY_DIR"/releasekey"
+
 export patches=$androidWorkspace"Patches/LineageOS-14.1/";
 export cvePatches=$androidWorkspace"Patches/Linux_CVEs/";
 export dosWallpapers=$androidWorkspace"Patches/DivestOS_Wallpapers/";
