@@ -166,6 +166,9 @@ echo "Deblobbing..."
 	#SecProtect [Qualcomm]
 	blobs=$blobs"|SecProtect.apk";
 
+	#SecureUI Frontends
+	blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureExtAuthJNI.so|libSecureSampleAuthClient.so";
+
 	#SoundFX [Sony]
 	blobs=$blobs"|libsonypostprocbundle.so|libsonysweffect.so";
 

@@ -22,8 +22,10 @@
 #source ../../Scripts/LineageOS-14.1/00init.sh && source $scripts/Patch.sh && source $scripts/Defaults.sh && source $scripts/Optimize.sh && source $scripts/Rebrand.sh && source $scripts/Theme.sh && source $scripts/Deblob.sh && source $scripts/Patch_CVE.sh && source build/envsetup.sh
 
 #Build!
-#brunch lineage_mako-user && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_thor-userdebug && brunch lineage_angler-user && brunch lineage_bullhead-user && brunch lineage_ether-user && brunch lineage_flounder-user && brunch lineage_flo-user && brunch lineage_FP2-user && brunch lineage_hammerhead-user && brunch lineage_himaul-user && brunch lineage_i9100-user && brunch lineage_i9305-user && brunch lineage_jfltexx-user && brunch lineage_klte-user && brunch lineage_m8-user && brunch lineage_marlin-user && brunch lineage_n5110-user && brunch lineage_osprey-user && brunch lineage_sailfish-user && brunch lineage_shamu-user && brunch lineage_Z00T-user
-#XXX: Currently broken lineage_herolte-user
+#brunch lineage_mako-user && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_thor-userdebug && brunch lineage_angler-user && brunch lineage_bullhead-user && brunch lineage_ether-user && brunch lineage_flounder-user && brunch lineage_flo-user && brunch lineage_FP2-user && brunch lineage_hammerhead-user && brunch lineage_himaul-user && brunch lineage_i9100-userdebug && brunch lineage_i9305-user && brunch lineage_jfltexx-user && brunch lineage_klte-user && brunch lineage_m8-user && brunch lineage_marlin-user && brunch lineage_n5110-user && brunch lineage_osprey-user && brunch lineage_sailfish-user && brunch lineage_shamu-user && brunch lineage_Z00T-user
+#XXX: Currently broken
+#	lineage_herolte-user - missing libprotobuf-cpp-full.so
+#TODO: Add victara, griffin, athene
 
 #Generate an incremental
 #./build/tools/releasetools/ota_from_target_files --block -t 8 -i old.zip new.zip update.zip
@@ -147,7 +149,7 @@ sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools =
 
 enter "packages/apps/FDroid"
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Mark as privigled
-cp $patches"android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add IzzySoft, microG, Eutopia, and DivestOS repos #TODO: Briar repo
+cp $patches"android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add DivestOS, IzzyOnDroid, microG, Briar, and Eutpoia repos
 sed -i 's|gradle|./gradlew|' Android.mk; #Gradle 4.0 fix
 sed -i 's|/$(fdroid_dir) \&\&| \&\&|' Android.mk; #One line wouldn't work... no matter what I tried.
 
@@ -185,7 +187,7 @@ patch -p1 < $patches"android_packages_apps_Updater/0001-Server.patch" #Switch to
 
 enter "packages/apps/WallpaperPicker"
 rm res/drawable-nodpi/{*.png,*.jpg} res/values-nodpi/wallpapers.xml; #Remove old ones
-cp -r $dosWallpapers'Compressed/.' res/drawable-nodpi/;
+cp -r $dosWallpapers'Compressed/.' res/drawable-nodpi/; #Add ours
 cp -r $dosWallpapers"Thumbs/." res/drawable-nodpi/;
 cp $dosWallpapers"wallpapers.xml" res/values-nodpi/wallpapers.xml;
 sed -i 's/req.touchEnabled = touchEnabled;/req.touchEnabled = true;/' src/com/android/wallpaperpicker/WallpaperCropActivity.java; #Allow scrolling
