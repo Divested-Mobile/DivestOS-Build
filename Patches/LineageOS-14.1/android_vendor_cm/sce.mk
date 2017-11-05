@@ -10,7 +10,3 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     F-Droid \
     FDroidPrivilegedExtension
-
-# Offline Calendar
-#PRODUCT_PACKAGES += \
-#    OfflineCalendar

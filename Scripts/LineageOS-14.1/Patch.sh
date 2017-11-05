@@ -184,11 +184,6 @@ enter "packages/apps/Nfc"
 sed -i 's/static final boolean NFC_ON_DEFAULT = true;/static final boolean NFC_ON_DEFAULT = false;/' src/com/android/nfc/NfcService.java; #Disable NFC by default
 sed -i 's/static final boolean NDEF_PUSH_ON_DEFAULT = true;/static final boolean NDEF_PUSH_ON_DEFAULT = false;/' src/com/android/nfc/NfcService.java; #Disable NDEF Push by default
 
-enter "packages/apps/offline-calendar"
-cp $patches"offline-calendar/Android.mk" Android.mk #Add a build file
-sed -i 's/compileSdkVersion 23/compileSdkVersion 25/' Offline-Calendar/build.gradle;
-sed -i 's/buildToolsVersion "23.0.3"/buildToolsVersion "25.0.3"/' Offline-Calendar/build.gradle;
-
 enter "packages/apps/Settings"
 sed -i 's/Settings.Secure.WEB_ACTION_ENABLED, 1/Settings.Secure.WEB_ACTION_ENABLED, 0/' src/com/android/settings/applications/ManageDomainUrls.java; #Disable "Instant Apps"
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
