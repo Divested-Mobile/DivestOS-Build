@@ -15,7 +15,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#Changes default settings
+#Changes various default settings
 
 echo "Changing default settings..."
 
@@ -36,13 +36,14 @@ sed -i 's|DEFAULT_HIDE_ANTI_FEATURE_APPS = false;|DEFAULT_HIDE_ANTI_FEATURE_APPS
 
 cd $base"packages/apps/Jelly"
 #Because someone is going to eventually ask... the reason we're disabling ads on DuckDuckgGo is because their ads are shit and are almost always just links to what you search for on some shit tier ad infested metasearch engine. Like if DuckDuckGo partnered with Amazon or something and showed sponsored Amazon links that would be a million times better, because they are actually ads.
+#sed -i 's|duckduckgo.com/?q=|duckduckgo.com/?k1=-1&kaq=-1&kap=-1&kao=-1&kak=-1&kax=-1&q=|' app/src/main/res/values/search_engines.xml; #Disable ads and popups
 #sed -i 's|default_search_engine">https://google.com/search?ie=UTF-8&amp;source=android-browser&amp;q={searchTerms}|default_search_engine">https://duckduckgo.com/?k1=-1&kaq=-1&kap=-1&kao=-1&kak=-1&kax=-1&q={searchTerms}|' app/src/main/res/values/strings.xml; #Change default search engine TODO: Fix me
-sed -i 's|default_home_page">https://google.com|default_home_page">https://duckduckgo.com/?k1=-1&kaq=-1&kap=-1&kao=-1&kak=-1&kax=-1|' app/src/main/res/values/strings.xml; #Change homepage from Google to DuckDuckGo
+#sed -i 's|default_home_page">https://google.com|default_home_page">https://duckduckgo.com/?k1=-1&kaq=-1&kap=-1&kao=-1&kak=-1&kax=-1|' app/src/main/res/values/strings.xml; #Change homepage from Google to DuckDuckGo
 sed -i 's|default_suggestion_provider">GOOGLE|default_suggestion_provider">NONE|' app/src/main/res/values/strings.xml; #Disable search suggestions
-sed -i 's|duckduckgo.com/?q=|duckduckgo.com/?k1=-1&kaq=-1&kap=-1&kao=-1&kak=-1&kax=-1&q=|' app/src/main/res/values/search_engines.xml; #Disable ads and popups
-sed -i 's|KEY_LOCATION, true|KEY_LOCATION, false|' java/org/lineageos/jelly/utils/PrefsUtils.java; #Disable location
-sed -i 's|KEY_DO_NOT_TRACK, false|KEY_DO_NOT_TRACK, true|' java/org/lineageos/jelly/utils/PrefsUtils.java; #Enable do not track
-sed -i 's|KEY_SAVE_FORM_DATA, true|KEY_SAVE_FORM_DATA, false|' java/org/lineageos/jelly/utils/PrefsUtils.java; #Disable form data saving
+sed -i 's|KEY_LOCATION, true|KEY_LOCATION, false|' app/src/main/java/org/lineageos/jelly/utils/PrefsUtils.java; #Disable location
+sed -i 's|KEY_DO_NOT_TRACK, false|KEY_DO_NOT_TRACK, true|' app/src/main/java/org/lineageos/jelly/utils/PrefsUtils.java; #Enable do not track
+sed -i 's|KEY_SAVE_FORM_DATA, true|KEY_SAVE_FORM_DATA, false|' app/src/main/java/org/lineageos/jelly/utils/PrefsUtils.java; #Disable form data saving
+sed -i 's|KEY_REMOVE_IDENTIFYING_HEADERS, false|KEY_REMOVE_IDENTIFYING_HEADERS, true|' app/src/main/java/org/lineageos/jelly/utils/PrefsUtils.java; #Remove certain headers
 
 cd $base"packages/apps/Nfc"
 sed -i 's/static final boolean NFC_ON_DEFAULT = true;/static final boolean NFC_ON_DEFAULT = false;/' src/com/android/nfc/NfcService.java; #Disable NFC

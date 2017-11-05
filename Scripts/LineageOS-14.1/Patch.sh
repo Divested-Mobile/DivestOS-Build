@@ -140,9 +140,6 @@ sed -i 's|config_showWeatherMenu">true|config_showWeatherMenu">false|' res/value
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove the rest of CMStats
 patch -p1 < $patches"android_packages_apps_CMParts/0002-Reduced_Resolution.patch" #Allow reducing resolution to save power
 
-enter "packages/apps/Updater"
-patch -p1 < $patches"android_packages_apps_Updater/0001-Server.patch" #Switch to our server
-
 enter "packages/apps/FakeStore"
 sed -i 's|$(OUT_DIR)/target/|$(PWD)/$(OUT_DIR)/target/|' Android.mk;
 sed -i 's/ln -s /ln -sf /' Android.mk;
@@ -170,6 +167,9 @@ sed -i 's|$(OUT_DIR)/target/|$(PWD)/$(OUT_DIR)/target/|' Android.mk;
 sed -i 's/compileSdkVersion 23/compileSdkVersion 25/' build.gradle;
 sed -i 's/buildToolsVersion "23.0.2"/buildToolsVersion "25.0.3"/' build.gradle;
 
+enter "packages/apps/Jelly"
+git apply --3way $patches"android_packages_apps_Jelly/182322-3.patch" #Add option to remove identifying headers
+
 enter "packages/apps/Settings"
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
 sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; #MicroG doesn't support Backup, hide the options
@@ -179,6 +179,9 @@ patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.pat
 
 enter "packages/apps/Silence"
 cp $patches"Silence/Android.mk" Android.mk #Add a build file
+
+enter "packages/apps/Updater"
+patch -p1 < $patches"android_packages_apps_Updater/0001-Server.patch" #Switch to our server
 
 enter "packages/apps/WallpaperPicker"
 rm res/drawable-nodpi/{*.png,*.jpg} res/values-nodpi/wallpapers.xml; #Remove old ones
