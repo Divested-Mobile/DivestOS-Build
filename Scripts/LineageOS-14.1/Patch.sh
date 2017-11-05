@@ -1,5 +1,19 @@
 #!/bin/bash
+#DivestOS: A privacy oriented Android distribution
 #Copyright (c) 2015-2017 Spot Communications, Inc.
+#
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #Delete Everything and Sync
 #repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/{FDroid,GmsCore,Silence} out && repo sync -j20 --force-sync
@@ -93,7 +107,6 @@ export -f enabledForcedEncryption;
 #
 #START OF ROM CHANGES
 #
-#Too much sed? Read this https://unix.stackexchange.com/a/33005
 enter "build"
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
@@ -207,7 +220,7 @@ enter "packages/inputmethods/LatinIME"
 patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch" #Remove voice input key
 
 enter "packages/services/Telephony"
-patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch" #LTE only preferred network mode choice #From Copperhead before their LICENSE was added, and its just some constants anyway...
+patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch" #LTE only preferred network mode choice Disclaimer: From Copperhead before their LICENSE was added
 
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
