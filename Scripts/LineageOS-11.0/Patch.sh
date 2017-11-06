@@ -69,7 +69,9 @@ export -f enhanceLocation;
 #
 #START OF ROM CHANGES
 #
-#None
+enter "vendor/cm"
+awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
+sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 #
 #END OF ROM CHANGES
 #
@@ -78,9 +80,10 @@ export -f enhanceLocation;
 #START OF DEVICE CHANGES
 #
 enter "device/zte/nex"
-enableDexPreOpt
 patch -p1 < $patches"android_device_zte_nex/Fixes.patch"
 patch -p1 < $patches"android_device_zte_nex/Lower_DPI.patch"
+mv cm.mk lineage.mk
+sed -i 's/cm_/lineage_/' lineage.mk vendorsetup.sh
 
 enter "kernel/zte/msm8930"
 patch -p1 < $patches"android_kernel_zte_msm8930/MDP-Fix.patch"
