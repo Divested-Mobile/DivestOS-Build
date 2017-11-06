@@ -6,12 +6,14 @@ Changelogs - GPLv3
 Manifests - GPLv3
 Misc - GPLv3
 Patches/DivestOS_Wallpapers - Unsplash License https://unsplash.com/license
+Patches/LineageOS-11.0/
+	android_kernel_* - GPLv2
+	[Everything Else] - Apache-2.0
 Patches/LineageOS-14.1/
 	android_packages_apps_FDroid* - GPLv2
+	android_packages_apps_Silence - GPLv2
 	android_kernel_* - GPLv2
-	offline-calendar - GPLv2
-	Silence - GPLv2
-	[Everything Else] - Apache2
+	[Everything Else] - Apache-2.0
 Patches/Linux_CVEs - GPLv2
 Scripts - GPLv3
 

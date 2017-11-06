@@ -180,7 +180,7 @@ enter "packages/apps/SetupWizard"
 patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove the rest of CMStats
 
 enter "packages/apps/Silence"
-cp $patches"Silence/Android.mk" Android.mk #Add a build file
+cp $patches"android_packages_apps_Silence/Android.mk" Android.mk #Add a build file
 
 enter "packages/apps/Updater"
 patch -p1 < $patches"android_packages_apps_Updater/0001-Server.patch" #Switch to our server
