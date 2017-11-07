@@ -337,16 +337,10 @@ CVE-2015-1534
 CVE-2015-1593
 	Link - http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=4e7c22d447bb6d7e37bfe39ff658486ae78e8d77
 CVE-2015-1805
-	Link - 3.4 - https://android.googlesource.com/kernel/common/+/f7ebfe91b806501808413c8473a300dff58ddbb5 
-	Link - 3.10 - https://android.googlesource.com/kernel/common/+/4a5a45669796c5b4617109182e25b321f9f00beb
-	Link - 3.14 - https://android.googlesource.com/kernel/common/+/bf010e99c9bc48002f6bfa1ad801a59bf996270f
-CVE-2015-1805
-	Pulled
-	Link - ^3.16 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=a39bf4a8e29c7336c0c72652b7d0dd1cd1b13c51
-CVE-2015-1805
 	Link - 3.4 - https://android.googlesource.com/kernel/common/+/f7ebfe91b806501808413c8473a300dff58ddbb5
 	Link - 3.10 - https://android.googlesource.com/kernel/common/+/4a5a45669796c5b4617109182e25b321f9f00beb
 	Link - 3.14 - https://android.googlesource.com/kernel/common/+/bf010e99c9bc48002f6bfa1ad801a59bf996270f
+	Link - 3.16 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=a39bf4a8e29c7336c0c72652b7d0dd1cd1b13c51
 CVE-2015-2041
 	Pulled
 	Link - 3.2 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=88fe14be08a475ad0eea4ca7c51f32437baf41af
@@ -478,9 +472,9 @@ CVE-2016-0774
 	Pulled
 	Link - https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/commit/fs/pipe.c?id=b381fbc509052d07ccf8641fd7560a25d46aaf1e
 CVE-2016-0801
-	Link - https://android.googlesource.com/kernel/msm/+/68cdc8df1cb6622980b791ce03e99c255c9888af%5E!
+	Link - https://android.googlesource.com/kernel/msm/+/68cdc8df1cb6622980b791ce03e99c255c9888af
 CVE-2016-0802
-	Link - https://android.googlesource.com/kernel/msm/+/3fffc78f70dc101add8b82af878d53457713d005%5E%21/
+	Link - https://android.googlesource.com/kernel/msm/+/3fffc78f70dc101add8b82af878d53457713d005
 CVE-2016-0805
 	Pulled
 	Link - https://github.com/android/kernel_msm/commit/b3f0b1f694258b3b3debc5256eec94bb2a9eb454
@@ -630,14 +624,14 @@ CVE-2016-2465
 	Link - 3.18 - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=240f3bd82840fe6df7989339e465e9558f42fb85
 CVE-2016-2466
 	Pulled
-	Link - https://android.googlesource.com/kernel/msm.git/+/8292fe595c99ccbcb5e73debdba21d5f1ad91ef6%5E%21/#F0
+	Link - https://android.googlesource.com/kernel/msm.git/+/8292fe595c99ccbcb5e73debdba21d5f1ad91ef6
 CVE-2016-2467
 	Pulled
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=38b6131d78cecec5d970230aeee3cef485103d82
 CVE-2016-2468
 	Pulled
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=b5eb67744215b3434a36b9251e28da3dc2a638a6
-	Link - https://android.googlesource.com/kernel/msm.git/+/eb6cc9d4af6791d4d34075e3fa08f0c858087a8c%5E%21/#F0
+	Link - https://android.googlesource.com/kernel/msm.git/+/eb6cc9d4af6791d4d34075e3fa08f0c858087a8c
 CVE-2016-2469
 	Link - 3.10 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=e7369163162e7773bc887f7a264d6aa46cfcc665
 	Link - 3.18 - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=7eb824e8e1ebbdbfad896b090a9f048ca6e63c9e
@@ -747,7 +741,7 @@ CVE-2016-3797
 	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=fdda9c0af64d6e5cdf006e2d8dd57e655821a962
 CVE-2016-3809
 	Pulled
-	Link - https://android.googlesource.com/kernel/msm/+/f2152040cb3c13fa846914df1ad44a8a7fd2e935%5E%21/#F0
+	Link - https://android.googlesource.com/kernel/msm/+/f2152040cb3c13fa846914df1ad44a8a7fd2e935
 CVE-2016-3813
 	Link - 3.10 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=3c0add95808fdada98ba0ab465c0b4ba49e71d26
 	Link - 3.18 - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=de81d402f12a3492400644024e694748d3514951
@@ -1217,21 +1211,6 @@ CVE-2016-9794
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=a27178e05b7c332522df40904f27674e36ee3757
 CVE-2016-9806
 	Link - http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=92964c79b357efd980812c4de5c1fd2ec8bb5520
-LVT-2017-0001
-	Link - 3.0 - https://review.lineageos.org/#/c/171511
-	Link - 3.4 - https://review.lineageos.org/#/c/170648
-	Link - 3.10 - https://review.lineageos.org/#/c/170624
-	Link - 3.18 - https://review.lineageos.org/#/c/170516
-LVT-2017-0002
-	Link - 3.4 - https://review.lineageos.org/#/c/173619
-	Link - 3.10 - https://review.lineageos.org/#/c/173618
-	Link - 3.18 - https://review.lineageos.org/#/c/173535
-LVT-2017-0003
-	Link - 3.10 - https://review.lineageos.org/#/c/174289
-LVT-2017-0004
-	Link - 3.4 - https://review.lineageos.org/#/c/182172
-	Link - 3.10 - https://review.lineageos.org/#/c/182173
-	Link - 3.18 - https://review.lineageos.org/#/c/182174
 CVE-2017-0403
 	Pulled
 	Link - 3.0-3.18 - https://github.com/android/kernel_msm/commit/2c5c1fd0d2a2a96fab750fa332cb703022c16c04
@@ -1492,7 +1471,7 @@ CVE-2017-0705
 	Link - https://github.com/android/kernel_msm/commit/e58dd312d3d28331b2e28674c6a49f815a55d4bc
 CVE-2017-0706
 	Pulled
-	Link - https://android.googlesource.com/kernel/msm/+/6a469209ac014b6d93f373e042500f6e8cd6a04a%5E%21/#F0
+	Link - https://android.googlesource.com/kernel/msm/+/6a469209ac014b6d93f373e042500f6e8cd6a04a
 CVE-2017-0710
 	Pulled
 	Link - https://android.googlesource.com/kernel/msm/+/f37e859ab4c55c6c56e3c157bbed3024fc8d0dc6
@@ -2012,3 +1991,20 @@ CVE-2017-9724
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=5328a92fa26eabe2ba259b1d813f9de488efc9ec
 CVE-2017-9725
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-4.4/commit/?h=aosp/android-4.4&id=1f8f9b566e8446c13b954220c226c58d22076f88
+LVT-2017-0001
+	Link - 3.0 - https://review.lineageos.org/#/c/171511
+	Link - 3.4 - https://review.lineageos.org/#/c/170648
+	Link - 3.10 - https://review.lineageos.org/#/c/170624
+	Link - 3.18 - https://review.lineageos.org/#/c/170516
+LVT-2017-0002
+	Link - 3.4 - https://review.lineageos.org/#/c/173619
+	Link - 3.10 - https://review.lineageos.org/#/c/173618
+	Link - 3.18 - https://review.lineageos.org/#/c/173535
+LVT-2017-0003
+	Link - 3.10 - https://review.lineageos.org/#/c/174289
+LVT-2017-0004
+	Link - 3.4 - https://review.lineageos.org/#/c/182172
+	Link - 3.10 - https://review.lineageos.org/#/c/182173
+	Link - 3.18 - https://review.lineageos.org/#/c/182174
+CVE-0000-0000
+#The above line must be the last line
