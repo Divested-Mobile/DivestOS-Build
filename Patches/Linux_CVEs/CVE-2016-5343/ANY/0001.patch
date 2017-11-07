@@ -1,0 +1,101 @@
+From 6927e2e0af4dcac357be86ba563c9ae12354bb08 Mon Sep 17 00:00:00 2001
+From: Josh Kirsch <jkirsch@codeaurora.org>
+Date: Mon, 2 May 2016 14:55:04 -0700
+Subject: drivers: soc: Add buffer overflow check for svc send request
+
+Add buffer overflow check in voice_svc_send_req.
+
+CRs-fixed: 1010081
+Change-Id: I4ae703334b0cf04f327b392bc9cd6febd4ad32f2
+Signed-off-by: Josh Kirsch <jkirsch@codeaurora.org>
+---
+ drivers/soc/qcom/qdsp6v2/voice_svc.c | 46 +++++++++++++++++++++++++-----------
+ 1 file changed, 32 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/soc/qcom/qdsp6v2/voice_svc.c b/drivers/soc/qcom/qdsp6v2/voice_svc.c
+index 23b8292..67c58d1 100644
+--- a/drivers/soc/qcom/qdsp6v2/voice_svc.c
++++ b/drivers/soc/qcom/qdsp6v2/voice_svc.c
+@@ -1,4 +1,4 @@
+-/* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
++/* Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2 and
+@@ -188,7 +188,8 @@ static int voice_svc_send_req(struct voice_svc_cmd_request *apr_request,
+ 	int ret = 0;
+ 	void *apr_handle = NULL;
+ 	struct apr_data *aprdata = NULL;
+-	uint32_t user_payload_size = 0;
++	uint32_t user_payload_size;
++	uint32_t payload_size;
+ 
+ 	pr_debug("%s\n", __func__);
+ 
+@@ -200,15 +201,19 @@ static int voice_svc_send_req(struct voice_svc_cmd_request *apr_request,
+ 	}
+ 
+ 	user_payload_size = apr_request->payload_size;
++	payload_size = sizeof(struct apr_data) + user_payload_size;
+ 
+-	aprdata = kmalloc(sizeof(struct apr_data) + user_payload_size,
+-			  GFP_KERNEL);
+-
+-	if (aprdata == NULL) {
+-		pr_err("%s: aprdata kmalloc failed.\n", __func__);
+-
+-		ret = -ENOMEM;
++	if (payload_size <= user_payload_size) {
++		pr_err("%s: invalid payload size ( 0x%x ).\n",
++			__func__, user_payload_size);
++		ret = -EINVAL;
+ 		goto done;
++	} else {
++		aprdata = kmalloc(payload_size, GFP_KERNEL);
++		if (aprdata == NULL) {
++			ret = -ENOMEM;
++			goto done;
++		}
+ 	}
+ 
+ 	voice_svc_update_hdr(apr_request, aprdata);
+@@ -388,18 +393,31 @@ static ssize_t voice_svc_write(struct file *file, const char __user *buf,
+ 
+ 	switch (cmd) {
+ 	case MSG_REGISTER:
+-		ret = process_reg_cmd(
++		if (count  >=
++				(sizeof(struct voice_svc_register) +
++				sizeof(*data))) {
++			ret = process_reg_cmd(
+ 			(struct voice_svc_register *)data->payload, prtd);
+-		if (!ret)
+-			ret = count;
+-
++			if (!ret)
++				ret = count;
++		} else {
++			pr_err("%s: invalid payload size\n", __func__);
++			ret = -EINVAL;
++			goto done;
++		}
+ 		break;
+ 	case MSG_REQUEST:
++	if (count >= (sizeof(struct voice_svc_cmd_request) +
++					sizeof(*data))) {
+ 		ret = voice_svc_send_req(
+ 			(struct voice_svc_cmd_request *)data->payload, prtd);
+ 		if (!ret)
+ 			ret = count;
+-
++	} else {
++		pr_err("%s: invalid payload size\n", __func__);
++		ret = -EINVAL;
++		goto done;
++	}
+ 		break;
+ 	default:
+ 		pr_debug("%s: Invalid command: %u\n", __func__, cmd);
+-- 
+cgit v1.1
+

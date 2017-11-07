@@ -750,7 +750,7 @@ CVE-2016-3841
 CVE-2016-3842
 	Pulled
 	Link - 3.4 - https://github.com/aosp-mirror/kernel_msm/commit/15701ca335357e98a0eb98ef079fe45e3b830591
-	Link - 3.10 https://github.com/aosp-mirror/kernel_msm/commit/f5f0a2fe84b589793baa5713ea2aa16779e00d5e
+	Link - 3.10 - https://github.com/aosp-mirror/kernel_msm/commit/f5f0a2fe84b589793baa5713ea2aa16779e00d5e
 	Link - 3.18 - https://github.com/aosp-mirror/kernel_msm/commit/905de01dda0bc6663f8ce5c8f0f3831dae49bb36
 CVE-2016-3843
 	Pulled
@@ -1438,7 +1438,7 @@ CVE-2017-0621
 	Link - https://source.codeaurora.org/quic/la//kernel/msm-3.10/commit/?id=9656e2c2b3523af20502bf1e933e35a397f5e82f
 CVE-2017-0622
 	Link - 3.18 - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=40efa25345003a96db34effbd23ed39530b3ac10
-	Link - 4.4 -https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm-4.4.git;a=commit;h=2881d2bbc26ff321fd9e717ad6f968aebd277d22
+	Link - 4.4 - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm-4.4.git;a=commit;h=2881d2bbc26ff321fd9e717ad6f968aebd277d22
 CVE-2017-0624
 	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=0ac5f6f2f221efb93fc0ddb1fec6487c76d95acd
 CVE-2017-0626

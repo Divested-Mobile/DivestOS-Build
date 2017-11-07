@@ -1,0 +1,76 @@
+From 01ee86da5a0cd788f134e360e2be517ef52b6b00 Mon Sep 17 00:00:00 2001
+From: Weiyin Jiang <wjiang@codeaurora.org>
+Date: Tue, 26 Apr 2016 14:35:38 +0800
+Subject: ASoC: msm: audio-effects: misc fixes in h/w accelerated effect
+
+Adding memory copy size check and integer overflow check in h/w
+accelerated effect driver.
+
+Change-Id: I17d4cc0a38770f0c5067fa8047cd63e7bf085e48
+CRs-Fixed: 1006609
+Signed-off-by: Weiyin Jiang <wjiang@codeaurora.org>
+---
+ drivers/misc/qcom/qdsp6v2/audio_hwacc_effects.c | 8 +++++---
+ sound/soc/msm/qdsp6v2/q6asm.c                   | 8 +++++++-
+ 2 files changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/misc/qcom/qdsp6v2/audio_hwacc_effects.c b/drivers/misc/qcom/qdsp6v2/audio_hwacc_effects.c
+index c100c47..525d72a 100644
+--- a/drivers/misc/qcom/qdsp6v2/audio_hwacc_effects.c
++++ b/drivers/misc/qcom/qdsp6v2/audio_hwacc_effects.c
+@@ -164,7 +164,7 @@ static int audio_effects_shared_ioctl(struct file *file, unsigned cmd,
+ 
+ 		pr_debug("%s: dec buf size: %d, num_buf: %d, enc buf size: %d, num_buf: %d\n",
+ 			 __func__, effects->config.output.buf_size,
+-			 effects->config.output.buf_size,
++			 effects->config.output.num_buf,
+ 			 effects->config.input.buf_size,
+ 			 effects->config.input.num_buf);
+ 		rc = q6asm_audio_client_buf_alloc_contiguous(IN, effects->ac,
+@@ -252,7 +252,8 @@ static int audio_effects_shared_ioctl(struct file *file, unsigned cmd,
+ 
+ 		bufptr = q6asm_is_cpu_buf_avail(IN, effects->ac, &size, &idx);
+ 		if (bufptr) {
+-			if (copy_from_user(bufptr, (void *)arg,
++			if ((effects->config.buf_cfg.output_len > size) ||
++				copy_from_user(bufptr, (void *)arg,
+ 					effects->config.buf_cfg.output_len)) {
+ 				rc = -EFAULT;
+ 				goto ioctl_fail;
+@@ -308,7 +309,8 @@ static int audio_effects_shared_ioctl(struct file *file, unsigned cmd,
+ 				rc = -EFAULT;
+ 				goto ioctl_fail;
+ 			}
+-			if (copy_to_user((void *)arg, bufptr,
++			if ((effects->config.buf_cfg.input_len > size) ||
++				copy_to_user((void *)arg, bufptr,
+ 					  effects->config.buf_cfg.input_len)) {
+ 				rc = -EFAULT;
+ 				goto ioctl_fail;
+diff --git a/sound/soc/msm/qdsp6v2/q6asm.c b/sound/soc/msm/qdsp6v2/q6asm.c
+index 0991d30..1c6e938 100644
+--- a/sound/soc/msm/qdsp6v2/q6asm.c
++++ b/sound/soc/msm/qdsp6v2/q6asm.c
+@@ -1,5 +1,5 @@
+ /*
+- * Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+  * Author: Brian Swetland <swetland@google.com>
+  *
+  * This software is licensed under the terms of the GNU General Public
+@@ -1212,6 +1212,12 @@ int q6asm_audio_client_buf_alloc_contiguous(unsigned int dir,
+ 
+ 	ac->port[dir].buf = buf;
+ 
++	/* check for integer overflow */
++	if ((bufcnt > 0) && ((INT_MAX / bufcnt) < bufsz)) {
++		pr_err("%s: integer overflow\n", __func__);
++		mutex_unlock(&ac->cmd_lock);
++		goto fail;
++	}
+ 	bytes_to_alloc = bufsz * bufcnt;
+ 
+ 	/* The size to allocate should be multiple of 4K bytes */
+-- 
+cgit v1.1
+

@@ -1,0 +1,99 @@
+From 2a2f0b7463f4de9ca225769204ff62c71760709c Mon Sep 17 00:00:00 2001
+From: Sudarshan Rajagopalan <sudaraja@codeaurora.org>
+Date: Thu, 6 Apr 2017 16:15:48 -0700
+Subject: ashmem: remove cache maintenance support
+
+The cache maintenance routines in ashmem were causing
+several security issues. Since they are not being used
+anymore by any drivers, its well to remove them entirely.
+
+CRs-Fixed: 1107034, 2001129, 2007786
+Change-Id: I955e33d90b888d58db5cf6bb490905283374425b
+Signed-off-by: Sudarshan Rajagopalan <sudaraja@codeaurora.org>
+---
+ drivers/staging/android/ashmem.c | 41 ----------------------------------------
+ include/uapi/linux/ashmem.h      |  3 ---
+ 2 files changed, 44 deletions(-)
+
+diff --git a/drivers/staging/android/ashmem.c b/drivers/staging/android/ashmem.c
+index ee79ac8..f13aab2 100644
+--- a/drivers/staging/android/ashmem.c
++++ b/drivers/staging/android/ashmem.c
+@@ -32,7 +32,6 @@
+ #include <linux/mutex.h>
+ #include <linux/shmem_fs.h>
+ #include <linux/ashmem.h>
+-#include <asm/cacheflush.h>
+ 
+ #include "ashmem.h"
+ 
+@@ -659,37 +658,6 @@ static int ashmem_pin_unpin(struct ashmem_area *asma, unsigned long cmd,
+ 	return ret;
+ }
+ 
+-static int ashmem_cache_op(struct ashmem_area *asma,
+-	void (*cache_func)(const void *vstart, const void *vend))
+-{
+-	int ret = 0;
+-	struct vm_area_struct *vma;
+-	if (!asma->vm_start)
+-		return -EINVAL;
+-
+-	down_read(&current->mm->mmap_sem);
+-	vma = find_vma(current->mm, asma->vm_start);
+-	if (!vma) {
+-		ret = -EINVAL;
+-		goto done;
+-	}
+-	if (vma->vm_file != asma->file) {
+-		ret = -EINVAL;
+-		goto done;
+-	}
+-	if ((asma->vm_start + asma->size) > vma->vm_end) {
+-		ret = -EINVAL;
+-		goto done;
+-	}
+-	cache_func((void *)asma->vm_start,
+-			(void *)(asma->vm_start + asma->size));
+-done:
+-	up_read(&current->mm->mmap_sem);
+-	if (ret)
+-		asma->vm_start = 0;
+-	return ret;
+-}
+-
+ static long ashmem_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ {
+ 	struct ashmem_area *asma = file->private_data;
+@@ -735,15 +703,6 @@ static long ashmem_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ 			ashmem_shrink(&ashmem_shrinker, &sc);
+ 		}
+ 		break;
+-	case ASHMEM_CACHE_FLUSH_RANGE:
+-		ret = ashmem_cache_op(asma, &dmac_flush_range);
+-		break;
+-	case ASHMEM_CACHE_CLEAN_RANGE:
+-		ret = ashmem_cache_op(asma, &dmac_clean_range);
+-		break;
+-	case ASHMEM_CACHE_INV_RANGE:
+-		ret = ashmem_cache_op(asma, &dmac_inv_range);
+-		break;
+ 	}
+ 
+ 	return ret;
+diff --git a/include/uapi/linux/ashmem.h b/include/uapi/linux/ashmem.h
+index 7ec977f..7797439 100644
+--- a/include/uapi/linux/ashmem.h
++++ b/include/uapi/linux/ashmem.h
+@@ -34,8 +34,5 @@ struct ashmem_pin {
+ #define ASHMEM_UNPIN		_IOW(__ASHMEMIOC, 8, struct ashmem_pin)
+ #define ASHMEM_GET_PIN_STATUS	_IO(__ASHMEMIOC, 9)
+ #define ASHMEM_PURGE_ALL_CACHES	_IO(__ASHMEMIOC, 10)
+-#define ASHMEM_CACHE_FLUSH_RANGE	_IO(__ASHMEMIOC, 11)
+-#define ASHMEM_CACHE_CLEAN_RANGE	_IO(__ASHMEMIOC, 12)
+-#define ASHMEM_CACHE_INV_RANGE		_IO(__ASHMEMIOC, 13)
+ 
+ #endif /* _UAPI_LINUX_ASHMEM_H */
+-- 
+cgit v1.1
+

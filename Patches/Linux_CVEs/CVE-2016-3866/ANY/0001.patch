@@ -1,0 +1,31 @@
+From 5180cefe0eeb6f3e6e0c4967652facd20f07c20c Mon Sep 17 00:00:00 2001
+From: Surendar karka <sukark@codeaurora.org>
+Date: Wed, 29 Jun 2016 14:23:25 +0530
+Subject: ASoC: msm: qdsp6v2: check param length for EAC3 format
+
+Initialize param length with user space argument and
+check the condition for maximum length in
+SND_AUDIOCODEC_EAC3 format.
+
+CRs-Fixed: 1032820
+Change-Id: I710c1f743d7502e93989e8cc487078366570e723
+Signed-off-by: Surendar karka <sukark@codeaurora.org>
+---
+ sound/soc/msm/qdsp6v2/msm-compr-q6-v2.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/soc/msm/qdsp6v2/msm-compr-q6-v2.c b/sound/soc/msm/qdsp6v2/msm-compr-q6-v2.c
+index f577637..26528e6 100644
+--- a/sound/soc/msm/qdsp6v2/msm-compr-q6-v2.c
++++ b/sound/soc/msm/qdsp6v2/msm-compr-q6-v2.c
+@@ -1070,6 +1070,7 @@ static int msm_compr_ioctl_shared(struct snd_pcm_substream *substream,
+ 				__func__, ddp->params_length);
+ 				return -EINVAL;
+ 			}
++			params_length = ddp->params_length*sizeof(int);
+ 			if (params_length > MAX_AC3_PARAM_SIZE) {
+ 				/*MAX is 36*sizeof(int) this should not happen*/
+ 				pr_err("%s: params_length(%d) is greater than %zd\n",
+-- 
+cgit v1.1
+

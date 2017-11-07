@@ -1,0 +1,53 @@
+From 6e2c437a2d0a85d90d3db85a7471f99764f7bbf8 Mon Sep 17 00:00:00 2001
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+Date: Thu, 23 Apr 2015 12:46:16 +0100
+Subject: arm64: dma-mapping: always clear allocated buffers
+
+[ Upstream commit 6829e274a623187c24f7cfc0e3d35f25d087fcc5 ]
+
+Buffers allocated by dma_alloc_coherent() are always zeroed on Alpha,
+ARM (32bit), MIPS, PowerPC, x86/x86_64 and probably other architectures.
+It turned out that some drivers rely on this 'feature'. Allocated buffer
+might be also exposed to userspace with dma_mmap() call, so clearing it
+is desired from security point of view to avoid exposing random memory
+to userspace. This patch unifies dma_alloc_coherent() behavior on ARM64
+architecture with other implementations by unconditionally zeroing
+allocated buffer.
+
+CRs-Fixed: 1041735
+Change-Id: I74bf024e0f603ca8c0b05430dc2ee154d579cfb2
+Cc: <stable@vger.kernel.org> # v3.14+
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Signed-off-by: Will Deacon <will.deacon@arm.com>
+Signed-off-by: Sasha Levin <sasha.levin@oracle.com>
+Git-commit: a142e9641dcbead2c8845c949ad518acac96ed28
+Git-repo: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+[lmark@codeaurora.org: resolve merge conflicts]
+Signed-off-by: Liam Mark <lmark@codeaurora.org>
+---
+ arch/arm64/mm/dma-mapping.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/arm64/mm/dma-mapping.c b/arch/arm64/mm/dma-mapping.c
+index 9b4716e..2678f6e 100644
+--- a/arch/arm64/mm/dma-mapping.c
++++ b/arch/arm64/mm/dma-mapping.c
+@@ -88,6 +88,7 @@ static void *__alloc_from_pool(size_t size, struct page **ret_page)
+ 	if (pageno < pool->nr_pages) {
+ 		bitmap_set(pool->bitmap, pageno, count);
+ 		ptr = pool->vaddr + PAGE_SIZE * pageno;
++		memset(ptr, 0, size);
+ 		*ret_page = pool->pages[pageno];
+ 	} else {
+ 		pr_err_once("ERROR: %u KiB atomic DMA coherent pool is too small!\n"
+@@ -208,6 +209,7 @@ static void *arm64_swiotlb_alloc_coherent(struct device *dev, size_t size,
+ 
+ 		page = pfn_to_page(pfn);
+ 		addr = page_address(page);
++		memset(addr, 0, size);
+ 
+ 		if (dma_get_attr(DMA_ATTR_NO_KERNEL_MAPPING, attrs) ||
+ 		    dma_get_attr(DMA_ATTR_STRONGLY_ORDERED, attrs)) {
+-- 
+cgit v1.1
+

@@ -1,0 +1,48 @@
+From 467c81f9736b1ebc8d4ba70f9221bba02425ca10 Mon Sep 17 00:00:00 2001
+From: Shalini Krishnamoorthi <shakri@codeaurora.org>
+Date: Tue, 2 Aug 2016 10:29:00 -0700
+Subject: msm: mdss: Fix to validate data copied from user space
+
+The overlay zorder values copied from user space are used
+as index in left_lm_zo_cnt and right_lm_zo_cnt. This fix
+will validate the overlay zorder value copied from user
+space to not go beyond MDSS_MDP_MAX_STAGE, thus preventing
+any arbitrary increments in kernel memory.
+
+CRs-Fixed: 1049232
+Change-Id: Ie8e65ce9f58cb357204bfa4c6a6e0fccec82d5ba
+Signed-off-by: Shalini Krishnamoorthi <shakri@codeaurora.org>
+---
+ drivers/video/msm/mdss/mdss_mdp_overlay.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/video/msm/mdss/mdss_mdp_overlay.c b/drivers/video/msm/mdss/mdss_mdp_overlay.c
+index 2024bd4..e8a91cf 100644
+--- a/drivers/video/msm/mdss/mdss_mdp_overlay.c
++++ b/drivers/video/msm/mdss/mdss_mdp_overlay.c
+@@ -4070,16 +4070,20 @@ static int __mdss_overlay_src_split_sort(struct msm_fb_data_type *mfd,
+ 		__overlay_swap_func);
+ 
+ 	for (i = 0; i < num_ovs; i++) {
++		if (ovs[i].z_order >= MDSS_MDP_MAX_STAGE) {
++			pr_err("invalid stage:%u\n", ovs[i].z_order);
++			return -EINVAL;
++		}
+ 		if (ovs[i].dst_rect.x < left_lm_w) {
+ 			if (left_lm_zo_cnt[ovs[i].z_order] == 2) {
+-				pr_err("more than 2 ov @ stage%d on left lm\n",
++				pr_err("more than 2 ov @ stage%u on left lm\n",
+ 					ovs[i].z_order);
+ 				return -EINVAL;
+ 			}
+ 			left_lm_zo_cnt[ovs[i].z_order]++;
+ 		} else {
+ 			if (right_lm_zo_cnt[ovs[i].z_order] == 2) {
+-				pr_err("more than 2 ov @ stage%d on right lm\n",
++				pr_err("more than 2 ov @ stage%u on right lm\n",
+ 					ovs[i].z_order);
+ 				return -EINVAL;
+ 			}
+-- 
+cgit v1.1
+

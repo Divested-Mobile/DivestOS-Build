@@ -1,0 +1,33 @@
+From 289ede9d6bfb46178326ae9ca86033bbd452f269 Mon Sep 17 00:00:00 2001
+From: Siena Richard <sienar@codeaurora.org>
+Date: Tue, 16 Aug 2016 13:03:56 -0700
+Subject: misc: qcom: qdsp6v2: initialize wma_config_32
+
+Not all memebers of wma_config_32 are set before they are used which
+might lead to invalid values being passed and used. To fix this issue
+initialize all member variables of struct wma_config_32 to 0 before
+assigning specific values individually.
+
+Change-Id: Ibb082ce691625527e9a9ffd4978dea7ba4df9e84
+CRs-Fixed: 1054352
+Signed-off-by: Siena Richard <sienar@codeaurora.org>
+---
+ drivers/misc/qcom/qdsp6v2/audio_wma.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/misc/qcom/qdsp6v2/audio_wma.c b/drivers/misc/qcom/qdsp6v2/audio_wma.c
+index 3d57d38d..4389c0f 100644
+--- a/drivers/misc/qcom/qdsp6v2/audio_wma.c
++++ b/drivers/misc/qcom/qdsp6v2/audio_wma.c
+@@ -166,6 +166,8 @@ static long audio_compat_ioctl(struct file *file, unsigned int cmd,
+ 		struct msm_audio_wma_config_v2 *wma_config;
+ 		struct msm_audio_wma_config_v2_32 wma_config_32;
+ 
++		memset(&wma_config_32, 0, sizeof(wma_config_32));
++
+ 		wma_config = (struct msm_audio_wma_config_v2 *)audio->codec_cfg;
+ 		wma_config_32.format_tag = wma_config->format_tag;
+ 		wma_config_32.numchannels = wma_config->numchannels;
+-- 
+cgit v1.1
+

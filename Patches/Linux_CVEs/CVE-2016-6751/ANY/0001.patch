@@ -1,0 +1,38 @@
+From 4907b74ecd5ef8c6d85f1b430f386e381d5b8229 Mon Sep 17 00:00:00 2001
+From: Walter Yang <yandongy@codeaurora.org>
+Date: Wed, 7 Sep 2016 16:28:50 +0800
+Subject: ASoC: msm: initialize the params array before using it
+
+The params array is used without initialization, which may cause
+security issues. Initialize it as all zero after the definition.
+
+CRs-Fixed: 1062271
+Change-Id: If462fe3d82f139d72547f82dc7eb564f83cb35bf
+Signed-off-by: Walter Yang <yandongy@codeaurora.org>
+---
+ sound/soc/msm/qdsp6v2/msm-compr-q6-v2.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/soc/msm/qdsp6v2/msm-compr-q6-v2.c b/sound/soc/msm/qdsp6v2/msm-compr-q6-v2.c
+index 26528e6..58a4de5 100644
+--- a/sound/soc/msm/qdsp6v2/msm-compr-q6-v2.c
++++ b/sound/soc/msm/qdsp6v2/msm-compr-q6-v2.c
+@@ -1024,6 +1024,7 @@ static int msm_compr_ioctl_shared(struct snd_pcm_substream *substream,
+ 			struct snd_dec_ddp *ddp =
+ 				&compr->info.codec_param.codec.options.ddp;
+ 			uint32_t params_length = 0;
++			memset(params_value, 0, MAX_AC3_PARAM_SIZE);
+ 			/* check integer overflow */
+ 			if (ddp->params_length > UINT_MAX/sizeof(int)) {
+ 				pr_err("%s: Integer overflow ddp->params_length %d\n",
+@@ -1064,6 +1065,7 @@ static int msm_compr_ioctl_shared(struct snd_pcm_substream *substream,
+ 			struct snd_dec_ddp *ddp =
+ 				&compr->info.codec_param.codec.options.ddp;
+ 			uint32_t params_length = 0;
++			memset(params_value, 0, MAX_AC3_PARAM_SIZE);
+ 			/* check integer overflow */
+ 			if (ddp->params_length > UINT_MAX/sizeof(int)) {
+ 				pr_err("%s: Integer overflow ddp->params_length %d\n",
+-- 
+cgit v1.1
+

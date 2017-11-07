@@ -1,0 +1,33 @@
+From 1e47d44de7bab5500d27f17ae5c4ebebc7d2b4ef Mon Sep 17 00:00:00 2001
+From: SaidiReddy Yenuga <saidir@codeaurora.org>
+Date: Tue, 16 May 2017 18:00:47 +0530
+Subject: qcacld-2.0: Add lost AP sample size entry to nla policy
+
+improper validation of
+QCA_WLAN_VENDOR_ATTR_EXTSCAN_BSSID_HOTLIST_PARAMS_LOST_AP_SAMPLE_SIZE
+results in assigning an unchecked user-controller value.
+This can lead to buffer overflow.
+
+validate QCA_WLAN_VENDOR_ATTR_EXTSCAN_BSSID_HOTLIST_PARAMS_LOST_AP_SAMPLE_SIZE.
+
+CRs-Fixed: 2045470
+Change-Id: I7c33b6d78054672e9effbe9100c29e5604c250c6
+---
+ CORE/HDD/src/wlan_hdd_cfg80211.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/CORE/HDD/src/wlan_hdd_cfg80211.c b/CORE/HDD/src/wlan_hdd_cfg80211.c
+index b53ba75..69b13b5 100644
+--- a/CORE/HDD/src/wlan_hdd_cfg80211.c
++++ b/CORE/HDD/src/wlan_hdd_cfg80211.c
+@@ -837,6 +837,7 @@ wlan_hdd_extscan_config_policy[QCA_WLAN_VENDOR_ATTR_EXTSCAN_SUBCMD_CONFIG_PARAM_
+     [QCA_WLAN_VENDOR_ATTR_EXTSCAN_SSID_THRESHOLD_PARAM_RSSI_LOW] = { .type = NLA_S32 },
+     [QCA_WLAN_VENDOR_ATTR_EXTSCAN_SSID_THRESHOLD_PARAM_RSSI_HIGH] = { .type = NLA_S32 },
+     [QCA_WLAN_VENDOR_ATTR_EXTSCAN_CONFIGURATION_FLAGS] = { .type = NLA_U32 },
++    [QCA_WLAN_VENDOR_ATTR_EXTSCAN_BSSID_HOTLIST_PARAMS_LOST_AP_SAMPLE_SIZE] = { .type = NLA_U32 },
+ };
+ 
+ static const struct nla_policy
+-- 
+cgit v1.1
+

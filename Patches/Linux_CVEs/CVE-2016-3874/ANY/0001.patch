@@ -1,0 +1,47 @@
+From 50e8f265b3f7926aeb4e49c33f7301ace89faa77 Mon Sep 17 00:00:00 2001
+From: SaidiReddy Yenuga <c_saidir@qti.qualcomm.com>
+Date: Mon, 30 May 2016 20:06:19 +0530
+Subject: qcacld-2.0: Fix buffer over read in iwpriv WE_UNIT_TEST_CMD command
+
+In current driver, WE_UNIT_TEST_CMD has below problems.
+- apps_arg[1] can have negative value and can lead to
+  buffer overead.
+- apps_arg[] can be dereferenced beyond the allocated length.
+
+Change the code to handle the number of args if user has
+given negative value. Also avoid dereferencing the
+apps_arg[] beyond the allocated length.
+
+CRs-Fixed: 997797
+Change-Id: Id26ebc32324b800ccdbecbd03f23861b5bde2aaf
+---
+ CORE/HDD/src/wlan_hdd_wext.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/CORE/HDD/src/wlan_hdd_wext.c b/CORE/HDD/src/wlan_hdd_wext.c
+index d6cf499..e49ea8e 100644
+--- a/CORE/HDD/src/wlan_hdd_wext.c
++++ b/CORE/HDD/src/wlan_hdd_wext.c
+@@ -9106,7 +9106,8 @@ static int __iw_set_var_ints_getnone(struct net_device *dev,
+                     hddLog(LOGE, FL("Invalid MODULE ID %d"), apps_args[0]);
+                     return -EINVAL;
+                 }
+-                if (apps_args[1] > (WMA_MAX_NUM_ARGS)) {
++                if ((apps_args[1] > (WMA_MAX_NUM_ARGS)) ||
++                    (apps_args[1] < 0)) {
+                     hddLog(LOGE, FL("Too Many args %d"), apps_args[1]);
+                     return -EINVAL;
+                 }
+@@ -9119,7 +9120,8 @@ static int __iw_set_var_ints_getnone(struct net_device *dev,
+                 unitTestArgs->vdev_id            = (int)pAdapter->sessionId;
+                 unitTestArgs->module_id          = apps_args[0];
+                 unitTestArgs->num_args           = apps_args[1];
+-                for (i = 0, j = 2; i < unitTestArgs->num_args; i++, j++) {
++                for (i = 0, j = 2; i < unitTestArgs->num_args - 1;
++                     i++, j++) {
+                     unitTestArgs->args[i] = apps_args[j];
+                 }
+                 msg.type = SIR_HAL_UNIT_TEST_CMD;
+-- 
+cgit v1.1
+

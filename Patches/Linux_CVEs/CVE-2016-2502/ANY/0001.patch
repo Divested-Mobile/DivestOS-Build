@@ -1,0 +1,37 @@
+From 0bc45d7712eabe315ce8299a49d16433c3801156 Mon Sep 17 00:00:00 2001
+From: Manu Gautam <mgautam@codeaurora.org>
+Date: Tue, 5 Apr 2016 15:20:47 +0530
+Subject: usb: f_serial: Check for SMD data length in GSER_IOCTL
+
+If user tries to send SMD data more than the driver
+buffer can handle then fail the same and print
+error message. This smd_write is exposed to userspace
+through ioctl using a misc device.
+
+Change-Id: Ie8a1c1c0799cd10cef512ad6b1e1e95001dd43b2
+Signed-off-by: Manu Gautam <mgautam@codeaurora.org>
+---
+ drivers/usb/gadget/f_serial.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/usb/gadget/f_serial.c b/drivers/usb/gadget/f_serial.c
+index 8d510e1..4e84de8 100644
+--- a/drivers/usb/gadget/f_serial.c
++++ b/drivers/usb/gadget/f_serial.c
+@@ -1361,6 +1361,13 @@ static long gser_ioctl(struct file *fp, unsigned cmd, unsigned long arg)
+ 		smd_port_num =
+ 			gserial_ports[gser->port_num].client_port_num;
+ 
++		if (smd_write_arg.size > GSERIAL_BUF_LEN) {
++			pr_err("%s: Invalid size:%u, max: %u", __func__,
++				smd_write_arg.size, GSERIAL_BUF_LEN);
++			ret = -EINVAL;
++			break;
++		}
++
+ 		pr_debug("%s: Copying %d bytes from user buffer to local\n",
+ 			__func__, smd_write_arg.size);
+ 
+-- 
+cgit v1.1
+

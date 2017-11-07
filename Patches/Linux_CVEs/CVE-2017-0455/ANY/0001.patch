@@ -1,0 +1,30 @@
+From 2c00928b4884fdb0b1661bcc530d7e68c9561a2f Mon Sep 17 00:00:00 2001
+From: Parth Dixit <parthd@codeaurora.org>
+Date: Tue, 1 Nov 2016 16:06:21 +0530
+Subject: platform: msm_shared: return correct random number value
+
+random value returned from tz is truncated to one byte in
+existing implementation. Copy all the bytes of random number
+returned from tz.
+
+Change-Id: I12b609206448702d46a98d0fd5fb64b68b2c9801
+---
+ platform/msm_shared/scm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/platform/msm_shared/scm.c b/platform/msm_shared/scm.c
+index d5653b5..403441c 100644
+--- a/platform/msm_shared/scm.c
++++ b/platform/msm_shared/scm.c
+@@ -1117,7 +1117,7 @@ int scm_random(uintptr_t * rbuf, uint32_t  r_len)
+ 	}
+ 
+ 	//Copy back into the return buffer
+-	*rbuf = *rand_buf;
++	memscpy(rbuf, r_len, rand_buf, sizeof(rand_buf));
+ 	return ret;
+ }
+ 
+-- 
+cgit v1.1
+

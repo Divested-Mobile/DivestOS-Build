@@ -1,0 +1,43 @@
+From 05a5abb21e4d97001f77d344444a3ec2f9c275f9 Mon Sep 17 00:00:00 2001
+From: SaidiReddy Yenuga <saidir@codeaurora.org>
+Date: Tue, 16 May 2017 19:02:16 +0530
+Subject: qcacld-2.0: Trim extn capability to max supported in change station
+
+extn capabilities can be controlled by user, which can
+be sent greater than the max supported value. This results
+in stack overflow in change station command.
+
+Add check to validate extn capability param given by user
+and if it exceeds max supported value, set it to max supported
+value.
+
+CRs-Fixed: 2044820
+Change-Id: I531799dd06c41069e85ad969de6182363dbf9f05
+---
+ CORE/HDD/src/wlan_hdd_cfg80211.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/CORE/HDD/src/wlan_hdd_cfg80211.c b/CORE/HDD/src/wlan_hdd_cfg80211.c
+index 19c2c61..e1f5f0a 100644
+--- a/CORE/HDD/src/wlan_hdd_cfg80211.c
++++ b/CORE/HDD/src/wlan_hdd_cfg80211.c
+@@ -16209,9 +16209,15 @@ static int __wlan_hdd_change_station(struct wiphy *wiphy,
+             StaParams.supported_oper_classes_len  =
+                                              params->supported_oper_classes_len;
+ 
++            if (params->ext_capab_len > sizeof(StaParams.extn_capability)) {
++                VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
++                          "received extn capabilities:%d, resetting it to max supported",
++                          params->ext_capab_len);
++                params->ext_capab_len = sizeof(StaParams.extn_capability);
++            }
+             if (0 != params->ext_capab_len)
+                 vos_mem_copy(StaParams.extn_capability, params->ext_capab,
+-                             sizeof(StaParams.extn_capability));
++                             params->ext_capab_len);
+ 
+             if (NULL != params->ht_capa) {
+                 StaParams.htcap_present = 1;
+-- 
+cgit v1.1
+

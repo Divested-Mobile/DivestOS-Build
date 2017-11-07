@@ -1,0 +1,31 @@
+From f14390f13e62460fc6b05fc0acde0e825374fdb6 Mon Sep 17 00:00:00 2001
+From: Xiaojun Sang <xsang@codeaurora.org>
+Date: Fri, 16 Dec 2016 16:25:27 +0800
+Subject: ASoC: soc: msm: initialize buffer to prevent kernel data leakage
+
+To prevent potential kernel stack data leakage, initialize
+channel_map[].
+
+CRs-Fixed: 1100878
+Change-Id: I7b81cea20485bc7514551672bb54c7fd455049e3
+Signed-off-by: Xiaojun Sang <xsang@codeaurora.org>
+---
+ sound/soc/msm/qdsp6v2/msm-qti-pp-config.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/msm/qdsp6v2/msm-qti-pp-config.c b/sound/soc/msm/qdsp6v2/msm-qti-pp-config.c
+index 7c8af09..832d7c01 100644
+--- a/sound/soc/msm/qdsp6v2/msm-qti-pp-config.c
++++ b/sound/soc/msm/qdsp6v2/msm-qti-pp-config.c
+@@ -579,7 +579,7 @@ static int msm_qti_pp_set_sec_auxpcm_lb_vol_mixer(
+ static int msm_qti_pp_get_channel_map_mixer(struct snd_kcontrol *kcontrol,
+ 					    struct snd_ctl_elem_value *ucontrol)
+ {
+-	char channel_map[PCM_FORMAT_MAX_NUM_CHANNEL];
++	char channel_map[PCM_FORMAT_MAX_NUM_CHANNEL] = {0};
+ 	int i;
+ 
+ 	adm_get_multi_ch_map(channel_map, ADM_PATH_PLAYBACK);
+-- 
+cgit v1.1
+

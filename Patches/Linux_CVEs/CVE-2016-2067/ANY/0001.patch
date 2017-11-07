@@ -1,0 +1,82 @@
+From 410cfa95f0a1cf58819cbfbd896f9aa45b004ac0 Mon Sep 17 00:00:00 2001
+From: Tarun Karra <tkarra@codeaurora.org>
+Date: Thu, 17 Mar 2016 21:10:36 -0700
+Subject: msm: kgsl: verify user memory permissions before mapping to GPU
+ driver
+
+For user memory of type KGSL_USER_MEM_TYPE_ADDR mapped to GPU driver
+verify permissions and map GPU permissions same as CPU permissions.
+If elevated permissions are requested return an error to prevent
+privilege escalation. Without this check user could map readonly
+memory into GPU driver as readwrite and gain elevated privilege.
+
+Write permissions check is currently inverted causing readonly
+user pages to be mapped as readwrite in GPU driver. Fix this
+check to map readonly pages as readonly.
+
+CRs-Fixed: 988993
+Change-Id: I0e097d7e4e4c414c0849e33bcc61a26fb94291ad
+Signed-off-by: Tarun Karra <tkarra@codeaurora.org>
+---
+ drivers/gpu/msm/kgsl.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/msm/kgsl.c b/drivers/gpu/msm/kgsl.c
+index d5e96ab..cecc463 100644
+--- a/drivers/gpu/msm/kgsl.c
++++ b/drivers/gpu/msm/kgsl.c
+@@ -1961,6 +1961,20 @@ static inline int _check_region(unsigned long start, unsigned long size,
+ 	return (end > len);
+ }
+ 
++static int check_vma_flags(struct vm_area_struct *vma,
++		unsigned int flags)
++{
++	unsigned long flags_requested = (VM_READ | VM_WRITE);
++
++	if (flags & KGSL_MEMFLAGS_GPUREADONLY)
++		flags_requested &= ~VM_WRITE;
++
++	if ((vma->vm_flags & flags_requested) == flags_requested)
++		return 0;
++
++	return -EFAULT;
++}
++
+ static int check_vma(struct vm_area_struct *vma, struct file *vmfile,
+ 		struct kgsl_memdesc *memdesc)
+ {
+@@ -1974,7 +1988,7 @@ static int check_vma(struct vm_area_struct *vma, struct file *vmfile,
+ 	if (vma->vm_start != memdesc->useraddr ||
+ 		(memdesc->useraddr + memdesc->size) != vma->vm_end)
+ 		return -EINVAL;
+-	return 0;
++	return check_vma_flags(vma, memdesc->flags);
+ }
+ 
+ static int memdesc_sg_virt(struct kgsl_memdesc *memdesc, struct file *vmfile)
+@@ -1983,7 +1997,7 @@ static int memdesc_sg_virt(struct kgsl_memdesc *memdesc, struct file *vmfile)
+ 	long npages = 0, i;
+ 	size_t sglen = (size_t) (memdesc->size / PAGE_SIZE);
+ 	struct page **pages = NULL;
+-	int write = (memdesc->flags & KGSL_MEMFLAGS_GPUREADONLY) != 0;
++	int write = ((memdesc->flags & KGSL_MEMFLAGS_GPUREADONLY) ? 0 : 1);
+ 
+ 	if (sglen == 0 || sglen >= LONG_MAX)
+ 		return -EINVAL;
+@@ -2102,6 +2116,12 @@ static int kgsl_setup_dmabuf_useraddr(struct kgsl_device *device,
+ 	if (vma && vma->vm_file) {
+ 		int fd;
+ 
++		ret = check_vma_flags(vma, entry->memdesc.flags);
++		if (ret) {
++			up_read(&current->mm->mmap_sem);
++			return ret;
++		}
++
+ 		/*
+ 		 * Check to see that this isn't our own memory that we have
+ 		 * already mapped
+-- 
+cgit v1.1
+

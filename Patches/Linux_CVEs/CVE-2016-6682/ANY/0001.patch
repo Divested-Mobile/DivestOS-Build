@@ -1,0 +1,48 @@
+From 0950fbd39ff189497f1b6115825c210e3eeaf395 Mon Sep 17 00:00:00 2001
+From: Haynes Mathew George <hgeorge@codeaurora.org>
+Date: Wed, 3 Aug 2016 11:55:07 -0700
+Subject: misc: qcom: qdsp6v2: Add missing initialization
+
+Use variables in driver context after proper initialization
+
+CRs-Fixed: 1049521, 1049615
+Change-Id: I3e59e27534b8e1088d74b42c72e0075d2fe910e6
+Signed-off-by: Haynes Mathew George <hgeorge@codeaurora.org>
+---
+ drivers/misc/qcom/qdsp6v2/audio_utils.c     | 3 ++-
+ drivers/misc/qcom/qdsp6v2/audio_utils_aio.c | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/misc/qcom/qdsp6v2/audio_utils.c b/drivers/misc/qcom/qdsp6v2/audio_utils.c
+index cad0220..cec449d 100644
+--- a/drivers/misc/qcom/qdsp6v2/audio_utils.c
++++ b/drivers/misc/qcom/qdsp6v2/audio_utils.c
+@@ -1,4 +1,4 @@
+-/* Copyright (c) 2010-2015, The Linux Foundation. All rights reserved.
++/* Copyright (c) 2010-2016, The Linux Foundation. All rights reserved.
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2 and
+@@ -588,6 +588,7 @@ long audio_in_compat_ioctl(struct file *file,
+ 	}
+ 	case AUDIO_GET_CONFIG_32: {
+ 		struct msm_audio_config32 cfg_32;
++		memset(&cfg_32, 0, sizeof(cfg_32));
+ 		cfg_32.buffer_size = audio->pcm_cfg.buffer_size;
+ 		cfg_32.buffer_count = audio->pcm_cfg.buffer_count;
+ 		cfg_32.channel_count = audio->pcm_cfg.channel_count;
+diff --git a/drivers/misc/qcom/qdsp6v2/audio_utils_aio.c b/drivers/misc/qcom/qdsp6v2/audio_utils_aio.c
+index b87b208..b48aff3 100644
+--- a/drivers/misc/qcom/qdsp6v2/audio_utils_aio.c
++++ b/drivers/misc/qcom/qdsp6v2/audio_utils_aio.c
+@@ -1935,6 +1935,7 @@ static long audio_aio_compat_ioctl(struct file *file, unsigned int cmd,
+ 	case AUDIO_GET_CONFIG_32: {
+ 		struct msm_audio_config32 cfg_32;
+ 		mutex_lock(&audio->lock);
++		memset(&cfg_32, 0, sizeof(cfg_32));
+ 		cfg_32.buffer_size = audio->pcm_cfg.buffer_size;
+ 		cfg_32.buffer_count = audio->pcm_cfg.buffer_count;
+ 		cfg_32.channel_count = audio->pcm_cfg.channel_count;
+-- 
+cgit v1.1
+

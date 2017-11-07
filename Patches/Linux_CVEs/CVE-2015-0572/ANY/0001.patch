@@ -1,0 +1,143 @@
+From 34ad3d34fbff11b8e1210b9da0dac937fb956b61 Mon Sep 17 00:00:00 2001
+From: Sathish Ambley <sathishambley@codeaurora.org>
+Date: Wed, 10 Jun 2015 00:39:41 -0700
+Subject: msm: ADSPRPC: Do not access user memory directly
+
+The buffers being passed in the invocation are copied from user
+memory into the context using copy_from_user. Lookup the buffer
+pointers from the context where it was copied rather than directly
+accessing it from the user memory.
+
+Change-Id: Ief5a840f17f6287ebd48b4ae52facaccb271fab8
+Signed-off-by: Sathish Ambley <sathishambley@codeaurora.org>
+---
+ drivers/char/adsprpc.c        | 27 ++++++++++++++-------------
+ drivers/char/adsprpc_compat.c | 15 +++++++--------
+ 2 files changed, 21 insertions(+), 21 deletions(-)
+
+diff --git a/drivers/char/adsprpc.c b/drivers/char/adsprpc.c
+index a3d0b7f..1eec274 100644
+--- a/drivers/char/adsprpc.c
++++ b/drivers/char/adsprpc.c
+@@ -652,8 +652,7 @@ static int fastrpc_mmap_create(struct fastrpc_file *fl, int fd, uintptr_t va,
+ static int fastrpc_mmap_create_physical(struct fastrpc_file *fl,
+ 		struct fastrpc_ioctl_mmap *ud, struct fastrpc_mmap **ppmap);
+ 
+-static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx,
+-			remote_arg_t *upra)
++static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx)
+ {
+ 	remote_arg64_t *rpra;
+ 	remote_arg_t *lpra = ctx->lpra;
+@@ -793,9 +792,9 @@ static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx,
+ 	}
+ 	inh = inbufs + outbufs;
+ 	for (i = 0; i < REMOTE_SCALARS_INHANDLES(sc); i++) {
+-		rpra[inh + i].buf.pv = ptr_to_uint64(upra[inh + i].buf.pv);
+-		rpra[inh + i].buf.len = upra[inh + i].buf.len;
+-		rpra[inh + i].h = upra[inh + i].h;
++		rpra[inh + i].buf.pv = ptr_to_uint64(ctx->lpra[inh + i].buf.pv);
++		rpra[inh + i].buf.len = ctx->lpra[inh + i].buf.len;
++		rpra[inh + i].h = ctx->lpra[inh + i].h;
+ 	}
+ 	dmac_flush_range((char *)rpra, (char *)rpra + ctx->used);
+  bail:
+@@ -807,7 +806,7 @@ static int put_args(uint32_t kernel, struct smq_invoke_ctx *ctx,
+ {
+ 	uint32_t sc = ctx->sc;
+ 	remote_arg64_t *rpra = ctx->rpra;
+-	int i, inbufs, outbufs, outh;
++	int i, inbufs, outbufs, outh, num;
+ 	int err = 0;
+ 
+ 	inbufs = REMOTE_SCALARS_INBUFS(sc);
+@@ -815,7 +814,7 @@ static int put_args(uint32_t kernel, struct smq_invoke_ctx *ctx,
+ 	for (i = inbufs; i < inbufs + outbufs; ++i) {
+ 		if (!ctx->maps[i]) {
+ 			K_COPY_TO_USER(err, kernel,
+-				upra[i].buf.pv,
++				ctx->lpra[i].buf.pv,
+ 				uint64_to_ptr(rpra[i].buf.pv),
+ 				rpra[i].buf.len);
+ 			if (err)
+@@ -825,11 +824,13 @@ static int put_args(uint32_t kernel, struct smq_invoke_ctx *ctx,
+ 			ctx->maps[i] = 0;
+ 		}
+ 	}
+-	outh = inbufs + outbufs + REMOTE_SCALARS_INHANDLES(sc);
+-	for (i = 0; i < REMOTE_SCALARS_OUTHANDLES(sc); i++) {
+-		upra[outh + i].buf.pv = uint64_to_ptr(rpra[outh + i].buf.pv);
+-		upra[outh + i].buf.len = rpra[outh + i].buf.len;
+-		upra[outh + i].h = rpra[outh + i].h;
++	num = REMOTE_SCALARS_OUTHANDLES(sc);
++	if (num) {
++		outh = inbufs + outbufs + REMOTE_SCALARS_INHANDLES(sc);
++		K_COPY_TO_USER(err, kernel, &upra[outh], &ctx->lpra[outh],
++				num * sizeof(*ctx->lpra));
++		if (err)
++			goto bail;
+ 	}
+  bail:
+ 	return err;
+@@ -992,7 +993,7 @@ static int fastrpc_internal_invoke(struct fastrpc_file *fl, uint32_t mode,
+ 		goto bail;
+ 
+ 	if (REMOTE_SCALARS_LENGTH(ctx->sc)) {
+-		VERIFY(err, 0 == get_args(kernel, ctx, invoke->pra));
++		VERIFY(err, 0 == get_args(kernel, ctx));
+ 		if (err)
+ 			goto bail;
+ 	}
+diff --git a/drivers/char/adsprpc_compat.c b/drivers/char/adsprpc_compat.c
+index 2956702..ee324dc 100644
+--- a/drivers/char/adsprpc_compat.c
++++ b/drivers/char/adsprpc_compat.c
+@@ -98,8 +98,9 @@ static int compat_get_fastrpc_ioctl_invoke(
+ 	if (err)
+ 		return -EFAULT;
+ 
+-	inv->inv.pra = (union remote_arg *)(inv + 1);
+-	err = put_user(sc, &inv->inv.sc);
++	pra = (union remote_arg *)(inv + 1);
++	err = put_user(pra, &inv->inv.pra);
++	err |= put_user(sc, &inv->inv.sc);
+ 	err |= get_user(u, &inv32->inv.handle);
+ 	err |= put_user(u, &inv->inv.handle);
+ 	err |= get_user(p, &inv32->inv.pra);
+@@ -107,12 +108,11 @@ static int compat_get_fastrpc_ioctl_invoke(
+ 		return err;
+ 
+ 	pra32 = compat_ptr(p);
+-	pra = inv->inv.pra;
++	pra = (union remote_arg *)(inv + 1);
+ 	num = REMOTE_SCALARS_INBUFS(sc) + REMOTE_SCALARS_OUTBUFS(sc);
+ 	for (j = 0; j < num; j++) {
+ 		err |= get_user(p, &pra32[j].buf.pv);
+-		pra[j].buf.pv = 0;
+-		err |= put_user(p, (compat_uptr_t *)&pra[j].buf.pv);
++		err |= put_user(p, (uintptr_t *)&pra[j].buf.pv);
+ 		err |= get_user(s, &pra32[j].buf.len);
+ 		err |= put_user(s, &pra[j].buf.len);
+ 	}
+@@ -121,7 +121,7 @@ static int compat_get_fastrpc_ioctl_invoke(
+ 		err |= put_user(u, &pra[num + j].h);
+ 	}
+ 
+-	inv->fds = NULL;
++	err |= put_user(NULL, &inv->fds);
+ 	if (cmd == COMPAT_FASTRPC_IOCTL_INVOKE_FD) {
+ 		err |= get_user(p, &inv32->fds);
+ 		err |= put_user(p, (compat_uptr_t *)&inv->fds);
+@@ -173,8 +173,7 @@ static int compat_get_fastrpc_ioctl_mmap(
+ 	err |= get_user(u, &map32->flags);
+ 	err |= put_user(u, &map->flags);
+ 	err |= get_user(p, &map32->vaddrin);
+-	map->vaddrin = NULL;
+-	err |= put_user(p, (compat_uptr_t *)&map->vaddrin);
++	err |= put_user(p, (uintptr_t *)&map->vaddrin);
+ 	err |= get_user(s, &map32->size);
+ 	err |= put_user(s, &map->size);
+ 
+-- 
+cgit v1.1
+

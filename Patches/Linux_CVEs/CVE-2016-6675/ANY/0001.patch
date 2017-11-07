@@ -1,0 +1,35 @@
+From 1353fa0bd0c78427f3ae7d9bde7daeb75bd01d09 Mon Sep 17 00:00:00 2001
+From: Manjeet Singh <c_manjee@qti.qualcomm.com>
+Date: Tue, 3 May 2016 16:21:46 +0530
+Subject: wlan: fix buffer overflow in linkspeed ioctl
+
+cld to prima propagation.
+
+In linkspeed ioctl handler, mac address array is allocated a
+size of MAC_ADDRESS_STR_LEN, which is 18 bytes taking account of null
+terminator '\0'. But in code, a null terminator is being manually added
+at index MAC_ADDRESS_STR_LEN. This would overflow the buffer and hence
+null terminator should be added at MAC_ADDRESS_STR_LEN -1.
+
+Change-Id: I16c2d0f787dfa339780db7d888aff37355c32322
+CRs-fixed: 1000861
+---
+ CORE/HDD/src/wlan_hdd_hostapd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CORE/HDD/src/wlan_hdd_hostapd.c b/CORE/HDD/src/wlan_hdd_hostapd.c
+index a9167f3..03889a4 100644
+--- a/CORE/HDD/src/wlan_hdd_hostapd.c
++++ b/CORE/HDD/src/wlan_hdd_hostapd.c
+@@ -4662,7 +4662,7 @@ int __iw_get_softap_linkspeed(struct net_device *dev,
+            kfree(pmacAddress);
+            return -EFAULT;
+        }
+-       pmacAddress[MAC_ADDRESS_STR_LEN] = '\0';
++       pmacAddress[MAC_ADDRESS_STR_LEN-1] = '\0';
+ 
+        status = hdd_string_to_hex (pmacAddress, MAC_ADDRESS_STR_LEN, macAddress );
+        kfree(pmacAddress);
+-- 
+cgit v1.1
+
