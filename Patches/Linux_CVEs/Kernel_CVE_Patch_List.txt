@@ -283,10 +283,10 @@ CVE-2014-9899
 CVE-2014-9900
 	Link - https://us.codeaurora.org/cgit/quic/la//kernel/msm-3.10/commit/?id=63c317dbee97983004dffdd9f742a20d17150071
 CVE-2014-9901
-	Link - https://us.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/prima/commit/?id=637f0f7931dd7265ac1c250dc2884d6389c66bde
+	Link - prima - https://us.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/prima/commit/?id=637f0f7931dd7265ac1c250dc2884d6389c66bde
 CVE-2014-9902
-	Link - https://us.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/prima/commit/?id=3b1c44a3a7129dc25abe2c23543f6f66c59e8f50
-	Link - https://us.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/prima/commit/?id=3b1c44a3a7129dc25abe2c23543f6f66c59e8f50
+	Link - prima - https://us.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/prima/commit/?id=3b1c44a3a7129dc25abe2c23543f6f66c59e8f50
+	Link - prima - https://us.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/prima/commit/?id=3b1c44a3a7129dc25abe2c23543f6f66c59e8f50
 CVE-2014-9903
 	Link - https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=4efbc454ba68def5ef285b26ebfcfdb605b52755
 CVE-2014-9904
@@ -301,27 +301,27 @@ CVE-2015-3636
 	Link - https://github.com/torvalds/linux/commit/a134f083e79f
 CVE-2015-0569
 	Pulled
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=a079d716b5481223f0166c644e9ec7c75a31b02c
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=0ffca4f7bca3a8157d8dbaddbcea292c267fb5aa
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=a079d716b5481223f0166c644e9ec7c75a31b02c
+	Link - prima - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=0ffca4f7bca3a8157d8dbaddbcea292c267fb5aa
 CVE-2015-0570
 	Pulled
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=8bd73c3452ab22ba9bdbaac5ab12de2ed25fcb9d
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=606babd474290e84e5a86f94480f62f4a5ff92ac
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=8bd73c3452ab22ba9bdbaac5ab12de2ed25fcb9d
+	Link - prima - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=606babd474290e84e5a86f94480f62f4a5ff92ac
 CVE-2015-0571
 	Pulled
-	Link - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=6feb2faf80a05940618aa2eef2b62e4e2e54f148
-	Link - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=fe4208157c899a5de4d6769d13f6620fc32ebfa9
-	Link - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=0e53a89bfe0dbb50e0dde9a6960d274386247cd9
-	Link - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=88ce639e7a0bba852f193b6f53b7ca1926a09b02
-	Link - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=0858d21caf17d56f8d2353590c1ec245073222e0
-	Link - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=2905578424256be07e6b9d8c63bb83d40cc52a71
-	Link - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=be62ecde85228b91c66fb047e27d25132f56bd0d
-	Link - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=aaeeed43f9597631982835481c7cf2621f6455f0
-	Link - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=6642bccf3ed8cba176dee7d4bbc21fc4580efb7b
-	Link - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=6665a9697b404acf4d2e7d52d9c2b19512c9b239
-	Link - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=9eeafd788f53cc37c169b299f91ca9c558b228f9
-	Link - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=55bdc6d1c88a100dc4a71bf855b69db522c9b5b5
-	Link - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=fb9fb202c71547dba648c9b08d97645c6f42ca6e
+	Link - qcacld-2.0 - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=6feb2faf80a05940618aa2eef2b62e4e2e54f148
+	Link - qcacld-2.0 - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=fe4208157c899a5de4d6769d13f6620fc32ebfa9
+	Link - qcacld-2.0 - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=0e53a89bfe0dbb50e0dde9a6960d274386247cd9
+	Link - qcacld-2.0 - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=88ce639e7a0bba852f193b6f53b7ca1926a09b02
+	Link - qcacld-2.0 - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=0858d21caf17d56f8d2353590c1ec245073222e0
+	Link - qcacld-2.0 - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=2905578424256be07e6b9d8c63bb83d40cc52a71
+	Link - qcacld-2.0 - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=be62ecde85228b91c66fb047e27d25132f56bd0d
+	Link - qcacld-2.0 - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=aaeeed43f9597631982835481c7cf2621f6455f0
+	Link - qcacld-2.0 - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=6642bccf3ed8cba176dee7d4bbc21fc4580efb7b
+	Link - qcacld-2.0 - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=6665a9697b404acf4d2e7d52d9c2b19512c9b239
+	Link - qcacld-2.0 - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=9eeafd788f53cc37c169b299f91ca9c558b228f9
+	Link - qcacld-2.0 - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=55bdc6d1c88a100dc4a71bf855b69db522c9b5b5
+	Link - qcacld-2.0 - https://www.codeaurora.org/cgit/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=fb9fb202c71547dba648c9b08d97645c6f42ca6e
 CVE-2015-0572
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=34ad3d34fbff11b8e1210b9da0dac937fb956b61
 CVE-2015-0573
@@ -479,9 +479,34 @@ CVE-2016-0805
 	Pulled
 	Link - https://github.com/android/kernel_msm/commit/b3f0b1f694258b3b3debc5256eec94bb2a9eb454
 CVE-2016-0806
-	Pulled
-	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/log/?h=caf%2Faosp-new%2Fandroid-msm-flo-3.4-marshmallow-mr2&qt=grep&q=27104184
-	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/log/?qt=grep&q=25344453&h=caf%2Faosp-new%2Fandroid-msm-bullhead-3.10-nougat-mr2
+	Link - prima - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-flo-3.4-marshmallow-mr2&id=1fac73337080712109029302599945d1ac36c799
+	Link - prima - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-flo-3.4-marshmallow-mr2&id=e9dcd5aa01734b019c793220531e4ef1d82959f8
+	Link - prima - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-flo-3.4-marshmallow-mr2&id=fd13b59e5a75b761f68fe34f09df1dce7a49acc2
+	Link - prima - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-flo-3.4-marshmallow-mr2&id=fbb8f120ee729d47869f0bebe5bc31e83bcf2876
+	Link - prima - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-flo-3.4-marshmallow-mr2&id=518fd80981eefa9715e0851260b2c7aeb86551d7
+	Link - prima - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-flo-3.4-marshmallow-mr2&id=86fd66a451b2549f990b71013220e0a3f46b5a00
+	Link - prima - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-flo-3.4-marshmallow-mr2&id=4a75c965d2505ca2490a365a27309cc9dd68b2d1
+	Link - prima - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-flo-3.4-marshmallow-mr2&id=ede034fd604a9cdb20eb7accdaec4a8e70ffac41
+	Link - prima - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-flo-3.4-marshmallow-mr2&id=aaf7476fa7fdc8d1865f20217c7c57ce561e03f7
+	Link - prima - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-flo-3.4-marshmallow-mr2&id=973503f0d411e13e01fa10c5ea802dcb8a12cf85
+	Link - prima - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-flo-3.4-marshmallow-mr2&id=34953f9f66d9cd36616c5271a7d285b31d9142c2
+	Link - prima - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-flo-3.4-marshmallow-mr2&id=72d3908cc1bcb075015f1b86001f4292ac41d38a
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=055561f40f2baa5cdd74f952be55b61a3907279a
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=f31e58289c8ebded58ffe1d4709e2f878765b0a6
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=255dd931573beb3afca15909f483f26db22a5c98
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=d4b451bd06ad53ed785cbda4272c54788b1537d4
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=2882941530cbf804e280f235f7f8d76179a423fe
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=825827ab2aa271f23f48aa683046a3aa3f7fe90e
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=27d3007a7635ccca7ae9bfb98c89724652dcbc3b
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=89c3372735486a2f7f6b35298fcf246e7e177ac0
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=e2addf5aa2c7dfc537c2b80d8cc1cb5640346535
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=e474427496ccb784878e10978f25b6e85de68850
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=967f88782e93809cfb27a60b82a3a069d2a52fc4
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=2f7ecc8b88843b3b53bd7d2328f0d53f3794f456
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=9fd4483e08349eb1570c42da8acbac33e70a6e02
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=fb3616763bd5909e86cddd19f3569a26b4f93f49
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=ca7c085fb70861a55d9d3a46de012a3e0998ca61
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=caf/aosp-new/android-msm-bullhead-3.10-nougat-mr2&id=f66afdc6840e7647a965487194873826de57e655
 CVE-2016-0819
 	Link - https://source.codeaurora.org/quic/la/kernel/msm/commit/?id=e32c1b1a3d368afe1b09e81b3087ab8810282e93
 CVE-2016-0821
@@ -527,12 +552,12 @@ CVE-2016-10234
 	Link - 3.10 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=c7d7492c1e329fdeb28a7901c4cd634d41a996b1
 	Link - 3.18 - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=d12370c7f3ecded1867fbd6b70ded35db55cab1d
 CVE-2016-10235
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=5bb0059243515ecdac138cfdb4cee7259bbd0bbc
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=5bb0059243515ecdac138cfdb4cee7259bbd0bbc
 CVE-2016-10236
 	Link - https://source.codeaurora.org/quic/la//kernel/msm-3.18/commit/?id=b8199c2b852f1e23c988e10b8fbb8d34c98b4a1c
 CVE-2016-10283
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=93863644b4547324309613361d70ad9dc91f8dfd
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=d60a5839ba987e2c9d365fef950cae0c9ad11010
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=93863644b4547324309613361d70ad9dc91f8dfd
+	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=d60a5839ba987e2c9d365fef950cae0c9ad11010
 CVE-2016-10285
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=67dfd3a65336e0b3f55ee83d6312321dc5f2a6f9
 CVE-2016-10286
@@ -573,7 +598,7 @@ CVE-2016-2061
 	Pulled
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=79db14ca9f791a14be9376a0340ad3b9b9a4d603
 CVE-2016-2062
-	Link - https://codeaurora.org/cgit/quic/la/kernel/msm-3.18/commit/drivers/gpu/msm/adreno_perfcounter.c?id=27c95b64b2e4b5ff1288cbaa6e353dd803d71576
+	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/drivers/gpu/msm/adreno_perfcounter.c?id=27c95b64b2e4b5ff1288cbaa6e353dd803d71576
 CVE-2016-2063
 	Link - https://us.codeaurora.org/cgit/quic/la/kernel/msm-3.10/commit/?id=ab3f46119ca10de87a11fe966b0723c48f27acd4
 CVE-2016-2064
@@ -639,18 +664,18 @@ CVE-2016-2469
 	Pulled
 	Link - https://android.googlesource.com/kernel/msm/+/4029268991f478b98b6d37106af8f1f635c0b595
 CVE-2016-2470
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=05ce237387c6e1d101bbb4b825e56757576748e6
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=4fd81f97c3eaf42d506aa4f2b496862222c0a89d
+	Link - prima - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=05ce237387c6e1d101bbb4b825e56757576748e6
+	Link - prima - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=4fd81f97c3eaf42d506aa4f2b496862222c0a89d
 CVE-2016-2471
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=2c8961821b7691a95cbf5ecc6996e8229d6d5303
+	Link - prima - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=2c8961821b7691a95cbf5ecc6996e8229d6d5303
 CVE-2016-2472
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/prima/commit/?id=464c9c8a984c3a36f63b1625d7ab2a1c9eec9697
+	Link - prima - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/prima/commit/?id=464c9c8a984c3a36f63b1625d7ab2a1c9eec9697
 CVE-2016-2473
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/CORE/HDD/src/wlan_hdd_wext.c?id=0273cba64b0436d481e09222a631a6acc274b96c
+	Link - prima - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/CORE/HDD/src/wlan_hdd_wext.c?id=0273cba64b0436d481e09222a631a6acc274b96c
 CVE-2016-2474
 	Depends
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=d541aecce07c65fee3ad3a4d900016e4d22f2b3d
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=681c310490e49adc43065d1d11006c5a5dc43568
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=d541aecce07c65fee3ad3a4d900016e4d22f2b3d
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=681c310490e49adc43065d1d11006c5a5dc43568
 CVE-2016-2475
 	Pulled
 	Link - https://android.googlesource.com/kernel/tegra/+/9f0aa0c3fede9abb0b5ccadeca95f848cc791fba
@@ -666,7 +691,7 @@ CVE-2016-2488
 	Pulled
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=91ea960b91250eca57d8fbdb8aafa11d80695d46
 CVE-2016-2498
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=1d23dacdbd6b3a2b59b952f2fa3a578f9d15f60f
+	Link - prima - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=1d23dacdbd6b3a2b59b952f2fa3a578f9d15f60f
 CVE-2016-2501
 	Link - https://source.codeaurora.org/quic/la//kernel/msm-3.18/commit/?id=0ee6c6f748e840c266fe26ed3c89d6bd7e3c9d4e
 CVE-2016-2502
@@ -736,9 +761,9 @@ CVE-2016-3775
 	Link - 3.10 - https://github.com/android/kernel_msm/commit/8096090858689395a75bbf696ff8276c3c236b98
 	Link - 3.18 - https://github.com/android/kernel_msm/commit/b1568c363c54fa3aa98b1cfa7c535115950bec0c
 CVE-2016-3792
-	Link - https://us.codeaurora.org/cgit/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=28d4f0c1f712bffb4aa5b47f06e97d5a9fa06d29
+	Link - prima - https://us.codeaurora.org/cgit/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=28d4f0c1f712bffb4aa5b47f06e97d5a9fa06d29
 CVE-2016-3797
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=fdda9c0af64d6e5cdf006e2d8dd57e655821a962
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=fdda9c0af64d6e5cdf006e2d8dd57e655821a962
 CVE-2016-3809
 	Pulled
 	Link - https://android.googlesource.com/kernel/msm/+/f2152040cb3c13fa846914df1ad44a8a7fd2e935
@@ -774,7 +799,7 @@ CVE-2016-3859
 	Link - 3.10 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=fe297dc01f7ea95bb1bff25f6fc4257f0ef832ff
 	Link - 3.18 - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm-3.18.git;a=commit;h=61b419297e13ed9a28e9b880548b2d96d4aa6c0d
 CVE-2016-3860
-	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/diff/sound/soc/msm/qdsp6v2/audio_calibration.c?id=528976f54be246ec93a71ac53aa4faf3e3791c48
+	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/sound/soc/msm/qdsp6v2/audio_calibration.c?id=528976f54be246ec93a71ac53aa4faf3e3791c48
 CVE-2016-3865
 	Pulled
 	Link - https://github.com/android/kernel_msm/commit/a92e71c20f4e6b2aa94b7614fd494833ea76b8b9
@@ -789,8 +814,8 @@ CVE-2016-3868
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=17014696ce3836c91215b6d6dd82f3befd6e7d4d
 CVE-2016-3874
 	Depends
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=50e8f265b3f7926aeb4e49c33f7301ace89faa77
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=a3974e61c960aadcc147c3c5704a67309171642d
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=50e8f265b3f7926aeb4e49c33f7301ace89faa77
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=a3974e61c960aadcc147c3c5704a67309171642d
 CVE-2016-3892
 	Link - https://source.codeaurora.org/quic/la//kernel/msm-3.10/commit/?id=dd40cc2bd210dd7a4dd649e8f79add2bbeda2bd5
 CVE-2016-3893
@@ -806,12 +831,12 @@ CVE-2016-3903
 CVE-2016-3904
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=069683407ca9a820d05c914b57c587bcd3f16a3a
 CVE-2016-3905
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=b5112838eb91b71eded4b5ee37338535784e0aef
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=b5112838eb91b71eded4b5ee37338535784e0aef
 CVE-2016-3906
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=b333d32745fec4fb1098ee1a03d4425f3c1b4c2e
 CVE-2016-3907
 	Link - 3.10 - https://source.codeaurora.org/quic/la//kernel/msm-3.10/commit/?id=744330f4e5d70dce71c4c9e03c5b6a8b59bb0cda
-	Link - 3.10 - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm-3.18.git;a=commit;h=289ede9d6bfb46178326ae9ca86033bbd452f269
+	Link - 3.18 - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm-3.18.git;a=commit;h=289ede9d6bfb46178326ae9ca86033bbd452f269
 CVE-2016-3931
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=e80b88323f9ff0bb0e545f209eec08ec56fca816
 CVE-2016-3934
@@ -923,15 +948,15 @@ CVE-2016-6672
 	Pulled
 	Link - https://github.com/android/kernel_msm/commit/d8649432b96bd361de20168372c10269e88e1258
 CVE-2016-6675
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/prima/commit/?id=1353fa0bd0c78427f3ae7d9bde7daeb75bd01d09
+	Link - prima - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/prima/commit/?id=1353fa0bd0c78427f3ae7d9bde7daeb75bd01d09
 CVE-2016-6676
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=6ba9136879232442a182996427e5c88e5a7512a8
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=6ba9136879232442a182996427e5c88e5a7512a8
 CVE-2016-6679
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=d39345f0abc309959d831d09fcbf1619cc0ae0f5
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=f081695446679aa44baa0d00940ea18455eeb4c5
+	Link - prima - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=d39345f0abc309959d831d09fcbf1619cc0ae0f5
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=f081695446679aa44baa0d00940ea18455eeb4c5
 CVE-2016-6680
-	Link - https://www.codeaurora.org/gitweb/quic/la/?p=platform/vendor/qcom-opensource/wlan/prima.git;a=commit;h=08ce2a9e1ccdf6081fc1efb47d2edea4f4ad2ecf
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=2f2fa073b95d4700de88c0f7558b4a18c13ac552
+	Link - prima - https://www.codeaurora.org/gitweb/quic/la/?p=platform/vendor/qcom-opensource/wlan/prima.git;a=commit;h=08ce2a9e1ccdf6081fc1efb47d2edea4f4ad2ecf
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=2f2fa073b95d4700de88c0f7558b4a18c13ac552
 CVE-2016-6681
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=0950fbd39ff189497f1b6115825c210e3eeaf395
 CVE-2016-6682
@@ -1085,7 +1110,7 @@ CVE-2016-8413
 CVE-2016-8414
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=320970d3da9b091e96746424c44649a91852a846
 CVE-2016-8415
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=188e12a816508b11771f362c852782ec9a6f9394
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=188e12a816508b11771f362c852782ec9a6f9394
 CVE-2016-8416
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=e3af5e89426f1c8d4e703d415eff5435b925649f
 CVE-2016-8417
@@ -1093,11 +1118,11 @@ CVE-2016-8417
 CVE-2016-8418
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=8f8066581a8e575a7d57d27f36c4db63f91ca48f
 CVE-2016-8419
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=9ba50d536227666a5b6abd51f2b122675d950488
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=9ba50d536227666a5b6abd51f2b122675d950488
 CVE-2016-8420
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=c6597e015a7ce5ee71d3725fc55e64fc50923f4e
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=c6597e015a7ce5ee71d3725fc55e64fc50923f4e
 CVE-2016-8421
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=61a5cdb9adc96645583f528ac923e6e59f3abbcb
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=61a5cdb9adc96645583f528ac923e6e59f3abbcb
 CVE-2016-8434
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.14/commit/?id=3e3866a5fced40ccf9ca442675cf915961efe4d9
 CVE-2016-8436
@@ -1108,7 +1133,7 @@ CVE-2016-8444
 CVE-2016-8450
 	Link - https://source.codeaurora.org/quic/la//kernel/msm-3.18/commit/?id=e909d159ad1998ada853ed35be27c7b6ba241bdb
 CVE-2016-8452
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=39fa8e972fa1b10dc68a066f4f9432753d8a2526
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=39fa8e972fa1b10dc68a066f4f9432753d8a2526
 CVE-2016-8453
 	Pulled
 	Link - https://github.com/android/kernel_msm/commit/f10f4e420dddc35dfef53965c55ffd5bdec41a45
@@ -1165,7 +1190,7 @@ CVE-2016-8475
 	Pulled
 	Link - https://github.com/android/kernel_msm/commit/d906945fc287f9df48b99349fea962b921d4d39e
 CVE-2016-8476
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=bfe8035bce6fec72ed1d064b94529fce8fb09799
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=bfe8035bce6fec72ed1d064b94529fce8fb09799
 CVE-2016-8477
 	Link - 3.10 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=33c9042e38506b04461fa99e304482bc20923508
 	Link - 3.18 - https://source.codeaurora.org/quic/la//kernel/msm-3.18/commit/?id=96145eb5f0631f0e105d47abebc8f940f7621eeb
@@ -1239,22 +1264,22 @@ CVE-2017-0436
 	Pulled
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=ce9db0874906f6aedd80bb28d457eadfe38bdd02
 CVE-2017-0437
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=1f0b036dc74ccb6e9f0a03a540efdb0876f5ca77
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=1f0b036dc74ccb6e9f0a03a540efdb0876f5ca77
 CVE-2017-0438
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=1f0b036dc74ccb6e9f0a03a540efdb0876f5ca77
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=1f0b036dc74ccb6e9f0a03a540efdb0876f5ca77
 CVE-2017-0439
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=81b6b5538d3227ed4b925fcceedb109abb2a4c61
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=ff866a1e9a0f653252b5d5b7eb087374c5bad65d
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=81b6b5538d3227ed4b925fcceedb109abb2a4c61
+	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=ff866a1e9a0f653252b5d5b7eb087374c5bad65d
 CVE-2017-0440
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=10f0051f7b3b9a7635b0762a8cf102f595f7a268
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=10f0051f7b3b9a7635b0762a8cf102f595f7a268
 CVE-2017-0441
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=da87131740351b833f17f05dfa859977bc1e7684
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=e578706506f98a4962220066d92d81e853ac7212
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=da87131740351b833f17f05dfa859977bc1e7684
+	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=e578706506f98a4962220066d92d81e853ac7212
 CVE-2017-0442
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=1f0b036dc74ccb6e9f0a03a540efdb0876f5ca77
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=1f0b036dc74ccb6e9f0a03a540efdb0876f5ca77
 CVE-2017-0443
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=f1081e78eff75ca665c662493736b17cb792b46d
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=a4c5eefd5dd761445784963f3b6605d24d2bc3af
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=f1081e78eff75ca665c662493736b17cb792b46d
+	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=a4c5eefd5dd761445784963f3b6605d24d2bc3af
 CVE-2017-0444
 	Pulled
 	Link - https://source.codeaurora.org/quic/la/kernel/tegra/commit/?id=230f280dd4046a227665ff07c9afaa7b9aa1e061
@@ -1281,9 +1306,9 @@ CVE-2017-0452
 	Pulled
 	Link - https://github.com/android/kernel_msm/commit/4fa7499742c56c7f7064c9dc14c3a34f4be38851
 CVE-2017-0453
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=29c4ddb447b2d49409a9d0b93631f84a9d2e922e
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=a2959858f428acfca3ca4c61d3c10b446bfe9b60
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/prima/commit/?id=ddf864f37134df0960d337ff16e6f2435b4fe90c
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=29c4ddb447b2d49409a9d0b93631f84a9d2e922e
+	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=a2959858f428acfca3ca4c61d3c10b446bfe9b60
+	Link - prima - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/prima/commit/?id=ddf864f37134df0960d337ff16e6f2435b4fe90c
 CVE-2017-0454
 	Link - 3.10 - https://source.codeaurora.org/quic/la//kernel/msm-3.10/commit/?id=01f3ad23574c85a060e6add7a20173621b5b2c77
 	Link - 3.18 - https://source.codeaurora.org/quic/la//kernel/msm-3.18/commit/?id=484349ebc927b7be6cc9187c6bd71ffb3f4112d1
@@ -1295,7 +1320,6 @@ CVE-2017-0456
 CVE-2017-0457
 	Pulled
 	Link - 3.10 - https://source.codeaurora.org/quic/la//kernel/msm-3.10/commit/?id=7d87c5cf051c49c7b3bdb8abe4051b0aef41c87d
-	Link - 3.10 - https://github.com/android/kernel_msm/commit/6f6ce85df80c31048863cd31349e86277d89ff36
 	Link - 3.18 - https://github.com/android/kernel_msm/commit/f6e21d2a3778bcbbef7320ffbf31631d76679175
 CVE-2017-0458
 	Link - https://source.codeaurora.org/quic/la//kernel/msm-3.18/commit/?id=eba46cb98431ba1d7a6bd859f26f6ad03f1bf4d4
@@ -1306,7 +1330,7 @@ CVE-2017-0460
 	Link - 3.18 - https://source.codeaurora.org/quic/la//kernel/msm-3.18/commit/?id=8e2e23126709ebffa1bd91e1a6ac77e16714d852
 	Link - 4.4 - https://source.codeaurora.org/quic/la//kernel/msm-4.4/commit/?id=85cccedb0cae0331228cc58fa91d31810018df98
 CVE-2017-0461
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=ce5d6f84420a2e6ca6aad6b866992970dd313a65
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=ce5d6f84420a2e6ca6aad6b866992970dd313a65
 CVE-2017-0462
 	Link - 3.18 - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=eb7b1426279e751b1fc3e86f434dc349945c1ae7
 	Link - 4.4 - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm-4.4.git;a=commit;h=9a71e9a686942ae3c491061ab275a3678ee2819a
@@ -1314,7 +1338,7 @@ CVE-2017-0463
 	Link - 3.18 - https://source.codeaurora.org/quic/la//kernel/msm-3.18/commit/?id=955bd7e7ac097bdffbadafab90e5378038fefeb2
 	Link - 4.4 - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm-4.4.git;a=commit;h=32c229060ca33b816c50eedc136ea2800f9974df
 CVE-2017-0464
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=051597a4fe19fd1292fb7ea2e627d12d1fd2934f
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=051597a4fe19fd1292fb7ea2e627d12d1fd2934f
 CVE-2017-0465
 	Link - https://source.codeaurora.org/quic/la//kernel/msm-4.4/commit/?id=3823f0f8d0bbbbd675a42a54691f4051b3c7e544
 CVE-2017-0507
@@ -1397,7 +1421,7 @@ CVE-2017-0574
 	Pulled
 	Link - https://github.com/android/kernel_msm/commit/e55ddf68568a33288d76f5e00c93f8157cb9a632
 CVE-2017-0575
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=a4f790c140d9813c3af66a9b367b4568e053278a
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=a4f790c140d9813c3af66a9b367b4568e053278a
 CVE-2017-0576
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=2b09507d78b25637df6879cd2ee2031b208b3532
 CVE-2017-0583
@@ -1405,7 +1429,7 @@ CVE-2017-0583
 	Link - 3.18 - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=452d2ad331d20b19e8a0768c4b6e7fe1b65abe8f
 CVE-2017-0584
 	Pulled
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=b83b9057d56c057d1dfca79ae197583a83766245
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=b83b9057d56c057d1dfca79ae197583a83766245
 CVE-2017-0586
 	Pulled
 	Link - https://github.com/android/kernel_msm/commit/05bacdc0f9c16c58326a4be9e88afa870cf1024e
@@ -1440,7 +1464,7 @@ CVE-2017-0622
 	Link - 3.18 - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=40efa25345003a96db34effbd23ed39530b3ac10
 	Link - 4.4 - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm-4.4.git;a=commit;h=2881d2bbc26ff321fd9e717ad6f968aebd277d22
 CVE-2017-0624
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=0ac5f6f2f221efb93fc0ddb1fec6487c76d95acd
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=0ac5f6f2f221efb93fc0ddb1fec6487c76d95acd
 CVE-2017-0626
 	Link - https://source.codeaurora.org/quic/la//kernel/msm-4.4/commit/?id=64551bccab9b5b933757f6256b58f9ca0544f004
 CVE-2017-0627
@@ -1579,23 +1603,23 @@ CVE-2017-11001
 	Pulled
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=d5d2c9baff89932e822ceae74b1569af07d55f19
 CVE-2017-11002
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=64c0865bb0c5a642ba420967b23e0f66e035b300
+	Link - prima - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=64c0865bb0c5a642ba420967b23e0f66e035b300
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=825eeb85d4866e362452b18df929a54a7c6111f6
 CVE-2017-11012
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=7d0e40d328fa092c36b9585516ed29fc6041be55
+	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=7d0e40d328fa092c36b9585516ed29fc6041be55
 CVE-2017-11013
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=64297e4caffdf6b1a90807bbdb65a66b43582228
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=c9f8654b11a1e693022ad7f163b3bc477fea8ce8
+	Link - prima - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/prima/commit/?id=64297e4caffdf6b1a90807bbdb65a66b43582228
+	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=c9f8654b11a1e693022ad7f163b3bc477fea8ce8
 CVE-2017-11014
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=ec58bc99e29d89f8e164954999ef8a45cec21754
+	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=ec58bc99e29d89f8e164954999ef8a45cec21754
 CVE-2017-11015
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=ec58bc99e29d89f8e164954999ef8a45cec21754
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=1ef6add65a36de6c4da788f776de2b5b5c528d8e
+	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=ec58bc99e29d89f8e164954999ef8a45cec21754
+	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=1ef6add65a36de6c4da788f776de2b5b5c528d8e
 CVE-2017-11018
 	Link - https://source.codeaurora.org/quic/la/kernel/msm/commit/?id=1d718286c4c482502a2c4356cebef28aef2fb01f
 CVE-2017-11022
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=1379bfb6c09ee2ad5969db45c27fb675602b4ed0
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=f41e3dbc92d448d3d56cae5517e41a4bafafdf3f
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=1379bfb6c09ee2ad5969db45c27fb675602b4ed0
+	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=f41e3dbc92d448d3d56cae5517e41a4bafafdf3f
 CVE-2017-11023
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-4.4/commit/?id=c36e61af0f770125d0061a8d988d0987cc8d116a
 CVE-2017-11024
@@ -1615,8 +1639,8 @@ CVE-2017-11029
 CVE-2017-11032
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=2720294757d0ad5294283c15dc837852f7b2329a
 CVE-2017-11035
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=c5060da3e741577578d66dfadb7922d853da6156
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=cc1896424ae7a346090f601bc69c6ca51d9c3e04
+	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=c5060da3e741577578d66dfadb7922d853da6156
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=cc1896424ae7a346090f601bc69c6ca51d9c3e04
 CVE-2017-11040
 	Pulled
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-4.4/commit/?id=7a4d0eea0ca0c8a72111ae58d9829be817f102c9
@@ -1627,21 +1651,21 @@ CVE-2017-11048
 	Pulled
 	Link - https://github.com/android/kernel_msm/commit/a42f6e19316e9e5aaaf8bd2c3bec25fde136dcaa
 CVE-2017-11050
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=725674586f5bc009ef5175d29eb0fd677e0ef1f2
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=725674586f5bc009ef5175d29eb0fd677e0ef1f2
 CVE-2017-11051
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=c8f263f0e3b0b6cba38fae9b2330d77f802c51d8
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=c8f263f0e3b0b6cba38fae9b2330d77f802c51d8
 CVE-2017-11052
 	Pulled
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=c1ea8487f35d3f4dea574552afda6a1637f98bbb
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=c1ea8487f35d3f4dea574552afda6a1637f98bbb
 CVE-2017-11053
 	Pulled
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=99c00329bc13c526305dc826950c2cc117e6725d
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=99c00329bc13c526305dc826950c2cc117e6725d
 CVE-2017-11054
 	Pulled
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=4d9812973e8b12700afd8c3d6f36a94506ffb6fc
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=4d9812973e8b12700afd8c3d6f36a94506ffb6fc
 CVE-2017-11055
 	Pulled
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=708633ca627031373f5cc3ca2e8994e7d694905a
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=708633ca627031373f5cc3ca2e8994e7d694905a
 CVE-2017-11056
 	Pulled
 	Link - https://github.com/android/kernel_msm/commit/d5481967f73c5448b9b2ae528a75faa0b040bc42
@@ -1649,22 +1673,22 @@ CVE-2017-11057
 	Pulled
 	Link - https://github.com/android/kernel_msm/commit/270bb9351889878dbfc87a6797886cb3caf42430
 CVE-2017-11058
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=4d9812973e8b12700afd8c3d6f36a94506ffb6fc
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=4d9812973e8b12700afd8c3d6f36a94506ffb6fc
 CVE-2017-11059
 	Pulled
 	Link - https://github.com/android/kernel_msm/commit/be632ce97422dfe533944186e2f4420b87b87ad5
 CVE-2017-11060
 	Pulled
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=657bb41463b837b2681e1fed310bd97970b09b83
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=657bb41463b837b2681e1fed310bd97970b09b83
 CVE-2017-11061
 	Pulled
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=e08628a3cfe039bc4bdd7fc66f5ec7a59a97b404
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=e08628a3cfe039bc4bdd7fc66f5ec7a59a97b404
 CVE-2017-11062
 	Pulled
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=954bdf216ce56a860092fd9549229b036e08c97b
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=954bdf216ce56a860092fd9549229b036e08c97b
 CVE-2017-11064
 	Pulled
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=38d6f16b8583bae6a1881c744ae08d609c99cb7e
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=38d6f16b8583bae6a1881c744ae08d609c99cb7e
 CVE-2017-11067
 	Pulled
 	Link - https://github.com/aosp-mirror/kernel_msm/commit/3fabdcba3a09ce8f3cc757bf6240e53421a1e363
@@ -1677,6 +1701,7 @@ CVE-2017-12153
 	Link - 3.2-3.16 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?h=v3.2.94&id=082d8a6a55d2b6583d9e93ac9796efdf4c412658
 CVE-2017-13080
 	Link - https://github.com/torvalds/linux/commit/fdf7cb4185b60c68e1a75e61691c4afdc15dea0e
+	Link - https://github.com/LineageOS/android_kernel_oneplus_msm8974/commit/39fb5459ecd16779e75d76827fb32d15a995f469.patch
 CVE-2017-13080-Extra
 	Depends
 	Link - https://github.com/LineageOS/android_kernel_lge_hammerhead/commit/6fef7504fdb639dea2fbc0cbbd10963953f443da
@@ -1750,8 +1775,8 @@ CVE-2017-6421
 CVE-2017-6423
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=0f264f812b61884390b432fdad081a3e995ba768
 CVE-2017-6424
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=5cc2ac840e36a3342c5194c20b314f0bb95ef7e1
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=4e44b25b26a594aa818
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=5cc2ac840e36a3342c5194c20b314f0bb95ef7e1
+	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=4e44b25b26a594aa818
 CVE-2017-6425
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=ef86560a21fe1f256f6ba772a195201ff202c657
 CVE-2017-6426
@@ -1837,7 +1862,7 @@ CVE-2017-8239
 CVE-2017-8240
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=22b8b6608174c1308208d5bc6c143f4998744547
 CVE-2017-8241
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=90213394b7efb28fa511b2eaebc1343ae3b54724
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=90213394b7efb28fa511b2eaebc1343ae3b54724
 CVE-2017-8242
 	Link - 3.18 - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=6a3b8afdf97e77c0b64005b23fa6d32025d922e5
 	Link - 4.4 - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm-4.4.git;a=commit;h=364643660e49ec22f657d3e624bee2c7b9738d98
@@ -1866,7 +1891,7 @@ CVE-2017-8253
 CVE-2017-8254
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=70afce1d9be745005c48fd565c01ce452a565e7e
 CVE-2017-8256
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=75e1e00d6b3cd4cb89fd5314a60c333aa0b03230
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=75e1e00d6b3cd4cb89fd5314a60c333aa0b03230
 CVE-2017-8257
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-4.4/commit/?id=0f19fbd00c6679bbc524f7a6d0fc3d54cfd1c9ae
 CVE-2017-8258
@@ -1901,7 +1926,7 @@ CVE-2017-8269
 	Pulled
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=b925d9f76164475abb6f6a557327095156c9b249
 CVE-2017-8270
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=ff96565f1dbabfeb7fb2c1604f40af768579d9df
+	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=ff96565f1dbabfeb7fb2c1604f40af768579d9df
 CVE-2017-8272
 	Link - 4.4 - https://source.codeaurora.org/quic/la/kernel/msm-4.4/commit/?id=a8cb976e7c8f25191728b655e0b38328a6d7d81f
 CVE-2017-8277
@@ -1965,22 +1990,22 @@ CVE-2017-9691
 CVE-2017-9692
 	Link - https://github.com/android/kernel_msm/commit/7a86f369594a0b6567820b77d441e778e6adb8a7
 CVE-2017-9693
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=05a5abb21e4d97001f77d344444a3ec2f9c275f9
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=05a5abb21e4d97001f77d344444a3ec2f9c275f9
 CVE-2017-9694
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=1e47d44de7bab5500d27f17ae5c4ebebc7d2b4ef
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=1e47d44de7bab5500d27f17ae5c4ebebc7d2b4ef
 CVE-2017-9697
 	Link - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm-4.4.git;a=commit;h=7e45e3a6c1f6dd46d71fb6824a7cf702d2e79225
 CVE-2017-9706
 	Pulled
 	Link - https://github.com/android/kernel_msm/commit/7489a0a8f68d0f018d0f9df5df157bb20f83b05e
 CVE-2017-9714
-	Link - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=aae237dfbaf8edcf310eeb84b887b20e7e9c0ff3
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=aae237dfbaf8edcf310eeb84b887b20e7e9c0ff3
 CVE-2017-9715
 	Pulled
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=58350a7bcb827c0ac81f0750a62d5c5a8ed3a469
+	Link  qcacld-2.0 -- https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=58350a7bcb827c0ac81f0750a62d5c5a8ed3a469
 CVE-2017-9717
 	Pulled
-	Link - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=bf7486fb6d82fb9ad02e303b6fdf4061cfc0375d
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=bf7486fb6d82fb9ad02e303b6fdf4061cfc0375d
 CVE-2017-9719
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=a491499c3490999555b7ccf8ad1a7d6455625807
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-4.4/commit/?id=d815f54f15d765b5e0035a9d208d71567bcaace0
