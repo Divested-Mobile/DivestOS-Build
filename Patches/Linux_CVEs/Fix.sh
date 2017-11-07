@@ -32,3 +32,5 @@ mv CVE-2016-3137/ANY/1.patch CVE-2016-3137/ANY/1.patch.dupe
 mv CVE-2016-0774/ANY/0.patch CVE-2016-0774/ANY/0.patch.disabled
 mv CVE-2016-8399/ANY/0.patch CVE-2016-8399/ANY/0.patch.disabled
 mv CVE-2016-6741/3.10/0.patch CVE-2016-6741/3.10/0.patch.disabled
+mv CVE-2014-0196/ANY/0.patch CVE-2014-0196/ANY/0.patch.disabled
+mv CVE-2015-2922/ANY/0.patch CVE-2015-2922/ANY/0.patch.disabled

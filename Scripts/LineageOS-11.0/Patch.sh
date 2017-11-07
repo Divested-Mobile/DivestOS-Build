@@ -19,7 +19,7 @@
 #repo forall -c 'git add -A && git reset --hard' && rm -rf out && repo sync -j20 --force-sync
 
 #Apply all of our changes
-#source ../../Scripts/LineageOS-11.0/00init.sh && source $scripts/Patch.sh && source $scripts/Deblob.sh && source $scripts/Patch_CVE.sh && source build/envsetup.sh
+#source ../../Scripts/LineageOS-11.0/00init.sh && source $scripts/Patch.sh && source $scripts/Rebrand.sh && source $scripts/Deblob.sh && source $scripts/Patch_CVE.sh && source build/envsetup.sh
 
 #Build!
 #brunch lineage_nex-userdebug
@@ -69,6 +69,9 @@ export -f enhanceLocation;
 #
 #START OF ROM CHANGES
 #
+enter "packages/apps/Settings"
+patch -p1 < $patches"android_packages_apps_Settings/0001-CMStats.patch"; #Remove CMStats
+
 enter "vendor/cm"
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
@@ -84,6 +87,9 @@ patch -p1 < $patches"android_device_zte_nex/Fixes.patch"
 patch -p1 < $patches"android_device_zte_nex/Lower_DPI.patch"
 mv cm.mk lineage.mk
 sed -i 's/cm_/lineage_/' lineage.mk vendorsetup.sh
+#In nex-vendor-blobs.mk
+#	"system/lib/libtime_genoff.so" -> "obj/lib/libtime_genoff.so"
+#	Remove "WCNSS_qcom_wlan_nv2.bin"
 
 enter "kernel/zte/msm8930"
 patch -p1 < $patches"android_kernel_zte_msm8930/MDP-Fix.patch"
