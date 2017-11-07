@@ -1,3 +1,13 @@
+#TODO: Extract more versions from LineageOS CVE Tracker
+#Extras
+CVE-2017-13080
+	Link - https://github.com/torvalds/linux/commit/fdf7cb4185b60c68e1a75e61691c4afdc15dea0e
+CVE-2017-13080-Extra
+	Depends
+	Link - https://github.com/LineageOS/android_kernel_lge_hammerhead/commit/6fef7504fdb639dea2fbc0cbbd10963953f443da
+	Link - https://github.com/LineageOS/android_kernel_lge_hammerhead/commit/a9803a869bfc274d57ab33862ad7a5ea31df4559
+	Link - https://github.com/LineageOS/android_kernel_lge_hammerhead/commit/dc0c59d66b8679dc870c9aa568647d0be71501b7
+	Link - https://github.com/LineageOS/android_kernel_lge_hammerhead/commit/706ccb5adc54e349c491ebeb462c121d6467c863
 #https://cve.lineageos.org
 CVE-2012-6657
 	Pulled
@@ -276,6 +286,11 @@ CVE-2017-5551
 CVE-2017-5669
 	Pulled
 	Link - ^4.9 - https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=95e91b831f87ac8e1f8ed50c14d709089b4e01b8
+CVE-2015-5366
+	Pulled
+	Link - 3.10 - https://review.lineageos.org/163292
+	Link - 3.18 - https://review.lineageos.org/170669
+	Link - ^4.9 - http://git.kernel.org/cgit/linux/kernel/git/tip/tip.git/commit/?id=dfb4357da6ddbdf57d583ba64361c9d792b0e0b1
 CVE-2017-5967
 	Pulled
 	Link - 3.10 - https://review.lineageos.org/163292
@@ -332,6 +347,20 @@ CVE-2017-9679
 	Link - https://github.com/android/kernel_msm/commit/31f54e33d88c676bedb64127b5ae0c60d06f9518
 CVE-2017-9692
 	Link - https://github.com/android/kernel_msm/commit/7a86f369594a0b6567820b77d441e778e6adb8a7
+CVE-2015-4170
+	Pulled
+	Link - 3.10^ - http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=cf872776fc84128bb779ce2b83a37c884c3203ae
+CVE-2015-4177
+	Pulled
+	Link - 4.0 - https://github.com/torvalds/linux/commit/cd4a40174b71acd021877341684d8bb1dc8ea4ae
+CVE-2015-5697
+	Pulled
+	Link - ^4.1 - https://github.com/torvalds/linux/commit/b6878d9e03043695dbf3fa1caa6dfc09db225b16
+CVE-2017-7277
+	Pulled
+	Depends
+	Link - ^4.10 - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4ef1b2869447411ad3ef91ad7d4891a83c1a509a
+	Link - ^4.10 - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8605330aac5a5785630aec8f64378a54891937cc
 LVT-2017-0001
 	Link - 3.0 - https://review.lineageos.org/#/c/171511
 	Link - 3.4 - https://review.lineageos.org/#/c/170648
