@@ -1,0 +1,56 @@
+From 7682e399485fe19622b6fd82510b1f4551e48a25 Mon Sep 17 00:00:00 2001
+From: Takashi Iwai <tiwai@suse.de>
+Date: Mon, 2 Oct 2017 14:06:43 +0200
+Subject: [PATCH] ALSA: usx2y: Suppress kernel warning at page allocation
+ failures
+
+The usx2y driver allocates the stream read/write buffers in continuous
+pages depending on the stream setup, and this may spew the kernel
+warning messages with a stack trace like:
+  WARNING: CPU: 1 PID: 1846 at mm/page_alloc.c:3883
+  __alloc_pages_slowpath+0x1ef2/0x2d70
+  Modules linked in:
+  CPU: 1 PID: 1846 Comm: kworker/1:2 Not tainted
+  ....
+
+It may confuse user as if it were any serious error, although this is
+no fatal error and the driver handles the error case gracefully.
+Since the driver has already some sanity check of the given size (128
+and 256 pages), it can't pass any crazy value.  So it's merely page
+fragmentation.
+
+This patch adds __GFP_NOWARN to each caller for suppressing such
+kernel warnings.  The original issue was spotted by syzkaller.
+
+Reported-by: Andrey Konovalov <andreyknvl@google.com>
+Tested-by: Andrey Konovalov <andreyknvl@google.com>
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/usb/usx2y/usb_stream.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/sound/usb/usx2y/usb_stream.c b/sound/usb/usx2y/usb_stream.c
+index 4dab490807009..e229abd216526 100644
+--- a/sound/usb/usx2y/usb_stream.c
++++ b/sound/usb/usx2y/usb_stream.c
+@@ -191,7 +191,8 @@ struct usb_stream *usb_stream_new(struct usb_stream_kernel *sk,
+ 	}
+ 
+ 	pg = get_order(read_size);
+-	sk->s = (void *) __get_free_pages(GFP_KERNEL|__GFP_COMP|__GFP_ZERO, pg);
++	sk->s = (void *) __get_free_pages(GFP_KERNEL|__GFP_COMP|__GFP_ZERO|
++					  __GFP_NOWARN, pg);
+ 	if (!sk->s) {
+ 		snd_printk(KERN_WARNING "couldn't __get_free_pages()\n");
+ 		goto out;
+@@ -211,7 +212,8 @@ struct usb_stream *usb_stream_new(struct usb_stream_kernel *sk,
+ 	pg = get_order(write_size);
+ 
+ 	sk->write_page =
+-		(void *)__get_free_pages(GFP_KERNEL|__GFP_COMP|__GFP_ZERO, pg);
++		(void *)__get_free_pages(GFP_KERNEL|__GFP_COMP|__GFP_ZERO|
++					 __GFP_NOWARN, pg);
+ 	if (!sk->write_page) {
+ 		snd_printk(KERN_WARNING "couldn't __get_free_pages()\n");
+ 		usb_stream_free(sk);

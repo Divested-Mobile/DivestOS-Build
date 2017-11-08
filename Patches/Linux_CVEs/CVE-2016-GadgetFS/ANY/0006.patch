@@ -1,0 +1,75 @@
+From bb1107f7c6052c863692a41f78c000db792334bf Mon Sep 17 00:00:00 2001
+From: Michal Hocko <mhocko@suse.com>
+Date: Tue, 10 Jan 2017 16:57:27 -0800
+Subject: [PATCH] mm, slab: make sure that KMALLOC_MAX_SIZE will fit into
+ MAX_ORDER
+
+Andrey Konovalov has reported the following warning triggered by the
+syzkaller fuzzer.
+
+  WARNING: CPU: 1 PID: 9935 at mm/page_alloc.c:3511 __alloc_pages_nodemask+0x159c/0x1e20
+  Kernel panic - not syncing: panic_on_warn set ...
+  CPU: 1 PID: 9935 Comm: syz-executor0 Not tainted 4.9.0-rc7+ #34
+  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Bochs 01/01/2011
+  Call Trace:
+    __alloc_pages_slowpath mm/page_alloc.c:3511
+    __alloc_pages_nodemask+0x159c/0x1e20 mm/page_alloc.c:3781
+    alloc_pages_current+0x1c7/0x6b0 mm/mempolicy.c:2072
+    alloc_pages include/linux/gfp.h:469
+    kmalloc_order+0x1f/0x70 mm/slab_common.c:1015
+    kmalloc_order_trace+0x1f/0x160 mm/slab_common.c:1026
+    kmalloc_large include/linux/slab.h:422
+    __kmalloc+0x210/0x2d0 mm/slub.c:3723
+    kmalloc include/linux/slab.h:495
+    ep_write_iter+0x167/0xb50 drivers/usb/gadget/legacy/inode.c:664
+    new_sync_write fs/read_write.c:499
+    __vfs_write+0x483/0x760 fs/read_write.c:512
+    vfs_write+0x170/0x4e0 fs/read_write.c:560
+    SYSC_write fs/read_write.c:607
+    SyS_write+0xfb/0x230 fs/read_write.c:599
+    entry_SYSCALL_64_fastpath+0x1f/0xc2
+
+The issue is caused by a lack of size check for the request size in
+ep_write_iter which should be fixed.  It, however, points to another
+problem, that SLUB defines KMALLOC_MAX_SIZE too large because the its
+KMALLOC_SHIFT_MAX is (MAX_ORDER + PAGE_SHIFT) which means that the
+resulting page allocator request might be MAX_ORDER which is too large
+(see __alloc_pages_slowpath).
+
+The same applies to the SLOB allocator which allows even larger sizes.
+Make sure that they are capped properly and never request more than
+MAX_ORDER order.
+
+Link: http://lkml.kernel.org/r/20161220130659.16461-2-mhocko@kernel.org
+Signed-off-by: Michal Hocko <mhocko@suse.com>
+Reported-by: Andrey Konovalov <andreyknvl@google.com>
+Acked-by: Christoph Lameter <cl@linux.com>
+Cc: Alexei Starovoitov <ast@kernel.org>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+---
+ include/linux/slab.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/slab.h b/include/linux/slab.h
+index 084b12bad1982..4c53635668154 100644
+--- a/include/linux/slab.h
++++ b/include/linux/slab.h
+@@ -226,7 +226,7 @@ static inline const char *__check_heap_object(const void *ptr,
+  * (PAGE_SIZE*2).  Larger requests are passed to the page allocator.
+  */
+ #define KMALLOC_SHIFT_HIGH	(PAGE_SHIFT + 1)
+-#define KMALLOC_SHIFT_MAX	(MAX_ORDER + PAGE_SHIFT)
++#define KMALLOC_SHIFT_MAX	(MAX_ORDER + PAGE_SHIFT - 1)
+ #ifndef KMALLOC_SHIFT_LOW
+ #define KMALLOC_SHIFT_LOW	3
+ #endif
+@@ -239,7 +239,7 @@ static inline const char *__check_heap_object(const void *ptr,
+  * be allocated from the same page.
+  */
+ #define KMALLOC_SHIFT_HIGH	PAGE_SHIFT
+-#define KMALLOC_SHIFT_MAX	30
++#define KMALLOC_SHIFT_MAX	(MAX_ORDER + PAGE_SHIFT - 1)
+ #ifndef KMALLOC_SHIFT_LOW
+ #define KMALLOC_SHIFT_LOW	3
+ #endif
