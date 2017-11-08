@@ -1,85 +1,85 @@
 #!/bin/bash
 cd $base"kernel/google/marlin"
-git apply --whitespace=fix $cvePatches/CVE-2012-6703/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2014-9900/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2015-2041/^3.19/0002.patch
-git apply --whitespace=fix $cvePatches/CVE-2015-7515/^4.4/0002.patch
-git apply --whitespace=fix $cvePatches/CVE-2015-8966/3.15+/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-10044/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-10088/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-1583/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-2187/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-2544/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-2549/^4.4/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-2847/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-3136/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-3137/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-3140/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-3156/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-3672/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-3857/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-3865/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-3865/ANY/0002.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-3906/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-5342/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-5345/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-5854/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-5856/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-5857/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-5858/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-5867/3.18/0002.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-5870/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-6672/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-6693/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-6694/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-6695/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-6696/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-7042/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-8418/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-8483/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2016-9604/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-0510/3.18/0003.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-0524/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-0537/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-0622/3.18/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-0627/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-0749/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-0750/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-1000365/3.18/0002.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-1000380/^4.11/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-10998/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-11001/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-11002/ANY/0002.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-11025/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-11032/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-11046/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-11048/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-11057/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-11067/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-11600/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-12146/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-15265/^4.14/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-2671/^4.10/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-5669/^4.9/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-5986/^4.9/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-6001/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-6345/^4.9/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-6348/^4.9/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-6353/^4.10/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-7187/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-7371/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-7372/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-7472/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-7487/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-7616/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-7618/^4.10/0002.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-8247/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-8280/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-9075/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-9242/^4.11/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-9676/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-9686/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-9697/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-9719/ANY/0001.patch
-git apply --whitespace=fix $cvePatches/CVE-2017-9720/ANY/0001.patch
+git apply $cvePatches/CVE-2012-6703/ANY/0001.patch
+git apply $cvePatches/CVE-2014-9900/ANY/0001.patch
+git apply $cvePatches/CVE-2015-2041/^3.19/0002.patch
+git apply $cvePatches/CVE-2015-7515/^4.4/0002.patch
+git apply $cvePatches/CVE-2015-8966/3.15+/0001.patch
+git apply $cvePatches/CVE-2016-10044/ANY/0001.patch
+git apply $cvePatches/CVE-2016-10088/ANY/0001.patch
+git apply $cvePatches/CVE-2016-1583/ANY/0001.patch
+git apply $cvePatches/CVE-2016-2187/ANY/0001.patch
+git apply $cvePatches/CVE-2016-2544/ANY/0001.patch
+git apply $cvePatches/CVE-2016-2549/^4.4/0001.patch
+git apply $cvePatches/CVE-2016-2847/ANY/0001.patch
+git apply $cvePatches/CVE-2016-3136/ANY/0001.patch
+git apply $cvePatches/CVE-2016-3137/ANY/0001.patch
+git apply $cvePatches/CVE-2016-3140/ANY/0001.patch
+git apply $cvePatches/CVE-2016-3156/ANY/0001.patch
+git apply $cvePatches/CVE-2016-3672/ANY/0001.patch
+git apply $cvePatches/CVE-2016-3857/ANY/0001.patch
+git apply $cvePatches/CVE-2016-3865/ANY/0001.patch
+git apply $cvePatches/CVE-2016-3865/ANY/0002.patch
+git apply $cvePatches/CVE-2016-3906/ANY/0001.patch
+git apply $cvePatches/CVE-2016-5342/ANY/0001.patch
+git apply $cvePatches/CVE-2016-5345/ANY/0001.patch
+git apply $cvePatches/CVE-2016-5854/ANY/0001.patch
+git apply $cvePatches/CVE-2016-5856/ANY/0001.patch
+git apply $cvePatches/CVE-2016-5857/ANY/0001.patch
+git apply $cvePatches/CVE-2016-5858/ANY/0001.patch
+git apply $cvePatches/CVE-2016-5867/3.18/0002.patch
+git apply $cvePatches/CVE-2016-5870/ANY/0001.patch
+git apply $cvePatches/CVE-2016-6672/ANY/0001.patch
+git apply $cvePatches/CVE-2016-6693/ANY/0001.patch
+git apply $cvePatches/CVE-2016-6694/ANY/0001.patch
+git apply $cvePatches/CVE-2016-6695/ANY/0001.patch
+git apply $cvePatches/CVE-2016-6696/ANY/0001.patch
+git apply $cvePatches/CVE-2016-7042/ANY/0001.patch
+git apply $cvePatches/CVE-2016-8418/ANY/0001.patch
+git apply $cvePatches/CVE-2016-8483/ANY/0001.patch
+git apply $cvePatches/CVE-2016-9604/ANY/0001.patch
+git apply $cvePatches/CVE-2017-0510/3.18/0003.patch
+git apply $cvePatches/CVE-2017-0524/ANY/0001.patch
+git apply $cvePatches/CVE-2017-0537/ANY/0001.patch
+git apply $cvePatches/CVE-2017-0622/3.18/0001.patch
+git apply $cvePatches/CVE-2017-0627/ANY/0001.patch
+git apply $cvePatches/CVE-2017-0749/ANY/0001.patch
+git apply $cvePatches/CVE-2017-0750/ANY/0001.patch
+git apply $cvePatches/CVE-2017-1000365/3.18/0002.patch
+git apply $cvePatches/CVE-2017-1000380/^4.11/0001.patch
+git apply $cvePatches/CVE-2017-10998/ANY/0001.patch
+git apply $cvePatches/CVE-2017-11001/ANY/0001.patch
+git apply $cvePatches/CVE-2017-11002/ANY/0002.patch
+git apply $cvePatches/CVE-2017-11025/ANY/0001.patch
+git apply $cvePatches/CVE-2017-11032/ANY/0001.patch
+git apply $cvePatches/CVE-2017-11046/ANY/0001.patch
+git apply $cvePatches/CVE-2017-11048/ANY/0001.patch
+git apply $cvePatches/CVE-2017-11057/ANY/0001.patch
+git apply $cvePatches/CVE-2017-11067/ANY/0001.patch
+git apply $cvePatches/CVE-2017-11600/ANY/0001.patch
+git apply $cvePatches/CVE-2017-12146/ANY/0001.patch
+git apply $cvePatches/CVE-2017-15265/^4.14/0001.patch
+git apply $cvePatches/CVE-2017-2671/^4.10/0001.patch
+git apply $cvePatches/CVE-2017-5669/^4.9/0001.patch
+git apply $cvePatches/CVE-2017-5986/^4.9/0001.patch
+git apply $cvePatches/CVE-2017-6001/ANY/0001.patch
+git apply $cvePatches/CVE-2017-6345/^4.9/0001.patch
+git apply $cvePatches/CVE-2017-6348/^4.9/0001.patch
+git apply $cvePatches/CVE-2017-6353/^4.10/0001.patch
+git apply $cvePatches/CVE-2017-7187/ANY/0001.patch
+git apply $cvePatches/CVE-2017-7371/ANY/0001.patch
+git apply $cvePatches/CVE-2017-7372/ANY/0001.patch
+git apply $cvePatches/CVE-2017-7472/ANY/0001.patch
+git apply $cvePatches/CVE-2017-7487/ANY/0001.patch
+git apply $cvePatches/CVE-2017-7616/ANY/0001.patch
+git apply $cvePatches/CVE-2017-7618/^4.10/0002.patch
+git apply $cvePatches/CVE-2017-8247/ANY/0001.patch
+git apply $cvePatches/CVE-2017-8280/ANY/0001.patch
+git apply $cvePatches/CVE-2017-9075/ANY/0001.patch
+git apply $cvePatches/CVE-2017-9242/^4.11/0001.patch
+git apply $cvePatches/CVE-2017-9676/ANY/0001.patch
+git apply $cvePatches/CVE-2017-9686/ANY/0001.patch
+git apply $cvePatches/CVE-2017-9697/ANY/0001.patch
+git apply $cvePatches/CVE-2017-9719/ANY/0001.patch
+git apply $cvePatches/CVE-2017-9720/ANY/0001.patch
 cd $base
