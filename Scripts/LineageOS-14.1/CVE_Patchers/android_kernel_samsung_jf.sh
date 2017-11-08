@@ -2,7 +2,6 @@
 cd $base"kernel/samsung/jf"
 git apply $cvePatches/CVE-2016-0801/ANY/0001.patch
 git apply $cvePatches/CVE-2016-10233/ANY/0001.patch
-git apply $cvePatches/CVE-2016-1583/ANY/0001.patch
 git apply $cvePatches/CVE-2016-2185/ANY/0001.patch
 git apply $cvePatches/CVE-2016-2186/ANY/0001.patch
 git apply $cvePatches/CVE-2016-2475/ANY/0001.patch

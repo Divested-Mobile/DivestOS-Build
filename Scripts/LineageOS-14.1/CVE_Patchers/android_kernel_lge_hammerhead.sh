@@ -3,7 +3,6 @@ cd $base"kernel/lge/hammerhead"
 git apply $cvePatches/CVE-2014-9881/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9882/ANY/0001.patch
 git apply $cvePatches/CVE-2015-1593/ANY/0001.patch
-git apply $cvePatches/CVE-2016-1583/ANY/0001.patch
 git apply $cvePatches/CVE-2016-3894/ANY/0001.patch
 git apply $cvePatches/CVE-2016-5829/ANY/0001.patch
 git apply $cvePatches/CVE-2016-8650/ANY/0001.patch

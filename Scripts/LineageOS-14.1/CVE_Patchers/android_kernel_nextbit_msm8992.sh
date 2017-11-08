@@ -1,7 +1,6 @@
 #!/bin/bash
 cd $base"kernel/nextbit/msm8992"
 git apply $cvePatches/CVE-2014-9904/ANY/0001.patch
-git apply $cvePatches/CVE-2016-1583/ANY/0001.patch
 git apply $cvePatches/CVE-2016-6672/ANY/0001.patch
 git apply $cvePatches/CVE-2016-6693/ANY/0001.patch
 git apply $cvePatches/CVE-2016-6696/ANY/0001.patch

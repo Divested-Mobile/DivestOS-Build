@@ -430,8 +430,6 @@ CVE-2016-0758
 	Link - http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=23c8a812dc3c621009e4f0e5342aa4e2ede1ceaa
 CVE-2016-0774
 	Link - https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/commit/fs/pipe.c?id=b381fbc509052d07ccf8641fd7560a25d46aaf1e
-CVE-2016-0774
-	Link - https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/commit/fs/pipe.c?id=b381fbc509052d07ccf8641fd7560a25d46aaf1e
 CVE-2016-0801
 	Link - https://android.googlesource.com/kernel/msm/+/68cdc8df1cb6622980b791ce03e99c255c9888af
 CVE-2016-0802
@@ -538,7 +536,7 @@ CVE-2016-10295
 CVE-2016-10296
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=a5e46d8635a2e28463b365aacdeab6750abd0d49
 CVE-2016-1583
-	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e54ad7f1ee263ffa5a2de9c609d58dfa27b21cd9
+#	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e54ad7f1ee263ffa5a2de9c609d58dfa27b21cd9
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2f36db71009304b3f0b95afacd8eba1f9f046b87
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=29d6455178a09e1dc340380c582b13356227e8df
 CVE-2016-2053
@@ -1584,13 +1582,14 @@ CVE-2017-7184
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=677e806da4d916052585301785d847c3b3e6186a
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f843ee6dd019bcece3e74e76ad9df0155655d0df
 CVE-2017-7187
+	Depends
 	Link - 3.4 - https://review.lineageos.org/#/c/182338/
 	Link - 3.4 - https://review.lineageos.org/#/c/182339/
 	Link - 3.4 - https://review.lineageos.org/#/c/182340/
 	Link - 3.10 - https://review.lineageos.org/#/c/175571/
 	Link - 3.10 - https://review.lineageos.org/#/c/175572/
 	Link - 3.10 - https://review.lineageos.org/#/c/175573/
-	Link - ^4.10 - https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git/commit/?h=4.11/scsi-fixes&id=bf33f87dd04c371ea33feb821b60d63d754e3124
+#	Link - ^4.10 - https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git/commit/?h=4.11/scsi-fixes&id=bf33f87dd04c371ea33feb821b60d63d754e3124
 CVE-2017-7277
 	Depends
 	Link - ^4.10 - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4ef1b2869447411ad3ef91ad7d4891a83c1a509a
