@@ -1,12 +1,12 @@
 #!/bin/bash
 cd $base"kernel/htc/flounder"
-git apply $cvePatches/CVE-2012-6703/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9892/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9900/ANY/0001.patch
 git apply $cvePatches/CVE-2015-7515/^4.4/0002.patch
 git apply $cvePatches/CVE-2015-8944/ANY/0001.patch
 git apply $cvePatches/CVE-2015-8955/ANY/0001.patch
 git apply $cvePatches/CVE-2016-0819/ANY/0001.patch
+git apply $cvePatches/CVE-2016-10208/3.10-^3.16/0001.patch
 git apply $cvePatches/CVE-2016-1583/ANY/0001.patch
 git apply $cvePatches/CVE-2016-2475/ANY/0001.patch
 git apply $cvePatches/CVE-2016-8453/ANY/0001.patch
@@ -20,6 +20,7 @@ git apply $cvePatches/CVE-2017-0794/ANY/0001.patch
 git apply $cvePatches/CVE-2017-1000365/3.10/0001.patch
 git apply $cvePatches/CVE-2017-1000380/^4.11/0001.patch
 git apply $cvePatches/CVE-2017-10996/ANY/0001.patch
+git apply $cvePatches/CVE-2017-12153/3.2-^3.16/0001.patch
 git apply $cvePatches/CVE-2017-15265/^4.14/0001.patch
 git apply $cvePatches/CVE-2017-2671/^4.10/0001.patch
 git apply $cvePatches/CVE-2017-5669/^4.9/0001.patch

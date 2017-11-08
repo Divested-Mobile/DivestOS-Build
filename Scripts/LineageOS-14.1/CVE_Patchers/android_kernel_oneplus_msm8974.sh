@@ -1,6 +1,5 @@
 #!/bin/bash
 cd $base"kernel/oneplus/msm8974"
-git apply $cvePatches/CVE-2012-6703/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9781/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9880/ANY/0001.patch
 git apply $cvePatches/CVE-2016-0801/ANY/0001.patch
@@ -19,6 +18,7 @@ git apply $cvePatches/CVE-2017-1000380/^4.11/0001.patch
 git apply $cvePatches/CVE-2017-11000/ANY/0001.patch
 git apply $cvePatches/CVE-2017-11048/ANY/0001.patch
 git apply $cvePatches/CVE-2017-11059/ANY/0001.patch
+git apply $cvePatches/CVE-2017-12153/3.2-^3.16/0001.patch
 git apply $cvePatches/CVE-2017-13080/ANY/0001.patch
 git apply $cvePatches/CVE-2017-15265/^4.14/0001.patch
 git apply $cvePatches/CVE-2017-7487/ANY/0001.patch

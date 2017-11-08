@@ -1,6 +1,5 @@
 #!/bin/bash
 cd $base"kernel/asus/msm8916"
-git apply $cvePatches/CVE-2012-6703/ANY/0001.patch
 git apply $cvePatches/CVE-2016-1583/ANY/0001.patch
 git apply $cvePatches/CVE-2016-6672/ANY/0001.patch
 git apply $cvePatches/CVE-2016-6693/ANY/0001.patch

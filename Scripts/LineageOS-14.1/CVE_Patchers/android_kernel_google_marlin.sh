@@ -1,6 +1,5 @@
 #!/bin/bash
 cd $base"kernel/google/marlin"
-git apply $cvePatches/CVE-2012-6703/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9900/ANY/0001.patch
 git apply $cvePatches/CVE-2015-2041/^3.19/0002.patch
 git apply $cvePatches/CVE-2015-7515/^4.4/0002.patch
@@ -37,6 +36,7 @@ git apply $cvePatches/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatches/CVE-2016-7042/ANY/0001.patch
 git apply $cvePatches/CVE-2016-8418/ANY/0001.patch
 git apply $cvePatches/CVE-2016-8483/ANY/0001.patch
+git apply $cvePatches/CVE-2016-9191/3.11-^4.8/0001.patch
 git apply $cvePatches/CVE-2016-9604/ANY/0001.patch
 git apply $cvePatches/CVE-2017-0510/3.18/0003.patch
 git apply $cvePatches/CVE-2017-0524/ANY/0001.patch

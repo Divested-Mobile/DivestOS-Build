@@ -1,6 +1,5 @@
 #!/bin/bash
 cd $base"kernel/motorola/msm8992"
-git apply $cvePatches/CVE-2012-6703/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9781/ANY/0001.patch
 git apply $cvePatches/CVE-2015-0573/ANY/0001.patch
 git apply $cvePatches/CVE-2015-8019/3.10/0001.patch
@@ -70,6 +69,7 @@ git apply $cvePatches/CVE-2017-11024/ANY/0001.patch
 git apply $cvePatches/CVE-2017-11048/ANY/0001.patch
 git apply $cvePatches/CVE-2017-11056/ANY/0001.patch
 git apply $cvePatches/CVE-2017-11059/ANY/0001.patch
+git apply $cvePatches/CVE-2017-12153/3.2-^3.16/0001.patch
 git apply $cvePatches/CVE-2017-15265/^4.14/0001.patch
 git apply $cvePatches/CVE-2017-2618/3.10/0001.patch
 git apply $cvePatches/CVE-2017-2671/^4.10/0001.patch

@@ -1,6 +1,5 @@
 #!/bin/bash
 cd $base"kernel/google/msm"
-git apply $cvePatches/CVE-2012-6703/ANY/0001.patch
 git apply $cvePatches/CVE-2013-4738/ANY/0002.patch
 git apply $cvePatches/CVE-2014-9781/ANY/0001.patch
 git apply $cvePatches/CVE-2015-1593/ANY/0001.patch
@@ -14,6 +13,7 @@ git apply $cvePatches/CVE-2017-0710/ANY/0001.patch
 git apply $cvePatches/CVE-2017-0750/ANY/0001.patch
 git apply $cvePatches/CVE-2017-0751/ANY/0001.patch
 git apply $cvePatches/CVE-2017-0786/ANY/0001.patch
+git apply $cvePatches/CVE-2017-12153/3.2-^3.16/0001.patch
 git apply $cvePatches/CVE-2017-13080/ANY/0001.patch
 git apply $cvePatches/CVE-2017-15265/^4.14/0001.patch
 git apply $cvePatches/CVE-2017-7187/ANY/0001.patch

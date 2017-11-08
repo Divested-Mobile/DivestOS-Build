@@ -1,6 +1,5 @@
 #!/bin/bash
 cd $base"kernel/htc/msm8994"
-git apply $cvePatches/CVE-2012-6703/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9781/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9903/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9904/ANY/0001.patch
@@ -11,6 +10,7 @@ git apply $cvePatches/CVE-2015-8967/ANY/0001.patch
 git apply $cvePatches/CVE-2016-0758/ANY/0001.patch
 git apply $cvePatches/CVE-2016-10044/ANY/0003.patch
 git apply $cvePatches/CVE-2016-10200/ANY/0001.patch
+git apply $cvePatches/CVE-2016-10208/3.10-^3.16/0001.patch
 git apply $cvePatches/CVE-2016-10230/ANY/0001.patch
 git apply $cvePatches/CVE-2016-10234/3.10/0001.patch
 git apply $cvePatches/CVE-2016-1583/ANY/0001.patch
@@ -61,6 +61,7 @@ git apply $cvePatches/CVE-2016-9604/ANY/0001.patch
 git apply $cvePatches/CVE-2016-9754/ANY/0001.patch
 git apply $cvePatches/CVE-2016-9793/ANY/0001.patch
 git apply $cvePatches/CVE-2016-9794/ANY/0001.patch
+git apply $cvePatches/CVE-2017-0403/3.0-^3.18/0001.patch
 git apply $cvePatches/CVE-2017-0404/^3.18/0001.patch
 git apply $cvePatches/CVE-2017-0427/3.10/0001.patch
 git apply $cvePatches/CVE-2017-0445/ANY/0001.patch
@@ -95,6 +96,7 @@ git apply $cvePatches/CVE-2017-11046/ANY/0001.patch
 git apply $cvePatches/CVE-2017-11048/ANY/0001.patch
 git apply $cvePatches/CVE-2017-11056/ANY/0001.patch
 git apply $cvePatches/CVE-2017-11059/ANY/0001.patch
+git apply $cvePatches/CVE-2017-12153/3.2-^3.16/0001.patch
 git apply $cvePatches/CVE-2017-15265/^4.14/0001.patch
 git apply $cvePatches/CVE-2017-2618/3.10/0001.patch
 git apply $cvePatches/CVE-2017-2671/^4.10/0001.patch

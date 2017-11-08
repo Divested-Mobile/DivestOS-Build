@@ -1,9 +1,9 @@
 #!/bin/bash
 cd $base"kernel/amazon/hdx-common"
-git apply $cvePatches/CVE-2012-6703/ANY/0001.patch
 git apply $cvePatches/CVE-2012-6704/^3.5/0001.patch
 git apply $cvePatches/CVE-2014-1739/ANY/0001.patch
 git apply $cvePatches/CVE-2014-4656/ANY/0001.patch
+git apply $cvePatches/CVE-2014-7822/3.2-^3.16/0001.patch
 git apply $cvePatches/CVE-2014-8709/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9420/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9781/ANY/0001.patch
@@ -32,6 +32,7 @@ git apply $cvePatches/CVE-2016-8650/ANY/0001.patch
 git apply $cvePatches/CVE-2016-9604/ANY/0001.patch
 git apply $cvePatches/CVE-2016-9793/ANY/0001.patch
 git apply $cvePatches/CVE-2016-9794/ANY/0001.patch
+git apply $cvePatches/CVE-2017-0403/3.0-^3.18/0001.patch
 git apply $cvePatches/CVE-2017-0404/^3.18/0001.patch
 git apply $cvePatches/CVE-2017-0524/ANY/0001.patch
 git apply $cvePatches/CVE-2017-0611/ANY/0001.patch
@@ -42,6 +43,7 @@ git apply $cvePatches/CVE-2017-0786/ANY/0001.patch
 git apply $cvePatches/CVE-2017-1000380/^4.11/0001.patch
 git apply $cvePatches/CVE-2017-11000/ANY/0001.patch
 git apply $cvePatches/CVE-2017-11059/ANY/0001.patch
+git apply $cvePatches/CVE-2017-12153/3.2-^3.16/0001.patch
 git apply $cvePatches/CVE-2017-13080/ANY/0001.patch
 git apply $cvePatches/CVE-2017-15265/^4.14/0001.patch
 git apply $cvePatches/CVE-2017-2671/^4.10/0001.patch

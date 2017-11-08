@@ -1,8 +1,8 @@
 #!/bin/bash
 cd $base"kernel/samsung/universal8890"
-git apply $cvePatches/CVE-2012-6703/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9900/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9940/ANY/0001.patch
+git apply $cvePatches/CVE-2015-1420/3.2-^3.19/0001.patch
 git apply $cvePatches/CVE-2015-2041/^3.19/0002.patch
 git apply $cvePatches/CVE-2015-7515/^4.4/0002.patch
 git apply $cvePatches/CVE-2015-7550/^4.3/0001.patch
@@ -37,10 +37,12 @@ git apply $cvePatches/CVE-2016-7917/ANY/0001.patch
 git apply $cvePatches/CVE-2016-8399/ANY/0001.patch
 git apply $cvePatches/CVE-2016-8468/3.18/0001.patch
 git apply $cvePatches/CVE-2016-8650/ANY/0001.patch
+git apply $cvePatches/CVE-2016-9191/3.11-^4.8/0001.patch
 git apply $cvePatches/CVE-2016-9604/ANY/0001.patch
 git apply $cvePatches/CVE-2016-9754/ANY/0001.patch
 git apply $cvePatches/CVE-2016-9793/ANY/0001.patch
 git apply $cvePatches/CVE-2016-9794/ANY/0001.patch
+git apply $cvePatches/CVE-2017-0403/3.0-^3.18/0001.patch
 git apply $cvePatches/CVE-2017-0404/^3.18/0001.patch
 git apply $cvePatches/CVE-2017-0510/3.18/0003.patch
 git apply $cvePatches/CVE-2017-0523/3.18/0001.patch

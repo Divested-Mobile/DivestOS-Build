@@ -1,7 +1,7 @@
 #!/bin/bash
 cd $base"kernel/huawei/angler"
-git apply $cvePatches/CVE-2012-6703/ANY/0001.patch
 git apply $cvePatches/CVE-2014-8160/^3.18/0002.patch
+git apply $cvePatches/CVE-2014-8173/3.9-^3.12/0001.patch
 git apply $cvePatches/CVE-2014-9781/ANY/0001.patch
 git apply $cvePatches/CVE-2015-0573/ANY/0001.patch
 git apply $cvePatches/CVE-2015-2041/^3.19/0002.patch
@@ -10,6 +10,7 @@ git apply $cvePatches/CVE-2015-7515/^4.4/0002.patch
 git apply $cvePatches/CVE-2015-7550/^4.3/0001.patch
 git apply $cvePatches/CVE-2016-0805/ANY/0001.patch
 git apply $cvePatches/CVE-2016-0843/ANY/0001.patch
+git apply $cvePatches/CVE-2016-10208/3.10-^3.16/0001.patch
 git apply $cvePatches/CVE-2016-1583/ANY/0001.patch
 git apply $cvePatches/CVE-2016-2063/ANY/0001.patch
 git apply $cvePatches/CVE-2016-2185/ANY/0001.patch
@@ -55,6 +56,7 @@ git apply $cvePatches/CVE-2017-0824/ANY/0001.patch
 git apply $cvePatches/CVE-2017-1000365/3.10/0001.patch
 git apply $cvePatches/CVE-2017-1000380/^4.11/0001.patch
 git apply $cvePatches/CVE-2017-11024/ANY/0001.patch
+git apply $cvePatches/CVE-2017-12153/3.2-^3.16/0001.patch
 git apply $cvePatches/CVE-2017-15265/^4.14/0001.patch
 git apply $cvePatches/CVE-2017-2618/3.10/0001.patch
 git apply $cvePatches/CVE-2017-2671/^4.10/0001.patch
