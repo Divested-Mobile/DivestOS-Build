@@ -22,6 +22,7 @@ CVE-2012-6701
 	Link - http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=a70b52ec1aaeaf60f4739edb1b422827cb6f3893
 CVE-2012-6703
 	Pulled
+	Depends
 	Link - https://github.com/torvalds/linux/commit/b35cc8225845112a616e3a2266d2fde5ab13d3ab
 	Link - https://github.com/torvalds/linux/commit/4dc040a0b34890d2adc0d63da6e9bfb4eb791b19
 CVE-2012-6704
@@ -119,7 +120,7 @@ CVE-2014-5206
 	Link - ^3.16 - https://github.com/torvalds/linux/commit/a6138db815df5ee542d848318e5dae681590fccd
 CVE-2014-7822
 	Pulled
-	Link - 3.2-3.16 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=894c6350eaa
+	Link - 3.2-^3.16 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=894c6350eaa
 CVE-2014-7825
 	Pulled
 	Depends
@@ -137,7 +138,7 @@ CVE-2014-8160
 	Link - ^3.18 - https://github.com/torvalds/linux/commit/db29a9508a9246e77087c5531e45b2c88ec6988b
 CVE-2014-8173
 	Pulled
-	Link - 3.9-3.12 - https://github.com/torvalds/linux/commit/ee53664bda169f519ce3c6a22d378f0b946c8178
+	Link - 3.9-^3.12 - https://github.com/torvalds/linux/commit/ee53664bda169f519ce3c6a22d378f0b946c8178
 CVE-2014-8709
 	Link - http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=338f977f4eb441e69bb9a46eaa0ac715c931a67f
 CVE-2014-9322
@@ -328,7 +329,7 @@ CVE-2015-0573
 	Link - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm-3.10.git;a=commit;h=e20f20aaed6b6d2fd1667bad9be9ef35103a51df
 CVE-2015-1420
 	Pulled
-	Link - 3.2-3.19 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=8dfc8b9e8432f50606820b40a7d63618d9d61a07
+	Link - 3.2-^3.19 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=8dfc8b9e8432f50606820b40a7d63618d9d61a07
 CVE-2015-1465
 	Link - http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=df4d92549f23e1c037e83323aff58a21b3de7fe0
 CVE-2015-1534
@@ -536,7 +537,7 @@ CVE-2016-10200
 CVE-2016-10208
 	Pulled
 	FIXME
-	Link - 3.10-3.16 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?h=v3.16.44&id=cde863587b6809fdf61ea3c5391ecf06884b5516
+	Link - 3.10-^3.16 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?h=v3.16.44&id=cde863587b6809fdf61ea3c5391ecf06884b5516
 CVE-2016-10229
 	Link - http://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/commit/?id=197c949e7798fbf28cfadc69d9ca0c2abbf93191
 CVE-2016-10230
@@ -700,7 +701,7 @@ CVE-2016-2503
 	Link - 3.10 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=0c46fc0f8fb7ffd26557b51b235d463a01ee75f5
 	Link - 3.18 - https://source.codeaurora.org/quic/la//kernel/msm-3.18/commit/?id=9ae71bc3a542f68ea93c4eff01a41201ee6d9402
 CVE-2016-2504
-	Link - 3.4-3.10 - https://source.codeaurora.org/quic/la//kernel/msm-3.10/commit/?id=f7c8dfd7060867d71fc370527e2e2278ffc3ba5e
+	Link - 3.4-^3.10 - https://source.codeaurora.org/quic/la//kernel/msm-3.10/commit/?id=f7c8dfd7060867d71fc370527e2e2278ffc3ba5e
 	Link - 3.18 - https://source.codeaurora.org/quic/la//kernel/msm-3.18/commit/?id=75adbb8cebfe17ace640e6bd89582c1d72196378
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?h=APSS.FSM.3.0&id=ec5feea777b07c0e1f9ce45b7f3179a3f6facf75
 CVE-2016-2544
@@ -1217,7 +1218,7 @@ CVE-2016-9120
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9590232bb4f4cc824f3425a6e1349afbe6d6d2b7
 CVE-2016-9191
 	Pulled
-	Link - 3.11-4.8 - http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=93362fa47fe98b62e4a34ab408c4a418432e7939
+	Link - 3.11-^4.8 - http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=93362fa47fe98b62e4a34ab408c4a418432e7939
 CVE-2016-9555
 	Pulled
 	Link - https://github.com/torvalds/linux/commit/bf911e985d6bbaa328c20c3e05f4eb03de11fdd6
@@ -1237,7 +1238,7 @@ CVE-2016-9806
 	Link - http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=92964c79b357efd980812c4de5c1fd2ec8bb5520
 CVE-2017-0403
 	Pulled
-	Link - 3.0-3.18 - https://github.com/android/kernel_msm/commit/2c5c1fd0d2a2a96fab750fa332cb703022c16c04
+	Link - 3.0-^3.18 - https://github.com/android/kernel_msm/commit/2c5c1fd0d2a2a96fab750fa332cb703022c16c04
 CVE-2017-0404
 	Pulled
 	Link - ^3.18 - https://github.com/android/kernel_msm/commit/4faa6d2e9b53546823882d8889820ff9ce3c372f
@@ -1697,7 +1698,7 @@ CVE-2017-12146
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?h=driver-core-next&id=6265539776a0810b7ce6398c27866ddb9c6bd154
 CVE-2017-12153
 	Pulled
-	Link - 3.2-3.16 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?h=v3.2.94&id=082d8a6a55d2b6583d9e93ac9796efdf4c412658
+	Link - 3.2-^3.16 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?h=v3.2.94&id=082d8a6a55d2b6583d9e93ac9796efdf4c412658
 CVE-2017-13080
 	Link - https://github.com/torvalds/linux/commit/fdf7cb4185b60c68e1a75e61691c4afdc15dea0e
 	Link - https://github.com/LineageOS/android_kernel_oneplus_msm8974/commit/39fb5459ecd16779e75d76827fb32d15a995f469.patch
@@ -1721,7 +1722,7 @@ CVE-2017-2671
 	Link - ^4.10 - https://git.kernel.org/pub/scm/linux/kernel/git/davem/net.git/commit/net/ipv4/ping.c?id=43a6684519ab0a6c52024b5e25322476cabad893
 CVE-2017-5546
 	Pulled
-	Link - 4.7-4.9 - https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=c4e490cf148e85ead0d1b1c2caaba833f1d5b29f
+	Link - 4.7-^4.9 - https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=c4e490cf148e85ead0d1b1c2caaba833f1d5b29f
 CVE-2017-5547
 	Pulled
 	Link - 4.9 - https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=6d104af38b570d37aa32a5803b04c354f8ed513d
@@ -1730,7 +1731,7 @@ CVE-2017-5550
 	Link - 4.9 - https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=b9dc6f65bc5e232d1c05fe34b5daadc7e8bbf1fb
 CVE-2017-5551
 	Pulled
-	Link - 3.14-4.9 - https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=497de07d89c1410d76a15bec2bb41f24a2a89f31
+	Link - 3.14-^4.9 - https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=497de07d89c1410d76a15bec2bb41f24a2a89f31
 CVE-2017-5669
 	Pulled
 	Link - ^4.9 - https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=95e91b831f87ac8e1f8ed50c14d709089b4e01b8
@@ -2001,7 +2002,7 @@ CVE-2017-9714
 	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=aae237dfbaf8edcf310eeb84b887b20e7e9c0ff3
 CVE-2017-9715
 	Pulled
-	Link  qcacld-2.0 -- https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=58350a7bcb827c0ac81f0750a62d5c5a8ed3a469
+	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=58350a7bcb827c0ac81f0750a62d5c5a8ed3a469
 CVE-2017-9717
 	Pulled
 	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=bf7486fb6d82fb9ad02e303b6fdf4061cfc0375d
