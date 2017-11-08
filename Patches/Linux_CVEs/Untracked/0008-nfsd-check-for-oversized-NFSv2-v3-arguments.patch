@@ -1,0 +1,107 @@
+From fa3cb34c08bd88c37a9cee301e12d440e7354f4b Mon Sep 17 00:00:00 2001
+From: "J. Bruce Fields" <bfields@redhat.com>
+Date: Fri, 21 Apr 2017 16:10:18 -0400
+Subject: nfsd: check for oversized NFSv2/v3 arguments
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+A client can append random data to the end of an NFSv2 or NFSv3 RPC call
+without our complaining; we'll just stop parsing at the end of the
+expected data and ignore the rest.
+
+Encoded arguments and replies are stored together in an array of pages,
+and if a call is too large it could leave inadequate space for the
+reply.  This is normally OK because NFS RPC's typically have either
+short arguments and long replies (like READ) or long arguments and short
+replies (like WRITE).  But a client that sends an incorrectly long reply
+can violate those assumptions.  This was observed to cause crashes.
+
+Also, several operations increment rq_next_page in the decode routine
+before checking the argument size, which can leave rq_next_page pointing
+well past the end of the page array, causing trouble later in
+svc_free_pages.
+
+So, following a suggestion from Neil Brown, add a central check to
+enforce our expectation that no NFSv2/v3 call has both a large call and
+a large reply.
+
+As followup we may also want to rewrite the encoding routines to check
+more carefully that they aren't running off the end of the page array.
+
+We may also consider rejecting calls that have any extra garbage
+appended.  That would be safer, and within our rights by spec, but given
+the age of our server and the NFS protocol, and the fact that we've
+never enforced this before, we may need to balance that against the
+possibility of breaking some oddball client.
+
+Reported-by: Tuomas Haanpää <thaan@synopsys.com>
+Reported-by: Ari Kauppi <ari@synopsys.com>
+Cc: stable@vger.kernel.org
+Reviewed-by: NeilBrown <neilb@suse.com>
+Signed-off-by: J. Bruce Fields <bfields@redhat.com>
+(cherry picked from commit e6838a29ecb484c97e4efef9429643b9851fba6e)
+
+Change-Id: I7a049448dff17ffe5f9174fe07cd68495a838d40
+Signed-off-by: Akshaya <akshayab@codeaurora.org>
+---
+ fs/nfsd/nfssvc.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/fs/nfsd/nfssvc.c b/fs/nfsd/nfssvc.c
+index 752d56b..a89654b 100644
+--- a/fs/nfsd/nfssvc.c
++++ b/fs/nfsd/nfssvc.c
+@@ -646,6 +646,37 @@ static __be32 map_new_errors(u32 vers, __be32 nfserr)
+ 	return nfserr;
+ }
+ 
++/*
++ * A write procedure can have a large argument, and a read procedure can
++ * have a large reply, but no NFSv2 or NFSv3 procedure has argument and
++ * reply that can both be larger than a page.  The xdr code has taken
++ * advantage of this assumption to be a sloppy about bounds checking in
++ * some cases.  Pending a rewrite of the NFSv2/v3 xdr code to fix that
++ * problem, we enforce these assumptions here:
++ */
++static bool nfs_request_too_big(struct svc_rqst *rqstp,
++				struct svc_procedure *proc)
++{
++	/*
++	 * The ACL code has more careful bounds-checking and is not
++	 * susceptible to this problem:
++	 */
++	if (rqstp->rq_prog != NFS_PROGRAM)
++		return false;
++	/*
++	 * Ditto NFSv4 (which can in theory have argument and reply both
++	 * more than a page):
++	 */
++	if (rqstp->rq_vers >= 4)
++		return false;
++	/* The reply will be small, we're OK: */
++	if (proc->pc_xdrressize > 0 &&
++	    proc->pc_xdrressize < XDR_QUADLEN(PAGE_SIZE))
++		return false;
++
++	return rqstp->rq_arg.len > PAGE_SIZE;
++}
++
+ int
+ nfsd_dispatch(struct svc_rqst *rqstp, __be32 *statp)
+ {
+@@ -658,6 +689,11 @@ nfsd_dispatch(struct svc_rqst *rqstp, __be32 *statp)
+ 				rqstp->rq_vers, rqstp->rq_proc);
+ 	proc = rqstp->rq_procinfo;
+ 
++	if (nfs_request_too_big(rqstp, proc)) {
++		dprintk("nfsd: NFSv%d argument too large\n", rqstp->rq_vers);
++		*statp = rpc_garbage_args;
++		return 1;
++	}
+ 	/*
+ 	 * Give the xdr decoder a chance to change this if it wants
+ 	 * (necessary in the NFSv4.0 compound case)
+-- 
+1.9.1
+

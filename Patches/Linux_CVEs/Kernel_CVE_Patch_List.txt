@@ -2,8 +2,18 @@
 #	https://source.android.com/security/bulletin
 #	https://cve.lineageos.org
 #	https://www.codeaurora.org/security-advisories
-#	https://github.com/google/syzkaller/tree/master/docs/linux
+#	https://www.codeaurora.org/security-advisories/security-bulletins
+#	https://github.com/google/syzkaller/blob/master/docs/linux/found_bugs_usb.md
 #	+ some extras
+#To Do
+#	Make another pass through LineageOS CVE tracker for more patch versions
+#To add
+#	https://github.com/google/syzkaller/blob/master/docs/linux/found_bugs.md
+#	https://www.codeaurora.org/security-advisory/uncontrolled-memory-mapping-in-camera-driver-cve-2013-2595
+#	https://www.codeaurora.org/security-advisory/multiple-issues-in-camera-drivers-cve-2014-9410-cve-2015-0568
+#	https://portland.source.codeaurora.org/patches/quic/la/
+#The 'Untracked' folder contains patches from the following sources
+#	https://portland.source.codeaurora.org/patches/quic/la/CVE-fixes-patches.zip
 CVE-2012-4220
 	Link - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm.git;a=commit;h=32682d16fb46a60a7952c4d9e0653602ff674e4b
 CVE-2012-4221

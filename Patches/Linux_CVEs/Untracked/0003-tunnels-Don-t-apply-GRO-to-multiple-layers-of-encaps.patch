@@ -1,0 +1,169 @@
+From ce7dbf611ba9db087abc984ba1807771fb0c3545 Mon Sep 17 00:00:00 2001
+From: Jesse Gross <jesse@kernel.org>
+Date: Fri, 26 May 2017 10:43:25 +0530
+Subject: tunnels: Don't apply GRO to multiple layers of encapsulation.
+
+[ Upstream commit: fac8e0f579695a3ecbc4d3cac369139d7f819971]
+
+When drivers express support for TSO of encapsulated packets, they
+only mean that they can do it for one layer of encapsulation.
+Supporting additional levels would mean updating, at a minimum,
+more IP length fields and they are unaware of this.
+
+No encapsulation device expresses support for handling offloaded
+encapsulated packets, so we won't generate these types of frames
+in the transmit path. However, GRO doesn't have a check for
+multiple levels of encapsulation and will attempt to build them.
+
+UDP tunnel GRO actually does prevent this situation but it only
+handles multiple UDP tunnels stacked on top of each other. This
+generalizes that solution to prevent any kind of tunnel stacking
+that would cause problems.
+
+Change-Id: I072ec2fec752795bee66cf5464af48f17c837a7f
+Signed-off-by: Jesse Gross <jesse@kernel.org>
+Signed-off-by: Akshaya <akshayab@codeaurora.org>
+---
+ include/linux/netdevice.h |  4 ++--
+ net/core/dev.c            |  2 +-
+ net/ipv4/af_inet.c        | 15 ++++++++++++++-
+ net/ipv4/gre_offload.c    |  5 +++++
+ net/ipv4/udp_offload.c    |  6 +++---
+ net/ipv6/ip6_offload.c    | 15 ++++++++++++++-
+ 6 files changed, 39 insertions(+), 8 deletions(-)
+
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 943a8301..173b250 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -1902,8 +1902,8 @@ struct napi_gro_cb {
+ 	/* Used in ipv6_gro_receive() and foo-over-udp */
+ 	u16	proto;
+ 
+-	/* Used in udp_gro_receive */
+-	u8	udp_mark:1;
++	/* Used in tunnel GRO receive */
++	u8	encap_mark:1;
+ 
+ 	/* GRO checksum is valid */
+ 	u8	csum_valid:1;
+diff --git a/net/core/dev.c b/net/core/dev.c
+index 9d41179..99e2387 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -4116,7 +4116,7 @@ static enum gro_result dev_gro_receive(struct napi_struct *napi, struct sk_buff
+ 		NAPI_GRO_CB(skb)->same_flow = 0;
+ 		NAPI_GRO_CB(skb)->flush = 0;
+ 		NAPI_GRO_CB(skb)->free = 0;
+-		NAPI_GRO_CB(skb)->udp_mark = 0;
++		NAPI_GRO_CB(skb)->encap_mark = 0;
+ 
+ 		/* Setup for GRO checksum validation */
+ 		switch (skb->ip_summed) {
+diff --git a/net/ipv4/af_inet.c b/net/ipv4/af_inet.c
+index b39d5ef..5589a7c 100644
+--- a/net/ipv4/af_inet.c
++++ b/net/ipv4/af_inet.c
+@@ -1420,6 +1420,19 @@ out:
+ 	return pp;
+ }
+ 
++static struct sk_buff **ipip_gro_receive(struct sk_buff **head,
++					 struct sk_buff *skb)
++{
++	if (NAPI_GRO_CB(skb)->encap_mark) {
++		NAPI_GRO_CB(skb)->flush = 1;
++		return NULL;
++	}
++
++	NAPI_GRO_CB(skb)->encap_mark = 1;
++
++	return inet_gro_receive(head, skb);
++}
++
+ int inet_recv_error(struct sock *sk, struct msghdr *msg, int len, int *addr_len)
+ {
+ 	if (sk->sk_family == AF_INET)
+@@ -1678,7 +1691,7 @@ static struct packet_offload ip_packet_offload __read_mostly = {
+ static const struct net_offload ipip_offload = {
+ 	.callbacks = {
+ 		.gso_segment	= inet_gso_segment,
+-		.gro_receive	= inet_gro_receive,
++		.gro_receive	= ipip_gro_receive,
+ 		.gro_complete	= inet_gro_complete,
+ 	},
+ };
+diff --git a/net/ipv4/gre_offload.c b/net/ipv4/gre_offload.c
+index abc50b4..cc7b082 100644
+--- a/net/ipv4/gre_offload.c
++++ b/net/ipv4/gre_offload.c
+@@ -128,6 +128,11 @@ static struct sk_buff **gre_gro_receive(struct sk_buff **head,
+ 	struct packet_offload *ptype;
+ 	__be16 type;
+ 
++	if (NAPI_GRO_CB(skb)->encap_mark)
++		goto out;
++
++	NAPI_GRO_CB(skb)->encap_mark = 1;
++
+ 	off = skb_gro_offset(skb);
+ 	hlen = off + sizeof(*greh);
+ 	greh = skb_gro_header_fast(skb, off);
+diff --git a/net/ipv4/udp_offload.c b/net/ipv4/udp_offload.c
+index 6480cea..e6d05ae 100644
+--- a/net/ipv4/udp_offload.c
++++ b/net/ipv4/udp_offload.c
+@@ -266,14 +266,14 @@ struct sk_buff **udp_gro_receive(struct sk_buff **head, struct sk_buff *skb,
+ 	unsigned int off = skb_gro_offset(skb);
+ 	int flush = 1;
+ 
+-	if (NAPI_GRO_CB(skb)->udp_mark ||
++	if (NAPI_GRO_CB(skb)->encap_mark ||
+ 	    (skb->ip_summed != CHECKSUM_PARTIAL &&
+ 	     NAPI_GRO_CB(skb)->csum_cnt == 0 &&
+ 	     !NAPI_GRO_CB(skb)->csum_valid))
+ 		goto out;
+ 
+-	/* mark that this skb passed once through the udp gro layer */
+-	NAPI_GRO_CB(skb)->udp_mark = 1;
++	/* mark that this skb passed once through the tunnel gro layer */
++	NAPI_GRO_CB(skb)->encap_mark = 1;
+ 
+ 	rcu_read_lock();
+ 	uo_priv = rcu_dereference(udp_offload_base);
+diff --git a/net/ipv6/ip6_offload.c b/net/ipv6/ip6_offload.c
+index dece5c7..dbc528e 100644
+--- a/net/ipv6/ip6_offload.c
++++ b/net/ipv6/ip6_offload.c
+@@ -255,6 +255,19 @@ out:
+ 	return pp;
+ }
+ 
++static struct sk_buff **sit_gro_receive(struct sk_buff **head,
++					struct sk_buff *skb)
++{
++	if (NAPI_GRO_CB(skb)->encap_mark) {
++		NAPI_GRO_CB(skb)->flush = 1;
++		return NULL;
++	}
++
++	NAPI_GRO_CB(skb)->encap_mark = 1;
++
++	return ipv6_gro_receive(head, skb);
++}
++
+ static int ipv6_gro_complete(struct sk_buff *skb, int nhoff)
+ {
+ 	const struct net_offload *ops;
+@@ -289,7 +302,7 @@ static struct packet_offload ipv6_packet_offload __read_mostly = {
+ static const struct net_offload sit_offload = {
+ 	.callbacks = {
+ 		.gso_segment	= ipv6_gso_segment,
+-		.gro_receive	= ipv6_gro_receive,
++		.gro_receive    = sit_gro_receive,
+ 		.gro_complete	= ipv6_gro_complete,
+ 	},
+ };
+-- 
+1.9.1
+
