@@ -1078,7 +1078,6 @@ CVE-2016-8394
 CVE-2016-8399
 	Pulled
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0eab121ef8750a5c8637d51534d5e9143fb0633f
-	Link - https://github.com/aosp-mirror/kernel_msm/commit/a1b9bc540f4af79bd23e01ec08429e0efa4d2f7b
 CVE-2016-8401
 	Pulled
 	Link - https://github.com/aosp-mirror/kernel_msm/commit/44a8e527e156245eff04ff36f426cb1ba8d23e34
