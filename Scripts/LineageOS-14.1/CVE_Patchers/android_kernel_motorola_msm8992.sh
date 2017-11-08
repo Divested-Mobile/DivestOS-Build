@@ -91,7 +91,6 @@ git apply $cvePatches/CVE-2017-6074/^4.9/0001.patch
 git apply $cvePatches/CVE-2017-6345/^4.9/0001.patch
 git apply $cvePatches/CVE-2017-6348/^4.9/0001.patch
 git apply $cvePatches/CVE-2017-6951/^3.14/0001.patch
-git apply $cvePatches/CVE-2017-7187/3.10/0004.patch
 git apply $cvePatches/CVE-2017-7308/ANY/0003.patch
 git apply $cvePatches/CVE-2017-7369/3.10/0001.patch
 git apply $cvePatches/CVE-2017-7373/3.10/0001.patch
@@ -111,4 +110,5 @@ git apply $cvePatches/CVE-2017-9720/3.10/0001.patch
 git apply $cvePatches/CVE-2017-9724/ANY/0001.patch
 git apply $cvePatches/CVE-2017-9725/3.10/0001.patch
 git apply $cvePatches/LVT-2017-0003/3.10/0001.patch
+git apply $cvePatches/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 cd $base

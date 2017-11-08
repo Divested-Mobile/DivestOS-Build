@@ -43,4 +43,5 @@ git apply $cvePatches/CVE-2017-6951/^3.14/0001.patch
 git apply $cvePatches/CVE-2017-7472/ANY/0001.patch
 git apply $cvePatches/CVE-2017-9242/^4.11/0001.patch
 git apply $cvePatches/LVT-2017-0003/3.10/0001.patch
+git apply $cvePatches/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 cd $base
