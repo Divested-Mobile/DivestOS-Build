@@ -2,6 +2,7 @@
 #	https://source.android.com/security/bulletin
 #	https://cve.lineageos.org
 #	https://www.codeaurora.org/security-advisories
+#	https://github.com/google/syzkaller/tree/master/docs/linux
 #	+ some extras
 CVE-2012-4220
 	Link - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm.git;a=commit;h=32682d16fb46a60a7952c4d9e0653602ff674e4b
@@ -1818,6 +1819,71 @@ CVE-2017-9724
 CVE-2017-9725
 	Link - 3.10 - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=5479a3c164c8762b5bf91c5fae452882366adb6a
 	Link - 4.4 - https://source.codeaurora.org/quic/la/kernel/msm-4.4/commit/?h=aosp/android-4.4&id=1f8f9b566e8446c13b954220c226c58d22076f88
+CVE-2017-16525
+	Link - https://github.com/torvalds/linux/commit/bd998c2e0df0469707503023d50d46cf0b10c787
+	Link - https://github.com/torvalds/linux/commit/299d7572e46f98534033a9e65973f13ad1ce9047
+CVE-2017-16526
+	Link - https://github.com/torvalds/linux/commit/bbf26183b7a6236ba602f4d6a2f7cade35bba043
+CVE-2017-16527
+	Link - https://github.com/torvalds/linux/commit/124751d5e63c823092060074bd0abaae61aaa9c4
+CVE-2017-16528
+	Link - https://github.com/torvalds/linux/commit/fc27fe7e8deef2f37cba3f2be2d52b6ca5eb9d57
+CVE-2017-16529
+	Link - https://github.com/torvalds/linux/commit/bfc81a8bc18e3c4ba0cbaa7666ff76be2f998991
+CVE-2017-16530
+	Link - https://github.com/torvalds/linux/commit/786de92b3cb26012d3d0f00ee37adf14527f35c4
+CVE-2017-16531
+	Link - https://github.com/torvalds/linux/commit/bd7a3fe770ebd8391d1c7d072ff88e9e76d063eb
+CVE-2017-16532
+	Link - https://github.com/torvalds/linux/commit/7c80f9e4a588f1925b07134bb2e3689335f6c6d8
+CVE-2017-16533
+	Link - https://github.com/torvalds/linux/commit/f043bfc98c193c284e2cd768fefabe18ac2fed9b
+CVE-2017-16534
+	Link - https://github.com/torvalds/linux/commit/2e1c42391ff2556387b3cb6308b24f6f65619feb
+CVE-2017-16535
+	Link - https://github.com/torvalds/linux/commit/1c0edc3633b56000e18d82fc241e3995ca18a69e
+CVE-2017-16536
+	Link - https://patchwork.kernel.org/patch/9963527/
+CVE-2017-16537
+	Link - https://patchwork.kernel.org/patch/9994017/
+CVE-2017-16538
+	Link - https://patchwork.linuxtv.org/patch/44566/
+	Link - https://patchwork.linuxtv.org/patch/44567/
+CVE-2017-16643
+	Link - https://github.com/torvalds/linux/commit/a50829479f58416a013a4ccca791336af3c584c7
+CVE-2017-16644
+	Link - https://patchwork.kernel.org/patch/9966135/
+CVE-2017-16645
+	Link - https://github.com/torvalds/linux/commit/ea04efee7635c9120d015dcdeeeb6988130cb67a
+CVE-2017-16646
+	Link - https://patchwork.linuxtv.org/patch/45291/
+CVE-2017-16647
+	Link - https://patchwork.ozlabs.org/patch/834686/
+CVE-2017-16648
+	Link - https://patchwork.kernel.org/patch/10046189/
+CVE-2017-16649
+	Link - https://patchwork.ozlabs.org/patch/834771/
+CVE-2017-16650
+	Link - https://patchwork.ozlabs.org/patch/834770/
+CVE-2017-16USB
+	Link - https://github.com/torvalds/linux/commit/7682e399485fe19622b6fd82510b1f4551e48a25
+	Link - https://patchwork.kernel.org/patch/9972281/
+	Link - https://github.com/torvalds/linux/commit/70e743e4cec3733dc13559f6184b35d358b9ef3f
+	Link - https://github.com/torvalds/linux/commit/122d6a347329818419b032c5a1776e6b3866d9b9
+	Link - https://github.com/torvalds/linux/commit/0a8fd1346254974c3a852338508e4a4cddbb35f1
+CVE-2016-GadgetFS
+	Link - https://github.com/torvalds/linux/commit/0173a68bfb0ad1c72a6ee39cc485aa2c97540b98
+	Link - https://github.com/torvalds/linux/commit/520b72fc64debf8a86c3853b8e486aa5982188f0
+	Link - https://github.com/torvalds/linux/commit/6e76c01e71551cb221c1f3deacb9dcd9a7346784
+	Link - https://github.com/torvalds/linux/commit/f16443a034c7aa359ddf6f0f9bc40d01ca31faea
+	Link - https://github.com/torvalds/linux/commit/f50b878fed33e360d01dcdc31a8eeb1815d033d5
+	Link - https://github.com/torvalds/linux/commit/bb1107f7c6052c863692a41f78c000db792334bf
+	Link - https://github.com/torvalds/linux/commit/faab50984fe6636e616c7cc3d30308ba391d36fd
+	Link - https://github.com/torvalds/linux/commit/bcdbeb844773333d2d1c08004f3b3e25921040e5
+	Link - https://github.com/torvalds/linux/commit/1c069b057dcf64fada952eaa868d35f02bb0cfc2
+	Link - https://github.com/torvalds/linux/commit/add333a81a16abbd4f106266a2553677a165725f
+	Link - https://github.com/torvalds/linux/commit/7b01738112608ce47083178ae2b9ebadf02d32cc
+	Link - https://github.com/torvalds/linux/commit/0994b0a257557e18ee8f0b7c5f0f73fe2b54eec1
 LVT-2017-0001
 	Link - 3.0 - https://review.lineageos.org/#/c/171511
 	Link - 3.4 - https://review.lineageos.org/#/c/170648
