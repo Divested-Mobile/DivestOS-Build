@@ -1,0 +1,55 @@
+From 4b788ca419ec37e4cdb421fef9edc208a491ce30 Mon Sep 17 00:00:00 2001
+From: Mohit Aggarwal <maggarwa@codeaurora.org>
+Date: Thu, 25 May 2017 20:21:12 +0530
+Subject: [PATCH] diag: Synchronize command registration table access
+
+Currently, command registration table is being read
+in debugfs without any protection which may lead to
+access of stale entries. The patch takes care of the
+issue by adding proper protection.
+
+CRs-Fixed: 2032672
+Bug: 63868628
+Change-Id: I6ae058c16873f9ed52ae6516a1a70fd6d2d0da80
+Signed-off-by: Mohit Aggarwal <maggarwa@codeaurora.org>
+---
+ drivers/char/diag/diag_debugfs.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/char/diag/diag_debugfs.c b/drivers/char/diag/diag_debugfs.c
+index f5e4eba1e96bc..b66c8cb8257c2 100644
+--- a/drivers/char/diag/diag_debugfs.c
++++ b/drivers/char/diag/diag_debugfs.c
+@@ -1,4 +1,4 @@
+-/* Copyright (c) 2011-2016, The Linux Foundation. All rights reserved.
++/* Copyright (c) 2011-2017, The Linux Foundation. All rights reserved.
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2 and
+@@ -268,8 +268,10 @@ static ssize_t diag_dbgfs_read_table(struct file *file, char __user *ubuf,
+ 	struct list_head *temp;
+ 	struct diag_cmd_reg_t *item = NULL;
+ 
++	mutex_lock(&driver->cmd_reg_mutex);
+ 	if (diag_dbgfs_table_index == driver->cmd_reg_count) {
+ 		diag_dbgfs_table_index = 0;
++		mutex_unlock(&driver->cmd_reg_mutex);
+ 		return 0;
+ 	}
+ 
+@@ -278,6 +280,7 @@ static ssize_t diag_dbgfs_read_table(struct file *file, char __user *ubuf,
+ 	buf = kzalloc(sizeof(char) * buf_size, GFP_KERNEL);
+ 	if (ZERO_OR_NULL_PTR(buf)) {
+ 		pr_err("diag: %s, Error allocating memory\n", __func__);
++		mutex_unlock(&driver->cmd_reg_mutex);
+ 		return -ENOMEM;
+ 	}
+ 	buf_size = ksize(buf);
+@@ -322,6 +325,7 @@ static ssize_t diag_dbgfs_read_table(struct file *file, char __user *ubuf,
+ 			break;
+ 	}
+ 	diag_dbgfs_table_index = i;
++	mutex_unlock(&driver->cmd_reg_mutex);
+ 
+ 	*ppos = 0;
+ 	ret = simple_read_from_buffer(ubuf, count, ppos, buf, bytes_in_buffer);

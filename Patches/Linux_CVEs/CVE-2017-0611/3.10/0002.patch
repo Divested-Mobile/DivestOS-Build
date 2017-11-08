@@ -1,0 +1,54 @@
+From da638cc248f0d692a89e26f788c43d6f641c81ef Mon Sep 17 00:00:00 2001
+From: Xiaojun Sang <xsang@codeaurora.org>
+Date: Fri, 04 Nov 2016 14:35:58 +0800
+Subject: [PATCH] ASoC: soc: prevent risk of buffer overflow
+
+In case of large value for bufcnt_t or bufcnt,
+cmd_size may overflow. Buffer size allocated by cmd_size might
+be not as expected.
+Possible buffer overflow could happen.
+
+CRs-Fixed: 1084210
+Change-Id: I9556f18dd6a9fdf3f76c133ae75c04ecce171f08
+Signed-off-by: Xiaojun Sang <xsang@codeaurora.org>
+---
+
+diff --git a/sound/soc/msm/qdsp6v2/q6asm.c b/sound/soc/msm/qdsp6v2/q6asm.c
+index 31bd1d7..11a94e4 100644
+--- a/sound/soc/msm/qdsp6v2/q6asm.c
++++ b/sound/soc/msm/qdsp6v2/q6asm.c
+@@ -4054,7 +4054,7 @@
+ 	struct asm_buffer_node *buffer_node = NULL;
+ 	int	rc = 0;
+ 	int    i = 0;
+-	int	cmd_size = 0;
++	uint32_t cmd_size = 0;
+ 	uint32_t bufcnt_t;
+ 	uint32_t bufsz_t;
+ 
+@@ -4076,10 +4076,25 @@
+ 		bufsz_t = PAGE_ALIGN(bufsz_t);
+ 	}
+ 
++	if (bufcnt_t > (UINT_MAX
++			- sizeof(struct avs_cmd_shared_mem_map_regions))
++			/ sizeof(struct avs_shared_map_region_payload)) {
++		pr_err("%s: Unsigned Integer Overflow. bufcnt_t = %u\n",
++				__func__, bufcnt_t);
++		return -EINVAL;
++	}
++
+ 	cmd_size = sizeof(struct avs_cmd_shared_mem_map_regions)
+ 			+ (sizeof(struct avs_shared_map_region_payload)
+ 							* bufcnt_t);
+ 
++
++	if (bufcnt > (UINT_MAX / sizeof(struct asm_buffer_node))) {
++		pr_err("%s: Unsigned Integer Overflow. bufcnt = %u\n",
++				__func__, bufcnt);
++		return -EINVAL;
++	}
++
+ 	buffer_node = kzalloc(sizeof(struct asm_buffer_node) * bufcnt,
+ 				GFP_KERNEL);
+ 	if (!buffer_node) {

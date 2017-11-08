@@ -1,0 +1,79 @@
+From 5479a3c164c8762b5bf91c5fae452882366adb6a Mon Sep 17 00:00:00 2001
+From: Maggie White <maggiewhite@google.com>
+Date: Wed, 5 Jul 2017 16:47:15 -0700
+Subject: mm: Fix incorrect type conversion for size during dma allocation
+
+This was found during userspace fuzzing test when a large size
+allocation is made from ion
+
+[<ffffffc00008a098>] show_stack+0x10/0x1c
+[<ffffffc00119c390>] dump_stack+0x74/0xc8
+[<ffffffc00020d9a0>] kasan_report_error+0x2b0/0x408
+[<ffffffc00020dbd4>] kasan_report+0x34/0x40
+[<ffffffc00020cfec>] __asan_storeN+0x15c/0x168
+[<ffffffc00020d228>] memset+0x20/0x44
+[<ffffffc00009b730>] __dma_alloc_coherent+0x114/0x18c
+[<ffffffc00009c6e8>] __dma_alloc_noncoherent+0xbc/0x19c
+[<ffffffc000c2b3e0>] ion_cma_allocate+0x178/0x2f0
+[<ffffffc000c2b750>] ion_secure_cma_allocate+0xdc/0x190
+[<ffffffc000c250dc>] ion_alloc+0x264/0xb88
+[<ffffffc000c25e94>] ion_ioctl+0x1f4/0x480
+[<ffffffc00022f650>] do_vfs_ioctl+0x67c/0x764
+[<ffffffc00022f790>] SyS_ioctl+0x58/0x8c
+
+Bug: 38195738
+Signed-off-by: Rohit Vaswani <rvaswani@codeaurora.org>
+Signed-off-by: Maggie White <maggiewhite@google.com>
+Change-Id: I6b1a0a3eaec10500cd4e73290efad4023bc83da5
+---
+ drivers/base/dma-contiguous.c  | 4 ++--
+ include/linux/dma-contiguous.h | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/base/dma-contiguous.c b/drivers/base/dma-contiguous.c
+index f6e779e..9313bfc1 100644
+--- a/drivers/base/dma-contiguous.c
++++ b/drivers/base/dma-contiguous.c
+@@ -589,7 +589,7 @@ static void clear_cma_bitmap(struct cma *cma, unsigned long pfn, int count)
+  * global one. Requires architecture specific get_dev_cma_area() helper
+  * function.
+  */
+-unsigned long dma_alloc_from_contiguous(struct device *dev, int count,
++unsigned long dma_alloc_from_contiguous(struct device *dev, size_t count,
+ 				       unsigned int align)
+ {
+ 	unsigned long mask, pfn = 0, pageno, start = 0;
+@@ -604,7 +604,7 @@ unsigned long dma_alloc_from_contiguous(struct device *dev, int count,
+ 	if (align > CONFIG_CMA_ALIGNMENT)
+ 		align = CONFIG_CMA_ALIGNMENT;
+ 
+-	pr_debug("%s(cma %p, count %d, align %d)\n", __func__, (void *)cma,
++	pr_debug("%s(cma %p, count %zu, align %d)\n", __func__, (void *)cma,
+ 		 count, align);
+ 
+ 	if (!count)
+diff --git a/include/linux/dma-contiguous.h b/include/linux/dma-contiguous.h
+index 9e6fee9..d8d124e 100644
+--- a/include/linux/dma-contiguous.h
++++ b/include/linux/dma-contiguous.h
+@@ -117,7 +117,7 @@ static inline int dma_declare_contiguous_reserved(struct device *dev,
+ 	return ret;
+ }
+ 
+-unsigned long dma_alloc_from_contiguous(struct device *dev, int count,
++unsigned long dma_alloc_from_contiguous(struct device *dev, size_t count,
+ 				       unsigned int order);
+ bool dma_release_from_contiguous(struct device *dev, unsigned long pfn,
+ 				 int count);
+@@ -136,7 +136,7 @@ int dma_declare_contiguous(struct device *dev, phys_addr_t size,
+ }
+ 
+ static inline
+-unsigned long dma_alloc_from_contiguous(struct device *dev, int count,
++unsigned long dma_alloc_from_contiguous(struct device *dev, size_t count,
+ 				       unsigned int order)
+ {
+ 	return 0;
+-- 
+cgit v1.1
+

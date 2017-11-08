@@ -1,0 +1,25 @@
+From b7b89be8d4ab0c5e6eb0cdfb1108af08a1cd088f Mon Sep 17 00:00:00 2001
+From: Eric Dumazet <edumazet@google.com>
+Date: Fri, 02 Oct 2015 11:43:29 -0700
+Subject: [PATCH] tcp: remove BUG_ON() in tcp_check_req()
+
+Once listener is lockless, its sk_state can change anytime.
+
+Change-Id: I3a8c4aa4974294b865d79ea997df4c8cee5ffbc2
+Signed-off-by: Eric Dumazet <edumazet@google.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+---
+
+diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
+index 0f01788..28f72aa 100644
+--- a/net/ipv4/tcp_minisocks.c
++++ b/net/ipv4/tcp_minisocks.c
+@@ -511,8 +511,6 @@
+ 	__be32 flg = tcp_flag_word(th) & (TCP_FLAG_RST|TCP_FLAG_SYN|TCP_FLAG_ACK);
+ 	bool paws_reject = false;
+ 
+-	BUG_ON(fastopen == (sk->sk_state == TCP_LISTEN));
+-
+ 	tmp_opt.saw_tstamp = 0;
+ 	if (th->doff > (sizeof(struct tcphdr)>>2)) {
+ 		tcp_parse_options(skb, &tmp_opt, 0, NULL);
