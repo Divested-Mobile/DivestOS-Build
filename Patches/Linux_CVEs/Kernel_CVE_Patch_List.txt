@@ -1107,6 +1107,8 @@ CVE-2016-9191
 CVE-2016-9555
 	Link - https://github.com/torvalds/linux/commit/bf911e985d6bbaa328c20c3e05f4eb03de11fdd6
 CVE-2016-9576
+	Link - 3.4 - https://review.lineageos.org/#/c/176402/
+	Link - 3.10 - https://review.lineageos.org/#/c/175603/
 	Link - https://github.com/torvalds/linux/commit/a0ac402cfcdc904f9772e1762b3fda112dcc56a0
 CVE-2016-9604
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=44c037827f0aeddbbbb323930fa3d09a7b4fffca
@@ -1581,6 +1583,12 @@ CVE-2017-7184
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=677e806da4d916052585301785d847c3b3e6186a
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f843ee6dd019bcece3e74e76ad9df0155655d0df
 CVE-2017-7187
+	Link - 3.4 - https://review.lineageos.org/#/c/182338/
+	Link - 3.4 - https://review.lineageos.org/#/c/182339/
+	Link - 3.4 - https://review.lineageos.org/#/c/182340/
+	Link - 3.10 - https://review.lineageos.org/#/c/175571/
+	Link - 3.10 - https://review.lineageos.org/#/c/175572/
+	Link - 3.10 - https://review.lineageos.org/#/c/175573/
 	Link - ^4.10 - https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git/commit/?h=4.11/scsi-fixes&id=bf33f87dd04c371ea33feb821b60d63d754e3124
 CVE-2017-7277
 	Depends
@@ -1666,6 +1674,8 @@ CVE-2017-8245
 	Link - 3.18 - https://source.codeaurora.org/quic/la//kernel/msm-3.18/commit/?id=f53af3805879292423465cd0877cc7a75131ce10
 	Link - 4.4 - https://source.codeaurora.org/quic/la//kernel/msm-4.4/commit/?id=5b2f6e011ba92f28e8d7dbeb11c4ee7344c33186
 CVE-2017-8246
+	Link - 3.4 - https://review.lineageos.org/#/c/185429/
+	Link - 3.4 - https://review.lineageos.org/#/c/185430/
 	Link - 3.10 - https://source.codeaurora.org/quic/la//kernel/msm-3.10/commit/?id=578eb74435eccdc3df516fd744941a7d872fac6c
 	Link - 3.18 - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=30baaec8afb05abf9f794c631ad944838d498ab8
 	Link - 4.4 - https://source.codeaurora.org/quic/la//kernel/msm-4.4/commit/?id=9734b72ae21eca557540c3c42d356dd131a20004
@@ -1679,6 +1689,8 @@ CVE-2017-8251
 CVE-2017-8253
 	Link - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm-4.4.git;a=commit;h=a5f07894058c4198f61e533d727b343c5be879b0
 CVE-2017-8254
+	Link - 3.4 - https://review.lineageos.org/#/c/188837/
+	Link - 3.4 - https://review.lineageos.org/#/c/188838/
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=70afce1d9be745005c48fd565c01ce452a565e7e
 CVE-2017-8256
 	Link - qcacld-2.0 - https://source.codeaurora.org/quic/la//platform/vendor/qcom-opensource/wlan/qcacld-2.0/commit/?id=75e1e00d6b3cd4cb89fd5314a60c333aa0b03230
