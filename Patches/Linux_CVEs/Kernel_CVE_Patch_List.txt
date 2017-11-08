@@ -1293,7 +1293,6 @@ CVE-2017-0608
 CVE-2017-0609
 	Link - https://source.codeaurora.org/quic/la//kernel/msm-4.4/commit/?id=38a83df036084c00e8c5a4599c8ee7880b4ee567
 CVE-2017-0610
-	Depends
 	Link - https://source.codeaurora.org/quic/la//kernel/msm-4.4/commit/?id=65009746a6e649779f73d665934561ea983892fe
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-4.4/commit/?id=2bf336ed7ff29768b63fcf0d9528dd129f516643
 CVE-2017-0611
@@ -1399,7 +1398,6 @@ CVE-2017-1000365
 	Link - 3.10 - https://review.lineageos.org/#/c/179178/1
 	Link - 3.18 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?h=v3.18.59&id=2dff2164d171e9c27f2f7fa778d408ecf4d1e1ea
 CVE-2017-1000380
-	Depends
 	Link - ^4.11 - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ba3021b2c79b2fa9114f92790a99deb27a65b728
 	Link - ^4.11 - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d11662f4f798b50d8c8743f433842c3e40fe3378
 CVE-2017-10661
@@ -1583,7 +1581,7 @@ CVE-2017-7184
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=677e806da4d916052585301785d847c3b3e6186a
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f843ee6dd019bcece3e74e76ad9df0155655d0df
 CVE-2017-7187
-	Link - 3.7-^4.10 - https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git/commit/?h=4.11/scsi-fixes&id=bf33f87dd04c371ea33feb821b60d63d754e3124
+	Link - ^4.10 - https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git/commit/?h=4.11/scsi-fixes&id=bf33f87dd04c371ea33feb821b60d63d754e3124
 CVE-2017-7277
 	Depends
 	Link - ^4.10 - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4ef1b2869447411ad3ef91ad7d4891a83c1a509a
@@ -1767,7 +1765,6 @@ CVE-2017-9682
 	Link - 3.18 - https://github.com/android/kernel_msm/commit/cd821a40b76919b0815a9a7c09d0f6cf1f15a7ee
 	Link - 4.4 - https://source.codeaurora.org/quic/la/kernel/msm-4.4/commit/?id=1c4ddc4c7a4fcdf9371048ce01a6b0e5d2a2bae9
 CVE-2017-9684
-	Depends
 	Link - https://github.com/android/kernel_msm/commit/d3d636627c8bb57a64bfadcc5d282c35d152f563
 	Link - https://github.com/android/kernel_msm/commit/83cf9f50cda5ab3f99055242bebbcb26d96319ad
 	Link - https://github.com/android/kernel_msm/commit/b2fa897c8e86362946ec524ed47300164a33453d

@@ -53,19 +53,21 @@ git apply $cvePatches/CVE-2017-0749/ANY/0001.patch
 git apply $cvePatches/CVE-2017-0750/ANY/0001.patch
 git apply $cvePatches/CVE-2017-1000380/^4.11/0001.patch
 git apply $cvePatches/CVE-2017-10996/ANY/0001.patch
-git apply $cvePatches/CVE-2017-11600/ANY/0001.patch
 git apply $cvePatches/CVE-2017-2671/^4.10/0001.patch
 git apply $cvePatches/CVE-2017-5669/^4.9/0001.patch
-git apply $cvePatches/CVE-2017-5970/ANY/0001.patch
+git apply $cvePatches/CVE-2017-5970/^4.9/0001.patch
+git apply $cvePatches/CVE-2017-5972/ANY/0002.patch
 git apply $cvePatches/CVE-2017-5986/^4.9/0001.patch
-git apply $cvePatches/CVE-2017-6001/ANY/0001.patch
+git apply $cvePatches/CVE-2017-6001/^4.9/0002.patch
 git apply $cvePatches/CVE-2017-6345/^4.9/0001.patch
+git apply $cvePatches/CVE-2017-6346/3.18/0001.patch
 git apply $cvePatches/CVE-2017-6348/^4.9/0001.patch
 git apply $cvePatches/CVE-2017-6353/^4.10/0001.patch
-git apply $cvePatches/CVE-2017-7187/ANY/0001.patch
+git apply $cvePatches/CVE-2017-7187/^4.10/0001.patch
 git apply $cvePatches/CVE-2017-7308/ANY/0003.patch
 git apply $cvePatches/CVE-2017-7472/ANY/0001.patch
 git apply $cvePatches/CVE-2017-7487/ANY/0001.patch
-git apply $cvePatches/CVE-2017-7616/ANY/0001.patch
+git apply  $cvePatches/CVE-2017-7495/3.18/0001.patch $cvePatches/CVE-2017-7495/3.18/0002.patch
+git apply $cvePatches/CVE-2017-7616/^4.10/0001.patch
 git apply $cvePatches/CVE-2017-7618/^4.10/0002.patch
 cd $base
