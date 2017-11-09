@@ -32,9 +32,12 @@ sed -i 's/CMSettings.System.ENABLE_REVERSE_LOOKUP, 1)/CMSettings.System.ENABLE_R
 
 cd $base"packages/apps/FDroid"
 sed -i 's|DEFAULT_ROOTED = true;|DEFAULT_ROOTED = false;|' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide root apps
+sed -i '/string\/rooted/!b;n;s/defaultValue="true"/defaultValue="false"/' app/src/main/res/xml/preferences.xml;
 sed -i 's|DEFAULT_HIDE_ANTI_FEATURE_APPS = false;|DEFAULT_HIDE_ANTI_FEATURE_APPS = true;|' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide anti-feature apps
+sed -i '/string\/hide_anti_feature_apps/!b;n;s/defaultValue="false"/defaultValue="true"/' app/src/main/res/xml/preferences.xml;
 
 cd $base"packages/apps/Jelly"
+#TODO: Update app/src/main/res/xml/settings.xml
 #Because someone is going to eventually ask... the reason we're disabling ads on DuckDuckgGo is because their ads are shit and are almost always just links to what you search for on some shit tier ad infested metasearch engine. Like if DuckDuckGo partnered with Amazon or something and showed sponsored Amazon links that would be a million times better, because they are actually ads.
 #sed -i 's|duckduckgo.com/?q=|duckduckgo.com/?k1=-1&kaq=-1&kap=-1&kao=-1&kak=-1&kax=-1&q=|' app/src/main/res/values/search_engines.xml; #Disable ads and popups
 #sed -i 's|default_search_engine">https://google.com/search?ie=UTF-8&amp;source=android-browser&amp;q={searchTerms}|default_search_engine">https://duckduckgo.com/?k1=-1&kaq=-1&kap=-1&kao=-1&kak=-1&kax=-1&q={searchTerms}|' app/src/main/res/values/strings.xml; #Change default search engine TODO: Fix me
