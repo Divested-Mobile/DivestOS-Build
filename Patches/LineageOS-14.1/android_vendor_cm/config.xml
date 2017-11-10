@@ -41,10 +41,13 @@
         <item>com.android.settings.*,3</item>
         <item>com.catchingnow.tinyclipboardmanager.*,0</item>
         <item>com.commit451.gitlab.*,1</item>
+        <item>com.cuberite.android.*,4</item>
         <item>com.cyanogenmod.eleven.*,3</item>
         <item>com.darshancomputing.BatteryIndicatorPro.*,3</item>
         <item>com.dosse.chromiumautoupdater.*,4</item>
         <item>com.dozingcatsoftware.bouncy.*,3</item>
+        <item>com.forrestguice.sumtimeswidget.*,0</item>
+        <item>com.fr3ts0n.ecu.gui.androbd.*,3</item>
         <item>com.fsck.k9.*,1</item>
         <item>com.github.pires.obd.reader.*,3</item>
         <item>com.github.yeriomin.yalpstore.*,1</item>
@@ -79,6 +82,7 @@
         <item>de.blinkt.openvpn.*,3</item>
         <item>de.schildbach.wallet.*,1</item>
         <item>de.srlabs.snoopsnitch.*,3</item>
+        <item>de.tap.easy_xkcd.*,0</item>
         <item>de.tobiasbielefeld.solitaire.*,0</item>
         <item>de.westnordost.streetcomplete.*,1</item>
         <item>dev.ukanth.ufirewall.*,3</item>
@@ -150,6 +154,7 @@
         <item>org.sufficientlysecure.keychain.*,1</item>
         <item>org.sufficientlysecure.localcalendar.*,0</item>
         <item>org.sufficientlysecure.viewer.*,3</item>
+        <item>org.supertuxkart.stk.*,4</item>
         <item>org.tasks.*,3</item>
         <item>org.telegram.messenger.*,1</item>
         <item>org.thoughtcrime.securesms.*,1</item>
@@ -162,6 +167,9 @@
         <item>org.xbmc.kore.*,3</item>
         <item>protect.card_locker.*,0</item>
         <item>tk.jordynsmediagroup.simpleirc.fdroid.*,0</item>
+        <item>to.noc.android.swipeyours.*,1</item>
+        <item>us.spotco.extirpater.*,1</item>
+        <item>us.spotco.maps.*,1</item>
         <!-- Proprietary Apps -->
         <item>com.a1dev.sdbench.*,2</item>
         <item>com.amazon.kindle.*,3</item>

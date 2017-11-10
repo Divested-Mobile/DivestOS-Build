@@ -173,7 +173,7 @@ enter "packages/apps/Jelly"
 git apply --3way $patches"android_packages_apps_Jelly/182322-3.patch" #Add option to remove identifying headers
 
 enter "packages/apps/Settings"
-sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 64;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
+sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 32;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
 sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; #MicroG doesn't support Backup, hide the options
 
 enter "packages/apps/SetupWizard"
@@ -205,11 +205,10 @@ cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid
 
 enter "system/vold"
-#THESE OPTIONS MUST NOT BE CHANGED AFTER RELEASE!
-#Android's cryptfs fully supports 256-bit
-#sed -i 's|define HASH_COUNT 2000|define HASH_COUNT 5000|' cryptfs.c; #Increase pbkdf iterations
+#THESE OPTIONS MUST *NOT* BE CHANGED AFTER RELEASE!
+#sed -i 's|define HASH_COUNT 2000|define HASH_COUNT 6000|' cryptfs.c; #Increase pbkdf iterations
 #sed -i 's|define KEY_LEN_BYTES 16|define KEY_LEN_BYTES 32|' cryptfs.c; #128-bit -> 256-bit
-#sed -i 's|define IV_LEN_BYTES 16|define IV_LEN_BYTES 32|' cryptfs.c; #AES-CBC IV must be the same as ^
+#sed -i 's|define IV_LEN_BYTES 16|define IV_LEN_BYTES 32|' cryptfs.c;
 #sed -i 's|define RSA_KEY_SIZE 2048|define RSA_KEY_SIZE 4096|' cryptfs.c; #Increase signning key size to 4096
 sed -i 's|define RETRY_MOUNT_DELAY_SECONDS 1|define RETRY_MOUNT_DELAY_SECONDS 3|' cryptfs.c;
 
