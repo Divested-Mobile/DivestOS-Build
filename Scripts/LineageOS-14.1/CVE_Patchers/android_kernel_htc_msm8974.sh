@@ -1,6 +1,8 @@
 #!/bin/bash
 cd $base"kernel/htc/msm8974"
 git apply $cvePatches/CVE-2014-1739/ANY/0001.patch
+git apply $cvePatches/CVE-2014-3153/ANY/0002.patch
+git apply $cvePatches/CVE-2014-3153/ANY/0004.patch
 git apply $cvePatches/CVE-2014-9715/^3.14/0002.patch
 git apply $cvePatches/CVE-2014-9781/ANY/0001.patch
 git apply $cvePatches/CVE-2015-1593/ANY/0001.patch

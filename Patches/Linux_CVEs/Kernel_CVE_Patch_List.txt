@@ -1,5 +1,6 @@
 #This is a combined list from the following sources
 #	https://source.android.com/security/bulletin
+#	https://source.android.com/security/advisory
 #	https://cve.lineageos.org
 #	https://www.codeaurora.org/security-advisories
 #	https://www.codeaurora.org/security-advisories/security-bulletins
@@ -77,6 +78,11 @@ CVE-2014-0196
 	Link - 3.4 - https://source.codeaurora.org/quic/la/kernel/msm/commit/?h=LA.BF.1.1.3_rb1.12&id=9aabfc9e7775abbbcf534cdecccc4f12ee423b27
 CVE-2014-0206
 	Link - https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/commit/?id=d36db46c2cba973557eb6138d22210c4e0cf17d6
+CVE-2014-3153
+	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e9c243a5a6de0be8e584c604d353412584b592f8
+	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=13fbca4c6ecd96ec1a1cfa2e4f2ce191fe928a5e
+	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=54a217887a7b658e2650c3feff22756ab80c7339
+	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b3eaa9fc5cd0a4d74b18f6b8dc617aeaf1873270
 CVE-2014-0972
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=7613c9d520ee4d227e635f6db0270d4cf26102bc
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=d7d07936a166e7421a6308eec443b707a9678580
@@ -329,6 +335,8 @@ CVE-2015-1805
 	Link - 3.10 - https://android.googlesource.com/kernel/common/+/4a5a45669796c5b4617109182e25b321f9f00beb
 	Link - 3.14 - https://android.googlesource.com/kernel/common/+/bf010e99c9bc48002f6bfa1ad801a59bf996270f
 	Link - 3.16 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=a39bf4a8e29c7336c0c72652b7d0dd1cd1b13c51
+	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=637b58c2887e5e57850865839cc75f59184b23d1
+	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f0d1bec9d58d4c038d0ac958c9af82be6eb18045
 CVE-2015-2041
 	Link - 3.2 - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=88fe14be08a475ad0eea4ca7c51f32437baf41af
 	Link - ^3.19 - https://github.com/torvalds/linux/commit/6b8d9117ccb4f81b1244aafa7bc70ef8fa45fc49
@@ -551,8 +559,6 @@ CVE-2016-1583
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=29d6455178a09e1dc340380c582b13356227e8df
 CVE-2016-2053
 	Link - http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=0d62e9dd6da45bbf0f33a8617afc5fe774c8f45f
-CVE-2016-2059
-	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=9e8bdd63f7011dff5523ea435433834b3702398d
 CVE-2016-2059
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=9e8bdd63f7011dff5523ea435433834b3702398d
 CVE-2016-2060
@@ -802,8 +808,6 @@ CVE-2016-4998
 CVE-2016-5195
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=9691eac5593ff1e2f82391ad327f21d90322aec1
 	Link - https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=e45a502bdeae5a075257c4f061d1ff4ff0821354
-CVE-2016-5340
-	Link - https://source.codeaurora.org/quic/la//kernel/msm-3.10/commit/?id=06e51489061e5473b4e2035c79dcf7c27a6f75a6
 CVE-2016-5340
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-3.10/commit/?id=06e51489061e5473b4e2035c79dcf7c27a6f75a6
 CVE-2016-5342
