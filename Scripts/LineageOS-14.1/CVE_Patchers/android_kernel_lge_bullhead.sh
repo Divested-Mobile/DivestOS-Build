@@ -1,5 +1,6 @@
 #!/bin/bash
 cd $base"kernel/lge/bullhead"
+git apply $cvePatches/00LinuxIncrementals/3.10/3.10.0073-0074.patch
 git apply $cvePatches/CVE-2014-8160/^3.18/0002.patch
 git apply $cvePatches/CVE-2014-8173/3.9-^3.12/0001.patch
 git apply $cvePatches/CVE-2014-9781/ANY/0001.patch
