@@ -1447,6 +1447,8 @@ CVE-2017-11013
 CVE-2017-11014
 	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=ec58bc99e29d89f8e164954999ef8a45cec21754
 CVE-2017-11015
+	Link - prima - https://github.com/LineageOS/lge-kernel-mako/commit/ac39bfffe109a6cffcaf3b537505130712161dce
+	Link - prima - https://github.com/LineageOS/lge-kernel-mako/commit/d0cd3ede7c17ee7fcf0f9b6d125d027bc28640be
 	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=ec58bc99e29d89f8e164954999ef8a45cec21754
 	Link - qcacld-3.0 - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0/commit/?id=1ef6add65a36de6c4da788f776de2b5b5c528d8e
 CVE-2017-11018
