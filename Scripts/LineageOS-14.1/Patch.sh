@@ -92,14 +92,18 @@ enhanceLocation() {
 export -f enhanceLocation;
 
 enableZram() {
-	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* rootdir/fstab.* rootdir/etc/fstab.* || true;
-	echo "Enabled zram";
+	cd $base$1;
+	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
+	echo "Enabled zram for $1";
+	cd $base;
 }
 
 enabledForcedEncryption() {
 	cd $base$1;
-	sed -i 's|encryptable=/|forceencrypt=/|' fstab.* rootdir/fstab.* rootdir/etc/fstab.* || true;
-	echo "Enabled forceencrypt for $1";
+	if [[ $1 != *"mako"* ]]; then
+		sed -i 's|encryptable=/|forceencrypt=/|' fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
+		echo "Enabled forceencrypt for $1";
+	fi;
 	cd $base;
 }
 export -f enabledForcedEncryption;
@@ -111,7 +115,7 @@ export -f enabledForcedEncryption;
 #START OF ROM CHANGES
 #
 enter "build"
-patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing
+patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing. Disclaimer: From CopperheadOS 13.0
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 
 enter "device/qcom/sepolicy"
@@ -198,14 +202,14 @@ enter "packages/inputmethods/LatinIME"
 patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch" #Remove voice input key
 
 enter "packages/services/Telephony"
-patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch" #LTE only preferred network mode choice Disclaimer: From Copperhead before their LICENSE was added
+patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch" #LTE only preferred network mode choice. Disclaimer: From CopperheadOS before their LICENSE was added
 
 enter "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
-patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid
+patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid. Disclaimer: From CopperheadOS 13.0
 
 enter "system/vold"
-#THESE OPTIONS MUST *NOT* BE CHANGED AFTER RELEASE!
+#XXX: THESE VALUES MUST *NOT* EVER BE CHANGED AFTER RELEASE!
 #sed -i 's|define HASH_COUNT 2000|define HASH_COUNT 6000|' cryptfs.c; #Increase pbkdf iterations
 #sed -i 's|define KEY_LEN_BYTES 16|define KEY_LEN_BYTES 32|' cryptfs.c; #128-bit -> 256-bit
 #sed -i 's|define IV_LEN_BYTES 16|define IV_LEN_BYTES 32|' cryptfs.c;
@@ -258,7 +262,7 @@ patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch" #1.36
 #Make changes to all devices
 cd $base
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enhanceLocation "$0"' {} \;
-#find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enabledForcedEncryption "$0"' {} \;
+find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enabledForcedEncryption "$0"' {} \;
 cd $base
 #
 #END OF DEVICE CHANGES
