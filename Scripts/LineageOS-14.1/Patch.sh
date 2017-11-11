@@ -96,7 +96,7 @@ export -f enhanceLocation;
 
 enableZram() {
 	cd $base$1;
-	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
+	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
 	echo "Enabled zram for $1";
 	cd $base;
 }
@@ -104,7 +104,7 @@ enableZram() {
 enabledForcedEncryption() {
 	cd $base$1;
 	if [[ $1 != *"mako"* ]]; then
-		sed -i 's|encryptable=/|forceencrypt=/|' fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
+		sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
 		echo "Enabled forceencrypt for $1";
 	fi;
 	cd $base;
