@@ -1,8 +1,13 @@
 ui_print("DivestOS Firmware Deblobber");
+
+set_metadata("/tmp/firmware_deblobber.sh", "uid", 0, "gid", 0, "mode", 0755);
+
 unmount("/firmware");
 mount("ext4", "EMMC", "/dev/block/bootdevice/by-name/modem", "/firmware", "");
-package_extract_dir("scripts", "/tmp/scripts");
-run_program("/sbin/sh", "/tmp/scripts/firmware_deblobber.sh");
+
+run_program("/sbin/sh", "/tmp/firmware_deblobber.sh");
+
 unmount("/firmware");
+
 ui_print("Deblobbed!");
 set_progress(1.000000);
