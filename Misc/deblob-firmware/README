@@ -1,0 +1,6 @@
+This is a simple flashable zip used to remove firmware from the /firmware and /vendor partitions.
+This is necessary in order to remove untrusted proprietary code and to increase security.
+See https://bits-please.blogspot.com/2016/05/qsee-privilege-escalation-vulnerability.html for an exploit (CVE-2015-6639) that uses the Widevine firmware.
+
+To sign the zip
+	./build/tools/releasetools/sign_zip.py -k ../../Signing_Keys/releasekey deblob-firmware.zip deblob-firmware-signed.zip
