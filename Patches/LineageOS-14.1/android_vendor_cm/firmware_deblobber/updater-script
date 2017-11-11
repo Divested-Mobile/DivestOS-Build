@@ -1,9 +1,12 @@
 ui_print("DivestOS Firmware Deblobber");
+ui_print("Based off of LineageOS's AddonSU");
 
+ifelse(is_mounted("/firmware"), unmount("/firmware"));
+
+set_metadata("/tmp/mount_system.sh", "uid", 0, "gid", 0, "mode", 0755);
 set_metadata("/tmp/firmware_deblobber.sh", "uid", 0, "gid", 0, "mode", 0755);
 
-unmount("/firmware");
-mount("ext4", "EMMC", "/dev/block/bootdevice/by-name/modem", "/firmware", "");
+run_program("/tmp/mount_firmware.sh") == 0 || abort("Could not mount /firmware");
 
 run_program("/sbin/sh", "/tmp/firmware_deblobber.sh");
 
