@@ -1466,9 +1466,6 @@ CVE-2017-11028
 	Depends
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-4.4/commit/?id=fd70b655d901e626403f132b65fc03d993f0a09b
 	Link - https://source.codeaurora.org/quic/la/kernel/msm-4.4/commit/?id=6724296d3f3b2821b83219768c1b9e971e380a9f
-CVE-2017-11028
-	Link - https://source.codeaurora.org/quic/la/kernel/msm-4.4/commit/?id=fd70b655d901e626403f132b65fc03d993f0a09b
-	Link - https://source.codeaurora.org/quic/la/kernel/msm-4.4/commit/?id=6724296d3f3b2821b83219768c1b9e971e380a9f
 CVE-2017-11029
 	Link - 3.18 - https://source.codeaurora.org/quic/la/kernel/msm-3.18/commit/?id=74ab23917b82769644a3299da47b58e080aa63f2
 	Link - 4.4 - https://source.codeaurora.org/quic/la/kernel/msm-4.4/commit/?id=86f0d207d478e1681f6711b46766cfb3c6a30fb5
