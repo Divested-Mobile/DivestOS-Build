@@ -1,0 +1,8 @@
+frameworks/base
+	core/java/android/security/FrameworkNetworkSecurityPolicy.java
+	core/java/android/provider/Settings.java
+
+packages/apps/Settings
+	src/com/android/settings/SecuritySettings.java
+	res/xml/security_settings_misc.xml
+	res/values/strings.xml

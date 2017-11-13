@@ -1,0 +1,5 @@
+frameworks/base
+	core/res/res/values/config.xml
+	packages/SettingsLib/res/values/strings.xml
+	services/core/java/com/android/server/connectivity/NetworkDiagnostics.java
+	services/core/java/com/android/server/connectivity/Tethering.java
