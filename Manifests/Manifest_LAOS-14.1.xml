@@ -78,7 +78,6 @@
 	<project path="packages/apps/FakeStore" name="microg/android_packages_apps_FakeStore" remote="github" revision="master" />
 
 	<!-- UnifiedNLP Backends -->
-	<project path="packages/apps/AppleWifiNlpBackend" name="microg/AppleWifiNlpBackend" remote="github" revision="master" />
 	<project path="packages/apps/IchnaeaNlpBackend" name="microg/IchnaeaNlpBackend" remote="github" revision="master" />
 	<project path="packages/apps/LocalGsmNlpBackend" name="n76/Local-GSM-Backend" remote="github" revision="master" />
 	<project path="packages/apps/LocalWifiNlpBackend" name="n76/wifi_backend" remote="github" revision="master" />
