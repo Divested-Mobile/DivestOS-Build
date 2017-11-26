@@ -1,5 +1,6 @@
 #!/bin/bash
 cd $base"kernel/samsung/universal8890"
+git apply $cvePatches/CVE-2013-7446/^4.3/0003.patch
 git apply $cvePatches/CVE-2014-9900/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9940/ANY/0001.patch
 git apply $cvePatches/CVE-2015-1420/3.2-^3.19/0001.patch
@@ -32,6 +33,7 @@ git apply $cvePatches/CVE-2016-4794/3.18+/0001.patch
 git apply $cvePatches/CVE-2016-4794/3.18+/0002.patch
 git apply $cvePatches/CVE-2016-6828/ANY/0001.patch
 git apply $cvePatches/CVE-2016-7042/ANY/0001.patch
+git apply $cvePatches/CVE-2016-7117/^4.5/0002.patch
 git apply $cvePatches/CVE-2016-7913/ANY/0001.patch
 git apply $cvePatches/CVE-2016-7917/ANY/0001.patch
 git apply $cvePatches/CVE-2016-8399/ANY/0001.patch
@@ -57,8 +59,11 @@ git apply $cvePatches/CVE-2017-0627/ANY/0001.patch
 git apply $cvePatches/CVE-2017-0710/ANY/0001.patch
 git apply $cvePatches/CVE-2017-0749/ANY/0001.patch
 git apply $cvePatches/CVE-2017-0750/ANY/0001.patch
+git apply $cvePatches/CVE-2017-0866/3.18/0001.patch
 git apply $cvePatches/CVE-2017-1000380/^4.11/0001.patch
 git apply $cvePatches/CVE-2017-10996/ANY/0001.patch
+git apply $cvePatches/CVE-2017-11089/ANY/0001.patch
+git apply $cvePatches/CVE-2017-11090/ANY/0001.patch
 git apply $cvePatches/CVE-2017-16525/^4.13/0002.patch
 git apply $cvePatches/CVE-2017-16526/^4.13/0001.patch
 git apply $cvePatches/CVE-2017-16529/^4.13/0001.patch
@@ -67,6 +72,7 @@ git apply $cvePatches/CVE-2017-16531/^4.13/0001.patch
 git apply $cvePatches/CVE-2017-16532/^4.13/0001.patch
 git apply $cvePatches/CVE-2017-16533/^4.13/0001.patch
 git apply $cvePatches/CVE-2017-16535/^4.13/0001.patch
+git apply $cvePatches/CVE-2017-16537/^4.13/0001.patch
 git apply $cvePatches/CVE-2017-16538/^4.13/0001.patch
 git apply $cvePatches/CVE-2017-16538/^4.13/0002.patch
 git apply $cvePatches/CVE-2017-16643/3.5+/0001.patch
@@ -75,6 +81,9 @@ git apply $cvePatches/CVE-2017-16646/ANY/0001.patch
 git apply $cvePatches/CVE-2017-16650/ANY/0001.patch
 git apply $cvePatches/CVE-2017-16USB/ANY/0001.patch
 git apply $cvePatches/CVE-2017-16USB/ANY/0005.patch
+git apply $cvePatches/CVE-2017-16USB/ANY/0006.patch
+git apply $cvePatches/CVE-2017-16USB/ANY/0007.patch
+git apply $cvePatches/CVE-2017-16USB/ANY/0009.patch
 git apply $cvePatches/CVE-2017-2671/^4.10/0001.patch
 git apply $cvePatches/CVE-2017-5669/^4.9/0001.patch
 git apply $cvePatches/CVE-2017-5970/^4.9/0001.patch
