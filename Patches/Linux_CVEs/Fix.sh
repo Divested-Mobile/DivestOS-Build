@@ -16,6 +16,8 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 mv CVE-2017-0794/ANY/0001.patch CVE-2017-0794/ANY/0001.patch.disabled
+mv CVE-2016-0819/ANY/0001.patch CVE-2016-0819/ANY/0001.patch.disabled
+mv CVE-2017-16USB/ANY/0007.patch CVE-2017-16USB/ANY/0007.patch.disabled
 
 #mv CVE-2016-0819/ANY/0.patch CVE-2016-0819/ANY/0.patch.disabled
 #mv CVE-2016-0774/ANY/0.patch CVE-2016-0774/ANY/0.patch.disabled

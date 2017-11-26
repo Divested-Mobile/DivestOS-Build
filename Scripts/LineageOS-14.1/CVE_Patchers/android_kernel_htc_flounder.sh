@@ -5,7 +5,6 @@ git apply $cvePatches/CVE-2014-9900/ANY/0001.patch
 git apply $cvePatches/CVE-2015-7515/^4.4/0002.patch
 git apply $cvePatches/CVE-2015-8944/ANY/0001.patch
 git apply $cvePatches/CVE-2015-8955/ANY/0001.patch
-git apply $cvePatches/CVE-2016-0819/ANY/0001.patch
 git apply $cvePatches/CVE-2016-10208/3.10-^3.16/0001.patch
 git apply $cvePatches/CVE-2016-2475/ANY/0001.patch
 git apply $cvePatches/CVE-2016-7117/^4.5/0002.patch
@@ -40,7 +39,6 @@ git apply $cvePatches/CVE-2017-16650/ANY/0001.patch
 git apply $cvePatches/CVE-2017-16USB/ANY/0001.patch
 git apply $cvePatches/CVE-2017-16USB/ANY/0005.patch
 git apply $cvePatches/CVE-2017-16USB/ANY/0006.patch
-git apply $cvePatches/CVE-2017-16USB/ANY/0007.patch
 git apply $cvePatches/CVE-2017-2671/^4.10/0001.patch
 git apply $cvePatches/CVE-2017-5669/^4.9/0001.patch
 git apply $cvePatches/CVE-2017-5970/^4.9/0001.patch
