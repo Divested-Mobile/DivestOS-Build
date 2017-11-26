@@ -1,0 +1,28 @@
+From 19384322b5b51987bd6037f7a6b18a62a5d4d654 Mon Sep 17 00:00:00 2001
+From: Jianqiang Zhao <zhaojianqiang1@gmail.com>
+Date: Mon, 6 Mar 2017 16:33:42 +0800
+Subject: [PATCH] ANDROID: input: keychord: fix race condition bug
+
+Change-Id: I9c7c759c99e21cad9a7f9a09128122bf6ae11302
+Signed-off-by: Jianqiang Zhao <zhaojianqiang1@gmail.com>
+Bug: 36006779
+---
+ drivers/input/misc/keychord.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/input/misc/keychord.c b/drivers/input/misc/keychord.c
+index a5ea27ad0e16c..f580edf1c87ce 100644
+--- a/drivers/input/misc/keychord.c
++++ b/drivers/input/misc/keychord.c
+@@ -300,8 +300,10 @@ static ssize_t keychord_write(struct file *file, const char __user *buffer,
+ 
+ 	ret = input_register_handler(&kdev->input_handler);
+ 	if (ret) {
+-		kfree(keychords);
++		spin_lock_irqsave(&kdev->lock, flags);
++		kfree(kdev->keychords);
+ 		kdev->keychords = 0;
++		spin_unlock_irqrestore(&kdev->lock, flags);
+ 		return ret;
+ 	}
+ 	kdev->registered = 1;

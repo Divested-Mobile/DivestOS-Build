@@ -1,0 +1,35 @@
+From 072d53b2ca00ac57ca4e0ebe2315b431256cf786 Mon Sep 17 00:00:00 2001
+From: Narender Ankam <nankam@codeaurora.org>
+Date: Wed, 23 Aug 2017 15:55:50 +0530
+Subject: [PATCH] msm: mdss: hdmi: validate HDMI EDID's max number of CEA
+ blocks
+
+No upper-bound validation is performed when reading number of
+extended CEA blocks from the untrusted source (EDID). Add a check
+to limit the number of CEA extension blocks.
+
+Bug: 37625232
+Change-Id: I69f09ed0ad28a4c267cf3e8f7a12efe46f75e244
+Signed-off-by: Narender Ankam <nankam@codeaurora.org>
+---
+ drivers/video/msm/mdss/mdss_hdmi_edid.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/video/msm/mdss/mdss_hdmi_edid.c b/drivers/video/msm/mdss/mdss_hdmi_edid.c
+index 36c24302658d8..5c8f52c42302c 100644
+--- a/drivers/video/msm/mdss/mdss_hdmi_edid.c
++++ b/drivers/video/msm/mdss/mdss_hdmi_edid.c
+@@ -2180,6 +2180,13 @@ int hdmi_edid_parser(void *input)
+ 		goto bail;
+ 	}
+ 
++	/* Find out if CEA extension blocks exceeding max limit */
++	if (num_of_cea_blocks >= MAX_EDID_BLOCKS) {
++		DEV_WARN("%s: HDMI EDID exceeded max CEA blocks limit\n",
++				__func__);
++		num_of_cea_blocks = MAX_EDID_BLOCKS - 1;
++	}
++
+ 	/* check for valid CEA block */
+ 	if (edid_buf[EDID_BLOCK_SIZE] != 2) {
+ 		DEV_ERR("%s: Invalid CEA block\n", __func__);

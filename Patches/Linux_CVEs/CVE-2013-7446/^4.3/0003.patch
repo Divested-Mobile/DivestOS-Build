@@ -1,0 +1,56 @@
+From 5bed19c9f463f9078063363779548c50aea271a0 Mon Sep 17 00:00:00 2001
+From: Rainer Weikusat <rweikusat@mobileactivedefense.com>
+Date: Thu, 11 Feb 2016 19:37:27 +0000
+Subject: [PATCH] UPSTREAM: af_unix: Guard against other == sk in
+ unix_dgram_sendmsg
+
+(cherry picked from commit a5527dda344fff0514b7989ef7a755729769daa1)
+
+The unix_dgram_sendmsg routine use the following test
+
+if (unlikely(unix_peer(other) != sk && unix_recvq_full(other))) {
+
+to determine if sk and other are in an n:1 association (either
+established via connect or by using sendto to send messages to an
+unrelated socket identified by address). This isn't correct as the
+specified address could have been bound to the sending socket itself or
+because this socket could have been connected to itself by the time of
+the unix_peer_get but disconnected before the unix_state_lock(other). In
+both cases, the if-block would be entered despite other == sk which
+might either block the sender unintentionally or lead to trying to unlock
+the same spin lock twice for a non-blocking send. Add a other != sk
+check to guard against this.
+
+Fixes: 7d267278a9ec ("unix: avoid use-after-free in ep_remove_wait_queue")
+Reported-By: Philipp Hahn <pmhahn@pmhahn.de>
+Signed-off-by: Rainer Weikusat <rweikusat@mobileactivedefense.com>
+Tested-by: Philipp Hahn <pmhahn@pmhahn.de>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+
+Fixes: Change-Id: Ia374ee061195088f8c777940baa75cedbe897f4e
+       ("UPSTREAM: unix: avoid use-after-free in ep_remove_wait_queue")
+Change-Id: I4ebef6a390df3487903b166b837e34c653e01cb2
+Signed-off-by: Amit Pundir <amit.pundir@linaro.org>
+Bug: 29119002
+---
+ net/unix/af_unix.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
+index 5e6323792a5e0..204bee47aa10c 100644
+--- a/net/unix/af_unix.c
++++ b/net/unix/af_unix.c
+@@ -1701,7 +1701,12 @@ static int unix_dgram_sendmsg(struct kiocb *kiocb, struct socket *sock,
+ 			goto out_unlock;
+ 	}
+ 
+-	if (unlikely(unix_peer(other) != sk && unix_recvq_full(other))) {
++	/* other == sk && unix_peer(other) != sk if
++	 * - unix_peer(sk) == NULL, destination address bound to sk
++	 * - unix_peer(sk) == sk by time of get but disconnected before lock
++	 */
++	if (other != sk &&
++	    unlikely(unix_peer(other) != sk && unix_recvq_full(other))) {
+ 		if (timeo) {
+ 			timeo = unix_wait_for_peer(other, timeo);
+ 

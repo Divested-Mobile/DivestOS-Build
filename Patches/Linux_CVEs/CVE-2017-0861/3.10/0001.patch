@@ -1,0 +1,32 @@
+From 93533f313a1bf465ff8c33032e91b88315dcf9bf Mon Sep 17 00:00:00 2001
+From: Robb Glasser <rglasser@google.com>
+Date: Fri, 11 Aug 2017 11:33:31 -0700
+Subject: [PATCH] ALSA: pcm: prevent UAF in snd_pcm_info
+
+When the device descriptor is closed, the `substream->runtime` pointer
+is freed. But another thread may be in the ioctl handler, case
+SNDRV_CTL_IOCTL_PCM_INFO. This case calls snd_pcm_info_user() which
+calls snd_pcm_info() which accesses the now freed `substream->runtime`.
+
+Bug: 36006981
+Signed-off-by: Robb Glasser <rglasser@google.com>
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+Change-Id: I445d24bc21dc0af6d9522a8daabe64969042236a
+---
+ sound/core/pcm.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/core/pcm.c b/sound/core/pcm.c
+index 0ad1231c15372..6548b3af383fa 100644
+--- a/sound/core/pcm.c
++++ b/sound/core/pcm.c
+@@ -150,7 +150,9 @@ static int snd_pcm_control_ioctl(struct snd_card *card,
+ 				err = -ENXIO;
+ 				goto _error;
+ 			}
++			mutex_lock(&pcm->open_mutex);
+ 			err = snd_pcm_info_user(substream, info);
++			mutex_unlock(&pcm->open_mutex);
+ 		_error:
+ 			mutex_unlock(&register_mutex);
+ 			return err;

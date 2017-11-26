@@ -1,0 +1,42 @@
+From 1853870b216d3446efd39190a8ff0006c54dfd46 Mon Sep 17 00:00:00 2001
+From: Eric Dumazet <edumazet@google.com>
+Date: Tue, 9 May 2017 06:29:19 -0700
+Subject: [PATCH] BACKPORT: dccp/tcp: do not inherit mc_list from parent
+
+syzkaller found a way to trigger double frees from ip_mc_drop_socket()
+
+It turns out that leave a copy of parent mc_list at accept() time,
+which is very bad.
+
+Very similar to commit 8b485ce69876 ("tcp: do not inherit
+fastopen_req from parent")
+
+Initial report from Pray3r, completed by Andrey one.
+Thanks a lot to them !
+
+Signed-off-by: Eric Dumazet <edumazet@google.com>
+Reported-by: Pray3r <pray3r.z@gmail.com>
+Reported-by: Andrey Konovalov <andreyknvl@google.com>
+Tested-by: Andrey Konovalov <andreyknvl@google.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Roberto Pereira <rpere@google.com>
+(cherry picked from commit 657831ffc38e30092a2d5f03d385d710eb88b09a)
+Bug:38413975
+Change-Id: Icf89ad025cb8225e806e52c573d68533912111ad
+---
+ net/ipv4/inet_connection_sock.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/net/ipv4/inet_connection_sock.c b/net/ipv4/inet_connection_sock.c
+index 64198a381ddca..008b52bc99a3d 100644
+--- a/net/ipv4/inet_connection_sock.c
++++ b/net/ipv4/inet_connection_sock.c
+@@ -697,6 +697,8 @@ struct sock *inet_csk_clone_lock(const struct sock *sk,
+ 		inet_sk(newsk)->inet_sport = inet_rsk(req)->loc_port;
+ 		newsk->sk_write_space = sk_stream_write_space;
+ 
++		inet_sk(newsk)->mc_list = NULL;
++
+ 		newsk->sk_mark = inet_rsk(req)->ir_mark;
+ 
+ 		newicsk->icsk_retransmits = 0;

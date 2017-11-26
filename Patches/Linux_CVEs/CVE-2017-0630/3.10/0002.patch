@@ -1,0 +1,27 @@
+From 45e5a5e1b85f23843b90f3cddcfc26fa862ff80c Mon Sep 17 00:00:00 2001
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Fri, 3 Mar 2017 15:40:12 -0800
+Subject: [PATCH] tracing: do not leak kernel addresses
+
+This likely breaks tracing tools like trace-cmd.  It logs in the same
+format but now addresses are all 0x0.
+
+Bug: 34277115
+Change-Id: Ifb0d4d2a184bf0d95726de05b1acee0287a375d9
+---
+ kernel/trace/trace_printk.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/trace/trace_printk.c b/kernel/trace/trace_printk.c
+index fdb23e84b011b..f423e8d551c0a 100644
+--- a/kernel/trace/trace_printk.c
++++ b/kernel/trace/trace_printk.c
+@@ -275,7 +275,7 @@ static int t_show(struct seq_file *m, void *v)
+ 	if (!*fmt)
+ 		return 0;
+ 
+-	seq_printf(m, "0x%lx : \"", *(unsigned long *)fmt);
++	seq_printf(m, "0x%lx : \"", 0L);
+ 
+ 	/*
+ 	 * Tabs and new lines need to be converted.

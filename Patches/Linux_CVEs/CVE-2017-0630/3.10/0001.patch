@@ -1,0 +1,80 @@
+From 28fb06421ab3d9256d32611138306470996cc4c1 Mon Sep 17 00:00:00 2001
+From: "Steven Rostedt (Red Hat)" <rostedt@goodmis.org>
+Date: Tue, 22 Mar 2016 17:30:58 -0400
+Subject: [PATCH] UPSTREAM: tracing: Fix trace_printk() to print when not using
+ bprintk()
+
+The trace_printk() code will allocate extra buffers if the compile detects
+that a trace_printk() is used. To do this, the format of the trace_printk()
+is saved to the __trace_printk_fmt section, and if that section is bigger
+than zero, the buffers are allocated (along with a message that this has
+happened).
+
+If trace_printk() uses a format that is not a constant, and thus something
+not guaranteed to be around when the print happens, the compiler optimizes
+the fmt out, as it is not used, and the __trace_printk_fmt section is not
+filled. This means the kernel will not allocate the special buffers needed
+for the trace_printk() and the trace_printk() will not write anything to the
+tracing buffer.
+
+Adding a "__used" to the variable in the __trace_printk_fmt section will
+keep it around, even though it is set to NULL. This will keep the string
+from being printed in the debugfs/tracing/printk_formats section as it is
+not needed.
+
+Reported-by: Vlastimil Babka <vbabka@suse.cz>
+Fixes: 07d777fe8c398 "tracing: Add percpu buffers for trace_printk()"
+Cc: stable@vger.kernel.org # v3.5+
+Bug: 34277115
+Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
+Change-Id: I10ce56caa41c7644d9d290d9ed272a6d156c938c
+---
+ include/linux/kernel.h      | 6 +++---
+ kernel/trace/trace_printk.c | 3 +++
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+index 44d0a02224897..0d1fa1b442209 100644
+--- a/include/linux/kernel.h
++++ b/include/linux/kernel.h
+@@ -554,7 +554,7 @@ do {							\
+ 
+ #define do_trace_printk(fmt, args...)					\
+ do {									\
+-	static const char *trace_printk_fmt				\
++	static const char *trace_printk_fmt __used			\
+ 		__attribute__((section("__trace_printk_fmt"))) =	\
+ 		__builtin_constant_p(fmt) ? fmt : NULL;			\
+ 									\
+@@ -601,7 +601,7 @@ extern int __trace_puts(unsigned long ip, const char *str, int size);
+  */
+ 
+ #define trace_puts(str) ({						\
+-	static const char *trace_printk_fmt				\
++	static const char *trace_printk_fmt __used			\
+ 		__attribute__((section("__trace_printk_fmt"))) =	\
+ 		__builtin_constant_p(str) ? str : NULL;			\
+ 									\
+@@ -621,7 +621,7 @@ extern void trace_dump_stack(int skip);
+ #define ftrace_vprintk(fmt, vargs)					\
+ do {									\
+ 	if (__builtin_constant_p(fmt)) {				\
+-		static const char *trace_printk_fmt			\
++		static const char *trace_printk_fmt __used		\
+ 		  __attribute__((section("__trace_printk_fmt"))) =	\
+ 			__builtin_constant_p(fmt) ? fmt : NULL;		\
+ 									\
+diff --git a/kernel/trace/trace_printk.c b/kernel/trace/trace_printk.c
+index a9077c1b4ad3f..fdb23e84b011b 100644
+--- a/kernel/trace/trace_printk.c
++++ b/kernel/trace/trace_printk.c
+@@ -272,6 +272,9 @@ static int t_show(struct seq_file *m, void *v)
+ 	const char *str = *fmt;
+ 	int i;
+ 
++	if (!*fmt)
++		return 0;
++
+ 	seq_printf(m, "0x%lx : \"", *(unsigned long *)fmt);
+ 
+ 	/*
