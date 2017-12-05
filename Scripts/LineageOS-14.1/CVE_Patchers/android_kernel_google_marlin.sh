@@ -58,6 +58,10 @@ git apply $cvePatches/CVE-2017-1000380/^4.11/0001.patch
 git apply $cvePatches/CVE-2017-10998/3.18/0002.patch
 git apply $cvePatches/CVE-2017-11001/ANY/0001.patch
 git apply $cvePatches/CVE-2017-11002/ANY/0002.patch
+git apply $cvePatches/CVE-2017-11013/qcacld-2.0/0002.patch
+git apply $cvePatches/CVE-2017-11014/qcacld-2.0/0001.patch
+git apply $cvePatches/CVE-2017-11015/qcacld-2.0/0003.patch
+git apply $cvePatches/CVE-2017-11015/qcacld-2.0/0004.patch
 git apply $cvePatches/CVE-2017-11016/ANY/0001.patch
 git apply $cvePatches/CVE-2017-11019/ANY/0001.patch
 git apply $cvePatches/CVE-2017-11025/ANY/0001.patch

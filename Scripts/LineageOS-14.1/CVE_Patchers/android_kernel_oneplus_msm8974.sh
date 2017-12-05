@@ -17,6 +17,7 @@ git apply $cvePatches/CVE-2017-0751/ANY/0001.patch
 git apply $cvePatches/CVE-2017-0786/ANY/0001.patch
 git apply $cvePatches/CVE-2017-1000380/^4.11/0001.patch
 git apply $cvePatches/CVE-2017-11000/ANY/0002.patch
+git apply $cvePatches/CVE-2017-11015/prima/0002.patch
 git apply $cvePatches/CVE-2017-11019/ANY/0001.patch
 git apply $cvePatches/CVE-2017-11059/ANY/0001.patch
 git apply $cvePatches/CVE-2017-11090/ANY/0001.patch
