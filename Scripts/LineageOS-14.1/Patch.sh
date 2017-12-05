@@ -132,8 +132,7 @@ git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3 #re-enable doze on devices w
 git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/38 && git cherry-pick FETCH_HEAD #network traffic
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
-sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml; #XXX: Super awesome, but breaks quick tiles
-#See https://github.com/CopperheadOS/platform_frameworks_opt_net_wifi/commit/c2a2f077a902226093b25c563e0117e923c7495b
+sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml;
 patch -p1 < $patches"android_frameworks_base/0001-Reduced_Resolution.patch" #Allow reducing resolution to save power TODO: Add 800x480
 #patch -p1 < $patches"android_frameworks_base/0002-Radio.patch" #Add a QS tile to control radio power #TODO: Breaks cell and SystemUI
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
@@ -143,6 +142,13 @@ rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig
 
 #enter "frameworks/opt/net/ims"
 #patch -p1 < $patches"android_frameworks_opt_net_ims/0001-Fix_Calling.patch" #Fix calling after we remove IMS
+
+enter "frameworks/opt/net/wifi"
+#Fix an issue when permision review is enabled that prevents using the Wi-Fi quick tile
+#See https://github.com/CopperheadOS/platform_frameworks_opt_net_wifi/commit/c2a2f077a902226093b25c563e0117e923c7495b
+awk -i inplace '!/mPermissionReviewRequired = Build.PERMISSIONS_REVIEW_REQUIRED/' service/java/com/android/server/wifi/WifiServiceImpl.java;
+awk -i inplace '!/\|\| context.getResources\(\).getBoolean\(/' service/java/com/android/server/wifi/WifiServiceImpl.java;
+awk -i inplace '!/com.android.internal.R.bool.config_permissionReviewRequired/' service/java/com/android/server/wifi/WifiServiceImpl.java;
 
 enter "packages/apps/CMParts"
 rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of CMStats
