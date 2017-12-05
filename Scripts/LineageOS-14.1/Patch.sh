@@ -132,7 +132,7 @@ git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3 #re-enable doze on devices w
 git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/75/151975/38 && git cherry-pick FETCH_HEAD #network traffic
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
-#sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml; #XXX: Super awesome, but breaks quick tiles
+sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml; #XXX: Super awesome, but breaks quick tiles
 #See https://github.com/CopperheadOS/platform_frameworks_opt_net_wifi/commit/c2a2f077a902226093b25c563e0117e923c7495b
 patch -p1 < $patches"android_frameworks_base/0001-Reduced_Resolution.patch" #Allow reducing resolution to save power TODO: Add 800x480
 #patch -p1 < $patches"android_frameworks_base/0002-Radio.patch" #Add a QS tile to control radio power #TODO: Breaks cell and SystemUI
@@ -180,6 +180,9 @@ sed -i 's/buildToolsVersion "23.0.2"/buildToolsVersion "25.0.3"/' build.gradle;
 
 enter "packages/apps/Jelly"
 git apply --3way $patches"android_packages_apps_Jelly/182322-3.patch" #Add option to remove identifying headers
+
+enter "packages/apps/PackageInstaller"
+patch -p1 < $patches"android_packages_apps_PackageInstaller/64d8b44.diff" #Fix an issue with Permission Review
 
 enter "packages/apps/Settings"
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 32;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
@@ -249,6 +252,7 @@ sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod
 enter "device/motorola/clark"
 enableDexPreOpt
 patch -p1 < $patches"android_device_motorola_clark/0001-Tri_State_Torch.patch" #Tri-state torch
+#TODO: Remove releasetools firmware script, as it soft bricks the radio when flashing via AOSP recovery
 
 enter "device/oneplus/bacon"
 enableDexPreOpt
