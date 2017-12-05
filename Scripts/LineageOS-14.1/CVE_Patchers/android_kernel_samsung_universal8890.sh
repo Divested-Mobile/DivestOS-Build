@@ -14,8 +14,7 @@ git apply $cvePatches/CVE-2015-8839/ANY/0002.patch
 git apply $cvePatches/CVE-2015-8962/ANY/0001.patch
 git apply $cvePatches/CVE-2015-8966/3.15+/0001.patch
 git apply $cvePatches/CVE-2015-9004/ANY/0001.patch
-git apply $cvePatches/CVE-2016-10044/ANY/0001.patch
-git apply $cvePatches/CVE-2016-10044/ANY/0002.patch
+git apply $cvePatches/CVE-2016-10044/3.18/0002.patch
 git apply $cvePatches/CVE-2016-10088/ANY/0001.patch
 git apply $cvePatches/CVE-2016-10200/ANY/0001.patch
 git apply $cvePatches/CVE-2016-2185/ANY/0001.patch

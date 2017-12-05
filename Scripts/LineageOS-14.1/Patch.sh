@@ -250,7 +250,7 @@ sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod
 #START OF DEVICE CHANGES
 #
 enter "device/motorola/clark"
-enableDexPreOpt
+#enableDexPreOpt
 patch -p1 < $patches"android_device_motorola_clark/0001-Tri_State_Torch.patch" #Tri-state torch
 #TODO: Remove releasetools firmware script, as it soft bricks the radio when flashing via AOSP recovery
 
