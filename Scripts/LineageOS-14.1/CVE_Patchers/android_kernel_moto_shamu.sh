@@ -1,5 +1,16 @@
 #!/bin/bash
 cd $base"kernel/moto/shamu"
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0004.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0005.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0006.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0007.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0008.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0010.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0011.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0013.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0014.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0015.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0017.patch
 git apply $cvePatches/CVE-2014-8160/^3.18/0002.patch
 git apply $cvePatches/CVE-2014-8173/3.9-^3.12/0001.patch
 git apply $cvePatches/CVE-2014-9420/ANY/0001.patch
@@ -32,7 +43,6 @@ git apply $cvePatches/CVE-2016-3857/ANY/0001.patch
 git apply $cvePatches/CVE-2016-3865/ANY/0001.patch
 git apply $cvePatches/CVE-2016-3865/ANY/0002.patch
 git apply $cvePatches/CVE-2016-3894/ANY/0001.patch
-git apply $cvePatches/CVE-2016-5342/ANY/0001.patch
 git apply $cvePatches/CVE-2016-5870/ANY/0001.patch
 git apply $cvePatches/CVE-2016-6672/ANY/0001.patch
 git apply $cvePatches/CVE-2016-6695/ANY/0001.patch

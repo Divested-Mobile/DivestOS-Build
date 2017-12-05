@@ -1,6 +1,20 @@
 #!/bin/bash
 cd $base"kernel/lge/bullhead"
-git apply $cvePatches/00LinuxIncrementals/3.10/3.10.0073-0074.patch
+git apply $cvePatches/0001-LinuxIncrementals/3.10/3.10.0073-0074.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0001.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0002.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0003.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0004.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0005.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0006.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0007.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0008.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0010.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0011.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0013.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0014.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0015.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.10/0016.patch
 git apply $cvePatches/CVE-2014-8160/^3.18/0002.patch
 git apply $cvePatches/CVE-2014-8173/3.9-^3.12/0001.patch
 git apply $cvePatches/CVE-2014-9781/ANY/0001.patch

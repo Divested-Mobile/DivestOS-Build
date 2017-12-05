@@ -1,5 +1,24 @@
 #!/bin/bash
 cd $base"kernel/samsung/universal8890"
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0018.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0020.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0021.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0022.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0024.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0025.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0026.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0027.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0030.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0031.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0033.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0034.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0035.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0037.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0040.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0042.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0044.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0045.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0049.patch
 git apply $cvePatches/CVE-2013-7446/^4.3/0003.patch
 git apply $cvePatches/CVE-2014-9900/ANY/0001.patch
 git apply $cvePatches/CVE-2014-9940/ANY/0001.patch
