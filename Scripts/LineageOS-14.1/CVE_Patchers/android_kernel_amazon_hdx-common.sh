@@ -70,6 +70,7 @@ git apply $cvePatches/CVE-2017-7487/ANY/0001.patch
 git apply $cvePatches/CVE-2017-8246/3.4/0002.patch
 git apply $cvePatches/CVE-2017-8247/ANY/0001.patch
 git apply $cvePatches/CVE-2017-8254/3.4/0001.patch
+git apply $cvePatches/CVE-2017-8254/3.4/0002.patch
 git apply $cvePatches/CVE-2017-8890/3.4/0001.patch
 git apply $cvePatches/CVE-2017-9242/^4.11/0001.patch
 git apply $cvePatches/CVE-2017-9684/ANY/0001.patch

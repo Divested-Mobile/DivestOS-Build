@@ -10,6 +10,7 @@ git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0026.patch
 git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0027.patch
 git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0030.patch
 git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0031.patch
+git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0032.patch
 git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0033.patch
 git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0034.patch
 git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0035.patch
@@ -119,6 +120,7 @@ git apply $cvePatches/CVE-2017-7616/^4.10/0001.patch
 git apply $cvePatches/CVE-2017-7618/^4.10/0002.patch
 git apply $cvePatches/Untracked/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $cvePatches/Untracked/ANY/0003-tunnels-Don-t-apply-GRO-to-multiple-layers-of-encaps.patch
+git apply $cvePatches/Untracked/ANY/0004-net-add-recursion-limit-to-GRO.patch
 git apply $cvePatches/Untracked/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $cvePatches/Untracked/ANY/0007-USB-usbip-fix-potential-out-of-bounds-write.patch
 git apply $cvePatches/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
