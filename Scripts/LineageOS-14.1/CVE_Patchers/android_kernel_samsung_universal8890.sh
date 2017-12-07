@@ -40,6 +40,8 @@ git apply $cvePatches/CVE-2016-10200/ANY/0001.patch
 git apply $cvePatches/CVE-2016-2185/ANY/0001.patch
 git apply $cvePatches/CVE-2016-2186/ANY/0001.patch
 git apply $cvePatches/CVE-2016-2187/ANY/0001.patch
+git apply $cvePatches/CVE-2016-2188/ANY/0001.patch
+git apply $cvePatches/CVE-2016-2188/ANY/0002.patch
 git apply $cvePatches/CVE-2016-3136/ANY/0001.patch
 git apply $cvePatches/CVE-2016-3137/ANY/0001.patch
 git apply $cvePatches/CVE-2016-3140/ANY/0001.patch
@@ -115,7 +117,8 @@ git apply $cvePatches/CVE-2017-6353/^4.10/0001.patch
 git apply $cvePatches/CVE-2017-7308/ANY/0003.patch
 git apply $cvePatches/CVE-2017-7472/ANY/0001.patch
 git apply $cvePatches/CVE-2017-7487/ANY/0001.patch
-git apply  $cvePatches/CVE-2017-7495/3.18/0001.patch $cvePatches/CVE-2017-7495/3.18/0002.patch
+git apply $cvePatches/CVE-2017-7495/3.18/0001.patch
+git apply $cvePatches/CVE-2017-7495/3.18/0002.patch
 git apply $cvePatches/CVE-2017-7616/^4.10/0001.patch
 git apply $cvePatches/CVE-2017-7618/^4.10/0002.patch
 git apply $cvePatches/Untracked/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch

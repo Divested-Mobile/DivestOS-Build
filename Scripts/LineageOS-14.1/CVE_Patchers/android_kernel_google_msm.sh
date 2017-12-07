@@ -14,10 +14,16 @@ git apply $cvePatches/CVE-2017-0710/ANY/0001.patch
 git apply $cvePatches/CVE-2017-0750/ANY/0001.patch
 git apply $cvePatches/CVE-2017-0751/ANY/0001.patch
 git apply $cvePatches/CVE-2017-0786/ANY/0001.patch
+git apply $cvePatches/CVE-2017-11015/prima/0001.patch
+git apply $cvePatches/CVE-2017-11015/prima/0002.patch
 git apply $cvePatches/CVE-2017-11089/ANY/0001.patch
 git apply $cvePatches/CVE-2017-11090/ANY/0001.patch
 git apply $cvePatches/CVE-2017-12153/3.2-^3.16/0001.patch
 git apply $cvePatches/CVE-2017-13080/ANY/0001.patch
+git apply $cvePatches/CVE-2017-13080-Extra/ANY/0001.patch
+git apply $cvePatches/CVE-2017-13080-Extra/ANY/0002.patch
+git apply $cvePatches/CVE-2017-13080-Extra/ANY/0003.patch
+git apply $cvePatches/CVE-2017-13080-Extra/ANY/0004.patch
 git apply $cvePatches/CVE-2017-15265/^4.14/0001.patch
 git apply $cvePatches/CVE-2017-16526/^4.13/0001.patch
 git apply $cvePatches/CVE-2017-16532/^4.13/0001.patch

@@ -33,6 +33,8 @@ git apply $cvePatches/CVE-2016-2063/ANY/0001.patch
 git apply $cvePatches/CVE-2016-2185/ANY/0001.patch
 git apply $cvePatches/CVE-2016-2186/ANY/0001.patch
 git apply $cvePatches/CVE-2016-2187/ANY/0001.patch
+git apply $cvePatches/CVE-2016-2188/ANY/0001.patch
+git apply $cvePatches/CVE-2016-2188/ANY/0002.patch
 git apply $cvePatches/CVE-2016-2384/^4.5/0001.patch
 git apply $cvePatches/CVE-2016-2438/ANY/0001.patch
 git apply $cvePatches/CVE-2016-2469/3.10/0001.patch
