@@ -29,6 +29,7 @@ git apply $cvePatches/CVE-2017-2671/^4.10/0001.patch
 git apply $cvePatches/CVE-2017-6345/^4.9/0001.patch
 git apply $cvePatches/CVE-2017-6348/^4.9/0001.patch
 git apply $cvePatches/CVE-2017-6951/^3.14/0001.patch
+git apply $cvePatches/CVE-2017-7533/3.4/0001.patch
 git apply $cvePatches/CVE-2017-8246/3.4/0002.patch
 git apply $cvePatches/CVE-2017-8247/ANY/0001.patch
 git apply $cvePatches/CVE-2017-8254/3.4/0001.patch

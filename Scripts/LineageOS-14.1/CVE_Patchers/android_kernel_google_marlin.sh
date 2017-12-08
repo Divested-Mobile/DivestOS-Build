@@ -18,7 +18,7 @@ git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0034.patch
 git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0035.patch
 git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0036.patch
 git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0037.patch
-git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0038.patch
+#git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0038.patch
 git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0039.patch
 git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0040.patch
 git apply $cvePatches/0002-Copperhead-Kernel_Hardening/3.18/0041.patch

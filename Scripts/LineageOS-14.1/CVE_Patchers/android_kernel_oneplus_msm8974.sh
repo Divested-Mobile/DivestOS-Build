@@ -34,6 +34,7 @@ git apply $cvePatches/CVE-2017-16USB/ANY/0001.patch
 git apply $cvePatches/CVE-2017-16USB/ANY/0005.patch
 git apply $cvePatches/CVE-2017-16USB/ANY/0006.patch
 git apply $cvePatches/CVE-2017-7487/ANY/0001.patch
+git apply $cvePatches/CVE-2017-7533/3.4/0001.patch
 git apply $cvePatches/CVE-2017-8246/3.4/0002.patch
 git apply $cvePatches/CVE-2017-8247/ANY/0001.patch
 git apply $cvePatches/CVE-2017-9242/^4.11/0001.patch
