@@ -194,6 +194,7 @@ patch -p1 < $patches"android_packages_apps_PackageInstaller/64d8b44.diff" #Fix a
 enter "packages/apps/Settings"
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 32;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
 sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; #MicroG doesn't support Backup, hide the options
+patch -p1 < $patches"android_packages_apps_Settings/0001-Privacy_Guard-More_Perms.patch" #Allow more control over various permissions via Privacy Guard
 
 enter "packages/apps/SetupWizard"
 patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove the rest of CMStats
@@ -270,7 +271,7 @@ patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock-EXTREME.
 
 enter "device/lge/mako"
 disableDexPreOpt #bootloops
-#patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed) XXX: Doesn't seem to work under 7.x
+#patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed) XXX: Doesn't seem to work on 7+
 
 enter "kernel/lge/hammerhead"
 patch -p1 < $patches"android_kernel_lge_hammerhead/0001-OverUnderClock.patch" #2.26Ghz -> 2.95Ghz	=+2.76Ghz XXX: Untested!

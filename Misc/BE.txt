@@ -1,0 +1,11 @@
+marlin
+../../../../../../kernel/google/marlin/mm/mmap.c:95:29: error: expected '=', ',', ';', 'asm' or '__attribute__' before '__ro_after_init'
+ pgprot_t protection_map[16] __ro_after_init = {
+
+osprey
+../../../../../../kernel/motorola/msm8916/drivers/net/wireless/wcnss/wcnss_wlan.c: In function 'wcnss_wlan_macaddr_store':
+../../../../../../kernel/motorola/msm8916/drivers/net/wireless/wcnss/wcnss_wlan.c:442:4: warning: format '%hhx' expects argument of type 'unsigned char *', but argument 3 has type 'int *' [-Wformat=]
+error, forbidden warning: wcnss_wlan.c:442
+make[5]: *** [/mnt/Drive-1/Development/Other/Android_ROMs/Build/LineageOS-14.1/kernel/motorola/msm8916/scripts/Makefile.build:308: drivers/net/wireless/wcnss/wcnss_wlan.o] Error 1
+make[5]: *** Waiting for unfinished jobs....
+
