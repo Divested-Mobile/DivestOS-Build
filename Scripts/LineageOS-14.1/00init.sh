@@ -24,7 +24,8 @@ export base=$androidWorkspace"Build/LineageOS-14.1/";
 #export OTA_PACKAGE_SIGNING_KEY=$SIGNING_KEY_DIR"/releasekey"
 
 export patches=$androidWorkspace"Patches/LineageOS-14.1/";
-export cvePatches=$androidWorkspace"Patches/Linux/";
+export cvePatchesLinux=$androidWorkspace"Patches/Linux/";
+export cvePatchesAndroid=$androidWorkspace"Patches/Android/";
 export dosWallpapers=$androidWorkspace"Patches/Wallpapers/";
 
 export scripts=$androidWorkspace"Scripts/LineageOS-14.1/";
