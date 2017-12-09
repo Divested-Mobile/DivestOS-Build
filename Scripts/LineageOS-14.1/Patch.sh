@@ -53,63 +53,6 @@ enter() {
 	echo "[ENTERING] "$dir;
 	git add -A && git reset --hard;
 }
-
-enableDexPreOpt() {
-	echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
-	echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
-	echo "Enabled dexpreopt";
-}
-
-disableDexPreOpt() {
-	sed -i 's/WITH_DEXPREOPT := true/WITH_DEXPREOPT := false/' BoardConfig.mk;
-	sed -i 's/WITH_DEXPREOPT_PIC := true/WITH_DEXPREOPT_PIC := false/' BoardConfig.mk;
-	echo "Disabled dexpreopt";
-}
-
-enhanceLocation() {
-	cd $base$1;
-	#Enable GLONASS
-	sed -i 's/#A_GLONASS_POS_PROTOCOL_SELECT/A_GLONASS_POS_PROTOCOL_SELECT/' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
-	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT = 0.*/A_GLONASS_POS_PROTOCOL_SELECT = 15/' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
-	sed -i 's|A_GLONASS_POS_PROTOCOL_SELECT=0.*</item>|A_GLONASS_POS_PROTOCOL_SELECT=15</item>|' overlay/frameworks/base/core/res/res/values-*/*.xml &>/dev/null || true;
-	#Recommended reading: https://wwws.nightwatchcybersecurity.com/2016/12/05/cve-2016-5341/
-	#XTRA: Only use specified URLs
-	sed -i 's|XTRA_SERVER_QUERY=1|XTRA_SERVER_QUERY=0|' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
-	sed -i 's|#XTRA_SERVER|XTRA_SERVER|' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
-	#XTRA: Enable HTTPS
-	sed -i 's|http://xtra|https://xtra|' overlay/frameworks/base/core/res/res/values-*/*.xml gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
-	#XTRA: Use format version 3 if possible
-	if grep -sq "XTRA_VERSION_CHECK" gps.conf gps/gps.conf configs/gps.conf; then #Using hardware/qcom/gps OR precompiled blob OR device specific implementation
-		sed -i 's|XTRA_VERSION_CHECK=0|XTRA_VERSION_CHECK=1|' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
-		sed -i 's|xtra2.bin|xtra3grc.bin|' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
-	elif grep -sq "BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := true" BoardConfig.mk boards/*gps.mk; then
-		if ! grep -sq "USE_DEVICE_SPECIFIC_LOC_API := true" BoardConfig.mk boards/*gps.mk; then
-			if ! grep -sq "libloc" *proprietary*.txt; then #Using hardware/qcom/gps
-				sed -i 's|xtra2.bin|xtra3grc.bin|' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
-			fi;
-		fi;
-	fi;
-	echo "Enhanced location services for $1";
-	cd $base;
-}
-export -f enhanceLocation;
-
-enableZram() {
-	cd $base$1;
-	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
-	echo "Enabled zram for $1";
-	cd $base;
-}
-
-enabledForcedEncryption() {
-	cd $base$1;
-	if [[ $1 != *"mako"* ]]; then
-		sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
-		echo "Enabled forceencrypt for $1";
-	fi;
-	cd $base;
-}
-export -f enabledForcedEncryption;
 #
 #END OF PREPRATION
 #
@@ -283,6 +226,7 @@ patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch" #1.36
 cd $base
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enhanceLocation "$0"' {} \;
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enabledForcedEncryption "$0"' {} \;
+find "kernel" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'hardenDefconfig "$0"' {} \;
 cd $base
 #
 #END OF DEVICE CHANGES

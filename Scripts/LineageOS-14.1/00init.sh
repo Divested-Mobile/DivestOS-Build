@@ -40,3 +40,5 @@ export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+Tiere
 export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}"
 
 export GRADLE_OPTS=-Xmx2048m
+
+source $scripts"/Functions.sh"
