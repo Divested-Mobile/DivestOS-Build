@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/kernel/samsung/universal8890"
+cd $base"kernel/samsung/universal8890"
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0019.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0021.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0022.patch

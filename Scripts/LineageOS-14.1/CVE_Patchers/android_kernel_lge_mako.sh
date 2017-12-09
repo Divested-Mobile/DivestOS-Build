@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/kernel/lge/mako"
+cd $base"kernel/lge/mako"
 git apply $cvePatchesLinux/CVE-2013-4738/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2016-3857/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-3894/ANY/0001.patch

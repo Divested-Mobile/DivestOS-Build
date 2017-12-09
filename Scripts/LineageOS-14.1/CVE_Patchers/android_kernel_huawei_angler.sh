@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/kernel/huawei/angler"
+cd $base"kernel/huawei/angler"
 git apply $cvePatchesLinux/0001-LinuxIncrementals/3.10/3.10.0073-0074.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0004.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0005.patch

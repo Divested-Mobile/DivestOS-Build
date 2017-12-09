@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/kernel/google/marlin"
+cd $base"kernel/google/marlin"
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0001.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0003.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0019.patch

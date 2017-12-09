@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/kernel/samsung/jf"
+cd $base"kernel/samsung/jf"
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-0801/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-10233/ANY/0001.patch

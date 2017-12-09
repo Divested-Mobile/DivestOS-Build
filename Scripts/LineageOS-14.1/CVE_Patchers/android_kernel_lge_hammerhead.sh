@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/kernel/lge/hammerhead"
+cd $base"kernel/lge/hammerhead"
 git apply $cvePatchesLinux/CVE-2014-9881/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2014-9882/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2014-9882/ANY/0002.patch

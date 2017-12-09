@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/kernel/moto/shamu"
+cd $base"kernel/moto/shamu"
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0004-No_dir-relax.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0007.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0008.patch

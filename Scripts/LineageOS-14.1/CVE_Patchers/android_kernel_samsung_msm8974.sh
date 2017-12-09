@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/kernel/samsung/msm8974"
+cd $base"kernel/samsung/msm8974"
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-2475/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-4578/ANY/0001.patch

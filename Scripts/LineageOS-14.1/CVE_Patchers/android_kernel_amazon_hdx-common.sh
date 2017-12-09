@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/kernel/amazon/hdx-common"
+cd $base"kernel/amazon/hdx-common"
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2012-6704/^3.5/0001.patch
 git apply $cvePatchesLinux/CVE-2014-1739/ANY/0001.patch

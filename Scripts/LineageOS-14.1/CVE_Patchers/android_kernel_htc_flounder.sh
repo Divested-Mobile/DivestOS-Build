@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/kernel/htc/flounder"
+cd $base"kernel/htc/flounder"
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0004.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0007.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0008.patch

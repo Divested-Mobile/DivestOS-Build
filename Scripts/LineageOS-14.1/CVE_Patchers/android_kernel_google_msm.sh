@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/kernel/google/msm"
+cd $base"kernel/google/msm"
 git apply $cvePatchesLinux/CVE-2013-4738/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2014-9781/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2015-1593/ANY/0001.patch

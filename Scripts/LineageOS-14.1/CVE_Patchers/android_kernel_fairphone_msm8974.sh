@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/kernel/fairphone/msm8974"
+cd $base"kernel/fairphone/msm8974"
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2014-3153/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2014-3153/ANY/0004.patch

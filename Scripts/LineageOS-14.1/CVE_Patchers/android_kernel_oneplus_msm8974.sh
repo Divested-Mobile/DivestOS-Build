@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/kernel/oneplus/msm8974"
+cd $base"kernel/oneplus/msm8974"
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2014-9781/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2014-9880/ANY/0001.patch

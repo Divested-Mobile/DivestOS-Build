@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/kernel/motorola/msm8992"
+cd $base"kernel/motorola/msm8992"
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0004-No_dir-relax.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0005.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0006.patch

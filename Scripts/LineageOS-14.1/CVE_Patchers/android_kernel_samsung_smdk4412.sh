@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $base"kernel/kernel/samsung/smdk4412"
+cd $base"kernel/samsung/smdk4412"
 git apply $cvePatchesLinux/CVE-2014-1739/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2014-3153/ANY/0004.patch
 git apply $cvePatchesLinux/CVE-2014-4656/ANY/0001.patch
