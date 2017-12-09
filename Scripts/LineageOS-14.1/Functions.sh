@@ -81,19 +81,27 @@ hardenDefconfig() {
 	#Attempts to enable/disable supported options to increase security
 	#See https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings
 
+	if ls arch/arm*/configs/lineage*defconfig 1> /dev/null 2>&1; then
+		defconfigPath="arch/arm/configs/lineage*defconfig arch/arm64/configs/lineage*defconfig";
+	else
+		defconfigPath="arch/arm/configs/*defconfig arch/arm64/configs/*defconfig";
+	fi;
+
+	#Enable supported options
 	declare -a optionsYes=("CONFIG_ARM64_SW_TTBR0_PAN" "CONFIG_BUG_ON_DATA_CORRUPTION" "CONFIG_BUG" "CONFIG_CC_STACKPROTECTOR_STRONG" "CONFIG_CC_STACKPROTECTOR" "CONFIG_CPU_SW_DOMAIN_PAN" "CONFIG_DEBUG_CREDENTIALS" "CONFIG_DEBUG_KERNEL" "CONFIG_DEBUG_LIST" "CONFIG_DEBUG_NOTIFIERS" "CONFIG_DEBUG_RODATA" "CONFIG_DEBUG_SG" "CONFIG_DEBUG_WX" "CONFIG_FORTIFY_SOURCE" "CONFIG_GCC_PLUGIN_LATENT_ENTROPY" "CONFIG_GCC_PLUGIN_RANDSTRUCT" "CONFIG_GCC_PLUGIN_STRUCTLEAK_BYREF_ALL" "CONFIG_GCC_PLUGIN_STRUCTLEAK" "CONFIG_GCC_PLUGINS" "CONFIG_HARDENED_USERCOPY" "CONFIG_IO_STRICT_DEVMEM" "CONFIG_LEGACY_VSYSCALL_NONE" "CONFIG_PAGE_POISONING_NO_SANITY" "CONFIG_PAGE_POISONING" "CONFIG_PAGE_POISONING_ZERO" "CONFIG_PANIC_ON_OOPS" "CONFIG_RANDOMIZE_BASE" "CONFIG_REFCOUNT_FULL" "CONFIG_SCHED_STACK_END_CHECK" "CONFIG_SECCOMP_FILTER" "CONFIG_SECCOMP" "CONFIG_SECURITY" "CONFIG_SECURITY_YAMA" "CONFIG_SECURITY_YAMA_STACKED" "CONFIG_SLAB_FREELIST_RANDOM" "CONFIG_SLAB_HARDENED" "CONFIG_SLUB_DEBUG" "CONFIG_STRICT_DEVMEM" "CONFIG_STRICT_KERNEL_RWX" "CONFIG_STRICT_MEMORY_RWX" "CONFIG_SYN_COOKIES" "CONFIG_VMAP_STACK")
 	for option in "${optionsYes[@]}"
 	do
-		sed -i 's/# '$option' is not set/'$option'=y/' arch/arm/configs/lineageos*defconfig arch/arm64/configs/lineageos*defconfig &>/dev/null || true;
+		sed -i 's/# '$option' is not set/'$option'=y/' $defconfigPath &>/dev/null || true;
 	done
-
+	#Disable supported options
 	declare -a optionsNo=("CONFIG_SECURITY_SELINUX_DISABLE" "CONFIG_PROC_KCORE" "CONFIG_OABI_COMPAT is unset" "CONFIG_KEXEC" "CONFIG_LEGACY_PTYS" "CONFIG_HIBERNATION" "CONFIG_INET_DIAG" "CONFIG_DEVKMEM" "CONFIG_DEVMEM" "CONFIG_COMPAT_BRK" "CONFIG_COMPAT_VDSO" "CONFIG_BINFMT_MISC" "CONFIG_ACPI_CUSTOM_METHOD")
 	for option in "${optionsNo[@]}"
 	do
-		sed -i 's/'$option'=y/# '$option' is not set/' arch/arm/configs/lineageos*defconfig arch/arm64/configs/lineageos*defconfig &>/dev/null || true;
+		sed -i 's/'$option'=y/# '$option' is not set/' $defconfigPath &>/dev/null || true;
 	done
+	#Extras
+	sed -i 's/CONFIG_DEFAULT_MMAP_MIN_ADDR=4096/CONFIG_DEFAULT_MMAP_MIN_ADDR=32768/' $defconfigPath &>/dev/null || true;
 
-	sed -i 's/CONFIG_DEFAULT_MMAP_MIN_ADDR=4096/CONFIG_DEFAULT_MMAP_MIN_ADDR=32768/' arch/arm/configs/lineageos*defconfig arch/arm64/configs/lineageos*defconfig &>/dev/null || true;
 	echo "Hardened defconfig for $1";
 	cd $base;
 }
