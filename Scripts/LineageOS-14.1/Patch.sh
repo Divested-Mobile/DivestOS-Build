@@ -16,7 +16,7 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #Delete Everything and Sync
-#repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/{FDroid,GmsCore,Silence} out && repo sync -j20 --force-sync && repopick -t n_asb_12-2017
+#repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/{FDroid,GmsCore,Silence} out && repo sync -j20 --force-sync
 
 #Apply all of our changes
 #source ../../Scripts/LineageOS-14.1/00init.sh && source $scripts/Patch.sh && source $scripts/Defaults.sh && source $scripts/Optimize.sh && source $scripts/Rebrand.sh && source $scripts/Theme.sh && source $scripts/Deblob.sh && source $scripts/Patch_CVE.sh && source build/envsetup.sh

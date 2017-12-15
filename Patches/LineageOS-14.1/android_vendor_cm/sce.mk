@@ -2,7 +2,11 @@
 PRODUCT_PACKAGES += \
     GmsCore \
     GsfProxy \
-    FakeStore \
+    FakeStore
+
+# UnifiedNLP Backends
+PRODUCT_PACKAGES += \
+    DejaVu \
     IchnaeaNlpBackend \
     NominatimNlpBackend
 
