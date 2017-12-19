@@ -99,6 +99,9 @@ sed -i 's|config_showWeatherMenu">true|config_showWeatherMenu">false|' res/value
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove the rest of CMStats
 patch -p1 < $patches"android_packages_apps_CMParts/0002-Reduced_Resolution.patch" #Allow reducing resolution to save power
 
+enter "packages/apps/DejaVu"
+cp $patches"android_packages_apps_DejaVu/Android.mk" Android.mk #Add a build file
+
 enter "packages/apps/FakeStore"
 sed -i 's|$(OUT_DIR)/target/|$(PWD)/$(OUT_DIR)/target/|' Android.mk;
 sed -i 's/ln -s /ln -sf /' Android.mk;
