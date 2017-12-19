@@ -79,6 +79,7 @@ patch -p1 < $patches"android_frameworks_base/0001-Reduced_Resolution.patch" #All
 #patch -p1 < $patches"android_frameworks_base/0002-Radio.patch" #Add a QS tile to control radio power #TODO: Breaks cell and SystemUI
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
+patch -p1 < $patches"android_frameworks_base/0006-OpenNIC.patch" #Change fallback and tethering DNS servers to OpenNIC AnyCast
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig
 
