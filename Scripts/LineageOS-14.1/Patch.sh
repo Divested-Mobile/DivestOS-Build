@@ -60,6 +60,10 @@ enter() {
 #
 #START OF ROM CHANGES
 #
+
+#top dir
+cp -r $patches"Fennec_DOS-Shim" packages/apps/.; #Add a shim to install Fennec DOS without actually including the large APK
+
 enter "build"
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing. Disclaimer: From CopperheadOS 13.0
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence

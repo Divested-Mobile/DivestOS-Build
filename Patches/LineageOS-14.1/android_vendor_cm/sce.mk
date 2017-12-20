@@ -14,3 +14,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     F-Droid \
     FDroidPrivilegedExtension
+
+# Browser
+PRODUCT_PACKAGES += \
+    FennecDOS
