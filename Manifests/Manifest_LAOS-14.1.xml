@@ -69,6 +69,25 @@
 	<remove-project name="platform/prebuilts/go/darwin-x86" />
 	<remove-project name="platform/prebuilts/ninja/darwin-x86" />
 	<remove-project name="platform/prebuilts/python/darwin-x86/2.7.5" />
+	<!-- Untested -->
+	<remove-project name="LineageOS/android_external_bash" />
+	<remove-project name="LineageOS/android_external_fuse" />
+	<remove-project name="LineageOS/android_external_htop" />
+	<remove-project name="LineageOS/android_external_libncurses" />
+	<remove-project name="LineageOS/android_external_libtar" />
+	<remove-project name="LineageOS/android_external_libtruezip" />
+	<remove-project name="LineageOS/android_external_lzo" />
+	<remove-project name="LineageOS/android_external_nano" />
+	<remove-project name="LineageOS/android_external_ntfs-3g" />
+	<remove-project name="LineageOS/android_external_openssh" />
+	<remove-project name="LineageOS/android_external_p7zip" />
+	<remove-project name="LineageOS/android_external_pigz" />
+	<remove-project name="LineageOS/android_external_rsync" />
+	<remove-project name="LineageOS/android_external_unrar" />
+	<remove-project name="LineageOS/android_external_unzip" />
+	<remove-project name="LineageOS/android_external_vim" />
+	<remove-project name="LineageOS/android_external_yaffs2" />
+	<remove-project name="LineageOS/android_external_zip" />
 <!-- END OF UNNECESSARY REPO REMOVAL -->
 
 <!-- START OF ADDITIONAL REPOS -->
@@ -132,6 +151,28 @@
 	<project path="device/htc/himaul" name="LineageOS/android_device_htc_himaul" remote="github" />
 	<project path="device/htc/hima-common" name="LineageOS/android_device_htc_hima-common" remote="github" />
 	<project path="kernel/htc/msm8994" name="LineageOS/android_kernel_htc_msm8994" remote="github" />
+
+	<!-- LG G2 (d802) -->
+	<project path="device/lge/g2-common" name="LineageOS/android_device_lge_g2-common" remote="github" />
+	<project path="device/lge/d802" name="LineageOS/android_device_lge_d802" remote="github" />
+	<project path="kernel/lge/msm8974" name="LineageOS/android_kernel_lge_msm8974" remote="github" />
+
+	<!-- LG G3 (d855) -->
+	<project path="device/lge/g3-common" name="LineageOS/android_device_lge_g3-common" remote="github" />
+	<project path="device/lge/d855" name="LineageOS/android_device_lge_d855" remote="github" />
+	<project path="kernel/lge/g3" name="LineageOS/android_kernel_lge_g3" remote="github" />
+
+	<!-- LG G4 (h815) -->
+	<project path="device/lge/g4-common" name="LineageOS/android_device_lge_g4-common" remote="github" />
+	<project path="device/lge/h815" name="LineageOS/android_device_lge_h815" remote="github" />
+	<project path="kernel/lge/msm8992" name="LineageOS/android_kernel_lge_msm8992" remote="github" />
+
+	<!-- LG G5 (h850) -->
+	<project path="device/lge/common" name="LineageOS/android_device_lge_common" remote="github" />
+	<project path="device/lge/g5-common" name="LineageOS/android_device_lge_g5-common" remote="github" />
+	<project path="device/lge/h850" name="LineageOS/android_device_lge_h850" remote="github" />
+	<project path="device/lge/msm8996-common" name="LineageOS/android_device_lge_msm8996-common" remote="github" />
+	<project path="kernel/lge/msm8996" name="LineageOS/android_kernel_lge_msm8996" remote="github" />
 
 	<!-- Moto G 3rd Gen (osprey) -->
 	<project path="device/motorola/msm8916-common" name="LineageOS/android_device_motorola_msm8916-common" remote="github" />
@@ -217,6 +258,11 @@
 	<project path="hardware/samsung_slsi-cm/exynos8890" name="LineageOS/android_hardware_samsung_slsi-cm_exynos8890" remote="github" />
 	<project path="hardware/samsung_slsi-cm/openmax" name="LineageOS/android_hardware_samsung_slsi-cm_openmax" remote="github" />
 	<project path="kernel/samsung/universal8890" name="LineageOS/android_kernel_samsung_universal8890" remote="github" />
+
+	<!-- NXP -->
+	<project path="vendor/nxp-nfc/opensource/frameworks" name="LineageOS/android_vendor_nxp-nfc_opensource_frameworks" remote="github" />
+	<project path="vendor/nxp-nfc/opensource/libnfc-nci" name="LineageOS/android_vendor_nxp-nfc_opensource_libnfc-nci" remote="github" />
+	<project path="vendor/nxp-nfc/opensource/Nfc" name="LineageOS/android_vendor_nxp-nfc_opensource_Nfc" remote="github" />
 
 	<!-- Proprietary Blobs -->
 	<project path="vendor/amazon" name="TheMuppets/proprietary_vendor_amazon" remote="github" />
