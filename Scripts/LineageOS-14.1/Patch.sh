@@ -22,10 +22,13 @@
 #source ../../Scripts/LineageOS-14.1/00init.sh && source $scripts/Patch.sh && source $scripts/Defaults.sh && source $scripts/Optimize.sh && source $scripts/Rebrand.sh && source $scripts/Theme.sh && source $scripts/Deblob.sh && source $scripts/Patch_CVE.sh && source build/envsetup.sh
 
 #Build!
-#brunch lineage_mako-user && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_thor-userdebug && brunch lineage_angler-user && brunch lineage_bullhead-user && brunch lineage_d802-user && brunch lineage_d855-user && brunch lineage_ether-user && brunch lineage_flounder-user && brunch lineage_flo-user && brunch lineage_FP2-user && brunch lineage_h815-user && brunch lineage_h850-user && brunch lineage_hammerhead-user && brunch lineage_himaul-user && brunch lineage_i9100-userdebug && brunch lineage_i9305-user && brunch lineage_jfltexx-user && brunch lineage_klte-user && brunch lineage_m8-user && brunch lineage_marlin-user && brunch lineage_n5110-user && brunch lineage_osprey-user && brunch lineage_sailfish-user && brunch lineage_shamu-user && brunch lineage_Z00T-user
+#brunch lineage_mako-user && export OTA_PACKAGE_SIGNING_KEY=../../Signing_Keys/releasekey && export SIGNING_KEY_DIR=../../Signing_Keys && brunch lineage_clark-user && brunch lineage_bacon-user && brunch lineage_thor-userdebug && brunch lineage_angler-user && brunch lineage_bullhead-user && brunch lineage_d802-userdebug && brunch lineage_d852-userdebug && brunch lineage_d855-userdebug && brunch lineage_ether-user && brunch lineage_flounder-user && brunch lineage_flo-user && brunch lineage_FP2-user && brunch lineage_hammerhead-user && brunch lineage_himaul-user && brunch lineage_i9100-userdebug && brunch lineage_i9305-user && brunch lineage_jfltexx-user && brunch lineage_klte-user && brunch lineage_m8-user && brunch lineage_marlin-user && brunch lineage_n5110-user && brunch lineage_osprey-user && brunch lineage_sailfish-user && brunch lineage_shamu-user && brunch lineage_Z00T-user
 #XXX: Currently broken
 #	lineage_herolte-user - missing libprotobuf-cpp-full.so
-#TODO: Add victara, griffin, athene
+#	lineage_h815-user - device/lge/g4-common/consumerir: MODULE.TARGET.SHARED_LIBRARIES.consumerir.msm8992 already defined by device/lge/common/consumerir
+#	lineage_h850-user - arch/arm64/mm/mmu.c:134:31: error: 'prot_sect_kernel' undeclared (first use in this function)
+#TODO: Add victara, griffin, athene, us997, us996
+#Select devices are userdebug due to SELinux policy issues
 
 #Generate an incremental
 #./build/tools/releasetools/ota_from_target_files --block -t 8 -i old.zip new.zip update.zip
@@ -62,7 +65,7 @@ enter() {
 #
 
 #top dir
-cp -r $patches"Fennec_DOS-Shim" packages/apps/.; #Add a shim to install Fennec DOS without actually including the large APK
+cp -r $patches"Fennec_DOS-Shim" $base"packages/apps/"; #Add a shim to install Fennec DOS without actually including the large APK
 
 enter "build"
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing. Disclaimer: From CopperheadOS 13.0
