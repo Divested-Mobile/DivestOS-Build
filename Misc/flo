@@ -1,5 +1,0 @@
-../../../../../../kernel/google/msm/arch/arm/mm/rodata.c: In function 'set_page_attributes':
-../../../../../../kernel/google/msm/arch/arm/mm/rodata.c:91:4: warning: format '%lx' expects argument of type 'long unsigned int', but argument 4 has type 'pmd_t' [-Wformat=]
-error, forbidden warning: rodata.c:91
-  CC      arch/arm/kernel/smp.o
-make[2]: *** [/mnt/Drive-1/Development/Other/Android_ROMs/Build/LineageOS-14.1/kernel/google/msm/scripts/Makefile.build:307: arch/arm/mm/rodata.o] Error 1

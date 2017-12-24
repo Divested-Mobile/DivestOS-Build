@@ -233,6 +233,7 @@ find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enhanceLocation "$0
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enabledForcedEncryption "$0"' {} \;
 find "kernel" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'hardenDefconfig "$0"' {} \;
 cd $base
+sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_flo_defconfig; #Breaks compile
 #
 #END OF DEVICE CHANGES
 #
