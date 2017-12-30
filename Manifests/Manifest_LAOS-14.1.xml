@@ -45,7 +45,6 @@
 	<remove-project name="LineageOS/contributors-cloud-generator" />
 	<remove-project name="LineageOS/cve_tracker" />
 	<remove-project name="LineageOS/hudson" />
-	<remove-project name="LineageOS/lineageos_updater" />
 	<remove-project name="LineageOS/lineage_wiki" />
 	<remove-project name="LineageOS/mirror" />
 	<remove-project name="LineageOS/scripts" />
@@ -73,8 +72,6 @@
 	<remove-project name="LineageOS/android_external_htop" />
 	<remove-project name="LineageOS/android_external_libncurses" />
 	<remove-project name="LineageOS/android_external_libtar" />
-	<remove-project name="LineageOS/android_external_libtruezip" />
-	<remove-project name="LineageOS/android_external_lzo" />
 	<remove-project name="LineageOS/android_external_nano" />
 	<remove-project name="LineageOS/android_external_ntfs-3g" />
 	<remove-project name="LineageOS/android_external_openssh" />
