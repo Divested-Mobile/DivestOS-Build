@@ -52,6 +52,7 @@ git apply $cvePatchesLinux/CVE-2016-GadgetFS/ANY/0007.patch
 git apply $cvePatchesLinux/CVE-2016-GadgetFS/ANY/0008.patch
 git apply $cvePatchesLinux/CVE-2016-GadgetFS/ANY/0009.patch
 git apply $cvePatchesLinux/CVE-2016-GadgetFS/ANY/0010.patch
+git apply $cvePatchesLinux/CVE-2017-0564/3.18/0004.patch
 git apply $cvePatchesLinux/CVE-2017-0610/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0866/3.18/0001.patch
@@ -60,9 +61,9 @@ git apply $cvePatchesLinux/CVE-2017-1000364/3.18/0009.patch
 git apply $cvePatchesLinux/CVE-2017-1000364/3.18/0010.patch
 git apply $cvePatchesLinux/CVE-2017-1000365/3.18/0002.patch
 git apply $cvePatchesLinux/CVE-2017-1000380/^4.11/0001.patch
-git apply $cvePatchesLinux/CVE-2017-11031/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-11031/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2017-12146/3.16+/0001.patch
-git apply $cvePatchesLinux/CVE-2017-15868/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-15868/3.18/0003.patch
 git apply $cvePatchesLinux/CVE-2017-16525/^4.13/0002.patch
 git apply $cvePatchesLinux/CVE-2017-16526/^4.13/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16530/^4.13/0001.patch

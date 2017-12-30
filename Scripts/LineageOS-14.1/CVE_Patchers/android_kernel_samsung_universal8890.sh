@@ -84,7 +84,7 @@ git apply $cvePatchesLinux/CVE-2017-1000380/^4.11/0001.patch
 git apply $cvePatchesLinux/CVE-2017-10996/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-11089/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-11090/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2017-15868/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-15868/3.18/0003.patch
 git apply $cvePatchesLinux/CVE-2017-16525/^4.13/0002.patch
 git apply $cvePatchesLinux/CVE-2017-16526/^4.13/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16529/^4.13/0001.patch
@@ -121,6 +121,7 @@ git apply $cvePatchesLinux/CVE-2017-7495/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7495/3.18/0002.patch
 git apply $cvePatchesLinux/CVE-2017-7616/^4.10/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7618/^4.10/0002.patch
+git apply $cvePatchesLinux/CVE-2017-9698/3.18/0001.patch
 git apply $cvePatchesLinux/Untracked/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $cvePatchesLinux/Untracked/ANY/0003-tunnels-Don-t-apply-GRO-to-multiple-layers-of-encaps.patch
 git apply $cvePatchesLinux/Untracked/ANY/0004-net-add-recursion-limit-to-GRO.patch
