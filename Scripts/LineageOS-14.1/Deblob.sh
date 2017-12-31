@@ -50,8 +50,8 @@ echo "Deblobbing..."
 	#ATFWD [Qualcomm]
 	blobs=$blobs"|ATFWD-daemon|atfwd.apk";
 
-	#AudioFX (Audio Effects) [Qualcomm]
-	blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so";
+	#AudioFX (Audio Effects) [Qualcomm] XXX: Breaks audio on some devices
+	#blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so";
 
 	#Camera
 	#Attempted, don't waste your time...

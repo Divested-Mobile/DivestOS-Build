@@ -217,12 +217,12 @@ sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.
 enter "kernel/oneplus/msm8974"
 patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock-EXTREME.patch" #300Mhz -> 268Mhz, 2.45Ghz -> 2.95Ghz	=+2.02Ghz XXX: Not 100% stable under intense workloads
 
-#enter "kernel/lge/g3"
+enter "kernel/lge/g3"
 #sed -i 's/39 01 00 00 00 00 04 F2 01 00 40/39 01 00 00 00 00 04 F2 01 00 00/' arch/arm/boot/dts/msm8974pro-lge-common/msm8974pro-lge-panel.dtsi; #Oversharpening fix, Credit: @Skin1980
-#patch -p1 < $patches"android_kernel_lge_g3/Overclock-1.patch" #2.45Ghz -> 2.76Ghz =+1.24Ghz XXX: Untested!
-#patch -p1 < $patches"android_kernel_lge_g3/Overclock-2.patch"
-#patch -p1 < $patches"android_kernel_lge_g3/Overclock-3.patch"
-#patch -p1 < $patches"android_kernel_lge_g3/Overclock-4.patch"
+patch -p1 < $patches"android_kernel_lge_g3/Overclock-1.patch" #2.45Ghz -> 2.76Ghz =+1.24Ghz XXX: Untested!
+patch -p1 < $patches"android_kernel_lge_g3/Overclock-2.patch"
+patch -p1 < $patches"android_kernel_lge_g3/Overclock-3.patch"
+patch -p1 < $patches"android_kernel_lge_g3/Overclock-4.patch"
 
 enter "device/lge/mako"
 disableDexPreOpt #bootloops
