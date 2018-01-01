@@ -25,7 +25,7 @@
 #brunch lineage_clark-user && brunch lineage_d852-userdebug && brunch lineage_bacon-user && brunch lineage_mako-user && brunch lineage_thor-userdebug && brunch lineage_angler-user && brunch lineage_bullhead-user && brunch lineage_d802-userdebug && brunch lineage_d855-userdebug && brunch lineage_ether-user && brunch lineage_flounder-user && brunch lineage_flo-user && brunch lineage_FP2-user && brunch lineage_hammerhead-user && brunch lineage_himaul-user && brunch lineage_i9100-userdebug && brunch lineage_i9305-user && brunch lineage_jfltexx-user && brunch lineage_klte-user && brunch lineage_m8-user && brunch lineage_marlin-user && brunch lineage_n5110-user && brunch lineage_osprey-user && brunch lineage_sailfish-user && brunch lineage_shamu-user && brunch lineage_Z00T-user
 #XXX: Currently broken
 #	lineage_herolte-user - missing libprotobuf-cpp-full.so
-#	lineage_h815-user - device/lge/g4-common/consumerir: MODULE.TARGET.SHARED_LIBRARIES.consumerir.msm8992 already defined by device/lge/common/consumerir
+#	lineage_h815-user - drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes [-Wframe-larger-than=]
 #	lineage_h850-user - arch/arm64/mm/mmu.c:134:31: error: 'prot_sect_kernel' undeclared (first use in this function)
 #TODO: Add victara, griffin, athene, us997, us996
 #Select devices are userdebug due to SELinux policy issues
@@ -223,6 +223,9 @@ patch -p1 < $patches"android_kernel_lge_g3/Overclock-1.patch" #2.45Ghz -> 2.76Gh
 patch -p1 < $patches"android_kernel_lge_g3/Overclock-2.patch"
 patch -p1 < $patches"android_kernel_lge_g3/Overclock-3.patch"
 patch -p1 < $patches"android_kernel_lge_g3/Overclock-4.patch"
+
+enter "device/lge/g4-common"
+rm -rf consumerir #Fixes: device/lge/g4-common/consumerir: MODULE.TARGET.SHARED_LIBRARIES.consumerir.msm8992 already defined by device/lge/common/consumerir
 
 enter "device/lge/mako"
 disableDexPreOpt #bootloops

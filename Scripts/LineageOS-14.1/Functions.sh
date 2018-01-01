@@ -67,8 +67,10 @@ export -f enableZram;
 
 enabledForcedEncryption() {
 	cd $base$1;
-	sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
-	echo "Enabled forceencrypt for $1";
+	if [[ $1 != *"mako"* ]]; then #Forced encryption seems to prevent some devices from booting
+		sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
+		echo "Enabled forceencrypt for $1";
+	fi;
 	cd $base;
 }
 export -f enabledForcedEncryption;
