@@ -141,7 +141,7 @@ enter "packages/apps/PackageInstaller"
 patch -p1 < $patches"android_packages_apps_PackageInstaller/64d8b44.diff" #Fix an issue with Permission Review
 
 enter "packages/apps/Settings"
-sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 32;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
+sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
 sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; #MicroG doesn't support Backup, hide the options
 patch -p1 < $patches"android_packages_apps_Settings/0001-Privacy_Guard-More_Perms.patch" #Allow more control over various permissions via Privacy Guard
 
@@ -174,12 +174,7 @@ cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid. Disclaimer: From CopperheadOS 13.0
 
 enter "system/vold"
-#XXX: THESE VALUES MUST *NOT* EVER BE CHANGED AFTER RELEASE!
-#sed -i 's|define HASH_COUNT 2000|define HASH_COUNT 6000|' cryptfs.c; #Increase pbkdf iterations
-#sed -i 's|define KEY_LEN_BYTES 16|define KEY_LEN_BYTES 32|' cryptfs.c; #128-bit -> 256-bit
-#sed -i 's|define IV_LEN_BYTES 16|define IV_LEN_BYTES 32|' cryptfs.c;
-#sed -i 's|define RSA_KEY_SIZE 2048|define RSA_KEY_SIZE 4096|' cryptfs.c; #Increase signning key size to 4096
-sed -i 's|define RETRY_MOUNT_DELAY_SECONDS 1|define RETRY_MOUNT_DELAY_SECONDS 3|' cryptfs.c;
+patch -p1 < $patches"android_system_vold/0001-AES256.patch" #Add a variable for enabling AES-256 bit encryption
 
 enter "vendor/cm"
 rm -rf overlay/common/vendor/cmsdk/packages #Remove analytics
@@ -219,7 +214,7 @@ patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock-EXTREME.
 
 enter "kernel/lge/g3"
 #sed -i 's/39 01 00 00 00 00 04 F2 01 00 40/39 01 00 00 00 00 04 F2 01 00 00/' arch/arm/boot/dts/msm8974pro-lge-common/msm8974pro-lge-panel.dtsi; #Oversharpening fix, Credit: @Skin1980
-patch -p1 < $patches"android_kernel_lge_g3/Overclock-1.patch" #2.45Ghz -> 2.76Ghz =+1.24Ghz XXX: Untested!
+patch -p1 < $patches"android_kernel_lge_g3/Overclock-1.patch" #2.45Ghz -> 2.76Ghz =+1.24Ghz
 patch -p1 < $patches"android_kernel_lge_g3/Overclock-2.patch"
 patch -p1 < $patches"android_kernel_lge_g3/Overclock-3.patch"
 patch -p1 < $patches"android_kernel_lge_g3/Overclock-4.patch"
@@ -240,10 +235,12 @@ patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch" #1.36
 #Make changes to all devices
 cd $base
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enhanceLocation "$0"' {} \;
-find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enabledForcedEncryption "$0"' {} \;
+find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableForcedEncryption "$0"' {} \;
+#find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableStrongEncryption "$0"' {} \;
 find "kernel" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'hardenDefconfig "$0"' {} \;
 cd $base
-sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_flo_defconfig; #Breaks compile
+enableStrongEncryption device/lge/mako #Enable experimental strong encryption for mako for testing
+sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_flo_defconfig; #Breaks on compile
 #
 #END OF DEVICE CHANGES
 #

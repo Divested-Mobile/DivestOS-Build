@@ -65,7 +65,7 @@ enableZram() {
 }
 export -f enableZram;
 
-enabledForcedEncryption() {
+enableForcedEncryption() {
 	cd $base$1;
 	if [[ $1 != *"mako"* ]]; then #Forced encryption seems to prevent some devices from booting
 		sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
@@ -73,7 +73,15 @@ enabledForcedEncryption() {
 	fi;
 	cd $base;
 }
-export -f enabledForcedEncryption;
+export -f enableForcedEncryption;
+
+enableStrongEncryption() {
+	cd $base$1;
+		echo "CONFIG_STRONG_ENCRYPTION := true" >> BoardConfig.mk;
+		echo "Enabled AES-256 encryption for $1";
+	cd $base;
+}
+export -f enableStrongEncryption;
 
 hardenDefconfig() {
 	cd $base$1;

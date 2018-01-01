@@ -1,0 +1,50 @@
+From af22f14223092a5403bc33608260f355b57284f3 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Mon, 1 Jan 2018 09:50:29 -0500
+Subject: [PATCH] Build time variable for AES-256 encryption
+
+Change-Id: Id08b5a18c5b4d4ec1f3f67a8e5eab93f5b967060
+---
+ cryptfs.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/cryptfs.c b/cryptfs.c
+index b25510f..86ffac3 100644
+--- a/cryptfs.c
++++ b/cryptfs.c
+@@ -76,9 +76,17 @@
+ 
+ #define DM_CRYPT_BUF_SIZE 4096
+ 
++#ifdef CONFIG_STRONG_ENCRYPTION
++#define HASH_COUNT 6000
++#define KEY_LEN_BYTES 32
++#define IV_LEN_BYTES 32
++#define RSA_KEY_SIZE 4096
++#else
+ #define HASH_COUNT 2000
+ #define KEY_LEN_BYTES 16
+ #define IV_LEN_BYTES 16
++#define RSA_KEY_SIZE 2048
++#endif
+ 
+ #define KEY_IN_FOOTER  "footer"
+ 
+@@ -94,13 +102,12 @@
+ 
+ #define TABLE_LOAD_RETRIES 10
+ 
+-#define RSA_KEY_SIZE 2048
+ #define RSA_KEY_SIZE_BYTES (RSA_KEY_SIZE / 8)
+ #define RSA_EXPONENT 0x10001
+ #define KEYMASTER_CRYPTFS_RATE_LIMIT 1  // Maximum one try per second
+ 
+ #define RETRY_MOUNT_ATTEMPTS 20
+-#define RETRY_MOUNT_DELAY_SECONDS 1
++#define RETRY_MOUNT_DELAY_SECONDS 3
+ 
+ char *me = "cryptfs";
+ 
+-- 
+2.15.1
+
