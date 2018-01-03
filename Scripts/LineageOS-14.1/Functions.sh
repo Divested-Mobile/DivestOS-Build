@@ -15,6 +15,25 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+enter() {
+	echo "================================================================================================"
+	dir=$1;
+	cd $base$dir;
+	echo "[ENTERING] "$dir;
+}
+export -f enter;
+
+enterAndClear() {
+	enter $1;
+	gitReset;
+}
+export -f enterAndClear;
+
+gitReset() {
+	git add -A && git reset --hard;
+}
+export -f gitReset;
+
 enableDexPreOpt() {
 	echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 	echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
