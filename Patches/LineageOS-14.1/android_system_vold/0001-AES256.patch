@@ -1,13 +1,29 @@
-From af22f14223092a5403bc33608260f355b57284f3 Mon Sep 17 00:00:00 2001
+From 2206aff4757e0f1094861f0e9505d1b5ddbf3236 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Mon, 1 Jan 2018 09:50:29 -0500
+Date: Wed, 3 Jan 2018 11:55:06 -0500
 Subject: [PATCH] Build time variable for AES-256 encryption
 
-Change-Id: Id08b5a18c5b4d4ec1f3f67a8e5eab93f5b967060
+Change-Id: Ib2d53a1d22e935ef0fa5f0f91e3bf5308d9c6459
 ---
- cryptfs.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ Android.mk |  4 ++++
+ cryptfs.c  | 11 +++++++++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
+diff --git a/Android.mk b/Android.mk
+index e645574..7112dce 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -115,6 +115,10 @@ LOCAL_C_INCLUDES += $(TARGET_CRYPTFS_HW_PATH)
+ LOCAL_CFLAGS += -DCONFIG_HW_DISK_ENCRYPTION
+ endif
+ 
++ifeq ($(TARGET_WANTS_STRONG_ENCRYPTION),true)
++LOCAL_CFLAGS += -DCONFIG_STRONG_ENCRYPTION
++endif
++
+ include $(BUILD_STATIC_LIBRARY)
+ 
+ include $(CLEAR_VARS)
 diff --git a/cryptfs.c b/cryptfs.c
 index b25510f..86ffac3 100644
 --- a/cryptfs.c

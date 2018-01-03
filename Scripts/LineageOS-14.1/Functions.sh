@@ -96,7 +96,7 @@ export -f enableForcedEncryption;
 
 enableStrongEncryption() {
 	cd $base$1;
-		echo "CONFIG_STRONG_ENCRYPTION := true" >> BoardConfig.mk;
+		echo "TARGET_WANTS_STRONG_ENCRYPTION := true" >> BoardConfig.mk;
 		echo "Enabled AES-256 encryption for $1";
 	cd $base;
 }

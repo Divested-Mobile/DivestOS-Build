@@ -14,7 +14,7 @@ git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0033.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0034.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0035.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0036.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0038.patch
+#git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0038.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0041.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0043.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0045.patch
@@ -84,6 +84,8 @@ git apply $cvePatchesLinux/CVE-2017-1000380/^4.11/0001.patch
 git apply $cvePatchesLinux/CVE-2017-10996/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-11089/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-11090/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-11473/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-13215/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-15868/3.18/0003.patch
 git apply $cvePatchesLinux/CVE-2017-16525/^4.13/0002.patch
 git apply $cvePatchesLinux/CVE-2017-16526/^4.13/0001.patch
