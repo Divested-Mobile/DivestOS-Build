@@ -1,0 +1,11 @@
+0001-BACKPORT-arm64-Add-CNTVCT_EL0-trap-handler.patch
+BACKPORT: arm64: Add CNTVCT_EL0 trap handler
+
+0002-BACKPORT-arm64-Add-CNTFRQ_EL0-trap-handler.patch
+BACKPORT: arm64: Add CNTFRQ_EL0 trap handler
+
+0003-arm64-issue-isb-when-trapping-CNTVCT_EL0-access.patch
+arm64: issue isb when trapping CNTVCT_EL0 access
+
+0004-clocksource-arch_timer-make-virtual-counter-access-c.patch
+clocksource: arch_timer: make virtual counter access-c
