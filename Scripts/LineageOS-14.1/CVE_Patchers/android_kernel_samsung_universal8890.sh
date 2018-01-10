@@ -133,4 +133,5 @@ git apply $cvePatchesLinux/Untracked/ANY/0007-USB-usbip-fix-potential-out-of-bou
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 #git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0039.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
+editKernelLocalversion "-dos.hp"
 cd $base

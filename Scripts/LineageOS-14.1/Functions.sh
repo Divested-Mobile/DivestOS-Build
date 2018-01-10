@@ -106,12 +106,7 @@ enableStrongEncryption() {
 }
 export -f enableStrongEncryption;
 
-hardenDefconfig() {
-	cd $base$1;
-
-	#Attempts to enable/disable supported options to increase security
-	#See https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings
-
+getDefconfig() {
 	if ls arch/arm/configs/lineage*defconfig 1> /dev/null 2>&1; then
 		defconfigPath="arch/arm/configs/lineage*defconfig";
 	elif ls arch/arm64/configs/lineage*defconfig 1> /dev/null 2>&1; then
@@ -119,7 +114,24 @@ hardenDefconfig() {
 	else
 		defconfigPath="arch/arm/configs/*defconfig arch/arm64/configs/*defconfig";
 	fi;
+	echo $defconfigPath;
 	#echo "Found defconfig at $defconfigPath"
+}
+export -f getDefconfig;
+
+editKernelLocalversion() {
+	defconfigPath=$(getDefconfig)
+	sed -i 's/CONFIG_LOCALVERSION=".*"/CONFIG_LOCALVERSION="'$1'"/' $defconfigPath &>/dev/null || true;
+}
+export -f editKernelLocalversion;
+
+hardenDefconfig() {
+	cd $base$1;
+
+	#Attempts to enable/disable supported options to increase security
+	#See https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings
+
+	defconfigPath=$(getDefconfig)
 
 	#Enable supported options
 	#Disabled: CONFIG_DEBUG_SG (bootloops - https://patchwork.kernel.org/patch/8989981)
@@ -143,6 +155,8 @@ hardenDefconfig() {
 	#Extras
 	sed -i 's/CONFIG_DEFAULT_MMAP_MIN_ADDR=4096/CONFIG_DEFAULT_MMAP_MIN_ADDR=32768/' $defconfigPath &>/dev/null || true;
 	sed -i 's/CONFIG_LSM_MMAP_MIN_ADDR=4096/CONFIG_DEFAULT_MMAP_MIN_ADDR=32768/' $defconfigPath &>/dev/null || true;
+
+	editKernelLocalversion "-dos.h";
 
 	echo "Hardened defconfig for $1";
 	cd $base;
