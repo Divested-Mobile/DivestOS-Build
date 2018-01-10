@@ -106,4 +106,8 @@ git apply $cvePatchesLinux/Untracked/ANY/0004-net-add-recursion-limit-to-GRO.pat
 git apply $cvePatchesLinux/Untracked/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $cvePatchesLinux/Untracked/ANY/0007-USB-usbip-fix-potential-out-of-bounds-write.patch
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
+git apply $cvePatchesLinux/CVE-2016-6693/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-0610/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
 cd $base
