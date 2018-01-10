@@ -86,7 +86,7 @@ export -f enableZram;
 
 enableForcedEncryption() {
 	cd $base$1;
-	if [[ $1 != *"mako"* ]]; then #Forced encryption seems to prevent some devices from booting
+	if [[ $1 != "device/lge/mako" ]]; then #Forced encryption seems to prevent some devices from booting
 		sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
 		echo "Enabled forceencrypt for $1";
 	fi;
@@ -96,8 +96,12 @@ export -f enableForcedEncryption;
 
 enableStrongEncryption() {
 	cd $base$1;
-		echo "TARGET_WANTS_STRONG_ENCRYPTION := true" >> BoardConfig.mk;
-		echo "Enabled AES-256 encryption for $1";
+	if [ -f BoardConfig.mk ]; then
+		if [ $1 != "device/oneplus/bacon" ] && [ $1 != "device/motorola/clark" ] && [ $1 != "device/lge/d852" ]; then #These test devices currently have encryption enabled, don't break them
+			echo "TARGET_WANTS_STRONG_ENCRYPTION := true" >> BoardConfig.mk;
+			echo "Enabled AES-256 encryption for $1";
+		fi;
+	fi;
 	cd $base;
 }
 export -f enableStrongEncryption;
