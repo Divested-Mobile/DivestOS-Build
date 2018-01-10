@@ -65,9 +65,10 @@ git apply $cvePatchesLinux/CVE-2017-11031/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2017-11473/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-12146/3.16+/0001.patch
 git apply $cvePatchesLinux/CVE-2017-13215/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2017-13218/3.18/0005.patch
 git apply $cvePatchesLinux/CVE-2017-13218/3.18/0006.patch
-git apply $cvePatchesLinux/CVE-2017-13218/3.18/0010.patch
+git apply $cvePatchesLinux/CVE-2017-13218/3.18/0007.patch
+git apply $cvePatchesLinux/CVE-2017-13218/3.18/0012.patch
+git apply $cvePatchesLinux/CVE-2017-15850/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-15868/3.18/0003.patch
 git apply $cvePatchesLinux/CVE-2017-16525/^4.13/0002.patch
 git apply $cvePatchesLinux/CVE-2017-16526/^4.13/0001.patch
