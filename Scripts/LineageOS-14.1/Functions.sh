@@ -156,7 +156,7 @@ hardenDefconfig() {
 	sed -i 's/CONFIG_DEFAULT_MMAP_MIN_ADDR=4096/CONFIG_DEFAULT_MMAP_MIN_ADDR=32768/' $defconfigPath &>/dev/null || true;
 	sed -i 's/CONFIG_LSM_MMAP_MIN_ADDR=4096/CONFIG_DEFAULT_MMAP_MIN_ADDR=32768/' $defconfigPath &>/dev/null || true;
 
-	editKernelLocalversion "-dos.h";
+	editKernelLocalversion "-dos";
 
 	echo "Hardened defconfig for $1";
 	cd $base;
