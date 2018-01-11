@@ -1,0 +1,79 @@
+From c1f428064fed404f1e2271dda76ac98fcb0f714f Mon Sep 17 00:00:00 2001
+From: Andrew Miyaguchi <XDleader555@gmail.com>
+Date: Thu, 4 Jan 2018 01:32:30 -0800
+Subject: [PATCH] ARM: dts: msm: add support for 302MHz on both A53/A57
+
+Minimalistic edit without touching CCI frequencies
+Also update regulator so voltage requests aren't rejected
+---
+ arch/arm/boot/dts/qcom/msm8992-regulator.dtsi | 6 +++---
+ arch/arm/boot/dts/qcom/msm8992.dtsi           | 4 ++++
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi b/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi
+index 506a4542c50..20085cb75b5 100644
+--- a/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi
++++ b/arch/arm/boot/dts/qcom/msm8992-regulator.dtsi
+@@ -549,7 +549,7 @@
+ 			compatible = "qcom,spm-regulator";
+ 			reg = <0x2900 0x100>;
+ 			regulator-name = "pm8994_s8";
+-			regulator-min-microvolt = <700000>;
++			regulator-min-microvolt = <640000>;
+ 			regulator-max-microvolt = <1180000>;
+ 			qcom,cpu-num = <0>;
+ 		};
+@@ -750,7 +750,7 @@
+ 		qcom,cpr-voltage-scaling-factor-max = <0 0 2000 2000>;
+ 		qcom,cpr-quot-adjust-scaling-factor-max = <0 2000 2000 2000>;
+ 		qcom,cpr-corner-frequency-map =
+-				<1   300000000>,
++				<1   302400000>,
+ 				<2   384000000>,
+ 				<3   460800000>,
+ 				<4   600000000>,
+@@ -899,7 +899,7 @@
+ 		qcom,cpr-quot-adjust-scaling-factor-max = <0 0 2000 2000>;
+ 		qcom,cpr-corner-frequency-map =
+ 				<1   300000000>, /* SVS Fmin for "SVS2" */
+-				<2   300000000>,
++				<2   302400000>,
+ 				<3   384000000>,
+ 				<4   480000000>,
+ 				<5   633600000>,
+diff --git a/arch/arm/boot/dts/qcom/msm8992.dtsi b/arch/arm/boot/dts/qcom/msm8992.dtsi
+index 2f1c4399f19..7be0fa258ec 100644
+--- a/arch/arm/boot/dts/qcom/msm8992.dtsi
++++ b/arch/arm/boot/dts/qcom/msm8992.dtsi
+@@ -923,6 +923,7 @@
+ 		qcom,governor-per-policy;
+ 
+ 		qcom,cpufreq-table-0 =
++			<  302400 >,
+ 			<  384000 >,
+ 			<  460800 >,
+ 			<  600000 >,
+@@ -936,6 +937,7 @@
+ 			< 1632000 >;
+ 
+ 		qcom,cpufreq-table-4 =
++			<  302400 >,
+ 			<  384000 >,
+ 			<  480000 >,
+ 			<  633600 >,
+@@ -980,6 +982,7 @@
+ 				< 1248000000 9>;
+ 		qcom,a53-speedbin1-v0 =
+ 				<	   0 0>,
++				<  302400000 1>,
+ 				<  384000000 2>,
+ 				<  460800000 3>,
+ 				<  600000000 4>,
+@@ -993,6 +996,7 @@
+ 				< 1632000000 12>;
+ 		qcom,a57-speedbin0-v0 =
+ 				<	   0 0>,
++				<  302400000 5>,
+ 				<  384000000 5>,
+ 				<  480000000 5>,
+ 				<  633600000 5>,
