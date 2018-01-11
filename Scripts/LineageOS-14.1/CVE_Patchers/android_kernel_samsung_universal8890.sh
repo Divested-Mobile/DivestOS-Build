@@ -20,6 +20,9 @@ git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0043.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0045.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0046.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0050.patch
+git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0011.patch
+git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0012.patch
+git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0013.patch
 git apply $cvePatchesLinux/CVE-2013-7446/^4.3/0003.patch
 git apply $cvePatchesLinux/CVE-2014-9900/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2014-9940/ANY/0001.patch
@@ -133,5 +136,5 @@ git apply $cvePatchesLinux/Untracked/ANY/0007-USB-usbip-fix-potential-out-of-bou
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 #git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0039.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p133"
+editKernelLocalversion "-dos.p136"
 cd $base

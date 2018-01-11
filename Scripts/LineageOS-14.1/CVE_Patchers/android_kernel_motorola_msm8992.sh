@@ -16,6 +16,9 @@ git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0016.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0017.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0018.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0001.patch
+git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0011.patch
+git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0012.patch
+git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0013.patch
 git apply $cvePatchesLinux/CVE-2013-7446/^4.3/0003.patch
 git apply $cvePatchesLinux/CVE-2014-9781/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2015-0573/ANY/0001.patch
@@ -181,5 +184,5 @@ git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-15845/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-8281/3.10/0003.patch
-editKernelLocalversion "-dos.p181"
+editKernelLocalversion "-dos.p184"
 cd $base

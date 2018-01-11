@@ -1,6 +1,7 @@
 #!/bin/bash
 cd $base"kernel/amazon/hdx-common"
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0001.patch
+git apply $cvePatchesLinux/0010-Accelerated_AES/3.4/0002.patch
 git apply $cvePatchesLinux/CVE-2012-6704/^3.5/0001.patch
 git apply $cvePatchesLinux/CVE-2014-1739/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2014-3153/ANY/0002.patch
@@ -84,5 +85,5 @@ git apply $cvePatchesLinux/CVE-2017-9242/^4.11/0001.patch
 git apply $cvePatchesLinux/CVE-2017-9684/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-9706/ANY/0001.patch
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
-editKernelLocalversion "-dos.p84"
+editKernelLocalversion "-dos.p85"
 cd $base

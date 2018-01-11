@@ -1,0 +1,31 @@
+Biclique
+	128: O(91176400000000000000000000000000000000)
+	192: O(1274650000000000000000000000000000000000000000000000000000)
+	256: O(38197100000000000000000000000000000000000000000000000000000000000000000000000)
+
+Grovers (2^(n/2))
+	128: O(18446744073709551616)
+	192: O(79228162514264337593543950336)
+	256: O(340282366920938463463374607431768211456)
+
+Benchmarks (Androbench)
+	mako-1/2
+		No Encryption
+			Seq. Read: 77 MBps
+			Seq. Write: 20 MBps
+			Rand. Read: 11 MBps
+			Rand. Write: 3 MBps
+		AES-128/RSA-2048 Encryption
+		AES-192/RSA-4096 Encryption
+		AES-256/RSA-4096 Encryption
+			Seq. Read: 26 MBps
+			Seq. Write: 18 MBps
+			Rand. Read: 8 MBps
+			Rand. Write: 3 MBps
+		AES-256/RSA-4096 Encryption + Overclock
+	clark-1
+		AES-128/RSA-2048 Encryption
+			Seq. Read: 50 MBps
+			Seq. Write: 39 MBps
+			Rand. Read: 10 MBps
+			Rand. Write: 10 MBps
