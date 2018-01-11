@@ -1,0 +1,60 @@
+From e4ec1877adef9b5c222793f77390b607e5f5c900 Mon Sep 17 00:00:00 2001
+From: anarkia1976 <stefano.villa1976@gmail.com>
+Date: Wed, 5 Feb 2014 07:15:12 +0100
+Subject: [PATCH] msm: cpu: overclock: added ultra low (81Mhz) cpu clock
+ frequencies
+
+---
+ arch/arm/mach-msm/acpuclock-8064.c  | 4 ++++
+ arch/arm/mach-msm/acpuclock-krait.c | 2 +-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/mach-msm/acpuclock-8064.c b/arch/arm/mach-msm/acpuclock-8064.c
+index e15d4b4ff4d..7879be1d564 100644
+--- a/arch/arm/mach-msm/acpuclock-8064.c
++++ b/arch/arm/mach-msm/acpuclock-8064.c
+@@ -172,6 +172,7 @@ static struct l2_level l2_freq_tbl[] __initdata = {
+ 
+ static struct acpu_level tbl_slow[] __initdata = {
+ #ifdef CONFIG_LOW_CPUCLOCKS
++	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
+ 	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   875000 },
+ 	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   900000 },
+ 	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   950000 },
+@@ -212,6 +213,7 @@ static struct acpu_level tbl_slow[] __initdata = {
+ 
+ static struct acpu_level tbl_nom[] __initdata = {
+ #ifdef CONFIG_LOW_CPUCLOCKS
++	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
+ 	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   825000 },
+ 	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   850000 },
+ 	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   900000 },
+@@ -252,6 +254,7 @@ static struct acpu_level tbl_nom[] __initdata = {
+ 
+ static struct acpu_level tbl_fast[] __initdata = {
+ #ifdef CONFIG_LOW_CPUCLOCKS
++	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
+ 	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   775000 },
+ 	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   800000 },
+ 	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   850000 },
+@@ -292,6 +295,7 @@ static struct acpu_level tbl_fast[] __initdata = {
+ 
+ static struct acpu_level tbl_faster[] __initdata = {
+ #ifdef CONFIG_LOW_CPUCLOCKS
++	{ 1, {    81000, HFPLL, 2, 0x06 }, L2(0),   750000 },
+ 	{ 1, {   162000, HFPLL, 2, 0x0C }, L2(0),   775000 },
+ 	{ 1, {   270000, HFPLL, 2, 0x14 }, L2(0),   800000 },
+ 	//{ 1, {   378000, HFPLL, 2, 0x1C }, L2(0),   850000 },
+diff --git a/arch/arm/mach-msm/acpuclock-krait.c b/arch/arm/mach-msm/acpuclock-krait.c
+index 33be3163c63..12db7f9e9f6 100644
+--- a/arch/arm/mach-msm/acpuclock-krait.c
++++ b/arch/arm/mach-msm/acpuclock-krait.c
+@@ -46,7 +46,7 @@
+ #define PRI_SRC_SEL_HFPLL_DIV2	2
+ 
+ #ifdef CONFIG_LOW_CPUCLOCKS
+-#define FREQ_TABLE_SIZE		39
++#define FREQ_TABLE_SIZE		40
+ #else
+ #define FREQ_TABLE_SIZE		35
+ #endif
