@@ -1,0 +1,47 @@
+From a7d2988f5ec81cd5e456eddba110d0ef1f809e50 Mon Sep 17 00:00:00 2001
+From: Dan Sneddon <dsneddon@codeaurora.org>
+Date: Fri, 27 Mar 2015 16:02:02 -0600
+Subject: [PATCH] ARM: dts: msm: Adjust SPDM params on 8992
+
+The current SPDM parameters cause a power increase
+on 8992.  This patch adjusts those parameters to
+eliminate the negative power impact.
+
+Change-Id: Ibdfaaf4cb50c346b6433a4a7dc910713bce8125f
+Signed-off-by: Dan Sneddon <dsneddon@codeaurora.org>
+---
+ arch/arm/boot/dts/qcom/msm8992-bus.dtsi | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/boot/dts/qcom/msm8992-bus.dtsi b/arch/arm/boot/dts/qcom/msm8992-bus.dtsi
+index 3efc2047d4a..e7b83cc11c0 100644
+--- a/arch/arm/boot/dts/qcom/msm8992-bus.dtsi
++++ b/arch/arm/boot/dts/qcom/msm8992-bus.dtsi
+@@ -1516,8 +1516,8 @@
+ 		clocks = <&clock_cpu clk_cci_clk>;
+ 
+ 		qcom,bw-upstep = <1000>;
+-		qcom,bw-dwnstep = <1000>;
+-		qcom,max-vote = <10000>;
++		qcom,bw-dwnstep = <5000>;
++		qcom,max-vote = <5000>;
+ 		qcom,up-step-multp = <2>;
+ 		qcom,spdm-interval = <100>;
+ 
+@@ -1527,14 +1527,14 @@
+ 		qcom,bucket-size = <8>;
+ 
+ 		/*max pl1 freq, max pl2 freq*/
+-		qcom,pl-freqs = <140000000 160000000>;
++		qcom,pl-freqs = <280000000 350000000>;
+ 
+ 		/* pl1 low, pl1 high, pl2 low, pl2 high, pl3 low, pl3 high */
+ 		qcom,reject-rate = <5000 5000 5000 5000 5000 5000>;
+ 		/* pl1 low, pl1 high, pl2 low, pl2 high, pl3 low, pl3 high */
+ 		qcom,response-time-us = <10000 10000 10000 10000 3000 3000>;
+ 		/* pl1 low, pl1 high, pl2 low, pl2 high, pl3 low, pl3 high */
+-		qcom,cci-response-time-us = <10000 10000 10000 10000 1000 1000>;
++		qcom,cci-response-time-us = <10000 10000 10000 10000 3000 3000>;
+ 		qcom,max-cci-freq = <787000000>;
+ 	};
+ 

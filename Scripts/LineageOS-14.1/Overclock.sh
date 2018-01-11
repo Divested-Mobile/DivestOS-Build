@@ -20,14 +20,22 @@
 
 echo "Applying overclocks..."
 
+enter "kernel/huawei/msm8994"
+patch -p1 < $patches"android_kernel_huawei_msm8994/0001-Overclock.patch"
+
+enter "kernel/lge/bullhead"
+patch -p1 < $patches"android_kernel_lge_bullhead/0001-Overclock.patch"
+patch -p1 < $patches"android_kernel_lge_bullhead/0002-Overclock.patch"
+patch -p1 < $patches"android_kernel_lge_bullhead/0003-Overclock.patch"
+
 enter "kernel/lge/g3"
-patch -p1 < $patches"android_kernel_lge_g3/Overclock-1.patch" #2.45Ghz -> 2.76Ghz =+1.24Ghz
-patch -p1 < $patches"android_kernel_lge_g3/Overclock-2.patch"
-patch -p1 < $patches"android_kernel_lge_g3/Overclock-3.patch"
-patch -p1 < $patches"android_kernel_lge_g3/Overclock-4.patch"
+patch -p1 < $patches"android_kernel_lge_g3/0001-Overclock.patch" #2.45Ghz -> 2.76Ghz =+1.24Ghz
+patch -p1 < $patches"android_kernel_lge_g3/0002-Overclock.patch"
+patch -p1 < $patches"android_kernel_lge_g3/0003-Overclock.patch"
+patch -p1 < $patches"android_kernel_lge_g3/0004-Overclock.patch"
 
 enter "kernel/lge/hammerhead"
-patch -p1 < $patches"android_kernel_lge_hammerhead/0001-OverUnderClock.patch" #2.26Ghz -> 2.95Ghz	=+2.76Ghz XXX: Untested!
+patch -p1 < $patches"android_kernel_lge_hammerhead/0001-Overclock.patch" #2.26Ghz -> 2.95Ghz	=+2.76Ghz XXX: Untested!
 
 #enter "kernel/lge/mako"
 #patch -p1 < $patches"android_kernel_lge_mako/0001-OverUnderClock.patch" #384Mhz -> 81Mhz, 1.51Ghz -> 1.94Ghz	=+1.72Ghz XXX: Disabled due to excessive thermal throttling
