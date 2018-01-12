@@ -1,4 +1,4 @@
-From 1055721b9aa99bdd1d9822ae955643f6791a38fb Mon Sep 17 00:00:00 2001
+From d726de1fcf43edea54ddc4cfcf524025205aed30 Mon Sep 17 00:00:00 2001
 From: Omar Einea <eineao@gmail.com>
 Date: Wed, 11 Feb 2015 11:35:23 +0400
 Subject: [PATCH] dts: msm8974: Add CPU overclocking upto 2.41 GHz
@@ -7,13 +7,11 @@ Thanks to faux123, DooMLoRD & Androguide
 
 Signed-off-by: Omar Einea <eineao@gmail.com>
 ---
- arch/arm/boot/dts/msm8974.dtsi     | 30 ++++++++++++++++++++++--------
- arch/arm/boot/dts/msm8974.dtsi.rej | 12 ++++++++++++
- 2 files changed, 34 insertions(+), 8 deletions(-)
- create mode 100644 arch/arm/boot/dts/msm8974.dtsi.rej
+ arch/arm/boot/dts/msm8974.dtsi | 30 ++++++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 8 deletions(-)
 
 diff --git a/arch/arm/boot/dts/msm8974.dtsi b/arch/arm/boot/dts/msm8974.dtsi
-index 31bb82d7c98..827e464706f 100644
+index db2191e9765..bd9798de95a 100644
 --- a/arch/arm/boot/dts/msm8974.dtsi
 +++ b/arch/arm/boot/dts/msm8974.dtsi
 @@ -1424,7 +1424,9 @@
@@ -90,10 +88,10 @@ index 31bb82d7c98..827e464706f 100644
 +			< 2265600000  925000 691 >,
 +			< 2342400000  950000 714 >,
 +			< 2419200000  975000 738 >;
+ 	};
  
- 		qcom,speed3-pvs0-bin-v0 =
- 			<          0       0   0 >,
-@@ -1872,7 +1886,7 @@
+ 	qcom,cpubw {
+@@ -1647,7 +1661,7 @@
  			< 1728000 1651200 6103 >,
  			< 1958400 1728000 7102 >,
  			< 2265600 1728000 7102 >,
@@ -102,24 +100,6 @@ index 31bb82d7c98..827e464706f 100644
  	};
  
  	usb3: qcom,ssusb@f9200000 {
-diff --git a/arch/arm/boot/dts/msm8974.dtsi.rej b/arch/arm/boot/dts/msm8974.dtsi.rej
-new file mode 100644
-index 00000000000..1c110a02502
---- /dev/null
-+++ b/arch/arm/boot/dts/msm8974.dtsi.rej
-@@ -0,0 +1,12 @@
-+diff a/arch/arm/boot/dts/msm8974.dtsi b/arch/arm/boot/dts/msm8974.dtsi	(rejected hunks)
-+@@ -1543,7 +1555,9 @@
-+ 			< 2035200000  895000 596 >,
-+ 			< 2112000000  905000 627 >,
-+ 			< 2188800000  915000 659 >,
-+-			< 2265600000  925000 691 >;
-++			< 2265600000  925000 691 >,
-++			< 2342400000  950000 714 >,
-++			< 2419200000  975000 738 >;
-+ 	};
-+ 
-+ 	qcom,cpubw {
 -- 
 2.15.1
 
