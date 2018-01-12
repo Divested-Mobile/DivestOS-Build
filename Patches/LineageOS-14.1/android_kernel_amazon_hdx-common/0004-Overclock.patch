@@ -1,0 +1,26 @@
+From 0306bd6028b3198fd69c8051acaa518614199dbf Mon Sep 17 00:00:00 2001
+From: Omar Einea <eineao@gmail.com>
+Date: Sat, 14 Feb 2015 12:45:11 +0400
+Subject: [PATCH] dts: msm8974: Use 2.34 GHz and 2.11 GHz CPU freq steps
+
+Thanks to Androguide
+
+Signed-off-by: Omar Einea <eineao@gmail.com>
+---
+ arch/arm/boot/dts/msm8974.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/arm/boot/dts/msm8974.dtsi b/arch/arm/boot/dts/msm8974.dtsi
+index 01731c11efa..213e7af1efc 100644
+--- a/arch/arm/boot/dts/msm8974.dtsi
++++ b/arch/arm/boot/dts/msm8974.dtsi
+@@ -1607,7 +1607,9 @@
+ 			< 1574400 1574400 6103 >,
+ 			< 1728000 1651200 6103 >,
+ 			< 1958400 1728000 7102 >,
++			< 2112000 1728000 7102 >,
+ 			< 2265600 1728000 7102 >,
++			< 2342400 1728000 7102 >,
+ 			< 2419200 1728000 7102 >;
+ 	};
+ 

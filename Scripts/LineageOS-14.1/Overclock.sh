@@ -20,11 +20,13 @@
 echo "Applying overclocks..."
 
 enter "kernel/amazon/hdx-common"
-patch -p1 < $patches"android_kernel_amazon_hdx-common/0001-Overclock.patch"
+patch -p1 < $patches"android_kernel_amazon_hdx-common/0001-Overclock.patch" #300Mhz -> 268Mhz, 2.26Ghz -> 2.41Ghz	=+0.60Ghz
 patch -p1 < $patches"android_kernel_amazon_hdx-common/0002-Overclock.patch"
+patch -p1 < $patches"android_kernel_amazon_hdx-common/0003-Overclock.patch"
+patch -p1 < $patches"android_kernel_amazon_hdx-common/0004-Overclock.patch"
 
 #enter "kernel/google/msm"
-#patch -p1 < $patches"android_kernel_google_msm/0001-Overclock.patch" #flo, 1.51Ghz -> 2.21Ghz =+2.8Ghz TODO: Needs to be rebased
+#patch -p1 < $patches"android_kernel_google_msm/0001-Overclock.patch" #flo, 1.51Ghz -> 2.21Ghz =+2.80Ghz TODO: Needs to be rebased
 
 enter "kernel/huawei/angler"
 patch -p1 < $patches"android_kernel_huawei_angler/0001-Overclock.patch"

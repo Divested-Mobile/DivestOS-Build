@@ -1,53 +1,56 @@
-From 161beb29a16cc95b6ba8219ddc7d5f52c97c1184 Mon Sep 17 00:00:00 2001
-From: DooMLoRD <metoo.mememe@gmail.com>
-Date: Sun, 13 Apr 2014 01:44:37 +0530
-Subject: [PATCH] dts acpuclock: added new 2.4GHz speed bin table
+From 8b2ae0d4d7012ae908ec2c4d6439d9225818766a Mon Sep 17 00:00:00 2001
+From: Paul Reioux <reioux@gmail.com>
+Date: Wed, 5 Mar 2014 19:23:12 -0600
+Subject: [PATCH] msm8974-regulator.dtsi: further reduce CPU retention voltage
 
+this should help idel drain during processor retention c-state
+
+Signed-off-by: Paul Reioux <reioux@gmail.com>
 ---
- arch/arm/boot/dts/msm8974.dtsi | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ arch/arm/boot/dts/msm8974-regulator.dtsi | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm/boot/dts/msm8974.dtsi b/arch/arm/boot/dts/msm8974.dtsi
-index 1f392ccd..7b6b895c 100644
---- a/arch/arm/boot/dts/msm8974.dtsi
-+++ b/arch/arm/boot/dts/msm8974.dtsi
-@@ -1529,6 +1529,39 @@
- 			< 2112000000  905000 627 >,
- 			< 2188800000  915000 659 >,
- 			< 2265600000  925000 691 >;
-+
-+		qcom,speed3-pvs3-bin-v0 =
-+			<          0       0   0 >,
-+			<  300000000  750000  72 >,
-+			<  345600000  750000  83 >,
-+			<  422400000  750000 101 >,
-+			<  499200000  750000 120 >,
-+			<  576000000  750000 139 >,
-+			<  652800000  755000 159 >,
-+			<  729600000  765000 180 >,
-+			<  806400000  775000 200 >,
-+			<  883200000  785000 221 >,
-+			<  960000000  795000 242 >,
-+			< 1036800000  805000 264 >,
-+			< 1113600000  815000 287 >,
-+			< 1190400000  825000 308 >,
-+			< 1267200000  835000 333 >,
-+			< 1344000000  850000 356 >,
-+			< 1420800000  860000 380 >,
-+			< 1497600000  870000 404 >,
-+			< 1574400000  885000 430 >,
-+			< 1651200000  900000 456 >,
-+			< 1728000000  910000 482 >,
-+			< 1804800000  925000 510 >,
-+			< 1881600000  935000 538 >,
-+			< 1958400000  945000 565 >,
-+			< 2035200000  960000 596 >,
-+			< 2112000000  970000 627 >,
-+			< 2188800000  985000 659 >,
-+			< 2265600000 1000000 691 >,
-+			< 2342400000 1025000 714 >,
-+			< 2419200000 1050000 738 >;
-+
- 	};
- 
- 	qcom,cpubw {
+diff --git a/arch/arm/boot/dts/msm8974-regulator.dtsi b/arch/arm/boot/dts/msm8974-regulator.dtsi
+index daefbadcb49..cd2da20691f 100644
+--- a/arch/arm/boot/dts/msm8974-regulator.dtsi
++++ b/arch/arm/boot/dts/msm8974-regulator.dtsi
+@@ -480,7 +480,8 @@
+ 			regulator-min-microvolt = <500000>;
+ 			regulator-max-microvolt = <1100000>;
+ 			qcom,headroom-voltage = <150000>;
+-			qcom,retention-voltage = <675000>;
++			/* reduce retention voltage */
++			qcom,retention-voltage = <600000>;
+ 			qcom,ldo-default-voltage = <750000>;
+ 			qcom,ldo-threshold-voltage = <850000>;
+ 			qcom,ldo-delta-voltage = <50000>;
+@@ -496,7 +497,8 @@
+ 			regulator-min-microvolt = <500000>;
+ 			regulator-max-microvolt = <1100000>;
+ 			qcom,headroom-voltage = <150000>;
+-			qcom,retention-voltage = <675000>;
++			/* reduce retention voltage */
++			qcom,retention-voltage = <600000>;
+ 			qcom,ldo-default-voltage = <750000>;
+ 			qcom,ldo-threshold-voltage = <850000>;
+ 			qcom,ldo-delta-voltage = <50000>;
+@@ -512,7 +514,8 @@
+ 			regulator-min-microvolt = <500000>;
+ 			regulator-max-microvolt = <1100000>;
+ 			qcom,headroom-voltage = <150000>;
+-			qcom,retention-voltage = <675000>;
++			/* reduce retention voltage */
++			qcom,retention-voltage = <600000>;
+ 			qcom,ldo-default-voltage = <750000>;
+ 			qcom,ldo-threshold-voltage = <850000>;
+ 			qcom,ldo-delta-voltage = <50000>;
+@@ -528,7 +531,8 @@
+ 			regulator-min-microvolt = <500000>;
+ 			regulator-max-microvolt = <1100000>;
+ 			qcom,headroom-voltage = <150000>;
+-			qcom,retention-voltage = <675000>;
++			/* reduce retention voltage */
++			qcom,retention-voltage = <600000>;
+ 			qcom,ldo-default-voltage = <750000>;
+ 			qcom,ldo-threshold-voltage = <850000>;
+ 			qcom,ldo-delta-voltage = <50000>;
