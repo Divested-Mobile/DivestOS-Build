@@ -34,6 +34,34 @@ gitReset() {
 }
 export -f gitReset;
 
+resetWorkspace() {
+	repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/{FDroid,GmsCore,Silence} out && repo sync -j20 --force-sync;
+}
+export -f resetWorkspace;
+
+buildDevice() {
+	brunch lineage_$1-user;
+}
+export -f buildDevice;
+
+buildAll() {
+	brunch lineage_clark-user && brunch lineage_d852-userdebug && brunch lineage_bacon-user && brunch lineage_thor-userdebug && brunch lineage_mako-user && brunch lineage_angler-user && brunch lineage_bullhead-user && brunch lineage_d802-userdebug && brunch lineage_d855-userdebug && brunch lineage_ether-user && brunch lineage_flounder-user && brunch lineage_flo-user && brunch lineage_FP2-user && brunch lineage_hammerhead-user && brunch lineage_himaul-user && brunch lineage_i9100-userdebug && brunch lineage_i9305-user && brunch lineage_jfltexx-user && brunch lineage_klte-user && brunch lineage_m8-user && brunch lineage_marlin-user && brunch lineage_n5110-user && brunch lineage_osprey-user && brunch lineage_sailfish-user && brunch lineage_shamu-user && brunch lineage_Z00T-user;
+}
+export -f buildAll;
+
+patchWorkspace() {
+	source $scripts/Patch.sh;
+	source $scripts/Defaults.sh;
+	source $scripts/Overclock.sh;
+	source $scripts/Optimize.sh;
+	source $scripts/Rebrand.sh;
+	source $scripts/Theme.sh;
+	source $scripts/Deblob.sh;
+	source $scripts/Patch_CVE.sh;
+	source build/envsetup.sh;
+}
+export -f patchWorkspace;
+
 enableDexPreOpt() {
 	echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 	echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
