@@ -124,6 +124,7 @@ patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Releas
 
 enterAndClear "packages/apps/GmsCore"
 git submodule update --init --recursive
+sed -i 's|build/outputs/apk/play-services-core-release-unsigned.apk|build/outputs/apk/release/play-services-core-release-unsigned.apk|' Android.mk;
 
 enterAndClear "packages/apps/GsfProxy"
 sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools = "25.0.3"/' build.gradle;
@@ -200,7 +201,6 @@ sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod
 enterAndClear "device/motorola/clark"
 #enableDexPreOpt
 patch -p1 < $patches"android_device_motorola_clark/0001-Tri_State_Torch.patch" #Tri-state torch
-awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk; #Soft bricks the radio when flashing via AOSP recovery
 
 enterAndClear "device/oneplus/bacon"
 enableDexPreOpt
