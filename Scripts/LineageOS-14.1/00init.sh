@@ -17,7 +17,7 @@
 
 #Sets settings used by all other scripts
 
-export androidWorkspace="/mnt/Drive-1/Development/Other/Android_ROMs/";
+export androidWorkspace="/mnt/Drive-3/";
 export base=$androidWorkspace"Build/LineageOS-14.1/";
 
 export SIGNING_KEY_DIR=$androidWorkspace"Signing_Keys";

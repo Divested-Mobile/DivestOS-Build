@@ -1,7 +1,5 @@
 #!/bin/bash
 cd $base"kernel/google/marlin"
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0001.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0003.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0019.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0020.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0021.patch
@@ -29,6 +27,8 @@ git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0044.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0045.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0046.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0050.patch
+git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0001.patch
+git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0003.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0011.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0012.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0013.patch
@@ -103,7 +103,7 @@ git apply $cvePatchesLinux/CVE-2017-11019/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-11025/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-11028/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-11030/3.18/0002.patch
-git apply $cvePatchesLinux/CVE-2017-11031/ANY/0002.patch
+git apply $cvePatchesLinux/CVE-2017-11031/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-11032/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-11033/3.18/0003.patch
 git apply $cvePatchesLinux/CVE-2017-11044/3.18/0001.patch
@@ -161,6 +161,7 @@ git apply $cvePatchesLinux/CVE-2017-7371/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7372/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7472/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7487/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-7533/3.18/0003.patch
 git apply $cvePatchesLinux/CVE-2017-7616/^4.10/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7618/^4.10/0002.patch
 git apply $cvePatchesLinux/CVE-2017-8247/ANY/0001.patch
@@ -174,7 +175,7 @@ git apply $cvePatchesLinux/CVE-2017-9690/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-9696/3.18/0002.patch
 git apply $cvePatchesLinux/CVE-2017-9697/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-9698/3.18/0001.patch
-git apply $cvePatchesLinux/CVE-2017-9700/ANY/0002.patch
+git apply $cvePatchesLinux/CVE-2017-9700/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-9716/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-9719/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-9720/3.18/0002.patch
@@ -191,5 +192,5 @@ git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0610/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-15845/ANY/0001.patch
-editKernelLocalversion "-dos.p191"
+editKernelLocalversion "-dos.p192"
 cd $base

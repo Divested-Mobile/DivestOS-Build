@@ -1,6 +1,5 @@
 #!/bin/bash
 cd $base"kernel/lge/msm8996"
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0001.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0019.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0020.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0021.patch
@@ -27,6 +26,7 @@ git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0043.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0045.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0046.patch
 git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0050.patch
+git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0001.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0011.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0012.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0013.patch
@@ -64,7 +64,7 @@ git apply $cvePatchesLinux/CVE-2017-1000364/3.18/0009.patch
 git apply $cvePatchesLinux/CVE-2017-1000364/3.18/0010.patch
 git apply $cvePatchesLinux/CVE-2017-1000365/3.18/0002.patch
 git apply $cvePatchesLinux/CVE-2017-1000380/^4.11/0001.patch
-git apply $cvePatchesLinux/CVE-2017-11031/ANY/0002.patch
+git apply $cvePatchesLinux/CVE-2017-11031/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-11473/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-12146/3.16+/0001.patch
 git apply $cvePatchesLinux/CVE-2017-13215/ANY/0001.patch
@@ -101,6 +101,7 @@ git apply $cvePatchesLinux/CVE-2017-6348/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-6353/^4.10/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7472/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7487/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-7533/3.18/0003.patch
 git apply $cvePatchesLinux/CVE-2017-7616/^4.10/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7618/^4.10/0002.patch
 git apply $cvePatchesLinux/Untracked/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
@@ -113,5 +114,5 @@ git apply $cvePatchesLinux/CVE-2016-6693/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0610/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p113"
+editKernelLocalversion "-dos.p114"
 cd $base

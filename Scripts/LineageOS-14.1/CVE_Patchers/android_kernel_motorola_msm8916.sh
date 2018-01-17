@@ -34,12 +34,9 @@ git apply $cvePatchesLinux/CVE-2016-3894/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-3902/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-5858/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-5858/ANY/0002.patch
-git apply $cvePatchesLinux/CVE-2016-5859/3.10/0001.patch
-git apply $cvePatchesLinux/CVE-2016-5867/3.10/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6672/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6693/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6694/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2016-6695/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-7117/^4.5/0002.patch
 git apply $cvePatchesLinux/CVE-2016-8481/ANY/0003.patch
@@ -48,12 +45,8 @@ git apply $cvePatchesLinux/CVE-2017-0457/3.10/0002.patch
 git apply $cvePatchesLinux/CVE-2017-0524/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0648/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2017-11024/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2017-11085/3.10/0001.patch
 git apply $cvePatchesLinux/CVE-2017-11089/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2017-11092/3.10/0002.patch
 git apply $cvePatchesLinux/CVE-2017-11473/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2017-11600/3.10/0001.patch
 git apply $cvePatchesLinux/CVE-2017-13215/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-13216/3.10/0001.patch
 git apply $cvePatchesLinux/CVE-2017-13218/3.10/0001.patch
@@ -79,9 +72,8 @@ git apply $cvePatchesLinux/CVE-2017-6348/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7541/3.10/0002.patch
 git apply $cvePatchesLinux/LVT-2017-0003/3.10/0001.patch
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
-git apply $cvePatchesLinux/CVE-2016-5853/3.10/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6693/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p83"
+editKernelLocalversion "-dos.p75"
 cd $base

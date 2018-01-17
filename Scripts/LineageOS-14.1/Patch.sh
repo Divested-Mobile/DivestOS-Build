@@ -137,6 +137,7 @@ enterAndClear "packages/apps/PackageInstaller"
 patch -p1 < $patches"android_packages_apps_PackageInstaller/64d8b44.diff" #Fix an issue with Permission Review
 
 enterAndClear "packages/apps/Settings"
+git revert 2ebe6058c546194a301c1fd22963d6be4adbf961
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
 sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; #MicroG doesn't support Backup, hide the options
 patch -p1 < $patches"android_packages_apps_Settings/0001-Privacy_Guard-More_Perms.patch" #Allow more control over various permissions via Privacy Guard
@@ -205,7 +206,7 @@ enterAndClear "device/oneplus/bacon"
 enableDexPreOpt
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
-enterAndClear "kernel/lge/g3"
+#enterAndClear "kernel/lge/g3"
 #sed -i 's/39 01 00 00 00 00 04 F2 01 00 40/39 01 00 00 00 00 04 F2 01 00 00/' arch/arm/boot/dts/msm8974pro-lge-common/msm8974pro-lge-panel.dtsi; #Oversharpening fix, Credit: @Skin1980
 
 enterAndClear "device/lge/g4-common"
