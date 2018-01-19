@@ -1,20 +1,18 @@
-Copyright (c) 2017 Spot Communications, Inc.
+Copyright (c) 2017-2018 Spot Communications, Inc.
 
 Below are the license mappings for all of the files found in this repository. All attempts have been made to ensure accuracy of the corresponding license files. If you've found an issue please file an issue or pull request.
 
 Changelogs - GPLv3
 Manifests - GPLv3
 Misc - GPLv3
-Patches/DivestOS_Wallpapers - Unsplash License https://unsplash.com/license
-Patches/LineageOS-11.0/
-	android_kernel_* - GPLv2
-	[Everything Else] - Apache-2.0
+Patches/Android - Apache-2.0
 Patches/LineageOS-14.1/
 	android_packages_apps_FDroid* - GPLv2
 	android_packages_apps_Silence - GPLv2
 	android_kernel_* - GPLv2
 	[Everything Else] - Apache-2.0
-Patches/Linux_CVEs - GPLv2
+Patches/Linux - GPLv2
+Patches/Wallpapers - Unsplash License https://unsplash.com/license
 Scripts - GPLv3
 
 

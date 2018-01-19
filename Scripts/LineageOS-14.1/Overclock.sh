@@ -1,6 +1,6 @@
 #!/bin/bash
 #DivestOS: A privacy oriented Android distribution
-#Copyright (c) 2017 Spot Communications, Inc.
+#Copyright (c) 2017-2018 Spot Communications, Inc.
 #
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -78,8 +78,8 @@ patch -p1 < $patches"android_kernel_common_msm8992/0005-Overclock.patch"
 patch -p1 < $patches"android_kernel_common_msm8992/0006-Overclock.patch"
 patch -p1 < $patches"android_kernel_common_msm8992/0007-Overclock.patch"
 
-enter "kernel/moto/shamu"
-patch -p1 < $patches"android_kernel_moto_shamu/0001-OverUnderClock.patch" #300Mhz -> 35Mhz, 2.64Ghz -> 2.88Ghz	=+0.96Ghz XXX: Untested!
+#enter "kernel/moto/shamu"
+#patch -p1 < $patches"android_kernel_moto_shamu/0001-OverUnderClock.patch" #300Mhz -> 35Mhz, 2.64Ghz -> 2.88Ghz	=+0.96Ghz XXX: Panics
 
 enter "kernel/nextbit/msm8992"
 patch -p1 < $patches"android_kernel_common_msm8992/0001-Overclock.patch"
