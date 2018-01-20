@@ -63,18 +63,24 @@ patchWorkspace() {
 export -f patchWorkspace;
 
 enableDexPreOpt() {
-	echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
-	echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
-	echo "Enabled dexpreopt";
+	cd $base$1;
+	if [ -f BoardConfig.mk ]; then
+		echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
+		echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
+		echo "WITH_DEXPREOPT_BOOT_IMG_ONLY := true" >> BoardConfig.mk;
+		echo "Enabled dexpreopt for $1";
+	fi;
+	cd $base;
 }
 export -f enableDexPreOpt;
 
-disableDexPreOpt() {
-	sed -i 's/WITH_DEXPREOPT := true/WITH_DEXPREOPT := false/' BoardConfig.mk;
-	sed -i 's/WITH_DEXPREOPT_PIC := true/WITH_DEXPREOPT_PIC := false/' BoardConfig.mk;
-	echo "Disabled dexpreopt";
+enableDexPreOptFull() {
+	if [ -f BoardConfig.mk ]; then
+		sed -i "s/WITH_DEXPREOPT_BOOT_IMG_ONLY := true/WITH_DEXPREOPT_BOOT_IMG_ONLY := false/" BoardConfig.mk;
+		echo "Enabled full dexpreopt";
+	fi;
 }
-export -f disableDexPreOpt;
+export -f enableDexPreOptFull;
 
 enhanceLocation() {
 	cd $base$1;

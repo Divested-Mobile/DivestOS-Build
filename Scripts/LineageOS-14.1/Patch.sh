@@ -31,7 +31,7 @@
 #	lineage_herolte-user - missing libprotobuf-cpp-full.so
 #	lineage_h815-user - drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes [-Wframe-larger-than=]
 #	lineage_h850-user - arch/arm64/mm/mmu.c:134:31: error: 'prot_sect_kernel' undeclared (first use in this function)
-#TODO: Add victara, griffin, athene, us997, us996
+#TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
 #Select devices are userdebug due to SELinux policy issues
 
 #Generate an incremental
@@ -62,6 +62,9 @@ echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/a
 
 #top dir
 cp -r $patches"Fennec_DOS-Shim" $base"packages/apps/"; #Add a shim to install Fennec DOS without actually including the large APK
+
+enterAndClear "bootable/recovery"
+patch -p1 < $patches"android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button?
 
 enterAndClear "build"
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing. Disclaimer: From CopperheadOS 13.0
@@ -160,7 +163,7 @@ cp -r $dosWallpapers"Thumbs/." res/drawable-nodpi/;
 cp $dosWallpapers"wallpapers.xml" res/values-nodpi/wallpapers.xml;
 sed -i 's/req.touchEnabled = touchEnabled;/req.touchEnabled = true;/' src/com/android/wallpaperpicker/WallpaperCropActivity.java; #Allow scrolling
 sed -i 's/mCropView.setTouchEnabled(req.touchEnabled);/mCropView.setTouchEnabled(true);/' src/com/android/wallpaperpicker/WallpaperCropActivity.java;
-sed -i 's/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0);/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0.5f);/' src/com/android/wallpaperpicker/WallpaperPickerActivity.java; #CenterAndClear aligned by default
+sed -i 's/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0);/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0.5f);/' src/com/android/wallpaperpicker/WallpaperPickerActivity.java; #Center aligned by default
 
 enterAndClear "packages/inputmethods/LatinIME"
 patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch" #Remove voice input key
@@ -200,11 +203,9 @@ sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod
 #START OF DEVICE CHANGES
 #
 enterAndClear "device/motorola/clark"
-#enableDexPreOpt
 patch -p1 < $patches"android_device_motorola_clark/0001-Tri_State_Torch.patch" #Tri-state torch
 
 enterAndClear "device/oneplus/bacon"
-enableDexPreOpt
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
 #enterAndClear "kernel/lge/g3"
@@ -213,13 +214,13 @@ sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.
 enterAndClear "device/lge/g4-common"
 rm -rf consumerir #Fixes: device/lge/g4-common/consumerir: MODULE.TARGET.SHARED_LIBRARIES.consumerir.msm8992 already defined by device/lge/common/consumerir
 
-enterAndClear "device/lge/mako"
-disableDexPreOpt #bootloops
+#enterAndClear "device/lge/mako"
 #patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed) XXX: Doesn't seem to work on 7+
 
 #Make changes to all devices
 cd $base
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enhanceLocation "$0"' {} \;
+find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableDexPreOpt "$0"' {} \;
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableForcedEncryption "$0"' {} \;
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableStrongEncryption "$0"' {} \;
 find "kernel" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'hardenDefconfig "$0"' {} \;

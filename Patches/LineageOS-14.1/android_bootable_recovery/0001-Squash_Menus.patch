@@ -1,0 +1,95 @@
+From 7664f3dd48cd8a0af6b3dd88169699f5a0465189 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sat, 20 Jan 2018 07:34:05 -0500
+Subject: [PATCH] Squash menus
+
+Change-Id: I683fd133498fc3317796a037567cdab46350431c
+---
+ device.cpp | 52 +++++++++++-----------------------------------------
+ 1 file changed, 11 insertions(+), 41 deletions(-)
+
+diff --git a/device.cpp b/device.cpp
+index aed7211..a962c72 100644
+--- a/device.cpp
++++ b/device.cpp
+@@ -38,32 +38,14 @@ struct menu_entry {
+     const menu_action   action;
+ };
+ 
+-static const char* WIPE_MENU_NAMES[] = {
+-#ifndef RELEASE_BUILD
++static const char* MAIN_MENU_NAMES[] = {
++    "Reboot system now",
++    "Apply update",
+     "Wipe data (keep media)",
+-#endif
+     "Full factory reset",
+ #ifndef AB_OTA_UPDATER
+     "Wipe cache partition",
+ #endif  // !AB_OTA_UPDATER
+-    nullptr
+-};
+-static const menu_entry WIPE_MENU_ENTRIES[] = {
+-#ifndef RELEASE_BUILD
+-    { ACTION_INVOKE, { .action = Device::WIPE_DATA } },
+-#endif
+-    { ACTION_INVOKE, { .action = Device::WIPE_FULL } },
+-#ifndef AB_OTA_UPDATER
+-    { ACTION_INVOKE, { .action = Device::WIPE_CACHE } },
+-#endif  // !AB_OTA_UPDATER
+-    { ACTION_NONE, { .action = Device::NO_ACTION } }
+-};
+-static const menu WIPE_MENU = {
+-    WIPE_MENU_NAMES,
+-    WIPE_MENU_ENTRIES
+-};
+-
+-static const char* ADVANCED_MENU_NAMES[] = {
+     "Reboot recovery",
+ #ifdef DOWNLOAD_MODE
+     "Reboot to download mode",
+@@ -79,7 +61,14 @@ static const char* ADVANCED_MENU_NAMES[] = {
+     "Power off",
+     nullptr
+ };
+-static const menu_entry ADVANCED_MENU_ENTRIES[] = {
++static const menu_entry MAIN_MENU_ENTRIES[] = {
++    { ACTION_INVOKE, { .action = Device::REBOOT } },
++    { ACTION_INVOKE, { .action = Device::APPLY_UPDATE } },
++    { ACTION_INVOKE, { .action = Device::WIPE_DATA } },
++    { ACTION_INVOKE, { .action = Device::WIPE_FULL } },
++#ifndef AB_OTA_UPDATER
++    { ACTION_INVOKE, { .action = Device::WIPE_CACHE } },
++#endif  // !AB_OTA_UPDATER
+     { ACTION_INVOKE, { .action = Device::REBOOT_RECOVERY } },
+ #ifdef DOWNLOAD_MODE
+     { ACTION_INVOKE, { .action = Device::REBOOT_BOOTLOADER } },
+@@ -95,25 +84,6 @@ static const menu_entry ADVANCED_MENU_ENTRIES[] = {
+     { ACTION_INVOKE, { .action = Device::SHUTDOWN } },
+     { ACTION_NONE, { .action = Device::NO_ACTION } }
+ };
+-static const menu ADVANCED_MENU = {
+-    ADVANCED_MENU_NAMES,
+-    ADVANCED_MENU_ENTRIES
+-};
+-
+-static const char* MAIN_MENU_NAMES[] = {
+-    "Reboot system now",
+-    "Apply update",
+-    "Factory reset",
+-    "Advanced",
+-    nullptr
+-};
+-static const menu_entry MAIN_MENU_ENTRIES[] = {
+-    { ACTION_INVOKE, { .action = Device::REBOOT } },
+-    { ACTION_INVOKE, { .action = Device::APPLY_UPDATE } },
+-    { ACTION_SUBMENU, { .submenu = &WIPE_MENU } },
+-    { ACTION_SUBMENU, { .submenu = &ADVANCED_MENU } },
+-    { ACTION_NONE, { .action = Device::NO_ACTION } }
+-};
+ static const menu MAIN_MENU = {
+     MAIN_MENU_NAMES,
+     MAIN_MENU_ENTRIES
+-- 
+2.16.0
+

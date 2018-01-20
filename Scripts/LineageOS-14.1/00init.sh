@@ -42,3 +42,8 @@ export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}"
 export GRADLE_OPTS=-Xmx2048m
 
 source $scripts"/Functions.sh"
+
+unalias cp
+unalias mv
+unalias rm
+unalias ln
