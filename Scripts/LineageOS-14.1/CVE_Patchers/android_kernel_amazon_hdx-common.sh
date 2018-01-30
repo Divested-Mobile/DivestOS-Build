@@ -68,7 +68,7 @@ git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0005.patch
 git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0006.patch
 git apply $cvePatchesLinux/CVE-2017-2671/^4.10/0001.patch
-git apply $cvePatchesLinux/CVE-2017-5970/^4.9/0001.patch
+git apply $cvePatchesLinux/CVE-2017-5970/^4.9/0002.patch
 git apply $cvePatchesLinux/CVE-2017-6074/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-6345/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-6348/^4.9/0001.patch

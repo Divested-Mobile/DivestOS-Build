@@ -1,0 +1,3 @@
+install-recovery.sh
+
+service flash_recovery /system/bin/install-recovery.sh

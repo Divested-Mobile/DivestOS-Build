@@ -64,11 +64,13 @@ export -f patchWorkspace;
 
 enableDexPreOpt() {
 	cd $base$1;
-	if [ -f BoardConfig.mk ]; then
-		echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
-		echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
-		echo "WITH_DEXPREOPT_BOOT_IMG_ONLY := true" >> BoardConfig.mk;
-		echo "Enabled dexpreopt for $1";
+	if [ $1 != "device/amazon/thor" ]; then #Some devices won't compile
+		if [ -f BoardConfig.mk ]; then
+			echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
+			echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
+			echo "WITH_DEXPREOPT_BOOT_IMG_ONLY := true" >> BoardConfig.mk;
+			echo "Enabled dexpreopt for $1";
+		fi;
 	fi;
 	cd $base;
 }
