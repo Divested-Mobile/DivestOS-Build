@@ -57,13 +57,13 @@ buildAll() {
 	brunch lineage_d802-userdebug;
 	brunch lineage_d855-userdebug;
 	brunch lineage_ether-user;
-#	brunch lineage_flo-user - undefined reference to 'mm_jpeg_get_new_session_idx'
+#	brunch lineage_flo-user; - undefined reference to 'mm_jpeg_get_new_session_idx'
 	brunch lineage_flounder-user;
 	brunch lineage_FP2-user;
-#	brunch lineage_h815-user - drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-#	brunch lineage_h850-user - arch/arm64/mm/mmu.c:134:31: error: 'prot_sect_kernel' undeclared (first use in this function)
+#	brunch lineage_h815-user; - (UPSTREAM) drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes
+	brunch lineage_h850-userdebug;
 	brunch lineage_hammerhead-user;
-#	brunch lineage_herolte-user - missing libprotobuf-cpp-full.so
+	brunch lineage_herolte-user;
 	brunch lineage_himaul-user;
 	brunch lineage_i9100-userdebug;
 	brunch lineage_i9305-user;
@@ -75,7 +75,7 @@ buildAll() {
 	brunch lineage_osprey-user;
 	brunch lineage_sailfish-user;
 	brunch lineage_shamu-user;
-#	brunch lineage_Z00T-user;
+	brunch lineage_Z00T-user;
 }
 export -f buildAll;
 
@@ -94,7 +94,7 @@ export -f patchWorkspace;
 
 enableDexPreOpt() {
 	cd $base$1;
-	if [ $1 != "device/amazon/thor" ] && [ $1 != "device/samsung/i9100" ]; then #Some devices won't compile, or have too small of a /system partition
+	if [ $1 != "device/amazon/thor" ] && [ $1 != "device/samsung/i9100" ] && [ $1 != "device/lge/h850" ]; then #Some devices won't compile, or have too small of a /system partition
 		if [ -f BoardConfig.mk ]; then
 			echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 			echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
@@ -213,6 +213,7 @@ hardenDefconfig() {
 		fi;
 	done
 	#Disable supported options
+	#TODO: Disable earjack/uart debugger
 	declare -a optionsNo=("CONFIG_ACPI_CUSTOM_METHOD" "CONFIG_BINFMT_MISC" "CONFIG_COMPAT_BRK" "CONFIG_COMPAT_VDSO" "CONFIG_CP_ACCESS64" "CONFIG_DEVKMEM" "CONFIG_DEVMEM" "CONFIG_DEVPORT" "CONFIG_HIBERNATION" "CONFIG_INET_DIAG" "CONFIG_KEXEC" "CONFIG_LEGACY_PTYS" "CONFIG_MSM_BUSPM_DEV" "CONFIG_OABI_COMPAT" "CONFIG_PROC_KCORE" "CONFIG_PROC_VMCORE" "CONFIG_SECURITY_SELINUX_DISABLE" "CONFIG_SLAB_MERGE_DEFAULT")
 	for option in "${optionsNo[@]}"
 	do

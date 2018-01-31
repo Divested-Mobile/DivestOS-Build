@@ -1,0 +1,15 @@
+clark
+	Up to 4 increase is 56
+	1440x2560
+		1 / Smallest = 392
+		2 / Smaller = 448
+		3 / Small = 504
+		4 / Default = 560
+		5 / Large = 612
+		6 / Larger = 666
+		7 / Largest = 720
+	1080x1920
+		1 / Smallest = 392
+		2 / Smaller = 448
+		3 / Small = 504
+		4 / Default = 560

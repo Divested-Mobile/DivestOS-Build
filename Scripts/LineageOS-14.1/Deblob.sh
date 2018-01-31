@@ -324,9 +324,9 @@ deblobDevice() {
 	#rm -rf data-ipa-cfg-mgr; #Remove IPA
 	rm -rf libshimwvm libshims/wvm_shim.cpp; #Remove Google Widevine compatibility module
 	rm -rf board/qcom-wipower.mk product/qcom-wipower.mk; #Remove WiPower makefiles
-	if [ -f setup-makefiles.sh ]; then #FIXME: This breaks some devices using shared device trees (eg. osprey) when removing blobs that are listed in Android.mk of vendor repositories
+	if [ -f setup-makefiles.sh ]; then
 		awk -i inplace '!/'$blobs'/' *proprietary*.txt; #Remove all blob references from blob manifest
-		sh -c "cd $base$devicePath && ./setup-makefiles.sh"; #Update the makefiles
+		bash -c "cd $base$devicePath && ./setup-makefiles.sh"; #Update the makefiles
 	fi;
 	cd $base;
 }
@@ -370,7 +370,9 @@ rm -rf vendor/samsung/nodevice;
 #END OF DEBLOBBING
 #
 
-
+#setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
+cd device/asus/Z00T && ./setup-makefiles.sh && cd $base
+cd device/lge/h850 && ./setup-makefiles.sh && cd $base
 
 #Fixes marlin building, really janky (recursive symlinks) and probably not the best place for it [LAOS SPECIFIC]
 cd vendor/google/marlin/proprietary;
