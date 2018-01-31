@@ -45,7 +45,7 @@ buildDevice() {
 export -f buildDevice;
 
 buildAll() {
-	brunch lineage_clark-user && brunch lineage_d852-userdebug && brunch lineage_bacon-user && brunch lineage_thor-userdebug && brunch lineage_mako-user && brunch lineage_angler-user && brunch lineage_bullhead-user && brunch lineage_d802-userdebug && brunch lineage_d855-userdebug && brunch lineage_ether-user && brunch lineage_flounder-user && brunch lineage_flo-user && brunch lineage_FP2-user && brunch lineage_hammerhead-user && brunch lineage_himaul-user && brunch lineage_i9100-userdebug && brunch lineage_i9305-user && brunch lineage_jfltexx-user && brunch lineage_klte-user && brunch lineage_m8-user && brunch lineage_marlin-user && brunch lineage_n5110-user && brunch lineage_osprey-user && brunch lineage_sailfish-user && brunch lineage_shamu-user && brunch lineage_Z00T-user;
+	brunch lineage_clark-user && brunch lineage_d852-userdebug && brunch lineage_bacon-user && brunch lineage_thor-userdebug && brunch lineage_mako-user && brunch lineage_angler-user && brunch lineage_bullhead-user && brunch lineage_d802-userdebug && brunch lineage_d855-userdebug && brunch lineage_ether-user && brunch lineage_flounder-user && brunch lineage_FP2-user && brunch lineage_hammerhead-user && brunch lineage_himaul-user && brunch lineage_i9100-userdebug && brunch lineage_i9305-user && brunch lineage_jfltexx-user && brunch lineage_klte-user && brunch lineage_m8-user && brunch lineage_marlin-user && brunch lineage_n5110-user && brunch lineage_osprey-user && brunch lineage_sailfish-user && brunch lineage_shamu-user && brunch lineage_Z00T-user;
 }
 export -f buildAll;
 
@@ -64,7 +64,7 @@ export -f patchWorkspace;
 
 enableDexPreOpt() {
 	cd $base$1;
-	if [ $1 != "device/amazon/thor" ]; then #Some devices won't compile
+	if [ $1 != "device/amazon/thor" ] && [ $1 != "device/samsung/i9100" ]; then #Some devices won't compile, or have too small of a /system partition
 		if [ -f BoardConfig.mk ]; then
 			echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 			echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;

@@ -28,6 +28,7 @@
 #buildDevice [device]
 #buildAll
 #XXX: Currently broken
+#	lineage_flo-user - undefined reference to 'mm_jpeg_get_new_session_idx'
 #	lineage_herolte-user - missing libprotobuf-cpp-full.so
 #	lineage_h815-user - drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes [-Wframe-larger-than=]
 #	lineage_h850-user - arch/arm64/mm/mmu.c:134:31: error: 'prot_sect_kernel' undeclared (first use in this function)
@@ -68,7 +69,7 @@ patch -p1 < $patches"android_bootable_recovery/0001-Squash_Menus.patch"; #What's
 
 enterAndClear "build"
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing. Disclaimer: From CopperheadOS 13.0
-patch -p1 < $patches"android_build/JustArchis_Optimizations-Rebased.patch" #JustArchi's Compiler Flags
+patch -p1 < $patches"android_build/JustArchis_Optimizations-Rebased.patch" #JustArchi's Compiler Flags XXX: Breaks i9100, i9305, and n5110
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 
 enterAndClear "device/qcom/sepolicy"
@@ -81,6 +82,7 @@ enterAndClear "frameworks/base"
 git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3 #re-enable doze on devices without gms
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
+sed -i 's|db_default_journal_mode" translateble="false">PERSIST|db_default_journal_mode" translateble="false">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
 sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml;
 patch -p1 < $patches"android_frameworks_base/0001-Reduced_Resolution.patch" #Allow reducing resolution to save power TODO: Add 800x480
 #patch -p1 < $patches"android_frameworks_base/0002-Radio.patch" #Add a QS tile to control radio power #TODO: Breaks cell and SystemUI
@@ -204,6 +206,9 @@ sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod
 #
 #START OF DEVICE CHANGES
 #
+enterAndClear "device/amazon/hdx-common"
+echo "/dev/block/platform/msm_sdcc.1/by-name/misc /misc emmc defaults defaults" >> rootdir/etc/fstab.qcom; #Add the misc (mmcblk0p5) partition for recovery flags
+
 enterAndClear "device/motorola/clark"
 patch -p1 < $patches"android_device_motorola_clark/0001-Tri_State_Torch.patch" #Tri-state torch
 
@@ -212,9 +217,6 @@ sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.
 
 #enterAndClear "kernel/lge/g3"
 #sed -i 's/39 01 00 00 00 00 04 F2 01 00 40/39 01 00 00 00 00 04 F2 01 00 00/' arch/arm/boot/dts/msm8974pro-lge-common/msm8974pro-lge-panel.dtsi; #Oversharpening fix, Credit: @Skin1980
-
-enterAndClear "device/lge/g4-common"
-rm -rf consumerir #Fixes: device/lge/g4-common/consumerir: MODULE.TARGET.SHARED_LIBRARIES.consumerir.msm8992 already defined by device/lge/common/consumerir
 
 #enterAndClear "device/lge/mako"
 #patch -p1 < $patches"android_device_lge_mako/0001-Enable_LTE.patch" #Enable LTE support (Requires LTE hybrid modem to be flashed) XXX: Doesn't seem to work on 7+
