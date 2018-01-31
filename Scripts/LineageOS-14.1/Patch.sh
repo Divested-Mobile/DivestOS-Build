@@ -27,13 +27,6 @@
 #Build!
 #buildDevice [device]
 #buildAll
-#XXX: Currently broken
-#	lineage_flo-user - undefined reference to 'mm_jpeg_get_new_session_idx'
-#	lineage_herolte-user - missing libprotobuf-cpp-full.so
-#	lineage_h815-user - drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-#	lineage_h850-user - arch/arm64/mm/mmu.c:134:31: error: 'prot_sect_kernel' undeclared (first use in this function)
-#TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
-#Select devices are userdebug due to SELinux policy issues
 
 #Generate an incremental
 #./build/tools/releasetools/ota_from_target_files --block -t 8 -i old.zip new.zip update.zip
