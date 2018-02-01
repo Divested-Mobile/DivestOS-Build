@@ -57,7 +57,6 @@ buildAll() {
 	brunch lineage_d802-userdebug;
 	brunch lineage_d855-userdebug;
 	brunch lineage_ether-user;
-#	brunch lineage_flo-user; - undefined reference to 'mm_jpeg_get_new_session_idx'
 	brunch lineage_flounder-user;
 	brunch lineage_FP2-user;
 #	brunch lineage_h815-user; - (UPSTREAM) drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes
@@ -65,19 +64,26 @@ buildAll() {
 	brunch lineage_hammerhead-user;
 	brunch lineage_herolte-user;
 	brunch lineage_himaul-user;
-	brunch lineage_i9100-userdebug;
-	brunch lineage_i9305-user;
 	brunch lineage_jfltexx-user;
 	brunch lineage_klte-user;
 	brunch lineage_m8-user;
 	brunch lineage_marlin-user;
-	brunch lineage_n5110-user;
 	brunch lineage_osprey-user;
 	brunch lineage_sailfish-user;
 	brunch lineage_shamu-user;
 	brunch lineage_Z00T-user;
 }
 export -f buildAll;
+
+buildAllN03() {
+	brunch lineage_flo-user; #Not affected by size, but breaks: undefined reference to 'mm_jpeg_get_new_session_idx'
+#Devices incompatible with -O3 due to size constraints
+#TODO: Consider moving these devices back and simply disabling recovery.img compilation
+	brunch lineage_i9100-userdebug;
+	brunch lineage_i9305-user;
+	brunch lineage_n5110-user;
+}
+export -f buildAllN03;
 
 patchWorkspace() {
 	source $scripts/Patch.sh;
