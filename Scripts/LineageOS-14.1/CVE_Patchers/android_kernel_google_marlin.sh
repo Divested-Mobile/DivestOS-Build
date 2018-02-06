@@ -127,6 +127,9 @@ git apply $cvePatchesLinux/CVE-2017-13218/3.18/0006.patch
 git apply $cvePatchesLinux/CVE-2017-13218/3.18/0011.patch
 git apply $cvePatchesLinux/CVE-2017-13219/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-14873/3.18/0001.patch
+git apply $cvePatchesLinux/CVE-2017-14877/3.18/0002.patch
+git apply $cvePatchesLinux/CVE-2017-14891/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-14892/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-14897/3.18/0002.patch
 git apply $cvePatchesLinux/CVE-2017-15265/^4.14/0001.patch
 git apply $cvePatchesLinux/CVE-2017-15847/ANY/0001.patch
@@ -195,5 +198,5 @@ git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0610/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-15845/ANY/0001.patch
-editKernelLocalversion "-dos.p195"
+editKernelLocalversion "-dos.p198"
 cd $base

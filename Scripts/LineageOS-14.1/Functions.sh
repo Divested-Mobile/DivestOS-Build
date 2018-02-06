@@ -15,6 +15,16 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+startPatcher() {
+	java -jar $cvePatcher patch $base $androidWorkspace"Patches/" $cveScripts $1;
+}
+export -f startPatcher;
+
+patchAllKernels() {
+	startPatcher "kernel_amazon_hdx-common kernel_asus_msm8916 kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_htc_msm8974 kernel_htc_msm8994 kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_moto_shamu kernel_nextbit_msm8992 kernel_oneplus_msm8974 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal8890";
+}
+export -f patchAllKernels;
+
 enter() {
 	echo "================================================================================================"
 	dir=$1;
