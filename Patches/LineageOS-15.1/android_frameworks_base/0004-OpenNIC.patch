@@ -1,0 +1,43 @@
+From 050ab097e1cc3253af8926342371b6025d1ea162 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Mon, 12 Feb 2018 02:52:08 -0500
+Subject: [PATCH] Change fallback DNS servers to OpenNIC AnyCast
+
+Change-Id: Ib0e3f665be73e5b87d6e4da24f73190a17e334d9
+---
+ core/res/res/values/config.xml              | 2 +-
+ packages/SettingsLib/res/values/strings.xml | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/core/res/res/values/config.xml b/core/res/res/values/config.xml
+index 3ce8959a983..00548fbc2f6 100644
+--- a/core/res/res/values/config.xml
++++ b/core/res/res/values/config.xml
+@@ -1651,7 +1651,7 @@
+     <bool name="config_bluetooth_default_profiles">true</bool>
+ 
+     <!-- IP address of the dns server to use if nobody else suggests one -->
+-    <string name="config_default_dns_server" translatable="false">8.8.8.8</string>
++    <string name="config_default_dns_server" translatable="false">185.121.177.177</string>
+ 
+     <!-- The default mobile provisioning apn. Empty by default, maybe overridden by
+          an mcc/mnc specific config.xml -->
+diff --git a/packages/SettingsLib/res/values/strings.xml b/packages/SettingsLib/res/values/strings.xml
+index bd884a3c972..ee4db8723a4 100644
+--- a/packages/SettingsLib/res/values/strings.xml
++++ b/packages/SettingsLib/res/values/strings.xml
+@@ -921,9 +921,9 @@
+     <!-- Hint text for the IP address -->
+     <string name="wifi_ip_address_hint" translatable="false">192.168.1.128</string>
+     <!-- Hint text for DNS -->
+-    <string name="wifi_dns1_hint" translatable="false">8.8.8.8</string>
++    <string name="wifi_dns1_hint" translatable="false">185.121.177.177</string>
+     <!-- Hint text for DNS -->
+-    <string name="wifi_dns2_hint" translatable="false">8.8.4.4</string>
++    <string name="wifi_dns2_hint" translatable="false">169.239.202.202</string>
+     <!-- Hint text for the gateway -->
+     <string name="wifi_gateway_hint" translatable="false">192.168.1.1</string>
+     <!-- Hint text for network prefix length -->
+-- 
+2.16.1
+

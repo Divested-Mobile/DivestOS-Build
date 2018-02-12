@@ -21,7 +21,7 @@ startPatcher() {
 export -f startPatcher;
 
 patchAllKernels() {
-	startPatcher "";
+	startPatcher "kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_msm8974 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_msm8974";
 }
 export -f patchAllKernels;
 
@@ -57,6 +57,7 @@ export -f buildDevice;
 buildAll() {
 #Select devices are userdebug due to SELinux policy issues
 #TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
+	buildDevice d852
 }
 export -f buildAll;
 
@@ -68,7 +69,7 @@ export -f buildAllN03;
 patchWorkspace() {
 	source $scripts/Patch.sh;
 	source $scripts/Defaults.sh;
-#	source $scripts/Overclock.sh;
+	source $scripts/Overclock.sh;
 	source $scripts/Optimize.sh;
 	source $scripts/Rebrand.sh;
 	source $scripts/Theme.sh;
