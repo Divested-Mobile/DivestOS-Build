@@ -1,13 +1,13 @@
-From a740f4f2065a382f2466bac575327ad4ec3407dd Mon Sep 17 00:00:00 2001
+From f97f345e14ab731b87c1f8330718db90d49061e7 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Mon, 12 Feb 2018 03:34:43 -0500
+Date: Mon, 12 Feb 2018 06:12:29 -0500
 Subject: [PATCH] Build time variable for AES-256 encryption
 
-Change-Id: I3c826025bf98a180ddd17f47e8bf9e13b5252f3d
+Change-Id: I14efcfddabb6bd889b90cff59f26ca47c9883eb0
 ---
- Android.mk  |  4 ++++
- cryptfs.cpp | 11 +++++++++--
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ Android.mk  | 4 ++++
+ cryptfs.cpp | 9 ++++++++-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/Android.mk b/Android.mk
 index 29a7852..2962180 100644
@@ -25,7 +25,7 @@ index 29a7852..2962180 100644
    vold_cflags += -DCONFIG_KERNEL_HAVE_EXFAT
  endif
 diff --git a/cryptfs.cpp b/cryptfs.cpp
-index f01929a..22ae3b6 100644
+index f01929a..7fb3ffa 100644
 --- a/cryptfs.cpp
 +++ b/cryptfs.cpp
 @@ -75,9 +75,17 @@ extern "C" {
@@ -46,7 +46,7 @@ index f01929a..22ae3b6 100644
  
  #define KEY_IN_FOOTER  "footer"
  
-@@ -93,13 +101,12 @@ extern "C" {
+@@ -93,7 +101,6 @@ extern "C" {
  
  #define TABLE_LOAD_RETRIES 10
  
@@ -54,13 +54,6 @@ index f01929a..22ae3b6 100644
  #define RSA_KEY_SIZE_BYTES (RSA_KEY_SIZE / 8)
  #define RSA_EXPONENT 0x10001
  #define KEYMASTER_CRYPTFS_RATE_LIMIT 1  // Maximum one try per second
- 
- #define RETRY_MOUNT_ATTEMPTS 10
--#define RETRY_MOUNT_DELAY_SECONDS 1
-+#define RETRY_MOUNT_DELAY_SECONDS 3
- 
- static unsigned char saved_master_key[KEY_LEN_BYTES];
- static char *saved_mount_point;
 -- 
 2.16.1
 

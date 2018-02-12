@@ -26,9 +26,9 @@ sed -i '0,/wifi,cell,battery/s/wifi,cell,battery,dnd,flashlight,rotation,bt,airp
 
 enter "packages/apps/Dialer"
 sed -i 's/FLP_DEFAULT = FLP_GOOGLE;/FLP_DEFAULT = FLP_OPENSTREETMAP;/' java/com/android/dialer/lookup/LookupSettings.java; #Change FLP to OpenStreetMap
-sed -i 's/LineageSettings.System.ENABLE_FORWARD_LOOKUP, 1)/CMSettings.System.ENABLE_FORWARD_LOOKUP, 0)/' java/com/android/dialer/lookup/LookupSettings.java; #Disable FLP
-sed -i 's/LineageSettings.System.ENABLE_PEOPLE_LOOKUP, 1)/CMSettings.System.ENABLE_PEOPLE_LOOKUP, 0)/' java/com/android/dialer/lookup/LookupSettings.java; #Disable PLP
-sed -i 's/LineageSettings.System.ENABLE_REVERSE_LOOKUP, 1)/CMSettings.System.ENABLE_REVERSE_LOOKUP, 0)/' java/com/android/dialer/lookup/LookupSettings.java; #Disable RLP
+sed -i 's/LineageSettings.System.ENABLE_FORWARD_LOOKUP, 1)/LineageSettings.System.ENABLE_FORWARD_LOOKUP, 0)/' java/com/android/dialer/lookup/LookupSettings.java; #Disable FLP
+sed -i 's/LineageSettings.System.ENABLE_PEOPLE_LOOKUP, 1)/LineageSettings.System.ENABLE_PEOPLE_LOOKUP, 0)/' java/com/android/dialer/lookup/LookupSettings.java; #Disable PLP
+sed -i 's/LineageSettings.System.ENABLE_REVERSE_LOOKUP, 1)/LineageSettings.System.ENABLE_REVERSE_LOOKUP, 0)/' java/com/android/dialer/lookup/LookupSettings.java; #Disable RLP
 
 enter "packages/apps/FDroid"
 sed -i 's|DEFAULT_ROOTED = true;|DEFAULT_ROOTED = false;|' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide root apps
