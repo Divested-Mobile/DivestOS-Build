@@ -16,6 +16,7 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 startPatcher() {
+	#$cvePatcher must be set!
 	java -jar $cvePatcher patch $base $androidWorkspace"Patches/" $cveScripts $1;
 }
 export -f startPatcher;
