@@ -46,18 +46,9 @@ enter "packages/apps/GmsCore"
 sed -i "s/#ff7fcac3/#ff$themeOverride300/" microg-ui-tools/src/main/res/values/colors.xml
 sed -i "s/#ff009688/#ff$themeOverride500/" microg-ui-tools/src/main/res/values/colors.xml
 
-enter "packages/apps/LineageParts"
-sed -i "s/#ff009688/#ff$themeOverride500/" res/values/colors.xml
-
 enter "packages/apps/Settings"
 sed -i "s/#ff009688/#ff$themeOverride500/" res/values/styles.xml
 #TODO: Fix: Storage, Profiles
-
-enter "packages/apps/Trebuchet"
-sed -i "s/009688/$themeOverride500/" res/values/*colors.xml
-sed -i "s/009688/$themeOverride500/" WallpaperPicker/res/values/colors.xml
-mogrify -format png -fill "#$themeOverride500" -opaque "#009688" -fuzz 10% res/drawable*/cling_bg.9.png
-#TODO: Fix: Open app icon
 
 enter "packages/apps/Updater"
 sed -i "s/#ff009688/#ff$themeOverride500/" res/values/colors.xml
