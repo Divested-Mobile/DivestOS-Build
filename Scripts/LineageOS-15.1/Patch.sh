@@ -58,8 +58,8 @@ echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/a
 cp -r $patches"Fennec_DOS-Shim" $base"packages/apps/"; #Add a shim to install Fennec DOS without actually including the large APK
 
 enterAndClear "build/make"
-patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing. Disclaimer: From CopperheadOS 13.0
-patch -p1 < $patches"android_build/0002-JustArchis_Optimizations-Rebased.patch" #JustArchi's Compiler Flags XXX: Breaks some devices, see buildAllN03()
+#patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing. Disclaimer: From CopperheadOS 13.0 TODO: Rebase
+#patch -p1 < $patches"android_build/0002-JustArchis_Optimizations.patch" #JustArchi's Compiler Flags XXX: Breaks some devices, see buildAllN03() TODO: Rebase
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 
 enterAndClear "device/qcom/sepolicy"
@@ -71,7 +71,7 @@ sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/
 sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
 sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml;
 #patch -p1 < $patches"android_frameworks_base/0001-Reduced_Resolution.patch" #Allow reducing resolution to save power TODO: Rebase and add 800x480
-patch -p1 < $patches"android_frameworks_base/0002-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
+patch -p1 < $patches"android_frameworks_base/0002-Signature_Spoofing.patch" #Allow packages to spoof their signature (microG)
 patch -p1 < $patches"android_frameworks_base/0003-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
 patch -p1 < $patches"android_frameworks_base/0004-OpenNIC.patch" #Change fallback and tethering DNS servers to OpenNIC AnyCast
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
@@ -125,9 +125,9 @@ sed -i 's/compileSdkVersion 23/compileSdkVersion 25/' build.gradle;
 sed -i 's/buildToolsVersion "23.0.2"/buildToolsVersion "25.0.3"/' build.gradle;
 
 enterAndClear "packages/apps/LineageParts"
-rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of CMStats
+rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of the analytics
 sed -i 's|config_showWeatherMenu">true|config_showWeatherMenu">false|' res/values/config.xml; #Disable Weather
-patch -p1 < $patches"android_packages_apps_LineageParts/0001-Remove_Analytics.patch" #Remove the rest of CMStats
+patch -p1 < $patches"android_packages_apps_LineageParts/0001-Remove_Analytics.patch" #Remove analytics
 #patch -p1 < $patches"android_packages_apps_LineageParts/0002-Reduced_Resolution.patch" #Allow reducing resolution to save power #TODO: Rebase
 
 enterAndClear "packages/apps/Settings"
@@ -137,7 +137,7 @@ sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.
 #patch -p1 < $patches"android_packages_apps_Settings/0001-Privacy_Guard-More_Perms.patch" #Allow more control over various permissions via Privacy Guard #TODO: Rebase
 
 #enterAndClear "packages/apps/SetupWizard"
-#patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove the rest of CMStats
+#patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove analytics
 
 enterAndClear "packages/apps/Silence"
 cp $patches"android_packages_apps_Silence/Android.mk" Android.mk #Add a build file
@@ -171,10 +171,10 @@ patch -p1 < $patches"android_system_vold/0001-AES256.patch" #Add a variable for 
 enterAndClear "vendor/lineage"
 rm -rf overlay/common/vendor/lineage-sdk/packages #Remove analytics
 awk -i inplace '!/50-lineage.sh/' config/common.mk; #Make sure our hosts is always used
-patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
-cp $patches"android_vendor_cm/sce.mk" config/sce.mk
-cp -r $patches"android_vendor_cm/firmware_deblobber" .;
-cp $patches"android_vendor_cm/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;
+patch -p1 < $patches"android_vendor_lineage/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
+cp $patches"android_vendor_lineage/sce.mk" config/sce.mk
+cp -r $patches"android_vendor_lineage/firmware_deblobber" .;
+cp $patches"android_vendor_lineage/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;
 sed -i 's/LINEAGE_BUILDTYPE := UNOFFICIAL/LINEAGE_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
 sed -i 's/config_enableRecoveryUpdater">false/config_enableRecoveryUpdater">true/' overlay/common/packages/apps/Settings/res/values/config.xml; #Expose option to update recovery

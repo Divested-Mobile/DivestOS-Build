@@ -58,7 +58,7 @@ export -f buildDevice;
 buildAll() {
 #Select devices are userdebug due to SELinux policy issues
 #TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
-	buildDevice d852
+	brunch lineage_d852-userdebug;
 }
 export -f buildAll;
 

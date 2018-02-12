@@ -6,7 +6,7 @@ Changelogs - GPLv3
 Manifests - GPLv3
 Misc - GPLv3
 Patches/Android - Apache-2.0
-Patches/LineageOS-14.1/
+Patches/LineageOS-*/
 	android_packages_apps_FDroid* - GPLv2
 	android_packages_apps_Silence - GPLv2
 	android_kernel_* - GPLv2

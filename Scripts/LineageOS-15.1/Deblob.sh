@@ -370,16 +370,6 @@ rm -rf vendor/samsung/nodevice;
 #END OF DEBLOBBING
 #
 
-#Fixes marlin building, really janky (recursive symlinks) and probably not the best place for it [LAOS SPECIFIC]
-cd vendor/google/marlin/proprietary;
-ln -s . vendor;
-ln -s . lib/lib;
-ln -s . lib64/lib64;
-ln -s . app/app;
-ln -s . bin/bin;
-ln -s . etc/etc;
-ln -s . framework/framework;
-ln -s . priv-app/priv-app;
 cd $base;
 
 echo "Deblobbing complete!"
