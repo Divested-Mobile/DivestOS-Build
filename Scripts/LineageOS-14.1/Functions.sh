@@ -86,7 +86,7 @@ buildAll() {
 }
 export -f buildAll;
 
-buildAllN03() {
+buildAllNO3() {
 	brunch lineage_flo-user; #Not affected by size, but breaks: undefined reference to 'mm_jpeg_get_new_session_idx'
 #Devices incompatible with -O3 due to size constraints
 #TODO: Consider moving these devices back and simply disabling recovery.img compilation

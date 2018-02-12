@@ -1,15 +1,15 @@
-From 67c7c88735d0f0d9cb6bc7c4478bdb6c171eb40a Mon Sep 17 00:00:00 2001
+From 7d1d784140abb4d77b5fcee84503460d2183aae9 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Mon, 12 Feb 2018 03:38:10 -0500
+Date: Mon, 12 Feb 2018 05:04:38 -0500
 Subject: [PATCH] SC Extras
 
-Change-Id: I257d33a176d3b7741b0c85932704bac76cc0271c
+Change-Id: I24c048094f6fe8a6ca7bdb4931d9d41d9fc183bb
 ---
  config/common.mk | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/config/common.mk b/config/common.mk
-index 10c6ec77..cfc5636a 100644
+index 10c6ec77..a0ebbd86 100644
 --- a/config/common.mk
 +++ b/config/common.mk
 @@ -103,6 +103,9 @@ ifeq ($(WITH_TWRP),true)
@@ -17,7 +17,7 @@ index 10c6ec77..cfc5636a 100644
  endif
  
 +# SC Extras
-+include vendor/cm/config/sce.mk
++include vendor/lineage/config/sce.mk
 +
  # Bootanimation
  PRODUCT_PACKAGES += \

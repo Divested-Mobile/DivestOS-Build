@@ -59,15 +59,18 @@ buildAll() {
 #Select devices are userdebug due to SELinux policy issues
 #TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
 	brunch lineage_d852-userdebug;
+	brunch lineage_d855-userdebug;
 }
 export -f buildAll;
 
-buildAllN03() {
+buildAllNO3() {
 	brunch lineage_flo-user; #Not affected by size, but breaks: undefined reference to 'mm_jpeg_get_new_session_idx'
 }
 export -f buildAllN03;
 
 patchWorkspace() {
+	source build/envsetup.sh;
+	repopick 204743 204744;
 	source $scripts/Patch.sh;
 	source $scripts/Defaults.sh;
 	source $scripts/Overclock.sh;

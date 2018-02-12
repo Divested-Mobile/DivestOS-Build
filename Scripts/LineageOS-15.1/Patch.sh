@@ -59,7 +59,7 @@ cp -r $patches"Fennec_DOS-Shim" $base"packages/apps/"; #Add a shim to install Fe
 
 enterAndClear "build/make"
 #patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing. Disclaimer: From CopperheadOS 13.0 TODO: Rebase
-#patch -p1 < $patches"android_build/0002-JustArchis_Optimizations.patch" #JustArchi's Compiler Flags XXX: Breaks some devices, see buildAllN03() TODO: Rebase
+#patch -p1 < $patches"android_build/0002-JustArchis_Optimizations.patch" #JustArchi's Compiler Flags XXX: Breaks some devices, see buildAllNO3() TODO: Rebase
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 
 enterAndClear "device/qcom/sepolicy"
