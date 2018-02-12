@@ -67,7 +67,7 @@ export -f buildAll;
 buildAllNO3() {
 	brunch lineage_flo-user; #Not affected by size, but breaks: undefined reference to 'mm_jpeg_get_new_session_idx'
 }
-export -f buildAllN03;
+export -f buildAllNO3;
 
 patchWorkspace() {
 	source build/envsetup.sh;

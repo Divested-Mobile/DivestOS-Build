@@ -94,7 +94,7 @@ buildAllNO3() {
 	brunch lineage_i9305-user;
 	brunch lineage_n5110-user;
 }
-export -f buildAllN03;
+export -f buildAllNO3;
 
 patchWorkspace() {
 	source $scripts/Patch.sh;
