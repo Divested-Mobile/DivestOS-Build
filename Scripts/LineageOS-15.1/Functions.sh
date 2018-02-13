@@ -46,8 +46,7 @@ gitReset() {
 export -f gitReset;
 
 resetWorkspace() {
-	#rm -rf packages/apps/{FDroid,GmsCore,Silence}
-	repo forall -c 'git add -A && git reset --hard' && rm -rf out && repo sync -j20 --force-sync;
+	repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/{FDroid,GmsCore,Silence} out && repo sync -j20 --force-sync;
 }
 export -f resetWorkspace;
 
@@ -59,8 +58,14 @@ export -f buildDevice;
 buildAll() {
 #Select devices are userdebug due to SELinux policy issues
 #TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
+	brunch lineage_bacon-user;
 	brunch lineage_d852-userdebug;
 	brunch lineage_d855-userdebug;
+	brunch lineage_angler-user;
+	brunch lineage_bullhead-user;
+	brunch lineage_flounder-user;
+	#brunch lineage_shamu-user;
+	#brunch lineage_hammerhead-user;
 }
 export -f buildAll;
 
