@@ -28,6 +28,7 @@ git apply $cvePatchesLinux/CVE-2017-1000380/^4.11/0001.patch
 git apply $cvePatchesLinux/CVE-2017-11090/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-11473/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-13215/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-13246/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-15265/^4.14/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16526/^4.13/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16532/^4.13/0001.patch
@@ -45,5 +46,5 @@ git apply $cvePatchesLinux/CVE-2017-7184/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2017-7308/ANY/0003.patch
 git apply $cvePatchesLinux/CVE-2017-7487/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2014-9781/ANY/0001.patch
-editKernelLocalversion "-dos.p45"
+editKernelLocalversion "-dos.p46"
 cd $base

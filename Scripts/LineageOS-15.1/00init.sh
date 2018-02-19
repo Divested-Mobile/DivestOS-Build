@@ -20,8 +20,6 @@
 export androidWorkspace="/mnt/Drive-3/";
 export base=$androidWorkspace"Build/LineageOS-15.1/";
 
-export PRODUCT_DEFAULT_DEV_CERTIFICATE=$SIGNING_KEY_DIR"/releasekey"
-
 export patches=$androidWorkspace"Patches/LineageOS-15.1/";
 export cvePatchesLinux=$androidWorkspace"Patches/Linux/";
 export cvePatchesAndroid=$androidWorkspace"Patches/Android/";

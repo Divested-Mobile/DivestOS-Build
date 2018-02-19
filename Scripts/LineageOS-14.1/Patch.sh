@@ -21,8 +21,6 @@
 #Delete Everything and Sync
 #resetWorkspace
 
-#repopick -t n_asb_02-2018
-
 #Apply all of our changes
 #patchWorkspace
 
