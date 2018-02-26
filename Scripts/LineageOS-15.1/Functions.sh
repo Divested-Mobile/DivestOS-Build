@@ -58,21 +58,17 @@ export -f buildDevice;
 buildAll() {
 #Select devices are userdebug due to SELinux policy issues
 #TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
+	brunch lineage_angler-user;
 	brunch lineage_bacon-user;
+	brunch lineage_bullhead-user;
 	brunch lineage_d852-userdebug;
 	brunch lineage_d855-userdebug;
-	brunch lineage_angler-user;
-	brunch lineage_bullhead-user;
+	brunch lineage_flo-user; #Not affected by size, but breaks: undefined reference to 'mm_jpeg_get_new_session_idx'
 	brunch lineage_flounder-user;
-	#brunch lineage_shamu-user;
 	#brunch lineage_hammerhead-user;
+	#brunch lineage_shamu-user;
 }
 export -f buildAll;
-
-buildAllNO3() {
-	brunch lineage_flo-user; #Not affected by size, but breaks: undefined reference to 'mm_jpeg_get_new_session_idx'
-}
-export -f buildAllNO3;
 
 patchWorkspace() {
 	source build/envsetup.sh;

@@ -58,7 +58,6 @@ echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/a
 cp -r $patches"Fennec_DOS-Shim" $base"packages/apps/"; #Add a shim to install Fennec DOS without actually including the large APK
 
 enterAndClear "build/make"
-#patch -p1 < $patches"android_build/0002-JustArchis_Optimizations.patch" #JustArchi's Compiler Flags XXX: Breaks some devices, see buildAllNO3() TODO: Rebase
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 
 enterAndClear "device/qcom/sepolicy"
