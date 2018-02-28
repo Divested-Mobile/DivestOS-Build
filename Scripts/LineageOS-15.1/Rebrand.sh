@@ -26,15 +26,15 @@ enter "build/make"
 sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
 sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/buildinfo.sh; #Override build host
 
-#enter "packages/apps/Settings" #TODO: Rebase
-#sed -i '/.*cmlicense_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml
+enter "packages/apps/Settings"
+sed -i '/.*lineagelicense_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml
 #sed -i '/.*cmupdate_settings_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml
 #sed -i '/.*mod_version/s/LineageOS/DivestOS/' res/values*/cm_strings.xml
 
-#enter "packages/apps/SetupWizard"
-#sed -i 's|http://lineageos.org/legal|https://divestos.xyz/pages/legal/pp.html|' src/com/cyanogenmod/setupwizard/LineageSettingsActivity.java;
-#sed -i '/.*setup_services/s/LineageOS/DivestOS/' res/values*/strings.xml
-#sed -i '/.*services_explanation/s/LineageOS/DivestOS/' res/values*/strings.xml
+enter "packages/apps/SetupWizard"
+sed -i 's|http://lineageos.org/legal|https://divestos.xyz/pages/legal/pp.html|' src/org/lineageos/setupwizard/LineageSettingsActivity.java;
+sed -i '/.*setup_services/s/LineageOS/DivestOS/' res/values*/strings.xml
+sed -i '/.*services_explanation/s/LineageOS/DivestOS/' res/values*/strings.xml
 
 enter "packages/apps/Updater"
 sed -i 's|>LineageOS|>DivestOS|' res/values*/strings.xml
