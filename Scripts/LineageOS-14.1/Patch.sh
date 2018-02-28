@@ -203,6 +203,7 @@ enterAndClear "device/amazon/hdx-common"
 echo "/dev/block/platform/msm_sdcc.1/by-name/misc /misc emmc defaults defaults" >> rootdir/etc/fstab.qcom; #Add the misc (mmcblk0p5) partition for recovery flags
 
 enterAndClear "device/motorola/clark"
+git revert 6a116d3d47a23fb33a064916995cbb3b265cf32f
 patch -p1 < $patches"android_device_motorola_clark/0001-Tri_State_Torch.patch" #Tri-state torch
 
 enterAndClear "device/oneplus/bacon"

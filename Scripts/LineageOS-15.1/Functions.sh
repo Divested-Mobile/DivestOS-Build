@@ -72,7 +72,8 @@ export -f buildAll;
 
 patchWorkspace() {
 	source build/envsetup.sh;
-	repopick 204743 204744;
+	repopick 204743 204744 207991; #Cherry picks
+
 	source $scripts/Patch.sh;
 	source $scripts/Defaults.sh;
 	source $scripts/Overclock.sh;
@@ -106,6 +107,14 @@ enableDexPreOptFull() {
 	fi;
 }
 export -f enableDexPreOptFull;
+
+compressRamdisks() {
+	if [ -f BoardConfig.mk ]; then
+		echo "LZMA_RAMDISK_TARGETS := boot,recovery" >> BoardConfig.mk;
+		echo "Enabled ramdisk compression";
+	fi;
+}
+export -f compressRamdisks;
 
 enhanceLocation() {
 	cd $base$1;
