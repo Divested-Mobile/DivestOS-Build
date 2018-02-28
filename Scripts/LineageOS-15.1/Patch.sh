@@ -133,8 +133,8 @@ sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 
 sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; #MicroG doesn't support Backup, hide the options
 #patch -p1 < $patches"android_packages_apps_Settings/0001-Privacy_Guard-More_Perms.patch" #Allow more control over various permissions via Privacy Guard #TODO: Rebase
 
-#enterAndClear "packages/apps/SetupWizard"
-#patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove analytics #TODO: Rebase
+enterAndClear "packages/apps/SetupWizard"
+patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove analytics
 
 enterAndClear "packages/apps/Silence"
 cp $patches"android_packages_apps_Silence/Android.mk" Android.mk #Add a build file
