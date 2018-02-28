@@ -1,19 +1,19 @@
-From f97f345e14ab731b87c1f8330718db90d49061e7 Mon Sep 17 00:00:00 2001
+From 1a5bbf0ee895bbd66fb3ce66be44b1074bb20324 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Mon, 12 Feb 2018 06:12:29 -0500
+Date: Wed, 28 Feb 2018 08:21:28 -0500
 Subject: [PATCH] Build time variable for AES-256 encryption
 
-Change-Id: I14efcfddabb6bd889b90cff59f26ca47c9883eb0
+Change-Id: I25eba5939c965323e4ffa6d95c6736b671c51e09
 ---
  Android.mk  | 4 ++++
  cryptfs.cpp | 9 ++++++++-
  2 files changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/Android.mk b/Android.mk
-index 29a7852..2962180 100644
+index 14bf99a..0e9f3e1 100644
 --- a/Android.mk
 +++ b/Android.mk
-@@ -114,6 +114,10 @@ ifeq ($(TARGET_HW_DISK_ENCRYPTION),true)
+@@ -115,6 +115,10 @@ ifeq ($(TARGET_HW_DISK_ENCRYPTION),true)
    vold_cflags += -DCONFIG_HW_DISK_ENCRYPTION
  endif
  
@@ -21,9 +21,9 @@ index 29a7852..2962180 100644
 +LOCAL_CFLAGS += -DCONFIG_STRONG_ENCRYPTION
 +endif
 +
- ifeq ($(TARGET_KERNEL_HAVE_EXFAT),true)
-   vold_cflags += -DCONFIG_KERNEL_HAVE_EXFAT
- endif
+ ifneq ($(TARGET_EXFAT_DRIVER),)
+   vold_cflags += -DCONFIG_EXFAT_DRIVER=\"$(TARGET_EXFAT_DRIVER)\"
+   mini_src_files += fs/Exfat.cpp
 diff --git a/cryptfs.cpp b/cryptfs.cpp
 index f01929a..7fb3ffa 100644
 --- a/cryptfs.cpp
@@ -55,5 +55,5 @@ index f01929a..7fb3ffa 100644
  #define RSA_EXPONENT 0x10001
  #define KEYMASTER_CRYPTFS_RATE_LIMIT 1  // Maximum one try per second
 -- 
-2.16.1
+2.16.2
 
