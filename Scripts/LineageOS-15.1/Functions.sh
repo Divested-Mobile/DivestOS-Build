@@ -22,7 +22,7 @@ startPatcher() {
 export -f startPatcher;
 
 patchAllKernels() {
-	startPatcher "kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_msm8974 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_msm8974";
+	startPatcher "kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_msm8974 kernel_moto_shamu kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_msm8974";
 }
 export -f patchAllKernels;
 
@@ -61,13 +61,11 @@ buildAll() {
 	brunch lineage_angler-user;
 	brunch lineage_bacon-user;
 	brunch lineage_bullhead-user;
-	#brunch lineage_d802-userdebug;
+	brunch lineage_d802-userdebug;
 	brunch lineage_d852-userdebug;
-	#brunch lineage_d855-userdebug; #device/lge/d855/recovery/recovery_updater.cpp:29:10: fatal error: 'updater/install.h' file not found
-	#brunch lineage_ether-user;
+	#brunch lineage_d855-userdebug;
 	brunch lineage_flo-user;
 	brunch lineage_flounder-user;
-	#brunch lineage_FP2-user;
 	#brunch lineage_hammerhead-user; #find: `hardware/cyanogen/cmhw': No such file or directory
 	#brunch lineage_marlin-user;
 	#brunch lineage_sailfish-user;
@@ -77,7 +75,7 @@ export -f buildAll;
 
 patchWorkspace() {
 	source build/envsetup.sh;
-	repopick 204743 204744; #Cherry picks
+	repopick 204743 204744 205021; #Cherry picks
 
 	source $scripts/Patch.sh;
 	source $scripts/Defaults.sh;

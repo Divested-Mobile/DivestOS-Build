@@ -146,11 +146,6 @@
 	<project path="device/htc/hima-common" name="LineageOS/android_device_htc_hima-common" remote="github" />
 	<project path="kernel/htc/msm8994" name="LineageOS/android_kernel_htc_msm8994" remote="github" />
 
-	<!-- LG G2 (d802) -->
-	<project path="device/lge/g2-common" name="LineageOS/android_device_lge_g2-common" remote="github" />
-	<project path="device/lge/d802" name="LineageOS/android_device_lge_d802" remote="github" />
-	<project path="kernel/lge/msm8974" name="LineageOS/android_kernel_lge_msm8974" remote="github" />
-
 	<!-- LG G3 (d855) -->
 	<project path="device/lge/g3-common" name="LineageOS/android_device_lge_g3-common" remote="github" />
 	<project path="device/lge/d852" name="LineageOS/android_device_lge_d852" remote="github" />

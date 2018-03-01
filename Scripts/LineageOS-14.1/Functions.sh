@@ -22,7 +22,7 @@ startPatcher() {
 export -f startPatcher;
 
 patchAllKernels() {
-	startPatcher "kernel_amazon_hdx-common kernel_asus_msm8916 kernel_fairphone_msm8974 kernel_google_marlin kernel_htc_msm8974 kernel_htc_msm8994 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_nextbit_msm8992 kernel_oneplus_msm8974 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal8890";
+	startPatcher "kernel_amazon_hdx-common kernel_asus_msm8916 kernel_fairphone_msm8974 kernel_google_marlin kernel_htc_msm8974 kernel_htc_msm8994 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_nextbit_msm8992 kernel_oneplus_msm8974 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal8890";
 }
 export -f patchAllKernels;
 
@@ -63,7 +63,6 @@ buildAll() {
 	brunch lineage_bacon-user;
 	brunch lineage_thor-userdebug;
 	brunch lineage_mako-user;
-	brunch lineage_d802-userdebug;
 	brunch lineage_d855-userdebug;
 	brunch lineage_ether-user;
 	brunch lineage_FP2-user;
