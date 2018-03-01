@@ -61,18 +61,23 @@ buildAll() {
 	brunch lineage_angler-user;
 	brunch lineage_bacon-user;
 	brunch lineage_bullhead-user;
+	#brunch lineage_d802-userdebug;
 	brunch lineage_d852-userdebug;
-	brunch lineage_d855-userdebug;
-	brunch lineage_flo-user; #Not affected by size, but breaks: undefined reference to 'mm_jpeg_get_new_session_idx'
+	#brunch lineage_d855-userdebug; #device/lge/d855/recovery/recovery_updater.cpp:29:10: fatal error: 'updater/install.h' file not found
+	#brunch lineage_ether-user;
+	brunch lineage_flo-user;
 	brunch lineage_flounder-user;
-	#brunch lineage_hammerhead-user;
-	#brunch lineage_shamu-user;
+	#brunch lineage_FP2-user;
+	#brunch lineage_hammerhead-user; #find: `hardware/cyanogen/cmhw': No such file or directory
+	#brunch lineage_marlin-user;
+	#brunch lineage_sailfish-user;
+	brunch lineage_shamu-user;
 }
 export -f buildAll;
 
 patchWorkspace() {
 	source build/envsetup.sh;
-	repopick 204743 204744 207991; #Cherry picks
+	repopick 204743 204744; #Cherry picks
 
 	source $scripts/Patch.sh;
 	source $scripts/Defaults.sh;

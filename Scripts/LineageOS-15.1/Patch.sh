@@ -65,7 +65,7 @@ enterAndClear "build/make"
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 
 enterAndClear "device/qcom/sepolicy"
-patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix camera on user builds
+patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix camera on -user builds
 
 enterAndClear "frameworks/base"
 #git revert https://review.lineageos.org/#/c/202875/ #re-enable doze on devices without gms
@@ -160,6 +160,9 @@ enterAndClear "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 git revert a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4 #Always update recovery
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid. Disclaimer: From CopperheadOS 13.0
+
+enterAndClear "system/sepolicy"
+git revert c994face15fbcbd8c0b083ca5d36e0b2258b033a #breaks -user builds
 
 enterAndClear "system/vold"
 patch -p1 < $patches"android_system_vold/0001-AES256.patch" #Add a variable for enabling AES-256 bit encryption

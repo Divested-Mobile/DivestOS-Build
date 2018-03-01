@@ -22,7 +22,7 @@ startPatcher() {
 export -f startPatcher;
 
 patchAllKernels() {
-	startPatcher "kernel_amazon_hdx-common kernel_asus_msm8916 kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_htc_msm8974 kernel_htc_msm8994 kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_moto_shamu kernel_nextbit_msm8992 kernel_oneplus_msm8974 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal8890";
+	startPatcher "kernel_amazon_hdx-common kernel_asus_msm8916 kernel_fairphone_msm8974 kernel_google_marlin kernel_htc_msm8974 kernel_htc_msm8994 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_nextbit_msm8992 kernel_oneplus_msm8974 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal8890";
 }
 export -f patchAllKernels;
 
@@ -63,13 +63,9 @@ buildAll() {
 	brunch lineage_bacon-user;
 	brunch lineage_thor-userdebug;
 	brunch lineage_mako-user;
-	brunch lineage_angler-user;
-	brunch lineage_bullhead-user;
 	brunch lineage_d802-userdebug;
 	brunch lineage_d855-userdebug;
 	brunch lineage_ether-user;
-	brunch lineage_flo-user;
-	brunch lineage_flounder-user;
 	brunch lineage_FP2-user;
 #	brunch lineage_h815-user; - (UPSTREAM) drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes
 	brunch lineage_h850-userdebug;
@@ -85,7 +81,6 @@ buildAll() {
 	brunch lineage_n5110-user;
 	brunch lineage_osprey-user;
 	brunch lineage_sailfish-user;
-	brunch lineage_shamu-user;
 	brunch lineage_Z00T-user;
 }
 export -f buildAll;

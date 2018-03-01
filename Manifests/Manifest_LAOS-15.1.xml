@@ -156,9 +156,9 @@
 	<project path="device/lge/hammerhead" name="LineageOS/android_device_lge_hammerhead" remote="github" />
 	<project path="kernel/lge/hammerhead" name="LineageOS/android_kernel_lge_hammerhead" remote="github" />
 
-	<!-- Nexus 6 (shamu)
+	<!-- Nexus 6 (shamu)-->
 	<project path="device/moto/shamu" name="LineageOS/android_device_moto_shamu" remote="github" />
-	<project path="kernel/moto/shamu" name="LineageOS/android_kernel_moto_shamu" remote="github" />-->
+	<project path="kernel/moto/shamu" name="LineageOS/android_kernel_moto_shamu" remote="github" />
 
 	<!-- Nexus 9 (flounder) -->
 	<project path="device/htc/flounder" name="LineageOS/android_device_htc_flounder" remote="github" />
