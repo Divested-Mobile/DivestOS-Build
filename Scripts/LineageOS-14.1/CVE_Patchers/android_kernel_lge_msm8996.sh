@@ -61,6 +61,7 @@ git apply $cvePatchesLinux/CVE-2017-0610/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0794/3.18/0002.patch
 git apply $cvePatchesLinux/CVE-2017-0866/3.18/0001.patch
+git apply $cvePatchesLinux/CVE-2017-1000111/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-1000364/3.18/0008.patch
 git apply $cvePatchesLinux/CVE-2017-1000364/3.18/0009.patch
 git apply $cvePatchesLinux/CVE-2017-1000364/3.18/0010.patch
@@ -76,6 +77,8 @@ git apply $cvePatchesLinux/CVE-2017-13218/3.18/0006.patch
 git apply $cvePatchesLinux/CVE-2017-13218/3.18/0011.patch
 git apply $cvePatchesLinux/CVE-2017-13245/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-13246/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-15649/ANY/0002.patch
+git apply $cvePatchesLinux/CVE-2017-15834/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-15850/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-15868/3.18/0003.patch
 git apply $cvePatchesLinux/CVE-2017-16525/^4.13/0002.patch
@@ -98,6 +101,7 @@ git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0006.patch
 git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0009.patch
 git apply $cvePatchesLinux/CVE-2017-17558/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-17769/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-18066/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-5669/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-5972/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2017-5986/^4.9/0001.patch
@@ -108,7 +112,7 @@ git apply $cvePatchesLinux/CVE-2017-6348/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-6353/^4.10/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7472/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7487/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2017-7533/3.18/0003.patch
+git apply $cvePatchesLinux/CVE-2017-7533/3.18/0004.patch
 git apply $cvePatchesLinux/CVE-2017-7616/^4.10/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7618/^4.10/0002.patch
 git apply $cvePatchesLinux/Untracked/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
@@ -121,5 +125,5 @@ git apply $cvePatchesLinux/CVE-2016-6693/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0610/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p121"
+editKernelLocalversion "-dos.p125"
 cd $base

@@ -46,5 +46,6 @@ git apply $cvePatchesLinux/CVE-2017-7184/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2017-7308/ANY/0003.patch
 git apply $cvePatchesLinux/CVE-2017-7487/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2014-9781/ANY/0001.patch
-editKernelLocalversion "-dos.p46"
+git apply $cvePatchesLinux/CVE-2017-1000111/ANY/0001.patch
+editKernelLocalversion "-dos.p47"
 cd $base

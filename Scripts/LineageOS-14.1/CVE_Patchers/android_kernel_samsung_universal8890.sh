@@ -59,7 +59,7 @@ git apply $cvePatchesLinux/CVE-2016-6828/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-7042/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-7117/^4.5/0002.patch
 git apply $cvePatchesLinux/CVE-2016-7913/ANY/0001.patch
-#git apply $cvePatchesLinux/CVE-2016-7917/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2016-7917/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-8399/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-8468/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2016-8650/ANY/0001.patch
@@ -141,5 +141,6 @@ git apply $cvePatchesLinux/Untracked/ANY/0007-USB-usbip-fix-potential-out-of-bou
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 #git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0039.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p141"
+git apply $cvePatchesLinux/CVE-2017-1000111/ANY/0001.patch
+editKernelLocalversion "-dos.p142"
 cd $base

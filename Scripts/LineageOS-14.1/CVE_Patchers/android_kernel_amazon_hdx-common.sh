@@ -85,5 +85,6 @@ git apply $cvePatchesLinux/CVE-2017-9242/^4.11/0001.patch
 git apply $cvePatchesLinux/CVE-2017-9684/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-9706/ANY/0001.patch
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
-editKernelLocalversion "-dos.p85"
+git apply $cvePatchesLinux/CVE-2017-1000111/ANY/0001.patch
+editKernelLocalversion "-dos.p86"
 cd $base
