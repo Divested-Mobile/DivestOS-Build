@@ -62,6 +62,7 @@ cp -r $patches"Fennec_DOS-Shim" $base"packages/apps/"; #Add a shim to install Fe
 
 enterAndClear "build/make"
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing. Disclaimer: From CopperheadOS 13.0
+awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 
 enterAndClear "device/qcom/sepolicy"
@@ -160,9 +161,6 @@ enterAndClear "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 git revert a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4 #Always update recovery
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid. Disclaimer: From CopperheadOS 13.0
-
-enterAndClear "system/sepolicy"
-git revert c994face15fbcbd8c0b083ca5d36e0b2258b033a #breaks -user builds
 
 enterAndClear "system/vold"
 patch -p1 < $patches"android_system_vold/0001-AES256.patch" #Add a variable for enabling AES-256 bit encryption
