@@ -103,7 +103,6 @@ sed -i 's/ln -s /ln -sf /' Android.mk;
 sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools = "25.0.3"/' build.gradle;
 
 enterAndClear "packages/apps/FDroid"
-git checkout 6260c11efc0f8296c19ee8d075cafbc556869cd1
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Mark as privileged
 cp $patches"android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add extra repos
 sed -i 's|gradle|./gradlew|' Android.mk; #Gradle 4.0 fix
@@ -159,7 +158,7 @@ patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch" #L
 
 enterAndClear "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
-git revert a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4 #Always update recovery
+#git revert a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4 #Always update recovery
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid. Disclaimer: From CopperheadOS 13.0
 
 enterAndClear "system/vold"

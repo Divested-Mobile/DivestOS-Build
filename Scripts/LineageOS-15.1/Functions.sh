@@ -67,7 +67,7 @@ buildAll() {
 	brunch lineage_flo-user;
 	brunch lineage_flounder-user;
 	#brunch lineage_hammerhead-user; #find: `hardware/cyanogen/cmhw': No such file or directory
-	#brunch lineage_marlin-user;
+	#brunch lineage_marlin-user; #include/linux/string.h:287:4: error: call to '__read_overflow2' declared with attribute error: detected read beyond size of object passed as 2nd parameter
 	#brunch lineage_sailfish-user;
 	brunch lineage_shamu-user;
 }
@@ -75,7 +75,7 @@ export -f buildAll;
 
 patchWorkspace() {
 	source build/envsetup.sh;
-	repopick 204743 204744 205021; #Cherry picks
+	repopick 204743 204744 205021 206123; #Cherry picks
 
 	source $scripts/Patch.sh;
 	source $scripts/Defaults.sh;

@@ -112,7 +112,6 @@ sed -i 's/ln -s /ln -sf /' Android.mk;
 sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools = "25.0.3"/' build.gradle;
 
 enterAndClear "packages/apps/FDroid"
-git checkout 6260c11efc0f8296c19ee8d075cafbc556869cd1
 patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Mark as privileged
 cp $patches"android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add extra repos
 sed -i 's|gradle|./gradlew|' Android.mk; #Gradle 4.0 fix
