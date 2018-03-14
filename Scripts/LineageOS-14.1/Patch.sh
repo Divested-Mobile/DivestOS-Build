@@ -110,10 +110,10 @@ sed -i 's/ln -s /ln -sf /' Android.mk;
 sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools = "25.0.3"/' build.gradle;
 
 enterAndClear "packages/apps/FDroid"
-patch -p1 < $patches"android_packages_apps_FDroid/0001.patch" #Mark as privileged
 cp $patches"android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add extra repos
 sed -i 's|gradle|./gradlew|' Android.mk; #Gradle 4.0 fix
 sed -i 's|/$(fdroid_dir) \&\&| \&\&|' Android.mk; #One line wouldn't work... no matter what I tried.
+#TODO: Change the package ID until https://gitlab.com/fdroid/fdroidclient/issues/843 is implemented
 
 enterAndClear "packages/apps/FDroidPrivilegedExtension"
 patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Release_Key.patch" #Change to release key
@@ -216,6 +216,8 @@ find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableForcedEncrypt
 find "kernel" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'hardenDefconfig "$0"' {} \;
 cd $base
 
+#Fixes
+disableDexPreOpt device/lge/mako
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/lge/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
 #

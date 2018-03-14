@@ -91,7 +91,7 @@ export -f patchWorkspace;
 
 enableDexPreOpt() {
 	cd $base$1;
-	if [ $1 != "device/amazon/thor" ] && [ $1 != "device/samsung/i9100" ] && [ $1 != "device/lge/h850" ]; then #Some devices won't compile, or have too small of a /system partition
+	if [ $1 != "device/amazon/thor" ] && [ $1 != "device/samsung/i9100" ] && [ $1 != "device/lge/h850" ] && [ $1 != "device/lge/mako" ]; then #Some devices won't compile, or have too small of a /system partition
 		if [ -f BoardConfig.mk ]; then
 			echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 			echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
@@ -104,12 +104,24 @@ enableDexPreOpt() {
 export -f enableDexPreOpt;
 
 enableDexPreOptFull() {
+	cd $base$1;
 	if [ -f BoardConfig.mk ]; then
 		sed -i "s/WITH_DEXPREOPT_BOOT_IMG_ONLY := true/WITH_DEXPREOPT_BOOT_IMG_ONLY := false/" BoardConfig.mk;
 		echo "Enabled full dexpreopt";
 	fi;
+	cd $base;
 }
 export -f enableDexPreOptFull;
+
+disableDexPreOpt() {
+	cd $base$1;
+	if [ -f BoardConfig.mk ]; then
+		sed -i "s/WITH_DEXPREOPT := true/WITH_DEXPREOPT := false/" BoardConfig.mk;
+		echo "Disabled dexpreopt";
+	fi;
+	cd $base;
+}
+export -f disableDexPreOpt;
 
 compressRamdisks() {
 	if [ -f BoardConfig.mk ]; then
