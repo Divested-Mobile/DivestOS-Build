@@ -91,18 +91,10 @@
 	<project path="packages/apps/GsfProxy" name="microg/android_packages_apps_GsfProxy" remote="github" revision="master" />
 	<project path="packages/apps/FakeStore" name="microg/android_packages_apps_FakeStore" remote="github" revision="master" />
 
-	<!-- UnifiedNLP Backends -->
-	<project path="packages/apps/DejaVu" name="n76/DejaVu" remote="github" revision="master" />
-	<project path="packages/apps/IchnaeaNlpBackend" name="microg/IchnaeaNlpBackend" remote="github" revision="master" />
-	<project path="packages/apps/NominatimGeocoderBackend" name="microg/NominatimGeocoderBackend" remote="github" revision="master" />
-
 	<!-- F-Droid -->
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
 	<project path="packages/apps/FDroidPrivilegedExtension" name="privileged-extension.git" remote="fdroid" revision="master" />
 	<project path="packages/apps/FDroid" name="fdroidclient.git" remote="fdroid" revision="master" />
-
-	<!-- Misc -->
-	<project path="packages/apps/Silence" name="SilenceIM/Silence" remote="github" revision="master" />
 <!-- END OF ADDITIONAL REPOS -->
 
 

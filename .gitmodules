@@ -7,3 +7,6 @@
 [submodule "Patches/Android"]
 	path = Patches/Android
 	url = ssh://git@10.0.1.5:2222/DivestOS/Android_Patches.git
+[submodule "PrebuiltApps"]
+	path = PrebuiltApps
+	url = ssh://git@10.0.1.5:2222/DivestOS/PrebuiltApps.git

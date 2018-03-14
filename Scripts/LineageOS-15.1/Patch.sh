@@ -56,6 +56,7 @@ echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/a
 
 #top dir
 cp -r $patches"Fennec_DOS-Shim" $base"packages/apps/"; #Add a shim to install Fennec DOS without actually including the large APK
+cp -r $prebuiltApps"android_vendor_FDroid_PrebuiltApps" $base"vendor/fdroid_prebuilt"; #Add the prebuilt apps
 
 #enterAndClear "bootable/recovery"
 #optipng -strip all res*/images/*.png;
@@ -93,9 +94,6 @@ awk -i inplace '!/com.android.internal.R.bool.config_permissionReviewRequired/' 
 enterAndClear "lineage-sdk"
 awk -i inplace '!/WeatherManagerServiceBroker/' lineage/res/res/values/config.xml; #Disable Weather
 cp $patches"android_lineage-sdk/profile_default.xml" lineage/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
-
-enterAndClear "packages/apps/DejaVu"
-cp $patches"android_packages_apps_DejaVu/Android.mk" Android.mk #Add a build file
 
 enterAndClear "packages/apps/FakeStore"
 sed -i 's|$(OUT_DIR)/target/|$(PWD)/$(OUT_DIR)/target/|' Android.mk;
@@ -138,9 +136,6 @@ sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.
 
 enterAndClear "packages/apps/SetupWizard"
 patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove analytics
-
-enterAndClear "packages/apps/Silence"
-cp $patches"android_packages_apps_Silence/Android.mk" Android.mk #Add a build file
 
 enterAndClear "packages/apps/Updater"
 patch -p1 < $patches"android_packages_apps_Updater/0001-Server.patch" #Switch to our server

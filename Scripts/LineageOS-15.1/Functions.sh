@@ -46,7 +46,7 @@ gitReset() {
 export -f gitReset;
 
 resetWorkspace() {
-	repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/{FDroid,GmsCore,Silence} out && repo sync -j20 --force-sync;
+	repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/{FDroid,GmsCore} out && repo sync -j20 --force-sync;
 }
 export -f resetWorkspace;
 

@@ -6,7 +6,7 @@ PRODUCT_PACKAGES += \
 
 # UnifiedNLP Backends
 PRODUCT_PACKAGES += \
-    DejaVu \
+    DejaVuNlpBackend \
     IchnaeaNlpBackend \
     NominatimNlpBackend
 
@@ -14,6 +14,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     F-Droid \
     FDroidPrivilegedExtension
+
+# Others
+PRODUCT_PACKAGES += \
+    LocalCalendar
 
 # Browser
 # XXX: THIS DOESN'T WORK

@@ -58,6 +58,7 @@ echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/a
 
 #top dir
 cp -r $patches"Fennec_DOS-Shim" $base"packages/apps/"; #Add a shim to install Fennec DOS without actually including the large APK
+cp -r $prebuiltApps"android_vendor_FDroid_PrebuiltApps" $base"vendor/fdroid_prebuilt"; #Add the prebuilt apps
 
 enterAndClear "bootable/recovery"
 patch -p1 < $patches"android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button?
@@ -103,9 +104,6 @@ sed -i 's|config_showWeatherMenu">true|config_showWeatherMenu">false|' res/value
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove the rest of CMStats
 patch -p1 < $patches"android_packages_apps_CMParts/0002-Reduced_Resolution.patch" #Allow reducing resolution to save power
 
-enterAndClear "packages/apps/DejaVu"
-cp $patches"android_packages_apps_DejaVu/Android.mk" Android.mk #Add a build file
-
 enterAndClear "packages/apps/FakeStore"
 sed -i 's|$(OUT_DIR)/target/|$(PWD)/$(OUT_DIR)/target/|' Android.mk;
 sed -i 's/ln -s /ln -sf /' Android.mk;
@@ -145,9 +143,6 @@ patch -p1 < $patches"android_packages_apps_Settings/0001-Privacy_Guard-More_Perm
 
 enterAndClear "packages/apps/SetupWizard"
 patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove the rest of CMStats
-
-enterAndClear "packages/apps/Silence"
-cp $patches"android_packages_apps_Silence/Android.mk" Android.mk #Add a build file
 
 enterAndClear "packages/apps/Updater"
 patch -p1 < $patches"android_packages_apps_Updater/0001-Server.patch" #Switch to our server
