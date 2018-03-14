@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2014 The Android Open Source Project
+# Copyright (C) 2016 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,11 +23,12 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE := FennecDOS
 LOCAL_MODULE_CLASS := APPS
-LOCAL_MULTILIB := both
 LOCAL_CERTIFICATE := PRESIGNED
+LOCAL_DEX_PREOPT := false
+LOCAL_MODULE_TARGET_ARCH := arm
 
 LOCAL_OVERRIDES_PACKAGES := Jelly
-LOCAL_DEX_PREOPT := false
+
 LOCAL_SRC_FILES := prebuilt/Fennec_DOS-Shim.apk
 
 include $(BUILD_PREBUILT)

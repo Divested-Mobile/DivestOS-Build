@@ -167,6 +167,10 @@ cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 git revert 0217dddeb5c16903c13ff6c75213619b79ea622b d7aa1231b6a0631f506c0c23816f2cd81645b15f #Always update recovery
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid. Disclaimer: From CopperheadOS 13.0
 
+enterAndClear "system/keymaster"
+patch -p1 < $patches"android_system_keymaster/0001-Backport_Fixes.patch" #Fixes from 8.1, appears to fix https://jira.lineageos.org/browse/BUGBASH-590
+patch -p1 < $patches"android_system_keymaster/0002-Backport_Fixes.patch"
+
 enterAndClear "system/vold"
 patch -p1 < $patches"android_system_vold/0001-AES256.patch" #Add a variable for enabling AES-256 bit encryption
 
