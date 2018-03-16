@@ -199,8 +199,9 @@ sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod
 #
 #START OF DEVICE CHANGES
 #
-enterAndClear "device/amazon/hdx-common"
-echo "/dev/block/platform/msm_sdcc.1/by-name/misc /misc emmc defaults defaults" >> rootdir/etc/fstab.qcom; #Add the misc (mmcblk0p5) partition for recovery flags
+#enterAndClear "device/amazon/hdx-common"
+#XXX: If not used with a supported recovery, it'll be thrown into a bootloop, don't worry just 'fastboot erase misc' and reboot
+#echo "/dev/block/platform/msm_sdcc.1/by-name/misc /misc emmc defaults defaults" >> rootdir/etc/fstab.qcom; #Add the misc (mmcblk0p5) partition for recovery flags
 
 enterAndClear "device/oneplus/bacon"
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
