@@ -82,7 +82,6 @@ patchWorkspace() {
 	source $scripts/Overclock.sh;
 	source $scripts/Optimize.sh;
 	source $scripts/Rebrand.sh;
-	source $scripts/Theme.sh;
 	source $scripts/Deblob.sh;
 	source $scripts/Patch_CVE.sh;
 	source build/envsetup.sh;
@@ -95,7 +94,7 @@ enableDexPreOpt() {
 		if [ -f BoardConfig.mk ]; then
 			echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 			echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
-			echo "WITH_DEXPREOPT_BOOT_IMG_ONLY := true" >> BoardConfig.mk;
+			echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := true" >> BoardConfig.mk;
 			echo "Enabled dexpreopt for $1";
 		fi;
 	fi;
@@ -106,7 +105,7 @@ export -f enableDexPreOpt;
 enableDexPreOptFull() {
 	cd $base$1;
 	if [ -f BoardConfig.mk ]; then
-		sed -i "s/WITH_DEXPREOPT_BOOT_IMG_ONLY := true/WITH_DEXPREOPT_BOOT_IMG_ONLY := false/" BoardConfig.mk;
+		sed -i "s/WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := true/WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false/" BoardConfig.mk;
 		echo "Enabled full dexpreopt";
 	fi;
 	cd $base;
