@@ -75,7 +75,7 @@ export -f buildAll;
 
 patchWorkspace() {
 	source build/envsetup.sh;
-	repopick 204743 204744 205021 206123; #Cherry picks
+	repopick 205021 206123; #Cherry picks
 
 	source $scripts/Patch.sh;
 	source $scripts/Defaults.sh;
