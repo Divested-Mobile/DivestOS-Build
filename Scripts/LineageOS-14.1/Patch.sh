@@ -127,11 +127,6 @@ sed -i 's|build/outputs/apk/play-services-core-release-unsigned.apk|build/output
 enterAndClear "packages/apps/GsfProxy"
 sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools = "25.0.3"/' build.gradle;
 
-enterAndClear "packages/apps/IchnaeaNlpBackend"
-sed -i 's|$(OUT_DIR)/target/|$(PWD)/$(OUT_DIR)/target/|' Android.mk;
-sed -i 's/compileSdkVersion 23/compileSdkVersion 25/' build.gradle;
-sed -i 's/buildToolsVersion "23.0.2"/buildToolsVersion "25.0.3"/' build.gradle;
-
 enterAndClear "packages/apps/PackageInstaller"
 patch -p1 < $patches"android_packages_apps_PackageInstaller/64d8b44.diff" #Fix an issue with Permission Review
 
