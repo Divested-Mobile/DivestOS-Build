@@ -80,7 +80,6 @@ sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/co
 sed -i 's|db_default_journal_mode" translateble="false">PERSIST|db_default_journal_mode" translateble="false">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
 sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml;
 patch -p1 < $patches"android_frameworks_base/0001-Reduced_Resolution.patch" #Allow reducing resolution to save power TODO: Add 800x480
-#patch -p1 < $patches"android_frameworks_base/0002-Radio.patch" #Add a QS tile to control radio power #TODO: Breaks cell and SystemUI
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch" #Allow packages to spoof their signature (MicroG)
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
 patch -p1 < $patches"android_frameworks_base/0006-OpenNIC.patch" #Change fallback and tethering DNS servers to OpenNIC AnyCast
@@ -184,7 +183,6 @@ sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app w
 enterAndClear "vendor/cmsdk"
 awk -i inplace '!/WeatherManagerServiceBroker/' cm/res/res/values/config.xml; #Disable Weather
 cp $patches"cm_platform_sdk/profile_default.xml" cm/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
-#patch -p1 < $patches"cm_platform_sdk/0001-Radio.patch" #Add a QS tile to control radio power
 sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod/platform/internal/PerformanceManagerService.java; #Per app performance profiles fix
 #
 #END OF ROM CHANGES
