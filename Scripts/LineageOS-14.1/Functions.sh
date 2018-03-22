@@ -85,6 +85,9 @@ buildAll() {
 export -f buildAll;
 
 patchWorkspace() {
+	source build/envsetup.sh;
+	repopick 201223; #Cherry picks
+
 	source $scripts/Patch.sh;
 	source $scripts/Defaults.sh;
 	source $scripts/Overclock.sh;

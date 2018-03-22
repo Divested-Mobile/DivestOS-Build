@@ -107,7 +107,7 @@ sed -i 's|/$(fdroid_dir) \&\&| \&\&|' Android.mk; #One line wouldn't work... no 
 #TODO: Change the package ID until https://gitlab.com/fdroid/fdroidclient/issues/843 is implemented
 
 enterAndClear "packages/apps/FDroidPrivilegedExtension"
-patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0002-Release_Key.patch" #Change to release key
+patch -p1 < $patches"android_packages_apps_FDroidPrivilegedExtension/0001-Release_Key.patch" #Change to release key
 #release-keys: CB:1E:E2:EC:40:D0:5E:D6:78:F4:2A:E7:01:CD:FA:29:EE:A7:9D:0E:6D:63:32:76:DE:23:0B:F3:49:40:67:C3
 #test-keys: C8:A2:E9:BC:CF:59:7C:2F:B6:DC:66:BE:E2:93:FC:13:F2:FC:47:EC:77:BC:6B:2B:0D:52:C1:1F:51:19:2A:B8
 
