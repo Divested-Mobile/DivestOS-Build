@@ -13,7 +13,7 @@ PRODUCT_PACKAGES += \
 # F-Droid
 PRODUCT_PACKAGES += \
     F-Droid \
-    FDroidPrivilegedExtension
+    F-DroidPrivilegedExtension
 
 # Others
 PRODUCT_PACKAGES += \

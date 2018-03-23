@@ -36,13 +36,6 @@ sed -i '/string\/rooted/!b;n;s/defaultValue="true"/defaultValue="false"/' app/sr
 sed -i 's|DEFAULT_HIDE_ANTI_FEATURE_APPS = false;|DEFAULT_HIDE_ANTI_FEATURE_APPS = true;|' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide anti-feature apps
 sed -i '/string\/hide_anti_feature_apps/!b;n;s/defaultValue="false"/defaultValue="true"/' app/src/main/res/xml/preferences.xml;
 
-enter "packages/apps/Jelly"
-sed -i 's|default_suggestion_provider">GOOGLE|default_suggestion_provider">NONE|' app/src/main/res/values/strings.xml; #Disable search suggestions
-sed -i 's|KEY_LOCATION, true|KEY_LOCATION, false|' app/src/main/java/org/lineageos/jelly/utils/PrefsUtils.java; #Disable location
-sed -i 's|KEY_DO_NOT_TRACK, false|KEY_DO_NOT_TRACK, true|' app/src/main/java/org/lineageos/jelly/utils/PrefsUtils.java; #Enable do not track
-sed -i 's|KEY_SAVE_FORM_DATA, true|KEY_SAVE_FORM_DATA, false|' app/src/main/java/org/lineageos/jelly/utils/PrefsUtils.java; #Disable form data saving
-sed -i 's|KEY_REMOVE_IDENTIFYING_HEADERS, false|KEY_REMOVE_IDENTIFYING_HEADERS, true|' app/src/main/java/org/lineageos/jelly/utils/PrefsUtils.java; #Remove certain headers
-
 enter "packages/apps/Nfc"
 sed -i 's/static final boolean NFC_ON_DEFAULT = true;/static final boolean NFC_ON_DEFAULT = false;/' src/com/android/nfc/NfcService.java; #Disable NFC
 sed -i 's/static final boolean NDEF_PUSH_ON_DEFAULT = true;/static final boolean NDEF_PUSH_ON_DEFAULT = false;/' src/com/android/nfc/NfcService.java; #Disable NDEF Push

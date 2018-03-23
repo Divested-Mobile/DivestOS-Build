@@ -11,7 +11,23 @@
 	<remove-project name="device/sample" />
 	<remove-project name="LineageOS/android_external_ant-wireless_ant_native" />
 	<remove-project name="LineageOS/android_external_ant-wireless_ant_service" />
+	<remove-project name="LineageOS/android_external_bash" />
+	<remove-project name="LineageOS/android_external_htop" />
+	<remove-project name="LineageOS/android_external_libncurses" />
+	<remove-project name="LineageOS/android_external_nano" />
+	<remove-project name="LineageOS/android_external_openssh" />
+	<remove-project name="LineageOS/android_external_powertop" />
+	<remove-project name="LineageOS/android_external_rsync" />
 	<remove-project name="LineageOS/android_external_unrar" />
+	<remove-project name="LineageOS/android_external_vim" />
+	<!-- Untested
+	<remove-project name="LineageOS/android_external_libtar" />
+	<remove-project name="LineageOS/android_external_ntfs-3g" />
+	<remove-project name="LineageOS/android_external_p7zip" />
+	<remove-project name="LineageOS/android_external_pigz" />
+	<remove-project name="LineageOS/android_external_unzip" />
+	<remove-project name="LineageOS/android_external_yaffs2" />
+	<remove-project name="LineageOS/android_external_zip" />-->
 	<remove-project name="LineageOS/android_packages_apps_Jelly" />
 	<remove-project name="LineageOS/android_packages_apps_LockClock" />
 	<remove-project name="LineageOS/android_packages_apps_ManagedProvisioning" />
@@ -53,21 +69,6 @@
 	<remove-project name="platform/prebuilts/gdb/darwin-x86" />
 	<remove-project name="platform/prebuilts/go/darwin-x86" />
 	<remove-project name="platform/prebuilts/python/darwin-x86/2.7.5" />
-	<!-- Untested
-	<remove-project name="LineageOS/android_external_bash" />
-	<remove-project name="LineageOS/android_external_htop" />
-	<remove-project name="LineageOS/android_external_libncurses" />
-	<remove-project name="LineageOS/android_external_libtar" />
-	<remove-project name="LineageOS/android_external_nano" />
-	<remove-project name="LineageOS/android_external_ntfs-3g" />
-	<remove-project name="LineageOS/android_external_openssh" />
-	<remove-project name="LineageOS/android_external_p7zip" />
-	<remove-project name="LineageOS/android_external_pigz" />
-	<remove-project name="LineageOS/android_external_rsync" />
-	<remove-project name="LineageOS/android_external_unzip" />
-	<remove-project name="LineageOS/android_external_vim" />
-	<remove-project name="LineageOS/android_external_yaffs2" />
-	<remove-project name="LineageOS/android_external_zip" />-->
 <!-- END OF UNNECESSARY REPO REMOVAL -->
 
 <!-- START OF ADDITIONAL REPOS -->
