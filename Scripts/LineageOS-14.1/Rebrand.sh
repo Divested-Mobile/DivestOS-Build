@@ -25,6 +25,7 @@ sed -i 's|Android Recovery|DivestOS Recovery|' *_ui.cpp;
 enter "build"
 sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
 sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/buildinfo.sh; #Override build host
+sed -i '/CM_TARGET_PACKAGE/s/lineage/coverage/' core/Makefile;
 
 enter "packages/apps/Settings"
 sed -i '/.*cmlicense_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml
