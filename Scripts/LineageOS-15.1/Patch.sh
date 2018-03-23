@@ -55,7 +55,7 @@ echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/a
 #
 
 #top dir
-cp -r $patches"Fennec_DOS-Shim" $base"packages/apps/"; #Add a shim to install Fennec DOS without actually including the large APK
+cp -r $prebuiltApps"Fennec_DOS-Shim" $base"packages/apps/"; #Add a shim to install Fennec DOS without actually including the large APK
 cp -r $prebuiltApps"android_vendor_FDroid_PrebuiltApps" $base"vendor/fdroid_prebuilt"; #Add the prebuilt apps
 
 #enterAndClear "bootable/recovery"
