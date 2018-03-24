@@ -15,7 +15,6 @@
 	<remove-project name="LineageOS/android_external_htop" />
 	<remove-project name="LineageOS/android_external_libncurses" />
 	<remove-project name="LineageOS/android_external_nano" />
-	<remove-project name="LineageOS/android_external_openssh" />
 	<remove-project name="LineageOS/android_external_powertop" />
 	<remove-project name="LineageOS/android_external_rsync" />
 	<remove-project name="LineageOS/android_external_unrar" />

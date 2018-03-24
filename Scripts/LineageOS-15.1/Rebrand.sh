@@ -25,7 +25,6 @@ sed -i 's|Android Recovery|DivestOS Recovery|' *_ui.cpp;
 enter "build/make"
 sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
 sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/buildinfo.sh; #Override build host
-sed -i '/LINEAGE_TARGET_PACKAGE/s/lineage/coverage/' core/Makefile;
 
 enter "packages/apps/Settings"
 sed -i '/.*lineagelicense_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml
@@ -43,6 +42,7 @@ sed -i 's|>LineageOS|>DivestOS|' res/values*/strings.xml
 enter "vendor/lineage"
 sed -i 's|https://lineageos.org/legal|https://divestos.xyz/pages/about.html|' config/common.mk;
 sed -i '/.*ZIPPATH=/s/lineage/coverage/' build/envsetup.sh;
+sed -i '/LINEAGE_TARGET_PACKAGE/s/lineage/coverage/' build/core/Makefile;
 rm -rf bootanimation #TODO: Create a boot animation
 
 cd $base
