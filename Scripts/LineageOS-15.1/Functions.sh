@@ -22,7 +22,7 @@ startPatcher() {
 export -f startPatcher;
 
 patchAllKernels() {
-	startPatcher "kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_msm8974 kernel_moto_shamu kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_msm8974";
+	startPatcher "kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_msm8974";
 }
 export -f patchAllKernels;
 
@@ -60,6 +60,7 @@ buildAll() {
 #TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
 	brunch lineage_d852-userdebug;
 	brunch lineage_bacon-user;
+	#brunch lineage_mako-user;
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;
 	brunch lineage_d802-userdebug;

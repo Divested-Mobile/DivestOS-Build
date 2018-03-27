@@ -110,7 +110,7 @@
 	<project path="external/stlport" name="LineageOS/android_external_stlport" remote="github" />
 	<project path="packages/apps/FlipFlap" name="LineageOS/android_packages_apps_FlipFlap" remote="github" />
 
-	<!-- Amazon Kindle Fire HDX 7 3rd Gen (thor)-->
+	<!-- Amazon Kindle Fire HDX 7 3rd Gen (thor) -->
 	<project path="device/amazon/hdx-common" name="LineageOS/android_device_amazon_hdx-common" remote="github" />
 	<project path="device/amazon/thor" name="LineageOS/android_device_amazon_thor" remote="github" />
 	<project path="kernel/amazon/hdx-common" name="LineageOS/android_kernel_amazon_hdx-common" remote="github" />
