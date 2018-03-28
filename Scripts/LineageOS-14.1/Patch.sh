@@ -56,7 +56,7 @@ echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/a
 
 #top dir
 cp -r $prebuiltApps"Fennec_DOS-Shim" $base"packages/apps/"; #Add a shim to install Fennec DOS without actually including the large APK
-cp -r $prebuiltApps"android_vendor_FDroid_PrebuiltApps" $base"vendor/fdroid_prebuilt"; #Add the prebuilt apps
+cp -r $prebuiltApps"android_vendor_FDroid_PrebuiltApps/." $base"vendor/fdroid_prebuilt/"; #Add the prebuilt apps
 
 enterAndClear "bootable/recovery"
 patch -p1 < $patches"android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button?
@@ -134,6 +134,9 @@ sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.
 
 enterAndClear "packages/apps/SetupWizard"
 patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove the rest of CMStats
+
+enterAndClear "packages/apps/Trebuchet"
+cp -r $patches"android_packages_apps_Trebuchet/default_workspace/." "res/xml/";
 
 enterAndClear "packages/apps/Updater"
 patch -p1 < $patches"android_packages_apps_Updater/0001-Server.patch" #Switch to our server
