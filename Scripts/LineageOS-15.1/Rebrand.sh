@@ -35,6 +35,7 @@ enter "packages/apps/SetupWizard"
 sed -i 's|http://lineageos.org/legal|https://divestos.xyz/pages/legal/pp.html|' src/org/lineageos/setupwizard/LineageSettingsActivity.java;
 sed -i '/.*setup_services/s/LineageOS/DivestOS/' res/values*/strings.xml
 sed -i '/.*services_explanation/s/LineageOS/DivestOS/' res/values*/strings.xml
+cp $patches"android_packages_apps_SetupWizard/logo.xml" "res/drawable/logo.xml"; #Replace Lineage logo with ours
 
 enter "packages/apps/Updater"
 sed -i 's|>LineageOS|>DivestOS|' res/values*/strings.xml

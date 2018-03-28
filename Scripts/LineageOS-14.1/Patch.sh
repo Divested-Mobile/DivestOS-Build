@@ -134,7 +134,7 @@ sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.
 
 enterAndClear "packages/apps/SetupWizard"
 patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove the rest of CMStats
-patch -p1 < $patches"android_packages_apps_SetupWizard/0002-Remove_Logo.patch" #Remove Lineage logo until we can replace it
+#patch -p1 < $patches"android_packages_apps_SetupWizard/0002-Remove_Logo.patch" #Remove Lineage logo until we can replace it
 
 enterAndClear "packages/apps/Trebuchet"
 cp -r $patches"android_packages_apps_Trebuchet/default_workspace/." "res/xml/";
