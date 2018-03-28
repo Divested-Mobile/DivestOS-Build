@@ -1,0 +1,60 @@
+From e0a5af7041878bd5a80d6be1eb8eccd570a19431 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Wed, 28 Mar 2018 01:14:59 -0400
+Subject: [PATCH] Remove logo, until we can replace it
+
+Change-Id: Ib5da1db39eef0b3ed9a43f499a67ffa14affb87a
+---
+ res/layout/finish_activity.xml  | 12 ------------
+ res/layout/welcome_activity.xml | 12 ------------
+ 2 files changed, 24 deletions(-)
+
+diff --git a/res/layout/finish_activity.xml b/res/layout/finish_activity.xml
+index ffa9968..5949e5b 100644
+--- a/res/layout/finish_activity.xml
++++ b/res/layout/finish_activity.xml
+@@ -31,18 +31,6 @@
+         android:orientation="vertical"
+         android:background="@color/primary">
+ 
+-        <ImageView
+-            android:id="@+id/brand_logo"
+-            android:layout_width="match_parent"
+-            android:layout_height="0px"
+-            android:layout_weight="1"
+-            android:src="@drawable/logo"
+-            android:adjustViewBounds="true"
+-            android:scaleType="fitCenter"
+-            android:gravity="center"
+-            android:padding="@dimen/content_margin_left"/>
+-
+-
+         <fragment android:name="com.android.setupwizard.navigationbar.SetupWizardNavBar"
+                   android:id="@+id/navigation_bar"
+                   style="@style/setup_wizard_navbar_style" />
+diff --git a/res/layout/welcome_activity.xml b/res/layout/welcome_activity.xml
+index 8495023..d277f87 100644
+--- a/res/layout/welcome_activity.xml
++++ b/res/layout/welcome_activity.xml
+@@ -24,18 +24,6 @@
+     android:orientation="vertical"
+     android:background="@color/primary">
+ 
+-    <ImageView
+-        android:id="@+id/brand_logo"
+-        android:layout_width="match_parent"
+-        android:layout_height="0px"
+-        android:layout_weight="1"
+-        android:src="@drawable/logo"
+-        android:adjustViewBounds="true"
+-        android:scaleType="fitCenter"
+-        android:gravity="center"
+-        android:padding="@dimen/content_margin_left"/>
+-
+-
+     <fragment android:name="com.android.setupwizard.navigationbar.SetupWizardNavBar"
+         android:id="@+id/navigation_bar"
+         style="@style/setup_wizard_navbar_style" />
+-- 
+2.16.3
+
