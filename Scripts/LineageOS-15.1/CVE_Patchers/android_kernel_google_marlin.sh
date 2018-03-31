@@ -70,6 +70,7 @@ git apply $cvePatchesLinux/CVE-2017-0622/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0627/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0866/3.18/0001.patch
+git apply $cvePatchesLinux/CVE-2017-11034/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-14883/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-15649/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2017-16525/^4.13/0002.patch
@@ -89,11 +90,13 @@ git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0005.patch
 git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0006.patch
 git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0009.patch
 git apply $cvePatchesLinux/CVE-2017-17558/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-18150/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-5669/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-5972/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2017-6348/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7371/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7372/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-9707/ANY/0001.patch
 git apply $cvePatchesLinux/Untracked/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $cvePatchesLinux/Untracked/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $cvePatchesLinux/CVE-2016-5853/3.18/0002.patch
@@ -102,5 +105,5 @@ git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0610/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-14883/ANY/0001.patch
-editKernelLocalversion "-dos.p102"
+editKernelLocalversion "-dos.p105"
 cd $base

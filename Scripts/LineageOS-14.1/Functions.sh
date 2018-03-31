@@ -191,7 +191,7 @@ export -f enableForcedEncryption;
 enableStrongEncryption() {
 	cd $base$1;
 	if [ -f BoardConfig.mk ]; then
-		if [ $1 != "device/oneplus/bacon" ] && [ $1 != "device/motorola/clark" ] && [ $1 != "device/lge/d852" ]; then #These test devices currently have encryption enabled, don't break them
+		if [ $1 != "device/oneplus/bacon" ] && [ $1 != "device/lge/d852" ]; then #These test devices currently have encryption enabled, don't break them
 			echo "TARGET_WANTS_STRONG_ENCRYPTION := true" >> BoardConfig.mk;
 			echo "Enabled AES-256 encryption for $1";
 		fi;
