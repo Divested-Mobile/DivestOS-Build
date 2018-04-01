@@ -137,6 +137,10 @@
 	<project path="device/motorola/osprey" name="LineageOS/android_device_motorola_osprey" remote="github" />
 	<project path="kernel/motorola/msm8916" name="LineageOS/android_kernel_motorola_msm8916" remote="github" />-->
 
+	<!-- Moto X Pure Edition (clark) -->
+	<project path="device/motorola/clark" name="hashbang173/android_device_motorola_clark" remote="github" />
+	<project path="kernel/motorola/msm8992" name="hashbang173/android_kernel_motorola_msm8992" remote="github" />
+
 	<!-- Nextbit Robin (ether) -->
 	<project path="device/nextbit/ether" name="LineageOS/android_device_nextbit_ether" remote="github" />
 	<project path="kernel/nextbit/msm8992" name="LineageOS/android_kernel_nextbit_msm8992" remote="github" />
