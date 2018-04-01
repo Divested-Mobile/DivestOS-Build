@@ -119,6 +119,7 @@ enterAndClear "packages/apps/GsfProxy"
 sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools = "25.0.3"/' build.gradle;
 
 enterAndClear "packages/apps/LineageParts"
+git revert 7ec4be432a9585833f48543a1fff859497e2b4ee #LOSCoins malware
 rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of the analytics
 sed -i 's|config_showWeatherMenu">true|config_showWeatherMenu">false|' res/values/config.xml; #Disable Weather
 patch -p1 < $patches"android_packages_apps_LineageParts/0001-Remove_Analytics.patch" #Remove analytics
@@ -156,6 +157,7 @@ enterAndClear "system/vold"
 patch -p1 < $patches"android_system_vold/0001-AES256.patch" #Add a variable for enabling AES-256 bit encryption
 
 enterAndClear "vendor/lineage"
+git revert c9c7968e597c105cb5ee69c4234d91070edd65fc #LOSCoins malware
 rm -rf overlay/common/vendor/lineage-sdk/packages #Remove analytics
 awk -i inplace '!/50-lineage.sh/' config/common.mk; #Make sure our hosts is always used
 patch -p1 < $patches"android_vendor_lineage/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
