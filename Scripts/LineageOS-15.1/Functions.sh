@@ -77,7 +77,9 @@ export -f buildAll;
 
 patchWorkspace() {
 	source build/envsetup.sh;
-	repopick 205021 206123; #Cherry picks
+	repopick 205021 206123 211008; #Cherry picks
+	repopick -t o_asb_4-2018;
+	#repopick -t calendar-o;
 
 	source $scripts/Patch.sh;
 	source $scripts/Defaults.sh;
