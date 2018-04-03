@@ -128,7 +128,6 @@ enterAndClear "packages/apps/Settings"
 git revert a96df110e84123fe1273bff54feca3b4ca484dcd
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length
 sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; #MicroG doesn't support Backup, hide the options
-#patch -p1 < $patches"android_packages_apps_Settings/0001-Privacy_Guard-More_Perms.patch" #Allow more control over various permissions via Privacy Guard #TODO: Rebase
 patch -p1 < $patches"android_packages_apps_Settings/0002-Remove_Analytics.patch" #Remove analytics
 
 enterAndClear "packages/apps/SetupWizard"

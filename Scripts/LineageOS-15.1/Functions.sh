@@ -65,7 +65,7 @@ buildAll() {
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;
 	brunch lineage_d802-userdebug;
-	#brunch lineage_d855-userdebug;
+	brunch lineage_d855-userdebug;
 	brunch lineage_flo-user;
 	brunch lineage_flounder-user;
 	#brunch lineage_hammerhead-user; #find: `hardware/cyanogen/cmhw': No such file or directory
@@ -77,7 +77,7 @@ export -f buildAll;
 
 patchWorkspace() {
 	source build/envsetup.sh;
-	repopick 205021 206123 211008; #Cherry picks
+	repopick 205021 206123 211008 211049; #Cherry picks
 	repopick -t o_asb_4-2018;
 	#repopick -t calendar-o;
 
