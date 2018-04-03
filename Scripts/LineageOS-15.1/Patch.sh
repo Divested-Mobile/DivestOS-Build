@@ -133,12 +133,15 @@ patch -p1 < $patches"android_packages_apps_Settings/0002-Remove_Analytics.patch"
 
 enterAndClear "packages/apps/SetupWizard"
 patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove analytics
-#patch -p1 < $patches"android_packages_apps_SetupWizard/0002-Remove_Logo.patch" #Remove Lineage logo until we can replace it
+
+enterAndClear "packages/apps/Trebuchet"
+cp -r $patches"android_packages_apps_Trebuchet/default_workspace/." "res/xml/";
 
 enterAndClear "packages/apps/Updater"
 patch -p1 < $patches"android_packages_apps_Updater/0001-Server.patch" #Switch to our server
 
 enterAndClear "packages/apps/WallpaperPicker"
+#TODO: Add back wallpapers
 sed -i 's/req.touchEnabled = touchEnabled;/req.touchEnabled = true;/' src/com/android/wallpaperpicker/WallpaperCropActivity.java; #Allow scrolling
 sed -i 's/mCropView.setTouchEnabled(req.touchEnabled);/mCropView.setTouchEnabled(true);/' src/com/android/wallpaperpicker/WallpaperCropActivity.java;
 sed -i 's/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0);/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0.5f);/' src/com/android/wallpaperpicker/WallpaperPickerActivity.java; #Center aligned by default
