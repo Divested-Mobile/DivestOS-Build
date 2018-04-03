@@ -34,6 +34,9 @@
 #Generate firmware deblobber
 #mka firmware_deblobber
 
+#repopick -t o_asb_4-2018
+#repopick -t calendar-o
+
 #
 #START OF PREPRATION
 #

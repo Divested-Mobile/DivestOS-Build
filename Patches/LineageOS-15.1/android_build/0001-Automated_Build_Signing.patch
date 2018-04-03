@@ -1,15 +1,15 @@
-From 939b85183122daffc49c716807aed2b08f6c36ee Mon Sep 17 00:00:00 2001
+From ca96d37d0d9d7fb74f6c72f74586f86f4b959d34 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
-Date: Tue, 3 Apr 2018 12:27:07 -0400
+Date: Tue, 3 Apr 2018 14:12:55 -0400
 Subject: [PATCH] Add optional automated signing
 
-Change-Id: Ie4d97c32227110d9f59b73d4dd163e5471711109
+Change-Id: I9ebd044c4c2f76688f7921b991055c57ec574986
 ---
- core/Makefile | 41 +++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 39 insertions(+), 2 deletions(-)
+ core/Makefile | 42 +++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 39 insertions(+), 3 deletions(-)
 
 diff --git a/core/Makefile b/core/Makefile
-index 1fb76cf44..6ffb3a9c0 100644
+index 1fb76cf44..034b5f791 100644
 --- a/core/Makefile
 +++ b/core/Makefile
 @@ -504,6 +504,10 @@ $(call dist-for-goals,droidcore,$(SOONG_TO_CONVERT))
@@ -67,7 +67,7 @@ index 1fb76cf44..6ffb3a9c0 100644
  ifeq ($(WITH_GMS),true)
      $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
  else
-@@ -2768,7 +2795,17 @@ else
+@@ -2768,18 +2795,27 @@ else
  endif
  endif
  
@@ -86,7 +86,10 @@ index 1fb76cf44..6ffb3a9c0 100644
  		build/tools/releasetools/ota_from_target_files
  	@echo "Package OTA: $@"
  	$(hide) PATH=$(foreach p,$(INTERNAL_USERIMAGES_BINARY_PATHS),$(p):)$$PATH MKBOOTIMG=$(MKBOOTIMG) \
-@@ -2779,7 +2816,7 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) \
+ 	   ./build/tools/releasetools/ota_from_target_files -v \
+ 	   --block \
+-	   --extracted_input_target_files $(patsubst %.zip,%,$(BUILT_TARGET_FILES_PACKAGE)) \
+ 	   -p $(HOST_OUT) \
  	   -k $(KEY_CERT_PAIR) \
  	   --backup=$(backuptool) \
  	   $(if $(OEM_OTA_CONFIG), -o $(OEM_OTA_CONFIG)) \
