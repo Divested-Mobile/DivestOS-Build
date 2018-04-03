@@ -58,9 +58,9 @@ export -f buildDevice;
 buildAll() {
 #Select devices are userdebug due to SELinux policy issues
 #TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
+	brunch lineage_mako-user;
 	brunch lineage_d852-userdebug;
 	brunch lineage_bacon-user;
-	#brunch lineage_mako-user;
 	#brunch lineage_clark-user; #requires blobs from https://androidfilehost.com/?w=files&flid=244563 and also broken
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;

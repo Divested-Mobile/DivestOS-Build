@@ -28,18 +28,18 @@ sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/bui
 sed -i '/CM_TARGET_PACKAGE/s/lineage/coverage/' core/Makefile;
 
 enter "packages/apps/Settings"
-sed -i '/.*cmlicense_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml
-sed -i '/.*cmupdate_settings_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml
-sed -i '/.*mod_version/s/LineageOS/DivestOS/' res/values*/cm_strings.xml
+sed -i '/.*cmlicense_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml;
+sed -i '/.*cmupdate_settings_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml;
+sed -i '/.*mod_version/s/LineageOS/DivestOS/' res/values*/cm_strings.xml;
 
 enter "packages/apps/SetupWizard"
 sed -i 's|http://lineageos.org/legal|https://divestos.xyz/pages/legal/pp.html|' src/com/cyanogenmod/setupwizard/LineageSettingsActivity.java;
-sed -i '/.*setup_services/s/LineageOS/DivestOS/' res/values*/strings.xml
-sed -i '/.*services_explanation/s/LineageOS/DivestOS/' res/values*/strings.xml
+sed -i '/.*setup_services/s/LineageOS/DivestOS/' res/values*/strings.xml;
+sed -i '/.*services_explanation/s/LineageOS/DivestOS/' res/values*/strings.xml;
 cp $patches"android_packages_apps_SetupWizard/logo.xml" "res/drawable/logo.xml"; #Replace Lineage logo with ours
 
 enter "packages/apps/Updater"
-sed -i 's|>LineageOS|>DivestOS|' res/values*/strings.xml
+sed -i 's|>LineageOS|>DivestOS|' res/values*/strings.xml;
 
 enter "vendor/cm"
 sed -i 's|https://lineageos.org/legal|https://divestos.xyz/pages/about.html|' config/common.mk;

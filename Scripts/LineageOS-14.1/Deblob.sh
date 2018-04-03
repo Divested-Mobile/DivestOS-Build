@@ -22,7 +22,7 @@
 #
 #Device Status (Tested under LineageOS 14.1)
 #
-#Functioning as Expected: bacon, clark, mako, marlin, sailfish, thor
+#Functioning as Expected: bacon, clark, d852, mako, marlin, thor
 
 echo "Deblobbing..."
 

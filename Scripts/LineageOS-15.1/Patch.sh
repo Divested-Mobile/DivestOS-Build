@@ -62,7 +62,7 @@ cp -r $prebuiltApps"android_vendor_FDroid_PrebuiltApps/." $base"vendor/fdroid_pr
 #optipng -strip all res*/images/*.png;
 
 enterAndClear "build/make"
-patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing. Disclaimer: From CopperheadOS 13.0
+patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing. Disclaimer: From CopperheadOS 13.0 #TODO: Fix showing test-keys
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 
@@ -129,6 +129,7 @@ git revert a96df110e84123fe1273bff54feca3b4ca484dcd
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length
 sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; #MicroG doesn't support Backup, hide the options
 #patch -p1 < $patches"android_packages_apps_Settings/0001-Privacy_Guard-More_Perms.patch" #Allow more control over various permissions via Privacy Guard #TODO: Rebase
+patch -p1 < $patches"android_packages_apps_Settings/0002-Remove_Analytics.patch" #Remove analytics
 
 enterAndClear "packages/apps/SetupWizard"
 patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch" #Remove analytics
@@ -175,6 +176,9 @@ sed -i 's/config_enableRecoveryUpdater">false/config_enableRecoveryUpdater">true
 #
 #START OF DEVICE CHANGES
 #
+enterAndClear "device/lge/mako"
+cp $patches"android_device_lge_mako/proprietary-blobs.txt" proprietary-blobs.txt; #update that? nah
+
 enterAndClear "device/oppo/msm8974-common"
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 

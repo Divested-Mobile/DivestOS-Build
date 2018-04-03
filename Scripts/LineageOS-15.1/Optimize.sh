@@ -20,7 +20,7 @@
 echo "Optimizing..."
 
 enter "frameworks/base"
-sed -i 's/ScaleSetting = 1.0f;/ScaleSetting = 0.5f;/' services/core/java/com/android/server/wm/WindowManagerService.java;
+sed -i 's/ScaleSetting = 1.0f;/ScaleSetting = 0.5f;/' services/core/java/com/android/server/wm/WindowManagerService.java; #TODO: Fix transition scale
 sed -i 's|config_useVolumeKeySounds">true|config_useVolumeKeySounds">false|' core/res/res/values/config.xml;
 sed -i 's|config_radioScanningTimeout">0|config_radioScanningTimeout">300000|' core/res/res/values/config.xml;
 sed -i 's|config_wifi_fast_bss_transition_enabled">false|config_wifi_fast_bss_transition_enabled">true|' core/res/res/values/config.xml;
