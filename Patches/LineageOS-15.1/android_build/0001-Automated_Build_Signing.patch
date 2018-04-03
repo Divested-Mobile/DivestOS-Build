@@ -1,18 +1,18 @@
-From 3548eba76a04254a32fb16c3a39192aba8e4d187 Mon Sep 17 00:00:00 2001
+From 939b85183122daffc49c716807aed2b08f6c36ee Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
-Date: Thu, 8 Mar 2018 22:03:43 -0500
+Date: Tue, 3 Apr 2018 12:27:07 -0400
 Subject: [PATCH] Add optional automated signing
 
-Change-Id: If38730428255a0de3939dfe1a0526b03ac948113
+Change-Id: Ie4d97c32227110d9f59b73d4dd163e5471711109
 ---
- core/Makefile | 41 ++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 38 insertions(+), 3 deletions(-)
+ core/Makefile | 41 +++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 39 insertions(+), 2 deletions(-)
 
 diff --git a/core/Makefile b/core/Makefile
-index b3f719a4f..b48328394 100644
+index 1fb76cf44..6ffb3a9c0 100644
 --- a/core/Makefile
 +++ b/core/Makefile
-@@ -520,6 +520,10 @@ $(call dist-for-goals,droidcore,$(SOONG_TO_CONVERT))
+@@ -504,6 +504,10 @@ $(call dist-for-goals,droidcore,$(SOONG_TO_CONVERT))
  # exist with the suffixes ".x509.pem" and ".pk8".
  DEFAULT_KEY_CERT_PAIR := $(DEFAULT_SYSTEM_DEV_CERTIFICATE)
  
@@ -23,7 +23,7 @@ index b3f719a4f..b48328394 100644
  
  # Rules that need to be present for the all targets, even
  # if they don't do anything.
-@@ -1220,6 +1224,16 @@ endif
+@@ -1204,6 +1208,16 @@ endif
  # substitute other keys for this one.
  OTA_PUBLIC_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
  
@@ -40,7 +40,7 @@ index b3f719a4f..b48328394 100644
  # Generate a file containing the keys that will be read by the
  # recovery binary.
  RECOVERY_INSTALL_OTA_KEYS := \
-@@ -2316,6 +2330,13 @@ $(BUILT_TARGET_FILES_PACKAGE): intermediates := $(intermediates)
+@@ -2300,6 +2314,13 @@ $(BUILT_TARGET_FILES_PACKAGE): intermediates := $(intermediates)
  $(BUILT_TARGET_FILES_PACKAGE): \
  		zip_root := $(intermediates)/$(name)
  
@@ -54,7 +54,7 @@ index b3f719a4f..b48328394 100644
  # $(1): Directory to copy
  # $(2): Location to copy it to
  # The "ls -A" is to prevent "acp s/* d" from failing if s is empty.
-@@ -2774,6 +2795,12 @@ else
+@@ -2758,6 +2779,12 @@ else
      OTA_SCRIPT_OVERRIDE_DEVICE := $(TARGET_OTA_ASSERT_DEVICE)
  endif
  
@@ -67,13 +67,13 @@ index b3f719a4f..b48328394 100644
  ifeq ($(WITH_GMS),true)
      $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
  else
-@@ -2784,8 +2811,16 @@ else
+@@ -2768,7 +2795,17 @@ else
  endif
  endif
  
 -$(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) \
--		build/tools/releasetools/ota_from_target_files
-+$(SIGNED_TARGET_FILES_PACKAGE): $(BUILT_TARGET_FILES_PACKAGE) build/tools/releasetools/ota_from_target_files
++$(SIGNED_TARGET_FILES_PACKAGE): $(BUILT_TARGET_FILES_PACKAGE) \
++		build/tools/releasetools/sign_target_files_apks
 +	@echo "$(SIGN_TARGET_SCRIPT)" > $(PRODUCT_OUT)/sign_script_path
 +	@echo -e ${CL_YLW}"Sign target files:"${CL_RST}" $@"
 +	$(hide) $(SIGN_TARGET_SCRIPT) \
@@ -82,11 +82,11 @@ index b3f719a4f..b48328394 100644
 +	   $(BUILT_TARGET_FILES_PACKAGE) \
 +	   $(SIGNED_TARGET_FILES_PACKAGE)
 +
-+$(INTERNAL_OTA_PACKAGE_TARGET): $(MAYBE_SIGNED_TARGET_FILES_PACKAGE) build/tools/releasetools/ota_from_target_files
++$(INTERNAL_OTA_PACKAGE_TARGET): $(MAYBE_SIGNED_TARGET_FILES_PACKAGE) \
+ 		build/tools/releasetools/ota_from_target_files
  	@echo "Package OTA: $@"
  	$(hide) PATH=$(foreach p,$(INTERNAL_USERIMAGES_BINARY_PATHS),$(p):)$$PATH MKBOOTIMG=$(MKBOOTIMG) \
- 	   ./build/tools/releasetools/ota_from_target_files -v \
-@@ -2795,7 +2830,7 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) \
+@@ -2779,7 +2816,7 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) \
  	   -k $(KEY_CERT_PAIR) \
  	   --backup=$(backuptool) \
  	   $(if $(OEM_OTA_CONFIG), -o $(OEM_OTA_CONFIG)) \
@@ -96,5 +96,5 @@ index b3f719a4f..b48328394 100644
  .PHONY: otapackage
  otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 -- 
-2.16.2
+2.16.3
 

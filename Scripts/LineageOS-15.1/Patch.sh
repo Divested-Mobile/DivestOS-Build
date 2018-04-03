@@ -62,7 +62,7 @@ cp -r $prebuiltApps"android_vendor_FDroid_PrebuiltApps/." $base"vendor/fdroid_pr
 #optipng -strip all res*/images/*.png;
 
 enterAndClear "build/make"
-patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing. Disclaimer: From CopperheadOS 13.0 #TODO: Fix showing test-keys
+patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing. Disclaimer: From CopperheadOS 13.0
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 
