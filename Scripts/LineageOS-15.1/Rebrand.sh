@@ -43,7 +43,7 @@ sed -i 's|>LineageOS|>DivestOS|' res/values*/strings.xml
 enter "vendor/lineage"
 sed -i 's|https://lineageos.org/legal|https://divestos.xyz/pages/about.html|' config/common.mk;
 sed -i '/.*ZIPPATH=/s/lineage/coverage/' build/envsetup.sh;
-sed -i '/LINEAGE_TARGET_PACKAGE/s/lineage/coverage/' build/core/Makefile;
+sed -i '/LINEAGE_TARGET_PACKAGE/s/lineage/coverage/' build/tasks/bacon.mk
 rm -rf bootanimation #TODO: Create a boot animation
 
 cd $base
