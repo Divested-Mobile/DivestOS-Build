@@ -22,7 +22,7 @@ startPatcher() {
 export -f startPatcher;
 
 patchAllKernels() {
-	startPatcher "kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8992 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_msm8974";
+	startPatcher "kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_htc_msm8974 kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8992 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_msm8974";
 }
 export -f patchAllKernels;
 
@@ -68,8 +68,10 @@ buildAll() {
 	brunch lineage_d855-userdebug;
 	brunch lineage_flo-user;
 	brunch lineage_flounder-user;
+	brunch lineage_h850-userdebug;
 	#brunch lineage_hammerhead-user; #find: `hardware/cyanogen/cmhw': No such file or directory
 	#brunch lineage_marlin-user; #include/linux/string.h:287:4: error: call to '__read_overflow2' declared with attribute error: detected read beyond size of object passed as 2nd parameter
+	brunch lineage_m8-user;
 	#brunch lineage_sailfish-user;
 	brunch lineage_shamu-user;
 }
