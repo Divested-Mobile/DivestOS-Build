@@ -29,6 +29,7 @@ export cvePatchesLinux=$androidWorkspace"Patches/Linux/";
 export cvePatchesAndroid=$androidWorkspace"Patches/Android/";
 export dosWallpapers=$androidWorkspace"Patches/Wallpapers/";
 
+export scriptsCommon=$androidWorkspace"Scripts/Common/";
 export scripts=$androidWorkspace"Scripts/LineageOS-15.1/";
 export cveScripts=$scripts"CVE_Patchers/";
 
@@ -42,6 +43,7 @@ export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}"
 
 export GRADLE_OPTS=-Xmx2048m
 
+source $scriptsCommon"/Functions.sh"
 source $scripts"/Functions.sh"
 
 unalias cp
