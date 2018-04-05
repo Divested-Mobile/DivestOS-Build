@@ -16,7 +16,7 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 patchAllKernels() {
-	startPatcher "kernel_amazon_hdx-common kernel_asus_msm8916 kernel_fairphone_msm8974 kernel_google_marlin kernel_htc_msm8974 kernel_htc_msm8994 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_nextbit_msm8992 kernel_oneplus_msm8974 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal8890";
+	startPatcher "kernel_amazon_hdx-common kernel_asus_msm8916 kernel_fairphone_msm8974 kernel_google_marlin kernel_htc_msm8994 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_nextbit_msm8992 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal8890";
 }
 export -f patchAllKernels;
 
@@ -34,7 +34,6 @@ buildAll() {
 #Select devices are userdebug due to SELinux policy issues
 #TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
 	brunch lineage_d852-userdebug;
-	brunch lineage_bacon-user;
 	brunch lineage_thor-userdebug;
 	brunch lineage_mako-user;
 	brunch lineage_clark-user;
@@ -50,7 +49,6 @@ buildAll() {
 	brunch lineage_i9305-user;
 	brunch lineage_jfltexx-user;
 	brunch lineage_klte-user;
-	brunch lineage_m8-user;
 	brunch lineage_marlin-user;
 	brunch lineage_n5110-user;
 	brunch lineage_osprey-user;

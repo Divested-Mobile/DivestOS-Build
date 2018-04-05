@@ -71,8 +71,5 @@ patch -p1 < $patches"android_kernel_common_msm8992/0005-Overclock.patch"
 patch -p1 < $patches"android_kernel_common_msm8992/0006-Overclock.patch"
 patch -p1 < $patches"android_kernel_common_msm8992/0007-Overclock.patch"
 
-enter "kernel/oneplus/msm8974"
-patch -p1 < $patches"android_kernel_oneplus_msm8974/0001-OverUnderClock-EXTREME.patch" #300Mhz -> 268Mhz, 2.45Ghz -> 2.95Ghz	=+2.02Ghz XXX: Not 100% stable under intense workloads
-
 cd $base
 echo "Overclocks applied!"

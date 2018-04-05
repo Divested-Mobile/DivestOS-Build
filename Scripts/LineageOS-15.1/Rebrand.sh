@@ -21,6 +21,7 @@ echo "Rebranding..."
 
 enter "bootable/recovery"
 sed -i 's|Android Recovery|DivestOS Recovery|' *_ui.cpp;
+sed -i 's|LineageOS|DivestOS|' ui.cpp;
 #TODO: Rebrand the rest of the recovery
 
 enter "build/make"
