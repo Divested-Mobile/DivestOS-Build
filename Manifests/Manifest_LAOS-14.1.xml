@@ -160,10 +160,6 @@
 	<project path="device/nextbit/ether" name="LineageOS/android_device_nextbit_ether" remote="github" />
 	<project path="kernel/nextbit/msm8992" name="LineageOS/android_kernel_nextbit_msm8992" remote="github" />
 
-	<!-- Nexus 4 (mako) -->
-	<project path="device/lge/mako" name="LineageOS/android_device_lge_mako" remote="github" />
-	<project path="kernel/lge/mako" name="LineageOS/lge-kernel-mako" remote="github" />
-
 	<!-- Nexus 5 (hammerhead) -->
 	<project path="device/lge/hammerhead" name="LineageOS/android_device_lge_hammerhead" remote="github" />
 	<project path="kernel/lge/hammerhead" name="LineageOS/android_kernel_lge_hammerhead" remote="github" />
