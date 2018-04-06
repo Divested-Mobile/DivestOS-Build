@@ -35,7 +35,6 @@ buildAll() {
 #TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
 	brunch lineage_d852-userdebug;
 	brunch lineage_thor-userdebug;
-	brunch lineage_mako-user;
 	brunch lineage_clark-user;
 	brunch lineage_d855-userdebug;
 	brunch lineage_ether-user;
