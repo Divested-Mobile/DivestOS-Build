@@ -124,11 +124,6 @@
 	<project path="device/fairphone/FP2" name="LineageOS/android_device_fairphone_FP2" remote="github" />
 	<project path="kernel/fairphone/msm8974" name="LineageOS/android_kernel_fairphone_msm8974" remote="github" />
 
-	<!-- Google Pixel (marlin/sailfish) -->
-	<project path="device/google/marlin" name="LineageOS/android_device_google_marlin" remote="github" />
-	<project path="device/google/sailfish" name="LineageOS/android_device_google_sailfish" remote="github" />
-	<project path="kernel/google/marlin" name="LineageOS/android_kernel_google_marlin" remote="github" />
-
 	<!-- HTC One (m9) -->
 	<project path="device/htc/himaul" name="LineageOS/android_device_htc_himaul" remote="github" />
 	<project path="device/htc/hima-common" name="LineageOS/android_device_htc_hima-common" remote="github" />

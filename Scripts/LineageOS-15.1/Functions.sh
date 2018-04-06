@@ -45,16 +45,16 @@ buildAll() {
 	brunch lineage_flounder-user;
 	#brunch lineage_h850-userdebug; #prot_sect_kernel undefined
 	#brunch lineage_hammerhead-user; #find: `hardware/cyanogen/cmhw': No such file or directory
-	#brunch lineage_marlin-user;
+	brunch lineage_marlin-user;
 	brunch lineage_m8-user;
-	#brunch lineage_sailfish-user;
+	brunch lineage_sailfish-user;
 	brunch lineage_shamu-user;
 }
 export -f buildAll;
 
 patchWorkspace() {
 	source build/envsetup.sh;
-	repopick 205021 206123 211008 211049 209030; #Cherry picks
+	repopick 205021 206123 209030 211232 211095; #Cherry picks
 	#repopick -t calendar-o;
 
 	source $scripts/Patch.sh;

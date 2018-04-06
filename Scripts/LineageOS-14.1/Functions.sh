@@ -16,7 +16,7 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 patchAllKernels() {
-	startPatcher "kernel_amazon_hdx-common kernel_asus_msm8916 kernel_fairphone_msm8974 kernel_google_marlin kernel_htc_msm8994 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_nextbit_msm8992 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal8890";
+	startPatcher "kernel_amazon_hdx-common kernel_asus_msm8916 kernel_fairphone_msm8974 kernel_htc_msm8994 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_nextbit_msm8992 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal8890";
 }
 export -f patchAllKernels;
 
@@ -49,10 +49,8 @@ buildAll() {
 	brunch lineage_i9305-user;
 	brunch lineage_jfltexx-user;
 	brunch lineage_klte-user;
-	brunch lineage_marlin-user;
 	brunch lineage_n5110-user;
 	brunch lineage_osprey-user;
-	brunch lineage_sailfish-user;
 	brunch lineage_Z00T-user;
 }
 export -f buildAll;
@@ -75,18 +73,6 @@ patchWorkspace() {
 	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
 	cd device/asus/Z00T && ./setup-makefiles.sh && cd $base
 	cd device/lge/h850 && ./setup-makefiles.sh && cd $base
-
-	##Fixes marlin building, really janky (recursive symlinks) and probably not the best place for it [LAOS SPECIFIC]
-	cd vendor/google/marlin/proprietary;
-	ln -s . vendor;
-	ln -s . lib/lib;
-	ln -s . lib64/lib64;
-	ln -s . app/app;
-	ln -s . bin/bin;
-	ln -s . etc/etc;
-	ln -s . framework/framework;
-	ln -s . priv-app/priv-app;
-	cd $base;
 }
 export -f patchWorkspace;
 
