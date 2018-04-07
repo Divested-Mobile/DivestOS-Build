@@ -1,34 +1,35 @@
-From 5655fa77da654b0a638670506d07137796bc3e07 Mon Sep 17 00:00:00 2001
+From d1d42f87977c344cc4e98551b073a89238c0f352 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Mon, 16 Oct 2017 14:18:53 -0400
+Date: Fri, 6 Apr 2018 14:14:03 -0400
 Subject: [PATCH] Switch to our update server
 
-Change-Id: I1e247d3fb6c9f2878842c0d6957792bb773c494d
+Change-Id: Ief2f6ae8952de1a5a8e3ca73989fab42ca22f622
 ---
- src/org/lineageos/updater/misc/Utils.java | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ src/org/lineageos/updater/misc/Utils.java | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
 diff --git a/src/org/lineageos/updater/misc/Utils.java b/src/org/lineageos/updater/misc/Utils.java
-index e5cac4f..6555430 100644
+index 6b15e2d..8008156 100644
 --- a/src/org/lineageos/updater/misc/Utils.java
 +++ b/src/org/lineageos/updater/misc/Utils.java
-@@ -144,15 +144,10 @@ public class Utils {
-     }
- 
-     public static String getServerURL(Context context) {
--        String serverUrl = SystemProperties.get(Constants.PROP_UPDATER_URI);
--        if (serverUrl.trim().isEmpty()) {
--            serverUrl = context.getString(R.string.conf_update_server_url_def);
--        }
+@@ -147,16 +147,8 @@ public class Utils {
          String incrementalVersion = SystemProperties.get(Constants.PROP_BUILD_VERSION_INCREMENTAL);
          String device = SystemProperties.get(Constants.PROP_NEXT_DEVICE,
                  SystemProperties.get(Constants.PROP_DEVICE));
 -        String type = SystemProperties.get(Constants.PROP_RELEASE_TYPE).toLowerCase(Locale.ROOT);
--        return serverUrl + "/v1/" + device + "/" + type + "/" + incrementalVersion;
+ 
+-        String serverUrl = SystemProperties.get(Constants.PROP_UPDATER_URI);
+-        if (serverUrl.trim().isEmpty()) {
+-            serverUrl = context.getString(R.string.updater_server_url);
+-        }
+-
+-        return serverUrl.replace("{device}", device)
+-                .replace("{type}", type)
+-                .replace("{incr}", incrementalVersion);
 +        return "https://divestos.xyz/updater.php?base=LineageOS&device=" + device + "&inc=" + incrementalVersion;
      }
  
-     public static void triggerUpdate(Context context, String downloadId) {
+     public static String getChangelogURL(Context context) {
 -- 
-2.14.2
+2.17.0
 
