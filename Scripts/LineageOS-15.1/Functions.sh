@@ -54,8 +54,11 @@ export -f buildAll;
 
 patchWorkspace() {
 	source build/envsetup.sh;
-	repopick 205021 206123 209030 211095; #Cherry picks
+	repopick 206123 211095; #cherry picks
+	repopick 209030; #fix contacts being deleted
+	repopick 209188; #g3-common cherry picks
 	repopick 211404 211405 211406 211407 211408 211409; #d852 cherry picks
+	repopick 205021; #d855 cherry picks
 	#repopick -t calendar-o;
 
 	source $scripts/Patch.sh;

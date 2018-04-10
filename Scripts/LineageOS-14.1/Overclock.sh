@@ -25,12 +25,6 @@ patch -p1 < $patches"android_kernel_amazon_hdx-common/0002-Overclock.patch"
 patch -p1 < $patches"android_kernel_amazon_hdx-common/0003-Overclock.patch"
 patch -p1 < $patches"android_kernel_amazon_hdx-common/0004-Overclock.patch"
 
-enter "kernel/lge/g3"
-patch -p1 < $patches"android_kernel_lge_g3/0001-Overclock.patch" #2.45Ghz -> 2.76Ghz	=+1.24Ghz
-patch -p1 < $patches"android_kernel_lge_g3/0002-Overclock.patch"
-patch -p1 < $patches"android_kernel_lge_g3/0003-Overclock.patch"
-patch -p1 < $patches"android_kernel_lge_g3/0004-Overclock.patch"
-
 enter "kernel/lge/hammerhead"
 patch -p1 < $patches"android_kernel_lge_hammerhead/0001-Overclock.patch" #2.26Ghz -> 2.95Ghz	=+2.76Ghz XXX: Untested!
 

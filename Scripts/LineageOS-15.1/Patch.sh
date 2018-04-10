@@ -180,8 +180,12 @@ sed -i 's/config_enableRecoveryUpdater">false/config_enableRecoveryUpdater">true
 #
 #START OF DEVICE CHANGES
 #
+enterAndClear "device/lge/g3-common"
+echo "allow wcnss_service block_device:dir search;" >> sepolicy/wcnss_service.te; #fix incorrect Wi-Fi MAC address
+
 enterAndClear "device/lge/mako"
 cp $patches"android_device_lge_mako/proprietary-blobs.txt" proprietary-blobs.txt; #update that? nah
+echo "/dev/block/platform/msm_sdcc\.1/by-name/misc     u:object_r:misc_block_device:s0" >> sepolicy/file_contexts; #fix uncrypt denial
 
 enterAndClear "device/oppo/msm8974-common"
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
