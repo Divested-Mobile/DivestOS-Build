@@ -33,9 +33,9 @@ export -f buildDevice;
 buildAll() {
 #Select devices are userdebug due to SELinux policy issues
 #TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
-	brunch lineage_mako-user;
 	brunch lineage_d852-userdebug;
 	brunch lineage_bacon-user;
+	brunch lineage_mako-user;
 	#brunch lineage_clark-user; #requires blobs from https://androidfilehost.com/?w=files&flid=244563 and also broken
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;
@@ -54,7 +54,8 @@ export -f buildAll;
 
 patchWorkspace() {
 	source build/envsetup.sh;
-	repopick 205021 206123 209030 211232 211095; #Cherry picks
+	repopick 205021 206123 209030 211095; #Cherry picks
+	repopick 211404 211405 211406 211407 211408 211409; #d852 cherry picks
 	#repopick -t calendar-o;
 
 	source $scripts/Patch.sh;

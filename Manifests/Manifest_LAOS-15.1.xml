@@ -79,6 +79,9 @@
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
 	<project path="packages/apps/FDroidPrivilegedExtension" name="privileged-extension.git" remote="fdroid" revision="master" />
 	<project path="packages/apps/FDroid" name="fdroidclient.git" remote="fdroid" revision="master" />
+
+	<remove-project name="platform/external/svox" />
+	<project path="external/svox" name="platform/external/svox" groups="pdk" remote="aosp" revision="master" />
 <!-- END OF ADDITIONAL REPOS -->
 
 

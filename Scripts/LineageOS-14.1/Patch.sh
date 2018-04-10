@@ -96,7 +96,6 @@ awk -i inplace '!/\|\| context.getResources\(\).getBoolean\(/' service/java/com/
 awk -i inplace '!/com.android.internal.R.bool.config_permissionReviewRequired/' service/java/com/android/server/wifi/WifiServiceImpl.java;
 
 enterAndClear "packages/apps/CMParts"
-git revert 6b2ddeda7e3038011c4134dfd2eb791113833d3f #LOSCoins malware
 rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of CMStats
 sed -i 's|config_showWeatherMenu">true|config_showWeatherMenu">false|' res/values/config.xml; #Disable Weather
 patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch" #Remove the rest of CMStats
@@ -170,7 +169,6 @@ enterAndClear "system/vold"
 patch -p1 < $patches"android_system_vold/0001-AES256.patch" #Add a variable for enabling AES-256 bit encryption
 
 enterAndClear "vendor/cm"
-git revert 3ef0d88b5d1688d80564c6592ba0d1980a1cd9ae #LOSCoins malware
 rm -rf overlay/common/vendor/cmsdk/packages #Remove analytics
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch" #Include our extras such as MicroG and F-Droid
@@ -197,6 +195,10 @@ sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod
 #enterAndClear "device/amazon/hdx-common"
 #XXX: If not used with a supported recovery, it'll be thrown into a bootloop, don't worry just 'fastboot erase misc' and reboot
 #echo "/dev/block/platform/msm_sdcc.1/by-name/misc /misc emmc defaults defaults" >> rootdir/etc/fstab.qcom; #Add the misc (mmcblk0p5) partition for recovery flags
+
+enterAndClear "device/motorola/clark"
+sed -i 's/0xA04D/0xA04D|0xA052/' board-info.txt; #Allow installing on Nougat bootloader, assume the user is running the correct modem
+rm board-info.txt; #Never restrict installation
 
 #Make changes to all devices
 cd $base

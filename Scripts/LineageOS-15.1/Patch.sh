@@ -69,6 +69,9 @@ sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app w
 enterAndClear "device/qcom/sepolicy"
 patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix camera on -user builds
 
+enterAndClear "external/svox"
+git revert 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back makefiles
+
 enterAndClear "frameworks/base"
 #git revert https://review.lineageos.org/#/c/202875/ #re-enable doze on devices without gms
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
