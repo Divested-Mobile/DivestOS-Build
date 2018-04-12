@@ -33,7 +33,7 @@ export -f buildDevice;
 buildAll() {
 #Select devices are userdebug due to SELinux policy issues
 #TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
-	brunch lineage_d852-userdebug;
+	brunch lineage_d852-user;
 	brunch lineage_bacon-user;
 	brunch lineage_mako-user;
 	#brunch lineage_clark-user; #requires blobs from https://androidfilehost.com/?w=files&flid=244563 and also broken
@@ -43,7 +43,7 @@ buildAll() {
 	brunch lineage_d855-userdebug;
 	brunch lineage_flo-user;
 	brunch lineage_flounder-user;
-	#brunch lineage_h850-userdebug; #prot_sect_kernel undefined
+	#brunch lineage_h850-userdebug;
 	#brunch lineage_hammerhead-user;
 	brunch lineage_marlin-user;
 	brunch lineage_m8-user;

@@ -66,7 +66,7 @@ patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automate
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 
 enterAndClear "device/qcom/sepolicy"
-patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix camera on user builds
+patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix camera on user builds XXX: REMOVE THIS TRASH
 
 enterAndClear "external/sqlite"
 patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch" #Enable secure_delete by default. Disclaimer: From CopperheadOS 13.0

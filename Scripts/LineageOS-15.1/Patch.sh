@@ -64,7 +64,7 @@ awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 
 enterAndClear "device/qcom/sepolicy"
-patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix camera on -user builds
+patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch" #Fix camera on -user builds XXX: REMOVE THIS TRASH
 
 enterAndClear "external/svox"
 git revert 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back makefiles
@@ -157,6 +157,9 @@ cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 git revert a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4 #Always update recovery
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid. Disclaimer: From CopperheadOS 13.0
 
+enterAndClear "system/sepolicy"
+patch -p1 < $patches"android_system_sepolicy/0001-LGE_Fixes.patch" #Fix -user builds for LGE devices
+
 enterAndClear "system/vold"
 patch -p1 < $patches"android_system_vold/0001-AES256.patch" #Add a variable for enabling AES-256 bit encryption
 
@@ -171,7 +174,6 @@ cp -r $patches"android_vendor_lineage/firmware_deblobber" .;
 cp $patches"android_vendor_lineage/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;
 sed -i 's/LINEAGE_BUILDTYPE := UNOFFICIAL/LINEAGE_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
-sed -i 's/config_enableRecoveryUpdater">false/config_enableRecoveryUpdater">true/' overlay/common/packages/apps/Settings/res/values/config.xml; #Expose option to update recovery
 #
 #END OF ROM CHANGES
 #
@@ -180,6 +182,8 @@ sed -i 's/config_enableRecoveryUpdater">false/config_enableRecoveryUpdater">true
 #START OF DEVICE CHANGES
 #
 enterAndClear "device/lge/g3-common"
+sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
+sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
 echo "allow wcnss_service block_device:dir search;" >> sepolicy/wcnss_service.te; #fix incorrect Wi-Fi MAC address
 echo "/dev/block/platform/msm_sdcc\.1/by-name/pad     u:object_r:misc_block_device:s0" >> sepolicy/file_contexts; #fix uncrypt denial
 
@@ -201,7 +205,7 @@ cd $base
 
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
-#sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/lge/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
+sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/lge/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
 #
 #END OF DEVICE CHANGES
 #

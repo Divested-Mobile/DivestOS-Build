@@ -1,0 +1,35 @@
+From b75779de1c7fd9f624d0523a8ff9020b91f918ed Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 12 Apr 2018 08:05:32 -0400
+Subject: [PATCH] Fix -user builds for many LGE devices
+
+Change-Id: I46c4191b1171055cbdb5b23e8714d24676fc48bb
+---
+ public/domain.te | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/public/domain.te b/public/domain.te
+index 8640baaa..4b5b0bc6 100644
+--- a/public/domain.te
++++ b/public/domain.te
+@@ -486,6 +486,9 @@ neverallow { domain -recovery -update_engine } system_block_device:blk_file writ
+ # No domains other than install_recovery or recovery can write to recovery.
+ neverallow { domain -install_recovery -recovery } recovery_block_device:blk_file write;
+ 
++# Select devices have policies prevented by the following neverallow
++attribute misc_block_device_exception;
++
+ # No domains other than a select few can access the misc_block_device. This
+ # block device is reserved for OTA use.
+ # Do not assert this rule on userdebug/eng builds, due to some devices using
+@@ -500,6 +503,7 @@ neverallow {
+   -vold
+   -recovery
+   -ueventd
++  -misc_block_device_exception
+ } misc_block_device:blk_file { append link relabelfrom rename write open read ioctl lock };
+ 
+ # Only (hw|vnd|)servicemanager should be able to register with binder as the context manager
+-- 
+2.17.0
+

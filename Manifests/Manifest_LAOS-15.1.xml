@@ -67,10 +67,6 @@
 <!-- END OF UNNECESSARY REPO REMOVAL -->
 
 <!-- START OF BRANCH SWITCHING -->
-	<!-- new recovery is overly large -->
-	<remove-project name="bootable/recovery" />
-	<project path="bootable/recovery" name="LineageOS/android_bootable_recovery" groups="pdk" revision="cm-14.1" />
-
 	<!-- master contains some necessary fixes -->
 	<remove-project name="platform/external/svox" />
 	<project path="external/svox" name="platform/external/svox" groups="pdk" remote="aosp" revision="master" />
