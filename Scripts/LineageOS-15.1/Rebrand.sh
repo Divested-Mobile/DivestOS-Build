@@ -22,7 +22,6 @@ echo "Rebranding..."
 enter "bootable/recovery"
 sed -i 's|Android Recovery|DivestOS Recovery|' *_ui.cpp;
 sed -i 's|LineageOS|DivestOS|' ui.cpp;
-#TODO: Rebrand the rest of the recovery
 
 enter "build/make"
 sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user

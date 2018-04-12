@@ -44,7 +44,7 @@ buildAll() {
 	brunch lineage_flo-user;
 	brunch lineage_flounder-user;
 	#brunch lineage_h850-userdebug; #prot_sect_kernel undefined
-	#brunch lineage_hammerhead-user; #find: `hardware/cyanogen/cmhw': No such file or directory
+	#brunch lineage_hammerhead-user;
 	brunch lineage_marlin-user;
 	brunch lineage_m8-user;
 	brunch lineage_sailfish-user;
