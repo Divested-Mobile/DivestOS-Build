@@ -12,7 +12,6 @@
 	<remove-project name="LineageOS/android_external_ant-wireless_ant_native" />
 	<remove-project name="LineageOS/android_external_ant-wireless_ant_service" />
 	<remove-project name="LineageOS/android_external_bash" />
-	<remove-project name="LineageOS/android_external_exfat" />
 	<remove-project name="LineageOS/android_external_htop" />
 	<remove-project name="LineageOS/android_external_libncurses" />
 	<remove-project name="LineageOS/android_external_nano" />
@@ -55,7 +54,6 @@
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_x86_x86_64-linux-android-4.9" />
 	<remove-project name="LineageOS/android_system_extras_su" />
 	<remove-project name="LineageOS/ansible" />
-	<remove-project name="LineageOS/charter" />
 	<remove-project name="LineageOS/cm_crowdin" />
 	<remove-project name="LineageOS/contributors-cloud-generator" />
 	<remove-project name="LineageOS/cve_tracker" />

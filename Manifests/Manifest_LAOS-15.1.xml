@@ -12,7 +12,6 @@
 	<remove-project name="LineageOS/android_external_ant-wireless_ant_native" />
 	<remove-project name="LineageOS/android_external_ant-wireless_ant_service" />
 	<remove-project name="LineageOS/android_external_bash" />
-	<remove-project name="LineageOS/android_external_exfat" />
 	<remove-project name="LineageOS/android_external_htop" />
 	<remove-project name="LineageOS/android_external_libncurses" />
 	<remove-project name="LineageOS/android_external_nano" />
