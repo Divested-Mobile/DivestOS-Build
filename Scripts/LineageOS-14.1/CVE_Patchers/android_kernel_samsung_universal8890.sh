@@ -1,25 +1,24 @@
 #!/bin/bash
 cd $base"kernel/samsung/universal8890"
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0019.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0021.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0022.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0023.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0025.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0026.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0027.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0028.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0031.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0032.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0033.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0034.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0035.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0036.patch
-#git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0038.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0041.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0043.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0045.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0046.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0050.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0019.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0021.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0022.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0023.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0025.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0026.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0027.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0028.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0031.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0032.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0033.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0034.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0035.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0036.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0041.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0043.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0045.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0046.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.18/0050.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0011.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0012.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0013.patch
@@ -141,8 +140,7 @@ git apply $cvePatchesLinux/Untracked/ANY/0004-net-add-recursion-limit-to-GRO.pat
 git apply $cvePatchesLinux/Untracked/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $cvePatchesLinux/Untracked/ANY/0007-USB-usbip-fix-potential-out-of-bounds-write.patch
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
-#git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.18/0039.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-1000111/ANY/0001.patch
-editKernelLocalversion "-dos.p144"
+editKernelLocalversion "-dos.p142"
 cd $base

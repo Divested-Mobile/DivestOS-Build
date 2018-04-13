@@ -1,19 +1,19 @@
 #!/bin/bash
 cd $base"kernel/moto/shamu"
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0004-No_dir-relax.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0007.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0008.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0009.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0010.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0011.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0012.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0013.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0014.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0015.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0016.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0017.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0018.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/ANY/0003.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0004-No_dir-relax.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0007.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0008.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0009.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0010.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0011.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0012.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0013.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0014.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0015.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0016.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0017.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0018.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/ANY/0003.patch
 git apply $cvePatchesLinux/CVE-2015-1420/3.2-^3.19/0001.patch
 git apply $cvePatchesLinux/CVE-2015-7515/^4.4/0002.patch
 git apply $cvePatchesLinux/CVE-2015-8955/ANY/0001.patch

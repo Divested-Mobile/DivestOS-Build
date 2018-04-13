@@ -53,8 +53,7 @@ buildAll() {
 export -f buildAll;
 
 patchWorkspace() {
-	source build/envsetup.sh;
-	repopick -t n_asb_04-2018;
+	#source build/envsetup.sh;
 
 	source $scripts/Patch.sh;
 	source $scripts/Defaults.sh;

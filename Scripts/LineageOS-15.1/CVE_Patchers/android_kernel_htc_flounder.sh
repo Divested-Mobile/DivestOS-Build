@@ -1,17 +1,17 @@
 #!/bin/bash
 cd $base"kernel/htc/flounder"
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0004.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0007.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0008.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0009.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0010.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0011.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0012.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0013.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0014.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0015.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0016.patch
-git apply $cvePatchesLinux/0002-Copperhead-Kernel_Hardening/3.10/0017.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0004.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0007.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0008.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0009.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0010.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0011.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0012.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0013.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0014.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0015.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0016.patch
+git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0017.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0011.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0012.patch
 git apply $cvePatchesLinux/CVE-2014-9892/ANY/0001.patch
