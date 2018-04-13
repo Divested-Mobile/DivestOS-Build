@@ -39,8 +39,8 @@ buildAll() {
 	#brunch lineage_clark-user; #requires blobs from https://androidfilehost.com/?w=files&flid=244563 and also broken
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;
-	brunch lineage_d802-userdebug;
-	brunch lineage_d855-userdebug;
+	brunch lineage_d802-user;
+	brunch lineage_d855-user;
 	brunch lineage_flo-user;
 	brunch lineage_flounder-user;
 	#brunch lineage_h850-userdebug;

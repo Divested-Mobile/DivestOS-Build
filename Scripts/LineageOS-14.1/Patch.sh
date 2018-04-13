@@ -159,7 +159,7 @@ patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch" #L
 
 enterAndClear "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
-git revert 0217dddeb5c16903c13ff6c75213619b79ea622b d7aa1231b6a0631f506c0c23816f2cd81645b15f #Always update recovery
+git revert 0217dddeb5c16903c13ff6c75213619b79ea622b d7aa1231b6a0631f506c0c23816f2cd81645b15f #Always update recovery XXX: This doesn't seem to work
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid. Disclaimer: From CopperheadOS 13.0
 
 enterAndClear "system/keymaster"
