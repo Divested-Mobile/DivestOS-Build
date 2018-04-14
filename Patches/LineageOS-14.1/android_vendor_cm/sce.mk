@@ -17,6 +17,7 @@ PRODUCT_PACKAGES += \
 
 # Others
 PRODUCT_PACKAGES += \
+    CameraRoll \
     LocalCalendar
 
 # Browser

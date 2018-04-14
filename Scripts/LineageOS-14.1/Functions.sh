@@ -40,7 +40,7 @@ buildAll() {
 #	brunch lineage_h815-user; - (UPSTREAM) drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes
 	brunch lineage_h850-userdebug;
 	brunch lineage_hammerhead-user;
-#	brunch lineage_herolte-user; - net/netfilter/nfnetlink.c:328:14: error: 'NFNL_BATCH_FAILURE' undeclared (first use in this function)
+	brunch lineage_herolte-user;
 	brunch lineage_himaul-user;
 	brunch lineage_i9100-userdebug;
 	brunch lineage_i9305-user;
