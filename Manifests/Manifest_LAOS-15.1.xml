@@ -15,6 +15,7 @@
 	<remove-project name="LineageOS/android_external_htop" />
 	<remove-project name="LineageOS/android_external_libncurses" />
 	<remove-project name="LineageOS/android_external_nano" />
+	<remove-project name="LineageOS/android_external_openssh" />
 	<remove-project name="LineageOS/android_external_p7zip" />
 	<remove-project name="LineageOS/android_external_powertop" />
 	<remove-project name="LineageOS/android_external_rsync" />
@@ -48,7 +49,6 @@
 	<remove-project name="LineageOS/scripts" />
 	<remove-project name="LineageOS/slackbot" />
 	<remove-project name="LineageOS/www" />
-	<remove-project name="platform/external/openssh" />
 	<remove-project name="platform/hardware/intel/audio_media" />
 	<remove-project name="platform/hardware/intel/bootstub" />
 	<remove-project name="platform/hardware/intel/common/bd_prov" />

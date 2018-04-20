@@ -1,24 +1,23 @@
-From 0539b51319f6e28f5cc9b14f6477a8cb0a9e15b5 Mon Sep 17 00:00:00 2001
+From 192de0fd289b2d22f4258745370fd13d68107b71 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Thu, 19 Apr 2018 20:46:02 -0400
+Date: Mon, 12 Feb 2018 03:10:11 -0500
 Subject: [PATCH] Remove analytics
 
-Change-Id: Idcc15bfeda4805b305423534663429942abd1bcf
+Change-Id: I9d1bcd4a6afa492bfc1e7a9e6f13875fda4353d2
 ---
- AndroidManifest.xml           | 25 -------------------------
- proguard.flags                |  1 -
- res/values/config.xml         |  3 ---
- res/values/strings.xml        | 22 ----------------------
- res/xml/parts_catalog.xml     |  5 -----
- res/xml/trust_preferences.xml |  2 --
- 6 files changed, 58 deletions(-)
+ AndroidManifest.xml       | 25 -------------------------
+ proguard.flags            |  1 -
+ res/values/config.xml     |  3 ---
+ res/values/strings.xml    | 22 ----------------------
+ res/xml/parts_catalog.xml |  5 -----
+ 5 files changed, 56 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index 237db74..26d4a34 100644
+index 6e2cd9b..e4a0d26 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
-@@ -251,31 +251,6 @@
-                 android:resource="@string/expanded_desktop_settings_summary" />
+@@ -207,31 +207,6 @@
+                 android:resource="@string/style_summary" />
          </activity-alias>
  
 -        <!-- Anonymous Statistics -->
@@ -76,10 +75,10 @@ index d49bab4..e510fdf 100644
      <bool name="config_showWeatherMenu">true</bool>
  
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 0a3e654..8d744ac 100644
+index 4f5b47b..173c133 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -535,28 +535,6 @@
+@@ -537,28 +537,6 @@
                   <b>Total commits:</b> <xliff:g id="total_commits">%2$s</xliff:g><br/><br/>
                   <b>Last update:</b> <xliff:g id="date">%3$s</xliff:g>]]></string>
  
@@ -109,7 +108,7 @@ index 0a3e654..8d744ac 100644
      <string name="accelerometer_title">Auto-rotate screen</string>
      <string name="display_rotation_title">Rotation settings</string>
 diff --git a/res/xml/parts_catalog.xml b/res/xml/parts_catalog.xml
-index 5e2a106..d33e345 100644
+index db18231..440e1aa 100644
 --- a/res/xml/parts_catalog.xml
 +++ b/res/xml/parts_catalog.xml
 @@ -74,11 +74,6 @@
@@ -124,18 +123,6 @@ index 5e2a106..d33e345 100644
      <part android:key="power_menu"
            android:title="@string/power_menu_title"
            android:fragment="org.lineageos.lineageparts.input.PowerMenuActions"
-diff --git a/res/xml/trust_preferences.xml b/res/xml/trust_preferences.xml
-index 2e4e0a6..ee58ae4 100644
---- a/res/xml/trust_preferences.xml
-+++ b/res/xml/trust_preferences.xml
-@@ -44,7 +44,5 @@
-         <org.lineageos.internal.lineageparts.LineagePartsPreference
-             android:key="privacy_guard_manager" />
- 
--        <org.lineageos.internal.lineageparts.LineagePartsPreference
--            android:key="lineagestats" />
-     </PreferenceCategory>
- </PreferenceScreen>
 -- 
-2.17.0
+2.16.1
 
