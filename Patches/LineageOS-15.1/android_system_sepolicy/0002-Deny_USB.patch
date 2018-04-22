@@ -1,0 +1,22 @@
+From 9bd23222fab996016eb2d31772129b09594f4667 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 16 Jun 2016 01:07:25 -0400
+Subject: [PATCH] allow system to set security.deny_new_usb
+
+---
+ private/property_contexts | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/private/property_contexts b/private/property_contexts
+index e524f54e..86b7d8a3 100644
+--- a/private/property_contexts
++++ b/private/property_contexts
+@@ -66,6 +66,8 @@ ro.boot.btmacaddr       u:object_r:bluetooth_prop:s0
+ ro.boot.serialno        u:object_r:serialno_prop:s0
+ ro.bt.                  u:object_r:bluetooth_prop:s0
+ 
++security.deny_new_usb   u:object_r:system_prop:s0
++
+ # Boolean property set by system server upon boot indicating
+ # if device owner is provisioned.
+ ro.device_owner         u:object_r:device_logging_prop:s0

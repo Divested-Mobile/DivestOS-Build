@@ -1,6 +1,7 @@
 #!/bin/bash
 cd $base"kernel/google/msm"
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.4/0002.patch
+git apply $cvePatchesLinux/0012-Copperhead-Deny_USB/3.4/3.4-Backport.patch
 git apply $cvePatchesLinux/CVE-2013-4738/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2014-9781/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-3857/ANY/0001.patch
@@ -37,5 +38,5 @@ git apply $cvePatchesLinux/CVE-2017-8254/3.4/0001.patch
 git apply $cvePatchesLinux/CVE-2017-8254/3.4/0002.patch
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p37"
+editKernelLocalversion "-dos.p38"
 cd $base

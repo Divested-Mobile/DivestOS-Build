@@ -2,6 +2,7 @@
 cd $base"kernel/oppo/msm8974"
 git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/ANY/0001.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.4/0002.patch
+git apply $cvePatchesLinux/0012-Copperhead-Deny_USB/3.4/3.4-Backport.patch
 git apply $cvePatchesLinux/CVE-2014-9781/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2014-9880/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-0774/ANY/0001.patch
@@ -48,5 +49,5 @@ git apply $cvePatchesLinux/CVE-2017-9684/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-9706/ANY/0001.patch
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p48"
+editKernelLocalversion "-dos.p49"
 cd $base

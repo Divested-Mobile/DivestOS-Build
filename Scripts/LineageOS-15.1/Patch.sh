@@ -60,6 +60,7 @@ cp -r $prebuiltApps"android_vendor_FDroid_PrebuiltApps/." $base"vendor/fdroid_pr
 
 enterAndClear "build/make"
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing. Disclaimer: From CopperheadOS 13.0
+patch -p1 < $patches"android_build/0002-Deny_USB.patch" #Deny USB support XXX: NEEDS SIGNOFF FROM COPPERHEAD
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 
@@ -77,6 +78,7 @@ sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired
 patch -p1 < $patches"android_frameworks_base/0002-Signature_Spoofing.patch" #Allow packages to spoof their signature (microG)
 patch -p1 < $patches"android_frameworks_base/0003-Harden_Sig_Spoofing.patch" #Restrict signature spoofing to system apps signed with the platform key
 patch -p1 < $patches"android_frameworks_base/0004-OpenNIC.patch" #Change fallback and tethering DNS servers to OpenNIC AnyCast
+patch -p1 < $patches"android_frameworks_base/0005-Deny_USB.patch" #Deny USB support XXX: NEEDS SIGNOFF FROM COPPERHEAD
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig
 
@@ -126,6 +128,7 @@ rm AndroidManifest.xml.orig res/values/*.xml.orig;
 
 enterAndClear "packages/apps/Settings"
 git revert a96df110e84123fe1273bff54feca3b4ca484dcd #don't hide oem unlock
+patch -p1 < $patches"android_packages_apps_Settings/0003-Deny_USB.patch" #Deny USB support XXX: NEEDS SIGNOFF FROM COPPERHEAD
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length
 sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; #MicroG doesn't support Backup, hide the options
 
@@ -149,15 +152,17 @@ enterAndClear "packages/inputmethods/LatinIME"
 patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch" #Remove voice input key
 
 enterAndClear "packages/services/Telephony"
-patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch" #LTE only preferred network mode choice. Disclaimer: From CopperheadOS before their LICENSE was added
+patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch" #LTE only preferred network mode choice. XXX: NEEDS SIGNOFF FROM COPPERHEAD
 
 enterAndClear "system/core"
 cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
 git revert a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4 #Always update recovery
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid. Disclaimer: From CopperheadOS 13.0
+patch -p1 < $patches"android_system_core/0002-Deny_USB.patch" #Deny USB support XXX: NEEDS SIGNOFF FROM COPPERHEAD
 
 enterAndClear "system/sepolicy"
 patch -p1 < $patches"android_system_sepolicy/0001-LGE_Fixes.patch" #Fix -user builds for LGE devices
+patch -p1 < $patches"android_system_sepolicy/0002-Deny_USB.patch" #Deny USB support XXX: NEEDS SIGNOFF FROM COPPERHEAD
 
 enterAndClear "system/vold"
 patch -p1 < $patches"android_system_vold/0001-AES256.patch" #Add a variable for enabling AES-256 bit encryption
@@ -191,7 +196,6 @@ echo "/dev/block/platform/msm_sdcc\.1/by-name/pad     u:object_r:misc_block_devi
 
 enterAndClear "device/lge/mako"
 cp $patches"android_device_lge_mako/proprietary-blobs.txt" proprietary-blobs.txt; #update that? nah
-echo "/dev/block/platform/msm_sdcc\.1/by-name/misc     u:object_r:misc_block_device:s0" >> sepolicy/file_contexts; #fix uncrypt denial
 
 enterAndClear "device/oppo/msm8974-common"
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/

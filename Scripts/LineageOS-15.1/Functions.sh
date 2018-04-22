@@ -54,13 +54,11 @@ export -f buildAll;
 
 patchWorkspace() {
 	source build/envsetup.sh;
-	repopick 206123 211095; #cherry picks
-	repopick 209030; #fix contacts being deleted
-	repopick 209188; #g3-common cherry picks
+	repopick -f 206123; #bionic: Sort and cache hosts file data for fast lookup
+	repopick -f 209030; #ContactsProvider: Prevent device contact being deleted.
 	repopick 211404 211405 211406 211407 211408 211409; #d852 cherry picks
 	repopick 205021; #d855 cherry picks
 	repopick -t trust_interface;
-	#repopick -t calendar-o;
 
 	source $scripts/Patch.sh;
 	source $scripts/Defaults.sh;

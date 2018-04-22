@@ -14,6 +14,7 @@ git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0016.patch
 git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0017.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0011.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0012.patch
+git apply $cvePatchesLinux/0012-Copperhead-Deny_USB/3.10/0001-Alt.patch
 git apply $cvePatchesLinux/CVE-2014-9892/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2014-9900/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2015-7515/^4.4/0002.patch
@@ -70,5 +71,5 @@ git apply $cvePatchesLinux/CVE-2017-9242/^4.11/0001.patch
 git apply $cvePatchesLinux/LVT-2017-0003/3.10/0001.patch
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $cvePatchesLinux/CVE-2016-2475/ANY/0001.patch
-editKernelLocalversion "-dos.p70"
+editKernelLocalversion "-dos.p71"
 cd $base

@@ -1,0 +1,22 @@
+From d0d489b8380cb06a7738e9b7276056d9d7479d44 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 17 Jun 2016 07:13:49 -0400
+Subject: [PATCH] set deny_new_usb feature to dynamic by default
+
+Change-Id: Ied8e75e6c7f8cc5e1483fe93281a32fe799638c3
+---
+ core/main.mk | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/core/main.mk b/core/main.mk
+index af98b548c..e2c90d2d0 100644
+--- a/core/main.mk
++++ b/core/main.mk
+@@ -244,6 +244,7 @@ ifneq (,$(user_variant))
+   # Target is secure in user builds.
+   ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=1
+   ADDITIONAL_DEFAULT_PROPERTIES += security.perf_harden=1
++  ADDITIONAL_DEFAULT_PROPERTIES += persist.security.deny_new_usb=dynamic
+ 
+   ifeq ($(user_variant),user)
+     ADDITIONAL_DEFAULT_PROPERTIES += ro.adb.secure=1

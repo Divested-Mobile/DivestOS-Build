@@ -1,0 +1,238 @@
+From 8d6cd259a90a009167c11a2f135cb9845a8f3e7f Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 14 Apr 2016 20:44:06 -0400
+Subject: [PATCH] add deny_new_usb setting
+
+Change-Id: If4ee98d636e1876ba546f8a5d562859e8ab7b931
+---
+ res/values/arrays.xml                          | 16 +++++++++++++
+ res/values/strings.xml                         |  3 +++
+ res/xml/security_settings_chooser.xml          |  8 +++++++
+ res/xml/security_settings_lockscreen.xml       |  8 +++++++
+ res/xml/security_settings_password.xml         |  8 +++++++
+ res/xml/security_settings_pattern.xml          |  8 +++++++
+ res/xml/security_settings_pin.xml              |  8 +++++++
+ src/com/android/settings/SecuritySettings.java | 31 +++++++++++++++++++++++++-
+ 8 files changed, 89 insertions(+), 1 deletion(-)
+
+diff --git a/res/values/arrays.xml b/res/values/arrays.xml
+index 5e1a468f87..16a7300e96 100644
+--- a/res/values/arrays.xml
++++ b/res/values/arrays.xml
+@@ -1038,4 +1038,20 @@
+         <item>never</item>
+     </string-array>
+ 
++    <!-- Security Settings -->
++    <string-array name="deny_new_usb_entries">
++        <item>Disallow new USB peripherals</item>
++        <item>Allow new USB peripherals when unlocked</item>
++        <item>Allow new USB peripherals</item>
++    </string-array>
++
++    <!-- Do not translate. -->
++    <string-array name="deny_new_usb_values" translatable="false">
++        <!-- Do not translate. -->
++        <item>enabled</item>
++        <!-- Do not translate. -->
++        <item>dynamic</item>
++        <!-- Do not translate. -->
++        <item>disabled</item>
++    </string-array>
+ </resources>
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 8265475a98..84ebf5d10b 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -9052,4 +9052,7 @@
+ 
+     <!-- Note displayed when certain features are not available on low ram devices. [CHAR LIMIT=NONE] -->
+     <string name="disabled_low_ram_device">This feature is not available on this device</string>
++
++    <string name="deny_new_usb_title">USB accessories</string>
++    <string name="deny_new_usb_summary">Control support for USB peripherals such as input (mice, keyboards, joysticks) and storage devices.</string>
+ </resources>
+diff --git a/res/xml/security_settings_chooser.xml b/res/xml/security_settings_chooser.xml
+index 067ebaba0d..2ba2b41006 100644
+--- a/res/xml/security_settings_chooser.xml
++++ b/res/xml/security_settings_chooser.xml
+@@ -33,6 +33,14 @@
+             android:title="@string/lockscreen_settings_title"
+             android:fragment="com.android.settings.security.LockscreenDashboardFragment"/>
+ 
++        <ListPreference
++            android:key="deny_new_usb"
++            android:title="@string/deny_new_usb_title"
++            android:summary="@string/deny_new_usb_summary"
++            android:persistent="false"
++            android:entries="@array/deny_new_usb_entries"
++            android:entryValues="@array/deny_new_usb_values" />
++
+     </PreferenceCategory>
+ 
+ </PreferenceScreen>
+diff --git a/res/xml/security_settings_lockscreen.xml b/res/xml/security_settings_lockscreen.xml
+index c141fb7c74..5181997c99 100644
+--- a/res/xml/security_settings_lockscreen.xml
++++ b/res/xml/security_settings_lockscreen.xml
+@@ -29,6 +29,14 @@
+             settings:keywords="@string/keywords_lockscreen"
+             android:persistent="false"/>
+ 
++        <ListPreference
++            android:key="deny_new_usb"
++            android:title="@string/deny_new_usb_title"
++            android:summary="@string/deny_new_usb_summary"
++            android:persistent="false"
++            android:entries="@array/deny_new_usb_entries"
++            android:entryValues="@array/deny_new_usb_values" />
++
+     </PreferenceCategory>
+ 
+ </PreferenceScreen>
+diff --git a/res/xml/security_settings_password.xml b/res/xml/security_settings_password.xml
+index 7de65f7cc0..2e8361f470 100644
+--- a/res/xml/security_settings_password.xml
++++ b/res/xml/security_settings_password.xml
+@@ -32,6 +32,14 @@
+             android:title="@string/lockscreen_settings_title"
+             android:fragment="com.android.settings.security.LockscreenDashboardFragment"/>
+ 
++        <ListPreference
++            android:key="deny_new_usb"
++            android:title="@string/deny_new_usb_title"
++            android:summary="@string/deny_new_usb_summary"
++            android:persistent="false"
++            android:entries="@array/deny_new_usb_entries"
++            android:entryValues="@array/deny_new_usb_values" />
++
+     </PreferenceCategory>
+ 
+ </PreferenceScreen>
+diff --git a/res/xml/security_settings_pattern.xml b/res/xml/security_settings_pattern.xml
+index 1585f016ee..9ce00d616e 100644
+--- a/res/xml/security_settings_pattern.xml
++++ b/res/xml/security_settings_pattern.xml
+@@ -32,6 +32,14 @@
+             android:title="@string/lockscreen_settings_title"
+             android:fragment="com.android.settings.security.LockscreenDashboardFragment"/>
+ 
++        <ListPreference
++            android:key="deny_new_usb"
++            android:title="@string/deny_new_usb_title"
++            android:summary="@string/deny_new_usb_summary"
++            android:persistent="false"
++            android:entries="@array/deny_new_usb_entries"
++            android:entryValues="@array/deny_new_usb_values" />
++
+     </PreferenceCategory>
+ 
+ </PreferenceScreen>
+diff --git a/res/xml/security_settings_pin.xml b/res/xml/security_settings_pin.xml
+index f7705b7e9c..c291f118a2 100644
+--- a/res/xml/security_settings_pin.xml
++++ b/res/xml/security_settings_pin.xml
+@@ -32,6 +32,14 @@
+             android:title="@string/lockscreen_settings_title"
+             android:fragment="com.android.settings.security.LockscreenDashboardFragment"/>
+ 
++        <ListPreference
++            android:key="deny_new_usb"
++            android:title="@string/deny_new_usb_title"
++            android:summary="@string/deny_new_usb_summary"
++            android:persistent="false"
++            android:entries="@array/deny_new_usb_entries"
++            android:entryValues="@array/deny_new_usb_values" />
++
+     </PreferenceCategory>
+ 
+ </PreferenceScreen>
+diff --git a/src/com/android/settings/SecuritySettings.java b/src/com/android/settings/SecuritySettings.java
+index 55f21fd22a..555b4a7c90 100644
+--- a/src/com/android/settings/SecuritySettings.java
++++ b/src/com/android/settings/SecuritySettings.java
+@@ -38,11 +38,13 @@
+ import android.os.UserHandle;
+ import android.os.UserManager;
+ import android.os.storage.StorageManager;
++import android.os.SystemProperties;
+ import android.provider.SearchIndexableResource;
+ import android.provider.Settings;
+ import android.service.trust.TrustAgentService;
+ import android.support.annotation.VisibleForTesting;
+ import android.support.v14.preference.SwitchPreference;
++import android.support.v7.preference.ListPreference;
+ import android.support.v7.preference.Preference;
+ import android.support.v7.preference.Preference.OnPreferenceChangeListener;
+ import android.support.v7.preference.PreferenceGroup;
+@@ -118,6 +120,10 @@
+     private static final int UNUNIFY_LOCK_CONFIRM_DEVICE_REQUEST = 130;
+     private static final String TAG_UNIFICATION_DIALOG = "unification_dialog";
+ 
++    private static final String KEY_DENY_NEW_USB = "deny_new_usb";
++    private static final String DENY_NEW_USB_PROP = "security.deny_new_usb";
++    private static final String DENY_NEW_USB_PERSIST_PROP = "persist.security.deny_new_usb";
++
+     // Misc Settings
+     private static final String KEY_SIM_LOCK = "sim_lock_settings";
+     private static final String KEY_SHOW_PASSWORD = "show_password";
+@@ -139,7 +145,7 @@
+ 
+     // These switch preferences need special handling since they're not all stored in Settings.
+     private static final String SWITCH_PREFERENCE_KEYS[] = {
+-            KEY_SHOW_PASSWORD, KEY_UNIFICATION, KEY_VISIBLE_PATTERN_PROFILE
++            KEY_SHOW_PASSWORD, KEY_UNIFICATION, KEY_VISIBLE_PATTERN_PROFILE, KEY_DENY_NEW_USB
+     };
+ 
+     // Only allow one trust agent on the platform.
+@@ -169,6 +175,8 @@
+ 
+     private int mProfileChallengeUserId;
+ 
++    private ListPreference mDenyNewUsb;
++
+     private String mCurrentDevicePassword;
+     private String mCurrentProfilePassword;
+ 
+@@ -324,6 +332,16 @@ private PreferenceScreen createPreferenceHierarchy() {
+ 
+         mIsAdmin = mUm.isAdminUser();
+ 
++        if (mIsAdmin) {
++            mDenyNewUsb = (ListPreference) findPreference(KEY_DENY_NEW_USB);
++        } else {
++            PreferenceGroup securityCategory = (PreferenceGroup)
++                    root.findPreference(KEY_SECURITY_CATEGORY);
++            if (securityCategory != null) {
++                securityCategory.removePreference(securityCategory.findPreference(KEY_DENY_NEW_USB));
++            }
++        }
++
+         // Fingerprint and trust agents
+         int numberOfTrustAgent = 0;
+         PreferenceGroup securityCategory = (PreferenceGroup)
+@@ -626,6 +644,10 @@ public void onResume() {
+         }
+ 
+         mLocationcontroller.updateSummary();
++
++        if (mDenyNewUsb != null) {
++            mDenyNewUsb.setValue(SystemProperties.get(DENY_NEW_USB_PERSIST_PROP, "disabled"));
++        }
+     }
+ 
+     private void updateUnificationPreference() {
+@@ -812,6 +834,13 @@ public boolean onPreferenceChange(Preference preference, Object value) {
+             Settings.System.putInt(getContentResolver(), Settings.System.TEXT_SHOW_PASSWORD,
+                     ((Boolean) value) ? 1 : 0);
+             lockPatternUtils.setVisiblePasswordEnabled((Boolean) value, MY_USER_ID);
++        } else if (KEY_DENY_NEW_USB.equals(key)) {
++            String mode = (String) value;
++            SystemProperties.set(DENY_NEW_USB_PERSIST_PROP, mode);
++            // The dynamic mode defaults to the disabled state
++            if (mode.equals("dynamic")) {
++                SystemProperties.set(DENY_NEW_USB_PROP, "0");
++            }
+         }
+         return result;
+     }

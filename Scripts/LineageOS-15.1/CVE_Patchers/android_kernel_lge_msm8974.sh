@@ -1,6 +1,7 @@
 #!/bin/bash
 cd $base"kernel/lge/msm8974"
 git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/ANY/0001.patch
+git apply $cvePatchesLinux/0012-Copperhead-Deny_USB/3.4/3.4-Backport.patch
 git apply $cvePatchesLinux/CVE-2015-8939/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-0806/prima/0001.patch
 git apply $cvePatchesLinux/CVE-2016-0806/prima/0006.patch
@@ -24,5 +25,5 @@ git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0006.patch
 git apply $cvePatchesLinux/CVE-2017-7487/ANY/0001.patch
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p24"
+editKernelLocalversion "-dos.p25"
 cd $base
