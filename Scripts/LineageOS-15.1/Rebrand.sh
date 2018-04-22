@@ -33,6 +33,9 @@ sed -i '/.*lineage_version/s/LineageOS/DivestOS/' lineage/res/res/values*/string
 sed -i '/.*lineage_updates/s/LineageOS/DivestOS/' lineage/res/res/values*/strings.xml;
 sed -i '/.*lineageos_system_label/s/LineageOS/DivestOS/' lineage/res/res/values*/strings.xml;
 
+enter "packages/apps/LineageParts"
+sed -i '/.*trust_feature_security_patches_explain/s/LineageOS/DivestOS/' res/values*/strings.xml;
+
 enter "packages/apps/Settings"
 sed -i '/.*lineagelicense_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml;
 

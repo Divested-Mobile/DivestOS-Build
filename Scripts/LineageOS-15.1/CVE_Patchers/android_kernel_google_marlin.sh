@@ -97,7 +97,7 @@ git apply $cvePatchesLinux/CVE-2017-6348/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7371/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7372/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-9707/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2018-3563/ANY/0002.patch
+git apply $cvePatchesLinux/CVE-2018-3563/3.18/0002.patch
 git apply $cvePatchesLinux/Untracked/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $cvePatchesLinux/Untracked/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $cvePatchesLinux/CVE-2016-5853/3.18/0002.patch
