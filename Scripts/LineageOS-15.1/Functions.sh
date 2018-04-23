@@ -78,7 +78,7 @@ patchWorkspace() {
 
 	#Deblobbing fixes
 	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
-	cd device/lge/h850 && ./setup-makefiles.sh && cd $base
+	cd device/lge/h850 && ./setup-makefiles.sh && cd $base;
 }
 export -f patchWorkspace;
 

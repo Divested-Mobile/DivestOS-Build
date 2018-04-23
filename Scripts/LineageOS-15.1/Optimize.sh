@@ -17,9 +17,9 @@
 
 #Attempts to increase performance and battery life
 
-echo "Optimizing..."
+echo "Optimizing...";
 
-enter "frameworks/base"
+enter "frameworks/base";
 sed -i 's/ScaleSetting = 1.0f;/ScaleSetting = 0.5f;/' services/core/java/com/android/server/wm/WindowManagerService.java; #TODO: Fix transition scale
 sed -i 's|config_useVolumeKeySounds">true|config_useVolumeKeySounds">false|' core/res/res/values/config.xml;
 sed -i 's|config_radioScanningTimeout">0|config_radioScanningTimeout">300000|' core/res/res/values/config.xml;
@@ -33,5 +33,5 @@ sed -i 's|config_notifications_round_rect_clipping">true|config_notifications_ro
 sed -i 's|config_showTemperatureWarning">0|config_showTemperatureWarning">1|' packages/SystemUI/res/values/config.xml; #XXX: Doesn't seem to work?
 #sed -i 's|||'
 
-cd $base
-echo "Optimizing complete!"
+cd $base;
+echo "Optimizing complete!";

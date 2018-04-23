@@ -17,9 +17,9 @@
 
 #Changes various default settings
 
-echo "Changing default settings..."
+echo "Changing default settings...";
 
-enter "frameworks/base"
+enter "frameworks/base";
 sed -i '0,/wifi,cell,battery/s/wifi,cell,battery,dnd,flashlight,rotation,bt,airplane/wifi,cell,bt,dnd,flashlight,rotation,battery,profiles,location,airplane,saver,hotspot,nfc/' packages/SystemUI/res/values/config.xml; #Default quick tiles
 #sed -i 's|config_longPressOnHomeBehavior">2|config_longPressOnHomeBehavior">0|' core/res/res/values/config.xml; #Set long press home to do nothing
 #sed -i 's|config_doubleTapOnHomeBehavior">0|config_doubleTapOnHomeBehavior">8|' core/res/res/values/config.xml; #Set double tap home to switch to last app
@@ -49,5 +49,5 @@ sed -i 's|drawer_compact_default">false|drawer_compact_default">true|' res/value
 sed -i 's|use_scroller_default">true|use_scroller_default">false|' res/values/preferences_defaults.xml; #Hide scroller
 sed -i 's|drawer_search_default">true|drawer_search_default">false|' res/values/preferences_defaults.xml; #Disable search
 
-cd $base
-echo "Default settings changed!"
+cd $base;
+echo "Default settings changed!";

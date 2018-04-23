@@ -17,42 +17,42 @@
 
 #Updates select user facing strings
 
-echo "Rebranding..."
+echo "Rebranding...";
 
-enter "bootable/recovery"
+enter "bootable/recovery";
 sed -i 's|Android Recovery|DivestOS Recovery|' *_ui.cpp;
 sed -i 's|LineageOS|DivestOS|' ui.cpp;
 #TODO: Change out res-*/images/logo_image.png
 
-enter "build/make"
+enter "build/make";
 sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
 sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/buildinfo.sh; #Override build host
 
-enter "lineage-sdk"
+enter "lineage-sdk";
 sed -i '/.*lineage_version/s/LineageOS/DivestOS/' lineage/res/res/values*/strings.xml;
 sed -i '/.*lineage_updates/s/LineageOS/DivestOS/' lineage/res/res/values*/strings.xml;
 sed -i '/.*lineageos_system_label/s/LineageOS/DivestOS/' lineage/res/res/values*/strings.xml;
 
-enter "packages/apps/LineageParts"
+enter "packages/apps/LineageParts";
 sed -i '/.*trust_feature_security_patches_explain/s/LineageOS/DivestOS/' res/values*/strings.xml;
 
-enter "packages/apps/Settings"
+enter "packages/apps/Settings";
 sed -i '/.*lineagelicense_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml;
 
-enter "packages/apps/SetupWizard"
+enter "packages/apps/SetupWizard";
 sed -i 's|http://lineageos.org/legal|https://divestos.xyz/pages/legal/pp.html|' src/org/lineageos/setupwizard/LineageSettingsActivity.java;
 sed -i '/.*setup_services/s/LineageOS/DivestOS/' res/values*/strings.xml;
 sed -i '/.*services_explanation/s/LineageOS/DivestOS/' res/values*/strings.xml;
 cp $patches"android_packages_apps_SetupWizard/logo.xml" "res/drawable/logo.xml"; #Replace Lineage logo with ours
 
-enter "packages/apps/Updater"
+enter "packages/apps/Updater";
 sed -i 's|>LineageOS|>DivestOS|' res/values*/strings.xml;
 
-enter "vendor/lineage"
+enter "vendor/lineage";
 sed -i 's|https://lineageos.org/legal|https://divestos.xyz/pages/about.html|' config/common.mk;
 sed -i '/.*ZIPPATH=/s/lineage/coverage/' build/envsetup.sh;
 sed -i '/LINEAGE_TARGET_PACKAGE/s/lineage/coverage/' build/tasks/bacon.mk;
-rm -rf bootanimation #TODO: Create a boot animation
+rm -rf bootanimation; #TODO: Create a boot animation
 
-cd $base
-echo "Rebranding complete!"
+cd $base;
+echo "Rebranding complete!";

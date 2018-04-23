@@ -35,20 +35,20 @@ export cveScripts=$scripts"CVE_Patchers/";
 
 export ANDROID_HOME="/home/$USER/Android/Sdk";
 
-export KBUILD_BUILD_USER=emy
-export KBUILD_BUILD_HOST=dosbm
+export KBUILD_BUILD_USER="emy";
+export KBUILD_BUILD_HOST="dosbm";
 
 export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation";
 export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}";
 
-export GRADLE_OPTS=-Xmx2048m
+export GRADLE_OPTS="-Xmx2048m";
 
 export NON_COMMERCIAL_USE_PATCHES=true; #Switch to false to prevent inclusion of non-commercial use patches
 
 source $scriptsCommon"/Functions.sh";
 source $scripts"/Functions.sh";
 
-unalias cp
-unalias mv
-unalias rm
-unalias ln
+unalias cp;
+unalias mv;
+unalias rm;
+unalias ln;

@@ -19,13 +19,13 @@
 
 #Is this the best way to do it? No. Is it the proper way to do it? No. Do I wish device maintainers would do it? Yes. Is it better then nothing? YES!
 
-echo "Patching CVEs..."
+echo "Patching CVEs...";
 
-cd $base
+cd $base;
 for patcher in $cveScripts/*.sh; do
 	echo "Running " $patcher;
 	source $patcher;
 done;
 
-cd $base
-echo "Patched CVEs!"
+cd $base;
+echo "Patched CVEs!";
