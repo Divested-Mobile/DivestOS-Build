@@ -15,6 +15,13 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then
+	echo -e "\e[0;33mWARNING: YOU HAVE ENABLED PATCHES THAT WHILE OPEN SOURCE ARE ENCUMBERED BY RESTRICTIVE LICENSES\e[0m";
+	echo -e "\e[0;33mPLEASE SEE THE 'LICENSES' FILE AT THE ROOT OF THIS REPOSITORY FOR MORE INFORMATION\e[0m";
+	echo -e "\e[0;33mDISABLE THEM BY SETTING 'NON_COMMERCIAL_USE_PATCHES' TO 'false' IN 'Scripts/*/00init.sh'\e[0m";
+	sleep 15;
+fi;
+
 startPatcher() {
 	#$cvePatcher must be set!
 	java -jar $cvePatcher patch $base $androidWorkspace"Patches/" $cveScripts $1;

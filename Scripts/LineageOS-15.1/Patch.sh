@@ -157,7 +157,7 @@ enterAndClear "packages/inputmethods/LatinIME";
 patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
 
 enterAndClear "packages/services/Telephony";
-if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < $patches"android_packages_services_Telephony/Copperhead/0001-LTE_Only.patch"; fi; #LTE only preferred network mode choice. (Copperhead CC BY-NC-SA)
+if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < $patches"android_packages_services_Telephony/Copperhead/0001-LTE_Only.patch"; fi; #LTE only preferred network mode choice (Copperhead CC BY-NC-SA)
 
 enterAndClear "system/core";
 cat /tmp/ar/hosts >> rootdir/etc/hosts; #Merge in our HOSTS file
