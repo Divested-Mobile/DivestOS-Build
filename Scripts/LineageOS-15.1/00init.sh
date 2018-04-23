@@ -43,7 +43,7 @@ export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}";
 
 export GRADLE_OPTS="-Xmx2048m";
 
-export NON_COMMERCIAL_USE_PATCHES=true; #Switch to false to prevent inclusion of non-commercial use patches
+export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches
 
 source $scriptsCommon"/Functions.sh";
 source $scripts"/Functions.sh";

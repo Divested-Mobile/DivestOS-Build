@@ -2,17 +2,20 @@ Copyright (c) 2017-2018 Spot Communications, Inc.
 
 Below are the license mappings for all of the files found in this repository. All attempts have been made to ensure accuracy of the corresponding license files. If you've found an issue please file an issue or pull request.
 
-Changelogs - GPLv3
 Manifests - GPLv3
 Misc - GPLv3
-Patches/Android - Apache-2.0
-Patches/LineageOS-*/
-	android_packages_apps_FDroid* - GPLv2
-	android_packages_apps_Silence - GPLv2
-	android_kernel_* - GPLv2
-	[Everything Else] - Apache-2.0
-Patches/Linux - GPLv2
-Patches/Wallpapers - Unsplash License https://unsplash.com/license
+Patches/
+	Android - Apache-2.0
+	LineageOS-*/
+		android_packages_apps_FDroid* - GPLv2
+		android_kernel_* - GPLv2
+		*/Copperhead/* - Copperhead CC BY-NC-SA, Only enabled via NON_COMMERCIAL_USE_PATCHES option
+		[Everything Else] - Apache-2.0
+	Linux - GPLv2
+	Wallpapers - Unsplash License https://unsplash.com/license
+PrebuiltApps/
+	android_vendor_FDroid_PrebuiltApps/Packages - Dependent on app
+	[Everything Else] - GPLv3
 Scripts - GPLv3
 
 

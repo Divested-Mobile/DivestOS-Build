@@ -62,14 +62,14 @@ enterAndClear "bootable/recovery";
 patch -p1 < $patches"android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button?
 
 enterAndClear "build";
-patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing. Disclaimer: From CopperheadOS 13.0
+patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing (CopperheadOS-13.0)
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 
 enterAndClear "device/qcom/sepolicy";
 patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on user builds XXX: REMOVE THIS TRASH
 
 enterAndClear "external/sqlite";
-patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default. Disclaimer: From CopperheadOS 13.0
+patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0)
 
 enterAndClear "frameworks/base";
 git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #re-enable doze on devices without gms
@@ -108,7 +108,7 @@ sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools =
 
 enterAndClear "packages/apps/FDroid";
 cp $patches"android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add extra repos
-sed -i 's|outputs/apk/|outputs/apk/release/' Android.mk;
+sed -i 's|outputs/apk/|outputs/apk/release/|' Android.mk;
 sed -i 's|gradle|./gradlew|' Android.mk; #Gradle 4.0 fix
 sed -i 's|/$(fdroid_dir) \&\&| \&\&|' Android.mk; #One line wouldn't work... no matter what I tried.
 #TODO: Change the package ID until https://gitlab.com/fdroid/fdroidclient/issues/843 is implemented
@@ -129,7 +129,7 @@ enterAndClear "packages/apps/PackageInstaller";
 patch -p1 < $patches"android_packages_apps_PackageInstaller/64d8b44.diff"; #Fix an issue with Permission Review
 
 enterAndClear "packages/apps/Settings";
-git revert 2ebe6058c546194a301c1fd22963d6be4adbf961;
+git revert 2ebe6058c546194a301c1fd22963d6be4adbf961; #don't hide oem unlock
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
 sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; #MicroG doesn't support Backup, hide the options
 
@@ -156,12 +156,12 @@ enterAndClear "packages/inputmethods/LatinIME";
 patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
 
 enterAndClear "packages/services/Telephony";
-if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch"; fi; #LTE only preferred network mode choice. XXX: NEEDS SIGNOFF FROM COPPERHEAD
+if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < $patches"android_packages_services_Telephony/Copperhead/0001-LTE_Only.patch"; fi; #LTE only preferred network mode choice (Copperhead CC BY-NC-SA)
 
 enterAndClear "system/core";
-if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then cat /tmp/ar/hosts >> rootdir/etc/hosts; fi; #Merge in our HOSTS file XXX: Switch to /hsc for release
+then cat /tmp/ar/hosts >> rootdir/etc/hosts; #Merge in our HOSTS file
 git revert 0217dddeb5c16903c13ff6c75213619b79ea622b d7aa1231b6a0631f506c0c23816f2cd81645b15f; #Always update recovery XXX: This doesn't seem to work
-patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid. Disclaimer: From CopperheadOS 13.0
+patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0)
 
 enterAndClear "system/keymaster";
 patch -p1 < $patches"android_system_keymaster/0001-Backport_Fixes.patch"; #Fixes from 8.1, appears to fix https://jira.lineageos.org/browse/BUGBASH-590

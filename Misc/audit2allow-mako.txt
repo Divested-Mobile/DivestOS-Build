@@ -2,8 +2,5 @@
 allow install_recovery unlabeled:dir { add_name remove_name write };
 allow install_recovery unlabeled:file { create open setattr unlink write };
 
-#============= kickstart ==============
-allow kickstart usbfs:dir search;
-
 #============= vold ==============
 allow vold persist_file:dir { ioctl open read };
