@@ -28,7 +28,7 @@ sed -i 's|config_wifi_enable_wifi_firmware_debugging">true|config_wifi_enable_wi
 sed -i 's|config_wifi_supplicant_scan_interval">15000|config_wifi_supplicant_scan_interval">120000|' core/res/res/values/config.xml;
 sed -i 's|config_autoBrightnessLightSensorRate">250|config_autoBrightnessLightSensorRate">1000|' core/res/res/values/config.xml;
 sed -i 's|config_recents_use_hardware_layers">false|config_recents_use_hardware_layers">true|' packages/SystemUI/res/values/config.xml;
-sed -i 's|config_recents_fake_shadows">false|config_recents_fake_shadows">true|' packages/SystemUI/res/values/config.xml;
+#sed -i 's|config_recents_fake_shadows">false|config_recents_fake_shadows">true|' packages/SystemUI/res/values/config.xml;
 sed -i 's|config_notifications_round_rect_clipping">true|config_notifications_round_rect_clipping">false|' packages/SystemUI/res/values/config.xml;
 sed -i 's|config_showTemperatureWarning">0|config_showTemperatureWarning">1|' packages/SystemUI/res/values/config.xml; #XXX: Doesn't seem to work?
 #sed -i 's|||'

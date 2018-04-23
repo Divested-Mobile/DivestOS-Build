@@ -30,6 +30,13 @@ buildDevice() {
 }
 export -f buildDevice;
 
+buildDeviceDebug() {
+	unset SIGNING_KEY_DIR;
+	unset OTA_PACKAGE_SIGNING_KEY;
+	brunch lineage_$1-eng;
+}
+export -f buildDeviceDebug;
+
 buildAll() {
 #Select devices are userdebug due to SELinux policy issues
 #TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
@@ -57,8 +64,8 @@ patchWorkspace() {
 	repopick -f 206123; #bionic: Sort and cache hosts file data for fast lookup
 	repopick -f 209030; #ContactsProvider: Prevent device contact being deleted.
 	repopick 211404 211405 211406 211407 211408 211409; #d852 cherry picks
-	repopick 205021; #d855 cherry picks
-	repopick -t trust_interface;
+	repopick 205021 211396; #d855 cherry picks
+	#repopick -t trust_interface;
 
 	source $scripts/Patch.sh;
 	source $scripts/Defaults.sh;

@@ -108,6 +108,7 @@ sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools =
 
 enterAndClear "packages/apps/FDroid"
 cp $patches"android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add extra repos
+sed -i 's|outputs/apk/|outputs/apk/release/' Android.mk;
 sed -i 's|gradle|./gradlew|' Android.mk; #Gradle 4.0 fix
 sed -i 's|/$(fdroid_dir) \&\&| \&\&|' Android.mk; #One line wouldn't work... no matter what I tried.
 #TODO: Change the package ID until https://gitlab.com/fdroid/fdroidclient/issues/843 is implemented
@@ -155,10 +156,10 @@ enterAndClear "packages/inputmethods/LatinIME"
 patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch" #Remove voice input key
 
 enterAndClear "packages/services/Telephony"
-patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch" #LTE only preferred network mode choice. Disclaimer: From CopperheadOS before their LICENSE was added
+if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < $patches"android_packages_services_Telephony/0001-LTE_Only.patch"; fi; #LTE only preferred network mode choice. XXX: NEEDS SIGNOFF FROM COPPERHEAD
 
 enterAndClear "system/core"
-cat /tmp/ar/hosts >> rootdir/etc/hosts #Merge in our HOSTS file
+if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then cat /tmp/ar/hosts >> rootdir/etc/hosts; fi; #Merge in our HOSTS file XXX: Switch to /hsc for release
 git revert 0217dddeb5c16903c13ff6c75213619b79ea622b d7aa1231b6a0631f506c0c23816f2cd81645b15f #Always update recovery XXX: This doesn't seem to work
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch" #Harden mounts with nodev/noexec/nosuid. Disclaimer: From CopperheadOS 13.0
 

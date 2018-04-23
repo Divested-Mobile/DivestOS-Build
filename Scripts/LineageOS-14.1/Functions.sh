@@ -30,6 +30,13 @@ buildDevice() {
 }
 export -f buildDevice;
 
+buildDeviceDebug() {
+	unset SIGNING_KEY_DIR;
+	unset OTA_PACKAGE_SIGNING_KEY;
+	brunch lineage_$1-eng;
+}
+export -f buildDeviceDebug;
+
 buildAll() {
 #Select devices are userdebug due to SELinux policy issues
 #TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
