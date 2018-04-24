@@ -1,0 +1,52 @@
+From 05eea0579312ffc9d0691ae06b6a09165ecd110e Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Tue, 24 Apr 2018 12:13:43 -0400
+Subject: [PATCH] Remove logo
+
+Change-Id: Ibf900e6ceb8a571b4770f6df7efeea1d97b6b477
+---
+ screen_ui.cpp | 8 --------
+ screen_ui.h   | 1 -
+ 2 files changed, 9 deletions(-)
+
+diff --git a/screen_ui.cpp b/screen_ui.cpp
+index 190aaf33..1908885a 100644
+--- a/screen_ui.cpp
++++ b/screen_ui.cpp
+@@ -506,13 +506,6 @@ void ScreenRecoveryUI::draw_header_locked(int& y) {
+   }
+   y += v_unit;
+ 
+-  // Draw logo
+-  icon = logo_image;
+-  icon_w = gr_get_width(icon);
+-  icon_h = gr_get_height(icon);
+-  icon_x = kMarginWidth + (gr_fb_width() - icon_w) / 2;
+-  icon_y = y + ((v_unit * 4) - icon_h) / 2;
+-  gr_blit(icon, 0, 0, icon_w, icon_h, icon_x, icon_y);
+   y += v_unit * 4;
+ 
+   y += v_unit * 1; // Margin
+@@ -811,7 +804,6 @@ bool ScreenRecoveryUI::Init(const std::string& locale) {
+   text_col_ = text_row_ = 0;
+   text_top_ = 1;
+ 
+-  LoadBitmap("logo_image", &logo_image);
+   LoadBitmap("ic_back", &ic_back);
+   LoadBitmap("ic_back_sel", &ic_back_sel);
+ 
+diff --git a/screen_ui.h b/screen_ui.h
+index be54994a..f6c3713f 100644
+--- a/screen_ui.h
++++ b/screen_ui.h
+@@ -133,7 +133,6 @@ class ScreenRecoveryUI : public RecoveryUI {
+   // The layout to use.
+   int layout_;
+ 
+-  GRSurface* logo_image;
+   GRSurface* ic_back;
+   GRSurface* ic_back_sel;
+ 
+-- 
+2.17.0
+

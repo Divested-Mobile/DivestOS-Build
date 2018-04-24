@@ -20,9 +20,10 @@
 echo "Rebranding...";
 
 enter "bootable/recovery";
+patch -p1 < $patches"android_bootable_recovery/0001-Remove_Logo.patch"; #Remove logo rendering code
+rm res*/images/logo_image.png; #Remove logo images
 sed -i 's|Android Recovery|DivestOS Recovery|' *_ui.cpp;
 sed -i 's|LineageOS|DivestOS|' ui.cpp;
-#TODO: Change out res-*/images/logo_image.png
 
 enter "build/make";
 sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
