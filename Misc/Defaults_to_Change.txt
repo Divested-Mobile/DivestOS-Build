@@ -1,42 +1,22 @@
 secure
 	camera_double_tap_power_gesture_disabled=1
-	lock_screen_allow_private_notifications=0
-	lock_screen_lock_after_timeout=30000
-	lock_screen_show_notifications=1
-	screensaver_enabled=0
+	lock_screen_lock_after_timeout=30000 #packages/apps/Settings/src/com/android/settings/SecuritySettings.java
 
 secure --lineage
-	power_menu_actions=power|restart|screenshot|users|lockdown
-	privacy_guard_default=1
-	privacy_guard_notification=0
-	stats_collection=1
-
-global
-	network_recommendations_enabled=0
-	package_verifier_enable=1
-	power_sounds_enabled=0
-	require_password_to_decrypt=1
+	privacy_guard_notification=0 #packages/apps/LineageParts/src/org/lineageos/lineageparts/privacyguard/PrivacyGuardManager.java
 
 system
 	accelerometer_rotation=0
-	lockscreen_sounds_enabled=0
-	screen_off_timeout=30000
 	show_password=0
-	sound_effects_enabled=0
-	transition_animation_scale=1.0
 	user_rotation=0
 	vibrate_when_ringing=1
-	window_animation_scale=1.0
-	notification_sound=content://media/internal/audio/media/82
-	alarm_alert=content://media/internal/audio/media/8
-	ringtone=content://media/internal/audio/media/133
+	notification_sound=content://media/internal/audio/media/82 #Pong
+	alarm_alert=content://media/internal/audio/media/8 #Beep
+	ringtone=content://media/internal/audio/media/133 #Centarus
 
 system --lineage
 	camera_launch=0
 	double_tap_sleep_gesture=0
-	enable_forward_lookup=0
-	enable_people_lookup=0
-	enable_reverse_lookup=0
 	key_home_double_tap_action=8
 	key_home_long_press_action=3
 	torch_long_press_power_gesture=1

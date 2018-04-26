@@ -17,12 +17,22 @@
 
 #Changes various default settings
 
+#Useful commands
+#nano $(find . -name "config.xml" | grep "values/" | grep -v "device" | grep -v "tests")
+#nano $(find . -name "defaults.xml" | grep "values/" | grep -v "device")
+
 echo "Changing default settings...";
 
 enter "frameworks/base";
 sed -i '0,/wifi,cell,battery/s/wifi,cell,battery,dnd,flashlight,rotation,bt,airplane/wifi,cell,bt,dnd,flashlight,rotation,battery,profiles,location,airplane,saver,hotspot,nfc/' packages/SystemUI/res/values/config.xml; #Default quick tiles
-#sed -i 's|config_longPressOnHomeBehavior">2|config_longPressOnHomeBehavior">0|' core/res/res/values/config.xml; #Set long press home to do nothing
+#sed -i 's/config_longPressOnHomeBehavior">2/config_longPressOnHomeBehavior">3/' core/res/res/values/config.xml; #Set long press home to open search assistant
 #sed -i 's|config_doubleTapOnHomeBehavior">0|config_doubleTapOnHomeBehavior">8|' core/res/res/values/config.xml; #Set double tap home to switch to last app
+sed -i 's/def_lock_screen_allow_private_notifications">true/def_lock_screen_allow_private_notifications">false/' packages/SettingsProvider/res/values/defaults.xml;
+sed -i 's/def_lockscreen_sounds_enabled">1/def_lockscreen_sounds_enabled">0/' packages/SettingsProvider/res/values/defaults.xml;
+sed -i 's/def_networks_available_notification_on">true/def_networks_available_notification_on">false' packages/SettingsProvider/res/values/defaults.xml;
+sed -i 's/def_sound_effects_enabled">true/def_sound_effects_enabled">false/' packages/SettingsProvider/res/values/defaults.xml;
+sed -i 's/def_window_animation_scale">100%/def_window_animation_scale">50%/' packages/SettingsProvider/res/values/defaults.xml;
+sed -i 's/def_window_transition_scale">100%/def_window_transition_scale">50%/' packages/SettingsProvider/res/values/defaults.xml;
 
 enter "packages/apps/Dialer"
 sed -i 's/CMSettings.System.ENABLE_FORWARD_LOOKUP, 1)/CMSettings.System.ENABLE_FORWARD_LOOKUP, 0)/' src/com/android/dialer/*/LookupSettings*.java; #Disable FLP
@@ -48,6 +58,18 @@ sed -i 's|homescreen_search_default">true|homescreen_search_default">false|' res
 sed -i 's|drawer_compact_default">false|drawer_compact_default">true|' res/values/preferences_defaults.xml; #Enable compact view
 sed -i 's|use_scroller_default">true|use_scroller_default">false|' res/values/preferences_defaults.xml; #Hide scroller
 sed -i 's|drawer_search_default">true|drawer_search_default">false|' res/values/preferences_defaults.xml; #Disable search
+
+enter "vendor/cm";
+awk -i inplace '!/def_backup_transport/' overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml;
+sed -i 's/config_mms_user_agent">LineageOS/config_mms_user_agent">Android/' overlay/common/frameworks/base/core/res/res/values/config.xml;
+sed -i 's/config_storage_manager_settings_enabled">true/config_storage_manager_settings_enabled">false/' overlay/common/packages/apps/Settings/res/values/config.xml;
+sed -i 's/config_enableRecoveryUpdater">false/config_enableRecoveryUpdater">true/' overlay/common/packages/apps/Settings/res/values/config.xml;
+
+enter "vendor/cmsdk";
+sed -i 's/config_enableAppSuggestOverlay" translatable="false">true/config_enableAppSuggestOverlay" translatable="false">false/' cm/res/res/values/config.xml;
+sed -i 's/def_forward_lookup">1/def_forward_lookup">0/' packages/CMSettingsProvider/res/values/defaults.xml;
+sed -i 's/def_people_lookup">1/def_people_lookup">0/' packages/CMSettingsProvider/res/values/defaults.xml;
+sed -i 's/def_reverse_lookup">1/def_reverse_lookup">0/' packages/CMSettingsProvider/res/values/defaults.xml;
 
 cd $base;
 echo "Default settings changed!";
