@@ -62,7 +62,7 @@ enterAndClear "bootable/recovery";
 patch -p1 < $patches"android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button?
 
 enterAndClear "build";
-patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch" #Automated build signing (CopperheadOS-13.0)
+patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch"; #Automated build signing (CopperheadOS-13.0)
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 
 enterAndClear "device/qcom/sepolicy";
@@ -159,7 +159,7 @@ enterAndClear "packages/services/Telephony";
 if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < $patches"android_packages_services_Telephony/Copperhead/0001-LTE_Only.patch"; fi; #LTE only preferred network mode choice (Copperhead CC BY-NC-SA)
 
 enterAndClear "system/core";
-then cat /tmp/ar/hosts >> rootdir/etc/hosts; #Merge in our HOSTS file
+cat /tmp/ar/hosts >> rootdir/etc/hosts; #Merge in our HOSTS file
 git revert 0217dddeb5c16903c13ff6c75213619b79ea622b d7aa1231b6a0631f506c0c23816f2cd81645b15f; #Always update recovery XXX: This doesn't seem to work
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0)
 

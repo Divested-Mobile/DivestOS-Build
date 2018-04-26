@@ -21,8 +21,8 @@ echo "Changing default settings...";
 
 enter "frameworks/base";
 sed -i '0,/wifi,bt,dnd,flashlight/s/wifi,bt,dnd,flashlight,rotation,battery,cell,airplane,cast/wifi,cell,bt,dnd,flashlight,rotation,battery,sync,location,airplane,saver,hotspot,nfc/' packages/SystemUI/res/values/config.xml; #Default quick tiles
-#sed -i 's|config_longPressOnHomeBehavior">2|config_longPressOnHomeBehavior">0|' core/res/res/values/config.xml; #Set long press home to do nothing
-#sed -i 's|config_doubleTapOnHomeBehavior">0|config_doubleTapOnHomeBehavior">8|' core/res/res/values/config.xml; #Set double tap home to switch to last app
+sed -i 's|config_longPressOnHomeBehavior">2|config_longPressOnHomeBehavior">3|' core/res/res/values/config.xml; #Set long press home to open search assistant
+sed -i 's|config_doubleTapOnHomeBehavior">0|config_doubleTapOnHomeBehavior">8|' core/res/res/values/config.xml; #Set double tap home to switch to last app
 
 enter "packages/apps/Dialer";
 sed -i 's/LineageSettings.System.ENABLE_FORWARD_LOOKUP, 1)/LineageSettings.System.ENABLE_FORWARD_LOOKUP, 0)/' java/com/android/dialer/lookup/LookupSettings*.java; #Disable FLP
