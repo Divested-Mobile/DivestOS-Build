@@ -37,6 +37,7 @@ sed -i 's/def_networks_available_notification_on">true/def_networks_available_no
 sed -i 's/def_sound_effects_enabled">true/def_sound_effects_enabled">false/' packages/SettingsProvider/res/values/defaults.xml;
 sed -i 's/def_window_animation_scale">100%/def_window_animation_scale">50%/' packages/SettingsProvider/res/values/defaults.xml;
 sed -i 's/def_window_transition_scale">100%/def_window_transition_scale">50%/' packages/SettingsProvider/res/values/defaults.xml;
+#sed -i 's/LineageSettings.Secure.PRIVACY_GUARD_NOTIFICATION, 1/LineageSettings.Secure.PRIVACY_GUARD_NOTIFICATION, 0/' services/core/java/com/android/server/am/ActivityRecord.java;
 
 enter "packages/apps/Dialer";
 sed -i 's/LineageSettings.System.ENABLE_FORWARD_LOOKUP, 1)/LineageSettings.System.ENABLE_FORWARD_LOOKUP, 0)/' java/com/android/dialer/lookup/LookupSettings*.java; #Disable FLP
@@ -56,6 +57,9 @@ sed -i 's/static final boolean NDEF_PUSH_ON_DEFAULT = true;/static final boolean
 enter "packages/apps/Settings";
 sed -i 's/Settings.Secure.INSTANT_APPS_ENABLED, 1/Settings.Secure.INSTANT_APPS_ENABLED, 0/' src/com/android/settings/applications/ManageDomainUrls.java; #Disable "Instant Apps"
 sed -i 's/Float.parseFloat(newValue.toString()) : 1;/Float.parseFloat(newValue.toString()) : 0.5f;/' src/com/android/settings/development/DevelopmentSettings.java; #Always reset animation scales to 0.5
+
+enter "packages/apps/Trebuchet";
+sed -i 's/"pref_predictive_apps", true/"pref_predictive_apps", false/' src/com/android/launcher3/Launcher.java;
 
 enter "vendor/lineage";
 awk -i inplace '!/def_backup_transport/' overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml;

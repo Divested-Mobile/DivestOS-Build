@@ -2,9 +2,6 @@ secure
 	camera_double_tap_power_gesture_disabled=1
 	lock_screen_lock_after_timeout=30000 #packages/apps/Settings/src/com/android/settings/SecuritySettings.java
 
-secure --lineage
-	privacy_guard_notification=0 #packages/apps/LineageParts/src/org/lineageos/lineageparts/privacyguard/PrivacyGuardManager.java
-
 system
 	accelerometer_rotation=0
 	show_password=0

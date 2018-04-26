@@ -33,27 +33,28 @@ sed -i 's/def_networks_available_notification_on">true/def_networks_available_no
 sed -i 's/def_sound_effects_enabled">true/def_sound_effects_enabled">false/' packages/SettingsProvider/res/values/defaults.xml;
 sed -i 's/def_window_animation_scale">100%/def_window_animation_scale">50%/' packages/SettingsProvider/res/values/defaults.xml;
 sed -i 's/def_window_transition_scale">100%/def_window_transition_scale">50%/' packages/SettingsProvider/res/values/defaults.xml;
+#sed -i 's/CMSettings.Secure.PRIVACY_GUARD_NOTIFICATION, 1/CMSettings.Secure.PRIVACY_GUARD_NOTIFICATION, 0/' services/core/java/com/android/server/am/ActivityStack.java;
 
-enter "packages/apps/Dialer"
+enter "packages/apps/Dialer";
 sed -i 's/CMSettings.System.ENABLE_FORWARD_LOOKUP, 1)/CMSettings.System.ENABLE_FORWARD_LOOKUP, 0)/' src/com/android/dialer/*/LookupSettings*.java; #Disable FLP
 sed -i 's/CMSettings.System.ENABLE_PEOPLE_LOOKUP, 1)/CMSettings.System.ENABLE_PEOPLE_LOOKUP, 0)/' src/com/android/dialer/*/LookupSettings*.java; #Disable PLP
 sed -i 's/CMSettings.System.ENABLE_REVERSE_LOOKUP, 1)/CMSettings.System.ENABLE_REVERSE_LOOKUP, 0)/' src/com/android/dialer/*/LookupSettings*.java; #Disable RLP
 
-enter "packages/apps/FDroid"
+enter "packages/apps/FDroid";
 sed -i 's|DEFAULT_ROOTED = true;|DEFAULT_ROOTED = false;|' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide root apps
 sed -i '/string\/rooted/!b;n;s/defaultValue="true"/defaultValue="false"/' app/src/main/res/xml/preferences.xml;
 sed -i 's|DEFAULT_HIDE_ANTI_FEATURE_APPS = false;|DEFAULT_HIDE_ANTI_FEATURE_APPS = true;|' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide anti-feature apps
 sed -i '/string\/hide_anti_feature_apps/!b;n;s/defaultValue="false"/defaultValue="true"/' app/src/main/res/xml/preferences.xml;
 
-enter "packages/apps/Nfc"
+enter "packages/apps/Nfc";
 sed -i 's/static final boolean NFC_ON_DEFAULT = true;/static final boolean NFC_ON_DEFAULT = false;/' src/com/android/nfc/NfcService.java; #Disable NFC
 sed -i 's/static final boolean NDEF_PUSH_ON_DEFAULT = true;/static final boolean NDEF_PUSH_ON_DEFAULT = false;/' src/com/android/nfc/NfcService.java; #Disable NDEF Push
 
-enter "packages/apps/Settings"
+enter "packages/apps/Settings";
 sed -i 's/Settings.Secure.WEB_ACTION_ENABLED, 1/Settings.Secure.WEB_ACTION_ENABLED, 0/' src/com/android/settings/applications/ManageDomainUrls.java; #Disable "Instant Apps"
 sed -i 's/Float.parseFloat(newValue.toString()) : 1;/Float.parseFloat(newValue.toString()) : 0.5f;/' src/com/android/settings/DevelopmentSettings.java; #Always reset animation scales to 0.5
 
-enter "packages/apps/Trebuchet"
+enter "packages/apps/Trebuchet";
 sed -i 's|homescreen_search_default">true|homescreen_search_default">false|' res/values/preferences_defaults.xml; #Disable search
 sed -i 's|drawer_compact_default">false|drawer_compact_default">true|' res/values/preferences_defaults.xml; #Enable compact view
 sed -i 's|use_scroller_default">true|use_scroller_default">false|' res/values/preferences_defaults.xml; #Hide scroller
