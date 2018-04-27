@@ -24,7 +24,6 @@
 echo "Changing default settings...";
 
 enter "lineage-sdk";
-sed -i 's/config_doubleTapOnHomeBehavior">0/config_doubleTapOnHomeBehavior">8/' lineage/res/res/values/config.xml;
 sed -i 's/def_forward_lookup">1/def_forward_lookup">0/' packages/LineageSettingsProvider/res/values/defaults.xml;
 sed -i 's/def_people_lookup">1/def_people_lookup">0/' packages/LineageSettingsProvider/res/values/defaults.xml;
 sed -i 's/def_reverse_lookup">1/def_reverse_lookup">0/' packages/LineageSettingsProvider/res/values/defaults.xml;
@@ -45,10 +44,10 @@ sed -i 's/LineageSettings.System.ENABLE_PEOPLE_LOOKUP, 1)/LineageSettings.System
 sed -i 's/LineageSettings.System.ENABLE_REVERSE_LOOKUP, 1)/LineageSettings.System.ENABLE_REVERSE_LOOKUP, 0)/' java/com/android/dialer/lookup/LookupSettings*.java; #Disable RLP
 
 enter "packages/apps/FDroid";
-sed -i 's/DEFAULT_ROOTED = true;/DEFAULT_ROOTED = false;/' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide root apps
-sed -i '/string\/rooted/!b;n;s/defaultValue="true"/defaultValue="false"/' app/src/main/res/xml/preferences.xml;
-sed -i 's/DEFAULT_HIDE_ANTI_FEATURE_APPS = false;/DEFAULT_HIDE_ANTI_FEATURE_APPS = true;/' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide anti-feature apps
-sed -i '/string\/hide_anti_feature_apps/!b;n;s/defaultValue="false"/defaultValue="true"/' app/src/main/res/xml/preferences.xml;
+sed -i 's|DEFAULT_SHOW_ROOT_APPS = true;|DEFAULT_SHOW_ROOT_APPS = false;|' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide root apps
+sed -i '/string\/show_root_apps/!b;n;s/defaultValue="true"/defaultValue="false"/' app/src/main/res/xml/preferences.xml;
+sed -i 's|DEFAULT_SHOW_ANTI_FEATURE_APPS = true;|DEFAULT_SHOW_ANTI_FEATURE_APPS = false;|' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide anti-feature apps
+sed -i '/string\/show_anti_feature_apps/!b;n;s/defaultValue="true"/defaultValue="false"/' app/src/main/res/xml/preferences.xml;
 
 enter "packages/apps/Nfc";
 sed -i 's/static final boolean NFC_ON_DEFAULT = true;/static final boolean NFC_ON_DEFAULT = false;/' src/com/android/nfc/NfcService.java; #Disable NFC

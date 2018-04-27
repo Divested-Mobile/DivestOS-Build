@@ -25,8 +25,6 @@ echo "Changing default settings...";
 
 enter "frameworks/base";
 sed -i '0,/wifi,cell,battery/s/wifi,cell,battery,dnd,flashlight,rotation,bt,airplane/wifi,cell,bt,dnd,flashlight,rotation,battery,profiles,location,airplane,saver,hotspot,nfc/' packages/SystemUI/res/values/config.xml; #Default quick tiles
-#sed -i 's/config_longPressOnHomeBehavior">2/config_longPressOnHomeBehavior">3/' core/res/res/values/config.xml; #Set long press home to open search assistant
-#sed -i 's|config_doubleTapOnHomeBehavior">0|config_doubleTapOnHomeBehavior">8|' core/res/res/values/config.xml; #Set double tap home to switch to last app
 sed -i 's/def_lock_screen_allow_private_notifications">true/def_lock_screen_allow_private_notifications">false/' packages/SettingsProvider/res/values/defaults.xml;
 sed -i 's/def_lockscreen_sounds_enabled">1/def_lockscreen_sounds_enabled">0/' packages/SettingsProvider/res/values/defaults.xml;
 sed -i 's/def_networks_available_notification_on">true/def_networks_available_notification_on">false/' packages/SettingsProvider/res/values/defaults.xml;
@@ -41,10 +39,10 @@ sed -i 's/CMSettings.System.ENABLE_PEOPLE_LOOKUP, 1)/CMSettings.System.ENABLE_PE
 sed -i 's/CMSettings.System.ENABLE_REVERSE_LOOKUP, 1)/CMSettings.System.ENABLE_REVERSE_LOOKUP, 0)/' src/com/android/dialer/*/LookupSettings*.java; #Disable RLP
 
 enter "packages/apps/FDroid";
-sed -i 's|DEFAULT_ROOTED = true;|DEFAULT_ROOTED = false;|' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide root apps
-sed -i '/string\/rooted/!b;n;s/defaultValue="true"/defaultValue="false"/' app/src/main/res/xml/preferences.xml;
-sed -i 's|DEFAULT_HIDE_ANTI_FEATURE_APPS = false;|DEFAULT_HIDE_ANTI_FEATURE_APPS = true;|' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide anti-feature apps
-sed -i '/string\/hide_anti_feature_apps/!b;n;s/defaultValue="false"/defaultValue="true"/' app/src/main/res/xml/preferences.xml;
+sed -i 's|DEFAULT_SHOW_ROOT_APPS = true;|DEFAULT_SHOW_ROOT_APPS = false;|' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide root apps
+sed -i '/string\/show_root_apps/!b;n;s/defaultValue="true"/defaultValue="false"/' app/src/main/res/xml/preferences.xml;
+sed -i 's|DEFAULT_SHOW_ANTI_FEATURE_APPS = true;|DEFAULT_SHOW_ANTI_FEATURE_APPS = false;|' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide anti-feature apps
+sed -i '/string\/show_anti_feature_apps/!b;n;s/defaultValue="true"/defaultValue="false"/' app/src/main/res/xml/preferences.xml;
 
 enter "packages/apps/Nfc";
 sed -i 's/static final boolean NFC_ON_DEFAULT = true;/static final boolean NFC_ON_DEFAULT = false;/' src/com/android/nfc/NfcService.java; #Disable NFC
