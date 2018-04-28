@@ -54,7 +54,6 @@ git apply $cvePatchesLinux/CVE-2016-6693/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6694/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6695/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2016-8418/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-8483/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-9191/3.11-^4.8/0001.patch
 git apply $cvePatchesLinux/CVE-2016-GadgetFS/ANY/0003.patch
@@ -107,5 +106,5 @@ git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0610/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-14883/ANY/0001.patch
-editKernelLocalversion "-dos.p107"
+editKernelLocalversion "-dos.p106"
 cd $base
