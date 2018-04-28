@@ -1,22 +1,8 @@
-secure
-	camera_double_tap_power_gesture_disabled=1
-	lock_screen_lock_after_timeout=30000 #packages/apps/Settings/src/com/android/settings/SecuritySettings.java
-
 system
-	accelerometer_rotation=0
-	show_password=0
-	user_rotation=0
 	vibrate_when_ringing=1
 	notification_sound=content://media/internal/audio/media/82 #Pong
 	alarm_alert=content://media/internal/audio/media/8 #Beep
 	ringtone=content://media/internal/audio/media/133 #Centarus
 
 system --lineage
-	camera_launch=0
-	double_tap_sleep_gesture=0
-	key_home_double_tap_action=8
-	key_home_long_press_action=3
-	torch_long_press_power_gesture=1
-	torch_long_press_power_timeout=120
-	volbtn_music_controls=0
-	volume_keys_control_ring_stream=0
+	camera_launch=0 ?

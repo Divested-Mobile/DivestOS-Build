@@ -27,6 +27,8 @@ enter "lineage-sdk";
 sed -i 's/def_forward_lookup">1/def_forward_lookup">0/' packages/LineageSettingsProvider/res/values/defaults.xml;
 sed -i 's/def_people_lookup">1/def_people_lookup">0/' packages/LineageSettingsProvider/res/values/defaults.xml;
 sed -i 's/def_reverse_lookup">1/def_reverse_lookup">0/' packages/LineageSettingsProvider/res/values/defaults.xml;
+sed -i 's/proximityCheckOnWakeEnabledByDefault">false/proximityCheckOnWakeEnabledByDefault">true/' lineage/res/res/values/config.xml;
+sed -i 's/LineageSettings.System.VOLBTN_MUSIC_CONTROLS, 1/LineageSettings.System.VOLBTN_MUSIC_CONTROLS, 0/' sdk/src/java/org/lineageos/internal/buttons/LineageButtons.java;
 
 enter "frameworks/base";
 sed -i '0,/wifi,bt,dnd,flashlight/s/wifi,bt,dnd,flashlight,rotation,battery,cell,airplane,cast/wifi,cell,bt,dnd,flashlight,rotation,battery,sync,location,airplane,saver,hotspot,nfc/' packages/SystemUI/res/values/config.xml; #Default quick tiles
@@ -37,6 +39,10 @@ sed -i 's/def_sound_effects_enabled">true/def_sound_effects_enabled">false/' pac
 sed -i 's/def_window_animation_scale">100%/def_window_animation_scale">50%/' packages/SettingsProvider/res/values/defaults.xml;
 sed -i 's/def_window_transition_scale">100%/def_window_transition_scale">50%/' packages/SettingsProvider/res/values/defaults.xml;
 #sed -i 's/LineageSettings.Secure.PRIVACY_GUARD_NOTIFICATION, 1/LineageSettings.Secure.PRIVACY_GUARD_NOTIFICATION, 0/' services/core/java/com/android/server/am/ActivityRecord.java;
+sed -i 's/LineageSettings.System.VOLUME_KEYS_CONTROL_RING_STREAM, 1/LineageSettings.System.VOLUME_KEYS_CONTROL_RING_STREAM, 0/' services/core/java/com/android/server/audio/AudioService.java;
+sed -i 's/LineageSettings.System.TORCH_LONG_PRESS_POWER_GESTURE, 0/LineageSettings.System.TORCH_LONG_PRESS_POWER_GESTURE, 1/' services/core/java/com/android/server/policy/PhoneWindowManager.java;
+sed -i 's/LineageSettings.System.TORCH_LONG_PRESS_POWER_TIMEOUT, 0/LineageSettings.System.TORCH_LONG_PRESS_POWER_TIMEOUT, 120/' services/core/java/com/android/server/policy/PhoneWindowManager.java;
+sed -i 's/CAMERA_DOUBLE_TAP_POWER_GESTURE_DISABLED, 0/CAMERA_DOUBLE_TAP_POWER_GESTURE_DISABLED, 1/' services/core/java/com/android/server/GestureLauncherService.java;
 
 enter "packages/apps/Dialer";
 sed -i 's/LineageSettings.System.ENABLE_FORWARD_LOOKUP, 1)/LineageSettings.System.ENABLE_FORWARD_LOOKUP, 0)/' java/com/android/dialer/lookup/LookupSettings*.java; #Disable FLP
@@ -68,7 +74,7 @@ enter "vendor/lineage";
 awk -i inplace '!/def_backup_transport/' overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml;
 sed -i 's/config_mms_user_agent">LineageOS/config_mms_user_agent">Android-Mms/2.0/' overlay/common/frameworks/base/core/res/res/values/config.xml;
 sed -i 's/def_stats_collection">true/def_stats_collection">false/' overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml;
-sed -i 's/config_storage_manager_settings_enabled">true/config_storage_manager_settings_enabled">false/' overlay/common/packages/apps/Settings/res/values/config.xml;
+#sed -i 's/config_storage_manager_settings_enabled">true/config_storage_manager_settings_enabled">false/' overlay/common/packages/apps/Settings/res/values/config.xml;
 sed -i 's/config_enableRecoveryUpdater">false/config_enableRecoveryUpdater">true/' overlay/common/packages/apps/Settings/res/values/config.xml;
 
 cd $base;

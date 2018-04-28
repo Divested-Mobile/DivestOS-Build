@@ -32,6 +32,11 @@ sed -i 's/def_sound_effects_enabled">true/def_sound_effects_enabled">false/' pac
 sed -i 's/def_window_animation_scale">100%/def_window_animation_scale">50%/' packages/SettingsProvider/res/values/defaults.xml;
 sed -i 's/def_window_transition_scale">100%/def_window_transition_scale">50%/' packages/SettingsProvider/res/values/defaults.xml;
 #sed -i 's/CMSettings.Secure.PRIVACY_GUARD_NOTIFICATION, 1/CMSettings.Secure.PRIVACY_GUARD_NOTIFICATION, 0/' services/core/java/com/android/server/am/ActivityStack.java;
+sed -i 's/CMSettings.System.VOLBTN_MUSIC_CONTROLS, 1/CMSettings.System.VOLBTN_MUSIC_CONTROLS, 0/' services/core/java/com/android/server/policy/PhoneWindowManager.java;
+sed -i 's/CMSettings.System.VOLUME_KEYS_CONTROL_RING_STREAM, 1/CMSettings.System.VOLUME_KEYS_CONTROL_RING_STREAM, 0/' services/core/java/com/android/server/audio/AudioService.java;
+sed -i 's/CMSettings.System.TORCH_LONG_PRESS_POWER_GESTURE, 0/CMSettings.System.TORCH_LONG_PRESS_POWER_GESTURE, 1/' services/core/java/com/android/server/policy/PhoneWindowManager.java;
+sed -i 's/CMSettings.System.TORCH_LONG_PRESS_POWER_TIMEOUT, 0/CMSettings.System.TORCH_LONG_PRESS_POWER_TIMEOUT, 120/' services/core/java/com/android/server/policy/PhoneWindowManager.java;
+sed -i 's/CAMERA_DOUBLE_TAP_POWER_GESTURE_DISABLED, 0/CAMERA_DOUBLE_TAP_POWER_GESTURE_DISABLED, 1' services/core/java/com/android/server/GestureLauncherService.java;
 
 enter "packages/apps/Dialer";
 sed -i 's/CMSettings.System.ENABLE_FORWARD_LOOKUP, 1)/CMSettings.System.ENABLE_FORWARD_LOOKUP, 0)/' src/com/android/dialer/*/LookupSettings*.java; #Disable FLP
@@ -61,11 +66,12 @@ sed -i 's|drawer_search_default">true|drawer_search_default">false|' res/values/
 enter "vendor/cm";
 awk -i inplace '!/def_backup_transport/' overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml;
 sed -i 's/config_mms_user_agent">LineageOS/config_mms_user_agent">Android-Mms/2.0/' overlay/common/frameworks/base/core/res/res/values/config.xml;
-sed -i 's/config_storage_manager_settings_enabled">true/config_storage_manager_settings_enabled">false/' overlay/common/packages/apps/Settings/res/values/config.xml;
+#sed -i 's/config_storage_manager_settings_enabled">true/config_storage_manager_settings_enabled">false/' overlay/common/packages/apps/Settings/res/values/config.xml;
 sed -i 's/config_enableRecoveryUpdater">false/config_enableRecoveryUpdater">true/' overlay/common/packages/apps/Settings/res/values/config.xml;
 
 enter "vendor/cmsdk";
 sed -i 's/config_enableAppSuggestOverlay" translatable="false">true/config_enableAppSuggestOverlay" translatable="false">false/' cm/res/res/values/config.xml;
+sed -i 's/proximityCheckOnWakeEnabledByDefault">false/proximityCheckOnWakeEnabledByDefault">true/' cm/res/res/values/config.xml;
 sed -i 's/def_forward_lookup">1/def_forward_lookup">0/' packages/CMSettingsProvider/res/values/defaults.xml;
 sed -i 's/def_people_lookup">1/def_people_lookup">0/' packages/CMSettingsProvider/res/values/defaults.xml;
 sed -i 's/def_reverse_lookup">1/def_reverse_lookup">0/' packages/CMSettingsProvider/res/values/defaults.xml;
