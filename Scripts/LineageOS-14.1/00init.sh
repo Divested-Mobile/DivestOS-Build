@@ -48,6 +48,8 @@ export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion o
 source $scriptsCommon"/Functions.sh";
 source $scripts"/Functions.sh";
 
+export LC_ALL=C;
+
 unalias cp;
 unalias mv;
 unalias rm;
