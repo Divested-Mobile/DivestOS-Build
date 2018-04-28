@@ -170,7 +170,7 @@ patch -p1 < $patches"android_system_keymaster/0001-Backport_Fixes.patch"; #Fixes
 patch -p1 < $patches"android_system_keymaster/0002-Backport_Fixes.patch";
 
 enterAndClear "system/vold";
-patch -p1 < $patches"android_system_vold/0001-StrongAES.patch"; #Add a variable for enabling AES 192 or 256 encryption
+patch -p1 < $patches"android_system_vold/0001-AES256.patch"; #Add a variable for enabling AES-256 bit encryption
 
 enterAndClear "vendor/cm";
 rm -rf overlay/common/vendor/cmsdk/packages; #Remove analytics

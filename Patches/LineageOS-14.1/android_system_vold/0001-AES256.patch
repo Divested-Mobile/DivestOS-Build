@@ -1,50 +1,41 @@
-From 2a36c9678050564b7378a39262f8c58c8eef51ab Mon Sep 17 00:00:00 2001
+From 2206aff4757e0f1094861f0e9505d1b5ddbf3236 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Sat, 28 Apr 2018 13:50:21 -0400
-Subject: [PATCH] Build time variable for AES 192/256 encryption
+Date: Wed, 3 Jan 2018 11:55:06 -0500
+Subject: [PATCH] Build time variable for AES-256 encryption
 
-Change-Id: Icd16a3fac203ac2e070d548a7c2ce001035addd9
+Change-Id: Ib2d53a1d22e935ef0fa5f0f91e3bf5308d9c6459
 ---
- Android.mk |  8 ++++++++
- cryptfs.c  | 16 ++++++++++++++--
- 2 files changed, 22 insertions(+), 2 deletions(-)
+ Android.mk |  4 ++++
+ cryptfs.c  | 11 +++++++++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/Android.mk b/Android.mk
-index e645574..19645f0 100644
+index e645574..7112dce 100644
 --- a/Android.mk
 +++ b/Android.mk
-@@ -115,6 +115,14 @@ LOCAL_C_INCLUDES += $(TARGET_CRYPTFS_HW_PATH)
+@@ -115,6 +115,10 @@ LOCAL_C_INCLUDES += $(TARGET_CRYPTFS_HW_PATH)
  LOCAL_CFLAGS += -DCONFIG_HW_DISK_ENCRYPTION
  endif
  
-+ifeq ($(TARGET_WANTS_AES192_ENCRYPTION),true)
-+LOCAL_CFLAGS += -DCONFIG_AES192_ENCRYPTION
-+endif
-+
-+ifeq ($(TARGET_WANTS_AES256_ENCRYPTION),true)
-+LOCAL_CFLAGS += -DCONFIG_AES256_ENCRYPTION
++ifeq ($(TARGET_WANTS_STRONG_ENCRYPTION),true)
++LOCAL_CFLAGS += -DCONFIG_STRONG_ENCRYPTION
 +endif
 +
  include $(BUILD_STATIC_LIBRARY)
  
  include $(CLEAR_VARS)
 diff --git a/cryptfs.c b/cryptfs.c
-index b25510f..a6dd9fa 100644
+index b25510f..86ffac3 100644
 --- a/cryptfs.c
 +++ b/cryptfs.c
-@@ -76,9 +76,22 @@
+@@ -76,9 +76,17 @@
  
  #define DM_CRYPT_BUF_SIZE 4096
  
-+#ifdef CONFIG_AES256_ENCRYPTION
++#ifdef CONFIG_STRONG_ENCRYPTION
 +#define HASH_COUNT 6000
 +#define KEY_LEN_BYTES 32
 +#define IV_LEN_BYTES 32
-+#define RSA_KEY_SIZE 4096
-+#else ifdef CONFIG_AES192_ENCRYPTION
-+#define HASH_COUNT 6000
-+#define KEY_LEN_BYTES 24
-+#define IV_LEN_BYTES 24
 +#define RSA_KEY_SIZE 4096
 +#else
  #define HASH_COUNT 2000
@@ -55,7 +46,7 @@ index b25510f..a6dd9fa 100644
  
  #define KEY_IN_FOOTER  "footer"
  
-@@ -94,13 +107,12 @@
+@@ -94,13 +102,12 @@
  
  #define TABLE_LOAD_RETRIES 10
  
@@ -71,5 +62,5 @@ index b25510f..a6dd9fa 100644
  char *me = "cryptfs";
  
 -- 
-2.17.0
+2.15.1
 
