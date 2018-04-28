@@ -173,7 +173,7 @@ patch -p1 < $patches"android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user b
 if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < $patches"android_system_sepolicy/Copperhead/0002-Deny_USB.patch"; fi; #Deny USB support (Copperhead CC BY-NC-SA)
 
 enterAndClear "system/vold";
-patch -p1 < $patches"android_system_vold/0001-AES256.patch"; #Add a variable for enabling AES-256 bit encryption
+patch -p1 < $patches"android_system_vold/0001-StrongAES.patch"; #Add a variable for enabling AES 192 or 256 encryption
 
 enterAndClear "vendor/lineage";
 rm -rf overlay/common/vendor/lineage-sdk/packages; #Remove analytics

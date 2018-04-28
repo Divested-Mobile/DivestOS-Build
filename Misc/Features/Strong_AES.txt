@@ -15,7 +15,16 @@ Benchmarks (Androbench)
 			Seq. Write: 20 MBps
 			Rand. Read: 11 MBps
 			Rand. Write: 3 MBps
-		AES-128/RSA-2048 Encryption
+		AES-128/RSA-2048 Encryption + Overclock
+			Seq. Read: 73 MBps
+			Seq. Write: 18 MBps
+			Rand. Read: 13 MBps
+			Rand. Write: 4 MBps
+		AES-192/RSA-4096 Encryption + Overclock
+			Seq. Read: 70 MBps
+			Seq. Write: 18 MBps
+			Rand. Read: 13 MBps
+			Rand. Write: 4 MBps
 		AES-256/RSA-4096 Encryption
 			Seq. Read: 26 MBps
 			Seq. Write: 18 MBps

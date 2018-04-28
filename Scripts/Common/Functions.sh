@@ -112,8 +112,9 @@ export -f enableForcedEncryption;
 enableStrongEncryption() {
 	cd $base$1;
 	if [ -f BoardConfig.mk ]; then
-		echo "TARGET_WANTS_STRONG_ENCRYPTION := true" >> BoardConfig.mk;
-		echo "Enabled AES-256 encryption for $1";
+		echo "TARGET_WANTS_AES256_ENCRYPTION := true" >> BoardConfig.mk; #Has a huge performance impact
+		#echo "TARGET_WANTS_AES192_ENCRYPTION := true" >> BoardConfig.mk; #Has a slight performance impact, but only seems to work on select devices
+		echo "Enabled strong encryption for $1";
 	fi;
 	cd $base;
 }
