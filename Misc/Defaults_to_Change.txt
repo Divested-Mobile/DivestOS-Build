@@ -1,8 +1,6 @@
 system
 	vibrate_when_ringing=1
-	notification_sound=content://media/internal/audio/media/82 #Pong
-	alarm_alert=content://media/internal/audio/media/8 #Beep
-	ringtone=content://media/internal/audio/media/133 #Centarus
+	ro.config.ringtone=Centarus.ogg
 
 system --lineage
 	camera_launch=0 ?
