@@ -15,6 +15,8 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+#Last verified: 2018-04-27
+
 #Initialize aliases
 #source ../../Scripts/LineageOS-14.1/00init.sh
 
@@ -75,7 +77,7 @@ enterAndClear "frameworks/base";
 git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #re-enable doze on devices without gms
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
-sed -i 's|db_default_journal_mode" translateble="false">PERSIST|db_default_journal_mode" translateble="false">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
+sed -i 's|db_default_journal_mode" translatable="false">PERSIST|db_default_journal_mode" translatable="false">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
 sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml;
 patch -p1 < $patches"android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch"; #Allow packages to spoof their signature (MicroG)

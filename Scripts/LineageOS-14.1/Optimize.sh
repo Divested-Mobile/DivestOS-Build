@@ -16,6 +16,7 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #Attempts to increase performance and battery life
+#Last verified: 2018-04-27
 
 echo "Optimizing...";
 

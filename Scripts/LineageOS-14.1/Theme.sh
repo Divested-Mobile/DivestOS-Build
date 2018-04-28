@@ -16,6 +16,7 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #Replaces teal accents with orange/yellow ones
+#Last verified: 2018-04-27
 
 echo "Applying theme...";
 
@@ -25,13 +26,6 @@ export themeOverride200="FFA726"; #Orange 400
 export themeOverride300="FF9800"; #Orange 500
 export themeOverride500="FF5722"; #Deep Orange 500
 export themeOverride700="E64A19"; #Deep Orange 700
-
-#export themeOverride50="26C6DA"; #Cyan 400
-#export themeOverride100="00BCD4"; #Cyan 500
-#export themeOverride200="29B6F6"; #Light Blue 400
-#export themeOverride300="03A9F4"; #Light Blue 500
-#export themeOverride500="2196F3"; #Blue 500
-#export themeOverride700="1976D2"; #Blue 700
 
 enter "frameworks/base";
 sed -i "s/#ffe0f2f1/#ff$themeOverride50/" core/res/res/values/colors_material.xml;
