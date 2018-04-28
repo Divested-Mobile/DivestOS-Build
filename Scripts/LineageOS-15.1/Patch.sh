@@ -15,6 +15,8 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+#Last verified: 2018-04-27
+
 #Initialize aliases
 #source ../../Scripts/LineageOS-15.1/00init.sh
 

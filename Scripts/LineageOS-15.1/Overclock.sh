@@ -16,6 +16,7 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #Overclocks the CPU to increase performance
+#Last verified: 2018-04-27
 
 echo "Applying overclocks...";
 

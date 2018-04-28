@@ -16,6 +16,7 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #Changes various default settings
+#Last verified: 2018-04-27
 
 #Useful commands
 #nano $(find . -name "config.xml" | grep "values/" | grep -v "device" | grep -v "tests")
@@ -43,6 +44,7 @@ sed -i 's/VOLUME_KEYS_CONTROL_RING_STREAM, 1/VOLUME_KEYS_CONTROL_RING_STREAM, 0/
 sed -i 's/TORCH_LONG_PRESS_POWER_GESTURE, 0/TORCH_LONG_PRESS_POWER_GESTURE, 1/' services/core/java/com/android/server/policy/PhoneWindowManager.java;
 sed -i 's/TORCH_LONG_PRESS_POWER_TIMEOUT, 0/TORCH_LONG_PRESS_POWER_TIMEOUT, 120/' services/core/java/com/android/server/policy/PhoneWindowManager.java;
 sed -i 's/CAMERA_DOUBLE_TAP_POWER_GESTURE_DISABLED, 0/CAMERA_DOUBLE_TAP_POWER_GESTURE_DISABLED, 1/' services/core/java/com/android/server/GestureLauncherService.java;
+sed -i 's/NAVIGATION_BAR_MENU_ARROW_KEYS, 0/NAVIGATION_BAR_MENU_ARROW_KEYS, 1/' packages/SystemUI/src/com/android/systemui/statusbar/phone/NavigationBarView.java;
 
 enter "packages/apps/Dialer";
 sed -i 's/ENABLE_FORWARD_LOOKUP, 1)/ENABLE_FORWARD_LOOKUP, 0)/' java/com/android/dialer/lookup/LookupSettings*.java; #Disable FLP
@@ -74,7 +76,7 @@ enter "vendor/lineage";
 sed -i 's/ro.config.notification_sound=Argon.ogg/ro.config.notification_sound=Pong.ogg/' config/common.mk;
 sed -i 's/ro.config.alarm_alert=Hassium.ogg/ro.config.alarm_alert=Alarm_Buzzer.ogg/' config/common.mk;
 awk -i inplace '!/def_backup_transport/' overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml;
-sed -i 's/config_mms_user_agent">LineageOS/config_mms_user_agent">Android-Mms/2.0/' overlay/common/frameworks/base/core/res/res/values/config.xml;
+sed -i 's|config_mms_user_agent">LineageOS|config_mms_user_agent">Android-Mms/2.0|' overlay/common/frameworks/base/core/res/res/values/config.xml;
 sed -i 's/def_stats_collection">true/def_stats_collection">false/' overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml;
 #sed -i 's/config_storage_manager_settings_enabled">true/config_storage_manager_settings_enabled">false/' overlay/common/packages/apps/Settings/res/values/config.xml;
 sed -i 's/config_enableRecoveryUpdater">false/config_enableRecoveryUpdater">true/' overlay/common/packages/apps/Settings/res/values/config.xml;
