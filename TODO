@@ -1,0 +1,85 @@
+Last updated: 2018-04-29
+
+High Priority (Release blockers)
+	Build
+		- Replace HOSTS file with DNS66
+		- Automate incremental update generation
+	Project
+		- Setup Stripe
+		- Create cryptocurrency addresses
+	Servers
+		- Update cryptocurrency addresses
+		- Gitea/GitLab server on Kimsufi dedicated
+		- Website server on OVH VPS
+		- Mirrorbits server on OVH VPS
+		- 3x Mirror slaves on OVH VPS
+		- 1x Mirror slave on a 1/10Gbps server for high-speed incrementals
+
+Medium Priority
+	Build
+		- Fix F-Droid signing
+		- Add more device overclocks
+		- Add support for more devices
+	Design
+		- Facelift of Hypatia
+		- Facelift for Extirpater
+		- Various other branding (bootanimation, setupwizard, etc.)
+	Project
+		- Investiate GDPR compliance
+	Servers
+		- Dedicated build servers
+	Signoffs
+		- Get signoff from Copperhead on inclusion of disabled patches
+	Website
+		- Switch from Shadow to Piwik
+		- Replace the site with a no-JS required version
+		- Create a 'Technical Docs' page
+		- Cache updater and device page outputs using (PHP)Redis
+		- Update Terms of Service and Privacy Policy
+
+Low Priority
+	Build
+		- Move overclocks to seperate repo
+	Website
+		- Switch to a wiki
+	WiFiDatabaseMerger
+		- Expose more options
+		- Batch/scripted generation
+		- Documentation
+
+LONGTERM - These are in no particular order and aren't necessarily going to happen
+	Build
+		- Switch to AOSP and create clean trees for all of the major/popular devices
+		- Replace all the bash scripts with Python
+		- Replace the deblobber with a program in Golang
+		- Add automated testing/verification of edits
+	Linux Patches
+		- Automate pulling of CVE patches from Android and Qualcomm bulletins
+		- Get more CVE patches, especially for 3.4
+		- Investigate rebasing kernel trees on newer Qualcomm ones
+	Project
+		- General auditing of everything
+		- Create our own device
+		- Create an Mobile Device Manager solution
+		- Create an antitheft application
+	Website
+		- Create a 'Video Tutorials' page
+
+Contributions to other projects from funding
+	Briar
+		- Repeater support
+	Conversations
+		- Per account Tor support
+		- More colors like Signal
+	DNS66
+		- Polish edges
+	Materialistic
+		- Add Tor support
+	Orbot
+		- Better tracking of Tor releases
+	Pandoroid
+		- Resurrection
+	RadioDroid
+		- Add Tor support
+	Slide
+		- Add Tor support
