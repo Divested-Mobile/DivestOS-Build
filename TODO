@@ -26,8 +26,10 @@ Medium Priority
 		- Various other branding (bootanimation, setupwizard, etc.)
 	Project
 		- Investiate GDPR compliance
+		- Create various XMPP conference rooms
 	Servers
 		- Dedicated build servers
+		- XMPP Server
 	Signoffs
 		- Get signoff from Copperhead on inclusion of disabled patches
 	Website
@@ -47,7 +49,7 @@ Low Priority
 		- Batch/scripted generation
 		- Documentation
 
-LONGTERM - These are in no particular order and aren't necessarily going to happen
+Longterm - These are in no particular order and aren't necessarily going to happen
 	Build
 		- Switch to AOSP and create clean trees for all of the major/popular devices
 		- Replace all the bash scripts with Python
@@ -57,15 +59,22 @@ LONGTERM - These are in no particular order and aren't necessarily going to happ
 		- Automate pulling of CVE patches from Android and Qualcomm bulletins
 		- Get more CVE patches, especially for 3.4
 		- Investigate rebasing kernel trees on newer Qualcomm ones
+		- Proper backports of security features
+		- Proper backports of CVE patches
 	Project
 		- General auditing of everything
 		- Create our own device
 		- Create an Mobile Device Manager solution
-		- Create an antitheft application
 	Website
 		- Create a 'Video Tutorials' page
 
-Contributions to other projects from funding
+Contributions to other projects (via labor or funding)
+	Amexia
+		- More icons
+	Anuto
+		- Save/load support
+	Blockinger
+		- Resurrection
 	Briar
 		- Repeater support
 	Conversations
@@ -73,8 +82,12 @@ Contributions to other projects from funding
 		- More colors like Signal
 	DNS66
 		- Polish edges
+	F-Droid
+		- Loading of repos from /system (#843)
 	Materialistic
 		- Add Tor support
+	microG
+		- Resurrection
 	Orbot
 		- Better tracking of Tor releases
 	Pandoroid
@@ -83,3 +96,10 @@ Contributions to other projects from funding
 		- Add Tor support
 	Slide
 		- Add Tor support
+	Wikipedia
+		- Add Tor support
+
+Funding of new projects
+	- E-Book reader
+	- IRC client
+	- Anti-theft
