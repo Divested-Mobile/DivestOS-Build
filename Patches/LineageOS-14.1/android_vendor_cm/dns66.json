@@ -1,0 +1,168 @@
+{
+    "autoStart": true,
+    "dnsServers": {
+        "enabled": false,
+        "items": [
+            {
+                "location": "1.0.0.1",
+                "state": 1,
+                "title": "Cloudflare"
+            },
+            {
+                "location": "2606:4700:4700::1111",
+                "state": 1,
+                "title": "Cloudflare"
+            },
+            {
+                "location": "185.121.177.177",
+                "state": 0,
+                "title": "OpenNIC Anycast"
+            },
+            {
+                "location": "2a05:dfc7:5::53",
+                "state": 0,
+                "title": "OpenNIC Anycast"
+            },
+            {
+                "location": "84.200.79.80",
+                "state": 0,
+                "title": "DNS.WATCH"
+            },
+            {
+                "location": "2001:1608:10:25::1c04:b12f",
+                "state": 0,
+                "title": "DNS.WATCH"
+            },
+            {
+                "location": "8.8.8.8",
+                "state": 0,
+                "title": "Google"
+            },
+            {
+                "location": "2001:4860:4860::8888",
+                "state": 0,
+                "title": "Google"
+            },
+            {
+                "location": "208.67.222.222",
+                "state": 0,
+                "title": "OpenDNS"
+            },
+            {
+                "location": "2620:0:ccc::2",
+                "state": 0,
+                "title": "OpenDNS"
+            },
+            {
+                "location": "9.9.9.9",
+                "state": 0,
+                "title": "Quad9"
+            },
+            {
+                "location": "2620:fe::fe",
+                "state": 0,
+                "title": "Quad9"
+            }
+        ]
+    },
+    "hosts": {
+        "automaticRefresh": false,
+        "enabled": true,
+        "items": [
+            {
+                "location": "https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt",
+                "state": 0,
+                "title": "Ads - Disconnect - GPLv3"
+            },
+            {
+                "location": "https://hosts-file.net/ad_servers.txt",
+                "state": 2,
+                "title": "Ads - hpHosts - Unknown"
+            },
+            {
+                "location": "http://www.winhelp2002.mvps.org/hosts.txt",
+                "state": 2,
+                "title": "Ads - MVPS - CC BY-NC-SA 3.0"
+            },
+            {
+                "location": "https://pgl.yoyo.org/as/serverlist.php?hostformat=html&mimetype=plaintext",
+                "state": 2,
+                "title": "Ads - Peter Lowe's - Unknown"
+            },
+            {
+                "location": "http://someonewhocares.org/hosts/hosts",
+                "state": 2,
+                "title": "Ads - someonewhocares - AS-IS NC"
+            },
+            {
+                "location": "https://spotco.us/blocklists/Mobile.txt",
+                "state": 0,
+                "title": "Ads - Spot Communications - GPLv3"
+            },
+            {
+                "location": "https://spotco.us/blocklists/Experimental.txt",
+                "state": 0,
+                "title": "Ads - Spot Communications - MIT"
+            },
+            {
+                "location": "https://ransomwaretracker.abuse.ch/downloads/RW_DOMBL.txt",
+                "state": 2,
+                "title": "Malware - Abuse.ch - AS-IS"
+            },
+            {
+                "location": "https://osint.bambenekconsulting.com/feeds/c2-dommasterlist.txt",
+                "state": 2,
+                "title": "Malware - Bambenek - AS-IS"
+            },
+            {
+                "location": "https://s3.amazonaws.com/lists.disconnect.me/simple_malware.txt",
+                "state": 0,
+                "title": "Malware - Disconnect - GPLv3"
+            },
+            {
+                "location": "https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt",
+                "state": 0,
+                "title": "Malware - Disconnect - GPLv3"
+            },
+            {
+                "location": "https://dshield.org/feeds/suspiciousdomains_Low.txt",
+                "state": 2,
+                "title": "Malware - DShield - CC BY-NC-SA 2.5"
+            },
+            {
+                "location": "https://www.malwaredomainlist.com/hostslist/hosts.txt",
+                "state": 2,
+                "title": "Malware - Malware Domain List - Unknown"
+            },
+            {
+                "location": "https://mirror.cedia.org.ec/malwaredomains/justdomains",
+                "state": 2,
+                "title": "Malware - Malware Domains - Unknown"
+            },
+            {
+                "location": "https://raw.githubusercontent.com/Dawsey21/Lists/master/main-blacklist.txt",
+                "state": 0,
+                "title": "Spam - Spam404 - CC BY-SA 4.0"
+            },
+            {
+                "location": "https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt",
+                "state": 0,
+                "title": "Tracking - Disconnect - GPLv3"
+            }
+        ]
+    },
+    "ipV6Support": true,
+    "nightMode": false,
+    "showNotification": true,
+    "version": 1,
+    "watchDog": false,
+    "whitelist": {
+        "defaultMode": 2,
+        "items": [
+            "com.android.vending"
+        ],
+        "itemsOnVpn": [],
+        "showSystemApps": false
+    }
+}
+

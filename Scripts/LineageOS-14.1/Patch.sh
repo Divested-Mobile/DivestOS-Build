@@ -184,6 +184,8 @@ cp -r $patches"android_vendor_cm/firmware_deblobber" .;
 cp $patches"android_vendor_cm/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
+cp $patches"android_vendor_cm/dns66.json" prebuilt/common/etc/dns66.json;
+sed -i '4iPRODUCT_COPY_FILES += vendor/cm/prebuilt/common/etc/dns66.json:system/etc/dns66.json' config/common.mk; #Include DNS66 default config
 
 enterAndClear "vendor/cmsdk";
 awk -i inplace '!/WeatherManagerServiceBroker/' cm/res/res/values/config.xml; #Disable Weather

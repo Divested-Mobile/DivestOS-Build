@@ -186,6 +186,8 @@ cp -r $patches"android_vendor_lineage/firmware_deblobber" .;
 cp $patches"android_vendor_lineage/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;
 sed -i 's/LINEAGE_BUILDTYPE := UNOFFICIAL/LINEAGE_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
+cp $patches"android_vendor_lineage/dns66.json" prebuilt/common/etc/dns66.json;
+sed -i '4iPRODUCT_COPY_FILES += vendor/lineage/prebuilt/common/etc/dns66.json:system/etc/dns66.json' config/common.mk; #Include DNS66 default config
 #
 #END OF ROM CHANGES
 #

@@ -18,6 +18,7 @@ PRODUCT_PACKAGES += \
 # Others
 PRODUCT_PACKAGES += \
     CameraRoll \
+#    DNS66 \
     LocalCalendar
 
 # Browser
