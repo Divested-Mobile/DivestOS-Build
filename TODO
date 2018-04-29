@@ -2,73 +2,74 @@ Last updated: 2018-04-29
 
 High Priority (Release blockers)
 	Build
-		- Replace HOSTS file with DNS66
 		- Automate incremental update generation
+		- Replace HOSTS file with DNS66
 	Project
-		- Setup Stripe
 		- Create cryptocurrency addresses
+		- Setup Stripe
 	Servers
-		- Update cryptocurrency addresses
-		- Gitea/GitLab server on Kimsufi dedicated
-		- Website server on OVH VPS
-		- Mirrorbits server on OVH VPS
-		- 3x Mirror slaves on OVH VPS
+		- Gitea/GitLab server on a Kimsufi dedicated ($14 setup + $22/mo)
+		- Website server on an OVH VPS ($4.50/mo)
+		- Mirrorbits server on an OVH VPS ($4.50/mo)
+		- 3x Mirror slaves on an OVH VPS (3x$4.50 = $13.50/mo)
 		- 1x Mirror slave on a 1/10Gbps server for high-speed incrementals
+		- Update cryptocurrency addresses
 
 Medium Priority
 	Build
-		- Fix F-Droid signing
 		- Add more device overclocks
 		- Add support for more devices
+		- Fix F-Droid signing
 	Design
+		- Facelift of Extirpater
 		- Facelift of Hypatia
-		- Facelift for Extirpater
 		- Various other branding (bootanimation, setupwizard, etc.)
 	Project
-		- Investiate GDPR compliance
 		- Create various XMPP conference rooms
+		- Investigate GDPR compliance
 	Servers
 		- Dedicated build servers
 		- XMPP Server
 	Signoffs
 		- Get signoff from Copperhead on inclusion of disabled patches
 	Website
-		- Switch from Shadow to Piwik
-		- Replace the site with a no-JS required version
-		- Create a 'Technical Docs' page
 		- Cache updater and device page outputs using (PHP)Redis
+		- Create a 'Technical Docs' page
+		- Replace the site with a no-JS required version
+		- Switch from Shadow to Piwik
 		- Update Terms of Service and Privacy Policy
 
 Low Priority
 	Build
-		- Move overclocks to seperate repo
+		- Move overclocks to separate repo
 	Website
 		- Switch to a wiki
 	WiFiDatabaseMerger
-		- Expose more options
 		- Batch/scripted generation
 		- Documentation
+		- Expose more options
 
 Longterm - These are in no particular order and aren't necessarily going to happen
 	Build
-		- Switch to AOSP and create clean trees for all of the major/popular devices
+		- Add automated testing/verification of edits
 		- Replace all the bash scripts with Python
 		- Replace the deblobber with a program in Golang
-		- Add automated testing/verification of edits
+		- Switch to AOSP and create clean trees for all of the major/popular devices
 	Linux Patches
 		- Automate pulling of CVE patches from Android and Qualcomm bulletins
 		- Get more CVE patches, especially for 3.4
 		- Investigate rebasing kernel trees on newer Qualcomm ones
-		- Proper backports of security features
 		- Proper backports of CVE patches
+		- Proper backports of security features
 	Project
-		- General auditing of everything
-		- Create our own device
 		- Create an Mobile Device Manager solution
+		- Create our own device
+		- General auditing of everything
 	Website
 		- Create a 'Video Tutorials' page
 
 Contributions to other projects (via labor or funding)
+	Add Tor support: Materialistic, microG, RadioDroid, Slide, Wikipedia
 	Amexia
 		- More icons
 	Anuto
@@ -78,28 +79,20 @@ Contributions to other projects (via labor or funding)
 	Briar
 		- Repeater support
 	Conversations
-		- Per account Tor support
 		- More colors like Signal
+		- Per account Tor support
 	DNS66
 		- Polish edges
 	F-Droid
 		- Loading of repos from /system (#843)
-	Materialistic
-		- Add Tor support
 	microG
 		- Resurrection
 	Orbot
 		- Better tracking of Tor releases
 	Pandoroid
 		- Resurrection
-	RadioDroid
-		- Add Tor support
-	Slide
-		- Add Tor support
-	Wikipedia
-		- Add Tor support
 
 Funding of new projects
+	- Anti-theft
 	- E-Book reader
 	- IRC client
-	- Anti-theft
