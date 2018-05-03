@@ -82,7 +82,7 @@ sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired
 patch -p1 < $patches"android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480
 patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch"; #Allow packages to spoof their signature (MicroG)
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; #Restrict signature spoofing to system apps signed with the platform key
-patch -p1 < $patches"android_frameworks_base/0006-OpenNIC.patch"; #Change fallback and tethering DNS servers to OpenNIC AnyCast
+patch -p1 < $patches"android_frameworks_base/0006-Cloudflare.patch"; #Switch to Cloudflare DNS
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig;
 

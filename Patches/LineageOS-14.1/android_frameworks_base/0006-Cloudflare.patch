@@ -1,17 +1,19 @@
-From 3bf0b445f16aa7daa4981e70a7d5dc6c6ea530ea Mon Sep 17 00:00:00 2001
+From 511b38c6a2807417893d5c21cbc27335bf6bead7 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Tue, 19 Dec 2017 17:00:40 -0500
-Subject: [PATCH] Change fallback and tethering DNS servers to OpenNIC AnyCast
+Date: Thu, 3 May 2018 07:35:30 -0400
+Subject: [PATCH] Change fallback, tethering, and test DNS servers to
+ Cloudflare
 
-Change-Id: Ib550fad74bb95272c067a02a5da18a80e6ec1e87
+Change-Id: I8031cce58003a45d9b6947ecdcc4d642ef192f52
 ---
- core/res/res/values/config.xml                                    | 2 +-
- packages/SettingsLib/res/values/strings.xml                       | 4 ++--
- services/core/java/com/android/server/connectivity/Tethering.java | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ core/res/res/values/config.xml                                | 2 +-
+ packages/SettingsLib/res/values/strings.xml                   | 4 ++--
+ .../com/android/server/connectivity/NetworkDiagnostics.java   | 4 ++--
+ .../core/java/com/android/server/connectivity/Tethering.java  | 4 ++--
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/core/res/res/values/config.xml b/core/res/res/values/config.xml
-index c29ff3c90a9..f7cbb5780ff 100755
+index c29ff3c90a9..49f6c04a5e7 100755
 --- a/core/res/res/values/config.xml
 +++ b/core/res/res/values/config.xml
 @@ -1608,7 +1608,7 @@
@@ -19,12 +21,12 @@ index c29ff3c90a9..f7cbb5780ff 100755
  
      <!-- IP address of the dns server to use if nobody else suggests one -->
 -    <string name="config_default_dns_server" translatable="false">8.8.8.8</string>
-+    <string name="config_default_dns_server" translatable="false">185.121.177.177</string>
++    <string name="config_default_dns_server" translatable="false">1.0.0.1</string>
  
      <!-- The default mobile provisioning apn. Empty by default, maybe overridden by
           an mcc/mnc specific config.xml -->
 diff --git a/packages/SettingsLib/res/values/strings.xml b/packages/SettingsLib/res/values/strings.xml
-index f9bd24ba69f..12b6f7cb700 100644
+index f9bd24ba69f..67ef212f795 100644
 --- a/packages/SettingsLib/res/values/strings.xml
 +++ b/packages/SettingsLib/res/values/strings.xml
 @@ -837,9 +837,9 @@
@@ -32,15 +34,31 @@ index f9bd24ba69f..12b6f7cb700 100644
      <string name="wifi_ip_address_hint" translatable="false">192.168.1.128</string>
      <!-- Hint text for DNS -->
 -    <string name="wifi_dns1_hint" translatable="false">8.8.8.8</string>
-+    <string name="wifi_dns1_hint" translatable="false">185.121.177.177</string>
++    <string name="wifi_dns1_hint" translatable="false">1.0.0.1</string>
      <!-- Hint text for DNS -->
 -    <string name="wifi_dns2_hint" translatable="false">8.8.4.4</string>
-+    <string name="wifi_dns2_hint" translatable="false">169.239.202.202</string>
++    <string name="wifi_dns2_hint" translatable="false">1.1.1.1</string>
      <!-- Hint text for the gateway -->
      <string name="wifi_gateway_hint" translatable="false">192.168.1.1</string>
      <!-- Hint text for network prefix length -->
+diff --git a/services/core/java/com/android/server/connectivity/NetworkDiagnostics.java b/services/core/java/com/android/server/connectivity/NetworkDiagnostics.java
+index 5f9efe704f7..ea308ca231b 100644
+--- a/services/core/java/com/android/server/connectivity/NetworkDiagnostics.java
++++ b/services/core/java/com/android/server/connectivity/NetworkDiagnostics.java
+@@ -84,9 +84,9 @@ import libcore.io.IoUtils;
+ public class NetworkDiagnostics {
+     private static final String TAG = "NetworkDiagnostics";
+ 
+-    private static final InetAddress TEST_DNS4 = NetworkUtils.numericToInetAddress("8.8.8.8");
++    private static final InetAddress TEST_DNS4 = NetworkUtils.numericToInetAddress("1.0.0.1");
+     private static final InetAddress TEST_DNS6 = NetworkUtils.numericToInetAddress(
+-            "2001:4860:4860::8888");
++            "2606:4700:4700::1111");
+ 
+     // For brevity elsewhere.
+     private static final long now() {
 diff --git a/services/core/java/com/android/server/connectivity/Tethering.java b/services/core/java/com/android/server/connectivity/Tethering.java
-index f0cf0d98882..07157873169 100644
+index f0cf0d98882..9240f5ffdfd 100644
 --- a/services/core/java/com/android/server/connectivity/Tethering.java
 +++ b/services/core/java/com/android/server/connectivity/Tethering.java
 @@ -181,8 +181,8 @@ public class Tethering extends BaseNetworkObserver implements IControlsTethering
@@ -49,11 +67,11 @@ index f0cf0d98882..07157873169 100644
      private String[] mDefaultDnsServers;
 -    private static final String DNS_DEFAULT_SERVER1 = "8.8.8.8";
 -    private static final String DNS_DEFAULT_SERVER2 = "8.8.4.4";
-+    private static final String DNS_DEFAULT_SERVER1 = "185.121.177.177";
-+    private static final String DNS_DEFAULT_SERVER2 = "169.239.202.202";
++    private static final String DNS_DEFAULT_SERVER1 = "1.0.0.1";
++    private static final String DNS_DEFAULT_SERVER2 = "1.1.1.1";
  
      private final StateMachine mTetherMasterSM;
      private final UpstreamNetworkMonitor mUpstreamNetworkMonitor;
 -- 
-2.15.1
+2.17.0
 

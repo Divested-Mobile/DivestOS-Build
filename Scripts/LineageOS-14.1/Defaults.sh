@@ -71,7 +71,7 @@ sed -i 's/ro.config.alarm_alert=Hassium.ogg/ro.config.alarm_alert=Alarm_Buzzer.o
 awk -i inplace '!/def_backup_transport/' overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml;
 sed -i 's|config_mms_user_agent">LineageOS|config_mms_user_agent">Android-Mms/2.0|' overlay/common/frameworks/base/core/res/res/values/config.xml;
 sed -i 's/config_storage_manager_settings_enabled">true/config_storage_manager_settings_enabled">false/' overlay/common/packages/apps/Settings/res/values/config.xml;
-sed -i 's/config_enableRecoveryUpdater">false/config_enableRecoveryUpdater">true/' overlay/common/packages/apps/Settings/res/values/config.xml;
+#sed -i 's/config_enableRecoveryUpdater">false/config_enableRecoveryUpdater">true/' overlay/common/packages/apps/Settings/res/values/config.xml;
 
 enter "vendor/cmsdk";
 sed -i 's/config_enableAppSuggestOverlay" translatable="false">true/config_enableAppSuggestOverlay" translatable="false">false/' cm/res/res/values/config.xml;

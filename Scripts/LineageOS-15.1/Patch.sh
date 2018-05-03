@@ -79,7 +79,7 @@ sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/co
 sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml;
 patch -p1 < $patches"android_frameworks_base/0002-Signature_Spoofing.patch"; #Allow packages to spoof their signature (microG)
 patch -p1 < $patches"android_frameworks_base/0003-Harden_Sig_Spoofing.patch"; #Restrict signature spoofing to system apps signed with the platform key
-patch -p1 < $patches"android_frameworks_base/0004-OpenNIC.patch"; #Change fallback and tethering DNS servers to OpenNIC AnyCast
+patch -p1 < $patches"android_frameworks_base/0004-Cloudflare.patch"; #Switch to Cloudflare DNS
 if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < $patches"android_frameworks_base/Copperhead/0005-Deny_USB.patch"; fi; #Deny USB support (Copperhead CC BY-NC-SA)
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig;

@@ -3,7 +3,7 @@ Last updated: 2018-04-29
 High Priority (Release blockers)
 	Build
 		- Automate incremental update generation
-		- Replace HOSTS file with DNS66
+		- Replace HOSTS file with a minimal one, and ship DNS66
 	Project
 		- Create cryptocurrency addresses
 		- Setup Stripe
@@ -49,12 +49,12 @@ Low Priority
 		- Documentation
 		- Expose more options
 
-Longterm - These are in no particular order and aren't necessarily going to happen
+Longterm
 	Build
 		- Add automated testing/verification of edits
 		- Replace all the bash scripts with Python
 		- Replace the deblobber with a program in Golang
-		- Switch to AOSP and create clean trees for all of the major/popular devices
+		- Switch to AOSP and create clean trees for all of the major devices
 	Linux Patches
 		- Automate pulling of CVE patches from Android and Qualcomm bulletins
 		- Get more CVE patches, especially for 3.4
@@ -65,6 +65,8 @@ Longterm - These are in no particular order and aren't necessarily going to happ
 		- Create an Mobile Device Manager solution
 		- Create our own device
 		- General auditing of everything
+		- Partner with various projects
+		- Purchase one of each supported device
 	Website
 		- Create a 'Video Tutorials' page
 
