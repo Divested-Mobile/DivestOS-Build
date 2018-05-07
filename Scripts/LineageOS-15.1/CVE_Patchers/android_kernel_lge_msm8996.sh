@@ -52,6 +52,8 @@ git apply $cvePatchesLinux/CVE-2017-11045/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-13162/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-13245/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-13246/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-15842/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-15843/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-15846/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2017-16650/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0005.patch
@@ -66,11 +68,13 @@ git apply $cvePatchesLinux/CVE-2018-3560/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2018-3563/3.18/0002.patch
 git apply $cvePatchesLinux/CVE-2018-3599/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2018-5825/3.18/0002.patch
+git apply $cvePatchesLinux/CVE-2018-5848/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2018-5849/ANY/0001.patch
 git apply $cvePatchesLinux/LVT-2017-0001/3.18/0004.patch
 git apply $cvePatchesLinux/LVT-2017-0002/3.18/0003.patch
 git apply $cvePatchesLinux/CVE-2016-6693/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0610/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p72"
+editKernelLocalversion "-dos.p76"
 cd $base
