@@ -1,0 +1,3 @@
+        if (failedAttempts >= 12 && timeoutMs < (failedAttempts * 600000)) {
+            timeoutMs = (failedAttempts * 600000);
+        }
