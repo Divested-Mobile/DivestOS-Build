@@ -81,6 +81,7 @@ patch -p1 < $patches"android_frameworks_base/0002-Signature_Spoofing.patch"; #Al
 patch -p1 < $patches"android_frameworks_base/0003-Harden_Sig_Spoofing.patch"; #Restrict signature spoofing to system apps signed with the platform key
 #patch -p1 < $patches"android_frameworks_base/0004-DNS_Cloudflare.patch"; #Switch to Cloudflare DNS
 patch -p1 < $patches"android_frameworks_base/0004-DNS_OpenNIC.patch"; #Switch to OpenNIC DNS
+patch -p1 < $patches"android_frameworks_base/0005-Connectivity.patch"; #Change connectivity check URLs to ours
 if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < $patches"android_frameworks_base/Copperhead/0005-Deny_USB.patch"; fi; #Deny USB support (Copperhead CC BY-NC-SA)
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig;
