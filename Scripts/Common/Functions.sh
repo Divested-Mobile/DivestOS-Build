@@ -48,20 +48,44 @@ gitReset() {
 export -f gitReset;
 
 scanForMalware() {
+#This isn't perfect, but if it ever catches something be happy that it exists
+#Speed Goals (on a standard 7200 RPM drive):
+#	- quick: < 10 mins
+#	- extra: < 30 mins
+#	- slow: < 1 hour
+#TODO: Scan more of /frameworks and /packages
 	if [ -x /usr/bin/clamscan ] && [ -f /var/lib/clamav/main.cvd ]; then
 		echo -e "\e[0;32mStarting a malware scan, this might take a while...\e[0m";
-		scanQueue="$base/build $base/device $base/vendor";
-		#scanQueue=$scanQueue" $base/prebuilts $base/sdk $base/toolchain $base/tools";
+		$excludes="--exclude-dir=\".git\" --exclude-dir=\".repo\"";
+		scanQueue="$base/android $base/art $base/bionic $base/bootable $base/build $base/compatibility $base/dalvik $base/device $base/hardware $base/libcore $base/libnativehelper $base/lineage-sdk $base/pdk $base/platform_testing $base/sdk"; #top-level directories
+		scanQueue=$scanQueue" $base/frameworks/av $base/frameworks/native $base/packages/inputmethods $base/vendor/lineage";
+		if [ "$MALWARE_SCAN_SETTING" != "quick" ] || [ "$MALWARE_SCAN_SETTING" = "extra" ]; then
+			scanQueue=$scanQueue" $base/packages $base/vendor";
+		fi;
+		if [ "$MALWARE_SCAN_SETTING" = "slow" ]; then
+			scanQueue=$scanQueue"$base/external $base/frameworks $base/prebuilts $base/system $base/toolchain $base/tools";
+		fi;
+		if [ "$MALWARE_SCAN_SETTING" = "full" ]; then
+			scanQueue="$base";
+		fi;
 		du -hsc $scanQueue;
-		/usr/bin/clamscan --recursive --detect-pua --infected --exclude-dir=".git" $scanQueue;
+		/usr/bin/clamscan --recursive --detect-pua --infected $excludes $scanQueue;
 		clamscanExit=$?;
 		if [ "$clamscanExit" -eq "1" ]; then
 			echo -e "\e[0;31m----------------------------------------------------------------\e[0m";
 			echo -e "\e[0;31mWARNING: MALWARE WAS FOUND! PLEASE INVESTIGATE!\e[0m";
 			echo -e "\e[0;31m----------------------------------------------------------------\e[0m";
+			sleep 60;
 		fi;
 		if [ "$clamscanExit" -eq "0" ]; then
 			echo -e "\e[0;32mNo malware found\e[0m";
+			sleep 15;
+		fi;
+		if [ "$clamscanExit" -eq "2" ]; then
+			echo -e "\e[0;33m----------------------------------------------------------------\e[0m";
+			echo -e "\e[0;33mWARNING: AN ERROR OCCURED. PLEASE INVESTIGATE!\e[0m";
+			echo -e "\e[0;33m----------------------------------------------------------------\e[0m";
+			sleep 60;
 		fi;
 	else
 		echo -e "\e[0;33mWARNING: clamscan is unavailable, a malware scan will not be performed!\e[0m";

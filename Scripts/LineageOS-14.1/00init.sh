@@ -45,7 +45,8 @@ export GRADLE_OPTS="-Xmx2048m";
 
 export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches
 
-export MALWARE_SCAN_ON_PATCH=false; #Switch to true to perform a malware scan of certain directories before patching
+export MALWARE_SCAN_ON_PATCH=true; #Switch to true to perform a malware scan of certain directories before patching
+export MALWARE_SCAN_SETTING="quick"; #Options are quick, extra, slow, full
 
 source $scriptsCommon"/Functions.sh";
 source $scripts"/Functions.sh";
