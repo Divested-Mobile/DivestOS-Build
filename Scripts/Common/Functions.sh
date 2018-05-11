@@ -47,6 +47,28 @@ gitReset() {
 }
 export -f gitReset;
 
+scanForMalware() {
+	if [ -x /usr/bin/clamscan ] && [ -f /var/lib/clamav/main.cvd ]; then
+		echo -e "\e[0;32mStarting a malware scan, this might take a while...\e[0m";
+		scanQueue="$base/build $base/device $base/vendor";
+		#scanQueue=$scanQueue" $base/prebuilts $base/sdk $base/toolchain $base/tools";
+		du -hsc $scanQueue;
+		/usr/bin/clamscan --recursive --detect-pua --infected --exclude-dir=".git" $scanQueue;
+		clamscanExit=$?;
+		if [ "$clamscanExit" -eq "1" ]; then
+			echo -e "\e[0;31m----------------------------------------------------------------\e[0m";
+			echo -e "\e[0;31mWARNING: MALWARE WAS FOUND! PLEASE INVESTIGATE!\e[0m";
+			echo -e "\e[0;31m----------------------------------------------------------------\e[0m";
+		fi;
+		if [ "$clamscanExit" -eq "0" ]; then
+			echo -e "\e[0;32mNo malware found\e[0m";
+		fi;
+	else
+		echo -e "\e[0;33mWARNING: clamscan is unavailable, a malware scan will not be performed!\e[0m";
+	fi;
+}
+export -f scanForMalware;
+
 disableDexPreOpt() {
 	cd $base$1;
 	if [ -f BoardConfig.mk ]; then

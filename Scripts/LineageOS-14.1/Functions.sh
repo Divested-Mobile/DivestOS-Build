@@ -41,18 +41,18 @@ export -f buildDeviceDebug;
 
 buildAll() {
 #Select devices are userdebug due to SELinux policy issues
-#TODO: Add victara, griffin, athene, us997, us996, pme, t0lte, hlte
-	brunch lineage_thor-userdebug;
+#TODO: Add victara, athene, us997, us996, pme, t0lte, hlte
+	brunch lineage_thor-userdebug; #deprecated
 	brunch lineage_clark-user;
 	brunch lineage_ether-user;
 	brunch lineage_FP2-user;
-#	brunch lineage_h815-user; - (UPSTREAM) drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes
+#	brunch lineage_h815-user; #deprecated (UPSTREAM) drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes
 	brunch lineage_h850-userdebug;
 	brunch lineage_hammerhead-user;
 	brunch lineage_herolte-user;
-	brunch lineage_himaul-user;
+	brunch lineage_himaul-user; #deprecated
 	brunch lineage_i9100-userdebug;
-	brunch lineage_i9305-user;
+	brunch lineage_i9305-user; #deprecated?
 	brunch lineage_jfltexx-user;
 	brunch lineage_klte-user;
 	brunch lineage_n5110-user;
@@ -62,6 +62,8 @@ buildAll() {
 export -f buildAll;
 
 patchWorkspace() {
+	if [ "$MALWARE_SCAN_ON_PATCH" = true ]; then scanForMalware; fi;
+
 	#source build/envsetup.sh;
 
 	source $scripts/Patch.sh;
