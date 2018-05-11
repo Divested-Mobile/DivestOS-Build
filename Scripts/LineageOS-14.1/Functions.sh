@@ -71,7 +71,7 @@ buildAll() {
 export -f buildAll;
 
 patchWorkspace() {
-	if [ "$MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$base/build $base/vendor/cm"; fi;
+	if [ "$MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$prebuiltApps $base/build $base/device $base/vendor/cm"; fi;
 	#source build/envsetup.sh;
 
 	source $scripts/Patch.sh;

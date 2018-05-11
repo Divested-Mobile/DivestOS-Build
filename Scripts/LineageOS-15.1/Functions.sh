@@ -70,7 +70,7 @@ buildAll() {
 export -f buildAll;
 
 patchWorkspace() {
-	if [ "$MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$base/build $base/vendor/lineage"; fi;
+	if [ "$MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$prebuiltApps $base/build $base/device $base/vendor/lineage"; fi;
 
 	source build/envsetup.sh;
 	repopick -f 206123; #bionic: Sort and cache hosts file data for fast lookup
