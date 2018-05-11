@@ -27,6 +27,13 @@ resetWorkspace() {
 }
 export -f resetWorkspace;
 
+scanWorkspaceForMalware() {
+	scanQueue="$base/abi $base/android $base/art $base/bionic $base/bootable $base/build $base/dalvik $base/device $base/hardware $base/libcore $base/libnativehelper $base/ndk $base/packages $base/pdk $base/platform_testing $base/sdk $base/system";
+	scanQueue=$scanQueue" $base/vendor/cm $base/vendor/cmsdk";
+	scanForMalware true "$scanQueue";
+}
+export -f scanWorkspaceForMalware;
+
 buildDevice() {
 	brunch lineage_$1-user;
 }
@@ -40,6 +47,8 @@ buildDeviceDebug() {
 export -f buildDeviceDebug;
 
 buildAll() {
+	if [ "$MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
+
 #Select devices are userdebug due to SELinux policy issues
 #TODO: Add victara, athene, us997, us996, pme, t0lte, hlte
 	brunch lineage_thor-userdebug; #deprecated
@@ -62,8 +71,7 @@ buildAll() {
 export -f buildAll;
 
 patchWorkspace() {
-	if [ "$MALWARE_SCAN_ON_PATCH" = true ]; then scanForMalware; fi;
-
+	if [ "$MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$base/build $base/vendor/cm"; fi;
 	#source build/envsetup.sh;
 
 	source $scripts/Patch.sh;

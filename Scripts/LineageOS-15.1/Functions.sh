@@ -27,6 +27,13 @@ resetWorkspace() {
 }
 export -f resetWorkspace;
 
+scanWorkspaceForMalware() {
+	scanQueue="$base/android $base/art $base/bionic $base/bootable $base/build $base/compatibility $base/dalvik $base/device $base/hardware $base/libcore $base/libnativehelper $base/packages $base/pdk $base/platform_testing $base/sdk $base/system";
+	scanQueue=$scanQueue" $base/lineage-sdk $base/vendor/lineage";
+	scanForMalware true "$scanQueue";
+}
+export -f scanWorkspaceForMalware;
+
 buildDevice() {
 	brunch lineage_$1-user;
 }
@@ -40,6 +47,7 @@ buildDeviceDebug() {
 export -f buildDeviceDebug;
 
 buildAll() {
+	if [ "$MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 #Select devices are userdebug due to SELinux policy issues
 	brunch lineage_d852-user;
 	brunch lineage_bacon-user;
@@ -62,7 +70,7 @@ buildAll() {
 export -f buildAll;
 
 patchWorkspace() {
-	if [ "$MALWARE_SCAN_ON_PATCH" = true ]; then scanForMalware; fi;
+	if [ "$MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$base/build $base/vendor/lineage"; fi;
 
 	source build/envsetup.sh;
 	repopick -f 206123; #bionic: Sort and cache hosts file data for fast lookup
