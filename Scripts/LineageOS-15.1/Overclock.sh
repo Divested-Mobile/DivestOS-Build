@@ -48,7 +48,7 @@ patch -p1 < $patches"android_kernel_lge_mako/0003-Overclock.patch";
 patch -p1 < $patches"android_kernel_lge_mako/0004-Overclock.patch";
 patch -p1 < $patches"android_kernel_lge_mako/0005-Overclock.patch";
 echo "CONFIG_LOW_CPUCLOCKS=y" >> arch/arm/configs/lineageos_mako_defconfig; #384Mhz -> 81Mhz
-echo "CONFIG_CPU_OVERCLOCK=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.51Ghz -> 1.7Ghz  =+0.90Ghz
+echo "CONFIG_CPU_OVERCLOCK=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.51Ghz -> 1.70Ghz  =+0.90Ghz
 #echo "CPU_OVERCLOCK_ULTRA=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.51Ghz -> 1.94Ghz =+1.72Ghz XXX: Causes excessive throttling
 
 #enter "kernel/lge/msm8992";

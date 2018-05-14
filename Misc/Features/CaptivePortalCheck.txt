@@ -1,0 +1,33 @@
+Android needs to be able to determine if there is a captive portal on the network or if a network has Internet connectivity at all
+To do so it polls a server on every connection and also periodically
+This is a privacy issue.
+
+There are multiple solutions:
+	- Use the default Google gen204 endpoint
+		- Google is not the most privacy friendly
+	- Disable the checks
+		- Would confuse users when behind a captive portal
+		+ Would potentially save a small amount of battery
+	- Use our own gen204 endpoint
+		- Not everyone will trust us (even if they're running our code)
+	- Randomly choose between many different endpoints
+		- We'd need permission
+		+ Would be the best
+		+ Would limit one actor from knowing all
+		- If a maintainer wants us to stop using theirs it'd take a while since not everyone updates instantly
+		- If a maintainer blocked it, it'd cause issues (no Internet symbol when there is)
+
+List of known connectivity check endpoints
+	+ DivestOS - 204 - http://divestos.xyz/gen204.php
+	- Google - 204 - https://www.google.com/generate_204
+	- Google - 204 - http://connectivitycheck.gstatic.com/generate_204
+	- Google - 204 - http://www.google.com/gen_204
+	- Google - 204 - http://play.googleapis.com/generate_204
+	+ openSUSE - 204 - http://conncheck.opensuse.org
+	+ Ubuntu - 204 - http://connectivity-check.ubuntu.com
+	Non 204
+		- Apple - Success - http://captive.apple.com
+		+ Arch - 404 - http://www.archlinux.org/check_network_status.txt
+		+ Fedora - OK - http://fedoraproject.org/static/hotspot.txt
+		+ Gnome - "NetworkManager is online" - http://nmcheck.gnome.org/check_network_status.txt
+		+ Mozilla - success - http://detectportal.firefox.com/success.txt

@@ -70,7 +70,7 @@ enterAndClear "device/qcom/sepolicy";
 patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
 
 enterAndClear "external/svox";
-git revert 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back makefiles
+git revert 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 
 enterAndClear "frameworks/base";
 #git revert https://review.lineageos.org/#/c/202875/ #re-enable doze on devices without gms

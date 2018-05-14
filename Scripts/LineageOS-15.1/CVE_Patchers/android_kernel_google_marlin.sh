@@ -72,7 +72,6 @@ git apply $cvePatchesLinux/CVE-2017-11034/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-14883/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-15115/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-15649/ANY/0002.patch
-git apply $cvePatchesLinux/CVE-2017-15842/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16525/^4.13/0002.patch
 git apply $cvePatchesLinux/CVE-2017-16526/^4.13/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16532/^4.13/0001.patch
@@ -80,7 +79,6 @@ git apply $cvePatchesLinux/CVE-2017-16535/^4.13/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16537/^4.13/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16538/^4.13/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16538/^4.13/0002.patch
-git apply $cvePatchesLinux/CVE-2017-16643/3.5+/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16645/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16646/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16650/ANY/0001.patch
@@ -97,8 +95,6 @@ git apply $cvePatchesLinux/CVE-2017-6348/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7371/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7372/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-9707/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2018-5848/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2018-5849/ANY/0001.patch
 git apply $cvePatchesLinux/Untracked/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $cvePatchesLinux/Untracked/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $cvePatchesLinux/CVE-2016-5853/3.18/0002.patch
@@ -107,5 +103,5 @@ git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0610/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-14883/ANY/0001.patch
-editKernelLocalversion "-dos.p107"
+editKernelLocalversion "-dos.p103"
 cd $base

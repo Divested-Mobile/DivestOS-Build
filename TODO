@@ -1,9 +1,9 @@
-Last updated: 2018-04-29
+Last updated: 2018-05-13
 
 High Priority (Release blockers)
 	Build
 		- Automate incremental update generation
-		- Replace HOSTS file with a minimal one, and ship DNS66
+		- Update HOSTS file
 	Project
 		- Create cryptocurrency addresses
 		- Setup Stripe
@@ -35,7 +35,6 @@ Medium Priority
 	Website
 		- Cache updater and device page outputs using (PHP)Redis
 		- Create a 'Technical Docs' page
-		- Replace the site with a no-JS required version
 		- Switch from Shadow to Piwik
 		- Update Terms of Service and Privacy Policy
 
