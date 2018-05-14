@@ -42,7 +42,7 @@ enter "packages/apps/Settings";
 sed -i '/.*lineagelicense_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml;
 
 enter "packages/apps/SetupWizard";
-sed -i 's|http://lineageos.org/legal|https://divestos.xyz/pages/legal/pp.html|' src/org/lineageos/setupwizard/LineageSettingsActivity.java;
+sed -i 's|http://lineageos.org/legal|https://divestos.xyz/index.php?page=privacy_policy|' src/org/lineageos/setupwizard/LineageSettingsActivity.java;
 sed -i '/.*setup_services/s/LineageOS/DivestOS/' res/values*/strings.xml;
 sed -i '/.*services_explanation/s/LineageOS/DivestOS/' res/values*/strings.xml;
 cp $patches"android_packages_apps_SetupWizard/logo.xml" "res/drawable/logo.xml"; #Replace Lineage logo with ours
@@ -51,7 +51,7 @@ enter "packages/apps/Updater";
 sed -i 's|>LineageOS|>DivestOS|' res/values*/strings.xml;
 
 enter "vendor/lineage";
-sed -i 's|https://lineageos.org/legal|https://divestos.xyz/pages/about.html|' config/common.mk;
+sed -i 's|https://lineageos.org/legal|https://divestos.xyz/index.php?page=about|' config/common.mk;
 sed -i '/.*ZIPPATH=/s/lineage/coverage/' build/envsetup.sh;
 sed -i '/LINEAGE_TARGET_PACKAGE/s/lineage/coverage/' build/tasks/bacon.mk;
 rm -rf bootanimation; #TODO: Create a boot animation
