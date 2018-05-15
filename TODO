@@ -1,4 +1,4 @@
-Last updated: 2018-05-13
+Last updated: 2018-05-15
 
 High Priority (Release blockers)
 	Build
@@ -34,7 +34,6 @@ Medium Priority
 		- Get signoff from Copperhead on inclusion of disabled patches
 	Website
 		- Cache updater and device page outputs using (PHP)Redis
-		- Create a 'Technical Docs' page
 		- Switch from Shadow to Piwik
 		- Update Terms of Service and Privacy Policy
 

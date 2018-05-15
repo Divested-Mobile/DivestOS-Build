@@ -20,7 +20,7 @@
 #TODO: Clean init*.rc files, Modularize, Remove more variants
 
 #
-#Device Status (Tested under LineageOS 14.1)
+#Device Status (Tested under LineageOS 14.1 and 15.1)
 #
 #Functioning as Expected: bacon, clark, d852, mako, marlin, thor
 
@@ -364,7 +364,7 @@ find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {}
 #find kernel -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobKernel "$0"' {} \; #Deblob all kernel directories
 find vendor -name "*vendor*.mk" -type f -exec bash -c 'deblobVendor "$0"' {} \; #Deblob all makefiles
 deblobVendors; #Deblob entire vendor directory
-rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove Clearkey
+rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove ClearKey
 rm -rf vendor/samsung/nodevice;
 #
 #END OF DEBLOBBING
