@@ -84,7 +84,7 @@ patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch"; #Al
 patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; #Restrict signature spoofing to system apps signed with the platform key
 #patch -p1 < $patches"android_frameworks_base/0006-DNS_Cloudflare.patch"; #Switch to Cloudflare DNS
 patch -p1 < $patches"android_frameworks_base/0006-DNS_OpenNIC.patch"; #Switch to OpenNIC DNS
-patch -p1 < $patches"android_frameworks_base/0007-Connectivity.patch"; #Change connectivity check URLs to ours
+#patch -p1 < $patches"android_frameworks_base/0007-Connectivity.patch"; #Change connectivity check URLs to ours
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig;
 

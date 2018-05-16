@@ -61,8 +61,8 @@ echo "Deblobbing..."
 	#Clearkey (DRM) [Google]
 	blobs=$blobs"|libdrmclearkeyplugin.so";
 
-	#CMN (TrustZone?) [Qualcomm?]
-	#blobs=$blobs"|cmnlib.*";
+	#CMN (DRM?) [?]
+	blobs=$blobs"|cmnlib.*";
 
 	#CNE (Automatic Cell/Wi-Fi Switching) [Qualcomm]
 	#blobs=$blobs"|libcneapiclient.so|libNimsWrap.so"; #XXX: Breaks radio
@@ -125,6 +125,9 @@ echo "Deblobbing..."
 	blobs=$blobs"|ipacm-diag";
 	#makes=$makes"|ipacm|IPACM_cfg.xml";
 	#kernels=$kernels" drivers/platform/msm/ipa";
+
+	#IS? (DRM) [?]
+	blobs=$blobs"|isdbtmm.*";
 
 	#Keystore/TrustZone (HW Crypto) [Qualcomm]
 	#blobs=$blobs"|qseecomd|keystore.qcom.so|libdrmdecrypt.so|libdrmfs.so|libdrmtime.so|libQSEEComAPI.so|librpmb.so|libssd.so";
@@ -228,7 +231,7 @@ deblobDevice() {
 	replaceTime="false"; #Temp disable replacement
 	if [ -f Android.mk ]; then
 		#Some devices store these in a dedicated firmware partition, others in /system/vendor/firmware, either way the following are just symlinks
-		#sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Remove CMN firmware
+		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Remove CMN firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(DXHDCP2_SYMLINKS)//' Android.mk; #Remove Discretix firmware
 		#sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(IMS_SYMLINKS)//' Android.mk; #Remove IMS firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(PLAYREADY_SYMLINKS)//' Android.mk; #Remove Microsoft Playready firmware
