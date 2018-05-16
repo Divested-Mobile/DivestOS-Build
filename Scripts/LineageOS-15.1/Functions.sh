@@ -75,10 +75,10 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	repopick -f 206123; #bionic: Sort and cache hosts file data for fast lookup
 	repopick -f 209030; #ContactsProvider: Prevent device contact being deleted.
-	repopick 215174; #CallLogDatabase: Bump the version and try to re-run the version 5 upgrade path
-	repopick 214824 215010; #g3-common
-	repopick 211404 211405 211406 211407 211408 211409; #d852
-	repopick 211396 214817; #d855
+	repopick -f 215174; #CallLogDatabase: Bump the version and try to re-run the version 5 upgrade path
+	repopick -f 214824 215010; #g3-common
+	repopick -f 211404 211405 211406 211407 211408 211409; #d852
+	repopick -f 211396 214817; #d855
 	#repopick -t trust_interface;
 
 	source $scripts/Patch.sh;

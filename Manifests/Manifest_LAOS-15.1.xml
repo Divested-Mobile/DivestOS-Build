@@ -196,7 +196,7 @@
 	<!-- Samsung Galaxy S5 (klte) -->
 	<project path="device/samsung/klte" name="LineageOS/android_device_samsung_klte" remote="github" />
 	<project path="device/samsung/klte-common" name="LineageOS/android_device_samsung_klte-common" remote="github" />
-	<project path="device/samsung/msm8974-common" name="LineageOS/android_device_samsung_msm8974-common" remote="github" />s
+	<project path="device/samsung/msm8974-common" name="LineageOS/android_device_samsung_msm8974-common" remote="github" />
 	<project path="kernel/samsung/msm8974" name="LineageOS/android_kernel_samsung_msm8974" remote="github" />
 
 	<!-- NXP
