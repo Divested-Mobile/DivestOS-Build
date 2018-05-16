@@ -61,7 +61,7 @@ buildAll() {
 	brunch lineage_flounder-user;
 	brunch lineage_griffin-user;
 	#brunch lineage_h850-userdebug;
-	#brunch lineage_hammerhead-user;
+	brunch lineage_hammerhead-user;
 	brunch lineage_marlin-user;
 	brunch lineage_m8-user;
 	brunch lineage_sailfish-user;
@@ -75,8 +75,10 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	repopick -f 206123; #bionic: Sort and cache hosts file data for fast lookup
 	repopick -f 209030; #ContactsProvider: Prevent device contact being deleted.
-	repopick 211404 211405 211406 211407 211408 211409; #d852 cherry picks
-	repopick 205021 211396; #d855 cherry picks
+	repopick 215174; #CallLogDatabase: Bump the version and try to re-run the version 5 upgrade path
+	repopick 214824 215010; #g3-common
+	repopick 211404 211405 211406 211407 211408 211409; #d852
+	repopick 211396 214817; #d855
 	#repopick -t trust_interface;
 
 	source $scripts/Patch.sh;
