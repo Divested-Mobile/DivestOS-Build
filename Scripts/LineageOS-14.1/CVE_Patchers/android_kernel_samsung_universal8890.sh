@@ -29,17 +29,13 @@ git apply $cvePatchesLinux/CVE-2015-1420/3.2-^3.19/0001.patch
 git apply $cvePatchesLinux/CVE-2015-2041/^3.19/0002.patch
 git apply $cvePatchesLinux/CVE-2015-7515/^4.4/0002.patch
 git apply $cvePatchesLinux/CVE-2015-7550/^4.3/0001.patch
-git apply $cvePatchesLinux/CVE-2015-8019/3.18/0002.patch
 git apply $cvePatchesLinux/CVE-2015-8575/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2015-8785/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2015-8839/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2015-8962/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2015-8966/3.15+/0001.patch
-git apply $cvePatchesLinux/CVE-2015-9004/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2015-9016/3.18/0002.patch
-git apply $cvePatchesLinux/CVE-2016-10044/3.18/0002.patch
 git apply $cvePatchesLinux/CVE-2016-10088/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2016-10200/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-2185/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-2186/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-2187/ANY/0001.patch
@@ -60,11 +56,8 @@ git apply $cvePatchesLinux/CVE-2016-7117/^4.5/0002.patch
 git apply $cvePatchesLinux/CVE-2016-7913/ANY/0001.patch
 #git apply $cvePatchesLinux/CVE-2016-7917/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-8399/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2016-8468/3.18/0001.patch
-git apply $cvePatchesLinux/CVE-2016-8650/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-9191/3.11-^4.8/0001.patch
 git apply $cvePatchesLinux/CVE-2016-9604/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2016-9754/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-9793/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-9794/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-GadgetFS/ANY/0003.patch
@@ -73,11 +66,7 @@ git apply $cvePatchesLinux/CVE-2016-GadgetFS/ANY/0007.patch
 git apply $cvePatchesLinux/CVE-2016-GadgetFS/ANY/0008.patch
 git apply $cvePatchesLinux/CVE-2016-GadgetFS/ANY/0009.patch
 git apply $cvePatchesLinux/CVE-2016-GadgetFS/ANY/0010.patch
-git apply $cvePatchesLinux/CVE-2017-0403/3.0-^3.18/0001.patch
-git apply $cvePatchesLinux/CVE-2017-0404/^3.18/0001.patch
-git apply $cvePatchesLinux/CVE-2017-0510/3.18/0003.patch
 git apply $cvePatchesLinux/CVE-2017-0523/3.18/0001.patch
-git apply $cvePatchesLinux/CVE-2017-0537/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0627/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0710/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0749/ANY/0001.patch
@@ -120,7 +109,6 @@ git apply $cvePatchesLinux/CVE-2017-2671/^4.10/0001.patch
 git apply $cvePatchesLinux/CVE-2017-5669/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-5970/3.18/0001.patch
 git apply $cvePatchesLinux/CVE-2017-5972/ANY/0002.patch
-git apply $cvePatchesLinux/CVE-2017-5986/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-6001/^4.9/0002.patch
 git apply $cvePatchesLinux/CVE-2017-6345/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-6346/3.18/0001.patch
@@ -135,12 +123,11 @@ git apply $cvePatchesLinux/CVE-2017-7616/^4.10/0001.patch
 git apply $cvePatchesLinux/CVE-2017-7618/^4.10/0002.patch
 git apply $cvePatchesLinux/CVE-2017-9698/3.18/0001.patch
 git apply $cvePatchesLinux/Untracked/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
-git apply $cvePatchesLinux/Untracked/ANY/0003-tunnels-Don-t-apply-GRO-to-multiple-layers-of-encaps.patch
 git apply $cvePatchesLinux/Untracked/ANY/0004-net-add-recursion-limit-to-GRO.patch
 git apply $cvePatchesLinux/Untracked/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $cvePatchesLinux/Untracked/ANY/0007-USB-usbip-fix-potential-out-of-bounds-write.patch
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-1000111/ANY/0001.patch
-editKernelLocalversion "-dos.p142"
+editKernelLocalversion "-dos.p129"
 cd $base

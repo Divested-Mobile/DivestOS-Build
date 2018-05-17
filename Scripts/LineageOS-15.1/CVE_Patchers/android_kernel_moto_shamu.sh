@@ -16,6 +16,7 @@ git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0018.patch
 git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/ANY/0003.patch
 git apply $cvePatchesLinux/CVE-2015-1420/3.2-^3.19/0001.patch
 git apply $cvePatchesLinux/CVE-2015-7515/^4.4/0002.patch
+git apply $cvePatchesLinux/CVE-2015-8215/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2015-8955/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2015-8967/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-0758/ANY/0001.patch
@@ -46,7 +47,6 @@ git apply $cvePatchesLinux/CVE-2017-16532/^4.13/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16537/^4.13/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16538/^4.13/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16538/^4.13/0002.patch
-git apply $cvePatchesLinux/CVE-2017-16643/3.5+/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16645/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16650/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16939/3.10/0001.patch

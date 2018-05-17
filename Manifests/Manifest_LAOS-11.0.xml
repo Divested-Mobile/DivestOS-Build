@@ -2,6 +2,7 @@
 <manifest>
 
 <!-- START OF UNNECESSARY REPO REMOVAL -->
+	<!-- TODO: REMOVE MORE REPOS -->
 	<remove-project name="LineageOS/android_device_generic_mips" />
 	<remove-project name="LineageOS/android_device_generic_x86" />
 	<remove-project name="LineageOS/android_device_google_accessory_arduino" />
