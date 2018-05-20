@@ -49,6 +49,7 @@ export -f buildDeviceDebug;
 buildAll() {
 	if [ "$MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 #Select devices are userdebug due to SELinux policy issues
+#TODO: hiae star2lte starlte
 	brunch lineage_d852-user;
 	brunch lineage_bacon-user;
 	brunch lineage_mako-user;
