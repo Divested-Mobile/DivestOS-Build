@@ -58,6 +58,7 @@ buildAll() {
 	brunch lineage_bullhead-user;
 	brunch lineage_d802-user;
 	brunch lineage_d855-user;
+	brunch lineage_ether-user;
 	brunch lineage_flo-user;
 	brunch lineage_flounder-user;
 	brunch lineage_griffin-user;

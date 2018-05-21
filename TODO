@@ -1,9 +1,10 @@
-Last updated: 2018-05-15
+Last updated: 2018-05-20
 
 High Priority (Release blockers)
 	Build
 		- Automate incremental update generation
-		- Update HOSTS file
+		- Switch HOSTS to release variant
+		- New RSA 4096 signing keys
 	Project
 		- Create cryptocurrency addresses
 		- Setup Stripe
@@ -19,7 +20,7 @@ Medium Priority
 	Build
 		- Add more device overclocks
 		- Add support for more devices
-		- Fix F-Droid signing
+		- Support 11.0
 	Design
 		- Facelift of Extirpater
 		- Facelift of Hypatia
@@ -34,12 +35,12 @@ Medium Priority
 		- Get signoff from Copperhead on inclusion of disabled patches
 	Website
 		- Cache updater and device page outputs using (PHP)Redis
-		- Switch from Shadow to Piwik
-		- Update Terms of Service and Privacy Policy
+		- Switch from Shadow to Piwik and update Privacy Policy
 
 Low Priority
 	Build
 		- Move overclocks to separate repo
+		- Support 13.0
 	Website
 		- Switch to a wiki
 	WiFiDatabaseMerger
@@ -70,12 +71,11 @@ Longterm
 
 Contributions to other projects (via labor or funding)
 	Add Tor support: Materialistic, microG, RadioDroid, Slide, Wikipedia
+	Resurrect: Blockinger, microG, Pandoroid
 	Amexia
 		- More icons
 	Anuto
 		- Save/load support
-	Blockinger
-		- Resurrection
 	Briar
 		- Repeater support
 	Conversations
@@ -85,12 +85,8 @@ Contributions to other projects (via labor or funding)
 		- Polish edges
 	F-Droid
 		- Loading of repos from /system (#843)
-	microG
-		- Resurrection
 	Orbot
 		- Better tracking of Tor releases
-	Pandoroid
-		- Resurrection
 
 Funding of new projects
 	- Anti-theft

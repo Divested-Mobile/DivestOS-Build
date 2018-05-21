@@ -72,7 +72,7 @@ echo "Deblobbing..."
 	#Diagnostics [Qualcomm]
 	blobs=$blobs"|[/]diag[/]|diag_callback_client|diag_dci_sample|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag[/]mdm|diag_qshrink4_daemon|diag_socket_log|diag_uart_log|drmdiagapp|ibdrmdiag.so|ssr_diag|test_diag";
 
-	#Dirac (Audio Effects) [Dirac]
+	#Dirac (Audio Codec + Effects) [Dirac]
 	blobs=$blobs"|libDiracAPI_SHARED.so|.*dirac.*";
 
 	#Discretix (DRM/HDCP) [Discretix Technologies]
