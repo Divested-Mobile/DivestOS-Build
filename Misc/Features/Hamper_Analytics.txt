@@ -1,0 +1,78 @@
+It turns out some ad/analytics SDKs used by various proprietary Android apps can be disabled/kneecapped by adding meta-data entries to the apps AndroidManifest
+In order for an app to read its meta-data entries from its own AndroidManifest it actually has to go through the getPackageManager() call
+This means we can change the system package parser and simply add these variables to every app
+This would hopefully make usage of proprietary apps more private, granted they are still proprietary and can very well simply ignore these
+
+A simple app was created to verify the expected
+05-21 05:24:44.557  4973  4973 D MDT     : firebase_analytics_collection_enabled:false
+and it does indeed work!
+
+core/java/android/content/pm/PackageParser.java
+	parseMetaData()
+		line 5526 if (data == null) {
+
+Core
+            data.putBoolean("batch_opted_out_by_default", true);
+            data.putBoolean("com.ad4screen.no_geoloc", true);
+            data.putBoolean("com.facebook.sdk.AutoLogAppEventsEnabled", false);
+            data.putBoolean("com.mixpanel.android.MPConfig.UseIpAddressForGeolocation", false);
+            data.putBoolean("com.webengage.sdk.android.location_tracking", false);
+            data.putBoolean("firebase_analytics_collection_deactivated", true);
+            data.putBoolean("firebase_analytics_collection_enabled", false);
+            data.putBoolean("firebase_crash_collection_enabled", false);
+            data.putBoolean("firebase_performance_collection_deactivated", true);
+            data.putBoolean("google_analytics_adid_collection_enabled", false);
+            data.putString("com.ad4screen.tracking_mode", "Restricted");
+            data.putString("com.sprooki.LOCATION_SERVICES", "disable");
+
+Settings
+            data.putBoolean("com.bugsnag.android.AUTO_CAPTURE_SESSIONS", false);
+            data.putBoolean("com.bugsnag.android.ENABLE_EXCEPTION_HANDLER", false);
+            data.putBoolean("com.bugsnag.android.PERSIST_USER_BETWEEN_SESSIONS", false);
+            data.putBoolean("com.bugsnag.android.SEND_THREADS", false);
+            data.putBoolean("com.followanalytics.message.inapp.enable", false);
+            data.putBoolean("com.followanalytics.message.push.enable", false);
+            data.putBoolean("com.mixpanel.android.MPConfig.AutoShowMixpanelUpdates", false);
+            data.putBoolean("com.mixpanel.android.MPConfig.DisableAppOpenEvent", true);
+            data.putBoolean("com.mixpanel.android.MPConfig.DisableDecideChecker", true);
+            data.putBoolean("com.mixpanel.android.MPConfig.DisableFallback", true);
+            data.putBoolean("com.mixpanel.android.MPConfig.DisableGestureBindingUI", true);
+            data.putBoolean("com.mixpanel.android.MPConfig.DisableViewCrawler", true);
+            data.putBoolean("com.mixpanel.android.MPConfig.TestMode", true);
+            data.putBoolean("engagement:adm:register", false);
+            data.putBoolean("engagement:locationReport:lazyArea", false);
+            data.putBoolean("engagement:locationReport:realTime:background", false);
+            data.putBoolean("engagement:locationReport:realTime", false);
+            data.putBoolean("engagement:locationReport:realTime:fine", false);
+            data.putBoolean("engagement:log:test", false);
+            data.putBoolean("engagement:reportCrash", false);
+            data.putBoolean("FYBEnableSSLRewardedVideo", true);
+            data.putBoolean("mceSessionEnabled", false);
+            data.putBoolean("tapjoy.disable_video_offers", true);
+            data.putInteger("CLEVERTAP_USE_GOOGLE_AD_ID", 0)
+            data.putInteger("engagement:connection:delay", 2629800);
+
+API Keys
+            data.putString("apptentive_api_key", "");
+            data.putString("apptentive_key", "");
+            data.putString("apptentive_signature", "");
+            data.putString("__ChartboostAir__AppID", "");
+            data.putString("__ChartboostAir__AppSignature", "");
+            data.putString("com.ad4screen.facebook_appid", "");
+            data.putString("com.ad4screen.partnerid", "");
+            data.putString("com.ad4screen.privatekey", "");
+            data.putString("com.ad4screen.senderid", "");
+            data.putString("com.appsee.ApiKey", "");
+            data.putString("com.blueshift.gcm_sender_id", "");
+            data.putString("com.google.android.awareness.API_KEY", "");
+            data.putString("com.pushwoosh.appid", "");
+            data.putString("com.pushwoosh.senderid", "");
+            data.putString("com.upsight.app_token", "");
+            data.putString("com.upsight.public_key", "");
+            data.putString("FAID", "");
+            data.putString("io.branch.sdk.BranchKey", "");
+            data.putString("io.emma.SESSION_KEY", "");
+            data.putString("net.hockeyapp.android.appIdentifier", "");
+            data.putString("pilgrim_sdk_key", "");
+            data.putString("pilgrim_sdk_secret", "");
+            data.putString("presage_key", "");

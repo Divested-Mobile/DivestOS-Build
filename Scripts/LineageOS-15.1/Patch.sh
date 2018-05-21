@@ -84,6 +84,7 @@ patch -p1 < $patches"android_frameworks_base/0003-Harden_Sig_Spoofing.patch"; #R
 #patch -p1 < $patches"android_frameworks_base/0004-DNS_Cloudflare.patch"; #Switch to Cloudflare DNS
 patch -p1 < $patches"android_frameworks_base/0004-DNS_OpenNIC.patch"; #Switch to OpenNIC DNS
 #patch -p1 < $patches"android_frameworks_base/0005-Connectivity.patch"; #Change connectivity check URLs to ours
+patch -p1 < $patches"android_frameworks_base/0006-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
 if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < $patches"android_frameworks_base/Copperhead/0005-Deny_USB.patch"; fi; #Deny USB support (Copperhead CC BY-NC-SA)
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig;
@@ -209,6 +210,7 @@ echo "allow wcnss_service block_device:dir search;" >> sepolicy/wcnss_service.te
 echo "/dev/block/platform/msm_sdcc\.1/by-name/pad     u:object_r:misc_block_device:s0" >> sepolicy/file_contexts; #fix uncrypt denial
 
 enterAndClear "device/lge/mako";
+git revert c90006df854e90589bead7aec306e16a605bf265;
 cp $patches"android_device_lge_mako/proprietary-blobs.txt" proprietary-blobs.txt; #update that? nah
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
 
