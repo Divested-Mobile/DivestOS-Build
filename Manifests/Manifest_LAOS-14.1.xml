@@ -150,10 +150,6 @@
 	<project path="device/motorola/clark" name="LineageOS/android_device_motorola_clark" remote="github" />
 	<project path="kernel/motorola/msm8992" name="LineageOS/android_kernel_motorola_msm8992" remote="github" />
 
-	<!-- Nextbit Robin (ether) -->
-	<project path="device/nextbit/ether" name="LineageOS/android_device_nextbit_ether" remote="github" />
-	<project path="kernel/nextbit/msm8992" name="LineageOS/android_kernel_nextbit_msm8992" remote="github" />
-
 	<!-- Nexus 5 (hammerhead) -->
 	<project path="device/lge/hammerhead" name="LineageOS/android_device_lge_hammerhead" remote="github" />
 	<project path="kernel/lge/hammerhead" name="LineageOS/android_kernel_lge_hammerhead" remote="github" />
@@ -209,7 +205,6 @@
 	<project path="vendor/htc" name="TheMuppets/proprietary_vendor_htc" remote="github" />
 	<project path="vendor/lge" name="TheMuppets/proprietary_vendor_lge" remote="github" />
 	<project path="vendor/motorola" name="TheMuppets/proprietary_vendor_motorola" remote="github" />
-	<project path="vendor/nextbit" name="TheMuppets/proprietary_vendor_nextbit" remote="github" />
 	<project path="vendor/samsung" name="TheMuppets/proprietary_vendor_samsung" remote="github" />
 <!-- END OF DEVICE REPOS -->
 

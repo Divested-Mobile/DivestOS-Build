@@ -66,6 +66,8 @@ patch -p1 < $patches"android_bootable_recovery/0001-Squash_Menus.patch"; #What's
 enterAndClear "build";
 patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch"; #Automated build signing (CopperheadOS-13.0)
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
+sed -i 's/ro.secure=0/ro.secure=1/' core/main.mk;
+#sed -i 's/ro.adb.secure=0/ro.adb.secure=1/' core/main.mk;
 
 enterAndClear "device/qcom/sepolicy";
 patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on user builds XXX: REMOVE THIS TRASH

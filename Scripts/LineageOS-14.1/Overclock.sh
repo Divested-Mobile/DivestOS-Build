@@ -48,13 +48,5 @@ patch -p1 < $patches"android_kernel_common_msm8992/0005-Overclock.patch";
 patch -p1 < $patches"android_kernel_common_msm8992/0006-Overclock.patch";
 patch -p1 < $patches"android_kernel_common_msm8992/0007-Overclock.patch";
 
-enter "kernel/nextbit/msm8992";
-patch -p1 < $patches"android_kernel_common_msm8992/0001-Overclock.patch";
-patch -p1 < $patches"android_kernel_common_msm8992/0003-Overclock.patch";
-patch -p1 < $patches"android_kernel_common_msm8992/0004-Overclock.patch";
-patch -p1 < $patches"android_kernel_common_msm8992/0005-Overclock.patch";
-patch -p1 < $patches"android_kernel_common_msm8992/0006-Overclock.patch";
-patch -p1 < $patches"android_kernel_common_msm8992/0007-Overclock.patch";
-
 cd $base;
 echo "Overclocks applied!";

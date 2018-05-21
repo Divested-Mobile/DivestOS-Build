@@ -62,6 +62,14 @@ echo "CONFIG_CPU_OVERCLOCK=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.5
 #enter "kernel/motorola/msm8916";
 #patch -p1 < $patches"android_kernel_motorola_msm8916/0001-Overclock.patch"; #1.36Ghz -> 1.88Ghz	=+ 2.07Ghz
 
+enter "kernel/nextbit/msm8992";
+patch -p1 < $patches"android_kernel_common_msm8992/0001-Overclock.patch";
+patch -p1 < $patches"android_kernel_common_msm8992/0003-Overclock.patch";
+patch -p1 < $patches"android_kernel_common_msm8992/0004-Overclock.patch";
+patch -p1 < $patches"android_kernel_common_msm8992/0005-Overclock.patch";
+patch -p1 < $patches"android_kernel_common_msm8992/0006-Overclock.patch";
+patch -p1 < $patches"android_kernel_common_msm8992/0007-Overclock.patch";
+
 enter "kernel/oppo/msm8974";
 patch -p1 < $patches"android_kernel_oppo_msm8974/0001-OverUnderClock-EXTREME.patch"; #300Mhz -> 268Mhz, 2.45Ghz -> 2.95Ghz	=+2.02Ghz XXX: Not 100% stable under intense workloads
 

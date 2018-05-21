@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_amazon_hdx-common kernel_asus_msm8916 kernel_fairphone_msm8974 kernel_htc_msm8994 kernel_lge_hammerhead kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_nextbit_msm8992 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal8890";
+	startPatcher "kernel_amazon_hdx-common kernel_asus_msm8916 kernel_fairphone_msm8974 kernel_htc_msm8994 kernel_lge_hammerhead kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal8890";
 }
 export -f patchAllKernels;
 
@@ -53,7 +53,6 @@ buildAll() {
 #TODO: Add victara, athene, us997, us996, pme, t0lte, hlte
 	brunch lineage_thor-userdebug; #deprecated
 	brunch lineage_clark-user;
-	brunch lineage_ether-user;
 	brunch lineage_FP2-user;
 #	brunch lineage_h815-user; #deprecated (UPSTREAM) drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes
 	brunch lineage_h850-userdebug;
