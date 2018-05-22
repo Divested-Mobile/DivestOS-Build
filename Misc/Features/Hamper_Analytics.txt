@@ -10,8 +10,29 @@ and it does indeed work!
 core/java/android/content/pm/PackageParser.java
 	parseMetaData()
 		line 5526 if (data == null) {
+src/com/android/settings/SecuritySettings.java
+res/xml/security_settings_misc.xml
+        <SwitchPreference
+            android:key="hamper_analytics"
+            android:persistent="false"
+            android:title="@string/hamper_analytics"
+            android:summary="@string/hamper_analytics_summary"/>
+res/values/strings.xml
+    <string name="hamper_analytics">Hamper analytics SDKs</string>
+    <string name="hamper_analytics_summary">Aggressively breaks various proprietary tracking SDKs by unsetting their API keys. May cause low-quality proprietary apps to crash.</string>
 
-Core
+Keywords to find keys
+	"meta-data android:name" analytics
+	"meta-data android:name" app id
+	"meta-data android:name" disable
+	"meta-data android:name" gdpr
+	"meta-data android:name" location
+	"meta-data android:name" opt-out
+	"meta-data android:name" private key
+	"meta-data android:name" secret key
+
+Core - Currently Implemented
+            data.putBoolean("android.webkit.WebView.MetricsOptOut", true);
             data.putBoolean("batch_opted_out_by_default", true);
             data.putBoolean("com.ad4screen.no_geoloc", true);
             data.putBoolean("com.facebook.sdk.AutoLogAppEventsEnabled", false);
@@ -53,26 +74,39 @@ Settings
             data.putInteger("engagement:connection:delay", 2629800);
 
 API Keys
-            data.putString("apptentive_api_key", "");
-            data.putString("apptentive_key", "");
-            data.putString("apptentive_signature", "");
-            data.putString("__ChartboostAir__AppID", "");
-            data.putString("__ChartboostAir__AppSignature", "");
-            data.putString("com.ad4screen.facebook_appid", "");
-            data.putString("com.ad4screen.partnerid", "");
-            data.putString("com.ad4screen.privatekey", "");
-            data.putString("com.ad4screen.senderid", "");
-            data.putString("com.appsee.ApiKey", "");
-            data.putString("com.blueshift.gcm_sender_id", "");
-            data.putString("com.google.android.awareness.API_KEY", "");
-            data.putString("com.pushwoosh.appid", "");
-            data.putString("com.pushwoosh.senderid", "");
-            data.putString("com.upsight.app_token", "");
-            data.putString("com.upsight.public_key", "");
-            data.putString("FAID", "");
-            data.putString("io.branch.sdk.BranchKey", "");
-            data.putString("io.emma.SESSION_KEY", "");
-            data.putString("net.hockeyapp.android.appIdentifier", "");
-            data.putString("pilgrim_sdk_key", "");
-            data.putString("pilgrim_sdk_secret", "");
-            data.putString("presage_key", "");
+            String apiFillerValue = "";
+            //String apiFillerValue = "DO_NOT_TRACK";
+            data.putString("apptentive_api_key", apiFillerValue);
+            data.putString("apptentive_key", apiFillerValue);
+            data.putString("apptentive_signature", apiFillerValue);
+            data.putString("__ChartboostAir__AppID", apiFillerValue);
+            data.putString("__ChartboostAir__AppSignature", apiFillerValue);
+            data.putString("com.a0soft.gphone.aTrackDog.webURL", apiFillerValue);
+            data.putString("com.ad4screen.facebook_appid", apiFillerValue);
+            data.putString("com.ad4screen.partnerid", apiFillerValue);
+            data.putString("com.ad4screen.privatekey", apiFillerValue);
+            data.putString("com.ad4screen.senderid", apiFillerValue);
+            data.putString("com.appsee.ApiKey", apiFillerValue);
+            data.putString("com.blueshift.gcm_sender_id", apiFillerValue);
+            data.putString("com.bugsnag.android.API_KEY", apiFillerValue);
+            data.putString("com.crashlytics.ApiKey", apiFillerValue);
+            data.putString("com.facebook.sdk.ApplicationId", apiFillerValue);
+            data.putString("com.geouniq.appkey", apiFillerValue);
+            data.putString("com.google.android.awareness.API_KEY", apiFillerValue);
+            data.putString("com.indooratlas.android.sdk.API_KEY", apiFillerValue);
+            data.putString("com.indooratlas.android.sdk.API_SECRET", apiFillerValue);
+            data.putString("com.pushwoosh.appid", apiFillerValue);
+            data.putString("com.pushwoosh.senderid", apiFillerValue);
+            data.putString("com.upsight.app_token", apiFillerValue);
+            data.putString("com.upsight.public_key", apiFillerValue);
+            data.putString("co.paystack.android.PublicKey", apiFillerValue);
+            data.putString("FAID", apiFillerValue);
+            data.putString("io.branch.sdk.BranchKey", apiFillerValue);
+            data.putString("io.emma.SESSION_KEY", apiFillerValue);
+            data.putString("io.fabric.ApiKey", apiFillerValue);
+            data.putString("net.hockeyapp.android.appIdentifier", apiFillerValue);
+            data.putString("net.hockeyapp.android.appSecret", apiFillerValue);
+            data.putString("pilgrim_sdk_key", apiFillerValue);
+            data.putString("pilgrim_sdk_secret", apiFillerValue);
+            data.putString("presage_key", apiFillerValue);
+            data.putString("tkbl-api-key-0", apiFillerValue);

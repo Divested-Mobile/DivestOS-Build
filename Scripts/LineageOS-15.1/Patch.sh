@@ -210,7 +210,6 @@ echo "allow wcnss_service block_device:dir search;" >> sepolicy/wcnss_service.te
 echo "/dev/block/platform/msm_sdcc\.1/by-name/pad     u:object_r:misc_block_device:s0" >> sepolicy/file_contexts; #fix uncrypt denial
 
 enterAndClear "device/lge/mako";
-git revert c90006df854e90589bead7aec306e16a605bf265;
 cp $patches"android_device_lge_mako/proprietary-blobs.txt" proprietary-blobs.txt; #update that? nah
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
 
