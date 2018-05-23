@@ -1,4 +1,4 @@
-Last updated: 2018-05-20
+Last updated: 2018-05-23
 
 High Priority (Release blockers)
 	Build
@@ -9,11 +9,12 @@ High Priority (Release blockers)
 		- Create cryptocurrency addresses
 		- Setup Stripe
 	Servers
-		- Gitea/GitLab server on a Kimsufi dedicated ($14 setup + $22/mo)
-		- Website server on an OVH VPS ($4.50/mo)
-		- Mirrorbits server on an OVH VPS ($4.50/mo)
-		- 3x Mirror slaves on an OVH VPS (3x$4.50 = $13.50/mo)
+		- Gitea/GitLab on a Kimsufi dedicated (KS-3C: $14 setup + $22/mo)
+		- Apache on an OVH VPS (SSD1: $4.50/mo)
+		- Mirrorbits on an OVH VPS (SSD1: $4.50/mo)
+		- 2x Mirror slaves on an OVH VPS (SSD2: 2x$7.80 = $15.60/mo)
 		- 1x Mirror slave on a 1/10Gbps server for high-speed incrementals
+	Website
 		- Update cryptocurrency addresses
 
 Medium Priority
@@ -30,11 +31,10 @@ Medium Priority
 		- Investigate GDPR compliance
 	Servers
 		- Dedicated build servers
-		- XMPP Server
+		- Ejabberd on an OVH VPS (SSD1: $4.50/mo)
 	Signoffs
 		- Get signoff from Copperhead on inclusion of disabled patches
 	Website
-		- Cache updater and device page outputs using (PHP)Redis
 		- Switch from Shadow to Piwik and update Privacy Policy
 
 Low Priority

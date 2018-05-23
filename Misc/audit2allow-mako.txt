@@ -1,6 +1,16 @@
 #============= install_recovery ==============
+allow install_recovery unlabeled:dir search;
+
+#============= priv_app ==============
+allow priv_app unlabeled:dir search;
+
+#============= storaged ==============
+allow storaged debugfs_mmc:dir search;
+allow storaged debugfs_mmc:file read;
+
+
+OLD
+
+#============= install_recovery ==============
 allow install_recovery unlabeled:dir { add_name remove_name write };
 allow install_recovery unlabeled:file { create open setattr unlink write };
-
-#============= vold ==============
-allow vold persist_file:dir { ioctl open read };
