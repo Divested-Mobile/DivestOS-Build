@@ -3,6 +3,7 @@ cd $base"kernel/amazon/hdx-common"
 git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/ANY/0001.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.4/0002.patch
 git apply $cvePatchesLinux/0012-Copperhead-Deny_USB/3.4/3.4-Backport.patch
+git apply $cvePatchesLinux/0013-syskaller-Misc/ANY/0008.patch
 git apply $cvePatchesLinux/CVE-2012-6704/^3.5/0001.patch
 git apply $cvePatchesLinux/CVE-2014-1739/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2014-3153/ANY/0002.patch
@@ -70,7 +71,6 @@ git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0005.patch
 git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0006.patch
 git apply $cvePatchesLinux/CVE-2017-2671/^4.10/0001.patch
-git apply $cvePatchesLinux/CVE-2017-5970/^4.9/0002.patch
 git apply $cvePatchesLinux/CVE-2017-6074/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-6345/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-6348/^4.9/0001.patch
@@ -82,11 +82,12 @@ git apply $cvePatchesLinux/CVE-2017-8246/3.4/0002.patch
 git apply $cvePatchesLinux/CVE-2017-8247/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-8254/3.4/0001.patch
 git apply $cvePatchesLinux/CVE-2017-8254/3.4/0002.patch
+git apply $cvePatchesLinux/CVE-2017-8266/3.4/0001.patch
 git apply $cvePatchesLinux/CVE-2017-8890/3.4/0001.patch
 git apply $cvePatchesLinux/CVE-2017-9242/^4.11/0001.patch
 git apply $cvePatchesLinux/CVE-2017-9684/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-9706/ANY/0001.patch
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $cvePatchesLinux/CVE-2017-1000111/ANY/0001.patch
-editKernelLocalversion "-dos.p88"
+editKernelLocalversion "-dos.p89"
 cd $base

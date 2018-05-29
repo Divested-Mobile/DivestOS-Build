@@ -19,6 +19,7 @@ git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/3.10/0018.patch
 git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/ANY/0001.patch
 git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/ANY/0003.patch
 git apply $cvePatchesLinux/0012-Copperhead-Deny_USB/3.10/0001.patch
+git apply $cvePatchesLinux/0013-syskaller-Misc/ANY/0009.patch
 git apply $cvePatchesLinux/CVE-2014-8160/^3.18/0002.patch
 git apply $cvePatchesLinux/CVE-2014-8173/3.9-^3.12/0001.patch
 git apply $cvePatchesLinux/CVE-2014-9781/ANY/0001.patch
@@ -111,5 +112,5 @@ git apply $cvePatchesLinux/CVE-2016-2475/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6693/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-15845/ANY/0001.patch
-editKernelLocalversion "-dos.p111"
+editKernelLocalversion "-dos.p112"
 cd $base

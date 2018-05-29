@@ -29,6 +29,10 @@ git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0011.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0012.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.10+/0013.patch
 git apply $cvePatchesLinux/0012-Copperhead-Deny_USB/3.18/0002-Alt2.patch
+git apply $cvePatchesLinux/0013-syskaller-Misc/ANY/0002.patch
+git apply $cvePatchesLinux/0013-syskaller-Misc/ANY/0009.patch
+git apply $cvePatchesLinux/0013-syskaller-Misc/ANY/0010.patch
+git apply $cvePatchesLinux/0013-syskaller-Misc/ANY/0011.patch
 git apply $cvePatchesLinux/CVE-2014-9900/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2015-2041/^3.19/0002.patch
 git apply $cvePatchesLinux/CVE-2015-7515/^4.4/0002.patch
@@ -135,5 +139,5 @@ git apply $cvePatchesLinux/CVE-2016-6693/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0610/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p135"
+editKernelLocalversion "-dos.p139"
 cd $base

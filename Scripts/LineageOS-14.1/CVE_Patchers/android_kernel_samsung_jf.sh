@@ -3,6 +3,8 @@ cd $base"kernel/samsung/jf"
 git apply $cvePatchesLinux/0007-Copperhead-Kernel_Hardening/ANY/0001.patch
 git apply $cvePatchesLinux/0010-Accelerated_AES/3.4/0002.patch
 git apply $cvePatchesLinux/0012-Copperhead-Deny_USB/3.4/3.4-Backport.patch
+git apply $cvePatchesLinux/0013-syskaller-Misc/ANY/0008.patch
+git apply $cvePatchesLinux/0013-syskaller-Misc/ANY/0009.patch
 git apply $cvePatchesLinux/CVE-2016-0801/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-10233/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-2185/ANY/0001.patch
@@ -50,12 +52,11 @@ git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0005.patch
 git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0006.patch
 git apply $cvePatchesLinux/CVE-2017-17558/ANY/0001.patch
-git apply $cvePatchesLinux/CVE-2017-5970/^4.9/0002.patch
 git apply $cvePatchesLinux/CVE-2017-7487/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-8254/3.4/0001.patch
 git apply $cvePatchesLinux/CVE-2017-8254/3.4/0002.patch
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $cvePatchesLinux/CVE-2016-2475/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p57"
+editKernelLocalversion "-dos.p58"
 cd $base
