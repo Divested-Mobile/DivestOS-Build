@@ -53,7 +53,7 @@ buildAll() {
 	brunch lineage_d852-user;
 	brunch lineage_bacon-user;
 	brunch lineage_mako-user;
-	#brunch lineage_clark-user; #requires blobs from https://androidfilehost.com/?w=files&flid=244563 and also broken
+	#brunch lineage_clark-user; #requires blobs from https://androidfilehost.com/?w=files&flid=244563 and permissive and broken
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;
 	brunch lineage_d802-user;
@@ -77,9 +77,10 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	repopick -f 206123; #bionic: Sort and cache hosts file data for fast lookup
 	repopick -f 215174; #CallLogDatabase: Bump the version and try to re-run the version 5 upgrade path
-	repopick -f 214824 215010; #g3-common
+	repopick -f 214824 209584 209585 215010 214300; #g3-common
 	repopick -f 211404 211405 211406 211407 211408 211409; #d852
 	repopick -f 211396 214817; #d855
+	repopick -f 216410; #Revert "lineage-sdk: Switch back to AOSP TwilightService"
 	#repopick -t trust_interface;
 
 	source $scripts/Patch.sh;
