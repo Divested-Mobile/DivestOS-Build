@@ -26,6 +26,7 @@ export MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorks
 export MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options are quick, extra, slow, full
 export MICROG_INCLUDED=true; #Switch to false to prevent inclusion of microG
 export HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
+export STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit encryption XXX: THIS WILL BREAK EXISTING INSTALLS!
 export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches
 #END OF USER CONFIGURABLE OPTIONS
 
