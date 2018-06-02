@@ -18,12 +18,17 @@
 #Sets settings used by all other scripts
 
 #START OF USER CONFIGURABLE OPTIONS
+export androidWorkspace="/mnt/Drive-3/"; #XXX: THIS MUST BE CORRECT TO BUILD!
+
+
 export MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
 export MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options are quick, extra, slow, full
-export MICROG_INCLUDED=true; #Switch to false to prevent inclusion of microG
-export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches
 
-export androidWorkspace="/mnt/Drive-3/"; #XXX: THIS MUST BE CORRECT TO BUILD!
+export MICROG_INCLUDED=true; #Switch to false to prevent inclusion of microG
+
+export HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
+
+export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches
 #END OF USER CONFIGURABLE OPTIONS
 
 BUILD_WORKING_DIR=${PWD##*/};

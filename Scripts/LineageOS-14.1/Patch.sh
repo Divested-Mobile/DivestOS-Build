@@ -42,7 +42,7 @@
 #Download some (non-executable) out-of-tree files for use later on
 mkdir /tmp/ar;
 cd /tmp/ar;
-wget https://spotco.us/hosts -N; #XXX: /hosts is built from non-commercial use files, switch to /hsc for release
+if [ "$HOSTS_BLOCKING" = true ]; then wget https://spotco.us/hosts -N; fi; #XXX: /hosts is built from non-commercial use files, switch to /hsc for release
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
 mkdir -p "$ANDROID_HOME/licenses";
@@ -166,7 +166,7 @@ enterAndClear "packages/services/Telephony";
 if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < $patches"android_packages_services_Telephony/Copperhead/0001-LTE_Only.patch"; fi; #LTE only preferred network mode choice (Copperhead CC BY-NC-SA)
 
 enterAndClear "system/core";
-cat /tmp/ar/hosts >> rootdir/etc/hosts; #Merge in our HOSTS file
+if [ "$HOSTS_BLOCKING" = true ]; then cat /tmp/ar/hosts >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert 0217dddeb5c16903c13ff6c75213619b79ea622b d7aa1231b6a0631f506c0c23816f2cd81645b15f; #Always update recovery XXX: This doesn't seem to work
 patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0)
 
@@ -190,8 +190,8 @@ cp -r $patches"android_vendor_cm/firmware_deblobber" .;
 cp $patches"android_vendor_cm/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
-cp $patches"android_vendor_cm/dns66.json" prebuilt/common/etc/dns66.json;
-sed -i '4iPRODUCT_COPY_FILES += vendor/cm/prebuilt/common/etc/dns66.json:system/etc/dns66/settings.json' config/common.mk; #Include DNS66 default config
+if [ "$HOSTS_BLOCKING" = false ]; then cp $patches"android_vendor_cm/dns66.json" prebuilt/common/etc/dns66.json; fi;
+if [ "$HOSTS_BLOCKING" = false ]; then sed -i '4iPRODUCT_COPY_FILES += vendor/cm/prebuilt/common/etc/dns66.json:system/etc/dns66/settings.json' config/common.mk; fi; #Include DNS66 default config
 
 enterAndClear "vendor/cmsdk";
 awk -i inplace '!/WeatherManagerServiceBroker/' cm/res/res/values/config.xml; #Disable Weather

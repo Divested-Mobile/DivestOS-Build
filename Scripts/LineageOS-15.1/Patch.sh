@@ -42,7 +42,7 @@
 #Download some (non-executable) out-of-tree files for use later on
 mkdir /tmp/ar;
 cd /tmp/ar;
-wget https://spotco.us/hosts -N; #XXX: /hosts is built from non-commercial use files, switch to /hsc for release
+if [ "$HOSTS_BLOCKING" = true ]; then wget https://spotco.us/hosts -N; fi; #XXX: /hosts is built from non-commercial use files, switch to /hsc for release
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
 mkdir -p "$ANDROID_HOME/licenses";
@@ -181,7 +181,7 @@ patch -p1 < $patches"android_system_vold/0001-AES256.patch"; #Add a variable for
 
 enterAndClear "vendor/lineage";
 rm -rf overlay/common/vendor/lineage-sdk/packages; #Remove analytics
-awk -i inplace '!/50-lineage.sh/' config/common.mk; #Make sure our hosts is always used
+if [ "$HOSTS_BLOCKING" = true ]; then awk -i inplace '!/50-lineage.sh/' config/common.mk; fi; #Make sure our hosts is always used
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra keys
 awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
 patch -p1 < $patches"android_vendor_lineage/0001-SCE.patch"; #Include our extras such as MicroG and F-Droid
@@ -191,8 +191,8 @@ cp -r $patches"android_vendor_lineage/firmware_deblobber" .;
 cp $patches"android_vendor_lineage/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;
 sed -i 's/LINEAGE_BUILDTYPE := UNOFFICIAL/LINEAGE_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
-cp $patches"android_vendor_lineage/dns66.json" prebuilt/common/etc/dns66.json;
-sed -i '4iPRODUCT_COPY_FILES += vendor/lineage/prebuilt/common/etc/dns66.json:system/etc/dns66/settings.json' config/common.mk; #Include DNS66 default config
+if [ "$HOSTS_BLOCKING" = false ]; then cp $patches"android_vendor_lineage/dns66.json" prebuilt/common/etc/dns66.json; fi;
+if [ "$HOSTS_BLOCKING" = false ]; then sed -i '4iPRODUCT_COPY_FILES += vendor/lineage/prebuilt/common/etc/dns66.json:system/etc/dns66/settings.json' config/common.mk; fi; #Include DNS66 default config
 #
 #END OF ROM CHANGES
 #
