@@ -190,6 +190,7 @@ awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra 
 awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch"; #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk;
+if [ "$MICROG_INCLUDED" = true ]; then cp $patches"android_vendor_cm/sce-microG.mk" config/sce-microG.mk; fi;
 if [ "$MICROG_INCLUDED" = true ]; then echo "include vendor/cm/config/sce-microG.mk" >> config/sce.mk; fi;
 cp $patches"android_vendor_cm/config.xml" overlay/common/vendor/cmsdk/cm/res/res/values/config.xml; #Per app performance profiles
 cp -r $patches"android_vendor_cm/firmware_deblobber" .;

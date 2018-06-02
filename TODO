@@ -5,7 +5,7 @@ High Priority (Release blockers)
 		- Automate incremental update generation
 		- Switch HOSTS to release variant
 		- New RSA 4096 signing keys
-		- Consider removing microG or just keeping UnifiedNLP
+		- Consider removing microG or instead keeping UnifiedNLP
 	Project
 		- Create cryptocurrency addresses
 		- Setup Stripe
