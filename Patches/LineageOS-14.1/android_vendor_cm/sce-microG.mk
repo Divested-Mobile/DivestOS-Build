@@ -6,6 +6,5 @@ PRODUCT_PACKAGES += \
 
 # UnifiedNLP Backends
 PRODUCT_PACKAGES += \
-    DejaVuNlpBackend \
     IchnaeaNlpBackend \
     NominatimNlpBackend

@@ -188,7 +188,8 @@ rm -rf overlay/common/vendor/cmsdk/packages; #Remove analytics
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra keys
 awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
-patch -p1 < $patches"android_vendor_cm/0001-SCE.patch"; #Include our extras such as MicroG and F-Droid
+patch -p1 < $patches"android_vendor_cm/0001-SCE.patch";
+sed -i '3iinclude vendor/cm/config/sce.mk' config/common.mk; #Include extra apps
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk;
 if [ "$MICROG_INCLUDED" = true ]; then cp $patches"android_vendor_cm/sce-microG.mk" config/sce-microG.mk; fi;
 if [ "$MICROG_INCLUDED" = true ]; then echo "include vendor/cm/config/sce-microG.mk" >> config/sce.mk; fi;
@@ -224,7 +225,7 @@ cd $base;
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enhanceLocation "$0"' {} \;
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableDexPreOpt "$0"' {} \;
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableForcedEncryption "$0"' {} \;
-if [ "$STRONG_ENCRYPTION_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableStrongEncryption "$0"' {} \; fi;
+#if [ "$STRONG_ENCRYPTION_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableStrongEncryption "$0"' {} \; fi;
 find "kernel" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'hardenDefconfig "$0"' {} \;
 cd $base;
 
