@@ -81,8 +81,8 @@ sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/co
 sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml;
 if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < $patches"android_frameworks_base/0002-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
 if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < $patches"android_frameworks_base/0003-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
-#patch -p1 < $patches"android_frameworks_base/0004-DNS_Cloudflare.patch"; #Switch to Cloudflare DNS
-patch -p1 < $patches"android_frameworks_base/0004-DNS_OpenNIC.patch"; #Switch to OpenNIC DNS
+if [ "$DEFAULT_DNS" = "Cloudflare" ]; then patch -p1 < $patches"android_frameworks_base/0004-DNS_Cloudflare.patch"; fi; #Switch to Cloudflare DNS
+if [ "$DEFAULT_DNS" = "OpenNIC" ]; then patch -p1 < $patches"android_frameworks_base/0004-DNS_OpenNIC.patch"; fi; #Switch to OpenNIC DNS
 #patch -p1 < $patches"android_frameworks_base/0005-Connectivity.patch"; #Change connectivity check URLs to ours
 patch -p1 < $patches"android_frameworks_base/0006-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
 if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < $patches"android_frameworks_base/Copperhead/0005-Deny_USB.patch"; fi; #Deny USB support (Copperhead CC BY-NC-SA)
@@ -104,10 +104,12 @@ enterAndClear "lineage-sdk";
 awk -i inplace '!/WeatherManagerServiceBroker/' lineage/res/res/values/config.xml; #Disable Weather
 cp $patches"android_lineage-sdk/profile_default.xml" lineage/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
 
+if [ "$MICROG_INCLUDED" = true ]; then
 enterAndClear "packages/apps/FakeStore";
 sed -i 's|$(OUT_DIR)/target/|$(PWD)/$(OUT_DIR)/target/|' Android.mk;
 sed -i 's/ln -s /ln -sf /' Android.mk;
 sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools = "25.0.3"/' build.gradle;
+fi;
 
 enterAndClear "packages/apps/FDroid";
 cp $patches"android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add extra repos
@@ -122,11 +124,15 @@ sed -i 's/\"org\.fdroid\.fdroid/\"org.fdroid.fdroid_dos/' app/src/main/java/org/
 #release-keys: CB:1E:E2:EC:40:D0:5E:D6:78:F4:2A:E7:01:CD:FA:29:EE:A7:9D:0E:6D:63:32:76:DE:23:0B:F3:49:40:67:C3
 #test-keys: C8:A2:E9:BC:CF:59:7C:2F:B6:DC:66:BE:E2:93:FC:13:F2:FC:47:EC:77:BC:6B:2B:0D:52:C1:1F:51:19:2A:B8
 
+if [ "$MICROG_INCLUDED" = true ]; then
 enterAndClear "packages/apps/GmsCore";
 git submodule update --init --recursive;
+fi;
 
+if [ "$MICROG_INCLUDED" = true ]; then
 enterAndClear "packages/apps/GsfProxy";
 sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools = "25.0.3"/' build.gradle;
+fi;
 
 enterAndClear "packages/apps/LineageParts";
 rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of the analytics
