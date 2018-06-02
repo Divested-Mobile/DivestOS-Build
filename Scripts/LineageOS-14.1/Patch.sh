@@ -82,8 +82,8 @@ sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/co
 sed -i 's|db_default_journal_mode" translatable="false">PERSIST|db_default_journal_mode" translatable="false">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
 sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml;
 patch -p1 < $patches"android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480
-patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch"; #Allow packages to spoof their signature (MicroG)
-patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; #Restrict signature spoofing to system apps signed with the platform key
+if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (MicroG)
+if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
 #patch -p1 < $patches"android_frameworks_base/0006-DNS_Cloudflare.patch"; #Switch to Cloudflare DNS
 patch -p1 < $patches"android_frameworks_base/0006-DNS_OpenNIC.patch"; #Switch to OpenNIC DNS
 #patch -p1 < $patches"android_frameworks_base/0007-Connectivity.patch"; #Change connectivity check URLs to ours
@@ -128,7 +128,6 @@ sed -i 's/\"org\.fdroid\.fdroid/\"org.fdroid.fdroid_dos/' app/src/main/java/org/
 
 enterAndClear "packages/apps/GmsCore";
 git submodule update --init --recursive;
-sed -i 's|build/outputs/apk/play-services-core-release-unsigned.apk|build/outputs/apk/release/play-services-core-release-unsigned.apk|' Android.mk;
 
 enterAndClear "packages/apps/GsfProxy";
 sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools = "25.0.3"/' build.gradle;
@@ -139,7 +138,7 @@ patch -p1 < $patches"android_packages_apps_PackageInstaller/64d8b44.diff"; #Fix 
 enterAndClear "packages/apps/Settings";
 git revert 2ebe6058c546194a301c1fd22963d6be4adbf961; #don't hide oem unlock
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
-sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; #MicroG doesn't support Backup, hide the options
+if [ "$MICROG_INCLUDED" = true ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
 
 enterAndClear "packages/apps/SetupWizard";
 patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove the rest of CMStats
@@ -185,6 +184,7 @@ awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra 
 awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
 patch -p1 < $patches"android_vendor_cm/0001-SCE.patch"; #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk;
+if [ "$MICROG_INCLUDED" = true ]; then echo "include vendor/cm/config/sce-microG.mk" >> config/sce.mk; fi;
 cp $patches"android_vendor_cm/config.xml" overlay/common/vendor/cmsdk/cm/res/res/values/config.xml; #Per app performance profiles
 cp -r $patches"android_vendor_cm/firmware_deblobber" .;
 cp $patches"android_vendor_cm/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;

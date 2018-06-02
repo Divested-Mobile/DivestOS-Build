@@ -79,8 +79,8 @@ enterAndClear "frameworks/base";
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
 sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml;
-patch -p1 < $patches"android_frameworks_base/0002-Signature_Spoofing.patch"; #Allow packages to spoof their signature (microG)
-patch -p1 < $patches"android_frameworks_base/0003-Harden_Sig_Spoofing.patch"; #Restrict signature spoofing to system apps signed with the platform key
+if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < $patches"android_frameworks_base/0002-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
+if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < $patches"android_frameworks_base/0003-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
 #patch -p1 < $patches"android_frameworks_base/0004-DNS_Cloudflare.patch"; #Switch to Cloudflare DNS
 patch -p1 < $patches"android_frameworks_base/0004-DNS_OpenNIC.patch"; #Switch to OpenNIC DNS
 #patch -p1 < $patches"android_frameworks_base/0005-Connectivity.patch"; #Change connectivity check URLs to ours
@@ -124,7 +124,6 @@ sed -i 's/\"org\.fdroid\.fdroid/\"org.fdroid.fdroid_dos/' app/src/main/java/org/
 
 enterAndClear "packages/apps/GmsCore";
 git submodule update --init --recursive;
-sed -i 's|build/outputs/apk/play-services-core-release-unsigned.apk|build/outputs/apk/release/play-services-core-release-unsigned.apk|' Android.mk;
 
 enterAndClear "packages/apps/GsfProxy";
 sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools = "25.0.3"/' build.gradle;
@@ -141,7 +140,7 @@ patch -p1 < $patches"android_packages_apps_Settings/0002-Remove_Analytics.patch"
 if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < $patches"android_packages_apps_Settings/Copperhead/0003-Deny_USB.patch"; fi; #Deny USB support (Copperhead CC BY-NC-SA)
 patch -p1 < $patches"android_packages_apps_Settings/0004-PDB_Fixes.patch"; #Fix crashes when the PersistentDataBlockManager service isn't available
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length
-sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; #MicroG doesn't support Backup, hide the options
+if [ "$MICROG_INCLUDED" = true ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
 rm res/values/strings.xml.orig;
 
 enterAndClear "packages/apps/SetupWizard";
@@ -187,6 +186,7 @@ awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra 
 awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
 patch -p1 < $patches"android_vendor_lineage/0001-SCE.patch"; #Include our extras such as MicroG and F-Droid
 cp $patches"android_vendor_lineage/sce.mk" config/sce.mk;
+if [ "$MICROG_INCLUDED" = true ]; then echo "include vendor/lineage/config/sce-microG.mk" >> config/sce.mk; fi;
 cp -r $patches"android_vendor_lineage/firmware_deblobber" .;
 cp $patches"android_vendor_lineage/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;
 sed -i 's/LINEAGE_BUILDTYPE := UNOFFICIAL/LINEAGE_BUILDTYPE := dos/' config/common.mk; #Change buildtype

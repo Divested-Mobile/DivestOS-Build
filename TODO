@@ -1,10 +1,11 @@
-Last updated: 2018-05-24
+Last updated: 2018-06-02
 
 High Priority (Release blockers)
 	Build
 		- Automate incremental update generation
 		- Switch HOSTS to release variant
 		- New RSA 4096 signing keys
+		- Consider removing microG or just keeping UnifiedNLP
 	Project
 		- Create cryptocurrency addresses
 		- Setup Stripe

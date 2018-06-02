@@ -45,6 +45,8 @@ export GRADLE_OPTS="-Xmx2048m";
 
 export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches
 
+export MICROG_INCLUDED=true; #Switch to false to prevent inclusion of microG
+
 export MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
 export MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options are quick, extra, slow, full
 
