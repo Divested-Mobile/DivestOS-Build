@@ -17,20 +17,30 @@
 
 #Sets settings used by all other scripts
 
-export androidWorkspace="/mnt/Drive-3/";
-export base=$androidWorkspace"Build/LineageOS-14.1/";
+#START OF USER CONFIGURABLE OPTIONS
+export MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
+export MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options are quick, extra, slow, full
+export MICROG_INCLUDED=true; #Switch to false to prevent inclusion of microG
+export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches
+
+export androidWorkspace="/mnt/Drive-3/"; #XXX: THIS MUST BE CORRECT TO BUILD!
+#END OF USER CONFIGURABLE OPTIONS
+
+BUILD_WORKING_DIR=${PWD##*/};
 
 export SIGNING_KEY_DIR=$androidWorkspace"Signing_Keys";
-export OTA_PACKAGE_SIGNING_KEY=$SIGNING_KEY_DIR"/releasekey"
+export OTA_PACKAGE_SIGNING_KEY=$SIGNING_KEY_DIR"/releasekey";
+
+export base=$androidWorkspace"Build/$BUILD_WORKING_DIR/";
 
 export prebuiltApps=$androidWorkspace"PrebuiltApps/";
-export patches=$androidWorkspace"Patches/LineageOS-14.1/";
+export patches=$androidWorkspace"Patches/$BUILD_WORKING_DIR/";
 export cvePatchesLinux=$androidWorkspace"Patches/Linux/";
 export cvePatchesAndroid=$androidWorkspace"Patches/Android/";
 export dosWallpapers=$androidWorkspace"Patches/Wallpapers/";
 
 export scriptsCommon=$androidWorkspace"Scripts/Common/";
-export scripts=$androidWorkspace"Scripts/LineageOS-14.1/";
+export scripts=$androidWorkspace"Scripts/$BUILD_WORKING_DIR/";
 export cveScripts=$scripts"CVE_Patchers/";
 
 export ANDROID_HOME="/home/$USER/Android/Sdk";
@@ -40,15 +50,7 @@ export KBUILD_BUILD_HOST="dosbm";
 
 export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation";
 export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}";
-
 export GRADLE_OPTS="-Xmx2048m";
-
-export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches
-
-export MICROG_INCLUDED=true; #Switch to false to prevent inclusion of microG
-
-export MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
-export MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options are quick, extra, slow, full
 
 source $scriptsCommon"/Functions.sh";
 source $scripts"/Functions.sh";
