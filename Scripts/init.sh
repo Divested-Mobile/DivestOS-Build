@@ -21,6 +21,7 @@
 export androidWorkspace="/mnt/Drive-3/"; #XXX: THIS MUST BE CORRECT TO BUILD!
 
 export DEFAULT_DNS="OpenNIC"; #Sets default DNS, choices: Cloudflare, OpenNIC
+export GLONASS_FORCED_ENABLE=false; #Enables GLONASS on all devices
 export MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
 export MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options are quick, extra, slow, full
 export MICROG_INCLUDED=true; #Switch to false to prevent inclusion of microG
@@ -37,9 +38,6 @@ else
 	echo "Not a valid workspace!";
 	return 1;
 fi;
-
-export SIGNING_KEY_DIR=$androidWorkspace"Signing_Keys";
-export OTA_PACKAGE_SIGNING_KEY=$SIGNING_KEY_DIR"/releasekey";
 
 export base=$androidWorkspace"Build/$BUILD_WORKING_DIR/";
 if [ ! -d $base ]; then
@@ -60,6 +58,9 @@ if [ ! -d $scripts ]; then
 	return 1;
 fi;
 export cveScripts=$scripts"CVE_Patchers/";
+
+export SIGNING_KEY_DIR=$androidWorkspace"Signing_Keys";
+export OTA_PACKAGE_SIGNING_KEY=$SIGNING_KEY_DIR"/releasekey";
 
 export ANDROID_HOME="/home/$USER/Android/Sdk";
 

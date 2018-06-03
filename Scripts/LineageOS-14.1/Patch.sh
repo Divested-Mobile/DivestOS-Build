@@ -197,6 +197,7 @@ cp $patches"android_vendor_cm/config.xml" overlay/common/vendor/cmsdk/cm/res/res
 cp -r $patches"android_vendor_cm/firmware_deblobber" .;
 cp $patches"android_vendor_cm/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
+if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/CM_BUILDTYPE := dos/CM_BUILDTYPE := dosNC/' config/common.mk; fi;
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
 #if [ "$HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += DNS66" >> config/sce.mk; fi; #Include DNS66 as an alternative
 if [ "$HOSTS_BLOCKING" = false ]; then cp $patches"android_vendor_cm/dns66.json" prebuilt/common/etc/dns66.json; fi;
