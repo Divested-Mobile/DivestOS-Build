@@ -75,7 +75,7 @@ patchWorkspace() {
 
 	source $scripts/Patch.sh;
 	source $scripts/Defaults.sh;
-	source $scripts/Overclock.sh;
+	if [ "$OVERCLOCKS_ENABLED" = true ]; then source $scripts/Overclock.sh; fi;
 	source $scripts/Optimize.sh;
 	source $scripts/Rebrand.sh;
 	source $scripts/Theme.sh;

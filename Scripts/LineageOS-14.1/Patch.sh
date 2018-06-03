@@ -198,6 +198,7 @@ cp -r $patches"android_vendor_cm/firmware_deblobber" .;
 cp $patches"android_vendor_cm/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
+#if [ "$HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += DNS66" >> config/sce.mk; fi; #Include DNS66 as an alternative
 if [ "$HOSTS_BLOCKING" = false ]; then cp $patches"android_vendor_cm/dns66.json" prebuilt/common/etc/dns66.json; fi;
 if [ "$HOSTS_BLOCKING" = false ]; then sed -i '4iPRODUCT_COPY_FILES += vendor/cm/prebuilt/common/etc/dns66.json:system/etc/dns66/settings.json' config/common.mk; fi; #Include DNS66 default config
 
