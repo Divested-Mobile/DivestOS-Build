@@ -97,12 +97,12 @@
             {
                 "location": "https://spotco.us/blocklists/Mobile.txt",
                 "state": 0,
-                "title": "Ads - Spot Communications - GPLv3"
+                "title": "Ads - Divested Computing, Inc. - GPLv3"
             },
             {
                 "location": "https://spotco.us/blocklists/Experimental.txt",
                 "state": 0,
-                "title": "Ads - Spot Communications - MIT"
+                "title": "Ads - Divested Computing, Inc. - MIT"
             },
             {
                 "location": "https://ransomwaretracker.abuse.ch/downloads/RW_DOMBL.txt",

@@ -1,6 +1,6 @@
 #!/bin/bash
 #DivestOS: A privacy oriented Android distribution
-#Copyright (c) 2017-2018 Spot Communications, Inc.
+#Copyright (c) 2017-2018 Divested Computing, Inc.
 #
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -20,10 +20,10 @@
 #START OF USER CONFIGURABLE OPTIONS
 export androidWorkspace="/mnt/Drive-3/"; #XXX: THIS MUST BE CORRECT TO BUILD!
 
-export DEFAULT_DNS="OpenNIC"; #Sets default DNS, choices: Cloudflare, OpenNIC
+export DEFAULT_DNS="OpenNIC"; #Sets default DNS. Options: Cloudflare, OpenNIC
 export GLONASS_FORCED_ENABLE=false; #Enables GLONASS on all devices
 export MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
-export MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options are quick, extra, slow, full
+export MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
 export MICROG_INCLUDED=true; #Switch to false to prevent inclusion of microG
 export HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
 export OVERCLOCKS_ENABLED=true; #Switch to false to disable overclocks
