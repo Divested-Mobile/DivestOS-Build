@@ -31,11 +31,21 @@ export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion o
 #END OF USER CONFIGURABLE OPTIONS
 
 BUILD_WORKING_DIR=${PWD##*/};
+if [ -d ".repo" ]; then
+	echo "Detected $BUILD_WORKING_DIR";
+else
+	echo "Not a valid workspace!";
+	return 1;
+fi;
 
 export SIGNING_KEY_DIR=$androidWorkspace"Signing_Keys";
 export OTA_PACKAGE_SIGNING_KEY=$SIGNING_KEY_DIR"/releasekey";
 
 export base=$androidWorkspace"Build/$BUILD_WORKING_DIR/";
+if [ ! -d $base ]; then
+	echo "Path mismatch! Please update init.sh!";
+	return 1;
+fi;
 
 export prebuiltApps=$androidWorkspace"PrebuiltApps/";
 export patches=$androidWorkspace"Patches/$BUILD_WORKING_DIR/";
@@ -45,6 +55,10 @@ export dosWallpapers=$androidWorkspace"Patches/Wallpapers/";
 
 export scriptsCommon=$androidWorkspace"Scripts/Common/";
 export scripts=$androidWorkspace"Scripts/$BUILD_WORKING_DIR/";
+if [ ! -d $scripts ]; then
+	echo "$BUILD_WORKING_DIR is not supported!";
+	return 1;
+fi;
 export cveScripts=$scripts"CVE_Patchers/";
 
 export ANDROID_HOME="/home/$USER/Android/Sdk";
