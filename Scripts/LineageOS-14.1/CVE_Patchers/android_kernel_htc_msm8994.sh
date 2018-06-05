@@ -89,6 +89,7 @@ git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0005.patch
 git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0006.patch
 git apply $cvePatchesLinux/CVE-2017-17558/ANY/0001.patch
+git apply $cvePatchesLinux/CVE-2017-17806/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-2618/3.10/0001.patch
 git apply $cvePatchesLinux/CVE-2017-2671/^4.10/0001.patch
 git apply $cvePatchesLinux/CVE-2017-5669/^4.9/0001.patch
@@ -114,5 +115,5 @@ git apply $cvePatchesLinux/CVE-2016-6693/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-1000111/ANY/0001.patch
-editKernelLocalversion "-dos.p114"
+editKernelLocalversion "-dos.p115"
 cd $base

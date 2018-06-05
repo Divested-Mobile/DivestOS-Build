@@ -20,6 +20,7 @@ git apply $cvePatchesLinux/CVE-2017-16650/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0005.patch
 git apply $cvePatchesLinux/CVE-2017-16USB/ANY/0006.patch
+git apply $cvePatchesLinux/CVE-2017-17806/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-8246/3.4/0002.patch
 git apply $cvePatchesLinux/CVE-2017-8254/3.4/0001.patch
 git apply $cvePatchesLinux/CVE-2017-8254/3.4/0002.patch
@@ -27,5 +28,5 @@ git apply $cvePatchesLinux/CVE-2017-8266/3.4/0001.patch
 git apply $cvePatchesLinux/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $cvePatchesLinux/CVE-2016-2475/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p27"
+editKernelLocalversion "-dos.p28"
 cd $base

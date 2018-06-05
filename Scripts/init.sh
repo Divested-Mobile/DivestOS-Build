@@ -21,7 +21,7 @@
 export androidWorkspace="/mnt/Drive-3/"; #XXX: THIS MUST BE CORRECT TO BUILD!
 
 export DEFAULT_DNS="OpenNIC"; #Sets default DNS. Options: Cloudflare, OpenNIC
-export GLONASS_FORCED_ENABLE=false; #Enables GLONASS on all devices
+export GLONASS_FORCED_ENABLE=true; #Enables GLONASS on all devices
 export MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
 export MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
 export MICROG_INCLUDED=true; #Switch to false to prevent inclusion of microG
