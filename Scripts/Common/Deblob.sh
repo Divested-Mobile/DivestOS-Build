@@ -93,6 +93,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so";
 	blobs=$blobs"|liboemcrypto.so|libtzdrmgenprov.so";
 	blobs=$blobs"|libpvr.so|librmp.so|libsi.so|libSSEPKCS11.so";
+	makes=$makes"android.hardware.drm.*";
 
 	#Face Unlock [Google]
 	blobs=$blobs"|libfacenet.so|libfilterpack_facedetect.so|libfrsdk.so";
@@ -247,7 +248,7 @@ deblobDevice() {
 		sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig.mk; #Disable WiPower
 	fi;
 	if [ -f device.mk ]; then
-		awk -i inplace '!/'$makes'/' device.mk; #Remove all shim references from device makefile
+		awk -i inplace '!/'$makes'/' device.mk; #Remove references from device makefile
 		if [ -z "$replaceTime" ]; then
 			#Switch to Sony TimeKeep
 			echo "PRODUCT_PACKAGES += \\" >> device.mk;
@@ -256,7 +257,7 @@ deblobDevice() {
 		fi;
 	fi;
 	if [ -f "${PWD##*/}".mk ] && [ "${PWD##*/}".mk != "sepolicy" ]; then
-		awk -i inplace '!/'$makes'/' "${PWD##*/}".mk; #Remove all shim references from device makefile
+		awk -i inplace '!/'$makes'/' "${PWD##*/}".mk; #Remove references from device makefile
 		if [ -z "$replaceTime" ]; then
 			#Switch to Sony TimeKeep
 			echo "PRODUCT_PACKAGES += \\" >> "${PWD##*/}".mk;

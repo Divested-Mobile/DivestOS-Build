@@ -1,0 +1,19 @@
+dm-verity has been supported since KitKat! Why isn't it enabled on all devices???
+
+fstab /system
+	verify=[metadata partition]
+
+device.mk
+	ifeq ($(TARGET_BUILD_VARIANT),user)
+	PRODUCT_SYSTEM_VERITY_PARTITION := [system partition]
+	$(call inherit-product, build/target/product/verity.mk)
+	endif
+
+init.device.rc
+	on init
+		# Load persistent dm-verity state
+		verity_load_state
+	on early-boot
+		# Update dm-verity state and set partition.*.verified properties
+		verity_update_state
+
