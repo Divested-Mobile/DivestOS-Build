@@ -214,7 +214,8 @@ sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod
 #
 #START OF DEVICE CHANGES
 #
-#enterAndClear "device/amazon/hdx-common";
+enterAndClear "device/amazon/hdx-common";
+sed -i 's/,encryptable=footer//' rootdir/etc/fstab.qcom; #Using footer will break the bootloader, it might work with /misc enabled
 #XXX: If not used with a supported recovery, it'll be thrown into a bootloop, don't worry just 'fastboot erase misc' and reboot
 #echo "/dev/block/platform/msm_sdcc.1/by-name/misc /misc emmc defaults defaults" >> rootdir/etc/fstab.qcom; #Add the misc (mmcblk0p5) partition for recovery flags
 
