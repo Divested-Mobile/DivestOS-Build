@@ -1,4 +1,5 @@
-export desc='/O=Divested Computing, Inc./CN=DivestOS/emailAddress=support@divestos.xyz';
+#export desc='/O=Divested Computing, Inc./CN=DivestOS/emailAddress=support@divestos.xyz';
+export desc='/O=Example/CN=ExampleOS/emailAddress=support@example.com';
 export type='rsa'; #Options: rsa, ec
 
 $base/development/tools/make_key extra "$desc" "$type";

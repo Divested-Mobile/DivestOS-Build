@@ -125,8 +125,8 @@ sed -i 's/org\.fdroid\.fdroid/org.fdroid.fdroid_dos/' app/build.gradle; #Change 
 enterAndClear "packages/apps/FDroidPrivilegedExtension";
 sed -i 's/43238d512c1e5eb2d6569f4a3afbf5523418b82e0a3ed1552770abb9a9c9ccab/cb1ee2ec40d05ed678f42ae701cdfa29eea79d0e6d633276de230bf3494067c3/' app/src/main/java/org/fdroid/fdroid/privileged/ClientWhitelist.java;
 sed -i 's/\"org\.fdroid\.fdroid/\"org.fdroid.fdroid_dos/' app/src/main/java/org/fdroid/fdroid/privileged/ClientWhitelist.java;
-#release-keys: CB:1E:E2:EC:40:D0:5E:D6:78:F4:2A:E7:01:CD:FA:29:EE:A7:9D:0E:6D:63:32:76:DE:23:0B:F3:49:40:67:C3
-#test-keys: C8:A2:E9:BC:CF:59:7C:2F:B6:DC:66:BE:E2:93:FC:13:F2:FC:47:EC:77:BC:6B:2B:0D:52:C1:1F:51:19:2A:B8
+#release-key: CB:1E:E2:EC:40:D0:5E:D6:78:F4:2A:E7:01:CD:FA:29:EE:A7:9D:0E:6D:63:32:76:DE:23:0B:F3:49:40:67:C3
+#test-key: C8:A2:E9:BC:CF:59:7C:2F:B6:DC:66:BE:E2:93:FC:13:F2:FC:47:EC:77:BC:6B:2B:0D:52:C1:1F:51:19:2A:B8
 
 if [ "$MICROG_INCLUDED" = true ]; then
 enterAndClear "packages/apps/GmsCore";

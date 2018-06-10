@@ -79,7 +79,6 @@ patchWorkspace() {
 	repopick -f 214824 209584 209585 215010 214300; #g3-common
 	repopick -f 211404 211405 211406 211407 211408 211409; #d852
 	repopick -f 211396 214817; #d855
-	#repopick -t trust_interface;
 
 	source $scripts/Patch.sh;
 	source $scripts/Defaults.sh;

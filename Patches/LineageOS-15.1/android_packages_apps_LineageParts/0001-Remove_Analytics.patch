@@ -1,4 +1,4 @@
-From 0539b51319f6e28f5cc9b14f6477a8cb0a9e15b5 Mon Sep 17 00:00:00 2001
+From 1112cabae9ee20b0b1386bc6c3bf0d1614ce8a6e Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Thu, 19 Apr 2018 20:46:02 -0400
 Subject: [PATCH] Remove analytics
@@ -10,8 +10,8 @@ Change-Id: Idcc15bfeda4805b305423534663429942abd1bcf
  res/values/config.xml         |  3 ---
  res/values/strings.xml        | 22 ----------------------
  res/xml/parts_catalog.xml     |  5 -----
- res/xml/trust_preferences.xml |  2 --
- 6 files changed, 58 deletions(-)
+ res/xml/trust_preferences.xml |  3 ---
+ 6 files changed, 59 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
 index 237db74..26d4a34 100644
@@ -62,7 +62,7 @@ index 85e774a..db3507c 100644
  -keep class org.lineageos.lineageparts.hardware.*
  -keep class org.lineageos.lineageparts.input.*
 diff --git a/res/values/config.xml b/res/values/config.xml
-index d49bab4..e510fdf 100644
+index 4236b27..eed044a 100644
 --- a/res/values/config.xml
 +++ b/res/values/config.xml
 @@ -17,9 +17,6 @@
@@ -76,10 +76,10 @@ index d49bab4..e510fdf 100644
      <bool name="config_showWeatherMenu">true</bool>
  
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 0a3e654..8d744ac 100644
+index 3070c83..f3e27ed 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -535,28 +535,6 @@
+@@ -537,28 +537,6 @@
                   <b>Total commits:</b> <xliff:g id="total_commits">%2$s</xliff:g><br/><br/>
                   <b>Last update:</b> <xliff:g id="date">%3$s</xliff:g>]]></string>
  
@@ -109,7 +109,7 @@ index 0a3e654..8d744ac 100644
      <string name="accelerometer_title">Auto-rotate screen</string>
      <string name="display_rotation_title">Rotation settings</string>
 diff --git a/res/xml/parts_catalog.xml b/res/xml/parts_catalog.xml
-index 5e2a106..d33e345 100644
+index 66a3116..7721ed5 100644
 --- a/res/xml/parts_catalog.xml
 +++ b/res/xml/parts_catalog.xml
 @@ -74,11 +74,6 @@
@@ -125,17 +125,19 @@ index 5e2a106..d33e345 100644
            android:title="@string/power_menu_title"
            android:fragment="org.lineageos.lineageparts.input.PowerMenuActions"
 diff --git a/res/xml/trust_preferences.xml b/res/xml/trust_preferences.xml
-index 2e4e0a6..ee58ae4 100644
+index 2afae69..9c363a9 100644
 --- a/res/xml/trust_preferences.xml
 +++ b/res/xml/trust_preferences.xml
-@@ -44,7 +44,5 @@
+@@ -46,9 +46,6 @@
          <org.lineageos.internal.lineageparts.LineagePartsPreference
              android:key="privacy_guard_manager" />
  
 -        <org.lineageos.internal.lineageparts.LineagePartsPreference
 -            android:key="lineagestats" />
-     </PreferenceCategory>
- </PreferenceScreen>
+-
+         <ListPreference
+             android:key="sms_security_check_limit"
+             android:defaultValue="30"
 -- 
-2.17.0
+2.17.1
 
