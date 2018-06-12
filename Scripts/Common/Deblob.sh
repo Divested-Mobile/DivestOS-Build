@@ -200,7 +200,7 @@ echo "Deblobbing..."
 	#Vulkan [Qualcomm]
 	#blobs=$blobs"|libllvm-qgl.so|vulkan.msm.*.so";
 
-	#Wfd (Wireless Display) [Qualcomm]
+	#Wfd (Wireless Display? Wi-Fi Direct?) [Qualcomm]
 	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdcommonutils.so|libwfdhdcpcp.so|libwfdmmsink.so|libwfdmmsrc.so|libwfdmmutils.so|libwfdnative.so|libwfdrtsp.so|libwfdservice.so|libwfdsm.so|libwfduibcinterface.so|libwfduibcsinkinterface.so|libwfduibcsink.so|libwfduibcsrcinterface.so|libwfduibcsrc.so|WfdCommon.jar|wfdconfigsink.xml|wfdconfig.xml|wfdservice|WfdService.apk";
 
 	#Widevine (DRM) [Google]

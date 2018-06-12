@@ -54,7 +54,7 @@ buildAll() {
 	brunch lineage_thor-userdebug; #deprecated
 	brunch lineage_clark-user;
 	brunch lineage_FP2-user;
-#	brunch lineage_h815-user; #deprecated (UPSTREAM) drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes
+	brunch lineage_h815-user; #deprecated (UPSTREAM) drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes
 	brunch lineage_h850-userdebug;
 	brunch lineage_hammerhead-user;
 	brunch lineage_herolte-user;

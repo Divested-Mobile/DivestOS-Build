@@ -81,6 +81,10 @@
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
 	<project path="packages/apps/FDroidPrivilegedExtension" name="privileged-extension.git" remote="fdroid" revision="master" />
 	<project path="packages/apps/FDroid" name="fdroidclient.git" remote="fdroid" revision="master" />
+
+	<!-- CAF -->
+	<remote name="caf" fetch="https://source.codeaurora.org/quic/la/" />
+	<project path="bootable/bootloader/lk" name="kernel/lk" remote="caf" revision="refs/tags/LNX.LER.1.2-36500-8x74.0" />
 <!-- END OF ADDITIONAL REPOS -->
 
 

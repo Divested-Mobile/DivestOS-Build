@@ -91,6 +91,10 @@
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
 	<project path="packages/apps/FDroidPrivilegedExtension" name="privileged-extension.git" remote="fdroid" revision="master" />
 	<project path="packages/apps/FDroid" name="fdroidclient.git" remote="fdroid" revision="master" />
+
+	<!-- CAF -->
+	<remote name="caf" fetch="https://source.codeaurora.org/quic/la/" />
+	<project path="bootable/bootloader/lk" name="kernel/lk" remote="caf" revision="refs/tags/LNX.LER.1.2-36500-8x74.0" />
 <!-- END OF ADDITIONAL REPOS -->
 
 
@@ -122,12 +126,6 @@
 	<project path="device/htc/himaul" name="LineageOS/android_device_htc_himaul" remote="github" />
 	<project path="device/htc/hima-common" name="LineageOS/android_device_htc_hima-common" remote="github" />
 	<project path="kernel/htc/msm8994" name="LineageOS/android_kernel_htc_msm8994" remote="github" />
-
-	<!-- LG G3 (d855) -->
-	<project path="device/lge/g3-common" name="LineageOS/android_device_lge_g3-common" remote="github" />
-	<project path="device/lge/d852" name="LineageOS/android_device_lge_d852" remote="github" />
-	<project path="device/lge/d855" name="LineageOS/android_device_lge_d855" remote="github" />
-	<project path="kernel/lge/g3" name="LineageOS/android_kernel_lge_g3" remote="github" />
 
 	<!-- LG G4 (h815) -->
 	<project path="device/lge/g4-common" name="LineageOS/android_device_lge_g4-common" remote="github" />

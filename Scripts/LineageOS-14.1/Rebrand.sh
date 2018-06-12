@@ -44,7 +44,7 @@ sed -i 's|>LineageOS|>DivestOS|' res/values*/strings.xml;
 
 enter "vendor/cm";
 sed -i 's|https://lineageos.org/legal|https://divestos.xyz/index.php?page=about|' config/common.mk;
-sed -i '/.*ZIPPATH=/s/lineage/coverage/' build/envsetup.sh;
+sed -i '/.*ZIPPATH=/s/lineage/divested/' build/envsetup.sh;
 rm -rf bootanimation #TODO: Create a boot animation
 
 cd $base;

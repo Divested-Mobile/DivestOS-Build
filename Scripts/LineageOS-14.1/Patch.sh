@@ -188,7 +188,6 @@ rm -rf overlay/common/vendor/cmsdk/packages; #Remove analytics
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra keys
 awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
-patch -p1 < $patches"android_vendor_cm/0001-SCE.patch";
 sed -i '3iinclude vendor/cm/config/sce.mk' config/common.mk; #Include extra apps
 cp $patches"android_vendor_cm/sce.mk" config/sce.mk;
 if [ "$MICROG_INCLUDED" = true ]; then cp $patches"android_vendor_cm/sce-microG.mk" config/sce-microG.mk; fi;
@@ -236,6 +235,7 @@ cd $base;
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/lge/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_PARTIALRESUME=y/# CONFIG_PARTIALRESUME is not set/" kernel/motorola/msm8992/arch/arm64/configs/*defconfig; #Breaks on compile
+sed -i "s/CONFIG_CRYPTO_DEV_QCRYPTO=y/# CONFIG_CRYPTO_DEV_QCRYPTO is not set/" kernel/samsung/jf/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 #
 #END OF DEVICE CHANGES
 #
