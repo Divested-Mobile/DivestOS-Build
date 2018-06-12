@@ -71,8 +71,7 @@ export -f buildAll;
 
 patchWorkspace() {
 	if [ "$MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$prebuiltApps $base/build $base/device $base/vendor/cm"; fi;
-	source build/envsetup.sh;
-	repopick -t n_asb_06-2018;
+	#source build/envsetup.sh;
 
 	source $scripts/Patch.sh;
 	source $scripts/Defaults.sh;

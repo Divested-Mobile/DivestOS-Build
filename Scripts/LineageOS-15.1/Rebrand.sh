@@ -21,6 +21,7 @@
 echo "Rebranding...";
 
 enter "bootable/recovery";
+git revert 6ac3bb48f9d10e604d4b2d6c4152be9d35d17ea0;
 patch -p1 < $patches"android_bootable_recovery/0001-Remove_Logo.patch"; #Remove logo rendering code
 rm res*/images/logo_image.png; #Remove logo images
 sed -i 's|Android Recovery|DivestOS Recovery|' *_ui.cpp;

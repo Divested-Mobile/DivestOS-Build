@@ -56,14 +56,14 @@ buildAll() {
 	#brunch lineage_clark-user; #requires blobs from https://androidfilehost.com/?w=files&flid=244563 and permissive and broken
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;
-	brunch lineage_d802-user;
-	brunch lineage_d855-user;
+	brunch lineage_d802-user; #broken upstream - error: 'vendor/lge/g2-common/proprietary/vendor/etc/acdbdata/Bluetooth_cal.acdb'
+	brunch lineage_d855-user; #broken upstream - recovery updater
 	brunch lineage_ether-user;
 	brunch lineage_flo-user;
 	brunch lineage_flounder-user;
 	brunch lineage_griffin-user;
 	#brunch lineage_h850-userdebug;
-	brunch lineage_hammerhead-user;
+	brunch lineage_hammerhead-user; #broken upstream - fatal error: 'linux/msm_audio_calibration.h' file not found
 	brunch lineage_marlin-user;
 	brunch lineage_m8-user;
 	brunch lineage_sailfish-user;
