@@ -89,8 +89,10 @@ if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < $patches"android_f
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig;
 
-#enterAndClear "frameworks/opt/net/ims";
-#patch -p1 < $patches"android_frameworks_opt_net_ims/0001-Fix_Calling.patch"; #Fix calling after we remove IMS
+if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then
+enterAndClear "frameworks/opt/net/ims";
+patch -p1 < $patches"android_frameworks_opt_net_ims/0001-Fix_Calling.patch"; #Fix calling when IMS is removed
+fi
 
 enterAndClear "frameworks/opt/net/wifi";
 #Fix an issue when permision review is enabled that prevents using the Wi-Fi quick tile

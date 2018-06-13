@@ -114,11 +114,11 @@ echo "Deblobbing..."
 	blobs=$blobs"|iop|libqti-iop-client.so|libqti-iop.so|QPerformance.jar";
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
-	#blobs=$blobs"|ims.apk|ims.xml|libimsmedia_jni.so"; #IMS (Core) (To support carriers that have phased out 2G)
+	if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then blobs=$blobs"|ims.apk|ims.xml|libimsmedia_jni.so"; fi; #IMS (Core) (To support carriers that have phased out 2G)
 	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so"; #IMS
 	blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so"; #RTP
 	blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so|qti_permissions.xml"; #Misc.
-	#blobs=$blobs"|volte_modem[/]";
+	if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then blobs=$blobs"|volte_modem[/]"; fi;
 
 	#IPA (Internet Packet Accelerator) [Qualcomm]
 	#This is actually open source (excluding -diag)
@@ -185,8 +185,10 @@ echo "Deblobbing..."
 
 	#Time Service [Qualcomm]
 	#Requires that https://github.com/LineageOS/android_hardware_sony_timekeep be included in repo manifest
+	if [ "$DEBLOBBER_REPLACE_TIME" = true ]; then
 	#blobs=$blobs"|libtime_genoff.so"; #XXX: Breaks radio
-	#blobs=$blobs"|libTimeService.so|time_daemon|TimeService.apk";
+	blobs=$blobs"|libTimeService.so|time_daemon|TimeService.apk";
+	fi;
 
 	#Venus (Hardware Video Decoding) [Qualcomm]
 	#blobs=$blobs"|venus.b00|venus.b01|venus.b02|venus.b03|venus.b04|venus.mbn|venus.mdt";
@@ -229,12 +231,12 @@ deblobDevice() {
 	if [ "${PWD##*/}" == "flo" ] || [ "${PWD##*/}" == "mako" ] || [ "${PWD##*/}" == "kona-common" ] || [ "${PWD##*/}" == "n5110" ] || [ "${PWD##*/}" == "smdk4412-common" ] || [ "${PWD##*/}" == "hdx-common" ] || [ "${PWD##*/}" == "thor" ] || [ "${PWD##*/}" == "flounder" ]; then #Some devices don't need/like TimeKeep
 		replaceTime="false";
 	fi;
-	replaceTime="false"; #Temp disable replacement
+	if [ "$DEBLOBBER_REPLACE_TIME" = false ]; then replaceTime="false"; fi; #Disable replacement
 	if [ -f Android.mk ]; then
 		#Some devices store these in a dedicated firmware partition, others in /system/vendor/firmware, either way the following are just symlinks
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Remove CMN firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(DXHDCP2_SYMLINKS)//' Android.mk; #Remove Discretix firmware
-		#sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(IMS_SYMLINKS)//' Android.mk; #Remove IMS firmware
+		if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(IMS_SYMLINKS)//' Android.mk; fi; #Remove IMS firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(PLAYREADY_SYMLINKS)//' Android.mk; #Remove Microsoft Playready firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WIDEVINE_SYMLINKS)//' Android.mk; #Remove Google Widevine firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WV_SYMLINKS)//' Android.mk; #Remove Google Widevine firmware
@@ -278,17 +280,19 @@ deblobDevice() {
 		sed -i 's/ro.bluetooth.emb_wp_mode=true/ro.bluetooth.emb_wp_mode=false/' system.prop; #Disable WiPower
 		sed -i 's/ro.bluetooth.wipower=true/ro.bluetooth.wipower=false/' system.prop; #Disable WiPower
 		#Disable IMS
-		#sed -i 's/persist.data.iwlan.enable=true/persist.data.iwlan.enable=false/' system.prop;
-		#sed -i 's/persist.ims.volte=true/persist.ims.volte=false/' system.prop;
-		#sed -i 's/persist.ims.vt=true/persist.ims.vt=false/' system.prop;
-		#sed -i 's/persist.radio.calls.on.ims=true/persist.radio.calls.on.ims=false/' system.prop;
-		#sed -i 's/persist.radio.hw_mbn_update=./persist.radio.hw_mbn_update=0/' system.prop;
-		#sed -i 's/persist.radio.jbims=./persist.radio.jbims=0/' system.prop;
-		#sed -i 's/persist.radio.sw_mbn_update=./persist.radio.sw_mbn_update=0/' system.prop;
-		#sed -i 's/persist.radio.sw_mbn_volte=./persist.radio.sw_mbn_volte=0/' system.prop;
-		#sed -i 's/persist.radio.VT_ENABLE=./persist.radio.VT_ENABLE=0/' system.prop;
-		#sed -i 's/persist.radio.VT_HYBRID_ENABLE=./persist.radio.VT_HYBRID_ENABLE=0/' system.prop;
-		#sed -i 's/persist.volte_enabled_by_hw=./persist.volte_enabled_by_hw=0/' system.prop;
+		if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then
+		sed -i 's/persist.data.iwlan.enable=true/persist.data.iwlan.enable=false/' system.prop;
+		sed -i 's/persist.ims.volte=true/persist.ims.volte=false/' system.prop;
+		sed -i 's/persist.ims.vt=true/persist.ims.vt=false/' system.prop;
+		sed -i 's/persist.radio.calls.on.ims=true/persist.radio.calls.on.ims=false/' system.prop;
+		sed -i 's/persist.radio.hw_mbn_update=./persist.radio.hw_mbn_update=0/' system.prop;
+		sed -i 's/persist.radio.jbims=./persist.radio.jbims=0/' system.prop;
+		sed -i 's/persist.radio.sw_mbn_update=./persist.radio.sw_mbn_update=0/' system.prop;
+		sed -i 's/persist.radio.sw_mbn_volte=./persist.radio.sw_mbn_volte=0/' system.prop;
+		sed -i 's/persist.radio.VT_ENABLE=./persist.radio.VT_ENABLE=0/' system.prop;
+		sed -i 's/persist.radio.VT_HYBRID_ENABLE=./persist.radio.VT_HYBRID_ENABLE=0/' system.prop;
+		sed -i 's/persist.volte_enabled_by_hw=./persist.volte_enabled_by_hw=0/' system.prop;
+		fi;
 	fi;
 	if [ -f configs/qmi_config.xml ]; then
 		sed -i 's|name="dpm_enabled" type="int"> 1 <|name="dpm_enabled" type="int"> 0 <|' configs/qmi_config.xml; #Disable DPM
@@ -296,23 +300,27 @@ deblobDevice() {
 	if [ -f init/init_*.cpp ]; then
 		sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "0");/' init/init_*.cpp; #Disable RCS
 		#Disable IMS
-		#sed -i 's/property_set("persist.ims.volte", "true");/property_set("persist.ims.volte", "false");/' init/init_*.cpp;
-		#sed -i 's/property_set("persist.ims.vt", "true");/property_set("persist.ims.vt", "false");/' init/init_*.cpp;
-		#sed -i 's/property_set("persist.radio.calls.on.ims", "true");/property_set("persist.radio.calls.on.ims", "false");/' init/init_*.cpp;
-		#sed -i 's/property_set("persist.radio.jbims", ".");/property_set("persist.radio.jbims", "0");/' init/init_*.cpp;
-		#sed -i 's/property_set("persist.radio.VT_ENABLE", ".");/property_set("persist.radio.VT_ENABLE", "0");/' init/init_*.cpp;
-		#sed -i 's/property_set("persist.radio.VT_HYBRID_ENABLE", ".");/property_set("persist.radio.VT_HYBRID_ENABLE", "0");/' init/init_*.cpp;
+		if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then
+		sed -i 's/property_set("persist.ims.volte", "true");/property_set("persist.ims.volte", "false");/' init/init_*.cpp;
+		sed -i 's/property_set("persist.ims.vt", "true");/property_set("persist.ims.vt", "false");/' init/init_*.cpp;
+		sed -i 's/property_set("persist.radio.calls.on.ims", "true");/property_set("persist.radio.calls.on.ims", "false");/' init/init_*.cpp;
+		sed -i 's/property_set("persist.radio.jbims", ".");/property_set("persist.radio.jbims", "0");/' init/init_*.cpp;
+		sed -i 's/property_set("persist.radio.VT_ENABLE", ".");/property_set("persist.radio.VT_ENABLE", "0");/' init/init_*.cpp;
+		sed -i 's/property_set("persist.radio.VT_HYBRID_ENABLE", ".");/property_set("persist.radio.VT_HYBRID_ENABLE", "0");/' init/init_*.cpp;
+		fi;
 	fi;
 	if [ -f overlay/frameworks/base/core/res/res/values/config.xml ]; then
 		awk -i inplace '!/'$overlay'/' overlay/frameworks/base/core/res/res/values/config.xml;
 		#sed -i 's|<bool name="config_enableWifiDisplay">true</bool>|<bool name="config_enableWifiDisplay">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
 		sed -i 's|<bool name="config_uiBlurEnabled">true</bool>|<bool name="config_uiBlurEnabled">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml; #Disable UIBlur
 		#Disable IMS
-		#sed -i 's|<bool name="config_carrier_volte_available">true</bool>|<bool name="config_carrier_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-		#sed -i 's|<bool name="config_carrier_vt_available">true</bool>|<bool name="config_carrier_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-		#sed -i 's|<bool name="config_device_volte_available">true</bool>|<bool name="config_device_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-		#sed -i 's|<bool name="config_device_vt_available">true</bool>|<bool name="config_device_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-		#sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|'  overlay/frameworks/base/core/res/res/values/config.xml;
+		if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then
+		sed -i 's|<bool name="config_carrier_volte_available">true</bool>|<bool name="config_carrier_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+		sed -i 's|<bool name="config_carrier_vt_available">true</bool>|<bool name="config_carrier_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+		sed -i 's|<bool name="config_device_volte_available">true</bool>|<bool name="config_device_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+		sed -i 's|<bool name="config_device_vt_available">true</bool>|<bool name="config_device_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+		sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|'  overlay/frameworks/base/core/res/res/values/config.xml;
+		fi;
 	fi;
 	if [ -d sepolicy ]; then
 		if [ -z "$replaceTime" ]; then

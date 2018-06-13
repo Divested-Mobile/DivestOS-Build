@@ -20,6 +20,8 @@
 #START OF USER CONFIGURABLE OPTIONS
 export androidWorkspace="/mnt/Drive-3/"; #XXX: THIS MUST BE CORRECT TO BUILD!
 
+export DEBLOBBER_REMOVE_IMS=false; #Set true to remove all IMS blobs
+export DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time service with the open source Sony TimeKeep reimplementation
 export DEFAULT_DNS="OpenNIC"; #Sets default DNS. Options: Cloudflare, OpenNIC
 export GLONASS_FORCED_ENABLE=true; #Enables GLONASS on all devices
 export MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
