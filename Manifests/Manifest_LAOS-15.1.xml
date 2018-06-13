@@ -81,10 +81,6 @@
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
 	<project path="packages/apps/FDroidPrivilegedExtension" name="privileged-extension.git" remote="fdroid" revision="master" />
 	<project path="packages/apps/FDroid" name="fdroidclient.git" remote="fdroid" revision="master" />
-
-	<!-- CAF -->
-	<remote name="caf" fetch="https://source.codeaurora.org/quic/la/" />
-	<project path="bootable/bootloader/lk" name="kernel/lk" remote="caf" revision="refs/tags/LNX.LER.1.2-36500-8x74.0" />
 <!-- END OF ADDITIONAL REPOS -->
 
 
@@ -99,10 +95,6 @@
 	<project path="external/stlport" name="LineageOS/android_external_stlport" remote="github" />
 	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 	<project path="packages/apps/FlipFlap" name="LineageOS/android_packages_apps_FlipFlap" remote="github" />
-
-	<!-- Fairphone 2 (FP2) -->
-	<project path="device/fairphone/FP2" name="LineageOS/android_device_fairphone_FP2" remote="github" />
-	<project path="kernel/fairphone/msm8974" name="LineageOS/android_kernel_fairphone_msm8974" remote="github" />
 
 	<!-- Google Pixel (marlin/sailfish) -->
 	<project path="device/google/marlin" name="LineageOS/android_device_google_marlin" remote="github" />
@@ -137,11 +129,6 @@
 	<project path="device/lge/h850" name="LineageOS/android_device_lge_h850" remote="github" />
 	<project path="device/lge/msm8996-common" name="LineageOS/android_device_lge_msm8996-common" remote="github" />
 	<project path="kernel/lge/msm8996" name="LineageOS/android_kernel_lge_msm8996" remote="github" />
-
-	<!-- Moto G 3rd Gen (osprey)
-	<project path="device/motorola/msm8916-common" name="LineageOS/android_device_motorola_msm8916-common" remote="github" />
-	<project path="device/motorola/osprey" name="LineageOS/android_device_motorola_osprey" remote="github" />
-	<project path="kernel/motorola/msm8916" name="LineageOS/android_kernel_motorola_msm8916" remote="github" />-->
 
 	<!-- Moto X Pure Edition (clark) -->
 	<project path="device/motorola/clark" name="hashbang173/android_device_motorola_clark" remote="github" />
@@ -191,11 +178,6 @@
 	<!-- Samsung Common -->
 	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
 	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
-
-	<!-- Samsung Galaxy S4 (jfltexx)
-	<project path="device/samsung/jfltexx" name="LineageOS/android_device_samsung_jfltexx" remote="github" />
-	<project path="device/samsung/jf-common" name="LineageOS/android_device_samsung_jf-common" remote="github" />
-	<project path="kernel/samsung/jf" name="LineageOS/android_kernel_samsung_jf" remote="github" />-->
 
 	<!-- Samsung Galaxy S5 (klte) -->
 	<project path="device/samsung/klte" name="LineageOS/android_device_samsung_klte" remote="github" />

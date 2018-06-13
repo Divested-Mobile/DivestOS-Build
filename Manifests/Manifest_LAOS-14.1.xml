@@ -34,7 +34,6 @@
 	<remove-project name="LineageOS/android_packages_apps_LockClock" />
 	<remove-project name="LineageOS/android_packages_apps_ManagedProvisioning" />
 	<remove-project name="LineageOS/android_packages_apps_OpenWeatherMapProvider" />
-	<remove-project name="LineageOS/android_packages_apps_Snap" />
 	<remove-project name="LineageOS/android_packages_apps_Stk" />
 	<remove-project name="LineageOS/android_packages_apps_Terminal" />
 	<remove-project name="LineageOS/android_packages_apps_TV" />
@@ -91,10 +90,6 @@
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
 	<project path="packages/apps/FDroidPrivilegedExtension" name="privileged-extension.git" remote="fdroid" revision="master" />
 	<project path="packages/apps/FDroid" name="fdroidclient.git" remote="fdroid" revision="master" />
-
-	<!-- CAF -->
-	<remote name="caf" fetch="https://source.codeaurora.org/quic/la/" />
-	<project path="bootable/bootloader/lk" name="kernel/lk" remote="caf" revision="refs/tags/LNX.LER.1.2-36500-8x74.0" />
 <!-- END OF ADDITIONAL REPOS -->
 
 
@@ -114,9 +109,9 @@
 	<project path="kernel/amazon/hdx-common" name="LineageOS/android_kernel_amazon_hdx-common" remote="github" />
 
 	<!-- Asus Zenfone 2 Laser (Z00T) -->
-	<project name="LineageOS/android_device_asus_msm8916-common" path="device/asus/msm8916-common" remote="github" />
-	<project name="LineageOS/android_device_asus_Z00T" path="device/asus/Z00T" remote="github" />
-	<project name="LineageOS/android_kernel_asus_msm8916" path="kernel/asus/msm8916" remote="github" />
+	<project path="device/asus/msm8916-common" name="LineageOS/android_device_asus_msm8916-common" remote="github" />
+	<project path="device/asus/Z00T" name="LineageOS/android_device_asus_Z00T" remote="github" />
+	<project path="kernel/asus/msm8916" name="LineageOS/android_kernel_asus_msm8916" remote="github" />
 
 	<!-- Fairphone 2 (FP2) -->
 	<project path="device/fairphone/FP2" name="LineageOS/android_device_fairphone_FP2" remote="github" />
