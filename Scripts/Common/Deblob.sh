@@ -34,12 +34,14 @@ echo "Deblobbing..."
 	makes="";
 	overlay="";
 	kernels=""; #Delimited using " "
+	sepolicy="";
 
 	#ACDB (Audio Configurations) [Qualcomm] XXX: Breaks audio output
 	#blobs=$blobs"acdb";
 
 	#ADSP/Hexagon (Hardware Audio Decoding) [Qualcomm]
 	#blobs=$blobs".*adsprpc.*|libfastcvadsp_stub.so|libfastcvopt.so|libadsp_fd_skel.so";
+	#sepolicy=$sepolicy" adspd.te adsprpcd.te";
 
 	#Alipay (Payment Platform) [Alibaba]
 	blobs=$blobs"alipay.*";
@@ -49,6 +51,7 @@ echo "Deblobbing..."
 
 	#ATFWD [Qualcomm]
 	blobs=$blobs"|ATFWD-daemon|atfwd.apk";
+	sepolicy=$sepolicy" atfwd.te";
 
 	#AudioFX (Audio Effects) [Qualcomm] XXX: Breaks audio on some devices
 	#blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so";
@@ -68,6 +71,7 @@ echo "Deblobbing..."
 	#blobs=$blobs"|libcneapiclient.so|libNimsWrap.so"; #XXX: Breaks radio
 	blobs=$blobs"|andsfCne.xml|ATT_profile.*.xml|cnd|cneapiclient.jar|cneapiclient.xml|CNEService.apk|com.quicinc.cne.jar|com.quicinc.cne.xml|ConnectivityExt.jar|ConnectivityExt.xml|libcneconn.so|libcneqmiutils.so|libcne.so|libvendorconn.so|libwqe.so|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile.*.xml|SwimConfig.xml|VZW_profile.*.xml";
 	makes=$makes"libcnefeatureconfig";
+	sepolicy=$sepolicy" cnd.te qcneservice.te";
 
 	#Diagnostics [Qualcomm]
 	blobs=$blobs"|[/]diag[/]|diag_callback_client|diag_dci_sample|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag[/]mdm|diag_qshrink4_daemon|diag_socket_log|diag_uart_log|drmdiagapp|ibdrmdiag.so|ssr_diag|test_diag";
@@ -88,12 +92,14 @@ echo "Deblobbing..."
 
 	#DPM (Data Power Management) [Qualcomm]
 	blobs=$blobs"|com.qti.dpmframework.jar|com.qti.dpmframework.xml|dpmapi.jar|dpmapi.xml|dpm.conf|dpmd|dpmserviceapp.apk|libdpmctmgr.so|libdpmfdmgr.so|libdpmframework.so|libdpmnsrm.so|libdpmtcm.so|NsrmConfiguration.xml|tcmclient.jar";
+	sepolicy=$sepolicy" dpmd.te";
 
 	#DRM
 	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so";
 	blobs=$blobs"|liboemcrypto.so|libtzdrmgenprov.so";
 	blobs=$blobs"|libpvr.so|librmp.so|libsi.so|libSSEPKCS11.so";
 	makes=$makes"android.hardware.drm.*";
+	sepolicy=$sepolicy" drmserver.te hal_drm_default.te hal_drm.te hal_drm_widevine.te mediadrmserver.te";
 
 	#Face Unlock [Google]
 	blobs=$blobs"|libfacenet.so|libfilterpack_facedetect.so|libfrsdk.so";
@@ -119,6 +125,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so"; #RTP
 	blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so|qti_permissions.xml"; #Misc.
 	if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then blobs=$blobs"|volte_modem[/]"; fi;
+	if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then sepolicy=$sepolicy" ims.te imscm.te imswmsproxy.te"; fi;
 
 	#IPA (Internet Packet Accelerator) [Qualcomm]
 	#This is actually open source (excluding -diag)
@@ -188,6 +195,7 @@ echo "Deblobbing..."
 	if [ "$DEBLOBBER_REPLACE_TIME" = true ]; then
 	#blobs=$blobs"|libtime_genoff.so"; #XXX: Breaks radio
 	blobs=$blobs"|libTimeService.so|time_daemon|TimeService.apk";
+	sepolicy=$sepolicy" qtimeservice.te";
 	fi;
 
 	#Venus (Hardware Video Decoding) [Qualcomm]
@@ -218,6 +226,7 @@ echo "Deblobbing..."
 	export makes;
 	export overlay;
 	export kernels;
+	export sepolicy;
 #
 #END OF BLOBS ARRAY
 #
@@ -352,6 +361,17 @@ deblobKernel() {
 }
 export -f deblobKernel;
 
+deblobSepolicy() {
+	sepolicyPath=$1;
+	cd $base$sepolicyPath;
+	if [ -d sepolicy ]; then
+		cd sepolicy;
+		rm -f $sepolicy;
+	fi;
+	cd $base;
+}
+export -f deblobSepolicy;
+
 deblobVendors() {
 	cd $base;
 	find vendor -regextype posix-extended -regex '.*('$blobs')' -type f -delete; #Delete all blobs
@@ -373,6 +393,7 @@ export -f deblobVendor;
 #START OF DEBLOBBING
 #
 find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \; #Deblob all device directories
+find device -maxdepth 3 -mindepth 2 -type d -exec bash -c 'deblobSepolicy "$0"' {} \; #Deblob all device sepolicy directories
 #find kernel -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobKernel "$0"' {} \; #Deblob all kernel directories
 find vendor -name "*vendor*.mk" -type f -exec bash -c 'deblobVendor "$0"' {} \; #Deblob all makefiles
 deblobVendors; #Deblob entire vendor directory

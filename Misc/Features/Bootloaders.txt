@@ -1,0 +1,8 @@
+Little Kernel
+	Source: https://source.codeaurora.org/quic/la/kernel/lk/
+	Documentation
+		- https://developer.qualcomm.com/download/db410c/little-kernel-boot-loader-overview.pdf
+	Results: Was able to successfully compile for msm8974, did not test on real device
+
+Tianocore EDK2
+	Source: https://source.codeaurora.org/quic/la/abl/tianocore/edk2/
