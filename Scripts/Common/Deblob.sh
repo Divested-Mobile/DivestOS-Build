@@ -98,7 +98,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so";
 	blobs=$blobs"|liboemcrypto.so|libtzdrmgenprov.so";
 	blobs=$blobs"|libpvr.so|librmp.so|libsi.so|libSSEPKCS11.so";
-	makes=$makes"android.hardware.drm.*";
+	makes=$makes"|android.hardware.drm.*|drm|mediadrmserver|libdrmclearkeyplugin|libdrmframework.*|com.android.mediadrm.signer.*|drmserver";
 	sepolicy=$sepolicy" drmserver.te hal_drm_default.te hal_drm.te hal_drm_widevine.te mediadrmserver.te";
 
 	#Face Unlock [Google]
@@ -392,6 +392,7 @@ export -f deblobVendor;
 #
 #START OF DEBLOBBING
 #
+find build -name "*.mk" -type f -exec bash -c 'awk -i inplace "!/$makes/" "$0"' {} \; #Deblob all makefiles
 find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \; #Deblob all device directories
 find device -maxdepth 3 -mindepth 2 -type d -exec bash -c 'deblobSepolicy "$0"' {} \; #Deblob all device sepolicy directories
 #find kernel -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobKernel "$0"' {} \; #Deblob all kernel directories
