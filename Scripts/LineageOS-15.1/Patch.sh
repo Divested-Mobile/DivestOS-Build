@@ -104,6 +104,7 @@ awk -i inplace '!/com.android.internal.R.bool.config_permissionReviewRequired/' 
 
 enterAndClear "lineage-sdk";
 awk -i inplace '!/WeatherManagerServiceBroker/' lineage/res/res/values/config.xml; #Disable Weather
+if [ "$DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi;
 cp "$patches/android_lineage-sdk/profile_default.xml" lineage/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
 
 if [ "$MICROG_INCLUDED" = true ]; then
@@ -192,6 +193,7 @@ if [ "$HOSTS_BLOCKING" = true ]; then awk -i inplace '!/50-lineage.sh/' config/c
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra keys
 awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
 sed -i '3iinclude vendor/lineage/config/sce.mk' config/common.mk; #Include extra apps
+if [ "$DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/AudioFX/' config/common.mk; fi;
 cp "$patches/android_vendor_lineage/sce.mk" config/sce.mk;
 if [ "$MICROG_INCLUDED" = true ]; then cp "$patches/android_vendor_lineage/sce-microG.mk" config/sce-microG.mk; fi;
 if [ "$MICROG_INCLUDED" = true ]; then echo "include vendor/lineage/config/sce-microG.mk" >> config/sce.mk; fi;

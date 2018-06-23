@@ -191,6 +191,10 @@ awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always us
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra keys
 awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
 sed -i '3iinclude vendor/cm/config/sce.mk' config/common.mk; #Include extra apps
+if [ "$DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
+	awk -i inplace '!/AudioFX/' config/common.mk;
+	awk -i inplace '!/AudioService/' config/common.mk;
+fi;
 cp "$patches/android_vendor_cm/sce.mk" config/sce.mk;
 if [ "$MICROG_INCLUDED" = true ]; then cp "$patches/android_vendor_cm/sce-microG.mk" config/sce-microG.mk; fi;
 if [ "$MICROG_INCLUDED" = true ]; then echo "include vendor/cm/config/sce-microG.mk" >> config/sce.mk; fi;
@@ -206,6 +210,7 @@ if [ "$HOSTS_BLOCKING" = false ]; then sed -i '4iPRODUCT_COPY_FILES += vendor/cm
 
 enterAndClear "vendor/cmsdk";
 awk -i inplace '!/WeatherManagerServiceBroker/' cm/res/res/values/config.xml; #Disable Weather
+if [ "$DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/CMAudioService/' cm/res/res/values/config.xml; fi;
 cp "$patches/cm_platform_sdk/profile_default.xml" cm/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
 sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod/platform/internal/PerformanceManagerService.java; #Per app performance profiles fix
 #

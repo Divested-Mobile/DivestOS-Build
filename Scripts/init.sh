@@ -20,6 +20,7 @@
 #START OF USER CONFIGURABLE OPTIONS
 export androidWorkspace="/mnt/Drive-3/"; #XXX: THIS MUST BE CORRECT TO BUILD!
 
+export DEBLOBBER_REMOVE_AUDIOFX=false; #Set true to remove AudioFX
 export DEBLOBBER_REMOVE_IMS=false; #Set true to remove all IMS blobs
 export DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Services with the open source Sony TimeKeep reimplementation
 export DEFAULT_DNS="OpenNIC"; #Sets default DNS. Options: Cloudflare, OpenNIC
@@ -32,7 +33,6 @@ export OVERCLOCKS_ENABLED=true; #Switch to false to disable overclocks
 export STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit encryption XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
 export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches
 
-#XXX: Changing the following rebranding variables only updates textual references
 export REBRAND_NAME="DivestOS";
 export REBRAND_ZIP_PREFIX="divested";
 export REBRAND_LEGAL="https://divestos.xyz/index.php?page=privacy_policy";
