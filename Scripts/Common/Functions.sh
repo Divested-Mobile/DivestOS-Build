@@ -24,7 +24,7 @@ fi;
 
 startPatcher() {
 	#$cvePatcher must be set!
-	java -jar "$cvePatcher" patch "$base" "$androidWorkspace""Patches/" "$cveScripts" "$1";
+	java -jar "$cvePatcher" patch "$base" "$androidWorkspace""Patches/" "$cveScripts" $1;
 }
 export -f startPatcher;
 

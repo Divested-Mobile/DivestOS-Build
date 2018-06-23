@@ -30,7 +30,7 @@ export -f resetWorkspace;
 scanWorkspaceForMalware() {
 	scanQueue="$base/abi $base/android $base/art $base/bionic $base/bootable $base/build $base/dalvik $base/device $base/hardware $base/libcore $base/libnativehelper $base/ndk $base/packages $base/pdk $base/platform_testing $base/sdk $base/system";
 	scanQueue=$scanQueue" $base/vendor/cm $base/vendor/cmsdk";
-	scanForMalware true "$scanQueue";
+	scanForMalware true $scanQueue;
 }
 export -f scanWorkspaceForMalware;
 
