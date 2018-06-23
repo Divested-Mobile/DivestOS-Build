@@ -54,9 +54,7 @@ echo "Deblobbing..."
 	sepolicy=$sepolicy" atfwd.te";
 
 	#AudioFX (Audio Effects) [Qualcomm]
-	if [ "$DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
-	blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so";
-	fi;
+	if [ "$DEBLOBBER_REMOVE_AUDIOFX" = true ]; then blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so"; fi;
 
 	#Camera
 	#Attempted, don't waste your time...
@@ -197,9 +195,9 @@ echo "Deblobbing..."
 	#Time Service [Qualcomm]
 	#Requires that https://github.com/LineageOS/android_hardware_sony_timekeep be included in repo manifest
 	if [ "$DEBLOBBER_REPLACE_TIME" = true ]; then
-	#blobs=$blobs"|libtime_genoff.so"; #XXX: Breaks radio
-	blobs=$blobs"|libTimeService.so|time_daemon|TimeService.apk";
-	sepolicy=$sepolicy" qtimeservice.te";
+		#blobs=$blobs"|libtime_genoff.so"; #XXX: Breaks radio
+		blobs=$blobs"|libTimeService.so|time_daemon|TimeService.apk";
+		sepolicy=$sepolicy" qtimeservice.te";
 	fi;
 
 	#Venus (Hardware Video Decoding) [Qualcomm]
@@ -350,7 +348,7 @@ deblobDevice() {
 	rm -rf libshimwvm libshims/wvm_shim.cpp; #Remove Google Widevine compatibility module
 	rm -rf board/qcom-wipower.mk product/qcom-wipower.mk; #Remove WiPower makefiles
 	if [ -f setup-makefiles.sh ]; then
-		awk -i inplace '!/'"$blobs"'/' ./*proprietary*.txt; #Remove all blob references from blob manifest
+		awk -i inplace '!/'$blobs'/' ./*proprietary*.txt; #Remove all blob references from blob manifest
 		bash -c "cd $base$devicePath && ./setup-makefiles.sh"; #Update the makefiles
 	fi;
 	cd "$base";
@@ -360,7 +358,7 @@ export -f deblobDevice;
 deblobKernel() {
 	kernelPath="$1";
 	cd "$base$kernelPath";
-	rm -rf "$kernels";
+	rm -rf $kernels;
 	cd "$base";
 }
 export -f deblobKernel;
@@ -370,7 +368,7 @@ deblobSepolicy() {
 	cd "$base$sepolicyPath";
 	if [ -d sepolicy ]; then
 		cd sepolicy;
-		rm -f "$sepolicy";
+		rm -f $sepolicy;
 	fi;
 	cd "$base";
 }
@@ -378,14 +376,14 @@ export -f deblobSepolicy;
 
 deblobVendors() {
 	cd "$base";
-	find vendor -regextype posix-extended -regex '.*('"$blobs"')' -type f -delete; #Delete all blobs
+	find vendor -regextype posix-extended -regex '.*('$blobs')' -type f -delete; #Delete all blobs
 }
 export -f deblobVendors;
 
 deblobVendor() {
 	makefile="$1";
 	cd "$base";
-	awk -i inplace '!/'"$blobs"'/' "$makefile"; #Remove all blob references from makefile
+	awk -i inplace '!/'$blobs'/' "$makefile"; #Remove all blob references from makefile
 }
 export -f deblobVendor;
 #
