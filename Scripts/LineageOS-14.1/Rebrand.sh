@@ -21,7 +21,7 @@
 echo "Rebranding...";
 
 enter "bootable/recovery";
-sed -i 's|Android Recovery|'"$REBRAND_NAME"' Recovery|' *_ui.cpp;
+sed -i 's|Android Recovery|'"$REBRAND_NAME"' Recovery|' ./*_ui.cpp;
 
 enter "build";
 sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
@@ -37,7 +37,7 @@ enter "packages/apps/SetupWizard";
 sed -i 's|http://lineageos.org/legal|https://divestos.xyz/index.php?page=privacy_policy|' src/com/cyanogenmod/setupwizard/LineageSettingsActivity.java;
 sed -i '/.*setup_services/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/strings.xml;
 sed -i '/.*services_explanation/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/strings.xml;
-cp $patches"android_packages_apps_SetupWizard/logo.xml" "res/drawable/logo.xml"; #Replace Lineage logo with ours
+cp "$patches/android_packages_apps_SetupWizard/logo.xml" "res/drawable/logo.xml"; #Replace Lineage logo with ours
 
 enter "packages/apps/Updater";
 sed -i 's|>LineageOS|>'"$REBRAND_NAME"'|' res/values*/strings.xml;
@@ -47,5 +47,5 @@ sed -i 's|https://lineageos.org/legal|'"$REBRAND_LEGAL"'|' config/common.mk;
 sed -i '/.*ZIPPATH=/s/lineage/'"$REBRAND_ZIP_PREFIX"'/' build/envsetup.sh;
 rm -rf bootanimation #TODO: Create a boot animation
 
-cd $base;
+cd "$base";
 echo "Rebranding complete!";

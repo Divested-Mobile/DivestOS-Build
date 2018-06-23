@@ -237,8 +237,8 @@ echo "Deblobbing..."
 #START OF FUNCTIONS
 #
 deblobDevice() {
-	devicePath=$1;
-	cd $base$devicePath;
+	devicePath="$1";
+	cd "$base$devicePath";
 	if [ "${PWD##*/}" == "flo" ] || [ "${PWD##*/}" == "mako" ] || [ "${PWD##*/}" == "kona-common" ] || [ "${PWD##*/}" == "n5110" ] || [ "${PWD##*/}" == "smdk4412-common" ] || [ "${PWD##*/}" == "hdx-common" ] || [ "${PWD##*/}" == "thor" ] || [ "${PWD##*/}" == "flounder" ]; then #Some devices don't need/like TimeKeep
 		replaceTime="false";
 	fi;
@@ -261,7 +261,7 @@ deblobDevice() {
 		sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig.mk; #Disable WiPower
 	fi;
 	if [ -f device.mk ]; then
-		awk -i inplace '!/'$makes'/' device.mk; #Remove references from device makefile
+		awk -i inplace '!/'"$makes"'/' device.mk; #Remove references from device makefile
 		if [ -z "$replaceTime" ]; then
 			#Switch to Sony TimeKeep
 			echo "PRODUCT_PACKAGES += \\" >> device.mk;
@@ -270,7 +270,7 @@ deblobDevice() {
 		fi;
 	fi;
 	if [ -f "${PWD##*/}".mk ] && [ "${PWD##*/}".mk != "sepolicy" ]; then
-		awk -i inplace '!/'$makes'/' "${PWD##*/}".mk; #Remove references from device makefile
+		awk -i inplace '!/'"$makes"'/' "${PWD##*/}".mk; #Remove references from device makefile
 		if [ -z "$replaceTime" ]; then
 			#Switch to Sony TimeKeep
 			echo "PRODUCT_PACKAGES += \\" >> "${PWD##*/}".mk;
@@ -348,42 +348,42 @@ deblobDevice() {
 	rm -rf libshimwvm libshims/wvm_shim.cpp; #Remove Google Widevine compatibility module
 	rm -rf board/qcom-wipower.mk product/qcom-wipower.mk; #Remove WiPower makefiles
 	if [ -f setup-makefiles.sh ]; then
-		awk -i inplace '!/'$blobs'/' *proprietary*.txt; #Remove all blob references from blob manifest
+		awk -i inplace '!/'"$blobs"'/' ./*proprietary*.txt; #Remove all blob references from blob manifest
 		bash -c "cd $base$devicePath && ./setup-makefiles.sh"; #Update the makefiles
 	fi;
-	cd $base;
+	cd "$base";
 }
 export -f deblobDevice;
 
 deblobKernel() {
-	kernelPath=$1;
-	cd $base$kernelPath;
-	rm -rf $kernels;
-	cd $base;
+	kernelPath="$1";
+	cd "$base$kernelPath";
+	rm -rf "$kernels";
+	cd "$base";
 }
 export -f deblobKernel;
 
 deblobSepolicy() {
-	sepolicyPath=$1;
-	cd $base$sepolicyPath;
+	sepolicyPath="$1";
+	cd "$base$sepolicyPath";
 	if [ -d sepolicy ]; then
 		cd sepolicy;
-		rm -f $sepolicy;
+		rm -f "$sepolicy";
 	fi;
-	cd $base;
+	cd "$base";
 }
 export -f deblobSepolicy;
 
 deblobVendors() {
-	cd $base;
-	find vendor -regextype posix-extended -regex '.*('$blobs')' -type f -delete; #Delete all blobs
+	cd "$base";
+	find vendor -regextype posix-extended -regex '.*('"$blobs"')' -type f -delete; #Delete all blobs
 }
 export -f deblobVendors;
 
 deblobVendor() {
-	makefile=$1;
-	cd $base;
-	awk -i inplace '!/'$blobs'/' $makefile; #Remove all blob references from makefile
+	makefile="$1";
+	cd "$base";
+	awk -i inplace '!/'"$blobs"'/' "$makefile"; #Remove all blob references from makefile
 }
 export -f deblobVendor;
 #
@@ -406,6 +406,6 @@ rm -rf vendor/samsung/nodevice;
 #END OF DEBLOBBING
 #
 
-cd $base;
+cd "$base";
 
 echo "Deblobbing complete!"

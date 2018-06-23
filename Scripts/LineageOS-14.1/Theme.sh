@@ -65,7 +65,7 @@ mogrify -format png -fill "#$themeOverride100" -opaque "#b2dfdb" -fuzz 10% java/
 mogrify -format png -fill "#$themeOverride200" -opaque "#80cbc4" -fuzz 10% java/res/drawable*/*lxx*.png;
 mogrify -format png -fill "#$themeOverride300" -opaque "#4db6ac" -fuzz 10% java/res/drawable*/*lxx*.png;
 mogrify -format png -fill "#$themeOverride300" -opaque "#7fcac3" -fuzz 10% java/res/drawable*/*lxx*.png;
-mogrify -format png -fill "#$themeOverride400" -opaque "#26a69a" -fuzz 10% java/res/drawable*/*lxx*.png;
+mogrify -format png -fill "#$themeOverride500" -opaque "#26a69a" -fuzz 10% java/res/drawable*/*lxx*.png;
 
-cd $base;
+cd "$base";
 echo "Applied theme!";

@@ -35,14 +35,14 @@ scanWorkspaceForMalware() {
 export -f scanWorkspaceForMalware;
 
 buildDevice() {
-	brunch lineage_$1-user;
+	brunch "lineage_$1-user";
 }
 export -f buildDevice;
 
 buildDeviceDebug() {
 	unset SIGNING_KEY_DIR;
 	unset OTA_PACKAGE_SIGNING_KEY;
-	brunch lineage_$1-eng;
+	brunch "lineage_$1-eng";
 }
 export -f buildDeviceDebug;
 
@@ -79,24 +79,24 @@ patchWorkspace() {
 	repopick -f 211404 211405 211406 211407 211408 211409; #d852
 	repopick -f 211396 214817; #d855
 
-	source $scripts/Patch.sh;
-	source $scripts/Defaults.sh;
-	if [ "$OVERCLOCKS_ENABLED" = true ]; then source $scripts/Overclock.sh; fi;
-	source $scripts/Optimize.sh;
-	source $scripts/Rebrand.sh;
-	source $scriptsCommon/Deblob.sh;
-	source $scriptsCommon/Patch_CVE.sh;
+	source "$scripts/Patch.sh";
+	source "$scripts/Defaults.sh";
+	if [ "$OVERCLOCKS_ENABLED" = true ]; then source "$scripts/Overclock.sh"; fi;
+	source "$scripts/Optimize.sh";
+	source "$scripts/Rebrand.sh";
+	source "$scriptsCommon/Deblob.sh";
+	source "$scriptsCommon/Patch_CVE.sh";
 	source build/envsetup.sh;
 
 	#Deblobbing fixes
 	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
-	cd device/lge/h850 && ./setup-makefiles.sh && cd $base;
+	cd device/lge/h850 && ./setup-makefiles.sh && cd "$base";
 }
 export -f patchWorkspace;
 
 enableDexPreOpt() {
-	cd $base$1;
-	if [ $1 != "device/amazon/thor" ] && [ $1 != "device/samsung/i9100" ] && [ $1 != "device/lge/h850" ] && [ $1 != "device/lge/mako" ]; then #Some devices won't compile, or have too small of a /system partition
+	cd "$base$1";
+	if [ "$1" != "device/amazon/thor" ] && [ "$1" != "device/samsung/i9100" ] && [ "$1" != "device/lge/h850" ] && [ "$1" != "device/lge/mako" ]; then #Some devices won't compile, or have too small of a /system partition
 		if [ -f BoardConfig.mk ]; then
 			echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 			echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
@@ -104,16 +104,16 @@ enableDexPreOpt() {
 			echo "Enabled dexpreopt for $1";
 		fi;
 	fi;
-	cd $base;
+	cd "$base";
 }
 export -f enableDexPreOpt;
 
 enableDexPreOptFull() {
-	cd $base$1;
+	cd "$base$1";
 	if [ -f BoardConfig.mk ]; then
 		sed -i "s/WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := true/WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false/" BoardConfig.mk;
 		echo "Enabled full dexpreopt";
 	fi;
-	cd $base;
+	cd "$base";
 }
 export -f enableDexPreOptFull;

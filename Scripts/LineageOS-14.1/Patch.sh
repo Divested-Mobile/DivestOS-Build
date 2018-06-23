@@ -57,23 +57,23 @@ echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/a
 #
 
 #top dir
-cp -r $prebuiltApps"Fennec_DOS-Shim" $base"packages/apps/"; #Add a shim to install Fennec DOS without actually including the large APK
-cp -r $prebuiltApps"android_vendor_FDroid_PrebuiltApps/." $base"vendor/fdroid_prebuilt/"; #Add the prebuilt apps
+cp -r "$prebuiltApps""Fennec_DOS-Shim" "$base""packages/apps/"; #Add a shim to install Fennec DOS without actually including the large APK
+cp -r "$prebuiltApps""android_vendor_FDroid_PrebuiltApps/." "$base""vendor/fdroid_prebuilt/"; #Add the prebuilt apps
 
 enterAndClear "bootable/recovery";
-patch -p1 < $patches"android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button?
+patch -p1 < "$patches/android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button?
 
 enterAndClear "build";
-patch -p1 < $patches"android_build/0001-Automated_Build_Signing.patch"; #Automated build signing (CopperheadOS-13.0)
+patch -p1 < "$patches/android_build/0001-Automated_Build_Signing.patch"; #Automated build signing (CopperheadOS-13.0)
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 sed -i 's/ro.secure=0/ro.secure=1/' core/main.mk;
 #sed -i 's/ro.adb.secure=0/ro.adb.secure=1/' core/main.mk;
 
 enterAndClear "device/qcom/sepolicy";
-patch -p1 < $patches"android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on user builds XXX: REMOVE THIS TRASH
+patch -p1 < "$patches/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on user builds XXX: REMOVE THIS TRASH
 
 enterAndClear "external/sqlite";
-patch -p1 < $patches"android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0)
+patch -p1 < "$patches/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0)
 
 enterAndClear "frameworks/base";
 git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #re-enable doze on devices without gms
@@ -81,19 +81,19 @@ sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/
 sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
 sed -i 's|db_default_journal_mode" translatable="false">PERSIST|db_default_journal_mode" translatable="false">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
 sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml;
-patch -p1 < $patches"android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480
-if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < $patches"android_frameworks_base/0003-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (MicroG)
-if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < $patches"android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
-if [ "$DEFAULT_DNS" = "Cloudflare" ]; then patch -p1 < $patches"android_frameworks_base/0006-DNS_Cloudflare.patch"; fi; #Switch to Cloudflare DNS
-if [ "$DEFAULT_DNS" = "OpenNIC" ]; then patch -p1 < $patches"android_frameworks_base/0006-DNS_OpenNIC.patch"; fi; #Switch to OpenNIC DNS
-#patch -p1 < $patches"android_frameworks_base/0007-Connectivity.patch"; #Change connectivity check URLs to ours
-patch -p1 < $patches"android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
+patch -p1 < "$patches/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480
+if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < "$patches/android_frameworks_base/0003-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (MicroG)
+if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < "$patches/android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
+if [ "$DEFAULT_DNS" = "Cloudflare" ]; then patch -p1 < "$patches/android_frameworks_base/0006-DNS_Cloudflare.patch"; fi; #Switch to Cloudflare DNS
+if [ "$DEFAULT_DNS" = "OpenNIC" ]; then patch -p1 < "$patches/android_frameworks_base/0006-DNS_OpenNIC.patch"; fi; #Switch to OpenNIC DNS
+#patch -p1 < "$patches/android_frameworks_base/0007-Connectivity.patch"; #Change connectivity check URLs to ours
+patch -p1 < "$patches/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig;
 
 if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then
 enterAndClear "frameworks/opt/net/ims";
-patch -p1 < $patches"android_frameworks_opt_net_ims/0001-Fix_Calling.patch"; #Fix calling when IMS is removed
+patch -p1 < "$patches/android_frameworks_opt_net_ims/0001-Fix_Calling.patch"; #Fix calling when IMS is removed
 fi;
 
 enterAndClear "frameworks/opt/net/wifi";
@@ -107,8 +107,8 @@ awk -i inplace '!/com.android.internal.R.bool.config_permissionReviewRequired/' 
 enterAndClear "packages/apps/CMParts";
 rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of CMStats
 sed -i 's|config_showWeatherMenu">true|config_showWeatherMenu">false|' res/values/config.xml; #Disable Weather
-patch -p1 < $patches"android_packages_apps_CMParts/0001-Remove_Analytics.patch"; #Remove the rest of CMStats
-patch -p1 < $patches"android_packages_apps_CMParts/0002-Reduced_Resolution.patch"; #Allow reducing resolution to save power
+patch -p1 < "$patches/android_packages_apps_CMParts/0001-Remove_Analytics.patch"; #Remove the rest of CMStats
+patch -p1 < "$patches/android_packages_apps_CMParts/0002-Reduced_Resolution.patch"; #Allow reducing resolution to save power
 
 if [ "$MICROG_INCLUDED" = true ]; then
 enterAndClear "packages/apps/FakeStore";
@@ -118,7 +118,7 @@ sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools =
 fi;
 
 enterAndClear "packages/apps/FDroid";
-cp $patches"android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add extra repos
+cp "$patches/android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add extra repos
 sed -i 's|outputs/apk/|outputs/apk/release/|' Android.mk;
 sed -i 's|gradle|./gradlew|' Android.mk; #Gradle 4.0 fix
 sed -i 's|/$(fdroid_dir) \&\&| \&\&|' Android.mk; #One line wouldn't work... no matter what I tried.
@@ -141,7 +141,7 @@ sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools =
 fi;
 
 enterAndClear "packages/apps/PackageInstaller";
-patch -p1 < $patches"android_packages_apps_PackageInstaller/64d8b44.diff"; #Fix an issue with Permission Review
+patch -p1 < "$patches/android_packages_apps_PackageInstaller/64d8b44.diff"; #Fix an issue with Permission Review
 
 enterAndClear "packages/apps/Settings";
 git revert 2ebe6058c546194a301c1fd22963d6be4adbf961; #don't hide oem unlock
@@ -149,41 +149,41 @@ sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 
 if [ "$MICROG_INCLUDED" = true ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
 
 enterAndClear "packages/apps/SetupWizard";
-patch -p1 < $patches"android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove the rest of CMStats
+patch -p1 < "$patches/android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove the rest of CMStats
 
 enterAndClear "packages/apps/Trebuchet";
-cp -r $patches"android_packages_apps_Trebuchet/default_workspace/." "res/xml/";
+cp -r "$patches/android_packages_apps_Trebuchet/default_workspace/." "res/xml/";
 
 enterAndClear "packages/apps/Updater";
-patch -p1 < $patches"android_packages_apps_Updater/0001-Server.patch"; #Switch to our server
+patch -p1 < "$patches/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server
 #TODO: Remove changelog
 
 enterAndClear "packages/apps/WallpaperPicker";
 rm res/drawable-nodpi/{*.png,*.jpg} res/values-nodpi/wallpapers.xml; #Remove old ones
-cp -r $dosWallpapers'Compressed/.' res/drawable-nodpi/; #Add ours
-cp -r $dosWallpapers"Thumbs/." res/drawable-nodpi/;
-cp $dosWallpapers"wallpapers.xml" res/values-nodpi/wallpapers.xml;
+cp -r "$dosWallpapers"'Compressed/.' res/drawable-nodpi/; #Add ours
+cp -r "$dosWallpapers""Thumbs/." res/drawable-nodpi/;
+cp "$dosWallpapers""wallpapers.xml" res/values-nodpi/wallpapers.xml;
 sed -i 's/req.touchEnabled = touchEnabled;/req.touchEnabled = true;/' src/com/android/wallpaperpicker/WallpaperCropActivity.java; #Allow scrolling
 sed -i 's/mCropView.setTouchEnabled(req.touchEnabled);/mCropView.setTouchEnabled(true);/' src/com/android/wallpaperpicker/WallpaperCropActivity.java;
 sed -i 's/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0);/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0.5f);/' src/com/android/wallpaperpicker/WallpaperPickerActivity.java; #Center aligned by default
 
 enterAndClear "packages/inputmethods/LatinIME";
-patch -p1 < $patches"android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
+patch -p1 < "$patches/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
 
 enterAndClear "packages/services/Telephony";
-if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < $patches"android_packages_services_Telephony/Copperhead/0001-LTE_Only.patch"; fi; #LTE only preferred network mode choice (Copperhead CC BY-NC-SA)
+if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < "$patches/android_packages_services_Telephony/Copperhead/0001-LTE_Only.patch"; fi; #LTE only preferred network mode choice (Copperhead CC BY-NC-SA)
 
 enterAndClear "system/core";
 if [ "$HOSTS_BLOCKING" = true ]; then cat /tmp/ar/hosts >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert 0217dddeb5c16903c13ff6c75213619b79ea622b d7aa1231b6a0631f506c0c23816f2cd81645b15f; #Always update recovery XXX: This doesn't seem to work
-patch -p1 < $patches"android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0)
+patch -p1 < "$patches/android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0)
 
 enterAndClear "system/keymaster";
-patch -p1 < $patches"android_system_keymaster/0001-Backport_Fixes.patch"; #Fixes from 8.1, appears to fix https://jira.lineageos.org/browse/BUGBASH-590
-patch -p1 < $patches"android_system_keymaster/0002-Backport_Fixes.patch";
+patch -p1 < "$patches/android_system_keymaster/0001-Backport_Fixes.patch"; #Fixes from 8.1, appears to fix https://jira.lineageos.org/browse/BUGBASH-590
+patch -p1 < "$patches/android_system_keymaster/0002-Backport_Fixes.patch";
 
 enterAndClear "system/vold";
-patch -p1 < $patches"android_system_vold/0001-AES256.patch"; #Add a variable for enabling AES-256 bit encryption
+patch -p1 < "$patches/android_system_vold/0001-AES256.patch"; #Add a variable for enabling AES-256 bit encryption
 
 enterAndClear "vendor/cm";
 rm -rf overlay/common/vendor/cmsdk/packages; #Remove analytics
@@ -191,22 +191,22 @@ awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always us
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra keys
 awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
 sed -i '3iinclude vendor/cm/config/sce.mk' config/common.mk; #Include extra apps
-cp $patches"android_vendor_cm/sce.mk" config/sce.mk;
-if [ "$MICROG_INCLUDED" = true ]; then cp $patches"android_vendor_cm/sce-microG.mk" config/sce-microG.mk; fi;
+cp "$patches/android_vendor_cm/sce.mk" config/sce.mk;
+if [ "$MICROG_INCLUDED" = true ]; then cp "$patches/android_vendor_cm/sce-microG.mk" config/sce-microG.mk; fi;
 if [ "$MICROG_INCLUDED" = true ]; then echo "include vendor/cm/config/sce-microG.mk" >> config/sce.mk; fi;
-cp $patches"android_vendor_cm/config.xml" overlay/common/vendor/cmsdk/cm/res/res/values/config.xml; #Per app performance profiles
-cp -r $patches"android_vendor_cm/firmware_deblobber" .;
-cp $patches"android_vendor_cm/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;
+cp "$patches/android_vendor_cm/config.xml" overlay/common/vendor/cmsdk/cm/res/res/values/config.xml; #Per app performance profiles
+cp -r "$patches/android_vendor_cm/firmware_deblobber" .;
+cp "$patches/android_vendor_cm/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/CM_BUILDTYPE := dos/CM_BUILDTYPE := dosNC/' config/common.mk; fi;
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
 #if [ "$HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += DNS66" >> config/sce.mk; fi; #Include DNS66 as an alternative
-if [ "$HOSTS_BLOCKING" = false ]; then cp $patches"android_vendor_cm/dns66.json" prebuilt/common/etc/dns66.json; fi;
+if [ "$HOSTS_BLOCKING" = false ]; then cp "$patches/android_vendor_cm/dns66.json" prebuilt/common/etc/dns66.json; fi;
 if [ "$HOSTS_BLOCKING" = false ]; then sed -i '4iPRODUCT_COPY_FILES += vendor/cm/prebuilt/common/etc/dns66.json:system/etc/dns66/settings.json' config/common.mk; fi; #Include DNS66 default config
 
 enterAndClear "vendor/cmsdk";
 awk -i inplace '!/WeatherManagerServiceBroker/' cm/res/res/values/config.xml; #Disable Weather
-cp $patches"cm_platform_sdk/profile_default.xml" cm/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
+cp "$patches/cm_platform_sdk/profile_default.xml" cm/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
 sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod/platform/internal/PerformanceManagerService.java; #Per app performance profiles fix
 #
 #END OF ROM CHANGES
@@ -225,13 +225,13 @@ sed -i 's/0xA04D/0xA04D|0xA052/' board-info.txt; #Allow installing on Nougat boo
 rm board-info.txt; #Never restrict installation
 
 #Make changes to all devices
-cd $base;
+cd "$base";
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enhanceLocation "$0"' {} \;
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableDexPreOpt "$0"' {} \;
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableForcedEncryption "$0"' {} \;
 #if [ "$STRONG_ENCRYPTION_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableStrongEncryption "$0"' {} \; fi;
 find "kernel" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'hardenDefconfig "$0"' {} \;
-cd $base;
+cd "$base";
 
 #Fixes
 #Fix broken options enabled by hardenDefconfig()

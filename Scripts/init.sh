@@ -47,7 +47,7 @@ else
 fi;
 
 export base=$androidWorkspace"Build/$BUILD_WORKING_DIR/";
-if [ ! -d $base ]; then
+if [ ! -d "$base" ]; then
 	echo "Path mismatch! Please update init.sh!";
 	return 1;
 fi;
@@ -60,7 +60,7 @@ export dosWallpapers=$androidWorkspace"Patches/Wallpapers/";
 
 export scriptsCommon=$androidWorkspace"Scripts/Common/";
 export scripts=$androidWorkspace"Scripts/$BUILD_WORKING_DIR/";
-if [ ! -d $scripts ]; then
+if [ ! -d "$scripts" ]; then
 	echo "$BUILD_WORKING_DIR is not supported!";
 	return 1;
 fi;
@@ -78,8 +78,8 @@ export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+Tiere
 export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}";
 export GRADLE_OPTS="-Xmx2048m";
 
-source $scriptsCommon"/Functions.sh";
-source $scripts"/Functions.sh";
+source "$scriptsCommon/Functions.sh";
+source "$scripts/Functions.sh";
 
 export LC_ALL=C;
 

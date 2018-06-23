@@ -24,20 +24,20 @@ fi;
 
 startPatcher() {
 	#$cvePatcher must be set!
-	java -jar $cvePatcher patch $base $androidWorkspace"Patches/" $cveScripts $1;
+	java -jar "$cvePatcher" patch "$base" "$androidWorkspace""Patches/" "$cveScripts" "$1";
 }
 export -f startPatcher;
 
 enter() {
 	echo "================================================================================================"
-	dir=$1;
-	cd $base$dir;
-	echo "[ENTERING] "$dir;
+	dir="$1";
+	cd "$base$dir";
+	echo "[ENTERING] $dir";
 }
 export -f enter;
 
 enterAndClear() {
-	enter $1;
+	enter "$1";
 	gitReset;
 }
 export -f enterAndClear;
@@ -51,7 +51,7 @@ scanForMalware() {
 	if [ -x /usr/bin/clamscan ] && [ -r /var/lib/clamav/main.cvd ]; then
 		echo -e "\e[0;32mStarting a malware scan...\e[0m";
 		excludes="--exclude-dir=\".git\" --exclude-dir=\".repo\"";
-		scanQueue=$2;
+		scanQueue="$2";
 		if [ "$1" = true ]; then
 			if [ "$MALWARE_SCAN_SETTING" != "quick" ] || [ "$MALWARE_SCAN_SETTING" = "extra" ]; then
 				scanQueue=$scanQueue" $base/frameworks $base/vendor";
@@ -63,9 +63,9 @@ scanForMalware() {
 				scanQueue="$base";
 			fi;
 		fi;
-		du -hsc $scanQueue;
-		/usr/bin/clamscan --recursive --detect-pua --infected $excludes $scanQueue;
-		clamscanExit=$?;
+		du -hsc "$scanQueue";
+		/usr/bin/clamscan --recursive --detect-pua --infected "$excludes" "$scanQueue";
+		clamscanExit="$?";
 		if [ "$clamscanExit" -eq "1" ]; then
 			echo -e "\e[0;31m----------------------------------------------------------------\e[0m";
 			echo -e "\e[0;31mWARNING: MALWARE WAS FOUND! PLEASE INVESTIGATE!\e[0m";
@@ -99,12 +99,12 @@ audit2allowADB() {
 export -f audit2allowADB;
 
 disableDexPreOpt() {
-	cd $base$1;
+	cd "$base$1";
 	if [ -f BoardConfig.mk ]; then
 		sed -i "s/WITH_DEXPREOPT := true/WITH_DEXPREOPT := false/" BoardConfig.mk;
 		echo "Disabled dexpreopt";
 	fi;
-	cd $base;
+	cd "$base";
 }
 export -f disableDexPreOpt;
 
@@ -117,7 +117,7 @@ compressRamdisks() {
 export -f compressRamdisks;
 
 enhanceLocation() {
-	cd $base$1;
+	cd "$base$1";
 	#Enable GLONASS
 	if [ "$GLONASS_FORCED_ENABLE" = false ]; then
 	sed -i 's/#A_GLONASS_POS_PROTOCOL_SELECT/A_GLONASS_POS_PROTOCOL_SELECT/' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
@@ -136,39 +136,39 @@ enhanceLocation() {
 		sed -i 's|xtra2.bin|xtra3grc.bin|' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
 	elif grep -sq "BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := true" BoardConfig.mk boards/*gps.mk; then
 		if ! grep -sq "USE_DEVICE_SPECIFIC_LOC_API := true" BoardConfig.mk boards/*gps.mk; then
-			if ! grep -sq "libloc" *proprietary*.txt; then #Using hardware/qcom/gps
+			if ! grep -sq "libloc" ./*proprietary*.txt; then #Using hardware/qcom/gps
 				sed -i 's|xtra2.bin|xtra3grc.bin|' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
 			fi;
 		fi;
 	fi;
 	echo "Enhanced location services for $1";
-	cd $base;
+	cd "$base";
 }
 export -f enhanceLocation;
 
 enableZram() {
-	cd $base$1;
+	cd "$base$1";
 	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
 	echo "Enabled zram for $1";
-	cd $base;
+	cd "$base";
 }
 export -f enableZram;
 
 enableForcedEncryption() {
-	cd $base$1;
+	cd "$base$1";
 	sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
 	echo "Enabled forceencrypt for $1";
-	cd $base;
+	cd "$base";
 }
 export -f enableForcedEncryption;
 
 enableStrongEncryption() {
-	cd $base$1;
+	cd "$base$1";
 	if [ -f BoardConfig.mk ]; then
 		echo "TARGET_WANTS_STRONG_ENCRYPTION := true" >> BoardConfig.mk;
 		echo "Enabled AES-256 encryption for $1";
 	fi;
-	cd $base;
+	cd "$base";
 }
 export -f enableStrongEncryption;
 
@@ -180,19 +180,19 @@ getDefconfig() {
 	else
 		defconfigPath="arch/arm/configs/*defconfig arch/arm64/configs/*defconfig";
 	fi;
-	echo $defconfigPath;
+	echo "$defconfigPath";
 	#echo "Found defconfig at $defconfigPath"
 }
 export -f getDefconfig;
 
 editKernelLocalversion() {
 	defconfigPath=$(getDefconfig)
-	sed -i 's/CONFIG_LOCALVERSION=".*"/CONFIG_LOCALVERSION="'$1'"/' $defconfigPath &>/dev/null || true;
+	sed -i 's/CONFIG_LOCALVERSION=".*"/CONFIG_LOCALVERSION="'"$1"'"/' "$defconfigPath" &>/dev/null || true;
 }
 export -f editKernelLocalversion;
 
 hardenDefconfig() {
-	cd $base$1;
+	cd "$base$1";
 
 	#Attempts to enable/disable supported options to increase security
 	#See https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings
@@ -204,11 +204,11 @@ hardenDefconfig() {
 	declare -a optionsYes=("CONFIG_ARM64_SW_TTBR0_PAN" "CONFIG_BUG" "CONFIG_BUG_ON_DATA_CORRUPTION" "CONFIG_CC_STACKPROTECTOR" "CONFIG_CC_STACKPROTECTOR_STRONG" "CONFIG_CPU_SW_DOMAIN_PAN" "CONFIG_DEBUG_CREDENTIALS" "CONFIG_DEBUG_KERNEL" "CONFIG_DEBUG_LIST" "CONFIG_DEBUG_NOTIFIERS" "CONFIG_DEBUG_RODATA" "CONFIG_DEBUG_WX" "CONFIG_FORTIFY_SOURCE" "CONFIG_GCC_PLUGIN_LATENT_ENTROPY" "CONFIG_GCC_PLUGIN_RANDSTRUCT" "CONFIG_GCC_PLUGINS" "CONFIG_GCC_PLUGIN_STRUCTLEAK" "CONFIG_GCC_PLUGIN_STRUCTLEAK_BYREF_ALL" "CONFIG_HARDENED_USERCOPY" "CONFIG_IO_STRICT_DEVMEM" "CONFIG_KAISER" "CONFIG_LEGACY_VSYSCALL_NONE" "CONFIG_PAGE_POISONING" "CONFIG_PAGE_POISONING_NO_SANITY" "CONFIG_PAGE_POISONING_ZERO" "CONFIG_PAGE_TABLE_ISOLATION" "CONFIG_PANIC_ON_OOPS" "CONFIG_RANDOMIZE_BASE" "CONFIG_REFCOUNT_FULL" "CONFIG_RETPOLINE" "CONFIG_SCHED_STACK_END_CHECK" "CONFIG_SECCOMP" "CONFIG_SECCOMP_FILTER" "CONFIG_SECURITY" "CONFIG_SECURITY_PERF_EVENTS_RESTRICT" "CONFIG_SECURITY_YAMA" "CONFIG_SECURITY_YAMA_STACKED" "CONFIG_SLAB_FREELIST_RANDOM" "CONFIG_SLAB_HARDENED" "CONFIG_SLUB_DEBUG" "CONFIG_STRICT_DEVMEM" "CONFIG_STRICT_KERNEL_RWX" "CONFIG_STRICT_MEMORY_RWX" "CONFIG_SYN_COOKIES" "CONFIG_UNMAP_KERNEL_AT_EL0" "CONFIG_VMAP_STACK" "CONFIG_SECURITY_DMESG_RESTRICT" "CONFIG_SLAB_FREELIST_HARDENED" "CONFIG_GCC_PLUGINS" "CONFIG_GCC_PLUGIN_LATENT_ENTROPY" "CONFIG_GCC_PLUGIN_STRUCTLEAK" "CONFIG_GCC_PLUGIN_STRUCTLEAK_BYREF_ALL" "CONFIG_GCC_PLUGIN_RANDSTRUCT" "CONFIG_GCC_PLUGIN_RANDSTRUCT_PERFORMANCE")
 	for option in "${optionsYes[@]}"
 	do
-		sed -i 's/# '$option' is not set/'$option'=y/' $defconfigPath &>/dev/null || true;
+		sed -i 's/# '"$option"' is not set/'"$option"'=y/' "$defconfigPath" &>/dev/null || true;
 		#Some defconfigs are very minimal/not-autogenerated, so lets add the rest. Obviously most won't have any affect as they aren't supported.
-		if [[ $defconfigPath == *"lineage"* ]]; then
-			if ! grep -q $option"=y" $defconfigPath; then
-				echo $option"=y" | tee -a $defconfigPath > /dev/null;
+		if [[ "$defconfigPath" == *"lineage"* ]]; then
+			if ! grep -q "$option""=y" "$defconfigPath"; then
+				echo "$option""=y" | tee -a "$defconfigPath" > /dev/null;
 			fi;
 		fi;
 	done
@@ -217,17 +217,17 @@ hardenDefconfig() {
 	declare -a optionsNo=("CONFIG_ACPI_CUSTOM_METHOD" "CONFIG_BINFMT_MISC" "CONFIG_COMPAT_BRK" "CONFIG_COMPAT_VDSO" "CONFIG_CP_ACCESS64" "CONFIG_DEVKMEM" "CONFIG_DEVMEM" "CONFIG_DEVPORT" "CONFIG_HIBERNATION" "CONFIG_INET_DIAG" "CONFIG_KEXEC" "CONFIG_LEGACY_PTYS" "CONFIG_MSM_BUSPM_DEV" "CONFIG_OABI_COMPAT" "CONFIG_PROC_KCORE" "CONFIG_PROC_VMCORE" "CONFIG_SECURITY_SELINUX_DISABLE" "CONFIG_SLAB_MERGE_DEFAULT" "CONFIG_WLAN_FEATURE_MEMDUMP")
 	for option in "${optionsNo[@]}"
 	do
-		sed -i 's/'$option'=y/# '$option' is not set/' $defconfigPath &>/dev/null || true;
+		sed -i 's/'"$option"'=y/# '"$option"' is not set/' "$defconfigPath" &>/dev/null || true;
 	done
 	#Extras
-	sed -i 's/CONFIG_ARCH_MMAP_RND_BITS=8/CONFIG_ARCH_MMAP_RND_BITS=16/' $defconfigPath &>/dev/null || true;
-	sed -i 's/CONFIG_ARCH_MMAP_RND_BITS=18/CONFIG_ARCH_MMAP_RND_BITS=24/' $defconfigPath &>/dev/null || true;
-	sed -i 's/CONFIG_DEFAULT_MMAP_MIN_ADDR=4096/CONFIG_DEFAULT_MMAP_MIN_ADDR=32768/' $defconfigPath &>/dev/null || true;
-	sed -i 's/CONFIG_LSM_MMAP_MIN_ADDR=4096/CONFIG_DEFAULT_MMAP_MIN_ADDR=32768/' $defconfigPath &>/dev/null || true;
+	sed -i 's/CONFIG_ARCH_MMAP_RND_BITS=8/CONFIG_ARCH_MMAP_RND_BITS=16/' "$defconfigPath" &>/dev/null || true;
+	sed -i 's/CONFIG_ARCH_MMAP_RND_BITS=18/CONFIG_ARCH_MMAP_RND_BITS=24/' "$defconfigPath" &>/dev/null || true;
+	sed -i 's/CONFIG_DEFAULT_MMAP_MIN_ADDR=4096/CONFIG_DEFAULT_MMAP_MIN_ADDR=32768/' "$defconfigPath" &>/dev/null || true;
+	sed -i 's/CONFIG_LSM_MMAP_MIN_ADDR=4096/CONFIG_DEFAULT_MMAP_MIN_ADDR=32768/' "$defconfigPath" &>/dev/null || true;
 
 	editKernelLocalversion "-dos";
 
 	echo "Hardened defconfig for $1";
-	cd $base;
+	cd "$base";
 }
 export -f hardenDefconfig;

@@ -80,5 +80,5 @@ sed -i 's/def_forward_lookup">1/def_forward_lookup">0/' packages/CMSettingsProvi
 sed -i 's/def_people_lookup">1/def_people_lookup">0/' packages/CMSettingsProvider/res/values/defaults.xml;
 sed -i 's/def_reverse_lookup">1/def_reverse_lookup">0/' packages/CMSettingsProvider/res/values/defaults.xml;
 
-cd $base;
+cd "$base";
 echo "Default settings changed!";
