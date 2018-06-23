@@ -101,7 +101,8 @@ echo "Deblobbing..."
 	makes=$makes"|android.hardware.drm.*|libdrmclearkeyplugin";
 	#makes=$makes"|libdrmframework.*"; #necessary to compile
 	#makes=$makes"|mediadrmserver|com.android.mediadrm.signer.*|drmserver"; #Works but causes long boot times
-	sepolicy=$sepolicy" drmserver.te hal_drm_default.te hal_drm.te hal_drm_widevine.te mediadrmserver.te";
+	#sepolicy=$sepolicy" drmserver.te mediadrmserver.te";
+	sepolicy=$sepolicy" hal_drm_default.te hal_drm.te hal_drm_widevine.te";
 
 	#Face Unlock [Google]
 	blobs=$blobs"|libfacenet.so|libfilterpack_facedetect.so|libfrsdk.so";
