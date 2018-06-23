@@ -21,30 +21,30 @@
 echo "Rebranding...";
 
 enter "bootable/recovery";
-sed -i 's|Android Recovery|DivestOS Recovery|' *_ui.cpp;
+sed -i 's|Android Recovery|'"$REBRAND_NAME"' Recovery|' *_ui.cpp;
 
 enter "build";
 sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
 sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/buildinfo.sh; #Override build host
-sed -i '/CM_TARGET_PACKAGE/s/lineage/divested/' core/Makefile;
+sed -i '/CM_TARGET_PACKAGE/s/lineage/'"$REBRAND_ZIP_PREFIX"'/' core/Makefile;
 
 enter "packages/apps/Settings";
-sed -i '/.*cmlicense_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml;
-sed -i '/.*cmupdate_settings_title/s/LineageOS/DivestOS/' res/values*/cm_strings.xml;
-sed -i '/.*mod_version/s/LineageOS/DivestOS/' res/values*/cm_strings.xml;
+sed -i '/.*cmlicense_title/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/cm_strings.xml;
+sed -i '/.*cmupdate_settings_title/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/cm_strings.xml;
+sed -i '/.*mod_version/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/cm_strings.xml;
 
 enter "packages/apps/SetupWizard";
 sed -i 's|http://lineageos.org/legal|https://divestos.xyz/index.php?page=privacy_policy|' src/com/cyanogenmod/setupwizard/LineageSettingsActivity.java;
-sed -i '/.*setup_services/s/LineageOS/DivestOS/' res/values*/strings.xml;
-sed -i '/.*services_explanation/s/LineageOS/DivestOS/' res/values*/strings.xml;
+sed -i '/.*setup_services/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/strings.xml;
+sed -i '/.*services_explanation/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/strings.xml;
 cp $patches"android_packages_apps_SetupWizard/logo.xml" "res/drawable/logo.xml"; #Replace Lineage logo with ours
 
 enter "packages/apps/Updater";
-sed -i 's|>LineageOS|>DivestOS|' res/values*/strings.xml;
+sed -i 's|>LineageOS|>'"$REBRAND_NAME"'|' res/values*/strings.xml;
 
 enter "vendor/cm";
-sed -i 's|https://lineageos.org/legal|https://divestos.xyz/index.php?page=about|' config/common.mk;
-sed -i '/.*ZIPPATH=/s/lineage/divested/' build/envsetup.sh;
+sed -i 's|https://lineageos.org/legal|'"$REBRAND_LEGAL"'|' config/common.mk;
+sed -i '/.*ZIPPATH=/s/lineage/'"$REBRAND_ZIP_PREFIX"'/' build/envsetup.sh;
 rm -rf bootanimation #TODO: Create a boot animation
 
 cd $base;

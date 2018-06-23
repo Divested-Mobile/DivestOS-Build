@@ -31,6 +31,11 @@ export HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS f
 export OVERCLOCKS_ENABLED=true; #Switch to false to disable overclocks
 export STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit encryption XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
 export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches
+
+#XXX: Changing the following rebranding variables only updates textual references
+export REBRAND_NAME="DivestOS";
+export REBRAND_ZIP_PREFIX="divested";
+export REBRAND_LEGAL="https://divestos.xyz/index.php?page=privacy_policy";
 #END OF USER CONFIGURABLE OPTIONS
 
 BUILD_WORKING_DIR=${PWD##*/};

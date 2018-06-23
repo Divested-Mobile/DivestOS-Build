@@ -32,7 +32,7 @@ sed -i 's/proximityCheckOnWakeEnabledByDefault">false/proximityCheckOnWakeEnable
 #sed -i 's/VOLBTN_MUSIC_CONTROLS, 1/VOLBTN_MUSIC_CONTROLS, 0/' sdk/src/java/org/lineageos/internal/buttons/LineageButtons.java; #FIXME
 
 enter "frameworks/base";
-sed -i '0,/wifi,bt,dnd,flashlight/s/wifi,bt,dnd,flashlight,rotation,battery,cell,airplane,cast/wifi,cell,bt,dnd,flashlight,rotation,battery,sync,location,airplane,saver,hotspot,nfc/' packages/SystemUI/res/values/config.xml; #Default quick tiles
+sed -i '0,/wifi,bt,dnd,flashlight/s/wifi,bt,dnd,flashlight,rotation,battery,cell,airplane,cast/wifi,cell,bt,dnd,flashlight,rotation,battery,sync,location,airplane,caffeine,saver,hotspot,nfc/' packages/SystemUI/res/values/config.xml; #Default quick tiles
 sed -i 's/def_lock_screen_allow_private_notifications">true/def_lock_screen_allow_private_notifications">false/' packages/SettingsProvider/res/values/defaults.xml;
 sed -i 's/def_lockscreen_sounds_enabled">1/def_lockscreen_sounds_enabled">0/' packages/SettingsProvider/res/values/defaults.xml;
 sed -i 's/def_networks_available_notification_on">true/def_networks_available_notification_on">false/' packages/SettingsProvider/res/values/defaults.xml;
