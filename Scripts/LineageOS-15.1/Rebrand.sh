@@ -22,7 +22,7 @@ echo "Rebranding...";
 
 enter "bootable/recovery";
 git revert bc57208dfcd0958d03a00bbcf5345be6ceac9988 6ac3bb48f9d10e604d4b2d6c4152be9d35d17ea0;
-patch -p1 < "$patches""android_bootable_recovery/0001-Remove_Logo.patch"; #Remove logo rendering code
+patch -p1 < "$patches/android_bootable_recovery/0001-Remove_Logo.patch"; #Remove logo rendering code
 rm res*/images/logo_image.png; #Remove logo images
 sed -i 's|Android Recovery|'"$REBRAND_NAME"' Recovery|' ./*_ui.cpp;
 sed -i 's|LineageOS|'"$REBRAND_NAME"'|' ui.cpp;
@@ -46,7 +46,7 @@ enter "packages/apps/SetupWizard";
 sed -i 's|http://lineageos.org/legal|https://divestos.xyz/index.php?page=privacy_policy|' src/org/lineageos/setupwizard/LineageSettingsActivity.java;
 sed -i '/.*setup_services/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/strings.xml;
 sed -i '/.*services_explanation/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/strings.xml;
-cp $patches"android_packages_apps_SetupWizard/logo.xml" "res/drawable/logo.xml"; #Replace Lineage logo with ours
+cp "$patches/android_packages_apps_SetupWizard/logo.xml" "res/drawable/logo.xml"; #Replace Lineage logo with ours
 
 enter "packages/apps/Updater";
 sed -i 's|>LineageOS|>'"$REBRAND_NAME"'|' res/values*/strings.xml;
