@@ -24,6 +24,9 @@ enter "bootable/recovery";
 git revert bc57208dfcd0958d03a00bbcf5345be6ceac9988 6ac3bb48f9d10e604d4b2d6c4152be9d35d17ea0;
 patch -p1 < "$patches/android_bootable_recovery/0001-Remove_Logo.patch"; #Remove logo rendering code
 rm res*/images/logo_image.png; #Remove logo images
+mogrify -format png -fill "#FF5722" -opaque "#167C80" -fuzz 10% res-*/images/*sel.png; #Recolor icons
+sed -i 's|grid_h \* 2 / 3|grid_h * 0.25|' screen_ui.cpp; #Center icons
+sed -i 's|0x16, 0x7c, 0x80|100, 34, 13|' screen_ui.cpp; #Recolor text
 sed -i 's|Android Recovery|'"$REBRAND_NAME"' Recovery|' ./*_ui.cpp;
 sed -i 's|LineageOS|'"$REBRAND_NAME"'|' ui.cpp;
 
@@ -33,6 +36,7 @@ sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/bui
 
 enter "frameworks/base";
 generateBootAnimationMask "$REBRAND_NAME" "$REBRAND_BOOTANIMATION_FONT" core/res/assets/images/android-logo-mask.png;
+#TODO: update android-logo-shine.png from white to orange
 
 enter "lineage-sdk";
 sed -i '/.*lineage_version/s/LineageOS/'"$REBRAND_NAME"'/' lineage/res/res/values*/strings.xml;

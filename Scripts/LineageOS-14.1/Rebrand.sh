@@ -30,6 +30,7 @@ sed -i '/CM_TARGET_PACKAGE/s/lineage/'"$REBRAND_ZIP_PREFIX"'/' core/Makefile;
 
 enter "frameworks/base";
 generateBootAnimationMask "$REBRAND_NAME" "$REBRAND_BOOTANIMATION_FONT" core/res/assets/images/android-logo-mask.png;
+#TODO: update android-logo-shine.png from white to orange
 
 enter "packages/apps/Settings";
 sed -i '/.*cmlicense_title/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/cm_strings.xml;
