@@ -98,7 +98,7 @@ export -f generateBootAnimationMask;
 generateBootAnimationShine() {
 	color=$1;
 	output=$2;
-	convert -size 1024x128 -define gradient:angle=90 gradient:"$color"-#9E9E9E \( +clone -flop \) +append "$output";
+	convert -size 1024x128 -define gradient:angle=90 gradient:"$color" \( +clone -flop \) +append "$output";
 }
 export -f generateBootAnimationShine;
 

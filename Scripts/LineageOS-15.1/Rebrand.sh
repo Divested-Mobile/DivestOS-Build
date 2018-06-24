@@ -36,7 +36,7 @@ sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/bui
 
 enter "frameworks/base";
 generateBootAnimationMask "$REBRAND_NAME" "$REBRAND_BOOTANIMATION_FONT" core/res/assets/images/android-logo-mask.png;
-generateBootAnimationShine "#FF5722" core/res/assets/images/android-logo-shine.png;
+generateBootAnimationShine "$REBRAND_BOOTANIMATION_COLOR" core/res/assets/images/android-logo-shine.png;
 
 enter "lineage-sdk";
 sed -i '/.*lineage_version/s/LineageOS/'"$REBRAND_NAME"'/' lineage/res/res/values*/strings.xml;
