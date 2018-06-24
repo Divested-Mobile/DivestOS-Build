@@ -31,6 +31,9 @@ enter "build/make";
 sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
 sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/buildinfo.sh; #Override build host
 
+enter "frameworks/base";
+generateBootAnimationMask "$REBRAND_NAME" core/res/assets/images/android-logo-mask.png;
+
 enter "lineage-sdk";
 sed -i '/.*lineage_version/s/LineageOS/'"$REBRAND_NAME"'/' lineage/res/res/values*/strings.xml;
 sed -i '/.*lineage_updates/s/LineageOS/'"$REBRAND_NAME"'/' lineage/res/res/values*/strings.xml;
@@ -55,7 +58,7 @@ enter "vendor/lineage";
 sed -i 's|https://lineageos.org/legal|'"$REBRAND_LEGAL"'|' build/core/main_version.mk
 sed -i '/.*ZIPPATH=/s/lineage/'"$REBRAND_ZIP_PREFIX"'/' build/envsetup.sh;
 sed -i '/LINEAGE_TARGET_PACKAGE/s/lineage/'"$REBRAND_ZIP_PREFIX"'/' build/tasks/bacon.mk;
-rm -rf bootanimation; #TODO: Create a boot animation
+rm -rf bootanimation;
 
 cd "$base";
 echo "Rebranding complete!";

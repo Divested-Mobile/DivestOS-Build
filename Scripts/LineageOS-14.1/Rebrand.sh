@@ -28,6 +28,9 @@ sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.
 sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/buildinfo.sh; #Override build host
 sed -i '/CM_TARGET_PACKAGE/s/lineage/'"$REBRAND_ZIP_PREFIX"'/' core/Makefile;
 
+enter "frameworks/base";
+generateBootAnimationMask "$REBRAND_NAME" core/res/assets/images/android-logo-mask.png;
+
 enter "packages/apps/Settings";
 sed -i '/.*cmlicense_title/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/cm_strings.xml;
 sed -i '/.*cmupdate_settings_title/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/cm_strings.xml;
@@ -45,7 +48,7 @@ sed -i 's|>LineageOS|>'"$REBRAND_NAME"'|' res/values*/strings.xml;
 enter "vendor/cm";
 sed -i 's|https://lineageos.org/legal|'"$REBRAND_LEGAL"'|' config/common.mk;
 sed -i '/.*ZIPPATH=/s/lineage/'"$REBRAND_ZIP_PREFIX"'/' build/envsetup.sh;
-rm -rf bootanimation #TODO: Create a boot animation
+rm -rf bootanimation;
 
 cd "$base";
 echo "Rebranding complete!";

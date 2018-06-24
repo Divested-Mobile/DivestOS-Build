@@ -87,6 +87,13 @@ scanForMalware() {
 }
 export -f scanForMalware;
 
+generateBootAnimationMask() {
+	text=$1;
+	output=$2;
+	convert -background black -fill transparent -font Fira-Sans-Bold -gravity center -size 512x128 label:"$text" "$output";
+}
+export -f generateBootAnimationMask;
+
 audit2allowCurrent() {
 		adb shell dmesg | grep denied | audit2allow -p "$ANDROID_PRODUCT_OUT"/root/sepolicy;
 }
@@ -221,6 +228,11 @@ changeDefaultDNS() {
 			dnsPrimaryV6="2620:fe::fe";
 			dnsSecondary="149.112.112.112";
 			dnsSecondaryV6="2620:fe::10"; #not real secondary, primary "unsecured"
+		elif [[ "$DEFAULT_DNS_PRESET" == "Verisign" ]]; then
+			dnsPrimary="64.6.64.6";
+			dnsPrimaryV6="2620:74:1b::1:1";
+			dnsSecondary="64.6.65.6";
+			dnsSecondaryV6="2620:74:1c::2:2";
 		fi;
 	else
 		echo "You must first set a preset via the DEFAULT_DNS_PRESET variable in init.sh!";

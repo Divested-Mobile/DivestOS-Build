@@ -1,4 +1,4 @@
-Last updated: 2018-06-12
+Last updated: 2018-06-24
 
 High Priority (Release blockers)
 	Build
@@ -28,7 +28,7 @@ Medium Priority
 	Design
 		- Facelift of Extirpater
 		- Facelift of Hypatia
-		- Various other branding (bootanimation, setupwizard, etc.)
+		- Various other branding (proper bootanimation, setupwizard, etc.)
 	Project
 		- Create various XMPP conference rooms
 	Servers
