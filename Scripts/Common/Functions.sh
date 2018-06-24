@@ -95,6 +95,13 @@ generateBootAnimationMask() {
 }
 export -f generateBootAnimationMask;
 
+generateBootAnimationShine() {
+	color=$1;
+	output=$2;
+	convert -size 1024x128 -define gradient:angle=90 gradient:"$color"-#9E9E9E \( +clone -flop \) +append "$output";
+}
+export -f generateBootAnimationShine;
+
 audit2allowCurrent() {
 	adb shell dmesg | audit2allow -p "$ANDROID_PRODUCT_OUT"/root/sepolicy;
 }
