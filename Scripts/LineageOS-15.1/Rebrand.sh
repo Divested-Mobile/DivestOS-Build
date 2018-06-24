@@ -32,7 +32,7 @@ sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.
 sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/buildinfo.sh; #Override build host
 
 enter "frameworks/base";
-generateBootAnimationMask "$REBRAND_NAME" core/res/assets/images/android-logo-mask.png;
+generateBootAnimationMask "$REBRAND_NAME" "$REBRAND_BOOTANIMATION_FONT" core/res/assets/images/android-logo-mask.png;
 
 enter "lineage-sdk";
 sed -i '/.*lineage_version/s/LineageOS/'"$REBRAND_NAME"'/' lineage/res/res/values*/strings.xml;

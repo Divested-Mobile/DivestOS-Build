@@ -89,13 +89,14 @@ export -f scanForMalware;
 
 generateBootAnimationMask() {
 	text=$1;
-	output=$2;
-	convert -background black -fill transparent -font Fira-Sans-Bold -gravity center -size 512x128 label:"$text" "$output";
+	font=$2
+	output=$3;
+	convert -background black -fill transparent -font "$font" -gravity center -size 512x128 label:"$text" "$output";
 }
 export -f generateBootAnimationMask;
 
 audit2allowCurrent() {
-		adb shell dmesg | grep denied | audit2allow -p "$ANDROID_PRODUCT_OUT"/root/sepolicy;
+	adb shell dmesg | audit2allow -p "$ANDROID_PRODUCT_OUT"/root/sepolicy;
 }
 export -f audit2allowCurrent;
 

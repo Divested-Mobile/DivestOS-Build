@@ -29,7 +29,7 @@ sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/bui
 sed -i '/CM_TARGET_PACKAGE/s/lineage/'"$REBRAND_ZIP_PREFIX"'/' core/Makefile;
 
 enter "frameworks/base";
-generateBootAnimationMask "$REBRAND_NAME" core/res/assets/images/android-logo-mask.png;
+generateBootAnimationMask "$REBRAND_NAME" "$REBRAND_BOOTANIMATION_FONT" core/res/assets/images/android-logo-mask.png;
 
 enter "packages/apps/Settings";
 sed -i '/.*cmlicense_title/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/cm_strings.xml;
