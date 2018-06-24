@@ -194,7 +194,7 @@ echo "Deblobbing..."
 	#blobs=$blobs"|libthermalclient.so|libthermalioctl.so|thermal-engine";
 
 	#Time Service [Qualcomm]
-	#Requires that https://github.com/LineageOS/android_hardware_sony_timekeep be included in repo manifest
+	#Requires that android_hardware_sony_timekeep be included in repo manifest
 	if [ "$DEBLOBBER_REPLACE_TIME" = true ]; then
 		#blobs=$blobs"|libtime_genoff.so"; #XXX: Breaks radio
 		blobs=$blobs"|libTimeService.so|time_daemon|TimeService.apk";
@@ -265,18 +265,14 @@ deblobDevice() {
 		awk -i inplace '!/'"$makes"'/' device.mk; #Remove references from device makefile
 		if [ -z "$replaceTime" ]; then
 			#Switch to Sony TimeKeep
-			echo "PRODUCT_PACKAGES += \\" >> device.mk;
-			echo "    timekeep \\" >> device.mk;
-			echo "    TimeKeep" >> device.mk;
+			echo "PRODUCT_PACKAGES += timekeep TimeKeep" >> device.mk;
 		fi;
 	fi;
 	if [ -f "${PWD##*/}".mk ] && [ "${PWD##*/}".mk != "sepolicy" ]; then
 		awk -i inplace '!/'"$makes"'/' "${PWD##*/}".mk; #Remove references from device makefile
 		if [ -z "$replaceTime" ]; then
 			#Switch to Sony TimeKeep
-			echo "PRODUCT_PACKAGES += \\" >> "${PWD##*/}".mk;
-			echo "    timekeep \\" >> "${PWD##*/}".mk;
-			echo "    TimeKeep" >> "${PWD##*/}".mk;
+			echo "PRODUCT_PACKAGES += timekeep TimeKeep" >> "${PWD##*/}".mk;
 		fi;
 	fi;
 	if [ -f system.prop ]; then

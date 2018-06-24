@@ -84,8 +84,7 @@ sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired
 patch -p1 < "$patches/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480
 if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < "$patches/android_frameworks_base/0003-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (MicroG)
 if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < "$patches/android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
-if [ "$DEFAULT_DNS" = "Cloudflare" ]; then patch -p1 < "$patches/android_frameworks_base/0006-DNS_Cloudflare.patch"; fi; #Switch to Cloudflare DNS
-if [ "$DEFAULT_DNS" = "OpenNIC" ]; then patch -p1 < "$patches/android_frameworks_base/0006-DNS_OpenNIC.patch"; fi; #Switch to OpenNIC DNS
+changeDefaultDNS;
 #patch -p1 < "$patches/android_frameworks_base/0007-Connectivity.patch"; #Change connectivity check URLs to ours
 patch -p1 < "$patches/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps

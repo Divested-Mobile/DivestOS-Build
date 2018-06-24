@@ -185,6 +185,55 @@ getDefconfig() {
 }
 export -f getDefconfig;
 
+changeDefaultDNS() {
+	dnsPrimary="";
+	dnsPrimaryV6="";
+	dnsSecondary="";
+	dnsSecondaryV6="";
+	if [ -z "$DNS_PRESET"]; then
+		if [[ "$DEFAULT_DNS_PRESET" == "Cloudflare" ]]; then
+			dnsPrimary="1.0.0.1";
+			dnsPrimaryV6="2606:4700:4700::1001";
+			dnsSecondary="1.1.1.1";
+			dnsSecondaryV6="2606:4700:4700::1111";
+		elif [[ "$DEFAULT_DNS_PRESET" == "OpenNIC" ]]; then
+			dnsPrimary="169.239.202.202";
+			dnsPrimaryV6="2a05:dfc7:5353::53";
+			dnsSecondary="185.121.177.177";
+			dnsSecondaryV6="2a05:dfc7:5::53";
+		elif [[ "$DEFAULT_DNS_PRESET" == "DNSWATCH" ]]; then
+			dnsPrimary="84.200.69.80";
+			dnsPrimaryV6="2001:1608:10:25::1c04:b12f";
+			dnsSecondary="84.200.70.40";
+			dnsSecondaryV6="2001:1608:10:25::9249:d69b";
+		elif [[ "$DEFAULT_DNS_PRESET" == "Google" ]]; then
+			dnsPrimary="8.8.8.8";
+			dnsPrimaryV6="2001:4860:4860::8888";
+			dnsSecondary="8.8.4.4";
+			dnsSecondaryV6="2001:4860:4860::8844";
+		elif [[ "$DEFAULT_DNS_PRESET" == "OpenDNS" ]]; then
+			dnsPrimary="208.67.222.222";
+			dnsPrimaryV6="2620:0:ccc::2";
+			dnsSecondary="208.67.220.220";
+			dnsSecondaryV6="2620:0:ccd::2";
+		elif [[ "$DEFAULT_DNS_PRESET" == "Quad9" ]]; then
+			dnsPrimary="9.9.9.9";
+			dnsPrimaryV6="2620:fe::fe";
+			dnsSecondary="149.112.112.112";
+			dnsSecondaryV6="2620:fe::10"; #not real secondary, primary "unsecured"
+		fi;
+	else
+		echo "You must first set a preset via the DEFAULT_DNS_PRESET variable in init.sh!";
+	fi;
+
+	files="core/res/res/values/config.xml packages/SettingsLib/res/values/strings.xml services/core/java/com/android/server/connectivity/NetworkDiagnostics.java services/core/java/com/android/server/connectivity/Tethering.java services/core/java/com/android/server/connectivity/tethering/TetheringConfiguration.java";
+	sed -i "s/8\.8\.8\.8/$dnsPrimary/" $files &>/dev/null || true;
+	sed -i "s/2001:4860:4860::8888/$dnsPrimaryV6/" $files &>/dev/null || true;
+	sed -i "s/8\.8\.4\.4/$dnsSecondary/" $files &>/dev/null || true;
+	sed -i "s/2001:4860:4860::8844/$dnsSecondaryV6/" $files &>/dev/null || true;
+}
+export -f changeDefaultDNS;
+
 editKernelLocalversion() {
 	defconfigPath=$(getDefconfig)
 	sed -i 's/CONFIG_LOCALVERSION=".*"/CONFIG_LOCALVERSION="'"$1"'"/' $defconfigPath &>/dev/null || true;
