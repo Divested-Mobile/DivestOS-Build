@@ -1,11 +1,11 @@
-Last updated: 2018-06-24
+Last updated: 2018-06-25
 
 High Priority (Release blockers)
 	Build
 		- Automate incremental update generation
 		- Switch HOSTS to release variant
 		- New signing keys
-		- Consider removing microG or instead keeping UnifiedNLP
+		- Determine whether to ship microG or just UnifiedNLP
 	Project
 		- Create cryptocurrency addresses
 		- Setup Stripe
@@ -28,7 +28,7 @@ Medium Priority
 	Design
 		- Facelift of Extirpater
 		- Facelift of Hypatia
-		- Various other branding (proper bootanimation, setupwizard, etc.)
+		- Various other branding (logo, snazzy bootanimation, setupwizard, etc.)
 	Project
 		- Create various XMPP conference rooms
 	Servers

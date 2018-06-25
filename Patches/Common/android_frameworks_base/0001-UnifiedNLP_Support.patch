@@ -1,0 +1,26 @@
+From aff27a258e5585172781d4ba128294ffc7e84b82 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Mon, 25 Jun 2018 09:58:29 -0400
+Subject: [PATCH] Add microG UnifiedNLP to available location providers
+
+Change-Id: I4642308d5fd5e4230619b20b15eddf28dd193edd
+---
+ core/res/res/values/config.xml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/core/res/res/values/config.xml b/core/res/res/values/config.xml
+index c29ff3c90a9..4e00c153a48 100755
+--- a/core/res/res/values/config.xml
++++ b/core/res/res/values/config.xml
+@@ -1474,6 +1474,8 @@
+     <string-array name="config_locationProviderPackageNames" translatable="false">
+         <!-- The standard AOSP fused location provider -->
+         <item>com.android.location.fused</item>
++        <!-- UnifiedNLP Location Provider -->
++	<item>org.microg.nlp</item>
+     </string-array>
+ 
+     <!-- This string array can be overriden to enable test location providers initially. -->
+-- 
+2.18.0
+

@@ -84,6 +84,7 @@ sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/co
 sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml;
 if [ "$MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$patches/android_frameworks_base/0002-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
 if [ "$MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$patches/android_frameworks_base/0003-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
+if [ "$MICROG_INCLUDED" = "NLP" ]; then patch -p1 < "$patchesCommon/android_frameworks_base/0001-UnifiedNLP_Support.patch"; fi; #Add UnifiedNLP to location providers
 changeDefaultDNS;
 #patch -p1 < "$patches/android_frameworks_base/0005-Connectivity.patch"; #Change connectivity check URLs to ours
 patch -p1 < "$patches/android_frameworks_base/0006-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries

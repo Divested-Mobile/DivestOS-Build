@@ -88,7 +88,7 @@ source "$scripts/Functions.sh";
 
 export LC_ALL=C;
 
-unalias cp;
-unalias mv;
-unalias rm;
-unalias ln;
+unalias cp &>/dev/null || true;
+unalias mv &>/dev/null || true;
+unalias rm &>/dev/null || true;
+unalias ln &>/dev/null || true;
