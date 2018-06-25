@@ -36,6 +36,7 @@ export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion o
 export REBRAND_NAME="DivestOS";
 export REBRAND_ZIP_PREFIX="divested";
 export REBRAND_BOOTANIMATION_FONT="Fira-Sans-Bold"; #Options: $ convert -list font
+export REBRAND_BOOTANIMATION_STYLE="plasma"; #Options: gradient, plasma
 #export REBRAND_BOOTANIMATION_COLOR="#FF5722-#FF8A65"; #gradient
 export REBRAND_BOOTANIMATION_COLOR="#FF5722-#03A9F4"; #plasma
 export REBRAND_LEGAL="https://divestos.xyz/index.php?page=privacy_policy";
