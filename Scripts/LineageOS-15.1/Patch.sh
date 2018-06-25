@@ -119,7 +119,8 @@ fi;
 
 enterAndClear "packages/apps/FDroid";
 cp "$patchesCommon/android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add extra repos
-sed -i 's|outputs/apk/|outputs/apk/release/|' Android.mk;
+sed -i 's|outputs/apk/|outputs/apk/full/release/|' Android.mk;
+sed -i 's|-release-unsigned|-full-release-unsigned|' Android.mk;
 sed -i 's|gradle|./gradlew|' Android.mk; #Gradle 4.0 fix
 sed -i 's|/$(fdroid_dir) \&\&| \&\&|' Android.mk; #One line wouldn't work... no matter what I tried.
 sed -i 's/org\.fdroid\.fdroid/org.fdroid.fdroid_dos/' app/build.gradle; #Change the package ID until https://gitlab.com/fdroid/fdroidclient/issues/843 is implemented

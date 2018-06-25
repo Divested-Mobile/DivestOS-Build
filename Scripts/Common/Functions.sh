@@ -208,37 +208,42 @@ changeDefaultDNS() {
 	dnsSecondary="";
 	dnsSecondaryV6="";
 	if [ -z "$DNS_PRESET"]; then
-		if [[ "$DEFAULT_DNS_PRESET" == "Cloudflare" ]]; then
+		if [[ "$DEFAULT_DNS_PRESET" == "Cloudflare" ]]; then #https://developers.cloudflare.com/1.1.1.1/commitment-to-privacy/privacy-policy/privacy-policy/
 			dnsPrimary="1.0.0.1";
 			dnsPrimaryV6="2606:4700:4700::1001";
 			dnsSecondary="1.1.1.1";
 			dnsSecondaryV6="2606:4700:4700::1111";
-		elif [[ "$DEFAULT_DNS_PRESET" == "OpenNIC" ]]; then
+		elif [[ "$DEFAULT_DNS_PRESET" == "OpenNIC" ]]; then #https://servers.opennicproject.org/edit.php?srv=ns3.any.dns.opennic.glue
 			dnsPrimary="169.239.202.202";
 			dnsPrimaryV6="2a05:dfc7:5353::53";
 			dnsSecondary="185.121.177.177";
 			dnsSecondaryV6="2a05:dfc7:5::53";
-		elif [[ "$DEFAULT_DNS_PRESET" == "DNSWATCH" ]]; then
+		elif [[ "$DEFAULT_DNS_PRESET" == "DNSWATCH" ]]; then #https://dns.watch
 			dnsPrimary="84.200.69.80";
 			dnsPrimaryV6="2001:1608:10:25::1c04:b12f";
 			dnsSecondary="84.200.70.40";
 			dnsSecondaryV6="2001:1608:10:25::9249:d69b";
-		elif [[ "$DEFAULT_DNS_PRESET" == "Google" ]]; then
+		elif [[ "$DEFAULT_DNS_PRESET" == "Google" ]]; then #https://developers.google.com/speed/public-dns/privacy
 			dnsPrimary="8.8.8.8";
 			dnsPrimaryV6="2001:4860:4860::8888";
 			dnsSecondary="8.8.4.4";
 			dnsSecondaryV6="2001:4860:4860::8844";
-		elif [[ "$DEFAULT_DNS_PRESET" == "OpenDNS" ]]; then
+		elif [[ "$DEFAULT_DNS_PRESET" == "OpenDNS" ]]; then #https://www.cisco.com/c/en/us/about/legal/privacy-full.html
 			dnsPrimary="208.67.222.222";
 			dnsPrimaryV6="2620:0:ccc::2";
 			dnsSecondary="208.67.220.220";
 			dnsSecondaryV6="2620:0:ccd::2";
-		elif [[ "$DEFAULT_DNS_PRESET" == "Quad9" ]]; then
+		elif [[ "$DEFAULT_DNS_PRESET" == "Quad9" ]]; then #https://www.quad9.net/privacy/
 			dnsPrimary="9.9.9.9";
 			dnsPrimaryV6="2620:fe::fe";
 			dnsSecondary="149.112.112.112";
-			dnsSecondaryV6="2620:fe::10"; #not real secondary, primary "unsecured"
-		elif [[ "$DEFAULT_DNS_PRESET" == "Verisign" ]]; then
+			dnsSecondaryV6="2620:fe::fe"; #no secondary available
+		elif [[ "$DEFAULT_DNS_PRESET" == "Quad9U" ]]; then #https://www.quad9.net/privacy/
+			dnsPrimary="9.9.9.10";
+			dnsPrimaryV6="2620:fe::10";
+			dnsSecondary="149.112.112.10";
+			dnsSecondaryV6="2620:fe::10"; #no secondary available
+		elif [[ "$DEFAULT_DNS_PRESET" == "Verisign" ]]; then #https://www.verisign.com/en_US/security-services/public-dns/terms-of-service/index.xhtml
 			dnsPrimary="64.6.64.6";
 			dnsPrimaryV6="2620:74:1b::1:1";
 			dnsSecondary="64.6.65.6";

@@ -52,9 +52,7 @@ sed -i 's/ENABLE_PEOPLE_LOOKUP, 1)/ENABLE_PEOPLE_LOOKUP, 0)/' java/com/android/d
 sed -i 's/ENABLE_REVERSE_LOOKUP, 1)/ENABLE_REVERSE_LOOKUP, 0)/' java/com/android/dialer/lookup/LookupSettings*.java; #Disable RLP
 
 enter "packages/apps/FDroid";
-sed -i 's|DEFAULT_SHOW_ROOT_APPS = true;|DEFAULT_SHOW_ROOT_APPS = false;|' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide root apps
 sed -i '/string\/show_root_apps/!b;n;s/defaultValue="true"/defaultValue="false"/' app/src/main/res/xml/preferences.xml;
-sed -i 's|DEFAULT_SHOW_ANTI_FEATURE_APPS = true;|DEFAULT_SHOW_ANTI_FEATURE_APPS = false;|' app/src/main/java/org/fdroid/fdroid/Preferences.java; #Hide anti-feature apps
 sed -i '/string\/show_anti_feature_apps/!b;n;s/defaultValue="true"/defaultValue="false"/' app/src/main/res/xml/preferences.xml;
 
 enter "packages/apps/Nfc";
