@@ -5,7 +5,6 @@ High Priority (Release blockers)
 		- Automate incremental update generation
 		- Switch HOSTS to release variant
 		- New signing keys
-		- Determine whether to ship microG or just UnifiedNLP
 	Project
 		- Create cryptocurrency addresses
 		- Setup Stripe

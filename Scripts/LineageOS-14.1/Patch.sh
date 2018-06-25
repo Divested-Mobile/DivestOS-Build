@@ -84,7 +84,7 @@ sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired
 patch -p1 < "$patches/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480
 if [ "$MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$patches/android_frameworks_base/0003-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
 if [ "$MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$patches/android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
-if [ "$MICROG_INCLUDED" = "NLP" ]; then patch -p1 < "$patchesCommon/android_frameworks_base/0001-UnifiedNLP_Support.patch"; fi; #Add UnifiedNLP to location providers
+if [ "$MICROG_INCLUDED" = "NLP" ]; then sed -i '/<item>com.android.location.fused<\/item>/a \ \ \ \ \ \ \ \ <item>org.microg.nlp</item>' core/res/res/values/config.xml; fi; #Add UnifiedNLP to location providers
 changeDefaultDNS;
 #patch -p1 < "$patches/android_frameworks_base/0007-Connectivity.patch"; #Change connectivity check URLs to ours
 patch -p1 < "$patches/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
@@ -198,6 +198,7 @@ fi;
 cp "$patchesCommon/android_vendor_divested/sce.mk" config/sce.mk;
 if [ "$MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> config/sce.mk; fi;
 if [ "$MICROG_INCLUDED" = "NLP" ]; then echo "PRODUCT_PACKAGES += UnifiedNLP" >> config/sce.mk; fi;
+if [ "$MICROG_INCLUDED" = "NLP" ]; then sed -i '/Google provider/!b;n;s/com.google.android.gms/org.microg.nlp/' overlay/common/frameworks/base/core/res/res/values/config.xml; fi;
 if [ "$MICROG_INCLUDED" != "NONE" ]; then cp "$patchesCommon/android_vendor_divested/sce-UnifiedNLP-Backends.mk" config/sce-UnifiedNLP-Backends.mk; fi;
 if [ "$MICROG_INCLUDED" != "NONE" ]; then echo "include vendor/cm/config/sce-UnifiedNLP-Backends.mk" >> config/sce.mk; fi;
 cp "$patches/android_vendor_cm/config.xml" overlay/common/vendor/cmsdk/cm/res/res/values/config.xml; #Per app performance profiles

@@ -99,11 +99,8 @@ generateBootAnimationShine() {
 	color=$1;
 	style=$2;
 	output=$3;
-	if [ "$style" = "gradient" ]; then
-		convert -size 1024x128 -define gradient:angle=90 plasma:"$color" \( +clone -flop \) +append "$output";
-	elif [ "$style" = "plasma" ]; then
-		convert -size 2048x128 plasma:"$color" "$output";
-	fi;
+	#The colors need to be symmetrical in order to make the animation smooth and not have any noticble lines
+	convert -size 1024x128 -define gradient:angle=90 "$style":"$color" \( +clone -flop \) +append "$output";
 }
 export -f generateBootAnimationShine;
 
