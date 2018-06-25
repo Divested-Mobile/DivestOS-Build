@@ -82,8 +82,8 @@ enterAndClear "frameworks/base";
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
 sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml;
-if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < "$patches/android_frameworks_base/0002-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
-if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < "$patches/android_frameworks_base/0003-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
+if [ "$MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$patches/android_frameworks_base/0002-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
+if [ "$MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$patches/android_frameworks_base/0003-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
 changeDefaultDNS;
 #patch -p1 < "$patches/android_frameworks_base/0005-Connectivity.patch"; #Change connectivity check URLs to ours
 patch -p1 < "$patches/android_frameworks_base/0006-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
@@ -109,7 +109,7 @@ awk -i inplace '!/WeatherManagerServiceBroker/' lineage/res/res/values/config.xm
 if [ "$DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi;
 cp "$patchesCommon/android_lineage-sdk/profile_default.xml" lineage/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
 
-if [ "$MICROG_INCLUDED" = true ]; then
+if [ "$MICROG_INCLUDED" = "FULL" ]; then
 enterAndClear "packages/apps/FakeStore";
 sed -i 's|$(OUT_DIR)/target/|$(PWD)/$(OUT_DIR)/target/|' Android.mk;
 sed -i 's/ln -s /ln -sf /' Android.mk;
@@ -129,12 +129,12 @@ sed -i 's/\"org\.fdroid\.fdroid/\"org.fdroid.fdroid_dos/' app/src/main/java/org/
 #release-key: CB:1E:E2:EC:40:D0:5E:D6:78:F4:2A:E7:01:CD:FA:29:EE:A7:9D:0E:6D:63:32:76:DE:23:0B:F3:49:40:67:C3
 #test-key: C8:A2:E9:BC:CF:59:7C:2F:B6:DC:66:BE:E2:93:FC:13:F2:FC:47:EC:77:BC:6B:2B:0D:52:C1:1F:51:19:2A:B8
 
-if [ "$MICROG_INCLUDED" = true ]; then
+if [ "$MICROG_INCLUDED" = "FULL" ]; then
 enterAndClear "packages/apps/GmsCore";
 git submodule update --init --recursive;
 fi;
 
-if [ "$MICROG_INCLUDED" = true ]; then
+if [ "$MICROG_INCLUDED" = "FULL" ]; then
 enterAndClear "packages/apps/GsfProxy";
 sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools = "25.0.3"/' build.gradle;
 fi;
@@ -150,7 +150,7 @@ git revert a96df110e84123fe1273bff54feca3b4ca484dcd; #don't hide oem unlock
 if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < "$patches/android_packages_apps_Settings/Copperhead/0003-Deny_USB.patch"; fi; #Deny USB support (Copperhead CC BY-NC-SA)
 patch -p1 < "$patches/android_packages_apps_Settings/0004-PDB_Fixes.patch"; #Fix crashes when the PersistentDataBlockManager service isn't available
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length
-if [ "$MICROG_INCLUDED" = true ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
+if [ "$MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
 rm res/values/strings.xml.orig;
 
 enterAndClear "packages/apps/SetupWizard";
@@ -197,8 +197,10 @@ awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
 sed -i '3iinclude vendor/lineage/config/sce.mk' config/common.mk; #Include extra apps
 if [ "$DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/AudioFX/' config/common.mk; fi;
 cp "$patchesCommon/android_vendor_divested/sce.mk" config/sce.mk;
-if [ "$MICROG_INCLUDED" = true ]; then cp "$patchesCommon/android_vendor_divested/sce-microG.mk" config/sce-microG.mk; fi;
-if [ "$MICROG_INCLUDED" = true ]; then echo "include vendor/lineage/config/sce-microG.mk" >> config/sce.mk; fi;
+if [ "$MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> config/sce.mk; fi;
+if [ "$MICROG_INCLUDED" = "NLP" ]; then echo "PRODUCT_PACKAGES += UnifiedNLP" >> config/sce.mk; fi;
+if [ "$MICROG_INCLUDED" != "NONE" ]; then cp "$patchesCommon/android_vendor_divested/sce-UnifiedNLP-Backends.mk" config/sce-UnifiedNLP-Backends.mk; fi;
+if [ "$MICROG_INCLUDED" != "NONE" ]; then echo "include vendor/lineage/config/sce-UnifiedNLP-Backends.mk" >> config/sce.mk; fi;
 cp -r "$patchesCommon/android_vendor_divested/firmware_deblobber" .;
 cp "$patches/android_vendor_lineage/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;
 sed -i 's/LINEAGE_BUILDTYPE := UNOFFICIAL/LINEAGE_BUILDTYPE := dos/' config/common.mk; #Change buildtype

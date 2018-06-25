@@ -82,8 +82,8 @@ sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/co
 sed -i 's|db_default_journal_mode" translatable="false">PERSIST|db_default_journal_mode" translatable="false">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
 sed -i 's|config_permissionReviewRequired">false|config_permissionReviewRequired">true|' core/res/res/values/config.xml;
 patch -p1 < "$patches/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480
-if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < "$patches/android_frameworks_base/0003-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (MicroG)
-if [ "$MICROG_INCLUDED" = true ]; then patch -p1 < "$patches/android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
+if [ "$MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$patches/android_frameworks_base/0003-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
+if [ "$MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$patches/android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
 changeDefaultDNS;
 #patch -p1 < "$patches/android_frameworks_base/0007-Connectivity.patch"; #Change connectivity check URLs to ours
 patch -p1 < "$patches/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
@@ -109,7 +109,7 @@ sed -i 's|config_showWeatherMenu">true|config_showWeatherMenu">false|' res/value
 patch -p1 < "$patches/android_packages_apps_CMParts/0001-Remove_Analytics.patch"; #Remove the rest of CMStats
 patch -p1 < "$patches/android_packages_apps_CMParts/0002-Reduced_Resolution.patch"; #Allow reducing resolution to save power
 
-if [ "$MICROG_INCLUDED" = true ]; then
+if [ "$MICROG_INCLUDED" = "FULL" ]; then
 enterAndClear "packages/apps/FakeStore";
 sed -i 's|$(OUT_DIR)/target/|$(PWD)/$(OUT_DIR)/target/|' Android.mk;
 sed -i 's/ln -s /ln -sf /' Android.mk;
@@ -129,12 +129,12 @@ sed -i 's/\"org\.fdroid\.fdroid/\"org.fdroid.fdroid_dos/' app/src/main/java/org/
 #release-key: CB:1E:E2:EC:40:D0:5E:D6:78:F4:2A:E7:01:CD:FA:29:EE:A7:9D:0E:6D:63:32:76:DE:23:0B:F3:49:40:67:C3
 #test-key: C8:A2:E9:BC:CF:59:7C:2F:B6:DC:66:BE:E2:93:FC:13:F2:FC:47:EC:77:BC:6B:2B:0D:52:C1:1F:51:19:2A:B8
 
-if [ "$MICROG_INCLUDED" = true ]; then
+if [ "$MICROG_INCLUDED" = "FULL" ]; then
 enterAndClear "packages/apps/GmsCore";
 git submodule update --init --recursive;
 fi;
 
-if [ "$MICROG_INCLUDED" = true ]; then
+if [ "$MICROG_INCLUDED" = "FULL" ]; then
 enterAndClear "packages/apps/GsfProxy";
 sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools = "25.0.3"/' build.gradle;
 fi;
@@ -145,7 +145,7 @@ patch -p1 < "$patches/android_packages_apps_PackageInstaller/64d8b44.diff"; #Fix
 enterAndClear "packages/apps/Settings";
 git revert 2ebe6058c546194a301c1fd22963d6be4adbf961; #don't hide oem unlock
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
-if [ "$MICROG_INCLUDED" = true ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
+if [ "$MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
 
 enterAndClear "packages/apps/SetupWizard";
 patch -p1 < "$patches/android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove the rest of CMStats
@@ -195,8 +195,10 @@ if [ "$DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
 	awk -i inplace '!/AudioService/' config/common.mk;
 fi;
 cp "$patchesCommon/android_vendor_divested/sce.mk" config/sce.mk;
-if [ "$MICROG_INCLUDED" = true ]; then cp "$patchesCommon/android_vendor_divested/sce-microG.mk" config/sce-microG.mk; fi;
-if [ "$MICROG_INCLUDED" = true ]; then echo "include vendor/cm/config/sce-microG.mk" >> config/sce.mk; fi;
+if [ "$MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> config/sce.mk; fi;
+if [ "$MICROG_INCLUDED" = "NLP" ]; then echo "PRODUCT_PACKAGES += UnifiedNLP" >> config/sce.mk; fi;
+if [ "$MICROG_INCLUDED" != "NONE" ]; then cp "$patchesCommon/android_vendor_divested/sce-UnifiedNLP-Backends.mk" config/sce-UnifiedNLP-Backends.mk; fi;
+if [ "$MICROG_INCLUDED" != "NONE" ]; then echo "include vendor/cm/config/sce-UnifiedNLP-Backends.mk" >> config/sce.mk; fi;
 cp "$patches/android_vendor_cm/config.xml" overlay/common/vendor/cmsdk/cm/res/res/values/config.xml; #Per app performance profiles
 cp -r "$patchesCommon/android_vendor_divested/firmware_deblobber" .;
 cp "$patches/android_vendor_cm/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;
