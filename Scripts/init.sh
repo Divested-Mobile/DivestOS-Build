@@ -20,7 +20,7 @@
 #START OF USER CONFIGURABLE OPTIONS
 export androidWorkspace="/mnt/Drive-3/"; #XXX: THIS MUST BE CORRECT TO BUILD!
 
-export DEBLOBBER_REMOVE_AUDIOFX=false; #Set true to remove AudioFX
+export DEBLOBBER_REMOVE_AUDIOFX=true; #Set true to remove AudioFX
 export DEBLOBBER_REMOVE_IMS=false; #Set true to remove all IMS blobs
 export DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Services with the open source Sony TimeKeep reimplementation
 export DEFAULT_DNS_PRESET="OpenNIC"; #Sets default DNS. Options: Cloudflare, OpenNIC, DNSWATCH, Google, OpenDNS, Quad9, Verisign
@@ -36,7 +36,8 @@ export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion o
 export REBRAND_NAME="DivestOS";
 export REBRAND_ZIP_PREFIX="divested";
 export REBRAND_BOOTANIMATION_FONT="Fira-Sans-Bold"; #Options: $ convert -list font
-export REBRAND_BOOTANIMATION_COLOR="#FF5722-#FFAB91";
+#export REBRAND_BOOTANIMATION_COLOR="#FF5722-#FF8A65"; #gradient
+export REBRAND_BOOTANIMATION_COLOR="#FF5722-#03A9F4"; #plasma
 export REBRAND_LEGAL="https://divestos.xyz/index.php?page=privacy_policy";
 #END OF USER CONFIGURABLE OPTIONS
 
@@ -55,6 +56,7 @@ if [ ! -d "$base" ]; then
 fi;
 
 export prebuiltApps=$androidWorkspace"PrebuiltApps/";
+export patchesCommon=$androidWorkspace"Patches/Common/";
 export patches=$androidWorkspace"Patches/$BUILD_WORKING_DIR/";
 export cvePatchesLinux=$androidWorkspace"Patches/Linux/";
 export cvePatchesAndroid=$androidWorkspace"Patches/Android/";

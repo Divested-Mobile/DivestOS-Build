@@ -117,7 +117,7 @@ sed -i 's/ext.androidBuildVersionTools = "24.0.3"/ext.androidBuildVersionTools =
 fi;
 
 enterAndClear "packages/apps/FDroid";
-cp "$patches/android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add extra repos
+cp "$patchesCommon/android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add extra repos
 sed -i 's|outputs/apk/|outputs/apk/release/|' Android.mk;
 sed -i 's|gradle|./gradlew|' Android.mk; #Gradle 4.0 fix
 sed -i 's|/$(fdroid_dir) \&\&| \&\&|' Android.mk; #One line wouldn't work... no matter what I tried.
@@ -194,23 +194,23 @@ if [ "$DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
 	awk -i inplace '!/AudioFX/' config/common.mk;
 	awk -i inplace '!/AudioService/' config/common.mk;
 fi;
-cp "$patches/android_vendor_cm/sce.mk" config/sce.mk;
-if [ "$MICROG_INCLUDED" = true ]; then cp "$patches/android_vendor_cm/sce-microG.mk" config/sce-microG.mk; fi;
+cp "$patchesCommon/android_vendor_divested/sce.mk" config/sce.mk;
+if [ "$MICROG_INCLUDED" = true ]; then cp "$patchesCommon/android_vendor_divested/sce-microG.mk" config/sce-microG.mk; fi;
 if [ "$MICROG_INCLUDED" = true ]; then echo "include vendor/cm/config/sce-microG.mk" >> config/sce.mk; fi;
 cp "$patches/android_vendor_cm/config.xml" overlay/common/vendor/cmsdk/cm/res/res/values/config.xml; #Per app performance profiles
-cp -r "$patches/android_vendor_cm/firmware_deblobber" .;
+cp -r "$patchesCommon/android_vendor_divested/firmware_deblobber" .;
 cp "$patches/android_vendor_cm/firmware_deblobber.mk" build/tasks/firmware_deblobber.mk;
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/CM_BUILDTYPE := dos/CM_BUILDTYPE := dosNC/' config/common.mk; fi;
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
 #if [ "$HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += DNS66" >> config/sce.mk; fi; #Include DNS66 as an alternative
-if [ "$HOSTS_BLOCKING" = false ]; then cp "$patches/android_vendor_cm/dns66.json" prebuilt/common/etc/dns66.json; fi;
+if [ "$HOSTS_BLOCKING" = false ]; then cp "$patchesCommon/android_vendor_divested/dns66.json" prebuilt/common/etc/dns66.json; fi;
 if [ "$HOSTS_BLOCKING" = false ]; then sed -i '4iPRODUCT_COPY_FILES += vendor/cm/prebuilt/common/etc/dns66.json:system/etc/dns66/settings.json' config/common.mk; fi; #Include DNS66 default config
 
 enterAndClear "vendor/cmsdk";
 awk -i inplace '!/WeatherManagerServiceBroker/' cm/res/res/values/config.xml; #Disable Weather
 if [ "$DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/CMAudioService/' cm/res/res/values/config.xml; fi;
-cp "$patches/cm_platform_sdk/profile_default.xml" cm/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
+cp "$patchesCommon/android_lineage-sdk/profile_default.xml" cm/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
 sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod/platform/internal/PerformanceManagerService.java; #Per app performance profiles fix
 #
 #END OF ROM CHANGES
