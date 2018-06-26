@@ -1,0 +1,336 @@
+From b557b85341913b39dc667a48ea52451bb5b0a75e Mon Sep 17 00:00:00 2001
+From: faux123 <reioux@gmail.com>
+Date: Sun, 29 Jul 2012 00:22:34 -0700
+Subject: [PATCH 1/5] Overclocking: enable CPU overclocking
+
+this is done via speedo id hax by forcing Nexus 7 Tegra3  to identify as
+AP33 variant instead of as T33
+---
+ arch/arm/mach-tegra/Kconfig         |  7 +++++++
+ arch/arm/mach-tegra/tegra3_speedo.c | 15 +++++++++++++++
+ 2 files changed, 22 insertions(+)
+
+diff --git a/arch/arm/mach-tegra/Kconfig b/arch/arm/mach-tegra/Kconfig
+index 37d3f11cdd5..a4159c60eeb 100644
+--- a/arch/arm/mach-tegra/Kconfig
++++ b/arch/arm/mach-tegra/Kconfig
+@@ -700,6 +700,13 @@ config TEGRA_PLLM_RESTRICTED
+ 	  disabled, PLLM is used as a clock source with no restrictions (which
+ 	  may effectively increase lower limit for core voltage).
+ 
++config TEGRA_CPU_OVERCLOCK
++	bool "Tegra3 CPU Overclocking"
++	depends on ARCH_TEGRA_3x_SOC
++	default n
++	help
++	  Tegra3 CPU overclocking
++
+ config TEGRA_WDT_RECOVERY
+ 	bool "Enable suspend/resume watchdog recovery mechanism"
+ 	default n
+diff --git a/arch/arm/mach-tegra/tegra3_speedo.c b/arch/arm/mach-tegra/tegra3_speedo.c
+index d9a3bbbe99e..b7a3142ebe6 100644
+--- a/arch/arm/mach-tegra/tegra3_speedo.c
++++ b/arch/arm/mach-tegra/tegra3_speedo.c
+@@ -246,9 +246,16 @@ static void rev_sku_to_speedo_ids(int rev, int sku)
+ 		case 0x83: /* T30L or T30S */
+ 			switch (package_id) {
+ 			case 1: /* MID => T30L */
++#ifdef CONFIG_TEGRA_CPU_OVERCLOCK
++			/* fake it to behave as AP33 variant */
++				cpu_speedo_id = 4;
++				soc_speedo_id = 1;
++				threshold_index = 7;
++#else
+ 				cpu_speedo_id = 7;
+ 				soc_speedo_id = 1;
+ 				threshold_index = 10;
++#endif
+ 				break;
+ 			case 2: /* DSC => T30S */
+ 				cpu_speedo_id = 3;
+@@ -445,7 +452,11 @@ void tegra_init_speedo_data(void)
+ 			break;
+ 		}
+ 	}
++#if CONFIG_TEGRA_CPU_OVERCLOCK
++	cpu_process_id = 3; /* fake it to behave as AP33 cpu variant 3 */
++#else
+ 	cpu_process_id = iv -1;
++#endif
+ 
+ 	if (cpu_process_id == -1) {
+ 		pr_err("****************************************************");
+@@ -465,7 +476,11 @@ void tegra_init_speedo_data(void)
+ 			break;
+ 		}
+ 	}
++#if CONFIG_TEGRA_CPU_OVERCLOCK
++	core_process_id = 1; /* fake it to behave as AP33 core variant 1 */
++#else
+ 	core_process_id = iv -1;
++#endif
+ 
+ 	if (core_process_id == -1) {
+ 		pr_err("****************************************************");
+-- 
+2.18.0
+
+
+From 39e22197dc10a0d53dbfe646b33976f93d572492 Mon Sep 17 00:00:00 2001
+From: faux123 <reioux@gmail.com>
+Date: Fri, 3 Aug 2012 21:50:57 -0700
+Subject: [PATCH 2/5] Overclocking: GPU overclocking from 416MHz to 520Mhz
+
+---
+ arch/arm/mach-tegra/Kconfig       |  7 +++++++
+ arch/arm/mach-tegra/tegra3_dvfs.c | 14 ++++++++++++++
+ 2 files changed, 21 insertions(+)
+
+diff --git a/arch/arm/mach-tegra/Kconfig b/arch/arm/mach-tegra/Kconfig
+index a4159c60eeb..92cab1a6049 100644
+--- a/arch/arm/mach-tegra/Kconfig
++++ b/arch/arm/mach-tegra/Kconfig
+@@ -707,6 +707,13 @@ config TEGRA_CPU_OVERCLOCK
+ 	help
+ 	  Tegra3 CPU overclocking
+ 
++config TEGRA_GPU_OVERCLOCK
++	bool "Tegra3 GPU Overclocking"
++	depends on ARCH_TEGRA_3x_SOC
++	default n
++	help
++	  Tegra3 GPU overclocking
++
+ config TEGRA_WDT_RECOVERY
+ 	bool "Enable suspend/resume watchdog recovery mechanism"
+ 	default n
+diff --git a/arch/arm/mach-tegra/tegra3_dvfs.c b/arch/arm/mach-tegra/tegra3_dvfs.c
+index 2f2f09edf57..84c47aa11af 100644
+--- a/arch/arm/mach-tegra/tegra3_dvfs.c
++++ b/arch/arm/mach-tegra/tegra3_dvfs.c
+@@ -290,6 +290,15 @@ static struct dvfs core_dvfs_table[] = {
+ 	CORE_DVFS("vi",     2, 1, KHZ,        1, 219000, 267000, 300000, 371000,  409000,  425000,  425000,  425000),
+ 	CORE_DVFS("vi",     3, 1, KHZ,        1,      1,      1,      1,      1,       1,  470000,  470000,  470000),
+ 
++#ifdef CONFIG_TEGRA_GPU_OVERCLOCK
++	CORE_DVFS("vde",    1, 1, KHZ,        1, 247000, 304000, 400000, 484000,  520000,  520000,  520000,  520000),
++	CORE_DVFS("mpe",    1, 1, KHZ,        1, 247000, 304000, 400000, 484000,  520000,  520000,  520000,  520000),
++	CORE_DVFS("2d",     1, 1, KHZ,        1, 247000, 304000, 400000, 484000,  520000,  520000,  520000,  520000),
++	CORE_DVFS("epp",    1, 1, KHZ,        1, 247000, 304000, 400000, 484000,  520000,  520000,  520000,  520000),
++	CORE_DVFS("3d",     1, 1, KHZ,        1, 247000, 304000, 400000, 484000,  520000,  520000,  520000,  520000),
++	CORE_DVFS("3d2",    1, 1, KHZ,        1, 247000, 304000, 400000, 484000,  520000,  520000,  520000,  520000),
++	CORE_DVFS("se",     1, 1, KHZ,        1, 247000, 304000, 400000, 484000,  520000,  520000,  520000,  520000),
++#else
+ 	CORE_DVFS("vde",    0, 1, KHZ,        1, 228000, 275000, 332000, 380000,  416000,  416000,  416000,  416000),
+ 	CORE_DVFS("mpe",    0, 1, KHZ,        1, 234000, 285000, 332000, 380000,  416000,  416000,  416000,  416000),
+ 	CORE_DVFS("2d",     0, 1, KHZ,        1, 267000, 285000, 332000, 380000,  416000,  416000,  416000,  416000),
+@@ -297,6 +306,7 @@ static struct dvfs core_dvfs_table[] = {
+ 	CORE_DVFS("3d",     0, 1, KHZ,        1, 234000, 285000, 332000, 380000,  416000,  416000,  416000,  416000),
+ 	CORE_DVFS("3d2",    0, 1, KHZ,        1, 234000, 285000, 332000, 380000,  416000,  416000,  416000,  416000),
+ 	CORE_DVFS("se",     0, 1, KHZ,        1, 267000, 285000, 332000, 380000,  416000,  416000,  416000,  416000),
++#endif
+ 
+ 	CORE_DVFS("vde",    1, 1, KHZ,   200000, 228000, 275000, 332000, 380000,  416000,  416000,  416000,  416000),
+ 	CORE_DVFS("mpe",    1, 1, KHZ,   200000, 234000, 285000, 332000, 380000,  416000,  416000,  416000,  416000),
+@@ -327,7 +337,11 @@ static struct dvfs core_dvfs_table[] = {
+ 	CORE_DVFS("host1x", 2, 1, KHZ,   100000, 152000, 188000, 222000, 254000,  267000,  267000,  267000,  300000),
+ 	CORE_DVFS("host1x", 3, 1, KHZ,        1,      1,      1,      1,      1,       1,  242000,  242000,  242000),
+ 
++#ifdef CONFIG_TEGRA_GPU_OVERCLOCK
++	CORE_DVFS("cbus",   1, 1, KHZ,        1, 247000, 304000, 400000, 484000,  520000,  520000,  520000,  520000),
++#else
+ 	CORE_DVFS("cbus",   0, 1, KHZ,        1, 228000, 275000, 332000, 380000,  416000,  416000,  416000,  416000),
++#endif
+ 	CORE_DVFS("cbus",   1, 1, KHZ,   200000, 228000, 275000, 332000, 380000,  416000,  416000,  416000,  416000),
+ 	CORE_DVFS("cbus",   2, 1, KHZ,   200000, 247000, 304000, 352000, 400000,  437000,  484000,  520000,  600000),
+ 	CORE_DVFS("cbus",   3, 1, KHZ,        1,      1,      1,      1,      1,       1,  484000,  484000,  484000),
+-- 
+2.18.0
+
+
+From 014b0edd51cb109bb83e9fe6729c039bf641919c Mon Sep 17 00:00:00 2001
+From: faux123 <reioux@gmail.com>
+Date: Sat, 4 Aug 2012 14:30:44 -0700
+Subject: [PATCH 3/5] Overclock: add ultimate edition to allow quadcore up to
+ 1.55 GHz
+
+Also add Tegra3 Gaming Fix to disallow 1 single core to have higher
+frequecy than rest
+---
+ arch/arm/mach-tegra/Kconfig       | 14 ++++++++++++++
+ arch/arm/mach-tegra/edp.c         | 11 +++++++++++
+ arch/arm/mach-tegra/tegra3_dvfs.c |  5 ++++-
+ 3 files changed, 29 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/mach-tegra/Kconfig b/arch/arm/mach-tegra/Kconfig
+index 92cab1a6049..b82662df89c 100644
+--- a/arch/arm/mach-tegra/Kconfig
++++ b/arch/arm/mach-tegra/Kconfig
+@@ -707,6 +707,13 @@ config TEGRA_CPU_OVERCLOCK
+ 	help
+ 	  Tegra3 CPU overclocking
+ 
++config TEGRA_CPU_OVERCLOCK_ULTIMATE
++	bool "Tegra3 CPU Overclocking Ultimate"
++	depends on ARCH_TEGRA_3x_SOC && TEGRA_CPU_OVERCLOCK
++	default n
++	help
++	  Tegra3 CPU overclocking Ultimate edition
++
+ config TEGRA_GPU_OVERCLOCK
+ 	bool "Tegra3 GPU Overclocking"
+ 	depends on ARCH_TEGRA_3x_SOC
+@@ -714,6 +721,13 @@ config TEGRA_GPU_OVERCLOCK
+ 	help
+ 	  Tegra3 GPU overclocking
+ 
++config TEGRA_GAMING_FIX
++	bool "Tegra3 Gaming Fix"
++	depends on ARCH_TEGRA_3x_SOC
++	default n
++	help
++	  Tegra3 Quadcore Gaming Fix
++
+ config TEGRA_WDT_RECOVERY
+ 	bool "Enable suspend/resume watchdog recovery mechanism"
+ 	default n
+diff --git a/arch/arm/mach-tegra/edp.c b/arch/arm/mach-tegra/edp.c
+index 713853637a5..8a5e3566088 100644
+--- a/arch/arm/mach-tegra/edp.c
++++ b/arch/arm/mach-tegra/edp.c
+@@ -778,10 +778,21 @@ static int __init init_cpu_edp_limits_lookup(void)
+ 
+ 	for (j = 0; j < edp_limits_size; j++) {
+ 		e[j].temperature = (int)t[i+j].temperature;
++#ifdef CONFIG_TEGRA_CPU_OVERCLOCK_ULTIMATE
++		e[j].freq_limits[0] = (unsigned int)(t[i+j].freq_limits[0]+5) * 10000;
++		e[j].freq_limits[1] = (unsigned int)(t[i+j].freq_limits[1]+15) * 10000;
++		e[j].freq_limits[2] = (unsigned int)(t[i+j].freq_limits[2]+15) * 10000;
++		e[j].freq_limits[3] = (unsigned int)(t[i+j].freq_limits[3]+15) * 10000;
++#else
++#ifdef CONFIG_TEGRA_GAMING_FIX
++		e[j].freq_limits[0] = (unsigned int)(t[i+j].freq_limits[0]-10) * 10000;
++#else
+ 		e[j].freq_limits[0] = (unsigned int)t[i+j].freq_limits[0]*10000;
++#endif
+ 		e[j].freq_limits[1] = (unsigned int)t[i+j].freq_limits[1]*10000;
+ 		e[j].freq_limits[2] = (unsigned int)t[i+j].freq_limits[2]*10000;
+ 		e[j].freq_limits[3] = (unsigned int)t[i+j].freq_limits[3]*10000;
++#endif
+ 	}
+ 
+ 	if (edp_limits != edp_default_limits)
+diff --git a/arch/arm/mach-tegra/tegra3_dvfs.c b/arch/arm/mach-tegra/tegra3_dvfs.c
+index 84c47aa11af..23b472742c2 100644
+--- a/arch/arm/mach-tegra/tegra3_dvfs.c
++++ b/arch/arm/mach-tegra/tegra3_dvfs.c
+@@ -199,8 +199,11 @@ static struct dvfs cpu_dvfs_table[] = {
+ 	CPU_DVFS("cpu_g",  4, 0, MHZ,   1,   1,   1,   1, 460, 460, 460, 550, 550, 550, 550,  680,  680,  680,  680,  680,  680,  680,  820,  820,  970,  970,  970, 1040, 1040, 1080, 1080, 1150, 1150, 1200, 1200, 1240, 1240, 1280, 1280, 1320, 1320, 1360, 1360, 1500),
+ 	CPU_DVFS("cpu_g",  4, 1, MHZ,   1,   1,   1,   1, 480, 480, 480, 650, 650, 650, 650,  780,  780,  780,  780,  780,  780,  780,  990,  990, 1040, 1040, 1040, 1100, 1100, 1200, 1200, 1250, 1250, 1300, 1300, 1330, 1330, 1360, 1360, 1400, 1400, 1500),
+ 	CPU_DVFS("cpu_g",  4, 2, MHZ,   1,   1,   1,   1, 520, 520, 520, 700, 700, 700, 700,  860,  860,  860,  860,  860,  860,  860, 1050, 1050, 1150, 1150, 1150, 1200, 1200, 1280, 1280, 1300, 1300, 1340, 1340, 1380, 1380, 1500),
++#ifdef CONFIG_TEGRA_CPU_OVERCLOCK_ULTIMATE
++	CPU_DVFS("cpu_g",  4, 3, MHZ, 550, 550, 770, 770,  910,  910, 1150, 1230, 1280, 1330, 1370, 1400, 1470, 1500, 1500, 1550, 1550, 1600),
++#else
+ 	CPU_DVFS("cpu_g",  4, 3, MHZ,   1,   1,   1,   1, 550, 550, 550, 770, 770, 770, 770,  910,  910,  910,  910,  910,  910,  910, 1150, 1150, 1230, 1230, 1230, 1280, 1280, 1330, 1330, 1370, 1370, 1400, 1400, 1500),
+-
++#endif
+ 	CPU_DVFS("cpu_g",  5, 3, MHZ,   1,   1,   1,   1, 550, 550, 550, 770, 770, 770, 770,  910,  910,  910,  910,  910,  910,  910, 1150, 1150, 1230, 1230, 1230, 1280, 1280, 1330, 1330, 1370, 1370, 1400, 1400, 1470, 1470, 1500, 1500, 1500, 1500, 1540, 1540, 1700),
+ 	CPU_DVFS("cpu_g",  5, 4, MHZ,   1,   1,   1,   1, 550, 550, 550, 770, 770, 770, 770,  940,  940,  940,  940,  940,  940,  940, 1160, 1160, 1240, 1240, 1240, 1280, 1280, 1360, 1360, 1390, 1390, 1470, 1470, 1500, 1500, 1520, 1520, 1520, 1520, 1590, 1700),
+ 
+-- 
+2.18.0
+
+
+From bd6e9cb668affd03706557566ec1694941ec16d4 Mon Sep 17 00:00:00 2001
+From: faux123 <reioux@gmail.com>
+Date: Wed, 29 Aug 2012 23:11:22 -0700
+Subject: [PATCH 4/5] overclock: boost ultimate from 1.55 quad to 1.6 quad
+
+also boost the dot pixel clock from 68MHz to 85MHz
+---
+ arch/arm/mach-tegra/board-grouper-panel.c | 4 ++++
+ arch/arm/mach-tegra/edp.c                 | 8 ++++----
+ arch/arm/mach-tegra/tegra3_dvfs.c         | 2 +-
+ 3 files changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/arch/arm/mach-tegra/board-grouper-panel.c b/arch/arm/mach-tegra/board-grouper-panel.c
+index 44e00674dfc..a2ffaf7ab24 100644
+--- a/arch/arm/mach-tegra/board-grouper-panel.c
++++ b/arch/arm/mach-tegra/board-grouper-panel.c
+@@ -219,7 +219,11 @@ static struct resource grouper_disp1_resources[] = {
+ static struct tegra_dc_mode grouper_panel_modes[] = {
+ 	{
+ 		/* 1280x800@60Hz */
++#ifdef CONFIG_TEGRA_GPU_OVERCLOCK
+ 		.pclk = 68000000,
++#else
++		.pclk = 85000000,
++#endif
+ 		.h_ref_to_sync = 1,
+ 		.v_ref_to_sync = 1,
+ 		.h_sync_width = 24,
+diff --git a/arch/arm/mach-tegra/edp.c b/arch/arm/mach-tegra/edp.c
+index 8a5e3566088..bd37f9de86e 100644
+--- a/arch/arm/mach-tegra/edp.c
++++ b/arch/arm/mach-tegra/edp.c
+@@ -779,10 +779,10 @@ static int __init init_cpu_edp_limits_lookup(void)
+ 	for (j = 0; j < edp_limits_size; j++) {
+ 		e[j].temperature = (int)t[i+j].temperature;
+ #ifdef CONFIG_TEGRA_CPU_OVERCLOCK_ULTIMATE
+-		e[j].freq_limits[0] = (unsigned int)(t[i+j].freq_limits[0]+5) * 10000;
+-		e[j].freq_limits[1] = (unsigned int)(t[i+j].freq_limits[1]+15) * 10000;
+-		e[j].freq_limits[2] = (unsigned int)(t[i+j].freq_limits[2]+15) * 10000;
+-		e[j].freq_limits[3] = (unsigned int)(t[i+j].freq_limits[3]+15) * 10000;
++		e[j].freq_limits[0] = (unsigned int)(t[i+j].freq_limits[0]+10) * 10000;
++		e[j].freq_limits[1] = (unsigned int)(t[i+j].freq_limits[1]+20) * 10000;
++		e[j].freq_limits[2] = (unsigned int)(t[i+j].freq_limits[2]+20) * 10000;
++		e[j].freq_limits[3] = (unsigned int)(t[i+j].freq_limits[3]+20) * 10000;
+ #else
+ #ifdef CONFIG_TEGRA_GAMING_FIX
+ 		e[j].freq_limits[0] = (unsigned int)(t[i+j].freq_limits[0]-10) * 10000;
+diff --git a/arch/arm/mach-tegra/tegra3_dvfs.c b/arch/arm/mach-tegra/tegra3_dvfs.c
+index 23b472742c2..9af43c1adb7 100644
+--- a/arch/arm/mach-tegra/tegra3_dvfs.c
++++ b/arch/arm/mach-tegra/tegra3_dvfs.c
+@@ -200,7 +200,7 @@ static struct dvfs cpu_dvfs_table[] = {
+ 	CPU_DVFS("cpu_g",  4, 1, MHZ,   1,   1,   1,   1, 480, 480, 480, 650, 650, 650, 650,  780,  780,  780,  780,  780,  780,  780,  990,  990, 1040, 1040, 1040, 1100, 1100, 1200, 1200, 1250, 1250, 1300, 1300, 1330, 1330, 1360, 1360, 1400, 1400, 1500),
+ 	CPU_DVFS("cpu_g",  4, 2, MHZ,   1,   1,   1,   1, 520, 520, 520, 700, 700, 700, 700,  860,  860,  860,  860,  860,  860,  860, 1050, 1050, 1150, 1150, 1150, 1200, 1200, 1280, 1280, 1300, 1300, 1340, 1340, 1380, 1380, 1500),
+ #ifdef CONFIG_TEGRA_CPU_OVERCLOCK_ULTIMATE
+-	CPU_DVFS("cpu_g",  4, 3, MHZ, 550, 550, 770, 770,  910,  910, 1150, 1230, 1280, 1330, 1370, 1400, 1470, 1500, 1500, 1550, 1550, 1600),
++	CPU_DVFS("cpu_g",  4, 3, MHZ, 550, 550, 770, 770,  910,  910, 1150, 1230, 1280, 1330, 1370, 1400, 1470, 1500, 1500, 1550, 1600, 1700),
+ #else
+ 	CPU_DVFS("cpu_g",  4, 3, MHZ,   1,   1,   1,   1, 550, 550, 550, 770, 770, 770, 770,  910,  910,  910,  910,  910,  910,  910, 1150, 1150, 1230, 1230, 1230, 1280, 1280, 1330, 1330, 1370, 1370, 1400, 1400, 1500),
+ #endif
+-- 
+2.18.0
+
+
+From 54fa5d91acc795e7818d522bacf1767bfc7a3b8c Mon Sep 17 00:00:00 2001
+From: faux123 <reioux@gmail.com>
+Date: Tue, 4 Sep 2012 19:22:55 -0700
+Subject: [PATCH 5/5] board/panel: remove pclk boost (causing screen tearing)
+
+---
+ arch/arm/mach-tegra/board-grouper-panel.c | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/arch/arm/mach-tegra/board-grouper-panel.c b/arch/arm/mach-tegra/board-grouper-panel.c
+index a2ffaf7ab24..44e00674dfc 100644
+--- a/arch/arm/mach-tegra/board-grouper-panel.c
++++ b/arch/arm/mach-tegra/board-grouper-panel.c
+@@ -219,11 +219,7 @@ static struct resource grouper_disp1_resources[] = {
+ static struct tegra_dc_mode grouper_panel_modes[] = {
+ 	{
+ 		/* 1280x800@60Hz */
+-#ifdef CONFIG_TEGRA_GPU_OVERCLOCK
+ 		.pclk = 68000000,
+-#else
+-		.pclk = 85000000,
+-#endif
+ 		.h_ref_to_sync = 1,
+ 		.v_ref_to_sync = 1,
+ 		.h_sync_width = 24,
+-- 
+2.18.0
+

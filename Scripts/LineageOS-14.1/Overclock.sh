@@ -21,16 +21,23 @@
 echo "Applying overclocks...";
 
 enter "kernel/amazon/hdx-common";
-patch -p1 < "$patches/android_kernel_amazon_hdx-common/0001-Overclock.patch"; #300Mhz -> 268Mhz, 2.26Ghz -> 2.41Ghz	=+0.60Ghz
+patch -p1 < "$patches/android_kernel_amazon_hdx-common/0001-Overclock.patch"; #300MHz -> 268MHz, 2.26GHz -> 2.41GHz	=+0.60GHz
 patch -p1 < "$patches/android_kernel_amazon_hdx-common/0002-Overclock.patch";
 patch -p1 < "$patches/android_kernel_amazon_hdx-common/0003-Overclock.patch";
 patch -p1 < "$patches/android_kernel_amazon_hdx-common/0004-Overclock.patch";
 
+enter "kernel/asus/grouper";
+patch -p1 < "$patches/android_kernel_asus_grouper/0001-Overclock.patch";
+echo "CONFIG_TEGRA_CPU_OVERCLOCK=y" >> arch/arm/configs/grouper_defconfig; #1.30GHz -> 1.50GHz	=+0.80GHz
+echo "CONFIG_TEGRA_CPU_OVERCLOCK_ULTIMATE" >> arch/arm/configs/grouper_defconfig; #1.30GHz -> 1.60GHz	=+1.20GHz
+echo "CONFIG_TEGRA_GPU_OVERCLOCK=y" >> arch/arm/configs/grouper_defconfig; #416MHz 520MHz
+echo "CONFIG_TEGRA_GAMING_FIX" >> arch/arm/configs/grouper_defconfig;
+
 enter "kernel/lge/hammerhead";
-patch -p1 < "$patches/android_kernel_lge_hammerhead/0001-Overclock.patch"; #2.26Ghz -> 2.95Ghz	=+2.76Ghz XXX: Untested!
+patch -p1 < "$patches/android_kernel_lge_hammerhead/0001-Overclock.patch"; #2.26GHz -> 2.95GHz	=+2.76GHz XXX: Untested!
 
 enter "kernel/motorola/msm8916";
-patch -p1 < "$patches/android_kernel_motorola_msm8916/0001-Overclock.patch"; #1.36Ghz -> 1.88Ghz	=+ 2.07Ghz
+patch -p1 < "$patches/android_kernel_motorola_msm8916/0001-Overclock.patch"; #1.36GHz -> 1.88GHz	=+ 2.07GHz
 
 cd "$base";
 echo "Overclocks applied!";
