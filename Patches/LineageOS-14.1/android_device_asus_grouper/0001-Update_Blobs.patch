@@ -1,0 +1,248 @@
+From be52768051dd1978bb6a4b9bd46aff4eb09c0412 Mon Sep 17 00:00:00 2001
+From: Harry Youd <harry@harryyoud.co.uk>
+Date: Mon, 26 Mar 2018 15:52:22 +0200
+Subject: [PATCH] grouper: Initial 14.1 blob list
+
+Change-Id: I1e9a7e2a998810778426ab522995af2f90529b44
+---
+ device-common.mk              |  6 +--
+ extract-files.sh              | 63 ++++++++++++++++++++++++++++++
+ lineage-proprietary-files.txt | 89 +++++++++++++++++++++++++++++++++++++++++++
+ setup-makefiles.sh            | 48 +++++++++++++++++++++++
+ 4 files changed, 201 insertions(+), 5 deletions(-)
+ create mode 100755 extract-files.sh
+ create mode 100644 lineage-proprietary-files.txt
+ create mode 100755 setup-makefiles.sh
+
+diff --git a/device-common.mk b/device-common.mk
+index ac66bec..cdbc040 100644
+--- a/device-common.mk
++++ b/device-common.mk
+@@ -134,8 +134,4 @@ PRODUCT_PACKAGES += \
+     libstagefrighthw
+ 
+ # Vendor blobs
+-$(call inherit-product, vendor/asus/grouper/asus-vendor.mk)
+-$(call inherit-product, vendor/broadcom/grouper/broadcom-vendor.mk)
+-$(call inherit-product, vendor/invensense/grouper/invensense-vendor.mk)
+-$(call inherit-product, vendor/nvidia/grouper/nvidia-vendor.mk)
+-$(call inherit-product-if-exists, vendor/widevine/grouper/widevine-vendor.mk)
++$(call inherit-product, vendor/asus/grouper/grouper-vendor.mk)
+diff --git a/extract-files.sh b/extract-files.sh
+new file mode 100755
+index 0000000..43dd96b
+--- /dev/null
++++ b/extract-files.sh
+@@ -0,0 +1,63 @@
++#!/bin/bash
++#
++# Copyright (C) 2016 The CyanogenMod Project
++# Copyright (C) 2017 The LineageOS Project
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#      http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++#
++
++set -e
++
++DEVICE=grouper
++VENDOR=asus
++
++# Load extract_utils and do some sanity checks
++MY_DIR="${BASH_SOURCE%/*}"
++if [[ ! -d "$MY_DIR" ]]; then MY_DIR="$PWD"; fi
++
++CM_ROOT="$MY_DIR"/../../..
++
++HELPER="$CM_ROOT"/vendor/cm/build/tools/extract_utils.sh
++if [ ! -f "$HELPER" ]; then
++    echo "Unable to find helper script at $HELPER"
++    exit 1
++fi
++. "$HELPER"
++
++# Default to sanitizing the vendor folder before extraction
++CLEAN_VENDOR=true
++
++while [ "$1" != "" ]; do
++    case $1 in
++        -n | --no-cleanup )     CLEAN_VENDOR=false
++                                ;;
++        -s | --section )        shift
++                                SECTION=$1
++                                CLEAN_VENDOR=false
++                                ;;
++        * )                     SRC=$1
++                                ;;
++    esac
++    shift
++done
++
++if [ -z "$SRC" ]; then
++    SRC=adb
++fi
++
++# Initialize the helper
++setup_vendor "$DEVICE" "$VENDOR" "$CM_ROOT" false "$CLEAN_VENDOR"
++
++extract "$MY_DIR"/lineage-proprietary-files.txt "$SRC" "$SECTION"
++
++"$MY_DIR"/setup-makefiles.sh
+diff --git a/lineage-proprietary-files.txt b/lineage-proprietary-files.txt
+new file mode 100644
+index 0000000..460ef24
+--- /dev/null
++++ b/lineage-proprietary-files.txt
+@@ -0,0 +1,89 @@
++# SORT ME
++etc/nvram.txt
++
++# Sensors
++vendor/lib/hw/sensors.grouper.so
++vendor/lib/libsensors.lightsensor.so
++
++# Radio
++etc/firmware/bcm4330.hcd
++
++# GPS
++vendor/bin/gpsd
++vendor/lib/hw/gps.tegra3.so
++
++# Gyro
++vendor/lib/libinvensense_hal.so
++vendor/lib/libmllite.so
++vendor/lib/libmplmpu.so
++
++# NFC
++vendor/firmware/libpn544_fw.so
++
++# Multimedia
++vendor/firmware/nvavp_os_00001000.bin
++vendor/firmware/nvavp_os_0ff00000.bin
++vendor/firmware/nvavp_os_e0000000.bin
++vendor/firmware/nvavp_os_eff00000.bin
++vendor/firmware/nvavp_vid_ucode_alt.bin
++
++# Camera
++vendor/lib/hw/camera.tegra3.so
++vendor/lib/libnvcamerahdr.so
++vendor/lib/libnvmm_camera.so
++
++# Display
++vendor/lib/egl/libEGL_tegra.so
++vendor/lib/egl/libGLESv1_CM_tegra.so
++vendor/lib/egl/libGLESv2_tegra.so
++vendor/lib/hw/gralloc.tegra3.so
++vendor/lib/hw/hwcomposer.tegra3.so
++vendor/lib/libardrv_dynamic.so
++vendor/lib/libcgdrv.so
++vendor/lib/libnvapputil.so
++vendor/lib/libnvasfparserhal.so
++vendor/lib/libnvaviparserhal.so
++vendor/lib/libnvavp.so
++vendor/lib/libnvdispmgr_d.so
++vendor/lib/libnvmm_video.so
++
++# ????
++vendor/lib/libnvddk_2d.so
++vendor/lib/libnvddk_2d_v2.so
++vendor/lib/libnvmm.so
++vendor/lib/libnvmm_audio.so
++vendor/lib/libnvmm_contentpipe.so
++vendor/lib/libnvmm_image.so
++vendor/lib/libnvmm_manager.so
++vendor/lib/libnvmm_misc.so
++vendor/lib/libnvmm_parser.so
++vendor/lib/libnvmm_service.so
++vendor/lib/libnvmm_utils.so
++vendor/lib/libnvmm_writer.so
++vendor/lib/libnvmmlite.so
++vendor/lib/libnvmmlite_audio.so
++vendor/lib/libnvmmlite_image.so
++vendor/lib/libnvmmlite_utils.so
++vendor/lib/libnvmmlite_video.so
++vendor/lib/libnvodm_dtvtuner.so
++vendor/lib/libnvodm_hdmi.so
++vendor/lib/libnvodm_imager.so
++vendor/lib/libnvodm_misc.so
++vendor/lib/libnvodm_query.so
++vendor/lib/libnvomx.so
++vendor/lib/libnvomxilclient.so
++vendor/lib/libnvos.so
++vendor/lib/libnvparser.so
++vendor/lib/libnvrm.so
++vendor/lib/libnvrm_graphics.so
++vendor/lib/libnvsm.so
++vendor/lib/libnvtvmr.so
++vendor/lib/libnvwinsys.so
++vendor/lib/libnvwsi.so
++
++# Touchscreen
++vendor/firmware/touch_fw.ekt
++
++# DRM
++vendor/lib/mediadrm/libwvdrmengine.so
++
+diff --git a/setup-makefiles.sh b/setup-makefiles.sh
+new file mode 100755
+index 0000000..7c82753
+--- /dev/null
++++ b/setup-makefiles.sh
+@@ -0,0 +1,48 @@
++#!/bin/bash
++#
++# Copyright (C) 2016 The CyanogenMod Project
++# Copyright (C) 2017 The LineageOS Project
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#      http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++#
++
++set -e
++
++DEVICE=grouper
++VENDOR=asus
++
++INITIAL_COPYRIGHT_YEAR=2010
++
++# Load extract_utils and do some sanity checks
++MY_DIR="${BASH_SOURCE%/*}"
++if [[ ! -d "$MY_DIR" ]]; then MY_DIR="$PWD"; fi
++
++CM_ROOT="$MY_DIR"/../../..
++
++HELPER="$CM_ROOT"/vendor/cm/build/tools/extract_utils.sh
++if [ ! -f "$HELPER" ]; then
++    echo "Unable to find helper script at $HELPER"
++    exit 1
++fi
++. "$HELPER"
++
++# Initialize the helper
++setup_vendor "$DEVICE" "$VENDOR" "$CM_ROOT"
++
++# Copyright headers and guards
++write_headers
++
++write_makefiles "$MY_DIR"/lineage-proprietary-files.txt
++
++# Finish
++write_footers

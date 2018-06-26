@@ -138,7 +138,7 @@
 	<project path="device/nextbit/ether" name="LineageOS/android_device_nextbit_ether" remote="github" />
 	<project path="kernel/nextbit/msm8992" name="LineageOS/android_kernel_nextbit_msm8992" remote="github" />
 
-	<!-- Nexus 7 2013 (flo) -->
+	<!-- Nexus 7 [2013] (flo) -->
 	<project path="device/asus/flo" name="LineageOS/android_device_asus_flo" remote="github" />
 
         <!-- Nexus 4 (mako) -->

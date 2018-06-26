@@ -229,6 +229,11 @@ sed -i 's/,encryptable=footer//' rootdir/etc/fstab.qcom; #Using footer will brea
 #XXX: If not used with a supported recovery, it'll be thrown into a bootloop, don't worry just 'fastboot erase misc' and reboot
 #echo "/dev/block/platform/msm_sdcc.1/by-name/misc /misc emmc defaults defaults" >> rootdir/etc/fstab.qcom; #Add the misc (mmcblk0p5) partition for recovery flags
 
+enterAndClear "device/asus/grouper";
+patch -p1 < "$patches/android_device_asus_grouper/0001-Update_Blobs.patch";
+rm proprietary-blobs.txt;
+cp "$patches/android_device_asus_grouper/lineage-proprietary-files.txt" lineage-proprietary-files.txt;
+
 enterAndClear "device/motorola/clark";
 sed -i 's/0xA04D/0xA04D|0xA052/' board-info.txt; #Allow installing on Nougat bootloader, assume the user is running the correct modem
 rm board-info.txt; #Never restrict installation

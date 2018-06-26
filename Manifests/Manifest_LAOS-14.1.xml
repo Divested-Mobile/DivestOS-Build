@@ -143,6 +143,10 @@
 	<project path="device/motorola/clark" name="LineageOS/android_device_motorola_clark" remote="github" />
 	<project path="kernel/motorola/msm8992" name="LineageOS/android_kernel_motorola_msm8992" remote="github" />
 
+	<!-- Nexus 7 [2012] (grouper) -->
+	<project path="device/asus/grouper" name="LineageOS/android_device_asus_grouper" remote="github" revision="staging/cm-14.1" />
+	<project path="kernel/asus/grouper" name="LineageOS/android_kernel_asus_grouper" remote="github" revision="staging/cm-14.1" />
+
 	<!-- Nexus 5 (hammerhead) -->
 	<project path="device/lge/hammerhead" name="LineageOS/android_device_lge_hammerhead" remote="github" />
 	<project path="kernel/lge/hammerhead" name="LineageOS/android_kernel_lge_hammerhead" remote="github" />
