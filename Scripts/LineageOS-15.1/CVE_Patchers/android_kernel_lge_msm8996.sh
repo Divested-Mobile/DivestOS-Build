@@ -61,11 +61,10 @@ git apply $cvePatchesLinux/CVE-2017-5669/^4.9/0001.patch
 git apply $cvePatchesLinux/CVE-2017-5972/ANY/0002.patch
 git apply $cvePatchesLinux/CVE-2017-6001/^4.9/0002.patch
 git apply $cvePatchesLinux/CVE-2017-6348/^4.9/0001.patch
-git apply $cvePatchesLinux/CVE-2018-1092/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2018-5849/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6693/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2016-6696/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0610/ANY/0001.patch
 git apply $cvePatchesLinux/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p67"
+editKernelLocalversion "-dos.p66"
 cd $base

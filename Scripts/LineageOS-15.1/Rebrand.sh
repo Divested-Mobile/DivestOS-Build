@@ -50,16 +50,17 @@ enter "packages/apps/Settings";
 sed -i '/.*lineagelicense_title/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/cm_strings.xml;
 
 enter "packages/apps/SetupWizard";
-sed -i 's|http://lineageos.org/legal|https://divestos.xyz/index.php?page=privacy_policy|' src/org/lineageos/setupwizard/LineageSettingsActivity.java;
+sed -i 's|http://lineageos.org/legal|'"$REBRAND_LINK_PRIVACY"'|' src/org/lineageos/setupwizard/LineageSettingsActivity.java;
 sed -i '/.*setup_services/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/strings.xml;
 sed -i '/.*services_explanation/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/strings.xml;
 cp "$patchesCommon/android_packages_apps_SetupWizard/logo.xml" "res/drawable/logo.xml"; #Replace Lineage logo with ours
 
 enter "packages/apps/Updater";
+sed -i 's|0OTASERVER0|'"$REBRAND_OTA_SERVER"'|' src/org/lineageos/updater/misc/Utils.java;
 sed -i 's|>LineageOS|>'"$REBRAND_NAME"'|' res/values*/strings.xml;
 
 enter "vendor/lineage";
-sed -i 's|https://lineageos.org/legal|'"$REBRAND_LEGAL"'|' build/core/main_version.mk
+sed -i 's|https://lineageos.org/legal|'"$REBRAND_LINK_ABOUT"'|' build/core/main_version.mk
 sed -i '/.*ZIPPATH=/s/lineage/'"$REBRAND_ZIP_PREFIX"'/' build/envsetup.sh;
 sed -i '/LINEAGE_TARGET_PACKAGE/s/lineage/'"$REBRAND_ZIP_PREFIX"'/' build/tasks/bacon.mk;
 rm -rf bootanimation;
