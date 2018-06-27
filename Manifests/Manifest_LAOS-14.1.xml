@@ -181,6 +181,10 @@
 	<!-- Nexus 7 [2013] (flo) -->
 	<project path="device/asus/flo" name="LineageOS/android_device_asus_flo" remote="github" />
 
+        <!-- Nexus 4 (mako) -->
+        <project path="device/lge/mako" name="LineageOS/android_device_lge_mako" remote="github" />
+        <project path="kernel/lge/mako" name="LineageOS/lge-kernel-mako" remote="github" />
+
 	<!-- Nexus 5 (hammerhead) -->
 	<project path="device/lge/hammerhead" name="LineageOS/android_device_lge_hammerhead" remote="github" />
 	<project path="kernel/lge/hammerhead" name="LineageOS/android_kernel_lge_hammerhead" remote="github" />

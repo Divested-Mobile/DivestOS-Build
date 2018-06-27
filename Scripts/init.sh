@@ -41,7 +41,7 @@ export REBRAND_BOOTANIMATION_STYLE="plasma"; #Options: gradient, plasma
 export REBRAND_BOOTANIMATION_COLOR="#FF5722-#03A9F4"; #plasma
 export REBRAND_LINK_ABOUT="https://divestos.xyz/index.php?page=about";
 export REBRAND_LINK_PRIVACY="https://divestos.xyz/index.php?page=privacy_policy";
-export REBRAND_OTA_SERVER="https://divestos.xyz/updater.php";
+export REBRAND_SERVER_OTA="https://divestos.xyz/updater.php";
 #END OF USER CONFIGURABLE OPTIONS
 
 BUILD_WORKING_DIR=${PWD##*/};

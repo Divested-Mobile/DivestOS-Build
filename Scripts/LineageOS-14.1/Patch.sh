@@ -238,9 +238,6 @@ enterAndClear "device/motorola/clark";
 sed -i 's/0xA04D/0xA04D|0xA052/' board-info.txt; #Allow installing on Nougat bootloader, assume the user is running the correct modem
 rm board-info.txt; #Never restrict installation
 
-enterAndClear "device/lge/mako";
-patch -p1 < "$patchesCommon/android_device_lge_mako/0001-Enable_LTE.patch";
-
 enterAndClear "device/oneplus/bacon";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 

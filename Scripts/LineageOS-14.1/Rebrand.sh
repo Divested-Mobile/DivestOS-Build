@@ -44,7 +44,7 @@ sed -i '/.*services_explanation/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/stri
 cp "$patchesCommon/android_packages_apps_SetupWizard/logo.xml" "res/drawable/logo.xml"; #Replace Lineage logo with ours
 
 enter "packages/apps/Updater";
-sed -i 's|0OTASERVER0|'"$REBRAND_OTA_SERVER"'|' src/org/lineageos/updater/misc/Utils.java;
+sed -i 's|0OTASERVER0|'"$REBRAND_SERVER_OTA"'|' src/org/lineageos/updater/misc/Utils.java;
 sed -i 's|>LineageOS|>'"$REBRAND_NAME"'|' res/values*/strings.xml;
 
 enter "vendor/cm";
