@@ -62,7 +62,7 @@ buildAll() {
 	brunch lineage_flounder-user;
 	brunch lineage_griffin-user;
 	brunch lineage_h850-userdebug;
-	brunch lineage_hammerhead-user; #broken upstream - fatal error: 'linux/msm_audio_calibration.h' file not found
+	brunch lineage_hammerhead-user;
 	brunch lineage_klte-user;
 	brunch lineage_marlin-user;
 	brunch lineage_m8-user;

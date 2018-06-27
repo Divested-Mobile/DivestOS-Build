@@ -162,7 +162,7 @@ enterAndClear "packages/apps/Trebuchet";
 cp -r "$patchesCommon/android_packages_apps_Trebuchet/default_workspace/." "res/xml/";
 
 enterAndClear "packages/apps/Updater";
-patch -p1 < "$patches/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server
+patch -p1 < "$patchesCommon/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server
 #TODO: Remove changelog
 
 enterAndClear "packages/apps/WallpaperPicker";
