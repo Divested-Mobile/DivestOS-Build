@@ -117,10 +117,32 @@
 	<project path="device/fairphone/FP2" name="LineageOS/android_device_fairphone_FP2" remote="github" />
 	<project path="kernel/fairphone/msm8974" name="LineageOS/android_kernel_fairphone_msm8974" remote="github" />
 
+	<!-- Google Pixel (marlin/sailfish) -->
+	<project path="device/google/marlin" name="LineageOS/android_device_google_marlin" remote="github" />
+	<project path="device/google/sailfish" name="LineageOS/android_device_google_sailfish" remote="github" />
+	<project path="kernel/google/marlin" name="LineageOS/android_kernel_google_marlin" remote="github" />
+
+	<!-- HTC One (m8) -->
+	<project path="device/htc/m8" name="LineageOS/android_device_htc_m8" remote="github" />
+	<project path="device/htc/m8-common" name="LineageOS/android_device_htc_m8-common" remote="github" />
+	<project path="device/htc/msm8974-common" name="LineageOS/android_device_htc_msm8974-common" remote="github" />
+	<project path="kernel/htc/msm8974" name="LineageOS/android_kernel_htc_msm8974" remote="github" />
+
 	<!-- HTC One (m9) -->
 	<project path="device/htc/himaul" name="LineageOS/android_device_htc_himaul" remote="github" />
 	<project path="device/htc/hima-common" name="LineageOS/android_device_htc_hima-common" remote="github" />
 	<project path="kernel/htc/msm8994" name="LineageOS/android_kernel_htc_msm8994" remote="github" />
+
+	<!-- LG G2 (d802) -->
+	<project path="device/lge/g2-common" name="LineageOS/android_device_lge_g2-common" remote="github" />
+	<project path="device/lge/d802" name="LineageOS/android_device_lge_d802" remote="github" />
+	<project path="kernel/lge/msm8974" name="LineageOS/android_kernel_lge_msm8974" remote="github" />
+
+	<!-- LG G3 (d855) -->
+	<project path="device/lge/g3-common" name="LineageOS/android_device_lge_g3-common" remote="github" />
+	<project path="device/lge/d852" name="LineageOS/android_device_lge_d852" remote="github" />
+	<project path="device/lge/d855" name="LineageOS/android_device_lge_d855" remote="github" />
+	<project path="kernel/lge/g3" name="LineageOS/android_kernel_lge_g3" remote="github" />
 
 	<!-- LG G4 (h815) -->
 	<project path="device/lge/g4-common" name="LineageOS/android_device_lge_g4-common" remote="github" />
@@ -143,13 +165,46 @@
 	<project path="device/motorola/clark" name="LineageOS/android_device_motorola_clark" remote="github" />
 	<project path="kernel/motorola/msm8992" name="LineageOS/android_kernel_motorola_msm8992" remote="github" />
 
+	<!-- Moto Z (griffin) -->
+	<project path="device/motorola/griffin" name="LineageOS/android_device_motorola_griffin" remote="github" />
+	<project path="kernel/motorola/msm8996" name="LineageOS/android_kernel_motorola_msm8996" remote="github" />
+
+	<!-- Nextbit Robin (ether) -->
+	<project path="device/nextbit/ether" name="LineageOS/android_device_nextbit_ether" remote="github" />
+	<project path="kernel/nextbit/msm8992" name="LineageOS/android_kernel_nextbit_msm8992" remote="github" />
+
 	<!-- Nexus 7 [2012] (grouper) -->
 	<project path="device/asus/grouper" name="LineageOS/android_device_asus_grouper" remote="github" revision="staging/cm-14.1" />
 	<project path="kernel/asus/grouper" name="LineageOS/android_kernel_asus_grouper" remote="github" revision="staging/cm-14.1" />
 
+	<!-- Nexus 7 [2013] (flo) -->
+	<project path="device/asus/flo" name="LineageOS/android_device_asus_flo" remote="github" />
+
 	<!-- Nexus 5 (hammerhead) -->
 	<project path="device/lge/hammerhead" name="LineageOS/android_device_lge_hammerhead" remote="github" />
 	<project path="kernel/lge/hammerhead" name="LineageOS/android_kernel_lge_hammerhead" remote="github" />
+
+	<!-- Nexus 6 (shamu) -->
+	<project path="device/moto/shamu" name="LineageOS/android_device_moto_shamu" remote="github" />
+	<project path="kernel/moto/shamu" name="LineageOS/android_kernel_moto_shamu" remote="github" />
+
+	<!-- Nexus 9 (flounder) -->
+	<project path="device/htc/flounder" name="LineageOS/android_device_htc_flounder" remote="github" />
+	<project path="kernel/htc/flounder" name="LineageOS/android_kernel_htc_flounder" remote="github" />
+
+	<!-- Nexus 5X (bullhead) -->
+	<project path="device/lge/bullhead" name="LineageOS/android_device_lge_bullhead" remote="github" />
+	<project path="kernel/lge/bullhead" name="LineageOS/android_kernel_lge_bullhead" remote="github" />
+
+	<!-- Nexus 6P (angler) -->
+	<project path="device/huawei/angler" name="LineageOS/android_device_huawei_angler" remote="github" />
+	<project path="kernel/huawei/angler" name="LineageOS/android_kernel_huawei_angler" remote="github" />
+
+	<!-- OnePlus One (bacon) -->
+	<project path="device/oppo/common" name="LineageOS/android_device_oppo_common" remote="github" />
+	<project path="device/oneplus/bacon" name="LineageOS/android_device_oneplus_bacon" remote="github" />
+	<project path="device/oppo/msm8974-common" name="LineageOS/android_device_oppo_msm8974-common" remote="github" />
+	<project path="kernel/oneplus/msm8974" name="LineageOS/android_kernel_oppo_msm8974" remote="github" />
 
 	<!-- Samsung Common -->
 	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
@@ -199,9 +254,14 @@
 	<project path="vendor/amazon" name="TheMuppets/proprietary_vendor_amazon" remote="github" />
 	<project path="vendor/asus" name="TheMuppets/proprietary_vendor_asus" remote="github" />
 	<project path="vendor/fairphone" name="TheMuppets/proprietary_vendor_fairphone" remote="github" />
+	<project path="vendor/google" name="TheMuppets/proprietary_vendor_google" remote="github" />
 	<project path="vendor/htc" name="TheMuppets/proprietary_vendor_htc" remote="github" />
+	<project path="vendor/huawei" name="TheMuppets/proprietary_vendor_huawei" remote="github" />
 	<project path="vendor/lge" name="TheMuppets/proprietary_vendor_lge" remote="github" />
 	<project path="vendor/motorola" name="TheMuppets/proprietary_vendor_motorola" remote="github" />
+	<project path="vendor/nextbit" name="TheMuppets/proprietary_vendor_nextbit" remote="github" />
+	<project path="vendor/oneplus" name="TheMuppets/proprietary_vendor_oneplus" remote="github" />
+	<project path="vendor/oppo" name="TheMuppets/proprietary_vendor_oppo" remote="github" />
 	<project path="vendor/samsung" name="TheMuppets/proprietary_vendor_samsung" remote="github" />
 <!-- END OF DEVICE REPOS -->
 

@@ -61,6 +61,7 @@ fi;
 export prebuiltApps=$androidWorkspace"PrebuiltApps/";
 export patchesCommon=$androidWorkspace"Patches/Common/";
 export patches=$androidWorkspace"Patches/$BUILD_WORKING_DIR/";
+export overclocks=$androidWorkspace"Patches/Overclocks/";
 export cvePatchesLinux=$androidWorkspace"Patches/Linux/";
 export cvePatchesAndroid=$androidWorkspace"Patches/Android/";
 export dosWallpapers=$androidWorkspace"Patches/Wallpapers/";

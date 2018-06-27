@@ -238,6 +238,12 @@ enterAndClear "device/motorola/clark";
 sed -i 's/0xA04D/0xA04D|0xA052/' board-info.txt; #Allow installing on Nougat bootloader, assume the user is running the correct modem
 rm board-info.txt; #Never restrict installation
 
+enterAndClear "device/lge/mako";
+patch -p1 < "$patchesCommon/android_device_lge_mako/0001-Enable_LTE.patch";
+
+enterAndClear "device/oneplus/bacon";
+sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
+
 #Make changes to all devices
 cd "$base";
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enhanceLocation "$0"' {} \;
@@ -249,6 +255,7 @@ cd "$base";
 
 #Fixes
 #Fix broken options enabled by hardenDefconfig()
+sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/lge/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
 #
 #END OF DEVICE CHANGES

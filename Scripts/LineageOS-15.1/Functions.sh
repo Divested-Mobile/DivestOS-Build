@@ -64,8 +64,8 @@ buildAll() {
 	brunch lineage_h850-userdebug;
 	brunch lineage_hammerhead-user;
 	brunch lineage_klte-user;
-	brunch lineage_marlin-user;
 	brunch lineage_m8-user;
+	brunch lineage_marlin-user;
 	brunch lineage_sailfish-user;
 	brunch lineage_shamu-user;
 }
