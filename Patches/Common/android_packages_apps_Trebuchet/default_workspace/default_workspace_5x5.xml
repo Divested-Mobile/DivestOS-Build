@@ -54,7 +54,10 @@
         launcher:x="4"
         launcher:y="0" >
         <favorite
-            launcher:packageName="org.cyanogenmod.snap"
+            launcher:packageName="org.lineageos.snap"
+            launcher:className="com.android.camera.CameraLauncher" />
+        <favorite
+            launcher:packageName="org.cyanogen.snap"
             launcher:className="com.android.camera.CameraLauncher" />
         <favorite
             launcher:packageName="com.android.camera2"

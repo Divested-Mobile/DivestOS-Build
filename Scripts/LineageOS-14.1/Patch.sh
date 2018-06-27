@@ -153,7 +153,7 @@ enterAndClear "packages/apps/SetupWizard";
 patch -p1 < "$patches/android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove the rest of CMStats
 
 enterAndClear "packages/apps/Trebuchet";
-cp -r "$patches/android_packages_apps_Trebuchet/default_workspace/." "res/xml/";
+cp -r "$patchesCommon/android_packages_apps_Trebuchet/default_workspace/." "res/xml/";
 
 enterAndClear "packages/apps/Updater";
 patch -p1 < "$patches/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server
@@ -169,7 +169,7 @@ sed -i 's/mCropView.setTouchEnabled(req.touchEnabled);/mCropView.setTouchEnabled
 sed -i 's/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0);/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0.5f);/' src/com/android/wallpaperpicker/WallpaperPickerActivity.java; #Center aligned by default
 
 enterAndClear "packages/inputmethods/LatinIME";
-patch -p1 < "$patches/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
+patch -p1 < "$patchesCommon/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
 
 enterAndClear "packages/services/Telephony";
 if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < "$patches/android_packages_services_Telephony/Copperhead/0001-LTE_Only.patch"; fi; #LTE only preferred network mode choice (Copperhead CC BY-NC-SA)

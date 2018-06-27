@@ -31,7 +31,7 @@ patch -p1 < "$patches/android_kernel_asus_grouper/0001-Overclock.patch";
 echo "CONFIG_TEGRA_CPU_OVERCLOCK=y" >> arch/arm/configs/grouper_defconfig; #1.30GHz -> 1.50GHz	=+0.80GHz
 echo "CONFIG_TEGRA_CPU_OVERCLOCK_ULTIMATE" >> arch/arm/configs/grouper_defconfig; #1.30GHz -> 1.60GHz	=+1.20GHz
 echo "CONFIG_TEGRA_GPU_OVERCLOCK=y" >> arch/arm/configs/grouper_defconfig; #416MHz 520MHz
-echo "CONFIG_TEGRA_GAMING_FIX" >> arch/arm/configs/grouper_defconfig;
+echo "CONFIG_TEGRA_GAMING_FIX=y" >> arch/arm/configs/grouper_defconfig;
 
 enter "kernel/lge/hammerhead";
 patch -p1 < "$patches/android_kernel_lge_hammerhead/0001-Overclock.patch"; #2.26GHz -> 2.95GHz	=+2.76GHz XXX: Untested!
