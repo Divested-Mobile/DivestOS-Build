@@ -50,9 +50,9 @@ buildAll() {
 	if [ "$MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 #Select devices are userdebug due to SELinux policy issues
 #TODO: hiae star2lte starlte
+	brunch lineage_mako-user;
 	brunch lineage_d852-user;
 	brunch lineage_bacon-user;
-	brunch lineage_mako-user;
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;
 	brunch lineage_d802-user; #broken upstream - error: 'vendor/lge/g2-common/proprietary/vendor/etc/acdbdata/Bluetooth_cal.acdb'
@@ -77,7 +77,6 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	repopick -f 214824 209584 209585 215010 214300; #g3-common
 	repopick -f 211404 211405 211406 211407 211408 211409; #d852
-	repopick -f 211396 214817; #d855
 
 	source "$scripts/Patch.sh";
 	source "$scripts/Defaults.sh";

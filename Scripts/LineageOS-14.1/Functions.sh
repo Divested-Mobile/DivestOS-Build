@@ -51,37 +51,39 @@ buildAll() {
 
 #Select devices are userdebug due to SELinux policy issues
 #TODO: Add victara, athene, us997, us996, pme, t0lte, hlte
+	brunch lineage_mako-user; #superseded, but used for testing
 	brunch lineage_thor-userdebug; #deprecated
 	brunch lineage_clark-user;
-
-	#brunch lineage_angler-user; #superseded
-	#brunch lineage_bullhead-user; #superseded
-	#brunch lineage_bacon-user; #superseded
-	brunch lineage_d802-user; #superseded, but broken
-	#brunch lineage_d852-user; #superseded
-	brunch lineage_d855-user; #superseded, but broken
-	#brunch lineage_ether-user; #superseded
-	#brunch lineage_flo-user; #superseded
-	#brunch lineage_flounder-user; #superseded
 	brunch lineage_FP2-user;
-	#brunch lineage_griffin-user; #superseded
 	#brunch lineage_grouper-user; #builds, but requires out-of-tree blobs
 	brunch lineage_h815-user; #deprecated (UPSTREAM) drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes
-	#brunch lineage_h850-userdebug; #superseded
-	#brunch lineage_hammerhead-user; #superseded
 	brunch lineage_herolte-user;
 	brunch lineage_himaul-user; #deprecated
 	brunch lineage_i9100-userdebug;
 	brunch lineage_i9305-user; #deprecated?
 	brunch lineage_jfltexx-user;
-	#brunch lineage_klte-user; #superseded
-	#brunch lineage_m8-user; #superseded
-	#brunch lineage_marlin-user; #superseded
-	#brunch lineage_sailfish-user; #superseded
-	#brunch lineage_shamu-user; #superseded
 	brunch lineage_n5110-user;
 	brunch lineage_osprey-user;
 	brunch lineage_Z00T-user;
+
+	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
+	#brunch lineage_angler-user;
+	#brunch lineage_bullhead-user;
+	#brunch lineage_bacon-user;
+	brunch lineage_d802-user;
+	#brunch lineage_d852-user;
+	brunch lineage_d855-user;
+	#brunch lineage_ether-user;
+	#brunch lineage_flo-user;
+	#brunch lineage_flounder-user;
+	#brunch lineage_griffin-user;
+	#brunch lineage_h850-userdebug;
+	#brunch lineage_hammerhead-user;
+	#brunch lineage_klte-user;
+	#brunch lineage_m8-user;
+	#brunch lineage_marlin-user;
+	#brunch lineage_sailfish-user;
+	#brunch lineage_shamu-user;
 }
 export -f buildAll;
 
