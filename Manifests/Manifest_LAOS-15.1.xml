@@ -96,6 +96,10 @@
 	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 	<project path="packages/apps/FlipFlap" name="LineageOS/android_packages_apps_FlipFlap" remote="github" />
 
+	<!-- Essential PH-1 (mata) -->
+	<project path="device/essential/mata" name="LineageOS/android_device_essential_mata" remote="github" />
+	<project path="kernel/essential/msm8998" name="LineageOS/android_kernel_essential_msm8998" remote="github" />
+
 	<!-- Google Pixel (marlin/sailfish) -->
 	<project path="device/google/marlin" name="LineageOS/android_device_google_marlin" remote="github" />
 	<project path="device/google/sailfish" name="LineageOS/android_device_google_sailfish" remote="github" />
@@ -188,6 +192,7 @@
 
 	<!-- Proprietary Blobs -->
 	<project path="vendor/asus" name="TheMuppets/proprietary_vendor_asus" remote="github" />
+	<project path="vendor/essential" name="TheMuppets/proprietary_vendor_essential" remote="github" />
 	<project path="vendor/fairphone" name="TheMuppets/proprietary_vendor_fairphone" remote="github" />
 	<project path="vendor/google" name="TheMuppets/proprietary_vendor_google" remote="github" />
 	<project path="vendor/htc" name="TheMuppets/proprietary_vendor_htc" remote="github" />

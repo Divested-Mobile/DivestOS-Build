@@ -183,6 +183,9 @@ enterAndClear "system/keymaster";
 patch -p1 < "$patches/android_system_keymaster/0001-Backport_Fixes.patch"; #Fixes from 8.1, appears to fix https://jira.lineageos.org/browse/BUGBASH-590
 patch -p1 < "$patches/android_system_keymaster/0002-Backport_Fixes.patch";
 
+enterAndClear "system/sepolicy";
+patch -p1 < "$patches/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices
+
 enterAndClear "system/vold";
 patch -p1 < "$patches/android_system_vold/0001-AES256.patch"; #Add a variable for enabling AES-256 bit encryption
 
@@ -233,6 +236,17 @@ enterAndClear "device/asus/grouper";
 patch -p1 < "$patches/android_device_asus_grouper/0001-Update_Blobs.patch";
 rm proprietary-blobs.txt;
 cp "$patches/android_device_asus_grouper/lineage-proprietary-files.txt" lineage-proprietary-files.txt;
+
+enterAndClear "device/lge/g2-common";
+sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
+
+enterAndClear "device/lge/g3-common";
+sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
+sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
+echo "allow wcnss_service block_device:dir search;" >> sepolicy/wcnss_service.te; #fix incorrect Wi-Fi MAC address
+
+enterAndClear "device/lge/mako";
+echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
 
 enterAndClear "device/motorola/clark";
 sed -i 's/0xA04D/0xA04D|0xA052/' board-info.txt; #Allow installing on Nougat bootloader, assume the user is running the correct modem

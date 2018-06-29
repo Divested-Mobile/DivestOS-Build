@@ -54,7 +54,7 @@ echo "Deblobbing..."
 	sepolicy=$sepolicy" atfwd.te";
 
 	#AudioFX (Audio Effects) [Qualcomm]
-	if [ "$DEBLOBBER_REMOVE_AUDIOFX" = true ]; then blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so"; fi;
+	if [ "$DEBLOBBER_REMOVE_AUDIOFX" = true ]; then blobs=$blobs"|libasphere.so|libqcbassboost.so|libqcreverb.so|libqcvirt.so|libshoebox.so"; fi;
 
 	#Camera
 	#Attempted, don't waste your time...
@@ -69,7 +69,7 @@ echo "Deblobbing..."
 
 	#CNE (Automatic Cell/Wi-Fi Switching) [Qualcomm]
 	#blobs=$blobs"|libcneapiclient.so|libNimsWrap.so"; #XXX: Breaks radio
-	blobs=$blobs"|andsfCne.xml|ATT_profile.*.xml|cnd|cneapiclient.jar|cneapiclient.xml|CNEService.apk|com.quicinc.cne.jar|com.quicinc.cne.xml|ConnectivityExt.jar|ConnectivityExt.xml|libcneconn.so|libcneqmiutils.so|libcne.so|libvendorconn.so|libwqe.so|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile.*.xml|SwimConfig.xml|VZW_profile.*.xml";
+	blobs=$blobs"|andsfCne.xml|ATT_profile.*.xml|cnd|cneapiclient.jar|cneapiclient.xml|CNEService.apk|com.quicinc.cne.*.jar|com.quicinc.cne.*.so|com.quicinc.cne.xml|ConnectivityExt.jar|ConnectivityExt.xml|libcneconn.so|libcneqmiutils.so|libcne.so|libvendorconn.so|libwms.so|libwqe.so|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile.*.xml|SwimConfig.xml|VZW_profile.*.xml";
 	makes=$makes"libcnefeatureconfig";
 	sepolicy=$sepolicy" cnd.te qcneservice.te";
 
@@ -114,6 +114,9 @@ echo "Deblobbing..."
 	blobs=$blobs"|libmm-hdcpmgr.so";
 	blobs=$blobs"|hdcp1.*|tzhdcp.*";
 
+	#HDR
+	blobs=$blobs"|libhdr.*.so";
+
 	#[HTC]
 	blobs=$blobs"|gptauuid.xml";
 	blobs=$blobs"|htc_drmprov.*|gpsample.mbn";
@@ -125,7 +128,7 @@ echo "Deblobbing..."
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
 	if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then blobs=$blobs"|ims.apk|ims.xml|libimsmedia_jni.so"; fi; #IMS (Core) (To support carriers that have phased out 2G)
 	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so"; #IMS
-	blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so"; #RTP
+	blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|vendor.qti.imsrtpservice.*.so"; #RTP
 	blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so|qti_permissions.xml"; #Misc.
 	if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then blobs=$blobs"|volte_modem[/]"; fi;
 	if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then sepolicy=$sepolicy" ims.te imscm.te imswmsproxy.te"; fi;
@@ -177,12 +180,13 @@ echo "Deblobbing..."
 
 	#RCS (Proprietary messaging protocol)
 	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so"; #RCS
+	makes=$makes"|rcs_service.*";
 
 	#SecProtect [Qualcomm]
 	blobs=$blobs"|SecProtect.apk";
 
 	#SecureUI Frontends
-	blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureExtAuthJNI.so|libSecureSampleAuthClient.so";
+	blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureExtAuthJNI.so|libSecureSampleAuthClient.so|libsdedrm.so";
 
 	#SoundFX [Sony]
 	blobs=$blobs"|libsonypostprocbundle.so|libsonysweffect.so";
@@ -208,7 +212,8 @@ echo "Deblobbing..."
 	blobs=$blobs"|appdirectedsmspermission.apk|com.qualcomm.location.vzw_library.jar|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.jar|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.jar|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|VerizonSSOEngine.apk|VerizonUnifiedSettings.jar|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml";
 
 	#Voice Recognition
-	blobs=$blobs"|aonvr1.bin|aonvr2.bin|audiomonitor|es305_fw.bin|HotwordEnrollment.apk|HotwordEnrollment.*.apk|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|libqvop-service.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|qvop-daemon|sound_trigger.primary.msm8916.so|sound_trigger.primary.msm8996.so";
+	blobs=$blobs"|aonvr1.bin|aonvr2.bin|audiomonitor|es305_fw.bin|HotwordEnrollment.apk|HotwordEnrollment.*.apk|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|libqvop-service.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|qvop-daemon|sound_trigger.primary.*.so|libgcs.*.so|vendor.qti.voiceprint.*";
+	makes=$makes"|android.hardware.soundtrigger.*";
 
 	#Vulkan [Qualcomm]
 	#blobs=$blobs"|libllvm-qgl.so|vulkan.msm.*.so";
@@ -217,7 +222,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdcommonutils.so|libwfdhdcpcp.so|libwfdmmsink.so|libwfdmmsrc.so|libwfdmmutils.so|libwfdnative.so|libwfdrtsp.so|libwfdservice.so|libwfdsm.so|libwfduibcinterface.so|libwfduibcsinkinterface.so|libwfduibcsink.so|libwfduibcsrcinterface.so|libwfduibcsrc.so|WfdCommon.jar|wfdconfigsink.xml|wfdconfig.xml|wfdservice|WfdService.apk";
 
 	#Widevine (DRM) [Google]
-	blobs=$blobs"|com.google.widevine.software.drm.jar|com.google.widevine.software.drm.xml|libdrmclearkeyplugin.so|libdrmwvmplugin.so|libmarlincdmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so";
+	blobs=$blobs"|com.google.widevine.software.drm.jar|com.google.widevine.software.drm.xml|libdrmclearkeyplugin.so|libdrmwvmplugin.so|libmarlincdmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvhidl.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so";
 	blobs=$blobs"|tzwidevine.*|tzwvcpybuf.*|widevine.*";
 	makes=$makes"|libshim_wvm";
 
@@ -260,6 +265,7 @@ deblobDevice() {
 		fi;
 		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; #Disable CNE
 		sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig.mk; #Disable WiPower
+		sed -i 's/TARGET_HAS_HDR_DISPLAY := true/TARGET_HAS_HDR_DISPLAY := false/' BoardConfig.mk; #Disable HDR
 	fi;
 	if [ -f device.mk ]; then
 		awk -i inplace '!/'"$makes"'/' device.mk; #Remove references from device makefile
