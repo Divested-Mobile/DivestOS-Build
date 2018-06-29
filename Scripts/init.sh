@@ -29,6 +29,7 @@ export MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorks
 export MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
 export MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NONE, NLP, FULL
 export HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
+export HOSTS_BLOCKING_LIST="https://spotco.us/hosts"; #Must be in the format "127.0.0.0 bad.domain.tld". XXX: /hosts is built from non-commercial use files, switch to /hsc for release
 export OVERCLOCKS_ENABLED=true; #Switch to false to disable overclocks
 export STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit encryption XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
 export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches

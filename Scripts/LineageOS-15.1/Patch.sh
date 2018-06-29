@@ -42,7 +42,8 @@
 #Download some (non-executable) out-of-tree files for use later on
 mkdir /tmp/ar;
 cd /tmp/ar;
-if [ "$HOSTS_BLOCKING" = true ]; then wget https://spotco.us/hosts -N; fi; #XXX: /hosts is built from non-commercial use files, switch to /hsc for release
+if [ "$HOSTS_BLOCKING" = true ]; then wget "$HOSTS_BLOCKING_LIST" -N; fi;
+cd "$base";
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
 mkdir -p "$ANDROID_HOME/licenses";
@@ -229,7 +230,7 @@ echo "allow wcnss_service block_device:dir search;" >> sepolicy/wcnss_service.te
 echo "/dev/block/platform/msm_sdcc\.1/by-name/pad     u:object_r:misc_block_device:s0" >> sepolicy/file_contexts; #fix uncrypt denial
 
 enterAndClear "device/lge/mako";
-cp "$patches/android_device_lge_mako/proprietary-blobs.txt" proprietary-blobs.txt; #update that? nah
+cp "$patches/android_device_lge_mako/proprietary-blobs.txt" proprietary-blobs.txt; #Out of sync
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
 patch -p1 < "$patches/android_device_lge_mako/0001-Enable_LTE.patch";
 

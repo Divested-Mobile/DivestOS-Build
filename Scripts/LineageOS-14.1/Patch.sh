@@ -42,7 +42,8 @@
 #Download some (non-executable) out-of-tree files for use later on
 mkdir /tmp/ar;
 cd /tmp/ar;
-if [ "$HOSTS_BLOCKING" = true ]; then wget https://spotco.us/hosts -N; fi; #XXX: /hosts is built from non-commercial use files, switch to /hsc for release
+if [ "$HOSTS_BLOCKING" = true ]; then wget "$HOSTS_BLOCKING_LIST" -N; fi;
+cd "$base";
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
 mkdir -p "$ANDROID_HOME/licenses";

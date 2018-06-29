@@ -55,7 +55,7 @@ buildAll() {
 	brunch lineage_clark-user;
 	brunch lineage_FP2-user;
 	#brunch lineage_grouper-user; #builds, but requires out-of-tree blobs
-	brunch lineage_h815-user; #deprecated (UPSTREAM) drivers/input/touchscreen/DS5/RefCode_CustomerImplementation.c:147:1: warning: the frame size of 2064 bytes is larger than 2048 bytes
+	brunch lineage_h815-user; #deprecated
 	brunch lineage_herolte-user; #deprecated
 	brunch lineage_himaul-user; #deprecated
 	brunch lineage_i9100-userdebug;

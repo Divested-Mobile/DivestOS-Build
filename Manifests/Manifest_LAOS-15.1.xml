@@ -189,20 +189,6 @@
 	<project path="vendor/nxp-nfc/opensource/frameworks" name="LineageOS/android_vendor_nxp-nfc_opensource_frameworks" remote="github" />
 	<project path="vendor/nxp-nfc/opensource/libnfc-nci" name="LineageOS/android_vendor_nxp-nfc_opensource_libnfc-nci" remote="github" />
 	<project path="vendor/nxp-nfc/opensource/Nfc" name="LineageOS/android_vendor_nxp-nfc_opensource_Nfc" remote="github" />-->
-
-	<!-- Proprietary Blobs -->
-	<project path="vendor/asus" name="TheMuppets/proprietary_vendor_asus" remote="github" />
-	<project path="vendor/essential" name="TheMuppets/proprietary_vendor_essential" remote="github" />
-	<project path="vendor/fairphone" name="TheMuppets/proprietary_vendor_fairphone" remote="github" />
-	<project path="vendor/google" name="TheMuppets/proprietary_vendor_google" remote="github" />
-	<project path="vendor/htc" name="TheMuppets/proprietary_vendor_htc" remote="github" />
-	<project path="vendor/huawei" name="TheMuppets/proprietary_vendor_huawei" remote="github" />
-	<project path="vendor/lge" name="TheMuppets/proprietary_vendor_lge" remote="github" />
-	<project path="vendor/motorola" name="TheMuppets/proprietary_vendor_motorola" remote="github" />
-	<project path="vendor/nextbit" name="TheMuppets/proprietary_vendor_nextbit" remote="github" />
-	<project path="vendor/oneplus" name="TheMuppets/proprietary_vendor_oneplus" remote="github" />
-	<project path="vendor/oppo" name="TheMuppets/proprietary_vendor_oppo" remote="github" />
-	<project path="vendor/samsung" name="TheMuppets/proprietary_vendor_samsung" remote="github" />
 <!-- END OF DEVICE REPOS -->
 
 </manifest>
