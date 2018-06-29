@@ -28,8 +28,8 @@ resetWorkspace() {
 export -f resetWorkspace;
 
 scanWorkspaceForMalware() {
-	scanQueue="$base/abi $base/android $base/art $base/bionic $base/bootable $base/build $base/dalvik $base/device $base/hardware $base/libcore $base/libnativehelper $base/ndk $base/packages $base/pdk $base/platform_testing $base/sdk $base/system";
-	scanQueue=$scanQueue" $base/vendor/cm $base/vendor/cmsdk";
+	scanQueue="$DOS_BUILD_BASE/abi $DOS_BUILD_BASE/android $DOS_BUILD_BASE/art $DOS_BUILD_BASE/bionic $DOS_BUILD_BASE/bootable $DOS_BUILD_BASE/build $DOS_BUILD_BASE/dalvik $DOS_BUILD_BASE/device $DOS_BUILD_BASE/hardware $DOS_BUILD_BASE/libcore $DOS_BUILD_BASE/libnativehelper $DOS_BUILD_BASE/ndk $DOS_BUILD_BASE/packages $DOS_BUILD_BASE/pdk $DOS_BUILD_BASE/platform_testing $DOS_BUILD_BASE/sdk $DOS_BUILD_BASE/system";
+	scanQueue=$scanQueue" $DOS_BUILD_BASE/vendor/cm $DOS_BUILD_BASE/vendor/cmsdk";
 	scanForMalware true $scanQueue;
 }
 export -f scanWorkspaceForMalware;
@@ -47,7 +47,7 @@ buildDeviceDebug() {
 export -f buildDeviceDebug;
 
 buildAll() {
-	if [ "$MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
+	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 
 #Select devices are userdebug due to SELinux policy issues
 #TODO: Add victara, athene, us997, us996, pme, t0lte, hlte
@@ -88,28 +88,28 @@ buildAll() {
 export -f buildAll;
 
 patchWorkspace() {
-	if [ "$MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$prebuiltApps $base/build $base/device $base/vendor/cm"; fi;
+	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
 	#source build/envsetup.sh;
 
-	source "$scripts/Patch.sh";
-	source "$scripts/Defaults.sh";
-	if [ "$OVERCLOCKS_ENABLED" = true ]; then source "$scripts/Overclock.sh"; fi;
-	source "$scripts/Optimize.sh";
-	source "$scripts/Rebrand.sh";
-	source "$scripts/Theme.sh";
-	source "$scriptsCommon/Deblob.sh";
-	source "$scriptsCommon/Patch_CVE.sh";
+	source "$DOS_SCRIPTS/Patch.sh";
+	source "$DOS_SCRIPTS/Defaults.sh";
+	if [ "$DOS_OVERCLOCKS_ENABLED" = true ]; then source "$DOS_SCRIPTS/Overclock.sh"; fi;
+	source "$DOS_SCRIPTS/Optimize.sh";
+	source "$DOS_SCRIPTS/Rebrand.sh";
+	source "$DOS_SCRIPTS/Theme.sh";
+	source "$DOS_SCRIPTS_COMMON/Deblob.sh";
+	source "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
 	source build/envsetup.sh;
 
 	#Deblobbing fixes
 	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
-	cd device/asus/Z00T && ./setup-makefiles.sh && cd "$base";
-	cd device/lge/h850 && ./setup-makefiles.sh && cd "$base";
+	cd device/asus/Z00T && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
+	cd device/lge/h850 && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
 }
 export -f patchWorkspace;
 
 enableDexPreOpt() {
-	cd "$base$1";
+	cd "$DOS_BUILD_BASE$1";
 	if [ "$1" != "device/amazon/thor" ] && [ "$1" != "device/samsung/i9100" ] && [ "$1" != "device/lge/h850" ] && [ "$1" != "device/lge/mako" ]; then #Some devices won't compile, or have too small of a /system partition
 		if [ -f BoardConfig.mk ]; then
 			echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
@@ -118,16 +118,16 @@ enableDexPreOpt() {
 			echo "Enabled dexpreopt for $1";
 		fi;
 	fi;
-	cd "$base";
+	cd "$DOS_BUILD_BASE";
 }
 export -f enableDexPreOpt;
 
 enableDexPreOptFull() {
-	cd "$base$1";
+	cd "$DOS_BUILD_BASE$1";
 	if [ -f BoardConfig.mk ]; then
 		sed -i "s/WITH_DEXPREOPT_BOOT_IMG_ONLY := true/WITH_DEXPREOPT_BOOT_IMG_ONLY := false/" BoardConfig.mk;
 		echo "Enabled full dexpreopt";
 	fi;
-	cd "$base";
+	cd "$DOS_BUILD_BASE";
 }
 export -f enableDexPreOptFull;

@@ -22,48 +22,48 @@ echo "Rebranding...";
 
 enter "bootable/recovery";
 git revert bc57208dfcd0958d03a00bbcf5345be6ceac9988 6ac3bb48f9d10e604d4b2d6c4152be9d35d17ea0;
-patch -p1 < "$patches/android_bootable_recovery/0001-Remove_Logo.patch"; #Remove logo rendering code
+patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-Remove_Logo.patch"; #Remove logo rendering code
 rm res*/images/logo_image.png; #Remove logo images
 mogrify -format png -fill "#FF5722" -opaque "#167C80" -fuzz 10% res-*/images/*sel.png; #Recolor icons
 sed -i 's|grid_h \* 2 / 3|grid_h * 0.25|' screen_ui.cpp; #Center icons
 sed -i 's|0x16, 0x7c, 0x80|100, 34, 13|' screen_ui.cpp; #Recolor text
-sed -i 's|Android Recovery|'"$REBRAND_NAME"' Recovery|' ./*_ui.cpp;
-sed -i 's|LineageOS|'"$REBRAND_NAME"'|' ui.cpp;
+sed -i 's|Android Recovery|'"$DOS_BRANDING_NAME"' Recovery|' ./*_ui.cpp;
+sed -i 's|LineageOS|'"$DOS_BRANDING_NAME"'|' ui.cpp;
 
 enter "build/make";
 sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
 sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/buildinfo.sh; #Override build host
 
 enter "frameworks/base";
-generateBootAnimationMask "$REBRAND_NAME" "$REBRAND_BOOTANIMATION_FONT" core/res/assets/images/android-logo-mask.png;
-generateBootAnimationShine "$REBRAND_BOOTANIMATION_COLOR" "$REBRAND_BOOTANIMATION_STYLE" core/res/assets/images/android-logo-shine.png;
+generateBootAnimationMask "$DOS_BRANDING_NAME" "$DOS_BRANDING_BOOTANIMATION_FONT" core/res/assets/images/android-logo-mask.png;
+generateBootAnimationShine "$DOS_BRANDING_BOOTANIMATION_COLOR" "$DOS_BRANDING_BOOTANIMATION_STYLE" core/res/assets/images/android-logo-shine.png;
 
 enter "lineage-sdk";
-sed -i '/.*lineage_version/s/LineageOS/'"$REBRAND_NAME"'/' lineage/res/res/values*/strings.xml;
-sed -i '/.*lineage_updates/s/LineageOS/'"$REBRAND_NAME"'/' lineage/res/res/values*/strings.xml;
-sed -i '/.*lineageos_system_label/s/LineageOS/'"$REBRAND_NAME"'/' lineage/res/res/values*/strings.xml;
+sed -i '/.*lineage_version/s/LineageOS/'"$DOS_BRANDING_NAME"'/' lineage/res/res/values*/strings.xml;
+sed -i '/.*lineage_updates/s/LineageOS/'"$DOS_BRANDING_NAME"'/' lineage/res/res/values*/strings.xml;
+sed -i '/.*lineageos_system_label/s/LineageOS/'"$DOS_BRANDING_NAME"'/' lineage/res/res/values*/strings.xml;
 
 enter "packages/apps/LineageParts";
-sed -i '/.*trust_feature_security_patches_explain/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/strings.xml;
+sed -i '/.*trust_feature_security_patches_explain/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
 
 enter "packages/apps/Settings";
-sed -i '/.*lineagelicense_title/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/cm_strings.xml;
+sed -i '/.*lineagelicense_title/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/cm_strings.xml;
 
 enter "packages/apps/SetupWizard";
-sed -i 's|http://lineageos.org/legal|'"$REBRAND_LINK_PRIVACY"'|' src/org/lineageos/setupwizard/LineageSettingsActivity.java;
-sed -i '/.*setup_services/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/strings.xml;
-sed -i '/.*services_explanation/s/LineageOS/'"$REBRAND_NAME"'/' res/values*/strings.xml;
-cp "$patchesCommon/android_packages_apps_SetupWizard/logo.xml" "res/drawable/logo.xml"; #Replace Lineage logo with ours
+sed -i 's|http://lineageos.org/legal|'"$DOS_BRANDING_LINK_PRIVACY"'|' src/org/lineageos/setupwizard/LineageSettingsActivity.java;
+sed -i '/.*setup_services/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
+sed -i '/.*services_explanation/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
+cp "$DOS_PATCHES_COMMON/android_packages_apps_SetupWizard/logo.xml" "res/drawable/logo.xml"; #Replace Lineage logo with ours
 
 enter "packages/apps/Updater";
-sed -i 's|0OTASERVER0|'"$REBRAND_SERVER_OTA"'|' src/org/lineageos/updater/misc/Utils.java;
-sed -i 's|>LineageOS|>'"$REBRAND_NAME"'|' res/values*/strings.xml;
+sed -i 's|0OTASERVER0|'"$DOS_BRANDING_SERVER_OTA"'|' src/org/lineageos/updater/misc/Utils.java;
+sed -i 's|>LineageOS|>'"$DOS_BRANDING_NAME"'|' res/values*/strings.xml;
 
 enter "vendor/lineage";
-sed -i 's|https://lineageos.org/legal|'"$REBRAND_LINK_ABOUT"'|' build/core/main_version.mk
-sed -i '/.*ZIPPATH=/s/lineage/'"$REBRAND_ZIP_PREFIX"'/' build/envsetup.sh;
-sed -i '/LINEAGE_TARGET_PACKAGE/s/lineage/'"$REBRAND_ZIP_PREFIX"'/' build/tasks/bacon.mk;
+sed -i 's|https://lineageos.org/legal|'"$DOS_BRANDING_LINK_ABOUT"'|' build/core/main_version.mk
+sed -i '/.*ZIPPATH=/s/lineage/'"$DOS_BRANDING_ZIP_PREFIX"'/' build/envsetup.sh;
+sed -i '/LINEAGE_TARGET_PACKAGE/s/lineage/'"$DOS_BRANDING_ZIP_PREFIX"'/' build/tasks/bacon.mk;
 rm -rf bootanimation;
 
-cd "$base";
+cd "$DOS_BUILD_BASE";
 echo "Rebranding complete!";

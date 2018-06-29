@@ -37,5 +37,5 @@ sed -i 's|config_showTemperatureWarning">0|config_showTemperatureWarning">1|' pa
 enter "kernel"
 sed -i "s/#define VM_MAX_READAHEAD\t128/#define VM_MAX_READAHEAD\t512/" ./*/*/include/linux/mm.h; #Lee Susman <lsusman@codeaurora.org>: Change the VM_MAX_READAHEAD value from the default 128KB to 512KB. This will allow the readahead window to grow to a maximum size of 512KB, which greatly benefits to sequential read throughput.
 
-cd "$base";
+cd "$DOS_BUILD_BASE";
 echo "Optimizing complete!";

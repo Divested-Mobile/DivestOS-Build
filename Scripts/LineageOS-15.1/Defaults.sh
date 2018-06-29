@@ -79,5 +79,5 @@ sed -i 's/def_stats_collection">true/def_stats_collection">false/' overlay/commo
 sed -i 's/config_storage_manager_settings_enabled">true/config_storage_manager_settings_enabled">false/' overlay/common/packages/apps/Settings/res/values/config.xml;
 #sed -i 's/config_enableRecoveryUpdater">false/config_enableRecoveryUpdater">true/' overlay/common/packages/apps/Settings/res/values/config.xml;
 
-cd "$base";
+cd "$DOS_BUILD_BASE";
 echo "Default settings changed!";

@@ -15,7 +15,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then
+if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then
 	echo -e "\e[0;33mWARNING: YOU HAVE ENABLED PATCHES THAT WHILE ARE OPEN SOURCE ARE ALSO ENCUMBERED BY RESTRICTIVE LICENSES\e[0m";
 	echo -e "\e[0;33mPLEASE SEE THE 'LICENSES' FILE AT THE ROOT OF THIS REPOSITORY FOR MORE INFORMATION\e[0m";
 	echo -e "\e[0;33mDISABLE THEM BY SETTING 'NON_COMMERCIAL_USE_PATCHES' TO 'false' IN 'Scripts/init.sh'\e[0m";
@@ -23,15 +23,14 @@ if [ "$NON_COMMERCIAL_USE_PATCHES" = true ]; then
 fi;
 
 startPatcher() {
-	#$cvePatcher must be set!
-	java -jar "$cvePatcher" patch "$base" "$androidWorkspace""Patches/" "$cveScripts" $1;
+	java -jar "$DOS_PATCHER_BINARY" patch "$DOS_BUILD_BASE" "$DOS_WORKSPACE_ROOT""Patches/" "$DOS_SCRIPTS_CVES" $1;
 }
 export -f startPatcher;
 
 enter() {
 	echo "================================================================================================"
 	dir="$1";
-	cd "$base$dir";
+	cd "$DOS_BUILD_BASE$dir";
 	echo "[ENTERING] $dir";
 }
 export -f enter;
@@ -53,14 +52,14 @@ scanForMalware() {
 		excludes="--exclude-dir=\".git\" --exclude-dir=\".repo\"";
 		scanQueue="$2";
 		if [ "$1" = true ]; then
-			if [ "$MALWARE_SCAN_SETTING" != "quick" ] || [ "$MALWARE_SCAN_SETTING" = "extra" ]; then
-				scanQueue=$scanQueue" $base/frameworks $base/vendor";
+			if [ "$DOS_MALWARE_SCAN_SETTING" != "quick" ] || [ "$DOS_MALWARE_SCAN_SETTING" = "extra" ]; then
+				scanQueue=$scanQueue" $DOS_BUILD_BASE/frameworks $DOS_BUILD_BASE/vendor";
 			fi;
-			if [ "$MALWARE_SCAN_SETTING" = "slow" ]; then
-				scanQueue=$scanQueue"$base/external $base/prebuilts $base/toolchain $base/tools";
+			if [ "$DOS_MALWARE_SCAN_SETTING" = "slow" ]; then
+				scanQueue=$scanQueue"$DOS_BUILD_BASE/external $DOS_BUILD_BASE/prebuilts $DOS_BUILD_BASE/toolchain $DOS_BUILD_BASE/tools";
 			fi;
-			if [ "$MALWARE_SCAN_SETTING" = "full" ]; then
-				scanQueue="$base";
+			if [ "$DOS_MALWARE_SCAN_SETTING" = "full" ]; then
+				scanQueue="$DOS_BUILD_BASE";
 			fi;
 		fi;
 		du -hsc "$scanQueue";
@@ -116,12 +115,12 @@ audit2allowADB() {
 export -f audit2allowADB;
 
 disableDexPreOpt() {
-	cd "$base$1";
+	cd "$DOS_BUILD_BASE$1";
 	if [ -f BoardConfig.mk ]; then
 		sed -i "s/WITH_DEXPREOPT := true/WITH_DEXPREOPT := false/" BoardConfig.mk;
 		echo "Disabled dexpreopt";
 	fi;
-	cd "$base";
+	cd "$DOS_BUILD_BASE";
 }
 export -f disableDexPreOpt;
 
@@ -134,9 +133,9 @@ compressRamdisks() {
 export -f compressRamdisks;
 
 enhanceLocation() {
-	cd "$base$1";
+	cd "$DOS_BUILD_BASE$1";
 	#Enable GLONASS
-	if [ "$GLONASS_FORCED_ENABLE" = false ]; then
+	if [ "$DOS_GLONASS_FORCED_ENABLE" = false ]; then
 	sed -i 's/#A_GLONASS_POS_PROTOCOL_SELECT/A_GLONASS_POS_PROTOCOL_SELECT/' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
 	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT = 0.*/A_GLONASS_POS_PROTOCOL_SELECT = 15/' gps.conf gps/gps.conf configs/gps.conf &>/dev/null || true;
 	sed -i 's|A_GLONASS_POS_PROTOCOL_SELECT=0.*</item>|A_GLONASS_POS_PROTOCOL_SELECT=15</item>|' overlay/frameworks/base/core/res/res/values-*/*.xml &>/dev/null || true;
@@ -159,33 +158,33 @@ enhanceLocation() {
 		fi;
 	fi;
 	echo "Enhanced location services for $1";
-	cd "$base";
+	cd "$DOS_BUILD_BASE";
 }
 export -f enhanceLocation;
 
 enableZram() {
-	cd "$base$1";
+	cd "$DOS_BUILD_BASE$1";
 	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
 	echo "Enabled zram for $1";
-	cd "$base";
+	cd "$DOS_BUILD_BASE";
 }
 export -f enableZram;
 
 enableForcedEncryption() {
-	cd "$base$1";
+	cd "$DOS_BUILD_BASE$1";
 	sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
 	echo "Enabled forceencrypt for $1";
-	cd "$base";
+	cd "$DOS_BUILD_BASE";
 }
 export -f enableForcedEncryption;
 
 enableStrongEncryption() {
-	cd "$base$1";
+	cd "$DOS_BUILD_BASE$1";
 	if [ -f BoardConfig.mk ]; then
 		echo "TARGET_WANTS_STRONG_ENCRYPTION := true" >> BoardConfig.mk;
 		echo "Enabled AES-256 encryption for $1";
 	fi;
-	cd "$base";
+	cd "$DOS_BUILD_BASE";
 }
 export -f enableStrongEncryption;
 
@@ -207,43 +206,43 @@ changeDefaultDNS() {
 	dnsPrimaryV6="";
 	dnsSecondary="";
 	dnsSecondaryV6="";
-	if [ -z "$DNS_PRESET"]; then
-		if [[ "$DEFAULT_DNS_PRESET" == "Cloudflare" ]]; then #https://developers.cloudflare.com/1.1.1.1/commitment-to-privacy/privacy-policy/privacy-policy/
+	if [ -z "$DNS_PRESET" ]; then
+		if [[ "$DOS_DEFAULT_DNS_PRESET" == "Cloudflare" ]]; then #https://developers.cloudflare.com/1.1.1.1/commitment-to-privacy/privacy-policy/privacy-policy/
 			dnsPrimary="1.0.0.1";
 			dnsPrimaryV6="2606:4700:4700::1001";
 			dnsSecondary="1.1.1.1";
 			dnsSecondaryV6="2606:4700:4700::1111";
-		elif [[ "$DEFAULT_DNS_PRESET" == "OpenNIC" ]]; then #https://servers.opennicproject.org/edit.php?srv=ns3.any.dns.opennic.glue
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "OpenNIC" ]]; then #https://servers.opennicproject.org/edit.php?srv=ns3.any.dns.opennic.glue
 			dnsPrimary="169.239.202.202";
 			dnsPrimaryV6="2a05:dfc7:5353::53";
 			dnsSecondary="185.121.177.177";
 			dnsSecondaryV6="2a05:dfc7:5::53";
-		elif [[ "$DEFAULT_DNS_PRESET" == "DNSWATCH" ]]; then #https://dns.watch
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "DNSWATCH" ]]; then #https://dns.watch
 			dnsPrimary="84.200.69.80";
 			dnsPrimaryV6="2001:1608:10:25::1c04:b12f";
 			dnsSecondary="84.200.70.40";
 			dnsSecondaryV6="2001:1608:10:25::9249:d69b";
-		elif [[ "$DEFAULT_DNS_PRESET" == "Google" ]]; then #https://developers.google.com/speed/public-dns/privacy
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Google" ]]; then #https://developers.google.com/speed/public-dns/privacy
 			dnsPrimary="8.8.8.8";
 			dnsPrimaryV6="2001:4860:4860::8888";
 			dnsSecondary="8.8.4.4";
 			dnsSecondaryV6="2001:4860:4860::8844";
-		elif [[ "$DEFAULT_DNS_PRESET" == "OpenDNS" ]]; then #https://www.cisco.com/c/en/us/about/legal/privacy-full.html
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "OpenDNS" ]]; then #https://www.cisco.com/c/en/us/about/legal/privacy-full.html
 			dnsPrimary="208.67.222.222";
 			dnsPrimaryV6="2620:0:ccc::2";
 			dnsSecondary="208.67.220.220";
 			dnsSecondaryV6="2620:0:ccd::2";
-		elif [[ "$DEFAULT_DNS_PRESET" == "Quad9" ]]; then #https://www.quad9.net/privacy/
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Quad9" ]]; then #https://www.quad9.net/privacy/
 			dnsPrimary="9.9.9.9";
 			dnsPrimaryV6="2620:fe::fe";
 			dnsSecondary="149.112.112.112";
 			dnsSecondaryV6="2620:fe::fe"; #no secondary available
-		elif [[ "$DEFAULT_DNS_PRESET" == "Quad9U" ]]; then #https://www.quad9.net/privacy/
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Quad9U" ]]; then #https://www.quad9.net/privacy/
 			dnsPrimary="9.9.9.10";
 			dnsPrimaryV6="2620:fe::10";
 			dnsSecondary="149.112.112.10";
 			dnsSecondaryV6="2620:fe::10"; #no secondary available
-		elif [[ "$DEFAULT_DNS_PRESET" == "Verisign" ]]; then #https://www.verisign.com/en_US/security-services/public-dns/terms-of-service/index.xhtml
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Verisign" ]]; then #https://www.verisign.com/en_US/security-services/public-dns/terms-of-service/index.xhtml
 			dnsPrimary="64.6.64.6";
 			dnsPrimaryV6="2620:74:1b::1:1";
 			dnsSecondary="64.6.65.6";
@@ -268,7 +267,7 @@ editKernelLocalversion() {
 export -f editKernelLocalversion;
 
 hardenDefconfig() {
-	cd "$base$1";
+	cd "$DOS_BUILD_BASE$1";
 
 	#Attempts to enable/disable supported options to increase security
 	#See https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings
@@ -304,6 +303,6 @@ hardenDefconfig() {
 	editKernelLocalversion "-dos";
 
 	echo "Hardened defconfig for $1";
-	cd "$base";
+	cd "$DOS_BUILD_BASE";
 }
 export -f hardenDefconfig;

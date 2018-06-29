@@ -54,7 +54,7 @@ echo "Deblobbing..."
 	sepolicy=$sepolicy" atfwd.te";
 
 	#AudioFX (Audio Effects) [Qualcomm]
-	if [ "$DEBLOBBER_REMOVE_AUDIOFX" = true ]; then blobs=$blobs"|libasphere.so|libqcbassboost.so|libqcreverb.so|libqcvirt.so|libshoebox.so"; fi;
+	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then blobs=$blobs"|libasphere.so|libqcbassboost.so|libqcreverb.so|libqcvirt.so|libshoebox.so"; fi;
 
 	#Camera
 	#Attempted, don't waste your time...
@@ -126,12 +126,12 @@ echo "Deblobbing..."
 	blobs=$blobs"|iop|libqti-iop-client.so|libqti-iop.so|QPerformance.jar";
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
-	if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then blobs=$blobs"|ims.apk|ims.xml|libimsmedia_jni.so"; fi; #IMS (Core) (To support carriers that have phased out 2G)
+	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then blobs=$blobs"|ims.apk|ims.xml|libimsmedia_jni.so"; fi; #IMS (Core) (To support carriers that have phased out 2G)
 	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so"; #IMS
 	blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|vendor.qti.imsrtpservice.*.so"; #RTP
 	blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so|qti_permissions.xml"; #Misc.
-	if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then blobs=$blobs"|volte_modem[/]"; fi;
-	if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then sepolicy=$sepolicy" ims.te imscm.te imswmsproxy.te"; fi;
+	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then blobs=$blobs"|volte_modem[/]"; fi;
+	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then sepolicy=$sepolicy" ims.te imscm.te imswmsproxy.te"; fi;
 
 	#IPA (Internet Packet Accelerator) [Qualcomm]
 	#This is actually open source (excluding -diag)
@@ -199,7 +199,7 @@ echo "Deblobbing..."
 
 	#Time Service [Qualcomm]
 	#Requires that android_hardware_sony_timekeep be included in repo manifest
-	if [ "$DEBLOBBER_REPLACE_TIME" = true ]; then
+	if [ "$DOS_DEBLOBBER_REPLACE_TIME" = true ]; then
 		#blobs=$blobs"|libtime_genoff.so"; #XXX: Breaks radio
 		blobs=$blobs"|libTimeService.so|time_daemon|TimeService.apk";
 		sepolicy=$sepolicy" qtimeservice.te";
@@ -244,16 +244,16 @@ echo "Deblobbing..."
 #
 deblobDevice() {
 	devicePath="$1";
-	cd "$base$devicePath";
+	cd "$DOS_BUILD_BASE$devicePath";
 	if [ "${PWD##*/}" == "flo" ] || [ "${PWD##*/}" == "mako" ] || [ "${PWD##*/}" == "kona-common" ] || [ "${PWD##*/}" == "n5110" ] || [ "${PWD##*/}" == "smdk4412-common" ] || [ "${PWD##*/}" == "hdx-common" ] || [ "${PWD##*/}" == "thor" ] || [ "${PWD##*/}" == "flounder" ]; then #Some devices don't need/like TimeKeep
 		replaceTime="false";
 	fi;
-	if [ "$DEBLOBBER_REPLACE_TIME" = false ]; then replaceTime="false"; fi; #Disable replacement
+	if [ "$DOS_DEBLOBBER_REPLACE_TIME" = false ]; then replaceTime="false"; fi; #Disable replacement
 	if [ -f Android.mk ]; then
 		#Some devices store these in a dedicated firmware partition, others in /system/vendor/firmware, either way the following are just symlinks
 		#sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Remove CMN firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(DXHDCP2_SYMLINKS)//' Android.mk; #Remove Discretix firmware
-		if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(IMS_SYMLINKS)//' Android.mk; fi; #Remove IMS firmware
+		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(IMS_SYMLINKS)//' Android.mk; fi; #Remove IMS firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(PLAYREADY_SYMLINKS)//' Android.mk; #Remove Microsoft Playready firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WIDEVINE_SYMLINKS)//' Android.mk; #Remove Google Widevine firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WV_SYMLINKS)//' Android.mk; #Remove Google Widevine firmware
@@ -294,7 +294,7 @@ deblobDevice() {
 		sed -i 's/ro.bluetooth.emb_wp_mode=true/ro.bluetooth.emb_wp_mode=false/' system.prop; #Disable WiPower
 		sed -i 's/ro.bluetooth.wipower=true/ro.bluetooth.wipower=false/' system.prop; #Disable WiPower
 		#Disable IMS
-		if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then
+		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
 		sed -i 's/persist.data.iwlan.enable=true/persist.data.iwlan.enable=false/' system.prop;
 		sed -i 's/persist.ims.volte=true/persist.ims.volte=false/' system.prop;
 		sed -i 's/persist.ims.vt=true/persist.ims.vt=false/' system.prop;
@@ -314,7 +314,7 @@ deblobDevice() {
 	if [ -f init/init_*.cpp ]; then
 		sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "0");/' init/init_*.cpp; #Disable RCS
 		#Disable IMS
-		if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then
+		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
 		sed -i 's/property_set("persist.ims.volte", "true");/property_set("persist.ims.volte", "false");/' init/init_*.cpp;
 		sed -i 's/property_set("persist.ims.vt", "true");/property_set("persist.ims.vt", "false");/' init/init_*.cpp;
 		sed -i 's/property_set("persist.radio.calls.on.ims", "true");/property_set("persist.radio.calls.on.ims", "false");/' init/init_*.cpp;
@@ -328,7 +328,7 @@ deblobDevice() {
 		#sed -i 's|<bool name="config_enableWifiDisplay">true</bool>|<bool name="config_enableWifiDisplay">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
 		sed -i 's|<bool name="config_uiBlurEnabled">true</bool>|<bool name="config_uiBlurEnabled">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml; #Disable UIBlur
 		#Disable IMS
-		if [ "$DEBLOBBER_REMOVE_IMS" = true ]; then
+		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
 		sed -i 's|<bool name="config_carrier_volte_available">true</bool>|<bool name="config_carrier_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
 		sed -i 's|<bool name="config_carrier_vt_available">true</bool>|<bool name="config_carrier_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
 		sed -i 's|<bool name="config_device_volte_available">true</bool>|<bool name="config_device_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
@@ -352,40 +352,40 @@ deblobDevice() {
 	rm -rf board/qcom-wipower.mk product/qcom-wipower.mk; #Remove WiPower makefiles
 	if [ -f setup-makefiles.sh ]; then
 		awk -i inplace '!/'$blobs'/' ./*proprietary*.txt; #Remove all blob references from blob manifest
-		bash -c "cd $base$devicePath && ./setup-makefiles.sh"; #Update the makefiles
+		bash -c "cd $DOS_BUILD_BASE$devicePath && ./setup-makefiles.sh"; #Update the makefiles
 	fi;
-	cd "$base";
+	cd "$DOS_BUILD_BASE";
 }
 export -f deblobDevice;
 
 deblobKernel() {
 	kernelPath="$1";
-	cd "$base$kernelPath";
+	cd "$DOS_BUILD_BASE$kernelPath";
 	rm -rf $kernels;
-	cd "$base";
+	cd "$DOS_BUILD_BASE";
 }
 export -f deblobKernel;
 
 deblobSepolicy() {
 	sepolicyPath="$1";
-	cd "$base$sepolicyPath";
+	cd "$DOS_BUILD_BASE$sepolicyPath";
 	if [ -d sepolicy ]; then
 		cd sepolicy;
 		rm -f $sepolicy;
 	fi;
-	cd "$base";
+	cd "$DOS_BUILD_BASE";
 }
 export -f deblobSepolicy;
 
 deblobVendors() {
-	cd "$base";
+	cd "$DOS_BUILD_BASE";
 	find vendor -regextype posix-extended -regex '.*('$blobs')' -type f -delete; #Delete all blobs
 }
 export -f deblobVendors;
 
 deblobVendor() {
 	makefile="$1";
-	cd "$base";
+	cd "$DOS_BUILD_BASE";
 	awk -i inplace '!/'$blobs'/' "$makefile"; #Remove all blob references from makefile
 }
 export -f deblobVendor;
@@ -409,6 +409,6 @@ rm -rf vendor/samsung/nodevice;
 #END OF DEBLOBBING
 #
 
-cd "$base";
+cd "$DOS_BUILD_BASE";
 
 echo "Deblobbing complete!"

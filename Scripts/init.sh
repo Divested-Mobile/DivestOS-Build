@@ -18,31 +18,41 @@
 #Sets settings used by all other scripts
 
 #START OF USER CONFIGURABLE OPTIONS
-export androidWorkspace="/mnt/Drive-3/"; #XXX: THIS MUST BE CORRECT TO BUILD!
+export DOS_WORKSPACE_ROOT="/mnt/Drive-3/"; #XXX: THIS MUST BE CORRECT TO BUILD!
+export DOS_SIGNING_KEYS=$DOS_WORKSPACE_ROOT"Signing_Keys";
+#export DOS_PATCHER_BINARY="";
+export ANDROID_HOME="/home/$USER/Android/Sdk";
 
-export DEBLOBBER_REMOVE_AUDIOFX=true; #Set true to remove AudioFX
-export DEBLOBBER_REMOVE_IMS=false; #Set true to remove all IMS blobs
-export DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Services with the open source Sony TimeKeep reimplementation
-export DEFAULT_DNS_PRESET="OpenNIC"; #Sets default DNS. Options: Cloudflare, OpenNIC, DNSWATCH, Google, OpenDNS, Quad9, Quad9U, Verisign
-export GLONASS_FORCED_ENABLE=true; #Enables GLONASS on all devices
-export MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
-export MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
-export MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NONE, NLP, FULL
-export HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
-export HOSTS_BLOCKING_LIST="https://spotco.us/hosts"; #Must be in the format "127.0.0.0 bad.domain.tld". XXX: /hosts is built from non-commercial use files, switch to /hsc for release
-export OVERCLOCKS_ENABLED=true; #Switch to false to disable overclocks
-export STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit encryption XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
-export NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches
+export DOS_DEBLOBBER_REMOVE_AUDIOFX=true; #Set true to remove AudioFX
+export DOS_DEBLOBBER_REMOVE_IMS=false; #Set true to remove all IMS blobs
+export DOS_DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Services with the open source Sony TimeKeep reimplementation
+export DOS_DEFAULT_DNS_PRESET="OpenNIC"; #Sets default DNS. Options: Cloudflare, OpenNIC, DNSWATCH, Google, OpenDNS, Quad9, Quad9U, Verisign
+export DOS_GLONASS_FORCED_ENABLE=true; #Enables GLONASS on all devices
+export DOS_MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
+export DOS_MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
+export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NONE, NLP, FULL
+export DOS_HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
+export DOS_HOSTS_BLOCKING_LIST="https://spotco.us/hosts"; #Must be in the format "127.0.0.0 bad.domain.tld". XXX: /hosts is built from non-commercial use files, switch to /hsc for release
+export DOS_OVERCLOCKS_ENABLED=true; #Switch to false to disable overclocks
+export DOS_STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit encryption XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
+export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches
 
-export REBRAND_NAME="DivestOS";
-export REBRAND_ZIP_PREFIX="divested";
-export REBRAND_BOOTANIMATION_FONT="Fira-Sans-Bold"; #Options: $ convert -list font
-export REBRAND_BOOTANIMATION_STYLE="plasma"; #Options: gradient, plasma
-#export REBRAND_BOOTANIMATION_COLOR="#FF5722-#FF8A65"; #gradient
-export REBRAND_BOOTANIMATION_COLOR="#FF5722-#03A9F4"; #plasma
-export REBRAND_LINK_ABOUT="https://divestos.xyz/index.php?page=about";
-export REBRAND_LINK_PRIVACY="https://divestos.xyz/index.php?page=privacy_policy";
-export REBRAND_SERVER_OTA="https://divestos.xyz/updater.php";
+export DOS_BRANDING_NAME="DivestOS";
+export DOS_BRANDING_ZIP_PREFIX="divested";
+export DOS_BRANDING_BOOTANIMATION_FONT="Fira-Sans-Bold"; #Options: $ convert -list font
+export DOS_BRANDING_BOOTANIMATION_STYLE="plasma"; #Options: gradient, plasma
+#export DOS_BRANDING_BOOTANIMATION_COLOR="#FF5722-#FF8A65"; #gradient
+export DOS_BRANDING_BOOTANIMATION_COLOR="#FF5722-#03A9F4"; #plasma
+export DOS_BRANDING_LINK_ABOUT="https://divestos.xyz/index.php?page=about";
+export DOS_BRANDING_LINK_PRIVACY="https://divestos.xyz/index.php?page=privacy_policy";
+export DOS_BRANDING_SERVER_OTA="https://divestos.xyz/updater.php";
+
+export DOS_THEME_50="FFCA28"; #Amber 400
+export DOS_THEME_100="FFC107"; #Amber 500
+export DOS_THEME_200="FFA726"; #Orange 400
+export DOS_THEME_300="FF9800"; #Orange 500
+export DOS_THEME_500="FF5722"; #Deep Orange 500
+export DOS_THEME_700="E64A19"; #Deep Orange 700
 #END OF USER CONFIGURABLE OPTIONS
 
 BUILD_WORKING_DIR=${PWD##*/};
@@ -53,32 +63,30 @@ else
 	return 1;
 fi;
 
-export base=$androidWorkspace"Build/$BUILD_WORKING_DIR/";
-if [ ! -d "$base" ]; then
+export DOS_BUILD_BASE=$DOS_WORKSPACE_ROOT"Build/$BUILD_WORKING_DIR/";
+if [ ! -d "$DOS_BUILD_BASE" ]; then
 	echo "Path mismatch! Please update init.sh!";
 	return 1;
 fi;
 
-export prebuiltApps=$androidWorkspace"PrebuiltApps/";
-export patchesCommon=$androidWorkspace"Patches/Common/";
-export patches=$androidWorkspace"Patches/$BUILD_WORKING_DIR/";
-export overclocks=$androidWorkspace"Patches/Overclocks/";
-export cvePatchesLinux=$androidWorkspace"Patches/Linux/";
-export cvePatchesAndroid=$androidWorkspace"Patches/Android/";
-export dosWallpapers=$androidWorkspace"Patches/Wallpapers/";
+export DOS_PREBUILT_APPS=$DOS_WORKSPACE_ROOT"PrebuiltApps/";
+export DOS_PATCHES_COMMON=$DOS_WORKSPACE_ROOT"Patches/Common/";
+export DOS_PATCHES=$DOS_WORKSPACE_ROOT"Patches/$BUILD_WORKING_DIR/";
+export DOS_PATCHES_OVERCLOCKS=$DOS_WORKSPACE_ROOT"Patches/Overclocks/";
+export DOS_PATCHES_LINUX_CVES=$DOS_WORKSPACE_ROOT"Patches/Linux/";
+export DOS_PATCHES_ANDROID_CVES=$DOS_WORKSPACE_ROOT"Patches/Android/";
+export DOS_WALLPAPERS=$DOS_WORKSPACE_ROOT"Patches/Wallpapers/";
 
-export scriptsCommon=$androidWorkspace"Scripts/Common/";
-export scripts=$androidWorkspace"Scripts/$BUILD_WORKING_DIR/";
-if [ ! -d "$scripts" ]; then
+export DOS_SCRIPTS_COMMON=$DOS_WORKSPACE_ROOT"Scripts/Common/";
+export DOS_SCRIPTS=$DOS_WORKSPACE_ROOT"Scripts/$BUILD_WORKING_DIR/";
+if [ ! -d "$DOS_SCRIPTS" ]; then
 	echo "$BUILD_WORKING_DIR is not supported!";
 	return 1;
 fi;
-export cveScripts=$scripts"CVE_Patchers/";
+export DOS_SCRIPTS_CVES=$DOS_SCRIPTS"CVE_Patchers/";
 
-export SIGNING_KEY_DIR=$androidWorkspace"Signing_Keys";
+export SIGNING_KEY_DIR=$DOS_SIGNING_KEYS;
 export OTA_PACKAGE_SIGNING_KEY=$SIGNING_KEY_DIR"/releasekey";
-
-export ANDROID_HOME="/home/$USER/Android/Sdk";
 
 export KBUILD_BUILD_USER="emy";
 export KBUILD_BUILD_HOST="dosbm";
@@ -86,11 +94,10 @@ export KBUILD_BUILD_HOST="dosbm";
 export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation";
 export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}";
 export GRADLE_OPTS="-Xmx2048m";
-
-source "$scriptsCommon/Functions.sh";
-source "$scripts/Functions.sh";
-
 export LC_ALL=C;
+
+source "$DOS_SCRIPTS_COMMON/Functions.sh";
+source "$DOS_SCRIPTS/Functions.sh";
 
 unalias cp &>/dev/null || true;
 unalias mv &>/dev/null || true;
