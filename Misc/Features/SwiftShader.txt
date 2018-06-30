@@ -1,0 +1,14 @@
+06-30 23:33:08.733   623   623 E libEGL_swiftshader: badness: unimplemented: getDisplayFormat external/swiftshader/src/OpenGL/libEGL/Display.cpp:838
+06-30 23:33:08.733   623   623 E libEGL_swiftshader: badness: unimplemented: getDisplayFormat external/swiftshader/src/OpenGL/libEGL/Display.cpp:840
+
+
+06-30 23:33:44.860  1445  1445 F DEBUG   : backtrace:
+06-30 23:33:44.860  1445  1445 F DEBUG   :     #00 pc 00000040  <anonymous:abf7b000>
+06-30 23:33:44.860  1445  1445 F DEBUG   :     #01 pc 0007a341  /system/vendor/lib/egl/libGLESv2_swiftshader.so (sw::Renderer::processPrimitiveVertices(int, unsigned int, unsigned int, unsigned int, int)+1880)
+06-30 23:33:44.860  1445  1445 F DEBUG   :     #02 pc 000797df  /system/vendor/lib/egl/libGLESv2_swiftshader.so (sw::Renderer::executeTask(int)+130)
+06-30 23:33:44.860  1445  1445 F DEBUG   :     #03 pc 00079555  /system/vendor/lib/egl/libGLESv2_swiftshader.so (sw::Renderer::taskLoop(int)+42)
+06-30 23:33:44.860  1445  1445 F DEBUG   :     #04 pc 000794d5  /system/vendor/lib/egl/libGLESv2_swiftshader.so (sw::Renderer::threadLoop(int)+52)
+06-30 23:33:44.860  1445  1445 F DEBUG   :     #05 pc 00071215  /system/vendor/lib/egl/libGLESv2_swiftshader.so (sw::Thread::startFunction(void*)+36)
+06-30 23:33:44.860  1445  1445 F DEBUG   :     #06 pc 00048837  /system/lib/libc.so (__pthread_start(void*)+22)
+06-30 23:33:44.860  1445  1445 F DEBUG   :     #07 pc 0001b155  /system/lib/libc.so (__start_thread+32)
+

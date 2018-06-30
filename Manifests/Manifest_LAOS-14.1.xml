@@ -81,6 +81,8 @@
 <!-- END OF UNNECESSARY REPO REMOVAL -->
 
 <!-- START OF ADDITIONAL REPOS -->
+	<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />
+
 	<!-- MicroG -->
 	<project path="packages/apps/GmsCore" name="microg/android_packages_apps_GmsCore" remote="github" revision="master" />
 	<project path="packages/apps/GsfProxy" name="microg/android_packages_apps_GsfProxy" remote="github" revision="master" />

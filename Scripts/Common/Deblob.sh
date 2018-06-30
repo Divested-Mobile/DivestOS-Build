@@ -57,7 +57,7 @@ echo "Deblobbing..."
 
 	#AudioFX (Audio Effects) [Qualcomm]
 	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
-		blobs=$blobs"|fmas_eq.dat|libasphere.so|libbundlewrapper.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libqcbassboost.so|libqcomvisualizer.so|libqcomvoiceprocessing.so|libqcreverb.so|libqcvirt.so|libreverbwrapper.so|libshoebox.so|libspeakerbundle.so|libvisualizer.so|libvolumelistener.so";
+		blobs=$blobs"|fmas_eq.dat|libasphere.so|libbundlewrapper.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libqcbassboost.so|libqcomvisualizer.so|libqcomvoiceprocessing.so|libqcreverb.so|libqcvirt.so|libreverbwrapper.so|libshoebox.so|libspeakerbundle.so|libvisualizer.so|libvolumelistener.so|libLifevibes_lvverx.so|libhwdap.so";
 	fi;
 
 	#Camera
@@ -121,6 +121,18 @@ echo "Deblobbing..."
 	#GPS [Qualcomm]
 	#blobs=$blobs"|flp.conf|flp.default.so|flp.msm8084.so|flp.msm8960.so|gpsd|gps.msm8084.so|gps.msm8960.so|libflp.so|libgps.utils.so|libloc_api_v02.so|libloc_core.so|libloc_ds_api.so|libloc_eng.so|libloc_ext.so";
 
+	#Graphics
+	if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
+		blobs=$blobs"|eglsubAndroid.so|eglSubDriverAndroid.so|libbccQTI.so|libC2D2.so|libc2d30_bltlib.so|libc2d30.so|libc2d30.*.so|libCB.so|libEGL.*.so|libGLES.*.so|libgsl.so|libq3dtools_esx.so|libq3dtools.*.so|libQTapGLES.so|libscale.so|libsc.*.so";
+		blobs=$blobs"|libglcore.so|libnvblit.so|libnvddk_vic.so|libnvglsi.so|libnvgr.so|libnvptx.so|libnvrmapi.*.so|libnvrm_graphics.so|libnvrm.so|libnvwsi.so"; #NVIDIA
+		blobs=$blobs"|gralloc.*.so|hwcomposer.*.so|memtrack.*.so";
+		blobs=$blobs"|libadreno_utils.so"; #Adreno
+		blobs=$blobs"|libllvm.*.so"; #LLVM
+		blobs=$blobs"|libOpenCL.*.so|libclcore_nvidia.bc"; #OpenCL
+		blobs=$blobs"|librs.*.so|libRSDriver.*.so|libnvRSCompiler.so|libnvRSDriver.so"; #RenderScript
+		blobs=$blobs"|vulkan.*.so"; #Vulkan
+	fi;
+
 	#Fingerprint Reader
 	if [ "$DOS_DEBLOBBER_REMOVE_FP" = true ]; then
 		blobs=$blobs"|android.hardware.biometrics.fingerprint.*|fingerprint.*.so|fpc_early_loader|fpctzappfingerprint.*|libbauthserver.so|libcom_fingerprints_service.so|libegis_fp_normal_sensor_test.so|lib_fpc_tac_shared.so|libfpfactory_jni.so|libfpfactory.so|libsynaFpSensorTestNwd.so";
@@ -165,6 +177,7 @@ echo "Deblobbing..."
 	#IR
 	if [ "$DOS_DEBLOBBER_REMOVE_IR" = true ]; then
 		blobs=$blobs"|cir_fw_update|cir.img|CIRModule.apk|consumerir.*.so|htcirlibs.jar|ibcir_driver.so|libcir_driver.so|libhtcirinterface_jni.s";
+		makes=$makes"|android.hardware.ir.*";
 	fi;
 
 	#Keystore/TrustZone (HW Crypto) [Qualcomm]
@@ -188,6 +201,9 @@ echo "Deblobbing..."
 	#Devices utilizing perfd won't hotplug cores without it
 	#Attempted to replace this with showp1984's msm_mpdecision, but the newer kernels simply don't have the mach_msm dependencies that are needed
 	#blobs=$blobs"|mpdecision|libqti-perfd-client.so|perfd|perf-profile0.conf|perf-profile1.conf|perf-profile2.conf|perf-profile3.conf|perf-profile4.conf|perf-profile5.conf";
+
+	#Peripheral Manager
+	#blobs=$blobs"|libperipheral_client.so|libspcom.so|pm-proxy|pm-service|spdaemon";
 
 	#Playready (DRM) [Microsoft]
 	blobs=$blobs"|libtzplayready.so"
@@ -290,19 +306,30 @@ deblobDevice() {
 		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; #Disable CNE
 		sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig.mk; #Disable WiPower
 		sed -i 's/TARGET_HAS_HDR_DISPLAY := true/TARGET_HAS_HDR_DISPLAY := false/' BoardConfig.mk; #Disable HDR
+		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
+			#sed -i 's/USE_OPENGL_RENDERER := true/USE_OPENGL_RENDERER := false/' BoardConfig.mk;
+			#if ! grep -q "USE_OPENGL_RENDERER := false" BoardConfig.mk; then echo "USE_OPENGL_RENDERER := false" >> BoardConfig.mk; fi;
+			awk -i inplace '!/RS_DRIVER/' BoardConfig.mk;
+
+			if ! grep -q "USE_OPENGL_RENDERER := true" BoardConfig.mk; then echo "USE_OPENGL_RENDERER := true" >> BoardConfig.mk; fi;
+		fi;
 	fi;
 	if [ -f device.mk ]; then
 		awk -i inplace '!/'"$makes"'/' device.mk; #Remove references from device makefile
 		if [ -z "$replaceTime" ]; then
-			#Switch to Sony TimeKeep
-			echo "PRODUCT_PACKAGES += timekeep TimeKeep" >> device.mk;
+			echo "PRODUCT_PACKAGES += timekeep TimeKeep" >> device.mk; #Switch to Sony TimeKeep
+		fi;
+		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
+			echo "PRODUCT_PACKAGES += libEGL_swiftshader libGLESv1_CM_swiftshader libGLESv2_swiftshader" >> device.mk; #Build SwiftShader
 		fi;
 	fi;
 	if [ -f "${PWD##*/}".mk ] && [ "${PWD##*/}".mk != "sepolicy" ]; then
 		awk -i inplace '!/'"$makes"'/' "${PWD##*/}".mk; #Remove references from device makefile
 		if [ -z "$replaceTime" ]; then
-			#Switch to Sony TimeKeep
-			echo "PRODUCT_PACKAGES += timekeep TimeKeep" >> "${PWD##*/}".mk;
+			echo "PRODUCT_PACKAGES += timekeep TimeKeep" >> "${PWD##*/}".mk; #Switch to Sony TimeKeep
+		fi;
+		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
+			echo "PRODUCT_PACKAGES += libEGL_swiftshader libGLESv1_CM_swiftshader libGLESv2_swiftshader" >> "${PWD##*/}".mk; #Build SwiftShader
 		fi;
 	fi;
 	if [ -f system.prop ]; then
