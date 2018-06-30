@@ -23,6 +23,8 @@
 #Device Status (Tested under LineageOS 14.1 and 15.1)
 #
 #Functioning as Expected: bacon, clark, d852, mako, marlin, thor
+#Partially working:
+#Not booting:
 
 echo "Deblobbing..."
 
@@ -54,7 +56,7 @@ echo "Deblobbing..."
 	sepolicy=$sepolicy" atfwd.te";
 
 	#AudioFX (Audio Effects) [Qualcomm]
-	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then blobs=$blobs"|libasphere.so|libqcbassboost.so|libqcreverb.so|libqcvirt.so|libshoebox.so"; fi;
+	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then blobs=$blobs"|libasphere.so|libqcbassboost.so|libqcreverb.so|libqcvirt.so|libshoebox.so|libfmas.so|fmas_eq.dat"; fi;
 
 	#Camera
 	#Attempted, don't waste your time...
@@ -111,7 +113,7 @@ echo "Deblobbing..."
 	#blobs=$blobs"|flp.conf|flp.default.so|flp.msm8084.so|flp.msm8960.so|gpsd|gps.msm8084.so|gps.msm8960.so|libflp.so|libgps.utils.so|libloc_api_v02.so|libloc_core.so|libloc_ds_api.so|libloc_eng.so|libloc_ext.so";
 
 	#HDCP (DRM)
-	blobs=$blobs"|libmm-hdcpmgr.so";
+	blobs=$blobs"|libmm-hdcpmgr.so|libstagefright_hdcp.so";
 	blobs=$blobs"|hdcp1.*|tzhdcp.*";
 
 	#HDR
@@ -222,7 +224,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdcommonutils.so|libwfdhdcpcp.so|libwfdmmsink.so|libwfdmmsrc.so|libwfdmmutils.so|libwfdnative.so|libwfdrtsp.so|libwfdservice.so|libwfdsm.so|libwfduibcinterface.so|libwfduibcsinkinterface.so|libwfduibcsink.so|libwfduibcsrcinterface.so|libwfduibcsrc.so|WfdCommon.jar|wfdconfigsink.xml|wfdconfig.xml|wfdservice|WfdService.apk";
 
 	#Widevine (DRM) [Google]
-	blobs=$blobs"|com.google.widevine.software.drm.jar|com.google.widevine.software.drm.xml|libdrmclearkeyplugin.so|libdrmwvmplugin.so|libmarlincdmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvhidl.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so";
+	blobs=$blobs"|com.google.widevine.software.drm.jar|com.google.widevine.software.drm.xml|libdrmclearkeyplugin.so|libdrmwvmplugin.so|libmarlincdmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvhidl.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|libdrmmtkutil.so";
 	blobs=$blobs"|tzwidevine.*|tzwvcpybuf.*|widevine.*";
 	makes=$makes"|libshim_wvm";
 

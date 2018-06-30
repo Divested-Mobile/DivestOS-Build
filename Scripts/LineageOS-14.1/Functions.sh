@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_amazon_hdx-common kernel_asus_grouper kernel_asus_msm8916 kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_huawei_angler kernel_htc_msm8974 kernel_htc_msm8994 kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8974 kernel_nextbit_msm8992 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal8890";
+	startPatcher "kernel_amazon_hdx-common kernel_asus_grouper kernel_asus_msm8916 kernel_fairphone_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_huawei_angler kernel_htc_msm8974 kernel_htc_msm8994 kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8974 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8974 kernel_nextbit_msm8992 kernel_samsung_jf kernel_samsung_manta kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal8890";
 }
 export -f patchAllKernels;
 
@@ -48,19 +48,19 @@ export -f buildDeviceDebug;
 
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
-
-#Select devices are userdebug due to SELinux policy issues
-#TODO: Add victara, athene, us997, us996, pme, t0lte, hlte
+	#Select devices are userdebug due to SELinux policy issues
+	#TODO: Add athene, pme, t0lte, hlte, sumire, dogo, espresso
 	brunch lineage_thor-userdebug; #deprecated
 	brunch lineage_clark-user;
 	brunch lineage_FP2-user;
-	#brunch lineage_grouper-user; #builds, but requires out-of-tree blobs
+	brunch lineage_grouper-user; #deprecated
 	brunch lineage_h815-user; #deprecated
 	brunch lineage_herolte-user; #deprecated
 	brunch lineage_himaul-user; #deprecated
 	brunch lineage_i9100-userdebug;
 	brunch lineage_i9305-user; #deprecated?
 	brunch lineage_jfltexx-user;
+	brunch lineage_manta-user; #deprecated
 	brunch lineage_n5110-user;
 	brunch lineage_osprey-user;
 	brunch lineage_Z00T-user;
@@ -72,11 +72,12 @@ buildAll() {
 	brunch lineage_d802-user;
 	#brunch lineage_d852-user;
 	brunch lineage_d855-user;
+	#brunch lineage_dragon-user;
 	#brunch lineage_ether-user;
 	#brunch lineage_flo-user;
 	#brunch lineage_flounder-user;
 	#brunch lineage_griffin-user;
-	#brunch lineage_h850-userdebug;
+	#brunch lineage_h850-user;
 	#brunch lineage_hammerhead-user;
 	#brunch lineage_klte-user;
 	#brunch lineage_m8-user;
@@ -84,6 +85,9 @@ buildAll() {
 	#brunch lineage_marlin-user;
 	#brunch lineage_sailfish-user;
 	#brunch lineage_shamu-user;
+	#brunch lineage_us996-user;
+	#brunch lineage_us997-user;
+	brunch lineage_victara-user;
 }
 export -f buildAll;
 

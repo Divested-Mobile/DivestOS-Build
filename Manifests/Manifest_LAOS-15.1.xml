@@ -105,6 +105,10 @@
 	<project path="device/google/sailfish" name="LineageOS/android_device_google_sailfish" remote="github" />
 	<project path="kernel/google/marlin" name="LineageOS/android_kernel_google_marlin" remote="github" />
 
+	<!-- Google Pixel C (dragon) -->
+	<project path="device/google/dragon" name="LineageOS/android_device_google_dragon" remote="github" />
+	<project path="kernel/google/dragon" name="LineageOS/android_kernel_google_dragon" remote="github" />
+
 	<!-- HTC One (m8) -->
 	<project path="device/htc/m8" name="LineageOS/android_device_htc_m8" remote="github" />
 	<project path="device/htc/m8-common" name="LineageOS/android_device_htc_m8-common" remote="github" />
@@ -133,6 +137,20 @@
 	<project path="device/lge/h850" name="LineageOS/android_device_lge_h850" remote="github" />
 	<project path="device/lge/msm8996-common" name="LineageOS/android_device_lge_msm8996-common" remote="github" />
 	<project path="kernel/lge/msm8996" name="LineageOS/android_kernel_lge_msm8996" remote="github" />
+
+	<!-- LG V20 (us996) -->
+	<project path="device/lge/v20-common" name="LineageOS/android_device_lge_v20-common" remote="github" />
+	<project path="device/lge/us996" name="LineageOS/android_device_lge_us996" remote="github" />
+	<!-- uses lge msm8996 commons -->
+
+	<!-- LG G6 (us997) -->
+	<project path="device/lge/g6-common" name="LineageOS/android_device_lge_g6-common" remote="github" />
+	<project path="device/lge/us997" name="LineageOS/android_device_lge_us997" remote="github" />
+	<!-- uses lge msm8996 commons -->
+
+	<!-- Moto X 2014 (victara) -->
+	<project path="device/motorola/victara" name="LineageOS/android_device_motorola_victara" remote="github" />
+	<project path="kernel/motorola/msm8974" name="LineageOS/android_kernel_motorola_msm8974" remote="github" />
 
 	<!-- Moto Z (griffin) -->
 	<project path="device/motorola/griffin" name="LineageOS/android_device_motorola_griffin" remote="github" />

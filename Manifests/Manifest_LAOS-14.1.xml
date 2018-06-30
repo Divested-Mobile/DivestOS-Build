@@ -123,6 +123,10 @@
 	<project path="device/google/sailfish" name="LineageOS/android_device_google_sailfish" remote="github" />
 	<project path="kernel/google/marlin" name="LineageOS/android_kernel_google_marlin" remote="github" />
 
+	<!-- Google Pixel C (dragon) -->
+	<project path="device/google/dragon" name="LineageOS/android_device_google_dragon" remote="github" />
+	<project path="kernel/google/dragon" name="LineageOS/android_kernel_google_dragon" remote="github" />
+
 	<!-- HTC One (m8) -->
 	<project path="device/htc/m8" name="LineageOS/android_device_htc_m8" remote="github" />
 	<project path="device/htc/m8-common" name="LineageOS/android_device_htc_m8-common" remote="github" />
@@ -157,10 +161,24 @@
 	<project path="device/lge/msm8996-common" name="LineageOS/android_device_lge_msm8996-common" remote="github" />
 	<project path="kernel/lge/msm8996" name="LineageOS/android_kernel_lge_msm8996" remote="github" />
 
+	<!-- LG V20 (us996) -->
+	<project path="device/lge/v20-common" name="LineageOS/android_device_lge_v20-common" remote="github" />
+	<project path="device/lge/us996" name="LineageOS/android_device_lge_us996" remote="github" />
+	<!-- uses lge msm8996 commons -->
+
+	<!-- LG G6 (us997) -->
+	<project path="device/lge/g6-common" name="LineageOS/android_device_lge_g6-common" remote="github" />
+	<project path="device/lge/us997" name="LineageOS/android_device_lge_us997" remote="github" />
+	<!-- uses lge msm8996 commons -->
+
 	<!-- Moto G 3rd Gen (osprey) -->
 	<project path="device/motorola/msm8916-common" name="LineageOS/android_device_motorola_msm8916-common" remote="github" />
 	<project path="device/motorola/osprey" name="LineageOS/android_device_motorola_osprey" remote="github" />
 	<project path="kernel/motorola/msm8916" name="LineageOS/android_kernel_motorola_msm8916" remote="github" />
+
+	<!-- Moto X 2014 (victara) -->
+	<project path="device/motorola/victara" name="LineageOS/android_device_motorola_victara" remote="github" />
+	<project path="kernel/motorola/msm8974" name="LineageOS/android_kernel_motorola_msm8974" remote="github" />
 
 	<!-- Moto X Pure Edition (clark) -->
 	<project path="device/motorola/clark" name="LineageOS/android_device_motorola_clark" remote="github" />
@@ -177,6 +195,11 @@
 	<!-- Nexus 7 [2012] (grouper) -->
 	<project path="device/asus/grouper" name="LineageOS/android_device_asus_grouper" remote="github" revision="staging/cm-14.1" />
 	<project path="kernel/asus/grouper" name="LineageOS/android_kernel_asus_grouper" remote="github" revision="staging/cm-14.1" />
+
+        <!-- Nexus 10 (manta) -->
+        <project path="device/samsung/manta" name="LineageOS/android_device_samsung_manta" remote="github" />
+        <project path="kernel/samsung/manta" name="LineageOS/android_kernel_samsung_manta" remote="github" />
+	<project path="hardware/samsung_slsi/exynos5" name="LineageOS/android_hardware_samsung_slsi_exynos5" remote="github" />
 
 	<!-- Nexus 7 [2013] (flo) -->
 	<project path="device/asus/flo" name="LineageOS/android_device_asus_flo" remote="github" />
