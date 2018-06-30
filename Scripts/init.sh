@@ -23,8 +23,11 @@ export DOS_SIGNING_KEYS=$DOS_WORKSPACE_ROOT"Signing_Keys";
 #export DOS_PATCHER_BINARY="";
 export ANDROID_HOME="/home/$USER/Android/Sdk";
 
+export DOS_DEBLOBBER_REMOVE_ACCESSORIES=true; #Set false to allow use of external accessories
 export DOS_DEBLOBBER_REMOVE_AUDIOFX=true; #Set true to remove AudioFX
+export DOS_DEBLOBBER_REMOVE_FP=false; #Set true to remove all fingerprint reader blobs
 export DOS_DEBLOBBER_REMOVE_IMS=false; #Set true to remove all IMS blobs
+export DOS_DEBLOBBER_REMOVE_IR=false; #Set true to remove all IR blobs
 export DOS_DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Services with the open source Sony TimeKeep reimplementation
 export DOS_DEFAULT_DNS_PRESET="OpenNIC"; #Sets default DNS. Options: Cloudflare, OpenNIC, DNSWATCH, Google, OpenDNS, Quad9, Quad9U, Verisign
 export DOS_GLONASS_FORCED_ENABLE=true; #Enables GLONASS on all devices

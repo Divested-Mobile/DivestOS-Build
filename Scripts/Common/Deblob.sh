@@ -56,7 +56,9 @@ echo "Deblobbing..."
 	sepolicy=$sepolicy" atfwd.te";
 
 	#AudioFX (Audio Effects) [Qualcomm]
-	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then blobs=$blobs"|libasphere.so|libqcbassboost.so|libqcreverb.so|libqcvirt.so|libshoebox.so|libfmas.so|fmas_eq.dat"; fi;
+	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
+		blobs=$blobs"|fmas_eq.dat|libasphere.so|libbundlewrapper.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libqcbassboost.so|libqcomvisualizer.so|libqcomvoiceprocessing.so|libqcreverb.so|libqcvirt.so|libreverbwrapper.so|libshoebox.so|libspeakerbundle.so|libvisualizer.so|libvolumelistener.so";
+	fi;
 
 	#Camera
 	#Attempted, don't waste your time...
@@ -106,18 +108,31 @@ echo "Deblobbing..."
 	#sepolicy=$sepolicy" drmserver.te mediadrmserver.te";
 	sepolicy=$sepolicy" hal_drm_default.te hal_drm.te hal_drm_widevine.te";
 
+	#External Accessories
+	if [ "$DOS_DEBLOBBER_REMOVE_ACCESSORIES" = true ]; then
+		blobs=$blobs"|DragonKeyboardFirmwareUpdater.apk"; #dragon
+		blobs=$blobs"|ProjectorApp.apk|projectormod.xml|motorola.hardware.mods_camera.*|libcamera_mods_legacy_hal.so|mods_camd|MotCameraMod.apk|ModFmwkProxyService.apk|ModService.apk|libmodmanager.*.so|com.motorola.mod.*.so|libmodhw.so|com.motorola.modservice.xml"; #griffin
+		blobs=$blobs"|Score|Klik|vendor.essential.hardware.sidecar.*|vendor-essential-hardware-sidecar.xml"; #mata
+	fi;
+
 	#Face Unlock [Google]
 	blobs=$blobs"|libfacenet.so|libfilterpack_facedetect.so|libfrsdk.so";
 
 	#GPS [Qualcomm]
 	#blobs=$blobs"|flp.conf|flp.default.so|flp.msm8084.so|flp.msm8960.so|gpsd|gps.msm8084.so|gps.msm8960.so|libflp.so|libgps.utils.so|libloc_api_v02.so|libloc_core.so|libloc_ds_api.so|libloc_eng.so|libloc_ext.so";
 
+	#Fingerprint Reader
+	if [ "$DOS_DEBLOBBER_REMOVE_FP" = true ]; then
+		blobs=$blobs"|android.hardware.biometrics.fingerprint.*|fingerprint.*.so|fpc_early_loader|fpctzappfingerprint.*|libbauthserver.so|libcom_fingerprints_service.so|libegis_fp_normal_sensor_test.so|lib_fpc_tac_shared.so|libfpfactory_jni.so|libfpfactory.so|libsynaFpSensorTestNwd.so";
+	fi;
+
 	#HDCP (DRM)
-	blobs=$blobs"|libmm-hdcpmgr.so|libstagefright_hdcp.so";
+	blobs=$blobs"|libmm-hdcpmgr.so|libstagefright_hdcp.so|libhdcp2.so|srm.bin|insthk";
 	blobs=$blobs"|hdcp1.*|tzhdcp.*";
 
 	#HDR
 	blobs=$blobs"|libhdr.*.so";
+	blobs=$blobs"|DolbyVisionService.apk|dolby_vision.cfg|libdovi.so";
 
 	#[HTC]
 	blobs=$blobs"|gptauuid.xml";
@@ -128,12 +143,14 @@ echo "Deblobbing..."
 	blobs=$blobs"|iop|libqti-iop-client.so|libqti-iop.so|QPerformance.jar";
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
-	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then blobs=$blobs"|ims.apk|ims.xml|libimsmedia_jni.so"; fi; #IMS (Core) (To support carriers that have phased out 2G)
 	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so"; #IMS
 	blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|vendor.qti.imsrtpservice.*.so"; #RTP
 	blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so|qti_permissions.xml"; #Misc.
-	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then blobs=$blobs"|volte_modem[/]"; fi;
-	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then sepolicy=$sepolicy" ims.te imscm.te imswmsproxy.te"; fi;
+	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then #IMS (Core) (To support carriers that have phased out 2G)
+		blobs=$blobs"|ims.apk|ims.xml|libimsmedia_jni.so";
+		blobs=$blobs"|volte_modem[/]";
+		sepolicy=$sepolicy" ims.te imscm.te imswmsproxy.te";
+	fi;
 
 	#IPA (Internet Packet Accelerator) [Qualcomm]
 	#This is actually open source (excluding -diag)
@@ -144,6 +161,11 @@ echo "Deblobbing..."
 
 	#IS? (DRM) [?]
 	blobs=$blobs"|isdbtmm.*";
+
+	#IR
+	if [ "$DOS_DEBLOBBER_REMOVE_IR" = true ]; then
+		blobs=$blobs"|cir_fw_update|cir.img|CIRModule.apk|consumerir.*.so|htcirlibs.jar|ibcir_driver.so|libcir_driver.so|libhtcirinterface_jni.s";
+	fi;
 
 	#Keystore/TrustZone (HW Crypto) [Qualcomm]
 	#blobs=$blobs"|qseecomd|keystore.qcom.so|libdrmdecrypt.so|libdrmfs.so|libdrmtime.so|libQSEEComAPI.so|librpmb.so|libssd.so";
@@ -211,7 +233,7 @@ echo "Deblobbing..."
 	#blobs=$blobs"|venus.b00|venus.b01|venus.b02|venus.b03|venus.b04|venus.mbn|venus.mdt";
 
 	#[Verizon]
-	blobs=$blobs"|appdirectedsmspermission.apk|com.qualcomm.location.vzw_library.jar|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.jar|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.jar|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|VerizonSSOEngine.apk|VerizonUnifiedSettings.jar|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml";
+	blobs=$blobs"|appdirectedsmspermission.apk|com.qualcomm.location.vzw_library.jar|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.jar|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.jar|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|VerizonSSOEngine.apk|VerizonUnifiedSettings.jar|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml|VerizonAuthDialog.apk";
 
 	#Voice Recognition
 	blobs=$blobs"|aonvr1.bin|aonvr2.bin|audiomonitor|es305_fw.bin|HotwordEnrollment.apk|HotwordEnrollment.*.apk|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|libqvop-service.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|qvop-daemon|sound_trigger.primary.*.so|libgcs.*.so|vendor.qti.voiceprint.*";
