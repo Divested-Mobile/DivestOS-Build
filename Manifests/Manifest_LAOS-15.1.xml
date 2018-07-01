@@ -206,8 +206,8 @@
 
 	<!-- Samsung Galaxy S9 (starlte) -->
 	<project path="device/samsung/starlte" name="LineageOS/android_device_samsung_starlte" remote="github" />
-	<project path="device/samsung/star-common" name="LineageOS/android_device_samsung/star-common" remote="github" />
-	<project path="kernel/samsung/universal9810" name="LineageOS/android_kernel_samsung_universal9910" remote="github" />
+	<project path="device/samsung/star-common" name="LineageOS/android_device_samsung_star-common" remote="github" />
+	<project path="kernel/samsung/universal9810" name="LineageOS/android_kernel_samsung_universal9810" remote="github" />
 
 	<!-- NXP
 	<project path="vendor/nxp-nfc/opensource/frameworks" name="LineageOS/android_vendor_nxp-nfc_opensource_frameworks" remote="github" />

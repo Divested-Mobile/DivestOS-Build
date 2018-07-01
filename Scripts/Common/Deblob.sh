@@ -41,8 +41,8 @@ echo "Deblobbing..."
 	#ACDB (Audio Configurations) [Qualcomm] XXX: Breaks audio output
 	#blobs=$blobs"acdb";
 
-	#ADSP/Hexagon (Hardware Audio Decoding) [Qualcomm]
-	#blobs=$blobs".*adsprpc.*|libfastcvadsp_stub.so|libfastcvopt.so|libadsp_fd_skel.so";
+	#ADSP/Hexagon (Hardware Digital Signal Processor) [Qualcomm]
+	#blobs=$blobs"[/]adsp[/]|.*adspd.*|.*adsprpc.*|libfastcvadsp_stub.so|libfastcvopt.so|libadsp.*.so|libscve.*.so";
 	#sepolicy=$sepolicy" adspd.te adsprpcd.te";
 
 	#Alipay (Payment Platform) [Alibaba]
@@ -57,7 +57,7 @@ echo "Deblobbing..."
 
 	#AudioFX (Audio Effects) [Qualcomm]
 	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
-		blobs=$blobs"|fmas_eq.dat|libasphere.so|libbundlewrapper.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libqcbassboost.so|libqcomvisualizer.so|libqcomvoiceprocessing.so|libqcreverb.so|libqcvirt.so|libreverbwrapper.so|libshoebox.so|libspeakerbundle.so|libvisualizer.so|libvolumelistener.so|libLifevibes_lvverx.so|libhwdap.so";
+		blobs=$blobs"|fmas_eq.dat|libasphere.so|libbundlewrapper.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libqcbassboost.so|libqcomvisualizer.so|libqcomvoiceprocessing.so|libqcreverb.so|libqcvirt.so|libreverbwrapper.so|libshoebox.so|libspeakerbundle.so|libvisualizer.so|libvolumelistener.so|libLifevibes_lvverx.so|libhwdap.so|libsonypostprocbundle.so|libsonysweffect.so";
 		makes=$makes"audio_effects.xml|libqcomvoiceprocessing";
 	fi;
 
@@ -154,7 +154,7 @@ echo "Deblobbing..."
 
 	#I/O Prefetcher [Qualcomm]
 	blobs=$blobs"|libqc-opt.so";
-	blobs=$blobs"|iop|libqti-iop-client.so|libqti-iop.so|QPerformance.jar";
+	blobs=$blobs"|iop|libqti-iop.*.so|QPerformance.jar|vendor.qti.hardware.iop.*";
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
 	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so"; #IMS
@@ -186,6 +186,7 @@ echo "Deblobbing..."
 	#blobs=$blobs"|qseecomd|keystore.qcom.so|libdrmdecrypt.so|libdrmfs.so|libdrmtime.so|libQSEEComAPI.so|librpmb.so|libssd.so";
 	#blobs=$blobs"|keymaster.*";
 	#blobs=$blobs"|tzapps.*";
+	#blobs=$blobs"|vendor.qti.hardware.qteeconnector.*|libQTEEConnector.*.so";
 
 	#Location (gpsOne/gpsOneXTRA/IZat/Lumicast/QUIP) [Qualcomm]
 	blobs=$blobs"|cacert_location.pem|com.qti.location.sdk.jar|com.qti.location.sdk.xml|com.qualcomm.location.apk|com.qualcomm.location.xml|com.qualcomm.services.location.apk|gpsone_daemon|izat.conf|izat.xt.srv|izat.xt.srv.jar|izat.xt.srv.xml|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|libgdtap.so|libgeofence.so|libizat_core.so|liblbs_core.so|liblocationservice_glue.so|liblocationservice.so|libloc_ext.so|libloc_xtra.so|liblowi_client.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libulp2.so|libxtadapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so|location-mq|loc_launcher|lowi.conf|lowi-server|slim_ap_daemon|slim_daemon|xtra_root_cert.pem|xtra_t_app.apk|xtwifi.conf|xtwifi-client|xtwifi-inet-agent";
@@ -202,7 +203,7 @@ echo "Deblobbing..."
 	#blobs=$blobs"|msm_irqbalance";
 	#Devices utilizing perfd won't hotplug cores without it
 	#Attempted to replace this with showp1984's msm_mpdecision, but the newer kernels simply don't have the mach_msm dependencies that are needed
-	#blobs=$blobs"|mpdecision|libqti-perfd-client.so|perfd|perf-profile0.conf|perf-profile1.conf|perf-profile2.conf|perf-profile3.conf|perf-profile4.conf|perf-profile5.conf";
+	#blobs=$blobs"|mpdecision|libqti-perfd.*.so|perfd|perf-profile.*.conf|vendor.qti.hardware.perf.*";
 
 	#Peripheral Manager
 	#blobs=$blobs"|libperipheral_client.so|libspcom.so|pm-proxy|pm-service|spdaemon";
@@ -230,9 +231,6 @@ echo "Deblobbing..."
 	#SecureUI Frontends
 	blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureExtAuthJNI.so|libSecureSampleAuthClient.so|libsdedrm.so";
 
-	#SoundFX [Sony]
-	blobs=$blobs"|libsonypostprocbundle.so|libsonysweffect.so";
-
 	#[Sprint]
 	blobs=$blobs"|com.android.omadm.service.xml|ConnMO.apk|CQATest.apk|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|GCS.apk|HiddenMenu.apk|libdmengine.so|libdmjavaplugin.so|LifetimeData.apk|SprintDM.apk|SprintHM.apk|whitelist_com.android.omadm.service.xml";
 
@@ -256,9 +254,6 @@ echo "Deblobbing..."
 	#Voice Recognition
 	blobs=$blobs"|aonvr1.bin|aonvr2.bin|audiomonitor|es305_fw.bin|HotwordEnrollment.apk|HotwordEnrollment.*.apk|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|libqvop-service.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|qvop-daemon|sound_trigger.primary.*.so|libgcs.*.so|vendor.qti.voiceprint.*";
 	makes=$makes"|android.hardware.soundtrigger.*";
-
-	#Vulkan [Qualcomm]
-	#blobs=$blobs"|libllvm-qgl.so|vulkan.msm.*.so";
 
 	#Wfd (Wireless Display? Wi-Fi Direct?) [Qualcomm]
 	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdcommonutils.so|libwfdhdcpcp.so|libwfdmmsink.so|libwfdmmsrc.so|libwfdmmutils.so|libwfdnative.so|libwfdrtsp.so|libwfdservice.so|libwfdsm.so|libwfduibcinterface.so|libwfduibcsinkinterface.so|libwfduibcsink.so|libwfduibcsrcinterface.so|libwfduibcsrc.so|WfdCommon.jar|wfdconfigsink.xml|wfdconfig.xml|wfdservice|WfdService.apk";
