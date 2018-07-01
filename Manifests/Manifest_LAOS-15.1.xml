@@ -66,15 +66,14 @@
 <!-- END OF UNNECESSARY REPO REMOVAL -->
 
 <!-- START OF BRANCH SWITCHING -->
-	<!-- master contains some necessary fixes -->
 	<remove-project name="platform/external/svox" />
 	<project path="external/svox" name="platform/external/svox" groups="pdk" remote="aosp" revision="master" />
+
+	<remove-project name="platform/external/swiftshader" />
+	<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />
 <!-- END OF BRANCH SWITCHING -->
 
 <!-- START OF ADDITIONAL REPOS -->
-	<remove-project name="platform/external/swiftshader" />
-	<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />
-
 	<!-- MicroG -->
 	<project path="packages/apps/GmsCore" name="microg/android_packages_apps_GmsCore" remote="github" revision="master" />
 	<project path="packages/apps/GsfProxy" name="microg/android_packages_apps_GsfProxy" remote="github" revision="master" />
@@ -85,7 +84,6 @@
 	<project path="packages/apps/FDroidPrivilegedExtension" name="privileged-extension.git" remote="fdroid" revision="master" />
 	<project path="packages/apps/FDroid" name="fdroidclient.git" remote="fdroid" revision="master" />
 <!-- END OF ADDITIONAL REPOS -->
-
 
 <!-- START OF DEVICE REPOS -->
 	<!-- Common -->
@@ -205,6 +203,11 @@
 	<project path="device/samsung/klte-common" name="LineageOS/android_device_samsung_klte-common" remote="github" />
 	<project path="device/samsung/msm8974-common" name="LineageOS/android_device_samsung_msm8974-common" remote="github" />
 	<project path="kernel/samsung/msm8974" name="LineageOS/android_kernel_samsung_msm8974" remote="github" />
+
+	<!-- Samsung Galaxy S9 (starlte) -->
+	<project path="device/samsung/starlte" name="LineageOS/android_device_samsung_starlte" remote="github" />
+	<project path="device/samsung/star-common" name="LineageOS/android_device_samsung/star-common" remote="github" />
+	<project path="kernel/samsung/universal9810" name="LineageOS/android_kernel_samsung_universal9910" remote="github" />
 
 	<!-- NXP
 	<project path="vendor/nxp-nfc/opensource/frameworks" name="LineageOS/android_vendor_nxp-nfc_opensource_frameworks" remote="github" />

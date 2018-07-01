@@ -58,6 +58,7 @@ echo "Deblobbing..."
 	#AudioFX (Audio Effects) [Qualcomm]
 	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
 		blobs=$blobs"|fmas_eq.dat|libasphere.so|libbundlewrapper.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libqcbassboost.so|libqcomvisualizer.so|libqcomvoiceprocessing.so|libqcreverb.so|libqcvirt.so|libreverbwrapper.so|libshoebox.so|libspeakerbundle.so|libvisualizer.so|libvolumelistener.so|libLifevibes_lvverx.so|libhwdap.so";
+		makes=$makes"audio_effects.xml|libqcomvoiceprocessing";
 	fi;
 
 	#Camera
@@ -74,7 +75,7 @@ echo "Deblobbing..."
 	#CNE (Automatic Cell/Wi-Fi Switching) [Qualcomm]
 	#blobs=$blobs"|libcneapiclient.so|libNimsWrap.so"; #XXX: Breaks radio
 	blobs=$blobs"|andsfCne.xml|ATT_profile.*.xml|cnd|cneapiclient.jar|cneapiclient.xml|CNEService.apk|com.quicinc.cne.*.jar|com.quicinc.cne.*.so|com.quicinc.cne.xml|ConnectivityExt.jar|ConnectivityExt.xml|libcneconn.so|libcneqmiutils.so|libcne.so|libvendorconn.so|libwms.so|libwqe.so|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile.*.xml|SwimConfig.xml|VZW_profile.*.xml";
-	makes=$makes"libcnefeatureconfig";
+	makes=$makes"|libcnefeatureconfig";
 	sepolicy=$sepolicy" cnd.te qcneservice.te";
 
 	#Diagnostics [Qualcomm]
@@ -87,6 +88,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|discretix|DxHDCP.cfg|libDxHdcp.so";
 	blobs=$blobs"|dxhdcp.*";
 	blobs=$blobs"|dxcpr.*";
+	makes=$makes"|DxHDCP.cfg";
 
 	#Display Color Tuning [Qualcomm]
 	blobs=$blobs"|colorservice.apk|com.qti.snapdragon.sdk.display.jar|com.qti.snapdragon.sdk.display.xml|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|mm-pp-daemon|mm-pp-dpps|PPPreference.apk";
@@ -112,7 +114,7 @@ echo "Deblobbing..."
 	if [ "$DOS_DEBLOBBER_REMOVE_ACCESSORIES" = true ]; then
 		blobs=$blobs"|DragonKeyboardFirmwareUpdater.apk"; #dragon
 		blobs=$blobs"|ProjectorApp.apk|projectormod.xml|motorola.hardware.mods_camera.*|libcamera_mods_legacy_hal.so|mods_camd|MotCameraMod.apk|ModFmwkProxyService.apk|ModService.apk|libmodmanager.*.so|com.motorola.mod.*.so|libmodhw.so|com.motorola.modservice.xml"; #griffin
-		blobs=$blobs"|Score|Klik|vendor.essential.hardware.sidecar.*|vendor-essential-hardware-sidecar.xml"; #mata
+		blobs=$blobs"|[/]Score[/]|[/]Klik[/]|vendor.essential.hardware.sidecar.*|vendor-essential-hardware-sidecar.xml"; #mata
 	fi;
 
 	#Face Unlock [Google]
@@ -320,7 +322,7 @@ deblobDevice() {
 			echo "PRODUCT_PACKAGES += timekeep TimeKeep" >> device.mk; #Switch to Sony TimeKeep
 		fi;
 		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
-			echo "PRODUCT_PACKAGES += libEGL_swiftshader libGLESv1_CM_swiftshader libGLESv2_swiftshader" >> device.mk; #Build SwiftShader
+			echo "PRODUCT_PACKAGES += libyuv libEGL_swiftshader libGLESv1_CM_swiftshader libGLESv2_swiftshader" >> device.mk; #Build SwiftShader
 		fi;
 	fi;
 	if [ -f "${PWD##*/}".mk ] && [ "${PWD##*/}".mk != "sepolicy" ]; then
@@ -329,7 +331,7 @@ deblobDevice() {
 			echo "PRODUCT_PACKAGES += timekeep TimeKeep" >> "${PWD##*/}".mk; #Switch to Sony TimeKeep
 		fi;
 		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
-			echo "PRODUCT_PACKAGES += libEGL_swiftshader libGLESv1_CM_swiftshader libGLESv2_swiftshader" >> "${PWD##*/}".mk; #Build SwiftShader
+			echo "PRODUCT_PACKAGES += libyuv libEGL_swiftshader libGLESv1_CM_swiftshader libGLESv2_swiftshader" >> "${PWD##*/}".mk; #Build SwiftShader
 		fi;
 	fi;
 	if [ -f system.prop ]; then
@@ -344,6 +346,11 @@ deblobDevice() {
 		sed -i 's/persist.rcs.supported=./persist.rcs.supported=0/' system.prop; #Disable RCS
 		sed -i 's/ro.bluetooth.emb_wp_mode=true/ro.bluetooth.emb_wp_mode=false/' system.prop; #Disable WiPower
 		sed -i 's/ro.bluetooth.wipower=true/ro.bluetooth.wipower=false/' system.prop; #Disable WiPower
+		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
+			echo "persist.sys.ui.hw=disable" >> system.prop;
+			echo "ro.graphics.gles20.disable_on_bootanim=1" >> system.prop;
+			sed -i 's/ro.opengles.version=.*/ro.opengles.version=131072/' system.prop;
+		fi;
 		#Disable IMS
 		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
 		sed -i 's/persist.data.iwlan.enable=true/persist.data.iwlan.enable=false/' system.prop;

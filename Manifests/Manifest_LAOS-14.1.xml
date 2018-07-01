@@ -94,7 +94,6 @@
 	<project path="packages/apps/FDroid" name="fdroidclient.git" remote="fdroid" revision="master" />
 <!-- END OF ADDITIONAL REPOS -->
 
-
 <!-- START OF DEVICE REPOS -->
 	<!-- Common -->
 	<project path="packages/resources/devicesettings" name="LineageOS/android_packages_resources_devicesettings" remote="github" />
