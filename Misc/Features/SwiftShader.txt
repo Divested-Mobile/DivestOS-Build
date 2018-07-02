@@ -13,10 +13,14 @@
 06-30 23:33:44.860  1445  1445 F DEBUG   :     #07 pc 0001b155  /system/lib/libc.so (__start_thread+32)
 
 
+https://groups.google.com/forum/#!topic/swiftshader/ROLHwRei7T8
+
+https://android.googlesource.com/platform/frameworks/native/+/e7f39727a484107b2d2a78eaaaacad3d7f44c24d%5E%21/#F0
+
 https://github.com/android-rpi/device_brcm_rpi3/wiki/Oreo-:-patch-framework-source
 https://github.com/android-rpi/device_brcm_rpi3/wiki
 
-frameworks/native/opengl/java/android/opengl/GLSurfaceView.java
+frameworks/base/opengl/java/android/opengl/GLSurfaceView.java
 @@ line 976 @@ public class GLSurfaceView extends SurfaceView implements SurfaceHolder.Callback
          public SimpleEGLConfigChooser(boolean withDepthBuffer) {
 -            super(8, 8, 8, 0, withDepthBuffer ? 16 : 0, 0);
@@ -24,7 +28,7 @@ frameworks/native/opengl/java/android/opengl/GLSurfaceView.java
          }
 
 
-frameworks/base/opengl/libs/EGL/eglApi.cpp
+frameworks/native/opengl/libs/EGL/eglApi.cpp
 @@ line 478 @@ EGLSurface eglCreateWindowSurface(  EGLDisplay dpy, EGLConfig config,
              // alpha-channel requested, there's really only one suitable format
 -            format = HAL_PIXEL_FORMAT_RGBA_8888;

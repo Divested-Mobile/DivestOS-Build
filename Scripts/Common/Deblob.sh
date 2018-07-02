@@ -57,8 +57,8 @@ echo "Deblobbing..."
 
 	#AudioFX (Audio Effects) [Qualcomm]
 	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
-		blobs=$blobs"|fmas_eq.dat|libasphere.so|libbundlewrapper.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libqcbassboost.so|libqcomvisualizer.so|libqcomvoiceprocessing.so|libqcreverb.so|libqcvirt.so|libreverbwrapper.so|libshoebox.so|libspeakerbundle.so|libvisualizer.so|libvolumelistener.so|libLifevibes_lvverx.so|libhwdap.so|libsonypostprocbundle.so|libsonysweffect.so";
-		makes=$makes"audio_effects.xml|libqcomvoiceprocessing";
+		blobs=$blobs"|fmas_eq.dat|libasphere.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libqcbassboost.so|libqcreverb.so|libqcvirt.so|libreverbwrapper.so|libshoebox.so|libspeakerbundle.so|libvisualizer.so|libvolumelistener.so|libLifevibes_lvverx.so|libhwdap.so|libsonypostprocbundle.so|libsonysweffect.so";
+		#blobs=$blobs"|libbundlewrapper.so|libqcompostprocbundle.so|libqcomvoiceprocessing.so|libqcomvisualizer.so";
 	fi;
 
 	#Camera
@@ -75,7 +75,7 @@ echo "Deblobbing..."
 	#CNE (Automatic Cell/Wi-Fi Switching) [Qualcomm]
 	#blobs=$blobs"|libcneapiclient.so|libNimsWrap.so"; #XXX: Breaks radio
 	blobs=$blobs"|andsfCne.xml|ATT_profile.*.xml|cnd|cneapiclient.jar|cneapiclient.xml|CNEService.apk|com.quicinc.cne.*.jar|com.quicinc.cne.*.so|com.quicinc.cne.xml|ConnectivityExt.jar|ConnectivityExt.xml|libcneconn.so|libcneqmiutils.so|libcne.so|libvendorconn.so|libwms.so|libwqe.so|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile.*.xml|SwimConfig.xml|VZW_profile.*.xml";
-	makes=$makes"|libcnefeatureconfig";
+	makes=$makes"libcnefeatureconfig";
 	sepolicy=$sepolicy" cnd.te qcneservice.te";
 
 	#Diagnostics [Qualcomm]
@@ -307,7 +307,6 @@ deblobDevice() {
 			#sed -i 's/USE_OPENGL_RENDERER := true/USE_OPENGL_RENDERER := false/' BoardConfig.mk;
 			#if ! grep -q "USE_OPENGL_RENDERER := false" BoardConfig.mk; then echo "USE_OPENGL_RENDERER := false" >> BoardConfig.mk; fi;
 			awk -i inplace '!/RS_DRIVER/' BoardConfig.mk;
-
 			if ! grep -q "USE_OPENGL_RENDERER := true" BoardConfig.mk; then echo "USE_OPENGL_RENDERER := true" >> BoardConfig.mk; fi;
 		fi;
 	fi;
