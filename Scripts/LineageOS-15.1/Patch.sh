@@ -79,6 +79,7 @@ enterAndClear "external/svox";
 git revert 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 
 enterAndClear "frameworks/base";
+git revert 759d6831f0207f8b59445b33fd57d770c16d3750;
 #git revert https://review.lineageos.org/#/c/202875/ #re-enable doze on devices without gms
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
