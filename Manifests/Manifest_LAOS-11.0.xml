@@ -61,7 +61,6 @@
 	<remove-project name="platform/tools/emulator" />
 <!-- END OF UNNECESSARY REPO REMOVAL -->
 
-
 <!-- START OF DEVICE REPOS -->
 	<project path="device/zte/nex" name="spock1104/android_device_zte_nex" remote="github" revision="cm11_newkern" />
 	<project path="device/qcom/common" name="LineageOS/android_device_qcom_common" remote="github" revision="cm-11.0" />
