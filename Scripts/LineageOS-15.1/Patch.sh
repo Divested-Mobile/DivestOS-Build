@@ -40,8 +40,7 @@
 #START OF PREPRATION
 #
 #Download some (non-executable) out-of-tree files for use later on
-mkdir /tmp/ar;
-cd /tmp/ar;
+cd "$DOS_TMP_DIR";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then wget "$DOS_HOSTS_BLOCKING_LIST" -N; fi;
 cd "$DOS_BUILD_BASE";
 
@@ -180,7 +179,7 @@ enterAndClear "packages/services/Telephony";
 if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/Copperhead/0001-LTE_Only.patch"; fi; #LTE only preferred network mode choice (Copperhead CC BY-NC-SA)
 
 enterAndClear "system/core";
-cat /tmp/ar/hosts >> rootdir/etc/hosts; #Merge in our HOSTS file
+if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4; #Always update recovery
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0)
 if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then patch -p1 < "$DOS_PATCHES/android_system_core/Copperhead/0002-Deny_USB.patch"; fi; #Deny USB support (Copperhead CC BY-NC-SA)
