@@ -1,9 +1,8 @@
-Last updated: 2018-06-25
+Last updated: 2018-07-04
 
 High Priority (Release blockers)
 	Build
 		- Automate incremental update generation
-		- Switch HOSTS to release variant
 		- New signing keys
 	Project
 		- Create cryptocurrency addresses

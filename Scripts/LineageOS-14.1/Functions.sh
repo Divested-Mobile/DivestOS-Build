@@ -69,7 +69,7 @@ buildAll() {
 	#brunch lineage_angler-user;
 	#brunch lineage_bullhead-user;
 	#brunch lineage_bacon-user;
-	brunch lineage_d802-user;
+	#brunch lineage_d802-user;
 	#brunch lineage_d852-user;
 	brunch lineage_d855-user;
 	#brunch lineage_dragon-user;

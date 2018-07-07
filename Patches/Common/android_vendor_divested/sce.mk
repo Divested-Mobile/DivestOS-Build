@@ -7,9 +7,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     DejaVuNlpBackend
 
-# Others
+# Replacements
 PRODUCT_PACKAGES += \
     CameraRoll \
+    VanillaMusic
+
+# Others
+PRODUCT_PACKAGES += \
     LocalCalendar
 
 # Browser
