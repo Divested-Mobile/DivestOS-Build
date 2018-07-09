@@ -100,8 +100,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7371/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7372/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-9707/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-1092/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-3570/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5858/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9415/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
@@ -111,5 +109,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0610/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-14883/ANY/0001.patch
-editKernelLocalversion "-dos.p111"
+editKernelLocalversion "-dos.p109"
 cd "$DOS_BUILD_BASE"

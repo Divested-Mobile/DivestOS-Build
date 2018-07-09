@@ -35,7 +35,7 @@ export DOS_MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchW
 export DOS_MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
 export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NONE, NLP, FULL
 export DOS_HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
-export DOS_HOSTS_BLOCKING_LIST="https://divestos.xyz/hosts-exp"; #Must be in the format "127.0.0.1 bad.domain.tld"
+export DOS_HOSTS_BLOCKING_LIST="https://divestos.xyz/hosts"; #Must be in the format "127.0.0.1 bad.domain.tld"
 export DOS_OVERCLOCKS_ENABLED=true; #Switch to false to disable overclocks
 export DOS_STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit encryption XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
 export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches
@@ -78,7 +78,7 @@ fi;
 
 export DOS_TMP_DIR="/tmp/dos_tmp";
 mkdir "$DOS_TMP_DIR";
-export DOS_HOSTS_FILE="$DOS_TMP_DIR/hosts-exp";
+export DOS_HOSTS_FILE="$DOS_TMP_DIR/hosts";
 
 export DOS_PREBUILT_APPS=$DOS_WORKSPACE_ROOT"PrebuiltApps/";
 export DOS_PATCHES_COMMON=$DOS_WORKSPACE_ROOT"Patches/Common/";
