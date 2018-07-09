@@ -342,7 +342,8 @@ deblobDevice() {
 		sed -i 's/ro.bluetooth.wipower=true/ro.bluetooth.wipower=false/' system.prop; #Disable WiPower
 		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
 			echo "persist.sys.ui.hw=disable" >> system.prop;
-			echo "ro.graphics.gles20.disable_on_bootanim=1" >> system.prop;
+			#echo "ro.graphics.gles20.disable_on_bootanim=1" >> system.prop;
+			echo "debug.sf.nobootanimation=1" >> system.prop;
 			sed -i 's/ro.opengles.version=.*/ro.opengles.version=131072/' system.prop;
 		fi;
 		#Disable IMS

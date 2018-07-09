@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+<!-- START OF UNNECESSARY REPO REMOVAL -->
+	<remove-project name="platform/developers/demos" />
+	<remove-project name="platform/developers/samples/android" />
+	<remove-project name="device/google/accessory/arduino" />
+	<remove-project name="device/google/accessory/demokit" />
+	<remove-project name="device/sample" />
+	<remove-project name="platform/external/openssh" />
+	<remove-project name="platform/hardware/intel/audio_media" />
+	<remove-project name="platform/hardware/intel/bootstub" />
+	<remove-project name="platform/hardware/intel/common/bd_prov" />
+	<remove-project name="platform/hardware/intel/common/libmix" />
+	<remove-project name="platform/hardware/intel/common/libstagefrighthw" />
+	<remove-project name="platform/hardware/intel/common/libva" />
+	<remove-project name="platform/hardware/intel/common/libwsbm" />
+	<remove-project name="platform/hardware/intel/common/omx-components" />
+	<remove-project name="platform/hardware/intel/common/utils" />
+	<remove-project name="platform/hardware/intel/common/wrs_omxil_core" />
+	<remove-project name="platform/hardware/intel/img/hwcomposer" />
+	<remove-project name="platform/hardware/intel/img/psb_headers" />
+	<remove-project name="platform/hardware/intel/img/psb_video" />
+	<remove-project name="platform/hardware/intel/sensors" />
+	<remove-project name="platform/packages/apps/Browser2" />
+	<remove-project name="platform/packages/apps/Gallery" />
+	<remove-project name="platform/packages/apps/Gallery2" />
+	<remove-project name="platform/packages/apps/Music" />
+	<remove-project name="platform/packages/apps/Protips" />
+	<remove-project name="platform/packages/apps/SoundRecorder" />
+	<remove-project name="platform/packages/apps/Stk" />
+	<remove-project name="platform/packages/apps/Terminal" />
+	<remove-project name="platform/packages/screensavers/Basic" />
+	<remove-project name="platform/packages/screensavers/PhotoTable" />
+	<remove-project name="platform/packages/screensavers/WebView" />
+	<remove-project name="platform/packages/apps/Car/Dialer" />
+	<remove-project name="platform/packages/apps/Car/Hvac" />
+	<remove-project name="platform/packages/apps/Car/LatinIME" />
+	<remove-project name="platform/packages/apps/Car/LensPicker" />
+	<remove-project name="platform/packages/apps/Car/LocalMediaPlayer" />
+	<remove-project name="platform/packages/apps/Car/Media" />
+	<remove-project name="platform/packages/apps/Car/Messenger" />
+	<remove-project name="platform/packages/apps/Car/Overview" />
+	<remove-project name="platform/packages/apps/Car/Radio" />
+	<remove-project name="platform/packages/apps/Car/Settings" />
+	<remove-project name="platform/packages/apps/Car/Stream" />
+	<remove-project name="platform/packages/apps/Car/SystemUpdater" />
+	<remove-project name="platform/packages/apps/Car/UserManagement" />
+	<remove-project name="platform/packages/apps/Car/libs" />
+	<remove-project name="platform/packages/services/Car" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/aarch64/aarch64-linux-android-4.9" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-eabi-4.8" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-linux-androideabi-4.9" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/host/i686-apple-darwin-4.2.1" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/mips/mips64el-linux-android-4.9" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/x86/x86_64-linux-android-4.9" />
+	<remove-project name="platform/prebuilts/gdb/darwin-x86" />
+	<remove-project name="platform/prebuilts/go/darwin-x86" />
+<!-- END OF UNNECESSARY REPO REMOVAL -->
+
+</manifest>

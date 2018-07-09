@@ -29,7 +29,7 @@ patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_amazon_hdx-common/0004-Overc
 enter "kernel/asus/grouper";
 patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_asus_grouper/0001-Overclock.patch";
 echo "CONFIG_TEGRA_CPU_OVERCLOCK=y" >> arch/arm/configs/grouper_defconfig; #1.30GHz -> 1.50GHz	=+0.80GHz
-echo "CONFIG_TEGRA_CPU_OVERCLOCK_ULTIMATE" >> arch/arm/configs/grouper_defconfig; #1.30GHz -> 1.60GHz	=+1.20GHz
+#echo "CONFIG_TEGRA_CPU_OVERCLOCK_ULTIMATE=y" >> arch/arm/configs/grouper_defconfig; #1.30GHz -> 1.60GHz	=+1.20GHz
 echo "CONFIG_TEGRA_GPU_OVERCLOCK=y" >> arch/arm/configs/grouper_defconfig; #416MHz 520MHz
 echo "CONFIG_TEGRA_GAMING_FIX=y" >> arch/arm/configs/grouper_defconfig;
 

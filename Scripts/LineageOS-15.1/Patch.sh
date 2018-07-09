@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 #Initialize aliases
-#source ../../Scripts/LineageOS-15.1/00init.sh
+#source ../../Scripts/init.sh
 
 #Delete Everything and Sync
 #resetWorkspace
