@@ -15,7 +15,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#Last verified: 2018-04-27
+#Last verified:
 
 #Initialize aliases
 #source ../../Scripts/init.sh
@@ -65,7 +65,7 @@ enterAndClear "bootable/recovery";
 
 enterAndClear "build";
 #patch -p1 < "$DOS_PATCHES/android_build/0001-Automated_Build_Signing.patch"; #Automated build signing (CopperheadOS-13.0) #TODO
-sed -i 's/Mms/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
+#sed -i 's/Mms/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 sed -i 's/ro.secure=0/ro.secure=1/' core/main.mk;
 #sed -i 's/ro.adb.secure=0/ro.adb.secure=1/' core/main.mk;
 
@@ -73,8 +73,8 @@ enterAndClear "external/sqlite";
 #patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0) #TODO
 
 enterAndClear "frameworks/base";
-sed -i 's/com.android.mms/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
-sed -i 's|db_default_journal_mode" translatable="false">PERSIST|db_default_journal_mode" translatable="false">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
+#sed -i 's/com.android.mms/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
+sed -i 's|db_default_journal_mode">PERSIST|db_default_journal_mode">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
 #if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0003-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG) #TODO
 #if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key #TODO
 if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then sed -i '/<item>com.android.location.fused<\/item>/a \ \ \ \ \ \ \ \ <item>org.microg.nlp</item>' core/res/res/values/config.xml; fi; #Add UnifiedNLP to location providers
@@ -116,11 +116,12 @@ fi;
 enterAndClear "packages/apps/Settings";
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
+#patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0001-CMStats.patch"; #Remove CMStats #TOOD
+
 
 enterAndClear "packages/apps/Trebuchet";
 #cp -r "$DOS_PATCHES_COMMON/android_packages_apps_Trebuchet/default_workspace/." "res/xml/"; #TODO
-sed -i 's/req.touchEnabled = touchEnabled;/req.touchEnabled = true;/' src/com/android/launcher3/WallpaperCropActivity.java; #Allow scrolling
-sed -i 's/mCropView.setTouchEnabled(req.touchEnabled);/mCropView.setTouchEnabled(true);/' src/com/android/launcher3/WallpaperCropActivity.java;
+sed -i 's/mCropView.setTouchEnabled(touchEnabled);/mCropView.setTouchEnabled(true);/' WallpaperPicker/src/com/android/launcher3/WallpaperCropActivity.java;
 
 enterAndClear "packages/inputmethods/LatinIME";
 #patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key #TODO
@@ -131,7 +132,7 @@ if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/h
 
 enterAndClear "vendor/cm";
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
-sed -i '3iinclude vendor/cm/config/sce.mk' config/common.mk; #Include extra apps
+#sed -i '3iinclude vendor/cm/config/sce.mk' config/common.mk; #Include extra apps #TODO
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
 	awk -i inplace '!/DSPManager/' config/common.mk;
 fi;
@@ -143,7 +144,7 @@ if [ "$DOS_MICROG_INCLUDED" != "NONE" ]; then cp "$DOS_PATCHES_COMMON/android_ve
 if [ "$DOS_MICROG_INCLUDED" != "NONE" ]; then echo "include vendor/cm/config/sce-UnifiedNLP-Backends.mk" >> config/sce.mk; fi;
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/CM_BUILDTYPE := dos/CM_BUILDTYPE := dosNC/' config/common.mk; fi;
-sed -i 's/Mms/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
+#sed -i 's/Mms/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
 #
 #END OF ROM CHANGES
 #
@@ -151,6 +152,18 @@ sed -i 's/Mms/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Si
 #
 #START OF DEVICE CHANGES
 #
+
+enterAndClear "device/zte/nex"
+patch -p1 < "$DOS_PATCHES/android_device_zte_nex/0001-Fixes.patch"; #Build fixes
+patch -p1 < "$DOS_PATCHES/android_device_zte_nex/0002-Lower_DPI.patch";
+mv cm.mk lineage.mk;
+sed -i 's/cm_/lineage_/' lineage.mk vendorsetup.sh;
+#In nex-vendor-blobs.mk
+#	"system/lib/libtime_genoff.so" -> "obj/lib/libtime_genoff.so"
+#	Remove "WCNSS_qcom_wlan_nv_2.bin"
+
+enter "kernel/zte/msm8930"
+patch -p1 < $patches"android_kernel_zte_msm8930/0001-MDP-Fix.patch";
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";

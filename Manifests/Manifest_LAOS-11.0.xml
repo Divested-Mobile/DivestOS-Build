@@ -23,8 +23,6 @@
 	<remove-project name="LineageOS/android_packages_apps_VideoEditor" />
 	<remove-project name="LineageOS/android_packages_apps_VoiceDialer" />
 	<remove-project name="LineageOS/android_packages_apps_VoicePlus" />
-	<remove-project name="LineageOS/android_packages_inputmethods_OpenWnn" />
-	<remove-project name="LineageOS/android_packages_inputmethods_PinyinIME" />
 	<remove-project name="LineageOS/android_packages_providers_PartnerBookmarksProvider" />
 	<remove-project name="LineageOS/android_packages_screensavers_Basic" />
 	<remove-project name="LineageOS/android_packages_screensavers_PhotoTable" />
@@ -32,7 +30,6 @@
 	<remove-project name="LineageOS/android_packages_wallpapers_Basic" />
 	<remove-project name="LineageOS/android_packages_wallpapers_Galaxy4" />
 	<remove-project name="LineageOS/android_packages_wallpapers_HoloSpiral" />
-	<remove-project name="LineageOS/android_packages_wallpapers_LivePicker" />
 	<remove-project name="LineageOS/android_packages_wallpapers_MagicSmoke" />
 	<remove-project name="LineageOS/android_packages_wallpapers_MusicVisualization" />
 	<remove-project name="LineageOS/android_packages_wallpapers_NoiseField" />
