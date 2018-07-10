@@ -70,7 +70,7 @@ enterAndClear "external/sqlite";
 patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0)
 
 enterAndClear "frameworks/base";
-sed -i 's/com.android.mms/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
+#sed -i 's/com.android.mms/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
 sed -i 's|db_default_journal_mode">PERSIST|db_default_journal_mode">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0001-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0002-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
@@ -127,7 +127,7 @@ patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden
 enterAndClear "vendor/cm";
 rm -rf terminal;
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
-sed -i '3iinclude vendor/cm/config/sce.mk' config/common.mk; #Include extra apps
+#sed -i '3iinclude vendor/cm/config/sce.mk' config/common.mk; #Include extra apps
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
 	awk -i inplace '!/DSPManager/' config/common.mk;
 fi;
@@ -150,11 +150,12 @@ if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/CM_BUILDTYPE := 
 enterAndClear "device/asus/grouper";
 mv cm.mk lineage.mk;
 sed -i 's/cm_/lineage_/' lineage.mk;
+#In proprietary/Android.mk
+#	Remove widevine and tf_daemon
 
 enterAndClear "device/zte/nex"
 sed -i 's/ro.sf.lcd_density=240/ro.sf.lcd_density=180/' system.prop;
 echo "TARGET_DISPLAY_USE_RETIRE_FENCE := true" >> BoardConfig.mk;
-#echo "TARGET_QCOM_DISPLAY_VARIANT := caf" >> BoardConfig.mk;
 sed -i 's/libm libc/libm libc libutils/' charger/Android.mk;
 mv cm.mk lineage.mk;
 sed -i 's/cm_/lineage_/' lineage.mk vendorsetup.sh;

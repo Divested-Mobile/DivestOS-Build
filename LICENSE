@@ -5,13 +5,15 @@ Below are the license mappings for all of the files found in this repository. Al
 Manifests - GPLv3
 Misc - GPLv3
 Patches/
-	Android - Apache-2.0
-	LineageOS-*/
+	Common/
 		android_packages_apps_FDroid* - GPLv2
+		[Everything Else] - Apache-2.0
+	LineageOS-*/
 		android_kernel_* - GPLv2
 		*/Copperhead/* - Copperhead CC BY-NC-SA, Only enabled via NON_COMMERCIAL_USE_PATCHES option
 		[Everything Else] - Apache-2.0
 	Linux - GPLv2
+	Overclocks - GPLv2
 	Wallpapers - Unsplash License https://unsplash.com/license
 PrebuiltApps/
 	android_vendor_FDroid_PrebuiltApps/Packages - Dependent on app
