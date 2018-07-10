@@ -1,4 +1,4 @@
-FD_PREBUILTS_PATH := vendor/lineage/firmware_deblobber
+FD_PREBUILTS_PATH := vendor/divested/firmware_deblobber
 
 FD_INSTALL_OUT := $(PRODUCT_OUT)/firmware_deblobber/
 FD_INSTALL_TARGET := $(PRODUCT_OUT)/firmware_deblobber-$(TARGET_ARCH).zip

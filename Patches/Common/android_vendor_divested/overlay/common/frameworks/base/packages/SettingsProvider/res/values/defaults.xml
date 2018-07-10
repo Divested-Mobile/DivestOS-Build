@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Default for Settings.Secure.LOCK_SCREEN_ALLOW_PRIVATE_NOTIFICATIONS -->
+    <bool name="def_lock_screen_allow_private_notifications">false</bool>
+
+    <integer name="def_lockscreen_sounds_enabled">0</integer>
+
+    <bool name="def_networks_available_notification_on">false</bool>
+
+    <!-- Default for DTMF tones enabled -->
+    <bool name="def_dtmf_tones_enabled">false</bool>
+
+    <!-- Default for UI touch sounds enabled -->
+    <bool name="def_sound_effects_enabled">false</bool>
+
+    <fraction name="def_window_animation_scale">50%</fraction>
+    <fraction name="def_window_transition_scale">50%</fraction>
+</resources>

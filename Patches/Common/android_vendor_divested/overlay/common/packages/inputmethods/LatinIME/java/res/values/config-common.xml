@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- -1 means periocical wipe of the personalization dict is disabled. -->
+    <integer name="config_personalization_dict_wipe_interval_in_days">5</integer>
+
+</resources>
