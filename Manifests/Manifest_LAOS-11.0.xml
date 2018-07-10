@@ -84,9 +84,6 @@
 <!-- END OF ADDITIONAL REPOS -->
 
 <!-- START OF DEVICE REPOS -->
-	<!-- Common -->
-	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
-
 	<!-- ZTE AWE (n800) -->
 	<project path="device/zte/nex" name="spock1104/android_device_zte_nex" remote="github" revision="cm11_newkern" />
 	<project path="device/qcom/common" name="LineageOS/android_device_qcom_common" remote="github" revision="cm-11.0" />
@@ -95,16 +92,6 @@
 	<!-- Nexus 7 [2012] (grouper) -->
 	<project path="device/asus/grouper" name="LineageOS/android_device_asus_grouper" remote="github" />
 	<project path="kernel/asus/grouper" name="LineageOS/android_kernel_asus_grouper" remote="github" />
-
-        <!-- Nexus 10 (manta) -->
-        <project path="device/samsung/manta" name="LineageOS/android_device_samsung_manta" remote="github" />
-        <project path="kernel/samsung/manta" name="LineageOS/android_kernel_samsung_manta" remote="github" />
-
-	<!-- Nexus 7 [2013] (flo) -->
-	<project path="device/asus/flo" name="LineageOS/android_device_asus_flo" remote="github" />
-
-        <!-- Nexus 4 (mako) -->
-        <project path="device/lge/mako" name="LineageOS/android_device_lge_mako" remote="github" />
 <!-- END OF DEVICE REPOS -->
 
 </manifest>

@@ -61,26 +61,25 @@ cp -r "$DOS_PREBUILT_APPS""Fennec_DOS-Shim" "$DOS_BUILD_BASE""packages/apps/"; #
 cp -r "$DOS_PREBUILT_APPS""android_vendor_FDroid_PrebuiltApps/." "$DOS_BUILD_BASE""vendor/fdroid_prebuilt/"; #Add the prebuilt apps
 
 enterAndClear "bootable/recovery";
-patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button?
+#patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button? #TODO
 
 enterAndClear "build";
-patch -p1 < "$DOS_PATCHES/android_build/0001-Automated_Build_Signing.patch"; #Automated build signing (CopperheadOS-13.0)
-sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
+#patch -p1 < "$DOS_PATCHES/android_build/0001-Automated_Build_Signing.patch"; #Automated build signing (CopperheadOS-13.0) #TODO
+sed -i 's/Mms/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 sed -i 's/ro.secure=0/ro.secure=1/' core/main.mk;
 #sed -i 's/ro.adb.secure=0/ro.adb.secure=1/' core/main.mk;
 
 enterAndClear "external/sqlite";
-patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0)
+#patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0) #TODO
 
 enterAndClear "frameworks/base";
-sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
-sed -i 's/com.android.messaging/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
+sed -i 's/com.android.mms/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
 sed -i 's|db_default_journal_mode" translatable="false">PERSIST|db_default_journal_mode" translatable="false">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
-if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0003-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
-if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
+#if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0003-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG) #TODO
+#if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key #TODO
 if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then sed -i '/<item>com.android.location.fused<\/item>/a \ \ \ \ \ \ \ \ <item>org.microg.nlp</item>' core/res/res/values/config.xml; fi; #Add UnifiedNLP to location providers
-changeDefaultDNS;
-patch -p1 < "$DOS_PATCHES/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
+changeDefaultDNS; #TODO
+#patch -p1 < "$DOS_PATCHES/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries #TODO
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig;
 
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then
@@ -119,34 +118,22 @@ sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
 
 enterAndClear "packages/apps/Trebuchet";
-cp -r "$DOS_PATCHES_COMMON/android_packages_apps_Trebuchet/default_workspace/." "res/xml/";
-rm res/drawable-nodpi/{*.png,*.jpg} res/values-nodpi/wallpapers.xml; #Remove old ones
-cp -r "$DOS_WALLPAPERS"'Compressed/.' res/drawable-nodpi/; #Add ours
-cp -r "$DOS_WALLPAPERS""Thumbs/." res/drawable-nodpi/;
-cp "$DOS_WALLPAPERS""wallpapers.xml" res/values-nodpi/wallpapers.xml;
-sed -i 's/req.touchEnabled = touchEnabled;/req.touchEnabled = true;/' src/com/android/wallpaperpicker/WallpaperCropActivity.java; #Allow scrolling
-sed -i 's/mCropView.setTouchEnabled(req.touchEnabled);/mCropView.setTouchEnabled(true);/' src/com/android/wallpaperpicker/WallpaperCropActivity.java;
-sed -i 's/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0);/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0.5f);/' src/com/android/wallpaperpicker/WallpaperPickerActivity.java; #Center aligned by default
-
-enterAndClear "packages/apps/Updater";
-patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_CMUpdater/0001-Server.patch"; #Switch to our server
+#cp -r "$DOS_PATCHES_COMMON/android_packages_apps_Trebuchet/default_workspace/." "res/xml/"; #TODO
+sed -i 's/req.touchEnabled = touchEnabled;/req.touchEnabled = true;/' src/com/android/launcher3/WallpaperCropActivity.java; #Allow scrolling
+sed -i 's/mCropView.setTouchEnabled(req.touchEnabled);/mCropView.setTouchEnabled(true);/' src/com/android/launcher3/WallpaperCropActivity.java;
 
 enterAndClear "packages/inputmethods/LatinIME";
-patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
+#patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key #TODO
 
 enterAndClear "system/core";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
-patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0)
+#patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0) #TODO
 
 enterAndClear "vendor/cm";
-rm -rf overlay/common/vendor/cmsdk/packages; #Remove analytics
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
-awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra keys
-awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
 sed -i '3iinclude vendor/cm/config/sce.mk' config/common.mk; #Include extra apps
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
-	awk -i inplace '!/AudioFX/' config/common.mk;
-	awk -i inplace '!/AudioService/' config/common.mk;
+	awk -i inplace '!/DSPManager/' config/common.mk;
 fi;
 cp "$DOS_PATCHES_COMMON/android_vendor_divested/sce.mk" config/sce.mk;
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> config/sce.mk; fi;
@@ -154,14 +141,9 @@ if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then echo "PRODUCT_PACKAGES += UnifiedNLP
 if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then sed -i '/Google provider/!b;n;s/com.google.android.gms/org.microg.nlp/' overlay/common/frameworks/base/core/res/res/values/config.xml; fi;
 if [ "$DOS_MICROG_INCLUDED" != "NONE" ]; then cp "$DOS_PATCHES_COMMON/android_vendor_divested/sce-UnifiedNLP-Backends.mk" config/sce-UnifiedNLP-Backends.mk; fi;
 if [ "$DOS_MICROG_INCLUDED" != "NONE" ]; then echo "include vendor/cm/config/sce-UnifiedNLP-Backends.mk" >> config/sce.mk; fi;
-cp "$DOS_PATCHES/android_vendor_cm/config.xml" overlay/common/vendor/cmsdk/cm/res/res/values/config.xml; #Per app performance profiles
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/CM_BUILDTYPE := dos/CM_BUILDTYPE := dosNC/' config/common.mk; fi;
-sed -i 's/messaging/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
-
-enterAndClear "vendor/cmsdk";
-if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/CMAudioService/' cm/res/res/values/config.xml; fi;
-cp "$DOS_PATCHES_COMMON/android_lineage-sdk/profile_default.xml" cm/res/res/xml/profile_default.xml; #Replace default profiles with *way* better ones
+sed -i 's/Mms/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
 #
 #END OF ROM CHANGES
 #

@@ -22,7 +22,6 @@ Medium Priority
 	Build
 		- Add more device overclocks
 		- Add support for more devices
-		- Support 11.0
 	Design
 		- Facelift of Extirpater
 		- Facelift of Hypatia
@@ -36,6 +35,7 @@ Medium Priority
 Low Priority
 	Build
 		- Move overclocks to separate repo
+		- Support 11.0
 		- Support 13.0
 	Website
 		- Switch to a wiki

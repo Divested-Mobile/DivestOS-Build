@@ -1,4 +1,19 @@
-d852 oc - 13.9m/25.0m
-grouper oc - 5.4m/5.4m
-clark - 6.9/48.2m
-mako oc - 6.4m/20.2m
+msm8930
+	n800 - 5.5m/10.8m
+
+tegra 3
+	grouper bOC - 5.4m/5.4m
+	grouper 4.4 - 4.9m/19.6m
+	grouper ADS - 5.2m/20m
+	grouper - 4.7m/18.4m
+
+msm8960
+	mako oc - 6.4m/20.2m
+
+msm8974
+	thor oc - 9.9m/19.8m
+	d852 oc - 13.9m/25.0m
+	bacon oc - 
+
+msm8992
+	clark - 6.9/48.2m

@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_grouper kernel_google_msm kernel_samsung_manta";
+	startPatcher "kernel_asus_grouper";
 }
 export -f patchAllKernels;
 
@@ -49,10 +49,7 @@ export -f buildDeviceDebug;
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#Select devices are userdebug due to SELinux policy issues
-	brunch aosp_mako-user;
 	brunch aosp_grouper-user;
-	brunch aosp_flo-user;
-	brunch aosp_manta-user;
 	brunch cm_nex-userdebug;
 }
 export -f buildAll;
