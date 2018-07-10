@@ -60,9 +60,6 @@ echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/a
 cp -r "$DOS_PREBUILT_APPS""Fennec_DOS-Shim" "$DOS_BUILD_BASE""packages/apps/"; #Add a shim to install Fennec DOS without actually including the large APK
 cp -r "$DOS_PREBUILT_APPS""android_vendor_FDroid_PrebuiltApps/." "$DOS_BUILD_BASE""vendor/fdroid_prebuilt/"; #Add the prebuilt apps
 
-enterAndClear "bootable/recovery";
-#patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button? #TODO
-
 enterAndClear "build";
 #patch -p1 < "$DOS_PATCHES/android_build/0001-Automated_Build_Signing.patch"; #Automated build signing (CopperheadOS-13.0) #TODO
 #sed -i 's/Mms/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
@@ -70,15 +67,15 @@ sed -i 's/ro.secure=0/ro.secure=1/' core/main.mk;
 #sed -i 's/ro.adb.secure=0/ro.adb.secure=1/' core/main.mk;
 
 enterAndClear "external/sqlite";
-#patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0) #TODO
+patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0)
 
 enterAndClear "frameworks/base";
 #sed -i 's/com.android.mms/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
 sed -i 's|db_default_journal_mode">PERSIST|db_default_journal_mode">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
-#if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0003-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG) #TODO
-#if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key #TODO
+if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0001-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
+if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0002-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
 if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then sed -i '/<item>com.android.location.fused<\/item>/a \ \ \ \ \ \ \ \ <item>org.microg.nlp</item>' core/res/res/values/config.xml; fi; #Add UnifiedNLP to location providers
-changeDefaultDNS; #TODO
+changeDefaultDNS;
 #patch -p1 < "$DOS_PATCHES/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries #TODO
 rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig;
 
@@ -123,17 +120,14 @@ enterAndClear "packages/apps/Trebuchet";
 #cp -r "$DOS_PATCHES_COMMON/android_packages_apps_Trebuchet/default_workspace/." "res/xml/"; #TODO
 sed -i 's/mCropView.setTouchEnabled(touchEnabled);/mCropView.setTouchEnabled(true);/' WallpaperPicker/src/com/android/launcher3/WallpaperCropActivity.java;
 
-enterAndClear "packages/inputmethods/LatinIME";
-#patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key #TODO
-
 enterAndClear "system/core";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
-#patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0) #TODO
+patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0)
 
 enterAndClear "vendor/cm";
 rm -rf terminal;
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
-#sed -i '3iinclude vendor/cm/config/sce.mk' config/common.mk; #Include extra apps #TODO
+#sed -i '3iinclude vendor/cm/config/sce.mk' config/common.mk; #Include extra apps
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
 	awk -i inplace '!/DSPManager/' config/common.mk;
 fi;
@@ -159,24 +153,23 @@ patch -p1 < "$DOS_PATCHES/android_device_zte_nex/0001-Fixes.patch"; #Build fixes
 sed -i 's/ro.sf.lcd_density=240/ro.sf.lcd_density=180/' system.prop;
 mv cm.mk lineage.mk;
 sed -i 's/cm_/lineage_/' lineage.mk vendorsetup.sh;
+awk -i inplace '!/WCNSS_qcom_wlan_nv_2.bin/' proprietary-files.txt;
 #In nex-vendor-blobs.mk
 #	"system/lib/libtime_genoff.so" -> "obj/lib/libtime_genoff.so"
-#	Remove "WCNSS_qcom_wlan_nv_2.bin"
 
-enter "kernel/zte/msm8930"
+enterAndClear "kernel/zte/msm8930"
 patch -p1 < $patches"android_kernel_zte_msm8930/0001-MDP-Fix.patch";
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enhanceLocation "$0"' {} \;
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableForcedEncryption "$0"' {} \;
-#if [ "$STRONG_ENCRYPTION_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableStrongEncryption "$0"' {} \; fi;
 find "kernel" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'hardenDefconfig "$0"' {} \;
 cd "$DOS_BUILD_BASE";
 
 #Fixes
 #Fix broken options enabled by hardenDefconfig()
-sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
+#sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 #
 #END OF DEVICE CHANGES
 #

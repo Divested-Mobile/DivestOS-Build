@@ -252,7 +252,7 @@ changeDefaultDNS() {
 		echo "You must first set a preset via the DEFAULT_DNS_PRESET variable in init.sh!";
 	fi;
 
-	files="core/res/res/values/config.xml packages/SettingsLib/res/values/strings.xml services/core/java/com/android/server/connectivity/NetworkDiagnostics.java services/core/java/com/android/server/connectivity/Tethering.java services/core/java/com/android/server/connectivity/tethering/TetheringConfiguration.java";
+	files="core/res/res/values/config.xml packages/SettingsLib/res/values/strings.xml services/core/java/com/android/server/connectivity/NetworkDiagnostics.java services/core/java/com/android/server/connectivity/Tethering.java services/core/java/com/android/server/connectivity/tethering/TetheringConfiguration.java services/java/com/android/server/connectivity/Tethering.java";
 	sed -i "s/8\.8\.8\.8/$dnsPrimary/" $files &>/dev/null || true;
 	sed -i "s/2001:4860:4860::8888/$dnsPrimaryV6/" $files &>/dev/null || true;
 	sed -i "s/8\.8\.4\.4/$dnsSecondary/" $files &>/dev/null || true;
