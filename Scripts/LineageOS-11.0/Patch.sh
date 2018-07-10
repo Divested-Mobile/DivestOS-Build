@@ -15,7 +15,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#Last verified:
+#Last verified: 2018-07-10
 
 #Initialize aliases
 #source ../../Scripts/init.sh
@@ -131,6 +131,7 @@ if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/h
 #patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0) #TODO
 
 enterAndClear "vendor/cm";
+rm -rf terminal;
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
 #sed -i '3iinclude vendor/cm/config/sce.mk' config/common.mk; #Include extra apps #TODO
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
@@ -155,7 +156,7 @@ if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/CM_BUILDTYPE := 
 
 enterAndClear "device/zte/nex"
 patch -p1 < "$DOS_PATCHES/android_device_zte_nex/0001-Fixes.patch"; #Build fixes
-patch -p1 < "$DOS_PATCHES/android_device_zte_nex/0002-Lower_DPI.patch";
+sed -i 's/ro.sf.lcd_density=240/ro.sf.lcd_density=180/' system.prop;
 mv cm.mk lineage.mk;
 sed -i 's/cm_/lineage_/' lineage.mk vendorsetup.sh;
 #In nex-vendor-blobs.mk

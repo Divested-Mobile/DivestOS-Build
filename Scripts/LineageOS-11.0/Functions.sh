@@ -15,7 +15,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#Last verified: 2018-04-27
+#Last verified: 2018-07-10
 
 patchAllKernels() {
 	startPatcher "kernel_asus_grouper kernel_zte_msm8930";
@@ -59,11 +59,10 @@ patchWorkspace() {
 	#source build/envsetup.sh;
 
 	source "$DOS_SCRIPTS/Patch.sh";
-	#source "$DOS_SCRIPTS/Defaults.sh";
+	source "$DOS_SCRIPTS/Defaults.sh";
 	#if [ "$DOS_OVERCLOCKS_ENABLED" = true ]; then source "$DOS_SCRIPTS/Overclock.sh"; fi;
-	#source "$DOS_SCRIPTS/Optimize.sh";
-	#source "$DOS_SCRIPTS/Rebrand.sh";
-	#source "$DOS_SCRIPTS/Theme.sh";
+	source "$DOS_SCRIPTS/Optimize.sh";
+	source "$DOS_SCRIPTS/Rebrand.sh";
 	source "$DOS_SCRIPTS_COMMON/Deblob.sh";
 	source "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
 	source build/envsetup.sh;
