@@ -70,7 +70,7 @@ enterAndClear "external/sqlite";
 patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0)
 
 enterAndClear "frameworks/base";
-#sed -i 's/com.android.mms/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
+sed -i 's/com.android.mms/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
 sed -i 's|db_default_journal_mode">PERSIST|db_default_journal_mode">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0001-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0002-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
@@ -127,7 +127,7 @@ patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden
 enterAndClear "vendor/cm";
 rm -rf terminal;
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
-#sed -i '3iinclude vendor/cm/config/sce.mk' config/common.mk; #Include extra apps
+sed -i '3iinclude vendor/cm/config/sce.mk' config/common.mk; #Include extra apps
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
 	awk -i inplace '!/DSPManager/' config/common.mk;
 fi;
@@ -147,10 +147,15 @@ if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/CM_BUILDTYPE := 
 #
 #START OF DEVICE CHANGES
 #
+enterAndClear "device/asus/grouper";
+mv cm.mk lineage.mk;
+sed -i 's/cm_/lineage_/' lineage.mk;
 
 enterAndClear "device/zte/nex"
-patch -p1 < "$DOS_PATCHES/android_device_zte_nex/0001-Fixes.patch"; #Build fixes
 sed -i 's/ro.sf.lcd_density=240/ro.sf.lcd_density=180/' system.prop;
+echo "TARGET_DISPLAY_USE_RETIRE_FENCE := true" >> BoardConfig.mk;
+#echo "TARGET_QCOM_DISPLAY_VARIANT := caf" >> BoardConfig.mk;
+sed -i 's/libm libc/libm libc libutils/' charger/Android.mk;
 mv cm.mk lineage.mk;
 sed -i 's/cm_/lineage_/' lineage.mk vendorsetup.sh;
 awk -i inplace '!/WCNSS_qcom_wlan_nv_2.bin/' proprietary-files.txt;
@@ -158,7 +163,7 @@ awk -i inplace '!/WCNSS_qcom_wlan_nv_2.bin/' proprietary-files.txt;
 #	"system/lib/libtime_genoff.so" -> "obj/lib/libtime_genoff.so"
 
 enterAndClear "kernel/zte/msm8930"
-patch -p1 < $patches"android_kernel_zte_msm8930/0001-MDP-Fix.patch";
+patch -p1 < $patches"/android_kernel_zte_msm8930/0001-MDP-Fix.patch";
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
@@ -169,7 +174,8 @@ cd "$DOS_BUILD_BASE";
 
 #Fixes
 #Fix broken options enabled by hardenDefconfig()
-#sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
+#sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig;
+sed -i "s/# CONFIG_COMPAT_BRK is not set/CONFIG_COMPAT_BRK=y/" kernel/zte/msm8930/arch/arm/configs/msm8960-nex_defconfig;
 #
 #END OF DEVICE CHANGES
 #

@@ -49,7 +49,7 @@ export -f buildDeviceDebug;
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#Select devices are userdebug due to SELinux policy issues
-	brunch aosp_grouper-user;
+	brunch lineage_grouper-userdebug;
 	brunch lineage_nex-userdebug;
 }
 export -f buildAll;
