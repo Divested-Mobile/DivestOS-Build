@@ -234,6 +234,7 @@ sed -i 's/,encryptable=footer//' rootdir/etc/fstab.qcom; #Using footer will brea
 
 enterAndClear "device/asus/grouper";
 patch -p1 < "$DOS_PATCHES/android_device_asus_grouper/0001-Update_Blobs.patch";
+patch -p1 < "$DOS_PATCHES/android_device_asus_grouper/0002-Perf_Tweaks.patch";
 rm proprietary-blobs.txt;
 cp "$DOS_PATCHES/android_device_asus_grouper/lineage-proprietary-files.txt" lineage-proprietary-files.txt;
 

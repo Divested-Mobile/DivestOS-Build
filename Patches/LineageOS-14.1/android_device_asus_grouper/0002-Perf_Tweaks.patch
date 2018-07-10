@@ -1,0 +1,156 @@
+From d4eb3d10d870bd61ea63fd3e32232c41213c0be1 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Tue, 10 Jul 2018 17:44:37 -0400
+Subject: [PATCH] Performance tweaks from @AndDiSa
+
+Change-Id: Iec5622c061565d362cdeda32d030015e5e90e6fd
+---
+ BoardConfig.mk                                |  1 +
+ BoardConfigCommon.mk                          |  3 ++
+ device-common.mk                              | 20 +++++++++++
+ device.mk                                     |  1 +
+ .../base/core/res/res/values/config.xml       |  7 +++-
+ system.prop                                   | 35 +++++++++++++++++--
+ 6 files changed, 63 insertions(+), 4 deletions(-)
+
+diff --git a/BoardConfig.mk b/BoardConfig.mk
+index aa8876b..2bc159f 100644
+--- a/BoardConfig.mk
++++ b/BoardConfig.mk
+@@ -18,3 +18,4 @@ TARGET_RELEASETOOLS_EXTENSIONS := device/asus/grouper
+ include device/asus/grouper/BoardConfigCommon.mk
+ 
+ TARGET_RECOVERY_FSTAB := device/asus/grouper/rootdir/fstab.grouper
++BOARD_EGL_WORKAROUND_BUG_10194508 := true
+diff --git a/BoardConfigCommon.mk b/BoardConfigCommon.mk
+index f402c86..0cff477 100644
+--- a/BoardConfigCommon.mk
++++ b/BoardConfigCommon.mk
+@@ -53,6 +53,9 @@ BOARD_SYSTEMIMAGE_JOURNAL_SIZE := 0
+ # Only pre-optimize the boot image
+ WITH_DEXPREOPT_BOOT_IMG_ONLY := true
+ 
++# Avoid the generation of ldrcc instructions
++NEED_WORKAROUND_CORTEX_A9_745320 := true
++
+ # Configure jemalloc for low-memory
+ MALLOC_SVELTE := true
+ 
+diff --git a/device-common.mk b/device-common.mk
+index ac66bec..daae064 100644
+--- a/device-common.mk
++++ b/device-common.mk
+@@ -25,6 +25,26 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base.mk)
+ # Dalvik VM config
+ $(call inherit-product, frameworks/native/build/tablet-7in-hdpi-1024-dalvik-heap.mk)
+ 
++# Set lowram options
++PRODUCT_PROPERTY_OVERRIDES += \
++    ro.lmk.critical_upgrade=true \
++    ro.lmk.upgrade_pressure=40
++
++# Default heap sizes. Allow up to 256m for large heaps to make sure a single app
++# doesn't take all of the RAM.
++PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.heapgrowthlimit=128m
++PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.heapsize=256m
++
++# ART
++PRODUCT_PROPERTY_OVERRIDES += \
++		dalvik.vm.dex2oat-flags=--no-watch-dog \
++		dalvik.vm.dex2oat-swap=true \
++		ro.sys.fw.dex2oat_thread_count=4
++
++# libhwui flags
++PRODUCT_PROPERTY_OVERRIDES += \
++    debug.hwui.render_dirty_regions=false
++
+ # Init files
+ PRODUCT_COPY_FILES += \
+     device/asus/grouper/rootdir/init.grouper.usb.rc:root/init.grouper.usb.rc \
+diff --git a/device.mk b/device.mk
+index 33c1fc9..ecaece8 100644
+--- a/device.mk
++++ b/device.mk
+@@ -25,6 +25,7 @@ PRODUCT_COPY_FILES += \
+ 
+ PRODUCT_PROPERTY_OVERRIDES += \
+     ro.carrier=wifi-only
++    ro.radio.noril=true
+ 
+ DEVICE_PACKAGE_OVERLAYS += \
+     device/asus/grouper/overlay
+diff --git a/overlay/frameworks/base/core/res/res/values/config.xml b/overlay/frameworks/base/core/res/res/values/config.xml
+index d28e4fb..61c1c0e 100644
+--- a/overlay/frameworks/base/core/res/res/values/config.xml
++++ b/overlay/frameworks/base/core/res/res/values/config.xml
+@@ -18,7 +18,6 @@
+ -->
+ 
+ <resources>
+-
+     <!-- This string array should be overridden by the device to present a list of network
+          attributes.  This is used by the connectivity manager to decide which networks can coexist
+          based on the hardware -->
+@@ -216,7 +215,13 @@
+     <!-- reference volume index for music stream to limit headphone volume and display warning -->
+     <integer name="config_safe_media_volume_index">6</integer>
+ 
++    <!-- Set lowmemorykiller threshold -->
++    <integer name="config_lowMemoryKillerMinFreeKbytesAbsolute">-1</integer>
++    <integer name="config_lowMemoryKillerMinFreeKbytesAdjust">0</integer>
++
+     <!-- Enable doze powersaving -->
+     <bool name="config_enableAutoPowerModes">true</bool>
+ 
++    <!-- Whether to enable HumanInteractionController by default -->
++    <bool name="config_HICEnabledDefault">false</bool>
+ </resources>
+diff --git a/system.prop b/system.prop
+index b1d9807..37415d4 100644
+--- a/system.prop
++++ b/system.prop
+@@ -9,9 +9,38 @@ ro.zygote.disable_gl_preload=true
+ # Set default LCD density to TVDPI
+ ro.sf.lcd_density=213
+ 
++ro.sys.fw.bg_apps_limit = 12
++ro.sys.fw.use_trim_settings=true
++ro.sys.fw.trim_empty_percent=70
++ro.sys.fw.trim_cache_percent=70
++ro.config.max_starting_bg=8
++
+ # Wi-Fi
+ wifi.interface=wlan0
+ 
+-# Configure PRISM, but disable it by default
+-persist.tegra.didim.video=5
+-persist.tegra.didim.enable=0
++# don't preload OpenGL in Zygote, the Tegra drivers do not like it
++ro.zygote.disable_gl_preload=true
++
++# configure PRISM
++persist.tegra.didim.video = 5
++persist.tegra.didim.enable = 1
++persist.tegra.didim.normal = 3
++
++# Dalvik and other tweaks
++dalvik.vm.heapgrowthlimit=128m
++dalvik.vm.heapsize=256m
++ro.ril.disable.power.collapse=0
++pm.sleep_mode=1
++ro.config.hw_power_saving=true
++persist.debug.wfd.enable=1
++persist.sys.force_highendgfx=true
++config.disable_atlas=true
++
++# 16bit Transparency
++persist.sys.use_16bpp_alpha=1
++
++#config low ram device
++#ro.config.low_ram=true
++
++#disable scrolling cache (1 = on, 2 = sometimes on, 3 = sometimes off, 4 = allways off)
++persist.sys.scrollingcache=1
+-- 
+2.18.0
+
