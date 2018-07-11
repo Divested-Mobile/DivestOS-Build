@@ -130,8 +130,18 @@ enableDexPreOptFull() {
 	cd "$DOS_BUILD_BASE$1";
 	if [ -f BoardConfig.mk ]; then
 		sed -i "s/WITH_DEXPREOPT_BOOT_IMG_ONLY := true/WITH_DEXPREOPT_BOOT_IMG_ONLY := false/" BoardConfig.mk;
-		echo "Enabled full dexpreopt";
+		echo "Enabled full dexpreopt for $1";
 	fi;
 	cd "$DOS_BUILD_BASE";
 }
 export -f enableDexPreOptFull;
+
+enableLowRam() {
+	cd "$DOS_BUILD_BASE$1";
+	if [ -f lineage.mk ]; then echo '$(call inherit-product, $(SRC_TARGET_DIR)/product/lowram.mk)' >> lineage.mk; fi;
+	if [ -f BoardConfig.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfig.mk; fi;
+	if [ -f BoardConfigCommon.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfigCommon.mk; fi;
+	echo "Enabled lowram for $1";
+	cd "$DOS_BUILD_BASE";
+}
+export -f enableLowRam;
