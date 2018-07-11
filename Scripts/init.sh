@@ -37,7 +37,7 @@ export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NONE
 export DOS_HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
 export DOS_HOSTS_BLOCKING_LIST="https://divestos.xyz/hosts"; #Must be in the format "127.0.0.1 bad.domain.tld"
 export DOS_OVERCLOCKS_ENABLED=true; #Switch to false to disable overclocks
-export DOS_LOWRAM_ENABLED=false; #Switch to true to enable lowram/Go configuration on all devices
+export DOS_LOWRAM_ENABLED=false; #Switch to true to enable low_ram on all devices
 export DOS_STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit encryption XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
 export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches
 

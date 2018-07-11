@@ -1,0 +1,21 @@
+What changes does low_ram make?
+
+- Multiple users support is disabled
+- Split screen is disabled
+- Some smaller animations are disabled
+- SystemUI: In Recents, apps do not overlay and have lower resolution previews
+- SystemUI: In Recents, the 'Clear all' button is at the very bottom and always visible
+
+- Launcher3/Trebuchet: Some extra accents are disabled
+- Contacts/Dialer/Email: Icon cache is altered
+- Documents: 
+- Settings: Many settings are hidden
+
+- Signal/Silence: Max resolution for MMS image size reduction is lower
+- Muzei: Blur isn't as aggressive by default
+
+
+How much RAM is saved?
+	- Under 15.1 after boot settles
+		- mako: ~370MB -> ~310MB used by system
+		- d852: ~850MB -> ~680MB

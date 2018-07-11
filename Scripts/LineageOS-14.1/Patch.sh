@@ -68,7 +68,7 @@ patch -p1 < "$DOS_PATCHES/android_build/0001-Automated_Build_Signing.patch"; #Au
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 sed -i 's/ro.secure=0/ro.secure=1/' core/main.mk;
 #sed -i 's/ro.adb.secure=0/ro.adb.secure=1/' core/main.mk;
-cp "$DOS_PATCHES/android_build/lowram.mk" target/product/lowram.mk;
+cp "$DOS_PATCHES_COMMON/android_build/lowram.mk" target/product/lowram.mk;
 
 enterAndClear "device/qcom/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on user builds XXX: REMOVE THIS TRASH
@@ -233,6 +233,7 @@ sed -i 's/,encryptable=footer//' rootdir/etc/fstab.qcom; #Using footer will brea
 #XXX: If not used with a supported recovery, it'll be thrown into a bootloop, don't worry just 'fastboot erase misc' and reboot
 #echo "/dev/block/platform/msm_sdcc.1/by-name/misc /misc emmc defaults defaults" >> rootdir/etc/fstab.qcom; #Add the misc (mmcblk0p5) partition for recovery flags
 
+enableLowRam "device/asus/grouper";
 enterAndClear "device/asus/grouper";
 patch -p1 < "$DOS_PATCHES/android_device_asus_grouper/0001-Update_Blobs.patch";
 patch -p1 < "$DOS_PATCHES/android_device_asus_grouper/0002-Perf_Tweaks.patch";

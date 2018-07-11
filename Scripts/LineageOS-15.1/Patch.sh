@@ -67,6 +67,7 @@ awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i 's/messaging/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 sed -i 's/ro.secure=0/ro.secure=1/' core/main.mk;
 #sed -i 's/ro.adb.secure=0/ro.adb.secure=1/' core/main.mk;
+cp "$DOS_PATCHES_COMMON/android_build/lowram.mk" target/product/lowram.mk;
 
 enterAndClear "device/lineage/sepolicy";
 git revert c9b0d95630b82cd0ad1a0fc633c6d59c2cb8aad7 37422f7df389f3ae5a34ee3d6dd9354217f9c536; #neverallow violation

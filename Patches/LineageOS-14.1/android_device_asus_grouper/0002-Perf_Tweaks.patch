@@ -1,18 +1,18 @@
-From 08c7e33d75eb9c8546db621e6ca28bd9ca922402 Mon Sep 17 00:00:00 2001
+From 74a903c4ee34bb0ab058a749789805f765479a1e Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Tue, 10 Jul 2018 19:38:55 -0400
+Date: Wed, 11 Jul 2018 13:54:10 -0400
 Subject: [PATCH] Performance tweaks from @AndDiSa
 
-Change-Id: I481bd5ac610247cdcae1af42620a36ca5943505e
+Change-Id: I87e7b700b3caf713e98bcfdc74613da23139db70
 ---
- BoardConfigCommon.mk                          |  4 ++
+ BoardConfigCommon.mk                          |  3 ++
  device.mk                                     |  3 +-
- .../base/core/res/res/values/config.xml       |  7 ++++
- system.prop                                   | 39 +++++++++++++++++--
- 4 files changed, 49 insertions(+), 4 deletions(-)
+ .../base/core/res/res/values/config.xml       |  7 +++++
+ system.prop                                   | 29 +++++++++++++++++--
+ 4 files changed, 38 insertions(+), 4 deletions(-)
 
 diff --git a/BoardConfigCommon.mk b/BoardConfigCommon.mk
-index f402c86..2ea1317 100644
+index f402c86..c84be43 100644
 --- a/BoardConfigCommon.mk
 +++ b/BoardConfigCommon.mk
 @@ -20,6 +20,9 @@ TARGET_ARCH := arm
@@ -25,14 +25,6 @@ index f402c86..2ea1317 100644
  TARGET_BOOTLOADER_BOARD_NAME := grouper
  
  # Filesystem
-@@ -52,6 +55,7 @@ BOARD_SYSTEMIMAGE_JOURNAL_SIZE := 0
- 
- # Only pre-optimize the boot image
- WITH_DEXPREOPT_BOOT_IMG_ONLY := true
-+PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
- 
- # Configure jemalloc for low-memory
- MALLOC_SVELTE := true
 diff --git a/device.mk b/device.mk
 index 33c1fc9..8d8c65a 100644
 --- a/device.mk
@@ -64,10 +56,10 @@ index d28e4fb..c9ec73a 100644
 +
  </resources>
 diff --git a/system.prop b/system.prop
-index b1d9807..7f540b5 100644
+index b1d9807..1f31c09 100644
 --- a/system.prop
 +++ b/system.prop
-@@ -12,6 +12,39 @@ ro.sf.lcd_density=213
+@@ -12,6 +12,29 @@ ro.sf.lcd_density=213
  # Wi-Fi
  wifi.interface=wlan0
  
@@ -83,7 +75,6 @@ index b1d9807..7f540b5 100644
 +ro.zygote.disable_gl_preload=true
 +
 +#perf tweaks
-+config.disable_atlas=true
 +dalvik.vm.dex2oat-flags=--no-watch-dog
 +dalvik.vm.dex2oat-swap=true
 +debug.hwui.render_dirty_regions=false
@@ -100,16 +91,7 @@ index b1d9807..7f540b5 100644
 +ro.sys.fw.trim_cache_percent=70
 +ro.sys.fw.trim_empty_percent=70
 +ro.sys.fw.use_trim_settings=true
-+
-+#go
-+dalvik.vm.heapgrowthlimit=128m
-+dalvik.vm.heapsize=256m
 +dalvik.vm.madvise-random=true
-+pm.dexopt.downgrade_after_inactive_days=10
-+pm.dexopt.shared=quicken
-+ro.config.low_ram=true
-+ro.lmk.critical_upgrade=true
-+ro.lmk.upgrade_pressure=40
 -- 
 2.18.0
 
