@@ -450,11 +450,11 @@ export -f deblobVendor;
 #
 #START OF DEBLOBBING
 #
-find build -name "*.mk" -type f -exec bash -c 'awk -i inplace "!/$makes/" "$0"' {} \; #Deblob all makefiles
-find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \; #Deblob all device directories
-#find device -maxdepth 3 -mindepth 2 -type d -exec bash -c 'deblobSepolicy "$0"' {} \; #Deblob all device sepolicy directories XXX: Breaks builds when other sepolicy files reference deleted ones
-#find kernel -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobKernel "$0"' {} \; #Deblob all kernel directories
-find vendor -name "*vendor*.mk" -type f -exec bash -c 'deblobVendor "$0"' {} \; #Deblob all makefiles
+find build -name "*.mk" -type f -exec bash -c 'awk -i inplace "!/$makes/" "$0"' {} \;; #Deblob all makefiles
+find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \;; #Deblob all device directories
+#find device -maxdepth 3 -mindepth 2 -type d -exec bash -c 'deblobSepolicy "$0"' {} \;; #Deblob all device sepolicy directories XXX: Breaks builds when other sepolicy files reference deleted ones
+#find kernel -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobKernel "$0"' {} \;; #Deblob all kernel directories
+find vendor -name "*vendor*.mk" -type f -exec bash -c 'deblobVendor "$0"' {} \;; #Deblob all makefiles
 deblobVendors; #Deblob entire vendor directory
 rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove ClearKey
 rm -rf vendor/samsung/nodevice;
