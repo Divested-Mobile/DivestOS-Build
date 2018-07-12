@@ -140,6 +140,12 @@ echo "Deblobbing..."
 		blobs=$blobs"|android.hardware.biometrics.fingerprint.*|fingerprint.*.so|fpc_early_loader|fpctzappfingerprint.*|libbauthserver.so|libcom_fingerprints_service.so|libegis_fp_normal_sensor_test.so|lib_fpc_tac_shared.so|libfpfactory_jni.so|libfpfactory.so|libsynaFpSensorTestNwd.so";
 	fi;
 
+	#Google Camera
+	blobs=$blobs"|com.google.android.camera.*";
+
+	#Google TV
+	blobs=$blobs"|LeanbackIme.apk|LeanbackLauncher.apk|AtvRemoteService.apk|GamepadPairingService.apk|GlobalKeyInterceptor.apk|RemoteControlService.apk|TV.apk";
+
 	#HDCP (DRM)
 	blobs=$blobs"|libmm-hdcpmgr.so|libstagefright_hdcp.so|libhdcp2.so|srm.bin|insthk";
 	blobs=$blobs"|hdcp1.*|tzhdcp.*";
@@ -222,7 +228,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|libQtiTether.so|QtiTetherService.apk";
 
 	#RCS (Proprietary messaging protocol)
-	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so"; #RCS
+	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so|RCSBootstraputil.apk|RcsImsBootstraputil.apk"; #RCS
 	makes=$makes"|rcs_service.*";
 
 	#SecProtect [Qualcomm]
@@ -232,7 +238,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureExtAuthJNI.so|libSecureSampleAuthClient.so|libsdedrm.so";
 
 	#[Sprint]
-	blobs=$blobs"|com.android.omadm.service.xml|ConnMO.apk|CQATest.apk|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|GCS.apk|HiddenMenu.apk|libdmengine.so|libdmjavaplugin.so|LifetimeData.apk|SprintDM.apk|SprintHM.apk|whitelist_com.android.omadm.service.xml";
+	blobs=$blobs"|com.android.omadm.service.xml|ConnMO.apk|CQATest.apk|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|GCS.apk|HiddenMenu.apk|libdmengine.so|libdmjavaplugin.so|LifetimeData.apk|SprintDM.apk|SprintHM.apk|whitelist_com.android.omadm.service.xml|LifeTimerService.apk";
 
 	#Thermal Throttling [Qualcomm]
 	#blobs=$blobs"|libthermalclient.so|libthermalioctl.so|thermal-engine";
