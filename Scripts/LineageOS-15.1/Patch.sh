@@ -163,9 +163,9 @@ awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/AudioFX/' config/common.mk; fi;
 sed -i 's/LINEAGE_BUILDTYPE := UNOFFICIAL/LINEAGE_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/LINEAGE_BUILDTYPE := dos/LINEAGE_BUILDTYPE := dosNC/' config/common.mk; fi;
-echo 'include vendor/divested/divested.mk' >> config/common.mk; #Include our customizations
+echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
 
-enterAndClear "vendor/divested";
+enter "vendor/divested";
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += microG" >> packages.mk;
 if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += DNS66" >> packages.mk;
 #

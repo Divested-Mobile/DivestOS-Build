@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Default for LineageSettings.Secure.STATS_COLLECTION -->
+    <bool name="def_stats_collection">false</bool>
+
     <!-- Default value of LineageSettings.System.ENABLE_FORWARD_LOOKUP -->
     <integer name="def_forward_lookup">0</integer>
 

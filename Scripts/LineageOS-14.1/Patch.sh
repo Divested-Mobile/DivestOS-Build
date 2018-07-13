@@ -165,14 +165,14 @@ if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
 fi;
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/CM_BUILDTYPE := dos/CM_BUILDTYPE := dosNC/' config/common.mk; fi;
-echo 'include vendor/divested/divested.mk' >> config/common.mk; #Include our customizations
+echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
 
 enterAndClear "vendor/cmsdk";
 awk -i inplace '!/WeatherManagerServiceBroker/' cm/res/res/values/config.xml; #Disable Weather
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/CMAudioService/' cm/res/res/values/config.xml; fi;
 sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod/platform/internal/PerformanceManagerService.java; #Per app performance profiles fix
 
-enterAndClear "vendor/divested";
+enter "vendor/divested";
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += microG" >> packages.mk;
 if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += DNS66" >> packages.mk;
 #

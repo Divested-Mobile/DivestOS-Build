@@ -58,8 +58,5 @@ sed -i 's/"pref_predictive_apps", true/"pref_predictive_apps", false/' src/com/a
 enter "packages/inputmethods/LatinIME";
 #sed -i 's/PREF_KEY_USE_PERSONALIZED_DICTS, true/PREF_KEY_USE_PERSONALIZED_DICTS, false/' java/src/com/android/inputmethod/latin/settings/SettingsValues.java; #FIXME
 
-enter "vendor/lineage";
-sed -i 's/def_stats_collection">true/def_stats_collection">false/' overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml;
-
 cd "$DOS_BUILD_BASE";
 echo "Default settings changed!";

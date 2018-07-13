@@ -11,7 +11,7 @@
     <bool name="config_recents_use_hardware_layers">true</bool>
 
     <!-- Whether to use cheap, less good looking shadows for recents -->
-    <bool name="config_recents_fake_shadows">false</bool>
+    <bool name="config_recents_fake_shadows">true</bool>
 
     <!-- Whether to clip notification contents with a rounded rectangle. Might be expensive on
          certain GPU's and thus can be turned off with only minimal visual impact. -->
