@@ -117,7 +117,6 @@ sed -i 's/\"org\.fdroid\.fdroid/\"org.fdroid.fdroid_dos/' app/src/main/java/org/
 
 enterAndClear "packages/apps/LineageParts";
 rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of the analytics
-sed -i 's|config_showWeatherMenu">true|config_showWeatherMenu">false|' res/values/config.xml; #Disable Weather #TODO OVERLAY
 patch -p1 < "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytics.patch"; #Remove analytics
 rm AndroidManifest.xml.orig res/values/*.xml.orig;
 

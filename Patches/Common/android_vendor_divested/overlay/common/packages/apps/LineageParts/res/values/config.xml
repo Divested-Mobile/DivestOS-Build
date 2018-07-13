@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- When true, weather options will be displayed in settings dashboard -->
+    <bool name="config_showWeatherMenu">false</bool>
+
+</resources>

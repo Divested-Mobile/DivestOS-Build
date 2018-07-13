@@ -59,9 +59,7 @@ enter "packages/inputmethods/LatinIME";
 #sed -i 's/PREF_KEY_USE_PERSONALIZED_DICTS, true/PREF_KEY_USE_PERSONALIZED_DICTS, false/' java/src/com/android/inputmethod/latin/settings/SettingsValues.java; #FIXME
 
 enter "vendor/lineage";
-awk -i inplace '!/def_backup_transport/' overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml;
 sed -i 's/def_stats_collection">true/def_stats_collection">false/' overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml;
-#sed -i 's/config_enableRecoveryUpdater">false/config_enableRecoveryUpdater">true/' overlay/common/packages/apps/Settings/res/values/config.xml;
 
 cd "$DOS_BUILD_BASE";
 echo "Default settings changed!";

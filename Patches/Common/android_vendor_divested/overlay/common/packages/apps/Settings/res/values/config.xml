@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Does the device allow updating the recovery. -->
+    <bool name="config_enableRecoveryUpdater">true</bool>
+
+</resources>

@@ -18,6 +18,7 @@ PRODUCT_PACKAGES += \
 # Replacements
 PRODUCT_PACKAGES += \
     CameraRoll \
+    K9Mail \
     Silence \
     VanillaMusic
 

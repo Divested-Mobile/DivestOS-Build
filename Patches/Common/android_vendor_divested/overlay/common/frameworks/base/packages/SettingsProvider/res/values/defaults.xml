@@ -16,4 +16,7 @@
 
     <fraction name="def_window_animation_scale">50%</fraction>
     <fraction name="def_window_transition_scale">50%</fraction>
+
+    <bool name="def_backup_enabled">false</bool>
+    <string name="def_backup_transport" translatable="false">android/com.android.internal.backup.LocalTransport</string>
 </resources>

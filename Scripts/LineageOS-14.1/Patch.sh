@@ -99,7 +99,6 @@ awk -i inplace '!/com.android.internal.R.bool.config_permissionReviewRequired/' 
 
 enterAndClear "packages/apps/CMParts";
 rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of CMStats
-sed -i 's|config_showWeatherMenu">true|config_showWeatherMenu">false|' res/values/config.xml; #Disable Weather #TODO OVERLAY
 patch -p1 < "$DOS_PATCHES/android_packages_apps_CMParts/0001-Remove_Analytics.patch"; #Remove the rest of CMStats
 patch -p1 < "$DOS_PATCHES/android_packages_apps_CMParts/0002-Reduced_Resolution.patch"; #Allow reducing resolution to save power
 

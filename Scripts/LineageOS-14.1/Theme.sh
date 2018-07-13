@@ -32,12 +32,6 @@ sed -i "s/#fff4511e/#ffe53935/" core/res/res/values/colors.xml;
 enter "packages/apps/CMParts";
 sed -i "s/#ff009688/#ff$DOS_THEME_500/" res/values/colors.xml;
 
-if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then
-enter "packages/apps/GmsCore";
-sed -i "s/#ff7fcac3/#ff$DOS_THEME_300/" microg-ui-tools/src/main/res/values/colors.xml;
-sed -i "s/#ff009688/#ff$DOS_THEME_500/" microg-ui-tools/src/main/res/values/colors.xml;
-fi;
-
 enter "packages/apps/Settings";
 sed -i "s/#ff009688/#ff$DOS_THEME_500/" res/values/styles.xml;
 #TODO: Fix: Storage, Profiles
