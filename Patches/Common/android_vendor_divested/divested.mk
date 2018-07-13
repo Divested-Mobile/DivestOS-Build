@@ -25,3 +25,5 @@ endif
 
 PRODUCT_COPY_FILES += \
 	vendor/divested/extras/etc/dns66.json:system/etc/dns66/settings.json
+
+include vendor/divested/packages.mk
