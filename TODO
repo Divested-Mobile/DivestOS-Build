@@ -1,4 +1,4 @@
-Last updated: 2018-07-04
+Last updated: 2018-07-12
 
 High Priority (Release blockers)
 	Build
@@ -35,8 +35,6 @@ Medium Priority
 Low Priority
 	Build
 		- Move overclocks to separate repo
-		- Support 11.0
-		- Support 13.0
 	Website
 		- Switch to a wiki
 	WiFiDatabaseMerger
