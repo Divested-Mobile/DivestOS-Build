@@ -5,25 +5,26 @@
 
 DEVICE_PACKAGE_OVERLAYS += vendor/divested/overlay/common
 
-PRODUCT_PACKAGES += ModuleBlocker
+#Extra settings
+PRODUCT_BUILD_PROP_OVERRIDES += \
+    BUILD_UTC_DATE=0
 
 PRODUCT_PROPERTY_OVERRIDES += \
-	keyguard.no_require_sim=true \
-	ro.config.notification_sound=Pong.ogg \
-	ro.config.alarm_alert=Alarm_Buzzer.ogg \
-	ro.build.selinux=1 \
-	ro.storage_manager.enabled=true \
-	ro.cmlegal.url=https://divestos.xyz/index.php?page=about
-
-PRODUCT_BUILD_PROP_OVERRIDES += \
-	BUILD_UTC_DATE=0
+    keyguard.no_require_sim=true \
+    ro.config.notification_sound=Pong.ogg \
+    ro.config.alarm_alert=Alarm_Buzzer.ogg \
+    ro.build.selinux=1 \
+    ro.storage_manager.enabled=true
 
 ifneq ($(TARGET_BUILD_VARIANT),eng)
-	ADDITIONAL_DEFAULT_PROPERTIES += \
-		ro.adb.secure=1
+    ADDITIONAL_DEFAULT_PROPERTIES += \
+        ro.adb.secure=1
 endif
 
+#Copy extra files
 PRODUCT_COPY_FILES += \
-	vendor/divested/extras/etc/dns66.json:system/etc/dns66/settings.json
+    vendor/divested/extras/etc/dns66.json:system/etc/dns66/settings.json
 
+#Include packages
+PRODUCT_PACKAGES += ModuleBlocker
 include vendor/divested/packages.mk

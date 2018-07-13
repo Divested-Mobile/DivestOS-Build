@@ -165,7 +165,6 @@ if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
 fi;
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/CM_BUILDTYPE := dos/CM_BUILDTYPE := dosNC/' config/common.mk; fi;
-cp "$DOS_PATCHES/android_vendor_cm/config.xml" overlay/common/vendor/cmsdk/cm/res/res/values/config.xml; #Per app performance profiles
 echo 'include vendor/divested/divested.mk' >> config/common.mk; #Include our customizations
 
 enterAndClear "vendor/cmsdk";
