@@ -139,7 +139,7 @@ export -f enableDexPreOptFull;
 
 enableLowRam() {
 	cd "$DOS_BUILD_BASE$1";
-	if [ -f lineage.mk ]; then echo '$(call inherit-product, $(SRC_TARGET_DIR)/product/lowram.mk)' >> lineage.mk; fi;
+	if [ -f lineage.mk ]; then echo '$(call inherit-product, vendor/divested/target/product/lowram.mk)' >> lineage.mk; fi;
 	if [ -f BoardConfig.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfig.mk; fi;
 	if [ -f BoardConfigCommon.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfigCommon.mk; fi;
 	echo "Enabled lowram for $1";

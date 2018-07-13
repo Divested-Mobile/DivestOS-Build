@@ -8,13 +8,17 @@ PRODUCT_PACKAGES += \
 #    F-DroidOfficial \
 #    F-DroidPrivilegedExtensionOfficial
 
-# UnifiedNLP Backends (DejaVu is always included even when microG is disabled to prevent deletion of a user's database)
+# UnifiedNLP
 PRODUCT_PACKAGES += \
-    DejaVuNlpBackend
+    UnifiedNLP \
+    DejaVuNlpBackend \
+    IchnaeaNlpBackend \
+    NominatimNlpBackend
 
 # Replacements
 PRODUCT_PACKAGES += \
     CameraRoll \
+    Silence \
     VanillaMusic
 
 # Others

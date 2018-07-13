@@ -83,7 +83,7 @@
     <string name="config_mms_user_agent" translatable="false">Android-Mms/2.0</string>
 
     <!-- MMS user agent prolfile url -->
-    <string name="config_mms_user_agent_profile_url" translatable="false"></string>
+    <string name="config_mms_user_agent_profile_url" translatable="false">http://www.google.com/oha/rdf/ua-profile-kila.xml</string>
 
     <!-- The URL that should be sent in an x-wap-profile header with an HTTP request,
          as defined in the Open Mobile Alliance User Agent Profile specification
@@ -108,7 +108,7 @@
 
          If this string is empty or the specified package does not exist, then
          the behavior will be as though no app was named as an explicit default. -->
-    <string name="default_browser" translatable="false"></string>
+    <string name="default_browser" translatable="false">us.spotco.fennec_dos</string>
 
     <!-- Default SMS Application. This will be the default SMS application when
          the phone first boots. The user can then change the default app to one
@@ -140,6 +140,7 @@
         <!-- The standard AOSP fused location provider -->
         <item>com.android.location.fused</item>
         <item>org.microg.nlp</item>
+        <item>com.google.android.gms</item>
     </string-array>
 
     <!-- Package name providing Hardware Activity-Recognition API support. Used only when
@@ -233,7 +234,7 @@
          alpha compositing functionality in hardware.  If set, the window
          manager will disable alpha trasformation in animations where not
          strictly needed. -->
-    <bool name="config_sf_limitedAlpha">false</bool>
+    <bool name="config_sf_limitedAlpha">true</bool>
 
     <!-- Flag indicating that the media framework should support playing of sounds on volume
          key usage.  This adds noticeable additional overhead to volume key processing, so
