@@ -36,17 +36,13 @@
 	<remove-project name="LineageOS/android_packages_apps_OpenWeatherMapProvider" />
 	<remove-project name="LineageOS/android_packages_apps_Stk" />
 	<remove-project name="LineageOS/android_packages_apps_Terminal" />
-	<remove-project name="LineageOS/android_packages_apps_TV" />
-	<remove-project name="LineageOS/android_packages_apps_TvSettings" />
 	<remove-project name="LineageOS/android_packages_apps_WundergroundWeatherProvider" />
 	<remove-project name="LineageOS/android_packages_apps_YahooWeatherProvider" />
 	<remove-project name="LineageOS/android_packages_providers_PartnerBookmarksProvider" />
-	<remove-project name="LineageOS/android_packages_providers_TvProvider" />
 	<remove-project name="LineageOS/android_packages_providers_WeatherProvider" />
 	<remove-project name="LineageOS/android_packages_screensavers_Basic" />
 	<remove-project name="LineageOS/android_packages_screensavers_PhotoTable" />
 	<remove-project name="LineageOS/android_packages_screensavers_WebView" />
-	<remove-project name="LineageOS/android_packages_services_Car" />
 	<remove-project name="LineageOS/android_packages_services_WeatherService" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_aarch64_aarch64-linux-android-4.9" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_arm_arm-linux-androideabi-4.9" />
@@ -228,6 +224,10 @@
 	<!-- Nexus 6P (angler) -->
 	<project path="device/huawei/angler" name="LineageOS/android_device_huawei_angler" remote="github" />
 	<project path="kernel/huawei/angler" name="LineageOS/android_kernel_huawei_angler" remote="github" />
+
+	<!-- Nexus Player (fugu) -->
+	<project path="device/asus/fugu" name="LineageOS/android_device_asus_fugu" remote="github" />
+	<project path="kernel/asus/fugu" name="LineageOS/android_kernel_asus_fugu" remote="github" />
 
 	<!-- OnePlus One (bacon) -->
 	<project path="device/oppo/common" name="LineageOS/android_device_oppo_common" remote="github" />

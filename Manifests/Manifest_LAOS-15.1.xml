@@ -27,12 +27,9 @@
 	<remove-project name="LineageOS/android_packages_apps_OpenWeatherMapProvider" />
 	<remove-project name="LineageOS/android_packages_apps_Stk" />
 	<remove-project name="LineageOS/android_packages_apps_Terminal" />
-	<remove-project name="LineageOS/android_packages_apps_TV" />
-	<remove-project name="LineageOS/android_packages_apps_TvSettings" />
 	<remove-project name="LineageOS/android_packages_apps_WundergroundWeatherProvider" />
 	<remove-project name="LineageOS/android_packages_apps_YahooWeatherProvider" />
 	<remove-project name="LineageOS/android_packages_providers_PartnerBookmarksProvider" />
-	<remove-project name="LineageOS/android_packages_providers_TvProvider" />
 	<remove-project name="LineageOS/android_packages_providers_WeatherProvider" />
 	<remove-project name="LineageOS/android_packages_screensavers_Basic" />
 	<remove-project name="LineageOS/android_packages_screensavers_PhotoTable" />
@@ -54,20 +51,6 @@
 	<remove-project name="platform/hardware/intel/common/bd_prov" />
 	<remove-project name="platform/hardware/intel/common/libstagefrighthw" />
 	<remove-project name="platform/hardware/intel/common/wrs_omxil_core" />
-	<remove-project name="platform/packages/apps/Car/Dialer" />
-	<remove-project name="platform/packages/apps/Car/Hvac" />
-	<remove-project name="platform/packages/apps/Car/LatinIME" />
-	<remove-project name="platform/packages/apps/Car/LensPicker" />
-	<remove-project name="platform/packages/apps/Car/libs" />
-	<remove-project name="platform/packages/apps/Car/LocalMediaPlayer" />
-	<remove-project name="platform/packages/apps/Car/Media" />
-	<remove-project name="platform/packages/apps/Car/Messenger" />
-	<remove-project name="platform/packages/apps/Car/Overview" />
-	<remove-project name="platform/packages/apps/Car/Radio" />
-	<remove-project name="platform/packages/apps/Car/Settings" />
-	<remove-project name="platform/packages/apps/Car/Stream" />
-	<remove-project name="platform/packages/apps/Car/SystemUpdater" />
-	<remove-project name="platform/packages/apps/Car/UserManagement" />
 	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
 	<remove-project name="platform/prebuilts/gcc/darwin-x86/aarch64/aarch64-linux-android-4.9" />
 	<remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-eabi-4.8" />
@@ -167,6 +150,10 @@
 	<project path="device/motorola/victara" name="LineageOS/android_device_motorola_victara" remote="github" />
 	<project path="kernel/motorola/msm8974" name="LineageOS/android_kernel_motorola_msm8974" remote="github" />
 
+	<!-- Moto X Pure Edition (clark) -->
+	<project path="device/motorola/clark" name="HashBang173/android_device_motorola_clark" remote="github" />
+	<project path="kernel/motorola/msm8992" name="HashBang173/android_kernel_motorola_msm8992" remote="github" />
+
 	<!-- Moto Z (griffin) -->
 	<project path="device/motorola/griffin" name="LineageOS/android_device_motorola_griffin" remote="github" />
 	<project path="kernel/motorola/msm8996" name="LineageOS/android_kernel_motorola_msm8996" remote="github" />
@@ -201,6 +188,10 @@
 	<!-- Nexus 6P (angler) -->
 	<project path="device/huawei/angler" name="LineageOS/android_device_huawei_angler" remote="github" />
 	<project path="kernel/huawei/angler" name="LineageOS/android_kernel_huawei_angler" remote="github" />
+
+	<!-- Nexus Player (fugu) -->
+	<project path="device/asus/fugu" name="LineageOS/android_device_asus_fugu" remote="github" />
+	<project path="kernel/asus/fugu" name="LineageOS/android_kernel_asus_fugu" remote="github" />
 
 	<!-- OnePlus One (bacon) -->
 	<project path="device/oppo/common" name="LineageOS/android_device_oppo_common" remote="github" />

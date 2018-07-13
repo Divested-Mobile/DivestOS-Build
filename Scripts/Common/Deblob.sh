@@ -138,6 +138,7 @@ echo "Deblobbing..."
 	#Fingerprint Reader
 	if [ "$DOS_DEBLOBBER_REMOVE_FP" = true ]; then
 		blobs=$blobs"|android.hardware.biometrics.fingerprint.*|fingerprint.*.so|fpc_early_loader|fpctzappfingerprint.*|libbauthserver.so|libcom_fingerprints_service.so|libegis_fp_normal_sensor_test.so|lib_fpc_tac_shared.so|libfpfactory_jni.so|libfpfactory.so|libsynaFpSensorTestNwd.so";
+		makes=$makes"|android.hardware.biometrics.fingerprint.*|android.hardware.fingerprint.*";
 	fi;
 
 	#Google Camera
@@ -185,7 +186,7 @@ echo "Deblobbing..."
 	#IR
 	if [ "$DOS_DEBLOBBER_REMOVE_IR" = true ]; then
 		blobs=$blobs"|cir_fw_update|cir.img|CIRModule.apk|consumerir.*.so|htcirlibs.jar|ibcir_driver.so|libcir_driver.so|libhtcirinterface_jni.s";
-		makes=$makes"|android.hardware.ir.*";
+		makes=$makes"|android.hardware.ir.*|android.hardware.consumerir.*";
 	fi;
 
 	#Keystore/TrustZone (HW Crypto) [Qualcomm]

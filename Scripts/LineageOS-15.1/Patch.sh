@@ -238,6 +238,9 @@ cp "$DOS_PATCHES/android_device_lge_mako/proprietary-blobs.txt" proprietary-blob
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
 patch -p1 < "$DOS_PATCHES/android_device_lge_mako/0001-Enable_LTE.patch";
 
+enterAndClear "device/motorola/clark";
+rm setup-makefiles.sh;
+
 enterAndClear "device/oppo/msm8974-common";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 

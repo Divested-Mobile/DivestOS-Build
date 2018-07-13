@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_amazon_hdx-common kernel_asus_grouper kernel_asus_msm8916 kernel_fairphone_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_huawei_angler kernel_htc_msm8974 kernel_htc_msm8994 kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8974 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8974 kernel_nextbit_msm8992 kernel_samsung_jf kernel_samsung_manta kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal8890";
+	startPatcher "kernel_amazon_hdx-common kernel_asus_fugu kernel_asus_grouper kernel_asus_msm8916 kernel_fairphone_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_huawei_angler kernel_htc_msm8974 kernel_htc_msm8994 kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8974 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8974 kernel_nextbit_msm8992 kernel_samsung_jf kernel_samsung_manta kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal8890";
 }
 export -f patchAllKernels;
 
@@ -76,6 +76,7 @@ buildAll() {
 	#brunch lineage_ether-user;
 	#brunch lineage_flo-user;
 	#brunch lineage_flounder-user;
+	#brunch lineage_fugu-user;
 	#brunch lineage_griffin-user;
 	#brunch lineage_h850-user;
 	#brunch lineage_hammerhead-user;
