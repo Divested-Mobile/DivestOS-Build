@@ -23,7 +23,7 @@ patchAllKernels() {
 export -f patchAllKernels;
 
 resetWorkspace() {
-	repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/{FDroid,GmsCore} out && repo sync -j20 --force-sync;
+	repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/FDroid out && repo sync -j20 --force-sync;
 }
 export -f resetWorkspace;
 
@@ -139,7 +139,7 @@ export -f enableDexPreOptFull;
 
 enableLowRam() {
 	cd "$DOS_BUILD_BASE$1";
-	if [ -f lineage.mk ]; then echo '$(call inherit-product, vendor/divested/target/product/lowram.mk)' >> lineage.mk; fi;
+	if [ -f lineage.mk ]; then echo '$(call inherit-product, vendor/divested/build/target/product/lowram.mk)' >> lineage.mk; fi;
 	if [ -f BoardConfig.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfig.mk; fi;
 	if [ -f BoardConfigCommon.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfigCommon.mk; fi;
 	echo "Enabled lowram for $1";

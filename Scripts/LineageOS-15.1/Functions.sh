@@ -23,7 +23,7 @@ patchAllKernels() {
 export -f patchAllKernels;
 
 resetWorkspace() {
-	repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/{FDroid,GmsCore} out && repo sync -j20 --force-sync;
+	repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/FDroid out && repo sync -j20 --force-sync;
 }
 export -f resetWorkspace;
 
@@ -82,6 +82,7 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
 	source build/envsetup.sh;
+	#repopick 219020 219022; #ab-neverallow-user
 	repopick -f 214824 209584 209585 215010 214300; #g3-common
 	repopick -f 211404 211405 211406 211407 211408 211409; #d852
 
@@ -127,7 +128,7 @@ export -f enableDexPreOptFull;
 enableLowRam() {
 	cd "$DOS_BUILD_BASE$1";
 	#if [ -f lineage.mk ]; then echo '$(call inherit-product, $(SRC_TARGET_DIR)/product/go_defaults.mk)' >> lineage.mk; fi;
-	if [ -f lineage.mk ]; then echo '$(call inherit-product, vendor/divested/target/product/lowram.mk)' >> lineage.mk; fi;
+	if [ -f lineage.mk ]; then echo '$(call inherit-product, vendor/divested/build/target/product/lowram.mk)' >> lineage.mk; fi;
 	if [ -f BoardConfig.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfig.mk; fi;
 	if [ -f BoardConfigCommon.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfigCommon.mk; fi;
 	echo "Enabled lowram for $1";

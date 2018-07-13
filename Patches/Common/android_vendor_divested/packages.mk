@@ -18,7 +18,7 @@ PRODUCT_PACKAGES += \
 # Replacements
 PRODUCT_PACKAGES += \
     CameraRoll \
-    FennecDOS
+    FennecDOS \
     K9Mail \
     Silence \
     VanillaMusic

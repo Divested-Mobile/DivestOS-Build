@@ -22,6 +22,15 @@ LOCAL_OVERRIDES_PACKAGES := \
     sshd_config \
     ssh-keygen \
     start-ssh \
-    rsync
+    rsync \
+    su \
+    Stk \
+    libdrmclearkeyplugin \
+    libclearkeycasplugin \
+    CtsShimPrebuilt \
+    CtsShimPrivPrebuilt \
+    MusicFX
+#    drmserver \
+#    libfwdlockengine \
 
 include $(BUILD_PREBUILT)

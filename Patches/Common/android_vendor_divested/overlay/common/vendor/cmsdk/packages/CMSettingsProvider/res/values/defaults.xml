@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- Default for CMSettings.Secure.STATS_COLLECTION -->
     <bool name="def_stats_collection">false</bool>
 
@@ -11,4 +12,5 @@
 
     <!-- Default value of LineageSettings.System.ENABLE_REVERSE_LOOKUP -->
     <integer name="def_reverse_lookup">0</integer>
-<resources>
+
+</resources>

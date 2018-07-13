@@ -209,4 +209,5 @@
         <item>com.whatsapp.*,3</item>
         <item>eu.chainfire.cfbench.*,2</item>
     </string-array>
+
 </resources>
