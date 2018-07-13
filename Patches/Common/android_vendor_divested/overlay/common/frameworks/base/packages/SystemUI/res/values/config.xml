@@ -20,4 +20,13 @@
     <!-- Whether to show a warning notification when the device reaches a certain temperature. -->
     <integer name="config_showTemperatureWarning">1</integer>
 
+    <!-- Should "4G" be shown instead of "LTE" when the network is NETWORK_TYPE_LTE? -->
+    <bool name="config_show4GForLTE">false</bool>
+
+    <!-- Set to true to enable the user switcher on the keyguard. -->
+    <bool name="config_keyguardUserSwitcher">false</bool>
+
+    <!-- Whether to show the full screen user switcher. -->
+    <bool name="config_enableFullscreenUserSwitcher">false</bool>
+
 </resources>
