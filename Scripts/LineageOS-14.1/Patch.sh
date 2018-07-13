@@ -105,6 +105,7 @@ patch -p1 < "$DOS_PATCHES/android_packages_apps_CMParts/0001-Remove_Analytics.pa
 patch -p1 < "$DOS_PATCHES/android_packages_apps_CMParts/0002-Reduced_Resolution.patch"; #Allow reducing resolution to save power
 
 enterAndClear "packages/apps/FDroid";
+cp "$DOS_PATCHES_COMMON/android_packages_apps_FDroid/default_repos.xml" app/src/main/res/values/default_repos.xml; #Add extra repos
 sed -i 's|outputs/apk/|outputs/apk/full/release/|' Android.mk;
 sed -i 's|-release-unsigned|-full-release-unsigned|' Android.mk;
 sed -i 's|gradle|./gradlew|' Android.mk; #Gradle 4.0 fix
@@ -164,6 +165,7 @@ if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
 	awk -i inplace '!/AudioFX/' config/common.mk;
 	awk -i inplace '!/AudioService/' config/common.mk;
 fi;
+if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then sed -i '/Google provider/!b;n;s/com.google.android.gms/org.microg.nlp/' overlay/common/frameworks/base/core/res/res/values/config.xml; fi;
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/CM_BUILDTYPE := dos/CM_BUILDTYPE := dosNC/' config/common.mk; fi;
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations

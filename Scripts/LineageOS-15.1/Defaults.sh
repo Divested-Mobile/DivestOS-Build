@@ -58,5 +58,9 @@ sed -i 's/"pref_predictive_apps", true/"pref_predictive_apps", false/' src/com/a
 enter "packages/inputmethods/LatinIME";
 #sed -i 's/PREF_KEY_USE_PERSONALIZED_DICTS, true/PREF_KEY_USE_PERSONALIZED_DICTS, false/' java/src/com/android/inputmethod/latin/settings/SettingsValues.java; #FIXME
 
+enter "vendor/lineage";
+sed -i 's/ro.config.notification_sound=Argon.ogg/ro.config.notification_sound=Pong.ogg/' config/common.mk;
+sed -i 's/ro.config.alarm_alert=Hassium.ogg/ro.config.alarm_alert=Alarm_Buzzer.ogg/' config/common.mk;
+
 cd "$DOS_BUILD_BASE";
 echo "Default settings changed!";
