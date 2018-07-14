@@ -3,7 +3,7 @@
 
     <!-- The default tiles to display in QuickSettings -->
     <string name="quick_settings_tiles_default" translatable="false">
-        wifi,cell,bt,dnd,flashlight,rotation,battery,profiles,sync,location,airplane,caffeine,saver,hotspot,nfc
+        wifi,cell,bt,dnd,flashlight,rotation,battery,profiles,location,airplane,caffeine,saver,hotspot,nfc,sync
     </string>
 
     <!-- Whether recents should use hardware layers for its taskviews. This flag can be enabled
