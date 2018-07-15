@@ -55,7 +55,7 @@ buildAll() {
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;
 	#brunch lineage_clark-eng;
-	brunch lineage_d802-user; #broken upstream - error: 'vendor/lge/g2-common/proprietary/vendor/etc/acdbdata/Bluetooth_cal.acdb'
+	brunch lineage_d802-user;
 	brunch lineage_d855-user; #broken upstream - recovery updater
 	brunch lineage_dragon-user;
 	brunch lineage_ether-user;
