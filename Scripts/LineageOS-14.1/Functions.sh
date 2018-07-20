@@ -50,7 +50,6 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#Select devices are userdebug due to SELinux policy issues
 	#TODO: Add athene, pme, t0lte, hlte, sumire, dogo, espresso
-	brunch lineage_thor-userdebug; #deprecated
 	brunch lineage_clark-user;
 	brunch lineage_FP2-user;
 	brunch lineage_grouper-user; #deprecated
@@ -63,6 +62,7 @@ buildAll() {
 	brunch lineage_manta-user; #deprecated
 	brunch lineage_n5110-user;
 	brunch lineage_osprey-user;
+	brunch lineage_thor-userdebug; #deprecated
 	brunch lineage_Z00T-user;
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
@@ -94,7 +94,8 @@ export -f buildAll;
 
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
+	repopick -t n_asb_07-2018;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

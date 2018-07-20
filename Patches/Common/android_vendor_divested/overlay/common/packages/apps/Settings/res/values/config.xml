@@ -10,10 +10,4 @@
     <!-- When true enable gesture setting. -->
     <bool name="config_gesture_settings_enabled">true</bool>
 
-    <!-- If the support features are enabled. -->
-    <bool name="config_support_enabled">false</bool>
-
-    <!-- Whether or not new device intro suggestion is supported for this device -->
-    <bool name="config_new_device_intro_suggestion_supported">false</bool>
-
 </resources>

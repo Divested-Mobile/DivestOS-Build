@@ -22,7 +22,7 @@
 #
 #Device Status (Tested under LineageOS 14.1 and 15.1)
 #
-#Functioning as Expected: bacon, clark, d852, mako, marlin, thor
+#Functioning as Expected: bacon, clark, d852, grouper, mako, marlin, thor
 #Partially working:
 #Not booting:
 
@@ -229,7 +229,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|libQtiTether.so|QtiTetherService.apk";
 
 	#RCS (Proprietary messaging protocol)
-	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so|RCSBootstraputil.apk|RcsImsBootstraputil.apk"; #RCS
+	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk"; #RCS
 	makes=$makes"|rcs_service.*";
 
 	#SecProtect [Qualcomm]

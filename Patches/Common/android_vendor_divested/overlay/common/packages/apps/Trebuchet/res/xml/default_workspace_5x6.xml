@@ -17,7 +17,7 @@
 <favorites xmlns:launcher="http://schemas.android.com/apk/res-auto/com.android.launcher3">
 
     <!-- Hotseat (We use the screen as the position of the item in the hotseat) -->
-    <!-- Phone, Silence, [All Apps], Fennec DOS, Camera -->
+    <!-- Phone, Messenger, [All Apps], Browser, Camera -->
     <resolve
         launcher:container="-101"
         launcher:screen="1"
@@ -36,6 +36,9 @@
         <favorite
             launcher:packageName="org.smssecure.smssecure"
             launcher:className="org.smssecure.smssecure.ConversationListActivity" />
+        <favorite
+            launcher:packageName="com.android.messaging"
+            launcher:className="com.android.messaging.ui.conversationlist.ConversationListActivity" />
     </resolve>
 
     <resolve
@@ -46,6 +49,18 @@
         <favorite
             launcher:packageName="us.spotco.fennec_dos"
             launcher:className="org.mozilla.gecko.LauncherActivity" />
+        <favorite
+            launcher:packageName="org.mozilla.fennec_fdroid"
+            launcher:className="org.mozilla.gecko.LauncherActivity" />
+        <favorite
+            launcher:packageName="org.gnu.icecat"
+            launcher:className="org.mozilla.gecko.LauncherActivity" />
+        <favorite
+            launcher:packageName="org.mozilla.firefox"
+            launcher:className="org.mozilla.gecko.LauncherActivity" />
+        <favorite
+            launcher:packageName="org.chromium.chrome"
+            launcher:className="org.chromium.chrome.ChromeLauncherActivity" />
     </resolve>
 
     <resolve
@@ -62,6 +77,9 @@
         <favorite
             launcher:packageName="com.android.camera2"
             launcher:className="com.android.camera.CameraLauncher" />
+        <favorite
+            launcher:packageName="net.sourceforge.opencamera"
+            launcher:className="net.sourceforge.opencamera.MainActivity" />
     </resolve>
 
 </favorites>

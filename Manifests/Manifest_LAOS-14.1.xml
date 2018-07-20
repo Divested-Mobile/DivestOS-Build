@@ -21,14 +21,6 @@
 	<remove-project name="LineageOS/android_external_rsync" />
 	<remove-project name="LineageOS/android_external_unrar" />
 	<remove-project name="LineageOS/android_external_vim" />
-	<remove-project name="LineageOS/android_hardware_intel_common_libmix" />
-	<remove-project name="LineageOS/android_hardware_intel_common_libva" />
-	<remove-project name="LineageOS/android_hardware_intel_common_libwsbm" />
-	<remove-project name="LineageOS/android_hardware_intel_common_omx-components" />
-	<remove-project name="LineageOS/android_hardware_intel_common_utils" />
-	<remove-project name="LineageOS/android_hardware_intel_img_hwcomposer" />
-	<remove-project name="LineageOS/android_hardware_intel_img_psb_headers" />
-	<remove-project name="LineageOS/android_hardware_intel_img_psb_video" />
 	<remove-project name="LineageOS/android_hardware_ti_omap4xxx" />
 	<remove-project name="LineageOS/android_packages_apps_Jelly" />
 	<remove-project name="LineageOS/android_packages_apps_LockClock" />
@@ -59,11 +51,6 @@
 	<remove-project name="LineageOS/slackbot" />
 	<remove-project name="LineageOS/www" />
 	<remove-project name="platform/cts" />
-	<remove-project name="platform/hardware/intel/audio_media" />
-	<remove-project name="platform/hardware/intel/bootstub" />
-	<remove-project name="platform/hardware/intel/common/bd_prov" />
-	<remove-project name="platform/hardware/intel/common/libstagefrighthw" />
-	<remove-project name="platform/hardware/intel/common/wrs_omxil_core" />
 	<remove-project name="platform/hardware/ti/omap3" />
 	<remove-project name="platform/hardware/ti/omap4-aah" />
 	<remove-project name="platform/prebuilts/clang/darwin-x86/host/3.6" />

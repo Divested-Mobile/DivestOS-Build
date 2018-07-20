@@ -46,11 +46,6 @@
 	<remove-project name="LineageOS/scripts" />
 	<remove-project name="LineageOS/slackbot" />
 	<remove-project name="LineageOS/www" />
-	<remove-project name="platform/hardware/intel/audio_media" />
-	<remove-project name="platform/hardware/intel/bootstub" />
-	<remove-project name="platform/hardware/intel/common/bd_prov" />
-	<remove-project name="platform/hardware/intel/common/libstagefrighthw" />
-	<remove-project name="platform/hardware/intel/common/wrs_omxil_core" />
 	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
 	<remove-project name="platform/prebuilts/gcc/darwin-x86/aarch64/aarch64-linux-android-4.9" />
 	<remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-eabi-4.8" />
@@ -197,6 +192,10 @@
 	<!-- Samsung Common -->
 	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
 	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
+
+	<!-- Samsung Galaxy S4 (jfltexx) -->
+	<project path="device/samsung/jf-common" name="LineageOS/android_device_samsung_jf-common" remote="github" />
+	<project path="kernel/samsung/jf" name="LineageOS/android_kernel_samsung_jf" remote="github" />
 
 	<!-- Samsung Galaxy S5 (klte) -->
 	<project path="device/samsung/klte" name="LineageOS/android_device_samsung_klte" remote="github" />

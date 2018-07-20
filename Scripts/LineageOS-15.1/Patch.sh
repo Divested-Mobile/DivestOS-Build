@@ -67,6 +67,7 @@ awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
 
 enterAndClear "device/lineage/sepolicy";
+git revert f1ad32105599a0b71702f840b2deeb6849f1ae80; #neverallow violation
 git revert c9b0d95630b82cd0ad1a0fc633c6d59c2cb8aad7 37422f7df389f3ae5a34ee3d6dd9354217f9c536; #neverallow violation
 
 enterAndClear "device/qcom/sepolicy";
