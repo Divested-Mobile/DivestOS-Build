@@ -289,10 +289,8 @@ echo "Deblobbing..."
 deblobDevice() {
 	devicePath="$1";
 	cd "$DOS_BUILD_BASE$devicePath";
-	if [ "${PWD##*/}" == "flo" ] || [ "${PWD##*/}" == "mako" ] || [ "${PWD##*/}" == "kona-common" ] || [ "${PWD##*/}" == "n5110" ] || [ "${PWD##*/}" == "smdk4412-common" ] || [ "${PWD##*/}" == "hdx-common" ] || [ "${PWD##*/}" == "thor" ] || [ "${PWD##*/}" == "flounder" ]; then #Some devices don't need/like TimeKeep
-		replaceTime="false";
-	fi;
-	if [ "$DOS_DEBLOBBER_REPLACE_TIME" = false ]; then replaceTime="false"; fi; #Disable replacement
+	if [ "$DOS_DEBLOBBER_REPLACE_TIME" = false ]; then replaceTime="false"; fi; #Disable Time replacement
+	if ! grep -qi "qcom" BoardConfig*.mk; then replaceTime="false"; fi; #Disable Time Replacement
 	if [ -f Android.mk ]; then
 		#Some devices store these in a dedicated firmware partition, others in /system/vendor/firmware, either way the following are just symlinks
 		#sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Remove CMN firmware
@@ -398,12 +396,18 @@ deblobDevice() {
 	fi;
 	if [ -d sepolicy ]; then
 		if [ -z "$replaceTime" ]; then
+			numfiles=(*); numfiles=${#numfiles[@]};
+			if [ "$numfiles"  -gt "5" ]; then #only if device doesn't use a common sepolicy dir
 			#Switch to Sony TimeKeep
 			echo "allow system_app time_data_file:dir { create_dir_perms search };" >> sepolicy/system_app.te;
 			echo "allow system_app time_data_file:file create_file_perms;" >> sepolicy/system_app.te;
+			fi;
 		fi;
 	fi;
-	if [ -z "$replaceTime" ]; then sed -i 's|service time_daemon /system/bin/time_daemon|service timekeep /system/bin/timekeep restore\n    oneshot|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true; fi; #Switch to Sony TimeKeep
+	if [ -z "$replaceTime" ]; then #Switch to Sony TimeKeep
+		sed -i 's|service time_daemon /system/bin/time_daemon|service time_daemon /system/bin/timekeep restore\n    oneshot|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true;
+		sed -i 's|mkdir /data/time/ 0700 system system|mkdir /data/time/ 0700 system system\n    chmod 0770 /data/time/ats_2|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true;
+	fi;
 	rm -f board/qcom-cne.mk product/qcom-cne.mk; #Remove CNE
 	rm -f rootdir/etc/init.qti.ims.sh rootdir/init.qti.ims.sh init.qti.ims.sh; #Remove IMS startup script
 	rm -rf IMSEnabler; #Remove IMS compatibility module
