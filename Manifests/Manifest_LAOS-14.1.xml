@@ -216,6 +216,10 @@
 	<project path="device/oneplus/bacon" name="LineageOS/android_device_oneplus_bacon" remote="github" />
 	<project path="kernel/oneplus/msm8974" name="LineageOS/android_kernel_oneplus_msm8974" remote="github" />
 
+	<!-- Raspberry Pi 3 (rpi3) -->
+	<project path="device/brcm/rpi3" name="lineage-rpi/android_device_brcm_rpi3" remote="github" />
+	<project path="kernel/brcm/rpi3" name="lineage-rpi/android_kernel_brcm_rpi3" remote="github" />
+
 	<!-- Samsung Common -->
 	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
 	<project path="device/samsung/smdk4412-common" name="LineageOS/android_device_samsung_smdk4412-common" remote="github" />
