@@ -219,6 +219,9 @@ rm board-info.txt; #Never restrict installation
 enterAndClear "device/oneplus/bacon";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
+enter "vendor/google";
+echo "" > atv/atv-common.mk;
+
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
 if [ "$DOS_LOWRAM_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableLowRam "$0"' {} \;; fi;
