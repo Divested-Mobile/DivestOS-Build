@@ -1,8 +1,8 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/samsung/universal9810"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0107-0108.patch
-git apply $DOS_PATCHES_LINUX_CVES/0010-Accelerated_AES/3.10+/0016.patch
-git apply $DOS_PATCHES_LINUX_CVES/0010-Accelerated_AES/3.10+/0020.patch
+git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0016.patch
+git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9900/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-1583/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0627/ANY/0001.patch

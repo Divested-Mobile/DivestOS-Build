@@ -1,7 +1,8 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/essential/msm8998"
-git apply $DOS_PATCHES_LINUX_CVES/0010-Accelerated_AES/3.10+/0016.patch
-git apply $DOS_PATCHES_LINUX_CVES/0010-Accelerated_AES/3.10+/0020.patch
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0138-0139.patch
+git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0016.patch
+git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9900/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-1583/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6693/ANY/0001.patch
@@ -28,5 +29,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6693/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-14875/ANY/0001.patch
-editKernelLocalversion "-dos.p28"
+editKernelLocalversion "-dos.p29"
 cd "$DOS_BUILD_BASE"

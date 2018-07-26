@@ -1,21 +1,21 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/htc/flounder"
-git apply $DOS_PATCHES_LINUX_CVES/0007-Copperhead-Kernel_Hardening/3.10/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/0007-Copperhead-Kernel_Hardening/3.10/0007.patch
-git apply $DOS_PATCHES_LINUX_CVES/0007-Copperhead-Kernel_Hardening/3.10/0008.patch
-git apply $DOS_PATCHES_LINUX_CVES/0007-Copperhead-Kernel_Hardening/3.10/0009.patch
-git apply $DOS_PATCHES_LINUX_CVES/0007-Copperhead-Kernel_Hardening/3.10/0010.patch
-git apply $DOS_PATCHES_LINUX_CVES/0007-Copperhead-Kernel_Hardening/3.10/0011.patch
-git apply $DOS_PATCHES_LINUX_CVES/0007-Copperhead-Kernel_Hardening/3.10/0012.patch
-git apply $DOS_PATCHES_LINUX_CVES/0007-Copperhead-Kernel_Hardening/3.10/0013.patch
-git apply $DOS_PATCHES_LINUX_CVES/0007-Copperhead-Kernel_Hardening/3.10/0014.patch
-git apply $DOS_PATCHES_LINUX_CVES/0007-Copperhead-Kernel_Hardening/3.10/0015.patch
-git apply $DOS_PATCHES_LINUX_CVES/0007-Copperhead-Kernel_Hardening/3.10/0016.patch
-git apply $DOS_PATCHES_LINUX_CVES/0007-Copperhead-Kernel_Hardening/3.10/0017.patch
-git apply $DOS_PATCHES_LINUX_CVES/0010-Accelerated_AES/3.10+/0011.patch
-git apply $DOS_PATCHES_LINUX_CVES/0010-Accelerated_AES/3.10+/0012.patch
-git apply $DOS_PATCHES_LINUX_CVES/0012-Copperhead-Deny_USB/3.10/0001-Alt.patch
-git apply $DOS_PATCHES_LINUX_CVES/0013-syskaller-Misc/ANY/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/0005-Copperhead-Deny_USB/3.10/0001-Alt.patch
+git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0010.patch
+git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0011.patch
+git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0012.patch
+git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0013.patch
+git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0014.patch
+git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0015.patch
+git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0016.patch
+git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0017.patch
+git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0011.patch
+git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9892/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9900/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-7515/^4.4/0002.patch

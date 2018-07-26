@@ -192,7 +192,6 @@ enterAndClear "device/lge/msm8996-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 
 enterAndClear "device/lge/mako";
-cp "$DOS_PATCHES/android_device_lge_mako/proprietary-blobs.txt" proprietary-blobs.txt; #Out of sync
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
 patch -p1 < "$DOS_PATCHES/android_device_lge_mako/0001-Enable_LTE.patch";
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/brcm/rpi3"
-git apply $DOS_PATCHES_LINUX_CVES/0013-syskaller-Misc/ANY/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9892/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9900/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-8944/ANY/0001.patch

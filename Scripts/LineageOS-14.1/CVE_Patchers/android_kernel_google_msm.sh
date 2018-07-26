@@ -1,7 +1,7 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/google/msm"
-git apply $DOS_PATCHES_LINUX_CVES/0010-Accelerated_AES/3.4/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/0012-Copperhead-Deny_USB/3.4/3.4-Backport.patch
+git apply $DOS_PATCHES_LINUX_CVES/0005-Copperhead-Deny_USB/3.4/3.4-Backport.patch
+git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-4738/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9781/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-1593/ANY/0001.patch
