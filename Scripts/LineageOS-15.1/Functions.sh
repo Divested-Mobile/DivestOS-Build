@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_brcm_rpi3 kernel_essential_msm8998 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_htc_msm8974 kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_universal9810";
+	startPatcher "kernel_asus_fugu kernel_brcm_rpi3 kernel_essential_msm8998 kernel_faitphone_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_htc_msm8974 kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_universal9810";
 }
 export -f patchAllKernels;
 
@@ -61,6 +61,7 @@ buildAll() {
 	brunch lineage_ether-user;
 	brunch lineage_flo-user;
 	brunch lineage_flounder-user;
+	#brunch lineage_fp2-user; #still in bringup
 	brunch lineage_fugu-user;
 	brunch lineage_griffin-user;
 	brunch lineage_h850-user;
