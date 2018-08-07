@@ -21,8 +21,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-17806/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-6345/^4.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-1068/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9389/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p24"
+editKernelLocalversion "-dos.p25"
 cd "$DOS_BUILD_BASE"
