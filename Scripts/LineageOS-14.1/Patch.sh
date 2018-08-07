@@ -85,7 +85,7 @@ changeDefaultDNS;
 #patch -p1 < "$DOS_PATCHES/android_frameworks_base/0007-Connectivity.patch"; #Change connectivity check URLs to ours
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
-rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig;
+rm -f core/res/res/*/*.orig;
 
 if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
 enterAndClear "frameworks/opt/net/ims";

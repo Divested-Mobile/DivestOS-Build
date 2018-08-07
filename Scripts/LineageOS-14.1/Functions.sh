@@ -53,7 +53,6 @@ buildAll() {
 	brunch lineage_clark-user;
 	brunch lineage_grouper-user; #deprecated
 	brunch lineage_thor-userdebug; #deprecated
-	brunch lineage_FP2-user;
 	brunch lineage_h815-user; #deprecated
 	brunch lineage_herolte-user; #deprecated
 	brunch lineage_himaul-user; #deprecated
@@ -76,6 +75,7 @@ buildAll() {
 	#brunch lineage_ether-user;
 	#brunch lineage_flo-user;
 	#brunch lineage_flounder-user;
+	#brunch lineage_FP2-user;
 	#brunch lineage_fugu-user;
 	#brunch lineage_griffin-user;
 	#brunch lineage_h850-user;
@@ -95,7 +95,8 @@ export -f buildAll;
 
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
-	source build/envsetup.sh;
+	#source build/envsetup.sh;
+	#repopick -t n_asb_08-2018;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

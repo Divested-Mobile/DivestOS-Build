@@ -61,7 +61,7 @@ buildAll() {
 	brunch lineage_ether-user;
 	brunch lineage_flo-user;
 	brunch lineage_flounder-user;
-	#brunch lineage_fp2-user; #still in bringup
+	brunch lineage_fp2-user;
 	brunch lineage_fugu-user;
 	brunch lineage_griffin-user;
 	brunch lineage_h850-user;

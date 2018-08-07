@@ -86,7 +86,7 @@ changeDefaultDNS;
 #patch -p1 < "$DOS_PATCHES/android_frameworks_base/0005-Connectivity.patch"; #Change connectivity check URLs to ours
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0006-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
-rm core/res/res/values/config.xml.orig core/res/res/values/strings.xml.orig;
+rm -f core/res/res/*/*.orig;
 
 if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
 enterAndClear "frameworks/opt/net/ims";
@@ -122,14 +122,14 @@ sed -i 's/\"org\.fdroid\.fdroid/\"org.fdroid.fdroid_dos/' app/src/main/java/org/
 enterAndClear "packages/apps/LineageParts";
 rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of the analytics
 patch -p1 < "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytics.patch"; #Remove analytics
-rm AndroidManifest.xml.orig res/values/*.xml.orig;
+rm -f AndroidManifest.xml.orig res/*/*.orig;
 
 enterAndClear "packages/apps/Settings";
 git revert a96df110e84123fe1273bff54feca3b4ca484dcd; #don't hide oem unlock
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0004-PDB_Fixes.patch"; #Fix crashes when the PersistentDataBlockManager service isn't available
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
-rm res/values/strings.xml.orig;
+rm -f res/*/*.orig;
 
 enterAndClear "packages/apps/SetupWizard";
 patch -p1 < "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove analytics
