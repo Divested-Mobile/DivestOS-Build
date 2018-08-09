@@ -139,10 +139,11 @@ enhanceLocation() {
 		deviceDir=$(sed 's|gps/gps.conf||' <<< "$gpsConfig");
 		deviceDir=$(sed 's|configs/gps.conf||' <<< "$deviceDir");
 		deviceDir=$(sed 's|gps/etc/gps.conf||' <<< "$deviceDir");
+		deviceDir=$(sed 's|gps.conf||' <<< "$deviceDir");
 	else
 		deviceDir=$(dirname "$gpsConfig");
 	fi;
-	#Debugging
+	#Debugging (adb logcat | grep -i -e locsvc -e izat -e gps -e geo -e location)
 	#sed -i 's|DEBUG_LEVEL = .|DEBUG_LEVEL = 4|' "$gpsConfig" &> /dev/null || true;
 	#Enable GLONASS
 	if [ "$DOS_GPS_GLONASS_FORCED" = true ]; then
@@ -151,7 +152,7 @@ enhanceLocation() {
 	sed -i 's|A_GLONASS_POS_PROTOCOL_SELECT=0.*</item>|A_GLONASS_POS_PROTOCOL_SELECT=15</item>|' "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
 	fi;
 	#Change capabilities
-	sed -i 's|CAPABILITIES=.*|CAPABILITIES=0x15|' "$gpsConfig" &> /dev/null || true; #Disable (?) MSA and Geofencing
+	sed -i 's|CAPABILITIES=.*|CAPABILITIES=0x33|' "$gpsConfig" &> /dev/null || true; #Disable (?) MSA. 0x20 is used for both ULP and geofencing
 	#Change servers
 	sed -i "s|SUPL_HOST=.*|SUPL_HOST=$DOS_GPS_SUPL_HOST|" "$gpsConfig" &> /dev/null || true;
 	sed -i "s|NTP_SERVER=.*|NTP_SERVER=$DOS_GPS_NTP_SERVER|" "$gpsConfig" &> /dev/null || true;
@@ -159,8 +160,9 @@ enhanceLocation() {
 	#XTRA: Only use specified URLs
 	sed -i 's|XTRA_SERVER_QUERY=1|XTRA_SERVER_QUERY=0|' "$gpsConfig" &>/dev/null || true;
 	sed -i 's|#XTRA_SERVER|XTRA_SERVER|' "$gpsConfig" &>/dev/null || true;
-	#XTRA: Enable HTTPS
+	#Enable HTTPS (IZatCloud, gpsOneExtra, and GLPals all support HTTPS)
 	sed -i 's|http://xtra|https://xtra|' "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml "$gpsConfig" &>/dev/null || true;
+	sed -i 's|http://gllto|https://gllto|' "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml "$gpsConfig" &>/dev/null || true;
 	#XTRA: Use format version 3 if possible
 	if grep -sq "XTRA_VERSION_CHECK" "$gpsConfig"; then #Using hardware/qcom/gps OR precompiled blob OR device specific implementation
 		sed -i 's|XTRA_VERSION_CHECK=0|XTRA_VERSION_CHECK=1|' "$gpsConfig" &>/dev/null || true;
