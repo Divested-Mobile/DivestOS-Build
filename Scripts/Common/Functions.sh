@@ -160,9 +160,12 @@ enhanceLocation() {
 	#XTRA: Only use specified URLs
 	sed -i 's|XTRA_SERVER_QUERY=1|XTRA_SERVER_QUERY=0|' "$gpsConfig" &>/dev/null || true;
 	sed -i 's|#XTRA_SERVER|XTRA_SERVER|' "$gpsConfig" &>/dev/null || true;
-	#Enable HTTPS (IZatCloud, gpsOneExtra, and GLPals all support HTTPS)
-	sed -i 's|http://xtra|https://xtra|' "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml "$gpsConfig" &>/dev/null || true;
-	sed -i 's|http://gllto|https://gllto|' "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml "$gpsConfig" &>/dev/null || true;
+	#Switch gpsOneXtra to IZatCloud (invalid certificate)
+	sed -i '/xtrapath/!s|://xtra|://xtrapath|' "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml "$gpsConfig" &>/dev/null || true;
+	sed -i 's|gpsonextra.net|izatcloud.net|' "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml "$gpsConfig" &>/dev/null || true;
+	#Enable HTTPS (IZatCloud supports HTTPS)
+	sed -i 's|http://xtrapath|https://xtrapath|' "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml "$gpsConfig" &>/dev/null || true;
+	#sed -i 's|http://gllto|https://gllto|' "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml "$gpsConfig" &>/dev/null || true; XXX: GLPals has an invaid certificate
 	#XTRA: Use format version 3 if possible
 	if grep -sq "XTRA_VERSION_CHECK" "$gpsConfig"; then #Using hardware/qcom/gps OR precompiled blob OR device specific implementation
 		sed -i 's|XTRA_VERSION_CHECK=0|XTRA_VERSION_CHECK=1|' "$gpsConfig" &>/dev/null || true;
