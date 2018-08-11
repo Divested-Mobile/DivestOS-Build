@@ -142,7 +142,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-8897/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9363/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9383/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9389/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9416/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9417/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9439/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0004/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0003-tunnels-Don-t-apply-GRO-to-multiple-layers-of-encaps.patch
@@ -152,5 +154,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0007-USB-usbip-fix-potential-out
 git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2475/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p152"
+editKernelLocalversion "-dos.p154"
 cd "$DOS_BUILD_BASE"

@@ -139,8 +139,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5390/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9363/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9383/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9389/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9415/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9415/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9416/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9417/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9439/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0004-net-add-recursion-limit-to-GRO.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
@@ -148,5 +150,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0007-USB-usbip-fix-potential-out
 git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000111/ANY/0001.patch
-editKernelLocalversion "-dos.p148"
+editKernelLocalversion "-dos.p150"
 cd "$DOS_BUILD_BASE"
