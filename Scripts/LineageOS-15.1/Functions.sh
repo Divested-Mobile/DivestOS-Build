@@ -54,14 +54,14 @@ buildAll() {
 	brunch lineage_bacon-user;
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;
-	#brunch lineage_clark-eng; #permissive
+	#brunch lineage_clark-eng; #permissive and needs manual patching (fwb xml: fused: dangling tag)
 	brunch lineage_d802-user;
 	#brunch lineage_d855-user; #broken upstream - recovery updater
 	brunch lineage_dragon-user;
 	brunch lineage_ether-user;
 	brunch lineage_flo-user;
 	brunch lineage_flounder-user;
-	brunch lineage_fp2-user;
+	brunch lineage_FP2-user;
 	brunch lineage_fugu-user;
 	brunch lineage_griffin-user;
 	brunch lineage_h850-user;
@@ -73,10 +73,10 @@ buildAll() {
 	brunch lineage_mata-user;
 	#brunch lineage_rpi3-user; #needs testing and special handling
 	brunch lineage_sailfish-user;
-	brunch lineage_shamu-user;
+	brunch lineage_shamu-user; #broken - needs synced proprietary-files.txt
 	brunch lineage_starlte-user;
 	brunch lineage_us996-user;
-	brunch lineage_us997-user;
+	brunch lineage_us997-user; #needs manual patching (vendor makefile: remove dolby)
 	#brunch lineage_victara-user; #broken - recovery.img too large
 }
 export -f buildAll;
