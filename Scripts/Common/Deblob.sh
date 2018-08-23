@@ -215,6 +215,9 @@ echo "Deblobbing..."
 	#Peripheral Manager
 	#blobs=$blobs"|libperipheral_client.so|libspcom.so|pm-proxy|pm-service|spdaemon";
 
+	#Gemini PDA [Planet]
+	blobs=$blobs"|ApplicationBar.apk|Gemini_Keyboard.apk|GeminiInputDevices.apk|notes.apk";
+
 	#Playready (DRM) [Microsoft]
 	blobs=$blobs"|libtzplayready.so"
 	blobs=$blobs"|playread.*";
