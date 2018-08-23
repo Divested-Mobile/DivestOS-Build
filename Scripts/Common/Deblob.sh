@@ -104,6 +104,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so";
 	blobs=$blobs"|liboemcrypto.so|libtzdrmgenprov.so";
 	blobs=$blobs"|libpvr.so|librmp.so|libsi.so|libSSEPKCS11.so";
+	blobs=$blobs"|libdrmctaplugin.so|libdrmmtkplugin.so|libdrmmtkwhitelist.so|libmockdrmcryptoplugin.so";
 	makes=$makes"|android.hardware.drm.*|libdrmclearkeyplugin";
 	#makes=$makes"|libdrmframework.*"; #necessary to compile
 	#makes=$makes"|mediadrmserver|com.android.mediadrm.signer.*|drmserver"; #Works but causes long boot times
@@ -161,7 +162,7 @@ echo "Deblobbing..."
 
 	#I/O Prefetcher [Qualcomm]
 	blobs=$blobs"|libqc-opt.so";
-	blobs=$blobs"|iop|libqti-iop.*.so|QPerformance.jar|vendor.qti.hardware.iop.*";
+	blobs=$blobs"|bin/iop|libqti-iop.*.so|QPerformance.jar|vendor.qti.hardware.iop.*";
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
 	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so"; #IMS
