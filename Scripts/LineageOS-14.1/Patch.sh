@@ -147,7 +147,7 @@ enterAndClear "packages/inputmethods/LatinIME";
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
 
 enterAndClear "system/bt";
-patch -p1 < "$DOS_PATCHES/android_system_bt/Improve_Quality.patch"; #Improve Bluetooth audio quality, credit @ValdikSS
+patch -p1 < "$DOS_PATCHES/android_system_bt/0001-Improve_Quality.patch"; #Improve Bluetooth audio quality, credit @ValdikSS
 
 enterAndClear "system/core";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file

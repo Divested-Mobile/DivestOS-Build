@@ -1,0 +1,16 @@
+Without:
+	Service: Media Codec - Audio SBC (44100 | JointStereo | block: 16 | subbands: 8 | allocation: Loudness | bitpool: 2..53)
+
+With:
+	Service: Media Codec - Audio SBC (44100 | DualChannel | block: 16 | subbands: 8 | allocation: Loudness not set | bitpool: 2..53)
+
+How to check:
+	Enable developer options
+	Enable Bluetooth HCI logging
+	Connect a Bluetooth device
+	Play some music
+	Enable ADB
+	Generate bug report
+	Open FS/data/misc/bluetooth/logs/btsnoop_hci.log in Wireshark
+	Filter for btavdtp
+	Look at GetCapabilities and SetConfiguration lines
