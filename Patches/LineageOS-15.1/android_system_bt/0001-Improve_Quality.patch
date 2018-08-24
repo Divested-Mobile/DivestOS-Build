@@ -1,0 +1,74 @@
+From 133e43eb4f5339e584dc2dcc3f02a34711c93571 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 23 Aug 2018 22:16:42 -0400
+Subject: [PATCH] Improve Bluetooth audio quality, credit @ValdikSS
+
+Change-Id: I98f5b84982aaf446e5adfb622993ee11f4592f64
+See: https://forum.xda-developers.com/android/software-hacking/improve-bluetooth-audio-quality-t3832615
+---
+ stack/a2dp/a2dp_sbc.cc         | 14 +++++++-------
+ stack/a2dp/a2dp_sbc_encoder.cc |  2 +-
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/stack/a2dp/a2dp_sbc.cc b/stack/a2dp/a2dp_sbc.cc
+index cfdaad4c..1416d4c3 100644
+--- a/stack/a2dp/a2dp_sbc.cc
++++ b/stack/a2dp/a2dp_sbc.cc
+@@ -55,7 +55,7 @@ typedef struct {
+ /* SBC SRC codec capabilities */
+ static const tA2DP_SBC_CIE a2dp_sbc_caps = {
+     A2DP_SBC_IE_SAMP_FREQ_44,                           /* samp_freq */
+-    (A2DP_SBC_IE_CH_MD_MONO | A2DP_SBC_IE_CH_MD_JOINT), /* ch_mode */
++    (A2DP_SBC_IE_CH_MD_MONO | A2DP_SBC_IE_CH_MD_JOINT | A2DP_SBC_IE_CH_MD_DUAL), /* ch_mode */
+     (A2DP_SBC_IE_BLOCKS_16 | A2DP_SBC_IE_BLOCKS_12 | A2DP_SBC_IE_BLOCKS_8 |
+      A2DP_SBC_IE_BLOCKS_4),            /* block_len */
+     A2DP_SBC_IE_SUBBAND_8,             /* num_subbands */
+@@ -82,7 +82,7 @@ static const tA2DP_SBC_CIE a2dp_sbc_sink_caps = {
+ /* Default SBC codec configuration */
+ const tA2DP_SBC_CIE a2dp_sbc_default_config = {
+     A2DP_SBC_IE_SAMP_FREQ_44,          /* samp_freq */
+-    A2DP_SBC_IE_CH_MD_JOINT,           /* ch_mode */
++    A2DP_SBC_IE_CH_MD_DUAL,           /* ch_mode */
+     A2DP_SBC_IE_BLOCKS_16,             /* block_len */
+     A2DP_SBC_IE_SUBBAND_8,             /* num_subbands */
+     A2DP_SBC_IE_ALLOC_MD_L,            /* alloc_method */
+@@ -1154,6 +1154,11 @@ static bool select_audio_bits_per_sample(
+ //
+ static bool select_best_channel_mode(uint8_t ch_mode, tA2DP_SBC_CIE* p_result,
+                                      btav_a2dp_codec_config_t* p_codec_config) {
++  if (ch_mode & A2DP_SBC_IE_CH_MD_DUAL) {
++    p_result->ch_mode = A2DP_SBC_IE_CH_MD_DUAL;
++    p_codec_config->channel_mode = BTAV_A2DP_CODEC_CHANNEL_MODE_STEREO;
++    return true;
++  }
+   if (ch_mode & A2DP_SBC_IE_CH_MD_JOINT) {
+     p_result->ch_mode = A2DP_SBC_IE_CH_MD_JOINT;
+     p_codec_config->channel_mode = BTAV_A2DP_CODEC_CHANNEL_MODE_STEREO;
+@@ -1164,11 +1169,6 @@ static bool select_best_channel_mode(uint8_t ch_mode, tA2DP_SBC_CIE* p_result,
+     p_codec_config->channel_mode = BTAV_A2DP_CODEC_CHANNEL_MODE_STEREO;
+     return true;
+   }
+-  if (ch_mode & A2DP_SBC_IE_CH_MD_DUAL) {
+-    p_result->ch_mode = A2DP_SBC_IE_CH_MD_DUAL;
+-    p_codec_config->channel_mode = BTAV_A2DP_CODEC_CHANNEL_MODE_STEREO;
+-    return true;
+-  }
+   if (ch_mode & A2DP_SBC_IE_CH_MD_MONO) {
+     p_result->ch_mode = A2DP_SBC_IE_CH_MD_MONO;
+     p_codec_config->channel_mode = BTAV_A2DP_CODEC_CHANNEL_MODE_MONO;
+diff --git a/stack/a2dp/a2dp_sbc_encoder.cc b/stack/a2dp/a2dp_sbc_encoder.cc
+index e4c20499..8b3731d1 100644
+--- a/stack/a2dp/a2dp_sbc_encoder.cc
++++ b/stack/a2dp/a2dp_sbc_encoder.cc
+@@ -39,7 +39,7 @@
+ #define A2DP_SBC_ENCODER_INTERVAL_MS 20
+ 
+ /* High quality quality setting @ 44.1 khz */
+-#define A2DP_SBC_DEFAULT_BITRATE 328
++#define A2DP_SBC_DEFAULT_BITRATE 512
+ 
+ #define A2DP_SBC_NON_EDR_MAX_RATE 229
+ 
+-- 
+2.18.0
+

@@ -1,0 +1,57 @@
+From 93e456e4a21bdb0a03050001b02f9e2dba653306 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 23 Aug 2018 22:23:28 -0400
+Subject: [PATCH] Improve Bluetooth audio quality, credit @ValdikSS
+
+Change-Id: Ia6282d5e76ea7df0d8e0c56559f71c333d6b04eb
+See: https://forum.xda-developers.com/android/software-hacking/improve-bluetooth-audio-quality-t3832615
+---
+ btif/co/bta_av_co.c        | 8 ++++----
+ btif/src/btif_media_task.c | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/btif/co/bta_av_co.c b/btif/co/bta_av_co.c
+index 39a8ebfa..1d86469d 100644
+--- a/btif/co/bta_av_co.c
++++ b/btif/co/bta_av_co.c
+@@ -130,7 +130,7 @@ const tA2D_SBC_CIE bta_av_co_sbc_sink_caps =
+ const tA2D_SBC_CIE btif_av_sbc_default_config =
+ {
+     BTIF_AV_SBC_DEFAULT_SAMP_FREQ,   /* samp_freq */
+-    A2D_SBC_IE_CH_MD_JOINT,         /* ch_mode */
++    A2D_SBC_IE_CH_MD_DUAL,         /* ch_mode */
+     A2D_SBC_IE_BLOCKS_16,           /* block_len */
+     A2D_SBC_IE_SUBBAND_8,           /* num_subbands */
+     A2D_SBC_IE_ALLOC_MD_L,          /* alloc_mthd */
+@@ -566,12 +566,12 @@ void bta_av_build_src_cfg (UINT8 *p_pref_cfg, UINT8 *p_src_cap)
+     else if (src_cap.samp_freq & A2D_SBC_IE_SAMP_FREQ_44)
+         pref_cap.samp_freq = A2D_SBC_IE_SAMP_FREQ_44;
+ 
+-    if (src_cap.ch_mode & A2D_SBC_IE_CH_MD_JOINT)
++    if (src_cap.ch_mode & A2D_SBC_IE_CH_MD_DUAL)
++        pref_cap.ch_mode = A2D_SBC_IE_CH_MD_DUAL;
++    else if (src_cap.ch_mode & A2D_SBC_IE_CH_MD_JOINT)
+         pref_cap.ch_mode = A2D_SBC_IE_CH_MD_JOINT;
+     else if (src_cap.ch_mode & A2D_SBC_IE_CH_MD_STEREO)
+         pref_cap.ch_mode = A2D_SBC_IE_CH_MD_STEREO;
+-    else if (src_cap.ch_mode & A2D_SBC_IE_CH_MD_DUAL)
+-        pref_cap.ch_mode = A2D_SBC_IE_CH_MD_DUAL;
+     else if (src_cap.ch_mode & A2D_SBC_IE_CH_MD_MONO)
+         pref_cap.ch_mode = A2D_SBC_IE_CH_MD_MONO;
+ 
+diff --git a/btif/src/btif_media_task.c b/btif/src/btif_media_task.c
+index 977d2668..a8ad735c 100644
+--- a/btif/src/btif_media_task.c
++++ b/btif/src/btif_media_task.c
+@@ -214,7 +214,7 @@ enum {
+ #define BTIF_A2DP_NON_EDR_MAX_RATE 237
+ #endif
+ #else
+-#define BTIF_A2DP_DEFAULT_BITRATE 328
++#define BTIF_A2DP_DEFAULT_BITRATE 512
+ 
+ #ifndef BTIF_A2DP_NON_EDR_MAX_RATE
+ #define BTIF_A2DP_NON_EDR_MAX_RATE 229
+-- 
+2.18.0
+
