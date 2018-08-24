@@ -27,6 +27,7 @@ export DOS_DEBLOBBER_REMOVE_AUDIOFX=true; #Set true to remove AudioFX
 export DOS_DEBLOBBER_REMOVE_GRAPHICS=false; #Set true to remove all graphics blobs and use SwiftShader CPU renderer
 export DOS_DEBLOBBER_REMOVE_FP=false; #Set true to remove all fingerprint reader blobs
 export DOS_DEBLOBBER_REMOVE_IMS=false; #Set true to remove all IMS blobs
+export DOS_DEBLOBBER_REMOVE_IPA=true; #Set true to remove all IPA blobs
 export DOS_DEBLOBBER_REMOVE_IR=false; #Set true to remove all IR blobs
 export DOS_DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Services with the open source Sony TimeKeep reimplementation #TODO: Needs work
 export DOS_DEFAULT_DNS_PRESET="Cloudflare"; #Sets default DNS. Options: Cloudflare, OpenNIC, DNSWATCH, Google, OpenDNS, Quad9, Quad9U, Verisign

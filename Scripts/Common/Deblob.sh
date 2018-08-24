@@ -35,6 +35,7 @@ echo "Deblobbing..."
 	blobs=""; #Delimited using "|"
 	makes="";
 	overlay="";
+	ipcSec="";
 	kernels=""; #Delimited using " "
 	sepolicy="";
 
@@ -51,9 +52,10 @@ echo "Deblobbing..."
 	#aptX (Bluetooth Audio Compression Codec) [Qualcomm]
 	blobs=$blobs"|.*aptX.*";
 
-	#ATFWD [Qualcomm]
-	blobs=$blobs"|ATFWD-daemon|atfwd.apk";
-	sepolicy=$sepolicy" atfwd.te";
+	#AT Command Handling/Forwarding
+	blobs=$blobs"|bin[/]atd|ATFWD-daemon|atfwd.apk|port-bridge|drexe|log_serial_arm";
+	#blobs=$blobs"libqmi.so|wankit|nvm_server|mmgr";
+	sepolicy=$sepolicy" atfwd.te port-bridge.te";
 
 	#AudioFX (Audio Effects) [Qualcomm]
 	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
@@ -78,8 +80,10 @@ echo "Deblobbing..."
 	makes=$makes"libcnefeatureconfig";
 	sepolicy=$sepolicy" cnd.te qcneservice.te";
 
-	#Diagnostics [Qualcomm]
-	blobs=$blobs"|[/]diag[/]|diag_callback_client|diag_dci_sample|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag[/]mdm|diag_qshrink4_daemon|diag_socket_log|diag_uart_log|drmdiagapp|ibdrmdiag.so|ssr_diag|test_diag";
+	#Diagnostics
+	blobs=$blobs"|[/]diag[/]|diag_callback_client|diag_dci_sample|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag[/]mdm|diag_qshrink4_daemon|diag_socket_log|diag_uart_log|drmdiagapp|ibdrmdiag.so|ssr_diag|test_diag|cnss_diag";
+	blobs=$blobs"|libdiag.so|libsdm-diag.so|libDiagService.so";
+	ipcSec="4097:4294967295:2002:2950:3009:2901|4097:4294967295:3009";
 
 	#Dirac (Audio Codec + Effects) [Dirac]
 	blobs=$blobs"|libDiracAPI_SHARED.so|.*dirac.*";
@@ -99,6 +103,7 @@ echo "Deblobbing..."
 	#DPM (Data Power Management) [Qualcomm]
 	blobs=$blobs"|com.qti.dpmframework.jar|com.qti.dpmframework.xml|dpmapi.jar|dpmapi.xml|dpm.conf|dpmd|dpmserviceapp.apk|libdpmctmgr.so|libdpmfdmgr.so|libdpmframework.so|libdpmnsrm.so|libdpmtcm.so|NsrmConfiguration.xml|tcmclient.jar";
 	sepolicy=$sepolicy" dpmd.te";
+	ipcSec=$ipcSec"|47:4294967295:1001:3004|48:4294967295:1000:3004";
 
 	#DRM
 	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so";
@@ -172,14 +177,17 @@ echo "Deblobbing..."
 		blobs=$blobs"|ims.apk|ims.xml|libimsmedia_jni.so";
 		blobs=$blobs"|volte_modem[/]";
 		sepolicy=$sepolicy" ims.te imscm.te imswmsproxy.te";
+		ipcSec=$ipcSec"|32:4294967295:1001";
 	fi;
 
 	#IPA (Internet Packet Accelerator) [Qualcomm]
 	#This is actually open source (excluding -diag)
-	#blobs=$blobs"|ipacm";
 	blobs=$blobs"|ipacm-diag";
-	#makes=$makes"|ipacm|IPACM_cfg.xml";
-	#kernels=$kernels" drivers/platform/msm/ipa";
+	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then
+		blobs=$blobs"|ipacm";
+		makes=$makes"|ipacm|IPACM_cfg.xml";
+		kernels=$kernels" drivers/platform/msm/ipa";
+	fi;
 
 	#IS? (DRM) [?]
 	blobs=$blobs"|isdbtmm.*";
@@ -235,6 +243,7 @@ echo "Deblobbing..."
 	#RCS (Proprietary messaging protocol)
 	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk"; #RCS
 	makes=$makes"|rcs_service.*";
+	ipcSec=$ipcSec"|18:4294967295:1001:3004";
 
 	#SecProtect [Qualcomm]
 	blobs=$blobs"|SecProtect.apk";
@@ -244,6 +253,7 @@ echo "Deblobbing..."
 
 	#[Sprint]
 	blobs=$blobs"|com.android.omadm.service.xml|ConnMO.apk|CQATest.apk|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|GCS.apk|HiddenMenu.apk|libdmengine.so|libdmjavaplugin.so|LifetimeData.apk|SprintDM.apk|SprintHM.apk|whitelist_com.android.omadm.service.xml|LifeTimerService.apk";
+	ipcSec=$ipcSec"|238:4294967295:1001:3004";
 
 	#Thermal Throttling [Qualcomm]
 	#blobs=$blobs"|libthermalclient.so|libthermalioctl.so|thermal-engine";
@@ -281,6 +291,7 @@ echo "Deblobbing..."
 	export blobs;
 	export makes;
 	export overlay;
+	export ipcSec;
 	export kernels;
 	export sepolicy;
 #
@@ -415,9 +426,12 @@ deblobDevice() {
 	rm -f board/qcom-cne.mk product/qcom-cne.mk; #Remove CNE
 	rm -f rootdir/etc/init.qti.ims.sh rootdir/init.qti.ims.sh init.qti.ims.sh; #Remove IMS startup script
 	rm -rf IMSEnabler; #Remove IMS compatibility module
-	#rm -rf data-ipa-cfg-mgr; #Remove IPA
+	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then rm -rf data-ipa-cfg-mgr; fi; #Remove IPA
 	rm -rf libshimwvm libshims/wvm_shim.cpp; #Remove Google Widevine compatibility module
 	rm -rf board/qcom-wipower.mk product/qcom-wipower.mk; #Remove WiPower makefiles
+	if [ -f configs/sec_config ]; then
+		awk -i inplace '!/'$ipcSec'/' configs/sec_config; #Remove all IPC security exceptions from sec_config
+	fi;
 	if [ -f setup-makefiles.sh ]; then
 		awk -i inplace '!/'$blobs'/' ./*proprietary*.txt; #Remove all blob references from blob manifest
 		bash -c "cd $DOS_BUILD_BASE$devicePath && ./setup-makefiles.sh"; #Update the makefiles
