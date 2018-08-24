@@ -162,7 +162,7 @@ echo "Deblobbing..."
 
 	#I/O Prefetcher [Qualcomm]
 	blobs=$blobs"|libqc-opt.so";
-	blobs=$blobs"|bin/iop|libqti-iop.*.so|QPerformance.jar|vendor.qti.hardware.iop.*";
+	blobs=$blobs"|bin[/]iop|libqti-iop.*.so|QPerformance.jar|vendor.qti.hardware.iop.*";
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
 	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so"; #IMS

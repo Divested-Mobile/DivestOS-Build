@@ -53,7 +53,7 @@ buildAll() {
 	brunch lineage_clark-user;
 	brunch lineage_grouper-user; #deprecated and needs manual patching (one-repo vendor blob patch)
 	brunch lineage_thor-userdebug; #deprecated
-	#brunch lineage_geminipda-userdebug; #permissive
+	#brunch lineage_geminipda-userdebug; #permissive and needs synced proprietary-files.txt
 	brunch lineage_h815-user; #deprecated
 	brunch lineage_herolte-user; #deprecated
 	brunch lineage_himaul-user; #deprecated

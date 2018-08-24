@@ -5,6 +5,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0005-Copperhead-Deny_USB/3.4/3.4-Backport.patc
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-0723/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-0801/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-0819/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-3134/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-8650/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0403/3.0-^3.18/0001.patch
@@ -26,5 +27,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9389/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9416/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p26"
+editKernelLocalversion "-dos.p27"
 cd "$DOS_BUILD_BASE"
