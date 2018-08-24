@@ -32,7 +32,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-7515/^4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-8962/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-9004/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-9016/3.18/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-0819/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10088/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2549/^4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-3775/3.18/0004.patch
@@ -93,7 +92,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16650/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0006.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-17558/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-17806/ANY/0001.patch
@@ -127,5 +125,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0004-net-add-recursion-limit-to-
 git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p127"
+editKernelLocalversion "-dos.p125"
 cd "$DOS_BUILD_BASE"
