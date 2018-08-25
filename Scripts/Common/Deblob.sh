@@ -52,7 +52,7 @@ echo "Deblobbing..."
 	#aptX (Bluetooth Audio Compression Codec) [Qualcomm]
 	blobs=$blobs"|.*aptX.*";
 
-	#AT Command Handling/Forwarding
+	#AT Command Handling/Forwarding (See: https://atcommands.org)
 	blobs=$blobs"|bin[/]atd|ATFWD-daemon|atfwd.apk|port-bridge|drexe|log_serial_arm|at_distributor|connfwexe";
 	#blobs=$blobs"libqmi.so|wankit|nvm_server|mmgr";
 	sepolicy=$sepolicy" atfwd.te port-bridge.te";
@@ -82,7 +82,7 @@ echo "Deblobbing..."
 
 	#Diagnostics
 	blobs=$blobs"|[/]diag[/]|diag_callback_client|diag_dci_sample|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag[/]mdm|diag_qshrink4_daemon|diag_socket_log|diag_uart_log|drmdiagapp|ibdrmdiag.so|ssr_diag|test_diag|cnss_diag";
-	blobs=$blobs"|libdiag.so|libsdm-diag.so|libDiagService.so";
+	#blobs=$blobs"|libdiag.so|libsdm-diag.so|libDiagService.so"; #XXX: Breaks qseecomd AND brightness control (?)
 	ipcSec="4097:4294967295:2002:2950:3009:2901|4097:4294967295:3009";
 
 	#Dirac (Audio Codec + Effects) [Dirac]
