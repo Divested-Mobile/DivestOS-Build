@@ -53,7 +53,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|.*aptX.*";
 
 	#AT Command Handling/Forwarding
-	blobs=$blobs"|bin[/]atd|ATFWD-daemon|atfwd.apk|port-bridge|drexe|log_serial_arm";
+	blobs=$blobs"|bin[/]atd|ATFWD-daemon|atfwd.apk|port-bridge|drexe|log_serial_arm|at_distributor|connfwexe";
 	#blobs=$blobs"libqmi.so|wankit|nvm_server|mmgr";
 	sepolicy=$sepolicy" atfwd.te port-bridge.te";
 

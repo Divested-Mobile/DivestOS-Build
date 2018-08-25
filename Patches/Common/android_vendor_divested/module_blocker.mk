@@ -4,6 +4,7 @@ LOCAL_MODULE := ModuleBlocker
 
 LOCAL_OVERRIDES_PACKAGES := \
     bootanimation.zip \
+    FlipFlap \
     PhotoTable \
     Terminal \
     LockClock \
