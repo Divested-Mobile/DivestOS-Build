@@ -53,9 +53,8 @@ echo "Deblobbing..."
 	blobs=$blobs"|.*aptX.*";
 
 	#AT Command Handling/Forwarding (See: https://atcommands.org)
-	blobs=$blobs"|bin[/]atd|ATFWD-daemon|atfwd.apk|port-bridge|drexe|log_serial_arm|at_distributor|connfwexe";
-	#blobs=$blobs"libqmi.so|wankit|nvm_server|mmgr";
-	sepolicy=$sepolicy" atfwd.te port-bridge.te";
+	blobs=$blobs"|bin[/]atd|ATFWD-daemon|atfwd.apk|drexe|log_serial_arm|at_distributor|connfwexe";
+	sepolicy=$sepolicy" atfwd.te";
 
 	#AudioFX (Audio Effects) [Qualcomm]
 	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
