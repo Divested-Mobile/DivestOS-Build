@@ -1,4 +1,4 @@
-Last updated: 2018-07-12
+Last updated: 2018-08-26
 
 High Priority (Release blockers)
 	Build
@@ -45,18 +45,17 @@ Low Priority
 Longterm
 	Build
 		- Add automated testing/verification of edits
-		- Replace all the bash scripts with Python
-		- Replace the deblobber with a program in Golang
+		- Consider rewriting various utilities in different languages
 		- Switch to AOSP and create clean trees for all of the major devices
 	Linux Patches
 		- Automate pulling of CVE patches from Android and Qualcomm bulletins
 		- Get more CVE patches, especially for 3.4
-		- Investigate rebasing kernel trees on newer Qualcomm ones
+		- Investigate rebasing kernel trees on newer CAF ones
 		- Proper backports of CVE patches
 		- Proper backports of security features
 	Project
 		- Create an Mobile Device Manager solution
-		- Create our own device
+		- Create our own device (free hardware, isolated modem, kernel, 4.9+, etc.)
 		- General auditing of everything
 		- Partner with various projects
 		- Purchase one of each supported device
@@ -68,17 +67,11 @@ Contributions to other projects (via labor or funding)
 	Resurrect: Blockinger, microG, Pandoroid
 	Amexia
 		- More icons
-	Anuto
-		- Save/load support
-	Briar
-		- Repeater support
 	Conversations
 		- More colors like Signal
 		- Per account Tor support
 	DNS66
 		- Polish edges
-	F-Droid
-		- Loading of repos from /system (#843)
 	Orbot
 		- Better tracking of Tor releases
 
