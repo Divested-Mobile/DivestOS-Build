@@ -111,7 +111,7 @@ sed -i 's|outputs/apk/|outputs/apk/full/release/|' Android.mk;
 sed -i 's|-release-unsigned|-full-release-unsigned|' Android.mk;
 sed -i 's|gradle|./gradlew|' Android.mk; #Gradle 4.0 fix
 sed -i 's|/$(fdroid_dir) \&\&| \&\&|' Android.mk; #One line wouldn't work... no matter what I tried.
-sed -i 's/org\.fdroid\.fdroid/org.fdroid.fdroid_dos/' app/build.gradle; #Change the package ID until https://gitlab.com/fdroid/fdroidclient/issues/843 is implemented
+sed -i 's/org\.fdroid\.fdroid\"/org.fdroid.fdroid_dos\"/' app/build.gradle; #Change the package ID until https://gitlab.com/fdroid/fdroidclient/issues/843 is implemented
 
 enterAndClear "packages/apps/FDroidPrivilegedExtension";
 sed -i 's/43238d512c1e5eb2d6569f4a3afbf5523418b82e0a3ed1552770abb9a9c9ccab/cb1ee2ec40d05ed678f42ae701cdfa29eea79d0e6d633276de230bf3494067c3/' app/src/main/java/org/fdroid/fdroid/privileged/ClientWhitelist.java;
