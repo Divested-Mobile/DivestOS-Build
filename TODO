@@ -1,10 +1,11 @@
-Last updated: 2018-08-26
+Last updated: 2018-08-30
 
 High Priority (Release blockers)
 	Build
 		- Automate incremental update generation
 		- New signing keys
 	Project
+		- GPG all the things!
 		- Create cryptocurrency addresses
 		- Setup Stripe
 	Servers

@@ -66,6 +66,22 @@ export DOS_THEME_700="E64A19"; #Deep Orange 700
 export ANDROID_HOME="/home/$USER/Android/Sdk";
 #END OF USER CONFIGURABLE OPTIONS
 
+gpgVerifyGitHead() {
+	if [ -r "$HOME/.gnupg" ]; then
+		git -C $1 verify-commit HEAD;
+		if [ "$?" -eq "0" ]; then
+			echo -e "\e[0;32mGPG Verified Git HEAD Successfully: $1\e[0m";
+		else
+			echo -e "\e[0;31mWARNING: GPG Verification of Git HEAD Failed: $1\e[0m";
+			sleep 60;
+		fi;
+		#git -C $1 log --show-signature -1;
+	else
+		echo -e "\e[0;33mWARNING: ~/.gnupg is unavailable, GPG verification of $1 will not be performed!\e[0m";
+	fi;
+}
+export -f gpgVerifyGitHead;
+
 BUILD_WORKING_DIR=${PWD##*/};
 if [ -d ".repo" ]; then
 	echo "Detected $BUILD_WORKING_DIR";
@@ -110,6 +126,13 @@ export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}";
 export GRADLE_OPTS="-Xmx2048m";
 export LC_ALL=C;
 #alias patch='patch --no-backup-if-mismatch';
+
+#START OF VERIFICATION
+#gpgVerifyGitHead $DOS_WORKSPACE_ROOT;
+#gpgVerifyGitHead $DOS_PREBUILT_APPS;
+#gpgVerifyGitHead $DOS_PATCHES_LINUX_CVES;
+#gpgVerifyGitHead $DOS_WALLPAPERS;
+#END OF VERIFICATION
 
 source "$DOS_SCRIPTS_COMMON/Functions.sh";
 source "$DOS_SCRIPTS/Functions.sh";
