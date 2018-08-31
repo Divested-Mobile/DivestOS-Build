@@ -46,6 +46,23 @@ gitReset() {
 }
 export -f gitReset;
 
+gpgVerifyDirectory() {
+	if [ -r "$HOME/.gnupg" ]; then
+		for sig in $1/*.asc; do
+			gpg --verify $sig &>/dev/null;
+			if [ "$?" -eq "0" ]; then
+				echo -e "\e[0;32mGPG Verified Successfully: $sig\e[0m";
+			else
+				echo -e "\e[0;31mWARNING: GPG Verification Failed: $sig\e[0m";
+				sleep 60;
+			fi;
+		done;
+	else
+		echo -e "\e[0;33mWARNING: ~/.gnupg is unavailable, GPG verification of $1 will not be performed!\e[0m";
+	fi;
+}
+export -f gpgVerifyDirectory;
+
 scanForMalware() {
 	if [ -x /usr/bin/clamscan ] && [ -r /var/lib/clamav/main.cvd ]; then
 		echo -e "\e[0;32mStarting a malware scan...\e[0m";
