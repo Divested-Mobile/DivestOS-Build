@@ -19,8 +19,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.storage_manager.enabled=true
 
 #Copy extra files
-PRODUCT_COPY_FILES += \
-    vendor/divested/prebuilts/etc/dns66.json:system/etc/dns66/settings.json
+#PRODUCT_COPY_FILES += \
 #    vendor/divested/prebuilts/etc/additional_fdroid_repos.xml:system/etc/org.fdroid.fdroid_dos/additional_repos.xml
 
 #Include packages
