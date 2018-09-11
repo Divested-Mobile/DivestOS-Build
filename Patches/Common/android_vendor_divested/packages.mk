@@ -27,7 +27,7 @@ PRODUCT_PACKAGES += \
     LocalCalendar
 
 # Notes
-# - Available: DNS66, K9Mail, NetMonitor, OpenKeychain, Shelter, TalkBack
+# - Available (via PrebuiltApps submodule): DNS66, K9Mail, NetMonitor, OpenKeychain, Orbot, Orfox, Shelter, TalkBack
 # - Official F-Droid will be included once #843 is implemented
 # - $DOS_HOSTS_BLOCKING should become a tristate and support DNS66
 # - K-9 Mail Will be included after 5.5xx release

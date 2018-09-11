@@ -206,6 +206,14 @@ enableZram() {
 }
 export -f enableZram;
 
+enableDiscard() {
+	cd "$DOS_BUILD_BASE$1";
+	sed -i '/\/data/{/discard/!s|nosuid|discard,nosuid|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
+	echo "Enabled discard for $1";
+	cd "$DOS_BUILD_BASE";
+}
+export -f enableDiscard;
+
 enableForcedEncryption() {
 	cd "$DOS_BUILD_BASE$1";
 	sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;

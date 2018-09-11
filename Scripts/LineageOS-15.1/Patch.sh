@@ -214,6 +214,7 @@ if [ "$DOS_LOWRAM_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 
 find "hardware/qcom/gps" -name "gps\.conf" -type f -exec bash -c 'enhanceLocation "$0"' {} \;;
 find "device" -name "gps\.conf" -type f -exec bash -c 'enhanceLocation "$0"' {} \;;
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableDexPreOpt "$0"' {} \;;
+find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableDiscard "$0"' {} \;;
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableForcedEncryption "$0"' {} \;;
 #if [ "$STRONG_ENCRYPTION_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableStrongEncryption "$0"' {} \;; fi;
 find "kernel" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'hardenDefconfig "$0"' {} \;;
