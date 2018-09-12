@@ -149,7 +149,7 @@ compressRamdisks() {
 }
 export -f compressRamdisks;
 
-enhanceLocation() {
+hardenLocation() {
 	gpsConfig=$1;
 	#Attempt to get the real device directory
 	if [[ "$gpsConfig" = *"device/"* ]]; then
@@ -196,7 +196,7 @@ enhanceLocation() {
 	fi;
 	echo "Enhanced location services for $deviceDir";
 }
-export -f enhanceLocation;
+export -f hardenLocation;
 
 enableZram() {
 	cd "$DOS_BUILD_BASE$1";
@@ -206,21 +206,15 @@ enableZram() {
 }
 export -f enableZram;
 
-enableDiscard() {
+hardenUserdata() {
 	cd "$DOS_BUILD_BASE$1";
+	#TODO: Ensure: noatime,nosuid,nodev
 	sed -i '/\/data/{/discard/!s|nosuid|discard,nosuid|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
-	echo "Enabled discard for $1";
-	cd "$DOS_BUILD_BASE";
-}
-export -f enableDiscard;
-
-enableForcedEncryption() {
-	cd "$DOS_BUILD_BASE$1";
 	sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
-	echo "Enabled forceencrypt for $1";
+	echo "Hardened /data for $1";
 	cd "$DOS_BUILD_BASE";
 }
-export -f enableForcedEncryption;
+export -f hardenUserdata;
 
 enableStrongEncryption() {
 	cd "$DOS_BUILD_BASE$1";
