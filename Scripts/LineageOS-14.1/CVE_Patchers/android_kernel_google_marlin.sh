@@ -258,8 +258,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9416/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9422/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9439/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9516/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9517/ANY/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9517/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9518/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0003-tunnels-Don-t-apply-GRO-to-multiple-layers-of-encaps.patch
@@ -273,5 +271,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0610/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15845/ANY/0001.patch
-editKernelLocalversion "-dos.p273"
+editKernelLocalversion "-dos.p271"
 cd "$DOS_BUILD_BASE"
