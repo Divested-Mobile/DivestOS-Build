@@ -54,7 +54,7 @@ buildAll() {
 	brunch lineage_bacon-user;
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;
-	#brunch lineage_clark-eng; #permissive and needs manual patching (fwb xml: fused: dangling tag)
+	#brunch lineage_clark-userdebug; #permissive and needs manual patching (fwb xml: fused: dangling tag)
 	brunch lineage_d802-user;
 	#brunch lineage_d855-user; #broken upstream - recovery updater
 	brunch lineage_dragon-user;
@@ -67,7 +67,7 @@ buildAll() {
 	brunch lineage_h850-user;
 	brunch lineage_hammerhead-user;
 	#brunch lineage_jfltexx-user; #still in bringup
-	brunch lineage_klte-user;
+	brunch lineage_klte-user; #broken
 	brunch lineage_m8-user;
 	brunch lineage_marlin-user;
 	brunch lineage_mata-user;
