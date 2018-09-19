@@ -160,7 +160,7 @@ hardenLocation() {
 	else
 		deviceDir=$(dirname "$gpsConfig");
 	fi;
-	#Debugging (adb logcat | grep -i -e locsvc -e izat -e gps -e geo -e location)
+	#Debugging (adb logcat | grep -i -e locsvc -e izat -e gps -e gnss -e location)
 	#sed -i 's|DEBUG_LEVEL = .|DEBUG_LEVEL = 4|' "$gpsConfig" &> /dev/null || true;
 	#Enable GLONASS
 	if [ "$DOS_GPS_GLONASS_FORCED" = true ]; then
@@ -169,11 +169,11 @@ hardenLocation() {
 	sed -i 's|A_GLONASS_POS_PROTOCOL_SELECT=0.*</item>|A_GLONASS_POS_PROTOCOL_SELECT=15</item>|' "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
 	fi;
 	#Change capabilities
-	sed -i 's|CAPABILITIES=.*|CAPABILITIES=0x33|' "$gpsConfig" &> /dev/null || true; #Disable (?) MSA. 0x20 is used for both ULP and geofencing
+	sed -i 's|CAPABILITIES=.*|CAPABILITIES=0x13|' "$gpsConfig" &> /dev/null || true; #Disable MSA (privacy) and geofencing/ULP (both broken by deblobber)
 	#Change servers
 	sed -i "s|SUPL_HOST=.*|SUPL_HOST=$DOS_GPS_SUPL_HOST|" "$gpsConfig" &> /dev/null || true;
 	sed -i "s|NTP_SERVER=.*|NTP_SERVER=$DOS_GPS_NTP_SERVER|" "$gpsConfig" &> /dev/null || true;
-	#Recommended reading: https://wwws.nightwatchcybersecurity.com/2016/12/05/cve-2016-5341/
+	#See: https://wwws.nightwatchcybersecurity.com/2016/12/05/cve-2016-5341/
 	#XTRA: Only use specified URLs
 	sed -i 's|XTRA_SERVER_QUERY=1|XTRA_SERVER_QUERY=0|' "$gpsConfig" &>/dev/null || true;
 	sed -i 's|#XTRA_SERVER|XTRA_SERVER|' "$gpsConfig" &>/dev/null || true;
