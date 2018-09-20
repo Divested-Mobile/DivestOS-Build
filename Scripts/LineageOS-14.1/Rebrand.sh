@@ -43,7 +43,8 @@ sed -i '/.*setup_services/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strin
 sed -i '/.*services_explanation/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
 
 enter "packages/apps/Updater";
-sed -i 's|0OTASERVER0|'"$DOS_BRANDING_SERVER_OTA"'|' src/org/lineageos/updater/misc/Utils.java;
+sed -i 's|0OTA_SERVER_CLEARNET0|'"$DOS_BRANDING_SERVER_OTA"'|' src/org/lineageos/updater/misc/Utils.java;
+sed -i 's|0OTA_SERVER_ONION0|'"$DOS_BRANDING_SERVER_OTA_ONION"'|' src/org/lineageos/updater/misc/Utils.java;
 sed -i 's|>LineageOS|>'"$DOS_BRANDING_NAME"'|' res/values*/strings.xml;
 
 enter "vendor/cm";

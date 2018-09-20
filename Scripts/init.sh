@@ -53,6 +53,7 @@ export DOS_BRANDING_BOOTANIMATION_COLOR="#FF5722-#03A9F4"; #plasma
 export DOS_BRANDING_LINK_ABOUT="https://divestos.xyz/index.php?page=about";
 export DOS_BRANDING_LINK_PRIVACY="https://divestos.xyz/index.php?page=privacy_policy";
 export DOS_BRANDING_SERVER_OTA="https://divestos.xyz/updater.php";
+export DOS_BRANDING_SERVER_OTA_ONION=$DOS_BRANDING_SERVER_OTA; #TODO: Setup Onion
 
 export DOS_THEME_50="FFCA28"; #Amber 400
 export DOS_THEME_100="FFC107"; #Amber 500
