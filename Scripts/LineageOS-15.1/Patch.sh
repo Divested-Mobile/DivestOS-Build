@@ -216,7 +216,7 @@ find "hardware/qcom/gps" -name "gps\.conf" -type f -exec bash -c 'hardenLocation
 find "device" -name "gps\.conf" -type f -exec bash -c 'hardenLocation "$0"' {} \;;
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableDexPreOpt "$0"' {} \;;
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'hardenUserdata "$0"' {} \;;
-#if [ "$DOS_STRONG_ENCRYPTION_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableStrongEncryption "$0"' {} \;; fi;
+if [ "$DOS_STRONG_ENCRYPTION_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'enableStrongEncryption "$0"' {} \;; fi;
 find "kernel" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'hardenDefconfig "$0"' {} \;;
 cd "$DOS_BUILD_BASE";
 

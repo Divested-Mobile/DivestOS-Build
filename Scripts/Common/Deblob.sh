@@ -428,11 +428,9 @@ deblobDevice() {
 	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then rm -rf data-ipa-cfg-mgr; fi; #Remove IPA
 	rm -rf libshimwvm libshims/wvm_shim.cpp; #Remove Google Widevine compatibility module
 	rm -rf board/qcom-wipower.mk product/qcom-wipower.mk; #Remove WiPower makefiles
-	if [ -f configs/sec_config ]; then
-		awk -i inplace '!/'$ipcSec'/' configs/sec_config; #Remove all IPC security exceptions from sec_config
-	fi;
+	awk -i inplace '!/'$ipcSec'/' configs/sec_config &>/dev/null || true; #Remove all IPC security exceptions from sec_config
+	awk -i inplace '!/'$blobs'/' ./*proprietary*.txt &>/dev/null || true; #Remove all blob references from blob manifest
 	if [ -f setup-makefiles.sh ]; then
-		awk -i inplace '!/'$blobs'/' ./*proprietary*.txt; #Remove all blob references from blob manifest
 		bash -c "cd $DOS_BUILD_BASE$devicePath && ./setup-makefiles.sh"; #Update the makefiles
 	fi;
 	cd "$DOS_BUILD_BASE";

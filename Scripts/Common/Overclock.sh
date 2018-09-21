@@ -27,13 +27,13 @@ patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_amazon_hdx-common/0003-Overc
 patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_amazon_hdx-common/0004-Overclock.patch";
 fi;
 
-#if enter "kernel/asus/grouper"; then
-#patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_asus_grouper/0001-Overclock.patch";
-#echo "CONFIG_TEGRA_CPU_OVERCLOCK=y" >> arch/arm/configs/grouper_defconfig; #1.30GHz -> 1.50GHz	=+0.80GHz
-#echo "CONFIG_TEGRA_CPU_OVERCLOCK_ULTIMATE=y" >> arch/arm/configs/grouper_defconfig; #1.30GHz -> 1.60GHz	=+1.20GHz
-#echo "CONFIG_TEGRA_GPU_OVERCLOCK=y" >> arch/arm/configs/grouper_defconfig; #416MHz 520MHz
-#echo "CONFIG_TEGRA_GAMING_FIX=y" >> arch/arm/configs/grouper_defconfig;
-#fi;
+if enter "kernel/asus/grouper-DISABLED"; then #XXX: Disabled
+patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_asus_grouper/0001-Overclock.patch";
+echo "CONFIG_TEGRA_CPU_OVERCLOCK=y" >> arch/arm/configs/grouper_defconfig; #1.30GHz -> 1.50GHz	=+0.80GHz
+echo "CONFIG_TEGRA_CPU_OVERCLOCK_ULTIMATE=y" >> arch/arm/configs/grouper_defconfig; #1.30GHz -> 1.60GHz	=+1.20GHz
+echo "CONFIG_TEGRA_GPU_OVERCLOCK=y" >> arch/arm/configs/grouper_defconfig; #416MHz 520MHz
+echo "CONFIG_TEGRA_GAMING_FIX=y" >> arch/arm/configs/grouper_defconfig;
+fi;
 
 if enter "kernel/huawei/angler"; then
 patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_huawei_angler/0001-Overclock.patch";
@@ -58,7 +58,7 @@ patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_lge_mako/0004-Overclock.patc
 patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_lge_mako/0005-Overclock.patch";
 echo "CONFIG_LOW_CPUCLOCKS=y" >> arch/arm/configs/lineageos_mako_defconfig; #384MHz -> 81MHz
 echo "CONFIG_CPU_OVERCLOCK=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.51GHz -> 1.70GHz  =+0.90GHz
-#echo "CPU_OVERCLOCK_ULTRA=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.51GHz -> 1.94GHz =+1.72GHz XXX: Causes excessive throttling
+echo "CPU_OVERCLOCK_ULTRA=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.51GHz -> 1.94GHz =+1.72GHz XXX: Causes excessive throttling
 fi;
 
 if enter "kernel/motorola/msm8916"; then

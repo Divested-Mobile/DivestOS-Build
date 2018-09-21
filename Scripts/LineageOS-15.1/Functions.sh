@@ -77,7 +77,7 @@ buildAll() {
 	brunch lineage_starlte-user;
 	brunch lineage_us996-user;
 	brunch lineage_us997-user; #needs manual patching (vendor makefile: remove dolby)
-	#brunch lineage_victara-user; #broken - recovery.img too large
+	brunch lineage_victara-user; #broken - recovery.img too large
 }
 export -f buildAll;
 
