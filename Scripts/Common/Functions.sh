@@ -30,14 +30,20 @@ export -f startPatcher;
 enter() {
 	echo "================================================================================================"
 	dir="$1";
-	cd "$DOS_BUILD_BASE$dir";
-	echo "[ENTERING] $dir";
+	dirReal="$DOS_BUILD_BASE$dir";
+	if [ -d "$dirReal" ]; then
+		cd "$dirReal";
+		echo -e "\e[0;32m[ENTERING] $dir\e[0m";
+		return 0;
+	else
+		echo -e "\e[0;31m[ENTERING FAILED] $dir\e[0m";
+		return 1;
+	fi;
 }
 export -f enter;
 
 enterAndClear() {
-	enter "$1";
-	gitReset;
+	if enter "$1"; then gitReset; fi;
 }
 export -f enterAndClear;
 
