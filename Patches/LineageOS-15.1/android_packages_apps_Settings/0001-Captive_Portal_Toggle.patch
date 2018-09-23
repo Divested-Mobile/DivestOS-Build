@@ -1,0 +1,276 @@
+From b4ea75129c4e6d54059011e27c34a1e90bbd7f07 Mon Sep 17 00:00:00 2001
+From: MSe1969 <mse1969@posteo.de>
+Date: Wed, 12 Sep 2018 19:37:38 +0200
+Subject: [PATCH] Settings / Data usage: Add menu option to switch off captive
+ portal
+
+ * Extend menu in 'Data usage' to show a Checkbox with option to
+   switch off/on the captive portal, which is equivalent
+   to adb command 'settings put global captive_portal_mode [1|0]'
+ * Warning dialog is shown, when captive portal check is switched off
+ * Will be reset to default, if 'Reset network settings' is chosen
+   from the 'Network & Internet' menu
+
+Change-Id: Ibbffdb5f3930df74ca8b4ba93d451f7fad086989
+---
+ res/menu/data_usage.xml                       |  4 ++
+ res/values/cm_strings.xml                     |  5 ++
+ .../android/settings/ResetNetworkConfirm.java |  4 ++
+ .../settings/datausage/DataUsageSummary.java  | 33 ++++++++-
+ .../network/CaptivePortalWarningDialog.java   | 69 +++++++++++++++++++
+ .../CaptivePortalWarningDialogHost.java       | 28 ++++++++
+ 6 files changed, 142 insertions(+), 1 deletion(-)
+ create mode 100644 src/com/android/settings/network/CaptivePortalWarningDialog.java
+ create mode 100644 src/com/android/settings/network/CaptivePortalWarningDialogHost.java
+
+diff --git a/res/menu/data_usage.xml b/res/menu/data_usage.xml
+index 9fe6b60118..b8be11adbf 100644
+--- a/res/menu/data_usage.xml
++++ b/res/menu/data_usage.xml
+@@ -18,4 +18,8 @@
+     <item
+         android:id="@+id/data_usage_menu_cellular_networks"
+         android:title="@string/data_usage_menu_cellular_networks" />
++    <item
++        android:id="@+id/captive_portal_switch"
++        android:title="@string/captive_portal_switch_title"
++        android:checkable="true" />
+ </menu>
+diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
+index 91238336d9..314074eff0 100644
+--- a/res/values/cm_strings.xml
++++ b/res/values/cm_strings.xml
+@@ -374,4 +374,9 @@
+     <string name="data_usage_app_restrict_data_summary">Enable usage of cellular data</string>
+     <string name="data_usage_app_restrict_wifi">Wi\u2011Fi data</string>
+     <string name="data_usage_app_restrict_wifi_summary">Enable usage of Wi\u2011Fi data</string>
++
++    <!-- Captive Portal -->
++    <string name="captive_portal_switch_title">Disable Captive Portal</string>
++    <string name="captive_portal_switch_warning">Captive portal allows you to get information regarding the connection status. Are you sure you want to disable it?</string>
++    <string name="captive_portal_warning_positive">Disable</string>
+ </resources>
+diff --git a/src/com/android/settings/ResetNetworkConfirm.java b/src/com/android/settings/ResetNetworkConfirm.java
+index f70d3c27ef..37dae5aa6c 100644
+--- a/src/com/android/settings/ResetNetworkConfirm.java
++++ b/src/com/android/settings/ResetNetworkConfirm.java
+@@ -27,6 +27,7 @@
+ import android.os.Bundle;
+ import android.os.UserHandle;
+ import android.os.UserManager;
++import android.provider.Settings;
+ import android.telephony.SubscriptionManager;
+ import android.telephony.TelephonyManager;
+ import android.view.LayoutInflater;
+@@ -108,6 +109,9 @@ public void onClick(View v) {
+             ImsManager.factoryReset(context);
+             restoreDefaultApn(context);
+ 
++            Settings.Global.putInt(context.getContentResolver(),
++                    Settings.Global.CAPTIVE_PORTAL_MODE, 1);
++
+             Toast.makeText(context, R.string.reset_network_complete_toast, Toast.LENGTH_SHORT)
+                     .show();
+         }
+diff --git a/src/com/android/settings/datausage/DataUsageSummary.java b/src/com/android/settings/datausage/DataUsageSummary.java
+index e37cc4a6c6..f5aba01b9c 100644
+--- a/src/com/android/settings/datausage/DataUsageSummary.java
++++ b/src/com/android/settings/datausage/DataUsageSummary.java
+@@ -32,6 +32,7 @@
+ import android.os.SystemProperties;
+ import android.os.UserManager;
+ import android.provider.SearchIndexableResource;
++import android.provider.Settings;
+ import android.support.annotation.VisibleForTesting;
+ import android.support.v7.preference.Preference;
+ import android.support.v7.preference.PreferenceScreen;
+@@ -47,6 +48,8 @@
+ import android.view.MenuInflater;
+ import android.view.MenuItem;
+ import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
++import com.android.settings.network.CaptivePortalWarningDialog;
++import com.android.settings.network.CaptivePortalWarningDialogHost;
+ import com.android.settings.R;
+ import com.android.settings.SummaryPreference;
+ import com.android.settings.Utils;
+@@ -64,7 +67,8 @@
+  * This class in deprecated use {@link DataPlanUsageSummary}.
+  */
+ @Deprecated
+-public class DataUsageSummary extends DataUsageBase implements Indexable, DataUsageEditController {
++public class DataUsageSummary extends DataUsageBase implements Indexable,
++        DataUsageEditController, CaptivePortalWarningDialogHost {
+ 
+     static final boolean LOGD = false;
+ 
+@@ -94,6 +98,7 @@
+     private NetworkRestrictionsPreference mNetworkRestrictionPreference;
+     private WifiManager mWifiManager;
+     private NetworkPolicyEditor mPolicyEditor;
++    private Context mContext;
+ 
+     @Override
+     protected int getHelpResource() {
+@@ -105,6 +110,7 @@ public void onCreate(Bundle icicle) {
+         super.onCreate(icicle);
+ 
+         final Context context = getContext();
++        mContext = context;
+         NetworkPolicyManager policyManager = NetworkPolicyManager.from(context);
+         mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+         mPolicyEditor = new NetworkPolicyEditor(policyManager);
+@@ -162,6 +168,7 @@ public void onCreate(Bundle icicle) {
+     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+         if (UserManager.get(getContext()).isAdminUser()) {
+             inflater.inflate(R.menu.data_usage, menu);
++            menu.findItem(R.id.captive_portal_switch).setChecked(isCaptivePortalDisabled());
+         }
+         super.onCreateOptionsMenu(menu, inflater);
+     }
+@@ -176,6 +183,15 @@ public boolean onOptionsItemSelected(MenuItem item) {
+                 startActivity(intent);
+                 return true;
+             }
++            case R.id.captive_portal_switch: {
++                if (isCaptivePortalDisabled()) {
++                    setCaptivePortalMode(1);
++                } else {
++                    CaptivePortalWarningDialog.show(this);
++                }
++                item.setChecked(isCaptivePortalDisabled());
++                return true;
++            }
+         }
+         return false;
+     }
+@@ -189,6 +205,21 @@ public boolean onPreferenceTreeClick(Preference preference) {
+         return super.onPreferenceTreeClick(preference);
+     }
+ 
++    public void onCaptivePortalSwitchOffDialogConfirmed() {
++        setCaptivePortalMode(0);
++    }
++
++    private boolean isCaptivePortalDisabled() {
++        return (Settings.Global.getInt(mContext.getContentResolver(),
++                Settings.Global.CAPTIVE_PORTAL_MODE,
++                Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT) == 0);
++    }
++
++    private void setCaptivePortalMode(int mode) {
++        Settings.Global.putInt(mContext.getContentResolver(),
++                Settings.Global.CAPTIVE_PORTAL_MODE, mode);
++    }
++
+     private void addMobileSection(int subId) {
+         addMobileSection(subId, null);
+     }
+diff --git a/src/com/android/settings/network/CaptivePortalWarningDialog.java b/src/com/android/settings/network/CaptivePortalWarningDialog.java
+new file mode 100644
+index 0000000000..b274d6b9f5
+--- /dev/null
++++ b/src/com/android/settings/network/CaptivePortalWarningDialog.java
+@@ -0,0 +1,69 @@
++/*
++ * Copyright (C) 2018 The LineageOS Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.settings.network;
++
++import android.app.AlertDialog;
++import android.app.Dialog;
++import android.app.Fragment;
++import android.app.FragmentManager;
++import android.content.DialogInterface;
++import android.os.Bundle;
++
++import com.android.internal.logging.nano.MetricsProto;
++import com.android.settings.R;
++import com.android.settings.core.instrumentation.InstrumentedDialogFragment;
++
++public class CaptivePortalWarningDialog extends InstrumentedDialogFragment implements
++        DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
++
++    public static final String TAG = "CaptivePortalWarningDialog";
++
++    public static void show(Fragment host) {
++        final FragmentManager manager = host.getActivity().getFragmentManager();
++        if (manager.findFragmentByTag(TAG) == null) {
++            final CaptivePortalWarningDialog dialog =
++                    new CaptivePortalWarningDialog();
++            dialog.setTargetFragment(host, 0 /* requestCode */);
++            dialog.show(manager, TAG);
++        }
++    }
++
++    @Override
++    public int getMetricsCategory() {
++        return MetricsProto.MetricsEvent.TYPE_UNKNOWN;
++    }
++
++    @Override
++    public Dialog onCreateDialog(Bundle savedInstanceState) {
++        return new AlertDialog.Builder(getActivity())
++                .setTitle(R.string.captive_portal_switch_title)
++                .setMessage(R.string.captive_portal_switch_warning)
++                .setIconAttribute(android.R.attr.alertDialogIcon)
++                .setPositiveButton(R.string.captive_portal_warning_positive, this /* onClickListener */)
++                .setNegativeButton(android.R.string.no, null /* onClickListener */)
++                .create();
++    }
++
++    @Override
++    public void onClick(DialogInterface dialog, int which) {
++        final CaptivePortalWarningDialogHost host = (CaptivePortalWarningDialogHost) getTargetFragment();
++        if (host == null) {
++            return;
++        }
++        host.onCaptivePortalSwitchOffDialogConfirmed();
++    }
++}
+diff --git a/src/com/android/settings/network/CaptivePortalWarningDialogHost.java b/src/com/android/settings/network/CaptivePortalWarningDialogHost.java
+new file mode 100644
+index 0000000000..208042ad73
+--- /dev/null
++++ b/src/com/android/settings/network/CaptivePortalWarningDialogHost.java
+@@ -0,0 +1,28 @@
++/*
++ * Copyright (C) 2018 The LineageOS Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.settings.network;
++
++/**
++ * Interface for CaptivePortalWarningDialogHost callbacks.
++ */
++public interface CaptivePortalWarningDialogHost {
++
++    /**
++     * Called when the user chooses 'Disable' on the warning dialog.
++     */
++    void onCaptivePortalSwitchOffDialogConfirmed();
++}

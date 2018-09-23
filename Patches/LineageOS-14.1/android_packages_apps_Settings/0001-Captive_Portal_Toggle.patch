@@ -1,0 +1,189 @@
+From d6e3b804873c9bdfb4126a9bf9a56f2b7da88ffe Mon Sep 17 00:00:00 2001
+From: MSe <mse1969@posteo.de>
+Date: Sat, 22 Sep 2018 16:20:36 +0200
+Subject: [PATCH] Settings / Data usage: Add menu option to switch off captive
+ portal
+
+ * Extend menu in 'Data usage' to show a Checkbox with option to
+   switch off/on the captive portal, which is equivalent
+   to adb command 'settings put global captive_portal_mode [1|0]'
+ * Warning dialog is shown, when captive portal check is switched off
+ * Will be reset to default, if 'Reset network settings' is chosen
+   from the 'Network & Internet' menu
+
+Change-Id: Ibbffdb5f3930df74ca8b4ba93d451f7fad086989
+---
+ res/menu/data_usage.xml                       |  4 ++
+ res/values/cm_strings.xml                     |  5 ++
+ .../android/settings/ResetNetworkConfirm.java |  4 ++
+ .../settings/datausage/DataUsageSummary.java  | 57 ++++++++++++++++++-
+ 4 files changed, 69 insertions(+), 1 deletion(-)
+
+diff --git a/res/menu/data_usage.xml b/res/menu/data_usage.xml
+index f4c207b767..e47c3b25fc 100644
+--- a/res/menu/data_usage.xml
++++ b/res/menu/data_usage.xml
+@@ -21,4 +21,8 @@
+     <item
+         android:id="@+id/data_usage_menu_app_network_access"
+         android:title="@string/app_ops_permiss_name" />
++    <item
++        android:id="@+id/captive_portal_switch"
++        android:title="@string/captive_portal_switch_title"
++        android:checkable="true" />
+ </menu>
+diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
+index f18d6d2c47..1039ea4e19 100644
+--- a/res/values/cm_strings.xml
++++ b/res/values/cm_strings.xml
+@@ -511,4 +511,9 @@
+     <!-- Burn in protection -->
+     <string name="burnin_protection_title">Display burn-in protection</string>
+     <string name="burnin_protection_summary">Periodically move items that are permanently shown on screen to avoid excessive screen wear in that area</string>
++
++    <!-- Captive Portal -->
++    <string name="captive_portal_switch_title">Disable Captive Portal</string>
++    <string name="captive_portal_switch_warning">Captive portal allows you to get information regarding the connection status. Are you sure you want to disable it?</string>
++    <string name="captive_portal_warning_positive">Disable</string>
+ </resources>
+diff --git a/src/com/android/settings/ResetNetworkConfirm.java b/src/com/android/settings/ResetNetworkConfirm.java
+index ece64b4310..cd4579a487 100644
+--- a/src/com/android/settings/ResetNetworkConfirm.java
++++ b/src/com/android/settings/ResetNetworkConfirm.java
+@@ -25,6 +25,7 @@
+ import android.os.Bundle;
+ import android.os.UserHandle;
+ import android.os.UserManager;
++import android.provider.Settings;
+ import android.telephony.SubscriptionManager;
+ import android.telephony.TelephonyManager;
+ import android.view.LayoutInflater;
+@@ -105,6 +106,9 @@ public void onClick(View v) {
+ 
+             ImsManager.factoryReset(context);
+ 
++            Settings.Global.putInt(context.getContentResolver(),
++                    Settings.Global.CAPTIVE_PORTAL_MODE, 1);
++
+             Toast.makeText(context, R.string.reset_network_complete_toast, Toast.LENGTH_SHORT)
+                     .show();
+         }
+diff --git a/src/com/android/settings/datausage/DataUsageSummary.java b/src/com/android/settings/datausage/DataUsageSummary.java
+index 702e6db0ae..98df2759b2 100644
+--- a/src/com/android/settings/datausage/DataUsageSummary.java
++++ b/src/com/android/settings/datausage/DataUsageSummary.java
+@@ -15,8 +15,11 @@
+ package com.android.settings.datausage;
+ 
+ import android.app.Activity;
++import android.app.AlertDialog;
++import android.app.Dialog;
+ import android.content.ComponentName;
+ import android.content.Context;
++import android.content.DialogInterface;
+ import android.content.Intent;
+ import android.content.ActivityNotFoundException;
+ import android.net.ConnectivityManager;
+@@ -28,6 +31,7 @@
+ import android.os.SystemProperties;
+ import android.os.UserManager;
+ import android.provider.SearchIndexableResource;
++import android.provider.Settings;
+ import android.support.v7.preference.Preference;
+ import android.support.v7.preference.PreferenceScreen;
+ import android.telephony.SubscriptionInfo;
+@@ -59,7 +63,9 @@
+ import static android.net.ConnectivityManager.TYPE_ETHERNET;
+ import static android.net.ConnectivityManager.TYPE_WIFI;
+ 
+-public class DataUsageSummary extends DataUsageBase implements Indexable, DataUsageEditController {
++public class DataUsageSummary extends DataUsageBase
++        implements Indexable, DataUsageEditController,
++                DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
+ 
+     private static final String TAG = "DataUsageSummary";
+     static final boolean LOGD = false;
+@@ -77,6 +83,7 @@
+     private Preference mLimitPreference;
+     private NetworkTemplate mDefaultTemplate;
+     private int mDataUsageTemplate;
++    private Dialog mCaptivePortalWarningDialog;
+ 
+     @Override
+     protected int getHelpResource() {
+@@ -135,6 +142,7 @@ public void onCreate(Bundle icicle) {
+     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+         if (UserManager.get(getContext()).isAdminUser()) {
+             inflater.inflate(R.menu.data_usage, menu);
++            menu.findItem(R.id.captive_portal_switch).setChecked(isCaptivePortalDisabled());
+         }
+         super.onCreateOptionsMenu(menu, inflater);
+     }
+@@ -143,6 +151,8 @@ public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+     public void onPrepareOptionsMenu(Menu menu) {
+         final Context context = getActivity();
+         final MenuItem networkaccess = menu.findItem(R.id.data_usage_menu_app_network_access);
++        final MenuItem captiveportal = menu.findItem(R.id.captive_portal_switch);
++        captiveportal.setChecked(isCaptivePortalDisabled());
+         if (networkaccess == null) {
+             return;
+         }
+@@ -177,6 +187,22 @@ public boolean onOptionsItemSelected(MenuItem item) {
+                 }
+                 return true;
+             }
++            case R.id.captive_portal_switch: {
++                if (isCaptivePortalDisabled()) {
++                    setCaptivePortalMode(1);
++                } else {
++                    if (mCaptivePortalWarningDialog != null) dismissDialogs();
++                    mCaptivePortalWarningDialog = new AlertDialog.Builder(getActivity())
++                            .setMessage(getActivity().getResources()
++                                    .getString(R.string.captive_portal_switch_warning))
++                            .setTitle(R.string.captive_portal_switch_title)
++                            .setPositiveButton(R.string.captive_portal_warning_positive, this)
++                            .setNegativeButton(android.R.string.no, this)
++                            .show();
++                    mCaptivePortalWarningDialog.setOnDismissListener(this);
++                }
++                return true;
++            }
+         }
+         return false;
+     }
+@@ -190,6 +216,35 @@ public boolean onPreferenceTreeClick(Preference preference) {
+         return super.onPreferenceTreeClick(preference);
+     }
+ 
++    public void onClick(DialogInterface dialog, int which) {
++        if (dialog == mCaptivePortalWarningDialog)
++            if (which == DialogInterface.BUTTON_POSITIVE)
++                setCaptivePortalMode(0);
++    }
++
++    public void onDismiss(DialogInterface dialog) {
++        if (dialog == mCaptivePortalWarningDialog)
++            mCaptivePortalWarningDialog = null;
++    }
++
++    private void dismissDialogs() {
++        if (mCaptivePortalWarningDialog != null) {
++            mCaptivePortalWarningDialog.dismiss();
++            mCaptivePortalWarningDialog = null;
++        }
++    }
++
++    private boolean isCaptivePortalDisabled() {
++        return (Settings.Global.getInt(getContext().getContentResolver(),
++                Settings.Global.CAPTIVE_PORTAL_MODE,
++                Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT) == 0);
++    }
++
++    private void setCaptivePortalMode(int mode) {
++        Settings.Global.putInt(getContext().getContentResolver(),
++                Settings.Global.CAPTIVE_PORTAL_MODE, mode);
++    }
++
+     private void addMobileSection(int subId) {
+         TemplatePreferenceCategory category = (TemplatePreferenceCategory)
+                 inflatePreferences(R.xml.data_usage_cellular);
