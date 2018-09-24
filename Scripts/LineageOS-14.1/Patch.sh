@@ -134,7 +134,7 @@ patch -p1 < "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytic
 
 enterAndClear "packages/apps/Updater";
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server
-patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Updater/0002-Tor_Support.patch"; #Add Tor support
+patch -p1 < "$DOS_PATCHES/android_packages_apps_Updater/0002-Tor_Support.patch"; #Add Tor support
 #TODO: Remove changelog
 
 enterAndClear "packages/apps/WallpaperPicker";
