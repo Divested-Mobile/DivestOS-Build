@@ -21,7 +21,7 @@
 echo "Applying overclocks...";
 
 if enter "kernel/amazon/hdx-common"; then
-patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_amazon_hdx-common/0001-Overclock.patch"; #300MHz -> 268MHz, 2.26GHz -> 2.41GHz	=+0.60GHz
+patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_amazon_hdx-common/0001-Overclock.patch"; #300MHz -> 268MHz, 2.26GHz -> 2.41GHz
 patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_amazon_hdx-common/0002-Overclock.patch";
 patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_amazon_hdx-common/0003-Overclock.patch";
 patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_amazon_hdx-common/0004-Overclock.patch";
@@ -29,9 +29,9 @@ fi;
 
 if enter "kernel/asus/grouper-DISABLED"; then #XXX: Disabled
 patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_asus_grouper/0001-Overclock.patch";
-echo "CONFIG_TEGRA_CPU_OVERCLOCK=y" >> arch/arm/configs/grouper_defconfig; #1.30GHz -> 1.50GHz	=+0.80GHz
-echo "CONFIG_TEGRA_CPU_OVERCLOCK_ULTIMATE=y" >> arch/arm/configs/grouper_defconfig; #1.30GHz -> 1.60GHz	=+1.20GHz
-echo "CONFIG_TEGRA_GPU_OVERCLOCK=y" >> arch/arm/configs/grouper_defconfig; #416MHz 520MHz
+echo "CONFIG_TEGRA_CPU_OVERCLOCK=y" >> arch/arm/configs/grouper_defconfig; #1.30GHz -> 1.50GHz
+echo "CONFIG_TEGRA_CPU_OVERCLOCK_ULTIMATE=y" >> arch/arm/configs/grouper_defconfig; #1.30GHz -> 1.60GHz
+echo "CONFIG_TEGRA_GPU_OVERCLOCK=y" >> arch/arm/configs/grouper_defconfig; #416MHz -> 520MHz
 echo "CONFIG_TEGRA_GAMING_FIX=y" >> arch/arm/configs/grouper_defconfig;
 fi;
 
@@ -40,14 +40,14 @@ patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_huawei_angler/0001-Overclock
 fi;
 
 if enter "kernel/lge/g3"; then
-patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_lge_g3/0001-Overclock.patch"; #2.45GHz -> 2.76GHz	=+1.24GHz
+patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_lge_g3/0001-Overclock.patch"; #2.45GHz -> 2.76GHz
 patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_lge_g3/0002-Overclock.patch";
 patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_lge_g3/0003-Overclock.patch";
 patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_lge_g3/0004-Overclock.patch";
 fi;
 
 if enter "kernel/lge/hammerhead"; then
-patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_lge_hammerhead/0001-Overclock.patch"; #2.26GHz -> 2.95GHz	=+2.76GHz XXX: Untested!
+patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_lge_hammerhead/0001-Overclock.patch"; #2.26GHz -> 2.95GHz
 fi;
 
 if enter "kernel/lge/mako"; then
@@ -57,20 +57,25 @@ patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_lge_mako/0003-Overclock.patc
 patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_lge_mako/0004-Overclock.patch";
 patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_lge_mako/0005-Overclock.patch";
 echo "CONFIG_LOW_CPUCLOCKS=y" >> arch/arm/configs/lineageos_mako_defconfig; #384MHz -> 81MHz
-echo "CONFIG_CPU_OVERCLOCK=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.51GHz -> 1.70GHz  =+0.90GHz
-echo "CONFIG_CPU_OVERCLOCK_ULTRA=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.51GHz -> 1.94GHz =+1.72GHz XXX: Causes excessive throttling
+echo "CONFIG_CPU_OVERCLOCK=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.51GHz -> 1.70GHz
+#echo "CONFIG_CPU_OVERCLOCK_ULTRA=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.51GHz -> 1.94GHz XXX: Throttles
+if enter "device/lge/mako"; then
+	sed -i 's/scaling_min_freq 384000/scaling_min_freq 81000/' rootdir/etc/init.mako.power.rc;
+	sed -i 's/scaling_max_freq 1512000/scaling_max_freq 1728000/' rootdir/etc/init.mako.power.rc;
+	#sed -i 's/scaling_max_freq 1512000/scaling_max_freq 1944000/' rootdir/etc/init.mako.power.rc;
+fi;
 fi;
 
 if enter "kernel/motorola/msm8916"; then
-patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_motorola_msm8916/0001-Overclock.patch"; #1.36GHz -> 1.88GHz	=+ 2.07GHz
+patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_motorola_msm8916/0001-Overclock.patch"; #1.36GHz -> 1.88GHz
 fi;
 
 if enter "kernel/oneplus/msm8974"; then
-patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_oppo_msm8974/0001-OverUnderClock-EXTREME.patch"; #300MHz -> 268MHz, 2.45GHz -> 2.95GHz	=+2.02GHz XXX: Not 100% stable under intense workloads
+patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_oppo_msm8974/0001-OverUnderClock-EXTREME.patch"; #300MHz -> 268MHz, 2.45GHz -> 2.95GHz
 fi;
 
 if enter "kernel/oppo/msm8974"; then
-patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_oppo_msm8974/0001-OverUnderClock-EXTREME.patch"; #300MHz -> 268MHz, 2.45GHz -> 2.95GHz	=+2.02GHz XXX: Not 100% stable under intense workloads
+patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_oppo_msm8974/0001-OverUnderClock-EXTREME.patch"; #300MHz -> 268MHz, 2.45GHz -> 2.95GHz
 fi;
 
 cd "$DOS_BUILD_BASE";

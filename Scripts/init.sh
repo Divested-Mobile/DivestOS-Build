@@ -126,7 +126,7 @@ export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+Tiere
 export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}";
 export GRADLE_OPTS="-Xmx2048m";
 export LC_ALL=C;
-#alias patch='patch --no-backup-if-mismatch';
+alias patch='patch --no-backup-if-mismatch';
 
 #START OF VERIFICATION
 #gpgVerifyGitHead $DOS_WORKSPACE_ROOT;
