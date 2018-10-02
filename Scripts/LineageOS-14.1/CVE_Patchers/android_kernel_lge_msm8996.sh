@@ -131,6 +131,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7616/^4.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7618/^4.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-9711/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-1068/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10876/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10876/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10881/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10883/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-1092/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11265/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11266/ANY/0002.patch
@@ -165,15 +169,15 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9439/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9463/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9516/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9518/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
-git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0003-tunnels-Don-t-apply-GRO-to-multiple-layers-of-encaps.patch
-git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0004-net-add-recursion-limit-to-GRO.patch
-git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
-git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0007-USB-usbip-fix-potential-out-of-bounds-write.patch
-git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
+git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
+git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0003-tunnels-Don-t-apply-GRO-to-multiple-layers-of-encaps.patch
+git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0004-net-add-recursion-limit-to-GRO.patch
+git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
+git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0007-USB-usbip-fix-potential-out-of-bounds-write.patch
+git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6693/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0610/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p175"
+editKernelLocalversion "-dos.p179"
 cd "$DOS_BUILD_BASE"

@@ -58,7 +58,7 @@ patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_lge_mako/0004-Overclock.patc
 patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_lge_mako/0005-Overclock.patch";
 echo "CONFIG_LOW_CPUCLOCKS=y" >> arch/arm/configs/lineageos_mako_defconfig; #384MHz -> 81MHz
 echo "CONFIG_CPU_OVERCLOCK=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.51GHz -> 1.70GHz  =+0.90GHz
-echo "CPU_OVERCLOCK_ULTRA=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.51GHz -> 1.94GHz =+1.72GHz XXX: Causes excessive throttling
+echo "CONFIG_CPU_OVERCLOCK_ULTRA=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.51GHz -> 1.94GHz =+1.72GHz XXX: Causes excessive throttling
 fi;
 
 if enter "kernel/motorola/msm8916"; then
