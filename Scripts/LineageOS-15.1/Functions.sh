@@ -76,8 +76,8 @@ buildAll() {
 	brunch lineage_shamu-user; #broken - needs synced proprietary-files.txt
 	brunch lineage_starlte-user;
 	brunch lineage_us996-user;
-	brunch lineage_us997-user; #needs manual patching (vendor makefile: remove dolby)
-	brunch lineage_victara-user; #broken - recovery.img too large
+	brunch lineage_us997-user;
+	brunch lineage_victara-user; #broken - recovery.img too large and needs manual patching (fwb xml: fused: dangling tag)
 }
 export -f buildAll;
 
