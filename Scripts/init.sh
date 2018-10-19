@@ -36,13 +36,13 @@ export DOS_GPS_NTP_SERVER="time.android.com"; #Options: Any NTP pool
 export DOS_GPS_GLONASS_FORCED=true; #Enables GLONASS on all devices
 export DOS_MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
 export DOS_MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
-export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NLP, FULL
+export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NLP, FULL TODO: Re-add FULL
 export DOS_HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
 export DOS_HOSTS_BLOCKING_LIST="https://divestos.xyz/hosts"; #Must be in the format "127.0.0.1 bad.domain.tld"
 export DOS_OVERCLOCKS_ENABLED=true; #Switch to false to disable overclocks #XXX: Most devices have their processors directly under their RAM, heatsinking is mostly into the ground plane, potentially inflicting damage to RAM and the processor itself
 export DOS_LOWRAM_ENABLED=false; #Switch to true to enable low_ram on all devices
 export DOS_STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit encryption XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
-export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches
+export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches XXX: Unused, see 1dc9247
 
 export DOS_BRANDING_NAME="DivestOS";
 export DOS_BRANDING_ZIP_PREFIX="divested";

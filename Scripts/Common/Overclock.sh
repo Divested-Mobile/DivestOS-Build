@@ -61,8 +61,8 @@ echo "CONFIG_CPU_OVERCLOCK=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.5
 #echo "CONFIG_CPU_OVERCLOCK_ULTRA=y" >> arch/arm/configs/lineageos_mako_defconfig; #1.51GHz -> 1.94GHz XXX: Throttles
 if enter "device/lge/mako"; then
 	sed -i 's/scaling_min_freq 384000/scaling_min_freq 81000/' rootdir/etc/init.mako.power.rc;
-	sed -i 's/scaling_max_freq 1512000/scaling_max_freq 1728000/' rootdir/etc/init.mako.power.rc;
-	sed -i 's/NORMAL_FREQ "1512000"/NORMAL_FREQ "1728000"/' power/power_mako.c;
+	#sed -i 's/scaling_max_freq 1512000/scaling_max_freq 1728000/' rootdir/etc/init.mako.power.rc;
+	#sed -i 's/NORMAL_FREQ "1512000"/NORMAL_FREQ "1728000"/' power/power_mako.c;
 	#sed -i 's/scaling_max_freq 1512000/scaling_max_freq 1944000/' rootdir/etc/init.mako.power.rc;
 	#sed -i 's/NORMAL_FREQ "1512000"/NORMAL_FREQ "1944000"/' power/power_mako.c;
 fi;

@@ -127,7 +127,7 @@ generateBootAnimationShine() {
 export -f generateBootAnimationShine;
 
 audit2allowCurrent() {
-	adb shell dmesg | audit2allow -p "$ANDROID_PRODUCT_OUT"/root/sepolicy;
+	adb logcat -b all -d | audit2allow -p "$ANDROID_PRODUCT_OUT"/root/sepolicy;
 }
 export -f audit2allowCurrent;
 
