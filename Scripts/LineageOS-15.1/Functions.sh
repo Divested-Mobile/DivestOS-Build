@@ -23,7 +23,7 @@ patchAllKernels() {
 export -f patchAllKernels;
 
 resetWorkspace() {
-	repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/FDroid out && repo sync -j20 --force-sync;
+	repo forall -c 'git add -A && git reset --hard' && rm -rf out && repo sync -j20 --force-sync;
 }
 export -f resetWorkspace;
 

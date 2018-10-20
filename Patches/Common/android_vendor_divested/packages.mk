@@ -1,11 +1,7 @@
-# F-Droid (source)
+# F-Droid
 PRODUCT_PACKAGES += \
-    F-Droid \
+    F-DroidOfficial \
     F-DroidPrivilegedExtension
-
-# F-Droid Official
-#PRODUCT_PACKAGES += \
-#    F-DroidOfficial \
 #    F-DroidPrivilegedExtensionOfficial
 
 # UnifiedNLP
