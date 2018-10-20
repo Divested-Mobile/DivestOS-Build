@@ -199,10 +199,6 @@ sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.t
 
 enterAndClear "device/lge/mako";
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
-echo "allow install_recovery unlabeled:dir search;" >> sepolicy/install_recovery.te; #Update recovery on boot
-echo "allow vold persist_file:dir read;" >> sepolicy/vold.te; #Fix Updater
-echo "allow priv_app unlabeled:dir search;" >> priv_app.te;
-echo "allow platform_app system_app_data_file:dir getattr;" >> sepolicy/platform_app.te;
 patch -p1 < "$DOS_PATCHES/android_device_lge_mako/0001-Enable_LTE.patch";
 
 enterAndClear "device/motorola/clark";

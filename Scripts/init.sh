@@ -125,7 +125,9 @@ export KBUILD_BUILD_HOST="dosbm";
 
 export ANDROID_JACK_VM_ARGS="-Xmx6144m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation";
 export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}";
+export EXPERIMENTAL_USE_JAVA8=true;
 export GRADLE_OPTS="-Xmx2048m";
+export TZ=:/etc/localtime;
 export LC_ALL=C;
 alias patch='patch --no-backup-if-mismatch';
 
