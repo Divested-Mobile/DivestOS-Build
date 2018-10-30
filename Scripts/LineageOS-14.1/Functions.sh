@@ -98,8 +98,8 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
 	source build/envsetup.sh;
 	repopick -t n_asb_09-2018-qcom;
-	repopick -it n_asb_10-2018;
-	repopick 231380;
+	repopick -it n_asb_10-2018 -e 230855;
+	repopick 230855; #230990 goes first
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
