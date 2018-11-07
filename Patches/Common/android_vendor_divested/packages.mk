@@ -23,8 +23,8 @@ PRODUCT_PACKAGES += \
     LocalCalendar
 
 # Notes
-# - Available (via PrebuiltApps submodule): K9Mail, NetMonitor, OpenKeychain, Orbot, Orfox, Shelter, TalkBack
+# - Available (via PrebuiltApps submodule): K9Mail, NetMonitor, OpenKeychain, Orbot, Shelter, TalkBack, TorBrowser
 # - K-9 Mail Will be included after 5.5xx release
 # - Net Monitor will be included after #58 is merged
 # - OpenKeychain inclusion is undecided yet
-# - Orbot/Orfox will most likely never be included due to various reasons
+# - Orbot/TorBrowser will most likely never be included due to various reasons
