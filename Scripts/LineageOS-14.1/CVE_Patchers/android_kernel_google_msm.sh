@@ -55,7 +55,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11832/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9389/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9416/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9439/ANY/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9513/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9516/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-after-free-for-hub-usb-device.patch

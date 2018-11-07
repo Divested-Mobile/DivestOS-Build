@@ -108,7 +108,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11832/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5390/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5390/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9415/ANY/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9513/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-5853/3.18/0002.patch

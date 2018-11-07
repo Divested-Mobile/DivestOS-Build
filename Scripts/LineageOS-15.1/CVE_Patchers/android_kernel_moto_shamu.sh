@@ -58,7 +58,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7487/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-9242/^4.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11286/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11832/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9513/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0003/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch

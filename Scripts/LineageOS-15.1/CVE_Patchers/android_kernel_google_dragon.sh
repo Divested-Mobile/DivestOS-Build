@@ -122,7 +122,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5390/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-8897/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9383/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9422/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9513/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0004/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0003-tunnels-Don-t-apply-GRO-to-multiple-layers-of-encaps.patch
