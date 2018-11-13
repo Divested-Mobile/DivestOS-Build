@@ -50,7 +50,7 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#TODO: hiae
 	brunch lineage_mako-user;
-	brunch lineage_d852-user;
+	#brunch lineage_d852-user;
 	brunch lineage_bacon-user;
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;
@@ -86,8 +86,10 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	#repopick 219020 219022; #ab-neverallow-user
-	repopick -f 214824 209584 209585 215010 214300; #g3-common
-	repopick -f 211404 211405 211406 211407 211408 211409; #d852
+
+	#broken by g3-oreo, pending merge
+	#repopick -f 214824 209584 209585 215010 214300; #g3-common
+	#repopick -f 211404 211405 211406 211407 211408 211409; #d852
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

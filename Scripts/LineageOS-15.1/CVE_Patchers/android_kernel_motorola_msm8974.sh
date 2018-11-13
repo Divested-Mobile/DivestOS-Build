@@ -41,9 +41,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-17806/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-6348/^4.9/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7373/3.4/0001.patch
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7373/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7487/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7533/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-8246/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-8247/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-8254/3.4/0001.patch
@@ -66,5 +65,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-9f34c6ebc016cd061ae5ec901221d15fa3d67e49.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p67"
+editKernelLocalversion "-dos.p65"
 cd "$DOS_BUILD_BASE"
