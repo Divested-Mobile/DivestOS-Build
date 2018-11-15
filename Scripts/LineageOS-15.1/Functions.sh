@@ -77,7 +77,7 @@ buildAll() {
 	brunch lineage_starlte-user;
 	brunch lineage_us996-user;
 	brunch lineage_us997-user;
-	brunch lineage_victara-user; #broken - recovery.img too large and needs manual patching (fwb xml: fused: dangling tag)
+	brunch lineage_victara-user;
 }
 export -f buildAll;
 

@@ -90,7 +90,7 @@ buildAll() {
 	#brunch lineage_shamu-user;
 	#brunch lineage_us996-user;
 	#brunch lineage_us997-user;
-	brunch lineage_victara-user; #needs manual patching (fwb xml: fused: dangling tag)
+	#brunch lineage_victara-user; #needs manual patching (fwb xml: fused: dangling tag)
 }
 export -f buildAll;
 
