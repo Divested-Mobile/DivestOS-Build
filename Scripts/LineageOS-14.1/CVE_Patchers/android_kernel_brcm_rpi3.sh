@@ -25,5 +25,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-3575/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5848/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9415/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p26"
+editKernelLocalversion "-dos.p25"
 cd "$DOS_BUILD_BASE"
