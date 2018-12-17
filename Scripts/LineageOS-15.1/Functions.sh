@@ -86,10 +86,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	#repopick 219020 219022; #ab-neverallow-user
-
-	#broken by g3-oreo, pending merge
-	#repopick -f 214824 209584 209585 215010 214300; #g3-common
-	#repopick -f 211404 211405 211406 211407 211408 211409; #d852
+	#repopick -t g3-oreo g3-sdfat
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
