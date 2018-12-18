@@ -115,12 +115,6 @@ if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_
 #
 #START OF DEVICE CHANGES
 #
-enterAndClear "device/asus/grouper";
-mv cm.mk lineage.mk;
-sed -i 's/cm_/lineage_/' lineage.mk;
-#In proprietary/Android.mk
-#	Remove widevine and tf_daemon
-
 enterAndClear "device/zte/nex"
 sed -i 's/ro.sf.lcd_density=240/ro.sf.lcd_density=180/' system.prop;
 echo "TARGET_DISPLAY_USE_RETIRE_FENCE := true" >> BoardConfig.mk;

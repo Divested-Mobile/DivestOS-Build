@@ -18,7 +18,7 @@
 #Last verified: 2018-07-10
 
 patchAllKernels() {
-	startPatcher "kernel_asus_grouper kernel_zte_msm8930";
+	startPatcher "kernel_zte_msm8930";
 }
 export -f patchAllKernels;
 
@@ -49,7 +49,6 @@ export -f buildDeviceDebug;
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#Select devices are userdebug due to SELinux policy issues
-	brunch lineage_grouper-userdebug;
 	brunch lineage_nex-userdebug;
 }
 export -f buildAll;
@@ -57,6 +56,9 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
 	#source build/envsetup.sh;
+	#repopick -it asb-2018.09-cm11
+	#repopick -it asb-2018.10-cm11
+	#repopick -it asb-2018.11-cm11
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
