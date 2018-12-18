@@ -1,6 +1,6 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/asus/grouper"
-git apply $DOS_PATCHES_LINUX_CVES/0014-GCC_Patches/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6689/^3.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6701/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6704/^3.5/0001.patch
@@ -69,7 +69,13 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-6345/^4.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-6348/^4.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7308/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7487/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/Untracked/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-1068/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9389/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9416/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9516/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
+git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-after-free-for-hub-usb-device.patch
+git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000111/ANY/0001.patch
-editKernelLocalversion "-dos.p71"
+editKernelLocalversion "-dos.p77"
 cd "$DOS_BUILD_BASE"

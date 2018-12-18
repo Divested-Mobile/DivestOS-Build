@@ -65,8 +65,8 @@ cp -r "$DOS_PATCHES_COMMON""android_vendor_divested/." "$DOS_BUILD_BASE""vendor/
 enterAndClear "build";
 #patch -p1 < "$DOS_PATCHES/android_build/0001-Automated_Build_Signing.patch"; #Automated build signing (CopperheadOS-13.0) #TODO
 sed -i 's/Mms/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
-sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #TODO PR FIX ME
-sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
+sed -i '497i$(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/base_rules.mk;
+sed -i '80iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package.mk;
 
 enterAndClear "external/sqlite";
 patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0)
@@ -132,7 +132,7 @@ awk -i inplace '!/WCNSS_qcom_wlan_nv_2.bin/' proprietary-files.txt;
 #	"system/lib/libtime_genoff.so" -> "obj/lib/libtime_genoff.so"
 
 enterAndClear "kernel/zte/msm8930"
-patch -p1 < $patches"/android_kernel_zte_msm8930/0001-MDP-Fix.patch";
+patch -p1 < "$DOS_PATCHES/android_kernel_zte_msm8930/0001-MDP-Fix.patch";
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";

@@ -44,7 +44,6 @@ sed -i 's|https://download.cyanogenmod.org/api|'"$DOS_BRANDING_SERVER_OTA"'|' re
 
 enter "vendor/cm";
 sed -i 's|https://lineageos.org/legal|'"$DOS_BRANDING_LINK_ABOUT"'|' config/common.mk;
-sed -i '/.*ZIPPATH=/s/lineage/'"$DOS_BRANDING_ZIP_PREFIX"'/' build/envsetup.sh;
 rm -rf bootanimation;
 
 cd "$DOS_BUILD_BASE";

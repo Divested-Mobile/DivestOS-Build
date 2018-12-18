@@ -1,8 +1,7 @@
 # F-Droid
 PRODUCT_PACKAGES += \
     F-DroidOfficial \
-    F-DroidPrivilegedExtension
-#    F-DroidPrivilegedExtensionOfficial
+    F-DroidPrivilegedExtensionOfficial
 
 # UnifiedNLP
 PRODUCT_PACKAGES += \
