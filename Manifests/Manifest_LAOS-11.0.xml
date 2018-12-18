@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+<!-- START OF UNNECESSARY REPO REMOVAL -->
+	<remove-project name="device/generic/mini-emulator-armv7-a-neon" />
+	<remove-project name="device/generic/mini-emulator-mips" />
+	<remove-project name="device/generic/mini-emulator-x86" />
+	<remove-project name="LineageOS/android_device_generic_mips" />
+	<remove-project name="LineageOS/android_device_generic_x86" />
+	<remove-project name="LineageOS/android_device_google_accessory_arduino" />
+	<remove-project name="LineageOS/android_device_google_accessory_demokit" />
+	<remove-project name="LineageOS/android_external_ant-wireless_ant_native" />
+	<remove-project name="LineageOS/android_external_ant-wireless_ant_service" />
+	<remove-project name="LineageOS/android_external_arduino" />
+	<remove-project name="LineageOS/android_external_bash" />
+	<remove-project name="LineageOS/android_external_openssh" />
+	<remove-project name="LineageOS/android_external_powertop" />
+	<remove-project name="LineageOS/android_external_unrar" />
+	<remove-project name="LineageOS/android_packages_apps_CMAccount" />
+	<remove-project name="LineageOS/android_packages_apps_CMBugreport" />
+	<remove-project name="LineageOS/android_packages_apps_LockClock" />
+	<remove-project name="LineageOS/android_packages_apps_Stk" />
+	<remove-project name="LineageOS/android_packages_apps_VideoEditor" />
+	<remove-project name="LineageOS/android_packages_apps_VoiceDialer" />
+	<remove-project name="LineageOS/android_packages_apps_VoicePlus" />
+	<remove-project name="LineageOS/android_packages_providers_PartnerBookmarksProvider" />
+	<remove-project name="LineageOS/android_packages_screensavers_Basic" />
+	<remove-project name="LineageOS/android_packages_screensavers_PhotoTable" />
+	<remove-project name="LineageOS/android_packages_screensavers_WebView" />
+	<remove-project name="LineageOS/android_packages_wallpapers_Basic" />
+	<remove-project name="LineageOS/android_packages_wallpapers_Galaxy4" />
+	<remove-project name="LineageOS/android_packages_wallpapers_HoloSpiral" />
+	<remove-project name="LineageOS/android_packages_wallpapers_MagicSmoke" />
+	<remove-project name="LineageOS/android_packages_wallpapers_MusicVisualization" />
+	<remove-project name="LineageOS/android_packages_wallpapers_NoiseField" />
+	<remove-project name="LineageOS/android_packages_wallpapers_PhaseBeam" />
+	<remove-project name="LineageOS/android_packages_wallpapers_PhotoPhase" />
+	<remove-project name="platform/cts" />
+	<remove-project name="platform/developers/build" />
+	<remove-project name="platform/developers/demos" />
+	<remove-project name="platform/developers/docs" />
+	<remove-project name="platform/developers/samples/android" />
+	<remove-project name="platform/docs/source.android.com" />
+	<remove-project name="platform/external/libssh2" />
+	<remove-project name="platform/prebuilts/clang/darwin-x86/3.1" />
+	<remove-project name="platform/prebuilts/clang/darwin-x86/3.2" />
+	<remove-project name="platform/prebuilts/clang/darwin-x86/arm/3.3" />
+	<remove-project name="platform/prebuilts/clang/darwin-x86/host/3.3" />
+	<remove-project name="platform/prebuilts/clang/darwin-x86/mips/3.3" />
+	<remove-project name="platform/prebuilts/clang/darwin-x86/x86/3.3" />
+	<remove-project name="platform/prebuilts/clang/linux-x86/mips/3.3" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-eabi-4.6" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-eabi-4.7" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-linux-androideabi-4.6" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-linux-androideabi-4.7" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/host/headers" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/host/i686-apple-darwin-4.2.1" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/mips/mipsel-linux-android-4.6" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/mips/mipsel-linux-android-4.7" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/x86/i686-linux-android-4.6" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/x86/i686-linux-android-4.7" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/x86/x86_64-linux-android-4.7" />
+	<remove-project name="platform/prebuilts/gcc/linux-x86/mips/mipsel-linux-android-4.6" />
+	<remove-project name="platform/prebuilts/gcc/linux-x86/mips/mipsel-linux-android-4.7" />
+	<remove-project name="platform/prebuilts/python/darwin-x86/2.7.5" />
+	<remove-project name="platform/tools/emulator" />
+<!-- END OF UNNECESSARY REPO REMOVAL -->
+
+<!-- START OF ADDITIONAL REPOS -->
+	<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />
+
+	<!-- MicroG -->
+	<project path="packages/apps/GmsCore" name="microg/android_packages_apps_GmsCore" remote="github" revision="master" />
+	<project path="packages/apps/GsfProxy" name="microg/android_packages_apps_GsfProxy" remote="github" revision="master" />
+	<project path="packages/apps/FakeStore" name="microg/android_packages_apps_FakeStore" remote="github" revision="master" />
+
+	<!-- F-Droid -->
+	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
+	<project path="packages/apps/FDroidPrivilegedExtension" name="privileged-extension.git" remote="fdroid" revision="master" />
+	<project path="packages/apps/FDroid" name="fdroidclient.git" remote="fdroid" revision="master" />
+<!-- END OF ADDITIONAL REPOS -->
+
+<!-- START OF DEVICE REPOS -->
+	<!-- ZTE AWE (n800) -->
+	<project path="device/zte/nex" name="spock1104/android_device_zte_nex" remote="github" revision="cm11_newkern" />
+	<project path="device/qcom/common" name="LineageOS/android_device_qcom_common" remote="github" revision="cm-11.0" />
+	<project path="kernel/zte/msm8930" name="spock1104/android_kernel_zte_msm8930" remote="github" revision="stockmod" />
+
+	<!-- Nexus 7 [2012] (grouper) -->
+	<project path="device/asus/grouper" name="LineageOS/android_device_asus_grouper" remote="github" />
+	<project path="kernel/asus/grouper" name="LineageOS/android_kernel_asus_grouper" remote="github" />
+<!-- END OF DEVICE REPOS -->
+
+</manifest>

@@ -1,0 +1,30 @@
+From f19ab3bce2115c6ddf24528885305c3ba038f29b Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 10 Jul 2018 08:22:08 -0400
+Subject: [PATCH] Harden mounts
+
+Change-Id: I2db94882224672cac3e54f7d8422d1e036828378
+---
+ init/init.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/init/init.c b/init/init.c
+index 53e0dae1..d022253b 100644
+--- a/init/init.c
++++ b/init/init.c
+@@ -1136,9 +1136,9 @@ int main(int argc, char **argv)
+     mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755");
+     mkdir("/dev/pts", 0755);
+     mkdir("/dev/socket", 0755);
+-    mount("devpts", "/dev/pts", "devpts", 0, NULL);
+-    mount("proc", "/proc", "proc", 0, NULL);
+-    mount("sysfs", "/sys", "sysfs", 0, NULL);
++    mount("devpts", "/dev/pts", "devpts", MS_NOSUID|MS_NOEXEC, NULL);
++    mount("proc", "/proc", "proc", MS_NOSUID|MS_NODEV|MS_NOEXEC, NULL);
++    mount("sysfs", "/sys", "sysfs", MS_NOSUID|MS_NODEV|MS_NOEXEC, NULL);
+ 
+         /* indicate that booting is in progress to background fw loaders, etc */
+     close(open("/dev/.booting", O_WRONLY | O_CREAT, 0000));
+-- 
+2.18.0
+
