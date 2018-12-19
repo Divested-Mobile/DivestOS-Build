@@ -1,17 +1,17 @@
-From 2abc960a4b866201eb63d86c8a6c2e21841e5500 Mon Sep 17 00:00:00 2001
+From dec39e7972d1f57b07b924eb33c4ee6b00e78147 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Tue, 18 Dec 2018 22:05:54 -0500
+Date: Tue, 18 Dec 2018 23:27:04 -0500
 Subject: [PATCH] Remove CMStats
 
-Change-Id: Ibbe36242e304717c0ef6ce9d3fc566da91830b1a
+Change-Id: Ia1d9157ab9091176d73bf603e49d8b444218cb16
 ---
- AndroidManifest.xml                                       | 8 --------
- src/com/android/settings/Settings.java                    | 1 -
- src/com/android/settings/cyanogenmod/PrivacySettings.java | 2 --
- 3 files changed, 11 deletions(-)
+ AndroidManifest.xml                                | 26 ----------------------
+ src/com/android/settings/Settings.java             |  1 -
+ .../settings/cyanogenmod/PrivacySettings.java      |  2 --
+ 3 files changed, 29 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index b562de2..6f61c21 100644
+index b562de2..f7f9396 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
 @@ -1872,14 +1872,6 @@
@@ -29,6 +29,31 @@ index b562de2..6f61c21 100644
          <activity android:name=".cyanogenmod.ChangeLog" />
  
          <activity android:name=".cyanogenmod.ContributorsCloud" />
+@@ -2137,24 +2129,6 @@
+             </intent-filter>
+         </receiver>
+ 
+-        <!-- Anonymous Statistics -->
+-        <receiver android:name=".cmstats.ReportingServiceManager"
+-            android:enabled="true"
+-            android:exported="false"
+-            android:label="ReportingServiceManager">
+-            <intent-filter>
+-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+-            </intent-filter>
+-        </receiver>
+-
+-        <service android:label="ReportingService"
+-            android:enabled="true"
+-            android:exported="false"
+-            android:name=".cmstats.ReportingService">
+-        </service>
+-
+-
+         <!-- Watch for ContactsContract.Profile changes and update the user's photo.  -->
+         <receiver android:name=".users.ProfileUpdateReceiver">
+             <intent-filter>
 diff --git a/src/com/android/settings/Settings.java b/src/com/android/settings/Settings.java
 index 81b8cf6..4642581 100644
 --- a/src/com/android/settings/Settings.java

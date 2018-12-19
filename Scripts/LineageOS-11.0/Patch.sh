@@ -83,6 +83,13 @@ if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_f
 changeDefaultDNS;
 #patch -p1 < "$DOS_PATCHES/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries #TODO
 
+enterAndClear "packages/apps/Dialer";
+rm -rf src/com/android/dialer/cmstats;
+patch -p1 < "$DOS_PATCHES/android_packages_apps_Dialer/0001-Remove_Analytics.patch"; #Remove CMStats
+
+enterAndClear "packages/apps/InCallUI";
+patch -p1 < "$DOS_PATCHES/android_packages_apps_InCallUI/0001-Remove_Analytics.patch"; #Remove CMStats
+
 enterAndClear "packages/apps/Settings";
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
@@ -121,14 +128,15 @@ if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_
 #START OF DEVICE CHANGES
 #
 enterAndClear "device/zte/nex"
-sed -i 's/ro.sf.lcd_density=240/ro.sf.lcd_density=180/' system.prop;
-echo "TARGET_DISPLAY_USE_RETIRE_FENCE := true" >> BoardConfig.mk;
-sed -i 's/libm libc/libm libc libutils/' charger/Android.mk;
 mv cm.mk lineage.mk;
 sed -i 's/cm_/lineage_/' lineage.mk vendorsetup.sh;
-awk -i inplace '!/WCNSS_qcom_wlan_nv_2.bin/' proprietary-files.txt;
+echo "TARGET_DISPLAY_USE_RETIRE_FENCE := true" >> BoardConfig.mk;
+sed -i 's/libm libc/libm libc libutils/' charger/Android.mk;
+sed -i 's/ro.sf.lcd_density=240/ro.sf.lcd_density=180/' system.prop;
+awk -i inplace '!/WCNSS_qcom_wlan_nv_2.bin/' proprietary-files.txt; #Missing
 #In nex-vendor-blobs.mk
 #	"system/lib/libtime_genoff.so" -> "obj/lib/libtime_genoff.so"
+#	Add "camera.msm8960.so"
 
 enterAndClear "kernel/zte/msm8930"
 patch -p1 < "$DOS_PATCHES/android_kernel_zte_msm8930/0001-MDP-Fix.patch";

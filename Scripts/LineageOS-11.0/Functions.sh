@@ -63,13 +63,14 @@ patchWorkspace() {
 	repopick -it asb-2018.11-cm11 -e 234695;
 	repopick -it cm.service.adb.root; #security fix for -userdebug
 	repopick -it asb-2018.12-cm11;
+	sed -i 's/2018-08-01/2018-12-01/' build/core/version_defaults.mk; #dirty lies! (kinda)
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
 	source "$DOS_SCRIPTS/Rebrand.sh";
-	#if [ "$DOS_OVERCLOCKS_ENABLED" = true ]; then source "$DOS_SCRIPTS/Overclock.sh"; fi;
+	if [ "$DOS_OVERCLOCKS_ENABLED" = true ]; then source "$DOS_SCRIPTS_COMMON/Overclock.sh"; fi;
 	source "$DOS_SCRIPTS/Optimize.sh";
-	#source "$DOS_SCRIPTS_COMMON/Deblob.sh";
+	source "$DOS_SCRIPTS_COMMON/Deblob.sh";
 	source "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
 	source build/envsetup.sh;
 }
