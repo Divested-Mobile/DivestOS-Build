@@ -1,9 +1,9 @@
 [submodule "Patches/DivestOS_Wallpapers"]
 	path = Patches/Wallpapers
-	url = ssh://git@10.0.1.5:2222/DivestOS/Wallpapers.git
+	url = personal-lan-git:tad/dos/Wallpapers.git
 [submodule "Patches/Linux"]
 	path = Patches/Linux
-	url = ssh://git@10.0.1.5:2222/DivestOS/Linux_Patches.git
+	url = personal-lan-git:tad/dos/Linux_Patches.git
 [submodule "PrebuiltApps"]
 	path = PrebuiltApps
-	url = ssh://git@10.0.1.5:2222/DivestOS/PrebuiltApps.git
+	url = personal-lan-git:tad/dos/PrebuiltApps.git
