@@ -67,7 +67,7 @@ buildAll() {
 	brunch lineage_h850-user;
 	brunch lineage_hammerhead-user;
 	#brunch lineage_jfltexx-user; #still in bringup
-	brunch lineage_klte-user; #broken
+	brunch lineage_klte-userdebug; #TODO: TEST ME AGAIN
 	brunch lineage_m8-user;
 	brunch lineage_marlin-user;
 	brunch lineage_mata-user;

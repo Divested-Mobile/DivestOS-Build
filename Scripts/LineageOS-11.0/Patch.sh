@@ -86,7 +86,8 @@ changeDefaultDNS;
 enterAndClear "packages/apps/Settings";
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
-#patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0001-CMStats.patch"; #Remove CMStats #TOOD
+rm -rf src/com/android/settings/cmstats res/xml/security_settings_cyanogenmod.xml; #Nuke part of CMStats
+patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0001-Remove_Analytics.patch"; #Remove the rest of CMStats
 
 
 enterAndClear "packages/apps/Trebuchet";
