@@ -80,5 +80,9 @@ if enter "kernel/oppo/msm8974"; then
 patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_oppo_msm8974/0001-OverUnderClock-EXTREME.patch"; #300MHz -> 268MHz, 2.45GHz -> 2.95GHz
 fi;
 
+if enter "kernel/zte/msm8930-DISABLED"; then
+patch -p1 < "$DOS_PATCHES_OVERCLOCKS/android_kernel_zte_msm8930/0001-Overclock.patch";
+fi;
+
 cd "$DOS_BUILD_BASE";
 echo "Overclocks applied!";

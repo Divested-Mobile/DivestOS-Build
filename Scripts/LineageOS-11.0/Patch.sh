@@ -71,6 +71,7 @@ enterAndClear "build";
 sed -i 's/Mms/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 sed -i '497i$(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/base_rules.mk;
 sed -i '80iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package.mk;
+sed -i 's/2018-08-01/2018-12-01/' build/core/version_defaults.mk; #XXX: dirty lies! (kinda)
 
 enterAndClear "external/sqlite";
 patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0)

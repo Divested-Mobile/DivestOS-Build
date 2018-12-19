@@ -49,7 +49,7 @@ export -f buildDeviceDebug;
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#Select devices are userdebug due to SELinux policy issues
-	brunch lineage_nex-userdebug;
+	brunch lineage_nex-user;
 }
 export -f buildAll;
 
@@ -63,7 +63,6 @@ patchWorkspace() {
 	repopick -it asb-2018.11-cm11 -e 234695;
 	repopick -it cm.service.adb.root; #security fix for -userdebug
 	repopick -it asb-2018.12-cm11;
-	sed -i 's/2018-08-01/2018-12-01/' build/core/version_defaults.mk; #dirty lies! (kinda)
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
