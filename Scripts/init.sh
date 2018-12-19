@@ -99,7 +99,7 @@ if [ ! -d "$DOS_BUILD_BASE" ]; then
 fi;
 
 export DOS_TMP_DIR="/tmp/dos_tmp";
-mkdir "$DOS_TMP_DIR";
+mkdir -p "$DOS_TMP_DIR";
 export DOS_HOSTS_FILE="$DOS_TMP_DIR/hosts";
 
 export DOS_PREBUILT_APPS=$DOS_WORKSPACE_ROOT"PrebuiltApps/";

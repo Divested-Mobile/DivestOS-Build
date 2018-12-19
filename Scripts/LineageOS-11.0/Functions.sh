@@ -23,7 +23,7 @@ patchAllKernels() {
 export -f patchAllKernels;
 
 resetWorkspace() {
-	repo forall -c 'git add -A && git reset --hard' && rm -rf packages/apps/{FDroid,GmsCore} out && repo sync -j20 --force-sync;
+	repo forall -c 'git add -A && git reset --hard' && rm -rf out && repo sync -j20 --force-sync;
 }
 export -f resetWorkspace;
 
@@ -55,10 +55,14 @@ export -f buildAll;
 
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
-	#source build/envsetup.sh;
-	#repopick -it asb-2018.09-cm11
-	#repopick -it asb-2018.10-cm11
-	#repopick -it asb-2018.11-cm11
+	sed -i "s/'git', 'show', '-q'/'git', 'show'/" build/tools/repopick.py; #fix for old git versions
+	source build/envsetup.sh;
+	#repopick -it asb-2018.09-cm11 -e 228457; #merged except for level
+	repopick -it asb-2018.09-cm11-qcom;
+	#repopick -it asb-2018.10-cm11 -e 234585; #merged except for level
+	repopick -it asb-2018.11-cm11 -e 234695;
+	repopick -it cm.service.adb.root; #security fix for -userdebug
+	repopick -it asb-2018.12-cm11;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
