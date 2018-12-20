@@ -206,7 +206,7 @@ export -f hardenLocation;
 
 enableZram() {
 	cd "$DOS_BUILD_BASE$1";
-	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
+	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
 	echo "Enabled zram for $1";
 	cd "$DOS_BUILD_BASE";
 }
@@ -214,9 +214,14 @@ export -f enableZram;
 
 hardenUserdata() {
 	cd "$DOS_BUILD_BASE$1";
+
+	#Remove latemount to allow selinux contexts be restored upon /cache wipe
+	#Fixes broken OTA updater and broken /recovery updater
+	sed -i '/\/cache/s|latemount,||' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
+
 	#TODO: Ensure: noatime,nosuid,nodev
-	sed -i '/\/data/{/discard/!s|nosuid|discard,nosuid|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
-	sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/etc/fstab.* &>/dev/null || true;
+	sed -i '/\/data/{/discard/!s|nosuid|discard,nosuid|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
+	sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
 	echo "Hardened /data for $1";
 	cd "$DOS_BUILD_BASE";
 }
