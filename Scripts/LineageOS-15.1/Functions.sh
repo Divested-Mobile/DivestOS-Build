@@ -50,13 +50,13 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#TODO: hiae
 	brunch lineage_mako-user;
-	#brunch lineage_d852-user;
+	#brunch lineage_d852-user; #needs g3-oreo topic
 	brunch lineage_bacon-user;
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;
 	#brunch lineage_clark-userdebug; #permissive and needs manual patching (fwb xml: fused: dangling tag)
 	brunch lineage_d802-user;
-	#brunch lineage_d855-user; #broken upstream - recovery updater
+	#brunch lineage_d855-user; #needs g3-oreo topic
 	brunch lineage_dragon-user;
 	brunch lineage_ether-user;
 	brunch lineage_flo-user;
@@ -84,9 +84,10 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	source build/envsetup.sh;
+	#source build/envsetup.sh;
 	#repopick 219020 219022; #ab-neverallow-user
-	#repopick -t g3-oreo g3-sdfat
+	#repopick -it g3-oreo
+	#repopick -it g3-sdfat
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
