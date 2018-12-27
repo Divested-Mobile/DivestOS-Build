@@ -133,6 +133,9 @@ sed -i 's/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0);/WallpaperUtils.EXTRA_WALLPA
 enterAndClear "packages/inputmethods/LatinIME";
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
 
+enterAndClear "packages/services/Telephony";
+patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0001-More_Preferred_Network_Modes.patch";
+
 enterAndClear "system/bt";
 patch -p1 < "$DOS_PATCHES/android_system_bt/0001-Improve_Quality.patch"; #Improve Bluetooth audio quality, credit @ValdikSS
 
@@ -182,7 +185,7 @@ sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.t
 
 enterAndClear "device/lge/mako";
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
-patch -p1 < "$DOS_PATCHES/android_device_lge_mako/0001-Enable_LTE.patch";
+#patch -p1 < "$DOS_PATCHES/android_device_lge_mako/0001-Enable_LTE.patch"; #LTE offers enhanced crypto, however the leaked modem is 3 years insecure and eats battery
 
 enterAndClear "device/motorola/clark";
 rm setup-makefiles.sh;

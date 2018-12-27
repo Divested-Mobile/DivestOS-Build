@@ -181,7 +181,7 @@
       <subId>1</subId>
     </connectionDescriptor>
   </profile>
-  <profile name="Bed" uuid="ac1e7dbc-b785-431d-ba6c-b0bb221e8772">
+  <profile name="Sleep" uuid="ac1e7dbc-b785-431d-ba6c-b0bb221e8772">
     <uuids/>
     <profiletype>toggle</profiletype>
     <statusbar>no</statusbar>

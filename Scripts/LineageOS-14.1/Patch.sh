@@ -134,6 +134,9 @@ sed -i 's/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0);/WallpaperUtils.EXTRA_WALLPA
 enterAndClear "packages/inputmethods/LatinIME";
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
 
+enterAndClear "packages/services/Telephony";
+patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0001-More_Preferred_Network_Modes.patch";
+
 enterAndClear "system/bt";
 patch -p1 < "$DOS_PATCHES/android_system_bt/0001-Improve_Quality.patch"; #Improve Bluetooth audio quality, credit @ValdikSS
 
