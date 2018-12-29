@@ -1,13 +1,13 @@
-From 611609a2022a35971ed2b3a6b065baa091313b8e Mon Sep 17 00:00:00 2001
+From b0eaecdfeeaedc39ec8af6799572c7d549b59f8b Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Fri, 28 Dec 2018 14:52:46 -0500
+Date: Sat, 29 Dec 2018 07:05:47 -0500
 Subject: [PATCH] More preferred network modes
 
-Change-Id: I9bc7d51e780316faa85584168dd8beb2c45e5a6e
+Change-Id: Ibd97b5209c002547da714cb176094fee57a18f6d
 ---
  res/values/strings.xml                        | 47 +++++++++++++++++++
- .../android/phone/MobileNetworkSettings.java  | 46 +++++++++++-------
- 2 files changed, 76 insertions(+), 17 deletions(-)
+ .../android/phone/MobileNetworkSettings.java  | 31 ++++++++++--
+ 2 files changed, 74 insertions(+), 4 deletions(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
 index 5be5e1c7..b8c4b9c6 100644
@@ -179,7 +179,7 @@ index 5be5e1c7..b8c4b9c6 100644
          <item>"1"</item>
      </string-array>
 diff --git a/src/com/android/phone/MobileNetworkSettings.java b/src/com/android/phone/MobileNetworkSettings.java
-index d5c09924..1104c2ea 100644
+index 8241b972..8f926bd3 100644
 --- a/src/com/android/phone/MobileNetworkSettings.java
 +++ b/src/com/android/phone/MobileNetworkSettings.java
 @@ -831,8 +831,11 @@ public class MobileNetworkSettings extends PreferenceActivity
@@ -217,64 +217,46 @@ index d5c09924..1104c2ea 100644
                  break;
              default:
                  mButtonPreferredNetworkMode.setSummary(
-@@ -1093,7 +1096,6 @@ public class MobileNetworkSettings extends PreferenceActivity
-                         Integer.toString(Phone.NT_MODE_TDSCDMA_GSM_WCDMA));
+@@ -1098,6 +1101,12 @@ public class MobileNetworkSettings extends PreferenceActivity
                  mButtonEnabledNetworks.setSummary(R.string.network_3G);
                  break;
--            case Phone.NT_MODE_WCDMA_ONLY:
-             case Phone.NT_MODE_GSM_UMTS:
-             case Phone.NT_MODE_WCDMA_PREF:
-                 if (!mIsGlobalCdma) {
-@@ -1125,19 +1127,6 @@ public class MobileNetworkSettings extends PreferenceActivity
-                     controlGsmOptions(true);
-                     break;
-                 }
--            case Phone.NT_MODE_LTE_ONLY:
--            case Phone.NT_MODE_LTE_WCDMA:
--                if (!mIsGlobalCdma) {
--                    mButtonEnabledNetworks.setValue(
--                            Integer.toString(Phone.NT_MODE_LTE_GSM_WCDMA));
--                    mButtonEnabledNetworks.setSummary((mShow4GForLTE == true)
--                            ? R.string.network_4G : R.string.network_lte);
--                } else {
--                    mButtonEnabledNetworks.setValue(
--                            Integer.toString(Phone.NT_MODE_LTE_CDMA_EVDO_GSM_WCDMA));
--                    mButtonEnabledNetworks.setSummary(R.string.network_global);
--                }
--                break;
-             case Phone.NT_MODE_LTE_CDMA_AND_EVDO:
-                 if (isWorldMode()) {
-                     mButtonEnabledNetworks.setSummary(
-@@ -1199,6 +1188,29 @@ public class MobileNetworkSettings extends PreferenceActivity
-                     }
-                 }
-                 break;
-+            case Phone.NT_MODE_LTE_WCDMA:
+             case Phone.NT_MODE_WCDMA_ONLY:
 +                if (!mIsGlobalCdma) {
-+                    mButtonEnabledNetworks.setValue(
-+                            Integer.toString(Phone.NT_MODE_LTE_WCDMA));
-+                    mButtonEnabledNetworks.setSummary((mShow4GForLTE == true)
-+                            ? R.string.network_3G_4G_only : R.string.network_3G_lte_only);
++                    mButtonEnabledNetworks.setSummary(R.string.network_3G_only);
 +                } else {
-+                    mButtonEnabledNetworks.setValue(
-+                            Integer.toString(Phone.NT_MODE_LTE_CDMA_EVDO_GSM_WCDMA));
 +                    mButtonEnabledNetworks.setSummary(R.string.network_global);
 +                }
 +                break;
-+            case Phone.NT_MODE_WCDMA_ONLY:
-+                mButtonEnabledNetworks.setValue(
-+                        Integer.toString(Phone.NT_MODE_WCDMA_ONLY));
-+                mButtonEnabledNetworks.setSummary(R.string.network_3G_only);
+             case Phone.NT_MODE_GSM_UMTS:
+             case Phone.NT_MODE_WCDMA_PREF:
+                 if (!mIsGlobalCdma) {
+@@ -1121,11 +1130,25 @@ public class MobileNetworkSettings extends PreferenceActivity
+                     controlGsmOptions(true);
+                     break;
+                 }
++                if (!mIsGlobalCdma) {
++                    mButtonEnabledNetworks.setSummary((mShow4GForLTE == true)
++                            ? R.string.network_4G : R.string.network_lte);
++                } else {
++                    mButtonEnabledNetworks.setSummary(R.string.network_global);
++                }
 +                break;
-+            case Phone.NT_MODE_LTE_ONLY:
-+                mButtonEnabledNetworks.setValue(
-+                        Integer.toString(Phone.NT_MODE_LTE_ONLY));
-+                mButtonEnabledNetworks.setSummary((mShow4GForLTE == true)
-+                        ? R.string.network_4G_only : R.string.network_lte_only);
+             case Phone.NT_MODE_LTE_ONLY:
++                if (!mIsGlobalCdma) {
++                    mButtonEnabledNetworks.setSummary((mShow4GForLTE == true)
++                            ? R.string.network_4G_only : R.string.network_lte_only);
++                } else {
++                    mButtonEnabledNetworks.setSummary(R.string.network_global);
++                }
 +                break;
-             default:
-                 String errMsg = "Invalid Network Mode (" + NetworkMode + "). Ignore.";
-                 loge(errMsg);
+             case Phone.NT_MODE_LTE_WCDMA:
+                 if (!mIsGlobalCdma) {
+                     mButtonEnabledNetworks.setSummary((mShow4GForLTE == true)
+-                            ? R.string.network_4G : R.string.network_lte);
++                            ? R.string.network_3G_4G_only : R.string.network_3G_lte_only);
+                 } else {
+                     mButtonEnabledNetworks.setSummary(R.string.network_global);
+                 }
 -- 
 2.20.1
 
