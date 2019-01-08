@@ -58,7 +58,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10879/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10880/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10882/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10883/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13405/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9389/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9416/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9516/ANY/0001.patch
@@ -66,5 +65,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0008-nfsd-check-for-oversized
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000111/ANY/0001.patch
-editKernelLocalversion "-dos.p66"
+editKernelLocalversion "-dos.p65"
 cd "$DOS_BUILD_BASE"

@@ -95,7 +95,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10876/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10881/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10883/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-1092/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13405/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9363/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9415/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9416/ANY/0001.patch
@@ -108,5 +107,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0004-net-add-recursion-limit-
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p108"
+editKernelLocalversion "-dos.p107"
 cd "$DOS_BUILD_BASE"
