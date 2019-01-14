@@ -74,7 +74,7 @@ buildAll() {
 	#brunch lineage_rpi3-user; #needs testing and special handling
 	brunch lineage_sailfish-user;
 	brunch lineage_shamu-user; #broken - needs synced proprietary-files.txt
-	brunch lineage_starlte-user;
+	brunch lineage_starlte-user; #broken - device/samsung/universal9810-common/audio: MODULE.TARGET.SHARED_LIBRARIES.libshim_audio_32 already defined by device/samsung/star-common/audio
 	brunch lineage_us996-user;
 	brunch lineage_us997-user;
 	brunch lineage_victara-user;

@@ -21,12 +21,13 @@
 export DOS_WORKSPACE_ROOT="/mnt/Drive-3/"; #XXX: THIS MUST BE CORRECT TO BUILD!
 export DOS_SIGNING_KEYS=$DOS_WORKSPACE_ROOT"Signing_Keys";
 #export DOS_BINARY_PATCHER="";
+#export DOS_TOR_WRAPPER="torsocks"; #Uncomment to perform select build operations over Tor
 
 export DOS_DEBLOBBER_REMOVE_ACCESSORIES=true; #Set false to allow use of external accessories
 export DOS_DEBLOBBER_REMOVE_AUDIOFX=true; #Set true to remove AudioFX
 export DOS_DEBLOBBER_REMOVE_GRAPHICS=false; #Set true to remove all graphics blobs and use SwiftShader CPU renderer
 export DOS_DEBLOBBER_REMOVE_FP=false; #Set true to remove all fingerprint reader blobs
-export DOS_DEBLOBBER_REMOVE_IMS=false; #Set true to remove all IMS blobs
+export DOS_DEBLOBBER_REMOVE_IMS=false; #Set true to remove all IMS blobs XXX: Will break compat with select carriers
 export DOS_DEBLOBBER_REMOVE_IPA=false; #Set true to remove all IPA blobs
 export DOS_DEBLOBBER_REMOVE_IR=false; #Set true to remove all IR blobs
 export DOS_DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Services with the open source Sony TimeKeep reimplementation #TODO: Needs work
@@ -40,7 +41,7 @@ export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NLP,
 export DOS_HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
 export DOS_HOSTS_BLOCKING_APP="DNS66"; #App installed when built-in blocking is disabled. Options: Blokada, DNS66
 export DOS_HOSTS_BLOCKING_LIST="https://divestos.xyz/hosts"; #Must be in the format "127.0.0.1 bad.domain.tld"
-export DOS_OVERCLOCKS_ENABLED=true; #Switch to false to disable overclocks #XXX: Most devices have their processors directly under their RAM, heatsinking is mostly into the ground plane, potentially inflicting damage to RAM and the processor itself
+export DOS_OVERCLOCKS_ENABLED=false; #Switch to false to disable overclocks #XXX: Most devices have their processors directly under their RAM, heatsinking is mostly into the ground plane, potentially inflicting damage to RAM and the processor itself
 export DOS_LOWRAM_ENABLED=false; #Switch to true to enable low_ram on all devices
 export DOS_STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit encryption XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
 export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches XXX: Unused, see 1dc9247

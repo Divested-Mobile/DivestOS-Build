@@ -41,7 +41,7 @@
 #
 #Download some (non-executable) out-of-tree files for use later on
 cd "$DOS_TMP_DIR";
-if [ "$DOS_HOSTS_BLOCKING" = true ]; then wget "$DOS_HOSTS_BLOCKING_LIST" -N; fi;
+if [ "$DOS_HOSTS_BLOCKING" = true ]; then $DOS_TOR_WRAPPER wget "$DOS_HOSTS_BLOCKING_LIST" -N; fi;
 cd "$DOS_BUILD_BASE";
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
@@ -112,6 +112,7 @@ enterAndClear "packages/apps/Settings";
 git revert 2ebe6058c546194a301c1fd22963d6be4adbf961; #don't hide oem unlock
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks, credit @MSe1969
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
+sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
 
 enterAndClear "packages/apps/SetupWizard";

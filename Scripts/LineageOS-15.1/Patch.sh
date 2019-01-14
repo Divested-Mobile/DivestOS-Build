@@ -41,7 +41,7 @@
 #
 #Download some (non-executable) out-of-tree files for use later on
 cd "$DOS_TMP_DIR";
-if [ "$DOS_HOSTS_BLOCKING" = true ]; then wget "$DOS_HOSTS_BLOCKING_LIST" -N; fi;
+if [ "$DOS_HOSTS_BLOCKING" = true ]; then $DOS_TOR_WRAPPER wget "$DOS_HOSTS_BLOCKING_LIST" -N; fi;
 cd "$DOS_BUILD_BASE";
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
@@ -68,6 +68,7 @@ awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
 
 enterAndClear "device/lineage/sepolicy";
+git revert 9c28a0dfb91bb468515e123b1aaf3fcfc007b82f; #neverallow violation
 git revert f1ad32105599a0b71702f840b2deeb6849f1ae80; #neverallow violation
 git revert c9b0d95630b82cd0ad1a0fc633c6d59c2cb8aad7 37422f7df389f3ae5a34ee3d6dd9354217f9c536; #neverallow violation
 
@@ -114,6 +115,7 @@ git revert a96df110e84123fe1273bff54feca3b4ca484dcd; #don't hide oem unlock
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks, credit @MSe1969
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0004-PDB_Fixes.patch"; #Fix crashes when the PersistentDataBlockManager service isn't available
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length
+sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
 
 enterAndClear "packages/apps/SetupWizard";

@@ -111,7 +111,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7618/^4.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-8240/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-9242/^4.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-9698/3.18/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10876/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10876/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10881/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10883/ANY/0001.patch
@@ -131,5 +130,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0007-USB-usbip-fix-potential-
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2475/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p131"
+editKernelLocalversion "-dos.p130"
 cd "$DOS_BUILD_BASE"

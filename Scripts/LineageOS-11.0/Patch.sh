@@ -41,7 +41,7 @@
 #
 #Download some (non-executable) out-of-tree files for use later on
 cd "$DOS_TMP_DIR";
-if [ "$DOS_HOSTS_BLOCKING" = true ]; then wget "$DOS_HOSTS_BLOCKING_LIST" -N; fi;
+if [ "$DOS_HOSTS_BLOCKING" = true ]; then $DOS_TOR_WRAPPER wget "$DOS_HOSTS_BLOCKING_LIST" -N; fi;
 cd "$DOS_BUILD_BASE";
 
 #Accept all SDK licences, not normally needed but Gradle managed apps fail without it
