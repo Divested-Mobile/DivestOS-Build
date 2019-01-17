@@ -178,9 +178,9 @@ enterAndClear "device/lge/g2-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 
 enterAndClear "device/lge/g3-common";
+git revert daacb7740f5219491d7481edc62118b09afb684b 2b013eede5f6767eeb31c7f46c648d86499a52cf b0f21eae751051dc4e2c2fbf00bacb7360e14165 c2c46b13d50456e208eedae92bac2824126cff28;
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
-echo "allow wcnss_service block_device:dir search;" >> sepolicy/wcnss_service.te; #fix incorrect Wi-Fi MAC address
 echo "/dev/block/platform/msm_sdcc\.1/by-name/pad     u:object_r:misc_block_device:s0" >> sepolicy/file_contexts; #fix uncrypt denial
 
 enterAndClear "device/lge/msm8996-common";
