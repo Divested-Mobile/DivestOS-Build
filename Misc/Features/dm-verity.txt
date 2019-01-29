@@ -16,3 +16,6 @@ init.device.rc
 	on early-boot
 		# Update dm-verity state and set partition.*.verified properties
 		verity_update_state
+
+kernel config
+	CONFIG_DM_VERITY=y

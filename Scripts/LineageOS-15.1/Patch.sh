@@ -68,9 +68,9 @@ awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
 
 enterAndClear "device/lineage/sepolicy";
-git revert 9c28a0dfb91bb468515e123b1aaf3fcfc007b82f; #neverallow violation
-git revert f1ad32105599a0b71702f840b2deeb6849f1ae80; #neverallow violation
-git revert c9b0d95630b82cd0ad1a0fc633c6d59c2cb8aad7 37422f7df389f3ae5a34ee3d6dd9354217f9c536; #neverallow violation
+git revert 9c28a0dfb91bb468515e123b1aaf3fcfc007b82f; #neverallow violation - breaks backuptool
+git revert f1ad32105599a0b71702f840b2deeb6849f1ae80; #neverallow violation - breaks addons
+git revert c9b0d95630b82cd0ad1a0fc633c6d59c2cb8aad7 37422f7df389f3ae5a34ee3d6dd9354217f9c536; #neverallow violation - breaks update_engine
 
 enterAndClear "device/qcom/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
@@ -79,7 +79,6 @@ enterAndClear "external/svox";
 git revert 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 
 enterAndClear "frameworks/base";
-git revert 759d6831f0207f8b59445b33fd57d770c16d3750;
 #git revert https://review.lineageos.org/#/c/202875/ #re-enable doze on devices without gms
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0002-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
@@ -178,7 +177,7 @@ enterAndClear "device/lge/g2-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 
 enterAndClear "device/lge/g3-common";
-git revert daacb7740f5219491d7481edc62118b09afb684b 2b013eede5f6767eeb31c7f46c648d86499a52cf b0f21eae751051dc4e2c2fbf00bacb7360e14165 c2c46b13d50456e208eedae92bac2824126cff28;
+git revert daacb7740f5219491d7481edc62118b09afb684b 2b013eede5f6767eeb31c7f46c648d86499a52cf b0f21eae751051dc4e2c2fbf00bacb7360e14165 c2c46b13d50456e208eedae92bac2824126cff28; #g3-oreo, no /vendor
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
 echo "/dev/block/platform/msm_sdcc\.1/by-name/pad     u:object_r:misc_block_device:s0" >> sepolicy/file_contexts; #fix uncrypt denial
