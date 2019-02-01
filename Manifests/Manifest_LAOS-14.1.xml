@@ -21,7 +21,6 @@
 	<remove-project name="LineageOS/android_external_rsync" />
 	<remove-project name="LineageOS/android_external_unrar" />
 	<remove-project name="LineageOS/android_external_vim" />
-	<remove-project name="LineageOS/android_hardware_ti_omap4xxx" />
 	<remove-project name="LineageOS/android_packages_apps_Jelly" />
 	<remove-project name="LineageOS/android_packages_apps_LockClock" />
 	<remove-project name="LineageOS/android_packages_apps_OpenWeatherMapProvider" />
@@ -50,8 +49,6 @@
 	<remove-project name="LineageOS/slackbot" />
 	<remove-project name="LineageOS/www" />
 	<remove-project name="platform/cts" />
-	<remove-project name="platform/hardware/ti/omap3" />
-	<remove-project name="platform/hardware/ti/omap4-aah" />
 	<remove-project name="platform/prebuilts/clang/darwin-x86/host/3.6" />
 	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
 	<remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-eabi-4.8" />
@@ -79,6 +76,7 @@
 	<project path="external/stlport" name="LineageOS/android_external_stlport" remote="github" />
 	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 	<project path="packages/apps/FlipFlap" name="LineageOS/android_packages_apps_FlipFlap" remote="github" />
+	<project path="external/jhead" name="LineageOS/android_external_jhead" remote="github" />
 
 	<!-- Amazon Kindle Fire HDX 7 3rd Gen (thor) -->
 	<project path="device/amazon/hdx-common" name="LineageOS/android_device_amazon_hdx-common" remote="github" />
@@ -228,6 +226,11 @@
 	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
 	<project path="kernel/samsung/smdk4412" name="LineageOS/android_kernel_samsung_smdk4412" remote="github" />
 	<project path="packages/apps/SamsungServiceMode" name="LineageOS/android_packages_apps_SamsungServiceMode" remote="github" />
+
+	<!-- Samsung Galaxy Nexus Unified (maguro) -->
+	<project path="device/samsung/maguro" name="Galaxy-Nexus/android_device_samsung_maguro" remote="github" />
+	<project path="device/samsung/tuna" name="Galaxy-Nexus/android_device_samsung_tuna" remote="github" />
+	<project path="kernel/samsung/tuna" name="Galaxy-Nexus/android_kernel_samsung_tuna" remote="github" />
 
 	<!-- Samsung Galaxy Note 8.0 Wi-Fi (n5110) -->
 	<project path="device/samsung/kona-common" name="LineageOS/android_device_samsung_kona-common" remote="github" />

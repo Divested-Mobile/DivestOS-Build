@@ -51,8 +51,9 @@ buildAll() {
 	#Select devices are userdebug due to SELinux policy issues
 	#TODO: Add athene, pme, t0lte, hlte, sumire, dogo, espresso
 	brunch lineage_clark-user;
-	brunch lineage_grouper-user; #deprecated and needs manual patching (one-repo vendor blob patch)
+	brunch lineage_maguro-user; #deprecated
 	brunch lineage_thor-userdebug; #deprecated
+	brunch lineage_grouper-user; #deprecated and needs manual patching (one-repo vendor blob patch)
 	#brunch lineage_geminipda-userdebug; #permissive and needs synced proprietary-files.txt
 	brunch lineage_h815-user; #deprecated
 	brunch lineage_herolte-user; #deprecated
@@ -71,7 +72,7 @@ buildAll() {
 	#brunch lineage_bacon-user;
 	#brunch lineage_d802-user;
 	#brunch lineage_d852-user;
-	brunch lineage_d855-user;
+	#brunch lineage_d855-user;
 	#brunch lineage_dragon-user;
 	#brunch lineage_ether-user;
 	#brunch lineage_flo-user;

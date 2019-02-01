@@ -100,6 +100,9 @@ awk -i inplace '!/mPermissionReviewRequired = Build.PERMISSIONS_REVIEW_REQUIRED/
 awk -i inplace '!/\|\| context.getResources\(\).getBoolean\(/' service/java/com/android/server/wifi/WifiServiceImpl.java;
 awk -i inplace '!/com.android.internal.R.bool.config_permissionReviewRequired/' service/java/com/android/server/wifi/WifiServiceImpl.java;
 
+enterAndClear "hardware/ti/omap4";
+patch -p1 < "$DOS_PATCHES/android_hardware_ti_omap4/0001-tuna-camera.patch"; #fix camera on tuna
+
 enterAndClear "packages/apps/CMParts";
 rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of CMStats
 patch -p1 < "$DOS_PATCHES/android_packages_apps_CMParts/0001-Remove_Analytics.patch"; #Remove the rest of CMStats
@@ -214,6 +217,10 @@ rm board-info.txt; #Never restrict installation
 
 enterAndClear "device/oneplus/bacon";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
+
+enterAndCLear "device/samsung/tuna";
+rm setup-makefiles.sh; #broken, deblobber will still function
+sed -i 's/arm-eabi-4.7/arm-eabi-4.8/' BoardConfig.mk; #fix toolchain
 
 enter "vendor/google";
 echo "" > atv/atv-common.mk;

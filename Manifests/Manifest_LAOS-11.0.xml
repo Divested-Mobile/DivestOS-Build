@@ -67,9 +67,11 @@
 <!-- END OF UNNECESSARY REPO REMOVAL -->
 
 <!-- START OF DEVICE REPOS -->
+	<!-- Common -->
+	<project path="device/qcom/common" name="LineageOS/android_device_qcom_common" remote="github" revision="cm-11.0" />
+
 	<!-- ZTE AWE (n800) -->
 	<project path="device/zte/nex" name="spock1104/android_device_zte_nex" remote="github" revision="cm11_newkern" />
-	<project path="device/qcom/common" name="LineageOS/android_device_qcom_common" remote="github" revision="cm-11.0" />
 	<project path="kernel/zte/msm8930" name="spock1104/android_kernel_zte_msm8930" remote="github" revision="stockmod" />
 <!-- END OF DEVICE REPOS -->
 

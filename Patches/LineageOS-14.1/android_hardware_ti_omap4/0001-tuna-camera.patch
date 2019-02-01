@@ -1,0 +1,64 @@
+From a683d613d24bb84ba029fa78e1d7722b0270c326 Mon Sep 17 00:00:00 2001
+From: Kyle Repinski <repinski23@gmail.com>
+Date: Fri, 9 Sep 2016 16:29:40 -0500
+Subject: [PATCH] camera: Move tuna DCC path to /data/misc/cameraserver/ on N.
+
+Change-Id: I2df1d33721508cfed33a8cd7f26194afcb54166a
+---
+ camera/OMXCameraAdapter/OMXDCC.cpp  | 3 ++-
+ domx/omx_core/inc/OMX_TI_IVCommon.h | 4 ++++
+ domx/omx_proxy_component/Android.mk | 6 ++++++
+ 3 files changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/camera/OMXCameraAdapter/OMXDCC.cpp b/camera/OMXCameraAdapter/OMXDCC.cpp
+index 8e12e8b..beed9b3 100644
+--- a/camera/OMXCameraAdapter/OMXDCC.cpp
++++ b/camera/OMXCameraAdapter/OMXDCC.cpp
+@@ -27,12 +27,13 @@
+ #include "OMXDCC.h"
+ #include <utils/String8.h>
+ #include <utils/Vector.h>
++#include "OMX_TI_IVCommon.h"
+ 
+ namespace Ti {
+ namespace Camera {
+ 
+ #ifndef MOTOROLA_CAMERA
+-android::String8 DCCHandler::DCCPath("/data/misc/camera/");
++android::String8 DCCHandler::DCCPath(DCC_PATH);
+ #else
+ android::String8 DCCHandler::DCCPath("/system/etc/omapcam/");
+ #endif
+diff --git a/domx/omx_core/inc/OMX_TI_IVCommon.h b/domx/omx_core/inc/OMX_TI_IVCommon.h
+index 53ff447..07ae19e 100755
+--- a/domx/omx_core/inc/OMX_TI_IVCommon.h
++++ b/domx/omx_core/inc/OMX_TI_IVCommon.h
+@@ -53,7 +53,11 @@ extern "C" {
+ #include <OMX_IVCommon.h>
+ #include <OMX_Image.h>
+ 
++#if !(defined(DOMX_TUNA) && defined(ANDROID_API_N_OR_LATER))
+ #define DCC_PATH  "/data/misc/camera/"
++#else
++#define DCC_PATH  "/data/misc/cameraserver/"
++#endif
+ 
+ #define MAX_URI_LENGTH      (OMX_MAX_STRINGNAME_SIZE)
+ #define MAX_ALGOAREAS       (35)
+diff --git a/domx/omx_proxy_component/Android.mk b/domx/omx_proxy_component/Android.mk
+index 74dcec1..f2bfd39 100644
+--- a/domx/omx_proxy_component/Android.mk
++++ b/domx/omx_proxy_component/Android.mk
+@@ -170,6 +170,12 @@ ifdef OMAP_ENHANCEMENT_VTC
+ 	LOCAL_CFLAGS += -DOMAP_ENHANCEMENT_VTC
+ endif
+ 
++LOCAL_CFLAGS += -DTMS32060 -D_DB_TIOMAP -DSYSLINK_USE_SYSMGR -DSYSLINK_USE_LOADER
++LOCAL_CFLAGS += -D_Android -DSET_STRIDE_PADDING_FROM_PROXY -DANDROID_QUIRK_CHANGE_PORT_VALUES -DUSE_ENHANCED_PORTRECONFIG
++LOCAL_CFLAGS += -DANDROID_QUIRK_LOCK_BUFFER -DUSE_ION
++LOCAL_CFLAGS += $(ANDROID_API_CFLAGS)
++LOCAL_MODULE_TAGS:= optional
++
+ ifdef TI_CAMERAHAL_USES_LEGACY_DOMX_DCC
+ 	LOCAL_CFLAGS += -DUSES_LEGACY_DOMX_DCC
+ endif
