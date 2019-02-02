@@ -63,7 +63,7 @@ patchWorkspace() {
 	#repopick -it asb-2018.11-cm11 -e 234695; #merged except for level
 	repopick -it cm.service.adb.root; #security fix for -userdebug
 	#repopick -it asb-2018.12-cm11 -e 240072; #merged except for level
-	repopick -it asb-2019.01-cm11 -e 240073;
+	#repopick -it asb-2019.01-cm11 -e 240073; #merged except for level
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

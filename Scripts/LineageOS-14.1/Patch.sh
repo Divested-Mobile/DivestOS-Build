@@ -218,7 +218,7 @@ rm board-info.txt; #Never restrict installation
 enterAndClear "device/oneplus/bacon";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
-enterAndCLear "device/samsung/tuna";
+enterAndClear "device/samsung/tuna";
 rm setup-makefiles.sh; #broken, deblobber will still function
 sed -i 's/arm-eabi-4.7/arm-eabi-4.8/' BoardConfig.mk; #fix toolchain
 

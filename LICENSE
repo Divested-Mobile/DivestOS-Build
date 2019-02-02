@@ -1,4 +1,4 @@
-Copyright (c) 2017-2018 Divested Computing, Inc.
+Copyright (c) 2017-2019 Divested Computing, Inc.
 
 Below are the license mappings for all of the files found in this repository. All attempts have been made to ensure accuracy of the corresponding license files. If you've found an issue please file an issue or pull request.
 
@@ -6,17 +6,17 @@ Manifests - GPLv3
 Misc - GPLv3
 Patches/
 	Common/
-		android_packages_apps_FDroid* - GPLv2
+		android_vendor_divested - GPLv3
 		[Everything Else] - Apache-2.0
 	LineageOS-*/
 		android_kernel_* - GPLv2
-		*/Copperhead/* - Copperhead CC BY-NC-SA, Only enabled via NON_COMMERCIAL_USE_PATCHES option
 		[Everything Else] - Apache-2.0
 	Linux - GPLv2
 	Overclocks - GPLv2
 	Wallpapers - Unsplash License https://unsplash.com/license
 PrebuiltApps/
 	android_vendor_FDroid_PrebuiltApps/Packages - Dependent on app
+	Fennec_DOS-Shim - MPLv2
 	[Everything Else] - GPLv3
 Scripts - GPLv3
 
