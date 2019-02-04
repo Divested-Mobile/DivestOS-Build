@@ -50,13 +50,13 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#TODO: hiae
 	brunch lineage_mako-user;
-	brunch lineage_d852-user; #needs g3-oreo topic
+	brunch lineage_d852-user;
 	brunch lineage_bacon-user;
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;
 	#brunch lineage_clark-userdebug; #permissive and needs manual patching (fwb xml: fused: dangling tag)
 	brunch lineage_d802-user;
-	brunch lineage_d855-user; #needs g3-oreo topic
+	brunch lineage_d855-user;
 	brunch lineage_dragon-user;
 	brunch lineage_ether-user;
 	brunch lineage_flo-user;
@@ -86,8 +86,6 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	#repopick 219020; #ab-neverallow-user
-	#repopick -it g3-oreo;
-	#repopick -it g3-sdfat;
 	repopick 239013; #update webview
 
 

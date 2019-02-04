@@ -177,7 +177,7 @@ enterAndClear "device/lge/g2-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 
 enterAndClear "device/lge/g3-common";
-git revert daacb7740f5219491d7481edc62118b09afb684b 2b013eede5f6767eeb31c7f46c648d86499a52cf b0f21eae751051dc4e2c2fbf00bacb7360e14165 c2c46b13d50456e208eedae92bac2824126cff28; #g3-oreo, no /vendor
+git revert 8ce6724ed9649bf00283691acbf497e4f740fe06 65968c3809d7ce421df5318ab1d52bae1190e3fa cb31af784935469a4b7b67783cd24a5a800b51d8 37d6fbd036171068eb15d7855a2c8aaa5e731eb6; #g3-oreo, no /vendor
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
 echo "/dev/block/platform/msm_sdcc\.1/by-name/pad     u:object_r:misc_block_device:s0" >> sepolicy/file_contexts; #fix uncrypt denial
