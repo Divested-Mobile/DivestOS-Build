@@ -18,7 +18,6 @@
 	<remove-project name="LineageOS/android_external_unrar" />
 	<remove-project name="LineageOS/android_packages_apps_CMAccount" />
 	<remove-project name="LineageOS/android_packages_apps_CMBugreport" />
-	<remove-project name="LineageOS/android_packages_apps_LockClock" />
 	<remove-project name="LineageOS/android_packages_apps_Stk" />
 	<remove-project name="LineageOS/android_packages_apps_VideoEditor" />
 	<remove-project name="LineageOS/android_packages_apps_VoiceDialer" />
