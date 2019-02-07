@@ -99,7 +99,6 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
 	source build/envsetup.sh;
 	repopick -it n_asb_09-2018-qcom;
-	repopick -it n-asb-2019-01;
 	repopick 239016; #update webview
 	repopick -it n-asb-2019-2;
 

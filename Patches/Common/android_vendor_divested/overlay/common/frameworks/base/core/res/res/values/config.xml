@@ -74,7 +74,7 @@
     <integer name="config_multiuserMaximumUsers">6</integer>
 
     <!-- Remote server that can provide NTP responses. -->
-    <string translatable="false" name="config_ntpServer">time.android.com</string>
+    <string translatable="false" name="config_ntpServer">1.android.pool.ntp.org</string>
 
     <!-- MMS user agent string -->
     <string name="config_mms_user_agent" translatable="false">Android-Mms/2.0</string>
