@@ -155,7 +155,7 @@ compressRamdisks() {
 }
 export -f compressRamdisks;
 
-hardenLocation() {
+hardenLocationConf() {
 	gpsConfig=$1;
 	#Attempt to get the real device directory
 	if [[ "$gpsConfig" = *"device/"* ]]; then
@@ -172,30 +172,28 @@ hardenLocation() {
 	if [ "$DOS_GPS_GLONASS_FORCED" = true ]; then
 	sed -i 's/#A_GLONASS_POS_PROTOCOL_SELECT =/A_GLONASS_POS_PROTOCOL_SELECT =/' "$gpsConfig" &>/dev/null || true;
 	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT = 0.*/A_GLONASS_POS_PROTOCOL_SELECT = 15/' "$gpsConfig" &>/dev/null || true;
-	sed -i 's|A_GLONASS_POS_PROTOCOL_SELECT=0.*</item>|A_GLONASS_POS_PROTOCOL_SELECT=15</item>|' "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
 	fi;
 	#Change capabilities
 	sed -i 's|CAPABILITIES=.*|CAPABILITIES=0x13|' "$gpsConfig" &> /dev/null || true; #Disable MSA (privacy) and geofencing/ULP (both broken by deblobber)
 	sed -i 's/#SUPL_MODE=/SUPL_MODE=/' "$gpsConfig" &>/dev/null || true;
 	sed -i 's/SUPL_MODE=$/SUPL_MODE=1/' "$gpsConfig" &>/dev/null || true; #Set to MSB if blank (to prevent MSA+MSB default)
-	sed -i "s|SUPL_MODE=3|SUPL_MODE=1|" "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml "$gpsConfig" &> /dev/null || true; #Disable MSA (privacy)
+	sed -i "s|SUPL_MODE=3|SUPL_MODE=1|" "$gpsConfig" &> /dev/null || true; #Disable MSA (privacy)
 	#CVE-2018-9526 - See: https://android.googlesource.com/device/google/marlin/+/fa7f7382e8b39f7ca209824f97788ab25c44f6a3
 	sed -i 's/#SUPL_ES=/SUPL_ES=/' "$gpsConfig" &>/dev/null || true;
-	sed -i "s|SUPL_ES=0|SUPL_ES=1|" "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml "$gpsConfig" &> /dev/null || true;
+	sed -i "s|SUPL_ES=0|SUPL_ES=1|" "$gpsConfig" &> /dev/null || true;
 	#Change servers
 	sed -i "s|SUPL_HOST=.*|SUPL_HOST=$DOS_GPS_SUPL_HOST|" "$gpsConfig" &> /dev/null || true;
 	sed -i "s|NTP_SERVER=.*|NTP_SERVER=$DOS_GPS_NTP_SERVER|" "$gpsConfig" &> /dev/null || true;
-	sed -i "s|NTP_SERVER=.*</item>|NTP_SERVER=$DOS_GPS_NTP_SERVER</item>|" "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml &> /dev/null || true;
 	#CVE-2016-5341 - See: https://wwws.nightwatchcybersecurity.com/2016/12/05/cve-2016-5341/
 	#XTRA: Only use specified URLs
 	sed -i 's|XTRA_SERVER_QUERY=1|XTRA_SERVER_QUERY=0|' "$gpsConfig" &>/dev/null || true;
 	sed -i 's|#XTRA_SERVER|XTRA_SERVER|' "$gpsConfig" &>/dev/null || true;
 	#Switch gpsOneXtra to IZatCloud (invalid certificate)
-	sed -i '/xtrapath/!s|://xtra|://xtrapath|' "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml "$gpsConfig" &>/dev/null || true;
-	sed -i 's|gpsonextra.net|izatcloud.net|' "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml "$gpsConfig" &>/dev/null || true;
+	sed -i '/xtrapath/!s|://xtra|://xtrapath|' "$gpsConfig" &>/dev/null || true;
+	sed -i 's|gpsonextra.net|izatcloud.net|' "$gpsConfig" &>/dev/null || true;
 	#Enable HTTPS (IZatCloud supports HTTPS)
-	sed -i 's|http://xtrapath|https://xtrapath|' "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml "$gpsConfig" &>/dev/null || true;
-	#sed -i 's|http://gllto|https://gllto|' "$deviceDir"overlay/frameworks/base/core/res/res/values*/*.xml "$gpsConfig" &>/dev/null || true; XXX: GLPals has an invaid certificate
+	sed -i 's|http://xtrapath|https://xtrapath|' "$gpsConfig" &>/dev/null || true;
+	#sed -i 's|http://gllto|https://gllto|' "$gpsConfig" &>/dev/null || true; XXX: GLPals has an invaid certificate
 	#XTRA: Use format version 3 if possible
 	if grep -sq "XTRA_VERSION_CHECK" "$gpsConfig"; then #Using hardware/qcom/gps OR precompiled blob OR device specific implementation
 		sed -i 's|XTRA_VERSION_CHECK=0|XTRA_VERSION_CHECK=1|' "$gpsConfig" &>/dev/null || true;
@@ -207,9 +205,34 @@ hardenLocation() {
 			fi;
 		fi;
 	fi;
-	echo "Enhanced location services for $deviceDir";
+	echo "Enhanced location services for $gpsConfig";
 }
-export -f hardenLocation;
+export -f hardenLocationConf;
+
+hardenLocationDir() {
+	dir=$1;
+	#Debugging (adb logcat | grep -i -e locsvc -e izat -e gps -e gnss -e location)
+	#sed -i 's|DEBUG_LEVEL = .|DEBUG_LEVEL = 4|' "$gpsConfig" &> /dev/null || true;
+	#Enable GLONASS
+	if [ "$DOS_GPS_GLONASS_FORCED" = true ]; then
+	sed -i 's|A_GLONASS_POS_PROTOCOL_SELECT=0.*</item>|A_GLONASS_POS_PROTOCOL_SELECT=15</item>|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
+	fi;
+	#Change capabilities
+	sed -i "s|SUPL_MODE=3|SUPL_MODE=1|" "$dir"/frameworks/base/core/res/res/values*/*.xml &> /dev/null || true; #Disable MSA (privacy)
+	#CVE-2018-9526 - See: https://android.googlesource.com/device/google/marlin/+/fa7f7382e8b39f7ca209824f97788ab25c44f6a3
+	sed -i "s|SUPL_ES=0|SUPL_ES=1|" "$dir"/frameworks/base/core/res/res/values*/*.xml &> /dev/null || true;
+	#Change servers
+	sed -i "s|NTP_SERVER=.*</item>|NTP_SERVER=$DOS_GPS_NTP_SERVER</item>|" "$dir"/frameworks/base/core/res/res/values*/*.xml &> /dev/null || true;
+	#CVE-2016-5341 - See: https://wwws.nightwatchcybersecurity.com/2016/12/05/cve-2016-5341/
+	#Switch gpsOneXtra to IZatCloud (invalid certificate)
+	sed -i '/xtrapath/!s|://xtra|://xtrapath|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
+	sed -i 's|gpsonextra.net|izatcloud.net|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
+	#Enable HTTPS (IZatCloud supports HTTPS)
+	sed -i 's|http://xtrapath|https://xtrapath|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
+	#sed -i 's|http://gllto|https://gllto|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true; XXX: GLPals has an invaid certificate
+	echo "Enhanced location services for $dir";
+}
+export -f hardenLocationDir;
 
 enableZram() {
 	cd "$DOS_BUILD_BASE$1";
