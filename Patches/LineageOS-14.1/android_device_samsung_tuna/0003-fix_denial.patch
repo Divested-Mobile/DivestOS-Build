@@ -1,0 +1,52 @@
+From 03320366719016a58225cf2dcf428d9ff04f9039 Mon Sep 17 00:00:00 2001
+From: nailyk-fr <nailyk_git@nailyk.fr>
+Date: Sun, 13 Aug 2017 20:51:06 +0200
+Subject: [PATCH] Tuna: Sepolicy: Label metadata partition
+
+ * Label metadata partition to allow vold
+   accessing it for decryption.
+
+ * Wihtout this patchs:
+avc: denied { read write } for pid=166 comm="vold" name="mmcblk0p13" dev=tmpfs ino=4564 scontext=u:r:vold:s0 tcontext=u:object_r:block_device:s0 tclass=blk_file permissive=0
+avc: denied { read write } for pid=145 comm="vold" name="mmcblk0p13" dev=tmpfs ino=4564 scontext=u:r:vold:s0 tcontext=u:object_r:block_device:s0 tclass=blk_file permissive=0
+avc: denied { read write } for pid=145 comm="vold" name="mmcblk0p13" dev=tmpfs ino=4564 scontext=u:r:vold:s0 tcontext=u:object_r:block_device:s0 tclass=blk_file permissive=0
+avc: denied { read write } for pid=145 comm="vold" name="mmcblk0p13" dev=tmpfs ino=4564 scontext=u:r:vold:s0 tcontext=u:object_r:block_device:s0 tclass=blk_file permissive=0
+avc: denied { read write } for pid=145 comm="vold" name="mmcblk0p13" dev=tmpfs ino=4564 scontext=u:r:vold:s0 tcontext=u:object_r:block_device:s0 tclass=blk_file permissive=0
+   who cannot be allowed due to never allow
+   into system wide policies.
+
+Change-Id: I577794a7298fcd105392699466661a7bd85a6218
+---
+ sepolicy/file_contexts | 2 ++
+ sepolicy/vold.te       | 1 +
+ 2 files changed, 3 insertions(+)
+
+diff --git a/sepolicy/file_contexts b/sepolicy/file_contexts
+index 1225c878..efd06764 100644
+--- a/sepolicy/file_contexts
++++ b/sepolicy/file_contexts
+@@ -46,11 +46,13 @@
+ # Block devices
+ /dev/block/mmcblk0					u:object_r:root_block_device:s0
+ /dev/block/mmcblk0p9					u:object_r:radio_device:s0
++/dev/block/mmcblk0p13					u:object_r:metadata_block_device:s0
+ /dev/block/platform/omap/omap_hsmmc.0/by-name/boot	u:object_r:boot_block_device:s0
+ /dev/block/platform/omap/omap_hsmmc.0/by-name/recovery	u:object_r:recovery_block_device:s0
+ /dev/block/platform/omap/omap_hsmmc.0/by-name/cache	u:object_r:cache_block_device:s0
+ /dev/block/platform/omap/omap_hsmmc.0/by-name/system	u:object_r:system_block_device:s0
+ /dev/block/platform/omap/omap_hsmmc.0/by-name/userdata	u:object_r:userdata_block_device:s0
++/dev/block/platform/omap/omap_hsmmc.0/by-name/metadata	u:object_r:metadata_block_device:s0
+ /dev/block/platform/omap/omap_hsmmc.0/by-name/param	u:object_r:radio_device:s0
+ /dev/block/platform/omap/omap_hsmmc.0/by-name/radio	u:object_r:radio_device:s0
+ /dev/block/platform/omap/omap_hsmmc.0/by-name/dgs	u:object_r:tee_block_device:s0
+diff --git a/sepolicy/vold.te b/sepolicy/vold.te
+index 9ba84692..313104b5 100644
+--- a/sepolicy/vold.te
++++ b/sepolicy/vold.te
+@@ -1,5 +1,6 @@
+ # vold
+ allow vold efs_file:dir { getattr read open ioctl };
++allow vold metadata_block_device:blk_file { read write };
+ 
+ # For 'aes-*' module requests.
+ allow vold kernel:system module_request;

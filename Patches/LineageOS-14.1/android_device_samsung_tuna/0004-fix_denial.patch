@@ -1,0 +1,24 @@
+From b50670cc845167011e16af63fcda74887f03c8ba Mon Sep 17 00:00:00 2001
+From: nailyk-fr <nailyk_git@nailyk.fr>
+Date: Sun, 13 Aug 2017 20:54:18 +0200
+Subject: [PATCH] Tuna: Sepolicy: Solve mediacodec denial
+
+avc: denied { read write } for pid=1180 comm="mediacodec" name="rpmsg-omx1" dev=tmpfs ino=4913 scontext=u:r:mediacodec:s0 tcontext=u:object_r:rpmsg_device:s0 tclass=chr_file permissive=0
+avc: denied { read } for pid=1195 comm="Binder:1180_1" name="rproc_user" dev=tmpfs ino=4631 scontext=u:r:mediacodec:s0 tcontext=u:object_r:rpmsg_device:s0 tclass=chr_file permissive=0
+avc: denied { open } for pid=177 comm="mediacodec" name="rpmsg-omx1" dev=tmpfs ino=4940 scontext=u:r:mediacodec:s0 tcontext=u:object_r:rpmsg_device:s0 tclass=chr_file permissive=0
+avc: denied { ioctl } for pid=1227 comm="Binder:1198_1" path="/dev/rpmsg-omx1" dev="tmpfs" ino=4978 ioctlcmd=5801 scontext=u:r:mediacodec:s0 tcontext=u:object_r:rpmsg_device:s0 tclass=chr_file permissive=0
+
+Change-Id: Ibd6674b3bbf245605b79c6d97ff6ed0d31715870
+---
+ sepolicy/mediacodec.te | 2 ++
+ 1 file changed, 2 insertions(+)
+ create mode 100644 sepolicy/mediacodec.te
+
+diff --git a/sepolicy/mediacodec.te b/sepolicy/mediacodec.te
+new file mode 100644
+index 00000000..711a2047
+--- /dev/null
++++ b/sepolicy/mediacodec.te
+@@ -0,0 +1,2 @@
++#============= mediacodec ==============
++allow mediacodec rpmsg_device:chr_file { read write open ioctl };

@@ -1,0 +1,39 @@
+From 3030156fc1e0e69e5fad36fb374a8eb19fed8875 Mon Sep 17 00:00:00 2001
+From: nailyk-fr <nailyk_git@nailyk.fr>
+Date: Sat, 12 Aug 2017 18:46:10 +0200
+Subject: [PATCH] tuna: twrp: Add necessary policy for twrp decrypt
+
+Change-Id: I7fab77518718961ca55f29c5263a43e69efc73ca
+---
+ sepolicy/recovery.te | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/sepolicy/recovery.te b/sepolicy/recovery.te
+index dca66805..0d30c0d7 100644
+--- a/sepolicy/recovery.te
++++ b/sepolicy/recovery.te
+@@ -40,3 +40,24 @@ allow recovery { efs_file radio_efs_file bluetooth_efs_file }:file { getattr ope
+ 
+ # For rebooting in tunasetup
+ allow recovery powerctl_prop:property_service set;
++
++# For decryption
++allow recovery tee_device:chr_file { ioctl open read write };
++#============= healthd ==============
++allow healthd device:dir write;
++
++#============= init ==============
++allow init ashmem_device:chr_file execute;
++allow init block_device:blk_file write;
++allow init graphics_device:chr_file { ioctl write };
++allow init init_tmpfs:file append;
++allow init input_device:chr_file ioctl;
++allow init property_socket:sock_file write;
++allow init self:process execmem;
++allow init tee_device:chr_file rw_file_perms;
++
++
++allow init unlabeled:dir search;
++allow init tee_file:dir rw_dir_perms;
++allow init tee_file:file create_file_perms;
++allow init labeledfs:filesystem associate;

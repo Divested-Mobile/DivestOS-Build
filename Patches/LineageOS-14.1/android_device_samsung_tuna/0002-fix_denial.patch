@@ -1,0 +1,37 @@
+From b9219da6cc3efc4cce9ef39a2d570990fd68cf11 Mon Sep 17 00:00:00 2001
+From: nailyk-fr <nailyk_git@nailyk.fr>
+Date: Sun, 13 Aug 2017 20:31:53 +0200
+Subject: [PATCH] Tuna: Sepolicy: Add tee-fs permissions
+
+ * Tee-fs-setup is launched as recovery context.
+ * Those rules are needed because of toybox android
+   move.
+ * This is mandatory for encryption as this script
+   init /tee then start TEE services.
+
+ * Denials details:
+avc:  denied  { getattr } for  pid=128 comm="tee-fs-setup.sh" path="/system/bin/sh" dev=mmcblk0p10 ino=385 scontext=u:r:recovery:s0 tcontext=u:object_r:shell_exec:s0 tclass=file permissive=1
+avc:  denied  { getattr } for  pid=128 comm="tee-fs-setup.sh" path="/system/bin/toybox" dev=mmcblk0p10 ino=428 scontext=u:r:recovery:s0 tcontext=u:object_r:toolbox_exec:s0 tclass=file permissive=1
+avc:  denied  { execute } for  pid=128 comm="tee-fs-setup.sh" name="toybox" dev=mmcblk0p10 ino=428 scontext=u:r:recovery:s0 tcontext=u:object_r:toolbox_exec:s0 tclass=file permissive=1
+avc:  denied  { read open } for  pid=131 comm="tee-fs-setup.sh" name="toybox" dev=mmcblk0p10 ino=428 scontext=u:r:recovery:s0 tcontext=u:object_r:toolbox_exec:s0 tclass=file permissive=1
+avc:  denied  { execute_no_trans } for  pid=131 comm="tee-fs-setup.sh" path="/system/bin/toybox" dev=mmcblk0p10 ino=428 scontext=u:r:recovery:s0 tcontext=u:object_r:toolbox_exec:s0 tclass=file permissive=1
+
+Change-Id: I559f15713c7893b97c7e33f421ff19d606814fb1
+---
+ sepolicy/recovery.te | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/sepolicy/recovery.te b/sepolicy/recovery.te
+index 0d30c0d7..f1047b45 100644
+--- a/sepolicy/recovery.te
++++ b/sepolicy/recovery.te
+@@ -43,6 +43,9 @@ allow recovery powerctl_prop:property_service set;
+ 
+ # For decryption
+ allow recovery tee_device:chr_file { ioctl open read write };
++allow recovery shell_exec:file getattr;
++allow recovery toolbox_exec:file { execute execute_no_trans getattr open read };
++
+ #============= healthd ==============
+ allow healthd device:dir write;
+ 
