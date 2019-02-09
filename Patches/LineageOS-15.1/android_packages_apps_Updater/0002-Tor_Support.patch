@@ -1,4 +1,4 @@
-From b2c506b55254ad9d21cc0718ca7f093b7207b424 Mon Sep 17 00:00:00 2001
+From d6ba2b0633832e34760e0d38091a10a5488b2b09 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Thu, 20 Sep 2018 21:44:53 -0400
 Subject: [PATCH] Add support for routing over Tor
@@ -9,12 +9,12 @@ Change-Id: Ibfe080c3d801af34fb64fda1b6b8f4f39a2b1ccf
  res/values/strings.xml                        |  2 +
  .../lineageos/updater/UpdatesActivity.java    | 12 ++++
  .../updater/UpdatesCheckReceiver.java         |  4 ++
- .../updater/controller/UpdaterController.java |  4 ++
+ .../updater/controller/UpdaterController.java |  8 +++
  .../updater/download/DownloadClient.java      |  8 ++-
- .../download/HttpURLConnectionClient.java     | 20 +++++-
+ .../download/HttpURLConnectionClient.java     | 27 ++++++--
  src/org/lineageos/updater/misc/Constants.java |  1 +
  src/org/lineageos/updater/misc/Utils.java     | 65 +++++++++++++++++++
- 9 files changed, 120 insertions(+), 4 deletions(-)
+ 9 files changed, 130 insertions(+), 5 deletions(-)
 
 diff --git a/res/layout/preferences_dialog.xml b/res/layout/preferences_dialog.xml
 index 898f53e..db88a41 100644
@@ -130,7 +130,7 @@ index c7f1b4e..0abbde5 100644
              downloadClient.start();
          } catch (IOException e) {
 diff --git a/src/org/lineageos/updater/controller/UpdaterController.java b/src/org/lineageos/updater/controller/UpdaterController.java
-index 8fd5760..7287146 100644
+index 8fd5760..f89c7fd 100644
 --- a/src/org/lineageos/updater/controller/UpdaterController.java
 +++ b/src/org/lineageos/updater/controller/UpdaterController.java
 @@ -357,12 +357,16 @@ public class UpdaterController {
@@ -150,6 +150,24 @@ index 8fd5760..7287146 100644
                      .build();
          } catch (IOException exception) {
              Log.e(TAG, "Could not build download client");
+@@ -397,6 +401,9 @@ public class UpdaterController {
+             verifyUpdateAsync(downloadId);
+             notifyUpdateChange(downloadId);
+         } else {
++            if(Utils.isOnionRoutingEnabled(mContext)) {
++                Utils.requestStartOrbot(mContext);
++            }
+             DownloadClient downloadClient;
+             try {
+                 downloadClient = new DownloadClient.Builder()
+@@ -405,6 +412,7 @@ public class UpdaterController {
+                         .setDownloadCallback(getDownloadCallback(downloadId))
+                         .setProgressListener(getProgressListener(downloadId))
+                         .setUseDuplicateLinks(true)
++                        .setUseOnionRouting(Utils.isOnionRoutingEnabled(mContext))
+                         .build();
+             } catch (IOException exception) {
+                 Log.e(TAG, "Could not build download client");
 diff --git a/src/org/lineageos/updater/download/DownloadClient.java b/src/org/lineageos/updater/download/DownloadClient.java
 index 6a2a490..374e017 100644
 --- a/src/org/lineageos/updater/download/DownloadClient.java
@@ -183,7 +201,7 @@ index 6a2a490..374e017 100644
      }
  }
 diff --git a/src/org/lineageos/updater/download/HttpURLConnectionClient.java b/src/org/lineageos/updater/download/HttpURLConnectionClient.java
-index 2b7c80e..c76d747 100644
+index 2b7c80e..caeaf66 100644
 --- a/src/org/lineageos/updater/download/HttpURLConnectionClient.java
 +++ b/src/org/lineageos/updater/download/HttpURLConnectionClient.java
 @@ -18,12 +18,16 @@ package org.lineageos.updater.download;
@@ -219,7 +237,7 @@ index 2b7c80e..c76d747 100644
 -        mClient = (HttpURLConnection) new URL(url).openConnection();
 +            boolean useDuplicateLinks, boolean useOnionRouting) throws IOException {
 +        mUseOnionRouting = useOnionRouting;
-+        if(useOnionRouting) {
++        if(mUseOnionRouting) {
 +            Proxy orbot = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress("127.0.0.1", 9050));
 +            mClient = (HttpURLConnection) new URL(url).openConnection(orbot);
 +        } else {
@@ -228,7 +246,21 @@ index 2b7c80e..c76d747 100644
          mDestination = destination;
          mProgressListener = progressListener;
          mCallback = callback;
-@@ -224,7 +235,7 @@ public class HttpURLConnectionClient implements DownloadClient {
+@@ -169,7 +180,12 @@ public class HttpURLConnectionClient implements DownloadClient {
+         private void changeClientUrl(URL newUrl) throws IOException {
+             String range = mClient.getRequestProperty("Range");
+             mClient.disconnect();
+-            mClient = (HttpURLConnection) newUrl.openConnection();
++            if(mUseOnionRouting) {
++                Proxy orbot = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress("127.0.0.1", 9050));
++                mClient = (HttpURLConnection) newUrl.openConnection(orbot);
++            } else {
++                mClient = (HttpURLConnection) newUrl.openConnection();
++            }
+             if (range != null) {
+                 mClient.setRequestProperty("Range", range);
+             }
+@@ -224,7 +240,7 @@ public class HttpURLConnectionClient implements DownloadClient {
                      }
                      Log.d(TAG, "Downloading from " + newUrl);
                      changeClientUrl(url);
@@ -237,7 +269,7 @@ index 2b7c80e..c76d747 100644
                      mClient.connect();
                      if (!isSuccessCode(mClient.getResponseCode())) {
                          throw new IOException("Server replied with " + mClient.getResponseCode());
-@@ -246,6 +257,9 @@ public class HttpURLConnectionClient implements DownloadClient {
+@@ -246,6 +262,9 @@ public class HttpURLConnectionClient implements DownloadClient {
          @Override
          public void run() {
              try {
@@ -349,5 +381,5 @@ index d97a492..a151c75 100644
          return server + "?base=LineageOS&device=" + device + "&inc=" + incrementalVersion;
      }
 -- 
-2.19.0
+2.20.1
 

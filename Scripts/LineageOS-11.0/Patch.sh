@@ -77,7 +77,7 @@ enterAndClear "external/sqlite";
 patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0)
 
 enterAndClear "frameworks/base";
-hardenLocationDir "$DOS_BUILD_BASE";
+hardenLocationFWB "$DOS_BUILD_BASE";
 sed -i 's/com.android.mms/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
 sed -i 's|db_default_journal_mode">PERSIST|db_default_journal_mode">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0001-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
@@ -147,7 +147,7 @@ patch -p1 < "$DOS_PATCHES/android_kernel_zte_msm8930/0001-MDP-Fix.patch";
 cd "$DOS_BUILD_BASE";
 find "hardware/qcom/gps" -name "gps\.conf" -type f -exec bash -c 'hardenLocationConf "$0"' {} \;;
 find "device" -name "gps\.conf" -type f -exec bash -c 'hardenLocationConf "$0"' {} \;;
-find "device" -type d -name "overlay" -mindepth 2 -exec bash -c 'hardenLocationDir "$0"' {} \;;
+find "device" -type d -name "overlay" -exec bash -c 'hardenLocationFWB "$0"' {} \;;
 find "device" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'hardenUserdata "$0"' {} \;;
 find "kernel" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'hardenDefconfig "$0"' {} \;;
 cd "$DOS_BUILD_BASE";

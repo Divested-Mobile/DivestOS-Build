@@ -209,7 +209,7 @@ hardenLocationConf() {
 }
 export -f hardenLocationConf;
 
-hardenLocationDir() {
+hardenLocationFWB() {
 	dir=$1;
 	#Debugging (adb logcat | grep -i -e locsvc -e izat -e gps -e gnss -e location)
 	#sed -i 's|DEBUG_LEVEL = .|DEBUG_LEVEL = 4|' "$gpsConfig" &> /dev/null || true;
@@ -232,7 +232,7 @@ hardenLocationDir() {
 	#sed -i 's|http://gllto|https://gllto|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true; XXX: GLPals has an invaid certificate
 	echo "Enhanced location services for $dir";
 }
-export -f hardenLocationDir;
+export -f hardenLocationFWB;
 
 enableZram() {
 	cd "$DOS_BUILD_BASE$1";

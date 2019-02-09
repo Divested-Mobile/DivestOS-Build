@@ -1,4 +1,4 @@
-Last updated: 2018-08-30
+Last updated: 2019-02-08
 
 High Priority (Release blockers)
 	Build
@@ -21,7 +21,6 @@ High Priority (Release blockers)
 
 Medium Priority
 	Build
-		- Add more device overclocks
 		- Add support for more devices
 	Design
 		- Facelift of Extirpater
@@ -35,9 +34,10 @@ Medium Priority
 
 Low Priority
 	Build
+		- Add more device overclocks
 		- Move overclocks to separate repo
 	Website
-		- Switch to a wiki
+		- Switch to a wiki (?)
 	WiFiDatabaseMerger
 		- Batch/scripted generation
 		- Documentation
@@ -46,7 +46,7 @@ Low Priority
 Longterm
 	Build
 		- Add automated testing/verification of edits
-		- Consider rewriting various utilities in different languages
+		- Consider rewriting various utilities in more suitable languages
 		- Switch to AOSP and create clean trees for all of the major devices
 	Linux Patches
 		- Automate pulling of CVE patches from Android and Qualcomm bulletins
@@ -56,7 +56,7 @@ Longterm
 		- Proper backports of security features
 	Project
 		- Create an Mobile Device Manager solution
-		- Create our own device (free hardware, isolated modem, kernel, 4.9+, etc.)
+		- Create our own device (free hardware, isolated modem, kernel 5.0+, etc.)
 		- General auditing of everything
 		- Partner with various projects
 		- Purchase one of each supported device
@@ -64,7 +64,7 @@ Longterm
 		- Create a 'Video Tutorials' page
 
 Contributions to other projects (via labor or funding)
-	Add Tor support: Materialistic, microG, RadioDroid, Slide, Wikipedia
+	Add Tor support: Materialistic, microG, Slide, Transistor, Wikipedia
 	Resurrect: Blockinger, microG, Pandoroid
 	Amexia
 		- More icons
