@@ -67,13 +67,18 @@ patch -p1 < "$DOS_PATCHES/android_build/0001-Automated_Build_Signing.patch"; #Au
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
 
-enterAndClear "device/lineage/sepolicy";
+enterAndClear "device/lineage/sepolicy"; #XXX: TEMPORARY for O_asb_2019-02
 git revert 9c28a0dfb91bb468515e123b1aaf3fcfc007b82f; #neverallow violation - breaks backuptool
 git revert f1ad32105599a0b71702f840b2deeb6849f1ae80; #neverallow violation - breaks addons
 git revert c9b0d95630b82cd0ad1a0fc633c6d59c2cb8aad7 37422f7df389f3ae5a34ee3d6dd9354217f9c536; #neverallow violation - breaks update_engine
 
 enterAndClear "device/qcom/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
+
+enter "external/skia";
+git fetch https://github.com/LineageOS/android_external_skia refs/changes/18/240818/1 && git cherry-pick FETCH_HEAD
+git fetch https://github.com/LineageOS/android_external_skia refs/changes/17/240817/1 && git cherry-pick FETCH_HEAD
+git fetch https://github.com/LineageOS/android_external_skia refs/changes/16/240816/1 && git cherry-pick FETCH_HEAD
 
 enterAndClear "external/svox";
 git revert 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
@@ -82,6 +87,7 @@ enterAndClear "frameworks/base";
 hardenLocationFWB "$DOS_BUILD_BASE";
 #git revert https://review.lineageos.org/#/c/202875/ #re-enable doze on devices without gms
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
+sed -i 's/(notif.needNotify)/(true)/' location/java/com/android/internal/location/GpsNetInitiatedHandler.java; #Notify user when location is requested via SUPL
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0002-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0003-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
 changeDefaultDNS;
@@ -189,9 +195,6 @@ sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.t
 enterAndClear "device/lge/mako";
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
 #patch -p1 < "$DOS_PATCHES/android_device_lge_mako/0001-Enable_LTE.patch"; #LTE offers enhanced crypto, however the leaked modem is 3 years insecure and eats battery
-
-enterAndClear "device/motorola/clark";
-rm setup-makefiles.sh;
 
 enterAndClear "device/oppo/msm8974-common";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/

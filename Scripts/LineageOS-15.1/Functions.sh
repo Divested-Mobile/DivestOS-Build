@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_brcm_rpi3 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_htc_msm8974 kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_universal9810";
+	startPatcher "kernel_asus_fugu kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_htc_msm8974 kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_msm8974 kernel_samsung_universal9810";
 }
 export -f patchAllKernels;
 
@@ -48,13 +48,11 @@ export -f buildDeviceDebug;
 
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
-	#TODO: hiae
 	brunch lineage_mako-user;
 	brunch lineage_d852-user;
 	brunch lineage_bacon-user;
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;
-	#brunch lineage_clark-userdebug; #permissive and needs manual patching (fwb xml: fused: dangling tag)
 	brunch lineage_d802-user;
 	brunch lineage_d855-user;
 	brunch lineage_dragon-user;
@@ -66,12 +64,10 @@ buildAll() {
 	brunch lineage_griffin-user;
 	brunch lineage_h850-user;
 	brunch lineage_hammerhead-user;
-	#brunch lineage_jfltexx-user; #still in bringup
 	brunch lineage_klte-user; #broken
 	brunch lineage_m8-user;
 	brunch lineage_marlin-user;
 	brunch lineage_mata-user;
-	#brunch lineage_rpi3-user; #needs testing and special handling
 	brunch lineage_sailfish-user;
 	brunch lineage_shamu-user; #broken - needs synced proprietary-files.txt
 	brunch lineage_starlte-user; #broken - device/samsung/universal9810-common/audio: MODULE.TARGET.SHARED_LIBRARIES.libshim_audio_32 already defined by device/samsung/star-common/audio

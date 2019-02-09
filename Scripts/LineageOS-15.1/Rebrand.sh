@@ -26,7 +26,7 @@ patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-Remove_Logo.patch"; #Re
 rm res*/images/logo_image.png; #Remove logo images
 mogrify -format png -fill "#FF5722" -opaque "#167C80" -fuzz 10% res-*/images/*sel.png; #Recolor icons
 sed -i 's|grid_h \* 2 / 3|grid_h * 0.25|' screen_ui.cpp; #Center icons
-sed -i 's|0x16, 0x7c, 0x80|100, 34, 13|' screen_ui.cpp; #Recolor text
+sed -i 's|0x16, 0x7c, 0x80|0x03, 0xa9, 0xf4|' screen_ui.cpp; #Recolor text
 sed -i 's|Android Recovery|'"$DOS_BRANDING_NAME"' Recovery|' ./*_ui.cpp;
 sed -i 's|LineageOS|'"$DOS_BRANDING_NAME"'|' ui.cpp;
 
