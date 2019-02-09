@@ -85,7 +85,6 @@ patchWorkspace() {
 	repopick 239013; #update webview
 	repopick -it O_asb_2019-02;
 
-
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
 	source "$DOS_SCRIPTS/Rebrand.sh";

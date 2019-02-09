@@ -223,14 +223,13 @@ sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.
 enterAndClear "device/samsung/tuna";
 rm setup-makefiles.sh; #broken, deblobber will still function
 sed -i 's/arm-eabi-4.7/arm-eabi-4.8/' BoardConfig.mk; #fix toolchain
-#See: https://review.lineageos.org/q/topic:%22tuna-sepolicies and https://gerrit.nailyk.fr/#/q/project:android_device_samsung_tuna+branch:cm-14.1
+#See: https://review.lineageos.org/q/topic:%22tuna-sepolicies
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0001-fix_denial.patch";
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0002-fix_denial.patch";
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0003-fix_denial.patch";
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0004-fix_denial.patch";
 echo "allow rild system_file:file execmod;" >> sepolicy/rild.te;
 echo "allow rild toolbox_exec:file getattr;" >> sepolicy/rild.te;
-
 
 enter "vendor/google";
 echo "" > atv/atv-common.mk;

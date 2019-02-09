@@ -184,10 +184,10 @@ enterAndClear "device/lge/g2-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 
 enterAndClear "device/lge/g3-common";
-git revert 8ce6724ed9649bf00283691acbf497e4f740fe06 65968c3809d7ce421df5318ab1d52bae1190e3fa cb31af784935469a4b7b67783cd24a5a800b51d8 37d6fbd036171068eb15d7855a2c8aaa5e731eb6; #g3-oreo, no /vendor
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
 echo "/dev/block/platform/msm_sdcc\.1/by-name/pad     u:object_r:misc_block_device:s0" >> sepolicy/file_contexts; #fix uncrypt denial
+sed -i 's/qcrilmsgtunnel.apk/qcrilmsgtunnel.apk:vendor/priv-app/qcrilmsgtunnel/qcrilmsgtunnel.apk' proprietary-files.txt; #Fix vendor Android.mk path for qcrilmsgtunnel.apk
 
 enterAndClear "device/lge/msm8996-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;

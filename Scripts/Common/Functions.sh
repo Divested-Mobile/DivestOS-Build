@@ -276,7 +276,6 @@ getDefconfig() {
 		defconfigPath="arch/arm/configs/*defconfig arch/arm64/configs/*defconfig";
 	fi;
 	echo $defconfigPath;
-	#echo "Found defconfig at $defconfigPath"
 }
 export -f getDefconfig;
 
@@ -286,7 +285,12 @@ changeDefaultDNS() {
 	dnsSecondary="";
 	dnsSecondaryV6="";
 	if [ -z "$DNS_PRESET" ]; then
-		if [[ "$DOS_DEFAULT_DNS_PRESET" == "Cloudflare" ]]; then #https://developers.cloudflare.com/1.1.1.1/commitment-to-privacy/privacy-policy/privacy-policy/
+		if [[ "$DOS_DEFAULT_DNS_PRESET" == "CensurfriDNS" ]]; then #https://uncensoreddns.org
+			dnsPrimary="91.239.100.100";
+			dnsPrimaryV6="2001:67c:28a4::";
+			dnsSecondary="89.233.43.71";
+			dnsSecondaryV6="2a01:3a0:53:53::";
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Cloudflare" ]]; then #https://developers.cloudflare.com/1.1.1.1/commitment-to-privacy/privacy-policy/privacy-policy
 			dnsPrimary="1.0.0.1";
 			dnsPrimaryV6="2606:4700:4700::1001";
 			dnsSecondary="1.1.1.1";
@@ -306,17 +310,27 @@ changeDefaultDNS() {
 			dnsPrimaryV6="2001:4860:4860::8888";
 			dnsSecondary="8.8.4.4";
 			dnsSecondaryV6="2001:4860:4860::8844";
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Neustar" ]]; then #https://www.security.neustar/digital-performance/dns-services/recursive-dns
+			dnsPrimary="156.154.70.2";
+			dnsPrimaryV6="2610:a1:1018::2";
+			dnsSecondary="156.154.71.2";
+			dnsSecondaryV6="2610:a1:1019::2";
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Neustar-NOBL" ]]; then #https://www.security.neustar/digital-performance/dns-services/recursive-dns
+			dnsPrimary="156.154.70.5";
+			dnsPrimaryV6="2610:a1:1018::5";
+			dnsSecondary="156.154.71.5";
+			dnsSecondaryV6="2610:a1:1019::5";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "OpenDNS" ]]; then #https://www.cisco.com/c/en/us/about/legal/privacy-full.html
 			dnsPrimary="208.67.222.222";
 			dnsPrimaryV6="2620:0:ccc::2";
 			dnsSecondary="208.67.220.220";
 			dnsSecondaryV6="2620:0:ccd::2";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Quad9" ]]; then #https://www.quad9.net/privacy/
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Quad9" ]]; then #https://www.quad9.net/privacy
 			dnsPrimary="9.9.9.9";
 			dnsPrimaryV6="2620:fe::fe";
 			dnsSecondary="149.112.112.112";
 			dnsSecondaryV6="2620:fe::9";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Quad9U" ]]; then #https://www.quad9.net/privacy/
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Quad9-NOBL" ]]; then #https://www.quad9.net/privacy
 			dnsPrimary="9.9.9.10";
 			dnsPrimaryV6="2620:fe::10";
 			dnsSecondary="149.112.112.10";
@@ -326,6 +340,16 @@ changeDefaultDNS() {
 			dnsPrimaryV6="2620:74:1b::1:1";
 			dnsSecondary="64.6.65.6";
 			dnsSecondaryV6="2620:74:1c::2:2";
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Yandex" ]]; then #https://dns.yandex.com/advanced
+			dnsPrimary="77.88.8.88";
+			dnsPrimaryV6="2a02:6b8::feed:bad";
+			dnsSecondary="77.88.8.2";
+			dnsSecondaryV6="2a02:6b8:0:1::feed:bad";
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Yandex-NOBL" ]]; then #https://dns.yandex.com/advanced
+			dnsPrimary="77.88.8.8";
+			dnsPrimaryV6="2a02:6b8::feed:0ff";
+			dnsSecondary="77.88.8.1";
+			dnsSecondaryV6="2a02:6b8:0:1::feed:0ff";
 		fi;
 	else
 		echo "You must first set a preset via the DEFAULT_DNS_PRESET variable in init.sh!";
