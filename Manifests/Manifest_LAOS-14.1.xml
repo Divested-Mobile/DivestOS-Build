@@ -219,8 +219,11 @@
 	<project path="kernel/samsung/smdk4412" name="LineageOS/android_kernel_samsung_smdk4412" remote="github" />
 	<project path="packages/apps/SamsungServiceMode" name="LineageOS/android_packages_apps_SamsungServiceMode" remote="github" />
 
-	<!-- Samsung Galaxy Nexus Unified (maguro) -->
+	<!-- Samsung Galaxy Nexus (maguro/toro(plus)) -->
+	<project path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.7" name="platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7" remote="aosp" revision="refs/tags/android-4.4.4_r2" />
 	<project path="device/samsung/maguro" name="Galaxy-Nexus/android_device_samsung_maguro" remote="github" />
+	<project path="device/samsung/toro" name="LineageOS/android_device_samsung_toro" remote="github" revision="cm-13.0" />
+	<project path="device/samsung/toroplus" name="LineageOS/android_device_samsung_toroplus" remote="github" revision="cm-13.0" />
 	<project path="device/samsung/tuna" name="Galaxy-Nexus/android_device_samsung_tuna" remote="github" />
 	<project path="kernel/samsung/tuna" name="Galaxy-Nexus/android_kernel_samsung_tuna" remote="github" />
 

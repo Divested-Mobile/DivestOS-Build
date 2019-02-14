@@ -50,7 +50,6 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#Select devices are userdebug due to SELinux policy issues
 	brunch lineage_clark-user;
-	brunch lineage_maguro-user; #deprecated
 	brunch lineage_thor-userdebug; #deprecated
 	brunch lineage_grouper-user; #deprecated and needs manual patching (one-repo vendor blob patch)
 	brunch lineage_h815-user; #deprecated
@@ -59,9 +58,12 @@ buildAll() {
 	brunch lineage_i9100-userdebug;
 	brunch lineage_i9305-user; #deprecated?
 	brunch lineage_jfltexx-user;
+	brunch lineage_maguro-user; #deprecated
 	brunch lineage_manta-user; #deprecated
 	brunch lineage_n5110-user;
 	brunch lineage_osprey-user;
+	#brunch lineage_toro-user; #deprecated
+	#brunch lineage_toroplus-user; #deprecated
 	brunch lineage_Z00T-user; #deprecated
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
@@ -117,7 +119,8 @@ export -f patchWorkspace;
 
 enableDexPreOpt() {
 	cd "$DOS_BUILD_BASE$1";
-	if [ "$1" != "device/amazon/thor" ] && [ "$1" != "device/samsung/i9100" ] && [ "$1" != "device/lge/h850" ] && [ "$1" != "device/lge/mako" ] && [ "$1" != "device/asus/grouper" ]; then #Some devices won't compile, or have too small of a /system partition, or Wi-Fi breaks
+	#Some devices won't compile, or have too small of a /system partition, or Wi-Fi breaks
+	if [ "$1" != "device/amazon/thor" ] && [ "$1" != "device/samsung/i9100" ] && [ "$1" != "device/samsung/maguro" ] && [ "$1" != "device/samsung/toro" ] && [ "$1" != "device/samsung/toroplus" ] && [ "$1" != "device/samsung/tuna" ] && [ "$1" != "device/lge/h850" ] && [ "$1" != "device/lge/mako" ] && [ "$1" != "device/asus/grouper" ]; then
 		if [ -f BoardConfig.mk ]; then
 			echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 			echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;

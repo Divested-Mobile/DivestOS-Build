@@ -1,0 +1,84 @@
+From c11a7f1d4f05a13cacb8c6ebbaeee0400b6654e6 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Wed, 13 Feb 2019 21:14:04 -0500
+Subject: [PATCH] audit2allow sepolicies
+
+Change-Id: I8a43008d22b302ed54838251e328619de5c1f890
+---
+ sepolicy/init.te          | 3 +++
+ sepolicy/logd.te          | 1 +
+ sepolicy/netd.te          | 1 +
+ sepolicy/platform_app.te  | 1 +
+ sepolicy/rild.te          | 5 +++++
+ sepolicy/sysinit.te       | 1 +
+ sepolicy/system_server.te | 2 ++
+ 7 files changed, 14 insertions(+)
+ create mode 100644 sepolicy/logd.te
+ create mode 100644 sepolicy/netd.te
+ create mode 100644 sepolicy/sysinit.te
+
+diff --git a/sepolicy/init.te b/sepolicy/init.te
+index 13c8bd4..c0980a6 100644
+--- a/sepolicy/init.te
++++ b/sepolicy/init.te
+@@ -7,3 +7,6 @@ allow init tmpfs:lnk_file create;
+ 
+ # For 'cpuset' module requests
+ allow init kernel:system module_request;
++
++allow init block_device:lnk_file relabelfrom;
++allow init perfprofd_exec:file getattr;
+diff --git a/sepolicy/logd.te b/sepolicy/logd.te
+new file mode 100644
+index 0000000..2e9f1eb
+--- /dev/null
++++ b/sepolicy/logd.te
+@@ -0,0 +1 @@
++allow logd unlabeled:dir search;
+diff --git a/sepolicy/netd.te b/sepolicy/netd.te
+new file mode 100644
+index 0000000..af9fbc1
+--- /dev/null
++++ b/sepolicy/netd.te
+@@ -0,0 +1 @@
++allow netd kernel:system module_request;
+diff --git a/sepolicy/platform_app.te b/sepolicy/platform_app.te
+index 4d92e6b..dadb55e 100644
+--- a/sepolicy/platform_app.te
++++ b/sepolicy/platform_app.te
+@@ -1 +1,2 @@
+ allow platform_app nfc_service:service_manager find;
++allow platform_app system_app_data_file:dir getattr;
+diff --git a/sepolicy/rild.te b/sepolicy/rild.te
+index 7c72874..5e35cf9 100644
+--- a/sepolicy/rild.te
++++ b/sepolicy/rild.te
+@@ -19,3 +19,8 @@ allow rild logcat_exec:file { getattr read open execute execute_no_trans };
+ # Device-specific calls could be moved into their respective device trees
+ # in the future.
+ allowxperm rild self:unix_stream_socket ioctl { 0x89a0 0x89a2 0x89a3 0x89f0 };
++allow rild system_file:file execmod;
++allow rild toolbox_exec:file getattr;
++allow rild toolbox_exec:file execute;
++allow rild toolbox_exec:file { open read };
++allow rild toolbox_exec:file execute_no_trans;
+diff --git a/sepolicy/sysinit.te b/sepolicy/sysinit.te
+new file mode 100644
+index 0000000..5cd8eb3
+--- /dev/null
++++ b/sepolicy/sysinit.te
+@@ -0,0 +1 @@
++allow sysinit userinit_exec:file execute;
+diff --git a/sepolicy/system_server.te b/sepolicy/system_server.te
+index e59d7c6..d78ffbb 100644
+--- a/sepolicy/system_server.te
++++ b/sepolicy/system_server.te
+@@ -1,3 +1,5 @@
+ # system_server
+ 
+ # Needed for /system/vendor/lib/hw/gps.omap4.so
++
++allow system_server wifi_log_prop:property_service set;
+-- 
+2.20.1
+

@@ -220,16 +220,18 @@ rm board-info.txt; #Never restrict installation
 enterAndClear "device/oneplus/bacon";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
+enterAndClear "device/samsung/toroplus";
+awk -i inplace '!/additional_system_update/' overlay/packages/apps/Settings/res/values/config.xml;
+
+enableLowRam "device/samsung/tuna";
 enterAndClear "device/samsung/tuna";
 rm setup-makefiles.sh; #broken, deblobber will still function
-sed -i 's/arm-eabi-4.7/arm-eabi-4.8/' BoardConfig.mk; #fix toolchain
 #See: https://review.lineageos.org/q/topic:%22tuna-sepolicies
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0001-fix_denial.patch";
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0002-fix_denial.patch";
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0003-fix_denial.patch";
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0004-fix_denial.patch";
-echo "allow rild system_file:file execmod;" >> sepolicy/rild.te;
-echo "allow rild toolbox_exec:file getattr;" >> sepolicy/rild.te;
+patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0005-fix_denial.patch";
 
 enter "vendor/google";
 echo "" > atv/atv-common.mk;
@@ -252,6 +254,11 @@ sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/lge/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/motorola/msm8974/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_ARM_SMMU=y/# CONFIG_ARM_SMMU is not set/" kernel/motorola/msm8992/arch/arm64/configs/*defconfig; #Breaks on compile
+#tuna fixes
+awk -i inplace '!/nfc_enhanced.mk/' device/samsung/toro*/lineage.mk;
+awk -i inplace '!/TARGET_RECOVERY_UPDATER_LIBS/' device/samsung/toro*/BoardConfig.mk;
+awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' device/samsung/toro*/BoardConfig.mk;
+sed -i "s/forceencrypt/encryptable/" device/samsung/tuna/rootdir/fstab.tuna; #first-boot encryption doesn't work
 #
 #END OF DEVICE CHANGES
 #
