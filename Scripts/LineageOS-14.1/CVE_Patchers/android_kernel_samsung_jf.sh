@@ -68,10 +68,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9389/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9416/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9439/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9516/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2475/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p73"
+editKernelLocalversion "-dos.p74"
 cd "$DOS_BUILD_BASE"

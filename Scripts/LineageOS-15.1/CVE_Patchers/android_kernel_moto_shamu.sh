@@ -58,6 +58,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7487/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-9242/^4.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11286/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11832/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0003/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
@@ -65,5 +66,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-ch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-9f34c6ebc016cd061ae5ec901221d15fa3d67e49.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2475/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p65"
+editKernelLocalversion "-dos.p66"
 cd "$DOS_BUILD_BASE"
