@@ -221,7 +221,7 @@ enterAndClear "device/oneplus/bacon";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
 enterAndClear "device/samsung/toroplus";
-awk -i inplace '!/additional_system_update/' overlay/packages/apps/Settings/res/values/config.xml;
+awk -i inplace '!/additional_system_update/' overlay/packages/apps/Settings/res/values*/*.xml;
 
 enableLowRam "device/samsung/tuna";
 enterAndClear "device/samsung/tuna";
