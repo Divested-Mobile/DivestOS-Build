@@ -1,0 +1,37 @@
+From 5b59a2cf8028488847a5cd6ac7d4a14414972438 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Mon, 21 May 2018 04:23:40 -0400
+Subject: [PATCH] Disable/reduce functionality of various ad/analytics
+ libraries
+
+Change-Id: I84303ee26d0232e471f44ae6eff6e41a2210e42e
+---
+ core/java/android/content/pm/PackageParser.java | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android/content/pm/PackageParser.java
+index 8c66fb227cf..31368bf74b1 100644
+--- a/core/java/android/content/pm/PackageParser.java
++++ b/core/java/android/content/pm/PackageParser.java
+@@ -5524,6 +5524,18 @@ public class PackageParser {
+ 
+         if (data == null) {
+             data = new Bundle();
++            data.putBoolean("batch_opted_out_by_default", true);
++            data.putBoolean("com.ad4screen.no_geoloc", true);
++            data.putBoolean("com.facebook.sdk.AutoLogAppEventsEnabled", false);
++            data.putBoolean("com.mixpanel.android.MPConfig.UseIpAddressForGeolocation", false);
++            data.putBoolean("com.webengage.sdk.android.location_tracking", false);
++            data.putBoolean("firebase_analytics_collection_deactivated", true);
++            data.putBoolean("firebase_analytics_collection_enabled", false);
++            data.putBoolean("firebase_crash_collection_enabled", false);
++            data.putBoolean("firebase_performance_collection_deactivated", true);
++            data.putBoolean("google_analytics_adid_collection_enabled", false);
++            data.putString("com.ad4screen.tracking_mode", "Restricted");
++            data.putString("com.sprooki.LOCATION_SERVICES", "disable");
+         }
+ 
+         String name = sa.getNonConfigurationString(
+-- 
+2.17.0
+

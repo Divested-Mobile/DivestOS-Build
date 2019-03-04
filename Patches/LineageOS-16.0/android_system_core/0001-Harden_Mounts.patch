@@ -1,0 +1,48 @@
+From 25424eca15c98eeabb8c150cc0f25895a638e56e Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Mon, 12 Feb 2018 03:29:58 -0500
+Subject: [PATCH] Harden mounts
+
+Change-Id: Idd2da6d9989ec554ce5b0841781d323fdcd9eb87
+---
+ init/init.cpp   | 6 +++---
+ rootdir/init.rc | 1 +
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/init/init.cpp b/init/init.cpp
+index 74e81e4b5..782d87968 100644
+--- a/init/init.cpp
++++ b/init/init.cpp
+@@ -576,14 +576,14 @@ int main(int argc, char** argv) {
+         mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755");
+         mkdir("/dev/pts", 0755);
+         mkdir("/dev/socket", 0755);
+-        mount("devpts", "/dev/pts", "devpts", 0, NULL);
++        mount("devpts", "/dev/pts", "devpts", MS_NOSUID|MS_NOEXEC, NULL);
+         #define MAKE_STR(x) __STRING(x)
+-        mount("proc", "/proc", "proc", 0, "hidepid=2,gid=" MAKE_STR(AID_READPROC));
++        mount("proc", "/proc", "proc", MS_NOSUID|MS_NODEV|MS_NOEXEC, "hidepid=2,gid=" MAKE_STR(AID_READPROC));
+         // Don't expose the raw commandline to unprivileged processes.
+         chmod("/proc/cmdline", 0440);
+         gid_t groups[] = { AID_READPROC };
+         setgroups(arraysize(groups), groups);
+-        mount("sysfs", "/sys", "sysfs", 0, NULL);
++        mount("sysfs", "/sys", "sysfs", MS_NOSUID|MS_NODEV|MS_NOEXE, NULL);
+         mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL);
+ 
+         mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11));
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 970b3f8d0..14e69da79 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -120,6 +120,7 @@ on init
+     write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
+     write /proc/sys/kernel/sched_child_runs_first 0
+ 
++    write /proc/sys/kernel/dmesg_restrict 1
+     write /proc/sys/kernel/randomize_va_space 2
+     write /proc/sys/vm/mmap_min_addr 32768
+     write /proc/sys/net/ipv4/ping_group_range "0 2147483647"
+-- 
+2.20.1
+

@@ -1,0 +1,52 @@
+From 694d9c522cb92a80ca975ad3a5e95a802592890f Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Mon, 12 Feb 2018 02:59:01 -0500
+Subject: [PATCH] Fix calling after VoLTE is removed from devices that had it
+ previously enabled
+
+Change-Id: I2417cac6313de8d5110106be23ec2048b4562561
+---
+ src/java/com/android/ims/ImsManager.java | 20 +-------------------
+ 1 file changed, 1 insertion(+), 19 deletions(-)
+
+diff --git a/src/java/com/android/ims/ImsManager.java b/src/java/com/android/ims/ImsManager.java
+index 3dc12f4..afec29e 100644
+--- a/src/java/com/android/ims/ImsManager.java
++++ b/src/java/com/android/ims/ImsManager.java
+@@ -423,12 +423,6 @@ public class ImsManager {
+      * {@link #isEnhanced4gLteModeSettingEnabledByUser()} instead.
+      */
+     public static boolean isEnhanced4gLteModeSettingEnabledByUser(Context context) {
+-        ImsManager mgr = ImsManager.getInstance(context,
+-                SubscriptionManager.getDefaultVoicePhoneId());
+-        if (mgr != null) {
+-            return mgr.isEnhanced4gLteModeSettingEnabledByUser();
+-        }
+-        loge("isEnhanced4gLteModeSettingEnabledByUser: ImsManager null, returning default value.");
+         return false;
+     }
+ 
+@@ -442,19 +436,7 @@ public class ImsManager {
+      * return the default value.
+      */
+     public boolean isEnhanced4gLteModeSettingEnabledByUser() {
+-        int setting = SubscriptionManager.getIntegerSubscriptionProperty(
+-                getSubId(), SubscriptionManager.ENHANCED_4G_MODE_ENABLED,
+-                SUB_PROPERTY_NOT_INITIALIZED, mContext);
+-        boolean onByDefault = getBooleanCarrierConfig(
+-                CarrierConfigManager.KEY_ENHANCED_4G_LTE_ON_BY_DEFAULT_BOOL);
+-
+-        // If Enhanced 4G LTE Mode is uneditable or not initialized, we use the default value
+-        if (!getBooleanCarrierConfig(CarrierConfigManager.KEY_EDITABLE_ENHANCED_4G_LTE_BOOL)
+-                || setting == SUB_PROPERTY_NOT_INITIALIZED) {
+-            return onByDefault;
+-        } else {
+-            return (setting == ImsConfig.FeatureValueConstants.ON);
+-        }
++        return false;
+     }
+ 
+     /**
+-- 
+2.20.1
+

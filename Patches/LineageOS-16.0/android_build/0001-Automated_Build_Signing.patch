@@ -1,0 +1,103 @@
+From b5ad740f0a0930081b8056eaf6e83873fa0b41ef Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 3 Apr 2018 14:12:55 -0400
+Subject: [PATCH] Add optional automated signing
+
+Change-Id: I9ebd044c4c2f76688f7921b991055c57ec574986
+---
+ core/Makefile | 42 +++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 39 insertions(+), 3 deletions(-)
+
+diff --git a/core/Makefile b/core/Makefile
+index 9498b47d4..a99677116 100644
+--- a/core/Makefile
++++ b/core/Makefile
+@@ -612,6 +612,10 @@ $(call dist-for-goals,droidcore,$(PGO_PROFILE_MISSING))
+ # exist with the suffixes ".x509.pem" and ".pk8".
+ DEFAULT_KEY_CERT_PAIR := $(DEFAULT_SYSTEM_DEV_CERTIFICATE)
+ 
++ifneq ($(SIGNING_KEY_DIR),)
++    KEY_CERT_DIR := $(SIGNING_KEY_DIR)
++    DEFAULT_KEY_CERT_PAIR := $(SIGNING_KEY_DIR)/releasekey
++endif
+ 
+ # Rules that need to be present for the all targets, even
+ # if they don't do anything.
+@@ -1412,6 +1416,16 @@ endif
+ # substitute other keys for this one.
+ OTA_PUBLIC_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
+ 
++ifneq ($(SIGNING_KEY_DIR),)
++    OTA_PUBLIC_KEYS := $(SIGNING_KEY_DIR)/releasekey.x509.pem
++    PRODUCT_EXTRA_RECOVERY_KEYS += $(SIGNING_KEY_DIR)/extra
++else
++    ifneq ($(OTA_PACKAGE_SIGNING_KEY),)
++	OTA_PUBLIC_KEYS := $(OTA_PACKAGE_SIGNING_KEY).x509.pem
++	PRODUCT_EXTRA_RECOVERY_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE)
++    endif
++endif
++
+ # Generate a file containing the keys that will be read by the
+ # recovery binary.
+ RECOVERY_INSTALL_OTA_KEYS := \
+@@ -2682,6 +2696,13 @@ $(BUILT_TARGET_FILES_PACKAGE): intermediates := $(intermediates)
+ $(BUILT_TARGET_FILES_PACKAGE): \
+ 		zip_root := $(intermediates)/$(name)
+ 
++SIGNED_TARGET_FILES_PACKAGE := $(intermediates)/signed-$(name).zip
++MAYBE_SIGNED_TARGET_FILES_PACKAGE := $(BUILT_TARGET_FILES_PACKAGE)
++
++ifneq ($(SIGNING_KEY_DIR),)
++  MAYBE_SIGNED_TARGET_FILES_PACKAGE := $(SIGNED_TARGET_FILES_PACKAGE)
++endif
++
+ # $(1): Directory to copy
+ # $(2): Location to copy it to
+ # The "ls -A" is to prevent "acp s/* d" from failing if s is empty.
+@@ -3148,6 +3169,12 @@ else
+     OTA_SCRIPT_OVERRIDE_DEVICE := $(TARGET_OTA_ASSERT_DEVICE)
+ endif
+ 
++ifeq ($(TARGET_RELEASETOOL_SIGN_TARGET_SCRIPT),)
++    SIGN_TARGET_SCRIPT := ./build/tools/releasetools/sign_target_files_apks
++else
++    SIGN_TARGET_SCRIPT := $(TARGET_RELEASETOOL_SIGN_TARGET_SCRIPT)
++endif
++
+ ifeq ($(WITH_GMS),true)
+     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
+ else
+@@ -3158,18 +3185,27 @@ else
+ endif
+ endif
+ 
+-$(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) \
++$(SIGNED_TARGET_FILES_PACKAGE): $(BUILT_TARGET_FILES_PACKAGE) \
++		build/tools/releasetools/sign_target_files_apks
++	@echo "$(SIGN_TARGET_SCRIPT)" > $(PRODUCT_OUT)/sign_script_path
++	@echo -e ${CL_YLW}"Sign target files:"${CL_RST}" $@"
++	$(hide) $(SIGN_TARGET_SCRIPT) \
++	   -d $(KEY_CERT_DIR) \
++	   -o \
++	   $(BUILT_TARGET_FILES_PACKAGE) \
++	   $(SIGNED_TARGET_FILES_PACKAGE)
++
++$(INTERNAL_OTA_PACKAGE_TARGET): $(MAYBE_SIGNED_TARGET_FILES_PACKAGE) \
+ 		build/make/tools/releasetools/ota_from_target_files
+ 	@echo "Package OTA: $@"
+ 	$(hide) PATH=$(foreach p,$(INTERNAL_USERIMAGES_BINARY_PATHS),$(p):)$$PATH MKBOOTIMG=$(MKBOOTIMG) \
+ 	   build/make/tools/releasetools/ota_from_target_files -v \
+ 	   --block \
+-	   --extracted_input_target_files $(patsubst %.zip,%,$(BUILT_TARGET_FILES_PACKAGE)) \
+ 	   -p $(HOST_OUT) \
+ 	   -k $(KEY_CERT_PAIR) \
+ 	   --backup=$(backuptool) \
+ 	   $(if $(OEM_OTA_CONFIG), -o $(OEM_OTA_CONFIG)) \
+-	   $(BUILT_TARGET_FILES_PACKAGE) $@
++	   $(MAYBE_SIGNED_TARGET_FILES_PACKAGE) $@
+ 
+ .PHONY: otapackage
+ otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
+-- 
+2.20.1
+

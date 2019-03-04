@@ -16,7 +16,7 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #Changes various default settings
-#Last verified: 2018-04-27
+#Last verified: 2019-03-04
 
 #Useful commands
 #nano $(find . -name "config.xml" | grep "values/" | grep -v "device" | grep -v "tests")
@@ -35,10 +35,7 @@ sed -i 's/boolean NDEF_PUSH_ON_DEFAULT = true;/boolean NDEF_PUSH_ON_DEFAULT = fa
 
 enter "packages/apps/Settings";
 sed -i 's/INSTANT_APPS_ENABLED, 1/INSTANT_APPS_ENABLED, 0/' src/com/android/settings/applications/ManageDomainUrls.java; #Disable "Instant Apps"
-sed -i 's/Float.parseFloat(newValue.toString()) : 1;/Float.parseFloat(newValue.toString()) : 0.5f;/' src/com/android/settings/development/DevelopmentSettings.java; #Always reset animation scales to 0.5
-
-enter "packages/apps/Trebuchet";
-sed -i 's/"pref_predictive_apps", true/"pref_predictive_apps", false/' src/com/android/launcher3/Launcher.java;
+sed -i 's/DEFAULT_VALUE = 1;/DEFAULT_VALUE = 0.5f;/' src/com/android/settings/development/*ScalePreferenceController.java; #Always reset animation scales to 0.5
 
 enter "vendor/lineage";
 sed -i 's/ro.config.notification_sound=Argon.ogg/ro.config.notification_sound=Pong.ogg/' config/common.mk;

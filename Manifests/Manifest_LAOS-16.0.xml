@@ -76,7 +76,6 @@
 	<project path="external/sony/boringssl-compat" name="LineageOS/android_external_sony_boringssl-compat" remote="github" />
 	<project path="hardware/sony/thermanager" name="LineageOS/android_hardware_sony_thermanager" remote="github" />
 	<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />
-	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 	<project path="packages/apps/FlipFlap" name="LineageOS/android_packages_apps_FlipFlap" remote="github" />
 
 	<!-- Moto Z (griffin) -->

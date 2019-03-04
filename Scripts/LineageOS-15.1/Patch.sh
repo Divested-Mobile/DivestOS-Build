@@ -80,8 +80,8 @@ git revert 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 
 enterAndClear "frameworks/base";
 hardenLocationFWB "$DOS_BUILD_BASE";
-#git revert https://review.lineageos.org/#/c/202875/ #re-enable doze on devices without gms
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
+sed -i 's/DEFAULT_MAX_FILES_LOWRAM = 300;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i 's/(notif.needNotify)/(true)/' location/java/com/android/internal/location/GpsNetInitiatedHandler.java; #Notify user when location is requested via SUPL
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0002-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0003-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
@@ -115,7 +115,7 @@ awk -i inplace '!/WeatherManagerServiceBroker/' lineage/res/res/values/config.xm
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi;
 
 enterAndClear "packages/apps/LineageParts";
-rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml #Nuke part of the analytics
+rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of the analytics
 patch -p1 < "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytics.patch"; #Remove analytics
 
 enterAndClear "packages/apps/Settings";
@@ -130,7 +130,6 @@ enterAndClear "packages/apps/SetupWizard";
 patch -p1 < "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove analytics
 
 enterAndClear "packages/apps/Updater";
-#sed -i 's/Constants.AUTO_UPDATES_CHECK_INTERVAL_WEEKLY);/Constants.AUTO_UPDATES_CHECK_INTERVAL_DAILY);/' src/org/lineageos/updater/misc/Utils.java; #Revert to daily update checks
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Updater/0002-Tor_Support.patch"; #Add Tor support
 #TODO: Remove changelog
@@ -148,9 +147,6 @@ enterAndClear "packages/services/Telephony";
 patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch";
 patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
 
-enterAndClear "system/bt";
-patch -p1 < "$DOS_PATCHES/android_system_bt/0001-Improve_Quality.patch"; #Improve Bluetooth audio quality, credit @ValdikSS
-
 enterAndClear "system/core";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4; #Always update recovery
@@ -163,10 +159,11 @@ enterAndClear "system/vold";
 patch -p1 < "$DOS_PATCHES/android_system_vold/0001-AES256.patch"; #Add a variable for enabling AES-256 bit encryption
 
 enterAndClear "vendor/lineage";
-rm -rf overlay/common/vendor/lineage-sdk/packages; #Remove analytics
+rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then awk -i inplace '!/50-lineage.sh/' config/common.mk; fi; #Make sure our hosts is always used
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra keys
 awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
+awk -i inplace '!/WeatherProvider/' config/common.mk;
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/AudioFX/' config/common.mk; fi;
 if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then sed -i '/Google provider/!b;n;s/com.google.android.gms/org.microg.nlp/' overlay/common/frameworks/base/core/res/res/values/config.xml; fi;
 sed -i 's/LINEAGE_BUILDTYPE := UNOFFICIAL/LINEAGE_BUILDTYPE := dos/' config/common.mk; #Change buildtype
