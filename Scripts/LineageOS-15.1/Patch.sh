@@ -103,6 +103,13 @@ awk -i inplace '!/mPermissionReviewRequired = Build.PERMISSIONS_REVIEW_REQUIRED/
 awk -i inplace '!/\|\| context.getResources\(\).getBoolean\(/' service/java/com/android/server/wifi/WifiServiceImpl.java;
 awk -i inplace '!/com.android.internal.R.bool.config_permissionReviewRequired/' service/java/com/android/server/wifi/WifiServiceImpl.java;
 
+if enter "kernel/wireguard"; then
+if [ "$DOS_WIREGUARD_INCLUDED" = false ]; then rm Android.mk; fi;
+#Remove system information from HTTP requests
+awk -i inplace '!/USER_AGENT=/' fetch.sh;
+sed -i '3iUSER_AGENT="WireGuard-AndroidROMBuild/0.2"' fetch.sh;
+fi;
+
 enterAndClear "lineage-sdk";
 awk -i inplace '!/WeatherManagerServiceBroker/' lineage/res/res/values/config.xml; #Disable Weather
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi;

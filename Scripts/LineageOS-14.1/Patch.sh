@@ -105,6 +105,13 @@ awk -i inplace '!/com.android.internal.R.bool.config_permissionReviewRequired/' 
 enterAndClear "hardware/ti/omap4";
 patch -p1 < "$DOS_PATCHES/android_hardware_ti_omap4/0001-tuna-camera.patch"; #fix camera on tuna
 
+if enter "kernel/wireguard"; then
+if [ "$DOS_WIREGUARD_INCLUDED" = false ]; then rm Android.mk; fi;
+#Remove system information from HTTP requests
+awk -i inplace '!/USER_AGENT=/' fetch.sh;
+sed -i '3iUSER_AGENT="WireGuard-AndroidROMBuild/0.2"' fetch.sh;
+fi;
+
 enterAndClear "packages/apps/CMParts";
 rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of CMStats
 patch -p1 < "$DOS_PATCHES/android_packages_apps_CMParts/0001-Remove_Analytics.patch"; #Remove the rest of CMStats

@@ -65,6 +65,10 @@
 <!-- START OF ADDITIONAL REPOS -->
 	<!-- F-Droid -->
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
+
+	<!-- WireGuard -->
+	<remote name="zx2c4" fetch="https://git.zx2c4.com/" />
+	<project name="android_kernel_wireguard" path="kernel/wireguard" remote="zx2c4" revision="master" sync-s="true" />
 <!-- END OF ADDITIONAL REPOS -->
 
 <!-- START OF DEVICE REPOS -->

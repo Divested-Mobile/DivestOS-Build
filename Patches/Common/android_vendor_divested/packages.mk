@@ -22,7 +22,7 @@ PRODUCT_PACKAGES += \
     LocalCalendar
 
 # Notes
-# - Available (via PrebuiltApps submodule): K9Mail, NetMonitor, OpenKeychain, Orbot, Shelter, TalkBack, TorBrowser
+# - Available (via PrebuiltApps submodule): K9Mail, NetMonitor, OpenKeychain, Orbot, Shelter, TalkBack, TorBrowser, WireGuard
 # - Camera Choices: None (Camera2/Snap), OpenCamera
 # - Gallery Choices: None (AOSP/Lineage), CameraRoll, SimpleGallery
 # - K-9 Mail Will be included after 5.5xx release

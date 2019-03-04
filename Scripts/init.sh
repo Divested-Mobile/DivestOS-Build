@@ -38,6 +38,7 @@ export DOS_GPS_GLONASS_FORCED=true; #Enables GLONASS on all devices
 export DOS_MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
 export DOS_MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
 export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NLP, FULL
+export DOS_WIREGUARD_INCLUDED=false; #Switch to true to enable WireGuard kernel module inclusion
 export DOS_HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
 export DOS_HOSTS_BLOCKING_APP="DNS66"; #App installed when built-in blocking is disabled. Options: Blokada, DNS66
 export DOS_HOSTS_BLOCKING_LIST="https://divestos.xyz/hosts"; #Must be in the format "127.0.0.1 bad.domain.tld"
@@ -55,7 +56,7 @@ export DOS_BRANDING_BOOTANIMATION_COLOR="#FF5722-#03A9F4"; #plasma
 export DOS_BRANDING_LINK_ABOUT="https://divestos.xyz/index.php?page=about";
 export DOS_BRANDING_LINK_PRIVACY="https://divestos.xyz/index.php?page=privacy_policy";
 export DOS_BRANDING_SERVER_OTA="https://divestos.xyz/updater.php";
-export DOS_BRANDING_SERVER_OTA_ONION=$DOS_BRANDING_SERVER_OTA; #TODO: Setup Onion
+export DOS_BRANDING_SERVER_OTA_ONION=$DOS_BRANDING_SERVER_OTA;
 
 export DOS_THEME_50="FFCA28"; #Amber 400
 export DOS_THEME_100="FFC107"; #Amber 500
