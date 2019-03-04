@@ -27,7 +27,7 @@ index 74e81e4b5..782d87968 100644
          gid_t groups[] = { AID_READPROC };
          setgroups(arraysize(groups), groups);
 -        mount("sysfs", "/sys", "sysfs", 0, NULL);
-+        mount("sysfs", "/sys", "sysfs", MS_NOSUID|MS_NODEV|MS_NOEXE, NULL);
++        mount("sysfs", "/sys", "sysfs", MS_NOSUID|MS_NODEV|MS_NOEXEC, NULL);
          mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL);
  
          mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11));

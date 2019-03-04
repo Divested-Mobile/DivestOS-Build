@@ -59,8 +59,6 @@
 <!-- END OF BRANCH SWITCHING -->
 
 <!-- START OF ADDITIONAL REPOS -->
-	<project path="external/svox" name="platform/external/svox" groups="pdk" remote="aosp" revision="master" />
-
 	<!-- F-Droid -->
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
 

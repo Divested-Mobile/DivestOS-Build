@@ -48,9 +48,11 @@ export -f buildDeviceDebug;
 
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
-	brunch lineage_bacon-user;
-	brunch lineage_klte-user;
-	brunch lineage_shamu-user;
+	#userdebug because 16.0 is littered with neverallows
+	brunch lineage_bacon-userdebug;
+	brunch lineage_griffin-userdebug;
+	brunch lineage_klte-userdebug;
+	brunch lineage_shamu-userdebug;
 }
 export -f buildAll;
 
