@@ -67,7 +67,7 @@ sed -i 's/LOCAL_DEX_PREOPT := false/LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACK
 sed -i 's/LOCAL_DEX_PREOPT := false/LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)/' vendor/fdroid_prebuilt/Android.mk;
 
 enterAndClear "build";
-#patch -p1 < "$DOS_PATCHES/android_build/0001-Automated_Build_Signing.patch"; #Automated build signing (CopperheadOS-13.0) #TODO
+#patch -p1 < "$DOS_PATCHES/android_build/0001-Automated_Build_Signing.patch"; #Automated build signing (CopperheadOS-13.0) #TODO BACKPORT-11.0
 sed -i 's/Mms/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 sed -i '497i$(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/base_rules.mk;
 sed -i '80iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package.mk;
@@ -83,7 +83,7 @@ sed -i 's|db_default_journal_mode">PERSIST|db_default_journal_mode">TRUNCATE|' c
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0001-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0002-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
 changeDefaultDNS;
-#patch -p1 < "$DOS_PATCHES/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries #TODO
+#patch -p1 < "$DOS_PATCHES/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries #TODO BACKPORT-11.0
 
 enterAndClear "packages/apps/Dialer";
 rm -rf src/com/android/dialer/cmstats;
@@ -100,7 +100,7 @@ patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0001-Remove_Analytics.p
 
 
 enterAndClear "packages/apps/Trebuchet";
-#cp -r "$DOS_PATCHES_COMMON/android_packages_apps_Trebuchet/default_workspace/." "res/xml/"; #TODO
+#cp -r "$DOS_PATCHES_COMMON/android_packages_apps_Trebuchet/default_workspace/." "res/xml/"; #TODO BACKPORT-11.0
 sed -i 's/mCropView.setTouchEnabled(touchEnabled);/mCropView.setTouchEnabled(true);/' WallpaperPicker/src/com/android/launcher3/WallpaperCropActivity.java;
 
 enterAndClear "system/core";

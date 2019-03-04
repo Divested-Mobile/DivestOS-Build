@@ -69,7 +69,7 @@ patchWorkspace() {
 	source "$DOS_SCRIPTS/Defaults.sh";
 	source "$DOS_SCRIPTS/Rebrand.sh";
 	if [ "$DOS_OVERCLOCKS_ENABLED" = true ]; then source "$DOS_SCRIPTS_COMMON/Overclock.sh"; fi;
-	source "$DOS_SCRIPTS/Optimize.sh";
+	source "$DOS_SCRIPTS_COMMON/Optimize.sh";
 	source "$DOS_SCRIPTS_COMMON/Deblob.sh";
 	source "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
 	source build/envsetup.sh;
