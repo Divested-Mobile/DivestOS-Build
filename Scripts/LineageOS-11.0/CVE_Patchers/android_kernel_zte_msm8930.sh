@@ -1,5 +1,13 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/zte/msm8930"
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.4/3.4.0002-0003.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.4/3.4.0032-0033.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.4/3.4.0046-0047.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.4/3.4.0059-0060.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.4/3.4.0077-0078.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.4/3.4.0085-0086.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.4/3.4.0089-0090.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.4/3.4.0090-0091.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-Copperhead-Deny_USB/3.4/3.4-Backport.patch
@@ -9,9 +17,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6703/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6703/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6704/^3.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-2015/^3.8/0001.patch
-#git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-0196/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-1739/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-2523/^3.13/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-3153/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-3153/ANY/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-4323/ANY/0001.patch
@@ -22,7 +28,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-7970/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-8709/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9420/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9683/^3.18/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9715/^3.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9870/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9888/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9900/ANY/0001.patch
@@ -140,10 +145,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11832/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9389/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9416/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9516/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-after-free-for-hub-usb-device.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000111/ANY/0001.patch
-editKernelLocalversion "-dos.p145"
+editKernelLocalversion "-dos.p151"
 cd "$DOS_BUILD_BASE"

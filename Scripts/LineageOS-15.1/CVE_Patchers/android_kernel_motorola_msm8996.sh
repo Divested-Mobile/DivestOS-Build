@@ -1,5 +1,8 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/motorola/msm8996"
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0072-0073.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0098-0099.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0103-0104.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0019.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0021.patch
@@ -54,7 +57,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000410/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13215/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13218/3.18/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13305/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13307/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-14883/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15115/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15649/ANY/0002.patch
@@ -145,5 +147,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0610/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-14883/ANY/0001.patch
-editKernelLocalversion "-dos.p145"
+editKernelLocalversion "-dos.p147"
 cd "$DOS_BUILD_BASE"

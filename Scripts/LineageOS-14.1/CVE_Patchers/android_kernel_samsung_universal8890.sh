@@ -1,5 +1,8 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/samsung/universal8890"
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0072-0073.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0085-0086.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0103-0104.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0009.patch
@@ -90,7 +93,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13215/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13218/3.18/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13246/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13305/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13307/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15115/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15858/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15868/3.18/0003.patch
@@ -158,5 +160,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0007-USB-usbip-fix-potential-
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0008-nfsd-check-for-oversized-NFSv2-v3-arguments.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000111/ANY/0001.patch
-editKernelLocalversion "-dos.p158"
+editKernelLocalversion "-dos.p160"
 cd "$DOS_BUILD_BASE"

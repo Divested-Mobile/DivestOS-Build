@@ -1,5 +1,8 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/lge/msm8996"
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0032-0033.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0085-0086.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0103-0104.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0010.patch
@@ -38,7 +41,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-2041/^3.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-7515/^4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-9016/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10088/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2187/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2188/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2188/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2549/^4.4/0001.patch
@@ -184,5 +186,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6693/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0610/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p184"
+editKernelLocalversion "-dos.p186"
 cd "$DOS_BUILD_BASE"
