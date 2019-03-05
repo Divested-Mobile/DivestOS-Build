@@ -50,21 +50,21 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#Select devices are userdebug due to SELinux policy issues
 	brunch lineage_clark-user;
-	brunch lineage_thor-userdebug; #deprecated
-	brunch lineage_grouper-user; #deprecated and needs manual patching (one-repo vendor blob patch)
-	brunch lineage_h815-user; #deprecated
-	brunch lineage_herolte-user; #deprecated
-	brunch lineage_himaul-user; #deprecated
+	brunch lineage_thor-userdebug;
+	brunch lineage_grouper-user; #needs manual patching - one-repo vendor blob patch
+	brunch lineage_h815-user;
+	brunch lineage_herolte-user;
+	brunch lineage_himaul-user;
 	brunch lineage_i9100-userdebug;
-	brunch lineage_i9305-user; #deprecated?
+	brunch lineage_i9305-user;
 	brunch lineage_jfltexx-user;
-	brunch lineage_maguro-user; #deprecated
-	brunch lineage_manta-user; #deprecated
+	brunch lineage_maguro-user;
+	brunch lineage_manta-user;
 	brunch lineage_n5110-user;
 	brunch lineage_osprey-user;
-	#brunch lineage_toro-user; #deprecated
-	#brunch lineage_toroplus-user; #deprecated
-	brunch lineage_Z00T-user; #deprecated
+	#brunch lineage_toro-user;
+	#brunch lineage_toroplus-user;
+	brunch lineage_Z00T-user;
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
 	#brunch lineage_angler-user;
@@ -90,7 +90,7 @@ buildAll() {
 	#brunch lineage_shamu-user;
 	#brunch lineage_us996-user;
 	#brunch lineage_us997-user;
-	#brunch lineage_victara-user; #needs manual patching (fwb xml: fused: dangling tag)
+	#brunch lineage_victara-user; #needs manual patching - fwb xml: fused: dangling tag
 }
 export -f buildAll;
 
@@ -98,6 +98,8 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
 	source build/envsetup.sh;
 	repopick -it n_asb_09-2018-qcom;
+	repopick -i 243457;
+	repopick -it asb-2019.03-cm14;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
