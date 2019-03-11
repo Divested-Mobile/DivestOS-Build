@@ -48,12 +48,12 @@ export -f buildDeviceDebug;
 
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
-	#userdebug because 16.0 is littered with neverallows
+	#devices using legacy qcom sepolicy must be userdebug due to neverallows
 	brunch lineage_mako-userdebug;
 	brunch lineage_bacon-userdebug;
-	brunch lineage_griffin-userdebug;
+	brunch lineage_griffin-user;
 	brunch lineage_klte-userdebug;
-	brunch lineage_shamu-userdebug; #broken - needs synced proprietary-files.txt
+	brunch lineage_shamu-user; #broken - needs synced proprietary-files.txt
 }
 export -f buildAll;
 

@@ -169,6 +169,7 @@ if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_
 #
 enterAndClear "device/lge/mako";
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
+awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk;
 
 enterAndClear "device/oneplus/bacon";
 sed -i 's/android.hardware.nfc@1.0-impl/android.hardware.nfc@1.0-impl.so/' device-proprietary-files.txt;
@@ -192,6 +193,7 @@ find "kernel" -maxdepth 2 -mindepth 2 -type d -exec bash -c 'hardenDefconfig "$0
 cd "$DOS_BUILD_BASE";
 
 #Fix broken options enabled by hardenDefconfig()
+sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/lge/mako/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/motorola/msm8996/arch/arm64/configs/*_defconfig; #Breaks on compile
 #
 #END OF DEVICE CHANGES

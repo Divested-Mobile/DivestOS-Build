@@ -16,8 +16,8 @@ index 883048fb..d0a9def1 100644
  # No domains other than install_recovery or recovery can write to recovery.
  neverallow { domain -install_recovery -recovery } recovery_block_device:blk_file { write append };
  
-++# Select devices have policies prevented by the following neverallow
-++attribute misc_block_device_exception;
++# Select devices have policies prevented by the following neverallow
++attribute misc_block_device_exception;
 +
  # No domains other than a select few can access the misc_block_device. This
  # block device is reserved for OTA use.
