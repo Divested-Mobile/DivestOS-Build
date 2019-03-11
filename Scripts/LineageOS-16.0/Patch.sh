@@ -70,9 +70,6 @@ sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 enterAndClear "device/qcom/sepolicy-legacy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
 
-enterAndClear "external/svox";
-git revert 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
-
 enterAndClear "frameworks/base";
 hardenLocationFWB "$DOS_BUILD_BASE";
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
@@ -170,6 +167,9 @@ if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_
 #
 #START OF DEVICE CHANGES
 #
+enterAndClear "device/lge/mako";
+echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
+
 enterAndClear "device/oneplus/bacon";
 sed -i 's/android.hardware.nfc@1.0-impl/android.hardware.nfc@1.0-impl.so/' device-proprietary-files.txt;
 

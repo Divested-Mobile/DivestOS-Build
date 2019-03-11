@@ -69,7 +69,7 @@ buildAll() {
 	brunch lineage_marlin-user;
 	brunch lineage_mata-user;
 	brunch lineage_sailfish-user;
-	brunch lineage_shamu-user; #broken - needs synced proprietary-files.txt
+	brunch lineage_shamu-user;
 	brunch lineage_starlte-user; #broken - device/samsung/universal9810-common/audio: MODULE.TARGET.SHARED_LIBRARIES.libshim_audio_32 already defined by device/samsung/star-common/audio
 	brunch lineage_us996-user;
 	brunch lineage_us997-user;
@@ -83,7 +83,6 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	#repopick 219020; #ab-neverallow-user
 	repopick 241694 241695 241696 241697 241698 241699 241700 241701; #mako cves
-	repopick -it O_asb_2019-03;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

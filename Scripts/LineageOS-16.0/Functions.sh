@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_moto_shamu kernel_motorola_msm8996 kernel_oppo_msm8974 kernel_samsung_msm8974";
+	startPatcher "kernel_lge_mako kernel_moto_shamu kernel_motorola_msm8996 kernel_oppo_msm8974 kernel_samsung_msm8974";
 }
 export -f patchAllKernels;
 
@@ -49,6 +49,7 @@ export -f buildDeviceDebug;
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#userdebug because 16.0 is littered with neverallows
+	brunch lineage_mako-userdebug;
 	brunch lineage_bacon-userdebug;
 	brunch lineage_griffin-userdebug;
 	brunch lineage_klte-userdebug;

@@ -3,7 +3,7 @@
 	url = personal-lan-git:tad/dos/Wallpapers.git
 [submodule "Patches/Linux"]
 	path = Patches/Linux
-	url = personal-lan-git:tad/dos/Linux_Patches.git
+	url = git@gitlab.com:divested/kernel_patches.git
 [submodule "PrebuiltApps"]
 	path = PrebuiltApps
 	url = personal-lan-git:tad/dos/PrebuiltApps.git
