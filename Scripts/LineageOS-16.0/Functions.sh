@@ -48,11 +48,10 @@ export -f buildDeviceDebug;
 
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
-	#devices using legacy qcom sepolicy must be userdebug due to neverallows
-	brunch lineage_mako-userdebug;
-	brunch lineage_bacon-userdebug;
+	brunch lineage_mako-user;
+	brunch lineage_bacon-user;
 	brunch lineage_griffin-user;
-	brunch lineage_klte-userdebug;
+	brunch lineage_klte-user;
 	brunch lineage_shamu-user; #broken - needs synced proprietary-files.txt
 }
 export -f buildAll;
@@ -60,7 +59,8 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
+	repopick 244148;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
