@@ -48,9 +48,7 @@ export -f buildDeviceDebug;
 
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
-	brunch lineage_mako-user;
 	brunch lineage_d852-user;
-	brunch lineage_bacon-user;
 	brunch lineage_angler-user;
 	brunch lineage_bullhead-user;
 	brunch lineage_d802-user;
@@ -74,6 +72,10 @@ buildAll() {
 	brunch lineage_us996-user;
 	brunch lineage_us997-user;
 	brunch lineage_victara-user;
+
+	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
+	#brunch lineage_bacon-user;
+	#brunch lineage_mako-user;
 }
 export -f buildAll;
 
