@@ -26,6 +26,7 @@
 	<remove-project name="LineageOS/android_packages_apps_LockClock" />
 	<remove-project name="LineageOS/android_packages_apps_OpenWeatherMapProvider" />
 	<remove-project name="LineageOS/android_packages_apps_Stk" />
+	<remove-project name="LineageOS/android_packages_apps_StorageManager" />
 	<remove-project name="LineageOS/android_packages_apps_Terminal" />
 	<remove-project name="LineageOS/android_packages_apps_WundergroundWeatherProvider" />
 	<remove-project name="LineageOS/android_packages_apps_YahooWeatherProvider" />

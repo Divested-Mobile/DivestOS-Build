@@ -16,7 +16,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.alarm_alert=Alarm_Buzzer.ogg \
     keyguard.no_require_sim=true \
     ro.build.selinux=1 \
-    ro.storage_manager.enabled=true \
+    ro.storage_manager.enabled=false \
     ro.control_privapp_permissions=log
 
 #Copy extra files

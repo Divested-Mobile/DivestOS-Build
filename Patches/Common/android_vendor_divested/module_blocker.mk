@@ -30,6 +30,10 @@ LOCAL_OVERRIDES_PACKAGES := \
     libclearkeycasplugin \
     CtsShimPrebuilt \
     CtsShimPrivPrebuilt \
+    Traceur \
+    StorageManager \
+    PrintRecommendationService \
+    CompanionDeviceManager \
     MusicFX
 #    drmserver \
 #    libfwdlockengine \
