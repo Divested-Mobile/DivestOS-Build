@@ -1,9 +1,9 @@
 [submodule "Patches/DivestOS_Wallpapers"]
 	path = Patches/Wallpapers
-	url = personal-lan-git:tad/dos/Wallpapers.git
+	url = git@gitlab.com:divested/wallpapers.git
 [submodule "Patches/Linux"]
 	path = Patches/Linux
 	url = git@gitlab.com:divested/kernel_patches.git
 [submodule "PrebuiltApps"]
 	path = PrebuiltApps
-	url = personal-lan-git:tad/dos/PrebuiltApps.git
+	url = git@gitlab.com:divested/prebuilt_apps.git
