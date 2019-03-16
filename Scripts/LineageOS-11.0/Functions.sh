@@ -58,9 +58,9 @@ patchWorkspace() {
 	sed -i "s/'git', 'show', '-q'/'git', 'show'/" build/tools/repopick.py; #fix for old git versions
 	source build/envsetup.sh;
 	repopick -it asb-2018.09-cm11-qcom;
-	repopick -it cm.service.adb.root; #security fix for -userdebug
 	repopick -it asb-2019.02-cm11;
 	repopick -it asb-2019.03-cm11;
+	repopick -it 230054 230392; #asb disclaimer
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
