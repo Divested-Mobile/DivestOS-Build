@@ -71,7 +71,6 @@ enterAndClear "build";
 sed -i 's/Mms/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 sed -i '497i$(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/base_rules.mk;
 sed -i '80iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package.mk;
-sed -i 's/2018-08-01/2019-01-01/' build/core/version_defaults.mk; #XXX: dirty lies! (kinda)
 
 enterAndClear "external/sqlite";
 patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0)
@@ -136,9 +135,9 @@ echo "TARGET_DISPLAY_USE_RETIRE_FENCE := true" >> BoardConfig.mk;
 sed -i 's/libm libc/libm libc libutils/' charger/Android.mk;
 sed -i 's/ro.sf.lcd_density=240/ro.sf.lcd_density=180/' system.prop;
 awk -i inplace '!/WCNSS_qcom_wlan_nv_2.bin/' proprietary-files.txt; #Missing
+echo "lib/hw/camera.msm8960.so" >> proprietary-files.txt;
 #In nex-vendor-blobs.mk
-#	"system/lib/libtime_genoff.so" -> "obj/lib/libtime_genoff.so"
-#	Add "camera.msm8960.so"
+#	Copy "system/lib/libtime_genoff.so" as "obj/lib/libtime_genoff.so"
 
 enterAndClear "kernel/zte/msm8930"
 patch -p1 < "$DOS_PATCHES/android_kernel_zte_msm8930/0001-MDP-Fix.patch";

@@ -21,9 +21,12 @@
 echo "Optimizing...";
 
 enter "frameworks/base";
-sed -i 's/ScaleSetting = 1.0f;/ScaleSetting = 0.5f;/' services/core/java/com/android/server/wm/WindowManagerService.java;
-sed -i 's/AnimationScale = 1.0f;/AnimationScale = 0.5f;/' services/core/java/com/android/server/wm/WindowManagerService.java;
-sed -i 's/DurationnScale = 1.0f;/DurationScale = 0.5f;/' services/core/java/com/android/server/wm/WindowManagerService.java;
+sed -i 's/ScaleSetting = 1.0f;/ScaleSetting = 0.5f;/' services/java/com/android/server/wm/WindowManagerService.java &>/dev/null || true;
+sed -i 's/AnimationScale = 1.0f;/AnimationScale = 0.5f;/' services/java/com/android/server/wm/WindowManagerService.java &>/dev/null || true;
+sed -i 's/DurationnScale = 1.0f;/DurationScale = 0.5f;/' services/java/com/android/server/wm/WindowManagerService.java &>/dev/null || true;
+sed -i 's/ScaleSetting = 1.0f;/ScaleSetting = 0.5f;/' services/core/java/com/android/server/wm/WindowManagerService.java &>/dev/null || true;
+sed -i 's/AnimationScale = 1.0f;/AnimationScale = 0.5f;/' services/core/java/com/android/server/wm/WindowManagerService.java &>/dev/null || true;
+sed -i 's/DurationnScale = 1.0f;/DurationScale = 0.5f;/' services/core/java/com/android/server/wm/WindowManagerService.java &>/dev/null || true;
 #sed -i 's|||'
 
 enter "kernel"
