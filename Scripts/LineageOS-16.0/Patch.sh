@@ -178,10 +178,11 @@ if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_
 #START OF DEVICE CHANGES
 #
 enterAndClear "device/lge/mako";
+git revert 218f7442874f7b7d494f265286a2151e2f81bb6e 31a1cb251d5e35d8954cec6f373840f14ba96df9; #disable dexpreopt full and switch back to -mini
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
 echo "allow system_server sensors_data_file:dir search;" >> sepolicy/system_server.te; #Fix qcom_sensors log spam
 echo "allow system_server sensors_data_file:dir r_file_perms;" >> sepolicy/system_server.te;
-sed -i 's/1333788672/880803840/' BoardConfig.mk; #don't touch partitions! DOS -user fits with 70M free
+sed -i 's/1333788672/880803840/' BoardConfig.mk; #don't touch partitions! DOS -user fits with 60M free
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk;
 
 enterAndClear "device/oneplus/bacon";

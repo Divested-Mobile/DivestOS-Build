@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_lge_mako kernel_moto_shamu kernel_motorola_msm8996 kernel_oppo_msm8974 kernel_samsung_msm8974";
+	startPatcher "kernel_google_marlin kernel_lge_mako kernel_moto_shamu kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_msm8974";
 }
 export -f patchAllKernels;
 
@@ -50,8 +50,11 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	brunch lineage_mako-user;
 	brunch lineage_bacon-user;
+	brunch lineage_ether-user;
 	brunch lineage_griffin-user;
 	brunch lineage_klte-user;
+	brunch lineage_marlin-user;
+	brunch lineage_sailfish-user;
 	brunch lineage_shamu-user; #broken - needs synced proprietary-files.txt
 }
 export -f buildAll;

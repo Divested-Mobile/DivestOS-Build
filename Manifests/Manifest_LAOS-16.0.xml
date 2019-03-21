@@ -80,9 +80,18 @@
 	<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />
 	<project path="packages/apps/FlipFlap" name="LineageOS/android_packages_apps_FlipFlap" remote="github" />
 
+	<!-- Google Pixel (marlin/sailfish) -->
+	<project path="device/google/marlin" name="LineageOS/android_device_google_marlin" remote="github" />
+	<project path="device/google/sailfish" name="LineageOS/android_device_google_sailfish" remote="github" />
+	<project path="kernel/google/marlin" name="LineageOS/android_kernel_google_marlin" remote="github" />
+
 	<!-- Moto Z (griffin) -->
 	<project path="device/motorola/griffin" name="LineageOS/android_device_motorola_griffin" remote="github" />
 	<project path="kernel/motorola/msm8996" name="LineageOS/android_kernel_motorola_msm8996" remote="github" />
+
+	<!-- Nextbit Robin (ether) -->
+	<project path="device/nextbit/ether" name="LineageOS/android_device_nextbit_ether" remote="github" />
+	<project path="kernel/nextbit/msm8992" name="LineageOS/android_kernel_nextbit_msm8992" remote="github" />
 
         <!-- Nexus 4 (mako) -->
         <project path="device/lge/mako" name="voron00/android_device_lge_mako" remote="github" />
