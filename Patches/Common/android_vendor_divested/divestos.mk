@@ -16,8 +16,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.alarm_alert=Alarm_Buzzer.ogg \
     keyguard.no_require_sim=true \
     ro.build.selinux=1 \
-    ro.storage_manager.enabled=false \
-    ro.control_privapp_permissions=log
+    ro.storage_manager.enabled=false
+#    ro.control_privapp_permissions=log
+#    ro.control_privapp_permissions=enforce
 
 #Copy extra files
 PRODUCT_COPY_FILES += \
@@ -25,5 +26,6 @@ PRODUCT_COPY_FILES += \
     vendor/divested/prebuilts/etc/permissions_org.fdroid.fdroid.privileged.xml:system/etc/permissions/permissions_org.fdroid.fdroid.privileged.xml
 
 #Include packages
-#PRODUCT_PACKAGES += ModuleBlocker
+PRODUCT_PACKAGES += BlobBlocker
+PRODUCT_PACKAGES += ModuleBlocker
 include vendor/divested/packages.mk

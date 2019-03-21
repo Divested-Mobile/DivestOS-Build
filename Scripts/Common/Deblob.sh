@@ -116,7 +116,7 @@ echo "Deblobbing..."
 	sepolicy=$sepolicy" hal_drm_default.te hal_drm.te hal_drm_widevine.te";
 
 	#eMBMS [Qualcomm]
-	blobs=$blobs"|embms.apk";
+	blobs=$blobs"|embms.apk|embmslibrary.jar";
 
 	#External Accessories
 	if [ "$DOS_DEBLOBBER_REMOVE_ACCESSORIES" = true ]; then
@@ -180,7 +180,7 @@ echo "Deblobbing..."
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
 	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so"; #IMS
-	blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|vendor.qti.imsrtpservice.*.so"; #RTP
+	blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|vendor.qti.imsrtpservice.*"; #RTP
 	blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so|qti_permissions.xml"; #Misc.
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then #IMS (Core) (To support carriers that have phased out 2G)
 		blobs=$blobs"|ims.apk|ims.xml|libimsmedia_jni.so";
@@ -254,7 +254,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|libQtiTether.so|QtiTetherService.apk";
 
 	#RCS (Proprietary messaging protocol)
-	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk|CarrierServices.apk"; #RCS
+	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk|CarrierServices.apk|vendor.qti.ims.rcsconfig.*"; #RCS
 	makes=$makes"|rcs_service.*";
 	ipcSec=$ipcSec"|18:4294967295:1001:3004";
 
@@ -268,7 +268,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureExtAuthJNI.so|libSecureSampleAuthClient.so|libsdedrm.so";
 
 	#[Sprint]
-	blobs=$blobs"|com.android.omadm.service.xml|ConnMO.apk|CQATest.apk|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|GCS.apk|HiddenMenu.apk|libdmengine.so|libdmjavaplugin.so|LifetimeData.apk|SprintDM.apk|SprintHM.apk|whitelist_com.android.omadm.service.xml|LifeTimerService.apk|SDM.apk|SecPhone.apk|SprintMenu.apk";
+	blobs=$blobs"|com.android.omadm.service.xml|ConnMO.apk|CQATest.apk|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|GCS.apk|HiddenMenu.apk|libdmengine.so|libdmjavaplugin.so|LifetimeData.apk|SprintDM.apk|SprintHM.apk|whitelist_com.android.omadm.service.xml|LifeTimerService.apk|SDM.apk|SecPhone.apk|SprintMenu.apk|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml";
 	ipcSec=$ipcSec"|238:4294967295:1001:3004";
 
 	#SyncML
@@ -451,6 +451,7 @@ deblobDevice() {
 	rm -rf board/qcom-wipower.mk product/qcom-wipower.mk; #Remove WiPower makefiles
 	awk -i inplace '!/'$ipcSec'/' configs/sec_config &>/dev/null || true; #Remove all IPC security exceptions from sec_config
 	awk -i inplace '!/'$blobs'/' ./*proprietary*.txt &>/dev/null || true; #Remove all blob references from blob manifest
+	awk -i inplace '!/'$blobs'/' ./*/*proprietary*.txt &>/dev/null || true; #Remove all blob references from blob manifest location in subdirectory
 	if [ -f setup-makefiles.sh ]; then
 		bash -c "cd $DOS_BUILD_BASE$devicePath && ./setup-makefiles.sh"; #Update the makefiles
 	fi;

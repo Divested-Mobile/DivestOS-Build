@@ -60,10 +60,8 @@ buildAll() {
 	brunch lineage_fugu-user;
 	brunch lineage_h850-user;
 	brunch lineage_hammerhead-user;
-	brunch lineage_klte-user; #broken
 	brunch lineage_m8-user;
 	brunch lineage_mata-user;
-	brunch lineage_shamu-user;
 	brunch lineage_starlte-user; #broken - device/samsung/universal9810-common/audio: MODULE.TARGET.SHARED_LIBRARIES.libshim_audio_32 already defined by device/samsung/star-common/audio
 	brunch lineage_us996-user;
 	brunch lineage_us997-user;
@@ -73,9 +71,11 @@ buildAll() {
 	#brunch lineage_bacon-user;
 	#brunch lineage_ether-user;
 	#brunch lineage_griffin-user;
+	#brunch lineage_klte-user;
 	#brunch lineage_mako-user;
 	#brunch lineage_marlin-user;
 	#brunch lineage_sailfish-user;
+	#brunch lineage_shamu-user;
 }
 export -f buildAll;
 

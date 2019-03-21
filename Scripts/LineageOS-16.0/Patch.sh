@@ -152,6 +152,7 @@ if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/h
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0)
 
 enterAndClear "system/sepolicy";
+git revert 4c9031e4e2f45db3531d0bc602b2d9c9407a2d16; #neverallow
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices
 awk -i inplace '!/true cannot be used in user builds/' Android.mk; #Allow ignoring neverallows under -user
 
@@ -182,7 +183,7 @@ git revert 218f7442874f7b7d494f265286a2151e2f81bb6e 31a1cb251d5e35d8954cec6f3738
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
 echo "allow system_server sensors_data_file:dir search;" >> sepolicy/system_server.te; #Fix qcom_sensors log spam
 echo "allow system_server sensors_data_file:dir r_file_perms;" >> sepolicy/system_server.te;
-sed -i 's/1333788672/880803840/' BoardConfig.mk; #don't touch partitions! DOS -user fits with 60M free
+sed -i 's/1333788672/880803840/' BoardConfig.mk; #don't touch partitions! DOS -user fits with 75M free
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk;
 
 enterAndClear "device/oneplus/bacon";
