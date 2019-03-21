@@ -50,10 +50,10 @@ echo "Deblobbing..."
 	blobs=$blobs"alipay.*";
 
 	#aptX (Bluetooth Audio Compression Codec) [Qualcomm]
-	blobs=$blobs"|.*aptX.*";
+	blobs=$blobs"|.*aptX.*|aptxui.apk";
 
 	#AT Command Handling/Forwarding (See: https://atcommands.org)
-	blobs=$blobs"|bin[/]atd|ATFWD-daemon|atfwd.apk|drexe|log_serial_arm|at_distributor|connfwexe";
+	blobs=$blobs"|bin[/]atd|ATFWD-daemon|atfwd.apk|drexe|log_serial_arm|at_distributor|connfwexe|OBDM_Permissions.apk";
 	sepolicy=$sepolicy" atfwd.te";
 
 	#AudioFX (Audio Effects) [Qualcomm]
@@ -94,7 +94,7 @@ echo "Deblobbing..."
 	makes=$makes"|DxHDCP.cfg";
 
 	#Display Color Tuning [Qualcomm]
-	blobs=$blobs"|colorservice.apk|com.qti.snapdragon.sdk.display.jar|com.qti.snapdragon.sdk.display.xml|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|mm-pp-daemon|mm-pp-dpps|PPPreference.apk";
+	blobs=$blobs"|colorservice.apk|com.qti.snapdragon.sdk.display.jar|com.qti.snapdragon.sdk.display.xml|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|mm-pp-daemon|mm-pp-dpps|PPPreference.apk|CABLService.apk";
 
 	#DivX (DRM) [DivX]
 	blobs=$blobs"|libDivxDrm.so|libSHIMDivxDrm.so";
@@ -115,11 +115,15 @@ echo "Deblobbing..."
 	#sepolicy=$sepolicy" drmserver.te mediadrmserver.te";
 	sepolicy=$sepolicy" hal_drm_default.te hal_drm.te hal_drm_widevine.te";
 
+	#eMBMS [Qualcomm]
+	blobs=$blobs"|embms.apk";
+
 	#External Accessories
 	if [ "$DOS_DEBLOBBER_REMOVE_ACCESSORIES" = true ]; then
 		blobs=$blobs"|DragonKeyboardFirmwareUpdater.apk"; #dragon
 		blobs=$blobs"|ProjectorApp.apk|projectormod.xml|motorola.hardware.mods_camera.*|libcamera_mods_legacy_hal.so|mods_camd|MotCameraMod.apk|ModFmwkProxyService.apk|ModService.apk|libmodmanager.*.so|com.motorola.mod.*.so|libmodhw.so|com.motorola.modservice.xml"; #griffin
 		blobs=$blobs"|[/]Score[/]|[/]Klik[/]|vendor.essential.hardware.sidecar.*|vendor-essential-hardware-sidecar.xml"; #mata
+		blobs=$blobs"|DTVPlayer.apk|DTVService.apk"; #albus
 	fi;
 
 	#Face Unlock [Google]
@@ -146,11 +150,17 @@ echo "Deblobbing..."
 		makes=$makes"|android.hardware.biometrics.fingerprint.*|android.hardware.fingerprint.*";
 	fi;
 
+	#FM Radio [Google]
+	blobs=$blobs"|FMRadioGoogle.apk|FmRadioTrampoline2.apk";
+
 	#Google Camera
 	blobs=$blobs"|com.google.android.camera.*";
 
 	#Google TV
-	blobs=$blobs"|LeanbackIme.apk|LeanbackLauncher.apk|AtvRemoteService.apk|GamepadPairingService.apk|GlobalKeyInterceptor.apk|RemoteControlService.apk|TV.apk";
+	blobs=$blobs"|LeanbackIme.apk|LeanbackLauncher.apk|AtvRemoteService.apk|GamepadPairingService.apk|GlobalKeyInterceptor.apk|RemoteControlService.apk|TV.apk|CanvasPackageInstaller.apk|Overscan.apk";
+
+	#[Huawei]
+	blobs=$blobs"|HWSarControlService.apk";
 
 	#HDCP (DRM)
 	blobs=$blobs"|libmm-hdcpmgr.so|libstagefright_hdcp.so|libhdcp2.so|srm.bin|insthk";
@@ -210,8 +220,11 @@ echo "Deblobbing..."
 	#Misc
 	blobs=$blobs"|libjni_latinime.so|libuiblur.so|libwifiscanner.so";
 
+	#Misc [Google]
+	blobs=$blobs"|EaselServicePrebuilt.apk";
+
 	#[Motorola]
-	blobs=$blobs"|AppDirectedSMSProxy.apk|BuaContactAdapter.apk|batt_health|com.motorola.DirectedSMSProxy.xml|com.motorola.motosignature.jar|com.motorola.motosignature.xml|com.motorola.camera.xml|com.motorola.gallery.xml|com.motorola.msimsettings.xml|com.motorola.triggerenroll.xml|MotoDisplayFWProxy.apk|MotoSignatureApp.apk|TriggerEnroll.apk|TriggerTrainingService.apk";
+	blobs=$blobs"|AppDirectedSMSProxy.apk|BuaContactAdapter.apk|batt_health|com.motorola.DirectedSMSProxy.xml|com.motorola.motosignature.jar|com.motorola.motosignature.xml|com.motorola.camera.xml|com.motorola.gallery.xml|com.motorola.msimsettings.xml|com.motorola.triggerenroll.xml|MotoDisplayFWProxy.apk|MotoSignatureApp.apk|TriggerEnroll.apk|TriggerTrainingService.apk|EasyAccessService.apk";
 	makes=$makes"|com.motorola.cameraone.xml";
 
 	#Performance [Qualcomm]
@@ -219,6 +232,7 @@ echo "Deblobbing..."
 	#Devices utilizing perfd won't hotplug cores without it
 	#Attempted to replace this with showp1984's msm_mpdecision, but the newer kernels simply don't have the mach_msm dependencies that are needed
 	#blobs=$blobs"|mpdecision|libqti-perfd.*.so|perfd|perf-profile.*.conf|vendor.qti.hardware.perf.*";
+	blobs=$blobs"|Perfdump.apk";
 
 	#Peripheral Manager
 	#blobs=$blobs"|libperipheral_client.so|libspcom.so|pm-proxy|pm-service|spdaemon";
@@ -234,15 +248,18 @@ echo "Deblobbing..."
 	blobs=$blobs"|Tycho.apk";
 
 	#Quickboot [Qualcomm]
-	blobs=$blobs"|QuickBoot.apk";
+	blobs=$blobs"|QuickBoot.apk|PowerOffAlarm.apk";
 
 	#QTI (Tethering Extensions) [Qualcomm]
 	blobs=$blobs"|libQtiTether.so|QtiTetherService.apk";
 
 	#RCS (Proprietary messaging protocol)
-	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk"; #RCS
+	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk|CarrierServices.apk"; #RCS
 	makes=$makes"|rcs_service.*";
 	ipcSec=$ipcSec"|18:4294967295:1001:3004";
+
+	#[Samsung]
+	blobs=$blobs"|SystemUpdateUI.apk";
 
 	#SecProtect [Qualcomm]
 	blobs=$blobs"|SecProtect.apk";
@@ -251,7 +268,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureExtAuthJNI.so|libSecureSampleAuthClient.so|libsdedrm.so";
 
 	#[Sprint]
-	blobs=$blobs"|com.android.omadm.service.xml|ConnMO.apk|CQATest.apk|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|GCS.apk|HiddenMenu.apk|libdmengine.so|libdmjavaplugin.so|LifetimeData.apk|SprintDM.apk|SprintHM.apk|whitelist_com.android.omadm.service.xml|LifeTimerService.apk|SDM.apk|SecPhone.apk";
+	blobs=$blobs"|com.android.omadm.service.xml|ConnMO.apk|CQATest.apk|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|GCS.apk|HiddenMenu.apk|libdmengine.so|libdmjavaplugin.so|LifetimeData.apk|SprintDM.apk|SprintHM.apk|whitelist_com.android.omadm.service.xml|LifeTimerService.apk|SDM.apk|SecPhone.apk|SprintMenu.apk";
 	ipcSec=$ipcSec"|238:4294967295:1001:3004";
 
 	#SyncML
@@ -272,7 +289,7 @@ echo "Deblobbing..."
 	#blobs=$blobs"|venus.b00|venus.b01|venus.b02|venus.b03|venus.b04|venus.mbn|venus.mdt";
 
 	#[Verizon]
-	blobs=$blobs"|appdirectedsmspermission.apk|com.qualcomm.location.vzw_library.jar|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.jar|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.jar|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|VerizonSSOEngine.apk|VerizonUnifiedSettings.jar|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml|VerizonAuthDialog.apk|com.vzw.hardware.lte.xml|com.vzw.hardware.ehrpd.xml";
+	blobs=$blobs"|appdirectedsmspermission.apk|com.qualcomm.location.vzw_library.jar|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.jar|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.jar|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|VerizonSSOEngine.apk|VerizonUnifiedSettings.jar|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml|VerizonAuthDialog.apk|com.vzw.hardware.lte.xml|com.vzw.hardware.ehrpd.xml|MyVerizonServices.apk|WfcActivation.apk|obdm_stub.apk";
 
 	#Voice Recognition
 	blobs=$blobs"|aonvr1.bin|aonvr2.bin|audiomonitor|es305_fw.bin|HotwordEnrollment.apk|HotwordEnrollment.*.apk|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|libqvop-service.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|qvop-daemon|sound_trigger.primary.*.so|libgcs.*.so|vendor.qti.voiceprint.*";

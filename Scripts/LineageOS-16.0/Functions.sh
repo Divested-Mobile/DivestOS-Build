@@ -61,7 +61,6 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick 244148; #log spam fix
-	repopick 244499; #fix missing nav bar after switching users
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
