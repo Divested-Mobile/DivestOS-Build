@@ -53,7 +53,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|.*aptX.*|aptxui.apk";
 
 	#AT Command Handling/Forwarding (See: https://atcommands.org)
-	blobs=$blobs"|bin[/]atd|ATFWD-daemon|atfwd.apk|drexe|log_serial_arm|at_distributor|connfwexe|OBDM_Permissions.apk";
+	blobs=$blobs"|bin[/]atd|ATFWD-daemon|atfwd.apk|vendor.qti.atcmdfwd.*|drexe|log_serial_arm|at_distributor|connfwexe|OBDM_Permissions.apk";
 	sepolicy=$sepolicy" atfwd.te";
 
 	#AudioFX (Audio Effects) [Qualcomm]
@@ -179,7 +179,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|bin[/]iop|libqti-iop.*.so|QPerformance.jar|vendor.qti.hardware.iop.*";
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
-	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so"; #IMS
+	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|lib-imsvideocodec.so|lib-imsvtextutils.so|lib-imsvtutils.so"; #IMS
 	blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|vendor.qti.imsrtpservice.*"; #RTP
 	blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so|qti_permissions.xml"; #Misc.
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then #IMS (Core) (To support carriers that have phased out 2G)
@@ -244,6 +244,9 @@ echo "Deblobbing..."
 	blobs=$blobs"|libtzplayready.so"
 	blobs=$blobs"|playread.*";
 
+	#Power [Google]
+	blobs=$blobs"|LowPowerMonitorDevice.*.jar|PowerAnomaly.*.jar";
+
 	#Project Fi [Google]
 	blobs=$blobs"|Tycho.apk";
 
@@ -252,6 +255,9 @@ echo "Deblobbing..."
 
 	#QTI (Tethering Extensions) [Qualcomm]
 	blobs=$blobs"|libQtiTether.so|QtiTetherService.apk";
+
+	#RIL [Qualcomm]
+	blobs=$blobs"|Asdiv.apk";
 
 	#RCS (Proprietary messaging protocol)
 	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk|CarrierServices.apk|vendor.qti.ims.rcsconfig.*"; #RCS
@@ -289,7 +295,7 @@ echo "Deblobbing..."
 	#blobs=$blobs"|venus.b00|venus.b01|venus.b02|venus.b03|venus.b04|venus.mbn|venus.mdt";
 
 	#[Verizon]
-	blobs=$blobs"|appdirectedsmspermission.apk|com.qualcomm.location.vzw_library.jar|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.jar|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.jar|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|VerizonSSOEngine.apk|VerizonUnifiedSettings.jar|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml|VerizonAuthDialog.apk|com.vzw.hardware.lte.xml|com.vzw.hardware.ehrpd.xml|MyVerizonServices.apk|WfcActivation.apk|obdm_stub.apk";
+	blobs=$blobs"|appdirectedsmspermission.apk|com.qualcomm.location.vzw_library.jar|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.jar|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.jar|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|VerizonSSOEngine.apk|VerizonUnifiedSettings.jar|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml|VerizonAuthDialog.apk|com.vzw.hardware.lte.xml|com.vzw.hardware.ehrpd.xml|MyVerizonServices.apk|WfcActivation.apk|obdm_stub.apk|libmotricity.so|com.verizon.services.xml|features-verizon.xml|CarrierSetup.apk|OemDmTrigger.apk|com.android.vzwomatrigger.xml|vzw_mvs_permissions.xml|obdm_permissions.xml";
 
 	#Voice Recognition
 	blobs=$blobs"|aonvr1.bin|aonvr2.bin|audiomonitor|es305_fw.bin|HotwordEnrollment.apk|HotwordEnrollment.*.apk|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|libqvop-service.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|qvop-daemon|sound_trigger.primary.*.so|libgcs.*.so|vendor.qti.voiceprint.*";

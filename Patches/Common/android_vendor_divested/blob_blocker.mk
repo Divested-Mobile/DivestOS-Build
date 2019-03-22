@@ -12,12 +12,14 @@ LOCAL_OVERRIDES_PACKAGES := \
     AppDirectedSMSProxy \
     ApplicationBar \
     aptxui \
+    Asdiv \
     atfwd \
     AtvRemoteService \
     BuaContactAdapter \
     CABLService \
     CanvasPackageInstaller \
     CarrierServices \
+    CarrierSetup \
     CNEService \
     colorservice \
     ConnMO \
@@ -56,6 +58,7 @@ LOCAL_OVERRIDES_PACKAGES := \
     MyVerizonServices \
     OBDM_Permissions \
     obdm_stub \
+    OemDmTrigger \
     Overscan \
     Perfdump \
     PowerOffAlarm \
