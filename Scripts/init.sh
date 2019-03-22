@@ -23,6 +23,7 @@ export DOS_SIGNING_KEYS=$DOS_WORKSPACE_ROOT"Signing_Keys";
 #export DOS_BINARY_PATCHER="";
 #export DOS_TOR_WRAPPER="torsocks"; #Uncomment to perform select build operations over Tor
 
+export DOS_BUILDALL_SUPERSEDED=false; #Set true to build superseded devices when running buildAll()
 export DOS_DEBLOBBER_REMOVE_ACCESSORIES=true; #Set false to allow use of external accessories
 export DOS_DEBLOBBER_REMOVE_AUDIOFX=true; #Set true to remove AudioFX
 export DOS_DEBLOBBER_REMOVE_GRAPHICS=false; #Set true to remove all graphics blobs and use SwiftShader CPU renderer

@@ -68,14 +68,16 @@ buildAll() {
 	brunch lineage_victara-user;
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
-	#brunch lineage_bacon-user;
-	#brunch lineage_ether-user;
-	#brunch lineage_griffin-user;
-	#brunch lineage_klte-user;
-	#brunch lineage_mako-user;
-	#brunch lineage_marlin-user;
-	#brunch lineage_sailfish-user;
-	#brunch lineage_shamu-user;
+	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
+		brunch lineage_bacon-user;
+		brunch lineage_ether-user;
+		brunch lineage_griffin-user;
+		brunch lineage_klte-user;
+		brunch lineage_mako-user;
+		brunch lineage_marlin-user;
+		brunch lineage_sailfish-user;
+		brunch lineage_shamu-user;
+	fi;
 }
 export -f buildAll;
 

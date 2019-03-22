@@ -67,30 +67,32 @@ buildAll() {
 	brunch lineage_Z00T-user;
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
-	#brunch lineage_angler-user;
-	#brunch lineage_bullhead-user;
-	#brunch lineage_bacon-user;
-	#brunch lineage_d802-user;
-	#brunch lineage_d852-user;
-	#brunch lineage_d855-user;
-	#brunch lineage_dragon-user;
-	#brunch lineage_ether-user;
-	#brunch lineage_flo-user;
-	#brunch lineage_flounder-user;
-	#brunch lineage_FP2-user;
-	#brunch lineage_fugu-user;
-	#brunch lineage_griffin-user;
-	#brunch lineage_h850-user;
-	#brunch lineage_hammerhead-user;
-	#brunch lineage_klte-user;
-	#brunch lineage_m8-user;
-	#brunch lineage_mako-user;
-	#brunch lineage_marlin-user;
-	#brunch lineage_sailfish-user;
-	#brunch lineage_shamu-user;
-	#brunch lineage_us996-user;
-	#brunch lineage_us997-user;
-	#brunch lineage_victara-user; #needs manual patching - fwb xml: fused: dangling tag
+	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
+		brunch lineage_angler-user;
+		brunch lineage_bullhead-user;
+		brunch lineage_bacon-user;
+		brunch lineage_d802-user;
+		brunch lineage_d852-user;
+		brunch lineage_d855-user;
+		brunch lineage_dragon-user;
+		brunch lineage_ether-user;
+		brunch lineage_flo-user;
+		brunch lineage_flounder-user;
+		brunch lineage_FP2-user;
+		brunch lineage_fugu-user;
+		brunch lineage_griffin-user;
+		brunch lineage_h850-user;
+		brunch lineage_hammerhead-user;
+		brunch lineage_klte-user;
+		brunch lineage_m8-user;
+		brunch lineage_mako-user;
+		brunch lineage_marlin-user;
+		brunch lineage_sailfish-user;
+		brunch lineage_shamu-user;
+		brunch lineage_us996-user;
+		brunch lineage_us997-user;
+		brunch lineage_victara-user; #needs manual patching - fwb xml: fused: dangling tag
+	fi;
 }
 export -f buildAll;
 
