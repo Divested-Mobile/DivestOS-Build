@@ -19,13 +19,6 @@
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
 #TODO: Clean init*.rc files, Modularize, Remove more variants
 
-#
-#Device Status (Tested under LineageOS 14.1 and 15.1)
-#
-#Functioning as Expected: bacon, clark, d852, grouper, mako, marlin, thor
-#Partially working:
-#Not booting:
-
 echo "Deblobbing..."
 
 #
@@ -39,8 +32,9 @@ echo "Deblobbing..."
 	kernels=""; #Delimited using " "
 	sepolicy="";
 
-	#ACDB (Audio Configurations) [Qualcomm] XXX: Breaks audio output
-	#blobs=$blobs"acdb";
+	#ACDB (Audio Calibration DataBase) [Qualcomm] XXX: Breaks audio output
+	#blobs=$blobs".*.acdb|florida.*.bin"; #databases
+	#blobs=$blobs"|libacdb.*.so|libaditrtac.so|libaudcal.so"; #loaders
 
 	#ADSP/Hexagon (Hardware Digital Signal Processor) [Qualcomm]
 	#blobs=$blobs"[/]adsp[/]|.*adspd.*|.*adsprpc.*|libfastcvadsp_stub.so|libfastcvopt.so|libadsp.*.so|libscve.*.so";
@@ -141,13 +135,19 @@ echo "Deblobbing..."
 		blobs=$blobs"|libadreno_utils.so"; #Adreno
 		blobs=$blobs"|libllvm.*.so"; #LLVM
 		blobs=$blobs"|libOpenCL.*.so|libclcore_nvidia.bc"; #OpenCL
-		blobs=$blobs"|librs.*.so|libRSDriver.*.so|libnvRSCompiler.so|libnvRSDriver.so"; #RenderScript
 		blobs=$blobs"|vulkan.*.so"; #Vulkan
+		makes=$makes"|android.hardware.vulkan.*|libvulkan";
+	fi;
+	if [ "$DOS_DEBLOBBER_REMOVE_RENDERSCRIPT" = true ] || [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
+		blobs=$blobs"|android.hardware.renderscript.*";
+		blobs=$blobs"|librs.*.so|libRSDriver.*.so|libnvRSCompiler.so|libnvRSDriver.so"; #Adreno
+		blobs=$blobs"|libPVRRS.*.so|libufwriter.so"; #Intel
+		makes=$makes"|android.hardware.renderscript.*";
 	fi;
 
 	#Fingerprint Reader
 	if [ "$DOS_DEBLOBBER_REMOVE_FP" = true ]; then
-		blobs=$blobs"|android.hardware.biometrics.fingerprint.*|fingerprint.*.so|fpc_early_loader|fpctzappfingerprint.*|libbauthserver.so|libcom_fingerprints_service.so|libegis_fp_normal_sensor_test.so|lib_fpc_tac_shared.so|libfpfactory_jni.so|libfpfactory.so|libsynaFpSensorTestNwd.so";
+		blobs=$blobs"|android.hardware.biometrics.fingerprint.*|fingerprint.*.so|fpc_early_loader|fpctzappfingerprint.*|libbauthserver.so|libcom_fingerprints_service.so|libegis_fp_normal_sensor_test.so|lib_fpc_tac_shared.so|libfpfactory.*.so|libsynaFpSensorTestNwd.so";
 		makes=$makes"|android.hardware.biometrics.fingerprint.*|android.hardware.fingerprint.*";
 	fi;
 
@@ -231,7 +231,6 @@ echo "Deblobbing..."
 	#Performance [Qualcomm]
 	#blobs=$blobs"|msm_irqbalance";
 	#Devices utilizing perfd won't hotplug cores without it
-	#Attempted to replace this with showp1984's msm_mpdecision, but the newer kernels simply don't have the mach_msm dependencies that are needed
 	#blobs=$blobs"|mpdecision|libqti-perfd.*.so|perfd|perf-profile.*.conf|vendor.qti.hardware.perf.*";
 	blobs=$blobs"|Perfdump.apk";
 
@@ -353,8 +352,10 @@ deblobDevice() {
 		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
 			#sed -i 's/USE_OPENGL_RENDERER := true/USE_OPENGL_RENDERER := false/' BoardConfig.mk;
 			#if ! grep -q "USE_OPENGL_RENDERER := false" BoardConfig.mk; then echo "USE_OPENGL_RENDERER := false" >> BoardConfig.mk; fi;
-			awk -i inplace '!/RS_DRIVER/' BoardConfig.mk;
 			if ! grep -q "USE_OPENGL_RENDERER := true" BoardConfig.mk; then echo "USE_OPENGL_RENDERER := true" >> BoardConfig.mk; fi;
+		fi;
+		if [ "$DOS_DEBLOBBER_REMOVE_RENDERSCRIPT" = true ] || [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
+			awk -i inplace '!/RS_DRIVER/' BoardConfig.mk;
 		fi;
 	fi;
 	if [ -f device.mk ]; then
@@ -366,8 +367,11 @@ deblobDevice() {
 			echo "PRODUCT_PACKAGES += libyuv libEGL_swiftshader libGLESv1_CM_swiftshader libGLESv2_swiftshader" >> device.mk; #Build SwiftShader
 		fi;
 	fi;
+	baseDirTmp=${PWD##*/};
+	suffixTmp="-common";
 	if [ -f "${PWD##*/}".mk ] && [ "${PWD##*/}".mk != "sepolicy" ]; then
 		awk -i inplace '!/'"$makes"'/' "${PWD##*/}".mk; #Remove references from device makefile
+		awk -i inplace '!/'"$makes"'/' "${baseDirTmp%"$suffixTmp"}".mk; #Remove references from device makefile
 		if [ -z "$replaceTime" ]; then
 			echo "PRODUCT_PACKAGES += timekeep TimeKeep" >> "${PWD##*/}".mk; #Switch to Sony TimeKeep
 		fi;

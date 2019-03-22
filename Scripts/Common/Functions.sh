@@ -396,7 +396,7 @@ hardenDefconfig() {
 	if [[ "$1" != *"kernel/htc/msm8994"* ]] && [[ "$1" != *"kernel/samsung/smdk4412"* ]] && [[ "$1" != *"kernel/htc/flounder"* ]]; then
 		optionsNo+=("CONFIG_DIAG_CHAR" "CONFIG_DIAG_OVER_USB" "CONFIG_USB_QCOM_DIAG_BRIDGE" "CONFIG_DIAGFWD_BRIDGE_CODE" "CONFIG_DIAG_SDIO_PIPE" "CONFIG_DIAG_HSIC_PIPE");
 	fi;
-	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then optionsNo+=("CONFIG_IPA"); fi;
+	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then optionsNo+=("CONFIG_IPA" "CONFIG_RMNET_IPA"); fi;
 	for option in "${optionsNo[@]}"
 	do
 		sed -i 's/'"$option"'=y/# '"$option"' is not set/' $defconfigPath &>/dev/null || true;
