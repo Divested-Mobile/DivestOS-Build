@@ -41,19 +41,23 @@ echo "Deblobbing..."
 	#sepolicy=$sepolicy" adspd.te adsprpcd.te";
 
 	#Alipay (Payment Platform) [Alibaba]
-	blobs=$blobs"alipay.*";
+	blobs=$blobs"alipay.*|ifaadaemon|ifaadaemonProxy";
+
+	#AIV (DRM) [Amazon]
+	blobs=$blobs"|libaivdrmclient.so|libAivPlay.so";
 
 	#aptX (Bluetooth Audio Compression Codec) [Qualcomm]
-	blobs=$blobs"|.*aptX.*|aptxui.apk";
+	blobs=$blobs"|.*aptX.*|aptxui.apk|libbt-aptx.*.so";
 
 	#AT Command Handling/Forwarding (See: https://atcommands.org)
 	blobs=$blobs"|bin[/]atd|ATFWD-daemon|atfwd.apk|vendor.qti.atcmdfwd.*|drexe|log_serial_arm|at_distributor|connfwexe|OBDM_Permissions.apk";
 	sepolicy=$sepolicy" atfwd.te";
 
-	#AudioFX (Audio Effects) [Qualcomm]
+	#AudioFX (Audio Effects)
 	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
-		blobs=$blobs"|fmas_eq.dat|libasphere.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libqcbassboost.so|libqcreverb.so|libqcvirt.so|libreverbwrapper.so|libshoebox.so|libspeakerbundle.so|libvisualizer.so|libvolumelistener.so|libLifevibes_lvverx.so|libhwdap.so|libsonypostprocbundle.so|libsonysweffect.so";
+		blobs=$blobs"|fmas_eq.dat|libasphere.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libqcbassboost.so|libqcreverb.so|libqcvirt.so|libreverbwrapper.so|libshoebox.so|libspeakerbundle.so|libvisualizer.so|libvolumelistener.so|libLifevibes_lvverx.so|libhwdap.so|libsonypostprocbundle.so|libsonysweffect.so"; #Qualcomm
 		#blobs=$blobs"|libbundlewrapper.so|libqcompostprocbundle.so|libqcomvoiceprocessing.so|libqcomvisualizer.so";
+		blobs=$blobs"|libhwdap.*.so|libswdap.*.so|lib_dlb_msd.so"; #Dolby
 	fi;
 
 	#Camera
@@ -83,7 +87,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|libDiracAPI_SHARED.so|.*dirac.*";
 
 	#Discretix (DRM/HDCP) [Discretix Technologies]
-	blobs=$blobs"|discretix|DxHDCP.cfg|libDxHdcp.so";
+	blobs=$blobs"|DxDrmServerIpc|discretix|DxHDCP.cfg|DxDrmConfig.txt|libDxHdcp.so|libDxModularPluginNv.so|libDxDrmServer.so";
 	blobs=$blobs"|dxhdcp.*";
 	blobs=$blobs"|dxcpr.*";
 	makes=$makes"|DxHDCP.cfg";
@@ -92,7 +96,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|colorservice.apk|com.qti.snapdragon.sdk.display.jar|com.qti.snapdragon.sdk.display.xml|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|mm-pp-daemon|mm-pp-dpps|PPPreference.apk|CABLService.apk|vendor.display.color.*|vendor.display.postproc.*";
 
 	#DivX (DRM) [DivX]
-	blobs=$blobs"|libDivxDrm.so|libSHIMDivxDrm.so";
+	blobs=$blobs"|libDivxDrm.so|libSHIMDivxDrm.so|mfc_fw.bin";
 
 	#DPM (Data Power Management) [Qualcomm]
 	blobs=$blobs"|com.qti.dpmframework.jar|com.qti.dpmframework.xml|dpmapi.jar|dpmapi.xml|dpm.conf|dpmd|dpmserviceapp.apk|libdpmctmgr.so|libdpmfdmgr.so|libdpmframework.so|libdpmnsrm.so|libdpmtcm.so|NsrmConfiguration.xml|tcmclient.jar|dpmQmiMgr|com.qualcomm.qti.dpm.*|libdpmqmihal.so";
@@ -100,10 +104,18 @@ echo "Deblobbing..."
 	ipcSec=$ipcSec"|47:4294967295:1001:3004|48:4294967295:1000:3004";
 
 	#DRM
-	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so";
+	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so"; #Qualcomm
 	blobs=$blobs"|liboemcrypto.so|libtzdrmgenprov.so";
 	blobs=$blobs"|libpvr.so|librmp.so|libsi.so|libSSEPKCS11.so";
 	blobs=$blobs"|libdrmctaplugin.so|libdrmmtkplugin.so|libdrmmtkwhitelist.so|libmockdrmcryptoplugin.so";
+	blobs=$blobs"|libOMXVideoDecoder.*Secure.so"; #Decoding
+	blobs=$blobs"|htc_drmprov.*|gpsample.mbn|gptauuid.xml"; #HTC
+	blobs=$blobs"|if.bin"; #Intel PAVP backend
+	blobs=$blobs"|liblgdrm.so"; #LG
+	#blobs=$blobs"|libtpa_core.so|libdataencrypt_tpa.so|libpkip.so"; #OMAP SMC
+	blobs=$blobs"|smc_pa.ift|drmserver.samsung"; #Samsung
+	blobs=$blobs"|provision_device";
+	#blobs=$blobs"|libasfparser.so|libsavsff.so"; #Parsers
 	makes=$makes"|android.hardware.drm.*|libdrmclearkeyplugin";
 	#makes=$makes"|libdrmframework.*"; #necessary to compile
 	#makes=$makes"|mediadrmserver|com.android.mediadrm.signer.*|drmserver"; #Works but causes long boot times
@@ -111,7 +123,7 @@ echo "Deblobbing..."
 	sepolicy=$sepolicy" hal_drm_default.te hal_drm.te hal_drm_widevine.te";
 
 	#eMBMS [Qualcomm]
-	blobs=$blobs"|embms.apk|embmslibrary.jar";
+	blobs=$blobs"|embms.apk|embms.xml|embmslibrary.jar";
 
 	#External Accessories
 	if [ "$DOS_DEBLOBBER_REMOVE_ACCESSORIES" = true ]; then
@@ -160,6 +172,9 @@ echo "Deblobbing..."
 	#Google TV
 	blobs=$blobs"|LeanbackIme.apk|LeanbackLauncher.apk|AtvRemoteService.apk|GamepadPairingService.apk|GlobalKeyInterceptor.apk|RemoteControlService.apk|TV.apk|CanvasPackageInstaller.apk|Overscan.apk";
 
+	#Gemini PDA [Planet]
+	blobs=$blobs"|ApplicationBar.apk|Gemini_Keyboard.apk|GeminiInputDevices.apk|notes.apk";
+
 	#[Huawei]
 	blobs=$blobs"|HWSarControlService.apk";
 
@@ -170,10 +185,6 @@ echo "Deblobbing..."
 	#HDR
 	blobs=$blobs"|libhdr.*.so";
 	blobs=$blobs"|DolbyVisionService.apk|dolby_vision.cfg|libdovi.so";
-
-	#[HTC]
-	blobs=$blobs"|gptauuid.xml";
-	blobs=$blobs"|htc_drmprov.*|gpsample.mbn";
 
 	#I/O Prefetcher [Qualcomm]
 	blobs=$blobs"|libqc-opt.so";
@@ -214,6 +225,9 @@ echo "Deblobbing..."
 	#blobs=$blobs"|tzapps.*";
 	#blobs=$blobs"|vendor.qti.hardware.qteeconnector.*|libQTEEConnector.*.so";
 
+	#libMM (multimedia encoder/decoder/parser) [Qualcomm]
+	#blobs=$blobs"|libmmparser.so|libmmipstreamsourcehttp.so";
+
 	#Location (gpsOne/gpsOneXTRA/IZat/Lumicast/QUIP) [Qualcomm]
 	blobs=$blobs"|cacert_location.pem|com.qti.location.sdk.jar|com.qti.location.sdk.xml|com.qualcomm.location.apk|com.qualcomm.location.xml|com.qualcomm.services.location.apk|gpsone_daemon|izat.conf|izat.xt.srv|izat.xt.srv.jar|izat.xt.srv.xml|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|libgdtap.so|libgeofence.so|liblbs_core.so|liblocationservice_glue.so|liblocationservice.so|libloc_ext.so|libloc_xtra.so|liblowi_client.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libulp2.so|libxtadapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so|location-mq|loc_launcher|lowi.conf|lowi-server|slim_ap_daemon|slim_daemon|xtra_root_cert.pem|xtra_t_app.apk|xtwifi.conf|xtwifi-client|xtwifi-inet-agent";
 	overlay=$overlay"config_comboNetworkLocationProvider|config_enableFusedLocationOverlay|config_enableNetworkLocationOverlay|config_fusedLocationProviderPackageName|config_enableNetworkLocationOverlay|config_networkLocationProviderPackageName|com.qualcomm.location";
@@ -224,9 +238,18 @@ echo "Deblobbing..."
 	#Misc [Google]
 	blobs=$blobs"|EaselServicePrebuilt.apk";
 
-	#[Motorola]
+	#[Motorola] #See: http://www.beneaththewaves.net/Projects/Motorola_Is_Listening.html
 	blobs=$blobs"|AppDirectedSMSProxy.apk|BuaContactAdapter.apk|batt_health|com.motorola.DirectedSMSProxy.xml|com.motorola.motosignature.jar|com.motorola.motosignature.xml|com.motorola.camera.xml|com.motorola.gallery.xml|com.motorola.msimsettings.xml|com.motorola.triggerenroll.xml|MotoDisplayFWProxy.apk|MotoSignatureApp.apk|TriggerEnroll.apk|TriggerTrainingService.apk|EasyAccessService.apk|com.motorola.motodisplay.xml";
+	blobs=$blobs"|libmdmcutback.so|libmotocare.so|libcce-socketjni.so";
 	makes=$makes"|com.motorola.cameraone.xml";
+
+	#OMA-DM/SyncML #See: https://www.blackhat.com/docs/us-14/materials/us-14-Solnik-Cellular-Exploitation-On-A-Global-Scale-The-Rise-And-Fall-Of-The-Control-Protocol.pdf
+	blobs=$blobs"|SyncMLSvc.apk|libsyncml_core.so|libsyncml_port.so"; #SyncML
+	blobs=$blobs"|libvdmengine.so|libvdmfumo.so"; #RedBend
+	blobs=$blobs"|libdme_main.so|libwbxmlparser.so|libprovlib.so";
+	blobs=$blobs"|dm_agent|dm_agent_binder";
+	blobs=$blobs"|npsmobex"; #Samsung?
+	blobs=$blobs"|ConnMO.apk|OmaDmclient.apk|com.android.omadm.service.xml|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|libdmengine.so|libdmjavaplugin.so|SprintDM.apk|SDM.apk|whitelist_com.android.omadm.service.xml|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml"; #Sprint
 
 	#Performance [Qualcomm]
 	#blobs=$blobs"|msm_irqbalance";
@@ -237,12 +260,9 @@ echo "Deblobbing..."
 	#Peripheral Manager
 	#blobs=$blobs"|libperipheral_client.so|libspcom.so|pm-proxy|pm-service|spdaemon";
 
-	#Gemini PDA [Planet]
-	blobs=$blobs"|ApplicationBar.apk|Gemini_Keyboard.apk|GeminiInputDevices.apk|notes.apk";
-
 	#Playready (DRM) [Microsoft]
-	blobs=$blobs"|libtzplayready.so"
-	blobs=$blobs"|playread.*";
+	blobs=$blobs"|prapp|scranton_RD|libtzplayready.so|libdrmprplugin.so|libprdrmdecrypt.so|libprmediadrmdecrypt.so|libprmediadrmplugin.so|libseppr_hal.so|PR-ModelCert"
+	blobs=$blobs"|playread.*|hcheck.*";
 
 	#Power [Google]
 	blobs=$blobs"|LowPowerMonitorDevice.*.jar|PowerAnomaly.*.jar";
@@ -260,7 +280,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|Asdiv.apk";
 
 	#RCS (Proprietary messaging protocol)
-	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk|CarrierServices.apk|vendor.qti.ims.rcsconfig.*"; #RCS
+	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk|lib-uceservice.so|CarrierServices.apk|vendor.qti.ims.rcsconfig.*"; #RCS
 	makes=$makes"|rcs_service.*";
 	ipcSec=$ipcSec"|18:4294967295:1001:3004";
 
@@ -274,11 +294,8 @@ echo "Deblobbing..."
 	blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureExtAuthJNI.so|libSecureSampleAuthClient.so|libsdedrm.so";
 
 	#[Sprint]
-	blobs=$blobs"|com.android.omadm.service.xml|ConnMO.apk|CQATest.apk|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|GCS.apk|HiddenMenu.apk|libdmengine.so|libdmjavaplugin.so|LifetimeData.apk|SprintDM.apk|SprintHM.apk|whitelist_com.android.omadm.service.xml|LifeTimerService.apk|SDM.apk|SecPhone.apk|SprintMenu.apk|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml";
+	blobs=$blobs"|CQATest.apk|GCS.apk|HiddenMenu.apk|LifetimeData.apk|SprintHM.apk|LifeTimerService.apk|SecPhone.apk|SprintMenu.apk";
 	ipcSec=$ipcSec"|238:4294967295:1001:3004";
-
-	#SyncML
-	blobs=$blobs"|SyncMLSvc.apk|libsyncml_core.so|libsyncml_port.so";
 
 	#Thermal Throttling [Qualcomm]
 	#blobs=$blobs"|libthermalclient.so|libthermalioctl.so|thermal-engine";
@@ -305,7 +322,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdcommonutils.so|libwfdhdcpcp.so|libwfdmmsink.so|libwfdmmsrc.so|libwfdmmutils.so|libwfdnative.so|libwfdrtsp.so|libwfdservice.so|libwfdsm.so|libwfduibcinterface.so|libwfduibcsinkinterface.so|libwfduibcsink.so|libwfduibcsrcinterface.so|libwfduibcsrc.so|WfdCommon.jar|wfdconfigsink.xml|wfdconfig.xml|wfdservice|WfdService.apk";
 
 	#Widevine (DRM) [Google]
-	blobs=$blobs"|com.google.widevine.software.drm.jar|com.google.widevine.software.drm.xml|libdrmclearkeyplugin.so|libdrmwvmplugin.so|libmarlincdmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvhidl.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|libdrmmtkutil.so";
+	blobs=$blobs"|com.google.widevine.software.drm.jar|com.google.widevine.software.drm.xml|libdrmclearkeyplugin.so|libdrmwvmplugin.so|libmarlincdmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvhidl.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|libdrmmtkutil.so|test-wvdrmplugin|oemwvtest|libsepdrm.*.so";
 	#blobs=$blobs"|smc_pa_wvdrm.ift"; breaks toro boot
 	blobs=$blobs"|tzwidevine.*|tzwvcpybuf.*|widevine.*";
 	makes=$makes"|libshim_wvm";
@@ -371,7 +388,7 @@ deblobDevice() {
 	suffixTmp="-common";
 	if [ -f "${PWD##*/}".mk ] && [ "${PWD##*/}".mk != "sepolicy" ]; then
 		awk -i inplace '!/'"$makes"'/' "${PWD##*/}".mk; #Remove references from device makefile
-		awk -i inplace '!/'"$makes"'/' "${baseDirTmp%"$suffixTmp"}".mk; #Remove references from device makefile
+		awk -i inplace '!/'"$makes"'/' "${baseDirTmp%"$suffixTmp"}".mk &>/dev/null || true; #Remove references from device makefile
 		if [ -z "$replaceTime" ]; then
 			echo "PRODUCT_PACKAGES += timekeep TimeKeep" >> "${PWD##*/}".mk; #Switch to Sony TimeKeep
 		fi;
