@@ -37,33 +37,36 @@ echo "Deblobbing..."
 	#blobs=$blobs"|libacdb.*.so|libaditrtac.so|libaudcal.so"; #loaders
 
 	#ADSP/Hexagon (Hardware Digital Signal Processor) [Qualcomm]
-	#blobs=$blobs"[/]adsp[/]|.*adspd.*|.*adsprpc.*|libfastcvadsp_stub.so|libfastcvopt.so|libadsp.*.so|libscve.*.so";
+	#blobs=$blobs"[/]adsp[/]|.*adspd.*|.*adsprpc.*";
+	#blobs=$blobs"|libfastcvadsp_stub.so|libfastcvopt.so|libadsp.*.so|libscve.*.so";
 	#sepolicy=$sepolicy" adspd.te adsprpcd.te";
 
 	#Alipay (Payment Platform) [Alibaba]
-	blobs=$blobs"alipay.*|ifaadaemon|ifaadaemonProxy";
+	blobs=$blobs"ifaadaemon|ifaadaemonProxy";
+	blobs=$blobs"|alipay.*";
 
 	#AIV (DRM) [Amazon]
 	blobs=$blobs"|libaivdrmclient.so|libAivPlay.so";
 
 	#aptX (Bluetooth Audio Compression Codec) [Qualcomm]
-	blobs=$blobs"|.*aptX.*|aptxui.apk|libbt-aptx.*.so";
+	blobs=$blobs"|.*aptX.*|libbt-aptx.*.so";
+	blobs=$blobs"|aptxui.apk";
 
 	#AT Command Handling/Forwarding (See: https://atcommands.org)
-	blobs=$blobs"|bin[/]atd|ATFWD-daemon|atfwd.apk|vendor.qti.atcmdfwd.*|drexe|log_serial_arm|at_distributor|connfwexe|OBDM_Permissions.apk";
+	blobs=$blobs"|bin[/]atd|ATFWD-daemon|drexe|log_serial_arm|at_distributor|connfwexe";
+	blobs=$blobs"|vendor.qti.atcmdfwd.*";
+	blobs=$blobs"|atfwd.apk|OBDM_Permissions.apk";
 	sepolicy=$sepolicy" atfwd.te";
 
 	#AudioFX (Audio Effects)
 	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
-		blobs=$blobs"|fmas_eq.dat|libasphere.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libqcbassboost.so|libqcreverb.so|libqcvirt.so|libreverbwrapper.so|libshoebox.so|libspeakerbundle.so|libvisualizer.so|libvolumelistener.so|libLifevibes_lvverx.so|libhwdap.so|libsonypostprocbundle.so|libsonysweffect.so"; #Qualcomm
+		blobs=$blobs"|fmas_eq.dat";
+		blobs=$blobs"|libasphere.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libreverbwrapper.so|libshoebox.so|libspeakerbundle.so|libvisualizer.so|libvolumelistener.so|libLifevibes_lvverx.so|libhwdap.so";
+		blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so"; #Qualcomm
 		#blobs=$blobs"|libbundlewrapper.so|libqcompostprocbundle.so|libqcomvoiceprocessing.so|libqcomvisualizer.so";
 		blobs=$blobs"|libhwdap.*.so|libswdap.*.so|lib_dlb_msd.so"; #Dolby
+		blobs=$blobs"|libsonypostprocbundle.so|libsonysweffect.so"; #Sony
 	fi;
-
-	#Camera
-	#Attempted, don't waste your time...
-	#FUN FACT: The Huawei Honor 5x ships with eight-hundred-and-thirty-five (*835*) proprietary camera blobs.
-	#blobs=$blobs"|";
 
 	#Clearkey (DRM) [Google]
 	blobs=$blobs"|libdrmclearkeyplugin.so";
@@ -73,7 +76,11 @@ echo "Deblobbing..."
 
 	#CNE (Automatic Cell/Wi-Fi Switching) [Qualcomm]
 	#blobs=$blobs"|libcneapiclient.so|libNimsWrap.so"; #XXX: Breaks radio
-	blobs=$blobs"|andsfCne.xml|ATT_profile.*.xml|cnd|cneapiclient.jar|cneapiclient.xml|CNEService.apk|com.quicinc.cne.*.jar|com.quicinc.cne.*.so|com.quicinc.cne.xml|ConnectivityExt.jar|ConnectivityExt.xml|libcneconn.so|libcneqmiutils.so|libcne.so|libvendorconn.so|libwms.so|libwqe.so|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile.*.xml|SwimConfig.xml|VZW_profile.*.xml|libcneoplookup.so";
+	blobs=$blobs"|andsfCne.xml|ATT_profile.*.xml|cneapiclient.xml|com.quicinc.cne.xml|ConnectivityExt.xml|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile.*.xml|SwimConfig.xml|VZW_profile.*.xml";
+	blobs=$blobs"|cnd";
+	blobs=$blobs"|cneapiclient.jar|com.quicinc.cne.*.jar|ConnectivityExt.jar";
+	blobs=$blobs"|CNEService.apk";
+	blobs=$blobs"|com.quicinc.cne.*.so|libcneconn.so|libcneqmiutils.so|libcne.so|libvendorconn.so|libwms.so|libwqe.so|libcneoplookup.so";
 	blobs=$blobs"|vendor.qti.data.factory.*|vendor.qti.hardware.data.dynamicdds.*|vendor.qti.hardware.data.latency.*|vendor.qti.hardware.data.qmi.*|vendor.qti.latency.*";
 	makes=$makes"libcnefeatureconfig";
 	sepolicy=$sepolicy" cnd.te qcneservice.te";
@@ -87,19 +94,31 @@ echo "Deblobbing..."
 	blobs=$blobs"|libDiracAPI_SHARED.so|.*dirac.*";
 
 	#Discretix (DRM/HDCP) [Discretix Technologies]
-	blobs=$blobs"|DxDrmServerIpc|discretix|DxHDCP.cfg|DxDrmConfig.txt|libDxHdcp.so|libDxModularPluginNv.so|libDxDrmServer.so";
-	blobs=$blobs"|dxhdcp.*";
-	blobs=$blobs"|dxcpr.*";
+	blobs=$blobs"|DxDrmServerIpc|discretix";
+	blobs=$blobs"|libDxHdcp.so|libDxModularPluginNv.so|libDxDrmServer.so";
+	blobs=$blobs"|DxHDCP.cfg|DxDrmConfig.txt";
+	blobs=$blobs"|dxhdcp.*|dxcpr.*";
 	makes=$makes"|DxHDCP.cfg";
 
 	#Display Color Tuning [Qualcomm]
-	blobs=$blobs"|colorservice.apk|com.qti.snapdragon.sdk.display.jar|com.qti.snapdragon.sdk.display.xml|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|mm-pp-daemon|mm-pp-dpps|PPPreference.apk|CABLService.apk|vendor.display.color.*|vendor.display.postproc.*";
+	blobs=$blobs"|com.qti.snapdragon.sdk.display.jar";
+	blobs=$blobs"|com.qti.snapdragon.sdk.display.xml";
+	blobs=$blobs"|mm-pp-daemon|mm-pp-dpps";
+	blobs=$blobs"|colorservice.apk|PPPreference.apk|CABLService.apk";
+	blobs=$blobs"|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so";
+	blobs=$blobs"|vendor.display.color.*|vendor.display.postproc.*";
 
 	#DivX (DRM) [DivX]
-	blobs=$blobs"|libDivxDrm.so|libSHIMDivxDrm.so|mfc_fw.bin";
+	blobs=$blobs"|libDivxDrm.so|libSHIMDivxDrm.so";
+	blobs=$blobs"|mfc_fw.bin";
 
 	#DPM (Data Power Management) [Qualcomm]
-	blobs=$blobs"|com.qti.dpmframework.jar|com.qti.dpmframework.xml|dpmapi.jar|dpmapi.xml|dpm.conf|dpmd|dpmserviceapp.apk|libdpmctmgr.so|libdpmfdmgr.so|libdpmframework.so|libdpmnsrm.so|libdpmtcm.so|NsrmConfiguration.xml|tcmclient.jar|dpmQmiMgr|com.qualcomm.qti.dpm.*|libdpmqmihal.so";
+	blobs=$blobs"|com.qti.dpmframework.jar|dpmapi.jar|tcmclient.jar";
+	blobs=$blobs"|com.qti.dpmframework.xml|dpmapi.xml|dpm.conf|NsrmConfiguration.xml";
+	blobs=$blobs"|dpmd|dpmQmiMgr";
+	blobs=$blobs"|dpmserviceapp.apk";
+	blobs=$blobs"|libdpmctmgr.so|libdpmfdmgr.so|libdpmframework.so|libdpmnsrm.so|libdpmtcm.so|libdpmqmihal.so";
+	blobs=$blobs"|com.qualcomm.qti.dpm.*";
 	sepolicy=$sepolicy" dpmd.te";
 	ipcSec=$ipcSec"|47:4294967295:1001:3004|48:4294967295:1000:3004";
 
@@ -123,21 +142,36 @@ echo "Deblobbing..."
 	sepolicy=$sepolicy" hal_drm_default.te hal_drm.te hal_drm_widevine.te";
 
 	#eMBMS [Qualcomm]
-	blobs=$blobs"|embms.apk|embms.xml|embmslibrary.jar";
+	blobs=$blobs"|embms.apk";
+	blobs=$blobs"|embms.xml";
+	blobs=$blobs"|embmslibrary.jar";
 
 	#External Accessories
 	if [ "$DOS_DEBLOBBER_REMOVE_ACCESSORIES" = true ]; then
-		blobs=$blobs"|DragonKeyboardFirmwareUpdater.apk"; #dragon
-		blobs=$blobs"|ProjectorApp.apk|projectormod.xml|motorola.hardware.mods_camera.*|libcamera_mods_legacy_hal.so|mods_camd|MotCameraMod.apk|ModFmwkProxyService.apk|ModService.apk|libmodmanager.*.so|com.motorola.mod.*.so|libmodhw.so|com.motorola.modservice.xml"; #griffin
-		blobs=$blobs"|[/]Score[/]|[/]Klik[/]|vendor.essential.hardware.sidecar.*|vendor-essential-hardware-sidecar.xml"; #mata
-		blobs=$blobs"|DTVPlayer.apk|DTVService.apk"; #albus
+		#dragon
+		blobs=$blobs"|DragonKeyboardFirmwareUpdater.apk";
+		#griffin
+		blobs=$blobs"|ProjectorApp.apk|MotCameraMod.apk|ModFmwkProxyService.apk|ModService.apk";
+		blobs=$blobs"|libcamera_mods_legacy_hal.so|libmodmanager.*.so|com.motorola.mod.*.so|libmodhw.so";
+		blobs=$blobs"|mods_camd";
+		blobs=$blobs"|projectormod.xml|com.motorola.modservice.xml";
+		blobs=$blobs"|motorola.hardware.mods_camera.*";
+		#mata
+		blobs=$blobs"|[/]Score[/]|[/]Klik[/]";
+		blobs=$blobs"|vendor.essential.hardware.sidecar.*";
+		blobs=$blobs"|vendor-essential-hardware-sidecar.*.xml";
+		#albus
+		blobs=$blobs"|DTVPlayer.apk|DTVService.apk";
 	fi;
 
 	#Face Unlock [Google]
 	blobs=$blobs"|libfacenet.so|libfilterpack_facedetect.so|libfrsdk.so";
 
 	#GPS [Qualcomm]
-	#blobs=$blobs"|flp.conf|flp.default.so|flp.msm8084.so|flp.msm8960.so|gpsd|gps.msm8084.so|gps.msm8960.so|libflp.so|libgps.utils.so|libloc_api_v02.so|libloc_core.so|libloc_ds_api.so|libloc_eng.so|libloc_ext.so|libizat_core.so";
+	#blobs=$blobs"|gpsd";
+	#blobs=$blobs"|libflp.so|libgps.utils.so|libloc_api_v02.so|libloc_core.so|libloc_ds_api.so|libloc_eng.so|libloc_ext.so|libizat_core.so";
+	#blobs=$blobs"|flp.default.so|flp.msm.*.so|gps.default.so|gps.msm.*.so";
+	#blobs=$blobs"|flp.conf";
 
 	#Graphics
 	if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
@@ -159,7 +193,10 @@ echo "Deblobbing..."
 
 	#Fingerprint Reader
 	if [ "$DOS_DEBLOBBER_REMOVE_FP" = true ]; then
-		blobs=$blobs"|android.hardware.biometrics.fingerprint.*|fingerprint.*.so|fpc_early_loader|fpctzappfingerprint.*|libbauthserver.so|libcom_fingerprints_service.so|libegis_fp_normal_sensor_test.so|lib_fpc_tac_shared.so|libfpfactory.*.so|libsynaFpSensorTestNwd.so";
+		blobs=$blobs"|fingerprint.*.so|libbauthserver.so|libcom_fingerprints_service.so|libegis_fp_normal_sensor_test.so|lib_fpc_tac_shared.so|libfpfactory.*.so|libsynaFpSensorTestNwd.so";
+		blobs=$blobs"|fpc_early_loader";
+		blobs=$blobs"|fpctzappfingerprint.*";
+		blobs=$blobs"|android.hardware.biometrics.fingerprint.*";
 		makes=$makes"|android.hardware.biometrics.fingerprint.*|android.hardware.fingerprint.*";
 	fi;
 
@@ -179,23 +216,37 @@ echo "Deblobbing..."
 	blobs=$blobs"|HWSarControlService.apk";
 
 	#HDCP (DRM)
-	blobs=$blobs"|libmm-hdcpmgr.so|libstagefright_hdcp.so|libhdcp2.so|srm.bin|insthk";
+	blobs=$blobs"|libmm-hdcpmgr.so|libstagefright_hdcp.so|libhdcp2.so";
+	blobs=$blobs"|srm.bin|insthk";
 	blobs=$blobs"|hdcp1.*|tzhdcp.*";
 
 	#HDR
-	blobs=$blobs"|libhdr.*.so";
-	blobs=$blobs"|DolbyVisionService.apk|dolby_vision.cfg|libdovi.so";
+	blobs=$blobs"|libhdr.*.so|libdovi.so";
+	blobs=$blobs"|DolbyVisionService.apk";
+	blobs=$blobs"|dolby_vision.cfg";
 
 	#I/O Prefetcher [Qualcomm]
-	blobs=$blobs"|libqc-opt.so";
-	blobs=$blobs"|bin[/]iop|libqti-iop.*.so|QPerformance.jar|vendor.qti.hardware.iop.*";
+	blobs=$blobs"|libqc-opt.so|libqti-iop.*.so";
+	blobs=$blobs"|bin[/]iop";
+	blobs=$blobs"|QPerformance.jar";
+	blobs=$blobs"|vendor.qti.hardware.iop.*";
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
-	blobs=$blobs"|imscmlibrary.jar|imscmservice|imscm.xml|imsdatadaemon|imsqmidaemon|imssettings.apk|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|lib-imsvideocodec.so|lib-imsvtextutils.so|lib-imsvtutils.so"; #IMS
-	blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so|vendor.qti.imsrtpservice.*"; #RTP
-	blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so|qti_permissions.xml"; #Misc.
+	blobs=$blobs"|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|lib-imsvideocodec.so|lib-imsvtextutils.so|lib-imsvtutils.so";
+	blobs=$blobs"|imscmservice|imsdatadaemon|imsqmidaemon";
+	blobs=$blobs"|imscm.xml";
+	blobs=$blobs"|imssettings.apk";
+	blobs=$blobs"|imscmlibrary.jar";
+	#RTP
+	blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so";
+	blobs=$blobs"|vendor.qti.imsrtpservice.*";
+	#Misc.
+	blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so";
+	blobs=$blobs"|qti_permissions.xml";
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then #IMS (Core) (To support carriers that have phased out 2G)
-		blobs=$blobs"|ims.apk|ims.xml|libimsmedia_jni.so";
+		blobs=$blobs"|ims.apk";
+		blobs=$blobs"|ims.xml";
+		blobs=$blobs"|libimsmedia_jni.so";
 		blobs=$blobs"|volte_modem[/]";
 		sepolicy=$sepolicy" ims.te imscm.te imswmsproxy.te";
 		ipcSec=$ipcSec"|32:4294967295:1001";
@@ -215,21 +266,29 @@ echo "Deblobbing..."
 
 	#IR
 	if [ "$DOS_DEBLOBBER_REMOVE_IR" = true ]; then
-		blobs=$blobs"|cir_fw_update|cir.img|CIRModule.apk|consumerir.*.so|htcirlibs.jar|ibcir_driver.so|libcir_driver.so|libhtcirinterface_jni.s";
+		blobs=$blobs"|cir_fw_update";
+		blobs=$blobs"|consumerir.*.so|ibcir_driver.so|libcir_driver.so|libhtcirinterface_jni.so";
+		blobs=$blobs"|htcirlibs.jar";
+		blobs=$blobs"|CIRModule.apk";
+		blobs=$blobs"|cir.img";
 		makes=$makes"|android.hardware.ir.*|android.hardware.consumerir.*";
 	fi;
 
 	#Keystore/TrustZone (HW Crypto) [Qualcomm]
-	#blobs=$blobs"|qseecomd|keystore.qcom.so|libdrmdecrypt.so|libdrmfs.so|libdrmtime.so|libQSEEComAPI.so|librpmb.so|libssd.so";
-	#blobs=$blobs"|keymaster.*";
-	#blobs=$blobs"|tzapps.*";
-	#blobs=$blobs"|vendor.qti.hardware.qteeconnector.*|libQTEEConnector.*.so";
+	#blobs=$blobs"|keystore.qcom.so|libdrmdecrypt.so|libdrmfs.so|libdrmtime.so|libQSEEComAPI.so|librpmb.so|libssd.so|libQTEEConnector.*.so";
+	#blobs=$blobs"|qseecomd";
+	#blobs=$blobs"|keymaster.*|tzapps.*";
+	#blobs=$blobs"|vendor.qti.hardware.qteeconnector.*";
 
 	#libMM (multimedia encoder/decoder/parser) [Qualcomm]
 	#blobs=$blobs"|libmmparser.so|libmmipstreamsourcehttp.so";
 
 	#Location (gpsOne/gpsOneXTRA/IZat/Lumicast/QUIP) [Qualcomm]
-	blobs=$blobs"|cacert_location.pem|com.qti.location.sdk.jar|com.qti.location.sdk.xml|com.qualcomm.location.apk|com.qualcomm.location.xml|com.qualcomm.services.location.apk|gpsone_daemon|izat.conf|izat.xt.srv|izat.xt.srv.jar|izat.xt.srv.xml|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|libgdtap.so|libgeofence.so|liblbs_core.so|liblocationservice_glue.so|liblocationservice.so|libloc_ext.so|libloc_xtra.so|liblowi_client.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libulp2.so|libxtadapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so|location-mq|loc_launcher|lowi.conf|lowi-server|slim_ap_daemon|slim_daemon|xtra_root_cert.pem|xtra_t_app.apk|xtwifi.conf|xtwifi-client|xtwifi-inet-agent";
+	blobs=$blobs"|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|libgdtap.so|libgeofence.so|liblbs_core.so|liblocationservice_glue.so|liblocationservice.so|libloc_ext.so|libloc_xtra.so|liblowi_client.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libulp2.so|libxtadapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so";
+	blobs=$blobs"|cacert_location.pem|com.qti.location.sdk.xml|com.qualcomm.location.xml|izat.conf|izat.xt.srv.xml|lowi.conf|xtra_root_cert.pem|xtwifi.conf";
+	blobs=$blobs"|com.qti.location.sdk.jar|izat.xt.srv.jar";
+	blobs=$blobs"|com.qualcomm.location.apk|com.qualcomm.services.location.apk|xtra_t_app.apk";
+	blobs=$blobs"|gpsone_daemon|izat.xt.srv|location-mq|loc_launcher|lowi-server|slim_ap_daemon|slim_daemon|xtwifi-client|xtwifi-inet-agent";
 	overlay=$overlay"config_comboNetworkLocationProvider|config_enableFusedLocationOverlay|config_enableNetworkLocationOverlay|config_fusedLocationProviderPackageName|config_enableNetworkLocationOverlay|config_networkLocationProviderPackageName|com.qualcomm.location";
 
 	#Misc
@@ -239,8 +298,15 @@ echo "Deblobbing..."
 	blobs=$blobs"|EaselServicePrebuilt.apk";
 
 	#[Motorola] #See: http://www.beneaththewaves.net/Projects/Motorola_Is_Listening.html
-	blobs=$blobs"|AppDirectedSMSProxy.apk|BuaContactAdapter.apk|batt_health|com.motorola.DirectedSMSProxy.xml|com.motorola.motosignature.jar|com.motorola.motosignature.xml|com.motorola.camera.xml|com.motorola.gallery.xml|com.motorola.msimsettings.xml|com.motorola.triggerenroll.xml|MotoDisplayFWProxy.apk|MotoSignatureApp.apk|TriggerEnroll.apk|TriggerTrainingService.apk|EasyAccessService.apk|com.motorola.motodisplay.xml";
-	blobs=$blobs"|libmdmcutback.so|libmotocare.so|libcce-socketjni.so";
+	blobs=$blobs"|AppDirectedSMSProxy.apk|BuaContactAdapter.apk|com.motorola.DirectedSMSProxy.xml|com.motorola.msimsettings.xml";
+	blobs=$blobs"|MotoDisplayFWProxy.apk|com.motorola.motodisplay.xml";
+	blobs=$blobs"|com.motorola.camera.xml|com.motorola.gallery.xml";
+	blobs=$blobs"|EasyAccessService.apk";
+	blobs=$blobs"|batt_health|libmotocare.so";
+	blobs=$blobs"|com.motorola.motosignature.jar|com.motorola.motosignature.xml|MotoSignatureApp.apk";
+	blobs=$blobs"|TriggerEnroll.apk|TriggerTrainingService.apk|com.motorola.triggerenroll.xml";
+	blobs=$blobs"|audio.motvr.default.so|libmotaudioutils.so";
+	blobs=$blobs"|libmdmcutback.so|libcce-socketjni.so|qmi_motext_hook|libqmimotext.so|libmotext_inf.so"; #Motorola Device Manager
 	makes=$makes"|com.motorola.cameraone.xml";
 
 	#OMA-DM/SyncML #See: https://www.blackhat.com/docs/us-14/materials/us-14-Solnik-Cellular-Exploitation-On-A-Global-Scale-The-Rise-And-Fall-Of-The-Control-Protocol.pdf
@@ -254,14 +320,20 @@ echo "Deblobbing..."
 	#Performance [Qualcomm]
 	#blobs=$blobs"|msm_irqbalance";
 	#Devices utilizing perfd won't hotplug cores without it
-	#blobs=$blobs"|mpdecision|libqti-perfd.*.so|perfd|perf-profile.*.conf|vendor.qti.hardware.perf.*";
+	#blobs=$blobs"|mpdecision|perfd";
+	#blobs=$blobs"|libqti-perfd.*.so";
+	#blobs=$blobs"|perf-profile.*.conf";
+	#blobs=$blobs"|vendor.qti.hardware.perf.*";
 	blobs=$blobs"|Perfdump.apk";
 
 	#Peripheral Manager
-	#blobs=$blobs"|libperipheral_client.so|libspcom.so|pm-proxy|pm-service|spdaemon";
+	#blobs=$blobs"|libperipheral_client.so|libspcom.so";
+	#blobs=$blobs"|pm-proxy|pm-service|spdaemon";
 
 	#Playready (DRM) [Microsoft]
-	blobs=$blobs"|prapp|scranton_RD|libtzplayready.so|libdrmprplugin.so|libprdrmdecrypt.so|libprmediadrmdecrypt.so|libprmediadrmplugin.so|libseppr_hal.so|PR-ModelCert"
+	blobs=$blobs"|prapp|scranton_RD";
+	blobs=$blobs"|libtzplayready.so|libdrmprplugin.so|libprdrmdecrypt.so|libprmediadrmdecrypt.so|libprmediadrmplugin.so|libseppr_hal.so";
+	blobs=$blobs"|PR-ModelCert";
 	blobs=$blobs"|playread.*|hcheck.*";
 
 	#Power [Google]
@@ -274,13 +346,18 @@ echo "Deblobbing..."
 	blobs=$blobs"|QuickBoot.apk|PowerOffAlarm.apk";
 
 	#QTI (Tethering Extensions) [Qualcomm]
-	blobs=$blobs"|libQtiTether.so|QtiTetherService.apk";
+	blobs=$blobs"|libQtiTether.so";
+	blobs=$blobs"|QtiTetherService.apk";
 
 	#RIL [Qualcomm]
 	blobs=$blobs"|Asdiv.apk";
 
 	#RCS (Proprietary messaging protocol)
-	blobs=$blobs"|rcsimssettings.jar|rcsimssettings.xml|rcsservice.jar|rcsservice.xml|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk|lib-uceservice.so|CarrierServices.apk|vendor.qti.ims.rcsconfig.*"; #RCS
+	blobs=$blobs"|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-uceservice.so";
+	blobs=$blobs"|rcsimssettings.jar|rcsservice.jar";
+	blobs=$blobs"|rcsimssettings.xml|rcsservice.xml";
+	blobs=$blobs"|CarrierServices.apk|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk";
+	blobs=$blobs"|vendor.qti.ims.rcsconfig.*";
 	makes=$makes"|rcs_service.*";
 	ipcSec=$ipcSec"|18:4294967295:1001:3004";
 
@@ -298,37 +375,57 @@ echo "Deblobbing..."
 	ipcSec=$ipcSec"|238:4294967295:1001:3004";
 
 	#Thermal Throttling [Qualcomm]
-	#blobs=$blobs"|libthermalclient.so|libthermalioctl.so|thermal-engine";
+	#blobs=$blobs"|thermal-engine";
+	#blobs=$blobs"|libthermalclient.so|libthermalioctl.so";
 
 	#Time Service [Qualcomm]
 	#Requires that android_hardware_sony_timekeep be included in repo manifest
 	if [ "$DOS_DEBLOBBER_REPLACE_TIME" = true ]; then
 		#blobs=$blobs"|libtime_genoff.so"; #XXX: Breaks radio
-		blobs=$blobs"|libTimeService.so|time_daemon|TimeService.apk";
+		blobs=$blobs"|libTimeService.so";
+		blobs=$blobs"|TimeService.apk";
+		blobs=$blobs"|time_daemon";
 		sepolicy=$sepolicy" qtimeservice.te";
 	fi;
 
 	#Venus (Hardware Video Decoding) [Qualcomm]
-	#blobs=$blobs"|venus.b00|venus.b01|venus.b02|venus.b03|venus.b04|venus.mbn|venus.mdt";
+	#blobs=$blobs"|venus.*";
 
 	#[Verizon]
-	blobs=$blobs"|appdirectedsmspermission.apk|com.qualcomm.location.vzw_library.jar|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.jar|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.jar|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.jar|qti-vzw-ims-internal.xml|VerizonSSOEngine.apk|VerizonUnifiedSettings.jar|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|vzw_sso_permissions.xml|VerizonAuthDialog.apk|com.vzw.hardware.lte.xml|com.vzw.hardware.ehrpd.xml|MyVerizonServices.apk|WfcActivation.apk|obdm_stub.apk|libmotricity.so|com.verizon.services.xml|features-verizon.xml|CarrierSetup.apk|OemDmTrigger.apk|com.android.vzwomatrigger.xml|vzw_mvs_permissions.xml|obdm_permissions.xml";
+	blobs=$blobs"|libmotricity.so";
+	blobs=$blobs"|com.qualcomm.location.vzw_library.jar|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.lte.jar|com.verizon.ims.jar|qti-vzw-ims-internal.jar|VerizonUnifiedSettings.jar";
+	blobs=$blobs"|CarrierSetup.apk|OemDmTrigger.apk|appdirectedsmspermission.apk|VerizonSSOEngine.apk|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|VerizonAuthDialog.apk|MyVerizonServices.apk|WfcActivation.apk|obdm_stub.apk";
+	blobs=$blobs"|com.android.vzwomatrigger.xml|vzw_mvs_permissions.xml|obdm_permissions.xml|com.verizon.services.xml|features-verizon.xml|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.xml|vzw_sso_permissions.xml|com.vzw.hardware.lte.xml|com.vzw.hardware.ehrpd.xml";
 
 	#Voice Recognition
-	blobs=$blobs"|aonvr1.bin|aonvr2.bin|audiomonitor|es305_fw.bin|HotwordEnrollment.apk|HotwordEnrollment.*.apk|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|libqvop-service.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|qvop-daemon|sound_trigger.primary.*.so|libgcs.*.so|vendor.qti.voiceprint.*";
+	blobs=$blobs"|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|libqvop-service.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|sound_trigger.primary.*.so|libgcs.*.so";
+	blobs=$blobs"|audiomonitor|qvop-daemon";
+	blobs=$blobs"|HotwordEnrollment.apk|HotwordEnrollment.*.apk";
+	blobs=$blobs"|aonvr1.bin|aonvr2.bin|es305_fw.bin";
+	blobs=$blobs"|vendor.qti.voiceprint.*";
 	makes=$makes"|android.hardware.soundtrigger.*";
 
 	#Wfd (Wireless Display? Wi-Fi Direct?) [Qualcomm]
-	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdcommonutils.so|libwfdhdcpcp.so|libwfdmmsink.so|libwfdmmsrc.so|libwfdmmutils.so|libwfdnative.so|libwfdrtsp.so|libwfdservice.so|libwfdsm.so|libwfduibcinterface.so|libwfduibcsinkinterface.so|libwfduibcsink.so|libwfduibcsrcinterface.so|libwfduibcsrc.so|WfdCommon.jar|wfdconfigsink.xml|wfdconfig.xml|wfdservice|WfdService.apk";
+	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdcommonutils.so|libwfdhdcpcp.so|libwfdmmsink.so|libwfdmmsrc.so|libwfdmmutils.so|libwfdnative.so|libwfdrtsp.so|libwfdservice.so|libwfdsm.so|libwfduibcinterface.so|libwfduibcsinkinterface.so|libwfduibcsink.so|libwfduibcsrcinterface.so|libwfduibcsrc.so";
+	blobs=$blobs"|wfdservice";
+	blobs=$blobs"|WfdService.apk";
+	blobs=$blobs"|WfdCommon.jar";
+	blobs=$blobs"|wfdconfigsink.xml|wfdconfig.xml";
 
 	#Widevine (DRM) [Google]
-	blobs=$blobs"|com.google.widevine.software.drm.jar|com.google.widevine.software.drm.xml|libdrmclearkeyplugin.so|libdrmwvmplugin.so|libmarlincdmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvhidl.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|libdrmmtkutil.so|test-wvdrmplugin|oemwvtest|libsepdrm.*.so";
+	blobs=$blobs"|libdrmclearkeyplugin.so|libdrmwvmplugin.so|libmarlincdmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvhidl.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|libdrmmtkutil.so|libsepdrm.*.so";
+	blobs=$blobs"|test-wvdrmplugin|oemwvtest";
+	blobs=$blobs"|com.google.widevine.software.drm.jar";
+	blobs=$blobs"|com.google.widevine.software.drm.xml";
 	#blobs=$blobs"|smc_pa_wvdrm.ift"; breaks toro boot
 	blobs=$blobs"|tzwidevine.*|tzwvcpybuf.*|widevine.*";
 	makes=$makes"|libshim_wvm";
 
 	#WiPower (Wireless Charging) [Qualcomm]
-	blobs=$blobs"|a4wpservice.apk|com.quicinc.wbc.jar|com.quicinc.wbcserviceapp.apk|com.quicinc.wbcservice.jar|com.quicinc.wbcservice.xml|com.quicinc.wbc.xml|libwbc_jni.so|wbc_hal.default.so";
+	blobs=$blobs"|libwbc_jni.so|wbc_hal.default.so";
+	blobs=$blobs"|a4wpservice.apk|com.quicinc.wbcserviceapp.apk";
+	blobs=$blobs"|com.quicinc.wbc.jar|com.quicinc.wbcservice.jar";
+	blobs=$blobs"|com.quicinc.wbcservice.xml|com.quicinc.wbc.xml";
 	makes=$makes"|android.wipower|android.wipower.xml|com.quicinc.wbcserviceapps|libwipower_jni|wipowerservice";
 
 	export blobs;
