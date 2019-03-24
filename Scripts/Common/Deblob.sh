@@ -302,11 +302,13 @@ echo "Deblobbing..."
 	blobs=$blobs"|MotoDisplayFWProxy.apk|com.motorola.motodisplay.xml";
 	blobs=$blobs"|com.motorola.camera.xml|com.motorola.gallery.xml";
 	blobs=$blobs"|EasyAccessService.apk";
-	blobs=$blobs"|batt_health|libmotocare.so";
+	blobs=$blobs"|batt_health";
+	#blobs=$blobs"|dbvc_atvc_property_set";
 	blobs=$blobs"|com.motorola.motosignature.jar|com.motorola.motosignature.xml|MotoSignatureApp.apk";
 	blobs=$blobs"|TriggerEnroll.apk|TriggerTrainingService.apk|com.motorola.triggerenroll.xml";
 	blobs=$blobs"|audio.motvr.default.so|libmotaudioutils.so";
-	blobs=$blobs"|libmdmcutback.so|libcce-socketjni.so|qmi_motext_hook|libqmimotext.so|libmotext_inf.so"; #Motorola Device Manager
+	blobs=$blobs"|libcce-socketjni.so|libmotocare.so";
+	#blobs=$blobs"|qmi_motext_hook|libmdmcutback.so|libqmimotext.so|libmotext_inf.so"; #necessary for radio
 	makes=$makes"|com.motorola.cameraone.xml";
 
 	#OMA-DM/SyncML #See: https://www.blackhat.com/docs/us-14/materials/us-14-Solnik-Cellular-Exploitation-On-A-Global-Scale-The-Rise-And-Fall-Of-The-Control-Protocol.pdf
@@ -316,6 +318,12 @@ echo "Deblobbing..."
 	blobs=$blobs"|dm_agent|dm_agent_binder";
 	blobs=$blobs"|npsmobex"; #Samsung?
 	blobs=$blobs"|ConnMO.apk|OmaDmclient.apk|com.android.omadm.service.xml|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|libdmengine.so|libdmjavaplugin.so|SprintDM.apk|SDM.apk|whitelist_com.android.omadm.service.xml|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml"; #Sprint
+
+	#OpenMobileAPI [SIM Alliance]
+	#This is open source, but rarely used
+	#https://github.com/seek-for-android/platform_packages_apps_SmartCardService
+	#blobs=$blobs"|org.simalliance.openmobileapi.jar";
+	#blobs=$blobs"|org.simalliance.openmobileapi.xml";
 
 	#Performance [Qualcomm]
 	#blobs=$blobs"|msm_irqbalance";
