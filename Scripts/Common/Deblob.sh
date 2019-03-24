@@ -217,7 +217,8 @@ echo "Deblobbing..."
 
 	#HDCP (DRM)
 	blobs=$blobs"|libmm-hdcpmgr.so|libstagefright_hdcp.so|libhdcp2.so";
-	blobs=$blobs"|srm.bin|insthk";
+	blobs=$blobs"|srm.bin|insthk|hdcp_test";
+	blobs=$blobs"|hdcp2xtest.srm";
 	blobs=$blobs"|hdcp1.*|tzhdcp.*";
 
 	#HDR
@@ -277,6 +278,7 @@ echo "Deblobbing..."
 	#Keystore/TrustZone (HW Crypto) [Qualcomm]
 	#blobs=$blobs"|keystore.qcom.so|libdrmdecrypt.so|libdrmfs.so|libdrmtime.so|libQSEEComAPI.so|librpmb.so|libssd.so|libQTEEConnector.*.so";
 	#blobs=$blobs"|qseecomd";
+	blobs=$blobs"|qseecom_sample_client|qseecom_security_test|qseeproxysampledaemon";
 	#blobs=$blobs"|keymaster.*|tzapps.*";
 	#blobs=$blobs"|vendor.qti.hardware.qteeconnector.*";
 

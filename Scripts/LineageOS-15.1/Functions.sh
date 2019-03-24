@@ -86,6 +86,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	#repopick 219020; #ab-neverallow-user
+	#repopick -it bt-sbc-hd-dualchannel;
 	repopick 241694 241695 241696 241697 241698 241699 241700 241701; #mako cves
 	repopick 244160; #ramdisk compression fix
 
