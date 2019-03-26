@@ -202,6 +202,7 @@ patch -p1 < "$DOS_PATCHES/android_device_asus_grouper/0001-Update_Blobs.patch";
 patch -p1 < "$DOS_PATCHES/android_device_asus_grouper/0002-Perf_Tweaks.patch";
 rm proprietary-blobs.txt;
 cp "$DOS_PATCHES/android_device_asus_grouper/lineage-proprietary-files.txt" lineage-proprietary-files.txt;
+echo "allow gpsd system_data_file:dir write;" >> sepolicy/gpsd.te;
 
 enterAndClear "device/lge/g2-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
@@ -264,7 +265,6 @@ sed -i "s/CONFIG_ARM_SMMU=y/# CONFIG_ARM_SMMU is not set/" kernel/motorola/msm89
 awk -i inplace '!/nfc_enhanced.mk/' device/samsung/toro*/lineage.mk;
 awk -i inplace '!/TARGET_RECOVERY_UPDATER_LIBS/' device/samsung/toro*/BoardConfig.mk;
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' device/samsung/toro*/BoardConfig.mk;
-sed -i "s/forceencrypt/encryptable/" device/samsung/tuna/rootdir/fstab.tuna; #first-boot encryption doesn't work
 #
 #END OF DEVICE CHANGES
 #

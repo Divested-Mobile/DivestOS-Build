@@ -254,7 +254,9 @@ hardenUserdata() {
 
 	#TODO: Ensure: noatime,nosuid,nodev
 	sed -i '/\/data/{/discard/!s|nosuid|discard,nosuid|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
-	sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
+	if [ "$1" != "device/samsung/tuna" ] && [ "$1" != "device/asus/grouper" ]; then #tuna needs first boot to init, grouper *extremely* slow
+		sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
+	fi;
 	echo "Hardened /data for $1";
 	cd "$DOS_BUILD_BASE";
 }
