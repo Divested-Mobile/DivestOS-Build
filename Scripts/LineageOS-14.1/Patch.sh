@@ -230,12 +230,14 @@ awk -i inplace '!/additional_system_update/' overlay/packages/apps/Settings/res/
 enableLowRam "device/samsung/tuna";
 enterAndClear "device/samsung/tuna";
 rm setup-makefiles.sh; #broken, deblobber will still function
+sed -i 's|vendor/maguro/|vendor/|' libgps-shim/gps.c; #fix dlopen not found
 #See: https://review.lineageos.org/q/topic:%22tuna-sepolicies
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0001-fix_denial.patch";
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0002-fix_denial.patch";
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0003-fix_denial.patch";
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0004-fix_denial.patch";
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0005-fix_denial.patch";
+echo "allow system_server system_file:file execmod;" >> sepolicy/system_server.te; #fix gps load
 
 enter "vendor/google";
 echo "" > atv/atv-common.mk;

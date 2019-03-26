@@ -92,6 +92,7 @@ echo "Deblobbing..."
 
 	#Dirac (Audio Codec + Effects) [Dirac]
 	blobs=$blobs"|libDiracAPI_SHARED.so|.*dirac.*";
+	blobs=$blobs"|diracmobile.config";
 
 	#Discretix (DRM/HDCP) [Discretix Technologies]
 	blobs=$blobs"|DxDrmServerIpc|discretix";
@@ -227,7 +228,8 @@ echo "Deblobbing..."
 	blobs=$blobs"|dolby_vision.cfg";
 
 	#I/O Prefetcher [Qualcomm]
-	blobs=$blobs"|libqc-opt.so|libqti-iop.*.so";
+	#blobs=$blobs"|libqc-opt.so"; #Can break camera in some cases
+	blobs=$blobs"|libqti-iop.*.so";
 	blobs=$blobs"|bin[/]iop";
 	blobs=$blobs"|QPerformance.jar";
 	blobs=$blobs"|vendor.qti.hardware.iop.*";

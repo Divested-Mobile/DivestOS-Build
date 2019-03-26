@@ -85,12 +85,15 @@ scanForMalware() {
 				scanQueue="$DOS_BUILD_BASE";
 			fi;
 		fi;
-		du -hsc "$scanQueue";
-		/usr/bin/clamscan --recursive --detect-pua --infected "$excludes" "$scanQueue";
+		du -hsc $scanQueue;
+		/usr/bin/clamscan --recursive --detect-pua --infected $excludes $scanQueue;
 		clamscanExit="$?";
 		if [ "$clamscanExit" -eq "1" ]; then
 			echo -e "\e[0;31m----------------------------------------------------------------\e[0m";
 			echo -e "\e[0;31mWARNING: MALWARE WAS FOUND! PLEASE INVESTIGATE!\e[0m";
+			echo -e "\e[0;31m----------------------------------------------------------------\e[0m";
+			echo -e "\e[0;33mFalse positivies such as the following are probably OK\e[0m";
+			echo -e "\e[0;33mPUAs: Ewind, Mobidash\e[0m";
 			echo -e "\e[0;31m----------------------------------------------------------------\e[0m";
 			sleep 60;
 		fi;
