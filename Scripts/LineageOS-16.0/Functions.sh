@@ -30,7 +30,7 @@ export -f resetWorkspace;
 scanWorkspaceForMalware() {
 	scanQueue="$DOS_BUILD_BASE/android $DOS_BUILD_BASE/art $DOS_BUILD_BASE/bionic $DOS_BUILD_BASE/bootable $DOS_BUILD_BASE/build $DOS_BUILD_BASE/compatibility $DOS_BUILD_BASE/dalvik $DOS_BUILD_BASE/device $DOS_BUILD_BASE/hardware $DOS_BUILD_BASE/libcore $DOS_BUILD_BASE/libnativehelper $DOS_BUILD_BASE/packages $DOS_BUILD_BASE/pdk $DOS_BUILD_BASE/platform_testing $DOS_BUILD_BASE/sdk $DOS_BUILD_BASE/system";
 	scanQueue=$scanQueue" $DOS_BUILD_BASE/lineage-sdk $DOS_BUILD_BASE/vendor/lineage";
-	scanForMalware true $scanQueue;
+	scanForMalware true "$scanQueue";
 }
 export -f scanWorkspaceForMalware;
 
@@ -66,6 +66,7 @@ patchWorkspace() {
 	#repopick -it bt-sbc-hd-dualchannel-pie;
 	repopick 244148; #log spam fix
 	#repopick -it recovery-p;
+	repopick 245252; #update webview
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

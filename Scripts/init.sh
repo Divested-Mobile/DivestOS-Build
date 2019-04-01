@@ -89,6 +89,7 @@ gpgVerifyGitHead() {
 export -f gpgVerifyGitHead;
 
 BUILD_WORKING_DIR=${PWD##*/};
+DOS_VERSION=$BUILD_WORKING_DIR;
 if [ -d ".repo" ]; then
 	echo "Detected $BUILD_WORKING_DIR";
 else
