@@ -31,3 +31,11 @@ List of known connectivity check endpoints
 		+ Fedora - OK - http://fedoraproject.org/static/hotspot.txt
 		+ Gnome - "NetworkManager is online" - http://nmcheck.gnome.org/check_network_status.txt
 		+ Mozilla - success - http://detectportal.firefox.com/success.txt
+
+
+
+export DOS_CONNECTIVITY_CHECK_HTTP="http://connectivitycheck.gstatic.com/generate_204"; #Options: Any endpoint that returns HTTP 204 repsonse
+export DOS_CONNECTIVITY_CHECK_HTTPS="https://www.google.com/generate_204";
+export DOS_CONNECTIVITY_CHECK_FALLBACK="http://www.google.com/gen_204";
+export DOS_CONNECTIVITY_CHECK_FALLBACK_ALT="http://play.googleapis.com/generate_204";
+export DOS_CONNECTIVITY_CHECK_USERAGENT="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.32 Safari/537.36";
