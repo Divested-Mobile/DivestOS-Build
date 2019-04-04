@@ -103,6 +103,9 @@ patchWorkspace() {
 	repopick -it bt-sbc-hd-dualchannel-nougat;
 	repopick 201113; #wifi country code fix
 	repopick 244387 244388; #loopback fixes
+	repopick -it n-asb-2019-04;
+
+	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

@@ -23,7 +23,6 @@ export DOS_SIGNING_KEYS=$DOS_WORKSPACE_ROOT"Signing_Keys";
 #export DOS_BINARY_PATCHER="";
 #export DOS_TOR_WRAPPER="torsocks"; #Uncomment to perform select build operations over Tor
 
-export DOS_BUILDALL_SUPERSEDED=false; #Set true to build superseded devices when running buildAll()
 export DOS_DEBLOBBER_REMOVE_ACCESSORIES=true; #Set false to allow use of external accessories
 export DOS_DEBLOBBER_REMOVE_AUDIOFX=true; #Set true to remove AudioFX
 export DOS_DEBLOBBER_REMOVE_GRAPHICS=false; #Set true to remove all graphics blobs and use SwiftShader CPU renderer #TODO: Needs work
@@ -34,8 +33,9 @@ export DOS_DEBLOBBER_REMOVE_IPA=false; #Set true to remove all IPA blobs
 export DOS_DEBLOBBER_REMOVE_IR=false; #Set true to remove all IR blobs
 export DOS_DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Services with the open source Sony TimeKeep reimplementation #TODO: Needs work
 
-export DOS_GRAPHENE_MALLOC=true; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms
+export DOS_BUILDALL_SUPERSEDED=false; #Set true to build superseded devices when running buildAll()
 export DOS_GPS_GLONASS_FORCED=true; #Enables GLONASS on all devices
+export DOS_GRAPHENE_MALLOC=true; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms
 export DOS_HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
 export DOS_HOSTS_BLOCKING_APP="DNS66"; #App installed when built-in blocking is disabled. Options: Blokada, DNS66
 export DOS_HOSTS_BLOCKING_LIST="https://divestos.xyz/hosts"; #Must be in the format "127.0.0.1 bad.domain.tld"

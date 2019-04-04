@@ -138,9 +138,6 @@ if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com
 enterAndClear "packages/apps/SetupWizard";
 patch -p1 < "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove analytics
 
-enterAndClear "packages/apps/Trebuchet";
-cp "$DOS_BUILD_BASE/vendor/divested/overlay/common/packages/apps/Trebuchet/res/xml/*.xml" res/xml/; #XXX: force override since overlay is broken (?)
-
 enterAndClear "packages/apps/Updater";
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Updater/0002-Tor_Support.patch"; #Add Tor support
