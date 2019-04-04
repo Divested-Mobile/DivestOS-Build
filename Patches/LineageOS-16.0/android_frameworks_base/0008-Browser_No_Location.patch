@@ -1,0 +1,31 @@
+From 1ddf24a6dafc98fba1dade12b3701a83a74e33bc Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sun, 17 Mar 2019 19:54:30 -0400
+Subject: [PATCH] stop auto-granting location to system browsers
+
+---
+ .../server/pm/permission/DefaultPermissionGrantPolicy.java    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java b/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java
+index 1ae59cbea45..0b8231b1669 100644
+--- a/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java
++++ b/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java
+@@ -643,7 +643,7 @@ private void grantDefaultSystemHandlerPermissions(int userId) {
+         }
+         if (browserPackage != null
+                 && doesPackageSupportRuntimePermissions(browserPackage)) {
+-            grantRuntimePermissions(browserPackage, LOCATION_PERMISSIONS, userId);
++            //grantRuntimePermissions(browserPackage, LOCATION_PERMISSIONS, userId);
+         }
+ 
+         // Voice interaction
+@@ -1053,7 +1053,7 @@ public void grantDefaultPermissionsToDefaultBrowser(String packageName, int user
+         PackageParser.Package browserPackage = getSystemPackage(packageName);
+         if (browserPackage != null
+                 && doesPackageSupportRuntimePermissions(browserPackage)) {
+-            grantRuntimePermissions(browserPackage, LOCATION_PERMISSIONS, false, false, userId);
++            //grantRuntimePermissions(browserPackage, LOCATION_PERMISSIONS, false, false, userId);
+         }
+     }
+ 

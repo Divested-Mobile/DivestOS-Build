@@ -1,0 +1,77 @@
+From f20cd64f7015fde23744ff24a378505485a666b9 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 27 Jul 2017 17:26:39 -0400
+Subject: [PATCH] remove useless no-op privacy policy / terms of use
+
+---
+ res/xml/preference_about.xml                  | 12 --------
+ .../preference/AboutPreferenceFragment.java   | 28 -------------------
+ 2 files changed, 40 deletions(-)
+
+diff --git a/res/xml/preference_about.xml b/res/xml/preference_about.xml
+index a109db68e..6b31d238f 100644
+--- a/res/xml/preference_about.xml
++++ b/res/xml/preference_about.xml
+@@ -25,16 +25,4 @@
+             android:key="@string/pref_open_source_licenses_key"
+             android:title="@string/about_open_source_licenses"
+             android:summary="@string/about_open_source_licenses_summary"/>
+-
+-    <Preference
+-            android:icon="@null"
+-            android:key="@string/pref_privacy_policy_key"
+-            android:title="@string/about_privacy_policy">
+-    </Preference>
+-
+-    <Preference
+-            android:icon="@null"
+-            android:key="@string/pref_terms_of_service_key"
+-            android:title="@string/about_terms_of_service">
+-    </Preference>
+ </PreferenceScreen>
+diff --git a/src/com/android/contacts/preference/AboutPreferenceFragment.java b/src/com/android/contacts/preference/AboutPreferenceFragment.java
+index 378948033..721ab0460 100644
+--- a/src/com/android/contacts/preference/AboutPreferenceFragment.java
++++ b/src/com/android/contacts/preference/AboutPreferenceFragment.java
+@@ -34,10 +34,6 @@
+  * This fragment shows the preferences for "about".
+  */
+ public class AboutPreferenceFragment extends PreferenceFragment {
+-
+-    public static final String PRIVACY_POLICY_URL = "http://www.google.com/policies/privacy";
+-    public static final String TERMS_OF_SERVICE_URL = "http://www.google.com/policies/terms";
+-
+     public static AboutPreferenceFragment newInstance() {
+         return new AboutPreferenceFragment();
+     }
+@@ -63,30 +59,6 @@ public void onCreate(Bundle savedInstanceState) {
+         final Preference licensePreference = findPreference(
+                 getString(R.string.pref_open_source_licenses_key));
+         licensePreference.setIntent(new Intent(getActivity(), LicenseActivity.class));
+-
+-        final Preference privacyPolicyPreference = findPreference("pref_privacy_policy");
+-        final Preference termsOfServicePreference = findPreference("pref_terms_of_service");
+-
+-        final Preference.OnPreferenceClickListener listener =
+-                new Preference.OnPreferenceClickListener() {
+-            @Override
+-            public boolean onPreferenceClick(Preference preference) {
+-                try {
+-                    if (preference == privacyPolicyPreference) {
+-                        startActivityForUrl(PRIVACY_POLICY_URL);
+-                    } else if (preference == termsOfServicePreference) {
+-                        startActivityForUrl(TERMS_OF_SERVICE_URL);
+-                    }
+-                } catch (ActivityNotFoundException ex) {
+-                    Toast.makeText(getContext(), getString(R.string.url_open_error_toast),
+-                            Toast.LENGTH_SHORT).show();
+-                }
+-                return true;
+-            }
+-        };
+-
+-        privacyPolicyPreference.setOnPreferenceClickListener(listener);
+-        termsOfServicePreference.setOnPreferenceClickListener(listener);
+     }
+ 
+     @Override
