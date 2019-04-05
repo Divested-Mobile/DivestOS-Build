@@ -65,6 +65,9 @@ cp -r "$DOS_PATCHES_COMMON""android_vendor_divested/." "$DOS_BUILD_BASE""vendor/
 enterAndClear "bionic";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi;
 
+enterAndClear "bootable/recovery";
+sed -i 's|install(Device|install(__attribute__ ((unused)) Device|' recovery.cpp; #Fix: error: unused parameter 'device'
+
 enterAndClear "build/make";
 git revert 271f6ffa045064abcac066e97f2cb53ccb3e5126 61f7ee9386be426fd4eadc2c8759362edb5bef8; #Add back PicoTTS and language files
 patch -p1 < "$DOS_PATCHES/android_build/0001-Automated_Build_Signing.patch"; #Automated build signing (CopperheadOS-13.0)
@@ -162,7 +165,7 @@ patch -p1 < "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; 
 
 enterAndClear "system/core";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
-#git revert b3609d82999d23634c5e6db706a3ecbc5348309a; #Always update recovery XXX: Wait until recovery-p topic is merged
+#git revert b3609d82999d23634c5e6db706a3ecbc5348309a; #Always update recovery XXX: recovery doesn't boot
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES_COMMON/android_system_core/0001-HM-Increase_vm_mmc.patch"; fi;
 

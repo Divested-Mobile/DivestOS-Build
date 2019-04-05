@@ -65,7 +65,6 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	#repopick -it bt-sbc-hd-dualchannel-pie;
 	repopick 244148; #log spam fix
-	#repopick -it recovery-p;
 	repopick 245252; #update webview
 	#repopick -it android-9.0.0_r35;
 
