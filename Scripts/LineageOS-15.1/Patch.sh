@@ -120,6 +120,9 @@ enterAndClear "lineage-sdk";
 awk -i inplace '!/WeatherManagerServiceBroker/' lineage/res/res/values/config.xml; #Disable Weather
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi;
 
+enterAndClear "packages/apps/Contacts";
+patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links
+
 enterAndClear "packages/apps/LineageParts";
 rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of the analytics
 patch -p1 < "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytics.patch"; #Remove analytics
@@ -193,7 +196,6 @@ sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.t
 enterAndClear "device/lge/g3-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
-echo "/dev/block/platform/msm_sdcc\.1/by-name/pad     u:object_r:misc_block_device:s0" >> sepolicy/file_contexts; #fix uncrypt denial
 sed -i 's|qcrilmsgtunnel.apk|qcrilmsgtunnel.apk:vendor/priv-app/qcrilmsgtunnel/qcrilmsgtunnel.apk|' proprietary-files.txt; #Fix vendor Android.mk path for qcrilmsgtunnel.apk
 
 enterAndClear "device/lge/msm8996-common";

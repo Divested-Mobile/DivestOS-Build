@@ -126,7 +126,7 @@ awk -i inplace '!/LineageWeatherManagerService/' lineage/res/res/values/config.x
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi;
 
 enterAndClear "packages/apps/Contacts";
-patch -p1 < "$DOS_PATCHES/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links
+patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links
 
 enterAndClear "packages/apps/LineageParts";
 rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of the analytics
