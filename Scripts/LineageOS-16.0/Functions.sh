@@ -65,7 +65,6 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	#repopick -it bt-sbc-hd-dualchannel-pie;
 	repopick 245252; #update webview
-	repopick -it pie_tzdb2019a;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

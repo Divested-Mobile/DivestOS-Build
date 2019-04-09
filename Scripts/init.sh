@@ -35,7 +35,7 @@ export DOS_DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Serv
 
 export DOS_BUILDALL_SUPERSEDED=false; #Set true to build superseded devices when running buildAll()
 export DOS_GPS_GLONASS_FORCED=true; #Enables GLONASS on all devices
-export DOS_GRAPHENE_MALLOC=true; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms
+export DOS_GRAPHENE_MALLOC=false; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms
 export DOS_HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
 export DOS_HOSTS_BLOCKING_APP="DNS66"; #App installed when built-in blocking is disabled. Options: Blokada, DNS66
 export DOS_HOSTS_BLOCKING_LIST="https://divestos.xyz/hosts"; #Must be in the format "127.0.0.1 bad.domain.tld"
