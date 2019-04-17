@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Disable LiveDisplay by default -->
+    <integer name="config_defaultLiveDisplayMode">0</integer>
+
+</resources>

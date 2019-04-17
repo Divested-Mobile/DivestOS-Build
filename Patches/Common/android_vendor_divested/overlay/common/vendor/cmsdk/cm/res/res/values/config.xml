@@ -5,6 +5,9 @@
      NOTE ! - Enable for devices that have a fast response proximity sensor (ideally < 300ms)-->
     <bool name="config_proximityCheckOnWake">true</bool>
 
+    <!-- Disable LiveDisplay by default -->
+    <integer name="config_defaultLiveDisplayMode">0</integer>
+
     <!-- Whether to enable app suggest overlay which allows app suggest
          provider to be replaced by an app at run-time. When disabled, only
          the config_appSuggestProviderPackageName will be searched for app
