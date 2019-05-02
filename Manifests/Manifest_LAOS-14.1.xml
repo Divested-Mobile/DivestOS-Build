@@ -236,6 +236,9 @@
 	<project path="device/samsung/tuna" name="Galaxy-Nexus/android_device_samsung_tuna" remote="github" />
 	<project path="kernel/samsung/tuna" name="Galaxy-Nexus/android_kernel_samsung_tuna" remote="github" />
 
+	<!-- Samsung Galaxy Note 2 (n7100) -->
+	<project path="device/samsung/n7100" name="LineageOS/android_device_samsung_n7100" remote="github" />
+
 	<!-- Samsung Galaxy Note 8.0 Wi-Fi (n5110) -->
 	<project path="device/samsung/kona-common" name="LineageOS/android_device_samsung_kona-common" remote="github" />
 	<project path="device/samsung/n5110" name="LineageOS/android_device_samsung_n5110" remote="github" />
@@ -244,7 +247,8 @@
 	<project path="device/samsung/i9100" name="LineageOS/android_device_samsung_i9100" remote="github" />
 	<project path="device/samsung/galaxys2-common" name="LineageOS/android_device_samsung_galaxys2-common" remote="github" />
 
-	<!-- Samsung Galaxy S III (i9305) -->
+	<!-- Samsung Galaxy S III (i9300) -->
+	<project path="device/samsung/i9300" name="LineageOS/android_device_samsung_i9300" remote="github" />
 	<project path="device/samsung/i9305" name="LineageOS/android_device_samsung_i9305" remote="github" />
 
 	<!-- Samsung Galaxy S4 (jfltexx) -->

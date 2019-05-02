@@ -56,11 +56,13 @@ buildAll() {
 	brunch lineage_herolte-user;
 	brunch lineage_himaul-user;
 	brunch lineage_i9100-userdebug;
+	brunch lineage_i9300-userdebug;
 	brunch lineage_i9305-user;
 	brunch lineage_jfltexx-user;
 	brunch lineage_maguro-user;
 	brunch lineage_manta-user;
 	brunch lineage_n5110-user;
+	#brunch lineage_n7100-user; #device/samsung/n7100/selinux/device.te:5:ERROR 'duplicate declaration of type/attribute' at token ';': type hpd_device, dev_type; type mfc_device, dev_type;
 	brunch lineage_osprey-user;
 	#brunch lineage_toro-user;
 	#brunch lineage_toroplus-user;
