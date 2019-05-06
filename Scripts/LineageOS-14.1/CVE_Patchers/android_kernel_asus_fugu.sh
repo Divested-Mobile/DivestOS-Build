@@ -154,6 +154,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10882/3.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10883/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10883/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-1092/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11939/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13053/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-14634/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5390/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5390/3.10/0002.patch
@@ -170,5 +172,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2475/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000111/ANY/0001.patch
-editKernelLocalversion "-dos.p170"
+editKernelLocalversion "-dos.p172"
 cd "$DOS_BUILD_BASE"

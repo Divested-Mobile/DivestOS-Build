@@ -4,6 +4,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0133-0134.patch
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0135-0136.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0137-0138.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0150-0151.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0168-0169.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9900/ANY/0001.patch
@@ -14,6 +15,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-11036/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11939/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-12232/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13917/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-3575/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5848/ANY/0001.patch
@@ -23,5 +26,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2024/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-3459/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p23"
+editKernelLocalversion "-dos.p26"
 cd "$DOS_BUILD_BASE"

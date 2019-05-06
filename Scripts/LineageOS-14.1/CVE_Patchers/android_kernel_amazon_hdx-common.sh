@@ -98,6 +98,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10879/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10880/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10882/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11832/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11939/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13053/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5858/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9383/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9389/ANY/0001.patch
@@ -110,5 +112,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0008-nfsd-check-for-oversized
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-after-free-for-hub-usb-device.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-9f34c6ebc016cd061ae5ec901221d15fa3d67e49.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000111/ANY/0001.patch
-editKernelLocalversion "-dos.p110"
+editKernelLocalversion "-dos.p112"
 cd "$DOS_BUILD_BASE"
