@@ -106,6 +106,7 @@ patchWorkspace() {
 	repopick 201113; #wifi country code fix
 	repopick 244387 244388; #loopback fixes
 	repopick -it CVE-2019-2033;
+	#repopick 212799; #alt: 212827
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 
