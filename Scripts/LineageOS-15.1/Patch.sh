@@ -65,6 +65,9 @@ cp -r "$DOS_PATCHES_COMMON""android_vendor_divested/." "$DOS_BUILD_BASE""vendor/
 enterAndClear "bionic";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi;
 
+enterAndClear "bootable/recovery";
+git revert ac258a4f4c4b4b91640cc477ad1ac125f206db02; #Resurrect dm-verity
+
 enterAndClear "build/make";
 patch -p1 < "$DOS_PATCHES/android_build/0001-Automated_Build_Signing.patch"; #Automated build signing (CopperheadOS-13.0)
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
@@ -170,6 +173,7 @@ patch -p1 < "$DOS_PATCHES/android_system_vold/0001-AES256.patch"; #Add a variabl
 
 enterAndClear "vendor/lineage";
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
+rm -rf verity_tool; #Resurrect dm-verity
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then awk -i inplace '!/50-lineage.sh/' config/common.mk; fi; #Make sure our hosts is always used
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra keys
 awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys

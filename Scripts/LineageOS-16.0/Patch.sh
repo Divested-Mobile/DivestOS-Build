@@ -66,6 +66,7 @@ enterAndClear "bionic";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi;
 
 enterAndClear "bootable/recovery";
+git revert fe2901b144c515c5a90b547198aed37c209b5a82; #Resurrect dm-verity
 sed -i 's|install(Device|install(__attribute__ ((unused)) Device|' recovery.cpp; #Fix: error: unused parameter 'device'
 
 enterAndClear "build/make";
@@ -176,6 +177,7 @@ awk -i inplace '!/true cannot be used in user builds/' Android.mk; #Allow ignori
 
 enterAndClear "vendor/lineage";
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
+rm -rf verity_tool; #Resurrect dm-verity
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then awk -i inplace '!/50-lineage.sh/' config/common.mk; fi; #Make sure our hosts is always used
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra keys
 awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys

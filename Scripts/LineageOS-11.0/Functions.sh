@@ -60,7 +60,7 @@ patchWorkspace() {
 	repopick -it asb-2018.09-cm11-qcom;
 	#repopick -it asb-2019.02-cm11; #merged, execpt for level
 	#repopick -it asb-2019.03-cm11; #merged, execpt for level
-	repopick -it asb-2019.04-cm11;
+	repopick -it asb-2019.04-cm11 -e 246293;
 	repopick -i 230054 230392; #asb disclaimer
 
 	source "$DOS_SCRIPTS/Patch.sh";
