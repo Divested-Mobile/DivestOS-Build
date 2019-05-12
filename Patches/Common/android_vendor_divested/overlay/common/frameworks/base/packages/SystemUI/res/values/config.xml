@@ -18,7 +18,10 @@
     <bool name="config_notifications_round_rect_clipping">false</bool>
 
     <!-- Whether to show a warning notification when the device reaches a certain temperature. -->
-    <integer name="config_showTemperatureWarning">1</integer>
+    <integer name="config_showTemperatureWarning">0</integer>
+
+    <!-- Whether to show a alarm dialog when device of usb cable reaches a certain temperature. -->
+    <integer name="config_showTemperatureAlarm">0</integer>
 
     <!-- Should "4G" be shown instead of "LTE" when the network is NETWORK_TYPE_LTE? -->
     <bool name="config_show4GForLTE">false</bool>
