@@ -62,7 +62,7 @@
 <!-- END OF UNNECESSARY REPO REMOVAL -->
 
 <!-- START OF ADDITIONAL REPOS -->
-	<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />
+	<!--<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />-->
 
 	<!-- F-Droid -->
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />

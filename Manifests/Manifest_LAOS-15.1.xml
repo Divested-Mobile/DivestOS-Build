@@ -60,8 +60,8 @@
 	<remove-project name="platform/external/svox" />
 	<project path="external/svox" name="platform/external/svox" groups="pdk" remote="aosp" revision="master" />
 
-	<remove-project name="platform/external/swiftshader" />
-	<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />
+	<!--<remove-project name="platform/external/swiftshader" />
+	<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />-->
 <!-- END OF BRANCH SWITCHING -->
 
 <!-- START OF ADDITIONAL REPOS -->

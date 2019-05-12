@@ -86,6 +86,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	#repopick 219020; #ab-neverallow-user
+	repopick -it O_asb_2019-05;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
