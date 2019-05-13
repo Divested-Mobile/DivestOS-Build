@@ -56,7 +56,6 @@ buildAll() {
 	brunch lineage_dragon-user;
 	brunch lineage_flo-user;
 	brunch lineage_flounder-user;
-	brunch lineage_FP2-user;
 	brunch lineage_fugu-user;
 	brunch lineage_h850-user;
 	brunch lineage_hammerhead-user;
@@ -71,6 +70,7 @@ buildAll() {
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		brunch lineage_bacon-user;
 		brunch lineage_ether-user;
+		brunch lineage_FP2-user;
 		brunch lineage_griffin-user;
 		brunch lineage_klte-user;
 		brunch lineage_mako-user;
