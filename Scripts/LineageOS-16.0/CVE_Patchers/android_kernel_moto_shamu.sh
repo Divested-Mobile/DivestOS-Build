@@ -1,6 +1,7 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/moto/shamu"
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0004-No_dir-relax.patch
+git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0009.patch
@@ -85,7 +86,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10021/^4.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10087/^4.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10124/^4.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10675/^4.12.9/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-1094/^4.15.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10940/^4.16.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11832/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11939/ANY/0001.patch
@@ -111,6 +111,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-9f34c6ebc016cd
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-2891/^3.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2475/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10878/ANY/0001.patch
-editKernelLocalversion "-dos.p112"
+editKernelLocalversion "-dos.p111"
 cd "$DOS_BUILD_BASE"
