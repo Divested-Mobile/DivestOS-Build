@@ -135,7 +135,7 @@ echo "TARGET_DISPLAY_USE_RETIRE_FENCE := true" >> BoardConfig.mk;
 sed -i 's/libm libc/libm libc libutils/' charger/Android.mk;
 sed -i 's/ro.sf.lcd_density=240/ro.sf.lcd_density=180/' system.prop;
 awk -i inplace '!/WCNSS_qcom_wlan_nv_2.bin/' proprietary-files.txt; #Missing
-echo "lib/hw/camera.msm8960.so" >> proprietary-files.txt;
+#echo "lib/hw/camera.msm8960.so" >> proprietary-files.txt;
 #In nex-vendor-blobs.mk
 #	Copy "system/lib/libtime_genoff.so" as "obj/lib/libtime_genoff.so"
 
