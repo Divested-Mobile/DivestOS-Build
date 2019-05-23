@@ -18,7 +18,7 @@ There are multiple solutions:
 		- If a maintainer blocked it, it'd cause issues (no Internet symbol when there is)
 
 List of known connectivity check endpoints
-	+ DivestOS - 204 - http://divestos.xyz/gen204.php
+	+ DivestOS - 204 - http://divestos.org/gen204.php
 	- Google - 204 - https://www.google.com/generate_204
 	- Google - 204 - http://connectivitycheck.gstatic.com/generate_204
 	- Google - 204 - http://www.google.com/gen_204

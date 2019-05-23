@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#desc='/O=Divested Computing, Inc./CN=DivestOS/emailAddress=support@divestos.xyz';
+#desc='/O=Divested Computing, Inc./CN=DivestOS/emailAddress=support@divestos.org';
 desc='/O=Example/CN=ExampleOS/emailAddress=support@example.com';
 type='rsa'; #Options: rsa, ec
 

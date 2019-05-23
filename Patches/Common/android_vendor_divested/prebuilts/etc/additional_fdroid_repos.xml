@@ -4,7 +4,7 @@
 <!-- name -->
 <item>DivestOS Official</item>
 <!-- address -->
-<item>https://divestos.xyz/fdroid/official</item>
+<item>https://divestos.org/fdroid/official</item>
 <!-- description -->
 <item>This repository contains apps created by Divested Computing, Inc.</item>
 <!-- version -->
@@ -19,7 +19,7 @@
 <!-- name -->
 <item>DivestOS Unofficial</item>
 <!-- address -->
-<item>https://divestos.xyz/fdroid/unofficial</item>
+<item>https://divestos.org/fdroid/unofficial</item>
 <!-- description -->
 <item>This repository contains unofficial builds of open source apps that are not included in the official F-Droid repo or IzzySoft repo.</item>
 <!-- version -->
@@ -34,7 +34,7 @@
 <!-- name -->
 <item>DivestOS Provisioner</item>
 <!-- address -->
-<item>https://divestos.xyz/fdroid/provisioner</item>
+<item>https://divestos.org/fdroid/provisioner</item>
 <!-- description -->
 <item>This is an empty repo used to provision a device using the push install feature. Consider disabling after first use.</item>
 <!-- version -->

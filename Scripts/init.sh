@@ -38,7 +38,7 @@ export DOS_GPS_GLONASS_FORCED=true; #Enables GLONASS on all devices
 export DOS_GRAPHENE_MALLOC=false; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms
 export DOS_HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
 export DOS_HOSTS_BLOCKING_APP="DNS66"; #App installed when built-in blocking is disabled. Options: Blokada, DNS66
-export DOS_HOSTS_BLOCKING_LIST="https://divestos.xyz/hosts"; #Must be in the format "127.0.0.1 bad.domain.tld"
+export DOS_HOSTS_BLOCKING_LIST="https://divestos.org/hosts"; #Must be in the format "127.0.0.1 bad.domain.tld"
 export DOS_LOWRAM_ENABLED=false; #Switch to true to enable low_ram on all devices
 export DOS_MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
 export DOS_MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
@@ -58,9 +58,9 @@ export DOS_BRANDING_BOOTANIMATION_FONT="Fira-Sans-Bold"; #Options: $ convert -li
 export DOS_BRANDING_BOOTANIMATION_STYLE="plasma"; #Options: gradient, plasma
 #export DOS_BRANDING_BOOTANIMATION_COLOR="#FF5722-#FF8A65"; #gradient
 export DOS_BRANDING_BOOTANIMATION_COLOR="#FF5722-#03A9F4"; #plasma
-export DOS_BRANDING_LINK_ABOUT="https://divestos.xyz/index.php?page=about";
-export DOS_BRANDING_LINK_PRIVACY="https://divestos.xyz/index.php?page=privacy_policy";
-export DOS_BRANDING_SERVER_OTA="https://divestos.xyz/updater.php";
+export DOS_BRANDING_LINK_ABOUT="https://divestos.org/index.php?page=about";
+export DOS_BRANDING_LINK_PRIVACY="https://divestos.org/index.php?page=privacy_policy";
+export DOS_BRANDING_SERVER_OTA="https://divestos.org/updater.php";
 export DOS_BRANDING_SERVER_OTA_ONION=$DOS_BRANDING_SERVER_OTA;
 
 export DOS_THEME_50="FFCA28"; #Amber 400
