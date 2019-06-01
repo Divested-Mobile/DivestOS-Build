@@ -111,7 +111,8 @@ patchWorkspace() {
 	repopick 242134; #AVRCP off-by-one fix
 	repopick 244387 244388; #loopback fixes
 	repopick -it CVE-2019-2033;
-	repopick -it n-asb-2019-05;
+	repopick 248599; #restrict SET_TIME_ZONE permission
+	repopick 248600 248649; #/proc hardening
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 
