@@ -1,0 +1,35 @@
+From 6bdd1bbcea89fc1494e87948d1147402e9d89042 Mon Sep 17 00:00:00 2001
+From: MSe1969 <mse1969@posteo.de>
+Date: Mon, 29 Oct 2018 12:14:17 +0100
+Subject: [PATCH] SUPL: Don't send IMSI / Phone number to SUPL server
+
+Change-Id: I5ccc4d61e52ac11ef33f44618d0e610089885b87
+---
+ .../com/android/server/location/GnssLocationProvider.java  | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/location/GnssLocationProvider.java b/services/core/java/com/android/server/location/GnssLocationProvider.java
+index 2c11a01c7851..44163ece2c22 100644
+--- a/services/core/java/com/android/server/location/GnssLocationProvider.java
++++ b/services/core/java/com/android/server/location/GnssLocationProvider.java
+@@ -2053,6 +2053,11 @@ private void requestSetID(int flags) {
+         int type = AGPS_SETID_TYPE_NONE;
+         String data = "";
+ 
++        /*
++         * We don't want to tell Google our IMSI or phone number to spy on us!
++         * As devices w/o SIM card also have working GPS, providing this data does
++         * not seem to add a lot of value, at least not for the device holder
++         *
+         if ((flags & AGPS_RIL_REQUEST_SETID_IMSI) == AGPS_RIL_REQUEST_SETID_IMSI) {
+             String data_temp = phone.getSubscriberId();
+             if (data_temp == null) {
+@@ -2072,7 +2077,7 @@ else if ((flags & AGPS_RIL_REQUEST_SETID_MSISDN) == AGPS_RIL_REQUEST_SETID_MSISD
+                 data = data_temp;
+                 type = AGPS_SETID_TYPE_MSISDN;
+             }
+-        }
++        } */
+         native_agps_set_id(type, data);
+     }
+ 

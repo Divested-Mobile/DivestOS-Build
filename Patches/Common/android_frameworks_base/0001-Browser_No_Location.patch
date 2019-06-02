@@ -1,0 +1,35 @@
+From eb1485e1ad5c6683e949006dd62e02cec70ca382 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Mon, 24 Jul 2017 22:59:05 +0200
+Subject: [PATCH] stop granting location to Browser app by default
+
+It works fine without it and requests it after the user grants
+location access to a site.
+
+Change-Id: Ifabc3f1ae4acf008abf1467fc928eeb90613feff
+---
+ .../com/android/server/pm/DefaultPermissionGrantPolicy.java   | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/DefaultPermissionGrantPolicy.java b/services/core/java/com/android/server/pm/DefaultPermissionGrantPolicy.java
+index 5016ec0d4be0..027cd05bf9e9 100644
+--- a/services/core/java/com/android/server/pm/DefaultPermissionGrantPolicy.java
++++ b/services/core/java/com/android/server/pm/DefaultPermissionGrantPolicy.java
+@@ -539,7 +539,7 @@ private void grantDefaultSystemHandlerPermissions(int userId) {
+             }
+             if (browserPackage != null
+                     && doesPackageSupportRuntimePermissions(browserPackage)) {
+-                grantRuntimePermissionsLPw(browserPackage, LOCATION_PERMISSIONS, userId);
++                //grantRuntimePermissionsLPw(browserPackage, LOCATION_PERMISSIONS, userId);
+             }
+ 
+             // Voice interaction
+@@ -785,7 +785,7 @@ public void grantDefaultPermissionsToDefaultBrowserLPr(String packageName, int u
+         PackageParser.Package browserPackage = getSystemPackageLPr(packageName);
+         if (browserPackage != null
+                 && doesPackageSupportRuntimePermissions(browserPackage)) {
+-            grantRuntimePermissionsLPw(browserPackage, LOCATION_PERMISSIONS, false, false, userId);
++            //grantRuntimePermissionsLPw(browserPackage, LOCATION_PERMISSIONS, false, false, userId);
+         }
+     }
+ 
