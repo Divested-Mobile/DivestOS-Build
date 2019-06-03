@@ -98,7 +98,7 @@ changeDefaultDNS;
 #patch -p1 < "$DOS_PATCHES/android_frameworks_base/0005-Connectivity.patch"; #Change connectivity check URLs to ours
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0006-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
 patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #don't grant location permission to system browsers
-patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0002-Disable_usage_stats.patch"; #don't grant usage stats permission to apps by default
+#patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0002-Disable_usage_stats.patch"; #don't grant usage stats permission to apps by default XXX: breaks stuff
 patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #don't send IMSI to SUPL
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
 

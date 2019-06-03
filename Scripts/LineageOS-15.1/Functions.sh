@@ -86,6 +86,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	#repopick 219020; #ab-neverallow-user
+	repopick 249193; #update webview
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
