@@ -87,6 +87,8 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	#repopick 219020; #ab-neverallow-user
 	repopick 249193; #update webview
+	repopick -it O_asb_2019-06;
+	#repopick 249549; #bluetooth: drop connections with weak encryption keys
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
