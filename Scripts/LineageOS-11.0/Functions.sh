@@ -63,6 +63,7 @@ patchWorkspace() {
 	#repopick -it asb-2019.03-cm11; #merged, execpt for level
 	repopick -it asb-2019.04-cm11 -e 246293;
 	repopick -it asb-2019.05-cm11;
+	repopick -it asb-2019.06-cm11;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
