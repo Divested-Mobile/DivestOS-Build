@@ -113,7 +113,6 @@ patchWorkspace() {
 	repopick -it CVE-2019-2033;
 	repopick 248599; #restrict SET_TIME_ZONE permission
 	repopick 248600 248649; #/proc hardening
-	repopick -it n-asb-2019-06;
 	#repopick 249553; #bluetooth: drop connections with weak encryption keys
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails

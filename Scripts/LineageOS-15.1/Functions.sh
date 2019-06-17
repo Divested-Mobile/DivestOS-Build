@@ -84,10 +84,8 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	source build/envsetup.sh;
+	#source build/envsetup.sh;
 	#repopick 219020; #ab-neverallow-user
-	repopick 249193; #update webview
-	repopick -it O_asb_2019-06;
 	#repopick 249549; #bluetooth: drop connections with weak encryption keys
 
 	source "$DOS_SCRIPTS/Patch.sh";
