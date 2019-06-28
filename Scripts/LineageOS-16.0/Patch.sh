@@ -100,7 +100,6 @@ changeDefaultDNS;
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0006-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #always restrict access to Build.SERIAL
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #don't grant location permission to system browsers
-patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0002-Disable_usage_stats.patch"; #don't grant usage stats permission to apps by default
 patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #don't send IMSI to SUPL
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
 
@@ -208,9 +207,6 @@ echo "allow system_server sensors_data_file:dir search;" >> sepolicy/system_serv
 echo "allow system_server sensors_data_file:dir r_file_perms;" >> sepolicy/system_server.te;
 sed -i 's/1333788672/880803840/' BoardConfig.mk; #don't touch partitions! DOS -user fits with 75M free
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk;
-
-enterAndClear "device/oneplus/bacon";
-sed -i 's/android.hardware.nfc@1.0-impl/android.hardware.nfc@1.0-impl.so/' device-proprietary-files.txt;
 
 enterAndClear "device/oppo/msm8974-common";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
