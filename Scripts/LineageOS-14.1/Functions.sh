@@ -114,6 +114,7 @@ patchWorkspace() {
 	repopick 248599; #restrict SET_TIME_ZONE permission
 	repopick 248600 248649; #/proc hardening
 	#repopick 249553; #bluetooth: drop connections with weak encryption keys
+	repopick 250940; #update webview
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 
