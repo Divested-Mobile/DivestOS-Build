@@ -115,6 +115,7 @@ patchWorkspace() {
 	repopick 248600 248649; #/proc hardening
 	#repopick 249553; #bluetooth: drop connections with weak encryption keys
 	repopick 250940; #update webview
+	repopick -it n-asb-2019-07;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

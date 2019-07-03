@@ -65,6 +65,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick 249538; #update webview
+	repopick -it P_asb_2019-07;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
