@@ -164,7 +164,7 @@ patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferre
 enterAndClear "system/core";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4; #Always update recovery
-patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0)
+patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysfs changes (CopperheadOS-13.0)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES_COMMON/android_system_core/0001-HM-Increase_vm_mmc.patch"; fi;
 
 enterAndClear "system/sepolicy";

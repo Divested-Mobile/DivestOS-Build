@@ -168,7 +168,7 @@ patch -p1 < "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; 
 enterAndClear "system/core";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 #git revert b3609d82999d23634c5e6db706a3ecbc5348309a; #Always update recovery XXX: recovery doesn't boot
-patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0)
+patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysfs changes (CopperheadOS-13.0)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES_COMMON/android_system_core/0001-HM-Increase_vm_mmc.patch"; fi;
 
 enterAndClear "system/sepolicy";

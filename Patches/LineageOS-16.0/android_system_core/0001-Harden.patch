@@ -1,13 +1,13 @@
-From 4f7a3dcaa89a09a8b1ad9377ead3639449226e24 Mon Sep 17 00:00:00 2001
+From 231f969f0478c572afef5f9eeaaf81922f8e027e Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Mon, 12 Feb 2018 03:29:58 -0500
-Subject: [PATCH] Harden mounts
+Subject: [PATCH] Harden
 
 Change-Id: Idd2da6d9989ec554ce5b0841781d323fdcd9eb87
 ---
  init/init.cpp   | 6 +++---
- rootdir/init.rc | 2 ++
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ rootdir/init.rc | 4 ++++
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
 index eb9dd755b..504a6d13e 100644
@@ -32,15 +32,17 @@ index eb9dd755b..504a6d13e 100644
  
          mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11));
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index d86bc02cf..4b01de345 100644
+index 4a8a60a96..6e4accdba 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -121,6 +121,8 @@ on init
+@@ -121,6 +121,10 @@ on init
      write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
      write /proc/sys/kernel/sched_child_runs_first 0
  
 +    write /proc/sys/kernel/dmesg_restrict 1
 +    write /proc/sys/net/ipv4/tcp_sack 0
++    write /proc/sys/net/ipv6/conf/all/use_tempaddr 2
++    write /proc/sys/net/ipv6/conf/default/use_tempaddr 2
      write /proc/sys/kernel/randomize_va_space 2
      write /proc/sys/vm/mmap_min_addr 32768
      write /proc/sys/net/ipv4/ping_group_range "0 2147483647"
