@@ -159,6 +159,7 @@ enterAndClear "packages/inputmethods/LatinIME";
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
 
 enterAndClear "packages/services/Telephony";
+git revert 99564aaf0417c9ddf7d6aeb10d326e5b24fa8f55;
 patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch";
 patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
 
@@ -205,7 +206,7 @@ git revert 218f7442874f7b7d494f265286a2151e2f81bb6e; #disable dexpreopt full and
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
 echo "allow system_server sensors_data_file:dir search;" >> sepolicy/system_server.te; #Fix qcom_sensors log spam
 echo "allow system_server sensors_data_file:dir r_file_perms;" >> sepolicy/system_server.te;
-sed -i 's/1333788672/880803840/' BoardConfig.mk; #don't touch partitions! DOS -user fits with 75M free
+sed -i 's/1333788672/880803840/' BoardConfig.mk; #don't touch partitions! DOS -user fits with 40M free
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk;
 
 enterAndClear "device/oppo/msm8974-common";

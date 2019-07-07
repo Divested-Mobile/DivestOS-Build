@@ -3,7 +3,6 @@ cd "$DOS_BUILD_BASE""kernel/fairphone/msm8974"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.4/3.4.0046-0047.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.4/3.4.0077-0078.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.4/3.4.0089-0090.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0005-Copperhead-Deny_USB/3.4/3.4-Backport.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-2373/^3.4.5/0001.patch
@@ -176,7 +175,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10882/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10940/^4.16.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11832/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11939/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13053/^4.17.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-14634/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-15594/^4.18.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-16658/^4.18.6/0001.patch
@@ -194,12 +192,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9516/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10142/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2001/^3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2054/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2101/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-3459/^5.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/^4.20.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-after-free-for-hub-usb-device.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-9f34c6ebc016cd061ae5ec901221d15fa3d67e49.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6544/^3.6/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p201"
+editKernelLocalversion "-dos.p197"
 cd "$DOS_BUILD_BASE"

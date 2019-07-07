@@ -63,9 +63,7 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	source build/envsetup.sh;
-	repopick 249538; #update webview
-	repopick -it P_asb_2019-07;
+	#source build/envsetup.sh;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
