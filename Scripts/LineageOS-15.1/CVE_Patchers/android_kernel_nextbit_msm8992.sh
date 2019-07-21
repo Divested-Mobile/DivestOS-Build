@@ -1,5 +1,7 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/nextbit/msm8992"
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0004-No_dir-relax.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0006.patch
@@ -156,6 +158,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10142/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-11486/^5.0.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-11884/^5.0.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12456/^5.1.5/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-13631/^5.2.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2001/^3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2054/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2101/ANY/0002.patch
@@ -165,5 +168,5 @@ git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0003/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6693/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p165"
+editKernelLocalversion "-dos.p168"
 cd "$DOS_BUILD_BASE"

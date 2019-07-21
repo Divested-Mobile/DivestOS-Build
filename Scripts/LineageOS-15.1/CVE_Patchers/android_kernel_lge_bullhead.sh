@@ -3,6 +3,8 @@ cd "$DOS_BUILD_BASE""kernel/lge/bullhead"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.10/3.10.0073-0074.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.10/3.10.0093-0094.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-Copperhead-Deny_USB/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0005.patch
@@ -196,6 +198,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-11486/^5.0.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-11833/^5.1.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-11884/^5.0.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12456/^5.1.5/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-13631/^5.2.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2001/^3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2054/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2101/ANY/0002.patch
@@ -204,5 +207,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/^4.20.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0003/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6693/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
-editKernelLocalversion "-dos.p204"
+editKernelLocalversion "-dos.p207"
 cd "$DOS_BUILD_BASE"

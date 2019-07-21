@@ -6,6 +6,8 @@ git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0011.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0021.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0022.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0023.patch
@@ -252,6 +254,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-8897/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9383/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9422/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10142/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10638/^4.1/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-11486/^5.0.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-11833/^5.1.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-11884/^5.0.15/0001.patch
@@ -260,6 +263,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12456/^5.1.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12614/^5.1.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12818/^4.20.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12819/^5.0/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-13631/^5.2.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-3459/^5.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/^4.20.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0004/3.18/0003.patch
@@ -269,5 +273,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0004-net-add-recursion-limit-
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2475/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p269"
+editKernelLocalversion "-dos.p273"
 cd "$DOS_BUILD_BASE"
