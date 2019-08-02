@@ -2,7 +2,7 @@
 cd "$DOS_BUILD_BASE""kernel/htc/msm8994"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.10/3.10.0088-0089.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.10/3.10.0093-0094.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0004-No_dir-relax.patch
@@ -44,6 +44,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-8746/^4.2.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-8812/^4.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-8844/^4.3.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-8942/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-9289/^4.1.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10208/3.10-^3.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2085/^4.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2117/^4.5.2/0001.patch
@@ -234,5 +235,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6693/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000111/ANY/0001.patch
-editKernelLocalversion "-dos.p234"
+editKernelLocalversion "-dos.p235"
 cd "$DOS_BUILD_BASE"

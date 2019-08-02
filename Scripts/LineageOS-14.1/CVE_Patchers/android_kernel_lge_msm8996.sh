@@ -3,10 +3,10 @@ cd "$DOS_BUILD_BASE""kernel/lge/msm8996"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0032-0033.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0085-0086.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0103-0104.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0009.patch
-git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0010.patch
-git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0011.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0010.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-Copperhead-Deny_USB/3.18/0002-Alt2.patch
@@ -299,6 +299,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2054/ANY/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2054/ANY/0013.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2101/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2263/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2341/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2345/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-3459/^5.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-3460/^5.1/0001.patch
@@ -311,5 +312,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6693/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0610/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p311"
+editKernelLocalversion "-dos.p312"
 cd "$DOS_BUILD_BASE"

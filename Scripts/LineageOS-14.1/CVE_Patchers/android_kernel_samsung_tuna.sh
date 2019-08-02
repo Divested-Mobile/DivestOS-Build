@@ -2,6 +2,9 @@
 cd "$DOS_BUILD_BASE""kernel/samsung/tuna"
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2011-5327/^3.1/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-2375/^3.3.2/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-3375/^3.2.24/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6544/^3.6/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6545/^3.6/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-4299/^3.11.6/0001.patch
@@ -142,5 +145,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/^4.20.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-after-free-for-hub-usb-device.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000111/ANY/0001.patch
-editKernelLocalversion "-dos.p142"
+editKernelLocalversion "-dos.p145"
 cd "$DOS_BUILD_BASE"

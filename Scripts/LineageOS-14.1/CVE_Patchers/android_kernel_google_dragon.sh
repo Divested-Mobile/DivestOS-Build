@@ -2,10 +2,10 @@
 cd "$DOS_BUILD_BASE""kernel/google/dragon"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0085-0086.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0103-0104.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0009.patch
-git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0010.patch
-git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0011.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0010.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0021.patch
@@ -81,6 +81,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-8953/^4.2.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-8962/^4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-8966/3.15-^4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-9016/3.18/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-9289/^4.1.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-0758/^4.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10088/^4.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10200/^4.8.14/0001.patch
@@ -319,5 +320,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0004-net-add-recursion-limit-
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2475/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p319"
+editKernelLocalversion "-dos.p320"
 cd "$DOS_BUILD_BASE"

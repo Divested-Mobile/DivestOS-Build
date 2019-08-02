@@ -1,7 +1,7 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/asus/fugu"
-git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0008.patch
-git apply $DOS_PATCHES_LINUX_CVES/0003-syskaller-Misc/ANY/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0004.patch
@@ -120,6 +120,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-8812/^4.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-8944/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-8955/^4.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-8967/^4.0/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-9289/^4.1.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-0758/^4.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10208/3.10-^3.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2085/^4.5/0001.patch
@@ -310,5 +311,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2475/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000111/ANY/0001.patch
-editKernelLocalversion "-dos.p310"
+editKernelLocalversion "-dos.p311"
 cd "$DOS_BUILD_BASE"
