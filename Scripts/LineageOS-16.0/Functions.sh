@@ -48,6 +48,7 @@ export -f buildDeviceDebug;
 
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
+	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	brunch lineage_mako-user;
 	brunch lineage_bacon-user;
 	brunch lineage_ether-user;

@@ -44,6 +44,7 @@ export DOS_MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchW
 export DOS_MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
 export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NLP, FULL
 export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches XXX: Unused, see 1dc9247
+export DOS_OPTIMIZE_IMAGES=true; #Set true to apply lossless optimizations to image resources. Reduces image size and increases performance.
 export DOS_OVERCLOCKS_ENABLED=false; #Switch to false to disable overclocks #XXX: Most devices have their processors directly under their RAM, heatsinking is mostly into the ground plane, potentially inflicting damage to RAM and the processor itself
 export DOS_STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit encryption on 14.1+15.1 XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
 export DOS_WIREGUARD_INCLUDED=false; #Switch to true to enable WireGuard kernel module inclusion

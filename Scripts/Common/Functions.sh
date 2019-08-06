@@ -175,6 +175,12 @@ enableVerity() {
 }
 export -f enableVerity;
 
+optimizeImagesRecursive() {
+	find "$1" -type f -name "*.jp*g" -print0 | xargs -0 -n1 -P 16 jpegoptim;
+	find "$1" -type f -name "*.png" -print0 | xargs -0 -n1 -P 16 optipng;
+}
+export -f optimizeImagesRecursive;
+
 hardenLocationConf() {
 	gpsConfig=$1;
 	#Attempt to get the real device directory
