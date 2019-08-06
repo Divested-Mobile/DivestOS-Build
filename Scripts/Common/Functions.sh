@@ -181,6 +181,13 @@ optimizeImagesRecursive() {
 }
 export -f optimizeImagesRecursive;
 
+smallerSystem() {
+	echo "SMALLER_FONT_FOOTPRINT := true" >> BoardConfig.mk;
+	echo "BOARD_SYSTEMIMAGE_JOURNAL_SIZE := 0" >> BoardConfig.mk;
+	sed -i 's/common_full_phone.mk/common_mini_phone.mk/' *.mk &>/dev/null || true;
+}
+export -f smallerSystem;
+
 hardenLocationConf() {
 	gpsConfig=$1;
 	#Attempt to get the real device directory

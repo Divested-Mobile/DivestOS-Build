@@ -67,7 +67,6 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bio
 
 enterAndClear "bootable/recovery";
 git revert fe2901b144c515c5a90b547198aed37c209b5a82; #Resurrect dm-verity
-sed -i 's|install(Device|install(__attribute__ ((unused)) Device|' recovery.cpp; #Fix: error: unused parameter 'device'
 
 enterAndClear "build/make";
 git revert 271f6ffa045064abcac066e97f2cb53ccb3e5126 61f7ee9386be426fd4eadc2c8759362edb5bef8; #Add back PicoTTS and language files

@@ -87,6 +87,8 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -it o-tz-data-2019b;
+	repopick -it O_asb_2019-08;
+	repopick -it oreo-mr1-security-release-residue;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
