@@ -115,7 +115,6 @@ patchWorkspace() {
 	repopick 248599; #restrict SET_TIME_ZONE permission
 	repopick 248600 248649; #/proc hardening
 	repopick -it n-tzdata-2019b;
-	repopick -it n-asb-2019-08;
 	repopick -it nougat-mr2-security-release-residue;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails

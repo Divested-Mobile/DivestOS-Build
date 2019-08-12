@@ -66,8 +66,6 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -it p-tzdata-2019b;
-	repopick 252855; #missed patch from 2018/11 ASB
-	#repopick -it P_asb_2019-08;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
