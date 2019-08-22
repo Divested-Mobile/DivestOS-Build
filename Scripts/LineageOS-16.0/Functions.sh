@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_fairphone_msm8974 kernel_google_marlin kernel_lge_mako kernel_moto_shamu kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_msm8974";
+	startPatcher "kernel_asus_fugu kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_marlin kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_jf kernel_samsung_msm8974";
 }
 export -f patchAllKernels;
 
@@ -51,11 +51,18 @@ buildAll() {
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	brunch lineage_mako-user;
 	brunch lineage_bacon-user;
+	brunch lineage_d802-user;
+	brunch lineage_d852-user;
+	brunch lineage_d855-user;
 	brunch lineage_ether-user;
 	brunch lineage_FP2-user;
+	brunch lineage_fugu-user;
 	brunch lineage_griffin-user;
+	brunch lineage_jfltexx-user;
 	brunch lineage_klte-user;
+	brunch lineage_m8-user;
 	brunch lineage_marlin-user;
+	brunch lineage_mata-user;
 	brunch lineage_sailfish-user;
 	brunch lineage_shamu-user;
 }
@@ -65,7 +72,7 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
 	source build/envsetup.sh;
-	repopick -it p-tzdata-2019b;
+	repopick -if 254249; #g3 nfc
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

@@ -200,6 +200,13 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 #
 #START OF DEVICE CHANGES
 #
+enterAndClear "device/lge/g2-common";
+sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
+
+enterAndClear "device/lge/g3-common";
+sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
+sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
+
 enterAndClear "device/lge/mako";
 git revert 218f7442874f7b7d494f265286a2151e2f81bb6e; #disable dexpreopt full and switch back to -mini
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot

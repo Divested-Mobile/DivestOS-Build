@@ -62,6 +62,7 @@
 
 <!-- START OF ADDITIONAL REPOS -->
 	<project path="external/svox" name="platform/external/svox" groups="pdk" remote="aosp" revision="master" />
+	<project path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.8" name="platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8" groups="pdk,linux,arm" clone-depth="1" remote="aosp" revision="refs/tags/android-8.1.0_r52"/>
 
 	<!-- F-Droid -->
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
@@ -84,6 +85,10 @@
 	<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />
 	<project path="packages/apps/FlipFlap" name="LineageOS/android_packages_apps_FlipFlap" remote="github" />
 
+	<!-- Essential PH-1 (mata) -->
+	<project path="device/essential/mata" name="LineageOS/android_device_essential_mata" remote="github" />
+	<project path="kernel/essential/msm8998" name="LineageOS/android_kernel_essential_msm8998" remote="github" />
+
 	<!-- Fairphone 2 (FP2) -->
 	<project path="device/fairphone/FP2" name="LineageOS/android_device_fairphone_FP2" remote="github" />
 	<project path="kernel/fairphone/msm8974" name="LineageOS/android_kernel_fairphone_msm8974" remote="github" />
@@ -92,6 +97,23 @@
 	<project path="device/google/marlin" name="LineageOS/android_device_google_marlin" remote="github" />
 	<project path="device/google/sailfish" name="LineageOS/android_device_google_sailfish" remote="github" />
 	<project path="kernel/google/marlin" name="LineageOS/android_kernel_google_marlin" remote="github" />
+
+	<!-- HTC One (m8) -->
+	<project path="device/htc/m8" name="LineageOS/android_device_htc_m8" remote="github" />
+	<project path="device/htc/m8-common" name="LineageOS/android_device_htc_m8-common" remote="github" />
+	<project path="device/htc/msm8974-common" name="LineageOS/android_device_htc_msm8974-common" remote="github" />
+	<project path="kernel/htc/msm8974" name="LineageOS/android_kernel_htc_msm8974" remote="github" />
+
+	<!-- LG G2 (d802) -->
+	<project path="device/lge/g2-common" name="LineageOS/android_device_lge_g2-common" remote="github" />
+	<project path="device/lge/d802" name="LineageOS/android_device_lge_d802" remote="github" />
+	<project path="kernel/lge/msm8974" name="LineageOS/android_kernel_lge_msm8974" remote="github" />
+
+	<!-- LG G3 (d855) -->
+	<project path="device/lge/g3-common" name="LineageOS/android_device_lge_g3-common" remote="github" />
+	<project path="device/lge/d852" name="LineageOS/android_device_lge_d852" remote="github" />
+	<project path="device/lge/d855" name="LineageOS/android_device_lge_d855" remote="github" />
+	<project path="kernel/lge/g3" name="LineageOS/android_kernel_lge_g3" remote="github" />
 
 	<!-- Moto Z (griffin) -->
 	<project path="device/motorola/griffin" name="LineageOS/android_device_motorola_griffin" remote="github" />
@@ -109,6 +131,10 @@
 	<project path="device/moto/shamu" name="LineageOS/android_device_moto_shamu" remote="github" />
 	<project path="kernel/moto/shamu" name="LineageOS/android_kernel_moto_shamu" remote="github" />
 
+	<!-- Nexus Player (fugu) -->
+	<project path="device/asus/fugu" name="LineageOS/android_device_asus_fugu" remote="github" />
+	<project path="kernel/asus/fugu" name="LineageOS/android_kernel_asus_fugu" remote="github" />
+
 	<!-- OnePlus One (bacon) -->
 	<project path="device/oppo/common" name="LineageOS/android_device_oppo_common" remote="github" />
 	<project path="device/oneplus/bacon" name="LineageOS/android_device_oneplus_bacon" remote="github" />
@@ -118,6 +144,11 @@
 	<!-- Samsung Common -->
 	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
 	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
+
+	<!-- Samsung Galaxy S4 (jfltexx) -->
+	<project path="device/samsung/jfltexx" name="LineageOS/android_device_samsung_jfltexx" remote="github" />
+	<project path="device/samsung/jf-common" name="LineageOS/android_device_samsung_jf-common" remote="github" />
+	<project path="kernel/samsung/jf" name="LineageOS/android_kernel_samsung_jf" remote="github" />
 
 	<!-- Samsung Galaxy S5 (klte) -->
 	<project path="device/samsung/klte" name="LineageOS/android_device_samsung_klte" remote="github" />

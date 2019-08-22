@@ -59,7 +59,6 @@ buildAll() {
 	brunch lineage_i9100-userdebug;
 	brunch lineage_i9300-userdebug;
 	brunch lineage_i9305-user;
-	brunch lineage_jfltexx-user; #broken - drivers/video/msm/mdp.c:401:1: warning: the frame size of 1032 bytes is larger than 1024 bytes [-Wframe-larger-than=]
 	brunch lineage_maguro-user;
 	brunch lineage_manta-user;
 	brunch lineage_n5110-user;
@@ -86,6 +85,7 @@ buildAll() {
 		brunch lineage_griffin-user;
 		brunch lineage_h850-user;
 		brunch lineage_hammerhead-user;
+		brunch lineage_jfltexx-user; #broken - drivers/video/msm/mdp.c:401:1: warning: the frame size of 1032 bytes is larger than 1024 bytes [-Wframe-larger-than=]
 		brunch lineage_klte-user;
 		brunch lineage_m8-user;
 		brunch lineage_mako-user;
@@ -114,7 +114,6 @@ patchWorkspace() {
 	repopick -it CVE-2019-2033;
 	repopick 248599; #restrict SET_TIME_ZONE permission
 	repopick 248600 248649; #/proc hardening
-	repopick -it n-tzdata-2019b;
 	repopick -it nougat-mr2-security-release-residue;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
