@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_htc_msm8974 kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_msm8974 kernel_samsung_universal9810";
+	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_htc_msm8974 kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_msm8974 kernel_samsung_universal9810 kernel_zte_msm8996";
 }
 export -f patchAllKernels;
 
@@ -50,12 +50,12 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	brunch lineage_angler-user;
+	brunch lineage_axon7-user; #broken
 	brunch lineage_bullhead-user;
 	brunch lineage_dragon-user;
 	brunch lineage_flo-user;
 	brunch lineage_flounder-user;
 	brunch lineage_h850-user;
-	brunch lineage_hammerhead-user;
 	brunch lineage_starlte-user; #broken - device/samsung/universal9810-common/audio: MODULE.TARGET.SHARED_LIBRARIES.libshim_audio_32 already defined by device/samsung/star-common/audio
 	brunch lineage_us996-user;
 	brunch lineage_us997-user;
@@ -63,14 +63,18 @@ buildAll() {
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
 	brunch lineage_fugu-user;
+	brunch lineage_hammerhead-user;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		brunch lineage_bacon-user;
+		brunch lineage_crackling-user;
 		brunch lineage_d802-user;
 		brunch lineage_d852-user;
 		brunch lineage_d855-user;
 		brunch lineage_ether-user;
 		brunch lineage_FP2-user;
 		brunch lineage_griffin-user;
+		brunch lineage_ham-user;
+		brunch lineage_kipper-user;
 		brunch lineage_klte-user;
 		brunch lineage_m8-user;
 		brunch lineage_mako-user;

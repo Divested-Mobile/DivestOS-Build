@@ -226,7 +226,7 @@ echo "Deblobbing..."
 	#HDR
 	blobs=$blobs"|libhdr.*.so|libdovi.so";
 	blobs=$blobs"|DolbyVisionService.apk";
-	blobs=$blobs"|dolby_vision.cfg";
+	blobs=$blobs"|dolby_vision.cfg|hdr_tm_config.xml";
 
 	#I/O Prefetcher [Qualcomm]
 	#blobs=$blobs"|libqc-opt.so"; #Can break camera in some cases
@@ -366,7 +366,8 @@ echo "Deblobbing..."
 	blobs=$blobs"|Asdiv.apk";
 
 	#RCS (Proprietary messaging protocol)
-	blobs=$blobs"|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-uceservice.so";
+	blobs=$blobs"|imsrcsd";
+	blobs=$blobs"|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsrcs-v2.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-uceservice.so";
 	blobs=$blobs"|rcsimssettings.jar|rcsservice.jar";
 	blobs=$blobs"|rcsimssettings.xml|rcsservice.xml";
 	blobs=$blobs"|CarrierServices.apk|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk";

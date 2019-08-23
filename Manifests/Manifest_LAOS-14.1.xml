@@ -28,8 +28,6 @@
 	<remove-project name="LineageOS/android_packages_apps_Stk" />
 	<remove-project name="LineageOS/android_packages_apps_StorageManager" />
 	<remove-project name="LineageOS/android_packages_apps_Terminal" />
-	<remove-project name="LineageOS/android_packages_apps_WundergroundWeatherProvider" />
-	<remove-project name="LineageOS/android_packages_apps_YahooWeatherProvider" />
 	<remove-project name="LineageOS/android_packages_providers_PartnerBookmarksProvider" />
 	<remove-project name="LineageOS/android_packages_providers_WeatherProvider" />
 	<remove-project name="LineageOS/android_packages_screensavers_Basic" />
@@ -270,6 +268,22 @@
 	<project path="hardware/samsung_slsi-cm/exynos8890" name="LineageOS/android_hardware_samsung_slsi-cm_exynos8890" remote="github" />
 	<project path="hardware/samsung_slsi-cm/openmax" name="LineageOS/android_hardware_samsung_slsi-cm_openmax" remote="github" />
 	<project path="kernel/samsung/universal8890" name="LineageOS/android_kernel_samsung_universal8890" remote="github" />
+
+	<!-- Wileyfox Storm (kipper) -->
+	<project path="device/wileyfox/kipper" name="LineageOS/android_device_wileyfox_kipper" remote="github" />
+	<project path="device/cyanogen/msm8916-common" name="LineageOS/android_device_cyanogen_msm8916-common" remote="github" />
+	<project path="kernel/cyanogen/msm8916" name="LineageOS/android_kernel_cyanogen_msm8916" remote="github" />
+
+	<!-- Wileyfox Swift (crackling) -->
+	<project path="device/wileyfox/crackling" name="LineageOS/android_device_wileyfox_crackling" remote="github" />
+
+	<!-- ZTE Axon 7 (axon7) -->
+	<project path="device/zte/axon7" name="LineageOS/android_device_zte_axon7" remote="github" />
+	<project path="kernel/zte/msm8996" name="LineageOS/android_kernel_zte_msm8996" remote="github" />
+
+	<!-- Zuk Z1 (ham) -->
+	<project path="device/zuk/ham" name="LineageOS/android_device_zuk_ham" remote="github" />
+	<project path="kernel/cyanogen/msm8974" name="LineageOS/android_kernel_cyanogen_msm8974" remote="github" />
 
 	<!-- NXP -->
 	<project path="vendor/nxp-nfc/opensource/frameworks" name="LineageOS/android_vendor_nxp-nfc_opensource_frameworks" remote="github" />
