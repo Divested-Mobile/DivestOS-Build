@@ -140,6 +140,39 @@ audit2allowADB() {
 }
 export -f audit2allowADB;
 
+signRelease() {
+	#https://github.com/GrapheneOS/script/blob/pie/release.sh
+	DEVICE=$1;
+	VERITY=$2;
+
+	DATE=$(date '+%Y%m%d')
+	KEY_DIR=$DOS_SIGNING_KEYS;
+	PREFIX="lineage_";
+	VERSION=$(echo $DOS_VERSION | cut -f2 -d "-");
+	TARGET_FILES=divested-$VERSION-$DATE-dos-$DEVICE-target_files.zip;
+
+	if [ "$VERITY" = true ]; then
+		VERITY_SWITCHES=(--replace_verity_public_key "$KEY_DIR/verity_key.pub" \
+			--replace_verity_private_key "$KEY_DIR/verity" \
+			--replace_verity_keyid "$KEY_DIR/verity.x509.pem");
+	fi;
+
+	build/tools/releasetools/sign_target_files_apks -o -d "$KEY_DIR" \
+		"${VERITY_SWITCHES[@]}" \
+		out/target/product/$DEVICE/obj/PACKAGING/target_files_intermediates/$PREFIX$DEVICE-target_files-*.zip \
+		$OUT/$TARGET_FILES;
+
+	build/tools/releasetools/ota_from_target_files --block -k "$KEY_DIR/releasekey" \
+		$OUT/$TARGET_FILES \
+		$OUT/divested-$VERSION-$DATE-dos-$DEVICE-ota.zip;
+
+	md5sum $OUT/divested-$VERSION-$DATE-dos-$DEVICE-ota.zip > $OUT/divested-$VERSION-$DATE-dos-$DEVICE-ota.zip.md5sum;
+
+	#build/tools/releasetools/img_from_target_files $OUT/$TARGET_FILES \
+	#	$OUT/divested-$VERSION-$DATE-dos-$DEVICE-img.zip || exit 1;
+}
+export -f signRelease;
+
 disableDexPreOpt() {
 	cd "$DOS_BUILD_BASE$1";
 	if [ -f BoardConfig.mk ]; then

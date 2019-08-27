@@ -35,7 +35,7 @@ scanWorkspaceForMalware() {
 export -f scanWorkspaceForMalware;
 
 buildDevice() {
-	brunch "lineage_$1-user";
+	brunch "lineage_$1-user" && signRelease $1 $2;
 }
 export -f buildDevice;
 
@@ -49,39 +49,39 @@ export -f buildDeviceDebug;
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
-	brunch lineage_angler-user;
-	brunch lineage_axon7-user; #broken
-	brunch lineage_bullhead-user;
-	brunch lineage_dragon-user;
-	brunch lineage_flo-user;
-	brunch lineage_flounder-user;
-	brunch lineage_h850-user;
-	brunch lineage_starlte-user; #broken - device/samsung/universal9810-common/audio: MODULE.TARGET.SHARED_LIBRARIES.libshim_audio_32 already defined by device/samsung/star-common/audio
-	brunch lineage_us996-user;
-	brunch lineage_us997-user;
-	brunch lineage_victara-user;
+	buildDevice angler true;
+	buildDevice axon7; #broken
+	buildDevice bullhead true;
+	buildDevice dragon true;
+	buildDevice flo;
+	buildDevice flounder true;
+	buildDevice h850;
+	buildDevice starlte; #broken - device/samsung/universal9810-common/audio: MODULE.TARGET.SHARED_LIBRARIES.libshim_audio_32 already defined by device/samsung/star-common/audio
+	buildDevice us996;
+	buildDevice us997;
+	buildDevice victara;
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
-	brunch lineage_fugu-user;
-	brunch lineage_hammerhead-user;
+	buildDevice fugu;
+	buildDevice hammerhead;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
-		brunch lineage_bacon-user;
-		brunch lineage_crackling-user;
-		brunch lineage_d802-user;
-		brunch lineage_d852-user;
-		brunch lineage_d855-user;
-		brunch lineage_ether-user;
-		brunch lineage_FP2-user;
-		brunch lineage_griffin-user;
-		brunch lineage_ham-user;
-		brunch lineage_kipper-user;
-		brunch lineage_klte-user;
-		brunch lineage_m8-user;
-		brunch lineage_mako-user;
-		brunch lineage_marlin-user;
-		brunch lineage_mata-user;
-		brunch lineage_sailfish-user;
-		brunch lineage_shamu-user;
+		buildDevice bacon;
+		buildDevice crackling;
+		buildDevice d802;
+		buildDevice d852;
+		buildDevice d855;
+		buildDevice ether;
+		buildDevice FP2;
+		buildDevice griffin;
+		buildDevice ham;
+		buildDevice kipper;
+		buildDevice klte;
+		buildDevice m8;
+		buildDevice mako;
+		buildDevice marlin true;
+		buildDevice mata true;
+		buildDevice sailfish true;
+		buildDevice shamu true;
 	fi;
 }
 export -f buildAll;

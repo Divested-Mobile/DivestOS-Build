@@ -67,7 +67,6 @@ sed -i 's/LOCAL_DEX_PREOPT := false/LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACK
 sed -i 's/LOCAL_DEX_PREOPT := false/LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)/' vendor/fdroid_prebuilt/Android.mk;
 
 enterAndClear "build";
-#patch -p1 < "$DOS_PATCHES/android_build/0001-Automated_Build_Signing.patch"; #Automated build signing (CopperheadOS-13.0) #TODO BACKPORT-11.0
 sed -i 's/Mms/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 sed -i '497i$(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/base_rules.mk;
 sed -i '80iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package.mk;

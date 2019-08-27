@@ -11,4 +11,6 @@ type='rsa'; #Options: rsa, ec
 "$DOS_BUILD_BASE"/development/tools/make_key shared "$desc" "$type";
 "$DOS_BUILD_BASE"/development/tools/make_key verity "$desc" "$type";
 
+#https://grapheneos.org/build#generating-release-signing-keys
+
 echo "Please copy created keys to your signing keys directory. Keep them safe!";

@@ -35,7 +35,7 @@ scanWorkspaceForMalware() {
 export -f scanWorkspaceForMalware;
 
 buildDevice() {
-	brunch "lineage_$1-user";
+	brunch "lineage_$1-user" && signRelease $1 $2;
 }
 export -f buildDevice;
 
@@ -49,35 +49,36 @@ export -f buildDeviceDebug;
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
-	brunch lineage_mako-user;
-	brunch lineage_bacon-user;
-	brunch lineage_cheryl-user; #broken
-	brunch lineage_crackling-user; #broken
-	brunch lineage_d802-user;
-	brunch lineage_d852-user;
-	brunch lineage_d855-user;
-	brunch lineage_ether-user;
-	brunch lineage_FP2-user;
-	brunch lineage_fugu-user; #broken
-	brunch lineage_griffin-user;
-	brunch lineage_ham-user;
-	brunch lineage_hammerhead-user; #broken
-	brunch lineage_jfltexx-user;
-	brunch lineage_kipper-user; #broken
-	brunch lineage_klte-user;
-	brunch lineage_m8-user;
-	brunch lineage_marlin-user;
-	brunch lineage_mata-user;
-	brunch lineage_sailfish-user;
-	brunch lineage_shamu-user;
-	brunch lineage_z2_plus-user; #broken
+	buildDevice mako;
+	buildDevice bacon;
+	buildDevice cheryl; #broken
+	buildDevice crackling; #broken
+	buildDevice d802;
+	buildDevice d852;
+	buildDevice d855;
+	buildDevice ether;
+	buildDevice FP2;
+	buildDevice fugu; #broken
+	buildDevice griffin;
+	buildDevice ham;
+	buildDevice hammerhead; #broken
+	buildDevice jfltexx;
+	buildDevice kipper; #broken
+	buildDevice klte;
+	buildDevice m8;
+	buildDevice marlin true;
+	buildDevice mata true;
+	buildDevice sailfish true;
+	buildDevice shamu true;
+	buildDevice z2_plus true; #broken
 }
 export -f buildAll;
 
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
+	repopick -f 254249; #g3 nfc
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
