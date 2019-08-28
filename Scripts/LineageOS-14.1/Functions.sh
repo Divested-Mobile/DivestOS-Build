@@ -41,7 +41,6 @@ export -f buildDevice;
 
 buildDeviceDebug() {
 	unset SIGNING_KEY_DIR;
-	unset OTA_PACKAGE_SIGNING_KEY;
 	brunch "lineage_$1-eng";
 }
 export -f buildDeviceDebug;

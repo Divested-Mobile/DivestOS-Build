@@ -1,4 +1,4 @@
-From 552418bd638628aa0c1a92730d666252c9147bda Mon Sep 17 00:00:00 2001
+From 0ccf36d7c3f43254216fdcdd15c6247403e3ef53 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Mon, 12 Feb 2018 03:29:58 -0500
 Subject: [PATCH] Harden
@@ -6,8 +6,8 @@ Subject: [PATCH] Harden
 Change-Id: Idd2da6d9989ec554ce5b0841781d323fdcd9eb87
 ---
  init/init.cpp   | 6 +++---
- rootdir/init.rc | 4 ++++
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ rootdir/init.rc | 9 +++++++++
+ 2 files changed, 12 insertions(+), 3 deletions(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
 index 35fc442d0..b65686f93 100644
@@ -32,14 +32,19 @@ index 35fc442d0..b65686f93 100644
          mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11));
          mknod("/dev/random", S_IFCHR | 0666, makedev(1, 8));
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index f9cb4a3ef..2b0dece40 100644
+index f9cb4a3ef..c3cea4eb6 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -124,6 +124,10 @@ on init
+@@ -124,6 +124,15 @@ on init
      write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
      write /proc/sys/kernel/sched_child_runs_first 0
  
 +    write /proc/sys/kernel/dmesg_restrict 1
++    write /proc/sys/kernel/kptr_restrict 2
++    write /proc/sys/fs/protected_hardlinks 1
++    write /proc/sys/fs/protected_symlinks 1
++    write /proc/sys/fs/protected_fifos 1
++    write /proc/sys/fs/protected_regular 1
 +    write /proc/sys/net/ipv4/tcp_sack 0
 +    write /proc/sys/net/ipv6/conf/all/use_tempaddr 2
 +    write /proc/sys/net/ipv6/conf/default/use_tempaddr 2

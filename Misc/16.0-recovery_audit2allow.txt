@@ -1,0 +1,27 @@
+#============= init ==============
+allow init rootfs:file create;
+allow init rootfs:lnk_file setattr;
+
+#============= recovery ==============
+allow recovery pstorefs:dir search;
+allow recovery pstorefs:file { open read };
+allow recovery selinuxfs:file write;
+allow recovery sysfs_devices_block:file { open write };
+allow recovery sysfs_scsi_devices_0000:file { open write };
+allow recovery sysfs_scsi_devices_other:file { open write };
+
+
+
+
+#============= init ==============
+allow init rootfs:file create;
+
+#============= recovery ==============
+allow recovery alarm_boot_prop:file { getattr open };
+allow recovery alarm_handled_prop:file { getattr open };
+allow recovery alarm_instance_prop:file { getattr open };
+allow recovery bg_boot_complete_prop:file open;
+allow recovery self:capability fsetid;
+allow recovery self:capability2 syslog;
+allow recovery selinuxfs:file write;
+allow recovery sysfs_io_sched_tuneable:dir { open read search }
