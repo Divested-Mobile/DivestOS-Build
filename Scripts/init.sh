@@ -53,6 +53,9 @@ export DOS_DEFAULT_DNS_PRESET="OpenNIC"; #Sets default DNS. Options: CensurfriDN
 export DOS_GPS_NTP_SERVER="1.android.pool.ntp.org"; #Options: Any NTP pool
 export DOS_GPS_SUPL_HOST="supl.google.com"; #Options: supl.{google,vodafone,sonyericsson}.com
 
+export DOS_AUTO_ARCHIVE_BUILDS=true; #Copies files to $DOS_BUILDS after signing
+export DOS_GENERATE_DELTAS=true; #Creates deltas from existing target_files in $DOS_BUILDS
+
 export DOS_BRANDING_NAME="DivestOS";
 export DOS_BRANDING_ZIP_PREFIX="divested";
 export DOS_BRANDING_BOOTANIMATION_FONT="Fira-Sans-Bold"; #Options: $ convert -list font
@@ -111,6 +114,7 @@ export DOS_TMP_DIR="/tmp/dos_tmp";
 mkdir -p "$DOS_TMP_DIR";
 export DOS_HOSTS_FILE="$DOS_TMP_DIR/hosts";
 
+export DOS_BUILDS=$DOS_WORKSPACE_ROOT"Builds/";
 export DOS_PREBUILT_APPS=$DOS_WORKSPACE_ROOT"PrebuiltApps/";
 export DOS_PATCHES_COMMON=$DOS_WORKSPACE_ROOT"Patches/Common/";
 export DOS_PATCHES=$DOS_WORKSPACE_ROOT"Patches/$BUILD_WORKING_DIR/";

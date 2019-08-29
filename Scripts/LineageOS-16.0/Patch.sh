@@ -30,9 +30,6 @@
 #buildDevice [device]
 #buildAll
 
-#Generate an incremental
-#./build/tools/releasetools/ota_from_target_files --block -t 8 -i old.zip new.zip update.zip
-
 #Generate firmware deblobber
 #mka firmware_deblobber
 

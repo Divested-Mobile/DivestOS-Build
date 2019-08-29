@@ -35,7 +35,7 @@ scanWorkspaceForMalware() {
 export -f scanWorkspaceForMalware;
 
 buildDevice() {
-	brunch "lineage_$1-user" && signRelease $1 $2;
+	brunch "lineage_$1-user" && processRelease $1 true $2;
 }
 export -f buildDevice;
 

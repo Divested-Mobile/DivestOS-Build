@@ -35,9 +35,14 @@ scanWorkspaceForMalware() {
 export -f scanWorkspaceForMalware;
 
 buildDevice() {
-	brunch "lineage_$1-user";
+	brunch "lineage_$1-user" && processRelease $1 true $2;
 }
 export -f buildDevice;
+
+buildDeviceUserDebug() {
+	brunch "lineage_$1-userdebug" && processRelease $1 true $2;
+}
+export -f buildDeviceUserDebug;
 
 buildDeviceDebug() {
 	unset SIGNING_KEY_DIR;
@@ -49,55 +54,55 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#Select devices are userdebug due to SELinux policy issues
-	brunch lineage_clark-user;
-	brunch lineage_thor-userdebug;
-	brunch lineage_grouper-user; #needs manual patching - one-repo vendor blob patch
-	brunch lineage_h815-user;
-	brunch lineage_herolte-user;
-	brunch lineage_himaul-user;
-	brunch lineage_i9100-userdebug;
-	brunch lineage_i9300-userdebug;
-	brunch lineage_i9305-user;
-	brunch lineage_maguro-user;
-	brunch lineage_manta-user;
-	brunch lineage_n5110-user;
-	#brunch lineage_n7100-user; #device/samsung/n7100/selinux/device.te:5:ERROR 'duplicate declaration of type/attribute' at token ';': type hpd_device, dev_type; type mfc_device, dev_type;
-	brunch lineage_osprey-user;
-	brunch lineage_toro-user;
-	brunch lineage_toroplus-user;
-	brunch lineage_Z00T-user;
+	buildDevice clark;
+	buildDeviceUserDebug thor;
+	buildDevice grouper; #needs manual patching - one-repo vendor blob patch
+	buildDevice h815;
+	buildDevice herolte;
+	buildDevice himaul;
+	buildDeviceUserDebug i9100;
+	buildDeviceUserDebug i9300;
+	buildDevice i9305;
+	buildDevice maguro;
+	buildDevice manta;
+	buildDevice n5110;
+	buildDevice n7100; #device/samsung/n7100/selinux/device.te:5:ERROR 'duplicate declaration of type/attribute' at token ';': type hpd_device, dev_type; type mfc_device, dev_type;
+	buildDevice osprey;
+	buildDevice toro;
+	buildDevice toroplus;
+	buildDevice Z00T;
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
-		brunch lineage_angler-user;
-		brunch lineage_axon7-user;
-		brunch lineage_bullhead-user;
-		brunch lineage_bacon-user;
-		brunch lineage_crackling-user;
-		brunch lineage_d802-user;
-		brunch lineage_d852-user;
-		brunch lineage_d855-user;
-		brunch lineage_dragon-user;
-		brunch lineage_ether-user;
-		brunch lineage_flo-user;
-		brunch lineage_flounder-user;
-		brunch lineage_FP2-user;
-		brunch lineage_fugu-user;
-		brunch lineage_griffin-user;
-		brunch lineage_h850-user;
-		brunch lineage_ham-user;
-		brunch lineage_hammerhead-user;
-		brunch lineage_jfltexx-user; #broken - drivers/video/msm/mdp.c:401:1: warning: the frame size of 1032 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-		brunch lineage_kipper-user;
-		brunch lineage_klte-user;
-		brunch lineage_m8-user;
-		brunch lineage_mako-user;
-		brunch lineage_marlin-user;
-		brunch lineage_sailfish-user;
-		brunch lineage_shamu-user;
-		brunch lineage_us996-user;
-		brunch lineage_us997-user;
-		brunch lineage_victara-user; #needs manual patching - fwb xml: fused: dangling tag
+		buildDevice angler;
+		buildDevice axon7;
+		buildDevice bullhead;
+		buildDevice bacon;
+		buildDevice crackling;
+		buildDevice d802;
+		buildDevice d852;
+		buildDevice d855;
+		buildDevice dragon;
+		buildDevice ether;
+		buildDevice flo;
+		buildDevice flounder;
+		buildDevice FP2;
+		buildDevice fugu;
+		buildDevice griffin;
+		buildDevice h850;
+		buildDevice ham;
+		buildDevice hammerhead;
+		buildDevice jfltexx; #broken - drivers/video/msm/mdp.c:401:1: warning: the frame size of 1032 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+		buildDevice kipper;
+		buildDevice klte;
+		buildDevice m8;
+		buildDevice mako;
+		buildDevice marlin;
+		buildDevice sailfish;
+		buildDevice shamu;
+		buildDevice us996;
+		buildDevice us997;
+		buildDevice victara; #needs manual patching - fwb xml: fused: dangling tag
 	fi;
 }
 export -f buildAll;

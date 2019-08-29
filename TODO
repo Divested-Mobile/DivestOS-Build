@@ -1,8 +1,7 @@
-Last updated: 2019-02-08
+Last updated: 2019-08-29
 
 High Priority (Release blockers)
 	Build
-		- Automate incremental update generation
 		- New signing keys
 	Project
 		- GPG all the things!

@@ -30,9 +30,6 @@
 #buildDevice [device]
 #buildAll
 
-#Generate an incremental
-#./build/tools/releasetools/ota_from_target_files --block -t 8 -i old.zip new.zip update.zip
-
 #Generate firmware deblobber
 #mka firmware_deblobber
 
@@ -69,7 +66,6 @@ enterAndClear "bootable/recovery";
 patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button?
 
 enterAndClear "build";
-patch -p1 < "$DOS_PATCHES/android_build/0001-Automated_Build_Signing.patch"; #Automated build signing (CopperheadOS-13.0)
 sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 

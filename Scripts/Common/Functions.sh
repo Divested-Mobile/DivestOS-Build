@@ -140,38 +140,73 @@ audit2allowADB() {
 }
 export -f audit2allowADB;
 
-signRelease() {
+processRelease() {
 	#https://github.com/GrapheneOS/script/blob/pie/release.sh
-	DEVICE=$1;
-	VERITY=$2;
+	DEVICE="$1";
+	BLOCK="$2";
+	VERITY="$3";
 
 	DATE=$(date -u '+%Y%m%d')
-	KEY_DIR=$DOS_SIGNING_KEYS;
-	PREFIX="lineage_";
+	KEY_DIR="$DOS_SIGNING_KEYS";
 	VERSION=$(echo $DOS_VERSION | cut -f2 -d "-");
-	TARGET_FILES=divested-$VERSION-$DATE-dos-$DEVICE-target_files.zip;
+	PREFIX="$DOS_BRANDING_ZIP_PREFIX-$VERSION-$DATE-dos-$DEVICE";
+	ARCHIVE="$DOS_BUILDS/$DOS_VERSION/release_keys/";
+	OUT_DIR="$DOS_BUILD_BASE/out/target/product/$DEVICE/";
 
+	#Arguments
+	if [ "$BLOCK" != false ]; then
+		BLOCK_SWITCHES="--block";
+	fi;
 	if [ "$VERITY" = true ]; then
 		VERITY_SWITCHES=(--replace_verity_public_key "$KEY_DIR/verity_key.pub" \
 			--replace_verity_private_key "$KEY_DIR/verity" \
 			--replace_verity_keyid "$KEY_DIR/verity.x509.pem");
 	fi;
 
+	#Target Files
 	build/tools/releasetools/sign_target_files_apks -o -d "$KEY_DIR" \
 		"${VERITY_SWITCHES[@]}" \
-		out/target/product/$DEVICE/obj/PACKAGING/target_files_intermediates/$PREFIX$DEVICE-target_files-*.zip \
-		$OUT/$TARGET_FILES;
+		$OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files-*.zip \
+		$OUT_DIR/$PREFIX-target_files.zip;
+	INCREMENTAL_ID=$(grep "ro.build.version.incremental" $OUT_DIR/system/build.prop | cut -f2 -d "=" | sed 's/\.//g');
+	echo $INCREMENTAL_ID > $OUT_DIR/$PREFIX-target_files.zip.id;
 
-	build/tools/releasetools/ota_from_target_files --block -k "$KEY_DIR/releasekey" \
-		$OUT/$TARGET_FILES \
-		$OUT/divested-$VERSION-$DATE-dos-$DEVICE-ota.zip;
+	#Image
+	#build/tools/releasetools/img_from_target_files $OUT_DIR/$PREFIX-target_files.zip \
+	#	$OUT_DIR/$PREFIX-img.zip || exit 1;
 
-	md5sum $OUT/divested-$VERSION-$DATE-dos-$DEVICE-ota.zip > $OUT/divested-$VERSION-$DATE-dos-$DEVICE-ota.zip.md5sum;
+	#OTA
+	build/tools/releasetools/ota_from_target_files $BLOCK_SWITCHES -t 8 -k "$KEY_DIR/releasekey" \
+		$OUT_DIR/$PREFIX-target_files.zip  \
+		$OUT_DIR/$PREFIX-ota.zip;
+	md5sum $OUT_DIR/$PREFIX-ota.zip > $OUT_DIR/$PREFIX-ota.zip.md5sum;
 
-	#build/tools/releasetools/img_from_target_files $OUT/$TARGET_FILES \
-	#	$OUT/divested-$VERSION-$DATE-dos-$DEVICE-img.zip || exit 1;
+	#Deltas
+	if [ "$DOS_GENERATE_DELTAS" = true ]; then
+		for LAST_TARGET_FILES in $ARCHIVE/target_files/$DOS_BRANDING_ZIP_PREFIX-$VERSION-*-dos-$DEVICE-target_files.zip; do
+			if [[ -f "$LAST_TARGET_FILES.id" ]]; then
+				LAST_INCREMENTAL_ID=$(cat "$LAST_TARGET_FILES.id");
+				build/tools/releasetools/ota_from_target_files $BLOCK_SWITCHES -t 8 -k "$KEY_DIR" -i \
+					"$LAST_TARGET_FILES" \
+					$OUT_DIR/$PREFIX-target_files.zip \
+					$OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip;
+				md5sum $OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip > $OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip.md5sum;
+			fi;
+		done;
+	fi;
+
+	#Copy to archive
+	if [ "$DOS_AUTO_ARCHIVE_BUILDS" = true ]; then
+		mkdir -vp $ARCHIVE;
+		mkdir -vp $ARCHIVE/target_files;
+		mkdir -vp $ARCHIVE/incrementals;
+
+		cp -v $OUT_DIR/$PREFIX-target_files.* $ARCHIVE/target_files/;
+		cp -v $OUT_DIR/$PREFIX-ota.zip* $ARCHIVE/;
+		cp -v $OUT_DIR/$PREFIX-incremental_*.zip* $ARCHIVE/incrementals/;
+	fi;
 }
-export -f signRelease;
+export -f processRelease;
 
 disableDexPreOpt() {
 	cd "$DOS_BUILD_BASE$1";
