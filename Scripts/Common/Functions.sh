@@ -130,7 +130,7 @@ generateBootAnimationShine() {
 export -f generateBootAnimationShine;
 
 audit2allowCurrent() {
-	adb logcat -b all -d | audit2allow -p "$ANDROID_PRODUCT_OUT"/root/sepolicy;
+	adb logcat -b all -d | audit2allow -p "$OUT"/root/sepolicy;
 }
 export -f audit2allowCurrent;
 
@@ -141,6 +141,7 @@ audit2allowADB() {
 export -f audit2allowADB;
 
 processRelease() {
+	#Credit: GrapheneOS
 	#https://github.com/GrapheneOS/script/blob/pie/release.sh
 	DEVICE="$1";
 	BLOCK="$2";
