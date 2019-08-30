@@ -54,8 +54,8 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#Select devices are userdebug due to SELinux policy issues
-	buildDevice clark;
 	buildDeviceUserDebug thor;
+	buildDevice clark;
 	buildDevice grouper; #needs manual patching - one-repo vendor blob patch
 	buildDevice h815;
 	buildDevice herolte;
@@ -74,18 +74,18 @@ buildAll() {
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
-		buildDevice angler;
+		buildDevice angler true;
 		buildDevice axon7;
-		buildDevice bullhead;
+		buildDevice bullhead true;
 		buildDevice bacon;
 		buildDevice crackling;
 		buildDevice d802;
 		buildDevice d852;
 		buildDevice d855;
-		buildDevice dragon;
+		buildDevice dragon true;
 		buildDevice ether;
 		buildDevice flo;
-		buildDevice flounder;
+		buildDevice flounder true;
 		buildDevice FP2;
 		buildDevice fugu;
 		buildDevice griffin;
@@ -97,9 +97,9 @@ buildAll() {
 		buildDevice klte;
 		buildDevice m8;
 		buildDevice mako;
-		buildDevice marlin;
-		buildDevice sailfish;
-		buildDevice shamu;
+		buildDevice marlin true;
+		buildDevice sailfish true;
+		buildDevice shamu true;
 		buildDevice us996;
 		buildDevice us997;
 		buildDevice victara; #needs manual patching - fwb xml: fused: dangling tag
@@ -123,6 +123,7 @@ patchWorkspace() {
 	repopick 248599; #restrict SET_TIME_ZONE permission
 	repopick 248600 248649; #/proc hardening
 	repopick -it nougat-mr2-security-release-residue;
+	repopick 255328; #update webview
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

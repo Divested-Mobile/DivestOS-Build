@@ -187,7 +187,7 @@ processRelease() {
 		for LAST_TARGET_FILES in $ARCHIVE/target_files/$DOS_BRANDING_ZIP_PREFIX-$VERSION-*-dos-$DEVICE-target_files.zip; do
 			if [[ -f "$LAST_TARGET_FILES.id" ]]; then
 				LAST_INCREMENTAL_ID=$(cat "$LAST_TARGET_FILES.id");
-				build/tools/releasetools/ota_from_target_files $BLOCK_SWITCHES -t 8 -k "$KEY_DIR" -i \
+				build/tools/releasetools/ota_from_target_files $BLOCK_SWITCHES -t 8 -k "$KEY_DIR/releasekey" -i \
 					"$LAST_TARGET_FILES" \
 					$OUT_DIR/$PREFIX-target_files.zip \
 					$OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip;

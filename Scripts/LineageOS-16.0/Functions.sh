@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_marlin kernel_htc_msm8974 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_samsung_jf kernel_samsung_msm8974 kernel_zuk_msm8996";
+	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_marlin kernel_htc_msm8974 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_samsung_jf kernel_samsung_msm8974 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -49,11 +49,12 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	buildDevice mako;
+	buildDevice sailfish true;
 	buildDevice bacon;
+	buildDevice d852;
 	buildDevice cheryl; #broken
 	buildDevice crackling; #broken
 	buildDevice d802;
-	buildDevice d852;
 	buildDevice d855;
 	buildDevice ether;
 	buildDevice FP2;
@@ -67,8 +68,8 @@ buildAll() {
 	buildDevice m8;
 	buildDevice marlin true;
 	buildDevice mata true;
-	buildDevice sailfish true;
 	buildDevice shamu true;
+	buildDevice victara;
 	buildDevice z2_plus true; #broken
 }
 export -f buildAll;
@@ -78,6 +79,8 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -f 254249; #g3 nfc
+	repopick 255360; #fp2 fix
+	repopick 255328; #update webview
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

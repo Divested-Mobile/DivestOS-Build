@@ -115,6 +115,10 @@
 	<project path="device/lge/d855" name="LineageOS/android_device_lge_d855" remote="github" />
 	<project path="kernel/lge/g3" name="LineageOS/android_kernel_lge_g3" remote="github" />
 
+	<!-- Moto X 2014 (victara) -->
+	<project path="device/motorola/victara" name="LineageOS/android_device_motorola_victara" remote="github" />
+	<project path="kernel/motorola/msm8974" name="LineageOS/android_kernel_motorola_msm8974" remote="github" />
+
 	<!-- Moto Z (griffin) -->
 	<project path="device/motorola/griffin" name="LineageOS/android_device_motorola_griffin" remote="github" />
 	<project path="kernel/motorola/msm8996" name="LineageOS/android_kernel_motorola_msm8996" remote="github" />

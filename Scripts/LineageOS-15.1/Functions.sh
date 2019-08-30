@@ -58,7 +58,6 @@ buildAll() {
 	buildDevice starlte; #broken - device/samsung/universal9810-common/audio: MODULE.TARGET.SHARED_LIBRARIES.libshim_audio_32 already defined by device/samsung/star-common/audio
 	buildDevice us996;
 	buildDevice us997;
-	buildDevice victara;
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
 	buildDevice fugu;
@@ -81,6 +80,7 @@ buildAll() {
 		buildDevice mata true;
 		buildDevice sailfish true;
 		buildDevice shamu true;
+		buildDevice victara;
 	fi;
 }
 export -f buildAll;
@@ -88,7 +88,8 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
+	repopick 255328; #update webview
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
