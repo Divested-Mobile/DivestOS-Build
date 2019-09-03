@@ -72,7 +72,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|libdrmclearkeyplugin.so";
 
 	#CMN (DRM?) [?]
-	blobs=$blobs"|cmnlib.*";
+	#blobs=$blobs"|cmnlib.*";
 
 	#CNE (Automatic Cell/Wi-Fi Switching) [Qualcomm]
 	#blobs=$blobs"|libcneapiclient.so|libNimsWrap.so"; #XXX: Breaks radio

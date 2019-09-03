@@ -7,6 +7,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-Copperhead-Deny_USB/3.4/3.4-Backport.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.4/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-2136/^3.4.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-2373/^3.4.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-2390/^3.4.2/0001.patch
@@ -199,6 +200,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9416/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9439/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9516/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10142/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-15216/^5.0.14/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-15807/^5.1.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2001/^3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2054/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2101/ANY/0001.patch
@@ -209,5 +212,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-sy
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-5d89eb01c93d8a62998e3bdccae28a7732e3bd51.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6544/^3.6/0003.patch
-editKernelLocalversion "-dos.p209"
+editKernelLocalversion "-dos.p213"
 cd "$DOS_BUILD_BASE"

@@ -7,6 +7,29 @@ git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0020.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0010.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0011.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0012.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0013.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0014.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0015.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0016.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0017.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0018.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0019.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0020.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0021.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0022.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0023.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9900/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-7837/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-1583/^4.6.3/0001.patch
@@ -99,7 +122,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11919/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11939/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11960/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11963/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11984/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11986/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11987/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11988/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11988/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-12010/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-12011/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13053/^4.17.3/0001.patch
@@ -119,6 +146,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-18386/^4.14.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-18690/^4.17/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-18710/^4.19/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-19824/^4.19.6/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-19985/^4.19.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-20169/^4.19.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-20511/^4.18.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-20836/^4.20/0001.patch
@@ -151,6 +179,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9518/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9519/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9568/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10142/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10491/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10538/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-11486/^5.0.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-11810/^5.0.7/0001.patch
@@ -174,6 +203,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2024/^4.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2101/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2263/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2290/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2323/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2331/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2333/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2341/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2345/ANY/0001.patch
@@ -183,5 +214,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6693/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-14875/ANY/0001.patch
-editKernelLocalversion "-dos.p183"
+editKernelLocalversion "-dos.p214"
 cd "$DOS_BUILD_BASE"
