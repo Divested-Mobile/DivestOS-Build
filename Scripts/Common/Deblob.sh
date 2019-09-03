@@ -299,8 +299,9 @@ echo "Deblobbing..."
 	#Misc
 	blobs=$blobs"|libjni_latinime.so|libuiblur.so|libwifiscanner.so";
 
-	#Misc [Google]
-	blobs=$blobs"|EaselServicePrebuilt.apk";
+	#Music Detection [Google]
+	blobs=$blobs"|AmbientSensePrebuilt.apk";
+	blobs=$blobs"|dnd.descriptor|dnd.sound_model|music_detector.descriptor|music_detector.sound_model";
 
 	#[Motorola] #See: http://www.beneaththewaves.net/Projects/Motorola_Is_Listening.html
 	blobs=$blobs"|AppDirectedSMSProxy.apk|BuaContactAdapter.apk|com.motorola.DirectedSMSProxy.xml|com.motorola.msimsettings.xml";
@@ -322,7 +323,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|libdme_main.so|libwbxmlparser.so|libprovlib.so";
 	blobs=$blobs"|dm_agent|dm_agent_binder";
 	blobs=$blobs"|npsmobex"; #Samsung?
-	blobs=$blobs"|ConnMO.apk|OmaDmclient.apk|com.android.omadm.service.xml|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|libdmengine.so|libdmjavaplugin.so|SprintDM.apk|SDM.apk|whitelist_com.android.omadm.service.xml|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml"; #Sprint
+	blobs=$blobs"|ConnMO.apk|OmaDmclient.apk|com.android.omadm.service.xml|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|libdmengine.so|libdmjavaplugin.so|SprintDM.apk|SDM.apk|whitelist_com.android.omadm.service.xml|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml|com.google.omadm.trigger.xml"; #Sprint
 
 	#OpenMobileAPI [SIM Alliance]
 	#This is open source, but rarely used
@@ -342,6 +343,11 @@ echo "Deblobbing..."
 	#Peripheral Manager
 	#blobs=$blobs"|libperipheral_client.so|libspcom.so";
 	#blobs=$blobs"|pm-proxy|pm-service|spdaemon";
+
+	#Pixel Visual Core [Google]
+	#blobs=$blobs"|easelmanagerd";
+	#blobs=$blobs"|EaselServicePrebuilt.apk";
+	#blobs=$blobs"|libeaselcomm.so|libeaselcontrol.amber.so";
 
 	#Playready (DRM) [Microsoft]
 	blobs=$blobs"|prapp|scranton_RD";
@@ -408,11 +414,11 @@ echo "Deblobbing..."
 	#[Verizon]
 	blobs=$blobs"|libmotricity.so|libakuaf.so";
 	blobs=$blobs"|com.qualcomm.location.vzw_library.jar|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.lte.jar|com.verizon.ims.jar|qti-vzw-ims-internal.jar|VerizonUnifiedSettings.jar";
-	blobs=$blobs"|CarrierSetup.apk|OemDmTrigger.apk|appdirectedsmspermission.apk|VerizonSSOEngine.apk|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|VerizonAuthDialog.apk|MyVerizonServices.apk|WfcActivation.apk|obdm_stub.apk|QAS_DVC_MSP.apk";
-	blobs=$blobs"|com.android.vzwomatrigger.xml|vzw_mvs_permissions.xml|obdm_permissions.xml|com.verizon.services.xml|features-verizon.xml|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.xml|vzw_sso_permissions.xml|com.vzw.hardware.lte.xml|com.vzw.hardware.ehrpd.xml|verizon_config_params.txt";
+	blobs=$blobs"|CarrierSetup.apk|OemDmTrigger.apk|appdirectedsmspermission.apk|VerizonSSOEngine.apk|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|VerizonAuthDialog.apk|MyVerizonServices.apk|WfcActivation.apk|obdm_stub.apk|QAS_DVC_MSP.*.apk";
+	blobs=$blobs"|com.android.vzwomatrigger.xml|vzw_mvs_permissions.xml|obdm_permissions.xml|com.verizon.services.xml|features-verizon.xml|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.xml|vzw_sso_permissions.xml|com.vzw.hardware.lte.xml|com.vzw.hardware.ehrpd.xml|verizon_config_params.txt|com.verizon.llkagent.xml";
 
 	#Voice Recognition
-	blobs=$blobs"|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.so|libqvop-service.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|sound_trigger.primary.*.so|libgcs.*.so";
+	blobs=$blobs"|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.*.so|libqvop-service.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|sound_trigger.primary.*.so|libgcs.*.so";
 	blobs=$blobs"|audiomonitor|qvop-daemon";
 	blobs=$blobs"|HotwordEnrollment.apk|HotwordEnrollment.*.apk";
 	blobs=$blobs"|aonvr1.bin|aonvr2.bin|es305_fw.bin";

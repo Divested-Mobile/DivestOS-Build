@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_marlin kernel_htc_msm8974 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_samsung_jf kernel_samsung_msm8974 kernel_zuk_msm8996";
+	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_bonito kernel_google_crosshatch kernel_google_marlin kernel_google_wahoo kernel_htc_msm8974 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_samsung_jf kernel_samsung_msm8974 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -48,29 +48,49 @@ export -f buildDeviceDebug;
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
+	#SDS4P
 	buildDevice mako;
-	buildDevice sailfish true;
+	#SD410
+	buildDevice crackling; #broken
+	#SD600
+	buildDevice jfltexx;
+	#SD800
+	buildDevice d802;
+	buildDevice hammerhead; #broken
+	#SD801
 	buildDevice bacon;
 	buildDevice d852;
-	buildDevice cheryl; #broken
-	buildDevice crackling; #broken
-	buildDevice d802;
 	buildDevice d855;
-	buildDevice ether;
 	buildDevice FP2;
-	buildDevice fugu; #broken
-	buildDevice griffin;
 	buildDevice ham;
-	buildDevice hammerhead; #broken
-	buildDevice jfltexx;
-	buildDevice kipper; #broken
 	buildDevice klte;
 	buildDevice m8;
-	buildDevice marlin true;
-	buildDevice mata true;
-	buildDevice shamu true;
 	buildDevice victara;
-	buildDevice z2_plus true; #broken
+	#SD805
+	buildDevice shamu verity;
+	#SD808
+	buildDevice ether;
+	#SD615
+	buildDevice kipper; #broken
+	#SD820
+	buildDevice griffin;
+	buildDevice z2_plus verity; #broken
+	#SD821
+	buildDevice marlin verity;
+	buildDevice sailfish verity;
+	#SD835
+	buildDevice cheryl; #broken
+	buildDevice mata verity;
+	buildDevice taimen avb;
+	buildDevice walleye avb;
+	#SD845
+	buildDevice crosshatch avb;
+	buildDevice blueline avb;
+	#SD670
+	buildDevice bonito avb;
+	buildDevice sargo avb;
+	#Intel
+	buildDevice fugu; #broken
 }
 export -f buildAll;
 

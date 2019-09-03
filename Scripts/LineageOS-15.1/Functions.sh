@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_htc_flounder kernel_htc_msm8974 kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_msm8974 kernel_samsung_universal9810 kernel_zte_msm8996";
+	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_google_wahoo kernel_htc_flounder kernel_htc_msm8974 kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_msm8974 kernel_samsung_universal9810 kernel_zte_msm8996";
 }
 export -f patchAllKernels;
 
@@ -48,39 +48,41 @@ export -f buildDeviceDebug;
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
-	buildDevice angler true;
-	buildDevice axon7; #broken
-	buildDevice bullhead true;
-	buildDevice dragon true;
 	buildDevice flo;
-	buildDevice flounder true;
+	buildDevice bullhead verity;
+	buildDevice angler verity;
+	buildDevice axon7; #broken
 	buildDevice h850;
-	buildDevice starlte; #broken - device/samsung/universal9810-common/audio: MODULE.TARGET.SHARED_LIBRARIES.libshim_audio_32 already defined by device/samsung/star-common/audio
 	buildDevice us996;
 	buildDevice us997;
+	buildDevice flounder verity;
+	buildDevice dragon verity;
+	buildDevice starlte; #broken - device/samsung/universal9810-common/audio: MODULE.TARGET.SHARED_LIBRARIES.libshim_audio_32 already defined by device/samsung/star-common/audio
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
-	buildDevice fugu;
 	buildDevice hammerhead;
+	buildDevice fugu;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
-		buildDevice bacon;
+		buildDevice mako;
 		buildDevice crackling;
 		buildDevice d802;
+		buildDevice bacon;
 		buildDevice d852;
 		buildDevice d855;
-		buildDevice ether;
 		buildDevice FP2;
-		buildDevice griffin;
 		buildDevice ham;
-		buildDevice kipper;
 		buildDevice klte;
 		buildDevice m8;
-		buildDevice mako;
-		buildDevice marlin true;
-		buildDevice mata true;
-		buildDevice sailfish true;
-		buildDevice shamu true;
 		buildDevice victara;
+		buildDevice shamu verity;
+		buildDevice ether;
+		buildDevice kipper;
+		buildDevice griffin;
+		buildDevice marlin verity;
+		buildDevice sailfish verity;
+		buildDevice mata verity;
+		buildDevice taimen avb;
+		buildDevice walleye avb;
 	fi;
 }
 export -f buildAll;

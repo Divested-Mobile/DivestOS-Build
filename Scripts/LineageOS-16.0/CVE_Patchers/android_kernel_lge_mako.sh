@@ -17,7 +17,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-4470/^3.12/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-4738/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-3688/^3.17.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-7975/^3.17/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-2041/^3.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-2042/^3.19/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-6937/^4.2.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-7566/^4.4.1/0001.patch
@@ -126,5 +125,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-5d89eb01c93d8a
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-7be3e08d7a523207486701b2d34607137558066f.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-9f34c6ebc016cd061ae5ec901221d15fa3d67e49.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p126"
+editKernelLocalversion "-dos.p125"
 cd "$DOS_BUILD_BASE"

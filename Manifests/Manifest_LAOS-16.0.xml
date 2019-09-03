@@ -98,6 +98,23 @@
 	<project path="device/google/sailfish" name="LineageOS/android_device_google_sailfish" remote="github" />
 	<project path="kernel/google/marlin" name="LineageOS/android_kernel_google_marlin" remote="github" />
 
+	<!-- Google Pixel 2 (taimen/walleye) -->
+	<project path="device/google/taimen" name="LineageOS/android_device_google_taimen" remote="github" />
+	<project path="device/google/muskie" name="LineageOS/android_device_google_muskie" remote="github" />
+	<project path="device/google/walleye" name="LineageOS/android_device_google_walleye" remote="github" />
+	<project path="device/google/wahoo" name="LineageOS/android_device_google_wahoo" remote="github" />
+	<project path="kernel/google/wahoo" name="LineageOS/android_kernel_google_wahoo" remote="github" />
+
+	<!-- Google Pixel 3 (crosshatch/blueline) -->
+	<project path="device/google/crosshatch" name="LineageOS/android_device_google_crosshatch" remote="github" />
+	<project path="device/google/blueline" name="LineageOS/android_device_google_blueline" remote="github" />
+	<project path="kernel/google/crosshatch" name="LineageOS/android_kernel_google_crosshatch" remote="github" />
+
+	<!-- Google Pixel 3a (bonito/sargo) -->
+	<project path="device/google/bonito" name="LineageOS/android_device_google_bonito" remote="github" />
+	<project path="device/google/sargo" name="LineageOS/android_device_google_sargo" remote="github" />
+	<project path="kernel/google/bonito" name="LineageOS/android_kernel_google_bonito" remote="github" />
+
 	<!-- HTC One (m8) -->
 	<project path="device/htc/m8" name="LineageOS/android_device_htc_m8" remote="github" />
 	<project path="device/htc/m8-common" name="LineageOS/android_device_htc_m8-common" remote="github" />

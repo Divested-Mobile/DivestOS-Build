@@ -35,7 +35,7 @@ scanWorkspaceForMalware() {
 export -f scanWorkspaceForMalware;
 
 buildDevice() {
-	brunch "cm_$1-user" && processRelease $1 false false;
+	brunch "cm_$1-user" && processRelease $1 false;
 }
 export -f buildDevice;
 
@@ -48,7 +48,7 @@ export -f buildDeviceDebug;
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
-	brunch lineage_nex-user && processRelease nex false false;
+	brunch lineage_nex-user && processRelease nex false;
 }
 export -f buildAll;
 

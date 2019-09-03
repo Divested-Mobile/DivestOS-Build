@@ -54,55 +54,56 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#Select devices are userdebug due to SELinux policy issues
+	buildDevice osprey;
 	buildDeviceUserDebug thor;
+	buildDevice Z00T;
 	buildDevice clark;
-	buildDevice grouper; #needs manual patching - one-repo vendor blob patch
 	buildDevice h815;
-	buildDevice herolte;
 	buildDevice himaul;
+	buildDevice manta;
+	buildDevice n7100; #device/samsung/n7100/selinux/device.te:5:ERROR 'duplicate declaration of type/attribute' at token ';': type hpd_device, dev_type; type mfc_device, dev_type;
 	buildDeviceUserDebug i9100;
 	buildDeviceUserDebug i9300;
 	buildDevice i9305;
-	buildDevice maguro;
-	buildDevice manta;
 	buildDevice n5110;
-	buildDevice n7100; #device/samsung/n7100/selinux/device.te:5:ERROR 'duplicate declaration of type/attribute' at token ';': type hpd_device, dev_type; type mfc_device, dev_type;
-	buildDevice osprey;
+	buildDevice herolte;
+	buildDevice maguro;
 	buildDevice toro;
 	buildDevice toroplus;
-	buildDevice Z00T;
+	buildDevice grouper; #needs manual patching - one-repo vendor blob patch
+
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
-		buildDevice angler true;
-		buildDevice axon7;
-		buildDevice bullhead true;
-		buildDevice bacon;
+		buildDevice flo;
+		buildDevice mako;
 		buildDevice crackling;
+		buildDevice jfltexx; #broken - drivers/video/msm/mdp.c:401:1: warning: the frame size of 1032 bytes is larger than 1024 bytes [-Wframe-larger-than=]
 		buildDevice d802;
+		buildDevice hammerhead;
+		buildDevice bacon;
 		buildDevice d852;
 		buildDevice d855;
-		buildDevice dragon true;
-		buildDevice ether;
-		buildDevice flo;
-		buildDevice flounder true;
 		buildDevice FP2;
-		buildDevice fugu;
-		buildDevice griffin;
-		buildDevice h850;
 		buildDevice ham;
-		buildDevice hammerhead;
-		buildDevice jfltexx; #broken - drivers/video/msm/mdp.c:401:1: warning: the frame size of 1032 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-		buildDevice kipper;
 		buildDevice klte;
 		buildDevice m8;
-		buildDevice mako;
-		buildDevice marlin true;
-		buildDevice sailfish true;
-		buildDevice shamu true;
-		buildDevice us996;
-		buildDevice us997;
 		buildDevice victara; #needs manual patching - fwb xml: fused: dangling tag
+		buildDevice shamu verity;
+		buildDevice bullhead verity;
+		buildDevice ether;
+		buildDevice angler verity;
+		buildDevice kipper;
+		buildDevice axon7;
+		buildDevice griffin;
+		buildDevice h850;
+		buildDevice us996;
+		buildDevice marlin verity;
+		buildDevice sailfish verity;
+		buildDevice us997;
+		buildDevice flounder verity;
+		buildDevice dragon verity;
+		buildDevice fugu;
 	fi;
 }
 export -f buildAll;
