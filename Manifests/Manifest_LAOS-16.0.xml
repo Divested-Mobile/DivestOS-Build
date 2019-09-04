@@ -64,6 +64,10 @@
 	<project path="external/svox" name="platform/external/svox" groups="pdk" remote="aosp" revision="master" />
 	<project path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.8" name="platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8" groups="pdk,linux,arm" clone-depth="1" remote="aosp" revision="refs/tags/android-8.1.0_r52" />
 
+	<!-- Backup
+	<remote name="stevesoltys-github" fetch="https://github.com/stevesoltys/" revision="refs/heads/master" />
+	<project path="packages/apps/Backup" name="backup" remote="stevesoltys-github" /> -->
+
 	<!-- F-Droid -->
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
 

@@ -20,6 +20,7 @@ PRODUCT_PACKAGES += \
 
 # Others
 PRODUCT_PACKAGES += \
+    Backup \
     LocalCalendar
 
 # Notes

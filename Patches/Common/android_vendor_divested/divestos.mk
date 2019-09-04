@@ -22,10 +22,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 #Copy extra files
 PRODUCT_COPY_FILES += \
-    vendor/divested/prebuilts/etc/additional_fdroid_repos.xml:system/etc/org.fdroid.fdroid/additional_repos.xml \
-    vendor/divested/prebuilts/etc/permissions_org.fdroid.fdroid.privileged.xml:system/etc/permissions/permissions_org.fdroid.fdroid.privileged.xml
+    vendor/divested/prebuilts/etc/additional_fdroid_repos.xml:system/etc/org.fdroid.fdroid/additional_repos.xml
 
 #Include packages
-PRODUCT_PACKAGES += BlobBlocker
-PRODUCT_PACKAGES += ModuleBlocker
+#PRODUCT_PACKAGES += BlobBlocker
+#PRODUCT_PACKAGES += ModuleBlocker
 include vendor/divested/packages.mk
