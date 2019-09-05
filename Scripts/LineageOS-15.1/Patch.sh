@@ -174,6 +174,7 @@ patch -p1 < "$DOS_PATCHES/android_system_vold/0001-AES256.patch"; #Add a variabl
 enterAndClear "vendor/lineage";
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
 rm -rf verity_tool; #Resurrect dm-verity
+rm -rf overlay/common/frameworks/base/core/res/res/drawable-*/default_wallpaper.png;
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then awk -i inplace '!/50-lineage.sh/' config/common.mk; fi; #Make sure our hosts is always used
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra keys
 awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys

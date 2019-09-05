@@ -101,6 +101,7 @@ patchWorkspace() {
 	repopick -f 254249; #g3 nfc
 	repopick 255360; #fp2 fix
 	repopick 255328; #update webview
+	repopick -it P_asb_2019-09;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

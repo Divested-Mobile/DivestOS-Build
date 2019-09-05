@@ -169,6 +169,7 @@ patch -p1 < "$DOS_PATCHES/android_system_vold/0001-AES256.patch"; #Add a variabl
 
 enterAndClear "vendor/cm";
 rm -rf overlay/common/vendor/cmsdk/packages; #Remove analytics
+rm -rf overlay/common/frameworks/base/core/res/res/drawable-*/default_wallpaper.png;
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra keys
 awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
