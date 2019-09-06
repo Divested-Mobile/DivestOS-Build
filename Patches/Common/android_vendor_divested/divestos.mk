@@ -15,8 +15,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.notification_sound=Pong.ogg \
     ro.config.alarm_alert=Alarm_Buzzer.ogg \
     keyguard.no_require_sim=true \
-    ro.build.selinux=1 \
-    ro.storage_manager.enabled=false
+    ro.build.selinux=1
 #    ro.control_privapp_permissions=log
 #    ro.control_privapp_permissions=enforce
 
@@ -25,6 +24,4 @@ PRODUCT_COPY_FILES += \
     vendor/divested/prebuilts/etc/additional_fdroid_repos.xml:system/etc/org.fdroid.fdroid/additional_repos.xml
 
 #Include packages
-#PRODUCT_PACKAGES += BlobBlocker
-#PRODUCT_PACKAGES += ModuleBlocker
 include vendor/divested/packages.mk

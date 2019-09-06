@@ -31,7 +31,6 @@ LOCAL_OVERRIDES_PACKAGES := \
     CtsShimPrebuilt \
     CtsShimPrivPrebuilt \
     Traceur \
-    StorageManager \
     PrintRecommendationService \
     CompanionDeviceManager \
     MusicFX
