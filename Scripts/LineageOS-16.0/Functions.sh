@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_bonito kernel_google_crosshatch kernel_google_marlin kernel_google_wahoo kernel_htc_msm8974 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_samsung_jf kernel_samsung_msm8974 kernel_zuk_msm8996";
+	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_bonito kernel_google_crosshatch kernel_google_marlin kernel_google_msm kernel_google_wahoo kernel_htc_msm8974 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -39,6 +39,11 @@ buildDevice() {
 }
 export -f buildDevice;
 
+buildDeviceUserDebug() {
+	brunch "lineage_$1-userdebug" && processRelease $1 true $2;
+}
+export -f buildDeviceUserDebug;
+
 buildDeviceDebug() {
 	unset SIGNING_KEY_DIR;
 	brunch "lineage_$1-eng";
@@ -49,6 +54,7 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SDS4P
+	#buildDevice flo; #broken encryption
 	buildDevice mako;
 	#SD410
 	buildDevice crackling; #broken
@@ -89,6 +95,8 @@ buildAll() {
 	#SD670
 	buildDevice bonito avb;
 	buildDevice sargo avb;
+	#Samsung
+	buildDeviceUserDebug i9100;
 	#Intel
 	buildDevice fugu; #broken
 }
@@ -99,7 +107,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -f 254249; #g3 nfc
-	repopick 255360; #fp2 fix
+	#repopick -it hh-cleanup;
 	repopick 255328; #update webview
 	repopick -it P_asb_2019-09;
 

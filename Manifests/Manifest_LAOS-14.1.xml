@@ -65,8 +65,8 @@
 	<!-- F-Droid -->
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
 
-	<!-- GrapheneOS -->
-	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="master" />
+	<!-- GrapheneOS
+	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="master" />-->
 
 	<!-- WireGuard -->
 	<remote name="zx2c4" fetch="https://git.zx2c4.com/" />

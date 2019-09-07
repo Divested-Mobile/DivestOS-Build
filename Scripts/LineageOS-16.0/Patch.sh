@@ -64,15 +64,25 @@ enterAndClear "bionic";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi; #(GrapheneOS)
 
 enterAndClear "bootable/recovery";
+git revert 4d361ff13b5bd61d5a6a5e95063b24b8a37a24ab 37d729bf; #fix sideload
 #git revert fe2901b144c515c5a90b547198aed37c209b5a82; #Resurrect dm-verity
 
 enterAndClear "build/make";
 git revert 271f6ffa045064abcac066e97f2cb53ccb3e5126 61f7ee9386be426fd4eadc2c8759362edb5bef8; #Add back PicoTTS and language files
 sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
 
+#enterAndClear "device/lineage/sepolicy";
+#echo "recovery_only('allow init rootfs:file create;')" >> common/private/init.te; #Fix sideload in recovery (alternative)
+
 enterAndClear "device/qcom/sepolicy-legacy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
+
+enterAndClear "external/libcups";
+git pull "https://github.com/LineageOS/android_external_libcups" refs/changes/96/255696/1; #P_asb_2019-09
+
+enterAndClear "external/libhevc";
+git pull "https://github.com/LineageOS/android_external_libhevc" refs/changes/97/255697/1; #P_asb_2019-09
 
 enterAndClear "external/svox";
 git revert 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
@@ -127,6 +137,7 @@ rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml 
 patch -p1 < "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytics.patch"; #Remove analytics
 
 enterAndClear "packages/apps/Settings";
+git revert c240992b4c86c7f226290807a2f41f2619e7e5e8; #don't hide oem unlock
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
@@ -156,9 +167,13 @@ patch -p1 < "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; 
 
 enterAndClear "system/core";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
-#git revert b3609d82999d23634c5e6db706a3ecbc5348309a; #Always update recovery XXX: recovery doesn't boot
+git revert b3609d82999d23634c5e6db706a3ecbc5348309a; #Always update recovery
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysfs changes (GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES_COMMON/android_system_core/0001-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
+
+enterAndClear "system/nfc";
+git pull "https://github.com/LineageOS/android_system_nfc" refs/changes/93/255693/1; #P_asb_2019-09
+git pull "https://github.com/LineageOS/android_system_nfc" refs/changes/94/255694/1;
 
 enterAndClear "system/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices
@@ -180,6 +195,7 @@ if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/LINEAGE_BUILDTYP
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
 
 enter "vendor/divested";
+echo "PRODUCT_PACKAGES += Backup" >> packages.mk;
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi;
 if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi;
 echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All of our kernels have deny USB patch added
@@ -208,11 +224,15 @@ git revert 9a5739e66d0a44347881807c0cc44d7c318c02b8; #fix nfc path
 
 enterAndClear "device/lge/mako";
 git revert 218f7442874f7b7d494f265286a2151e2f81bb6e; #disable dexpreopt full and switch back to -mini
+#git revert ; #restore releasetools #TODO
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
 echo "allow system_server sensors_data_file:dir search;" >> sepolicy/system_server.te; #Fix qcom_sensors log spam
 echo "allow system_server sensors_data_file:dir r_file_perms;" >> sepolicy/system_server.te;
 sed -i 's/1333788672/880803840/' BoardConfig.mk; #don't touch partitions! DOS -user fits with 40M free
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk;
+
+enterAndClear "device/moto/shamu";
+#git revert 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
 
 enterAndClear "device/oppo/msm8974-common";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
@@ -234,6 +254,7 @@ find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {}
 cd "$DOS_BUILD_BASE";
 
 #Fix broken options enabled by hardenDefconfig()
+sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/lge/mako/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/motorola/msm8974/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/motorola/msm8996/arch/arm64/configs/*_defconfig; #Breaks on compile

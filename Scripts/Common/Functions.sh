@@ -154,6 +154,8 @@ processRelease() {
 	ARCHIVE="$DOS_BUILDS/$DOS_VERSION/release_keys/";
 	OUT_DIR="$DOS_BUILD_BASE/out/target/product/$DEVICE/";
 
+	echo -e "\e[0;32mProcessing release for $DEVICE\e[0m";
+
 	#Arguments
 	if [ "$BLOCK" != false ]; then
 		BLOCK_SWITCHES="--block";
@@ -162,15 +164,18 @@ processRelease() {
 		VERITY_SWITCHES=(--replace_verity_public_key "$KEY_DIR/verity_key.pub" \
 			--replace_verity_private_key "$KEY_DIR/verity" \
 			--replace_verity_keyid "$KEY_DIR/verity.x509.pem");
+		echo -e "\e[0;32m\t+ Verified Boot 1.0\e[0m";
 	elif [[ "$VERITY" == "avb" ]]; then
 		VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" \
 			--avb_vbmeta_algorithm SHA256_RSA2048 \
 			--avb_system_key "$KEY_DIR/avb.pem" \
 			--avb_system_algorithm SHA256_RSA2048);
 		AVB_PKMD="$KEY_DIR/avb_pkmd.bin";
+		echo -e "\e[0;32m\t+ Verified Boot 2.0\e[0m";
 	fi;
 
 	#Target Files
+	echo -e "\e[0;32mSigning target files\e[0m";
 	build/tools/releasetools/sign_target_files_apks -o -d "$KEY_DIR" \
 		"${VERITY_SWITCHES[@]}" \
 		$OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files-*.zip \
@@ -179,10 +184,12 @@ processRelease() {
 	echo $INCREMENTAL_ID > $OUT_DIR/$PREFIX-target_files.zip.id;
 
 	#Image
+	#echo -e "\e[0;32mCreating fastboot image\e[0m";
 	#build/tools/releasetools/img_from_target_files $OUT_DIR/$PREFIX-target_files.zip \
 	#	$OUT_DIR/$PREFIX-img.zip || exit 1;
 
 	#OTA
+	echo -e "\e[0;32mCreating OTA\e[0m";
 	build/tools/releasetools/ota_from_target_files $BLOCK_SWITCHES -t 8 -k "$KEY_DIR/releasekey" \
 		$OUT_DIR/$PREFIX-target_files.zip  \
 		$OUT_DIR/$PREFIX-ota.zip;
@@ -193,6 +200,7 @@ processRelease() {
 		for LAST_TARGET_FILES in $ARCHIVE/target_files/$DOS_BRANDING_ZIP_PREFIX-$VERSION-*-dos-$DEVICE-target_files.zip; do
 			if [[ -f "$LAST_TARGET_FILES.id" ]]; then
 				LAST_INCREMENTAL_ID=$(cat "$LAST_TARGET_FILES.id");
+				echo -e "\e[0;32mGenerating incremental OTA against $LAST_INCREMENTAL_ID\e[0m";
 				build/tools/releasetools/ota_from_target_files $BLOCK_SWITCHES -t 8 -k "$KEY_DIR/releasekey" -i \
 					"$LAST_TARGET_FILES" \
 					$OUT_DIR/$PREFIX-target_files.zip \
@@ -204,6 +212,7 @@ processRelease() {
 
 	#Copy to archive
 	if [ "$DOS_AUTO_ARCHIVE_BUILDS" = true ]; then
+		echo -e "\e[0;32mCopying files to archive\e[0m";
 		mkdir -vp $ARCHIVE;
 		mkdir -vp $ARCHIVE/target_files;
 		mkdir -vp $ARCHIVE/incrementals;
@@ -212,6 +221,7 @@ processRelease() {
 		cp -v $OUT_DIR/$PREFIX-ota.zip* $ARCHIVE/;
 		cp -v $OUT_DIR/$PREFIX-incremental_*.zip* $ARCHIVE/incrementals/;
 	fi;
+	echo -e "\e[0;32mRelease processing complete\e[0m";
 }
 export -f processRelease;
 

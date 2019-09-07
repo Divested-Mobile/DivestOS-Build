@@ -58,6 +58,9 @@
 <!-- START OF BRANCH SWITCHING -->
 	<!--<remove-project name="platform/external/swiftshader" />
 	<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />-->
+
+	<!--<remove-project name="LineageOS/android_bootable_recovery" />
+	<project path="bootable/recovery" name="platform/bootable/recovery" groups="pdk" remote="aosp" />-->
 <!-- END OF BRANCH SWITCHING -->
 
 <!-- START OF ADDITIONAL REPOS -->
@@ -72,7 +75,7 @@
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
 
 	<!-- GrapheneOS -->
-	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="master" />
+	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="pie" />
 
 	<!-- WireGuard -->
 	<remote name="zx2c4" fetch="https://git.zx2c4.com/" />
@@ -87,6 +90,7 @@
 	<project path="external/sony/boringssl-compat" name="LineageOS/android_external_sony_boringssl-compat" remote="github" />
 	<project path="hardware/sony/thermanager" name="LineageOS/android_hardware_sony_thermanager" remote="github" />
 	<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />
+	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 	<project path="packages/apps/FlipFlap" name="LineageOS/android_packages_apps_FlipFlap" remote="github" />
 
 	<!-- Essential PH-1 (mata) -->
@@ -148,6 +152,9 @@
 	<project path="device/nextbit/ether" name="LineageOS/android_device_nextbit_ether" remote="github" />
 	<project path="kernel/nextbit/msm8992" name="LineageOS/android_kernel_nextbit_msm8992" remote="github" />
 
+	<!-- Nexus 7 [2013] (flo) -->
+	<project path="device/asus/flo" name="LineageOS/android_device_asus_flo" remote="github" />
+
         <!-- Nexus 4 (mako) -->
         <project path="device/lge/mako" name="voron00/android_device_lge_mako" remote="github" />
         <project path="kernel/lge/mako" name="voron00/android_kernel_lge_mako" remote="github" />
@@ -177,6 +184,11 @@
 	<!-- Samsung Common -->
 	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
 	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
+	<project path="kernel/samsung/smdk4412" name="LineageOS/android_kernel_samsung_smdk4412" remote="github" />
+
+	<!-- Samsung Galaxy S II (i9100) -->
+	<project path="device/samsung/i9100" name="LineageOS/android_device_samsung_i9100" remote="github" />
+	<project path="device/samsung/galaxys2-common" name="LineageOS/android_device_samsung_galaxys2-common" remote="github" />
 
 	<!-- Samsung Galaxy S4 (jfltexx) -->
 	<project path="device/samsung/jfltexx" name="LineageOS/android_device_samsung_jfltexx" remote="github" />

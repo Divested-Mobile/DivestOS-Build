@@ -55,14 +55,11 @@ buildAll() {
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#Select devices are userdebug due to SELinux policy issues
 	buildDevice osprey;
-	buildDeviceUserDebug thor;
-	buildDevice Z00T;
+	buildDeviceUserDebug thor; #broken encryption
 	buildDevice clark;
-	buildDevice h815;
-	buildDevice himaul;
+	buildDevice h815; #broken
 	buildDevice manta;
-	buildDevice n7100; #device/samsung/n7100/selinux/device.te:5:ERROR 'duplicate declaration of type/attribute' at token ';': type hpd_device, dev_type; type mfc_device, dev_type;
-	buildDeviceUserDebug i9100;
+	buildDevice n7100; #broken sepolicy
 	buildDeviceUserDebug i9300;
 	buildDevice i9305;
 	buildDevice n5110;
@@ -72,8 +69,12 @@ buildAll() {
 	buildDevice toroplus;
 	buildDevice grouper; #needs manual patching - one-repo vendor blob patch
 
-
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
+	buildDevice himaul;
+	buildDevice Z00T;
+	buildDevice flounder verity;
+	buildDevice axon7;
+	buildDevice h850;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		buildDevice flo;
 		buildDevice mako;
@@ -94,15 +95,13 @@ buildAll() {
 		buildDevice ether;
 		buildDevice angler verity;
 		buildDevice kipper;
-		buildDevice axon7;
 		buildDevice griffin;
-		buildDevice h850;
 		buildDevice us996;
 		buildDevice marlin verity;
 		buildDevice sailfish verity;
 		buildDevice us997;
-		buildDevice flounder verity;
 		buildDevice dragon verity;
+		buildDeviceUserDebug i9100;
 		buildDevice fugu;
 	fi;
 }
@@ -125,6 +124,7 @@ patchWorkspace() {
 	repopick 248600 248649; #/proc hardening
 	repopick -it nougat-mr2-security-release-residue;
 	repopick 255328; #update webview
+	repopick -it N_asb_2019-09;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

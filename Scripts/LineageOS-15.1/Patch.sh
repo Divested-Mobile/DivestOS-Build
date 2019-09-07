@@ -77,6 +77,9 @@ git revert c9b0d95630b82cd0ad1a0fc633c6d59c2cb8aad7 37422f7df389f3ae5a34ee3d6dd9
 enterAndClear "device/qcom/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
 
+enterAndClear "external/libcups";
+git pull "https://github.com/LineageOS/android_external_libcups" refs/changes/66/255866/1; #O_asb_2019-09
+
 enterAndClear "external/svox";
 git revert 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 
@@ -187,6 +190,7 @@ if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/LINEAGE_BUILDTYP
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
 
 enter "vendor/divested";
+echo "PRODUCT_PACKAGES += Backup" >> packages.mk;
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi;
 if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi;
 #
@@ -196,6 +200,9 @@ if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_
 #
 #START OF DEVICE CHANGES
 #
+enterAndClear "device/asus/msm8916-common";
+rm -rf Android.bp sensors; #already included in asus/flo
+
 enterAndClear "device/google/marlin";
 patch -p1 < "$DOS_PATCHES/android_device_google_marlin/0001-Fix_MediaProvider_Deadlock.patch"; #Fix MediaProvider using 100% CPU (due to broken ppoll on functionfs?)
 
@@ -211,7 +218,11 @@ enterAndClear "device/lge/msm8996-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 
 enterAndClear "device/lge/mako";
+git revert e277722bb3f10dad7a6078aa0dba7b78738e6071; #restore releasetools
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
+
+enterAndClear "device/moto/shamu";
+#git revert 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
 
 enterAndClear "device/oppo/msm8974-common";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/

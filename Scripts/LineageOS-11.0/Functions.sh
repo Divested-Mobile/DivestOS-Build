@@ -48,7 +48,7 @@ export -f buildDeviceDebug;
 buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
-	brunch lineage_nex-user && processRelease nex false;
+	brunch lineage_nex-user && processRelease nex false; #broken encryption
 }
 export -f buildAll;
 
@@ -58,8 +58,8 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	repopick -it asb-2018.09-cm11-qcom;
 	repopick -i 230054 230392; #asb disclaimer
-	#repopick -it asb-2019.03-cm11; #merged, execpt for level
-	repopick -it asb-2019.04-cm11 -e 246293;
+	repopick -it asb-2019.03-cm11;
+	#repopick -it asb-2019.04-cm11 -e 246293;
 	repopick -it asb-2019.05-cm11;
 	repopick -it asb-2019.06-cm11;
 	repopick -it asb-2019.07-cm11;

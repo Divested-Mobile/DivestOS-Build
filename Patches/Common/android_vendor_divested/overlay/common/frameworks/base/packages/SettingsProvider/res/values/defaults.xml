@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <bool name="def_airplane_mode_on">false</bool>
+    <bool name="def_bluetooth_on">false</bool>
+    <bool name="def_wifi_on">false</bool>
+
     <!-- Default for Settings.Secure.LOCK_SCREEN_ALLOW_PRIVATE_NOTIFICATIONS -->
     <bool name="def_lock_screen_allow_private_notifications">false</bool>
 

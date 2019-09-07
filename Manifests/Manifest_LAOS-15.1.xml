@@ -72,8 +72,8 @@
 	<!-- F-Droid -->
 	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
 
-	<!-- GrapheneOS -->
-	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="master" />
+	<!-- GrapheneOS
+	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="master" />-->
 
 	<!-- WireGuard -->
 	<remote name="zx2c4" fetch="https://git.zx2c4.com/" />
@@ -91,6 +91,11 @@
 	<project path="external/stlport" name="LineageOS/android_external_stlport" remote="github" />
 	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 	<project path="packages/apps/FlipFlap" name="LineageOS/android_packages_apps_FlipFlap" remote="github" />
+
+	<!-- Asus Zenfone 2 Laser (Z00T) -->
+	<project path="device/asus/msm8916-common" name="LineageOS/android_device_asus_msm8916-common" remote="github" />
+	<project path="device/asus/Z00T" name="LineageOS/android_device_asus_Z00T" remote="github" />
+	<project path="kernel/asus/msm8916" name="LineageOS/android_kernel_asus_msm8916" remote="github" />
 
 	<!-- Essential PH-1 (mata) -->
 	<project path="device/essential/mata" name="LineageOS/android_device_essential_mata" remote="github" />
@@ -121,10 +126,10 @@
 	<project path="device/htc/msm8974-common" name="LineageOS/android_device_htc_msm8974-common" remote="github" />
 	<project path="kernel/htc/msm8974" name="LineageOS/android_kernel_htc_msm8974" remote="github" />
 
-	<!-- HTC One (m9)
+	<!-- HTC One (m9) -->
 	<project path="device/htc/himaul" name="LineageOS/android_device_htc_himaul" remote="github" />
 	<project path="device/htc/hima-common" name="LineageOS/android_device_htc_hima-common" remote="github" />
-	<project path="kernel/htc/msm8994" name="LineageOS/android_kernel_htc_msm8994" remote="github" />-->
+	<project path="kernel/htc/msm8994" name="LineageOS/android_kernel_htc_msm8994" remote="github" />
 
 	<!-- LG G2 (d802) -->
 	<project path="device/lge/g2-common" name="LineageOS/android_device_lge_g2-common" remote="github" />
@@ -206,6 +211,11 @@
 	<!-- Samsung Common -->
 	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
 	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
+	<project path="kernel/samsung/smdk4412" name="LineageOS/android_kernel_samsung_smdk4412" remote="github" />
+
+	<!-- Samsung Galaxy S II (i9100) -->
+	<project path="device/samsung/i9100" name="LineageOS/android_device_samsung_i9100" remote="github" />
+	<project path="device/samsung/galaxys2-common" name="LineageOS/android_device_samsung_galaxys2-common" remote="github" />
 
 	<!-- Samsung Galaxy S5 (klte) -->
 	<project path="device/samsung/klte" name="LineageOS/android_device_samsung_klte" remote="github" />
