@@ -35,12 +35,13 @@ scanWorkspaceForMalware() {
 export -f scanWorkspaceForMalware;
 
 buildDevice() {
+	export OTA_PACKAGE_SIGNING_KEY="$DOS_SIGNING_KEYS/$1/releasekey";
 	brunch "cm_$1-user" && processRelease $1 false;
 }
 export -f buildDevice;
 
 buildDeviceDebug() {
-	unset SIGNING_KEY_DIR;
+	unset OTA_PACKAGE_SIGNING_KEY;
 	brunch "cm_$1-eng";
 }
 export -f buildDeviceDebug;

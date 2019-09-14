@@ -35,17 +35,19 @@ scanWorkspaceForMalware() {
 export -f scanWorkspaceForMalware;
 
 buildDevice() {
+	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
 	brunch "lineage_$1-user" && processRelease $1 true $2;
 }
 export -f buildDevice;
 
 buildDeviceUserDebug() {
+	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
 	brunch "lineage_$1-userdebug" && processRelease $1 true $2;
 }
 export -f buildDeviceUserDebug;
 
 buildDeviceDebug() {
-	unset SIGNING_KEY_DIR;
+	unset OTA_KEY_OVERRIDE_DIR;
 	brunch "lineage_$1-eng";
 }
 export -f buildDeviceDebug;
@@ -100,7 +102,6 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick 255328; #update webview
-	repopick -it O_asb_2019-09;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

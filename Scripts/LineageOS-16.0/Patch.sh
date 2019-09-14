@@ -65,10 +65,12 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bio
 
 enterAndClear "bootable/recovery";
 git revert 4d361ff13b5bd61d5a6a5e95063b24b8a37a24ab 37d729bf; #fix sideload
-#git revert fe2901b144c515c5a90b547198aed37c209b5a82; #Resurrect dm-verity
+git revert fe2901b144c515c5a90b547198aed37c209b5a82; #Resurrect dm-verity
 
 enterAndClear "build/make";
 git revert 271f6ffa045064abcac066e97f2cb53ccb3e5126 61f7ee9386be426fd4eadc2c8759362edb5bef8; #Add back PicoTTS and language files
+patch -p1 < "$DOS_PATCHES_COMMON/android_build/0001-OTA_Keys.patch"; #add correct keys to recovery for OTA verification
+awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
 
 #enterAndClear "device/lineage/sepolicy";
@@ -77,12 +79,6 @@ sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 enterAndClear "device/qcom/sepolicy-legacy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
-
-enterAndClear "external/libcups";
-git pull "https://github.com/LineageOS/android_external_libcups" refs/changes/96/255696/1; #P_asb_2019-09
-
-enterAndClear "external/libhevc";
-git pull "https://github.com/LineageOS/android_external_libhevc" refs/changes/97/255697/1; #P_asb_2019-09
 
 enterAndClear "external/svox";
 git revert 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
@@ -171,15 +167,12 @@ git revert b3609d82999d23634c5e6db706a3ecbc5348309a; #Always update recovery
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysfs changes (GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES_COMMON/android_system_core/0001-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
 
-enterAndClear "system/nfc";
-git pull "https://github.com/LineageOS/android_system_nfc" refs/changes/93/255693/1; #P_asb_2019-09
-git pull "https://github.com/LineageOS/android_system_nfc" refs/changes/94/255694/1;
-
 enterAndClear "system/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices
 awk -i inplace '!/true cannot be used in user builds/' Android.mk; #Allow ignoring neverallows under -user
 
 enterAndClear "vendor/lineage";
+rm build/target/product/security/lineage.x509.pem;
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
 rm -rf verity_tool; #Resurrect dm-verity
 rm -rf overlay/common/frameworks/base/core/res/res/drawable-*/default_wallpaper.png;
@@ -223,8 +216,8 @@ enterAndClear "device/lge/d855";
 git revert 9a5739e66d0a44347881807c0cc44d7c318c02b8; #fix nfc path
 
 enterAndClear "device/lge/mako";
-git revert 218f7442874f7b7d494f265286a2151e2f81bb6e; #disable dexpreopt full and switch back to -mini
 #git revert ; #restore releasetools #TODO
+smallerSystem;
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
 echo "allow system_server sensors_data_file:dir search;" >> sepolicy/system_server.te; #Fix qcom_sensors log spam
 echo "allow system_server sensors_data_file:dir r_file_perms;" >> sepolicy/system_server.te;
@@ -250,8 +243,14 @@ find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {}
 find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'hardenUserdata "{}"';
 if [ "$DOS_STRONG_ENCRYPTION_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'enableStrongEncryption "{}"'; fi;
 find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenDefconfig "{}"';
-find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'cp "$DOS_SIGNING_KEYS/verifiedboot_relkeys.der.x509" "{}/verifiedboot_divested_relkeys.der.x509"';
 cd "$DOS_BUILD_BASE";
+
+#Verity
+cp "$DOS_SIGNING_KEYS/cheryl/verifiedboot_relkeys.der.x509" "kernel/razer/msm8998/verifiedboot_cheryl_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/griffin/verifiedboot_relkeys.der.x509" "kernel/motorola/msm8996/verifiedboot_griffin_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/marlin/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_marlin_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/sailfish/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_sailfish_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/z2_plus/verifiedboot_relkeys.der.x509" "kernel/zuk/msm8996/verifiedboot_z2_plus_relkeys.der.x509";
 
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile

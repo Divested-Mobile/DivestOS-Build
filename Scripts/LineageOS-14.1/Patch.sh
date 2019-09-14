@@ -66,6 +66,7 @@ enterAndClear "bootable/recovery";
 patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button?
 
 enterAndClear "build";
+patch -p1 < "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #add correct keys to recovery for OTA verification
 sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 
@@ -161,9 +162,6 @@ git revert 0217dddeb5c16903c13ff6c75213619b79ea622b d7aa1231b6a0631f506c0c23816f
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysfs changes (GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES_COMMON/android_system_core/0001-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
 
-enterAndClear "system/gatekeeper";
-git pull "https://github.com/LineageOS/android_system_gatekeeper" refs/changes/85/252985/1; #N_asb_2019-09
-
 enterAndClear "system/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices
 
@@ -171,6 +169,7 @@ enterAndClear "system/vold";
 patch -p1 < "$DOS_PATCHES/android_system_vold/0001-AES256.patch"; #Add a variable for enabling AES-256 bit encryption
 
 enterAndClear "vendor/cm";
+rm build/target/product/security/lineage.x509.pem;
 rm -rf overlay/common/vendor/cmsdk/packages; #Remove analytics
 rm -rf overlay/common/frameworks/base/core/res/res/drawable-*/default_wallpaper.png;
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
@@ -235,15 +234,15 @@ rm board-info.txt; #Never restrict installation
 enterAndClear "device/oneplus/bacon";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
-enterAndClear "device/samsung/manta";
-git revert e55bbff1c8aa50e25ffe39c8936ea3dc92a4a575; #restore releasetools
+#enterAndClear "device/samsung/manta";
+#git revert e55bbff1c8aa50e25ffe39c8936ea3dc92a4a575; #restore releasetools #TODO
 
 enterAndClear "device/samsung/toroplus";
 awk -i inplace '!/additional_system_update/' overlay/packages/apps/Settings/res/values*/*.xml;
 
 enableLowRam "device/samsung/tuna";
 enterAndClear "device/samsung/tuna";
-git revert e53eea6426da49dfb542929d5aa686667f4d416f; #restore releasetools
+#git revert e53eea6426da49dfb542929d5aa686667f4d416f; #restore releasetools #TODO
 rm setup-makefiles.sh; #broken, deblobber will still function
 sed -i 's|vendor/maguro/|vendor/|' libgps-shim/gps.c; #fix dlopen not found
 #See: https://review.lineageos.org/q/topic:%22tuna-sepolicies
@@ -267,8 +266,12 @@ find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {}
 find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'hardenUserdata "{}"';
 if [ "$DOS_STRONG_ENCRYPTION_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'enableStrongEncryption "{}"'; fi;
 find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenDefconfig "{}"';
-find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'cp "$DOS_SIGNING_KEYS/verifiedboot_relkeys.der.x509" "{}/verifiedboot_divested_relkeys.der.x509"';
 cd "$DOS_BUILD_BASE";
+
+#Verity
+cp "$DOS_SIGNING_KEYS/griffin/verifiedboot_relkeys.der.x509" "kernel/motorola/msm8996/verifiedboot_griffin_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/marlin/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_marlin_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/sailfish/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_sailfish_relkeys.der.x509";
 
 #Fixes
 #Fix broken options enabled by hardenDefconfig()

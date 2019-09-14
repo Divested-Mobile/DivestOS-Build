@@ -35,17 +35,19 @@ scanWorkspaceForMalware() {
 export -f scanWorkspaceForMalware;
 
 buildDevice() {
+	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
 	brunch "lineage_$1-user" && processRelease $1 true $2;
 }
 export -f buildDevice;
 
 buildDeviceUserDebug() {
+	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
 	brunch "lineage_$1-userdebug" && processRelease $1 true $2;
 }
 export -f buildDeviceUserDebug;
 
 buildDeviceDebug() {
-	unset SIGNING_KEY_DIR;
+	unset OTA_KEY_OVERRIDE_DIR;
 	brunch "lineage_$1-eng";
 }
 export -f buildDeviceDebug;
@@ -73,8 +75,6 @@ buildAll() {
 	buildDevice himaul;
 	buildDevice Z00T;
 	buildDevice flounder verity;
-	buildDevice axon7;
-	buildDevice h850;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		buildDevice flo;
 		buildDevice mako;
@@ -95,7 +95,9 @@ buildAll() {
 		buildDevice ether;
 		buildDevice angler verity;
 		buildDevice kipper;
+		buildDevice axon7;
 		buildDevice griffin;
+		buildDevice h850;
 		buildDevice us996;
 		buildDevice marlin verity;
 		buildDevice sailfish verity;
@@ -124,7 +126,6 @@ patchWorkspace() {
 	repopick 248600 248649; #/proc hardening
 	repopick -it nougat-mr2-security-release-residue;
 	repopick 255328; #update webview
-	repopick -it N_asb_2019-09;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

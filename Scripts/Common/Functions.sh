@@ -148,7 +148,7 @@ processRelease() {
 	VERITY="$3";
 
 	DATE=$(date -u '+%Y%m%d')
-	KEY_DIR="$DOS_SIGNING_KEYS";
+	KEY_DIR="$DOS_SIGNING_KEYS/$DEVICE";
 	VERSION=$(echo $DOS_VERSION | cut -f2 -d "-");
 	PREFIX="$DOS_BRANDING_ZIP_PREFIX-$VERSION-$DATE-dos-$DEVICE";
 	ARCHIVE="$DOS_BUILDS/$DOS_VERSION/release_keys/";
@@ -157,9 +157,11 @@ processRelease() {
 	echo -e "\e[0;32mProcessing release for $DEVICE\e[0m";
 
 	#Arguments
+	unset BLOCK_SWITCHES;
 	if [ "$BLOCK" != false ]; then
 		BLOCK_SWITCHES="--block";
 	fi;
+	unset VERITY_SWITCHES;
 	if [[ "$VERITY" == "verity" ]]; then
 		VERITY_SWITCHES=(--replace_verity_public_key "$KEY_DIR/verity_key.pub" \
 			--replace_verity_private_key "$KEY_DIR/verity" \
@@ -267,8 +269,10 @@ optimizeImagesRecursive() {
 export -f optimizeImagesRecursive;
 
 smallerSystem() {
-	echo "SMALLER_FONT_FOOTPRINT := true" >> BoardConfig.mk;
 	echo "BOARD_SYSTEMIMAGE_JOURNAL_SIZE := 0" >> BoardConfig.mk;
+	echo "EXCLUDE_SERIF_FONTS := true" >> BoardConfig.mk;
+	echo "SMALLER_FONT_FOOTPRINT := true" >> BoardConfig.mk;
+	#echo "MINIMAL_FONT_FOOTPRINT := true" >> BoardConfig.mk;
 	sed -i 's/common_full_phone.mk/common_mini_phone.mk/' *.mk &>/dev/null || true;
 }
 export -f smallerSystem;

@@ -1,0 +1,29 @@
+From 3d9a2560ff4ce717b91724d941c3607abe8fa09f Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sat, 14 Sep 2019 20:12:26 -0400
+Subject: [PATCH] Support OTA recovery key override
+
+Change-Id: Icafdb77a0c39353aaefbdf65a83f76be6e3e5f63
+---
+ core/Makefile | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/core/Makefile b/core/Makefile
+index 3fb424733..a87bce4df 100644
+--- a/core/Makefile
++++ b/core/Makefile
+@@ -1038,6 +1038,11 @@ ifneq ($(OTA_PACKAGE_SIGNING_KEY),)
+     PRODUCT_EXTRA_RECOVERY_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE)
+ endif
+ 
++ifneq ($(OTA_KEY_OVERRIDE_DIR),)
++    OTA_PUBLIC_KEYS := $(OTA_KEY_OVERRIDE_DIR)/releasekey.x509.pem
++    PRODUCT_EXTRA_RECOVERY_KEYS := $(OTA_KEY_OVERRIDE_DIR)/extra
++endif
++
+ # Generate a file containing the keys that will be read by the
+ # recovery binary.
+ RECOVERY_INSTALL_OTA_KEYS := \
+-- 
+2.21.0
+

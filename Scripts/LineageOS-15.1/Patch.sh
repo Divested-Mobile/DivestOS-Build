@@ -64,9 +64,11 @@ enterAndClear "bionic";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi; #(GrapheneOS)
 
 enterAndClear "bootable/recovery";
-#git revert ac258a4f4c4b4b91640cc477ad1ac125f206db02; #Resurrect dm-verity
+git revert ac258a4f4c4b4b91640cc477ad1ac125f206db02; #Resurrect dm-verity
 
 enterAndClear "build/make";
+patch -p1 < "$DOS_PATCHES_COMMON/android_build/0001-OTA_Keys.patch"; #add correct keys to recovery for OTA verification
+awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
 
 enterAndClear "device/lineage/sepolicy";
@@ -76,9 +78,6 @@ git revert c9b0d95630b82cd0ad1a0fc633c6d59c2cb8aad7 37422f7df389f3ae5a34ee3d6dd9
 
 enterAndClear "device/qcom/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
-
-enterAndClear "external/libcups";
-git pull "https://github.com/LineageOS/android_external_libcups" refs/changes/66/255866/1; #O_asb_2019-09
 
 enterAndClear "external/svox";
 git revert 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
@@ -175,6 +174,7 @@ enterAndClear "system/vold";
 patch -p1 < "$DOS_PATCHES/android_system_vold/0001-AES256.patch"; #Add a variable for enabling AES-256 bit encryption
 
 enterAndClear "vendor/lineage";
+rm build/target/product/security/lineage.x509.pem;
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
 rm -rf verity_tool; #Resurrect dm-verity
 rm -rf overlay/common/frameworks/base/core/res/res/drawable-*/default_wallpaper.png;
@@ -240,8 +240,12 @@ find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {}
 find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'hardenUserdata "{}"';
 if [ "$DOS_STRONG_ENCRYPTION_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'enableStrongEncryption "{}"'; fi;
 find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenDefconfig "{}"';
-find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'cp "$DOS_SIGNING_KEYS/verifiedboot_relkeys.der.x509" "{}/verifiedboot_divested_relkeys.der.x509"';
 cd "$DOS_BUILD_BASE";
+
+#Verity
+cp "$DOS_SIGNING_KEYS/griffin/verifiedboot_relkeys.der.x509" "kernel/motorola/msm8996/verifiedboot_griffin_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/marlin/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_marlin_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/sailfish/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_sailfish_relkeys.der.x509";
 
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile

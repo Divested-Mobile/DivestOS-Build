@@ -130,8 +130,6 @@ if [ ! -d "$DOS_SCRIPTS" ]; then
 fi;
 export DOS_SCRIPTS_CVES=$DOS_SCRIPTS"CVE_Patchers/";
 
-export SIGNING_KEY_DIR=$DOS_SIGNING_KEYS;
-
 export KBUILD_BUILD_USER="emy";
 export KBUILD_BUILD_HOST="dosbm";
 

@@ -1,16 +1,22 @@
 #!/bin/bash
 
-#desc='/O=Divested Computing Group/CN=DivestOS/emailAddress=support@divestos.org';
-desc='/O=Example/CN=ExampleOS/emailAddress=support@example.com';
+#Reference: https://grapheneos.org/build#generating-release-signing-keys
+
 type='rsa'; #Options: rsa, ec
 
+#make -j20 generate_verity_key;
+
+cd "$DOS_SIGNING_KEYS";
+mkdir $1; cd $1;
+desc="/O=Divested Computing Group/CN=DivestOS for $1/emailAddress=support@divestos.org";
 "$DOS_BUILD_BASE"/development/tools/make_key extra "$desc" "$type";
 "$DOS_BUILD_BASE"/development/tools/make_key media "$desc" "$type";
 "$DOS_BUILD_BASE"/development/tools/make_key platform "$desc" "$type";
 "$DOS_BUILD_BASE"/development/tools/make_key releasekey "$desc" "$type";
 "$DOS_BUILD_BASE"/development/tools/make_key shared "$desc" "$type";
 "$DOS_BUILD_BASE"/development/tools/make_key verity "$desc" "$type";
-
-#https://grapheneos.org/build#generating-release-signing-keys
-
-echo "Please copy created keys to your signing keys directory. Keep them safe!";
+"$DOS_BUILD_BASE"/out/host/linux-x86/bin/generate_verity_key -convert verity.x509.pem verity_key;
+openssl x509 -outform der -in verity.x509.pem -out verifiedboot_relkeys.der.x509;
+openssl genrsa -out avb.pem 2048;
+"$DOS_BUILD_BASE"/external/avb/avbtool extract_public_key --key avb.pem --output avb_pkmd.bin;
+cd "$DOS_BUILD_BASE";
