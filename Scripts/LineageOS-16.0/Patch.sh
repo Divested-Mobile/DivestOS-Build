@@ -230,6 +230,9 @@ enterAndClear "device/moto/shamu";
 enterAndClear "device/oppo/msm8974-common";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
+enterAndClear "kernel/google/marlin";
+git revert 568f99db3c9; #Resurrect dm-verity
+
 enter "vendor/google";
 echo "" > atv/atv-common.mk;
 

@@ -29,8 +29,8 @@ export -f startPatcher;
 
 enter() {
 	echo "================================================================================================"
-	dir="$1";
-	dirReal="$DOS_BUILD_BASE$dir";
+	local dir="$1";
+	local dirReal="$DOS_BUILD_BASE$dir";
 	if [ -d "$dirReal" ]; then
 		cd "$dirReal";
 		echo -e "\e[0;32m[ENTERING] $dir\e[0m";
@@ -72,8 +72,8 @@ export -f gpgVerifyDirectory;
 scanForMalware() {
 	if [ -x /usr/bin/clamscan ] && [ -r /var/lib/clamav/main.cvd ]; then
 		echo -e "\e[0;32mStarting a malware scan...\e[0m";
-		excludes="--exclude-dir=\".git\" --exclude-dir=\".repo\"";
-		scanQueue="$2";
+		local excludes="--exclude-dir=\".git\" --exclude-dir=\".repo\"";
+		local scanQueue="$2";
 		if [ "$1" = true ]; then
 			if [ "$DOS_MALWARE_SCAN_SETTING" != "quick" ] || [ "$DOS_MALWARE_SCAN_SETTING" = "extra" ]; then
 				scanQueue=$scanQueue" $DOS_BUILD_BASE/frameworks $DOS_BUILD_BASE/vendor";
@@ -87,7 +87,7 @@ scanForMalware() {
 		fi;
 		du -hsc $scanQueue;
 		/usr/bin/clamscan --recursive --detect-pua --infected $excludes $scanQueue;
-		clamscanExit="$?";
+		local clamscanExit="$?";
 		if [ "$clamscanExit" -eq "1" ]; then
 			echo -e "\e[0;31m----------------------------------------------------------------\e[0m";
 			echo -e "\e[0;31mWARNING: MALWARE WAS FOUND! PLEASE INVESTIGATE!\e[0m";
@@ -113,17 +113,17 @@ scanForMalware() {
 export -f scanForMalware;
 
 generateBootAnimationMask() {
-	text=$1;
-	font=$2
-	output=$3;
+	local text=$1;
+	local font=$2
+	local output=$3;
 	convert -background black -fill transparent -font "$font" -gravity center -size 512x128 label:"$text" "$output";
 }
 export -f generateBootAnimationMask;
 
 generateBootAnimationShine() {
-	color=$1;
-	style=$2;
-	output=$3;
+	local color=$1;
+	local style=$2;
+	local output=$3;
 	#The colors need to be symmetrical in order to make the animation smooth and not have any noticble lines
 	convert -size 1024x128 -define gradient:angle=90 "$style":"$color" \( +clone -flop \) +append "$output";
 }
@@ -143,36 +143,34 @@ export -f audit2allowADB;
 processRelease() {
 	#Credit: GrapheneOS
 	#https://github.com/GrapheneOS/script/blob/pie/release.sh
-	DEVICE="$1";
-	BLOCK="$2";
-	VERITY="$3";
+	local DEVICE="$1";
+	local BLOCK="$2";
+	local VERITY="$3";
 
-	DATE=$(date -u '+%Y%m%d')
-	KEY_DIR="$DOS_SIGNING_KEYS/$DEVICE";
-	VERSION=$(echo $DOS_VERSION | cut -f2 -d "-");
-	PREFIX="$DOS_BRANDING_ZIP_PREFIX-$VERSION-$DATE-dos-$DEVICE";
-	ARCHIVE="$DOS_BUILDS/$DOS_VERSION/release_keys/";
-	OUT_DIR="$DOS_BUILD_BASE/out/target/product/$DEVICE/";
+	local DATE=$(date -u '+%Y%m%d')
+	local KEY_DIR="$DOS_SIGNING_KEYS/$DEVICE";
+	local VERSION=$(echo $DOS_VERSION | cut -f2 -d "-");
+	local PREFIX="$DOS_BRANDING_ZIP_PREFIX-$VERSION-$DATE-dos-$DEVICE";
+	local ARCHIVE="$DOS_BUILDS/$DOS_VERSION/release_keys/";
+	local OUT_DIR="$DOS_BUILD_BASE/out/target/product/$DEVICE/";
 
 	echo -e "\e[0;32mProcessing release for $DEVICE\e[0m";
 
 	#Arguments
-	unset BLOCK_SWITCHES;
 	if [ "$BLOCK" != false ]; then
-		BLOCK_SWITCHES="--block";
+		local BLOCK_SWITCHES="--block";
 	fi;
-	unset VERITY_SWITCHES;
 	if [[ "$VERITY" == "verity" ]]; then
-		VERITY_SWITCHES=(--replace_verity_public_key "$KEY_DIR/verity_key.pub" \
+		local VERITY_SWITCHES=(--replace_verity_public_key "$KEY_DIR/verity_key.pub" \
 			--replace_verity_private_key "$KEY_DIR/verity" \
 			--replace_verity_keyid "$KEY_DIR/verity.x509.pem");
 		echo -e "\e[0;32m\t+ Verified Boot 1.0\e[0m";
 	elif [[ "$VERITY" == "avb" ]]; then
-		VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" \
+		local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" \
 			--avb_vbmeta_algorithm SHA256_RSA2048 \
 			--avb_system_key "$KEY_DIR/avb.pem" \
 			--avb_system_algorithm SHA256_RSA2048);
-		AVB_PKMD="$KEY_DIR/avb_pkmd.bin";
+		local AVB_PKMD="$KEY_DIR/avb_pkmd.bin";
 		echo -e "\e[0;32m\t+ Verified Boot 2.0\e[0m";
 	fi;
 
@@ -182,7 +180,7 @@ processRelease() {
 		"${VERITY_SWITCHES[@]}" \
 		$OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files-*.zip \
 		$OUT_DIR/$PREFIX-target_files.zip;
-	INCREMENTAL_ID=$(grep "ro.build.version.incremental" $OUT_DIR/system/build.prop | cut -f2 -d "=" | sed 's/\.//g');
+	local INCREMENTAL_ID=$(grep "ro.build.version.incremental" $OUT_DIR/system/build.prop | cut -f2 -d "=" | sed 's/\.//g');
 	echo $INCREMENTAL_ID > $OUT_DIR/$PREFIX-target_files.zip.id;
 
 	#Image
@@ -201,7 +199,7 @@ processRelease() {
 	if [ "$DOS_GENERATE_DELTAS" = true ]; then
 		for LAST_TARGET_FILES in $ARCHIVE/target_files/$DOS_BRANDING_ZIP_PREFIX-$VERSION-*-dos-$DEVICE-target_files.zip; do
 			if [[ -f "$LAST_TARGET_FILES.id" ]]; then
-				LAST_INCREMENTAL_ID=$(cat "$LAST_TARGET_FILES.id");
+				local LAST_INCREMENTAL_ID=$(cat "$LAST_TARGET_FILES.id");
 				echo -e "\e[0;32mGenerating incremental OTA against $LAST_INCREMENTAL_ID\e[0m";
 				build/tools/releasetools/ota_from_target_files $BLOCK_SWITCHES -t 8 -k "$KEY_DIR/releasekey" -i \
 					"$LAST_TARGET_FILES" \
@@ -278,15 +276,15 @@ smallerSystem() {
 export -f smallerSystem;
 
 hardenLocationConf() {
-	gpsConfig=$1;
+	local gpsConfig=$1;
 	#Attempt to get the real device directory
 	if [[ "$gpsConfig" = *"device/"* ]]; then
-		deviceDir=$(sed 's|gps/gps.conf||' <<< "$gpsConfig");
+		local deviceDir=$(sed 's|gps/gps.conf||' <<< "$gpsConfig");
 		deviceDir=$(sed 's|configs/gps.conf||' <<< "$deviceDir");
 		deviceDir=$(sed 's|gps/etc/gps.conf||' <<< "$deviceDir");
 		deviceDir=$(sed 's|gps.conf||' <<< "$deviceDir");
 	else
-		deviceDir=$(dirname "$gpsConfig");
+		local deviceDir=$(dirname "$gpsConfig");
 	fi;
 	#Debugging (adb logcat | grep -i -e locsvc -e izat -e gps -e gnss -e location)
 	#sed -i 's|DEBUG_LEVEL = .|DEBUG_LEVEL = 4|' "$gpsConfig" &> /dev/null || true;
@@ -332,7 +330,7 @@ hardenLocationConf() {
 export -f hardenLocationConf;
 
 hardenLocationFWB() {
-	dir=$1;
+	local dir=$1;
 	#Debugging (adb logcat | grep -i -e locsvc -e izat -e gps -e gnss -e location)
 	#sed -i 's|DEBUG_LEVEL = .|DEBUG_LEVEL = 4|' "$gpsConfig" &> /dev/null || true;
 	#Enable GLONASS
@@ -393,21 +391,21 @@ export -f enableStrongEncryption;
 
 getDefconfig() {
 	if ls arch/arm/configs/lineage*defconfig 1> /dev/null 2>&1; then
-		defconfigPath="arch/arm/configs/lineage*defconfig";
+		local defconfigPath="arch/arm/configs/lineage*defconfig";
 	elif ls arch/arm64/configs/lineage*defconfig 1> /dev/null 2>&1; then
-		defconfigPath="arch/arm64/configs/lineage*defconfig";
+		local defconfigPath="arch/arm64/configs/lineage*defconfig";
 	else
-		defconfigPath="arch/arm/configs/*defconfig arch/arm64/configs/*defconfig";
+		local defconfigPath="arch/arm/configs/*defconfig arch/arm64/configs/*defconfig";
 	fi;
 	echo $defconfigPath;
 }
 export -f getDefconfig;
 
 changeDefaultDNS() {
-	dnsPrimary="";
-	dnsPrimaryV6="";
-	dnsSecondary="";
-	dnsSecondaryV6="";
+	local dnsPrimary="";
+	local dnsPrimaryV6="";
+	local dnsSecondary="";
+	local dnsSecondaryV6="";
 	if [ -z "$DNS_PRESET" ]; then
 		if [[ "$DOS_DEFAULT_DNS_PRESET" == "CensurfriDNS" ]]; then #https://uncensoreddns.org
 			dnsPrimary="91.239.100.100";
@@ -479,7 +477,7 @@ changeDefaultDNS() {
 		echo "You must first set a preset via the DEFAULT_DNS_PRESET variable in init.sh!";
 	fi;
 
-	files="core/res/res/values/config.xml packages/SettingsLib/res/values/strings.xml services/core/java/com/android/server/connectivity/NetworkDiagnostics.java services/core/java/com/android/server/connectivity/Tethering.java services/core/java/com/android/server/connectivity/tethering/TetheringConfiguration.java services/java/com/android/server/connectivity/Tethering.java";
+	local files="core/res/res/values/config.xml packages/SettingsLib/res/values/strings.xml services/core/java/com/android/server/connectivity/NetworkDiagnostics.java services/core/java/com/android/server/connectivity/Tethering.java services/core/java/com/android/server/connectivity/tethering/TetheringConfiguration.java services/java/com/android/server/connectivity/Tethering.java";
 	sed -i "s/8\.8\.8\.8/$dnsPrimary/" $files &>/dev/null || true;
 	sed -i "s/2001:4860:4860::8888/$dnsPrimaryV6/" $files &>/dev/null || true;
 	sed -i "s/8\.8\.4\.4/$dnsSecondary/" $files &>/dev/null || true;
@@ -488,7 +486,7 @@ changeDefaultDNS() {
 export -f changeDefaultDNS;
 
 editKernelLocalversion() {
-	defconfigPath=$(getDefconfig)
+	local defconfigPath=$(getDefconfig)
 	sed -i 's/CONFIG_LOCALVERSION=".*"/CONFIG_LOCALVERSION="'"$1"'"/' $defconfigPath &>/dev/null || true;
 }
 export -f editKernelLocalversion;
@@ -499,7 +497,7 @@ hardenDefconfig() {
 	#Attempts to enable/disable supported options to increase security
 	#See https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings
 
-	defconfigPath=$(getDefconfig)
+	local defconfigPath=$(getDefconfig)
 
 	#Enable supported options
 	#Disabled: CONFIG_DEBUG_SG (bootloops - https://patchwork.kernel.org/patch/8989981)

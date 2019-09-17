@@ -462,10 +462,10 @@ echo "Deblobbing..."
 #START OF FUNCTIONS
 #
 deblobDevice() {
-	devicePath="$1";
+	local devicePath="$1";
 	cd "$DOS_BUILD_BASE$devicePath";
-	if [ "$DOS_DEBLOBBER_REPLACE_TIME" = false ]; then replaceTime="false"; fi; #Disable Time replacement
-	if ! grep -qi "qcom" BoardConfig*.mk; then replaceTime="false"; fi; #Disable Time Replacement
+	if [ "$DOS_DEBLOBBER_REPLACE_TIME" = false ]; then local replaceTime="false"; fi; #Disable Time replacement
+	if ! grep -qi "qcom" BoardConfig*.mk; then local replaceTime="false"; fi; #Disable Time Replacement
 	if [ -f Android.mk ]; then
 		#Some devices store these in a dedicated firmware partition, others in /system/vendor/firmware, either way the following are just symlinks
 		#sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Remove CMN firmware
@@ -502,8 +502,8 @@ deblobDevice() {
 			echo "PRODUCT_PACKAGES += libyuv libEGL_swiftshader libGLESv1_CM_swiftshader libGLESv2_swiftshader" >> device.mk; #Build SwiftShader
 		fi;
 	fi;
-	baseDirTmp=${PWD##*/};
-	suffixTmp="-common";
+	local baseDirTmp=${PWD##*/};
+	local suffixTmp="-common";
 	if [ -f "${PWD##*/}".mk ] && [ "${PWD##*/}".mk != "sepolicy" ]; then
 		awk -i inplace '!/'"$makes"'/' "${PWD##*/}".mk; #Remove references from device makefile
 		awk -i inplace '!/'"$makes"'/' "${baseDirTmp%"$suffixTmp"}".mk &>/dev/null || true; #Remove references from device makefile
@@ -606,7 +606,7 @@ deblobDevice() {
 export -f deblobDevice;
 
 deblobKernel() {
-	kernelPath="$1";
+	local kernelPath="$1";
 	cd "$DOS_BUILD_BASE$kernelPath";
 	rm -rf $kernels;
 	cd "$DOS_BUILD_BASE";
@@ -614,7 +614,7 @@ deblobKernel() {
 export -f deblobKernel;
 
 deblobSepolicy() {
-	sepolicyPath="$1";
+	local sepolicyPath="$1";
 	cd "$DOS_BUILD_BASE$sepolicyPath";
 	if [ -d sepolicy ]; then
 		cd sepolicy;
@@ -631,7 +631,7 @@ deblobVendors() {
 export -f deblobVendors;
 
 deblobVendor() {
-	makefile="$1";
+	local makefile="$1";
 	cd "$DOS_BUILD_BASE";
 	awk -i inplace '!/'$blobs'/' "$makefile"; #Remove all blob references from makefile
 }
