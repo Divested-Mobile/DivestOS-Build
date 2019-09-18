@@ -234,6 +234,9 @@ rm board-info.txt; #Never restrict installation
 enterAndClear "device/oneplus/bacon";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
+enterAndClear "device/samsung/exynos5420-common";
+awk -i inplace '!/shell su/' sepolicy/shell.te; #neverallow
+
 #enterAndClear "device/samsung/manta";
 #git revert e55bbff1c8aa50e25ffe39c8936ea3dc92a4a575; #restore releasetools #TODO
 

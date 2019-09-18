@@ -241,6 +241,12 @@
 	<project path="device/samsung/kona-common" name="LineageOS/android_device_samsung_kona-common" remote="github" />
 	<project path="device/samsung/n5110" name="LineageOS/android_device_samsung_n5110" remote="github" />
 
+	<!-- Samsung Galaxy Note Pro 12.1 Wi-Fi (v1awifi) -->
+	<project path="device/samsung/exynos5420-common" name="LineageOS/android_device_samsung_exynos5420-common" remote="github" />
+	<project path="device/samsung/v1awifi" name="LineageOS/android_device_samsung_v1awifi" remote="github" />
+	<project path="hardware/samsung_slsi-cm/exynos5420" name="LineageOS/android_hardware_samsung_slsi-cm_exynos5420" remote="github" />
+	<project path="kernel/samsung/exynos5420" name="LineageOS/android_kernel_samsung_exynos5420" remote="github" />
+
 	<!-- Samsung Galaxy S II (i9100) -->
 	<project path="device/samsung/i9100" name="LineageOS/android_device_samsung_i9100" remote="github" />
 	<project path="device/samsung/galaxys2-common" name="LineageOS/android_device_samsung_galaxys2-common" remote="github" />
