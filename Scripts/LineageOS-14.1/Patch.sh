@@ -272,9 +272,9 @@ find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {}
 cd "$DOS_BUILD_BASE";
 
 #Verity
-cp "$DOS_SIGNING_KEYS/griffin/verifiedboot_relkeys.der.x509" "kernel/motorola/msm8996/verifiedboot_griffin_relkeys.der.x509";
-cp "$DOS_SIGNING_KEYS/marlin/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_marlin_relkeys.der.x509";
-cp "$DOS_SIGNING_KEYS/sailfish/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_sailfish_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/griffin/verifiedboot_relkeys.der.x509" "kernel/motorola/msm8996/verifiedboot_griffin_dos_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/marlin/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_marlin_dos_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/sailfish/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_sailfish_dos_relkeys.der.x509";
 
 #Fixes
 #Fix broken options enabled by hardenDefconfig()

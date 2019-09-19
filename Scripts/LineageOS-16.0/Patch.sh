@@ -231,7 +231,7 @@ enterAndClear "device/oppo/msm8974-common";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
 enterAndClear "kernel/google/marlin";
-git revert 568f99db3c9; #Resurrect dm-verity
+git revert 568f99db3c9a590912f533fa734c46cf7a25dcbd; #Resurrect dm-verity
 
 enter "vendor/google";
 echo "" > atv/atv-common.mk;
@@ -249,11 +249,11 @@ find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {}
 cd "$DOS_BUILD_BASE";
 
 #Verity
-cp "$DOS_SIGNING_KEYS/cheryl/verifiedboot_relkeys.der.x509" "kernel/razer/msm8998/verifiedboot_cheryl_relkeys.der.x509";
-cp "$DOS_SIGNING_KEYS/griffin/verifiedboot_relkeys.der.x509" "kernel/motorola/msm8996/verifiedboot_griffin_relkeys.der.x509";
-cp "$DOS_SIGNING_KEYS/marlin/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_marlin_relkeys.der.x509";
-cp "$DOS_SIGNING_KEYS/sailfish/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_sailfish_relkeys.der.x509";
-cp "$DOS_SIGNING_KEYS/z2_plus/verifiedboot_relkeys.der.x509" "kernel/zuk/msm8996/verifiedboot_z2_plus_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/cheryl/verifiedboot_relkeys.der.x509" "kernel/razer/msm8998/verifiedboot_cheryl_dos_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/griffin/verifiedboot_relkeys.der.x509" "kernel/motorola/msm8996/verifiedboot_griffin_dos_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/marlin/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_marlin_dos_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/sailfish/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_sailfish_dos_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/z2_plus/verifiedboot_relkeys.der.x509" "kernel/zuk/msm8996/verifiedboot_z2_plus_dos_relkeys.der.x509";
 
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
