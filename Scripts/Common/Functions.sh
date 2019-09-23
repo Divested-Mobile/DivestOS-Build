@@ -184,9 +184,12 @@ processRelease() {
 	echo $INCREMENTAL_ID > $OUT_DIR/$PREFIX-target_files.zip.id;
 
 	#Image
-	#echo -e "\e[0;32mCreating fastboot image\e[0m";
-	#build/tools/releasetools/img_from_target_files $OUT_DIR/$PREFIX-target_files.zip \
-	#	$OUT_DIR/$PREFIX-img.zip || exit 1;
+	if [ ! -f $OUT_DIR/recovery.img ]; then
+		echo -e "\e[0;32mCreating fastboot image\e[0m";
+		build/tools/releasetools/img_from_target_files $OUT_DIR/$PREFIX-target_files.zip \
+			$OUT_DIR/$PREFIX-img.zip || exit 1;
+		md5sum $OUT_DIR/$PREFIX-img.zip > $OUT_DIR/$PREFIX-img.zip.md5sum;
+	fi
 
 	#OTA
 	echo -e "\e[0;32mCreating OTA\e[0m";
@@ -215,11 +218,13 @@ processRelease() {
 		echo -e "\e[0;32mCopying files to archive\e[0m";
 		mkdir -vp $ARCHIVE;
 		mkdir -vp $ARCHIVE/target_files;
+		mkdir -vp $ARCHIVE/factory;
 		mkdir -vp $ARCHIVE/incrementals;
 
-		cp -v $OUT_DIR/$PREFIX-target_files.* $ARCHIVE/target_files/;
+		cp -v $OUT_DIR/$PREFIX-target_files.zip* $ARCHIVE/target_files/;
+		cp -v $OUT_DIR/$PREFIX-img.zip* $ARCHIVE/factory/ || true;
 		cp -v $OUT_DIR/$PREFIX-ota.zip* $ARCHIVE/;
-		cp -v $OUT_DIR/$PREFIX-incremental_*.zip* $ARCHIVE/incrementals/;
+		cp -v $OUT_DIR/$PREFIX-incremental_*.zip* $ARCHIVE/incrementals/ || true;
 	fi;
 	echo -e "\e[0;32mRelease processing complete\e[0m";
 }
