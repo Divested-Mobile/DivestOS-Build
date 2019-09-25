@@ -66,6 +66,7 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bio
 enterAndClear "bootable/recovery";
 git revert 4d361ff13b5bd61d5a6a5e95063b24b8a37a24ab 37d729bf; #fix sideload
 git revert fe2901b144c515c5a90b547198aed37c209b5a82; #Resurrect dm-verity
+sed -i 's/!= 2048/>= 2048/' tools/dumpkey/DumpPublicKey.java; #Allow 4096-bit keys
 
 enterAndClear "build/make";
 git revert 271f6ffa045064abcac066e97f2cb53ccb3e5126 61f7ee9386be426fd4eadc2c8759362edb5bef8; #Add back PicoTTS and language files

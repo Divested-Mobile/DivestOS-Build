@@ -19,7 +19,7 @@
 
 #START OF USER CONFIGURABLE OPTIONS
 export DOS_WORKSPACE_ROOT="/mnt/Drive-3/"; #XXX: THIS MUST BE CORRECT TO BUILD!
-export DOS_SIGNING_KEYS=$DOS_WORKSPACE_ROOT"Signing_Keys";
+export DOS_SIGNING_KEYS=$DOS_WORKSPACE_ROOT"Signing_Keys/2048";
 #export DOS_BINARY_PATCHER="";
 #export DOS_TOR_WRAPPER="torsocks"; #Uncomment to perform select build operations over Tor
 

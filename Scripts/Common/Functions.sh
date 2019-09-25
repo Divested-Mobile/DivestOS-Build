@@ -180,6 +180,7 @@ processRelease() {
 		"${VERITY_SWITCHES[@]}" \
 		$OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files-*.zip \
 		$OUT_DIR/$PREFIX-target_files.zip;
+	sha512sum $OUT_DIR/$PREFIX-target_files.zip > $OUT_DIR/$PREFIX-target_files.zip.sha512sum;
 	local INCREMENTAL_ID=$(grep "ro.build.version.incremental" $OUT_DIR/system/build.prop | cut -f2 -d "=" | sed 's/\.//g');
 	echo $INCREMENTAL_ID > $OUT_DIR/$PREFIX-target_files.zip.id;
 
@@ -188,7 +189,7 @@ processRelease() {
 		echo -e "\e[0;32mCreating fastboot image\e[0m";
 		build/tools/releasetools/img_from_target_files $OUT_DIR/$PREFIX-target_files.zip \
 			$OUT_DIR/$PREFIX-img.zip || exit 1;
-		md5sum $OUT_DIR/$PREFIX-img.zip > $OUT_DIR/$PREFIX-img.zip.md5sum;
+		sha512sum $OUT_DIR/$PREFIX-img.zip > $OUT_DIR/$PREFIX-img.zip.sha512sum;
 	fi
 
 	#OTA
@@ -197,6 +198,7 @@ processRelease() {
 		$OUT_DIR/$PREFIX-target_files.zip  \
 		$OUT_DIR/$PREFIX-ota.zip;
 	md5sum $OUT_DIR/$PREFIX-ota.zip > $OUT_DIR/$PREFIX-ota.zip.md5sum;
+	sha512sum $OUT_DIR/$PREFIX-ota.zip > $OUT_DIR/$PREFIX-ota.zip.sha512sum;
 
 	#Deltas
 	if [ "$DOS_GENERATE_DELTAS" = true ]; then
@@ -209,6 +211,7 @@ processRelease() {
 					$OUT_DIR/$PREFIX-target_files.zip \
 					$OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip;
 				md5sum $OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip > $OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip.md5sum;
+				sha512sum $OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip > $OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip.sha512sum;
 			fi;
 		done;
 	fi;

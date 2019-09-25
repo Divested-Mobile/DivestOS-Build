@@ -65,6 +65,7 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bio
 
 enterAndClear "bootable/recovery";
 git revert ac258a4f4c4b4b91640cc477ad1ac125f206db02; #Resurrect dm-verity
+sed -i 's/!= 2048/>= 2048/' tools/dumpkey/DumpPublicKey.java; #Allow 4096-bit keys
 
 enterAndClear "build/make";
 patch -p1 < "$DOS_PATCHES_COMMON/android_build/0001-OTA_Keys.patch"; #add correct keys to recovery for OTA verification
