@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_bonito kernel_google_crosshatch kernel_google_marlin kernel_google_msm kernel_google_wahoo kernel_htc_msm8974 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_zuk_msm8996";
+	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_bonito kernel_google_crosshatch kernel_google_marlin kernel_google_msm kernel_google_wahoo kernel_htc_msm8974 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -77,6 +77,7 @@ buildAll() {
 	#SD805
 	buildDevice shamu verity;
 	#SD808
+	#buildDeviceUserDebug clark; #permissive + needs manual patching - fwb xml: fused: dangling tag
 	buildDevice ether;
 	#SD615
 	buildDevice kipper; #broken
@@ -109,7 +110,6 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -f 254249; #g3 nfc
-	repopick 255328; #update webview
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

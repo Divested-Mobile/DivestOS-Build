@@ -126,7 +126,6 @@ patchWorkspace() {
 	repopick 248599; #restrict SET_TIME_ZONE permission
 	repopick 248600 248649; #/proc hardening
 	repopick -it nougat-mr2-security-release-residue;
-	repopick 255328; #update webview
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

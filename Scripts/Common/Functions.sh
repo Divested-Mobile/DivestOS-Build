@@ -167,9 +167,9 @@ processRelease() {
 		echo -e "\e[0;32m\t+ Verified Boot 1.0\e[0m";
 	elif [[ "$VERITY" == "avb" ]]; then
 		local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" \
-			--avb_vbmeta_algorithm SHA256_RSA2048 \
+			--avb_vbmeta_algorithm SHA512_RSA4096 \
 			--avb_system_key "$KEY_DIR/avb.pem" \
-			--avb_system_algorithm SHA256_RSA2048);
+			--avb_system_algorithm SHA512_RSA4096);
 		local AVB_PKMD="$KEY_DIR/avb_pkmd.bin";
 		echo -e "\e[0;32m\t+ Verified Boot 2.0\e[0m";
 	fi;

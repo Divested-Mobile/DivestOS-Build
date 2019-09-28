@@ -99,7 +99,7 @@ enterAndClear "packages/apps/Trebuchet";
 sed -i 's/mCropView.setTouchEnabled(touchEnabled);/mCropView.setTouchEnabled(true);/' WallpaperPicker/src/com/android/launcher3/WallpaperCropActivity.java;
 
 enterAndClear "system/core";
-sed -i 's/!= 2048/>= 2048/' libmincrypt/tools/DumpPublicKey.java; #Allow 4096-bit keys
+sed -i 's/!= 2048/< 2048/' libmincrypt/tools/DumpPublicKey.java; #Allow 4096-bit keys
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0)
 

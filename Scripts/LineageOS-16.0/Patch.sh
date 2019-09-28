@@ -66,7 +66,7 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bio
 enterAndClear "bootable/recovery";
 git revert 4d361ff13b5bd61d5a6a5e95063b24b8a37a24ab 37d729bf; #fix sideload
 git revert fe2901b144c515c5a90b547198aed37c209b5a82; #Resurrect dm-verity
-sed -i 's/!= 2048/>= 2048/' tools/dumpkey/DumpPublicKey.java; #Allow 4096-bit keys
+sed -i 's/!= 2048/< 2048/' tools/dumpkey/DumpPublicKey.java; #Allow 4096-bit keys
 
 enterAndClear "build/make";
 git revert 271f6ffa045064abcac066e97f2cb53ccb3e5126 61f7ee9386be426fd4eadc2c8759362edb5bef8; #Add back PicoTTS and language files
@@ -105,7 +105,7 @@ patch -p1 < "$DOS_PATCHES/android_frameworks_base/0006-Disable_Analytics.patch";
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #always restrict access to Build.SERIAL (GrapheneOS)
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #don't grant location permission to system browsers (GrapheneOS)
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
-patch -p1 < "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning.patch"; #add exec-based spawning support (GrapheneOS)
+if [ "$DOS_GRAPHENE_EXEC" = true ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning.patch"; fi; #add exec-based spawning support (GrapheneOS)
 patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #don't send IMSI to SUPL (MSe)
 patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #enable fingerprint failed lockout after 5 attempts (GrapheneOS)
 rm -rf packages/PrintRecommendationService; #App that just creates popups to install proprietary print apps
@@ -227,6 +227,15 @@ awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk;
 
 enterAndClear "device/moto/shamu";
 #git revert 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
+
+#enterAndClear "device/motorola/clark";
+#git revert fc6cf83; #disable nfc for now
+#awk -i '!/nfc/' device.mk;
+#patch -p1 < "$DOS_PATCHES/android_device_motorola_clark/0001-audit2allow.patch"; #audit2allow sepolicy
+#sed -i 's/androidboot.selinux=permissive//' BoardConfig.mk; #enforce sepolicy
+#rm configs/Android.mk; #fix compile
+#rm setup-makefiles.sh; #broken, deblobber will still function
+#XXX: remove atfwd and cne from vendor makefiles
 
 enterAndClear "device/oppo/msm8974-common";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
