@@ -2,6 +2,7 @@
 cd "$DOS_BUILD_BASE""kernel/essential/msm8998"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0187-0188.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0188-0189.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0192-0193.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/ANY/0001.patch
@@ -81,6 +82,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12378/^5.1.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12456/^5.1.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12614/^5.1.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-15098/^5.2.8/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-17052/^5.3.2/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-17053/^5.3.2/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-17054/^5.3.2/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-17055/^5.3.2/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-17056/^5.3.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2054/ANY/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2054/ANY/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2181/4.4/0002.patch
@@ -95,5 +101,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-14875/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11274/ANY/0001.patch
-editKernelLocalversion "-dos.p95"
+editKernelLocalversion "-dos.p101"
 cd "$DOS_BUILD_BASE"

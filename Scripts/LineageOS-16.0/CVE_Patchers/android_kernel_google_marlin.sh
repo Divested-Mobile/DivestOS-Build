@@ -29,7 +29,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0044.pat
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0045.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0046.patch
 #git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0048.patch
-git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0049.patch
+#git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0049.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0050.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0011.patch
@@ -127,6 +127,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9415/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10142/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10491/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10512/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10529/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10638/^4.1/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-11486/^5.0.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-11833/^5.1.2/0001.patch
@@ -165,5 +166,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0610/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-14883/ANY/0001.patch
-editKernelLocalversion "-dos.p165"
+editKernelLocalversion "-dos.p166"
 cd "$DOS_BUILD_BASE"
