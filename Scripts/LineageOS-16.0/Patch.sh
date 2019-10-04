@@ -189,7 +189,7 @@ if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/LINEAGE_BUILDTYP
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
 
 enter "vendor/divested";
-echo "PRODUCT_PACKAGES += Backup" >> packages.mk;
+#echo "PRODUCT_PACKAGES += Backup" >> packages.mk;
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi;
 if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi;
 echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All of our kernels have deny USB patch added
@@ -201,6 +201,7 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 #START OF DEVICE CHANGES
 #
 enterAndClear "device/google/marlin";
+git revert eeb92c0f094f58b1bdfbaa775d239948f81e915b 8c729e4b016a5b35159992413a22c289ecf2c44c; #remove some carrier blobs
 patch -p1 < "$DOS_PATCHES/android_device_google_marlin/0001-Fix_MediaProvider_Deadlock.patch"; #Fix MediaProvider using 100% CPU (due to broken ppoll on functionfs?)
 
 enterAndClear "device/lge/g2-common";
