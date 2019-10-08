@@ -1,6 +1,6 @@
 #!/bin/bash
 #DivestOS: A privacy oriented Android distribution
-#Copyright (c) 2015-2018 Divested Computing Group
+#Copyright (c) 2015-2019 Divested Computing Group
 #
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -237,6 +237,9 @@ enterAndClear "device/moto/shamu";
 #rm configs/Android.mk; #fix compile
 #rm setup-makefiles.sh; #broken, deblobber will still function
 #XXX: remove atfwd and cne from vendor makefiles
+
+enterAndClear "device/oppo/common";
+awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
 
 enterAndClear "device/oppo/msm8974-common";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/

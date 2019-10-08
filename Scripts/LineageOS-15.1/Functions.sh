@@ -1,6 +1,6 @@
 #!/bin/bash
 #DivestOS: A privacy oriented Android distribution
-#Copyright (c) 2017-2018 Divested Computing Group
+#Copyright (c) 2017-2019 Divested Computing Group
 #
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -100,7 +100,9 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
+	repopick -it tzdata-2019c-o;
+	repopick -it O_asb_2019-10;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

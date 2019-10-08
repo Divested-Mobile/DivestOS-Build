@@ -1,6 +1,6 @@
 #!/bin/bash
 #DivestOS: A privacy oriented Android distribution
-#Copyright (c) 2017-2018 Divested Computing Group
+#Copyright (c) 2017-2019 Divested Computing Group
 #
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -126,6 +126,8 @@ patchWorkspace() {
 	repopick 248599; #restrict SET_TIME_ZONE permission
 	repopick 248600 248649; #/proc hardening
 	repopick -it nougat-mr2-security-release-residue;
+	repopick -it n-tzdata-2019c;
+	repopick -it n-asb-2019-10;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

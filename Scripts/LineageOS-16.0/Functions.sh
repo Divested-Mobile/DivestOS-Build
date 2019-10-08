@@ -1,6 +1,6 @@
 #!/bin/bash
 #DivestOS: A privacy oriented Android distribution
-#Copyright (c) 2017-2018 Divested Computing Group
+#Copyright (c) 2017-2019 Divested Computing Group
 #
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -110,6 +110,8 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -f 254249; #g3 nfc
+	repopick -it tzdata-2019c-p;
+	repopick -it P_asb_2019-10;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
