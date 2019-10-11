@@ -93,6 +93,10 @@
 	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 	<project path="packages/apps/FlipFlap" name="LineageOS/android_packages_apps_FlipFlap" remote="github" />
 
+	<!-- Asus ZenFone 3 (zenfone3) -->
+	<project path="device/asus/zenfone3" name="LineageOS/android_device_asus_zenfone3" remote="github" />
+	<project path="kernel/asus/msm8953" name="LineageOS/android_kernel_asus_msm8953" remote="github" />
+
 	<!-- Essential PH-1 (mata) -->
 	<project path="device/essential/mata" name="LineageOS/android_device_essential_mata" remote="github" />
 	<project path="kernel/essential/msm8998" name="LineageOS/android_kernel_essential_msm8998" remote="github" />

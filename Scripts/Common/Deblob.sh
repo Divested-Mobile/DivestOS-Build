@@ -71,7 +71,7 @@ echo "Deblobbing..."
 	#Clearkey (DRM) [Google]
 	blobs=$blobs"|libdrmclearkeyplugin.so";
 
-	#CMN (DRM?) [?]
+	#CMN (?) [?]
 	#blobs=$blobs"|cmnlib.*";
 
 	#CNE (Automatic Cell/Wi-Fi Switching) [Qualcomm]
@@ -84,6 +84,10 @@ echo "Deblobbing..."
 	blobs=$blobs"|vendor.qti.data.factory.*|vendor.qti.hardware.data.dynamicdds.*|vendor.qti.hardware.data.latency.*|vendor.qti.hardware.data.qmi.*|vendor.qti.latency.*";
 	makes=$makes"libcnefeatureconfig";
 	sepolicy=$sepolicy" cnd.te qcneservice.te";
+
+	#CPPF (DRM) [?]
+	blobs=$blobs"|libcppf.so";
+	blobs=$blobs"|cppf.*";
 
 	#Diagnostics
 	blobs=$blobs"|[/]diag[/]|diag_callback_client|diag_dci_sample|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag[/]mdm|diag_qshrink4_daemon|diag_socket_log|diag_uart_log|drmdiagapp|ibdrmdiag.so|ssr_diag|test_diag|cnss_diag";
@@ -362,7 +366,9 @@ echo "Deblobbing..."
 	blobs=$blobs"|Tycho.apk";
 
 	#Quickboot [Qualcomm]
+	blobs=$blobs"|power_off_alarm";
 	blobs=$blobs"|QuickBoot.apk|PowerOffAlarm.apk";
+	blobs=$blobs"|vendor.qti.hardware.alarm.*";
 
 	#QTI (Tethering Extensions) [Qualcomm]
 	blobs=$blobs"|libQtiTether.so";
@@ -389,6 +395,7 @@ echo "Deblobbing..."
 
 	#SecureUI Frontends
 	blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureExtAuthJNI.so|libSecureSampleAuthClient.so|libsdedrm.so";
+	blobs=$blobs"|vendor.qti.hardware.tui.*";
 
 	#[Sprint]
 	blobs=$blobs"|CQATest.apk|GCS.apk|HiddenMenu.apk|LifetimeData.apk|SprintHM.apk|LifeTimerService.apk|SecPhone.apk|SprintMenu.apk";
@@ -426,11 +433,13 @@ echo "Deblobbing..."
 	makes=$makes"|android.hardware.soundtrigger.*";
 
 	#Wfd (Wireless Display? Wi-Fi Direct?) [Qualcomm]
-	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdcommonutils.so|libwfdhdcpcp.so|libwfdmmsink.so|libwfdmmsrc.so|libwfdmmutils.so|libwfdnative.so|libwfdrtsp.so|libwfdservice.so|libwfdsm.so|libwfduibcinterface.so|libwfduibcsinkinterface.so|libwfduibcsink.so|libwfduibcsrcinterface.so|libwfduibcsrc.so";
-	blobs=$blobs"|wfdservice";
+	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdcommonutils.so|libwfdhdcpcp.so|libwfdmmsink.so|libwfdmmsrc.so|libwfdmmutils.so|libwfdnative.so|libwfdrtsp.so|libwfdservice.so|libwfdsm.so|libwfduibcinterface.so|libwfduibcsinkinterface.so|libwfduibcsink.so|libwfduibcsrcinterface.so|libwfduibcsrc.so|libwfdcommonutils_proprietary.so|libwfdhaldsmanager.so|libwfdmmservice.so|libwfdmodulehdcpsession.so|libwfdcodecv4l2.so|libwfdconfigutils.so|libwfdmminterface.so|libwfdclient.so";
+	blobs=$blobs"|wfdservice|wifidisplayhalservice";
 	blobs=$blobs"|WfdService.apk";
 	blobs=$blobs"|WfdCommon.jar";
 	blobs=$blobs"|wfdconfigsink.xml|wfdconfig.xml";
+	blobs=$blobs"|com.qualcomm.qti.wifidisplayhal.*";
+	makes=$makes"|WfdCommon";
 
 	#Widevine (DRM) [Google]
 	blobs=$blobs"|libdrmclearkeyplugin.so|libdrmwvmplugin.so|libmarlincdmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvhidl.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|libdrmmtkutil.so|libsepdrm.*.so";
