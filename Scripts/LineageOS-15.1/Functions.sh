@@ -100,9 +100,7 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	source build/envsetup.sh;
-	repopick -it tzdata-2019c-o;
-	repopick -it O_asb_2019-10;
+	#source build/envsetup.sh;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

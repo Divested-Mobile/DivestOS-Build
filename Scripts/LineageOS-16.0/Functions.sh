@@ -112,8 +112,6 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -f 254249; #g3 nfc
-	repopick -it tzdata-2019c-p;
-	repopick -it P_asb_2019-10;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

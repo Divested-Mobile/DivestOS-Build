@@ -174,6 +174,12 @@ processRelease() {
 		echo -e "\e[0;32m\t+ Verified Boot 2.0\e[0m";
 	fi;
 
+	#Malware Scan
+	if [ "$DOS_MALWARE_SCAN_BEFORE_SIGN" = true ]; then
+		echo -e "\e[0;32mScanning files for malware before signing\e[0m";
+		scanForMalware false "$OUT_DIR/system";
+	fi;
+
 	#Target Files
 	echo -e "\e[0;32mSigning target files\e[0m";
 	build/tools/releasetools/sign_target_files_apks -o -d "$KEY_DIR" \
@@ -228,7 +234,16 @@ processRelease() {
 		cp -v $OUT_DIR/$PREFIX-fastboot.zip* $ARCHIVE/fastboot/ || true;
 		cp -v $OUT_DIR/$PREFIX-ota.zip* $ARCHIVE/;
 		cp -v $OUT_DIR/$PREFIX-incremental_*.zip* $ARCHIVE/incrementals/ || true;
+
+		#Remove to make space for next build
+		if [ "$DOS_REMOVE_AFTER" = true ]; then
+			echo -e "\e[0;32mRemoving to reclaim space\e[0m";
+			#TODO: add a sanity check
+			rm -rf "$OUT_DIR";
+		fi;
 	fi;
+
+	sync;
 	echo -e "\e[0;32mRelease processing complete\e[0m";
 }
 export -f processRelease;

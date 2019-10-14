@@ -17,12 +17,21 @@
 
 #Sets settings used by all other scripts
 
+#
 #START OF USER CONFIGURABLE OPTIONS
+#
+#General
+export ANDROID_HOME="/home/$USER/Android/Sdk";
 export DOS_WORKSPACE_ROOT="/mnt/Drive-3/"; #XXX: THIS MUST BE CORRECT TO BUILD!
 export DOS_SIGNING_KEYS=$DOS_WORKSPACE_ROOT"Signing_Keys/4096";
+#export USE_CCACHE=1;
+#export CCACHE_DIR="";
 #export DOS_BINARY_PATCHER="";
 #export DOS_TOR_WRAPPER="torsocks"; #Uncomment to perform select build operations over Tor
+export DOS_MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
+export DOS_MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
 
+#Deblobber
 export DOS_DEBLOBBER_REMOVE_ACCESSORIES=true; #Set false to allow use of external accessories
 export DOS_DEBLOBBER_REMOVE_AUDIOFX=true; #Set true to remove AudioFX
 export DOS_DEBLOBBER_REMOVE_GRAPHICS=false; #Set true to remove all graphics blobs and use SwiftShader CPU renderer #TODO: Needs work
@@ -33,7 +42,7 @@ export DOS_DEBLOBBER_REMOVE_IPA=false; #Set true to remove all IPA blobs
 export DOS_DEBLOBBER_REMOVE_IR=false; #Set true to remove all IR blobs
 export DOS_DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Services with the open source Sony TimeKeep reimplementation #TODO: Needs work
 
-export DOS_BUILDALL_SUPERSEDED=false; #Set true to build superseded devices when running buildAll()
+#Features
 export DOS_GPS_GLONASS_FORCED=true; #Enables GLONASS on all devices
 export DOS_GRAPHENE_MALLOC=true; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms
 export DOS_GRAPHENE_EXEC=true; #Enables use of GrapheneOS' exec spawning feature
@@ -41,8 +50,6 @@ export DOS_HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOS
 export DOS_HOSTS_BLOCKING_APP="DNS66"; #App installed when built-in blocking is disabled. Options: Blokada, DNS66
 export DOS_HOSTS_BLOCKING_LIST="https://divestos.org/hosts"; #Must be in the format "127.0.0.1 bad.domain.tld"
 export DOS_LOWRAM_ENABLED=false; #Switch to true to enable low_ram on all devices
-export DOS_MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
-export DOS_MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
 export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NONE, NLP, FULL
 export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches XXX: Unused, see 1dc9247
 export DOS_OPTIMIZE_IMAGES=false; #Set true to apply lossless optimizations to image resources
@@ -50,13 +57,19 @@ export DOS_OVERCLOCKS_ENABLED=false; #Switch to false to disable overclocks #XXX
 export DOS_STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit encryption on 14.1+15.1 XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
 export DOS_WIREGUARD_INCLUDED=false; #Switch to true to enable WireGuard kernel module inclusion
 
+#Servers
 export DOS_DEFAULT_DNS_PRESET="OpenNIC"; #Sets default DNS. Options: CensurfriDNS, Cloudflare, OpenNIC, DNSWATCH, Google, Neustar(-NOBL), OpenDNS, Quad9(-NOBL), Verisign, Yandex(-NOBL)
 export DOS_GPS_NTP_SERVER="1.android.pool.ntp.org"; #Options: Any NTP pool
 export DOS_GPS_SUPL_HOST="supl.google.com"; #Options: supl.{google,vodafone,sonyericsson}.com
 
-export DOS_AUTO_ARCHIVE_BUILDS=true; #Copies files to $DOS_BUILDS after signing
+#Release Processing
+export DOS_BUILDALL_SUPERSEDED=false; #Set true to build superseded devices when running buildAll()
+export DOS_MALWARE_SCAN_BEFORE_SIGN=false; #Scan device files for malware before signing
 export DOS_GENERATE_DELTAS=true; #Creates deltas from existing target_files in $DOS_BUILDS
+export DOS_AUTO_ARCHIVE_BUILDS=true; #Copies files to $DOS_BUILDS after signing
+export DOS_REMOVE_AFTER=true; #Removes device OUT directory after complete to reclaim space. Requires AUTO_ARCHIVE_BUILDS=true
 
+#Branding
 export DOS_BRANDING_NAME="DivestOS";
 export DOS_BRANDING_ZIP_PREFIX="divested";
 export DOS_BRANDING_BOOTANIMATION_FONT="Fira-Sans-Bold"; #Options: $ convert -list font
@@ -68,17 +81,16 @@ export DOS_BRANDING_LINK_PRIVACY="https://divestos.org/index.php?page=privacy_po
 export DOS_BRANDING_SERVER_OTA="https://divestos.org/updater.php";
 export DOS_BRANDING_SERVER_OTA_ONION=$DOS_BRANDING_SERVER_OTA;
 
+#Theme
 export DOS_THEME_50="FFCA28"; #Amber 400
 export DOS_THEME_100="FFC107"; #Amber 500
 export DOS_THEME_200="FFA726"; #Orange 400
 export DOS_THEME_300="FF9800"; #Orange 500
 export DOS_THEME_500="FF5722"; #Deep Orange 500
 export DOS_THEME_700="E64A19"; #Deep Orange 700
-
-#export USE_CCACHE=1;
-#export CCACHE_DIR="";
-export ANDROID_HOME="/home/$USER/Android/Sdk";
+#
 #END OF USER CONFIGURABLE OPTIONS
+#
 
 gpgVerifyGitHead() {
 	if [ -r "$HOME/.gnupg" ]; then
