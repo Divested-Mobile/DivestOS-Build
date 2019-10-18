@@ -200,6 +200,9 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 #
 #START OF DEVICE CHANGES
 #
+enterAndClear "device/asus/zenfone3";
+rm -rf libhidl; #breaks other devices
+
 enterAndClear "device/google/marlin";
 git revert eeb92c0f094f58b1bdfbaa775d239948f81e915b 8c729e4b016a5b35159992413a22c289ecf2c44c; #remove some carrier blobs
 patch -p1 < "$DOS_PATCHES/android_device_google_marlin/0001-Fix_MediaProvider_Deadlock.patch"; #Fix MediaProvider using 100% CPU (due to broken ppoll on functionfs?)
@@ -258,6 +261,7 @@ find "device" -name "gps\.conf" -type f -print0 | xargs -0 -n 1 -P 4 -I {} bash 
 find "device" -type d -name "overlay" -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenLocationFWB "{}"';
 find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'enableDexPreOpt "{}"';
 find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'hardenUserdata "{}"';
+find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'hardenBootArgs "{}"';
 if [ "$DOS_STRONG_ENCRYPTION_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'enableStrongEncryption "{}"'; fi;
 find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenDefconfig "{}"';
 cd "$DOS_BUILD_BASE";
