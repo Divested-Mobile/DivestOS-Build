@@ -1,0 +1,25 @@
+From 334f543513c0cd2dbbf4b6450fb50d9f9a523385 Mon Sep 17 00:00:00 2001
+From: syphyr <syphyr@gmail.com>
+Date: Mon, 20 May 2019 00:04:28 +0200
+Subject: [PATCH] sepolicy: msm_irqbalance: Allow read for stats and interrupts
+
+After hardening /proc, msm_irqbalance requires additional sepolicy
+changes to read stats and interrupts.
+
+Fixes: restrict access to timing information in /proc
+Change-Id: I547f8dd13c6422f057884814e3187dc9ecebfe00
+---
+ common/msm_irqbalanced.te | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/common/msm_irqbalanced.te b/common/msm_irqbalanced.te
+index d4c3e57d..f9dd9004 100644
+--- a/common/msm_irqbalanced.te
++++ b/common/msm_irqbalanced.te
+@@ -5,5 +5,6 @@ init_daemon_domain(msm_irqbalanced)
+ 
+ allow msm_irqbalanced cgroup:dir { create add_name };
+ allow msm_irqbalanced { proc sysfs_devices_system_cpu }:file w_file_perms;
++allow msm_irqbalanced { proc_stat proc_interrupts }:file r_file_perms;
+ allow msm_irqbalanced self:capability { setuid setgid dac_override };
+ r_dir_file(msm_irqbalanced, sysfs_rqstats);

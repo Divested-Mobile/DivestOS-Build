@@ -211,6 +211,7 @@ enterAndClear "device/lge/g2-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 
 enterAndClear "device/lge/g3-common";
+patch -p1 < "$DOS_PATCHES/android_device_lge_g3-common/254249.patch"; #g3-common: Add NFC HAL to proprietary-files
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
 

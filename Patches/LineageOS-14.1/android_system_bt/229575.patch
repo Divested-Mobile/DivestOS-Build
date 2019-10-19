@@ -1,0 +1,167 @@
+From d398566dd742fee9bd08d5ba0ac245aec1258afd Mon Sep 17 00:00:00 2001
+From: ValdikSS <iam@valdikss.org.ru>
+Date: Fri, 21 Sep 2018 21:43:14 +0300
+Subject: [PATCH] Explicit SBC Dual Channel (SBC HD) support
+
+Overwhelming majority of Bluetooth audio devices have SBC maximum bitpool value
+limited to 53, which prevents bitrates higher than 328 kbit/s to be used with
+the most common 44.1 kHz Joint Stereo, 8 subbands, 16 blocks profile. This
+limitation could be circumvented on any existing device to achieve higher audio
+quality, by using Dual Channel mode.
+Dual Channel encodes channels separately, using the entire bitpool for each
+channel. Forcing the device to use Dual Channel instead of Joint Stereo almost
+doubles maximum possible bitrate for the same bitpool value.
+
+A2DP specification v1.2, which was active from 2007 to 2015, requires all
+decoders to work correctly with bitrates up to 512 kbps. Newer specification
+does not have the limit at all. It is assumed that most modern headphones with
+EDR support can handle any SBC profile with maximum bitpool value, regardless
+of resulting bitrate.
+
+This commit defines optimal Dual Channel bitrate profiles:
+EDR 2mbit/s - 452 kbit/s for 44.1 kHz, 492 kbit/s for 48 kHz (bitpool 38,
+4 audio frames, 10.7 ms, 6 wasted bytes per packet)
+EDR 3mbit/s - 551.3 kbit/s for 44.1 kHz, 600 kbit/s for 48 kHz (bitpool 47,
+5 audio frames, 13.4 ms, 4 wasted bytes per packet)
+
+With 452 kbit/s, SBC outperforms aptX, with 551.3 kbit/s, on par or close to
+aptX HD.
+
+SBC HD is disabled by default and should be activated by setting
+"persist.bt.sbc_hd_enabled" property:
+$ setprop persist.bt.sbc_hd_enabled 1
+
+Bitrate could be increased further with "persist.bt.sbc_hd_higher_kbps"
+property. If the property is set, the following EDR 2mbit/s profile is used:
+595.4 kbit/s for 44.1 kHz, 648 kbit/s for 48 kHz (bitpool 51, 3 audio frames,
+8.8 ms, 14 wasted bytes per packet)
+
+53 out of 57 tested headphones, receivers and automotive head units were able
+to correctly receive and decode high bitrate Dual Channel audio.
+
+Test: manual, with various headphones, receivers, and speakers
+Change-Id: If74d9d46461c67b8aef39d63430b2f0187c9e714
+---
+ btif/co/bta_av_co.c        | 21 ++++++++++++++++++++-
+ btif/src/btif_media_task.c | 14 ++++++++++++++
+ 2 files changed, 34 insertions(+), 1 deletion(-)
+
+diff --git a/btif/co/bta_av_co.c b/btif/co/bta_av_co.c
+index 39a8ebfa7..f205ddacc 100644
+--- a/btif/co/bta_av_co.c
++++ b/btif/co/bta_av_co.c
+@@ -43,6 +43,7 @@
+ #include "btif_av_co.h"
+ #include "btif_util.h"
+ #include "osi/include/mutex.h"
++#include "osi/include/properties.h"
+ 
+ #include "bt_utils.h"
+ #include "a2d_aptx.h"
+@@ -81,6 +82,7 @@
+ #else
+ #define BTA_AV_CO_SBC_MAX_BITPOOL  53
+ #endif
++#define A2DP_SBC_HD_ENABLE_PROP "persist.bt.sbc_hd_enabled"
+ 
+ /* SCMS-T protect info */
+ const UINT8 bta_av_co_cp_scmst[BTA_AV_CP_INFO_LEN] = "\x02\x02\x00";
+@@ -138,6 +140,18 @@ const tA2D_SBC_CIE btif_av_sbc_default_config =
+     A2D_SBC_IE_MIN_BITPOOL          /* min_bitpool */
+ };
+ 
++/* Alternative SBC codec configuration */
++const tA2D_SBC_CIE btif_av_sbc_alt_config =
++{
++    BTIF_AV_SBC_DEFAULT_SAMP_FREQ,   /* samp_freq */
++    A2D_SBC_IE_CH_MD_DUAL,          /* ch_mode */
++    A2D_SBC_IE_BLOCKS_16,           /* block_len */
++    A2D_SBC_IE_SUBBAND_8,           /* num_subbands */
++    A2D_SBC_IE_ALLOC_MD_L,          /* alloc_mthd */
++    BTA_AV_CO_SBC_MAX_BITPOOL,      /* max_bitpool */
++    A2D_SBC_IE_MIN_BITPOOL          /* min_bitpool */
++};
++
+ const tA2D_APTX_CIE bta_av_co_aptx_caps =
+ {
+     A2D_APTX_VENDOR_ID,
+@@ -566,7 +580,10 @@ void bta_av_build_src_cfg (UINT8 *p_pref_cfg, UINT8 *p_src_cap)
+     else if (src_cap.samp_freq & A2D_SBC_IE_SAMP_FREQ_44)
+         pref_cap.samp_freq = A2D_SBC_IE_SAMP_FREQ_44;
+ 
+-    if (src_cap.ch_mode & A2D_SBC_IE_CH_MD_JOINT)
++    if (property_get_int32(A2DP_SBC_HD_ENABLE_PROP, 0)
++            && (src_cap.ch_mode & A2D_SBC_IE_CH_MD_DUAL))
++        pref_cap.ch_mode = A2D_SBC_IE_CH_MD_DUAL;
++    else if (src_cap.ch_mode & A2D_SBC_IE_CH_MD_JOINT)
+         pref_cap.ch_mode = A2D_SBC_IE_CH_MD_JOINT;
+     else if (src_cap.ch_mode & A2D_SBC_IE_CH_MD_STEREO)
+         pref_cap.ch_mode = A2D_SBC_IE_CH_MD_STEREO;
+@@ -2209,6 +2226,8 @@ BOOLEAN bta_av_co_audio_set_codec(const tBTIF_AV_MEDIA_FEEDINGS *p_feeding, tBTI
+         new_cfg_sbc.id = BTIF_AV_CODEC_SBC;
+ 
+         sbc_config = btif_av_sbc_default_config;
++        if (property_get_int32(A2DP_SBC_HD_ENABLE_PROP, 0))
++            sbc_config = btif_av_sbc_alt_config;
+         if ((p_feeding->cfg.pcm.num_channel != 1) &&
+             (p_feeding->cfg.pcm.num_channel != 2))
+         {
+diff --git a/btif/src/btif_media_task.c b/btif/src/btif_media_task.c
+index cac0c2211..4c956bd3c 100644
+--- a/btif/src/btif_media_task.c
++++ b/btif/src/btif_media_task.c
+@@ -59,6 +59,7 @@
+ #include "osi/include/metrics.h"
+ #include "osi/include/mutex.h"
+ #include "osi/include/thread.h"
++#include "osi/include/properties.h"
+ #include "bt_utils.h"
+ #include "a2d_api.h"
+ #include "a2d_int.h"
+@@ -114,6 +115,8 @@ OI_INT16 pcmData[15*SBC_MAX_SAMPLES_PER_FRAME*SBC_MAX_CHANNELS];
+ #include "bta_api.h"
+ #endif
+ 
++#define A2DP_SBC_HD_PROP "persist.bt.sbc_hd_higher_kbps"
++
+ 
+ /*****************************************************************************
+  **  Constants
+@@ -209,12 +212,16 @@ enum {
+ 
+ #ifdef BTA_AV_SPLIT_A2DP_DEF_FREQ_48KHZ
+ #define BTIF_A2DP_DEFAULT_BITRATE 496
++#define BTIF_A2DP_3DH5_BITRATE 601
++#define BTIF_A2DP_2DH5_ALT_BITRATE 649
+ 
+ #ifndef BTIF_A2DP_NON_EDR_MAX_RATE
+ #define BTIF_A2DP_NON_EDR_MAX_RATE 237
+ #endif
+ #else
+ #define BTIF_A2DP_DEFAULT_BITRATE 455
++#define BTIF_A2DP_3DH5_BITRATE 552
++#define BTIF_A2DP_2DH5_ALT_BITRATE 596
+ 
+ #ifndef BTIF_A2DP_NON_EDR_MAX_RATE
+ #define BTIF_A2DP_NON_EDR_MAX_RATE 229
+@@ -232,6 +239,7 @@ enum {
+ 
+ /* 2DH5 payload size of 679 bytes - (4 bytes L2CAP Header + 12 bytes AVDTP Header) */
+ #define MAX_2MBPS_AVDTP_MTU         663
++#define MIN_3MBPS_AVDTP_SAFE_MTU    800
+ #define USEC_PER_SEC 1000000L
+ #define TPUT_STATS_INTERVAL_US (3000*1000)
+ 
+@@ -1252,6 +1260,12 @@ static UINT16 btif_media_task_get_sbc_rate(void)
+     {
+         rate = BTIF_A2DP_NON_EDR_MAX_RATE;
+         APPL_TRACE_DEBUG("non-edr a2dp sink detected, restrict rate to %d", rate);
++    } else if (btif_av_peer_supports_3mbps()
++               && btif_media_cb.TxAaMtuSize >= MIN_3MBPS_AVDTP_SAFE_MTU) {
++        rate = BTIF_A2DP_3DH5_BITRATE;
++    } else if (!btif_av_peer_supports_3mbps()
++               && property_get_int32(A2DP_SBC_HD_PROP, 0)) {
++        rate = BTIF_A2DP_2DH5_ALT_BITRATE;
+     }
+ 
+     return rate;

@@ -1,0 +1,131 @@
+From 14f74809348227ad07d1d934d747f7218c7e21a3 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 29 Jul 2016 14:48:19 -0400
+Subject: [PATCH] restrict access to timing information in /proc
+
+These APIs expose sensitive information via timing side channels. This
+leaves access via the adb shell intact along with the current uses by
+dumpstate, init and system_server.
+
+The /proc/interrupts and /proc/stat files were covered in this paper:
+
+https://www.lightbluetouchpaper.org/2016/07/29/yet-another-android-side-channel/
+
+The /proc/softirqs, /proc/timer_list and /proc/timer_stats files are
+also relevant.
+
+Access to /proc has been greatly restricted since then, with untrusted
+apps no longer having direct access to these, but stricter restrictions
+beyond that would be quite useful.
+
+Change-Id: Ibed16674856569d26517e5729f0f194b830cfedd
+---
+ dumpstate.te     | 1 +
+ file.te          | 3 +++
+ genfs_contexts   | 5 +++++
+ init.te          | 3 +++
+ shell.te         | 3 +++
+ system_server.te | 3 +++
+ 6 files changed, 18 insertions(+)
+
+diff --git a/dumpstate.te b/dumpstate.te
+index 0b1f97bd6..71c12461c 100644
+--- a/dumpstate.te
++++ b/dumpstate.te
+@@ -188,6 +188,7 @@ allow dumpstate debugfs_tracing:dir r_dir_perms;
+ allow dumpstate debugfs_tracing:file rw_file_perms;
+ allow dumpstate debugfs_trace_marker:file getattr;
+ allow dumpstate atrace_exec:file rx_file_perms;
++allow dumpstate proc_interrupts:file r_file_perms;
+ 
+ # Access to /data/media.
+ # This should be removed if sdcardfs is modified to alter the secontext for its
+diff --git a/file.te b/file.te
+index 446c1829c..6099eb581 100644
+--- a/file.te
++++ b/file.te
+@@ -13,10 +13,13 @@ type usermodehelper, fs_type, sysfs_type;
+ type qtaguid_proc, fs_type, mlstrustedobject;
+ type proc_bluetooth_writable, fs_type;
+ type proc_cpuinfo, fs_type;
++type proc_interrupts, fs_type;
+ type proc_iomem, fs_type;
+ type proc_meminfo, fs_type;
+ type proc_net, fs_type;
++type proc_stat, fs_type;
+ type proc_sysrq, fs_type;
++type proc_timer, fs_type;
+ type proc_uid_cputime_showstat, fs_type;
+ type proc_uid_cputime_removeuid, fs_type;
+ type selinuxfs, fs_type, mlstrustedobject;
+diff --git a/genfs_contexts b/genfs_contexts
+index 31794a1e8..612cc5b70 100644
+--- a/genfs_contexts
++++ b/genfs_contexts
+@@ -2,11 +2,14 @@
+ genfscon rootfs / u:object_r:rootfs:s0
+ # proc labeling can be further refined (longest matching prefix).
+ genfscon proc / u:object_r:proc:s0
++genfscon proc /interrupts u:object_r:proc_interrupts:s0
+ genfscon proc /iomem u:object_r:proc_iomem:s0
+ genfscon proc /meminfo u:object_r:proc_meminfo:s0
+ genfscon proc /net u:object_r:proc_net:s0
+ genfscon proc /net/xt_qtaguid/ctrl u:object_r:qtaguid_proc:s0
+ genfscon proc /cpuinfo u:object_r:proc_cpuinfo:s0
++genfscon proc /softirqs u:object_r:proc_timer:s0
++genfscon proc /stat u:object_r:proc_stat:s0
+ genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0
+ genfscon proc /sys/fs/protected_hardlinks u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_symlinks u:object_r:proc_security:s0
+@@ -23,6 +26,8 @@ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
+ genfscon proc /sys/net u:object_r:proc_net:s0
+ genfscon proc /sys/vm/mmap_min_addr u:object_r:proc_security:s0
+ genfscon proc /sys/vm/drop_caches u:object_r:proc_drop_caches:s0
++genfscon proc /timer_list u:object_r:proc_timer:s0
++genfscon proc /timer_stats u:object_r:proc_timer:s0
+ genfscon proc /uid_cputime/show_uid_stat u:object_r:proc_uid_cputime_showstat:s0
+ genfscon proc /uid_cputime/remove_uid_range u:object_r:proc_uid_cputime_removeuid:s0
+ 
+diff --git a/init.te b/init.te
+index 9bc78d173..4e14d97e1 100644
+--- a/init.te
++++ b/init.te
+@@ -155,6 +155,9 @@ allow init self:capability net_admin;
+ # Write to /proc/sysrq-trigger.
+ allow init proc_sysrq:file w_file_perms;
+ 
++# Read /proc/stat for bootchart.
++allow init proc_stat:file r_file_perms;
++
+ # Reboot.
+ allow init self:capability sys_boot;
+ 
+diff --git a/shell.te b/shell.te
+index 3e95b4687..69e9c113a 100644
+--- a/shell.te
++++ b/shell.te
+@@ -96,7 +96,10 @@ allow shell { service_manager_type -gatekeeper_service -netd_service }:service_m
+ # allow shell to look through /proc/ for ps, top, netstat
+ r_dir_file(shell, proc)
+ r_dir_file(shell, proc_net)
++allow shell proc_interrupts:file r_file_perms;
+ allow shell proc_meminfo:file r_file_perms;
++allow shell proc_stat:file r_file_perms;
++allow shell proc_timer:file r_file_perms;
+ r_dir_file(shell, cgroup)
+ allow shell domain:dir { search open read getattr };
+ allow shell domain:{ file lnk_file } { open read getattr };
+diff --git a/system_server.te b/system_server.te
+index db59b6573..334cb9144 100644
+--- a/system_server.te
++++ b/system_server.te
+@@ -107,6 +107,9 @@ allow system_server proc_uid_cputime_removeuid:file { w_file_perms getattr };
+ # Write to /proc/sysrq-trigger.
+ allow system_server proc_sysrq:file rw_file_perms;
+ 
++# Read /proc/stat for CPU usage statistics
++allow system_server proc_stat:file r_file_perms;
++
+ # Read /sys/kernel/debug/wakeup_sources.
+ allow system_server debugfs:file r_file_perms;
+ 

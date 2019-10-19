@@ -113,19 +113,9 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
 	source build/envsetup.sh;
-	#repopick 192923; #su memory leak fixes
-	repopick -it wl12xx-krack-fw-4; #ti wlan firmware with krack fixes
 	#repopick 212799; #alt: 212827 flac extractor CVE-2017-0592
 	#repopick 214125; #spellchecker: enable more wordlists
 	repopick -it n_asb_09-2018-qcom;
-	repopick -it bt-sbc-hd-dualchannel-nougat;
-	repopick 201113; #wifi country code fix
-	repopick 242134; #AVRCP off-by-one fix
-	repopick 244387 244388; #loopback fixes
-	repopick -it CVE-2019-2033;
-	repopick 248599; #restrict SET_TIME_ZONE permission
-	repopick 248600 248649; #/proc hardening
-	repopick -it nougat-mr2-security-release-residue;
 	repopick -it n-tzdata-2019c;
 	repopick -it n-asb-2019-10;
 

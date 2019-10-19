@@ -1,0 +1,34 @@
+From d5e4955bce55bf742f888859bb8b3b217de5dd7f Mon Sep 17 00:00:00 2001
+From: Christopher Tate <ctate@google.com>
+Date: Wed, 26 Oct 2016 18:06:42 -0700
+Subject: [PATCH] Make SET_TIME_ZONE permission match SET_TIME
+
+That is, SET_TIME_ZONE is now signature|privileged.
+
+Bug 19129180
+
+Test: dumpsys package to verify assignment; clock app works
+Change-Id: Id0e16499a00e1f5cfb5bd4d9fb421f93bb283ee1
+---
+ core/res/AndroidManifest.xml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
+index 0f224dae3337..f6026a82ad72 100644
+--- a/core/res/AndroidManifest.xml
++++ b/core/res/AndroidManifest.xml
+@@ -1822,12 +1822,12 @@
+         android:protectionLevel="signature|privileged" />
+ 
+     <!-- Allows applications to set the system time zone.
+-         <p>Protection level: normal
++         <p>Not for use by third-party applications.
+     -->
+     <permission android:name="android.permission.SET_TIME_ZONE"
+         android:label="@string/permlab_setTimeZone"
+         android:description="@string/permdesc_setTimeZone"
+-        android:protectionLevel="normal" />
++        android:protectionLevel="signature|privileged" />
+ 
+     <!-- ==================================================== -->
+     <!-- Permissions related to changing status bar   -->
