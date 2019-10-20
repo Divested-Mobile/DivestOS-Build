@@ -230,13 +230,18 @@ echo "allow system_server sensors_data_file:dir r_file_perms;" >> sepolicy/syste
 sed -i 's/1333788672/880803840/' BoardConfig.mk; #don't touch partitions! DOS -user fits with 40M free
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk;
 
-enterAndClear "device/moto/shamu";
+#enterAndClear "device/moto/shamu";
 #git revert 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
 
 #enterAndClear "device/motorola/clark";
 #git revert fc6cf83; #disable nfc for now
-#awk -i '!/nfc/' device.mk;
+#awk -i inplace '!/nfc/' device.mk;
+#awk -i inplace '!/Nfc/' device.mk;
+#awk -i inplace '!/Tag/' device.mk;
 #patch -p1 < "$DOS_PATCHES/android_device_motorola_clark/0001-audit2allow.patch"; #audit2allow sepolicy
+#mkdir permissions;
+#cp "$DOS_PATCHES/android_device_motorola_clark/privapp-permissions-qti.xml" permissions/; #Fix privapp permissions, Credit: @Fabiett83
+#echo "PRODUCT_COPY_FILES += device/motorola/clark/permissions/privapp-permissions-qti.xml:system/etc/permissions/privapp-permissions-qti.xml" >> device.mk;
 #sed -i 's/androidboot.selinux=permissive//' BoardConfig.mk; #enforce sepolicy
 #rm configs/Android.mk; #fix compile
 #rm setup-makefiles.sh; #broken, deblobber will still function
