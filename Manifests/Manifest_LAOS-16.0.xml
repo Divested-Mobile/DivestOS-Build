@@ -217,6 +217,10 @@
 	<!-- Wileyfox Swift (crackling) -->
 	<project path="device/wileyfox/crackling" name="LineageOS/android_device_wileyfox_crackling" remote="github" />
 
+	<!-- Yandex Phone (Amber) -->
+	<project path="device/yandex/Amber" name="LineageOS/android_device_yandex_Amber" remote="github" />
+	<project path="kernel/yandex/sdm660" name="LineageOS/android_kernel_yandex_sdm660" remote="github" />
+
 	<!-- Zuk Z1 (ham) -->
 	<project path="device/zuk/ham" name="LineageOS/android_device_zuk_ham" remote="github" />
 	<project path="kernel/cyanogen/msm8974" name="LineageOS/android_kernel_cyanogen_msm8974" remote="github" />

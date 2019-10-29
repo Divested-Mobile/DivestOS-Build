@@ -48,6 +48,11 @@ echo "Deblobbing..."
 	#AIV (DRM) [Amazon]
 	blobs=$blobs"|libaivdrmclient.so|libAivPlay.so";
 
+	#ANT (Wireless)
+	blobs=$blobs"|libantradio.so";
+	blobs=$blobs"|com.qualcomm.qti.ant.*";
+	makes=$makes"AntHalService|com.dsi.ant.antradio_library";
+
 	#aptX (Bluetooth Audio Compression Codec) [Qualcomm]
 	blobs=$blobs"|.*aptX.*|libbt-aptx.*.so";
 	blobs=$blobs"|aptxui.apk";
@@ -82,7 +87,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|CNEService.apk";
 	blobs=$blobs"|com.quicinc.cne.*.so|libcneconn.so|libcneqmiutils.so|libcne.so|libvendorconn.so|libwms.so|libwqe.so|libcneoplookup.so";
 	blobs=$blobs"|vendor.qti.data.factory.*|vendor.qti.hardware.data.dynamicdds.*|vendor.qti.hardware.data.latency.*|vendor.qti.hardware.data.qmi.*|vendor.qti.latency.*";
-	makes=$makes"libcnefeatureconfig";
+	makes=$makes"|libcnefeatureconfig";
 	sepolicy=$sepolicy" cnd.te qcneservice.te";
 
 	#CPPF (DRM) [?]
@@ -493,6 +498,7 @@ deblobDevice() {
 		sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig.mk; #Disable WiPower
 		sed -i 's/TARGET_HAS_HDR_DISPLAY := true/TARGET_HAS_HDR_DISPLAY := false/' BoardConfig.mk; #Disable HDR
 		sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER := true/BOARD_SUPPORTS_SOUND_TRIGGER := false/' BoardConfig.mk; #Disable Sound Trigger
+		awk -i inplace '!/BOARD_ANT_WIRELESS_DEVICE/' BoardConfig.mk; #Disable ANT
 		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
 			#sed -i 's/USE_OPENGL_RENDERER := true/USE_OPENGL_RENDERER := false/' BoardConfig.mk;
 			#if ! grep -q "USE_OPENGL_RENDERER := false" BoardConfig.mk; then echo "USE_OPENGL_RENDERER := false" >> BoardConfig.mk; fi;
