@@ -116,7 +116,6 @@ patchWorkspace() {
 	#repopick 212799; #alt: 212827 flac extractor CVE-2017-0592
 	#repopick 214125; #spellchecker: enable more wordlists
 	repopick -it n_asb_09-2018-qcom;
-	repopick -it n-asb-2019-11;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 
