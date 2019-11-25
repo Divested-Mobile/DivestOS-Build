@@ -176,14 +176,6 @@ git revert 0217dddeb5c16903c13ff6c75213619b79ea622b d7aa1231b6a0631f506c0c23816f
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysfs changes (GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES_COMMON/android_system_core/0001-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
 
-enterAndClear "system/netd";
-#loopback fixes
-patch -p1 < "$DOS_PATCHES/android_system_netd/244387.patch"; #Really always allow networking on loopback.
-patch -p1 < "$DOS_PATCHES/android_system_netd/244388.patch"; #Avoid netlink socket address conflict
-#CVE-2019-2033
-patch -p1 < "$DOS_PATCHES/android_system_netd/245690.patch"; #Fix fortify_fatal issue during DNSServiceProcessResult()
-patch -p1 < "$DOS_PATCHES/android_system_netd/245691.patch"; #Clear Element.mRef immediately after deallocating it
-
 enterAndClear "system/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/248600.patch"; #restrict access to timing information in /proc
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices
