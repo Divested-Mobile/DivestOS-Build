@@ -113,12 +113,11 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
 	source build/envsetup.sh;
-	#repopick 212799; #alt: 212827 flac extractor CVE-2017-0592
 	#repopick 214125; #spellchecker: enable more wordlists
 	repopick -it n_asb_09-2018-qcom;
 	repopick -it ibss-mode-nougat;
-	repopick -it n-unzip;
 	repopick -it n-netd;
+	repopick 264489; #update chromium
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

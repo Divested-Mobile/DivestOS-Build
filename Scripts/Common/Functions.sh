@@ -200,7 +200,7 @@ processRelease() {
 
 	#OTA
 	echo -e "\e[0;32mCreating OTA\e[0m";
-	build/tools/releasetools/ota_from_target_files $BLOCK_SWITCHES -t 8 -k "$KEY_DIR/releasekey" \
+	build/tools/releasetools/ota_from_target_files $BLOCK_SWITCHES -k "$KEY_DIR/releasekey" \
 		$OUT_DIR/$PREFIX-target_files.zip  \
 		$OUT_DIR/$PREFIX-ota.zip;
 	md5sum $OUT_DIR/$PREFIX-ota.zip > $OUT_DIR/$PREFIX-ota.zip.md5sum;
