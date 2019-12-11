@@ -237,5 +237,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2475/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6693/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15845/ANY/0001.patch
-editKernelLocalversion "-dos.p238"
+editKernelLocalversion "-dos.p237"
 cd "$DOS_BUILD_BASE"

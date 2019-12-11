@@ -314,5 +314,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/^4.20.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0003/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6693/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
-editKernelLocalversion "-dos.p315"
+editKernelLocalversion "-dos.p314"
 cd "$DOS_BUILD_BASE"

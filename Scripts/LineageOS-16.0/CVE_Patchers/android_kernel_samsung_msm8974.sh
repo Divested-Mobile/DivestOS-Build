@@ -86,5 +86,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2054/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-9f34c6ebc016cd061ae5ec901221d15fa3d67e49.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2475/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p87"
+editKernelLocalversion "-dos.p86"
 cd "$DOS_BUILD_BASE"

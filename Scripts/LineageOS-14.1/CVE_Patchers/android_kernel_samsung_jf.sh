@@ -117,5 +117,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-ch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6544/^3.6/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2475/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p118"
+editKernelLocalversion "-dos.p117"
 cd "$DOS_BUILD_BASE"

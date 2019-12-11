@@ -345,5 +345,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0004-net-add-recursion-limit-
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2475/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p346"
+editKernelLocalversion "-dos.p345"
 cd "$DOS_BUILD_BASE"

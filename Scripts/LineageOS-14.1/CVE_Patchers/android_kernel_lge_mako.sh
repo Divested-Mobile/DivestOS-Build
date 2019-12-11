@@ -221,5 +221,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-sy
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-5d89eb01c93d8a62998e3bdccae28a7732e3bd51.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6544/^3.6/0003.patch
-editKernelLocalversion "-dos.p222"
+editKernelLocalversion "-dos.p221"
 cd "$DOS_BUILD_BASE"

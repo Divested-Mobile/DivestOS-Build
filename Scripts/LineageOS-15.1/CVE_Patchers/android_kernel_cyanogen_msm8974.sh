@@ -123,5 +123,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-3459/^5.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/^4.20.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-9f34c6ebc016cd061ae5ec901221d15fa3d67e49.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p124"
+editKernelLocalversion "-dos.p123"
 cd "$DOS_BUILD_BASE"

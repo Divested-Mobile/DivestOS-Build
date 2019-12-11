@@ -232,5 +232,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-9f34c6ebc016cd061ae5ec901221d15fa3d67e49.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6544/^3.6/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p233"
+editKernelLocalversion "-dos.p232"
 cd "$DOS_BUILD_BASE"

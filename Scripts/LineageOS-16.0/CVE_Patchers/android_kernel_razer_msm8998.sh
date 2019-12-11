@@ -74,5 +74,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-14875/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13096/^4.17.3/0001.patch
-editKernelLocalversion "-dos.p75"
+editKernelLocalversion "-dos.p74"
 cd "$DOS_BUILD_BASE"

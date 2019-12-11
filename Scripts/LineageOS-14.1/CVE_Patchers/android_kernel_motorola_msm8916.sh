@@ -220,5 +220,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-ch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6693/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6696/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
-editKernelLocalversion "-dos.p221"
+editKernelLocalversion "-dos.p220"
 cd "$DOS_BUILD_BASE"
