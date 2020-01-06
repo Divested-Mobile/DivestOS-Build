@@ -68,6 +68,7 @@ patchWorkspace() {
 	repopick -it asb-2019.09-cm11;
 	repopick -it asb-2019.10-cm11;
 	repopick -it asb-2019.11-cm11;
+	repopick -it asb-2019.12-cm11;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
