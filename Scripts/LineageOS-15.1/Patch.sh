@@ -64,7 +64,7 @@ enterAndClear "bionic";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi; #(GrapheneOS)
 
 enterAndClear "bootable/recovery";
-git revert ac258a4f4c4b4b91640cc477ad1ac125f206db02; #Resurrect dm-verity
+git revert --no-edit ac258a4f4c4b4b91640cc477ad1ac125f206db02; #Resurrect dm-verity
 sed -i 's/!= 2048/< 2048/' tools/dumpkey/DumpPublicKey.java; #Allow 4096-bit keys
 
 enterAndClear "build/make";
@@ -73,15 +73,15 @@ awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
 
 enterAndClear "device/lineage/sepolicy";
-git revert 9c28a0dfb91bb468515e123b1aaf3fcfc007b82f; #neverallow violation - breaks backuptool
-git revert f1ad32105599a0b71702f840b2deeb6849f1ae80; #neverallow violation - breaks addons
-git revert c9b0d95630b82cd0ad1a0fc633c6d59c2cb8aad7 37422f7df389f3ae5a34ee3d6dd9354217f9c536; #neverallow violation - breaks update_engine
+git revert --no-edit 9c28a0dfb91bb468515e123b1aaf3fcfc007b82f; #neverallow violation - breaks backuptool
+git revert --no-edit f1ad32105599a0b71702f840b2deeb6849f1ae80; #neverallow violation - breaks addons
+git revert --no-edit c9b0d95630b82cd0ad1a0fc633c6d59c2cb8aad7 37422f7df389f3ae5a34ee3d6dd9354217f9c536; #neverallow violation - breaks update_engine
 
 enterAndClear "device/qcom/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
 
 enterAndClear "external/svox";
-git revert 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
+git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 
 enterAndClear "frameworks/av";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; fi; #(GrapheneOS)
@@ -134,7 +134,7 @@ rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml 
 patch -p1 < "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytics.patch"; #Remove analytics
 
 enterAndClear "packages/apps/Settings";
-git revert a96df110e84123fe1273bff54feca3b4ca484dcd; #don't hide oem unlock
+git revert --no-edit a96df110e84123fe1273bff54feca3b4ca484dcd; #don't hide oem unlock
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe)
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0004-PDB_Fixes.patch"; #Fix crashes when the PersistentDataBlockManager service isn't available
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length (GrapheneOS)
@@ -164,7 +164,7 @@ patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferre
 
 enterAndClear "system/core";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
-git revert a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4; #Always update recovery
+git revert --no-edit a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4; #Always update recovery
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysfs changes (GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES_COMMON/android_system_core/0001-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
 
@@ -219,11 +219,11 @@ enterAndClear "device/lge/msm8996-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 
 enterAndClear "device/lge/mako";
-git revert e277722bb3f10dad7a6078aa0dba7b78738e6071; #restore releasetools
+git revert --no-edit e277722bb3f10dad7a6078aa0dba7b78738e6071; #restore releasetools
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
 
 enterAndClear "device/moto/shamu";
-#git revert 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
+#git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
 
 enterAndClear "device/oppo/msm8974-common";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/

@@ -118,6 +118,7 @@ patchWorkspace() {
 	repopick -it ibss-mode-nougat;
 	repopick -it n-netd;
 	repopick 264489; #update chromium
+	repopick -it n-asb-2020-01;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

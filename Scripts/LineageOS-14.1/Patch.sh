@@ -83,7 +83,7 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_fra
 
 enterAndClear "frameworks/base";
 hardenLocationFWB "$DOS_BUILD_BASE";
-git revert 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #re-enable doze on devices without gms
+git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #re-enable doze on devices without gms
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i 's/(notif.needNotify)/(true)/' location/java/com/android/internal/location/GpsNetInitiatedHandler.java; #Notify user when location is requested via SUPL
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME
@@ -134,7 +134,7 @@ enterAndClear "packages/apps/PackageInstaller";
 patch -p1 < "$DOS_PATCHES/android_packages_apps_PackageInstaller/64d8b44.diff"; #Fix an issue with Permission Review
 
 enterAndClear "packages/apps/Settings";
-git revert 2ebe6058c546194a301c1fd22963d6be4adbf961; #don't hide oem unlock
+git revert --no-edit 2ebe6058c546194a301c1fd22963d6be4adbf961; #don't hide oem unlock
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/201113.patch"; #wifi: Add world regulatory domain country code
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe)
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length (GrapheneOS)
@@ -173,7 +173,7 @@ patch -p1 < "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_r
 enterAndClear "system/core";
 sed -i 's/!= 2048/< 2048/' libmincrypt/tools/DumpPublicKey.java; #Allow 4096-bit keys
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
-git revert 0217dddeb5c16903c13ff6c75213619b79ea622b d7aa1231b6a0631f506c0c23816f2cd81645b15f; #Always update recovery XXX: This doesn't seem to work
+git revert --no-edit 0217dddeb5c16903c13ff6c75213619b79ea622b d7aa1231b6a0631f506c0c23816f2cd81645b15f; #Always update recovery XXX: This doesn't seem to work
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysfs changes (GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES_COMMON/android_system_core/0001-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
 
@@ -254,14 +254,14 @@ enterAndClear "device/samsung/exynos5420-common";
 awk -i inplace '!/shell su/' sepolicy/shell.te; #neverallow
 
 #enterAndClear "device/samsung/manta";
-#git revert e55bbff1c8aa50e25ffe39c8936ea3dc92a4a575; #restore releasetools #TODO
+#git revert --no-edit e55bbff1c8aa50e25ffe39c8936ea3dc92a4a575; #restore releasetools #TODO
 
 enterAndClear "device/samsung/toroplus";
 awk -i inplace '!/additional_system_update/' overlay/packages/apps/Settings/res/values*/*.xml;
 
 enableLowRam "device/samsung/tuna";
 enterAndClear "device/samsung/tuna";
-#git revert e53eea6426da49dfb542929d5aa686667f4d416f; #restore releasetools #TODO
+#git revert --no-edit e53eea6426da49dfb542929d5aa686667f4d416f; #restore releasetools #TODO
 rm setup-makefiles.sh; #broken, deblobber will still function
 sed -i 's|vendor/maguro/|vendor/|' libgps-shim/gps.c; #fix dlopen not found
 #See: https://review.lineageos.org/q/topic:%22tuna-sepolicies

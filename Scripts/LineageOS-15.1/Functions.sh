@@ -102,6 +102,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick 264489; #update chromium
+	repopick -it O_asb_2020-01;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

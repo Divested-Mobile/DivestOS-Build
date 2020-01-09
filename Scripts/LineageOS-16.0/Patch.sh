@@ -64,12 +64,12 @@ enterAndClear "bionic";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi; #(GrapheneOS)
 
 enterAndClear "bootable/recovery";
-git revert 4d361ff13b5bd61d5a6a5e95063b24b8a37a24ab 37d729bf; #fix sideload
-git revert fe2901b144c515c5a90b547198aed37c209b5a82; #Resurrect dm-verity
+git revert --no-edit 4d361ff13b5bd61d5a6a5e95063b24b8a37a24ab 37d729bf; #fix sideload
+git revert --no-edit fe2901b144c515c5a90b547198aed37c209b5a82; #Resurrect dm-verity
 sed -i 's/!= 2048/< 2048/' tools/dumpkey/DumpPublicKey.java; #Allow 4096-bit keys
 
 enterAndClear "build/make";
-git revert 271f6ffa045064abcac066e97f2cb53ccb3e5126 61f7ee9386be426fd4eadc2c8759362edb5bef8; #Add back PicoTTS and language files
+git revert --no-edit 271f6ffa045064abcac066e97f2cb53ccb3e5126 61f7ee9386be426fd4eadc2c8759362edb5bef8; #Add back PicoTTS and language files
 patch -p1 < "$DOS_PATCHES_COMMON/android_build/0001-OTA_Keys.patch"; #add correct keys to recovery for OTA verification
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
@@ -81,8 +81,11 @@ enterAndClear "device/qcom/sepolicy-legacy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
 
+enterAndClear "external/libavc";
+git pull "https://github.com/LineageOS/android_external_libavc" refs/changes/91/266591/1; #P_asb_2020-01
+
 enterAndClear "external/svox";
-git revert 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
+git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 sed -i '12iLOCAL_SDK_VERSION := current' pico/Android.mk; #Fix build under Pie
 sed -i 's/about to delete/unable to delete/' pico/src/com/svox/pico/LangPackUninstaller.java;
 awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.java;
@@ -134,7 +137,7 @@ rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml 
 patch -p1 < "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytics.patch"; #Remove analytics
 
 enterAndClear "packages/apps/Settings";
-git revert c240992b4c86c7f226290807a2f41f2619e7e5e8; #don't hide oem unlock
+git revert --no-edit c240992b4c86c7f226290807a2f41f2619e7e5e8; #don't hide oem unlock
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
@@ -155,7 +158,7 @@ enterAndClear "packages/inputmethods/LatinIME";
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
 
 enterAndClear "packages/services/Telephony";
-git revert 99564aaf0417c9ddf7d6aeb10d326e5b24fa8f55;
+git revert --no-edit 99564aaf0417c9ddf7d6aeb10d326e5b24fa8f55;
 patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch";
 patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
 
@@ -164,7 +167,7 @@ patch -p1 < "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; 
 
 enterAndClear "system/core";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
-git revert b3609d82999d23634c5e6db706a3ecbc5348309a; #Always update recovery
+git revert --no-edit b3609d82999d23634c5e6db706a3ecbc5348309a; #Always update recovery
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysfs changes (GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES_COMMON/android_system_core/0001-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
 
@@ -204,7 +207,7 @@ enterAndClear "device/asus/zenfone3";
 rm -rf libhidl; #breaks other devices
 
 enterAndClear "device/google/marlin";
-git revert eeb92c0f094f58b1bdfbaa775d239948f81e915b 8c729e4b016a5b35159992413a22c289ecf2c44c; #remove some carrier blobs
+git revert --no-edit eeb92c0f094f58b1bdfbaa775d239948f81e915b 8c729e4b016a5b35159992413a22c289ecf2c44c; #remove some carrier blobs
 patch -p1 < "$DOS_PATCHES/android_device_google_marlin/0001-Fix_MediaProvider_Deadlock.patch"; #Fix MediaProvider using 100% CPU (due to broken ppoll on functionfs?)
 
 enterAndClear "device/lge/g2-common";
@@ -216,10 +219,10 @@ sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.t
 sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
 
 enterAndClear "device/lge/d852";
-git revert dbebbce20b2b303fe13f7078ef54154f9dd5d9e2; #fix nfc path
+git revert --no-edit dbebbce20b2b303fe13f7078ef54154f9dd5d9e2; #fix nfc path
 
 enterAndClear "device/lge/d855";
-git revert 9a5739e66d0a44347881807c0cc44d7c318c02b8; #fix nfc path
+git revert --no-edit 9a5739e66d0a44347881807c0cc44d7c318c02b8; #fix nfc path
 
 enterAndClear "device/lge/mako";
 #git revert ; #restore releasetools #TODO
@@ -231,10 +234,10 @@ sed -i 's/1333788672/880803840/' BoardConfig.mk; #don't touch partitions! DOS -u
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk;
 
 #enterAndClear "device/moto/shamu";
-#git revert 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
+#git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
 
 #enterAndClear "device/motorola/clark";
-#git revert fc6cf83; #disable nfc for now
+#git revert --no-edit fc6cf83; #disable nfc for now
 #awk -i inplace '!/nfc/' device.mk;
 #awk -i inplace '!/Nfc/' device.mk;
 #awk -i inplace '!/Tag/' device.mk;
@@ -254,7 +257,7 @@ enterAndClear "device/oppo/msm8974-common";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
 enterAndClear "kernel/google/marlin";
-git revert 568f99db3c9a590912f533fa734c46cf7a25dcbd; #Resurrect dm-verity
+git revert --no-edit 568f99db3c9a590912f533fa734c46cf7a25dcbd; #Resurrect dm-verity
 
 enter "vendor/google";
 echo "" > atv/atv-common.mk;

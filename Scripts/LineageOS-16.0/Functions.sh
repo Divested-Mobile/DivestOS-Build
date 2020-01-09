@@ -114,6 +114,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick 264489; #update chromium
+	repopick -it P_asb_2020-01;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
