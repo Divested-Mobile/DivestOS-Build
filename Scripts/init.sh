@@ -22,7 +22,9 @@
 #
 #General
 export ANDROID_HOME="/home/$USER/Android/Sdk";
-export DOS_WORKSPACE_ROOT="/mnt/Drive-3/"; #XXX: THIS MUST BE CORRECT TO BUILD!
+export DOS_WORKSPACE_ROOT="/mnt/dos/"; #XXX: THIS MUST BE CORRECT TO BUILD!
+#export DOS_BUILDS=$DOS_WORKSPACE_ROOT"Builds/";
+export DOS_BUILDS="/mnt/dos_rust/Builds/";
 export DOS_SIGNING_KEYS=$DOS_WORKSPACE_ROOT"Signing_Keys/4096";
 #export USE_CCACHE=1;
 #export CCACHE_DIR="";
@@ -127,7 +129,6 @@ export DOS_TMP_DIR="/tmp/dos_tmp";
 mkdir -p "$DOS_TMP_DIR";
 export DOS_HOSTS_FILE="$DOS_TMP_DIR/hosts";
 
-export DOS_BUILDS=$DOS_WORKSPACE_ROOT"Builds/";
 export DOS_PREBUILT_APPS=$DOS_WORKSPACE_ROOT"PrebuiltApps/";
 export DOS_PATCHES_COMMON=$DOS_WORKSPACE_ROOT"Patches/Common/";
 export DOS_PATCHES=$DOS_WORKSPACE_ROOT"Patches/$BUILD_WORKING_DIR/";

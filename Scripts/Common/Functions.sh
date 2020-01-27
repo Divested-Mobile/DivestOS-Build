@@ -405,7 +405,7 @@ export -f hardenUserdata;
 
 hardenBootArgs() {
 	cd "$DOS_BUILD_BASE$1";
-	sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := page_poison=1 slab_nomerge slub_debug=FZP page_alloc.shuffle=1 /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true;
+	sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := kpti=on pti=on init_on_alloc=1 init_on_free=1 page_alloc.shuffle=1 page_poison=1 slab_nomerge slub_debug=FZP lockdown=confidentiality /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true;
 	echo "Hardened kernel command line arguments for $1";
 	cd "$DOS_BUILD_BASE";
 }
