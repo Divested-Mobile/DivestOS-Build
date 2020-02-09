@@ -117,6 +117,8 @@ patchWorkspace() {
 	repopick -it n_asb_09-2018-qcom;
 	repopick -it ibss-mode-nougat;
 	repopick -it n-netd;
+	repopick -it n-asb-2020-02;
+	repopick -i 268340; #update webview
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

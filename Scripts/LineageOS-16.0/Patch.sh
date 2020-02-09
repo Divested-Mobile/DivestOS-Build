@@ -247,6 +247,9 @@ awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk;
 #rm setup-makefiles.sh; #broken, deblobber will still function
 #XXX: remove atfwd and cne from vendor makefiles
 
+enterAndClear "device/motorola/griffin";
+git revert 0a4257bd3b6f76010f4f7c564c4b3d7794af0640; #breaks build
+
 enterAndClear "device/oppo/common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
 
@@ -255,6 +258,9 @@ sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.
 
 enterAndClear "kernel/google/marlin";
 git revert --no-edit 568f99db3c9a590912f533fa734c46cf7a25dcbd; #Resurrect dm-verity
+
+enterAndClear "kernel/google/wahoo";
+sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
 
 enter "vendor/google";
 echo "" > atv/atv-common.mk;

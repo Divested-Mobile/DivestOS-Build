@@ -59,7 +59,7 @@ buildAll() {
 	#buildDevice flo; #broken encryption
 	buildDevice mako;
 	#SD410
-	buildDevice crackling; #broken
+	buildDevice crackling;
 	#SD600
 	buildDevice jfltexx;
 	#SD800
@@ -80,7 +80,7 @@ buildAll() {
 	#buildDeviceUserDebug clark; #permissive + needs manual patching - fwb xml: fused: dangling tag
 	buildDevice ether;
 	#SD615
-	buildDevice kipper; #broken
+	buildDevice kipper;
 	#SD820
 	buildDevice griffin;
 	buildDevice z2_plus verity; #broken
@@ -90,7 +90,7 @@ buildAll() {
 	#SD625
 	buildDevice zenfone3; #needs manual patching - fwb xml: fused: dangling tag
 	#SD835
-	buildDevice cheryl; #broken
+	buildDevice cheryl;
 	buildDevice mata verity;
 	buildDevice taimen avb;
 	buildDevice walleye avb;
@@ -112,7 +112,9 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
+	repopick -it P_asb_2020-02;
+	repopick -i 268340; #update webview
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

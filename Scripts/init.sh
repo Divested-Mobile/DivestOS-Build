@@ -169,3 +169,5 @@ unalias cp &>/dev/null || true;
 unalias mv &>/dev/null || true;
 unalias rm &>/dev/null || true;
 unalias ln &>/dev/null || true;
+
+alias cp='cp --reflink=auto'
