@@ -44,6 +44,9 @@ echo "Deblobbing..."
 	#Alipay (Payment Platform) [Alibaba]
 	blobs=$blobs"ifaadaemon|ifaadaemonProxy";
 	blobs=$blobs"|alipay.*";
+	blobs=$blobs"|IFAAService.apk";
+	blobs=$blobs"|vendor.oneplus.hardware.ifaa.*";
+	makes=$makes"org.ifaa.android.manager";
 
 	#AIV (DRM) [Amazon]
 	blobs=$blobs"|libaivdrmclient.so|libAivPlay.so";
@@ -51,7 +54,7 @@ echo "Deblobbing..."
 	#ANT (Wireless)
 	blobs=$blobs"|libantradio.so";
 	blobs=$blobs"|com.qualcomm.qti.ant.*";
-	makes=$makes"AntHalService|com.dsi.ant.antradio_library";
+	makes=$makes"|AntHalService|com.dsi.ant.antradio_library";
 
 	#aptX (Bluetooth Audio Compression Codec) [Qualcomm]
 	blobs=$blobs"|.*aptX.*|libbt-aptx.*.so";
@@ -143,6 +146,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|if.bin"; #Intel PAVP backend
 	blobs=$blobs"|liblgdrm.so"; #LG
 	#blobs=$blobs"|libtpa_core.so|libdataencrypt_tpa.so|libpkip.so"; #OMAP SMC
+	blobs=$blobs"|vendor.oneplus.hardware.drmkey.*|vendor.oneplus.hardware.hdcpkey.*"; #OnePlus
 	blobs=$blobs"|smc_pa.ift|drmserver.samsung"; #Samsung
 	blobs=$blobs"|provision_device";
 	#blobs=$blobs"|libasfparser.so|libsavsff.so"; #Parsers
@@ -402,6 +406,10 @@ echo "Deblobbing..."
 	blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureExtAuthJNI.so|libSecureSampleAuthClient.so|libsdedrm.so";
 	blobs=$blobs"|vendor.qti.hardware.tui.*";
 
+	#Soter (Biometric Auth) [Tencent]
+	blobs=$blobs"|SoterService.apk";
+	blobs=$blobs"|vendor.qti.hardware.soter.*";
+
 	#[Sprint]
 	blobs=$blobs"|CQATest.apk|GCS.apk|HiddenMenu.apk|LifetimeData.apk|SprintHM.apk|LifeTimerService.apk|SecPhone.apk|SprintMenu.apk";
 	ipcSec=$ipcSec"|238:4294967295:1001:3004";
@@ -508,6 +516,9 @@ deblobDevice() {
 			awk -i inplace '!/RS_DRIVER/' BoardConfig.mk;
 		fi;
 	fi;
+	if [ -f common.mk ]; then
+		awk -i inplace '!/'"$makes"'/' common.mk; #Remove references from common makefile
+	fi;
 	if [ -f device.mk ]; then
 		awk -i inplace '!/'"$makes"'/' device.mk; #Remove references from device makefile
 		if [ -z "$replaceTime" ]; then
@@ -605,8 +616,9 @@ deblobDevice() {
 		sed -i 's|mkdir /data/time/ 0700 system system|mkdir /data/time/ 0700 system system\n    chmod 0770 /data/time/ats_2|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true;
 	fi;
 	rm -f board/qcom-cne.mk product/qcom-cne.mk; #Remove CNE
-	rm -f rootdir/etc/init.qti.ims.sh rootdir/init.qti.ims.sh init.qti.ims.sh; #Remove IMS startup script
+	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then rm -f rootdir/etc/init.qti.ims.sh rootdir/init.qti.ims.sh init.qti.ims.sh; fi; #Remove IMS startup script
 	rm -rf IMSEnabler; #Remove IMS compatibility module
+	rm -rf ifaa org.ifaa.android.manager; #Remove AliPay
 	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then rm -rf data-ipa-cfg-mgr; fi; #Remove IPA
 	rm -rf libshimwvm libshims/wvm_shim.cpp; #Remove Google Widevine compatibility module
 	rm -rf board/qcom-wipower.mk product/qcom-wipower.mk; #Remove WiPower makefiles

@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_asus_msm8916 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_google_wahoo kernel_htc_flounder kernel_htc_msm8974 kernel_htc_msm8994 kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oppo_msm8974 kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal9810 kernel_zte_msm8996";
+	startPatcher "kernel_asus_fugu kernel_asus_msm8916 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_google_wahoo kernel_htc_flounder kernel_htc_msm8974 kernel_htc_msm8994 kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oppo_msm8974 kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal9810 kernel_zte_msm8996";
 }
 export -f patchAllKernels;
 
@@ -63,7 +63,7 @@ buildAll() {
 	buildDevice h850; #broken
 	buildDevice us996;
 	buildDevice us997;
-	#buildDevice flounder verity; #broken encryption
+	buildDevice flounder verity; #broken encryption (?)
 	buildDevice dragon verity;
 	buildDevice starlte; #broken - device/samsung/universal9810-common/audio: MODULE.TARGET.SHARED_LIBRARIES.libshim_audio_32 already defined by device/samsung/star-common/audio
 
@@ -84,11 +84,15 @@ buildAll() {
 		buildDevice m8;
 		buildDevice victara;
 		buildDevice shamu verity;
+		buildDevice oneplus2;
 		buildDevice ether;
 		buildDevice kipper;
+		buildDevice oneplus3;
 		buildDevice griffin;
 		buildDevice marlin verity;
 		buildDevice sailfish verity;
+		buildDevice cheeseburger;
+		buildDevice dumpling;
 		buildDevice mata verity;
 		buildDevice taimen avb;
 		buildDevice walleye avb;
@@ -101,7 +105,6 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
 	source build/envsetup.sh;
-	repopick -it O_asb_2020-02;
 	repopick -i 268340; #update webview
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails

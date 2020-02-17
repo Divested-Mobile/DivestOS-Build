@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_amazon_hdx-common kernel_asus_fugu kernel_asus_grouper kernel_asus_msm8916 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_fairphone_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_huawei_angler kernel_htc_msm8974 kernel_htc_msm8994 kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8974 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8974 kernel_samsung_exynos5420 kernel_samsung_jf kernel_samsung_manta kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_tuna kernel_samsung_universal8890 kernel_zte_msm8996";
+	startPatcher "kernel_amazon_hdx-common kernel_asus_fugu kernel_asus_grouper kernel_asus_msm8916 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_fairphone_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_huawei_angler kernel_htc_msm8974 kernel_htc_msm8994 kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8974 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8974 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_samsung_exynos5420 kernel_samsung_jf kernel_samsung_manta kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_tuna kernel_samsung_universal8890 kernel_zte_msm8996";
 }
 export -f patchAllKernels;
 
@@ -75,7 +75,6 @@ buildAll() {
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
 	buildDevice himaul;
 	buildDevice Z00T;
-	buildDevice flounder verity;
 	buildDeviceUserDebug i9100;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		buildDevice flo;
@@ -87,6 +86,7 @@ buildAll() {
 		buildDevice bacon;
 		buildDevice d852;
 		buildDevice d855;
+		buildDevice flounder verity;
 		buildDevice FP2;
 		buildDevice ham;
 		buildDevice klte;
@@ -94,10 +94,12 @@ buildAll() {
 		buildDevice victara; #needs manual patching - fwb xml: fused: dangling tag
 		buildDevice shamu verity;
 		buildDevice bullhead verity;
+		buildDevice oneplus2;
 		buildDevice ether;
 		buildDevice angler verity;
 		buildDevice kipper;
 		buildDevice axon7;
+		buildDevice oneplus3;
 		buildDevice griffin;
 		buildDevice h850;
 		buildDevice us996;
@@ -117,8 +119,8 @@ patchWorkspace() {
 	repopick -it n_asb_09-2018-qcom;
 	repopick -it ibss-mode-nougat;
 	repopick -it n-netd;
-	repopick -it n-asb-2020-02;
 	repopick -i 268340; #update webview
+	repopick -i 268803 268804; #sqlite vulns
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

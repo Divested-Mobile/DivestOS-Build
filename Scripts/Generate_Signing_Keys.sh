@@ -4,7 +4,7 @@
 
 type='rsa'; #Options: rsa, ec
 
-#breakfast lineage_sailfish-user && make -j20 generate_verity_key;
+#source build/envsetup.sh && breakfast lineage_sailfish-user && make -j20 generate_verity_key;
 
 cd "$DOS_SIGNING_KEYS/NEW";
 mkdir $1; cd $1;
