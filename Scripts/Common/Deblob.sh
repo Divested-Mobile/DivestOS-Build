@@ -53,7 +53,7 @@ echo "Deblobbing..."
 
 	#ANT (Wireless)
 	blobs=$blobs"|libantradio.so";
-	blobs=$blobs"|com.qualcomm.qti.ant.*";
+	#blobs=$blobs"|com.qualcomm.qti.ant.*";
 	makes=$makes"|AntHalService|com.dsi.ant.antradio_library";
 
 	#aptX (Bluetooth Audio Compression Codec) [Qualcomm]
@@ -83,13 +83,13 @@ echo "Deblobbing..."
 	#blobs=$blobs"|cmnlib.*";
 
 	#CNE (Automatic Cell/Wi-Fi Switching) [Qualcomm]
-	#blobs=$blobs"|libcneapiclient.so|libNimsWrap.so"; #XXX: Breaks radio
+	#blobs=$blobs"|libcneapiclient.so|libNimsWrap.so|com.quicinc.cne.*.so"; #XXX: Breaks radio
 	blobs=$blobs"|andsfCne.xml|ATT_profile.*.xml|cneapiclient.xml|com.quicinc.cne.xml|ConnectivityExt.xml|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile.*.xml|SwimConfig.xml|VZW_profile.*.xml";
 	blobs=$blobs"|cnd";
 	blobs=$blobs"|cneapiclient.jar|com.quicinc.cne.*.jar|ConnectivityExt.jar";
 	blobs=$blobs"|CNEService.apk";
-	blobs=$blobs"|com.quicinc.cne.*.so|libcneconn.so|libcneqmiutils.so|libcne.so|libvendorconn.so|libwms.so|libwqe.so|libcneoplookup.so";
-	blobs=$blobs"|vendor.qti.data.factory.*|vendor.qti.hardware.data.dynamicdds.*|vendor.qti.hardware.data.latency.*|vendor.qti.hardware.data.qmi.*|vendor.qti.latency.*";
+	blobs=$blobs"|libcneconn.so|libcneqmiutils.so|libcne.so|libvendorconn.so|libwms.so|libwqe.so|libcneoplookup.so";
+	#blobs=$blobs"|vendor.qti.data.factory.*|vendor.qti.hardware.data.dynamicdds.*|vendor.qti.hardware.data.latency.*|vendor.qti.hardware.data.qmi.*|vendor.qti.latency.*";
 	makes=$makes"|libcnefeatureconfig";
 	sepolicy=$sepolicy" cnd.te qcneservice.te";
 
@@ -249,22 +249,20 @@ echo "Deblobbing..."
 	blobs=$blobs"|vendor.qti.hardware.iop.*";
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
-	blobs=$blobs"|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|lib-imsvideocodec.so|lib-imsvtextutils.so|lib-imsvtutils.so";
-	blobs=$blobs"|imscmservice|imsdatadaemon|imsqmidaemon";
-	blobs=$blobs"|imscm.xml";
-	blobs=$blobs"|imssettings.apk";
-	blobs=$blobs"|imscmlibrary.jar";
-	#RTP
-	blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so";
-	blobs=$blobs"|vendor.qti.imsrtpservice.*";
-	#Misc.
-	blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so";
-	blobs=$blobs"|qti_permissions.xml";
-	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then #IMS (Core) (To support carriers that have phased out 2G)
-		blobs=$blobs"|ims.apk";
-		blobs=$blobs"|ims.xml";
-		blobs=$blobs"|libimsmedia_jni.so";
+	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
+		blobs=$blobs"|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|lib-imsvideocodec.so|lib-imsvtextutils.so|lib-imsvtutils.so|libimsmedia_jni.so";
+		blobs=$blobs"|imscmservice|imsdatadaemon|imsqmidaemon";
+		blobs=$blobs"|imscm.xml|ims.xml";
+		blobs=$blobs"|qti_permissions.xml";
+		blobs=$blobs"|imssettings.apk|ims.apk";
+		blobs=$blobs"|imscmlibrary.jar";
+		#RTP
+		blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so";
+		blobs=$blobs"|vendor.qti.imsrtpservice.*";
+		#Misc.
+		blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so";
 		blobs=$blobs"|volte_modem[/]";
+		makes=$makes"|ims-ext-common";
 		sepolicy=$sepolicy" ims.te imscm.te imswmsproxy.te";
 		ipcSec=$ipcSec"|32:4294967295:1001";
 	fi;
@@ -302,7 +300,8 @@ echo "Deblobbing..."
 	#blobs=$blobs"|libmmparser.so|libmmipstreamsourcehttp.so";
 
 	#Location (gpsOne/gpsOneXTRA/IZat/Lumicast/QUIP) [Qualcomm]
-	blobs=$blobs"|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|libgdtap.so|libgeofence.so|liblbs_core.so|liblocationservice_glue.so|liblocationservice.so|libloc_ext.so|libloc_xtra.so|liblowi_client.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libulp2.so|libxtadapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so";
+	blobs=$blobs"|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libgdtap.so|libloc_ext.so|libloc_xtra.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so";
+	#blobs=$blobs"|libulp2.so|libxtadapter.so|libgeofence.so|liblbs_core.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|liblocationservice_glue.so|liblocationservice.so|liblowi_client.so";
 	blobs=$blobs"|cacert_location.pem|com.qti.location.sdk.xml|com.qualcomm.location.xml|izat.conf|izat.xt.srv.xml|lowi.conf|xtra_root_cert.pem|xtwifi.conf";
 	blobs=$blobs"|com.qti.location.sdk.jar|izat.xt.srv.jar";
 	blobs=$blobs"|com.qualcomm.location.apk|com.qualcomm.services.location.apk|xtra_t_app.apk";
@@ -392,7 +391,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|rcsimssettings.jar|rcsservice.jar";
 	blobs=$blobs"|rcsimssettings.xml|rcsservice.xml";
 	blobs=$blobs"|CarrierServices.apk|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk";
-	blobs=$blobs"|vendor.qti.ims.rcsconfig.*";
+	#blobs=$blobs"|vendor.qti.ims.rcsconfig.*";
 	makes=$makes"|rcs_service.*";
 	ipcSec=$ipcSec"|18:4294967295:1001:3004";
 
@@ -438,12 +437,14 @@ echo "Deblobbing..."
 	blobs=$blobs"|com.android.vzwomatrigger.xml|vzw_mvs_permissions.xml|obdm_permissions.xml|com.verizon.services.xml|features-verizon.xml|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.xml|vzw_sso_permissions.xml|com.vzw.hardware.lte.xml|com.vzw.hardware.ehrpd.xml|verizon_config_params.txt|com.verizon.llkagent.xml";
 
 	#Voice Recognition
-	blobs=$blobs"|libadpcmdec.so|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.*.so|libqvop-service.so|librecoglib.so|libsmwrapper.so|libsupermodel.so|libtrainingcheck.so|sound_trigger.primary.*.so|libgcs.*.so";
+	blobs=$blobs"|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.*.so|libqvop-service.so|librecoglib.so|libsupermodel.so|libtrainingcheck.so";
+	#blobs=$blobs"|libadpcmdec.so|sound_trigger.primary.*.so|libgcs.*.so|libsmwrapper.so";
 	blobs=$blobs"|audiomonitor|qvop-daemon";
 	blobs=$blobs"|HotwordEnrollment.apk|HotwordEnrollment.*.apk";
 	blobs=$blobs"|aonvr1.bin|aonvr2.bin|es305_fw.bin";
 	blobs=$blobs"|vendor.qti.voiceprint.*";
-	makes=$makes"|android.hardware.soundtrigger.*";
+	#makes=$makes"|android.hardware.soundtrigger.*|libsoundtriggerservice";
+	#makes=$makes"|sound_trigger_mixer_paths.xml|sound_trigger_platform_info.xml";
 
 	#Wfd (Wireless Display? Wi-Fi Direct?) [Qualcomm]
 	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdcommonutils.so|libwfdhdcpcp.so|libwfdmmsink.so|libwfdmmsrc.so|libwfdmmutils.so|libwfdnative.so|libwfdrtsp.so|libwfdservice.so|libwfdsm.so|libwfduibcinterface.so|libwfduibcsinkinterface.so|libwfduibcsink.so|libwfduibcsrcinterface.so|libwfduibcsrc.so|libwfdcommonutils_proprietary.so|libwfdhaldsmanager.so|libwfdmmservice.so|libwfdmodulehdcpsession.so|libwfdcodecv4l2.so|libwfdconfigutils.so|libwfdmminterface.so|libwfdclient.so";
@@ -497,24 +498,27 @@ deblobDevice() {
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WIDEVINE_SYMLINKS)//' Android.mk; #Remove Google Widevine firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WV_SYMLINKS)//' Android.mk; #Remove Google Widevine firmware
 	fi;
-	if [ -f BoardConfig.mk ]; then 
+	if [ -f BoardConfig.mk ]; then
 		if [ -z "$replaceTime" ]; then
-			sed -i 's/BOARD_USES_QC_TIME_SERVICES := true/BOARD_USES_QC_TIME_SERVICES := false/' BoardConfig.mk; #Switch to Sony TimeKeep
+			sed -i 's/BOARD_USES_QC_TIME_SERVICES := true/BOARD_USES_QC_TIME_SERVICES := false/' BoardConfig*.mk &>/dev/null || true; #Switch to Sony TimeKeep
 			if ! grep -q "BOARD_USES_QC_TIME_SERVICES := false" BoardConfig.mk; then echo "BOARD_USES_QC_TIME_SERVICES := false" >> BoardConfig.mk; fi; #Switch to Sony TimeKeep
 		fi;
-		sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig.mk; #Disable CNE
-		sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig.mk; #Disable WiPower
-		sed -i 's/TARGET_HAS_HDR_DISPLAY := true/TARGET_HAS_HDR_DISPLAY := false/' BoardConfig.mk; #Disable HDR
-		sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER := true/BOARD_SUPPORTS_SOUND_TRIGGER := false/' BoardConfig.mk; #Disable Sound Trigger
-		awk -i inplace '!/BOARD_ANT_WIRELESS_DEVICE/' BoardConfig.mk; #Disable ANT
 		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
 			#sed -i 's/USE_OPENGL_RENDERER := true/USE_OPENGL_RENDERER := false/' BoardConfig.mk;
 			#if ! grep -q "USE_OPENGL_RENDERER := false" BoardConfig.mk; then echo "USE_OPENGL_RENDERER := false" >> BoardConfig.mk; fi;
 			if ! grep -q "USE_OPENGL_RENDERER := true" BoardConfig.mk; then echo "USE_OPENGL_RENDERER := true" >> BoardConfig.mk; fi;
 		fi;
-		if [ "$DOS_DEBLOBBER_REMOVE_RENDERSCRIPT" = true ] || [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
-			awk -i inplace '!/RS_DRIVER/' BoardConfig.mk;
-		fi;
+	fi;
+	sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig*.mk &>/dev/null || true; #Disable CNE
+	sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig*.mk &>/dev/null || true; #Disable WiPower
+	sed -i 's/TARGET_HAS_HDR_DISPLAY := true/TARGET_HAS_HDR_DISPLAY := false/' BoardConfig*.mk &>/dev/null || true; #Disable HDR
+	sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER := true/BOARD_SUPPORTS_SOUND_TRIGGER := false/' BoardConfig*.mk &>/dev/null || true; #Disable Sound Trigger
+	sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER_HAL := true/BOARD_SUPPORTS_SOUND_TRIGGER_HAL := false/' BoardConfig*.mk &>/dev/null || true;
+	sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER_5514 := true/BOARD_SUPPORTS_SOUND_TRIGGER_5514 := false/' BoardConfig*.mk &>/dev/null || true;
+	sed -i 's/AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true/AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := false/' BoardConfig*.mk &>/dev/null || true; #Disable Dolby
+	sed -i 's/BOARD_ANT_WIRELESS_DEVICE := true/BOARD_ANT_WIRELESS_DEVICE := false/' BoardConfig*.mk &>/dev/null || true; #Disable ANT
+	if [ "$DOS_DEBLOBBER_REMOVE_RENDERSCRIPT" = true ] || [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
+		awk -i inplace '!/RS_DRIVER/' BoardConfig*.mk&>/dev/null || true;
 	fi;
 	if [ -f common.mk ]; then
 		awk -i inplace '!/'"$makes"'/' common.mk; #Remove references from common makefile
@@ -540,38 +544,41 @@ deblobDevice() {
 			echo "PRODUCT_PACKAGES += libyuv libEGL_swiftshader libGLESv1_CM_swiftshader libGLESv2_swiftshader" >> "${PWD##*/}".mk; #Build SwiftShader
 		fi;
 	fi;
+
+	awk -i inplace '!/persist.loc.nlp_name/' system.prop *.mk &>/dev/null || true; #Disable QC Location Provider
+	sed -i 's/drm.service.enabled=true/drm.service.enabled=false/' system.prop *.mk &>/dev/null || true;
+	sed -i 's/persist.bt.enableAptXHD=true/persist.bt.enableAptXHD=false/' system.prop *.mk &>/dev/null || true; #Disable aptX
+	sed -i 's/persist.cne.feature=./persist.cne.feature=0/' system.prop *.mk &>/dev/null || true; #Disable CNE
+	sed -i 's/persist.dpm.feature=./persist.dpm.feature=0/' system.prop *.mk &>/dev/null || true; #Disable DPM
+	sed -i 's/persist.gps.qc_nlp_in_use=./persist.gps.qc_nlp_in_use=0/' system.prop *.mk &>/dev/null || true; #Disable QC Location Provider
+	sed -i 's/persist.sys.dpmd.nsrm=./persist.sys.dpmd.nsrm=0/' system.prop *.mk &>/dev/null || true; #Disable DPM
+	sed -i 's/persist.rcs.supported=./persist.rcs.supported=0/' system.prop *.mk &>/dev/null || true; #Disable RCS
+	sed -i 's/ro.bluetooth.emb_wp_mode=true/ro.bluetooth.emb_wp_mode=false/' system.prop *.mk &>/dev/null || true; #Disable WiPower
+	sed -i 's/ro.bluetooth.wipower=true/ro.bluetooth.wipower=false/' system.prop *.mk &>/dev/null || true; #Disable WiPower
 	if [ -f system.prop ]; then
-		awk -i inplace '!/persist.loc.nlp_name/' system.prop; #Disable QC Location Provider
-		sed -i 's/drm.service.enabled=true/drm.service.enabled=false/' system.prop;
 		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
-		sed -i 's/persist.bt.enableAptXHD=true/persist.bt.enableAptXHD=false/' system.prop; #Disable aptX
-		sed -i 's/persist.cne.feature=./persist.cne.feature=0/' system.prop; #Disable CNE
-		sed -i 's/persist.dpm.feature=./persist.dpm.feature=0/' system.prop; #Disable DPM
-		sed -i 's/persist.gps.qc_nlp_in_use=./persist.gps.qc_nlp_in_use=0/' system.prop; #Disable QC Location Provider
-		sed -i 's/persist.sys.dpmd.nsrm=./persist.sys.dpmd.nsrm=0/' system.prop; #Disable DPM
-		sed -i 's/persist.rcs.supported=./persist.rcs.supported=0/' system.prop; #Disable RCS
-		sed -i 's/ro.bluetooth.emb_wp_mode=true/ro.bluetooth.emb_wp_mode=false/' system.prop; #Disable WiPower
-		sed -i 's/ro.bluetooth.wipower=true/ro.bluetooth.wipower=false/' system.prop; #Disable WiPower
 		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
 			echo "persist.sys.ui.hw=disable" >> system.prop;
 			#echo "ro.graphics.gles20.disable_on_bootanim=1" >> system.prop;
 			echo "debug.sf.nobootanimation=1" >> system.prop;
 			sed -i 's/ro.opengles.version=.*/ro.opengles.version=131072/' system.prop;
 		fi;
-		#Disable IMS
-		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
-		sed -i 's/persist.data.iwlan.enable=true/persist.data.iwlan.enable=false/' system.prop;
-		sed -i 's/persist.ims.volte=true/persist.ims.volte=false/' system.prop;
-		sed -i 's/persist.ims.vt=true/persist.ims.vt=false/' system.prop;
-		sed -i 's/persist.radio.calls.on.ims=true/persist.radio.calls.on.ims=false/' system.prop;
-		sed -i 's/persist.radio.hw_mbn_update=./persist.radio.hw_mbn_update=0/' system.prop;
-		sed -i 's/persist.radio.jbims=./persist.radio.jbims=0/' system.prop;
-		sed -i 's/persist.radio.sw_mbn_update=./persist.radio.sw_mbn_update=0/' system.prop;
-		sed -i 's/persist.radio.sw_mbn_volte=./persist.radio.sw_mbn_volte=0/' system.prop;
-		sed -i 's/persist.radio.VT_ENABLE=./persist.radio.VT_ENABLE=0/' system.prop;
-		sed -i 's/persist.radio.VT_HYBRID_ENABLE=./persist.radio.VT_HYBRID_ENABLE=0/' system.prop;
-		sed -i 's/persist.volte_enabled_by_hw=./persist.volte_enabled_by_hw=0/' system.prop;
-		fi;
+	fi
+	#Disable IMS
+	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
+		sed -i 's/persist.data.iwlan.enable=true/persist.data.iwlan.enable=false/' system.prop *.mk &>/dev/null || true;
+		sed -i 's/persist.ims.volte=true/persist.ims.volte=false/' system.prop *.mk &>/dev/null || true;
+		sed -i 's/persist.ims.vt=true/persist.ims.vt=false/' system.prop *.mk &>/dev/null || true;
+		sed -i 's/persist.radio.calls.on.ims=true/persist.radio.calls.on.ims=false/' system.prop *.mk &>/dev/null || true;
+		sed -i 's/persist.radio.calls.on.ims=1/persist.radio.calls.on.ims=0/' system.prop *.mk &>/dev/null || true;
+		sed -i 's/persist.radio.hw_mbn_update=./persist.radio.hw_mbn_update=0/' system.prop *.mk &>/dev/null || true;
+		sed -i 's/persist.radio.jbims=./persist.radio.jbims=0/' system.prop *.mk &>/dev/null || true;
+		sed -i 's/persist.radio.sw_mbn_update=./persist.radio.sw_mbn_update=0/' system.prop *.mk &>/dev/null || true;
+		sed -i 's/persist.radio.sw_mbn_volte=./persist.radio.sw_mbn_volte=0/' system.prop *.mk &>/dev/null || true;
+		sed -i 's/persist.radio.VT_ENABLE=./persist.radio.VT_ENABLE=0/' system.prop *.mk &>/dev/null || true;
+		sed -i 's/persist.radio.VT_HYBRID_ENABLE=./persist.radio.VT_HYBRID_ENABLE=0/' system.prop *.mk &>/dev/null || true;
+		sed -i 's/persist.volte_enabled_by_hw=./persist.volte_enabled_by_hw=0/' system.prop *.mk &>/dev/null || true;
+		sed -i 's/persist.dbg.ims_volte_enable=./persist.dbg.ims_volte_enable=0/' system.prop *.mk &>/dev/null || true;
 	fi;
 	if [ -f configs/qmi_config.xml ]; then
 		sed -i 's|name="dpm_enabled" type="int"> 1 <|name="dpm_enabled" type="int"> 0 <|' configs/qmi_config.xml; #Disable DPM
@@ -580,25 +587,28 @@ deblobDevice() {
 		sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "0");/' init/init_*.cpp; #Disable RCS
 		#Disable IMS
 		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
-		sed -i 's/property_set("persist.ims.volte", "true");/property_set("persist.ims.volte", "false");/' init/init_*.cpp;
-		sed -i 's/property_set("persist.ims.vt", "true");/property_set("persist.ims.vt", "false");/' init/init_*.cpp;
-		sed -i 's/property_set("persist.radio.calls.on.ims", "true");/property_set("persist.radio.calls.on.ims", "false");/' init/init_*.cpp;
-		sed -i 's/property_set("persist.radio.jbims", ".");/property_set("persist.radio.jbims", "0");/' init/init_*.cpp;
-		sed -i 's/property_set("persist.radio.VT_ENABLE", ".");/property_set("persist.radio.VT_ENABLE", "0");/' init/init_*.cpp;
-		sed -i 's/property_set("persist.radio.VT_HYBRID_ENABLE", ".");/property_set("persist.radio.VT_HYBRID_ENABLE", "0");/' init/init_*.cpp;
+			sed -i 's/property_set("persist.ims.volte", "true");/property_set("persist.ims.volte", "false");/' init/init_*.cpp;
+			sed -i 's/property_set("persist.ims.vt", "true");/property_set("persist.ims.vt", "false");/' init/init_*.cpp;
+			sed -i 's/property_set("persist.radio.calls.on.ims", "true");/property_set("persist.radio.calls.on.ims", "false");/' init/init_*.cpp;
+			sed -i 's/property_set("persist.radio.jbims", ".");/property_set("persist.radio.jbims", "0");/' init/init_*.cpp;
+			sed -i 's/property_set("persist.radio.VT_ENABLE", ".");/property_set("persist.radio.VT_ENABLE", "0");/' init/init_*.cpp;
+			sed -i 's/property_set("persist.radio.VT_HYBRID_ENABLE", ".");/property_set("persist.radio.VT_HYBRID_ENABLE", "0");/' init/init_*.cpp;
 		fi;
 	fi;
 	if [ -f overlay/frameworks/base/core/res/res/values/config.xml ]; then
 		awk -i inplace '!/'$overlay'/' overlay/frameworks/base/core/res/res/values/config.xml;
-		#sed -i 's|<bool name="config_enableWifiDisplay">true</bool>|<bool name="config_enableWifiDisplay">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+		sed -i 's|<bool name="config_enableWifiDisplay">true</bool>|<bool name="config_enableWifiDisplay">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
 		sed -i 's|<bool name="config_uiBlurEnabled">true</bool>|<bool name="config_uiBlurEnabled">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml; #Disable UIBlur
 		#Disable IMS
 		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
-		sed -i 's|<bool name="config_carrier_volte_available">true</bool>|<bool name="config_carrier_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-		sed -i 's|<bool name="config_carrier_vt_available">true</bool>|<bool name="config_carrier_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-		sed -i 's|<bool name="config_device_volte_available">true</bool>|<bool name="config_device_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-		sed -i 's|<bool name="config_device_vt_available">true</bool>|<bool name="config_device_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-		sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|'  overlay/frameworks/base/core/res/res/values/config.xml;
+			sed -i 's|<bool name="config_carrier_volte_available">true</bool>|<bool name="config_carrier_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+			sed -i 's|<bool name="config_carrier_vt_available">true</bool>|<bool name="config_carrier_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+			sed -i 's|<bool name="config_device_volte_available">true</bool>|<bool name="config_device_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+			sed -i 's|<bool name="config_device_vt_available">true</bool>|<bool name="config_device_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+			sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|'  overlay/frameworks/base/core/res/res/values/config.xml;
+			sed -i 's|<bool name="config_carrier_volte_available">true</bool>|<bool name="config_carrier_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+			sed -i 's|<bool name="config_dynamic_bind_ims">true</bool>|<bool name="config_dynamic_bind_ims">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+			awk -i inplace '!/config_ims_package/' overlay/frameworks/base/core/res/res/values/config.xml;
 		fi;
 	fi;
 	if [ -d sepolicy ]; then
@@ -617,12 +627,12 @@ deblobDevice() {
 	fi;
 	rm -f board/qcom-cne.mk product/qcom-cne.mk; #Remove CNE
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then rm -f rootdir/etc/init.qti.ims.sh rootdir/init.qti.ims.sh init.qti.ims.sh; fi; #Remove IMS startup script
-	rm -rf IMSEnabler; #Remove IMS compatibility module
+	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then rm -rf IMSEnabler; fi; #Remove IMS compatibility module
 	rm -rf ifaa org.ifaa.android.manager; #Remove AliPay
 	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then rm -rf data-ipa-cfg-mgr; fi; #Remove IPA
 	rm -rf libshimwvm libshims/wvm_shim.cpp; #Remove Google Widevine compatibility module
 	rm -rf board/qcom-wipower.mk product/qcom-wipower.mk; #Remove WiPower makefiles
-	awk -i inplace '!/'$ipcSec'/' configs/sec_config &>/dev/null || true; #Remove all IPC security exceptions from sec_config
+	#awk -i inplace '!/'$ipcSec'/' configs/sec_config &>/dev/null || true; #Remove all IPC security exceptions from sec_config
 	awk -i inplace '!/'$blobs'/' ./*proprietary*.txt &>/dev/null || true; #Remove all blob references from blob manifest
 	awk -i inplace '!/'$blobs'/' ./*/*proprietary*.txt &>/dev/null || true; #Remove all blob references from blob manifest location in subdirectory
 	if [ -f setup-makefiles.sh ]; then

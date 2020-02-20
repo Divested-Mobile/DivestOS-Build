@@ -84,7 +84,7 @@ buildAll() {
 	#SD615
 	buildDevice kipper;
 	#SD820
-	buildDevice oneplus3 verity;
+	buildDevice oneplus3;
 	buildDevice griffin;
 	buildDevice z2_plus verity; #broken
 	#SD821
@@ -93,8 +93,8 @@ buildAll() {
 	#SD625
 	buildDevice zenfone3; #needs manual patching - fwb xml: fused: dangling tag
 	#SD835
-	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
-	buildDevice dumpling verity;
+	buildDevice cheeseburger; #needs manual patching - vendor common makefile
+	buildDevice dumpling;
 	buildDevice cheryl;
 	buildDevice mata verity;
 	buildDevice taimen avb;

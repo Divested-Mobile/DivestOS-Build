@@ -45,7 +45,7 @@ export DOS_DEBLOBBER_REMOVE_IR=false; #Set true to remove all IR blobs
 export DOS_DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Services with the open source Sony TimeKeep reimplementation #TODO: Needs work
 
 #Features
-export DOS_GPS_GLONASS_FORCED=true; #Enables GLONASS on all devices
+export DOS_GPS_GLONASS_FORCED=false; #Enables GLONASS on all devices
 export DOS_GRAPHENE_MALLOC=true; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms
 export DOS_GRAPHENE_EXEC=true; #Enables use of GrapheneOS' exec spawning feature
 export DOS_HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
@@ -55,8 +55,8 @@ export DOS_LOWRAM_ENABLED=false; #Switch to true to enable low_ram on all device
 export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NONE, NLP, FULL
 export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches XXX: Unused, see 1dc9247
 export DOS_OPTIMIZE_IMAGES=false; #Set true to apply lossless optimizations to image resources
-export DOS_OVERCLOCKS_ENABLED=false; #Switch to false to disable overclocks #XXX: Most devices have their processors directly under their RAM, heatsinking is mostly into the ground plane, potentially inflicting damage to RAM and the processor itself
-export DOS_STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit encryption on 14.1+15.1 XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
+export DOS_OVERCLOCKS_ENABLED=false; #Switch to true to enable overclocks #XXX: Most devices have their processors directly under their RAM, heatsinking is mostly into the ground plane, potentially inflicting damage to RAM and the processor itself
+export DOS_STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit FDE encryption on 14.1+15.1 XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
 export DOS_WIREGUARD_INCLUDED=false; #Switch to true to enable WireGuard kernel module inclusion
 
 #Servers

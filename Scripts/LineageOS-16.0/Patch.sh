@@ -64,7 +64,8 @@ enterAndClear "bionic";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi; #(GrapheneOS)
 
 enterAndClear "bootable/recovery";
-git revert --no-edit 4d361ff13b5bd61d5a6a5e95063b24b8a37a24ab 37d729bf; #fix sideload
+#git revert --no-edit 4d361ff13b5bd61d5a6a5e95063b24b8a37a24ab; #always enforcing
+#git revert --no-edit 37d729bf; #fix sideload
 git revert --no-edit fe2901b144c515c5a90b547198aed37c209b5a82; #Resurrect dm-verity
 sed -i 's/!= 2048/< 2048/' tools/dumpkey/DumpPublicKey.java; #Allow 4096-bit keys
 
@@ -280,8 +281,22 @@ find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {}
 if [ "$DOS_STRONG_ENCRYPTION_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'enableStrongEncryption "{}"'; fi;
 find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenDefconfig "{}"';
 cd "$DOS_BUILD_BASE";
+deblobAudio;
 
 #Verity
+cat "$DOS_SIGNING_KEYS/Amber/verity.x509.pem" >> "kernel/yandex/sdm660/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/blueline/verity.x509.pem" >> "kernel/google/crosshatch/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/bonito/verity.x509.pem" >> "kernel/google/bonito/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/cheeseburger/verity.x509.pem" >> "kernel/oneplus/msm8998/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/cheryl/verity.x509.pem" >> "kernel/razer/msm8998/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/crosshatch/verity.x509.pem" >> "kernel/google/crosshatch/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/dumpling/verity.x509.pem" >> "kernel/oneplus/msm8998/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/mata/verity.x509.pem" >> "kernel/essential/msm8998/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/sargo/verity.x509.pem" >> "kernel/google/bonito/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/taimen/verity.x509.pem" >> "kernel/google/wahoo/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/walleye/verity.x509.pem" >> "kernel/google/wahoo/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/z2_plus/verity.x509.pem" >> "kernel/zuk/msm8996/certs/verity.x509.pem";
+cp "$DOS_SIGNING_KEYS/Amber/verifiedboot_relkeys.der.x509" "kernel/yandex/sdm660/verifiedboot_Amber_dos_relkeys.der.x509";
 cp "$DOS_SIGNING_KEYS/cheeseburger/verifiedboot_relkeys.der.x509" "kernel/oneplus/msm8998/verifiedboot_cheeseburger_dos_relkeys.der.x509";
 cp "$DOS_SIGNING_KEYS/cheryl/verifiedboot_relkeys.der.x509" "kernel/razer/msm8998/verifiedboot_cheryl_dos_relkeys.der.x509";
 cp "$DOS_SIGNING_KEYS/dumpling/verifiedboot_relkeys.der.x509" "kernel/oneplus/msm8998/verifiedboot_dumpling_dos_relkeys.der.x509";
@@ -290,6 +305,7 @@ cp "$DOS_SIGNING_KEYS/marlin/verifiedboot_relkeys.der.x509" "kernel/google/marli
 cp "$DOS_SIGNING_KEYS/oneplus3/verifiedboot_relkeys.der.x509" "kernel/oneplus/msm8996/verifiedboot_oneplus3_dos_relkeys.der.x509";
 cp "$DOS_SIGNING_KEYS/sailfish/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_sailfish_dos_relkeys.der.x509";
 cp "$DOS_SIGNING_KEYS/z2_plus/verifiedboot_relkeys.der.x509" "kernel/zuk/msm8996/verifiedboot_z2_plus_dos_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/zenfone3/verifiedboot_relkeys.der.x509" "kernel/asus/msm8953/verifiedboot_zenfone3_dos_relkeys.der.x509";
 
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/asus/msm8953/arch/arm64/configs/*_defconfig; #Breaks on compile
