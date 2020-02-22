@@ -63,6 +63,7 @@ enterAndClear "bionic";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi; #(GrapheneOS)
 
 enterAndClear "bootable/recovery";
+git revert --no-edit 3c0d796b79c7a1ee904e0cef7c0f2e20bf84c237; #remove sideload cache, breaks with large files
 patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button?
 
 enterAndClear "build";

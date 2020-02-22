@@ -250,7 +250,7 @@ echo "Deblobbing..."
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
-		blobs=$blobs"|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|lib-imsvideocodec.so|lib-imsvtextutils.so|lib-imsvtutils.so|libimsmedia_jni.so";
+		blobs=$blobs"|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|lib-imsvideocodec.so|lib-imsvtextutils.so|lib-imsvtutils.so|libimsmedia_jni.so|vendor.qti.hardware.radio.ims.*";
 		blobs=$blobs"|imscmservice|imsdatadaemon|imsqmidaemon";
 		blobs=$blobs"|imscm.xml|ims.xml";
 		blobs=$blobs"|qti_permissions.xml";

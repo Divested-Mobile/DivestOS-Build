@@ -64,7 +64,8 @@ enterAndClear "bionic";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi; #(GrapheneOS)
 
 enterAndClear "bootable/recovery";
-#git revert --no-edit 4d361ff13b5bd61d5a6a5e95063b24b8a37a24ab; #always enforcing
+git revert --no-edit 4d361ff13b5bd61d5a6a5e95063b24b8a37a24ab; #Always enforcing
+git revert --no-edit 865c6c770816f6e8099d6d93e04aeea35091a9d6; #Remove sideload cache, breaks with large files
 #git revert --no-edit 37d729bf; #fix sideload
 git revert --no-edit fe2901b144c515c5a90b547198aed37c209b5a82; #Resurrect dm-verity
 sed -i 's/!= 2048/< 2048/' tools/dumpkey/DumpPublicKey.java; #Allow 4096-bit keys
@@ -74,9 +75,8 @@ git revert --no-edit 271f6ffa045064abcac066e97f2cb53ccb3e5126 61f7ee9386be426fd4
 patch -p1 < "$DOS_PATCHES_COMMON/android_build/0001-OTA_Keys.patch"; #add correct keys to recovery for OTA verification
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
-
-#enterAndClear "device/lineage/sepolicy";
-#echo "recovery_only('allow init rootfs:file create;')" >> common/private/init.te; #Fix sideload in recovery (alternative)
+#git revert --no-edit 47a0539fcce53cdcab3ee00afd6810acab26950b 3836ed2b2a7c2da6c9eae66700c7c6fabc0c5b9c ab0b2ca6a0d0d24131bcb779f1eb882bf97afd3c; #remove backuptool
+#patch -p1 < "$DOS_PATCHES/android_build/0001-rm_backuptool.patch";
 
 enterAndClear "device/qcom/sepolicy-legacy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
@@ -177,11 +177,13 @@ enterAndClear "vendor/lineage";
 rm build/target/product/security/lineage.x509.pem;
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
 rm -rf verity_tool; #Resurrect dm-verity
+rm -rf addonsu;
 rm -rf overlay/common/frameworks/base/core/res/res/drawable-*/default_wallpaper.png;
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then awk -i inplace '!/50-lineage.sh/' config/common.mk; fi; #Make sure our hosts is always used
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra keys
 awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
 awk -i inplace '!/WeatherProvider/' config/common.mk;
+#awk -i inplace '!/backuptool/' config/common.mk; #remove backuptool
 awk -i inplace '!/def_backup_transport/' overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml;
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/AudioFX/' config/common.mk; fi;
 if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then sed -i '/Google provider/!b;n;s/com.google.android.gms/org.microg.nlp/' overlay/common/frameworks/base/core/res/res/values/config.xml; fi;
