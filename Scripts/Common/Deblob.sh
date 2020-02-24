@@ -103,8 +103,10 @@ echo "Deblobbing..."
 	ipcSec="4097:4294967295:2002:2950:3009:2901|4097:4294967295:3009";
 
 	#Dirac (Audio Codec + Effects) [Dirac]
-	blobs=$blobs"|libDiracAPI_SHARED.so|.*dirac.*";
-	blobs=$blobs"|diracmobile.config";
+	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
+		blobs=$blobs"|libDiracAPI_SHARED.so|.*dirac.*";
+		blobs=$blobs"|diracmobile.config";
+	fi;
 
 	#Discretix (DRM/HDCP) [Discretix Technologies]
 	blobs=$blobs"|DxDrmServerIpc|discretix";
@@ -234,7 +236,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|libmm-hdcpmgr.so|libstagefright_hdcp.so|libhdcp2.so";
 	blobs=$blobs"|srm.bin|insthk|hdcp_test";
 	blobs=$blobs"|hdcp2xtest.srm";
-	blobs=$blobs"|hdcp1.*|tzhdcp.*";
+	blobs=$blobs"|hdcp1.*|hdcp2.*|tzhdcp.*";
 
 	#HDR
 	blobs=$blobs"|libhdr.*.so|libdovi.so";
@@ -305,7 +307,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|cacert_location.pem|com.qti.location.sdk.xml|com.qualcomm.location.xml|izat.conf|izat.xt.srv.xml|lowi.conf|xtra_root_cert.pem|xtwifi.conf";
 	blobs=$blobs"|com.qti.location.sdk.jar|izat.xt.srv.jar";
 	blobs=$blobs"|com.qualcomm.location.apk|com.qualcomm.services.location.apk|xtra_t_app.apk";
-	blobs=$blobs"|gpsone_daemon|izat.xt.srv|location-mq|loc_launcher|lowi-server|slim_ap_daemon|slim_daemon|xtwifi-client|xtwifi-inet-agent";
+	blobs=$blobs"|gpsone_daemon|izat.xt.srv|location-mq|loc_launcher|lowi-server|slim_ap_daemon|slim_daemon|xtwifi-client|xtwifi-inet-agent|xtra-daemon";
 	overlay=$overlay"config_comboNetworkLocationProvider|config_enableFusedLocationOverlay|config_enableNetworkLocationOverlay|config_fusedLocationProviderPackageName|config_enableNetworkLocationOverlay|config_networkLocationProviderPackageName|com.qualcomm.location";
 
 	#Misc
@@ -517,8 +519,9 @@ deblobDevice() {
 	sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER_5514 := true/BOARD_SUPPORTS_SOUND_TRIGGER_5514 := false/' BoardConfig*.mk &>/dev/null || true;
 	sed -i 's/AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true/AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := false/' BoardConfig*.mk &>/dev/null || true; #Disable Dolby
 	sed -i 's/BOARD_ANT_WIRELESS_DEVICE := true/BOARD_ANT_WIRELESS_DEVICE := false/' BoardConfig*.mk &>/dev/null || true; #Disable ANT
+	awk -i inplace '!/BOARD_ANT_WIRELESS_DEVICE/' BoardConfig*.mk &>/dev/null || true;
 	if [ "$DOS_DEBLOBBER_REMOVE_RENDERSCRIPT" = true ] || [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
-		awk -i inplace '!/RS_DRIVER/' BoardConfig*.mk&>/dev/null || true;
+		awk -i inplace '!/RS_DRIVER/' BoardConfig*.mk &>/dev/null || true;
 	fi;
 	if [ -f common.mk ]; then
 		awk -i inplace '!/'"$makes"'/' common.mk; #Remove references from common makefile

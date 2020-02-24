@@ -70,7 +70,7 @@ gpgVerifyDirectory() {
 export -f gpgVerifyDirectory;
 
 scanForMalware() {
-	if [ -x /usr/bin/clamscan ] && [ -r /var/lib/clamav/main.cvd ]; then
+	if [ -x /usr/bin/clamscan ] && [ -r /var/lib/clamav/main.c*d ]; then
 		echo -e "\e[0;32mStarting a malware scan...\e[0m";
 		local excludes="--exclude-dir=\".git\" --exclude-dir=\".repo\"";
 		local scanQueue="$2";
@@ -224,11 +224,17 @@ processRelease() {
 
 	#Extract signed recovery
 	unzip -l $OUT_DIR/$PREFIX-target_files.zip | grep -q recovery.img;
-	if [ "$?" == "0" ]; then
+	local hasRecoveryImg=$?;
+	if [ "$hasRecoveryImg" == "0" ]; then
 		echo -e "\e[0;32mExtracting signed recovery.img\e[0m";
 		mkdir $OUT_DIR/rec_tmp;
 		unzip $OUT_DIR/$PREFIX-target_files.zip IMAGES/recovery.img -d $OUT_DIR/rec_tmp;
 		mv $OUT_DIR/rec_tmp/IMAGES/recovery.img $OUT_DIR/$PREFIX-recovery.img;
+	#else
+	#	echo -e "\e[0;32mExtracting signed boot.img\e[0m";
+	#	mkdir $OUT_DIR/rec_tmp;
+	#	unzip $OUT_DIR/$PREFIX-target_files.zip IMAGES/boot.img -d $OUT_DIR/rec_tmp;
+	#	mv $OUT_DIR/rec_tmp/IMAGES/boot.img $OUT_DIR/$PREFIX-boot.img;
 	fi;
 
 	#Copy to archive
@@ -570,7 +576,7 @@ hardenDefconfig() {
 	#Disable supported options
 	#Disabled: CONFIG_MSM_SMP2P_TEST, CONFIG_MAGIC_SYSRQ (breaks compile on many kernels), CONFIG_KALLSYMS (breaks boot on select devices), CONFIG_IKCONFIG (breaks recovery)
 	declare -a optionsNo=("CONFIG_ACPI_APEI_EINJ" "CONFIG_ACPI_CUSTOM_METHOD" "CONFIG_ACPI_TABLE_UPGRADE" "CONFIG_BINFMT_AOUT" "CONFIG_BINFMT_MISC" "CONFIG_CHECKPOINT_RESTORE" "CONFIG_COMPAT_BRK" "CONFIG_COMPAT_VDSO" "CONFIG_CP_ACCESS64" "CONFIG_DEVKMEM" "CONFIG_DEVMEM" "CONFIG_DEVPORT" "CONFIG_EARJACK_DEBUGGER" "CONFIG_GCC_PLUGIN_RANDSTRUCT_PERFORMANCE" "CONFIG_HARDENED_USERCOPY_FALLBACK" "CONFIG_HIBERNATION" "CONFIG_HWPOISON_INJECT" "CONFIG_IA32_EMULATION" "CONFIG_IOMMU_NON_SECURE" "CONFIG_IP_DCCP" "CONFIG_IP_SCTP" "CONFIG_KEXEC" "CONFIG_KEXEC_FILE" "CONFIG_KSM" "CONFIG_LDISC_AUTOLOAD" "CONFIG_LEGACY_PTYS" "CONFIG_LIVEPATCH" "CONFIG_MEM_SOFT_DIRTY" "CONFIG_MMIOTRACE" "CONFIG_MMIOTRACE_TEST" "CONFIG_MODIFY_LDT_SYSCALL" "CONFIG_MSM_BUSPM_DEV" "CONFIG_NEEDS_SYSCALL_FOR_CMPXCHG" "CONFIG_NOTIFIER_ERROR_INJECTION" "CONFIG_OABI_COMPAT" "CONFIG_PAGE_OWNER" "CONFIG_PROC_KCORE" "CONFIG_PROC_PAGE_MONITOR" "CONFIG_PROC_VMCORE" "CONFIG_RDS" "CONFIG_RDS_TCP" "CONFIG_SECURITY_SELINUX_DISABLE" "CONFIG_SLAB_MERGE_DEFAULT" "CONFIG_TIMER_STATS" "CONFIG_TSC" "CONFIG_TSPP2" "CONFIG_UKSM" "CONFIG_UPROBES" "CONFIG_USELIB" "CONFIG_USERFAULTFD" "CONFIG_WLAN_FEATURE_MEMDUMP" "CONFIG_X86_PTDUMP" "CONFIG_X86_VSYSCALL_EMULATION" "CONFIG_ZSMALLOC_STAT");
-	if [[ "$1" != *"kernel/htc/msm8994"* ]] && [[ "$1" != *"kernel/samsung/smdk4412"* ]] && [[ "$1" != *"kernel/htc/flounder"* ]] && [[ "$1" != *"kernel/amazon/hdx-common"* ]] && [[ "$1" != *"msm899"* ]]; then
+	if [[ "$1" != *"kernel/htc/msm8994"* ]] && [[ "$1" != *"kernel/samsung/smdk4412"* ]] && [[ "$1" != *"kernel/htc/flounder"* ]] && [[ "$1" != *"kernel/amazon/hdx-common"* ]] && [[ "$1" != *"msm899"* ]] && [[ "$1" != *"sdm8"* ]] && [[ "$1" != *"sdm6"* ]]; then
 		optionsNo+=("CONFIG_DIAG_CHAR" "CONFIG_DIAG_OVER_USB" "CONFIG_USB_QCOM_DIAG_BRIDGE" "CONFIG_DIAGFWD_BRIDGE_CODE" "CONFIG_DIAG_SDIO_PIPE" "CONFIG_DIAG_HSIC_PIPE" "CONFIG_INET_DIAG");
 	fi;
 	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then optionsNo+=("CONFIG_IPA" "CONFIG_RMNET_IPA"); fi;

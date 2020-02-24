@@ -256,6 +256,10 @@ git revert --no-edit 0a4257bd3b6f76010f4f7c564c4b3d7794af0640; #breaks build
 enterAndClear "device/oneplus/oneplus2";
 sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt;
 
+enterAndClear "device/oneplus/msm8998-common";
+patch -p1 < "$DOS_PATCHES_COMMON/android_device_oneplus_msm8998-common/0001-No_Vorbis_Offload.patch"; #Fix Ogg Vorbis playback
+awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
+
 enterAndClear "device/oppo/common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
 

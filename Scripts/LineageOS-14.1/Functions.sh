@@ -119,7 +119,6 @@ patchWorkspace() {
 	repopick -it n_asb_09-2018-qcom;
 	repopick -it ibss-mode-nougat;
 	repopick -it n-netd;
-	repopick -i 268340; #update webview
 	repopick -i 268803 268804; #sqlite vulns
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails

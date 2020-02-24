@@ -1,0 +1,29 @@
+From 7874768d3288126484d8c0bfb19659ededb80ea3 Mon Sep 17 00:00:00 2001
+From: LuK1337 <priv.luk@gmail.com>
+Date: Sun, 23 Feb 2020 20:48:09 -0500
+Subject: [PATCH] msm8996-common: Don't advertise vorbis offloading support
+
+* Doesn't work at all.
+
+Change-Id: Icccbd9d1abb0da4b943b133a49803fbd0c0d5c2a
+---
+ audio/audio_policy_configuration.xml | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/audio/audio_policy_configuration.xml b/audio/audio_policy_configuration.xml
+index 257225c..1526499 100644
+--- a/audio/audio_policy_configuration.xml
++++ b/audio/audio_policy_configuration.xml
+@@ -141,9 +141,6 @@
+                     <profile name="" format="AUDIO_FORMAT_WMA_PRO"
+                              samplingRates="8000,11025,12000,16000,22050,24000,32000,44100,48000,64000,88200,96000"
+                              channelMasks="AUDIO_CHANNEL_OUT_MONO,AUDIO_CHANNEL_OUT_STEREO,AUDIO_CHANNEL_OUT_2POINT1,AUDIO_CHANNEL_OUT_QUAD,AUDIO_CHANNEL_OUT_PENTA,AUDIO_CHANNEL_OUT_5POINT1,AUDIO_CHANNEL_OUT_6POINT1,AUDIO_CHANNEL_OUT_7POINT1"/>
+-                    <profile name="" format="AUDIO_FORMAT_VORBIS"
+-                             samplingRates="8000,11025,12000,16000,22050,24000,32000,44100,48000,64000,88200,96000,128000,176400,192000"
+-                             channelMasks="AUDIO_CHANNEL_OUT_STEREO,AUDIO_CHANNEL_OUT_MONO"/>
+                     <profile name="" format="AUDIO_FORMAT_AAC_ADTS_LC"
+                              samplingRates="8000,11025,12000,16000,22050,24000,32000,44100,48000,64000,88200,96000"
+                              channelMasks="AUDIO_CHANNEL_OUT_STEREO,AUDIO_CHANNEL_OUT_MONO"/>
+-- 
+2.24.1
+

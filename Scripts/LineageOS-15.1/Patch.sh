@@ -226,6 +226,9 @@ echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceenc
 enterAndClear "device/moto/shamu";
 #git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
 
+enterAndClear "device/oneplus/msm8998-common";
+patch -p1 < "$DOS_PATCHES_COMMON/android_device_oneplus_msm8998-common/0001-No_Vorbis_Offload.patch"; #Fix Ogg Vorbis playback
+
 enterAndClear "device/oppo/msm8974-common";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
