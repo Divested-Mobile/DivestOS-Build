@@ -66,7 +66,7 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bio
 enterAndClear "bootable/recovery";
 git revert --no-edit 4d361ff13b5bd61d5a6a5e95063b24b8a37a24ab; #Always enforcing
 git revert --no-edit 865c6c770816f6e8099d6d93e04aeea35091a9d6; #Remove sideload cache, breaks with large files
-#git revert --no-edit 37d729bf; #fix sideload
+git revert --no-edit 37d729bf; #Fix USB on most devices
 git revert --no-edit fe2901b144c515c5a90b547198aed37c209b5a82; #Resurrect dm-verity
 sed -i 's/!= 2048/< 2048/' tools/dumpkey/DumpPublicKey.java; #Allow 4096-bit keys
 
