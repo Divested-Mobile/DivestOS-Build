@@ -19,6 +19,7 @@ There are multiple solutions:
 
 List of known connectivity check endpoints
 	+ DivestOS - 204 - http://divestos.org/gen204.php
+	+ GrapheneOS - 204 - https://grapheneos.org/generate_204
 	- Google - 204 - https://www.google.com/generate_204
 	- Google - 204 - http://connectivitycheck.gstatic.com/generate_204
 	- Google - 204 - http://www.google.com/gen_204

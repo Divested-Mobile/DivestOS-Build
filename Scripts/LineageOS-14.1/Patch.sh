@@ -265,7 +265,7 @@ enterAndClear "device/samsung/tuna";
 #git revert --no-edit e53eea6426da49dfb542929d5aa686667f4d416f; #restore releasetools #TODO
 rm setup-makefiles.sh; #broken, deblobber will still function
 sed -i 's|vendor/maguro/|vendor/|' libgps-shim/gps.c; #fix dlopen not found
-#See: https://review.lineageos.org/q/topic:%22tuna-sepolicies
+#See: https://review.lineageos.org/q/topic:tuna-sepolicies
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0001-fix_denial.patch";
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0002-fix_denial.patch";
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0003-fix_denial.patch";

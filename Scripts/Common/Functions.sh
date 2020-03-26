@@ -475,7 +475,7 @@ changeDefaultDNS() {
 			dnsSecondary="1.1.1.1";
 			dnsSecondaryV6="2606:4700:4700::1111";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "OpenNIC" ]]; then #https://servers.opennicproject.org/edit.php?srv=ns3.any.dns.opennic.glue
-			dnsPrimary="169.239.202.202";
+			dnsPrimary="169.239.202.202"; #FIXME
 			dnsPrimaryV6="2a05:dfc7:5353::53";
 			dnsSecondary="185.121.177.177";
 			dnsSecondaryV6="2a05:dfc7:5::53";

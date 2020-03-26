@@ -227,9 +227,6 @@ git revert --no-edit 9a5739e66d0a44347881807c0cc44d7c318c02b8; #fix nfc path
 enterAndClear "device/lge/mako";
 #git revert ; #restore releasetools #TODO
 smallerSystem;
-echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
-echo "allow system_server sensors_data_file:dir search;" >> sepolicy/system_server.te; #Fix qcom_sensors log spam
-echo "allow system_server sensors_data_file:dir r_file_perms;" >> sepolicy/system_server.te;
 sed -i 's/1333788672/880803840/' BoardConfig.mk; #don't touch partitions! DOS -user fits with 40M free
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk;
 
@@ -249,9 +246,6 @@ awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk;
 #rm configs/Android.mk; #fix compile
 #rm setup-makefiles.sh; #broken, deblobber will still function
 #XXX: remove atfwd and cne from vendor makefiles
-
-enterAndClear "device/motorola/griffin";
-git revert --no-edit 0a4257bd3b6f76010f4f7c564c4b3d7794af0640; #breaks build
 
 enterAndClear "device/oneplus/oneplus2";
 sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt;
