@@ -75,6 +75,10 @@ enterAndClear "device/qcom/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/248649.patch"; #msm_irqbalance: Allow read for stats and interrupts
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on user builds XXX: REMOVE THIS TRASH
 
+enterAndClear "external/ppp";
+git fetch "https://github.com/LineageOS/android_external_ppp" refs/changes/64/270364/1 && git cherry-pick FETCH_HEAD; #CVE-2020-8597_cm-14.1
+git fetch "https://github.com/LineageOS/android_external_ppp" refs/changes/65/270365/1 && git cherry-pick FETCH_HEAD;
+
 enterAndClear "external/sqlite";
 patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0)
 
@@ -306,6 +310,8 @@ sed -i "s/CONFIG_ARM_SMMU=y/# CONFIG_ARM_SMMU is not set/" kernel/motorola/msm89
 awk -i inplace '!/nfc_enhanced.mk/' device/samsung/toro*/lineage.mk;
 awk -i inplace '!/TARGET_RECOVERY_UPDATER_LIBS/' device/samsung/toro*/BoardConfig.mk;
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' device/samsung/toro*/BoardConfig.mk;
+
+sed -i 's/YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l*; #Fix builds with GCC 10
 #
 #END OF DEVICE CHANGES
 #

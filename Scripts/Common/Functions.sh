@@ -464,7 +464,17 @@ changeDefaultDNS() {
 	local dnsSecondary="";
 	local dnsSecondaryV6="";
 	if [ -z "$DNS_PRESET" ]; then
-		if [[ "$DOS_DEFAULT_DNS_PRESET" == "CensurfriDNS" ]]; then #https://uncensoreddns.org
+		if [[ "$DOS_DEFAULT_DNS_PRESET" == "AdGuard" ]]; then #https://adguard.com/en/adguard-dns/overview.html
+			dnsPrimary="176.103.130.130";
+			dnsPrimaryV6="2a00:5a60::ad1:0ff";
+			dnsSecondary="176.103.130.131";
+			dnsSecondaryV6="2a00:5a60::ad2:0ff";
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "AdGuard-NOBL" ]]; then #https://adguard.com/en/adguard-dns/overview.html
+			dnsPrimary="176.103.130.136";
+			dnsPrimaryV6="2a00:5a60::01:ff";
+			dnsSecondary="176.103.130.137";
+			dnsSecondaryV6="2a00:5a60::02:ff";
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "CensurfriDNS" ]]; then #https://uncensoreddns.org
 			dnsPrimary="91.239.100.100";
 			dnsPrimaryV6="2001:67c:28a4::";
 			dnsSecondary="89.233.43.71";
@@ -474,6 +484,11 @@ changeDefaultDNS() {
 			dnsPrimaryV6="2606:4700:4700::1001";
 			dnsSecondary="1.1.1.1";
 			dnsSecondaryV6="2606:4700:4700::1111";
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Cloudflare-BL" ]]; then #https://developers.cloudflare.com/1.1.1.1/commitment-to-privacy/privacy-policy/privacy-policy
+			dnsPrimary="1.0.0.2";
+			dnsPrimaryV6="2606:4700:4700::1002";
+			dnsSecondary="1.1.1.2";
+			dnsSecondaryV6="2606:4700:4700::1112";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "OpenNIC" ]]; then #https://servers.opennicproject.org/edit.php?srv=ns3.any.dns.opennic.glue
 			dnsPrimary="169.239.202.202"; #FIXME
 			dnsPrimaryV6="2a05:dfc7:5353::53";
@@ -499,6 +514,11 @@ changeDefaultDNS() {
 			dnsPrimaryV6="2610:a1:1018::5";
 			dnsSecondary="156.154.71.5";
 			dnsSecondaryV6="2610:a1:1019::5";
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "NixNet" ]]; then #https://docs.nixnet.services/DNS
+			dnsPrimary="198.251.90.114";
+			dnsPrimaryV6="2605:6400:20:e6d::1";
+			dnsSecondary="198.251.90.114";
+			dnsSecondaryV6="2605:6400:30:f881::1";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "OpenDNS" ]]; then #https://www.cisco.com/c/en/us/about/legal/privacy-full.html
 			dnsPrimary="208.67.222.222";
 			dnsPrimaryV6="2620:0:ccc::2";

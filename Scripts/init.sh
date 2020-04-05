@@ -60,7 +60,7 @@ export DOS_STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit
 export DOS_WIREGUARD_INCLUDED=false; #Switch to true to enable WireGuard kernel module inclusion
 
 #Servers
-export DOS_DEFAULT_DNS_PRESET="Cloudflare"; #Sets default DNS. Options: CensurfriDNS, Cloudflare, OpenNIC, DNSWATCH, Google, Neustar(-NOBL), OpenDNS, Quad9(-NOBL), Verisign, Yandex(-NOBL)
+export DOS_DEFAULT_DNS_PRESET="Cloudflare-BL"; #Sets default DNS. Options: See changeDefaultDNS() in Scripts/Common/Functions.sh
 export DOS_GPS_NTP_SERVER="1.android.pool.ntp.org"; #Options: Any NTP pool
 export DOS_GPS_SUPL_HOST="supl.google.com"; #Options: supl.{google,vodafone,sonyericsson}.com
 
@@ -124,9 +124,6 @@ if [ ! -d "$DOS_BUILD_BASE" ]; then
 	echo "Path mismatch! Please update init.sh!";
 	return 1;
 fi;
-
-mkdir $DOS_BUILD_BASE"/out";
-chattr -f -c $DOS_BUILD_BASE"/out";
 
 export DOS_TMP_DIR="/tmp/dos_tmp";
 mkdir -p "$DOS_TMP_DIR";
