@@ -121,6 +121,7 @@ patchWorkspace() {
 	repopick -it n-netd;
 	repopick -i 268803 268804; #sqlite vulns
 	repopick -it n-asb-2020-04;
+	repopick 271078; #update webview
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 
