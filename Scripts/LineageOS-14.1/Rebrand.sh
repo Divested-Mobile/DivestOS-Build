@@ -21,7 +21,7 @@
 echo "Rebranding...";
 
 enter "bootable/recovery";
-sed -i 's|Android Recovery|'"$DOS_BRANDING_NAME"' Recovery|' ./*_ui.cpp;
+sed -i 's|Android Recovery|'"$DOS_BRANDING_NAME"' Recovery|' ./*ui.cpp;
 
 enter "build";
 sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user

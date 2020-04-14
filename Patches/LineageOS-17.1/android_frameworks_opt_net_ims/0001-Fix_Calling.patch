@@ -1,0 +1,54 @@
+From 9b44570bfb806930b33227e9a89467e2aeca490f Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Tue, 14 Apr 2020 16:59:46 -0400
+Subject: [PATCH] Fix calling after VoLTE is removed from devices that had it
+ previously enabled
+
+Change-Id: I34cc1b7786446927751950386ebe729b43fa53f1
+---
+ src/java/com/android/ims/ImsManager.java | 22 +---------------------
+ 1 file changed, 1 insertion(+), 21 deletions(-)
+
+diff --git a/src/java/com/android/ims/ImsManager.java b/src/java/com/android/ims/ImsManager.java
+index 7c24c7d..058624d 100644
+--- a/src/java/com/android/ims/ImsManager.java
++++ b/src/java/com/android/ims/ImsManager.java
+@@ -466,12 +466,6 @@ public class ImsManager {
+      * {@link #isEnhanced4gLteModeSettingEnabledByUser()} instead.
+      */
+     public static boolean isEnhanced4gLteModeSettingEnabledByUser(Context context) {
+-        ImsManager mgr = ImsManager.getInstance(context,
+-                SubscriptionManager.getDefaultVoicePhoneId());
+-        if (mgr != null) {
+-            return mgr.isEnhanced4gLteModeSettingEnabledByUser();
+-        }
+-        loge("isEnhanced4gLteModeSettingEnabledByUser: ImsManager null, returning default value.");
+         return false;
+     }
+ 
+@@ -486,21 +480,7 @@ public class ImsManager {
+      * return the default value.
+      */
+     public boolean isEnhanced4gLteModeSettingEnabledByUser() {
+-        int setting = SubscriptionManager.getIntegerSubscriptionProperty(
+-                getSubId(), SubscriptionManager.ENHANCED_4G_MODE_ENABLED,
+-                SUB_PROPERTY_NOT_INITIALIZED, mContext);
+-        boolean onByDefault = getBooleanCarrierConfig(
+-                CarrierConfigManager.KEY_ENHANCED_4G_LTE_ON_BY_DEFAULT_BOOL);
+-
+-        // If Enhanced 4G LTE Mode is uneditable, hidden or not initialized, we use the default
+-        // value
+-        if (!getBooleanCarrierConfig(CarrierConfigManager.KEY_EDITABLE_ENHANCED_4G_LTE_BOOL)
+-                || getBooleanCarrierConfig(CarrierConfigManager.KEY_HIDE_ENHANCED_4G_LTE_BOOL)
+-                || setting == SUB_PROPERTY_NOT_INITIALIZED) {
+-            return onByDefault;
+-        } else {
+-            return (setting == ProvisioningManager.PROVISIONING_VALUE_ENABLED);
+-        }
++        return false;
+     }
+ 
+     /**
+-- 
+2.26.0
+

@@ -1,0 +1,181 @@
+From 010949662f6579419dd310606bf1418dbd53a971 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 5 Dec 2018 01:51:56 -0500
+Subject: [PATCH] add hardened_malloc library
+
+---
+ libc/Android.bp                  | 38 ++++++++++++++++++++-----
+ libc/bionic/h_malloc_wrapper.cpp | 49 ++++++++++++++++++++++++++++++++
+ libc/bionic/malloc_common.h      |  8 ++++++
+ 3 files changed, 88 insertions(+), 7 deletions(-)
+ create mode 100644 libc/bionic/h_malloc_wrapper.cpp
+
+diff --git a/libc/Android.bp b/libc/Android.bp
+index 47fccde7e..7c3f57fba 100644
+--- a/libc/Android.bp
++++ b/libc/Android.bp
+@@ -52,6 +52,8 @@ libc_common_flags = [
+     // Clang's exit-time destructor registration hides __dso_handle, but
+     // __dso_handle needs to have default visibility on ARM32. See b/73485611.
+     "-Wexit-time-destructors",
++
++    "-DH_MALLOC_PREFIX",
+ ]
+ 
+ // Define some common cflags
+@@ -65,9 +67,17 @@ cc_defaults {
+     cppflags: [],
+     include_dirs: [
+         "bionic/libc/async_safe/include",
+-        "external/jemalloc_new/include",
+     ],
+ 
++    multilib: {
++        lib32: {
++            include_dirs: ["external/jemalloc_new/include"],
++        },
++        lib64: {
++            include_dirs: ["external/hardened_malloc/"],
++        },
++    },
++
+     stl: "none",
+     system_shared_libs: [],
+     sanitize: {
+@@ -92,7 +102,6 @@ cc_defaults {
+ // TLS slot.
+ 
+ cc_library_static {
+-
+     srcs: [
+         "bionic/__libc_init_main_thread.cpp",
+         "bionic/__stack_chk_fail.cpp",
+@@ -1309,6 +1318,10 @@ cc_library_static {
+     multilib: {
+         lib32: {
+             srcs: libc_common_src_files_32,
++            whole_static_libs: ["libjemalloc5"],
++        },
++        lib64: {
++            whole_static_libs: ["libhardened_malloc"],
+         },
+     },
+     arch: {
+@@ -1342,7 +1355,6 @@ cc_library_static {
+         "libc_syscalls",
+         "libc_tzcode",
+         "libm",
+-        "libjemalloc5",
+         "libstdc++",
+     ],
+ }
+@@ -1480,7 +1492,14 @@ cc_library_static {
+ // ========================================================
+ cc_library_static {
+     defaults: ["libc_defaults"],
+-    srcs: ["bionic/jemalloc_wrapper.cpp"],
++    multilib: {
++        lib32: {
++            srcs: ["bionic/jemalloc_wrapper.cpp"],
++        },
++        lib64: {
++            srcs: ["bionic/h_malloc_wrapper.cpp"],
++        },
++    },
+     cflags: ["-fvisibility=hidden"],
+ 
+     name: "libc_malloc",
+@@ -1578,9 +1597,14 @@ cc_library {
+     static_libs: [
+         "libdl_android",
+     ],
+-    whole_static_libs: [
+-        "libjemalloc5",
+-    ],
++    multilib: {
++        lib32: {
++            whole_static_libs: ["libjemalloc5"],
++        },
++        lib64: {
++            whole_static_libs: ["libhardened_malloc"],
++        },
++    },
+ 
+     nocrt: true,
+ 
+diff --git a/libc/bionic/h_malloc_wrapper.cpp b/libc/bionic/h_malloc_wrapper.cpp
+new file mode 100644
+index 000000000..5733293a9
+--- /dev/null
++++ b/libc/bionic/h_malloc_wrapper.cpp
+@@ -0,0 +1,49 @@
++#include <errno.h>
++#include <malloc.h>
++#include <sys/param.h>
++#include <unistd.h>
++
++#include <private/MallocXmlElem.h>
++
++#include "h_malloc.h"
++
++__BEGIN_DECLS
++int h_malloc_info(int options, FILE* fp);
++__END_DECLS
++
++int h_malloc_info(int options, FILE* fp) {
++  if (options != 0) {
++    errno = EINVAL;
++    return -1;
++  }
++
++  MallocXmlElem root(fp, "malloc", "version=\"jemalloc-1\"");
++
++  // Dump all of the large allocations in the arenas.
++  for (size_t i = 0; i < h_mallinfo_narenas(); i++) {
++    struct mallinfo mi = h_mallinfo_arena_info(i);
++    if (mi.hblkhd != 0) {
++      MallocXmlElem arena_elem(fp, "heap", "nr=\"%d\"", i);
++      {
++        MallocXmlElem(fp, "allocated-large").Contents("%zu", mi.ordblks);
++        MallocXmlElem(fp, "allocated-huge").Contents("%zu", mi.uordblks);
++        MallocXmlElem(fp, "allocated-bins").Contents("%zu", mi.fsmblks);
++
++        size_t total = 0;
++        for (size_t j = 0; j < h_mallinfo_nbins(); j++) {
++          struct mallinfo mi = h_mallinfo_bin_info(i, j);
++          if (mi.ordblks != 0) {
++            MallocXmlElem bin_elem(fp, "bin", "nr=\"%d\"", j);
++            MallocXmlElem(fp, "allocated").Contents("%zu", mi.ordblks);
++            MallocXmlElem(fp, "nmalloc").Contents("%zu", mi.uordblks);
++            MallocXmlElem(fp, "ndalloc").Contents("%zu", mi.fordblks);
++            total += mi.ordblks;
++          }
++        }
++        MallocXmlElem(fp, "bins-total").Contents("%zu", total);
++      }
++    }
++  }
++
++  return 0;
++}
+diff --git a/libc/bionic/malloc_common.h b/libc/bionic/malloc_common.h
+index 2176e634d..e2c1910d2 100644
+--- a/libc/bionic/malloc_common.h
++++ b/libc/bionic/malloc_common.h
+@@ -62,8 +62,16 @@ __END_DECLS
+ 
+ #else
+ 
++#ifdef __LP64__
++#include "h_malloc.h"
++#define Malloc(function)  h_ ## function
++__BEGIN_DECLS
++int h_malloc_info(int options, FILE* fp);
++__END_DECLS
++#else
+ #include "jemalloc.h"
+ #define Malloc(function)  je_ ## function
++#endif
+ 
+ #endif
+ 

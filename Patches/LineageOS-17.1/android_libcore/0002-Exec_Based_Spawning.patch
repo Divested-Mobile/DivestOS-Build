@@ -1,0 +1,53 @@
+From ad05afeefb51c74813daf3a99eca2b23fc553c7c Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 11 Sep 2019 06:47:11 -0400
+Subject: [PATCH] disable ICU cache pinning for exec spawning
+
+---
+ .../main/java/dalvik/system/ZygoteHooks.java  | 26 +++++++++++--------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
+
+diff --git a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
+index af3b9cfe8..35e880558 100644
+--- a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
++++ b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
+@@ -48,15 +48,17 @@ private ZygoteHooks() {
+      */
+     @libcore.api.CorePlatformApi
+     public static void onBeginPreload(boolean fullPreload) {
+-        // Pin ICU data in memory from this point that would normally be held by soft references.
+-        // Without this, any references created immediately below or during class preloading
+-        // would be collected when the Zygote GC runs in gcAndFinalize().
+-        CacheValue.setStrength(CacheValue.Strength.STRONG);
+-
+-        // Explicitly exercise code to cache data apps are likely to need.
+-        ULocale[] localesToPin = { ULocale.ROOT, ULocale.US, ULocale.getDefault() };
+-        for (ULocale uLocale : localesToPin) {
+-            new DecimalFormatSymbols(uLocale);
++        if (fullPreload) {
++            // Pin ICU data in memory from this point that would normally be held by soft references.
++            // Without this, any references created immediately below or during class preloading
++            // would be collected when the Zygote GC runs in gcAndFinalize().
++            CacheValue.setStrength(CacheValue.Strength.STRONG);
++
++            // Explicitly exercise code to cache data apps are likely to need.
++            ULocale[] localesToPin = { ULocale.ROOT, ULocale.US, ULocale.getDefault() };
++            for (ULocale uLocale : localesToPin) {
++                new DecimalFormatSymbols(uLocale);
++            }
+         }
+     }
+ 
+@@ -65,8 +67,10 @@ public static void onBeginPreload(boolean fullPreload) {
+      */
+     @libcore.api.CorePlatformApi
+     public static void onEndPreload(boolean fullPreload) {
+-        // All cache references created by ICU from this point will be soft.
+-        CacheValue.setStrength(CacheValue.Strength.SOFT);
++        if (fullPreload) {
++            // All cache references created by ICU from this point will be soft.
++            CacheValue.setStrength(CacheValue.Strength.SOFT);
++        }
+     }
+ 
+     /**

@@ -1,0 +1,143 @@
+From 3f84183f612d5654645575c9969f58bfe2fccb8c Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Tue, 14 Apr 2020 17:03:26 -0400
+Subject: [PATCH] Remove analytics
+
+Change-Id: I7f17bfdf094e0c1a9c15b28c72936de67eec235e
+---
+ AndroidManifest.xml           | 25 -------------------------
+ proguard.flags                |  1 -
+ res/values/config.xml         |  3 ---
+ res/values/strings.xml        | 22 ----------------------
+ res/xml/parts_catalog.xml     |  5 -----
+ res/xml/trust_preferences.xml |  3 ---
+ 6 files changed, 59 deletions(-)
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 0d36683..8c5fe86 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -231,31 +231,6 @@
+                 android:resource="@string/summary_empty" />
+         </activity-alias>
+ 
+-        <!-- Anonymous Statistics -->
+-        <receiver android:name=".lineagestats.ReportingServiceManager"
+-            android:enabled="true"
+-            android:exported="false"
+-            android:label="ReportingServiceManager">
+-            <intent-filter>
+-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+-                <action android:name="org.lineageos.lineageparts.action.TRIGGER_REPORT_METRICS" />
+-            </intent-filter>
+-        </receiver>
+-
+-        <service android:label="ReportingService"
+-            android:enabled="true"
+-            android:exported="false"
+-            android:name=".lineagestats.ReportingService">
+-        </service>
+-
+-        <service android:name=".lineagestats.StatsUploadJobService"
+-                 android:permission="android.permission.BIND_JOB_SERVICE" />
+-
+-        <service android:name=".lineagestats.ReportingService"
+-                 android:label="ReportingService"
+-                 android:enabled="true"
+-                 android:exported="false" />
+-
+         <!-- Weather settings -->
+         <activity-alias
+             android:name=".weather.WeatherServiceSettings"
+diff --git a/proguard.flags b/proguard.flags
+index 6724bc5..3a1c85b 100644
+--- a/proguard.flags
++++ b/proguard.flags
+@@ -7,7 +7,6 @@
+ -keep class org.lineageos.lineageparts.gestures.*
+ -keep class org.lineageos.lineageparts.hardware.*
+ -keep class org.lineageos.lineageparts.input.*
+--keep class org.lineageos.lineageparts.lineagestats.*
+ -keep class org.lineageos.lineageparts.livedisplay.*
+ -keep class org.lineageos.lineageparts.notificationlight.*
+ -keep class org.lineageos.lineageparts.power.*
+diff --git a/res/values/config.xml b/res/values/config.xml
+index 4236b27..eed044a 100644
+--- a/res/values/config.xml
++++ b/res/values/config.xml
+@@ -17,9 +17,6 @@
+ 
+ <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+ 
+-    <!-- Metrics server endpoint -->
+-    <string name="stats_lineage_url">https://stats.lineageos.org/api/v1/stats</string>
+-
+     <!-- When true, weather options will be displayed in settings dashboard -->
+     <bool name="config_showWeatherMenu">true</bool>
+ 
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 418b478..d109e14 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -511,28 +511,6 @@
+                  <b>Total commits:</b> <xliff:g id="total_commits">%2$s</xliff:g><br/><br/>
+                  <b>Last update:</b> <xliff:g id="date">%3$s</xliff:g>]]></string>
+ 
+-    <!-- Anonymous Statistics #Lineage -->
+-    <!-- About device screen, list item title. Takes the user to the screen about opting in or out of anonymous statistics. -->
+-    <string name="anonymous_statistics_title">LineageOS statistics</string>
+-    <string name="anonymous_statistics_summary">Help make LineageOS better by opting into anonymous statistics reporting</string>
+-    <string name="anonymous_statistics_warning_title">About</string>
+-    <string name="anonymous_statistics_warning">Opting into LineageOS Statistics will allow non-personal data to be submitted to the
+-        developers of LineageOS to track unique installations across devices. The information submitted includes an unique identifier,
+-        which does not compromise your privacy or personal data. The data is submitted during each boot.\n\nFor an example of the data that is submitted, tap on Preview Data.</string>
+-    <string name="enable_reporting_title">Enable reporting</string>
+-    <string name="preview_data_title">Preview data</string>
+-    <string name="view_stats_title">View stats</string>
+-    <string name="anonymous_learn_more">Learn more</string>
+-
+-    <!-- Anonymous Statistics - Preview -->
+-    <string name="preview_id_title">Unique ID</string>
+-    <string name="preview_device_title">Device</string>
+-    <string name="preview_version_title">Version</string>
+-    <string name="preview_country_title">Country</string>
+-    <string name="preview_carrier_title">Carrier</string>
+-    <string name="stats_collection_title">Stats collection</string>
+-    <string name="stats_collection_summary">Allow installation metrics and device statistics to be collected</string>
+-
+     <!-- Display : Rotation  -->
+     <string name="accelerometer_title">Auto-rotate screen</string>
+     <string name="display_rotation_title">Rotation settings</string>
+diff --git a/res/xml/parts_catalog.xml b/res/xml/parts_catalog.xml
+index a4346c7..ec04e60 100644
+--- a/res/xml/parts_catalog.xml
++++ b/res/xml/parts_catalog.xml
+@@ -70,11 +70,6 @@
+           android:fragment="org.lineageos.lineageparts.statusbar.StatusBarSettings"
+           lineage:xmlRes="@xml/status_bar_settings" />
+ 
+-    <part android:key="lineagestats"
+-          android:title="@string/anonymous_statistics_title"
+-          android:fragment="org.lineageos.lineageparts.lineagestats.AnonymousStats"
+-          lineage:xmlRes="@xml/anonymous_stats" />
+-
+     <part android:key="power_menu"
+           android:title="@string/power_menu_title"
+           android:fragment="org.lineageos.lineageparts.input.PowerMenuActions"
+diff --git a/res/xml/trust_preferences.xml b/res/xml/trust_preferences.xml
+index bdb1aa7..0097a52 100644
+--- a/res/xml/trust_preferences.xml
++++ b/res/xml/trust_preferences.xml
+@@ -45,9 +45,6 @@
+             android:summary="@string/trust_restrict_usb_summary"
+             android:defaultValue="false" />
+ 
+-        <org.lineageos.internal.lineageparts.LineagePartsPreference
+-            android:key="lineagestats" />
+-
+         <ListPreference
+             android:key="sms_security_check_limit"
+             android:defaultValue="30"
+-- 
+2.26.0
+

@@ -1,0 +1,57 @@
+From 29240bc6aa37804757682d100fcf7484c8fb1122 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Mon, 12 Feb 2018 03:29:58 -0500
+Subject: [PATCH] Harden
+
+Change-Id: Idd2da6d9989ec554ce5b0841781d323fdcd9eb87
+---
+ init/first_stage_init.cpp | 6 +++---
+ rootdir/init.rc           | 9 +++++++++
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
+index 2b899408a..84c2735c2 100644
+--- a/init/first_stage_init.cpp
++++ b/init/first_stage_init.cpp
+@@ -120,15 +120,15 @@ int FirstStageMain(int argc, char** argv) {
+     CHECKCALL(mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755"));
+     CHECKCALL(mkdir("/dev/pts", 0755));
+     CHECKCALL(mkdir("/dev/socket", 0755));
+-    CHECKCALL(mount("devpts", "/dev/pts", "devpts", 0, NULL));
++    CHECKCALL(mount("devpts", "/dev/pts", "devpts", MS_NOSUID|MS_NOEXEC, NULL));
+ #define MAKE_STR(x) __STRING(x)
+-    CHECKCALL(mount("proc", "/proc", "proc", 0, "hidepid=2,gid=" MAKE_STR(AID_READPROC)));
++    CHECKCALL(mount("proc", "/proc", "proc", MS_NOSUID|MS_NODEV|MS_NOEXEC, "hidepid=2,gid=" MAKE_STR(AID_READPROC)));
+ #undef MAKE_STR
+     // Don't expose the raw commandline to unprivileged processes.
+     CHECKCALL(chmod("/proc/cmdline", 0440));
+     gid_t groups[] = {AID_READPROC};
+     CHECKCALL(setgroups(arraysize(groups), groups));
+-    CHECKCALL(mount("sysfs", "/sys", "sysfs", 0, NULL));
++    CHECKCALL(mount("sysfs", "/sys", "sysfs", MS_NOSUID|MS_NODEV|MS_NOEXEC, NULL));
+     CHECKCALL(mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL));
+ 
+     CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 58a83e091..a28db476b 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -140,6 +140,15 @@ on init
+     write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
+     write /proc/sys/kernel/sched_child_runs_first 0
+ 
++    write /proc/sys/kernel/dmesg_restrict 1
++    write /proc/sys/kernel/kptr_restrict 2
++    write /proc/sys/fs/protected_hardlinks 1
++    write /proc/sys/fs/protected_symlinks 1
++    write /proc/sys/fs/protected_fifos 1
++    write /proc/sys/fs/protected_regular 1
++    write /proc/sys/net/ipv4/tcp_sack 0
++    write /proc/sys/net/ipv6/conf/all/use_tempaddr 2
++    write /proc/sys/net/ipv6/conf/default/use_tempaddr 2
+     write /proc/sys/kernel/randomize_va_space 2
+     write /proc/sys/vm/mmap_min_addr 32768
+     write /proc/sys/net/ipv4/ping_group_range "0 2147483647"
+-- 
+2.26.0
+

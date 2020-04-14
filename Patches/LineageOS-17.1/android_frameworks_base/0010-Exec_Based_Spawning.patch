@@ -1,0 +1,592 @@
+From 60e744e11be94212d0bc796d8904da4c61af60e1 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 14 Mar 2015 18:10:20 -0400
+Subject: [PATCH 01/12] add exec-based spawning support
+
+---
+ .../com/android/internal/os/ExecInit.java     | 115 ++++++++++++++++++
+ .../com/android/internal/os/WrapperInit.java  |   2 +-
+ .../android/internal/os/ZygoteConnection.java |   8 ++
+ 3 files changed, 124 insertions(+), 1 deletion(-)
+ create mode 100644 core/java/com/android/internal/os/ExecInit.java
+
+diff --git a/core/java/com/android/internal/os/ExecInit.java b/core/java/com/android/internal/os/ExecInit.java
+new file mode 100644
+index 00000000000..10edd64e0f9
+--- /dev/null
++++ b/core/java/com/android/internal/os/ExecInit.java
+@@ -0,0 +1,115 @@
++package com.android.internal.os;
++
++import android.os.Trace;
++import android.system.ErrnoException;
++import android.system.Os;
++import android.util.Slog;
++import android.util.TimingsTraceLog;
++import dalvik.system.VMRuntime;
++
++/**
++ * Startup class for the process.
++ * @hide
++ */
++public class ExecInit {
++    /**
++     * Class not instantiable.
++     */
++    private ExecInit() {
++    }
++
++    /**
++     * The main function called when starting a runtime application.
++     *
++     * The first argument is the target SDK version for the app.
++     *
++     * The remaining arguments are passed to the runtime.
++     *
++     * @param args The command-line arguments.
++     */
++    public static void main(String[] args) {
++        // Parse our mandatory argument.
++        int targetSdkVersion = Integer.parseInt(args[0], 10);
++
++        // Mimic system Zygote preloading.
++        ZygoteInit.preload(new TimingsTraceLog("ExecInitTiming",
++                Trace.TRACE_TAG_DALVIK));
++
++        // Launch the application.
++        String[] runtimeArgs = new String[args.length - 1];
++        System.arraycopy(args, 1, runtimeArgs, 0, runtimeArgs.length);
++        Runnable r = execInit(targetSdkVersion, runtimeArgs);
++
++        r.run();
++    }
++
++    /**
++     * Executes a runtime application with exec-based spawning.
++     * This method never returns.
++     *
++     * @param niceName The nice name for the application, or null if none.
++     * @param targetSdkVersion The target SDK version for the app.
++     * @param args Arguments for {@link RuntimeInit#main}.
++     */
++    public static void execApplication(String niceName, int targetSdkVersion,
++            String instructionSet, String[] args) {
++        int niceArgs = niceName == null ? 0 : 1;
++        int baseArgs = 5 + niceArgs;
++        String[] argv = new String[baseArgs + args.length];
++        if (VMRuntime.is64BitInstructionSet(instructionSet)) {
++            argv[0] = "/system/bin/app_process64";
++        } else {
++            argv[0] = "/system/bin/app_process32";
++        }
++        argv[1] = "/system/bin";
++        argv[2] = "--application";
++        if (niceName != null) {
++            argv[3] = "--nice-name=" + niceName;
++        }
++        argv[3 + niceArgs] = "com.android.internal.os.ExecInit";
++        argv[4 + niceArgs] = Integer.toString(targetSdkVersion);
++        System.arraycopy(args, 0, argv, baseArgs, args.length);
++
++        WrapperInit.preserveCapabilities();
++        try {
++            Os.execv(argv[0], argv);
++        } catch (ErrnoException e) {
++            throw new RuntimeException(e);
++        }
++    }
++
++    /**
++     * The main function called when an application is started with exec-based spawning.
++     *
++     * When the app starts, the runtime starts {@link RuntimeInit#main}
++     * which calls {@link main} which then calls this method.
++     * So we don't need to call commonInit() here.
++     *
++     * @param targetSdkVersion target SDK version
++     * @param argv arg strings
++     */
++    private static Runnable execInit(int targetSdkVersion, String[] argv) {
++        if (RuntimeInit.DEBUG) {
++            Slog.d(RuntimeInit.TAG, "RuntimeInit: Starting application from exec");
++        }
++
++        // Check whether the first argument is a "-cp" in argv, and assume the next argument is the
++        // classpath. If found, create a PathClassLoader and use it for applicationInit.
++        ClassLoader classLoader = null;
++        if (argv != null && argv.length > 2 && argv[0].equals("-cp")) {
++            classLoader = ZygoteInit.createPathClassLoader(argv[1], targetSdkVersion);
++
++            // Install this classloader as the context classloader, too.
++            Thread.currentThread().setContextClassLoader(classLoader);
++
++            // Remove the classpath from the arguments.
++            String removedArgs[] = new String[argv.length - 2];
++            System.arraycopy(argv, 2, removedArgs, 0, argv.length - 2);
++            argv = removedArgs;
++        }
++
++        // Perform the same initialization that would happen after the Zygote forks.
++        Zygote.nativePreApplicationInit();
++        return RuntimeInit.applicationInit(targetSdkVersion, argv, classLoader);
++    }
++}
+diff --git a/core/java/com/android/internal/os/WrapperInit.java b/core/java/com/android/internal/os/WrapperInit.java
+index f0e779694c9..9f41a4136db 100644
+--- a/core/java/com/android/internal/os/WrapperInit.java
++++ b/core/java/com/android/internal/os/WrapperInit.java
+@@ -183,7 +183,7 @@ public class WrapperInit {
+      *       This is acceptable here as failure will leave the wrapped app with strictly less
+      *       capabilities, which may make it crash, but not exceed its allowances.
+      */
+-    private static void preserveCapabilities() {
++    public static void preserveCapabilities() {
+         StructCapUserHeader header = new StructCapUserHeader(
+                 OsConstants._LINUX_CAPABILITY_VERSION_3, 0);
+         StructCapUserData[] data;
+diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java/com/android/internal/os/ZygoteConnection.java
+index e556dd4d824..1054d2fb9b1 100644
+--- a/core/java/com/android/internal/os/ZygoteConnection.java
++++ b/core/java/com/android/internal/os/ZygoteConnection.java
+@@ -33,6 +33,7 @@ import android.net.Credentials;
+ import android.net.LocalSocket;
+ import android.os.Parcel;
+ import android.os.Process;
++import android.os.SystemProperties;
+ import android.os.Trace;
+ import android.system.ErrnoException;
+ import android.system.Os;
+@@ -596,6 +597,13 @@ class ZygoteConnection {
+             throw new IllegalStateException("WrapperInit.execApplication unexpectedly returned");
+         } else {
+             if (!isZygote) {
++                if (SystemProperties.getBoolean("sys.spawn.exec", true)) {
++                    ExecInit.execApplication(parsedArgs.mNiceName, parsedArgs.mTargetSdkVersion,
++                            VMRuntime.getCurrentInstructionSet(), parsedArgs.mRemainingArgs);
++
++                    // Should not get here.
++                    throw new IllegalStateException("ExecInit.execApplication unexpectedly returned");
++                }
+                 return ZygoteInit.zygoteInit(parsedArgs.mTargetSdkVersion,
+                         parsedArgs.mRemainingArgs, null /* classLoader */);
+             } else {
+-- 
+2.26.0
+
+
+From 148d6154d771cec6ff736d0f72abf192a5a35975 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 15:11:59 -0400
+Subject: [PATCH 02/12] avoid AssetManager errors with exec spawning
+
+This causes harmless errors and wastes time spawning a process that's
+not going to succeed.
+---
+ core/jni/android_util_AssetManager.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/core/jni/android_util_AssetManager.cpp b/core/jni/android_util_AssetManager.cpp
+index 2b471fec9c8..7a29db32808 100644
+--- a/core/jni/android_util_AssetManager.cpp
++++ b/core/jni/android_util_AssetManager.cpp
+@@ -125,6 +125,10 @@ constexpr inline static ApkAssetsCookie JavaCookieToApkAssetsCookie(jint cookie)
+ 
+ // This is called by zygote (running as user root) as part of preloadResources.
+ static void NativeVerifySystemIdmaps(JNIEnv* /*env*/, jclass /*clazz*/) {
++  // avoid triggering an error with exec-based spawning
++  if (getuid() != 0) {
++    return;
++  }
+   switch (pid_t pid = fork()) {
+     case -1:
+       PLOG(ERROR) << "failed to fork for idmap";
+-- 
+2.26.0
+
+
+From 2076c38e549f2b4032448159c1478e67a72a96b5 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 21 May 2019 23:54:20 -0400
+Subject: [PATCH 03/12] disable exec spawning when using debugging options
+
+The debugging options are not yet supported probably, so disable exec
+spawning when doing debugging.
+---
+ core/java/com/android/internal/os/ZygoteConnection.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java/com/android/internal/os/ZygoteConnection.java
+index 1054d2fb9b1..b420385b1de 100644
+--- a/core/java/com/android/internal/os/ZygoteConnection.java
++++ b/core/java/com/android/internal/os/ZygoteConnection.java
+@@ -597,7 +597,8 @@ class ZygoteConnection {
+             throw new IllegalStateException("WrapperInit.execApplication unexpectedly returned");
+         } else {
+             if (!isZygote) {
+-                if (SystemProperties.getBoolean("sys.spawn.exec", true)) {
++                if (SystemProperties.getBoolean("sys.spawn.exec", true) &&
++                        (parsedArgs.mRuntimeFlags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
+                     ExecInit.execApplication(parsedArgs.mNiceName, parsedArgs.mTargetSdkVersion,
+                             VMRuntime.getCurrentInstructionSet(), parsedArgs.mRemainingArgs);
+ 
+-- 
+2.26.0
+
+
+From 909317e350ea4c8874b01e73502dc0c7c78635ab Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 14:24:21 -0400
+Subject: [PATCH 04/12] add parameter for avoiding full preload with exec
+
+---
+ core/java/com/android/internal/os/ExecInit.java   | 2 +-
+ core/java/com/android/internal/os/ZygoteInit.java | 6 +++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ExecInit.java b/core/java/com/android/internal/os/ExecInit.java
+index 10edd64e0f9..3ba4664ae8c 100644
+--- a/core/java/com/android/internal/os/ExecInit.java
++++ b/core/java/com/android/internal/os/ExecInit.java
+@@ -33,7 +33,7 @@ public class ExecInit {
+ 
+         // Mimic system Zygote preloading.
+         ZygoteInit.preload(new TimingsTraceLog("ExecInitTiming",
+-                Trace.TRACE_TAG_DALVIK));
++                Trace.TRACE_TAG_DALVIK), false);
+ 
+         // Launch the application.
+         String[] runtimeArgs = new String[args.length - 1];
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index 7ec8309e47d..e59cb784dc7 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -132,7 +132,7 @@ public class ZygoteInit {
+      */
+     private static ClassLoader sCachedSystemServerClassLoader = null;
+ 
+-    static void preload(TimingsTraceLog bootTimingsTraceLog) {
++    static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+         Log.d(TAG, "begin preload");
+         bootTimingsTraceLog.traceBegin("BeginPreload");
+         beginPreload();
+@@ -164,6 +164,10 @@ public class ZygoteInit {
+         sPreloadComplete = true;
+     }
+ 
++    static void preload(TimingsTraceLog bootTimingsTraceLog) {
++        preload(bootTimingsTraceLog, true);
++    }
++
+     public static void lazyPreload() {
+         Preconditions.checkState(!sPreloadComplete);
+         Log.i(TAG, "Lazily preloading resources.");
+-- 
+2.26.0
+
+
+From 4ffeae4cfb2f0acbb8080ab25ca6559c7329b80c Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 11 Sep 2019 06:43:55 -0400
+Subject: [PATCH 05/12] pass through fullPreload to libcore
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index e59cb784dc7..22e3f549dad 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -135,7 +135,7 @@ public class ZygoteInit {
+     static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+         Log.d(TAG, "begin preload");
+         bootTimingsTraceLog.traceBegin("BeginPreload");
+-        beginPreload();
++        beginPreload(fullPreload);
+         bootTimingsTraceLog.traceEnd(); // BeginPreload
+         bootTimingsTraceLog.traceBegin("PreloadClasses");
+         preloadClasses();
+@@ -157,7 +157,7 @@ public class ZygoteInit {
+         // Ask the WebViewFactory to do any initialization that must run in the zygote process,
+         // for memory sharing purposes.
+         WebViewFactory.prepareWebViewInZygote();
+-        endPreload();
++        endPreload(fullPreload);
+         warmUpJcaProviders();
+         Log.d(TAG, "end preload");
+ 
+@@ -175,14 +175,14 @@ public class ZygoteInit {
+         preload(new TimingsTraceLog("ZygoteInitTiming_lazy", Trace.TRACE_TAG_DALVIK));
+     }
+ 
+-    private static void beginPreload() {
++    private static void beginPreload(boolean fullPreload) {
+         Log.i(TAG, "Calling ZygoteHooks.beginPreload()");
+ 
+-        ZygoteHooks.onBeginPreload();
++        ZygoteHooks.onBeginPreload(fullPreload);
+     }
+ 
+-    private static void endPreload() {
+-        ZygoteHooks.onEndPreload();
++    private static void endPreload(boolean fullPreload) {
++        ZygoteHooks.onEndPreload(fullPreload);
+ 
+         Log.i(TAG, "Called ZygoteHooks.endPreload()");
+     }
+-- 
+2.26.0
+
+
+From e2166aee853fad1b84fa17936d795535eaef374b Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 14:28:27 -0400
+Subject: [PATCH 06/12] disable OpenGL preloading for exec spawning
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index 22e3f549dad..37be8d97987 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -149,9 +149,11 @@ public class ZygoteInit {
+         Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadAppProcessHALs");
+         nativePreloadAppProcessHALs();
+         Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
+-        Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadGraphicsDriver");
+-        maybePreloadGraphicsDriver();
+-        Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
++        if (fullPreload) {
++            Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadGraphicsDriver");
++            maybePreloadGraphicsDriver();
++            Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
++        }
+         preloadSharedLibraries();
+         preloadTextResources();
+         // Ask the WebViewFactory to do any initialization that must run in the zygote process,
+-- 
+2.26.0
+
+
+From dff76e1e08bf67ebc5e4da8a2dcdf57a55e0d09b Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 14:28:52 -0400
+Subject: [PATCH 07/12] disable resource preloading for exec spawning
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index 37be8d97987..34c9f8530a7 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -143,9 +143,11 @@ public class ZygoteInit {
+         bootTimingsTraceLog.traceBegin("CacheNonBootClasspathClassLoaders");
+         cacheNonBootClasspathClassLoaders();
+         bootTimingsTraceLog.traceEnd(); // CacheNonBootClasspathClassLoaders
+-        bootTimingsTraceLog.traceBegin("PreloadResources");
+-        preloadResources();
+-        bootTimingsTraceLog.traceEnd(); // PreloadResources
++        if (fullPreload) {
++            bootTimingsTraceLog.traceBegin("PreloadResources");
++            preloadResources();
++            bootTimingsTraceLog.traceEnd(); // PreloadResources
++        }
+         Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadAppProcessHALs");
+         nativePreloadAppProcessHALs();
+         Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
+-- 
+2.26.0
+
+
+From 872568d6c67a63c411e33699b969b5b1563e58ce Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 14:30:59 -0400
+Subject: [PATCH 08/12] disable class preloading for exec spawning
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index 34c9f8530a7..0404ef53ca0 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -137,9 +137,11 @@ public class ZygoteInit {
+         bootTimingsTraceLog.traceBegin("BeginPreload");
+         beginPreload(fullPreload);
+         bootTimingsTraceLog.traceEnd(); // BeginPreload
+-        bootTimingsTraceLog.traceBegin("PreloadClasses");
+-        preloadClasses();
+-        bootTimingsTraceLog.traceEnd(); // PreloadClasses
++        if (fullPreload) {
++            bootTimingsTraceLog.traceBegin("PreloadClasses");
++            preloadClasses();
++            bootTimingsTraceLog.traceEnd(); // PreloadClasses
++        }
+         bootTimingsTraceLog.traceBegin("CacheNonBootClasspathClassLoaders");
+         cacheNonBootClasspathClassLoaders();
+         bootTimingsTraceLog.traceEnd(); // CacheNonBootClasspathClassLoaders
+-- 
+2.26.0
+
+
+From 230080cd158ef27c8fa3647dfa6f4c2cff4c70dd Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 14:31:29 -0400
+Subject: [PATCH 09/12] disable WebView reservation for exec spawning
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index 0404ef53ca0..94e58405ce6 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -160,9 +160,11 @@ public class ZygoteInit {
+         }
+         preloadSharedLibraries();
+         preloadTextResources();
+-        // Ask the WebViewFactory to do any initialization that must run in the zygote process,
+-        // for memory sharing purposes.
+-        WebViewFactory.prepareWebViewInZygote();
++        if (fullPreload) {
++            // Ask the WebViewFactory to do any initialization that must run in the zygote process,
++            // for memory sharing purposes.
++            WebViewFactory.prepareWebViewInZygote();
++        }
+         endPreload(fullPreload);
+         warmUpJcaProviders();
+         Log.d(TAG, "end preload");
+-- 
+2.26.0
+
+
+From f822fe138d5841cde0b154fa6f3a3d3200b58c07 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 14:34:32 -0400
+Subject: [PATCH 10/12] disable JCA provider warm up for exec spawning
+
+---
+ .../com/android/internal/os/ZygoteInit.java   | 22 ++++++++++---------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index 94e58405ce6..dbd24ef27d2 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -166,7 +166,7 @@ public class ZygoteInit {
+             WebViewFactory.prepareWebViewInZygote();
+         }
+         endPreload(fullPreload);
+-        warmUpJcaProviders();
++        warmUpJcaProviders(fullPreload);
+         Log.d(TAG, "end preload");
+ 
+         sPreloadComplete = true;
+@@ -230,7 +230,7 @@ public class ZygoteInit {
+      * By doing it here we avoid that each app does it when requesting a service from the provider
+      * for the first time.
+      */
+-    private static void warmUpJcaProviders() {
++    private static void warmUpJcaProviders(boolean fullPreload) {
+         long startTime = SystemClock.uptimeMillis();
+         Trace.traceBegin(
+                 Trace.TRACE_TAG_DALVIK, "Starting installation of AndroidKeyStoreProvider");
+@@ -242,15 +242,17 @@ public class ZygoteInit {
+                 + (SystemClock.uptimeMillis() - startTime) + "ms.");
+         Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
+ 
+-        startTime = SystemClock.uptimeMillis();
+-        Trace.traceBegin(
+-                Trace.TRACE_TAG_DALVIK, "Starting warm up of JCA providers");
+-        for (Provider p : Security.getProviders()) {
+-            p.warmUpServiceProvision();
++        if (fullPreload) {
++            startTime = SystemClock.uptimeMillis();
++            Trace.traceBegin(
++                    Trace.TRACE_TAG_DALVIK, "Starting warm up of JCA providers");
++            for (Provider p : Security.getProviders()) {
++                p.warmUpServiceProvision();
++            }
++            Log.i(TAG, "Warmed up JCA providers in "
++                    + (SystemClock.uptimeMillis() - startTime) + "ms.");
++            Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
+         }
+-        Log.i(TAG, "Warmed up JCA providers in "
+-                + (SystemClock.uptimeMillis() - startTime) + "ms.");
+-        Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
+     }
+ 
+     /**
+-- 
+2.26.0
+
+
+From 430a93910f4a555e4e6f06b4f1634acb45e9d501 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 11 Sep 2019 06:57:24 -0400
+Subject: [PATCH 11/12] disable preloading classloaders for exec spawning
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index dbd24ef27d2..bf6234b565e 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -142,9 +142,11 @@ public class ZygoteInit {
+             preloadClasses();
+             bootTimingsTraceLog.traceEnd(); // PreloadClasses
+         }
+-        bootTimingsTraceLog.traceBegin("CacheNonBootClasspathClassLoaders");
+-        cacheNonBootClasspathClassLoaders();
+-        bootTimingsTraceLog.traceEnd(); // CacheNonBootClasspathClassLoaders
++        if (fullPreload) {
++            bootTimingsTraceLog.traceBegin("CacheNonBootClasspathClassLoaders");
++            cacheNonBootClasspathClassLoaders();
++            bootTimingsTraceLog.traceEnd(); // CacheNonBootClasspathClassLoaders
++        }
+         if (fullPreload) {
+             bootTimingsTraceLog.traceBegin("PreloadResources");
+             preloadResources();
+-- 
+2.26.0
+
+
+From fc75b053f8bcd15a019915f06d9ddea6c46abcec Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 11 Sep 2019 06:58:51 -0400
+Subject: [PATCH 12/12] disable preloading HALs for exec spawning
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index bf6234b565e..b00fd9969a5 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -152,9 +152,11 @@ public class ZygoteInit {
+             preloadResources();
+             bootTimingsTraceLog.traceEnd(); // PreloadResources
+         }
+-        Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadAppProcessHALs");
+-        nativePreloadAppProcessHALs();
+-        Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
++        if (fullPreload) {
++            Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadAppProcessHALs");
++            nativePreloadAppProcessHALs();
++            Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
++        }
+         if (fullPreload) {
+             Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadGraphicsDriver");
+             maybePreloadGraphicsDriver();
+-- 
+2.26.0
+

@@ -689,6 +689,9 @@ find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {}
 #find device -maxdepth 3 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'deblobSepolicy "{}"'; #Deblob all device sepolicy directories XXX: Breaks builds when other sepolicy files reference deleted ones
 #find kernel -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'deblobKernel "{}"'; #Deblob all kernel directories
 find vendor -name "*endor*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobVendor "{}"'; #Deblob all makefiles
+find vendor -name "Android.bp" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'sed -i -E "s/apk.*("$blobs").*/apk: \"proprietary\/priv-app\/qcrilmsgtunnel\/qcrilmsgtunnel.apk\", enabled: false,/g" "{}"';
+find vendor -name "Android.bp" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'sed -i -E "s/jars.*("$blobs").*/jars: \[\"proprietary\/system\/framework\/qcrilhook.jar\"\], enabled: false,/g" "{}"';
+find vendor -name "Android.bp" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'sed -i -E "s/srcs.*("$blobs").*/srcs: \[\"proprietary\/vendor\/lib\/libtime_genoff.so\"\], enabled: false,/g" "{}"';
 deblobVendors; #Deblob entire vendor directory
 rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove ClearKey
 rm -rf vendor/samsung/nodevice;

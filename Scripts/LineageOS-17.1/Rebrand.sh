@@ -1,6 +1,6 @@
 #!/bin/bash
 #DivestOS: A privacy oriented Android distribution
-#Copyright (c) 2017-2019 Divested Computing Group
+#Copyright (c) 2017-2020 Divested Computing Group
 #
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -16,23 +16,22 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #Updates select user facing strings
-#Last verified: 2018-04-27
+#Last verified: 2020-04-14
 
 echo "Rebranding...";
 
 enter "bootable/recovery";
-git revert --no-edit bc57208dfcd0958d03a00bbcf5345be6ceac9988 6ac3bb48f9d10e604d4b2d6c4152be9d35d17ea0;
-patch -p1 < "$DOS_PATCHES_COMMON/android_bootable_recovery/0001-Remove_Logo.patch"; #Remove logo rendering code
-rm res*/images/logo_image.png; #Remove logo images
+git revert --no-edit 7e46bc14b15fdeabfd16871137f403f89486b83c;
+#patch -p1 < "$DOS_PATCHES_COMMON/android_bootable_recovery/0001-Remove_Logo.patch"; #Remove logo rendering code #XXX 17REBASE
+#rm res*/images/logo_image.png; #Remove logo images
 mogrify -format png -fill "#FF5722" -opaque "#167C80" -fuzz 10% res-*/images/*sel.png; #Recolor icons
-sed -i 's|grid_h \* 2 / 3|grid_h * 0.25|' screen_ui.cpp; #Center icons
-sed -i 's|0x16, 0x7c, 0x80|0x03, 0xa9, 0xf4|' screen_ui.cpp; #Recolor text
-sed -i 's|Android Recovery|'"$DOS_BRANDING_NAME"' Recovery|' ./*ui.cpp;
-sed -i 's|LineageOS|'"$DOS_BRANDING_NAME"'|' ui.cpp;
+sed -i 's|0x16, 0x7c, 0x80|0x03, 0xa9, 0xf4|' recovery_ui/*ui.cpp; #Recolor text
+sed -i 's|Android Recovery|'"$DOS_BRANDING_NAME"' Recovery|' recovery_ui/*ui.cpp;
+sed -i 's|LineageOS|'"$DOS_BRANDING_NAME"'|' recovery_ui/*ui.cpp;
 
 enter "build/make";
-sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
-sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/buildinfo.sh; #Override build host
+sed -i 's|echo "ro.build.user=$BUILD_USERNAME"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
+sed -i 's|echo "ro.build.host=$BUILD_HOSTNAME"|echo "ro.build.host=dosbm"|' tools/buildinfo.sh; #Override build host
 
 enter "frameworks/base";
 generateBootAnimationMask "$DOS_BRANDING_NAME" "$DOS_BRANDING_BOOTANIMATION_FONT" core/res/assets/images/android-logo-mask.png;
