@@ -1,6 +1,6 @@
 #!/bin/bash
 #DivestOS: A privacy oriented Android distribution
-#Copyright (c) 2015-2019 Divested Computing Group
+#Copyright (c) 2015-2020 Divested Computing Group
 #
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -29,9 +29,6 @@
 #Build!
 #buildDevice [device]
 #buildAll
-
-#Generate firmware deblobber
-#mka firmware_deblobber
 
 #
 #START OF PREPRATION
