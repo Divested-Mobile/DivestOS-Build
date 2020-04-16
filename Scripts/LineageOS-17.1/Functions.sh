@@ -56,13 +56,13 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SDS4P
-	buildDevice mako;
+	buildDevice mako; #xxx: wifi no connect
 	#SD600
 	buildDevice jfltexx;
 	#SD800
 	buildDevice d802;
 	#SD801
-	buildDevice d852;
+	buildDevice d852; #XXX: no boot. partitions?
 	buildDevice d855;
 	buildDevice FP2;
 	buildDevice m8;
