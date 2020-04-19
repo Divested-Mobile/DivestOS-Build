@@ -57,7 +57,6 @@ buildAll() {
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SDS4P
 	#buildDevice flo; #broken encryption
-	buildDevice mako;
 	#SD410
 	buildDevice crackling;
 	#SD600
@@ -87,9 +86,6 @@ buildAll() {
 	buildDevice oneplus3 verity;
 	buildDevice griffin;
 	buildDevice z2_plus verity; #broken
-	#SD821
-	buildDevice marlin verity;
-	buildDevice sailfish verity;
 	#SD625
 	buildDevice zenfone3; #needs manual patching - fwb xml: fused: dangling tag
 	#SD835
@@ -111,6 +107,14 @@ buildAll() {
 	buildDeviceUserDebug i9100; #broken
 	#Intel
 	buildDevice fugu; #broken
+
+	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
+		#SDS4P
+		buildDevice mako;
+		#SD821
+		buildDevice marlin verity;
+		buildDevice sailfish verity;
+	fi;
 }
 export -f buildAll;
 

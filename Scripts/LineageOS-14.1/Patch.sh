@@ -247,6 +247,7 @@ sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.t
 
 enterAndClear "device/lge/mako";
 echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
+echo "pmf=0" >> wpa_supplicant_overlay.conf; #Wi-Fi chipset doesn't support PMF
 
 enterAndClear "device/motorola/clark";
 sed -i 's/0xA04D/0xA04D|0xA052/' board-info.txt; #Allow installing on Nougat bootloader, assume the user is running the correct modem

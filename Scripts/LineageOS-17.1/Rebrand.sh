@@ -22,12 +22,12 @@ echo "Rebranding...";
 
 enter "bootable/recovery";
 git revert --no-edit 7e46bc14b15fdeabfd16871137f403f89486b83c;
-#patch -p1 < "$DOS_PATCHES_COMMON/android_bootable_recovery/0001-Remove_Logo.patch"; #Remove logo rendering code #XXX 17REBASE
-#rm res*/images/logo_image.png; #Remove logo images
+sed -i 's/if (lineage_logo_/if (false/' recovery_ui/*ui.cpp;
 mogrify -format png -fill "#FF5722" -opaque "#167C80" -fuzz 10% res-*/images/*sel.png; #Recolor icons
 sed -i 's|0x16, 0x7c, 0x80|0x03, 0xa9, 0xf4|' recovery_ui/*ui.cpp; #Recolor text
 sed -i 's|Android Recovery|'"$DOS_BRANDING_NAME"' Recovery|' recovery_ui/*ui.cpp;
 sed -i 's|LineageOS|'"$DOS_BRANDING_NAME"'|' recovery_ui/*ui.cpp;
+sed -i 's|Lineage |'"$DOS_BRANDING_NAME"' |' recovery.cpp;
 
 enter "build/make";
 sed -i 's|echo "ro.build.user=$BUILD_USERNAME"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
