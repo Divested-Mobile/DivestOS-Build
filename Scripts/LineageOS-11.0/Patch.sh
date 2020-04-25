@@ -118,6 +118,7 @@ echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our cus
 enter "vendor/divested";
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi;
 if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi;
+sed -i 's/FairEmail/K9Mail/' packages.mk; #FairEmail requires 5.0+
 #
 #END OF ROM CHANGES
 #

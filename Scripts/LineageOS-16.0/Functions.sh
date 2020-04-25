@@ -59,8 +59,6 @@ buildAll() {
 	#buildDevice flo; #broken encryption
 	#SD410
 	buildDevice crackling;
-	#SD600
-	buildDevice jfltexx;
 	#SD800
 	buildDevice d802;
 	buildDevice hammerhead; #broken
@@ -68,13 +66,9 @@ buildAll() {
 	buildDevice bacon;
 	buildDevice d852;
 	buildDevice d855;
-	buildDevice FP2;
 	buildDevice ham;
 	buildDevice klte;
-	buildDevice m8;
 	buildDevice victara;
-	#SD805
-	buildDevice shamu verity;
 	#SD808
 	#buildDeviceUserDebug clark; #permissive + needs manual patching - fwb xml: fused: dangling tag
 	buildDevice ether;
@@ -84,14 +78,12 @@ buildAll() {
 	buildDevice kipper;
 	#SD820
 	buildDevice oneplus3 verity;
-	buildDevice griffin;
 	buildDevice z2_plus verity; #broken
 	#SD625
 	buildDevice zenfone3; #needs manual patching - fwb xml: fused: dangling tag
 	#SD835
 	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
 	buildDevice dumpling verity;
-	buildDevice cheryl;
 	buildDevice mata verity;
 	buildDevice taimen avb;
 	buildDevice walleye avb;
@@ -111,9 +103,20 @@ buildAll() {
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		#SDS4P
 		buildDevice mako;
+		#SD600
+		buildDevice jfltexx;
+		#SD801
+		buildDevice FP2;
+		buildDevice m8;
+		#SD805
+		buildDevice shamu verity;
+		#SD820
+		buildDevice griffin;
 		#SD821
 		buildDevice marlin verity;
 		buildDevice sailfish verity;
+		#SD835
+		buildDevice cheryl;
 	fi;
 }
 export -f buildAll;
@@ -122,7 +125,6 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
 	source build/envsetup.sh;
-	repopick -it P_asb_2020-04;
 	repopick 271078; #update webview
 
 	source "$DOS_SCRIPTS/Patch.sh";

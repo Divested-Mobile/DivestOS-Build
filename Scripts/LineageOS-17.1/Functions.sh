@@ -66,7 +66,7 @@ buildAll() {
 	buildDevice d855;
 	buildDevice FP2;
 	buildDevice m8;
-	buildDevice victara;
+	buildDevice victara; #no compile
 	#SD805
 	buildDevice shamu verity;
 	#SD820
@@ -79,7 +79,7 @@ buildAll() {
 	buildDevice cheryl;
 	buildDevice mata verity;
 	#SD660
-	buildDevice Amber verity;
+	buildDevice Amber verity; #TimeKeep error
 }
 export -f buildAll;
 
