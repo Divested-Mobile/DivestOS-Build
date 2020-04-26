@@ -318,11 +318,14 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2054/ANY/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2054/ANY/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2054/ANY/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2054/ANY/0013.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20636/^5.4.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2101/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-3459/^5.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-3460/^5.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/^4.20.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-9457/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11494/^5.6.2/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11565/^5.6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-8649/^5.5.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-9383/^5.5.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
@@ -330,5 +333,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0004-net-add-recursion-limit-
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000111/ANY/0001.patch
-editKernelLocalversion "-dos.p330"
+editKernelLocalversion "-dos.p333"
 cd "$DOS_BUILD_BASE"
