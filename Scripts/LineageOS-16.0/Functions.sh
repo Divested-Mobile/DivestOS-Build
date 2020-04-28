@@ -84,7 +84,6 @@ buildAll() {
 	#SD835
 	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
 	buildDevice dumpling verity;
-	buildDevice mata verity;
 	buildDevice taimen avb;
 	buildDevice walleye avb;
 	#SD845
@@ -117,6 +116,7 @@ buildAll() {
 		buildDevice sailfish verity;
 		#SD835
 		buildDevice cheryl;
+		buildDevice mata verity;
 	fi;
 }
 export -f buildAll;
@@ -124,8 +124,7 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	source build/envsetup.sh;
-	repopick 271078; #update webview
+	#source build/envsetup.sh;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
