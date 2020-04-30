@@ -62,7 +62,7 @@ buildAll() {
 	#SD800
 	buildDevice d802;
 	#SD801
-	buildDevice d852; #XXX: no boot
+	buildDevice d852;
 	buildDevice d855;
 	buildDevice FP2;
 	buildDevice m8;
@@ -87,8 +87,7 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
 	source build/envsetup.sh;
-	repopick 274320; #CarrierDefaultapp: Fix WebView vulnerability by disallowing file access
-	repopick 274321; #MediaProvider: Less spam
+	repopick -it g3-crypt;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
