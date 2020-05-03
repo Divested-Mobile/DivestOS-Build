@@ -60,12 +60,9 @@ buildAll() {
 	#SD410
 	buildDevice crackling;
 	#SD800
-	buildDevice d802;
 	buildDevice hammerhead; #broken
 	#SD801
 	buildDevice bacon;
-	buildDevice d852;
-	buildDevice d855;
 	buildDevice ham;
 	buildDevice klte;
 	buildDevice victara;
@@ -104,7 +101,11 @@ buildAll() {
 		buildDevice mako;
 		#SD600
 		buildDevice jfltexx;
+		#SD800
+		buildDevice d802;
 		#SD801
+		buildDevice d852;
+		buildDevice d855;
 		buildDevice FP2;
 		buildDevice m8;
 		#SD805

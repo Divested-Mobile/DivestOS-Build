@@ -250,6 +250,7 @@ processRelease() {
 		cp -v $OUT_DIR/$PREFIX-ota.zip* $ARCHIVE/;
 		cp -v $OUT_DIR/$PREFIX-incremental_*.zip* $ARCHIVE/incrementals/ || true;
 		cp -v $OUT_DIR/$PREFIX-recovery.img $ARCHIVE/ || true;
+		sync;
 
 		#Remove to make space for next build
 		if [ "$DOS_REMOVE_AFTER" = true ]; then

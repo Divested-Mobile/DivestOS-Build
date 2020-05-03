@@ -252,9 +252,10 @@ echo "Deblobbing..."
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
-		blobs=$blobs"|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|lib-imsvideocodec.so|lib-imsvtextutils.so|lib-imsvtutils.so|libimsmedia_jni.so|vendor.qti.hardware.radio.ims.*";
+		#blobs=$blobs"|libimsmedia_jni.so|vendor.qti.hardware.radio.ims.*";
+		blobs=$blobs"|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|lib-imsvideocodec.so|lib-imsvtextutils.so|lib-imsvtutils.so";
 		blobs=$blobs"|imscmservice|imsdatadaemon|imsqmidaemon";
-		blobs=$blobs"|imscm.xml|ims.xml";
+		blobs=$blobs"|imscm.xml|ims.xml|android.hardware.telephony.ims.xml";
 		blobs=$blobs"|qti_permissions.xml";
 		blobs=$blobs"|imssettings.apk|ims.apk";
 		blobs=$blobs"|imscmlibrary.jar";
@@ -337,7 +338,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|libdme_main.so|libwbxmlparser.so|libprovlib.so";
 	blobs=$blobs"|dm_agent|dm_agent_binder";
 	blobs=$blobs"|npsmobex"; #Samsung?
-	blobs=$blobs"|ConnMO.apk|OmaDmclient.apk|com.android.omadm.service.xml|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|libdmengine.so|libdmjavaplugin.so|SprintDM.apk|SDM.apk|whitelist_com.android.omadm.service.xml|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml|com.google.omadm.trigger.xml"; #Sprint
+	blobs=$blobs"|ConnMO.apk|OmaDmclient.apk|com.android.omadm.service.xml|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|libdmengine.so|libdmjavaplugin.so|SprintDM.apk|SDM.apk|whitelist_com.android.omadm.service.xml|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml|com.google.omadm.trigger.xml|com.android.sdm.plugins.diagmon.xml|com.android.sdm.plugins.dcmo.xml"; #Sprint
 
 	#OpenMobileAPI [SIM Alliance]
 	#This is open source, but rarely used
@@ -436,7 +437,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|libmotricity.so|libakuaf.so";
 	blobs=$blobs"|com.qualcomm.location.vzw_library.jar|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.lte.jar|com.verizon.ims.jar|qti-vzw-ims-internal.jar|VerizonUnifiedSettings.jar";
 	blobs=$blobs"|CarrierSetup.apk|OemDmTrigger.apk|appdirectedsmspermission.apk|VerizonSSOEngine.apk|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|VerizonAuthDialog.apk|MyVerizonServices.apk|WfcActivation.apk|obdm_stub.apk|QAS_DVC_MSP.*.apk";
-	blobs=$blobs"|com.android.vzwomatrigger.xml|vzw_mvs_permissions.xml|obdm_permissions.xml|com.verizon.services.xml|features-verizon.xml|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.xml|vzw_sso_permissions.xml|com.vzw.hardware.lte.xml|com.vzw.hardware.ehrpd.xml|verizon_config_params.txt|com.verizon.llkagent.xml";
+	blobs=$blobs"|com.android.vzwomatrigger.xml|vzw_mvs_permissions.xml|obdm_permissions.xml|com.verizon.services.xml|features-verizon.xml|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.xml|vzw_sso_permissions.xml|com.vzw.hardware.lte.xml|com.vzw.hardware.ehrpd.xml|verizon_config_params.txt|com.verizon.llkagent.xml|vzw_mvs_sysconfig.xml";
 
 	#Voice Recognition
 	blobs=$blobs"|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.*.so|libqvop-service.so|librecoglib.so|libsupermodel.so|libtrainingcheck.so";
@@ -464,7 +465,7 @@ echo "Deblobbing..."
 	blobs=$blobs"|com.google.widevine.software.drm.xml";
 	#blobs=$blobs"|smc_pa_wvdrm.ift"; breaks toro boot
 	blobs=$blobs"|tzwidevine.*|tzwvcpybuf.*|widevine.*";
-	makes=$makes"|libshim_wvm";
+	makes=$makes"|libshim_wvm|move_widevine_data.sh";
 
 	#WiPower (Wireless Charging) [Qualcomm]
 	blobs=$blobs"|libwbc_jni.so|wbc_hal.default.so";
