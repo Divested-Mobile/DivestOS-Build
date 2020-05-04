@@ -86,7 +86,7 @@ scanForMalware() {
 			fi;
 		fi;
 		du -hsc $scanQueue;
-		/usr/bin/clamscan --recursive --detect-pua --infected $excludes $scanQueue;
+		/usr/bin/clamscan --recursive --detect-pua --infected --allmatch $excludes $scanQueue;
 		local clamscanExit="$?";
 		if [ "$clamscanExit" -eq "1" ]; then
 			echo -e "\e[0;31m----------------------------------------------------------------\e[0m";
