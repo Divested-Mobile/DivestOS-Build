@@ -231,20 +231,6 @@ echo "pmf=0" >> wifi/wpa_supplicant_overlay.conf; #Wi-Fi chipset doesn't support
 #enterAndClear "device/moto/shamu";
 #git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
 
-#enterAndClear "device/motorola/clark";
-#git revert --no-edit fc6cf83; #disable nfc for now
-#awk -i inplace '!/nfc/' device.mk;
-#awk -i inplace '!/Nfc/' device.mk;
-#awk -i inplace '!/Tag/' device.mk;
-#patch -p1 < "$DOS_PATCHES/android_device_motorola_clark/0001-audit2allow.patch"; #audit2allow sepolicy
-#mkdir permissions;
-#cp "$DOS_PATCHES/android_device_motorola_clark/privapp-permissions-qti.xml" permissions/; #Fix privapp permissions, Credit: @Fabiett83
-#echo "PRODUCT_COPY_FILES += device/motorola/clark/permissions/privapp-permissions-qti.xml:system/etc/permissions/privapp-permissions-qti.xml" >> device.mk;
-#sed -i 's/androidboot.selinux=permissive//' BoardConfig.mk; #enforce sepolicy
-#rm configs/Android.mk; #fix compile
-#rm setup-makefiles.sh; #broken, deblobber will still function
-#XXX: remove atfwd and cne from vendor makefiles
-
 enterAndClear "device/oneplus/oneplus2";
 sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt;
 
