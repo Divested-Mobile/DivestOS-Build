@@ -79,7 +79,7 @@ buildAll() {
 	buildDevice cheryl;
 	buildDevice mata verity;
 	#SD660
-	buildDevice Amber verity; #TimeKeep error
+	buildDevice Amber verity;
 }
 export -f buildAll;
 

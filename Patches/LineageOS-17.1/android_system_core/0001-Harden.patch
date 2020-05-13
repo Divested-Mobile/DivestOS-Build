@@ -32,23 +32,24 @@ index 2b899408a..84c2735c2 100644
      CHECKCALL(mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL));
  
      CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
-diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 58a83e091..a28db476b 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -140,6 +140,15 @@ on init
+@@ -140,6 +140,18 @@ on init
      write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
      write /proc/sys/kernel/sched_child_runs_first 0
  
 +    write /proc/sys/kernel/dmesg_restrict 1
-+    write /proc/sys/kernel/kptr_restrict 2
 +    write /proc/sys/fs/protected_hardlinks 1
 +    write /proc/sys/fs/protected_symlinks 1
 +    write /proc/sys/fs/protected_fifos 1
 +    write /proc/sys/fs/protected_regular 1
 +    write /proc/sys/net/ipv4/tcp_sack 0
 +    write /proc/sys/net/ipv6/conf/all/use_tempaddr 2
++    write /proc/sys/net/ipv6/conf/all/max_addresses 128
++    write /proc/sys/net/ipv6/conf/all/temp_prefered_lft 21600
 +    write /proc/sys/net/ipv6/conf/default/use_tempaddr 2
++    write /proc/sys/net/ipv6/conf/default/max_addresses 128
++    write /proc/sys/net/ipv6/conf/default/temp_prefered_lft 21600
      write /proc/sys/kernel/randomize_va_space 2
      write /proc/sys/vm/mmap_min_addr 32768
      write /proc/sys/net/ipv4/ping_group_range "0 2147483647"
