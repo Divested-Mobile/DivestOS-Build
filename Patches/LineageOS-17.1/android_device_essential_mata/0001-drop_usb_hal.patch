@@ -1,0 +1,833 @@
+From 39cb408240ff565742f6205d0318f873e5b02563 Mon Sep 17 00:00:00 2001
+From: Thomas Shum <jabashque@gmail.com>
+Date: Mon, 29 Jul 2019 19:26:23 -0700
+Subject: [PATCH] mata: Remove USB Gadget HAL for now
+
+This is currently causing issues for Android Auto, where the phone can
+see the connected car but Android Auto doesn't start.
+
+This commit consists of the following reverts:
+
+Revert "mata: Allow USB HAL to access dual_role_usb nodes"
+This reverts commit 29e9a2a31c81f3a494880bda3a8f72a2ef54cdc8.
+
+Revert "Add audio_source combinations to usb hal"
+This reverts commit 912db8227c05af0186eaf9af2fb8284e5b78724d.
+
+Revert "Set VID/PID for diag functions"
+This reverts commit 031db1fb302a923ec33a5315139bbc5faf177c5a.
+
+Revert "Initialize booleans"
+This reverts commit 0ec677b9ef561f2a0a55f60decb9b970e9a3d853.
+
+Revert "Usb Gadget hal implementation for mata"
+This reverts commit 841419065a88b247b2485780c6d61a9729e3b18e.
+
+Change-Id: I1981680d2325abc8ea9ad7b04dafbda286e69bb1
+---
+ manifest.xml                                 |   9 -
+ rootdir/etc/init.mata.usb.rc                 | 413 ++++++++++++++++---
+ sepolicy/vendor/file.te                      |   1 -
+ sepolicy/vendor/file_contexts                |   2 +-
+ sepolicy/vendor/hal_usb_default.te           |   1 +
+ sepolicy/vendor/hal_usb_impl.te              |  14 -
+ sepolicy/vendor/property.te                  |   1 -
+ sepolicy/vendor/property_contexts            |   4 -
+ usb/Android.bp                               |   3 +-
+ usb/Usb.cpp                                  |   2 +-
+ usb/Usb.h                                    |   2 +-
+ usb/UsbGadget.h                              | 101 -----
+ usb/android.hardware.usb@1.1-service.mata.rc |  13 +-
+ usb/service.cpp                              |  26 +-
+ 14 files changed, 377 insertions(+), 215 deletions(-)
+ create mode 100644 sepolicy/vendor/hal_usb_default.te
+ delete mode 100644 sepolicy/vendor/hal_usb_impl.te
+ delete mode 100644 usb/UsbGadget.h
+
+diff --git a/manifest.xml b/manifest.xml
+index f62a3c49..e6972b93 100644
+--- a/manifest.xml
++++ b/manifest.xml
+@@ -249,15 +249,6 @@
+             <instance>default</instance>
+         </interface>
+     </hal>
+-    <hal format="hidl">
+-        <name>android.hardware.usb.gadget</name>
+-        <transport>hwbinder</transport>
+-        <version>1.0</version>
+-        <interface>
+-            <name>IUsbGadget</name>
+-            <instance>default</instance>
+-        </interface>
+-    </hal>
+     <hal format="hidl">
+         <name>android.hardware.vibrator</name>
+         <transport>hwbinder</transport>
+diff --git a/rootdir/etc/init.mata.usb.rc b/rootdir/etc/init.mata.usb.rc
+index 5ed1c64a..8a207912 100644
+--- a/rootdir/etc/init.mata.usb.rc
++++ b/rootdir/etc/init.mata.usb.rc
+@@ -30,94 +30,411 @@
+ 
+ on charger
+     mount configfs none /config
+-    mkdir /config/usb_gadget/g1 0770
++    mkdir /config/usb_gadget/g1 0770 shell shell
++    mkdir /config/usb_gadget/g1/strings/0x409 0770 shell shell
+     write /config/usb_gadget/g1/bcdUSB 0x0200
+-    write /config/usb_gadget/g1/idProduct 0xC033
+-    write /config/usb_gadget/g1/idVendor 0x2E17
+-    mkdir /config/usb_gadget/g1/strings/0x409 0770
++    write /config/usb_gadget/g1/os_desc/use 1
+     write /config/usb_gadget/g1/strings/0x409/serialnumber ${ro.serialno}
+     write /config/usb_gadget/g1/strings/0x409/manufacturer ${ro.product.manufacturer}
+     write /config/usb_gadget/g1/strings/0x409/product ${ro.product.model}
++    mkdir /config/usb_gadget/g1/functions/mass_storage.0
++    mkdir /config/usb_gadget/g1/functions/mtp.gs0
++    mkdir /config/usb_gadget/g1/functions/ptp.gs1
+     mkdir /config/usb_gadget/g1/functions/accessory.gs2
+-    mkdir /config/usb_gadget/g1/functions/audio_source.gs2
+     mkdir /config/usb_gadget/g1/functions/audio_source.gs3
+-    mkdir /config/usb_gadget/g1/functions/ccid.ccid
++    mkdir /config/usb_gadget/g1/functions/midi.gs5
++    mkdir /config/usb_gadget/g1/functions/ffs.adb
++    mkdir /config/usb_gadget/g1/functions/diag.diag
+     mkdir /config/usb_gadget/g1/functions/cser.dun.0
+     mkdir /config/usb_gadget/g1/functions/cser.nmea.1
+-    mkdir /config/usb_gadget/g1/functions/diag.diag
+-    mkdir /config/usb_gadget/g1/functions/ffs.adb
+-    mkdir /config/usb_gadget/g1/functions/gsi.dpl
+     mkdir /config/usb_gadget/g1/functions/gsi.rmnet
+     mkdir /config/usb_gadget/g1/functions/gsi.rndis
+-    mkdir /config/usb_gadget/g1/functions/mass_storage.0
+-    mkdir /config/usb_gadget/g1/functions/midi.gs5
+-    mkdir /config/usb_gadget/g1/functions/mtp.gs0
+-    mkdir /config/usb_gadget/g1/functions/ncm.0
+-    mkdir /config/usb_gadget/g1/functions/ptp.gs1
++    mkdir /config/usb_gadget/g1/functions/gsi.dpl
+     mkdir /config/usb_gadget/g1/functions/qdss.qdss
+-    mkdir /config/usb_gadget/g1/functions/rmnet_bam.dpl
+     mkdir /config/usb_gadget/g1/functions/rndis_bam.rndis
+     mkdir /config/usb_gadget/g1/functions/rmnet_bam.rmnet
+-    mkdir /config/usb_gadget/g1/configs/b.1 0770
+-    mkdir /config/usb_gadget/g1/configs/b.1/strings/0x409 0770
++    mkdir /config/usb_gadget/g1/functions/rmnet_bam.dpl
++    mkdir /config/usb_gadget/g1/functions/ncm.0
++    mkdir /config/usb_gadget/g1/configs/b.1 0770 shell shell
++    mkdir /config/usb_gadget/g1/configs/b.1/strings/0x409 0770 shell shell
+     write /config/usb_gadget/g1/os_desc/b_vendor_code 0x1
+     write /config/usb_gadget/g1/os_desc/qw_sign "MSFT100"
+-    write /config/usb_gadget/g1/os_desc/use 1
++    symlink /config/usb_gadget/g1/configs/b.1 /config/usb_gadget/g1/os_desc/b.1
+     write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "msc"
+     rm /config/usb_gadget/g1/configs/b.1/f1
+     rm /config/usb_gadget/g1/configs/b.1/f2
+     rm /config/usb_gadget/g1/configs/b.1/f3
+     rm /config/usb_gadget/g1/configs/b.1/f4
+     rm /config/usb_gadget/g1/configs/b.1/f5
+-    symlink /config/usb_gadget/g1/configs/b.1 /config/usb_gadget/g1/os_desc/b.1
++    write /config/usb_gadget/g1/idVendor 0x2E17
++    write /config/usb_gadget/g1/idProduct 0xC033
+     symlink /config/usb_gadget/g1/functions/mass_storage.0 /config/usb_gadget/g1/configs/b.1/f1
+     write /config/usb_gadget/g1/UDC a800000.dwc3
+ 
+-on early-boot
++on boot
++    mkdir /dev/usb-ffs 0770 shell shell
++    mkdir /dev/usb-ffs/adb 0770 shell shell
+     mount configfs none /config
+-    mkdir /config/usb_gadget/g1 0770
++    mkdir /config/usb_gadget/g1 0770 shell shell
++    mkdir /config/usb_gadget/g1/strings/0x409 0770 shell shell
++    write /config/usb_gadget/g1/idVendor 0x2E17
++    write /config/usb_gadget/g1/os_desc/use 1
+     write /config/usb_gadget/g1/bcdDevice 0x0223
+     write /config/usb_gadget/g1/bcdUSB 0x0200
+-    write /config/usb_gadget/g1/idVendor 0x2E17
+-    mkdir /config/usb_gadget/g1/strings/0x409 0770
+     write /config/usb_gadget/g1/strings/0x409/serialnumber ${ro.serialno}
+     write /config/usb_gadget/g1/strings/0x409/manufacturer ${ro.product.manufacturer}
+     write /config/usb_gadget/g1/strings/0x409/product ${ro.product.model}
++    mkdir /config/usb_gadget/g1/functions/mass_storage.0
++    mkdir /config/usb_gadget/g1/functions/mtp.gs0
++    mkdir /config/usb_gadget/g1/functions/ptp.gs1
+     mkdir /config/usb_gadget/g1/functions/accessory.gs2
+     mkdir /config/usb_gadget/g1/functions/audio_source.gs2
+     mkdir /config/usb_gadget/g1/functions/audio_source.gs3
+-    mkdir /config/usb_gadget/g1/functions/ccid.ccid
++    mkdir /config/usb_gadget/g1/functions/midi.gs5
++    mkdir /config/usb_gadget/g1/functions/ffs.adb
++    mkdir /config/usb_gadget/g1/functions/diag.diag
+     mkdir /config/usb_gadget/g1/functions/cser.dun.0
+     mkdir /config/usb_gadget/g1/functions/cser.nmea.1
+-    mkdir /config/usb_gadget/g1/functions/diag.diag
+-    mkdir /config/usb_gadget/g1/functions/ffs.adb
+-    mkdir /config/usb_gadget/g1/functions/gsi.dpl
+     mkdir /config/usb_gadget/g1/functions/gsi.rmnet
+     mkdir /config/usb_gadget/g1/functions/gsi.rndis
+-    mkdir /config/usb_gadget/g1/functions/mass_storage.0
+-    mkdir /config/usb_gadget/g1/functions/midi.gs5
+-    mkdir /config/usb_gadget/g1/functions/mtp.gs0
+-    mkdir /config/usb_gadget/g1/functions/ncm.0
+-    mkdir /config/usb_gadget/g1/functions/ptp.gs1
++    mkdir /config/usb_gadget/g1/functions/gsi.dpl
+     mkdir /config/usb_gadget/g1/functions/qdss.qdss
+-    mkdir /config/usb_gadget/g1/functions/rmnet_bam.dpl
+-    mkdir /config/usb_gadget/g1/functions/rndis_bam.rndis
+-    mkdir /config/usb_gadget/g1/functions/rmnet_bam.rmnet
+-    mkdir /config/usb_gadget/g1/configs/b.1 0770
+-    mkdir /config/usb_gadget/g1/configs/b.1/strings/0x409 0770
++    mkdir /config/usb_gadget/g1/functions/ncm.0
++    mkdir /config/usb_gadget/g1/functions/ccid.ccid
++    mkdir /config/usb_gadget/g1/configs/b.1 0770 shell shell
++    mkdir /config/usb_gadget/g1/configs/b.1/strings/0x409 0770 shell shell
+     write /config/usb_gadget/g1/os_desc/b_vendor_code 0x1
+     write /config/usb_gadget/g1/os_desc/qw_sign "MSFT100"
+-    write /config/usb_gadget/g1/os_desc/use 1
+-    mkdir /dev/usb-ffs 0775 shell shell
+-    mkdir /dev/usb-ffs/adb 0770 shell shell
+-    mount functionfs adb /dev/usb-ffs/adb rmode=0770,fmode=0660,uid=2000,gid=2000
+-    mkdir /dev/usb-ffs/mtp 0770 mtp mtp
+-    mount functionfs mtp /dev/usb-ffs/mtp rmode=0770,fmode=0660,uid=1024,gid=1024,no_disconnect=1
+-    mkdir /dev/usb-ffs/ptp 0770 mtp mtp
+-    mount functionfs ptp /dev/usb-ffs/ptp rmode=0770,fmode=0660,uid=1024,gid=1024,no_disconnect=1
+     symlink /config/usb_gadget/g1/configs/b.1 /config/usb_gadget/g1/os_desc/b.1
++    mount functionfs adb /dev/usb-ffs/adb uid=2000,gid=2000
++    setprop sys.usb.configfs 1
+     setprop sys.usb.controller "a800000.dwc3"
+-    setprop sys.usb.mtp.device_type 3
+ 
+-on boot
+-    setprop sys.usb.configfs 2
++on property:sys.usb.ffs.ready=1 && property:sys.usb.config=none && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/os_desc/use 0
++    setprop sys.usb.ffs.ready 0
++
++on property:sys.usb.ffs.ready=1 && property:init.svc.adbd=stopped
++    setprop sys.usb.ffs.ready 0
++
++on property:sys.usb.config=none && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/UDC "none"
++    stop adbd
++    write /config/usb_gadget/g1/bDeviceClass 0
++    write /config/usb_gadget/g1/bDeviceSubClass 0
++    write /config/usb_gadget/g1/bDeviceProtocol 0
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.config=adb && property:sys.usb.configfs=1
++    start adbd
++
++on property:sys.usb.ffs.ready=1 && property:sys.usb.config=adb && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "adb"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/idVendor 0x2E17
++    write /config/usb_gadget/g1/idProduct 0xC032
++    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f1
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.config=mtp && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "mtp"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/functions/mtp.gs0/os_desc/interface.MTP/compatible_id "MTP"
++    write /config/usb_gadget/g1/os_desc/use 1
++    write /config/usb_gadget/g1/idVendor 0x2E17
++    write /config/usb_gadget/g1/idProduct 0xC033
++    symlink /config/usb_gadget/g1/functions/mtp.gs0 /config/usb_gadget/g1/configs/b.1/f1
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.config=mtp,adb && property:sys.usb.configfs=1
++    start adbd
++
++on property:sys.usb.ffs.ready=1 && property:sys.usb.config=mtp,adb && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "mtp_adb"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/functions/mtp.gs0/os_desc/interface.MTP/compatible_id "MTP"
++    write /config/usb_gadget/g1/os_desc/use 1
++    write /config/usb_gadget/g1/idVendor 0x2E17
++    write /config/usb_gadget/g1/idProduct 0xC030
++    symlink /config/usb_gadget/g1/functions/mtp.gs0 /config/usb_gadget/g1/configs/b.1/f1
++    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f2
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.config=ptp && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "ptp"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/functions/ptp.gs1/os_desc/interface.MTP/compatible_id "PTP"
++    write /config/usb_gadget/g1/os_desc/use 1
++    write /config/usb_gadget/g1/idVendor 0x2E17
++    write /config/usb_gadget/g1/idProduct 0xC034
++    symlink /config/usb_gadget/g1/functions/ptp.gs1 /config/usb_gadget/g1/configs/b.1/f1
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.config=ptp,adb && property:sys.usb.configfs=1
++    start adbd
++
++on property:sys.usb.ffs.ready=1 && property:sys.usb.config=ptp,adb && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "ptp_adb"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/functions/ptp.gs1/os_desc/interface.MTP/compatible_id "PTP"
++    write /config/usb_gadget/g1/os_desc/use 1
++    write /config/usb_gadget/g1/idVendor 0x2E17
++    write /config/usb_gadget/g1/idProduct 0xC031
++    symlink /config/usb_gadget/g1/functions/ptp.gs1 /config/usb_gadget/g1/configs/b.1/f1
++    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f2
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.config=midi && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "midi"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/idVendor 0x2E17
++    write /config/usb_gadget/g1/idProduct 0xC041
++    symlink /config/usb_gadget/g1/functions/midi.gs5 /config/usb_gadget/g1/configs/b.1/f1
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.config=midi,adb && property:sys.usb.configfs=1
++    start adbd
++
++on property:sys.usb.ffs.ready=1 && property:sys.usb.config=midi,adb && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "midi_adb"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/idVendor 0x2E17
++    write /config/usb_gadget/g1/idProduct 0xC042
++    symlink /config/usb_gadget/g1/functions/midi.gs5 /config/usb_gadget/g1/configs/b.1/f1
++    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f2
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state ${sys.usb.config}
++
++# Implement AOAv2 interface
++
++on property:sys.usb.config=accessory && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "accessory"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/idVendor 0x18D1
++    write /config/usb_gadget/g1/idProduct 0x2D00
++    symlink /config/usb_gadget/g1/functions/accessory.gs2 /config/usb_gadget/g1/configs/b.1/f1
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.config=accessory,adb && property:sys.usb.configfs=1
++    start adbd
++
++on property:sys.usb.ffs.ready=1 && property:sys.usb.config=accessory,adb && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "accessory_adb"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/idVendor 0x18D1
++    write /config/usb_gadget/g1/idProduct 0x2D01
++    symlink /config/usb_gadget/g1/functions/accessory.gs2 /config/usb_gadget/g1/configs/b.1/f1
++    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f2
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.config=audio_source && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "audiosource"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/idVendor 0x18D1
++    write /config/usb_gadget/g1/idProduct 0x2d02
++    symlink /config/usb_gadget/g1/functions/audio_source.gs2 /config/usb_gadget/g1/configs/b.1/f1
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.ffs.ready=1 && property:sys.usb.config=audio_source,adb && property:sys.usb.configfs=1
++    start adbd
++
++on property:sys.usb.ffs.ready=1 && property:sys.usb.config=audio_source,adb && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "audiosource_adb"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/idVendor 0x18D1
++    write /config/usb_gadget/g1/idProduct 0x2d03
++    symlink /config/usb_gadget/g1/functions/audio_source.gs2 /config/usb_gadget/g1/configs/b.1/f1
++    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f2
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.config=accessory,audio_source && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "accessory_audiosource"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/idVendor 0x18D1
++    write /config/usb_gadget/g1/idProduct 0x2d04
++    symlink /config/usb_gadget/g1/functions/accessory.gs2 /config/usb_gadget/g1/configs/b.1/f1
++    symlink /config/usb_gadget/g1/functions/audio_source.gs3 /config/usb_gadget/g1/configs/b.1/f2
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.ffs.ready=1 && property:sys.usb.config=accessory,audio_source,adb && property:sys.usb.configfs=1
++    start adbd
++
++on property:sys.usb.ffs.ready=1 && property:sys.usb.config=accessory,audio_source,adb && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "accessory_audiosource_adb"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/idVendor 0x18D1
++    write /config/usb_gadget/g1/idProduct 0x2d05
++    symlink /config/usb_gadget/g1/functions/accessory.gs2 /config/usb_gadget/g1/configs/b.1/f1
++    symlink /config/usb_gadget/g1/functions/audio_source.gs3 /config/usb_gadget/g1/configs/b.1/f2
++    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f3
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.tethering=true
++    write /sys/class/net/rndis0/queues/rx-0/rps_cpus ${sys.usb.rps_mask}
++
++on property:sys.usb.config=rndis
++    setprop sys.usb.config rndis,${persist.sys.usb.config.extra}
++
++on property:sys.usb.config=rndis,none && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "rndis"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/idVendor 0x2E17
++    write /config/usb_gadget/g1/idProduct 0xC022
++    symlink /config/usb_gadget/g1/functions/gsi.rndis /config/usb_gadget/g1/configs/b.1/f1
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state rndis
++
++on property:sys.usb.config=rndis,adb
++    setprop sys.usb.config rndis,${persist.sys.usb.config.extra},adb
++
++on property:sys.usb.config=rndis,none,adb && property:sys.usb.configfs=1
++    start adbd
++
++on property:sys.usb.ffs.ready=1 && property:sys.usb.config=rndis,none,adb && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "rndis_adb"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/idVendor 0x2E17
++    write /config/usb_gadget/g1/idProduct 0xC008
++    symlink /config/usb_gadget/g1/functions/gsi.rndis /config/usb_gadget/g1/configs/b.1/f1
++    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f2
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state rndis,adb
++
++
++on property:sys.usb.config=diag,serial_cdev,rmnet,adb && property:sys.usb.configfs=1
++    start adbd
++
++on property:sys.usb.ffs.ready=1 && property:sys.usb.config=diag,serial_cdev,rmnet,adb && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "Default composition"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/idVendor 0x05C6
++    write /config/usb_gadget/g1/idProduct 0x9091
++    symlink /config/usb_gadget/g1/functions/diag.diag /config/usb_gadget/g1/configs/b.1/f1
++    symlink /config/usb_gadget/g1/functions/cser.dun.0 /config/usb_gadget/g1/configs/b.1/f2
++    symlink /config/usb_gadget/g1/functions/gsi.rmnet /config/usb_gadget/g1/configs/b.1/f3
++    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f4
++    write /config/usb_gadget/g1/UDC "a800000.dwc3"
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.config=diag,serial_cdev,rmnet && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "Default composition"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/idVendor 0x05C6
++    write /config/usb_gadget/g1/idProduct 0x9092
++    symlink /config/usb_gadget/g1/functions/diag.diag /config/usb_gadget/g1/configs/b.1/f1
++    symlink /config/usb_gadget/g1/functions/cser.dun.0 /config/usb_gadget/g1/configs/b.1/f2
++    symlink /config/usb_gadget/g1/functions/gsi.rmnet /config/usb_gadget/g1/configs/b.1/f3
++    write /config/usb_gadget/g1/UDC "a800000.dwc3"
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.config=rndis,diag && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "rndis_diag"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/idVendor 0x05C6
++    write /config/usb_gadget/g1/idProduct 0x902C
++    symlink /config/usb_gadget/g1/functions/gsi.rndis /config/usb_gadget/g1/configs/b.1/f1
++    symlink /config/usb_gadget/g1/functions/diag.diag /config/usb_gadget/g1/configs/b.1/f2
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state ${sys.usb.config}
++
++on property:sys.usb.config=rndis,diag,adb && property:sys.usb.configfs=1
++    start adbd
++
++on property:sys.usb.ffs.ready=1 && property:sys.usb.config=rndis,diag,adb && property:sys.usb.configfs=1
++    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "rndis_diag_adb"
++    rm /config/usb_gadget/g1/configs/b.1/f1
++    rm /config/usb_gadget/g1/configs/b.1/f2
++    rm /config/usb_gadget/g1/configs/b.1/f3
++    rm /config/usb_gadget/g1/configs/b.1/f4
++    rm /config/usb_gadget/g1/configs/b.1/f5
++    write /config/usb_gadget/g1/idVendor 0x05C6
++    write /config/usb_gadget/g1/idProduct 0x902D
++    symlink /config/usb_gadget/g1/functions/gsi.rndis /config/usb_gadget/g1/configs/b.1/f1
++    symlink /config/usb_gadget/g1/functions/diag.diag /config/usb_gadget/g1/configs/b.1/f2
++    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f3
++    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
++    setprop sys.usb.state ${sys.usb.config}
+diff --git a/sepolicy/vendor/file.te b/sepolicy/vendor/file.te
+index c14fda13..dd6c305f 100644
+--- a/sepolicy/vendor/file.te
++++ b/sepolicy/vendor/file.te
+@@ -12,4 +12,3 @@ type sysfs_input, sysfs_type, fs_type;
+ type sysfs_fingerprint, sysfs_type, fs_type;
+ type sysfs_msm_subsys, sysfs_type, fs_type;
+ type sysfs_scsi_devices_0000, sysfs_type, fs_type;
+-type sysfs_usb_device, sysfs_type, fs_type;
+diff --git a/sepolicy/vendor/file_contexts b/sepolicy/vendor/file_contexts
+index 4f9bf864..ae74db82 100644
+--- a/sepolicy/vendor/file_contexts
++++ b/sepolicy/vendor/file_contexts
+@@ -31,7 +31,7 @@
+ /vendor/bin/hw/android\.hardware\.power@1\.3-service\.pixel-libperfmgr u:object_r:hal_power_default_exec:s0
+ /vendor/bin/hw/android\.hardware\.power\.stats@1\.0-service\.pixel u:object_r:hal_power_stats_default_exec:s0
+ /vendor/bin/hw/android\.hardware\.thermal@2\.0-service\.pixel u:object_r:hal_thermal_default_exec:s0
+-/vendor/bin/hw/android\.hardware\.usb@1\.1-service\.mata      u:object_r:hal_usb_impl_exec:s0
++/vendor/bin/hw/android\.hardware\.usb@1\.1-service\.mata      u:object_r:hal_usb_default_exec:s0
+ /vendor/bin/hw/android\.hardware\.vibrator@1\.2-service\.mata u:object_r:hal_vibrator_default_exec:s0
+ /vendor/bin/hw/vendor\.essential\.hardware\.sidecar@1\.0-service u:object_r:hal_sidecar_essential_default_exec:s0
+ 
+diff --git a/sepolicy/vendor/hal_usb_default.te b/sepolicy/vendor/hal_usb_default.te
+new file mode 100644
+index 00000000..c582505a
+--- /dev/null
++++ b/sepolicy/vendor/hal_usb_default.te
+@@ -0,0 +1 @@
++r_dir_file(hal_usb_default, sysfs_usbpd_device)
+diff --git a/sepolicy/vendor/hal_usb_impl.te b/sepolicy/vendor/hal_usb_impl.te
+deleted file mode 100644
+index a9a3c4f5..00000000
+--- a/sepolicy/vendor/hal_usb_impl.te
++++ /dev/null
+@@ -1,14 +0,0 @@
+-type hal_usb_impl, domain;
+-hal_server_domain(hal_usb_impl, hal_usb)
+-hal_server_domain(hal_usb_impl, hal_usb_gadget)
+-
+-type hal_usb_impl_exec, exec_type, vendor_file_type, file_type;
+-init_daemon_domain(hal_usb_impl)
+-
+-r_dir_file(hal_usb_impl, sysfs_usbpd_device)
+-allow hal_usb_impl sysfs_usbpd_device:file w_file_perms;
+-allow hal_usb_impl sysfs_usb_device:dir r_dir_perms;
+-allow hal_usb_impl sysfs_usb_device:file rw_file_perms;
+-allow hal_usb_impl configfs:file create_file_perms;
+-
+-set_prop(hal_usb_impl, vendor_usb_config_prop)
+diff --git a/sepolicy/vendor/property.te b/sepolicy/vendor/property.te
+index fdd71e14..cdaba33e 100644
+--- a/sepolicy/vendor/property.te
++++ b/sepolicy/vendor/property.te
+@@ -5,4 +5,3 @@ type qca1530_prop, property_type;
+ type sidecar_prop, property_type;
+ type vendor_camera_prop, property_type;
+ type vendor_device_prop, property_type;
+-type vendor_usb_config_prop, property_type;
+diff --git a/sepolicy/vendor/property_contexts b/sepolicy/vendor/property_contexts
+index b8e0513a..b78ac077 100644
+--- a/sepolicy/vendor/property_contexts
++++ b/sepolicy/vendor/property_contexts
+@@ -126,7 +126,3 @@ persist.radio.VT_ENABLE u:object_r:vendor_radio_prop:s0
+ persist.radio.VT_HYBRID_ENABLE u:object_r:vendor_radio_prop:s0
+ radio. u:object_r:vendor_radio_prop:s0
+ rcs.publish.status u:object_r:vendor_radio_prop:s0
+-
+-# vendor_usb_config_prop
+-persist.vendor.usb.config  u:object_r:vendor_usb_config_prop:s0
+-vendor.usb.config          u:object_r:vendor_usb_config_prop:s0
+diff --git a/usb/Android.bp b/usb/Android.bp
+index 028ab138..4a1c4544 100644
+--- a/usb/Android.bp
++++ b/usb/Android.bp
+@@ -17,7 +17,7 @@ cc_binary {
+     name: "android.hardware.usb@1.1-service.mata",
+     relative_install_path: "hw",
+     init_rc: ["android.hardware.usb@1.1-service.mata.rc"],
+-    srcs: ["service.cpp", "Usb.cpp", "UsbGadget.cpp"],
++    srcs: ["service.cpp", "Usb.cpp"],
+     shared_libs: [
+         "libbase",
+         "libhidlbase",
+@@ -27,7 +27,6 @@ cc_binary {
+         "libhardware",
+         "android.hardware.usb@1.0",
+         "android.hardware.usb@1.1",
+-        "android.hardware.usb.gadget@1.0",
+         "libcutils",
+     ],
+     proprietary: true,
+diff --git a/usb/Usb.cpp b/usb/Usb.cpp
+index e78a82f2..9f0e6401 100644
+--- a/usb/Usb.cpp
++++ b/usb/Usb.cpp
+@@ -106,7 +106,7 @@ std::string convertRoletoString(PortRole role) {
+ }
+ 
+ Return<void> Usb::switchRole(const hidl_string& portName,
+-        const V1_0::PortRole& newRole) {
++        const PortRole& newRole) {
+     std::string filename = appendRoleNodeHelper(std::string(portName.c_str()),
+         newRole.type);
+     std::ofstream file(filename);
+diff --git a/usb/Usb.h b/usb/Usb.h
+index 5de3e1fb..a91ee2f7 100644
+--- a/usb/Usb.h
++++ b/usb/Usb.h
+@@ -42,7 +42,7 @@ using ::android::sp;
+ struct Usb : public IUsb {
+     Usb();
+ 
+-    Return<void> switchRole(const hidl_string& portName, const V1_0::PortRole& role) override;
++    Return<void> switchRole(const hidl_string& portName, const PortRole& role) override;
+     Return<void> setCallback(const sp<V1_0::IUsbCallback>& callback) override;
+     Return<void> queryPortStatus() override;
+ 
+diff --git a/usb/UsbGadget.h b/usb/UsbGadget.h
+deleted file mode 100644
+index 9a2c4dd3..00000000
+--- a/usb/UsbGadget.h
++++ /dev/null
+@@ -1,101 +0,0 @@
+-/*
+- * Copyright (C) 2018 The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-#ifndef ANDROID_HARDWARE_USB_GADGET_V1_0_USBGADGET_H
+-#define ANDROID_HARDWARE_USB_GADGET_V1_0_USBGADGET_H
+-
+-#include <android-base/file.h>
+-#include <android-base/properties.h>
+-#include <android-base/unique_fd.h>
+-#include <android/hardware/usb/gadget/1.0/IUsbGadget.h>
+-#include <hidl/MQDescriptor.h>
+-#include <hidl/Status.h>
+-#include <string>
+-#include <sys/epoll.h>
+-#include <sys/eventfd.h>
+-#include <thread>
+-#include <utils/Log.h>
+-#include <chrono>
+-#include <condition_variable>
+-#include <mutex>
+-
+-namespace android {
+-namespace hardware {
+-namespace usb {
+-namespace gadget {
+-namespace V1_0 {
+-namespace implementation {
+-
+-using ::android::sp;
+-using ::android::base::GetProperty;
+-using ::android::base::SetProperty;
+-using ::android::base::unique_fd;
+-using ::android::base::WriteStringToFile;
+-using ::android::hardware::hidl_array;
+-using ::android::hardware::hidl_memory;
+-using ::android::hardware::hidl_string;
+-using ::android::hardware::hidl_vec;
+-using ::android::hardware::Return;
+-using ::android::hardware::Void;
+-using ::std::lock_guard;
+-using ::std::move;
+-using ::std::mutex;
+-using ::std::string;
+-using ::std::thread;
+-using ::std::unique_ptr;
+-using ::std::vector;
+-using namespace std::chrono_literals;
+-
+-struct UsbGadget : public IUsbGadget {
+-  UsbGadget();
+-  unique_fd mInotifyFd;
+-  unique_fd mEventFd;
+-  unique_fd mEpollFd;
+-
+-  unique_ptr<thread> mMonitor;
+-  volatile bool mMonitorCreated;
+-  vector<string> mEndpointList;
+-  // protects the CV.
+-  std::mutex mLock;
+-  std::condition_variable mCv;
+-
+-  // Makes sure that only one request is processed at a time.
+-  std::mutex mLockSetCurrentFunction;
+-  uint64_t mCurrentUsbFunctions;
+-  bool mCurrentUsbFunctionsApplied;
+-
+-  Return<void> setCurrentUsbFunctions(uint64_t functions,
+-                                      const sp<IUsbGadgetCallback>& callback,
+-                                      uint64_t timeout) override;
+-
+-  Return<void> getCurrentUsbFunctions(
+-      const sp<IUsbGadgetCallback>& callback) override;
+-
+-  private:
+-  Status tearDownGadget();
+-  Status setupFunctions(uint64_t functions,
+-                        const sp<IUsbGadgetCallback>& callback,
+-                        uint64_t timeout);
+-};
+-
+-}  // namespace implementation
+-}  // namespace V1_0
+-}  // namespace gadget
+-}  // namespace usb
+-}  // namespace hardware
+-}  // namespace android
+-
+-#endif  // ANDROID_HARDWARE_USB_V1_2_USBGADGET_H
+diff --git a/usb/android.hardware.usb@1.1-service.mata.rc b/usb/android.hardware.usb@1.1-service.mata.rc
+index a26cca37..fec6f43d 100644
+--- a/usb/android.hardware.usb@1.1-service.mata.rc
++++ b/usb/android.hardware.usb@1.1-service.mata.rc
+@@ -1,15 +1,4 @@
+ service vendor.usb-hal-1-1 /vendor/bin/hw/android.hardware.usb@1.1-service.mata
+     class hal
+     user root
+-    group root system shell mtp
+-    capabilities
+-
+-on boot
+-    chown root system /sys/class/dual_role_usb/otg_default/power_role
+-    chown root system /sys/class/dual_role_usb/otg_default/data_role
+-    chown root system /sys/class/dual_role_usb/otg_default/mode
+-    chown root system /sys/class/dual_role_usb/otg_default/supported_modes
+-    chmod 664 /sys/class/dual_role_usb/otg_default/power_role
+-    chmod 664 /sys/class/dual_role_usb/otg_default/data_role
+-    chmod 664 /sys/class/dual_role_usb/otg_default/mode
+-    chmod 664 /sys/class/dual_role_usb/otg_default/supported_modes
++    group root system
+diff --git a/usb/service.cpp b/usb/service.cpp
+index b0f1ce00..37efef1f 100644
+--- a/usb/service.cpp
++++ b/usb/service.cpp
+@@ -17,7 +17,6 @@
+ 
+ #include <hidl/HidlTransportSupport.h>
+ #include "Usb.h"
+-#include "UsbGadget.h"
+ 
+ using android::sp;
+ 
+@@ -27,36 +26,23 @@ using android::hardware::joinRpcThreadpool;
+ 
+ // Generated HIDL files
+ using android::hardware::usb::V1_1::IUsb;
+-using android::hardware::usb::gadget::V1_0::IUsbGadget;
+ using android::hardware::usb::V1_1::implementation::Usb;
+-using android::hardware::usb::gadget::V1_0::implementation::UsbGadget;
+ 
+-using android::OK;
+ using android::status_t;
++using android::OK;
+ 
+ int main() {
+ 
+     android::sp<IUsb> service = new Usb();
+-    android::sp<IUsbGadget> service2 = new UsbGadget();
+ 
+-    configureRpcThreadpool(2, true /*callerWillJoin*/);
++    configureRpcThreadpool(1, true /*callerWillJoin*/);
+     status_t status = service->registerAsService();
+ 
+-    if (status != OK) {
+-        ALOGE("Cannot register USB HAL service");
+-        return 1;
+-    }
+-
+-    status = service2->registerAsService();
+-
+-    if (status != OK) {
+-        ALOGE("Cannot register USB Gadget HAL service");
+-        return 1;
++    if (status == OK) {
++        ALOGI("USB HAL Ready.");
++        joinRpcThreadpool();
+     }
+ 
+-    ALOGI("USB HAL Ready.");
+-    joinRpcThreadpool();
+-    // Under noraml cases, execution will not reach this line.
+-    ALOGI("USB HAL failed to join thread pool.");
++    ALOGE("Cannot register USB HAL service");
+     return 1;
+ }
+-- 
+2.26.2
+

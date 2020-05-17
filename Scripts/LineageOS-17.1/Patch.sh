@@ -196,6 +196,9 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 #
 #START OF DEVICE CHANGES
 #
+enterAndClear "device/essential/mata";
+patch -p1 < "$DOS_PATCHES/android_device_essential_mata/0001-drop_usb_hal.patch"; #Fix MTP
+
 enterAndClear "device/google/marlin";
 git revert --no-edit 777dafa35f185b1f501e3c80b8ab495191583444; #remove some carrier blobs
 
