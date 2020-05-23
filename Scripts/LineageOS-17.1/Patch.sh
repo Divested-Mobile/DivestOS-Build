@@ -77,6 +77,9 @@ sed -i '12iLOCAL_SDK_VERSION := current' pico/Android.mk; #Fix build under Pie
 sed -i 's/about to delete/unable to delete/' pico/src/com/svox/pico/LangPackUninstaller.java;
 awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.java;
 
+enterAndClear "frameworks/av";
+if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_av/0001-HM_A2DP_Fix.patch"; fi; #(GrapheneOS)
+
 enterAndClear "frameworks/base";
 hardenLocationFWB "$DOS_BUILD_BASE"; #XXX 17REBASE
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
