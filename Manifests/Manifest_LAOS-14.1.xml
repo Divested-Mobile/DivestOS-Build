@@ -33,6 +33,7 @@
 	<remove-project name="LineageOS/android_packages_screensavers_Basic" />
 	<remove-project name="LineageOS/android_packages_screensavers_PhotoTable" />
 	<remove-project name="LineageOS/android_packages_screensavers_WebView" />
+	<!--<remove-project name="LineageOS/android_packages_services_Car" />-->
 	<remove-project name="LineageOS/android_packages_services_WeatherService" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_aarch64_aarch64-linux-android-4.9" />
 	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_arm_arm-linux-androideabi-4.9" />
@@ -49,6 +50,8 @@
 	<remove-project name="LineageOS/slackbot" />
 	<remove-project name="LineageOS/www" />
 	<remove-project name="platform/cts" />
+	<remove-project name="platform/external/replicaisland" />
+	<remove-project name="platform/packages/apps/RetailDemo" />
 	<remove-project name="platform/prebuilts/clang/darwin-x86/host/3.6" />
 	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
 	<remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-eabi-4.8" />
@@ -57,6 +60,7 @@
 	<remove-project name="platform/prebuilts/go/darwin-x86" />
 	<remove-project name="platform/prebuilts/ninja/darwin-x86" />
 	<remove-project name="platform/prebuilts/python/darwin-x86/2.7.5" />
+	<remove-project name="platform/prebuilts/qemu-kernel" />
 <!-- END OF UNNECESSARY REPO REMOVAL -->
 
 <!-- START OF ADDITIONAL REPOS -->

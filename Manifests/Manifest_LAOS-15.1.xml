@@ -2,6 +2,7 @@
 <manifest>
 
 <!-- START OF UNNECESSARY REPO REMOVAL -->
+	<remove-project name="device/generic/car" />
 	<remove-project name="device/generic/goldfish" />
 	<remove-project name="device/generic/goldfish-opengl" />
 	<remove-project name="device/generic/mini-emulator-arm64" />
@@ -22,6 +23,8 @@
 	<remove-project name="LineageOS/android_external_rsync" />
 	<remove-project name="LineageOS/android_external_unrar" />
 	<remove-project name="LineageOS/android_external_vim" />
+	<remove-project name="LineageOS/android_hardware_qcom_neuralnetworks_hvxservice" />
+	<remove-project name="LineageOS/android_hardware_qcom_vr" />
 	<remove-project name="LineageOS/android_packages_apps_Jelly" />
 	<remove-project name="LineageOS/android_packages_apps_LockClock" />
 	<remove-project name="LineageOS/android_packages_apps_OpenWeatherMapProvider" />
@@ -34,6 +37,7 @@
 	<remove-project name="LineageOS/android_packages_screensavers_PhotoTable" />
 	<remove-project name="LineageOS/android_packages_screensavers_WebView" />
 	<remove-project name="LineageOS/android_system_extras_su" />
+	<remove-project name="LineageOS/android_vendor_qcom_opensource_rcs-service" />
 	<remove-project name="LineageOS/ansible" />
 	<remove-project name="LineageOS/charter" />
 	<remove-project name="LineageOS/cm_crowdin" />
@@ -45,6 +49,22 @@
 	<remove-project name="LineageOS/scripts" />
 	<remove-project name="LineageOS/slackbot" />
 	<remove-project name="LineageOS/www" />
+	<remove-project name="platform/external/replicaisland" />
+	<remove-project name="platform/packages/apps/Car/Dialer" />
+	<remove-project name="platform/packages/apps/Car/Hvac" />
+	<remove-project name="platform/packages/apps/Car/LatinIME" />
+	<remove-project name="platform/packages/apps/Car/LensPicker" />
+	<!--<remove-project name="platform/packages/apps/Car/libs" />-->
+	<remove-project name="platform/packages/apps/Car/LocalMediaPlayer" />
+	<remove-project name="platform/packages/apps/Car/Media" />
+	<remove-project name="platform/packages/apps/Car/Messenger" />
+	<remove-project name="platform/packages/apps/Car/Overview" />
+	<remove-project name="platform/packages/apps/Car/Radio" />
+	<remove-project name="platform/packages/apps/Car/Settings" />
+	<remove-project name="platform/packages/apps/Car/Stream" />
+	<remove-project name="platform/packages/apps/Car/SystemUpdater" />
+	<remove-project name="platform/packages/apps/Car/UserManagement" />
+	<!--<remove-project name="platform/packages/services/Car" />-->
 	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
 	<remove-project name="platform/prebuilts/gcc/darwin-x86/aarch64/aarch64-linux-android-4.9" />
 	<remove-project name="platform/prebuilts/gcc/darwin-x86/arm/arm-eabi-4.8" />
@@ -54,6 +74,7 @@
 	<remove-project name="platform/prebuilts/gdb/darwin-x86" />
 	<remove-project name="platform/prebuilts/go/darwin-x86" />
 	<remove-project name="platform/prebuilts/python/darwin-x86/2.7.5" />
+	<remove-project name="platform/prebuilts/qemu-kernel" />
 <!-- END OF UNNECESSARY REPO REMOVAL -->
 
 <!-- START OF BRANCH SWITCHING -->
