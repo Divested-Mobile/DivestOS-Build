@@ -18,7 +18,7 @@
 #Last verified: 2020-04-14
 
 patchAllKernels() {
-	startPatcher "kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_razer_msm8998 kernel_samsung_jf kernel_yandex_sdm660 kernel_zuk_msm8996";
+	startPatcher "kernel_cyanogen_msm8916 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_google_msm-4.9 kernel_google_wahoo kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_razer_msm8998 kernel_samsung_jf kernel_samsung_universal9810 kernel_yandex_sdm660 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -57,6 +57,8 @@ buildAll() {
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SDS4P
 	buildDevice mako;
+	#SD410
+	buildDevice crackling;
 	#SD600
 	buildDevice jfltexx;
 	#SD800
@@ -69,8 +71,13 @@ buildAll() {
 	buildDevice victara;
 	#SD805
 	buildDevice shamu verity;
+	#SD810
+	buildDevice oneplus2;
 	#SD820
+	buildDevice h850; #failed to find dex jar path for module "WfdCommon"
+	buildDevice us996;
 	buildDevice griffin;
+	buildDevice oneplus3 verity;
 	buildDevice z2_plus verity; #broken
 	#SD821
 	buildDevice marlin verity;
@@ -78,8 +85,18 @@ buildAll() {
 	#SD835
 	buildDevice cheryl;
 	buildDevice mata verity;
+	buildDevice taimen avb;
+	buildDevice walleye avb;
+	#SD845
+	buildDevice crosshatch avb;
+	buildDevice blueline avb;
 	#SD660
 	buildDevice Amber verity;
+	#SD670
+	buildDevice bonito avb;
+	buildDevice sargo avb;
+	#Exynos
+	buildDevice starlte;
 }
 export -f buildAll;
 

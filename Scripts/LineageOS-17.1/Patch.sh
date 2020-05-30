@@ -206,8 +206,8 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 #
 #START OF DEVICE CHANGES
 #
-enterAndClear "device/essential/mata";
-patch -p1 < "$DOS_PATCHES/android_device_essential_mata/0001-drop_usb_hal.patch"; #Fix MTP
+#enterAndClear "device/cyanogen/msm8916-common";
+#awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 
 enterAndClear "device/google/marlin";
 git revert --no-edit 777dafa35f185b1f501e3c80b8ab495191583444; #remove some carrier blobs
@@ -233,11 +233,23 @@ git revert --no-edit 9a5739e66d0a44347881807c0cc44d7c318c02b8; #fix nfc path
 enterAndClear "device/lge/mako";
 echo "pmf=0" >> wifi/wpa_supplicant_overlay.conf; #Wi-Fi chipset doesn't support PMF
 
+enterAndClear "device/lge/msm8996-common";
+sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
+
 #enterAndClear "device/moto/shamu";
 #git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
 
+enterAndClear "device/oneplus/oneplus2";
+sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt;
+
+enterAndClear "device/oppo/common";
+awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
+
 enterAndClear "kernel/google/marlin";
 git revert --no-edit dd4a454f080f60cc7c4f5cc281a48cba80947baf; #Resurrect dm-verity
+
+enterAndClear "kernel/google/wahoo";
+sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
 
 enter "vendor/google";
 echo "" > atv/atv-common.mk;
@@ -258,21 +270,32 @@ deblobAudio;
 
 #Verity
 cat "$DOS_SIGNING_KEYS/Amber/verity.x509.pem" >> "kernel/yandex/sdm660/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/blueline/verity.x509.pem" >> "kernel/google/msm-4.9/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/bonito/verity.x509.pem" >> "kernel/google/msm-4.9/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/cheryl/verity.x509.pem" >> "kernel/razer/msm8998/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/crosshatch/verity.x509.pem" >> "kernel/google/msm-4.9/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/mata/verity.x509.pem" >> "kernel/essential/msm8998/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/sargo/verity.x509.pem" >> "kernel/google/msm-4.9/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/starlte/verity.x509.pem" >> "kernel/samsung/universal9810/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/taimen/verity.x509.pem" >> "kernel/google/wahoo/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/walleye/verity.x509.pem" >> "kernel/google/wahoo/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/z2_plus/verity.x509.pem" >> "kernel/zuk/msm8996/certs/verity.x509.pem";
 cp "$DOS_SIGNING_KEYS/Amber/verifiedboot_relkeys.der.x509" "kernel/yandex/sdm660/verifiedboot_Amber_dos_relkeys.der.x509";
 cp "$DOS_SIGNING_KEYS/cheryl/verifiedboot_relkeys.der.x509" "kernel/razer/msm8998/verifiedboot_cheryl_dos_relkeys.der.x509";
 cp "$DOS_SIGNING_KEYS/griffin/verifiedboot_relkeys.der.x509" "kernel/motorola/msm8996/verifiedboot_griffin_dos_relkeys.der.x509";
 cp "$DOS_SIGNING_KEYS/marlin/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_marlin_dos_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/oneplus3/verifiedboot_relkeys.der.x509" "kernel/oneplus/msm8996/verifiedboot_oneplus3_dos_relkeys.der.x509";
 cp "$DOS_SIGNING_KEYS/sailfish/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_sailfish_dos_relkeys.der.x509";
 cp "$DOS_SIGNING_KEYS/z2_plus/verifiedboot_relkeys.der.x509" "kernel/zuk/msm8996/verifiedboot_z2_plus_dos_relkeys.der.x509";
 
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/lge/mako/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
+sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/lge/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/motorola/msm8974/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/motorola/msm8996/arch/arm64/configs/*_defconfig; #Breaks on compile
+sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/oneplus/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
+sed -i "s/CONFIG_RANDOMIZE_BASE=y/# CONFIG_RANDOMIZE_BASE is not set/" kernel/samsung/universal9810/arch/arm64/configs/*_defconfig; #Breaks on compile
 
 sed -i 's/YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l*; #Fix builds with GCC 10
 #

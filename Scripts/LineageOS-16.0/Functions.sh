@@ -57,8 +57,6 @@ buildAll() {
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SDS4P
 	#buildDevice flo; #broken encryption
-	#SD410
-	buildDevice crackling;
 	#SD800
 	buildDevice hammerhead; #broken
 	#SD801
@@ -67,34 +65,23 @@ buildAll() {
 	buildDevice klte;
 	#SD808
 	buildDevice ether;
-	#SD810
-	buildDevice oneplus2;
 	#SD615
 	buildDevice kipper;
 	#SD820
-	buildDevice oneplus3 verity;
 	buildDevice z2_plus verity; #broken
 	#SD625
 	buildDevice zenfone3; #needs manual patching - fwb xml: fused: dangling tag
 	#SD835
 	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
 	buildDevice dumpling verity;
-	buildDevice taimen avb;
-	buildDevice walleye avb;
-	#SD845
-	buildDevice crosshatch avb;
-	buildDevice blueline avb;
-	#SD660
-	buildDevice Amber verity;
-	#SD670
-	buildDevice bonito avb;
-	buildDevice sargo avb;
 	#Samsung
 	buildDeviceUserDebug i9100; #broken
 	#Intel
 	buildDevice fugu; #broken
 
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
+		#SD410
+		buildDevice crackling;
 		#SDS4P
 		buildDevice mako;
 		#SD600
@@ -109,7 +96,10 @@ buildAll() {
 		buildDevice victara;
 		#SD805
 		buildDevice shamu verity;
+		#SD810
+		buildDevice oneplus2;
 		#SD820
+		buildDevice oneplus3 verity;
 		buildDevice griffin;
 		#SD821
 		buildDevice marlin verity;
@@ -117,6 +107,16 @@ buildAll() {
 		#SD835
 		buildDevice cheryl;
 		buildDevice mata verity;
+		buildDevice taimen avb;
+		buildDevice walleye avb;
+		#SD845
+		buildDevice crosshatch avb;
+		buildDevice blueline avb;
+		#SD660
+		buildDevice Amber verity;
+		#SD670
+		buildDevice bonito avb;
+		buildDevice sargo avb;
 	fi;
 }
 export -f buildAll;

@@ -60,16 +60,15 @@ buildAll() {
 	buildDevice angler verity;
 	buildDevice Z00T; #broken - needs vendor patching
 	buildDevice axon7; #broken - needs vendor patching
-	buildDevice h850; #broken
-	buildDevice us996;
 	buildDevice us997;
 	buildDevice flounder verity; #broken encryption (?)
 	buildDevice dragon verity;
-	buildDevice starlte; #broken - device/samsung/universal9810-common/audio: MODULE.TARGET.SHARED_LIBRARIES.libshim_audio_32 already defined by device/samsung/star-common/audio
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
 	buildDevice flo; #broken camera?
 	buildDevice hammerhead;
+	buildDevice h850; #broken
+	buildDevice us996;
 	buildDevice fugu;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		buildDevice mako;
@@ -97,6 +96,7 @@ buildAll() {
 		buildDevice taimen avb;
 		buildDevice walleye avb;
 		buildDeviceUserDebug i9100;
+		buildDevice starlte; #broken - device/samsung/universal9810-common/audio: MODULE.TARGET.SHARED_LIBRARIES.libshim_audio_32 already defined by device/samsung/star-common/audio
 	fi;
 }
 export -f buildAll;
