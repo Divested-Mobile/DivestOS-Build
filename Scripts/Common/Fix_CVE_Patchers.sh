@@ -33,7 +33,7 @@ commentPatches android_kernel_asus_grouper.sh "CVE-2017-15868/3.4/0002.patch" "C
 commentPatches android_kernel_asus_msm8916.sh "CVE-2018-13913/ANY/0001.patch";
 commentPatches android_kernel_asus_msm8953.sh "CVE-2017-13162/3.18/0001.patch";
 commentPatches android_kernel_cyanogen_msm8916.sh "CVE-2018-13913/ANY/0001.patch";
-commentPatches android_kernel_essential_msm8998.sh "CVE-2017-13218/4.4/0026.patch";
+commentPatches android_kernel_essential_msm8998.sh "CVE-2017-13218/4.4/0026.patch" "CVE-2019-14047/ANY/0002.patch";
 commentPatches android_kernel_google_bonito.sh "CVE-2020-0067/ANY/0001.patch";
 commentPatches android_kernel_google_dragon.sh "CVE-2015-4167/^3.19.1/0001.patch";
 commentPatches android_kernel_google_crosshatch.sh "CVE-2020-0067/ANY/0001.patch";

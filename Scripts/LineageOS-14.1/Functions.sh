@@ -122,6 +122,7 @@ patchWorkspace() {
 	repopick -it tzdb2020a_N;
 	repopick -it n-asb-2020-05;
 	repopick -i 275225; #update webview
+	repopick -it n-asb-2020-06;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 
