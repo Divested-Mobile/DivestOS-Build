@@ -2,7 +2,6 @@
 <manifest>
 
 <!-- START OF UNNECESSARY REPO REMOVAL -->
-	<remove-project name="device/generic/car" />
 	<remove-project name="device/generic/goldfish-opengl" />
 	<remove-project name="device/generic/mini-emulator-arm64" />
 	<remove-project name="device/generic/mini-emulator-armv7-a-neon" />
@@ -24,7 +23,6 @@
 	<remove-project name="LineageOS/android_external_vim" />
 	<remove-project name="LineageOS/android_hardware_qcom_vr" />
 	<remove-project name="LineageOS/android_packages_apps_Jelly" />
-	<remove-project name="LineageOS/android_packages_apps_ManagedProvisioning" />
 	<remove-project name="LineageOS/android_packages_apps_Stk" />
 	<remove-project name="LineageOS/android_packages_apps_StorageManager" />
 	<remove-project name="LineageOS/android_packages_apps_Terminal" />
@@ -51,32 +49,10 @@
 	<remove-project name="platform/external/virglrenderer" />
 	<remove-project name="platform/external/wayland" />
 	<remove-project name="platform/external/wayland-protocols" />
-	<remove-project name="platform/frameworks/opt/car/services" />
-	<remove-project name="platform/frameworks/opt/car/setupwizard" />
 	<remove-project name="platform/hardware/qcom/neuralnetworks/hvxservice" />
 	<remove-project name="platform/hardware/qcom/sdm845/vr" />
 	<remove-project name="platform/hardware/qcom/sm8150/vr" />
-	<remove-project name="platform/packages/apps/Car/Cluster" />
-	<remove-project name="platform/packages/apps/Car/Dialer" />
-	<remove-project name="platform/packages/apps/Car/externallibs" />
-	<remove-project name="platform/packages/apps/Car/Hvac" />
-	<remove-project name="platform/packages/apps/Car/LatinIME" />
-	<remove-project name="platform/packages/apps/Car/Launcher" />
-	<remove-project name="platform/packages/apps/Car/LensPicker" />
-	<remove-project name="platform/packages/apps/Car/libs" />
-	<remove-project name="platform/packages/apps/Car/LinkViewer" />
-	<remove-project name="platform/packages/apps/Car/LocalMediaPlayer" />
-	<remove-project name="platform/packages/apps/Car/Media" />
-	<remove-project name="platform/packages/apps/Car/Messenger" />
-	<remove-project name="platform/packages/apps/Car/Notification" />
-	<remove-project name="platform/packages/apps/Car/Overview" />
-	<remove-project name="platform/packages/apps/Car/Radio" />
-	<remove-project name="platform/packages/apps/Car/Settings" />
-	<remove-project name="platform/packages/apps/Car/Stream" />
-	<remove-project name="platform/packages/apps/Car/SystemUpdater" />
-	<remove-project name="platform/packages/apps/Car/tests" />
 	<remove-project name="platform/packages/apps/SampleLocationAttribution" />
-	<remove-project name="platform/packages/services/Car" />
 	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
 	<remove-project name="platform/prebuilts/fuchsia_sdk" />
 	<remove-project name="platform/prebuilts/gcc/darwin-x86/host/i686-apple-darwin-4.2.1" />

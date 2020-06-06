@@ -40,6 +40,7 @@ commentPatches android_kernel_google_crosshatch.sh "CVE-2020-0067/ANY/0001.patch
 commentPatches android_kernel_google_marlin.sh "0001-LinuxIncrementals/3.18/3.18.0098-0099.patch" "0006-Copperhead-Kernel_Hardening/3.18/0048.patch" "0006-Copperhead-Kernel_Hardening/3.18/0049.patch" "CVE-2017-13162/3.18/0001.patch";
 commentPatches android_kernel_google_msm.sh "CVE-2017-11015/prima/0001.patch" "CVE-2017-11015/prima/0002.patch";
 commentPatches android_kernel_google_msm-4.9.sh "CVE-2020-0067/ANY/0001.patch";
+commentPatches android_kernel_google_wahoo.sh "CVE-2019-14047/ANY/0002.patch";
 commentPatches android_kernel_htc_flounder.sh "CVE-2018-9514/ANY/0001.patch";
 commentPatches android_kernel_htc_msm8994.sh "CVE-2016-8394/ANY/0001.patch" "CVE-2017-13166/3.10/0001.patch";
 commentPatches android_kernel_lge_msm8996.sh "CVE-2017-13162/3.18/0001.patch" "CVE-2019-14070/ANY/0006.patch";
