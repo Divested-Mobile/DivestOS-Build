@@ -229,8 +229,6 @@ CVE-2015-6634
 CVE-2015-6636
 	Link - external/libhevc - https://android.googlesource.com/platform/external/libhevc/+/b9f7c2c45c6fe770b7daffb9a4e61522d1f12d51
 	Link - external/libhevc - https://android.googlesource.com/platform/external/libhevc/+/e8bfec1fa41eafa1fd8e05d0fdc53ea0f2379518
-CVE-2015-6640
-	Link - https://android.googlesource.com/kernel/common/+/69bfe2d957d903521d32324190c2754cb073be15
 CVE-2015-6641
 	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/98f11fd1a4752beed56b5fe7a4097ec0ae0c74b3
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/ccbe7383e63d7d23bac6bccc8e4094fe474645ec
@@ -435,7 +433,7 @@ CVE-2016-5131
 CVE-2016-5348
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/218b813d5bc2d7d3952ea1861c38b4aa944ac59b
 CVE-2016-6691
-	Link - https://source.codeaurora.org/quic/la//platform/frameworks/opt/net/wifi/commit/?id=343f123c396b2a97fc7cce396cd5d99365cb9131
+	Link - opt/net/wifi - https://source.codeaurora.org/quic/la//platform/frameworks/opt/net/wifi/commit/?id=343f123c396b2a97fc7cce396cd5d99365cb9131
 CVE-2016-6704
 	Link - hardware/qcom/audio - https://android.googlesource.com/platform/hardware/qcom/audio/+/9cb9810ecb63c8ff55ecf4bc77431dc5b0688b5f
 	Link - system/media - https://android.googlesource.com/platform/system/media/+/a6274f03b4dfe1c3a22af51e3a17ea56a314e747
@@ -808,8 +806,6 @@ CVE-2017-7375
 	Link - external/libxml2 - https://android.googlesource.com/platform/external/libxml2/+/308396a55280f69ad4112d4f9892f4cbeff042aa
 CVE-2017-7376
 	Link - external/libxml2 - https://android.googlesource.com/platform/external/libxml2/+/51e0cb2e5ec18eaf6fb331bc573ff27b743898f4
-CVE-2017-11078
-	Link - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/lk.git;a=commit;h=d8ddcadef0e3af437e83a38430b799a2e94e7e71
 CVE-2017-13148
 	Link - external/libmpeg2 - https://android.googlesource.com/platform/external/libmpeg2/+/60c4d957db5e18da39ec943f15171547b53305d6
 CVE-2017-13149
@@ -865,7 +861,7 @@ CVE-2017-13205
 CVE-2017-13206
 	Link - external/aac - https://android.googlesource.com/platform/external/aac/+/29189063770fbd7d00f04ed1fd16ec5eefee7ec9
 CVE-2017-13207
-	Link - http://lesource.com/platform/frameworks/av/+/212335cbc6e8795c3cfb332e7b119e03cf33f603
+	Link - frameworks/av - http://lesource.com/platform/frameworks/av/+/212335cbc6e8795c3cfb332e7b119e03cf33f603
 CVE-2017-13209
 	Link - system/tools/hidl - https://android.googlesource.com/platform/system/tools/hidl/+/8539fc8ac94d5c92ef9df33675844ab294f68d61
 	Link - system/hwservicemanager - https://android.googlesource.com/platform/system/hwservicemanager/+/e1b4a889e8b84f5c13b76333d4de90dbe102a0de
@@ -978,16 +974,6 @@ CVE-2017-13323
 CVE-2017-14496
 	Link - external/dnsmasq - https://android.googlesource.com/platform/external/dnsmasq/+/ff755ca73c98a1f2706fe86996e4bf6215054834
 	Link - external/dnsmasq - https://android.googlesource.com/platform/external/dnsmasq/+/68a974de72b5091ce608815a349daaeb05cdeab5
-CVE-2017-18159
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=633fa4ffb38bbfb0fad79204e19b9f59d42d7680
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=3129148e5a4cfe83003449a1048660823bfddc51
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=bcceb2ceeea07aedaa5f97207cc88f9d8b4416ea
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=04f23441b8c0c897644f9bf391b691039fa0ab70
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=b6b318431983f35a7734cae227478df3dc93a818
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=7dcbee530800b16534d0f3e8db375492c03b3e0a
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=9057a8b3339abc4eb2c4e462279f34bbe6410e7c
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=4a63a848c062851776123d4bc7ec10eb498a70dd
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=5471b0cdf4bace12d872d074b97eae29f1317e6a
 CVE-2017-1000100
 	Link - external/curl - https://android.googlesource.com/platform/external/curl/+/1506c0316973bd95d7832891b1aa2258b52a793d
 CVE-2018-5383
@@ -1202,12 +1188,8 @@ CVE-2018-9563
 	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/06d8edd06e16e1fbf36127ef55586e1112e0b70c
 CVE-2018-9564
 	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/06d8edd06e16e1fbf36127ef55586e1112e0b70c
-CVE-2018-11275
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=bf0261ab128f28763258c620bc95ca379a286b59
-CVE-2018-11943
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=45734409dd45e6b117f7f9f7e11047f67a7accc1
 CVE-2018-11961
-	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/gps/commit/?id=c57ee0a5d3261ab20c35b451d1b3ae2b02a21591
+	Link - hardware/qcom/gps - https://source.codeaurora.org/quic/le/platform/hardware/qcom/gps/commit/?id=c57ee0a5d3261ab20c35b451d1b3ae2b02a21591
 CVE-2018-12006
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=3aad4a11e276fb7101185d0b152e208a32829d31
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=2a39b827b1509777da7025e0b78a82d573fad931
@@ -1261,8 +1243,6 @@ CVE-2019-2136
 	Link - system/libhwbinder - https://android.googlesource.com/platform/system/libhwbinder/+/918b24d5a7c11fb8cafc25b43ff05696250f89ae
 CVE-2019-2137
 	Link - packages/services/Telecomm - https://android.googlesource.com/platform/packages/services/Telecomm/+/e01da9a84f49b3e7ff4c8a876cdeb32b7beec1ea
-CVE-2019-2181
-	Link - https://android-review.googlesource.com/q/status:merged+%2522binder:+check+for+overflow+when+alloc+for+security+context%2522
 CVE-2019-2192
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/ce472cd14f7262a0f5b3ffe656af05ed673c8e08
 CVE-2019-2193
@@ -1352,18 +1332,10 @@ CVE-2019-2233
 CVE-2019-2306
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=993261eb29127b942c5eb81de168cb2f39bfcd2e
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=d91a525dba4b3e7cdbbedf62e15aeaef90c8eb32
-CVE-2019-2316
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=28cde30b1b0309efaab9779c7eec3104dfe8ad28
 CVE-2019-5018
 	Link - external/sqlite - https://android.googlesource.com/platform/external/sqlite/+/678cc662682a24c7c8505794fe5cc26407b646b9
 CVE-2019-8457
 	Link - external/sqlite - https://android.googlesource.com/platform/external/sqlite/+/678cc662682a24c7c8505794fe5cc26407b646b9
-CVE-2019-9245
-	Link - https://sourceforge.net/p/linux-f2fs/mailman/message/36502488/
-CVE-2019-9451
-	Link - https://github.com/kdrag0n/proton_bluecross/commit/3d1e6af3e20e6ecc812bfb6892b07780d678667a
-CVE-2019-9452
-	Link - https://github.com/kdrag0n/proton_bluecross/commit/3d1e6af3e20e6ecc812bfb6892b07780d678667a
 CVE-2019-9460
 	Link - hardware/interfaces - https://android.googlesource.com/platform/hardware/interfaces/+/c88c624e2e7f5f683d6381a8d5c96e58b0a85cb7
 CVE-2019-9464
@@ -1406,7 +1378,7 @@ CVE-2019-14024
 CVE-2019-14087
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=576a22370f673ac9aacc1d677a9a9d2a46ed05d2
 CVE-2019-14132
-	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/media/commit/?id=9e80e1db4b56b42f9150d4d51166560d10839f5f
+	Link - hardware/qcom/media - https://source.codeaurora.org/quic/le/platform/hardware/qcom/media/commit/?id=9e80e1db4b56b42f9150d4d51166560d10839f5f
 CVE-2019-15140
 	Link - external/ImageMagick - https://android.googlesource.com/platform/external/ImageMagick/+/c5b97a8387b2ef22dae170732b1e2a218aa5ce25
 CVE-2019-16275
