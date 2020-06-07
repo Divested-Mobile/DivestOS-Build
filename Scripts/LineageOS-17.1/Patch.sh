@@ -235,6 +235,10 @@ sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.t
 enterAndClear "device/oneplus/oneplus2";
 sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt;
 
+enterAndClear "device/oneplus/msm8998-common";
+patch -p1 < "$DOS_PATCHES_COMMON/android_device_audio/0001-No_Vorbis_Offload.patch"; #Fix Ogg Vorbis playback
+awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
+
 enterAndClear "device/oppo/common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
 
@@ -265,8 +269,10 @@ deblobAudio;
 cat "$DOS_SIGNING_KEYS/Amber/verity.x509.pem" >> "kernel/yandex/sdm660/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/blueline/verity.x509.pem" >> "kernel/google/msm-4.9/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/bonito/verity.x509.pem" >> "kernel/google/msm-4.9/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/cheeseburger/verity.x509.pem" >> "kernel/oneplus/msm8998/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/cheryl/verity.x509.pem" >> "kernel/razer/msm8998/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/crosshatch/verity.x509.pem" >> "kernel/google/msm-4.9/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/dumpling/verity.x509.pem" >> "kernel/oneplus/msm8998/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/mata/verity.x509.pem" >> "kernel/essential/msm8998/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/sargo/verity.x509.pem" >> "kernel/google/msm-4.9/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/starlte/verity.x509.pem" >> "kernel/samsung/universal9810/certs/verity.x509.pem";
@@ -274,7 +280,9 @@ cat "$DOS_SIGNING_KEYS/taimen/verity.x509.pem" >> "kernel/google/wahoo/certs/ver
 cat "$DOS_SIGNING_KEYS/walleye/verity.x509.pem" >> "kernel/google/wahoo/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/z2_plus/verity.x509.pem" >> "kernel/zuk/msm8996/certs/verity.x509.pem";
 cp "$DOS_SIGNING_KEYS/Amber/verifiedboot_relkeys.der.x509" "kernel/yandex/sdm660/verifiedboot_Amber_dos_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/cheeseburger/verifiedboot_relkeys.der.x509" "kernel/oneplus/msm8998/verifiedboot_cheeseburger_dos_relkeys.der.x509";
 cp "$DOS_SIGNING_KEYS/cheryl/verifiedboot_relkeys.der.x509" "kernel/razer/msm8998/verifiedboot_cheryl_dos_relkeys.der.x509";
+cp "$DOS_SIGNING_KEYS/dumpling/verifiedboot_relkeys.der.x509" "kernel/oneplus/msm8998/verifiedboot_dumpling_dos_relkeys.der.x509";
 cp "$DOS_SIGNING_KEYS/griffin/verifiedboot_relkeys.der.x509" "kernel/motorola/msm8996/verifiedboot_griffin_dos_relkeys.der.x509";
 cp "$DOS_SIGNING_KEYS/marlin/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_marlin_dos_relkeys.der.x509";
 cp "$DOS_SIGNING_KEYS/oneplus3/verifiedboot_relkeys.der.x509" "kernel/oneplus/msm8996/verifiedboot_oneplus3_dos_relkeys.der.x509";

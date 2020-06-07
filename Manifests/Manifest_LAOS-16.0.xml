@@ -8,7 +8,6 @@
 	<remove-project name="device/generic/mini-emulator-x86" />
 	<remove-project name="device/generic/mini-emulator-x86_64" />
 	<remove-project name="device/generic/qemu" />
-	<remove-project name="device/sample" />
 	<remove-project name="LineageOS/android_device_generic_goldfish" />
 	<remove-project name="LineageOS/android_external_ant-wireless_ant_native" />
 	<remove-project name="LineageOS/android_external_ant-wireless_ant_service" />

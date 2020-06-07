@@ -71,9 +71,6 @@ buildAll() {
 	buildDevice z2_plus verity; #broken
 	#SD625
 	buildDevice zenfone3; #needs manual patching - fwb xml: fused: dangling tag
-	#SD835
-	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
-	buildDevice dumpling verity;
 	#Samsung
 	buildDeviceUserDebug i9100; #broken
 	#Intel
@@ -106,6 +103,8 @@ buildAll() {
 		buildDevice sailfish verity;
 		#SD835
 		buildDevice cheryl;
+		buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
+		buildDevice dumpling verity;
 		buildDevice mata verity;
 		buildDevice taimen avb;
 		buildDevice walleye avb;
@@ -126,6 +125,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -i 232948; #wahoo: liblight: close fd
+	repopick -it P_asb_2020-06;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

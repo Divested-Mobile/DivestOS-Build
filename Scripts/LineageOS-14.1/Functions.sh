@@ -56,7 +56,6 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#Select devices are userdebug due to SELinux policy issues
-	buildDevice osprey;
 	buildDeviceUserDebug thor; #broken encryption
 	buildDevice clark;
 	buildDevice h815; #broken
@@ -73,6 +72,7 @@ buildAll() {
 	buildDevice grouper; #needs manual patching - one-repo vendor blob patch
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
+	buildDevice osprey;
 	buildDevice himaul;
 	buildDevice Z00T;
 	buildDeviceUserDebug i9100;
