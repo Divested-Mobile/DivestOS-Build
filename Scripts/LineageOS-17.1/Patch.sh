@@ -202,8 +202,17 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 #enterAndClear "device/cyanogen/msm8916-common";
 #awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 
+enterAndClear "device/google/bonito";
+enableVerity; #Resurrect dm-verity
+
+enterAndClear "device/google/crosshatch";
+enableVerity; #Resurrect dm-verity
+
 enterAndClear "device/google/marlin";
 git revert --no-edit 777dafa35f185b1f501e3c80b8ab495191583444; #remove some carrier blobs
+
+enterAndClear "device/google/wahoo";
+enableVerity; #Resurrect dm-verity
 
 enterAndClear "device/htc/m8-common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools

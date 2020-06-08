@@ -203,6 +203,12 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 enterAndClear "device/asus/zenfone3";
 rm -rf libhidl; #breaks other devices
 
+enterAndClear "device/google/bonito";
+enableVerity; #Resurrect dm-verity
+
+enterAndClear "device/google/crosshatch";
+enableVerity; #Resurrect dm-verity
+
 enterAndClear "device/google/marlin";
 git revert --no-edit eeb92c0f094f58b1bdfbaa775d239948f81e915b 8c729e4b016a5b35159992413a22c289ecf2c44c; #remove some carrier blobs
 patch -p1 < "$DOS_PATCHES/android_device_google_marlin/0001-Fix_MediaProvider_Deadlock.patch"; #Fix MediaProvider using 100% CPU (due to broken ppoll on functionfs?)
