@@ -159,8 +159,8 @@
 
 	<!-- Moto G 3rd Gen (osprey)
 	<project path="device/motorola/msm8916-common" name="LineageOS/android_device_motorola_msm8916-common" remote="github" />
-	<project path="device/motorola/osprey" name="LineageOS/android_device_motorola_osprey" remote="github" /> -->
-	<project path="kernel/motorola/msm8916" name="LineageOS/android_kernel_motorola_msm8916" remote="github" />
+	<project path="device/motorola/osprey" name="LineageOS/android_device_motorola_osprey" remote="github" />
+	<project path="kernel/motorola/msm8916" name="LineageOS/android_kernel_motorola_msm8916" remote="github" /> -->
 
 	<!-- Moto X 2014 (victara) -->
 	<project path="device/motorola/victara" name="LineageOS/android_device_motorola_victara" remote="github" />

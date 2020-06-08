@@ -76,6 +76,8 @@ buildAll() {
 	#Intel
 	buildDevice fugu; #broken
 
+	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
+	buildDevice dumpling verity;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		#SD410
 		buildDevice crackling;
@@ -103,8 +105,7 @@ buildAll() {
 		buildDevice sailfish verity;
 		#SD835
 		buildDevice cheryl;
-		buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
-		buildDevice dumpling verity;
+
 		buildDevice mata verity;
 		buildDevice taimen avb;
 		buildDevice walleye avb;

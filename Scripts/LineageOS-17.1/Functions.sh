@@ -85,8 +85,8 @@ buildAll() {
 	buildDevice sailfish verity;
 	#SD835
 	buildDevice cheryl;
-	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
-	buildDevice dumpling verity;
+	#buildDevice cheeseburger verity; #broken usb/modem/etc.
+	#buildDevice dumpling verity;
 	buildDevice mata verity;
 	buildDevice taimen avb;
 	buildDevice walleye avb;
