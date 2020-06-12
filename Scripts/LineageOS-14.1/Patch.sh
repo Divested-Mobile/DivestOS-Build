@@ -127,7 +127,7 @@ if enter "kernel/wireguard"; then
 if [ "$DOS_WIREGUARD_INCLUDED" = false ]; then rm Android.mk; fi;
 #Remove system information from HTTP requests
 awk -i inplace '!/USER_AGENT=/' fetch.sh;
-sed -i '3iUSER_AGENT="WireGuard-AndroidROMBuild/0.2"' fetch.sh;
+sed -i '3iUSER_AGENT="WireGuard-AndroidROMBuild/0.23' fetch.sh;
 fi;
 
 enterAndClear "packages/apps/CMParts";
