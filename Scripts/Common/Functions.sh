@@ -187,6 +187,7 @@ processRelease() {
 		$OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files-*.zip \
 		$OUT_DIR/$PREFIX-target_files.zip;
 	sha512sum $OUT_DIR/$PREFIX-target_files.zip > $OUT_DIR/$PREFIX-target_files.zip.sha512sum;
+
 	local INCREMENTAL_ID=$(grep "ro.build.version.incremental" $OUT_DIR/system/build.prop | cut -f2 -d "=" | sed 's/\.//g');
 	echo $INCREMENTAL_ID > $OUT_DIR/$PREFIX-target_files.zip.id;
 
@@ -237,6 +238,9 @@ processRelease() {
 	#	mv $OUT_DIR/rec_tmp/IMAGES/boot.img $OUT_DIR/$PREFIX-boot.img;
 	fi;
 
+	sed -i "s|$OUT_DIR/||" $OUT_DIR/*.md5sum;
+	sed -i "s|$OUT_DIR/||" $OUT_DIR/*.sha512sum;
+
 	#Copy to archive
 	if [ "$DOS_AUTO_ARCHIVE_BUILDS" = true ]; then
 		echo -e "\e[0;32mCopying files to archive\e[0m";
@@ -264,6 +268,19 @@ processRelease() {
 	echo -e "\e[0;32mRelease processing complete\e[0m";
 }
 export -f processRelease;
+
+pushToServer() {
+	rename -- "-ota." "." *zip*;
+	rename -- "-incremental_" "-" incrementals/*zip*;
+	sed -i 's/-ota\././' *.md5sum *.sha512sum;
+	sed -i 's/-incremental_/-/' incrementals/*.md5sum incrementals/*.sha512sum;
+
+	rsync -Pau incrementals/divested-*-dos-$1-*.zip* root@divestos.org:/var/www/divestos.org/builds/LineageOS/$1/incrementals/ || true;
+	rsync -Pau divested-*-dos-$1.zip* root@divestos.org:/var/www/divestos.org/builds/LineageOS/$1/ || true;
+	rsync -Pau divested-*-dos-$1-recovery.img root@divestos.org:/var/www/divestos.org/builds/LineageOS/$1/ || true;
+	rsync -Pau fastboot/divested-*-dos-$1-*.zip* root@divestos.org:/var/www/divestos.org/builds/LineageOS/$1/ || true;
+}
+export -f pushToServer;
 
 disableDexPreOpt() {
 	cd "$DOS_BUILD_BASE$1";
