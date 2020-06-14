@@ -186,8 +186,8 @@ processRelease() {
 		"${VERITY_SWITCHES[@]}" \
 		$OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files-*.zip \
 		$OUT_DIR/$PREFIX-target_files.zip;
+	md5sum $OUT_DIR/$PREFIX-target_files.zip > $OUT_DIR/$PREFIX-target_files.zip.md5sum;
 	sha512sum $OUT_DIR/$PREFIX-target_files.zip > $OUT_DIR/$PREFIX-target_files.zip.sha512sum;
-
 	local INCREMENTAL_ID=$(grep "ro.build.version.incremental" $OUT_DIR/system/build.prop | cut -f2 -d "=" | sed 's/\.//g');
 	echo $INCREMENTAL_ID > $OUT_DIR/$PREFIX-target_files.zip.id;
 
@@ -196,6 +196,7 @@ processRelease() {
 		echo -e "\e[0;32mCreating fastboot image\e[0m";
 		build/tools/releasetools/img_from_target_files $OUT_DIR/$PREFIX-target_files.zip \
 			$OUT_DIR/$PREFIX-fastboot.zip || exit 1;
+		md5sum $OUT_DIR/$PREFIX-fastboot.zip > $OUT_DIR/$PREFIX-fastboot.zip.md5sum;
 		sha512sum $OUT_DIR/$PREFIX-fastboot.zip > $OUT_DIR/$PREFIX-fastboot.zip.sha512sum;
 	fi
 
@@ -231,15 +232,18 @@ processRelease() {
 		mkdir $OUT_DIR/rec_tmp;
 		unzip $OUT_DIR/$PREFIX-target_files.zip IMAGES/recovery.img -d $OUT_DIR/rec_tmp;
 		mv $OUT_DIR/rec_tmp/IMAGES/recovery.img $OUT_DIR/$PREFIX-recovery.img;
+		md5sum $OUT_DIR/$PREFIX-recovery.img > $OUT_DIR/$PREFIX-recovery.img.md5sum;
+		sha512sum $OUT_DIR/$PREFIX-recovery.img > $OUT_DIR/$PREFIX-recovery.img.sha512sum;
 	#else
 	#	echo -e "\e[0;32mExtracting signed boot.img\e[0m";
 	#	mkdir $OUT_DIR/rec_tmp;
 	#	unzip $OUT_DIR/$PREFIX-target_files.zip IMAGES/boot.img -d $OUT_DIR/rec_tmp;
 	#	mv $OUT_DIR/rec_tmp/IMAGES/boot.img $OUT_DIR/$PREFIX-boot.img;
+	#	md5sum $OUT_DIR/$PREFIX-boot.img > $OUT_DIR/$PREFIX-boot.img.md5sum;
+	#	sha512sum $OUT_DIR/$PREFIX-boot.img > $OUT_DIR/$PREFIX-boot.img.sha512sum;
 	fi;
 
-	sed -i "s|$OUT_DIR/||" $OUT_DIR/*.md5sum;
-	sed -i "s|$OUT_DIR/||" $OUT_DIR/*.sha512sum;
+	sed -i "s|$OUT_DIR/||" $OUT_DIR/*.md5sum $OUT_DIR/*.sha512sum;
 
 	#Copy to archive
 	if [ "$DOS_AUTO_ARCHIVE_BUILDS" = true ]; then
@@ -253,7 +257,7 @@ processRelease() {
 		cp -v $OUT_DIR/$PREFIX-fastboot.zip* $ARCHIVE/fastboot/ || true;
 		cp -v $OUT_DIR/$PREFIX-ota.zip* $ARCHIVE/;
 		cp -v $OUT_DIR/$PREFIX-incremental_*.zip* $ARCHIVE/incrementals/ || true;
-		cp -v $OUT_DIR/$PREFIX-recovery.img $ARCHIVE/ || true;
+		cp -v $OUT_DIR/$PREFIX-recovery.img* $ARCHIVE/ || true;
 		sync;
 
 		#Remove to make space for next build
