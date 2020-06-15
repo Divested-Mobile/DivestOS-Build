@@ -1772,3 +1772,5 @@ CVE-2020-0219
 	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/f8396c5cc0293d7231a3e73dc9b09718d25b65ed
 CVE-2020-8597
 	Link - external/ppp - https://android.googlesource.com/platform/external/ppp/+/f9fec5c36952301e585a420f31e96d35a60d0498
+CVE-0000-0000
+#The above line must be the last line
