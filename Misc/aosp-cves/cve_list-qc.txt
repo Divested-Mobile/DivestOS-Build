@@ -1,26 +1,24 @@
 CVE-2015-0235
 	Link - https://source.codeaurora.org/quic/le//oe/recipes/commit/?id=6025569cb2a156bb6765dc14d66cb83f46a8c338
 CVE-2015-3847
-	Link - https://www.codeaurora.org/gitweb/quic/la/?p=platform/packages/apps/Bluetooth.git;a=commit;h=d551191d7b4ee3941e4194c629a9ca8b4082fe24
-CVE-2016-2454
-	Link - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/msm.git;a=commit;h=0775ca1be0a30b8bd1a47dfe7c0e716f91278ab2
+	Link - packages/apps/Bluetooth - https://www.codeaurora.org/gitweb/quic/la/?p=platform/packages/apps/Bluetooth.git;a=commit;h=d551191d7b4ee3941e4194c629a9ca8b4082fe24
 CVE-2016-5346
 	Link - hardware/qcom/media - https://source.codeaurora.org/quic/la/platform/hardware/qcom/media/commit/?id%3Df09005d44f2ac01a72c1529609892585d34b1d23
 CVE-2016-6716
-	Link - https://www.codeaurora.org/gitweb/quic/la/?p=platform/packages/apps/SnapdragonLauncher.git;a=commit;h=469edd2291431993a61253d404ce8c736812f6d9
-	Link - https://www.codeaurora.org/gitweb/quic/la/?p=platform/packages/apps/SnapdragonLauncher.git;a=commit;h=4dad8edcf764dea93e254f0d09de867f63891c59
-	Link - https://www.codeaurora.org/gitweb/quic/la/?p=platform/packages/apps/SnapdragonLauncher.git;a=commit;h=cd99ce3abd858f72fe6c8b7db1d29cef4ad7a6fa
+	Link - packages/apps/SnapdragonLauncher - https://www.codeaurora.org/gitweb/quic/la/?p=platform/packages/apps/SnapdragonLauncher.git;a=commit;h=469edd2291431993a61253d404ce8c736812f6d9
+	Link - packages/apps/SnapdragonLauncher - https://www.codeaurora.org/gitweb/quic/la/?p=platform/packages/apps/SnapdragonLauncher.git;a=commit;h=4dad8edcf764dea93e254f0d09de867f63891c59
+	Link - packages/apps/SnapdragonLauncher - https://www.codeaurora.org/gitweb/quic/la/?p=platform/packages/apps/SnapdragonLauncher.git;a=commit;h=cd99ce3abd858f72fe6c8b7db1d29cef4ad7a6fa
 CVE-2017-0399
-	Link - https://source.codeaurora.org/quic/la//platform/hardware/qcom/audio/commit/?id=610553e439f35c12e268b927c773bb4ad21f94f7
-	Link - https://source.codeaurora.org/quic/la//platform/frameworks/av/commit/?id=bb20e338c40a9acd6eafd1bc8bf7e6bc23eba499
+	Link - hardware/qcom/audio - https://source.codeaurora.org/quic/la//platform/hardware/qcom/audio/commit/?id=610553e439f35c12e268b927c773bb4ad21f94f7
+	Link - platform/frameworks/av - https://source.codeaurora.org/quic/la//platform/frameworks/av/commit/?id=bb20e338c40a9acd6eafd1bc8bf7e6bc23eba499
 CVE-2017-0400
-	Link - https://source.codeaurora.org/quic/la//platform/hardware/qcom/audio/commit/?id=610553e439f35c12e268b927c773bb4ad21f94f7
-	Link - https://source.codeaurora.org/quic/la//platform/frameworks/av/commit/?id=bb20e338c40a9acd6eafd1bc8bf7e6bc23eba499
+	Link - hardware/qcom/audio - https://source.codeaurora.org/quic/la//platform/hardware/qcom/audio/commit/?id=610553e439f35c12e268b927c773bb4ad21f94f7
+	Link - frameworks/av - https://source.codeaurora.org/quic/la//platform/frameworks/av/commit/?id=bb20e338c40a9acd6eafd1bc8bf7e6bc23eba499
 CVE-2017-0401
-	Link - https://source.codeaurora.org/quic/la//platform/hardware/qcom/audio/commit/?id=0fdc03951d5aaaca8359ae66632a378b606fba5c
+	Link - hardware/qcom/audio - https://source.codeaurora.org/quic/la//platform/hardware/qcom/audio/commit/?id=0fdc03951d5aaaca8359ae66632a378b606fba5c
 CVE-2017-0402
-	Link - https://source.codeaurora.org/quic/la//platform/hardware/qcom/audio/commit/?id=610553e439f35c12e268b927c773bb4ad21f94f7
-	Link - https://source.codeaurora.org/quic/la//platform/frameworks/av/commit/?id=bb20e338c40a9acd6eafd1bc8bf7e6bc23eba499
+	Link - hardware/qcom/audio - https://source.codeaurora.org/quic/la//platform/hardware/qcom/audio/commit/?id=610553e439f35c12e268b927c773bb4ad21f94f7
+	Link - frameworks/av - https://source.codeaurora.org/quic/la//platform/frameworks/av/commit/?id=bb20e338c40a9acd6eafd1bc8bf7e6bc23eba499
 CVE-2017-0781
 	Link - system/bt - https://source.codeaurora.org/quic/la/platform/system/bt/commit/?id=3868d4f3f411b7c3b03d5eaa53e2fb138211da78
 	Link - system/bt - https://source.codeaurora.org/quic/la/platform/system/bt/commit/?id=3eedbe71aba901bb8ca16c69c2528a51b9ffffad
@@ -157,13 +155,13 @@ CVE-2018-11946
 CVE-2018-11956
 	Link - https://source.codeaurora.org/quic/le/meta-qti-bsp/commit/?id=ecd2fb4ab9e2a6851add554af03cebe337345c44
 CVE-2018-11961
-	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/gps/commit/?id=c57ee0a5d3261ab20c35b451d1b3ae2b02a21591
+	Link - hardware/qcom/gps - https://source.codeaurora.org/quic/le/platform/hardware/qcom/gps/commit/?id=c57ee0a5d3261ab20c35b451d1b3ae2b02a21591
 CVE-2018-11962
 	Link - frameworks/av/commit?id=217604d69ce4dcf7c6433a9eafdfceefe25e8fd3 - https://source.codeaurora.org/quic/la/platform/frameworks/av/commit?id=217604d69ce4dcf7c6433a9eafdfceefe25e8fd3
 CVE-2018-11964
 	Link - https://source.codeaurora.org/quic/le/meta-qti-bsp/commit/?id=d2bd60489f1265812f2ed9cf76411337e1f9dff8
 CVE-2018-11965
-	Link - https://source.codeaurora.org/quic/le/platform/system/core/commit/?id=c69978b5f3866022d1c2dcc0ee8903c95e104fb3
+	Link - system/core - https://source.codeaurora.org/quic/le/platform/system/core/commit/?id=c69978b5f3866022d1c2dcc0ee8903c95e104fb3
 CVE-2018-11995
 	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=e3688be47d2b72f130f90dafd24b5f5acc4684ca
 CVE-2018-12006
@@ -173,8 +171,6 @@ CVE-2018-13889
 	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/gps/commit/?id=03885c6896a88d993dd49c64ada02bec52af08a1
 CVE-2018-13897
 	Link - system/netd - https://source.codeaurora.org/quic/la/platform/system/netd/commit?id=a0787febf7effc480dfc4d0cbc548ea90d3f74ab 
-CVE-2019-2268
-	Link - https://jira-stnd.qualcomm.com/jira/secure/attachment/2872359/core/hdd/src/wlan_hdd_p2p.c
 CVE-2019-2306
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=993261eb29127b942c5eb81de168cb2f39bfcd2e
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=d91a525dba4b3e7cdbbedf62e15aeaef90c8eb32 
@@ -194,7 +190,7 @@ CVE-2019-10509
 CVE-2019-10510
 	Link - system/bt - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/system/bt/commit/?id=d005a97b4daa188a15696c46c72b67e5f49f7fc6
 CVE-2019-10521
-	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/gps/commit/?id=4788c8a1ee32619f59752d9068df2f5d316819eb
+	Link - hardware/qcom/gps - https://source.codeaurora.org/quic/le/platform/hardware/qcom/gps/commit/?id=4788c8a1ee32619f59752d9068df2f5d316819eb
 CVE-2019-10569
 	Link - hardware/qcom/audio - https://source.codeaurora.org/quic/la/platform/hardware/qcom/audio/commit/?id=bbf4497352958dd27036503a43cd8a031e7eb9b1
 CVE-2019-10581
@@ -207,6 +203,6 @@ CVE-2019-14024
 CVE-2019-14087
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=576a22370f673ac9aacc1d677a9a9d2a46ed05d2
 CVE-2019-14132
-	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/media/commit/?id=9e80e1db4b56b42f9150d4d51166560d10839f5f
+	Link - hardware/qcom/media - https://source.codeaurora.org/quic/le/platform/hardware/qcom/media/commit/?id=9e80e1db4b56b42f9150d4d51166560d10839f5f
 CVE-0000-0000
 #The above line must be the last line
