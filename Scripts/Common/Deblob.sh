@@ -327,7 +327,8 @@ echo "Deblobbing..."
 	#blobs=$blobs"|dbvc_atvc_property_set";
 	blobs=$blobs"|com.motorola.motosignature.jar|com.motorola.motosignature.xml|MotoSignatureApp.apk";
 	blobs=$blobs"|TriggerEnroll.apk|TriggerTrainingService.apk|com.motorola.triggerenroll.xml";
-	blobs=$blobs"|audio.motvr.default.so|libmotaudioutils.so";
+	blobs=$blobs"|audio.motvr.default.so";
+	#blobs=$blobs"|libmotaudioutils.so"; #breaks phone call audio
 	blobs=$blobs"|libcce-socketjni.so|libmotocare.so";
 	#blobs=$blobs"|qmi_motext_hook|libmdmcutback.so|libqmimotext.so|libmotext_inf.so"; #necessary for radio
 	makes=$makes"|com.motorola.cameraone.xml";

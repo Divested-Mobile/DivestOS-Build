@@ -1,4 +1,4 @@
-From 95dc082ad7556e88bc10fc48cb19364fce1ae9ae Mon Sep 17 00:00:00 2001
+From 7c118662b8ea517145b30c2805fccb47698b3390 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Thu, 13 Dec 2018 09:26:25 -0500
 Subject: [PATCH] increase max_map_count for hardened malloc
@@ -8,15 +8,18 @@ Subject: [PATCH] increase max_map_count for hardened malloc
  1 file changed, 2 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 0fa9febdd3c..c38761021b6 100644
+index c80acdf51..21075a552 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -671,6 +671,8 @@ on boot
+@@ -686,6 +686,8 @@ on boot
      chown root system /sys/block/zram0/writeback
      chmod 0664 /sys/block/zram0/writeback
  
 +    write /proc/sys/vm/max_map_count 524240
 +
-     # Tweak background writeout
-     write /proc/sys/vm/dirty_expire_centisecs 200
-     write /proc/sys/vm/dirty_background_ratio  5
+     # F2FS tuning. Set cp_interval larger than dirty_expire_centisecs, 30 secs,
+     # to avoid power consumption when system becomes mostly idle. Be careful
+     # to make it too large, since it may bring userdata loss, if they
+-- 
+2.26.2
+
