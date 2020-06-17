@@ -245,6 +245,16 @@ processRelease() {
 
 	sed -i "s|$OUT_DIR/||" $OUT_DIR/*.md5sum $OUT_DIR/*.sha512sum;
 
+	#GPG signing
+	if [ "$DOS_GPG_SIGNING" = true ]; then
+		for checksum in $OUT_DIR/*.sha512sum; do
+			gpg --homedir "$DOS_SIGNING_GPG" --sign --local-user "$DOS_GPG_SIGNING_KEY" --clearsign "$checksum";
+			if [ "$?" -eq "0" ]; then
+				mv -f "$checksum.asc" "$checksum";
+			fi;
+		done;
+	fi;
+
 	#Copy to archive
 	if [ "$DOS_AUTO_ARCHIVE_BUILDS" = true ]; then
 		echo -e "\e[0;32mCopying files to archive\e[0m";

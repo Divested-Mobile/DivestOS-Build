@@ -26,6 +26,7 @@ export DOS_WORKSPACE_ROOT="/mnt/dos/"; #XXX: THIS MUST BE CORRECT TO BUILD!
 #export DOS_BUILDS=$DOS_WORKSPACE_ROOT"Builds/";
 export DOS_BUILDS="/mnt/backup-1/DOS/Builds/";
 export DOS_SIGNING_KEYS=$DOS_WORKSPACE_ROOT"Signing_Keys/4096pro";
+export DOS_SIGNING_GPG=$DOS_WORKSPACE_ROOT"Signing_Keys/gnupg";
 #export USE_CCACHE=1;
 #export CCACHE_DIR="";
 export CCACHE_COMPRESS=1;
@@ -72,6 +73,8 @@ export DOS_MALWARE_SCAN_BEFORE_SIGN=false; #Scan device files for malware before
 export DOS_GENERATE_DELTAS=true; #Creates deltas from existing target_files in $DOS_BUILDS
 export DOS_AUTO_ARCHIVE_BUILDS=true; #Copies files to $DOS_BUILDS after signing
 export DOS_REMOVE_AFTER=true; #Removes device OUT directory after complete to reclaim space. Requires AUTO_ARCHIVE_BUILDS=true
+export DOS_GPG_SIGNING=true;
+export DOS_GPG_SIGNING_KEY="B8744D67F9F1E14E145DFD8E7F627E920F316994";
 
 #Branding
 export DOS_BRANDING_NAME="DivestOS";
