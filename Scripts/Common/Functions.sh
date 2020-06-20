@@ -248,6 +248,7 @@ processRelease() {
 	#GPG signing
 	if [ "$DOS_GPG_SIGNING" = true ]; then
 		for checksum in $OUT_DIR/*.sha512sum; do
+			echo -e "\e[0;32mGPG signing $checksum\e[0m";
 			gpg --homedir "$DOS_SIGNING_GPG" --sign --local-user "$DOS_GPG_SIGNING_KEY" --clearsign "$checksum";
 			if [ "$?" -eq "0" ]; then
 				mv -f "$checksum.asc" "$checksum";

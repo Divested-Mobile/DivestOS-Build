@@ -51,7 +51,6 @@
 	<remove-project name="platform/external/wayland" />
 	<remove-project name="platform/external/wayland-protocols" />
 	<remove-project name="platform/frameworks/opt/car/setupwizard" />
-	<remove-project name="platform/hardware/qcom/neuralnetworks/hvxservice" />
 	<remove-project name="platform/hardware/qcom/sdm710/vr" />
 	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
 	<remove-project name="platform/prebuilts/gcc/darwin-x86/aarch64/aarch64-linux-android-4.9" />

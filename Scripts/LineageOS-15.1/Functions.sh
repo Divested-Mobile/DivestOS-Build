@@ -65,7 +65,7 @@ buildAll() {
 	buildDevice dragon verity;
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
-	buildDevice flo; #broken camera?
+	buildDevice flo;
 	buildDevice hammerhead;
 	buildDevice h850; #broken
 	buildDevice us996;

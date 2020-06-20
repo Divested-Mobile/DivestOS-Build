@@ -48,7 +48,6 @@
 	<remove-project name="platform/external/virglrenderer" />
 	<remove-project name="platform/external/wayland" />
 	<remove-project name="platform/external/wayland-protocols" />
-	<remove-project name="platform/hardware/qcom/neuralnetworks/hvxservice" />
 	<remove-project name="platform/hardware/qcom/sdm845/vr" />
 	<remove-project name="platform/hardware/qcom/sm8150/vr" />
 	<remove-project name="platform/packages/apps/SampleLocationAttribution" />
