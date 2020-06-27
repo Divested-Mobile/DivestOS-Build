@@ -177,7 +177,7 @@ processRelease() {
 	#Malware Scan
 	if [ "$DOS_MALWARE_SCAN_BEFORE_SIGN" = true ]; then
 		echo -e "\e[0;32mScanning files for malware before signing\e[0m";
-		scanForMalware false "$OUT_DIR/system";
+		scanForMalware false "$OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files-*.zip";
 	fi;
 
 	#Target Files
@@ -243,7 +243,10 @@ processRelease() {
 	#	sha512sum $OUT_DIR/$PREFIX-boot.img > $OUT_DIR/$PREFIX-boot.img.sha512sum;
 	fi;
 
+	#File name fixes
 	sed -i "s|$OUT_DIR/||" $OUT_DIR/*.md5sum $OUT_DIR/*.sha512sum;
+	sed -i 's/-ota\././' $OUT_DIR/*.md5sum $OUT_DIR/*.sha512sum;
+	sed -i 's/-incremental_/-/' $OUT_DIR/*.md5sum $OUT_DIR/*.sha512sum;
 
 	#GPG signing
 	if [ "$DOS_GPG_SIGNING" = true ]; then
@@ -269,6 +272,9 @@ processRelease() {
 		cp -v $OUT_DIR/$PREFIX-ota.zip* $ARCHIVE/;
 		cp -v $OUT_DIR/$PREFIX-incremental_*.zip* $ARCHIVE/incrementals/ || true;
 		cp -v $OUT_DIR/$PREFIX-recovery.img* $ARCHIVE/ || true;
+
+		rename -- "-ota." "." $ARCHIVE/$PREFIX-ota.zip*;
+		rename -- "-incremental_" "-" $ARCHIVE/incrementals/$PREFIX-incremental_*.zip*;
 		sync;
 
 		#Remove to make space for next build
@@ -285,11 +291,6 @@ processRelease() {
 export -f processRelease;
 
 pushToServer() {
-	rename -- "-ota." "." *zip*;
-	rename -- "-incremental_" "-" incrementals/*zip*;
-	sed -i 's/-ota\././' *.md5sum *.sha512sum;
-	sed -i 's/-incremental_/-/' incrementals/*.md5sum incrementals/*.sha512sum;
-
 	rsync -Pau incrementals/divested-*-dos-$1-*.zip* root@divestos.org:/var/www/divestos.org/builds/LineageOS/$1/incrementals/ || true;
 	rsync -Pau divested-*-dos-$1.zip* root@divestos.org:/var/www/divestos.org/builds/LineageOS/$1/ || true;
 	rsync -Pau divested-*-dos-$1-recovery.img root@divestos.org:/var/www/divestos.org/builds/LineageOS/$1/ || true;
