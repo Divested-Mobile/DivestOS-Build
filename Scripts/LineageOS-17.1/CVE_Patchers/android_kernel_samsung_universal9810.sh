@@ -1,6 +1,7 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/samsung/universal9810"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0218-0219.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0225-0226.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0024.patch
@@ -43,7 +44,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0067/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-10711/^5.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/^5.6.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12464/^5.6.8/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12656/^5.6.10/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/^5.6.1/0001.patch
-editKernelLocalversion "-dos.p45"
+editKernelLocalversion "-dos.p47"
 cd "$DOS_BUILD_BASE"
