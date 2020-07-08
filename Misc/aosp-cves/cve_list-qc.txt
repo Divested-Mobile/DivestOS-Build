@@ -202,7 +202,11 @@ CVE-2019-14024
 	Link - vendor/nxp/opensource/packages/apps/Nfc - https://source.codeaurora.org/quic/la/platform/vendor/nxp/opensource/packages/apps/Nfc/commit/?id=47e5aedc1c765076ec401f423b6db2c1477b8925
 CVE-2019-14087
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=576a22370f673ac9aacc1d677a9a9d2a46ed05d2
+CVE-2019-14093
+	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=acd2e5735fde366c2c4c98ac70fc4995c7af61dc
 CVE-2019-14132
 	Link - hardware/qcom/media - https://source.codeaurora.org/quic/le/platform/hardware/qcom/media/commit/?id=9e80e1db4b56b42f9150d4d51166560d10839f5f
+CVE-2020-3700
+	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=c8d215c57c049ed7015ded342ebaaef21b438425
 CVE-0000-0000
 #The above line must be the last line
