@@ -258,9 +258,6 @@ git revert --no-edit dd4a454f080f60cc7c4f5cc281a48cba80947baf; #Resurrect dm-ver
 enterAndClear "kernel/google/wahoo";
 sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
 
-enter "vendor/google";
-echo "" > atv/atv-common.mk;
-
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
 if [ "$DOS_LOWRAM_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'enableLowRam "{}"'; fi;
