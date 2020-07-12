@@ -186,7 +186,6 @@ processRelease() {
 		"${VERITY_SWITCHES[@]}" \
 		$OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files-*.zip \
 		$OUT_DIR/$PREFIX-target_files.zip;
-	md5sum $OUT_DIR/$PREFIX-target_files.zip > $OUT_DIR/$PREFIX-target_files.zip.md5sum;
 	sha512sum $OUT_DIR/$PREFIX-target_files.zip > $OUT_DIR/$PREFIX-target_files.zip.sha512sum;
 	local INCREMENTAL_ID=$(grep "ro.build.version.incremental" $OUT_DIR/system/build.prop | cut -f2 -d "=" | sed 's/\.//g');
 	echo $INCREMENTAL_ID > $OUT_DIR/$PREFIX-target_files.zip.id;
@@ -196,7 +195,6 @@ processRelease() {
 		echo -e "\e[0;32mCreating fastboot image\e[0m";
 		build/tools/releasetools/img_from_target_files $OUT_DIR/$PREFIX-target_files.zip \
 			$OUT_DIR/$PREFIX-fastboot.zip || exit 1;
-		md5sum $OUT_DIR/$PREFIX-fastboot.zip > $OUT_DIR/$PREFIX-fastboot.zip.md5sum;
 		sha512sum $OUT_DIR/$PREFIX-fastboot.zip > $OUT_DIR/$PREFIX-fastboot.zip.sha512sum;
 	fi
 
@@ -218,7 +216,6 @@ processRelease() {
 					"$LAST_TARGET_FILES" \
 					$OUT_DIR/$PREFIX-target_files.zip \
 					$OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip;
-				md5sum $OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip > $OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip.md5sum;
 				sha512sum $OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip > $OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip.sha512sum;
 			fi;
 		done;
@@ -232,14 +229,12 @@ processRelease() {
 		mkdir $OUT_DIR/rec_tmp;
 		unzip $OUT_DIR/$PREFIX-target_files.zip IMAGES/recovery.img -d $OUT_DIR/rec_tmp;
 		mv $OUT_DIR/rec_tmp/IMAGES/recovery.img $OUT_DIR/$PREFIX-recovery.img;
-		md5sum $OUT_DIR/$PREFIX-recovery.img > $OUT_DIR/$PREFIX-recovery.img.md5sum;
 		sha512sum $OUT_DIR/$PREFIX-recovery.img > $OUT_DIR/$PREFIX-recovery.img.sha512sum;
 	#else
 	#	echo -e "\e[0;32mExtracting signed boot.img\e[0m";
 	#	mkdir $OUT_DIR/rec_tmp;
 	#	unzip $OUT_DIR/$PREFIX-target_files.zip IMAGES/boot.img -d $OUT_DIR/rec_tmp;
 	#	mv $OUT_DIR/rec_tmp/IMAGES/boot.img $OUT_DIR/$PREFIX-boot.img;
-	#	md5sum $OUT_DIR/$PREFIX-boot.img > $OUT_DIR/$PREFIX-boot.img.md5sum;
 	#	sha512sum $OUT_DIR/$PREFIX-boot.img > $OUT_DIR/$PREFIX-boot.img.sha512sum;
 	fi;
 

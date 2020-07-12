@@ -232,6 +232,9 @@ git revert --no-edit dbebbce20b2b303fe13f7078ef54154f9dd5d9e2; #fix nfc path
 enterAndClear "device/lge/d855";
 git revert --no-edit 9a5739e66d0a44347881807c0cc44d7c318c02b8; #fix nfc path
 
+enterAndClear "device/lge/hammerhead";
+rm -rf bdAddrLoader; #duplicate with mako
+
 enterAndClear "device/lge/mako";
 #git revert ; #restore releasetools #TODO
 smallerSystem;
@@ -254,6 +257,9 @@ awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disabl
 
 enterAndClear "device/oppo/msm8974-common";
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
+
+enterAndClear "device/zuk/msm8996-common";
+awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
 
 enterAndClear "kernel/google/marlin";
 git revert --no-edit 568f99db3c9a590912f533fa734c46cf7a25dcbd; #Resurrect dm-verity

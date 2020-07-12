@@ -238,6 +238,7 @@ echo "pmf=0" >> wifi/wpa_supplicant_overlay.conf; #Wi-Fi chipset doesn't support
 
 enterAndClear "device/lge/msm8996-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
+awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
 
 #enterAndClear "device/moto/shamu";
 #git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
@@ -251,6 +252,9 @@ awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disabl
 
 enterAndClear "device/oppo/common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
+
+enterAndClear "device/zuk/msm8996-common";
+awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
 
 enterAndClear "kernel/google/marlin";
 git revert --no-edit dd4a454f080f60cc7c4f5cc281a48cba80947baf; #Resurrect dm-verity

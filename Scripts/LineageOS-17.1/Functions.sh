@@ -59,7 +59,7 @@ buildAll() {
 	buildDevice mako;
 	#SD410
 	buildDevice crackling;
-	#buildDevice osprey; #broken vendor by deblobber, breaks build for all devices
+	#buildDevice osprey; #needs manual patching + more - mkdir proprietary/priv-app && cp -r proprietary/system/priv-app/qcrilmsgtunnel proprietary/priv-app/
 	#SD600
 	buildDevice jfltexx;
 	#SD800
@@ -75,11 +75,11 @@ buildAll() {
 	#SD810
 	buildDevice oneplus2;
 	#SD820
-	buildDevice h850; #failed to find dex jar path for module "WfdCommon"
+	buildDevice h850; #needs manual patching + more - rm vendor/lge/v20-common/Android.bp
 	buildDevice us996;
 	buildDevice griffin;
 	buildDevice oneplus3 verity;
-	buildDevice z2_plus verity; #broken
+	buildDevice z2_plus verity;
 	#SD821
 	buildDevice marlin verity;
 	buildDevice sailfish verity;
@@ -107,7 +107,6 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
 	#source build/envsetup.sh;
-	#repopick -it android-10.0.0_r40;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

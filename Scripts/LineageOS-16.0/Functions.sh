@@ -58,7 +58,7 @@ buildAll() {
 	#SDS4P
 	#buildDevice flo; #broken encryption
 	#SD800
-	buildDevice hammerhead; #broken
+	buildDevice hammerhead; #broken sepolicy
 	#SD801
 	buildDevice bacon;
 	buildDevice ham;
@@ -67,14 +67,12 @@ buildAll() {
 	buildDevice ether;
 	#SD615
 	buildDevice kipper;
-	#SD820
-	buildDevice z2_plus verity; #broken
 	#SD625
-	buildDevice zenfone3; #needs manual patching - fwb xml: fused: dangling tag
+	buildDevice zenfone3; #broken - ninja: error: 'android.hidl.base@1.0.so', missing and no known rule to make it
 	#Samsung
-	buildDeviceUserDebug i9100; #broken
+	buildDeviceUserDebug i9100; #broken - many errors in hardware/samsung/exynos4
 	#Intel
-	buildDevice fugu; #broken
+	buildDevice fugu; #broken - ninja: error: 'libpcre2.so' missing and no known rule to make it
 
 	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
 	buildDevice dumpling verity;
@@ -100,12 +98,12 @@ buildAll() {
 		#SD820
 		buildDevice oneplus3 verity;
 		buildDevice griffin;
+		buildDevice z2_plus verity;
 		#SD821
 		buildDevice marlin verity;
 		buildDevice sailfish verity;
 		#SD835
 		buildDevice cheryl;
-
 		buildDevice mata verity;
 		buildDevice taimen avb;
 		buildDevice walleye avb;
@@ -126,7 +124,6 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -i 232948; #wahoo: liblight: close fd
-	repopick -it P_asb_2020-07;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

@@ -61,7 +61,7 @@ buildAll() {
 	buildDevice Z00T; #broken - needs vendor patching
 	buildDevice axon7; #broken - needs vendor patching
 	buildDevice us997;
-	buildDevice flounder verity; #broken encryption (?)
+	buildDevice flounder verity;
 	buildDevice dragon verity;
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
@@ -105,7 +105,7 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
 	source build/envsetup.sh;
-	repopick -it O_asb_2020-07;
+	repopick -i 280662 280664; #O_asb_2020-07
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 
