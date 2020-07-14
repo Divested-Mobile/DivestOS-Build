@@ -1,0 +1,40 @@
+From 147d0470f98c5f5f938892bbc5bb640e115fdb98 Mon Sep 17 00:00:00 2001
+From: Nick Kralevich <nnk@google.com>
+Date: Tue, 20 Dec 2016 08:40:35 -0800
+Subject: [PATCH] SockDiag.cpp: Add O_CLOEXEC to tcpdiag sockets
+
+Add O_CLOEXEC to NETLINK_INET_DIAG sockets. This ensures that the file
+descriptors associated with these sockets do not leak across an exec()
+boundary. Please see "man 2 open" for a description of why this is
+desirable.
+
+Addresses the following SELinux denial:
+
+  avc: denied { read write } for comm="clatd" path="socket:[902062]"
+  dev="sockfs" ino=902062 scontext=u:r:clatd:s0 tcontext=u:r:netd:s0
+  tclass=netlink_tcpdiag_socket permissive=0
+
+which occurs when netd executes clatd and inadvertantly leaks the file
+descriptors to that process.
+
+Test: Android compiles and boots, and no obvious errors
+Change-Id: Ic5662fa8df6884e7002a0ec89839fe90abe05574
+---
+ server/SockDiag.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/server/SockDiag.cpp b/server/SockDiag.cpp
+index 11711afa..630e379d 100644
+--- a/server/SockDiag.cpp
++++ b/server/SockDiag.cpp
+@@ -73,8 +73,8 @@ bool SockDiag::open() {
+         return false;
+     }
+ 
+-    mSock = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_INET_DIAG);
+-    mWriteSock = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_INET_DIAG);
++    mSock = socket(PF_NETLINK, SOCK_DGRAM | SOCK_CLOEXEC, NETLINK_INET_DIAG);
++    mWriteSock = socket(PF_NETLINK, SOCK_DGRAM | SOCK_CLOEXEC, NETLINK_INET_DIAG);
+     if (!hasSocks()) {
+         closeSocks();
+         return false;

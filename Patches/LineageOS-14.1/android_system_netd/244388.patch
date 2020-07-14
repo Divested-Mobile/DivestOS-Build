@@ -1,0 +1,52 @@
+From 297e6f85ac174825505970e62b4a1f39f84ef3ac Mon Sep 17 00:00:00 2001
+From: Joel Scherpelz <jscherpelz@google.com>
+Date: Wed, 14 Jun 2017 10:27:47 +0900
+Subject: [PATCH] BACKPORT: Avoid netlink socket address conflict
+
+NetlinkManager previously bound all netlink sockets with nl_pid =
+getpid(). Unfortunately only the first such socket is allowed to claim
+nl_pid = getpid(). The kernel is happy to assign this value
+automatically if nl_pid = 0. For more information on nl_pid see "man 7
+netlink".
+
+When NFLogListener was added, it created a socket with a kernel assigned
+nl_pid, unfortunately the kernel assigns getpid() to the first such
+socket and listener was initialized earlier in the startup process than
+NetlinkManager.
+
+This change alters NetlinkManager to request a kernel assigned nl_pid and
+defensively moves the initialization of NFLogListener later in the
+startup sequence to favor proper operation of existing code in
+NetlinkManager. Error logging is also slightly improved.
+
+Test: as follows
+    - built
+    - flashed
+    - booted
+    - "runtest -x .../netd_unit_test.cpp" passes
+    - "cts-tradefed run commandAndExit cts-dev -m CtsOsTestCases -t
+       android.os.cts.StrictModeTest" passes
+Bug: 62353125
+
+[syphyr: Removed NFLogListener changes]
+Signed-off-by: L.W. Reek <syphyr@gmail.com>
+
+Change-Id: I9c1c76e5769de75ff624bf43634ac4061c447a72
+---
+ server/NetlinkManager.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/server/NetlinkManager.cpp b/server/NetlinkManager.cpp
+index 769a80ae..5e6eaba8 100644
+--- a/server/NetlinkManager.cpp
++++ b/server/NetlinkManager.cpp
+@@ -73,7 +73,8 @@ NetlinkHandler *NetlinkManager::setupSocket(int *sock, int netlinkFamily,
+ 
+     memset(&nladdr, 0, sizeof(nladdr));
+     nladdr.nl_family = AF_NETLINK;
+-    nladdr.nl_pid = getpid();
++    // Kernel will assign a unique nl_pid if set to zero.
++    nladdr.nl_pid = 0;
+     nladdr.nl_groups = groups;
+ 
+     if ((*sock = socket(PF_NETLINK, SOCK_DGRAM | SOCK_CLOEXEC, netlinkFamily)) < 0) {
