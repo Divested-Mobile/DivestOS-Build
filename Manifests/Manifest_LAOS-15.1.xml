@@ -94,6 +94,7 @@
 	<project path="external/stlport" name="LineageOS/android_external_stlport" remote="github" />
 	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 	<project path="packages/apps/FlipFlap" name="LineageOS/android_packages_apps_FlipFlap" remote="github" />
+	<project path="device/lineage/atv" name="LineageOS/android_device_lineage_atv" remote="github" />
 
 	<!-- Asus Zenfone 2 Laser (Z00T) -->
 	<project path="device/asus/msm8916-common" name="LineageOS/android_device_asus_msm8916-common" remote="github" />

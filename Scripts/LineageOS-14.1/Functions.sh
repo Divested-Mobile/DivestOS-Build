@@ -115,7 +115,6 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
 	source build/envsetup.sh;
-	#repopick 214125; #spellchecker: enable more wordlists
 	repopick -it n_asb_09-2018-qcom;
 	repopick -it ibss-mode-nougat;
 	repopick -i 280667 280668 280669; #n-asb-2020-07

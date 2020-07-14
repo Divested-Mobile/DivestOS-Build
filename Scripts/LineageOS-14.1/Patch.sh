@@ -184,7 +184,7 @@ patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES_COMMON/android_system_core/0001-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
 
 enterAndClear "system/netd";
-git am "$DOS_PATCHES/android_system_netd/*.patch"; #n-netd
+git am $DOS_PATCHES/android_system_netd/*.patch; #n-netd
 
 enterAndClear "system/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/248600.patch"; #restrict access to timing information in /proc

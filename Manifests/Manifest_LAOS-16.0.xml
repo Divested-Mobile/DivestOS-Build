@@ -100,6 +100,7 @@
 	<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />
 	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 	<project path="packages/apps/FlipFlap" name="LineageOS/android_packages_apps_FlipFlap" remote="github" />
+	<project path="device/lineage/atv" name="LineageOS/android_device_lineage_atv" remote="github" />
 
 	<!-- Asus ZenFone 3 (zenfone3) -->
 	<project path="device/asus/zenfone3" name="LineageOS/android_device_asus_zenfone3" remote="github" />

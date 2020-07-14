@@ -96,6 +96,7 @@
 	<project path="hardware/sony/thermanager" name="LineageOS/android_hardware_sony_thermanager" remote="github" />
 	<!--<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />-->
 	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
+	<project path="device/lineage/atv" name="LineageOS/android_device_lineage_atv" remote="github" />
 
 	<!-- Essential PH-1 (mata) -->
 	<project path="device/essential/mata" name="LineageOS/android_device_essential_mata" remote="github" />
