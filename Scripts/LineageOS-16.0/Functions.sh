@@ -60,11 +60,8 @@ buildAll() {
 	#SD800
 	buildDevice hammerhead; #broken sepolicy
 	#SD801
-	buildDevice bacon;
 	buildDevice ham;
 	buildDevice klte;
-	#SD808
-	buildDevice ether;
 	#SD615
 	buildDevice kipper;
 	#SD625
@@ -86,6 +83,7 @@ buildAll() {
 		#SD800
 		buildDevice d802;
 		#SD801
+		buildDevice bacon;
 		buildDevice d852;
 		buildDevice d855;
 		buildDevice FP2;
@@ -93,6 +91,8 @@ buildAll() {
 		buildDevice victara;
 		#SD805
 		buildDevice shamu verity;
+		#SD808
+		buildDevice ether;
 		#SD810
 		buildDevice oneplus2;
 		#SD820

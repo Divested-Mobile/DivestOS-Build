@@ -212,6 +212,7 @@ processRelease() {
 			if [[ -f "$LAST_TARGET_FILES.id" ]]; then
 				local LAST_INCREMENTAL_ID=$(cat "$LAST_TARGET_FILES.id");
 				echo -e "\e[0;32mGenerating incremental OTA against $LAST_INCREMENTAL_ID\e[0m";
+				#TODO: Verify GPG signature and checksum of target-files first!
 				build/tools/releasetools/ota_from_target_files $BLOCK_SWITCHES -t 8 -k "$KEY_DIR/releasekey" -i \
 					"$LAST_TARGET_FILES" \
 					$OUT_DIR/$PREFIX-target_files.zip \
