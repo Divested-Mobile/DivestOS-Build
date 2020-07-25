@@ -204,9 +204,6 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 #enterAndClear "device/cyanogen/msm8916-common";
 #awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 
-enterAndClear "device/fairphone/FP2";
-sed -i 's/libinit_msm8974/libinit_msm8974-fairphone/' BoardConfig.mk init/Android.bp; #Fix name conflict
-
 enterAndClear "device/google/bonito";
 enableVerity; #Resurrect dm-verity
 
