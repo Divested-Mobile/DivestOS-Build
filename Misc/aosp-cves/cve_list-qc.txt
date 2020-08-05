@@ -1,3 +1,4 @@
+#Last checked 2020/08/05
 CVE-2015-0235
 	Link - https://source.codeaurora.org/quic/le//oe/recipes/commit/?id=6025569cb2a156bb6765dc14d66cb83f46a8c338
 CVE-2015-3847
@@ -208,5 +209,7 @@ CVE-2019-14132
 	Link - hardware/qcom/media - https://source.codeaurora.org/quic/le/platform/hardware/qcom/media/commit/?id=9e80e1db4b56b42f9150d4d51166560d10839f5f
 CVE-2020-3700
 	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=c8d215c57c049ed7015ded342ebaaef21b438425
+CVE-2020-11120
+	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=36a414abcf0c864460d8c3bf95a6fd070d9dbbd7
 CVE-0000-0000
 #The above line must be the last line

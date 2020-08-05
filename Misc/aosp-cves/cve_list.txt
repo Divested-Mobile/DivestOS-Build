@@ -1,4 +1,4 @@
-#Last checked 2020/07/07
+#Last checked 2020/08/05
 CVE-2014-9028
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/fe03f73d86bb415f5d5145f0de091834d89ae3a9
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/5859ae22db0a2d16af3e3ca19d582de37daf5eb6
@@ -1545,6 +1545,11 @@ CVE-2020-0106
 CVE-2020-0107
 	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/a39e6c1efb02ff9c19fb91beae9b548f5c1ecc78
 	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/cfdfe3a8e0ff3f9951970ca69b56953f6bf49ec1
+CVE-2020-0108
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/45a53e6cb8d3276126cfe0e717ad7ed486d39b24
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/0a163302b0288cdc4d9ca5e04398386ef8e1ec6b
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/36f182159ffae1f14a1733a3bb1334cdd9d44742
+	Link - packages/services/Car - https://android.googlesource.com/platform/packages/services/Car/+/d2d8933e006efc251fda52e6807807d107f2ca12
 CVE-2020-0109
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/adc39de3a148a2058d63bd7a1b8b71ee0a3524ac
 CVE-2020-0113
@@ -1784,11 +1789,39 @@ CVE-2020-0227
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/84cccfe6cdbc57ee372ee1a0fea64c7a11c53766
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/98f45443e1cf397ab92b4cecd9200c2dcccf099b
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b4aaa9d8adae5971f7f6589afc22008afa2f8d2b
+CVE-2020-0238
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/33dd3187d0246a0425a41f76888a369c16dc9379
+CVE-2020-0239
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/556de438237965857fde874d22aff0c4232d4d99
+CVE-2020-0240
+	Link - external/v8 - https://android.googlesource.com/platform/external/v8/+/cb30bc6720cb3864d1a9f9c55b7d53ab2d9a5f7a
+CVE-2020-0241
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/82f267012f29089c284340868de7375e77510e62
+CVE-2020-0242
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/f191963f5645f59390b640136fd928e5a492aa84
+CVE-2020-0243
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/f191963f5645f59390b640136fd928e5a492aa84
+CVE-2020-0247
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/4d467f1c7d7d355d0ac71a12ec8c2df07f756046
+CVE-2020-0248
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/c4d6e387984e09e86a58e6485555a2d651f0481f
+CVE-2020-0249
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/e183ab7e5a865ff1051505085b617f4f3ad4c049
+CVE-2020-0250
+	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/aa4283b976ea7bc5d1708472477834462a1dbdde
+CVE-2020-0256
+	Link - external/gptfdisk - https://android.googlesource.com/platform/external/gptfdisk/+/7ffd0a26064cf25c0922f2bab511e4b4e8149083
+CVE-2020-0257
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b26c7160cd1dfba9224ba12dc075ac3c658b18c3
+CVE-2020-0258
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/d1126e7160b87313de91be5dbf7d0d9b08900f70
 CVE-2020-3700
 	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=c8d215c57c049ed7015ded342ebaaef21b438425
 CVE-2020-8597
 	Link - external/ppp - https://android.googlesource.com/platform/external/ppp/+/f9fec5c36952301e585a420f31e96d35a60d0498
 CVE-2020-9589
 	Link - external/dng_sdk - https://android.googlesource.com/platform/external/dng_sdk/+/2e8f1f0dc5ca3db8a7035938752dd230608e17ab
+CVE-2020-11120
+	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=36a414abcf0c864460d8c3bf95a6fd070d9dbbd7
 CVE-0000-0000
 #The above line must be the last line
