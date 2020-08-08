@@ -58,7 +58,7 @@ buildAll() {
 	#SDS4P
 	#buildDevice flo; #broken encryption
 	#SD800
-	buildDevice hammerhead; #broken sepolicy
+	buildDevice hammerhead; #broken sepolicy?
 	#SD801
 	buildDevice ham;
 	buildDevice klte;
@@ -123,6 +123,7 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
 	source build/envsetup.sh;
+	repopick -it hh-p-sepolicy;
 	repopick -i 232948; #wahoo: liblight: close fd
 	repopick -i 282389; #update webview
 

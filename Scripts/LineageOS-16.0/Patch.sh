@@ -234,6 +234,7 @@ git revert --no-edit 9a5739e66d0a44347881807c0cc44d7c318c02b8; #fix nfc path
 
 enterAndClear "device/lge/hammerhead";
 rm -rf bdAddrLoader; #duplicate with mako
+echo "SELINUX_IGNORE_NEVERALLOWS := true" >> BoardConfig.mk; #qcom-legacy sepolicy
 
 enterAndClear "device/lge/mako";
 #git revert ; #restore releasetools #TODO

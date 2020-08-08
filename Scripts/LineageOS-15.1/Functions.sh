@@ -60,6 +60,7 @@ buildAll() {
 	buildDevice angler verity;
 	buildDevice Z00T; #broken - needs vendor patching
 	buildDevice axon7; #broken - needs vendor patching
+	buildDevice us996;
 	buildDevice us997;
 	buildDevice flounder verity;
 	buildDevice dragon verity;
@@ -68,7 +69,6 @@ buildAll() {
 	buildDevice flo;
 	buildDevice hammerhead;
 	buildDevice h850; #broken
-	buildDevice us996;
 	buildDevice fugu;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		buildDevice mako;
