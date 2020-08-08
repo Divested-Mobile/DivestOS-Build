@@ -111,7 +111,6 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -i 282389; #update webview
-	#repopick -it android-10.0.0_r41;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

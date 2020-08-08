@@ -125,7 +125,6 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	repopick -i 232948; #wahoo: liblight: close fd
 	repopick -i 282389; #update webview
-	repopick -it P_asb_2020-08;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
