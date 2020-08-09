@@ -121,6 +121,9 @@ enterAndClear "hardware/ti/wlan";
 git apply "$DOS_PATCHES/android_hardware_ti_wlan/209209.patch"; #wl12xx: Update SR and MR firmwares versions
 git apply "$DOS_PATCHES/android_hardware_ti_wlan/209210.patch"; #wl12xx: Update SR PLT firmwares
 
+enterAndClear "hardware/qcom/gps";
+git apply "$DOS_PATCHES/android_hardware_qcom_gps/0001-rollover.patch"; #fix week rollover
+
 if enter "kernel/wireguard"; then
 if [ "$DOS_WIREGUARD_INCLUDED" = false ]; then rm Android.mk; fi;
 #Remove system information from HTTP requests

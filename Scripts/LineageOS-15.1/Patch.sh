@@ -115,6 +115,9 @@ awk -i inplace '!/mPermissionReviewRequired = Build.PERMISSIONS_REVIEW_REQUIRED/
 awk -i inplace '!/\|\| context.getResources\(\).getBoolean\(/' service/java/com/android/server/wifi/WifiServiceImpl.java;
 awk -i inplace '!/com.android.internal.R.bool.config_permissionReviewRequired/' service/java/com/android/server/wifi/WifiServiceImpl.java;
 
+enterAndClear "hardware/qcom/gps";
+git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_gps/0001-rollover.patch"; #fix week rollover
+
 if enter "kernel/wireguard"; then
 if [ "$DOS_WIREGUARD_INCLUDED" = false ]; then rm Android.mk; fi;
 #Remove system information from HTTP requests

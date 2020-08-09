@@ -395,6 +395,9 @@ hardenLocationConf() {
 	#Switch gpsOneXtra to IZatCloud (invalid certificate)
 	sed -i '/xtrapath/!s|://xtra|://xtrapath|' "$gpsConfig" &>/dev/null || true;
 	sed -i 's|gpsonextra.net|izatcloud.net|' "$gpsConfig" &>/dev/null || true;
+	sed -i 's|xtrapath1|xtrapath4|' "$gpsConfig" &>/dev/null || true;
+	sed -i 's|xtrapath2|xtrapath5|' "$gpsConfig" &>/dev/null || true;
+	sed -i 's|xtrapath3|xtrapath6|' "$gpsConfig" &>/dev/null || true;
 	#Enable HTTPS (IZatCloud supports HTTPS)
 	sed -i 's|http://xtrapath|https://xtrapath|' "$gpsConfig" &>/dev/null || true;
 	#sed -i 's|http://gllto|https://gllto|' "$gpsConfig" &>/dev/null || true; XXX: GLPals has an invaid certificate
@@ -431,6 +434,9 @@ hardenLocationFWB() {
 	#Switch gpsOneXtra to IZatCloud (invalid certificate)
 	sed -i '/xtrapath/!s|://xtra|://xtrapath|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
 	sed -i 's|gpsonextra.net|izatcloud.net|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
+	sed -i 's|xtrapath1|xtrapath4|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
+	sed -i 's|xtrapath2|xtrapath5|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
+	sed -i 's|xtrapath3|xtrapath6|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
 	#Enable HTTPS (IZatCloud supports HTTPS)
 	sed -i 's|http://xtrapath|https://xtrapath|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
 	#sed -i 's|http://gllto|https://gllto|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true; XXX: GLPals has an invaid certificate

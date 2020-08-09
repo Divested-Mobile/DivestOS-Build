@@ -1,0 +1,89 @@
+From 895557ea85e34d3f969955f234186c5a0afab0a9 Mon Sep 17 00:00:00 2001
+From: jlask <jason972000@gmail.com>
+Date: Tue, 19 May 2020 10:04:37 -0500
+Subject: [PATCH] gps: Correct week rollover timestamps
+
+This adjustment will help with applications checking the time coming from gps.
+Some applictions will consider times in the far past as an error.
+
+Change-Id: I69d6971249c4898ac3895f725e46f268cdb2b00d
+---
+ core/LocApiBase.cpp         | 7 +++++++
+ msm8909/core/LocApiBase.cpp | 7 +++++++
+ msm8960/core/LocApiBase.cpp | 6 ++++++
+ msm8974/core/LocApiBase.cpp | 6 ++++++
+ 4 files changed, 26 insertions(+)
+
+diff --git a/core/LocApiBase.cpp b/core/LocApiBase.cpp
+index f56694e..a284080 100644
+--- a/core/LocApiBase.cpp
++++ b/core/LocApiBase.cpp
+@@ -243,6 +243,13 @@ void LocApiBase::reportPosition(UlpLocation &location,
+              location.gpsLocation.bearing, location.gpsLocation.accuracy,
+              location.gpsLocation.timestamp, location.rawDataSize,
+              location.rawData, status, loc_technology_mask);
++
++    if (location.gpsLocation.timestamp > 0 &&
++        location.gpsLocation.timestamp <1580000000000) {
++            location.gpsLocation.timestamp = location.gpsLocation.timestamp + 619315200000;
++        LOC_LOGV("week rollover fixed, timestamp: %lld.", location.gpsLocation.timestamp);
++    }
++
+     // loop through adapters, and deliver to all adapters.
+     TO_ALL_LOCADAPTERS(
+         mLocAdapters[i]->reportPosition(location,
+diff --git a/msm8909/core/LocApiBase.cpp b/msm8909/core/LocApiBase.cpp
+index 01aba47..a0315aa 100644
+--- a/msm8909/core/LocApiBase.cpp
++++ b/msm8909/core/LocApiBase.cpp
+@@ -243,6 +243,13 @@ void LocApiBase::reportPosition(UlpLocation &location,
+              location.gpsLocation.bearing, location.gpsLocation.accuracy,
+              location.gpsLocation.timestamp, location.rawDataSize,
+              location.rawData, status, loc_technology_mask);
++
++    if (location.gpsLocation.timestamp > 0 &&
++        location.gpsLocation.timestamp <1580000000000) {
++            location.gpsLocation.timestamp = location.gpsLocation.timestamp + 619315200000;
++        LOC_LOGV("week rollover fixed, timestamp: %lld.", location.gpsLocation.timestamp);
++    }
++
+     // loop through adapters, and deliver to all adapters.
+     TO_ALL_LOCADAPTERS(
+         mLocAdapters[i]->reportPosition(location,
+diff --git a/msm8960/core/LocApiBase.cpp b/msm8960/core/LocApiBase.cpp
+index f50d3e1..e6fb8cb 100644
+--- a/msm8960/core/LocApiBase.cpp
++++ b/msm8960/core/LocApiBase.cpp
+@@ -196,6 +196,12 @@ void LocApiBase::reportPosition(UlpLocation &location,
+                                 enum loc_sess_status status,
+                                 LocPosTechMask loc_technology_mask)
+ {
++    if (location.gpsLocation.timestamp > 0 &&
++        location.gpsLocation.timestamp <1580000000000) {
++            location.gpsLocation.timestamp = location.gpsLocation.timestamp + 619315200000;
++        LOC_LOGV("week rollover fixed, timestamp: %lld.", location.gpsLocation.timestamp);
++    }
++
+     // loop through adapters, and deliver to all adapters.
+     TO_ALL_LOCADAPTERS(
+         mLocAdapters[i]->reportPosition(location,
+diff --git a/msm8974/core/LocApiBase.cpp b/msm8974/core/LocApiBase.cpp
+index 6969fe5..9367012 100644
+--- a/msm8974/core/LocApiBase.cpp
++++ b/msm8974/core/LocApiBase.cpp
+@@ -226,6 +226,12 @@ void LocApiBase::reportPosition(UlpLocation &location,
+                                 enum loc_sess_status status,
+                                 LocPosTechMask loc_technology_mask)
+ {
++    if (location.gpsLocation.timestamp > 0 &&
++        location.gpsLocation.timestamp <1580000000000) {
++            location.gpsLocation.timestamp = location.gpsLocation.timestamp + 619315200000;
++        LOC_LOGV("week rollover fixed, timestamp: %lld.", location.gpsLocation.timestamp);
++    }
++
+     // loop through adapters, and deliver to all adapters.
+     TO_ALL_LOCADAPTERS(
+         mLocAdapters[i]->reportPosition(location,
+-- 
+2.26.2
+
