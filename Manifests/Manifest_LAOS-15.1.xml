@@ -257,6 +257,11 @@
 	<!-- Wileyfox Swift (crackling) -->
 	<project path="device/wileyfox/crackling" name="LineageOS/android_device_wileyfox_crackling" remote="github" />
 
+	<!-- Xiaomi Poco F1 (beryllium) -->
+	<project path="device/xiaomi/beryllium" name="LineageOS/android_device_xiaomi_beryllium" remote="github" />
+	<project path="device/xiaomi/sdm845-common" name="LineageOS/android_device_xiaomi_sdm845-common" remote="github" />
+	<project path="kernel/xiaomi/sdm845" name="LineageOS/android_kernel_xiaomi_sdm845" remote="github" />
+
 	<!-- ZTE Axon 7 (axon7) -->
 	<project path="device/zte/axon7" name="LineageOS/android_device_zte_axon7" remote="github" />
 	<project path="kernel/zte/msm8996" name="LineageOS/android_kernel_zte_msm8996" remote="github" />
