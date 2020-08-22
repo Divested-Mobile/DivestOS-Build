@@ -113,7 +113,7 @@
 	<project path="device/fairphone/FP2" name="LineageOS/android_device_fairphone_FP2" remote="github" />
 	<project path="kernel/fairphone/msm8974" name="LineageOS/android_kernel_fairphone_msm8974" remote="github" />
 
-	<!-- F(x)tec Pro1 (pro1) -->
+	<!-- F(x)tec Pro¹ (pro1) -->
 	<project path="device/fxtec/pro1" name="LineageOS/android_device_fxtec_pro1" remote="github" />
 	<project path="kernel/fxtec/msm8998" name="LineageOS/android_kernel_fxtec_msm8998" remote="github" />
 

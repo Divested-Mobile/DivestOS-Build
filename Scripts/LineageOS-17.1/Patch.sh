@@ -176,7 +176,6 @@ awk -i inplace '!/true cannot be used in user builds/' Android.mk; #Allow ignori
 enterAndClear "vendor/lineage";
 rm build/target/product/security/lineage.x509.pem;
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
-rm -rf verity_tool; #Resurrect dm-verity
 rm -rf overlay/common/frameworks/base/core/res/res/drawable-*/default_wallpaper.png;
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then awk -i inplace '!/50-lineage.sh/' config/*.mk; fi; #Make sure our hosts is always used
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/*.mk; #Remove extra keys
