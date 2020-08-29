@@ -117,12 +117,12 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	repopick -it n_asb_09-2018-qcom;
 	repopick -it ibss-mode-nougat;
-	repopick -i 282389; #update webview
-	repopick -it n-asb-2020-08;
+	repopick -i 285265; #update webview
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 
 	source "$DOS_SCRIPTS/Patch.sh";
+	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";
 	source "$DOS_SCRIPTS/Rebrand.sh";
 	source "$DOS_SCRIPTS/Theme.sh";

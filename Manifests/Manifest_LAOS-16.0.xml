@@ -209,6 +209,20 @@
 	<!-- OnePlus 5T (dumpling) -->
 	<project path="device/oneplus/dumpling" name="LineageOS/android_device_oneplus_dumpling" remote="github" />
 
+	<!-- OnePlus 6 (enchilada) -->
+	<project path="device/oneplus/common" name="LineageOS/android_device_oneplus_common" remote="github" />
+	<project path="device/oneplus/sdm845-common" name="LineageOS/android_device_oneplus_sdm845-common" remote="github" />
+	<project path="device/oneplus/enchilada" name="LineageOS/android_device_oneplus_enchilada" remote="github" />
+	<project path="kernel/oneplus/sdm845" name="LineageOS/android_kernel_oneplus_sdm845" remote="github" />
+
+	<!-- OnePlus 6T (fajita) -->
+	<project path="device/oneplus/fajita" name="LineageOS/android_device_oneplus_fajita" remote="github" />
+
+	<!-- OnePlus 7 Pro (guacamole) -->
+	<project path="device/oneplus/sm8150-common" name="LineageOS/android_device_oneplus_sm8150-common" remote="github" />
+	<project path="device/oneplus/guacamole" name="LineageOS/android_device_oneplus_guacamole" remote="github" />
+	<project path="kernel/oneplus/sm8150" name="LineageOS/android_kernel_oneplus_sm8150" remote="github" />
+
 	<!-- Razer Phone (cheryl) -->
 	<project path="device/razer/cheryl" name="LineageOS/android_device_razer_cheryl" remote="github" />
 	<project path="kernel/razer/msm8998" name="LineageOS/android_kernel_razer_msm8998" remote="github" />

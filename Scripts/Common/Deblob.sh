@@ -19,7 +19,7 @@
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
 #TODO: Clean init*.rc files, Modularize, Remove more variants
 
-echo "Deblobbing..."
+echo "Deblobbing...";
 
 #
 #START OF BLOBS ARRAY
@@ -703,4 +703,4 @@ rm -rf vendor/samsung/nodevice;
 
 cd "$DOS_BUILD_BASE";
 
-echo "Deblobbing complete!"
+echo "Deblobbing complete!";

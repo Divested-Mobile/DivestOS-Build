@@ -33,7 +33,7 @@ commentPatches android_kernel_asus_grouper.sh "CVE-2017-15868";
 commentPatches android_kernel_asus_msm8916.sh "CVE-2018-13913/ANY/0001.patch";
 commentPatches android_kernel_asus_msm8953.sh "CVE-2017-13162/3.18/0001.patch";
 commentPatches android_kernel_cyanogen_msm8916.sh "CVE-2018-13913/ANY/0001.patch";
-commentPatches android_kernel_essential_msm8998.sh "CVE-2017-13218/4.4/0026.patch" "CVE-2019-14047/ANY/0002.patch";
+commentPatches android_kernel_essential_msm8998.sh "0008-Graphene-Kernel_Hardening/4.4/0018.patch" "CVE-2017-13218/4.4/0026.patch" "CVE-2019-14047/ANY/0002.patch";
 commentPatches android_kernel_fxtec_msm8998.sh "CVE-2019-11599" "CVE-2019-16746" "CVE-2019-18282" "CVE-2019-19319" "CVE-2019-ctnl-addr-leak" "CVE-2020-1749" "CVE-2020-8992";
 commentPatches android_kernel_google_bonito.sh "CVE-2020-0067";
 commentPatches android_kernel_google_dragon.sh "CVE-2015-4167/^3.19.1/0001.patch";
@@ -52,7 +52,8 @@ commentPatches android_kernel_motorola_msm8996.sh "0001-LinuxIncrementals/3.18/3
 commentPatches android_kernel_nextbit_msm8992.sh "CVE-2018-3585/3.10/0001.patch";
 commentPatches android_kernel_oneplus_msm8994.sh "CVE-2018-3585/3.10/0001.patch";
 commentPatches android_kernel_oneplus_msm8996.sh "CVE-2017-13162/3.18/0001.patch" "CVE-2019-14070/ANY/0006.patch";
-commentPatches android_kernel_oneplus_msm8998.sh "0008-Graphene-Kernel_Hardening/4.4/0010.patch" "0008-Graphene-Kernel_Hardening/4.4/0011.patch" "0008-Graphene-Kernel_Hardening/4.4/0013.patch" "CVE-2019-11599";
+commentPatches android_kernel_oneplus_msm8998.sh "0008-Graphene-Kernel_Hardening/4.4/0010.patch" "0008-Graphene-Kernel_Hardening/4.4/0011.patch" "0008-Graphene-Kernel_Hardening/4.4/0013.patch" "0008-Graphene-Kernel_Hardening/4.4/0018.patch" "CVE-2019-11599";
+commentPatches android_kernel_oneplus_sm8150.sh "CVE-2019-16746" "CVE-2019-19319" "CVE-2020-0067" "CVE-2020-8992";
 commentPatches android_kernel_razer_msm8998.sh "0008-Graphene-Kernel_Hardening/4.4/0010.patch" "0008-Graphene-Kernel_Hardening/4.4/0011.patch" "0008-Graphene-Kernel_Hardening/4.4/0013.patch" "CVE-2019-14070/ANY/0005.patch";
 commentPatches android_kernel_samsung_smdk4412.sh "CVE-2016-8463/ANY/0001.patch";
 commentPatches android_kernel_samsung_universal8890.sh "CVE-2016-7917" "CVE-2018-1092" "CVE-2018-17972";
