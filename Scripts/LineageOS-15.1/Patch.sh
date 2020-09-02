@@ -63,6 +63,7 @@ enterAndClear "bootable/recovery";
 git revert --no-edit eb98fde70a6e54a25408eb8c626caecf7841c5df; #remove sideload cache, breaks with large files
 git revert --no-edit ac258a4f4c4b4b91640cc477ad1ac125f206db02; #Resurrect dm-verity
 sed -i 's/!= 2048/< 2048/' tools/dumpkey/DumpPublicKey.java; #Allow 4096-bit keys
+sed -i 's/(!has_serial_number || serial_number_matched)/!has_serial_number/' recovery.cpp; #Abort on serial number specific packages (GrapheneOS)
 
 enterAndClear "build/make";
 patch -p1 < "$DOS_PATCHES_COMMON/android_build/0001-OTA_Keys.patch"; #add correct keys to recovery for OTA verification

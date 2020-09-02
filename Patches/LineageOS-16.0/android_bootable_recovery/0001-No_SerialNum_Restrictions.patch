@@ -1,0 +1,42 @@
+From 1b25d8a9ffb75767419cc0ab80569f44155bb166 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 19 Aug 2020 09:31:04 -0400
+Subject: [PATCH] reject updates with serialno constraints
+
+---
+ install.cpp | 17 ++---------------
+ 1 file changed, 2 insertions(+), 15 deletions(-)
+
+diff --git a/install.cpp b/install.cpp
+index db5792b8..25df53a3 100644
+--- a/install.cpp
++++ b/install.cpp
+@@ -159,23 +159,10 @@ static int check_newer_ab_build(ZipArchiveHandle zip) {
+     return INSTALL_ERROR;
+   }
+ 
+-  // We allow the package to not have any serialno; and we also allow it to carry multiple serial
+-  // numbers split by "|"; e.g. serialno=serialno1|serialno2|serialno3 ... We will fail the
+-  // verification if the device's serialno doesn't match any of these carried numbers.
+-  value = android::base::GetProperty("ro.serialno", "");
+   const std::string& pkg_serial_no = metadata["serialno"];
+   if (!pkg_serial_no.empty()) {
+-    bool match = false;
+-    for (const std::string& number : android::base::Split(pkg_serial_no, "|")) {
+-      if (value == android::base::Trim(number)) {
+-        match = true;
+-        break;
+-      }
+-    }
+-    if (!match) {
+-      LOG(ERROR) << "Package is for serial " << pkg_serial_no;
+-      return INSTALL_ERROR;
+-    }
++    LOG(ERROR) << "Serial number constraint not permitted: " << pkg_serial_no;
++    return INSTALL_ERROR;
+   }
+ 
+   if (metadata["ota-type"] != "AB") {
+-- 
+2.26.2
+

@@ -65,6 +65,7 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bio
 enterAndClear "bootable/recovery";
 git revert --no-edit 3c0d796b79c7a1ee904e0cef7c0f2e20bf84c237; #remove sideload cache, breaks with large files
 patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button?
+sed -i 's/(!has_serial_number || serial_number_matched)/!has_serial_number/' recovery.cpp; #Abort on serial number specific packages (GrapheneOS)
 
 enterAndClear "build";
 patch -p1 < "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #add correct keys to recovery for OTA verification

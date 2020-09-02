@@ -65,6 +65,7 @@ git revert --no-edit 3f55a863ac34969f95bfb38641747d2fd9939630 865c6c770816f6e809
 git revert --no-edit 37d729bf; #Fix USB on most devices
 git revert --no-edit fe2901b144c515c5a90b547198aed37c209b5a82; #Resurrect dm-verity
 sed -i 's/!= 2048/< 2048/' tools/dumpkey/DumpPublicKey.java; #Allow 4096-bit keys
+patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-No_SerialNum_Restrictions.patch"; #Abort on serial number specific packages (GrapheneOS)
 
 enterAndClear "build/make";
 git revert --no-edit 271f6ffa045064abcac066e97f2cb53ccb3e5126 61f7ee9386be426fd4eadc2c8759362edb5bef8; #Add back PicoTTS and language files

@@ -141,8 +141,8 @@ audit2allowADB() {
 export -f audit2allowADB;
 
 processRelease() {
-	#Credit: GrapheneOS
-	#https://github.com/GrapheneOS/script/blob/pie/release.sh
+	#Partial Credit: GrapheneOS
+	#https://github.com/GrapheneOS/script/blob/10/release.sh
 	local DEVICE="$1";
 	local BLOCK="$2";
 	local VERITY="$3";
@@ -166,6 +166,7 @@ processRelease() {
 			--replace_verity_keyid "$KEY_DIR/verity.x509.pem");
 		echo -e "\e[0;32m\t+ Verified Boot 1.0\e[0m";
 	elif [[ "$VERITY" == "avb" ]]; then
+		#TODO: Verify if both SHA512 and RSA4096 is always supported
 		local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" \
 			--avb_vbmeta_algorithm SHA512_RSA4096 \
 			--avb_system_key "$KEY_DIR/avb.pem" \
