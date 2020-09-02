@@ -1,6 +1,7 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/zuk/msm8996"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0209-0210.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0233-0234.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0002.patch
@@ -113,7 +114,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12771/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12826/4.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-13143/4.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-13974/4.4/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14314/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14416/4.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-15393/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-UNKNOWN/ANY/0001.patch
