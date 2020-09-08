@@ -1,4 +1,4 @@
-#Last checked 2020/08/05
+#Last checked 2020/09/08
 CVE-2014-9028
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/fe03f73d86bb415f5d5145f0de091834d89ae3a9
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/5859ae22db0a2d16af3e3ca19d582de37daf5eb6
@@ -1354,6 +1354,8 @@ CVE-2019-10509
 	Link - vendor/qcom-opensource/system/bt - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/system/bt/commit/?id=9ac0f2da643d3830c2f5133392b42064031cd9b8
 CVE-2019-10510
 	Link - vendor/qcom-opensource/system/bt - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/system/bt/commit/?id=d005a97b4daa188a15696c46c72b67e5f49f7fc6
+CVE-2019-10521
+	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/gps/commit/?id=4788c8a1ee32619f59752d9068df2f5d316819eb
 CVE-2019-10569
 	Link - hardware/qcom/audio - https://source.codeaurora.org/quic/la/platform/hardware/qcom/audio/commit/?id=bbf4497352958dd27036503a43cd8a031e7eb9b1
 CVE-2019-10581

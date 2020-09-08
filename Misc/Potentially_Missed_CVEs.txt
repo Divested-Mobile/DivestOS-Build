@@ -7,5 +7,6 @@ CVE-2017-18275
 CVE-2017-18276
 CVE-2017-18278
 CVE-2017-18279
+CVE-2019-5489
 
 https://source.android.com/security/bulletin/pixel/2019-09-01
