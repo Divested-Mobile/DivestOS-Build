@@ -117,8 +117,6 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -i 285265; #update webview
-	repopick -i 285125; #HOSTS cache
-	repopick -i 285363; #fix building kernels with a much newer host kernel
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
