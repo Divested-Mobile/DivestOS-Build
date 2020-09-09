@@ -132,7 +132,8 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	repopick -it hh-p-sepolicy;
 	repopick -i 232948; #wahoo: liblight: close fd
-	repopick -i 285265; #update webview
+	repopick -it P_asb_2020-09;
+	repopick -it android-hardening-16.0;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";

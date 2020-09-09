@@ -74,6 +74,9 @@ enterAndClear "device/qcom/sepolicy-legacy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
 
+enterAndClear "external/sonivox";
+git pull "https://github.com/LineageOS/android_external_sonivox" refs/changes/35/285835/1; #Q_asb_2020-09
+
 enterAndClear "external/svox";
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 sed -i '12iLOCAL_SDK_VERSION := current' pico/Android.mk; #Fix build under Pie
