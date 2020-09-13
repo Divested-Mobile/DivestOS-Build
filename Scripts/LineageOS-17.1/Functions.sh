@@ -70,7 +70,7 @@ buildAll() {
 	buildDevice d855;
 	buildDevice FP2;
 	buildDevice m8;
-	buildDevice victara;
+	buildDevice victara; #error: +out/target/product/victara/recovery.img too large (10522624 > 10485760)
 	#SD805
 	buildDevice shamu verity;
 	#SD808
@@ -115,8 +115,7 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	source build/envsetup.sh;
-	repopick -it Q_asb_2020-09;
+	#source build/envsetup.sh;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";

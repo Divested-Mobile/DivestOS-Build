@@ -265,6 +265,7 @@ sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" ker
 sed -i "s/CONFIG_RANDOMIZE_BASE=y/# CONFIG_RANDOMIZE_BASE is not set/" kernel/samsung/universal9810/arch/arm64/configs/*_defconfig; #Breaks on compile
 
 sed -i 's/YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l*; #Fix builds with GCC 10
+rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk;
 #
 #END OF DEVICE CHANGES
 #

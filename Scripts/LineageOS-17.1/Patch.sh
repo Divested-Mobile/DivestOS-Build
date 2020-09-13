@@ -74,9 +74,6 @@ enterAndClear "device/qcom/sepolicy-legacy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
 
-enterAndClear "external/sonivox";
-git pull "https://github.com/LineageOS/android_external_sonivox" refs/changes/35/285835/1; #Q_asb_2020-09
-
 enterAndClear "external/svox";
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 sed -i '12iLOCAL_SDK_VERSION := current' pico/Android.mk; #Fix build under Pie
@@ -212,6 +209,7 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 
 enterAndClear "device/google/bonito";
 enableVerity; #Resurrect dm-verity
+awk -i inplace '!/INODE_COUNT/' BoardConfig-lineage.mk; #mke2fs -1 incompatibility (?)
 
 enterAndClear "device/google/crosshatch";
 enableVerity; #Resurrect dm-verity
@@ -297,6 +295,7 @@ sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" ker
 sed -i "s/CONFIG_RANDOMIZE_BASE=y/# CONFIG_RANDOMIZE_BASE is not set/" kernel/samsung/universal9810/arch/arm64/configs/*_defconfig; #Breaks on compile
 
 sed -i 's/YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l*; #Fix builds with GCC 10
+rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk;
 #
 #END OF DEVICE CHANGES
 #
