@@ -1,4 +1,4 @@
-#Last checked 2020/09/08
+#Last checked 2020/09/15
 CVE-2014-9028
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/fe03f73d86bb415f5d5145f0de091834d89ae3a9
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/5859ae22db0a2d16af3e3ca19d582de37daf5eb6
@@ -1493,6 +1493,9 @@ CVE-2020-0072
 	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/0aec6aed3031f60da3c4756d70611850011807b7
 CVE-2020-0073
 	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/c67bf186efc538995740dcf667eaa39ab801157f
+CVE-2020-0074
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/010524415762c8d2d1e14d2a22e21fcdc6725f65
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/8640d0c78e8c1375d92b0aad1616a5ea4839fec7
 CVE-2020-0078
 	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/fe8b9a7cb32f739e3855c51c8803590908a1da9c
 CVE-2020-0079
@@ -1803,6 +1806,8 @@ CVE-2020-0242
 	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/f191963f5645f59390b640136fd928e5a492aa84
 CVE-2020-0243
 	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/f191963f5645f59390b640136fd928e5a492aa84
+CVE-2020-0245
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/b875a5fe0db2e2d4bf44746bb8ca4dc1e959925e
 CVE-2020-0247
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/4d467f1c7d7d355d0ac71a12ec8c2df07f756046
 CVE-2020-0248
@@ -1817,6 +1822,59 @@ CVE-2020-0257
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b26c7160cd1dfba9224ba12dc075ac3c658b18c3
 CVE-2020-0258
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/d1126e7160b87313de91be5dbf7d0d9b08900f70
+CVE-2020-0379
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/85b5df1d0dcc782ed5afc1dcf9247880416d5fbd
+CVE-2020-0380
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/59c234a8fddda37147bb3fe1dd3b3a668828bcab
+CVE-2020-0381
+	Link - external/sonivox - https://android.googlesource.com/platform/external/sonivox/+/e689e94f3b7473497052e81d906a10a82407e559
+CVE-2020-0382
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/a898d1198050c40b73f1467ea5adaf881f3d7961
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/90f8249030e02080e937eeed12fc8c8c692bbc64
+CVE-2020-0383
+	Link - external/sonivox - https://android.googlesource.com/platform/external/sonivox/+/e689e94f3b7473497052e81d906a10a82407e559
+CVE-2020-0384
+	Link - external/sonivox - https://android.googlesource.com/platform/external/sonivox/+/e689e94f3b7473497052e81d906a10a82407e559
+CVE-2020-0385
+	Link - external/sonivox - https://android.googlesource.com/platform/external/sonivox/+/e689e94f3b7473497052e81d906a10a82407e559
+CVE-2020-0386
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/ba7f6d7d45776254791dea3b1f5d2acc0dc9b2dd
+CVE-2020-0388
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/6967df740495b9b2b7a6bc357e656efa5390e050
+CVE-2020-0389
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/6ae2bd0e59636254c32896f7f01379d1d704f42d
+CVE-2020-0390
+	Link - system/sepolicy - https://android.googlesource.com/platform/system/sepolicy/+/4c386e10c98b63cdb07bd940287e2cf1a63526c0
+CVE-2020-0391
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/860fd4b6a2a4fe5d681bc07f2567fdc84f0d1580
+CVE-2020-0392
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/927b3b120839954a575b4e8c498b1b4d4d375afa
+CVE-2020-0393
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/fa3781fe0fb654659634d7b4703b6ed2ae27fdeb
+CVE-2020-0394
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/f3afef8419de2910b03c3670ca25e63ac3c08407
+CVE-2020-0395
+	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/0126084de146b51a842d7604cddb3303f46cade7
+	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/11c41d321d0c2dc3631f37d2f8f3ebc745f454d2
+CVE-2020-0396
+	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/21e03356b28be08e2d5aeac15a446f820f95fb70
+	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/e18b8b2dbb553caf3f8f14f40f6b8f7da50b6eff
+	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/08ba90fdc20cb8a1c2e6d25d88bda00217191e76
+	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/89763569eacb10c4043d8937c948130b1f816e79
+	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/ed0820373c236b4ef779653b08ea056e7325b0ed
+	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/76decc9e24f07f82af8953c80d2873020a771658
+	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/1e6c7f615eb78811b8ba3136c6f4a052ca3b6cf0
+	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/0126084de146b51a842d7604cddb3303f46cade7
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/f3afef8419de2910b03c3670ca25e63ac3c08407
+CVE-2020-0397
+	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/0126084de146b51a842d7604cddb3303f46cade7
+	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/11c41d321d0c2dc3631f37d2f8f3ebc745f454d2
+CVE-2020-0399
+	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/0126084de146b51a842d7604cddb3303f46cade7
+	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/4e6a25843d7ef14301eb8cb5985c84d54785fbc4
+	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/11c41d321d0c2dc3631f37d2f8f3ebc745f454d2
+CVE-2020-0401
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/40ca8b51fa90457cc49b91eac00636d1626b3a1b
 CVE-2020-3700
 	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=c8d215c57c049ed7015ded342ebaaef21b438425
 CVE-2020-8597
