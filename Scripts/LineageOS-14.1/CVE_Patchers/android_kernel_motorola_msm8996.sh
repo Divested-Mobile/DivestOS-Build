@@ -35,6 +35,8 @@ git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0045.pat
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0046.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0050.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0090-Unknown/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0090-Unknown/ANY/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9900/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-1339/^4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-2042/^3.19/0001.patch
@@ -549,5 +551,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7542/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5897/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/^5.2.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p549"
+editKernelLocalversion "-dos.p551"
 cd "$DOS_BUILD_BASE"

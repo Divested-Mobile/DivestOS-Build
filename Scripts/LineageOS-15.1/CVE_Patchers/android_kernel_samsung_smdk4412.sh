@@ -1,6 +1,7 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/samsung/smdk4412"
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0090-Unknown/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2011-5327/^3.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-2375/^3.3.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-3375/^3.2.24/0001.patch
@@ -173,5 +174,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/^5.2.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p173"
+editKernelLocalversion "-dos.p174"
 cd "$DOS_BUILD_BASE"

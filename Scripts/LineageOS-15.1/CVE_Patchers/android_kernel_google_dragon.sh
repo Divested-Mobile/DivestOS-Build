@@ -23,6 +23,8 @@ git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0041.pat
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0045.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.18/0050.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0013.patch
+git apply $DOS_PATCHES_LINUX_CVES/0090-Unknown/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0090-Unknown/ANY/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-8134/^3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9419/^3.18.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9428/^3.18.1/0001.patch
@@ -403,5 +405,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-9178/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7542/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/^5.2.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p403"
+editKernelLocalversion "-dos.p405"
 cd "$DOS_BUILD_BASE"
