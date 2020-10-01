@@ -119,6 +119,7 @@ patchWorkspace() {
 	repopick -it ibss-mode-nougat;
 	repopick -it n-asb-2020-09;
 	repopick -it android-hardening-cm-14.1;
+	repopick -i 287763; #update webview
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

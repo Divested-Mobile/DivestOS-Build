@@ -23,7 +23,7 @@ if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then
 fi;
 
 startPatcher() {
-	java -jar "$DOS_BINARY_PATCHER" patch "$DOS_BUILD_BASE" "$DOS_WORKSPACE_ROOT""Patches/" "$DOS_SCRIPTS_CVES" $1;
+	java -jar "$DOS_BINARY_PATCHER" patch workspace "$DOS_BUILD_BASE" "$DOS_WORKSPACE_ROOT""Patches/Linux/" "$DOS_SCRIPTS_CVES" $1;
 }
 export -f startPatcher;
 
