@@ -1,7 +1,6 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/razer/msm8998"
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0233-0234.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0234-0235.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0236-0237.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0002.patch
@@ -45,8 +44,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-16994/^5.0/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/4.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/4.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/^5.6.1/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14390/4.4/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25284/4.4/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25285/4.4/0002.patch
-editKernelLocalversion "-dos.p48"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25643/4.4/0004.patch
+editKernelLocalversion "-dos.p45"
 cd "$DOS_BUILD_BASE"
