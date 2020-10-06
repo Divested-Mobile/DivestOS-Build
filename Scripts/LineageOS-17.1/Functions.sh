@@ -118,6 +118,7 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	repopick -i 287339; #releasetools: python3 fix
 	repopick -i 287763; #update webview
+	repopick -it CVE-2019-2306;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
