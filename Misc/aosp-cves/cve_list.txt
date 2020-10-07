@@ -1,4 +1,4 @@
-#Last checked 2020/09/15
+#Last checked 2020/10/07
 CVE-2014-9028
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/fe03f73d86bb415f5d5145f0de091834d89ae3a9
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/5859ae22db0a2d16af3e3ca19d582de37daf5eb6
@@ -1248,6 +1248,8 @@ CVE-2019-2192
 CVE-2019-2193
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/1302073b4c9469fb088294819298f0800593780f
 	Link - packages/apps/ManagedProvisioning - https://android.googlesource.com/platform/packages/apps/ManagedProvisioning/+/35f3b86ec9017afec0b1cf53cc366381b31b09e6
+CVE-2019-2194
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/76923a32ab6ea25115b65ff86ade7235ba7b3a33
 CVE-2019-2195
 	Link - external/sqlite - https://android.googlesource.com/platform/external/sqlite/+/0ac06cc4c607ffc5ee85077ffd059633f3b8c050
 CVE-2019-2196
@@ -1775,6 +1777,7 @@ CVE-2020-0214
 	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/320e762a3da100b9f3fa17d0ae1b4a6641bdcce8
 CVE-2020-0215
 	Link - packages/apps/Nfc - https://android.googlesource.com/platform/packages/apps/Nfc/+/8a414674747f166171f68294836967660905d068
+	Link - packages/apps/Nfc - https://android.googlesource.com/platform/packages/apps/Nfc/+/fa31fa1bfdb3b40658e617c20172085a0370b5be
 CVE-2020-0216
 	Link - packages/apps/Nfc - https://android.googlesource.com/platform/packages/apps/Nfc/+/8888666b6e4612e94d43c1172f6a0f9528e64a32
 CVE-2020-0217
@@ -1808,6 +1811,8 @@ CVE-2020-0243
 	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/f191963f5645f59390b640136fd928e5a492aa84
 CVE-2020-0245
 	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/b875a5fe0db2e2d4bf44746bb8ca4dc1e959925e
+CVE-2020-0246
+	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/cfaf9f980aa8d3ca51cd8555ca27cd0ef561cb02
 CVE-2020-0247
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/4d467f1c7d7d355d0ac71a12ec8c2df07f756046
 CVE-2020-0248
@@ -1822,6 +1827,10 @@ CVE-2020-0257
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b26c7160cd1dfba9224ba12dc075ac3c658b18c3
 CVE-2020-0258
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/d1126e7160b87313de91be5dbf7d0d9b08900f70
+CVE-2020-0377
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/26a348a610ec277384c98f42acd841ae647d2131
+CVE-2020-0378
+	Link - frameworks/opt/net/wifi - https://android.googlesource.com/platform/frameworks/opt/net/wifi/+/6f1aafe2d4b979cf64ab7a5150a021f977cfed37
 CVE-2020-0379
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/85b5df1d0dcc782ed5afc1dcf9247880416d5fbd
 CVE-2020-0380
@@ -1869,12 +1878,41 @@ CVE-2020-0396
 CVE-2020-0397
 	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/0126084de146b51a842d7604cddb3303f46cade7
 	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/11c41d321d0c2dc3631f37d2f8f3ebc745f454d2
+CVE-2020-0398
+	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/b722e6d0bef5bdcf3cf7368b765ed08a98bdee1c
 CVE-2020-0399
 	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/0126084de146b51a842d7604cddb3303f46cade7
 	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/4e6a25843d7ef14301eb8cb5985c84d54785fbc4
 	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/11c41d321d0c2dc3631f37d2f8f3ebc745f454d2
+CVE-2020-0400
+	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/b722e6d0bef5bdcf3cf7368b765ed08a98bdee1c
 CVE-2020-0401
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/40ca8b51fa90457cc49b91eac00636d1626b3a1b
+CVE-2020-0408
+	Link - system/core - https://android.googlesource.com/platform/system/core/+/4048e49956a2dfd49af3adf0f78881bf15f3550f
+CVE-2020-0410
+	Link - packages/apps/Bluetooth - https://android.googlesource.com/platform/packages/apps/Bluetooth/+/4e9aefd2167cffd745d92abe4c7ce3b2bdbd91ff
+CVE-2020-0411
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/7c67c79fff14cf28a19fda1bfb532804759f85fe
+CVE-2020-0412
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/cbcf477e8b05f092bf6519e3ba4db363247ff4f6
+CVE-2020-0413
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/26a348a610ec277384c98f42acd841ae647d2131
+CVE-2020-0414
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/33403f0ef8ec7e6217f4969879fa81101e6b84ee
+CVE-2020-0415
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/a95061ca2d4676bd8083baa7252785566fc3358f
+CVE-2020-0416
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/4794b798c427c53a9d0f8c608c367a3e6469ed5f
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/ee4ec4b33fddb16606136f656db186ada767e8a5
+CVE-2020-0419
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/6bc126b040718d9252ec72d2dd5207c7a4913238
+CVE-2020-0420
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/e0984b06cb64acc83a54a60854ad03e65a3cea1e
+CVE-2020-0421
+	Link - system/core - https://android.googlesource.com/platform/system/core/+/bad50ed24f9d48d001fcedd332d59f162dc3432d
+CVE-2020-0422
+	Link - packages/apps/Contacts - https://android.googlesource.com/platform/packages/apps/Contacts/+/c987095255ee953de27ea1de360c44aa99b1b856
 CVE-2020-3700
 	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=c8d215c57c049ed7015ded342ebaaef21b438425
 CVE-2020-8597
