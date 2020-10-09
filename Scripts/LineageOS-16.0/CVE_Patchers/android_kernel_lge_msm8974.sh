@@ -32,7 +32,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-0806/prima/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-0806/prima/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-0806/prima/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-0806/prima/0010.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-1583/3.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2085/^4.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-2543/^4.4.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-4485/^4.5.5/0001.patch
@@ -198,5 +197,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-15393/^5.7.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25643/^5.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-9f34c6ebc016cd061ae5ec901221d15fa3d67e49.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p198"
+editKernelLocalversion "-dos.p197"
 cd "$DOS_BUILD_BASE"

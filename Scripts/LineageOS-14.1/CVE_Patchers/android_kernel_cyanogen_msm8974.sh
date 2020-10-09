@@ -288,6 +288,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10087/^4.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10124/^4.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10675/^4.12.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10877/3.4/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10877/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10879/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10879/3.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10880/3.4/0003.patch
@@ -397,5 +398,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25643/^5.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-after-free-for-hub-usb-device.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-9f34c6ebc016cd061ae5ec901221d15fa3d67e49.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p397"
+editKernelLocalversion "-dos.p398"
 cd "$DOS_BUILD_BASE"

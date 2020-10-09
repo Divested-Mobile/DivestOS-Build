@@ -207,6 +207,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10087/^4.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10124/^4.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10675/^4.12.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10877/3.4/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10877/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10879/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10879/3.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10880/3.4/0003.patch
@@ -304,5 +305,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-sy
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-5d89eb01c93d8a62998e3bdccae28a7732e3bd51.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p304"
+editKernelLocalversion "-dos.p305"
 cd "$DOS_BUILD_BASE"

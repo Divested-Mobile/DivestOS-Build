@@ -132,7 +132,7 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	repopick -it hh-p-sepolicy;
 	repopick -i 232948; #wahoo: liblight: close fd
-	repopick -i 287763; #update webview
+	repopick -i 288970; #update webview
 	repopick -it P_asb-2020-10;
 
 	source "$DOS_SCRIPTS/Patch.sh";
