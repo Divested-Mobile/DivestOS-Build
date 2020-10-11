@@ -7,7 +7,7 @@ Misc - GPLv3
 Patches/
 	Common/
 		android_vendor_divested - GPLv3
-			default_wallpaper.png - Unsplash
+			default_wallpaper.png - Unsplash, Pawel Czerwinski
 		[Everything Else] - Apache-2.0
 	LineageOS-*/
 		android_kernel_* - GPLv2

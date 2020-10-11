@@ -296,6 +296,7 @@ pushToServer() {
 export -f pushToServer;
 
 removeBuildFingerprint() {
+	#Removes the vendor fingerprint, allowing one to be generated instead
 	awk -i inplace '!/BUILD_FINGERPRINT/' lineage*.mk;
 }
 export -f removeBuildFingerprint;
@@ -371,7 +372,7 @@ hardenLocationConf() {
 	else
 		local deviceDir=$(dirname "$gpsConfig");
 	fi;
-	#Debugging (adb logcat | grep -i -e locsvc -e izat -e gps -e gnss -e location)
+	#Debugging: adb logcat | grep -i -e locsvc -e izat -e gps -e gnss -e location -e xtra
 	#sed -i 's|DEBUG_LEVEL = .|DEBUG_LEVEL = 4|' "$gpsConfig" &> /dev/null || true;
 	#Enable GLONASS
 	if [ "$DOS_GPS_GLONASS_FORCED" = true ]; then
@@ -403,24 +404,27 @@ hardenLocationConf() {
 	sed -i 's|http://xtrapath|https://xtrapath|' "$gpsConfig" &>/dev/null || true;
 	#sed -i 's|http://gllto|https://gllto|' "$gpsConfig" &>/dev/null || true; XXX: GLPals has an invaid certificate
 	#XTRA: Use format version 3 if possible
-	if grep -sq "XTRA_VERSION_CHECK" "$gpsConfig"; then #Using hardware/qcom/gps OR precompiled blob OR device specific implementation
-		sed -i 's|XTRA_VERSION_CHECK=0|XTRA_VERSION_CHECK=1|' "$gpsConfig" &>/dev/null || true;
-		sed -i 's|xtra2.bin|xtra3grc.bin|' "$gpsConfig" &>/dev/null || true;
-	elif grep -sq "BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := true" "$deviceDir"BoardConfig.mk "$deviceDir"boards/*gps.mk; then
-		if ! grep -sq "USE_DEVICE_SPECIFIC_LOC_API := true" "$deviceDir"BoardConfig.mk "$deviceDir"boards/*gps.mk; then
-			if ! grep -sq "libloc" ./"$deviceDir"/*proprietary*.txt; then #Using hardware/qcom/gps
-				sed -i 's|xtra2.bin|xtra3grc.bin|' "$gpsConfig" &>/dev/null || true;
-			fi;
-		fi;
-	fi;
+	#if grep -sq "XTRA_VERSION_CHECK" "$gpsConfig"; then #Using hardware/qcom/gps OR precompiled blob OR device specific implementation
+	#	sed -i 's|XTRA_VERSION_CHECK=0|XTRA_VERSION_CHECK=1|' "$gpsConfig" &>/dev/null || true;
+	#	sed -i 's|xtra2.bin|xtra3grc.bin|' "$gpsConfig" &>/dev/null || true;
+	#elif grep -sq "BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := true" "$deviceDir"BoardConfig.mk "$deviceDir"boards/*gps.mk; then
+	#	if ! grep -sq "USE_DEVICE_SPECIFIC_LOC_API := true" "$deviceDir"BoardConfig.mk "$deviceDir"boards/*gps.mk; then
+	#		if ! grep -sq "libloc" ./"$deviceDir"/*proprietary*.txt; then #Using hardware/qcom/gps
+	#			sed -i 's|xtra2.bin|xtra3grc.bin|' "$gpsConfig" &>/dev/null || true;
+	#		fi;
+	#	fi;
+	#fi;
+	#if [[ "$gpsConfig" = *"gps_debug.conf" ]]; then
+	#	echo "XTRA_SERVER_1=https://xtrapath4.izatcloud.net/xtra2.bin" >> "$gpsConfig";
+	#	echo "XTRA_SERVER_2=https://xtrapath5.izatcloud.net/xtra2.bin" >> "$gpsConfig";
+	#	echo "XTRA_SERVER_3=https://xtrapath6.izatcloud.net/xtra2.bin" >> "$gpsConfig";
+	#fi;
 	echo "Enhanced location services for $gpsConfig";
 }
 export -f hardenLocationConf;
 
 hardenLocationFWB() {
 	local dir=$1;
-	#Debugging (adb logcat | grep -i -e locsvc -e izat -e gps -e gnss -e location)
-	#sed -i 's|DEBUG_LEVEL = .|DEBUG_LEVEL = 4|' "$gpsConfig" &> /dev/null || true;
 	#Enable GLONASS
 	if [ "$DOS_GPS_GLONASS_FORCED" = true ]; then
 	sed -i 's|A_GLONASS_POS_PROTOCOL_SELECT=0.*</item>|A_GLONASS_POS_PROTOCOL_SELECT=15</item>|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
@@ -475,7 +479,7 @@ export -f hardenUserdata;
 hardenBootArgs() {
 	cd "$DOS_BUILD_BASE$1";
 	if [[ "$1" != *"device/samsung/klte"* ]] && [[ "$1" != *"device/samsung/msm8974-common"* ]]; then
-		sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := page_poison=1 slab_nomerge slub_debug=FZP kpti=on pti=on page_alloc.shuffle=1 init_on_alloc=1 init_on_free=1 lockdown=confidentiality /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true;
+		sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := slab_nomerge slub_debug=FZP page_poison=1 kpti=on pti=on page_alloc.shuffle=1 init_on_alloc=1 init_on_free=1 lockdown=confidentiality /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true;
 	fi;
 	echo "Hardened kernel command line arguments for $1";
 	cd "$DOS_BUILD_BASE";
@@ -592,6 +596,7 @@ changeDefaultDNS() {
 	sed -i "s/8\.8\.8\.8/$dnsPrimary/" $files &>/dev/null || true;
 	sed -i "s/2001:4860:4860::8888/$dnsPrimaryV6/" $files &>/dev/null || true;
 	sed -i "s/8\.8\.4\.4/$dnsSecondary/" $files &>/dev/null || true;
+	sed -i "s/4\.4\.4\.4/$dnsSecondary/" $files &>/dev/null || true;
 	sed -i "s/2001:4860:4860::8844/$dnsSecondaryV6/" $files &>/dev/null || true;
 }
 export -f changeDefaultDNS;
@@ -640,7 +645,7 @@ hardenDefconfig() {
 		fi;
 	done
 	#Disable supported options
-	#Disabled: MSM_SMP2P_TEST, MAGIC_SYSRQ (breaks compile on many kernels), KALLSYMS (breaks boot on select devices), IKCONFIG (breaks recovery)
+	#Disabled: MSM_SMP2P_TEST, MAGIC_SYSRQ (breaks compile), KALLSYMS (breaks boot on select devices), IKCONFIG (breaks recovery), MSM_DLOAD_MODE (breaks compile)
 	declare -a optionsNo=("ACPI_APEI_EINJ" "ACPI_CUSTOM_METHOD" "ACPI_TABLE_UPGRADE" "BINFMT_AOUT" "BINFMT_MISC" "CHECKPOINT_RESTORE" "COMPAT_BRK" "COMPAT_VDSO" "CP_ACCESS64" "DEBUG_KMEMLEAK" "DEVKMEM" "DEVMEM" "DEVPORT" "EARJACK_DEBUGGER" "GCC_PLUGIN_RANDSTRUCT_PERFORMANCE" "HARDENED_USERCOPY_FALLBACK" "HIBERNATION" "HWPOISON_INJECT" "IA32_EMULATION" "IOMMU_NON_SECURE" "INPUT_EVBUG" "IP_DCCP" "IP_SCTP" "KEXEC" "KEXEC_FILE" "KSM" "LDISC_AUTOLOAD" "LEGACY_PTYS" "LIVEPATCH" "MEM_SOFT_DIRTY" "MMIOTRACE" "MMIOTRACE_TEST" "MODIFY_LDT_SYSCALL" "MSM_BUSPM_DEV" "NEEDS_SYSCALL_FOR_CMPXCHG" "NOTIFIER_ERROR_INJECTION" "OABI_COMPAT" "PAGE_OWNER" "PROC_KCORE" "PROC_PAGE_MONITOR" "PROC_VMCORE" "RDS" "RDS_TCP" "SECURITY_SELINUX_DISABLE" "SECURITY_WRITABLE_HOOKS" "SLAB_MERGE_DEFAULT" "STACKLEAK_METRICS" "STACKLEAK_RUNTIME_DISABLE" "TIMER_STATS" "TSC" "TSPP2" "UKSM" "UPROBES" "USELIB" "USERFAULTFD" "VIDEO_VIVID" "WLAN_FEATURE_MEMDUMP" "X86_IOPL_IOPERM" "X86_PTDUMP" "X86_VSYSCALL_EMULATION" "ZSMALLOC_STAT");
 	#if [[ "$1" != *"kernel/htc/msm8994"* ]] && [[ "$1" != *"kernel/samsung/smdk4412"* ]] && [[ "$1" != *"kernel/htc/flounder"* ]] && [[ "$1" != *"kernel/amazon/hdx-common"* ]] && [[ "$1" != *"msm899"* ]] && [[ "$1" != *"sdm8"* ]] && [[ "$1" != *"sdm6"* ]]; then
 		#optionsNo+=("DIAG_CHAR" "DIAG_OVER_USB" "USB_QCOM_DIAG_BRIDGE" "DIAGFWD_BRIDGE_CODE" "DIAG_SDIO_PIPE" "DIAG_HSIC_PIPE");
@@ -666,6 +671,10 @@ hardenDefconfig() {
 	#Resurrect dm-verity XXX: This needs a better home
 	sed -i 's/^\treturn VERITY_STATE_DISABLE;//' drivers/md/dm-android-verity.c &>/dev/null || true;
 	#sed -i 's/#if 0/#if 1/' drivers/power/reset/msm-poweroff.c &>/dev/null || true;
+
+	#Workaround broken MSM_DLOAD_MODE=y+PANIC_ON_OOPS=y for devices that oops on shutdown
+	#MSM_DLOAD_MODE can't be disabled as it breaks compile
+	sed -i 's/set_dload_mode(in_panic)/set_dload_mode(0)/' arch/arm/mach-msm/restart.c &>/dev/null || true;
 
 	editKernelLocalversion "-dos";
 

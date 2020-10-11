@@ -37,7 +37,7 @@ export DOS_MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchW
 export DOS_MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
 
 #Deblobber
-export DOS_DEBLOBBER_REMOVE_ACCESSORIES=true; #Set false to allow use of external accessories
+export DOS_DEBLOBBER_REMOVE_ACCESSORIES=true; #Set false to allow use of external accessories that depend on blobs
 export DOS_DEBLOBBER_REMOVE_AUDIOFX=true; #Set true to remove AudioFX
 export DOS_DEBLOBBER_REMOVE_GRAPHICS=false; #Set true to remove all graphics blobs and use SwiftShader CPU renderer #TODO: Needs work
 export DOS_DEBLOBBER_REMOVE_RENDERSCRIPT=false; #Set true to remove RenderScript blobs
@@ -51,16 +51,16 @@ export DOS_DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Serv
 export DOS_GPS_GLONASS_FORCED=false; #Enables GLONASS on all devices
 export DOS_GRAPHENE_MALLOC=true; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms
 export DOS_GRAPHENE_EXEC=true; #Enables use of GrapheneOS' exec spawning feature
-export DOS_HOSTS_BLOCKING=true; #Switch to false to prevent inclusion of our HOSTS file
+export DOS_HOSTS_BLOCKING=true; #Set false to prevent inclusion of a HOSTS file
 export DOS_HOSTS_BLOCKING_APP="DNS66"; #App installed when built-in blocking is disabled. Options: DNS66
 export DOS_HOSTS_BLOCKING_LIST="https://divestos.org/hosts"; #Must be in the format "127.0.0.1 bad.domain.tld"
-export DOS_LOWRAM_ENABLED=false; #Switch to true to enable low_ram on all devices
+export DOS_LOWRAM_ENABLED=false; #Set true to enable low_ram on all devices
 export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NONE, NLP, FULL
-export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Switch to false to prevent inclusion of non-commercial use patches XXX: Unused, see 1dc9247
+export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Set true to allow inclusion of non-commercial use patches XXX: Unused, see 1dc9247
 export DOS_OPTIMIZE_IMAGES=false; #Set true to apply lossless optimizations to image resources
-export DOS_OVERCLOCKS_ENABLED=false; #Switch to true to enable overclocks #XXX: Most devices have their processors directly under their RAM, heatsinking is mostly into the ground plane, potentially inflicting damage to RAM and the processor itself
-export DOS_STRONG_ENCRYPTION_ENABLED=false; #Switch to true to enable AES-256bit FDE encryption on 14.1+15.1 XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
-export DOS_WIREGUARD_INCLUDED=false; #Switch to true to enable WireGuard kernel module inclusion
+export DOS_OVERCLOCKS_ENABLED=false; #Set true to enable overclocks #XXX: Most devices have their processors directly under their RAM, heatsinking is mostly into the ground plane, potentially inflicting damage to RAM and the processor itself
+export DOS_STRONG_ENCRYPTION_ENABLED=false; #Set true to enable AES 256-bit FDE encryption on 14.1+15.1 XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
+export DOS_WIREGUARD_INCLUDED=false; #Set true to enable WireGuard kernel module inclusion for devices with kernel 3.10+
 
 #Servers
 export DOS_DEFAULT_DNS_PRESET="Cloudflare-BL"; #Sets default DNS. Options: See changeDefaultDNS() in Scripts/Common/Functions.sh

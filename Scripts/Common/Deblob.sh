@@ -69,7 +69,8 @@ echo "Deblobbing...";
 	#AudioFX (Audio Effects)
 	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
 		blobs=$blobs"|fmas_eq.dat";
-		blobs=$blobs"|libasphere.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libreverbwrapper.so|libshoebox.so|libspeakerbundle.so|libvisualizer.so|libvolumelistener.so|libLifevibes_lvverx.so|libhwdap.so";
+		blobs=$blobs"|libasphere.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libreverbwrapper.so|libshoebox.so|libvisualizer.so|libvolumelistener.so|libLifevibes_lvverx.so|libhwdap.so";
+		#blobs=$blobs"|libspeakerbundle.so|libmotaudioutils.so"; #XXX: Breaks audio on Motorola devices (?)
 		blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so"; #Qualcomm
 		#blobs=$blobs"|libbundlewrapper.so|libqcompostprocbundle.so|libqcomvoiceprocessing.so|libqcomvisualizer.so";
 		blobs=$blobs"|libhwdap.*.so|libswdap.*.so|lib_dlb_msd.so"; #Dolby
@@ -328,7 +329,6 @@ echo "Deblobbing...";
 	blobs=$blobs"|com.motorola.motosignature.jar|com.motorola.motosignature.xml|MotoSignatureApp.apk";
 	blobs=$blobs"|TriggerEnroll.apk|TriggerTrainingService.apk|com.motorola.triggerenroll.xml";
 	blobs=$blobs"|audio.motvr.default.so";
-	#blobs=$blobs"|libmotaudioutils.so"; #breaks phone call audio (?)
 	blobs=$blobs"|libcce-socketjni.so|libmotocare.so";
 	#blobs=$blobs"|qmi_motext_hook|libmdmcutback.so|libqmimotext.so|libmotext_inf.so"; #necessary for radio
 	makes=$makes"|com.motorola.cameraone.xml";

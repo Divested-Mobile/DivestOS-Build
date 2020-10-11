@@ -1,20 +1,8 @@
-Last updated: 2019-10-07
+Last updated: 2020-10-12
 
-High Priority (Release blockers)
-	Project
-		- GPG all the things!
-		- Create cryptocurrency addresses
-		- Setup Stripe
-	Servers
-		- Gitea/GitLab on a Kimsufi dedicated (KS-3C: $14 setup + $22/mo)
-		- Apache on an OVH VPS (SSD1: $4.50/mo)
-		- Mirrorbits on an OVH VPS (SSD1: $4.50/mo)
-		- 2x Mirror slaves on an OVH VPS (SSD2: 2x$7.80 = $15.60/mo)
-		- 1x Mirror slave on a 1/10Gbps server for high-speed incrementals
+High Priority
 	Website
-		- Switch from Shadow to Piwik and update Privacy Policy
 		- mod_removeip for GDPR and update Privacy Policy
-		- Update cryptocurrency addresses
 
 Medium Priority
 	Build
@@ -26,9 +14,13 @@ Medium Priority
 		- Various other branding (logo, snazzy bootanimation, setupwizard, etc.)
 	Project
 		- Create various XMPP conference rooms
+		- Database verification in Hypatia
+		- More cryptocurrency addresses
 	Servers
-		- Dedicated build servers
-		- Ejabberd on an OVH VPS (SSD1: $4.50/mo)
+		- Dedicated build server
+		- ejabberd for a chat room
+	Website
+		- Update cryptocurrency addresses
 
 Low Priority
 	Build
@@ -48,13 +40,13 @@ Longterm
 		- Switch to AOSP and create clean trees for all of the major devices
 	Linux Patches
 		- Automate pulling of CVE patches from Android and Qualcomm bulletins
-		- Get more CVE patches, especially for 3.4
+		- Get more CVE patches
 		- Investigate rebasing kernel trees on newer CAF ones
 		- Proper backports of CVE patches
 		- Proper backports of security features
 	Project
 		- Create an Mobile Device Manager solution
-		- Create our own device (free hardware, isolated modem, kernel 5.0+, etc.)
+		- Create our own device (free hardware, isolated modem, kernel 5.4+, etc.)
 		- General auditing of everything
 		- Partner with various projects
 		- Purchase one of each supported device
@@ -63,7 +55,7 @@ Longterm
 
 Contributions to other projects (via labor or funding)
 	Add Tor support: Materialistic, microG, Slide, Transistor, Wikipedia
-	Resurrect: Blockinger, microG, Pandoroid
+	Resurrect: Blockinger, Pandoroid
 	Amexia
 		- More icons
 	Conversations
