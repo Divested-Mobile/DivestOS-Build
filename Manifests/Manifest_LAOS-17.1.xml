@@ -127,6 +127,11 @@
 	<project path="device/google/sargo" name="LineageOS/android_device_google_sargo" remote="github" />
 	<!-- uses google/msm-4.9 kernel -->
 
+	<!-- Google Pixel 4 (coral/flame) -->
+	<project path="device/google/coral" name="LineageOS/android_device_google_coral" remote="github" />
+	<project path="device/google/flame" name="LineageOS/android_device_google_flame" remote="github" />
+	<project path="kernel/google/coral" name="LineageOS/android_kernel_google_coral" remote="github" />
+
 	<!-- HTC One (m8) -->
 	<project path="device/htc/m8" name="LineageOS/android_device_htc_m8" remote="github" />
 	<project path="device/htc/m8-common" name="LineageOS/android_device_htc_m8-common" remote="github" />
@@ -232,6 +237,12 @@
 	<project path="device/samsung/jfltexx" name="LineageOS/android_device_samsung_jfltexx" remote="github" />
 	<project path="device/samsung/jf-common" name="LineageOS/android_device_samsung_jf-common" remote="github" />
 	<project path="kernel/samsung/jf" name="LineageOS/android_kernel_samsung_jf" remote="github" />
+
+	<!-- Samsung Galaxy S5 (klte) -->
+	<project path="device/samsung/klte" name="LineageOS/android_device_samsung_klte" remote="github" />
+	<project path="device/samsung/klte-common" name="LineageOS/android_device_samsung_klte-common" remote="github" />
+	<project path="device/samsung/msm8974-common" name="LineageOS/android_device_samsung_msm8974-common" remote="github" />
+	<project path="kernel/samsung/msm8974" name="LineageOS/android_kernel_samsung_msm8974" remote="github" />
 
 	<!-- Samsung Galaxy S9 (starlte) -->
 	<project path="device/samsung/starlte" name="LineageOS/android_device_samsung_starlte" remote="github" />

@@ -61,7 +61,6 @@ buildAll() {
 	buildDevice hammerhead; #broken sepolicy?
 	#SD801
 	buildDevice ham;
-	buildDevice klte;
 	#SD615
 	buildDevice kipper;
 	#SD625
@@ -89,6 +88,7 @@ buildAll() {
 		buildDevice d852;
 		buildDevice d855;
 		buildDevice FP2;
+		buildDevice klte;
 		buildDevice m8;
 		buildDevice victara;
 		#SD805

@@ -103,10 +103,10 @@ echo "Deblobbing...";
 	ipcSec="4097:4294967295:2002:2950:3009:2901|4097:4294967295:3009";
 
 	#Dirac (Audio Codec + Effects) [Dirac]
-	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
-		blobs=$blobs"|libDiracAPI_SHARED.so|.*dirac.*";
-		blobs=$blobs"|diracmobile.config";
-	fi;
+	#if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
+		#blobs=$blobs"|libDiracAPI_SHARED.so|.*dirac.*"; #XXX: Breaks headphone jack
+		#blobs=$blobs"|diracmobile.config";
+	#fi;
 
 	#Discretix (DRM/HDCP) [Discretix Technologies]
 	blobs=$blobs"|DxDrmServerIpc|discretix";

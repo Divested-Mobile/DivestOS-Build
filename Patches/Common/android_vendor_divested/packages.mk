@@ -12,7 +12,7 @@ PRODUCT_PACKAGES += \
 
 # Replacements
 PRODUCT_PACKAGES += \
-    Etar \
+    EtarPrebuilt \
     FennecDOS \
     FairEmail \
     OpenCamera \
