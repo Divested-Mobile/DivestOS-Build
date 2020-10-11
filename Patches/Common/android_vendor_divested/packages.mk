@@ -12,6 +12,7 @@ PRODUCT_PACKAGES += \
 
 # Replacements
 PRODUCT_PACKAGES += \
+    Etar \
     FennecDOS \
     FairEmail \
     OpenCamera \
@@ -19,12 +20,8 @@ PRODUCT_PACKAGES += \
     SimpleGallery \
     VanillaMusic
 
-# Others
-PRODUCT_PACKAGES += \
-    LocalCalendar
-
 # Notes
-# - Available (via PrebuiltApps submodule): K9Mail, NetMonitor, OpenKeychain, Orbot, Shelter, TalkBack, TorBrowser
+# - Available (via PrebuiltApps submodule): K9Mail, LocalCalendar, NetMonitor, OpenKeychain, Orbot, Shelter, TalkBack, TorBrowser
 # - Camera Choices: None (Camera2/Snap), OpenCamera
 # - Gallery Choices: None (AOSP/Lineage), SimpleGallery
 # - OpenKeychain inclusion is undecided yet
