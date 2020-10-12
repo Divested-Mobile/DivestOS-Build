@@ -33,7 +33,7 @@ index 35fc442d0..b65686f93 100644
          mknod("/dev/random", S_IFCHR | 0666, makedev(1, 8));
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -124,6 +124,18 @@ on init
+@@ -124,6 +124,17 @@ on init
      write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
      write /proc/sys/kernel/sched_child_runs_first 0
  
@@ -42,7 +42,6 @@ index 35fc442d0..b65686f93 100644
 +    write /proc/sys/fs/protected_symlinks 1
 +    write /proc/sys/fs/protected_fifos 1
 +    write /proc/sys/fs/protected_regular 1
-+    write /proc/sys/net/ipv4/tcp_sack 0
 +    write /proc/sys/net/ipv6/conf/all/use_tempaddr 2
 +    write /proc/sys/net/ipv6/conf/all/max_addresses 128
 +    write /proc/sys/net/ipv6/conf/all/temp_prefered_lft 21600

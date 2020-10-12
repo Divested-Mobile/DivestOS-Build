@@ -34,7 +34,7 @@ index 2b899408a..84c2735c2 100644
      CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -140,6 +140,18 @@ on init
+@@ -140,6 +140,17 @@ on init
      write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
      write /proc/sys/kernel/sched_child_runs_first 0
  
@@ -43,7 +43,6 @@ index 2b899408a..84c2735c2 100644
 +    write /proc/sys/fs/protected_symlinks 1
 +    write /proc/sys/fs/protected_fifos 1
 +    write /proc/sys/fs/protected_regular 1
-+    write /proc/sys/net/ipv4/tcp_sack 0
 +    write /proc/sys/net/ipv6/conf/all/use_tempaddr 2
 +    write /proc/sys/net/ipv6/conf/all/max_addresses 128
 +    write /proc/sys/net/ipv6/conf/all/temp_prefered_lft 21600
