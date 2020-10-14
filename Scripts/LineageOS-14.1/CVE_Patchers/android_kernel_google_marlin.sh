@@ -636,7 +636,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25284/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25285/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25643/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26088/3.18/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-BleedingTooth/^5.10/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12352/3.6-^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0003-tunnels-Don-t-apply-GRO-to-multiple-layers-of-encaps.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0004-net-add-recursion-limit-to-GRO.patch
