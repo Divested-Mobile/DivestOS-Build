@@ -286,16 +286,18 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14386/3.10-^4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14390/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14416/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-15393/3.18/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16166/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25212/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25284/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25285/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25643/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26088/3.18/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-BleedingTooth/^5.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-5853/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0610/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
-editKernelLocalversion "-dos.p297"
+editKernelLocalversion "-dos.p299"
 cd "$DOS_BUILD_BASE"

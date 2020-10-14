@@ -408,5 +408,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13167/3.10/0004.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5897/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/^5.2.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p409"
+editKernelLocalversion "-dos.p408"
 cd "$DOS_BUILD_BASE"

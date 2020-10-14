@@ -93,5 +93,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0423/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/^5.6.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14386/3.10-^4.4/0002.patch
-editKernelLocalversion "-dos.p93"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25211/4.4/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-BleedingTooth/^5.10/0002.patch
+editKernelLocalversion "-dos.p96"
 cd "$DOS_BUILD_BASE"
