@@ -58,7 +58,7 @@ buildAll() {
 	#Select devices are userdebug due to SELinux policy issues
 	buildDeviceUserDebug thor; #broken encryption
 	buildDevice clark;
-	buildDevice h815; #broken
+	buildDevice h815;
 	buildDevice manta;
 	buildDevice n7100; #broken sepolicy
 	buildDeviceUserDebug i9300;
@@ -119,6 +119,7 @@ patchWorkspace() {
 	repopick -it ibss-mode-nougat;
 	repopick -i 288970; #update webview
 	repopick -it n-asb-2020-10;
+	repopick -it tzdb2020b_N;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

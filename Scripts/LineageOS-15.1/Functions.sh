@@ -67,7 +67,6 @@ buildAll() {
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
 	buildDevice flo;
-	buildDevice hammerhead;
 	buildDevice h850; #broken
 	buildDevice fugu;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
@@ -79,6 +78,7 @@ buildAll() {
 		buildDevice d855;
 		buildDevice FP2;
 		buildDevice ham;
+		buildDevice hammerhead;
 		buildDevice klte;
 		buildDevice m8;
 		buildDevice victara;
