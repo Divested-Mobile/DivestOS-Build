@@ -267,6 +267,7 @@ sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.
 
 enterAndClear "device/samsung/msm8974-common";
 echo "TARGET_RECOVERY_DENSITY := hdpi" >> BoardConfigCommon.mk;
+echo "allow hal_gnss_default ssr_device:chr_file { open read };" >> sepolicy/common/hal_gnss_default.te;
 
 enterAndClear "device/zuk/msm8996-common";
 awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
