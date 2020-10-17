@@ -11,6 +11,7 @@ All Devices
 - Silence will crash if first started without a SIM-card inserted. [upstream]
 - MediaProvider error toast on some boots. [permission whitelist?]
 - Updater JSON parsing error on 14.1. [upstream?]
+- Recovery will not be updated on each boot on 14.1. [upstream]
 
 apollo/thor
 -----------
@@ -19,6 +20,7 @@ apollo/thor
 clark
 -----
 - TWRP is required for flashing images due to modem firmware being compressed. [recovery]
+- Camera is very slow to start and sometimes won't start at all. [upstream]
 
 d852
 ----
@@ -36,12 +38,12 @@ grouper
 
 herolte
 -------
-- (reported) bootloops [???]
+- (reported) bootloops. [???]
 
 klte
 ----
-- SD cards will fail to mount or format [selinux]
-- USB ADB does not work [selinux]
+- SD cards will fail to mount or format. [selinux]
+- USB ADB does not work. [selinux]
 
 maguro/toro/toroplus
 --------------------
@@ -51,7 +53,7 @@ mako
 ----
 - Will fail to boot on first boot. Force off once after 3 minutes. [modem subsystem service startup failure with forceencrypt]
 - Excessive battery drain when powered-off. [???]
-- /system needs to be resized to fit 17.1. [too small parition]
+- /system needs to be resized to fit 17.1. [too small partition]
 
 mata
 ----
@@ -66,4 +68,4 @@ nex/n900
 shamu
 -----
 - (reported) No microphone on phone calls. [deblobber?]
-- (reported) bootloops [???]
+- (reported) bootloops. [???]
