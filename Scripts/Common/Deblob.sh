@@ -620,15 +620,22 @@ deblobDevice() {
 		if [ -z "$replaceTime" ]; then
 			numfiles=(*); numfiles=${#numfiles[@]};
 			if [ "$numfiles"  -gt "5" ]; then #only if device doesn't use a common sepolicy dir
-			#Switch to Sony TimeKeep
-			echo "allow system_app time_data_file:dir { create_dir_perms search };" >> sepolicy/system_app.te;
-			echo "allow system_app time_data_file:file create_file_perms;" >> sepolicy/system_app.te;
+				#Switch to Sony TimeKeep
+				#Credit: @aviraxp
+				#Reference: https://github.com/LineageOS/android_device_oneplus_oneplus2/commit/3b152a3c1198d795de4175e6b9927493caf01bf0
+				echo "/sys/devices/soc\.0/qpnp-rtc-8/rtc/rtc0(/.*)? u:object_r:sysfs_rtc:s0" >> sepolicy/file_contexts;
+				echo "/(system/vendor|vendor)/bin/timekeep u:object_r:timekeep_exec:s0" >> sepolicy/file_contexts;
+				echo "type vendor_timekeep_prop, property_type;" >> sepolicy/property.te;
+				echo "persist.vendor.timeadjust u:object_r:vendor_timekeep_prop:s0" >> sepolicy/property_contexts;
+				echo "user=system seinfo=platform name=com.sony.timekeep domain=timekeep_app type=app_data_file" >> sepolicy/seapp_contexts;
+				cp "$DOS_PATCHES_COMMON/timekeep.te" sepolicy/;
+				cp "$DOS_PATCHES_COMMON/timekeep_app.te" sepolicy/;
 			fi;
 		fi;
 	fi;
 	if [ -z "$replaceTime" ]; then #Switch to Sony TimeKeep
-		sed -i 's|service time_daemon /system/bin/time_daemon|service time_daemon /system/bin/timekeep restore\n    oneshot|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true;
-		sed -i 's|mkdir /data/time/ 0700 system system|mkdir /data/time/ 0700 system system\n    chmod 0770 /data/time/ats_2|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true;
+		#sed -i 's|service time_daemon /system/bin/time_daemon|service time_daemon /system/bin/timekeep restore\n    oneshot|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true;
+		awk -i inplace '!|mkdir /data/time/ 0700 system system|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true;
 	fi;
 	rm -f board/qcom-cne.mk product/qcom-cne.mk; #Remove CNE
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then rm -f rootdir/etc/init.qti.ims.sh rootdir/init.qti.ims.sh init.qti.ims.sh; fi; #Remove IMS startup script
