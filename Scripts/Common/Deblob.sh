@@ -73,7 +73,7 @@ echo "Deblobbing...";
 		#blobs=$blobs"|libspeakerbundle.so|libmotaudioutils.so"; #XXX: Breaks audio on Motorola devices (?)
 		blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so"; #Qualcomm
 		#blobs=$blobs"|libbundlewrapper.so|libqcompostprocbundle.so|libqcomvoiceprocessing.so|libqcomvisualizer.so";
-		blobs=$blobs"|libhwdap.*.so|libswdap.*.so|lib_dlb_msd.so"; #Dolby
+		blobs=$blobs"|libhwdap.*.so|libswdap.*.so|lib_dlb_msd.so|vendor.dolby.hardware.dms.*"; #Dolby
 		blobs=$blobs"|libsonypostprocbundle.so|libsonysweffect.so"; #Sony
 	fi;
 
@@ -88,7 +88,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|andsfCne.xml|ATT_profile.*.xml|cneapiclient.xml|com.quicinc.cne.xml|ConnectivityExt.xml|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile.*.xml|SwimConfig.xml|VZW_profile.*.xml";
 	blobs=$blobs"|cnd";
 	blobs=$blobs"|cneapiclient.jar|com.quicinc.cne.*.jar|ConnectivityExt.jar";
-	blobs=$blobs"|CNEService.apk";
+	blobs=$blobs"|CNEService.apk|CneApp.apk";
 	blobs=$blobs"|libcneconn.so|libcneqmiutils.so|libcne.so|libvendorconn.so|libwms.so|libwqe.so|libcneoplookup.so";
 	#blobs=$blobs"|vendor.qti.data.factory.*|vendor.qti.hardware.data.dynamicdds.*|vendor.qti.hardware.data.latency.*|vendor.qti.hardware.data.qmi.*|vendor.qti.latency.*";
 	makes=$makes"|libcnefeatureconfig";
@@ -118,12 +118,10 @@ echo "Deblobbing...";
 	makes=$makes"|DxHDCP.cfg";
 
 	#Display Color Tuning [Qualcomm]
-	blobs=$blobs"|com.qti.snapdragon.sdk.display.jar";
-	blobs=$blobs"|com.qti.snapdragon.sdk.display.xml";
 	blobs=$blobs"|mm-pp-daemon|mm-pp-dpps";
-	blobs=$blobs"|colorservice.apk|PPPreference.apk|CABLService.apk";
-	blobs=$blobs"|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so";
-	blobs=$blobs"|vendor.display.color.*|vendor.display.postproc.*";
+	blobs=$blobs"|colorservice.apk|PPPreference.apk|CABLService.apk|QdcmFF.apk";
+	blobs=$blobs"|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|libdpps.so";
+	blobs=$blobs"|vendor.display.color.*|vendor.display.postproc.*|vendor.qti.hardware.qdutils_disp.*|com.qti.snapdragon.sdk.display.*";
 
 	#DivX (DRM) [DivX]
 	blobs=$blobs"|libDivxDrm.so|libSHIMDivxDrm.so";
@@ -141,6 +139,7 @@ echo "Deblobbing...";
 
 	#DRM
 	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so"; #Qualcomm
+	blobs=$blobs"|com.qualcomm.qti.services.secureui.*";
 	blobs=$blobs"|liboemcrypto.so|libtzdrmgenprov.so";
 	blobs=$blobs"|libpvr.so|librmp.so|libsi.so|libSSEPKCS11.so";
 	blobs=$blobs"|libdrmctaplugin.so|libdrmmtkplugin.so|libdrmmtkwhitelist.so|libmockdrmcryptoplugin.so";
@@ -221,8 +220,17 @@ echo "Deblobbing...";
 	#FM Radio [Google]
 	blobs=$blobs"|FMRadioGoogle.apk|FmRadioTrampoline2.apk";
 
+	#[Google]
+	blobs=$blobs"|TetheringEntitlement.apk|CarrierLocation.apk|CarrierWifi.apk";
+	blobs=$blobs"|HardwareInfo.apk";
+	blobs=$blobs"|SCONE.apk"; #???
+
 	#Google Camera
 	blobs=$blobs"|com.google.android.camera.*";
+
+	#Google Setup Wizard
+	blobs=$blobs"|DreamlinerPrebuilt.apk|DreamlinerUpdater.apk";
+	blobs=$blobs"|com.google.android.apps.dreamliner.xml|dreamliner.xml";
 
 	#Google TV
 	blobs=$blobs"|LeanbackIme.apk|LeanbackLauncher.apk|AtvRemoteService.apk|GamepadPairingService.apk|GlobalKeyInterceptor.apk|RemoteControlService.apk|TV.apk|CanvasPackageInstaller.apk|Overscan.apk";
@@ -240,7 +248,8 @@ echo "Deblobbing...";
 	blobs=$blobs"|hdcp1.*|hdcp2.*|tzhdcp.*";
 
 	#HDR
-	blobs=$blobs"|libhdr.*.so|libdovi.so";
+	blobs=$blobs"|libhdr.*.so";
+	blobs=$blobs"|libdovi.so";
 	blobs=$blobs"|DolbyVisionService.apk";
 	blobs=$blobs"|dolby_vision.cfg|hdr_tm_config.xml";
 
@@ -312,15 +321,27 @@ echo "Deblobbing...";
 	blobs=$blobs"|gpsone_daemon|izat.xt.srv|location-mq|loc_launcher|lowi-server|slim_ap_daemon|slim_daemon|xtwifi-client|xtwifi-inet-agent|xtra-daemon";
 	overlay=$overlay"config_comboNetworkLocationProvider|config_enableFusedLocationOverlay|config_enableNetworkLocationOverlay|config_fusedLocationProviderPackageName|config_enableNetworkLocationOverlay|config_networkLocationProviderPackageName|com.qualcomm.location";
 
+	#Machine Learning [Qualcomm]
+	blobs=$blobs"|vendor.qti.hardware.mlshal.*|vendor.qti.hardware.cvp.*";
+	blobs=$blobs"|libopenvx.so|libnpu.so|libcvp.*.so";
+
 	#Misc
 	blobs=$blobs"|libjni_latinime.so|libuiblur.so|libwifiscanner.so";
+
+	#Motion Sense
+	blobs=$blobs"|OsloFeedback.apk";
+	blobs=$blobs"|oslo.so|oslo.napp_header";
+	blobs=$blobs"|BufferConfigValOslo.bin|OsloSensorConfig.bin|OsloSensorPackage.bin";
+	blobs=$blobs"|vendor.google.airbrush.*|libairbrush-pixel.so";
+	blobs=$blobs"|libdarwinn_client.so|libdarwinn_compiler.so|vendor.google.darwinn.service.*";
+	#blobs=$blobs"|pixelatoms-cpp.so|vendor-pixelatoms-cpp.so"; #???
 
 	#Music Detection [Google]
 	blobs=$blobs"|AmbientSensePrebuilt.apk";
 	blobs=$blobs"|dnd.descriptor|dnd.sound_model|music_detector.descriptor|music_detector.sound_model";
 
 	#[Motorola] #See: http://www.beneaththewaves.net/Projects/Motorola_Is_Listening.html
-	blobs=$blobs"|AppDirectedSMSProxy.apk|BuaContactAdapter.apk|com.motorola.DirectedSMSProxy.xml|com.motorola.msimsettings.xml";
+	blobs=$blobs"|BuaContactAdapter.apk|com.motorola.DirectedSMSProxy.xml|com.motorola.msimsettings.xml";
 	blobs=$blobs"|MotoDisplayFWProxy.apk|com.motorola.motodisplay.xml";
 	blobs=$blobs"|com.motorola.camera.xml|com.motorola.gallery.xml";
 	blobs=$blobs"|EasyAccessService.apk";
@@ -339,7 +360,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|libdme_main.so|libwbxmlparser.so|libprovlib.so";
 	blobs=$blobs"|dm_agent|dm_agent_binder";
 	blobs=$blobs"|npsmobex"; #Samsung?
-	blobs=$blobs"|ConnMO.apk|OmaDmclient.apk|com.android.omadm.service.xml|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|libdmengine.so|libdmjavaplugin.so|SprintDM.apk|SDM.apk|whitelist_com.android.omadm.service.xml|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml|com.google.omadm.trigger.xml|com.android.sdm.plugins.diagmon.xml|com.android.sdm.plugins.dcmo.xml"; #Sprint
+	blobs=$blobs"|ConnMO.apk|OmaDmclient.apk|USCCDM.apk|com.android.omadm.service.xml|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|libdmengine.so|libdmjavaplugin.so|SprintDM.apk|SDM.apk|whitelist_com.android.omadm.service.xml|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml|com.google.omadm.trigger.xml|com.android.sdm.plugins.diagmon.xml|com.android.sdm.plugins.dcmo.xml"; #Sprint
 
 	#OpenMobileAPI [SIM Alliance]
 	#This is open source, but rarely used
@@ -431,13 +452,21 @@ echo "Deblobbing...";
 		sepolicy=$sepolicy" qtimeservice.te";
 	fi;
 
+	#[T-Mobile]
+	blobs=$blobs"|TmobileGrsuPrebuilt.apk";
+
+	#Touchscreen [Qualcomm] XXX: breaks touch
+	#blobs=$blobs"|vendor.qti.hardware.improvetouch.*"; #TODO: test with just this line uncommented
+	#blobs=$blobs"|hbtp_daemon|hbtp_cmd.sh";
+	#blobs=$blobs"|libhbtpclient.so|libhbtpdsp.so|libhbtpfrmwk.so";
+
 	#Venus (Hardware Video Decoding) [Qualcomm]
 	#blobs=$blobs"|venus.*";
 
 	#[Verizon]
 	blobs=$blobs"|libmotricity.so|libakuaf.so";
 	blobs=$blobs"|com.qualcomm.location.vzw_library.jar|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.lte.jar|com.verizon.ims.jar|qti-vzw-ims-internal.jar|VerizonUnifiedSettings.jar";
-	blobs=$blobs"|CarrierSetup.apk|OemDmTrigger.apk|appdirectedsmspermission.apk|VerizonSSOEngine.apk|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|VerizonAuthDialog.apk|MyVerizonServices.apk|WfcActivation.apk|obdm_stub.apk|QAS_DVC_MSP.*.apk";
+	blobs=$blobs"|CarrierSetup.apk|OemDmTrigger.apk|appdirectedsmspermission.apk|AppDirectedSMSService.apk|AppDirectedSMSProxy.apk|VerizonSSOEngine.apk|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|VerizonAuthDialog.apk|MyVerizonServices.apk|WfcActivation.apk|obdm_stub.apk|QAS_DVC_MSP.*.apk|Showcase.apk|LLKAgent.apk";
 	blobs=$blobs"|com.android.vzwomatrigger.xml|vzw_mvs_permissions.xml|obdm_permissions.xml|com.verizon.services.xml|features-verizon.xml|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.xml|vzw_sso_permissions.xml|com.vzw.hardware.lte.xml|com.vzw.hardware.ehrpd.xml|verizon_config_params.txt|com.verizon.llkagent.xml|vzw_mvs_sysconfig.xml";
 
 	#Voice Recognition
@@ -450,13 +479,18 @@ echo "Deblobbing...";
 	#makes=$makes"|android.hardware.soundtrigger.*|libsoundtriggerservice";
 	#makes=$makes"|sound_trigger_mixer_paths.xml|sound_trigger_platform_info.xml";
 
+	#Wi-Fi [Qualcomm]
+	blobs=$blobs"|wifilearner";
+	blobs=$blobs"|vendor.qti.hardware.wifi.wifilearner.*|vendor.qti.hardware.wigig.netperftuner.*";
+	blobs=$blobs"|libwigig_flashaccess.so|libwigig_pciaccess.so|libwigig_utils.so|libwigigsensing.so";
+
 	#Wfd (Wireless Display? Wi-Fi Direct?) [Qualcomm]
-	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdcommonutils.so|libwfdhdcpcp.so|libwfdmmsink.so|libwfdmmsrc.so|libwfdmmutils.so|libwfdnative.so|libwfdrtsp.so|libwfdservice.so|libwfdsm.so|libwfduibcinterface.so|libwfduibcsinkinterface.so|libwfduibcsink.so|libwfduibcsrcinterface.so|libwfduibcsrc.so|libwfdcommonutils_proprietary.so|libwfdhaldsmanager.so|libwfdmmservice.so|libwfdmodulehdcpsession.so|libwfdcodecv4l2.so|libwfdconfigutils.so|libwfdmminterface.so|libwfdclient.so";
-	blobs=$blobs"|wfdservice|wifidisplayhalservice";
+	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdcommonutils.so|libwfdhdcpcp.so|libwfdmmsink.so|libwfdmmsrc.so|libwfdmmutils.so|libwfdnative.so|libwfdrtsp.so|libwfdservice.so|libwfdsm.so|libwfduibcinterface.so|libwfduibcsinkinterface.so|libwfduibcsink.so|libwfduibcsrcinterface.so|libwfduibcsrc.so|libwfdcommonutils_proprietary.so|libwfdhaldsmanager.so|libwfdmmservice.so|libwfdmodulehdcpsession.so|libwfdcodecv4l2.so|libwfdconfigutils.so|libwfdmminterface.so|libwfdclient.so|libwfdhdcpservice_proprietary.so";
+	blobs=$blobs"|wfdservice|wifidisplayhalservice|wfdhdcphalservice";
 	blobs=$blobs"|WfdService.apk";
 	blobs=$blobs"|WfdCommon.jar";
 	blobs=$blobs"|wfdconfigsink.xml|wfdconfig.xml";
-	blobs=$blobs"|com.qualcomm.qti.wifidisplayhal.*";
+	blobs=$blobs"|com.qualcomm.qti.wifidisplayhal.*|vendor.qti.hardware.wifidisplaysession.*|android.hardware.drm@1.1-service.wfdhdcp.*";
 	makes=$makes"|WfdCommon";
 
 	#Widevine (DRM) [Google]
@@ -464,7 +498,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|test-wvdrmplugin|oemwvtest";
 	blobs=$blobs"|com.google.widevine.software.drm.jar";
 	blobs=$blobs"|com.google.widevine.software.drm.xml";
-	#blobs=$blobs"|smc_pa_wvdrm.ift"; breaks toro boot
+	#blobs=$blobs"|smc_pa_wvdrm.ift"; breaks maguro/toro* boot
 	blobs=$blobs"|tzwidevine.*|tzwvcpybuf.*|widevine.*";
 	makes=$makes"|libshim_wvm|move_widevine_data.sh";
 
@@ -695,9 +729,10 @@ export -f deblobVendor;
 #
 find build -name "*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'awk -i inplace "!/$makes/" "{}"'; #Deblob all makefiles
 find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \;; #Deblob all device directories
-#find device -maxdepth 3 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'deblobSepolicy "{}"'; #Deblob all device sepolicy directories XXX: Breaks builds when other sepolicy files reference deleted ones
-#find kernel -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'deblobKernel "{}"'; #Deblob all kernel directories
+#find device -maxdepth 3 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobSepolicy "{}"'; #Deblob all device sepolicy directories XXX: Breaks builds when other sepolicy files reference deleted ones
+#find kernel -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobKernel "{}"'; #Deblob all kernel directories
 find vendor -name "*endor*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobVendor "{}"'; #Deblob all makefiles
+#TODO: XXX: Better Android.bp cleaning
 find vendor -name "Android.bp" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'sed -i -E "s/apk.*("$blobs").*/apk: \"proprietary\/priv-app\/qcrilmsgtunnel\/qcrilmsgtunnel.apk\", enabled: false,/g" "{}"';
 find vendor -name "Android.bp" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'sed -i -E "s/jars.*("$blobs").*/jars: \[\"proprietary\/system\/framework\/qcrilhook.jar\"\], enabled: false,/g" "{}"';
 find vendor -name "Android.bp" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'sed -i -E "s/srcs.*("$blobs").*/srcs: \[\"proprietary\/vendor\/lib\/libtime_genoff.so\"\], enabled: false,/g" "{}"';
