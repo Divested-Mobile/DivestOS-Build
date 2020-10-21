@@ -266,9 +266,10 @@ echo "Deblobbing...";
 		blobs=$blobs"|lib-imsdpl.so|lib-imscamera.so|libimscamera_jni.so|lib-imsqimf.so|lib-imsSDP.so|lib-imss.so|lib-imsvt.so|lib-imsxml.so|lib-imsvideocodec.so|lib-imsvtextutils.so|lib-imsvtutils.so";
 		blobs=$blobs"|imscmservice|imsdatadaemon|imsqmidaemon";
 		blobs=$blobs"|imscm.xml|ims.xml|android.hardware.telephony.ims.xml";
-		blobs=$blobs"|qti_permissions.xml";
+		blobs=$blobs"|qti_permissions.xml|qti-vzw-ims-internal.xml";
 		blobs=$blobs"|imssettings.apk|ims.apk";
-		blobs=$blobs"|imscmlibrary.jar";
+		blobs=$blobs"|imscmlibrary.jar|qti-vzw-ims-internal.jar";
+		blobs=$blobs"|com.qualcomm.qti.imscmservice.*|vendor.qti.ims.*";
 		#RTP
 		blobs=$blobs"|ims_rtp_daemon|lib-rtpcommon.so|lib-rtpcore.so|lib-rtpdaemoninterface.so|lib-rtpsl.so";
 		blobs=$blobs"|vendor.qti.imsrtpservice.*";
@@ -279,6 +280,19 @@ echo "Deblobbing...";
 		sepolicy=$sepolicy" ims.te imscm.te imswmsproxy.te";
 		ipcSec=$ipcSec"|32:4294967295:1001";
 	fi;
+	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_RCS" = true ]; then
+		#RCS (Proprietary messaging protocol)
+		blobs=$blobs"|imsrcsd";
+		blobs=$blobs"|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsrcs-v2.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-uceservice.so";
+		blobs=$blobs"|rcsimssettings.jar|rcsservice.jar";
+		blobs=$blobs"|rcsimssettings.xml|rcsservice.xml";
+		blobs=$blobs"|CarrierServices.apk|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk";
+		#blobs=$blobs"|vendor.qti.ims.rcsconfig.*";
+		blobs=$blobs"|com.qualcomm.qti.uceservice.*";
+		makes=$makes"|rcs_service.*";
+		ipcSec=$ipcSec"|18:4294967295:1001:3004";
+	fi;
+
 
 	#IPA (Internet Packet Accelerator) [Qualcomm]
 	#This is actually open source (excluding -diag)
@@ -410,16 +424,6 @@ echo "Deblobbing...";
 	#RIL [Qualcomm]
 	blobs=$blobs"|Asdiv.apk";
 
-	#RCS (Proprietary messaging protocol)
-	blobs=$blobs"|imsrcsd";
-	blobs=$blobs"|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsrcs-v2.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-uceservice.so";
-	blobs=$blobs"|rcsimssettings.jar|rcsservice.jar";
-	blobs=$blobs"|rcsimssettings.xml|rcsservice.xml";
-	blobs=$blobs"|CarrierServices.apk|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk";
-	#blobs=$blobs"|vendor.qti.ims.rcsconfig.*";
-	makes=$makes"|rcs_service.*";
-	ipcSec=$ipcSec"|18:4294967295:1001:3004";
-
 	#[Samsung]
 	blobs=$blobs"|SystemUpdateUI.apk";
 
@@ -465,9 +469,9 @@ echo "Deblobbing...";
 
 	#[Verizon]
 	blobs=$blobs"|libmotricity.so|libakuaf.so";
-	blobs=$blobs"|com.qualcomm.location.vzw_library.jar|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.lte.jar|com.verizon.ims.jar|qti-vzw-ims-internal.jar|VerizonUnifiedSettings.jar";
+	blobs=$blobs"|com.qualcomm.location.vzw_library.jar|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.lte.jar|com.verizon.ims.jar|VerizonUnifiedSettings.jar";
 	blobs=$blobs"|CarrierSetup.apk|OemDmTrigger.apk|appdirectedsmspermission.apk|AppDirectedSMSService.apk|AppDirectedSMSProxy.apk|VerizonSSOEngine.apk|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|VerizonAuthDialog.apk|MyVerizonServices.apk|WfcActivation.apk|obdm_stub.apk|QAS_DVC_MSP.*.apk|Showcase.apk|LLKAgent.apk";
-	blobs=$blobs"|com.android.vzwomatrigger.xml|vzw_mvs_permissions.xml|obdm_permissions.xml|com.verizon.services.xml|features-verizon.xml|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|qti-vzw-ims-internal.xml|vzw_sso_permissions.xml|com.vzw.hardware.lte.xml|com.vzw.hardware.ehrpd.xml|verizon_config_params.txt|com.verizon.llkagent.xml|vzw_mvs_sysconfig.xml";
+	blobs=$blobs"|com.android.vzwomatrigger.xml|vzw_mvs_permissions.xml|obdm_permissions.xml|com.verizon.services.xml|features-verizon.xml|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|vzw_sso_permissions.xml|com.vzw.hardware.lte.xml|com.vzw.hardware.ehrpd.xml|verizon_config_params.txt|com.verizon.llkagent.xml|vzw_mvs_sysconfig.xml";
 
 	#Voice Recognition
 	blobs=$blobs"|liblistenhardware.so|liblistenjni.so|liblisten.so|liblistensoundmodel.*.so|libqvop-service.so|librecoglib.so|libsupermodel.so|libtrainingcheck.so";
@@ -591,7 +595,6 @@ deblobDevice() {
 	sed -i 's/persist.dpm.feature=./persist.dpm.feature=0/' system.prop *.mk &>/dev/null || true; #Disable DPM
 	sed -i 's/persist.gps.qc_nlp_in_use=./persist.gps.qc_nlp_in_use=0/' system.prop *.mk &>/dev/null || true; #Disable QC Location Provider
 	sed -i 's/persist.sys.dpmd.nsrm=./persist.sys.dpmd.nsrm=0/' system.prop *.mk &>/dev/null || true; #Disable DPM
-	sed -i 's/persist.rcs.supported=./persist.rcs.supported=0/' system.prop *.mk &>/dev/null || true; #Disable RCS
 	sed -i 's/ro.bluetooth.emb_wp_mode=true/ro.bluetooth.emb_wp_mode=false/' system.prop *.mk &>/dev/null || true; #Disable WiPower
 	sed -i 's/ro.bluetooth.wipower=true/ro.bluetooth.wipower=false/' system.prop *.mk &>/dev/null || true; #Disable WiPower
 	if [ -f system.prop ]; then
@@ -619,11 +622,13 @@ deblobDevice() {
 		sed -i 's/persist.volte_enabled_by_hw=./persist.volte_enabled_by_hw=0/' system.prop *.mk &>/dev/null || true;
 		sed -i 's/persist.dbg.ims_volte_enable=./persist.dbg.ims_volte_enable=0/' system.prop *.mk &>/dev/null || true;
 	fi;
+	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_RCS" = true ]; then
+		sed -i 's/persist.rcs.supported=./persist.rcs.supported=0/' system.prop *.mk &>/dev/null || true; #Disable RCS
+	fi;
 	if [ -f configs/qmi_config.xml ]; then
 		sed -i 's|name="dpm_enabled" type="int"> 1 <|name="dpm_enabled" type="int"> 0 <|' configs/qmi_config.xml; #Disable DPM
 	fi;
 	if [ -f init/init_*.cpp ]; then
-		sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "0");/' init/init_*.cpp; #Disable RCS
 		#Disable IMS
 		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
 			sed -i 's/property_set("persist.ims.volte", "true");/property_set("persist.ims.volte", "false");/' init/init_*.cpp;
@@ -632,6 +637,9 @@ deblobDevice() {
 			sed -i 's/property_set("persist.radio.jbims", ".");/property_set("persist.radio.jbims", "0");/' init/init_*.cpp;
 			sed -i 's/property_set("persist.radio.VT_ENABLE", ".");/property_set("persist.radio.VT_ENABLE", "0");/' init/init_*.cpp;
 			sed -i 's/property_set("persist.radio.VT_HYBRID_ENABLE", ".");/property_set("persist.radio.VT_HYBRID_ENABLE", "0");/' init/init_*.cpp;
+		fi;
+		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_RCS" = true ]; then
+			sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "0");/' init/init_*.cpp; #Disable RCS
 		fi;
 	fi;
 	if [ -f overlay/frameworks/base/core/res/res/values/config.xml ]; then
