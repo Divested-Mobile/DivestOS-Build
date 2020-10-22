@@ -360,6 +360,28 @@ deblobAudio() {
 }
 export -f deblobAudio;
 
+imsAllowDiag() {
+	find device -name "ims.te" -type f -exec sh -c "echo 'diag_use(ims)' >> {}" \;
+	find device -name "hal_imsrtp.te" -type f -exec sh -c "echo 'diag_use(hal_imsrtp)' >> {}" \;
+}
+export -f imsAllowDiag;
+
+volteOverride() {
+	cd "$DOS_BUILD_BASE$1";
+	if grep -sq "config_device_volte_available" "overlay/frameworks/base/core/res/res/values/config.xml"; then
+		if [ -f vendor.prop ] && ! grep -sq "volte_avail_ovr" "vendor.prop"; then
+			echo -e 'persist.dbg.volte_avail_ovr=1\npersist.dbg.vt_avail_ovr=1' >> vendor.prop;
+			echo "Set VoLTE override in vendor.prop for $1";
+		fi;
+		if [ -f vendor_prop.mk ] && ! grep -sq "volte_avail_ovr" "vendor_prop.mk"; then
+			echo -e '\nPRODUCT_PROPERTY_OVERRIDES += \\\n    persist.dbg.volte_avail_ovr=1 \\\n    persist.dbg.vt_avail_ovr=1' >> vendor_prop.mk;
+			echo "Set VoLTE override in vendor_prop.mk for $1";
+		fi;
+		#TODO: system.prop, init/init*.cpp, device*.mk
+	fi;
+	cd "$DOS_BUILD_BASE";
+}
+export -f volteOverride;
 
 hardenLocationConf() {
 	local gpsConfig=$1;

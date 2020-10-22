@@ -99,7 +99,9 @@ echo "Deblobbing...";
 	blobs=$blobs"|cppf.*";
 
 	#Diagnostics
-	blobs=$blobs"|[/]diag[/]|diag_callback_client|diag_dci_sample|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag[/]mdm|diag_qshrink4_daemon|diag_socket_log|diag_uart_log|drmdiagapp|ibdrmdiag.so|ssr_diag|test_diag|cnss_diag";
+	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/diag/ [headers]
+	#https://source.codeaurora.org/quic/imm/imm/sources/diag/ [related?]
+	blobs=$blobs"|[/]diag[/]|diag_callback_client|diag_dci_sample|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag[/]mdm|diag_qshrink4_daemon|diag_socket_log|diag_uart_log|drmdiagapp|libdrmdiag.so|ssr_diag|test_diag|cnss_diag";
 	#blobs=$blobs"|libdiag.so|libsdm-diag.so|libDiagService.so"; #XXX: Breaks qseecomd AND brightness control (?)
 	ipcSec="4097:4294967295:2002:2950:3009:2901|4097:4294967295:3009";
 
@@ -128,6 +130,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|mfc_fw.bin";
 
 	#DPM (Data Power Management) [Qualcomm]
+	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/dpm/ [headers]
 	blobs=$blobs"|com.qti.dpmframework.jar|dpmapi.jar|tcmclient.jar";
 	blobs=$blobs"|com.qti.dpmframework.xml|dpmapi.xml|dpm.conf|NsrmConfiguration.xml";
 	blobs=$blobs"|dpmd|dpmQmiMgr";
@@ -221,7 +224,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|FMRadioGoogle.apk|FmRadioTrampoline2.apk";
 
 	#[Google]
-	blobs=$blobs"|TetheringEntitlement.apk|CarrierLocation.apk|CarrierWifi.apk";
+	blobs=$blobs"|TetheringEntitlement.apk|CarrierLocation.apk|CarrierWifi.apk|CarrierSettings.apk";
 	blobs=$blobs"|HardwareInfo.apk";
 	blobs=$blobs"|SCONE.apk"; #???
 
@@ -282,6 +285,7 @@ echo "Deblobbing...";
 	fi;
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_RCS" = true ]; then
 		#RCS (Proprietary messaging protocol)
+		#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/rcs-service/ [useless]
 		blobs=$blobs"|imsrcsd";
 		blobs=$blobs"|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsrcs-v2.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-uceservice.so";
 		blobs=$blobs"|rcsimssettings.jar|rcsservice.jar";
@@ -295,7 +299,9 @@ echo "Deblobbing...";
 
 
 	#IPA (Internet Packet Accelerator) [Qualcomm]
-	#This is actually open source (excluding -diag)
+	#https://source.codeaurora.org/quic/la/platform/hardware/qcom/data/ipa-cfg-mgr/
+	#https://source.codeaurora.org/quic/la/platform/hardware/qcom/data/ipacfg-mgr/
+	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/data-ipa-cfg-mgr/
 	blobs=$blobs"|ipacm-diag";
 	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then
 		blobs=$blobs"|ipacm";
@@ -327,6 +333,7 @@ echo "Deblobbing...";
 	#blobs=$blobs"|libmmparser.so|libmmipstreamsourcehttp.so";
 
 	#Location (gpsOne/gpsOneXTRA/IZat/Lumicast/QUIP) [Qualcomm]
+	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/location/
 	blobs=$blobs"|libalarmservice_jni.so|libasn1cper.so|libasn1crt.so|libasn1crtx.so|libgdtap.so|libloc_ext.so|libloc_xtra.so|liblowi_wifihal_nl.so|liblowi_wifihal.so|libquipc_os_api.so|libquipc_ulp_adapter.so|libxt_native.so|libxtwifi_ulp_adaptor.so|libxtwifi_zpp_adaptor.so";
 	#blobs=$blobs"|libulp2.so|libxtadapter.so|libgeofence.so|liblbs_core.so|libdataitems.so|libdrplugin_client.so|libDRPlugin.so|libevent_observer.so|liblocationservice_glue.so|liblocationservice.so|liblowi_client.so";
 	blobs=$blobs"|cacert_location.pem|com.qti.location.sdk.xml|com.qualcomm.location.xml|izat.conf|izat.xt.srv.xml|lowi.conf|xtra_root_cert.pem|xtwifi.conf";
@@ -377,7 +384,6 @@ echo "Deblobbing...";
 	blobs=$blobs"|ConnMO.apk|OmaDmclient.apk|USCCDM.apk|com.android.omadm.service.xml|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|libdmengine.so|libdmjavaplugin.so|SprintDM.apk|SDM.apk|whitelist_com.android.omadm.service.xml|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml|com.google.omadm.trigger.xml|com.android.sdm.plugins.diagmon.xml|com.android.sdm.plugins.dcmo.xml"; #Sprint
 
 	#OpenMobileAPI [SIM Alliance]
-	#This is open source, but rarely used
 	#https://github.com/seek-for-android/platform_packages_apps_SmartCardService
 	#blobs=$blobs"|org.simalliance.openmobileapi.jar";
 	#blobs=$blobs"|org.simalliance.openmobileapi.xml";
@@ -392,6 +398,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|Perfdump.apk";
 
 	#Peripheral Manager
+	#https://source.codeaurora.org/quic/la/platform/system/peripheralmanager/ [headers]
 	#blobs=$blobs"|libperipheral_client.so|libspcom.so";
 	#blobs=$blobs"|pm-proxy|pm-service|spdaemon";
 
@@ -413,6 +420,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|Tycho.apk";
 
 	#Quickboot [Qualcomm]
+	#https://source.codeaurora.org/quic/la/platform/packages/apps/FastPowerOn/
 	blobs=$blobs"|power_off_alarm";
 	blobs=$blobs"|QuickBoot.apk|PowerOffAlarm.apk";
 	blobs=$blobs"|vendor.qti.hardware.alarm.*";
@@ -443,10 +451,12 @@ echo "Deblobbing...";
 	ipcSec=$ipcSec"|238:4294967295:1001:3004";
 
 	#Thermal Throttling [Qualcomm]
+	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/thermal-engine/ [headers]
 	#blobs=$blobs"|thermal-engine";
 	#blobs=$blobs"|libthermalclient.so|libthermalioctl.so";
 
 	#Time Service [Qualcomm]
+	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/time-services/ [headers]
 	#Requires that android_hardware_sony_timekeep be included in repo manifest
 	if [ "$DOS_DEBLOBBER_REPLACE_TIME" = true ]; then
 		#blobs=$blobs"|libtime_genoff.so"; #XXX: Breaks radio
@@ -484,11 +494,14 @@ echo "Deblobbing...";
 	#makes=$makes"|sound_trigger_mixer_paths.xml|sound_trigger_platform_info.xml";
 
 	#Wi-Fi [Qualcomm]
+	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wigig/ [headers]
+	#https://source.codeaurora.org/quic/qsdk/oss/wigig-utils/ [useless]
 	blobs=$blobs"|wifilearner";
-	blobs=$blobs"|vendor.qti.hardware.wifi.wifilearner.*|vendor.qti.hardware.wigig.netperftuner.*";
+	blobs=$blobs"|vendor.qti.hardware.wifi.wifilearner.*|vendor.qti.hardware.wigig.*";
 	blobs=$blobs"|libwigig_flashaccess.so|libwigig_pciaccess.so|libwigig_utils.so|libwigigsensing.so";
 
-	#Wfd (Wireless Display? Wi-Fi Direct?) [Qualcomm]
+	#Wfd (Wireless Display) [Qualcomm]
+	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wfd-commonsys/ [useless]
 	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdcommonutils.so|libwfdhdcpcp.so|libwfdmmsink.so|libwfdmmsrc.so|libwfdmmutils.so|libwfdnative.so|libwfdrtsp.so|libwfdservice.so|libwfdsm.so|libwfduibcinterface.so|libwfduibcsinkinterface.so|libwfduibcsink.so|libwfduibcsrcinterface.so|libwfduibcsrc.so|libwfdcommonutils_proprietary.so|libwfdhaldsmanager.so|libwfdmmservice.so|libwfdmodulehdcpsession.so|libwfdcodecv4l2.so|libwfdconfigutils.so|libwfdmminterface.so|libwfdclient.so|libwfdhdcpservice_proprietary.so";
 	blobs=$blobs"|wfdservice|wifidisplayhalservice|wfdhdcphalservice";
 	blobs=$blobs"|WfdService.apk";
@@ -657,6 +670,9 @@ deblobDevice() {
 			sed -i 's|<bool name="config_dynamic_bind_ims">true</bool>|<bool name="config_dynamic_bind_ims">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
 			awk -i inplace '!/config_ims_package/' overlay/frameworks/base/core/res/res/values/config.xml;
 		fi;
+	fi;
+	if [ -f overlay/packages/services/Telephony/res/values/config.xml ]; then
+		awk -i inplace '!/platform_carrier_config_package/' overlay/packages/services/Telephony/res/values/config.xml;
 	fi;
 	if [ -d sepolicy ]; then
 		if [ -z "$replaceTime" ]; then
