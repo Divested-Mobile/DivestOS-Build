@@ -105,6 +105,11 @@
 	<project path="device/fairphone/FP2" name="LineageOS/android_device_fairphone_FP2" remote="github" />
 	<project path="kernel/fairphone/msm8974" name="LineageOS/android_kernel_fairphone_msm8974" remote="github" />
 
+	<!-- Google Project Tango (yellowstone) -->
+	<project path="device/google/yellowstone" name="LineageOS/android_device_google_yellowstone" remote="github" />
+	<project path="kernel/google/yellowstone" name="LineageOS/android_kernel_google_yellowstone" remote="github" />
+	<project path="hardware/nvidia/libstagefrighthw" name="LineageOS/android_hardware_nvidia_libstagefrighthw" remote="github" revision="lineage-16.0" />
+
 	<!-- Google Pixel (marlin/sailfish) -->
 	<project path="device/google/marlin" name="LineageOS/android_device_google_marlin" remote="github" />
 	<project path="device/google/sailfish" name="LineageOS/android_device_google_sailfish" remote="github" />

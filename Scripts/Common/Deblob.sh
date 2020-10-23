@@ -235,6 +235,12 @@ echo "Deblobbing...";
 	blobs=$blobs"|DreamlinerPrebuilt.apk|DreamlinerUpdater.apk";
 	blobs=$blobs"|com.google.android.apps.dreamliner.xml|dreamliner.xml";
 
+	#Google Tango
+	blobs=$blobs"|TangoCore.apk|TangoDiscovery.apk";
+	blobs=$blobs"|tango_service";
+	blobs=$blobs"|libtango_device.*.jar";
+	blobs=$blobs"|libtango_.*.so.*";
+
 	#Google TV
 	blobs=$blobs"|LeanbackIme.apk|LeanbackLauncher.apk|AtvRemoteService.apk|GamepadPairingService.apk|GlobalKeyInterceptor.apk|RemoteControlService.apk|TV.apk|CanvasPackageInstaller.apk|Overscan.apk";
 
@@ -246,7 +252,8 @@ echo "Deblobbing...";
 
 	#HDCP (DRM)
 	blobs=$blobs"|libmm-hdcpmgr.so|libstagefright_hdcp.so|libhdcp2.so";
-	blobs=$blobs"|srm.bin|insthk|hdcp_test";
+	blobs=$blobs"|libtsechdcp.so|libtlk_secure_hdcp_up.so|libstagefright_hdcp.so|libnvhdcp.so";
+	blobs=$blobs"|srm.bin|insthk|hdcp_test|tsechdcp_test ";
 	blobs=$blobs"|hdcp2xtest.srm";
 	blobs=$blobs"|hdcp1.*|hdcp2.*|tzhdcp.*";
 
