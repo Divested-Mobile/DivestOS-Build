@@ -44,6 +44,7 @@ commentPatches android_kernel_google_marlin.sh "0001-LinuxIncrementals/3.18/3.18
 commentPatches android_kernel_google_msm.sh "CVE-2017-11015/prima";
 commentPatches android_kernel_google_msm-4.9.sh "CVE-2019-19319" "CVE-2020-0067" "CVE-2020-1749" "CVE-2020-8992";
 commentPatches android_kernel_google_wahoo.sh "CVE-2019-14047/ANY/0002.patch" "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992" "CVE-2020-16166";
+commentPatches android_kernel_google_yellowstone.sh "0001-LinuxIncrementals/3.10/3.10.0098-0099.patch" "CVE-2018-9514";
 commentPatches android_kernel_htc_flounder.sh "CVE-2018-9514";
 commentPatches android_kernel_htc_msm8994.sh "CVE-2016-8394/ANY/0001.patch" "CVE-2017-13166" "CVE-2018-3585" "CVE-2018-9514";
 commentPatches android_kernel_lge_msm8992.sh "CVE-2018-5897" "CVE-2018-11266";

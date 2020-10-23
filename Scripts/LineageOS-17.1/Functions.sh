@@ -103,8 +103,8 @@ buildAll() {
 	#SD855
 	buildDevice guacamole avb;
 	buildDevice guacamoleb avb;
-	#buildDevice coral;
-	#buildDevice flame;
+	buildDevice coral avb;
+	buildDevice flame avb;
 	#SD660
 	buildDevice Amber verity;
 	#SD670

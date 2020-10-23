@@ -1,6 +1,6 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/google/yellowstone"
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.10/3.10.0098-0099.patch --exclude=Makefile
+#git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.10/3.10.0098-0099.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
@@ -192,7 +192,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-7566/^4.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-7755/^4.15.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-7757/^4.15.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-8781/^4.15/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9514/ANY/0001.patch
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9514/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9515/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9516/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9518/ANY/0001.patch
