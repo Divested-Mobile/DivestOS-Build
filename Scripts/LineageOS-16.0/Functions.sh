@@ -135,6 +135,8 @@ patchWorkspace() {
 	repopick -it hh-p-sepolicy;
 	repopick -i 232948; #wahoo: liblight: close fd
 	repopick -i 288970; #update webview
+	repopick -it tzdb2020d_P;
+	#repopick -it CVE-2019-2306_P;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";

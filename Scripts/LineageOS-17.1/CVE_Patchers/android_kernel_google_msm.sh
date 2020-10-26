@@ -2,7 +2,6 @@
 cd "$DOS_BUILD_BASE""kernel/google/msm"
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/0005-Copperhead-Deny_USB/3.4/3.4-Backport.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0090-Unknown/ANY/0001.patch
@@ -148,7 +147,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10882/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10883/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10940/^4.16.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11832/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11939/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-12233/^4.17.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13405/3.4/0002.patch
@@ -222,7 +220,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20054/^5.0.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20054/^5.0.6/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20096/^5.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20636/3.4/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0009/3.4/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0009/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0040/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0404/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0431/ANY/0001.patch
@@ -243,5 +241,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-ch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-5d89eb01c93d8a62998e3bdccae28a7732e3bd51.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-7be3e08d7a523207486701b2d34607137558066f.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p243"
+editKernelLocalversion "-dos.p241"
 cd "$DOS_BUILD_BASE"

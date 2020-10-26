@@ -105,6 +105,10 @@
 	<project path="device/fairphone/FP2" name="LineageOS/android_device_fairphone_FP2" remote="github" />
 	<project path="kernel/fairphone/msm8974" name="LineageOS/android_kernel_fairphone_msm8974" remote="github" />
 
+	<!-- F(x)tec Pro¹ (pro1) -->
+	<project path="device/fxtec/pro1" name="LineageOS/android_device_fxtec_pro1" remote="github" />
+	<project path="kernel/fxtec/msm8998" name="LineageOS/android_kernel_fxtec_msm8998" remote="github" />
+
 	<!-- Google Project Tango (yellowstone) -->
 	<project path="device/google/yellowstone" name="LineageOS/android_device_google_yellowstone" remote="github" />
 	<project path="kernel/google/yellowstone" name="LineageOS/android_kernel_google_yellowstone" remote="github" />
@@ -182,6 +186,9 @@
 	<!-- Nextbit Robin (ether) -->
 	<project path="device/nextbit/ether" name="LineageOS/android_device_nextbit_ether" remote="github" />
 	<project path="kernel/nextbit/msm8992" name="LineageOS/android_kernel_nextbit_msm8992" remote="github" />
+
+	<!-- Nexus 7 [2013] (flo) -->
+	<project path="device/asus/flo" name="LineageOS/android_device_asus_flo" remote="github" />
 
         <!-- Nexus 4 (mako) -->
         <project path="device/lge/mako" name="voron00/android_device_lge_mako" remote="github" />
