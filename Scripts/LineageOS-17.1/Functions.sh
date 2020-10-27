@@ -56,7 +56,7 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SDS4P
-	buildDevice flo; #still in bringup?
+	buildDevice flo; #still in bringup? + /system is too small (908853248 >= 880803840)
 	buildDevice mako;
 	#SD410
 	buildDevice crackling;
@@ -72,7 +72,7 @@ buildAll() {
 	buildDevice FP2;
 	buildDevice klte;
 	buildDevice m8;
-	buildDevice victara; #error: +out/target/product/victara/recovery.img too large (10522624 > 10485760)
+	buildDevice victara; #error: +out/target/product/victara/recovery.img too large (10522624 >= 10485760)
 	#SD805
 	buildDevice shamu verity;
 	#SD808
@@ -101,7 +101,7 @@ buildAll() {
 	buildDevice blueline avb;
 	buildDevice enchilada avb;
 	buildDevice fajita avb;
-	#buildDevice pro1 avb; #still in bringup, see pro1-ten-bringup topic
+	buildDevice pro1 avb;
 	#SD855
 	buildDevice guacamole avb;
 	buildDevice guacamoleb avb;
@@ -124,10 +124,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -i 287339; #releasetools: python3 fix
-	repopick -i 288970; #update webview
 	#repopick -it CVE-2019-2306;
-	repopick -it tzdb2020d_Q;
-	#repopick -i 290459;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";

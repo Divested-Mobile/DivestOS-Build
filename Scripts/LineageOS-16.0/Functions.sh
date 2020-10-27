@@ -65,8 +65,6 @@ buildAll() {
 	buildDevice kipper;
 	#SD625
 	buildDevice zenfone3; #broken - ninja: error: 'android.hidl.base@1.0.so', missing and no known rule to make it
-	#SD845
-	buildDevice pro1 avb;
 	#Samsung
 	buildDeviceUserDebug i9100; #broken - many errors in hardware/samsung/exynos4
 	#Intel
@@ -115,6 +113,7 @@ buildAll() {
 		buildDevice blueline avb;
 		buildDevice enchilada avb;
 		buildDevice fajita avb;
+		buildDevice pro1 avb;
 		#SD855
 		buildDevice guacamole avb;
 		#SD660
@@ -134,8 +133,6 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	repopick -it hh-p-sepolicy;
 	repopick -i 232948; #wahoo: liblight: close fd
-	repopick -i 288970; #update webview
-	repopick -it tzdb2020d_P;
 	#repopick -it CVE-2019-2306_P;
 
 	source "$DOS_SCRIPTS/Patch.sh";

@@ -206,6 +206,11 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 #
 #START OF DEVICE CHANGES
 #
+enterAndClear "device/asus/flo";
+rm -rf bdAddrLoader; #duplicate with mako
+sed -i 's/flox/flo/' BoardConfig.mk;
+#smallerSystem;
+
 #enterAndClear "device/cyanogen/msm8916-common";
 #awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 
