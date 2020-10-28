@@ -72,6 +72,7 @@ buildAll() {
 
 	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
 	buildDevice dumpling verity;
+	buildDevice yellowstone;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		#SD410
 		buildDevice crackling;
@@ -121,8 +122,6 @@ buildAll() {
 		#SD670
 		buildDevice bonito avb;
 		buildDevice sargo avb;
-		#Tegra
-		buildDevice yellowstone;
 	fi;
 }
 export -f buildAll;

@@ -56,7 +56,7 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SDS4P
-	buildDevice flo; #still in bringup? + /system is too small (908853248 >= 880803840)
+	buildDevice flox; #still in bringup
 	buildDevice mako;
 	#SD410
 	buildDevice crackling;
@@ -115,7 +115,7 @@ buildAll() {
 	#Exynos
 	buildDevice starlte;
 	#Tegra
-	#buildDevice yellowstone;
+	buildDevice yellowstone;
 }
 export -f buildAll;
 
