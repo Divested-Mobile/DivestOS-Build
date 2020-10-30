@@ -500,6 +500,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/^5.6.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11609/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11668/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12352/3.6-^5.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12352/ANY/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12654/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12656/^5.6.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12770/3.18/0003.patch
@@ -525,5 +526,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0004-net-add-recursion-limit-
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-9178/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
-editKernelLocalversion "-dos.p525"
+editKernelLocalversion "-dos.p526"
 cd "$DOS_BUILD_BASE"
