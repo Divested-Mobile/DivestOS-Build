@@ -143,6 +143,7 @@ sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/a
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/backup/PrivacySettingsUtils.java; fi; #microG doesn't support Backup, hide the options
 
 enterAndClear "packages/apps/SetupWizard";
+git revert --no-edit fc026fcadc2f02bdb3319644ab91e37e35f5539c; #hold off on Seedvault for now
 patch -p1 < "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove analytics
 
 enterAndClear "packages/apps/Trebuchet";
@@ -179,6 +180,7 @@ patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --direct
 awk -i inplace '!/true cannot be used in user builds/' Android.mk; #Allow ignoring neverallows under -user
 
 enterAndClear "vendor/lineage";
+git revert --no-edit f16956ab7a08c4ff79892bc2ce90dd7ac2976a38; #hold off on Seedvault for now
 rm build/target/product/security/lineage.x509.pem;
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
 rm -rf overlay/common/frameworks/base/core/res/res/drawable-*/default_wallpaper.png;
@@ -206,10 +208,8 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 #
 #START OF DEVICE CHANGES
 #
-enterAndClear "device/asus/flo";
+enterAndClear "device/asus/flox";
 rm -rf bdAddrLoader; #duplicate with mako
-sed -i 's/flox/flo/' BoardConfig.mk;
-#smallerSystem;
 
 #enterAndClear "device/cyanogen/msm8916-common";
 #awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools

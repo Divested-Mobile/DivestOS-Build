@@ -43,6 +43,9 @@ sed -i '/.*lineage_updates/s/LineageOS/'"$DOS_BRANDING_NAME"'/' lineage/res/res/
 sed -i '/.*lineageos_system_label/s/LineageOS/'"$DOS_BRANDING_NAME"'/' lineage/res/res/values*/strings.xml;
 
 enter "packages/apps/LineageParts";
+sed -i '/.*egg_title/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
+sed -i '/.*lineageparts_title/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
+sed -i '/.*privacy_settings_category/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
 sed -i '/.*trust_feature_security_patches_explain/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
 
 enter "packages/apps/Settings";
@@ -50,8 +53,10 @@ sed -i '/.*lineagelicense_title/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*
 
 enter "packages/apps/SetupWizard";
 sed -i 's|http://lineageos.org/legal|'"$DOS_BRANDING_LINK_PRIVACY"'|' src/org/lineageos/setupwizard/LineageSettingsActivity.java;
+sed -i '/.*intro_restore/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
+sed -i '/.*os_name/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
+sed -i '/.*services/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
 sed -i '/.*setup_services/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
-sed -i '/.*services_explanation/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
 
 enter "packages/apps/Updater";
 sed -i 's|0OTA_SERVER_CLEARNET0|'"$DOS_BRANDING_SERVER_OTA"'|' src/org/lineageos/updater/misc/Utils.java;

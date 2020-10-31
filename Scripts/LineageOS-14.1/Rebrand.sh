@@ -32,6 +32,11 @@ enter "frameworks/base";
 generateBootAnimationMask "$DOS_BRANDING_NAME" "$DOS_BRANDING_BOOTANIMATION_FONT" core/res/assets/images/android-logo-mask.png;
 generateBootAnimationShine "$DOS_BRANDING_BOOTANIMATION_COLOR" "$DOS_BRANDING_BOOTANIMATION_STYLE" core/res/assets/images/android-logo-shine.png;
 
+enter "packages/apps/CMParts";
+sed -i '/.*egg_title/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
+sed -i '/.*cmparts_title/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
+sed -i '/.*privacy_settings_category/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
+
 enter "packages/apps/Settings";
 sed -i '/.*cmlicense_title/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/cm_strings.xml;
 sed -i '/.*cmupdate_settings_title/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/cm_strings.xml;
@@ -39,8 +44,9 @@ sed -i '/.*mod_version/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/cm_strin
 
 enter "packages/apps/SetupWizard";
 sed -i 's|http://lineageos.org/legal|'"$DOS_BRANDING_LINK_PRIVACY"'|' src/com/cyanogenmod/setupwizard/LineageSettingsActivity.java;
+sed -i '/.*os_name/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
+sed -i '/.*services/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
 sed -i '/.*setup_services/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
-sed -i '/.*services_explanation/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
 
 enter "packages/apps/Updater";
 sed -i 's|0OTA_SERVER_CLEARNET0|'"$DOS_BRANDING_SERVER_OTA"'|' src/org/lineageos/updater/misc/Utils.java;

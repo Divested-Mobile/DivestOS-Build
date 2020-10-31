@@ -90,8 +90,8 @@ buildAll() {
 	buildDevice sailfish verity;
 	#SD835
 	buildDevice cheryl;
-	#buildDevice cheeseburger verity; #still in bringup, see op8998-ten topic
-	#buildDevice dumpling verity;
+	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile + needs 260722 applied in oneplus/msm8998-common
+	buildDevice dumpling verity;
 	buildDevice mata verity;
 	buildDevice taimen avb;
 	buildDevice walleye avb;
