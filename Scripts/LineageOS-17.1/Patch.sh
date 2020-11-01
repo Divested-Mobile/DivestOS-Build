@@ -84,6 +84,7 @@ enterAndClear "frameworks/av";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_av/0001-HM_A2DP_Fix.patch"; fi; #(GrapheneOS)
 
 enterAndClear "frameworks/base";
+git revert --no-edit 2fb8dda77a5942ebef1ecc70df7b5e506cbb5681;
 hardenLocationFWB "$DOS_BUILD_BASE"; #XXX 17REBASE
 hardenLocationConf services/core/java/com/android/server/location/gps_debug.conf;
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
@@ -102,6 +103,7 @@ patch -p1 < "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Re
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning.patch"; fi; #add exec-based spawning support (GrapheneOS)
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #don't send IMSI to SUPL (MSe)
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #enable fingerprint failed lockout after 5 attempts (GrapheneOS)
+#sed -i '295i\        packageList.add("net.sourceforge.opencamera");' core/java/android/hardware/Camera.java; #add Open Camera to aux camera whitelist
 if [ "$DOS_MICROG_INCLUDED" != "FULL" ]; then rm -rf packages/CompanionDeviceManager; fi; #Used to support Android Wear (which hard depends on GMS)
 rm -rf packages/OsuLogin; #Automatic Wi-Fi connection non-sense
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
@@ -214,9 +216,15 @@ rm -rf bdAddrLoader; #duplicate with mako
 #enterAndClear "device/cyanogen/msm8916-common";
 #awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 
+enterAndClear "device/fxtec/pro1";
+enableVerity; #Resurrect dm-verity
+
 enterAndClear "device/google/bonito";
 enableVerity; #Resurrect dm-verity
 awk -i inplace '!/INODE_COUNT/' BoardConfig-lineage.mk; #mke2fs -1 incompatibility (?)
+
+enterAndClear "device/google/coral";
+enableVerity; #Resurrect dm-verity
 
 enterAndClear "device/google/crosshatch";
 enableVerity; #Resurrect dm-verity
@@ -262,6 +270,9 @@ sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libp
 enterAndClear "device/oneplus/msm8998-common";
 patch -p1 < "$DOS_PATCHES_COMMON/android_device_audio/0001-No_Vorbis_Offload.patch"; #Fix Ogg Vorbis playback
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
+
+enterAndClear "device/oneplus/sm8150-common";
+enableVerity; #Resurrect dm-verity
 
 enterAndClear "device/oppo/common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation

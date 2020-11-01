@@ -43,7 +43,7 @@ enter() {
 export -f enter;
 
 enterAndClear() {
-	if enter "$1"; then gitReset; fi;
+	if enter "$1"; then gitReset; else return 1; fi;
 }
 export -f enterAndClear;
 
@@ -295,11 +295,14 @@ pushToServer() {
 }
 export -f pushToServer;
 
-removeBuildFingerprint() {
-	#Removes the vendor fingerprint, allowing one to be generated instead
-	awk -i inplace '!/BUILD_FINGERPRINT/' lineage*.mk;
+removeBuildFingerprints() {
+	#Removes the stock/vendor fingerprint, allowing one to be generated instead
+	#XXX: Breaks existing installs!
+	find device -maxdepth 3 -name "lineage*.mk" -type f -exec sh -c "awk -i inplace '!/BUILD_FINGERPRINT/' {}" \;
+	find device -maxdepth 3 -name "lineage*.mk" -type f -exec sh -c "awk -i inplace '!/PRIVATE_BUILD_DESC/' {}" \;
+	echo "Removed stock build fingerprints";
 }
-export -f removeBuildFingerprint;
+export -f removeBuildFingerprints;
 
 disableDexPreOpt() {
 	cd "$DOS_BUILD_BASE$1";
@@ -360,12 +363,6 @@ deblobAudio() {
 }
 export -f deblobAudio;
 
-imsAllowDiag() {
-	find device -name "ims.te" -type f -exec sh -c "echo 'diag_use(ims)' >> {}" \;
-	find device -name "hal_imsrtp.te" -type f -exec sh -c "echo 'diag_use(hal_imsrtp)' >> {}" \;
-}
-export -f imsAllowDiag;
-
 volteOverride() {
 	cd "$DOS_BUILD_BASE$1";
 	if grep -sq "config_device_volte_available" "overlay/frameworks/base/core/res/res/values/config.xml"; then
@@ -394,7 +391,7 @@ hardenLocationConf() {
 	else
 		local deviceDir=$(dirname "$gpsConfig");
 	fi;
-	#Debugging: adb logcat | grep -i -e locsvc -e izat -e gps -e gnss -e location -e xtra
+	#Debugging: adb logcat -b all | grep -i -e locsvc -e izat -e gps -e gnss -e location -e xtra
 	#sed -i 's|DEBUG_LEVEL = .|DEBUG_LEVEL = 4|' "$gpsConfig" &> /dev/null || true;
 	#Enable GLONASS
 	if [ "$DOS_GPS_GLONASS_FORCED" = true ]; then

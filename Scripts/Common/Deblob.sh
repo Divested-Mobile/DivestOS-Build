@@ -62,7 +62,7 @@ echo "Deblobbing...";
 
 	#AT Command Handling/Forwarding (See: https://atcommands.org)
 	blobs=$blobs"|bin[/]atd|ATFWD-daemon|drexe|log_serial_arm|at_distributor|connfwexe";
-	blobs=$blobs"|vendor.qti.atcmdfwd.*";
+	blobs=$blobs"|vendor.qti.atcmdfwd.*|vendor.qti.hardware.radio.atcmdfwd.*";
 	blobs=$blobs"|atfwd.apk|OBDM_Permissions.apk";
 	sepolicy=$sepolicy" atfwd.te";
 

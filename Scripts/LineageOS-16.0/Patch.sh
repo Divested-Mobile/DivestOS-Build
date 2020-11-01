@@ -209,6 +209,9 @@ echo "/dev/block/platform/msm_sdcc\.1/by-name/misc u:object_r:misc_block_device:
 enterAndClear "device/asus/zenfone3";
 rm -rf libhidl; #breaks other devices
 
+enterAndClear "device/fxtec/pro1";
+enableVerity; #Resurrect dm-verity
+
 enterAndClear "device/google/bonito";
 enableVerity; #Resurrect dm-verity
 
@@ -253,6 +256,9 @@ sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libp
 enterAndClear "device/oneplus/msm8998-common";
 patch -p1 < "$DOS_PATCHES_COMMON/android_device_audio/0001-No_Vorbis_Offload.patch"; #Fix Ogg Vorbis playback
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
+
+enterAndClear "device/oneplus/sm8150-common";
+enableVerity; #Resurrect dm-verity
 
 enterAndClear "device/oppo/common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation

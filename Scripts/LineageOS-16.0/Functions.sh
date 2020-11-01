@@ -154,28 +154,15 @@ export -f patchWorkspace;
 
 enableDexPreOpt() {
 	cd "$DOS_BUILD_BASE$1";
-	#Some devices won't compile, or have too small of a /system partition, or Wi-Fi breaks
-	if [ "$1" != "device/amazon/thor" ] && [ "$1" != "device/samsung/i9100" ] && [ "$1" != "device/samsung/maguro" ] && [ "$1" != "device/samsung/toro" ] && [ "$1" != "device/samsung/toroplus" ] && [ "$1" != "device/samsung/tuna" ] && [ "$1" != "device/lge/h850" ] && [ "$1" != "device/lge/mako" ] && [ "$1" != "device/asus/grouper" ]; then
-		if [ -f BoardConfig.mk ]; then
-			echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
-			echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
-			echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := true" >> BoardConfig.mk;
-			echo "Enabled dexpreopt for $1";
-		fi;
-	fi;
-	cd "$DOS_BUILD_BASE";
-}
-export -f enableDexPreOpt;
-
-enableDexPreOptFull() {
-	cd "$DOS_BUILD_BASE$1";
 	if [ -f BoardConfig.mk ]; then
-		sed -i "s/WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := true/WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false/" BoardConfig.mk;
+		echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
+		echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false" >> BoardConfig.mk;
+		echo "WITH_DEXPREOPT_DEBUG_INFO := false" >> BoardConfig.mk;
 		echo "Enabled full dexpreopt for $1";
 	fi;
 	cd "$DOS_BUILD_BASE";
 }
-export -f enableDexPreOptFull;
+export -f enableDexPreOpt;
 
 enableLowRam() {
 	cd "$DOS_BUILD_BASE$1";

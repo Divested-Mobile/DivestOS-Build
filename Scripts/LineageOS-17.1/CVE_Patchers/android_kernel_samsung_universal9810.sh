@@ -2,6 +2,7 @@
 cd "$DOS_BUILD_BASE""kernel/samsung/universal9810"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0218-0219.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0225-0226.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0239-0240.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0025.patch
@@ -74,8 +75,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-10757/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-10766/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/^5.6.1/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12351/4.9/0005.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12352/3.6-^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12352/ANY/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12464/4.9/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12656/4.9/0010.patch
@@ -93,7 +92,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14390/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-15393/4.9/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24394/^5.7.8/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24490/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25211/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25212/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25284/4.9/0004.patch
@@ -101,5 +99,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25285/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25641/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25643/4.9/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26088/4.9/0006.patch
-editKernelLocalversion "-dos.p101"
+editKernelLocalversion "-dos.p99"
 cd "$DOS_BUILD_BASE"

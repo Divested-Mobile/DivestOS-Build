@@ -147,6 +147,7 @@ enableDexPreOpt() {
 			echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 			echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
 			echo "WITH_DEXPREOPT_BOOT_IMG_ONLY := true" >> BoardConfig.mk;
+			echo "WITH_DEXPREOPT_DEBUG_INFO := false" >> BoardConfig.mk;
 			echo "Enabled dexpreopt for $1";
 		fi;
 	fi;

@@ -39,7 +39,7 @@
     <string-array translatable="false" name="config_gpsParameters">
         <item>SUPL_HOST=supl.google.com</item>
         <item>SUPL_PORT=7275</item>
-        <item>NTP_SERVER=north-america.pool.ntp.org</item>
+        <item>NTP_SERVER=1.android.pool.ntp.org</item>
         <item>SUPL_VER=0x20000</item>
         <item>SUPL_MODE=1</item>
     </string-array>
