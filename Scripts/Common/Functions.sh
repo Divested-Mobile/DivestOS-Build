@@ -297,7 +297,6 @@ export -f pushToServer;
 
 removeBuildFingerprints() {
 	#Removes the stock/vendor fingerprint, allowing one to be generated instead
-	#XXX: Breaks existing installs!
 	find device -maxdepth 3 -name "lineage*.mk" -type f -exec sh -c "awk -i inplace '!/BUILD_FINGERPRINT/' {}" \;
 	find device -maxdepth 3 -name "lineage*.mk" -type f -exec sh -c "awk -i inplace '!/PRIVATE_BUILD_DESC/' {}" \;
 	echo "Removed stock build fingerprints";

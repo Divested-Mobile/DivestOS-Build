@@ -84,7 +84,6 @@ enterAndClear "frameworks/av";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_av/0001-HM_A2DP_Fix.patch"; fi; #(GrapheneOS)
 
 enterAndClear "frameworks/base";
-git revert --no-edit 2fb8dda77a5942ebef1ecc70df7b5e506cbb5681;
 hardenLocationFWB "$DOS_BUILD_BASE"; #XXX 17REBASE
 hardenLocationConf services/core/java/com/android/server/location/gps_debug.conf;
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
@@ -103,7 +102,7 @@ patch -p1 < "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Re
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning.patch"; fi; #add exec-based spawning support (GrapheneOS)
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #don't send IMSI to SUPL (MSe)
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #enable fingerprint failed lockout after 5 attempts (GrapheneOS)
-#sed -i '295i\        packageList.add("net.sourceforge.opencamera");' core/java/android/hardware/Camera.java; #add Open Camera to aux camera whitelist
+#sed -i '295i\        packageList.add("net.sourceforge.opencamera");' core/java/android/hardware/Camera.java; #add Open Camera to aux camera whitelist #XXX: breaks boot?
 if [ "$DOS_MICROG_INCLUDED" != "FULL" ]; then rm -rf packages/CompanionDeviceManager; fi; #Used to support Android Wear (which hard depends on GMS)
 rm -rf packages/OsuLogin; #Automatic Wi-Fi connection non-sense
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
@@ -308,6 +307,7 @@ if [ "$DOS_STRONG_ENCRYPTION_ENABLED" = true ]; then find "device" -maxdepth 2 -
 find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenDefconfig "{}"';
 cd "$DOS_BUILD_BASE";
 deblobAudio;
+removeBuildFingerprints;
 
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
