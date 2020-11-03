@@ -61,9 +61,11 @@ echo "Deblobbing...";
 	blobs=$blobs"|aptxui.apk";
 
 	#AT Command Handling/Forwarding (See: https://atcommands.org)
-	blobs=$blobs"|bin[/]atd|ATFWD-daemon|drexe|log_serial_arm|at_distributor|connfwexe";
+	blobs=$blobs"|bin[/]atd|drexe|log_serial_arm|at_distributor|connfwexe";
+	blobs=$blobs"|ATFWD-daemon";
 	blobs=$blobs"|vendor.qti.atcmdfwd.*|vendor.qti.hardware.radio.atcmdfwd.*";
-	blobs=$blobs"|atfwd.apk|OBDM_Permissions.apk";
+	blobs=$blobs"|atfwd.apk";
+	blobs=$blobs"|OBDM_Permissions.apk";
 	sepolicy=$sepolicy" atfwd.te";
 
 	#AudioFX (Audio Effects)
@@ -84,15 +86,17 @@ echo "Deblobbing...";
 	#blobs=$blobs"|cmnlib.*";
 
 	#CNE (Automatic Cell/Wi-Fi Switching) [Qualcomm]
-	#blobs=$blobs"|libcneapiclient.so|libNimsWrap.so|com.quicinc.cne.*.so"; #XXX: Breaks radio
-	blobs=$blobs"|andsfCne.xml|ATT_profile.*.xml|cneapiclient.xml|com.quicinc.cne.xml|ConnectivityExt.xml|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile.*.xml|SwimConfig.xml|VZW_profile.*.xml";
-	blobs=$blobs"|cnd";
-	blobs=$blobs"|cneapiclient.jar|com.quicinc.cne.*.jar|ConnectivityExt.jar";
-	blobs=$blobs"|CNEService.apk|CneApp.apk";
-	blobs=$blobs"|libcneconn.so|libcneqmiutils.so|libcne.so|libvendorconn.so|libwms.so|libwqe.so|libcneoplookup.so";
-	#blobs=$blobs"|vendor.qti.data.factory.*|vendor.qti.hardware.data.dynamicdds.*|vendor.qti.hardware.data.latency.*|vendor.qti.hardware.data.qmi.*|vendor.qti.latency.*";
-	makes=$makes"|libcnefeatureconfig";
-	sepolicy=$sepolicy" cnd.te qcneservice.te";
+	if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then
+		#blobs=$blobs"|libcneapiclient.so|libNimsWrap.so|com.quicinc.cne.*.so"; #XXX: Breaks radio
+		blobs=$blobs"|andsfCne.xml|ATT_profile.*.xml|cneapiclient.xml|com.quicinc.cne.xml|ConnectivityExt.xml|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile.*.xml|SwimConfig.xml|VZW_profile.*.xml";
+		blobs=$blobs"|cnd";
+		blobs=$blobs"|cneapiclient.jar|com.quicinc.cne.*.jar|ConnectivityExt.jar";
+		blobs=$blobs"|CNEService.apk|CneApp.apk";
+		blobs=$blobs"|libcneconn.so|libcneqmiutils.so|libcne.so|libvendorconn.so|libwms.so|libwqe.so|libcneoplookup.so";
+		#blobs=$blobs"|vendor.qti.data.factory.*|vendor.qti.hardware.data.dynamicdds.*|vendor.qti.hardware.data.latency.*|vendor.qti.hardware.data.qmi.*|vendor.qti.latency.*";
+		makes=$makes"|libcnefeatureconfig";
+		sepolicy=$sepolicy" cnd.te qcneservice.te";
+	fi;
 
 	#CPPF (DRM) [?]
 	blobs=$blobs"|libcppf.so";
@@ -177,7 +181,7 @@ echo "Deblobbing...";
 		blobs=$blobs"|projectormod.xml|com.motorola.modservice.xml";
 		blobs=$blobs"|motorola.hardware.mods_camera.*";
 		#mata
-		blobs=$blobs"|[/]Score[/]|[/]Klik[/]";
+		blobs=$blobs"|[/]Score[/]|[/]Klik[/]|Score.apk|Klik.apk";
 		blobs=$blobs"|vendor.essential.hardware.sidecar.*";
 		blobs=$blobs"|vendor-essential-hardware-sidecar.*.xml";
 		#albus
@@ -571,7 +575,7 @@ deblobDevice() {
 			if ! grep -q "USE_OPENGL_RENDERER := true" BoardConfig.mk; then echo "USE_OPENGL_RENDERER := true" >> BoardConfig.mk; fi;
 		fi;
 	fi;
-	sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig*.mk &>/dev/null || true; #Disable CNE
+	if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig*.mk &>/dev/null || true; fi; #Disable CNE
 	sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig*.mk &>/dev/null || true; #Disable WiPower
 	sed -i 's/TARGET_HAS_HDR_DISPLAY := true/TARGET_HAS_HDR_DISPLAY := false/' BoardConfig*.mk &>/dev/null || true; #Disable HDR
 	sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER := true/BOARD_SUPPORTS_SOUND_TRIGGER := false/' BoardConfig*.mk &>/dev/null || true; #Disable Sound Trigger
@@ -611,7 +615,7 @@ deblobDevice() {
 	awk -i inplace '!/persist.loc.nlp_name/' system.prop *.mk &>/dev/null || true; #Disable QC Location Provider
 	sed -i 's/drm.service.enabled=true/drm.service.enabled=false/' system.prop *.mk &>/dev/null || true;
 	sed -i 's/persist.bt.enableAptXHD=true/persist.bt.enableAptXHD=false/' system.prop *.mk &>/dev/null || true; #Disable aptX
-	sed -i 's/persist.cne.feature=./persist.cne.feature=0/' system.prop *.mk &>/dev/null || true; #Disable CNE
+	if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i 's/persist.cne.feature=./persist.cne.feature=0/' system.prop *.mk &>/dev/null || true; fi; #Disable CNE
 	sed -i 's/persist.dpm.feature=./persist.dpm.feature=0/' system.prop *.mk &>/dev/null || true; #Disable DPM
 	sed -i 's/persist.gps.qc_nlp_in_use=./persist.gps.qc_nlp_in_use=0/' system.prop *.mk &>/dev/null || true; #Disable QC Location Provider
 	sed -i 's/persist.sys.dpmd.nsrm=./persist.sys.dpmd.nsrm=0/' system.prop *.mk &>/dev/null || true; #Disable DPM
@@ -702,9 +706,11 @@ deblobDevice() {
 		#sed -i 's|service time_daemon /system/bin/time_daemon|service time_daemon /system/bin/timekeep restore\n    oneshot|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true;
 		awk -i inplace '!|mkdir /data/time/ 0700 system system|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true;
 	fi;
-	rm -f board/qcom-cne.mk product/qcom-cne.mk; #Remove CNE
-	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then rm -f rootdir/etc/init.qti.ims.sh rootdir/init.qti.ims.sh init.qti.ims.sh; fi; #Remove IMS startup script
-	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then rm -rf IMSEnabler; fi; #Remove IMS compatibility module
+	if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then rm -f board/qcom-cne.mk product/qcom-cne.mk; fi; #Remove CNE
+	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
+		rm -f rootdir/etc/init.qti.ims.sh rootdir/init.qti.ims.sh init.qti.ims.sh; #Remove IMS startup script
+		rm -rf IMSEnabler; #Remove IMS compatibility module
+	fi;
 	rm -rf ifaa org.ifaa.android.manager; #Remove AliPay
 	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then rm -rf data-ipa-cfg-mgr; fi; #Remove IPA
 	rm -rf libshimwvm libshims/wvm_shim.cpp; #Remove Google Widevine compatibility module
