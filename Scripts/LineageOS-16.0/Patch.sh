@@ -80,6 +80,9 @@ echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user b
 enterAndClear "external/aac";
 git pull "https://github.com/LineageOS/android_external_aac" refs/changes/75/291375/1; #P_asb_2020-11
 
+enterAndClear "external/freetype";
+git pull "https://github.com/LineageOS/android_external_freetype" refs/changes/65/291965/1; #CVE-2020-15999
+
 enterAndClear "external/svox";
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 sed -i '12iLOCAL_SDK_VERSION := current' pico/Android.mk; #Fix build under Pie

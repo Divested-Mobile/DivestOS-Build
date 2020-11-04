@@ -77,6 +77,9 @@ echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user b
 enterAndClear "external/aac";
 git pull "https://github.com/LineageOS/android_external_aac" refs/changes/45/291345/1; #Q_asb_2020-11
 
+enterAndClear "external/freetype";
+git pull "https://github.com/LineageOS/android_external_freetype" refs/changes/63/291963/1; #CVE-2020-15999
+
 enterAndClear "external/libexif";
 git pull "https://github.com/LineageOS/android_external_libexif" refs/changes/46/291346/1; #Q_asb_2020-11
 

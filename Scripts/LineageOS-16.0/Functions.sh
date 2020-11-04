@@ -133,8 +133,8 @@ patchWorkspace() {
 	repopick -it hh-p-sepolicy;
 	repopick -i 232948; #wahoo: liblight: close fd
 	#repopick -it CVE-2019-2306_P;
-	repopick -it p-trust-notif-fix;
 	repopick -it P_asb_2020-11;
+	repopick -fi 291725; #update webview
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
