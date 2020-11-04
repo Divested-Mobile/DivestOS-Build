@@ -56,7 +56,7 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SDS4P
-	buildDevice flox; #still in bringup
+	buildDevice flox;
 	buildDevice mako;
 	#SD410
 	buildDevice crackling;
@@ -90,7 +90,7 @@ buildAll() {
 	buildDevice sailfish verity;
 	#SD835
 	buildDevice cheryl;
-	#buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
+	#buildDevice cheeseburger verity; #needs manual patching - vendor common makefile + wait on new kernel
 	#buildDevice dumpling verity;
 	buildDevice mata verity;
 	buildDevice taimen avb;
@@ -126,6 +126,7 @@ patchWorkspace() {
 	repopick -i 287339; #releasetools: python3 fix
 	#repopick -it CVE-2019-2306;
 	#repopick -i 289186;
+	repopick -it Q_asb_2020-11;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
