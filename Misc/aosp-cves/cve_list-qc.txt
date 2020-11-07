@@ -1,4 +1,4 @@
-#Last checked 2020/10/07
+#Last checked 2020/11/07
 CVE-2015-0235
 	Link - https://source.codeaurora.org/quic/le//oe/recipes/commit/?id=6025569cb2a156bb6765dc14d66cb83f46a8c338
 CVE-2015-3847
@@ -211,5 +211,9 @@ CVE-2020-3700
 	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=c8d215c57c049ed7015ded342ebaaef21b438425
 CVE-2020-11120
 	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=36a414abcf0c864460d8c3bf95a6fd070d9dbbd7
+CVE-2020-11121
+	Link - hardware/qcom/wlan - https://source.codeaurora.org/quic/la/platform/hardware/qcom/wlan/commit/?id=b56533c3978f6b078b796f8bbd1e1d3a58cd4421
+CVE-2020-11130
+	Link - hardware/qcom/wlan - https://source.codeaurora.org/quic/la/platform/hardware/qcom/wlan/commit/?id=85f475808e09bdfff5480eb0e81c3c03707a32a1
 CVE-0000-0000
 #The above line must be the last line

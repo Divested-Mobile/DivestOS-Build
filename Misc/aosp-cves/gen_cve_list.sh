@@ -1,3 +1,4 @@
+java -jar $DOS_BINARY_PATCHER scraper "https://source.android.com/security/bulletin/2020-11-01" >> cve_list.txt
 java -jar $DOS_BINARY_PATCHER scraper "https://source.android.com/security/bulletin/2020-10-01" >> cve_list.txt
 java -jar $DOS_BINARY_PATCHER scraper "https://source.android.com/security/bulletin/2020-09-01" >> cve_list.txt
 java -jar $DOS_BINARY_PATCHER scraper "https://source.android.com/security/bulletin/2020-08-01" >> cve_list.txt
@@ -9,6 +10,7 @@ java -jar $DOS_BINARY_PATCHER scraper "https://source.android.com/security/bulle
 java -jar $DOS_BINARY_PATCHER scraper "https://source.android.com/security/bulletin/2020-02-01" >> cve_list.txt
 java -jar $DOS_BINARY_PATCHER scraper "https://source.android.com/security/bulletin/2020-01-01" >> cve_list.txt
 
+java -jar $DOS_BINARY_PATCHER scraper "https://source.android.com/security/bulletin/pixel/2020-11-01" >> cve_list.txt
 java -jar $DOS_BINARY_PATCHER scraper "https://source.android.com/security/bulletin/pixel/2020-10-01" >> cve_list.txt
 java -jar $DOS_BINARY_PATCHER scraper "https://source.android.com/security/bulletin/pixel/2020-09-01" >> cve_list.txt
 java -jar $DOS_BINARY_PATCHER scraper "https://source.android.com/security/bulletin/pixel/2020-08-01" >> cve_list.txt
