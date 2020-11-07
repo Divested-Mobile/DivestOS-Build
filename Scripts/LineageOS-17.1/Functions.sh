@@ -90,8 +90,8 @@ buildAll() {
 	buildDevice sailfish verity;
 	#SD835
 	buildDevice cheryl;
-	#buildDevice cheeseburger verity; #needs manual patching - vendor common makefile + wait on new kernel
-	#buildDevice dumpling verity;
+	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
+	buildDevice dumpling verity;
 	buildDevice mata verity;
 	buildDevice taimen avb;
 	buildDevice walleye avb;
@@ -126,8 +126,6 @@ patchWorkspace() {
 	repopick -i 287339; #releasetools: python3 fix
 	#repopick -it CVE-2019-2306;
 	#repopick -i 289186;
-	repopick -it Q_asb_2020-11;
-	repopick -fi 291725; #update webview
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";

@@ -109,7 +109,6 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -it O_asb_2020-11;
-	repopick -fi 291725; #update webview
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 
