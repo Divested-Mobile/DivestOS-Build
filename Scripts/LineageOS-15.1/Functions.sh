@@ -60,14 +60,12 @@ buildAll() {
 	buildDevice angler verity;
 	buildDevice Z00T; #broken - needs vendor patching
 	buildDevice axon7; #broken - needs vendor patching
-	buildDevice us996;
 	buildDevice us997;
 	buildDevice flounder verity;
 	buildDevice dragon verity;
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
 	buildDevice flo;
-	buildDevice h850; #broken
 	buildDevice fugu;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		buildDevice mako;
@@ -87,6 +85,8 @@ buildAll() {
 		buildDevice ether;
 		buildDevice kipper;
 		buildDevice oneplus3;
+		buildDevice us996;
+		buildDevice h850; #broken
 		buildDevice griffin;
 		buildDevice marlin verity;
 		buildDevice sailfish verity;

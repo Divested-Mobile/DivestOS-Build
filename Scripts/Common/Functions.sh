@@ -92,7 +92,7 @@ scanForMalware() {
 			echo -e "\e[0;31m----------------------------------------------------------------\e[0m";
 			echo -e "\e[0;31mWARNING: MALWARE WAS FOUND! PLEASE INVESTIGATE!\e[0m";
 			echo -e "\e[0;31m----------------------------------------------------------------\e[0m";
-			echo -e "\e[0;33mFalse positivies such as the following are probably OK\e[0m";
+			echo -e "\e[0;33mFalse positives such as the following are probably OK\e[0m";
 			echo -e "\e[0;33mPUAs: Ewind, Mobidash\e[0m";
 			echo -e "\e[0;31m----------------------------------------------------------------\e[0m";
 			sleep 60;

@@ -80,7 +80,7 @@ buildAll() {
 	#SD810
 	buildDevice oneplus2;
 	#SD820
-	buildDevice h850; #needs manual patching + more - rm vendor/lge/v20-common/Android.bp
+	buildDevice h850;
 	buildDevice us996;
 	buildDevice griffin;
 	buildDevice oneplus3 verity;
@@ -90,7 +90,7 @@ buildAll() {
 	buildDevice sailfish verity;
 	#SD835
 	buildDevice cheryl;
-	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
+	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile + not booting
 	buildDevice dumpling verity;
 	buildDevice mata verity;
 	buildDevice taimen avb;
@@ -115,7 +115,7 @@ buildAll() {
 	#Exynos
 	buildDevice starlte;
 	#Tegra
-	buildDevice yellowstone;
+	buildDevice yellowstone; #broken
 }
 export -f buildAll;
 
@@ -148,9 +148,15 @@ enableDexPreOpt() {
 	cd "$DOS_BUILD_BASE$1";
 	if [ -f BoardConfig.mk ]; then
 		echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
-		echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false" >> BoardConfig.mk;
 		echo "WITH_DEXPREOPT_DEBUG_INFO := false" >> BoardConfig.mk;
-		echo "Enabled full dexpreopt for $1";
+		#m8: /system partition too small
+		if [ "$1" != "device/htc/m8" ]; then
+			echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false" >> BoardConfig.mk;
+			echo "Enabled full dexpreopt for $1";
+		else
+			echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := true" >> BoardConfig.mk;
+			echo "Enabled core dexpreopt for $1";
+		fi;
 	fi;
 	cd "$DOS_BUILD_BASE";
 }

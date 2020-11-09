@@ -72,7 +72,7 @@ buildAll() {
 
 	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
 	buildDevice dumpling verity;
-	buildDevice yellowstone;
+	buildDevice yellowstone; #broken sepolicy?
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		#SD410
 		buildDevice crackling;
