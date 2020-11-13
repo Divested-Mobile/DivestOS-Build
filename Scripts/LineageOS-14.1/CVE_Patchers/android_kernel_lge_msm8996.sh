@@ -105,6 +105,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-9604/3.18/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-9756/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-9806/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10318/3.18/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10741/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10906/^4.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-GadgetFS/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-GadgetFS/ANY/0006.patch
@@ -537,6 +538,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-8647/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-8648/3.18/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-8648/3.18/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-8648/3.18/0012.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-8694/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-9383/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-10711/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-10720/3.18/0003.patch
@@ -571,6 +573,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25284/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25285/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25643/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26088/3.18/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-slab-out-of-bounds-read-fbcon/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0003-tunnels-Don-t-apply-GRO-to-multiple-layers-of-encaps.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0004-net-add-recursion-limit-to-GRO.patch
@@ -579,5 +582,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-9178/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0610/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5897/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
-editKernelLocalversion "-dos.p579"
+editKernelLocalversion "-dos.p582"
 cd "$DOS_BUILD_BASE"

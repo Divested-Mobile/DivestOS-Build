@@ -131,7 +131,7 @@ export -f patchWorkspace;
 enableDexPreOpt() {
 	cd "$DOS_BUILD_BASE$1";
 	#Some devices won't compile, or have too small of a /system partition, or Wi-Fi breaks
-	if [ "$1" != "device/lge/h850" ] && [ "$1" != "device/lge/mako" ]; then
+	if [ "$1" != "device/asus/flo" ] && [ "$1" != "device/lge/h850" ] && [ "$1" != "device/lge/mako" ]; then
 		if [ -f BoardConfig.mk ]; then
 			echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 			echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;

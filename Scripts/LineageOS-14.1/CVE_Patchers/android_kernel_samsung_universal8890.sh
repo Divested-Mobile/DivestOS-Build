@@ -141,6 +141,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-9756/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-9793/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-9794/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10208/3.18/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10741/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10906/^4.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-GadgetFS/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-GadgetFS/ANY/0006.patch
@@ -507,6 +508,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-8647/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-8648/3.18/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-8648/3.18/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-8648/3.18/0012.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-8694/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-9383/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-10711/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-10720/3.18/0003.patch
@@ -541,10 +543,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25284/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25285/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25643/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26088/3.18/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-slab-out-of-bounds-read-fbcon/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0004-net-add-recursion-limit-to-GRO.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-9178/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
-editKernelLocalversion "-dos.p546"
+editKernelLocalversion "-dos.p549"
 cd "$DOS_BUILD_BASE"

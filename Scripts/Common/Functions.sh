@@ -590,6 +590,11 @@ changeDefaultDNS() {
 			dnsPrimaryV6="2620:fe::fe";
 			dnsSecondary="149.112.112.112";
 			dnsSecondaryV6="2620:fe::9";
+		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Quad9-EDNS" ]]; then #https://www.quad9.net/privacy
+			dnsPrimary="9.9.9.11";
+			dnsPrimaryV6="2620:fe::11";
+			dnsSecondary="149.112.112.11";
+			dnsSecondaryV6="2620:fe::fe:11";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Quad9-NOBL" ]]; then #https://www.quad9.net/privacy
 			dnsPrimary="9.9.9.10";
 			dnsPrimaryV6="2620:fe::10";
