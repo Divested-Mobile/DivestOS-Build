@@ -392,7 +392,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|libdme_main.so|libwbxmlparser.so|libprovlib.so";
 	blobs=$blobs"|dm_agent|dm_agent_binder";
 	blobs=$blobs"|npsmobex"; #Samsung?
-	blobs=$blobs"|ConnMO.apk|OmaDmclient.apk|USCCDM.apk|com.android.omadm.service.xml|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMService.apk|libdmengine.so|libdmjavaplugin.so|SprintDM.apk|SDM.apk|whitelist_com.android.omadm.service.xml|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml|com.google.omadm.trigger.xml|com.android.sdm.plugins.diagmon.xml|com.android.sdm.plugins.dcmo.xml"; #Sprint
+	blobs=$blobs"|ConnMO.apk|OmaDmclient.apk|USCCDM.apk|com.android.omadm.service.xml|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMConfigUpdateLight.apk|DMService.apk|libdmengine.so|libdmjavaplugin.so|SprintDM.apk|SDM.apk|whitelist_com.android.omadm.service.xml|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml|com.google.omadm.trigger.xml|com.android.sdm.plugins.diagmon.xml|com.android.sdm.plugins.dcmo.xml"; #Sprint
 
 	#OpenMobileAPI [SIM Alliance]
 	#https://github.com/seek-for-android/platform_packages_apps_SmartCardService
@@ -458,7 +458,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|vendor.qti.hardware.soter.*";
 
 	#[Sprint]
-	blobs=$blobs"|CQATest.apk|GCS.apk|HiddenMenu.apk|LifetimeData.apk|SprintHM.apk|LifeTimerService.apk|SecPhone.apk|SprintMenu.apk";
+	blobs=$blobs"|CQATest.apk|GCS.apk|HiddenMenu.apk|HiddenMenuLight.apk|LifetimeData.apk|SprintHM.apk|LifeTimerService.apk|SecPhone.apk|SprintMenu.apk";
 	ipcSec=$ipcSec"|238:4294967295:1001:3004";
 
 	#Thermal Throttling [Qualcomm]

@@ -57,7 +57,6 @@ buildAll() {
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#Select devices are userdebug due to SELinux policy issues
 	buildDeviceUserDebug thor; #broken encryption
-	buildDevice clark;
 	buildDevice h815;
 	buildDevice manta;
 	buildDevice n7100; #broken sepolicy
@@ -95,6 +94,7 @@ buildAll() {
 		buildDevice shamu verity;
 		buildDevice bullhead verity;
 		buildDevice oneplus2;
+		buildDevice clark;
 		buildDevice ether;
 		buildDevice angler verity;
 		buildDevice kipper;
@@ -118,6 +118,7 @@ patchWorkspace() {
 	repopick -it n_asb_09-2018-qcom;
 	repopick -it ibss-mode-nougat;
 	repopick -it n-asb-2020-11;
+	repopick -i 292506; #update webview
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 
