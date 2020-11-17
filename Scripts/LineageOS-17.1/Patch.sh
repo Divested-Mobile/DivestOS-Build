@@ -1,5 +1,5 @@
 #!/bin/bash
-#DivestOS: A privacy oriented Android distribution
+#DivestOS: A privacy focused mobile distribution
 #Copyright (c) 2015-2020 Divested Computing Group
 #
 #This program is free software: you can redistribute it and/or modify
@@ -59,6 +59,7 @@ cp -r "$DOS_PATCHES_COMMON""android_vendor_divested/." "$DOS_BUILD_BASE""vendor/
 enterAndClear "bootable/recovery";
 git checkout 53fd25482; #XXX: TEMPORARY!
 patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-No_SerialNum_Restrictions.patch"; #Abort on serial number specific packages (GrapheneOS)
+#patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0002-Permissive_Override.patch"; #Allow devices to set SELinux permissive
 
 enterAndClear "bionic";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi; #(GrapheneOS)
@@ -267,6 +268,9 @@ awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
 
 #enterAndClear "device/moto/shamu";
 #git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
+
+#enterAndClear "device/motorola/clark";
+#echo "TARGET_RECOVERY_PERMISSIVE_OVERRIDE := true" >> BoardConfig.mk; #Allow extract_firmware.sh to function
 
 enterAndClear "device/oneplus/oneplus2";
 sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt;

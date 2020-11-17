@@ -1,5 +1,5 @@
 #!/bin/bash
-#DivestOS: A privacy oriented Android distribution
+#DivestOS: A privacy focused mobile distribution
 #Copyright (c) 2017-2020 Divested Computing Group
 #
 #This program is free software: you can redistribute it and/or modify
@@ -127,6 +127,7 @@ patchWorkspace() {
 	repopick -i 287339; #releasetools: python3 fix
 	#repopick -it CVE-2019-2306;
 	repopick -i 292506; #update webview
+	repopick -i 292694; #flox log spam fix
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
@@ -150,9 +151,8 @@ enableDexPreOpt() {
 	if [ -f BoardConfig.mk ]; then
 		echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 		echo "WITH_DEXPREOPT_DEBUG_INFO := false" >> BoardConfig.mk;
-		#flox: random reboots?
 		#m8: /system partition too small
-		if [ "$1" != "device/asus/flox" ] && [ "$1" != "device/htc/m8" ]; then
+		if [ "$1" != "device/htc/m8" ]; then
 			echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false" >> BoardConfig.mk;
 			echo "Enabled full dexpreopt for $1";
 		else
