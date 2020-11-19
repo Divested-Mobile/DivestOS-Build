@@ -1,5 +1,6 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/oneplus/msm8998"
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0242-0243.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0002.patch
@@ -60,14 +61,16 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19068/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0423/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0427/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3625/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-8694/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/^5.6.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-12352/ANY/0011.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14351/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14386/3.10-^4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25645/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25668/4.4/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25669/^5.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-slab-out-of-bounds-read-fbcon/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13096/^4.17.3/0001.patch
-editKernelLocalversion "-dos.p69"
+editKernelLocalversion "-dos.p72"
 cd "$DOS_BUILD_BASE"

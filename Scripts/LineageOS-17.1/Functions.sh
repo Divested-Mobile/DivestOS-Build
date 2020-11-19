@@ -125,8 +125,8 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -i 287339; #releasetools: python3 fix
+	#repopick -it ten-firewall;
 	#repopick -it CVE-2019-2306;
-	repopick -i 292506; #update webview
 	repopick -i 292694; #flox log spam fix
 
 	source "$DOS_SCRIPTS/Patch.sh";

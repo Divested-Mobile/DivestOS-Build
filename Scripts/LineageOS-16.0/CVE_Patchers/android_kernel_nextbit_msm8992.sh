@@ -227,8 +227,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14314/^5.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14386/3.10-^4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-15393/^5.7.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25643/^5.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25669/^5.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-slab-out-of-bounds-read-fbcon/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/^5.2.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p230"
+editKernelLocalversion "-dos.p231"
 cd "$DOS_BUILD_BASE"
