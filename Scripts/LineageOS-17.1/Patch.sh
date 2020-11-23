@@ -148,7 +148,7 @@ sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/a
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/backup/PrivacySettingsUtils.java; fi; #microG doesn't support Backup, hide the options
 
 enterAndClear "packages/apps/SetupWizard";
-git revert --no-edit fc026fcadc2f02bdb3319644ab91e37e35f5539c; #hold off on Seedvault for now
+git revert --no-edit 578a6c99e291f330786af204d9725abaed5a4a32; #hold off on Seedvault for now
 patch -p1 < "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove analytics
 
 enterAndClear "packages/apps/Trebuchet";
