@@ -241,7 +241,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14314/^5.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-15393/^5.7.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25643/^5.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25669/^5.7/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-slab-out-of-bounds-read-fbcon/^5.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28974/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0002/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0004/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
