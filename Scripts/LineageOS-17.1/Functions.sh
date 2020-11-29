@@ -128,6 +128,7 @@ patchWorkspace() {
 	#repopick -it ten-firewall;
 	#repopick -it CVE-2019-2306;
 	repopick -i 293123; #update webview
+	#repopick -i 294717; #clark: audio crackle
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
