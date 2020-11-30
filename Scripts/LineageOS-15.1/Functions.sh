@@ -60,6 +60,7 @@ buildAll() {
 	buildDevice angler verity;
 	buildDevice Z00T; #broken - needs vendor patching
 	buildDevice axon7; #broken - needs vendor patching
+	buildDevice h870;
 	buildDevice us997;
 	buildDevice flounder verity;
 	buildDevice dragon verity;
@@ -85,8 +86,10 @@ buildAll() {
 		buildDevice ether;
 		buildDevice kipper;
 		buildDevice oneplus3;
+		buildDevice h990;
 		buildDevice us996;
 		buildDevice h850; #broken
+		buildDevice rs988;
 		buildDevice griffin;
 		buildDevice marlin verity;
 		buildDevice sailfish verity;
@@ -125,13 +128,14 @@ patchWorkspace() {
 	#Deblobbing fixes
 	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
 	cd device/lge/h850 && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
+	cd device/lge/rs988 && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
 }
 export -f patchWorkspace;
 
 enableDexPreOpt() {
 	cd "$DOS_BUILD_BASE$1";
 	#Some devices won't compile, or have too small of a /system partition, or Wi-Fi breaks
-	if [ "$1" != "device/lge/h850" ] && [ "$1" != "device/lge/mako" ]; then
+	if [ "$1" != "device/lge/h850" ] && [ "$1" != "device/lge/rs988" ] && [ "$1" != "device/lge/mako" ]; then
 		if [ -f BoardConfig.mk ]; then
 			echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 			echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;

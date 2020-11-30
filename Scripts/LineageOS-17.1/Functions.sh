@@ -82,6 +82,8 @@ buildAll() {
 	buildDevice oneplus2;
 	#SD820
 	buildDevice h850;
+	buildDevice rs988;
+	buildDevice h990;
 	buildDevice us996;
 	buildDevice griffin;
 	buildDevice oneplus3 verity;

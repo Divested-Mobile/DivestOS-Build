@@ -158,15 +158,17 @@
 	<project path="device/lge/d855" name="LineageOS/android_device_lge_d855" remote="github" />
 	<project path="kernel/lge/g3" name="LineageOS/android_kernel_lge_g3" remote="github" />
 
-	<!-- LG G5 (h850) -->
+	<!-- LG G5 (h850:intl, rs988:us) -->
 	<project path="device/lge/common" name="LineageOS/android_device_lge_common" remote="github" />
 	<project path="device/lge/g5-common" name="LineageOS/android_device_lge_g5-common" remote="github" />
 	<project path="device/lge/h850" name="LineageOS/android_device_lge_h850" remote="github" />
+	<project path="device/lge/rs988" name="LineageOS/android_device_lge_rs988" remote="github" />
 	<project path="device/lge/msm8996-common" name="LineageOS/android_device_lge_msm8996-common" remote="github" />
 	<project path="kernel/lge/msm8996" name="LineageOS/android_kernel_lge_msm8996" remote="github" />
 
-	<!-- LG V20 (us996) -->
+	<!-- LG V20 (h990:intl, us996:us) -->
 	<project path="device/lge/v20-common" name="LineageOS/android_device_lge_v20-common" remote="github" />
+	<project path="device/lge/h990" name="LineageOS/android_device_lge_h990" remote="github" />
 	<project path="device/lge/us996" name="LineageOS/android_device_lge_us996" remote="github" />
 	<!-- uses lge msm8996 commons -->
 

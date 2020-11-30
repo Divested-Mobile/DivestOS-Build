@@ -102,9 +102,12 @@ buildAll() {
 		buildDevice oneplus3;
 		buildDevice griffin;
 		buildDevice h850;
+		buildDevice rs988;
+		buildDevice h990;
 		buildDevice us996;
 		buildDevice marlin verity;
 		buildDevice sailfish verity;
+		buildDevice h870;
 		buildDevice us997;
 		buildDevice dragon verity;
 		buildDevice fugu;
@@ -137,13 +140,14 @@ patchWorkspace() {
 	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
 	cd device/asus/Z00T && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
 	cd device/lge/h850 && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
+	cd device/lge/rs988 && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
 }
 export -f patchWorkspace;
 
 enableDexPreOpt() {
 	cd "$DOS_BUILD_BASE$1";
 	#Some devices won't compile, or have too small of a /system partition, or Wi-Fi breaks
-	if [ "$1" != "device/amazon/thor" ] && [ "$1" != "device/samsung/i9100" ] && [ "$1" != "device/samsung/maguro" ] && [ "$1" != "device/samsung/toro" ] && [ "$1" != "device/samsung/toroplus" ] && [ "$1" != "device/samsung/tuna" ] && [ "$1" != "device/lge/h850" ] && [ "$1" != "device/lge/mako" ] && [ "$1" != "device/asus/grouper" ]; then
+	if [ "$1" != "device/amazon/thor" ] && [ "$1" != "device/samsung/i9100" ] && [ "$1" != "device/samsung/maguro" ] && [ "$1" != "device/samsung/toro" ] && [ "$1" != "device/samsung/toroplus" ] && [ "$1" != "device/samsung/tuna" ] && [ "$1" != "device/lge/h850" ] && [ "$1" != "device/lge/rs988" ] && [ "$1" != "device/lge/mako" ] && [ "$1" != "device/asus/grouper" ]; then
 		if [ -f BoardConfig.mk ]; then
 			echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 			echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
