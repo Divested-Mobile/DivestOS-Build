@@ -21,6 +21,9 @@ https://nvd.nist.gov/vuln/detail/CVE-2020-11211
 https://nvd.nist.gov/vuln/detail/CVE-2020-3623
 https://nvd.nist.gov/vuln/detail/CVE-2020-3648
 https://nvd.nist.gov/vuln/detail/CVE-2020-25639
+https://nvd.nist.gov/vuln/detail/CVE-2020-27066
+https://nvd.nist.gov/vuln/detail/CVE-2020-11148
+https://nvd.nist.gov/vuln/detail/CVE-2020-27067
 
 andi34 cve typos
 CVE-2014-0169 -> CVE-2014-0196
