@@ -1,4 +1,4 @@
-#Last checked 2020/11/07
+#Last checked 2020/12/10
 CVE-2015-0235
 	Link - https://source.codeaurora.org/quic/le//oe/recipes/commit/?id=6025569cb2a156bb6765dc14d66cb83f46a8c338
 CVE-2015-3847
@@ -27,19 +27,19 @@ CVE-2017-0781
 CVE-2017-0782
 	Link - system/bt - https://source.codeaurora.org/quic/la/platform/system/bt/commit/?id=e216165d8d0b26100fa1c76cbf887faf7d6b4a98
 CVE-2017-8252
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=8898d3deff7141524b4decf16a2c56b83625d289
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=8898d3deff7141524b4decf16a2c56b83625d289
 CVE-2017-8255
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=cd42366a73b38c8867b66472f07d67a6eccde599
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=cd42366a73b38c8867b66472f07d67a6eccde599
 CVE-2017-8278
 	Link - hardware/qcom/audio - https://source.codeaurora.org/quic/la/platform/hardware/qcom/audio/commit/?id=16caa80d6bd59fc645afda37dec4104d451e2f66
 CVE-2017-9689
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=faa99f2ff3d5b1c3848a7a049b2cf5e548bfd268
 CVE-2017-11002
-	Link - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/lk.git;a=commit;h=5dac431748027e8b50a5c4079967def4ea53ad64
-	Link - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/lk.git;a=commit;h=dfe6691ba301c769179cabab12d74d4e952462b9
-	Link - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/lk.git;a=commit;h=30d94c33dec0ffedc875d7853635a9773921320a
+	Link - bootable/lk - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/lk.git;a=commit;h=5dac431748027e8b50a5c4079967def4ea53ad64
+	Link - bootable/lk - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/lk.git;a=commit;h=dfe6691ba301c769179cabab12d74d4e952462b9
+	Link - bootable/lk - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/lk.git;a=commit;h=30d94c33dec0ffedc875d7853635a9773921320a
 CVE-2017-11007
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=c64b71150382b824303f971064c6c0b30c83c3ba
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=c64b71150382b824303f971064c6c0b30c83c3ba
 CVE-2017-11020
 	Link - system/bt - https://source.codeaurora.org/quic/la/platform/system/bt/commit/?id=ad5cc0fee6086952189bfdfb38154297b389c731
 CVE-2017-11042
@@ -47,7 +47,7 @@ CVE-2017-11042
 CVE-2017-11070
 	Link - hardware/qcom/media - https://source.codeaurora.org/quic/la/platform/hardware/qcom/media/commit/?id=d888e2b2ae950c3b48cc780668cfaff03abcc485
 CVE-2017-11072
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=e29612600b8143046eb40689dc63ea37b1f22d93
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=e29612600b8143046eb40689dc63ea37b1f22d93
 CVE-2017-11087
 	Link - hardware/qcom/media - https://source.codeaurora.org/quic/la/platform/hardware/qcom/media/commit/?id=98e495ddc56ea6d1b529728a5fd71817e24dbff5
 CVE-2017-13077
@@ -70,15 +70,15 @@ CVE-2017-13088
 	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit/?id=a26650dfe9fd3e49beb11f584bcf4ecdf2165df7
 	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit/?id=0c2d4ad3ab61ce6fb49e510ceca363077cf23b71
 CVE-2017-14871
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=8bbb910604b0b8c5357f8e143f759675864afc45
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=8bbb910604b0b8c5357f8e143f759675864afc45
 CVE-2017-14872
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=1daa83baa41d1e6291e89f69e6487695b6890c01
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=1daa83baa41d1e6291e89f69e6487695b6890c01
 CVE-2017-14893
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=c8dc3bf07ee909e6e57ad7887f9d3c0ffa5df795
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=c8dc3bf07ee909e6e57ad7887f9d3c0ffa5df795
 CVE-2017-14904
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=40c8a59eff189b2de6d85cf89d644ce446a4b442
 CVE-2017-15824
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=6ad7ccfee4f78d23b4b8f5ebda0eef54dced32e3
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=6ad7ccfee4f78d23b4b8f5ebda0eef54dced32e3
 CVE-2017-15849
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=0a59679b954c02b899613cc6a00d7e9fca455157
 CVE-2017-17767
@@ -87,46 +87,46 @@ CVE-2017-17767
 CVE-2017-18154
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=40c8a59eff189b2de6d85cf89d644ce446a4b442
 CVE-2017-18158
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=316136f292cedaecf17823d6f3b63cf2d11314b3
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=316136f292cedaecf17823d6f3b63cf2d11314b3
 CVE-2017-18159
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=633fa4ffb38bbfb0fad79204e19b9f59d42d7680
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=3129148e5a4cfe83003449a1048660823bfddc51
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=bcceb2ceeea07aedaa5f97207cc88f9d8b4416ea
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=04f23441b8c0c897644f9bf391b691039fa0ab70
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=b6b318431983f35a7734cae227478df3dc93a818
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=7dcbee530800b16534d0f3e8db375492c03b3e0a
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=9057a8b3339abc4eb2c4e462279f34bbe6410e7c
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=4a63a848c062851776123d4bc7ec10eb498a70dd
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=5471b0cdf4bace12d872d074b97eae29f1317e6a
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=633fa4ffb38bbfb0fad79204e19b9f59d42d7680
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=3129148e5a4cfe83003449a1048660823bfddc51
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=bcceb2ceeea07aedaa5f97207cc88f9d8b4416ea
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=04f23441b8c0c897644f9bf391b691039fa0ab70
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=b6b318431983f35a7734cae227478df3dc93a818
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=7dcbee530800b16534d0f3e8db375492c03b3e0a
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=9057a8b3339abc4eb2c4e462279f34bbe6410e7c
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=4a63a848c062851776123d4bc7ec10eb498a70dd
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=5471b0cdf4bace12d872d074b97eae29f1317e6a
 CVE-2017-18162
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=d0fabb9cdf31c4abc190ce7db0874a029b0b6d3a
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=d0fabb9cdf31c4abc190ce7db0874a029b0b6d3a
 CVE-2017-18163
-	Link - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/lk.git;a=commit;h=f165fbaed7cdffcd422a58791044c0cbab9f3bc0
+	Link - bootable/lk - https://www.codeaurora.org/gitweb/quic/la/?p=kernel/lk.git;a=commit;h=f165fbaed7cdffcd422a58791044c0cbab9f3bc0
 CVE-2018-5854
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=aedca87c9a42723dfb5f7084ba855da1208f1889
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=aedca87c9a42723dfb5f7084ba855da1208f1889
 CVE-2018-5887
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=c8415f6f2271008aef5056689950236df627d9b1
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=c8415f6f2271008aef5056689950236df627d9b1
 CVE-2018-5888
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=5388803fa6d004382f4a857056ce06d963698d9c
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=5388803fa6d004382f4a857056ce06d963698d9c
 CVE-2018-5889
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=a95ca8e2eeb8a030e977f033cff122cad408158c
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=a95ca8e2eeb8a030e977f033cff122cad408158c
 CVE-2018-5890
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=c9c8de8000ff32f8d1e24e697d861d92d8ed0b7a
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=c9c8de8000ff32f8d1e24e697d861d92d8ed0b7a
 CVE-2018-5900
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=db959a95ec36195c136baa2ae57924ca72b8a76c
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=db959a95ec36195c136baa2ae57924ca72b8a76c
 CVE-2018-5901
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=bdfb5e21cd90539083375e17bd8800ab11fd1b6b
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=bdfb5e21cd90539083375e17bd8800ab11fd1b6b
 CVE-2018-11261
 	Link - hardware/qcom/media - https://source.codeaurora.org/quic/la/platform/hardware/qcom/media/commit/?id=0e910e74e56f2a46f65dbc7694b160cd6e7f379a
 	Link - hardware/qcom/media - https://source.codeaurora.org/quic/la/platform/hardware/qcom/media/commit/?id=d41a7a4c7d43fa67f2e4a487b8a1fb0aac38226d
 CVE-2018-11262
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=29ab5eb75bc9ed01466ab1a98e932e59fe27ad42
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=29ab5eb75bc9ed01466ab1a98e932e59fe27ad42
 CVE-2018-11275
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=bf0261ab128f28763258c620bc95ca379a286b59
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=bf0261ab128f28763258c620bc95ca379a286b59
 CVE-2018-11278
 	Link - hardware/qcom/media - https://source.codeaurora.org/quic/la/platform/hardware/qcom/media/commit/?id=6c7dbdb2f067bf844beef2c41d9d67cacc3adfa6
 CVE-2018-11817
-	Link - https://source.codeaurora.org/quic/la/device/qcom/common/commit/?id=a183f890dc4c9276933f4db490c32efcdae87561
+	Link - device/qcom/common - https://source.codeaurora.org/quic/la/device/qcom/common/commit/?id=a183f890dc4c9276933f4db490c32efcdae87561
 CVE-2018-11906
 	Link - https://source.codeaurora.org/quic/le/qti-conf/commit/?id=0eeb4558d541fac40b486a224eb6c601b64115a1
 	Link - https://source.codeaurora.org/quic/le/meta-qti-bsp/commit/?id=1dffcbf6fea3667a9a19dad70ddba12eff5ccbfb
@@ -150,7 +150,7 @@ CVE-2018-11914
 	Link - https://source.codeaurora.org/quic/le/meta-qti-bsp/commit/?id=ecd2fb4ab9e2a6851add554af03cebe337345c44
 	Link - https://source.codeaurora.org/quic/le/meta-qti-bsp/commit/?id=e1a95254dd0ec874f884160aaf0f5ce7947a06c8
 CVE-2018-11943
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=45734409dd45e6b117f7f9f7e11047f67a7accc1
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=45734409dd45e6b117f7f9f7e11047f67a7accc1
 CVE-2018-11946
 	Link - https://source.codeaurora.org/quic/qsdk/oss/system/feeds/routing/commit/?id=3f625190fb469cb56de619eae6b5ca8db2463d5b
 CVE-2018-11956
@@ -158,18 +158,18 @@ CVE-2018-11956
 CVE-2018-11961
 	Link - hardware/qcom/gps - https://source.codeaurora.org/quic/le/platform/hardware/qcom/gps/commit/?id=c57ee0a5d3261ab20c35b451d1b3ae2b02a21591
 CVE-2018-11962
-	Link - frameworks/av/commit?id=217604d69ce4dcf7c6433a9eafdfceefe25e8fd3 - https://source.codeaurora.org/quic/la/platform/frameworks/av/commit?id=217604d69ce4dcf7c6433a9eafdfceefe25e8fd3
+	Link - frameworks/av/commit - https://source.codeaurora.org/quic/la/platform/frameworks/av/commit?id=217604d69ce4dcf7c6433a9eafdfceefe25e8fd3
 CVE-2018-11964
 	Link - https://source.codeaurora.org/quic/le/meta-qti-bsp/commit/?id=d2bd60489f1265812f2ed9cf76411337e1f9dff8
 CVE-2018-11965
 	Link - system/core - https://source.codeaurora.org/quic/le/platform/system/core/commit/?id=c69978b5f3866022d1c2dcc0ee8903c95e104fb3
 CVE-2018-11995
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=e3688be47d2b72f130f90dafd24b5f5acc4684ca
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=e3688be47d2b72f130f90dafd24b5f5acc4684ca
 CVE-2018-12006
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=3aad4a11e276fb7101185d0b152e208a32829d31 
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=2a39b827b1509777da7025e0b78a82d573fad931
 CVE-2018-13889
-	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/gps/commit/?id=03885c6896a88d993dd49c64ada02bec52af08a1
+	Link - hardware/qcom/gps - https://source.codeaurora.org/quic/le/platform/hardware/qcom/gps/commit/?id=03885c6896a88d993dd49c64ada02bec52af08a1
 CVE-2018-13897
 	Link - system/netd - https://source.codeaurora.org/quic/la/platform/system/netd/commit?id=a0787febf7effc480dfc4d0cbc548ea90d3f74ab 
 CVE-2019-2306
@@ -183,7 +183,7 @@ CVE-2019-2306
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=6f12008b77536b2aee0bfd1019269dd9b134716a
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/la/platform/hardware/qcom/display/commit/?id=ec86fea4a518b52d6172507313ce294b3cbb0b93
 CVE-2019-2316
-	Link - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=28cde30b1b0309efaab9779c7eec3104dfe8ad28
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/la/abl/tianocore/edk2/commit/?id=28cde30b1b0309efaab9779c7eec3104dfe8ad28
 CVE-2019-10501
 	Link - hardware/qcom/audio - https://source.codeaurora.org/quic/la/platform/hardware/qcom/audio/commit/?id=3b7089ae44fb02dd603ec2acacc0d86e4baa5c67
 CVE-2019-10509
@@ -215,5 +215,19 @@ CVE-2020-11121
 	Link - hardware/qcom/wlan - https://source.codeaurora.org/quic/la/platform/hardware/qcom/wlan/commit/?id=b56533c3978f6b078b796f8bbd1e1d3a58cd4421
 CVE-2020-11130
 	Link - hardware/qcom/wlan - https://source.codeaurora.org/quic/la/platform/hardware/qcom/wlan/commit/?id=85f475808e09bdfff5480eb0e81c3c03707a32a1
+CVE-2020-11152
+	Link - hardware/qcom/gps - https://source.codeaurora.org/quic/le/platform/hardware/qcom/gps/commit/?id=1731e5fd4a8300b368dd95a3e28710f4029fa315
+CVE-2020-11167
+	Link - system/bt - https://source.codeaurora.org/quic/le/platform/system/bt/commit/?id=cfdb42d512704965acd551b9ffb6de37aac51bf7
+	Link - system/bt - https://source.codeaurora.org/quic/la/platform/system/bt/commit/?id=a741d8d2f59b2a090694be71cd538c821cf95ce5
+CVE-2020-11183
+	Link - hardware/qcom/display - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=6e4b37640aa17d00d7af9c274bdf07aeb894f233
+	Link - hardware/qcom/display - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=6a34015b1cd988f0e97a8f8b998fdba9ba6aedd1
+	Link - hardware/qcom/display - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=82af7e98d402e9bc7d9a7d45a9df7d92b63d3734
+	Link - hardware/qcom/display - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=250693780f3cd8dd1e300b7db0767bce2def4ffe
+	Link - hardware/qcom/display - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=511602d899d24e6d4eb555c95f36b347167a2654
+	Link - hardware/qcom/display - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=2c23e58cd29cff24886737f07153e3b4ec659797
+	Link - hardware/qcom/display - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=dbd64f80c844da584111c650cb03b140f8b71685
+	Link - hardware/qcom/display - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=0e10fd232c82987e507f5d745ffdf3dc99edeae3
 CVE-0000-0000
 #The above line must be the last line
