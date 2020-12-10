@@ -130,6 +130,7 @@ patchWorkspace() {
 	#repopick -it ten-firewall;
 	#repopick -it CVE-2019-2306;
 	repopick -i 293123; #update webview
+	repopick -it Q_asb_2020-12;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
