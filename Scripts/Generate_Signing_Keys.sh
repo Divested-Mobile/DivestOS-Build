@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #DivestOS: A privacy focused mobile distribution
 #Copyright (c) 2018-2020 Divested Computing Group
 #

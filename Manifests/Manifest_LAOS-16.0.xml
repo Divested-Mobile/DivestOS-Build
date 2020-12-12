@@ -209,7 +209,7 @@
 	<!-- OnePlus 5 (cheeseburger) -->
 	<project path="device/oneplus/cheeseburger" name="LineageOS/android_device_oneplus_cheeseburger" remote="github" />
 	<project path="device/oneplus/msm8998-common" name="LineageOS/android_device_oneplus_msm8998-common" remote="github" />
-	<project path="kernel/oneplus/msm8998" name="android-linux-stable/op5" remote="github" revision="lineage-17.1" />
+	<project path="kernel/oneplus/msm8998" name="android-linux-stable/op5" remote="github" revision="4a2f01d2e54014a4ed1572e06c31f64752d8b96c" />
 
 	<!-- OnePlus 5T (dumpling) -->
 	<project path="device/oneplus/dumpling" name="LineageOS/android_device_oneplus_dumpling" remote="github" />

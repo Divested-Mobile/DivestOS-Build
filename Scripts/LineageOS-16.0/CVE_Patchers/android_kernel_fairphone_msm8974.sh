@@ -54,6 +54,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-2141/^3.8.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-2147/^3.9.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-2147/^3.9.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-2148/^3.9.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-2164/^3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-2206/^3.8.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-2232/^3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-2635/^3.8.4/0001.patch
@@ -286,5 +287,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28974/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29371/^5.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-after-free-for-hub-usb-device.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p286"
+editKernelLocalversion "-dos.p287"
 cd "$DOS_BUILD_BASE"

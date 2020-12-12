@@ -177,5 +177,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29372/^5.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-BleedingToothExtras/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-UNKNOWN/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/4.14/0005.patch
-editKernelLocalversion "-dos.p177"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27830/4.14/0002.patch
+editKernelLocalversion "-dos.p178"
 cd "$DOS_BUILD_BASE"

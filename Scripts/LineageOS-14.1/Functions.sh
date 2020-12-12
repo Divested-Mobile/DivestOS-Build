@@ -119,9 +119,9 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
 	source build/envsetup.sh;
 	repopick -it n_asb_09-2018-qcom;
+	#repopick -it bt-sbc-hd-dualchannel-nougat;
 	repopick -it ibss-mode-nougat;
 	repopick -it n-asb-2020-11;
-	repopick -i 293123; #update webview
 	repopick -it n-asb-2020-12;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails

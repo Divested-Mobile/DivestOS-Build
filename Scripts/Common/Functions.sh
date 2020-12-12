@@ -524,7 +524,7 @@ changeDefaultDNS() {
 	local dnsPrimaryV6="";
 	local dnsSecondary="";
 	local dnsSecondaryV6="";
-	if [ -z "$DNS_PRESET" ]; then
+	if [ ! -z "$DOS_DEFAULT_DNS_PRESET" ]; then
 		if [[ "$DOS_DEFAULT_DNS_PRESET" == "AdGuard" ]]; then #https://adguard.com/en/adguard-dns/overview.html
 			dnsPrimary="176.103.130.130";
 			dnsPrimaryV6="2a00:5a60::ad1:0ff";
@@ -617,7 +617,7 @@ changeDefaultDNS() {
 			dnsSecondaryV6="2a02:6b8:0:1::feed:0ff";
 		fi;
 	else
-		echo "You must first set a preset via the DEFAULT_DNS_PRESET variable in init.sh!";
+		echo "You must first set a preset via the DOS_DEFAULT_DNS_PRESET variable in init.sh!";
 	fi;
 
 	local files="core/res/res/values/config.xml packages/SettingsLib/res/values/strings.xml services/core/java/com/android/server/connectivity/NetworkDiagnostics.java services/core/java/com/android/server/connectivity/Tethering.java services/core/java/com/android/server/connectivity/tethering/TetheringConfiguration.java services/java/com/android/server/connectivity/Tethering.java";

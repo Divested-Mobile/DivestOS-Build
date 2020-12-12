@@ -66,10 +66,10 @@ buildAll() {
 	buildDevice dragon verity;
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
-	buildDevice flo;
 	buildDevice fugu;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		buildDevice mako;
+		buildDevice flo;
 		buildDevice crackling;
 		buildDevice d802;
 		buildDevice bacon;
@@ -111,7 +111,6 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
 	source build/envsetup.sh;
-	repopick -i 293123; #update webview
 	repopick -it O_asb_2020-12;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails

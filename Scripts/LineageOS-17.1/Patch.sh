@@ -173,7 +173,7 @@ git revert --no-edit bd4142eab8b3cead0c25a2e660b4b048d1315d3c; #Always update re
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysfs changes (GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_system_core/0002-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
 
-enterAndClear "system/extras"
+enterAndClear "system/extras";
 patch -p1 < "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #FBE: pad filenames more (GrapheneOS)
 
 enterAndClear "system/sepolicy";
@@ -214,6 +214,7 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 #START OF DEVICE CHANGES
 #
 enterAndClear "device/asus/flox";
+git revert --no-edit f638a192cbef0045b6235fdd8fe28ee500ff7527; #conflict
 compressRamdisks;
 rm -rf bdAddrLoader; #duplicate with mako
 echo "/dev/block/platform/msm_sdcc\.1/by-name/misc u:object_r:misc_block_device:s0" >> sepolicy/file_contexts;
@@ -287,6 +288,9 @@ awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disabl
 enterAndClear "device/oppo/msm8974-common";
 sed -i 's/libinit_msm8974/libinit_msm8974-oppo/' BoardConfigCommon.mk init/Android.bp; #Fix name conflict
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
+
+enterAndClear "device/samsung/jf-common";
+sed -i 's/libqdi.so520afba19b0d10aa76c8c211db6bc3a063d44647/libqdi.so|520afba19b0d10aa76c8c211db6bc3a063d44647/' proprietary-files.txt; #Fixup fefcb055ed3a867719a52d232a3f72509400be1e
 
 enterAndClear "device/samsung/msm8974-common";
 echo "TARGET_RECOVERY_DENSITY := hdpi" >> BoardConfigCommon.mk;

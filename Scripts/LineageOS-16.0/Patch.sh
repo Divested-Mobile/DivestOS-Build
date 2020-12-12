@@ -164,8 +164,11 @@ git revert --no-edit b3609d82999d23634c5e6db706a3ecbc5348309a; #Always update re
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysfs changes (GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES_COMMON/android_system_core/0001-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
 
-enterAndClear "system/extras"
+enterAndClear "system/extras";
 patch -p1 < "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #FBE: pad filenames more (GrapheneOS)
+
+enterAndClear "system/media";
+git pull "https://github.com/LineageOS/android_system_media" refs/changes/57/295857/1; #P_asb_2020-12
 
 enterAndClear "system/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices
@@ -274,6 +277,9 @@ git revert --no-edit 568f99db3c9a590912f533fa734c46cf7a25dcbd; #Resurrect dm-ver
 
 enterAndClear "kernel/google/wahoo";
 sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
+
+enterAndClear "kernel/google/yellowstone";
+git revert --no-edit a045e5bf915284ab76f01debe068ede5998fbaa8; #fails to compile
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
