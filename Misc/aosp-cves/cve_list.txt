@@ -1,4 +1,4 @@
-#Last checked 2020/11/07
+#Last checked 2020/12/18
 CVE-2014-9028
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/fe03f73d86bb415f5d5145f0de091834d89ae3a9
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/5859ae22db0a2d16af3e3ca19d582de37daf5eb6
@@ -1535,6 +1535,8 @@ CVE-2020-0097
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/058cafe0c1f61e8edd25ba22e2c8e73a43c5d4ad
 CVE-2020-0098
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/5deb172bf4d9e2b80cda0b8dd5d2b0573e1c86e9
+CVE-2020-0099
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/d0746b46a5d8049a7105a16eb25c44810376527e
 CVE-2020-0100
 	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/cf4c5675c2c7ab822ed1ff12350c78575153f3cb
 CVE-2020-0101
@@ -1744,6 +1746,7 @@ CVE-2020-0201
 	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/f3848729b416a20a3d5d4b1a8e5a8794f727cbdc
 CVE-2020-0202
 	Link - packages/apps/Traceur - https://android.googlesource.com/platform/packages/apps/Traceur/+/c93f0a625ec8b711977bfed7d57ebe862c3cba0b
+	Link - packages/apps/Traceur - https://android.googlesource.com/platform/packages/apps/Traceur/+/c407584481825eefb1a5f8cfe7566e0d0ec94597
 CVE-2020-0203
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/c6a61a6b0ce93a5ede0842fdaefca73a1bf243a9
 CVE-2020-0204
@@ -1809,6 +1812,8 @@ CVE-2020-0242
 	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/f191963f5645f59390b640136fd928e5a492aa84
 CVE-2020-0243
 	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/f191963f5645f59390b640136fd928e5a492aa84
+CVE-2020-0244
+	Link - system/media - https://android.googlesource.com/platform/system/media/+/266a3da6c7f5a9b30a5801bc69db098c6dfd807c
 CVE-2020-0245
 	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/b875a5fe0db2e2d4bf44746bb8ca4dc1e959925e
 CVE-2020-0246
@@ -1827,6 +1832,14 @@ CVE-2020-0257
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b26c7160cd1dfba9224ba12dc075ac3c658b18c3
 CVE-2020-0258
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/d1126e7160b87313de91be5dbf7d0d9b08900f70
+CVE-2020-0280
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/a2fb14eb90c14982a71d9ed6339b0095381e2635
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/2db66c94148dbe6824352f992562ffdbbe27c7ba
+CVE-2020-0294
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/d4bd69cef05d379555418a8fe748ec94ff6bd6d0
+CVE-2020-0368
+	Link - packages/providers/ContactsProvider - https://android.googlesource.com/platform/packages/providers/ContactsProvider/+/008f8bfa9d1025f108c686d547e3c953d4fae30b
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/a3986a5def1070ab7b216e92c4b4ce6eef54dc54
 CVE-2020-0377
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/26a348a610ec277384c98f42acd841ae647d2131
 CVE-2020-0378
@@ -1926,6 +1939,9 @@ CVE-2020-0438
 CVE-2020-0439
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/e752ae55522f2657bb26bd2351ef879a73fa6efb
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/c46491e7da14c620fbe490d50b61aa65f256c5d3
+CVE-2020-0440
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/11725e1206645e567cfdd70100d64d1e0a85180d
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/534bbaeead15bc3c540efd947b3a5ade62cf27be
 CVE-2020-0441
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/aaf6b40e1746db6189f6078dcd28d8f153a4cc50
 CVE-2020-0442
@@ -1947,6 +1963,88 @@ CVE-2020-0453
 CVE-2020-0454
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/5263e86850a0f8d91fa66eb491b6f9765a0291c7
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/20491714c2ca0a8fd789220e9a8afba3701f5113
+CVE-2020-0458
+	Link - system/media - https://android.googlesource.com/platform/system/media/+/4523a5863f7d8f449600e85e946cfdc9cff408b2
+	Link - system/media - https://android.googlesource.com/platform/system/media/+/1f73a728ef4b6d7d350c0715bdb10d59e5b5f9be
+CVE-2020-0459
+	Link - frameworks/opt/net/wifi - https://android.googlesource.com/platform/frameworks/opt/net/wifi/+/db04b29f0f6a96b19850fc17e23818855f800d61
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/4bd54c477c89d11cfe2d84ff20098aed01cf5de9
+	Link - packages/apps/Car/Settings - https://android.googlesource.com/platform/packages/apps/Car/Settings/+/dd7bed0670fbdf03d9097f2ba35967544467c863
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/a9a7f65a10b7514a4070a93d419796498926b5b3
+	Link - packages/services/Car - https://android.googlesource.com/platform/packages/services/Car/+/54cc1b21d5b1e75f8c1d92cac32beaa2cad6a88c
+CVE-2020-0460
+	Link - packages/apps/KeyChain - https://android.googlesource.com/platform/packages/apps/KeyChain/+/ed1888ebc3888399ec5144491e43bf7d871028e5
+CVE-2020-0463
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/938a5cd87c38bf35d15ffa3414c3a74faecb8bf8
+CVE-2020-0464
+	Link - system/netd - https://android.googlesource.com/platform/system/netd/+/e1ec3b167754930d4d87b48414f9d707554a02f0
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/f1cf6a632da354cff3d8aed54913e1ee2909908e
+CVE-2020-0467
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/61b620ad4f773e86c03e0719ae24268babcc62a9
+CVE-2020-0468
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/af35aa5ac57a8c7c4534d82d8cd6cfb4f049bbfe
+CVE-2020-0469
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/1a6f1fb402b96df561b9672aef1e4fce8a13de80
+CVE-2020-0470
+	Link - external/libaom - https://android.googlesource.com/platform/external/libaom/+/816f15265cb89a02d7ce4b657de277828e71a4b1
+CVE-2020-0473
+	Link - packages/apps/Bluetooth - https://android.googlesource.com/platform/packages/apps/Bluetooth/+/3d3e4d5b1ff3d4530074c4d300d34de87a677652
+CVE-2020-0474
+	Link - packages/services/Car - https://android.googlesource.com/platform/packages/services/Car/+/a3971d1ead6e9e18b23352ffc17ba3334c6e9d6f
+CVE-2020-0475
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/80951fa9a8f77685d3845c14c2e0de364787b2cc
+CVE-2020-0476
+	Link - packages/modules/ExtServices - https://android.googlesource.com/platform/packages/modules/ExtServices/+/e9e080a62494835b98686069c9617866026be3a3
+CVE-2020-0477
+	Link - frameworks/opt/net/wifi - https://android.googlesource.com/platform/frameworks/opt/net/wifi/+/66d428e3c04eed9a20e0aa80c6e687aee622fc24
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/cfb033e324f637a9d508ce7376b1cbc09e4cd5e5
+CVE-2020-0478
+	Link - external/libaom - https://android.googlesource.com/platform/external/libaom/+/816f15265cb89a02d7ce4b657de277828e71a4b1
+CVE-2020-0479
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/cdb913418a5a19c253daff3d6d9c6c2fc5ff0d61
+CVE-2020-0480
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/0b4cd450afbe085def06025b9ac1f6996217bfcb
+CVE-2020-0481
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/a13cfc03e1030a59de4f4e1a6ced03a72353237f
+CVE-2020-0482
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/cf9d5d571f97fdce3d100ece113694ec2cd4bd7a
+CVE-2020-0483
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/f271aef474fc2cc3fab4d9e51294989dd50c32fc
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/a37060dbba3ccdbb3a9385a8e51a76b5ea1124d9
+CVE-2020-0484
+	Link - hardware/interfaces - https://android.googlesource.com/platform/hardware/interfaces/+/1019a17a92a187da05264ca0e954da8d97a21d25
+CVE-2020-0485
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/b3640019f670167facf07bcf47bd1abf621e5d41
+CVE-2020-0486
+	Link - packages/providers/ContactsProvider - https://android.googlesource.com/platform/packages/providers/ContactsProvider/+/d94e69c3f70e1fc12d134e85b1c8e45f8b2a8e79
+CVE-2020-0487
+	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/706c378d541b5e54b108e06a863065d603433b54
+CVE-2020-0488
+	Link - external/libhevc - https://android.googlesource.com/platform/external/libhevc/+/663b9fd80355898fb087793752f72632b110b2b3
+CVE-2020-0489
+	Link - external/sonivox - https://android.googlesource.com/platform/external/sonivox/+/3ff1a66ba11df94921a6309277e43337a7cc5415
+CVE-2020-0490
+	Link - external/tremolo - https://android.googlesource.com/platform/external/tremolo/+/370160dc7f76fdf034b1a6efbc593c9586c15878
+CVE-2020-0491
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/9dcade585aa7825dc38b353fa30b33f00620c9d3
+CVE-2020-0492
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/61cd8f097ace26217b1fc87aa97b3820b8f8414c
+CVE-2020-0493
+	Link - external/pdfium - https://android.googlesource.com/platform/external/pdfium/+/5e4734882feef61c41d7427deb46ed2457ea6054
+CVE-2020-0494
+	Link - external/libavc - https://android.googlesource.com/platform/external/libavc/+/0b601e1a4fb246ce7c60aa101af5af4edd0a842d
+CVE-2020-0495
+	Link - external/pdfium - https://android.googlesource.com/platform/external/pdfium/+/5e4734882feef61c41d7427deb46ed2457ea6054
+CVE-2020-0496
+	Link - external/pdfium - https://android.googlesource.com/platform/external/pdfium/+/5e4734882feef61c41d7427deb46ed2457ea6054
+CVE-2020-0497
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/7b1c1db80aebc39f704360ad2ec636d912d470d2
+CVE-2020-0498
+	Link - external/tremolo - https://android.googlesource.com/platform/external/tremolo/+/5b6c2beac0a9bce02c38e774ebebbde3d288e5dc
+CVE-2020-0499
+	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/029048f823ced50f63a92e25073427ec3a9bd909
+CVE-2020-0500
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/6842f03c9d2f128785df5ce2bd02c61f35226554
 CVE-2020-3700
 	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=c8d215c57c049ed7015ded342ebaaef21b438425
 CVE-2020-8597
@@ -1955,10 +2053,97 @@ CVE-2020-9589
 	Link - external/dng_sdk - https://android.googlesource.com/platform/external/dng_sdk/+/2e8f1f0dc5ca3db8a7035938752dd230608e17ab
 CVE-2020-11120
 	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=36a414abcf0c864460d8c3bf95a6fd070d9dbbd7
+CVE-2020-11148
+	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/gps/commit/?id=1731e5fd4a8300b368dd95a3e28710f4029fa315
+CVE-2020-11151
+	Link - vendor/opensource/video-driver - https://source.codeaurora.org/quic/la/platform/vendor/opensource/video-driver/commit/?id=e543a787241afd850a6509e814a936d84ccd4b74
+CVE-2020-11167
+	Link - https://source.codeaurora.org/quic/le/platform/system/bt/commit/?id=cfdb42d512704965acd551b9ffb6de37aac51bf7
+	Link - system/bt - https://source.codeaurora.org/quic/la/platform/system/bt/commit/?id=a741d8d2f59b2a090694be71cd538c821cf95ce5
+CVE-2020-11183
+	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=7fd40cc33e2cbb0d20d28c73d648fb65889ad108
+	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=593f37dcf1c6e9d1adcb2dfbfb84daaa840aab4b
 CVE-2020-12856
 	Link - packages/apps/Bluetooth - https://android.googlesource.com/platform/packages/apps/Bluetooth/+/81c1c7d2d1681434413a615eea532e85fee43db0
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/73b4e5c4ba4c0c96a26ec84564cd9653da50a26c
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/b3f12befdc4def7d695b6f1049cd02238eb1e4a8
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/05243b881764136d3ca67b438d2e500d6f134f6a
+CVE-2020-15802
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/775a5e72b34b70ff92d61d8bcc47c6bde663f02e
+CVE-2020-27021
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/721e323b2265d7ea60a94b54354d2c0eb09eaa44
+CVE-2020-27023
+	Link - packages/apps/Bluetooth - https://android.googlesource.com/platform/packages/apps/Bluetooth/+/2ce0d68135d961a19729b91be9c46ec71645a86e
+CVE-2020-27024
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/7b073408b8347f50be30fbe1a41f1e460ac33d69
+CVE-2020-27025
+	Link - frameworks/opt/net/wifi - https://android.googlesource.com/platform/frameworks/opt/net/wifi/+/c86dbb70981712b48af042e1f4c4670b83f60f6a
+CVE-2020-27026
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/d24084e95a9ff52a8c4a384dcce9bbf0d301bf6a
+CVE-2020-27027
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/fe53fef3a8fe2aaedb5306f926e7346caf94caa8
+CVE-2020-27028
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/179e1ee138a8811deffd49eae77f85246e5092a9
+CVE-2020-27029
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/a0c653945bb7772624829218bcb3e3f1f60ee929
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/223c8e01189c5295757d53a2f9470e2903df3290
+CVE-2020-27030
+	Link - packages/apps/DeskClock - https://android.googlesource.com/platform/packages/apps/DeskClock/+/14f397e93f73b18048e544fd9a18eeeb6a8a8c7a
+CVE-2020-27031
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/64ab5af09760f156ae8018099f307c7205faa004
+CVE-2020-27032
+	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/dee5340222a2c67c5af29da78f235f5bbf54436b
+CVE-2020-27033
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/fe53fef3a8fe2aaedb5306f926e7346caf94caa8
+CVE-2020-27034
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/7eb7f6c795fd4da8614d19e073587663ebde9b74
+CVE-2020-27035
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/51f5abaff8af4859b08a3f37401e3f8d9aa68047
+CVE-2020-27036
+	Link - hardware/nxp/nfc - https://android.googlesource.com/platform/hardware/nxp/nfc/+/b3a413395fc017be496a9a25057079d63a24ba1c
+CVE-2020-27037
+	Link - hardware/nxp/nfc - https://android.googlesource.com/platform/hardware/nxp/nfc/+/b3a413395fc017be496a9a25057079d63a24ba1c
+CVE-2020-27038
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/a15aa8d1aa0b641d35245daa628cd7739f130c02
+CVE-2020-27039
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b9ccfe55aa74b7900862cacd8eb2a941e8dbc79a
+CVE-2020-27040
+	Link - hardware/nxp/nfc - https://android.googlesource.com/platform/hardware/nxp/nfc/+/b3a413395fc017be496a9a25057079d63a24ba1c
+CVE-2020-27041
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/9743233ab198c550de552eac95bd3c04f8fd9ecf
+CVE-2020-27043
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/b2d77c605ca993b191d6649d205a31dae1a07eed
+CVE-2020-27044
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/4a0a55e0b68e34f411e436b19e3997a81078cdeb
+CVE-2020-27045
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/9f6dcf8ab3d7b808d3ef46cfe8a84444d581697c
+CVE-2020-27046
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/e287522c129ec0144b346652777cc9a1aac75595
+CVE-2020-27047
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/4c47db6dbbd25778e9d67889b379afc8ae9fbcc2
+CVE-2020-27048
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/8d9317b401103b77237b8c72e291c24cec9472fd
+CVE-2020-27049
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/e518ef4b66d2e008df3fd4d73dbd7b194e7da38b
+CVE-2020-27050
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/24a570bb6a283b3f1d2b6e2a27aa39eb0e41f66d
+CVE-2020-27051
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/01c1216a5d4ec57e9c914768cf5a89bf690f3045
+CVE-2020-27052
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b1dca9a89bea83ada282504964ce34387d6851d7
+CVE-2020-27053
+	Link - frameworks/opt/net/wifi - https://android.googlesource.com/platform/frameworks/opt/net/wifi/+/d696694b98f70b7d6ec2c66f0349e557e5c5b6b0
+CVE-2020-27054
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/3b7232c1abf51629975f90c85bad26b72290b3ec
+CVE-2020-27055
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/94b8579607c6f1201cea9d6601e88cec897b2ff6
+CVE-2020-27056
+	Link - system/sepolicy - https://android.googlesource.com/platform/system/sepolicy/+/9443b2eee0a9ab10836501bac1e131b62d410ed2
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/f654371d53806f86d647c4fca97240992244986b
+CVE-2020-27057
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b761c6811952bfe9438aa630fa70d6de8cc927a8
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/6ee546d8808d1645fcc8fc2dbca82740fd0ac569
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/b59a127bc6349b6c283df059a593500d0f90d654
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/29f8593e13f6d1af5223adb4ff3ad7f0eb39b4a0
 CVE-0000-0000
 #The above line must be the last line
