@@ -66,10 +66,13 @@ buildAll() {
 	buildDevice dragon verity;
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
+	buildDevice flo; #Last version without repartitioning required
+	buildDevice shamu verity; #Last version with working IMS
+	buildDevice oneplus2; #Last version with working IMS
+	buildDevice ether; #Last version with working IMS
 	buildDevice fugu;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		buildDevice mako;
-		buildDevice flo;
 		buildDevice crackling;
 		buildDevice d802;
 		buildDevice bacon;
@@ -81,9 +84,6 @@ buildAll() {
 		buildDevice klte;
 		buildDevice m8;
 		buildDevice victara;
-		buildDevice shamu verity;
-		buildDevice oneplus2;
-		buildDevice ether;
 		buildDevice kipper;
 		buildDevice oneplus3;
 		buildDevice h990;

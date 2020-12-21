@@ -39,7 +39,7 @@ export DOS_MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick,
 #Deblobber
 export DOS_DEBLOBBER_REMOVE_ACCESSORIES=true; #Set false to allow use of external accessories that depend on blobs
 export DOS_DEBLOBBER_REMOVE_AUDIOFX=true; #Set true to remove AudioFX
-export DOS_DEBLOBBER_REMOVE_CNE=true; #Set true to remove all CNE blobs
+export DOS_DEBLOBBER_REMOVE_CNE=true; #Set true to remove all CNE blobs #XXX: Breaks Wi-Fi calling
 export DOS_DEBLOBBER_REMOVE_GRAPHICS=false; #Set true to remove all graphics blobs and use SwiftShader CPU renderer #TODO: Needs work
 export DOS_DEBLOBBER_REMOVE_RENDERSCRIPT=false; #Set true to remove RenderScript blobs
 export DOS_DEBLOBBER_REMOVE_FP=false; #Set true to remove all fingerprint reader blobs
@@ -52,12 +52,12 @@ export DOS_DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Serv
 #Features
 export DOS_GPS_GLONASS_FORCED=false; #Enables GLONASS on all devices
 export DOS_GRAPHENE_MALLOC=true; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms
-export DOS_GRAPHENE_EXEC=true; #Enables use of GrapheneOS' exec spawning feature
+export DOS_GRAPHENE_EXEC=false; #Enables use of GrapheneOS' exec spawning feature XXX: broken (just on 17.1?)
 export DOS_HOSTS_BLOCKING=true; #Set false to prevent inclusion of a HOSTS file
 export DOS_HOSTS_BLOCKING_APP="DNS66"; #App installed when built-in blocking is disabled. Options: DNS66
 export DOS_HOSTS_BLOCKING_LIST="https://divestos.org/hosts"; #Must be in the format "127.0.0.1 bad.domain.tld"
 export DOS_LOWRAM_ENABLED=false; #Set true to enable low_ram on all devices
-export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NONE, NLP, FULL
+export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NLP, FULL
 export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Set true to allow inclusion of non-commercial use patches XXX: Unused, see 1dc9247
 export DOS_OPTIMIZE_IMAGES=false; #Set true to apply lossless optimizations to image resources
 export DOS_OVERCLOCKS_ENABLED=false; #Set true to enable overclocks #XXX: Most devices have their processors directly under their RAM, heatsinking is mostly into the ground plane, potentially inflicting damage to RAM and the processor itself
@@ -100,6 +100,8 @@ export DOS_THEME_700="E64A19"; #Deep Orange 700
 #
 #END OF USER CONFIGURABLE OPTIONS
 #
+
+umask 0022;
 
 gpgVerifyGitHead() {
 	if [ -r "$HOME/.gnupg" ]; then

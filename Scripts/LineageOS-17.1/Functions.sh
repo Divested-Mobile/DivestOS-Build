@@ -126,7 +126,7 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
 	source build/envsetup.sh;
-	repopick -i 287339; #releasetools: python3 fix
+	repopick -i 271361; #releasetools: python3 fix, 287339 (alt)
 	#repopick -it ten-firewall;
 	#repopick -it CVE-2019-2306;
 

@@ -74,6 +74,7 @@ buildAll() {
 	buildDevice osprey;
 	buildDevice himaul;
 	buildDevice Z00T;
+	buildDevice clark; #Last version with working IMS
 	buildDeviceUserDebug i9100;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		buildDevice flo;
@@ -94,7 +95,6 @@ buildAll() {
 		buildDevice shamu verity;
 		buildDevice bullhead verity;
 		buildDevice oneplus2;
-		buildDevice clark;
 		buildDevice ether;
 		buildDevice angler verity;
 		buildDevice kipper;

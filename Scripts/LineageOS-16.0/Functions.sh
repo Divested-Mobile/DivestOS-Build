@@ -70,14 +70,13 @@ buildAll() {
 	#Intel
 	buildDevice fugu; #broken - ninja: error: 'libpcre2.so' missing and no known rule to make it
 
-	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
+	buildDevice mako; #Last version without repartitioning required
+	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile #17.1 isn't booting
 	buildDevice dumpling verity;
 	buildDevice yellowstone; #broken sepolicy?
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		#SD410
 		buildDevice crackling;
-		#SDS4P
-		buildDevice mako;
 		#SD600
 		buildDevice jfltexx;
 		#SD800

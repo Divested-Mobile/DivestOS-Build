@@ -76,19 +76,6 @@
     <!-- Remote server that can provide NTP responses. -->
     <string translatable="false" name="config_ntpServer">1.android.pool.ntp.org</string>
 
-    <!-- MMS user agent string -->
-    <string name="config_mms_user_agent" translatable="false">Android-Mms/2.0</string>
-
-    <!-- MMS user agent prolfile url -->
-    <string name="config_mms_user_agent_profile_url" translatable="false">http://www.google.com/oha/rdf/ua-profile-kila.xml</string>
-
-    <!-- The URL that should be sent in an x-wap-profile header with an HTTP request,
-         as defined in the Open Mobile Alliance User Agent Profile specification
-         OMA-TS-UAProf-V2_0-20060206-A Section 8.1.1.1. If the URL contains a '%s'
-         format string then that substring will be replaced with the value of
-         Build.MODEL. The format string shall not be escaped. -->
-    <string name="config_useragentprofile_url" translatable="false"></string>
-
     <!-- The default journal mode to use use when Write-Ahead Logging is not active.
          Choices are: OFF, DELETE, TRUNCATE, PERSIST and MEMORY.
          PERSIST may improve performance by reducing how often journal blocks are
