@@ -152,7 +152,7 @@ git revert --no-edit 578a6c99e291f330786af204d9725abaed5a4a32; #hold off on Seed
 patch -p1 < "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove analytics
 
 enterAndClear "packages/apps/Trebuchet";
-cp $DOS_BUILD_BASE/vendor/divested/overlay/common/packages/apps/Trebuchet/res/xml/default_workspace_*.xml res/xml/; #TODO: Fix default workspace replacement
+cp $DOS_BUILD_BASE/vendor/divested/overlay/common/packages/apps/Trebuchet/res/xml/default_workspace_*.xml res/xml/; #XXX: Likely no longer needed
 
 enterAndClear "packages/apps/Updater";
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server
@@ -205,7 +205,6 @@ awk -i inplace '!/EtarPrebuilt/' packages.mk; #lineage-17.1 calendar is Etar for
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi;
 if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi;
 echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All of our kernels have deny USB patch added
-#TODO: Fix default wallpaper override
 #
 #END OF ROM CHANGES
 #
