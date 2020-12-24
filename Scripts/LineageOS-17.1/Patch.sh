@@ -288,9 +288,6 @@ enterAndClear "device/oppo/msm8974-common";
 sed -i 's/libinit_msm8974/libinit_msm8974-oppo/' BoardConfigCommon.mk init/Android.bp; #Fix name conflict
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
-enterAndClear "device/samsung/jf-common";
-sed -i 's/libqdi.so520afba19b0d10aa76c8c211db6bc3a063d44647/libqdi.so|520afba19b0d10aa76c8c211db6bc3a063d44647/' proprietary-files.txt; #Fixup fefcb055ed3a867719a52d232a3f72509400be1e
-
 enterAndClear "device/samsung/msm8974-common";
 echo "TARGET_RECOVERY_DENSITY := hdpi" >> BoardConfigCommon.mk;
 echo "allow hal_gnss_default ssr_device:chr_file { open read };" >> sepolicy/common/hal_gnss_default.te;
