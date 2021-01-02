@@ -499,7 +499,8 @@ echo "Deblobbing...";
 	#blobs=$blobs"|libadpcmdec.so|sound_trigger.primary.*.so|libgcs.*.so|libsmwrapper.so";
 	blobs=$blobs"|audiomonitor|qvop-daemon";
 	blobs=$blobs"|HotwordEnrollment.apk|HotwordEnrollment.*.apk";
-	blobs=$blobs"|aonvr1.bin|aonvr2.bin|es305_fw.bin";
+	blobs=$blobs"|es305_fw.bin";
+	#blobs=$blobs"|aonvr1.bin|aonvr2.bin"; #XXX: required by adspd, likely for more than VR
 	blobs=$blobs"|vendor.qti.voiceprint.*";
 	#makes=$makes"|android.hardware.soundtrigger.*|libsoundtriggerservice";
 	#makes=$makes"|sound_trigger_mixer_paths.xml|sound_trigger_platform_info.xml";
