@@ -67,12 +67,13 @@ buildAll() {
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
 	buildDevice flo; #Last version without repartitioning required
+	buildDevice mako; #testing
+	buildDevice hammerhead; #16.0 has bluetooth issues?
 	buildDevice shamu verity; #Last version with working IMS
 	buildDevice oneplus2; #Last version with working IMS + broken - needs vendor patching
 	buildDevice ether; #Last version with working IMS
 	buildDevice fugu;
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
-		buildDevice mako;
 		buildDevice crackling;
 		buildDevice d802;
 		buildDevice bacon;
@@ -80,7 +81,7 @@ buildAll() {
 		buildDevice d855;
 		buildDevice FP2;
 		buildDevice ham;
-		buildDevice hammerhead;
+
 		buildDevice klte;
 		buildDevice m8;
 		buildDevice victara;
