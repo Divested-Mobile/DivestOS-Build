@@ -108,6 +108,9 @@ if [ "$DOS_MICROG_INCLUDED" != "FULL" ]; then rm -rf packages/CompanionDeviceMan
 rm -rf packages/OsuLogin; #Automatic Wi-Fi connection non-sense
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
 
+enterAndClear "frameworks/minikin";
+git pull "https://github.com/LineageOS/android_frameworks_minikin" refs/changes/81/300181/1; #Q_asb_2021-01
+
 if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
 enterAndClear "frameworks/opt/net/ims";
 patch -p1 < "$DOS_PATCHES/android_frameworks_opt_net_ims/0001-Fix_Calling.patch"; #Fix calling when IMS is removed
@@ -175,6 +178,9 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_sys
 
 enterAndClear "system/extras";
 patch -p1 < "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #FBE: pad filenames more (GrapheneOS)
+
+enterAndClear "system/security";
+git pull "https://github.com/LineageOS/android_system_security" refs/changes/86/300186/1; #Q_asb_2021-01
 
 enterAndClear "system/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices
