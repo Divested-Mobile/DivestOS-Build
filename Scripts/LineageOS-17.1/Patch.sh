@@ -116,6 +116,29 @@ enterAndClear "frameworks/opt/net/ims";
 patch -p1 < "$DOS_PATCHES/android_frameworks_opt_net_ims/0001-Fix_Calling.patch"; #Fix calling when IMS is removed
 fi
 
+enterAndClear "hardware/qcom/display";
+git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8084.patch" --directory msm8084;
+git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8916.patch" --directory msm8226;
+git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8960.patch" --directory msm8960;
+git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8974.patch" --directory msm8974;
+git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8994.patch" --directory msm8994;
+#TODO: missing msm8909, msm8996, msm8998, sdm845, sdm8150
+
+enterAndClear "hardware/qcom-caf/apq8084/display";
+git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-apq8084.patch";
+
+enterAndClear "hardware/qcomcaf/msm8952/display";
+git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8952.patch";
+
+enterAndClear "hardware/qcomy-caf/msm8960/display";
+git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8960.patch";
+
+enterAndClear "hardware/qcom-caf/msm8974/display";
+git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8974.patch";
+
+enterAndClear "hardware/qcom-caf/msm8994/display";
+git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8994.patch";
+
 enterAndClear "hardware/qcom-caf/msm8996/audio";
 patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-8996.patch"; #audio_extn: Fix unused parameter warning in utils.c
 
@@ -223,7 +246,6 @@ enterAndClear "device/asus/flox";
 git revert --no-edit f638a192cbef0045b6235fdd8fe28ee500ff7527; #conflict
 compressRamdisks;
 rm -rf bdAddrLoader; #duplicate with mako
-echo "/dev/block/platform/msm_sdcc\.1/by-name/misc u:object_r:misc_block_device:s0" >> sepolicy/file_contexts;
 
 #enterAndClear "device/cyanogen/msm8916-common";
 #awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools

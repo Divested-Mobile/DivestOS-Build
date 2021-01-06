@@ -81,7 +81,6 @@ buildAll() {
 		buildDevice d855;
 		buildDevice FP2;
 		buildDevice ham;
-
 		buildDevice klte;
 		buildDevice m8;
 		buildDevice victara;
@@ -111,7 +110,8 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
+	repopick -it O_asb_2021-01;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 
