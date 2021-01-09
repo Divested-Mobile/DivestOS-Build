@@ -102,6 +102,7 @@ buildAll() {
 		buildDevice enchilada avb;
 		buildDeviceUserDebug i9100;
 		buildDevice starlte; #broken - device/samsung/universal9810-common/audio: MODULE.TARGET.SHARED_LIBRARIES.libshim_audio_32 already defined by device/samsung/star-common/audio
+		buildDevice star2lte;
 		buildDevice yellowstone;
 	fi;
 }
@@ -112,6 +113,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -it O_asb_2021-01;
+	repopick -it 300742; #update webview
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

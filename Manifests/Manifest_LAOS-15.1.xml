@@ -264,6 +264,9 @@
 	<project path="device/samsung/universal9810-common" name="LineageOS/android_device_samsung_universal9810-common" remote="github" />
 	<project path="kernel/samsung/universal9810" name="LineageOS/android_kernel_samsung_universal9810" remote="github" />
 
+	<!-- Samsung Galaxy S9+ (star2lte) -->
+	<project path="device/samsung/star2lte" name="LineageOS/android_device_samsung_star2lte" remote="github" />
+
 	<!-- Wileyfox Storm (kipper) -->
 	<project path="device/wileyfox/kipper" name="LineageOS/android_device_wileyfox_kipper" remote="github" />
 	<project path="device/cyanogen/msm8916-common" name="LineageOS/android_device_cyanogen_msm8916-common" remote="github" />

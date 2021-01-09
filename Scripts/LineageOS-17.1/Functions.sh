@@ -117,6 +117,7 @@ buildAll() {
 	buildDevice sargo avb;
 	#Exynos
 	buildDevice starlte;
+	buildDevice star2lte;
 	#Tegra
 	buildDevice yellowstone; #broken
 }
@@ -129,6 +130,7 @@ patchWorkspace() {
 	repopick -i 271361; #releasetools: python3 fix, 287339 (alt)
 	#repopick -it ten-firewall;
 	repopick -it Q_asb_2021-01;
+	repopick -it 300742; #update webview
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
