@@ -1,4 +1,4 @@
-#Last checked 2020/12/18
+#Last checked 2021/01/09
 CVE-2014-9028
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/fe03f73d86bb415f5d5145f0de091834d89ae3a9
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/5859ae22db0a2d16af3e3ca19d582de37daf5eb6
@@ -432,6 +432,8 @@ CVE-2016-5131
 	Link - external/libxml2 - https://android.googlesource.com/platform/external/libxml2/+/0eff71008becb7f2c2b4509708da4b79985948bb
 CVE-2016-5348
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/218b813d5bc2d7d3952ea1861c38b4aa944ac59b
+CVE-2016-6328
+	Link - external/libexif - https://android.googlesource.com/platform/external/libexif/+/8b37da24f362ac660917ae5415e1e4063724093c
 CVE-2016-6691
 	Link - opt/net/wifi - https://source.codeaurora.org/quic/la//platform/frameworks/opt/net/wifi/commit/?id=343f123c396b2a97fc7cce396cd5d99365cb9131
 CVE-2016-6704
@@ -1338,6 +1340,8 @@ CVE-2019-5018
 	Link - external/sqlite - https://android.googlesource.com/platform/external/sqlite/+/678cc662682a24c7c8505794fe5cc26407b646b9
 CVE-2019-8457
 	Link - external/sqlite - https://android.googlesource.com/platform/external/sqlite/+/678cc662682a24c7c8505794fe5cc26407b646b9
+CVE-2019-9376
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/32e85796389f57e2539c28f9e670277ab610459a
 CVE-2019-9460
 	Link - hardware/interfaces - https://android.googlesource.com/platform/hardware/interfaces/+/c88c624e2e7f5f683d6381a8d5c96e58b0a85cb7
 CVE-2019-9464
@@ -1987,6 +1991,8 @@ CVE-2020-0469
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/1a6f1fb402b96df561b9672aef1e4fce8a13de80
 CVE-2020-0470
 	Link - external/libaom - https://android.googlesource.com/platform/external/libaom/+/816f15265cb89a02d7ce4b657de277828e71a4b1
+CVE-2020-0471
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/ca6b0a211eb39ba85eed60ea740c85d1122fc6bc
 CVE-2020-0473
 	Link - packages/apps/Bluetooth - https://android.googlesource.com/platform/packages/apps/Bluetooth/+/3d3e4d5b1ff3d4530074c4d300d34de87a677652
 CVE-2020-0474
@@ -2070,6 +2076,8 @@ CVE-2020-12856
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/05243b881764136d3ca67b438d2e500d6f134f6a
 CVE-2020-15802
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/775a5e72b34b70ff92d61d8bcc47c6bde663f02e
+CVE-2020-15999
+	Link - external/freetype - https://android.googlesource.com/platform/external/freetype/+/358c238408a1fdc357d9afef6811369a7701e004
 CVE-2020-27021
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/721e323b2265d7ea60a94b54354d2c0eb09eaa44
 CVE-2020-27023
@@ -2145,5 +2153,45 @@ CVE-2020-27057
 	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/6ee546d8808d1645fcc8fc2dbca82740fd0ac569
 	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/b59a127bc6349b6c283df059a593500d0f90d654
 	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/29f8593e13f6d1af5223adb4ff3ad7f0eb39b4a0
+CVE-2020-27059
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/9588cd7de1f84a3ec8de273fb7d75921024189d8
+CVE-2021-0303
+	Link - packages/services/Car - https://android.googlesource.com/platform/packages/services/Car/+/768c8bfbe91db71e11eae2c57fb678ff2a5bf15e
+CVE-2021-0304
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/9f42cf00e94afc61eee1edbf5ecde11f6c38e37f
+CVE-2021-0306
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/03da463b2a94c36e3b46f0a110ec43710b82d404
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/c4ce178c261e6a2dc1aa4c1e1d570f0efd980e47
+CVE-2021-0307
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/a9f825922e1870575aeab11a2035903c217233c9
+CVE-2021-0308
+	Link - external/gptfdisk - https://android.googlesource.com/platform/external/gptfdisk/+/6d369451868ce71618144c4f4bd645ae48f0d1c5
+CVE-2021-0309
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/0b610a27ba60047842b9416dd0537c68f0dd22b2
+CVE-2021-0310
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/dc6cb05ebe2cefdce215d797a8e418ba26c8c86c
+CVE-2021-0311
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/8ea3bdb5ef11dad8e11a2c2cad34e91ad11657d0
+CVE-2021-0312
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/bb460899b97f260e7ed556b578318b1133335e1c
+CVE-2021-0313
+	Link - frameworks/minikin - https://android.googlesource.com/platform/frameworks/minikin/+/ffb33bcf2520208166cb29f47c60add9c0e37349
+CVE-2021-0315
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/828fe0b915f30e22fec03dc1ed2e66220ceebd3e
+CVE-2021-0316
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/f328ab46d5419632aec221f95b186ec71077176e
+CVE-2021-0317
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/c4ce178c261e6a2dc1aa4c1e1d570f0efd980e47
+CVE-2021-0318
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/adb416ac460cb28ca03e7898bdd154b1d0f8c16b
+CVE-2021-0319
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/0c17049d39b5a8867f030f6f36433564140e124a
+CVE-2021-0320
+	Link - system/security - https://android.googlesource.com/platform/system/security/+/33b83f6f3211358568894f48e2aa03c8851e11b7
+CVE-2021-0321
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b57d1409c52478d37f006145949be8b4591b9898
+CVE-2021-0322
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/a185996c829a159bb27446697329b01464ab3c03
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/e237a83f95767f669b83508bb1f594091cbd6bac
 CVE-0000-0000
 #The above line must be the last line

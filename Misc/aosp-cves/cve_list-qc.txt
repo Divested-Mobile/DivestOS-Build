@@ -1,4 +1,4 @@
-#Last checked 2020/12/10
+#Last checked 2021/01/09
 CVE-2015-0235
 	Link - https://source.codeaurora.org/quic/le//oe/recipes/commit/?id=6025569cb2a156bb6765dc14d66cb83f46a8c338
 CVE-2015-3847
@@ -229,5 +229,8 @@ CVE-2020-11183
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=2c23e58cd29cff24886737f07153e3b4ec659797
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=dbd64f80c844da584111c650cb03b140f8b71685
 	Link - hardware/qcom/display - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=0e10fd232c82987e507f5d745ffdf3dc99edeae3
+CVE-2020-11240
+	Link - https://source.codeaurora.org/quic/la/platform/vendor/opensource/camera-kernel/commit/?id=0e69194cd695a4f8da143c787ad37409e445ba43
+	Link - https://source.codeaurora.org/quic/la/platform/vendor/opensource/camera-kernel/commit/?id=2a26f41c30f96c9c05f3047997442394494040b4
 CVE-0000-0000
 #The above line must be the last line
