@@ -127,10 +127,10 @@ git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm89
 enterAndClear "hardware/qcom-caf/apq8084/display";
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-apq8084.patch";
 
-enterAndClear "hardware/qcomcaf/msm8952/display";
+enterAndClear "hardware/qcom-caf/msm8952/display";
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8952.patch";
 
-enterAndClear "hardware/qcomy-caf/msm8960/display";
+enterAndClear "hardware/qcom-caf/msm8960/display";
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8960.patch";
 
 enterAndClear "hardware/qcom-caf/msm8974/display";
