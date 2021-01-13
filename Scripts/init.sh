@@ -62,7 +62,6 @@ export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Set true to allow inclusion of non
 export DOS_OPTIMIZE_IMAGES=false; #Set true to apply lossless optimizations to image resources
 export DOS_OVERCLOCKS_ENABLED=false; #Set true to enable overclocks #XXX: Most devices have their processors directly under their RAM, heatsinking is mostly into the ground plane, potentially inflicting damage to RAM and the processor itself
 export DOS_STRONG_ENCRYPTION_ENABLED=false; #Set true to enable AES 256-bit FDE encryption on 14.1+15.1 XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
-export DOS_WIREGUARD_INCLUDED=false; #Set true to enable WireGuard kernel module inclusion for devices with kernel 3.10+
 
 #Servers
 export DOS_DEFAULT_DNS_PRESET="Cloudflare-BL"; #Sets default DNS. Options: See changeDefaultDNS() in Scripts/Common/Functions.sh

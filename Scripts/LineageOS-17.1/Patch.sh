@@ -145,13 +145,6 @@ patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-8996.patch"; #
 enterAndClear "hardware/qcom-caf/msm8998/audio";
 patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-8998.patch"; #audio_extn: Fix unused parameter warning in utils.c
 
-if enter "kernel/wireguard"; then
-if [ "$DOS_WIREGUARD_INCLUDED" = false ]; then rm Android.mk; fi;
-#Remove system information from HTTP requests
-awk -i inplace '!/USER_AGENT=/' fetch.sh;
-sed -i '3iUSER_AGENT="WireGuard-AndroidROMBuild/0.3"' fetch.sh;
-fi;
-
 enterAndClear "libcore";
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then patch -p1 < "$DOS_PATCHES/android_libcore/0001-Exec_Preload.patch"; fi; #add exec-based spawning support (GrapheneOS)
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then patch -p1 < "$DOS_PATCHES/android_libcore/0002-Exec_Based_Spawning.patch"; fi; #add exec-based spawning support (GrapheneOS)

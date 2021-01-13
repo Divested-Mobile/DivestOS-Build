@@ -151,13 +151,6 @@ git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm89
 enterAndClear "hardware/qcom/gps";
 git apply "$DOS_PATCHES/android_hardware_qcom_gps/0001-rollover.patch"; #fix week rollover
 
-if enter "kernel/wireguard"; then
-if [ "$DOS_WIREGUARD_INCLUDED" = false ]; then rm Android.mk; fi;
-#Remove system information from HTTP requests
-awk -i inplace '!/USER_AGENT=/' fetch.sh;
-sed -i '3iUSER_AGENT="WireGuard-AndroidROMBuild/0.23' fetch.sh;
-fi;
-
 enterAndClear "packages/apps/CMParts";
 rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of CMStats
 patch -p1 < "$DOS_PATCHES/android_packages_apps_CMParts/0001-Remove_Analytics.patch"; #Remove the rest of CMStats

@@ -149,13 +149,6 @@ git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm89
 enterAndClear "hardware/qcom/display-caf/msm8998";
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8998.patch";
 
-if enter "kernel/wireguard"; then
-if [ "$DOS_WIREGUARD_INCLUDED" = false ]; then rm Android.mk; fi;
-#Remove system information from HTTP requests
-awk -i inplace '!/USER_AGENT=/' fetch.sh;
-sed -i '3iUSER_AGENT="WireGuard-AndroidROMBuild/0.3"' fetch.sh;
-fi;
-
 enterAndClear "lineage-sdk";
 awk -i inplace '!/LineageWeatherManagerService/' lineage/res/res/values/config.xml; #Disable Weather
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi;
