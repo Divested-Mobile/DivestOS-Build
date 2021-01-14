@@ -129,9 +129,8 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	repopick -i 271361; #releasetools: python3 fix, 287339 (alt)
 	#repopick -it ten-firewall;
-	repopick -it Q_asb_2021-01;
-	repopick -i 300244 300245 300246 300247 300248 300249 300250 300260 300386 300387; #misc bt asb patches
 	repopick -it 300742; #update webview
+	repopick -it tzdb2020f_Q;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";

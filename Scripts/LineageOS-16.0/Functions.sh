@@ -132,7 +132,6 @@ patchWorkspace() {
 	repopick -it hh-p-sepolicy;
 	repopick -i 232948; #wahoo: liblight: close fd
 	#repopick -it pie-firewall;
-	repopick -it P_asb_2021-01;
 	repopick -it 300742; #update webview
 
 	source "$DOS_SCRIPTS/Patch.sh";
