@@ -69,10 +69,6 @@
 
 	<!-- GrapheneOS
 	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="master" />-->
-
-	<!-- WireGuard -->
-	<remote name="zx2c4" fetch="https://git.zx2c4.com/" />
-	<project name="android_kernel_wireguard" path="kernel/wireguard" remote="zx2c4" revision="master" sync-s="true" />
 <!-- END OF ADDITIONAL REPOS -->
 
 <!-- START OF DEVICE REPOS -->

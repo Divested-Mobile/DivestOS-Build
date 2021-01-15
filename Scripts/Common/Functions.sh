@@ -355,8 +355,8 @@ smallerSystem() {
 export -f smallerSystem;
 
 deblobAudio() {
-	awk -i inplace '!/BOARD_SUPPORTS_SOUND_TRIGGER/' hardware/qcom/audio-caf/*/configs/*/*.mk &>/dev/null || true;
-	awk -i inplace '!/android.hardware.soundtrigger/' hardware/qcom/audio-caf/*/configs/*/*.mk &>/dev/null || true;
+	#awk -i inplace '!/BOARD_SUPPORTS_SOUND_TRIGGER/' hardware/qcom/audio-caf/*/configs/*/*.mk &>/dev/null || true;
+	#awk -i inplace '!/android.hardware.soundtrigger/' hardware/qcom/audio-caf/*/configs/*/*.mk &>/dev/null || true;
 	awk -i inplace '!/DOLBY_/' hardware/qcom/audio-caf/*/configs/*/*.mk &>/dev/null || true;
 	#awk -i inplace '!/vendor.audio.dolby/' hardware/qcom/audio-caf/*/configs/*/*.mk &>/dev/null || true;
 }
@@ -374,12 +374,15 @@ volteOverride() {
 		if [ -f vendor.prop ] && ! grep -sq "volte_avail_ovr" "vendor.prop"; then
 			echo -e 'persist.dbg.volte_avail_ovr=1\npersist.dbg.vt_avail_ovr=1' >> vendor.prop;
 			echo "Set VoLTE override in vendor.prop for $1";
+		elif [ -f system.prop ] && ! grep -sq "volte_avail_ovr" "system.prop"; then
+			echo -e 'persist.dbg.volte_avail_ovr=1\npersist.dbg.vt_avail_ovr=1' >> system.prop;
+			echo "Set VoLTE override in system.prop for $1";
 		fi;
 		if [ -f vendor_prop.mk ] && ! grep -sq "volte_avail_ovr" "vendor_prop.mk"; then
 			echo -e '\nPRODUCT_PROPERTY_OVERRIDES += \\\n    persist.dbg.volte_avail_ovr=1 \\\n    persist.dbg.vt_avail_ovr=1' >> vendor_prop.mk;
 			echo "Set VoLTE override in vendor_prop.mk for $1";
 		fi;
-		#TODO: system.prop, init/init*.cpp, device*.mk
+		#TODO: init/init*.cpp, device*.mk
 	fi;
 	cd "$DOS_BUILD_BASE";
 }

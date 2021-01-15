@@ -579,9 +579,9 @@ deblobDevice() {
 	if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig*.mk &>/dev/null || true; fi; #Disable CNE
 	sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig*.mk &>/dev/null || true; #Disable WiPower
 	sed -i 's/TARGET_HAS_HDR_DISPLAY := true/TARGET_HAS_HDR_DISPLAY := false/' BoardConfig*.mk &>/dev/null || true; #Disable HDR
-	sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER := true/BOARD_SUPPORTS_SOUND_TRIGGER := false/' BoardConfig*.mk &>/dev/null || true; #Disable Sound Trigger
-	sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER_HAL := true/BOARD_SUPPORTS_SOUND_TRIGGER_HAL := false/' BoardConfig*.mk &>/dev/null || true;
-	sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER_5514 := true/BOARD_SUPPORTS_SOUND_TRIGGER_5514 := false/' BoardConfig*.mk &>/dev/null || true;
+	#sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER := true/BOARD_SUPPORTS_SOUND_TRIGGER := false/' BoardConfig*.mk &>/dev/null || true; #Disable Sound Trigger
+	#sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER_HAL := true/BOARD_SUPPORTS_SOUND_TRIGGER_HAL := false/' BoardConfig*.mk &>/dev/null || true;
+	#sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER_5514 := true/BOARD_SUPPORTS_SOUND_TRIGGER_5514 := false/' BoardConfig*.mk &>/dev/null || true;
 	sed -i 's/AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true/AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := false/' BoardConfig*.mk &>/dev/null || true; #Disable Dolby
 	sed -i 's/BOARD_ANT_WIRELESS_DEVICE := true/BOARD_ANT_WIRELESS_DEVICE := false/' BoardConfig*.mk &>/dev/null || true; #Disable ANT
 	awk -i inplace '!/BOARD_ANT_WIRELESS_DEVICE/' BoardConfig*.mk &>/dev/null || true;
