@@ -320,6 +320,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16912/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16913/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16914/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16994/3.18/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16995/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-17450/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-17558/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-17741/3.18/0008.patch
@@ -683,6 +684,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28915/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28974/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29371/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29661/3.18/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-35508/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0003-tunnels-Don-t-apply-GRO-to-multiple-layers-of-encaps.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0004-net-add-recursion-limit-to-GRO.patch
@@ -696,5 +698,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7542/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5897/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/3.18/0003.patch
-editKernelLocalversion "-dos.p696"
+editKernelLocalversion "-dos.p698"
 cd "$DOS_BUILD_BASE"
