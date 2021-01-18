@@ -200,6 +200,9 @@ patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --direct
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/26.0";
 awk -i inplace '!/true cannot be used in user builds/' Android.mk; #Allow ignoring neverallows under -user
 
+enterAndClear "system/update_engine";
+git revert --no-edit c68499e3ff10f2a31f913e14f66aafb4ed94d42d; #Do not skip payload signature verification
+
 enterAndClear "vendor/lineage";
 git revert --no-edit f16956ab7a08c4ff79892bc2ce90dd7ac2976a38; #hold off on Seedvault for now
 rm build/target/product/security/lineage.x509.pem;
