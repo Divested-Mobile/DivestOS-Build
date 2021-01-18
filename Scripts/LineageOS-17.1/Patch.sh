@@ -136,11 +136,11 @@ git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm89
 enterAndClear "hardware/qcom-caf/msm8994/display";
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8994.patch";
 
-#enterAndClear "hardware/qcom-caf/msm8996/audio";
-#patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-8996.patch"; #audio_extn: Fix unused parameter warning in utils.c
+enterAndClear "hardware/qcom-caf/msm8996/audio";
+patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-8996.patch"; #audio_extn: Fix unused parameter warning in utils.c
 
-#enterAndClear "hardware/qcom-caf/msm8998/audio";
-#patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-8998.patch"; #audio_extn: Fix unused parameter warning in utils.c
+enterAndClear "hardware/qcom-caf/msm8998/audio";
+patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-8998.patch"; #audio_extn: Fix unused parameter warning in utils.c
 
 enterAndClear "libcore";
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then patch -p1 < "$DOS_PATCHES/android_libcore/0001-Exec_Preload.patch"; fi; #add exec-based spawning support (GrapheneOS)

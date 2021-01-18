@@ -355,8 +355,8 @@ smallerSystem() {
 export -f smallerSystem;
 
 deblobAudio() {
-	#awk -i inplace '!/BOARD_SUPPORTS_SOUND_TRIGGER/' hardware/qcom/audio-caf/*/configs/*/*.mk &>/dev/null || true;
-	#awk -i inplace '!/android.hardware.soundtrigger/' hardware/qcom/audio-caf/*/configs/*/*.mk &>/dev/null || true;
+	awk -i inplace '!/BOARD_SUPPORTS_SOUND_TRIGGER/' hardware/qcom/audio-caf/*/configs/*/*.mk &>/dev/null || true;
+	awk -i inplace '!/android.hardware.soundtrigger/' hardware/qcom/audio-caf/*/configs/*/*.mk &>/dev/null || true;
 	awk -i inplace '!/DOLBY_/' hardware/qcom/audio-caf/*/configs/*/*.mk &>/dev/null || true;
 	#awk -i inplace '!/vendor.audio.dolby/' hardware/qcom/audio-caf/*/configs/*/*.mk &>/dev/null || true;
 }
