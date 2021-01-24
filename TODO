@@ -1,4 +1,4 @@
-Last updated: 2020-10-12
+Last updated: 2021-01-20
 
 High Priority
 	Website
@@ -13,12 +13,10 @@ Medium Priority
 		- Facelift of Hypatia
 		- Various other branding (logo, snazzy bootanimation, setupwizard, etc.)
 	Project
-		- Create various XMPP conference rooms
 		- Database verification in Hypatia
 		- More cryptocurrency addresses
 	Servers
 		- Dedicated build server
-		- ejabberd for a chat room
 	Website
 		- Update cryptocurrency addresses
 
@@ -35,20 +33,20 @@ Low Priority
 
 Longterm
 	Build
-		- Add automated testing/verification of edits
+		- Add automated testing/verification (of edits)
 		- Consider rewriting various utilities in more suitable languages
 		- Switch to AOSP and create clean trees for all of the major devices
 	Linux Patches
 		- Automate pulling of CVE patches from Android and Qualcomm bulletins
-		- Get more CVE patches
+		- Get (even) more CVE patches
 		- Investigate rebasing kernel trees on newer CAF ones
 		- Proper backports of CVE patches
 		- Proper backports of security features
 	Project
 		- Create an Mobile Device Manager solution
-		- Create our own device (free hardware, isolated modem, kernel 5.4+, etc.)
+		- Create our own device (free hardware, isolated modem, kernel 5.10+, etc.)
 		- General auditing of everything
-		- Partner with various projects
+		- Collaborate with various projects
 		- Purchase one of each supported device
 	Website
 		- Create a 'Video Tutorials' page
