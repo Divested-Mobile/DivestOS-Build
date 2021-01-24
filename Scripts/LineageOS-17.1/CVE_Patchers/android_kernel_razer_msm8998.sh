@@ -58,6 +58,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29568/4.4/0018.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29568/4.4/0019.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29568/4.4/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29661/4.4/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3178/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.4/0004.patch
-editKernelLocalversion "-dos.p59"
+editKernelLocalversion "-dos.p60"
 cd "$DOS_BUILD_BASE"

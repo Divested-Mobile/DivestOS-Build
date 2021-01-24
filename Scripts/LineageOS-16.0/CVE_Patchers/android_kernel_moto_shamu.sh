@@ -16,17 +16,20 @@ git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0015.pat
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0017.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/3.10/0018.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-2898/^3.11/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-2891/3.10/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-2891/^3.11/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-2898/3.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-4129/^3.10.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-4129/^3.10.3/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-4470/^3.12/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9730/^3.18.2/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-8480/^3.18/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9728/^3.18.2/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-1339/^4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-1420/3.2-^3.19.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-4170/3.10-^3.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-4177/^4.0.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-5307/^4.2.6/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-6937/^4.2.3/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-6937/3.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-7515/^4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-8215/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-8553/ANY/0001.patch
@@ -156,10 +159,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25669/^5.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27815/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28974/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29371/^5.9/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3178/^5.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/^5.2.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p161"
+editKernelLocalversion "-dos.p165"
 cd "$DOS_BUILD_BASE"
