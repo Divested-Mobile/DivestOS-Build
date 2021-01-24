@@ -35,18 +35,21 @@ scanWorkspaceForMalware() {
 export -f scanWorkspaceForMalware;
 
 buildDevice() {
+	cd "$DOS_BUILD_BASE";
 	export OTA_PACKAGE_SIGNING_KEY="$DOS_SIGNING_KEYS/$1/releasekey";
 	brunch "cm_$1-user" && processRelease $1 false;
 }
 export -f buildDevice;
 
 buildDeviceDebug() {
+	cd "$DOS_BUILD_BASE";
 	unset OTA_PACKAGE_SIGNING_KEY;
 	brunch "cm_$1-eng";
 }
 export -f buildDeviceDebug;
 
 buildAll() {
+	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	brunch lineage_nex-user && processRelease nex false; #broken encryption

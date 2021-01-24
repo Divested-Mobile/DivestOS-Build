@@ -35,24 +35,28 @@ scanWorkspaceForMalware() {
 export -f scanWorkspaceForMalware;
 
 buildDevice() {
+	cd "$DOS_BUILD_BASE";
 	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
 	brunch "lineage_$1-user" && processRelease $1 true $2;
 }
 export -f buildDevice;
 
 buildDeviceUserDebug() {
+	cd "$DOS_BUILD_BASE";
 	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
 	brunch "lineage_$1-userdebug" && processRelease $1 true $2;
 }
 export -f buildDeviceUserDebug;
 
 buildDeviceDebug() {
+	cd "$DOS_BUILD_BASE";
 	unset OTA_KEY_OVERRIDE_DIR;
 	brunch "lineage_$1-eng";
 }
 export -f buildDeviceDebug;
 
 buildAll() {
+	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#Select devices are userdebug due to SELinux policy issues
@@ -121,7 +125,6 @@ patchWorkspace() {
 	repopick -it n_asb_09-2018-qcom;
 	#repopick -it bt-sbc-hd-dualchannel-nougat;
 	repopick -it n-asb-2021-01;
-	repopick -it 302271; #update webview
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

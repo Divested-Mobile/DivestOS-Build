@@ -35,24 +35,28 @@ scanWorkspaceForMalware() {
 export -f scanWorkspaceForMalware;
 
 buildDevice() {
+	cd "$DOS_BUILD_BASE";
 	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
 	brunch "lineage_$1-user" && processRelease $1 true $2;
 }
 export -f buildDevice;
 
 buildDeviceUserDebug() {
+	cd "$DOS_BUILD_BASE";
 	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
 	brunch "lineage_$1-userdebug" && processRelease $1 true $2;
 }
 export -f buildDeviceUserDebug;
 
 buildDeviceDebug() {
+	cd "$DOS_BUILD_BASE";
 	unset OTA_KEY_OVERRIDE_DIR;
 	brunch "lineage_$1-eng";
 }
 export -f buildDeviceDebug;
 
 buildAll() {
+	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SDS4P
@@ -128,11 +132,10 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	source build/envsetup.sh;
+	#source build/envsetup.sh;
 	repopick -it hh-p-sepolicy;
 	repopick -i 232948; #wahoo: liblight: close fd
 	#repopick -it pie-firewall;
-	repopick -it 302271; #update webview
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
