@@ -136,6 +136,7 @@ patchWorkspace() {
 	repopick -it hh-p-sepolicy;
 	repopick -i 232948; #wahoo: liblight: close fd
 	#repopick -it pie-firewall;
+	repopick -it tzdb2020f_P;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";

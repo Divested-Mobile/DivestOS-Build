@@ -619,10 +619,12 @@ deblobDevice() {
 	sed -i 's/bt.enableAptXHD=true/bt.enableAptXHD=false/' *.prop *.mk &>/dev/null || true; #Disable aptX
 	if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i 's/cne.feature=./cne.feature=0/' *.prop *.mk &>/dev/null || true; fi; #Disable CNE
 	sed -i 's/dpm.feature=./dpm.feature=0/' *.prop *.mk &>/dev/null || true; #Disable DPM
+	sed -i 's/dpm.feature=11/dpm.feature=0/' *.prop *.mk &>/dev/null || true; #Disable DPM
 	sed -i 's/gps.qc_nlp_in_use=./gps.qc_nlp_in_use=0/' *.prop *.mk &>/dev/null || true; #Disable QC Location Provider
 	sed -i 's/sys.dpmd.nsrm=./sys.dpmd.nsrm=0/' *.prop *.mk &>/dev/null || true; #Disable DPM
 	sed -i 's/bluetooth.emb_wp_mode=true/bluetooth.emb_wp_mode=false/' *.prop *.mk &>/dev/null || true; #Disable WiPower
 	sed -i 's/bluetooth.wipower=true/bluetooth.wipower=false/' *.prop *.mk &>/dev/null || true; #Disable WiPower
+	sed -i 's/wfd.enable=1/wfd.enable=0/' *.prop *.mk &>/dev/null || true; #Disable Wi-Fi display
 	if [ -f system.prop ]; then
 		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
 		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then

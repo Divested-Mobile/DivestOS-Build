@@ -682,6 +682,7 @@ hardenDefconfig() {
 		#optionsNo+=("DIAG_CHAR" "DIAG_OVER_USB" "USB_QCOM_DIAG_BRIDGE" "DIAGFWD_BRIDGE_CODE" "DIAG_SDIO_PIPE" "DIAG_HSIC_PIPE");
 	#fi;
 	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then optionsNo+=("IPA" "RMNET_IPA"); fi;
+	optionsNo+=("WIREGUARD"); #Requires root access, which we do not provide
 	for option in "${optionsNo[@]}"
 	do
 		sed -i 's/'"CONFIG_$option"'=y/# '"CONFIG_$option"' is not set/' $defconfigPath &>/dev/null || true;
