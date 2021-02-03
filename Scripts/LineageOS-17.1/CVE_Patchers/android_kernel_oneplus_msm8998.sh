@@ -2,6 +2,7 @@
 cd "$DOS_BUILD_BASE""kernel/oneplus/msm8998"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0233-0234.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0242-0243.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0251-0252.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0002.patch
@@ -174,6 +175,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27067/4.4/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27067/4.4/0030.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27068/4.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27815/4.4/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27825/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28915/4.4/0013.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28915/4.4/0014.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28915/4.4/0015.patch
@@ -184,6 +186,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29568/4.4/0017.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29568/4.4/0018.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29568/4.4/0019.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29568/4.4/0020.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29569/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29661/4.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-35508/4.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-36158/4.4/0004.patch
@@ -191,5 +194,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-UNKNOWN/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3178/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0429/4.4/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.4/0004.patch
-editKernelLocalversion "-dos.p191"
+editKernelLocalversion "-dos.p194"
 cd "$DOS_BUILD_BASE"

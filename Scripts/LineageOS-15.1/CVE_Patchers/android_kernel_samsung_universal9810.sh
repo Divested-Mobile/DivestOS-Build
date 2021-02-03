@@ -8,6 +8,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0168-0169.patch
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0181-0182.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0183-0184.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0242-0243.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0251-0252.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0005-Graphene-Deny_USB/4.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0020.patch
@@ -355,6 +356,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27067/ANY/0024.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27068/4.9/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27786/4.9/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27815/4.9/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27825/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28915/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28915/4.9/0017.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28915/4.9/0018.patch
@@ -376,5 +378,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3178/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/4.9/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/4.9/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.9/0005.patch
-editKernelLocalversion "-dos.p376"
+editKernelLocalversion "-dos.p378"
 cd "$DOS_BUILD_BASE"
