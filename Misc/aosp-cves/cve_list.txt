@@ -1,4 +1,4 @@
-#Last checked 2021/01/09
+#Last checked 2021/02/03
 CVE-2014-9028
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/fe03f73d86bb415f5d5145f0de091834d89ae3a9
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/5859ae22db0a2d16af3e3ca19d582de37daf5eb6
@@ -2155,10 +2155,16 @@ CVE-2020-27057
 	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/29f8593e13f6d1af5223adb4ff3ad7f0eb39b4a0
 CVE-2020-27059
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/9588cd7de1f84a3ec8de273fb7d75921024189d8
+CVE-2021-0302
+	Link - packages/apps/PackageInstaller - https://android.googlesource.com/platform/packages/apps/PackageInstaller/+/8c5b4cd30a77733dd1012725b69d2089f78455ac
 CVE-2021-0303
 	Link - packages/services/Car - https://android.googlesource.com/platform/packages/services/Car/+/768c8bfbe91db71e11eae2c57fb678ff2a5bf15e
 CVE-2021-0304
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/9f42cf00e94afc61eee1edbf5ecde11f6c38e37f
+CVE-2021-0305
+	Link - packages/apps/PackageInstaller - https://android.googlesource.com/platform/packages/apps/PackageInstaller/+/8c5b4cd30a77733dd1012725b69d2089f78455ac
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/4794b798c427c53a9d0f8c608c367a3e6469ed5f
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/7359b3840f06ef75c70d75a5708011fef25a2bab
 CVE-2021-0306
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/03da463b2a94c36e3b46f0a110ec43710b82d404
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/c4ce178c261e6a2dc1aa4c1e1d570f0efd980e47
@@ -2176,6 +2182,8 @@ CVE-2021-0312
 	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/bb460899b97f260e7ed556b578318b1133335e1c
 CVE-2021-0313
 	Link - frameworks/minikin - https://android.googlesource.com/platform/frameworks/minikin/+/ffb33bcf2520208166cb29f47c60add9c0e37349
+CVE-2021-0314
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/90cfe17643aa4ecbe7cbfb1c787217456f764e08
 CVE-2021-0315
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/828fe0b915f30e22fec03dc1ed2e66220ceebd3e
 CVE-2021-0316
@@ -2193,5 +2201,44 @@ CVE-2021-0321
 CVE-2021-0322
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/a185996c829a159bb27446697329b01464ab3c03
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/e237a83f95767f669b83508bb1f594091cbd6bac
+CVE-2021-0325
+	Link - external/libavc - https://android.googlesource.com/platform/external/libavc/+/fd7e28588f149c1683c4f7a0a1c543f51b1cd41a
+CVE-2021-0326
+	Link - external/wpa_supplicant_8 - https://android.googlesource.com/platform/external/wpa_supplicant_8/+/0b60cb210510c68871c8d735285bc4915de3bd80
+CVE-2021-0327
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/69eaa90b0e4cc78fa2f518a50182bc9e4c9e87f3
+CVE-2021-0328
+	Link - packages/apps/Bluetooth - https://android.googlesource.com/platform/packages/apps/Bluetooth/+/6f7f9bbf46acaaf266537256da4d0345909ea1c4
+CVE-2021-0329
+	Link - packages/apps/Bluetooth - https://android.googlesource.com/platform/packages/apps/Bluetooth/+/59d7c52d0b3872e6a01e47a50772952140debbaa
+CVE-2021-0330
+	Link - system/core - https://android.googlesource.com/platform/system/core/+/79fc288f10814d5862a2320d0e0732040a4823fe
+CVE-2021-0331
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/8cef97cb2bb8a728e5f70644accad1a3306c6d38
+CVE-2021-0332
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/dc057e52f571ca88f037a4501bf666c9eeffde23
+CVE-2021-0333
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/763a4d5967503fc46e0759d5e68cc8fbdc02325f
+CVE-2021-0334
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/251dfbee7fb5986c7e93362556ea556785e4d0e4
+CVE-2021-0335
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/5fe4a516e5f194b03153a9f544b4f79da18c46d0
+CVE-2021-0336
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/f065b8743377f62d6d0dc99da24ac034314dae1f
+CVE-2021-0337
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/5afa7645579a01b77005b8a60f3713ca3e653fba
+CVE-2021-0338
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/41484bba25aa9f658dcc0880f5c060eb92709907
+CVE-2021-0339
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/36bcc77337814d4d36e2b10eb062ac417d91611e
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/4236b3e88fe444e2fbec7aa564fccf8b57c071dd
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/6de34f8ee714691dbc3c089245bf832006826ebe
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/8669ef385780b8415412407deec85539a1e7db98
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/ee11625bb707c3512d4e44a35cc85b0bd14a2478
+CVE-2021-0340
+	Link - packages/providers/MediaProvider - https://android.googlesource.com/platform/packages/providers/MediaProvider/+/f44d9bc12acec4e7ad42b441817a99bd2223d062
+CVE-2021-0341
+	Link - external/okhttp - https://android.googlesource.com/platform/external/okhttp/+/ddc934efe3ed06ce34f3724d41cfbdcd7e7358fc
+	Link - libcore - https://android.googlesource.com/platform/libcore/+/4076be9a99bad5ff7651540df976c57462c3b8ce
 CVE-0000-0000
 #The above line must be the last line
