@@ -79,7 +79,10 @@ enterAndClear "device/qcom/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
 
 enterAndClear "external/chromium-webview";
-git fetch "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/71/302271/1 && git checkout FETCH_HEAD; #update webview
+git fetch "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/71/302271/2 && git checkout FETCH_HEAD; #update webview
+
+enterAndClear "external/okhttp";
+git fetch "https://github.com/LineageOS/android_external_okhttp" refs/changes/47/303347/1 && git cherry-pick FETCH_HEAD; #O_asb_2021-02
 
 enterAndClear "external/svox";
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
@@ -148,6 +151,9 @@ git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm89
 
 enterAndClear "hardware/qcom/gps";
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_gps/0001-rollover.patch"; #fix week rollover
+
+enterAndClear "libcore";
+git fetch "https://github.com/LineageOS/android_libcore" refs/changes/53/303353/1 && git cherry-pick FETCH_HEAD; #O_asb_2021-02
 
 enterAndClear "lineage-sdk";
 awk -i inplace '!/WeatherManagerServiceBroker/' lineage/res/res/values/config.xml; #Disable Weather

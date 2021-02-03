@@ -76,13 +76,22 @@ patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.pa
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
 
 enterAndClear "external/chromium-webview";
-git fetch "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/71/302271/1 && git checkout FETCH_HEAD; #update webview
+git fetch "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/71/302271/2 && git checkout FETCH_HEAD; #update webview
+
+enterAndClear "external/libavc";
+git fetch "https://github.com/LineageOS/android_external_libavc" refs/changes/75/303275/1 && git cherry-pick FETCH_HEAD; #Q_asb_2021-02
+
+enterAndClear "external/okhttp";
+git fetch "https://github.com/LineageOS/android_external_okhttp" refs/changes/98/303298/2 && git cherry-pick FETCH_HEAD; #Q_asb_2021-02
 
 enterAndClear "external/svox";
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 sed -i '12iLOCAL_SDK_VERSION := current' pico/Android.mk; #Fix build under Pie
 sed -i 's/about to delete/unable to delete/' pico/src/com/svox/pico/LangPackUninstaller.java;
 awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.java;
+
+enterAndClear "external/wpa_supplicant_8";
+git fetch "https://github.com/LineageOS/android_external_wpa_supplicant_8" refs/changes/99/303299/1 && git cherry-pick FETCH_HEAD; #Q_asb_2021-02
 
 enterAndClear "frameworks/av";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_av/0001-HM_A2DP_Fix.patch"; fi; #(GrapheneOS)
@@ -146,6 +155,7 @@ enterAndClear "hardware/qcom-caf/msm8998/audio";
 patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-8998.patch"; #audio_extn: Fix unused parameter warning in utils.c
 
 enterAndClear "libcore";
+git fetch "https://github.com/LineageOS/android_libcore" refs/changes/06/303306/1 && git cherry-pick FETCH_HEAD; #Q_asb_2021-02
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then patch -p1 < "$DOS_PATCHES/android_libcore/0001-Exec_Preload.patch"; fi; #add exec-based spawning support (GrapheneOS)
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then patch -p1 < "$DOS_PATCHES/android_libcore/0002-Exec_Based_Spawning.patch"; fi; #add exec-based spawning support (GrapheneOS)
 

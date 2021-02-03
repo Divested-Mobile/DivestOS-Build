@@ -35,3 +35,6 @@ CVE-2016-0525 -> CVE-2017-0525
 
 https://nvd.nist.gov/vuln/detail/CVE-2020-3625
 https://nvd.nist.gov/vuln/detail/CVE-2020-0423
+CVE-2020-11277
+CVE-2020-11147
+CVE-2020-11223

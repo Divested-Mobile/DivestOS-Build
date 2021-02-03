@@ -117,6 +117,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -it tzdb2020f_O;
+	repopick -it O_asb_2021-02;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 
