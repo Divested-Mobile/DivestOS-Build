@@ -77,9 +77,6 @@ enterAndClear "device/qcom/sepolicy-legacy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
 
-enterAndClear "external/chromium-webview";
-git fetch "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/71/302271/2 && git checkout FETCH_HEAD; #update webview
-
 enterAndClear "external/okhttp";
 git fetch "https://github.com/LineageOS/android_external_okhttp" refs/changes/26/303326/1 && git cherry-pick FETCH_HEAD; #P_asb_2021-02
 
