@@ -77,17 +77,11 @@ enterAndClear "device/qcom/sepolicy-legacy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
 
-enterAndClear "external/okhttp";
-git fetch "https://github.com/LineageOS/android_external_okhttp" refs/changes/26/303326/1 && git cherry-pick FETCH_HEAD; #P_asb_2021-02
-
 enterAndClear "external/svox";
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 sed -i '12iLOCAL_SDK_VERSION := current' pico/Android.mk; #Fix build under Pie
 sed -i 's/about to delete/unable to delete/' pico/src/com/svox/pico/LangPackUninstaller.java;
 awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.java;
-
-enterAndClear "external/wpa_supplicant_8";
-git fetch "https://github.com/LineageOS/android_external_wpa_supplicant_8" refs/changes/27/303327/1 && git cherry-pick FETCH_HEAD; #P_asb_2021-02
 
 enterAndClear "frameworks/av";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; fi; #(GrapheneOS)
@@ -151,9 +145,6 @@ git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm89
 
 enterAndClear "hardware/qcom/display-caf/msm8998";
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8998.patch";
-
-enterAndClear "libcore";
-git fetch "https://github.com/LineageOS/android_libcore" refs/changes/33/303333/1 && git cherry-pick FETCH_HEAD; #P_asb_2021-02
 
 enterAndClear "lineage-sdk";
 awk -i inplace '!/LineageWeatherManagerService/' lineage/res/res/values/config.xml; #Disable Weather

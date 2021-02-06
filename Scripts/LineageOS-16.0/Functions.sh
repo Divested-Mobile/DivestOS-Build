@@ -136,7 +136,6 @@ patchWorkspace() {
 	#repopick -it pie-firewall;
 	repopick -it tzdb2020f_P;
 	repopick -it tzdb2021a_P;
-	repopick -it P_asb_2021-02;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
