@@ -1,0 +1,46 @@
+From 0cf201d4e94528a997efc74e8937d3950d8c9ed9 Mon Sep 17 00:00:00 2001
+From: Cheney Ni <cheneyni@google.com>
+Date: Fri, 23 Aug 2019 23:05:19 +0800
+Subject: [PATCH] AdapterService: Check the PIN code length before using
+
+The length is assigned by the framework. We should be better to check
+again before using, and dropped any unexcepted input.
+
+Bug: 139287605
+Test: PoC, atest -t BluetoothInstrumentationTests:com.android.bluetooth.btservice
+Change-Id: Ie2dd01e0b192e7ed1fe4b464618ddfa415dbf15c
+(cherry picked from commit d6c84aa34962333448e0ed8e4ddbc9de8b73c5ac)
+---
+ .../android/bluetooth/btservice/AdapterService.java  | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/src/com/android/bluetooth/btservice/AdapterService.java b/src/com/android/bluetooth/btservice/AdapterService.java
+index a6d0b1cb2..0e4845f71 100644
+--- a/src/com/android/bluetooth/btservice/AdapterService.java
++++ b/src/com/android/bluetooth/btservice/AdapterService.java
+@@ -1457,6 +1457,12 @@ boolean setPin(BluetoothDevice device, boolean accept, int len, byte[] pinCode)
+             return false;
+         }
+ 
++        if (pinCode.length != len) {
++            android.util.EventLog.writeEvent(0x534e4554, "139287605", -1,
++                    "PIN code length mismatch");
++            return false;
++        }
++
+         byte[] addr = Utils.getBytesFromAddress(device.getAddress());
+         return pinReplyNative(addr, accept, len, pinCode);
+     }
+@@ -1468,6 +1474,12 @@ boolean setPasskey(BluetoothDevice device, boolean accept, int len, byte[] passk
+             return false;
+         }
+ 
++        if (passkey.length != len) {
++            android.util.EventLog.writeEvent(0x534e4554, "139287605", -1,
++                    "Passkey length mismatch");
++            return false;
++        }
++
+         byte[] addr = Utils.getBytesFromAddress(device.getAddress());
+         return sspReplyNative(addr, AbstractionLayer.BT_SSP_VARIANT_PASSKEY_ENTRY, accept,
+                 Utils.byteArrayToInt(passkey));

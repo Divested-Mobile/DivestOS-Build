@@ -1,0 +1,40 @@
+From 1ce50d3b7dc2658354a878a8c7291bd115f63632 Mon Sep 17 00:00:00 2001
+From: Marco Nelissen <marcone@google.com>
+Date: Tue, 23 Jul 2019 08:27:46 -0700
+Subject: [PATCH] Fix OOB access in mpeg4/h263 decoder
+
+The decoder does not support an increase in frame width, and
+would exceed its buffer if the width increased mid-stream.
+There was an existing check to prevent the total frame size
+(width*height) from increasing, but in fact the decoder also
+does not even support a width increase, even if the height
+decreases correspondingly.
+
+Bug: 136175447
+Bug: 136173699
+Test: manual
+Change-Id: Ic2d28bb0503635dadeb69ba3be9412d58684e910
+(cherry picked from commit ef4ce157000b2b5bcbf2bcb36a228ec604803547)
+---
+ media/libstagefright/codecs/m4v_h263/dec/src/vop.cpp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/media/libstagefright/codecs/m4v_h263/dec/src/vop.cpp b/media/libstagefright/codecs/m4v_h263/dec/src/vop.cpp
+index 56ade8f920..f4c51ae7a6 100644
+--- a/media/libstagefright/codecs/m4v_h263/dec/src/vop.cpp
++++ b/media/libstagefright/codecs/m4v_h263/dec/src/vop.cpp
+@@ -1351,6 +1351,14 @@ PV_STATUS DecodeShortHeader(VideoDecData *video, Vop *currVop)
+             int tmpHeight = (tmpDisplayHeight + 15) & -16;
+             int tmpWidth = (tmpDisplayWidth + 15) & -16;
+ 
++            if (tmpWidth > video->width)
++            {
++                // while allowed by the spec, this decoder does not actually
++                // support an increase in size.
++                ALOGE("width increase not supported");
++                status = PV_FAIL;
++                goto return_point;
++            }
+             if (tmpHeight * tmpWidth > video->size)
+             {
+                 // This is just possibly "b/37079296".

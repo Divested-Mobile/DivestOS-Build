@@ -1,0 +1,47 @@
+From 414b324868ebcd0fb4d213e7951cd2e82a3eee3a Mon Sep 17 00:00:00 2001
+From: George Chang <georgekgchang@google.com>
+Date: Thu, 6 Jun 2019 19:07:54 +0800
+Subject: [PATCH] Prevent integer overflow in NDEF_MsgValidate
+
+Bug: 126200054
+Test: Read a Ndef Tag
+Change-Id: I156047fa8b6219a4d4d269f7ca720f9a0ee55e17
+---
+ src/nfc/ndef/ndef_utils.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/src/nfc/ndef/ndef_utils.c b/src/nfc/ndef/ndef_utils.c
+index 9d44526..8b73c70 100644
+--- a/src/nfc/ndef/ndef_utils.c
++++ b/src/nfc/ndef/ndef_utils.c
+@@ -24,6 +24,7 @@
+  *
+  ******************************************************************************/
+ #include <string.h>
++#include <log/log.h>
+ #include "ndef_utils.h"
+ 
+ /*******************************************************************************
+@@ -80,6 +81,7 @@ tNDEF_STATUS NDEF_MsgValidate (UINT8 *p_msg, UINT32 msg_len, BOOLEAN b_allow_chu
+ {
+     UINT8   *p_rec = p_msg;
+     UINT8   *p_end = p_msg + msg_len;
++    UINT8   *p_new;
+     UINT8   rec_hdr=0, type_len, id_len;
+     int     count;
+     UINT32  payload_len;
+@@ -187,6 +189,14 @@ tNDEF_STATUS NDEF_MsgValidate (UINT8 *p_msg, UINT32 msg_len, BOOLEAN b_allow_chu
+                 return (NDEF_MSG_LENGTH_MISMATCH);
+         }
+ 
++        /* Check for OOB */
++        p_new = p_rec + (payload_len + type_len + id_len);
++        if (p_rec > p_new || p_end < p_new)
++        {
++            android_errorWriteLog(0x534e4554, "126200054");
++            return (NDEF_MSG_LENGTH_MISMATCH);
++        }
++
+         /* Point to next record */
+         p_rec += (payload_len + type_len + id_len);
+ 

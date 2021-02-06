@@ -1,0 +1,99 @@
+From 563e93ae4a060df93044313818b4164fd96362d9 Mon Sep 17 00:00:00 2001
+From: Jeff Sharkey <jsharkey@android.com>
+Date: Wed, 17 Jul 2019 18:51:28 -0600
+Subject: [PATCH] RESTRICT AUTOMERGE Enable stricter SQLiteQueryBuilder
+ options.
+
+Malicious callers can leak side-channel information by using
+subqueries in any untrusted inputs where SQLite allows "expr" values.
+
+This change starts using setStrictColumns() and setStrictGrammar()
+on SQLiteQueryBuilder to block this class of attacks.  This means we
+now need to define the projection mapping of valid columns, which
+consists of both the columns defined in the public API and columns
+read internally by DownloadInfo.Reader.
+
+We're okay growing sAppReadableColumnsSet like this, since we're
+relying on our trusted WHERE clause to filter away any rows that
+don't belong to the calling UID.
+
+Remove the legacy Lexer code, since we're now internally relying on
+the robust and well-tested SQLiteTokenizer logic.
+
+Bug: 135270103
+Bug: 135269143
+Test: atest DownloadProviderTests
+Test: atest CtsAppTestCases:android.app.cts.DownloadManagerTest
+Change-Id: Iec1e8ce18dc4a9564318e0473d9d3863c8c2988a
+(cherry picked from commit 13f49c42599dc2ea0be376be34275aefcb70d398)
+---
+ core/java/android/app/DownloadManager.java | 42 +++++++++++-----------
+ 1 file changed, 22 insertions(+), 20 deletions(-)
+
+diff --git a/core/java/android/app/DownloadManager.java b/core/java/android/app/DownloadManager.java
+index 91925db26e58..67b7446388d7 100755
+--- a/core/java/android/app/DownloadManager.java
++++ b/core/java/android/app/DownloadManager.java
+@@ -114,6 +114,9 @@
+      */
+     public final static String COLUMN_STATUS = Downloads.Impl.COLUMN_STATUS;
+ 
++    /** {@hide} */
++    public static final String COLUMN_FILE_NAME_HINT = Downloads.Impl.COLUMN_FILE_NAME_HINT;
++
+     /**
+      * Provides more detail on the status of the download.  Its meaning depends on the value of
+      * {@link #COLUMN_STATUS}.
+@@ -151,6 +154,9 @@
+      */
+     public static final String COLUMN_MEDIAPROVIDER_URI = Downloads.Impl.COLUMN_MEDIAPROVIDER_URI;
+ 
++    /** {@hide} */
++    public static final String COLUMN_DESTINATION = Downloads.Impl.COLUMN_DESTINATION;
++
+     /**
+      * @hide
+      */
+@@ -319,26 +325,22 @@
+      * @hide
+      */
+     public static final String[] UNDERLYING_COLUMNS = new String[] {
+-        Downloads.Impl._ID,
+-        Downloads.Impl._DATA + " AS " + COLUMN_LOCAL_FILENAME,
+-        Downloads.Impl.COLUMN_MEDIAPROVIDER_URI,
+-        Downloads.Impl.COLUMN_DESTINATION,
+-        Downloads.Impl.COLUMN_TITLE,
+-        Downloads.Impl.COLUMN_DESCRIPTION,
+-        Downloads.Impl.COLUMN_URI,
+-        Downloads.Impl.COLUMN_STATUS,
+-        Downloads.Impl.COLUMN_FILE_NAME_HINT,
+-        Downloads.Impl.COLUMN_MIME_TYPE + " AS " + COLUMN_MEDIA_TYPE,
+-        Downloads.Impl.COLUMN_TOTAL_BYTES + " AS " + COLUMN_TOTAL_SIZE_BYTES,
+-        Downloads.Impl.COLUMN_LAST_MODIFICATION + " AS " + COLUMN_LAST_MODIFIED_TIMESTAMP,
+-        Downloads.Impl.COLUMN_CURRENT_BYTES + " AS " + COLUMN_BYTES_DOWNLOADED_SO_FAR,
+-        Downloads.Impl.COLUMN_ALLOW_WRITE,
+-        /* add the following 'computed' columns to the cursor.
+-         * they are not 'returned' by the database, but their inclusion
+-         * eliminates need to have lot of methods in CursorTranslator
+-         */
+-        "'placeholder' AS " + COLUMN_LOCAL_URI,
+-        "'placeholder' AS " + COLUMN_REASON
++        DownloadManager.COLUMN_ID,
++        DownloadManager.COLUMN_LOCAL_FILENAME,
++        DownloadManager.COLUMN_MEDIAPROVIDER_URI,
++        DownloadManager.COLUMN_DESTINATION,
++        DownloadManager.COLUMN_TITLE,
++        DownloadManager.COLUMN_DESCRIPTION,
++        DownloadManager.COLUMN_URI,
++        DownloadManager.COLUMN_STATUS,
++        DownloadManager.COLUMN_FILE_NAME_HINT,
++        DownloadManager.COLUMN_MEDIA_TYPE,
++        DownloadManager.COLUMN_TOTAL_SIZE_BYTES,
++        DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP,
++        DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR,
++        DownloadManager.COLUMN_ALLOW_WRITE,
++        DownloadManager.COLUMN_LOCAL_URI,
++        DownloadManager.COLUMN_REASON
+     };
+ 
+     /**

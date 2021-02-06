@@ -1,0 +1,44 @@
+From b742278f2c4365be0021ce3498887e89e2cc8a4a Mon Sep 17 00:00:00 2001
+From: Andy Hung <hunga@google.com>
+Date: Tue, 12 Mar 2019 19:39:03 -0700
+Subject: [PATCH] AudioFlinger: Prevent multiple effect chains with same
+ sessionId
+
+Allow at most one effect chain with same sessionId on mPlaybackThreads.
+
+Test: poc, CTS effect tests
+Bug: 123237974
+Merged-In: Ide46cd23b0a9f4295f0dca2fea23379a76b836ee
+Change-Id: Ide46cd23b0a9f4295f0dca2fea23379a76b836ee
+(cherry picked from commit 1631f06feb36df5406ad00e850dcca9394f67772)
+(cherry picked from commit f963b2bfdaf406b42d371322402172b4380bbba5)
+---
+ services/audioflinger/AudioFlinger.cpp | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/services/audioflinger/AudioFlinger.cpp b/services/audioflinger/AudioFlinger.cpp
+index c06bf1e05c..b5ec45884d 100644
+--- a/services/audioflinger/AudioFlinger.cpp
++++ b/services/audioflinger/AudioFlinger.cpp
+@@ -2759,6 +2759,21 @@ sp<IEffect> AudioFlinger::createEffect(
+                 io = mPlaybackThreads.keyAt(0);
+             }
+             ALOGV("createEffect() got io %d for effect %s", io, desc.name);
++        } else if (checkPlaybackThread_l(io) != NULL) {
++            // allow only one effect chain per sessionId on mPlaybackThreads.
++            for (size_t i = 0; i < mPlaybackThreads.size(); i++) {
++                const audio_io_handle_t checkIo = mPlaybackThreads.keyAt(i);
++                if (io == checkIo) continue;
++                const uint32_t sessionType =
++                        mPlaybackThreads.valueAt(i)->hasAudioSession(sessionId);
++                if ((sessionType & ThreadBase::EFFECT_SESSION) != 0) {
++                    ALOGE("%s: effect %s io %d denied because session %d effect exists on io %d",
++                            __func__, desc.name, (int)io, (int)sessionId, (int)checkIo);
++                    android_errorWriteLog(0x534e4554, "123237974");
++                    lStatus = BAD_VALUE;
++                    goto Exit;
++                }
++            }
+         }
+         ThreadBase *thread = checkRecordThread_l(io);
+         if (thread == NULL) {

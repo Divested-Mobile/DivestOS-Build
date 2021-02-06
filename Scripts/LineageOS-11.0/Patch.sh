@@ -68,8 +68,40 @@ sed -i 's/Mms/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Si
 sed -i '497i$(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/base_rules.mk;
 sed -i '80iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package.mk;
 
+enterAndClear "external/bluetooth/bluedroid";
+patch -p1 < "$DOS_PATCHES/android_external_bluetooth_bluedroid/251199.patch"; #asb-2019.12-cm11
+patch -p1 < "$DOS_PATCHES/android_external_bluetooth_bluedroid/265361.patch"; #asb-2019.12-cm11
+patch -p1 < "$DOS_PATCHES/android_external_bluetooth_bluedroid/265493.patch"; #asb-2019.12-cm11
+patch -p1 < "$DOS_PATCHES/android_external_bluetooth_bluedroid/265494.patch"; #asb-2019.12-cm11
+
+enterAndClear "external/libnfc-nci";
+patch -p1 < "$DOS_PATCHES/android_external_libnfc-nci/258164.patch"; #asb-2019.09-cm11
+patch -p1 < "$DOS_PATCHES/android_external_libnfc-nci/258165.patch"; #asb-2019.09-cm11
+patch -p1 < "$DOS_PATCHES/android_external_libnfc-nci/264094.patch"; #asb-2019.11-cm11
+patch -p1 < "$DOS_PATCHES/android_external_libnfc-nci/264097.patch"; #asb-2019.11-cm11
+
+enterAndClear "external/libvpx";
+patch -p1 < "$DOS_PATCHES/android_external_libvpx/253499.patch"; #asb-2019.08-cm11
+patch -p1 < "$DOS_PATCHES/android_external_libvpx/253500.patch"; #asb-2019.08-cm11
+
+enterAndClear "external/sfntly";
+patch -p1 < "$DOS_PATCHES/android_external_sfntly/251198.patch"; #asb-2019.07-cm11
+
+enterAndClear "external/skia";
+patch -p1 < "$DOS_PATCHES/android_external_skia/249705.patch"; #asb-2019.06-cm11
+
 enterAndClear "external/sqlite";
 patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0)
+patch -p1 < "$DOS_PATCHES/android_external_sqlite/263910.patch"; #asb-2019.11-cm11
+
+enterAndClear "frameworks/av";
+patch -p1 < "$DOS_PATCHES/android_frameworks_av/247874.patch"; #asb-2019.06-cm11
+patch -p1 < "$DOS_PATCHES/android_frameworks_av/249706.patch"; #asb-2019.07-cm11
+patch -p1 < "$DOS_PATCHES/android_frameworks_av/249707.patch"; #asb-2019.07-cm11
+patch -p1 < "$DOS_PATCHES/android_frameworks_av/253521.patch"; #asb-2019.08-cm11
+patch -p1 < "$DOS_PATCHES/android_frameworks_av/253522.patch"; #asb-2019.08-cm11
+patch -p1 < "$DOS_PATCHES/android_frameworks_av/261040.patch"; #asb-2019.10-cm11
+patch -p1 < "$DOS_PATCHES/android_frameworks_av/261041.patch"; #asb-2019.10-cm11
 
 enterAndClear "frameworks/base";
 hardenLocationFWB "$DOS_BUILD_BASE";
@@ -77,26 +109,51 @@ sed -i 's/com.android.mms/org.smssecure.smssecure/' core/res/res/values/config.x
 sed -i 's|db_default_journal_mode">PERSIST|db_default_journal_mode">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0001-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0002-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
+patch -p1 < "$DOS_PATCHES/android_frameworks_base/253523.patch"; #asb-2019.08-cm11
+patch -p1 < "$DOS_PATCHES/android_frameworks_base/256318.patch"; #asb-2019.09-cm11
+#patch -p1 < "$DOS_PATCHES/android_frameworks_base/264100.patch"; #asb-2019.11-cm11 XXX: breaks things
+patch -p1 < "$DOS_PATCHES/android_frameworks_base/265311.patch"; #asb-2019.12-cm11
+patch -p1 < "$DOS_PATCHES/android_frameworks_base/267438.patch"; #asb-2020.01-cm11
 changeDefaultDNS;
 #patch -p1 < "$DOS_PATCHES/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries #TODO BACKPORT-11.0
+
+enterAndClear "frameworks/native";
+patch -p1 < "$DOS_PATCHES/android_frameworks_native/253524.patch"; #asb-2019.08-cm11
+patch -p1 < "$DOS_PATCHES/android_frameworks_native/256319.patch"; #asb-2019.09-cm11
+patch -p1 < "$DOS_PATCHES/android_frameworks_native/256322.patch"; #asb-2019.09-cm11
+
+enterAndClear "packages/apps/Bluetooth";
+patch -p1 < "$DOS_PATCHES/android_packages_apps_Bluetooth/264098.patch"; #asb-2019.11-cm11
 
 enterAndClear "packages/apps/Dialer";
 rm -rf src/com/android/dialer/cmstats;
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Dialer/0001-Remove_Analytics.patch"; #Remove CMStats
 
+enterAndClear "packages/apps/Email";
+patch -p1 < "$DOS_PATCHES/android_packages_apps_Email/253862.patch"; #asb-2019.08-cm11
+patch -p1 < "$DOS_PATCHES/android_packages_apps_Email/256927.patch"; #asb-2019.09-cm11
+
 enterAndClear "packages/apps/InCallUI";
 patch -p1 < "$DOS_PATCHES/android_packages_apps_InCallUI/0001-Remove_Analytics.patch"; #Remove CMStats
+
+enterAndClear "packages/apps/Nfc";
+patch -p1 < "$DOS_PATCHES/android_packages_apps_Nfc/261042.patch"; #asb-2019.10-cm11
 
 enterAndClear "packages/apps/Settings";
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
 rm -rf src/com/android/settings/cmstats res/xml/security_settings_cyanogenmod.xml; #Nuke part of CMStats
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0001-Remove_Analytics.patch"; #Remove the rest of CMStats
-
+patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/230054.patch"; #ASB disclaimer
+patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/230392.patch"; #ASB disclaimer translations
+patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/248015.patch"; #asb-2019.05-cm11
 
 enterAndClear "packages/apps/Trebuchet";
 #cp -r "$DOS_PATCHES_COMMON/android_packages_apps_Trebuchet/default_workspace/." "res/xml/"; #TODO BACKPORT-11.0
 sed -i 's/mCropView.setTouchEnabled(touchEnabled);/mCropView.setTouchEnabled(true);/' WallpaperPicker/src/com/android/launcher3/WallpaperCropActivity.java;
+
+enterAndClear "packages/apps/UnifiedEmail";
+patch -p1 < "$DOS_PATCHES/android_packages_apps_UnifiedEmail/253861.patch"; #asb-2019.08-cm11
 
 enterAndClear "system/core";
 sed -i 's/!= 2048/< 2048/' libmincrypt/tools/DumpPublicKey.java; #Allow 4096-bit keys

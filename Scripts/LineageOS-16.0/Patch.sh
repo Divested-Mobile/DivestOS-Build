@@ -257,6 +257,9 @@ enterAndClear "device/google/marlin";
 git revert --no-edit eeb92c0f094f58b1bdfbaa775d239948f81e915b 8c729e4b016a5b35159992413a22c289ecf2c44c; #remove some carrier blobs
 patch -p1 < "$DOS_PATCHES/android_device_google_marlin/0001-Fix_MediaProvider_Deadlock.patch"; #Fix MediaProvider using 100% CPU (due to broken ppoll on functionfs?)
 
+enterAndClear "device/google/wahoo";
+patch -p1 < "$DOS_PATCHES/android_device_google_wahoo/232948.patch"; #liblight: close fd
+
 enterAndClear "device/lge/g2-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 
@@ -272,6 +275,7 @@ enterAndClear "device/lge/d855";
 git revert --no-edit 9a5739e66d0a44347881807c0cc44d7c318c02b8; #fix nfc path
 
 enterAndClear "device/lge/hammerhead";
+git am $DOS_PATCHES/android_device_lge_hammerhead/*.patch; #hh-p-sepolicy
 rm -rf bdAddrLoader; #duplicate with mako
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> BoardConfig.mk; #qcom-legacy sepolicy
 

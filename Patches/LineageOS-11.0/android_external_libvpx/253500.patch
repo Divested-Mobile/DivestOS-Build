@@ -1,0 +1,26 @@
+From 3e54ae6106d08aac9707919631ba6d8adb91b87d Mon Sep 17 00:00:00 2001
+From: Frank Galligan <fgalligan@google.com>
+Date: Fri, 10 May 2019 18:21:43 -0700
+Subject: [PATCH] Fixes a double free in ContentEncoding
+
+BUG: 127702368
+
+Merged-In: Id7de1f8c35ef2f6458c6fb6c7751a84fe43ed1cc
+Change-Id: Id17f570fe60ea2ecb3cf5cdbc179246486401005
+(cherry picked from commit d2ff9ba6d9376f295b13d822d345e83841bc6189)
+---
+ libwebm/mkvparser.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/libwebm/mkvparser.cpp b/libwebm/mkvparser.cpp
+index e65e9c7..78cdcee 100644
+--- a/libwebm/mkvparser.cpp
++++ b/libwebm/mkvparser.cpp
+@@ -4182,6 +4182,7 @@ long ContentEncoding::ParseContentEncodingEntry(long long start, long long size,
+         new (std::nothrow) ContentEncryption*[encryption_count];
+     if (!encryption_entries_) {
+       delete[] compression_entries_;
++      compression_entries_ = NULL;
+       return -1;
+     }
+     encryption_entries_end_ = encryption_entries_;

@@ -1,0 +1,28 @@
+From 84a415c8fc3b7e22d253243eb7a23c058483cc92 Mon Sep 17 00:00:00 2001
+From: Brian Duddie <bduddie@google.com>
+Date: Thu, 6 Jun 2019 16:43:41 -0700
+Subject: [PATCH] Fix race between SensorManager ctor and callback
+
+Avoids potential invalid memory access if system server crashes during
+initialization.
+
+Bug: 132927376
+Test: confirm sensors initialize
+Change-Id: If7421c452b5893ab2567323d265503a1ce304482
+---
+ libs/gui/SensorManager.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libs/gui/SensorManager.cpp b/libs/gui/SensorManager.cpp
+index b80da56813..3450395756 100644
+--- a/libs/gui/SensorManager.cpp
++++ b/libs/gui/SensorManager.cpp
+@@ -41,7 +41,7 @@ ANDROID_SINGLETON_STATIC_INSTANCE(SensorManager)
+ SensorManager::SensorManager()
+     : mSensorList(0)
+ {
+-    // okay we're not locked here, but it's not needed during construction
++    Mutex::Autolock _l(mLock);
+     assertStateLocked();
+ }
+ 

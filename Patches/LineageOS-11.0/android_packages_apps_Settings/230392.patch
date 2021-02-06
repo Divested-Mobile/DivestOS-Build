@@ -1,0 +1,96 @@
+From a63ed5dc0c965d0e9455dbfab40903e8a0e916d8 Mon Sep 17 00:00:00 2001
+From: MSe1969 <mse1969@posteo.de>
+Date: Sat, 29 Sep 2018 12:19:18 +0200
+Subject: [PATCH] Settings/DeviceInfo - Translations for patch level disclaimer
+
+cm-11.0 does not receive any more translations from 'crowdin'
+Translations contained in this patch: DE/ES/FR/IT/PL/RU/UA
+
+Change-Id: I5426cc4a73859271c1a772817520a247b1697c3f
+---
+ res/values-de/cm_strings.xml | 2 ++
+ res/values-es/cm_strings.xml | 2 ++
+ res/values-fr/cm_strings.xml | 2 ++
+ res/values-it/cm_strings.xml | 2 ++
+ res/values-pl/cm_strings.xml | 2 ++
+ res/values-ru/cm_strings.xml | 2 ++
+ res/values-uk/cm_strings.xml | 2 ++
+ 7 files changed, 14 insertions(+)
+
+diff --git a/res/values-de/cm_strings.xml b/res/values-de/cm_strings.xml
+index 8bb1fed83c4..7121ab1090f 100644
+--- a/res/values-de/cm_strings.xml
++++ b/res/values-de/cm_strings.xml
+@@ -1038,4 +1038,6 @@ auf <xliff:g id="new" example="libart.so">%2$s</xliff:g> zu ändern?</string>
+   <string name="lock_to_cyanogen_create_account_msg">Das Passwort Ihres Cyanogen OS-Kontos wird genutzt, um Ihr Gerät auch beim Rücksetzen auf Werkseinstellungen zu schützen. Dazu müssen Sie ein Cyanogen OS-Konto anlegen.</string>
+   <string name="lock_to_cyanogen_disable_msg">Deaktivieren dieser Funktion erlaubt es nicht autorisierten Benutzern Ihr Telefon auf Werkseinstellungen zurückzusetzen, wenn es gestohlen wird. Ihre persönlichen Daten können nicht sicher sein. Wollen Sie diese Funktion deaktivieren?</string>
+   <string name="lock_to_cyanogen_master_clear_warning">Geräteschutz ist aktiviert. Bitte deaktivieren, um mit dem Zurücksetzen Ihres Gerätes fortzufahren.</string>
++  <string name="security_patch_legacy">Inoffizielle Sicherheitsstufe</string>
++  <string name="security_patch_legacy_info">Für diese Android-Version sind keine offiziellen Sicherheitsupdates mehr erhältlich.\nAlle enthaltenen Patches wurden aus neueren Versionen rückportiert.</string>
+ </resources>
+diff --git a/res/values-es/cm_strings.xml b/res/values-es/cm_strings.xml
+index a9b656ae788..883290b29ef 100644
+--- a/res/values-es/cm_strings.xml
++++ b/res/values-es/cm_strings.xml
+@@ -1023,4 +1023,6 @@ Tocando de forma prolongada cada línea se mostrarán opciones adicionales. Sele
+   <string name="lock_to_cyanogen_create_account_msg">El dispositivo usa una contraseña de cuenta de Cyanogen OS para protegerse incluso después de un restablecimiento de fábrica. Necesitarás crear una cuenta de Cyanogen OS.</string>
+   <string name="lock_to_cyanogen_disable_msg">Deshabilitar esta característica permitirá que usuarios no autorizados puedan restablecer a fábrica el dispositivo si éste es sustraído. Tus datos personales podrán quedar desprotegidos. ¿Quieres deshabilitar esta característica?</string>
+   <string name="lock_to_cyanogen_master_clear_warning">La protección del dispositivo está habilitada. Por favor, deshabilita la protección para continuar con el restablecimiento del dispositivo.</string>
++  <string name="security_patch_legacy">Parche de seguridad no oficial</string>
++  <string name="security_patch_legacy_info">No hay actualizaciones de seguridad oficiales disponibles para esta versión de Android.\nTodos los parches incluidos fueron portados desde versiones más nuevas.</string>
+ </resources>
+diff --git a/res/values-fr/cm_strings.xml b/res/values-fr/cm_strings.xml
+index a5b212d13f3..21fdcbfc52b 100644
+--- a/res/values-fr/cm_strings.xml
++++ b/res/values-fr/cm_strings.xml
+@@ -1023,4 +1023,6 @@ Des options supplémentaires sont disponibles en appuyant longtemps sur une lign
+   <string name="lock_to_cyanogen_create_account_msg">Votre appareil utilise le mot de passe du compte Cyanogen OS pour protéger votre appareil même dans le cas d\'une réinitialisation d\'usine. Vous devrez créer un compte Cyanogen OS.</string>
+   <string name="lock_to_cyanogen_disable_msg">La désactivation de cette fonction permettra à des utilisateurs non autorisés de réinitialiser votre téléphone aux paramètres par défaut s\'il est volé. Vos données personnelles ne peuvent pas être protégées. Voulez-vous désactiver cette fonction ?</string>
+   <string name="lock_to_cyanogen_master_clear_warning">La protection de l\'appareil est activée. Veuillez la désactiver pour continuer la réinitialisation de votre appareil.</string>
++  <string name="security_patch_legacy">Niveau de sécurité non officiel</string>
++  <string name="security_patch_legacy_info">Il n\'y a pas de mises à jour de sécurité officielles disponibles pour cette version d\'Android.\nTous les correctifs contenus ont été répliqués à partir de versions plus récentes.</string>
+ </resources>
+diff --git a/res/values-it/cm_strings.xml b/res/values-it/cm_strings.xml
+index 59d76b59c9a..981ed9879a9 100644
+--- a/res/values-it/cm_strings.xml
++++ b/res/values-it/cm_strings.xml
+@@ -1034,4 +1034,6 @@ inserire punti di controllo aggiuntivi. \'Rimuovi\' elimina la riga selezionata.
+   <string name="lock_to_cyanogen_create_account_msg">Il dispositivo utilizza la password dell\'account Cyanogen OS per proteggerlo anche in caso di un reset di fabbrica. Devi creare un account Cyanogen OS.</string>
+   <string name="lock_to_cyanogen_disable_msg">Disattivando questa funzione gli utenti non autorizzati potranno ripristinare il telefono alle impostazioni di fabbrica, se viene rubato. I dati personali non possono essere protetti. Desideri disattivare questa funzione?</string>
+   <string name="lock_to_cyanogen_master_clear_warning">La protezione del dispositivo è attiva. Disattivala per ripristinare il tuo dispositivo.</string>
++  <string name="security_patch_legacy">Backport di sicurezza non ufficiale</string>
++  <string name="security_patch_legacy_info">Non ci sono più patch di sicurezza ufficiali per questa versione di Android.\nTutte le patch contenute in questa build sono backport dalle versioni più recenti.</string>
+ </resources>
+diff --git a/res/values-pl/cm_strings.xml b/res/values-pl/cm_strings.xml
+index e1a7ad91ac1..dcadae48874 100644
+--- a/res/values-pl/cm_strings.xml
++++ b/res/values-pl/cm_strings.xml
+@@ -1024,4 +1024,6 @@ Dodatkowe opcje są dostępne przez długie przytrzymanie linii. Wybierając opc
+   <string name="lock_to_cyanogen_create_account_msg">Twoje urządzenie korzysta z hasła twojego konta Cyanogen OS, aby chronić twoje urządzenie nawet w przypadku przywrócenia ustawień fabrycznych. Musisz utworzyć konto Cyanogen OS.</string>
+   <string name="lock_to_cyanogen_disable_msg">Wyłączenie tej funkcji umożliwi nieautoryzowanym użytkownikom na przywrócenie ustawień fabrycznych jeśli twoje urządzenie zostanie zgubione. Twoje prywatne dane mogą nie być chronione. Czy chcesz wyłączyć tę funkcję?</string>
+   <string name="lock_to_cyanogen_master_clear_warning">Ochrona urządzenia jest włączona. Proszę wyłącz ją, aby kontynuować resetowanie urządzenia.</string>
++  <string name="security_patch_legacy">Nieoficjalna aktualizacja zabezpieczeń</string>
++  <string name="security_patch_legacy_info">Nie ma oficjalnych aktualizacji zabezpieczeń dla tej wersji Androida.\nWszystkie zawarte łaty zostały przeniesione z nowszych wersji.</string>
+ </resources>
+diff --git a/res/values-ru/cm_strings.xml b/res/values-ru/cm_strings.xml
+index 14186323da3..cf9ac14991d 100644
+--- a/res/values-ru/cm_strings.xml
++++ b/res/values-ru/cm_strings.xml
+@@ -1024,4 +1024,6 @@
+   <string name="lock_to_cyanogen_create_account_msg">Устройство использует пароль аккаунта ОС Cyanogen для защиты устройства от сброса настроек. Потребуется создать новый аккаунт ОС Cyanogen.</string>
+   <string name="lock_to_cyanogen_disable_msg">Отключение этой функции позволит другим людям выполнить удаление всех данных на устройстве в случае его кражи. Ваши личные данные могут стать недостаточно защищёнными. Вы действительно хотите отключить эту функцию?</string>
+   <string name="lock_to_cyanogen_master_clear_warning">Защита устройства включена. Необходимо отключить её, чтобы выполнить сброс настроек на устройстве.</string>
++  <string name="security_patch_legacy">Неофициальные исправления безопасности</string>
++  <string name="security_patch_legacy_info">Официальные исправления безопасности более не выпускаются для данной версии Android.\nВсе исправления, представленные в этой сборке, адаптированы из более новых версий системы.</string>
+ </resources>
+diff --git a/res/values-uk/cm_strings.xml b/res/values-uk/cm_strings.xml
+index 00f896b862e..0eba0913b9b 100644
+--- a/res/values-uk/cm_strings.xml
++++ b/res/values-uk/cm_strings.xml
+@@ -1024,4 +1024,6 @@
+   <string name="lock_to_cyanogen_create_account_msg">Ваш пристрій використовує пароль облікового запису Cyanogen OS для захисту навіть у разі повернення до заводських налаштувань. Вам потрібно буде створити обліковий запис Cyanogen OS.</string>
+   <string name="lock_to_cyanogen_disable_msg">Вимкнення цієї функції дозволить неавторизованим користувачам скинути до заводських налаштувань телефон, наприклад, при викраденні. Ваші персональні дані не будуть захищені. Ви хочете вимкнути цю функцію?</string>
+   <string name="lock_to_cyanogen_master_clear_warning">Захист пристрою увімкнено. Необхідно вимкнути його, щоб виконати скидання налаштувань на пристрої.</string>
++  <string name="security_patch_legacy">Неофіційні виправлення безпеки</string>
++  <string name="security_patch_legacy_info">Офіційні виправлення безпеки більше не випускаються для даної версії Android.\nУсі виправлення, наявні у цій збірці, адаптовані з новіших версій системи.</string>
+ </resources>

@@ -1,0 +1,40 @@
+From 30cc508a007fa28db6d5d5582bae001ced5db1fe Mon Sep 17 00:00:00 2001
+From: Haibo Huang <hhb@google.com>
+Date: Mon, 6 May 2019 12:43:47 -0700
+Subject: [PATCH] Fix uninitialized value in sfntly
+
+Bug: 116114182
+Test: build
+Change-Id: Ief84dd8a19bdb461945e07504270be76a3545701
+Merged-In: Ief84dd8a19bdb461945e07504270be76a3545701
+(cherry picked from commit 51ecc82faa63aacdde6648f80a3898b53653da78)
+---
+ README.android                           | 4 ++++
+ cpp/src/sfntly/port/file_input_stream.cc | 2 +-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/README.android b/README.android
+index 4447b27..39b0cf9 100644
+--- a/README.android
++++ b/README.android
+@@ -9,3 +9,7 @@ git rm -rf cpp/data
+ git rm -rf cpp/ext
+ git rm -rf cpp/tools
+ git commit
++
++
++# Local changes
++Fixed uninitialized variable. See bug 116114182 for details.
+diff --git a/cpp/src/sfntly/port/file_input_stream.cc b/cpp/src/sfntly/port/file_input_stream.cc
+index dfe9a7b..883c1fd 100644
+--- a/cpp/src/sfntly/port/file_input_stream.cc
++++ b/cpp/src/sfntly/port/file_input_stream.cc
+@@ -70,7 +70,7 @@ int32_t FileInputStream::Read() {
+ #endif
+     return 0;
+   }
+-  byte_t value;
++  byte_t value = 0;
+   size_t length = fread(&value, 1, 1, file_);
+   position_ += length;
+   return value;

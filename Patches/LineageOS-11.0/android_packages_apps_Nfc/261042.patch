@@ -1,0 +1,45 @@
+From 248cb503bdf5196dc827a3eb7f216e655cc2ee4b Mon Sep 17 00:00:00 2001
+From: George Chang <georgekgchang@google.com>
+Date: Tue, 9 Jul 2019 15:46:28 +0800
+Subject: [PATCH] Prevent length underflow in NfcTag.cpp
+
+Bug: 124940143
+Test: Read Type4B Tag
+Exempt-From-Owner-Approval: Old Owners are all transferred to another BU
+Change-Id: Ibdab756410bf55d701875279df3e289dbc9369d6
+(cherry picked from commit c7b41a96744e1ac30920991ef1b427acbcde44db)
+---
+ nci/jni/NfcTag.cpp | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/nci/jni/NfcTag.cpp b/nci/jni/NfcTag.cpp
+index b0fe9ab7..9a08dea2 100755
+--- a/nci/jni/NfcTag.cpp
++++ b/nci/jni/NfcTag.cpp
+@@ -40,6 +40,7 @@
+ #include "JavaClassConstants.h"
+ #include <ScopedLocalRef.h>
+ #include <ScopedPrimitiveArray.h>
++#include <log/log.h>
+ 
+ extern "C"
+ {
+@@ -712,7 +713,17 @@ void NfcTag::fillNativeNfcTagMembers3 (JNIEnv* e, jclass tag_cls, jobject tag, t
+                 *****************/
+                 ALOGD ("%s: tech B; TARGET_TYPE_ISO14443_3B", fn);
+                 len = mTechParams [i].param.pb.sensb_res_len;
+-                len = len - 4; //subtract 4 bytes for NFCID0 at byte 2 through 5
++                if (len >= NFC_NFCID0_MAX_LEN)
++                {
++                    // subtract 4 bytes for NFCID0 at byte 2 through 5
++                    len = len - NFC_NFCID0_MAX_LEN;
++                }
++                else
++                {
++                    android_errorWriteLog(0x534e4554, "124940143");
++                    ALOGE ("%s: sensb_res_len error", fn);
++                    len = 0;
++                }
+                 pollBytes.reset(e->NewByteArray(len));
+                 e->SetByteArrayRegion(pollBytes.get(), 0, len, (jbyte*) (mTechParams [i].param.pb.sensb_res+4));
+             }

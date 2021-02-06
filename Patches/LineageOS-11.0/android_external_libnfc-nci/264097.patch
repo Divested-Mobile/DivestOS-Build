@@ -1,0 +1,106 @@
+From 11f084f3bddf24d1747603363090ffab9217d7f3 Mon Sep 17 00:00:00 2001
+From: George Chang <georgekgchang@google.com>
+Date: Sun, 8 Sep 2019 22:55:33 +0800
+Subject: [PATCH] Add boundary check in nfa_hci_handle_admin_gate_rsp
+
+Bug: 124524315
+Test: Nfc Enable/Disable with NFC SIM
+Merged-In: Ic5b9398f7fc4f3aa8c83bd902e47d7785c5a6161
+Change-Id: Ic5b9398f7fc4f3aa8c83bd902e47d7785c5a6161
+Exempt-From-Owner-Approval: new owner approved
+(cherry picked from commit dc58f77ff10e8a6502208249741ab6879c038bf1)
+---
+ src/nfa/hci/nfa_hci_act.c | 31 +++++++++++++++++++++++++------
+ 1 file changed, 25 insertions(+), 6 deletions(-)
+
+diff --git a/src/nfa/hci/nfa_hci_act.c b/src/nfa/hci/nfa_hci_act.c
+index 9a25cf6..c800a34 100644
+--- a/src/nfa/hci/nfa_hci_act.c
++++ b/src/nfa/hci/nfa_hci_act.c
+@@ -33,6 +33,7 @@
+ #include "nfa_nv_co.h"
+ #include "nfa_mem_co.h"
+ #include "nfa_hci_defs.h"
++#include <log/log.h>
+ 
+ 
+ /* Static local functions       */
+@@ -1405,8 +1406,8 @@ void nfa_hci_handle_admin_gate_rsp (UINT8 *p_data, UINT8 data_len)
+             }
+             else if (nfa_hci_cb.param_in_use == NFA_HCI_SESSION_IDENTITY_INDEX)
+             {
+-                /* The only parameter we get when initializing is the session ID. Check for match. */
+-                if (!memcmp ((UINT8 *) nfa_hci_cb.cfg.admin_gate.session_id, p_data, NFA_HCI_SESSION_ID_LEN) )
++                if (data_len >= NFA_HCI_SESSION_ID_LEN &&
++                    !memcmp((uint8_t*)nfa_hci_cb.cfg.admin_gate.session_id, p_data, NFA_HCI_SESSION_ID_LEN))
+                 {
+                     /* Session has not changed. Set the WHITELIST */
+                     nfa_hciu_send_set_param_cmd (NFA_HCI_ADMIN_PIPE, NFA_HCI_WHITELIST_INDEX, 0x02, hosts);
+@@ -1416,6 +1417,10 @@ void nfa_hci_handle_admin_gate_rsp (UINT8 *p_data, UINT8 data_len)
+                     /* Something wrong, NVRAM data could be corrupt or first start with default session id */
+                     nfa_hciu_send_clear_all_pipe_cmd ();
+                     nfa_hci_cb.b_hci_netwk_reset = TRUE;
++                    if (data_len < NFA_HCI_SESSION_ID_LEN)
++                    {
++                        android_errorWriteLog(0x534e4554, "124524315");
++                    }
+                 }
+             }
+             break;
+@@ -1466,7 +1471,8 @@ void nfa_hci_handle_admin_gate_rsp (UINT8 *p_data, UINT8 data_len)
+         case NFA_HCI_ANY_GET_PARAMETER:
+             if (nfa_hci_cb.param_in_use == NFA_HCI_SESSION_IDENTITY_INDEX)
+             {
+-                if (!memcmp ((UINT8 *) default_session, p_data , NFA_HCI_SESSION_ID_LEN))
++                if (data_len >= NFA_HCI_SESSION_ID_LEN &&
++                    !memcmp((uint8_t*)default_session, p_data, NFA_HCI_SESSION_ID_LEN))
+                 {
+                     memcpy (&nfa_hci_cb.cfg.admin_gate.session_id[(NFA_HCI_SESSION_ID_LEN / 2)], nfa_hci_cb.cfg.admin_gate.session_id, (NFA_HCI_SESSION_ID_LEN / 2));
+                     os_tick = GKI_get_os_tick_count ();
+@@ -1476,6 +1482,10 @@ void nfa_hci_handle_admin_gate_rsp (UINT8 *p_data, UINT8 data_len)
+                 }
+                 else
+                 {
++                    if (data_len < NFA_HCI_SESSION_ID_LEN)
++                    {
++                        android_errorWriteLog(0x534e4554, "124524315");
++                    }
+                     if (nfa_hci_cb.hci_state == NFA_HCI_STATE_APP_DEREGISTER)
+                         nfa_hci_api_deregister (NULL);
+                     else if (nfa_hci_cb.hci_state == NFA_HCI_STATE_REMOVE_GATE)
+@@ -1485,6 +1495,11 @@ void nfa_hci_handle_admin_gate_rsp (UINT8 *p_data, UINT8 data_len)
+             else if (nfa_hci_cb.param_in_use == NFA_HCI_HOST_LIST_INDEX)
+             {
+                 evt_data.hosts.status    = status;
++                if (data_len > NFA_HCI_MAX_HOST_IN_NETWORK)
++                {
++                    data_len = NFA_HCI_MAX_HOST_IN_NETWORK;
++                    android_errorWriteLog(0x534e4554, "124524315");
++                }
+                 evt_data.hosts.num_hosts = data_len;
+                 memcpy (evt_data.hosts.host, p_data, data_len);
+ 
+@@ -1516,7 +1531,8 @@ void nfa_hci_handle_admin_gate_rsp (UINT8 *p_data, UINT8 data_len)
+             break;
+ 
+         case NFA_HCI_ADM_CREATE_PIPE:
+-            if (status == NFA_STATUS_OK)
++            // p_data should have at least 5 bytes length for pipe info
++            if (data_len >= 5 && status == NFA_STATUS_OK)
+             {
+                 STREAM_TO_UINT8 (source_host, p_data);
+                 STREAM_TO_UINT8 (source_gate, p_data);
+@@ -1533,8 +1549,11 @@ void nfa_hci_handle_admin_gate_rsp (UINT8 *p_data, UINT8 data_len)
+                 }
+ 
+                 nfa_hciu_add_pipe_to_gate (pipe, source_gate, dest_host, dest_gate);
+-
+-            }
++            } else if (data_len < 5 && status == NFA_STATUS_OK)
++                   {
++                       android_errorWriteLog(0x534e4554, "124524315");
++                       status = NFA_STATUS_FAILED;
++                   }
+ 
+             /* Tell the application his pipe was created or not */
+             evt_data.created.status       = status;

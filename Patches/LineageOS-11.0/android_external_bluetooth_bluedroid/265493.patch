@@ -1,0 +1,89 @@
+From 83f6ba8dc3f5bd609c117527da4e46bb36612e04 Mon Sep 17 00:00:00 2001
+From: Zongheng Wang <wangzongheng@google.com>
+Date: Mon, 5 Aug 2019 12:45:35 -0700
+Subject: [PATCH] SDP: disconnect if sdp_copy_raw_data fails
+
+Our partners met with the problem with sdp_copy_raw_data updated in
+CVE-2019-2116. When peer device responds with a wrong size,
+sdp_copy_raw_data will not complete and won't trigger
+disconnection. This CL enables the disconnection when a wrong size is
+received.
+
+Bug: 137239831
+Bug: 117105007
+Test: manual test
+Change-Id: I9f0df8b2de28970e7d69b737ce5d363785183bf3
+Merged-In: I9f0df8b2de28970e7d69b737ce5d363785183bf3
+(cherry picked from commit bc9df3451dad17c1ab1002fdbc85d60e57d4f0af)
+(cherry picked from commit 41939a2b5a8e3584c5a99dfe264a47df79e3091f)
+---
+ stack/sdp/sdp_discovery.c | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/stack/sdp/sdp_discovery.c b/stack/sdp/sdp_discovery.c
+index 81b5d584..474ce6b7 100644
+--- a/stack/sdp/sdp_discovery.c
++++ b/stack/sdp/sdp_discovery.c
+@@ -398,11 +398,13 @@ static void process_service_search_rsp (tCONN_CB *p_ccb, UINT8 *p_reply,
+ ** Description      copy the raw data
+ **
+ **
+-** Returns          void
++** Returns          BOOLEAN
++**                          true if successful
++**                          false if not copied
+ **
+ *******************************************************************************/
+ #if (SDP_RAW_DATA_INCLUDED == TRUE)
+-static void sdp_copy_raw_data (tCONN_CB *p_ccb, BOOLEAN offset)
++static BOOLEAN sdp_copy_raw_data (tCONN_CB *p_ccb, BOOLEAN offset)
+ {
+     unsigned int    cpy_len, rem_len;
+     UINT32          list_len;
+@@ -439,12 +441,12 @@ static void sdp_copy_raw_data (tCONN_CB *p_ccb, BOOLEAN offset)
+             if (p == NULL || (p + list_len) > p_end)
+             {
+                 SDP_TRACE_WARNING1("%s: bad length", __func__);
+-                return;
++                return FALSE;
+             }
+             if ((int)cpy_len < (p - old_p))
+             {
+                 SDP_TRACE_WARNING1("%s: no bytes left for data", __func__);
+-                return;
++                return FALSE;
+             }
+             cpy_len -= (p - old_p);
+         }
+@@ -464,6 +466,7 @@ static void sdp_copy_raw_data (tCONN_CB *p_ccb, BOOLEAN offset)
+         memcpy (&p_ccb->p_db->raw_data[p_ccb->p_db->raw_used], p, cpy_len);
+         p_ccb->p_db->raw_used += cpy_len;
+     }
++    return TRUE;
+ }
+ #endif
+ 
+@@ -547,7 +550,10 @@ static void process_service_attr_rsp (tCONN_CB *p_ccb, UINT8 *p_reply,
+ 
+ #if (SDP_RAW_DATA_INCLUDED == TRUE)
+             SDP_TRACE_WARNING0("process_service_attr_rsp");
+-            sdp_copy_raw_data (p_ccb, FALSE);
++            if (!sdp_copy_raw_data(p_ccb, FALSE)) {
++                SDP_TRACE_ERROR0("sdp_copy_raw_data failed");
++                sdp_disconnect(p_ccb, SDP_ILLEGAL_PARAMETER);
++            }
+ #endif
+ 
+             /* Save the response in the database. Stop on any error */
+@@ -804,7 +810,10 @@ static void process_service_search_attr_rsp (tCONN_CB *p_ccb, UINT8 *p_reply,
+ 
+ #if (SDP_RAW_DATA_INCLUDED == TRUE)
+     SDP_TRACE_WARNING0("process_service_search_attr_rsp");
+-    sdp_copy_raw_data (p_ccb, TRUE);
++    if (!sdp_copy_raw_data (p_ccb, TRUE)) {
++        SDP_TRACE_ERROR0("sdp_copy_raw_data failed");
++        sdp_disconnect(p_ccb, SDP_ILLEGAL_PARAMETER);
++    }
+ #endif
+ 
+     p = &p_ccb->rsp_list[0];

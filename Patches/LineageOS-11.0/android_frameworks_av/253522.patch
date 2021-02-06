@@ -1,0 +1,26 @@
+From f996521d68b88375bf5a1b357b684bac51e65d47 Mon Sep 17 00:00:00 2001
+From: Marco Nelissen <marcone@google.com>
+Date: Tue, 14 May 2019 10:53:06 -0700
+Subject: [PATCH] Fix overflow/dos in 3gg text description parsing
+
+Bug: 124781927
+Test: run pocs
+Change-Id: I8765ac9746c3de7d711ef866d4ec0e29972320c0
+(cherry picked from commit 851e22d1dc89a7f708b9d2b56947f69cd1a08b94)
+---
+ media/libstagefright/timedtext/TextDescriptions.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/media/libstagefright/timedtext/TextDescriptions.cpp b/media/libstagefright/timedtext/TextDescriptions.cpp
+index c762a74d08..83d15a28ca 100644
+--- a/media/libstagefright/timedtext/TextDescriptions.cpp
++++ b/media/libstagefright/timedtext/TextDescriptions.cpp
+@@ -383,7 +383,7 @@ status_t TextDescriptions::extract3GPPGlobalDescriptions(
+         tmpData += 8;
+         size_t remaining = size - 8;
+ 
+-        if (size < chunkSize) {
++        if (chunkSize <= 8 || size < chunkSize) {
+             return OK;
+         }
+         switch(chunkType) {

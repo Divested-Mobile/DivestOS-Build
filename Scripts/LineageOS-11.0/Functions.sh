@@ -60,19 +60,7 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
 	sed -i "s/'git', 'show', '-q'/'git', 'show'/" build/tools/repopick.py; #fix for old git versions
 	source build/envsetup.sh;
-	repopick -itf asb-2018.09-cm11-qcom;
-	repopick -i 230054 230392; #asb disclaimer
-	#repopick -it asb-2019.03-cm11;
-	#repopick -it asb-2019.04-cm11 -e 246293;
-	repopick -it asb-2019.05-cm11;
-	repopick -it asb-2019.06-cm11;
-	repopick -it asb-2019.07-cm11;
-	repopick -it asb-2019.08-cm11;
-	repopick -it asb-2019.09-cm11;
-	repopick -it asb-2019.10-cm11;
-	repopick -it asb-2019.11-cm11;
-	repopick -it asb-2019.12-cm11;
-	repopick -it asb-2020.01-cm11;
+	repopick -itf asb-2018.09-cm11-qcom; #TODO: move in tree
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

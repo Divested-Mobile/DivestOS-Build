@@ -1,0 +1,48 @@
+From 0e2e8cafa51610f103da120bd75f216bfae12769 Mon Sep 17 00:00:00 2001
+From: Raman Tenneti <rtenneti@google.com>
+Date: Tue, 25 Jun 2019 18:04:39 -0700
+Subject: [PATCH] AOSP/Email - Create an empty Bundle if originalExtras doesn't
+ exit. Backporting the fix to fix NullPointerException.
+
++ Added "originalExtras = new Bundle();" change from cl/247540041
+
+Bug: 135889250
+Bug: 127320867
+
+Test: manual - Ran the following tests on Pixel phone. Tested the email UI.
+
+$ make -j 40
+  -rw-r--r-- 1 rtenneti primarygroup 6371530 Jun 25 17:23 out/target/product/marlin/system/product/app/Email/Email.apk
+
+$ make EmailTests -j
+  -rw-r--r-- 1 rtenneti primarygroup 365023 Jun 25 17:49 out/target/product/marlin/testcases/EmailTests/arm64/EmailTests.apk
+
+$ adb install -r out/target/product/marlin/system/product/app/Email/Email.apk
+
+$ adb install -r out/target/product/marlin/testcases/EmailTests/arm64/EmailTests.apk
+
+$ adb shell am instrument -w com.android.email.tests
+  Time: 2.986
+  OK (157 tests)
+
+Change-Id: Ica9eb7ad3ddd11c752a526c2b1d5f086c74da283
+Merged-In: Ica9eb7ad3ddd11c752a526c2b1d5f086c74da283
+(cherry picked from commit 3150b66305bea67a83ce289c42c85efc669088d3)
+---
+ .../android/email/activity/ComposeActivityEmailExternal.java   | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/com/android/email/activity/ComposeActivityEmailExternal.java b/src/com/android/email/activity/ComposeActivityEmailExternal.java
+index a5cbe9d3a..a94313a86 100644
+--- a/src/com/android/email/activity/ComposeActivityEmailExternal.java
++++ b/src/com/android/email/activity/ComposeActivityEmailExternal.java
+@@ -49,6 +49,9 @@ private void sanitizeIntent() {
+     Intent sanitizedIntent = getIntent();
+     if (sanitizedIntent != null) {
+       Bundle originalExtras = sanitizedIntent.getExtras();
++       if (originalExtras == null) {
++        originalExtras = new Bundle();
++      }
+       sanitizedIntent.replaceExtras(new Bundle());
+       copyStringExtraIfExists(ComposeActivity.EXTRA_SUBJECT, originalExtras, sanitizedIntent);
+       copyStringExtraIfExists(ComposeActivity.EXTRA_TO, originalExtras, sanitizedIntent);

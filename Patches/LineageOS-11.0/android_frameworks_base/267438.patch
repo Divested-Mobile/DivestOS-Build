@@ -1,0 +1,29 @@
+From a501f19d464306ed340c1c9d1b217c82cf8fda57 Mon Sep 17 00:00:00 2001
+From: Jing Ji <jji@google.com>
+Date: Mon, 4 Nov 2019 14:22:27 -0800
+Subject: [PATCH] Prevent system uid component from running in an isolated app
+ process
+
+Bug: 140055304
+Test: Manua
+Change-Id: Ie7f6ed23f0c6009aad0f67a00af119b02cdceac3
+Merged-In: I5a1618fab529cb0300d4a8e9c7762ee218ca09eb
+(cherry picked from commit 0bfebadf304bdd5f921e80f93de3e0d13b88b79c)
+---
+ .../java/com/android/server/am/ActivityManagerService.java     | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/services/java/com/android/server/am/ActivityManagerService.java b/services/java/com/android/server/am/ActivityManagerService.java
+index bae278c5450e..12d22c03bc75 100644
+--- a/services/java/com/android/server/am/ActivityManagerService.java
++++ b/services/java/com/android/server/am/ActivityManagerService.java
+@@ -2651,7 +2651,8 @@ final ProcessRecord getProcessRecordLocked(String processName, int uid, boolean
+             final int procCount = procs.size();
+             for (int i = 0; i < procCount; i++) {
+                 final int procUid = procs.keyAt(i);
+-                if (UserHandle.isApp(procUid) || !UserHandle.isSameUser(procUid, uid)) {
++                if (UserHandle.isApp(procUid) || !UserHandle.isSameUser(procUid, uid)
++                        || UserHandle.isIsolated(procUid)) {
+                     // Don't use an app process or different user process for system component.
+                     continue;
+                 }

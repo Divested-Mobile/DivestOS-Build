@@ -1,0 +1,66 @@
+From 0afe7bd5b556b96ca442f632b9a789bbe4915d48 Mon Sep 17 00:00:00 2001
+From: Fan Zhang <zhfan@google.com>
+Date: Thu, 14 Feb 2019 16:07:37 -0800
+Subject: [PATCH] Do not allow draw on top for default sms picker.
+
+Fixes: 120484087
+Test: manual
+Change-Id: I4be265565678302fad207839216d5cd65dcb6e94
+Merged-In: I4be265565678302fad207839216d5cd65dcb6e94
+(cherry picked from commit 9d46e1fdfe1b70618c5a92c3e3461a4b379db236)
+(cherry picked from commit 95d0fb7f4911403844666632ece42467f60ad753)
+---
+ .../android/settings/SmsDefaultDialog.java    | 22 ++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/settings/SmsDefaultDialog.java b/src/com/android/settings/SmsDefaultDialog.java
+index 3a3848ba4f7..f4adc4a3aee 100644
+--- a/src/com/android/settings/SmsDefaultDialog.java
++++ b/src/com/android/settings/SmsDefaultDialog.java
+@@ -16,6 +16,8 @@
+ 
+ package com.android.settings;
+ 
++import static android.view.WindowManager.LayoutParams.PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS;
++
+ import android.content.ComponentName;
+ import android.content.Context;
+ import android.content.DialogInterface;
+@@ -31,12 +33,30 @@
+ import com.android.internal.telephony.SmsApplication;
+ import com.android.internal.telephony.SmsApplication.SmsApplicationData;
+ import com.android.settings.R;
++import android.view.Window;
++import android.view.WindowManager;
+ 
+ public final class SmsDefaultDialog extends AlertActivity implements
+         DialogInterface.OnClickListener {
+     private ComponentName mNewDefault;
+     private SmsApplicationData mNewSmsApplicationData;
+ 
++    @Override
++    protected void onStart() {
++        super.onStart();
++        getWindow().addPrivateFlags(PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);
++        android.util.EventLog.writeEvent(0x534e4554, "120484087", -1, "");
++    }
++
++    @Override
++    protected void onStop() {
++        super.onStop();
++        final Window window = getWindow();
++        final WindowManager.LayoutParams attrs = window.getAttributes();
++        attrs.privateFlags &= ~PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS;
++        window.setAttributes(attrs);
++    }
++
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+@@ -103,4 +123,4 @@ private boolean buildDialog(String packageName) {
+ 
+         return true;
+     }
+-}
+\ No newline at end of file
++}
