@@ -690,7 +690,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29371/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29661/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-35508/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-36158/3.18/0008.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3178/^5.11/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3178/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0003-tunnels-Don-t-apply-GRO-to-multiple-layers-of-encaps.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0004-net-add-recursion-limit-to-GRO.patch
