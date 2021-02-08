@@ -2,7 +2,7 @@
 cd "$DOS_BUILD_BASE""kernel/fairphone/msm8974"
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6544/3.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-3076/3.4/0003.patch
@@ -30,6 +30,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-4913/^4.5.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-5244/^4.6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-5828/^4.6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6480/^4.7/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10142/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10318/^4.7.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0005.patch
@@ -110,5 +111,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28974/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29371/^5.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3178/^5.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p110"
+editKernelLocalversion "-dos.p111"
 cd "$DOS_BUILD_BASE"

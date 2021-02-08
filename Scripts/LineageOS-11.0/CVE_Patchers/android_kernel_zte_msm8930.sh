@@ -11,7 +11,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.4/3.4.0090-0091.patch
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/0005-Copperhead-Deny_USB/3.4/3.4-Backport.patch
+git apply $DOS_PATCHES_LINUX_CVES/0005-AndroidHardening-Deny_USB/3.4/3.4-Backport.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0090-Unknown/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-2119/3.4/0003.patch

@@ -3,7 +3,7 @@ cd "$DOS_BUILD_BASE""kernel/samsung/exynos5420"
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/0005-Copperhead-Deny_USB/3.4/3.4-Backport.patch
+git apply $DOS_PATCHES_LINUX_CVES/0005-AndroidHardening-Deny_USB/3.4/3.4-Backport.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6544/3.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-3076/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-3222/3.4/0003.patch

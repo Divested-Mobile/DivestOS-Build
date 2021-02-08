@@ -2,7 +2,7 @@
 cd "$DOS_BUILD_BASE""kernel/lge/mako"
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/0006-Copperhead-Kernel_Hardening/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0090-Unknown/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6544/3.4/0009.patch

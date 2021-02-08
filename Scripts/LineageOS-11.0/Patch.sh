@@ -91,7 +91,7 @@ enterAndClear "external/skia";
 patch -p1 < "$DOS_PATCHES/android_external_skia/249705.patch"; #asb-2019.06-cm11
 
 enterAndClear "external/sqlite";
-patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0)
+patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (AndroidHardening-13.0)
 patch -p1 < "$DOS_PATCHES/android_external_sqlite/263910.patch"; #asb-2019.11-cm11
 
 enterAndClear "frameworks/av";
@@ -158,7 +158,7 @@ patch -p1 < "$DOS_PATCHES/android_packages_apps_UnifiedEmail/253861.patch"; #asb
 enterAndClear "system/core";
 sed -i 's/!= 2048/< 2048/' libmincrypt/tools/DumpPublicKey.java; #Allow 4096-bit keys
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
-patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (CopperheadOS-13.0)
+patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (AndroidHardening-13.0)
 
 enterAndClear "vendor/cm";
 rm -rf terminal;

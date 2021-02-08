@@ -41,7 +41,7 @@ commentPatches android_kernel_google_bonito.sh "CVE-2020-0067";
 commentPatches android_kernel_google_coral.sh "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992";
 commentPatches android_kernel_google_dragon.sh "CVE-2015-4167" "CVE-2017-15951" "CVE-2016-1237" "CVE-2016-6198" "CVE-2017-7374" "CVE-2018-17972" "CVE-2019-2214";
 commentPatches android_kernel_google_crosshatch.sh "CVE-2020-0067";
-commentPatches android_kernel_google_marlin.sh "0001-LinuxIncrementals/3.18/3.18.0098-0099.patch" "0006-Copperhead-Kernel_Hardening/3.18/0048.patch" "0006-Copperhead-Kernel_Hardening/3.18/0049.patch" "CVE-2017-13162/3.18/0001.patch" "CVE-2017-15951" "CVE-2018-17972" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166";
+commentPatches android_kernel_google_marlin.sh "0001-LinuxIncrementals/3.18/3.18.0098-0099.patch" "0006-AndroidHardening-Kernel_Hardening/3.18/0048.patch" "0006-AndroidHardening-Kernel_Hardening/3.18/0049.patch" "CVE-2017-13162/3.18/0001.patch" "CVE-2017-15951" "CVE-2018-17972" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166";
 commentPatches android_kernel_google_msm.sh "CVE-2017-11015/prima";
 commentPatches android_kernel_google_msm-4.9.sh "CVE-2019-19319" "CVE-2020-0067" "CVE-2020-1749" "CVE-2020-8992";
 commentPatches android_kernel_google_wahoo.sh "CVE-2019-14047/ANY/0002.patch" "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992" "CVE-2020-16166";

@@ -77,7 +77,7 @@ patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/248649.patch"; #msm_irqba
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on user builds XXX: REMOVE THIS TRASH
 
 enterAndClear "external/sqlite";
-patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (CopperheadOS-13.0)
+patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (AndroidHardening-13.0)
 
 enterAndClear "frameworks/av";
 patch -p1 < "$DOS_PATCHES/android_frameworks_av/212799.patch"; #FLAC extractor CVE-2017-0592. alt: 212827/174106
@@ -108,7 +108,7 @@ fi;
 
 enterAndClear "frameworks/opt/net/wifi";
 #Fix an issue when permision review is enabled that prevents using the Wi-Fi quick tile (AndroidHardening)
-#See https://github.com/CopperheadOS/platform_frameworks_opt_net_wifi/commit/c2a2f077a902226093b25c563e0117e923c7495b
+#See https://github.com/AndroidHardening/platform_frameworks_opt_net_wifi/commit/c2a2f077a902226093b25c563e0117e923c7495b
 sed -i 's/boolean mPermissionReviewRequired/boolean mPermissionReviewRequired = false/' service/java/com/android/server/wifi/WifiServiceImpl.java;
 awk -i inplace '!/mPermissionReviewRequired = Build.PERMISSIONS_REVIEW_REQUIRED/' service/java/com/android/server/wifi/WifiServiceImpl.java;
 awk -i inplace '!/\|\| context.getResources\(\).getBoolean\(/' service/java/com/android/server/wifi/WifiServiceImpl.java;
