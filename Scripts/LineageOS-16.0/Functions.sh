@@ -132,10 +132,8 @@ export -f buildAll;
 patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	source build/envsetup.sh;
+	#source build/envsetup.sh;
 	#repopick -it pie-firewall;
-	repopick -it tzdb2020f_P;
-	repopick -it tzdb2021a_P;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";

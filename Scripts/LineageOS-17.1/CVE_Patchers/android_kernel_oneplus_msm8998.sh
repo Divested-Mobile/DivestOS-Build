@@ -2,6 +2,7 @@
 cd "$DOS_BUILD_BASE""kernel/oneplus/msm8998"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0251-0252.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0252-0253.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0256-0257.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0002.patch
@@ -55,5 +56,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14386/3.10-^4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27825/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29569/4.4/0007.patch
-editKernelLocalversion "-dos.p55"
+editKernelLocalversion "-dos.p56"
 cd "$DOS_BUILD_BASE"
