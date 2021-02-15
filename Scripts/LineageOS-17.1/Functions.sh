@@ -96,7 +96,7 @@ buildAll() {
 	buildDevice marlin verity;
 	buildDevice sailfish verity;
 	#SD835
-	buildDevice cheryl;
+	buildDevice cheryl verity;
 	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile + not booting
 	buildDevice dumpling verity;
 	buildDevice mata verity;

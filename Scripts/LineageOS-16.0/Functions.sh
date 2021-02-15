@@ -107,7 +107,7 @@ buildAll() {
 		buildDevice marlin verity;
 		buildDevice sailfish verity;
 		#SD835
-		buildDevice cheryl;
+		buildDevice cheryl verity;
 		buildDevice mata verity;
 		buildDevice taimen avb;
 		buildDevice walleye avb;
