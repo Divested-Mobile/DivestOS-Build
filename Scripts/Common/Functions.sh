@@ -141,7 +141,7 @@ audit2allowADB() {
 export -f audit2allowADB;
 
 processRelease() {
-	#Partial Credit: GrapheneOS
+	#Reference (MIT): GrapheneOS
 	#https://github.com/GrapheneOS/script/blob/10/release.sh
 	local DEVICE="$1";
 	local BLOCK="$2";
@@ -655,7 +655,7 @@ hardenDefconfig() {
 
 	#Attempts to enable/disable supported options to increase security
 	#See https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings
-	#and https://github.com/a13xp0p0v/kconfig-hardened-check/blob/master/kconfig-hardened-check.py
+	#and (GPLv3) https://github.com/a13xp0p0v/kconfig-hardened-check/blob/master/kconfig_hardened_check/__init__.py
 
 	local defconfigPath=$(getDefconfig)
 
