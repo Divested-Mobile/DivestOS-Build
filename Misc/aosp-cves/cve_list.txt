@@ -1,4 +1,4 @@
-#Last checked 2021/02/03
+#Last checked 2021/03/04
 CVE-2014-9028
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/fe03f73d86bb415f5d5145f0de091834d89ae3a9
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/5859ae22db0a2d16af3e3ca19d582de37daf5eb6
@@ -973,6 +973,8 @@ CVE-2017-13322
 	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/25b3a8b0af2e479b5eaca40ec5c82a1c7971580a
 CVE-2017-13323
 	Link - system/core - https://android.googlesource.com/platform/system/core/+/8257766e842074adf0fb39ca0c9db12463fe59a2
+CVE-2017-14491
+	Link - external/dnsmasq - https://android.googlesource.com/platform/external/dnsmasq/+/10ba39da6b98043989b1a604f533d5b647ee7bda
 CVE-2017-14496
 	Link - external/dnsmasq - https://android.googlesource.com/platform/external/dnsmasq/+/ff755ca73c98a1f2706fe86996e4bf6215054834
 	Link - external/dnsmasq - https://android.googlesource.com/platform/external/dnsmasq/+/68a974de72b5091ce608815a349daaeb05cdeab5
@@ -2069,6 +2071,8 @@ CVE-2020-11167
 CVE-2020-11183
 	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=7fd40cc33e2cbb0d20d28c73d648fb65889ad108
 	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=593f37dcf1c6e9d1adcb2dfbfb84daaa840aab4b
+CVE-2020-11308
+	Link - https://source.codeaurora.org/quic/le/abl/tianocore/edk2/commit/?id=c468f18421e113057ba72b83edf985c53fe4705d
 CVE-2020-12856
 	Link - packages/apps/Bluetooth - https://android.googlesource.com/platform/packages/apps/Bluetooth/+/81c1c7d2d1681434413a615eea532e85fee43db0
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/73b4e5c4ba4c0c96a26ec84564cd9653da50a26c
@@ -2240,5 +2244,34 @@ CVE-2021-0340
 CVE-2021-0341
 	Link - external/okhttp - https://android.googlesource.com/platform/external/okhttp/+/ddc934efe3ed06ce34f3724d41cfbdcd7e7358fc
 	Link - libcore - https://android.googlesource.com/platform/libcore/+/4076be9a99bad5ff7651540df976c57462c3b8ce
+CVE-2021-0390
+	Link - frameworks/opt/net/wifi - https://android.googlesource.com/platform/frameworks/opt/net/wifi/+/23685b8604571ec623e539f4f9c66db65c9dde81
+CVE-2021-0391
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/169f089a26b322b297e8b224e3a7274bc18a986a
+CVE-2021-0392
+	Link - system/connectivity/wificond - https://android.googlesource.com/platform/system/connectivity/wificond/+/93eaaa88bd5820b27ad7c158981c5f8e635b79c2
+CVE-2021-0393
+	Link - external/v8 - https://android.googlesource.com/platform/external/v8/+/a91d71434065cde21f480f5d92432b9a4f2f3521
+CVE-2021-0394
+	Link - art - https://android.googlesource.com/platform/art/+/1358c9faa9766fd470ab2ba002a73479ccf54154
+	Link - art - https://android.googlesource.com/platform/art/+/4b56bb8ce224408acfef7f2b2c2cee2abd938c9a
+	Link - art - https://android.googlesource.com/platform/art/+/6444277041f41294d98adac4bb585183e56587f6
+	Link - art - https://android.googlesource.com/platform/art/+/69fc841b8460943c2b2224f61585942cbc9f3f40
+	Link - art - https://android.googlesource.com/platform/art/+/7dd48b90bd0968375cba8dffa2141cc9973329f9
+	Link - art - https://android.googlesource.com/platform/art/+/8c6653177204bfd6ccf03e1b4b3b72d96e362628
+	Link - art - https://android.googlesource.com/platform/art/+/d0b940349294a363e6d578adf58db8222c425669
+	Link - art - https://android.googlesource.com/platform/art/+/ed4b3e0958d3de6a92d82abb9f81e49e84d5c673
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/58f5cfa56d5282e69a7580dc4bb97603c409f003
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/61d0f84881cfc1bbac513ccd156c56603a48cc90
+	Link - system/tools/hidl - https://android.googlesource.com/platform/system/tools/hidl/+/e8544d4fae9e8b7f1b31068c1bbd817c792315c7
+	Link - system/tools/hidl - https://android.googlesource.com/platform/system/tools/hidl/+/f9a784013d8b6d519e66c2bee6384ad8a713ac25
+CVE-2021-0395
+	Link - system/core - https://android.googlesource.com/platform/system/core/+/71bd926bf0cbd8d823507f341cef9b71812afa66
+CVE-2021-0396
+	Link - external/v8 - https://android.googlesource.com/platform/external/v8/+/8daf19b2c8cf7b9325b53e9b93b1eac878759f23
+CVE-2021-0397
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/437adc1a143f22fd7792d033d1ff64a364888f44
+CVE-2021-0398
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/86bd39db3595842bae77abe7e768226e412591c8
 CVE-0000-0000
 #The above line must be the last line

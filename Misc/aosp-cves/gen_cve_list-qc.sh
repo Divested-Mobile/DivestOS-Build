@@ -1,3 +1,4 @@
+java -jar $DOS_BINARY_PATCHER scraper "https://www.qualcomm.com/company/product-security/bulletins/march-2021-bulletin" >> cve_list-qc.txt
 java -jar $DOS_BINARY_PATCHER scraper "https://www.qualcomm.com/company/product-security/bulletins/february-2021-bulletin" >> cve_list-qc.txt
 java -jar $DOS_BINARY_PATCHER scraper "https://www.qualcomm.com/company/product-security/bulletins/january-2021-bulletin" >> cve_list-qc.txt
 

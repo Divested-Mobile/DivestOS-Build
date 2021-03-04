@@ -1,29 +1,32 @@
+Last checked 2021-03-02
+https://nvd.nist.gov/vuln/detail/CVE-2017-6247 	- no links
+https://nvd.nist.gov/vuln/detail/CVE-2017-6248 	- no links
+https://nvd.nist.gov/vuln/detail/CVE-2019-15126	- vendor shenanigans
+https://nvd.nist.gov/vuln/detail/CVE-2019-20794	- no links
+https://nvd.nist.gov/vuln/detail/CVE-2019-9501 	- vendor shenanigans
+https://nvd.nist.gov/vuln/detail/CVE-2019-9502 	- vendor shenanigans
+https://nvd.nist.gov/vuln/detail/CVE-2020-0068 	- no links
+https://nvd.nist.gov/vuln/detail/CVE-2020-0220 	- no links
+https://nvd.nist.gov/vuln/detail/CVE-2020-0221 	- vendor shenanigans
+https://nvd.nist.gov/vuln/detail/CVE-2020-0261 	- no links
+https://nvd.nist.gov/vuln/detail/CVE-2020-10708	- withdrawn
+https://nvd.nist.gov/vuln/detail/CVE-2020-10774	- not found
+https://nvd.nist.gov/vuln/detail/CVE-2020-11147	- no links
+https://nvd.nist.gov/vuln/detail/CVE-2020-11148	- no links
+https://nvd.nist.gov/vuln/detail/CVE-2020-11201	- vendor shenanigans
+https://nvd.nist.gov/vuln/detail/CVE-2020-11202	- vendor shenanigans
+https://nvd.nist.gov/vuln/detail/CVE-2020-11206	- vendor shenanigans
+https://nvd.nist.gov/vuln/detail/CVE-2020-11207	- vendor shenanigans
+https://nvd.nist.gov/vuln/detail/CVE-2020-11208	- vendor shenanigans
+https://nvd.nist.gov/vuln/detail/CVE-2020-11211	- not found
+https://nvd.nist.gov/vuln/detail/CVE-2020-11223	- no links
+https://nvd.nist.gov/vuln/detail/CVE-2020-11277	- no links
+https://nvd.nist.gov/vuln/detail/CVE-2020-11305	- not found
+https://nvd.nist.gov/vuln/detail/CVE-2020-27066	- no links
+https://nvd.nist.gov/vuln/detail/CVE-2020-3623 	- no links
+https://nvd.nist.gov/vuln/detail/CVE-2020-3648 	- vendor shenanigans
+
 https://github.com/bobfuzzer/CVE
-https://nvd.nist.gov/vuln/detail/CVE-2017-6247
-https://nvd.nist.gov/vuln/detail/CVE-2017-6248
-https://nvd.nist.gov/vuln/detail/CVE-2019-12881
-https://nvd.nist.gov/vuln/detail/CVE-2019-15126
-https://nvd.nist.gov/vuln/detail/CVE-2019-20794
-https://nvd.nist.gov/vuln/detail/CVE-2019-9501
-https://nvd.nist.gov/vuln/detail/CVE-2019-9502
-https://nvd.nist.gov/vuln/detail/CVE-2020-0068
-https://nvd.nist.gov/vuln/detail/CVE-2020-0220
-https://nvd.nist.gov/vuln/detail/CVE-2020-0221
-https://nvd.nist.gov/vuln/detail/CVE-2020-0261
-https://nvd.nist.gov/vuln/detail/CVE-2020-10708
-https://nvd.nist.gov/vuln/detail/CVE-2020-10774
-https://nvd.nist.gov/vuln/detail/CVE-2020-11201
-https://nvd.nist.gov/vuln/detail/CVE-2020-11202
-https://nvd.nist.gov/vuln/detail/CVE-2020-11206
-https://nvd.nist.gov/vuln/detail/CVE-2020-11207
-https://nvd.nist.gov/vuln/detail/CVE-2020-11208
-https://nvd.nist.gov/vuln/detail/CVE-2020-11211
-https://nvd.nist.gov/vuln/detail/CVE-2020-3623
-https://nvd.nist.gov/vuln/detail/CVE-2020-3648
-https://nvd.nist.gov/vuln/detail/CVE-2020-25639
-https://nvd.nist.gov/vuln/detail/CVE-2020-27066
-https://nvd.nist.gov/vuln/detail/CVE-2020-11148
-https://nvd.nist.gov/vuln/detail/CVE-2020-27067
 
 andi34 cve typos
 CVE-2014-0169 -> CVE-2014-0196
@@ -32,9 +35,3 @@ CVE-2015-8492 -> CVE-2015-8942
 CVE-2016-0430 -> CVE-2017-0430
 CVE-2016-0510 -> CVE-2017-0510
 CVE-2016-0525 -> CVE-2017-0525
-
-https://nvd.nist.gov/vuln/detail/CVE-2020-3625
-https://nvd.nist.gov/vuln/detail/CVE-2020-0423
-CVE-2020-11277
-CVE-2020-11147
-CVE-2020-11223
