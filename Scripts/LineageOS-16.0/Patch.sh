@@ -78,10 +78,7 @@ patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.pa
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
 
 enterAndClear "external/chromium-webview";
-git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/30/304330/1; #update webview
-
-enterAndClear "external/dnsmasq";
-git pull "https://github.com/LineageOS/android_external_dnsmasq" refs/changes/00/305000/1; #P_asb_2021-03
+git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/88/305088/1; #update webview
 
 enterAndClear "external/svox";
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
@@ -188,9 +185,6 @@ enterAndClear "packages/services/Telephony";
 git revert --no-edit 99564aaf0417c9ddf7d6aeb10d326e5b24fa8f55;
 patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch";
 patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
-
-enterAndClear "system/connectivity/wificond";
-git pull "https://github.com/LineageOS/android_system_connectivity_wificond" refs/changes/08/305008/1; #P_asb_2021-03
 
 enterAndClear "system/core";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file

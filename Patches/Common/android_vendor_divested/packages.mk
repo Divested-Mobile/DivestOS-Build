@@ -21,7 +21,7 @@ PRODUCT_PACKAGES += \
     VanillaMusic
 
 # Notes
-# - Available (via PrebuiltApps submodule): K9Mail, OpenKeychain, Orbot, Shelter, TalkBack, TorBrowser
+# - Available (via PrebuiltApps submodule): K9Mail, OpenKeychain, Orbot, Shelter, TalkBack
 # - Camera Choices: None (Camera2/Snap), OpenCamera
 # - Gallery Choices: None (AOSP/Lineage), SimpleGallery
 # - OpenKeychain inclusion is undecided yet

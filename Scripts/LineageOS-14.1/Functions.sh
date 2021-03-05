@@ -124,8 +124,6 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	repopick -it n_asb_09-2018-qcom; #TODO: move in tree
 	#repopick -it bt-sbc-hd-dualchannel-nougat;
-	repopick -it tzdb2021a_N;
-	repopick -it n-asb-2021-03;
 
 	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
 

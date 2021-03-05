@@ -76,20 +76,13 @@ patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.pa
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
 
 enterAndClear "external/chromium-webview";
-git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/30/304330/1; #update webview
-
-enterAndClear "external/dnsmasq";
-git pull "https://github.com/LineageOS/android_external_dnsmasq" refs/changes/66/304966/1; #Q_asb_2021-03
+git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/88/305088/1; #update webview
 
 enterAndClear "external/svox";
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 sed -i '12iLOCAL_SDK_VERSION := current' pico/Android.mk; #Fix build under Pie
 sed -i 's/about to delete/unable to delete/' pico/src/com/svox/pico/LangPackUninstaller.java;
 awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.java;
-
-enterAndClear "external/v8";
-git pull "https://github.com/LineageOS/android_external_v8" refs/changes/70/304970/1; #Q_asb_2021-03
-git pull "https://github.com/LineageOS/android_external_v8" refs/changes/71/304971/1;
 
 enterAndClear "frameworks/av";
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_av/0001-HM_A2DP_Fix.patch"; fi; #(GrapheneOS)
@@ -193,9 +186,6 @@ patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voi
 #patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch"; #XXX 17REBASE
 #patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch"; #XXX 17REBASE
 
-enterAndClear "system/connectivity/wificond";
-git pull "https://github.com/LineageOS/android_system_connectivity_wificond" refs/changes/75/304975/1; #Q_asb_2021-03
-
 enterAndClear "system/core";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert --no-edit 3032c7aa5ce90c0ae9c08fe271052c6e0304a1e7 01266f589e6deaef30b782531ae14435cdd2f18e; #insanity
@@ -213,9 +203,6 @@ patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --direct
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/27.0";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/26.0";
 awk -i inplace '!/true cannot be used in user builds/' Android.mk; #Allow ignoring neverallows under -user
-
-enterAndClear "system/tools/hidl";
-git pull "https://github.com/LineageOS/android_system_tools_hidl" refs/changes/76/304976/1; #Q_asb_2021-03
 
 enterAndClear "system/update_engine";
 git revert --no-edit c68499e3ff10f2a31f913e14f66aafb4ed94d42d; #Do not skip payload signature verification
@@ -333,6 +320,9 @@ echo "allow hal_gnss_default ssr_device:chr_file { open read };" >> sepolicy/com
 
 enterAndClear "device/zuk/msm8996-common";
 awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
+
+enterAndClear "kernel/essential/msm8998";
+awk -i inplace '!/SECTOR_SIZE 512/' drivers/md/dm-req-crypt.c; #fixup 4.4.0258-0259.patch
 
 enterAndClear "kernel/google/marlin";
 git revert --no-edit dd4a454f080f60cc7c4f5cc281a48cba80947baf; #Resurrect dm-verity

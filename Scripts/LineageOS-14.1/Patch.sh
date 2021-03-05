@@ -77,7 +77,7 @@ patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/248649.patch"; #msm_irqba
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on user builds XXX: REMOVE THIS TRASH
 
 enterAndClear "external/chromium-webview";
-git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/30/304330/1; #update webview
+git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/88/305088/1; #update webview
 
 enterAndClear "external/sqlite";
 patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (AndroidHardening-13.0)
@@ -205,9 +205,6 @@ if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/h
 git revert --no-edit 0217dddeb5c16903c13ff6c75213619b79ea622b d7aa1231b6a0631f506c0c23816f2cd81645b15f; #Always update recovery XXX: This doesn't seem to work
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysfs changes (GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES_COMMON/android_system_core/0001-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
-
-enterAndClear "system/netd";
-git am $DOS_PATCHES/android_system_netd/*.patch; #n-netd
 
 enterAndClear "system/sepolicy";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/248600.patch"; #restrict access to timing information in /proc
