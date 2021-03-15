@@ -3,6 +3,7 @@ cd "$DOS_BUILD_BASE""kernel/oneplus/msm8998"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0251-0252.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0252-0253.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0256-0257.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0260-0261.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0002.patch
@@ -66,5 +67,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-26932/4.4/0017.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-26932/4.4/0018.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-26932/4.4/0019.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-26932/4.4/0020.patch
-editKernelLocalversion "-dos.p66"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-27363/4.4/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-27365/4.4/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-27365/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28038/4.4/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28038/4.4/0008.patch
+editKernelLocalversion "-dos.p72"
 cd "$DOS_BUILD_BASE"

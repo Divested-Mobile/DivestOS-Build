@@ -3,6 +3,7 @@ cd "$DOS_BUILD_BASE""kernel/samsung/universal9810"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0218-0219.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0239-0240.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0242-0243.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0260-0261.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0025.patch
@@ -155,6 +156,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28915/4.9/0017.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28915/4.9/0018.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28974/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29368/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29368/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29371/4.9/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29568/4.9/0031.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29568/4.9/0032.patch
@@ -186,7 +188,12 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-26932/4.9/0022.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-26932/4.9/0023.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-26932/4.9/0024.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-26932/4.9/0025.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-27363/4.9/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-27365/4.9/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-27365/4.9/0010.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28038/4.9/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28038/4.9/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/4.9/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.9/0005.patch
-editKernelLocalversion "-dos.p188"
+editKernelLocalversion "-dos.p195"
 cd "$DOS_BUILD_BASE"
