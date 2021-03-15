@@ -553,7 +553,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29661/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-35508/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-36158/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3178/3.18/0008.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20265/^4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-26930/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-27363/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
@@ -565,5 +564,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0610/ANY/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15951/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/3.18/0003.patch
-editKernelLocalversion "-dos.p565"
+editKernelLocalversion "-dos.p564"
 cd "$DOS_BUILD_BASE"
