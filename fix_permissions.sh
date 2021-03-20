@@ -29,7 +29,6 @@ setStrict Patches/LineageOS-16.0;
 setStrict Patches/LineageOS-17.1;
 setStrict Patches/Linux; #XXX: move this into the repo
 chmod -v 700 Patches/Linux/*.sh;
-setStrict Patches/Overclocks;
 #PrebuiltApps has its own fix_permissions.sh
 #Patches/Wallpapers has its own fix_permissions.sh
 setStrict Scripts;

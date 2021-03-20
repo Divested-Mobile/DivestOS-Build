@@ -60,7 +60,6 @@ export DOS_LOWRAM_ENABLED=false; #Set true to enable low_ram on all devices
 export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NLP, FULL
 export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Set true to allow inclusion of non-commercial use patches XXX: Unused, see 1dc9247
 export DOS_OPTIMIZE_IMAGES=false; #Set true to apply lossless optimizations to image resources
-export DOS_OVERCLOCKS_ENABLED=false; #Set true to enable overclocks #XXX: Most devices have their processors directly under their RAM, heatsinking is mostly into the ground plane, potentially inflicting damage to RAM and the processor itself
 export DOS_STRONG_ENCRYPTION_ENABLED=false; #Set true to enable AES 256-bit FDE encryption on 14.1+15.1 XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
 
 #Servers
@@ -139,7 +138,6 @@ export DOS_HOSTS_FILE="$DOS_TMP_DIR/hosts";
 export DOS_PREBUILT_APPS=$DOS_WORKSPACE_ROOT"PrebuiltApps/";
 export DOS_PATCHES_COMMON=$DOS_WORKSPACE_ROOT"Patches/Common/";
 export DOS_PATCHES=$DOS_WORKSPACE_ROOT"Patches/$BUILD_WORKING_DIR/";
-export DOS_PATCHES_OVERCLOCKS=$DOS_WORKSPACE_ROOT"Patches/Overclocks/";
 export DOS_PATCHES_LINUX_CVES=$DOS_WORKSPACE_ROOT"Patches/Linux/";
 export DOS_WALLPAPERS=$DOS_WORKSPACE_ROOT"Patches/Wallpapers/";
 
