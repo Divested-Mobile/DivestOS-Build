@@ -93,61 +93,24 @@
 	<project path="device/asus/Z00T" name="LineageOS/android_device_asus_Z00T" remote="github" />
 	<project path="kernel/asus/msm8916" name="LineageOS/android_kernel_asus_msm8916" remote="github" />
 
-	<!-- Google Pixel C (dragon) -->
-	<project path="device/google/dragon" name="LineageOS/android_device_google_dragon" remote="github" />
-	<project path="kernel/google/dragon" name="LineageOS/android_kernel_google_dragon" remote="github" />
-
 	<!-- HTC One (m9) -->
 	<project path="device/htc/himaul" name="LineageOS/android_device_htc_himaul" remote="github" />
 	<project path="device/htc/hima-common" name="LineageOS/android_device_htc_hima-common" remote="github" />
 	<project path="kernel/htc/msm8994" name="LineageOS/android_kernel_htc_msm8994" remote="github" />
-
-	<!-- LG G2 (d802) -->
-	<project path="device/lge/g2-common" name="LineageOS/android_device_lge_g2-common" remote="github" />
-	<project path="device/lge/d802" name="LineageOS/android_device_lge_d802" remote="github" />
-	<project path="kernel/lge/msm8974" name="LineageOS/android_kernel_lge_msm8974" remote="github" />
 
 	<!-- LG G4 (h815) -->
 	<project path="device/lge/g4-common" name="LineageOS/android_device_lge_g4-common" remote="github" />
 	<project path="device/lge/h815" name="LineageOS/android_device_lge_h815" remote="github" />
 	<project path="kernel/lge/msm8992" name="LineageOS/android_kernel_lge_msm8992" remote="github" />
 
-	<!-- LG G5 (h850:intl, rs988:us) -->
-	<project path="device/lge/common" name="LineageOS/android_device_lge_common" remote="github" />
-	<project path="device/lge/g5-common" name="LineageOS/android_device_lge_g5-common" remote="github" />
-	<project path="device/lge/h850" name="LineageOS/android_device_lge_h850" remote="github" />
-	<project path="device/lge/rs988" name="LineageOS/android_device_lge_rs988" remote="github" />
-	<project path="device/lge/msm8996-common" name="LineageOS/android_device_lge_msm8996-common" remote="github" />
-	<project path="kernel/lge/msm8996" name="LineageOS/android_kernel_lge_msm8996" remote="github" />
-
-	<!-- LG V20 (h990:intl, us996:us) -->
-	<project path="device/lge/v20-common" name="LineageOS/android_device_lge_v20-common" remote="github" />
-	<project path="device/lge/h990" name="LineageOS/android_device_lge_h990" remote="github" />
-	<project path="device/lge/us996" name="LineageOS/android_device_lge_us996" remote="github" />
-	<!-- uses lge msm8996 commons -->
-
-	<!-- LG G6 (h870:intl, us997:us) -->
-	<project path="device/lge/g6-common" name="LineageOS/android_device_lge_g6-common" remote="github" />
-	<project path="device/lge/h870" name="LineageOS/android_device_lge_h870" remote="github" />
-	<project path="device/lge/us997" name="LineageOS/android_device_lge_us997" remote="github" />
-	<!-- uses lge msm8996 commons -->
-
 	<!-- Moto G 3rd Gen (osprey) -->
 	<project path="device/motorola/msm8916-common" name="LineageOS/android_device_motorola_msm8916-common" remote="github" />
 	<project path="device/motorola/osprey" name="LineageOS/android_device_motorola_osprey" remote="github" />
 	<project path="kernel/motorola/msm8916" name="LineageOS/android_kernel_motorola_msm8916" remote="github" />
 
-	<!-- Moto X 2014 (victara) -->
-	<project path="device/motorola/victara" name="LineageOS/android_device_motorola_victara" remote="github" />
-	<project path="kernel/motorola/msm8974" name="LineageOS/android_kernel_motorola_msm8974" remote="github" />
-
 	<!-- Moto X Pure Edition (clark) -->
 	<project path="device/motorola/clark" name="LineageOS/android_device_motorola_clark" remote="github" />
 	<project path="kernel/motorola/msm8992" name="LineageOS/android_kernel_motorola_msm8992" remote="github" />
-
-	<!-- Moto Z (griffin) -->
-	<project path="device/motorola/griffin" name="LineageOS/android_device_motorola_griffin" remote="github" />
-	<project path="kernel/motorola/msm8996" name="LineageOS/android_kernel_motorola_msm8996" remote="github" />
 
 	<!-- Nexus 7 [2012] (grouper) -->
 	<project path="device/asus/grouper" name="LineageOS/android_device_asus_grouper" remote="github" revision="staging/cm-14.1" />
@@ -157,18 +120,6 @@
         <project path="device/samsung/manta" name="LineageOS/android_device_samsung_manta" remote="github" />
         <project path="kernel/samsung/manta" name="LineageOS/android_kernel_samsung_manta" remote="github" />
 	<project path="hardware/samsung_slsi/exynos5" name="LineageOS/android_hardware_samsung_slsi_exynos5" remote="github" />
-
-	<!-- Nexus Player (fugu) -->
-	<project path="device/asus/fugu" name="LineageOS/android_device_asus_fugu" remote="github" />
-	<project path="kernel/asus/fugu" name="LineageOS/android_kernel_asus_fugu" remote="github" />
-
-	<!-- OnePlus 2 (oneplus2) -->
-	<project path="device/oneplus/oneplus2" name="LineageOS/android_device_oneplus_oneplus2" remote="github" />
-	<project path="kernel/oneplus/msm8994" name="LineageOS/android_kernel_oneplus_msm8994" remote="github" />
-
-	<!-- OnePlus 3(T) (oneplus3) -->
-	<project path="device/oneplus/oneplus3" name="LineageOS/android_device_oneplus_oneplus3" remote="github" />
-	<project path="kernel/oneplus/msm8996" name="LineageOS/android_kernel_oneplus_msm8996" remote="github" />
 
 	<!-- Samsung Common -->
 	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
@@ -216,21 +167,9 @@
 	<project path="hardware/samsung_slsi-cm/openmax" name="LineageOS/android_hardware_samsung_slsi-cm_openmax" remote="github" />
 	<project path="kernel/samsung/universal8890" name="LineageOS/android_kernel_samsung_universal8890" remote="github" />
 
-	<!-- Wileyfox Storm (kipper) -->
-	<project path="device/wileyfox/kipper" name="LineageOS/android_device_wileyfox_kipper" remote="github" />
-	<project path="device/cyanogen/msm8916-common" name="LineageOS/android_device_cyanogen_msm8916-common" remote="github" />
-	<project path="kernel/cyanogen/msm8916" name="LineageOS/android_kernel_cyanogen_msm8916" remote="github" />
-
-	<!-- Wileyfox Swift (crackling) -->
-	<project path="device/wileyfox/crackling" name="LineageOS/android_device_wileyfox_crackling" remote="github" />
-
 	<!-- ZTE Axon 7 (axon7) -->
 	<project path="device/zte/axon7" name="LineageOS/android_device_zte_axon7" remote="github" />
 	<project path="kernel/zte/msm8996" name="LineageOS/android_kernel_zte_msm8996" remote="github" />
-
-	<!-- Zuk Z1 (ham) -->
-	<project path="device/zuk/ham" name="LineageOS/android_device_zuk_ham" remote="github" />
-	<project path="kernel/cyanogen/msm8974" name="LineageOS/android_kernel_cyanogen_msm8974" remote="github" />
 
 	<!-- NXP -->
 	<project path="vendor/nxp-nfc/opensource/frameworks" name="LineageOS/android_vendor_nxp-nfc_opensource_frameworks" remote="github" />

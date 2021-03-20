@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_amazon_hdx-common kernel_asus_fugu kernel_asus_grouper kernel_asus_msm8916 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_google_dragon kernel_google_msm kernel_htc_msm8994 kernel_lge_msm8974 kernel_lge_msm8992 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8974 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_samsung_exynos5420 kernel_samsung_manta kernel_samsung_smdk4412 kernel_samsung_tuna kernel_samsung_universal8890 kernel_zte_msm8996";
+	startPatcher "kernel_amazon_hdx-common kernel_asus_grouper kernel_asus_msm8916 kernel_google_msm kernel_htc_msm8994 kernel_lge_msm8992 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_samsung_exynos5420 kernel_samsung_manta kernel_samsung_smdk4412 kernel_samsung_tuna kernel_samsung_universal8890 kernel_zte_msm8996";
 }
 export -f patchAllKernels;
 
@@ -60,46 +60,34 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#Select devices are userdebug due to SELinux policy issues
+	#SD801
 	buildDeviceUserDebug thor; #broken encryption
+	#SD808
+	buildDevice clark; #Last version with working IMS
 	buildDevice h815;
+	#SD410
+	buildDevice osprey;
+	#SD810
+	buildDevice himaul;
+	#SD615
+	buildDevice Z00T;
+	#SD820
+	buildDevice axon7;
+	#Exynos
 	buildDevice manta;
 	buildDevice n7100; #broken sepolicy
+	buildDeviceUserDebug i9100;
 	buildDeviceUserDebug i9300;
 	buildDevice i9305;
 	buildDevice n5110;
 	buildDevice v1awifi;
 	buildDevice herolte;
+	#OMAP
 	buildDevice maguro;
 	buildDevice toro;
 	buildDevice toroplus;
+	#Tegra
 	buildDevice grouper; #needs manual patching - one-repo vendor blob patch
-
-	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
-	buildDevice osprey;
-	buildDevice himaul;
-	buildDevice Z00T;
-	buildDevice clark; #Last version with working IMS
-	buildDeviceUserDebug i9100;
-	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
-		buildDevice crackling;
-		buildDevice d802;
-		buildDevice ham;
-		buildDevice victara; #needs manual patching - fwb xml: fused: dangling tag
-		buildDevice oneplus2;
-		buildDevice ether;
-		buildDevice kipper;
-		buildDevice axon7;
-		buildDevice oneplus3;
-		buildDevice griffin;
-		buildDevice h850;
-		buildDevice rs988;
-		buildDevice h990;
-		buildDevice us996;
-		buildDevice h870;
-		buildDevice us997;
-		buildDevice dragon verity;
-		buildDevice fugu;
-	fi;
 }
 export -f buildAll;
 

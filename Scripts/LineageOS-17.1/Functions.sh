@@ -122,8 +122,8 @@ buildAll() {
 	buildDevice bonito avb;
 	buildDevice sargo avb;
 	#Exynos
-	#buildDevice starlte; #broken vendor partition integration
-	#buildDevice star2lte;
+	buildDevice starlte; #broken vendor partition integration
+	buildDevice star2lte;
 	#Tegra
 	buildDevice yellowstone; #broken
 }
