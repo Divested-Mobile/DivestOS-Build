@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_asus_msm8953 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_fairphone_sdm632 kernel_fxtec_msm8998 kernel_google_bonito kernel_google_crosshatch kernel_google_msm kernel_google_wahoo kernel_google_yellowstone kernel_lge_hammerhead kernel_lge_msm8974 kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_razer_msm8998 kernel_samsung_smdk4412 kernel_xiaomi_sdm845 kernel_yandex_sdm660 kernel_zuk_msm8996";
+	startPatcher "kernel_asus_fugu kernel_asus_msm8953 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_google_msm kernel_google_yellowstone kernel_lge_hammerhead kernel_oneplus_msm8998 kernel_samsung_smdk4412 kernel_xiaomi_sdm845";
 }
 export -f patchAllKernels;
 
@@ -67,50 +67,17 @@ buildAll() {
 	buildDevice kipper;
 	#SD625
 	buildDevice zenfone3; #broken - ninja: error: 'android.hidl.base@1.0.so', missing and no known rule to make it
+	#SD835
+	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile #17.1 isn't booting
+	buildDevice dumpling verity;
+	#SD845
+	buildDevice beryllium;
 	#Samsung
 	buildDeviceUserDebug i9100; #broken - many errors in hardware/samsung/exynos4
 	#Intel
 	buildDevice fugu; #broken - ninja: error: 'libpcre2.so' missing and no known rule to make it
-
-	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile #17.1 isn't booting
-	buildDevice dumpling verity;
+	#Tegra
 	buildDevice yellowstone; #broken sepolicy?
-	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
-		#SD410
-		buildDevice crackling;
-		#SD600
-		buildDevice jfltexx;
-		#SD800
-		buildDevice d802;
-		#SD801
-		buildDevice victara;
-		#SD808
-		buildDevice ether;
-		#SD810
-		buildDevice oneplus2;
-		#SD820
-		buildDevice oneplus3 verity;
-		buildDevice griffin;
-		buildDevice z2_plus verity;
-		#SD632
-		buildDevice FP3 avb;
-		#SD835
-		buildDevice cheryl verity;
-		#SD845
-		buildDevice beryllium;
-		buildDevice crosshatch avb;
-		buildDevice blueline avb;
-		buildDevice enchilada avb;
-		buildDevice fajita avb;
-		buildDevice pro1 avb;
-		#SD855
-		buildDevice guacamole avb;
-		#SD660
-		buildDevice Amber verity;
-		#SD670
-		buildDevice bonito avb;
-		buildDevice sargo avb;
-	fi;
 }
 export -f buildAll;
 

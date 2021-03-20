@@ -234,44 +234,15 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 enterAndClear "device/asus/zenfone3";
 rm -rf libhidl; #breaks other devices
 
-enterAndClear "device/fairphone/FP3";
-enableVerity; #Resurrect dm-verity
-
-enterAndClear "device/fxtec/pro1";
-enableVerity; #Resurrect dm-verity
-
-enterAndClear "device/google/bonito";
-enableVerity; #Resurrect dm-verity
-
-enterAndClear "device/google/crosshatch";
-enableVerity; #Resurrect dm-verity
-
-enterAndClear "device/google/wahoo";
-patch -p1 < "$DOS_PATCHES/android_device_google_wahoo/232948.patch"; #liblight: close fd
-
-enterAndClear "device/lge/g2-common";
-sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
-
 enterAndClear "device/lge/hammerhead";
 git am $DOS_PATCHES/android_device_lge_hammerhead/*.patch; #hh-p-sepolicy
 rm -rf bdAddrLoader; #duplicate with mako
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> BoardConfig.mk; #qcom-legacy sepolicy
 
-enterAndClear "device/oneplus/oneplus2";
-sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt;
 
 enterAndClear "device/oneplus/msm8998-common";
 patch -p1 < "$DOS_PATCHES_COMMON/android_device_audio/0001-No_Vorbis_Offload.patch"; #Fix Ogg Vorbis playback
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
-
-enterAndClear "device/oneplus/sm8150-common";
-enableVerity; #Resurrect dm-verity
-
-enterAndClear "device/zuk/msm8996-common";
-awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
-
-enterAndClear "kernel/google/wahoo";
-sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
@@ -292,9 +263,6 @@ removeBuildFingerprints;
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/asus/msm8953/arch/arm64/configs/*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/yellowstone/arch/arm*/configs/*_defconfig; #Breaks on compile
-sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/motorola/msm8974/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
-sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/motorola/msm8996/arch/arm64/configs/*_defconfig; #Breaks on compile
-sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/oneplus/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
 
 sed -i 's/YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l*; #Fix builds with GCC 10
 rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk;
