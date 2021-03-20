@@ -69,7 +69,6 @@ export DOS_GPS_NTP_SERVER="1.android.pool.ntp.org"; #Options: Any NTP pool
 export DOS_GPS_SUPL_HOST="supl.google.com"; #Options: supl.{google,vodafone,sonyericsson}.com
 
 #Release Processing
-export DOS_BUILDALL_SUPERSEDED=false; #Set true to build superseded devices when running buildAll()
 export DOS_MALWARE_SCAN_BEFORE_SIGN=false; #Scan device files for malware before signing
 export DOS_GENERATE_DELTAS=true; #Creates deltas from existing target_files in $DOS_BUILDS
 export DOS_AUTO_ARCHIVE_BUILDS=true; #Copies files to $DOS_BUILDS after signing

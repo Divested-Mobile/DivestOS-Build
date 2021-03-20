@@ -96,11 +96,6 @@ patchWorkspace() {
 	source "$DOS_SCRIPTS_COMMON/Deblob.sh";
 	source "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
 	source build/envsetup.sh;
-
-	#Deblobbing fixes
-	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
-	cd device/google/marlin/marlin && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
-	cd device/google/marlin/sailfish && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
 }
 export -f patchWorkspace;
 

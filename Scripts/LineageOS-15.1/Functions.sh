@@ -102,18 +102,13 @@ patchWorkspace() {
 	source "$DOS_SCRIPTS_COMMON/Deblob.sh";
 	source "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
 	source build/envsetup.sh;
-
-	#Deblobbing fixes
-	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
-	cd device/lge/h850 && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
-	cd device/lge/rs988 && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
 }
 export -f patchWorkspace;
 
 enableDexPreOpt() {
 	cd "$DOS_BUILD_BASE$1";
 	#Some devices won't compile, or have too small of a /system partition, or Wi-Fi breaks
-	if [ "$1" != "device/lge/h850" ] && [ "$1" != "device/lge/rs988" ] && [ "$1" != "device/lge/mako" ]; then
+	if true; then
 		if [ -f BoardConfig.mk ]; then
 			echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 			echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
