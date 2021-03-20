@@ -247,6 +247,9 @@ rm -rf bdAddrLoader; #duplicate with mako
 enterAndClear "device/essential/mata";
 git revert --no-edit 450c860872705c6829a7c62172dd7b4b36c80f48 e91f0fece65d32ca407be532e2c4456056b1a968; #Unbreak the earpiece speaker, breaking the loud speaker volume control on calls
 
+enterAndClear "device/fairphone/FP3";
+enableVerity; #Resurrect dm-verity
+
 enterAndClear "device/fxtec/pro1";
 enableVerity; #Resurrect dm-verity
 

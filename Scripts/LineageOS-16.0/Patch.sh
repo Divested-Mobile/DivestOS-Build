@@ -238,6 +238,9 @@ echo "/dev/block/platform/msm_sdcc\.1/by-name/misc u:object_r:misc_block_device:
 enterAndClear "device/asus/zenfone3";
 rm -rf libhidl; #breaks other devices
 
+enterAndClear "device/fairphone/FP3";
+enableVerity; #Resurrect dm-verity
+
 enterAndClear "device/fxtec/pro1";
 enableVerity; #Resurrect dm-verity
 
