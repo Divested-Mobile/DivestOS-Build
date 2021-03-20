@@ -262,27 +262,16 @@ echo "allow gpsd system_data_file:dir write;" >> sepolicy/gpsd.te;
 enterAndClear "device/lge/g2-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 
-enterAndClear "device/lge/g3-common";
-sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
-sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
-echo "allow wcnss_service block_device:dir search;" >> sepolicy/wcnss_service.te; #fix incorrect Wi-Fi MAC address
-
 enterAndClear "device/lge/g4-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 
 enterAndClear "device/lge/msm8996-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 
-enterAndClear "device/lge/mako";
-echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
-echo "pmf=0" >> wpa_supplicant_overlay.conf; #Wi-Fi chipset doesn't support PMF
 
 enterAndClear "device/motorola/clark";
 sed -i 's/0xA04D/0xA04D|0xA052/' board-info.txt; #Allow installing on Nougat bootloader, assume the user is running the correct modem
 rm board-info.txt; #Never restrict installation
-
-enterAndClear "device/oneplus/bacon";
-sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
 enterAndClear "device/samsung/exynos5420-common";
 awk -i inplace '!/shell su/' sepolicy/shell.te; #neverallow
