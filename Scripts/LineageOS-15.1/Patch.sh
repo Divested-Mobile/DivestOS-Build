@@ -229,40 +229,20 @@ if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_
 #
 #START OF DEVICE CHANGES
 #
-enterAndClear "device/asus/flo";
-compressRamdisks;
-echo "/dev/block/platform/msm_sdcc\.1/by-name/misc u:object_r:misc_block_device:s0" >> sepolicy/file_contexts;
-
 enterAndClear "device/asus/msm8916-common";
 rm -rf Android.bp sensors; #already included in asus/flo
-
-enterAndClear "device/google/marlin";
-patch -p1 < "$DOS_PATCHES/android_device_google_marlin/0001-Fix_MediaProvider_Deadlock.patch"; #Fix MediaProvider using 100% CPU (due to broken ppoll on functionfs?)
 
 enterAndClear "device/lge/g2-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 
-enterAndClear "device/lge/g3-common";
-sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
-sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
-sed -i 's|qcrilmsgtunnel.apk|qcrilmsgtunnel.apk:vendor/priv-app/qcrilmsgtunnel/qcrilmsgtunnel.apk|' proprietary-files.txt; #Fix vendor Android.mk path for qcrilmsgtunnel.apk
-
 enterAndClear "device/lge/msm8996-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
-
-enterAndClear "device/lge/mako";
-git revert --no-edit e277722bb3f10dad7a6078aa0dba7b78738e6071; #restore releasetools
-echo "allow kickstart usbfs:dir search;" >> sepolicy/kickstart.te; #Fix forceencrypt on first boot
-echo "pmf=0" >> wifi/wpa_supplicant_overlay.conf; #Wi-Fi chipset doesn't support PMF
 
 enterAndClear "device/moto/shamu";
 #git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
 
 enterAndClear "device/oneplus/msm8998-common";
 patch -p1 < "$DOS_PATCHES_COMMON/android_device_audio/0001-No_Vorbis_Offload.patch"; #Fix Ogg Vorbis playback
-
-enterAndClear "device/oppo/msm8974-common";
-sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";

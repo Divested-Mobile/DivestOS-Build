@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_asus_msm8916 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_google_wahoo kernel_google_yellowstone kernel_htc_flounder kernel_htc_msm8974 kernel_htc_msm8994 kernel_huawei_angler kernel_lge_bullhead kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oppo_msm8974 kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_samsung_universal9810 kernel_xiaomi_sdm845 kernel_zte_msm8996";
+	startPatcher "kernel_asus_fugu kernel_asus_msm8916 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_google_yellowstone kernel_htc_flounder kernel_htc_msm8994 kernel_huawei_angler kernel_lge_bullhead kernel_lge_hammerhead kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_samsung_smdk4412 kernel_samsung_universal9810 kernel_xiaomi_sdm845 kernel_zte_msm8996";
 }
 export -f patchAllKernels;
 
@@ -70,8 +70,6 @@ buildAll() {
 	buildDevice dragon verity;
 
 	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
-	buildDevice flo; #Last version without repartitioning required
-	buildDevice mako; #testing
 	buildDevice hammerhead; #16.0 has bluetooth issues?
 	buildDevice shamu verity; #Last version with working IMS
 	buildDevice oneplus2; #Last version with working IMS + broken - needs vendor patching
@@ -80,13 +78,7 @@ buildAll() {
 	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
 		buildDevice crackling;
 		buildDevice d802;
-		buildDevice bacon;
-		buildDevice d852;
-		buildDevice d855;
-		buildDevice FP2;
 		buildDevice ham;
-		buildDevice klte;
-		buildDevice m8;
 		buildDevice victara;
 		buildDevice kipper;
 		buildDevice oneplus3;
@@ -95,13 +87,6 @@ buildAll() {
 		buildDevice h850; #broken
 		buildDevice rs988;
 		buildDevice griffin;
-		buildDevice marlin verity;
-		buildDevice sailfish verity;
-		buildDevice cheeseburger;
-		buildDevice dumpling;
-		buildDevice mata verity;
-		buildDevice taimen avb;
-		buildDevice walleye avb;
 		buildDevice beryllium;
 		buildDevice enchilada avb;
 		buildDeviceUserDebug i9100;
