@@ -91,8 +91,6 @@ patchWorkspace() {
 
 	#source build/envsetup.sh;
 
-	export DOS_GRAPHENE_MALLOC=false; #patches apply, compile fails
-
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
 	source "$DOS_SCRIPTS/Defaults.sh";

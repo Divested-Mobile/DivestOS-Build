@@ -63,12 +63,6 @@
 
 <!-- START OF ADDITIONAL REPOS -->
 	<!--<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />-->
-
-	<!-- F-Droid -->
-	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
-
-	<!-- GrapheneOS
-	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="master" />-->
 <!-- END OF ADDITIONAL REPOS -->
 
 <!-- START OF DEVICE REPOS -->

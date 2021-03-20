@@ -67,18 +67,6 @@
 	<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />-->
 <!-- END OF BRANCH SWITCHING -->
 
-<!-- START OF ADDITIONAL REPOS -->
-	<!-- Backup
-	<remote name="stevesoltys-github" fetch="https://github.com/stevesoltys/" revision="refs/heads/master" />
-	<project path="packages/apps/Backup" name="backup" remote="stevesoltys-github" /> -->
-
-	<!-- F-Droid -->
-	<remote name="fdroid" fetch="https://gitlab.com/fdroid/" />
-
-	<!-- GrapheneOS
-	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="master" />-->
-<!-- END OF ADDITIONAL REPOS -->
-
 <!-- START OF DEVICE REPOS -->
 	<!-- Common -->
 	<project path="packages/resources/devicesettings" name="LineageOS/android_packages_resources_devicesettings" remote="github" />
