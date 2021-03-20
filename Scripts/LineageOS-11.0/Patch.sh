@@ -210,7 +210,6 @@ deblobAudio;
 
 #Fixes
 #Fix broken options enabled by hardenDefconfig()
-#sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig;
 sed -i "s/# CONFIG_COMPAT_BRK is not set/CONFIG_COMPAT_BRK=y/" kernel/zte/msm8930/arch/arm/configs/msm8960-nex_defconfig;
 #
 #END OF DEVICE CHANGES

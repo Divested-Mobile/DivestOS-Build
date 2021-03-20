@@ -91,7 +91,6 @@
 	<project path="external/sony/boringssl-compat" name="LineageOS/android_external_sony_boringssl-compat" remote="github" />
 	<project path="hardware/sony/thermanager" name="LineageOS/android_hardware_sony_thermanager" remote="github" />
 	<!--<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />-->
-	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 
 	<!-- Essential PH-1 (mata) -->
 	<project path="device/essential/mata" name="LineageOS/android_device_essential_mata" remote="github" />
@@ -195,6 +194,7 @@
 
 	<!-- Nexus 7 [2013] (flo) -->
 	<project path="device/asus/flox" name="LineageOS/android_device_asus_flox" remote="github" />
+	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 
         <!-- Nexus 4 (mako) -->
         <project path="device/lge/mako" name="voron00/android_device_lge_mako" remote="github" />

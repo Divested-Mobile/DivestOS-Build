@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_asus_msm8953 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_google_msm kernel_google_yellowstone kernel_lge_hammerhead kernel_oneplus_msm8998 kernel_samsung_smdk4412 kernel_xiaomi_sdm845";
+	startPatcher "kernel_asus_fugu kernel_asus_msm8953 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_google_yellowstone kernel_lge_hammerhead kernel_oneplus_msm8998 kernel_samsung_smdk4412 kernel_xiaomi_sdm845";
 }
 export -f patchAllKernels;
 
