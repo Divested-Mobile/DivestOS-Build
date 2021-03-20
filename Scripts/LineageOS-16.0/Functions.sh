@@ -72,7 +72,7 @@ buildAll() {
 	buildDevice dumpling verity;
 	#SD845
 	buildDevice beryllium;
-	#Samsung
+	#Exynos
 	buildDeviceUserDebug i9100; #broken - many errors in hardware/samsung/exynos4
 	#Intel
 	buildDevice fugu; #broken - ninja: error: 'libpcre2.so' missing and no known rule to make it

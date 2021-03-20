@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_asus_msm8916 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_google_dragon kernel_google_marlin kernel_google_msm kernel_google_yellowstone kernel_htc_flounder kernel_htc_msm8994 kernel_huawei_angler kernel_lge_bullhead kernel_lge_hammerhead kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_samsung_smdk4412 kernel_samsung_universal9810 kernel_xiaomi_sdm845 kernel_zte_msm8996";
+	startPatcher "kernel_asus_fugu kernel_asus_msm8916 kernel_google_dragon kernel_google_msm kernel_htc_flounder kernel_htc_msm8994 kernel_huawei_angler kernel_lge_bullhead kernel_lge_hammerhead kernel_lge_msm8996 kernel_moto_shamu kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_samsung_smdk4412 kernel_zte_msm8996";
 }
 export -f patchAllKernels;
 
@@ -59,41 +59,30 @@ buildAll() {
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
-	buildDevice bullhead verity;
-	#buildDevice himaul; #broken - needs vendor bits
+	#SD801
+	buildDevice hammerhead; #16.0 has bluetooth issues?
+	#SD805
+	buildDevice shamu verity; #Last version with working IMS
+	#SD808
 	buildDevice angler verity;
+	buildDevice bullhead verity;
+	buildDevice ether; #Last version with working IMS
+	#SD810
+	buildDevice himaul; #broken - needs vendor bits
+	buildDevice oneplus2; #Last version with working IMS + broken - needs vendor patching
+	#SD615
 	buildDevice Z00T; #broken - needs vendor patching
+	#SD820
 	buildDevice axon7; #broken - needs vendor patching
 	buildDevice h870;
 	buildDevice us997;
+	#Exynos
+	buildDeviceUserDebug i9100;
+	#Intel
+	buildDevice fugu;
+	#Tegra
 	buildDevice flounder verity;
 	buildDevice dragon verity;
-
-	#The following are all superseded, and should only be enabled if the newer version is broken (not building/booting/etc.)
-	buildDevice hammerhead; #16.0 has bluetooth issues?
-	buildDevice shamu verity; #Last version with working IMS
-	buildDevice oneplus2; #Last version with working IMS + broken - needs vendor patching
-	buildDevice ether; #Last version with working IMS
-	buildDevice fugu;
-	if [ "$DOS_BUILDALL_SUPERSEDED" = true ]; then
-		buildDevice crackling;
-		buildDevice d802;
-		buildDevice ham;
-		buildDevice victara;
-		buildDevice kipper;
-		buildDevice oneplus3;
-		buildDevice h990;
-		buildDevice us996;
-		buildDevice h850; #broken
-		buildDevice rs988;
-		buildDevice griffin;
-		buildDevice beryllium;
-		buildDevice enchilada avb;
-		buildDeviceUserDebug i9100;
-		buildDevice starlte; #broken - device/samsung/universal9810-common/audio: MODULE.TARGET.SHARED_LIBRARIES.libshim_audio_32 already defined by device/samsung/star-common/audio
-		buildDevice star2lte;
-		buildDevice yellowstone;
-	fi;
 }
 export -f buildAll;
 
