@@ -231,10 +231,6 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 #
 #START OF DEVICE CHANGES
 #
-enterAndClear "device/asus/flo";
-compressRamdisks;
-echo "/dev/block/platform/msm_sdcc\.1/by-name/misc u:object_r:misc_block_device:s0" >> sepolicy/file_contexts;
-
 enterAndClear "device/asus/zenfone3";
 rm -rf libhidl; #breaks other devices
 
@@ -250,41 +246,16 @@ enableVerity; #Resurrect dm-verity
 enterAndClear "device/google/crosshatch";
 enableVerity; #Resurrect dm-verity
 
-enterAndClear "device/google/marlin";
-git revert --no-edit eeb92c0f094f58b1bdfbaa775d239948f81e915b 8c729e4b016a5b35159992413a22c289ecf2c44c; #remove some carrier blobs
-patch -p1 < "$DOS_PATCHES/android_device_google_marlin/0001-Fix_MediaProvider_Deadlock.patch"; #Fix MediaProvider using 100% CPU (due to broken ppoll on functionfs?)
-
 enterAndClear "device/google/wahoo";
 patch -p1 < "$DOS_PATCHES/android_device_google_wahoo/232948.patch"; #liblight: close fd
 
 enterAndClear "device/lge/g2-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 
-enterAndClear "device/lge/g3-common";
-patch -p1 < "$DOS_PATCHES/android_device_lge_g3-common/254249.patch"; #g3-common: Add NFC HAL to proprietary-files
-sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
-sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
-
-enterAndClear "device/lge/d852";
-git revert --no-edit dbebbce20b2b303fe13f7078ef54154f9dd5d9e2; #fix nfc path
-
-enterAndClear "device/lge/d855";
-git revert --no-edit 9a5739e66d0a44347881807c0cc44d7c318c02b8; #fix nfc path
-
 enterAndClear "device/lge/hammerhead";
 git am $DOS_PATCHES/android_device_lge_hammerhead/*.patch; #hh-p-sepolicy
 rm -rf bdAddrLoader; #duplicate with mako
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> BoardConfig.mk; #qcom-legacy sepolicy
-
-enterAndClear "device/lge/mako";
-#git revert ; #restore releasetools #TODO
-smallerSystem;
-sed -i 's/1333788672/880803840/' BoardConfig.mk; #don't touch partitions! DOS -user fits with 40M free
-awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk;
-echo "pmf=0" >> wifi/wpa_supplicant_overlay.conf; #Wi-Fi chipset doesn't support PMF
-
-#enterAndClear "device/moto/shamu";
-#git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
 
 enterAndClear "device/oneplus/oneplus2";
 sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt;
@@ -296,17 +267,8 @@ awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disabl
 enterAndClear "device/oneplus/sm8150-common";
 enableVerity; #Resurrect dm-verity
 
-enterAndClear "device/oppo/common";
-awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
-
-enterAndClear "device/oppo/msm8974-common";
-sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
-
 enterAndClear "device/zuk/msm8996-common";
 awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
-
-enterAndClear "kernel/google/marlin";
-git revert --no-edit 568f99db3c9a590912f533fa734c46cf7a25dcbd; #Resurrect dm-verity
 
 enterAndClear "kernel/google/wahoo";
 sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
@@ -330,7 +292,6 @@ removeBuildFingerprints;
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/asus/msm8953/arch/arm64/configs/*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/yellowstone/arch/arm*/configs/*_defconfig; #Breaks on compile
-sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/lge/mako/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/motorola/msm8974/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/motorola/msm8996/arch/arm64/configs/*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/oneplus/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile

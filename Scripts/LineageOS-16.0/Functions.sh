@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_asus_msm8953 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_fxtec_msm8998 kernel_google_bonito kernel_google_crosshatch kernel_google_marlin kernel_google_msm kernel_google_wahoo kernel_google_yellowstone kernel_htc_msm8974 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_samsung_jf kernel_samsung_msm8974 kernel_samsung_smdk4412 kernel_xiaomi_sdm845 kernel_yandex_sdm660 kernel_zuk_msm8996";
+	startPatcher "kernel_asus_fugu kernel_asus_msm8953 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_fairphone_sdm632 kernel_fxtec_msm8998 kernel_google_bonito kernel_google_crosshatch kernel_google_msm kernel_google_wahoo kernel_google_yellowstone kernel_lge_hammerhead kernel_lge_msm8974 kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_razer_msm8998 kernel_samsung_smdk4412 kernel_xiaomi_sdm845 kernel_yandex_sdm660 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -59,8 +59,6 @@ buildAll() {
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
-	#SDS4P
-	#buildDevice flo; #broken encryption
 	#SD800
 	buildDevice hammerhead; #broken sepolicy?
 	#SD801
@@ -74,7 +72,6 @@ buildAll() {
 	#Intel
 	buildDevice fugu; #broken - ninja: error: 'libpcre2.so' missing and no known rule to make it
 
-	buildDevice mako; #Last version without repartitioning required
 	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile #17.1 isn't booting
 	buildDevice dumpling verity;
 	buildDevice yellowstone; #broken sepolicy?
@@ -86,15 +83,7 @@ buildAll() {
 		#SD800
 		buildDevice d802;
 		#SD801
-		buildDevice bacon;
-		buildDevice d852;
-		buildDevice d855;
-		buildDevice FP2;
-		buildDevice klte;
-		buildDevice m8;
 		buildDevice victara;
-		#SD805
-		buildDevice shamu verity;
 		#SD808
 		buildDevice ether;
 		#SD810
@@ -103,16 +92,10 @@ buildAll() {
 		buildDevice oneplus3 verity;
 		buildDevice griffin;
 		buildDevice z2_plus verity;
-		#SD821
-		buildDevice marlin verity;
-		buildDevice sailfish verity;
 		#SD632
 		buildDevice FP3 avb;
 		#SD835
 		buildDevice cheryl verity;
-		buildDevice mata verity;
-		buildDevice taimen avb;
-		buildDevice walleye avb;
 		#SD845
 		buildDevice beryllium;
 		buildDevice crosshatch avb;
