@@ -51,8 +51,8 @@ export DOS_DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Serv
 
 #Features
 export DOS_GPS_GLONASS_FORCED=false; #Enables GLONASS on all devices
-export DOS_GRAPHENE_MALLOC=true; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms
-export DOS_GRAPHENE_EXEC=false; #Enables use of GrapheneOS' exec spawning feature XXX: broken (just on 17.1?)
+export DOS_GRAPHENE_MALLOC=true; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms on 16.0+17.1
+export DOS_GRAPHENE_EXEC=false; #Enables use of GrapheneOS' exec spawning feature on 16.0+17.1 XXX: broken (just on 17.1?)
 export DOS_HOSTS_BLOCKING=true; #Set false to prevent inclusion of a HOSTS file
 export DOS_HOSTS_BLOCKING_APP="DNS66"; #App installed when built-in blocking is disabled. Options: DNS66
 export DOS_HOSTS_BLOCKING_LIST="https://divestos.org/hosts"; #Must be in the format "127.0.0.1 bad.domain.tld"

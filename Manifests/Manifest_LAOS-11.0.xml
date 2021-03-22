@@ -34,7 +34,6 @@
 	<remove-project name="LineageOS/android_packages_wallpapers_NoiseField" />
 	<remove-project name="LineageOS/android_packages_wallpapers_PhaseBeam" />
 	<remove-project name="LineageOS/android_packages_wallpapers_PhotoPhase" />
-	<remove-project name="platform/cts" />
 	<remove-project name="platform/developers/build" />
 	<remove-project name="platform/developers/demos" />
 	<remove-project name="platform/developers/docs" />

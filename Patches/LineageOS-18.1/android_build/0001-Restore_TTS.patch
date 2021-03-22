@@ -1,0 +1,59 @@
+From f8f88297ec49d592e501397222c7ec73d4691657 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Fri, 25 Sep 2020 10:13:52 -0400
+Subject: [PATCH] Restore PicoTTS
+
+Reverts:
+271f6ffa045064abcac066e97f2cb53ccb3e5126
+61f7ee9386be426fd4eadc2c8759362edb5bef8d
+
+Change-Id: I9aee2c5f739f9f08a27c71d54570517ed4aa413f
+---
+ target/product/full_base.mk       | 3 +++
+ target/product/handheld_system.mk | 9 +++++++++
+ 2 files changed, 12 insertions(+)
+
+diff --git a/target/product/full_base.mk b/target/product/full_base.mk
+index 267859a62..8e124c707 100644
+--- a/target/product/full_base.mk
++++ b/target/product/full_base.mk
+@@ -59,6 +59,9 @@ else
+ $(call inherit-product-if-exists, frameworks/base/data/sounds/AudioPackage14.mk)
+ endif
+ 
++# Get the TTS language packs
++$(call inherit-product-if-exists, external/svox/pico/lang/all_pico_languages.mk)
++
+ # Get a list of languages.
+ $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
+ 
+diff --git a/target/product/handheld_system.mk b/target/product/handheld_system.mk
+index f6c92b5e8..176521e09 100644
+--- a/target/product/handheld_system.mk
++++ b/target/product/handheld_system.mk
+@@ -31,6 +31,14 @@ $(call inherit-product-if-exists, external/hyphenation-patterns/patterns.mk)
+ $(call inherit-product-if-exists, frameworks/base/data/keyboards/keyboards.mk)
+ $(call inherit-product-if-exists, frameworks/webview/chromium/chromium.mk)
+ 
++# include available languages for TTS in the system image
++-include external/svox/pico/lang/PicoLangDeDeInSystem.mk
++-include external/svox/pico/lang/PicoLangEnGBInSystem.mk
++-include external/svox/pico/lang/PicoLangEnUsInSystem.mk
++-include external/svox/pico/lang/PicoLangEsEsInSystem.mk
++-include external/svox/pico/lang/PicoLangFrFrInSystem.mk
++-include external/svox/pico/lang/PicoLangItItInSystem.mk
++
+ PRODUCT_PACKAGES += \
+     BasicDreams \
+     BlockedNumberProvider \
+@@ -57,6 +65,7 @@ PRODUCT_PACKAGES += \
+     MtpService \
+     MusicFX \
+     PacProcessor \
++    PicoTTS \
+     PrintRecommendationService \
+     PrintSpooler \
+     ProxyHandler \
+-- 
+2.30.2
+

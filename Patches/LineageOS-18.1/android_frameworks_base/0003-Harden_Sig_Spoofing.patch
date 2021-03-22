@@ -1,0 +1,26 @@
+From afedf9abaf7dc3df592b0b9e1046b3c87217af64 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Mon, 12 Feb 2018 02:55:55 -0500
+Subject: [PATCH] Harden signature spoofing
+
+Change-Id: I86f35690710612f23ffce9067e1fd4d58b9fba6f
+---
+ core/res/AndroidManifest.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
+index 5a654329446..a87ab52cbaa 100644
+--- a/core/res/AndroidManifest.xml
++++ b/core/res/AndroidManifest.xml
+@@ -2853,7 +2853,7 @@
+          seen by applications -->
+     <permission android:name="android.permission.FAKE_PACKAGE_SIGNATURE"
+         android:permissionGroup="android.permission-group.UNDEFINED"
+-        android:protectionLevel="dangerous"
++        android:protectionLevel="signature"
+         android:label="@string/permlab_fakePackageSignature"
+         android:description="@string/permdesc_fakePackageSignature" />
+ 
+-- 
+2.30.2
+

@@ -38,7 +38,8 @@ cat "$DOS_SIGNING_KEYS/mata/verity.x509.pem" >> "kernel/essential/msm8998/certs/
 cat "$DOS_SIGNING_KEYS/pro1/verity.x509.pem" >> "kernel/fxtec/msm8998/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/sargo/verity.x509.pem" >> "kernel/google/bonito/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/sargo/verity.x509.pem" >> "kernel/google/msm-4.9/certs/verity.x509.pem";
-cat "$DOS_SIGNING_KEYS/starlte/verity.x509.pem" >> "kernel/samsung/universal9810/certs/verity.x509.pem";
+#cat "$DOS_SIGNING_KEYS/starlte/verity.x509.pem" >> "kernel/samsung/universal9810/certs/verity.x509.pem";
+#cat "$DOS_SIGNING_KEYS/star2lte/verity.x509.pem" >> "kernel/samsung/universal9810/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/taimen/verity.x509.pem" >> "kernel/google/wahoo/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/walleye/verity.x509.pem" >> "kernel/google/wahoo/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/z2_plus/verity.x509.pem" >> "kernel/zuk/msm8996/certs/verity.x509.pem";
@@ -68,7 +69,8 @@ cp -v "$DOS_SIGNING_KEYS/pro1/verifiedboot_relkeys.der.x509" "kernel/fxtec/msm89
 cp -v "$DOS_SIGNING_KEYS/sailfish/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_sailfish_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/sargo/verifiedboot_relkeys.der.x509" "kernel/google/bonito/verifiedboot_sargo_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/sargo/verifiedboot_relkeys.der.x509" "kernel/google/msm-4.9/verifiedboot_sargo_dos_relkeys.der.x509";
-cp -v "$DOS_SIGNING_KEYS/starlte/verifiedboot_relkeys.der.x509" "kernel/samsung/universal9810/verifiedboot_starlte_dos_relkeys.der.x509";
+#cp -v "$DOS_SIGNING_KEYS/starlte/verifiedboot_relkeys.der.x509" "kernel/samsung/universal9810/verifiedboot_starlte_dos_relkeys.der.x509";
+#cp -v "$DOS_SIGNING_KEYS/star2lte/verifiedboot_relkeys.der.x509" "kernel/samsung/universal9810/verifiedboot_star2lte_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/taimen/verifiedboot_relkeys.der.x509" "kernel/google/wahoo/verifiedboot_taimen_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/walleye/verifiedboot_relkeys.der.x509" "kernel/google/wahoo/verifiedboot_walleye_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/z2_plus/verifiedboot_relkeys.der.x509" "kernel/zuk/msm8996/verifiedboot_z2_plus_dos_relkeys.der.x509";

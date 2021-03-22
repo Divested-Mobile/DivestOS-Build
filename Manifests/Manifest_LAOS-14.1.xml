@@ -25,7 +25,6 @@
 	<remove-project name="LineageOS/android_packages_apps_LockClock" />
 	<remove-project name="LineageOS/android_packages_apps_OpenWeatherMapProvider" />
 	<remove-project name="LineageOS/android_packages_apps_Stk" />
-	<remove-project name="LineageOS/android_packages_apps_StorageManager" />
 	<remove-project name="LineageOS/android_packages_apps_Terminal" />
 	<remove-project name="LineageOS/android_packages_providers_PartnerBookmarksProvider" />
 	<remove-project name="LineageOS/android_packages_providers_WeatherProvider" />
@@ -47,8 +46,6 @@
 	<remove-project name="LineageOS/scripts" />
 	<remove-project name="LineageOS/slackbot" />
 	<remove-project name="LineageOS/www" />
-	<remove-project name="platform/cts" />
-	<remove-project name="platform/external/replicaisland" />
 	<remove-project name="platform/packages/apps/RetailDemo" />
 	<remove-project name="platform/prebuilts/clang/darwin-x86/host/3.6" />
 	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />

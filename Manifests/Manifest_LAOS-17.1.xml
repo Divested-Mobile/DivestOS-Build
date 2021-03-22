@@ -23,9 +23,7 @@
 	<remove-project name="LineageOS/android_hardware_qcom_vr" />
 	<remove-project name="LineageOS/android_packages_apps_Jelly" />
 	<remove-project name="LineageOS/android_packages_apps_Stk" />
-	<remove-project name="LineageOS/android_packages_apps_StorageManager" />
 	<remove-project name="LineageOS/android_packages_apps_Terminal" />
-	<remove-project name="LineageOS/android_packages_apps_Traceur" />
 	<remove-project name="LineageOS/android_packages_providers_PartnerBookmarksProvider" />
 	<remove-project name="LineageOS/android_packages_screensavers_Basic" />
 	<remove-project name="LineageOS/android_packages_screensavers_PhotoTable" />
@@ -43,7 +41,6 @@
 	<remove-project name="LineageOS/slackbot" />
 	<remove-project name="LineageOS/www" />
 	<remove-project name="platform/external/iperf3" />
-	<remove-project name="platform/external/replicaisland" />
 	<remove-project name="platform/external/tcpdump" />
 	<remove-project name="platform/external/virglrenderer" />
 	<remove-project name="platform/external/wayland" />
@@ -251,14 +248,6 @@
 	<project path="device/samsung/klte-common" name="LineageOS/android_device_samsung_klte-common" remote="github" />
 	<project path="device/samsung/msm8974-common" name="LineageOS/android_device_samsung_msm8974-common" remote="github" />
 	<project path="kernel/samsung/msm8974" name="LineageOS/android_kernel_samsung_msm8974" remote="github" />
-
-	<!-- Samsung Galaxy S9 (starlte) -->
-	<project path="device/samsung/starlte" name="LineageOS/android_device_samsung_starlte" remote="github" />
-	<project path="device/samsung/universal9810-common" name="LineageOS/android_device_samsung_universal9810-common" remote="github" />
-	<project path="kernel/samsung/universal9810" name="LineageOS/android_kernel_samsung_universal9810" remote="github" />
-
-	<!-- Samsung Galaxy S9+ (star2lte) -->
-	<project path="device/samsung/star2lte" name="LineageOS/android_device_samsung_star2lte" remote="github" />
 
 	<!-- Wileyfox Swift (crackling) -->
 	<project path="device/wileyfox/crackling" name="LineageOS/android_device_wileyfox_crackling" remote="github" />

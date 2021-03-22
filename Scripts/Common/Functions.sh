@@ -154,6 +154,12 @@ processRelease() {
 	local ARCHIVE="$DOS_BUILDS/$DOS_VERSION/release_keys/";
 	local OUT_DIR="$DOS_BUILD_BASE/out/target/product/$DEVICE/";
 
+	local RELEASETOOLS_PREFIX="build/tools/releasetools/"; #XXX: FIXME 18REBASE
+	if [[ "$DOS_VERSION" == "LineageOS-18.1" ]]; then
+		local RELEASETOOLS_PREFIX="";
+		make otatools;
+	fi;
+
 	echo -e "\e[0;32mProcessing release for $DEVICE\e[0m";
 
 	#Arguments
@@ -183,7 +189,7 @@ processRelease() {
 
 	#Target Files
 	echo -e "\e[0;32mSigning target files\e[0m";
-	build/tools/releasetools/sign_target_files_apks -o -d "$KEY_DIR" \
+	"$RELEASETOOLS_PREFIX"sign_target_files_apks -o -d "$KEY_DIR" \
 		"${VERITY_SWITCHES[@]}" \
 		$OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files-*.zip \
 		$OUT_DIR/$PREFIX-target_files.zip;
@@ -194,14 +200,14 @@ processRelease() {
 	#Image
 	if [ ! -f $OUT_DIR/recovery.img ]; then
 		echo -e "\e[0;32mCreating fastboot image\e[0m";
-		build/tools/releasetools/img_from_target_files $OUT_DIR/$PREFIX-target_files.zip \
+		"$RELEASETOOLS_PREFIX"img_from_target_files $OUT_DIR/$PREFIX-target_files.zip \
 			$OUT_DIR/$PREFIX-fastboot.zip || exit 1;
 		sha512sum $OUT_DIR/$PREFIX-fastboot.zip > $OUT_DIR/$PREFIX-fastboot.zip.sha512sum;
 	fi
 
 	#OTA
 	echo -e "\e[0;32mCreating OTA\e[0m";
-	build/tools/releasetools/ota_from_target_files $BLOCK_SWITCHES -k "$KEY_DIR/releasekey" \
+	"$RELEASETOOLS_PREFIX"ota_from_target_files $BLOCK_SWITCHES -k "$KEY_DIR/releasekey" \
 		$OUT_DIR/$PREFIX-target_files.zip  \
 		$OUT_DIR/$PREFIX-ota.zip;
 	md5sum $OUT_DIR/$PREFIX-ota.zip > $OUT_DIR/$PREFIX-ota.zip.md5sum;
@@ -214,7 +220,7 @@ processRelease() {
 				local LAST_INCREMENTAL_ID=$(cat "$LAST_TARGET_FILES.id");
 				echo -e "\e[0;32mGenerating incremental OTA against $LAST_INCREMENTAL_ID\e[0m";
 				#TODO: Verify GPG signature and checksum of target-files first!
-				build/tools/releasetools/ota_from_target_files $BLOCK_SWITCHES -t 8 -k "$KEY_DIR/releasekey" -i \
+				"$RELEASETOOLS_PREFIX"ota_from_target_files $BLOCK_SWITCHES -t 8 -k "$KEY_DIR/releasekey" -i \
 					"$LAST_TARGET_FILES" \
 					$OUT_DIR/$PREFIX-target_files.zip \
 					$OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip;
@@ -623,7 +629,7 @@ changeDefaultDNS() {
 		echo "You must first set a preset via the DOS_DEFAULT_DNS_PRESET variable in init.sh!";
 	fi;
 
-	local files="core/res/res/values/config.xml packages/SettingsLib/res/values/strings.xml services/core/java/com/android/server/connectivity/NetworkDiagnostics.java services/core/java/com/android/server/connectivity/Tethering.java services/core/java/com/android/server/connectivity/tethering/TetheringConfiguration.java services/java/com/android/server/connectivity/Tethering.java";
+	local files="core/res/res/values/config.xml packages/SettingsLib/res/values/strings.xml services/core/java/com/android/server/connectivity/NetworkDiagnostics.java services/core/java/com/android/server/connectivity/Tethering.java services/core/java/com/android/server/connectivity/tethering/TetheringConfiguration.java services/java/com/android/server/connectivity/Tethering.java packages/Tethering/src/com/android/networkstack/tethering/TetheringConfiguration.java core/java/android/net/util/DnsUtils.java";
 	sed -i "s/8\.8\.8\.8/$dnsPrimary/" $files &>/dev/null || true;
 	sed -i "s/2001:4860:4860::8888/$dnsPrimaryV6/" $files &>/dev/null || true;
 	sed -i "s/8\.8\.4\.4/$dnsSecondary/" $files &>/dev/null || true;

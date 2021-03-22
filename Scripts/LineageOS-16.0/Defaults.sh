@@ -38,8 +38,8 @@ sed -i 's/INSTANT_APPS_ENABLED, 1/INSTANT_APPS_ENABLED, 0/' src/com/android/sett
 sed -i 's/DEFAULT_VALUE = 1;/DEFAULT_VALUE = 0.5f;/' src/com/android/settings/development/*ScalePreferenceController.java; #Always reset animation scales to 0.5
 
 enter "vendor/lineage";
-sed -i 's/ro.config.notification_sound=Argon.ogg/ro.config.notification_sound=Pong.ogg/' config/common.mk;
-sed -i 's/ro.config.alarm_alert=Hassium.ogg/ro.config.alarm_alert=Alarm_Buzzer.ogg/' config/common.mk;
+sed -i 's/ro.config.notification_sound=Argon.ogg/ro.config.notification_sound=Pong.ogg/' config/common*.mk;
+sed -i 's/ro.config.alarm_alert=Hassium.ogg/ro.config.alarm_alert=Alarm_Buzzer.ogg/' config/common*.mk;
 
 cd "$DOS_BUILD_BASE";
 echo "Default settings changed!";
