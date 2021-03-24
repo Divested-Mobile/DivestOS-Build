@@ -1,0 +1,28 @@
+From 3f038f4a5e81a78f286f5557066af271683fadbc Mon Sep 17 00:00:00 2001
+From: Luca Stefani <luca.stefani.ge1@gmail.com>
+Date: Thu, 24 Nov 2016 13:31:24 +0100
+Subject: [PATCH] MediaProvider: Add read storage permission
+
+* Fixes:
+Permission Denial: reading com.android.providers.media.MediaProvider uri content://media/external/fs_id
+
+Change-Id: Id4dd5e287c1162f4c8b7fbb2411b834fe98f2516
+---
+ AndroidManifest.xml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 05e6d77..2e33a3a 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -13,6 +13,7 @@
+     <uses-permission android:name="android.permission.ACCESS_MTP" />
+     <uses-permission android:name="android.permission.MANAGE_USERS" />
+     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" />
++    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+ 
+     <application android:process="android.process.media"
+                  android:label="@string/app_label"
+-- 
+2.30.2
+

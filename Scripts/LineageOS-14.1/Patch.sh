@@ -75,7 +75,7 @@ patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/248649.patch"; #msm_irqba
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on user builds XXX: REMOVE THIS TRASH
 
 enterAndClear "external/chromium-webview";
-git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/88/305088/2 #update webview
+git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/88/305088/3; #update webview
 
 enterAndClear "external/sqlite";
 patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (AndroidHardening-13.0)
@@ -248,7 +248,6 @@ sed -i 's/,encryptable=footer//' rootdir/etc/fstab.qcom; #Using footer will brea
 #XXX: If not used with a supported recovery, it'll be thrown into a bootloop, don't worry just 'fastboot erase misc' and reboot
 #echo "/dev/block/platform/msm_sdcc.1/by-name/misc /misc emmc defaults defaults" >> rootdir/etc/fstab.qcom; #Add the misc (mmcblk0p5) partition for recovery flags
 
-enableLowRam "device/asus/grouper";
 enterAndClear "device/asus/grouper";
 patch -p1 < "$DOS_PATCHES/android_device_asus_grouper/0001-Update_Blobs.patch";
 patch -p1 < "$DOS_PATCHES/android_device_asus_grouper/0002-Perf_Tweaks.patch";
@@ -272,7 +271,6 @@ awk -i inplace '!/shell su/' sepolicy/shell.te; #neverallow
 enterAndClear "device/samsung/toroplus";
 awk -i inplace '!/additional_system_update/' overlay/packages/apps/Settings/res/values*/*.xml;
 
-enableLowRam "device/samsung/tuna";
 enterAndClear "device/samsung/tuna";
 #git revert --no-edit e53eea6426da49dfb542929d5aa686667f4d416f; #restore releasetools #TODO
 rm setup-makefiles.sh; #broken, deblobber will still function
@@ -303,6 +301,17 @@ find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {}
 cd "$DOS_BUILD_BASE";
 deblobAudio;
 removeBuildFingerprints;
+
+#Tweaks for <2GB RAM devices
+enableLowRam "device/asus/grouper";
+enableLowRam "device/motorola/osprey";
+enableLowRam "device/samsung/i9100";
+enableLowRam "device/samsung/i9300";
+enableLowRam "device/samsung/i9305";
+enableLowRam "device/samsung/maguro";
+enableLowRam "device/samsung/manta";
+enableLowRam "device/samsung/toro";
+enableLowRam "device/samsung/toroplus";
 
 #Fixes
 #Fix broken options enabled by hardenDefconfig()

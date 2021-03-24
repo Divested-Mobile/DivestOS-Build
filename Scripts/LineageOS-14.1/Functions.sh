@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_amazon_hdx-common kernel_asus_grouper kernel_asus_msm8916 kernel_htc_msm8994 kernel_lge_msm8992 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_samsung_exynos5420 kernel_samsung_manta kernel_samsung_smdk4412 kernel_samsung_tuna kernel_samsung_universal8890 kernel_zte_msm8996";
+	startPatcher "kernel_amazon_hdx-common kernel_asus_grouper kernel_asus_msm8916 kernel_htc_msm8960 kernel_htc_msm8994 kernel_lge_msm8992 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_samsung_exynos5420 kernel_samsung_manta kernel_samsung_smdk4412 kernel_samsung_tuna kernel_samsung_universal8890 kernel_zte_msm8996";
 }
 export -f patchAllKernels;
 
@@ -60,6 +60,8 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#Select devices are userdebug due to SELinux policy issues
+	#SD600
+	buildDeviceUserDebug m7;
 	#SD801
 	buildDeviceUserDebug thor; #broken encryption
 	#SD808
@@ -88,6 +90,7 @@ buildAll() {
 	buildDevice toroplus;
 	#Tegra
 	buildDevice grouper; #needs manual patching - one-repo vendor blob patch
+
 }
 export -f buildAll;
 
@@ -141,7 +144,7 @@ export -f enableDexPreOptFull;
 
 enableLowRam() {
 	cd "$DOS_BUILD_BASE$1";
-	if [ -f lineage.mk ]; then echo '$(call inherit-product, vendor/divested/build/target/product/lowram.mk)' >> lineage.mk; fi;
+	if [ -f lineage.mk ]; then echo -e '\n$(call inherit-product, vendor/divested/build/target/product/lowram.mk)' >> lineage.mk; fi;
 	if [ -f BoardConfig.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfig.mk; fi;
 	if [ -f BoardConfigCommon.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfigCommon.mk; fi;
 	echo "Enabled lowram for $1";

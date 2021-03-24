@@ -83,6 +83,12 @@
 	<project path="device/asus/Z00T" name="LineageOS/android_device_asus_Z00T" remote="github" />
 	<project path="kernel/asus/msm8916" name="LineageOS/android_kernel_asus_msm8916" remote="github" />
 
+	<!-- HTC One (m7) -->
+	<project path="device/htc/m7" name="LineageOS/android_device_htc_m7" remote="github" />
+	<project path="device/htc/m7-common" name="LineageOS/android_device_htc_m7-common" remote="github" />
+	<project path="device/htc/msm8960-common" name="LineageOS/android_device_htc_msm8960-common" remote="github" />
+	<project path="kernel/htc/msm8960" name="LineageOS/android_kernel_htc_msm8960" remote="github" />
+
 	<!-- HTC One (m9) -->
 	<project path="device/htc/himaul" name="LineageOS/android_device_htc_himaul" remote="github" />
 	<project path="device/htc/hima-common" name="LineageOS/android_device_htc_hima-common" remote="github" />

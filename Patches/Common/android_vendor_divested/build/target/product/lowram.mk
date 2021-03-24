@@ -14,19 +14,20 @@
 # limitations under the License.
 #
 
-# Changes various properties to reduce memory usage even on devices with 1GB+ RAM
+# Changes various properties to reduce memory usage
 
 # Set lowram options
 PRODUCT_PROPERTY_OVERRIDES += \
      ro.config.low_ram=true \
      ro.lmk.critical_upgrade=true \
      ro.lmk.upgrade_pressure=40 \
+     ro.lmk.downgrade_pressure=60 \
+     ro.lmk.kill_heaviest_task=false \
      config.disable_atlas=true \
-     persist.sys.use_16bpp_alpha=1
-
-# set threshold to filter unused apps
-PRODUCT_PROPERTY_OVERRIDES += \
-     pm.dexopt.downgrade_after_inactive_days=14
+     persist.sys.use_16bpp_alpha=1 \
+     dalvik.vm.madvise-random=true
+#     dalvik.vm.heapgrowthlimit=128m \
+#     dalvik.vm.heapsize=256m
 
 # Speed profile services and wifi-service to reduce RAM and storage.
 PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
@@ -34,3 +35,11 @@ PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
 # Always preopt extracted APKs to prevent extracting out of the APK for gms
 # modules.
 PRODUCT_ALWAYS_PREOPT_EXTRACTED_APK := true
+
+# Do not generate libartd.
+PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false
+
+# Strip the local variable table and the local variable type table to reduce
+# the size of the system image. This has no bearing on stack traces, but will
+# leave less information available via JDWP.
+PRODUCT_MINIMIZE_JAVA_DEBUG_INFO := true

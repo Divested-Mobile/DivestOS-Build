@@ -26,7 +26,6 @@ index f402c86..c84be43 100644
  
  # Filesystem
 diff --git a/device.mk b/device.mk
-index 33c1fc9..8d8c65a 100644
 --- a/device.mk
 +++ b/device.mk
 @@ -24,7 +24,8 @@ PRODUCT_COPY_FILES += \
@@ -40,7 +39,6 @@ index 33c1fc9..8d8c65a 100644
  DEVICE_PACKAGE_OVERLAYS += \
      device/asus/grouper/overlay
 diff --git a/overlay/frameworks/base/core/res/res/values/config.xml b/overlay/frameworks/base/core/res/res/values/config.xml
-index d28e4fb..c9ec73a 100644
 --- a/overlay/frameworks/base/core/res/res/values/config.xml
 +++ b/overlay/frameworks/base/core/res/res/values/config.xml
 @@ -219,4 +219,11 @@
@@ -56,10 +54,9 @@ index d28e4fb..c9ec73a 100644
 +
  </resources>
 diff --git a/system.prop b/system.prop
-index b1d9807..1f31c09 100644
 --- a/system.prop
 +++ b/system.prop
-@@ -12,6 +12,29 @@ ro.sf.lcd_density=213
+@@ -12,6 +12,27 @@ ro.sf.lcd_density=213
  # Wi-Fi
  wifi.interface=wlan0
  
@@ -78,8 +75,6 @@ index b1d9807..1f31c09 100644
 +dalvik.vm.dex2oat-flags=--no-watch-dog
 +dalvik.vm.dex2oat-swap=true
 +debug.hwui.render_dirty_regions=false
-+persist.debug.wfd.enable=1
-+persist.sys.force_highendgfx=true
 +persist.sys.scrollingcache=1
 +persist.sys.use_16bpp_alpha=1
 +pm.sleep_mode=1

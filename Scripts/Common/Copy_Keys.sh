@@ -17,6 +17,7 @@
 
 echo "Copying verity/avb public keys to kernels...";
 cat "$DOS_SIGNING_KEYS/Amber/verity.x509.pem" >> "kernel/yandex/sdm660/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/avicii/verity.x509.pem" >> "kernel/oneplus/sm7250/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/beryllium/verity.x509.pem" >> "kernel/xiaomi/sdm845/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/blueline/verity.x509.pem" >> "kernel/google/crosshatch/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/blueline/verity.x509.pem" >> "kernel/google/msm-4.9/certs/verity.x509.pem";
@@ -44,6 +45,7 @@ cat "$DOS_SIGNING_KEYS/taimen/verity.x509.pem" >> "kernel/google/wahoo/certs/ver
 cat "$DOS_SIGNING_KEYS/walleye/verity.x509.pem" >> "kernel/google/wahoo/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/z2_plus/verity.x509.pem" >> "kernel/zuk/msm8996/certs/verity.x509.pem";
 cp -v "$DOS_SIGNING_KEYS/Amber/verifiedboot_relkeys.der.x509" "kernel/yandex/sdm660/verifiedboot_Amber_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/avicii/verifiedboot_relkeys.der.x509" "kernel/oneplus/sm7250/verifiedboot_avicii_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/beryllium/verifiedboot_relkeys.der.x509" "kernel/xiaomi/sdm845/verifiedboot_beryllium_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/blueline/verifiedboot_relkeys.der.x509" "kernel/google/crosshatch/verifiedboot_blueline_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/blueline/verifiedboot_relkeys.der.x509" "kernel/google/msm-4.9/verifiedboot_blueline_dos_relkeys.der.x509";

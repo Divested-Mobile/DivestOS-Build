@@ -18,7 +18,7 @@
 #Last verified: 2020-04-14
 
 patchAllKernels() {
-	startPatcher "kernel_cyanogen_msm8916 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_fxtec_msm8998 kernel_google_coral kernel_google_marlin kernel_google_msm kernel_google_msm-4.9 kernel_google_wahoo kernel_google_yellowstone kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8916 kernel_motorola_msm8974 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_samsung_jf kernel_samsung_msm8974 kernel_xiaomi_sdm845 kernel_yandex_sdm660 kernel_zuk_msm8996";
+	startPatcher "kernel_cyanogen_msm8916 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_fxtec_msm8998 kernel_google_coral kernel_google_marlin kernel_google_msm kernel_google_msm-4.9 kernel_google_wahoo kernel_google_yellowstone kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8916 kernel_motorola_msm8974 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_samsung_jf kernel_samsung_msm8974 kernel_xiaomi_sdm845 kernel_yandex_sdm660 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -118,6 +118,8 @@ buildAll() {
 	buildDevice flame avb;
 	#SD660
 	buildDevice Amber verity;
+	#SD765
+	buildDevice avicii avb;
 	#SD670
 	buildDevice bonito avb;
 	buildDevice sargo avb;
@@ -168,8 +170,7 @@ export -f enableDexPreOpt;
 
 enableLowRam() {
 	cd "$DOS_BUILD_BASE$1";
-	#if [ -f lineage.mk ]; then echo '$(call inherit-product, $(SRC_TARGET_DIR)/product/go_defaults.mk)' >> lineage.mk; fi;
-	if [ -f lineage.mk ]; then echo '$(call inherit-product, vendor/divested/build/target/product/lowram.mk)' >> lineage.mk; fi;
+	if [ -f lineage.mk ]; then echo -e '\n$(call inherit-product, vendor/divested/build/target/product/lowram.mk)' >> lineage.mk; fi;
 	if [ -f BoardConfig.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfig.mk; fi;
 	if [ -f BoardConfigCommon.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfigCommon.mk; fi;
 	echo "Enabled lowram for $1";

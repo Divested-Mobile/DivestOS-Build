@@ -77,7 +77,7 @@ patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.pa
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
 
 enterAndClear "external/chromium-webview";
-git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/88/305088/2 #update webview
+git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/88/305088/3; #update webview
 
 enterAndClear "external/svox";
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
@@ -298,6 +298,9 @@ awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
 
 #enterAndClear "device/motorola/clark";
 #echo "TARGET_RECOVERY_PERMISSIVE_OVERRIDE := true" >> BoardConfig.mk; #Allow extract_firmware.sh to function
+
+enterAndClear "device/oneplus/avicii";
+enableVerity; #Resurrect dm-verity
 
 enterAndClear "device/oneplus/oneplus2";
 sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt;
