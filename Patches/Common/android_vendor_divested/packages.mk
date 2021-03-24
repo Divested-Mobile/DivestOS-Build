@@ -16,7 +16,6 @@ PRODUCT_PACKAGES += \
     FennecDOS \
     FairEmail \
     OpenCamera \
-    Silence \
     SimpleGallery \
     VanillaMusic
 
