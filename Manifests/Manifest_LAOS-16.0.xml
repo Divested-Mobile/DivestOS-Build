@@ -101,6 +101,7 @@
 	<project path="kernel/asus/fugu" name="LineageOS/android_kernel_asus_fugu" remote="github" />
 
 	<!-- OnePlus 5 (cheeseburger) -->
+	<project path="device/oppo/common" name="LineageOS/android_device_oppo_common" remote="github" />
 	<project path="device/oneplus/cheeseburger" name="LineageOS/android_device_oneplus_cheeseburger" remote="github" />
 	<project path="device/oneplus/msm8998-common" name="LineageOS/android_device_oneplus_msm8998-common" remote="github" />
 	<project path="kernel/oneplus/msm8998" name="android-linux-stable/op5" remote="github" revision="lineage-17.1" />
@@ -111,11 +112,6 @@
 	<!-- Samsung Common -->
 	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
 	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
-	<project path="kernel/samsung/smdk4412" name="LineageOS/android_kernel_samsung_smdk4412" remote="github" />
-
-	<!-- Samsung Galaxy S II (i9100) -->
-	<project path="device/samsung/i9100" name="LineageOS/android_device_samsung_i9100" remote="github" />
-	<project path="device/samsung/galaxys2-common" name="LineageOS/android_device_samsung_galaxys2-common" remote="github" />
 
 	<!-- Wileyfox Storm (kipper) -->
 	<project path="device/wileyfox/kipper" name="LineageOS/android_device_wileyfox_kipper" remote="github" />

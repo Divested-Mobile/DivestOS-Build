@@ -134,11 +134,6 @@
 	<!-- Samsung Common -->
 	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
 	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
-	<project path="kernel/samsung/smdk4412" name="LineageOS/android_kernel_samsung_smdk4412" remote="github" />
-
-	<!-- Samsung Galaxy S II (i9100) -->
-	<project path="device/samsung/i9100" name="LineageOS/android_device_samsung_i9100" remote="github" />
-	<project path="device/samsung/galaxys2-common" name="LineageOS/android_device_samsung_galaxys2-common" remote="github" />
 
 	<!-- ZTE Axon 7 (axon7) -->
 	<project path="device/zte/axon7" name="LineageOS/android_device_zte_axon7" remote="github" />

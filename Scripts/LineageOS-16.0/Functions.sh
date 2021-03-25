@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_asus_msm8953 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_google_yellowstone kernel_lge_hammerhead kernel_oneplus_msm8998 kernel_samsung_smdk4412 kernel_xiaomi_sdm845";
+	startPatcher "kernel_asus_fugu kernel_asus_msm8953 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_google_yellowstone kernel_lge_hammerhead kernel_oneplus_msm8998 kernel_xiaomi_sdm845";
 }
 export -f patchAllKernels;
 
@@ -60,7 +60,7 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SD800
-	buildDevice hammerhead; #broken sepolicy?
+	buildDevice hammerhead; #broken Bluetooth + maybe broken sepolicy
 	#SD801
 	buildDevice ham;
 	#SD615
@@ -68,12 +68,10 @@ buildAll() {
 	#SD625
 	buildDevice zenfone3; #broken - ninja: error: 'android.hidl.base@1.0.so', missing and no known rule to make it
 	#SD835
-	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile #17.1 isn't booting
+	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile + 17.1 isn't booting
 	buildDevice dumpling verity;
 	#SD845
 	buildDevice beryllium;
-	#Exynos
-	buildDeviceUserDebug i9100; #broken - many errors in hardware/samsung/exynos4
 	#Intel
 	buildDevice fugu; #broken - ninja: error: 'libpcre2.so' missing and no known rule to make it
 	#Tegra

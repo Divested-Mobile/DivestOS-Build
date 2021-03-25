@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_asus_msm8916 kernel_google_dragon kernel_htc_flounder kernel_htc_msm8994 kernel_huawei_angler kernel_lge_bullhead kernel_lge_hammerhead kernel_lge_msm8996 kernel_moto_shamu kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_samsung_smdk4412 kernel_zte_msm8996";
+	startPatcher "kernel_asus_fugu kernel_asus_msm8916 kernel_google_dragon kernel_htc_flounder kernel_htc_msm8994 kernel_huawei_angler kernel_lge_bullhead kernel_lge_hammerhead kernel_lge_msm8996 kernel_moto_shamu kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_zte_msm8996";
 }
 export -f patchAllKernels;
 
@@ -60,7 +60,7 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SD801
-	buildDevice hammerhead; #16.0 has bluetooth issues?
+	buildDevice hammerhead; #Last version with working Bluetooth
 	#SD805
 	buildDevice shamu verity; #Last version with working IMS
 	#SD808
@@ -76,8 +76,6 @@ buildAll() {
 	buildDevice axon7; #broken - needs vendor patching
 	buildDevice h870;
 	buildDevice us997;
-	#Exynos
-	buildDeviceUserDebug i9100;
 	#Intel
 	buildDevice fugu;
 	#Tegra
