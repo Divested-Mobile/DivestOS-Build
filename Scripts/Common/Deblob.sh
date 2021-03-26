@@ -132,7 +132,6 @@ echo "Deblobbing...";
 
 	#DivX (DRM) [DivX]
 	blobs=$blobs"|libDivxDrm.so|libSHIMDivxDrm.so";
-	blobs=$blobs"|mfc_fw.bin";
 
 	#DPM (Data Power Management) [Qualcomm]
 	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/dpm/ [headers]
@@ -500,7 +499,7 @@ echo "Deblobbing...";
 	#blobs=$blobs"|libadpcmdec.so|sound_trigger.primary.*.so|libgcs.*.so|libsmwrapper.so";
 	blobs=$blobs"|audiomonitor|qvop-daemon";
 	blobs=$blobs"|HotwordEnrollment.apk|HotwordEnrollment.*.apk";
-	blobs=$blobs"|es305_fw.bin";
+	#blobs=$blobs"|es305_fw.bin"; #XXX: breaks audio
 	#blobs=$blobs"|aonvr1.bin|aonvr2.bin"; #XXX: required by adspd, likely for more than VR
 	blobs=$blobs"|vendor.qti.voiceprint.*";
 	#makes=$makes"|android.hardware.soundtrigger.*|libsoundtriggerservice";

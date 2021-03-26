@@ -265,8 +265,12 @@ rm board-info.txt; #Never restrict installation
 enterAndClear "device/samsung/exynos5420-common";
 awk -i inplace '!/shell su/' sepolicy/shell.te; #neverallow
 
-#enterAndClear "device/samsung/manta";
+enterAndClear "device/samsung/manta";
 #git revert --no-edit e55bbff1c8aa50e25ffe39c8936ea3dc92a4a575; #restore releasetools #TODO
+echo "allow audioserver sensorservice_service:service_manager find;" >> sepolicy/audioserver.te;
+echo "allow mediacodec audio_device:chr_file getattr;" >> sepolicy/mediacodec.te;
+echo "allow mediacodec camera_device:chr_file getattr;" >> sepolicy/mediacodec.te;
+echo "allow mediacodec sysfs:file read;" >> sepolicy/mediacodec.te;
 
 enterAndClear "device/samsung/toroplus";
 awk -i inplace '!/additional_system_update/' overlay/packages/apps/Settings/res/values*/*.xml;

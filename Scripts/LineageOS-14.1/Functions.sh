@@ -119,7 +119,7 @@ export -f patchWorkspace;
 enableDexPreOpt() {
 	cd "$DOS_BUILD_BASE$1";
 	#Some devices won't compile, or have too small of a /system partition, or Wi-Fi breaks
-	if [ "$1" != "device/amazon/thor" ] && [ "$1" != "device/samsung/i9100" ] && [ "$1" != "device/samsung/maguro" ] && [ "$1" != "device/samsung/toro" ] && [ "$1" != "device/samsung/toroplus" ] && [ "$1" != "device/samsung/tuna" ] && [ "$1" != "device/asus/grouper" ]; then
+	if [ "$1" != "device/amazon/thor" ] && [ "$1" != "device/asus/grouper" ] && [ "$1" != "device/samsung/i9100" ] && [ "$1" != "device/samsung/maguro" ] && [ "$1" != "device/samsung/manta" ] && [ "$1" != "device/samsung/toro" ] && [ "$1" != "device/samsung/toroplus" ] && [ "$1" != "device/samsung/tuna" ]; then
 		if [ -f BoardConfig.mk ]; then
 			echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 			echo "WITH_DEXPREOPT_PIC := true" >> BoardConfig.mk;
