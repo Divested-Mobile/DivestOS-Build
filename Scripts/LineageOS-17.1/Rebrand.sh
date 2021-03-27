@@ -21,7 +21,6 @@
 echo "Rebranding...";
 
 enter "bootable/recovery";
-git revert --no-edit 2e0e35734f65035d24014dcce7aceda6e4b1e222 1423e5792837f204e535efd75fd44a2970899a7d 7e46bc14b15fdeabfd16871137f403f89486b83c; #TODO: remove to sync with 18.1
 sed -i 's/if (lineage_logo_/if (false/' recovery_ui/*ui.cpp;
 awk -i inplace '!/DrawSurface\(logo.get\(\)/' recovery_ui/screen_ui.cpp; #Hide logo
 mogrify -format png -fill "#FF5722" -opaque "#167C80" -fuzz 10% res-*/images/*sel.png; #Recolor icons
