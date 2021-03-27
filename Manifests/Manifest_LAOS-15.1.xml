@@ -103,6 +103,10 @@
 	<project path="device/nextbit/ether" name="LineageOS/android_device_nextbit_ether" remote="github" />
 	<project path="kernel/nextbit/msm8992" name="LineageOS/android_kernel_nextbit_msm8992" remote="github" />
 
+	<!-- Nexus 7 [2013] (flo) -->
+	<project path="device/asus/flo" name="LineageOS/android_device_asus_flo" remote="github" />
+	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
+
 	<!-- Nexus 5 (hammerhead) -->
 	<project path="device/lge/hammerhead" name="LineageOS/android_device_lge_hammerhead" remote="github" />
 	<project path="kernel/lge/hammerhead" name="LineageOS/android_kernel_lge_hammerhead" remote="github" />
@@ -128,6 +132,7 @@
 	<project path="kernel/asus/fugu" name="LineageOS/android_kernel_asus_fugu" remote="github" />
 
 	<!-- OnePlus 2 (oneplus2) -->
+	<project path="device/oppo/common" name="LineageOS/android_device_oppo_common" remote="github" />
 	<project path="device/oneplus/oneplus2" name="LineageOS/android_device_oneplus_oneplus2" remote="github" />
 	<project path="kernel/oneplus/msm8994" name="LineageOS/android_kernel_oneplus_msm8994" remote="github" />
 

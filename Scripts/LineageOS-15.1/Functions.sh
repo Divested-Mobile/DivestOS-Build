@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_asus_msm8916 kernel_google_dragon kernel_htc_flounder kernel_htc_msm8994 kernel_huawei_angler kernel_lge_bullhead kernel_lge_hammerhead kernel_lge_msm8996 kernel_moto_shamu kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_zte_msm8996";
+	startPatcher "kernel_asus_fugu kernel_asus_msm8916 kernel_google_dragon kernel_google_msm kernel_htc_flounder kernel_htc_msm8994 kernel_huawei_angler kernel_lge_bullhead kernel_lge_hammerhead kernel_lge_msm8996 kernel_moto_shamu kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_zte_msm8996";
 }
 export -f patchAllKernels;
 
@@ -59,6 +59,8 @@ buildAll() {
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
+	#SDS4P
+	buildDevice flo; #Last version without repartitioning required + 17.1 has random power off issue
 	#SD801
 	buildDevice hammerhead; #Last version with working Bluetooth
 	#SD805
