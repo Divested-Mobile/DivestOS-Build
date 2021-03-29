@@ -21,6 +21,7 @@
 echo "Rebranding...";
 
 enter "bootable/recovery";
+git revert --no-edit c4071b4f; #use standard animation
 awk -i inplace '!/DrawSurface\(logo.get\(\)/' recovery_ui/screen_ui.cpp; #Hide logo
 mogrify -format png -fill "#FF5722" -opaque "#167C80" -fuzz 10% res-*/images/*sel.png; #Recolor icons
 mogrify -format png -fill "#FF5722" -opaque "#7c4dff" -fuzz 10% res-*/images/ic_back_sel.png;

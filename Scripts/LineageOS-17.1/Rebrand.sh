@@ -21,6 +21,7 @@
 echo "Rebranding...";
 
 enter "bootable/recovery";
+git revert --no-edit 7e46bc14; #use standard animation
 sed -i 's/if (lineage_logo_/if (false/' recovery_ui/*ui.cpp;
 awk -i inplace '!/DrawSurface\(logo.get\(\)/' recovery_ui/screen_ui.cpp; #Hide logo
 mogrify -format png -fill "#FF5722" -opaque "#167C80" -fuzz 10% res-*/images/*sel.png; #Recolor icons

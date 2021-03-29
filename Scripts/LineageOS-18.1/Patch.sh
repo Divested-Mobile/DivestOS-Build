@@ -149,7 +149,6 @@ enterAndClear "packages/apps/PermissionController";
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_packages_apps_PermissionController/0001-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
 
 enterAndClear "packages/apps/Settings";
-git revert --no-edit 33cde5dbeee934269f16d72e26e651d56a13733e 94b8579607c6f1201cea9d6601e88cec897b2ff6; #My LAN does not have a public CA, nor a domain to validate.
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/backup/PrivacySettingsUtils.java; fi; #microG doesn't support Backup, hide the options
 
