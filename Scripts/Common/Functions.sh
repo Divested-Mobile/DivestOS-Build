@@ -157,7 +157,6 @@ processRelease() {
 	local RELEASETOOLS_PREFIX="build/tools/releasetools/"; #XXX: FIXME 18REBASE
 	if [[ "$DOS_VERSION" == "LineageOS-18.1" ]]; then
 		local RELEASETOOLS_PREFIX="";
-		make otatools;
 	fi;
 
 	echo -e "\e[0;32mProcessing release for $DEVICE\e[0m";
@@ -517,6 +516,14 @@ hardenBootArgs() {
 	cd "$DOS_BUILD_BASE";
 }
 export -f hardenBootArgs;
+
+disableAPEX() {
+	cd "$DOS_BUILD_BASE$1";
+	awk -i inplace '!/DEXPREOPT_GENERATE_APEX_IMAGE/' *.mk &>/dev/null || true;
+	awk -i inplace '!/updatable_apex.mk/' *.mk &>/dev/null || true;
+	cd "$DOS_BUILD_BASE";
+}
+export -f disableAPEX;
 
 enableStrongEncryption() {
 	cd "$DOS_BUILD_BASE$1";

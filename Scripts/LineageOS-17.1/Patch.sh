@@ -70,6 +70,7 @@ patch -p1 < "$DOS_PATCHES_COMMON/android_build/0001-OTA_Keys.patch"; #add correc
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
 sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/gsi_common.mk; #Switch to Silence
+awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 
 enterAndClear "device/qcom/sepolicy-legacy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
@@ -340,6 +341,7 @@ find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {}
 find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'hardenUserdata "{}"';
 find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'hardenBootArgs "{}"';
 find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenDefconfig "{}"';
+find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'disableAPEX "{}"';
 cd "$DOS_BUILD_BASE";
 deblobAudio;
 removeBuildFingerprints;

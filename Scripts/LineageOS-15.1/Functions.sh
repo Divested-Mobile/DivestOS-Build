@@ -37,14 +37,14 @@ export -f scanWorkspaceForMalware;
 buildDevice() {
 	cd "$DOS_BUILD_BASE";
 	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
-	brunch "lineage_$1-user" && processRelease $1 true $2;
+	breakfast "lineage_$1-user" && mka target-files-package otatools && processRelease $1 true $2;
 }
 export -f buildDevice;
 
 buildDeviceUserDebug() {
 	cd "$DOS_BUILD_BASE";
 	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
-	brunch "lineage_$1-userdebug" && processRelease $1 true $2;
+	breakfast "lineage_$1-userdebug" && mka target-files-package otatools && processRelease $1 true $2;
 }
 export -f buildDeviceUserDebug;
 
