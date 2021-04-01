@@ -69,6 +69,7 @@ enter "packages/apps/Updater";
 sed -i 's|0OTA_SERVER_CLEARNET0|'"$DOS_BRANDING_SERVER_OTA"'|' src/org/lineageos/updater/misc/Utils.java;
 sed -i 's|0OTA_SERVER_ONION0|'"$DOS_BRANDING_SERVER_OTA_ONION"'|' src/org/lineageos/updater/misc/Utils.java;
 sed -i 's|>LineageOS|>'"$DOS_BRANDING_NAME"'|' res/values*/strings.xml;
+sed -i '/.*toast_forced_update_recovery/s/Lineage/'"$DOS_BRANDING_NAME"'/g' res/values*/strings.xml;
 
 enter "vendor/lineage";
 sed -i 's|https://lineageos.org/legal|'"$DOS_BRANDING_LINK_ABOUT"'|' build/core/main_version.mk

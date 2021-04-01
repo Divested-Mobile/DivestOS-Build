@@ -68,7 +68,6 @@ buildAll() {
 	buildDevice d802;
 	#SD801
 	buildDevice bacon;
-	buildDevice d855;
 	buildDevice klte;
 	buildDevice m8;
 	#SD805

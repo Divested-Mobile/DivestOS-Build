@@ -225,8 +225,8 @@ enterAndClear "device/asus/flox";
 compressRamdisks;
 rm -rf bdAddrLoader; #duplicate with mako
 
-#enterAndClear "device/essential/mata";
-#git revert --no-edit 3928b30a97fe7f6b6020bbd9d83a56a32de4ba16 #e91f0fece65d32ca407be532e2c4456056b1a968; #Unbreak the earpiece speaker, breaking the loud speaker volume control on calls #XXX 18REBASE
+enterAndClear "device/essential/mata";
+git revert --no-edit 3928b30a97fe7f6b6020bbd9d83a56a32de4ba16 e91f0fece65d32ca407be532e2c4456056b1a968; #Unbreak the earpiece speaker, breaking the loud speaker volume control on calls
 
 enterAndClear "device/fxtec/pro1";
 enableVerity; #Resurrect dm-verity
