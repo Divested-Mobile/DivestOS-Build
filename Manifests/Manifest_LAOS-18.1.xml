@@ -131,6 +131,10 @@
 	<project path="device/lge/us996" name="LineageOS/android_device_lge_us996" remote="github" />
 	<!-- uses lge msm8996 commons -->
 
+	<!-- Moto X 2014 (victara) -->
+	<project path="device/motorola/victara" name="LineageOS/android_device_motorola_victara" remote="github" />
+	<project path="kernel/motorola/msm8974" name="LineageOS/android_kernel_motorola_msm8974" remote="github" />
+
 	<!-- Nextbit Robin (ether) -->
 	<project path="device/nextbit/ether" name="LineageOS/android_device_nextbit_ether" remote="github" />
 	<project path="kernel/nextbit/msm8992" name="LineageOS/android_kernel_nextbit_msm8992" remote="github" />
