@@ -240,6 +240,9 @@ sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.t
 #enterAndClear "device/moto/shamu";
 #git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
 
+enterAndClear "device/oppo/common";
+awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
+
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
 if [ "$DOS_LOWRAM_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'enableLowRam "{}"'; fi;

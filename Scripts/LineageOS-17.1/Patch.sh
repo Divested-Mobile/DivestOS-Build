@@ -234,15 +234,8 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 #
 #START OF DEVICE CHANGES
 #
-enterAndClear "device/asus/flox";
-compressRamdisks;
-rm -rf bdAddrLoader; #duplicate with mako
-
-#enterAndClear "device/cyanogen/msm8916-common";
-#awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
-
-enterAndClear "device/essential/mata";
-git revert --no-edit 450c860872705c6829a7c62172dd7b4b36c80f48 e91f0fece65d32ca407be532e2c4456056b1a968; #Unbreak the earpiece speaker, breaking the loud speaker volume control on calls
+enterAndClear "device/cyanogen/msm8916-common";
+awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 
 enterAndClear "device/fairphone/FP3";
 enableVerity; #Resurrect dm-verity
@@ -317,10 +310,6 @@ enterAndClear "device/oppo/msm8974-common";
 sed -i 's/libinit_msm8974/libinit_msm8974-oppo/' BoardConfigCommon.mk init/Android.bp; #Fix name conflict
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 
-enterAndClear "device/samsung/msm8974-common";
-echo "TARGET_RECOVERY_DENSITY := hdpi" >> BoardConfigCommon.mk;
-echo "allow hal_gnss_default ssr_device:chr_file { open read };" >> sepolicy/common/hal_gnss_default.te;
-
 enterAndClear "device/zuk/msm8996-common";
 awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
 
@@ -347,7 +336,6 @@ deblobAudio;
 removeBuildFingerprints;
 
 #Fix broken options enabled by hardenDefconfig()
-sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/yellowstone/arch/arm*/configs/*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/lge/mako/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/lge/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile

@@ -245,6 +245,9 @@ enterAndClear "device/oneplus/msm8998-common";
 patch -p1 < "$DOS_PATCHES_COMMON/android_device_audio/0001-No_Vorbis_Offload.patch"; #Fix Ogg Vorbis playback
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
 
+enterAndClear "device/oppo/common";
+awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
+
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
 if [ "$DOS_LOWRAM_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'enableLowRam "{}"'; fi;
