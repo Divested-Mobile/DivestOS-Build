@@ -297,9 +297,6 @@ enableVerity; #Resurrect dm-verity
 enterAndClear "device/oneplus/oneplus2";
 sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt;
 
-enterAndClear "device/oneplus/msm8998-common";
-awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
-
 enterAndClear "device/oneplus/sm8150-common";
 enableVerity; #Resurrect dm-verity
 

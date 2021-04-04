@@ -78,7 +78,7 @@
 	<project path="system/qcom" name="LineageOS/android_system_qcom" remote="github" />
 	<project path="external/bson" name="LineageOS/android_external_bson" remote="github" />
 	<project path="external/sony/boringssl-compat" name="LineageOS/android_external_sony_boringssl-compat" remote="github" />
-	<project path="hardware/sony/thermanager" name="LineageOS/android_hardware_sony_thermanager" remote="github" />
+	<!--<project path="hardware/sony/thermanager" name="LineageOS/android_hardware_sony_thermanager" remote="github" />-->
 	<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />
 
 	<!-- Essential PH-1 (mata) -->

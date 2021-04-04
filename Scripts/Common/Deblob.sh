@@ -231,6 +231,12 @@ echo "Deblobbing...";
 	blobs=$blobs"|TetheringEntitlement.apk|CarrierLocation.apk|CarrierWifi.apk|CarrierSettings.apk";
 	blobs=$blobs"|HardwareInfo.apk";
 	blobs=$blobs"|SCONE.apk"; #???
+	blobs=$blobs"|DevicePersonalizationPrebuilt.*.apk"; #Live Captions?
+
+	#EUICC (Virtual SIM) [Google]
+	blobs=$blobs"|EuiccGoogle.apk|EuiccSupportPixel.apk"; #EUICC is useless without GMS
+	blobs=$blobs"|esim0.img|esim-v1.img|esim-full-v0.img";
+	makes=$makes"|android.hardware.telephony.euicc.*";
 
 	#Google Camera
 	blobs=$blobs"|com.google.android.camera.*";
@@ -760,12 +766,26 @@ deblobVendors() {
 }
 export -f deblobVendors;
 
-deblobVendor() {
+deblobVendorMk() {
 	local makefile="$1";
 	cd "$DOS_BUILD_BASE";
 	awk -i inplace '!/'$blobs'/' "$makefile"; #Remove all blob references from makefile
 }
-export -f deblobVendor;
+export -f deblobVendorMk;
+
+deblobVendorBp() {
+	local bpfile="$1";
+	cd "$DOS_BUILD_BASE";
+	#TODO: remove these lines instead
+	sed -i -E "s/apk.*("$blobs").*/apk: \"proprietary\/priv-app\/qcrilmsgtunnel\/qcrilmsgtunnel.apk\", enabled: false,/g" "$bpfile";
+	sed -i -E "s/jars.*("$blobs").*/jars: \[\"proprietary\/system\/framework\/qcrilhook.jar\"\], enabled: false,/g" "$bpfile";
+	sed -i -E "s/srcs.*("$blobs").*/srcs: \[\"proprietary\/vendor\/lib\/libtime_genoff.so\"\], enabled: false,/g" "$bpfile";
+	#TODO make this work for more then these two blobs
+	#Credit: https://stackoverflow.com/a/26053127
+	sed -i ':a;N;s/\n/&/3;Ta;/manifest_android.hardware.drm@1.3-service.widevine.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
+	sed -i ':a;N;s/\n/&/3;Ta;/vendor.qti.hardware.radio.atcmdfwd@1.0.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
+}
+export -f deblobVendorBp;
 #
 #END OF FUNCTIONS
 #
@@ -778,11 +798,8 @@ find build -name "*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'awk 
 find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \;; #Deblob all device directories
 #find device -maxdepth 3 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobSepolicy "{}"'; #Deblob all device sepolicy directories XXX: Breaks builds when other sepolicy files reference deleted ones
 #find kernel -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobKernel "{}"'; #Deblob all kernel directories
-find vendor -name "*endor*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobVendor "{}"'; #Deblob all makefiles
-#TODO: XXX: Better Android.bp cleaning
-find vendor -name "Android.bp" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'sed -i -E "s/apk.*("$blobs").*/apk: \"proprietary\/priv-app\/qcrilmsgtunnel\/qcrilmsgtunnel.apk\", enabled: false,/g" "{}"';
-find vendor -name "Android.bp" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'sed -i -E "s/jars.*("$blobs").*/jars: \[\"proprietary\/system\/framework\/qcrilhook.jar\"\], enabled: false,/g" "{}"';
-find vendor -name "Android.bp" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'sed -i -E "s/srcs.*("$blobs").*/srcs: \[\"proprietary\/vendor\/lib\/libtime_genoff.so\"\], enabled: false,/g" "{}"';
+find vendor -name "*endor*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobVendorMk "{}"'; #Deblob all makefiles
+find vendor -name "Android.bp" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobVendorBp "{}"'; #Deblob all makefiles
 deblobVendors; #Deblob entire vendor directory
 rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove ClearKey
 rm -rf vendor/samsung/nodevice;

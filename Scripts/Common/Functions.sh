@@ -535,6 +535,14 @@ enableStrongEncryption() {
 }
 export -f enableStrongEncryption;
 
+addAdbKey() {
+	if [ -f ~/.android/adbkey.pub ]; then
+		cp ~/.android/adbkey.pub "$DOS_BUILD_BASE/vendor/divested/";
+		echo "PRODUCT_ADB_KEYS := vendor/divested/adbkey.pub" >> "$DOS_BUILD_BASE/vendor/divested/divestos.mk";
+	fi;
+}
+export -f addAdbKey;
+
 changeDefaultDNS() {
 	local dnsPrimary="";
 	local dnsPrimaryV6="";

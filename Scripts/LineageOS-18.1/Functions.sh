@@ -69,7 +69,7 @@ buildAll() {
 	#SD801
 	buildDevice bacon;
 	buildDevice klte; #unb18
-	buildDevice m8; #unb18
+	#buildDevice m8; #unb18
 	buildDevice victara; #error: +out/target/product/victara/recovery.img too large (10522624 >= 10485760)
 	#SD805
 	buildDevice shamu verity;
@@ -83,8 +83,8 @@ buildAll() {
 	buildDevice oneplus3 verity;
 	#SD835
 	buildDevice cheryl verity;
-	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
-	buildDevice dumpling verity;
+	#buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
+	#buildDevice dumpling verity;
 	buildDevice mata verity;
 	buildDevice taimen avb;
 	buildDevice walleye avb;

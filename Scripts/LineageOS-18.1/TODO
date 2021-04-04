@@ -1,3 +1,0 @@
-- Fix PicoTTS inclusion
-- Fix vintf in Android.bp deblobbing
-- Fix signing on newer devices

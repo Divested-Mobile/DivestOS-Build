@@ -264,6 +264,7 @@ awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
 
 enterAndClear "device/oneplus/msm8998-common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
+awk -i inplace '!/hal_camera_default, sensors_dbg_prop/' sepolicy/vendor/hal_camera_default.te; #Remove a neverallow
 
 enterAndClear "device/oppo/common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
