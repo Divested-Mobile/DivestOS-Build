@@ -494,8 +494,8 @@ hardenUserdata() {
 
 	#TODO: Ensure: noatime,nosuid,nodev
 	sed -i '/\/data/{/discard/!s|nosuid|discard,nosuid|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
-	if [ "$1" != "device/samsung/tuna" ]; then #tuna needs first boot to init
-		sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
+	if [ "$1" != "device/samsung/tuna" ] && [ "$1" != "device/amazon/hdx-common" ]; then #tuna needs first boot to init, hdx-c has broken encryption
+		sed -i 's|encryptable=|forceencrypt=|' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
 	fi;
 	echo "Hardened /data for $1";
 	cd "$DOS_BUILD_BASE";
