@@ -79,6 +79,10 @@
 	<project path="hardware/sony/thermanager" name="LineageOS/android_hardware_sony_thermanager" remote="github" />
 	<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />
 
+	<!-- Essential PH-1 (mata) -->
+	<project path="device/essential/mata" name="LineageOS/android_device_essential_mata" remote="github" />
+	<project path="kernel/essential/msm8998" name="LineageOS/android_kernel_essential_msm8998" remote="github" />
+
 	<!-- Fairphone 2 (FP2) -->
 	<project path="device/fairphone/FP2" name="LineageOS/android_device_fairphone_FP2" remote="github" />
 	<project path="kernel/fairphone/msm8974" name="LineageOS/android_kernel_fairphone_msm8974" remote="github" />
@@ -175,6 +179,10 @@
 	<project path="device/nextbit/ether" name="LineageOS/android_device_nextbit_ether" remote="github" />
 	<project path="kernel/nextbit/msm8992" name="LineageOS/android_kernel_nextbit_msm8992" remote="github" />
 
+	<!-- Nexus 7 [2013] (flo) -->
+	<project path="device/asus/flox" name="LineageOS/android_device_asus_flox" remote="github" />
+	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
+
         <!-- Nexus 4 (mako) -->
         <project path="device/lge/mako" name="voron00/android_device_lge_mako" remote="github" />
         <project path="kernel/lge/mako" name="voron00/android_kernel_lge_mako" remote="github" />
@@ -187,8 +195,13 @@
 	<project path="device/asus/fugu" name="LineageOS/android_device_asus_fugu" remote="github" />
 	<project path="kernel/asus/fugu" name="LineageOS/android_kernel_asus_fugu" remote="github" />
 
-	<!-- OnePlus 2 (oneplus2) -->
+	<!-- OnePlus One (bacon) -->
 	<project path="device/oppo/common" name="LineageOS/android_device_oppo_common" remote="github" />
+	<project path="device/oneplus/bacon" name="LineageOS/android_device_oneplus_bacon" remote="github" />
+	<project path="device/oppo/msm8974-common" name="LineageOS/android_device_oppo_msm8974-common" remote="github" />
+	<project path="kernel/oppo/msm8974" name="LineageOS/android_kernel_oppo_msm8974" remote="github" />
+
+	<!-- OnePlus 2 (oneplus2) -->
 	<project path="device/oneplus/oneplus2" name="LineageOS/android_device_oneplus_oneplus2" remote="github" />
 	<project path="kernel/oneplus/msm8994" name="LineageOS/android_kernel_oneplus_msm8994" remote="github" />
 
@@ -229,6 +242,12 @@
 	<project path="device/samsung/jfltexx" name="LineageOS/android_device_samsung_jfltexx" remote="github" />
 	<project path="device/samsung/jf-common" name="LineageOS/android_device_samsung_jf-common" remote="github" />
 	<project path="kernel/samsung/jf" name="LineageOS/android_kernel_samsung_jf" remote="github" />
+
+	<!-- Samsung Galaxy S5 (klte) -->
+	<project path="device/samsung/klte" name="LineageOS/android_device_samsung_klte" remote="github" />
+	<project path="device/samsung/klte-common" name="LineageOS/android_device_samsung_klte-common" remote="github" />
+	<project path="device/samsung/msm8974-common" name="LineageOS/android_device_samsung_msm8974-common" remote="github" />
+	<project path="kernel/samsung/msm8974" name="LineageOS/android_kernel_samsung_msm8974" remote="github" />
 
 	<!-- Wileyfox Swift (crackling) -->
 	<project path="device/wileyfox/crackling" name="LineageOS/android_device_wileyfox_crackling" remote="github" />
