@@ -1,29 +1,29 @@
-From 7cea4afe3e17c1dc8910c8ae9ad551bf280173ea Mon Sep 17 00:00:00 2001
+From e09adb8a973f11208058c4c74aa32b9899b1d6df Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Wed, 31 Mar 2021 01:26:27 -0400
-Subject: [PATCH] Support OTA recovery key override
+Date: Mon, 5 Apr 2021 22:53:31 -0400
+Subject: [PATCH] Allow setting OTA public keys from environment variable
 
-Change-Id: I216c121a54331e9424dfc1543f85752b07229d9b
+Change-Id: Ic8076ff80fbf39c47e20a2fbfda4a6d8592d431b
 ---
  core/product_config.mk | 5 +++++
  1 file changed, 5 insertions(+)
 
 diff --git a/core/product_config.mk b/core/product_config.mk
-index a16af05cf..0152a3543 100644
+index a16af05cf..4849d5009 100644
 --- a/core/product_config.mk
 +++ b/core/product_config.mk
-@@ -280,6 +280,11 @@ $(foreach pair,$(PRODUCT_UPDATABLE_BOOT_JARS), \
- ENFORCE_SYSTEM_CERTIFICATE := $(PRODUCT_ENFORCE_ARTIFACT_SYSTEM_CERTIFICATE_REQUIREMENT)
- ENFORCE_SYSTEM_CERTIFICATE_ALLOW_LIST := $(PRODUCT_ARTIFACT_SYSTEM_CERTIFICATE_REQUIREMENT_ALLOW_LIST)
- 
-+ifneq ($(OTA_KEY_OVERRIDE_DIR),)
-+    OTA_PUBLIC_KEYS := $(OTA_KEY_OVERRIDE_DIR)/releasekey.x509.pem
-+    PRODUCT_EXTRA_RECOVERY_KEYS := $(OTA_KEY_OVERRIDE_DIR)/extra
-+endif
-+
+@@ -283,6 +283,11 @@ ENFORCE_SYSTEM_CERTIFICATE_ALLOW_LIST := $(PRODUCT_ARTIFACT_SYSTEM_CERTIFICATE_R
  PRODUCT_OTA_PUBLIC_KEYS := $(sort $(PRODUCT_OTA_PUBLIC_KEYS))
  PRODUCT_EXTRA_RECOVERY_KEYS := $(sort $(PRODUCT_EXTRA_RECOVERY_KEYS))
  
++ifneq ($(OTA_KEY_OVERRIDE_DIR),)
++    PRODUCT_OTA_PUBLIC_KEYS := $(OTA_KEY_OVERRIDE_DIR)/releasekey.x509.pem
++    PRODUCT_EXTRA_RECOVERY_KEYS := $(OTA_KEY_OVERRIDE_DIR)/extra
++endif
++
+ # Resolve and setup per-module dex-preopt configs.
+ DEXPREOPT_DISABLED_MODULES :=
+ # If a module has multiple setups, the first takes precedence.
 -- 
 2.30.2
 

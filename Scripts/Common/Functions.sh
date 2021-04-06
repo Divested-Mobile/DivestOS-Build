@@ -154,7 +154,7 @@ processRelease() {
 	local ARCHIVE="$DOS_BUILDS/$DOS_VERSION/release_keys/";
 	local OUT_DIR="$DOS_BUILD_BASE/out/target/product/$DEVICE/";
 
-	local RELEASETOOLS_PREFIX="build/tools/releasetools/"; #XXX: FIXME 18REBASE
+	local RELEASETOOLS_PREFIX="build/tools/releasetools/";
 	if [[ "$DOS_VERSION" == "LineageOS-18.1" ]]; then
 		local RELEASETOOLS_PREFIX="";
 	fi;
@@ -183,7 +183,7 @@ processRelease() {
 	#Malware Scan
 	if [ "$DOS_MALWARE_SCAN_BEFORE_SIGN" = true ]; then
 		echo -e "\e[0;32mScanning files for malware before signing\e[0m";
-		scanForMalware false "$OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files-*.zip";
+		scanForMalware false $OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files-*.zip;
 	fi;
 
 	#Target Files
@@ -191,26 +191,28 @@ processRelease() {
 	"$RELEASETOOLS_PREFIX"sign_target_files_apks -o -d "$KEY_DIR" \
 		"${VERITY_SWITCHES[@]}" \
 		$OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files-*.zip \
-		$OUT_DIR/$PREFIX-target_files.zip;
-	sha512sum $OUT_DIR/$PREFIX-target_files.zip > $OUT_DIR/$PREFIX-target_files.zip.sha512sum;
+		"$OUT_DIR/$PREFIX-target_files.zip";
+	sha512sum "$OUT_DIR/$PREFIX-target_files.zip" > "$OUT_DIR/$PREFIX-target_files.zip.sha512sum";
 	local INCREMENTAL_ID=$(grep "ro.build.version.incremental" $OUT_DIR/system/build.prop | cut -f2 -d "=" | sed 's/\.//g');
-	echo $INCREMENTAL_ID > $OUT_DIR/$PREFIX-target_files.zip.id;
+	echo "$INCREMENTAL_ID" > "$OUT_DIR/$PREFIX-target_files.zip.id";
 
 	#Image
-	if [ ! -f $OUT_DIR/recovery.img ]; then
+	unzip -l $OUT_DIR/$PREFIX-target_files.zip | grep -q recovery.img;
+	local hasRecoveryImg="$?";
+	if [ "$hasRecoveryImg" == "0" ]; then
 		echo -e "\e[0;32mCreating fastboot image\e[0m";
-		"$RELEASETOOLS_PREFIX"img_from_target_files $OUT_DIR/$PREFIX-target_files.zip \
-			$OUT_DIR/$PREFIX-fastboot.zip || exit 1;
-		sha512sum $OUT_DIR/$PREFIX-fastboot.zip > $OUT_DIR/$PREFIX-fastboot.zip.sha512sum;
+		"$RELEASETOOLS_PREFIX"img_from_target_files "$bootOnly" "$OUT_DIR/$PREFIX-target_files.zip" \
+			"$OUT_DIR/$PREFIX-fastboot.zip";
+		sha512sum "$OUT_DIR/$PREFIX-fastboot.zip" > "$OUT_DIR/$PREFIX-fastboot.zip.sha512sum";
 	fi
 
 	#OTA
 	echo -e "\e[0;32mCreating OTA\e[0m";
 	"$RELEASETOOLS_PREFIX"ota_from_target_files $BLOCK_SWITCHES -k "$KEY_DIR/releasekey" \
-		$OUT_DIR/$PREFIX-target_files.zip  \
-		$OUT_DIR/$PREFIX-ota.zip;
-	md5sum $OUT_DIR/$PREFIX-ota.zip > $OUT_DIR/$PREFIX-ota.zip.md5sum;
-	sha512sum $OUT_DIR/$PREFIX-ota.zip > $OUT_DIR/$PREFIX-ota.zip.sha512sum;
+		"$OUT_DIR/$PREFIX-target_files.zip"  \
+		"$OUT_DIR/$PREFIX-ota.zip";
+	md5sum "$OUT_DIR/$PREFIX-ota.zip" > "$OUT_DIR/$PREFIX-ota.zip.md5sum";
+	sha512sum "$OUT_DIR/$PREFIX-ota.zip" > "$OUT_DIR/$PREFIX-ota.zip.sha512sum";
 
 	#Deltas
 	if [ "$DOS_GENERATE_DELTAS" = true ]; then
@@ -218,31 +220,23 @@ processRelease() {
 			if [[ -f "$LAST_TARGET_FILES.id" ]]; then
 				local LAST_INCREMENTAL_ID=$(cat "$LAST_TARGET_FILES.id");
 				echo -e "\e[0;32mGenerating incremental OTA against $LAST_INCREMENTAL_ID\e[0m";
-				#TODO: Verify GPG signature and checksum of target-files first!
+				#TODO: Verify GPG signature and checksum of previous target-files first!
 				"$RELEASETOOLS_PREFIX"ota_from_target_files $BLOCK_SWITCHES -t 8 -k "$KEY_DIR/releasekey" -i \
 					"$LAST_TARGET_FILES" \
-					$OUT_DIR/$PREFIX-target_files.zip \
-					$OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip;
-				sha512sum $OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip > $OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip.sha512sum;
+					"$OUT_DIR/$PREFIX-target_files.zip" \
+					"$OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip";
+				sha512sum "$OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip" > "$OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip.sha512sum";
 			fi;
 		done;
 	fi;
 
 	#Extract signed recovery
-	unzip -l $OUT_DIR/$PREFIX-target_files.zip | grep -q recovery.img;
-	local hasRecoveryImg=$?;
 	if [ "$hasRecoveryImg" == "0" ]; then
 		echo -e "\e[0;32mExtracting signed recovery.img\e[0m";
-		mkdir $OUT_DIR/rec_tmp;
-		unzip $OUT_DIR/$PREFIX-target_files.zip IMAGES/recovery.img -d $OUT_DIR/rec_tmp;
-		mv $OUT_DIR/rec_tmp/IMAGES/recovery.img $OUT_DIR/$PREFIX-recovery.img;
-		sha512sum $OUT_DIR/$PREFIX-recovery.img > $OUT_DIR/$PREFIX-recovery.img.sha512sum;
-	#else
-	#	echo -e "\e[0;32mExtracting signed boot.img\e[0m";
-	#	mkdir $OUT_DIR/rec_tmp;
-	#	unzip $OUT_DIR/$PREFIX-target_files.zip IMAGES/boot.img -d $OUT_DIR/rec_tmp;
-	#	mv $OUT_DIR/rec_tmp/IMAGES/boot.img $OUT_DIR/$PREFIX-boot.img;
-	#	sha512sum $OUT_DIR/$PREFIX-boot.img > $OUT_DIR/$PREFIX-boot.img.sha512sum;
+		mkdir "$OUT_DIR/rec_tmp";
+		unzip "$OUT_DIR/$PREFIX-target_files.zip" "IMAGES/recovery.img" -d "$OUT_DIR/rec_tmp";
+		mv "$OUT_DIR/rec_tmp/IMAGES/recovery.img" "$OUT_DIR/$PREFIX-recovery.img";
+		sha512sum "$OUT_DIR/$PREFIX-recovery.img" > "$OUT_DIR/$PREFIX-recovery.img.sha512sum";
 	fi;
 
 	#File name fixes

@@ -66,8 +66,7 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bio
 
 enterAndClear "build/make";
 patch -p1 < "$DOS_PATCHES/android_build/0001-Restore_TTS.patch"; #Add back PicoTTS and language files
-patch -p1 < "$DOS_PATCHES_COMMON/android_build/0001-OTA_Keys.patch"; #add correct keys to recovery for OTA verification
-awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' core/product.mk;
+patch -p1 < "$DOS_PATCHES/android_build/0002-OTA_Keys.patch"; #add correct keys to recovery for OTA verification
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
 sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/gsi_common.mk; #Switch to Silence
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX

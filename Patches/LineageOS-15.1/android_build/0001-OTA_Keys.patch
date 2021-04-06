@@ -1,35 +1,34 @@
-From 7982c8a06516e8b1d113953a3f3cf2e32a3a7ba5 Mon Sep 17 00:00:00 2001
+From 6b2e3eb190363d4e5957890826e97f5674b38539 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Mon, 5 Apr 2021 23:11:12 -0400
+Date: Mon, 5 Apr 2021 23:03:18 -0400
 Subject: [PATCH] Allow setting OTA public keys from environment variable
 
-Change-Id: Iaa8890283c30441bf8543a8ca1cd9296e9453d91
+Change-Id: Ie7edd059b8d701d5ec0d0d922e23d034f69e579f
 ---
- core/Makefile          | 5 ++---
+ core/Makefile          | 4 ++++
  core/product_config.mk | 5 +++++
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ 2 files changed, 9 insertions(+)
 
 diff --git a/core/Makefile b/core/Makefile
-index 3fb424733..67e0170e6 100644
+index f2a524d58..92c7928d3 100644
 --- a/core/Makefile
 +++ b/core/Makefile
-@@ -1033,9 +1033,8 @@ endif
+@@ -1217,6 +1217,10 @@ endif
  # substitute other keys for this one.
  OTA_PUBLIC_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
  
--ifneq ($(OTA_PACKAGE_SIGNING_KEY),)
--    OTA_PUBLIC_KEYS := $(OTA_PACKAGE_SIGNING_KEY).x509.pem
--    PRODUCT_EXTRA_RECOVERY_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE)
 +ifneq ($(OTA_KEY_OVERRIDE_DIR),)
 +    OTA_PUBLIC_KEYS := $(OTA_KEY_OVERRIDE_DIR)/releasekey.x509.pem
- endif
- 
++endif
++
  # Generate a file containing the keys that will be read by the
+ # recovery binary.
+ RECOVERY_INSTALL_OTA_KEYS := \
 diff --git a/core/product_config.mk b/core/product_config.mk
-index 7b440b1ef..f26ebb6d5 100644
+index bcab7a384..401d27054 100644
 --- a/core/product_config.mk
 +++ b/core/product_config.mk
-@@ -422,6 +422,11 @@ PRODUCT_OTA_PUBLIC_KEYS := $(sort \
+@@ -404,6 +404,11 @@ PRODUCT_OTA_PUBLIC_KEYS := $(sort \
  PRODUCT_EXTRA_RECOVERY_KEYS := $(sort \
      $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_EXTRA_RECOVERY_KEYS))
  

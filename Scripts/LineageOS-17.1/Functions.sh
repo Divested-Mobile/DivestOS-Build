@@ -41,13 +41,6 @@ buildDevice() {
 }
 export -f buildDevice;
 
-buildDeviceUserDebug() {
-	cd "$DOS_BUILD_BASE";
-	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
-	breakfast "lineage_$1-userdebug" && mka target-files-package otatools && processRelease $1 true $2;
-}
-export -f buildDeviceUserDebug;
-
 buildDeviceDebug() {
 	cd "$DOS_BUILD_BASE";
 	unset OTA_KEY_OVERRIDE_DIR;
