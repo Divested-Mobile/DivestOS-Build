@@ -199,9 +199,9 @@ processRelease() {
 	#Image
 	unzip -l $OUT_DIR/$PREFIX-target_files.zip | grep -q recovery.img;
 	local hasRecoveryImg="$?";
-	if [ "$hasRecoveryImg" == "0" ]; then
+	if [ "$hasRecoveryImg" == "1" ]; then
 		echo -e "\e[0;32mCreating fastboot image\e[0m";
-		"$RELEASETOOLS_PREFIX"img_from_target_files "$bootOnly" "$OUT_DIR/$PREFIX-target_files.zip" \
+		"$RELEASETOOLS_PREFIX"img_from_target_files "$OUT_DIR/$PREFIX-target_files.zip" \
 			"$OUT_DIR/$PREFIX-fastboot.zip";
 		sha512sum "$OUT_DIR/$PREFIX-fastboot.zip" > "$OUT_DIR/$PREFIX-fastboot.zip.sha512sum";
 	fi

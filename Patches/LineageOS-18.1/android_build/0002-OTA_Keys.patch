@@ -1,12 +1,13 @@
-From e09adb8a973f11208058c4c74aa32b9899b1d6df Mon Sep 17 00:00:00 2001
+From 8e6e526a77d5d066663d0dbcca64c3fafc0b93f6 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Mon, 5 Apr 2021 22:53:31 -0400
+Date: Tue, 6 Apr 2021 05:04:32 -0400
 Subject: [PATCH] Allow setting OTA public keys from environment variable
 
-Change-Id: Ic8076ff80fbf39c47e20a2fbfda4a6d8592d431b
+Change-Id: Ib2a00de63b0c7a8790640462d13a84daf2076fa7
 ---
- core/product_config.mk | 5 +++++
- 1 file changed, 5 insertions(+)
+ core/product_config.mk             |  5 +++++
+ target/product/security/Android.mk | 21 +++++++++++++++++----
+ 2 files changed, 22 insertions(+), 4 deletions(-)
 
 diff --git a/core/product_config.mk b/core/product_config.mk
 index a16af05cf..4849d5009 100644
@@ -24,6 +25,48 @@ index a16af05cf..4849d5009 100644
  # Resolve and setup per-module dex-preopt configs.
  DEXPREOPT_DISABLED_MODULES :=
  # If a module has multiple setups, the first takes precedence.
+diff --git a/target/product/security/Android.mk b/target/product/security/Android.mk
+index d6a8b5378..8bc882d62 100644
+--- a/target/product/security/Android.mk
++++ b/target/product/security/Android.mk
+@@ -55,8 +55,15 @@ LOCAL_MODULE_CLASS := ETC
+ LOCAL_MODULE_STEM := otacerts.zip
+ LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/security
+ include $(BUILD_SYSTEM)/base_rules.mk
+-$(LOCAL_BUILT_MODULE): PRIVATE_CERT := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
+-$(LOCAL_BUILT_MODULE): $(SOONG_ZIP) $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
++
++OTA_PUBLIC_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
++
++ifneq ($(OTA_KEY_OVERRIDE_DIR),)
++    OTA_PUBLIC_KEYS := $(OTA_KEY_OVERRIDE_DIR)/releasekey.x509.pem
++endif
++
++$(LOCAL_BUILT_MODULE): PRIVATE_CERT := $(OTA_PUBLIC_KEYS)
++$(LOCAL_BUILT_MODULE): $(SOONG_ZIP) $(OTA_PUBLIC_KEYS)
+ 	$(SOONG_ZIP) -o $@ -j -f $(PRIVATE_CERT)
+ 
+ 
+@@ -72,11 +79,17 @@ include $(BUILD_SYSTEM)/base_rules.mk
+ 
+ extra_recovery_keys := $(patsubst %,%.x509.pem,$(PRODUCT_EXTRA_RECOVERY_KEYS))
+ 
+-$(LOCAL_BUILT_MODULE): PRIVATE_CERT := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
++OTA_PUBLIC_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
++
++ifneq ($(OTA_KEY_OVERRIDE_DIR),)
++    OTA_PUBLIC_KEYS := $(OTA_KEY_OVERRIDE_DIR)/releasekey.x509.pem
++endif
++
++$(LOCAL_BUILT_MODULE): PRIVATE_CERT := $(OTA_PUBLIC_KEYS)
+ $(LOCAL_BUILT_MODULE): PRIVATE_EXTRA_RECOVERY_KEYS := $(extra_recovery_keys)
+ $(LOCAL_BUILT_MODULE): \
+ 	    $(SOONG_ZIP) \
+-	    $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem \
++	    $(OTA_PUBLIC_KEYS) \
+ 	    $(extra_recovery_keys)
+ 	$(SOONG_ZIP) -o $@ -j \
+ 	    $(foreach key_file, $(PRIVATE_CERT) $(PRIVATE_EXTRA_RECOVERY_KEYS), -f $(key_file))
 -- 
 2.30.2
 
