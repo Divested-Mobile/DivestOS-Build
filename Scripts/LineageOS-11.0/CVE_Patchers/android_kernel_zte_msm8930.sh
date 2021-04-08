@@ -9,6 +9,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.4/3.4.0085-0086.patch
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.4/3.4.0089-0090.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.4/3.4.0090-0091.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-AndroidHardening-Deny_USB/3.4/3.4-Backport.patch
@@ -573,5 +574,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-4592/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9728/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-4002/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p573"
+editKernelLocalversion "-dos.p574"
 cd "$DOS_BUILD_BASE"

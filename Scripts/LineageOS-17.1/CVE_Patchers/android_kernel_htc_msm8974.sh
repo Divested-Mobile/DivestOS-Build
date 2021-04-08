@@ -1,5 +1,6 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/htc/msm8974"
+git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-AndroidHardening-Deny_USB/3.4/3.4-Backport.patch
@@ -265,5 +266,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20261/^3.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-27363/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28972/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p265"
+editKernelLocalversion "-dos.p266"
 cd "$DOS_BUILD_BASE"

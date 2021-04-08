@@ -112,6 +112,10 @@ sed -i '301i\        if(packageList.length() > 0) { packageList += ","; } packag
 if [ "$DOS_MICROG_INCLUDED" != "FULL" ]; then rm -rf packages/CompanionDeviceManager; fi; #Used to support Android Wear (which hard depends on GMS)
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
 
+enterAndClear "frameworks/hardware/interfaces";
+git pull "https://github.com/LineageOS/android_frameworks_hardware_interfaces" refs/changes/62/307362/1; #P_asb_2021-04
+git pull "https://github.com/LineageOS/android_frameworks_hardware_interfaces" refs/changes/63/307363/1;
+
 if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
 enterAndClear "frameworks/opt/net/ims";
 patch -p1 < "$DOS_PATCHES/android_frameworks_opt_net_ims/0001-Fix_Calling.patch"; #Fix calling when IMS is removed

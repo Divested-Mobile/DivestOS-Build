@@ -2,6 +2,7 @@
 cd "$DOS_BUILD_BASE""kernel/google/dragon"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0085-0086.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0103-0104.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0010.patch
@@ -578,5 +579,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7542/3.18/0003.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15951/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/3.18/0003.patch
-editKernelLocalversion "-dos.p578"
+editKernelLocalversion "-dos.p579"
 cd "$DOS_BUILD_BASE"

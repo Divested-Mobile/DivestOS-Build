@@ -101,6 +101,10 @@ if [ "$DOS_MICROG_INCLUDED" != "FULL" ]; then rm -rf packages/CompanionDeviceMan
 rm -rf packages/Osu packages/Osu2; #Automatic Wi-Fi connection non-sense
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
 
+enterAndClear "frameworks/hardware/interfaces";
+git pull "https://github.com/LineageOS/android_frameworks_hardware_interfaces" refs/changes/78/307378/1; #O_asb_2021-04
+git pull "https://github.com/LineageOS/android_frameworks_hardware_interfaces" refs/changes/79/307379/1;
+
 if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
 enterAndClear "frameworks/opt/net/ims";
 patch -p1 < "$DOS_PATCHES/android_frameworks_opt_net_ims/0001-Fix_Calling.patch"; #Fix calling when IMS is removed
