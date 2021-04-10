@@ -250,6 +250,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27815/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28974/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29371/^5.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3178/^5.11/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3483/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20261/^3.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-27363/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28972/^5.12/0001.patch
@@ -258,5 +259,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-ch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-5d89eb01c93d8a62998e3bdccae28a7732e3bd51.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-7be3e08d7a523207486701b2d34607137558066f.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p258"
+editKernelLocalversion "-dos.p259"
 cd "$DOS_BUILD_BASE"
