@@ -18,7 +18,7 @@
 #Last verified: 2020-04-14
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_fxtec_msm8998 kernel_google_coral kernel_google_marlin kernel_google_msm kernel_google_msm-4.9 kernel_google_wahoo kernel_google_yellowstone kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8916 kernel_motorola_msm8974 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_oneplus_sdm845 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_samsung_jf kernel_samsung_msm8974 kernel_xiaomi_sdm845 kernel_yandex_sdm660 kernel_zuk_msm8996";
+	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_fxtec_msm8998 kernel_google_coral kernel_google_marlin kernel_google_msm-4.9 kernel_google_wahoo kernel_google_yellowstone kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8974 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_oneplus_sdm845 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_razer_msm8998 kernel_samsung_jf kernel_xiaomi_sdm845 kernel_yandex_sdm660 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -53,7 +53,6 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SDS4P
-	buildDevice flox;
 	buildDevice mako;
 	#SD410
 	buildDevice crackling;
@@ -63,15 +62,11 @@ buildAll() {
 	#SD800
 	buildDevice d802;
 	#SD801
-	buildDevice bacon;
 	buildDevice d852;
 	buildDevice d855;
 	buildDevice FP2;
-	buildDevice klte;
 	buildDevice m8;
 	buildDevice victara; #error: +out/target/product/victara/recovery.img too large (10522624 >= 10485760)
-	#SD805
-	buildDevice shamu verity;
 	#SD808
 	buildDevice clark;
 	buildDevice ether;
@@ -92,7 +87,6 @@ buildAll() {
 	buildDevice FP3 avb;
 	#SD835
 	buildDevice cheryl verity;
-	buildDevice mata verity;
 	buildDevice taimen avb;
 	buildDevice walleye avb;
 	#SD845
