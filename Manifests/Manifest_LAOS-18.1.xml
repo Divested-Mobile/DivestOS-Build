@@ -66,7 +66,6 @@
 <!-- END OF BRANCH SWITCHING -->
 
 <!-- START OF ADDITIONAL REPOS -->
-	<project path="external/svox" name="platform/external/svox" groups="pdk" remote="aosp" revision="master" />
 	<project path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.8" name="platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8" groups="pdk,linux,arm" clone-depth="1" remote="aosp" revision="refs/tags/android-8.1.0_r81" />
 
 	<!-- GrapheneOS -->

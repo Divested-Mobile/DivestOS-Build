@@ -61,7 +61,6 @@ enterAndClear "bootable/recovery";
 patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-No_SerialNum_Restrictions.patch"; #Abort on serial number specific packages (GrapheneOS)
 
 enterAndClear "build/make";
-patch -p1 < "$DOS_PATCHES/android_build/0001-Restore_TTS.patch"; #Add back PicoTTS and language files
 patch -p1 < "$DOS_PATCHES/android_build/0002-OTA_Keys.patch"; #add correct keys to recovery for OTA verification
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
 sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/aosp_product.mk; #Switch to Silence
@@ -73,12 +72,6 @@ echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user b
 
 enterAndClear "external/chromium-webview";
 git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/88/305088/3; #update webview
-
-enterAndClear "external/svox";
-git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
-sed -i '12iLOCAL_SDK_VERSION := current' pico/Android.mk; #Fix build under Pie
-sed -i 's/about to delete/unable to delete/' pico/src/com/svox/pico/LangPackUninstaller.java;
-awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.java;
 
 enterAndClear "frameworks/base";
 hardenLocationConf services/core/java/com/android/server/location/gps_debug.conf;
@@ -213,6 +206,7 @@ awk -i inplace '!/EtarPrebuilt/' packages.mk; #lineage-17.1 calendar is Etar for
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi;
 if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi;
 echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All of our kernels have deny USB patch added
+echo "PRODUCT_PACKAGES += eSpeakNG" >> packages.mk; #PicoTTS needs work to compile on 18.1, use eSpeak-NG instead
 #
 #END OF ROM CHANGES
 #
