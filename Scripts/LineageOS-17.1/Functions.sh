@@ -18,7 +18,7 @@
 #Last verified: 2020-04-14
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_fxtec_msm8998 kernel_google_coral kernel_google_marlin kernel_google_msm-4.9 kernel_google_wahoo kernel_google_yellowstone kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_motorola_msm8916 kernel_motorola_msm8974 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_oneplus_sdm845 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_razer_msm8998 kernel_samsung_jf kernel_xiaomi_sdm845 kernel_yandex_sdm660 kernel_zuk_msm8996";
+	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_google_marlin kernel_google_msm-4.9 kernel_google_yellowstone kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_msm8996 kernel_oneplus_sdm845 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_xiaomi_sdm845 kernel_yandex_sdm660 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -57,26 +57,16 @@ buildAll() {
 	#SD410
 	buildDevice crackling;
 	#buildDevice osprey; #needs manual patching + more - mkdir proprietary/priv-app && cp -r proprietary/system/priv-app/qcrilmsgtunnel proprietary/priv-app/
-	#SD600
-	buildDevice jfltexx;
-	#SD800
-	buildDevice d802;
 	#SD801
 	buildDevice d852;
 	buildDevice d855;
 	buildDevice FP2;
 	buildDevice m8;
-	buildDevice victara; #error: +out/target/product/victara/recovery.img too large (10522624 >= 10485760)
 	#SD808
 	buildDevice clark;
-	buildDevice ether;
 	#SD810
 	buildDevice oneplus2;
 	#SD820
-	buildDevice h850;
-	buildDevice rs988;
-	buildDevice h990;
-	buildDevice us996;
 	buildDevice griffin;
 	buildDevice oneplus3 verity;
 	buildDevice z2_plus verity;
@@ -85,22 +75,15 @@ buildAll() {
 	buildDevice sailfish verity;
 	#SD632
 	buildDevice FP3 avb;
-	#SD835
-	buildDevice cheryl verity;
-	buildDevice taimen avb;
-	buildDevice walleye avb;
 	#SD845
 	buildDevice beryllium; #needs manual patching in vendor
 	buildDevice crosshatch avb;
 	buildDevice blueline avb;
 	buildDevice enchilada avb;
 	buildDevice fajita avb;
-	buildDevice pro1 avb;
 	#SD855
 	buildDevice guacamole avb;
 	buildDevice guacamoleb avb;
-	buildDevice coral avb;
-	buildDevice flame avb;
 	#SD660
 	buildDevice Amber verity;
 	#SD765
@@ -109,7 +92,7 @@ buildAll() {
 	buildDevice bonito avb;
 	buildDevice sargo avb;
 	#Intel
-	buildDevice fugu;
+	buildDevice fugu; #broken
 	#Tegra
 	buildDevice yellowstone; #broken
 }

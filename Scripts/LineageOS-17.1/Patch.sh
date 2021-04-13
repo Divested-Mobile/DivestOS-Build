@@ -234,15 +234,9 @@ awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken
 enterAndClear "device/fairphone/FP3";
 enableVerity; #Resurrect dm-verity
 
-enterAndClear "device/fxtec/pro1";
-enableVerity; #Resurrect dm-verity
-
 enterAndClear "device/google/bonito";
 enableVerity; #Resurrect dm-verity
 awk -i inplace '!/INODE_COUNT/' BoardConfig-lineage.mk; #mke2fs -1 incompatibility (?)
-
-enterAndClear "device/google/coral";
-enableVerity; #Resurrect dm-verity
 
 enterAndClear "device/google/crosshatch";
 enableVerity; #Resurrect dm-verity
@@ -250,14 +244,7 @@ enableVerity; #Resurrect dm-verity
 enterAndClear "device/google/marlin";
 git revert --no-edit 777dafa35f185b1f501e3c80b8ab495191583444; #remove some carrier blobs
 
-enterAndClear "device/google/wahoo";
-enableVerity; #Resurrect dm-verity
-
 enterAndClear "device/htc/m8-common";
-awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
-
-enterAndClear "device/lge/g2-common";
-sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 
 enterAndClear "device/lge/g3-common";
@@ -274,10 +261,6 @@ git revert --no-edit 9a5739e66d0a44347881807c0cc44d7c318c02b8; #fix nfc path
 enterAndClear "device/lge/mako";
 echo "pmf=0" >> wifi/wpa_supplicant_overlay.conf; #Wi-Fi chipset doesn't support PMF
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk; #broken releasetools
-
-enterAndClear "device/lge/msm8996-common";
-sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
-awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
 
 #enterAndClear "device/motorola/clark";
 #echo "TARGET_RECOVERY_PERMISSIVE_OVERRIDE := true" >> BoardConfig.mk; #Allow extract_firmware.sh to function
@@ -300,9 +283,6 @@ awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
 enterAndClear "kernel/google/marlin";
 git revert --no-edit dd4a454f080f60cc7c4f5cc281a48cba80947baf; #Resurrect dm-verity
 
-enterAndClear "kernel/google/wahoo";
-sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
-
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
 if [ "$DOS_LOWRAM_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'enableLowRam "{}"'; fi;
@@ -322,8 +302,6 @@ removeBuildFingerprints;
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/yellowstone/arch/arm*/configs/*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/lge/mako/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
-sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/lge/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
-sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/motorola/msm8974/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/motorola/msm8996/arch/arm64/configs/*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/oneplus/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
 
