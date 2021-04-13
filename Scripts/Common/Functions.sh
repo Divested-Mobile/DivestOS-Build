@@ -345,7 +345,7 @@ export -f optimizeImagesRecursive;
 
 smallerSystem() {
 	echo "BOARD_SYSTEMIMAGE_JOURNAL_SIZE := 0" >> BoardConfig.mk;
-	echo "PRODUCT_MINIMIZE_JAVA_DEBUG_INFO := true" >> BoardConfig.mk;
+	echo "PRODUCT_MINIMIZE_JAVA_DEBUG_INFO := true" >> device.mk;
 	echo "EXCLUDE_SERIF_FONTS := true" >> BoardConfig.mk;
 	echo "SMALLER_FONT_FOOTPRINT := true" >> BoardConfig.mk;
 	#echo "MINIMAL_FONT_FOOTPRINT := true" >> BoardConfig.mk;

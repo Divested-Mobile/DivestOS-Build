@@ -1,4 +1,4 @@
-Last updated: 2021-01-20
+Last updated: 2021-04-12
 
 High Priority
 	Website
@@ -9,24 +9,20 @@ Medium Priority
 		- Add GrapheneOS as a better base for supported devices
 		- Add support for more devices
 	Design
-		- Facelift of Extirpater
-		- Facelift of Hypatia
+		- Extirpater UI work
+		- Hypatia UI work
 		- Various other branding (logo, snazzy bootanimation, setupwizard, etc.)
 	Project
 		- Database verification in Hypatia
 		- More cryptocurrency addresses
 	Servers
 		- Dedicated build server
-	Website
-		- Update cryptocurrency addresses
 
 Low Priority
 	Website
 		- Switch to a wiki (?)
 	WiFiDatabaseMerger
-		- Batch/scripted generation
-		- Documentation
-		- Expose more options
+		- Improved documentation
 
 Longterm
 	Build
@@ -40,11 +36,11 @@ Longterm
 		- Proper backports of CVE patches
 		- Proper backports of security features
 	Project
-		- Create an Mobile Device Manager solution
+		- Create an Mobile Device Manager solution (?)
 		- Create our own device (free hardware, isolated modem, kernel 5.10+, etc.)
 		- General auditing of everything
 		- Collaborate with various projects
-		- Purchase one of each supported device
+		- Obtain one of each supported device
 	Website
 		- Create a 'Video Tutorials' page
 
@@ -54,7 +50,7 @@ Contributions to other projects (via labor or funding)
 	Amexia
 		- More icons
 	Conversations
-		- More colors like Signal
+		- More colors
 	DNS66
 		- Polish edges
 	Orbot
