@@ -67,7 +67,6 @@
 
 <!-- START OF ADDITIONAL REPOS -->
 	<project path="external/svox" name="platform/external/svox" groups="pdk" remote="aosp" revision="master" />
-	<project path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.8" name="platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8" groups="pdk,linux,arm" clone-depth="1" remote="aosp" revision="refs/tags/android-8.1.0_r81" />
 
 	<!-- GrapheneOS -->
 	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="464bfd4d829927f19fd5d2729a101ee241319d1e" />
