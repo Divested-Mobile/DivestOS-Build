@@ -109,6 +109,12 @@
 	<project path="device/lge/d802" name="LineageOS/android_device_lge_d802" remote="github" />
 	<project path="kernel/lge/msm8974" name="LineageOS/android_kernel_lge_msm8974" remote="github" />
 
+	<!-- LG G3 (d855) -->
+	<project path="device/lge/g3-common" name="LineageOS/android_device_lge_g3-common" remote="github" />
+	<project path="device/lge/d852" name="LineageOS/android_device_lge_d852" remote="github" />
+	<project path="device/lge/d855" name="LineageOS/android_device_lge_d855" remote="github" />
+	<project path="kernel/lge/g3" name="LineageOS/android_kernel_lge_g3" remote="github" />
+
 	<!-- LG G5 (h850:intl, rs988:us) -->
 	<project path="device/lge/common" name="LineageOS/android_device_lge_common" remote="github" />
 	<project path="device/lge/g5-common" name="LineageOS/android_device_lge_g5-common" remote="github" />

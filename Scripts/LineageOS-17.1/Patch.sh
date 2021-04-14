@@ -247,17 +247,6 @@ git revert --no-edit 777dafa35f185b1f501e3c80b8ab495191583444; #remove some carr
 enterAndClear "device/htc/m8-common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 
-enterAndClear "device/lge/g3-common";
-echo "vendor/lib/hw/nfc_nci.msm8974.so|7dcb79a385dd1155cb9b6310a3e7b85b7dc8db13" >> proprietary-files.txt; #g3-common: Add NFC HAL to proprietary-files (254249)
-sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
-sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
-
-enterAndClear "device/lge/d852";
-git revert --no-edit dbebbce20b2b303fe13f7078ef54154f9dd5d9e2; #fix nfc path
-
-enterAndClear "device/lge/d855";
-git revert --no-edit 9a5739e66d0a44347881807c0cc44d7c318c02b8; #fix nfc path
-
 enterAndClear "device/lge/mako";
 echo "pmf=0" >> wifi/wpa_supplicant_overlay.conf; #Wi-Fi chipset doesn't support PMF
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk; #broken releasetools
