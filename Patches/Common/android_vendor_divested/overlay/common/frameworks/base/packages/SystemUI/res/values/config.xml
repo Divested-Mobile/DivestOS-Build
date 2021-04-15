@@ -3,12 +3,8 @@
 
     <!-- The default tiles to display in QuickSettings -->
     <string name="quick_settings_tiles_default" translatable="false">
-        wifi,cell,bt,dnd,flashlight,rotation,battery,profiles,location,airplane,caffeine,saver,hotspot,nfc,sync
+        wifi,cell,bt,dnd,flashlight,rotation,battery,location,airplane,caffeine,saver,hotspot,nfc,sync
     </string>
-
-    <!-- Whether recents should use hardware layers for its taskviews. This flag can be enabled
-    for devices where the java drawing of round rects may be slow -->
-    <bool name="config_recents_use_hardware_layers">true</bool>
 
     <!-- Whether to use cheap, less good looking shadows for recents -->
     <bool name="config_recents_fake_shadows">true</bool>

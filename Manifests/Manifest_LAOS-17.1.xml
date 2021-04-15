@@ -20,7 +20,6 @@
 	<remove-project name="LineageOS/android_external_rsync" />
 	<remove-project name="LineageOS/android_external_unrar" />
 	<remove-project name="LineageOS/android_external_vim" />
-	<remove-project name="LineageOS/android_hardware_qcom_vr" />
 	<remove-project name="LineageOS/android_packages_apps_Jelly" />
 	<remove-project name="LineageOS/android_packages_apps_Stk" />
 	<remove-project name="LineageOS/android_packages_apps_Terminal" />
@@ -45,8 +44,6 @@
 	<remove-project name="platform/external/virglrenderer" />
 	<remove-project name="platform/external/wayland" />
 	<remove-project name="platform/external/wayland-protocols" />
-	<remove-project name="platform/hardware/qcom/sdm845/vr" />
-	<remove-project name="platform/hardware/qcom/sm8150/vr" />
 	<remove-project name="platform/packages/apps/SampleLocationAttribution" />
 	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
 	<remove-project name="platform/prebuilts/fuchsia_sdk" />

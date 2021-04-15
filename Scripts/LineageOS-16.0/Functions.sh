@@ -61,7 +61,7 @@ buildAll() {
 	#SD625
 	buildDevice zenfone3; #broken - ninja: error: 'android.hidl.base@1.0.so', missing and no known rule to make it
 	#SD835
-	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile + 17.1 isn't booting
+	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile + 17.1+ isn't booting
 	buildDevice dumpling verity;
 	#SD845
 	buildDevice beryllium;

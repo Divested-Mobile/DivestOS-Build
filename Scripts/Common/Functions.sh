@@ -216,18 +216,20 @@ processRelease() {
 
 	#Deltas
 	if [ "$DOS_GENERATE_DELTAS" = true ]; then
-		for LAST_TARGET_FILES in $ARCHIVE/target_files/$DOS_BRANDING_ZIP_PREFIX-$VERSION-*-dos-$DEVICE-target_files.zip; do
-			if [[ -f "$LAST_TARGET_FILES.id" ]]; then
-				local LAST_INCREMENTAL_ID=$(cat "$LAST_TARGET_FILES.id");
-				echo -e "\e[0;32mGenerating incremental OTA against $LAST_INCREMENTAL_ID\e[0m";
-				#TODO: Verify GPG signature and checksum of previous target-files first!
-				"$RELEASETOOLS_PREFIX"ota_from_target_files $BLOCK_SWITCHES -t 8 -k "$KEY_DIR/releasekey" -i \
-					"$LAST_TARGET_FILES" \
-					"$OUT_DIR/$PREFIX-target_files.zip" \
-					"$OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip";
-				sha512sum "$OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip" > "$OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip.sha512sum";
-			fi;
-		done;
+		if [[ " ${DOS_GENERATE_DELTAS_DEVICES[@]} " =~ " ${DEVICE} " ]]; then
+			for LAST_TARGET_FILES in $ARCHIVE/target_files/$DOS_BRANDING_ZIP_PREFIX-$VERSION-*-dos-$DEVICE-target_files.zip; do
+				if [[ -f "$LAST_TARGET_FILES.id" ]]; then
+					local LAST_INCREMENTAL_ID=$(cat "$LAST_TARGET_FILES.id");
+					echo -e "\e[0;32mGenerating incremental OTA against $LAST_INCREMENTAL_ID\e[0m";
+					#TODO: Verify GPG signature and checksum of previous target-files first!
+					"$RELEASETOOLS_PREFIX"ota_from_target_files $BLOCK_SWITCHES -t 8 -k "$KEY_DIR/releasekey" -i \
+						"$LAST_TARGET_FILES" \
+						"$OUT_DIR/$PREFIX-target_files.zip" \
+						"$OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip";
+					sha512sum "$OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip" > "$OUT_DIR/$PREFIX-incremental_$LAST_INCREMENTAL_ID.zip.sha512sum";
+				fi;
+			done;
+		fi;
 	fi;
 
 	#Extract signed recovery

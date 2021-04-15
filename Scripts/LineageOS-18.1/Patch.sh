@@ -52,7 +52,6 @@ cp -r "$DOS_PREBUILT_APPS""android_vendor_FDroid_PrebuiltApps/." "$DOS_BUILD_BAS
 cp -r "$DOS_PATCHES_COMMON""android_vendor_divested/." "$DOS_BUILD_BASE""vendor/divested/"; #Add our vendor files
 
 enterAndClear "bootable/recovery";
-#git revert --no-edit 304cbe612ccd85ef376a3fb4f7166961dc1d1afc; #Don't allow bypassing signature verification
 patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-No_SerialNum_Restrictions.patch"; #Abort on serial number specific packages (GrapheneOS)
 
 enterAndClear "build/make";
@@ -66,7 +65,7 @@ patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.pa
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
 
 enterAndClear "external/chromium-webview";
-git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/88/305088/3; #update webview
+git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/57/308057/1; #update webview
 
 enterAndClear "frameworks/base";
 hardenLocationConf services/core/java/com/android/server/location/gps_debug.conf;
@@ -251,9 +250,6 @@ echo "type sensors_data_file, file_type, data_file_type, core_data_file_type;" >
 
 #enterAndClear "device/moto/shamu";
 #git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
-
-#enterAndClear "device/motorola/clark";
-#echo "TARGET_RECOVERY_PERMISSIVE_OVERRIDE := true" >> BoardConfig.mk; #Allow extract_firmware.sh to function
 
 enterAndClear "device/oneplus/msm8998-common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation

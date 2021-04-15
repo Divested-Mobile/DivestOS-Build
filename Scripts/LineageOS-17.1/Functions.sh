@@ -53,20 +53,20 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SDS4P
-	buildDevice mako;
+	buildDevice mako; #18.1 no cellular
 	#SD410
 	buildDevice crackling;
 	#buildDevice osprey; #needs manual patching + more - mkdir proprietary/priv-app && cp -r proprietary/system/priv-app/qcrilmsgtunnel proprietary/priv-app/
 	#SD801
 	buildDevice FP2;
-	buildDevice m8;
+	buildDevice m8; #18.1 not ready
 	#SD808
 	buildDevice clark;
 	#SD810
 	buildDevice oneplus2;
 	#SD820
 	buildDevice griffin;
-	buildDevice oneplus3 verity;
+	buildDevice oneplus3 verity; #18.1 not compiling
 	buildDevice z2_plus verity;
 	#SD821
 	buildDevice marlin verity;
@@ -86,10 +86,10 @@ buildAll() {
 	#SD765
 	buildDevice avicii avb;
 	#SD670
-	buildDevice bonito avb;
+	buildDevice bonito avb; #18.1 not compiling
 	buildDevice sargo avb;
 	#Intel
-	buildDevice fugu; #broken
+	buildDevice fugu;
 	#Tegra
 	buildDevice yellowstone; #broken
 }
