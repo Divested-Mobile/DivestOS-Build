@@ -163,10 +163,6 @@
 	<project path="hardware/samsung_slsi-cm/openmax" name="LineageOS/android_hardware_samsung_slsi-cm_openmax" remote="github" />
 	<project path="kernel/samsung/universal8890" name="LineageOS/android_kernel_samsung_universal8890" remote="github" />
 
-	<!-- ZTE Axon 7 (axon7) -->
-	<project path="device/zte/axon7" name="LineageOS/android_device_zte_axon7" remote="github" />
-	<project path="kernel/zte/msm8996" name="LineageOS/android_kernel_zte_msm8996" remote="github" />
-
 	<!-- NXP -->
 	<project path="vendor/nxp-nfc/opensource/frameworks" name="LineageOS/android_vendor_nxp-nfc_opensource_frameworks" remote="github" />
 	<project path="vendor/nxp-nfc/opensource/libnfc-nci" name="LineageOS/android_vendor_nxp-nfc_opensource_libnfc-nci" remote="github" />

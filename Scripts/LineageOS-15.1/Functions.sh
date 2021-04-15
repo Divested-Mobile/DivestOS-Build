@@ -68,7 +68,7 @@ buildAll() {
 	#SD615
 	buildDevice Z00T; #broken - needs vendor patching
 	#SD820
-	buildDevice axon7; #broken - needs vendor patching
+	buildDevice axon7;
 	buildDevice h870;
 	buildDevice us997;
 	#Intel
