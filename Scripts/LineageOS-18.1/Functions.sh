@@ -65,7 +65,7 @@ buildAll() {
 	buildDevice d855;
 	buildDevice klte;
 	#buildDevice m8; #unb18
-	buildDevice victara; #error: +out/target/product/victara/recovery.img too large (10522624 >= 10485760)
+	buildDevice victara;
 	#SD805
 	buildDevice shamu verity;
 	#SD808

@@ -391,15 +391,6 @@ export -f volteOverride;
 
 hardenLocationConf() {
 	local gpsConfig=$1;
-	#Attempt to get the real device directory
-	if [[ "$gpsConfig" = *"device/"* ]]; then
-		local deviceDir=$(sed 's|gps/gps.conf||' <<< "$gpsConfig");
-		deviceDir=$(sed 's|configs/gps.conf||' <<< "$deviceDir");
-		deviceDir=$(sed 's|gps/etc/gps.conf||' <<< "$deviceDir");
-		deviceDir=$(sed 's|gps.conf||' <<< "$deviceDir");
-	else
-		local deviceDir=$(dirname "$gpsConfig");
-	fi;
 	#Debugging: adb logcat -b all | grep -i -e locsvc -e izat -e gps -e gnss -e location -e xtra
 	#sed -i 's|DEBUG_LEVEL = .|DEBUG_LEVEL = 4|' "$gpsConfig" &> /dev/null || true;
 	#Enable GLONASS
@@ -431,22 +422,6 @@ hardenLocationConf() {
 	#Enable HTTPS (IZatCloud supports HTTPS)
 	sed -i 's|http://xtrapath|https://xtrapath|' "$gpsConfig" &>/dev/null || true;
 	#sed -i 's|http://gllto|https://gllto|' "$gpsConfig" &>/dev/null || true; XXX: GLPals has an invaid certificate
-	#XTRA: Use format version 3 if possible
-	#if grep -sq "XTRA_VERSION_CHECK" "$gpsConfig"; then #Using hardware/qcom/gps OR precompiled blob OR device specific implementation
-	#	sed -i 's|XTRA_VERSION_CHECK=0|XTRA_VERSION_CHECK=1|' "$gpsConfig" &>/dev/null || true;
-	#	sed -i 's|xtra2.bin|xtra3grc.bin|' "$gpsConfig" &>/dev/null || true;
-	#elif grep -sq "BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := true" "$deviceDir"BoardConfig.mk "$deviceDir"boards/*gps.mk; then
-	#	if ! grep -sq "USE_DEVICE_SPECIFIC_LOC_API := true" "$deviceDir"BoardConfig.mk "$deviceDir"boards/*gps.mk; then
-	#		if ! grep -sq "libloc" ./"$deviceDir"/*proprietary*.txt; then #Using hardware/qcom/gps
-	#			sed -i 's|xtra2.bin|xtra3grc.bin|' "$gpsConfig" &>/dev/null || true;
-	#		fi;
-	#	fi;
-	#fi;
-	#if [[ "$gpsConfig" = *"gps_debug.conf" ]]; then
-	#	echo "XTRA_SERVER_1=https://xtrapath4.izatcloud.net/xtra2.bin" >> "$gpsConfig";
-	#	echo "XTRA_SERVER_2=https://xtrapath5.izatcloud.net/xtra2.bin" >> "$gpsConfig";
-	#	echo "XTRA_SERVER_3=https://xtrapath6.izatcloud.net/xtra2.bin" >> "$gpsConfig";
-	#fi;
 	echo "Enhanced location services for $gpsConfig";
 }
 export -f hardenLocationConf;
