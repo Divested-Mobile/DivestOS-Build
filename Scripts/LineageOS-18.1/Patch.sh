@@ -210,7 +210,6 @@ echo "PRODUCT_PACKAGES += eSpeakNG" >> packages.mk; #PicoTTS needs work to compi
 #
 enterAndClear "device/asus/flox";
 compressRamdisks;
-rm -rf bdAddrLoader; #duplicate with mako
 
 enterAndClear "device/essential/mata";
 git revert --no-edit 3928b30a97fe7f6b6020bbd9d83a56a32de4ba16 e91f0fece65d32ca407be532e2c4456056b1a968; #Unbreak the earpiece speaker, breaking the loud speaker volume control on calls
@@ -242,6 +241,10 @@ sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcn
 enterAndClear "device/lge/mako";
 echo "pmf=0" >> wifi/wpa_supplicant_overlay.conf; #Wi-Fi chipset doesn't support PMF
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk; #broken releasetools
+sed -i 's/bdAddrLoader/bdAddrLoader-mako/' device.mk bdAddrLoader/Android.bp bdAddrLoader/addrloader.c rootdir/etc/init.mako.bt.sh sepolicy/file_contexts; #Fix conflicts
+sed -i 's|/bdAddrLoader|/bdAddrLoader-mako|' rootdir/etc/init.mako.rc;
+sed -i '16iifeq ($(TARGET_DEVICE),mako)' sensors/Android.mk;
+echo "endif" >> sensors/Android.mk;
 
 enterAndClear "device/lge/msm8996-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;

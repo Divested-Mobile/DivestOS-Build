@@ -232,12 +232,7 @@ rm -rf libhidl; #breaks other devices
 
 enterAndClear "device/lge/hammerhead";
 git am $DOS_PATCHES/android_device_lge_hammerhead/*.patch; #hh-p-sepolicy
-rm -rf bdAddrLoader; #duplicate with mako
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> BoardConfig.mk; #qcom-legacy sepolicy
-
-enterAndClear "device/oneplus/msm8998-common";
-patch -p1 < "$DOS_PATCHES_COMMON/android_device_audio/0001-No_Vorbis_Offload.patch"; #Fix Ogg Vorbis playback
-awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
