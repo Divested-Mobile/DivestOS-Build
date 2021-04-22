@@ -1,18 +1,22 @@
+Below commits need to be checked against respones from maintainers here:
+https://lore.kernel.org/lkml/20210421130105.1226686-1-gregkh@linuxfoundation.org/
+
+
+c9c63915519b hwmon: (lm80) fix a missing check of the status of SMBus read
+^known bad, fixed by 07bd14ccc304 hwmon: (lm80) Fix missing unlock on error in set_fan_div()
+
+
 android_kernel_samsung_exynos5420/cm-14.1
 	01343644d12 cpuidle: Fix three reference count leaks
-	8175f73dc40 rfkill: Fix incorrect check to avoid NULL pointer dereference
-	4d3ca19bb11 net/net_namespace: Check the return value of register_pernet_subsys()
 	bf43b5122f9 ALSA: usb-audio: Fix a memory leak bug
 	ec9379c79e9 scsi: qla4xxx: fix a potential NULL pointer dereference
 android_kernel_lge_msm8996/lineage-15.1
 	c9912b7d9ee isdn: eicon: fix a missing-check bug
-	8bfbeb811fa ALSA: control: fix a redundant-copy issue
 android_kernel_asus_msm8953/lineage-16.0
 	b362a07321de ALSA: usb-audio: Fix a memory leak bug
 	61d586191960 scsi: qla4xxx: fix a potential NULL pointer dereference
 	65e6cca34beb qlcnic: Avoid potential NULL pointer dereference
 	f57149631d43 x86/hpet: Prevent potential NULL pointer dereference
-	e3de185c7f2f ALSA: sb8: add a check for request_region
 	77eed592753f ALSA: echoaudio: add a check for ioremap_nocache
 	cdae8c6fc96e serial: max310x: Fix to avoid potential NULL pointer dereference
 	73929a01c565 md: Fix failed allocation of md_register_thread
@@ -20,15 +24,12 @@ android_kernel_asus_msm8953/lineage-16.0
 	5bc9daa97d9c mfd: mc13xxx: Fix a missing check of a register-read failure
 	aff0981b2ab5 gdrom: fix a memory leak bug
 	3896d308f19c niu: fix missing checks of niu_pci_eeprom_read
-	b2ef4e8f5207 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	8aaf06edb200 hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	8aaf06edb200 hwmon: (lm80) fix a missing check of the status of SMBus read
 	fd0fbac2f928 dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	242384b37bf7 net: socket: fix a missing-check bug
 	3e8de24dea4c net: cxgb3_main: fix a missing-check bug
 	120f719ade09 scsi: 3w-xxxx: fix a missing-check bug
-	02b36483d5a3 scsi: 3w-9xxx: fix a missing-check bug
 	c9912b7d9eed isdn: eicon: fix a missing-check bug
-	8bfbeb811fa1 ALSA: control: fix a redundant-copy issue
 android_kernel_xiaomi_sdm845/lineage-16.0
 	be8ba526f886 media: vpss: fix a potential NULL pointer dereference
 	d73c419cc5c5 PCI: xilinx: Check for __get_free_pages() failure
@@ -38,23 +39,17 @@ android_kernel_xiaomi_sdm845/lineage-16.0
 	f460e08e1c5e x86/PCI: Fix PCI IRQ routing table memory leak
 	506e0ced8dc3 rapidio: fix a NULL pointer dereference when create_workqueue() fails
 	b764a801663a spi : spi-topcliff-pch: Fix to handle empty DMA buffers
-	b1c2f7d1f8b3 tty: ipwireless: fix missing checks for ioremap
 	d647661f8537 brcmfmac: fix missing checks for kmemdup
 	088c9aa3ce6a rtlwifi: fix a potential NULL pointer dereference
 	2fd9d6a0fd69 iio: hmc5843: fix potential NULL pointer dereferences
-	cb1962ff432a mmc_spi: add a status check for spi_sync_locked
-	51e088baae2b audit: fix a memory leak bug
 	2f3201b23b69 net: cw1200: fix a NULL pointer dereference
 	f934bf3f5776 ALSA: usb-audio: Fix a memory leak bug
 	4d8fc7d8d7ed libnvdimm/btt: Fix a kmemdup failure check
 	93cc83319f9a libnvdimm/namespace: Fix a potential NULL pointer dereference
-	72bbf78c4dfc HID: logitech: check the return value of create_singlethread_workqueue
 	b491c6f370ea leds: pca9532: fix a potential NULL pointer dereference
 	a3d1c9bc1416 scsi: qla4xxx: fix a potential NULL pointer dereference
 	aba0a087a000 qlcnic: Avoid potential NULL pointer dereference
-	3ddc29935709 tracing: Fix a memory leak by early error exit in trace_pid_write()
 	ec1fdc02cc25 x86/hpet: Prevent potential NULL pointer dereference
-	5e6e33fd7577 ALSA: sb8: add a check for request_region
 	a3e47ff19026 ALSA: echoaudio: add a check for ioremap_nocache
 	110ee901b3e1 serial: max310x: Fix to avoid potential NULL pointer dereference
 	fe186fdd1a45 tty: atmel_serial: fix a potential NULL pointer dereference
@@ -64,30 +59,22 @@ android_kernel_xiaomi_sdm845/lineage-16.0
 	683f5f8b3862 HID: lenovo: Add checks to fix of_led_classdev_register
 	69a1580320bf gdrom: fix a memory leak bug
 	63e311153b66 niu: fix missing checks of niu_pci_eeprom_read
-	ecbf70b15867 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	0138dfb7b332 hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	0138dfb7b332 hwmon: (lm80) fix a missing check of the status of SMBus read
 	3d963c98d796 ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	154b7716f9aa net: netxen: fix a missing check and an uninitialized use
 	6c446ad3622a dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	b18de4e8bdc5 scsi: megaraid_sas: fix a missing-check bug
-	f0223d1f78f5 ethtool: fix a privilege escalation bug
 	f57ef24f811c net: socket: fix a missing-check bug
 	063cc21634ce net: cxgb3_main: fix a missing-check bug
 	5a644f682267 scsi: 3w-xxxx: fix a missing-check bug
-	80e75bdc0e1b scsi: 3w-9xxx: fix a missing-check bug
 	f698b28afc34 isdn: eicon: fix a missing-check bug
-	c5d8237ef606 ALSA: control: fix a redundant-copy issue
 android_kernel_fairphone_sdm632/lineage-17.1
-	61faa5379791 ecryptfs: replace BUG_ON with error handling code
 	5704974eb300 orinoco: avoid assertion in case of NULL pointer
 	5ea250ec2912 net: sh_eth: fix a missing check of of_get_phy_mode
-	1e1672c5c630 rfkill: Fix incorrect check to avoid NULL pointer dereference
 	c39118738793 drm/gma500: fix memory disclosures due to uninitialized bytes
 	10a0e00c095f tipc: fix a missing check of genlmsg_put
 	57b2d68786a8 atl1e: checking the status of atl1e_write_phy_reg
-	27c9e12a43fe net: dsa: bcm_sf2: Propagate error value from mdio_write
 	712545ec9e81 net: stmicro: fix a missing check of clk_prepare
-	9b852f0a5416 net/net_namespace: Check the return value of register_pernet_subsys()
 	e914a7747a53 regulator: tps65910: fix a missing check of return value
 	608024a3a186 drivers/regulator: fix a missing check of return value
 	6fd2efed5bbb misc: mic: fix a DMA pool free failure
@@ -100,23 +87,17 @@ android_kernel_fairphone_sdm632/lineage-17.1
 	f460e08e1c5e x86/PCI: Fix PCI IRQ routing table memory leak
 	506e0ced8dc3 rapidio: fix a NULL pointer dereference when create_workqueue() fails
 	b764a801663a spi : spi-topcliff-pch: Fix to handle empty DMA buffers
-	b1c2f7d1f8b3 tty: ipwireless: fix missing checks for ioremap
 	d647661f8537 brcmfmac: fix missing checks for kmemdup
 	088c9aa3ce6a rtlwifi: fix a potential NULL pointer dereference
 	2fd9d6a0fd69 iio: hmc5843: fix potential NULL pointer dereferences
-	cb1962ff432a mmc_spi: add a status check for spi_sync_locked
-	51e088baae2b audit: fix a memory leak bug
 	2f3201b23b69 net: cw1200: fix a NULL pointer dereference
 	f934bf3f5776 ALSA: usb-audio: Fix a memory leak bug
 	4d8fc7d8d7ed libnvdimm/btt: Fix a kmemdup failure check
 	93cc83319f9a libnvdimm/namespace: Fix a potential NULL pointer dereference
-	72bbf78c4dfc HID: logitech: check the return value of create_singlethread_workqueue
 	b491c6f370ea leds: pca9532: fix a potential NULL pointer dereference
 	a3d1c9bc1416 scsi: qla4xxx: fix a potential NULL pointer dereference
 	aba0a087a000 qlcnic: Avoid potential NULL pointer dereference
-	3ddc29935709 tracing: Fix a memory leak by early error exit in trace_pid_write()
 	ec1fdc02cc25 x86/hpet: Prevent potential NULL pointer dereference
-	5e6e33fd7577 ALSA: sb8: add a check for request_region
 	a3e47ff19026 ALSA: echoaudio: add a check for ioremap_nocache
 	110ee901b3e1 serial: max310x: Fix to avoid potential NULL pointer dereference
 	fe186fdd1a45 tty: atmel_serial: fix a potential NULL pointer dereference
@@ -126,42 +107,32 @@ android_kernel_fairphone_sdm632/lineage-17.1
 	683f5f8b3862 HID: lenovo: Add checks to fix of_led_classdev_register
 	69a1580320bf gdrom: fix a memory leak bug
 	63e311153b66 niu: fix missing checks of niu_pci_eeprom_read
-	ecbf70b15867 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	0138dfb7b332 hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	0138dfb7b332 hwmon: (lm80) fix a missing check of the status of SMBus read
 	3d963c98d796 ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	154b7716f9aa net: netxen: fix a missing check and an uninitialized use
 	6c446ad3622a dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	b18de4e8bdc5 scsi: megaraid_sas: fix a missing-check bug
-	f0223d1f78f5 ethtool: fix a privilege escalation bug
 	f57ef24f811c net: socket: fix a missing-check bug
 	063cc21634ce net: cxgb3_main: fix a missing-check bug
 	5a644f682267 scsi: 3w-xxxx: fix a missing-check bug
-	80e75bdc0e1b scsi: 3w-9xxx: fix a missing-check bug
 	f698b28afc34 isdn: eicon: fix a missing-check bug
-	c5d8237ef606 ALSA: control: fix a redundant-copy issue
 android_kernel_google_marlin/lineage-17.1
 	73929a01c56 md: Fix failed allocation of md_register_thread
 	33951e5f888 leds: lp5523: fix a missing check of return value of lp55xx_read
 	5bc9daa97d9 mfd: mc13xxx: Fix a missing check of a register-read failure
 	aff0981b2ab gdrom: fix a memory leak bug
 	3896d308f19 niu: fix missing checks of niu_pci_eeprom_read
-	b2ef4e8f520 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	8aaf06edb20 hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	8aaf06edb20 hwmon: (lm80) fix a missing check of the status of SMBus read
 	fd0fbac2f92 dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	242384b37bf net: socket: fix a missing-check bug
 	3e8de24dea4 net: cxgb3_main: fix a missing-check bug
 	120f719ade0 scsi: 3w-xxxx: fix a missing-check bug
-	02b36483d5a scsi: 3w-9xxx: fix a missing-check bug
 	c9912b7d9ee isdn: eicon: fix a missing-check bug
-	8bfbeb811fa ALSA: control: fix a redundant-copy issue
 android_kernel_google_msm-4.9/lineage-17.1
-	1e1672c5c630 rfkill: Fix incorrect check to avoid NULL pointer dereference
 	c39118738793 drm/gma500: fix memory disclosures due to uninitialized bytes
 	10a0e00c095f tipc: fix a missing check of genlmsg_put
 	57b2d68786a8 atl1e: checking the status of atl1e_write_phy_reg
-	27c9e12a43fe net: dsa: bcm_sf2: Propagate error value from mdio_write
 	712545ec9e81 net: stmicro: fix a missing check of clk_prepare
-	9b852f0a5416 net/net_namespace: Check the return value of register_pernet_subsys()
 	e914a7747a53 regulator: tps65910: fix a missing check of return value
 	608024a3a186 drivers/regulator: fix a missing check of return value
 	6fd2efed5bbb misc: mic: fix a DMA pool free failure
@@ -174,23 +145,17 @@ android_kernel_google_msm-4.9/lineage-17.1
 	f460e08e1c5e x86/PCI: Fix PCI IRQ routing table memory leak
 	506e0ced8dc3 rapidio: fix a NULL pointer dereference when create_workqueue() fails
 	b764a801663a spi : spi-topcliff-pch: Fix to handle empty DMA buffers
-	b1c2f7d1f8b3 tty: ipwireless: fix missing checks for ioremap
 	d647661f8537 brcmfmac: fix missing checks for kmemdup
 	088c9aa3ce6a rtlwifi: fix a potential NULL pointer dereference
 	2fd9d6a0fd69 iio: hmc5843: fix potential NULL pointer dereferences
-	cb1962ff432a mmc_spi: add a status check for spi_sync_locked
-	51e088baae2b audit: fix a memory leak bug
 	2f3201b23b69 net: cw1200: fix a NULL pointer dereference
 	f934bf3f5776 ALSA: usb-audio: Fix a memory leak bug
 	4d8fc7d8d7ed libnvdimm/btt: Fix a kmemdup failure check
 	93cc83319f9a libnvdimm/namespace: Fix a potential NULL pointer dereference
-	72bbf78c4dfc HID: logitech: check the return value of create_singlethread_workqueue
 	b491c6f370ea leds: pca9532: fix a potential NULL pointer dereference
 	a3d1c9bc1416 scsi: qla4xxx: fix a potential NULL pointer dereference
 	aba0a087a000 qlcnic: Avoid potential NULL pointer dereference
-	3ddc29935709 tracing: Fix a memory leak by early error exit in trace_pid_write()
 	ec1fdc02cc25 x86/hpet: Prevent potential NULL pointer dereference
-	5e6e33fd7577 ALSA: sb8: add a check for request_region
 	a3e47ff19026 ALSA: echoaudio: add a check for ioremap_nocache
 	110ee901b3e1 serial: max310x: Fix to avoid potential NULL pointer dereference
 	fe186fdd1a45 tty: atmel_serial: fix a potential NULL pointer dereference
@@ -200,45 +165,33 @@ android_kernel_google_msm-4.9/lineage-17.1
 	683f5f8b3862 HID: lenovo: Add checks to fix of_led_classdev_register
 	69a1580320bf gdrom: fix a memory leak bug
 	63e311153b66 niu: fix missing checks of niu_pci_eeprom_read
-	ecbf70b15867 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	0138dfb7b332 hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	0138dfb7b332 hwmon: (lm80) fix a missing check of the status of SMBus read
 	3d963c98d796 ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	154b7716f9aa net: netxen: fix a missing check and an uninitialized use
 	6c446ad3622a dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	b18de4e8bdc5 scsi: megaraid_sas: fix a missing-check bug
-	f0223d1f78f5 ethtool: fix a privilege escalation bug
 	f57ef24f811c net: socket: fix a missing-check bug
 	063cc21634ce net: cxgb3_main: fix a missing-check bug
 	5a644f682267 scsi: 3w-xxxx: fix a missing-check bug
-	80e75bdc0e1b scsi: 3w-9xxx: fix a missing-check bug
 	f698b28afc34 isdn: eicon: fix a missing-check bug
-	c5d8237ef606 ALSA: control: fix a redundant-copy issue
 android_kernel_motorola_msm8996/lineage-17.1
 	120f719ade09 scsi: 3w-xxxx: fix a missing-check bug
-	02b36483d5a3 scsi: 3w-9xxx: fix a missing-check bug
 	c9912b7d9eed isdn: eicon: fix a missing-check bug
-	8bfbeb811fa1 ALSA: control: fix a redundant-copy issue
 android_kernel_oneplus_msm8996/lineage-17.1
 	120f719ade09 scsi: 3w-xxxx: fix a missing-check bug
-	02b36483d5a3 scsi: 3w-9xxx: fix a missing-check bug
 	c9912b7d9eed isdn: eicon: fix a missing-check bug
-	8bfbeb811fa1 ALSA: control: fix a redundant-copy issue
 android_kernel_oneplus_sdm845/lineage-17.1
 	cd678077be57 bonding: Fix reference count leak in bond_sysfs_slave_add.
 	0dee5beb6c80 qlcnic: fix missing release in qlcnic_83xx_interrupt_test.
 	44ac6becd5c6 iommu: Fix reference count leak in iommu_group_alloc.
 	2256bf0ea08f net/mlx4_core: fix a memory leak bug.
 	6a6237db0708 net: sun: fix missing release regions in cas_init_one().
-	61faa5379791 ecryptfs: replace BUG_ON with error handling code
 	5704974eb300 orinoco: avoid assertion in case of NULL pointer
 	5ea250ec2912 net: sh_eth: fix a missing check of of_get_phy_mode
-	1e1672c5c630 rfkill: Fix incorrect check to avoid NULL pointer dereference
 	c39118738793 drm/gma500: fix memory disclosures due to uninitialized bytes
 	10a0e00c095f tipc: fix a missing check of genlmsg_put
 	57b2d68786a8 atl1e: checking the status of atl1e_write_phy_reg
-	27c9e12a43fe net: dsa: bcm_sf2: Propagate error value from mdio_write
 	712545ec9e81 net: stmicro: fix a missing check of clk_prepare
-	9b852f0a5416 net/net_namespace: Check the return value of register_pernet_subsys()
 	e914a7747a53 regulator: tps65910: fix a missing check of return value
 	608024a3a186 drivers/regulator: fix a missing check of return value
 	6fd2efed5bbb misc: mic: fix a DMA pool free failure
@@ -251,23 +204,17 @@ android_kernel_oneplus_sdm845/lineage-17.1
 	f460e08e1c5e x86/PCI: Fix PCI IRQ routing table memory leak
 	506e0ced8dc3 rapidio: fix a NULL pointer dereference when create_workqueue() fails
 	b764a801663a spi : spi-topcliff-pch: Fix to handle empty DMA buffers
-	b1c2f7d1f8b3 tty: ipwireless: fix missing checks for ioremap
 	d647661f8537 brcmfmac: fix missing checks for kmemdup
 	088c9aa3ce6a rtlwifi: fix a potential NULL pointer dereference
 	2fd9d6a0fd69 iio: hmc5843: fix potential NULL pointer dereferences
-	cb1962ff432a mmc_spi: add a status check for spi_sync_locked
-	51e088baae2b audit: fix a memory leak bug
 	2f3201b23b69 net: cw1200: fix a NULL pointer dereference
 	f934bf3f5776 ALSA: usb-audio: Fix a memory leak bug
 	4d8fc7d8d7ed libnvdimm/btt: Fix a kmemdup failure check
 	93cc83319f9a libnvdimm/namespace: Fix a potential NULL pointer dereference
-	72bbf78c4dfc HID: logitech: check the return value of create_singlethread_workqueue
 	b491c6f370ea leds: pca9532: fix a potential NULL pointer dereference
 	a3d1c9bc1416 scsi: qla4xxx: fix a potential NULL pointer dereference
 	aba0a087a000 qlcnic: Avoid potential NULL pointer dereference
-	3ddc29935709 tracing: Fix a memory leak by early error exit in trace_pid_write()
 	ec1fdc02cc25 x86/hpet: Prevent potential NULL pointer dereference
-	5e6e33fd7577 ALSA: sb8: add a check for request_region
 	a3e47ff19026 ALSA: echoaudio: add a check for ioremap_nocache
 	110ee901b3e1 serial: max310x: Fix to avoid potential NULL pointer dereference
 	fe186fdd1a45 tty: atmel_serial: fix a potential NULL pointer dereference
@@ -277,19 +224,15 @@ android_kernel_oneplus_sdm845/lineage-17.1
 	683f5f8b3862 HID: lenovo: Add checks to fix of_led_classdev_register
 	69a1580320bf gdrom: fix a memory leak bug
 	63e311153b66 niu: fix missing checks of niu_pci_eeprom_read
-	ecbf70b15867 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	0138dfb7b332 hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	0138dfb7b332 hwmon: (lm80) fix a missing check of the status of SMBus read
 	3d963c98d796 ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	154b7716f9aa net: netxen: fix a missing check and an uninitialized use
 	6c446ad3622a dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	b18de4e8bdc5 scsi: megaraid_sas: fix a missing-check bug
-	f0223d1f78f5 ethtool: fix a privilege escalation bug
 	f57ef24f811c net: socket: fix a missing-check bug
 	063cc21634ce net: cxgb3_main: fix a missing-check bug
 	5a644f682267 scsi: 3w-xxxx: fix a missing-check bug
-	80e75bdc0e1b scsi: 3w-9xxx: fix a missing-check bug
 	f698b28afc34 isdn: eicon: fix a missing-check bug
-	c5d8237ef606 ALSA: control: fix a redundant-copy issue
 android_kernel_oneplus_sm7250/lineage-17.1
 	6fb470ace862 media: vpss: fix a potential NULL pointer dereference
 	47d281bbbff9 PCI: xilinx: Check for __get_free_pages() failure
@@ -304,15 +247,12 @@ android_kernel_oneplus_sm7250/lineage-17.1
 	495e34e62c3b thunderbolt: property: Fix a NULL pointer dereference
 	988dab7f5778 thunderbolt: Fix to check for kmemdup failure
 	877a202f9b27 thunderbolt: Fix to check return value of ida_simple_get
-	19ae270d1ce0 tty: ipwireless: fix missing checks for ioremap
 	ee40c8a3efc2 thunderbolt: Fix to check the return value of kmemdup
 	c8eecd658220 thunderbolt: property: Fix a missing check of kzalloc
 	6b5693f20dd8 media: video-mux: fix null pointer dereferences
 	7c9d97f3b11d brcmfmac: fix missing checks for kmemdup
 	7be8d4251bf7 rtlwifi: fix a potential NULL pointer dereference
 	dd106d198dee iio: hmc5843: fix potential NULL pointer dereferences
-	fa291e89997a mmc_spi: add a status check for spi_sync_locked
-	6c21fa849a5a audit: fix a memory leak bug
 	31de7f1d07b5 net: cw1200: fix a NULL pointer dereference
 	eacec4367998 rsi: Fix NULL pointer dereference in kmalloc
 	67d812fbe303 slimbus: fix a potential NULL pointer dereference in of_qcom_slim_ngd_register
@@ -320,7 +260,6 @@ android_kernel_oneplus_sm7250/lineage-17.1
 	30dda277333e ALSA: usb-audio: Fix a memory leak bug
 	af5b7a150ef8 libnvdimm/btt: Fix a kmemdup failure check
 	e94f852e2034 libnvdimm/namespace: Fix a potential NULL pointer dereference
-	61effc648fe4 HID: logitech: check the return value of create_singlethread_workqueue
 	2663959af22c leds: pca9532: fix a potential NULL pointer dereference
 	0018c21f34d6 usb: usb251xb: fix to avoid potential NULL pointer dereference
 	4135e588274e scsi: qla4xxx: fix a potential NULL pointer dereference
@@ -331,10 +270,8 @@ android_kernel_oneplus_sm7250/lineage-17.1
 	e634fc48661f netfilter: ip6t_srh: fix NULL pointer dereferences
 	fc055dffa575 qlcnic: Avoid potential NULL pointer dereference
 	f722b7789afa net: ieee802154: fix a potential NULL pointer dereference
-	0e78e92da2d8 tracing: Fix a memory leak by early error exit in trace_pid_write()
 	16dab2916615 x86/hyperv: Prevent potential NULL pointer dereference
 	30d9b740e201 x86/hpet: Prevent potential NULL pointer dereference
-	317e716a8ad9 ALSA: sb8: add a check for request_region
 	17829309ec00 ALSA: echoaudio: add a check for ioremap_nocache
 	eab86503fec0 net: mlx5: Add a missing check on idr_find, free buf
 	b26f7e86d3cc gpio: exar: add a check for the return value of ida_simple_get fails
@@ -348,15 +285,13 @@ android_kernel_oneplus_sm7250/lineage-17.1
 	d921bb16259e HID: lenovo: Add checks to fix of_led_classdev_register
 	711b2e7fc02f gdrom: fix a memory leak bug
 	4d6b5b08f19f niu: fix missing checks of niu_pci_eeprom_read
-	040f76976ec5 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	8dcf84789e31 hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	8dcf84789e31 hwmon: (lm80) fix a missing check of the status of SMBus read
 	d6847f539bd6 ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	2fb13e2004e8 net: netxen: fix a missing check and an uninitialized use
 	0fa6bead41ba crypto: cavium/nitrox - fix a DMA pool free failure
 	b42128078cfc dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	51b6d8b00dff scsi: megaraid_sas: fix a missing-check bug
 	b6168562c8ce net: socket: fix a missing-check bug
-	58f5bbe331c5 ethtool: fix a privilege escalation bug
 	2bb3207dbbd4 ethtool: fix a missing-check bug
 	0781168e23a2 yam: fix a missing-check bug
 	2c05d88818ab net: cxgb3_main: fix a missing-check bug
@@ -364,13 +299,10 @@ android_kernel_oneplus_sm7250/lineage-17.1
 	6009d1fe6ba3 isdn: eicon: fix a missing-check bug
 	8e03477cb709 i2c: core: smbus: fix a potential missing-check bug
 	bd23a7269834 virt: vbox: Only copy_from_user the request-header once
-	3f12888dfae2 ALSA: control: fix a redundant-copy issue
 	9899e4d3523f scsi: 3w-xxxx: fix a missing-check bug
-	c9318a3e0218 scsi: 3w-9xxx: fix a missing-check bug
 	dc487321b1e6 staging: lustre: llite: fix potential missing-check bug when copying lumv
 	d656fe49e33d ethtool: fix a potential missing-check bug
 android_kernel_oneplus_sm8150/lineage-17.1
-	800935e18728 HID: logitech: check the return value of create_singlethread_workqueue
 	464f7643bbcf leds: pca9532: fix a potential NULL pointer dereference
 	085df4a0edb5 usb: usb251xb: fix to avoid potential NULL pointer dereference
 	5d429f762470 scsi: qla4xxx: fix a potential NULL pointer dereference
@@ -379,9 +311,7 @@ android_kernel_oneplus_sm8150/lineage-17.1
 	726d8583abf4 staging: rtlwifi: rtl8822b: fix to avoid potential NULL pointer dereference
 	6849e040a935 staging: rtl8188eu: Fix potential NULL pointer dereference of kcalloc
 	74a9e727ea1b qlcnic: Avoid potential NULL pointer dereference
-	5cc7ae880836 tracing: Fix a memory leak by early error exit in trace_pid_write()
 	c65812de9015 x86/hpet: Prevent potential NULL pointer dereference
-	b042245be24b ALSA: sb8: add a check for request_region
 	7d831a051298 ALSA: echoaudio: add a check for ioremap_nocache
 	e708e5db2508 gpio: exar: add a check for the return value of ida_simple_get fails
 	0d42abfacfce serial: max310x: Fix to avoid potential NULL pointer dereference
@@ -392,21 +322,17 @@ android_kernel_oneplus_sm8150/lineage-17.1
 	0c15d464c848 HID: lenovo: Add checks to fix of_led_classdev_register
 	e5727e4feb22 gdrom: fix a memory leak bug
 	ba87bdade136 niu: fix missing checks of niu_pci_eeprom_read
-	1812be7e56c7 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	58ddc0c67d11 hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	58ddc0c67d11 hwmon: (lm80) fix a missing check of the status of SMBus read
 	27657a6aee59 ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	29b7def0ffb1 net: netxen: fix a missing check and an uninitialized use
 	cf3168c56419 crypto: cavium/nitrox - fix a DMA pool free failure
 	a0a4629065e4 dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	4877db2eab42 scsi: megaraid_sas: fix a missing-check bug
-	95c337646585 ethtool: fix a privilege escalation bug
 	7d58456872c4 net: socket: fix a missing-check bug
 	d0539c56391d yam: fix a missing-check bug
 	ec4e9618d1fd net: cxgb3_main: fix a missing-check bug
 	ca588ff3e7d6 scsi: 3w-xxxx: fix a missing-check bug
-	a0e86c016bb4 scsi: 3w-9xxx: fix a missing-check bug
 	ebe79f9cf44f isdn: eicon: fix a missing-check bug
-	50c0e85887bf ALSA: control: fix a redundant-copy issue
 android_kernel_yandex_sdm660/lineage-17.1
 	5ca4fc0125b8 misc: mic: fix a DMA pool free failure
 	cc1c305ccaab media: isif: fix a NULL pointer dereference bug
@@ -417,19 +343,15 @@ android_kernel_yandex_sdm660/lineage-17.1
 	bea8fa863ce9 PCI: rcar: Fix a potential NULL pointer dereference
 	c7155e51cf85 x86/PCI: Fix PCI IRQ routing table memory leak
 	c927451887c1 spi : spi-topcliff-pch: Fix to handle empty DMA buffers
-	1081d04a0443 tty: ipwireless: fix missing checks for ioremap
 	951fbf92381a brcmfmac: fix missing checks for kmemdup
 	1d3ee4d7fc6a rtlwifi: fix a potential NULL pointer dereference
 	e98ef6767e41 iio: hmc5843: fix potential NULL pointer dereferences
-	8b0e6af16ae6 mmc_spi: add a status check for spi_sync_locked
-	a8e0739d465e audit: fix a memory leak bug
 	50d25ca802f5 net: cw1200: fix a NULL pointer dereference
 	2d8956305ae8 ALSA: usb-audio: Fix a memory leak bug
 	905b8964c9d9 libnvdimm/btt: Fix a kmemdup failure check
 	783552a9865c scsi: qla4xxx: fix a potential NULL pointer dereference
 	d311479911c7 qlcnic: Avoid potential NULL pointer dereference
 	c2dc2fdc0cd1 x86/hpet: Prevent potential NULL pointer dereference
-	0a2741cd5269 ALSA: sb8: add a check for request_region
 	574469ec6dcf ALSA: echoaudio: add a check for ioremap_nocache
 	7124c71944ee serial: max310x: Fix to avoid potential NULL pointer dereference
 	13f6808ec2bb tty: atmel_serial: fix a potential NULL pointer dereference
@@ -439,17 +361,14 @@ android_kernel_yandex_sdm660/lineage-17.1
 	3f516da858df HID: lenovo: Add checks to fix of_led_classdev_register
 	4c549499c4c9 gdrom: fix a memory leak bug
 	1f8aea084cb3 niu: fix missing checks of niu_pci_eeprom_read
-	90beb6bbed67 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	259c502d0a0f hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	259c502d0a0f hwmon: (lm80) fix a missing check of the status of SMBus read
 	d9084840d00a ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	4cc537f4a947 dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	be1851b9a22c scsi: megaraid_sas: fix a missing-check bug
 	98528072a2a9 net: socket: fix a missing-check bug
 	6596d0ab8c60 net: cxgb3_main: fix a missing-check bug
 	2c29ed33045b scsi: 3w-xxxx: fix a missing-check bug
-	092b0288f150 scsi: 3w-9xxx: fix a missing-check bug
 	4c5ea1ddf3f4 isdn: eicon: fix a missing-check bug
-	59e3b2899855 ALSA: control: fix a redundant-copy issue
 android_kernel_zuk_msm8996/lineage-17.1
 	5ca4fc0125b8 misc: mic: fix a DMA pool free failure
 	cc1c305ccaab media: isif: fix a NULL pointer dereference bug
@@ -460,19 +379,15 @@ android_kernel_zuk_msm8996/lineage-17.1
 	bea8fa863ce9 PCI: rcar: Fix a potential NULL pointer dereference
 	c7155e51cf85 x86/PCI: Fix PCI IRQ routing table memory leak
 	c927451887c1 spi : spi-topcliff-pch: Fix to handle empty DMA buffers
-	1081d04a0443 tty: ipwireless: fix missing checks for ioremap
 	951fbf92381a brcmfmac: fix missing checks for kmemdup
 	1d3ee4d7fc6a rtlwifi: fix a potential NULL pointer dereference
 	e98ef6767e41 iio: hmc5843: fix potential NULL pointer dereferences
-	8b0e6af16ae6 mmc_spi: add a status check for spi_sync_locked
-	a8e0739d465e audit: fix a memory leak bug
 	50d25ca802f5 net: cw1200: fix a NULL pointer dereference
 	2d8956305ae8 ALSA: usb-audio: Fix a memory leak bug
 	905b8964c9d9 libnvdimm/btt: Fix a kmemdup failure check
 	783552a9865c scsi: qla4xxx: fix a potential NULL pointer dereference
 	d311479911c7 qlcnic: Avoid potential NULL pointer dereference
 	c2dc2fdc0cd1 x86/hpet: Prevent potential NULL pointer dereference
-	0a2741cd5269 ALSA: sb8: add a check for request_region
 	574469ec6dcf ALSA: echoaudio: add a check for ioremap_nocache
 	7124c71944ee serial: max310x: Fix to avoid potential NULL pointer dereference
 	13f6808ec2bb tty: atmel_serial: fix a potential NULL pointer dereference
@@ -482,17 +397,14 @@ android_kernel_zuk_msm8996/lineage-17.1
 	3f516da858df HID: lenovo: Add checks to fix of_led_classdev_register
 	4c549499c4c9 gdrom: fix a memory leak bug
 	1f8aea084cb3 niu: fix missing checks of niu_pci_eeprom_read
-	90beb6bbed67 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	259c502d0a0f hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	259c502d0a0f hwmon: (lm80) fix a missing check of the status of SMBus read
 	d9084840d00a ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	4cc537f4a947 dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	be1851b9a22c scsi: megaraid_sas: fix a missing-check bug
 	98528072a2a9 net: socket: fix a missing-check bug
 	6596d0ab8c60 net: cxgb3_main: fix a missing-check bug
 	2c29ed33045b scsi: 3w-xxxx: fix a missing-check bug
-	092b0288f150 scsi: 3w-9xxx: fix a missing-check bug
 	4c5ea1ddf3f4 isdn: eicon: fix a missing-check bug
-	59e3b2899855 ALSA: control: fix a redundant-copy issue
 android_kernel_essential_msm8998/lineage-18.1
 	144e4b3bc1a2 media: exynos4-is: Fix a reference count leak
 	f3a485299517 media: exynos4-is: Fix a reference count leak due to pm_runtime_get_sync
@@ -502,13 +414,9 @@ android_kernel_essential_msm8998/lineage-18.1
 	28bec409535e drm/nouveau: Fix reference count leak in nouveau_connector_detect
 	7592eb3b6cf8 drm/nouveau/drm/noveau: fix reference count leak in nouveau_fbcon_open
 	d22aec437d77 PCI: Fix pci_create_slot() reference count leak
-	87fe5b5f59be drm/radeon: fix multiple reference count leak
-	c9cfd9445098 drm/amdkfd: Fix reference count leaks.
 	ed36291b5c42 ASoC: tegra: Fix reference count leaks.
 	ecef1cac3030 agp/intel: Fix a memory leak on module initialisation failure
 	0739a93a0a9b drm/nouveau: fix multiple instances of reference count leaks
-	ee5d7234e5c4 drm/radeon: Fix reference count leaks caused by pm_runtime_get_sync
-	e9646d449265 EDAC: Fix reference count leaks
 	8da5b2305f62 efi/esrt: Fix reference count leak in esre_create_sysfs_entry.
 	d9aa44efed5e scsi: iscsi: Fix reference count leak in iscsi_boot_create_kobj
 	4e26dd5e3f67 usb: gadget: fix potential double-free in m66592_probe.
@@ -519,24 +427,19 @@ android_kernel_essential_msm8998/lineage-18.1
 	2996897d8b9b iommu: Fix reference count leak in iommu_group_alloc.
 	94926fb0d2fc net/mlx4_core: fix a memory leak bug.
 	98770df2087a net: sun: fix missing release regions in cas_init_one().
-	bbd3d0f44286 ecryptfs: replace BUG_ON with error handling code
 	baa94fa90892 orinoco: avoid assertion in case of NULL pointer
 	c4552b2ee545 net: sh_eth: fix a missing check of of_get_phy_mode
 	4cd8874e3348 net: sh_eth: fix a missing check of of_get_phy_mode
-	08d350dd97d8 rfkill: Fix incorrect check to avoid NULL pointer dereference
-	d72d75c9d1d0 rfkill: Fix incorrect check to avoid NULL pointer dereference
 	aa14f95f40e3 drm/gma500: fix memory disclosures due to uninitialized bytes
 	8a0bb8218899 drm/gma500: fix memory disclosures due to uninitialized bytes
 	c5369577d341 tipc: fix a missing check of genlmsg_put
 	aef2c279717d atl1e: checking the status of atl1e_write_phy_reg
 	49fa09302b2e net: stmicro: fix a missing check of clk_prepare
-	55d702012fed net/net_namespace: Check the return value of register_pernet_subsys()
 	7f14b5255cbe regulator: tps65910: fix a missing check of return value
 	cf07b61aa838 drivers/regulator: fix a missing check of return value
 	84ae6096e925 tipc: fix a missing check of genlmsg_put
 	0c97734b244a atl1e: checking the status of atl1e_write_phy_reg
 	b801a2820eda net: stmicro: fix a missing check of clk_prepare
-	88b903fedb6d net/net_namespace: Check the return value of register_pernet_subsys()
 	0df349316d14 regulator: tps65910: fix a missing check of return value
 	f1f6e74a6ddf drivers/regulator: fix a missing check of return value
 	2dffbfa40b4d misc: mic: fix a DMA pool free failure
@@ -556,21 +459,15 @@ android_kernel_essential_msm8998/lineage-18.1
 	bea8fa863ce9 PCI: rcar: Fix a potential NULL pointer dereference
 	c7155e51cf85 x86/PCI: Fix PCI IRQ routing table memory leak
 	0dfa6b9b4b99 spi : spi-topcliff-pch: Fix to handle empty DMA buffers
-	bdfced65110f tty: ipwireless: fix missing checks for ioremap
 	f63b3019b443 brcmfmac: fix missing checks for kmemdup
 	64c472d61268 rtlwifi: fix a potential NULL pointer dereference
 	fde3411ce667 iio: hmc5843: fix potential NULL pointer dereferences
-	d654d8798f97 mmc_spi: add a status check for spi_sync_locked
-	90cf3232f70a audit: fix a memory leak bug
 	f9f747bc497c net: cw1200: fix a NULL pointer dereference
 	3ff1f0839472 ALSA: usb-audio: Fix a memory leak bug
 	c927451887c1 spi : spi-topcliff-pch: Fix to handle empty DMA buffers
-	1081d04a0443 tty: ipwireless: fix missing checks for ioremap
 	951fbf92381a brcmfmac: fix missing checks for kmemdup
 	1d3ee4d7fc6a rtlwifi: fix a potential NULL pointer dereference
 	e98ef6767e41 iio: hmc5843: fix potential NULL pointer dereferences
-	8b0e6af16ae6 mmc_spi: add a status check for spi_sync_locked
-	a8e0739d465e audit: fix a memory leak bug
 	50d25ca802f5 net: cw1200: fix a NULL pointer dereference
 	2d8956305ae8 ALSA: usb-audio: Fix a memory leak bug
 	a63b5fcfad25 libnvdimm/btt: Fix a kmemdup failure check
@@ -580,10 +477,8 @@ android_kernel_essential_msm8998/lineage-18.1
 	783552a9865c scsi: qla4xxx: fix a potential NULL pointer dereference
 	d311479911c7 qlcnic: Avoid potential NULL pointer dereference
 	d121c30079be x86/hpet: Prevent potential NULL pointer dereference
-	1fe5b18b6d25 ALSA: sb8: add a check for request_region
 	45c95f33c794 ALSA: echoaudio: add a check for ioremap_nocache
 	c2dc2fdc0cd1 x86/hpet: Prevent potential NULL pointer dereference
-	0a2741cd5269 ALSA: sb8: add a check for request_region
 	574469ec6dcf ALSA: echoaudio: add a check for ioremap_nocache
 	0e42aecc174d serial: max310x: Fix to avoid potential NULL pointer dereference
 	31154810d384 tty: atmel_serial: fix a potential NULL pointer dereference
@@ -598,13 +493,11 @@ android_kernel_essential_msm8998/lineage-18.1
 	13073e10f010 HID: lenovo: Add checks to fix of_led_classdev_register
 	16ed79745015 gdrom: fix a memory leak bug
 	38dad7f33fa0 niu: fix missing checks of niu_pci_eeprom_read
-	e88c34131795 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	4949a3fa76e2 hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	4949a3fa76e2 hwmon: (lm80) fix a missing check of the status of SMBus read
 	3f516da858df HID: lenovo: Add checks to fix of_led_classdev_register
 	4c549499c4c9 gdrom: fix a memory leak bug
 	1f8aea084cb3 niu: fix missing checks of niu_pci_eeprom_read
-	90beb6bbed67 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	259c502d0a0f hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	259c502d0a0f hwmon: (lm80) fix a missing check of the status of SMBus read
 	f0cd400d6be1 ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	d9084840d00a ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	fe9d61ec3093 dm ioctl: harden copy_params()'s copy_from_user() from malicious users
@@ -616,13 +509,9 @@ android_kernel_essential_msm8998/lineage-18.1
 	98528072a2a9 net: socket: fix a missing-check bug
 	6596d0ab8c60 net: cxgb3_main: fix a missing-check bug
 	b6200ce393bd scsi: 3w-xxxx: fix a missing-check bug
-	8dd150ff0b19 scsi: 3w-9xxx: fix a missing-check bug
 	2c29ed33045b scsi: 3w-xxxx: fix a missing-check bug
-	092b0288f150 scsi: 3w-9xxx: fix a missing-check bug
 	4a6cbe34eb33 isdn: eicon: fix a missing-check bug
 	4c5ea1ddf3f4 isdn: eicon: fix a missing-check bug
-	1490d04d0ab8 ALSA: control: fix a redundant-copy issue
-	59e3b2899855 ALSA: control: fix a redundant-copy issue
 android_kernel_fxtec_msm8998/lineage-18.1
 	144e4b3bc1a2 media: exynos4-is: Fix a reference count leak
 	f3a485299517 media: exynos4-is: Fix a reference count leak due to pm_runtime_get_sync
@@ -632,13 +521,9 @@ android_kernel_fxtec_msm8998/lineage-18.1
 	28bec409535e drm/nouveau: Fix reference count leak in nouveau_connector_detect
 	7592eb3b6cf8 drm/nouveau/drm/noveau: fix reference count leak in nouveau_fbcon_open
 	d22aec437d77 PCI: Fix pci_create_slot() reference count leak
-	87fe5b5f59be drm/radeon: fix multiple reference count leak
-	c9cfd9445098 drm/amdkfd: Fix reference count leaks.
 	ed36291b5c42 ASoC: tegra: Fix reference count leaks.
 	ecef1cac3030 agp/intel: Fix a memory leak on module initialisation failure
 	0739a93a0a9b drm/nouveau: fix multiple instances of reference count leaks
-	ee5d7234e5c4 drm/radeon: Fix reference count leaks caused by pm_runtime_get_sync
-	e9646d449265 EDAC: Fix reference count leaks
 	8da5b2305f62 efi/esrt: Fix reference count leak in esre_create_sysfs_entry.
 	d9aa44efed5e scsi: iscsi: Fix reference count leak in iscsi_boot_create_kobj
 	4e26dd5e3f67 usb: gadget: fix potential double-free in m66592_probe.
@@ -649,15 +534,12 @@ android_kernel_fxtec_msm8998/lineage-18.1
 	2996897d8b9b iommu: Fix reference count leak in iommu_group_alloc.
 	94926fb0d2fc net/mlx4_core: fix a memory leak bug.
 	98770df2087a net: sun: fix missing release regions in cas_init_one().
-	bbd3d0f44286 ecryptfs: replace BUG_ON with error handling code
 	baa94fa90892 orinoco: avoid assertion in case of NULL pointer
 	4cd8874e3348 net: sh_eth: fix a missing check of of_get_phy_mode
-	d72d75c9d1d0 rfkill: Fix incorrect check to avoid NULL pointer dereference
 	8a0bb8218899 drm/gma500: fix memory disclosures due to uninitialized bytes
 	84ae6096e925 tipc: fix a missing check of genlmsg_put
 	0c97734b244a atl1e: checking the status of atl1e_write_phy_reg
 	b801a2820eda net: stmicro: fix a missing check of clk_prepare
-	88b903fedb6d net/net_namespace: Check the return value of register_pernet_subsys()
 	0df349316d14 regulator: tps65910: fix a missing check of return value
 	f1f6e74a6ddf drivers/regulator: fix a missing check of return value
 	5ca4fc0125b8 misc: mic: fix a DMA pool free failure
@@ -669,19 +551,15 @@ android_kernel_fxtec_msm8998/lineage-18.1
 	bea8fa863ce9 PCI: rcar: Fix a potential NULL pointer dereference
 	c7155e51cf85 x86/PCI: Fix PCI IRQ routing table memory leak
 	c927451887c1 spi : spi-topcliff-pch: Fix to handle empty DMA buffers
-	1081d04a0443 tty: ipwireless: fix missing checks for ioremap
 	951fbf92381a brcmfmac: fix missing checks for kmemdup
 	1d3ee4d7fc6a rtlwifi: fix a potential NULL pointer dereference
 	e98ef6767e41 iio: hmc5843: fix potential NULL pointer dereferences
-	8b0e6af16ae6 mmc_spi: add a status check for spi_sync_locked
-	a8e0739d465e audit: fix a memory leak bug
 	50d25ca802f5 net: cw1200: fix a NULL pointer dereference
 	2d8956305ae8 ALSA: usb-audio: Fix a memory leak bug
 	905b8964c9d9 libnvdimm/btt: Fix a kmemdup failure check
 	783552a9865c scsi: qla4xxx: fix a potential NULL pointer dereference
 	d311479911c7 qlcnic: Avoid potential NULL pointer dereference
 	c2dc2fdc0cd1 x86/hpet: Prevent potential NULL pointer dereference
-	0a2741cd5269 ALSA: sb8: add a check for request_region
 	574469ec6dcf ALSA: echoaudio: add a check for ioremap_nocache
 	7124c71944ee serial: max310x: Fix to avoid potential NULL pointer dereference
 	13f6808ec2bb tty: atmel_serial: fix a potential NULL pointer dereference
@@ -691,29 +569,22 @@ android_kernel_fxtec_msm8998/lineage-18.1
 	3f516da858df HID: lenovo: Add checks to fix of_led_classdev_register
 	4c549499c4c9 gdrom: fix a memory leak bug
 	1f8aea084cb3 niu: fix missing checks of niu_pci_eeprom_read
-	90beb6bbed67 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	259c502d0a0f hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	259c502d0a0f hwmon: (lm80) fix a missing check of the status of SMBus read
 	d9084840d00a ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	4cc537f4a947 dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	be1851b9a22c scsi: megaraid_sas: fix a missing-check bug
 	98528072a2a9 net: socket: fix a missing-check bug
 	6596d0ab8c60 net: cxgb3_main: fix a missing-check bug
 	2c29ed33045b scsi: 3w-xxxx: fix a missing-check bug
-	092b0288f150 scsi: 3w-9xxx: fix a missing-check bug
 	4c5ea1ddf3f4 isdn: eicon: fix a missing-check bug
-	59e3b2899855 ALSA: control: fix a redundant-copy issue
 android_kernel_google_coral/lineage-18.1
 	774c302c225a drm/nouveau: Fix reference count leak in nouveau_connector_detect
 	bcd0b71b6e82 drm/nouveau/drm/noveau: fix reference count leak in nouveau_fbcon_open
 	d3d12858d45c PCI: Fix pci_create_slot() reference count leak
 	f8e0dad8be89 omapfb: fix multiple reference count leaks due to pm_runtime_get_sync
-	a0f19b6175dd drm/radeon: fix multiple reference count leak
-	4704cd249f8d drm/amdkfd: Fix reference count leaks.
 	63d5985db888 ASoC: tegra: Fix reference count leaks.
 	b3ad6a3db008 agp/intel: Fix a memory leak on module initialisation failure
 	42479de3daea drm/nouveau: fix multiple instances of reference count leaks
-	dec0847921c5 drm/radeon: Fix reference count leaks caused by pm_runtime_get_sync
-	46f7ec5fe967 EDAC: Fix reference count leaks
 	5ef8e112ddac ASoC: rockchip: Fix a reference count leak.
 	cebee7673e1f efi/esrt: Fix reference count leak in esre_create_sysfs_entry.
 	69d6961c74b2 rocker: fix incorrect error handling in dma_rings_init
@@ -730,19 +601,15 @@ android_kernel_google_coral/lineage-18.1
 	10b585a37112 net/mlx4_core: fix a memory leak bug.
 	207a210c6c66 net: sun: fix missing release regions in cas_init_one().
 	4cb6b5c57e78 rxrpc: Fix a memory leak in rxkad_verify_response()
-	591f3bc646ed ecryptfs: replace BUG_ON with error handling code
 	4a30decabbb4 orinoco: avoid assertion in case of NULL pointer
 	2730ea6d5c52 fore200e: Fix incorrect checks of NULL pointer dereference
 	9ef50cb11df1 net: sh_eth: fix a missing check of of_get_phy_mode
-	c7a6c3d2c372 rfkill: Fix incorrect check to avoid NULL pointer dereference
 	3feec8968211 media: rcar_drif: fix a memory disclosure
 	4d4d3240a7a9 drm/gma500: fix memory disclosures due to uninitialized bytes
 	709f50b18052 tipc: fix a missing check of genlmsg_put
 	a4bc476bd09e atl1e: checking the status of atl1e_write_phy_reg
-	04e35269d5d3 net: dsa: bcm_sf2: Propagate error value from mdio_write
 	2f2a742cea6d net: stmicro: fix a missing check of clk_prepare
 	3092e216b753 net: (cpts) fix a missing check of clk_prepare
-	145422360a32 net/net_namespace: Check the return value of register_pernet_subsys()
 	ffe675434989 net/netlink_compat: Fix a missing check of nla_parse_nested
 	2a8fb5b9fd37 regulator: tps65910: fix a missing check of return value
 	b63cd67875dd drivers/regulator: fix a missing check of return value
@@ -757,18 +624,14 @@ android_kernel_google_coral/lineage-18.1
 	a36a8879a446 rapidio: fix a NULL pointer dereference when create_workqueue() fails
 	febdf321b762 spi : spi-topcliff-pch: Fix to handle empty DMA buffers
 	a63a05adafad thunderbolt: Fix to check for kmemdup failure
-	b6941f2f356b tty: ipwireless: fix missing checks for ioremap
 	9d561c9546f0 media: video-mux: fix null pointer dereferences
 	1ea4bb13b281 brcmfmac: fix missing checks for kmemdup
 	4a63186e40e4 rtlwifi: fix a potential NULL pointer dereference
 	e76528d98e27 iio: hmc5843: fix potential NULL pointer dereferences
-	b5128b96309a mmc_spi: add a status check for spi_sync_locked
-	b5785152ac0b audit: fix a memory leak bug
 	325e207324bc net: cw1200: fix a NULL pointer dereference
 	bbad2d84bd88 ALSA: usb-audio: Fix a memory leak bug
 	32423424a8cf libnvdimm/btt: Fix a kmemdup failure check
 	3a786906c88a libnvdimm/namespace: Fix a potential NULL pointer dereference
-	800935e18728 HID: logitech: check the return value of create_singlethread_workqueue
 	464f7643bbcf leds: pca9532: fix a potential NULL pointer dereference
 	085df4a0edb5 usb: usb251xb: fix to avoid potential NULL pointer dereference
 	5d429f762470 scsi: qla4xxx: fix a potential NULL pointer dereference
@@ -777,9 +640,7 @@ android_kernel_google_coral/lineage-18.1
 	726d8583abf4 staging: rtlwifi: rtl8822b: fix to avoid potential NULL pointer dereference
 	6849e040a935 staging: rtl8188eu: Fix potential NULL pointer dereference of kcalloc
 	74a9e727ea1b qlcnic: Avoid potential NULL pointer dereference
-	5cc7ae880836 tracing: Fix a memory leak by early error exit in trace_pid_write()
 	c65812de9015 x86/hpet: Prevent potential NULL pointer dereference
-	b042245be24b ALSA: sb8: add a check for request_region
 	7d831a051298 ALSA: echoaudio: add a check for ioremap_nocache
 	e708e5db2508 gpio: exar: add a check for the return value of ida_simple_get fails
 	0d42abfacfce serial: max310x: Fix to avoid potential NULL pointer dereference
@@ -790,33 +651,25 @@ android_kernel_google_coral/lineage-18.1
 	0c15d464c848 HID: lenovo: Add checks to fix of_led_classdev_register
 	e5727e4feb22 gdrom: fix a memory leak bug
 	ba87bdade136 niu: fix missing checks of niu_pci_eeprom_read
-	1812be7e56c7 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	58ddc0c67d11 hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	58ddc0c67d11 hwmon: (lm80) fix a missing check of the status of SMBus read
 	27657a6aee59 ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	29b7def0ffb1 net: netxen: fix a missing check and an uninitialized use
 	cf3168c56419 crypto: cavium/nitrox - fix a DMA pool free failure
 	a0a4629065e4 dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	4877db2eab42 scsi: megaraid_sas: fix a missing-check bug
-	95c337646585 ethtool: fix a privilege escalation bug
 	7d58456872c4 net: socket: fix a missing-check bug
 	d0539c56391d yam: fix a missing-check bug
 	ec4e9618d1fd net: cxgb3_main: fix a missing-check bug
 	ca588ff3e7d6 scsi: 3w-xxxx: fix a missing-check bug
-	a0e86c016bb4 scsi: 3w-9xxx: fix a missing-check bug
 	ebe79f9cf44f isdn: eicon: fix a missing-check bug
-	50c0e85887bf ALSA: control: fix a redundant-copy issue
 android_kernel_google_msm-4.9/lineage-18.1
 	2eac5a4ca124 drm/nouveau: Fix reference count leak in nouveau_connector_detect
 	f4605dc3581f drm/nouveau/drm/noveau: fix reference count leak in nouveau_fbcon_open
 	e840d01d940e PCI: Fix pci_create_slot() reference count leak
 	bb3a2d575e1d omapfb: fix multiple reference count leaks due to pm_runtime_get_sync
-	4daf2296e42f drm/radeon: fix multiple reference count leak
-	ae8246779f14 drm/amdkfd: Fix reference count leaks.
 	ed7edd4264c3 ASoC: tegra: Fix reference count leaks.
 	7d755eab2bcf agp/intel: Fix a memory leak on module initialisation failure
 	a6ea07556d0b drm/nouveau: fix multiple instances of reference count leaks
-	0ba1cb622ad5 drm/radeon: Fix reference count leaks caused by pm_runtime_get_sync
-	91a1b253ed61 EDAC: Fix reference count leaks
 	83fc0cb8db7a efi/esrt: Fix reference count leak in esre_create_sysfs_entry.
 	31dc204489e3 rocker: fix incorrect error handling in dma_rings_init
 	fbffea5caf01 scsi: iscsi: Fix reference count leak in iscsi_boot_create_kobj
@@ -829,16 +682,12 @@ android_kernel_google_msm-4.9/lineage-18.1
 	44ac6becd5c6 iommu: Fix reference count leak in iommu_group_alloc.
 	2256bf0ea08f net/mlx4_core: fix a memory leak bug.
 	6a6237db0708 net: sun: fix missing release regions in cas_init_one().
-	61faa5379791 ecryptfs: replace BUG_ON with error handling code
 	5704974eb300 orinoco: avoid assertion in case of NULL pointer
 	5ea250ec2912 net: sh_eth: fix a missing check of of_get_phy_mode
-	1e1672c5c630 rfkill: Fix incorrect check to avoid NULL pointer dereference
 	c39118738793 drm/gma500: fix memory disclosures due to uninitialized bytes
 	10a0e00c095f tipc: fix a missing check of genlmsg_put
 	57b2d68786a8 atl1e: checking the status of atl1e_write_phy_reg
-	27c9e12a43fe net: dsa: bcm_sf2: Propagate error value from mdio_write
 	712545ec9e81 net: stmicro: fix a missing check of clk_prepare
-	9b852f0a5416 net/net_namespace: Check the return value of register_pernet_subsys()
 	e914a7747a53 regulator: tps65910: fix a missing check of return value
 	608024a3a186 drivers/regulator: fix a missing check of return value
 	6fd2efed5bbb misc: mic: fix a DMA pool free failure
@@ -851,23 +700,17 @@ android_kernel_google_msm-4.9/lineage-18.1
 	f460e08e1c5e x86/PCI: Fix PCI IRQ routing table memory leak
 	506e0ced8dc3 rapidio: fix a NULL pointer dereference when create_workqueue() fails
 	b764a801663a spi : spi-topcliff-pch: Fix to handle empty DMA buffers
-	b1c2f7d1f8b3 tty: ipwireless: fix missing checks for ioremap
 	d647661f8537 brcmfmac: fix missing checks for kmemdup
 	088c9aa3ce6a rtlwifi: fix a potential NULL pointer dereference
 	2fd9d6a0fd69 iio: hmc5843: fix potential NULL pointer dereferences
-	cb1962ff432a mmc_spi: add a status check for spi_sync_locked
-	51e088baae2b audit: fix a memory leak bug
 	2f3201b23b69 net: cw1200: fix a NULL pointer dereference
 	f934bf3f5776 ALSA: usb-audio: Fix a memory leak bug
 	4d8fc7d8d7ed libnvdimm/btt: Fix a kmemdup failure check
 	93cc83319f9a libnvdimm/namespace: Fix a potential NULL pointer dereference
-	72bbf78c4dfc HID: logitech: check the return value of create_singlethread_workqueue
 	b491c6f370ea leds: pca9532: fix a potential NULL pointer dereference
 	a3d1c9bc1416 scsi: qla4xxx: fix a potential NULL pointer dereference
 	aba0a087a000 qlcnic: Avoid potential NULL pointer dereference
-	3ddc29935709 tracing: Fix a memory leak by early error exit in trace_pid_write()
 	ec1fdc02cc25 x86/hpet: Prevent potential NULL pointer dereference
-	5e6e33fd7577 ALSA: sb8: add a check for request_region
 	a3e47ff19026 ALSA: echoaudio: add a check for ioremap_nocache
 	110ee901b3e1 serial: max310x: Fix to avoid potential NULL pointer dereference
 	fe186fdd1a45 tty: atmel_serial: fix a potential NULL pointer dereference
@@ -877,29 +720,22 @@ android_kernel_google_msm-4.9/lineage-18.1
 	683f5f8b3862 HID: lenovo: Add checks to fix of_led_classdev_register
 	69a1580320bf gdrom: fix a memory leak bug
 	63e311153b66 niu: fix missing checks of niu_pci_eeprom_read
-	ecbf70b15867 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	0138dfb7b332 hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	0138dfb7b332 hwmon: (lm80) fix a missing check of the status of SMBus read
 	3d963c98d796 ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	154b7716f9aa net: netxen: fix a missing check and an uninitialized use
 	6c446ad3622a dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	b18de4e8bdc5 scsi: megaraid_sas: fix a missing-check bug
-	f0223d1f78f5 ethtool: fix a privilege escalation bug
 	f57ef24f811c net: socket: fix a missing-check bug
 	063cc21634ce net: cxgb3_main: fix a missing-check bug
 	5a644f682267 scsi: 3w-xxxx: fix a missing-check bug
-	80e75bdc0e1b scsi: 3w-9xxx: fix a missing-check bug
 	f698b28afc34 isdn: eicon: fix a missing-check bug
-	c5d8237ef606 ALSA: control: fix a redundant-copy issue
 android_kernel_google_wahoo/lineage-18.1
-	bbd3d0f44286 ecryptfs: replace BUG_ON with error handling code
 	baa94fa90892 orinoco: avoid assertion in case of NULL pointer
 	4cd8874e3348 net: sh_eth: fix a missing check of of_get_phy_mode
-	d72d75c9d1d0 rfkill: Fix incorrect check to avoid NULL pointer dereference
 	8a0bb8218899 drm/gma500: fix memory disclosures due to uninitialized bytes
 	84ae6096e925 tipc: fix a missing check of genlmsg_put
 	0c97734b244a atl1e: checking the status of atl1e_write_phy_reg
 	b801a2820eda net: stmicro: fix a missing check of clk_prepare
-	88b903fedb6d net/net_namespace: Check the return value of register_pernet_subsys()
 	0df349316d14 regulator: tps65910: fix a missing check of return value
 	f1f6e74a6ddf drivers/regulator: fix a missing check of return value
 	5ca4fc0125b8 misc: mic: fix a DMA pool free failure
@@ -911,19 +747,15 @@ android_kernel_google_wahoo/lineage-18.1
 	bea8fa863ce9 PCI: rcar: Fix a potential NULL pointer dereference
 	c7155e51cf85 x86/PCI: Fix PCI IRQ routing table memory leak
 	c927451887c1 spi : spi-topcliff-pch: Fix to handle empty DMA buffers
-	1081d04a0443 tty: ipwireless: fix missing checks for ioremap
 	951fbf92381a brcmfmac: fix missing checks for kmemdup
 	1d3ee4d7fc6a rtlwifi: fix a potential NULL pointer dereference
 	e98ef6767e41 iio: hmc5843: fix potential NULL pointer dereferences
-	8b0e6af16ae6 mmc_spi: add a status check for spi_sync_locked
-	a8e0739d465e audit: fix a memory leak bug
 	50d25ca802f5 net: cw1200: fix a NULL pointer dereference
 	2d8956305ae8 ALSA: usb-audio: Fix a memory leak bug
 	905b8964c9d9 libnvdimm/btt: Fix a kmemdup failure check
 	783552a9865c scsi: qla4xxx: fix a potential NULL pointer dereference
 	d311479911c7 qlcnic: Avoid potential NULL pointer dereference
 	c2dc2fdc0cd1 x86/hpet: Prevent potential NULL pointer dereference
-	0a2741cd5269 ALSA: sb8: add a check for request_region
 	574469ec6dcf ALSA: echoaudio: add a check for ioremap_nocache
 	7124c71944ee serial: max310x: Fix to avoid potential NULL pointer dereference
 	13f6808ec2bb tty: atmel_serial: fix a potential NULL pointer dereference
@@ -933,28 +765,22 @@ android_kernel_google_wahoo/lineage-18.1
 	3f516da858df HID: lenovo: Add checks to fix of_led_classdev_register
 	4c549499c4c9 gdrom: fix a memory leak bug
 	1f8aea084cb3 niu: fix missing checks of niu_pci_eeprom_read
-	90beb6bbed67 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	259c502d0a0f hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	259c502d0a0f hwmon: (lm80) fix a missing check of the status of SMBus read
 	d9084840d00a ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	4cc537f4a947 dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	be1851b9a22c scsi: megaraid_sas: fix a missing-check bug
 	98528072a2a9 net: socket: fix a missing-check bug
 	6596d0ab8c60 net: cxgb3_main: fix a missing-check bug
 	2c29ed33045b scsi: 3w-xxxx: fix a missing-check bug
-	092b0288f150 scsi: 3w-9xxx: fix a missing-check bug
 	4c5ea1ddf3f4 isdn: eicon: fix a missing-check bug
-	59e3b2899855 ALSA: control: fix a redundant-copy issue
 android_kernel_lge_msm8996/lineage-18.1
 	c9912b7d9ee isdn: eicon: fix a missing-check bug
-	8bfbeb811fa ALSA: control: fix a redundant-copy issue
 android_kernel_moto_shamu/lineage-18.1
 	b458bba2e04 iommu: Fix reference count leak in iommu_group_alloc.
 	c9c03da2d07 cpuidle: Fix three reference count leaks
 android_kernel_oneplus_msm8996/lineage-18.1
 	120f719ade09 scsi: 3w-xxxx: fix a missing-check bug
-	02b36483d5a3 scsi: 3w-9xxx: fix a missing-check bug
 	c9912b7d9eed isdn: eicon: fix a missing-check bug
-	8bfbeb811fa1 ALSA: control: fix a redundant-copy issue
 android_kernel_oneplus_msm8998/lineage-18.1
 	144e4b3bc1a2 media: exynos4-is: Fix a reference count leak
 	f3a485299517 media: exynos4-is: Fix a reference count leak due to pm_runtime_get_sync
@@ -964,13 +790,9 @@ android_kernel_oneplus_msm8998/lineage-18.1
 	28bec409535e drm/nouveau: Fix reference count leak in nouveau_connector_detect
 	7592eb3b6cf8 drm/nouveau/drm/noveau: fix reference count leak in nouveau_fbcon_open
 	d22aec437d77 PCI: Fix pci_create_slot() reference count leak
-	87fe5b5f59be drm/radeon: fix multiple reference count leak
-	c9cfd9445098 drm/amdkfd: Fix reference count leaks.
 	ed36291b5c42 ASoC: tegra: Fix reference count leaks.
 	ecef1cac3030 agp/intel: Fix a memory leak on module initialisation failure
 	0739a93a0a9b drm/nouveau: fix multiple instances of reference count leaks
-	ee5d7234e5c4 drm/radeon: Fix reference count leaks caused by pm_runtime_get_sync
-	e9646d449265 EDAC: Fix reference count leaks
 	8da5b2305f62 efi/esrt: Fix reference count leak in esre_create_sysfs_entry.
 	d9aa44efed5e scsi: iscsi: Fix reference count leak in iscsi_boot_create_kobj
 	4e26dd5e3f67 usb: gadget: fix potential double-free in m66592_probe.
@@ -981,15 +803,12 @@ android_kernel_oneplus_msm8998/lineage-18.1
 	2996897d8b9b iommu: Fix reference count leak in iommu_group_alloc.
 	94926fb0d2fc net/mlx4_core: fix a memory leak bug.
 	98770df2087a net: sun: fix missing release regions in cas_init_one().
-	bbd3d0f44286 ecryptfs: replace BUG_ON with error handling code
 	baa94fa90892 orinoco: avoid assertion in case of NULL pointer
 	4cd8874e3348 net: sh_eth: fix a missing check of of_get_phy_mode
-	d72d75c9d1d0 rfkill: Fix incorrect check to avoid NULL pointer dereference
 	8a0bb8218899 drm/gma500: fix memory disclosures due to uninitialized bytes
 	84ae6096e925 tipc: fix a missing check of genlmsg_put
 	0c97734b244a atl1e: checking the status of atl1e_write_phy_reg
 	b801a2820eda net: stmicro: fix a missing check of clk_prepare
-	88b903fedb6d net/net_namespace: Check the return value of register_pernet_subsys()
 	0df349316d14 regulator: tps65910: fix a missing check of return value
 	f1f6e74a6ddf drivers/regulator: fix a missing check of return value
 	5ca4fc0125b8 misc: mic: fix a DMA pool free failure
@@ -1001,19 +820,15 @@ android_kernel_oneplus_msm8998/lineage-18.1
 	bea8fa863ce9 PCI: rcar: Fix a potential NULL pointer dereference
 	c7155e51cf85 x86/PCI: Fix PCI IRQ routing table memory leak
 	c927451887c1 spi : spi-topcliff-pch: Fix to handle empty DMA buffers
-	1081d04a0443 tty: ipwireless: fix missing checks for ioremap
 	951fbf92381a brcmfmac: fix missing checks for kmemdup
 	1d3ee4d7fc6a rtlwifi: fix a potential NULL pointer dereference
 	e98ef6767e41 iio: hmc5843: fix potential NULL pointer dereferences
-	8b0e6af16ae6 mmc_spi: add a status check for spi_sync_locked
-	a8e0739d465e audit: fix a memory leak bug
 	50d25ca802f5 net: cw1200: fix a NULL pointer dereference
 	2d8956305ae8 ALSA: usb-audio: Fix a memory leak bug
 	905b8964c9d9 libnvdimm/btt: Fix a kmemdup failure check
 	783552a9865c scsi: qla4xxx: fix a potential NULL pointer dereference
 	d311479911c7 qlcnic: Avoid potential NULL pointer dereference
 	c2dc2fdc0cd1 x86/hpet: Prevent potential NULL pointer dereference
-	0a2741cd5269 ALSA: sb8: add a check for request_region
 	574469ec6dcf ALSA: echoaudio: add a check for ioremap_nocache
 	7124c71944ee serial: max310x: Fix to avoid potential NULL pointer dereference
 	13f6808ec2bb tty: atmel_serial: fix a potential NULL pointer dereference
@@ -1023,17 +838,14 @@ android_kernel_oneplus_msm8998/lineage-18.1
 	3f516da858df HID: lenovo: Add checks to fix of_led_classdev_register
 	4c549499c4c9 gdrom: fix a memory leak bug
 	1f8aea084cb3 niu: fix missing checks of niu_pci_eeprom_read
-	90beb6bbed67 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	259c502d0a0f hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	259c502d0a0f hwmon: (lm80) fix a missing check of the status of SMBus read
 	d9084840d00a ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	4cc537f4a947 dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	be1851b9a22c scsi: megaraid_sas: fix a missing-check bug
 	98528072a2a9 net: socket: fix a missing-check bug
 	6596d0ab8c60 net: cxgb3_main: fix a missing-check bug
 	2c29ed33045b scsi: 3w-xxxx: fix a missing-check bug
-	092b0288f150 scsi: 3w-9xxx: fix a missing-check bug
 	4c5ea1ddf3f4 isdn: eicon: fix a missing-check bug
-	59e3b2899855 ALSA: control: fix a redundant-copy issue
 android_kernel_razer_msm8998/lineage-18.1
 	144e4b3bc1a2 media: exynos4-is: Fix a reference count leak
 	f3a485299517 media: exynos4-is: Fix a reference count leak due to pm_runtime_get_sync
@@ -1043,13 +855,9 @@ android_kernel_razer_msm8998/lineage-18.1
 	28bec409535e drm/nouveau: Fix reference count leak in nouveau_connector_detect
 	7592eb3b6cf8 drm/nouveau/drm/noveau: fix reference count leak in nouveau_fbcon_open
 	d22aec437d77 PCI: Fix pci_create_slot() reference count leak
-	87fe5b5f59be drm/radeon: fix multiple reference count leak
-	c9cfd9445098 drm/amdkfd: Fix reference count leaks.
 	ed36291b5c42 ASoC: tegra: Fix reference count leaks.
 	ecef1cac3030 agp/intel: Fix a memory leak on module initialisation failure
 	0739a93a0a9b drm/nouveau: fix multiple instances of reference count leaks
-	ee5d7234e5c4 drm/radeon: Fix reference count leaks caused by pm_runtime_get_sync
-	e9646d449265 EDAC: Fix reference count leaks
 	8da5b2305f62 efi/esrt: Fix reference count leak in esre_create_sysfs_entry.
 	d9aa44efed5e scsi: iscsi: Fix reference count leak in iscsi_boot_create_kobj
 	4e26dd5e3f67 usb: gadget: fix potential double-free in m66592_probe.
@@ -1060,15 +868,12 @@ android_kernel_razer_msm8998/lineage-18.1
 	2996897d8b9b iommu: Fix reference count leak in iommu_group_alloc.
 	94926fb0d2fc net/mlx4_core: fix a memory leak bug.
 	98770df2087a net: sun: fix missing release regions in cas_init_one().
-	bbd3d0f44286 ecryptfs: replace BUG_ON with error handling code
 	baa94fa90892 orinoco: avoid assertion in case of NULL pointer
 	4cd8874e3348 net: sh_eth: fix a missing check of of_get_phy_mode
-	d72d75c9d1d0 rfkill: Fix incorrect check to avoid NULL pointer dereference
 	8a0bb8218899 drm/gma500: fix memory disclosures due to uninitialized bytes
 	84ae6096e925 tipc: fix a missing check of genlmsg_put
 	0c97734b244a atl1e: checking the status of atl1e_write_phy_reg
 	b801a2820eda net: stmicro: fix a missing check of clk_prepare
-	88b903fedb6d net/net_namespace: Check the return value of register_pernet_subsys()
 	0df349316d14 regulator: tps65910: fix a missing check of return value
 	f1f6e74a6ddf drivers/regulator: fix a missing check of return value
 	5ca4fc0125b8 misc: mic: fix a DMA pool free failure
@@ -1080,19 +885,15 @@ android_kernel_razer_msm8998/lineage-18.1
 	bea8fa863ce9 PCI: rcar: Fix a potential NULL pointer dereference
 	c7155e51cf85 x86/PCI: Fix PCI IRQ routing table memory leak
 	c927451887c1 spi : spi-topcliff-pch: Fix to handle empty DMA buffers
-	1081d04a0443 tty: ipwireless: fix missing checks for ioremap
 	951fbf92381a brcmfmac: fix missing checks for kmemdup
 	1d3ee4d7fc6a rtlwifi: fix a potential NULL pointer dereference
 	e98ef6767e41 iio: hmc5843: fix potential NULL pointer dereferences
-	8b0e6af16ae6 mmc_spi: add a status check for spi_sync_locked
-	a8e0739d465e audit: fix a memory leak bug
 	50d25ca802f5 net: cw1200: fix a NULL pointer dereference
 	2d8956305ae8 ALSA: usb-audio: Fix a memory leak bug
 	905b8964c9d9 libnvdimm/btt: Fix a kmemdup failure check
 	783552a9865c scsi: qla4xxx: fix a potential NULL pointer dereference
 	d311479911c7 qlcnic: Avoid potential NULL pointer dereference
 	c2dc2fdc0cd1 x86/hpet: Prevent potential NULL pointer dereference
-	0a2741cd5269 ALSA: sb8: add a check for request_region
 	574469ec6dcf ALSA: echoaudio: add a check for ioremap_nocache
 	7124c71944ee serial: max310x: Fix to avoid potential NULL pointer dereference
 	13f6808ec2bb tty: atmel_serial: fix a potential NULL pointer dereference
@@ -1102,17 +903,14 @@ android_kernel_razer_msm8998/lineage-18.1
 	3f516da858df HID: lenovo: Add checks to fix of_led_classdev_register
 	4c549499c4c9 gdrom: fix a memory leak bug
 	1f8aea084cb3 niu: fix missing checks of niu_pci_eeprom_read
-	90beb6bbed67 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	259c502d0a0f hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	259c502d0a0f hwmon: (lm80) fix a missing check of the status of SMBus read
 	d9084840d00a ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	4cc537f4a947 dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	be1851b9a22c scsi: megaraid_sas: fix a missing-check bug
 	98528072a2a9 net: socket: fix a missing-check bug
 	6596d0ab8c60 net: cxgb3_main: fix a missing-check bug
 	2c29ed33045b scsi: 3w-xxxx: fix a missing-check bug
-	092b0288f150 scsi: 3w-9xxx: fix a missing-check bug
 	4c5ea1ddf3f4 isdn: eicon: fix a missing-check bug
-	59e3b2899855 ALSA: control: fix a redundant-copy issue
 android_kernel_xiaomi_sdm845/lineage-18.1
 	5dde90751d40 media: exynos4-is: Fix a reference count leak
 	6e8429c2946f media: exynos4-is: Fix a reference count leak due to pm_runtime_get_sync
@@ -1124,13 +922,9 @@ android_kernel_xiaomi_sdm845/lineage-18.1
 	f4605dc3581f drm/nouveau/drm/noveau: fix reference count leak in nouveau_fbcon_open
 	e840d01d940e PCI: Fix pci_create_slot() reference count leak
 	bb3a2d575e1d omapfb: fix multiple reference count leaks due to pm_runtime_get_sync
-	4daf2296e42f drm/radeon: fix multiple reference count leak
-	ae8246779f14 drm/amdkfd: Fix reference count leaks.
 	ed7edd4264c3 ASoC: tegra: Fix reference count leaks.
 	7d755eab2bcf agp/intel: Fix a memory leak on module initialisation failure
 	a6ea07556d0b drm/nouveau: fix multiple instances of reference count leaks
-	0ba1cb622ad5 drm/radeon: Fix reference count leaks caused by pm_runtime_get_sync
-	91a1b253ed61 EDAC: Fix reference count leaks
 	83fc0cb8db7a efi/esrt: Fix reference count leak in esre_create_sysfs_entry.
 	31dc204489e3 rocker: fix incorrect error handling in dma_rings_init
 	fbffea5caf01 scsi: iscsi: Fix reference count leak in iscsi_boot_create_kobj
@@ -1143,16 +937,12 @@ android_kernel_xiaomi_sdm845/lineage-18.1
 	44ac6becd5c6 iommu: Fix reference count leak in iommu_group_alloc.
 	2256bf0ea08f net/mlx4_core: fix a memory leak bug.
 	6a6237db0708 net: sun: fix missing release regions in cas_init_one().
-	61faa5379791 ecryptfs: replace BUG_ON with error handling code
 	5704974eb300 orinoco: avoid assertion in case of NULL pointer
 	5ea250ec2912 net: sh_eth: fix a missing check of of_get_phy_mode
-	1e1672c5c630 rfkill: Fix incorrect check to avoid NULL pointer dereference
 	c39118738793 drm/gma500: fix memory disclosures due to uninitialized bytes
 	10a0e00c095f tipc: fix a missing check of genlmsg_put
 	57b2d68786a8 atl1e: checking the status of atl1e_write_phy_reg
-	27c9e12a43fe net: dsa: bcm_sf2: Propagate error value from mdio_write
 	712545ec9e81 net: stmicro: fix a missing check of clk_prepare
-	9b852f0a5416 net/net_namespace: Check the return value of register_pernet_subsys()
 	e914a7747a53 regulator: tps65910: fix a missing check of return value
 	608024a3a186 drivers/regulator: fix a missing check of return value
 	6fd2efed5bbb misc: mic: fix a DMA pool free failure
@@ -1165,23 +955,17 @@ android_kernel_xiaomi_sdm845/lineage-18.1
 	f460e08e1c5e x86/PCI: Fix PCI IRQ routing table memory leak
 	506e0ced8dc3 rapidio: fix a NULL pointer dereference when create_workqueue() fails
 	b764a801663a spi : spi-topcliff-pch: Fix to handle empty DMA buffers
-	b1c2f7d1f8b3 tty: ipwireless: fix missing checks for ioremap
 	d647661f8537 brcmfmac: fix missing checks for kmemdup
 	088c9aa3ce6a rtlwifi: fix a potential NULL pointer dereference
 	2fd9d6a0fd69 iio: hmc5843: fix potential NULL pointer dereferences
-	cb1962ff432a mmc_spi: add a status check for spi_sync_locked
-	51e088baae2b audit: fix a memory leak bug
 	2f3201b23b69 net: cw1200: fix a NULL pointer dereference
 	f934bf3f5776 ALSA: usb-audio: Fix a memory leak bug
 	4d8fc7d8d7ed libnvdimm/btt: Fix a kmemdup failure check
 	93cc83319f9a libnvdimm/namespace: Fix a potential NULL pointer dereference
-	72bbf78c4dfc HID: logitech: check the return value of create_singlethread_workqueue
 	b491c6f370ea leds: pca9532: fix a potential NULL pointer dereference
 	a3d1c9bc1416 scsi: qla4xxx: fix a potential NULL pointer dereference
 	aba0a087a000 qlcnic: Avoid potential NULL pointer dereference
-	3ddc29935709 tracing: Fix a memory leak by early error exit in trace_pid_write()
 	ec1fdc02cc25 x86/hpet: Prevent potential NULL pointer dereference
-	5e6e33fd7577 ALSA: sb8: add a check for request_region
 	a3e47ff19026 ALSA: echoaudio: add a check for ioremap_nocache
 	110ee901b3e1 serial: max310x: Fix to avoid potential NULL pointer dereference
 	fe186fdd1a45 tty: atmel_serial: fix a potential NULL pointer dereference
@@ -1191,16 +975,12 @@ android_kernel_xiaomi_sdm845/lineage-18.1
 	683f5f8b3862 HID: lenovo: Add checks to fix of_led_classdev_register
 	69a1580320bf gdrom: fix a memory leak bug
 	63e311153b66 niu: fix missing checks of niu_pci_eeprom_read
-	ecbf70b15867 hwmon: (lm80) fix a missing check of bus read in lm80 probe
-	0138dfb7b332 hwmon: (lm80) fix a missing check of the status of SMBus read
+BAD	0138dfb7b332 hwmon: (lm80) fix a missing check of the status of SMBus read
 	3d963c98d796 ASoC: atom: fix a missing check of snd_pcm_lib_malloc_pages
 	154b7716f9aa net: netxen: fix a missing check and an uninitialized use
 	6c446ad3622a dm ioctl: harden copy_params()'s copy_from_user() from malicious users
 	b18de4e8bdc5 scsi: megaraid_sas: fix a missing-check bug
-	f0223d1f78f5 ethtool: fix a privilege escalation bug
 	f57ef24f811c net: socket: fix a missing-check bug
 	063cc21634ce net: cxgb3_main: fix a missing-check bug
 	5a644f682267 scsi: 3w-xxxx: fix a missing-check bug
-	80e75bdc0e1b scsi: 3w-9xxx: fix a missing-check bug
 	f698b28afc34 isdn: eicon: fix a missing-check bug
-	c5d8237ef606 ALSA: control: fix a redundant-copy issue
