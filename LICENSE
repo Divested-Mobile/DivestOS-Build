@@ -2,19 +2,19 @@ Below are the license mappings for all of the files found in this repository.
 All attempts have been made to ensure accuracy of the corresponding license files.
 If you've found an issue please file an issue or pull request.
 
-Manifests - GPLv3
-Misc - GPLv3
+Manifests - GPL-3.0-or-later
+Misc - GPL-3.0-or-later
 Patches/
 	Common/
-		android_vendor_divested - GPLv3
+		android_vendor_divested - GPL-3.0-or-later
 			default_wallpaper.png - Unsplash, Pawel Czerwinski
 		[Everything Else] - Apache-2.0
 	LineageOS-*/
-		android_kernel_* - GPLv2
+		android_kernel_* - GPL-2.0-only
 		[Everything Else] - Apache-2.0
-	Linux - See COPYING included (GPLv2)
+	Linux - See COPYING included (GPL-2.0-only)
 	Wallpapers - See LICENSE included (Unsplash)
 PrebuiltApps - See LICENSE included
-Scripts - GPLv3
+Scripts - GPL-3.0-or-later
 
 Please see the included LICENSE.* files for the corresponding full license texts.
