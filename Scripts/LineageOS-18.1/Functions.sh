@@ -100,7 +100,6 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -i 300595; #system/netd: add missing override keyword
-	repopick -i 308360; #oneplus_msm8998-common: Decrease launch boost to 3sec
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";

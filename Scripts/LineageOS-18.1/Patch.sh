@@ -257,7 +257,6 @@ git revert --no-edit 0ba2cb240e8483fa85fcc831328f70f65eeb7180 2be3c88c331387f039
 
 enterAndClear "device/oneplus/msm8998-common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
-awk -i inplace '!/hal_camera_default, sensors_dbg_prop/' sepolicy/vendor/hal_camera_default.te; #Remove a neverallow
 
 enterAndClear "device/oppo/common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
