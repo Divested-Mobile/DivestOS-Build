@@ -1,4 +1,4 @@
-#Last checked 2021/03/04
+#Last checked 2021/05/03
 CVE-2014-9028
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/fe03f73d86bb415f5d5145f0de091834d89ae3a9
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/5859ae22db0a2d16af3e3ca19d582de37daf5eb6
@@ -2071,6 +2071,8 @@ CVE-2020-11167
 CVE-2020-11183
 	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=7fd40cc33e2cbb0d20d28c73d648fb65889ad108
 	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=593f37dcf1c6e9d1adcb2dfbfb84daaa840aab4b
+CVE-2020-11231
+	Link - hardware/qcom/gps - https://source.codeaurora.org/quic/le/platform/hardware/qcom/gps/commit/?id=a06bbe8aa633e00c195866a8416ac9181c1fb652
 CVE-2020-11308
 	Link - https://source.codeaurora.org/quic/le/abl/tianocore/edk2/commit/?id=c468f18421e113057ba72b83edf985c53fe4705d
 CVE-2020-12856
@@ -2273,5 +2275,45 @@ CVE-2021-0397
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/437adc1a143f22fd7792d033d1ff64a364888f44
 CVE-2021-0398
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/86bd39db3595842bae77abe7e768226e412591c8
+CVE-2021-0400
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/95602e325ae1ee9cf383db38cb0a8d47567618dc
+CVE-2021-0426
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/19845bc16e53fe3436d61e5bc220deb45b507335
+CVE-2021-0427
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/19845bc16e53fe3436d61e5bc220deb45b507335
+CVE-2021-0429
+	Link - frameworks/hardware/interfaces - https://android.googlesource.com/platform/frameworks/hardware/interfaces/+/429804c700a0b0db72c2e8d239f75e9e105e3ebc
+	Link - frameworks/hardware/interfaces - https://android.googlesource.com/platform/frameworks/hardware/interfaces/+/f511fda58b8c77b7f81a3586d8ae1cf10a920fce
+CVE-2021-0430
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/02f7762236890ce05385ccd19bfaf9821cba9e2e
+CVE-2021-0431
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/20305ba196a82d003811bbdf51fb978cd8315ba8
+CVE-2021-0432
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/70a5fd9979ee7ff2a4071db0335813c0c5a72399
+CVE-2021-0433
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/75419418cfd2f47439d0f65418f4a771cc58d14b
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/8e4928820e972a00342c00cf67e8795a094e6e68
+CVE-2021-0435
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/026f04c83281557a0d24df0bd19d72c74cdc320e
+CVE-2021-0436
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/14937e01950dc4bce459c18fca9ef13dd3db5f8f
+	Link - hardware/interfaces - https://android.googlesource.com/platform/hardware/interfaces/+/2658c0da40fabf8fff9a765ebd5c5b293c4b57e8
+CVE-2021-0437
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/e5bfb560a63daedbe1adf8bf41a20b572654f999
+CVE-2021-0438
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/d49dbebe1acc5788a300cf6772f25c8ab88a1df3
+CVE-2021-0439
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/260e747d200c7b984b16bcfeca992cb3b478276f
+CVE-2021-0442
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/a5eb01054b44472d32bda00066dc6ffceb9123d1
+CVE-2021-0443
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/02d2eb5204eecfeba7aeb24f3abce9e2e9bba9f0
+CVE-2021-0444
+	Link - packages/apps/Contacts - https://android.googlesource.com/platform/packages/apps/Contacts/+/93c93923c8d4c0c91c8ba66cd7e65036d4ba9062
+CVE-2021-0446
+	Link - packages/apps/Contacts - https://android.googlesource.com/platform/packages/apps/Contacts/+/448e2f1bf40d566aaeac9ac269eb3394225448bf
+CVE-2021-0471
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/14937e01950dc4bce459c18fca9ef13dd3db5f8f
+	Link - hardware/interfaces - https://android.googlesource.com/platform/hardware/interfaces/+/2658c0da40fabf8fff9a765ebd5c5b293c4b57e8
 CVE-0000-0000
 #The above line must be the last line
