@@ -86,6 +86,8 @@ buildAll() {
 	#SD845
 	buildDevice beryllium; #needs manual patching in vendor
 	buildDevice pro1 avb;
+	buildDevice crosshatch avb;
+	buildDevice blueline avb;
 	buildDevice enchilada avb;
 	buildDevice fajita avb;
 	#SD855

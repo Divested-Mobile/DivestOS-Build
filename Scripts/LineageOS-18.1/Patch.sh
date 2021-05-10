@@ -224,6 +224,9 @@ awk -i inplace '!/INODE_COUNT/' BoardConfigLineage.mk; #mke2fs -1 incompatibilit
 enterAndClear "device/google/coral";
 enableVerity; #Resurrect dm-verity
 
+enterAndClear "device/google/crosshatch";
+enableVerity; #Resurrect dm-verity
+
 enterAndClear "device/google/wahoo";
 enableVerity; #Resurrect dm-verity
 

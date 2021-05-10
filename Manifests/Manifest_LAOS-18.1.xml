@@ -85,10 +85,15 @@
 	<project path="device/google/wahoo" name="LineageOS/android_device_google_wahoo" remote="github" />
 	<project path="kernel/google/wahoo" name="LineageOS/android_kernel_google_wahoo" remote="github" />
 
+	<!-- Google Pixel 3 (crosshatch/blueline) -->
+	<project path="device/google/crosshatch" name="LineageOS/android_device_google_crosshatch" remote="github" />
+	<project path="device/google/blueline" name="LineageOS/android_device_google_blueline" remote="github" />
+	<project path="kernel/google/msm-4.9" name="LineageOS/android_kernel_google_msm-4.9" remote="github" />
+
 	<!-- Google Pixel 3a (bonito/sargo) -->
 	<project path="device/google/bonito" name="LineageOS/android_device_google_bonito" remote="github" />
 	<project path="device/google/sargo" name="LineageOS/android_device_google_sargo" remote="github" />
-	<project path="kernel/google/msm-4.9" name="LineageOS/android_kernel_google_msm-4.9" remote="github" />
+	<!-- uses google/msm-4.9 kernel -->
 
 	<!-- Google Pixel 4 (coral/flame) -->
 	<project path="device/google/coral" name="LineageOS/android_device_google_coral" remote="github" />
