@@ -75,7 +75,7 @@ buildAll() {
 	buildDevice rs988;
 	buildDevice h990;
 	buildDevice us996;
-	buildDevice oneplus3 verity; #broken yyloc
+	buildDevice oneplus3 verity; #needs manual patching - broken yyloc
 	#SD835
 	buildDevice cheryl verity;
 	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
