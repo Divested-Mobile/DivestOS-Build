@@ -335,6 +335,7 @@ export -f addVerity;
 
 enableVerity() {
 	sed -i 's/--set_hashtree_disabled_flag//' *.mk;
+	sed -i 's/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 2/' *.mk;
 	sed -i '/\/system/{/verify/!s|wait|wait,verify|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
 }
 export -f enableVerity;

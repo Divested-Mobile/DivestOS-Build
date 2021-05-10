@@ -64,7 +64,7 @@ buildAll() {
 	buildDevice d852;
 	buildDevice d855;
 	buildDevice klte;
-	#buildDevice m8; #unb18
+	buildDevice m8; #unb18
 	buildDevice victara;
 	#SD805
 	buildDevice shamu verity;

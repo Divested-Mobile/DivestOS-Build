@@ -103,12 +103,6 @@
 	<project path="device/google/sargo" name="LineageOS/android_device_google_sargo" remote="github" />
 	<!-- uses google/msm-4.9 kernel -->
 
-	<!-- HTC One (m8) -->
-	<project path="device/htc/m8" name="LineageOS/android_device_htc_m8" remote="github" />
-	<project path="device/htc/m8-common" name="LineageOS/android_device_htc_m8-common" remote="github" />
-	<project path="device/htc/msm8974-common" name="LineageOS/android_device_htc_msm8974-common" remote="github" />
-	<project path="kernel/htc/msm8974" name="LineageOS/android_kernel_htc_msm8974" remote="github" />
-
 	<!-- Moto G 3rd Gen (osprey)
 	<project path="device/motorola/msm8916-common" name="LineageOS/android_device_motorola_msm8916-common" remote="github" />
 	<project path="device/motorola/osprey" name="LineageOS/android_device_motorola_osprey" remote="github" />
@@ -139,21 +133,9 @@
 	<project path="device/oneplus/oneplus3" name="LineageOS/android_device_oneplus_oneplus3" remote="github" />
 	<project path="kernel/oneplus/msm8996" name="LineageOS/android_kernel_oneplus_msm8996" remote="github" />
 
-	<!-- OnePlus 6 (enchilada) -->
-	<project path="device/oneplus/common" name="LineageOS/android_device_oneplus_common" remote="github" />
-	<project path="device/oneplus/sdm845-common" name="LineageOS/android_device_oneplus_sdm845-common" remote="github" />
-	<project path="device/oneplus/enchilada" name="LineageOS/android_device_oneplus_enchilada" remote="github" />
-	<project path="kernel/oneplus/sdm845" name="LineageOS/android_kernel_oneplus_sdm845" remote="github" />
-
-	<!-- OnePlus 6T (fajita) -->
-	<project path="device/oneplus/fajita" name="LineageOS/android_device_oneplus_fajita" remote="github" />
-
 	<!-- OnePlus 7 (guacamoleb) -->
-	<project path="device/oneplus/guacamoleb" name="LineageOS/android_device_oneplus_guacamoleb" remote="github" />
-
-	<!-- OnePlus 7 Pro (guacamole) -->
 	<project path="device/oneplus/sm8150-common" name="LineageOS/android_device_oneplus_sm8150-common" remote="github" />
-	<project path="device/oneplus/guacamole" name="LineageOS/android_device_oneplus_guacamole" remote="github" />
+	<project path="device/oneplus/guacamoleb" name="LineageOS/android_device_oneplus_guacamoleb" remote="github" />
 	<project path="kernel/oneplus/sm8150" name="LineageOS/android_kernel_oneplus_sm8150" remote="github" />
 
 	<!-- OnePlus Nord (avicii) -->
