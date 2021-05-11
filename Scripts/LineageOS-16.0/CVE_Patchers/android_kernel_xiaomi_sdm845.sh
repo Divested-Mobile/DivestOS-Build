@@ -288,7 +288,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28972/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-29154/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-29647/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30002/4.9/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-FragAttacks/^5.13/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-FragAttacks/^5.13/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/4.9/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.9/0005.patch
-editKernelLocalversion "-dos.p290"
+editKernelLocalversion "-dos.p292"
 cd "$DOS_BUILD_BASE"
