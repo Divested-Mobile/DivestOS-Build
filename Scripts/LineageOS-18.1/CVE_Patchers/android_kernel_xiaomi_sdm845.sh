@@ -67,7 +67,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/^5.6.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24394/^5.7.8/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-FragAttacks/^5.13/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26147/^5.12/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33034/^5.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-FragAttacks/^5.13/0004.patch
-editKernelLocalversion "-dos.p69"
+editKernelLocalversion "-dos.p70"
 cd "$DOS_BUILD_BASE"

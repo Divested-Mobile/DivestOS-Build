@@ -163,6 +163,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14386/3.10-^4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-15393/^5.7.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25643/^5.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25669/^5.7/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25673/^5.12/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27066/^5.5/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27815/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28974/^5.10/0001.patch
@@ -177,5 +178,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-ch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/^5.2.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p177"
+editKernelLocalversion "-dos.p178"
 cd "$DOS_BUILD_BASE"
