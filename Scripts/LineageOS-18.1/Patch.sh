@@ -65,7 +65,7 @@ patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.pa
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
 
 enterAndClear "external/chromium-webview";
-git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/56/309756/1; #update webview
+git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/11/310811/1; #update webview
 
 enterAndClear "frameworks/base";
 hardenLocationConf services/core/java/com/android/server/location/gps_debug.conf;

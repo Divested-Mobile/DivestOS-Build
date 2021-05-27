@@ -74,7 +74,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	#repopick -it pie-firewall;
-	repopick -it P_asb_2021-05;
+	repopick -i 308977; #Backgrounds: Optimize builtin wallpaper loading code
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
