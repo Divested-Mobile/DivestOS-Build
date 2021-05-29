@@ -114,7 +114,7 @@ enableDexPreOpt() {
 	if [ -f BoardConfig.mk ]; then
 		echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 		echo "WITH_DEXPREOPT_DEBUG_INFO := false" >> BoardConfig.mk;
-		if [ "$1" != "device/oneplus/oneplus2" ]; then
+		if true; then
 			echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false" >> BoardConfig.mk;
 			echo "Enabled full dexpreopt for $1";
 		else

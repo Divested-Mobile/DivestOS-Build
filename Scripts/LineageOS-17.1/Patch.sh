@@ -229,6 +229,7 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 #
 enterAndClear "device/cyanogen/msm8916-common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
+sed -i -e '/mm-pp-d/,+4d' rootdir/etc/init.qcom.rc;
 
 enterAndClear "device/fairphone/FP3";
 enableVerity; #Resurrect dm-verity
@@ -244,14 +245,19 @@ enterAndClear "device/lge/mako";
 echo "pmf=0" >> wifi/wpa_supplicant_overlay.conf; #Wi-Fi chipset doesn't support PMF
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk; #broken releasetools
 
-#enterAndClear "device/motorola/clark";
+enterAndClear "device/motorola/clark";
 #echo "TARGET_RECOVERY_PERMISSIVE_OVERRIDE := true" >> BoardConfig.mk; #Allow extract_firmware.sh to function
+sed -i -e '/mm-pp-d/,+5d' rootdir/init.qcom.rc;
+
+enterAndClear "device/motorola/griffin";
+sed -i -e '/mm-pp-d/,+4d' rootdir/etc/init.qcom.rc;
 
 enterAndClear "device/oneplus/avicii";
 enableVerity; #Resurrect dm-verity
 
 enterAndClear "device/oneplus/oneplus2";
 sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt;
+sed -i -e '/mm-pp-d/,+5d' rootdir/etc/init.qcom.rc;
 
 enterAndClear "device/oneplus/sm8150-common";
 enableVerity; #Resurrect dm-verity

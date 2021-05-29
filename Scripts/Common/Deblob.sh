@@ -623,8 +623,8 @@ deblobDevice() {
 	sed -i 's/drm.service.enabled=true/drm.service.enabled=false/' *.prop *.mk &>/dev/null || true;
 	sed -i 's/bt.enableAptXHD=true/bt.enableAptXHD=false/' *.prop *.mk &>/dev/null || true; #Disable aptX
 	if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i 's/cne.feature=./cne.feature=0/' *.prop *.mk &>/dev/null || true; fi; #Disable CNE
-	sed -i 's/dpm.feature=./dpm.feature=0/' *.prop *.mk &>/dev/null || true; #Disable DPM
 	sed -i 's/dpm.feature=11/dpm.feature=0/' *.prop *.mk &>/dev/null || true; #Disable DPM
+	sed -i 's/dpm.feature=./dpm.feature=0/' *.prop *.mk &>/dev/null || true; #Disable DPM
 	sed -i 's/gps.qc_nlp_in_use=./gps.qc_nlp_in_use=0/' *.prop *.mk &>/dev/null || true; #Disable QC Location Provider
 	sed -i 's/sys.dpmd.nsrm=./sys.dpmd.nsrm=0/' *.prop *.mk &>/dev/null || true; #Disable DPM
 	sed -i 's/bluetooth.emb_wp_mode=true/bluetooth.emb_wp_mode=false/' *.prop *.mk &>/dev/null || true; #Disable WiPower
@@ -727,6 +727,7 @@ deblobDevice() {
 		rm -f rootdir/etc/init.qti.ims.sh rootdir/init.qti.ims.sh init.qti.ims.sh; #Remove IMS startup script
 		rm -rf IMSEnabler; #Remove IMS compatibility module
 	fi;
+	#sed -i '/service ppd /a\ \ \ \ disabled' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true;
 	rm -rf ifaa org.ifaa.android.manager; #Remove AliPay
 	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then rm -rf data-ipa-cfg-mgr; fi; #Remove IPA
 	rm -rf libshimwvm libshims/wvm_shim.cpp; #Remove Google Widevine compatibility module
