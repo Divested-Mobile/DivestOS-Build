@@ -258,6 +258,8 @@ enableVerity; #Resurrect dm-verity
 enterAndClear "device/oneplus/oneplus2";
 sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt;
 sed -i -e '/mm-pp-d/,+5d' rootdir/etc/init.qcom.rc;
+echo "allow mm-qcamerad camera_prop:file read;" >> sepolicy/mm-qcamerad.te;
+echo "set_prop(mm-qcamerad, camera_prop)" >> sepolicy/mm-qcamerad.te;
 
 enterAndClear "device/oneplus/sm8150-common";
 enableVerity; #Resurrect dm-verity
