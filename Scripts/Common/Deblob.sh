@@ -125,10 +125,10 @@ echo "Deblobbing...";
 	makes=$makes"|DxHDCP.cfg";
 
 	#Display Color Tuning [Qualcomm]
-	blobs=$blobs"|mm-pp-daemon|mm-pp-dpps";
+	#blobs=$blobs"|mm-pp-daemon|mm-pp-dpps";
 	blobs=$blobs"|colorservice.apk|PPPreference.apk|CABLService.apk|QdcmFF.apk";
-	blobs=$blobs"|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|libdpps.so";
-	blobs=$blobs"|vendor.display.color.*|vendor.display.postproc.*|vendor.qti.hardware.qdutils_disp.*|com.qti.snapdragon.sdk.display.*";
+	#blobs=$blobs"|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|libdpps.so";
+	#blobs=$blobs"|vendor.display.color.*|vendor.display.postproc.*|vendor.qti.hardware.qdutils_disp.*|com.qti.snapdragon.sdk.display.*";
 
 	#DivX (DRM) [DivX]
 	blobs=$blobs"|libDivxDrm.so|libSHIMDivxDrm.so";
@@ -727,7 +727,6 @@ deblobDevice() {
 		rm -f rootdir/etc/init.qti.ims.sh rootdir/init.qti.ims.sh init.qti.ims.sh; #Remove IMS startup script
 		rm -rf IMSEnabler; #Remove IMS compatibility module
 	fi;
-	#sed -i '/service ppd /a\ \ \ \ disabled' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true;
 	rm -rf ifaa org.ifaa.android.manager; #Remove AliPay
 	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then rm -rf data-ipa-cfg-mgr; fi; #Remove IPA
 	rm -rf libshimwvm libshims/wvm_shim.cpp; #Remove Google Widevine compatibility module

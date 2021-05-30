@@ -228,24 +228,14 @@ echo "/dev/block/platform/msm_sdcc\.1/by-name/misc u:object_r:misc_block_device:
 enterAndClear "device/asus/msm8916-common";
 rm -rf Android.bp sensors; #exact duplicate in asus/flo #XXX be careful with this
 
-enterAndClear "device/huawei/angler";
-sed -i -e '/mm-pp-d/,+4d' init.angler.rc;
-
 enterAndClear "device/lge/msm8996-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 
 enterAndClear "device/oneplus/oneplus2";
 sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt; #Fix outdated path
-sed -i -e '/mm-pp-d/,+4d' rootdir/etc/init.qcom.rc;
 
 #enterAndClear "device/moto/shamu";
 #git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
-
-enterAndClear "device/nextbit/ether";
-sed -i -e '/mm-pp-d/,+4d' rootdir/init.target.rc;
-
-enterAndClear "device/zte/axon7";
-sed -i -e '/mm-pp-d/,+4d' rootdir/etc/init.qcom.rc;
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";

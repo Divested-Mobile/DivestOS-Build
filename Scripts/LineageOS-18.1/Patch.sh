@@ -258,9 +258,6 @@ enterAndClear "device/moto/shamu";
 git revert --no-edit 0ba2cb240e8483fa85fcc831328f70f65eeb7180 2be3c88c331387f03978b75ebc118e09738216d0 ff98fee8fc40d00e1c8b296fd4bb20077bc056d6; #breakage
 #git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
 
-enterAndClear "device/nextbit/ether";
-sed -i -e '/mm-pp-d/,+4d' rootdir/init.target.rc;
-
 enterAndClear "device/oneplus/msm8998-common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
 

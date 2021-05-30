@@ -126,8 +126,14 @@ enableDexPreOpt() {
 	if [ -f BoardConfig.mk ]; then
 		echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 		echo "WITH_DEXPREOPT_DEBUG_INFO := false" >> BoardConfig.mk;
-		echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := true" >> BoardConfig.mk;
-		echo "Enabled core dexpreopt for $1";
+		#m8: /system partition too small
+		if [ "$1" != "device/htc/m8" ] && [ "$1" != "device/samsung/jfltexx" ]; then
+			echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false" >> BoardConfig.mk;
+			echo "Enabled full dexpreopt for $1";
+		else
+			echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := true" >> BoardConfig.mk;
+			echo "Enabled core dexpreopt for $1";
+		fi;
 	fi;
 	cd "$DOS_BUILD_BASE";
 }
