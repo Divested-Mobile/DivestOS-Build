@@ -252,8 +252,14 @@ enableVerity; #Resurrect dm-verity
 
 enterAndClear "device/oneplus/oneplus2";
 sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt;
+echo "allow mm-qcamerad camera_data_file:file create_file_perms;" >> sepolicy/mm-qcamerad.te; #Likely some of these could be removed
+echo "allow mm-qcamerad node:tcp_socket node_bind;" >> sepolicy/mm-qcamerad.te;
+echo "allow mm-qcamerad port:tcp_socket name_bind;" >> sepolicy/mm-qcamerad.te;
+echo "allow mm-qcamerad self:tcp_socket { accept listen };" >> sepolicy/mm-qcamerad.te;
+echo "allow mm-qcamerad self:tcp_socket { bind create setopt };" >> sepolicy/mm-qcamerad.te;
 echo "allow mm-qcamerad camera_prop:file read;" >> sepolicy/mm-qcamerad.te;
 echo "set_prop(mm-qcamerad, camera_prop)" >> sepolicy/mm-qcamerad.te;
+
 
 enterAndClear "device/oneplus/sm8150-common";
 enableVerity; #Resurrect dm-verity
