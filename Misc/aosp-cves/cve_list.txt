@@ -1,4 +1,4 @@
-#Last checked 2021/05/03
+#Last checked 2021/06/01
 CVE-2014-9028
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/fe03f73d86bb415f5d5145f0de091834d89ae3a9
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/5859ae22db0a2d16af3e3ca19d582de37daf5eb6
@@ -1305,6 +1305,8 @@ CVE-2019-2219
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/5136eefeb3e343ad2a487296063d19e01ea554e0
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b0d526ac1257c2fdc5731335dcf484c7588d488e
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/323ce6205704cc1b3e13b61286069451643392b5
+CVE-2019-2219
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/d96f50a85f7762f50f672981c194ebb9e6ce4ff6
 CVE-2019-2220
 	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/b0de569edd2d27b8dae9e3048f9c131b6ebc2d45
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/873e19f63f97dbb74db499c1145a1102b1ce8fda
@@ -2312,8 +2314,34 @@ CVE-2021-0444
 	Link - packages/apps/Contacts - https://android.googlesource.com/platform/packages/apps/Contacts/+/93c93923c8d4c0c91c8ba66cd7e65036d4ba9062
 CVE-2021-0446
 	Link - packages/apps/Contacts - https://android.googlesource.com/platform/packages/apps/Contacts/+/448e2f1bf40d566aaeac9ac269eb3394225448bf
+CVE-2021-0466
+	Link - frameworks/opt/net/wifi - https://android.googlesource.com/platform/frameworks/opt/net/wifi/+/9ce03caaec5f1612a4798ca48f9556c8198066f2
 CVE-2021-0471
 	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/14937e01950dc4bce459c18fca9ef13dd3db5f8f
 	Link - hardware/interfaces - https://android.googlesource.com/platform/hardware/interfaces/+/2658c0da40fabf8fff9a765ebd5c5b293c4b57e8
+CVE-2021-0472
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/c90fb352cdaab0fd5adaa8957694b726045c673c
+CVE-2021-0473
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/cd0f77f71ff4166529fc22aa7db6c32dbb1d2c1c
+CVE-2021-0474
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/2cafe07d66bfc5cc75d7d2bf61415fc33d711132
+CVE-2021-0475
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/a632a66b81ee4b1db65d0cf64b4ce525f56214ff
+CVE-2021-0476
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/a2b86770143b3e6ec07a6f26edbdc2f8280f0463
+CVE-2021-0477
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/e01fef361bb7371e10b990737caed7a3799bdc3b
+CVE-2021-0480
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/c024c5886aaf4fc98c53a761398fac5c399de789
+CVE-2021-0481
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/d4f04398c71f67bc13f85e098e1dc71d840c1a4a
+CVE-2021-0482
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/57d90982aa7a18a8c76c8dcc418c8da51a71aa9d
+CVE-2021-0484
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/8e6748ee5b5363e660c81c0427c317b7a71a9181
+CVE-2021-0485
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/aad7fdc4f82ad56e332d3c23c5d07719e069b099
+CVE-2021-0487
+	Link - packages/providers/CalendarProvider - https://android.googlesource.com/platform/packages/providers/CalendarProvider/+/8cddb2643dd823721ba5c897a089d06c56b50a60
 CVE-0000-0000
 #The above line must be the last line
