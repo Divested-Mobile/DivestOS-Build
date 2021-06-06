@@ -70,7 +70,7 @@ patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.pa
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
 
 enterAndClear "external/chromium-webview";
-git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/11/310811/1; #update webview
+git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/11/310811/2; #update webview
 
 enterAndClear "external/svox";
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
@@ -259,7 +259,6 @@ echo "allow mm-qcamerad self:tcp_socket { accept listen };" >> sepolicy/mm-qcame
 echo "allow mm-qcamerad self:tcp_socket { bind create setopt };" >> sepolicy/mm-qcamerad.te;
 echo "allow mm-qcamerad camera_prop:file read;" >> sepolicy/mm-qcamerad.te;
 echo "set_prop(mm-qcamerad, camera_prop)" >> sepolicy/mm-qcamerad.te;
-
 
 enterAndClear "device/oneplus/sm8150-common";
 enableVerity; #Resurrect dm-verity

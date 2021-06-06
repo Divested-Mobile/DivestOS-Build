@@ -125,10 +125,12 @@ echo "Deblobbing...";
 	makes=$makes"|DxHDCP.cfg";
 
 	#Display Color Tuning [Qualcomm]
-	#blobs=$blobs"|mm-pp-daemon|mm-pp-dpps";
+	blobs=$blobs"|mm-pp-daemon|mm-pp-dpps";
 	blobs=$blobs"|colorservice.apk|PPPreference.apk|CABLService.apk|QdcmFF.apk";
-	#blobs=$blobs"|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-color-convertor.so|libmm-disp-apis.so|libmm-qdcm.so|libsd_sdk_display.so|libdpps.so";
-	#blobs=$blobs"|vendor.display.color.*|vendor.display.postproc.*|vendor.qti.hardware.qdutils_disp.*|com.qti.snapdragon.sdk.display.*";
+	blobs=$blobs"|libmm-color-convertor.so|libsd_sdk_display.so|libdpps.so";
+	#blobs=$blobs"|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-disp-apis.so|libmm-qdcm.so"; #XXX: needed for hwcomposer(?)
+	blobs=$blobs"|vendor.display.color.*|vendor.display.postproc.*|vendor.qti.hardware.qdutils_disp.*|com.qti.snapdragon.sdk.display.*";
+	makes=$makes"|vendor.lineage.livedisplay.*service-legacymm";
 
 	#DivX (DRM) [DivX]
 	blobs=$blobs"|libDivxDrm.so|libSHIMDivxDrm.so";
@@ -593,6 +595,9 @@ deblobDevice() {
 	awk -i inplace '!/BOARD_ANT_WIRELESS_DEVICE/' BoardConfig*.mk &>/dev/null || true;
 	if [ "$DOS_DEBLOBBER_REMOVE_RENDERSCRIPT" = true ] || [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
 		awk -i inplace '!/RS_DRIVER/' BoardConfig*.mk &>/dev/null || true;
+	fi;
+	if [ -f device-common.mk ]; then
+		awk -i inplace '!/'"$makes"'/' device-common.mk; #Remove references from common makefile
 	fi;
 	if [ -f common.mk ]; then
 		awk -i inplace '!/'"$makes"'/' common.mk; #Remove references from common makefile
