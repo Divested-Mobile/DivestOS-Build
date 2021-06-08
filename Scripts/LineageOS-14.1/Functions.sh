@@ -78,7 +78,7 @@ buildAll() {
 	buildDevice n7100; #broken sepolicy
 	buildDeviceUserDebug i9100;
 	buildDeviceUserDebug i9300;
-	buildDevice i9305;
+	buildDeviceUserDebug i9305;
 	buildDevice n5110;
 	buildDevice v1awifi;
 	buildDevice herolte;

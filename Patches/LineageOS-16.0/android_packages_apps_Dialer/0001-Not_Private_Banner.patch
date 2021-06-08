@@ -1,0 +1,168 @@
+From e0da4d4fe702d86e49fcb04e3bcd2de177231012 Mon Sep 17 00:00:00 2001
+From: Torsten Grote <t@grobox.de>
+Date: Thu, 18 Jun 2020 13:15:16 -0300
+Subject: [PATCH] Show privacy warning on in-call screen
+
+Includes:
+Author: Chirayu Desai <chirayudesai1@gmail.com>
+Date:   Tue Jul 28 02:23:37 2020 +0530
+
+    Move the incall warning back to the center
+
+    * Instead of left/started aligned.
+
+Change-Id: Ic9b18c110481df7042ca1daa36182e0999fe948f
+---
+ .../res/layout/fragment_incoming_call.xml     |  7 +++-
+ .../commontheme/res/values/colors.xml         |  2 +
+ .../contactgrid/res/layout/incall_header.xml  | 39 +++++++++++++++++++
+ .../impl/res/layout/frag_incall_voice.xml     |  7 ++++
+ .../android/incallui/res/values/strings.xml   |  3 ++
+ .../android/incallui/res/values/styles.xml    |  4 +-
+ 6 files changed, 59 insertions(+), 3 deletions(-)
+ create mode 100644 java/com/android/incallui/contactgrid/res/layout/incall_header.xml
+
+diff --git a/java/com/android/incallui/answer/impl/res/layout/fragment_incoming_call.xml b/java/com/android/incallui/answer/impl/res/layout/fragment_incoming_call.xml
+index b17fc7358..f46f2b23d 100644
+--- a/java/com/android/incallui/answer/impl/res/layout/fragment_incoming_call.xml
++++ b/java/com/android/incallui/answer/impl/res/layout/fragment_incoming_call.xml
+@@ -71,17 +71,22 @@
+         android:id="@+id/incall_contact_grid"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+-        android:layout_marginTop="24dp"
+         android:clipChildren="false"
+         android:clipToPadding="false"
+         android:gravity="top|center_horizontal"
+         android:orientation="vertical">
+ 
++      <include
++          layout="@layout/incall_header"
++          android:layout_width="match_parent"
++          android:layout_height="wrap_content"/>
++
+       <include
+           android:id="@id/contactgrid_top_row"
+           layout="@layout/incall_contactgrid_top_row"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
++          android:layout_marginTop="24dp"
+           android:layout_marginBottom="8dp"
+           android:layout_marginStart="24dp"
+           android:layout_marginEnd="24dp"/>
+diff --git a/java/com/android/incallui/commontheme/res/values/colors.xml b/java/com/android/incallui/commontheme/res/values/colors.xml
+index 50b06179f..f64fc1f10 100644
+--- a/java/com/android/incallui/commontheme/res/values/colors.xml
++++ b/java/com/android/incallui/commontheme/res/values/colors.xml
+@@ -21,4 +21,6 @@
+ 
+   <!-- Background color for spam. This color must match one of background_colors_dark in call UI. -->
+   <color name="incall_call_spam_background_color">@color/blocked_contact_background</color>
++
++  <color name="incall_header_background">#f3b514</color>
+ </resources>
+diff --git a/java/com/android/incallui/contactgrid/res/layout/incall_header.xml b/java/com/android/incallui/contactgrid/res/layout/incall_header.xml
+new file mode 100644
+index 000000000..7e8e90e5d
+--- /dev/null
++++ b/java/com/android/incallui/contactgrid/res/layout/incall_header.xml
+@@ -0,0 +1,39 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++  ~ Copyright (C) 2020 The Calyx Institute
++  ~
++  ~ Licensed under the Apache License, Version 2.0 (the "License");
++  ~ you may not use this file except in compliance with the License.
++  ~ You may obtain a copy of the License at
++  ~
++  ~      http://www.apache.org/licenses/LICENSE-2.0
++  ~
++  ~ Unless required by applicable law or agreed to in writing, software
++  ~ distributed under the License is distributed on an "AS IS" BASIS,
++  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++  ~ See the License for the specific language governing permissions and
++  ~ limitations under the License
++  -->
++<LinearLayout
++    xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:background="@color/incall_header_background"
++    android:gravity="center"
++    android:orientation="vertical"
++    android:padding="8dp"
++    android:fitsSystemWindows="true">
++
++  <TextView
++      android:id="@+id/incall_privacy_title"
++      android:layout_width="wrap_content"
++      android:layout_height="wrap_content"
++      android:textColor="?android:attr/textColorPrimaryInverse"
++      android:drawableStart="@drawable/ic_baseline_warning"
++      android:drawablePadding="8dp"
++      android:drawableTint="?android:attr/textColorPrimaryInverse"
++      android:gravity="center"
++      android:padding="4dp"
++      android:text="@string/incall_screen_privacy_data_collection"/>
++
++</LinearLayout>
+diff --git a/java/com/android/incallui/incall/impl/res/layout/frag_incall_voice.xml b/java/com/android/incallui/incall/impl/res/layout/frag_incall_voice.xml
+index ccec8a4a4..c50818d62 100644
+--- a/java/com/android/incallui/incall/impl/res/layout/frag_incall_voice.xml
++++ b/java/com/android/incallui/incall/impl/res/layout/frag_incall_voice.xml
+@@ -31,11 +31,18 @@
+       android:clipToPadding="false"
+       android:fitsSystemWindows="true">
+ 
++    <include
++        layout="@layout/incall_header"
++        android:id="@+id/incall_header"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"/>
++
+     <LinearLayout
+         android:id="@id/incall_contact_grid"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="12dp"
++        android:layout_below="@+id/incall_header"
+         android:gravity="center_horizontal"
+         android:orientation="vertical">
+ 
+diff --git a/java/com/android/incallui/res/values/strings.xml b/java/com/android/incallui/res/values/strings.xml
+index af6125366..2117f645a 100644
+--- a/java/com/android/incallui/res/values/strings.xml
++++ b/java/com/android/incallui/res/values/strings.xml
+@@ -205,4 +205,7 @@
+   <!-- Text for bubble return-to-call button -->
+   <string name="bubble_return_to_call">Back to call</string>
+ 
++  <!-- Text for call not private banner. -->
++  <string name="incall_screen_privacy_data_collection">The location and audio of this call are not private.</string>
++
+ </resources>
+diff --git a/java/com/android/incallui/res/values/styles.xml b/java/com/android/incallui/res/values/styles.xml
+index 269b72111..ea45c9015 100644
+--- a/java/com/android/incallui/res/values/styles.xml
++++ b/java/com/android/incallui/res/values/styles.xml
+@@ -26,7 +26,7 @@
+     <item name="android:colorPrimary">@color/dialer_theme_color</item>
+     <item name="android:colorPrimaryDark">@color/dialer_theme_color_dark</item>
+ 
+-    <item name="android:statusBarColor">@android:color/transparent</item>
++    <item name="android:statusBarColor">@color/incall_header_background</item>
+     <item name="android:navigationBarColor">@android:color/transparent</item>
+     <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+ 
+@@ -83,7 +83,7 @@
+     <item name="android:windowBackground">@android:color/transparent</item>
+     <item name="android:windowActivityTransitions">false</item>
+ 
+-    <item name="android:statusBarColor">@android:color/transparent</item>
++    <item name="android:statusBarColor">@color/incall_header_background</item>
+     <item name="android:navigationBarColor">@android:color/transparent</item>
+     <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+   </style>
+-- 
+2.31.1
+
