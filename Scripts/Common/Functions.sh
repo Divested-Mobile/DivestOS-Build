@@ -370,6 +370,11 @@ imsAllowDiag() {
 }
 export -f imsAllowDiag;
 
+extremeWiFiDeepSleep() {
+       sed -i 's/gEnablePowerSaveOffload=2/gEnablePowerSaveOffload=4/' $1;
+}
+export -f extremeWiFiDeepSleep;
+
 volteOverride() {
 	cd "$DOS_BUILD_BASE$1";
 	if grep -sq "config_device_volte_available" "overlay/frameworks/base/core/res/res/values/config.xml"; then

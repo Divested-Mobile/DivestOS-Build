@@ -64,7 +64,7 @@ export DOS_STRONG_ENCRYPTION_ENABLED=false; #Set true to enable AES 256-bit FDE 
 
 #Servers
 export DOS_DEFAULT_DNS_PRESET="Cloudflare-BL"; #Sets default DNS. Options: See changeDefaultDNS() in Scripts/Common/Functions.sh
-export DOS_GPS_NTP_SERVER="1.android.pool.ntp.org"; #Options: Any NTP pool
+export DOS_GPS_NTP_SERVER="2.android.pool.ntp.org"; #Options: Any NTP pool
 export DOS_GPS_SUPL_HOST="supl.google.com"; #Options: supl.{google,vodafone,sonyericsson}.com
 
 #Release Processing

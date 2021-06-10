@@ -70,7 +70,7 @@ patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.pa
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
 
 enterAndClear "external/chromium-webview";
-git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/11/310811/2; #update webview
+git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/11/310811/3; #update webview
 
 enterAndClear "external/svox";
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
@@ -148,8 +148,8 @@ if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAud
 enterAndClear "packages/apps/Contacts";
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links (GrapheneOS)
 
-enterAndClear "packages/apps/Dialer";
-patch -p1 < "$DOS_PATCHES/android_packages_apps_Dialer/0001-Not_Private_Banner.patch"; #Add a privacy warning banner to calls (CalyxOS)
+#enterAndClear "packages/apps/Dialer";
+#patch -p1 < "$DOS_PATCHES/android_packages_apps_Dialer/0001-Not_Private_Banner.patch"; #Add a privacy warning banner to calls (CalyxOS)
 
 enterAndClear "packages/apps/LineageParts";
 rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of the analytics
