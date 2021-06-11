@@ -107,7 +107,6 @@ patchWorkspace() {
 	repopick -it a2dp-master-fixes;
 	repopick -i 311606 311607; #intent security fix
 	repopick -i 304614 312102; #apn fix
-	repopick -i 312214; #mata 4.4.272
 	#repopick -it android-11.0.0_r38;
 
 	source "$DOS_SCRIPTS/Patch.sh";
