@@ -78,11 +78,6 @@
 	<project path="device/amazon/thor" name="LineageOS/android_device_amazon_thor" remote="github" />
 	<project path="kernel/amazon/hdx-common" name="LineageOS/android_kernel_amazon_hdx-common" remote="github" />
 
-	<!-- Asus Zenfone 2 Laser (Z00T) -->
-	<project path="device/asus/msm8916-common" name="LineageOS/android_device_asus_msm8916-common" remote="github" />
-	<project path="device/asus/Z00T" name="LineageOS/android_device_asus_Z00T" remote="github" />
-	<project path="kernel/asus/msm8916" name="LineageOS/android_kernel_asus_msm8916" remote="github" />
-
 	<!-- HTC One (m7) -->
 	<project path="device/htc/m7" name="LineageOS/android_device_htc_m7" remote="github" />
 	<project path="device/htc/m7-common" name="LineageOS/android_device_htc_m7-common" remote="github" />

@@ -69,6 +69,9 @@ enterAndClear "device/qcom/sepolicy-legacy";
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
 
+enterAndClear "external/chromium-libpac";
+git pull "https://github.com/LineageOS/android_external_chromium-libpac" refs/changes/04/312104/1; #Q_asb_2021-06
+
 enterAndClear "external/chromium-webview";
 git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/11/310811/3; #update webview
 
@@ -247,7 +250,8 @@ enterAndClear "device/lge/mako";
 echo "pmf=0" >> wifi/wpa_supplicant_overlay.conf; #Wi-Fi chipset doesn't support PMF
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk; #broken releasetools
 
-#enterAndClear "device/motorola/clark";
+enterAndClear "device/motorola/clark";
+echo "recovery_only(' allow firmware_file labeledfs:filesystem associate; ')" >> sepolicy/recovery.te; #304224: Allow recovery to unzip and chmod modem firmware
 #echo "TARGET_RECOVERY_PERMISSIVE_OVERRIDE := true" >> BoardConfig.mk; #Allow extract_firmware.sh to function
 
 enterAndClear "device/oneplus/avicii";

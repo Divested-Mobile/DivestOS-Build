@@ -54,7 +54,7 @@ buildAll() {
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SDS4P
 	buildDevice flox;
-	buildDevice mako;
+	buildDevice mako; #broken radio
 	#SD600
 	buildDevice jfltexx;
 	#SD800

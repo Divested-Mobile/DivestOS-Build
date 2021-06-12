@@ -81,7 +81,7 @@ buildAll() {
 	buildDevice bonito avb; #18.1 not compiling
 	buildDevice sargo avb;
 	#Intel
-	buildDevice fugu;
+	buildDevice fugu; #broken
 	#Tegra
 	buildDevice yellowstone; #broken
 }
