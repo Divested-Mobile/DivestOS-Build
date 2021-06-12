@@ -251,8 +251,13 @@ echo "pmf=0" >> wifi/wpa_supplicant_overlay.conf; #Wi-Fi chipset doesn't support
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk; #broken releasetools
 
 enterAndClear "device/motorola/clark";
-echo "recovery_only(' allow firmware_file labeledfs:filesystem associate; ')" >> sepolicy/recovery.te; #304224: Allow recovery to unzip and chmod modem firmware
-#echo "TARGET_RECOVERY_PERMISSIVE_OVERRIDE := true" >> BoardConfig.mk; #Allow extract_firmware.sh to function
+echo "recovery_only('" >> sepolicy/recovery.te; #304224: Allow recovery to unzip and chmod modem firmware
+echo "  allow firmware_file labeledfs:filesystem associate;" >> sepolicy/recovery.te;
+echo "  allow recovery firmware_file:dir search;" >> sepolicy/recovery.te;
+echo "  allow recovery firmware_file:file { open write };" >> sepolicy/recovery.te;
+echo "')" >> sepolicy/recovery.te;
+#sed -i '2isetenforce 0' releasetools/extract_firmware.sh;
+#echo "setenforce 1" >> releasetools/extract_firmware.sh;
 
 enterAndClear "device/oneplus/avicii";
 enableVerity; #Resurrect dm-verity

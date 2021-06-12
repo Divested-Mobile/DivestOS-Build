@@ -116,7 +116,8 @@ generateBootAnimationMask() {
 	local text=$1;
 	local font=$2
 	local output=$3;
-	convert -background black -fill transparent -font "$font" -gravity center -size 512x128 label:"$text" "$output";
+	convert -background black -fill transparent -font "$font" -gravity center -size 512x128 label:"$text\n"$(date +%Y.%m) "$output";
+	optipng "$output";
 }
 export -f generateBootAnimationMask;
 
@@ -126,6 +127,7 @@ generateBootAnimationShine() {
 	local output=$3;
 	#The colors need to be symmetrical in order to make the animation smooth and not have any noticble lines
 	convert -size 1024x128 -define gradient:angle=90 "$style":"$color" \( +clone -flop \) +append "$output";
+	optipng "$output";
 }
 export -f generateBootAnimationShine;
 
