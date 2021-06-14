@@ -18,7 +18,7 @@
 #Last verified: 2020-04-14
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_google_marlin kernel_google_msm-4.9 kernel_google_yellowstone kernel_lge_mako kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_yandex_sdm660 kernel_zuk_msm8996";
+	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_google_marlin kernel_google_msm-4.9 kernel_google_yellowstone kernel_htc_msm8974 kernel_lge_mako kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_yandex_sdm660 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -59,6 +59,7 @@ buildAll() {
 	#buildDevice osprey; #needs manual patching + more - mkdir proprietary/priv-app && cp -r proprietary/system/priv-app/qcrilmsgtunnel proprietary/priv-app/
 	#SD801
 	buildDevice FP2;
+	buildDevice m8; #18.1 has issues
 	#SD808
 	buildDevice clark;
 	#SD810
@@ -115,7 +116,7 @@ enableDexPreOpt() {
 	if [ -f BoardConfig.mk ]; then
 		echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 		echo "WITH_DEXPREOPT_DEBUG_INFO := false" >> BoardConfig.mk;
-		if true; then
+		if [ "$1" != "device/htc/m8" ]; then
 			echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false" >> BoardConfig.mk;
 			echo "Enabled full dexpreopt for $1";
 		else

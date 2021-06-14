@@ -98,6 +98,12 @@
 	<project path="device/google/sargo" name="LineageOS/android_device_google_sargo" remote="github" />
 	<project path="kernel/google/msm-4.9" name="LineageOS/android_kernel_google_msm-4.9" remote="github" />
 
+	<!-- HTC One (m8) -->
+	<project path="device/htc/m8" name="LineageOS/android_device_htc_m8" remote="github" />
+	<project path="device/htc/m8-common" name="LineageOS/android_device_htc_m8-common" remote="github" />
+	<project path="device/htc/msm8974-common" name="LineageOS/android_device_htc_msm8974-common" remote="github" />
+	<project path="kernel/htc/msm8974" name="LineageOS/android_kernel_htc_msm8974" remote="github" />
+
 	<!-- Moto G 3rd Gen (osprey)
 	<project path="device/motorola/msm8916-common" name="LineageOS/android_device_motorola_msm8916-common" remote="github" />
 	<project path="device/motorola/osprey" name="LineageOS/android_device_motorola_osprey" remote="github" />
