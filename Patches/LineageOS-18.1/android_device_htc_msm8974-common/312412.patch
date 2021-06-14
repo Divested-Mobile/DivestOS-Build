@@ -1,0 +1,36 @@
+From bf409d1c39b7f880db5bcc7e417f6ac9d6cbecf0 Mon Sep 17 00:00:00 2001
+From: Bruno Martins <bgcngm@gmail.com>
+Date: Mon, 14 Jun 2021 15:21:28 +0100
+Subject: [PATCH] msm8974-common: Extend RIL shim to all variants
+
+Commit edfa6c3 missed to account for VZW and SPR variants.
+
+Change-Id: I3cc0a885c11670cb67a33f5272d23cea41e0ec13
+---
+ BoardConfigCommon.mk | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/BoardConfigCommon.mk b/BoardConfigCommon.mk
+index 5fad8c7..647eab8 100644
+--- a/BoardConfigCommon.mk
++++ b/BoardConfigCommon.mk
+@@ -1,6 +1,6 @@
+ #
+ # Copyright (C) 2015-2016 The CyanogenMod Project
+-#               2017-2020 The LineageOS Project
++#               2017-2021 The LineageOS Project
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License");
+ # you may not use this file except in compliance with the License.
+@@ -131,6 +131,8 @@ BOARD_SEPOLICY_DIRS += $(PLATFORM_PATH)/sepolicy
+ TARGET_LD_SHIM_LIBS := \
+     /system/lib/liblog.so|liblog_htc.so \
+     /system/vendor/lib/hw/camera.vendor.msm8974.so|libshim_camera.so \
++    /system/vendor/lib/libril_vzw-qc-qmi-1.so|libshim_ril.so \
++    /system/vendor/lib/libril_spr-qc-qmi-1.so|libshim_ril.so \
+     /system/vendor/lib/libril-qc-qmi-1.so|libshim_ril.so
+ 
+ # Wifi
+-- 
+2.31.1
+

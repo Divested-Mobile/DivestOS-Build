@@ -1,0 +1,442 @@
+From 4b95e44cd67c162f193de73668c57a8d63573728 Mon Sep 17 00:00:00 2001
+From: cnx421 <cnx421@gmail.com>
+Date: Fri, 6 Nov 2020 15:35:04 +0800
+Subject: [PATCH 1/5] Fix for Multiplication overflow will be crash btstack
+
+When a2dp using LDAC ecoding PCM,if encoding thread is runned by deley after 2 secends,
+btstack will overflow .System will abort to crash by arm gcc code.
+
+Bug: 172590955
+Tag: #stability
+Test: compile & verify basic functions working
+Test: pair to a support LDAC ecode BT headset
+
+Change-Id: Ie470bd51bfd7951d0c674b37aa6af7554cf9faa8
+---
+ stack/a2dp/a2dp_vendor_ldac_encoder.cc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/stack/a2dp/a2dp_vendor_ldac_encoder.cc b/stack/a2dp/a2dp_vendor_ldac_encoder.cc
+index ca6c2fc98..9240df222 100644
+--- a/stack/a2dp/a2dp_vendor_ldac_encoder.cc
++++ b/stack/a2dp/a2dp_vendor_ldac_encoder.cc
+@@ -592,8 +592,8 @@ static void a2dp_ldac_get_num_frame_iteration(uint8_t* num_of_iterations,
+   a2dp_ldac_encoder_cb.ldac_feeding_state.last_frame_us = now_us;
+ 
+   a2dp_ldac_encoder_cb.ldac_feeding_state.counter +=
+-      a2dp_ldac_encoder_cb.ldac_feeding_state.bytes_per_tick * us_this_tick /
+-      (A2DP_LDAC_ENCODER_INTERVAL_MS * 1000);
++      a2dp_ldac_encoder_cb.ldac_feeding_state.bytes_per_tick * (us_this_tick /
++      (float) (A2DP_LDAC_ENCODER_INTERVAL_MS * 1000));
+ 
+   result =
+       a2dp_ldac_encoder_cb.ldac_feeding_state.counter / pcm_bytes_per_frame;
+-- 
+2.31.1
+
+
+From e4d6d8779f4838a68def4c10aaab55b170dbe165 Mon Sep 17 00:00:00 2001
+From: Daren Liao <daren.liao@mediatek.com>
+Date: Fri, 20 Nov 2020 14:23:17 +0800
+Subject: [PATCH 2/5] Fix A2dp encoder counter deviation.
+
+[Description]
+Fix A2dp encoder counter deviation.
+
+[Test Report]
+Pass
+
+Bug: 176783467
+Test: Measure audio/video latency before and after 7 hours of playback
+Change-Id: I6116ca81a223d305128f6c75f262375fed2f90bc
+---
+ stack/a2dp/a2dp_aac_encoder.cc         | 42 +++++++++-----------------
+ stack/a2dp/a2dp_sbc_encoder.cc         | 41 ++++++++-----------------
+ stack/a2dp/a2dp_vendor_ldac_encoder.cc |  8 ++---
+ 3 files changed, 31 insertions(+), 60 deletions(-)
+
+diff --git a/stack/a2dp/a2dp_aac_encoder.cc b/stack/a2dp/a2dp_aac_encoder.cc
+index 8f32c1f2e..c1e41e332 100644
+--- a/stack/a2dp/a2dp_aac_encoder.cc
++++ b/stack/a2dp/a2dp_aac_encoder.cc
+@@ -56,9 +56,9 @@ typedef struct {
+ } tA2DP_AAC_ENCODER_PARAMS;
+ 
+ typedef struct {
+-  uint32_t counter;
+-  uint32_t bytes_per_tick;              // pcm bytes read each media task tick
+-  uint64_t last_frame_timestamp_100ns;  // values in 1/10 microseconds
++  float counter;
++  uint32_t bytes_per_tick; /* pcm bytes read each media task tick */
++  uint64_t last_frame_us;
+ } tA2DP_AAC_FEEDING_STATE;
+ 
+ typedef struct {
+@@ -521,7 +521,7 @@ void a2dp_aac_feeding_reset(void) {
+ }
+ 
+ void a2dp_aac_feeding_flush(void) {
+-  a2dp_aac_encoder_cb.aac_feeding_state.counter = 0;
++  a2dp_aac_encoder_cb.aac_feeding_state.counter = 0.0f;
+ }
+ 
+ uint64_t a2dp_aac_get_encoder_interval_ms(void) {
+@@ -560,30 +560,16 @@ static void a2dp_aac_get_num_frame_iteration(uint8_t* num_of_iterations,
+   LOG_VERBOSE(LOG_TAG, "%s: pcm_bytes_per_frame %u", __func__,
+               pcm_bytes_per_frame);
+ 
+-  uint32_t hecto_ns_this_tick = a2dp_aac_encoder_interval_ms * 10000;
+-  uint64_t* last_100ns =
+-      &a2dp_aac_encoder_cb.aac_feeding_state.last_frame_timestamp_100ns;
+-  uint64_t now_100ns = timestamp_us * 10;
+-  if (*last_100ns != 0) {
+-    hecto_ns_this_tick = (now_100ns - *last_100ns);
+-  }
+-  *last_100ns = now_100ns;
+-
+-  uint32_t bytes_this_tick =
+-      a2dp_aac_encoder_cb.aac_feeding_state.bytes_per_tick *
+-      hecto_ns_this_tick / (a2dp_aac_encoder_interval_ms * 10000);
+-  a2dp_aac_encoder_cb.aac_feeding_state.counter += bytes_this_tick;
+-  // Without this erratum, there was a three microseocnd shift per tick which
+-  // would cause one frame mismatched after every 180 seconds
+-  uint32_t erratum_100ns =
+-      ceil(1.0f * bytes_this_tick * a2dp_aac_encoder_interval_ms * 10000 /
+-           a2dp_aac_encoder_cb.aac_feeding_state.bytes_per_tick);
+-  if (erratum_100ns < hecto_ns_this_tick) {
+-    LOG_VERBOSE(LOG_TAG,
+-                "%s: hecto_ns_this_tick=%d, bytes=%d, erratum_100ns=%d",
+-                __func__, hecto_ns_this_tick, bytes_this_tick, erratum_100ns);
+-    *last_100ns -= hecto_ns_this_tick - erratum_100ns;
+-  }
++  uint32_t us_this_tick = A2DP_AAC_ENCODER_INTERVAL_MS * 1000;
++  uint64_t now_us = timestamp_us;
++  if (a2dp_aac_encoder_cb.aac_feeding_state.last_frame_us != 0)
++    us_this_tick =
++        (now_us - a2dp_aac_encoder_cb.aac_feeding_state.last_frame_us);
++  a2dp_aac_encoder_cb.aac_feeding_state.last_frame_us = now_us;
++
++  a2dp_aac_encoder_cb.aac_feeding_state.counter +=
++      (float)a2dp_aac_encoder_cb.aac_feeding_state.bytes_per_tick * us_this_tick /
++      (A2DP_AAC_ENCODER_INTERVAL_MS * 1000);
+ 
+   result = a2dp_aac_encoder_cb.aac_feeding_state.counter / pcm_bytes_per_frame;
+   a2dp_aac_encoder_cb.aac_feeding_state.counter -= result * pcm_bytes_per_frame;
+diff --git a/stack/a2dp/a2dp_sbc_encoder.cc b/stack/a2dp/a2dp_sbc_encoder.cc
+index ddcd1f87c..052ad3bd3 100644
+--- a/stack/a2dp/a2dp_sbc_encoder.cc
++++ b/stack/a2dp/a2dp_sbc_encoder.cc
+@@ -95,9 +95,9 @@ typedef struct {
+   uint32_t aa_frame_counter;
+   int32_t aa_feed_counter;
+   int32_t aa_feed_residue;
+-  uint32_t counter;
+-  uint32_t bytes_per_tick;              // pcm bytes read each media task tick
+-  uint64_t last_frame_timestamp_100ns;  // values in 1/10 microseconds
++  float counter;
++  uint32_t bytes_per_tick; /* pcm bytes read each media task tick */
++  uint64_t last_frame_us;
+ } tA2DP_SBC_FEEDING_STATE;
+ 
+ typedef struct {
+@@ -417,7 +417,7 @@ void a2dp_sbc_feeding_reset(void) {
+ }
+ 
+ void a2dp_sbc_feeding_flush(void) {
+-  a2dp_sbc_encoder_cb.feeding_state.counter = 0;
++  a2dp_sbc_encoder_cb.feeding_state.counter = 0.0f;
+   a2dp_sbc_encoder_cb.feeding_state.aa_feed_residue = 0;
+ }
+ 
+@@ -458,30 +458,15 @@ static void a2dp_sbc_get_num_frame_iteration(uint8_t* num_of_iterations,
+   LOG_VERBOSE(LOG_TAG, "%s: pcm_bytes_per_frame %u", __func__,
+               pcm_bytes_per_frame);
+ 
+-  uint32_t hecto_ns_this_tick = A2DP_SBC_ENCODER_INTERVAL_MS * 10000;
+-  uint64_t* last_100ns =
+-      &a2dp_sbc_encoder_cb.feeding_state.last_frame_timestamp_100ns;
+-  uint64_t now_100ns = timestamp_us * 10;
+-  if (*last_100ns != 0) {
+-    hecto_ns_this_tick = (now_100ns - *last_100ns);
+-  }
+-  *last_100ns = now_100ns;
+-
+-  uint32_t bytes_this_tick = a2dp_sbc_encoder_cb.feeding_state.bytes_per_tick *
+-                             hecto_ns_this_tick /
+-                             (A2DP_SBC_ENCODER_INTERVAL_MS * 10000);
+-  a2dp_sbc_encoder_cb.feeding_state.counter += bytes_this_tick;
+-  // Without this erratum, there was a three microseocnd shift per tick which
+-  // would cause one SBC frame mismatched after every 20 seconds
+-  uint32_t erratum_100ns =
+-      ceil(1.0f * A2DP_SBC_ENCODER_INTERVAL_MS * 10000 * bytes_this_tick /
+-           a2dp_sbc_encoder_cb.feeding_state.bytes_per_tick);
+-  if (erratum_100ns < hecto_ns_this_tick) {
+-    LOG_VERBOSE(LOG_TAG,
+-                "%s: hecto_ns_this_tick=%d, bytes=%d, erratum_100ns=%d",
+-                __func__, hecto_ns_this_tick, bytes_this_tick, erratum_100ns);
+-    *last_100ns -= hecto_ns_this_tick - erratum_100ns;
+-  }
++  uint32_t us_this_tick = A2DP_SBC_ENCODER_INTERVAL_MS * 1000;
++  uint64_t now_us = timestamp_us;
++  if (a2dp_sbc_encoder_cb.feeding_state.last_frame_us != 0)
++    us_this_tick = (now_us - a2dp_sbc_encoder_cb.feeding_state.last_frame_us);
++  a2dp_sbc_encoder_cb.feeding_state.last_frame_us = now_us;
++
++  a2dp_sbc_encoder_cb.feeding_state.counter +=
++      (float)a2dp_sbc_encoder_cb.feeding_state.bytes_per_tick * us_this_tick /
++      (A2DP_SBC_ENCODER_INTERVAL_MS * 1000);
+ 
+   /* Calculate the number of frames pending for this media tick */
+   projected_nof =
+diff --git a/stack/a2dp/a2dp_vendor_ldac_encoder.cc b/stack/a2dp/a2dp_vendor_ldac_encoder.cc
+index 9240df222..0e184d7b6 100644
+--- a/stack/a2dp/a2dp_vendor_ldac_encoder.cc
++++ b/stack/a2dp/a2dp_vendor_ldac_encoder.cc
+@@ -124,7 +124,7 @@ typedef struct {
+ } tA2DP_LDAC_ENCODER_PARAMS;
+ 
+ typedef struct {
+-  uint32_t counter;
++  float counter;
+   uint32_t bytes_per_tick; /* pcm bytes read each media task tick */
+   uint64_t last_frame_us;
+ } tA2DP_LDAC_FEEDING_STATE;
+@@ -532,7 +532,7 @@ void a2dp_vendor_ldac_feeding_reset(void) {
+ }
+ 
+ void a2dp_vendor_ldac_feeding_flush(void) {
+-  a2dp_ldac_encoder_cb.ldac_feeding_state.counter = 0;
++  a2dp_ldac_encoder_cb.ldac_feeding_state.counter = 0.0f;
+ }
+ 
+ uint64_t a2dp_vendor_ldac_get_encoder_interval_ms(void) {
+@@ -592,8 +592,8 @@ static void a2dp_ldac_get_num_frame_iteration(uint8_t* num_of_iterations,
+   a2dp_ldac_encoder_cb.ldac_feeding_state.last_frame_us = now_us;
+ 
+   a2dp_ldac_encoder_cb.ldac_feeding_state.counter +=
+-      a2dp_ldac_encoder_cb.ldac_feeding_state.bytes_per_tick * (us_this_tick /
+-      (float) (A2DP_LDAC_ENCODER_INTERVAL_MS * 1000));
++      (float)a2dp_ldac_encoder_cb.ldac_feeding_state.bytes_per_tick * us_this_tick /
++      (A2DP_LDAC_ENCODER_INTERVAL_MS * 1000);
+ 
+   result =
+       a2dp_ldac_encoder_cb.ldac_feeding_state.counter / pcm_bytes_per_frame;
+-- 
+2.31.1
+
+
+From ee7c93c27d273b977e429f2b9384ada92baaea88 Mon Sep 17 00:00:00 2001
+From: Cheney Ni <cheneyni@google.com>
+Date: Tue, 26 Jan 2021 11:43:21 +0800
+Subject: [PATCH 3/5] BluetoothAudioHAL: MTU not exceed an AVDTP packet
+
+Fix the MTU value not to be greater than an AVDTP packet, so the data
+encoded by A2DP hardware encoder can be fitted into one AVDTP packet
+without fragmented.
+
+Bug: 177205770
+Tag: #compatibility
+Test: A2DP playback and check the MTU that Audio HAL receiving
+Change-Id: I9104b699448b55fb2ec981aecb6ce1913d494821
+---
+ audio_hal_interface/a2dp_encoding.cc | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/audio_hal_interface/a2dp_encoding.cc b/audio_hal_interface/a2dp_encoding.cc
+index 456ba60f1..90ef1c2bf 100644
+--- a/audio_hal_interface/a2dp_encoding.cc
++++ b/audio_hal_interface/a2dp_encoding.cc
+@@ -278,6 +278,9 @@ bool a2dp_get_selected_hal_codec_config(CodecConfiguration* codec_config) {
+   } else {
+     codec_config->peerMtu = peer_param.peer_mtu;
+   }
++  if (codec_config->peerMtu > MAX_3MBPS_AVDTP_MTU) {
++    codec_config->peerMtu = MAX_3MBPS_AVDTP_MTU;
++  }
+   LOG(INFO) << __func__ << ": CodecConfiguration=" << toString(*codec_config);
+   return true;
+ }
+-- 
+2.31.1
+
+
+From 072b33e584102c0aaa9870535f55fcdd59e75d67 Mon Sep 17 00:00:00 2001
+From: Cheney Ni <cheneyni@google.com>
+Date: Fri, 5 Feb 2021 21:55:52 +0800
+Subject: [PATCH 4/5] A2DP: AAC encoder uses same value in tick interval and
+ feeding data
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The tick that AAC encoder wakes up is based on its codec configuration,
+but usually is not that fixed 20 ms. The user would hear choppy sound if
+using wrong values to calculate the data size, so have to correct.
+
+Fixes: 179268075
+Tag: #compatibility
+Test: check the bitrate from BTSnoop and no overrun
+Change-Id: Iaaddcbd305d4b5383b707b9e0d50e8fe116c043d
+---
+ stack/a2dp/a2dp_aac_encoder.cc | 7 +++----
+ stack/a2dp/a2dp_sbc_encoder.cc | 1 -
+ 2 files changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/stack/a2dp/a2dp_aac_encoder.cc b/stack/a2dp/a2dp_aac_encoder.cc
+index c1e41e332..a4e033c7d 100644
+--- a/stack/a2dp/a2dp_aac_encoder.cc
++++ b/stack/a2dp/a2dp_aac_encoder.cc
+@@ -19,7 +19,6 @@
+ #include "a2dp_aac_encoder.h"
+ 
+ #include <inttypes.h>
+-#include <math.h>
+ #include <stdio.h>
+ #include <string.h>
+ 
+@@ -560,7 +559,7 @@ static void a2dp_aac_get_num_frame_iteration(uint8_t* num_of_iterations,
+   LOG_VERBOSE(LOG_TAG, "%s: pcm_bytes_per_frame %u", __func__,
+               pcm_bytes_per_frame);
+ 
+-  uint32_t us_this_tick = A2DP_AAC_ENCODER_INTERVAL_MS * 1000;
++  uint32_t us_this_tick = a2dp_aac_encoder_interval_ms * 1000;
+   uint64_t now_us = timestamp_us;
+   if (a2dp_aac_encoder_cb.aac_feeding_state.last_frame_us != 0)
+     us_this_tick =
+@@ -568,8 +567,8 @@ static void a2dp_aac_get_num_frame_iteration(uint8_t* num_of_iterations,
+   a2dp_aac_encoder_cb.aac_feeding_state.last_frame_us = now_us;
+ 
+   a2dp_aac_encoder_cb.aac_feeding_state.counter +=
+-      (float)a2dp_aac_encoder_cb.aac_feeding_state.bytes_per_tick * us_this_tick /
+-      (A2DP_AAC_ENCODER_INTERVAL_MS * 1000);
++      (float)a2dp_aac_encoder_cb.aac_feeding_state.bytes_per_tick *
++      us_this_tick / (a2dp_aac_encoder_interval_ms * 1000);
+ 
+   result = a2dp_aac_encoder_cb.aac_feeding_state.counter / pcm_bytes_per_frame;
+   a2dp_aac_encoder_cb.aac_feeding_state.counter -= result * pcm_bytes_per_frame;
+diff --git a/stack/a2dp/a2dp_sbc_encoder.cc b/stack/a2dp/a2dp_sbc_encoder.cc
+index 052ad3bd3..a4f0f5310 100644
+--- a/stack/a2dp/a2dp_sbc_encoder.cc
++++ b/stack/a2dp/a2dp_sbc_encoder.cc
+@@ -22,7 +22,6 @@
+ #include "a2dp_sbc_encoder.h"
+ 
+ #include <limits.h>
+-#include <math.h>
+ #include <stdio.h>
+ #include <string.h>
+ 
+-- 
+2.31.1
+
+
+From e01b90ec1925507e8c3c4991446130fcd4ab3bfc Mon Sep 17 00:00:00 2001
+From: Cheney Ni <cheneyni@google.com>
+Date: Thu, 20 May 2021 18:58:48 +0800
+Subject: [PATCH 5/5] A2DP: Restrict MTU while using SBC middle quality
+
+When SBC headsets report middle quality bitpool under a larger MTU, we
+reduce the packet size to prevent the hardware encoder from putting too
+many frames in one packet.
+
+Bug: 188020925
+Tag: #compatibility
+Test: A2DP playback with SBC manually
+Change-Id: I164c0c1fe37d6852718889e2946207471b26e5bd
+---
+ audio_hal_interface/a2dp_encoding.cc |  7 ++++++-
+ bta/av/bta_av_aact.cc                |  4 +---
+ stack/a2dp/a2dp_sbc_encoder.cc       | 17 +++++++++++++++++
+ stack/include/a2dp_sbc_constants.h   |  1 +
+ 4 files changed, 25 insertions(+), 4 deletions(-)
+
+diff --git a/audio_hal_interface/a2dp_encoding.cc b/audio_hal_interface/a2dp_encoding.cc
+index 90ef1c2bf..cb95b80b4 100644
+--- a/audio_hal_interface/a2dp_encoding.cc
++++ b/audio_hal_interface/a2dp_encoding.cc
+@@ -18,6 +18,7 @@
+ #include "client_interface.h"
+ #include "codec_status.h"
+ 
++#include "a2dp_sbc_constants.h"
+ #include "btif_a2dp_source.h"
+ #include "btif_av.h"
+ #include "btif_av_co.h"
+@@ -278,7 +279,11 @@ bool a2dp_get_selected_hal_codec_config(CodecConfiguration* codec_config) {
+   } else {
+     codec_config->peerMtu = peer_param.peer_mtu;
+   }
+-  if (codec_config->peerMtu > MAX_3MBPS_AVDTP_MTU) {
++  if (current_codec.codec_type == BTAV_A2DP_CODEC_INDEX_SOURCE_SBC &&
++      codec_config->config.sbcConfig().maxBitpool <=
++          A2DP_SBC_BITPOOL_MIDDLE_QUALITY) {
++    codec_config->peerMtu = MAX_2MBPS_AVDTP_MTU;
++  } else if (codec_config->peerMtu > MAX_3MBPS_AVDTP_MTU) {
+     codec_config->peerMtu = MAX_3MBPS_AVDTP_MTU;
+   }
+   LOG(INFO) << __func__ << ": CodecConfiguration=" << toString(*codec_config);
+diff --git a/bta/av/bta_av_aact.cc b/bta/av/bta_av_aact.cc
+index 29dcea07b..7430c2b91 100644
+--- a/bta/av/bta_av_aact.cc
++++ b/bta/av/bta_av_aact.cc
+@@ -79,8 +79,6 @@
+ /* ACL quota we are letting FW use for A2DP Offload Tx. */
+ #define BTA_AV_A2DP_OFFLOAD_XMIT_QUOTA 4
+ 
+-#define BTIF_A2DP_MAX_BITPOOL_MQ 35
+-
+ static void bta_av_offload_codec_builder(tBTA_AV_SCB* p_scb,
+                                          tBT_A2DP_OFFLOAD* p_a2dp_offload);
+ static void bta_av_st_rc_timer(tBTA_AV_SCB* p_scb,
+@@ -3257,7 +3255,7 @@ static void bta_av_offload_codec_builder(tBTA_AV_SCB* p_scb,
+     case BTAV_A2DP_CODEC_INDEX_SOURCE_SBC:
+       codec_type = BTA_AV_CODEC_TYPE_SBC;
+       if (A2DP_GetMaxBitpoolSbc(p_scb->cfg.codec_info) <=
+-          BTIF_A2DP_MAX_BITPOOL_MQ) {
++          A2DP_SBC_BITPOOL_MIDDLE_QUALITY) {
+         APPL_TRACE_WARNING("%s: Restricting streaming MTU size for MQ Bitpool",
+                            __func__);
+         mtu = MAX_2MBPS_AVDTP_MTU;
+diff --git a/stack/a2dp/a2dp_sbc_encoder.cc b/stack/a2dp/a2dp_sbc_encoder.cc
+index a4f0f5310..053f76d1c 100644
+--- a/stack/a2dp/a2dp_sbc_encoder.cc
++++ b/stack/a2dp/a2dp_sbc_encoder.cc
+@@ -962,6 +962,23 @@ void A2dpCodecConfigSbcSource::debug_codec_dump(int fd) {
+ 
+   A2dpCodecConfig::debug_codec_dump(fd);
+ 
++  uint8_t codec_info[AVDT_CODEC_SIZE];
++  if (copyOutOtaCodecConfig(codec_info)) {
++    dprintf(fd,
++            "  Block length                                            : %d\n",
++            A2DP_GetNumberOfBlocksSbc(codec_info));
++    dprintf(fd,
++            "  Number of subbands                                      : %d\n",
++            A2DP_GetNumberOfSubbandsSbc(codec_info));
++    dprintf(fd,
++            "  Allocation method                                       : %d\n",
++            A2DP_GetAllocationMethodCodeSbc(codec_info));
++    dprintf(
++        fd,
++        "  Bitpool (min/max)                                       : %d / %d\n",
++        A2DP_GetMinBitpoolSbc(codec_info), A2DP_GetMaxBitpoolSbc(codec_info));
++  }
++
+   dprintf(fd,
+           "  Packet counts (expected/dropped)                        : %zu / "
+           "%zu\n",
+diff --git a/stack/include/a2dp_sbc_constants.h b/stack/include/a2dp_sbc_constants.h
+index 87b9eb981..7426688f6 100644
+--- a/stack/include/a2dp_sbc_constants.h
++++ b/stack/include/a2dp_sbc_constants.h
+@@ -61,6 +61,7 @@
+ 
+ #define A2DP_SBC_IE_MIN_BITPOOL 2
+ #define A2DP_SBC_IE_MAX_BITPOOL 250
++#define A2DP_SBC_BITPOOL_MIDDLE_QUALITY 35
+ 
+ /* for media payload header */
+ #define A2DP_SBC_HDR_F_MSK 0x80
+-- 
+2.31.1
+

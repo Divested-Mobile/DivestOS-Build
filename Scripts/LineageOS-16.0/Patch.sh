@@ -148,6 +148,9 @@ enterAndClear "lineage-sdk";
 awk -i inplace '!/LineageWeatherManagerService/' lineage/res/res/values/config.xml; #Disable Weather
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi;
 
+enterAndClear "packages/apps/Backgrounds";
+patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Backgrounds/308977.patch"; #Optimize builtin wallpaper loading code
+
 enterAndClear "packages/apps/Contacts";
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links (GrapheneOS)
 

@@ -718,8 +718,8 @@ deblobDevice() {
 				echo "type vendor_timekeep_prop, property_type;" >> sepolicy/property.te;
 				echo "persist.vendor.timeadjust u:object_r:vendor_timekeep_prop:s0" >> sepolicy/property_contexts;
 				echo "user=system seinfo=platform name=com.sony.timekeep domain=timekeep_app type=app_data_file" >> sepolicy/seapp_contexts;
-				cp "$DOS_PATCHES_COMMON/timekeep.te" sepolicy/;
-				cp "$DOS_PATCHES_COMMON/timekeep_app.te" sepolicy/;
+				cp "$DOS_PATCHES_COMMON/android_timekeep_sepolicy/timekeep.te" sepolicy/;
+				cp "$DOS_PATCHES_COMMON/android_timekeep_sepolicy/timekeep_app.te" sepolicy/;
 			fi;
 		fi;
 	fi;

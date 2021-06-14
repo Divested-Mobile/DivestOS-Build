@@ -134,9 +134,13 @@ patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_L
 enterAndClear "packages/apps/LineageParts";
 rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of the analytics
 patch -p1 < "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytics.patch"; #Remove analytics
+patch -p1 < "$DOS_PATCHES/android_packages_apps_LineageParts/311606.patch"; #intent security fix
 
 enterAndClear "packages/apps/PermissionController";
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_packages_apps_PermissionController/0001-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
+
+enterAndClear "packages/apps/Recorder";
+patch -p1 < "$DOS_PATCHES/android_packages_apps_Recorder/311607.patch"; #intent security fix
 
 enterAndClear "packages/apps/Settings";
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
@@ -157,9 +161,16 @@ sed -i 's/PROP_BUILD_VERSION_INCREMENTAL);/PROP_BUILD_VERSION_INCREMENTAL).repla
 enterAndClear "packages/inputmethods/LatinIME";
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
 
+enterAndClear "packages/providers/TelephonyProvider";
+patch -p1 < "$DOS_PATCHES/android_packages_providers_TelephonyProvider/304614.patch"; #mcc/mnc fix
+patch -p1 < "$DOS_PATCHES/android_packages_providers_TelephonyProvider/312102.patch"; #mnc fix
+
 #enterAndClear "packages/services/Telephony";
 #patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch"; #XXX 18REBASE
 #patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch"; #XXX 18REBASE
+
+enterAndClear "system/bt";
+patch -p1 < "$DOS_PATCHES/android_system_bt/a2dp-master-fixes.patch"; #topic
 
 enterAndClear "system/core";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
@@ -236,6 +247,9 @@ enableVerity; #Resurrect dm-verity
 
 enterAndClear "device/htc/m8-common";
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
+
+enterAndClear "device/htc/msm8974-common";
+patch -p1 < "$DOS_PATCHES/android_device_htc_msm8974-common/312412.patch"; #shim all the rils
 
 enterAndClear "device/lge/g2-common";
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
