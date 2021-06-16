@@ -1,4 +1,4 @@
-From 653c059e47ea39766d7ab62f6408351d9fc7e9d7 Mon Sep 17 00:00:00 2001
+From 61685846ab27c87dd0646478c4d3c5098d584daa Mon Sep 17 00:00:00 2001
 From: Bruno Martins <bgcngm@gmail.com>
 Date: Sun, 6 Jun 2021 14:18:24 +0100
 Subject: [PATCH] profiles: Add FLAG_IMMUTABLE flag for security purposes
@@ -12,7 +12,7 @@ Change-Id: Id5144fb3f11fc98380de0188df0f32330e976398
  2 files changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/src/org/lineageos/lineageparts/profiles/NFCProfileWriter.java b/src/org/lineageos/lineageparts/profiles/NFCProfileWriter.java
-index d477d69..d651e9b 100644
+index d477d6969..d651e9b5c 100644
 --- a/src/org/lineageos/lineageparts/profiles/NFCProfileWriter.java
 +++ b/src/org/lineageos/lineageparts/profiles/NFCProfileWriter.java
 @@ -1,6 +1,6 @@
@@ -23,7 +23,7 @@ index d477d69..d651e9b 100644
   *
   * Licensed under the Apache License, Version 2.0 (the "License");
   * you may not use this file except in compliance with the License.
-@@ -84,7 +84,8 @@ public class NFCProfileWriter extends Activity {
+@@ -84,7 +84,8 @@ protected void onPause() {
  
      private PendingIntent getPendingIntent() {
          return PendingIntent.getActivity(this, 0,
@@ -34,7 +34,7 @@ index d477d69..d651e9b 100644
  
      private void disableTagWriteMode() {
 diff --git a/src/org/lineageos/lineageparts/profiles/triggers/NfcTriggerFragment.java b/src/org/lineageos/lineageparts/profiles/triggers/NfcTriggerFragment.java
-index adb684c..aac9839 100644
+index adb684c32..aac98393c 100644
 --- a/src/org/lineageos/lineageparts/profiles/triggers/NfcTriggerFragment.java
 +++ b/src/org/lineageos/lineageparts/profiles/triggers/NfcTriggerFragment.java
 @@ -1,6 +1,6 @@
@@ -45,7 +45,7 @@ index adb684c..aac9839 100644
   *
   * Licensed under the Apache License, Version 2.0 (the "License");
   * you may not use this file except in compliance with the License.
-@@ -89,7 +89,7 @@ public class NfcTriggerFragment extends Fragment implements NFCProfileTagCallbac
+@@ -89,7 +89,7 @@ public void onPause() {
      private PendingIntent getPendingIntent() {
          Intent intent = new Intent(getActivity(), getActivity().getClass())
                  .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -54,6 +54,3 @@ index adb684c..aac9839 100644
      }
  
      private void disableTagWriteMode() {
--- 
-2.31.1
-

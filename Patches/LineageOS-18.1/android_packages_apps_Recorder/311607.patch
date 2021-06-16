@@ -13,7 +13,7 @@ Change-Id: Id1ebbfabb7e6282f371d10d0a9648aa99822cadc
  1 file changed, 13 insertions(+), 8 deletions(-)
 
 diff --git a/app/src/main/java/org/lineageos/recorder/service/SoundRecorderService.java b/app/src/main/java/org/lineageos/recorder/service/SoundRecorderService.java
-index 20bf748..b28763f 100644
+index 20bf748d..b28763f9 100644
 --- a/app/src/main/java/org/lineageos/recorder/service/SoundRecorderService.java
 +++ b/app/src/main/java/org/lineageos/recorder/service/SoundRecorderService.java
 @@ -13,6 +13,7 @@
@@ -24,7 +24,7 @@ index 20bf748..b28763f 100644
  package org.lineageos.recorder.service;
  
  import android.app.Notification;
-@@ -277,10 +278,11 @@ public class SoundRecorderService extends Service {
+@@ -277,10 +278,11 @@ private Notification createRecordingNotification() {
          }
  
          Intent intent = new Intent(this, RecorderActivity.class);
@@ -38,7 +38,7 @@ index 20bf748..b28763f 100644
  
          String duration = DateUtils.formatElapsedTime(mSbRecycle, mElapsedTime.get());
          NotificationCompat.Builder nb = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL)
-@@ -293,11 +295,13 @@ public class SoundRecorderService extends Service {
+@@ -293,11 +295,13 @@ private Notification createRecordingNotification() {
  
          if (mIsPaused) {
              PendingIntent resumePIntent = PendingIntent.getService(this, 0,
@@ -54,7 +54,7 @@ index 20bf748..b28763f 100644
              nb.addAction(R.drawable.ic_pause, getString(R.string.pause), pausePIntent);
          }
          nb.addAction(R.drawable.ic_stop, getString(R.string.stop), stopPIntent);
-@@ -314,16 +318,17 @@ public class SoundRecorderService extends Service {
+@@ -314,16 +318,17 @@ private void createShareNotification(@Nullable String uri) {
          String mimeType = mRecorder.getMimeType();
  
          Intent intent = new Intent(this, ListActivity.class);
@@ -76,6 +76,3 @@ index 20bf748..b28763f 100644
  
          String duration = DateUtils.formatElapsedTime(mSbRecycle, mElapsedTime.get());
          Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL)
--- 
-2.31.1
-
