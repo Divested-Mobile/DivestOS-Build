@@ -134,13 +134,9 @@ patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_L
 enterAndClear "packages/apps/LineageParts";
 rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of the analytics
 patch -p1 < "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytics.patch"; #Remove analytics
-patch -p1 < "$DOS_PATCHES/android_packages_apps_LineageParts/311606.patch"; #intent security fix
 
 enterAndClear "packages/apps/PermissionController";
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_packages_apps_PermissionController/0001-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
-
-enterAndClear "packages/apps/Recorder";
-patch -p1 < "$DOS_PATCHES/android_packages_apps_Recorder/311607.patch"; #intent security fix
 
 enterAndClear "packages/apps/Settings";
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
