@@ -95,7 +95,7 @@ echo "Deblobbing...";
 		blobs=$blobs"|libcneconn.so|libcneqmiutils.so|libcne.so|libvendorconn.so|libwms.so|libwqe.so|libcneoplookup.so";
 		#blobs=$blobs"|vendor.qti.data.factory.*|vendor.qti.hardware.data.dynamicdds.*|vendor.qti.hardware.data.latency.*|vendor.qti.hardware.data.qmi.*|vendor.qti.latency.*|vendor.qti.hardware.data.iwlan.*";
 		overlay=$overlay"|config_wlan_data_service_package|config_wlan_network_service_package|config_qualified_networks_service_package";
-		makes=$makes"|libcnefeatureconfig";
+		#makes=$makes"|libcnefeatureconfig"; XXX: breaks radio
 		sepolicy=$sepolicy" cnd.te qcneservice.te";
 	fi;
 
