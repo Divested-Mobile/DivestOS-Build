@@ -117,10 +117,6 @@
 	<project path="device/motorola/griffin" name="LineageOS/android_device_motorola_griffin" remote="github" />
 	<project path="kernel/motorola/msm8996" name="LineageOS/android_kernel_motorola_msm8996" remote="github" />
 
-        <!-- Nexus 4 (mako) -->
-        <project path="device/lge/mako" name="voron00/android_device_lge_mako" remote="github" />
-        <project path="kernel/lge/mako" name="voron00/android_kernel_lge_mako" remote="github" />
-
 	<!-- Nexus Player (fugu) -->
 	<project path="device/asus/fugu" name="LineageOS/android_device_asus_fugu" remote="github" />
 	<project path="kernel/asus/fugu" name="LineageOS/android_kernel_asus_fugu" remote="github" />
