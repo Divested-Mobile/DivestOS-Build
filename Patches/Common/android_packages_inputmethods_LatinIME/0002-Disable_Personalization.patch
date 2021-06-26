@@ -1,0 +1,35 @@
+From 8cfece6ef083e379eaa7b8d7b3f0db5cf9d1b110 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 14 Sep 2017 00:03:16 -0400
+Subject: [PATCH] disable personalized dicts by default
+
+---
+ java/res/xml/prefs_screen_correction.xml                        | 1 -
+ .../com/android/inputmethod/latin/settings/SettingsValues.java  | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/java/res/xml/prefs_screen_correction.xml b/java/res/xml/prefs_screen_correction.xml
+index a943dc1a3..6f6b3666c 100644
+--- a/java/res/xml/prefs_screen_correction.xml
++++ b/java/res/xml/prefs_screen_correction.xml
+@@ -57,7 +57,6 @@
+         android:key="pref_key_use_personalized_dicts"
+         android:title="@string/use_personalized_dicts"
+         android:summary="@string/use_personalized_dicts_summary"
+-        android:defaultValue="true"
+         android:persistent="true" />
+     <CheckBoxPreference
+         android:key="pref_key_use_contacts_dict"
+diff --git a/java/src/com/android/inputmethod/latin/settings/SettingsValues.java b/java/src/com/android/inputmethod/latin/settings/SettingsValues.java
+index 57018244f..a2153df03 100644
+--- a/java/src/com/android/inputmethod/latin/settings/SettingsValues.java
++++ b/java/src/com/android/inputmethod/latin/settings/SettingsValues.java
+@@ -146,7 +146,7 @@ public SettingsValues(final Context context, final SharedPreferences prefs, fina
+         mShowsLanguageSwitchKey = Settings.ENABLE_SHOW_LANGUAGE_SWITCH_KEY_SETTINGS
+                 ? Settings.readShowsLanguageSwitchKey(prefs) : true /* forcibly */;
+         mUseContactsDict = prefs.getBoolean(Settings.PREF_KEY_USE_CONTACTS_DICT, true);
+-        mUsePersonalizedDicts = prefs.getBoolean(Settings.PREF_KEY_USE_PERSONALIZED_DICTS, true);
++        mUsePersonalizedDicts = prefs.getBoolean(Settings.PREF_KEY_USE_PERSONALIZED_DICTS, false);
+         mUseDoubleSpacePeriod = prefs.getBoolean(Settings.PREF_KEY_USE_DOUBLE_SPACE_PERIOD, true)
+                 && inputAttributes.mIsGeneralTextInput;
+         mBlockPotentiallyOffensive = Settings.readBlockPotentiallyOffensive(prefs, res);

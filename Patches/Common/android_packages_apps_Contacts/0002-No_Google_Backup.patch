@@ -1,0 +1,64 @@
+From dbee70a413350fe9790aff884894cd8d711b0bb2 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 22 Aug 2017 02:51:36 -0400
+Subject: [PATCH] remove 'to Google' from Contacts backup notice
+
+---
+ res/values-en-rAU/strings.xml | 2 +-
+ res/values-en-rGB/strings.xml | 2 +-
+ res/values-en-rIN/strings.xml | 2 +-
+ res/values/strings.xml        | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/res/values-en-rAU/strings.xml b/res/values-en-rAU/strings.xml
+index ead8268c5..b57a122ae 100644
+--- a/res/values-en-rAU/strings.xml
++++ b/res/values-en-rAU/strings.xml
+@@ -186,7 +186,7 @@
+     <string name="title_edit_group" msgid="4246193439931854759">"Remove contacts"</string>
+     <string name="local_profile_title" msgid="1613784248702623410">"My local profile"</string>
+     <string name="external_profile_title" msgid="2706282819025406927">"My <xliff:g id="EXTERNAL_SOURCE">%1$s</xliff:g> profile"</string>
+-    <string name="contact_editor_prompt_zero_accounts" msgid="4468363031413457746">"Take a moment to add an account that will back up your contacts to Google."</string>
++    <string name="contact_editor_prompt_zero_accounts" msgid="4468363031413457746">"Take a moment to add an account that will back up your contacts."</string>
+     <string name="contact_editor_prompt_one_account" msgid="765343809177951169">"New contacts will be saved to <xliff:g id="ACCOUNT_NAME">%1$s</xliff:g>."</string>
+     <string name="contact_editor_prompt_multiple_accounts" msgid="1543322760761168351">"Choose a default account for new contacts:"</string>
+     <string name="contact_editor_title_new_contact" msgid="7534775011591770343">"Create new contact"</string>
+diff --git a/res/values-en-rGB/strings.xml b/res/values-en-rGB/strings.xml
+index ead8268c5..b57a122ae 100644
+--- a/res/values-en-rGB/strings.xml
++++ b/res/values-en-rGB/strings.xml
+@@ -186,7 +186,7 @@
+     <string name="title_edit_group" msgid="4246193439931854759">"Remove contacts"</string>
+     <string name="local_profile_title" msgid="1613784248702623410">"My local profile"</string>
+     <string name="external_profile_title" msgid="2706282819025406927">"My <xliff:g id="EXTERNAL_SOURCE">%1$s</xliff:g> profile"</string>
+-    <string name="contact_editor_prompt_zero_accounts" msgid="4468363031413457746">"Take a moment to add an account that will back up your contacts to Google."</string>
++    <string name="contact_editor_prompt_zero_accounts" msgid="4468363031413457746">"Take a moment to add an account that will back up your contacts."</string>
+     <string name="contact_editor_prompt_one_account" msgid="765343809177951169">"New contacts will be saved to <xliff:g id="ACCOUNT_NAME">%1$s</xliff:g>."</string>
+     <string name="contact_editor_prompt_multiple_accounts" msgid="1543322760761168351">"Choose a default account for new contacts:"</string>
+     <string name="contact_editor_title_new_contact" msgid="7534775011591770343">"Create new contact"</string>
+diff --git a/res/values-en-rIN/strings.xml b/res/values-en-rIN/strings.xml
+index ead8268c5..b57a122ae 100644
+--- a/res/values-en-rIN/strings.xml
++++ b/res/values-en-rIN/strings.xml
+@@ -186,7 +186,7 @@
+     <string name="title_edit_group" msgid="4246193439931854759">"Remove contacts"</string>
+     <string name="local_profile_title" msgid="1613784248702623410">"My local profile"</string>
+     <string name="external_profile_title" msgid="2706282819025406927">"My <xliff:g id="EXTERNAL_SOURCE">%1$s</xliff:g> profile"</string>
+-    <string name="contact_editor_prompt_zero_accounts" msgid="4468363031413457746">"Take a moment to add an account that will back up your contacts to Google."</string>
++    <string name="contact_editor_prompt_zero_accounts" msgid="4468363031413457746">"Take a moment to add an account that will back up your contacts."</string>
+     <string name="contact_editor_prompt_one_account" msgid="765343809177951169">"New contacts will be saved to <xliff:g id="ACCOUNT_NAME">%1$s</xliff:g>."</string>
+     <string name="contact_editor_prompt_multiple_accounts" msgid="1543322760761168351">"Choose a default account for new contacts:"</string>
+     <string name="contact_editor_title_new_contact" msgid="7534775011591770343">"Create new contact"</string>
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 56c4aaa03..22f657ead 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -532,7 +532,7 @@
+     <string name="external_profile_title">My <xliff:g id="external_source">%1$s</xliff:g> profile</string>
+ 
+     <!-- Message in the contact editor prompt that notifies the user that the newly created contact will not be saved to any account, and prompts addition of an account [CHAR LIMIT=NONE] -->
+-    <string name="contact_editor_prompt_zero_accounts">Take a minute to add an account that will back up your contacts to Google.</string>
++    <string name="contact_editor_prompt_zero_accounts">Take a minute to add an account that will back up your contacts.</string>
+ 
+     <!-- Message in the contact editor prompt that asks the user if it's okay to save the newly created contact to the account shown. [CHAR LIMIT=NONE] -->
+     <string name="contact_editor_prompt_one_account">New contacts will be saved to <xliff:g id="account_name">%1$s</xliff:g>.</string>

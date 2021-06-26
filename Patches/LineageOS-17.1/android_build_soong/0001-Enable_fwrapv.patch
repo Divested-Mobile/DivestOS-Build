@@ -1,0 +1,49 @@
+From 6760a427250f7a8249fe45bfd5af35f54ed739b1 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 23 Aug 2017 20:28:03 -0400
+Subject: [PATCH] use -fwrapv when signed overflow checking is off
+
+---
+ cc/cc.go       |  2 ++
+ cc/sanitize.go | 12 ++++++++++++
+ 2 files changed, 14 insertions(+)
+
+diff --git a/cc/cc.go b/cc/cc.go
+index 49dce18f9..8bd39b2f4 100644
+--- a/cc/cc.go
++++ b/cc/cc.go
+@@ -962,6 +962,8 @@ func (c *Module) GenerateAndroidBuildActions(actx android.ModuleContext) {
+ 	}
+ 	if c.sanitize != nil {
+ 		flags = c.sanitize.flags(ctx, flags)
++	} else {
++		flags.CFlags = append(flags.CFlags, "-fwrapv")
+ 	}
+ 	if c.coverage != nil {
+ 		flags, deps = c.coverage.flags(ctx, flags, deps)
+diff --git a/cc/sanitize.go b/cc/sanitize.go
+index c1b055afe..147ee2d88 100644
+--- a/cc/sanitize.go
++++ b/cc/sanitize.go
+@@ -433,9 +433,21 @@ func (sanitize *sanitize) flags(ctx ModuleContext, flags Flags) Flags {
+ 		flags.LdFlags = append(flags.LdFlags, "-Wl,--exclude-libs,"+minimalRuntimeLib)
+ 	}
+ 	if !sanitize.Properties.SanitizerEnabled && !sanitize.Properties.UbsanRuntimeDep {
++		flags.CFlags = append(flags.CFlags, "-fwrapv")
+ 		return flags
+ 	}
+ 
++        wrapv := true
++        for _, element := range sanitize.Properties.Sanitizers {
++                if (element == "signed-integer-overflow" || element == "integer" || element == "undefined") {
++                        wrapv = false
++                        break
++                }
++        }
++        if wrapv {
++                flags.CFlags = append(flags.CFlags, "-fwrapv")
++        }
++
+ 	if Bool(sanitize.Properties.Sanitize.Address) {
+ 		if ctx.Arch().ArchType == android.Arm {
+ 			// Frame pointer based unwinder in ASan requires ARM frame setup.

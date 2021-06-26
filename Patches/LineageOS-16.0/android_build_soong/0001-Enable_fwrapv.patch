@@ -1,0 +1,53 @@
+From adec149524637ba191e0db27d9b729b4cd53cd9e Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 23 Aug 2017 20:28:03 -0400
+Subject: [PATCH] use -fwrapv when signed overflow checking is off
+
+---
+ cc/cc.go       |  2 ++
+ cc/sanitize.go | 12 ++++++++++++
+ 2 files changed, 14 insertions(+)
+
+diff --git a/cc/cc.go b/cc/cc.go
+index 51ac18404..2829dab32 100644
+--- a/cc/cc.go
++++ b/cc/cc.go
+@@ -687,6 +687,8 @@ func (c *Module) GenerateAndroidBuildActions(actx android.ModuleContext) {
+ 	}
+ 	if c.sanitize != nil {
+ 		flags = c.sanitize.flags(ctx, flags)
++	} else {
++		flags.CFlags = append(flags.CFlags, "-fwrapv")
+ 	}
+ 	if c.coverage != nil {
+ 		flags = c.coverage.flags(ctx, flags)
+diff --git a/cc/sanitize.go b/cc/sanitize.go
+index de970352e..17c11f8b1 100644
+--- a/cc/sanitize.go
++++ b/cc/sanitize.go
+@@ -314,6 +314,7 @@ func (sanitize *sanitize) flags(ctx ModuleContext, flags Flags) Flags {
+ 		flags.LdFlags = append(flags.LdFlags, "-Wl,--exclude-libs,"+minimalRuntimeLib)
+ 	}
+ 	if !sanitize.Properties.SanitizerEnabled {
++		flags.CFlags = append(flags.CFlags, "-fwrapv")
+ 		return flags
+ 	}
+ 
+@@ -355,6 +356,17 @@ func (sanitize *sanitize) flags(ctx ModuleContext, flags Flags) Flags {
+ 		sanitizers = append(sanitizers, sanitize.Properties.Sanitize.Misc_undefined...)
+ 	}
+ 
++	wrapv := true
++	for _, element := range sanitizers {
++		if (element == "signed-integer-overflow" || element == "integer" || element == "undefined") {
++			wrapv = false
++			break
++		}
++	}
++	if wrapv {
++		flags.CFlags = append(flags.CFlags, "-fwrapv")
++	}
++
+ 	if Bool(sanitize.Properties.Sanitize.Diag.Undefined) {
+ 		diagSanitizers = append(diagSanitizers, "undefined")
+ 	}
