@@ -116,7 +116,7 @@ generateBootAnimationMask() {
 	local text=$1;
 	local font=$2
 	local output=$3;
-	convert -background black -fill transparent -font "$font" -gravity center -size 512x128 label:"$text\n"$(date +%Y.%m) "$output";
+	convert -background black -fill transparent -font "$font" -gravity center -size 512x128 label:"$text" "$output";
 	optipng "$output";
 }
 export -f generateBootAnimationMask;

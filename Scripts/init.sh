@@ -61,9 +61,10 @@ export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NLP,
 export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Set true to allow inclusion of non-commercial use patches XXX: Unused, see 1dc9247
 export DOS_OPTIMIZE_IMAGES=false; #Set true to apply lossless optimizations to image resources
 export DOS_STRONG_ENCRYPTION_ENABLED=false; #Set true to enable AES 256-bit FDE encryption on 14.1+15.1 XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
+alias DOS_WEBVIEW_CHERRYPICK='git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/60/312860/2';
 
 #Servers
-export DOS_DEFAULT_DNS_PRESET="Cloudflare-BL"; #Sets default DNS. Options: See changeDefaultDNS() in Scripts/Common/Functions.sh
+export DOS_DEFAULT_DNS_PRESET="Quad9"; #Sets default DNS. Options: See changeDefaultDNS() in Scripts/Common/Functions.sh
 export DOS_GPS_NTP_SERVER="2.android.pool.ntp.org"; #Options: Any NTP pool
 export DOS_GPS_SUPL_HOST="supl.google.com"; #Options: supl.{google,vodafone,sonyericsson}.com
 
