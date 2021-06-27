@@ -23,6 +23,7 @@ patchAllKernels() {
 export -f patchAllKernels;
 
 resetWorkspace() {
+	umask 0022;
 	repo forall -c 'git add -A && git reset --hard' && rm -rf out && repo sync -j20 --force-sync;
 }
 export -f resetWorkspace;
@@ -56,6 +57,7 @@ buildDeviceDebug() {
 export -f buildDeviceDebug;
 
 buildAll() {
+	umask 0022;
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
@@ -91,6 +93,7 @@ buildAll() {
 export -f buildAll;
 
 patchWorkspace() {
+	umask 0022;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
 	source build/envsetup.sh;
 	repopick -ift n_asb_09-2018-qcom; #TODO: move in tree

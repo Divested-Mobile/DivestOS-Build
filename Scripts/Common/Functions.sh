@@ -31,6 +31,7 @@ enter() {
 	echo "================================================================================================"
 	local dir="$1";
 	local dirReal="$DOS_BUILD_BASE$dir";
+	umask 0022;
 	if [ -d "$dirReal" ]; then
 		cd "$dirReal";
 		echo -e "\e[0;32m[ENTERING] $dir\e[0m";
@@ -160,6 +161,8 @@ processRelease() {
 	if [[ "$DOS_VERSION" == "LineageOS-18.1" ]]; then
 		local RELEASETOOLS_PREFIX="";
 	fi;
+
+	umask 0022;
 
 	echo -e "\e[0;32mProcessing release for $DEVICE\e[0m";
 
