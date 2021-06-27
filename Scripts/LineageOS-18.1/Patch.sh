@@ -136,8 +136,8 @@ enterAndClear "packages/apps/Contacts";
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links (GrapheneOS)
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Backup.patch"; #Backups are not sent to Google (GrapheneOS)
 
-#enterAndClear "packages/apps/Dialer";
-#patch -p1 < "$DOS_PATCHES/android_packages_apps_Dialer/0001-Not_Private_Banner.patch"; #Add a privacy warning banner to calls (CalyxOS)
+enterAndClear "packages/apps/Dialer";
+patch -p1 < "$DOS_PATCHES/android_packages_apps_Dialer/0001-Not_Private_Banner.patch"; #Add a privacy warning banner to calls (CalyxOS)
 
 enterAndClear "packages/apps/LineageParts";
 rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of the analytics
@@ -232,7 +232,7 @@ enterAndClear "device/asus/flox";
 compressRamdisks;
 
 enterAndClear "device/essential/mata";
-git revert --no-edit 3928b30a97fe7f6b6020bbd9d83a56a32de4ba16 e91f0fece65d32ca407be532e2c4456056b1a968; #Unbreak the earpiece speaker, breaking the loud speaker volume control on calls
+git revert --no-edit 1f1d061c4d7ddedcac503608e8fa333aff30a693 3928b30a97fe7f6b6020bbd9d83a56a32de4ba16 e91f0fece65d32ca407be532e2c4456056b1a968; #Unbreak the earpiece speaker, breaking the loud speaker volume control on calls
 
 enterAndClear "device/fxtec/pro1";
 enableVerity; #Resurrect dm-verity
@@ -321,6 +321,10 @@ find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {}
 cd "$DOS_BUILD_BASE";
 deblobAudio;
 removeBuildFingerprints;
+
+#Tweaks for <2GB RAM devices
+#enableLowRam "device/samsung/serrano3gxx";
+#enableLowRam "device/samsung/serranoltexx";
 
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile

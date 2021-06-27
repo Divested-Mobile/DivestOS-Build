@@ -107,8 +107,7 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
 	#source build/envsetup.sh;
-	repopick -i 312861; #recorder intent improvement
-	#repopick -i 312866; #mata speaker mic fix
+	#repopick -i 312861; #recorder intent improvement
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
@@ -145,7 +144,7 @@ export -f enableDexPreOpt;
 
 enableLowRam() {
 	cd "$DOS_BUILD_BASE$1";
-	if [ -f lineage.mk ]; then echo -e '\n$(call inherit-product, vendor/divested/build/target/product/lowram.mk)' >> lineage.mk; fi;
+	if [ -f lineage.mk ]; then echo -e '\n$(call inherit-product, vendor/divested/build/target/product/lowram.mk)' >> lineage.mk; fi; #TODO: handle lineage_device.mk
 	if [ -f BoardConfig.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfig.mk; fi;
 	if [ -f BoardConfigCommon.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfigCommon.mk; fi;
 	echo "Enabled lowram for $1";
