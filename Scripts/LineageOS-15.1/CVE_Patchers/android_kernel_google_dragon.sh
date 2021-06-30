@@ -578,7 +578,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28964/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28972/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30002/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-32399/^5.12/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33034/^5.11/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33034/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0004/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0003-tunnels-Don-t-apply-GRO-to-multiple-layers-of-encaps.patch
