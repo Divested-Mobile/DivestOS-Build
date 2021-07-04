@@ -270,7 +270,7 @@ processRelease() {
 		mkdir -vp $ARCHIVE/fastboot;
 		mkdir -vp $ARCHIVE/incrementals;
 
-		cp -v $OUT_DIR/$PREFIX-target_files.zip* $ARCHIVE/target_files/;
+		if [[ " ${DOS_GENERATE_DELTAS_DEVICES[@]} " =~ " ${DEVICE} " ]]; then cp -v $OUT_DIR/$PREFIX-target_files.zip* $ARCHIVE/target_files/; fi;
 		cp -v $OUT_DIR/$PREFIX-fastboot.zip* $ARCHIVE/fastboot/ || true;
 		cp -v $OUT_DIR/$PREFIX-ota.zip* $ARCHIVE/;
 		cp -v $OUT_DIR/$PREFIX-incremental_*.zip* $ARCHIVE/incrementals/ || true;
