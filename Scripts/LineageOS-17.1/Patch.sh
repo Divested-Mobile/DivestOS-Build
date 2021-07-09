@@ -51,14 +51,16 @@ gpgVerifyDirectory "$DOS_PREBUILT_APPS""android_vendor_FDroid_PrebuiltApps/packa
 cp -r "$DOS_PREBUILT_APPS""android_vendor_FDroid_PrebuiltApps/." "$DOS_BUILD_BASE""vendor/fdroid_prebuilt/"; #Add the prebuilt apps
 cp -r "$DOS_PATCHES_COMMON""android_vendor_divested/." "$DOS_BUILD_BASE""vendor/divested/"; #Add our vendor files
 
-enterAndClear "bootable/recovery";
+if enterAndClear "bootable/recovery"; then
 patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-No_SerialNum_Restrictions.patch"; #Abort on serial number specific packages (GrapheneOS)
+fi;
 
-enterAndClear "bionic";
+if enterAndClear "bionic"; then
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi; #(GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_bionic/0002-Symbol_Ordering.patch"; fi; #(GrapheneOS)
+fi;
 
-enterAndClear "build/make";
+if enterAndClear "build/make"; then
 patch -p1 < "$DOS_PATCHES/android_build/0001-Restore_TTS.patch"; #Add back PicoTTS and language files
 patch -p1 < "$DOS_PATCHES/android_build/0002-OTA_Keys.patch"; #add correct keys to recovery for OTA verification
 patch -p1 < "$DOS_PATCHES/android_build/0003-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
@@ -66,29 +68,35 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/gsi_common.mk; #Switch to Silence
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Bump minimum SDK version (GrapheneOS)
-
-enterAndClear "build/soong";
-patch -p1 < "$DOS_PATCHES/android_build_soong/0001-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
-
-enterAndClear "device/qcom/sepolicy-legacy";
-patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
-echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
-
-if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then
-enterAndClear "external/chromium-webview";
-DOS_WEBVIEW_CHERRYPICK; #update webview
 fi;
 
-enterAndClear "external/svox";
+if enterAndClear "build/soong"; then
+patch -p1 < "$DOS_PATCHES/android_build_soong/0001-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
+fi;
+
+if enterAndClear "device/qcom/sepolicy-legacy"; then
+patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
+echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #necessary for -user builds of legacy devices
+fi;
+
+if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then
+if enterAndClear "external/chromium-webview"; then
+DOS_WEBVIEW_CHERRYPICK; #update webview
+fi;
+fi;
+
+if enterAndClear "external/svox"; then
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 sed -i '12iLOCAL_SDK_VERSION := current' pico/Android.mk; #Fix build under Pie
 sed -i 's/about to delete/unable to delete/' pico/src/com/svox/pico/LangPackUninstaller.java;
 awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.java;
+fi;
 
-enterAndClear "frameworks/av";
+if enterAndClear "frameworks/av"; then
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_av/0001-HM_A2DP_Fix.patch"; fi; #(GrapheneOS)
+fi;
 
-enterAndClear "frameworks/base";
+if enterAndClear "frameworks/base"; then
 hardenLocationConf services/core/java/com/android/server/location/gps_debug.conf;
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i 's/DEFAULT_MAX_FILES_LOWRAM = 300;/DEFAULT_MAX_FILES_LOWRAM = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
@@ -110,117 +118,145 @@ if [ "$DOS_MICROG_INCLUDED" != "FULL" ]; then rm -rf packages/CompanionDeviceMan
 #sed -i '295i\        if(packageList != null && packageList.size() > 0) { packageList.add("net.sourceforge.opencamera"); }' core/java/android/hardware/Camera.java; #add Open Camera to aux camera whitelist XXX: needs testing, broke boot last time
 rm -rf packages/OsuLogin; #Automatic Wi-Fi connection non-sense
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
+fi;
 
 if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
-enterAndClear "frameworks/opt/net/ims";
+if enterAndClear "frameworks/opt/net/ims"; then
 patch -p1 < "$DOS_PATCHES/android_frameworks_opt_net_ims/0001-Fix_Calling.patch"; #Fix calling when IMS is removed
-fi
+fi;
+fi;
 
-enterAndClear "frameworks/opt/net/voip";
+if enterAndClear "frameworks/opt/net/voip"; then
 git pull "https://github.com/LineageOS/android_frameworks_opt_net_voip" refs/changes/91/313291/1; #Q_asb_2021-07
+fi;
 
-enterAndClear "hardware/qcom/display";
+if enterAndClear "hardware/qcom/display"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8084.patch" --directory msm8084;
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8916.patch" --directory msm8226;
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8960.patch" --directory msm8960;
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8974.patch" --directory msm8974;
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8994.patch" --directory msm8994;
 #TODO: missing msm8909, msm8996, msm8998, sdm845, sdm8150
+fi;
 
-enterAndClear "hardware/qcom-caf/apq8084/display";
+if enterAndClear "hardware/qcom-caf/apq8084/display"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-apq8084.patch";
+fi;
 
-enterAndClear "hardware/qcom-caf/msm8952/display";
+if enterAndClear "hardware/qcom-caf/msm8952/display"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8952.patch";
+fi;
 
-enterAndClear "hardware/qcom-caf/msm8960/display";
+if enterAndClear "hardware/qcom-caf/msm8960/display"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8960.patch";
+fi;
 
-enterAndClear "hardware/qcom-caf/msm8974/display";
+if enterAndClear "hardware/qcom-caf/msm8974/display"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8974.patch";
+fi;
 
-enterAndClear "hardware/qcom-caf/msm8994/display";
+if enterAndClear "hardware/qcom-caf/msm8994/display"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8994.patch";
+fi;
 
-enterAndClear "hardware/qcom-caf/msm8996/audio";
+if enterAndClear "hardware/qcom-caf/msm8996/audio"; then
 patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-8996.patch"; #audio_extn: Fix unused parameter warning in utils.c
+fi;
 
-enterAndClear "hardware/qcom-caf/msm8998/audio";
+if enterAndClear "hardware/qcom-caf/msm8998/audio"; then
 patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-8998.patch"; #audio_extn: Fix unused parameter warning in utils.c
+fi;
 
-enterAndClear "libcore";
+if enterAndClear "libcore"; then
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then patch -p1 < "$DOS_PATCHES/android_libcore/0001-Exec_Preload.patch"; fi; #add exec-based spawning support (GrapheneOS)
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then patch -p1 < "$DOS_PATCHES/android_libcore/0002-Exec_Based_Spawning.patch"; fi; #add exec-based spawning support (GrapheneOS)
+fi;
 
-enterAndClear "lineage-sdk";
+if enterAndClear "lineage-sdk"; then
 awk -i inplace '!/LineageWeatherManagerService/' lineage/res/res/values/config.xml; #Disable Weather
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi;
+fi;
 
-enterAndClear "packages/apps/Contacts";
+if enterAndClear "packages/apps/Contacts"; then
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links (GrapheneOS)
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Backup.patch"; #Backups are not sent to Google (GrapheneOS)
+fi;
 
-enterAndClear "packages/apps/Dialer";
+if enterAndClear "packages/apps/Dialer"; then
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Dialer/0001-Not_Private_Banner.patch"; #Add a privacy warning banner to calls (CalyxOS)
+fi;
 
-enterAndClear "packages/apps/LineageParts";
+if enterAndClear "packages/apps/LineageParts"; then
 rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of the analytics
 patch -p1 < "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytics.patch"; #Remove analytics
+fi;
 
-enterAndClear "packages/apps/Settings";
+if enterAndClear "packages/apps/Settings"; then
 git revert --no-edit 486980cfecce2ca64267f41462f9371486308e9d; #don't hide oem unlock
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/backup/PrivacySettingsUtils.java; fi; #microG doesn't support Backup, hide the options
+fi;
 
-enterAndClear "packages/apps/SetupWizard";
+if enterAndClear "packages/apps/SetupWizard"; then
 patch -p1 < "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove analytics
+fi;
 
-enterAndClear "packages/apps/Trebuchet";
+if enterAndClear "packages/apps/Trebuchet"; then
 cp $DOS_BUILD_BASE/vendor/divested/overlay/common/packages/apps/Trebuchet/res/xml/default_workspace_*.xml res/xml/; #XXX: Likely no longer needed
+fi;
 
-enterAndClear "packages/apps/Updater";
+if enterAndClear "packages/apps/Updater"; then
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Updater/0002-Tor_Support.patch"; #Add Tor support
 sed -i 's/PROP_BUILD_VERSION_INCREMENTAL);/PROP_BUILD_VERSION_INCREMENTAL).replaceAll("\\\\.", "");/' src/org/lineageos/updater/misc/Utils.java; #Remove periods from incremental version
 #TODO: Remove changelog
+fi;
 
-enterAndClear "packages/inputmethods/LatinIME";
+if enterAndClear "packages/inputmethods/LatinIME"; then
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
+fi;
 
-enterAndClear "packages/modules/NetworkStack";
+if enterAndClear "packages/modules/NetworkStack"; then
 git pull "https://github.com/LineageOS/android_packages_modules_NetworkStack" refs/changes/01/313301/1; #Q_asb_2021-07
+fi;
 
-#enterAndClear "packages/services/Telephony";
+#if enterAndClear "packages/services/Telephony"; then
 #patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch"; #XXX 17REBASE
 #patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch"; #XXX 17REBASE
+#fi;
 
-enterAndClear "system/core";
+if enterAndClear "system/core"; then
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert --no-edit 3032c7aa5ce90c0ae9c08fe271052c6e0304a1e7 01266f589e6deaef30b782531ae14435cdd2f18e; #insanity
 git revert --no-edit bd4142eab8b3cead0c25a2e660b4b048d1315d3c; #Always update recovery
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysctl changes (GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then patch -p1 < "$DOS_PATCHES/android_system_core/0002-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
+fi;
 
-enterAndClear "system/extras";
+if enterAndClear "system/extras"; then
 patch -p1 < "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #FBE: pad filenames more (GrapheneOS)
+fi;
 
-enterAndClear "system/libfmq";
+if enterAndClear "system/libfmq"; then
 git pull "https://github.com/LineageOS/android_system_libfmq" refs/changes/03/313303/1; #Q_asb_2021-07
+fi;
 
-enterAndClear "system/sepolicy";
+if enterAndClear "system/sepolicy"; then
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/29.0";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/28.0";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/27.0";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/26.0";
 awk -i inplace '!/true cannot be used in user builds/' Android.mk; #Allow ignoring neverallows under -user
+fi;
 
-enterAndClear "system/update_engine";
+if enterAndClear "system/update_engine"; then
 git revert --no-edit c68499e3ff10f2a31f913e14f66aafb4ed94d42d; #Do not skip payload signature verification
+fi;
 
-enterAndClear "vendor/lineage";
+if enterAndClear "vendor/lineage"; then
 rm build/target/product/security/lineage.x509.pem;
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
 rm -rf overlay/common/frameworks/base/core/res/res/drawable-*/default_wallpaper.png;
@@ -236,12 +272,14 @@ if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/LINEAGE_BUILDTYP
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
 cp -f "$DOS_PATCHES_COMMON/apns-conf.xml" prebuilt/common/etc/apns-conf.xml; #Update APN list
 sed -i 's/messaging/Silence/' config/telephony.mk; #Switch to Silence
+fi;
 
-enter "vendor/divested";
+if enter "vendor/divested"; then
 awk -i inplace '!/EtarPrebuilt/' packages.mk; #lineage-17.1 calendar is Etar fork
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi;
 if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi;
 echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All of our kernels have deny USB patch added
+fi;
 #
 #END OF ROM CHANGES
 #
@@ -249,23 +287,28 @@ echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #All
 #
 #START OF DEVICE CHANGES
 #
-enterAndClear "device/cyanogen/msm8916-common";
+if enterAndClear "device/cyanogen/msm8916-common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
+fi;
 
-enterAndClear "device/fairphone/FP3";
+if enterAndClear "device/fairphone/FP3"; then
 enableVerity; #Resurrect dm-verity
+fi;
 
-enterAndClear "device/google/bonito";
+if enterAndClear "device/google/bonito"; then
 enableVerity; #Resurrect dm-verity
 awk -i inplace '!/INODE_COUNT/' BoardConfig-lineage.mk; #mke2fs -1 incompatibility (?)
+fi;
 
-enterAndClear "device/google/marlin";
+if enterAndClear "device/google/marlin"; then
 git revert --no-edit 777dafa35f185b1f501e3c80b8ab495191583444; #remove some carrier blobs
+fi;
 
-enterAndClear "device/htc/m8-common";
+if enterAndClear "device/htc/m8-common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
+fi;
 
-enterAndClear "device/motorola/clark";
+if enterAndClear "device/motorola/clark"; then
 echo "recovery_only('" >> sepolicy/recovery.te; #304224: Allow recovery to unzip and chmod modem firmware
 echo "  allow firmware_file labeledfs:filesystem associate;" >> sepolicy/recovery.te;
 echo "  allow recovery firmware_file:dir search;" >> sepolicy/recovery.te;
@@ -273,11 +316,13 @@ echo "  allow recovery firmware_file:file { open write };" >> sepolicy/recovery.
 echo "')" >> sepolicy/recovery.te;
 #sed -i '2isetenforce 0' releasetools/extract_firmware.sh;
 #echo "setenforce 1" >> releasetools/extract_firmware.sh;
+fi;
 
-enterAndClear "device/oneplus/avicii";
+if enterAndClear "device/oneplus/avicii"; then
 enableVerity; #Resurrect dm-verity
+fi;
 
-enterAndClear "device/oneplus/oneplus2";
+if enterAndClear "device/oneplus/oneplus2"; then
 sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt;
 echo "allow mm-qcamerad camera_data_file:file create_file_perms;" >> sepolicy/mm-qcamerad.te; #Likely some of these could be removed
 echo "allow mm-qcamerad node:tcp_socket node_bind;" >> sepolicy/mm-qcamerad.te;
@@ -286,18 +331,23 @@ echo "allow mm-qcamerad self:tcp_socket { accept listen };" >> sepolicy/mm-qcame
 echo "allow mm-qcamerad self:tcp_socket { bind create setopt };" >> sepolicy/mm-qcamerad.te;
 echo "allow mm-qcamerad camera_prop:file read;" >> sepolicy/mm-qcamerad.te;
 echo "set_prop(mm-qcamerad, camera_prop)" >> sepolicy/mm-qcamerad.te;
+fi;
 
-enterAndClear "device/oneplus/sm8150-common";
+if enterAndClear "device/oneplus/sm8150-common"; then
 enableVerity; #Resurrect dm-verity
+fi;
 
-enterAndClear "device/oppo/common";
+if enterAndClear "device/oppo/common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
+fi;
 
-enterAndClear "device/zuk/msm8996-common";
+if enterAndClear "device/zuk/msm8996-common"; then
 awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
+fi;
 
-enterAndClear "kernel/google/marlin";
+if enterAndClear "kernel/google/marlin"; then
 git revert --no-edit dd4a454f080f60cc7c4f5cc281a48cba80947baf; #Resurrect dm-verity
+fi;
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";

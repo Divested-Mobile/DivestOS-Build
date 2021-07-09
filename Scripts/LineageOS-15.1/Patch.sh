@@ -51,38 +51,45 @@ gpgVerifyDirectory "$DOS_PREBUILT_APPS""android_vendor_FDroid_PrebuiltApps/packa
 cp -r "$DOS_PREBUILT_APPS""android_vendor_FDroid_PrebuiltApps/." "$DOS_BUILD_BASE""vendor/fdroid_prebuilt/"; #Add the prebuilt apps
 cp -r "$DOS_PATCHES_COMMON""android_vendor_divested/." "$DOS_BUILD_BASE""vendor/divested/"; #Add our vendor files
 
-enterAndClear "bootable/recovery";
+if enterAndClear "bootable/recovery"; then
 git revert --no-edit eb98fde70a6e54a25408eb8c626caecf7841c5df; #remove sideload cache, breaks with large files
 git revert --no-edit ac258a4f4c4b4b91640cc477ad1ac125f206db02; #Resurrect dm-verity
 sed -i 's/!= 2048/< 2048/' tools/dumpkey/DumpPublicKey.java; #Allow 4096-bit keys
 sed -i 's/(!has_serial_number || serial_number_matched)/!has_serial_number/' recovery.cpp; #Abort on serial number specific packages (GrapheneOS)
+fi;
 
-enterAndClear "build/make";
+if enterAndClear "build/make"; then
 patch -p1 < "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #add correct keys to recovery for OTA verification
 patch -p1 < "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
 sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/treble_common.mk; #Switch to Silence
+fi;
 
-enterAndClear "build/soong";
+if enterAndClear "build/soong"; then
 patch -p1 < "$DOS_PATCHES/android_build_soong/0001-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
+fi;
 
-enterAndClear "device/lineage/sepolicy";
+if enterAndClear "device/lineage/sepolicy"; then
 git revert --no-edit 9c28a0dfb91bb468515e123b1aaf3fcfc007b82f; #neverallow violation - breaks backuptool
 git revert --no-edit f1ad32105599a0b71702f840b2deeb6849f1ae80; #neverallow violation - breaks addons
 git revert --no-edit c9b0d95630b82cd0ad1a0fc633c6d59c2cb8aad7 37422f7df389f3ae5a34ee3d6dd9354217f9c536; #neverallow violation - breaks update_engine
-
-enterAndClear "device/qcom/sepolicy";
-patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
-
-if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then
-enterAndClear "external/chromium-webview";
-DOS_WEBVIEW_CHERRYPICK; #update webview
 fi;
 
-enterAndClear "external/svox";
-git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
+if enterAndClear "device/qcom/sepolicy"; then
+patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH
+fi;
 
-enterAndClear "frameworks/base";
+if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then
+if enterAndClear "external/chromium-webview"; then
+DOS_WEBVIEW_CHERRYPICK; #update webview
+fi;
+fi;
+
+if enterAndClear "external/svox"; then
+git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
+fi;
+
+if enterAndClear "frameworks/base"; then
 hardenLocationFWB "$DOS_BUILD_BASE";
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
 sed -i 's/DEFAULT_MAX_FILES_LOWRAM = 300;/DEFAULT_MAX_FILES_LOWRAM = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
@@ -101,106 +108,130 @@ patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockou
 if [ "$DOS_MICROG_INCLUDED" != "FULL" ]; then rm -rf packages/CompanionDeviceManager; fi; #Used to support Android Wear (which hard depends on GMS)
 rm -rf packages/Osu packages/Osu2; #Automatic Wi-Fi connection non-sense
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
+fi;
 
 if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
-enterAndClear "frameworks/opt/net/ims";
+if enterAndClear "frameworks/opt/net/ims"; then
 patch -p1 < "$DOS_PATCHES/android_frameworks_opt_net_ims/0001-Fix_Calling.patch"; #Fix calling when IMS is removed
-fi
+fi;
+fi;
 
-enterAndClear "frameworks/opt/net/wifi";
+if enterAndClear "frameworks/opt/net/wifi"; then
 #Fix an issue when permision review is enabled that prevents using the Wi-Fi quick tile (AndroidHardening)
 #See https://github.com/AndroidHardening/platform_frameworks_opt_net_wifi/commit/c2a2f077a902226093b25c563e0117e923c7495b
 sed -i 's/boolean mPermissionReviewRequired/boolean mPermissionReviewRequired = false/' service/java/com/android/server/wifi/WifiServiceImpl.java;
 awk -i inplace '!/mPermissionReviewRequired = Build.PERMISSIONS_REVIEW_REQUIRED/' service/java/com/android/server/wifi/WifiServiceImpl.java;
 awk -i inplace '!/\|\| context.getResources\(\).getBoolean\(/' service/java/com/android/server/wifi/WifiServiceImpl.java;
 awk -i inplace '!/com.android.internal.R.bool.config_permissionReviewRequired/' service/java/com/android/server/wifi/WifiServiceImpl.java;
+fi;
 
-enterAndClear "hardware/qcom/display";
+if enterAndClear "hardware/qcom/display"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8084.patch" --directory msm8084;
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8916.patch" --directory msm8226;
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8960.patch" --directory msm8960;
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8974.patch" --directory msm8974;
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8994.patch" --directory msm8994;
 #TODO: missing msm8909, msm8996, msm8998, sdm845
+fi;
 
-enterAndClear "hardware/qcom/display-caf/apq8084";
+if enterAndClear "hardware/qcom/display-caf/apq8084"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-apq8084.patch";
+fi;
 
-enterAndClear "hardware/qcom/display-caf/msm8916";
+if enterAndClear "hardware/qcom/display-caf/msm8916"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8916.patch";
+fi;
 
-enterAndClear "hardware/qcom/display-caf/msm8952";
+if enterAndClear "hardware/qcom/display-caf/msm8952"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8952.patch";
+fi;
 
-enterAndClear "hardware/qcom/display-caf/msm8960";
+if enterAndClear "hardware/qcom/display-caf/msm8960"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8960.patch";
+fi;
 
-enterAndClear "hardware/qcom/display-caf/msm8974";
+if enterAndClear "hardware/qcom/display-caf/msm8974"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8974.patch";
+fi;
 
-enterAndClear "hardware/qcom/display-caf/msm8994";
+if enterAndClear "hardware/qcom/display-caf/msm8994"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8994.patch";
+fi;
 
-enterAndClear "hardware/qcom/gps";
+if enterAndClear "hardware/qcom/gps"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_gps/0001-rollover.patch"; #fix week rollover
+fi;
 
-enterAndClear "lineage-sdk";
+if enterAndClear "lineage-sdk"; then
 awk -i inplace '!/WeatherManagerServiceBroker/' lineage/res/res/values/config.xml; #Disable Weather
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi;
+fi;
 
-enterAndClear "packages/apps/Contacts";
+if enterAndClear "packages/apps/Contacts"; then
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links (GrapheneOS)
+fi;
 
-enterAndClear "packages/apps/LineageParts";
+if enterAndClear "packages/apps/LineageParts"; then
 rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of the analytics
 patch -p1 < "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytics.patch"; #Remove analytics
+fi;
 
-enterAndClear "packages/apps/Settings";
+if enterAndClear "packages/apps/Settings"; then
 git revert --no-edit a96df110e84123fe1273bff54feca3b4ca484dcd; #don't hide oem unlock
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe)
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0004-PDB_Fixes.patch"; #Fix crashes when the PersistentDataBlockManager service isn't available XXX: This might be broken!
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
+fi;
 
-enterAndClear "packages/apps/SetupWizard";
+if enterAndClear "packages/apps/SetupWizard"; then
 patch -p1 < "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove analytics
+fi;
 
-enterAndClear "packages/apps/Updater";
+if enterAndClear "packages/apps/Updater"; then
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Updater/0002-Tor_Support.patch"; #Add Tor support
 #TODO: Remove changelog
+fi;
 
-enterAndClear "packages/apps/WallpaperPicker";
+if enterAndClear "packages/apps/WallpaperPicker"; then
 #TODO: Add back wallpapers
 sed -i 's/req.touchEnabled = touchEnabled;/req.touchEnabled = true;/' src/com/android/wallpaperpicker/WallpaperCropActivity.java; #Allow scrolling
 sed -i 's/mCropView.setTouchEnabled(req.touchEnabled);/mCropView.setTouchEnabled(true);/' src/com/android/wallpaperpicker/WallpaperCropActivity.java;
 sed -i 's/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0);/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0.5f);/' src/com/android/wallpaperpicker/WallpaperPickerActivity.java; #Center aligned by default
+fi;
 
-enterAndClear "packages/inputmethods/LatinIME";
+if enterAndClear "packages/inputmethods/LatinIME"; then
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
+fi;
 
-enterAndClear "packages/providers/MediaProvider";
+if enterAndClear "packages/providers/MediaProvider"; then
 patch -p1 < "$DOS_PATCHES/android_packages_providers_MediaProvider/0001-External_Permission.patch"; #Fix permission denial
+fi;
 
-enterAndClear "packages/services/Telephony";
+if enterAndClear "packages/services/Telephony"; then
 patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch";
 patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
+fi;
 
-enterAndClear "system/core";
+if enterAndClear "system/core"; then
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert --no-edit a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4; #Always update recovery
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysctl changes (GrapheneOS)
+fi;
 
-enterAndClear "system/sepolicy";
+if enterAndClear "system/sepolicy"; then
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/26.0";
+fi;
 
-enterAndClear "system/vold";
+if enterAndClear "system/vold"; then
 patch -p1 < "$DOS_PATCHES/android_system_vold/0001-AES256.patch"; #Add a variable for enabling AES-256 bit encryption
+fi;
 
-enterAndClear "vendor/lineage";
+if enterAndClear "vendor/lineage"; then
 rm build/target/product/security/lineage.x509.pem;
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
 rm -rf verity_tool; #Resurrect dm-verity
@@ -217,10 +248,12 @@ if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/LINEAGE_BUILDTYP
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
 cp -f "$DOS_PATCHES_COMMON/apns-conf.xml" prebuilt/common/etc/apns-conf.xml; #Update APN list
 sed -i 's/messaging/Silence/' config/telephony.mk; #Switch to Silence
+fi;
 
-enter "vendor/divested";
+if enter "vendor/divested"; then
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi;
 if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi;
+fi;
 #
 #END OF ROM CHANGES
 #
@@ -228,21 +261,26 @@ if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_
 #
 #START OF DEVICE CHANGES
 #
-enterAndClear "device/asus/flo";
+if enterAndClear "device/asus/flo"; then
 compressRamdisks;
 echo "/dev/block/platform/msm_sdcc\.1/by-name/misc u:object_r:misc_block_device:s0" >> sepolicy/file_contexts;
+fi;
 
-enterAndClear "device/asus/msm8916-common";
+if enterAndClear "device/asus/msm8916-common"; then
 rm -rf Android.bp sensors; #exact duplicate in asus/flo #XXX be careful with this
+fi;
 
-enterAndClear "device/lge/msm8996-common";
+if enterAndClear "device/lge/msm8996-common"; then
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
+fi;
 
-enterAndClear "device/oneplus/oneplus2";
+if enterAndClear "device/oneplus/oneplus2"; then
 sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt; #Fix outdated path
+fi;
 
-#enterAndClear "device/moto/shamu";
+#if enterAndClear "device/moto/shamu"; then
 #git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
+#fi;
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";

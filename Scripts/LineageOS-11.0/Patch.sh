@@ -58,38 +58,45 @@ cp -r "$DOS_PATCHES_COMMON""android_vendor_divested/." "$DOS_BUILD_BASE""vendor/
 sed -i 's/LOCAL_DEX_PREOPT := false/LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)/' packages/apps/Fennec_DOS-Shim/Android.mk;
 sed -i 's/LOCAL_DEX_PREOPT := false/LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)/' vendor/fdroid_prebuilt/Android.mk;
 
-enterAndClear "build";
+if enterAndClear "build"; then
 sed -i 's/Mms/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
 sed -i '497i$(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/base_rules.mk;
 sed -i '80iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package.mk;
+fi;
 
-enterAndClear "external/bluetooth/bluedroid";
+if enterAndClear "external/bluetooth/bluedroid"; then
 patch -p1 < "$DOS_PATCHES/android_external_bluetooth_bluedroid/251199.patch"; #asb-2019.12-cm11
 patch -p1 < "$DOS_PATCHES/android_external_bluetooth_bluedroid/265361.patch"; #asb-2019.12-cm11
 patch -p1 < "$DOS_PATCHES/android_external_bluetooth_bluedroid/265493.patch"; #asb-2019.12-cm11
 patch -p1 < "$DOS_PATCHES/android_external_bluetooth_bluedroid/265494.patch"; #asb-2019.12-cm11
+fi;
 
-enterAndClear "external/libnfc-nci";
+if enterAndClear "external/libnfc-nci"; then
 patch -p1 < "$DOS_PATCHES/android_external_libnfc-nci/258164.patch"; #asb-2019.09-cm11
 patch -p1 < "$DOS_PATCHES/android_external_libnfc-nci/258165.patch"; #asb-2019.09-cm11
 patch -p1 < "$DOS_PATCHES/android_external_libnfc-nci/264094.patch"; #asb-2019.11-cm11
 patch -p1 < "$DOS_PATCHES/android_external_libnfc-nci/264097.patch"; #asb-2019.11-cm11
+fi;
 
-enterAndClear "external/libvpx";
+if enterAndClear "external/libvpx"; then
 patch -p1 < "$DOS_PATCHES/android_external_libvpx/253499.patch"; #asb-2019.08-cm11
 patch -p1 < "$DOS_PATCHES/android_external_libvpx/253500.patch"; #asb-2019.08-cm11
+fi;
 
-enterAndClear "external/sfntly";
+if enterAndClear "external/sfntly"; then
 patch -p1 < "$DOS_PATCHES/android_external_sfntly/251198.patch"; #asb-2019.07-cm11
+fi;
 
-enterAndClear "external/skia";
+if enterAndClear "external/skia"; then
 patch -p1 < "$DOS_PATCHES/android_external_skia/249705.patch"; #asb-2019.06-cm11
+fi;
 
-enterAndClear "external/sqlite";
+if enterAndClear "external/sqlite"; then
 patch -p1 < "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (AndroidHardening-13.0)
 patch -p1 < "$DOS_PATCHES/android_external_sqlite/263910.patch"; #asb-2019.11-cm11
+fi;
 
-enterAndClear "frameworks/av";
+if enterAndClear "frameworks/av"; then
 patch -p1 < "$DOS_PATCHES/android_frameworks_av/247874.patch"; #asb-2019.06-cm11
 patch -p1 < "$DOS_PATCHES/android_frameworks_av/249706.patch"; #asb-2019.07-cm11
 patch -p1 < "$DOS_PATCHES/android_frameworks_av/249707.patch"; #asb-2019.07-cm11
@@ -97,8 +104,9 @@ patch -p1 < "$DOS_PATCHES/android_frameworks_av/253521.patch"; #asb-2019.08-cm11
 patch -p1 < "$DOS_PATCHES/android_frameworks_av/253522.patch"; #asb-2019.08-cm11
 patch -p1 < "$DOS_PATCHES/android_frameworks_av/261040.patch"; #asb-2019.10-cm11
 patch -p1 < "$DOS_PATCHES/android_frameworks_av/261041.patch"; #asb-2019.10-cm11
+fi;
 
-enterAndClear "frameworks/base";
+if enterAndClear "frameworks/base"; then
 hardenLocationFWB "$DOS_BUILD_BASE";
 sed -i 's/com.android.mms/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
 sed -i 's|db_default_journal_mode">PERSIST|db_default_journal_mode">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
@@ -111,30 +119,37 @@ patch -p1 < "$DOS_PATCHES/android_frameworks_base/265311.patch"; #asb-2019.12-cm
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/267438.patch"; #asb-2020.01-cm11
 changeDefaultDNS;
 #patch -p1 < "$DOS_PATCHES/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries #TODO BACKPORT-11.0
+fi;
 
-enterAndClear "frameworks/native";
+if enterAndClear "frameworks/native"; then
 patch -p1 < "$DOS_PATCHES/android_frameworks_native/253524.patch"; #asb-2019.08-cm11
 patch -p1 < "$DOS_PATCHES/android_frameworks_native/256319.patch"; #asb-2019.09-cm11
 patch -p1 < "$DOS_PATCHES/android_frameworks_native/256322.patch"; #asb-2019.09-cm11
+fi;
 
-enterAndClear "packages/apps/Bluetooth";
+if enterAndClear "packages/apps/Bluetooth"; then
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Bluetooth/264098.patch"; #asb-2019.11-cm11
+fi;
 
-enterAndClear "packages/apps/Dialer";
+if enterAndClear "packages/apps/Dialer"; then
 rm -rf src/com/android/dialer/cmstats;
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Dialer/0001-Remove_Analytics.patch"; #Remove CMStats
+fi;
 
-enterAndClear "packages/apps/Email";
+if enterAndClear "packages/apps/Email"; then
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Email/253862.patch"; #asb-2019.08-cm11
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Email/256927.patch"; #asb-2019.09-cm11
+fi;
 
-enterAndClear "packages/apps/InCallUI";
+if enterAndClear "packages/apps/InCallUI"; then
 patch -p1 < "$DOS_PATCHES/android_packages_apps_InCallUI/0001-Remove_Analytics.patch"; #Remove CMStats
+fi;
 
-enterAndClear "packages/apps/Nfc";
+if enterAndClear "packages/apps/Nfc"; then
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Nfc/261042.patch"; #asb-2019.10-cm11
+fi;
 
-enterAndClear "packages/apps/Settings";
+if enterAndClear "packages/apps/Settings"; then
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
 rm -rf src/com/android/settings/cmstats res/xml/security_settings_cyanogenmod.xml; #Nuke part of CMStats
@@ -142,20 +157,24 @@ patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0001-Remove_Analytics.p
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/230054.patch"; #ASB disclaimer
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/230392.patch"; #ASB disclaimer translations
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/248015.patch"; #asb-2019.05-cm11
+fi;
 
-enterAndClear "packages/apps/Trebuchet";
+if enterAndClear "packages/apps/Trebuchet"; then
 #cp -r "$DOS_PATCHES_COMMON/android_packages_apps_Trebuchet/default_workspace/." "res/xml/"; #TODO BACKPORT-11.0
 sed -i 's/mCropView.setTouchEnabled(touchEnabled);/mCropView.setTouchEnabled(true);/' WallpaperPicker/src/com/android/launcher3/WallpaperCropActivity.java;
+fi;
 
-enterAndClear "packages/apps/UnifiedEmail";
+if enterAndClear "packages/apps/UnifiedEmail"; then
 patch -p1 < "$DOS_PATCHES/android_packages_apps_UnifiedEmail/253861.patch"; #asb-2019.08-cm11
+fi;
 
-enterAndClear "system/core";
+if enterAndClear "system/core"; then
 sed -i 's/!= 2048/< 2048/' libmincrypt/tools/DumpPublicKey.java; #Allow 4096-bit keys
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden_Mounts.patch"; #Harden mounts with nodev/noexec/nosuid (AndroidHardening-13.0)
+fi;
 
-enterAndClear "vendor/cm";
+if enterAndClear "vendor/cm"; then
 rm -rf terminal;
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
@@ -166,11 +185,13 @@ sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Ch
 if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/CM_BUILDTYPE := dos/CM_BUILDTYPE := dosNC/' config/common.mk; fi;
 sed -i 's/Mms/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
+fi;
 
-enter "vendor/divested";
+if enter "vendor/divested"; then
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi;
 if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi;
 awk -i inplace '!/FairEmail/' packages.mk; #FairEmail requires 5.0+
+fi;
 #
 #END OF ROM CHANGES
 #
@@ -178,7 +199,7 @@ awk -i inplace '!/FairEmail/' packages.mk; #FairEmail requires 5.0+
 #
 #START OF DEVICE CHANGES
 #
-enterAndClear "device/zte/nex"
+if enterAndClear "device/zte/nex" then
 mv cm.mk lineage.mk;
 sed -i 's/cm_/lineage_/' lineage.mk vendorsetup.sh;
 echo "TARGET_DISPLAY_USE_RETIRE_FENCE := true" >> BoardConfig.mk;
@@ -188,9 +209,11 @@ awk -i inplace '!/WCNSS_qcom_wlan_nv_2.bin/' proprietary-files.txt; #Missing
 #echo "lib/hw/camera.msm8960.so" >> proprietary-files.txt;
 #In nex-vendor-blobs.mk
 #	Copy "system/lib/libtime_genoff.so" as "obj/lib/libtime_genoff.so"
+fi;
 
-enterAndClear "kernel/zte/msm8930"
+if enterAndClear "kernel/zte/msm8930" then
 patch -p1 < "$DOS_PATCHES/android_kernel_zte_msm8930/0001-MDP-Fix.patch";
+fi;
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
@@ -203,6 +226,7 @@ find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {}
 find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenDefconfig "{}"';
 cd "$DOS_BUILD_BASE";
 deblobAudio;
+removeBuildFingerprints;
 
 #Fixes
 #Fix broken options enabled by hardenDefconfig()

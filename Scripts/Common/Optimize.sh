@@ -20,7 +20,7 @@
 
 echo "Optimizing...";
 
-enter "frameworks/base";
+if enter "frameworks/base"; then
 sed -i 's/ScaleSetting = 1.0f;/ScaleSetting = 0.5f;/' services/java/com/android/server/wm/WindowManagerService.java &>/dev/null || true;
 sed -i 's/AnimationScale = 1.0f;/AnimationScale = 0.5f;/' services/java/com/android/server/wm/WindowManagerService.java &>/dev/null || true;
 sed -i 's/DurationnScale = 1.0f;/DurationScale = 0.5f;/' services/java/com/android/server/wm/WindowManagerService.java &>/dev/null || true;
@@ -28,9 +28,11 @@ sed -i 's/ScaleSetting = 1.0f;/ScaleSetting = 0.5f;/' services/core/java/com/and
 sed -i 's/AnimationScale = 1.0f;/AnimationScale = 0.5f;/' services/core/java/com/android/server/wm/WindowManagerService.java &>/dev/null || true;
 sed -i 's/DurationnScale = 1.0f;/DurationScale = 0.5f;/' services/core/java/com/android/server/wm/WindowManagerService.java &>/dev/null || true;
 #sed -i 's|||'
+fi;
 
-enter "kernel"
+if enter "kernel"; then
 sed -i "s/#define VM_MAX_READAHEAD\t128/#define VM_MAX_READAHEAD\t512/" ./*/*/include/linux/mm.h; #Lee Susman <lsusman@codeaurora.org>: Change the VM_MAX_READAHEAD value from the default 128KB to 512KB. This will allow the readahead window to grow to a maximum size of 512KB, which greatly benefits to sequential read throughput.
+fi;
 
 cd "$DOS_BUILD_BASE";
 echo "Optimizing complete!";

@@ -20,31 +20,37 @@
 
 echo "Rebranding...";
 
-enter "bootable/recovery-cm";
+if enter "bootable/recovery-cm"; then
 sed -i 's|CyanogenMod Simple Recovery|'"$DOS_BRANDING_NAME"' Recovery|' ./recovery.cpp;
+fi;
 
-enter "build";
+if enter "build"; then
 sed -i 's|echo "ro.build.user=$USER"|echo "ro.build.user=emy"|' tools/buildinfo.sh; #Override build user
 sed -i 's|echo "ro.build.host=`hostname`"|echo "ro.build.host=dosbm"|' tools/buildinfo.sh; #Override build host
 sed -i '/CM_TARGET_PACKAGE/s/lineage/'"$DOS_BRANDING_ZIP_PREFIX"'/' core/Makefile;
+fi;
 
-enter "frameworks/base";
+if enter "frameworks/base"; then
 generateBootAnimationMask "$DOS_BRANDING_NAME" "$DOS_BRANDING_BOOTANIMATION_FONT" core/res/assets/images/android-logo-mask.png;
 generateBootAnimationShine "$DOS_BRANDING_BOOTANIMATION_COLOR" "$DOS_BRANDING_BOOTANIMATION_STYLE" core/res/assets/images/android-logo-shine.png;
+fi;
 
-enter "packages/apps/Settings";
+if enter "packages/apps/Settings"; then
 sed -i '/.*cmlicense_title/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/cm_strings.xml
 sed -i '/.*cmlicense_activity_title/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/cm_strings.xml
 sed -i '/.*cmupdate_settings_title/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/cm_strings.xml
 sed -i '/.*mod_version/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/cm_strings.xml
 sed -i '/.*privacy_settings_cyanogenmod_category/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/cm_strings.xml
+fi;
 
-enter "packages/apps/CMUpdater";
+if enter "packages/apps/CMUpdater"; then
 sed -i 's|https://download.cyanogenmod.org/api|'"$DOS_BRANDING_SERVER_OTA"'|' res/values/config.xml;
+fi;
 
-enter "vendor/cm";
+if enter "vendor/cm"; then
 sed -i 's|https://lineageos.org/legal|'"$DOS_BRANDING_LINK_ABOUT"'|' config/common.mk;
 rm -rf bootanimation;
+fi;
 
 cd "$DOS_BUILD_BASE";
 echo "Rebranding complete!";
