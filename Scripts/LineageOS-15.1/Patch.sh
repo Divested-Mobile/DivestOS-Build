@@ -125,6 +125,10 @@ awk -i inplace '!/\|\| context.getResources\(\).getBoolean\(/' service/java/com/
 awk -i inplace '!/com.android.internal.R.bool.config_permissionReviewRequired/' service/java/com/android/server/wifi/WifiServiceImpl.java;
 fi;
 
+if enterAndClear "frameworks/opt/net/voip"; then
+git pull "https://github.com/LineageOS/android_frameworks_opt_net_voip" refs/changes/47/313347/1; #O_asb_2021-07
+fi;
+
 if enterAndClear "hardware/qcom/display"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8084.patch" --directory msm8084;
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8916.patch" --directory msm8226;
@@ -220,6 +224,10 @@ if enterAndClear "system/core"; then
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert --no-edit a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4; #Always update recovery
 patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysctl changes (GrapheneOS)
+fi;
+
+if enterAndClear "system/libfmq"; then
+git pull "https://github.com/LineageOS/android_system_libfmq" refs/changes/57/313357/1; #O_asb_2021-07
 fi;
 
 if enterAndClear "system/sepolicy"; then
