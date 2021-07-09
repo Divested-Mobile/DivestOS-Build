@@ -99,6 +99,7 @@ patchWorkspace() {
 	repopick -ift n_asb_09-2018-qcom; #TODO: move in tree
 	#repopick -it bt-sbc-hd-dualchannel-nougat;
 	repopick -it n-asb-2021-06;
+	repopick -it n-asb-2021-07;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";

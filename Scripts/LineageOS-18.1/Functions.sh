@@ -56,7 +56,7 @@ buildAll() {
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SDS4P
 	buildDevice flox;
-	buildDevice mako; #broken radio
+	buildDevice mako;
 	#SD400
 	buildDevice serrano3gxx; #unb
 	buildDevice serranoltexx; #unb
@@ -111,6 +111,7 @@ patchWorkspace() {
 
 	#source build/envsetup.sh;
 	#repopick -i 312861; #recorder intent improvement
+	#repopick -it android-11.0.0_r39;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
