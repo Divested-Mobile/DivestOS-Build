@@ -96,7 +96,6 @@ patchWorkspace() {
 	umask 0022;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
 	source build/envsetup.sh;
-	repopick -ift n_asb_09-2018-qcom; #TODO: move in tree
 	#repopick -it bt-sbc-hd-dualchannel-nougat;
 	repopick -it n-asb-2021-06;
 	repopick -it n-asb-2021-07;

@@ -1,0 +1,192 @@
+From 742cf6ad5c74b71063af755b7ef7df2a3a2f19a3 Mon Sep 17 00:00:00 2001
+From: Santhosh Behara <santhoshbehara@codeaurora.org>
+Date: Tue, 15 May 2018 06:09:50 -0700
+Subject: [PATCH] mm-video-v4l2: Protect buffer access and increase input
+ buffer size
+
+Protect buffer access for below scenarios:
+
+*Increase the scope of buf_lock in free_buffer to avoid access
+ of freed buffer for both input and output buffers. Also, add check
+ before output buffer access.
+
+*Disallow allocate buffer mode after client has called use buffer.
+
+Allocate additional 512 bytes of memory for input buffers on top of
+allocation size as per hardware requirement.
+
+Bug: 64340487
+Test: ran POC on bullhead/nyc-dev
+Change-Id: Iabbb2d7e00ff97bfc47b04386feec66976fca99a
+(cherry picked from commit 83aeab22d1bdc493b3ea2f50616bb8fd460d6c74)
+---
+ mm-video-v4l2/vidc/vdec/inc/omx_vdec.h        |  3 +-
+ .../vidc/vdec/src/omx_vdec_msm8974.cpp        | 34 +++++++++++++++----
+ 2 files changed, 29 insertions(+), 8 deletions(-)
+
+diff --git a/mm-video-v4l2/vidc/vdec/inc/omx_vdec.h b/mm-video-v4l2/vidc/vdec/inc/omx_vdec.h
+index 59f81a7c4..a34675507 100644
+--- a/mm-video-v4l2/vidc/vdec/inc/omx_vdec.h
++++ b/mm-video-v4l2/vidc/vdec/inc/omx_vdec.h
+@@ -1,5 +1,5 @@
+ /*--------------------------------------------------------------------------
+-Copyright (c) 2010 - 2015, The Linux Foundation. All rights reserved.
++Copyright (c) 2010 - 2015, 2018, The Linux Foundation. All rights reserved.
+ 
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions
+@@ -1171,6 +1171,7 @@ class omx_vdec: public qc_omx_component
+                 }
+         };
+         client_extradata_info m_client_extradata_info;
++        bool m_buffer_error;
+ };
+ 
+ #ifdef _MSM8974_
+diff --git a/mm-video-v4l2/vidc/vdec/src/omx_vdec_msm8974.cpp b/mm-video-v4l2/vidc/vdec/src/omx_vdec_msm8974.cpp
+index d1311f6ce..11b882aac 100644
+--- a/mm-video-v4l2/vidc/vdec/src/omx_vdec_msm8974.cpp
++++ b/mm-video-v4l2/vidc/vdec/src/omx_vdec_msm8974.cpp
+@@ -1,5 +1,5 @@
+ /*--------------------------------------------------------------------------
+-Copyright (c) 2010 - 2015, The Linux Foundation. All rights reserved.
++Copyright (c) 2010 - 2015, 2018, The Linux Foundation. All rights reserved.
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+@@ -596,7 +596,8 @@ omx_vdec::omx_vdec(): m_error_propogated(false),
+     stereo_output_mode(HAL_NO_3D),
+     m_last_rendered_TS(-1),
+     m_queued_codec_config_count(0),
+-    secure_scaling_to_non_secure_opb(false)
++    secure_scaling_to_non_secure_opb(false),
++    m_buffer_error(false)
+ {
+     /* Assumption is that , to begin with , we have all the frames with decoder */
+     DEBUG_PRINT_HIGH("In %u bit OMX vdec Constructor", (unsigned int)sizeof(long) * 8);
+@@ -4753,6 +4754,7 @@ OMX_ERRORTYPE  omx_vdec::use_output_buffer(
+         eRet = allocate_output_headers();
+         if (eRet == OMX_ErrorNone)
+             eRet = allocate_extradata();
++        output_use_buffer = true;
+     }
+ 
+     if (eRet == OMX_ErrorNone) {
+@@ -5168,7 +5170,6 @@ OMX_ERRORTYPE omx_vdec::free_input_buffer(OMX_BUFFERHEADERTYPE *bufferHdr)
+     index = bufferHdr - m_inp_mem_ptr;
+     DEBUG_PRINT_LOW("Free Input Buffer index = %d",index);
+ 
+-    auto_lock l(buf_lock);
+     bufferHdr->pInputPortPrivate = NULL;
+ 
+     if (index < drv_ctx.ip_buf.actualcount && drv_ctx.ptr_inputbuffer) {
+@@ -5374,11 +5375,13 @@ OMX_ERRORTYPE  omx_vdec::allocate_input_buffer(
+     unsigned   i = 0;
+     unsigned char *buf_addr = NULL;
+     int pmem_fd = -1;
++    unsigned int align_size = 0;
+ 
+     (void) hComp;
+     (void) port;
+ 
+ 
++
+     if (bytes != drv_ctx.ip_buf.buffer_size) {
+         DEBUG_PRINT_LOW("Requested Size is wrong %u epected is %u",
+                 (unsigned int)bytes, (unsigned int)drv_ctx.ip_buf.buffer_size);
+@@ -5433,8 +5436,10 @@ OMX_ERRORTYPE  omx_vdec::allocate_input_buffer(
+         int rc;
+         DEBUG_PRINT_LOW("Allocate input Buffer");
+ #ifdef USE_ION
++        align_size = drv_ctx.ip_buf.buffer_size + 512;
++        align_size = (align_size + drv_ctx.ip_buf.alignment - 1)&(~(drv_ctx.ip_buf.alignment - 1));
+         drv_ctx.ip_buf_ion_info[i].ion_device_fd = alloc_map_ion_memory(
+-                drv_ctx.ip_buf.buffer_size,drv_ctx.op_buf.alignment,
++                align_size, drv_ctx.op_buf.alignment,
+                 &drv_ctx.ip_buf_ion_info[i].ion_alloc_data,
+                 &drv_ctx.ip_buf_ion_info[i].fd_ion_data, secure_mode ? ION_SECURE : ION_FLAG_CACHED);
+         if (drv_ctx.ip_buf_ion_info[i].ion_device_fd < 0) {
+@@ -5927,6 +5932,10 @@ OMX_ERRORTYPE  omx_vdec::allocate_buffer(OMX_IN OMX_HANDLETYPE                hC
+             eRet = allocate_input_buffer(hComp,bufferHdr,port,appData,bytes);
+         }
+     } else if (port == OMX_CORE_OUTPUT_PORT_INDEX) {
++        if (output_use_buffer) {
++            DEBUG_PRINT_ERROR("Allocate output buffer not allowed after use buffer");
++            return OMX_ErrorBadParameter;
++        }
+         eRet = client_buffers.allocate_buffers_color_convert(hComp,bufferHdr,port,
+                 appData,bytes);
+     } else {
+@@ -5987,6 +5996,7 @@ OMX_ERRORTYPE  omx_vdec::free_buffer(OMX_IN OMX_HANDLETYPE         hComp,
+     (void) hComp;
+     DEBUG_PRINT_LOW("In for decoder free_buffer");
+ 
++    auto_lock l(buf_lock);
+     if (m_state == OMX_StateIdle &&
+             (BITMASK_PRESENT(&m_flags ,OMX_COMPONENT_LOADING_PENDING))) {
+         DEBUG_PRINT_LOW(" free buffer while Component in Loading pending");
+@@ -6003,7 +6013,7 @@ OMX_ERRORTYPE  omx_vdec::free_buffer(OMX_IN OMX_HANDLETYPE         hComp,
+         post_event(OMX_EventError,
+                 OMX_ErrorPortUnpopulated,
+                 OMX_COMPONENT_GENERATE_EVENT);
+-
++        m_buffer_error = true;
+         return OMX_ErrorIncorrectStateOperation;
+     } else if (m_state != OMX_StateInvalid) {
+         DEBUG_PRINT_ERROR("Invalid state to free buffer,port lost Buffers");
+@@ -6011,7 +6021,6 @@ OMX_ERRORTYPE  omx_vdec::free_buffer(OMX_IN OMX_HANDLETYPE         hComp,
+                 OMX_ErrorPortUnpopulated,
+                 OMX_COMPONENT_GENERATE_EVENT);
+     }
+-
+     if (port == OMX_CORE_INPUT_PORT_INDEX) {
+         /*Check if arbitrary bytes*/
+         if (!arbitrary_bytes && !input_use_buffer)
+@@ -6108,6 +6117,7 @@ OMX_ERRORTYPE  omx_vdec::free_buffer(OMX_IN OMX_HANDLETYPE         hComp,
+             BITMASK_CLEAR((&m_flags),OMX_COMPONENT_LOADING_PENDING);
+             post_event(OMX_CommandStateSet, OMX_StateLoaded,
+                     OMX_COMPONENT_GENERATE_EVENT);
++            m_buffer_error = false;
+         }
+     }
+     return eRet;
+@@ -6281,6 +6291,11 @@ OMX_ERRORTYPE  omx_vdec::empty_this_buffer_proxy(OMX_IN OMX_HANDLETYPE  hComp,
+     if (!temp_buffer || (temp_buffer -  drv_ctx.ptr_inputbuffer) > (int)drv_ctx.ip_buf.actualcount) {
+         return OMX_ErrorBadParameter;
+     }
++
++    if (BITMASK_ABSENT(&m_inp_bm_count, nPortIndex) || m_buffer_error) {
++        DEBUG_PRINT_ERROR("ETBProxy: ERROR: invalid buffer, nPortIndex %u", nPortIndex);
++        return OMX_ErrorBadParameter;
++    }
+     /* If its first frame, H264 codec and reject is true, then parse the nal
+        and get the profile. Based on this, reject the clip playback */
+     if (first_frame == 0 && codec_type_parse == CODEC_TYPE_H264 &&
+@@ -6568,6 +6583,7 @@ OMX_ERRORTYPE  omx_vdec::fill_this_buffer_proxy(
+     struct vdec_bufferpayload     *ptr_outputbuffer = NULL;
+     struct vdec_output_frameinfo  *ptr_respbuffer = NULL;
+ 
++    auto_lock l(buf_lock);
+     nPortIndex = buffer-((OMX_BUFFERHEADERTYPE *)client_buffers.get_il_buf_hdr());
+ 
+     if (bufferAdd == NULL || nPortIndex >= drv_ctx.op_buf.actualcount) {
+@@ -6576,6 +6592,10 @@ OMX_ERRORTYPE  omx_vdec::fill_this_buffer_proxy(
+         return OMX_ErrorBadParameter;
+     }
+ 
++    if (BITMASK_ABSENT(&m_out_bm_count, nPortIndex) || m_buffer_error) {
++        DEBUG_PRINT_ERROR("FTBProxy: ERROR: invalid buffer, nPortIndex %u", nPortIndex);
++        return OMX_ErrorBadParameter;
++    }
+     DEBUG_PRINT_LOW("FTBProxy: bufhdr = %p, bufhdr->pBuffer = %p",
+             bufferAdd, bufferAdd->pBuffer);
+     /*Return back the output buffer to client*/
+@@ -7762,7 +7782,7 @@ int omx_vdec::async_message_process (void *context, void* message)
+                         output_respbuf->pic_type = PICTURE_TYPE_B;
+                     }
+ 
+-                    if (omx->output_use_buffer)
++                    if (!omx->m_enable_android_native_buffers && omx->output_use_buffer)
+                         memcpy ( omxhdr->pBuffer, (void *)
+                                 ((unsigned long)vdec_msg->msgdata.output_frame.bufferaddr +
+                                  (unsigned long)vdec_msg->msgdata.output_frame.offset),

@@ -141,6 +141,7 @@ git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm89
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8974.patch" --directory msm8974;
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8994.patch" --directory msm8994;
 #missing msm8909, msm8996, msm8998
+git apply "$DOS_PATCHES/android_hardware_qcom_display/229952.patch"; #n_asb_09-2018-qcom
 fi;
 
 if enterAndClear "hardware/qcom/display-caf/apq8084"; then
@@ -167,8 +168,29 @@ if enterAndClear "hardware/qcom/display-caf/msm8994"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8994.patch";
 fi;
 
+if enterAndClear "hardware/qcom/display-caf/msm8996"; then
+git apply "$DOS_PATCHES/android_hardware_qcom_display/227623.patch"; #n_asb_09-2018-qcom
+fi;
+
+if enterAndClear "hardware/qcom/display-caf/msm8998"; then
+git apply "$DOS_PATCHES/android_hardware_qcom_display/227624.patch"; #n_asb_09-2018-qcom
+fi;
+
 if enterAndClear "hardware/qcom/gps"; then
 git apply "$DOS_PATCHES/android_hardware_qcom_gps/0001-rollover.patch"; #fix week rollover
+fi;
+
+if enterAndClear "hardware/qcom/media"; then
+git apply "$DOS_PATCHES/android_hardware_qcom_media/229950.patch"; #n_asb_09-2018-qcom
+git apply "$DOS_PATCHES/android_hardware_qcom_media/229951.patch"; #n_asb_09-2018-qcom
+fi;
+
+if enterAndClear "hardware/qcom/media-caf/apq8084"; then
+git apply "$DOS_PATCHES/android_hardware_qcom_media/227620.patch"; #n_asb_09-2018-qcom
+fi;
+
+if enterAndClear "hardware/qcom/media-caf/msm8994"; then
+git apply "$DOS_PATCHES/android_hardware_qcom_media/227622.patch"; #n_asb_09-2018-qcom
 fi;
 
 if enterAndClear "packages/apps/CMParts"; then

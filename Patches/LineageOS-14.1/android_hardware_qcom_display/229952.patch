@@ -1,0 +1,46 @@
+From 0d2fd535bedf567d8ec9adee5e5e5645164558f4 Mon Sep 17 00:00:00 2001
+From: Courtney Goeltzenleuchter <courtneygo@google.com>
+Date: Thu, 24 May 2018 08:23:55 -0600
+Subject: [PATCH] Fix Buffer Overflow in Vendor Service display.qservice
+
+Bug: 63145942
+Test: adb shell vndservice call display.qservice 36 s16 sdlkfjsadlfkjasdf
+Change-Id: I3fdf5ccd2bf4ed0fa980883fefdb57eb5fbfeee7
+(cherry picked from commit 4050091844ccd427587024e5fd916113a5cc0029)
+---
+ msm8996/sdm/libs/hwc2/hwc_session.cpp | 5 +++++
+ msm8998/sdm/libs/hwc2/hwc_session.cpp | 5 +++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/msm8996/sdm/libs/hwc2/hwc_session.cpp b/msm8996/sdm/libs/hwc2/hwc_session.cpp
+index e4d6cacda..6af85417c 100644
+--- a/msm8996/sdm/libs/hwc2/hwc_session.cpp
++++ b/msm8996/sdm/libs/hwc2/hwc_session.cpp
+@@ -1215,6 +1215,11 @@ android::status_t HWCSession::SetColorModeOverride(const android::Parcel *input_
+   auto display = static_cast<hwc2_display_t >(input_parcel->readInt32());
+   auto mode = static_cast<android_color_mode_t>(input_parcel->readInt32());
+   auto device = static_cast<hwc2_device_t *>(this);
++
++  if (display > HWC_DISPLAY_VIRTUAL) {
++    return -EINVAL;
++  }
++
+   auto err = CallDisplayFunction(device, display, &HWCDisplay::SetColorMode, mode);
+   if (err != HWC2_ERROR_NONE)
+     return -EINVAL;
+diff --git a/msm8998/sdm/libs/hwc2/hwc_session.cpp b/msm8998/sdm/libs/hwc2/hwc_session.cpp
+index 96111d9f3..01c6d367b 100644
+--- a/msm8998/sdm/libs/hwc2/hwc_session.cpp
++++ b/msm8998/sdm/libs/hwc2/hwc_session.cpp
+@@ -1214,6 +1214,11 @@ android::status_t HWCSession::SetColorModeOverride(const android::Parcel *input_
+   auto display = static_cast<hwc2_display_t >(input_parcel->readInt32());
+   auto mode = static_cast<android_color_mode_t>(input_parcel->readInt32());
+   auto device = static_cast<hwc2_device_t *>(this);
++
++  if (display > HWC_DISPLAY_VIRTUAL) {
++    return -EINVAL;
++  }
++
+   auto err = CallDisplayFunction(device, display, &HWCDisplay::SetColorMode, mode);
+   if (err != HWC2_ERROR_NONE)
+     return -EINVAL;
