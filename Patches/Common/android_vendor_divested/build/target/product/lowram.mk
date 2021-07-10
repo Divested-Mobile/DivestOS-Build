@@ -24,7 +24,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
      ro.lmk.downgrade_pressure=60 \
      ro.lmk.kill_heaviest_task=false \
      config.disable_atlas=true \
-     persist.sys.use_16bpp_alpha=1 \
      dalvik.vm.madvise-random=true
 #     dalvik.vm.heapgrowthlimit=128m \
 #     dalvik.vm.heapsize=256m
