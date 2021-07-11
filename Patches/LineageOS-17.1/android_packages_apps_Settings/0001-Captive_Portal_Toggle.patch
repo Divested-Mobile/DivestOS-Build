@@ -1,0 +1,350 @@
+From cc4ce5ddadd7eae71be49f505378dd81c59cd9da Mon Sep 17 00:00:00 2001
+From: MSe1969 <mse1969@posteo.de>
+Date: Mon, 10 Sep 2018 12:05:40 +0200
+Subject: [PATCH] Network & Internet Settings: Add option to switch off Captive
+ portal check
+
+ * Option added in Network & Internet Settings, which is equivalent to
+   the adb shell command 'settings put global captive_portal_mode [1/0]'
+ * Will be reset to default, if 'Reset network settings' is chosen (menu)
+ * Warning dialog is shown, when captive portal check is switched off
+ * Hidden under 'advanced'
+
+Cherry-picked from lin16-microG repo and adapted to Q (e.g. androidx pref.)
+
+Change-Id: Ibbffdb5f3930df74ca8b4ba93d451f7fad086989
+---
+ res/values-de/cm_strings.xml                  |  3 +
+ res/values/cm_strings.xml                     |  5 ++
+ res/xml/network_and_internet.xml              |  6 ++
+ res/xml/network_and_internet_v2.xml           |  6 ++
+ .../android/settings/ResetNetworkConfirm.java |  4 +
+ ...CaptivePortalModePreferenceController.java | 82 +++++++++++++++++++
+ .../network/CaptivePortalWarningDialog.java   | 74 +++++++++++++++++
+ .../CaptivePortalWarningDialogHost.java       | 32 ++++++++
+ .../network/NetworkDashboardFragment.java     | 17 +++-
+ 9 files changed, 228 insertions(+), 1 deletion(-)
+ create mode 100644 src/com/android/settings/network/CaptivePortalModePreferenceController.java
+ create mode 100644 src/com/android/settings/network/CaptivePortalWarningDialog.java
+ create mode 100644 src/com/android/settings/network/CaptivePortalWarningDialogHost.java
+
+diff --git a/res/values-de/cm_strings.xml b/res/values-de/cm_strings.xml
+index ebb53e1237..f788f15ca4 100644
+--- a/res/values-de/cm_strings.xml
++++ b/res/values-de/cm_strings.xml
+@@ -112,4 +112,7 @@
+     <string name="backup_transport_title">Backup-Anbieter auswählen</string>
+     <string name="fast_charging_title">Schnelles Laden</string>
+     <string name="fast_charging_summary">Deaktivieren, um die vom Gerät beim Laden erzeugte Wärme zu reduzieren oder die Lebensdauer des Akkus zu verlängern</string>
++    <string name="captive_portal_switch_title">Captive Portal Erkennung</string>
++    <string name="captive_portal_switch_summary">Ein-/Ausschalten der Captive Portal Erkennung (Vorgabe EIN).</string>
++    <string name="captive_portal_switch_warning">Nach dem Ausschalten der Captive-Portal-Erkennung empfangen Sie keine Verbindungs-Rückmeldung mehr. Wirklich fortfahren?</string>
+ </resources>
+diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
+index 12ad48e683..7d07c6dbe5 100644
+--- a/res/values/cm_strings.xml
++++ b/res/values/cm_strings.xml
+@@ -197,4 +197,9 @@
+     <!-- FastCharge feature -->
+     <string name="fast_charging_title">Fast charging</string>
+     <string name="fast_charging_summary">Disable to reduce the heat produced by the device while charging or to extend the lifespan of the battery</string>
++
++    <!-- Captive Portal -->
++    <string name="captive_portal_switch_title">Captive portal mode</string>
++    <string name="captive_portal_switch_summary">Enable or disable the captive portal probing for connection attempts (default ON).</string>
++    <string name="captive_portal_switch_warning">If you switch off the captive portal, you will not receive connectivity informations any longer. Really switch off?</string>
+ </resources>
+diff --git a/res/xml/network_and_internet.xml b/res/xml/network_and_internet.xml
+index 32b51d48fc..456f169e8f 100644
+--- a/res/xml/network_and_internet.xml
++++ b/res/xml/network_and_internet.xml
+@@ -97,4 +97,10 @@
+         android:positiveButtonText="@string/save"
+         android:negativeButtonText="@android:string/cancel" />
+ 
++    <SwitchPreference
++        android:key="captive_portal_switch"
++        android:title="@string/captive_portal_switch_title"
++        android:summary="@string/captive_portal_switch_summary"
++        android:order="20" />
++
+ </PreferenceScreen>
+--- a/res/xml/network_and_internet_v2.xml
++++ b/res/xml/network_and_internet_v2.xml
+@@ -107,4 +107,10 @@
+         android:positiveButtonText="@string/save"
+         android:negativeButtonText="@android:string/cancel" />
+ 
++    <SwitchPreference
++        android:key="captive_portal_switch"
++        android:title="@string/captive_portal_switch_title"
++        android:summary="@string/captive_portal_switch_summary"
++        android:order="25" />
++
+ </PreferenceScreen>
+--- a/src/com/android/settings/ResetNetworkConfirm.java
++++ b/src/com/android/settings/ResetNetworkConfirm.java
+@@ -35,6 +35,7 @@ import android.os.Bundle;
+ import android.os.RecoverySystem;
+ import android.os.UserHandle;
+ import android.os.UserManager;
++import android.provider.Settings;
+ import android.telephony.SubscriptionManager;
+ import android.telephony.TelephonyManager;
+ import android.view.LayoutInflater;
+@@ -125,6 +126,9 @@ public class ResetNetworkConfirm extends InstrumentedFragment {
+                 }
+             }
+ 
++            Settings.Global.putInt(mContext.getContentResolver(),
++                    Settings.Global.CAPTIVE_PORTAL_MODE, 1);
++
+             ImsManager.getInstance(mContext,
+                     SubscriptionManager.getPhoneId(mSubId)).factoryReset();
+             restoreDefaultApn(mContext);
+diff --git a/src/com/android/settings/network/CaptivePortalModePreferenceController.java b/src/com/android/settings/network/CaptivePortalModePreferenceController.java
+--- /dev/null
++++ b/src/com/android/settings/network/CaptivePortalModePreferenceController.java
+@@ -0,0 +1,82 @@
++/*
++ * Copyright (C) 2018 The LineageOS Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++package com.android.settings.network;
++
++import android.content.Context;
++import android.provider.Settings;
++
++import androidx.fragment.app.Fragment;
++import androidx.preference.Preference;
++import androidx.preference.SwitchPreference;
++
++import com.android.settings.core.PreferenceControllerMixin;
++import com.android.settingslib.core.AbstractPreferenceController;
++
++public class CaptivePortalModePreferenceController extends AbstractPreferenceController
++        implements PreferenceControllerMixin, Preference.OnPreferenceChangeListener {
++
++    private static final String TAG = "CaptivePortalModePreferenceController";
++    private static final String CAPTIVE_PORTAL_SWITCH_KEY = "captive_portal_switch";
++
++    private SwitchPreference mCaptivePortalMode;
++    private Preference mPreference;
++    private final Fragment mFragment;
++
++    public CaptivePortalModePreferenceController(Context context, Fragment hostFragment) {
++        super(context);
++
++        mFragment = hostFragment;
++    }
++
++    @Override
++    public void updateState(Preference preference) {
++        boolean value = (Settings.Global.getInt(mContext.getContentResolver(),
++                         Settings.Global.CAPTIVE_PORTAL_MODE,
++                         Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT) != 0);
++        ((SwitchPreference) preference).setChecked(value);
++    }
++
++    @Override
++    public boolean onPreferenceChange(Preference preference, Object newValue) {
++        mPreference = preference;
++        if ((Boolean) newValue) {
++            Settings.Global.putInt(mContext.getContentResolver(),
++                    Settings.Global.CAPTIVE_PORTAL_MODE, 1);
++        } else {
++            CaptivePortalWarningDialog.show(mFragment);
++        }
++        return true;
++    }
++
++    public void onCaptivePortalSwitchOffDialogConfirmed() {
++        Settings.Global.putInt(mContext.getContentResolver(),
++                Settings.Global.CAPTIVE_PORTAL_MODE, 0);
++    }
++
++    public void onCaptivePortalSwitchOffDialogDismissed() {
++        updateState(mPreference);
++    }
++
++    @Override
++    public boolean isAvailable() {
++        return true;
++    }
++
++    @Override
++    public String getPreferenceKey() {
++        return CAPTIVE_PORTAL_SWITCH_KEY;
++    }
++}
+diff --git a/src/com/android/settings/network/CaptivePortalWarningDialog.java b/src/com/android/settings/network/CaptivePortalWarningDialog.java
+--- /dev/null
++++ b/src/com/android/settings/network/CaptivePortalWarningDialog.java
+@@ -0,0 +1,74 @@
++/*
++ * Copyright (C) 2018 The LineageOS Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.settings.network;
++
++import android.app.Dialog;
++import android.content.DialogInterface;
++import android.os.Bundle;
++
++import androidx.appcompat.app.AlertDialog;
++import androidx.fragment.app.Fragment;
++import androidx.fragment.app.FragmentManager;
++
++import com.android.internal.logging.nano.MetricsProto;
++import com.android.settings.R;
++import com.android.settings.core.instrumentation.InstrumentedDialogFragment;
++
++public class CaptivePortalWarningDialog extends InstrumentedDialogFragment implements
++        DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
++
++    public static final String TAG = "CaptivePortalWarningDialog";
++
++    public static void show(Fragment host) {
++        final FragmentManager manager = host.getActivity().getSupportFragmentManager();
++        if (manager.findFragmentByTag(TAG) == null) {
++            final CaptivePortalWarningDialog dialog =
++                    new CaptivePortalWarningDialog();
++            dialog.setTargetFragment(host, 0 /* requestCode */);
++            dialog.show(manager, TAG);
++        }
++    }
++
++    @Override
++    public int getMetricsCategory() {
++        return MetricsProto.MetricsEvent.TYPE_UNKNOWN;
++    }
++
++    @Override
++    public Dialog onCreateDialog(Bundle savedInstanceState) {
++        return new AlertDialog.Builder(getActivity())
++                .setTitle(R.string.captive_portal_switch_title)
++                .setMessage(R.string.captive_portal_switch_warning)
++                .setIconAttribute(android.R.attr.alertDialogIcon)
++                .setPositiveButton(android.R.string.yes, this /* onClickListener */)
++                .setNegativeButton(android.R.string.no, this /* onClickListener */)
++                .create();
++    }
++
++    @Override
++    public void onClick(DialogInterface dialog, int which) {
++        final CaptivePortalWarningDialogHost host = (CaptivePortalWarningDialogHost) getTargetFragment();
++        if (host == null) {
++            return;
++        }
++        if (which == DialogInterface.BUTTON_POSITIVE) {
++            host.onCaptivePortalSwitchOffDialogConfirmed();
++        } else {
++            host.onCaptivePortalSwitchOffDialogDismissed();
++        }
++    }
++}
+diff --git a/src/com/android/settings/network/CaptivePortalWarningDialogHost.java b/src/com/android/settings/network/CaptivePortalWarningDialogHost.java
+--- /dev/null
++++ b/src/com/android/settings/network/CaptivePortalWarningDialogHost.java
+@@ -0,0 +1,32 @@
++/*
++ * Copyright (C) 2018 The LineageOS Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.settings.network;
++
++/**
++ * Interface for CaptivePortalWarningDialogHost callbacks.
++ */
++public interface CaptivePortalWarningDialogHost {
++    /**
++     * Called when the user presses YES/ok on the warning dialog.
++     */
++    void onCaptivePortalSwitchOffDialogConfirmed();
++
++    /**
++     * Called when the user presses NO/cancel on the warning dialog.
++     */
++    void onCaptivePortalSwitchOffDialogDismissed();
++}
+--- a/src/com/android/settings/network/NetworkDashboardFragment.java
++++ b/src/com/android/settings/network/NetworkDashboardFragment.java
+@@ -44,7 +44,7 @@ import java.util.List;
+ 
+ @SearchIndexable
+ public class NetworkDashboardFragment extends DashboardFragment implements
+-        MobilePlanPreferenceHost {
++        MobilePlanPreferenceHost, CaptivePortalWarningDialogHost {
+ 
+     private static final String TAG = "NetworkDashboardFrag";
+ 
+@@ -104,6 +104,8 @@ public class NetworkDashboardFragment extends DashboardFragment implements
+                 new VpnPreferenceController(context);
+         final PrivateDnsPreferenceController privateDnsPreferenceController =
+                 new PrivateDnsPreferenceController(context);
++        final CaptivePortalModePreferenceController captiveportalModePreferenceController =
++                new CaptivePortalModePreferenceController(context, fragment);
+ 
+         if (lifecycle != null) {
+             lifecycle.addObserver(mobilePlanPreferenceController);
+@@ -129,9 +131,22 @@ public class NetworkDashboardFragment extends DashboardFragment implements
+         controllers.add(mobilePlanPreferenceController);
+         controllers.add(wifiPreferenceController);
+         controllers.add(privateDnsPreferenceController);
++        controllers.add(captiveportalModePreferenceController);
+         return controllers;
+     }
+ 
++    public void onCaptivePortalSwitchOffDialogConfirmed() {
++        final CaptivePortalModePreferenceController controller =
++                use(CaptivePortalModePreferenceController.class);
++        controller.onCaptivePortalSwitchOffDialogConfirmed();
++    }
++
++    public void onCaptivePortalSwitchOffDialogDismissed() {
++        final CaptivePortalModePreferenceController controller =
++                use(CaptivePortalModePreferenceController.class);
++        controller.onCaptivePortalSwitchOffDialogDismissed();
++    }
++
+     @Override
+     public void showMobilePlanMessageDialog() {
+         showDialog(MANAGE_MOBILE_PLAN_DIALOG_ID);
+-- 
+2.31.1
+
