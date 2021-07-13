@@ -50,6 +50,7 @@ commentPatches android_kernel_google_yellowstone.sh "0001-LinuxIncrementals/3.10
 commentPatches android_kernel_huawei_angler.sh "CVE-2014-8559";
 commentPatches android_kernel_htc_flounder.sh "CVE-2018-9514";
 commentPatches android_kernel_htc_msm8960.sh "CVE-2018-10876";
+commentPatches android_kernel_htc_msm8974.sh "CVE-2016-8393";
 commentPatches android_kernel_htc_msm8994.sh "CVE-2016-8394/ANY/0001.patch" "CVE-2017-13166" "CVE-2018-3585" "CVE-2018-9514";
 commentPatches android_kernel_lge_bullhead.sh "CVE-2014-8559";
 commentPatches android_kernel_lge_msm8992.sh "CVE-2018-5897" "CVE-2018-11266";
@@ -63,7 +64,7 @@ commentPatches android_kernel_nextbit_msm8992.sh "CVE-2018-3585/3.10/0001.patch"
 commentPatches android_kernel_oneplus_msm8994.sh "CVE-2018-3585/3.10/0001.patch" "CVE-2018-9514";
 commentPatches android_kernel_oneplus_msm8996.sh "CVE-2017-13162/3.18/0001.patch" "CVE-2017-15951" "CVE-2017-16939" "CVE-2018-17972" "CVE-2019-2214" "CVE-2019-14070/ANY/0006.patch" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166";
 commentPatches android_kernel_oneplus_msm8998.sh "0008-Graphene-Kernel_Hardening/4.4/0011.patch" "0008-Graphene-Kernel_Hardening/4.4/0012.patch" "0008-Graphene-Kernel_Hardening/4.4/0014.patch" "0008-Graphene-Kernel_Hardening/4.4/0019.patch" "CVE-2019-11599" "CVE-2019-19319" "CVE-2020-0305" "CVE-2020-8992" "CVE-2020-16166";
-commentPatches android_kernel_oneplus_sm7250.sh "CVE-2018-5873" "CVE-2020-1749";
+commentPatches android_kernel_oneplus_sm7250.sh "CVE-2018-5873" "CVE-2020-1749" "CVE-2021-3444" "CVE-2021-3600";
 commentPatches android_kernel_oneplus_sm8150.sh "CVE-2019-16746" "CVE-2019-19319" "CVE-2020-0067" "CVE-2020-8992";
 commentPatches android_kernel_razer_msm8998.sh "0008-Graphene-Kernel_Hardening/4.4/0011.patch" "0008-Graphene-Kernel_Hardening/4.4/0012.patch" "0008-Graphene-Kernel_Hardening/4.4/0014.patch" "0008-Graphene-Kernel_Hardening/4.4/0019.patch" "CVE-2019-14070/ANY/0005.patch" "CVE-2020-16166";
 commentPatches android_kernel_samsung_jf.sh "CVE-2019-11599";

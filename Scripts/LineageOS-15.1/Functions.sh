@@ -55,7 +55,7 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SDS4P
-	buildDevice flo; #Last version without repartitioning required + 17.1 has random power off issue
+	buildDevice flo; #Last version without repartitioning required + 18.1 has random power off issue
 	#SD801
 	buildDevice hammerhead; #Last version with working Bluetooth
 	#SD805
@@ -68,7 +68,7 @@ buildAll() {
 	buildDevice himaul; #broken - needs vendor bits
 	buildDevice oneplus2; #Last version with working IMS + broken - needs vendor patching
 	#SD615
-	buildDevice Z00T; #broken - needs vendor patching
+	buildDevice Z00T;
 	#SD820
 	buildDevice axon7;
 	buildDevice h870;

@@ -55,7 +55,7 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SDS4P
-	buildDevice flox;
+	buildDevice flox && rm device/asus/flox/sensors/Android.bp;
 	buildDevice mako;
 	#SD400
 	buildDevice serrano3gxx; #unb
@@ -83,7 +83,7 @@ buildAll() {
 	buildDevice oneplus3 verity; #needs manual patching - broken yyloc
 	#SD835
 	buildDevice cheryl verity;
-	buildDevice cheeseburger verity; #needs manual patching - vendor common makefile
+	buildDevice cheeseburger verity;
 	buildDevice dumpling verity;
 	buildDevice mata verity;
 	buildDevice taimen avb;
@@ -109,9 +109,8 @@ patchWorkspace() {
 	umask 0022;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	source build/envsetup.sh;
+	#source build/envsetup.sh;
 	#repopick -i 312861; #recorder intent improvement
-	repopick -it android-11.0.0_r39; #XXX: manifests change must be manually picked
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";

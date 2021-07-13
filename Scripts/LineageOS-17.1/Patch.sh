@@ -126,10 +126,6 @@ patch -p1 < "$DOS_PATCHES/android_frameworks_opt_net_ims/0001-Fix_Calling.patch"
 fi;
 fi;
 
-if enterAndClear "frameworks/opt/net/voip"; then
-git pull "https://github.com/LineageOS/android_frameworks_opt_net_voip" refs/changes/91/313291/1; #Q_asb_2021-07
-fi;
-
 if enterAndClear "hardware/qcom/display"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8084.patch" --directory msm8084;
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8916.patch" --directory msm8226;
@@ -219,10 +215,6 @@ patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voi
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
 fi;
 
-if enterAndClear "packages/modules/NetworkStack"; then
-git pull "https://github.com/LineageOS/android_packages_modules_NetworkStack" refs/changes/01/313301/1; #Q_asb_2021-07
-fi;
-
 #if enterAndClear "packages/services/Telephony"; then
 #patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch"; #XXX 17REBASE
 #patch -p1 < "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch"; #XXX 17REBASE
@@ -238,10 +230,6 @@ fi;
 
 if enterAndClear "system/extras"; then
 patch -p1 < "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #FBE: pad filenames more (GrapheneOS)
-fi;
-
-if enterAndClear "system/libfmq"; then
-git pull "https://github.com/LineageOS/android_system_libfmq" refs/changes/03/313303/1; #Q_asb_2021-07
 fi;
 
 if enterAndClear "system/sepolicy"; then
