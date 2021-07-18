@@ -129,10 +129,6 @@ patch -p1 < "$DOS_PATCHES/android_frameworks_opt_net_ims/0001-Fix_Calling.patch"
 fi;
 fi;
 
-if enterAndClear "frameworks/opt/net/voip"; then
-git pull "https://github.com/LineageOS/android_frameworks_opt_net_voip" refs/changes/31/313331/1; #P_asb_2021-07
-fi;
-
 if enterAndClear "hardware/qcom/display"; then
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8084.patch" --directory msm8084;
 git apply "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8916.patch" --directory msm8226;
@@ -239,10 +235,6 @@ fi;
 
 if enterAndClear "system/extras"; then
 patch -p1 < "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #FBE: pad filenames more (GrapheneOS)
-fi;
-
-if enterAndClear "system/libfmq"; then
-git pull "https://github.com/LineageOS/android_system_libfmq" refs/changes/41/313341/1; #P_asb_2021-07
 fi;
 
 if enterAndClear "system/sepolicy"; then

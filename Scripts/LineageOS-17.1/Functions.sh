@@ -94,6 +94,7 @@ patchWorkspace() {
 
 	#source build/envsetup.sh;
 	#repopick -it ten-firewall;
+	#repopick -it fp2-prima-fixes;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";

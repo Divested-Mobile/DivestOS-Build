@@ -163,7 +163,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3483/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3564/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3573/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20261/^3.15/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-22555/^5.12/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-27363/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28972/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
@@ -171,5 +170,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-ch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/^5.2.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p171"
+editKernelLocalversion "-dos.p170"
 cd "$DOS_BUILD_BASE"
