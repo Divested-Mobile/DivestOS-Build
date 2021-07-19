@@ -75,10 +75,6 @@
 	<project path="hardware/sony/thermanager" name="LineageOS/android_hardware_sony_thermanager" remote="github" />
 	<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />
 
-	<!-- Fairphone 2 (FP2) -->
-	<project path="device/fairphone/FP2" name="LineageOS/android_device_fairphone_FP2" remote="github" />
-	<project path="kernel/fairphone/msm8974" name="LineageOS/android_kernel_fairphone_msm8974" remote="github" />
-
 	<!-- Fairphone 3 (FP3) -->
 	<project path="device/fairphone/FP3" name="LineageOS/android_device_fairphone_FP3" remote="github" />
 	<project path="kernel/fairphone/sdm632" name="LineageOS/android_kernel_fairphone_sdm632" remote="github" />
