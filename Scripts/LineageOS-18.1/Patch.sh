@@ -144,6 +144,10 @@ if enterAndClear "hardware/qcom-caf/msm8998/audio"; then
 patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-8998.patch"; #audio_extn: Fix unused parameter warning in utils.c
 fi;
 
+if enterAndClear "hardware/qcom-caf/sdm845/audio"; then
+patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-sdm845.patch"; #audio_extn: Fix unused parameter warning in utils.c
+fi;
+
 if enterAndClear "lineage-sdk"; then
 awk -i inplace '!/LineageWeatherManagerService/' lineage/res/res/values/config.xml; #Disable Weather
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi;
@@ -346,6 +350,10 @@ fi;
 if enterAndClear "device/oppo/msm8974-common"; then
 sed -i 's/libinit_msm8974/libinit_msm8974-oppo/' BoardConfigCommon.mk init/Android.bp; #Fix name conflict
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
+fi;
+
+if enterAndClear "device/razer/aura"; then
+enableVerity; #Resurrect dm-verity
 fi;
 
 if enterAndClear "device/samsung/jfltexx"; then

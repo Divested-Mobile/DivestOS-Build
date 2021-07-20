@@ -7,6 +7,8 @@
 	<remove-project name="device/generic/mini-emulator-x86" />
 	<remove-project name="device/generic/mini-emulator-x86_64" />
 	<remove-project name="device/generic/qemu" />
+	<remove-project name="device/google/cuttlefish" />
+	<remove-project name="device/google/cuttlefish_kernel" />
 	<remove-project name="LineageOS/android_device_generic_goldfish" />
 	<remove-project name="LineageOS/android_device_generic_goldfish-opengl" />
 	<remove-project name="LineageOS/android_external_ant-wireless_ant_native" />
@@ -187,9 +189,19 @@
 	<project path="device/oneplus/guacamole" name="LineageOS/android_device_oneplus_guacamole" remote="github" />
 	<project path="kernel/oneplus/sm8150" name="LineageOS/android_kernel_oneplus_sm8150" remote="github" />
 
+	<!-- OnePlus 7T Pro (hotdog) -->
+	<project path="device/oneplus/hotdog" name="LineageOS/android_device_oneplus_hotdog" remote="github" />
+
+	<!-- OnePlus 7T (hotdogb) -->
+	<project path="device/oneplus/hotdogb" name="LineageOS/android_device_oneplus_hotdogb" remote="github" />
+
 	<!-- Razer Phone (cheryl) -->
 	<project path="device/razer/cheryl" name="LineageOS/android_device_razer_cheryl" remote="github" />
 	<project path="kernel/razer/msm8998" name="LineageOS/android_kernel_razer_msm8998" remote="github" />
+
+	<!-- Razer Phone 2 (aura) -->
+	<project path="device/razer/aura" name="LineageOS/android_device_razer_aura" remote="github" />
+	<project path="kernel/razer/sdm845" name="LineageOS/android_kernel_razer_sdm845" remote="github" />
 
 	<!-- Samsung Common -->
 	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
