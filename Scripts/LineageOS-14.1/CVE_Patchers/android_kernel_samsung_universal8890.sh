@@ -613,6 +613,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3428/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3483/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3564/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3573/^5.12/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3612/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-26930/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-27363/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-27365/3.18/0015.patch
@@ -621,7 +622,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28688/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28964/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28972/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30002/3.18/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-31916/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33034/3.18/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33909/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0004-net-add-recursion-limit-to-GRO.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
@@ -629,5 +632,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-4002/3.18/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-9178/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/3.18/0003.patch
-editKernelLocalversion "-dos.p629"
+editKernelLocalversion "-dos.p632"
 cd "$DOS_BUILD_BASE"
