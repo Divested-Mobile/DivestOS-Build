@@ -301,10 +301,6 @@ if enterAndClear "device/htc/m8-common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 fi;
 
-if enterAndClear "device/htc/msm8974-common"; then
-patch -p1 < "$DOS_PATCHES/android_device_htc_msm8974-common/312412.patch"; #shim all the rils
-fi;
-
 if enterAndClear "device/lge/g2-common"; then
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
