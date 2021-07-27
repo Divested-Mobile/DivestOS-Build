@@ -49,8 +49,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/^5.6.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14386/3.10-^4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3609/4.4/0006.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3612/4.4/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33909/4.4/0005.patch
-editKernelLocalversion "-dos.p52"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3655/^5.13/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-powerpc-H_RTAS-rets-buffer-overflow/^5.14/0001.patch
+editKernelLocalversion "-dos.p51"
 cd "$DOS_BUILD_BASE"
