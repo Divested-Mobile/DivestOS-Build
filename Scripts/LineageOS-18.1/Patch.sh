@@ -312,6 +312,7 @@ sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcn
 fi;
 
 if enterAndClear "device/lge/mako"; then
+patch -p1 < "$DOS_PATCHES/android_device_lge_mako/0001-LTE.patch"; #Enable LTE support
 echo "pmf=0" >> wifi/wpa_supplicant_overlay.conf; #Wi-Fi chipset doesn't support PMF
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk; #broken releasetools
 sed -i 's/bdAddrLoader/bdAddrLoader-mako/' device.mk bdAddrLoader/Android.bp bdAddrLoader/addrloader.c rootdir/etc/init.mako.bt.sh sepolicy/file_contexts; #Fix conflicts
