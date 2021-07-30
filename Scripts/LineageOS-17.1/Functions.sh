@@ -18,7 +18,7 @@
 #Last verified: 2020-04-14
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_fairphone_sdm632 kernel_google_marlin kernel_google_msm-4.9 kernel_google_yellowstone kernel_htc_msm8974 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_yandex_sdm660 kernel_zuk_msm8996";
+	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_google_marlin kernel_google_msm-4.9 kernel_google_yellowstone kernel_htc_msm8974 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_yandex_sdm660 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -69,8 +69,6 @@ buildAll() {
 	#SD821
 	buildDevice marlin verity;
 	buildDevice sailfish verity;
-	#SD632
-	buildDevice FP3 avb;
 	#SD855
 	buildDevice guacamoleb avb;
 	#SD660

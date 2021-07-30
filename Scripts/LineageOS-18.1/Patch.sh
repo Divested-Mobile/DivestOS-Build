@@ -276,6 +276,10 @@ if enterAndClear "device/essential/mata"; then
 git revert --no-edit 1f1d061c4d7ddedcac503608e8fa333aff30a693 3928b30a97fe7f6b6020bbd9d83a56a32de4ba16 e91f0fece65d32ca407be532e2c4456056b1a968; #Unbreak the earpiece speaker, breaking the loud speaker volume control on calls
 fi;
 
+if enterAndClear "device/fairphone/FP3"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
 if enterAndClear "device/fxtec/pro1"; then
 enableVerity; #Resurrect dm-verity
 fi;

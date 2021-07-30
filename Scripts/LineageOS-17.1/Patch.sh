@@ -280,10 +280,6 @@ if enterAndClear "device/cyanogen/msm8916-common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 fi;
 
-if enterAndClear "device/fairphone/FP3"; then
-enableVerity; #Resurrect dm-verity
-fi;
-
 if enterAndClear "device/google/bonito"; then
 enableVerity; #Resurrect dm-verity
 awk -i inplace '!/INODE_COUNT/' BoardConfig-lineage.mk; #mke2fs -1 incompatibility (?)
