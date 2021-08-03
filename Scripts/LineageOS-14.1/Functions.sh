@@ -98,6 +98,7 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	#repopick -it bt-sbc-hd-dualchannel-nougat;
 	repopick -it n-asb-2021-07;
+	repopick -it n-asb-2021-08;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
