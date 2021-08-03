@@ -137,11 +137,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11273/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11286/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11832/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11894/prima/0001.patch --directory=drivers/staging/prima
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11904/prima/0009.patch --directory=drivers/staging/prima
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11904/prima/0010.patch --directory=drivers/staging/prima
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11904/prima/0011.patch --directory=drivers/staging/prima
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11904/prima/0012.patch --directory=drivers/staging/prima
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11904/prima/0013.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11918/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11939/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11955/prima/0001.patch --directory=drivers/staging/prima
@@ -269,5 +264,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28972/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/^5.2.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p269"
+editKernelLocalversion "-dos.p264"
 cd "$DOS_BUILD_BASE"

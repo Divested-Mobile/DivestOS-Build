@@ -166,10 +166,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10675/^4.12.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10879/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10880/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10940/^4.16.6/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11878/prima/0001.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11894/prima/0001.patch --directory=drivers/staging/prima
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11904/prima/0001.patch --directory=drivers/staging/prima
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11904/prima/0005.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-12233/^4.17.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-15594/^4.18.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-16658/^4.18.6/0001.patch
@@ -221,5 +218,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20261/^3.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-27363/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28972/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p221"
+editKernelLocalversion "-dos.p218"
 cd "$DOS_BUILD_BASE"
