@@ -162,6 +162,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-9075/3.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-9077/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-9242/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-9684/3.4/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-9714/prima/0003.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-9984/^4.11.7/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-11015/prima/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-11015/prima/0002.patch
@@ -170,6 +171,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-11090/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-11176/^4.11.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-11473/^4.12.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-12762/^4.12/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13078/prima/0001.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13080/3.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13166/3.4/0076.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13167/3.4/0012.patch
@@ -189,6 +191,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-14489/^4.13.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15115/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15265/3.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15649/3.4/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15819/prima/0002.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15850/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15868/3.4/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15868/3.4/0013.patch
@@ -230,6 +233,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5333/^4.14.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5344/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5750/^4.14.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5803/3.4/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5835/prima/0001.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-7492/^4.14.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-7566/^4.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-7755/^4.15.7/0001.patch
@@ -263,6 +267,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10880/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10882/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10883/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10940/^4.16.6/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11904/prima/0005.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11939/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-12233/^4.17.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13099/3.4/0002.patch
@@ -374,5 +379,5 @@ git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0004/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p374"
+editKernelLocalversion "-dos.p379"
 cd "$DOS_BUILD_BASE"

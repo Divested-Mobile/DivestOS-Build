@@ -26,6 +26,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-4470/^3.12/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-8480/^3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9728/^3.18.2/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9904/^3.17/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-0571/qcacld-2.0/0004.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-0571/qcacld-2.0/0006.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-0571/qcacld-2.0/0007.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-0571/qcacld-2.0/0008.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-1339/^4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-5307/^4.2.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-6937/3.10/0002.patch
@@ -74,6 +78,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-18306/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-18360/^4.11.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000252/^4.13.3/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-3563/3.10/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-3565/qcacld-2.0/0002.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-3566/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-3567/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-3580/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-3584/ANY/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-3585/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-3597/ANY/0001.patch
@@ -81,8 +89,13 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5332/^4.14.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5333/^4.14.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5750/^4.14.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5803/3.10/0010.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5824/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5825/3.10/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5836/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5842/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5842/qcacld-2.0/0002.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5858/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5863/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5864/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5897/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5897/ANY/0002.patch
@@ -103,13 +116,23 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10675/^4.12.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10940/^4.16.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11265/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11286/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11293/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11296/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11832/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11860/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11894/qcacld-2.0/0002.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11902/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11904/qcacld-2.0/0032.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11919/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11927/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11939/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11955/qcacld-2.0/0002.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11980/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11987/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-12011/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-12233/^4.17.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13053/3.10/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13890/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13913/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-14734/^4.17.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-15594/^4.18.1/0001.patch
@@ -121,13 +144,24 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-20511/^4.18.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-20836/^4.20/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2054/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2101/3.10/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2297/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2299/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2307/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2310/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-2331/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-3459/3.10/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-3460/3.10/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/3.10/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10142/^5.0.17/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10491/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10505/qcacld-2.0/0003.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10507/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10519/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10536/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10542/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10557/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10557/qcacld-2.0/0002.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10566/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10607/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10622/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10639/3.10/0008.patch
@@ -179,9 +213,12 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20096/^5.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20636/^5.4.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0429/^4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0431/^3.18/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3665/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-8647/^5.5.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-9383/^5.5.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-10773/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11116/qcacld-2.0/0002.patch --directory=drivers/staging/qcacld-2.0
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11131/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11234/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11267/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11267/ANY/0003.patch
@@ -216,5 +253,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-27363/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28972/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/^5.2.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p216"
+editKernelLocalversion "-dos.p253"
 cd "$DOS_BUILD_BASE"

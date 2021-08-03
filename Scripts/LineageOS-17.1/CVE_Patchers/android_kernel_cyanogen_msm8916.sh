@@ -136,8 +136,15 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-10940/^4.16.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11273/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11286/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11832/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11894/prima/0001.patch --directory=drivers/staging/prima
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11904/prima/0009.patch --directory=drivers/staging/prima
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11904/prima/0010.patch --directory=drivers/staging/prima
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11904/prima/0011.patch --directory=drivers/staging/prima
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11904/prima/0012.patch --directory=drivers/staging/prima
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11904/prima/0013.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11918/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11939/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11955/prima/0001.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11987/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-12233/^4.17.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-13053/3.10/0008.patch
@@ -163,6 +170,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-3460/3.10/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/3.10/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10142/^5.0.17/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10491/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10508/prima/0001.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10519/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10607/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10622/ANY/0002.patch
@@ -216,12 +224,17 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20636/^5.4.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0030/3.10/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0429/^4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0431/^3.18/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3651/prima/0001.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-8647/^5.5.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-9383/^5.5.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-10773/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11115/prima/0003.patch --directory=drivers/staging/prima
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11116/prima/0003.patch --directory=drivers/staging/prima
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11118/prima/0003.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11234/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11267/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11267/ANY/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11272/prima/0002.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11286/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11565/^5.6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/^5.6.1/0001.patch
@@ -233,9 +246,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-13974/^5.7.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14314/^5.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14386/3.10-^4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-15393/^5.7.6/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24588/prima/0015.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25643/^5.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25669/^5.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25673/^5.12/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26139/prima/0009.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27066/^5.5/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27815/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28974/^5.10/0001.patch
@@ -254,5 +269,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28972/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/^5.2.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/^5.3.11/0001.patch
-editKernelLocalversion "-dos.p254"
+editKernelLocalversion "-dos.p269"
 cd "$DOS_BUILD_BASE"
