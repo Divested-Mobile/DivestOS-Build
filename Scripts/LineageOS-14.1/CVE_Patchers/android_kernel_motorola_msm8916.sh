@@ -207,8 +207,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-14051/3.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-14106/3.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-14489/^4.13.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15102/3.10/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15817/prima/0001.patch --directory=drivers/staging/prima
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15817/prima/0002.patch --directory=drivers/staging/prima
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15817/prima/0001.patch --directory=drivers/staging/prima
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15817/prima/0002.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15837/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16526/^4.13.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16532/^4.13.11/0001.patch

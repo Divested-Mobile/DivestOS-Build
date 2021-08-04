@@ -510,6 +510,7 @@ echo "Deblobbing...";
 	#blobs=$blobs"|es305_fw.bin"; #XXX: breaks audio
 	#blobs=$blobs"|aonvr1.bin|aonvr2.bin"; #XXX: required by adspd, likely for more than VR
 	blobs=$blobs"|vendor.qti.voiceprint.*";
+	blobs=$blobs"|com.android.hotwordenrollment.*";
 	#makes=$makes"|android.hardware.soundtrigger.*|libsoundtriggerservice";
 	#makes=$makes"|sound_trigger_mixer_paths.xml|sound_trigger_platform_info.xml";
 
