@@ -668,7 +668,7 @@ hardenDefconfig() {
 	#optionsYes+="GCC_PLUGINS" "GCC_PLUGIN_LATENT_ENTROPY" "GCC_PLUGIN_RANDSTRUCT" "GCC_PLUGIN_STRUCTLEAK" "GCC_PLUGIN_STRUCTLEAK_BYREF_ALL");
 	optionsYes+=("PAGE_SANITIZE" "PAGE_SANITIZE_VERIFY" "SLAB_CANARY" "SLAB_SANITIZE" "SLAB_SANITIZE_VERIFY");
 	#if [ "$DOS_DEBLOBBER_REPLACE_TIME" = true ]; then optionsYes+=("RTC_DRV_MSM" "RTC_DRV_PM8XXX" "RTC_DRV_MSM7X00A" "RTC_DRV_QPNP"); fi;
-	optionsYes+=("HID_STEAM" "HID_SONY" "HID_WIIMOTE" "INPUT_JOYSTICK" "JOYSTICK_XPAD"); #XXX: This needs a better home
+	optionsYes+=("HID_GENERIC" "HID_STEAM" "HID_SONY" "HID_WIIMOTE" "INPUT_JOYSTICK" "JOYSTICK_XPAD" "USB_USBNET" "USB_NET_CDCETHER"); #XXX: This needs a better home
 	for option in "${optionsYes[@]}"
 	do
 		sed -i 's/# '"CONFIG_$option"' is not set/'"CONFIG_$option"'=y/' $defconfigPath &>/dev/null || true;
