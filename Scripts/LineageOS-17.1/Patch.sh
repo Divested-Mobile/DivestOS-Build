@@ -359,6 +359,9 @@ cd "$DOS_BUILD_BASE";
 deblobAudio;
 removeBuildFingerprints;
 
+#Tweaks for <2GB RAM devices
+#enableLowRam "device/motorola/osprey";
+
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/yellowstone/arch/arm*/configs/*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/motorola/msm8996/arch/arm64/configs/*_defconfig; #Breaks on compile
