@@ -57,14 +57,14 @@ cp -r "$DOS_PATCHES_COMMON""android_vendor_divested/." "$DOS_BUILD_BASE""vendor/
 if enterAndClear "bootable/recovery"; then
 git revert --no-edit 3c0d796b79c7a1ee904e0cef7c0f2e20bf84c237; #remove sideload cache, breaks with large files
 patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button?
-sed -i 's/(!has_serial_number || serial_number_matched)/!has_serial_number/' recovery.cpp; #Abort on serial number specific packages (GrapheneOS)
+sed -i 's/(!has_serial_number || serial_number_matched)/!has_serial_number/' recovery.cpp; #Abort package installs if they are specific to a serial number (GrapheneOS)
 fi;
 
 if enterAndClear "build"; then
-patch -p1 < "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #add correct keys to recovery for OTA verification
-sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk;
+patch -p1 < "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys to recovery for OTA verification
+sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
-sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk; #Switch to Silence
+sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk; #Replace the Messaging app with Silence
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -74,7 +74,7 @@ fi;
 
 if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then
 if enterAndClear "external/chromium-webview"; then
-DOS_WEBVIEW_CHERRYPICK; #update webview
+DOS_WEBVIEW_CHERRYPICK; #Update the WebView to latest if available
 fi;
 fi;
 
@@ -87,20 +87,20 @@ patch -p1 < "$DOS_PATCHES/android_frameworks_av/212799.patch"; #FLAC extractor C
 fi;
 
 if enterAndClear "frameworks/base"; then
-hardenLocationFWB "$DOS_BUILD_BASE";
-git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #re-enable doze on devices without gms
-sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox
-sed -i 's/(notif.needNotify)/(true)/' location/java/com/android/internal/location/GpsNetInitiatedHandler.java; #Notify user when location is requested via SUPL
-sed -i 's/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 72 \* 60 \* 60 \* 1000;/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 12 * 60 * 60 * 1000;/' core/java/android/app/admin/DevicePolicyManager.java; #decrease strong auth prompt timeout
+hardenLocationFWB "$DOS_BUILD_BASE"; #Harden the default GPS config
+git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
+sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox internal logging service
+sed -i 's/(notif.needNotify)/(true)/' location/java/com/android/internal/location/GpsNetInitiatedHandler.java; #Notify the user if their location is requested via SUPL
+sed -i 's/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 72 \* 60 \* 60 \* 1000;/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 12 * 60 * 60 * 1000;/' core/java/android/app/admin/DevicePolicyManager.java; #Decrease the strong auth prompt timeout to occur more often
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0003-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
-changeDefaultDNS;
+changeDefaultDNS; #Change the default DNS servers
 #patch -p1 < "$DOS_PATCHES/android_frameworks_base/0007-Connectivity.patch"; #Change connectivity check URLs to ours
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
-patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #don't grant location permission to system browsers (GrapheneOS)
-patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #don't send IMSI to SUPL (MSe)
+patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
+patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 rm -rf packages/Osu; #Automatic Wi-Fi connection non-sense
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
 fi;
@@ -125,7 +125,7 @@ awk -i inplace '!/com.android.internal.R.bool.config_permissionReviewRequired/' 
 fi;
 
 if enterAndClear "hardware/ti/omap4"; then
-patch -p1 < "$DOS_PATCHES/android_hardware_ti_omap4/0001-tuna-camera.patch"; #fix camera on tuna
+patch -p1 < "$DOS_PATCHES/android_hardware_ti_omap4/0001-tuna-camera.patch"; #Fix camera on tuna
 fi;
 
 if enterAndClear "hardware/ti/wlan"; then
@@ -177,7 +177,7 @@ git apply "$DOS_PATCHES/android_hardware_qcom_display/227624.patch"; #n_asb_09-2
 fi;
 
 if enterAndClear "hardware/qcom/gps"; then
-git apply "$DOS_PATCHES/android_hardware_qcom_gps/0001-rollover.patch"; #fix week rollover
+git apply "$DOS_PATCHES/android_hardware_qcom_gps/0001-rollover.patch"; #Fix week rollover
 fi;
 
 if enterAndClear "hardware/qcom/media"; then
@@ -204,9 +204,9 @@ patch -p1 < "$DOS_PATCHES/android_packages_apps_PackageInstaller/64d8b44.diff"; 
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
-git revert --no-edit 2ebe6058c546194a301c1fd22963d6be4adbf961; #don't hide oem unlock
+git revert --no-edit 2ebe6058c546194a301c1fd22963d6be4adbf961; #Don't hide OEM unlock
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/201113.patch"; #wifi: Add world regulatory domain country code
-patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe)
+patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options
@@ -256,7 +256,7 @@ patch -p1 < "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts
 fi;
 
 if enterAndClear "system/sepolicy"; then
-patch -p1 < "$DOS_PATCHES/android_system_sepolicy/248600.patch"; #restrict access to timing information in /proc
+patch -p1 < "$DOS_PATCHES/android_system_sepolicy/248600.patch"; #Restrict access to timing information in /proc
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices
 fi;
 
@@ -265,34 +265,34 @@ patch -p1 < "$DOS_PATCHES/android_system_vold/0001-AES256.patch"; #Add a variabl
 fi;
 
 if enterAndClear "vendor/cm"; then
-rm build/target/product/security/lineage.x509.pem;
+rm build/target/product/security/lineage.x509.pem; #Remove Lineage keys
 rm -rf overlay/common/vendor/cmsdk/packages; #Remove analytics
-rm -rf overlay/common/frameworks/base/core/res/res/drawable-*/default_wallpaper.png;
+rm -rf overlay/common/frameworks/base/core/res/res/drawable-*/default_wallpaper.png; #Remove Lineage wallpaper
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
-awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove extra keys
-awk -i inplace '!/security\/lineage/' config/common.mk; #Remove extra keys
+awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/common.mk; #Remove Lineage extra keys
+awk -i inplace '!/security\/lineage/' config/common.mk; #Remove Lineage extra keys
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
-	awk -i inplace '!/AudioFX/' config/common.mk;
+	awk -i inplace '!/AudioFX/' config/common.mk; #Remove AudioFX
 	awk -i inplace '!/AudioService/' config/common.mk;
 fi;
-awk -i inplace '!/def_backup_transport/' overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml;
-if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then sed -i '/Google provider/!b;n;s/com.google.android.gms/org.microg.nlp/' overlay/common/frameworks/base/core/res/res/values/config.xml; fi;
+awk -i inplace '!/def_backup_transport/' overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml; #Unset default backup provider
+if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then sed -i '/Google provider/!b;n;s/com.google.android.gms/org.microg.nlp/' overlay/common/frameworks/base/core/res/res/values/config.xml; fi; #Adjust the fused providers
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/CM_BUILDTYPE := dos/CM_BUILDTYPE := dosNC/' config/common.mk; fi;
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
 cp -f "$DOS_PATCHES_COMMON/apns-conf.xml" prebuilt/common/etc/apns-conf.xml; #Update APN list
-sed -i 's/messaging/Silence/' config/telephony.mk; #Switch to Silence
+sed -i 's/messaging/Silence/' config/telephony.mk; #Replace the Messaging app with Silence
 fi;
 
 if enterAndClear "vendor/cmsdk"; then
 awk -i inplace '!/WeatherManagerServiceBroker/' cm/res/res/values/config.xml; #Disable Weather
-if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/CMAudioService/' cm/res/res/values/config.xml; fi;
+if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/CMAudioService/' cm/res/res/values/config.xml; fi; #Remove AudioFX
 sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod/platform/internal/PerformanceManagerService.java; #Per app performance profiles fix
 fi;
 
 if enter "vendor/divested"; then
-if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi;
-if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi;
+if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi; #Include microG
+if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi; #Include blocker app
 fi;
 #
 #END OF ROM CHANGES

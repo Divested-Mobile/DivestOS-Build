@@ -59,8 +59,8 @@ sed -i 's/LOCAL_DEX_PREOPT := false/LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACK
 sed -i 's/LOCAL_DEX_PREOPT := false/LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)/' vendor/fdroid_prebuilt/Android.mk;
 
 if enterAndClear "build"; then
-sed -i 's/Mms/Silence/' target/product/*.mk; #Replace AOSP Messaging app with Silence
-sed -i '497i$(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/base_rules.mk;
+sed -i 's/Mms/Silence/' target/product/*.mk; #Replace the Messaging app with Silence
+sed -i '497i$(LOCAL_INTERMEDIATE_TARGETS) : PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/base_rules.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i '80iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package.mk;
 fi;
 
@@ -107,7 +107,7 @@ patch -p1 < "$DOS_PATCHES/android_frameworks_av/261041.patch"; #asb-2019.10-cm11
 fi;
 
 if enterAndClear "frameworks/base"; then
-hardenLocationFWB "$DOS_BUILD_BASE";
+hardenLocationFWB "$DOS_BUILD_BASE"; #Harden the default GPS config
 sed -i 's/com.android.mms/org.smssecure.smssecure/' core/res/res/values/config.xml; #Change default SMS app to Silence
 sed -i 's|db_default_journal_mode">PERSIST|db_default_journal_mode">TRUNCATE|' core/res/res/values/config.xml; #Mirror SQLite secure_delete
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then patch -p1 < "$DOS_PATCHES/android_frameworks_base/0001-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
@@ -117,7 +117,7 @@ patch -p1 < "$DOS_PATCHES/android_frameworks_base/256318.patch"; #asb-2019.09-cm
 #patch -p1 < "$DOS_PATCHES/android_frameworks_base/264100.patch"; #asb-2019.11-cm11 XXX: breaks things
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/265311.patch"; #asb-2019.12-cm11
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/267438.patch"; #asb-2020.01-cm11
-changeDefaultDNS;
+changeDefaultDNS; #Change the default DNS servers
 #patch -p1 < "$DOS_PATCHES/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries #TODO BACKPORT-11.0
 fi;
 
@@ -178,18 +178,18 @@ if enterAndClear "vendor/cm"; then
 rm -rf terminal;
 awk -i inplace '!/50-cm.sh/' config/common.mk; #Make sure our hosts is always used
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
-	awk -i inplace '!/DSPManager/' config/common.mk;
+	awk -i inplace '!/DSPManager/' config/common.mk; #Remove AudioFX
 fi;
-if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then sed -i '/Google provider/!b;n;s/com.google.android.gms/org.microg.nlp/' overlay/common/frameworks/base/core/res/res/values/config.xml; fi;
+if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then sed -i '/Google provider/!b;n;s/com.google.android.gms/org.microg.nlp/' overlay/common/frameworks/base/core/res/res/values/config.xml; fi; #Adjust the fused providers
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/CM_BUILDTYPE := dos/CM_BUILDTYPE := dosNC/' config/common.mk; fi;
-sed -i 's/Mms/Silence/' config/telephony.mk; #Replace AOSP Messaging app with Silence
+sed -i 's/Mms/Silence/' config/telephony.mk; #Replace the Messaging app with Silence
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
 fi;
 
 if enter "vendor/divested"; then
-if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi;
-if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi;
+if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi; #Include microG
+if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi; #Include blocker app
 awk -i inplace '!/FairEmail/' packages.mk; #FairEmail requires 5.0+
 fi;
 #
