@@ -687,6 +687,7 @@ hardenDefconfig() {
 	#fi;
 	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then optionsNo+=("IPA" "RMNET_IPA"); fi;
 	optionsNo+=("WIREGUARD"); #Requires root access, which we do not provide
+	#optionsNo+=("LTO_CLANG"); #Can easily require 64GB of RAM on host system to compile
 	for option in "${optionsNo[@]}"
 	do
 		sed -i 's/'"CONFIG_$option"'=y/# '"CONFIG_$option"' is not set/' $defconfigPath &>/dev/null || true;

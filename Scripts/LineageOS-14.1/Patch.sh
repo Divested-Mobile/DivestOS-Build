@@ -55,7 +55,7 @@ cp -r "$DOS_PREBUILT_APPS""android_vendor_FDroid_PrebuiltApps/." "$DOS_BUILD_BAS
 cp -r "$DOS_PATCHES_COMMON""android_vendor_divested/." "$DOS_BUILD_BASE""vendor/divested/"; #Add our vendor files
 
 if enterAndClear "bootable/recovery"; then
-git revert --no-edit 3c0d796b79c7a1ee904e0cef7c0f2e20bf84c237; #remove sideload cache, breaks with large files
+git revert --no-edit 3c0d796b79c7a1ee904e0cef7c0f2e20bf84c237; #Remove sideload cache, breaks with large files
 patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button?
 sed -i 's/(!has_serial_number || serial_number_matched)/!has_serial_number/' recovery.cpp; #Abort package installs if they are specific to a serial number (GrapheneOS)
 fi;
@@ -376,7 +376,6 @@ removeBuildFingerprints;
 
 #Tweaks for <2GB RAM devices
 enableLowRam "device/asus/grouper";
-enableLowRam "device/motorola/osprey";
 enableLowRam "device/samsung/i9100";
 enableLowRam "device/samsung/i9300";
 enableLowRam "device/samsung/i9305";

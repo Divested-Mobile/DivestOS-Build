@@ -94,11 +94,6 @@
 	<project path="device/lge/h815" name="LineageOS/android_device_lge_h815" remote="github" />
 	<project path="kernel/lge/msm8992" name="LineageOS/android_kernel_lge_msm8992" remote="github" />
 
-	<!-- Moto G 3rd Gen (osprey) -->
-	<project path="device/motorola/msm8916-common" name="LineageOS/android_device_motorola_msm8916-common" remote="github" />
-	<project path="device/motorola/osprey" name="LineageOS/android_device_motorola_osprey" remote="github" />
-	<project path="kernel/motorola/msm8916" name="LineageOS/android_kernel_motorola_msm8916" remote="github" />
-
 	<!-- Moto X Pure Edition (clark) -->
 	<project path="device/motorola/clark" name="LineageOS/android_device_motorola_clark" remote="github" />
 	<project path="kernel/motorola/msm8992" name="LineageOS/android_kernel_motorola_msm8992" remote="github" />
