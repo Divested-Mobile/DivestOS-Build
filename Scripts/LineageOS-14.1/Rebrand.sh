@@ -63,6 +63,7 @@ fi;
 if enter "vendor/cm"; then
 sed -i 's|https://lineageos.org/legal|'"$DOS_BRANDING_LINK_ABOUT"'|' config/common.mk;
 sed -i '/.*ZIPPATH=/s/lineage/'"$DOS_BRANDING_ZIP_PREFIX"'/' build/envsetup.sh;
+sed -i '/.*config_mms_user_agent/s/LineageOS/'"$DOS_BRANDING_NAME"'/g' overlay/common/frameworks/base/core/res/res/values*/config.xml
 rm -rf bootanimation;
 fi;
 

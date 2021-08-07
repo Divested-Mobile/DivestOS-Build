@@ -85,10 +85,6 @@ DOS_WEBVIEW_CHERRYPICK; #Update the WebView to latest if available
 fi;
 fi;
 
-if enterAndClear "external/sqlite"; then
-git pull "https://github.com/LineageOS/android_external_sqlite" refs/changes/13/314513/1; #Q_asb_2021-08
-fi;
-
 if enterAndClear "external/svox"; then
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 sed -i '12iLOCAL_SDK_VERSION := current' pico/Android.mk; #Fix build under Pie
@@ -234,10 +230,6 @@ fi;
 
 if enterAndClear "system/extras"; then
 patch -p1 < "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #FBE: pad filenames more (GrapheneOS)
-fi;
-
-if enterAndClear "system/libhwbinder"; then
-git pull "https://github.com/LineageOS/android_system_libhwbinder" refs/changes/20/314520/1; #Q_asb_2021-08
 fi;
 
 if enterAndClear "system/sepolicy"; then
