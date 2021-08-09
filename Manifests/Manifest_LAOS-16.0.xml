@@ -105,11 +105,6 @@
 	<project path="device/cyanogen/msm8916-common" name="LineageOS/android_device_cyanogen_msm8916-common" remote="github" />
 	<project path="kernel/cyanogen/msm8916" name="LineageOS/android_kernel_cyanogen_msm8916" remote="github" />
 
-	<!-- Xiaomi Poco F1 (beryllium) -->
-	<project path="device/xiaomi/beryllium" name="LineageOS/android_device_xiaomi_beryllium" remote="github" />
-	<project path="device/xiaomi/sdm845-common" name="LineageOS/android_device_xiaomi_sdm845-common" remote="github" />
-	<project path="kernel/xiaomi/sdm845" name="LineageOS/android_kernel_xiaomi_sdm845" remote="github" />
-
 	<!-- Zuk Z1 (ham) -->
 	<project path="device/zuk/ham" name="LineageOS/android_device_zuk_ham" remote="github" />
 	<project path="kernel/cyanogen/msm8974" name="LineageOS/android_kernel_cyanogen_msm8974" remote="github" />

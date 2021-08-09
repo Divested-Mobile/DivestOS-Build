@@ -18,7 +18,7 @@
 #Last verified: 2021-03-22
 
 patchAllKernels() {
-	startPatcher "kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_fxtec_msm8998 kernel_google_coral kernel_google_msm kernel_google_msm-4.9 kernel_google_wahoo kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_razer_sdm845 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_xiaomi_sdm845";
+	startPatcher "kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_fxtec_msm8998 kernel_google_coral kernel_google_msm kernel_google_msm-4.9 kernel_google_wahoo kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_razer_sdm845 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_xiaomi_sdm845 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250";
 }
 export -f patchAllKernels;
 
@@ -91,7 +91,7 @@ buildAll() {
 	buildDevice walleye avb;
 	#SD845
 	buildDevice aura avb;
-	buildDevice beryllium; #needs manual patching in vendor
+	buildDevice beryllium avb;
 	buildDevice pro1 avb;
 	buildDevice crosshatch avb;
 	buildDevice blueline avb;
@@ -105,6 +105,11 @@ buildAll() {
 	buildDevice hotdogb avb;
 	buildDevice coral avb;
 	buildDevice flame avb;
+	#buildDevice raphael avb; #unb + missing vendor
+	#SD865
+	buildDevice lmi avb;
+	#SD870
+	buildDevice alioth avb;
 	#SD670
 	buildDevice bonito avb; #error: ln: cannot create symbolic link from '/data/vendor/rfs/mpss' to 'out/target/product/bonito/vendor/rfs/msm/mpss//readwrite':
 	buildDevice sargo avb;

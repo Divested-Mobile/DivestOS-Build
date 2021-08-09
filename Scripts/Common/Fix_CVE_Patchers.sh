@@ -73,6 +73,7 @@ commentPatches android_kernel_samsung_smdk4412.sh "CVE-2012-2127" "CVE-2016-8463
 commentPatches android_kernel_samsung_tuna.sh "CVE-2012-2127";
 commentPatches android_kernel_samsung_universal8890.sh "CVE-2016-7917" "CVE-2018-1092" "CVE-2018-17972" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166";
 commentPatches android_kernel_samsung_universal9810.sh "CVE-2020-1749";
+commentPatches android_kernel_xiaomi_sm8250.sh "0008-Graphene-Kernel_Hardening/4.19/0101.patch" "CVE-2018-5873" "CVE-2020-1749" "CVE-2021-3444" "CVE-2021-3600";
 commentPatches android_kernel_yandex_sdm660.sh "CVE-2019-11599" "CVE-2019-14070/ANY/0005.patch" "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992" "CVE-2020-16166";
 commentPatches android_kernel_zte_msm8930.sh "CVE-2015-2922" "CVE-2017-11015/prima";
 commentPatches android_kernel_zte_msm8996.sh "0001-LinuxIncrementals/3.18/3.18.0098-0099.patch" "CVE-2017-13162" "CVE-2017-15951" "CVE-2017-16939" "CVE-2018-17972" "CVE-2019-2214" "CVE-2019-14070" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166";

@@ -148,6 +148,14 @@ if enterAndClear "hardware/qcom-caf/sdm845/audio"; then
 patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-sdm845.patch"; #audio_extn: Fix unused parameter warning in utils.c
 fi;
 
+if enterAndClear "hardware/qcom-caf/sdm8150/audio"; then
+patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-sm8150.patch"; #audio_extn: Fix unused parameter warning in utils.c
+fi;
+
+if enterAndClear "hardware/qcom-caf/sdm8250/audio"; then
+patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-sm8150.patch"; #audio_extn: Fix unused parameter warning in utils.c
+fi;
+
 if enterAndClear "lineage-sdk"; then
 awk -i inplace '!/LineageWeatherManagerService/' lineage/res/res/values/config.xml; #Disable Weather
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi; #Remove AudioFX
@@ -297,6 +305,10 @@ if enterAndClear "device/google/crosshatch"; then
 enableVerity; #Resurrect dm-verity
 fi;
 
+if enterAndClear "device/google/taimen"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
 if enterAndClear "device/google/wahoo"; then
 enableVerity; #Resurrect dm-verity
 fi;
@@ -340,6 +352,10 @@ if enterAndClear "device/oneplus/msm8998-common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
 fi;
 
+if enterAndClear "device/oneplus/sdm845-common"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
 if enterAndClear "device/oneplus/sm8150-common"; then
 enableVerity; #Resurrect dm-verity
 fi;
@@ -364,6 +380,18 @@ fi;
 if enterAndClear "device/samsung/msm8974-common"; then
 echo "TARGET_RECOVERY_DENSITY := hdpi" >> BoardConfigCommon.mk;
 echo "allow hal_gnss_default ssr_device:chr_file { open read };" >> sepolicy/common/hal_gnss_default.te;
+fi;
+
+if enterAndClear "device/xiaomi/sdm845-common"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
+if enterAndClear "device/xiaomi/sm8150-common"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
+if enterAndClear "device/xiaomi/sm8250-common"; then
+enableVerity; #Resurrect dm-verity
 fi;
 
 if enterAndClear "kernel/google/wahoo"; then

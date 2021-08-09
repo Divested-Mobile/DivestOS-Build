@@ -647,7 +647,7 @@ getDefconfig() {
 	elif ls arch/arm64/configs/lineage*defconfig 1> /dev/null 2>&1; then
 		local defconfigPath="arch/arm64/configs/lineage*defconfig";
 	else
-		local defconfigPath="arch/arm/configs/*defconfig arch/arm64/configs/*defconfig";
+		local defconfigPath="arch/arm*/configs/*defconfig arch/arm*/configs/*/*defconfig";
 	fi;
 	echo $defconfigPath;
 }

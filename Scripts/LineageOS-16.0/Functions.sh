@@ -18,7 +18,7 @@
 #Last verified: 2018-04-27
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_asus_msm8953 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_google_yellowstone kernel_lge_hammerhead kernel_xiaomi_sdm845";
+	startPatcher "kernel_asus_fugu kernel_asus_msm8953 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_google_yellowstone kernel_lge_hammerhead";
 }
 export -f patchAllKernels;
 
@@ -62,8 +62,6 @@ buildAll() {
 	buildDevice kipper;
 	#SD625
 	buildDevice zenfone3; #broken - ninja: error: 'android.hidl.base@1.0.so', missing and no known rule to make it
-	#SD845
-	buildDevice beryllium;
 	#Intel
 	buildDevice fugu; #broken - ninja: error: 'libpcre2.so' missing and no known rule to make it
 	#Tegra

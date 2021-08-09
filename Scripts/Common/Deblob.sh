@@ -597,14 +597,7 @@ deblobDevice() {
 	if [ "$DOS_DEBLOBBER_REMOVE_RENDERSCRIPT" = true ] || [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
 		awk -i inplace '!/RS_DRIVER/' BoardConfig*.mk &>/dev/null || true;
 	fi;
-	if [ -f device-common.mk ]; then
-		awk -i inplace '!/'"$makes"'/' device-common.mk; #Remove references from common makefile
-	fi;
-	if [ -f common.mk ]; then
-		awk -i inplace '!/'"$makes"'/' common.mk; #Remove references from common makefile
-	fi;
 	if [ -f device.mk ]; then
-		awk -i inplace '!/'"$makes"'/' device.mk; #Remove references from device makefile
 		if [ -z "$replaceTime" ]; then
 			echo "PRODUCT_PACKAGES += timekeep TimeKeep" >> device.mk; #Switch to Sony TimeKeep
 		fi;
@@ -615,8 +608,6 @@ deblobDevice() {
 	local baseDirTmp=${PWD##*/};
 	local suffixTmp="-common";
 	if [ -f "${PWD##*/}".mk ] && [ "${PWD##*/}".mk != "sepolicy" ]; then
-		awk -i inplace '!/'"$makes"'/' "${PWD##*/}".mk; #Remove references from device makefile
-		awk -i inplace '!/'"$makes"'/' "${baseDirTmp%"$suffixTmp"}".mk &>/dev/null || true; #Remove references from device makefile
 		if [ -z "$replaceTime" ]; then
 			echo "PRODUCT_PACKAGES += timekeep TimeKeep" >> "${PWD##*/}".mk; #Switch to Sony TimeKeep
 		fi;
@@ -802,6 +793,7 @@ export -f deblobVendorBp;
 #
 find build -name "*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'awk -i inplace "!/$makes/" "{}"'; #Deblob all makefiles
 find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \;; #Deblob all device directories
+find device -name "*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'awk -i inplace "!/$makes/" "{}"'; #Deblob all makefiles
 #find device -maxdepth 3 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobSepolicy "{}"'; #Deblob all device sepolicy directories XXX: Breaks builds when other sepolicy files reference deleted ones
 #find kernel -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobKernel "{}"'; #Deblob all kernel directories
 find vendor -name "*endor*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobVendorMk "{}"'; #Deblob all makefiles
