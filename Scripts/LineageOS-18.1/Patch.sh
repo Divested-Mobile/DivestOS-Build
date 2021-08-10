@@ -148,11 +148,11 @@ if enterAndClear "hardware/qcom-caf/sdm845/audio"; then
 patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-sdm845.patch"; #audio_extn: Fix unused parameter warning in utils.c
 fi;
 
-if enterAndClear "hardware/qcom-caf/sdm8150/audio"; then
+if enterAndClear "hardware/qcom-caf/sm8150/audio"; then
 patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-sm8150.patch"; #audio_extn: Fix unused parameter warning in utils.c
 fi;
 
-if enterAndClear "hardware/qcom-caf/sdm8250/audio"; then
+if enterAndClear "hardware/qcom-caf/sm8250/audio"; then
 patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-sm8150.patch"; #audio_extn: Fix unused parameter warning in utils.c
 fi;
 

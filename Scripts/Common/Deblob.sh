@@ -241,7 +241,7 @@ echo "Deblobbing...";
 	makes=$makes"|android.hardware.telephony.euicc.*";
 
 	#Google Camera
-	#blobs=$blobs"|com.google.android.camera.*"; #XXX: breaks cameara on Pixel 2?
+	#blobs=$blobs"|com.google.android.camera.*";
 
 	#Google Setup Wizard
 	blobs=$blobs"|DreamlinerPrebuilt.apk|DreamlinerUpdater.apk";
@@ -270,8 +270,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|hdcp1.*|hdcp2.*|tzhdcp.*";
 
 	#HDR
-	blobs=$blobs"|libhdr.*.so";
-	blobs=$blobs"|libdovi.so";
+	blobs=$blobs"|libdovi.so|libhdr_tm.so";
 	blobs=$blobs"|DolbyVisionService.apk";
 	blobs=$blobs"|dolby_vision.cfg|hdr_tm_config.xml";
 
@@ -424,7 +423,7 @@ echo "Deblobbing...";
 	#Pixel Visual Core [Google]
 	#blobs=$blobs"|easelmanagerd";
 	#blobs=$blobs"|EaselServicePrebuilt.apk";
-	#blobs=$blobs"|libeaselcomm.so|libeaselcontrol.amber.so";
+	#blobs=$blobs"|libeaselcomm.so|libeaselcontrol.amber.so|libhdrplusclient.so|libhdrplusclientimpl.so|libhdrplusmessenger.so";
 
 	#Playready (DRM) [Microsoft]
 	blobs=$blobs"|prapp|scranton_RD";
