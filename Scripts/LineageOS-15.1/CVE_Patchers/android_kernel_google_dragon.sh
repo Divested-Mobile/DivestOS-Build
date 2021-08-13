@@ -23,7 +23,6 @@ git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.18/00
 git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.18/0041.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.18/0045.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.18/0050.patch
-git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0013.patch
 git apply $DOS_PATCHES_LINUX_CVES/0090-Unknown/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0090-Unknown/ANY/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-4312/3.18/0007.patch
@@ -556,6 +555,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27066/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27068/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27815/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27825/3.18/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28097/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28915/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28915/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28915/3.18/0003.patch
@@ -586,6 +586,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-31916/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-32399/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33034/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33909/3.18/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-38204/^5.14/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0004/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0003-tunnels-Don-t-apply-GRO-to-multiple-layers-of-encaps.patch
@@ -597,5 +598,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7542/3.18/0003.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15951/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/3.18/0003.patch
-editKernelLocalversion "-dos.p597"
+editKernelLocalversion "-dos.p598"
 cd "$DOS_BUILD_BASE"

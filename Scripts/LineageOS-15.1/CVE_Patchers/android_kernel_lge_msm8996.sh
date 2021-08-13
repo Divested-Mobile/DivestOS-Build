@@ -26,9 +26,6 @@ git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.18/00
 git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.18/0045.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.18/0046.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.18/0050.patch
-git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0018.patch
-git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0019.patch
-git apply $DOS_PATCHES_LINUX_CVES/0007-Accelerated_AES/3.10+/0023.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0090-Unknown/ANY/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9900/ANY/0001.patch
@@ -446,6 +443,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27066/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27068/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27815/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27825/3.18/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28097/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28915/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28915/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-28915/3.18/0003.patch
@@ -481,8 +479,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-30002/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-31916/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-32399/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33909/3.18/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-38204/^5.14/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0610/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/3.18/0003.patch
-editKernelLocalversion "-dos.p484"
+editKernelLocalversion "-dos.p483"
 cd "$DOS_BUILD_BASE"
