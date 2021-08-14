@@ -110,6 +110,19 @@
 	<project path="device/google/flame" name="LineageOS/android_device_google_flame" remote="github" />
 	<project path="kernel/google/coral" name="LineageOS/android_kernel_google_coral" remote="github" />
 
+	<!-- Google Pixel 4a (sunfish) -->
+	<project path="device/google/sunfish" name="LineageOS/android_device_google_sunfish" remote="github" />
+	<project path="kernel/google/sunfish" name="LineageOS/android_kernel_google_sunfish" remote="github" />
+
+	<!-- Google Pixel 4a 5G (bramble) -->
+	<project path="device/google/bramble" name="LineageOS/android_device_google_bramble" remote="github" />
+	<project path="device/google/redbull" name="LineageOS/android_device_google_redbull" remote="github" />
+	<project path="kernel/google/redbull" name="LineageOS/android_kernel_google_redbull" remote="github" />
+
+	<!-- Google Pixel 5 (redfin) -->
+	<project path="device/google/redfin" name="LineageOS/android_device_google_redfin" remote="github" />
+	<!-- uses redbull commons -->
+
 	<!-- HTC One (m8) -->
 	<project path="device/htc/m8" name="LineageOS/android_device_htc_m8" remote="github" />
 	<project path="device/htc/m8-common" name="LineageOS/android_device_htc_m8-common" remote="github" />

@@ -297,11 +297,31 @@ enableVerity; #Resurrect dm-verity
 awk -i inplace '!/INODE_COUNT/' BoardConfigLineage.mk; #mke2fs -1 incompatibility (?)
 fi;
 
+if enterAndClear "device/google/bramble"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
 if enterAndClear "device/google/coral"; then
 enableVerity; #Resurrect dm-verity
 fi;
 
 if enterAndClear "device/google/crosshatch"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
+if enterAndClear "device/google/muskie"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
+if enterAndClear "device/google/redbull"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
+if enterAndClear "device/google/redfin"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
+if enterAndClear "device/google/sunfish"; then
 enableVerity; #Resurrect dm-verity
 fi;
 
