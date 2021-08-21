@@ -124,13 +124,13 @@ echo "Deblobbing...";
 	blobs=$blobs"|libhdcpsrm.so|libcpion.so";
 	makes=$makes"|DxHDCP.cfg";
 
-	#Display Color Tuning [Qualcomm]
-	blobs=$blobs"|mm-pp-daemon|mm-pp-dpps";
+	#Display Color Tuning [Qualcomm] #XXX: still breaks boot on some devices
+	#blobs=$blobs"|mm-pp-daemon|mm-pp-dpps";
 	blobs=$blobs"|colorservice.apk|PPPreference.apk|CABLService.apk|QdcmFF.apk";
-	blobs=$blobs"|libmm-color-convertor.so|libsd_sdk_display.so|libdpps.so";
+	#blobs=$blobs"|libmm-color-convertor.so|libsd_sdk_display.so|libdpps.so";
 	#blobs=$blobs"|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-disp-apis.so|libmm-qdcm.so"; #XXX: needed for hwcomposer(?)
-	blobs=$blobs"|vendor.display.color.*|vendor.display.postproc.*|vendor.qti.hardware.qdutils_disp.*|com.qti.snapdragon.sdk.display.*";
-	makes=$makes"|vendor.lineage.livedisplay.*service-legacymm";
+	#blobs=$blobs"|vendor.display.color.*|vendor.display.postproc.*|vendor.qti.hardware.qdutils_disp.*|com.qti.snapdragon.sdk.display.*";
+	#makes=$makes"|vendor.lineage.livedisplay.*service-legacymm";
 
 	#DivX (DRM) [DivX]
 	blobs=$blobs"|libDivxDrm.so|libSHIMDivxDrm.so";
