@@ -111,10 +111,6 @@ patch -p1 < "$DOS_PATCHES/android_frameworks_opt_net_ims/0001-Fix_Calling.patch"
 fi;
 fi;
 
-if enterAndClear "frameworks/opt/net/voip"; then
-git pull "https://github.com/LineageOS/android_frameworks_opt_net_voip" refs/changes/74/313374/1; #n-asb-2021-07
-fi;
-
 if enterAndClear "frameworks/opt/net/wifi"; then
 #Fix an issue when permision review is enabled that prevents using the Wi-Fi quick tile (AndroidHardening)
 #See https://github.com/AndroidHardening/platform_frameworks_opt_net_wifi/commit/c2a2f077a902226093b25c563e0117e923c7495b
