@@ -44,6 +44,7 @@ Core - Currently Implemented
             data.putBoolean("firebase_performance_collection_deactivated", true);
             data.putBoolean("google_analytics_adid_collection_enabled", false);
             data.putBoolean("google_analytics_ssaid_collection_enabled", false);
+            data.putBoolean("google_analytics_default_allow_ad_personalization_signals", false);
             data.putString("com.ad4screen.tracking_mode", "Restricted");
             data.putString("com.sprooki.LOCATION_SERVICES", "disable");
 
