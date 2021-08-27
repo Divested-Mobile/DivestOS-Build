@@ -101,6 +101,9 @@
 	<project path="device/motorola/osprey" name="LineageOS/android_device_motorola_osprey" remote="github" />
 	<project path="kernel/motorola/msm8916" name="LineageOS/android_kernel_motorola_msm8916" remote="github" />
 
+	<!-- Moto E 2015 LTE (surnia) -->
+	<project path="device/motorola/surnia" name="LineageOS/android_device_motorola_surnia" remote="github" />
+
 	<!-- Moto X Pure Edition (clark) -->
 	<project path="device/motorola/clark" name="LineageOS/android_device_motorola_clark" remote="github" />
 	<project path="kernel/motorola/msm8992" name="LineageOS/android_kernel_motorola_msm8992" remote="github" />

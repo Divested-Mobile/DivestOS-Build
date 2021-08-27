@@ -287,6 +287,7 @@ fi;
 
 if enterAndClear "device/google/marlin"; then
 git revert --no-edit 777dafa35f185b1f501e3c80b8ab495191583444; #remove some carrier blobs
+sed -i 's/BTLogSave \\/BTLogSave/' common/base.mk; #deblobber fixup
 fi;
 
 if enterAndClear "device/htc/m8-common"; then
@@ -353,6 +354,7 @@ removeBuildFingerprints;
 
 #Tweaks for <2GB RAM devices
 #enableLowRam "device/motorola/osprey";
+#enableLowRam "device/motorola/surnia";
 
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/yellowstone/arch/arm*/configs/*_defconfig; #Breaks on compile

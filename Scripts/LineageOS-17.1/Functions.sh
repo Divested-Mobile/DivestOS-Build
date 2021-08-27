@@ -24,7 +24,7 @@ export -f patchAllKernels;
 
 resetWorkspace() {
 	umask 0022;
-	repo forall -c 'git add -A && git reset --hard' && rm -rf out && repo sync -j20 --force-sync;
+	repo forall -c 'git add -A && git reset --hard' && rm -rf out && repo sync -j8 --force-sync;
 }
 export -f resetWorkspace;
 
@@ -57,6 +57,7 @@ buildAll() {
 	#SD410
 	buildDevice crackling;
 	buildDevice osprey;
+	buildDevice surnia;
 	#SD801
 	buildDevice m8; #18.1 has issues?
 	#SD808
