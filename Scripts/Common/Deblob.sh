@@ -725,7 +725,7 @@ deblobDevice() {
 	fi;
 	rm -rf ifaa org.ifaa.android.manager; #Remove AliPay
 	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then rm -rf data-ipa-cfg-mgr; fi; #Remove IPA
-	rm -rf libshimwvm libshims/wvm_shim.cpp; #Remove Google Widevine compatibility module
+	rm -rf libshim_wvm libshimwvm libshims/wvm_shim.cpp; #Remove Google Widevine compatibility module
 	rm -rf board/qcom-wipower.mk product/qcom-wipower.mk; #Remove WiPower makefiles
 	#awk -i inplace '!/'$ipcSec'/' configs/sec_config &>/dev/null || true; #Remove all IPC security exceptions from sec_config
 	awk -i inplace '!/'$blobs'/' ./*proprietary*.txt &>/dev/null || true; #Remove all blob references from blob manifest

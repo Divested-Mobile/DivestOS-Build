@@ -38,7 +38,7 @@
 #
 #Download some (non-executable) out-of-tree files for use later on
 cd "$DOS_TMP_DIR";
-if [ "$DOS_HOSTS_BLOCKING" = true ]; then $DOS_TOR_WRAPPER wget "$DOS_HOSTS_BLOCKING_LIST" -N; fi;
+if [ "$DOS_HOSTS_BLOCKING" = true ]; then $DOS_TOR_WRAPPER wget "$DOS_HOSTS_BLOCKING_LIST" -N -O "$DOS_HOSTS_FILE"; fi;
 cd "$DOS_BUILD_BASE";
 #
 #END OF PREPRATION
@@ -69,6 +69,7 @@ patch -p1 < "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys 
 sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk; #Replace the Messaging app with Silence
+sed -i 's/2021-06-05/2021-08-05/' core/version_defaults.mk; #Bump Security String to 2021-08-05 #n-asb-2021-08 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -293,6 +294,7 @@ fi;
 if enter "vendor/divested"; then
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi; #Include microG
 if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi; #Include blocker app
+sed -i 's/TalkBack/TalkBackLegacy/' packages.mk;
 fi;
 #
 #END OF ROM CHANGES
@@ -313,6 +315,10 @@ patch -p1 < "$DOS_PATCHES/android_device_asus_grouper/0002-Perf_Tweaks.patch";
 rm proprietary-blobs.txt;
 cp "$DOS_PATCHES/android_device_asus_grouper/lineage-proprietary-files.txt" lineage-proprietary-files.txt;
 echo "allow gpsd system_data_file:dir write;" >> sepolicy/gpsd.te;
+fi;
+
+if enterAndClear "device/htc/m7-common"; then
+sed -i '38,$d' libshims/Android.mk; #Remove a breaking DRM shim
 fi;
 
 if enterAndClear "device/lge/g4-common"; then

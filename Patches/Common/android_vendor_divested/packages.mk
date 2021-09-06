@@ -19,9 +19,11 @@ PRODUCT_PACKAGES += \
     SimpleGallery \
     VanillaMusic
 
+# Extras
+PRODUCT_PACKAGES += \
+    TalkBack
+
 # Notes
-# - Available (via PrebuiltApps submodule): K9Mail, OpenKeychain, Orbot, Shelter, TalkBack
+# - Available (via PrebuiltApps submodule): eSpeakNG, OpenKeychain, Shelter
 # - Camera Choices: None (Camera2/Snap), OpenCamera
 # - Gallery Choices: None (AOSP/Lineage), SimpleGallery
-# - OpenKeychain inclusion is undecided yet
-# - Orbot/TorBrowser will most likely never be included due to various reasons
