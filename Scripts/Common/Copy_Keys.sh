@@ -55,6 +55,7 @@ cat "$DOS_SIGNING_KEYS/sargo/verity.x509.pem" >> "kernel/google/msm-4.9/certs/ve
 #cat "$DOS_SIGNING_KEYS/star2lte/verity.x509.pem" >> "kernel/samsung/universal9810/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/sunfish/verity.x509.pem" >> "kernel/google/sunfish/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/taimen/verity.x509.pem" >> "kernel/google/wahoo/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/vayu/verity.x509.pem" >> "kernel/xiaomi/sm8150/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/walleye/verity.x509.pem" >> "kernel/google/wahoo/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/z2_plus/verity.x509.pem" >> "kernel/zuk/msm8996/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/zenfone3/verity.x509.pem" >> "kernel/asus/msm8953/certs/verity.x509.pem";
@@ -98,6 +99,7 @@ cp -v "$DOS_SIGNING_KEYS/sargo/verifiedboot_relkeys.der.x509" "kernel/google/msm
 #cp -v "$DOS_SIGNING_KEYS/star2lte/verifiedboot_relkeys.der.x509" "kernel/samsung/universal9810/verifiedboot_star2lte_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/sunfish/verifiedboot_relkeys.der.x509" "kernel/google/sunfish/verifiedboot_sunfish_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/taimen/verifiedboot_relkeys.der.x509" "kernel/google/wahoo/verifiedboot_taimen_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/vayu/verifiedboot_relkeys.der.x509" "kernel/xiaomi/sm8150/verifiedboot_vayu_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/walleye/verifiedboot_relkeys.der.x509" "kernel/google/wahoo/verifiedboot_walleye_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/z2_plus/verifiedboot_relkeys.der.x509" "kernel/zuk/msm8996/verifiedboot_z2_plus_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/zenfone3/verifiedboot_relkeys.der.x509" "kernel/asus/msm8953/verifiedboot_zenfone3_dos_relkeys.der.x509";

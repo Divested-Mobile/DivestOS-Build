@@ -178,8 +178,15 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1904/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1915/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1927/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1940/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1941/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1943/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1948/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1961/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1962/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1963/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1963/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1964/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1974/qca-wifi-host-cmn/0002.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3178/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3428/4.14/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3428/4.14/0008.patch
@@ -190,8 +197,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3573/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3609/4.14/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3612/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3653/4.14/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3655/^5.13/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3655/^5.13/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3655/4.14/0011.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3655/4.14/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3655/^5.13/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3656/4.14/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3659/4.14/0003.patch
@@ -244,5 +251,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27830/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.14/0002.patch
-editKernelLocalversion "-dos.p244"
+editKernelLocalversion "-dos.p251"
 cd "$DOS_BUILD_BASE"
