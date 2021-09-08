@@ -50,7 +50,7 @@ commentPatches android_kernel_google_wahoo.sh "CVE-2019-14047/ANY/0002.patch" "C
 commentPatches android_kernel_google_yellowstone.sh "0001-LinuxIncrementals/3.10/3.10.0098-0099.patch" "CVE-2018-9514";
 commentPatches android_kernel_huawei_angler.sh "CVE-2014-8559";
 commentPatches android_kernel_htc_flounder.sh "CVE-2018-9514";
-commentPatches android_kernel_htc_msm8960.sh "CVE-2018-10876";
+commentPatches android_kernel_htc_msm8960.sh "CVE-2018-10876" "CVE-2021-0695";
 commentPatches android_kernel_htc_msm8974.sh "CVE-2016-8393";
 commentPatches android_kernel_htc_msm8994.sh "CVE-2016-8394/ANY/0001.patch" "CVE-2017-13166" "CVE-2018-3585" "CVE-2018-9514";
 commentPatches android_kernel_lge_bullhead.sh "CVE-2014-8559";

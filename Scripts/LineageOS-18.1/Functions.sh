@@ -95,8 +95,8 @@ buildAll() {
 	buildDevice pro1 avb;
 	buildDevice crosshatch avb;
 	buildDevice blueline avb;
-	buildDevice enchilada avb;
-	buildDevice fajita avb;
+	buildDevice enchilada avb; #XXX: uses stock /vendor
+	buildDevice fajita avb; #XXX: uses stock /vendor
 	#SD632
 	buildDevice FP3 avb;
 	#SD730
@@ -129,6 +129,7 @@ patchWorkspace() {
 	#source build/envsetup.sh;
 	#repopick -i 314020; #systemui crash fix
 	#repopick -it eleven-firewall;
+	#repopick -it android-11.0.0_r43;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";

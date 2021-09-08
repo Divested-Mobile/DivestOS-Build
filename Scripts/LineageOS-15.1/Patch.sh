@@ -67,6 +67,7 @@ patch -p1 < "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys 
 patch -p1 < "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/treble_common.mk; #Replace the Messaging app with Silence
+sed -i 's/2021-08-05/2021-09-05/' core/version_defaults.mk; #Bump Security String #O_asb_2021-09 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -108,7 +109,7 @@ changeDefaultDNS; #Change the default DNS servers
 patch -p1 < "$DOS_PATCHES/android_frameworks_base/0006-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
 patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
-patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
+patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after three failed attempts (GrapheneOS)
 if [ "$DOS_MICROG_INCLUDED" != "FULL" ]; then rm -rf packages/CompanionDeviceManager; fi; #Used to support Android Wear (which hard depends on GMS)
 rm -rf packages/Osu packages/Osu2; #Automatic Wi-Fi connection non-sense
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
