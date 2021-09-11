@@ -107,5 +107,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24587/qca-wifi-host-cmn/0016.patch --
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0695/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1963/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3655/^5.13/0003.patch
-editKernelLocalversion "-dos.p107"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-40490/3.9-^5.14/0001.patch
+editKernelLocalversion "-dos.p108"
 cd "$DOS_BUILD_BASE"
