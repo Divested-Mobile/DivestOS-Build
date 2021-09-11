@@ -335,6 +335,10 @@ if enterAndClear "kernel/google/marlin"; then
 git revert --no-edit dd4a454f080f60cc7c4f5cc281a48cba80947baf; #Resurrect dm-verity
 fi;
 
+if enterAndClear "device/xiaomi/sm6150-common"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
 if [ "$DOS_LOWRAM_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'enableLowRam "{}"'; fi;

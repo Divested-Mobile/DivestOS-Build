@@ -149,4 +149,10 @@
 	<project path="device/zuk/msm8996-common" name="LineageOS/android_device_zuk_msm8996-common" remote="github" />
 	<project path="kernel/zuk/msm8996" name="LineageOS/android_kernel_zuk_msm8996" remote="github" />
 
+	<!-- Xiaomi Redmi K20 / Mi 9T (davinci) -->
+	<project path="hardware/xiaomi" name="LineageOS/android_hardware_xiaomi" remote="github" />
+	<project path="device/xiaomi/davinci" name="LineageOS/android_device_xiaomi_davinci" remote="github" />
+	<project path="device/xiaomi/sm6150-common" name="LineageOS/android_device_xiaomi_sm6150-common" remote="github" />
+	<project path="kernel/xiaomi/sm6150" name="LineageOS/android_kernel_xiaomi_sm6150" remote="github" />
+
 </manifest>
