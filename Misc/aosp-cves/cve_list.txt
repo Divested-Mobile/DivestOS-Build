@@ -1,4 +1,4 @@
-#Last checked 2021/07/12
+#Last checked 2021/09/11
 CVE-2014-9028
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/fe03f73d86bb415f5d5145f0de091834d89ae3a9
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/5859ae22db0a2d16af3e3ca19d582de37daf5eb6
@@ -2396,6 +2396,8 @@ CVE-2021-0517
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/5b90ebaf4d9edefcd9648b46cd0226f882169476
 CVE-2021-0518
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/cff8340c84ad1d6c0b3deae6a42f781e7db64082
+CVE-2021-0519
+	Link - external/libavc - https://android.googlesource.com/platform/external/libavc/+/10910bf9106eff724390255faa48f9f61dcfc744
 CVE-2021-0520
 	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/3b1141d44f448ea9a528ff8af8f128686c35039d
 CVE-2021-0521
@@ -2491,6 +2493,8 @@ CVE-2021-0571
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/fbc35b907a9b635bd149386ef63e89c96965343b
 CVE-2021-0572
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/2cd616165c6de4d523637cd84eb0c7490415beb6
+CVE-2021-0584
+	Link - system/libhwbinder - https://android.googlesource.com/platform/system/libhwbinder/+/cb835a500f3d4de152777e3f13db5ab969285633
 CVE-2021-0585
 	Link - system/libfmq - https://android.googlesource.com/platform/system/libfmq/+/7f0e32bd77277a46759eb9f01a493b45c7e9a3c9
 CVE-2021-0586
@@ -2504,6 +2508,12 @@ CVE-2021-0589
 CVE-2021-0590
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/63c67f0304d973f8f26e77b866eda2b1d34340d3
 	Link - packages/modules/NetworkStack - https://android.googlesource.com/platform/packages/modules/NetworkStack/+/94eb94069bfcee96196d5409beab86c4b1f0407b
+CVE-2021-0591
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/f1d1bb78162209335b086ee10d8b7449879bcc64
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/cdf9a1509b0ef1450b2b9b8c349abdbc7902be95
+CVE-2021-0593
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/f1d1bb78162209335b086ee10d8b7449879bcc64
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/cdf9a1509b0ef1450b2b9b8c349abdbc7902be95
 CVE-2021-0594
 	Link - packages/apps/Nfc - https://android.googlesource.com/platform/packages/apps/Nfc/+/93068b048d0cab72805ec7dd2020b433c82e5f45
 CVE-2021-0596
@@ -2522,7 +2532,26 @@ CVE-2021-0603
 	Link - packages/apps/Contacts - https://android.googlesource.com/platform/packages/apps/Contacts/+/19ff4ed838d4ec83cd10eeac80878205f8817e69
 CVE-2021-0604
 	Link - packages/apps/Bluetooth - https://android.googlesource.com/platform/packages/apps/Bluetooth/+/caf10da52ea7ce198c9e880833b2c2c408f7c740
+CVE-2021-0640
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/fbe5177bd5d704dabf434458649fd93a07d8d654
+CVE-2021-0641
+	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/3987dc05c4cbf727d73c2e847692856df9aee6d2
+CVE-2021-0642
+	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/704bf010cffb73dc1249e421a83af1eef68c5b52
+CVE-2021-0645
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/7b82cbbe3411396b187b68548f2c325b42e964a6
+CVE-2021-0646
+	Link - external/sqlite - https://android.googlesource.com/platform/external/sqlite/+/c072485125763d11da918aec3232b9e3b113d8dd
 CVE-2021-1931
 	Link - https://source.codeaurora.org/quic/le/abl/tianocore/edk2/commit/?id=0727b7b0d4cafb091397b76f75a3a4f66852a361
+CVE-2021-1957
+	Link - system/bt - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/system/bt/commit/?id=91aad9e40bc8332a0241e88c2e100eff8851cc98
+	Link - system/bt - https://source.codeaurora.org/quic/le/platform/system/bt/commit/?id=0e713342ba8e9f96a0ffcc7accb631e41d10aa0f
+CVE-2021-1972
+	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit/?id=4f82a47c76b923fd3fd1e780bea9f7fbfd77d150
+CVE-2021-1976
+	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit/?id=a45c1c6d0ea54375c470a5a2d44bc479d0d72e2d
+CVE-2021-1978
+	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=ddffe981e88146adf777ce64c1c2dac2e1dad05e
 CVE-0000-0000
 #The above line must be the last line
