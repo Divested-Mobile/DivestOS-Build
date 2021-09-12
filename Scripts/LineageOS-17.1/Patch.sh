@@ -68,6 +68,7 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/gsi_common.mk; #Replace the Messaging app with Silence
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
+sed -i 's/2021-08-05/2021-09-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2021-09 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -161,6 +162,10 @@ fi;
 
 if enterAndClear "hardware/qcom-caf/msm8998/audio"; then
 patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-8998.patch"; #audio_extn: Fix unused parameter warning in utils.c
+fi;
+
+if enterAndClear "hardware/qcom-caf/sm8150/audio"; then
+patch -p1 < "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-sm8150.patch"; #audio_extn: Fix unused parameter warning in utils.c
 fi;
 
 if enterAndClear "libcore"; then

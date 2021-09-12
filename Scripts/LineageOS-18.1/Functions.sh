@@ -129,7 +129,6 @@ patchWorkspace() {
 	#source build/envsetup.sh;
 	#repopick -i 314020; #systemui crash fix
 	#repopick -it eleven-firewall;
-	#repopick -it android-11.0.0_r43;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";

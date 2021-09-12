@@ -382,13 +382,16 @@ removeBuildFingerprints;
 
 #Tweaks for <2GB RAM devices
 enableLowRam "device/asus/grouper";
+enableLowRam "device/samsung/galaxys2-common";
 enableLowRam "device/samsung/i9100";
 enableLowRam "device/samsung/i9300";
 enableLowRam "device/samsung/i9305";
 enableLowRam "device/samsung/maguro";
 enableLowRam "device/samsung/manta";
+enableLowRam "device/samsung/smdk4412-common";
 enableLowRam "device/samsung/toro";
 enableLowRam "device/samsung/toroplus";
+enableLowRam "device/samsung/tuna";
 
 #Fixes
 #Fix broken options enabled by hardenDefconfig()
