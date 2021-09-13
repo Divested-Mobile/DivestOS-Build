@@ -32,48 +32,48 @@ Keywords to find keys
 	"meta-data android:name" secret key
 
 Core - Currently Implemented
-            data.putBoolean("android.webkit.WebView.MetricsOptOut", true);
-            data.putBoolean("batch_opted_out_by_default", true);
-            data.putBoolean("com.ad4screen.no_geoloc", true);
-            data.putBoolean("com.facebook.sdk.AutoLogAppEventsEnabled", false);
-            data.putBoolean("com.mixpanel.android.MPConfig.UseIpAddressForGeolocation", false);
-            data.putBoolean("com.webengage.sdk.android.location_tracking", false);
-            data.putBoolean("firebase_analytics_collection_deactivated", true);
-            data.putBoolean("firebase_analytics_collection_enabled", false);
-            data.putBoolean("firebase_crash_collection_enabled", false);
-            data.putBoolean("firebase_performance_collection_deactivated", true);
-            data.putBoolean("google_analytics_adid_collection_enabled", false);
-            data.putBoolean("google_analytics_ssaid_collection_enabled", false);
-            data.putBoolean("google_analytics_default_allow_ad_personalization_signals", false);
+            data.putString("android.webkit.WebView.MetricsOptOut", "true");
+            data.putString("batch_opted_out_by_default", "true");
+            data.putString("com.ad4screen.no_geoloc", "true");
+            data.putString("com.facebook.sdk.AutoLogAppEventsEnabled", "false");
+            data.putString("com.mixpanel.android.MPConfig.UseIpAddressForGeolocation", "false");
+            data.putString("com.webengage.sdk.android.location_tracking", "false");
+            data.putString("firebase_analytics_collection_deactivated", "true");
+            data.putString("firebase_analytics_collection_enabled", "false");
+            data.putString("firebase_crash_collection_enabled", "false");
+            data.putString("firebase_performance_collection_deactivated", "true");
+            data.putString("google_analytics_adid_collection_enabled", "false");
+            data.putString("google_analytics_ssaid_collection_enabled", "false");
+            data.putString("google_analytics_default_allow_ad_personalization_signals", "false");
             data.putString("com.ad4screen.tracking_mode", "Restricted");
             data.putString("com.sprooki.LOCATION_SERVICES", "disable");
 
 Settings
-            data.putBoolean("com.bugsnag.android.AUTO_CAPTURE_SESSIONS", false);
-            data.putBoolean("com.bugsnag.android.ENABLE_EXCEPTION_HANDLER", false);
-            data.putBoolean("com.bugsnag.android.PERSIST_USER_BETWEEN_SESSIONS", false);
-            data.putBoolean("com.bugsnag.android.SEND_THREADS", false);
-            data.putBoolean("com.followanalytics.message.inapp.enable", false);
-            data.putBoolean("com.followanalytics.message.push.enable", false);
-            data.putBoolean("com.mixpanel.android.MPConfig.AutoShowMixpanelUpdates", false);
-            data.putBoolean("com.mixpanel.android.MPConfig.DisableAppOpenEvent", true);
-            data.putBoolean("com.mixpanel.android.MPConfig.DisableDecideChecker", true);
-            data.putBoolean("com.mixpanel.android.MPConfig.DisableFallback", true);
-            data.putBoolean("com.mixpanel.android.MPConfig.DisableGestureBindingUI", true);
-            data.putBoolean("com.mixpanel.android.MPConfig.DisableViewCrawler", true);
-            data.putBoolean("com.mixpanel.android.MPConfig.TestMode", true);
-            data.putBoolean("engagement:adm:register", false);
-            data.putBoolean("engagement:locationReport:lazyArea", false);
-            data.putBoolean("engagement:locationReport:realTime:background", false);
-            data.putBoolean("engagement:locationReport:realTime", false);
-            data.putBoolean("engagement:locationReport:realTime:fine", false);
-            data.putBoolean("engagement:log:test", false);
-            data.putBoolean("engagement:reportCrash", false);
-            data.putBoolean("FYBEnableSSLRewardedVideo", true);
-            data.putBoolean("mceSessionEnabled", false);
-            data.putBoolean("tapjoy.disable_video_offers", true);
-            data.putInteger("CLEVERTAP_USE_GOOGLE_AD_ID", 0)
-            data.putInteger("engagement:connection:delay", 2629800);
+            data.putString("com.bugsnag.android.AUTO_CAPTURE_SESSIONS", "false");
+            data.putString("com.bugsnag.android.ENABLE_EXCEPTION_HANDLER", "false");
+            data.putString("com.bugsnag.android.PERSIST_USER_BETWEEN_SESSIONS", "false");
+            data.putString("com.bugsnag.android.SEND_THREADS", "false");
+            data.putString("com.followanalytics.message.inapp.enable", "false");
+            data.putString("com.followanalytics.message.push.enable", "false");
+            data.putString("com.mixpanel.android.MPConfig.AutoShowMixpanelUpdates", "false");
+            data.putString("com.mixpanel.android.MPConfig.DisableAppOpenEvent", "true");
+            data.putString("com.mixpanel.android.MPConfig.DisableDecideChecker", "true");
+            data.putString("com.mixpanel.android.MPConfig.DisableFallback", "true");
+            data.putString("com.mixpanel.android.MPConfig.DisableGestureBindingUI", "true");
+            data.putString("com.mixpanel.android.MPConfig.DisableViewCrawler", "true");
+            data.putString("com.mixpanel.android.MPConfig.TestMode", "true");
+            data.putString("engagement:adm:register", "false");
+            data.putString("engagement:locationReport:lazyArea", "false");
+            data.putString("engagement:locationReport:realTime:background", "false");
+            data.putString("engagement:locationReport:realTime", "false");
+            data.putString("engagement:locationReport:realTime:fine", "false");
+            data.putString("engagement:log:test", "false");
+            data.putString("engagement:reportCrash", "false");
+            data.putString("FYBEnableSSLRewardedVideo", "true");
+            data.putString("mceSessionEnabled", "false");
+            data.putString("tapjoy.disable_video_offers", "true");
+            data.putString("CLEVERTAP_USE_GOOGLE_AD_ID", "0")
+            data.putString("engagement:connection:delay", "2629800");
 
 API Keys
             String apiFillerValue = "";
