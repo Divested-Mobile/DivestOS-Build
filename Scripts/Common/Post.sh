@@ -15,6 +15,8 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+echo "Post tweaks...";
+
 #Resurrect dm-verity
 sed -i 's/^\treturn VERITY_STATE_DISABLE;//' kernel/*/*/drivers/md/dm-android-verity.c &>/dev/null || true;
 #sed -i 's/#if 0/#if 1/' kernel/*/*/drivers/power/reset/msm-poweroff.c &>/dev/null || true;
@@ -27,3 +29,12 @@ sed -i 's/set_dload_mode(in_panic)/set_dload_mode(0)/' kernel/*/*/arch/arm/mach-
 sed -i 's/static int slub_nomerge;/static int slub_nomerge = 1;/' kernel/*/*/mm/slub.c &>/dev/null || true; #2.6.22-3.17
 sed -i 's/static int slab_nomerge;/static int slab_nomerge = 1;/' kernel/*/*/mm/slab_common.c &>/dev/null || true; #3.18-4.12
 sed -i 's/static bool slab_nomerge = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);/static bool slab_nomerge = true;/' kernel/*/*/mm/slab_common.c &>/dev/null || true; #4.13+
+sed -i 's/static bool slab_nomerge __ro_after_init = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);/static bool slab_nomerge __ro_after_init = true;/' kernel/*/*/mm/slab_common.c &>/dev/null || true; #4.13+
+
+#Enable page poisoning
+#Commented as set by defconfig
+#sed -i 's/= IS_ENABLED(CONFIG_PAGE_POISONING_ENABLE_DEFAULT);/= true;/' kernel/*/*/mm/page_poison.c &>/dev/null || true; #4.4+ #XXX: shouldn't be enabled past 5.3
+
+
+cd "$DOS_BUILD_BASE";
+echo "Post tweaks complete!";

@@ -492,9 +492,7 @@ export -f hardenUserdata;
 
 hardenBootArgs() {
 	cd "$DOS_BUILD_BASE$1";
-	#Unavailable: kpti=on pti=on (4.15) page_alloc.shuffle=1 (5.2) init_on_alloc=1 (5.3) init_on_free=1 (5.3) lockdown=confidentiality (5.4)
-	#										4.4
-	sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := slub_debug=FZP page_poison=1 /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true;
+	sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := slub_debug=FZP /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true; #TODO: inline this
 	echo "Hardened kernel command line arguments for $1";
 	cd "$DOS_BUILD_BASE";
 }
@@ -699,7 +697,7 @@ hardenDefconfig() {
 	optionsYes+=("IO_STRICT_DEVMEM");
 
 	#Linux 4.6
-	optionsYes+=("ARM64_UAO" "PAGE_POISONING" "PAGE_POISONING_NO_SANITY");
+	optionsYes+=("ARM64_UAO" "PAGE_POISONING" "PAGE_POISONING_ENABLE_DEFAULT" "PAGE_POISONING_NO_SANITY");
 
 	#Linux 4.7
 	optionsYes+=("ASYMMETRIC_KEY_TYPE" "RANDOMIZE_BASE" "SLAB_FREELIST_RANDOM");
