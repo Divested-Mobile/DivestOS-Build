@@ -107,6 +107,7 @@ patchWorkspace() {
 	source "$DOS_SCRIPTS_COMMON/Optimize.sh";
 	source "$DOS_SCRIPTS_COMMON/Deblob.sh";
 	source "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
+	source "$DOS_SCRIPTS_COMMON/Post.sh";
 	source build/envsetup.sh;
 }
 export -f patchWorkspace;
