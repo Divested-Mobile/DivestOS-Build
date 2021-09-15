@@ -493,8 +493,8 @@ export -f hardenUserdata;
 hardenBootArgs() {
 	cd "$DOS_BUILD_BASE$1";
 	#Unavailable: kpti=on pti=on (4.15) page_alloc.shuffle=1 (5.2) init_on_alloc=1 (5.3) init_on_free=1 (5.3) lockdown=confidentiality (5.4)
-	#											3.18		4.4
-	sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := slub_debug=FZP slub_nomerge slab_nomerge page_poison=1 /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true;
+	#										4.4
+	sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := slub_debug=FZP page_poison=1 /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true;
 	echo "Hardened kernel command line arguments for $1";
 	cd "$DOS_BUILD_BASE";
 }
@@ -811,6 +811,11 @@ hardenDefconfig() {
 	#Workaround broken MSM_DLOAD_MODE=y+PANIC_ON_OOPS=y for devices that oops on shutdown
 	#MSM_DLOAD_MODE can't be disabled as it breaks compile
 	sed -i 's/set_dload_mode(in_panic)/set_dload_mode(0)/' arch/arm/mach-msm/restart.c &>/dev/null || true;
+
+	#Disable slub/slab merging
+	sed -i 's/static int slub_nomerge;/static int slub_nomerge = 1;/' mm/slub.c &>/dev/null || true; #2.6.22-3.17
+	sed -i 's/static int slab_nomerge;/static int slab_nomerge = 1;/' mm/slab_common.c &>/dev/null || true; #3.18-4.12
+	sed -i 's/static bool slab_nomerge = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);/static bool slab_nomerge = true;/' mm/slab_common.c &>/dev/null || true; #4.13+
 
 	editKernelLocalversion "-dos";
 
