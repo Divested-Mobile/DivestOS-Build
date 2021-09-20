@@ -659,7 +659,7 @@ hardenDefconfig() {
 
 	#Attempts to enable/disable supported options to increase security
 	#See https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings
-	#and (GPLv3) https://github.com/a13xp0p0v/kconfig-hardened-check/blob/master/kconfig_hardened_check/__init__.py
+	#and (GPL-3.0) https://github.com/a13xp0p0v/kconfig-hardened-check/blob/master/kconfig_hardened_check/__init__.py
 
 	local defconfigPath=$(getDefconfig)
 
