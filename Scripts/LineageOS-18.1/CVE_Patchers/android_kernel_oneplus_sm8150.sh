@@ -90,6 +90,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14351/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14386/4.14/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14390/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-15780/^5.7.7/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/4.14/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16166/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24587/qca-wifi-host-cmn/0015.patch --directory=drivers/staging/qca-wifi-host-cmn
@@ -218,5 +219,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27830/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.14/0002.patch
-editKernelLocalversion "-dos.p218"
+editKernelLocalversion "-dos.p219"
 cd "$DOS_BUILD_BASE"

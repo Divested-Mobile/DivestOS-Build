@@ -1,7 +1,5 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/essential/msm8998"
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0281-0282.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0282-0283.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0004.patch
@@ -93,20 +91,21 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-15291/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-16994/^5.0/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/4.4/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19068/4.4/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/^5.10/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/^5.10/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/^5.10/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/^5.10/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/^5.10/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/4.4/0026.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/4.4/0027.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/4.4/0028.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/4.4/0029.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/4.4/0030.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11160/4.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/^5.6.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14386/3.10-^4.4/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24587/qca-wifi-host-cmn/0016.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0695/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1963/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3655/^5.13/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-40490/3.9-^5.14/0001.patch
-editKernelLocalversion "-dos.p108"
+editKernelLocalversion "-dos.p107"
 cd "$DOS_BUILD_BASE"

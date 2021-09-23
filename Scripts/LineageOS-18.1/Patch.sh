@@ -243,6 +243,10 @@ if enterAndClear "system/update_engine"; then
 git revert --no-edit c0e056ed5c084ce55557c4aecbad540e2b235785; #Do not skip payload signature verification
 fi;
 
+if enterAndClear "system/vold"; then
+git revert --no-edit 3461ff5c9ad334c96780f3da14f1d23fcbee63ad; #breaks mako first boot
+fi;
+
 if enterAndClear "vendor/lineage"; then
 rm build/target/product/security/lineage.x509.pem; #Remove Lineage keys
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
