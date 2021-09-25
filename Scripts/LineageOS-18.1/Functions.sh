@@ -127,7 +127,6 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
 	#source build/envsetup.sh;
-	#repopick -i 314020; #systemui crash fix
 	#repopick -it eleven-firewall;
 
 	source "$DOS_SCRIPTS/Patch.sh";
