@@ -1,0 +1,73 @@
+From fbe7bf4aec5c1f436f3750f2136ebdc580564a3a Mon Sep 17 00:00:00 2001
+From: MSe1969 <mse1969@posteo.de>
+Date: Sat, 14 Nov 2020 13:21:18 +0100
+Subject: [PATCH] AppOps: New Op for (Other) sensors access
+
+ * Add new sensor op to enum
+ * Invoke OP_OTHER_SENSORS as default
+ * Adapt logic for checking the Ops, if no permission is linked
+
+cherry-picked from lin17-microG and adapted for R
+
+Change-Id: If4011566a391314afed9a26e1dcf6e4bc838e4f7
+---
+ libs/binder/include/binder/AppOpsManager.h |  3 ++-
+ libs/sensor/Sensor.cpp                     |  1 +
+ services/sensorservice/SensorService.cpp   | 10 ++++++----
+ 3 files changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/libs/binder/include/binder/AppOpsManager.h b/libs/binder/include/binder/AppOpsManager.h
+index d93935ae5d..4a8c36f5b2 100644
+--- a/libs/binder/include/binder/AppOpsManager.h
++++ b/libs/binder/include/binder/AppOpsManager.h
+@@ -135,7 +135,8 @@ class AppOpsManager
+         OP_PHONE_CALL_MICROPHONE = 100,
+         OP_PHONE_CALL_CAMERA = 101,
+         OP_RECORD_AUDIO_HOTWORD = 102,
+-        _NUM_OP = 103
++        OP_OTHER_SENSORS = 103,
++        _NUM_OP = 104
+     };
+ 
+     AppOpsManager();
+diff --git a/libs/sensor/Sensor.cpp b/libs/sensor/Sensor.cpp
+index 9d817ae0bd..76d365d5f7 100644
+--- a/libs/sensor/Sensor.cpp
++++ b/libs/sensor/Sensor.cpp
+@@ -59,6 +59,7 @@ Sensor::Sensor(struct sensor_t const& hwSensor, const uuid_t& uuid, int halVersi
+     mMinDelay = hwSensor.minDelay;
+     mFlags = 0;
+     mUuid = uuid;
++    mRequiredAppOp = AppOpsManager::OP_OTHER_SENSORS;  //default, other values are explicitly set
+ 
+     // Set fifo event count zero for older devices which do not support batching. Fused
+     // sensors also have their fifo counts set to zero.
+diff --git a/services/sensorservice/SensorService.cpp b/services/sensorservice/SensorService.cpp
+index 3ca34bba1b..8a62b2bb9c 100644
+--- a/services/sensorservice/SensorService.cpp
++++ b/services/sensorservice/SensorService.cpp
+@@ -1798,10 +1798,9 @@ status_t SensorService::flushSensor(const sp<SensorEventConnection>& connection,
+ 
+ bool SensorService::canAccessSensor(const Sensor& sensor, const char* operation,
+         const String16& opPackageName) {
++
+     // Check if a permission is required for this sensor
+-    if (sensor.getRequiredPermission().length() <= 0) {
+-        return true;
+-    }
++    bool noAssociatedPermission = (sensor.getRequiredPermission().length() <= 0);
+ 
+     const int32_t opCode = sensor.getRequiredAppOp();
+     const int32_t appOpMode = sAppOpsManager.checkOp(opCode,
+@@ -1816,7 +1815,10 @@ bool SensorService::canAccessSensor(const Sensor& sensor, const char* operation,
+         // Allow access to step sensors if the application targets pre-Q, which is before the
+         // requirement to hold the AR permission to access Step Counter and Step Detector events
+         // was introduced.
+-        canAccess = true;
++        // [MSe1969: Of course only, if AppOpAllowed]
++        canAccess = appOpAllowed;
++    } else if (noAssociatedPermission) {
++        canAccess = appOpAllowed;
+     } else if (hasPermissionForSensor(sensor)) {
+         // Ensure that the AppOp is allowed, or that there is no necessary app op for the sensor
+         if (opCode < 0 || appOpAllowed) {

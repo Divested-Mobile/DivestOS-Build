@@ -1,0 +1,262 @@
+From cbaa03f90faaed007e522306be77fa79c5b87859 Mon Sep 17 00:00:00 2001
+From: MSe1969 <mse1969@posteo.de>
+Date: Sat, 14 Nov 2020 15:17:37 +0100
+Subject: [PATCH] Special Access: Add an option to administer Sensor access
+
+Accesses the added AppOp for OP_OTHER_SENSORS
+
+Change-Id: I79c0ed4ab97494434edc6c308a8a54bd123c02ee
+---
+ res/values-de/strings.xml                     |   3 +
+ res/values-fr/strings.xml                     |   3 +
+ res/values/strings.xml                        |   5 +
+ res/xml/special_access.xml                    |   7 +
+ .../specialaccess/sensor/SensorAccess.java    | 178 ++++++++++++++++++
+ 5 files changed, 196 insertions(+)
+ create mode 100644 src/com/android/settings/applications/specialaccess/sensor/SensorAccess.java
+
+diff --git a/res/values-de/strings.xml b/res/values-de/strings.xml
+index 0893b5c318..a81d55df07 100644
+--- a/res/values-de/strings.xml
++++ b/res/values-de/strings.xml
+@@ -4671,4 +4671,7 @@
+     <string name="rtt_settings_no_visible" msgid="7440356831140948382"></string>
+     <string name="rtt_settings_visible_during_call" msgid="7866181103286073700"></string>
+     <string name="rtt_settings_always_visible" msgid="2364173070088756238"></string>
++    <string name="sensor_access_summary">Sensorzugriff von Benutzer-Apps kontrollieren</string>
++    <string name="sensor_access_title">Zugriff auf Sensoren</string>
++    <string name="sensor_access_title_empty_text">Keine installierte App hat Sensorzugriff angefordert.</string>
+ </resources>
+diff --git a/res/values-fr/strings.xml b/res/values-fr/strings.xml
+index a1461ea6a2..c7aa02d04f 100644
+--- a/res/values-fr/strings.xml
++++ b/res/values-fr/strings.xml
+@@ -4670,4 +4670,7 @@
+     <string name="rtt_settings_no_visible" msgid="7440356831140948382"></string>
+     <string name="rtt_settings_visible_during_call" msgid="7866181103286073700"></string>
+     <string name="rtt_settings_always_visible" msgid="2364173070088756238"></string>
++    <string name="sensor_access_summary">Contrôler l\'accès des applications utilisateurs aux capteurs</string>
++    <string name="sensor_access_title">Access aux Capteurs</string>
++    <string name="sensor_access_title_empty_text">Aucune app installée n\'a demandé de l\'accès aux capteurs.</string>
+ </resources>
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 5b4f19c18b..d8a769645e 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -11426,6 +11426,11 @@
+     <!-- Subtext for showing the option of RTT setting. [CHAR LIMIT=NONE] -->
+     <string name="rtt_settings_always_visible"></string>
+ 
++    <!-- Sensor AppOps -->
++    <string name="sensor_access_summary">Control sensor access for user apps</string>
++    <string name="sensor_access_title">Access to Sensors</string>
++    <string name="sensor_access_title_empty_text">No installed apps have requested sensors access.</string>
++
+     <!-- Bluetooth message permission alert for notification content [CHAR LIMIT=none] -->
+     <string name="bluetooth_message_access_notification_content">A device wants to access your messages. Tap for details.</string>
+     <!-- Bluetooth message permission alert for dialog title [CHAR LIMIT=none] -->
+diff --git a/res/xml/special_access.xml b/res/xml/special_access.xml
+index f846298341..bee9d6e2eb 100644
+--- a/res/xml/special_access.xml
++++ b/res/xml/special_access.xml
+@@ -145,6 +145,13 @@
+             android:value="com.android.settings.Settings$ChangeWifiStateActivity" />
+     </Preference>
+ 
++    <Preference
++        android:key="sensor_access"
++        android:title="@string/sensor_access_title"
++        android:summary="@string/sensor_access_summary"
++        android:fragment="com.android.settings.applications.specialaccess.sensor.SensorAccess">
++    </Preference>
++
+     <Preference
+         android:key="special_access_more"
+         android:title="@string/special_access_more"
+diff --git a/src/com/android/settings/applications/specialaccess/sensor/SensorAccess.java b/src/com/android/settings/applications/specialaccess/sensor/SensorAccess.java
+new file mode 100644
+index 0000000000..2c29f3abfd
+--- /dev/null
++++ b/src/com/android/settings/applications/specialaccess/sensor/SensorAccess.java
+@@ -0,0 +1,178 @@
++package com.android.settings.applications.specialaccess.sensor;
++
++import android.annotation.Nullable;
++import android.app.AlertDialog;
++import android.app.Dialog;
++import android.app.DialogFragment;
++import android.app.AppOpsManager;
++import android.content.Context;
++import android.content.DialogInterface;
++import android.content.pm.ApplicationInfo;
++import android.content.pm.PackageInfo;
++import android.content.pm.PackageItemInfo;
++import android.content.pm.PackageManager;
++import android.database.ContentObserver;
++import android.net.Uri;
++import android.os.Bundle;
++import android.os.Handler;
++import android.os.Looper;
++import android.text.TextUtils;
++import android.util.ArraySet;
++import android.util.Log;
++import android.util.TypedValue;
++import android.view.Gravity;
++import android.view.View;
++import android.view.ViewGroup;
++import android.view.ViewGroup.LayoutParams;
++import android.widget.TextView;
++import android.widget.Toast;
++
++import androidx.preference.Preference;
++import androidx.preference.Preference.OnPreferenceChangeListener;
++import androidx.preference.PreferenceScreen;
++import androidx.preference.SwitchPreference;
++
++import com.android.settings.R;
++import com.android.settings.core.instrumentation.InstrumentedDialogFragment;
++import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
++import com.android.settings.SettingsPreferenceFragment;
++
++import java.util.Arrays;
++import java.util.ArrayList;
++import java.util.Collections;
++import java.util.List;
++
++public class SensorAccess extends SettingsPreferenceFragment {
++
++    private final SettingObserver mObserver = new SettingObserver();
++
++    static final String TAG = "SensorAccess";
++
++    private Context mContext;
++    private PackageManager mPackageManager;
++    private AppOpsManager mAppOpsManager;
++    private TextView mEmpty;
++
++    @Override
++    public int getMetricsCategory() {
++        return MetricsEvent.VIEW_UNKNOWN;
++    }
++
++    @Override
++    public void onCreate(Bundle icicle) {
++        super.onCreate(icicle);
++
++        mContext = getActivity();
++        mPackageManager = mContext.getPackageManager();
++        mAppOpsManager = (AppOpsManager) mContext.getSystemService(Context.APP_OPS_SERVICE);
++        setPreferenceScreen(getPreferenceManager().createPreferenceScreen(mContext));
++    }
++
++    @Override
++    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
++        super.onViewCreated(view, savedInstanceState);
++        mEmpty = new TextView(getContext());
++        mEmpty.setGravity(Gravity.CENTER);
++        mEmpty.setText(R.string.sensor_access_title_empty_text);
++        TypedValue value = new TypedValue();
++        getContext().getTheme().resolveAttribute(android.R.attr.textAppearanceMedium, value, true);
++        mEmpty.setTextAppearance(value.resourceId);
++        ((ViewGroup) view.findViewById(android.R.id.list_container)).addView(mEmpty,
++                new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
++        setEmptyView(mEmpty);
++        reloadList();
++    }
++
++    @Override
++    public void onResume() {
++        super.onResume();
++        getActivity().getActionBar().setTitle(R.string.sensor_access_title);
++        reloadList();
++    }
++
++    private void reloadList() {
++        final PreferenceScreen screen = getPreferenceScreen();
++        screen.removeAll();
++
++        final ArrayList<ApplicationInfo> apps = new ArrayList<>();
++        final List<ApplicationInfo> installed = mPackageManager.getInstalledApplications(0);
++        if (installed != null) {
++            for (ApplicationInfo app : installed) {
++                // Skip system apps
++                if (isUserApp(app.packageName)) {
++                    // Only apps effectively having the Op OTHER_SENSORS
++                    if (mAppOpsManager.getOpsForPackage(getPackageUid(app.packageName),
++                            app.packageName, new int[]{AppOpsManager.OP_OTHER_SENSORS}) != null)
++                        apps.add(app);
++                }
++            }
++        }
++        Collections.sort(apps, new PackageItemInfo.DisplayNameComparator(mPackageManager));
++        for (ApplicationInfo app : apps) {
++            final String pkg = app.packageName;
++            final CharSequence label = app.loadLabel(mPackageManager);
++            final SwitchPreference pref = new SwitchPreference(getPrefContext());
++            pref.setPersistent(false);
++            pref.setIcon(app.loadIcon(mPackageManager));
++            pref.setTitle(label);
++            updateState(pref, pkg);
++            pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
++                @Override
++                public boolean onPreferenceChange(Preference preference, Object newValue) {
++                    boolean switchOn = (Boolean) newValue;
++                    mAppOpsManager.setMode(AppOpsManager.OP_OTHER_SENSORS, getPackageUid(pkg), pkg,
++                            switchOn ? AppOpsManager.MODE_ALLOWED : AppOpsManager.MODE_IGNORED);
++                    pref.setChecked(switchOn);
++                    return false;
++                }
++            });
++            screen.addPreference(pref);
++        }
++    }
++
++    public void updateState(SwitchPreference preference, String pkg) {
++        final int mode = mAppOpsManager
++                .checkOpNoThrow(AppOpsManager.OP_OTHER_SENSORS, getPackageUid(pkg), pkg);
++        if (mode == AppOpsManager.MODE_ERRORED) {
++            preference.setChecked(false);
++        } else {
++            final boolean checked = mode != AppOpsManager.MODE_IGNORED;
++            preference.setChecked(checked);
++        }
++    }
++
++    private boolean isUserApp(String pkg) {
++        ApplicationInfo appInfo;
++        try {
++            appInfo = mPackageManager.getApplicationInfo(pkg,
++                        PackageManager.GET_DISABLED_COMPONENTS
++                        | PackageManager.GET_UNINSTALLED_PACKAGES);
++        } catch (PackageManager.NameNotFoundException e) {
++                Log.w(TAG, "Unable to find info for package " + pkg);
++                return false;
++        }
++        return ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0);
++    }
++
++    private int getPackageUid(String pkg) {
++        int uid;
++        try {
++            uid = mPackageManager.getPackageUid(pkg, 0);
++        } catch (PackageManager.NameNotFoundException e) {
++            // We shouldn't hit this, ever. What can we even do after this?
++            uid = -1;
++        }
++        return uid;
++    }
++
++    private final class SettingObserver extends ContentObserver {
++        public SettingObserver() {
++            super(new Handler(Looper.getMainLooper()));
++        }
++
++        @Override
++        public void onChange(boolean selfChange, Uri uri) {
++            reloadList();
++        }
++    }
++}
+-- 
+2.31.1
+

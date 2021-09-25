@@ -1,0 +1,175 @@
+From 2180a97b8aafc377c52cff014e44ea173f30db87 Mon Sep 17 00:00:00 2001
+From: MSe <mse1969@posteo.de>
+Date: Mon, 26 Feb 2018 18:01:44 +0100
+Subject: [PATCH 1/2] - AppOps/PrivacyGuard: New Sensor checks [Settings]
+
+Add two AppOps for sensor access:
+- OP_MOTION_SENSORS (default: allow, strict)
+- OP_OTHER_SENSORS  (default: allow)
+
+Add new Sensor template
+
+Change-Id: Ibef721505784dbc0f23974468a768f89c9e15c46
+---
+ res/values-de/cm_strings.xml                          |  5 +++++
+ res/values-fr/cm_strings.xml                          |  5 +++++
+ res/values/cm_arrays.xml                              |  5 +++++
+ res/values/cm_strings.xml                             |  6 ++++++
+ .../android/settings/applications/AppOpsState.java    | 11 ++++++++++-
+ 5 files changed, 31 insertions(+), 1 deletion(-)
+
+diff --git a/res/values-de/cm_strings.xml b/res/values-de/cm_strings.xml
+index b968d7b685..d2778dfc8d 100644
+--- a/res/values-de/cm_strings.xml
++++ b/res/values-de/cm_strings.xml
+@@ -48,6 +48,7 @@
+     <string name="app_ops_categories_device">Gerät</string>
+     <string name="app_ops_categories_background">Hintergrund</string>
+     <string name="app_ops_categories_bootup">Systemstart</string>
++    <string name="app_ops_categories_sensors">Sensoren</string>
+     <string name="app_ops_categories_su">Root-Zugriff</string>
+     <string name="app_ops_categories_other">Andere</string>
+     <string name="app_ops_summaries_coarse_location">Ungefährer Standort</string>
+@@ -118,6 +119,8 @@
+     <string name="app_ops_summaries_start_at_boot">Beim Booten starten</string>
+     <string name="app_ops_summaries_toggle_nfc">NFC ein-/ausschalten</string>
+     <string name="app_ops_summaries_toggle_mobile_data">Mobile Daten ein-/ausschalten</string>
++    <string name="app_ops_summaries_motion_sensors">Nutzung Bewegungssensoren</string>
++    <string name="app_ops_summaries_other_sensors">Sonstige Sensoren</string>
+     <string name="app_ops_summaries_superuser">Root-Zugriff</string>
+     <string name="app_ops_labels_coarse_location">Ungefährer Standort</string>
+     <string name="app_ops_labels_fine_location">Genauer Standort</string>
+@@ -187,6 +190,8 @@
+     <string name="app_ops_labels_start_at_boot">Beim Booten starten</string>
+     <string name="app_ops_labels_toggle_nfc">NFC ein-/ausschalten</string>
+     <string name="app_ops_labels_toggle_mobile_data">Mobile Daten ein-/ausschalten</string>
++    <string name="app_ops_labels_motion_sensors">Bewegungssensoren</string>
++    <string name="app_ops_labels_other_sensors">sonstige Sensoren</string>
+     <string name="app_ops_labels_superuser">Root-Zugriff</string>
+     <string name="app_ops_permissions_allowed">Erlaubt</string>
+     <string name="app_ops_permissions_ignored">Verboten</string>
+diff --git a/res/values-fr/cm_strings.xml b/res/values-fr/cm_strings.xml
+index 395b87195c..b5e9213441 100644
+--- a/res/values-fr/cm_strings.xml
++++ b/res/values-fr/cm_strings.xml
+@@ -49,6 +49,7 @@ Vous êtes maintenant à <xliff:g id="step_count">%1$d</xliff:g> étapes de l\'a
+     <string name="app_ops_categories_device">Appareil</string>
+     <string name="app_ops_categories_background">Arrière-plan</string>
+     <string name="app_ops_categories_bootup">Démarrage</string>
++    <string name="app_ops_categories_sensors">Capteurs</string>
+     <string name="app_ops_categories_su">Accès root</string>
+     <string name="app_ops_categories_other">Autre</string>
+     <string name="app_ops_summaries_coarse_location">localisation approximative</string>
+@@ -120,6 +121,8 @@ Vous êtes maintenant à <xliff:g id="step_count">%1$d</xliff:g> étapes de l\'a
+     <string name="app_ops_summaries_start_at_boot">démarrer au lancement</string>
+     <string name="app_ops_summaries_toggle_nfc">activer/désactiver le NFC</string>
+     <string name="app_ops_summaries_toggle_mobile_data">activer/désactiver les données mobiles</string>
++    <string name="app_ops_summaries_motion_sensors">utiliser les capteurs de mouvement</string>
++    <string name="app_ops_summaries_other_sensors">utiliser d\'autres capteurs</string>
+     <string name="app_ops_summaries_superuser">accès root</string>
+     <string name="app_ops_labels_coarse_location">Position approximative</string>
+     <string name="app_ops_labels_fine_location">Position précise</string>
+@@ -190,6 +193,8 @@ Vous êtes maintenant à <xliff:g id="step_count">%1$d</xliff:g> étapes de l\'a
+     <string name="app_ops_labels_start_at_boot">Démarrer au lancement</string>
+     <string name="app_ops_labels_toggle_nfc">Activer/désactiver le NFC</string>
+     <string name="app_ops_labels_toggle_mobile_data">Activer/désactiver les données mobiles</string>
++    <string name="app_ops_labels_motion_sensors">Capteur de mouvement</string>
++    <string name="app_ops_labels_other_sensors">autres Capteurs</string>
+     <string name="app_ops_labels_superuser">Accès root</string>
+     <string name="app_ops_permissions_allowed">Autorisé</string>
+     <string name="app_ops_permissions_ignored">Ignoré</string>
+diff --git a/res/values/cm_arrays.xml b/res/values/cm_arrays.xml
+index 38568e4baf..f6a2e8ad19 100644
+--- a/res/values/cm_arrays.xml
++++ b/res/values/cm_arrays.xml
+@@ -50,6 +50,7 @@
+         <item>@string/app_ops_categories_background</item>
+         <item>@string/app_ops_categories_bootup</item>
+         <item>@string/app_ops_categories_su</item>
++        <item>@string/app_ops_categories_sensors</item>
+         <item>@string/app_ops_categories_other</item>
+     </string-array>
+ 
+@@ -125,6 +126,8 @@
+         <item>@string/app_ops_summaries_toggle_nfc</item>
+         <item>@string/app_ops_summaries_toggle_mobile_data</item>
+         <item>@string/app_ops_summaries_superuser</item>
++        <item>@string/app_ops_summaries_motion_sensors</item>
++        <item>@string/app_ops_summaries_other_sensors</item>
+     </string-array>
+ 
+     <!-- User display names for app ops codes - extension of AOSP -->
+@@ -199,6 +202,8 @@
+         <item>@string/app_ops_labels_toggle_nfc</item>
+         <item>@string/app_ops_labels_toggle_mobile_data</item>
+         <item>@string/app_ops_labels_superuser</item>
++        <item>@string/app_ops_labels_motion_sensors</item>
++        <item>@string/app_ops_labels_other_sensors</item>
+     </string-array>
+ 
+     <!-- App ops permissions -->
+diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
+index 0dd77d2439..6441556fa4 100644
+--- a/res/values/cm_strings.xml
++++ b/res/values/cm_strings.xml
+@@ -70,6 +70,7 @@
+     <string name="app_ops_categories_device">Device</string>
+     <string name="app_ops_categories_background">Background</string>
+     <string name="app_ops_categories_bootup">Bootup</string>
++    <string name="app_ops_categories_sensors">Sensors</string>
+     <string name="app_ops_categories_su">Root access</string>
+     <string name="app_ops_categories_other">Other</string>
+ 
+@@ -143,8 +144,11 @@
+     <string name="app_ops_summaries_start_at_boot">start at boot</string>
+     <string name="app_ops_summaries_toggle_nfc">toggle NFC</string>
+     <string name="app_ops_summaries_toggle_mobile_data">toggle cellular data</string>
++    <string name="app_ops_summaries_motion_sensors">Motion Sensor usage</string>
++    <string name="app_ops_summaries_other_sensors">Other Sensor usage</string>
+     <string name="app_ops_summaries_superuser">root access</string>
+ 
++
+     <!-- User display names for app ops codes - extension of AOSP -->
+     <string name="app_ops_labels_coarse_location">Coarse location</string>
+     <string name="app_ops_labels_fine_location">Fine location</string>
+@@ -215,6 +219,8 @@
+     <string name="app_ops_labels_start_at_boot">Start at boot</string>
+     <string name="app_ops_labels_toggle_nfc">Toggle NFC</string>
+     <string name="app_ops_labels_toggle_mobile_data">Toggle cellular data</string>
++    <string name="app_ops_labels_motion_sensors">Motion Sensors</string>
++    <string name="app_ops_labels_other_sensors">Other Sensors</string>
+     <string name="app_ops_labels_superuser">Root access</string>
+ 
+     <!-- App ops permissions -->
+diff --git a/src/com/android/settings/applications/AppOpsState.java b/src/com/android/settings/applications/AppOpsState.java
+index b3d344ed5e..827ef67e9d 100644
+--- a/src/com/android/settings/applications/AppOpsState.java
++++ b/src/com/android/settings/applications/AppOpsState.java
+@@ -233,6 +233,15 @@ public class AppOpsState {
+             new boolean[] { true }
+             );
+ 
++    public static final OpsTemplate SENSOR_TEMPLATE = new OpsTemplate(
++            new int[] { AppOpsManager.OP_BODY_SENSORS,
++                    AppOpsManager.OP_MOTION_SENSORS,
++                    AppOpsManager.OP_OTHER_SENSORS },
++            new boolean[] { true,
++                    false,
++                    false }
++            );
++
+     public static final OpsTemplate SU_TEMPLATE = new OpsTemplate(
+             new int[] { AppOpsManager.OP_SU },
+             new boolean[] { false }
+@@ -283,7 +292,7 @@ public class AppOpsState {
+     public static final OpsTemplate[] ALL_PERMS_TEMPLATES = new OpsTemplate[] {
+             LOCATION_TEMPLATE, PERSONAL_TEMPLATE, MESSAGING_TEMPLATE,
+             MEDIA_TEMPLATE, DEVICE_TEMPLATE, RUN_IN_BACKGROUND_TEMPLATE,
+-            BOOTUP_TEMPLATE, SU_TEMPLATE, REMAINING_TEMPLATE
++            BOOTUP_TEMPLATE, SU_TEMPLATE, SENSOR_TEMPLATE, REMAINING_TEMPLATE
+     };
+ 
+     /**
+-- 
+2.31.1
+

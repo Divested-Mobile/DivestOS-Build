@@ -1,0 +1,237 @@
+From 846d74b9b422a0c616c024e63bcfee3f6454a3c3 Mon Sep 17 00:00:00 2001
+From: MSe1969 <mse1969@posteo.de>
+Date: Sun, 17 Jun 2018 10:49:09 +0200
+Subject: [PATCH] - AppOps/PrivacyGuard: New Sensor checks [base]
+
+Add two AppOps for sensor access:
+- OP_MOTION_SENSORS (default: ask, strict)
+- OP_OTHER_SENSORS  (default: allow)
+
+To avoid severe issues when setting selected Ops to 'ASK', the default
+mode for systemui, apps with uid 1000 (system) and apps signed with the
+platform key will always get the 'allowed' mode as default.
+
+Change-Id: Id12b91720f1e02ea5ca606ecefb30121d19b92bb
+---
+ core/java/android/app/AppOpsManager.java      | 34 +++++++++++++++++--
+ core/res/res/values-de/cm_strings.xml         |  2 ++
+ core/res/res/values-fr/cm_strings.xml         |  2 ++
+ core/res/res/values/cm_strings.xml            |  2 ++
+ core/res/res/values/lineage_arrays.xml        |  4 +++
+ .../com/android/server/AppOpsService.java     | 20 +++++++++++
+ 6 files changed, 61 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/android/app/AppOpsManager.java b/core/java/android/app/AppOpsManager.java
+index 2db36c8f4e02..d2587f2009df 100644
+--- a/core/java/android/app/AppOpsManager.java
++++ b/core/java/android/app/AppOpsManager.java
+@@ -280,8 +280,12 @@ public class AppOpsManager {
+     public static final int OP_DATA_CONNECT_CHANGE = 74;
+     /** @hide SU access */
+     public static final int OP_SU = 75;
++    /** @hide Motion Sensors */
++    public static final int OP_MOTION_SENSORS = 76;
++    /** @hide Other Sensors */
++    public static final int OP_OTHER_SENSORS = 77;
+     /** @hide */
+-    public static final int _NUM_OP = 76;
++    public static final int _NUM_OP = 78;
+ 
+     /** Access to coarse location information. */
+     public static final String OPSTR_COARSE_LOCATION = "android:coarse_location";
+@@ -407,6 +411,10 @@ public class AppOpsManager {
+             = "android:data_connect_change";
+     private static final String OPSTR_SU
+             = "android:su";
++    private static final String OPSTR_MOTION_SENSORS =
++            "android:motion_sensors";
++    private static final String OPSTR_OTHER_SENSORS =
++            "android:other_sensors";
+ 
+     // Warning: If an permission is added here it also has to be added to
+     // com.android.packageinstaller.permission.utils.EventLogger
+@@ -540,7 +548,9 @@ public class AppOpsManager {
+             OP_BOOT_COMPLETED,
+             OP_NFC_CHANGE,
+             OP_DATA_CONNECT_CHANGE,
+-            OP_SU
++            OP_SU,
++            OP_MOTION_SENSORS,
++            OP_OTHER_SENSORS
+     };
+ 
+     /**
+@@ -624,6 +634,8 @@ public class AppOpsManager {
+             OPSTR_NFC_CHANGE,
+             OPSTR_DATA_CONNECT_CHANGE,
+             OPSTR_SU,
++            OPSTR_MOTION_SENSORS,
++            OPSTR_OTHER_SENSORS,
+     };
+ 
+     /**
+@@ -707,6 +719,8 @@ public class AppOpsManager {
+             "NFC_CHANGE",
+             "DATA_CONNECT_CHANGE",
+             "SU",
++            "MOTION_SENSORS",
++            "OTHER_SENSORS",
+     };
+ 
+     /**
+@@ -790,6 +804,8 @@ public class AppOpsManager {
+             Manifest.permission.NFC,
+             Manifest.permission.MODIFY_PHONE_STATE,
+             null,
++            null,
++            null,
+     };
+ 
+     /**
+@@ -874,6 +890,8 @@ public class AppOpsManager {
+             null, //NFC_CHANGE
+             null, //DATA_CONNECT_CHANGE
+             UserManager.DISALLOW_SU, //SU TODO: this should really be investigated.
++            null, //MOTION_SENSORS
++            null, //OTHER_SENSORS
+     };
+ 
+     /**
+@@ -957,6 +975,8 @@ public class AppOpsManager {
+             true, // NFC_CHANGE
+             true, //DATA_CONNECT_CHANGE
+             false, //SU
++            false, //MOTION_SENSORS
++            false, //OTHER_SENSORS
+     };
+ 
+     /**
+@@ -1038,7 +1058,9 @@ public class AppOpsManager {
+             AppOpsManager.MODE_ALLOWED, // OP_BOOT_COMPLETED
+             AppOpsManager.MODE_ALLOWED, // OP_NFC_CHANGE
+             AppOpsManager.MODE_ALLOWED,
+-            AppOpsManager.MODE_ASK, // OP_SU
++            AppOpsManager.MODE_ASK,     // OP_SU
++            AppOpsManager.MODE_ASK,     // OP_MOTION_SENSORS
++            AppOpsManager.MODE_ALLOWED, // OP_OTHER_SENSORS
+     };
+ 
+     /**
+@@ -1122,6 +1144,8 @@ public class AppOpsManager {
+             AppOpsManager.MODE_ASK,     // OP_NFC_CHANGE
+             AppOpsManager.MODE_ASK,     // OP_DATA_CONNECT_CHANGE
+             AppOpsManager.MODE_ASK,     // OP_SU
++            AppOpsManager.MODE_ASK,     // OP_MOTION_SENSORS
++            AppOpsManager.MODE_ALLOWED, // OP_OTHER_SENSORS
+     };
+ 
+     /**
+@@ -1204,6 +1228,8 @@ public class AppOpsManager {
+         true,     // OP_NFC_CHANGE
+         true,     // OP_DATA_CONNECT_CHANGE
+         true,     // OP_SU
++        true,     // OP_MOTION_SENSORS
++        false,    // OP_OTHER_SENSORS
+     };
+ 
+     /**
+@@ -1290,6 +1316,8 @@ public class AppOpsManager {
+             false, // OP_NFC_CHANGE
+             false, // OP_DATA_CONNECT_CHANGE
+             false, // OP_SU
++            false, // OP_MOTION_SENSORS
++            false, // OP_OTHER_SENSORS
+     };
+ 
+     /**
+diff --git a/core/res/res/values-de/cm_strings.xml b/core/res/res/values-de/cm_strings.xml
+index af5c3fbe12f0..6a8a1e0fc45a 100644
+--- a/core/res/res/values-de/cm_strings.xml
++++ b/core/res/res/values-de/cm_strings.xml
+@@ -57,7 +57,9 @@
+     <string name="app_ops_modify_clipboard">die Zwischenablage zu ändern</string>
+     <string name="app_ops_modify_contacts">Kontakte zu ändern</string>
+     <string name="app_ops_modify_settings">Einstellungen zu ändern</string>
++    <string name="app_ops_motion_sensors">Bewegungssensoren zu nutzen</string>
+     <string name="app_ops_mute_unmute_microphone">das Mikrofon zu aktivieren/deaktivieren</string>
++    <string name="app_ops_other_sensors">sonstige Sensoren zu nutzen</string>
+     <string name="app_ops_phone_calls">Anrufe zu beantworten</string>
+     <string name="app_ops_picture_in_picture">Bild im Bild zu verwenden</string>
+     <string name="app_ops_play_audio">Audio wiederzugeben</string>
+diff --git a/core/res/res/values-fr/cm_strings.xml b/core/res/res/values-fr/cm_strings.xml
+index c223ccbc5dd8..28ee5ba28dcf 100644
+--- a/core/res/res/values-fr/cm_strings.xml
++++ b/core/res/res/values-fr/cm_strings.xml
+@@ -57,7 +57,9 @@
+     <string name="app_ops_modify_clipboard">modifier le presse-papiers</string>
+     <string name="app_ops_modify_contacts">mettre à jour vos contacts</string>
+     <string name="app_ops_modify_settings">mettre à jour les paramètres du système</string>
++    <string name="app_ops_motion_sensors">utiliser les capteurs de mouvement</string>
+     <string name="app_ops_mute_unmute_microphone">activer/désactiver le microphone</string>
++    <string name="app_ops_other_sensors">utiliser d\'autres capteurs</string>
+     <string name="app_ops_phone_calls">répondre aux appels téléphoniques</string>
+     <string name="app_ops_picture_in_picture">utiliser le mode Picture-in-Picture</string>
+     <string name="app_ops_play_audio">lecture audio</string>
+diff --git a/core/res/res/values/cm_strings.xml b/core/res/res/values/cm_strings.xml
+index 4c34888c94ab..d0ec04891c8d 100644
+--- a/core/res/res/values/cm_strings.xml
++++ b/core/res/res/values/cm_strings.xml
+@@ -70,7 +70,9 @@
+     <string name="app_ops_modify_clipboard">modify the clipboard</string>
+     <string name="app_ops_modify_contacts">update your contacts</string>
+     <string name="app_ops_modify_settings">update system settings</string>
++    <string name="app_ops_motion_sensors">use the motion sensors</string>
+     <string name="app_ops_mute_unmute_microphone">mute/unmute the microphone</string>
++    <string name="app_ops_other_sensors">use other sensors</string>
+     <string name="app_ops_phone_calls">answer phone calls</string>
+     <string name="app_ops_picture_in_picture">use picture in picture</string>
+     <string name="app_ops_play_audio">play audio</string>
+diff --git a/core/res/res/values/lineage_arrays.xml b/core/res/res/values/lineage_arrays.xml
+index 65149d2a9e54..5cb3120dbc47 100644
+--- a/core/res/res/values/lineage_arrays.xml
++++ b/core/res/res/values/lineage_arrays.xml
+@@ -170,6 +170,10 @@
+         <item>@string/app_ops_toggle_mobile_data</item>
+         <!-- OP_SU -->
+         <item>@string/app_ops_su</item>
++        <!-- OP_MOTION_SENSORS -->
++        <item>@string/app_ops_motion_sensors</item>
++        <!-- OP_OTHER_SENSORS -->
++        <item>@string/app_ops_other_sensors</item>
+     </string-array>
+ 
+ </resources>
+diff --git a/services/core/java/com/android/server/AppOpsService.java b/services/core/java/com/android/server/AppOpsService.java
+index 8dc8272303e3..0a74101de471 100644
+--- a/services/core/java/com/android/server/AppOpsService.java
++++ b/services/core/java/com/android/server/AppOpsService.java
+@@ -2841,6 +2841,26 @@ public class AppOpsService extends IAppOpsService.Stub {
+     }
+ 
+     private int getDefaultMode(int code, int uid, String packageName) {
++        // To allow setting 'MODE_ASK' for own Ops, some precautions to
++        // avoid privileged apps to trigger the toggle are needed:
++        
++        // 1st check: Skip uid 1000 and systemui
++        if (uid == android.os.Process.SYSTEM_UID || "com.android.systemui".equals(packageName)) {
++            return AppOpsManager.MODE_ALLOWED;
++        }
++        // 2nd check: Skip apps signed with platform key, except for the 'root' Op
++        if (code != AppOpsManager.OP_SU) {
++            try {
++                int match = AppGlobals.getPackageManager().checkSignatures("android", packageName);        
++                if (match >= PackageManager.SIGNATURE_MATCH) {
++                    return AppOpsManager.MODE_ALLOWED;
++                }
++            } catch (RemoteException re) {            
++                Log.e(TAG, "AppOps getDefaultMode: Can't talk to PM f. Sig.Check", re);
++            }
++        }
++        // end
++        
+         int mode = AppOpsManager.opToDefaultMode(code,
+                 isStrict(code, uid, packageName));
+         if (AppOpsManager.isStrictOp(code) && mPolicy != null) {
+-- 
+2.31.1
+

@@ -1,0 +1,103 @@
+From cfc06a04979f028a14ab68fb733a7ecfe6bafcae Mon Sep 17 00:00:00 2001
+From: MSe1969 <mse1969@posteo.de>
+Date: Sat, 14 Nov 2020 13:04:05 +0100
+Subject: [PATCH] AppOps: Add further Op for accessing Sensors
+
+Change-Id: Id7d84d910b849cc4f781aac2a6c21278e08bdeec
+---
+ core/java/android/app/AppOpsManager.java | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/core/java/android/app/AppOpsManager.java b/core/java/android/app/AppOpsManager.java
+index 77875354d732..af535f62c10b 100644
+--- a/core/java/android/app/AppOpsManager.java
++++ b/core/java/android/app/AppOpsManager.java
+@@ -836,10 +836,12 @@ public static String flagsToString(@OpFlags int flags) {
+     public static final int OP_READ_DEVICE_IDENTIFIERS = 89;
+     /** @hide Read location metadata from media */
+     public static final int OP_ACCESS_MEDIA_LOCATION = 90;
++    /** @hide Access other Sensors */
++    public static final int OP_OTHER_SENSORS = 91;
+ 
+     /** @hide */
+     @UnsupportedAppUsage
+-    public static final int _NUM_OP = 91;
++    public static final int _NUM_OP = 92;
+ 
+     /** Access to coarse location information. */
+     public static final String OPSTR_COARSE_LOCATION = "android:coarse_location";
+@@ -1119,6 +1121,10 @@ public static String flagsToString(@OpFlags int flags) {
+     /** @hide Read device identifiers */
+     public static final String OPSTR_READ_DEVICE_IDENTIFIERS = "android:read_device_identifiers";
+ 
++    /** @hide Other Sensors */
++    public static final String OPSTR_OTHER_SENSORS = "android:other_sensors";
++
++
+     // Warning: If an permission is added here it also has to be added to
+     // com.android.packageinstaller.permission.utils.EventLogger
+     private static final int[] RUNTIME_AND_APPOP_PERMISSIONS_OPS = {
+@@ -1281,6 +1287,7 @@ public static String flagsToString(@OpFlags int flags) {
+             OP_ACCESS_ACCESSIBILITY,            // ACCESS_ACCESSIBILITY
+             OP_READ_DEVICE_IDENTIFIERS,         // READ_DEVICE_IDENTIFIERS
+             OP_ACCESS_MEDIA_LOCATION,           // ACCESS_MEDIA_LOCATION
++            OP_OTHER_SENSORS,                   // OTHER_SENSORS
+     };
+ 
+     /**
+@@ -1378,6 +1385,7 @@ public static String flagsToString(@OpFlags int flags) {
+             OPSTR_ACCESS_ACCESSIBILITY,
+             OPSTR_READ_DEVICE_IDENTIFIERS,
+             OPSTR_ACCESS_MEDIA_LOCATION,
++            OPSTR_OTHER_SENSORS,
+     };
+ 
+     /**
+@@ -1476,6 +1484,7 @@ public static String flagsToString(@OpFlags int flags) {
+             "ACCESS_ACCESSIBILITY",
+             "READ_DEVICE_IDENTIFIERS",
+             "ACCESS_MEDIA_LOCATION",
++            "OTHER_SENSORS",
+     };
+ 
+     /**
+@@ -1575,6 +1584,7 @@ public static String flagsToString(@OpFlags int flags) {
+             null, // no permission for OP_ACCESS_ACCESSIBILITY
+             null, // no direct permission for OP_READ_DEVICE_IDENTIFIERS
+             Manifest.permission.ACCESS_MEDIA_LOCATION,
++            null, // no direct permission for OP_OTHER_SENSORS
+     };
+ 
+     /**
+@@ -1674,6 +1684,7 @@ public static String flagsToString(@OpFlags int flags) {
+             null, // ACCESS_ACCESSIBILITY
+             null, // READ_DEVICE_IDENTIFIERS
+             null, // ACCESS_MEDIA_LOCATION
++            null, // OTHER_SENSORS
+     };
+ 
+     /**
+@@ -1772,6 +1783,7 @@ public static String flagsToString(@OpFlags int flags) {
+             false, // ACCESS_ACCESSIBILITY
+             false, // READ_DEVICE_IDENTIFIERS
+             false, // ACCESS_MEDIA_LOCATION
++            false, // OTHER_SENSORS
+     };
+ 
+     /**
+@@ -1869,6 +1881,7 @@ public static String flagsToString(@OpFlags int flags) {
+             AppOpsManager.MODE_ALLOWED, // ACCESS_ACCESSIBILITY
+             AppOpsManager.MODE_ERRORED, // READ_DEVICE_IDENTIFIERS
+             AppOpsManager.MODE_ALLOWED, // ALLOW_MEDIA_LOCATION
++            AppOpsManager.MODE_ALLOWED, // OTHER_SENSORS
+     };
+ 
+     /**
+@@ -1970,6 +1983,7 @@ public static String flagsToString(@OpFlags int flags) {
+             false, // ACCESS_ACCESSIBILITY
+             false, // READ_DEVICE_IDENTIFIERS
+             false, // ACCESS_MEDIA_LOCATION
++            false, // OTHER_SENSORS
+     };
+ 
+     /**

@@ -1,0 +1,197 @@
+From 5ccfecfc925ec64d2f49c634701b1f9c1804dbcb Mon Sep 17 00:00:00 2001
+From: MSe <mse1969@posteo.de>
+Date: Mon, 26 Feb 2018 17:53:23 +0100
+Subject: [PATCH 1/3] - AppOps/PrivacyGuard: New Sensor checks [base]
+
+Add two AppOps for sensor access:
+- OP_MOTION_SENSORS (default: allow, strict)
+- OP_OTHER_SENSORS  (default: allow)
+
+Change-Id: I05ad545285eac84c0cd98868b6e330b7bcdab4cc
+---
+ core/java/android/app/AppOpsManager.java | 34 +++++++++++++++++++++---
+ core/res/res/values-de/cm_strings.xml    |  2 ++
+ core/res/res/values-fr/cm_strings.xml    |  2 ++
+ core/res/res/values/cm_arrays.xml        |  4 +++
+ core/res/res/values/cm_strings.xml       |  2 ++
+ 5 files changed, 41 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/android/app/AppOpsManager.java b/core/java/android/app/AppOpsManager.java
+index e13947335d2a..a9a00a60f0e5 100644
+--- a/core/java/android/app/AppOpsManager.java
++++ b/core/java/android/app/AppOpsManager.java
+@@ -267,7 +267,11 @@ public class AppOpsManager {
+     /** @hide */
+     public static final int OP_SU = 69;
+     /** @hide */
+-    public static final int _NUM_OP = 70;
++    public static final int OP_MOTION_SENSORS = 70;
++    /** @hide */
++    public static final int OP_OTHER_SENSORS = 71;
++    /** @hide */
++    public static final int _NUM_OP = 72;
+ 
+     /** Access to coarse location information. */
+     public static final String OPSTR_COARSE_LOCATION = "android:coarse_location";
+@@ -378,6 +382,10 @@ public class AppOpsManager {
+             "android:data_connect_change";
+     private static final String OPSTR_SU =
+             "android:su";
++    private static final String OPSTR_MOTION_SENSORS =
++            "android:motion_sensors";
++    private static final String OPSTR_OTHER_SENSORS =
++            "android:other_sensors";
+ 
+     private static final int[] RUNTIME_PERMISSIONS_OPS = {
+             // Contacts
+@@ -494,7 +502,9 @@ public class AppOpsManager {
+             OP_BOOT_COMPLETED,
+             OP_NFC_CHANGE,
+             OP_DATA_CONNECT_CHANGE,
+-            OP_SU
++            OP_SU,
++            OP_MOTION_SENSORS,
++            OP_OTHER_SENSORS
+     };
+ 
+     /**
+@@ -572,6 +582,8 @@ public class AppOpsManager {
+             OPSTR_NFC_CHANGE,
+             OPSTR_DATA_CONNECT_CHANGE,
+             OPSTR_SU,
++            OPSTR_MOTION_SENSORS,
++            OPSTR_OTHER_SENSORS,
+     };
+ 
+     /**
+@@ -649,6 +661,8 @@ public class AppOpsManager {
+             "NFC_CHANGE",
+             "DATA_CONNECT_CHANGE",
+             "SU",
++            "MOTION_SENSORS",
++            "OTHER_SENSORS",
+     };
+ 
+     /**
+@@ -726,6 +740,8 @@ public class AppOpsManager {
+             Manifest.permission.NFC,
+             Manifest.permission.MODIFY_PHONE_STATE,
+             null,
++            null,
++            null,
+     };
+ 
+     /**
+@@ -804,6 +820,8 @@ public class AppOpsManager {
+             null, //NFC_CHANGE
+             null, //DATA_CONNECT_CHANGE
+             UserManager.DISALLOW_SU, //SU TODO: this should really be investigated.
++            null, //MOTION_SENSORS
++            null, //OTHER_SENSORS
+     };
+ 
+     /**
+@@ -881,6 +899,8 @@ public class AppOpsManager {
+             true, // NFC_CHANGE
+             true, //DATA_CONNECT_CHANGE
+             false, //SU
++            false, //MOTION_SENSORS
++            false, //OTHER_SENSORS
+     };
+ 
+     /**
+@@ -956,7 +976,9 @@ public class AppOpsManager {
+             AppOpsManager.MODE_ALLOWED, // OP_BOOT_COMPLETED
+             AppOpsManager.MODE_ALLOWED, // OP_NFC_CHANGE
+             AppOpsManager.MODE_ALLOWED,
+-            AppOpsManager.MODE_ASK, // OP_SU
++            AppOpsManager.MODE_ASK,     // OP_SU
++            AppOpsManager.MODE_ALLOWED, // OP_MOTION_SENSORS
++            AppOpsManager.MODE_ALLOWED, // OP_OTHER_SENSORS
+     };
+ 
+     /**
+@@ -1034,6 +1056,8 @@ public class AppOpsManager {
+             AppOpsManager.MODE_ASK,     // OP_NFC_CHANGE
+             AppOpsManager.MODE_ASK,     // OP_DATA_CONNECT_CHANGE
+             AppOpsManager.MODE_ASK,     // OP_SU
++            AppOpsManager.MODE_ALLOWED, // OP_MOTION_SENSORS
++            AppOpsManager.MODE_ALLOWED, // OP_OTHER_SENSORS
+     };
+ 
+     /**
+@@ -1110,6 +1134,8 @@ public class AppOpsManager {
+         true,     // OP_NFC_CHANGE
+         true,     // OP_DATA_CONNECT_CHANGE
+         true,     // OP_SU
++        true,     // OP_MOTION_SENSORS
++        false,    // OP_OTHER_SENSORS
+     };
+ 
+     /**
+@@ -1190,6 +1216,8 @@ public class AppOpsManager {
+             false,     // OP_NFC_CHANGE
+             false,     // OP_DATA_CONNECT_CHANGE
+             false,     // OP_SU
++            false,     // OP_MOTION_SENSORS
++            false,     // OP_OTHER_SENSORS
+     };
+ 
+     /**
+diff --git a/core/res/res/values-de/cm_strings.xml b/core/res/res/values-de/cm_strings.xml
+index ad742ee840b6..432ed9bf1882 100644
+--- a/core/res/res/values-de/cm_strings.xml
++++ b/core/res/res/values-de/cm_strings.xml
+@@ -108,6 +108,8 @@
+     <string name="app_ops_run_in_background">im Hintergrund ausgeführt zu werden</string>
+     <string name="app_ops_wifi_change">WLAN-Status zu ändern</string>
+     <string name="app_ops_su">Root-Zugriff zu erhalten</string>
++    <string name="app_ops_motion_sensors">Bewegungssensoren zu nutzen</string>
++    <string name="app_ops_other_sensors">sonstige Sensoren zu nutzen</string>
+     <string name="notify_package_component_protected_title">Start der Aktivität blockiert</string>
+     <string name="notify_package_component_protected_text"><xliff:g id="app_name">%1$s</xliff:g> ist vom Starten abgehalten worden. Tippen Sie, um sich zu authentifizieren und die App zu starten.</string>
+     <string name="lock_to_app_toast_no_navbar">Zum Lösen dieser Ansicht drücken und halten Sie die Zurück-Taste.</string>
+diff --git a/core/res/res/values-fr/cm_strings.xml b/core/res/res/values-fr/cm_strings.xml
+index 27abe58ec15a..aa16f8998b1b 100644
+--- a/core/res/res/values-fr/cm_strings.xml
++++ b/core/res/res/values-fr/cm_strings.xml
+@@ -108,6 +108,8 @@
+     <string name="app_ops_run_in_background">exécuter en arrière-plan</string>
+     <string name="app_ops_wifi_change">changer l\'état du Wi-Fi</string>
+     <string name="app_ops_su">obtenir l\'accès root</string>
++    <string name="app_ops_motion_sensors">utiliser les capteurs de mouvement</string>
++    <string name="app_ops_other_sensors">utiliser d\'autres capteurs</string>
+     <string name="notify_package_component_protected_title">Lancement d\'activité bloqué</string>
+     <string name="notify_package_component_protected_text"><xliff:g id="app_name">%1$s</xliff:g> est protégé contre tout lancement. Toucher pour s\'authentifier et lancer l\'application.</string>
+     <string name="lock_to_app_toast_no_navbar">Pour déverrouiller l\'écran, appuyez et maintenez le bouton Retour.</string>
+diff --git a/core/res/res/values/cm_arrays.xml b/core/res/res/values/cm_arrays.xml
+index 8e34a4dafd05..1d054baaced4 100644
+--- a/core/res/res/values/cm_arrays.xml
++++ b/core/res/res/values/cm_arrays.xml
+@@ -182,6 +182,10 @@
+         <item>@string/app_ops_toggle_mobile_data</item>
+         <!-- OP_SU -->
+         <item>@string/app_ops_su</item>
++        <!-- OP_MOTION_SENSORS -->
++        <item>@string/app_ops_motion_sensors</item>
++        <!-- OP_OTHER_SENSORS -->
++        <item>@string/app_ops_other_sensors</item>
+     </string-array>
+ 
+     <!-- A list of pre-installed applications that will be treated as carrier apps,
+diff --git a/core/res/res/values/cm_strings.xml b/core/res/res/values/cm_strings.xml
+index 026c10237add..f5c374df200d 100644
+--- a/core/res/res/values/cm_strings.xml
++++ b/core/res/res/values/cm_strings.xml
+@@ -140,6 +140,8 @@
+     <string name="app_ops_run_in_background">run in background</string>
+     <string name="app_ops_wifi_change">change Wi-Fi state</string>
+     <string name="app_ops_su">get root access</string>
++    <string name="app_ops_motion_sensors">use the motion sensors</string>
++    <string name="app_ops_other_sensors">use other sensors</string>
+ 
+     <!-- Protected Apps Notification -->
+     <string name="notify_package_component_protected_title">Activity launch blocked</string>
+-- 
+2.31.1
+

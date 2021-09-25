@@ -109,9 +109,14 @@ patch -p1 < "$DOS_PATCHES/android_frameworks_base/0006-Disable_Analytics.patch";
 patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 patch -p1 < "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after three failed attempts (GrapheneOS)
+patch -p1 < "$DOS_PATCHES/android_frameworks_base/0007-Sensors.patch"; #Permission for sensors access (MSe1969)
 if [ "$DOS_MICROG_INCLUDED" != "FULL" ]; then rm -rf packages/CompanionDeviceManager; fi; #Used to support Android Wear (which hard depends on GMS)
 rm -rf packages/Osu packages/Osu2; #Automatic Wi-Fi connection non-sense
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
+fi;
+
+if enterAndClear "frameworks/native"; then
+patch -p1 < "$DOS_PATCHES/android_frameworks_native/0001-Sensors.patch"; #Permission for sensors access (MSe1969)
 fi;
 
 if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
@@ -184,6 +189,8 @@ if enterAndClear "packages/apps/Settings"; then
 git revert --no-edit a96df110e84123fe1273bff54feca3b4ca484dcd; #Don't hide OEM unlock
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0004-PDB_Fixes.patch"; #Fix crashes when the PersistentDataBlockManager service isn't available XXX: This might be broken!
+patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0005-Sensors-P1.patch"; #Permission for sensors access (MSe1969)
+patch -p1 < "$DOS_PATCHES/android_packages_apps_Settings/0005-Sensors-P2.patch";
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/PrivacySettings.java; fi; #microG doesn't support Backup, hide the options

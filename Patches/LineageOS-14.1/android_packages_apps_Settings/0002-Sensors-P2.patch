@@ -1,0 +1,37 @@
+From 52752e68d5307d6a5421fb48a754b6f93d622454 Mon Sep 17 00:00:00 2001
+From: MSe <mse1969@posteo.de>
+Date: Wed, 10 Apr 2019 22:11:15 +0200
+Subject: [PATCH 2/2] AppOps details: Add permission icons for new Sensor
+ AppOps
+
+Change-Id: Ic68954f30ba8214041c685a4efca4fc65b99ddaf
+---
+ src/com/android/settings/applications/AppOpsDetails.java | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/com/android/settings/applications/AppOpsDetails.java b/src/com/android/settings/applications/AppOpsDetails.java
+index a51a3279f1..504267ab27 100644
+--- a/src/com/android/settings/applications/AppOpsDetails.java
++++ b/src/com/android/settings/applications/AppOpsDetails.java
+@@ -109,6 +109,7 @@ public class AppOpsDetails extends SettingsPreferenceFragment {
+         OP_ICONS.put(AppOpsManager.OP_GPS, R.drawable.ic_perm_location);
+         OP_ICONS.put(AppOpsManager.OP_MUTE_MICROPHONE, R.drawable.ic_perm_microphone);
+         OP_ICONS.put(AppOpsManager.OP_NFC_CHANGE, R.drawable.ic_perm_nfc);
++        OP_ICONS.put(AppOpsManager.OP_OTHER_SENSORS, R.drawable.ic_perm_data);
+         OP_ICONS.put(AppOpsManager.OP_POST_NOTIFICATION, R.drawable.ic_perm_notifications);
+         OP_ICONS.put(AppOpsManager.OP_READ_CLIPBOARD, R.drawable.ic_perm_clipboard);
+         OP_ICONS.put(AppOpsManager.OP_RUN_IN_BACKGROUND, R.drawable.ic_perm_background);
+@@ -193,6 +194,10 @@ public class AppOpsDetails extends SettingsPreferenceFragment {
+                 if (icon == null && op != -1 && OP_ICONS.containsKey(op)) {
+                     icon = getActivity().getDrawable(OP_ICONS.get(op));
+                 }
++                if (icon == null && op == AppOpsManager.OP_MOTION_SENSORS) {
++                    icon = getIconByPermission(AppOpsManager.opToPermission(
++                                   AppOpsManager.OP_USE_FINGERPRINT));
++                }
+ 
+                 final AppOpsManager.OpEntry firstOp = entry.getOpEntry(0);
+                 final int switchOp = AppOpsManager.opToSwitch(firstOp.getOp());
+-- 
+2.31.1
+

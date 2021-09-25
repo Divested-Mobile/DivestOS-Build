@@ -1,0 +1,35 @@
+From 302c2986458e43cb666aa502e7767be389b2682f Mon Sep 17 00:00:00 2001
+From: MSe <mse1969@posteo.de>
+Date: Wed, 25 Apr 2018 23:12:20 +0200
+Subject: [PATCH 3/3] AppOps: Default MODE_ASK for OP_MOTION_SENSORS
+
+Change-Id: I4e8380c21b5c8a9e90c99d52e35d825ef0db6d98
+---
+ core/java/android/app/AppOpsManager.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/core/java/android/app/AppOpsManager.java b/core/java/android/app/AppOpsManager.java
+index a9a00a60f0e5..84b196a2375b 100644
+--- a/core/java/android/app/AppOpsManager.java
++++ b/core/java/android/app/AppOpsManager.java
+@@ -977,7 +977,7 @@ public class AppOpsManager {
+             AppOpsManager.MODE_ALLOWED, // OP_NFC_CHANGE
+             AppOpsManager.MODE_ALLOWED,
+             AppOpsManager.MODE_ASK,     // OP_SU
+-            AppOpsManager.MODE_ALLOWED, // OP_MOTION_SENSORS
++            AppOpsManager.MODE_ASK,     // OP_MOTION_SENSORS
+             AppOpsManager.MODE_ALLOWED, // OP_OTHER_SENSORS
+     };
+ 
+@@ -1056,7 +1056,7 @@ public class AppOpsManager {
+             AppOpsManager.MODE_ASK,     // OP_NFC_CHANGE
+             AppOpsManager.MODE_ASK,     // OP_DATA_CONNECT_CHANGE
+             AppOpsManager.MODE_ASK,     // OP_SU
+-            AppOpsManager.MODE_ALLOWED, // OP_MOTION_SENSORS
++            AppOpsManager.MODE_ASK,     // OP_MOTION_SENSORS
+             AppOpsManager.MODE_ALLOWED, // OP_OTHER_SENSORS
+     };
+ 
+-- 
+2.31.1
+

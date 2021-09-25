@@ -1,0 +1,203 @@
+From 72b86ddf9fe37cf2fb45266edf53446eb34a86df Mon Sep 17 00:00:00 2001
+From: MSe1969 <mse1969@posteo.de>
+Date: Fri, 15 Mar 2019 22:29:43 +0100
+Subject: [PATCH 1/2] AppOps/PrivacyGuard: New Sensor checks [Settings]
+
+Add two AppOps for sensor access:
+- OP_MOTION_SENSORS (default: ask, strict)
+- OP_OTHER_SENSORS  (default: allow)
+
+Add new Sensor template, relocate BODY_SENSORS into it
+
+Change-Id: I9b51c47e27a330823ecb4472b9a7818718ef4209
+---
+ res/values-de/cm_strings.xml                        |  5 +++++
+ res/values-fr/cm_strings.xml                        |  5 +++++
+ res/values/cm_strings.xml                           |  5 +++++
+ res/values/lineage_arrays.xml                       |  9 +++++++++
+ .../settings/applications/appops/AppOpsState.java   | 13 ++++++++++---
+ 5 files changed, 34 insertions(+), 3 deletions(-)
+
+diff --git a/res/values-de/cm_strings.xml b/res/values-de/cm_strings.xml
+index 53dca0e6e7..740ecdb8ee 100644
+--- a/res/values-de/cm_strings.xml
++++ b/res/values-de/cm_strings.xml
+@@ -39,6 +39,7 @@
+     <string name="app_ops_categories_device">Gerät</string>
+     <string name="app_ops_categories_run_in_background">Im Hintergrund ausführen</string>
+     <string name="app_ops_categories_bootup">Systemstart</string>
++    <string name="app_ops_categories_sensors">Sensoren</string>
+     <string name="app_ops_categories_su">Root-Zugriff</string>
+     <string name="app_ops_categories_other">Andere</string>
+     <string name="app_ops_summaries_accept_handover">Anrufeübergabe aus einer anderen App anzunehmen</string>
+@@ -76,8 +77,10 @@
+     <string name="app_ops_summaries_modify_settings">Einstellungen ändern</string>
+     <string name="app_ops_summaries_monitor_high_power_location">Standort mit hohem Stromverbrauch beobachten</string>
+     <string name="app_ops_summaries_monitor_location">Standort beobachten</string>
++    <string name="app_ops_summaries_motion_sensors">Nutzung Bewegungssensoren</string>
+     <string name="app_ops_summaries_mute_unmute_microphone">Mikrofon ein-/ausschalten</string>
+     <string name="app_ops_summaries_neighboring_cells">Benachbarte Netze</string>
++    <string name="app_ops_summaries_other_sensors">Sonstige Sensoren</string>
+     <string name="app_ops_summaries_phone_calls">Anrufe beantworten</string>
+     <string name="app_ops_summaries_picture_in_picture">Bild im Bild verwenden</string>
+     <string name="app_ops_summaries_play_audio">Audio wiedergeben</string>
+@@ -162,8 +165,10 @@
+     <string name="app_ops_labels_modify_settings">Einstellungen ändern</string>
+     <string name="app_ops_labels_monitor_high_power_location">Standort mit hohem Stromverbrauch beobachten</string>
+     <string name="app_ops_labels_monitor_location">Standort beobachten</string>
++    <string name="app_ops_labels_motion_sensors">Bewegungssensoren</string>
+     <string name="app_ops_labels_mute_unmute_microphone">Mikrofon ein-/ausschalten</string>
+     <string name="app_ops_labels_neighboring_cells">Benachbarte Zellen</string>
++    <string name="app_ops_labels_other_sensors">sonstige Sensoren</string>
+     <string name="app_ops_labels_phone_calls">Anrufe beantworten</string>
+     <string name="app_ops_labels_picture_in_picture">Bild im Bild verwenden</string>
+     <string name="app_ops_labels_play_audio">Audio wiedergeben</string>
+diff --git a/res/values-fr/cm_strings.xml b/res/values-fr/cm_strings.xml
+index 523d87d673..3133e8d4bf 100644
+--- a/res/values-fr/cm_strings.xml
++++ b/res/values-fr/cm_strings.xml
+@@ -39,6 +39,7 @@
+     <string name="app_ops_categories_device">Appareil</string>
+     <string name="app_ops_categories_run_in_background">Exécuter en arrière plan</string>
+     <string name="app_ops_categories_bootup">Démarrage</string>
++    <string name="app_ops_categories_sensors">Capteurs</string>
+     <string name="app_ops_categories_su">Accès root</string>
+     <string name="app_ops_categories_other">Autre</string>
+     <string name="app_ops_summaries_accept_handover">transférer un appel d\'une autre application</string>
+@@ -76,8 +77,10 @@
+     <string name="app_ops_summaries_modify_settings">modifier les paramètres</string>
+     <string name="app_ops_summaries_monitor_high_power_location">surveiller la position (à puissance élevée)</string>
+     <string name="app_ops_summaries_monitor_location">surveiller la position</string>
++    <string name="app_ops_summaries_motion_sensors">utiliser les capteurs de mouvement</string>
+     <string name="app_ops_summaries_mute_unmute_microphone">activer/désactiver le microphone</string>
+     <string name="app_ops_summaries_neighboring_cells">nœuds environnants</string>
++    <string name="app_ops_summaries_other_sensors">utiliser d\'autres capteurs</string>
+     <string name="app_ops_summaries_phone_calls">répondre aux appels téléphoniques</string>
+     <string name="app_ops_summaries_picture_in_picture">utiliser le mode Picture-in-Picture</string>
+     <string name="app_ops_summaries_play_audio">lecture audio</string>
+@@ -162,8 +165,10 @@
+     <string name="app_ops_labels_modify_settings">Modifier les paramètres</string>
+     <string name="app_ops_labels_monitor_high_power_location">Surveiller la position (à puissance élevée)</string>
+     <string name="app_ops_labels_monitor_location">Surveiller la position</string>
++    <string name="app_ops_labels_motion_sensors">Capteur de mouvement</string>
+     <string name="app_ops_labels_mute_unmute_microphone">Activer/désactiver le microphone</string>
+     <string name="app_ops_labels_neighboring_cells">Noeuds environnants</string>
++    <string name="app_ops_labels_other_sensors">autres Capteurs</string>
+     <string name="app_ops_labels_phone_calls">Répondre aux appels téléphoniques</string>
+     <string name="app_ops_labels_picture_in_picture">Utiliser le mode Picture-in-Picture</string>
+     <string name="app_ops_labels_play_audio">Lecture audio</string>
+diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
+index 7d0b80d3c0..83abcf8580 100644
+--- a/res/values/cm_strings.xml
++++ b/res/values/cm_strings.xml
+@@ -50,6 +50,7 @@
+     <string name="app_ops_categories_device">Device</string>
+     <string name="app_ops_categories_run_in_background">Run in background</string>
+     <string name="app_ops_categories_bootup">Bootup</string>
++    <string name="app_ops_categories_sensors">Sensors</string>
+     <string name="app_ops_categories_su">Root access</string>
+     <string name="app_ops_categories_other">Other</string>
+ 
+@@ -89,7 +90,9 @@
+     <string name="app_ops_summaries_modify_settings">modify settings</string>
+     <string name="app_ops_summaries_monitor_high_power_location">monitor high power location</string>
+     <string name="app_ops_summaries_monitor_location">monitor location</string>
++    <string name="app_ops_summaries_motion_sensors">Motion Sensor usage</string>
+     <string name="app_ops_summaries_mute_unmute_microphone">mute/unmute microphone</string>
++    <string name="app_ops_summaries_other_sensors">Other Sensor usage</string>
+     <string name="app_ops_summaries_neighboring_cells">neighboring cells</string>
+     <string name="app_ops_summaries_phone_calls">answer phone calls</string>
+     <string name="app_ops_summaries_picture_in_picture">use picture in picture</string>
+@@ -177,8 +180,10 @@
+     <string name="app_ops_labels_modify_settings">Modify settings</string>
+     <string name="app_ops_labels_monitor_high_power_location">Monitor high power location</string>
+     <string name="app_ops_labels_monitor_location">Monitor location</string>
++    <string name="app_ops_labels_motion_sensors">Motion Sensors</string>
+     <string name="app_ops_labels_mute_unmute_microphone">Mute/unmute microphone</string>
+     <string name="app_ops_labels_neighboring_cells">Neighboring cells</string>
++    <string name="app_ops_labels_other_sensors">Other Sensors</string>
+     <string name="app_ops_labels_phone_calls">Answer phone calls</string>
+     <string name="app_ops_labels_picture_in_picture">Use picture in picture</string>
+     <string name="app_ops_labels_play_audio">Play audio</string>
+diff --git a/res/values/lineage_arrays.xml b/res/values/lineage_arrays.xml
+index 0145438148..40fea7be2d 100644
+--- a/res/values/lineage_arrays.xml
++++ b/res/values/lineage_arrays.xml
+@@ -51,6 +51,7 @@
+         <item>@string/app_ops_categories_run_in_background</item>
+         <item>@string/app_ops_categories_bootup</item>
+         <item>@string/app_ops_categories_su</item>
++        <item>@string/app_ops_categories_sensors</item>
+         <item>@string/app_ops_categories_other</item>
+     </string-array>
+ 
+@@ -222,6 +223,10 @@
+         <item>@string/app_ops_summaries_toggle_mobile_data</item>
+         <!-- OP_SU -->
+         <item>@string/app_ops_summaries_su</item>
++        <!-- OP_MOTION_SENSORS -->
++        <item>@string/app_ops_summaries_motion_sensors</item>
++        <!-- OP_OTHER_SENSORS -->
++        <item>@string/app_ops_summaries_other_sensors</item>
+     </string-array>
+ 
+     <!-- User display names for app ops codes - extension of AOSP -->
+@@ -392,6 +397,10 @@
+         <item>@string/app_ops_labels_toggle_mobile_data</item>
+         <!-- OP_SU -->
+         <item>@string/app_ops_labels_su</item>
++        <!-- OP_MOTION_SENSORS -->
++        <item>@string/app_ops_labels_motion_sensors</item>
++        <!-- OP_OTHER_SENSORS -->
++        <item>@string/app_ops_labels_other_sensors</item>
+     </string-array>
+ 
+     <!-- App ops permissions -->
+diff --git a/src/com/android/settings/applications/appops/AppOpsState.java b/src/com/android/settings/applications/appops/AppOpsState.java
+index eeb1b2d302..8c8d2283ba 100644
+--- a/src/com/android/settings/applications/appops/AppOpsState.java
++++ b/src/com/android/settings/applications/appops/AppOpsState.java
+@@ -236,6 +236,15 @@ public class AppOpsState {
+             new boolean[] { true }
+             );
+ 
++    public static final OpsTemplate SENSOR_TEMPLATE = new OpsTemplate(
++            new int[] { AppOpsManager.OP_BODY_SENSORS,
++                    AppOpsManager.OP_MOTION_SENSORS,
++                    AppOpsManager.OP_OTHER_SENSORS },
++            new boolean[] { true,
++                    false,
++                    false }
++            );
++
+     public static final OpsTemplate SU_TEMPLATE = new OpsTemplate(
+             new int[] { AppOpsManager.OP_SU },
+             new boolean[] { false }
+@@ -252,7 +261,6 @@ public class AppOpsState {
+                     AppOpsManager.OP_USE_SIP,
+                     AppOpsManager.OP_PROCESS_OUTGOING_CALLS,
+                     AppOpsManager.OP_USE_FINGERPRINT,
+-                    AppOpsManager.OP_BODY_SENSORS,
+                     AppOpsManager.OP_READ_CELL_BROADCASTS,
+                     AppOpsManager.OP_MOCK_LOCATION,
+                     AppOpsManager.OP_READ_EXTERNAL_STORAGE,
+@@ -272,7 +280,6 @@ public class AppOpsState {
+                     true,
+                     true,
+                     true,
+-                    true,
+                     true }
+     );
+ 
+@@ -286,7 +293,7 @@ public class AppOpsState {
+     public static final OpsTemplate[] ALL_PERMS_TEMPLATES = new OpsTemplate[] {
+             LOCATION_TEMPLATE, PERSONAL_TEMPLATE, MESSAGING_TEMPLATE,
+             MEDIA_TEMPLATE, DEVICE_TEMPLATE, RUN_IN_BACKGROUND_TEMPLATE,
+-            BOOTUP_TEMPLATE, SU_TEMPLATE, REMAINING_TEMPLATE
++            BOOTUP_TEMPLATE, SU_TEMPLATE, SENSOR_TEMPLATE, REMAINING_TEMPLATE
+     };
+ 
+     /**
+-- 
+2.31.1
+
