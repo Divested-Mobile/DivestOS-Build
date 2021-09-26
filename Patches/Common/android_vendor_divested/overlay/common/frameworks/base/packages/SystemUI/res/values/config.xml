@@ -3,7 +3,7 @@
 
     <!-- The default tiles to display in QuickSettings -->
     <string name="quick_settings_tiles_default" translatable="false">
-        wifi,cell,bt,dnd,flashlight,rotation,battery,location,airplane,caffeine,saver,hotspot,nfc,sync
+        wifi,cell,bt,sensorprivacy,flashlight,location,rotation,battery,airplane,dnd,caffeine,dark,saver,hotspot,nfc,sync
     </string>
 
     <!-- Whether to use cheap, less good looking shadows for recents -->

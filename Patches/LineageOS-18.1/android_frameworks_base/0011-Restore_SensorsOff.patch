@@ -1,0 +1,264 @@
+From 1c55fb2068f641610d00f1c831a43bf3e65b8348 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sun, 26 Sep 2021 14:15:01 -0400
+Subject: [PATCH] Restore Sensors Off tile
+
+Was moved to Settings under Developer options in a51ea81f4445
+
+Signed-off-by: Tad <tad@spotco.us>
+Change-Id: I043d1c6992595f5f074baea15b47cc5d1f2fac3b
+---
+ .../res/drawable/ic_signal_sensors.xml        |  40 ++++++
+ packages/SystemUI/res/values/config.xml       |   2 +-
+ .../systemui/qs/tileimpl/QSFactoryImpl.java   |   6 +
+ .../systemui/qs/tiles/SensorPrivacyTile.java  | 133 ++++++++++++++++++
+ 4 files changed, 180 insertions(+), 1 deletion(-)
+ create mode 100644 packages/SystemUI/res/drawable/ic_signal_sensors.xml
+ create mode 100644 packages/SystemUI/src/com/android/systemui/qs/tiles/SensorPrivacyTile.java
+
+diff --git a/packages/SystemUI/res/drawable/ic_signal_sensors.xml b/packages/SystemUI/res/drawable/ic_signal_sensors.xml
+new file mode 100644
+index 000000000000..b9b3500593a5
+--- /dev/null
++++ b/packages/SystemUI/res/drawable/ic_signal_sensors.xml
+@@ -0,0 +1,40 @@
++<!--
++     Copyright (C) 2019 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++        android:width="24dp"
++        android:height="24dp"
++        android:viewportWidth="24.0"
++        android:viewportHeight="24.0"
++        android:tint="?android:attr/colorControlNormal">
++    <path
++        android:pathData="M21.966,2 L2,22"
++        android:strokeLineCap="round"
++        android:strokeColor="#000000"
++        android:fillColor="#00000000"
++        android:strokeWidth="1.6521436"
++        android:strokeLineJoin="miter"
++        android:strokeAlpha="1"/>
++    <path
++        android:pathData="M0.752,12L4.496,12l2.496,-6.25 2.496,12.5 2.496,-15 2.496,12.5 2.496,-7.5 1.248,3.75h4.992"
++        android:strokeLineCap="round"
++        android:strokeColor="#000000"
++        android:fillColor="#00000000"
++        android:strokeWidth="1.25090861"
++        android:strokeLineJoin="round"
++        android:strokeAlpha="1"/>
++</vector>
++
+diff --git a/packages/SystemUI/res/values/config.xml b/packages/SystemUI/res/values/config.xml
+index 367fe72d4da7..f10d021e5c50 100644
+--- a/packages/SystemUI/res/values/config.xml
++++ b/packages/SystemUI/res/values/config.xml
+@@ -114,7 +114,7 @@
+ 
+     <!-- Tiles native to System UI. Order should match "quick_settings_tiles_default" -->
+     <string name="quick_settings_tiles_stock" translatable="false">
+-        wifi,cell,battery,dnd,flashlight,rotation,bt,airplane,nfc,location,hotspot,inversion,saver,dark,work,cast,night,screenrecord,reverse,ambient_display,aod,caffeine,heads_up,livedisplay,powershare,profiles,reading_mode,sync,usb_tether,volume_panel,vpn,anti_flicker
++        wifi,cell,battery,dnd,flashlight,rotation,bt,airplane,nfc,location,hotspot,inversion,saver,dark,work,cast,night,screenrecord,reverse,ambient_display,aod,caffeine,heads_up,livedisplay,powershare,profiles,reading_mode,sync,usb_tether,volume_panel,vpn,anti_flicker,sensorprivacy
+     </string>
+ 
+     <!-- The tiles to display in QuickSettings -->
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSFactoryImpl.java b/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSFactoryImpl.java
+index 47b9c7bec0d7..66d7b8803570 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSFactoryImpl.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSFactoryImpl.java
+@@ -51,6 +51,7 @@ import com.android.systemui.qs.tiles.ProfilesTile;
+ import com.android.systemui.qs.tiles.ReadingModeTile;
+ import com.android.systemui.qs.tiles.RotationLockTile;
+ import com.android.systemui.qs.tiles.ScreenRecordTile;
++import com.android.systemui.qs.tiles.SensorPrivacyTile;
+ import com.android.systemui.qs.tiles.SyncTile;
+ import com.android.systemui.qs.tiles.UiModeNightTile;
+ import com.android.systemui.qs.tiles.UsbTetherTile;
+@@ -89,6 +90,7 @@ public class QSFactoryImpl implements QSFactory {
+     private final Provider<DataSaverTile> mDataSaverTileProvider;
+     private final Provider<NightDisplayTile> mNightDisplayTileProvider;
+     private final Provider<NfcTile> mNfcTileProvider;
++    private final Provider<SensorPrivacyTile> mSensorPrivacyTileProvider;
+     private final Provider<GarbageMonitor.MemoryTile> mMemoryTileProvider;
+     private final Provider<UiModeNightTile> mUiModeNightTileProvider;
+     private final Provider<ScreenRecordTile> mScreenRecordTileProvider;
+@@ -127,6 +129,7 @@ public class QSFactoryImpl implements QSFactory {
+             Provider<DataSaverTile> dataSaverTileProvider,
+             Provider<NightDisplayTile> nightDisplayTileProvider,
+             Provider<NfcTile> nfcTileProvider,
++            Provider<SensorPrivacyTile> sensorPrivacyTileProvider,
+             Provider<GarbageMonitor.MemoryTile> memoryTileProvider,
+             Provider<UiModeNightTile> uiModeNightTileProvider,
+             Provider<ScreenRecordTile> screenRecordTileProvider,
+@@ -161,6 +164,7 @@ public class QSFactoryImpl implements QSFactory {
+         mDataSaverTileProvider = dataSaverTileProvider;
+         mNightDisplayTileProvider = nightDisplayTileProvider;
+         mNfcTileProvider = nfcTileProvider;
++        mSensorPrivacyTileProvider = sensorPrivacyTileProvider;
+         mMemoryTileProvider = memoryTileProvider;
+         mUiModeNightTileProvider = uiModeNightTileProvider;
+         mScreenRecordTileProvider = screenRecordTileProvider;
+@@ -224,6 +228,8 @@ public class QSFactoryImpl implements QSFactory {
+                 return mNightDisplayTileProvider.get();
+             case "nfc":
+                 return mNfcTileProvider.get();
++            case "sensorprivacy":
++                return mSensorPrivacyTileProvider.get();
+             case "dark":
+                 return mUiModeNightTileProvider.get();
+             case "screenrecord":
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/SensorPrivacyTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/SensorPrivacyTile.java
+new file mode 100644
+index 000000000000..941e1d44e145
+--- /dev/null
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/SensorPrivacyTile.java
+@@ -0,0 +1,133 @@
++/*
++ * Copyright (C) 2018 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.systemui.qs.tiles;
++
++import android.content.Context;
++import android.content.Intent;
++import android.hardware.SensorPrivacyManager;
++import android.service.quicksettings.Tile;
++import android.widget.Switch;
++
++import com.android.internal.logging.MetricsLogger;
++import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
++import com.android.systemui.R;
++import com.android.systemui.plugins.ActivityStarter;
++import com.android.systemui.plugins.qs.QSTile.BooleanState;
++import com.android.systemui.qs.QSHost;
++import com.android.systemui.qs.tileimpl.QSTileImpl;
++import android.app.KeyguardManager;
++
++import javax.inject.Inject;
++
++/** Quick settings tile: SensorPrivacy mode **/
++public class SensorPrivacyTile extends QSTileImpl<BooleanState> implements
++        SensorPrivacyManager.OnSensorPrivacyChangedListener {
++    private static final String TAG = "SensorPrivacy";
++    private final Icon mIcon =
++            ResourceIcon.get(R.drawable.ic_signal_sensors);
++    private KeyguardManager mKeyguardManager;
++    private final SensorPrivacyManager mSensorPrivacyManager;
++    private final ActivityStarter mActivityStarter;
++
++    @Inject
++    public SensorPrivacyTile(QSHost host, SensorPrivacyManager sensorPrivacyManager,
++            ActivityStarter activityStarter) {
++        super(host);
++
++        mSensorPrivacyManager = sensorPrivacyManager;
++        mKeyguardManager = (KeyguardManager) mContext.getSystemService(
++            Context.KEYGUARD_SERVICE);
++        mActivityStarter = activityStarter;
++    }
++
++    @Override
++    public BooleanState newTileState() {
++        return new BooleanState();
++    }
++
++    @Override
++    public void handleClick() {
++        final boolean wasEnabled = mState.value;
++        // Don't allow disabling from the lockscreen.
++        if (wasEnabled && mKeyguardManager.isKeyguardLocked()) {
++            mActivityStarter.postQSRunnableDismissingKeyguard(() -> {
++                MetricsLogger.action(mContext, getMetricsCategory(), !wasEnabled);
++                setEnabled(!wasEnabled);
++            });
++            return;
++        }
++
++        MetricsLogger.action(mContext, getMetricsCategory(), !wasEnabled);
++        setEnabled(!wasEnabled);
++    }
++
++    private void setEnabled(boolean enabled) {
++        mSensorPrivacyManager.setSensorPrivacy(enabled);
++    }
++
++    @Override
++    public CharSequence getTileLabel() {
++        return mContext.getString(R.string.sensor_privacy_mode);
++    }
++
++    @Override
++    public Intent getLongClickIntent() {
++        return new Intent();
++    }
++
++    @Override
++    protected void handleUpdateState(BooleanState state, Object arg) {
++        final boolean enabled = arg instanceof Boolean ? (Boolean) arg
++                : mSensorPrivacyManager.isSensorPrivacyEnabled();
++        state.value = enabled;
++        state.label = mContext.getString(R.string.sensor_privacy_mode);
++        state.icon = mIcon;
++        state.state = enabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE;
++        state.contentDescription = state.label;
++        state.expandedAccessibilityClassName = Switch.class.getName();
++    }
++
++    @Override
++    public int getMetricsCategory() {
++        return MetricsEvent.QS_SENSOR_PRIVACY;
++    }
++
++    @Override
++    protected String composeChangeAnnouncement() {
++        if (mState.value) {
++            return mContext
++                    .getString(R.string.accessibility_quick_settings_sensor_privacy_changed_on);
++        } else {
++            return mContext
++                    .getString(R.string.accessibility_quick_settings_sensor_privacy_changed_off);
++        }
++    }
++
++    @Override
++    protected void handleSetListening(boolean listening) {
++        if (listening) {
++            mSensorPrivacyManager.addSensorPrivacyListener(this);
++        } else {
++            mSensorPrivacyManager.removeSensorPrivacyListener(this);
++        }
++    }
++
++    @Override
++    public void onSensorPrivacyChanged(boolean enabled) {
++        refreshState(enabled);
++    }
++}
+-- 
+2.31.1
+

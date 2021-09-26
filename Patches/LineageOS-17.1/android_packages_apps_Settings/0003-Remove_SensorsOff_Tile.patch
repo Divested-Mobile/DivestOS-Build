@@ -1,0 +1,95 @@
+From 051e9e895fe14095e3161cb81cd68fe590858750 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sun, 26 Sep 2021 14:10:53 -0400
+Subject: [PATCH] Remove the Sensors Off tile
+
+Signed-off-by: Tad <tad@spotco.us>
+Change-Id: Ic1dce1c0fffc3c3f6459c4c85e0a64d480d3315a
+---
+ AndroidManifest.xml                           | 11 -----
+ .../development/qstile/DevelopmentTiles.java  | 42 -------------------
+ 2 files changed, 53 deletions(-)
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index e4378d6b93..89fc7973a7 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -3079,17 +3079,6 @@
+             </intent-filter>
+         </service>
+ 
+-        <service
+-            android:name=".development.qstile.DevelopmentTiles$SensorsOff"
+-            android:label="@string/sensors_off_quick_settings_title"
+-            android:icon="@drawable/tile_icon_sensors_off"
+-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+-            android:enabled="false">
+-            <intent-filter>
+-                <action android:name="android.service.quicksettings.action.QS_TILE" />
+-            </intent-filter>
+-        </service>
+-
+         <activity
+             android:name=".HelpTrampoline"
+             android:exported="true"
+diff --git a/src/com/android/settings/development/qstile/DevelopmentTiles.java b/src/com/android/settings/development/qstile/DevelopmentTiles.java
+index bb791abef8..2fdb410150 100644
+--- a/src/com/android/settings/development/qstile/DevelopmentTiles.java
++++ b/src/com/android/settings/development/qstile/DevelopmentTiles.java
+@@ -20,7 +20,6 @@ import android.app.settings.SettingsEnums;
+ import android.content.ComponentName;
+ import android.content.Context;
+ import android.content.pm.PackageManager;
+-import android.hardware.SensorPrivacyManager;
+ import android.app.KeyguardManager;
+ import android.os.IBinder;
+ import android.os.Parcel;
+@@ -278,45 +277,4 @@ public abstract class DevelopmentTiles extends TileService {
+             }
+         }
+     }
+-
+-    /**
+-     * Tile to toggle sensors off to control camera, mic, and sensors managed by the SensorManager.
+-     */
+-    public static class SensorsOff extends DevelopmentTiles {
+-        private Context mContext;
+-        private SensorPrivacyManager mSensorPrivacyManager;
+-        private KeyguardManager mKeyguardManager;
+-        private MetricsFeatureProvider mMetricsFeatureProvider;
+-        private boolean mIsEnabled;
+-
+-        @Override
+-        public void onCreate() {
+-            super.onCreate();
+-            mContext = getApplicationContext();
+-            mSensorPrivacyManager = (SensorPrivacyManager) mContext.getSystemService(
+-                    Context.SENSOR_PRIVACY_SERVICE);
+-            mIsEnabled = mSensorPrivacyManager.isSensorPrivacyEnabled();
+-            mMetricsFeatureProvider = FeatureFactory.getFactory(
+-                    mContext).getMetricsFeatureProvider();
+-            mKeyguardManager = (KeyguardManager) mContext.getSystemService(
+-                    Context.KEYGUARD_SERVICE);
+-        }
+-
+-        @Override
+-        protected boolean isEnabled() {
+-            return mIsEnabled;
+-        }
+-
+-        @Override
+-        public void setIsEnabled(boolean isEnabled) {
+-            // Don't allow sensors to be reenabled from the lock screen.
+-            if (mIsEnabled && mKeyguardManager.isKeyguardLocked()) {
+-                return;
+-            }
+-            mMetricsFeatureProvider.action(getApplicationContext(), SettingsEnums.QS_SENSOR_PRIVACY,
+-                    isEnabled);
+-            mIsEnabled = isEnabled;
+-            mSensorPrivacyManager.setSensorPrivacy(isEnabled);
+-        }
+-    }
+ }
+-- 
+2.31.1
+

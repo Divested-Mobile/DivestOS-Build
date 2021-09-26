@@ -1,0 +1,99 @@
+From e0e9afa0b76af1692cfcb1f24e3ca4f4faccf321 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sun, 26 Sep 2021 14:10:53 -0400
+Subject: [PATCH] Remove the Sensors Off tile
+
+Signed-off-by: Tad <tad@spotco.us>
+Change-Id: Ic1dce1c0fffc3c3f6459c4c85e0a64d480d3315a
+---
+ AndroidManifest.xml                           | 13 ------
+ .../development/qstile/DevelopmentTiles.java  | 42 -------------------
+ 2 files changed, 55 deletions(-)
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index c17807bd13..09d4c3b0ab 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -3130,19 +3130,6 @@
+                        android:value="true"/>
+         </service>
+ 
+-        <service
+-            android:name=".development.qstile.DevelopmentTiles$SensorsOff"
+-            android:label="@string/sensors_off_quick_settings_title"
+-            android:icon="@drawable/tile_icon_sensors_off"
+-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+-            android:enabled="false">
+-            <intent-filter>
+-                <action android:name="android.service.quicksettings.action.QS_TILE" />
+-            </intent-filter>
+-            <meta-data android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+-                       android:value="true"/>
+-        </service>
+-
+         <service
+             android:name=".development.qstile.DevelopmentTiles$WirelessDebugging"
+             android:label="@string/enable_adb_wireless"
+diff --git a/src/com/android/settings/development/qstile/DevelopmentTiles.java b/src/com/android/settings/development/qstile/DevelopmentTiles.java
+index 916c6c9291..fd92d17a60 100644
+--- a/src/com/android/settings/development/qstile/DevelopmentTiles.java
++++ b/src/com/android/settings/development/qstile/DevelopmentTiles.java
+@@ -26,7 +26,6 @@ import android.content.Context;
+ import android.content.Intent;
+ import android.content.pm.PackageManager;
+ import android.database.ContentObserver;
+-import android.hardware.SensorPrivacyManager;
+ import android.net.Uri;
+ import android.os.Handler;
+ import android.os.IBinder;
+@@ -319,47 +318,6 @@ public abstract class DevelopmentTiles extends TileService {
+         }
+     }
+ 
+-    /**
+-     * Tile to toggle sensors off to control camera, mic, and sensors managed by the SensorManager.
+-     */
+-    public static class SensorsOff extends DevelopmentTiles {
+-        private Context mContext;
+-        private SensorPrivacyManager mSensorPrivacyManager;
+-        private KeyguardManager mKeyguardManager;
+-        private MetricsFeatureProvider mMetricsFeatureProvider;
+-        private boolean mIsEnabled;
+-
+-        @Override
+-        public void onCreate() {
+-            super.onCreate();
+-            mContext = getApplicationContext();
+-            mSensorPrivacyManager = (SensorPrivacyManager) mContext.getSystemService(
+-                    Context.SENSOR_PRIVACY_SERVICE);
+-            mIsEnabled = mSensorPrivacyManager.isSensorPrivacyEnabled();
+-            mMetricsFeatureProvider = FeatureFactory.getFactory(
+-                    mContext).getMetricsFeatureProvider();
+-            mKeyguardManager = (KeyguardManager) mContext.getSystemService(
+-                    Context.KEYGUARD_SERVICE);
+-        }
+-
+-        @Override
+-        protected boolean isEnabled() {
+-            return mIsEnabled;
+-        }
+-
+-        @Override
+-        public void setIsEnabled(boolean isEnabled) {
+-            // Don't allow sensors to be reenabled from the lock screen.
+-            if (mIsEnabled && mKeyguardManager.isKeyguardLocked()) {
+-                return;
+-            }
+-            mMetricsFeatureProvider.action(getApplicationContext(), SettingsEnums.QS_SENSOR_PRIVACY,
+-                    isEnabled);
+-            mIsEnabled = isEnabled;
+-            mSensorPrivacyManager.setSensorPrivacy(isEnabled);
+-        }
+-    }
+-
+     /**
+      * Tile to control the "Wireless debugging" developer setting
+      */
+-- 
+2.31.1
+
