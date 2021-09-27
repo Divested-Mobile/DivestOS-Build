@@ -213,6 +213,11 @@ patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voi
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
 fi;
 
+if enterAndClear "packages/modules/DnsResolver"; then
+patch -p1 < "$DOS_PATCHES/android_packages_modules_DnsResolver/0001-Hosts_Cache.patch"; #Sort and cache hosts file data for fast lookup
+patch -p1 < "$DOS_PATCHES/android_packages_modules_DnsResolver/0002-Wildcard_Hosts.patch"; #Support wildcards in cached hosts file
+fi;
+
 if enterAndClear "packages/providers/TelephonyProvider"; then
 patch -p1 < "$DOS_PATCHES/android_packages_providers_TelephonyProvider/304614.patch"; #mcc/mnc fix
 patch -p1 < "$DOS_PATCHES/android_packages_providers_TelephonyProvider/312102.patch"; #mnc fix
