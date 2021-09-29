@@ -1,9 +1,5 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/xiaomi/sdm845"
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0276-0277.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0277-0278.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0278-0279.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0279-0280.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0024.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0025.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0026.patch
@@ -62,20 +58,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19068/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20908/^5.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0067/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3674/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/4.9/0031.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/4.9/0032.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/4.9/0033.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/4.9/0034.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/4.9/0035.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11146/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/^5.6.1/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24394/^5.7.8/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3653/4.9/0007.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3655/^5.13/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3753/4.9/0005.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-40490/3.9-^5.14/0001.patch
-editKernelLocalversion "-dos.p77"
+editKernelLocalversion "-dos.p63"
 cd "$DOS_BUILD_BASE"
