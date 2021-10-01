@@ -1,7 +1,7 @@
-From 4a5a3831856e2031585911f480e7da39d8eacd4d Mon Sep 17 00:00:00 2001
+From 6332b25b8792a40e3800e7b502c0a97156caa7de Mon Sep 17 00:00:00 2001
 From: Tom Marshall <tdm.code@gmail.com>
 Date: Tue, 25 Aug 2020 08:31:32 -0700
-Subject: [PATCH] netd: Sort and cache hosts file data for fast lookup
+Subject: [PATCH] DnsResolver: Sort and cache hosts file data for fast lookup
 
 The hosts file is normally searched linearly.  This is very slow when
 the file is large.  To mitigate this, read the hosts file and sort the
@@ -119,8 +119,8 @@ index 0000000..91914d1
 +
 +#define MAX_ADDRLEN	(INET6_ADDRSTRLEN - (1 + 5))
 +#define MAX_HOSTLEN	MAXHOSTNAMELEN
-+#define HCMAXALIASES 35
-+#define HCMAXADDRS 35
++constexpr int MAXALIASES = 35;
++constexpr int MAXADDRS = 35;
 +
 +#define ESTIMATED_LINELEN	32
 +#define HCFILE_ALLOC_SIZE	256
@@ -499,9 +499,9 @@ index 0000000..91914d1
 +    int cmp;
 +    size_t addrlen;
 +    unsigned int naliases = 0;
-+    char *aliases[HCMAXALIASES];
++    char *aliases[MAXALIASES];
 +    unsigned int naddrs = 0;
-+    char *addr_ptrs[HCMAXADDRS];
++    char *addr_ptrs[MAXADDRS];
 +    unsigned int n;
 +
 +    if (getenv("ANDROID_HOSTS_CACHE_DISABLE") != NULL)
@@ -548,7 +548,7 @@ index 0000000..91914d1
 +                hstrcpy(namestr, name);
 +                HENT_SCOPY(aliases[naliases], namestr, info->buf, info->buflen);
 +                ++naliases;
-+                if (naliases >= HCMAXALIASES)
++                if (naliases >= MAXALIASES)
 +                    goto nospc;
 +            }
 +            aligned = (char *)ALIGN(info->buf);
@@ -560,7 +560,7 @@ index 0000000..91914d1
 +            }
 +            HENT_COPY(addr_ptrs[naddrs], addr, addrlen, info->buf, info->buflen);
 +            ++naddrs;
-+            if (naddrs >= HCMAXADDRS)
++            if (naddrs >= MAXADDRS)
 +                goto nospc;
 +        }
 +

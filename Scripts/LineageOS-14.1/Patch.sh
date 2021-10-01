@@ -405,6 +405,11 @@ enableLowRam "device/samsung/tuna";
 #Fixes
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/# CONFIG_KPROBES is not set/CONFIG_KPROBES=y/" kernel/amazon/hdx-common/arch/arm/configs/*hdx*_defconfig; #Breaks on compile
+sed -i "s/CONFIG_X509_CERTIFICATE_PARSER=y/# CONFIG_X509_CERTIFICATE_PARSER is not set/" kernel/amazon/hdx-common/arch/arm/configs/*hdx*_defconfig; #Breaks on compile
+sed -i "s/ASYMMETRIC_PUBLIC_KEY_SUBTYPE=y/# ASYMMETRIC_PUBLIC_KEY_SUBTYPE is not set/" kernel/amazon/hdx-common/arch/arm/configs/*hdx*_defconfig; #Breaks on compile
+sed -i "s/SYSTEM_TRUSTED_KEYRING=y/# SYSTEM_TRUSTED_KEYRING is not set/" kernel/amazon/hdx-common/arch/arm/configs/*hdx*_defconfig; #Breaks on compile
+sed -i "s/ASYMMETRIC_KEY_TYPE=y/# ASYMMETRIC_KEY_TYPE is not set/" kernel/amazon/hdx-common/arch/arm/configs/*hdx*_defconfig; #Breaks on compile
+sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/asus/grouper/arch/arm/configs/grouper_defconfig; #Breaks on compile
 awk -i inplace '!/STACKPROTECTOR/' kernel/lge/msm8992/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_ARM_SMMU=y/# CONFIG_ARM_SMMU is not set/" kernel/motorola/msm8992/arch/arm64/configs/*defconfig; #Breaks on compile
 #tuna fixes
