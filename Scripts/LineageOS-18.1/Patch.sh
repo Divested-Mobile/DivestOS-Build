@@ -73,10 +73,9 @@ patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.pa
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #Ignore neverallow violations XXX: necessary for -user builds of legacy devices
 fi;
 
-if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then
 if enterAndClear "external/chromium-webview"; then
-DOS_WEBVIEW_CHERRYPICK; #Update the WebView to latest if available
-fi;
+if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then DOS_WEBVIEW_CHERRYPICK; fi; #Update the WebView to latest if available
+if [ "$DOS_WEBVIEW_LFS" = true ]; then git lfs pull; fi; #Ensure the objects are available
 fi;
 
 if enterAndClear "frameworks/base"; then

@@ -77,10 +77,9 @@ patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/248649.patch"; #msm_irqba
 patch -p1 < "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on user builds XXX: REMOVE THIS TRASH
 fi;
 
-if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then
 if enterAndClear "external/chromium-webview"; then
-DOS_WEBVIEW_CHERRYPICK; #Update the WebView to latest if available
-fi;
+if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then DOS_WEBVIEW_CHERRYPICK; fi; #Update the WebView to latest if available
+if [ "$DOS_WEBVIEW_LFS" = true ]; then git lfs pull; fi; #Ensure the objects are available
 fi;
 
 if enterAndClear "external/sqlite"; then

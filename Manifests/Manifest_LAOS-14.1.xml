@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
 
+	<remote name="gitlab" fetch="https://gitlab.com/" />
+
 <!-- START OF UNNECESSARY REPO REMOVAL -->
 	<remove-project name="device/generic/goldfish" />
 	<remove-project name="device/generic/goldfish-opengl" />
@@ -60,6 +62,10 @@
 
 <!-- START OF ADDITIONAL REPOS -->
 	<!--<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />-->
+
+	<!-- Switch to the Mulch WebView -->
+	<remove-project name="LineageOS/android_external_chromium-webview" />
+	<project path="external/chromium-webview" name="divested-mobile/mulch" groups="pdk" clone-depth="1" remote="gitlab" revision="master" />
 <!-- END OF ADDITIONAL REPOS -->
 
 <!-- START OF DEVICE REPOS -->
