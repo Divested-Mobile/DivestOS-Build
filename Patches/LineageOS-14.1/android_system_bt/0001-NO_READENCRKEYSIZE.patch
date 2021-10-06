@@ -1,0 +1,47 @@
+From f7fceea92ea8d1ac0ea8164d35a42721ad27aa98 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Wed, 6 Oct 2021 04:49:33 -0400
+Subject: [PATCH] Add an option to disable the assert added in fc2ca9ee
+
+To prevent breaking Bluetooth on devices that lack such command.
+
+Signed-off-by: Tad <tad@spotco.us>
+Change-Id: If4853d441bdf5ad728c8637a56c8ec7785794dda
+---
+ Android.mk              | 4 ++++
+ device/src/controller.c | 3 ++-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/Android.mk b/Android.mk
+index b370cc06f..3fff6aa16 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -21,6 +21,10 @@ ifeq ($(TARGET_BUILD_VARIANT),eng)
+ bluetooth_CFLAGS += -DBLUEDROID_DEBUG
+ endif
+ 
++ifeq ($(TARGET_BLUETOOTH_NO_READENCRKEYSIZE),true)
++bluetooth_CFLAGS += -DNO_READENCRKEYSIZE
++endif
++
+ bluetooth_CFLAGS += -DUSE_AUDIO_TRACK
+ 
+ bluetooth_CFLAGS += -DEXPORT_SYMBOL="__attribute__((visibility(\"default\")))"
+diff --git a/device/src/controller.c b/device/src/controller.c
+index 60820c2c0..89963dc30 100644
+--- a/device/src/controller.c
++++ b/device/src/controller.c
+@@ -293,8 +293,9 @@ static future_t *start_up(void) {
+         response,
+         &number_of_local_supported_codecs, local_supported_codecs);
+   }
+-
++#ifndef NO_READENCRKEYSIZE
+   assert(HCI_READ_ENCR_KEY_SIZE_SUPPORTED(supported_commands));
++#endif
+ 
+   readable = true;
+   return future_new_immediate(FUTURE_SUCCESS);
+-- 
+2.31.1
+

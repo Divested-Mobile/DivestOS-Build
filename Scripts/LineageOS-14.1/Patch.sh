@@ -255,6 +255,7 @@ if enterAndClear "system/bt"; then
 patch -p1 < "$DOS_PATCHES/android_system_bt/229574.patch"; #Increase maximum Bluetooth SBC codec bitrate for SBC HD
 patch -p1 < "$DOS_PATCHES/android_system_bt/229575.patch"; #Explicit SBC Dual Channel (SBC HD) support
 patch -p1 < "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one
+patch -p1 < "$DOS_PATCHES/android_system_bt/0001-NO_READENCRKEYSIZE.patch"; #Add an option to let devices opt-out of the HCI_READ_ENCR_KEY_SIZE_SUPPORTED assert
 fi;
 
 if enterAndClear "system/core"; then
@@ -312,6 +313,7 @@ fi;
 #START OF DEVICE CHANGES
 #
 if enterAndClear "device/amazon/hdx-common"; then
+echo "TARGET_BLUETOOTH_NO_READENCRKEYSIZE := true" >> BoardConfigCommon.mk; #Fix BT crash
 sed -i 's/,encryptable=footer//' rootdir/etc/fstab.qcom; #Using footer will break the bootloader, it might work with /misc enabled
 #XXX: If not used with a supported recovery, it'll be thrown into a bootloop, don't worry just 'fastboot erase misc' and reboot
 #echo "/dev/block/platform/msm_sdcc.1/by-name/misc /misc emmc defaults defaults" >> rootdir/etc/fstab.qcom; #Add the misc (mmcblk0p5) partition for recovery flags

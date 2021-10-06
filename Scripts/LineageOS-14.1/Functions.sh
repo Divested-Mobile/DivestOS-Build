@@ -98,6 +98,7 @@ patchWorkspace() {
 	repopick -it n-asb-2021-08;
 	repopick -i 315718; #CVE-2021-1957
 	repopick -it n-asb-2021-09;
+	repopick -it n-asb-2021-10;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
