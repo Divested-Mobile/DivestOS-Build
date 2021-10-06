@@ -66,6 +66,7 @@ patch -p1 < "$DOS_PATCHES/android_bootable_recovery/0001-No_SerialNum_Restrictio
 fi;
 
 if enterAndClear "build/make"; then
+git revert --no-edit 58544f3aa139b4603fa26c39e8d9259402d658b8; #Re-enable the downgrade check
 git revert --no-edit 271f6ffa045064abcac066e97f2cb53ccb3e5126 61f7ee9386be426fd4eadc2c8759362edb5bef8; #Add back PicoTTS and language files
 patch -p1 < "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys to recovery for OTA verification
 patch -p1 < "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
