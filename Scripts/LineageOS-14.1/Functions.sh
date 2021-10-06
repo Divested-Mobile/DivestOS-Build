@@ -95,7 +95,6 @@ patchWorkspace() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
 	source build/envsetup.sh;
 	#repopick -it bt-sbc-hd-dualchannel-nougat;
-	repopick -it n-asb-2021-08;
 	repopick -i 315718; #CVE-2021-1957
 	repopick -it n-asb-2021-09;
 	repopick -it n-asb-2021-10;
