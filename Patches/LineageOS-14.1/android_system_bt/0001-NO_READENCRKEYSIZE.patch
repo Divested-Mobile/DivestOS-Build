@@ -1,16 +1,22 @@
-From f7fceea92ea8d1ac0ea8164d35a42721ad27aa98 Mon Sep 17 00:00:00 2001
+From 6e68de32ff6200410d83d6ee7b2c91cb244f03d4 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Wed, 6 Oct 2021 04:49:33 -0400
+Date: Wed, 6 Oct 2021 05:26:50 -0400
 Subject: [PATCH] Add an option to disable the assert added in fc2ca9ee
 
 To prevent breaking Bluetooth on devices that lack such command.
 
+This makes these devices vulnerable to CVE-2019-9506,
+but the alternative is no Bluetooth...
+
 Signed-off-by: Tad <tad@spotco.us>
-Change-Id: If4853d441bdf5ad728c8637a56c8ec7785794dda
+Change-Id: I437eb75f791f0bf25a18230d9ffb3bf4f8641dd7
 ---
- Android.mk              | 4 ++++
- device/src/controller.c | 3 ++-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ Android.mk              |  4 ++++
+ device/src/controller.c |  3 ++-
+ stack/btu/btu_hcif.c    | 15 +++++++++++++--
+ stack/hcic/hcicmds.c    |  2 ++
+ stack/include/hcimsgs.h |  2 ++
+ 5 files changed, 23 insertions(+), 3 deletions(-)
 
 diff --git a/Android.mk b/Android.mk
 index b370cc06f..3fff6aa16 100644
@@ -42,6 +48,114 @@ index 60820c2c0..89963dc30 100644
  
    readable = true;
    return future_new_immediate(FUTURE_SUCCESS);
+diff --git a/stack/btu/btu_hcif.c b/stack/btu/btu_hcif.c
+index eacf145bf..616d6d581 100644
+--- a/stack/btu/btu_hcif.c
++++ b/stack/btu/btu_hcif.c
+@@ -606,7 +606,7 @@ static void btu_hcif_rmt_name_request_comp_evt (UINT8 *p, UINT16 evt_len)
+ 
+     btm_sec_rmt_name_request_complete (bd_addr, p, status);
+ }
+-
++#ifndef NO_READENCRKEYSIZE
+ const uint8_t MIN_KEY_SIZE = 7;
+ bool read_key_send_from_key_refresh = false;
+ 
+@@ -673,6 +673,7 @@ static void read_encryption_key_size_complete_after_encryption_change(
+   btm_acl_encrypt_change(handle, status, 1 /* enable */);
+   btm_sec_encrypt_change(handle, status, 1 /* enable */);
+ }
++#endif
+ 
+ /*******************************************************************************
+ **
+@@ -693,6 +694,7 @@ static void btu_hcif_encryption_change_evt (UINT8 *p)
+     STREAM_TO_UINT16 (handle, p);
+     STREAM_TO_UINT8  (encr_enable, p);
+ 
++#ifndef NO_READENCRKEYSIZE
+     if (status != HCI_SUCCESS || encr_enable == 0 ||
+         BTM_IsBleConnection(handle)) {
+         btm_acl_encrypt_change (handle, status, encr_enable);
+@@ -701,6 +703,10 @@ static void btu_hcif_encryption_change_evt (UINT8 *p)
+         read_key_send_from_key_refresh = false;
+         btsnd_hcic_read_encryption_key_size(handle);
+     }
++#else
++    btm_acl_encrypt_change (handle, status, encr_enable);
++    btm_sec_encrypt_change (handle, status, encr_enable);
++#endif
+ }
+ 
+ /*******************************************************************************
+@@ -903,7 +909,7 @@ static void btu_hcif_hdl_command_complete (UINT16 opcode, UINT8 *p, UINT16 evt_l
+         case HCI_READ_INQ_TX_POWER_LEVEL:
+             btm_read_inq_tx_power_complete(p);
+             break;
+-
++#ifndef NO_READENCRKEYSIZE
+         case HCI_READ_ENCR_KEY_SIZE: {
+             UINT8 *pp = p;
+ 
+@@ -923,6 +929,7 @@ static void btu_hcif_hdl_command_complete (UINT16 opcode, UINT8 *p, UINT16 evt_l
+ 
+             }
+             break;
++#endif
+ 
+ #if (BLE_INCLUDED == TRUE)
+ /* BLE Commands sComplete*/
+@@ -1725,12 +1732,16 @@ static void btu_hcif_encryption_key_refresh_cmpl_evt (UINT8 *p)
+ 
+     if (status == HCI_SUCCESS) enc_enable = 1;
+ 
++#ifndef NO_READENCRKEYSIZE
+     if (status != HCI_SUCCESS || BTM_IsBleConnection(handle)) {
+         btm_sec_encrypt_change (handle, status, enc_enable);
+     } else  {
+         read_key_send_from_key_refresh = true;
+         btsnd_hcic_read_encryption_key_size(handle);
+     }
++#else
++    btm_sec_encrypt_change (handle, status, enc_enable);
++#endif
+ }
+ 
+ static void btu_ble_process_adv_pkt (UINT8 *p)
+diff --git a/stack/hcic/hcicmds.c b/stack/hcic/hcicmds.c
+index ba1f6d4fe..233306759 100644
+--- a/stack/hcic/hcicmds.c
++++ b/stack/hcic/hcicmds.c
+@@ -1371,6 +1371,7 @@ BOOLEAN btsnd_hcic_read_rssi (UINT16 handle)
+     return (TRUE);
+ }
+ 
++#ifndef NO_READENCRKEYSIZE
+ BOOLEAN btsnd_hcic_read_encryption_key_size(UINT16 handle) {
+     BT_HDR *p = (BT_HDR *)osi_malloc(HCI_CMD_BUF_SIZE);
+     UINT8 *pp = (UINT8 *)(p + 1);
+@@ -1386,6 +1387,7 @@ BOOLEAN btsnd_hcic_read_encryption_key_size(UINT16 handle) {
+     btu_hcif_send_cmd (LOCAL_BR_EDR_CONTROLLER_ID,  p);
+     return (TRUE);
+ }
++#endif
+ 
+ BOOLEAN btsnd_hcic_enable_test_mode (void)
+ {
+diff --git a/stack/include/hcimsgs.h b/stack/include/hcimsgs.h
+index a79edc4bc..630d372ad 100644
+--- a/stack/include/hcimsgs.h
++++ b/stack/include/hcimsgs.h
+@@ -607,7 +607,9 @@ extern BOOLEAN btsnd_hcic_write_cur_iac_lap (UINT8 num_cur_iac,
+ 
+ extern BOOLEAN btsnd_hcic_get_link_quality (UINT16 handle);            /* Get Link Quality */
+ extern BOOLEAN btsnd_hcic_read_rssi (UINT16 handle);                   /* Read RSSI */
++#ifndef NO_READENCRKEYSIZE
+ extern BOOLEAN btsnd_hcic_read_encryption_key_size (UINT16 handle);    /* Read encryption key size */
++#endif
+ extern BOOLEAN btsnd_hcic_enable_test_mode (void);                     /* Enable Device Under Test Mode */
+ extern BOOLEAN btsnd_hcic_write_pagescan_type(UINT8 type);             /* Write Page Scan Type */
+ extern BOOLEAN btsnd_hcic_write_inqscan_type(UINT8 type);              /* Write Inquiry Scan Type */
 -- 
 2.31.1
 
