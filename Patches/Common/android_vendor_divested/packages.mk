@@ -21,7 +21,8 @@ PRODUCT_PACKAGES += \
 
 # Extras
 PRODUCT_PACKAGES += \
-    TalkBack
+    TalkBack \
+    SupportDivestOS
 
 # Notes
 # - Available (via PrebuiltApps submodule): eSpeakNG, OpenKeychain, Shelter
