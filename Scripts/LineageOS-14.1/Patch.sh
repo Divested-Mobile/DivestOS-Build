@@ -71,7 +71,7 @@ patch -p1 < "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys 
 sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk; #Replace the Messaging app with Silence
-sed -i 's/2021-06-05/2021-09-05/' core/version_defaults.mk; #Bump Security String #n-asb-2021-08 #n-asb-2021-09 #XXX
+sed -i 's/2021-06-05/2021-10-05/' core/version_defaults.mk; #Bump Security String #n-asb-2021-10 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -344,6 +344,10 @@ fi;
 
 if enterAndClear "device/samsung/exynos5420-common"; then
 awk -i inplace '!/shell su/' sepolicy/shell.te; #neverallow
+fi;
+
+if enterAndClear "device/samsung/i9100"; then
+smallerSystem;
 fi;
 
 if enterAndClear "device/samsung/manta"; then

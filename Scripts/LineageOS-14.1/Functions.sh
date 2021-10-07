@@ -36,6 +36,7 @@ scanWorkspaceForMalware() {
 export -f scanWorkspaceForMalware;
 
 buildDevice() {
+	pkill java && sleep 10; #XXX: ugly hack
 	cd "$DOS_BUILD_BASE";
 	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
 	breakfast "lineage_$1-user" && mka target-files-package otatools && processRelease $1 true $2;
@@ -43,6 +44,7 @@ buildDevice() {
 export -f buildDevice;
 
 buildDeviceUserDebug() {
+	pkill java && sleep 10; #XXX: ugly hack
 	cd "$DOS_BUILD_BASE";
 	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
 	breakfast "lineage_$1-userdebug" && mka target-files-package otatools && processRelease $1 true $2;
@@ -98,6 +100,7 @@ patchWorkspace() {
 	repopick -i 315718; #CVE-2021-1957
 	repopick -it n-asb-2021-09;
 	repopick -it n-asb-2021-10;
+	repopick -it tzdb2021c_N;
 
 	source "$DOS_SCRIPTS/Patch.sh";
 	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
