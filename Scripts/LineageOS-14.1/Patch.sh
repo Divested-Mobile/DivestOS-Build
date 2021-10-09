@@ -360,6 +360,7 @@ fi;
 
 if enterAndClear "device/samsung/toroplus"; then
 awk -i inplace '!/additional_system_update/' overlay/packages/apps/Settings/res/values*/*.xml;
+awk -i inplace '!/has_powercontrol_widget/' overlay/packages/apps/Settings/res/values/bools.xml; #Fix Settings crash
 fi;
 
 if enterAndClear "device/samsung/tuna"; then
@@ -373,6 +374,7 @@ patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0003-fix_denial.patch";
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0004-fix_denial.patch";
 patch -p1 < "$DOS_PATCHES/android_device_samsung_tuna/0005-fix_denial.patch";
 echo "allow system_server system_file:file execmod;" >> sepolicy/system_server.te; #fix gps load
+echo "PRODUCT_PROPERTY_OVERRIDES += persist.sys.force_highendgfx=true" >> device.mk; #override low_ram to fix artifacting
 fi;
 
 if enter "vendor/google"; then

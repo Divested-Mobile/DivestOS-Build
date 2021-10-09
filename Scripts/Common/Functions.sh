@@ -711,7 +711,8 @@ hardenDefconfig() {
 	optionsYes+=("THREAD_INFO_IN_TASK" "VMAP_STACK");
 
 	#Linux 4.10
-	optionsYes+=("ARM64_SW_TTBR0_PAN" "BUG_ON_DATA_CORRUPTION");
+	optionsYes+=("ARM64_SW_TTBR0_PAN");
+	#Disabled: BUG_ON_DATA_CORRUPTION (boot issues?)
 
 	#Linux 4.11
 	optionsYes+=("STRICT_KERNEL_RWX" "STRICT_MODULE_RWX");
