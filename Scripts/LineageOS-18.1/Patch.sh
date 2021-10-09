@@ -328,6 +328,7 @@ fi;
 
 if enterAndClear "device/google/redbull"; then
 enableVerity; #Resurrect dm-verity
+awk -i inplace '!/sctp/' BoardConfig-common.mk modules.load; #fix compile after hardenDefconfig
 fi;
 
 if enterAndClear "device/google/redfin"; then

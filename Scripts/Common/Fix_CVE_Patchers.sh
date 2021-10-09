@@ -72,7 +72,7 @@ commentPatches android_kernel_razer_msm8998.sh "0008-Graphene-Kernel_Hardening/4
 commentPatches android_kernel_samsung_exynos5420.sh "CVE-2021-Misc2/3.4/0061.patch" "CVE-2021-Misc2/3.4/0062.patch";
 commentPatches android_kernel_samsung_jf.sh "CVE-2019-11599";
 commentPatches android_kernel_samsung_manta.sh "CVE-2021-Misc2/3.4/0055.patch" "CVE-2021-Misc2/3.4/0056.patch";
-commentPatches android_kernel_samsung_msm8930-common.sh "CVE-2017-11015/prima" "CVE-2019-11599";
+commentPatches android_kernel_samsung_msm8930-common.sh "CVE-2017-11015/prima" "CVE-2019-11599" "CVE-2021-Misc2/ANY/0031.patch";
 commentPatches android_kernel_samsung_smdk4412.sh "CVE-2012-2127" "CVE-2016-8463/ANY/0001.patch";
 commentPatches android_kernel_samsung_tuna.sh "CVE-2012-2127";
 commentPatches android_kernel_samsung_universal8890.sh "CVE-2016-7917" "CVE-2018-1092" "CVE-2018-17972" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166";
