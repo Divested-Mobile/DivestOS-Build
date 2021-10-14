@@ -186,7 +186,7 @@ fi;
 
 if enterAndClear "packages/apps/Contacts"; then
 patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links (GrapheneOS)
-patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Backup.patch"; #Backups are not sent to Google (GrapheneOS)
+patch -p1 < "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0002-No_Google_Backup.patch"; #Backups are not sent to Google (GrapheneOS)
 fi;
 
 if enterAndClear "packages/apps/Dialer"; then

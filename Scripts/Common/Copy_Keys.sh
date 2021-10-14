@@ -15,6 +15,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+if [ -d "$DOS_SIGNING_KEYS" ]; then
 echo "Copying verity/avb public keys to kernels...";
 cat "$DOS_SIGNING_KEYS/Amber/verity.x509.pem" >> "kernel/yandex/sdm660/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/alioth/verity.x509.pem" >> "kernel/xiaomi/sm8250/certs/verity.x509.pem";
@@ -104,3 +105,6 @@ cp -v "$DOS_SIGNING_KEYS/walleye/verifiedboot_relkeys.der.x509" "kernel/google/w
 cp -v "$DOS_SIGNING_KEYS/z2_plus/verifiedboot_relkeys.der.x509" "kernel/zuk/msm8996/verifiedboot_z2_plus_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/zenfone3/verifiedboot_relkeys.der.x509" "kernel/asus/msm8953/verifiedboot_zenfone3_dos_relkeys.der.x509";
 echo "Copied keys to kernels!";
+else
+echo -e "\e[0;31mSigning keys unavailable, NOT copying public keys to kernels!\e[0m";
+fi;

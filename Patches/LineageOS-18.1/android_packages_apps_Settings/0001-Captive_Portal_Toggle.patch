@@ -1,4 +1,4 @@
-From 234ea9eca07c828e2e34f462d10acb876bc59e09 Mon Sep 17 00:00:00 2001
+From 07938fbba784ee95b7ca11b9056465d3cf351ee0 Mon Sep 17 00:00:00 2001
 From: MSe1969 <mse1969@posteo.de>
 Date: Mon, 10 Sep 2018 12:05:40 +0200
 Subject: [PATCH] Network & Internet Settings: Add option to switch off Captive
@@ -40,13 +40,13 @@ index d981289421..3a66089d03 100644
 +    <string name="captive_portal_switch_warning">Nach dem Ausschalten der Captive-Portal-Erkennung empfangen Sie keine Verbindungs-Rückmeldung mehr. Wirklich fortfahren?</string>
  </resources>
 diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
-index 099fb9eb07..8bbdef11f6 100644
+index 1c78816577..c35c696b16 100644
 --- a/res/values/cm_strings.xml
 +++ b/res/values/cm_strings.xml
-@@ -162,4 +162,9 @@
+@@ -172,4 +172,9 @@
  
-     <!-- Used in SetupWizard Wi-Fi network selection page [CHAR LIMIT=60] -->
-     <string name="wifi_setup_wizard_title">Select Wi\u2011Fi network</string>
+     <!-- Display settings screen, peak refresh rate settings summary [CHAR LIMIT=NONE] -->
+     <string name="peak_refresh_rate_summary_custom">Automatically raises the refresh rate from 60 to %1$d Hz for some content. Increases battery usage.</string>
 +
 +    <!-- Captive Portal -->
 +    <string name="captive_portal_switch_title">Captive portal mode</string>

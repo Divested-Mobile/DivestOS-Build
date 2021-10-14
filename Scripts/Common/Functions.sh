@@ -53,6 +53,44 @@ gitReset() {
 }
 export -f gitReset;
 
+applyPatchReal() {
+	currentWorkingPatch=$1;
+	firstLine=$(head -n1 "$currentWorkingPatch");
+	if [[ "$firstLine" = *"Mon Sep 17 00:00:00 2001"* ]] || [[ "$firstLine" = *"Thu Jan  1 00:00:00 1970"* ]]; then
+		git am "$@";
+	else
+		git apply "$@";
+		echo "Applying (as diff): $currentWorkingPatch";
+	fi;
+}
+export -f applyPatchReal;
+
+applyPatch() {
+	currentWorkingPatch=$1;
+	if [ -f "$currentWorkingPatch" ]; then
+		git apply --check "$@" &> /dev/null;
+		if [ "$?" -eq 0 ]; then
+			applyPatchReal "$@";
+		else
+			git apply --reverse --check "$@" &> /dev/null;
+			if [ "$?" -eq 0 ]; then
+				echo "Already applied: $currentWorkingPatch";
+			else
+				git apply --check "$@" --3way &> /dev/null;
+				if [ "$?" -eq 0 ]; then
+					applyPatchReal "$@" --3way;
+					echo "Applied (as 3way): $currentWorkingPatch";
+				else
+					echo -e "\e[0;31mCannot apply: $currentWorkingPatch\e[0m";
+				fi;
+			fi;
+		fi;
+	else
+		echo -e "\e[0;31mPatch doesn't exist: $currentWorkingPatch\e[0m";
+	fi;
+}
+export -f applyPatch;
+
 gpgVerifyDirectory() {
 	if [ -r "$HOME/.gnupg" ]; then
 		for sig in $1/*.asc; do
@@ -711,8 +749,7 @@ hardenDefconfig() {
 	optionsYes+=("THREAD_INFO_IN_TASK" "VMAP_STACK");
 
 	#Linux 4.10
-	optionsYes+=("ARM64_SW_TTBR0_PAN");
-	#Disabled: BUG_ON_DATA_CORRUPTION (boot issues?)
+	optionsYes+=("ARM64_SW_TTBR0_PAN" "BUG_ON_DATA_CORRUPTION");
 
 	#Linux 4.11
 	optionsYes+=("STRICT_KERNEL_RWX" "STRICT_MODULE_RWX");
@@ -790,7 +827,6 @@ hardenDefconfig() {
 
 	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then optionsNo+=("IPA" "RMNET_IPA"); fi;
 	optionsNo+=("WIREGUARD"); #Requires root access, which we do not provide
-	#optionsNo+=("LTO_CLANG"); #Can easily require 64GB of RAM on host system to compile
 
 	for option in "${optionsNo[@]}"
 	do

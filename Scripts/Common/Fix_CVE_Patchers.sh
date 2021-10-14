@@ -17,13 +17,13 @@
 
 commentPatches() {
 	file="$1";
-	if [ -f $file ]; then
+	if [ -f "$file" ]; then
 		shift;
 		for var in "$@"
 		do
 			#escaped=$(printf "%q" "$var");
 			#echo $escaped;
-			sed -i $file -e '\|'$var'| s|^#*|#|';
+			sed -i "$file" -e '\|'$var'| s|^#*|#|';
 		done
 	fi;
 }

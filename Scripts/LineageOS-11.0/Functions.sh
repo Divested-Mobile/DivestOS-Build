@@ -24,7 +24,7 @@ export -f patchAllKernels;
 
 resetWorkspace() {
 	umask 0022;
-	repo forall -c 'git add -A && git reset --hard' && rm -rf out && repo sync -j8 --force-sync;
+	repo forall -c 'git add -A && git reset --hard' && rm -rf out && repo sync -j8 --force-sync --detach;
 }
 export -f resetWorkspace;
 
