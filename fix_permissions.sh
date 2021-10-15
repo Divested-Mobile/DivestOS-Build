@@ -22,7 +22,6 @@ setStrict Misc;
 setStrict Patches/Common;
 setRelaxed Patches/Common/android_timekeep_sepolicy;
 setRelaxed Patches/Common/android_vendor_divested;
-setStrict Patches/LineageOS-11.0;
 setStrict Patches/LineageOS-14.1;
 setStrict Patches/LineageOS-15.1;
 setStrict Patches/LineageOS-16.0;
