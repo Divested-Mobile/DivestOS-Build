@@ -25,6 +25,6 @@ PRODUCT_PACKAGES += \
     SupportDivestOS
 
 # Notes
-# - Available (via PrebuiltApps submodule): eSpeakNG, OpenKeychain, Shelter
+# - Available (via PrebuiltApps submodule): eSpeakNG
 # - Camera Choices: None (Camera2/Snap), OpenCamera
 # - Gallery Choices: None (AOSP/Lineage), SimpleGallery
