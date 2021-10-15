@@ -141,10 +141,6 @@
 	<project path="device/oneplus/oneplus2" name="LineageOS/android_device_oneplus_oneplus2" remote="github" />
 	<project path="kernel/oneplus/msm8994" name="LineageOS/android_kernel_oneplus_msm8994" remote="github" />
 
-	<!-- Samsung Common -->
-	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
-	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
-
 	<!-- ZTE Axon 7 (axon7) -->
 	<project path="device/zte/axon7" name="LineageOS/android_device_zte_axon7" remote="github" />
 	<project path="kernel/zte/msm8996" name="LineageOS/android_kernel_zte_msm8996" remote="github" />

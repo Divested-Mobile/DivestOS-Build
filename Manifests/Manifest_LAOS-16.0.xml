@@ -102,10 +102,6 @@
 	<project path="device/asus/fugu" name="LineageOS/android_device_asus_fugu" remote="github" />
 	<project path="kernel/asus/fugu" name="LineageOS/android_kernel_asus_fugu" remote="github" />
 
-	<!-- Samsung Common -->
-	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
-	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
-
 	<!-- Wileyfox Storm (kipper) -->
 	<project path="device/wileyfox/kipper" name="LineageOS/android_device_wileyfox_kipper" remote="github" />
 	<project path="device/cyanogen/msm8916-common" name="LineageOS/android_device_cyanogen_msm8916-common" remote="github" />
