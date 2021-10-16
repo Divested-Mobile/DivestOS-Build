@@ -58,6 +58,13 @@ applyPatchReal() {
 	firstLine=$(head -n1 "$currentWorkingPatch");
 	if [[ "$firstLine" = *"Mon Sep 17 00:00:00 2001"* ]] || [[ "$firstLine" = *"Thu Jan  1 00:00:00 1970"* ]]; then
 		git am "$@";
+		if [ "$?" -eq 0 ]; then
+			if [ "$DOS_REFRESH_PATCHES" = true ]; then
+				if [[ "$currentWorkingPatch" == $DOS_PATCHES* ]]; then
+					git format-patch -1 HEAD --zero-commit --output="$currentWorkingPatch";
+				fi;
+			fi;
+		fi;
 	else
 		git apply "$@";
 		echo "Applying (as diff): $currentWorkingPatch";
