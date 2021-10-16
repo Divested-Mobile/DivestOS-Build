@@ -14,6 +14,7 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
+set -uo pipefail;
 
 #Goal: Remove as many proprietary blobs without breaking core functionality
 #Outcome: Increased battery/performance/privacy/security, Decreased ROM size
@@ -806,4 +807,4 @@ rm -rf vendor/samsung/nodevice;
 
 cd "$DOS_BUILD_BASE";
 
-echo "Deblobbing complete!";
+echo -e "\e[0;32m[SCRIPT COMPLETE] Deblobbing complete\e[0m";

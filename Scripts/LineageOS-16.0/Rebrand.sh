@@ -14,6 +14,7 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
+set -euo pipefail;
 
 #Updates select user facing strings
 #Last verified: 2019-03-04
@@ -23,7 +24,7 @@ echo "Rebranding...";
 if enter "bootable/recovery"; then
 git revert --no-edit c9ab109b6b6c502238ec88badc1fbed2644480f2 cb5b7cc0b04c445dbc189e28575bba50638433b5;
 applyPatch "$DOS_PATCHES/android_bootable_recovery/0002-Remove_Logo.patch"; #Remove logo rendering code
-rm res*/images/logo_image.png; #Remove logo images
+rm res*/images/logo_image.png || true; #Remove logo images
 mogrify -format png -fill "#FF5722" -opaque "#167C80" -fuzz 10% res-*/images/*sel.png; #Recolor icons
 sed -i 's|grid_h \* 2 / 3|grid_h * 0.25|' screen_ui.cpp; #Center icons
 sed -i 's|0x16, 0x7c, 0x80|0x03, 0xa9, 0xf4|' screen_ui.cpp; #Recolor text
@@ -80,4 +81,4 @@ rm -rf bootanimation;
 fi;
 
 cd "$DOS_BUILD_BASE";
-echo "Rebranding complete!";
+echo -e "\e[0;32m[SCRIPT COMPLETE] Rebranding complete\e[0m";

@@ -14,6 +14,7 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
+set -euo pipefail;
 
 #Updates select user facing strings
 #Last verified: 2020-04-14
@@ -87,4 +88,4 @@ rm -rf bootanimation;
 fi;
 
 cd "$DOS_BUILD_BASE";
-echo "Rebranding complete!";
+echo -e "\e[0;32m[SCRIPT COMPLETE] Rebranding complete\e[0m";

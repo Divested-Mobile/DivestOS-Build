@@ -14,6 +14,7 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
+set -euo pipefail;
 
 #Replaces teal accents with orange/yellow ones
 #Last verified: 2018-04-27
@@ -61,4 +62,4 @@ mogrify -format png -fill "#$DOS_THEME_500" -opaque "#26a69a" -fuzz 10% java/res
 fi;
 
 cd "$DOS_BUILD_BASE";
-echo "Applied theme!";
+echo -e "\e[0;32m[SCRIPT COMPLETE] Applied theme\e[0m";

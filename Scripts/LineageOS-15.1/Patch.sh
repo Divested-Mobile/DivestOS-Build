@@ -14,6 +14,7 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
+set -euo pipefail;
 
 #Last verified: 2018-04-27
 
@@ -321,3 +322,4 @@ rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk;
 #
 #END OF DEVICE CHANGES
 #
+echo -e "\e[0;32m[SCRIPT COMPLETE] Primary patching finished\e[0m";

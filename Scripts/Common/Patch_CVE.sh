@@ -14,6 +14,7 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
+set -uo pipefail;
 
 #Attempts to patch kernels to be more secure
 
@@ -37,4 +38,4 @@ for patcher in "$DOS_SCRIPTS_CVES"/*.sh; do
 done;
 
 cd "$DOS_BUILD_BASE";
-echo "Patched CVEs!";
+echo -e "\e[0;32m[SCRIPT COMPLETE] Patched CVEs\e[0m";

@@ -24,7 +24,7 @@ export -f patchAllKernels;
 
 resetWorkspace() {
 	umask 0022;
-	repo forall -c 'git add -A && git reset --hard' && rm -rf out && repo sync -j8 --force-sync --detach;
+	repo forall -c 'git add -A && git reset --hard' && rm -rf out DOS_PATCHED_FLAG && repo sync -j8 --force-sync --detach;
 }
 export -f resetWorkspace;
 
@@ -94,6 +94,8 @@ export -f buildAll;
 
 patchWorkspace() {
 	umask 0022;
+	cd "$DOS_BUILD_BASE$1";
+	touch DOS_PATCHED_FLAG;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
 	source build/envsetup.sh;
 	#repopick -it bt-sbc-hd-dualchannel-nougat;
@@ -102,15 +104,15 @@ patchWorkspace() {
 	repopick -it n-asb-2021-10;
 	repopick -it tzdb2021c_N;
 
-	source "$DOS_SCRIPTS/Patch.sh";
-	source "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
-	source "$DOS_SCRIPTS/Defaults.sh";
-	source "$DOS_SCRIPTS/Rebrand.sh";
-	source "$DOS_SCRIPTS/Theme.sh";
-	source "$DOS_SCRIPTS_COMMON/Optimize.sh";
-	source "$DOS_SCRIPTS_COMMON/Deblob.sh";
-	source "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
-	source "$DOS_SCRIPTS_COMMON/Post.sh";
+	sh "$DOS_SCRIPTS/Patch.sh";
+	sh "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
+	sh "$DOS_SCRIPTS/Defaults.sh";
+	sh "$DOS_SCRIPTS/Rebrand.sh";
+	sh "$DOS_SCRIPTS/Theme.sh";
+	sh "$DOS_SCRIPTS_COMMON/Optimize.sh";
+	sh "$DOS_SCRIPTS_COMMON/Deblob.sh";
+	sh "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
+	sh "$DOS_SCRIPTS_COMMON/Post.sh";
 	source build/envsetup.sh;
 }
 export -f patchWorkspace;

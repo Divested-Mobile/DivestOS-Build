@@ -14,6 +14,7 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
+set -euo pipefail;
 
 #Attempts to increase performance and battery life
 #Last verified: 2018-04-27
@@ -35,4 +36,4 @@ sed -i "s/#define VM_MAX_READAHEAD\t128/#define VM_MAX_READAHEAD\t512/" ./*/*/in
 fi;
 
 cd "$DOS_BUILD_BASE";
-echo "Optimizing complete!";
+echo -e "\e[0;32m[SCRIPT COMPLETE] Optimizing complete\e[0m";

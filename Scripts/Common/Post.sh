@@ -14,6 +14,7 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
+set -euo pipefail;
 
 echo "Post tweaks...";
 
@@ -37,4 +38,4 @@ sed -i 's/static bool slab_nomerge __ro_after_init = !IS_ENABLED(CONFIG_SLAB_MER
 
 
 cd "$DOS_BUILD_BASE";
-echo "Post tweaks complete!";
+echo -e "\e[0;32m[SCRIPT COMPLETE] Post tweaks complete\e[0m";

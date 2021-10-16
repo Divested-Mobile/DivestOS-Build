@@ -14,6 +14,7 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
+set -euo pipefail;
 
 #Changes various default settings
 #Last verified: 2018-04-27
@@ -56,4 +57,4 @@ sed -i 's/ro.config.alarm_alert=Hassium.ogg/ro.config.alarm_alert=Alarm_Buzzer.o
 fi;
 
 cd "$DOS_BUILD_BASE";
-echo "Default settings changed!";
+echo -e "\e[0;32m[SCRIPT COMPLETE] Default settings changed\e[0m";
