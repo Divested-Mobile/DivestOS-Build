@@ -1,4 +1,4 @@
-From 1112cabae9ee20b0b1386bc6c3bf0d1614ce8a6e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Thu, 19 Apr 2018 20:46:02 -0400
 Subject: [PATCH] Remove analytics
@@ -14,10 +14,10 @@ Change-Id: Idcc15bfeda4805b305423534663429942abd1bcf
  6 files changed, 59 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index 237db74..26d4a34 100644
+index 69dbdae..8afff66 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
-@@ -251,31 +251,6 @@
+@@ -208,31 +208,6 @@
                  android:resource="@string/expanded_desktop_settings_summary" />
          </activity-alias>
  
@@ -76,10 +76,10 @@ index 4236b27..eed044a 100644
      <bool name="config_showWeatherMenu">true</bool>
  
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 3070c83..f3e27ed 100644
+index 42793e8..4bbc5a0 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -537,28 +537,6 @@
+@@ -545,28 +545,6 @@
                   <b>Total commits:</b> <xliff:g id="total_commits">%2$s</xliff:g><br/><br/>
                   <b>Last update:</b> <xliff:g id="date">%3$s</xliff:g>]]></string>
  
@@ -109,10 +109,10 @@ index 3070c83..f3e27ed 100644
      <string name="accelerometer_title">Auto-rotate screen</string>
      <string name="display_rotation_title">Rotation settings</string>
 diff --git a/res/xml/parts_catalog.xml b/res/xml/parts_catalog.xml
-index 66a3116..7721ed5 100644
+index 2ad4fdb..5a227cc 100644
 --- a/res/xml/parts_catalog.xml
 +++ b/res/xml/parts_catalog.xml
-@@ -74,11 +74,6 @@
+@@ -69,11 +69,6 @@
            android:fragment="org.lineageos.lineageparts.statusbar.StatusBarSettings"
            lineage:xmlRes="@xml/status_bar_settings" />
  
@@ -125,7 +125,7 @@ index 66a3116..7721ed5 100644
            android:title="@string/power_menu_title"
            android:fragment="org.lineageos.lineageparts.input.PowerMenuActions"
 diff --git a/res/xml/trust_preferences.xml b/res/xml/trust_preferences.xml
-index 2afae69..9c363a9 100644
+index f12fd7e..f4e696c 100644
 --- a/res/xml/trust_preferences.xml
 +++ b/res/xml/trust_preferences.xml
 @@ -46,9 +46,6 @@
@@ -139,5 +139,5 @@ index 2afae69..9c363a9 100644
              android:key="sms_security_check_limit"
              android:defaultValue="30"
 -- 
-2.17.1
+2.31.1
 

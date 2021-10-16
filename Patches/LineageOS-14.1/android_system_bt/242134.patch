@@ -1,4 +1,4 @@
-From b31e5b89a84b8ae992c818184fa3bb9d288db69d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: cprhokie <cprhokie@gmail.com>
 Date: Fri, 22 Feb 2019 20:53:12 -0500
 Subject: [PATCH] avrc_bld_get_attrs_rsp - fix attribute length position off by
@@ -10,7 +10,7 @@ Change-Id: I60c859ef9784cf39d390a22810be5777e1e5066c
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/stack/avrc/avrc_bld_tg.c b/stack/avrc/avrc_bld_tg.c
-index 089dfa3ae..8c16e01a6 100644
+index 5befa7a10..b73393182 100644
 --- a/stack/avrc/avrc_bld_tg.c
 +++ b/stack/avrc/avrc_bld_tg.c
 @@ -976,7 +976,8 @@ static tAVRC_STS avrc_bld_get_attrs_rsp (tAVRC_GET_ATTRS_RSP *p_rsp, BT_HDR *p_p
@@ -23,3 +23,6 @@ index 089dfa3ae..8c16e01a6 100644
      /* the existing len */
      BE_STREAM_TO_UINT16(len, p_data);
      p_num = p_data + 1;
+-- 
+2.31.1
+

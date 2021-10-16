@@ -1,4 +1,4 @@
-From 9c21f1c52b9d5f589a4bca4893e8a04fc1c42cd2 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Tue, 12 Sep 2017 01:52:11 -0400
 Subject: [PATCH] use permanent fingerprint lockout immediately
@@ -8,10 +8,10 @@ Subject: [PATCH] use permanent fingerprint lockout immediately
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/biometrics/fingerprint/FingerprintService.java b/services/core/java/com/android/server/biometrics/fingerprint/FingerprintService.java
-index 320e1022873..fb580ffe43c 100644
+index 5b51aa6e72ac..79451e535e45 100644
 --- a/services/core/java/com/android/server/biometrics/fingerprint/FingerprintService.java
 +++ b/services/core/java/com/android/server/biometrics/fingerprint/FingerprintService.java
-@@ -98,7 +98,7 @@
+@@ -108,7 +108,7 @@ public class FingerprintService extends BiometricServiceBase {
      private static final String ACTION_LOCKOUT_RESET =
              "com.android.server.biometrics.fingerprint.ACTION_LOCKOUT_RESET";
      private static final int MAX_FAILED_ATTEMPTS_LOCKOUT_TIMED = 5;
@@ -20,3 +20,6 @@ index 320e1022873..fb580ffe43c 100644
      private static final long FAIL_LOCKOUT_TIMEOUT_MS = 30 * 1000;
      private static final String KEY_LOCKOUT_RESET_USER = "lockout_reset_user";
  
+-- 
+2.31.1
+

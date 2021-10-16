@@ -182,7 +182,7 @@ if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAud
 fi;
 
 if enterAndClear "packages/apps/Backgrounds"; then
-applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Backgrounds/308977.patch"; #Optimize builtin wallpaper loading code
+applyPatch "$DOS_PATCHES/android_packages_apps_Backgrounds/308977.patch"; #Optimize builtin wallpaper loading code
 fi;
 
 if enterAndClear "packages/apps/Contacts"; then

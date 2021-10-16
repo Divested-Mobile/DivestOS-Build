@@ -1,4 +1,4 @@
-From 91cdd8cfebafcbfd226800cfdef80ec9a943e38b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Fri, 3 Sep 2021 08:52:48 -0400
 Subject: [PATCH] Remove analytics
@@ -52,7 +52,7 @@ index a222d5b..9645f95 100644
                      <LinearLayout
                          android:id="@+id/nav_keys"
 diff --git a/src/org/lineageos/setupwizard/FinishActivity.java b/src/org/lineageos/setupwizard/FinishActivity.java
-index 12cda35..6248985 100644
+index f081e2b..1a9bbe9 100644
 --- a/src/org/lineageos/setupwizard/FinishActivity.java
 +++ b/src/org/lineageos/setupwizard/FinishActivity.java
 @@ -23,7 +23,6 @@ import static org.lineageos.setupwizard.Manifest.permission.FINISH_SETUP;
@@ -63,7 +63,7 @@ index 12cda35..6248985 100644
  import static org.lineageos.setupwizard.SetupWizardApp.LOGV;
  import static org.lineageos.setupwizard.SetupWizardApp.UPDATE_RECOVERY_PROP;
  
-@@ -176,7 +175,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
+@@ -177,7 +176,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
          if (mEnableAccessibilityController != null) {
              mEnableAccessibilityController.onDestroy();
          }
@@ -71,7 +71,7 @@ index 12cda35..6248985 100644
          handleNavKeys(mSetupWizardApp);
          handleRecoveryUpdate(mSetupWizardApp);
          final WallpaperManager wallpaperManager =
-@@ -188,17 +186,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
+@@ -190,17 +188,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
          startActivityForResult(intent, NEXT_REQUEST);
      }
  

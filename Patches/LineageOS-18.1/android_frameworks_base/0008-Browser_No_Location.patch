@@ -1,4 +1,4 @@
-From 705a38ae754c2895c68480fa9d2ec00a5728e661 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sun, 17 Mar 2019 19:54:30 -0400
 Subject: [PATCH] stop auto-granting location to system browsers
@@ -8,10 +8,10 @@ Subject: [PATCH] stop auto-granting location to system browsers
  1 file changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java b/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java
-index cd53fb9ba52..a08cbb5ceec 100644
+index cd53fb9ba52f..a08cbb5ceecd 100644
 --- a/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java
 +++ b/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java
-@@ -682,17 +682,17 @@ private void grantDefaultSystemHandlerPermissions(PackageManagerWrapper pm, int
+@@ -682,17 +682,17 @@ public final class DefaultPermissionGrantPolicy {
                  userId, CONTACTS_PERMISSIONS, CALENDAR_PERMISSIONS);
  
          // Browser
@@ -40,7 +40,7 @@ index cd53fb9ba52..a08cbb5ceec 100644
  
          // Voice interaction
          if (voiceInteractPackageNames != null) {
-@@ -992,9 +992,9 @@ public void revokeDefaultPermissionsFromLuiApps(String[] packageNames, int userI
+@@ -992,9 +992,9 @@ public final class DefaultPermissionGrantPolicy {
      }
  
      public void grantDefaultPermissionsToDefaultBrowser(String packageName, int userId) {
@@ -53,3 +53,6 @@ index cd53fb9ba52..a08cbb5ceec 100644
      }
  
      private String getDefaultSystemHandlerActivityPackage(PackageManagerWrapper pm,
+-- 
+2.31.1
+

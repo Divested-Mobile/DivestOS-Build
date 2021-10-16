@@ -1,4 +1,4 @@
-From 6e68de32ff6200410d83d6ee7b2c91cb244f03d4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Wed, 6 Oct 2021 05:26:50 -0400
 Subject: [PATCH] Add an option to disable the assert added in fc2ca9ee

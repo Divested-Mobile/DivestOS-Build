@@ -1,4 +1,4 @@
-From e297ea5bd7bf902d6ed606c24cc0ab902dc6943b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Mon, 23 Apr 2018 15:40:11 -0400
 Subject: [PATCH] Fix crashes when the PersistentDataBlockManager service isn't
@@ -47,7 +47,7 @@ index 39bf01a0d9..8be58e8c85 100644
                  // if OEM unlock is allowed, the persistent data block will be wiped during FR
                  // process. If disabled, it will be wiped here, unless the device is still being
 diff --git a/src/com/android/settings/development/DevelopmentSettings.java b/src/com/android/settings/development/DevelopmentSettings.java
-index b29add1aa7..ac3d8a3273 100644
+index c66cf4c8d1..0ba99e42c2 100644
 --- a/src/com/android/settings/development/DevelopmentSettings.java
 +++ b/src/com/android/settings/development/DevelopmentSettings.java
 @@ -420,7 +420,10 @@ public class DevelopmentSettings extends RestrictedSettingsFragment
@@ -63,5 +63,5 @@ index b29add1aa7..ac3d8a3273 100644
  
          mUm = (UserManager) getSystemService(Context.USER_SERVICE);
 -- 
-2.17.0
+2.31.1
 

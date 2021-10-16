@@ -1,4 +1,4 @@
-From 3433e3f518dc572fa65056276cec79eadd4fb2d2 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Fri, 28 Dec 2018 21:22:20 -0500
 Subject: [PATCH] More preferred network modes
@@ -258,5 +258,5 @@ index 36b65e77c..968ec96bc 100644
                          mButtonEnabledNetworks.setSummary(R.string.network_global);
                      }
 -- 
-2.20.1
+2.31.1
 

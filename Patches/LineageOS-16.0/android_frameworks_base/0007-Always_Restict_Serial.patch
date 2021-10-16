@@ -1,4 +1,4 @@
-From 138790c0a2eba54f7ebb4c3b8fd5efac32559fea Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 6 Sep 2017 21:40:48 -0400
 Subject: [PATCH] always set deprecated Build.SERIAL to UNKNOWN
@@ -10,10 +10,10 @@ requiring the READ_PHONE_STATE permission.
  1 file changed, 1 insertion(+), 7 deletions(-)
 
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index a1d42c09133..b5b3c68d563 100644
+index 8f1692a24d27..fd4703094780 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
-@@ -7762,13 +7762,7 @@ private final boolean attachApplicationLocked(IApplicationThread thread,
+@@ -7886,13 +7886,7 @@ public class ActivityManagerService extends IActivityManager.Stub
                  }
              }
  
@@ -28,3 +28,6 @@ index a1d42c09133..b5b3c68d563 100644
  
              // Check if this is a secondary process that should be incorporated into some
              // currently active instrumentation.  (Note we do this AFTER all of the profiling
+-- 
+2.31.1
+

@@ -1,4 +1,4 @@
-From 65e3c9d1b1771faeb103ad0af8be6b960586e4c6 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Mon, 12 Feb 2018 03:29:58 -0500
 Subject: [PATCH] Harden
@@ -57,5 +57,5 @@ index a9af0b094..f19b7484d 100644
      write /proc/sys/vm/mmap_min_addr 32768
      write /proc/sys/net/ipv4/ping_group_range "0 2147483647"
 -- 
-2.30.2
+2.31.1
 

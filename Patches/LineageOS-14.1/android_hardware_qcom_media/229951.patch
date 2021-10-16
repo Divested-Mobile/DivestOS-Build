@@ -1,4 +1,4 @@
-From 603c2ff8064e479640a45c04f0f9a307e465f63d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ray Essick <essick@google.com>
 Date: Fri, 29 Jun 2018 14:12:19 -0700
 Subject: [PATCH] mm-video-v4l2: Squash below changes
@@ -173,3 +173,6 @@ index 99b0c6e78..cfb72d83b 100644
                         vdec_msg->msgdata.output_frame.bufferaddr)
                         memcpy ( omxhdr->pBuffer, (void *)
                                 ((unsigned long)vdec_msg->msgdata.output_frame.bufferaddr +
+-- 
+2.31.1
+

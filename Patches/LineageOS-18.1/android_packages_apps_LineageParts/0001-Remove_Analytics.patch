@@ -1,4 +1,4 @@
-From f1629cd7f062d73f156f2b7810354cbb0d5c6799 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Tue, 14 Apr 2020 17:03:26 -0400
 Subject: [PATCH] Remove analytics
@@ -76,7 +76,7 @@ index 4236b27..eed044a 100644
      <bool name="config_showWeatherMenu">true</bool>
  
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index a00d805..a75c121 100644
+index 8cdb211..f6cd470 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -527,28 +527,6 @@

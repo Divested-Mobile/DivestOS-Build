@@ -1,4 +1,4 @@
-From d0715a364f5a6f366cbd3582b01d21a22a0a0ca2 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Thu, 15 Dec 2016 17:22:41 -0500
 Subject: [PATCH] ext4_crypt: pad filenames to 32 bytes, not 16 or 4
@@ -10,10 +10,10 @@ by leaving them with the previous padding settings until factory reset.
  1 file changed, 21 insertions(+), 2 deletions(-)
 
 diff --git a/ext4_utils/ext4_crypt.cpp b/ext4_utils/ext4_crypt.cpp
-index 36fe11f7..c5d5fde2 100644
+index 95b67a1c..35bd1663 100644
 --- a/ext4_utils/ext4_crypt.cpp
 +++ b/ext4_utils/ext4_crypt.cpp
-@@ -133,7 +133,7 @@ static bool is_dir_empty(const char *dirname, bool *is_empty)
+@@ -135,7 +135,7 @@ static bool is_dir_empty(const char *dirname, bool *is_empty)
      return true;
  }
  
@@ -22,7 +22,7 @@ index 36fe11f7..c5d5fde2 100644
      if (filenames_encryption_mode == EXT4_ENCRYPTION_MODE_AES_256_CTS) {
          // Use legacy padding with our original filenames encryption mode.
          return EXT4_POLICY_FLAGS_PAD_4;
-@@ -145,6 +145,15 @@ static uint8_t e4crypt_get_policy_flags(int filenames_encryption_mode) {
+@@ -152,6 +152,15 @@ static uint8_t e4crypt_get_policy_flags(int filenames_encryption_mode) {
      return EXT4_POLICY_FLAGS_PAD_16;
  }
  
@@ -38,7 +38,7 @@ index 36fe11f7..c5d5fde2 100644
  static bool e4crypt_policy_set(const char *directory, const char *policy,
                                 size_t policy_length,
                                 int contents_encryption_mode,
-@@ -163,6 +172,14 @@ static bool e4crypt_policy_set(const char *directory, const char *policy,
+@@ -170,6 +179,14 @@ static bool e4crypt_policy_set(const char *directory, const char *policy,
      }
  
      ext4_encryption_policy eep;
@@ -53,7 +53,7 @@ index 36fe11f7..c5d5fde2 100644
      eep.version = 0;
      eep.contents_encryption_mode = contents_encryption_mode;
      eep.filenames_encryption_mode = filenames_encryption_mode;
-@@ -210,7 +227,9 @@ static bool e4crypt_policy_get(const char *directory, char *policy,
+@@ -217,7 +234,9 @@ static bool e4crypt_policy_get(const char *directory, char *policy,
              || (eep.contents_encryption_mode != contents_encryption_mode)
              || (eep.filenames_encryption_mode != filenames_encryption_mode)
              || (eep.flags !=
@@ -64,3 +64,6 @@ index 36fe11f7..c5d5fde2 100644
          LOG(ERROR) << "Failed to find matching encryption policy for " << directory;
          return false;
      }
+-- 
+2.31.1
+

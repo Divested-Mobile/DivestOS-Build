@@ -1,4 +1,4 @@
-From 8e6e526a77d5d066663d0dbcca64c3fafc0b93f6 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Tue, 6 Apr 2021 05:04:32 -0400
 Subject: [PATCH] Allow setting OTA public keys from environment variable
@@ -10,7 +10,7 @@ Change-Id: Ib2a00de63b0c7a8790640462d13a84daf2076fa7
  2 files changed, 22 insertions(+), 4 deletions(-)
 
 diff --git a/core/product_config.mk b/core/product_config.mk
-index a16af05cf..4849d5009 100644
+index a16af05cf4..4849d50093 100644
 --- a/core/product_config.mk
 +++ b/core/product_config.mk
 @@ -283,6 +283,11 @@ ENFORCE_SYSTEM_CERTIFICATE_ALLOW_LIST := $(PRODUCT_ARTIFACT_SYSTEM_CERTIFICATE_R
@@ -26,7 +26,7 @@ index a16af05cf..4849d5009 100644
  DEXPREOPT_DISABLED_MODULES :=
  # If a module has multiple setups, the first takes precedence.
 diff --git a/target/product/security/Android.mk b/target/product/security/Android.mk
-index d6a8b5378..8bc882d62 100644
+index d6a8b5378d..8bc882d621 100644
 --- a/target/product/security/Android.mk
 +++ b/target/product/security/Android.mk
 @@ -55,8 +55,15 @@ LOCAL_MODULE_CLASS := ETC
@@ -68,5 +68,5 @@ index d6a8b5378..8bc882d62 100644
  	$(SOONG_ZIP) -o $@ -j \
  	    $(foreach key_file, $(PRIVATE_CERT) $(PRIVATE_EXTRA_RECOVERY_KEYS), -f $(key_file))
 -- 
-2.30.2
+2.31.1
 

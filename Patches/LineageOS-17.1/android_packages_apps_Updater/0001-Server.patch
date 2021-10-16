@@ -1,4 +1,4 @@
-From 3ef68d192b4c53db09111ee16246199757c4066b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Thu, 20 Sep 2018 16:43:46 -0400
 Subject: [PATCH] Switch to our update server
@@ -32,5 +32,5 @@ index caf80c9..048d865 100644
  
      public static String getUpgradeBlockedURL(Context context) {
 -- 
-2.26.0
+2.31.1
 

@@ -1,4 +1,4 @@
-From 31b3f58bfdf3cdd0017f9aa5f57e56731d2c4980 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Guy Mishol <guym@ti.com>
 Date: Sun, 24 Dec 2017 15:06:24 +0200
 Subject: [PATCH] wl12xx: Update SR and MR firmwares versions
@@ -8949,4 +8949,7 @@ zCT3Y@yBFLdM&m=o0sgF+_7wPP3oG3CyL1)i?)*TllzZwYs?bH`u2?p|q^vBfq_}L=
 zijpNIOIO+!E?rpWOrFNcr;GhCw^<=x6~~2Uh!078Rur!+DN9>X{8UMqgH8U4D!G6>
 zv0N5h>QPd#YH3Msv2bFnELl;;zV-usjC*#D*moo=zDwh|Eo;PCzHIm$aWQwLQfwc|
 YHqQ{xVh<b^hj9AC;*GwcivRobzeh5;4*&oF
+
+-- 
+2.31.1
 

@@ -1,4 +1,4 @@
-From 1618789e3f5e0b844916524da2229a3e08ceabfa Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Oscar Mira <valldrac@pm.me>
 Date: Sun, 10 May 2020 01:56:34 +0200
 Subject: [PATCH] Fix AudioPolicy device entries order to support
@@ -10,10 +10,10 @@ Fix GrapheneOS/os_issue_tracker#137
  1 file changed, 16 insertions(+)
 
 diff --git a/services/audiopolicy/common/managerdefinitions/include/DeviceDescriptor.h b/services/audiopolicy/common/managerdefinitions/include/DeviceDescriptor.h
-index 33e506f1b..5f9f8b558 100644
+index 33e506f1b7..5f9f8b558c 100644
 --- a/services/audiopolicy/common/managerdefinitions/include/DeviceDescriptor.h
 +++ b/services/audiopolicy/common/managerdefinitions/include/DeviceDescriptor.h
-@@ -206,6 +206,22 @@ class DeviceVector : public SortedVector<sp<DeviceDescriptor> >
+@@ -206,6 +206,22 @@ public:
  
      void dump(String8 *dst, const String8 &tag, int spaces = 0, bool verbose = true) const;
  
@@ -36,3 +36,6 @@ index 33e506f1b..5f9f8b558 100644
  private:
      void refreshTypes();
      audio_devices_t mDeviceTypes;
+-- 
+2.31.1
+

@@ -1,4 +1,4 @@
-From 5b59a2cf8028488847a5cd6ac7d4a14414972438 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Mon, 21 May 2018 04:23:40 -0400
 Subject: [PATCH] Disable/reduce functionality of various ad/analytics
@@ -6,11 +6,11 @@ Subject: [PATCH] Disable/reduce functionality of various ad/analytics
 
 Change-Id: I84303ee26d0232e471f44ae6eff6e41a2210e42e
 ---
- core/java/android/content/pm/PackageParser.java | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ core/java/android/content/pm/PackageParser.java | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android/content/pm/PackageParser.java
-index 8c66fb227cf..31368bf74b1 100644
+index 8c66fb227cf9..a5c783597b34 100644
 --- a/core/java/android/content/pm/PackageParser.java
 +++ b/core/java/android/content/pm/PackageParser.java
 @@ -5524,6 +5524,20 @@ public class PackageParser {
@@ -35,5 +35,5 @@ index 8c66fb227cf..31368bf74b1 100644
  
          String name = sa.getNonConfigurationString(
 -- 
-2.17.0
+2.31.1
 

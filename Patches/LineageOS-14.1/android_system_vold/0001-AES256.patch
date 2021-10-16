@@ -1,4 +1,4 @@
-From 2206aff4757e0f1094861f0e9505d1b5ddbf3236 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Wed, 3 Jan 2018 11:55:06 -0500
 Subject: [PATCH] Build time variable for AES-256 encryption
@@ -25,7 +25,7 @@ index e645574..7112dce 100644
  
  include $(CLEAR_VARS)
 diff --git a/cryptfs.c b/cryptfs.c
-index b25510f..86ffac3 100644
+index 0ae9d9f..6141624 100644
 --- a/cryptfs.c
 +++ b/cryptfs.c
 @@ -76,9 +76,17 @@
@@ -62,5 +62,5 @@ index b25510f..86ffac3 100644
  char *me = "cryptfs";
  
 -- 
-2.15.1
+2.31.1
 

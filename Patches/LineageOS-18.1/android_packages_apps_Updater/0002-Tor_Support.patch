@@ -1,4 +1,4 @@
-From 43f202718d34b75d4128bc280ebf1f3bee0cb43d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Thu, 20 Sep 2018 21:44:53 -0400
 Subject: [PATCH] Add support for routing over Tor
@@ -72,10 +72,10 @@ index a94e8a3..22e5b16 100644
      <string name="snack_update_not_installable">This update can\'t be installed on top of the current build.</string>
  
 diff --git a/src/org/lineageos/updater/UpdatesActivity.java b/src/org/lineageos/updater/UpdatesActivity.java
-index 6e93153..3c7ab2c 100644
+index 32d31f9..43bf475 100644
 --- a/src/org/lineageos/updater/UpdatesActivity.java
 +++ b/src/org/lineageos/updater/UpdatesActivity.java
-@@ -346,10 +346,14 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -372,10 +372,14 @@ public class UpdatesActivity extends UpdatesListActivity {
  
          final DownloadClient downloadClient;
          try {
@@ -90,7 +90,7 @@ index 6e93153..3c7ab2c 100644
                      .build();
          } catch (IOException exception) {
              Log.e(TAG, "Could not build download client");
-@@ -414,6 +418,7 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -455,6 +459,7 @@ public class UpdatesActivity extends UpdatesListActivity {
          View view = LayoutInflater.from(this).inflate(R.layout.preferences_dialog, null);
          Spinner autoCheckInterval =
                  view.findViewById(R.id.preferences_auto_updates_check_interval);
@@ -98,7 +98,7 @@ index 6e93153..3c7ab2c 100644
          Switch autoDelete = view.findViewById(R.id.preferences_auto_delete_updates);
          Switch dataWarning = view.findViewById(R.id.preferences_mobile_data_warning);
          Switch abPerfMode = view.findViewById(R.id.preferences_ab_perf_mode);
-@@ -425,6 +430,7 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -466,6 +471,7 @@ public class UpdatesActivity extends UpdatesListActivity {
  
          SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
          autoCheckInterval.setSelection(Utils.getUpdateCheckSetting(this));
@@ -106,7 +106,7 @@ index 6e93153..3c7ab2c 100644
          autoDelete.setChecked(prefs.getBoolean(Constants.PREF_AUTO_DELETE_UPDATES, false));
          dataWarning.setChecked(prefs.getBoolean(Constants.PREF_MOBILE_DATA_WARNING, true));
          abPerfMode.setChecked(prefs.getBoolean(Constants.PREF_AB_PERF_MODE, false));
-@@ -464,6 +470,8 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -505,6 +511,8 @@ public class UpdatesActivity extends UpdatesListActivity {
                      prefs.edit()
                              .putInt(Constants.PREF_AUTO_UPDATES_CHECK_INTERVAL,
                                      autoCheckInterval.getSelectedItemPosition())
@@ -115,7 +115,7 @@ index 6e93153..3c7ab2c 100644
                              .putBoolean(Constants.PREF_AUTO_DELETE_UPDATES,
                                      autoDelete.isChecked())
                              .putBoolean(Constants.PREF_MOBILE_DATA_WARNING,
-@@ -479,6 +487,10 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -520,6 +528,10 @@ public class UpdatesActivity extends UpdatesListActivity {
                          UpdatesCheckReceiver.cancelUpdatesCheck(this);
                      }
  
@@ -308,7 +308,7 @@ index 0597eab..ea162e2 100644
      public static final String PREF_AB_PERF_MODE = "ab_perf_mode";
      public static final String PREF_MOBILE_DATA_WARNING = "pref_mobile_data_warning";
 diff --git a/src/org/lineageos/updater/misc/Utils.java b/src/org/lineageos/updater/misc/Utils.java
-index aa6e9f3..3329a38 100644
+index 0b41c25..022f549 100644
 --- a/src/org/lineageos/updater/misc/Utils.java
 +++ b/src/org/lineageos/updater/misc/Utils.java
 @@ -45,6 +45,7 @@ import java.io.BufferedReader;
@@ -396,5 +396,5 @@ index aa6e9f3..3329a38 100644
          return server + "?base=LineageOS&device=" + device + "&inc=" + incrementalVersion;
      }
 -- 
-2.30.2
+2.31.1
 

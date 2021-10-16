@@ -1,7 +1,7 @@
-From def2d20e4361c1bd048353d91fe2fd6e38ff6a04 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MSe <mse1969@posteo.de>
 Date: Mon, 26 Feb 2018 17:58:17 +0100
-Subject: [PATCH] [PATCH 2/3] - AppOps/PrivacyGuard: New Sensor checks [native]
+Subject: [PATCH] - AppOps/PrivacyGuard: New Sensor checks [native]
 
 Add two AppOps for sensor access:
 - OP_MOTION_SENSORS (default: allow, strict)
@@ -22,7 +22,7 @@ diff --git a/include/binder/AppOpsManager.h b/include/binder/AppOpsManager.h
 index e2a6e702f4..62daa8f066 100644
 --- a/include/binder/AppOpsManager.h
 +++ b/include/binder/AppOpsManager.h
-@@ -104,7 +104,9 @@ class AppOpsManager
+@@ -104,7 +104,9 @@ public:
          OP_BOOT_COMPLETED = 66,
          OP_NFC_CHANGE = 67,
          OP_DATA_CONNECT_CHANGE = 68,
@@ -34,7 +34,7 @@ index e2a6e702f4..62daa8f066 100644
  
      AppOpsManager();
 diff --git a/libs/gui/Sensor.cpp b/libs/gui/Sensor.cpp
-index 4697d2f34b..575d6ca250 100644
+index 8edacc0c6d..c02939a7d8 100644
 --- a/libs/gui/Sensor.cpp
 +++ b/libs/gui/Sensor.cpp
 @@ -58,6 +58,7 @@ Sensor::Sensor(struct sensor_t const& hwSensor, const uuid_t& uuid, int halVersi
@@ -137,3 +137,6 @@ index d8e08775a4..fe47eb37e1 100644
      return true;
  }
  
+-- 
+2.31.1
+

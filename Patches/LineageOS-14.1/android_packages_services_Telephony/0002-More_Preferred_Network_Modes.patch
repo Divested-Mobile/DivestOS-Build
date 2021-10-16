@@ -1,4 +1,4 @@
-From b0eaecdfeeaedc39ec8af6799572c7d549b59f8b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Sat, 29 Dec 2018 07:05:47 -0500
 Subject: [PATCH] More preferred network modes
@@ -10,7 +10,7 @@ Change-Id: Ibd97b5209c002547da714cb176094fee57a18f6d
  2 files changed, 74 insertions(+), 4 deletions(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 5be5e1c7..b8c4b9c6 100644
+index 5be5e1c79..b8c4b9c69 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -423,6 +423,8 @@
@@ -179,7 +179,7 @@ index 5be5e1c7..b8c4b9c6 100644
          <item>"1"</item>
      </string-array>
 diff --git a/src/com/android/phone/MobileNetworkSettings.java b/src/com/android/phone/MobileNetworkSettings.java
-index 8241b972..8f926bd3 100644
+index 8241b9728..8f926bd36 100644
 --- a/src/com/android/phone/MobileNetworkSettings.java
 +++ b/src/com/android/phone/MobileNetworkSettings.java
 @@ -831,8 +831,11 @@ public class MobileNetworkSettings extends PreferenceActivity
@@ -258,5 +258,5 @@ index 8241b972..8f926bd3 100644
                      mButtonEnabledNetworks.setSummary(R.string.network_global);
                  }
 -- 
-2.20.1
+2.31.1
 

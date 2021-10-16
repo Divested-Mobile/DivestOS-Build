@@ -1,7 +1,7 @@
-From 351c3c0113c10ee221a98c07e4f3f6f5ebcc83d5 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Robert Shih <robertshih@google.com>
 Date: Mon, 24 Oct 2016 11:38:31 -0700
-Subject: [PATCH] [BACKPORT] FLACExtractor: copy protect mWriteBuffer
+Subject: [PATCH] FLACExtractor: copy protect mWriteBuffer
 
 Bug: 30895578
 AOSP-Change-Id: I4cba36bbe3502678210e5925181683df9726b431
@@ -28,7 +28,7 @@ index 4dfd86a0b3..82a962bc73 100644
      FLACParser(
          const sp<DataSource> &dataSource,
          // If metadata pointers aren't provided, we don't fill them
-@@ -145,7 +149,7 @@ friend class FLACSource;
+@@ -145,7 +149,7 @@ private:
      bool mWriteRequested;
      bool mWriteCompleted;
      FLAC__FrameHeader mWriteHeader;
@@ -57,3 +57,6 @@ index 4dfd86a0b3..82a962bc73 100644
              ALOGE("unsupported channel count %u", getChannels());
              return NO_INIT;
          }
+-- 
+2.31.1
+

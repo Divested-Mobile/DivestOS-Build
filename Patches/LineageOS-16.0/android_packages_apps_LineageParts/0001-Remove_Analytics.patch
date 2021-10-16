@@ -1,4 +1,4 @@
-From 8ba726b35be8f00da453c514c57c33a75a8f2984 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Thu, 19 Apr 2018 20:46:02 -0400
 Subject: [PATCH] Remove analytics
@@ -14,10 +14,10 @@ Change-Id: Idcc15bfeda4805b305423534663429942abd1bcf
  6 files changed, 59 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index dba419a..af4765f 100644
+index b8129ad..b16e09f 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
-@@ -226,31 +226,6 @@
+@@ -208,31 +208,6 @@
                  android:resource="@string/expanded_desktop_settings_summary" />
          </activity-alias>
  
@@ -76,10 +76,10 @@ index 4236b27..eed044a 100644
      <bool name="config_showWeatherMenu">true</bool>
  
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 684cbee..b60e87e 100644
+index 6ea63bf..7f4c39c 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -536,28 +536,6 @@
+@@ -541,28 +541,6 @@
                   <b>Total commits:</b> <xliff:g id="total_commits">%2$s</xliff:g><br/><br/>
                   <b>Last update:</b> <xliff:g id="date">%3$s</xliff:g>]]></string>
  
@@ -139,5 +139,5 @@ index 6833cfe..d06175e 100644
              android:key="sms_security_check_limit"
              android:defaultValue="30"
 -- 
-2.20.1
+2.31.1
 

@@ -1,4 +1,4 @@
-From 6cabf9c6ba281ab44a6b94f0b5f8c3c2026416f9 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Courtney Goeltzenleuchter <courtneygo@google.com>
 Date: Thu, 24 May 2018 08:23:55 -0600
 Subject: [PATCH] Fix Buffer Overflow in Vendor Service display.qservice
@@ -27,3 +27,6 @@ index 5f825c19b..e4b687d6b 100644
    auto err = CallDisplayFunction(device, display, &HWCDisplay::SetColorMode, mode);
    if (err != HWC2_ERROR_NONE)
      return -EINVAL;
+-- 
+2.31.1
+

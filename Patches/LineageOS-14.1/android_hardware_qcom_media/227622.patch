@@ -1,4 +1,4 @@
-From 742cf6ad5c74b71063af755b7ef7df2a3a2f19a3 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Santhosh Behara <santhoshbehara@codeaurora.org>
 Date: Tue, 15 May 2018 06:09:50 -0700
 Subject: [PATCH] mm-video-v4l2: Protect buffer access and increase input
@@ -190,3 +190,6 @@ index d1311f6ce..11b882aac 100644
                          memcpy ( omxhdr->pBuffer, (void *)
                                  ((unsigned long)vdec_msg->msgdata.output_frame.bufferaddr +
                                   (unsigned long)vdec_msg->msgdata.output_frame.offset),
+-- 
+2.31.1
+

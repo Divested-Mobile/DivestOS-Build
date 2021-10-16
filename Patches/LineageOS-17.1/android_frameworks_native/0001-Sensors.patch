@@ -1,4 +1,4 @@
-From 8dccd92c719f3cfabb75f2d4cda2743e9f8cd4a8 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MSe1969 <mse1969@posteo.de>
 Date: Sat, 14 Nov 2020 13:21:18 +0100
 Subject: [PATCH] AppOps: New Op for (Other) sensors access
@@ -19,7 +19,7 @@ diff --git a/libs/binder/include/binder/AppOpsManager.h b/libs/binder/include/bi
 index 17493b4252..89c0eacb8a 100644
 --- a/libs/binder/include/binder/AppOpsManager.h
 +++ b/libs/binder/include/binder/AppOpsManager.h
-@@ -109,6 +109,19 @@ class AppOpsManager
+@@ -109,6 +109,19 @@ public:
          OP_START_FOREGROUND = 76,
          OP_BLUETOOTH_SCAN = 77,
          OP_USE_BIOMETRIC = 78,
@@ -79,3 +79,6 @@ index 6bb250e7bb..58297122a5 100644
          // Ensure that the AppOp is allowed, or that there is no necessary app op for the sensor
          if (opCode < 0 || appOpAllowed) {
              canAccess = true;
+-- 
+2.31.1
+

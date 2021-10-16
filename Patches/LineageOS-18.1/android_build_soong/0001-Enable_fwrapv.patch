@@ -1,4 +1,4 @@
-From 7c87660739544e1ab3bef757dae869894c01cb2e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 23 Aug 2017 20:28:03 -0400
 Subject: [PATCH] use -fwrapv when signed overflow checking is off
@@ -9,7 +9,7 @@ Subject: [PATCH] use -fwrapv when signed overflow checking is off
  2 files changed, 14 insertions(+)
 
 diff --git a/cc/cc.go b/cc/cc.go
-index 0f874f13c..16b0258f3 100644
+index 31b381a9d..4ca8e847a 100644
 --- a/cc/cc.go
 +++ b/cc/cc.go
 @@ -1478,6 +1478,8 @@ func (c *Module) GenerateAndroidBuildActions(actx android.ModuleContext) {
@@ -47,3 +47,6 @@ index 463a02ac2..7c92b41dc 100644
  	if Bool(sanitize.Properties.Sanitize.Address) {
  		if ctx.Arch().ArchType == android.Arm {
  			// Frame pointer based unwinder in ASan requires ARM frame setup.
+-- 
+2.31.1
+

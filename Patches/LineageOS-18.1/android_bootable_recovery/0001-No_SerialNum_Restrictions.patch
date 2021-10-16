@@ -1,4 +1,4 @@
-From 5647b8d92ed5d69a4eb24f262e0d7ba4cbd8316e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 19 Aug 2020 09:31:04 -0400
 Subject: [PATCH] reject updates with serialno constraints
@@ -8,10 +8,10 @@ Subject: [PATCH] reject updates with serialno constraints
  1 file changed, 2 insertions(+), 14 deletions(-)
 
 diff --git a/install/install.cpp b/install/install.cpp
-index d404997d..26d7c766 100644
+index 5b7ef524..513f43df 100644
 --- a/install/install.cpp
 +++ b/install/install.cpp
-@@ -204,22 +204,10 @@ bool CheckPackageMetadata(const std::map<std::string, std::string>& metadata, Ot
+@@ -225,22 +225,10 @@ bool CheckPackageMetadata(const std::map<std::string, std::string>& metadata, Ot
      return false;
    }
  
@@ -36,3 +36,6 @@ index d404997d..26d7c766 100644
    }
  
    if (ota_type == OtaType::AB) {
+-- 
+2.31.1
+

@@ -1,4 +1,4 @@
-From 71e43ff08ed4755c032084d08721c13ef2044fbc Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: codeworkx <daniel.hillenbrand@codeworkx.de>
 Date: Sun, 20 Jan 2019 17:48:20 +0100
 Subject: [PATCH] audio_extn: Fix unused parameter warning in utils.c
@@ -59,5 +59,5 @@ index 4675fc39c..4a5d91a97 100644
  int audio_extn_utils_get_license_params(
          const struct audio_device *adev,
 -- 
-2.26.0
+2.31.1
 

@@ -88,12 +88,12 @@ applyPatch() {
 					applyPatchReal "$@" --3way;
 					echo "Applied (as 3way): $currentWorkingPatch";
 				else
-					echo -e "\e[0;31mCannot apply: $currentWorkingPatch\e[0m";
+					echo -e "\e[0;31mERROR: Cannot apply: $currentWorkingPatch\e[0m";
 				fi;
 			fi;
 		fi;
 	else
-		echo -e "\e[0;31mPatch doesn't exist: $currentWorkingPatch\e[0m";
+		echo -e "\e[0;31mERROR: Patch doesn't exist: $currentWorkingPatch\e[0m";
 	fi;
 }
 export -f applyPatch;

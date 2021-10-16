@@ -1,4 +1,4 @@
-From 13dca7d2cdaa7e4a3ffc3d5a16c716542fac4e88 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Fri, 25 Sep 2020 10:13:52 -0400
 Subject: [PATCH] Restore PicoTTS
@@ -14,7 +14,7 @@ Change-Id: I9aee2c5f739f9f08a27c71d54570517ed4aa413f
  2 files changed, 12 insertions(+)
 
 diff --git a/target/product/full_base.mk b/target/product/full_base.mk
-index f3fb8c306..e9f7079c0 100644
+index f3fb8c3066..e9f7079c02 100644
 --- a/target/product/full_base.mk
 +++ b/target/product/full_base.mk
 @@ -58,6 +58,9 @@ else
@@ -28,7 +28,7 @@ index f3fb8c306..e9f7079c0 100644
  $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
  
 diff --git a/target/product/handheld_system.mk b/target/product/handheld_system.mk
-index e5771cc94..6d2bc7c8a 100644
+index e5771cc941..6d2bc7c8a1 100644
 --- a/target/product/handheld_system.mk
 +++ b/target/product/handheld_system.mk
 @@ -31,6 +31,14 @@ $(call inherit-product-if-exists, external/hyphenation-patterns/patterns.mk)
@@ -55,5 +55,5 @@ index e5771cc94..6d2bc7c8a 100644
      PrintSpooler \
      ProxyHandler \
 -- 
-2.26.2
+2.31.1
 

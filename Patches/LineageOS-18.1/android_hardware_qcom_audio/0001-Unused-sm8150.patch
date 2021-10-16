@@ -1,4 +1,4 @@
-From e8b33a3be7b1d0e7aaf041a1664dd09b65686225 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: codeworkx <daniel.hillenbrand@codeworkx.de>
 Date: Mon, 1 Jul 2019 06:36:30 +0000
 Subject: [PATCH] audio_extn: Fix unused parameter warning in utils.c
@@ -21,10 +21,10 @@ Change-Id: Ia2e99b063f4b3c99a4e1e1f6bc50b84252211eb0
  2 files changed, 6 insertions(+)
 
 diff --git a/hal/audio_extn/audio_extn.h b/hal/audio_extn/audio_extn.h
-index b1f4dda75..3a3e38f7f 100644
+index da986ad63..82320356e 100644
 --- a/hal/audio_extn/audio_extn.h
 +++ b/hal/audio_extn/audio_extn.h
-@@ -804,7 +804,11 @@ bool audio_extn_utils_is_dolby_format(audio_format_t format);
+@@ -834,7 +834,11 @@ bool audio_extn_utils_is_dolby_format(audio_format_t format);
  int audio_extn_utils_get_bit_width_from_string(const char *);
  int audio_extn_utils_get_sample_rate_from_string(const char *);
  int audio_extn_utils_get_channels_from_string(const char *);
@@ -37,10 +37,10 @@ index b1f4dda75..3a3e38f7f 100644
  int audio_extn_utils_get_vendor_enhanced_info();
  int audio_extn_utils_get_app_sample_rate_for_device(struct audio_device *adev,
 diff --git a/hal/audio_extn/utils.c b/hal/audio_extn/utils.c
-index 6dfb98671..0ae9c2657 100644
+index fa826f57f..473511fb5 100644
 --- a/hal/audio_extn/utils.c
 +++ b/hal/audio_extn/utils.c
-@@ -2912,6 +2912,7 @@ int audio_extn_utils_get_channels_from_string(const char *id_string)
+@@ -3070,6 +3070,7 @@ int audio_extn_utils_get_channels_from_string(const char *id_string)
      return -EINVAL;
  }
  
@@ -48,7 +48,7 @@ index 6dfb98671..0ae9c2657 100644
  void audio_extn_utils_release_snd_device(snd_device_t snd_device)
  {
      audio_extn_dev_arbi_release(snd_device);
-@@ -2920,6 +2921,7 @@ void audio_extn_utils_release_snd_device(snd_device_t snd_device)
+@@ -3078,6 +3079,7 @@ void audio_extn_utils_release_snd_device(snd_device_t snd_device)
      audio_extn_listen_update_device_status(snd_device,
              LISTEN_EVENT_SND_DEVICE_FREE);
  }
@@ -56,3 +56,6 @@ index 6dfb98671..0ae9c2657 100644
  
  int audio_extn_utils_get_license_params(
          const struct audio_device *adev,
+-- 
+2.31.1
+

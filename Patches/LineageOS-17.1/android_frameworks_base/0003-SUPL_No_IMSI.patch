@@ -1,4 +1,4 @@
-From 13951789b89251be432612b288020fdcb9e079fa Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MSe1969 <mse1969@posteo.de>
 Date: Mon, 29 Oct 2018 12:14:17 +0100
 Subject: [PATCH] SUPL: Don't send IMSI / Phone number to SUPL server
@@ -9,10 +9,10 @@ Change-Id: I5ccc4d61e52ac11ef33f44618d0e610089885b87
  1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/services/core/java/com/android/server/location/GnssLocationProvider.java b/services/core/java/com/android/server/location/GnssLocationProvider.java
-index 342e9b8c300..537e02d8e39 100644
+index 491bba2272ad..71fb465e8806 100644
 --- a/services/core/java/com/android/server/location/GnssLocationProvider.java
 +++ b/services/core/java/com/android/server/location/GnssLocationProvider.java
-@@ -1934,7 +1934,12 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
+@@ -1940,7 +1940,12 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
                  mContext.getSystemService(Context.TELEPHONY_SERVICE);
          int type = AGPS_SETID_TYPE_NONE;
          String setId = null;
@@ -26,7 +26,7 @@ index 342e9b8c300..537e02d8e39 100644
          int ddSubId = SubscriptionManager.getDefaultDataSubscriptionId();
          if ((flags & AGPS_RIL_REQUEST_SETID_IMSI) == AGPS_RIL_REQUEST_SETID_IMSI) {
              if (SubscriptionManager.isValidSubscriptionId(ddSubId)) {
-@@ -1958,7 +1963,7 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
+@@ -1964,7 +1969,7 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
                  // This means the framework has the SIM card.
                  type = AGPS_SETID_TYPE_MSISDN;
              }
@@ -36,5 +36,5 @@ index 342e9b8c300..537e02d8e39 100644
          native_agps_set_id(type, (setId == null) ? "" : setId);
      }
 -- 
-2.26.0
+2.31.1
 

@@ -1,4 +1,4 @@
-From 5f919d5c9d9e7605b82841ffdcf5d1a16a1613fa Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Tue, 13 Sep 2016 22:05:56 -0400
 Subject: [PATCH] use -fwrapv when signed overflow checking is off
@@ -21,3 +21,6 @@ index d570ccda8e..b200572d32 100644
 +    my_cflags += -fwrapv
 +  endif
 +endif
+-- 
+2.31.1
+

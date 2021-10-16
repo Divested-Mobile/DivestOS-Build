@@ -1,4 +1,4 @@
-From d398566dd742fee9bd08d5ba0ac245aec1258afd Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: ValdikSS <iam@valdikss.org.ru>
 Date: Fri, 21 Sep 2018 21:43:14 +0300
 Subject: [PATCH] Explicit SBC Dual Channel (SBC HD) support
@@ -165,3 +165,6 @@ index cac0c2211..4c956bd3c 100644
      }
  
      return rate;
+-- 
+2.31.1
+

@@ -1,4 +1,4 @@
-From 1dd6a60f1fe8305f74795225a26a8301c690d898 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Mon, 5 Apr 2021 22:55:30 -0400
 Subject: [PATCH] Allow setting OTA public keys from environment variable
@@ -10,10 +10,10 @@ Change-Id: I23c4acdff039f141afafcd0e736a341992f2f8ec
  2 files changed, 9 insertions(+)
 
 diff --git a/core/Makefile b/core/Makefile
-index a5eef489f..64468d841 100644
+index f6c2463439..7f4823a1ac 100644
 --- a/core/Makefile
 +++ b/core/Makefile
-@@ -1891,6 +1891,10 @@ endif
+@@ -1895,6 +1895,10 @@ endif
  # substitute other keys for this one.
  OTA_PUBLIC_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
  
@@ -25,7 +25,7 @@ index a5eef489f..64468d841 100644
  # recovery binary.
  RECOVERY_INSTALL_OTA_KEYS := \
 diff --git a/core/product_config.mk b/core/product_config.mk
-index 9460357ca..be4bfec75 100644
+index 9460357ca1..be4bfec75e 100644
 --- a/core/product_config.mk
 +++ b/core/product_config.mk
 @@ -326,6 +326,11 @@ ENFORCE_SYSTEM_CERTIFICATE_WHITELIST := $(PRODUCT_ARTIFACT_SYSTEM_CERTIFICATE_RE
@@ -41,5 +41,5 @@ index 9460357ca..be4bfec75 100644
  DEXPREOPT_DISABLED_MODULES :=
  # If a module has multiple setups, the first takes precedence.
 -- 
-2.30.2
+2.31.1
 

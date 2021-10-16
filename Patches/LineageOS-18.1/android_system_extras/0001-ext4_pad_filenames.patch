@@ -1,4 +1,4 @@
-From da1020cc2923c0a61a3dd55109aa342bd2097c1b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 9 Sep 2020 01:53:11 -0400
 Subject: [PATCH] pad filenames to 32 bytes instead of 16 or 4 bytes
@@ -33,3 +33,6 @@ index a52ed90c..7852349f 100644
  
      // Use DIRECT_KEY for Adiantum, since it's much more efficient but just as
      // secure since Android doesn't reuse the same master key for multiple
+-- 
+2.31.1
+

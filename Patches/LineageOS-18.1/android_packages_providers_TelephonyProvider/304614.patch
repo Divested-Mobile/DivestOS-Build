@@ -1,4 +1,4 @@
-From 54828510a0eadfc6ba663a61a2a056ed55ab7e21 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Mattias Nilsson <mattias.nilsson@sony.com>
 Date: Fri, 13 Nov 2020 22:30:08 +0100
 Subject: [PATCH] Mcc and mnc from xml in RRO may be integers
@@ -32,7 +32,7 @@ diff --git a/src/com/android/providers/telephony/TelephonyProvider.java b/src/co
 index 3cb4abeb..b1b3146d 100644
 --- a/src/com/android/providers/telephony/TelephonyProvider.java
 +++ b/src/com/android/providers/telephony/TelephonyProvider.java
-@@ -128,6 +128,7 @@
+@@ -128,6 +128,7 @@ import java.io.FileNotFoundException;
  import java.io.FileReader;
  import java.io.IOException;
  import java.io.InputStream;
@@ -40,7 +40,7 @@ index 3cb4abeb..b1b3146d 100644
  import java.util.ArrayList;
  import java.util.Arrays;
  import java.util.concurrent.atomic.AtomicBoolean;
-@@ -752,7 +753,7 @@ private void initDatabase(SQLiteDatabase db) {
+@@ -752,7 +753,7 @@ public class TelephonyProvider extends ContentProvider
                  try {
                      XmlUtils.beginDocument(parser, "apns");
                      publicversion = Integer.parseInt(parser.getAttributeValue(null, "version"));
@@ -49,7 +49,7 @@ index 3cb4abeb..b1b3146d 100644
                  } catch (Exception e) {
                      loge("Got exception while loading APN database." + e);
                  } finally {
-@@ -782,7 +783,7 @@ private void initDatabase(SQLiteDatabase db) {
+@@ -782,7 +783,7 @@ public class TelephonyProvider extends ContentProvider
                              + confFile.getAbsolutePath());
                  }
  
@@ -58,7 +58,7 @@ index 3cb4abeb..b1b3146d 100644
              } catch (FileNotFoundException e) {
                  // It's ok if the file isn't found. It means there isn't a confidential file
                  // Log.e(TAG, "File not found: '" + confFile.getAbsolutePath() + "'");
-@@ -1665,7 +1666,7 @@ private void deleteMatchingApns(SQLiteDatabase db, XmlPullParser parser) {
+@@ -1665,7 +1666,7 @@ public class TelephonyProvider extends ContentProvider
                  try {
                      XmlUtils.nextElement(parser);
                      while (parser.getEventType() != XmlPullParser.END_DOCUMENT) {
@@ -67,7 +67,7 @@ index 3cb4abeb..b1b3146d 100644
                          if (row == null) {
                              throw new XmlPullParserException("Expected 'apn' tag", parser, null);
                          }
-@@ -2072,9 +2073,10 @@ private void getBlobValueFromCursor(ContentValues cv, Cursor c, String key) {
+@@ -2072,9 +2073,10 @@ public class TelephonyProvider extends ContentProvider
           * Gets the next row of apn values.
           *
           * @param parser the parser
@@ -79,7 +79,7 @@ index 3cb4abeb..b1b3146d 100644
              if (!"apn".equals(parser.getName())) {
                  return null;
              }
-@@ -2083,11 +2085,21 @@ private ContentValues getRow(XmlPullParser parser) {
+@@ -2083,11 +2085,21 @@ public class TelephonyProvider extends ContentProvider
  
              String mcc = parser.getAttributeValue(null, "mcc");
              String mnc = parser.getAttributeValue(null, "mnc");
@@ -105,7 +105,7 @@ index 3cb4abeb..b1b3146d 100644
              map.put(NAME, parser.getAttributeValue(null, "carrier"));
  
              // do not add NULL to the map so that default values can be inserted in db
-@@ -2156,7 +2168,6 @@ private ContentValues getRow(XmlPullParser parser) {
+@@ -2156,7 +2168,6 @@ public class TelephonyProvider extends ContentProvider
                      map.put(MVNO_MATCH_DATA, mvno_match_data);
                  }
              }
@@ -113,7 +113,7 @@ index 3cb4abeb..b1b3146d 100644
              return map;
          }
  
-@@ -2189,15 +2200,15 @@ private void addBoolAttribute(XmlPullParser parser, String att,
+@@ -2189,15 +2200,15 @@ public class TelephonyProvider extends ContentProvider
           *
           * @param db the sqlite database to write to
           * @param parser the xml parser
@@ -132,3 +132,6 @@ index 3cb4abeb..b1b3146d 100644
                          if (row == null) {
                              throw new XmlPullParserException("Expected 'apn' tag", parser, null);
                          }
+-- 
+2.31.1
+

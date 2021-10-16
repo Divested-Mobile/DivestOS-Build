@@ -1,18 +1,18 @@
-From 78c9088dabac1c042567faa3196dfd21fae900ef Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Sat, 21 Oct 2017 11:53:09 -0400
 Subject: [PATCH] Reduced Resolution Feature 2/2
 
 Change-Id: If92489ee9dc119acdeeb8f05f0d70970eef55817
 ---
- core/java/android/os/IPowerManager.aidl            |  3 +
- core/java/android/os/PowerManager.java             | 32 ++++++++
- core/java/android/os/PowerManagerInternal.java     |  2 +
- .../android/server/power/PowerManagerService.java  | 85 ++++++++++++++++++++++
+ core/java/android/os/IPowerManager.aidl       |  3 +
+ core/java/android/os/PowerManager.java        | 32 +++++++
+ .../java/android/os/PowerManagerInternal.java |  2 +
+ .../server/power/PowerManagerService.java     | 85 +++++++++++++++++++
  4 files changed, 122 insertions(+)
 
 diff --git a/core/java/android/os/IPowerManager.aidl b/core/java/android/os/IPowerManager.aidl
-index 26eb7f169a0..d6051d0db74 100644
+index 26eb7f169a0b..d6051d0db74f 100644
 --- a/core/java/android/os/IPowerManager.aidl
 +++ b/core/java/android/os/IPowerManager.aidl
 @@ -75,4 +75,7 @@ interface IPowerManager
@@ -24,7 +24,7 @@ index 26eb7f169a0..d6051d0db74 100644
 +    boolean setReducedResolution(boolean mode);
  }
 diff --git a/core/java/android/os/PowerManager.java b/core/java/android/os/PowerManager.java
-index 5c8effec0ed..8c1d2fdf65b 100644
+index 3e6e6f5c60c7..f9ec29071ff6 100644
 --- a/core/java/android/os/PowerManager.java
 +++ b/core/java/android/os/PowerManager.java
 @@ -988,6 +988,38 @@ public final class PowerManager {
@@ -67,7 +67,7 @@ index 5c8effec0ed..8c1d2fdf65b 100644
       * Returns true if the device is currently in idle mode.  This happens when a device
       * has been sitting unused and unmoving for a sufficiently long period of time, so that
 diff --git a/core/java/android/os/PowerManagerInternal.java b/core/java/android/os/PowerManagerInternal.java
-index bbafb5662cd..e0c71a044a5 100644
+index bbafb5662cd6..e0c71a044a53 100644
 --- a/core/java/android/os/PowerManagerInternal.java
 +++ b/core/java/android/os/PowerManagerInternal.java
 @@ -173,6 +173,8 @@ public abstract class PowerManagerInternal {
@@ -80,7 +80,7 @@ index bbafb5662cd..e0c71a044a5 100644
  
      public abstract int getFeature(int featureId);
 diff --git a/services/core/java/com/android/server/power/PowerManagerService.java b/services/core/java/com/android/server/power/PowerManagerService.java
-index 55d0809ee4e..33cb0a93bb7 100644
+index 55d0809ee4e5..33cb0a93bb71 100644
 --- a/services/core/java/com/android/server/power/PowerManagerService.java
 +++ b/services/core/java/com/android/server/power/PowerManagerService.java
 @@ -29,6 +29,7 @@ import android.content.IntentFilter;
@@ -218,5 +218,5 @@ index 55d0809ee4e..33cb0a93bb7 100644
          public int getFeature(int featureId) {
              return nativeGetFeature(featureId);
 -- 
-2.14.2
+2.31.1
 

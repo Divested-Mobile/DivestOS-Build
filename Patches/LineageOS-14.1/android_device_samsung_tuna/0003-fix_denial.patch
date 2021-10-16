@@ -1,4 +1,4 @@
-From 03320366719016a58225cf2dcf428d9ff04f9039 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: nailyk-fr <nailyk_git@nailyk.fr>
 Date: Sun, 13 Aug 2017 20:51:06 +0200
 Subject: [PATCH] Tuna: Sepolicy: Label metadata partition
@@ -22,10 +22,10 @@ Change-Id: I577794a7298fcd105392699466661a7bd85a6218
  2 files changed, 3 insertions(+)
 
 diff --git a/sepolicy/file_contexts b/sepolicy/file_contexts
-index 1225c878..efd06764 100644
+index 30159d4..42a58d1 100644
 --- a/sepolicy/file_contexts
 +++ b/sepolicy/file_contexts
-@@ -46,11 +46,13 @@
+@@ -49,11 +49,13 @@
  # Block devices
  /dev/block/mmcblk0					u:object_r:root_block_device:s0
  /dev/block/mmcblk0p9					u:object_r:radio_device:s0
@@ -40,7 +40,7 @@ index 1225c878..efd06764 100644
  /dev/block/platform/omap/omap_hsmmc.0/by-name/radio	u:object_r:radio_device:s0
  /dev/block/platform/omap/omap_hsmmc.0/by-name/dgs	u:object_r:tee_block_device:s0
 diff --git a/sepolicy/vold.te b/sepolicy/vold.te
-index 9ba84692..313104b5 100644
+index 9ba8469..313104b 100644
 --- a/sepolicy/vold.te
 +++ b/sepolicy/vold.te
 @@ -1,5 +1,6 @@
@@ -50,3 +50,6 @@ index 9ba84692..313104b5 100644
  
  # For 'aes-*' module requests.
  allow vold kernel:system module_request;
+-- 
+2.31.1
+

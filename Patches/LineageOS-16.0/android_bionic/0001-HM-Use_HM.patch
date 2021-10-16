@@ -1,4 +1,4 @@
-From a0f883810d372c01632846d9bb3bd90807498fba Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 5 Dec 2018 01:51:56 -0500
 Subject: [PATCH] add hardened_malloc library
@@ -9,7 +9,7 @@ Subject: [PATCH] add hardened_malloc library
  2 files changed, 40 insertions(+), 9 deletions(-)
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index 6ba7cce9b..26ffc73b6 100644
+index eeeadb672..5b3495ff2 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
 @@ -51,6 +51,8 @@ libc_common_flags = [
@@ -40,7 +40,7 @@ index 6ba7cce9b..26ffc73b6 100644
      stl: "none",
      system_shared_libs: [],
      sanitize: {
-@@ -1577,11 +1587,6 @@ cc_library_static {
+@@ -1609,11 +1619,6 @@ cc_library_static {
      name: "libc_ndk",
      defaults: ["libc_defaults"],
      srcs: libc_common_src_files + ["bionic/malloc_common.cpp"],
@@ -52,7 +52,7 @@ index 6ba7cce9b..26ffc73b6 100644
      arch: {
          arm: {
              srcs: [
-@@ -1613,9 +1618,18 @@ cc_library_static {
+@@ -1645,9 +1650,18 @@ cc_library_static {
          "libc_syscalls",
          "libc_tzcode",
          "libm",
@@ -72,7 +72,7 @@ index 6ba7cce9b..26ffc73b6 100644
  }
  
  // ========================================================
-@@ -1705,7 +1719,11 @@ cc_library_static {
+@@ -1737,7 +1751,11 @@ cc_library_static {
  // ========================================================
  cc_library_static {
      defaults: ["libc_defaults"],
@@ -85,7 +85,7 @@ index 6ba7cce9b..26ffc73b6 100644
      cflags: ["-fvisibility=hidden"],
  
      name: "libc_malloc",
-@@ -1768,9 +1786,17 @@ cc_library {
+@@ -1800,9 +1818,17 @@ cc_library {
      ],
      whole_static_libs: [
          "libc_common",
@@ -122,3 +122,6 @@ index 1ea4ac1a3..c86fbdaea 100644
  
  static constexpr MallocDispatch __libc_malloc_default_dispatch
    __attribute__((unused)) = {
+-- 
+2.31.1
+

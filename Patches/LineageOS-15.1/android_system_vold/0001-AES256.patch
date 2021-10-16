@@ -1,4 +1,4 @@
-From 1a5bbf0ee895bbd66fb3ce66be44b1074bb20324 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Wed, 28 Feb 2018 08:21:28 -0500
 Subject: [PATCH] Build time variable for AES-256 encryption
@@ -10,7 +10,7 @@ Change-Id: I25eba5939c965323e4ffa6d95c6736b671c51e09
  2 files changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/Android.mk b/Android.mk
-index 14bf99a..0e9f3e1 100644
+index 2beae28..25fd823 100644
 --- a/Android.mk
 +++ b/Android.mk
 @@ -115,6 +115,10 @@ ifeq ($(TARGET_HW_DISK_ENCRYPTION),true)
@@ -25,7 +25,7 @@ index 14bf99a..0e9f3e1 100644
    vold_cflags += -DCONFIG_EXFAT_DRIVER=\"$(TARGET_EXFAT_DRIVER)\"
    mini_src_files += fs/Exfat.cpp
 diff --git a/cryptfs.cpp b/cryptfs.cpp
-index f01929a..7fb3ffa 100644
+index e33afdd..5102f12 100644
 --- a/cryptfs.cpp
 +++ b/cryptfs.cpp
 @@ -75,9 +75,17 @@ extern "C" {
@@ -55,5 +55,5 @@ index f01929a..7fb3ffa 100644
  #define RSA_EXPONENT 0x10001
  #define KEYMASTER_CRYPTFS_RATE_LIMIT 1  // Maximum one try per second
 -- 
-2.16.2
+2.31.1
 

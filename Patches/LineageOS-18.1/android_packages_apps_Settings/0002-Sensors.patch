@@ -1,4 +1,4 @@
-From a0087ffdd73ca128dc9f27118fc9eb4fd43c798b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MSe1969 <mse1969@posteo.de>
 Date: Sat, 14 Nov 2020 15:17:37 +0100
 Subject: [PATCH] Special Access: Add an option to administer Sensor access
@@ -40,10 +40,10 @@ index 42545707e6..d65e050664 100644
 +    <string name="sensor_access_title_empty_text">Aucune app installée n\'a demandé de l\'accès aux capteurs.</string>
  </resources>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index adf837a034..e4e0c9d129 100644
+index 9903ac78ac..4659634bc2 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -12227,4 +12227,9 @@
+@@ -12235,4 +12235,9 @@
      <string name="bluetooth_connect_access_dialog_negative">Don\u2019t connect</string>
      <!-- Strings for Dialog connect button -->
      <string name="bluetooth_connect_access_dialog_positive">Connect</string>

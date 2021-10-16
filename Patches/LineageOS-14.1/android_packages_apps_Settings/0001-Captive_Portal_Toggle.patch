@@ -1,4 +1,4 @@
-From d6e3b804873c9bdfb4126a9bf9a56f2b7da88ffe Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MSe <mse1969@posteo.de>
 Date: Sat, 22 Sep 2018 16:20:36 +0200
 Subject: [PATCH] Settings / Data usage: Add menu option to switch off captive
@@ -33,10 +33,10 @@ index f4c207b767..e47c3b25fc 100644
 +        android:checkable="true" />
  </menu>
 diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
-index f18d6d2c47..1039ea4e19 100644
+index 0dd77d2439..d581b975fe 100644
 --- a/res/values/cm_strings.xml
 +++ b/res/values/cm_strings.xml
-@@ -511,4 +511,9 @@
+@@ -516,4 +516,9 @@
      <!-- Burn in protection -->
      <string name="burnin_protection_title">Display burn-in protection</string>
      <string name="burnin_protection_summary">Periodically move items that are permanently shown on screen to avoid excessive screen wear in that area</string>
@@ -50,7 +50,7 @@ diff --git a/src/com/android/settings/ResetNetworkConfirm.java b/src/com/android
 index ece64b4310..cd4579a487 100644
 --- a/src/com/android/settings/ResetNetworkConfirm.java
 +++ b/src/com/android/settings/ResetNetworkConfirm.java
-@@ -25,6 +25,7 @@
+@@ -25,6 +25,7 @@ import android.net.wifi.WifiManager;
  import android.os.Bundle;
  import android.os.UserHandle;
  import android.os.UserManager;
@@ -58,7 +58,7 @@ index ece64b4310..cd4579a487 100644
  import android.telephony.SubscriptionManager;
  import android.telephony.TelephonyManager;
  import android.view.LayoutInflater;
-@@ -105,6 +106,9 @@ public void onClick(View v) {
+@@ -105,6 +106,9 @@ public class ResetNetworkConfirm extends OptionsMenuFragment {
  
              ImsManager.factoryReset(context);
  
@@ -84,7 +84,7 @@ index 702e6db0ae..98df2759b2 100644
  import android.content.Intent;
  import android.content.ActivityNotFoundException;
  import android.net.ConnectivityManager;
-@@ -28,6 +31,7 @@
+@@ -28,6 +31,7 @@ import android.os.RemoteException;
  import android.os.SystemProperties;
  import android.os.UserManager;
  import android.provider.SearchIndexableResource;
@@ -92,7 +92,7 @@ index 702e6db0ae..98df2759b2 100644
  import android.support.v7.preference.Preference;
  import android.support.v7.preference.PreferenceScreen;
  import android.telephony.SubscriptionInfo;
-@@ -59,7 +63,9 @@
+@@ -59,7 +63,9 @@ import java.util.List;
  import static android.net.ConnectivityManager.TYPE_ETHERNET;
  import static android.net.ConnectivityManager.TYPE_WIFI;
  
@@ -103,7 +103,7 @@ index 702e6db0ae..98df2759b2 100644
  
      private static final String TAG = "DataUsageSummary";
      static final boolean LOGD = false;
-@@ -77,6 +83,7 @@
+@@ -77,6 +83,7 @@ public class DataUsageSummary extends DataUsageBase implements Indexable, DataUs
      private Preference mLimitPreference;
      private NetworkTemplate mDefaultTemplate;
      private int mDataUsageTemplate;
@@ -111,7 +111,7 @@ index 702e6db0ae..98df2759b2 100644
  
      @Override
      protected int getHelpResource() {
-@@ -135,6 +142,7 @@ public void onCreate(Bundle icicle) {
+@@ -135,6 +142,7 @@ public class DataUsageSummary extends DataUsageBase implements Indexable, DataUs
      public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
          if (UserManager.get(getContext()).isAdminUser()) {
              inflater.inflate(R.menu.data_usage, menu);
@@ -119,7 +119,7 @@ index 702e6db0ae..98df2759b2 100644
          }
          super.onCreateOptionsMenu(menu, inflater);
      }
-@@ -143,6 +151,8 @@ public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+@@ -143,6 +151,8 @@ public class DataUsageSummary extends DataUsageBase implements Indexable, DataUs
      public void onPrepareOptionsMenu(Menu menu) {
          final Context context = getActivity();
          final MenuItem networkaccess = menu.findItem(R.id.data_usage_menu_app_network_access);
@@ -128,7 +128,7 @@ index 702e6db0ae..98df2759b2 100644
          if (networkaccess == null) {
              return;
          }
-@@ -177,6 +187,22 @@ public boolean onOptionsItemSelected(MenuItem item) {
+@@ -177,6 +187,22 @@ public class DataUsageSummary extends DataUsageBase implements Indexable, DataUs
                  }
                  return true;
              }
@@ -151,7 +151,7 @@ index 702e6db0ae..98df2759b2 100644
          }
          return false;
      }
-@@ -190,6 +216,35 @@ public boolean onPreferenceTreeClick(Preference preference) {
+@@ -190,6 +216,35 @@ public class DataUsageSummary extends DataUsageBase implements Indexable, DataUs
          return super.onPreferenceTreeClick(preference);
      }
  
@@ -187,3 +187,6 @@ index 702e6db0ae..98df2759b2 100644
      private void addMobileSection(int subId) {
          TemplatePreferenceCategory category = (TemplatePreferenceCategory)
                  inflatePreferences(R.xml.data_usage_cellular);
+-- 
+2.31.1
+

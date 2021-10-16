@@ -1,4 +1,4 @@
-From 7982c8a06516e8b1d113953a3f3cf2e32a3a7ba5 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Mon, 5 Apr 2021 23:11:12 -0400
 Subject: [PATCH] Allow setting OTA public keys from environment variable
@@ -10,7 +10,7 @@ Change-Id: Iaa8890283c30441bf8543a8ca1cd9296e9453d91
  2 files changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/core/Makefile b/core/Makefile
-index 3fb424733..67e0170e6 100644
+index 3fb424733d..67e0170e67 100644
 --- a/core/Makefile
 +++ b/core/Makefile
 @@ -1033,9 +1033,8 @@ endif
@@ -26,7 +26,7 @@ index 3fb424733..67e0170e6 100644
  
  # Generate a file containing the keys that will be read by the
 diff --git a/core/product_config.mk b/core/product_config.mk
-index 7b440b1ef..f26ebb6d5 100644
+index 7b440b1eff..f26ebb6d55 100644
 --- a/core/product_config.mk
 +++ b/core/product_config.mk
 @@ -422,6 +422,11 @@ PRODUCT_OTA_PUBLIC_KEYS := $(sort \
@@ -42,5 +42,5 @@ index 7b440b1ef..f26ebb6d5 100644
      $(strip $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_DEX_PREOPT_DEFAULT_FLAGS))
  PRODUCT_DEX_PREOPT_BOOT_FLAGS := \
 -- 
-2.30.2
+2.31.1
 

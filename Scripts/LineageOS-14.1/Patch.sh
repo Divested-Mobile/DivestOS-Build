@@ -209,7 +209,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_CMParts/0002-Reduced_Resolution.p
 fi;
 
 if enterAndClear "packages/apps/PackageInstaller"; then
-applyPatch "$DOS_PATCHES/android_packages_apps_PackageInstaller/64d8b44.diff"; #Fix an issue with Permission Review
+applyPatch "$DOS_PATCHES/android_packages_apps_PackageInstaller/64d8b44.patch"; #Fix an issue with Permission Review
 fi;
 
 if enterAndClear "packages/apps/Settings"; then

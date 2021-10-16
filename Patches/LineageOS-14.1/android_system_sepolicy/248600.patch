@@ -1,4 +1,4 @@
-From 14f74809348227ad07d1d934d747f7218c7e21a3 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Fri, 29 Jul 2016 14:48:19 -0400
 Subject: [PATCH] restrict access to timing information in /proc
@@ -129,3 +129,6 @@ index db59b6573..334cb9144 100644
  # Read /sys/kernel/debug/wakeup_sources.
  allow system_server debugfs:file r_file_perms;
  
+-- 
+2.31.1
+

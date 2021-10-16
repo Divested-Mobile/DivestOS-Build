@@ -1,4 +1,4 @@
-From 7664f3dd48cd8a0af6b3dd88169699f5a0465189 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Sat, 20 Jan 2018 07:34:05 -0500
 Subject: [PATCH] Squash menus
@@ -9,7 +9,7 @@ Change-Id: I683fd133498fc3317796a037567cdab46350431c
  1 file changed, 11 insertions(+), 41 deletions(-)
 
 diff --git a/device.cpp b/device.cpp
-index aed7211..a962c72 100644
+index aed7211d..a962c728 100644
 --- a/device.cpp
 +++ b/device.cpp
 @@ -38,32 +38,14 @@ struct menu_entry {
@@ -91,5 +91,5 @@ index aed7211..a962c72 100644
      MAIN_MENU_NAMES,
      MAIN_MENU_ENTRIES
 -- 
-2.16.0
+2.31.1
 

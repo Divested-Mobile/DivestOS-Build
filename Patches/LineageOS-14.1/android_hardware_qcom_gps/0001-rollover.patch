@@ -1,4 +1,4 @@
-From 895557ea85e34d3f969955f234186c5a0afab0a9 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: jlask <jason972000@gmail.com>
 Date: Tue, 19 May 2020 10:04:37 -0500
 Subject: [PATCH] gps: Correct week rollover timestamps
@@ -85,5 +85,5 @@ index 6969fe5..9367012 100644
      TO_ALL_LOCADAPTERS(
          mLocAdapters[i]->reportPosition(location,
 -- 
-2.26.2
+2.31.1
 

@@ -1,4 +1,4 @@
-From e0e9afa0b76af1692cfcb1f24e3ca4f4faccf321 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Sun, 26 Sep 2021 14:10:53 -0400
 Subject: [PATCH] Remove the Sensors Off tile
@@ -11,10 +11,10 @@ Change-Id: Ic1dce1c0fffc3c3f6459c4c85e0a64d480d3315a
  2 files changed, 55 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index c17807bd13..09d4c3b0ab 100644
+index 41715ff8c4..7773d31d9a 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
-@@ -3130,19 +3130,6 @@
+@@ -3134,19 +3134,6 @@
                         android:value="true"/>
          </service>
  

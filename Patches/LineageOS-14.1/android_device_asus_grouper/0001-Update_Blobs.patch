@@ -1,4 +1,4 @@
-From be52768051dd1978bb6a4b9bd46aff4eb09c0412 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Harry Youd <harry@harryyoud.co.uk>
 Date: Mon, 26 Mar 2018 15:52:22 +0200
 Subject: [PATCH] grouper: Initial 14.1 blob list
@@ -6,9 +6,9 @@ Subject: [PATCH] grouper: Initial 14.1 blob list
 Change-Id: I1e9a7e2a998810778426ab522995af2f90529b44
 ---
  device-common.mk              |  6 +--
- extract-files.sh              | 63 ++++++++++++++++++++++++++++++
- lineage-proprietary-files.txt | 89 +++++++++++++++++++++++++++++++++++++++++++
- setup-makefiles.sh            | 48 +++++++++++++++++++++++
+ extract-files.sh              | 63 +++++++++++++++++++++++++
+ lineage-proprietary-files.txt | 89 +++++++++++++++++++++++++++++++++++
+ setup-makefiles.sh            | 48 +++++++++++++++++++
  4 files changed, 201 insertions(+), 5 deletions(-)
  create mode 100755 extract-files.sh
  create mode 100644 lineage-proprietary-files.txt
@@ -246,3 +246,6 @@ index 0000000..7c82753
 +
 +# Finish
 +write_footers
+-- 
+2.31.1
+

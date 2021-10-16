@@ -1,4 +1,4 @@
-From 292631a7e653549c02a6c29aa98cba8db770a21b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MSe1969 <mse1969@posteo.de>
 Date: Fri, 15 Mar 2019 22:14:54 +0100
 Subject: [PATCH] AppOps/PrivacyGuard: New Sensor checks [native]
@@ -22,7 +22,7 @@ diff --git a/libs/binder/include/binder/AppOpsManager.h b/libs/binder/include/bi
 index fb682ecde7..83887787c9 100644
 --- a/libs/binder/include/binder/AppOpsManager.h
 +++ b/libs/binder/include/binder/AppOpsManager.h
-@@ -119,7 +119,9 @@ class AppOpsManager
+@@ -119,7 +119,9 @@ public:
          OP_BOOT_COMPLETED = 79,
          OP_NFC_CHANGE = 80,
          OP_DATA_CONNECT_CHANGE = 81,
@@ -34,7 +34,7 @@ index fb682ecde7..83887787c9 100644
  
      AppOpsManager();
 diff --git a/libs/sensor/Sensor.cpp b/libs/sensor/Sensor.cpp
-index a0e368c7e4..03fee85bf8 100644
+index 2383516c95..835794b1bd 100644
 --- a/libs/sensor/Sensor.cpp
 +++ b/libs/sensor/Sensor.cpp
 @@ -52,6 +52,7 @@ Sensor::Sensor(struct sensor_t const& hwSensor, const uuid_t& uuid, int halVersi
@@ -154,3 +154,6 @@ index 1c3e943543..142c5a274e 100644
      return true;
  }
  
+-- 
+2.31.1
+

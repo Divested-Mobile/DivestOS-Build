@@ -1,4 +1,4 @@
-From fc4d2c7dc902dc9e36261ab61081df80d49ceb60 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: codeworkx <daniel.hillenbrand@codeworkx.de>
 Date: Sun, 20 Jan 2019 17:48:20 +0100
 Subject: [PATCH] audio_extn: Fix unused parameter warning in utils.c
@@ -23,7 +23,7 @@ Change-Id: I694c683c9bfde60343f0f6ea8d806bc5e24437e6
  2 files changed, 7 insertions(+)
 
 diff --git a/hal/audio_extn/audio_extn.h b/hal/audio_extn/audio_extn.h
-index c847291fa..9ffdd9c15 100644
+index 1187642d1..38ae1aed5 100644
 --- a/hal/audio_extn/audio_extn.h
 +++ b/hal/audio_extn/audio_extn.h
 @@ -688,7 +688,12 @@ bool audio_extn_utils_is_dolby_format(audio_format_t format);
@@ -40,7 +40,7 @@ index c847291fa..9ffdd9c15 100644
                                      struct audio_usecase *usecase, int snd_device);
  
 diff --git a/hal/audio_extn/utils.c b/hal/audio_extn/utils.c
-index 5ee94143d..202006a35 100644
+index cd788542f..10f1eb216 100644
 --- a/hal/audio_extn/utils.c
 +++ b/hal/audio_extn/utils.c
 @@ -2520,6 +2520,7 @@ int audio_extn_utils_get_channels_from_string(const char *id_string)
@@ -56,3 +56,6 @@ index 5ee94143d..202006a35 100644
                                      LISTEN_EVENT_SND_DEVICE_FREE);
  }
 +#endif
+-- 
+2.31.1
+

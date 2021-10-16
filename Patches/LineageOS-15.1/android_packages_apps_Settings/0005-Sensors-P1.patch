@@ -1,7 +1,7 @@
-From f2eede97b47cf25553aa5edf10909429f087cfd9 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MSe1969 <mse1969@posteo.de>
 Date: Sun, 17 Jun 2018 13:03:27 +0200
-Subject: [PATCH 1/2] - AppOps/PrivacyGuard: New Sensor checks [Settings]
+Subject: [PATCH] - AppOps/PrivacyGuard: New Sensor checks [Settings]
 
 Add two AppOps for sensor access:
 - OP_MOTION_SENSORS (default: ask, strict)
@@ -109,7 +109,7 @@ index 901773fcc7..4796f9399c 100644
  
      <!-- App ops permissions -->
 diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
-index 91238336d9..f978f86bed 100644
+index 314074eff0..054805104b 100644
 --- a/res/values/cm_strings.xml
 +++ b/res/values/cm_strings.xml
 @@ -165,6 +165,7 @@

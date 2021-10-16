@@ -1,4 +1,4 @@
-From 0b47472891efb2b151e8a02783193846dc48be3e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Fri, 28 Dec 2018 21:18:47 -0500
 Subject: [PATCH] Change UpdateEnabledNetworksValueAndSummary to handle all
@@ -137,5 +137,5 @@ index 0ea4702b4..4bf0f9e9a 100644
  
          @Override
 -- 
-2.20.1
+2.31.1
 

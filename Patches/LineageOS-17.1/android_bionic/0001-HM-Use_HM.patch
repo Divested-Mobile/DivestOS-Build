@@ -1,4 +1,4 @@
-From 010949662f6579419dd310606bf1418dbd53a971 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 5 Dec 2018 01:51:56 -0500
 Subject: [PATCH] add hardened_malloc library
@@ -11,10 +11,10 @@ Subject: [PATCH] add hardened_malloc library
  create mode 100644 libc/bionic/h_malloc_wrapper.cpp
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index 47fccde7e..7c3f57fba 100644
+index 6031b1661..e7ca82f92 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
-@@ -52,6 +52,8 @@ libc_common_flags = [
+@@ -53,6 +53,8 @@ libc_common_flags = [
      // Clang's exit-time destructor registration hides __dso_handle, but
      // __dso_handle needs to have default visibility on ARM32. See b/73485611.
      "-Wexit-time-destructors",
@@ -23,7 +23,7 @@ index 47fccde7e..7c3f57fba 100644
  ]
  
  // Define some common cflags
-@@ -65,9 +67,17 @@ cc_defaults {
+@@ -66,9 +68,17 @@ cc_defaults {
      cppflags: [],
      include_dirs: [
          "bionic/libc/async_safe/include",
@@ -42,7 +42,7 @@ index 47fccde7e..7c3f57fba 100644
      stl: "none",
      system_shared_libs: [],
      sanitize: {
-@@ -92,7 +102,6 @@ cc_defaults {
+@@ -93,7 +103,6 @@ cc_defaults {
  // TLS slot.
  
  cc_library_static {
@@ -50,7 +50,7 @@ index 47fccde7e..7c3f57fba 100644
      srcs: [
          "bionic/__libc_init_main_thread.cpp",
          "bionic/__stack_chk_fail.cpp",
-@@ -1309,6 +1318,10 @@ cc_library_static {
+@@ -1307,6 +1316,10 @@ cc_library_static {
      multilib: {
          lib32: {
              srcs: libc_common_src_files_32,
@@ -61,7 +61,7 @@ index 47fccde7e..7c3f57fba 100644
          },
      },
      arch: {
-@@ -1342,7 +1355,6 @@ cc_library_static {
+@@ -1340,7 +1353,6 @@ cc_library_static {
          "libc_syscalls",
          "libc_tzcode",
          "libm",
@@ -69,7 +69,7 @@ index 47fccde7e..7c3f57fba 100644
          "libstdc++",
      ],
  }
-@@ -1480,7 +1492,14 @@ cc_library_static {
+@@ -1478,7 +1490,14 @@ cc_library_static {
  // ========================================================
  cc_library_static {
      defaults: ["libc_defaults"],
@@ -85,7 +85,7 @@ index 47fccde7e..7c3f57fba 100644
      cflags: ["-fvisibility=hidden"],
  
      name: "libc_malloc",
-@@ -1578,9 +1597,14 @@ cc_library {
+@@ -1576,9 +1595,14 @@ cc_library {
      static_libs: [
          "libdl_android",
      ],
@@ -179,3 +179,6 @@ index 2176e634d..e2c1910d2 100644
  
  #endif
  
+-- 
+2.31.1
+

@@ -1,4 +1,4 @@
-From 0b47472891efb2b151e8a02783193846dc48be3e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Fri, 28 Dec 2018 21:18:47 -0500
 Subject: [PATCH] Change UpdateEnabledNetworksValueAndSummary to handle all
@@ -10,10 +10,10 @@ Change-Id: I92fe694627a90b619be21466da0b49cff39826c8
  1 file changed, 11 insertions(+), 39 deletions(-)
 
 diff --git a/src/com/android/phone/MobileNetworkSettings.java b/src/com/android/phone/MobileNetworkSettings.java
-index 0ea4702b4..4bf0f9e9a 100644
+index f128f9a98..36b65e77c 100644
 --- a/src/com/android/phone/MobileNetworkSettings.java
 +++ b/src/com/android/phone/MobileNetworkSettings.java
-@@ -1423,35 +1423,31 @@ public class MobileNetworkSettings extends Activity  {
+@@ -1608,35 +1608,31 @@ public class MobileNetworkSettings extends Activity  {
          }
  
          private void UpdateEnabledNetworksValueAndSummary(int NetworkMode) {
@@ -55,7 +55,7 @@ index 0ea4702b4..4bf0f9e9a 100644
                          mButtonEnabledNetworks.setSummary(R.string.network_global);
                      }
                      break;
-@@ -1466,13 +1462,9 @@ public class MobileNetworkSettings extends Activity  {
+@@ -1651,13 +1647,9 @@ public class MobileNetworkSettings extends Activity  {
                  case Phone.NT_MODE_LTE_ONLY:
                  case Phone.NT_MODE_LTE_WCDMA:
                      if (!mIsGlobalCdma) {
@@ -69,7 +69,7 @@ index 0ea4702b4..4bf0f9e9a 100644
                          mButtonEnabledNetworks.setSummary(R.string.network_global);
                      }
                      break;
-@@ -1483,33 +1475,12 @@ public class MobileNetworkSettings extends Activity  {
+@@ -1668,33 +1660,12 @@ public class MobileNetworkSettings extends Activity  {
                          controlCdmaOptions(true);
                          controlGsmOptions(false);
                      } else {
@@ -103,7 +103,7 @@ index 0ea4702b4..4bf0f9e9a 100644
                  case Phone.NT_MODE_LTE_TDSCDMA_GSM:
                  case Phone.NT_MODE_LTE_TDSCDMA_GSM_WCDMA:
                  case Phone.NT_MODE_LTE_TDSCDMA:
-@@ -1517,16 +1488,12 @@ public class MobileNetworkSettings extends Activity  {
+@@ -1702,16 +1673,12 @@ public class MobileNetworkSettings extends Activity  {
                  case Phone.NT_MODE_LTE_TDSCDMA_CDMA_EVDO_GSM_WCDMA:
                  case Phone.NT_MODE_LTE_CDMA_EVDO_GSM_WCDMA:
                      if (isSupportTdscdma()) {
@@ -120,7 +120,7 @@ index 0ea4702b4..4bf0f9e9a 100644
                          if (mPhone.getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA ||
                                  mIsGlobalCdma ||
                                  isWorldMode()) {
-@@ -1538,10 +1505,15 @@ public class MobileNetworkSettings extends Activity  {
+@@ -1723,10 +1690,15 @@ public class MobileNetworkSettings extends Activity  {
                      }
                      break;
                  default:
@@ -137,5 +137,5 @@ index 0ea4702b4..4bf0f9e9a 100644
  
          @Override
 -- 
-2.20.1
+2.31.1
 

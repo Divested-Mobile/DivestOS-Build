@@ -1,4 +1,4 @@
-From fbe7bf4aec5c1f436f3750f2136ebdc580564a3a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MSe1969 <mse1969@posteo.de>
 Date: Sat, 14 Nov 2020 13:21:18 +0100
 Subject: [PATCH] AppOps: New Op for (Other) sensors access
@@ -20,7 +20,7 @@ diff --git a/libs/binder/include/binder/AppOpsManager.h b/libs/binder/include/bi
 index d93935ae5d..4a8c36f5b2 100644
 --- a/libs/binder/include/binder/AppOpsManager.h
 +++ b/libs/binder/include/binder/AppOpsManager.h
-@@ -135,7 +135,8 @@ class AppOpsManager
+@@ -135,7 +135,8 @@ public:
          OP_PHONE_CALL_MICROPHONE = 100,
          OP_PHONE_CALL_CAMERA = 101,
          OP_RECORD_AUDIO_HOTWORD = 102,
@@ -71,3 +71,6 @@ index 3ca34bba1b..8a62b2bb9c 100644
      } else if (hasPermissionForSensor(sensor)) {
          // Ensure that the AppOp is allowed, or that there is no necessary app op for the sensor
          if (opCode < 0 || appOpAllowed) {
+-- 
+2.31.1
+

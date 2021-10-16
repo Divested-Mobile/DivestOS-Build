@@ -1,13 +1,13 @@
-From 0ccf36d7c3f43254216fdcdd15c6247403e3ef53 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Mon, 12 Feb 2018 03:29:58 -0500
 Subject: [PATCH] Harden
 
 Change-Id: Idd2da6d9989ec554ce5b0841781d323fdcd9eb87
 ---
- init/init.cpp   | 6 +++---
- rootdir/init.rc | 9 +++++++++
- 2 files changed, 12 insertions(+), 3 deletions(-)
+ init/init.cpp   |  6 +++---
+ rootdir/init.rc | 11 +++++++++++
+ 2 files changed, 14 insertions(+), 3 deletions(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
 index 35fc442d0..b65686f93 100644
@@ -31,6 +31,8 @@ index 35fc442d0..b65686f93 100644
          mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL);
          mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11));
          mknod("/dev/random", S_IFCHR | 0666, makedev(1, 8));
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index f9cb4a3ef..7d618af63 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -124,6 +124,17 @@ on init
@@ -52,5 +54,5 @@ index 35fc442d0..b65686f93 100644
      write /proc/sys/vm/mmap_min_addr 32768
      write /proc/sys/net/ipv4/ping_group_range "0 2147483647"
 -- 
-2.21.0
+2.31.1
 

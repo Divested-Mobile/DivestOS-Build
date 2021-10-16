@@ -1,4 +1,4 @@
-From 911b31c6e3cf5783d047de59a085de369ebf5779 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Wed, 8 Feb 2017 15:05:02 -0500
 Subject: [PATCH] Remove analytics
@@ -14,10 +14,10 @@ Change-Id: Ic01c97d6ceac8d324609763973639b41b4581a76
  6 files changed, 64 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index 3c58c3f..914a9df 100644
+index a560cb6..63cecc6 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
-@@ -183,31 +183,6 @@
+@@ -184,31 +184,6 @@
                  android:value="status_bar_settings" />
          </activity-alias>
  
@@ -62,7 +62,7 @@ index 733d5d9..58addff 100644
  -keep class org.cyanogenmod.cmparts.hardware.*
  -keep class org.cyanogenmod.cmparts.input.*
 diff --git a/res/values/config.xml b/res/values/config.xml
-index 2980816..a5729c6 100644
+index 24d9c64..27f3f3f 100644
 --- a/res/values/config.xml
 +++ b/res/values/config.xml
 @@ -17,9 +17,6 @@
@@ -76,10 +76,10 @@ index 2980816..a5729c6 100644
      <bool name="config_showWeatherMenu">true</bool>
  
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index c13655e..6891213 100644
+index dc0ceb0..9cba5f2 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -482,28 +482,6 @@
+@@ -533,28 +533,6 @@
                   <b>Total commits:</b> <xliff:g id="total_commits">%2$s</xliff:g><br/><br/>
                   <b>Last update:</b> <xliff:g id="date">%3$s</xliff:g>]]></string>
  
@@ -142,5 +142,5 @@ index 5ae923a..45df2a1 100644
 -
  </PreferenceScreen>
 -- 
-2.9.3
+2.31.1
 

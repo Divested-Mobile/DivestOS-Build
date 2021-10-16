@@ -1,7 +1,7 @@
-From 72b86ddf9fe37cf2fb45266edf53446eb34a86df Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MSe1969 <mse1969@posteo.de>
 Date: Fri, 15 Mar 2019 22:29:43 +0100
-Subject: [PATCH 1/2] AppOps/PrivacyGuard: New Sensor checks [Settings]
+Subject: [PATCH] AppOps/PrivacyGuard: New Sensor checks [Settings]
 
 Add two AppOps for sensor access:
 - OP_MOTION_SENSORS (default: ask, strict)
@@ -19,7 +19,7 @@ Change-Id: I9b51c47e27a330823ecb4472b9a7818718ef4209
  5 files changed, 34 insertions(+), 3 deletions(-)
 
 diff --git a/res/values-de/cm_strings.xml b/res/values-de/cm_strings.xml
-index 53dca0e6e7..740ecdb8ee 100644
+index dee07db2b4..02cafb1b05 100644
 --- a/res/values-de/cm_strings.xml
 +++ b/res/values-de/cm_strings.xml
 @@ -39,6 +39,7 @@
@@ -87,7 +87,7 @@ index 523d87d673..3133e8d4bf 100644
      <string name="app_ops_labels_picture_in_picture">Utiliser le mode Picture-in-Picture</string>
      <string name="app_ops_labels_play_audio">Lecture audio</string>
 diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
-index 7d0b80d3c0..83abcf8580 100644
+index c4a0aaa915..1150011970 100644
 --- a/res/values/cm_strings.xml
 +++ b/res/values/cm_strings.xml
 @@ -50,6 +50,7 @@

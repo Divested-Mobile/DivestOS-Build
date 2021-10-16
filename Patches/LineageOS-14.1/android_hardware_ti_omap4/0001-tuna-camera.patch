@@ -1,4 +1,4 @@
-From a683d613d24bb84ba029fa78e1d7722b0270c326 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Kyle Repinski <repinski23@gmail.com>
 Date: Fri, 9 Sep 2016 16:29:40 -0500
 Subject: [PATCH] camera: Move tuna DCC path to /data/misc/cameraserver/ on N.
@@ -62,3 +62,6 @@ index 74dcec1..f2bfd39 100644
  ifdef TI_CAMERAHAL_USES_LEGACY_DOMX_DCC
  	LOCAL_CFLAGS += -DUSES_LEGACY_DOMX_DCC
  endif
+-- 
+2.31.1
+

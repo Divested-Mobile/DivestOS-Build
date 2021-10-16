@@ -1,15 +1,15 @@
-From 74a903c4ee34bb0ab058a749789805f765479a1e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Wed, 11 Jul 2018 13:54:10 -0400
 Subject: [PATCH] Performance tweaks from @AndDiSa
 
 Change-Id: I87e7b700b3caf713e98bcfdc74613da23139db70
 ---
- BoardConfigCommon.mk                          |  3 ++
- device.mk                                     |  3 +-
+ BoardConfigCommon.mk                          |  3 +++
+ device.mk                                     |  3 ++-
  .../base/core/res/res/values/config.xml       |  7 +++++
- system.prop                                   | 29 +++++++++++++++++--
- 4 files changed, 38 insertions(+), 4 deletions(-)
+ system.prop                                   | 27 ++++++++++++++++---
+ 4 files changed, 36 insertions(+), 4 deletions(-)
 
 diff --git a/BoardConfigCommon.mk b/BoardConfigCommon.mk
 index f402c86..c84be43 100644
@@ -26,6 +26,7 @@ index f402c86..c84be43 100644
  
  # Filesystem
 diff --git a/device.mk b/device.mk
+index 33c1fc9..8d8c65a 100644
 --- a/device.mk
 +++ b/device.mk
 @@ -24,7 +24,8 @@ PRODUCT_COPY_FILES += \
@@ -39,6 +40,7 @@ diff --git a/device.mk b/device.mk
  DEVICE_PACKAGE_OVERLAYS += \
      device/asus/grouper/overlay
 diff --git a/overlay/frameworks/base/core/res/res/values/config.xml b/overlay/frameworks/base/core/res/res/values/config.xml
+index d28e4fb..c9ec73a 100644
 --- a/overlay/frameworks/base/core/res/res/values/config.xml
 +++ b/overlay/frameworks/base/core/res/res/values/config.xml
 @@ -219,4 +219,11 @@
@@ -54,6 +56,7 @@ diff --git a/overlay/frameworks/base/core/res/res/values/config.xml b/overlay/fr
 +
  </resources>
 diff --git a/system.prop b/system.prop
+index b1d9807..1b1daa5 100644
 --- a/system.prop
 +++ b/system.prop
 @@ -12,6 +12,27 @@ ro.sf.lcd_density=213
@@ -88,5 +91,5 @@ diff --git a/system.prop b/system.prop
 +ro.sys.fw.use_trim_settings=true
 +dalvik.vm.madvise-random=true
 -- 
-2.18.0
+2.31.1
 

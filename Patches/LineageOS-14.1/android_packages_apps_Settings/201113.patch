@@ -1,4 +1,4 @@
-From 04cfd27db79e5ca78e03c64c82144261f92cc365 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: syphyr <syphyr@gmail.com>
 Date: Wed, 3 Jan 2018 20:15:17 +0100
 Subject: [PATCH] wifi: Add world regulatory domain country code
@@ -18,10 +18,10 @@ Change-Id: I2e519872954903575ac2fc47fa13d126bb5bac8e
  1 file changed, 2 insertions(+)
 
 diff --git a/res/values/cm_arrays.xml b/res/values/cm_arrays.xml
-index 476b1c22ef..914c0b4fc3 100644
+index 38568e4baf..49e2a4f2d1 100644
 --- a/res/values/cm_arrays.xml
 +++ b/res/values/cm_arrays.xml
-@@ -268,6 +268,7 @@
+@@ -269,6 +269,7 @@
  
      <!-- Wi-Fi settings. Presented as a list dialog to the user to choose the Wi-Fi region code. -->
      <string-array name="wifi_countrycode_entries">
@@ -29,7 +29,7 @@ index 476b1c22ef..914c0b4fc3 100644
          <item>United States</item>
          <item>Canada, Taiwan</item>
          <item>Germany</item>
-@@ -283,6 +284,7 @@
+@@ -284,6 +285,7 @@
      </string-array>
  
      <string-array name="wifi_countrycode_values" translatable="false">
@@ -37,3 +37,6 @@ index 476b1c22ef..914c0b4fc3 100644
          <item>US</item>
          <item>CA</item>
          <item>DE</item>
+-- 
+2.31.1
+

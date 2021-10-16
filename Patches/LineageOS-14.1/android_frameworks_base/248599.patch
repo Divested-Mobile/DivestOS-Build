@@ -1,4 +1,4 @@
-From d5e4955bce55bf742f888859bb8b3b217de5dd7f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Christopher Tate <ctate@google.com>
 Date: Wed, 26 Oct 2016 18:06:42 -0700
 Subject: [PATCH] Make SET_TIME_ZONE permission match SET_TIME
@@ -32,3 +32,6 @@ index 0f224dae3337..f6026a82ad72 100644
  
      <!-- ==================================================== -->
      <!-- Permissions related to changing status bar   -->
+-- 
+2.31.1
+

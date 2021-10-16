@@ -1,4 +1,4 @@
-From 2b6950b03eb3d8cc82fa2b0a91db480dacf58a78 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 23 Aug 2017 20:28:03 -0400
 Subject: [PATCH] use -fwrapv when signed overflow checking is off
@@ -9,7 +9,7 @@ Subject: [PATCH] use -fwrapv when signed overflow checking is off
  2 files changed, 14 insertions(+)
 
 diff --git a/cc/cc.go b/cc/cc.go
-index 983ffc0..45a50cf 100644
+index 983ffc0e8..45a50cfdf 100644
 --- a/cc/cc.go
 +++ b/cc/cc.go
 @@ -533,6 +533,8 @@ func (c *Module) GenerateAndroidBuildActions(actx android.ModuleContext) {
@@ -22,7 +22,7 @@ index 983ffc0..45a50cf 100644
  	if c.coverage != nil {
  		flags = c.coverage.flags(ctx, flags)
 diff --git a/cc/sanitize.go b/cc/sanitize.go
-index 9c3b8e5..1dbd9fe 100644
+index 9c3b8e529..1dbd9fe11 100644
 --- a/cc/sanitize.go
 +++ b/cc/sanitize.go
 @@ -271,6 +271,7 @@ func (sanitize *sanitize) deps(ctx BaseModuleContext, deps Deps) Deps {

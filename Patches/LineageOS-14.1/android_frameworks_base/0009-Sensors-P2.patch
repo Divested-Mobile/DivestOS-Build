@@ -1,7 +1,7 @@
-From 7fcc6be5ca1672ca0b48fa6d55224b34d0d0ebea Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MSe <mse1969@posteo.de>
 Date: Wed, 25 Apr 2018 23:07:47 +0200
-Subject: [PATCH 2/3] AppOpsService: Default mode 'allowed' for systemUID and
+Subject: [PATCH] AppOpsService: Default mode 'allowed' for systemUID and
  platform signed
 
 To avoid severe issues when setting selected Ops to 'ASK', the default

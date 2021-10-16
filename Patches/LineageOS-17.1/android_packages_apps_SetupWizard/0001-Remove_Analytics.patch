@@ -1,4 +1,4 @@
-From 54452d84d52cd5ac376e308e97517c514f7b4ee8 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Wed, 28 Feb 2018 08:12:03 -0500
 Subject: [PATCH] Remove analytics
@@ -59,18 +59,18 @@ index b75af3c..15c2755 100644
                  <LinearLayout
                      android:id="@+id/nav_keys"
 diff --git a/src/org/lineageos/setupwizard/FinishActivity.java b/src/org/lineageos/setupwizard/FinishActivity.java
-index 39b8562..e727a42 100644
+index 74e09a4..8199cee 100644
 --- a/src/org/lineageos/setupwizard/FinishActivity.java
 +++ b/src/org/lineageos/setupwizard/FinishActivity.java
-@@ -19,7 +19,6 @@ package org.lineageos.setupwizard;
- 
+@@ -20,7 +20,6 @@ package org.lineageos.setupwizard;
+ import static org.lineageos.setupwizard.SetupWizardApp.ACTION_SETUP_COMPLETE;
  import static org.lineageos.setupwizard.SetupWizardApp.DISABLE_NAV_KEYS;
  import static org.lineageos.setupwizard.SetupWizardApp.KEY_BUTTON_BACKLIGHT;
 -import static org.lineageos.setupwizard.SetupWizardApp.KEY_SEND_METRICS;
  import static org.lineageos.setupwizard.SetupWizardApp.LOGV;
  
  import android.animation.Animator;
-@@ -168,7 +167,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
+@@ -173,7 +172,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
          if (mEnableAccessibilityController != null) {
              mEnableAccessibilityController.onDestroy();
          }
@@ -78,7 +78,7 @@ index 39b8562..e727a42 100644
          handleNavKeys(mSetupWizardApp);
          final WallpaperManager wallpaperManager =
                  WallpaperManager.getInstance(mSetupWizardApp);
-@@ -179,16 +177,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
+@@ -184,16 +182,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
          startActivityForResult(intent, NEXT_REQUEST);
      }
  
@@ -96,7 +96,7 @@ index 39b8562..e727a42 100644
          if (setupWizardApp.getSettingsBundle().containsKey(DISABLE_NAV_KEYS)) {
              writeDisableNavkeysOption(setupWizardApp,
 diff --git a/src/org/lineageos/setupwizard/LineageSettingsActivity.java b/src/org/lineageos/setupwizard/LineageSettingsActivity.java
-index dfe4bde..e179ecb 100644
+index 4041f4b..0aaf96e 100644
 --- a/src/org/lineageos/setupwizard/LineageSettingsActivity.java
 +++ b/src/org/lineageos/setupwizard/LineageSettingsActivity.java
 @@ -18,7 +18,6 @@
@@ -153,7 +153,7 @@ index dfe4bde..e179ecb 100644
      }
  
      @Override
-@@ -164,15 +142,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
+@@ -154,15 +132,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
          return R.drawable.ic_features;
      }
  
@@ -170,11 +170,11 @@ index dfe4bde..e179ecb 100644
          if (mSupportsKeyDisabler) {
              final Bundle myPageBundle = mSetupWizardApp.getSettingsBundle();
 diff --git a/src/org/lineageos/setupwizard/SetupWizardApp.java b/src/org/lineageos/setupwizard/SetupWizardApp.java
-index 538c298..4e5b0ed 100644
+index 5b32720..acb5018 100644
 --- a/src/org/lineageos/setupwizard/SetupWizardApp.java
 +++ b/src/org/lineageos/setupwizard/SetupWizardApp.java
-@@ -60,7 +60,6 @@ public class SetupWizardApp extends Application {
-     public static final String EXTRA_PREFS_SET_BACK_TEXT = "extra_prefs_set_back_text";
+@@ -63,7 +63,6 @@ public class SetupWizardApp extends Application {
+     public static final String EXTRA_IS_SETUP_FLOW = "isSetupFlow";
  
      public static final String KEY_DETECT_CAPTIVE_PORTAL = "captive_portal_detection_enabled";
 -    public static final String KEY_SEND_METRICS = "send_metrics";
@@ -182,5 +182,5 @@ index 538c298..4e5b0ed 100644
      public static final String KEY_BUTTON_BACKLIGHT = "pre_navbar_button_backlight";
  
 -- 
-2.26.0
+2.31.1
 

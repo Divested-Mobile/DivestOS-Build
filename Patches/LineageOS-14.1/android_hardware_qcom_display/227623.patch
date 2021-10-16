@@ -1,4 +1,4 @@
-From 884ada777494cfb80ec77739703d6eef66c40d1e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Courtney Goeltzenleuchter <courtneygo@google.com>
 Date: Thu, 24 May 2018 08:23:55 -0600
 Subject: [PATCH] Fix Buffer Overflow in Vendor Service display.qservice
@@ -26,3 +26,6 @@ index d3c13eee9..90aa4f219 100644
    if (display >= HWC_NUM_DISPLAY_TYPES) {
      return -EINVAL;
    }
+-- 
+2.31.1
+

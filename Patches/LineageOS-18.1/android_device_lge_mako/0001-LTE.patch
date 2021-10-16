@@ -1,7 +1,7 @@
-From 8a1f4883ab37ea10142c903cf0ec25c95dc03579 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Thu, 29 Jul 2021 12:31:30 -0400
-Subject: [PATCH 1/1] LTE Enablement
+Subject: [PATCH] LTE Enablement
 
 Change-Id: I36cbd7ce1a070201da24dc237154355e780d01b4
 ---

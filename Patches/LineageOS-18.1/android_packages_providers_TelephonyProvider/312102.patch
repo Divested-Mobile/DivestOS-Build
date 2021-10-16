@@ -1,4 +1,4 @@
-From 523729038f471ac87dce34f4a48ba4dcf5bfdd34 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Mattias Nilsson <Mattias.Nilsson@sony.com>
 Date: Thu, 15 Apr 2021 17:11:27 +0200
 Subject: [PATCH] MNCs not in carrier_list can get the wrong MNC value
@@ -20,7 +20,7 @@ diff --git a/src/com/android/providers/telephony/TelephonyProvider.java b/src/co
 index b1b3146d..6bddde93 100644
 --- a/src/com/android/providers/telephony/TelephonyProvider.java
 +++ b/src/com/android/providers/telephony/TelephonyProvider.java
-@@ -260,6 +260,40 @@
+@@ -260,6 +260,40 @@ public class TelephonyProvider extends ContentProvider
  
      private boolean mManagedApnEnforced;
  
@@ -61,7 +61,7 @@ index b1b3146d..6bddde93 100644
      /**
       * Available radio technologies for GSM, UMTS and CDMA.
       * Duplicates the constants from hardware/radio/include/ril.h
-@@ -4151,18 +4185,32 @@ private static String getBestStringMnc(Context context, String mcc, int mnc) {
+@@ -4151,18 +4185,32 @@ public class TelephonyProvider extends ContentProvider
          }
          String twoDigitMnc = String.format(Locale.getDefault(), "%02d", mnc);
          String threeDigitMnc = "0" + twoDigitMnc;
@@ -104,3 +104,6 @@ index b1b3146d..6bddde93 100644
          }
      }
  
+-- 
+2.31.1
+

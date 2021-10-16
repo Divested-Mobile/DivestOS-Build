@@ -1,4 +1,4 @@
-From adec149524637ba191e0db27d9b729b4cd53cd9e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 23 Aug 2017 20:28:03 -0400
 Subject: [PATCH] use -fwrapv when signed overflow checking is off
@@ -51,3 +51,6 @@ index de970352e..17c11f8b1 100644
  	if Bool(sanitize.Properties.Sanitize.Diag.Undefined) {
  		diagSanitizers = append(diagSanitizers, "undefined")
  	}
+-- 
+2.31.1
+

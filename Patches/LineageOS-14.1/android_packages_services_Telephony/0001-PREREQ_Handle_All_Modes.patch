@@ -1,4 +1,4 @@
-From a14afb074cdf415565227f18e70489da0930a115 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Sat, 29 Dec 2018 06:58:18 -0500
 Subject: [PATCH] Change UpdateEnabledNetworksValueAndSummary to handle all
@@ -10,7 +10,7 @@ Change-Id: I25bab65a6b3743a05f2d76395e59dc3f241a14d3
  1 file changed, 11 insertions(+), 39 deletions(-)
 
 diff --git a/src/com/android/phone/MobileNetworkSettings.java b/src/com/android/phone/MobileNetworkSettings.java
-index d5c09924..75477ad2 100644
+index d5c099241..8241b9728 100644
 --- a/src/com/android/phone/MobileNetworkSettings.java
 +++ b/src/com/android/phone/MobileNetworkSettings.java
 @@ -1085,35 +1085,31 @@ public class MobileNetworkSettings extends PreferenceActivity
@@ -137,5 +137,5 @@ index d5c09924..75477ad2 100644
  
      @Override
 -- 
-2.20.1
+2.31.1
 

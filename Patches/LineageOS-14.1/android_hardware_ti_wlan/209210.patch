@@ -1,4 +1,4 @@
-From f1bed9ca5d14303240b8814641d0e05291aeccbc Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Guy Mishol <guym@ti.com>
 Date: Tue, 23 Jan 2018 12:57:51 +0200
 Subject: [PATCH] wl12xx: Update SR PLT firmwares
@@ -7373,4 +7373,7 @@ zf<*Ou`DI0MBf&Q%7{Yz7lO8oPr5u(}2M4OPW?VgQ6$&{P{E;F56KgT?`Nt_QzJ6R<
 zY%$#i@pS4djaiPN&#s*~IE9i8d12%%m*E*F+Nv84w}(4$!<R;R%VCB&VdU_@;exh+
 z#(J^DG|A(YEywfA!P*?lE))Y|<r(UhGkkUsC$5wp7Te3xQIWd<OW${;$t#T_Fm*0n
 bU#T@c<%o0>c`u%phDaD?>GH0dd;j}C?50qK
+
+-- 
+2.31.1
 

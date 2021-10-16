@@ -1,4 +1,4 @@
-From f42b03df24d3acd5caaa2628c206c591ccc023eb Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ray Essick <essick@google.com>
 Date: Mon, 2 Jul 2018 16:00:09 -0700
 Subject: [PATCH] mm-video-v4l2: Protect buffer access and increase input
@@ -177,3 +177,6 @@ index 9d041e990..003cd9b56 100644
                          vdec_msg->msgdata.output_frame.bufferaddr)
                          memcpy ( omxhdr->pBuffer, (void *)
                                  ((unsigned long)vdec_msg->msgdata.output_frame.bufferaddr +
+-- 
+2.31.1
+

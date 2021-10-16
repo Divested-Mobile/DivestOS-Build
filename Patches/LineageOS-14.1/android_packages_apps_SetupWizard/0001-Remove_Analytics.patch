@@ -1,14 +1,14 @@
-From 2d5570d86d6eb950247a5b4792840c1626eaea94 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Wed, 18 Oct 2017 11:54:48 -0400
 Subject: [PATCH] Remove analytics
 
 Change-Id: I044dd6b137b8a1d4a6dde3a63c0aaa454309341f
 ---
- res/layout/setup_lineage_settings.xml              | 36 ----------------------
- .../cyanogenmod/setupwizard/FinishActivity.java    | 12 --------
- .../setupwizard/LineageSettingsActivity.java       | 35 ---------------------
- .../cyanogenmod/setupwizard/SetupWizardApp.java    |  1 -
+ res/layout/setup_lineage_settings.xml         | 36 -------------------
+ .../setupwizard/FinishActivity.java           | 12 -------
+ .../setupwizard/LineageSettingsActivity.java  | 35 ------------------
+ .../setupwizard/SetupWizardApp.java           |  1 -
  4 files changed, 84 deletions(-)
 
 diff --git a/res/layout/setup_lineage_settings.xml b/res/layout/setup_lineage_settings.xml
@@ -189,5 +189,5 @@ index f10a917..f916f5b 100644
      public static final String KEY_APPLY_DEFAULT_THEME = "apply_default_theme";
      public static final String KEY_BUTTON_BACKLIGHT = "pre_navbar_button_backlight";
 -- 
-2.14.2
+2.31.1
 

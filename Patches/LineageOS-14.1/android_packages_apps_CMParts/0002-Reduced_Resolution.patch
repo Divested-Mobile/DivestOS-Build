@@ -1,20 +1,20 @@
-From a1e8c666a77d575c8d78a0d1269b3d06a7cb5d41 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Sat, 21 Oct 2017 09:05:09 -0400
 Subject: [PATCH] Reduced Resolution Feature 1/2
 
 Change-Id: I925a23e61ebf3ce06dc78898952085d87ad10410
 ---
- res/values/strings.xml                                  |  3 +++
- res/xml/perf_profile_settings.xml                       |  6 ++++++
- .../cyanogenmod/cmparts/power/PerfProfileSettings.java  | 17 +++++++++++++++++
+ res/values/strings.xml                          |  3 +++
+ res/xml/perf_profile_settings.xml               |  6 ++++++
+ .../cmparts/power/PerfProfileSettings.java      | 17 +++++++++++++++++
  3 files changed, 26 insertions(+)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 21b8b78..1fee482 100644
+index 9cba5f2..e05168f 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -576,6 +576,9 @@
+@@ -574,6 +574,9 @@
      <string name="power_save_category_title">Battery saving</string>
      <string name="power_save_title">Extreme power saver</string>
      <string name="power_save_summary">Restrict device performance and background activity to save power</string>
@@ -103,5 +103,5 @@ index ec2138d..5fdc8f1 100644
          final int level = Global.getInt(
                  getContentResolver(), Global.LOW_POWER_MODE_TRIGGER_LEVEL, 0);
 -- 
-2.14.2
+2.31.1
 

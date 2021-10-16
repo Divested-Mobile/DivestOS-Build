@@ -1,8 +1,7 @@
-From e25aed77e6309bfd63a6fde119cf4e2dd22612b3 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MSe1969 <mse1969@posteo.de>
 Date: Tue, 19 Mar 2019 22:35:38 +0100
-Subject: [PATCH 2/2] AppOps details: Add permission icons for new Sensor
- AppOps
+Subject: [PATCH] AppOps details: Add permission icons for new Sensor AppOps
 
 Change-Id: Ifc337517818dcc929a406ed455fb76e6533507ab
 ---

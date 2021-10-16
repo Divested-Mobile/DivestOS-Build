@@ -1,6 +1,6 @@
-From 64d8b44f6625292bc4a5f90913713e97fc4a0032 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
-Date: Sun, 06 Aug 2017 10:27:32 -0400
+Date: Sun, 6 Aug 2017 10:27:32 -0400
 Subject: [PATCH] fix toggling off current permissions in review
 
 The confirmPermissionsReview function currently only takes into account
@@ -12,12 +12,14 @@ thinking they've toggled off a permission that they haven't.
 
 Change-Id: I84310a1c20981a239169069a881dbb79267d784f
 ---
+ .../ui/ReviewPermissionsActivity.java         | 53 +++++++++++--------
+ 1 file changed, 31 insertions(+), 22 deletions(-)
 
 diff --git a/src/com/android/packageinstaller/permission/ui/ReviewPermissionsActivity.java b/src/com/android/packageinstaller/permission/ui/ReviewPermissionsActivity.java
-index 6bc251a..b6fd0c1 100644
+index 6bc251aed..b6fd0c161 100644
 --- a/src/com/android/packageinstaller/permission/ui/ReviewPermissionsActivity.java
 +++ b/src/com/android/packageinstaller/permission/ui/ReviewPermissionsActivity.java
-@@ -48,6 +48,7 @@
+@@ -48,6 +48,7 @@ import com.android.packageinstaller.permission.model.AppPermissions;
  import com.android.packageinstaller.permission.utils.Utils;
  import com.android.packageinstaller.permission.ui.ConfirmActionDialogFragment.OnActionConfirmedListener;
  
@@ -25,7 +27,7 @@ index 6bc251a..b6fd0c1 100644
  import java.util.List;
  
  public final class ReviewPermissionsActivity extends Activity
-@@ -103,6 +104,7 @@
+@@ -103,6 +104,7 @@ public final class ReviewPermissionsActivity extends Activity
          private Button mCancelButton;
  
          private PreferenceCategory mNewPermissionsCategory;
@@ -33,20 +35,13 @@ index 6bc251a..b6fd0c1 100644
  
          private boolean mHasConfirmedRevoke;
  
-@@ -218,22 +220,29 @@
+@@ -218,22 +220,29 @@ public final class ReviewPermissionsActivity extends Activity
          }
  
          private void confirmPermissionsReview() {
 -            PreferenceGroup preferenceGroup = mNewPermissionsCategory != null
 -                ? mNewPermissionsCategory : getPreferenceScreen();
-+            final List<PreferenceGroup> preferenceGroups = new ArrayList<PreferenceGroup>();
-+            if (mNewPermissionsCategory != null) {
-+                preferenceGroups.add(mNewPermissionsCategory);
-+                preferenceGroups.add(mCurrentPermissionsCategory);
-+            } else {
-+                preferenceGroups.add(getPreferenceScreen());
-+            }
- 
+-
 -            final int preferenceCount = preferenceGroup.getPreferenceCount();
 -            for (int i = 0; i < preferenceCount; i++) {
 -                Preference preference = preferenceGroup.getPreference(i);
@@ -58,6 +53,14 @@ index 6bc251a..b6fd0c1 100644
 -                        group.grantRuntimePermissions(false);
 -                    } else {
 -                        group.revokeRuntimePermissions(false);
++            final List<PreferenceGroup> preferenceGroups = new ArrayList<PreferenceGroup>();
++            if (mNewPermissionsCategory != null) {
++                preferenceGroups.add(mNewPermissionsCategory);
++                preferenceGroups.add(mCurrentPermissionsCategory);
++            } else {
++                preferenceGroups.add(getPreferenceScreen());
++            }
++
 +            for (PreferenceGroup preferenceGroup : preferenceGroups) {
 +                final int preferenceCount = preferenceGroup.getPreferenceCount();
 +                for (int i = 0; i < preferenceCount; i++) {
@@ -77,7 +80,7 @@ index 6bc251a..b6fd0c1 100644
                  }
              }
          }
-@@ -295,7 +304,7 @@
+@@ -295,7 +304,7 @@ public final class ReviewPermissionsActivity extends Activity
                  screen.removeAll();
              }
  
@@ -86,7 +89,7 @@ index 6bc251a..b6fd0c1 100644
              PreferenceGroup oldNewPermissionsCategory = mNewPermissionsCategory;
              mNewPermissionsCategory = null;
  
-@@ -353,13 +362,13 @@
+@@ -353,13 +362,13 @@ public final class ReviewPermissionsActivity extends Activity
                          mNewPermissionsCategory.addPreference(preference);
                      }
                  } else {
@@ -106,3 +109,6 @@ index 6bc251a..b6fd0c1 100644
                  }
              }
          }
+-- 
+2.31.1
+

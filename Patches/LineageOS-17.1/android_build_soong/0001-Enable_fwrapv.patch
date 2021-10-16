@@ -1,4 +1,4 @@
-From 6760a427250f7a8249fe45bfd5af35f54ed739b1 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 23 Aug 2017 20:28:03 -0400
 Subject: [PATCH] use -fwrapv when signed overflow checking is off
@@ -47,3 +47,6 @@ index c1b055afe..147ee2d88 100644
  	if Bool(sanitize.Properties.Sanitize.Address) {
  		if ctx.Arch().ArchType == android.Arm {
  			// Frame pointer based unwinder in ASan requires ARM frame setup.
+-- 
+2.31.1
+

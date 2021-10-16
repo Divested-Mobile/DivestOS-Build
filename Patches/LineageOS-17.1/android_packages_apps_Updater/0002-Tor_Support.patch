@@ -1,4 +1,4 @@
-From 14bd0c11762e842c876c7c22c2f82ee1002e7186 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Thu, 20 Sep 2018 21:44:53 -0400
 Subject: [PATCH] Add support for routing over Tor
@@ -380,5 +380,5 @@ index 048d865..d1b5a74 100644
          return server + "?base=LineageOS&device=" + device + "&inc=" + incrementalVersion;
      }
 -- 
-2.26.0
+2.31.1
 

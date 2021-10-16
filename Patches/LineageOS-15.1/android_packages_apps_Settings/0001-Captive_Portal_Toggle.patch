@@ -1,4 +1,4 @@
-From b4ea75129c4e6d54059011e27c34a1e90bbd7f07 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MSe1969 <mse1969@posteo.de>
 Date: Wed, 12 Sep 2018 19:37:38 +0200
 Subject: [PATCH] Settings / Data usage: Add menu option to switch off captive
@@ -54,7 +54,7 @@ diff --git a/src/com/android/settings/ResetNetworkConfirm.java b/src/com/android
 index f70d3c27ef..37dae5aa6c 100644
 --- a/src/com/android/settings/ResetNetworkConfirm.java
 +++ b/src/com/android/settings/ResetNetworkConfirm.java
-@@ -27,6 +27,7 @@
+@@ -27,6 +27,7 @@ import android.net.wifi.WifiManager;
  import android.os.Bundle;
  import android.os.UserHandle;
  import android.os.UserManager;
@@ -62,7 +62,7 @@ index f70d3c27ef..37dae5aa6c 100644
  import android.telephony.SubscriptionManager;
  import android.telephony.TelephonyManager;
  import android.view.LayoutInflater;
-@@ -108,6 +109,9 @@ public void onClick(View v) {
+@@ -108,6 +109,9 @@ public class ResetNetworkConfirm extends OptionsMenuFragment {
              ImsManager.factoryReset(context);
              restoreDefaultApn(context);
  
@@ -76,7 +76,7 @@ diff --git a/src/com/android/settings/datausage/DataUsageSummary.java b/src/com/
 index e37cc4a6c6..f5aba01b9c 100644
 --- a/src/com/android/settings/datausage/DataUsageSummary.java
 +++ b/src/com/android/settings/datausage/DataUsageSummary.java
-@@ -32,6 +32,7 @@
+@@ -32,6 +32,7 @@ import android.os.RemoteException;
  import android.os.SystemProperties;
  import android.os.UserManager;
  import android.provider.SearchIndexableResource;
@@ -84,7 +84,7 @@ index e37cc4a6c6..f5aba01b9c 100644
  import android.support.annotation.VisibleForTesting;
  import android.support.v7.preference.Preference;
  import android.support.v7.preference.PreferenceScreen;
-@@ -47,6 +48,8 @@
+@@ -47,6 +48,8 @@ import android.view.Menu;
  import android.view.MenuInflater;
  import android.view.MenuItem;
  import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
@@ -93,7 +93,7 @@ index e37cc4a6c6..f5aba01b9c 100644
  import com.android.settings.R;
  import com.android.settings.SummaryPreference;
  import com.android.settings.Utils;
-@@ -64,7 +67,8 @@
+@@ -64,7 +67,8 @@ import java.util.List;
   * This class in deprecated use {@link DataPlanUsageSummary}.
   */
  @Deprecated
@@ -103,7 +103,7 @@ index e37cc4a6c6..f5aba01b9c 100644
  
      static final boolean LOGD = false;
  
-@@ -94,6 +98,7 @@
+@@ -94,6 +98,7 @@ public class DataUsageSummary extends DataUsageBase implements Indexable, DataUs
      private NetworkRestrictionsPreference mNetworkRestrictionPreference;
      private WifiManager mWifiManager;
      private NetworkPolicyEditor mPolicyEditor;
@@ -111,7 +111,7 @@ index e37cc4a6c6..f5aba01b9c 100644
  
      @Override
      protected int getHelpResource() {
-@@ -105,6 +110,7 @@ public void onCreate(Bundle icicle) {
+@@ -105,6 +110,7 @@ public class DataUsageSummary extends DataUsageBase implements Indexable, DataUs
          super.onCreate(icicle);
  
          final Context context = getContext();
@@ -119,7 +119,7 @@ index e37cc4a6c6..f5aba01b9c 100644
          NetworkPolicyManager policyManager = NetworkPolicyManager.from(context);
          mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
          mPolicyEditor = new NetworkPolicyEditor(policyManager);
-@@ -162,6 +168,7 @@ public void onCreate(Bundle icicle) {
+@@ -162,6 +168,7 @@ public class DataUsageSummary extends DataUsageBase implements Indexable, DataUs
      public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
          if (UserManager.get(getContext()).isAdminUser()) {
              inflater.inflate(R.menu.data_usage, menu);
@@ -127,7 +127,7 @@ index e37cc4a6c6..f5aba01b9c 100644
          }
          super.onCreateOptionsMenu(menu, inflater);
      }
-@@ -176,6 +183,15 @@ public boolean onOptionsItemSelected(MenuItem item) {
+@@ -176,6 +183,15 @@ public class DataUsageSummary extends DataUsageBase implements Indexable, DataUs
                  startActivity(intent);
                  return true;
              }
@@ -143,7 +143,7 @@ index e37cc4a6c6..f5aba01b9c 100644
          }
          return false;
      }
-@@ -189,6 +205,21 @@ public boolean onPreferenceTreeClick(Preference preference) {
+@@ -189,6 +205,21 @@ public class DataUsageSummary extends DataUsageBase implements Indexable, DataUs
          return super.onPreferenceTreeClick(preference);
      }
  
@@ -274,3 +274,6 @@ index 0000000000..208042ad73
 +     */
 +    void onCaptivePortalSwitchOffDialogConfirmed();
 +}
+-- 
+2.31.1
+

@@ -1,4 +1,4 @@
-From ede5e38f5b11f362c393e35911d5440db27c402a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sat, 7 Sep 2019 19:27:52 -0400
 Subject: [PATCH] disable symbol ordering for now
@@ -8,10 +8,10 @@ Subject: [PATCH] disable symbol ordering for now
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index 7c3f57fba..5352f39cb 100644
+index e7ca82f92..6c753091b 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
-@@ -1645,7 +1645,7 @@ cc_library {
+@@ -1643,7 +1643,7 @@ cc_library {
          versions: ["10000"],
      },
  
@@ -20,3 +20,6 @@ index 7c3f57fba..5352f39cb 100644
  }
  
  genrule {
+-- 
+2.31.1
+

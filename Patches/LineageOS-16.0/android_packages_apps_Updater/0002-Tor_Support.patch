@@ -1,4 +1,4 @@
-From 315dba9fbc687da50f6217ff3db20bb14c11a1a4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Thu, 20 Sep 2018 21:44:53 -0400
 Subject: [PATCH] Add support for routing over Tor
@@ -36,10 +36,10 @@ index e30c117..f5f3170 100644
          android:id="@+id/preferences_auto_delete_updates"
          android:layout_width="match_parent"
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index b3ce44e..48d8a81 100644
+index 34f2fd3..e2a3e09 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -68,6 +68,7 @@
+@@ -70,6 +70,7 @@
      <string name="menu_auto_updates_check_interval_weekly">Once a week</string>
      <string name="menu_auto_updates_check_interval_monthly">Once a month</string>
      <string name="menu_auto_updates_check_interval_never">Never</string>
@@ -47,7 +47,7 @@ index b3ce44e..48d8a81 100644
      <string name="menu_auto_delete_updates">Delete updates when installed</string>
      <string name="menu_delete_update">Delete</string>
      <string name="menu_copy_url">Copy URL</string>
-@@ -83,6 +84,7 @@
+@@ -85,6 +86,7 @@
      <string name="snack_download_failed">The download failed. Please check your internet connection and try again later.</string>
      <string name="snack_download_verification_failed">The update verification failed.</string>
      <string name="snack_download_verified">Download completed.</string>
@@ -292,7 +292,7 @@ index 81e7c1a..46d8666 100644
      public static final String PREF_AB_PERF_MODE = "ab_perf_mode";
      public static final String PREF_MOBILE_DATA_WARNING = "pref_mobile_data_warning";
 diff --git a/src/org/lineageos/updater/misc/Utils.java b/src/org/lineageos/updater/misc/Utils.java
-index 65d6ec7..06838ef 100644
+index f7f62e4..95b9acc 100644
 --- a/src/org/lineageos/updater/misc/Utils.java
 +++ b/src/org/lineageos/updater/misc/Utils.java
 @@ -45,6 +45,7 @@ import java.io.BufferedReader;
@@ -303,7 +303,7 @@ index 65d6ec7..06838ef 100644
  import java.util.ArrayList;
  import java.util.Enumeration;
  import java.util.HashSet;
-@@ -146,12 +147,76 @@ public class Utils {
+@@ -150,12 +151,76 @@ public class Utils {
          return updates;
      }
  
@@ -381,5 +381,5 @@ index 65d6ec7..06838ef 100644
          return server + "?base=LineageOS&device=" + device + "&inc=" + incrementalVersion;
      }
 -- 
-2.20.1
+2.31.1
 

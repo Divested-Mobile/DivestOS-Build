@@ -1,4 +1,4 @@
-From d06526ec844bf89e77c518dbcd0deb331babf8dd Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sun, 18 Dec 2016 09:30:44 -0500
 Subject: [PATCH] Enable secure_delete by default
@@ -9,10 +9,10 @@ Change-Id: Ic2604b78f57998c001df9737ab0fdec2298122c4
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/dist/Android.mk b/dist/Android.mk
-index bf277d2..8113e32 100644
+index d7bba41..e886945 100644
 --- a/dist/Android.mk
 +++ b/dist/Android.mk
-@@ -27,7 +27,8 @@ minimal_sqlite_flags := \
+@@ -28,7 +28,8 @@ minimal_sqlite_flags := \
  	-DSQLITE_OMIT_BUILTIN_TEST \
  	-DSQLITE_OMIT_COMPILEOPTION_DIAGS \
  	-DSQLITE_OMIT_LOAD_EXTENSION \
@@ -23,5 +23,5 @@ index bf277d2..8113e32 100644
  device_sqlite_flags := $(minimal_sqlite_flags) \
      -DSQLITE_ENABLE_ICU \
 -- 
-2.9.3
+2.31.1
 

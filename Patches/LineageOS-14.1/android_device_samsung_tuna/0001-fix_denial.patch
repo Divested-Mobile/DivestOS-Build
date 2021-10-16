@@ -1,4 +1,4 @@
-From 3030156fc1e0e69e5fad36fb374a8eb19fed8875 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: nailyk-fr <nailyk_git@nailyk.fr>
 Date: Sat, 12 Aug 2017 18:46:10 +0200
 Subject: [PATCH] tuna: twrp: Add necessary policy for twrp decrypt
@@ -9,7 +9,7 @@ Change-Id: I7fab77518718961ca55f29c5263a43e69efc73ca
  1 file changed, 21 insertions(+)
 
 diff --git a/sepolicy/recovery.te b/sepolicy/recovery.te
-index dca66805..0d30c0d7 100644
+index dca6680..0d30c0d 100644
 --- a/sepolicy/recovery.te
 +++ b/sepolicy/recovery.te
 @@ -40,3 +40,24 @@ allow recovery { efs_file radio_efs_file bluetooth_efs_file }:file { getattr ope
@@ -37,3 +37,6 @@ index dca66805..0d30c0d7 100644
 +allow init tee_file:dir rw_dir_perms;
 +allow init tee_file:file create_file_perms;
 +allow init labeledfs:filesystem associate;
+-- 
+2.31.1
+
