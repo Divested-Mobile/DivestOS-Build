@@ -93,16 +93,9 @@ applyPatch "$DOS_PATCHES/android_frameworks_av/212799.patch"; #FLAC extractor CV
 fi;
 
 if enterAndClear "frameworks/base"; then
-hardenLocationFWB "$DOS_BUILD_BASE"; #Harden the default GPS config
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
-sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox internal logging service
-sed -i 's/(notif.needNotify)/(true)/' location/java/com/android/internal/location/GpsNetInitiatedHandler.java; #Notify the user if their location is requested via SUPL
-sed -i 's/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 72 \* 60 \* 60 \* 1000;/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 12 * 60 * 60 * 1000;/' core/java/android/app/admin/DevicePolicyManager.java; #Decrease the strong auth prompt timeout to occur more often
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480
-if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0003-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
-if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
-changeDefaultDNS; #Change the default DNS servers
 #applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Connectivity.patch"; #Change connectivity check URLs to ours
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
@@ -110,6 +103,13 @@ applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-Sensors-P1.patch"; #Permission for sensors access (MSe1969)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-Sensors-P2.patch";
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-Sensors-P3.patch";
+if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0003-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
+if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
+hardenLocationFWB "$DOS_BUILD_BASE"; #Harden the default GPS config
+changeDefaultDNS; #Change the default DNS servers
+sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox internal logging service
+sed -i 's/(notif.needNotify)/(true)/' location/java/com/android/internal/location/GpsNetInitiatedHandler.java; #Notify the user if their location is requested via SUPL
+sed -i 's/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 72 \* 60 \* 60 \* 1000;/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 12 * 60 * 60 * 1000;/' core/java/android/app/admin/DevicePolicyManager.java; #Decrease the strong auth prompt timeout to occur more often
 rm -rf packages/Osu; #Automatic Wi-Fi connection non-sense
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
 fi;
@@ -228,7 +228,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics
 fi;
 
 if enterAndClear "packages/apps/Updater"; then
-applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server
+applyPatch "$DOS_PATCHES/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server
 applyPatch "$DOS_PATCHES/android_packages_apps_Updater/0002-Tor_Support.patch"; #Add Tor support
 #TODO: Remove changelog
 fi;
@@ -261,10 +261,10 @@ applyPatch "$DOS_PATCHES/android_system_bt/0001-NO_READENCRKEYSIZE.patch"; #Add 
 fi;
 
 if enterAndClear "system/core"; then
-sed -i 's/!= 2048/< 2048/' libmincrypt/tools/DumpPublicKey.java; #Allow 4096-bit keys
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert --no-edit 0217dddeb5c16903c13ff6c75213619b79ea622b d7aa1231b6a0631f506c0c23816f2cd81645b15f; #Always update recovery XXX: This doesn't seem to work
 applyPatch "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysctl changes (GrapheneOS)
+sed -i 's/!= 2048/< 2048/' libmincrypt/tools/DumpPublicKey.java; #Allow 4096-bit keys
 fi;
 
 if enterAndClear "system/sepolicy"; then
