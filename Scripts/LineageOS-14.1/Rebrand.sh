@@ -17,7 +17,7 @@
 set -euo pipefail;
 
 #Updates select user facing strings
-#Last verified: 2018-04-27
+#Last verified: 2021-10-16
 
 echo "Rebranding...";
 

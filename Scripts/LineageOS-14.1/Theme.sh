@@ -17,7 +17,7 @@
 set -euo pipefail;
 
 #Replaces teal accents with orange/yellow ones
-#Last verified: 2018-04-27
+#Last verified: 2021-10-16
 
 echo "Applying theme...";
 

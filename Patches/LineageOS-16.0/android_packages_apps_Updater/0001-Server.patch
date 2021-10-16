@@ -1,4 +1,4 @@
-From 03e04247e9416a901fbb30b742d985ac6c801598 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Thu, 20 Sep 2018 16:43:46 -0400
 Subject: [PATCH] Switch to our update server
@@ -9,10 +9,10 @@ Change-Id: I26dc2942736cf0cfe4e7b92ddfdd04b9d74dbae5
  1 file changed, 2 insertions(+), 8 deletions(-)
 
 diff --git a/src/org/lineageos/updater/misc/Utils.java b/src/org/lineageos/updater/misc/Utils.java
-index 171c2cc..d97a492 100644
+index eed4d56..f7f62e4 100644
 --- a/src/org/lineageos/updater/misc/Utils.java
 +++ b/src/org/lineageos/updater/misc/Utils.java
-@@ -149,16 +149,10 @@ public class Utils {
+@@ -154,16 +154,10 @@ public class Utils {
          String incrementalVersion = SystemProperties.get(Constants.PROP_BUILD_VERSION_INCREMENTAL);
          String device = SystemProperties.get(Constants.PROP_NEXT_DEVICE,
                  SystemProperties.get(Constants.PROP_DEVICE));
@@ -30,7 +30,7 @@ index 171c2cc..d97a492 100644
 +        return server + "?base=LineageOS&device=" + device + "&inc=" + incrementalVersion;
      }
  
-     public static String getChangelogURL(Context context) {
+     public static String getUpgradeBlockedURL(Context context) {
 -- 
-2.19.0
+2.31.1
 

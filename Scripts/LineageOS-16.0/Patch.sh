@@ -16,7 +16,7 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 set -euo pipefail;
 
-#Last verified: 2019-03-04
+#Last verified: 2021-10-16
 
 #Initialize aliases
 #source ../../Scripts/init.sh
@@ -316,7 +316,7 @@ sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" ker
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/yellowstone/arch/arm*/configs/*_defconfig; #Breaks on compile
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l*; #Fix builds with GCC 10
-rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk;
+rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk || true;
 #
 #END OF DEVICE CHANGES
 #

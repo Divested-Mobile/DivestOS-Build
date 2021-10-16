@@ -107,8 +107,7 @@ umask 0022;
 
 gpgVerifyGitHead() {
 	if [ -r "$HOME/.gnupg" ]; then
-		git -C $1 verify-commit HEAD;
-		if [ "$?" -eq "0" ]; then
+		if git -C $1 verify-commit HEAD; then
 			echo -e "\e[0;32mGPG Verified Git HEAD Successfully: $1\e[0m";
 		else
 			echo -e "\e[0;31mWARNING: GPG Verification of Git HEAD Failed: $1\e[0m";

@@ -17,7 +17,7 @@
 set -euo pipefail;
 
 #Attempts to increase performance and battery life
-#Last verified: 2018-04-27
+#Last verified: 2021-10-16
 
 echo "Optimizing...";
 

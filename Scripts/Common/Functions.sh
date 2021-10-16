@@ -57,8 +57,7 @@ applyPatchReal() {
 	currentWorkingPatch=$1;
 	firstLine=$(head -n1 "$currentWorkingPatch");
 	if [[ "$firstLine" = *"Mon Sep 17 00:00:00 2001"* ]] || [[ "$firstLine" = *"Thu Jan  1 00:00:00 1970"* ]]; then
-		git am "$@";
-		if [ "$?" -eq 0 ]; then
+		if git am "$@"; then
 			if [ "$DOS_REFRESH_PATCHES" = true ]; then
 				if [[ "$currentWorkingPatch" == $DOS_PATCHES* ]]; then
 					git format-patch -1 HEAD --zero-commit --output="$currentWorkingPatch";
@@ -75,16 +74,13 @@ export -f applyPatchReal;
 applyPatch() {
 	currentWorkingPatch=$1;
 	if [ -f "$currentWorkingPatch" ]; then
-		git apply --check "$@" &> /dev/null;
-		if [ "$?" -eq 0 ]; then
+		if git apply --check "$@" &> /dev/null; then
 			applyPatchReal "$@";
 		else
-			git apply --reverse --check "$@" &> /dev/null;
-			if [ "$?" -eq 0 ]; then
+			if git apply --reverse --check "$@" &> /dev/null; then
 				echo "Already applied: $currentWorkingPatch";
 			else
-				git apply --check "$@" --3way &> /dev/null;
-				if [ "$?" -eq 0 ]; then
+				if git apply --check "$@" --3way &> /dev/null; then
 					applyPatchReal "$@" --3way;
 					echo "Applied (as 3way): $currentWorkingPatch";
 				else
@@ -101,8 +97,7 @@ export -f applyPatch;
 gpgVerifyDirectory() {
 	if [ -r "$HOME/.gnupg" ]; then
 		for sig in $1/*.asc; do
-			gpg --verify $sig &>/dev/null;
-			if [ "$?" -eq "0" ]; then
+			if gpg --verify $sig &>/dev/null; then
 				echo -e "\e[0;32mGPG Verified Successfully: $sig\e[0m";
 			else
 				echo -e "\e[0;31mWARNING: GPG Verification Failed: $sig\e[0m";
@@ -300,8 +295,7 @@ processRelease() {
 	if [ "$DOS_GPG_SIGNING" = true ]; then
 		for checksum in $OUT_DIR/*.sha512sum; do
 			echo -e "\e[0;32mGPG signing $checksum\e[0m";
-			gpg --homedir "$DOS_SIGNING_GPG" --sign --local-user "$DOS_GPG_SIGNING_KEY" --clearsign "$checksum";
-			if [ "$?" -eq "0" ]; then
+			if gpg --homedir "$DOS_SIGNING_GPG" --sign --local-user "$DOS_GPG_SIGNING_KEY" --clearsign "$checksum"; then
 				mv -f "$checksum.asc" "$checksum";
 			fi;
 		done;

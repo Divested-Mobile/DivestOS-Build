@@ -15,7 +15,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#Last verified: 2018-04-27
+#Last verified: 2021-10-16
 
 patchAllKernels() {
 	startPatcher "kernel_asus_fugu kernel_asus_msm8953 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_google_yellowstone kernel_lge_hammerhead";

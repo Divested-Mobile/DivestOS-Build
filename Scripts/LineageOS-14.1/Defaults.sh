@@ -17,7 +17,7 @@
 set -euo pipefail;
 
 #Changes various default settings
-#Last verified: 2018-04-27
+#Last verified: 2021-10-16
 
 #Useful commands
 #nano $(find . -name "config.xml" | grep "values/" | grep -v "device" | grep -v "tests")

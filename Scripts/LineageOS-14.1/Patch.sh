@@ -16,7 +16,7 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 set -euo pipefail;
 
-#Last verified: 2018-04-27
+#Last verified: 2021-10-16
 
 #Initialize aliases
 #source ../../Scripts/init.sh
@@ -428,6 +428,7 @@ awk -i inplace '!/TARGET_RECOVERY_UPDATER_LIBS/' device/samsung/toro*/BoardConfi
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' device/samsung/toro*/BoardConfig.mk;
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l*; #Fix builds with GCC 10
+rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk || true;
 #
 #END OF DEVICE CHANGES
 #

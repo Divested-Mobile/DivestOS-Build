@@ -1,4 +1,4 @@
-From d0663b7dc73564744e89d5dd93675ff8929cc532 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MSe1969 <mse1969@posteo.de>
 Date: Fri, 15 Mar 2019 22:05:36 +0100
 Subject: [PATCH] AppOps/PrivacyGuard: New Sensor checks [base]
@@ -22,10 +22,10 @@ Change-Id: Id12b91720f1e02ea5ca606ecefb30121d19b92bb
  6 files changed, 61 insertions(+), 3 deletions(-)
 
 diff --git a/core/java/android/app/AppOpsManager.java b/core/java/android/app/AppOpsManager.java
-index a112cafb3b5e..c7338214a265 100644
+index 5b763e50c38f..bd9f9224f325 100644
 --- a/core/java/android/app/AppOpsManager.java
 +++ b/core/java/android/app/AppOpsManager.java
-@@ -371,8 +371,12 @@
+@@ -371,8 +371,12 @@ public class AppOpsManager {
      public static final int OP_DATA_CONNECT_CHANGE = 81;
      /** @hide SU access */
      public static final int OP_SU = 82;
@@ -39,7 +39,7 @@ index a112cafb3b5e..c7338214a265 100644
  
      /** Access to coarse location information. */
      public static final String OPSTR_COARSE_LOCATION = "android:coarse_location";
-@@ -628,6 +632,11 @@
+@@ -628,6 +632,11 @@ public class AppOpsManager {
      /** @hide */
      public static final String OPSTR_SU = "android:su";
  
@@ -51,7 +51,7 @@ index a112cafb3b5e..c7338214a265 100644
      // Warning: If an permission is added here it also has to be added to
      // com.android.packageinstaller.permission.utils.EventLogger
      private static final int[] RUNTIME_AND_APPOP_PERMISSIONS_OPS = {
-@@ -676,7 +685,9 @@
+@@ -676,7 +685,9 @@ public class AppOpsManager {
              OP_WRITE_SETTINGS,
              OP_REQUEST_INSTALL_PACKAGES,
              OP_START_FOREGROUND,
@@ -62,7 +62,7 @@ index a112cafb3b5e..c7338214a265 100644
      };
  
      /**
-@@ -771,6 +782,8 @@
+@@ -771,6 +782,8 @@ public class AppOpsManager {
              OP_NFC_CHANGE,                      // NFC_CHANGE
              OP_DATA_CONNECT_CHANGE,             // DATA_CONNECT_CHANGE
              OP_SU,                              // SU
@@ -71,7 +71,7 @@ index a112cafb3b5e..c7338214a265 100644
      };
  
      /**
-@@ -860,6 +873,8 @@
+@@ -860,6 +873,8 @@ public class AppOpsManager {
              OPSTR_NFC_CHANGE,
              OPSTR_DATA_CONNECT_CHANGE,
              OPSTR_SU,
@@ -80,7 +80,7 @@ index a112cafb3b5e..c7338214a265 100644
      };
  
      /**
-@@ -950,6 +965,8 @@
+@@ -950,6 +965,8 @@ public class AppOpsManager {
              "NFC_CHANGE",
              "DATA_CONNECT_CHANGE",
              "SU",
@@ -89,7 +89,7 @@ index a112cafb3b5e..c7338214a265 100644
      };
  
      /**
-@@ -1040,6 +1057,8 @@
+@@ -1040,6 +1057,8 @@ public class AppOpsManager {
              Manifest.permission.NFC,
              null,
              null, // no permission for OP_SU
@@ -98,7 +98,7 @@ index a112cafb3b5e..c7338214a265 100644
      };
  
      /**
-@@ -1131,6 +1150,8 @@
+@@ -1131,6 +1150,8 @@ public class AppOpsManager {
              null, // NFC_CHANGE
              null, // DATA_CONNECT_CHANGE
              UserManager.DISALLOW_SU, // SU TODO: this should really be investigated.
@@ -107,7 +107,7 @@ index a112cafb3b5e..c7338214a265 100644
      };
  
      /**
-@@ -1221,6 +1242,8 @@
+@@ -1221,6 +1242,8 @@ public class AppOpsManager {
              true, // NFC_CHANGE
              true, // DATA_CONNECT_CHANGE
              false, // SU
@@ -116,7 +116,7 @@ index a112cafb3b5e..c7338214a265 100644
      };
  
      /**
-@@ -1310,6 +1333,8 @@
+@@ -1310,6 +1333,8 @@ public class AppOpsManager {
              AppOpsManager.MODE_ALLOWED,  // OP_NFC_CHANGE
              AppOpsManager.MODE_ALLOWED,  // OP_DATA_CONNECT_CHANGE
              AppOpsManager.MODE_ASK,      // OP_SU
@@ -125,7 +125,7 @@ index a112cafb3b5e..c7338214a265 100644
      };
  
      /**
-@@ -1400,6 +1425,8 @@
+@@ -1400,6 +1425,8 @@ public class AppOpsManager {
              AppOpsManager.MODE_ASK,     // OP_NFC_CHANGE
              AppOpsManager.MODE_ASK,     // OP_DATA_CONNECT_CHANGE
              AppOpsManager.MODE_ASK,     // OP_SU
@@ -134,7 +134,7 @@ index a112cafb3b5e..c7338214a265 100644
      };
  
      /**
-@@ -1489,6 +1516,8 @@
+@@ -1489,6 +1516,8 @@ public class AppOpsManager {
              true,  // NFC_CHANGE
              true,  // DATA_CONNECT_CHANGE
              true,  // SU
@@ -143,7 +143,7 @@ index a112cafb3b5e..c7338214a265 100644
      };
  
      /**
-@@ -1582,6 +1611,8 @@
+@@ -1582,6 +1611,8 @@ public class AppOpsManager {
              false, // OP_NFC_CHANGE
              false, // OP_DATA_CONNECT_CHANGE
              false, // OP_SU
@@ -153,10 +153,10 @@ index a112cafb3b5e..c7338214a265 100644
  
      /**
 diff --git a/core/res/res/values-de/cm_strings.xml b/core/res/res/values-de/cm_strings.xml
-index a8fd5700e374..837dccd09425 100644
+index 8248b4d50731..e0f1b79882f7 100644
 --- a/core/res/res/values-de/cm_strings.xml
 +++ b/core/res/res/values-de/cm_strings.xml
-@@ -52,7 +52,9 @@
+@@ -51,7 +51,9 @@
      <string name="app_ops_modify_clipboard">die Zwischenablage zu ändern</string>
      <string name="app_ops_modify_contacts">Kontakte zu ändern</string>
      <string name="app_ops_modify_settings">Einstellungen zu ändern</string>
@@ -167,10 +167,10 @@ index a8fd5700e374..837dccd09425 100644
      <string name="app_ops_picture_in_picture">Bild im Bild zu verwenden</string>
      <string name="app_ops_play_audio">Audio wiederzugeben</string>
 diff --git a/core/res/res/values-fr/cm_strings.xml b/core/res/res/values-fr/cm_strings.xml
-index fb1835759a7f..fc294608074f 100644
+index 38cfd54ec910..027f79c607c2 100644
 --- a/core/res/res/values-fr/cm_strings.xml
 +++ b/core/res/res/values-fr/cm_strings.xml
-@@ -48,7 +48,9 @@
+@@ -51,7 +51,9 @@
      <string name="app_ops_modify_clipboard">modifier le presse-papiers</string>
      <string name="app_ops_modify_contacts">mettre à jour vos contacts</string>
      <string name="app_ops_modify_settings">mettre à jour les paramètres du système</string>
@@ -210,10 +210,10 @@ index 58567d1c8bd1..11a7d99b8d48 100644
  
  </resources>
 diff --git a/services/core/java/com/android/server/AppOpsService.java b/services/core/java/com/android/server/AppOpsService.java
-index cdee2ba49c10..9c7f0700236e 100644
+index 95ba50246db0..a6cf19f9be8a 100644
 --- a/services/core/java/com/android/server/AppOpsService.java
 +++ b/services/core/java/com/android/server/AppOpsService.java
-@@ -1775,6 +1775,15 @@ private int noteOperationUnchecked(int code, int uid, String packageName,
+@@ -1822,6 +1822,15 @@ public class AppOpsService extends IAppOpsService.Stub {
                      op.rejectTime[uidState.state] = System.currentTimeMillis();
                      op.ignoredCount++;
                      return mode;
@@ -229,7 +229,7 @@ index cdee2ba49c10..9c7f0700236e 100644
                  } else if (mode == AppOpsManager.MODE_ASK) {
                      if (Looper.myLooper() == mLooper || Thread.holdsLock(mActivityManagerService)) {
                          Slog.e(TAG, "noteOperation: this method will deadlock if called" +
-@@ -1953,7 +1962,15 @@ public int startOperation(IBinder token, int code, int uid, String packageName,
+@@ -2000,7 +2009,15 @@ public class AppOpsService extends IAppOpsService.Stub {
                  op.rejectTime[uidState.state] = System.currentTimeMillis();
                  op.ignoredCount++;
                  return mode;
@@ -246,3 +246,6 @@ index cdee2ba49c10..9c7f0700236e 100644
                  if (DEBUG) Slog.d(TAG, "startOperation: allowing code " + code + " uid " + uid
                          + " package " + resolvedPackageName);
                  if (op.startNesting == 0) {
+-- 
+2.31.1
+
