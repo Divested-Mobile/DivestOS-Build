@@ -22,7 +22,7 @@ echo "Rebranding...";
 
 if enter "bootable/recovery"; then
 git revert --no-edit c9ab109b6b6c502238ec88badc1fbed2644480f2 cb5b7cc0b04c445dbc189e28575bba50638433b5;
-patch -p1 < "$DOS_PATCHES_COMMON/android_bootable_recovery/0001-Remove_Logo.patch"; #Remove logo rendering code
+applyPatch "$DOS_PATCHES_COMMON/android_bootable_recovery/0001-Remove_Logo.patch"; #Remove logo rendering code
 rm res*/images/logo_image.png; #Remove logo images
 mogrify -format png -fill "#FF5722" -opaque "#167C80" -fuzz 10% res-*/images/*sel.png; #Recolor icons
 sed -i 's|grid_h \* 2 / 3|grid_h * 0.25|' screen_ui.cpp; #Center icons
