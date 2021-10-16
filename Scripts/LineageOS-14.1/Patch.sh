@@ -14,7 +14,9 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
+umask 0022;
 set -euo pipefail;
+source "$DOS_SCRIPTS_COMMON/Shell.sh";
 
 #Last verified: 2021-10-16
 
@@ -38,6 +40,7 @@ set -euo pipefail;
 #START OF PREPRATION
 #
 #Download some (non-executable) out-of-tree files for use later on
+alias patch='patch --no-backup-if-mismatch';
 cd "$DOS_TMP_DIR";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then $DOS_TOR_WRAPPER wget "$DOS_HOSTS_BLOCKING_LIST" -N -O "$DOS_HOSTS_FILE"; fi;
 cd "$DOS_BUILD_BASE";

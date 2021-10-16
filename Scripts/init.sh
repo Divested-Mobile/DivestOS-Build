@@ -165,7 +165,6 @@ export GRADLE_OPTS="-Xmx2048m";
 export TZ=:/etc/localtime;
 export LC_ALL=C;
 export LANG=en_US.UTF-8;
-alias patch='patch --no-backup-if-mismatch';
 
 #START OF VERIFICATION
 #gpgVerifyGitHead $DOS_WORKSPACE_ROOT;
@@ -174,12 +173,6 @@ alias patch='patch --no-backup-if-mismatch';
 #gpgVerifyGitHead $DOS_WALLPAPERS;
 #END OF VERIFICATION
 
+source "$DOS_SCRIPTS_COMMON/Shell.sh";
 source "$DOS_SCRIPTS_COMMON/Functions.sh";
 source "$DOS_SCRIPTS/Functions.sh";
-
-unalias cp &>/dev/null || true;
-unalias mv &>/dev/null || true;
-unalias rm &>/dev/null || true;
-unalias ln &>/dev/null || true;
-
-alias cp='cp --reflink=auto'
