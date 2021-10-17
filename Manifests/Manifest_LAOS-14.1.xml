@@ -84,6 +84,9 @@
 	<project path="device/amazon/thor" name="LineageOS/android_device_amazon_thor" remote="github" />
 	<project path="kernel/amazon/hdx-common" name="LineageOS/android_kernel_amazon_hdx-common" remote="github" />
 
+	<!-- Amazon Kindle Fire HDX 8.9 3rd Gen (apollo) -->
+	<project path="device/amazon/apollo" name="LineageOS/android_device_amazon_apollo" remote="github" />
+
 	<!-- HTC One (m7) -->
 	<project path="device/htc/m7" name="LineageOS/android_device_htc_m7" remote="github" />
 	<project path="device/htc/m7-common" name="LineageOS/android_device_htc_m7-common" remote="github" />
