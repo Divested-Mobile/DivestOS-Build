@@ -16,7 +16,6 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 umask 0022;
 set -euo pipefail;
-source "$DOS_SCRIPTS_COMMON/Shell.sh";
 
 commentPatches() {
 	file="$1";

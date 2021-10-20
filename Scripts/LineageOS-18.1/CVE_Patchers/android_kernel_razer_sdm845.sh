@@ -1,5 +1,6 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/razer/sdm845"
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0286-0287.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0024.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0025.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0026.patch
@@ -74,6 +75,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3655/4.9/0014.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3655/4.9/0015.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20320/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20320/4.9/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20322/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-40490/3.9-^5.14/0001.patch
-editKernelLocalversion "-dos.p75"
+editKernelLocalversion "-dos.p77"
 cd "$DOS_BUILD_BASE"

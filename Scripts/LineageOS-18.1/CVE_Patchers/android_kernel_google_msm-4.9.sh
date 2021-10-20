@@ -1,6 +1,7 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/google/msm-4.9"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0252-0253.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0286-0287.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0024.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0025.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0026.patch
@@ -137,6 +138,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3732/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3753/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20320/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20320/4.9/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20322/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-21781/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-23133/4.9/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-23134/4.9/0005.patch
@@ -176,5 +178,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-38208/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-38209/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-40490/3.9-^5.14/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.9/0009.patch
-editKernelLocalversion "-dos.p176"
+editKernelLocalversion "-dos.p178"
 cd "$DOS_BUILD_BASE"

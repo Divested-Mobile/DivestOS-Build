@@ -411,5 +411,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-5853/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0610/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/3.18/0003.patch
-editKernelLocalversion "-dos.p411"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
+editKernelLocalversion "-dos.p412"
 cd "$DOS_BUILD_BASE"

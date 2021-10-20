@@ -2,6 +2,7 @@
 cd "$DOS_BUILD_BASE""kernel/google/wahoo"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0285-0286.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0286-0287.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0288-0289.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0003.patch
@@ -76,6 +77,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1963/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3655/^5.13/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20320/^5.15/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20322/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-40490/3.9-^5.14/0001.patch
-editKernelLocalversion "-dos.p77"
+editKernelLocalversion "-dos.p79"
 cd "$DOS_BUILD_BASE"

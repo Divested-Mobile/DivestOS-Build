@@ -400,5 +400,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0610/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26145/qcacld-2.0/0008.patch --directory=drivers/staging/qcacld-2.0
-editKernelLocalversion "-dos.p400"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
+editKernelLocalversion "-dos.p401"
 cd "$DOS_BUILD_BASE"

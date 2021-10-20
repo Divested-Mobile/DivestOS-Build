@@ -644,5 +644,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-4002/3.18/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-9178/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/3.18/0003.patch
-editKernelLocalversion "-dos.p644"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
+editKernelLocalversion "-dos.p645"
 cd "$DOS_BUILD_BASE"
