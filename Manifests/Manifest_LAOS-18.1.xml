@@ -272,4 +272,9 @@
 	<project path="device/xiaomi/vayu" name="LineageOS/android_device_xiaomi_vayu" remote="github" />
 	<!-- uses xiaomi sm8150 commons -->
 
+	<!-- Zuk Z2 Plus (z2_plus) -->
+	<project path="device/zuk/z2_plus" name="LineageOS/android_device_zuk_z2_plus" remote="github" />
+	<project path="device/zuk/msm8996-common" name="LineageOS/android_device_zuk_msm8996-common" remote="github" />
+	<project path="kernel/zuk/msm8996" name="LineageOS/android_kernel_zuk_msm8996" remote="github" />
+
 </manifest>

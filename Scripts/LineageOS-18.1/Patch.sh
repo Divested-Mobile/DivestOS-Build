@@ -433,6 +433,10 @@ if enterAndClear "device/xiaomi/sm8250-common"; then
 enableVerity; #Resurrect dm-verity
 fi;
 
+if enterAndClear "device/zuk/msm8996-common"; then
+awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
+fi;
+
 if enterAndClear "kernel/google/wahoo"; then
 sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
 fi;
