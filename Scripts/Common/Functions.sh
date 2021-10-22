@@ -571,81 +571,97 @@ changeDefaultDNS() {
 	local dnsSecondaryV6="";
 	if [ ! -z "$DOS_DEFAULT_DNS_PRESET" ]; then
 		if [[ "$DOS_DEFAULT_DNS_PRESET" == "AdGuard" ]]; then #https://adguard.com/en/adguard-dns/overview.html
+			dnsHex="0xb0678282L";
 			dnsPrimary="176.103.130.130";
 			dnsPrimaryV6="2a00:5a60::ad1:0ff";
 			dnsSecondary="176.103.130.131";
 			dnsSecondaryV6="2a00:5a60::ad2:0ff";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "AdGuard-NOBL" ]]; then #https://adguard.com/en/adguard-dns/overview.html
+			dnsHex="0xb0678288L";
 			dnsPrimary="176.103.130.136";
 			dnsPrimaryV6="2a00:5a60::01:ff";
 			dnsSecondary="176.103.130.137";
 			dnsSecondaryV6="2a00:5a60::02:ff";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "CensurfriDNS" ]]; then #https://uncensoreddns.org
+			dnsHex="0x5bef6464L";
 			dnsPrimary="91.239.100.100";
 			dnsPrimaryV6="2001:67c:28a4::";
 			dnsSecondary="89.233.43.71";
 			dnsSecondaryV6="2a01:3a0:53:53::";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Cloudflare" ]]; then #https://developers.cloudflare.com/1.1.1.1/commitment-to-privacy/privacy-policy/privacy-policy
+			dnsHex="0x01000001L";
 			dnsPrimary="1.0.0.1";
 			dnsPrimaryV6="2606:4700:4700::1001";
 			dnsSecondary="1.1.1.1";
 			dnsSecondaryV6="2606:4700:4700::1111";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Cloudflare-BL" ]]; then #https://developers.cloudflare.com/1.1.1.1/commitment-to-privacy/privacy-policy/privacy-policy
+			dnsHex="0x01000002L";
 			dnsPrimary="1.0.0.2";
 			dnsPrimaryV6="2606:4700:4700::1002";
 			dnsSecondary="1.1.1.2";
 			dnsSecondaryV6="2606:4700:4700::1112";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "DNSWATCH" ]]; then #https://dns.watch
+			dnsHex="0x54c84550L";
 			dnsPrimary="84.200.69.80";
 			dnsPrimaryV6="2001:1608:10:25::1c04:b12f";
 			dnsSecondary="84.200.70.40";
 			dnsSecondaryV6="2001:1608:10:25::9249:d69b";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Google" ]]; then #https://developers.google.com/speed/public-dns/privacy
+			dnsHex="0x08080808L";
 			dnsPrimary="8.8.8.8";
 			dnsPrimaryV6="2001:4860:4860::8888";
 			dnsSecondary="8.8.4.4";
 			dnsSecondaryV6="2001:4860:4860::8844";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Neustar" ]]; then #https://www.security.neustar/digital-performance/dns-services/recursive-dns
+			dnsHex="0x9c9a4602L";
 			dnsPrimary="156.154.70.2";
 			dnsPrimaryV6="2610:a1:1018::2";
 			dnsSecondary="156.154.71.2";
 			dnsSecondaryV6="2610:a1:1019::2";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Neustar-NOBL" ]]; then #https://www.security.neustar/digital-performance/dns-services/recursive-dns
+			dnsHex="0x9c9a4605L";
 			dnsPrimary="156.154.70.5";
 			dnsPrimaryV6="2610:a1:1018::5";
 			dnsSecondary="156.154.71.5";
 			dnsSecondaryV6="2610:a1:1019::5";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "OpenDNS" ]]; then #https://www.cisco.com/c/en/us/about/legal/privacy-full.html
+			dnsHex="0xd043dedeL";
 			dnsPrimary="208.67.222.222";
 			dnsPrimaryV6="2620:0:ccc::2";
 			dnsSecondary="208.67.220.220";
 			dnsSecondaryV6="2620:0:ccd::2";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Quad9" ]]; then #https://www.quad9.net/privacy
+			dnsHex="0x09090909L";
 			dnsPrimary="9.9.9.9";
 			dnsPrimaryV6="2620:fe::fe";
 			dnsSecondary="149.112.112.112";
 			dnsSecondaryV6="2620:fe::9";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Quad9-EDNS" ]]; then #https://www.quad9.net/privacy
+			dnsHex="0x0909090bL";
 			dnsPrimary="9.9.9.11";
 			dnsPrimaryV6="2620:fe::11";
 			dnsSecondary="149.112.112.11";
 			dnsSecondaryV6="2620:fe::fe:11";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Quad9-NOBL" ]]; then #https://www.quad9.net/privacy
+			dnsHex="0x0909090aL";
 			dnsPrimary="9.9.9.10";
 			dnsPrimaryV6="2620:fe::10";
 			dnsSecondary="149.112.112.10";
 			dnsSecondaryV6="2620:fe::fe:10";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Verisign" ]]; then #https://www.verisign.com/en_US/security-services/public-dns/terms-of-service/index.xhtml
+			dnsHex="0x40064006L";
 			dnsPrimary="64.6.64.6";
 			dnsPrimaryV6="2620:74:1b::1:1";
 			dnsSecondary="64.6.65.6";
 			dnsSecondaryV6="2620:74:1c::2:2";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Yandex" ]]; then #https://dns.yandex.com/advanced
+			dnsHex="0x4d580858L";
 			dnsPrimary="77.88.8.88";
 			dnsPrimaryV6="2a02:6b8::feed:bad";
 			dnsSecondary="77.88.8.2";
 			dnsSecondaryV6="2a02:6b8:0:1::feed:bad";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Yandex-NOBL" ]]; then #https://dns.yandex.com/advanced
+			dnsHex="0x4d580808L";
 			dnsPrimary="77.88.8.8";
 			dnsPrimaryV6="2a02:6b8::feed:0ff";
 			dnsSecondary="77.88.8.1";
@@ -655,13 +671,13 @@ changeDefaultDNS() {
 		echo "You must first set a preset via the DOS_DEFAULT_DNS_PRESET variable in init.sh!";
 	fi;
 
-	#TODO: bionic/libc/dns/net/getaddrinfo.c
-	local files="core/res/res/values/config.xml packages/SettingsLib/res/values/strings.xml services/core/java/com/android/server/connectivity/NetworkDiagnostics.java services/core/java/com/android/server/connectivity/Tethering.java services/core/java/com/android/server/connectivity/tethering/TetheringConfiguration.java services/java/com/android/server/connectivity/Tethering.java packages/Tethering/src/com/android/networkstack/tethering/TetheringConfiguration.java core/java/android/net/util/DnsUtils.java";
+	local files="$DOS_BUILD_BASE/bionic/libc/dns/net/getaddrinfo.c $DOS_BUILD_BASE/packages/apps/Dialer/java/com/android/voicemail/impl/sync/VvmNetworkRequestCallback.java $DOS_BUILD_BASE/packages/modules/Connectivity/framework/src/android/net/util/DnsUtils.java $DOS_BUILD_BASE/packages/modules/DnsResolver/getaddrinfo.cpp core/java/android/net/util/DnsUtils.java core/res/res/values/config.xml packages/SettingsLib/res/values/strings.xml packages/Tethering/src/com/android/networkstack/tethering/TetheringConfiguration.java services/core/java/com/android/server/connectivity/NetworkDiagnostics.java services/core/java/com/android/server/connectivity/Tethering.java services/core/java/com/android/server/connectivity/tethering/TetheringConfiguration.java services/java/com/android/server/connectivity/Tethering.java";
 	sed -i "s/8\.8\.8\.8/$dnsPrimary/" $files &>/dev/null || true;
 	sed -i "s/2001:4860:4860::8888/$dnsPrimaryV6/" $files &>/dev/null || true;
 	sed -i "s/8\.8\.4\.4/$dnsSecondary/" $files &>/dev/null || true;
 	sed -i "s/4\.4\.4\.4/$dnsSecondary/" $files &>/dev/null || true;
 	sed -i "s/2001:4860:4860::8844/$dnsSecondaryV6/" $files &>/dev/null || true;
+	sed -i "s/0x08080808L/$dnsHex/" $files &>/dev/null || true;
 }
 export -f changeDefaultDNS;
 
