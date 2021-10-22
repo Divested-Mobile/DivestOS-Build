@@ -595,11 +595,6 @@ changeDefaultDNS() {
 			dnsPrimaryV6="2606:4700:4700::1002";
 			dnsSecondary="1.1.1.2";
 			dnsSecondaryV6="2606:4700:4700::1112";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "OpenNIC" ]]; then #https://servers.opennicproject.org/edit.php?srv=ns3.any.dns.opennic.glue
-			dnsPrimary="169.239.202.202"; #FIXME
-			dnsPrimaryV6="2a05:dfc7:5353::53";
-			dnsSecondary="185.121.177.177";
-			dnsSecondaryV6="2a05:dfc7:5::53";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "DNSWATCH" ]]; then #https://dns.watch
 			dnsPrimary="84.200.69.80";
 			dnsPrimaryV6="2001:1608:10:25::1c04:b12f";
@@ -620,11 +615,6 @@ changeDefaultDNS() {
 			dnsPrimaryV6="2610:a1:1018::5";
 			dnsSecondary="156.154.71.5";
 			dnsSecondaryV6="2610:a1:1019::5";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "NixNet" ]]; then #https://docs.nixnet.services/DNS
-			dnsPrimary="198.251.90.114";
-			dnsPrimaryV6="2605:6400:20:e6d::1";
-			dnsSecondary="198.251.90.114";
-			dnsSecondaryV6="2605:6400:30:f881::1";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "OpenDNS" ]]; then #https://www.cisco.com/c/en/us/about/legal/privacy-full.html
 			dnsPrimary="208.67.222.222";
 			dnsPrimaryV6="2620:0:ccc::2";
@@ -665,6 +655,7 @@ changeDefaultDNS() {
 		echo "You must first set a preset via the DOS_DEFAULT_DNS_PRESET variable in init.sh!";
 	fi;
 
+	#TODO: bionic/libc/dns/net/getaddrinfo.c
 	local files="core/res/res/values/config.xml packages/SettingsLib/res/values/strings.xml services/core/java/com/android/server/connectivity/NetworkDiagnostics.java services/core/java/com/android/server/connectivity/Tethering.java services/core/java/com/android/server/connectivity/tethering/TetheringConfiguration.java services/java/com/android/server/connectivity/Tethering.java packages/Tethering/src/com/android/networkstack/tethering/TetheringConfiguration.java core/java/android/net/util/DnsUtils.java";
 	sed -i "s/8\.8\.8\.8/$dnsPrimary/" $files &>/dev/null || true;
 	sed -i "s/2001:4860:4860::8888/$dnsPrimaryV6/" $files &>/dev/null || true;

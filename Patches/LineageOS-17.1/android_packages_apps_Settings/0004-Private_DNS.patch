@@ -1,0 +1,149 @@
+From 803814d0fe7363a63ec5b9ad6776e37f5cb14f30 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 21 Oct 2021 21:09:38 -0400
+Subject: [PATCH] Add more 'Private DNS' options
+
+This adds: Quad9, Cloudflare, and AdGuard
+
+Credit: CalyxOS
+- Chirayu Desai <chirayudesai1@gmail.com>
+  https://review.calyxos.org/c/CalyxOS/platform_packages_apps_Settings/+/458
+- Pavel Shirshov <pshirshov@eml.cc>
+  https://review.calyxos.org/c/CalyxOS/platform_packages_apps_Settings/+/5357
+
+Signed-off-by: Tad <tad@spotco.us>
+Change-Id: I423ad5a3c360a687a226e61df3f75b5550f851c0
+---
+ res/layout/private_dns_mode_dialog.xml        | 24 +++++++++++++++++++
+ res/values/cm_strings.xml                     |  5 ++++
+ .../PrivateDnsModeDialogPreference.java       | 15 ++++++++++++
+ .../PrivateDnsPreferenceController.java       | 15 ++++++++++++
+ 4 files changed, 59 insertions(+)
+
+diff --git a/res/layout/private_dns_mode_dialog.xml b/res/layout/private_dns_mode_dialog.xml
+index 641905dc01..4f13464a27 100644
+--- a/res/layout/private_dns_mode_dialog.xml
++++ b/res/layout/private_dns_mode_dialog.xml
+@@ -38,6 +38,30 @@
+                 android:layout_marginStart="8dp"
+                 android:minHeight="48dp"/>
+ 
++            <RadioButton
++                android:id="@+id/private_dns_mode_quadnine"
++                android:text="@string/private_dns_mode_quadnine"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:layout_marginStart="8dp"
++                android:minHeight="48dp"/>
++
++            <RadioButton
++                android:id="@+id/private_dns_mode_cloudflare"
++                android:text="@string/private_dns_mode_cloudflare"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:layout_marginStart="8dp"
++                android:minHeight="48dp"/>
++
++            <RadioButton
++                android:id="@+id/private_dns_mode_adguard"
++                android:text="@string/private_dns_mode_adguard"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:layout_marginStart="8dp"
++                android:minHeight="48dp"/>
++
+             <RadioButton
+                 android:id="@+id/private_dns_mode_opportunistic"
+                 android:text="@string/private_dns_mode_opportunistic"
+diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
+index 12ad48e683..78f835e4e1 100644
+--- a/res/values/cm_strings.xml
++++ b/res/values/cm_strings.xml
+@@ -104,6 +104,11 @@
+     <string name="unlock_scramble_pin_layout_title">Scramble layout</string>
+     <string name="unlock_scramble_pin_layout_summary">Scramble PIN layout when unlocking device</string>
+ 
++    <!-- Private DNS -->
++    <string name="private_dns_mode_quadnine" translatable="false">Quad9</string>
++    <string name="private_dns_mode_cloudflare" translatable="false">Cloudflare</string>
++    <string name="private_dns_mode_adguard" translatable="false">AdGuard</string>
++
+     <!-- Volume link notification -->
+     <string name="volume_link_notification_title">Link ring &amp; notification volumes</string>
+ 
+diff --git a/src/com/android/settings/network/PrivateDnsModeDialogPreference.java b/src/com/android/settings/network/PrivateDnsModeDialogPreference.java
+index 1655c69cea..26f68f1cf7 100644
+--- a/src/com/android/settings/network/PrivateDnsModeDialogPreference.java
++++ b/src/com/android/settings/network/PrivateDnsModeDialogPreference.java
+@@ -17,6 +17,9 @@ package com.android.settings.network;
+ 
+ import static android.net.ConnectivityManager.PRIVATE_DNS_DEFAULT_MODE_FALLBACK;
+ import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_OFF;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_QUADNINE;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_CLOUDFLARE;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_ADGUARD;
+ import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_OPPORTUNISTIC;
+ import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_PROVIDER_HOSTNAME;
+ 
+@@ -73,6 +76,9 @@ public class PrivateDnsModeDialogPreference extends CustomDialogPreferenceCompat
+     static {
+         PRIVATE_DNS_MAP = new HashMap<>();
+         PRIVATE_DNS_MAP.put(PRIVATE_DNS_MODE_OFF, R.id.private_dns_mode_off);
++        PRIVATE_DNS_MAP.put(PRIVATE_DNS_MODE_QUADNINE, R.id.private_dns_mode_quadnine);
++        PRIVATE_DNS_MAP.put(PRIVATE_DNS_MODE_CLOUDFLARE, R.id.private_dns_mode_cloudflare);
++        PRIVATE_DNS_MAP.put(PRIVATE_DNS_MODE_ADGUARD, R.id.private_dns_mode_adguard);
+         PRIVATE_DNS_MAP.put(PRIVATE_DNS_MODE_OPPORTUNISTIC, R.id.private_dns_mode_opportunistic);
+         PRIVATE_DNS_MAP.put(PRIVATE_DNS_MODE_PROVIDER_HOSTNAME, R.id.private_dns_mode_provider);
+     }
+@@ -211,6 +217,15 @@ public class PrivateDnsModeDialogPreference extends CustomDialogPreferenceCompat
+             case R.id.private_dns_mode_off:
+                 mMode = PRIVATE_DNS_MODE_OFF;
+                 break;
++            case R.id.private_dns_mode_quadnine:
++                mMode = PRIVATE_DNS_MODE_QUADNINE;
++                break;
++            case R.id.private_dns_mode_cloudflare:
++                mMode = PRIVATE_DNS_MODE_CLOUDFLARE;
++                break;
++            case R.id.private_dns_mode_adguard:
++                mMode = PRIVATE_DNS_MODE_ADGUARD;
++                break;
+             case R.id.private_dns_mode_opportunistic:
+                 mMode = PRIVATE_DNS_MODE_OPPORTUNISTIC;
+                 break;
+diff --git a/src/com/android/settings/network/PrivateDnsPreferenceController.java b/src/com/android/settings/network/PrivateDnsPreferenceController.java
+index 47c3a95c9f..0a76cc245e 100644
+--- a/src/com/android/settings/network/PrivateDnsPreferenceController.java
++++ b/src/com/android/settings/network/PrivateDnsPreferenceController.java
+@@ -17,6 +17,9 @@
+ package com.android.settings.network;
+ 
+ import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_OFF;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_QUADNINE;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_CLOUDFLARE;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_ADGUARD;
+ import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_OPPORTUNISTIC;
+ import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_PROVIDER_HOSTNAME;
+ import static android.provider.Settings.Global.PRIVATE_DNS_DEFAULT_MODE;
+@@ -125,6 +128,18 @@ public class PrivateDnsPreferenceController extends BasePreferenceController
+         switch (mode) {
+             case PRIVATE_DNS_MODE_OFF:
+                 return res.getString(R.string.private_dns_mode_off);
++            case PRIVATE_DNS_MODE_QUADNINE:
++                return dnsesResolved
++                        ? res.getString(R.string.private_dns_mode_quadnine)
++                        : res.getString(R.string.private_dns_mode_provider_failure);
++            case PRIVATE_DNS_MODE_CLOUDFLARE:
++                return dnsesResolved
++                        ? res.getString(R.string.private_dns_mode_cloudflare)
++                        : res.getString(R.string.private_dns_mode_provider_failure);
++            case PRIVATE_DNS_MODE_ADGUARD:
++                return dnsesResolved
++                        ? res.getString(R.string.private_dns_mode_adguard)
++                        : res.getString(R.string.private_dns_mode_provider_failure);
+             case PRIVATE_DNS_MODE_OPPORTUNISTIC:
+                 // TODO (b/79122154) : create a string specifically for this, instead of
+                 // hijacking a string from notifications. This is necessary at this time
+-- 
+2.31.1
+

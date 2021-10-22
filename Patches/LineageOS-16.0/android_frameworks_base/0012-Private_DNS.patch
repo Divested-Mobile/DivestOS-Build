@@ -1,0 +1,105 @@
+From c8583ef74a188973fae22b1589d6634944fada12 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 21 Oct 2021 20:54:37 -0400
+Subject: [PATCH] Add more 'Private DNS' options
+
+This adds: Quad9, Cloudflare, and AdGuard
+
+Credit: CalyxOS
+- Chirayu Desai <chirayudesai1@gmail.com>
+  https://review.calyxos.org/c/CalyxOS/platform_frameworks_base/+/446
+- Oliver Scott <olivercscott@gmail.com>
+  https://review.calyxos.org/c/CalyxOS/platform_frameworks_base/+/2327
+- Pavel Shirshov <pshirshov@eml.cc>
+  https://review.calyxos.org/c/CalyxOS/platform_frameworks_base/+/5356
+
+Signed-off-by: Tad <tad@spotco.us>
+Change-Id: Id75a774ce1ed109a83c6a5bf512536c643165d71
+---
+ .../java/android/net/ConnectivityManager.java | 24 +++++++++++++++++++
+ .../server/connectivity/DnsManager.java       | 18 ++++++++++++++
+ 2 files changed, 42 insertions(+)
+
+diff --git a/core/java/android/net/ConnectivityManager.java b/core/java/android/net/ConnectivityManager.java
+index c5cb1f5b7cf8..e9271b3fe03f 100644
+--- a/core/java/android/net/ConnectivityManager.java
++++ b/core/java/android/net/ConnectivityManager.java
+@@ -688,6 +688,18 @@ public class ConnectivityManager {
+      * @hide
+      */
+     public static final String PRIVATE_DNS_MODE_OFF = "off";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_QUADNINE = "quadnine";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_CLOUDFLARE = "cloudflare";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_ADGUARD = "adguard";
+     /**
+      * @hide
+      */
+@@ -696,6 +708,18 @@ public class ConnectivityManager {
+      * @hide
+      */
+     public static final String PRIVATE_DNS_MODE_PROVIDER_HOSTNAME = "hostname";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_QUADNINE = "dns.quad9.net";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_CLOUDFLARE = "one.one.one.one";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_ADGUARD = "dns.adguard.com";
+     /**
+      * The default Private DNS mode.
+      *
+diff --git a/services/core/java/com/android/server/connectivity/DnsManager.java b/services/core/java/com/android/server/connectivity/DnsManager.java
+index c0beb37577fc..953a0ff57ae5 100644
+--- a/services/core/java/com/android/server/connectivity/DnsManager.java
++++ b/services/core/java/com/android/server/connectivity/DnsManager.java
+@@ -18,8 +18,14 @@ package com.android.server.connectivity;
+ 
+ import static android.net.ConnectivityManager.PRIVATE_DNS_DEFAULT_MODE_FALLBACK;
+ import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_OFF;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_QUADNINE;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_CLOUDFLARE;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_ADGUARD;
+ import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_OPPORTUNISTIC;
+ import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_PROVIDER_HOSTNAME;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_QUADNINE;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_CLOUDFLARE;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_ADGUARD;
+ import static android.provider.Settings.Global.DNS_RESOLVER_MIN_SAMPLES;
+ import static android.provider.Settings.Global.DNS_RESOLVER_MAX_SAMPLES;
+ import static android.provider.Settings.Global.DNS_RESOLVER_SAMPLE_VALIDITY_SECONDS;
+@@ -171,6 +177,18 @@ public class DnsManager {
+             return new PrivateDnsConfig(specifier, null);
+         }
+ 
++        if (PRIVATE_DNS_MODE_QUADNINE.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_QUADNINE, null);
++        }
++
++        if (PRIVATE_DNS_MODE_CLOUDFLARE.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_CLOUDFLARE, null);
++        }
++
++        if (PRIVATE_DNS_MODE_ADGUARD.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_ADGUARD, null);
++        }
++
+         return new PrivateDnsConfig(useTls);
+     }
+ 
+-- 
+2.31.1
+
