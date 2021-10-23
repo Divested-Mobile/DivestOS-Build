@@ -65,20 +65,22 @@ echo "Deblobbing...";
 
 	#AT Command Handling/Forwarding (See: https://atcommands.org)
 	blobs=$blobs"|bin[/]atd|drexe|log_serial_arm|at_distributor|connfwexe";
-	blobs=$blobs"|ATFWD-daemon";
-	blobs=$blobs"|vendor.qti.atcmdfwd.*|vendor.qti.hardware.radio.atcmdfwd.*";
-	blobs=$blobs"|atfwd.apk";
 	blobs=$blobs"|OBDM_Permissions.apk";
-	sepolicy=$sepolicy" atfwd.te";
+	if [ "$DOS_DEBLOBBER_REMOVE_ATFWD" = true ]; then
+		blobs=$blobs"|ATFWD-daemon";
+		blobs=$blobs"|vendor.qti.atcmdfwd.*|vendor.qti.hardware.radio.atcmdfwd.*";
+		blobs=$blobs"|atfwd.apk";
+		sepolicy=$sepolicy" atfwd.te";
+	fi;
 
 	#AudioFX (Audio Effects)
 	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
 		blobs=$blobs"|fmas_eq.dat";
-		blobs=$blobs"|libasphere.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libreverbwrapper.so|libshoebox.so|libvisualizer.so|libvolumelistener.so|libLifevibes_lvverx.so|libLifevibes_lvvetx.so|libhwdap.so";
+		blobs=$blobs"|libasphere.so|libdownmix.so|libeffectproxy.so|libfmas.so|libldnhncr.so|libmmieffectswrapper.so|libreverbwrapper.so|libshoebox.so|libvisualizer.so|libvolumelistener.so|libLifevibes_lvverx.so|libLifevibes_lvvetx.so|libdynproc.so";
 		#blobs=$blobs"|libspeakerbundle.so|libmotaudioutils.so"; #XXX: Breaks audio on Motorola devices (?)
 		blobs=$blobs"|libqcbassboost.so|libqcreverb.so|libqcvirt.so"; #Qualcomm
-		#blobs=$blobs"|libbundlewrapper.so|libqcompostprocbundle.so|libqcomvoiceprocessing.so|libqcomvisualizer.so";
-		blobs=$blobs"|libhwdap.*.so|libswdap.*.so|lib_dlb_msd.so|vendor.dolby.hardware.dms.*"; #Dolby
+		#blobs=$blobs"|libbundlewrapper.so|libqcompostprocbundle.so|libqcomvoiceprocessing.so|libqcomvoiceprocessingdescriptors.so|libqcomvisualizer.so|libqtiautobundle.so";
+		blobs=$blobs"|libhwdap.so|libhwdap.*.so|libswdap.*.so|lib_dlb_msd.so|vendor.dolby.hardware.dms.*"; #Dolby
 		blobs=$blobs"|libsonypostprocbundle.so|libsonysweffect.so"; #Sony
 	fi;
 
@@ -128,26 +130,30 @@ echo "Deblobbing...";
 	makes=$makes"|DxHDCP.cfg";
 
 	#Display Color Tuning [Qualcomm] #XXX: still breaks boot on some devices
-	#blobs=$blobs"|mm-pp-daemon|mm-pp-dpps";
 	blobs=$blobs"|colorservice.apk|PPPreference.apk|CABLService.apk|QdcmFF.apk";
-	#blobs=$blobs"|libmm-color-convertor.so|libsd_sdk_display.so|libdpps.so";
-	#blobs=$blobs"|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-disp-apis.so|libmm-qdcm.so"; #XXX: needed for hwcomposer(?)
-	#blobs=$blobs"|vendor.display.color.*|vendor.display.postproc.*|vendor.qti.hardware.qdutils_disp.*|com.qti.snapdragon.sdk.display.*";
-	#makes=$makes"|vendor.lineage.livedisplay.*service-legacymm";
+	if [ "$DOS_DEBLOBBER_REMOVE_DPP" = true ]; then
+		blobs=$blobs"|mm-pp-daemon|mm-pp-dpps";
+		blobs=$blobs"|libmm-color-convertor.so|libsd_sdk_display.so|libdpps.so";
+		blobs=$blobs"|libdisp-aba.so|libmm-abl-oem.so|libmm-abl.so|libmm-als.so|libmm-disp-apis.so|libmm-qdcm.so"; #XXX: needed for hwcomposer(?)
+		blobs=$blobs"|vendor.display.color.*|vendor.display.postproc.*|vendor.qti.hardware.qdutils_disp.*|com.qti.snapdragon.sdk.display.*";
+		makes=$makes"|vendor.lineage.livedisplay.*service-legacymm";
+	fi;
 
 	#DivX (DRM) [DivX]
 	blobs=$blobs"|libDivxDrm.so|libSHIMDivxDrm.so";
 
-	#DPM (Data Power Management) [Qualcomm]
+	#DPM (Data Power Management? Data Port Mapper?) [Qualcomm]
 	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/dpm/ [headers]
-	blobs=$blobs"|com.qti.dpmframework.jar|dpmapi.jar|tcmclient.jar";
-	blobs=$blobs"|com.qti.dpmframework.xml|dpmapi.xml|dpm.conf|NsrmConfiguration.xml";
-	blobs=$blobs"|dpmd|dpmQmiMgr";
-	blobs=$blobs"|dpmserviceapp.apk";
-	blobs=$blobs"|libdpmctmgr.so|libdpmfdmgr.so|libdpmframework.so|libdpmnsrm.so|libdpmtcm.so|libdpmqmihal.so";
-	blobs=$blobs"|com.qualcomm.qti.dpm.*";
-	sepolicy=$sepolicy" dpmd.te";
-	ipcSec=$ipcSec"|47:4294967295:1001:3004|48:4294967295:1000:3004";
+	if [ "$DOS_DEBLOBBER_REMOVE_DPM" = true ]; then
+		blobs=$blobs"|com.qti.dpmframework.jar|dpmapi.jar|tcmclient.jar";
+		blobs=$blobs"|com.qti.dpmframework.xml|dpmapi.xml|dpm.conf|NsrmConfiguration.xml";
+		blobs=$blobs"|dpmd|dpmQmiMgr";
+		blobs=$blobs"|dpmserviceapp.apk";
+		blobs=$blobs"|libdpmctmgr.so|libdpmfdmgr.so|libdpmframework.so|libdpmnsrm.so|libdpmtcm.so|libdpmqmihal.so";
+		blobs=$blobs"|com.qualcomm.qti.dpm.*";
+		sepolicy=$sepolicy" dpmd.te";
+		ipcSec=$ipcSec"|47:4294967295:1001:3004|48:4294967295:1000:3004";
+	fi;
 
 	#DRM
 	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so"; #Qualcomm
@@ -273,7 +279,9 @@ echo "Deblobbing...";
 	blobs=$blobs"|hdcp1.*|hdcp2.*|tzhdcp.*";
 
 	#HDR
-	blobs=$blobs"|libdovi.so|libhdr_tm.so";
+	blobs=$blobs"|libdovi.so";
+	#blobs=$blobs"|libdolby.*.so"; #TODO: test me
+	#blobs=$blobs"|libhdr_tm.so"; #XXX: potential breakage
 	blobs=$blobs"|DolbyVisionService.apk";
 	blobs=$blobs"|dolby_vision.cfg|hdr_tm_config.xml";
 
@@ -460,7 +468,8 @@ echo "Deblobbing...";
 	blobs=$blobs"|SecProtect.apk";
 
 	#SecureUI Frontends
-	blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureExtAuthJNI.so|libSecureSampleAuthClient.so|libsdedrm.so";
+	blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureExtAuthJNI.so|libSecureSampleAuthClient.so";
+	#blobs=$blobs"|libsdedrm.so"; #Direct Rendering Manager not evil DRM? #XXX: potential breakage
 	blobs=$blobs"|vendor.qti.hardware.tui.*";
 
 	#Soter (Biometric Auth) [Tencent]
@@ -525,7 +534,7 @@ echo "Deblobbing...";
 
 	#Wfd (Wireless Display) [Qualcomm]
 	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wfd-commonsys/ [useless]
-	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdcommonutils.so|libwfdhdcpcp.so|libwfdmmsink.so|libwfdmmsrc.so|libwfdmmutils.so|libwfdnative.so|libwfdrtsp.so|libwfdservice.so|libwfdsm.so|libwfduibcinterface.so|libwfduibcsinkinterface.so|libwfduibcsink.so|libwfduibcsrcinterface.so|libwfduibcsrc.so|libwfdcommonutils_proprietary.so|libwfdhaldsmanager.so|libwfdmmservice.so|libwfdmodulehdcpsession.so|libwfdcodecv4l2.so|libwfdconfigutils.so|libwfdmminterface.so|libwfdclient.so|libwfdhdcpservice_proprietary.so";
+	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdclient.so|libwfdcodecv4l2_proprietary.so|libwfdcodecv4l2.so|libwfdcommonutils_proprietary.so|libwfdcommonutils.so|libwfdconfigutils_proprietary.so|libwfdconfigutils.so|libwfddisplayconfig_proprietary.so|libwfddisplayconfig.so|libwfdhaldsmanager.so|libwfdhdcpcp.so|libwfdhdcpservice_proprietary.so|libwfdmminterface_proprietary.so|libwfdmminterface.so|libwfdmmservice_proprietary.so|libwfdmmservice.so|libwfdmmsink.so|libwfdmmsrc_proprietary.so|libwfdmmsrc.so|libwfdmmsrc_system.so|libwfdmmutils.so|libwfdmodulehdcpsession.so|libwfdnative.so|libwfdrtsp_proprietary.so|libwfdrtsp.so|libwfdservice.so|libwfdsessionmodule.so|libwfdsinksm.so|libwfdsm.so|libwfdsourcesession_proprietary.so|libwfdsourcesm_proprietary.so|libwfduibcinterface_proprietary.so|libwfduibcinterface.so|libwfduibcsinkinterface_proprietary.so|libwfduibcsinkinterface.so|libwfduibcsink_proprietary.so|libwfduibcsink.so|libwfduibcsrcinterface_proprietary.so|libwfduibcsrcinterface.so|libwfduibcsrc_proprietary.so|libwfduibcsrc.so|libwfdutils_proprietary.so";
 	blobs=$blobs"|wfdservice|wifidisplayhalservice|wfdhdcphalservice";
 	blobs=$blobs"|WfdService.apk";
 	blobs=$blobs"|WfdCommon.jar";
@@ -534,7 +543,7 @@ echo "Deblobbing...";
 	makes=$makes"|WfdCommon";
 
 	#Widevine (DRM) [Google]
-	blobs=$blobs"|libdrmclearkeyplugin.so|libdrmwvmplugin.so|libmarlincdmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvhidl.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|libdrmmtkutil.so|libsepdrm.*.so";
+	blobs=$blobs"|libdrmclearkeyplugin.so|libdrmwvmplugin.so|libmarlincdmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvhidl.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|libdrmmtkutil.so|libsepdrm.*.so|libvtswidevine32.so|libvtswidevine64.so";
 	blobs=$blobs"|test-wvdrmplugin|oemwvtest";
 	blobs=$blobs"|com.google.widevine.software.drm.jar";
 	blobs=$blobs"|com.google.widevine.software.drm.xml";
@@ -622,10 +631,12 @@ deblobDevice() {
 	sed -i 's/drm.service.enabled=true/drm.service.enabled=false/' *.prop *.mk &>/dev/null || true;
 	sed -i 's/bt.enableAptXHD=true/bt.enableAptXHD=false/' *.prop *.mk &>/dev/null || true; #Disable aptX
 	if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i 's/cne.feature=./cne.feature=0/' *.prop *.mk &>/dev/null || true; fi; #Disable CNE
-	sed -i 's/dpm.feature=11/dpm.feature=0/' *.prop *.mk &>/dev/null || true; #Disable DPM
-	sed -i 's/dpm.feature=./dpm.feature=0/' *.prop *.mk &>/dev/null || true; #Disable DPM
+	if [ "$DOS_DEBLOBBER_REMOVE_DPM" = true ]; then
+		sed -i 's/dpm.feature=11/dpm.feature=0/' *.prop *.mk &>/dev/null || true; #Disable DPM
+		sed -i 's/dpm.feature=./dpm.feature=0/' *.prop *.mk &>/dev/null || true; #Disable DPM
+		sed -i 's/sys.dpmd.nsrm=./sys.dpmd.nsrm=0/' *.prop *.mk &>/dev/null || true; #Disable DPM
+	fi;
 	sed -i 's/gps.qc_nlp_in_use=./gps.qc_nlp_in_use=0/' *.prop *.mk &>/dev/null || true; #Disable QC Location Provider
-	sed -i 's/sys.dpmd.nsrm=./sys.dpmd.nsrm=0/' *.prop *.mk &>/dev/null || true; #Disable DPM
 	sed -i 's/bluetooth.emb_wp_mode=true/bluetooth.emb_wp_mode=false/' *.prop *.mk &>/dev/null || true; #Disable WiPower
 	sed -i 's/bluetooth.wipower=true/bluetooth.wipower=false/' *.prop *.mk &>/dev/null || true; #Disable WiPower
 	sed -i 's/wfd.enable=1/wfd.enable=0/' *.prop *.mk &>/dev/null || true; #Disable Wi-Fi display
@@ -663,7 +674,9 @@ deblobDevice() {
 		sed -i 's/rcs.supported=./rcs.supported=0/' *.prop *.mk &>/dev/null || true; #Disable RCS
 	fi;
 	if [ -f configs/qmi_config.xml ]; then
-		sed -i 's|name="dpm_enabled" type="int"> 1 <|name="dpm_enabled" type="int"> 0 <|' configs/qmi_config.xml; #Disable DPM
+		if [ "$DOS_DEBLOBBER_REMOVE_DPM" = true ]; then
+			sed -i 's|name="dpm_enabled" type="int"> 1 <|name="dpm_enabled" type="int"> 0 <|' configs/qmi_config.xml; #Disable DPM
+		fi;
 	fi;
 	if [ -f init/init_*.cpp ]; then
 		#Disable IMS
