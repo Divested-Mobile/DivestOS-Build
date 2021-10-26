@@ -358,11 +358,17 @@ fi;
 
 if enterAndClear "device/lge/g2-common"; then
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
+echo "allow hwaddrs self:capability { fowner };" >> sepolicy/hwaddrs.te;
+echo "allow hwaddrs block_device:lnk_file { open };" >> sepolicy/hwaddrs.te;
+echo "allow hwaddrs misc_block_device:blk_file { open read };" >> sepolicy/hwaddrs.te;
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 fi;
 
 if enterAndClear "device/lge/g3-common"; then
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
+echo "allow hwaddrs self:capability { fowner };" >> sepolicy/hwaddrs.te;
+echo "allow hwaddrs block_device:lnk_file { open };" >> sepolicy/hwaddrs.te;
+echo "allow hwaddrs misc_block_device:blk_file { open read };" >> sepolicy/hwaddrs.te;
 sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
 fi;
 
@@ -378,6 +384,8 @@ fi;
 
 if enterAndClear "device/lge/msm8996-common"; then
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
+echo "allow hwaddrs self:capability { fowner };" >> sepolicy/hwaddrs.te;
+echo "allow hwaddrs block_device:lnk_file { open };" >> sepolicy/hwaddrs.te;
 awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
 echo "type sensors_data_file, file_type, data_file_type, core_data_file_type;" >> sepolicy/file.te; #only included in -userdebug
 fi;

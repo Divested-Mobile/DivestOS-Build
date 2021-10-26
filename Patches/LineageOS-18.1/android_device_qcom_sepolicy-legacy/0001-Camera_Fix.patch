@@ -30,5 +30,5 @@ index 1108551e..6b925655 100755
  r_dir_file(mediaserver, sysfs_esoc)
  #allow mediaserver system_app_data_file:file rw_file_perms;
 -- 
-2.31.1
+2.32.0
 

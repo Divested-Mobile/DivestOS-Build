@@ -61,7 +61,7 @@ applyPatchReal() {
 		if git am "$@"; then
 			if [ "$DOS_REFRESH_PATCHES" = true ]; then
 				if [[ "$currentWorkingPatch" == $DOS_PATCHES* ]]; then
-					git format-patch -1 HEAD --zero-commit --output="$currentWorkingPatch";
+					git format-patch -1 HEAD --zero-commit --no-signature --output="$currentWorkingPatch";
 				fi;
 			fi;
 		fi;

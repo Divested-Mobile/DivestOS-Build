@@ -72,5 +72,5 @@ index 3ca34bba1b..8a62b2bb9c 100644
          // Ensure that the AppOp is allowed, or that there is no necessary app op for the sensor
          if (opCode < 0 || appOpAllowed) {
 -- 
-2.31.1
+2.32.0
 

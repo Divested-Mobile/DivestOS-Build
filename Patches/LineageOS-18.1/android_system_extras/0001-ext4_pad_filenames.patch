@@ -34,5 +34,5 @@ index a52ed90c..7852349f 100644
      // Use DIRECT_KEY for Adiantum, since it's much more efficient but just as
      // secure since Android doesn't reuse the same master key for multiple
 -- 
-2.31.1
+2.32.0
 

@@ -396,5 +396,5 @@ index 0b41c25..022f549 100644
          return server + "?base=LineageOS&device=" + device + "&inc=" + incrementalVersion;
      }
 -- 
-2.31.1
+2.32.0
 

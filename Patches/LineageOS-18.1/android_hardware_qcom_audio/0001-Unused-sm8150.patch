@@ -57,5 +57,5 @@ index fa826f57f..473511fb5 100644
  int audio_extn_utils_get_license_params(
          const struct audio_device *adev,
 -- 
-2.31.1
+2.32.0
 
