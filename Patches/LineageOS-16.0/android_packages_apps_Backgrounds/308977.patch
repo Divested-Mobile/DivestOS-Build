@@ -99,6 +99,3 @@ index 2d5b798..b0de83b 100644
 +        return BitmapFactory.decodeResource(res, resId, options);
 +    }
  }
--- 
-2.31.1
-

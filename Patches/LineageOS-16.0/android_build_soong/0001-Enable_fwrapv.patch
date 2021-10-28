@@ -51,6 +51,3 @@ index de970352e..17c11f8b1 100644
  	if Bool(sanitize.Properties.Sanitize.Diag.Undefined) {
  		diagSanitizers = append(diagSanitizers, "undefined")
  	}
--- 
-2.31.1
-

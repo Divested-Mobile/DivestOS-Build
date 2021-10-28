@@ -34,6 +34,3 @@ index e0c2d2dc6dde..85a669a4a6c1 100644
          }
  
          String name = sa.getNonConfigurationString(
--- 
-2.31.1
-

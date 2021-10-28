@@ -246,6 +246,3 @@ index 95ba50246db0..a6cf19f9be8a 100644
                  if (DEBUG) Slog.d(TAG, "startOperation: allowing code " + code + " uid " + uid
                          + " package " + resolvedPackageName);
                  if (op.startNesting == 0) {
--- 
-2.31.1
-

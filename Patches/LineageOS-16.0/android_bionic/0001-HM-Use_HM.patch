@@ -122,6 +122,3 @@ index 1ea4ac1a3..c86fbdaea 100644
  
  static constexpr MallocDispatch __libc_malloc_default_dispatch
    __attribute__((unused)) = {
--- 
-2.31.1
-

@@ -64,6 +64,3 @@ index 95b67a1c..35bd1663 100644
          LOG(ERROR) << "Failed to find matching encryption policy for " << directory;
          return false;
      }
--- 
-2.31.1
-

@@ -181,6 +181,3 @@ index 269b72111..ea45c9015 100644
      <item name="android:navigationBarColor">@android:color/transparent</item>
      <item name="android:windowDrawsSystemBarBackgrounds">true</item>
    </style>
--- 
-2.31.1
-

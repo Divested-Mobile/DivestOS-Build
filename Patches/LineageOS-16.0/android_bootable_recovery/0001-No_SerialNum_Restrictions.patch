@@ -37,6 +37,3 @@ index db5792b8..25df53a3 100644
    }
  
    if (metadata["ota-type"] != "AB") {
--- 
-2.31.1
-

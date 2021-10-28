@@ -21,6 +21,3 @@ index d570ccda8e..b200572d32 100644
 +    my_cflags += -fwrapv
 +  endif
 +endif
--- 
-2.31.1
-
