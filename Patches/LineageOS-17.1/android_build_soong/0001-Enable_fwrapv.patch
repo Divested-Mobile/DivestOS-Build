@@ -47,6 +47,3 @@ index c1b055afe..147ee2d88 100644
  	if Bool(sanitize.Properties.Sanitize.Address) {
  		if ctx.Arch().ArchType == android.Arm {
  			// Frame pointer based unwinder in ASan requires ARM frame setup.
--- 
-2.31.1
-

@@ -36,6 +36,3 @@ index 762c4572..6dd26123 100644
    }
  
    if (ota_type == OtaType::AB) {
--- 
-2.31.1
-

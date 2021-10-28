@@ -36,6 +36,3 @@ index 33e506f1b7..5f9f8b558c 100644
  private:
      void refreshTypes();
      audio_devices_t mDeviceTypes;
--- 
-2.31.1
-

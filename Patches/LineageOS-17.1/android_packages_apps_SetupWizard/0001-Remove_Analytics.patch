@@ -181,6 +181,3 @@ index 5b32720..acb5018 100644
      public static final String DISABLE_NAV_KEYS = "disable_nav_keys";
      public static final String KEY_BUTTON_BACKLIGHT = "pre_navbar_button_backlight";
  
--- 
-2.31.1
-

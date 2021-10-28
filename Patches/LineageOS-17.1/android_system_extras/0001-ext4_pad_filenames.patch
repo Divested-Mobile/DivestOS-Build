@@ -67,6 +67,3 @@ index adeb66aa..7b707b9f 100644
          LOG(ERROR) << "Failed to find matching encryption policy for " << directory;
          return false;
      }
--- 
-2.31.1
-

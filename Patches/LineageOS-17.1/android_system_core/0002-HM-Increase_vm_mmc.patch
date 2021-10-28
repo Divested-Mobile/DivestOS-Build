@@ -20,6 +20,3 @@ index e9fba7989..c175bc4ac 100644
      # F2FS tuning. Set cp_interval larger than dirty_expire_centisecs, 30 secs,
      # to avoid power consumption when system becomes mostly idle. Be careful
      # to make it too large, since it may bring userdata loss, if they
--- 
-2.31.1
-

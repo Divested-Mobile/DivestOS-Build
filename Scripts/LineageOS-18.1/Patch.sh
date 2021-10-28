@@ -370,6 +370,7 @@ echo "allow hwaddrs self:capability { fowner };" >> sepolicy/hwaddrs.te;
 echo "allow hwaddrs block_device:lnk_file { open };" >> sepolicy/hwaddrs.te;
 echo "allow hwaddrs misc_block_device:blk_file { open read };" >> sepolicy/hwaddrs.te;
 sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
+echo "/sys/devices/qpnp-rtc-[a-f0-9]+/rtc/rtc0(/.*)? u:object_r:sysfs_rtc:s0" >> sepolicy/file_contexts; #https://gitlab.com/LineageOS/issues/android/-/issues/3889
 fi;
 
 if enterAndClear "device/lge/mako"; then

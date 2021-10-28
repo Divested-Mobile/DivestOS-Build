@@ -56,6 +56,3 @@ index cd788542f..10f1eb216 100644
                                      LISTEN_EVENT_SND_DEVICE_FREE);
  }
 +#endif
--- 
-2.31.1
-

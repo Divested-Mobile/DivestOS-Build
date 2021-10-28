@@ -138,6 +138,3 @@ index bdb1aa7..0097a52 100644
          <ListPreference
              android:key="sms_security_check_limit"
              android:defaultValue="30"
--- 
-2.31.1
-

@@ -35,6 +35,3 @@ index 491bba2272ad..71fb465e8806 100644
  
          native_agps_set_id(type, (setId == null) ? "" : setId);
      }
--- 
-2.31.1
-

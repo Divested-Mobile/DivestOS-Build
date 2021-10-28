@@ -1,4 +1,4 @@
-From ea55dc9108da5a0e24606a39e791d7f7905ed3c8 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Thu, 21 Oct 2021 20:54:37 -0400
 Subject: [PATCH] Add more 'Private DNS' options
@@ -21,7 +21,7 @@ Change-Id: Id75a774ce1ed109a83c6a5bf512536c643165d71
  2 files changed, 170 insertions(+)
 
 diff --git a/core/java/android/net/ConnectivityManager.java b/core/java/android/net/ConnectivityManager.java
-index 111a8c48a46c..09b445a57756 100644
+index 111a8c48a46c..12102a140947 100644
 --- a/core/java/android/net/ConnectivityManager.java
 +++ b/core/java/android/net/ConnectivityManager.java
 @@ -757,6 +757,58 @@ public class ConnectivityManager {
@@ -226,6 +226,3 @@ index 2321afb7df43..85b5596ae688 100644
          return new PrivateDnsConfig(useTls);
      }
  
--- 
-2.31.1
-
