@@ -380,6 +380,3 @@ index e9c2f17..c7eadd1 100644
  
          return server + "?base=LineageOS&device=" + device + "&inc=" + incrementalVersion;
      }
--- 
-2.31.1
-

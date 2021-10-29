@@ -47,6 +47,3 @@ index be54994a..f6c3713f 100644
    GRSurface* ic_back;
    GRSurface* ic_back_sel;
  
--- 
-2.31.1
-

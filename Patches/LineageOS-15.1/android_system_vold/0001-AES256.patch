@@ -54,6 +54,3 @@ index e33afdd..5102f12 100644
  #define RSA_KEY_SIZE_BYTES (RSA_KEY_SIZE / 8)
  #define RSA_EXPONENT 0x10001
  #define KEYMASTER_CRYPTFS_RATE_LIMIT 1  // Maximum one try per second
--- 
-2.31.1
-

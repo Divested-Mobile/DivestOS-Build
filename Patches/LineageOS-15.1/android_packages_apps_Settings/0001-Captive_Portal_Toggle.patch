@@ -274,6 +274,3 @@ index 0000000000..208042ad73
 +     */
 +    void onCaptivePortalSwitchOffDialogConfirmed();
 +}
--- 
-2.31.1
-

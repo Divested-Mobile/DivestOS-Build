@@ -232,6 +232,3 @@ index 8dc8272303e3..0a74101de471 100644
          int mode = AppOpsManager.opToDefaultMode(code,
                  isStrict(code, uid, packageName));
          if (AppOpsManager.isStrictOp(code) && mPolicy != null) {
--- 
-2.31.1
-

@@ -62,6 +62,3 @@ index c66cf4c8d1..0ba99e42c2 100644
          mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
  
          mUm = (UserManager) getSystemService(Context.USER_SERVICE);
--- 
-2.31.1
-

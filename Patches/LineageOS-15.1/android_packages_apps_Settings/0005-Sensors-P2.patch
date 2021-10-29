@@ -31,6 +31,3 @@ index 220bdff005..db948ab5cd 100644
                  if (icon == null) {
                      Log.e(TAG, "Failed to retrieve icon for permission: " + perm);
                  } else {
--- 
-2.31.1
-

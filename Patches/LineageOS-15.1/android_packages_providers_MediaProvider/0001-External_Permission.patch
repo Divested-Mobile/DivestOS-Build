@@ -23,6 +23,3 @@ index 05e6d77d..2e33a3a4 100644
  
      <application android:process="android.process.media"
                   android:label="@string/app_label"
--- 
-2.31.1
-
