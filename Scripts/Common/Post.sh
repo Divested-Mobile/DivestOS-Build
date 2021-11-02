@@ -20,10 +20,6 @@ source "$DOS_SCRIPTS_COMMON/Shell.sh";
 
 echo "Post tweaks...";
 
-#Resurrect dm-verity
-sed -i 's/^\treturn VERITY_STATE_DISABLE;//' kernel/*/*/drivers/md/dm-android-verity.c &>/dev/null || true;
-#sed -i 's/#if 0/#if 1/' kernel/*/*/drivers/power/reset/msm-poweroff.c &>/dev/null || true;
-
 #Workaround broken MSM_DLOAD_MODE=y+PANIC_ON_OOPS=y for devices that oops on shutdown
 #MSM_DLOAD_MODE can't be disabled as it breaks compile
 sed -i 's/set_dload_mode(in_panic)/set_dload_mode(0)/' kernel/*/*/arch/arm/mach-msm/restart.c &>/dev/null || true;

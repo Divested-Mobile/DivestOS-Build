@@ -316,6 +316,3 @@ index 84cae88f85..4d62f64947 100644
              case PRIVATE_DNS_MODE_OPPORTUNISTIC:
                  return dnsesResolved ? res.getString(R.string.private_dns_mode_on)
                          : res.getString(R.string.private_dns_mode_opportunistic);
--- 
-2.32.0
-

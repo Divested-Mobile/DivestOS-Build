@@ -378,13 +378,6 @@ addVerity() {
 }
 export -f addVerity;
 
-enableVerity() {
-	sed -i 's/--set_hashtree_disabled_flag//' *.mk;
-	sed -i 's/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 2/' *.mk;
-	sed -i '/\/system/{/verify/!s|wait|wait,verify|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
-}
-export -f enableVerity;
-
 optimizeImagesRecursive() {
 	find "$1" -type f -name "*.jp*g" -print0 | xargs -0 -n1 -P 16 jpegoptim;
 	find "$1" -type f -name "*.png" -print0 | xargs -0 -n1 -P 16 optipng;
