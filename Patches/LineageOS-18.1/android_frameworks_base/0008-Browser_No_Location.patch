@@ -53,6 +53,3 @@ index cd53fb9ba52f..a08cbb5ceecd 100644
      }
  
      private String getDefaultSystemHandlerActivityPackage(PackageManagerWrapper pm,
--- 
-2.32.0
-

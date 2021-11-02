@@ -65,6 +65,3 @@ index 6398872..81ca1bb 100644
      persist.radio.apm_sim_not_pwdn=1 \
      ro.telephony.call_ring.multiple=0
  
--- 
-2.32.0
-

@@ -175,6 +175,3 @@ index b1755c7..c299457 100644
      public static final String DISABLE_NAV_KEYS = "disable_nav_keys";
      public static final String ENABLE_RECOVERY_UPDATE = "enable_recovery_update";
      public static final String UPDATE_RECOVERY_PROP = "persist.vendor.recovery_update";
--- 
-2.32.0
-

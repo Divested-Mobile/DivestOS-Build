@@ -31,6 +31,3 @@ index 0aa5fd5..0b41c25 100644
      }
  
      public static String getUpgradeBlockedURL(Context context) {
--- 
-2.32.0
-

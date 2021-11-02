@@ -121836,6 +121836,3 @@ index 4e4bb5dd2dcd..db859b595dba 100644
  	rcu_assign_pointer(kvm->buses[bus_idx], new_bus);
  	synchronize_srcu_expedited(&kvm->srcu);
  	kfree(bus);
--- 
-2.32.0
-

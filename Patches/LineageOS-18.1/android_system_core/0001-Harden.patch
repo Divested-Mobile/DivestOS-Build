@@ -56,6 +56,3 @@ index a9af0b094..f19b7484d 100644
      write /proc/sys/kernel/randomize_va_space 2
      write /proc/sys/vm/mmap_min_addr 32768
      write /proc/sys/net/ipv4/ping_group_range "0 2147483647"
--- 
-2.32.0
-

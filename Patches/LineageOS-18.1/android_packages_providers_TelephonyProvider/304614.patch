@@ -132,6 +132,3 @@ index 3cb4abeb..b1b3146d 100644
                          if (row == null) {
                              throw new XmlPullParserException("Expected 'apn' tag", parser, null);
                          }
--- 
-2.32.0
-

@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From 7a5981a55b49a3485ba7b42c5f0f0c8401d8304b Mon Sep 17 00:00:00 2001
 From: MSe1969 <mse1969@posteo.de>
 Date: Mon, 10 Sep 2018 12:05:40 +0200
 Subject: [PATCH] Network & Internet Settings: Add option to switch off Captive
@@ -28,13 +28,13 @@ Change-Id: Ibbffdb5f3930df74ca8b4ba93d451f7fad086989
  create mode 100644 src/com/android/settings/network/CaptivePortalWarningDialogHost.java
 
 diff --git a/res/values-de/cm_strings.xml b/res/values-de/cm_strings.xml
-index d981289421..3a66089d03 100644
+index ce8ba8c6eb..96223a68ce 100644
 --- a/res/values-de/cm_strings.xml
 +++ b/res/values-de/cm_strings.xml
-@@ -91,4 +91,7 @@
-     <string name="connected_tws_device_saved_title">Gespeicherte Kopfhörer</string>
+@@ -92,4 +92,7 @@
      <string name="fast_charging_title">Schnelles Laden</string>
      <string name="fast_charging_summary">Deaktivieren, um die vom Gerät beim Laden erzeugte Wärme zu reduzieren oder die Lebensdauer des Akkus zu verlängern</string>
+     <string name="peak_refresh_rate_summary_custom">Setzt die Aktualisierungsrate für einige Inhalte automatisch von 60 auf %1$d Hz herauf. Erhöhter Akkuverbrauch.</string>
 +    <string name="captive_portal_switch_title">Captive Portal Erkennung</string>
 +    <string name="captive_portal_switch_summary">Ein-/Ausschalten der Captive Portal Erkennung (Vorgabe EIN).</string>
 +    <string name="captive_portal_switch_warning">Nach dem Ausschalten der Captive-Portal-Erkennung empfangen Sie keine Verbindungs-Rückmeldung mehr. Wirklich fortfahren?</string>
@@ -342,6 +342,3 @@ index db704ae850..f4c5363d80 100644
      @Override
      public void showMobilePlanMessageDialog() {
          showDialog(MANAGE_MOBILE_PLAN_DIALOG_ID);
--- 
-2.32.0
-

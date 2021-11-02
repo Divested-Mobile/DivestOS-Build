@@ -67,6 +67,3 @@ index d6a8b5378d..8bc882d621 100644
  	    $(extra_recovery_keys)
  	$(SOONG_ZIP) -o $@ -j \
  	    $(foreach key_file, $(PRIVATE_CERT) $(PRIVATE_EXTRA_RECOVERY_KEYS), -f $(key_file))
--- 
-2.32.0
-

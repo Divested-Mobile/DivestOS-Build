@@ -21,6 +21,3 @@ index 6bee19745c87..ac231c5fafbe 100644
      <!-- Physical hardware -->
      <uses-permission android:name="android.permission.MANAGE_USB" />
      <uses-permission android:name="android.permission.CONTROL_DISPLAY_BRIGHTNESS" />
--- 
-2.32.0
-
