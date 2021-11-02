@@ -300,6 +300,7 @@ fi;
 
 if enterAndClear "device/essential/mata"; then
 git revert --no-edit 1f1d061c4d7ddedcac503608e8fa333aff30a693 3928b30a97fe7f6b6020bbd9d83a56a32de4ba16 e91f0fece65d32ca407be532e2c4456056b1a968; #Unbreak the earpiece speaker, breaking the loud speaker volume control on calls
+enableVerity; #Resurrect dm-verity
 fi;
 
 if enterAndClear "device/fairphone/FP3"; then
@@ -394,10 +395,28 @@ fi;
 if enterAndClear "device/moto/shamu"; then
 git revert --no-edit 0ba2cb240e8483fa85fcc831328f70f65eeb7180 2be3c88c331387f03978b75ebc118e09738216d0 ff98fee8fc40d00e1c8b296fd4bb20077bc056d6; #breakage
 #git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
+enableVerity; #Resurrect dm-verity
+fi;
+
+if enterAndClear "device/oneplus/guacamole"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
+if enterAndClear "device/oneplus/hotdog"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
+if enterAndClear "device/oneplus/hotdogb"; then
+enableVerity; #Resurrect dm-verity
 fi;
 
 if enterAndClear "device/oneplus/msm8998-common"; then
+enableVerity; #Resurrect dm-verity
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
+fi;
+
+if enterAndClear "device/oneplus/oneplus3"; then
+enableVerity; #Resurrect dm-verity
 fi;
 
 if enterAndClear "device/oneplus/sdm845-common"; then
@@ -421,6 +440,10 @@ if enterAndClear "device/razer/aura"; then
 enableVerity; #Resurrect dm-verity
 fi;
 
+if enterAndClear "device/razer/cheryl"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
 if enterAndClear "device/samsung/jfltexx"; then
 smallerSystem;
 fi;
@@ -428,6 +451,10 @@ fi;
 if enterAndClear "device/samsung/msm8974-common"; then
 echo "TARGET_RECOVERY_DENSITY := hdpi" >> BoardConfigCommon.mk;
 echo "allow hal_gnss_default ssr_device:chr_file { open read };" >> sepolicy/common/hal_gnss_default.te;
+fi;
+
+if enterAndClear "device/xiaomi/beryllium"; then
+enableVerity; #Resurrect dm-verity
 fi;
 
 if enterAndClear "device/xiaomi/sdm845-common"; then
@@ -443,6 +470,7 @@ enableVerity; #Resurrect dm-verity
 fi;
 
 if enterAndClear "device/zuk/msm8996-common"; then
+enableVerity; #Resurrect dm-verity
 awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
 fi;
 

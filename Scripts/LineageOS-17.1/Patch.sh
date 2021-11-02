@@ -294,6 +294,10 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
+if enterAndClear "device/yandex/Amber"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
 if enterAndClear "device/cyanogen/msm8916-common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 fi;
@@ -305,6 +309,7 @@ fi;
 
 if enterAndClear "device/google/marlin"; then
 git revert --no-edit 777dafa35f185b1f501e3c80b8ab495191583444; #remove some carrier blobs
+enableVerity; #Resurrect dm-verity
 sed -i 's/BTLogSave \\/BTLogSave/' common/base.mk; #deblobber fixup
 fi;
 
@@ -333,6 +338,10 @@ if enterAndClear "device/oneplus/avicii"; then
 enableVerity; #Resurrect dm-verity
 fi;
 
+if enterAndClear "device/oneplus/guacamoleb"; then
+enableVerity; #Resurrect dm-verity
+fi;
+
 if enterAndClear "device/oneplus/oneplus2"; then
 sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt;
 echo "allow mm-qcamerad camera_data_file:file create_file_perms;" >> sepolicy/mm-qcamerad.te; #Likely some of these could be removed
@@ -353,6 +362,7 @@ awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disabl
 fi;
 
 if enterAndClear "device/zuk/msm8996-common"; then
+enableVerity; #Resurrect dm-verity
 awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
 fi;
 
