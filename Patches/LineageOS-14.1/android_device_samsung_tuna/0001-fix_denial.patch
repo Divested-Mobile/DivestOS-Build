@@ -37,6 +37,3 @@ index dca6680..0d30c0d 100644
 +allow init tee_file:dir rw_dir_perms;
 +allow init tee_file:file create_file_perms;
 +allow init labeledfs:filesystem associate;
--- 
-2.31.1
-

@@ -84,6 +84,3 @@ index 6969fe5..9367012 100644
      // loop through adapters, and deliver to all adapters.
      TO_ALL_LOCADAPTERS(
          mLocAdapters[i]->reportPosition(location,
--- 
-2.31.1
-

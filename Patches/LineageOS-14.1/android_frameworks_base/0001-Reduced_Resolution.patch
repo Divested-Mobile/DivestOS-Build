@@ -217,6 +217,3 @@ index 55d0809ee4e5..33cb0a93bb71 100644
          @Override
          public int getFeature(int featureId) {
              return nativeGetFeature(featureId);
--- 
-2.31.1
-

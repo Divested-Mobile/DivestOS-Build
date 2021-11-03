@@ -57,6 +57,3 @@ index 4dfd86a0b3..82a962bc73 100644
              ALOGE("unsupported channel count %u", getChannels());
              return NO_INIT;
          }
--- 
-2.31.1
-

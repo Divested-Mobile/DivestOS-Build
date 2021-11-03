@@ -257,6 +257,3 @@ index 8241b9728..8f926bd36 100644
                  } else {
                      mButtonEnabledNetworks.setSummary(R.string.network_global);
                  }
--- 
-2.31.1
-

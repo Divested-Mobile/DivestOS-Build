@@ -129,6 +129,3 @@ index db59b6573..334cb9144 100644
  # Read /sys/kernel/debug/wakeup_sources.
  allow system_server debugfs:file r_file_perms;
  
--- 
-2.31.1
-

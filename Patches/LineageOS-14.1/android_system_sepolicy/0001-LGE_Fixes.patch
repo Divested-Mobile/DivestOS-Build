@@ -30,6 +30,3 @@ index 59de1f129..d165127fa 100644
  } misc_block_device:blk_file { append link relabelfrom rename write open read ioctl lock };
  
  # Only servicemanager should be able to register with binder as the context manager
--- 
-2.31.1
-

@@ -79,6 +79,3 @@ index e59d7c6..d78ffbb 100644
  # Needed for /system/vendor/lib/hw/gps.omap4.so
 +
 +allow system_server wifi_log_prop:property_service set;
--- 
-2.31.1
-

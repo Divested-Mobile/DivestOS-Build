@@ -90,6 +90,3 @@ index b1d9807..1b1daa5 100644
 +ro.sys.fw.trim_empty_percent=70
 +ro.sys.fw.use_trim_settings=true
 +dalvik.vm.madvise-random=true
--- 
-2.31.1
-

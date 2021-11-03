@@ -27,6 +27,3 @@ index 5f825c19b..e4b687d6b 100644
    auto err = CallDisplayFunction(device, display, &HWCDisplay::SetColorMode, mode);
    if (err != HWC2_ERROR_NONE)
      return -EINVAL;
--- 
-2.31.1
-

@@ -23,6 +23,3 @@ index 5befa7a10..b73393182 100644
      /* the existing len */
      BE_STREAM_TO_UINT16(len, p_data);
      p_num = p_data + 1;
--- 
-2.31.1
-

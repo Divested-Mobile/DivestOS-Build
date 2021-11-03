@@ -35,6 +35,3 @@ index 0d30c0d..f1047b4 100644
  #============= healthd ==============
  allow healthd device:dir write;
  
--- 
-2.31.1
-

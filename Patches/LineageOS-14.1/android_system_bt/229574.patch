@@ -48,6 +48,3 @@ index 977d2668d..cac0c2211 100644
  
  /* 2DH5 payload size of 679 bytes - (4 bytes L2CAP Header + 12 bytes AVDTP Header) */
  #define MAX_2MBPS_AVDTP_MTU         663
--- 
-2.31.1
-

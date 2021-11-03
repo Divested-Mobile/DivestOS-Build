@@ -190,6 +190,3 @@ index d1311f6ce..11b882aac 100644
                          memcpy ( omxhdr->pBuffer, (void *)
                                  ((unsigned long)vdec_msg->msgdata.output_frame.bufferaddr +
                                   (unsigned long)vdec_msg->msgdata.output_frame.offset),
--- 
-2.31.1
-

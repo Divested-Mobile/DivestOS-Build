@@ -90,6 +90,3 @@ index aed7211d..a962c728 100644
  static const menu MAIN_MENU = {
      MAIN_MENU_NAMES,
      MAIN_MENU_ENTRIES
--- 
-2.31.1
-

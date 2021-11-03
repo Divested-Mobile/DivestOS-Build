@@ -29,6 +29,3 @@ index caf7f646..df78c916 100644
  
  r_dir_file(mediaserver, sysfs_esoc)
  allow mediaserver system_app_data_file:file rw_file_perms;
--- 
-2.31.1
-

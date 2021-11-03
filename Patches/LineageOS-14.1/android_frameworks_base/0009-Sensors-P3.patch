@@ -30,6 +30,3 @@ index a9a00a60f0e5..84b196a2375b 100644
              AppOpsManager.MODE_ALLOWED, // OP_OTHER_SENSORS
      };
  
--- 
-2.31.1
-

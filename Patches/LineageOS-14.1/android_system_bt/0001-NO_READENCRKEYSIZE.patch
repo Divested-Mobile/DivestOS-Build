@@ -156,6 +156,3 @@ index a79edc4bc..630d372ad 100644
  extern BOOLEAN btsnd_hcic_enable_test_mode (void);                     /* Enable Device Under Test Mode */
  extern BOOLEAN btsnd_hcic_write_pagescan_type(UINT8 type);             /* Write Page Scan Type */
  extern BOOLEAN btsnd_hcic_write_inqscan_type(UINT8 type);              /* Write Inquiry Scan Type */
--- 
-2.31.1
-

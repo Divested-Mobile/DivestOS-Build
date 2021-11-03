@@ -187,6 +187,3 @@ index 702e6db0ae..98df2759b2 100644
      private void addMobileSection(int subId) {
          TemplatePreferenceCategory category = (TemplatePreferenceCategory)
                  inflatePreferences(R.xml.data_usage_cellular);
--- 
-2.31.1
-

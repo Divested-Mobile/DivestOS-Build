@@ -31,6 +31,3 @@ index a51a3279f1..504267ab27 100644
  
                  final AppOpsManager.OpEntry firstOp = entry.getOpEntry(0);
                  final int switchOp = AppOpsManager.opToSwitch(firstOp.getOp());
--- 
-2.31.1
-

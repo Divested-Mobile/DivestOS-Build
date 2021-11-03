@@ -31,6 +31,3 @@ index bba1c88..a31492e 100644
      }
  
      public static String getChangelogURL(Context context) {
--- 
-2.31.1
-

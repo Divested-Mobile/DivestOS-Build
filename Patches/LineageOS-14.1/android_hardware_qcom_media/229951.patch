@@ -173,6 +173,3 @@ index 99b0c6e78..cfb72d83b 100644
                         vdec_msg->msgdata.output_frame.bufferaddr)
                         memcpy ( omxhdr->pBuffer, (void *)
                                 ((unsigned long)vdec_msg->msgdata.output_frame.bufferaddr +
--- 
-2.31.1
-

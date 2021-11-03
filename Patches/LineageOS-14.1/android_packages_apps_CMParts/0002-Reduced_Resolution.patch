@@ -102,6 +102,3 @@ index ec2138d..5fdc8f1 100644
      private void updateAutoPowerSaveValue() {
          final int level = Global.getInt(
                  getContentResolver(), Global.LOW_POWER_MODE_TRIGGER_LEVEL, 0);
--- 
-2.31.1
-
