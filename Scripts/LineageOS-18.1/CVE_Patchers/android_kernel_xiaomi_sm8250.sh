@@ -212,7 +212,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0936/ANY/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0936/ANY/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0937/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0938/4.19/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1048/^5.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1048/4.1-^5.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1915/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1927/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1941/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
