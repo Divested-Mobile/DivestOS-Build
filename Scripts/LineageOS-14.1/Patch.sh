@@ -105,8 +105,6 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Disable_Analytics.patch"; 
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-Sensors-P1.patch"; #Permission for sensors access (MSe1969)
-applyPatch "$DOS_PATCHES/android_frameworks_base/0009-Sensors-P2.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0009-Sensors-P3.patch";
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0003-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0005-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
 hardenLocationFWB "$DOS_BUILD_BASE"; #Harden the default GPS config

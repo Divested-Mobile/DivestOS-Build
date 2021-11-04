@@ -4,7 +4,7 @@ Date: Fri, 15 Mar 2019 22:14:54 +0100
 Subject: [PATCH] AppOps/PrivacyGuard: New Sensor checks [native]
 
 Add two AppOps for sensor access:
-- OP_MOTION_SENSORS (default: ask, strict)
+- OP_MOTION_SENSORS (default: allow, strict)
 - OP_OTHER_SENSORS  (default: allow)
 
 This change updated the AppOPs binder for the newly defined Ops,

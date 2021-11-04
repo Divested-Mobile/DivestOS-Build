@@ -4,25 +4,20 @@ Date: Fri, 15 Mar 2019 22:05:36 +0100
 Subject: [PATCH] AppOps/PrivacyGuard: New Sensor checks [base]
 
 Add two AppOps for sensor access:
-- OP_MOTION_SENSORS (default: ask, strict)
+- OP_MOTION_SENSORS (default: allow, strict)
 - OP_OTHER_SENSORS  (default: allow)
-
-To avoid severe issues when setting selected Ops to 'ASK', the default
-mode for apps with uid 1000 (system) will always get the 'allowed' mode
-as default, same as com.android.systemui
 
 Change-Id: Id12b91720f1e02ea5ca606ecefb30121d19b92bb
 ---
- core/java/android/app/AppOpsManager.java      | 35 +++++++++++++++++--
- core/res/res/values-de/cm_strings.xml         |  2 ++
- core/res/res/values-fr/cm_strings.xml         |  2 ++
- core/res/res/values/cm_strings.xml            |  2 ++
- core/res/res/values/lineage_arrays.xml        |  4 +++
- .../com/android/server/AppOpsService.java     | 19 +++++++++-
- 6 files changed, 61 insertions(+), 3 deletions(-)
+ core/java/android/app/AppOpsManager.java | 35 ++++++++++++++++++++++--
+ core/res/res/values-de/cm_strings.xml    |  2 ++
+ core/res/res/values-fr/cm_strings.xml    |  2 ++
+ core/res/res/values/cm_strings.xml       |  2 ++
+ core/res/res/values/lineage_arrays.xml   |  4 +++
+ 5 files changed, 43 insertions(+), 2 deletions(-)
 
 diff --git a/core/java/android/app/AppOpsManager.java b/core/java/android/app/AppOpsManager.java
-index 5b763e50c38f..bd9f9224f325 100644
+index 5b763e50c38f..fef17859af8c 100644
 --- a/core/java/android/app/AppOpsManager.java
 +++ b/core/java/android/app/AppOpsManager.java
 @@ -371,8 +371,12 @@ public class AppOpsManager {
@@ -120,7 +115,7 @@ index 5b763e50c38f..bd9f9224f325 100644
              AppOpsManager.MODE_ALLOWED,  // OP_NFC_CHANGE
              AppOpsManager.MODE_ALLOWED,  // OP_DATA_CONNECT_CHANGE
              AppOpsManager.MODE_ASK,      // OP_SU
-+            AppOpsManager.MODE_ASK,      // OP_MOTION_SENSORS
++            AppOpsManager.MODE_ALLOWED,      // OP_MOTION_SENSORS
 +            AppOpsManager.MODE_ALLOWED,  // OP_OTHER_SENSORS
      };
  
@@ -129,7 +124,7 @@ index 5b763e50c38f..bd9f9224f325 100644
              AppOpsManager.MODE_ASK,     // OP_NFC_CHANGE
              AppOpsManager.MODE_ASK,     // OP_DATA_CONNECT_CHANGE
              AppOpsManager.MODE_ASK,     // OP_SU
-+            AppOpsManager.MODE_ASK,     // OP_MOTION_SENSORS
++            AppOpsManager.MODE_ALLOWED,     // OP_MOTION_SENSORS
 +            AppOpsManager.MODE_ALLOWED, // OP_OTHER_SENSORS
      };
  
@@ -209,40 +204,3 @@ index 58567d1c8bd1..11a7d99b8d48 100644
      </string-array>
  
  </resources>
-diff --git a/services/core/java/com/android/server/AppOpsService.java b/services/core/java/com/android/server/AppOpsService.java
-index 95ba50246db0..a6cf19f9be8a 100644
---- a/services/core/java/com/android/server/AppOpsService.java
-+++ b/services/core/java/com/android/server/AppOpsService.java
-@@ -1822,6 +1822,15 @@ public class AppOpsService extends IAppOpsService.Stub {
-                     op.rejectTime[uidState.state] = System.currentTimeMillis();
-                     op.ignoredCount++;
-                     return mode;
-+                } else if (uid == Process.SYSTEM_UID || packageName == "com.android.systemui") {
-+                    /*
-+                     *  To avoid a deadlock situation in case of system/privileged apps having
-+                     *  'MODE_ASK'as default in case of own AppOps (e.g. OP_MOTION_SENSORS),
-+                     *  we need to grant always access to such privileged system apps.
-+                     *
-+                     *  This 'blind' condition causes the PermissionDialog req not to be
-+                     *  initialised, hence the `if (req == null)` condition below applies.
-+                     */
-                 } else if (mode == AppOpsManager.MODE_ASK) {
-                     if (Looper.myLooper() == mLooper || Thread.holdsLock(mActivityManagerService)) {
-                         Slog.e(TAG, "noteOperation: this method will deadlock if called" +
-@@ -2000,7 +2009,15 @@ public class AppOpsService extends IAppOpsService.Stub {
-                 op.rejectTime[uidState.state] = System.currentTimeMillis();
-                 op.ignoredCount++;
-                 return mode;
--            } else if (mode == AppOpsManager.MODE_ALLOWED) {
-+            } else if ((mode == AppOpsManager.MODE_ALLOWED) ||
-+                    /*
-+                     * To avoid a deadlock situation in case of system/privileged apps having
-+                     * 'MODE_ASK'as default in case of own AppOps (e.g. OP_MOTION_SENSORS),
-+                     * we need to grant always access to such privileged system apps
-+                     */
-+                    ((uid == Process.SYSTEM_UID || packageName == "com.android.systemui") &&
-+                    (mode == AppOpsManager.MODE_ASK))) {
-+
-                 if (DEBUG) Slog.d(TAG, "startOperation: allowing code " + code + " uid " + uid
-                         + " package " + resolvedPackageName);
-                 if (op.startNesting == 0) {

@@ -4,25 +4,20 @@ Date: Sun, 17 Jun 2018 10:49:09 +0200
 Subject: [PATCH] - AppOps/PrivacyGuard: New Sensor checks [base]
 
 Add two AppOps for sensor access:
-- OP_MOTION_SENSORS (default: ask, strict)
+- OP_MOTION_SENSORS (default: allow, strict)
 - OP_OTHER_SENSORS  (default: allow)
-
-To avoid severe issues when setting selected Ops to 'ASK', the default
-mode for systemui, apps with uid 1000 (system) and apps signed with the
-platform key will always get the 'allowed' mode as default.
 
 Change-Id: Id12b91720f1e02ea5ca606ecefb30121d19b92bb
 ---
- core/java/android/app/AppOpsManager.java      | 34 +++++++++++++++++--
- core/res/res/values-de/cm_strings.xml         |  2 ++
- core/res/res/values-fr/cm_strings.xml         |  2 ++
- core/res/res/values/cm_strings.xml            |  2 ++
- core/res/res/values/lineage_arrays.xml        |  4 +++
- .../com/android/server/AppOpsService.java     | 20 +++++++++++
- 6 files changed, 61 insertions(+), 3 deletions(-)
+ core/java/android/app/AppOpsManager.java | 34 +++++++++++++++++++++---
+ core/res/res/values-de/cm_strings.xml    |  2 ++
+ core/res/res/values-fr/cm_strings.xml    |  2 ++
+ core/res/res/values/cm_strings.xml       |  2 ++
+ core/res/res/values/lineage_arrays.xml   |  4 +++
+ 5 files changed, 41 insertions(+), 3 deletions(-)
 
 diff --git a/core/java/android/app/AppOpsManager.java b/core/java/android/app/AppOpsManager.java
-index 2db36c8f4e02..d2587f2009df 100644
+index 2db36c8f4e02..e59869c11e90 100644
 --- a/core/java/android/app/AppOpsManager.java
 +++ b/core/java/android/app/AppOpsManager.java
 @@ -280,8 +280,12 @@ public class AppOpsManager {
@@ -112,7 +107,7 @@ index 2db36c8f4e02..d2587f2009df 100644
              AppOpsManager.MODE_ALLOWED,
 -            AppOpsManager.MODE_ASK, // OP_SU
 +            AppOpsManager.MODE_ASK,     // OP_SU
-+            AppOpsManager.MODE_ASK,     // OP_MOTION_SENSORS
++            AppOpsManager.MODE_ALLOWED,     // OP_MOTION_SENSORS
 +            AppOpsManager.MODE_ALLOWED, // OP_OTHER_SENSORS
      };
  
@@ -121,7 +116,7 @@ index 2db36c8f4e02..d2587f2009df 100644
              AppOpsManager.MODE_ASK,     // OP_NFC_CHANGE
              AppOpsManager.MODE_ASK,     // OP_DATA_CONNECT_CHANGE
              AppOpsManager.MODE_ASK,     // OP_SU
-+            AppOpsManager.MODE_ASK,     // OP_MOTION_SENSORS
++            AppOpsManager.MODE_ALLOWED,     // OP_MOTION_SENSORS
 +            AppOpsManager.MODE_ALLOWED, // OP_OTHER_SENSORS
      };
  
@@ -201,34 +196,3 @@ index 65149d2a9e54..5cb3120dbc47 100644
      </string-array>
  
  </resources>
-diff --git a/services/core/java/com/android/server/AppOpsService.java b/services/core/java/com/android/server/AppOpsService.java
-index 8dc8272303e3..0a74101de471 100644
---- a/services/core/java/com/android/server/AppOpsService.java
-+++ b/services/core/java/com/android/server/AppOpsService.java
-@@ -2841,6 +2841,26 @@ public class AppOpsService extends IAppOpsService.Stub {
-     }
- 
-     private int getDefaultMode(int code, int uid, String packageName) {
-+        // To allow setting 'MODE_ASK' for own Ops, some precautions to
-+        // avoid privileged apps to trigger the toggle are needed:
-+        
-+        // 1st check: Skip uid 1000 and systemui
-+        if (uid == android.os.Process.SYSTEM_UID || "com.android.systemui".equals(packageName)) {
-+            return AppOpsManager.MODE_ALLOWED;
-+        }
-+        // 2nd check: Skip apps signed with platform key, except for the 'root' Op
-+        if (code != AppOpsManager.OP_SU) {
-+            try {
-+                int match = AppGlobals.getPackageManager().checkSignatures("android", packageName);        
-+                if (match >= PackageManager.SIGNATURE_MATCH) {
-+                    return AppOpsManager.MODE_ALLOWED;
-+                }
-+            } catch (RemoteException re) {            
-+                Log.e(TAG, "AppOps getDefaultMode: Can't talk to PM f. Sig.Check", re);
-+            }
-+        }
-+        // end
-+        
-         int mode = AppOpsManager.opToDefaultMode(code,
-                 isStrict(code, uid, packageName));
-         if (AppOpsManager.isStrictOp(code) && mPolicy != null) {
