@@ -84,6 +84,8 @@
 	<project path="hardware/sony/thermanager" name="LineageOS/android_hardware_sony_thermanager" remote="github" />
 	<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />
 	<project path="packages/apps/FlipFlap" name="LineageOS/android_packages_apps_FlipFlap" remote="github" />
+	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
+	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
 
 	<!-- Asus ZenFone 3 (zenfone3) -->
 	<project path="device/asus/zenfone3" name="LineageOS/android_device_asus_zenfone3" remote="github" />
@@ -101,6 +103,14 @@
 	<!-- Nexus Player (fugu) -->
 	<project path="device/asus/fugu" name="LineageOS/android_device_asus_fugu" remote="github" />
 	<project path="kernel/asus/fugu" name="LineageOS/android_kernel_asus_fugu" remote="github" />
+
+	<!-- Samsung Galaxy S5 Plus (kccat6) -->
+	<project path="device/samsung/kccat6" name="LineageOS/android_device_samsung_kccat6" remote="github" />
+	<project path="device/samsung/apq8084-common" name="LineageOS/android_device_samsung_apq8084-common" remote="github" />
+	<project path="kernel/samsung/apq8084" name="LineageOS/android_kernel_samsung_apq8084" remote="github" />
+
+	<!-- Samsung Galaxy S5 LTE-A (lentislte) -->
+	<project path="device/samsung/lentislte" name="LineageOS/android_device_samsung_lentislte" remote="github" />
 
 	<!-- Wileyfox Storm (kipper) -->
 	<project path="device/wileyfox/kipper" name="LineageOS/android_device_wileyfox_kipper" remote="github" />

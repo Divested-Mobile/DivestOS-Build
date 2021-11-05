@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_asus_msm8953 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_google_yellowstone kernel_lge_hammerhead kernel_xiaomi_msm8937";
+	startPatcher "kernel_asus_fugu kernel_asus_msm8953 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_google_yellowstone kernel_lge_hammerhead kernel_samsung_apq8084 kernel_xiaomi_msm8937";
 }
 export -f patchAllKernels;
 
@@ -59,6 +59,9 @@ buildAll() {
 	buildDevice hammerhead; #broken Bluetooth + maybe broken sepolicy
 	#SD801
 	buildDevice ham;
+	#SD805
+	buildDevice kccat6;
+	buildDevice lentislte;
 	#SD615
 	buildDevice kipper;
 	#SD625

@@ -16,29 +16,33 @@ Change-Id: I79c0ed4ab97494434edc6c308a8a54bd123c02ee
  create mode 100644 src/com/android/settings/applications/specialaccess/sensor/SensorAccess.java
 
 diff --git a/res/values-de/strings.xml b/res/values-de/strings.xml
-index 0893b5c318..a81d55df07 100644
+index 0893b5c318..48d6b24f70 100644
 --- a/res/values-de/strings.xml
 +++ b/res/values-de/strings.xml
-@@ -4671,4 +4671,7 @@
-     <string name="rtt_settings_no_visible" msgid="7440356831140948382"></string>
-     <string name="rtt_settings_visible_during_call" msgid="7866181103286073700"></string>
-     <string name="rtt_settings_always_visible" msgid="2364173070088756238"></string>
+@@ -4667,6 +4667,9 @@
+     <string name="dual_cdma_sim_warning_notification_channel_title" msgid="1049161096896074364">"SIM-Kombination"</string>
+     <string name="work_policy_privacy_settings" msgid="2702644843505242596">"Informationen zu den Arbeitsrichtlinien"</string>
+     <string name="work_policy_privacy_settings_summary" msgid="690118670737638405">"Einstellungen, die von deinem IT-Administrator verwaltet werden"</string>
 +    <string name="sensor_access_summary">Sensorzugriff von Benutzer-Apps kontrollieren</string>
 +    <string name="sensor_access_title">Zugriff auf Sensoren</string>
 +    <string name="sensor_access_title_empty_text">Keine installierte App hat Sensorzugriff angefordert.</string>
- </resources>
-diff --git a/res/values-fr/strings.xml b/res/values-fr/strings.xml
-index a1461ea6a2..c7aa02d04f 100644
---- a/res/values-fr/strings.xml
-+++ b/res/values-fr/strings.xml
-@@ -4670,4 +4670,7 @@
+     <string name="rtt_settings_title" msgid="7049259598645966354"></string>
      <string name="rtt_settings_no_visible" msgid="7440356831140948382"></string>
      <string name="rtt_settings_visible_during_call" msgid="7866181103286073700"></string>
-     <string name="rtt_settings_always_visible" msgid="2364173070088756238"></string>
+diff --git a/res/values-fr/strings.xml b/res/values-fr/strings.xml
+index a1461ea6a2..72af9b3a47 100644
+--- a/res/values-fr/strings.xml
++++ b/res/values-fr/strings.xml
+@@ -4666,6 +4666,9 @@
+     <string name="dual_cdma_sim_warning_notification_channel_title" msgid="1049161096896074364">"Combinaison de cartes SIM"</string>
+     <string name="work_policy_privacy_settings" msgid="2702644843505242596">"Informations sur les règles professionnelles"</string>
+     <string name="work_policy_privacy_settings_summary" msgid="690118670737638405">"Paramètres gérés par votre administrateur informatique"</string>
 +    <string name="sensor_access_summary">Contrôler l\'accès des applications utilisateurs aux capteurs</string>
 +    <string name="sensor_access_title">Access aux Capteurs</string>
 +    <string name="sensor_access_title_empty_text">Aucune app installée n\'a demandé de l\'accès aux capteurs.</string>
- </resources>
+     <string name="rtt_settings_title" msgid="7049259598645966354"></string>
+     <string name="rtt_settings_no_visible" msgid="7440356831140948382"></string>
+     <string name="rtt_settings_visible_during_call" msgid="7866181103286073700"></string>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
 index 5b4f19c18b..d8a769645e 100644
 --- a/res/values/strings.xml
