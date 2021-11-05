@@ -45,10 +45,10 @@ export -f enableAVB;
 
 #Device Changes
 enableVerity "device/essential/mata";
-enableVerity "device/google/dragon";
+#enableVerity "device/google/dragon"; #XXX: non-standard
 enableVerity "device/google/marlin";
 enableVerity "device/google/sailfish";
-enableVerity "device/htc/flounder";
+#enableVerity "device/htc/flounder"; #XXX: no boot
 enableVerity "device/huawei/angler";
 enableVerity "device/lge/bullhead";
 enableVerity "device/moto/shamu";
@@ -99,7 +99,7 @@ enableAVB "device/xiaomi/vayu";
 
 #Kernel Changes
 sed -i 's/slotselect/slotselect,verify/' kernel/essential/msm8998/arch/arm64/boot/dts/essential/msm8998-mata-lineage.dtsi &>/dev/null || true; #/vendor
-sed -i 's/wait/wait,verify/g' kernel/htc/flounder/arch/arm64/boot/dts/tegra132.dtsi &>/dev/null || true; #/system
+#sed -i 's/wait/wait,verify/g' kernel/htc/flounder/arch/arm64/boot/dts/tegra132.dtsi &>/dev/null || true; #/system #XXX: no boot
 sed -i 's/wait/wait,verify/g' kernel/moto/shamu/arch/arm/boot/dts/qcom/apq8084.dtsi &>/dev/null || true; #/system
 sed -i 's/wait/wait,verify/g' kernel/oneplus/msm8996/arch/arm/boot/dts/qcom/15801/msm8996-mtp.dtsi &>/dev/null || true; #/system
 sed -i 's/wait/wait,verify/g' kernel/oneplus/msm8998/arch/arm/boot/dts/qcom/cheeseburger.dtsi &>/dev/null || true; #/system and /vendor
