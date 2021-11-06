@@ -312,7 +312,7 @@ awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken
 fi;
 
 if enterAndClear "device/motorola/clark"; then
-echo "recovery_only('" >> sepolicy/recovery.te; #304224: Allow recovery to unzip and chmod modem firmware
+echo "recovery_only(\`" >> sepolicy/recovery.te; #304224: Allow recovery to unzip and chmod modem firmware
 echo "  allow firmware_file labeledfs:filesystem associate;" >> sepolicy/recovery.te;
 echo "  allow recovery firmware_file:dir rw_dir_perms;" >> sepolicy/recovery.te;
 echo "  allow recovery firmware_file:file create_file_perms;" >> sepolicy/recovery.te;
@@ -321,7 +321,7 @@ fi;
 
 if enterAndClear "device/motorola/msm8916-common"; then
 rm sepolicy/recovery.te;
-echo "recovery_only('" >> sepolicy/recovery.te; #304224: Allow recovery to unzip and chmod modem firmware
+echo "recovery_only(\`" >> sepolicy/recovery.te; #304224: Allow recovery to unzip and chmod modem firmware
 echo "  allow firmware_file labeledfs:filesystem associate;" >> sepolicy/recovery.te;
 echo "  allow recovery firmware_file:dir rw_dir_perms;" >> sepolicy/recovery.te;
 echo "  allow recovery firmware_file:file create_file_perms;" >> sepolicy/recovery.te;

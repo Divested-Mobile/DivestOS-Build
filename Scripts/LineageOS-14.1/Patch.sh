@@ -344,7 +344,7 @@ fi;
 if enterAndClear "device/motorola/clark"; then
 sed -i 's/0xA04D/0xA04D|0xA052/' board-info.txt; #Allow installing on Nougat bootloader, assume the user is running the correct modem
 rm board-info.txt; #Never restrict installation
-echo "recovery_only('" >> sepolicy/recovery.te; #304224: Allow recovery to unzip and chmod modem firmware
+echo "recovery_only(\`" >> sepolicy/recovery.te; #304224: Allow recovery to unzip and chmod modem firmware
 echo "  allow firmware_file labeledfs:filesystem associate;" >> sepolicy/recovery.te;
 echo "  allow recovery firmware_file:dir rw_dir_perms;" >> sepolicy/recovery.te;
 echo "  allow recovery firmware_file:file create_file_perms;" >> sepolicy/recovery.te;

@@ -16,7 +16,7 @@ Change-Id: I79c0ed4ab97494434edc6c308a8a54bd123c02ee
  create mode 100644 src/com/android/settings/applications/specialaccess/sensor/SensorAccess.java
 
 diff --git a/res/values-de/strings.xml b/res/values-de/strings.xml
-index 0893b5c318..48d6b24f70 100644
+index 065a41322c..7f7000be66 100644
 --- a/res/values-de/strings.xml
 +++ b/res/values-de/strings.xml
 @@ -4667,6 +4667,9 @@
@@ -30,7 +30,7 @@ index 0893b5c318..48d6b24f70 100644
      <string name="rtt_settings_no_visible" msgid="7440356831140948382"></string>
      <string name="rtt_settings_visible_during_call" msgid="7866181103286073700"></string>
 diff --git a/res/values-fr/strings.xml b/res/values-fr/strings.xml
-index a1461ea6a2..72af9b3a47 100644
+index d6d19a7ceb..68f543974b 100644
 --- a/res/values-fr/strings.xml
 +++ b/res/values-fr/strings.xml
 @@ -4666,6 +4666,9 @@
