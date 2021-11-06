@@ -16,29 +16,33 @@ Change-Id: I79c0ed4ab97494434edc6c308a8a54bd123c02ee
  create mode 100644 src/com/android/settings/applications/specialaccess/sensor/SensorAccess.java
 
 diff --git a/res/values-de/strings.xml b/res/values-de/strings.xml
-index b2acb11e61..f5815df4a8 100644
+index 14ea8dd84f..1bd3acf6c9 100644
 --- a/res/values-de/strings.xml
 +++ b/res/values-de/strings.xml
-@@ -4969,4 +4969,7 @@
-     <string name="bluetooth_phonebook_access_notification_content" msgid="4280361621526852063">"Ein nicht vertrauenswürdiges Gerät fordert Zugriff auf deine Kontakte und deine Anrufliste an. Weitere Informationen."</string>
-     <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Möchtest du den Zugriff auf Kontakte und Anrufliste zulassen?"</string>
-     <string name="bluetooth_phonebook_access_dialog_content" msgid="4766700015848574532">"Ein nicht vertrauenswürdiges Bluetooth-Gerät (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) möchte auf deine Kontakte und deine Anrufliste zugreifen. Dazu gehören auch Daten über ein- und ausgehende Anrufe.\n\nDu warst bisher noch nicht mit <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> verbunden."</string>
+@@ -4945,6 +4945,9 @@
+     <string name="rtt_settings_no_visible" msgid="7440356831140948382"></string>
+     <string name="rtt_settings_visible_during_call" msgid="7866181103286073700"></string>
+     <string name="rtt_settings_always_visible" msgid="2364173070088756238"></string>
 +    <string name="sensor_access_summary">Sensorzugriff von Benutzer-Apps kontrollieren</string>
 +    <string name="sensor_access_title">Zugriff auf Sensoren</string>
 +    <string name="sensor_access_title_empty_text">Keine installierte App hat Sensorzugriff angefordert.</string>
- </resources>
+     <string name="media_output_panel_stop_casting_button" msgid="6094875883164119035">"Streamen beenden"</string>
+     <string name="volte_5G_limited_title" msgid="5908052268836750629">"VoLTE deaktivieren?"</string>
+     <string name="volte_5G_limited_text" msgid="7150583768725182345">"Dadurch wird auch deine 5G-Verbindung deaktiviert.\nWährend eines Sprachanrufs kannst du das Internet nicht nutzen und manche Apps funktionieren möglicherweise nicht."</string>
 diff --git a/res/values-fr/strings.xml b/res/values-fr/strings.xml
-index 42545707e6..d65e050664 100644
+index 66c5e069ed..97cbc16b84 100644
 --- a/res/values-fr/strings.xml
 +++ b/res/values-fr/strings.xml
-@@ -4968,4 +4968,7 @@
-     <string name="bluetooth_phonebook_access_notification_content" msgid="4280361621526852063">"Un appareil non vérifié souhaite accéder à vos contacts et à votre journal d\'appels. Appuyez ici pour plus de détails."</string>
-     <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Autoriser l\'accès aux contacts et au journal d\'appels ?"</string>
-     <string name="bluetooth_phonebook_access_dialog_content" msgid="4766700015848574532">"Un appareil Bluetooth non vérifié, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, souhaite accéder à vos contacts et à votre journal d\'appels. Ceci inclut des données concernant les appels entrants et sortants.\n\nVous ne vous êtes jamais connecté à <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> auparavant."</string>
+@@ -4944,6 +4944,9 @@
+     <string name="rtt_settings_no_visible" msgid="7440356831140948382"></string>
+     <string name="rtt_settings_visible_during_call" msgid="7866181103286073700"></string>
+     <string name="rtt_settings_always_visible" msgid="2364173070088756238"></string>
 +    <string name="sensor_access_summary">Contrôler l\'accès des applications utilisateurs aux capteurs</string>
 +    <string name="sensor_access_title">Access aux Capteurs</string>
 +    <string name="sensor_access_title_empty_text">Aucune app installée n\'a demandé de l\'accès aux capteurs.</string>
- </resources>
+     <string name="media_output_panel_stop_casting_button" msgid="6094875883164119035">"Arrêter la diffusion"</string>
+     <string name="volte_5G_limited_title" msgid="5908052268836750629">"Désactiver VoLTE ?"</string>
+     <string name="volte_5G_limited_text" msgid="7150583768725182345">"Cela désactive également votre connexion 5G.\nLorsque vous effectuez un appel vocal, vous n\'avez pas accès à Internet et certaines applications peuvent ne pas fonctionner."</string>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
 index 9903ac78ac..4659634bc2 100644
 --- a/res/values/strings.xml
