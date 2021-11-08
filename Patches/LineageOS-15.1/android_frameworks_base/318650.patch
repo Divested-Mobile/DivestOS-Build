@@ -1,0 +1,40 @@
+From 8cc2e34a67e31f4bc08c7fb70cbd2d79fefacd42 Mon Sep 17 00:00:00 2001
+From: Evan Chen <evanxinchen@google.com>
+Date: Thu, 2 Sep 2021 21:57:41 +0000
+Subject: [PATCH] Backporting the change of ag/15629060 to pi-dev
+
+Bug: 172251622
+Bug: 197035186
+Change-Id: Ic3ffcb622af232473adf8a8c8307cce78227bac0
+Merged-In: I7e2f95fd85e18127dc481f188ace8ad6effc4831
+Test: Manual
+(cherry picked from commit 95ff59db3b99829cc49afeaeb616004394e09b28)
+---
+ .../companiondevicemanager/DeviceChooserActivity.java      | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/packages/CompanionDeviceManager/src/com/android/companiondevicemanager/DeviceChooserActivity.java b/packages/CompanionDeviceManager/src/com/android/companiondevicemanager/DeviceChooserActivity.java
+index 34139a8e58e9..06a56095aa0a 100644
+--- a/packages/CompanionDeviceManager/src/com/android/companiondevicemanager/DeviceChooserActivity.java
++++ b/packages/CompanionDeviceManager/src/com/android/companiondevicemanager/DeviceChooserActivity.java
+@@ -64,8 +64,8 @@ public void onCreate(Bundle savedInstanceState) {
+             final DeviceFilterPair selectedDevice = getService().mDevicesFound.get(0);
+             setTitle(Html.fromHtml(getString(
+                     R.string.confirmation_title,
+-                    getCallingAppName(),
+-                    selectedDevice.getDisplayName()), 0));
++                    Html.escapeHtml(getCallingAppName()),
++                    Html.escapeHtml(selectedDevice.getDisplayName())), 0));
+             mPairButton = findViewById(R.id.button_pair);
+             mPairButton.setOnClickListener(v -> onDeviceConfirmed(getService().mSelectedDevice));
+             getService().mSelectedDevice = selectedDevice;
+@@ -74,7 +74,8 @@ public void onCreate(Bundle savedInstanceState) {
+             setContentView(R.layout.device_chooser);
+             mPairButton = findViewById(R.id.button_pair);
+             mPairButton.setVisibility(View.GONE);
+-            setTitle(Html.fromHtml(getString(R.string.chooser_title, getCallingAppName()), 0));
++            setTitle(Html.fromHtml(getString(R.string.chooser_title,
++                    Html.escapeHtml(getCallingAppName())), 0));
+             mDeviceListView = findViewById(R.id.device_list);
+             final DeviceDiscoveryService.DevicesAdapter adapter = getService().mDevicesAdapter;
+             mDeviceListView.setAdapter(adapter);

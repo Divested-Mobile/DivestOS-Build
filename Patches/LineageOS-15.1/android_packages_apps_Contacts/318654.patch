@@ -1,0 +1,26 @@
+From 8cd9ccedaffec38a5845e9f624179995c21fde84 Mon Sep 17 00:00:00 2001
+From: John Shao <johnshao@google.com>
+Date: Wed, 25 Aug 2021 23:29:56 +0000
+Subject: [PATCH] Add permission to start NFC activity to ensure it is from NFC
+ stack
+
+Bug: 191053931
+Test: build
+Change-Id: I41b5ddf464f45e68a4da6ad880cbc9b12e447ec5
+(cherry picked from commit 024c62fa49aa2090daf50657c2b509b9478d8b92)
+---
+ AndroidManifest.xml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 98d7677463..221dd69289 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -492,6 +492,7 @@
+ 
+         <activity
+             android:name=".vcard.NfcImportVCardActivity"
++            android:permission="android.permission.DISPATCH_NFC_MESSAGE"
+             android:configChanges="orientation|screenSize|keyboardHidden"
+             android:theme="@style/BackgroundOnlyTheme">
+             <intent-filter>
