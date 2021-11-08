@@ -1,4 +1,4 @@
-From 8cc2e34a67e31f4bc08c7fb70cbd2d79fefacd42 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Evan Chen <evanxinchen@google.com>
 Date: Thu, 2 Sep 2021 21:57:41 +0000
 Subject: [PATCH] Backporting the change of ag/15629060 to pi-dev
@@ -14,10 +14,10 @@ Test: Manual
  1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/packages/CompanionDeviceManager/src/com/android/companiondevicemanager/DeviceChooserActivity.java b/packages/CompanionDeviceManager/src/com/android/companiondevicemanager/DeviceChooserActivity.java
-index 34139a8e58e9..06a56095aa0a 100644
+index 18cec01dadf0..97fd4bd4bcf2 100644
 --- a/packages/CompanionDeviceManager/src/com/android/companiondevicemanager/DeviceChooserActivity.java
 +++ b/packages/CompanionDeviceManager/src/com/android/companiondevicemanager/DeviceChooserActivity.java
-@@ -64,8 +64,8 @@ public void onCreate(Bundle savedInstanceState) {
+@@ -63,8 +63,8 @@ public class DeviceChooserActivity extends Activity {
              final DeviceFilterPair selectedDevice = getService().mDevicesFound.get(0);
              setTitle(Html.fromHtml(getString(
                      R.string.confirmation_title,
@@ -28,7 +28,7 @@ index 34139a8e58e9..06a56095aa0a 100644
              mPairButton = findViewById(R.id.button_pair);
              mPairButton.setOnClickListener(v -> onDeviceConfirmed(getService().mSelectedDevice));
              getService().mSelectedDevice = selectedDevice;
-@@ -74,7 +74,8 @@ public void onCreate(Bundle savedInstanceState) {
+@@ -73,7 +73,8 @@ public class DeviceChooserActivity extends Activity {
              setContentView(R.layout.device_chooser);
              mPairButton = findViewById(R.id.button_pair);
              mPairButton.setVisibility(View.GONE);

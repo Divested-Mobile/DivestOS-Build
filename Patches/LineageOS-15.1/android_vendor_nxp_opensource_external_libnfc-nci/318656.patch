@@ -13,7 +13,7 @@ Change-Id: I53bfc1b7eca4c3306f20488dc5fb8ccf9ed0e330
  1 file changed, 10 insertions(+)
 
 diff --git a/halimpl/pn54x/hal/phNxpNciHal_ext.c b/halimpl/pn54x/hal/phNxpNciHal_ext.c
-index fff4477b..c0145500 100644
+index 3f356932..1d6fd61a 100644
 --- a/halimpl/pn54x/hal/phNxpNciHal_ext.c
 +++ b/halimpl/pn54x/hal/phNxpNciHal_ext.c
 @@ -16,6 +16,7 @@

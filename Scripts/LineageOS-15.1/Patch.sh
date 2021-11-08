@@ -187,7 +187,7 @@ fi;
 
 if enterAndClear "packages/apps/Contacts"; then
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links (GrapheneOS)
-applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/318654.patch"; #O_asb_2021-11
+applyPatch "$DOS_PATCHES/android_packages_apps_Contacts/318654.patch"; #O_asb_2021-11
 fi;
 
 if enterAndClear "packages/apps/LineageParts"; then
@@ -279,8 +279,8 @@ if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_
 fi;
 
 if enterAndClear "vendor/nxp/opensource/external/libnfc-nci"; then
-applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/318656.patch"; #O_asb_2021-11
-applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/318657.patch";
+applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/318656.patch"; #O_asb_2021-11
+applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/318657.patch";
 fi;
 #
 #END OF ROM CHANGES

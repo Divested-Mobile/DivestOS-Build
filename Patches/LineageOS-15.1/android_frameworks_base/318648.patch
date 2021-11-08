@@ -1,4 +1,4 @@
-From 340e98580c8462c961a2d840ddae289bd56f9cd5 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jayant Chowdhary <jchowdhary@google.com>
 Date: Wed, 9 Jun 2021 14:34:54 -0700
 Subject: [PATCH] camera2: Fix exception swallowing in params classes
@@ -30,10 +30,10 @@ Signed-off-by: Jayant Chowdhary <jchowdhary@google.com>
  3 files changed, 3 insertions(+), 21 deletions(-)
 
 diff --git a/core/java/android/hardware/camera2/params/OutputConfiguration.java b/core/java/android/hardware/camera2/params/OutputConfiguration.java
-index 1ee3c933b326..71d69e665411 100644
+index 05c4dc378890..2b6eb8080fd4 100644
 --- a/core/java/android/hardware/camera2/params/OutputConfiguration.java
 +++ b/core/java/android/hardware/camera2/params/OutputConfiguration.java
-@@ -630,13 +630,7 @@ public int getSurfaceGroupId() {
+@@ -501,13 +501,7 @@ public final class OutputConfiguration implements Parcelable {
              new Parcelable.Creator<OutputConfiguration>() {
          @Override
          public OutputConfiguration createFromParcel(Parcel source) {
@@ -52,7 +52,7 @@ diff --git a/core/java/android/hardware/camera2/params/VendorTagDescriptor.java 
 index ea424e594081..893bde1e1430 100644
 --- a/core/java/android/hardware/camera2/params/VendorTagDescriptor.java
 +++ b/core/java/android/hardware/camera2/params/VendorTagDescriptor.java
-@@ -36,13 +36,7 @@ private VendorTagDescriptor(Parcel source) {
+@@ -36,13 +36,7 @@ public final class VendorTagDescriptor implements Parcelable {
              new Parcelable.Creator<VendorTagDescriptor>() {
          @Override
          public VendorTagDescriptor createFromParcel(Parcel source) {
@@ -71,7 +71,7 @@ diff --git a/core/java/android/hardware/camera2/params/VendorTagDescriptorCache.
 index 1f92f6d9ebf1..423020870869 100644
 --- a/core/java/android/hardware/camera2/params/VendorTagDescriptorCache.java
 +++ b/core/java/android/hardware/camera2/params/VendorTagDescriptorCache.java
-@@ -36,13 +36,7 @@ private VendorTagDescriptorCache(Parcel source) {
+@@ -36,13 +36,7 @@ public final class VendorTagDescriptorCache implements Parcelable {
              new Parcelable.Creator<VendorTagDescriptorCache>() {
          @Override
          public VendorTagDescriptorCache createFromParcel(Parcel source) {

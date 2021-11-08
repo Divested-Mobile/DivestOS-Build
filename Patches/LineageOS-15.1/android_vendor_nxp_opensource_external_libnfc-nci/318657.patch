@@ -14,10 +14,10 @@ Change-Id: I05959cc1bbba12aab896fd93684ce163217e599d
  1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/halimpl/pn54x/hal/phNxpNciHal_ext.c b/halimpl/pn54x/hal/phNxpNciHal_ext.c
-index 3f356932..fff4477b 100644
+index 1d6fd61a..c0145500 100644
 --- a/halimpl/pn54x/hal/phNxpNciHal_ext.c
 +++ b/halimpl/pn54x/hal/phNxpNciHal_ext.c
-@@ -273,6 +273,11 @@ NFCSTATUS phNxpNciHal_process_ext_rsp(uint8_t* p_ntf, uint16_t* p_len) {
+@@ -283,6 +283,11 @@ NFCSTATUS phNxpNciHal_process_ext_rsp(uint8_t* p_ntf, uint16_t* p_len) {
      }
      if(nxpncihal_ctrl.nci_info.nci_version != NCI_VERSION_2_0)
      {
@@ -29,7 +29,7 @@ index 3f356932..fff4477b 100644
  #if 0 /* this is work around added initially. not required now */
        if (p_ntf[p_ntf[2] + 2] == 0x00) {
          NXPLOG_NCIHAL_D("> Data of ISO-15693");
-@@ -291,8 +296,8 @@ NFCSTATUS phNxpNciHal_process_ext_rsp(uint8_t* p_ntf, uint16_t* p_len) {
+@@ -301,8 +306,8 @@ NFCSTATUS phNxpNciHal_process_ext_rsp(uint8_t* p_ntf, uint16_t* p_len) {
      icode_send_eof = 0;
    } else if (*p_len == 4 && p_ntf[0] == 0x40 && p_ntf[1] == 0x02 &&
               p_ntf[2] == 0x01 && p_ntf[3] == 0x06) {

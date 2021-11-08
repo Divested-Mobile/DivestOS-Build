@@ -1,4 +1,4 @@
-From 42d49fdc6c1fd642ee9cce75091f7a9eeea83649 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: shubang <shubang@google.com>
 Date: Fri, 13 Aug 2021 15:42:15 -0700
 Subject: [PATCH] TIF: fix issue of using caller-aware methods after
@@ -14,10 +14,10 @@ Change-Id: Iced6c2245c0099bc4bcdaceb51f8cce4dbc0a392
  1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/services/core/java/com/android/server/tv/TvInputManagerService.java b/services/core/java/com/android/server/tv/TvInputManagerService.java
-index d5e59c8dfd6a..e6d2cb50bf52 100644
+index 1afde550f027..93b1f040d24c 100644
 --- a/services/core/java/com/android/server/tv/TvInputManagerService.java
 +++ b/services/core/java/com/android/server/tv/TvInputManagerService.java
-@@ -1970,10 +1970,9 @@ private void ensureCaptureTvInputPermission() {
+@@ -1963,10 +1963,9 @@ public final class TvInputManagerService extends SystemService {
          public void requestChannelBrowsable(Uri channelUri, int userId)
                  throws RemoteException {
              final String callingPackageName = getCallingPackageName();
