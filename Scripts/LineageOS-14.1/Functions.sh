@@ -90,6 +90,8 @@ buildAll() {
 	buildDevice toroplus;
 	#Tegra
 	buildDevice grouper; #needs manual patching - one-repo vendor blob patch
+	#MediaTek
+	buildDeviceUserDebug jellypro; #XXX: blob kernel and permissive selinux
 
 }
 export -f buildAll;

@@ -386,6 +386,10 @@ echo "allow system_server system_file:file execmod;" >> sepolicy/system_server.t
 echo "PRODUCT_PROPERTY_OVERRIDES += persist.sys.force_highendgfx=true" >> device.mk; #override low_ram to fix artifacting
 fi;
 
+if enterAndClear "device/unihertz/jellypro"; then
+sed -i 's/androidboot.selinux=disabled//' BoardConfig.mk;
+fi;
+
 if enter "vendor/google"; then
 echo "" > atv/atv-common.mk;
 fi;
