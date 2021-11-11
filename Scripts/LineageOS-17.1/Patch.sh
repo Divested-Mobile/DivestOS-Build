@@ -369,6 +369,8 @@ deblobAudio;
 removeBuildFingerprints;
 
 #Tweaks for <2GB RAM devices
+#enableLowRam "device/motorola/harpia";
+#enableLowRam "device/motorola/merlin";
 #enableLowRam "device/motorola/osprey";
 #enableLowRam "device/motorola/surnia";
 

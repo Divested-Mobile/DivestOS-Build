@@ -57,6 +57,8 @@ buildAll() {
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SD410
 	buildDevice crackling;
+	buildDevice harpia;
+	buildDevice merlin;
 	buildDevice osprey;
 	buildDevice surnia;
 	#SD801
