@@ -37,6 +37,7 @@ export DOS_TOR_WRAPPER="";
 export DOS_MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
 export DOS_MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
 export DOS_REFRESH_PATCHES=true; #Set true to refresh branch-specific patches on apply
+export DOS_HOST_GLIBC2_34=true; #Set true to enable a glibc 2.34+ workaround XXX: hard-coded to Fedora 35 paths
 
 #Deblobber
 export DOS_DEBLOBBER_REMOVE_ACCESSORIES=true; #Set false to allow use of external accessories that depend on blobs

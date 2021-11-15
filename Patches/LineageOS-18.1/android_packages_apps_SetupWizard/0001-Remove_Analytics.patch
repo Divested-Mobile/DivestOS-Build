@@ -90,7 +90,7 @@ index f081e2b..1a9bbe9 100644
          if (setupWizardApp.getSettingsBundle().containsKey(DISABLE_NAV_KEYS)) {
              writeDisableNavkeysOption(setupWizardApp,
 diff --git a/src/org/lineageos/setupwizard/LineageSettingsActivity.java b/src/org/lineageos/setupwizard/LineageSettingsActivity.java
-index 4f5519d..c1f3698 100644
+index a72d916..b5509cc 100644
 --- a/src/org/lineageos/setupwizard/LineageSettingsActivity.java
 +++ b/src/org/lineageos/setupwizard/LineageSettingsActivity.java
 @@ -18,7 +18,6 @@
@@ -119,7 +119,7 @@ index 4f5519d..c1f3698 100644
      private final View.OnClickListener mNavKeysClickListener = view -> {
          boolean checked = !mNavKeys.isChecked();
          mNavKeys.setChecked(checked);
-@@ -97,19 +89,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
+@@ -99,19 +91,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
          privacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
          privacyPolicy.setText(ss);
  
@@ -139,7 +139,7 @@ index 4f5519d..c1f3698 100644
          View navKeysRow = findViewById(R.id.nav_keys);
          navKeysRow.setOnClickListener(mNavKeysClickListener);
          mNavKeys = (CheckBox) findViewById(R.id.nav_keys_checkbox);
-@@ -126,7 +105,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
+@@ -128,7 +107,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
      public void onResume() {
          super.onResume();
          updateDisableNavkeysOption();
@@ -147,7 +147,7 @@ index 4f5519d..c1f3698 100644
      }
  
      @Override
-@@ -150,15 +128,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
+@@ -152,15 +130,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
          return R.drawable.ic_features;
      }
  
@@ -164,10 +164,10 @@ index 4f5519d..c1f3698 100644
          if (mSupportsKeyDisabler) {
              final Bundle myPageBundle = mSetupWizardApp.getSettingsBundle();
 diff --git a/src/org/lineageos/setupwizard/SetupWizardApp.java b/src/org/lineageos/setupwizard/SetupWizardApp.java
-index b1755c7..c299457 100644
+index 38bba83..62d75f2 100644
 --- a/src/org/lineageos/setupwizard/SetupWizardApp.java
 +++ b/src/org/lineageos/setupwizard/SetupWizardApp.java
-@@ -59,7 +59,6 @@ public class SetupWizardApp extends Application {
+@@ -60,7 +60,6 @@ public class SetupWizardApp extends Application {
      public static final String EXTRA_ENABLE_NEXT_ON_CONNECT = "wifi_enable_next_on_connect";
  
      public static final String KEY_DETECT_CAPTIVE_PORTAL = "captive_portal_detection_enabled";
