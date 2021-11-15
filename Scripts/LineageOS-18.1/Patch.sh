@@ -302,6 +302,10 @@ fi;
 #
 if enterAndClear "device/asus/flox"; then
 compressRamdisks;
+echo "allow camera system_data_root_file:dir rw_dir_perms;" >> sepolicy/vendor/camera.te; #Fixup camera
+echo "allow camera system_data_root_file:sock_file { create unlink write setattr };" >> sepolicy/vendor/camera.te;
+echo "allow cameraserver sysfs_soc:dir r_dir_perms;" >> sepolicy/vendor/cameraserver.te;
+echo "allow cameraserver sysfs_soc:file r_file_perms;" >> sepolicy/vendor/cameraserver.te;
 fi;
 
 if enterAndClear "device/essential/mata"; then
@@ -363,6 +367,7 @@ fi;
 if enterAndClear "device/oneplus/msm8998-common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
 sed -i '/PRODUCT_SYSTEM_VERITY_PARTITION/iPRODUCT_VENDOR_VERITY_PARTITION := /dev/block/bootdevice/by-name/vendor' common.mk; #Support verity on /vendor too
+awk -i inplace '!/vendor_sensors_dbg_prop/' sepolicy/vendor/hal_camera_default.te; #fixup
 fi;
 
 if enterAndClear "device/oppo/common"; then

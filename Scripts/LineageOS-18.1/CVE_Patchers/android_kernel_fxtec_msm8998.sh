@@ -1,11 +1,5 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/fxtec/msm8998"
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0285-0286.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0286-0287.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0287-0288.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0288-0289.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0289-0290.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0290-0291.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0291-0292.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0006.patch
@@ -53,5 +47,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/^5.6.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14386/3.10-^4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
-editKernelLocalversion "-dos.p53"
+editKernelLocalversion "-dos.p47"
 cd "$DOS_BUILD_BASE"

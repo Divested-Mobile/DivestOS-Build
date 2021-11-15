@@ -15,9 +15,13 @@ PRODUCT_PACKAGES += \
     EtarPrebuilt \
     FennecDOS \
     FairEmail \
-    OpenCamera \
     SimpleGallery \
     VanillaMusic
+
+ifeq ($(findstring flox,$(TARGET_PRODUCT)),)
+PRODUCT_PACKAGES += \
+    OpenCamera
+endif
 
 # Extras
 PRODUCT_PACKAGES += \
