@@ -86,4 +86,31 @@ commentPatches android_kernel_yandex_sdm660.sh "CVE-2019-11599" "CVE-2019-14070/
 commentPatches android_kernel_zte_msm8930.sh "CVE-2015-2922" "CVE-2017-11015/prima";
 commentPatches android_kernel_zte_msm8996.sh "0001-LinuxIncrementals/3.18/3.18.0098-0099.patch" "CVE-2017-13162" "CVE-2017-15951" "CVE-2017-16939" "CVE-2018-17972" "CVE-2019-2214" "CVE-2019-14070" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166";
 commentPatches android_kernel_zuk_msm8996.sh "0008-Graphene-Kernel_Hardening/4.4/0011.patch" "0008-Graphene-Kernel_Hardening/4.4/0012.patch" "0008-Graphene-Kernel_Hardening/4.4/0014.patch" "CVE-2019-19319" "CVE-2020-0305" "CVE-2020-1749" "CVE-2020-8992" "CVE-2020-1616";
+
+#Loose versioning hacks
+#3.0
+declare -a threeDotZero=("android_kernel_samsung_smdk4412.sh" "android_kernel_samsung_tuna.sh");
+for script in "${threeDotZero[@]}"
+do
+	commentPatches $script "CVE-2017-15868/3.4" "CVE-2018-10877/3.4";
+done
+#3.4
+declare -a threeDotFour=("android_kernel_amazon_hdx-common.sh" "android_kernel_asus_grouper.sh" "android_kernel_htc_msm8960.sh" "android_kernel_samsung_exynos5420.sh" "android_kernel_samsung_manta.sh");
+for script in "${threeDotFour[@]}"
+do
+	commentPatches $script "0006-AndroidHardening-Kernel_Hardening/3.10/0008.patch" "CVE-2017-5551/3.10";
+done
+#3.10
+declare -a threeDotTen=("android_kernel_htc_msm8994.sh" "android_kernel_lge_msm8992.sh" "android_kernel_motorola_msm8992.sh");
+for script in "${threeDotTen[@]}"
+do
+	commentPatches $script "CVE-2016-1583/3.18" "CVE-2018-17972/3.18" "CVE-2018-20169/3.18" "CVE-2020-0427/3.18";
+done
+#3.18
+declare -a threeDotEighteen=("android_kernel_samsung_universal8890.sh");
+for script in "${threeDotEighteen[@]}"
+do
+	commentPatches $script "CVE-2019-19319/4.4" "CVE-2020-8992/4.4";
+done
+
 echo -e "\e[0;32m[SCRIPT COMPLETE] Fixed CVE patchers\e[0m";
