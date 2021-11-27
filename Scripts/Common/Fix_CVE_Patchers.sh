@@ -95,22 +95,22 @@ do
 	commentPatches $script "CVE-2017-15868/3.4" "CVE-2018-10877/3.4";
 done
 #3.4
-declare -a threeDotFour=("android_kernel_amazon_hdx-common.sh" "android_kernel_asus_grouper.sh" "android_kernel_htc_msm8960.sh" "android_kernel_samsung_exynos5420.sh" "android_kernel_samsung_manta.sh" "android_kernel_google_msm.sh" "android_kernel_lge_hammerhead.sh" "android_kernel_cyanogen_msm8974.sh");
+declare -a threeDotFour=("android_kernel_amazon_hdx-common.sh" "android_kernel_asus_grouper.sh" "android_kernel_htc_msm8960.sh" "android_kernel_samsung_exynos5420.sh" "android_kernel_samsung_manta.sh" "android_kernel_google_msm.sh" "android_kernel_lge_hammerhead.sh" "android_kernel_cyanogen_msm8974.sh" "android_kernel_htc_msm8974.sh");
 for script in "${threeDotFour[@]}"
 do
 	commentPatches $script "0006-AndroidHardening-Kernel_Hardening/3.10/0008.patch" "CVE-2017-5551/3.10";
 done
 #3.10
-declare -a threeDotTen=("android_kernel_htc_msm8994.sh" "android_kernel_lge_msm8992.sh" "android_kernel_motorola_msm8992.sh" "android_kernel_asus_fugu.sh" "android_kernel_asus_msm8916.sh" "android_kernel_htc_flounder.sh" "android_kernel_htc_msm8994.sh" "android_kernel_huawei_angler.sh" "android_kernel_lge_bullhead.sh" "android_kernel_moto_shamu.sh" "android_kernel_nextbit_msm8992.sh" "android_kernel_oneplus_msm8994.sh" "android_kernel_cyanogen_msm8916.sh" "android_kernel_google_yellowstone.sh" "android_kernel_samsung_apq8084.sh");
+declare -a threeDotTen=("android_kernel_htc_msm8994.sh" "android_kernel_lge_msm8992.sh" "android_kernel_motorola_msm8992.sh" "android_kernel_asus_fugu.sh" "android_kernel_asus_msm8916.sh" "android_kernel_htc_flounder.sh" "android_kernel_htc_msm8994.sh" "android_kernel_huawei_angler.sh" "android_kernel_lge_bullhead.sh" "android_kernel_moto_shamu.sh" "android_kernel_nextbit_msm8992.sh" "android_kernel_oneplus_msm8994.sh" "android_kernel_cyanogen_msm8916.sh" "android_kernel_google_yellowstone.sh" "android_kernel_samsung_apq8084.sh" "android_kernel_motorola_msm8916.sh");
 for script in "${threeDotTen[@]}"
 do
 	commentPatches $script "CVE-2016-1583/3.18" "CVE-2018-17972/3.18" "CVE-2018-20169/3.18" "CVE-2019-2214/3.18" "CVE-2020-0427/3.18" "CVE-2021-21781/3.18";
 done
 #3.18
-declare -a threeDotEighteen=("android_kernel_samsung_universal8890.sh" "android_kernel_google_dragon.sh" "android_kernel_lge_msm8996.sh" "android_kernel_zte_msm8996.sh" "android_kernel_asus_msm8953.sh" "android_kernel_xiaomi_msm8937.sh");
+declare -a threeDotEighteen=("android_kernel_samsung_universal8890.sh" "android_kernel_google_dragon.sh" "android_kernel_lge_msm8996.sh" "android_kernel_zte_msm8996.sh" "android_kernel_asus_msm8953.sh" "android_kernel_xiaomi_msm8937.sh" "android_kernel_google_marlin.sh" "android_kernel_motorola_msm8996.sh");
 for script in "${threeDotEighteen[@]}"
 do
-	commentPatches $script "CVE-2019-19319/4.4" "CVE-2020-8992/4.4" "CVE-2021-20265/4.4";
+	commentPatches $script "CVE-2018-16597/4.4" "CVE-2019-19319/4.4" "CVE-2020-8992/4.4" "CVE-2021-20265/4.4";
 done
 
 echo -e "\e[0;32m[SCRIPT COMPLETE] Fixed CVE patchers\e[0m";
