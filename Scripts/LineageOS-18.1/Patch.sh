@@ -278,10 +278,7 @@ echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our cus
 cp -f "$DOS_PATCHES_COMMON/apns-conf.xml" prebuilt/common/etc/apns-conf.xml; #Update APN list
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace the Messaging app with Silence
 if [ "$DOS_HOST_GLIBC2_34" = true ]; then
-#fix compile with glibc 2.34
-#like 318916, but keeps 259778
-sed -i 's|/usr/include:/usr/include/x86_64-linux-gnu|/usr/include/openssl|' config/BoardConfigKernel.mk;
-sed -i 's|-L/usr/lib/x86_64-linux-gnu -L/usr/lib64|-L/usr/lib64/libcrypto.so -L/usr/lib64/libssl.so|' config/BoardConfigKernel.mk;
+awk -i inplace '!/x86_64-linux-gnu/' config/BoardConfigKernel.mk; #fix compile with glibc 2.34, 318916
 fi;
 fi;
 
