@@ -277,9 +277,6 @@ if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/LINEAGE_BUILDTYP
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
 cp -f "$DOS_PATCHES_COMMON/apns-conf.xml" prebuilt/common/etc/apns-conf.xml; #Update APN list
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace the Messaging app with Silence
-if [ "$DOS_HOST_GLIBC2_34" = true ]; then
-awk -i inplace '!/x86_64-linux-gnu/' config/BoardConfigKernel.mk; #fix compile with glibc 2.34, 318916
-fi;
 fi;
 
 if enter "vendor/divested"; then
