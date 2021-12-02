@@ -1,4 +1,4 @@
-#Last checked 2021/06/01
+#Last checked 2021/12/02
 CVE-2015-0235
 	Link - https://source.codeaurora.org/quic/le//oe/recipes/commit/?id=6025569cb2a156bb6765dc14d66cb83f46a8c338
 CVE-2015-3847
@@ -234,5 +234,34 @@ CVE-2020-11231
 CVE-2020-11240
 	Link - https://source.codeaurora.org/quic/la/platform/vendor/opensource/camera-kernel/commit/?id=0e69194cd695a4f8da143c787ad37409e445ba43
 	Link - https://source.codeaurora.org/quic/la/platform/vendor/opensource/camera-kernel/commit/?id=2a26f41c30f96c9c05f3047997442394494040b4
+CVE-2020-11301
+	Link - https://source.codeaurora.org/quic/qsdk/oss/system/feeds/wlan-open/commit/?id=2ea9f988b9182a930fdaef1e40d61d49af21d0c8
+CVE-2020-24588
+	Link - external/wigig-utils - https://source.codeaurora.org/quic/qsdk/oss/wigig-utils/commit/?id=28ee8b8cd94976d19b27b1f7f62283ac190de47d
+	Link - external/wigig-utils - https://source.codeaurora.org/quic/qsdk/oss/wigig-utils/commit/?id=47740835afcea2c564589dd708d69271f482cfb5
+CVE-2020-26139
+	Link - https://source.codeaurora.org/quic/qsdk/oss/system/feeds/wlan-open/commit/?id=5e52f86eea3c4ce544a32325bbb4d318ea30e1a0
+	Link - external/wigig-utils - https://source.codeaurora.org/quic/qsdk/oss/wigig-utils/commit/?id=83469e967d8225a6b1903611145a767f77363d71
+CVE-2021-1931
+	Link - bootable/tianocore/edk2 - https://source.codeaurora.org/quic/le/abl/tianocore/edk2/commit/?id=0727b7b0d4cafb091397b76f75a3a4f66852a361
+CVE-2021-1957
+	Link - system/bt - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/system/bt/commit/?id=91aad9e40bc8332a0241e88c2e100eff8851cc98
+	Link - system/bt - https://source.codeaurora.org/quic/le/platform/system/bt/commit/?id=0e713342ba8e9f96a0ffcc7accb631e41d10aa0f
+CVE-2021-1966
+	Link - vendor/opensource/display-drivers - https://source.codeaurora.org/quic/la/platform/vendor/opensource/display-drivers/commit/?id=0b5b39fa3dd99abe5675f60b33a7420f10a33e51
+CVE-2021-1967
+	Link - hardware/qcom/wlan - https://source.codeaurora.org/quic/le/platform/hardware/qcom/wlan/commit/?id=3ef1cfcd0cfcd9495e19b2b749104c9991f8e79a
+CVE-2021-1972
+	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit/?id=4f82a47c76b923fd3fd1e780bea9f7fbfd77d150
+CVE-2021-1976
+	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit/?id=a45c1c6d0ea54375c470a5a2d44bc479d0d72e2d
+CVE-2021-1978
+	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=ddffe981e88146adf777ce64c1c2dac2e1dad05e
+CVE-2021-30266
+	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=6e25f5512cf26417eb7d1dd743a42360e086beda
+CVE-2021-30312
+	Link - external/wigig-utils - https://source.codeaurora.org/quic/qsdk/oss/wigig-utils/commit/?id=c1f7ee3b7044b85fa5162d7ed9a8c427b40b001e
+CVE-2021-30315
+	Link - hardware/qcom/sensors - https://source.codeaurora.org/quic/la/platform/hardware/qcom/sensors/commit/?id=4c958ca061ea9cf4bc09c9fa96ab42e42ce67197
 CVE-0000-0000
 #The above line must be the last line

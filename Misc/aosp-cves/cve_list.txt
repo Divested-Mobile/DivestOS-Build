@@ -1,4 +1,4 @@
-#Last checked 2021/09/11
+#Last checked 2021/12/02
 CVE-2014-9028
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/fe03f73d86bb415f5d5145f0de091834d89ae3a9
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/5859ae22db0a2d16af3e3ca19d582de37daf5eb6
@@ -2081,6 +2081,9 @@ CVE-2020-11183
 	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/display/commit/?id=593f37dcf1c6e9d1adcb2dfbfb84daaa840aab4b
 CVE-2020-11231
 	Link - hardware/qcom/gps - https://source.codeaurora.org/quic/le/platform/hardware/qcom/gps/commit/?id=a06bbe8aa633e00c195866a8416ac9181c1fb652
+CVE-2020-11301
+	Link - https://source.codeaurora.org/quic/qsdk/oss/system/feeds/wlan-open/commit/?id=2ea9f988b9182a930fdaef1e40d61d49af21d0c8
+	Link - external/wigig-utils - https://source.codeaurora.org/quic/qsdk/oss/wigig-utils/commit/?id=9d93c8630a8f175e1f210b7831b7476dc1be3e78
 CVE-2020-11308
 	Link - https://source.codeaurora.org/quic/le/abl/tianocore/edk2/commit/?id=c468f18421e113057ba72b83edf985c53fe4705d
 CVE-2020-12856
@@ -2088,10 +2091,17 @@ CVE-2020-12856
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/73b4e5c4ba4c0c96a26ec84564cd9653da50a26c
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/b3f12befdc4def7d695b6f1049cd02238eb1e4a8
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/05243b881764136d3ca67b438d2e500d6f134f6a
+CVE-2020-13871
+	Link - external/sqlite - https://android.googlesource.com/platform/external/sqlite/+/84500124e617d2548c2b2374eb84a3e0ea8884d1
+CVE-2020-15358
+	Link - external/sqlite - https://android.googlesource.com/platform/external/sqlite/+/1935111b5e902f2ca305d1b2efae6fe46acfffe5
 CVE-2020-15802
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/775a5e72b34b70ff92d61d8bcc47c6bde663f02e
 CVE-2020-15999
 	Link - external/freetype - https://android.googlesource.com/platform/external/freetype/+/358c238408a1fdc357d9afef6811369a7701e004
+CVE-2020-24588
+	Link - external/wigig-utils - https://source.codeaurora.org/quic/qsdk/oss/wigig-utils/commit/?id=28ee8b8cd94976d19b27b1f7f62283ac190de47d
+	Link - external/wigig-utils - https://source.codeaurora.org/quic/qsdk/oss/wigig-utils/commit/?id=47740835afcea2c564589dd708d69271f482cfb5
 CVE-2020-26555
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/374bb0401a5649af4a97e8d8c7373c7daf37f6ac
 CVE-2020-26558
@@ -2305,6 +2315,13 @@ CVE-2021-0432
 CVE-2021-0433
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/75419418cfd2f47439d0f65418f4a771cc58d14b
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/8e4928820e972a00342c00cf67e8795a094e6e68
+CVE-2021-0434
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/8fe8e0fc211d4f36cce2865a17c834573ec25211
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/65e3c68e6fbfb1d6762718a190416a2bff36962c
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/fa504b8e01405fa529670b6ac6112d0241c2ff86
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/a5046f219a545246f244f0dc003eefdeb1dfeb93
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/80d8b03d027f3dffb85958f849be3b5316791107
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/10e459921953825d34e70cc4da846aac703d913c
 CVE-2021-0435
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/026f04c83281557a0d24df0bd19d72c74cdc320e
 CVE-2021-0436
@@ -2352,6 +2369,9 @@ CVE-2021-0481
 	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/d4f04398c71f67bc13f85e098e1dc71d840c1a4a
 CVE-2021-0482
 	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/57d90982aa7a18a8c76c8dcc418c8da51a71aa9d
+CVE-2021-0483
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/084077feb6b8c961adcbe77b2bd76601ca54e534
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/cc2165840d524bb9553f9d73d1904633d20100a2
 CVE-2021-0484
 	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/8e6748ee5b5363e660c81c0427c317b7a71a9181
 CVE-2021-0485
@@ -2542,16 +2562,65 @@ CVE-2021-0645
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/7b82cbbe3411396b187b68548f2c325b42e964a6
 CVE-2021-0646
 	Link - external/sqlite - https://android.googlesource.com/platform/external/sqlite/+/c072485125763d11da918aec3232b9e3b113d8dd
+CVE-2021-0649
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/591e345fbc0ccb6815e27ccff1a0ae9d02002a90
+	Link - packages/modules/Connectivity - https://android.googlesource.com/platform/packages/modules/Connectivity/+/a9ef5a9252761c73959cfb16a838d3c61fee77f3
+CVE-2021-0650
+	Link - external/sonivox - https://android.googlesource.com/platform/external/sonivox/+/8bfcd9c03af5170b5003712fb77f096b5c9f341b
+CVE-2021-0651
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/efdcec1e29a4179aeb5df314321bb1d5e1ba0bee
+CVE-2021-0653
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/29eb352baad77de762ce68cae74b3247b9127352
+CVE-2021-0702
+	Link - system/apex - https://android.googlesource.com/platform/system/apex/+/04bc18a50f900652ff9c07590d12809fc111a451
+CVE-2021-0705
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/4eba7e65cd0cc2f2c87b001fb34b9f28ee7c70ab
+CVE-2021-0708
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/4241ab5ee435ee3c5e6496c001b2cf5bc827cfc4
+CVE-2021-0799
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/9a4e52fa566169d5dd78d672fa3be048de9b0041
+CVE-2021-0918
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/4650d4d536be3978fdc436cee3833d443dff9dc7
+CVE-2021-0919
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/217320329b298bc5e19a22f8345972f553f53f2b
+CVE-2021-0921
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/f93af7ef7ebe9d139a34e615b97393a41ebabb56
+CVE-2021-0922
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/4670d1d855a853852980148d99b190171db4ec79
+CVE-2021-0923
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/63777c0ca8e194ab3efc51905e83b07ea0d351a9
+CVE-2021-0925
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/5dc0d849340ee15f08687feb4b307190bf5fb3a0
+CVE-2021-0926
+	Link - packages/apps/Contacts - https://android.googlesource.com/platform/packages/apps/Contacts/+/80dd1abacb5f08f8022e43ef5465c407169e9fd5
+CVE-2021-0927
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/20552b60ee15e6cbc64add4b29aade7166c8374e
+CVE-2021-0928
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/7bf30cb92ab213c07241ad22def6816ae201dbab
+CVE-2021-0930
+	Link - hardware/nxp/nfc - https://android.googlesource.com/platform/hardware/nxp/nfc/+/95e1dd94c3794bd175c3784fb5accfeac18a1787
+CVE-2021-0931
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/afa5f3c37aea6dd0e14576c035d12fa84c95f2cb
+CVE-2021-0932
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/20c6f8d5945f78c14405b283a326dcfd611f9049
+CVE-2021-0933
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/cb890336d6a8056cc46ed01a908ad8f70e3880b6
 CVE-2021-1931
 	Link - https://source.codeaurora.org/quic/le/abl/tianocore/edk2/commit/?id=0727b7b0d4cafb091397b76f75a3a4f66852a361
 CVE-2021-1957
 	Link - system/bt - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/system/bt/commit/?id=91aad9e40bc8332a0241e88c2e100eff8851cc98
 	Link - system/bt - https://source.codeaurora.org/quic/le/platform/system/bt/commit/?id=0e713342ba8e9f96a0ffcc7accb631e41d10aa0f
+CVE-2021-1966
+	Link - vendor/opensource/display-drivers - https://source.codeaurora.org/quic/la/platform/vendor/opensource/display-drivers/commit/?id=0b5b39fa3dd99abe5675f60b33a7420f10a33e51
+CVE-2021-1967
+	Link - hardware/qcom/wlan - https://source.codeaurora.org/quic/le/platform/hardware/qcom/wlan/commit/?id=3ef1cfcd0cfcd9495e19b2b749104c9991f8e79a
 CVE-2021-1972
 	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit/?id=4f82a47c76b923fd3fd1e780bea9f7fbfd77d150
 CVE-2021-1976
 	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit/?id=a45c1c6d0ea54375c470a5a2d44bc479d0d72e2d
 CVE-2021-1978
 	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=ddffe981e88146adf777ce64c1c2dac2e1dad05e
+CVE-2021-30312
+	Link - external/wigig-utils - https://source.codeaurora.org/quic/qsdk/oss/wigig-utils/commit/?id=c1f7ee3b7044b85fa5162d7ed9a8c427b40b001e
 CVE-0000-0000
 #The above line must be the last line
