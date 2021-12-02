@@ -1,4 +1,4 @@
-Last checked 2021-03-02
+Last checked 2021-12-02
 https://nvd.nist.gov/vuln/detail/CVE-2017-6247 	- no links
 https://nvd.nist.gov/vuln/detail/CVE-2017-6248 	- no links
 https://nvd.nist.gov/vuln/detail/CVE-2019-15126	- vendor shenanigans
@@ -10,7 +10,7 @@ https://nvd.nist.gov/vuln/detail/CVE-2020-0220 	- no links
 https://nvd.nist.gov/vuln/detail/CVE-2020-0221 	- vendor shenanigans
 https://nvd.nist.gov/vuln/detail/CVE-2020-0261 	- no links
 https://nvd.nist.gov/vuln/detail/CVE-2020-10708	- withdrawn
-https://nvd.nist.gov/vuln/detail/CVE-2020-10774	- not found
+https://nvd.nist.gov/vuln/detail/CVE-2020-10774	- RHEL specific
 https://nvd.nist.gov/vuln/detail/CVE-2020-11147	- no links
 https://nvd.nist.gov/vuln/detail/CVE-2020-11148	- no links
 https://nvd.nist.gov/vuln/detail/CVE-2020-11201	- vendor shenanigans
@@ -21,7 +21,7 @@ https://nvd.nist.gov/vuln/detail/CVE-2020-11208	- vendor shenanigans
 https://nvd.nist.gov/vuln/detail/CVE-2020-11211	- not found
 https://nvd.nist.gov/vuln/detail/CVE-2020-11223	- no links
 https://nvd.nist.gov/vuln/detail/CVE-2020-11277	- no links
-https://nvd.nist.gov/vuln/detail/CVE-2020-11305	- not found
+https://nvd.nist.gov/vuln/detail/CVE-2020-11305	- no links
 https://nvd.nist.gov/vuln/detail/CVE-2020-27066	- no links
 https://nvd.nist.gov/vuln/detail/CVE-2020-3623 	- no links
 https://nvd.nist.gov/vuln/detail/CVE-2020-3648 	- vendor shenanigans
