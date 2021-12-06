@@ -298,8 +298,6 @@ if enterAndClear "device/asus/msm8916-common"; then
 rm -rf Android.bp sensors; #exact duplicate in asus/flo #XXX be careful with this
 fi;
 
-
-
 if enterAndClear "device/lge/msm8996-common"; then
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 fi;

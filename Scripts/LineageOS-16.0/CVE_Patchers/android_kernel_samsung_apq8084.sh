@@ -214,6 +214,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0399/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0512/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0695/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0937/3.18/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0961/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0961/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3178/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3428/3.18/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3428/4.4/0013.patch
@@ -237,10 +239,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-29650/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-31916/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-32399/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-34693/3.18/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39657/^5.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
-editKernelLocalversion "-dos.p242"
+editKernelLocalversion "-dos.p245"
 cd "$DOS_BUILD_BASE"
