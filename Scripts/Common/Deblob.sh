@@ -372,8 +372,8 @@ echo "Deblobbing...";
 	overlay=$overlay"|config_comboNetworkLocationProvider|config_enableFusedLocationOverlay|config_enableNetworkLocationOverlay|config_fusedLocationProviderPackageName|config_enableNetworkLocationOverlay|config_networkLocationProviderPackageName|com.qualcomm.location";
 
 	#Machine Learning [Qualcomm]
-	blobs=$blobs"|vendor.qti.hardware.mlshal.*|vendor.qti.hardware.cvp.*";
-	blobs=$blobs"|libopenvx.so|libnpu.so|libcvp.*.so";
+	#blobs=$blobs"|vendor.qti.hardware.mlshal.*|vendor.qti.hardware.cvp.*";
+	#blobs=$blobs"|libopenvx.so|libnpu.so|libcvp.*.so"; #XXX: breaks camera
 
 	#Misc
 	blobs=$blobs"|libjni_latinime.so|libuiblur.so|libwifiscanner.so";
@@ -534,10 +534,11 @@ echo "Deblobbing...";
 
 	#Wfd (Wireless Display) [Qualcomm]
 	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wfd-commonsys/ [useless]
-	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdclient.so|libwfdcodecv4l2_proprietary.so|libwfdcodecv4l2.so|libwfdcommonutils_proprietary.so|libwfdcommonutils.so|libwfdconfigutils_proprietary.so|libwfdconfigutils.so|libwfddisplayconfig_proprietary.so|libwfddisplayconfig.so|libwfdhaldsmanager.so|libwfdhdcpcp.so|libwfdhdcpservice_proprietary.so|libwfdmminterface_proprietary.so|libwfdmminterface.so|libwfdmmservice_proprietary.so|libwfdmmservice.so|libwfdmmsink.so|libwfdmmsrc_proprietary.so|libwfdmmsrc.so|libwfdmmsrc_system.so|libwfdmmutils.so|libwfdmodulehdcpsession.so|libwfdnative.so|libwfdrtsp_proprietary.so|libwfdrtsp.so|libwfdservice.so|libwfdsessionmodule.so|libwfdsinksm.so|libwfdsm.so|libwfdsourcesession_proprietary.so|libwfdsourcesm_proprietary.so|libwfduibcinterface_proprietary.so|libwfduibcinterface.so|libwfduibcsinkinterface_proprietary.so|libwfduibcsinkinterface.so|libwfduibcsink_proprietary.so|libwfduibcsink.so|libwfduibcsrcinterface_proprietary.so|libwfduibcsrcinterface.so|libwfduibcsrc_proprietary.so|libwfduibcsrc.so|libwfdutils_proprietary.so";
-	blobs=$blobs"|wfdservice|wifidisplayhalservice|wfdhdcphalservice";
+	blobs=$blobs"|libmmparser_lite.so|libmmrtpdecoder.so|libmmrtpencoder.so|libmmwfdinterface.so|libmmwfdsinkinterface.so|libmmwfdsrcinterface.so|libwfdavenhancements.so|libwfdclient.so|libwfdcodecv4l2_proprietary.so|libwfdcodecv4l2.so|libwfdcommonutils_proprietary.so|libwfdcommonutils.so|libwfdconfigutils_proprietary.so|libwfdconfigutils.so|libwfddisplayconfig_proprietary.so|libwfddisplayconfig.so|libwfdhaldsmanager.so|libwfdhdcpcp.so|libwfdhdcpservice_proprietary.so|libwfdmminterface_proprietary.so|libwfdmminterface.so|libwfdmmservice_proprietary.so|libwfdmmservice.so|libwfdmmsink.so|libwfdmmsrc_proprietary.so|libwfdmmsrc.so|libwfdmmsrc_system.so|libwfdmmutils.so|libwfdmodulehdcpsession.so|libwfdnative.so|libwfdrtsp_proprietary.so|libwfdrtsp.so|libwfdservice.so|libwfdsessionmodule.so|libwfdsinksm.so|libwfdsm.so|libwfdsourcesession_proprietary.so|libwfdsourcesm_proprietary.so|libwfduibcinterface_proprietary.so|libwfduibcinterface.so|libwfduibcsinkinterface_proprietary.so|libwfduibcsinkinterface.so|libwfduibcsink_proprietary.so|libwfduibcsink.so|libwfduibcsrcinterface_proprietary.so|libwfduibcsrcinterface.so|libwfduibcsrc_proprietary.so|libwfduibcsrc.so|libwfdutils_proprietary.so|libwfdaac.so";
+	blobs=$blobs"|wfdservice|wifidisplayhalservice|wfdhdcphalservice|wfdvndservice";
 	blobs=$blobs"|WfdService.apk";
 	blobs=$blobs"|WfdCommon.jar";
+	blobs=$blobs"|wfdvndservice.rc";
 	blobs=$blobs"|wfdconfigsink.xml|wfdconfig.xml";
 	blobs=$blobs"|com.qualcomm.qti.wifidisplayhal.*|vendor.qti.hardware.wifidisplaysession.*|android.hardware.drm@1.1-service.wfdhdcp.*";
 	makes=$makes"|WfdCommon";
