@@ -99,5 +99,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0936/ANY/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0936/ANY/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1963/ANY/0003.patch
-editKernelLocalversion "-dos.p99"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4002/4.4/0007.patch
+editKernelLocalversion "-dos.p100"
 cd "$DOS_BUILD_BASE"

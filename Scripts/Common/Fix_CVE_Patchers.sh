@@ -110,7 +110,7 @@ done
 declare -a threeDotEighteen=("${threeDotTen[@]}" "android_kernel_samsung_universal8890.sh" "android_kernel_google_dragon.sh" "android_kernel_lge_msm8996.sh" "android_kernel_zte_msm8996.sh" "android_kernel_asus_msm8953.sh" "android_kernel_xiaomi_msm8937.sh" "android_kernel_google_marlin.sh" "android_kernel_motorola_msm8996.sh" "android_kernel_oneplus_msm8996.sh");
 for script in "${threeDotEighteen[@]}"
 do
-	commentPatches $script "0008-Graphene-Kernel_Hardening/4.4/0006.patch" "CVE-2018-16597/4.4" "CVE-2019-19319/4.4" "CVE-2020-0305/4.4" "CVE-2020-0429/4.4" "CVE-2020-8992/4.4" "CVE-2021-3428/4.4" "CVE-2021-20265/4.4";
+	commentPatches $script "0008-Graphene-Kernel_Hardening/4.4/0006.patch" "CVE-2018-16597/4.4" "CVE-2019-19319/4.4" "CVE-2020-0305/4.4" "CVE-2020-0429/4.4" "CVE-2020-8992/4.4" "CVE-2021-1048/4.4" "CVE-2021-3428/4.4" "CVE-2021-20265/4.4";
 done
 
 echo -e "\e[0;32m[SCRIPT COMPLETE] Fixed CVE patchers\e[0m";
