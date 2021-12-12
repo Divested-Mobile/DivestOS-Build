@@ -12,12 +12,12 @@ Change-Id: I3f42646ba278ef6d0d4aa7565f8374047d599938
  4 files changed, 74 deletions(-)
 
 diff --git a/res/layout/setup_lineage_settings.xml b/res/layout/setup_lineage_settings.xml
-index a222d5b..9645f95 100644
+index 1a3d1af..a7f7b55 100644
 --- a/res/layout/setup_lineage_settings.xml
 +++ b/res/layout/setup_lineage_settings.xml
-@@ -53,35 +53,6 @@
-                         android:text="@string/services_explanation"
-                         android:clickable="true" />
+@@ -59,35 +59,6 @@
+                         style="@style/SudItemTitle.GlifDescription"
+                         android:text="@string/services_find_privacy_policy" />
  
 -                    <!-- Whether or not to enable metrics -->
 -                    <LinearLayout
@@ -90,7 +90,7 @@ index f081e2b..1a9bbe9 100644
          if (setupWizardApp.getSettingsBundle().containsKey(DISABLE_NAV_KEYS)) {
              writeDisableNavkeysOption(setupWizardApp,
 diff --git a/src/org/lineageos/setupwizard/LineageSettingsActivity.java b/src/org/lineageos/setupwizard/LineageSettingsActivity.java
-index a72d916..b5509cc 100644
+index e451c6b..79bef59 100644
 --- a/src/org/lineageos/setupwizard/LineageSettingsActivity.java
 +++ b/src/org/lineageos/setupwizard/LineageSettingsActivity.java
 @@ -18,7 +18,6 @@
@@ -119,9 +119,9 @@ index a72d916..b5509cc 100644
      private final View.OnClickListener mNavKeysClickListener = view -> {
          boolean checked = !mNavKeys.isChecked();
          mNavKeys.setChecked(checked);
-@@ -99,19 +91,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
-         privacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
-         privacyPolicy.setText(ss);
+@@ -80,19 +72,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
+         ((TextView) findViewById(R.id.privacy_policy)).setText(privacyPolicy);
+         ((TextView) findViewById(R.id.find_privacy_policy)).setText(policySummary);
  
 -        View metricsRow = findViewById(R.id.metrics);
 -        metricsRow.setOnClickListener(mMetricsClickListener);
@@ -139,7 +139,7 @@ index a72d916..b5509cc 100644
          View navKeysRow = findViewById(R.id.nav_keys);
          navKeysRow.setOnClickListener(mNavKeysClickListener);
          mNavKeys = (CheckBox) findViewById(R.id.nav_keys_checkbox);
-@@ -128,7 +107,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
+@@ -109,7 +88,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
      public void onResume() {
          super.onResume();
          updateDisableNavkeysOption();
@@ -147,7 +147,7 @@ index a72d916..b5509cc 100644
      }
  
      @Override
-@@ -152,15 +130,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
+@@ -133,15 +111,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
          return R.drawable.ic_features;
      }
  

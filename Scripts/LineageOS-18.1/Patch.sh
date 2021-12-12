@@ -83,6 +83,10 @@ if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then DOS_WEBVIEW_CHERRYPI
 if [ "$DOS_WEBVIEW_LFS" = true ]; then git lfs pull; fi; #Ensure the objects are available
 fi;
 
+if enterAndClear "external/tremolo"; then
+git pull https://github.com/LineageOS/android_external_tremolo refs/changes/65/319965/1; #R_asb_2021-12
+fi;
+
 if enterAndClear "frameworks/base"; then
 applyPatch "$DOS_PATCHES/android_frameworks_base/0006-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
@@ -251,6 +255,10 @@ patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --direct
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/27.0";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/26.0";
 awk -i inplace '!/true cannot be used in user builds/' Android.mk; #Allow ignoring neverallows under -user
+fi;
+
+if enterAndClear "system/tools/aidl"; then
+git pull https://github.com/LineageOS/android_system_tools_aidl refs/changes/82/319982/1; #R_asb_2021-12
 fi;
 
 if enterAndClear "system/update_engine"; then

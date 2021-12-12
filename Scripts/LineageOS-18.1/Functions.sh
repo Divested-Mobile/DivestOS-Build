@@ -132,7 +132,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	#repopick -it eleven-firewall;
-	repopick -it R_asb_2021-12; #TODO: pick missing
+	repopick -it R_asb_2021-12;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
