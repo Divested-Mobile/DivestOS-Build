@@ -283,9 +283,6 @@ if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/LINEAGE_BUILDTYP
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
 cp -f "$DOS_PATCHES_COMMON/apns-conf.xml" prebuilt/common/etc/apns-conf.xml; #Update APN list
 sed -i 's/messaging/Silence/' config/telephony.mk; #Replace the Messaging app with Silence
-if [ "$DOS_HOST_GLIBC2_34" = true ]; then
-awk -i inplace '!/x86_64-linux-gnu/' config/BoardConfigKernel.mk; #fix compile with glibc 2.34, 318916
-fi;
 fi;
 
 if enter "vendor/divested"; then
@@ -319,6 +316,10 @@ awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken
 fi;
 
 if enterAndClear "device/motorola/clark"; then
+echo "allow mm-qcamerad camera_prop:property_service set;" >> sepolicy/mm-qcamerad.te;
+echo "allow mm-qcamerad property_socket:sock_file write;" >> sepolicy/mm-qcamerad.te;
+echo "allow mm-qcamerad camera_prop:file read;" >> sepolicy/mm-qcamerad.te;
+echo "set_prop(mm-qcamerad, camera_prop)" >> sepolicy/mm-qcamerad.te;
 echo "recovery_only(\`" >> sepolicy/recovery.te; #304224: Allow recovery to unzip and chmod modem firmware
 echo "  allow firmware_file labeledfs:filesystem associate;" >> sepolicy/recovery.te;
 echo "  allow recovery firmware_file:dir rw_dir_perms;" >> sepolicy/recovery.te;

@@ -11,10 +11,10 @@ Change-Id: Ic1dce1c0fffc3c3f6459c4c85e0a64d480d3315a
  2 files changed, 53 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index e4378d6b93..89fc7973a7 100644
+index c7c55d381e..fd6f4178bd 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
-@@ -3079,17 +3079,6 @@
+@@ -3080,17 +3080,6 @@
              </intent-filter>
          </service>
  

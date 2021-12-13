@@ -117,7 +117,7 @@ buildAll() {
 	#SD865
 	buildDevice lmi avb;
 	#SD870
-	buildDevice alioth avb; #error: Sum of sizes in qti_dynamic_partitions_partition_list is 4561391616, which is greater than qti_dynamic_partitions_size (4559208448)
+	buildDevice alioth avb;
 	#SD670
 	buildDevice bonito avb; #error: ln: cannot create symbolic link from '/data/vendor/rfs/mpss' to 'out/target/product/bonito/vendor/rfs/msm/mpss//readwrite':
 	buildDevice sargo avb;

@@ -99,7 +99,8 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	#repopick -it ten-firewall;
-	repopick -it Q_asb_2021-12;
+	#repopick -i 318916; #Fix kernel build with glibc 2.34
+	repopick -it Q_asb_2021-12 -e 320289;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

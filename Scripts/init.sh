@@ -37,7 +37,6 @@ export DOS_TOR_WRAPPER="";
 export DOS_MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
 export DOS_MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
 export DOS_REFRESH_PATCHES=true; #Set true to refresh branch-specific patches on apply
-export DOS_HOST_GLIBC2_34=true; #Set true to enable a glibc 2.34+ workaround XXX: hard-coded to Fedora 35 paths
 
 #Deblobber
 export DOS_DEBLOBBER_REMOVE_ACCESSORIES=true; #Set false to allow use of external accessories that depend on blobs
@@ -67,7 +66,7 @@ export DOS_MICROG_INCLUDED="NLP"; #Determines inclusion of microG. Options: NLP,
 export DOS_NON_COMMERCIAL_USE_PATCHES=false; #Set true to allow inclusion of non-commercial use patches XXX: Unused, see 1dc9247
 export DOS_OPTIMIZE_IMAGES=false; #Set true to apply lossless optimizations to image resources
 export DOS_SENSORS_PERM=false; #Set true to provide a per-app sensors permission #XXX: can break things like camera
-export DOS_SENSORS_PERM_NEW=true;
+export DOS_SENSORS_PERM_NEW=false;
 export DOS_STRONG_ENCRYPTION_ENABLED=false; #Set true to enable AES 256-bit FDE encryption on 14.1+15.1 XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
 export DOS_WEBVIEW_LFS=true; #Whether to `git lfs pull` in the WebView repository
 #alias DOS_WEBVIEW_CHERRYPICK='git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/00/316600/2';

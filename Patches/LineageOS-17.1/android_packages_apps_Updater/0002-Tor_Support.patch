@@ -56,10 +56,10 @@ index 34f2fd3..e2a3e09 100644
      <string name="snack_update_not_installable">This update can\'t be installed on top of the current build.</string>
  
 diff --git a/src/org/lineageos/updater/UpdatesActivity.java b/src/org/lineageos/updater/UpdatesActivity.java
-index ad001c8..4bebc17 100644
+index fec31ee..494c245 100644
 --- a/src/org/lineageos/updater/UpdatesActivity.java
 +++ b/src/org/lineageos/updater/UpdatesActivity.java
-@@ -343,10 +343,14 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -369,10 +369,14 @@ public class UpdatesActivity extends UpdatesListActivity {
  
          final DownloadClient downloadClient;
          try {
@@ -74,7 +74,7 @@ index ad001c8..4bebc17 100644
                      .build();
          } catch (IOException exception) {
              Log.e(TAG, "Could not build download client");
-@@ -411,6 +415,7 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -452,6 +456,7 @@ public class UpdatesActivity extends UpdatesListActivity {
          View view = LayoutInflater.from(this).inflate(R.layout.preferences_dialog, null);
          Spinner autoCheckInterval =
                  view.findViewById(R.id.preferences_auto_updates_check_interval);
@@ -82,7 +82,7 @@ index ad001c8..4bebc17 100644
          Switch autoDelete = view.findViewById(R.id.preferences_auto_delete_updates);
          Switch dataWarning = view.findViewById(R.id.preferences_mobile_data_warning);
          Switch abPerfMode = view.findViewById(R.id.preferences_ab_perf_mode);
-@@ -421,6 +426,7 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -462,6 +467,7 @@ public class UpdatesActivity extends UpdatesListActivity {
  
          SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
          autoCheckInterval.setSelection(Utils.getUpdateCheckSetting(this));
@@ -90,7 +90,7 @@ index ad001c8..4bebc17 100644
          autoDelete.setChecked(prefs.getBoolean(Constants.PREF_AUTO_DELETE_UPDATES, false));
          dataWarning.setChecked(prefs.getBoolean(Constants.PREF_MOBILE_DATA_WARNING, true));
          abPerfMode.setChecked(prefs.getBoolean(Constants.PREF_AB_PERF_MODE, false));
-@@ -432,6 +438,8 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -473,6 +479,8 @@ public class UpdatesActivity extends UpdatesListActivity {
                      prefs.edit()
                              .putInt(Constants.PREF_AUTO_UPDATES_CHECK_INTERVAL,
                                      autoCheckInterval.getSelectedItemPosition())
@@ -99,7 +99,7 @@ index ad001c8..4bebc17 100644
                              .putBoolean(Constants.PREF_AUTO_DELETE_UPDATES,
                                      autoDelete.isChecked())
                              .putBoolean(Constants.PREF_MOBILE_DATA_WARNING,
-@@ -447,6 +455,10 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -488,6 +496,10 @@ public class UpdatesActivity extends UpdatesListActivity {
                          UpdatesCheckReceiver.cancelUpdatesCheck(this);
                      }
  
