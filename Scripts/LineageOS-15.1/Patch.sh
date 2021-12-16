@@ -72,7 +72,7 @@ applyPatch "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys t
 applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/treble_common.mk; #Replace the Messaging app with Silence
-sed -i 's/2021-10-05/2021-11-05/' core/version_defaults.mk; #Bump Security String #O_asb_2021-11 #XXX
+sed -i 's/2021-10-05/2021-12-05/' core/version_defaults.mk; #Bump Security String #O_asb_2021-11 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -107,10 +107,6 @@ applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout
 if [ "$DOS_SENSORS_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Sensors.patch"; fi; #Permission for sensors access (MSe1969)
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0002-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0003-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
-applyPatch "$DOS_PATCHES/android_frameworks_base/318648.patch"; #O_asb_2021-11
-applyPatch "$DOS_PATCHES/android_frameworks_base/318649.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/318650.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/318651.patch";
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox internal logging service
 sed -i 's/DEFAULT_MAX_FILES_LOWRAM = 300;/DEFAULT_MAX_FILES_LOWRAM = 0;/' services/core/java/com/android/server/DropBoxManagerService.java;
 sed -i 's/(notif.needNotify)/(true)/' location/java/com/android/internal/location/GpsNetInitiatedHandler.java; #Notify the user if their location is requested via SUPL
@@ -187,7 +183,6 @@ fi;
 
 if enterAndClear "packages/apps/Contacts"; then
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_packages_apps_Contacts/318654.patch"; #O_asb_2021-11
 fi;
 
 if enterAndClear "packages/apps/LineageParts"; then
@@ -276,11 +271,6 @@ fi;
 if enter "vendor/divested"; then
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi; #Include microG
 if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi; #Include blocker app
-fi;
-
-if enterAndClear "vendor/nxp/opensource/external/libnfc-nci"; then
-applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/318656.patch"; #O_asb_2021-11
-applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/318657.patch";
 fi;
 #
 #END OF ROM CHANGES
