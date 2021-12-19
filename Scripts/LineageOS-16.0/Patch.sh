@@ -99,10 +99,6 @@ sed -i 's/about to delete/unable to delete/' pico/src/com/svox/pico/LangPackUnin
 awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.java;
 fi;
 
-if enterAndClear "external/tremolo"; then
-git pull https://github.com/LineageOS/android_external_tremolo refs/changes/24/320424/1; #P_asb_2021-12
-fi;
-
 if enterAndClear "frameworks/av"; then
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES_COMMON/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; fi; #(GrapheneOS)
 fi;
