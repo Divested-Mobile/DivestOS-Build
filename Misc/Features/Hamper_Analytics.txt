@@ -31,38 +31,86 @@ Keywords to find keys
 	"meta-data android:name" private key
 	"meta-data android:name" secret key
 
-Core - Currently Implemented
+Documentation
+	http://docs-en.tnkad.net/analytics-reporting/1-android-integration
+	https://developer.android.com/guide/webapps/managing-webview
+	https://developer.clevertap.com/docs/android
+	https://developer.clevertap.com/docs/android-quickstart-guide
+	https://developer.clevertap.com/docs/sdk-changes-for-gdpr-compliance
+	https://developers.facebook.com/docs/app-events/getting-started-app-events-android
+	https://dev.followanalytics.com/sdks/android/older-versions/6.1/
+	https://docs.bugsnag.com/platforms/android/configuration-options/
+	https://docs.bugsnag.com/platforms/android/legacy/configuration-options/
+	https://docs.microsoft.com/en-us/dynamics365/customer-insights/engagement-insights/get-started-android
+	https://docs.netcoresmartech.com/v1.0/docs/android-sdk-v2-advanced
+	https://docs.pushwoosh.com/platform-docs/v/master/pushwoosh-sdk/cross-platform-frameworks/adobe-air
+	https://documentation.accengage.com/sdk/android/3.6/migration/
+	https://firebase.google.com/docs/analytics/configure-data-collection
+	https://github.com/mapbox/mapbox-events-android/pull/77/files
+	https://github.com/mixpanel/mixpanel-android/blob/master/src/main/java/com/mixpanel/android/mpmetrics/MPConfig.java
+	https://help.batch.com/en/articles/5204072-how-to-integrate-batch-into-my-cmp
+	https://help.upsight.com/api_sdk_reference/android/
+	https://techdocs.broadcom.com/us/en/ca-enterprise-software/it-operations-management/app-experience-analytics/17-3/using/using-apis/android-custom-apis/Supported-Meta-Data-Properties.html
+
+Currently Implemented
+            data.putString("acc_advertiser_id", "false");
+            data.putString("acc_no_geoloc", "true");
+            data.putString("acc_tracking_mode", "Restricted");
             data.putString("android.webkit.WebView.MetricsOptOut", "true");
+            data.putString("AXACollectIp", "false");
             data.putString("batch_opted_out_by_default", "true");
+            data.putString("CLEVERTAP_BACKGROUND_SYNC", "0")
+            data.putString("CLEVERTAP_USE_GOOGLE_AD_ID", "0")
+            data.putString("com.ad4screen.advertiser_id", "false");
             data.putString("com.ad4screen.no_geoloc", "true");
+            data.putString("com.ad4screen.tracking_mode", "Restricted");
+            data.putString("com.bugsnag.android.AUTO_CAPTURE_SESSIONS", "false");
+            data.putString("com.bugsnag.android.AUTO_DETECT_ERRORS", "false");
+            data.putString("com.bugsnag.android.AUTO_TRACK_SESSIONS", "false");
+            data.putString("com.bugsnag.android.DETECT_ANR", "false");
+            data.putString("com.bugsnag.android.DETECT_NDK_CRASHES", "false");
+            data.putString("com.bugsnag.android.ENABLE_EXCEPTION_HANDLER", "false");
+            data.putString("com.bugsnag.android.PERSIST_USER_BETWEEN_SESSIONS", "false");
+            data.putString("com.bugsnag.android.PERSIST_USER", "false");
+            data.putString("com.bugsnag.android.SEND_THREADS", "NEVER");
+            data.putString("com.facebook.sdk.AdvertiserIDCollectionEnabled", "false");
+            data.putString("com.facebook.sdk.AutoInitEnabled", "false");
             data.putString("com.facebook.sdk.AutoLogAppEventsEnabled", "false");
+            data.putString("com.followanalytics.message.inapp.enable", "false");
+            data.putString("com.followanalytics.message.push.enable", "false");
+            data.putString("com.google.android.gms.ads.AD_MANAGER_APP", "false");
+            data.putString("com.mapbox.EnableEvents", "false");
+            data.putString("com.microsoft.engagementinsights.autoCapture", "false");
+            data.putString("com.mixpanel.android.MPConfig.AutoCheckForSurveys", "false");
+            data.putString("com.mixpanel.android.MPConfig.AutoShowMixpanelUpdates", "false");
+            data.putString("com.mixpanel.android.MPConfig.DisableAppOpenEvent", "true");
+            data.putString("com.mixpanel.android.MPConfig.DisableDecideChecker", "true");
+            data.putString("com.mixpanel.android.MPConfig.DisableExceptionHandler", "true");
+            data.putString("com.mixpanel.android.MPConfig.DisableFallback", "true");
+            data.putString("com.mixpanel.android.MPConfig.DisableViewCrawler", "true");
+            data.putString("com.mixpanel.android.MPConfig.TestMode", "true");
             data.putString("com.mixpanel.android.MPConfig.UseIpAddressForGeolocation", "false");
+            data.putString("com.sprooki.LOCATION_SERVICES", "disable");
             data.putString("com.webengage.sdk.android.location_tracking", "false");
             data.putString("firebase_analytics_collection_deactivated", "true");
             data.putString("firebase_analytics_collection_enabled", "false");
             data.putString("firebase_crash_collection_enabled", "false");
             data.putString("firebase_performance_collection_deactivated", "true");
             data.putString("google_analytics_adid_collection_enabled", "false");
-            data.putString("google_analytics_ssaid_collection_enabled", "false");
+            data.putString("google_analytics_automatic_screen_reporting_enabled", "false");
             data.putString("google_analytics_default_allow_ad_personalization_signals", "false");
-            data.putString("com.ad4screen.tracking_mode", "Restricted");
-            data.putString("com.sprooki.LOCATION_SERVICES", "disable");
+            data.putString("google_analytics_ssaid_collection_enabled", "false");
+            data.putString("SMT_USE_AD_ID", "0");
+            data.putString("tapjoy.disable_advertising_id_check", "true");
+            data.putString("tapjoy.disable_android_id_as_analytics_id", "true");
+            data.putString("tapjoy.disable_automatic_session_tracking", "true");
+            data.putString("tapjoy.disable_persistent_ids", "true");
+            data.putString("tapjoy.disable_video_offers", "true");
+            data.putString("tnkad_tracking", "false");
 
 Settings
-            data.putString("com.bugsnag.android.AUTO_CAPTURE_SESSIONS", "false");
-            data.putString("com.bugsnag.android.ENABLE_EXCEPTION_HANDLER", "false");
-            data.putString("com.bugsnag.android.PERSIST_USER_BETWEEN_SESSIONS", "false");
-            data.putString("com.bugsnag.android.SEND_THREADS", "false");
-            data.putString("com.followanalytics.message.inapp.enable", "false");
-            data.putString("com.followanalytics.message.push.enable", "false");
-            data.putString("com.mixpanel.android.MPConfig.AutoShowMixpanelUpdates", "false");
-            data.putString("com.mixpanel.android.MPConfig.DisableAppOpenEvent", "true");
-            data.putString("com.mixpanel.android.MPConfig.DisableDecideChecker", "true");
-            data.putString("com.mixpanel.android.MPConfig.DisableFallback", "true");
-            data.putString("com.mixpanel.android.MPConfig.DisableGestureBindingUI", "true");
-            data.putString("com.mixpanel.android.MPConfig.DisableViewCrawler", "true");
-            data.putString("com.mixpanel.android.MPConfig.TestMode", "true");
             data.putString("engagement:adm:register", "false");
+            data.putString("engagement:connection:delay", "2629800");
             data.putString("engagement:locationReport:lazyArea", "false");
             data.putString("engagement:locationReport:realTime:background", "false");
             data.putString("engagement:locationReport:realTime", "false");
@@ -71,18 +119,17 @@ Settings
             data.putString("engagement:reportCrash", "false");
             data.putString("FYBEnableSSLRewardedVideo", "true");
             data.putString("mceSessionEnabled", "false");
-            data.putString("tapjoy.disable_video_offers", "true");
-            data.putString("CLEVERTAP_USE_GOOGLE_AD_ID", "0")
-            data.putString("engagement:connection:delay", "2629800");
+            data.putString("PW_BROADCAST_PUSH", "false");
 
 API Keys
-            String apiFillerValue = "";
-            //String apiFillerValue = "DO_NOT_TRACK";
+            String apiFillerValue = "DO_NOT_TRACK";
             data.putString("apptentive_api_key", apiFillerValue);
             data.putString("apptentive_key", apiFillerValue);
             data.putString("apptentive_signature", apiFillerValue);
             data.putString("__ChartboostAir__AppID", apiFillerValue);
             data.putString("__ChartboostAir__AppSignature", apiFillerValue);
+            data.putString("CLEVERTAP_ACCOUNT_ID", apiFillerValue);
+            data.putString("CLEVERTAP_TOKEN", apiFillerValue);
             data.putString("com.a0soft.gphone.aTrackDog.webURL", apiFillerValue);
             data.putString("com.ad4screen.facebook_appid", apiFillerValue);
             data.putString("com.ad4screen.partnerid", apiFillerValue);
@@ -95,12 +142,20 @@ API Keys
             data.putString("com.facebook.sdk.ApplicationId", apiFillerValue);
             data.putString("com.geouniq.appkey", apiFillerValue);
             data.putString("com.google.android.awareness.API_KEY", apiFillerValue);
+            data.putString("com.google.android.gms.ads.APPLICATION_ID", apiFillerValue);
+            data.putString("com.huawei.hms.client.appid", apiFillerValue);
+            data.putString("com.huawei.hms.client.cpid", apiFillerValue);
             data.putString("com.indooratlas.android.sdk.API_KEY", apiFillerValue);
             data.putString("com.indooratlas.android.sdk.API_SECRET", apiFillerValue);
+            data.putString("com.microsoft.engagementinsights.ingestionKey", apiFillerValue);
             data.putString("com.pushwoosh.appid", apiFillerValue);
             data.putString("com.pushwoosh.senderid", apiFillerValue);
+            data.putString("com.tapjoy.appstore", apiFillerValue);
             data.putString("com.upsight.app_token", apiFillerValue);
+            data.putString("com.upsight.fcm.api.key", apiFillerValue);
+            data.putString("com.upsight.fcm.application.id", apiFillerValue);
             data.putString("com.upsight.public_key", apiFillerValue);
+            data.putString("com.webengage.sdk.android.key", apiFillerValue);
             data.putString("co.paystack.android.PublicKey", apiFillerValue);
             data.putString("FAID", apiFillerValue);
             data.putString("io.branch.sdk.BranchKey", apiFillerValue);
@@ -112,3 +167,4 @@ API Keys
             data.putString("pilgrim_sdk_secret", apiFillerValue);
             data.putString("presage_key", apiFillerValue);
             data.putString("tkbl-api-key-0", apiFillerValue);
+            data.putString("tnkad_app_id", apiFillerValue);

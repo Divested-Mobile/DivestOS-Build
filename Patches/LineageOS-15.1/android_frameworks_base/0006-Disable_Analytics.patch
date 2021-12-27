@@ -13,24 +13,64 @@ diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android
 index 8c66fb227cf9..a5c783597b34 100644
 --- a/core/java/android/content/pm/PackageParser.java
 +++ b/core/java/android/content/pm/PackageParser.java
-@@ -5524,6 +5524,20 @@ public class PackageParser {
+@@ -5524,6 +5524,60 @@ public class PackageParser {
  
          if (data == null) {
              data = new Bundle();
++            data.putString("acc_advertiser_id", "false");
++            data.putString("acc_no_geoloc", "true");
++            data.putString("acc_tracking_mode", "Restricted");
++            data.putString("android.webkit.WebView.MetricsOptOut", "true");
++            data.putString("AXACollectIp", "false");
 +            data.putString("batch_opted_out_by_default", "true");
++            data.putString("CLEVERTAP_BACKGROUND_SYNC", "0")
++            data.putString("CLEVERTAP_USE_GOOGLE_AD_ID", "0")
++            data.putString("com.ad4screen.advertiser_id", "false");
 +            data.putString("com.ad4screen.no_geoloc", "true");
++            data.putString("com.ad4screen.tracking_mode", "Restricted");
++            data.putString("com.bugsnag.android.AUTO_CAPTURE_SESSIONS", "false");
++            data.putString("com.bugsnag.android.AUTO_DETECT_ERRORS", "false");
++            data.putString("com.bugsnag.android.AUTO_TRACK_SESSIONS", "false");
++            data.putString("com.bugsnag.android.DETECT_ANR", "false");
++            data.putString("com.bugsnag.android.DETECT_NDK_CRASHES", "false");
++            data.putString("com.bugsnag.android.ENABLE_EXCEPTION_HANDLER", "false");
++            data.putString("com.bugsnag.android.PERSIST_USER_BETWEEN_SESSIONS", "false");
++            data.putString("com.bugsnag.android.PERSIST_USER", "false");
++            data.putString("com.bugsnag.android.SEND_THREADS", "NEVER");
++            data.putString("com.facebook.sdk.AdvertiserIDCollectionEnabled", "false");
++            data.putString("com.facebook.sdk.AutoInitEnabled", "false");
 +            data.putString("com.facebook.sdk.AutoLogAppEventsEnabled", "false");
++            data.putString("com.followanalytics.message.inapp.enable", "false");
++            data.putString("com.followanalytics.message.push.enable", "false");
++            data.putString("com.google.android.gms.ads.AD_MANAGER_APP", "false");
++            data.putString("com.mapbox.EnableEvents", "false");
++            data.putString("com.microsoft.engagementinsights.autoCapture", "false");
++            data.putString("com.mixpanel.android.MPConfig.AutoCheckForSurveys", "false");
++            data.putString("com.mixpanel.android.MPConfig.AutoShowMixpanelUpdates", "false");
++            data.putString("com.mixpanel.android.MPConfig.DisableAppOpenEvent", "true");
++            data.putString("com.mixpanel.android.MPConfig.DisableDecideChecker", "true");
++            data.putString("com.mixpanel.android.MPConfig.DisableExceptionHandler", "true");
++            data.putString("com.mixpanel.android.MPConfig.DisableFallback", "true");
++            data.putString("com.mixpanel.android.MPConfig.DisableViewCrawler", "true");
++            data.putString("com.mixpanel.android.MPConfig.TestMode", "true");
 +            data.putString("com.mixpanel.android.MPConfig.UseIpAddressForGeolocation", "false");
++            data.putString("com.sprooki.LOCATION_SERVICES", "disable");
 +            data.putString("com.webengage.sdk.android.location_tracking", "false");
 +            data.putString("firebase_analytics_collection_deactivated", "true");
 +            data.putString("firebase_analytics_collection_enabled", "false");
 +            data.putString("firebase_crash_collection_enabled", "false");
 +            data.putString("firebase_performance_collection_deactivated", "true");
 +            data.putString("google_analytics_adid_collection_enabled", "false");
-+            data.putString("google_analytics_ssaid_collection_enabled", "false");
++            data.putString("google_analytics_automatic_screen_reporting_enabled", "false");
 +            data.putString("google_analytics_default_allow_ad_personalization_signals", "false");
-+            data.putString("com.ad4screen.tracking_mode", "Restricted");
-+            data.putString("com.sprooki.LOCATION_SERVICES", "disable");
++            data.putString("google_analytics_ssaid_collection_enabled", "false");
++            data.putString("SMT_USE_AD_ID", "0");
++            data.putString("tapjoy.disable_advertising_id_check", "true");
++            data.putString("tapjoy.disable_android_id_as_analytics_id", "true");
++            data.putString("tapjoy.disable_automatic_session_tracking", "true");
++            data.putString("tapjoy.disable_persistent_ids", "true");
++            data.putString("tapjoy.disable_video_offers", "true");
++            data.putString("tnkad_tracking", "false");
          }
  
          String name = sa.getNonConfigurationString(
