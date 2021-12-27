@@ -23,8 +23,8 @@ index 861b0d922d32..a9ad5aac0f0d 100644
 +            data.putString("android.webkit.WebView.MetricsOptOut", "true");
 +            data.putString("AXACollectIp", "false");
 +            data.putString("batch_opted_out_by_default", "true");
-+            data.putString("CLEVERTAP_BACKGROUND_SYNC", "0")
-+            data.putString("CLEVERTAP_USE_GOOGLE_AD_ID", "0")
++            data.putString("CLEVERTAP_BACKGROUND_SYNC", "0");
++            data.putString("CLEVERTAP_USE_GOOGLE_AD_ID", "0");
 +            data.putString("com.ad4screen.advertiser_id", "false");
 +            data.putString("com.ad4screen.no_geoloc", "true");
 +            data.putString("com.ad4screen.tracking_mode", "Restricted");

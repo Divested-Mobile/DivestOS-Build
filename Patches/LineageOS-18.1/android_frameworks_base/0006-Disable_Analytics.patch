@@ -6,11 +6,11 @@ Subject: [PATCH] Disable/reduce functionality of various ad/analytics
 
 Change-Id: I84303ee26d0232e471f44ae6eff6e41a2210e42e
 ---
- core/java/android/content/pm/PackageParser.java | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ .../android/content/pm/PackageParser.java     | 54 +++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
 diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android/content/pm/PackageParser.java
-index 70e4e6cbf622..f79a52c7d827 100644
+index 70e4e6cbf622..645dfc0741da 100644
 --- a/core/java/android/content/pm/PackageParser.java
 +++ b/core/java/android/content/pm/PackageParser.java
 @@ -5551,6 +5551,60 @@ public class PackageParser {
@@ -23,8 +23,8 @@ index 70e4e6cbf622..f79a52c7d827 100644
 +            data.putString("android.webkit.WebView.MetricsOptOut", "true");
 +            data.putString("AXACollectIp", "false");
 +            data.putString("batch_opted_out_by_default", "true");
-+            data.putString("CLEVERTAP_BACKGROUND_SYNC", "0")
-+            data.putString("CLEVERTAP_USE_GOOGLE_AD_ID", "0")
++            data.putString("CLEVERTAP_BACKGROUND_SYNC", "0");
++            data.putString("CLEVERTAP_USE_GOOGLE_AD_ID", "0");
 +            data.putString("com.ad4screen.advertiser_id", "false");
 +            data.putString("com.ad4screen.no_geoloc", "true");
 +            data.putString("com.ad4screen.tracking_mode", "Restricted");
