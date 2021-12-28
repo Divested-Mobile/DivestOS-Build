@@ -38,6 +38,7 @@ Documentation
 	https://developer.clevertap.com/docs/android-quickstart-guide
 	https://developer.clevertap.com/docs/sdk-changes-for-gdpr-compliance
 	https://developers.facebook.com/docs/app-events/getting-started-app-events-android
+	https://developers.google.com/admob/ump/android/quick-start
 	https://dev.followanalytics.com/sdks/android/older-versions/6.1/
 	https://docs.bugsnag.com/platforms/android/configuration-options/
 	https://docs.bugsnag.com/platforms/android/legacy/configuration-options/
@@ -46,6 +47,7 @@ Documentation
 	https://docs.pushwoosh.com/platform-docs/v/master/pushwoosh-sdk/cross-platform-frameworks/adobe-air
 	https://documentation.accengage.com/sdk/android/3.6/migration/
 	https://firebase.google.com/docs/analytics/configure-data-collection
+	https://firebase.google.com/docs/crashlytics/customize-crash-reports
 	https://github.com/mapbox/mapbox-events-android/pull/77/files
 	https://github.com/mixpanel/mixpanel-android/blob/master/src/main/java/com/mixpanel/android/mpmetrics/MPConfig.java
 	https://help.batch.com/en/articles/5204072-how-to-integrate-batch-into-my-cmp
@@ -79,6 +81,7 @@ Currently Implemented
             data.putString("com.followanalytics.message.inapp.enable", "false");
             data.putString("com.followanalytics.message.push.enable", "false");
             data.putString("com.google.android.gms.ads.AD_MANAGER_APP", "false");
+            data.putString("com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT", "true");
             data.putString("com.mapbox.EnableEvents", "false");
             data.putString("com.microsoft.engagementinsights.autoCapture", "false");
             data.putString("com.mixpanel.android.MPConfig.AutoCheckForSurveys", "false");
@@ -95,6 +98,7 @@ Currently Implemented
             data.putString("firebase_analytics_collection_deactivated", "true");
             data.putString("firebase_analytics_collection_enabled", "false");
             data.putString("firebase_crash_collection_enabled", "false");
+            data.putString("firebase_crashlytics_collection_enabled", "false");
             data.putString("firebase_performance_collection_deactivated", "true");
             data.putString("google_analytics_adid_collection_enabled", "false");
             data.putString("google_analytics_automatic_screen_reporting_enabled", "false");
@@ -126,6 +130,7 @@ API Keys
             data.putString("apptentive_api_key", apiFillerValue);
             data.putString("apptentive_key", apiFillerValue);
             data.putString("apptentive_signature", apiFillerValue);
+            data.putString("BUGLY_APPID", apiFillerValue);
             data.putString("__ChartboostAir__AppID", apiFillerValue);
             data.putString("__ChartboostAir__AppSignature", apiFillerValue);
             data.putString("CLEVERTAP_ACCOUNT_ID", apiFillerValue);

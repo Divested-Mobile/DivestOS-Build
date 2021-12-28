@@ -13,7 +13,7 @@ diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android
 index e0c2d2dc6dde..85a669a4a6c1 100644
 --- a/core/java/android/content/pm/PackageParser.java
 +++ b/core/java/android/content/pm/PackageParser.java
-@@ -5327,6 +5327,60 @@ public class PackageParser {
+@@ -5327,6 +5327,62 @@ public class PackageParser {
  
          if (data == null) {
              data = new Bundle();
@@ -43,6 +43,7 @@ index e0c2d2dc6dde..85a669a4a6c1 100644
 +            data.putString("com.followanalytics.message.inapp.enable", "false");
 +            data.putString("com.followanalytics.message.push.enable", "false");
 +            data.putString("com.google.android.gms.ads.AD_MANAGER_APP", "false");
++            data.putString("com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT", "true");
 +            data.putString("com.mapbox.EnableEvents", "false");
 +            data.putString("com.microsoft.engagementinsights.autoCapture", "false");
 +            data.putString("com.mixpanel.android.MPConfig.AutoCheckForSurveys", "false");
@@ -59,6 +60,7 @@ index e0c2d2dc6dde..85a669a4a6c1 100644
 +            data.putString("firebase_analytics_collection_deactivated", "true");
 +            data.putString("firebase_analytics_collection_enabled", "false");
 +            data.putString("firebase_crash_collection_enabled", "false");
++            data.putString("firebase_crashlytics_collection_enabled", "false");
 +            data.putString("firebase_performance_collection_deactivated", "true");
 +            data.putString("google_analytics_adid_collection_enabled", "false");
 +            data.putString("google_analytics_automatic_screen_reporting_enabled", "false");
