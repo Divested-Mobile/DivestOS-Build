@@ -391,7 +391,7 @@ sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64
 fi;
 
 if enterAndClear "kernel/oneplus/sdm845"; then
-applyPatch "$DOS_PATCHES/android_kernel_oneplus_sdm845/4.9.277-qc.patch"; #4.9.227 -> 4.9.277
+applyPatch "$DOS_PATCHES/android_kernel_oneplus_sdm845/4.9.282-qc.patch"; #4.9.227 -> 4.9.282
 fi;
 
 #Make changes to all devices
