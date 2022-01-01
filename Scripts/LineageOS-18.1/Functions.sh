@@ -132,6 +132,13 @@ patchWorkspace() {
 
 	#source build/envsetup.sh;
 	#repopick -it eleven-firewall;
+	#repopick -i 305407 320916; #Check ACCELEROMETER_ROTATION_ANGLES for current user
+	#repopick -i 314017 314130; #adbconnection: don't spin if adbd isn't running
+	#repopick -i 314453; #TaskViewTouchController: Null check current animation on drag
+	#repopick -i 315116; #SystemUI: Set brightness slider view restriction from the right thread
+	#repopick -i 320663; #Trebuchet: Don't hide home screen rotation setting
+	#repopick -i 320914 320917; #Settings: Make PIN scramble user specific
+	#repopick -i 320921; #Revert "Remove dependency on IME subtype from TSMS"
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

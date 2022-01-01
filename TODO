@@ -1,4 +1,4 @@
-Last updated: 2021-04-12
+Last updated: 2021-12-31
 
 High Priority
 	Website
@@ -14,15 +14,12 @@ Medium Priority
 		- Various other branding (logo, snazzy bootanimation, setupwizard, etc.)
 	Project
 		- Database verification in Hypatia
-		- More cryptocurrency addresses
 	Servers
-		- Dedicated build server
+		- Dedicated full-time build server
 
 Low Priority
 	Website
 		- Switch to a wiki (?)
-	WiFiDatabaseMerger
-		- Improved documentation
 
 Longterm
 	Build
