@@ -76,7 +76,7 @@ index 4236b27..eed044a 100644
      <bool name="config_showWeatherMenu">true</bool>
  
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 8cdb211..f6cd470 100644
+index b0493d1..0351447 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -527,28 +527,6 @@

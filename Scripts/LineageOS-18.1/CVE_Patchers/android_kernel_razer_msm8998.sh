@@ -1,11 +1,6 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/razer/msm8998"
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0285-0286.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0286-0287.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0288-0289.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0289-0290.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0290-0291.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0291-0292.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0296-0297.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0006.patch
 #git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0011.patch
@@ -47,25 +42,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-15291/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-16994/^5.0/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/4.4/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19068/4.4/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/4.4/0026.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/4.4/0027.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/4.4/0028.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/4.4/0029.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3702/4.4/0030.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-11608/^5.6.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14386/3.10-^4.4/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3655/^5.13/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4002/4.4/0007.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20320/^5.15/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20322/4.4/0009.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28713/4.4/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28715/4.4/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39685/4.4/0007.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39685/4.4/0008.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-40490/3.9-^5.14/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45095/^5.16/0001.patch
-editKernelLocalversion "-dos.p67"
+editKernelLocalversion "-dos.p47"
 cd "$DOS_BUILD_BASE"
