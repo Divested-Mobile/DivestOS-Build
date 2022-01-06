@@ -76,6 +76,9 @@
 	<project path="external/sony/boringssl-compat" name="LineageOS/android_external_sony_boringssl-compat" remote="github" />
 	<project path="hardware/sony/thermanager" name="LineageOS/android_hardware_sony_thermanager" remote="github" />
 	<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />
+	<project path="hardware/sony/macaddrsetup" name="LineageOS/android_hardware_sony_macaddrsetup" remote="github" />
+	<project path="hardware/sony/simdetect" name="LineageOS/android_hardware_sony_simdetect" remote="github" />
+	<project path="hardware/sony/SonyOpenTelephony" name="LineageOS/android_hardware_sony_SonyOpenTelephony" remote="github" />
 
 	<!-- Essential PH-1 (mata) -->
 	<project path="device/essential/mata" name="LineageOS/android_device_essential_mata" remote="github" />
@@ -153,10 +156,11 @@
 	<project path="device/lge/msm8996-common" name="LineageOS/android_device_lge_msm8996-common" remote="github" />
 	<project path="kernel/lge/msm8996" name="LineageOS/android_kernel_lge_msm8996" remote="github" />
 
-	<!-- LG V20 (h990:intl, us996:us) -->
+	<!-- LG V20 (h990:intl, us996:us, h910:att) -->
 	<project path="device/lge/v20-common" name="LineageOS/android_device_lge_v20-common" remote="github" />
 	<project path="device/lge/h990" name="LineageOS/android_device_lge_h990" remote="github" />
 	<project path="device/lge/us996" name="LineageOS/android_device_lge_us996" remote="github" />
+	<project path="device/lge/h910" name="LineageOS/android_device_lge_h910" remote="github" />
 	<!-- uses lge msm8996 commons -->
 
 	<!-- Moto X 2014 (victara) -->
@@ -248,6 +252,28 @@
 	<project path="device/samsung/msm8974-common" name="LineageOS/android_device_samsung_msm8974-common" remote="github" />
 	<project path="kernel/samsung/msm8974" name="LineageOS/android_kernel_samsung_msm8974" remote="github" />
 
+	<!-- Sony Xperia XA2 (pioneer) -->
+	<project path="device/sony/pioneer" name="LineageOS/android_device_sony_pioneer" remote="github" />
+	<project path="device/sony/nile-common" name="LineageOS/android_device_sony_nile-common" remote="github" />
+	<project path="kernel/sony/sdm660" name="LineageOS/android_kernel_sony_sdm660" remote="github" />
+
+	<!-- Sony Xperia XA2 Plus (voyager) -->
+	<project path="device/sony/voyager" name="LineageOS/android_device_sony_voyager" remote="github" />
+
+	<!-- Sony Xperia XA2 Ultra (discovery) -->
+	<project path="device/sony/discovery" name="LineageOS/android_device_sony_discovery" remote="github" />
+
+	<!-- Sony Xperia XZ2 (akari) -->
+	<project path="device/sony/akari" name="LineageOS/android_device_sony_akari" remote="github" />
+	<project path="device/sony/tama-common" name="LineageOS/android_device_sony_tama-common" remote="github" />
+	<project path="kernel/sony/sdm845" name="LineageOS/android_kernel_sony_sdm845" remote="github" />
+
+	<!-- Sony Xperia XZ2 Premium (aurora) -->
+	<project path="device/sony/aurora" name="LineageOS/android_device_sony_aurora" remote="github" />
+
+	<!-- Sony Xperia XZ2 Compact (xz2c) -->
+	<project path="device/sony/xz2c" name="LineageOS/android_device_sony_xz2c" remote="github" />
+
 	<!-- Xiaomi Mi 9T Pro (raphael) -->
 	<project path="device/xiaomi/raphael" name="LineageOS/android_device_xiaomi_raphael" remote="github" />
 	<project path="device/xiaomi/sm8150-common" name="LineageOS/android_device_xiaomi_sm8150-common" remote="github" />
@@ -271,6 +297,11 @@
 	<!-- Xiaomi POCO X3 Pro (vayu) -->
 	<project path="device/xiaomi/vayu" name="LineageOS/android_device_xiaomi_vayu" remote="github" />
 	<!-- uses xiaomi sm8150 commons -->
+
+	<!-- Xiaomi Redmi Note 7 (lavender) -->
+	<project path="device/xiaomi/lavender" name="LineageOS/android_device_xiaomi_lavender" remote="github" />
+	<project path="device/xiaomi/sdm660-common" name="LineageOS/android_device_xiaomi_sdm660-common" remote="github" />
+	<project path="kernel/xiaomi/sdm660" name="LineageOS/android_kernel_xiaomi_sdm660" remote="github" />
 
 	<!-- Zuk Z2 Plus (z2_plus) -->
 	<project path="device/zuk/z2_plus" name="LineageOS/android_device_zuk_z2_plus" remote="github" />

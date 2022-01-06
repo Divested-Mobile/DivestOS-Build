@@ -79,7 +79,7 @@ export DOS_GPS_SUPL_HOST="supl.google.com"; #Options: supl.{google,vodafone,sony
 #Release Processing
 export DOS_MALWARE_SCAN_BEFORE_SIGN=false; #Scan device files for malware before signing
 export DOS_GENERATE_DELTAS=true; #Creates deltas from existing target_files in $DOS_BUILDS
-export DOS_GENERATE_DELTAS_DEVICES=('Amber' 'alioth' 'aura' 'avicii' 'blueline' 'bonito' 'bramble' 'cheryl' 'coral' 'crosshatch' 'davinci' 'enchilada' 'fajita' 'flame' 'FP3' 'guacamole' 'guacamoleb' 'marlin' 'mata' 'pro1' 'redfin' 'sailfish' 'sargo' 'sunfish' 'taimen' 'vayu' 'walleye'); #List of devices deltas will be generated for
+export DOS_GENERATE_DELTAS_DEVICES=('akari' 'alioth' 'Amber' 'aura' 'aurora' 'avicii' 'blueline' 'bonito' 'bramble' 'cheryl' 'coral' 'crosshatch' 'davinci' 'discovery' 'enchilada' 'fajita' 'flame' 'FP3' 'guacamole' 'guacamoleb' 'marlin' 'mata' 'pioneer' 'pro1' 'redfin' 'sailfish' 'sargo' 'sunfish' 'taimen' 'vayu' 'voyager' 'walleye' 'xz2c'); #List of devices deltas will be generated for
 export DOS_AUTO_ARCHIVE_BUILDS=true; #Copies files to $DOS_BUILDS after signing
 export DOS_REMOVE_AFTER=true; #Removes device OUT directory after complete to reclaim space. Requires AUTO_ARCHIVE_BUILDS=true
 export DOS_GPG_SIGNING=true;

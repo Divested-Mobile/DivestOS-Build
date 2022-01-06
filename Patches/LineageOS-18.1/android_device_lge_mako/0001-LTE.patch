@@ -12,7 +12,7 @@ Change-Id: I36cbd7ce1a070201da24dc237154355e780d01b4
  create mode 100644 overlay/packages/services/Telephony/res/values/config.xml
 
 diff --git a/overlay/frameworks/base/core/res/res/values/config.xml b/overlay/frameworks/base/core/res/res/values/config.xml
-index 9f37d0a..2220fca 100644
+index 8924e2a..2e7ba44 100644
 --- a/overlay/frameworks/base/core/res/res/values/config.xml
 +++ b/overlay/frameworks/base/core/res/res/values/config.xml
 @@ -178,7 +178,7 @@

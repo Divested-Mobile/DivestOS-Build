@@ -40,10 +40,10 @@ index ce8ba8c6eb..96223a68ce 100644
 +    <string name="captive_portal_switch_warning">Nach dem Ausschalten der Captive-Portal-Erkennung empfangen Sie keine Verbindungs-Rückmeldung mehr. Wirklich fortfahren?</string>
  </resources>
 diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
-index 1c78816577..c35c696b16 100644
+index ab38dec706..6c81254ce2 100644
 --- a/res/values/cm_strings.xml
 +++ b/res/values/cm_strings.xml
-@@ -172,4 +172,9 @@
+@@ -175,4 +175,9 @@
  
      <!-- Display settings screen, peak refresh rate settings summary [CHAR LIMIT=NONE] -->
      <string name="peak_refresh_rate_summary_custom">Automatically raises the refresh rate from 60 to %1$d Hz for some content. Increases battery usage.</string>

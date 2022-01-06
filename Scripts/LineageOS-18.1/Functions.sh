@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_fxtec_msm8998 kernel_google_coral kernel_google_msm kernel_google_msm-4.9 kernel_google_redbull kernel_google_sunfish kernel_google_wahoo kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_razer_sdm845 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_xiaomi_sdm845 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250 kernel_zuk_msm8996";
+	startPatcher "kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_fxtec_msm8998 kernel_google_coral kernel_google_msm kernel_google_msm-4.9 kernel_google_redbull kernel_google_sunfish kernel_google_wahoo kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_razer_sdm845 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_sony_sdm660 kernel_sony_sdm845 kernel_xiaomi_sdm660 kernel_xiaomi_sdm845 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -80,10 +80,16 @@ buildAll() {
 	#SD820
 	buildDevice h850;
 	buildDevice rs988;
+	buildDevice h910;
 	buildDevice h990;
 	buildDevice us996;
 	buildDevice oneplus3 verity; #needs manual patching - broken yyloc
 	buildDevice z2_plus verity;
+	#SD630
+	buildDevice pioneer;
+	buildDevice voyager;
+	buildDevice discovery;
+	buildDevice lavender avb;
 	#SD835
 	buildDevice cheryl verity;
 	buildDevice cheeseburger verity;
@@ -99,6 +105,9 @@ buildAll() {
 	buildDevice blueline avb;
 	buildDevice enchilada avb; #XXX: uses stock /vendor
 	buildDevice fajita avb; #XXX: uses stock /vendor
+	buildDevice akari avb;
+	buildDevice aurora avb;
+	buildDeivce xz2c avb;
 	#SD632
 	buildDevice FP3 avb;
 	#SD730
@@ -139,6 +148,8 @@ patchWorkspace() {
 	#repopick -i 320663; #Trebuchet: Don't hide home screen rotation setting
 	#repopick -i 320914 320917; #Settings: Make PIN scramble user specific
 	#repopick -i 320921; #Revert "Remove dependency on IME subtype from TSMS"
+	#repopick -i 321297; #fs_mgr: Don't enable clean_scratch_files on non-dynamic devices
+	#repopick -it R_asb_2022-01;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
