@@ -91,7 +91,7 @@
 	<project path="device/google/dragon" name="LineageOS/android_device_google_dragon" remote="github" />
 	<project path="kernel/google/dragon" name="LineageOS/android_kernel_google_dragon" remote="github" />
 
-	<!-- HTC One (m9) -->
+	<!-- HTC One (himaul) -->
 	<project path="device/htc/himaul" name="LineageOS/android_device_htc_himaul" remote="github" />
 	<project path="device/htc/hima-common" name="LineageOS/android_device_htc_hima-common" remote="github" />
 	<project path="kernel/htc/msm8994" name="LineageOS/android_kernel_htc_msm8994" remote="github" />
