@@ -6,11 +6,11 @@ Subject: [PATCH] Disable/reduce functionality of various ad/analytics
 
 Change-Id: I84303ee26d0232e471f44ae6eff6e41a2210e42e
 ---
- core/java/android/content/pm/PackageParser.java | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ .../android/content/pm/PackageParser.java     | 56 +++++++++++++++++++
+ 1 file changed, 56 insertions(+)
 
 diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android/content/pm/PackageParser.java
-index f2e3333b67da..f8bfc011e670 100644
+index f2e3333b67da..35073ed38d3a 100644
 --- a/core/java/android/content/pm/PackageParser.java
 +++ b/core/java/android/content/pm/PackageParser.java
 @@ -4465,6 +4465,62 @@ public class PackageParser {
