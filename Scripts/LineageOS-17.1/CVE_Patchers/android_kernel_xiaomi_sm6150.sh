@@ -3,6 +3,7 @@ cd "$DOS_BUILD_BASE""kernel/xiaomi/sm6150"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0213-0214.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0216-0217.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0219-0220.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0261-0262.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.14/0057.patch
@@ -137,6 +138,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3896/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4002/4.14/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4149/^5.14/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4157/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4202/4.14/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4202/4.14/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4203/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20320/^5.15/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20321/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-21781/4.14/0002.patch
@@ -197,10 +201,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-41864/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-42252/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-42739/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-44733/4.14/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45095/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45469/4.14/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45485/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45486/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.14/0003.patch
-editKernelLocalversion "-dos.p202"
+editKernelLocalversion "-dos.p205"
 cd "$DOS_BUILD_BASE"

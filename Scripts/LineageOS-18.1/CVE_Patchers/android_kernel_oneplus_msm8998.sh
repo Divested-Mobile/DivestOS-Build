@@ -1,6 +1,7 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/oneplus/msm8998"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0296-0297.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0298-0299.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0006.patch
 #git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0011.patch
@@ -55,6 +56,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28711/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28712/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28713/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28715/4.4/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45095/^5.16/0001.patch
 editKernelLocalversion "-dos.p56"
 cd "$DOS_BUILD_BASE"

@@ -4,6 +4,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0233-0234.patch
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0242-0243.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0251-0252.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0288-0289.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0298-0299.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0006.patch
 #git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0011.patch
@@ -248,6 +249,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3772/4.4/0014.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3896/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4002/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4157/4.4/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4202/4.4/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4202/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4203/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20261/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20320/^5.15/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20321/4.4/0007.patch
@@ -293,12 +297,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39634/4.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39685/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39685/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-40490/3.9-^5.14/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45095/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45485/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45486/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0429/4.4/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26145/qcacld-2.0/0008.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.4/0004.patch
-editKernelLocalversion "-dos.p300"
+editKernelLocalversion "-dos.p303"
 cd "$DOS_BUILD_BASE"

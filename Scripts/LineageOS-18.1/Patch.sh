@@ -83,6 +83,16 @@ if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then DOS_WEBVIEW_CHERRYPI
 if [ "$DOS_WEBVIEW_LFS" = true ]; then git lfs pull; fi; #Ensure the objects are available
 fi;
 
+if enterAndClear "external/libexif"; then
+git pull https://github.com/LineageOS/android_external_libexif refs/changes/42/321242/1; #R_asb_2022-01
+git pull https://github.com/LineageOS/android_external_libexif refs/changes/43/321243/1;
+git pull https://github.com/LineageOS/android_external_libexif refs/changes/44/321244/1;
+fi;
+
+if enterAndClear "external/libavc"; then
+git pull https://github.com/LineageOS/android_external_libavc refs/changes/41/321241/1; #R_asb_2022-01
+fi;
+
 if enterAndClear "frameworks/base"; then
 applyPatch "$DOS_PATCHES/android_frameworks_base/0006-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)

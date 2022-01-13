@@ -139,17 +139,13 @@ patchWorkspace() {
 	touch DOS_PATCHED_FLAG;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
 	#repopick -it eleven-firewall;
-	#repopick -i 305407 320916; #Check ACCELEROMETER_ROTATION_ANGLES for current user
-	#repopick -i 314017 314130; #adbconnection: don't spin if adbd isn't running
+	#repopick -i 314130; #adbconnection: don't spin if adbd isn't running
 	#repopick -i 314453; #TaskViewTouchController: Null check current animation on drag
-	#repopick -i 315116; #SystemUI: Set brightness slider view restriction from the right thread
 	#repopick -i 320663; #Trebuchet: Don't hide home screen rotation setting
-	#repopick -i 320914 320917; #Settings: Make PIN scramble user specific
-	#repopick -i 320921; #Revert "Remove dependency on IME subtype from TSMS"
 	#repopick -i 321297; #fs_mgr: Don't enable clean_scratch_files on non-dynamic devices
-	#repopick -it R_asb_2022-01;
+	repopick -it R_asb_2022-01;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
