@@ -53,10 +53,10 @@ index 0000000..53c62dd
 +
 +</resources>
 diff --git a/system_prop.mk b/system_prop.mk
-index 6398872..81ca1bb 100644
+index 547da5f..e240393 100644
 --- a/system_prop.mk
 +++ b/system_prop.mk
-@@ -48,7 +48,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
+@@ -47,7 +47,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
  # RIL
  PRODUCT_PROPERTY_OVERRIDES += \
      rild.libpath=/vendor/lib/libril-qc-qmi-1.so \

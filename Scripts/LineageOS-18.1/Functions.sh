@@ -107,7 +107,7 @@ buildAll() {
 	buildDevice fajita avb; #XXX: uses stock /vendor
 	buildDevice akari avb;
 	buildDevice aurora avb;
-	buildDeivce xz2c avb;
+	buildDevice xz2c avb;
 	#SD632
 	buildDevice FP3 avb;
 	#SD730
