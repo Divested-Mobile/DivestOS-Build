@@ -3,6 +3,7 @@ cd "$DOS_BUILD_BASE""kernel/google/redbull"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0181-0182.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0185-0186.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0215-0216.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/4.19/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.19/0087.patch
@@ -96,7 +97,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0936/ANY/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0936/ANY/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0937/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0938/4.19/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0961/4.11-^5.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0961/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0961/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3178/4.19/0003.patch
@@ -134,7 +134,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4155/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4157/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4202/4.19/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4202/4.19/0006.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4203/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20177/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20320/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20320/^5.15/0002.patch
@@ -228,5 +227,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-FragAttacks/^5.13/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc/^5.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.19/0005.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3444/^5.11/0001.patch
-editKernelLocalversion "-dos.p228"
+editKernelLocalversion "-dos.p227"
 cd "$DOS_BUILD_BASE"

@@ -3,6 +3,7 @@ cd "$DOS_BUILD_BASE""kernel/google/sunfish"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0216-0217.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0219-0220.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0261-0262.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/4.14/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.14/0057.patch
@@ -99,7 +100,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-BleedingToothExtras/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0936/ANY/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0936/ANY/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0937/4.14/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0961/4.11-^5.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0961/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-0961/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1963/ANY/0003.patch
@@ -135,7 +135,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4149/^5.14/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4157/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4202/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4202/4.14/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4203/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20320/^5.15/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20321/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-21781/4.14/0002.patch
@@ -199,5 +198,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45469/4.14/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45485/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45486/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.14/0003.patch
-editKernelLocalversion "-dos.p199"
+editKernelLocalversion "-dos.p198"
 cd "$DOS_BUILD_BASE"
