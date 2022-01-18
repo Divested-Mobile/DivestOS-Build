@@ -166,7 +166,8 @@ echo "Deblobbing...";
 	blobs=$blobs"|if.bin"; #Intel PAVP backend
 	blobs=$blobs"|liblgdrm.so"; #LG
 	#blobs=$blobs"|libtpa_core.so|libdataencrypt_tpa.so|libpkip.so"; #OMAP SMC
-	blobs=$blobs"|vendor.oneplus.hardware.drmkey.*|vendor.oneplus.hardware.hdcpkey.*"; #OnePlus
+	blobs=$blobs"|vendor.oneplus.hardware.drmkey.*"; #OnePlus
+	#blobs=$blobs"|vendor.oneplus.hardware.hdcpkey.*"; #XXX: Breaks radio, linked by libril-qc-hal-qmi.so
 	blobs=$blobs"|smc_pa.ift|drmserver.samsung"; #Samsung
 	blobs=$blobs"|provision_device";
 	#blobs=$blobs"|libasfparser.so|libsavsff.so"; #Parsers
