@@ -141,5 +141,12 @@ sed -i 's/wait/wait,verify/g' kernel/zuk/msm8996/arch/arm/boot/dts/qcom/zuk/comm
 sed -i 's/^\treturn VERITY_STATE_DISABLE;//' kernel/*/*/drivers/md/dm-android-verity.c &>/dev/null || true;
 #sed -i 's/#if 0/#if 1/' kernel/*/*/drivers/power/reset/msm-poweroff.c &>/dev/null || true; #TODO: needs refinement
 
+#Ensure OEM unlocking toggle is available
+sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/oneplus/avicii/system.prop &>/dev/null || true;
+sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/oneplus/sdm845-common/system.prop &>/dev/null || true;
+sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/oneplus/sm8150-common/system.prop &>/dev/null || true;
+#sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/google/yellowstone/system.prop &>/dev/null || true;
+#sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/yandex/Amber/system.prop &>/dev/null || true;
+
 cd "$DOS_BUILD_BASE";
 echo -e "\e[0;32m[SCRIPT COMPLETE] Verity enablement complete\e[0m";
