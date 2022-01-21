@@ -67,7 +67,6 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/aosp_product.mk; #Replace the Messaging app with Silence
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2021-12-05/2022-01-05/' core/version_defaults.mk; #Bump Security String #R_asb_2022-01 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -82,16 +81,6 @@ fi;
 if enterAndClear "external/chromium-webview"; then
 if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then DOS_WEBVIEW_CHERRYPICK; fi; #Update the WebView to latest if available
 if [ "$DOS_WEBVIEW_LFS" = true ]; then git lfs pull; fi; #Ensure the objects are available
-fi;
-
-if enterAndClear "external/libexif"; then
-git pull https://github.com/LineageOS/android_external_libexif refs/changes/42/321242/1; #R_asb_2022-01
-git pull https://github.com/LineageOS/android_external_libexif refs/changes/43/321243/1;
-git pull https://github.com/LineageOS/android_external_libexif refs/changes/44/321244/1;
-fi;
-
-if enterAndClear "external/libavc"; then
-git pull https://github.com/LineageOS/android_external_libavc refs/changes/41/321241/1; #R_asb_2022-01
 fi;
 
 if enterAndClear "frameworks/base"; then
