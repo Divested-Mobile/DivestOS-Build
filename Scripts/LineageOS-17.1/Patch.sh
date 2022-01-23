@@ -73,7 +73,6 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/gsi_common.mk; #Replace the Messaging app with Silence
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
-sed -i 's/2021-12-05/2022-01-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2022-01 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -102,7 +101,7 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_fram
 fi;
 
 if enterAndClear "frameworks/base"; then
-applyPatch "$DOS_PATCHES/android_frameworks_base/0006-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0006-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)

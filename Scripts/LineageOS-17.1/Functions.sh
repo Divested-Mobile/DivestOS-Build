@@ -97,10 +97,9 @@ patchWorkspace() {
 	touch DOS_PATCHED_FLAG;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	source build/envsetup.sh;
+	#source build/envsetup.sh;
 	#repopick -it ten-firewall;
 	#repopick -i 318916; #Fix kernel build with glibc 2.34
-	repopick -it Q_asb_2022-01;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

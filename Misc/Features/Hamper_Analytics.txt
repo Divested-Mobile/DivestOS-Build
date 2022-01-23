@@ -48,6 +48,7 @@ Documentation
 	https://documentation.accengage.com/sdk/android/3.6/migration/
 	https://firebase.google.com/docs/analytics/configure-data-collection
 	https://firebase.google.com/docs/crashlytics/customize-crash-reports
+	https://github.com/bugsnag/bugsnag-android
 	https://github.com/mapbox/mapbox-events-android/pull/77/files
 	https://github.com/mixpanel/mixpanel-android/blob/master/src/main/java/com/mixpanel/android/mpmetrics/MPConfig.java
 	https://help.batch.com/en/articles/5204072-how-to-integrate-batch-into-my-cmp
@@ -66,39 +67,40 @@ Currently Implemented
             data.putString("com.ad4screen.advertiser_id", "false");
             data.putString("com.ad4screen.no_geoloc", "true");
             data.putString("com.ad4screen.tracking_mode", "Restricted");
-            data.putString("com.bugsnag.android.AUTO_CAPTURE_SESSIONS", "false");
-            data.putString("com.bugsnag.android.AUTO_DETECT_ERRORS", "false");
-            data.putString("com.bugsnag.android.AUTO_TRACK_SESSIONS", "false");
-            data.putString("com.bugsnag.android.DETECT_ANR", "false");
-            data.putString("com.bugsnag.android.DETECT_NDK_CRASHES", "false");
-            data.putString("com.bugsnag.android.ENABLE_EXCEPTION_HANDLER", "false");
-            data.putString("com.bugsnag.android.PERSIST_USER_BETWEEN_SESSIONS", "false");
-            data.putString("com.bugsnag.android.PERSIST_USER", "false");
-            data.putString("com.bugsnag.android.SEND_THREADS", "NEVER");
+            data.putBoolean("com.bugsnag.android.AUTO_CAPTURE_SESSIONS", false);
+            data.putBoolean("com.bugsnag.android.AUTO_DETECT_ERRORS", false);
+            data.putBoolean("com.bugsnag.android.AUTO_TRACK_SESSIONS", false);
+            data.putBoolean("com.bugsnag.android.DETECT_ANR", false);
+            data.putBoolean("com.bugsnag.android.DETECT_NDK_CRASHES", false);
+            data.putBoolean("com.bugsnag.android.ENABLE_EXCEPTION_HANDLER", false);
+            data.putBoolean("com.bugsnag.android.PERSIST_USER_BETWEEN_SESSIONS", false);
+            data.putBoolean("com.bugsnag.android.PERSIST_USER", false);
+            //data.putString("com.bugsnag.android.SEND_THREADS", "NEVER");
+            data.putBoolean("com.bugsnag.android.SEND_THREADS", false);
             data.putString("com.facebook.sdk.AdvertiserIDCollectionEnabled", "false");
             data.putString("com.facebook.sdk.AutoInitEnabled", "false");
             data.putString("com.facebook.sdk.AutoLogAppEventsEnabled", "false");
             data.putString("com.followanalytics.message.inapp.enable", "false");
             data.putString("com.followanalytics.message.push.enable", "false");
-            data.putString("com.google.android.gms.ads.AD_MANAGER_APP", "false");
-            data.putString("com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT", "true");
+            data.putBoolean("com.google.android.gms.ads.AD_MANAGER_APP", false);
+            data.putBoolean("com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT", true);
             data.putString("com.mapbox.EnableEvents", "false");
             data.putString("com.microsoft.engagementinsights.autoCapture", "false");
-            data.putString("com.mixpanel.android.MPConfig.AutoCheckForSurveys", "false");
-            data.putString("com.mixpanel.android.MPConfig.AutoShowMixpanelUpdates", "false");
-            data.putString("com.mixpanel.android.MPConfig.DisableAppOpenEvent", "true");
-            data.putString("com.mixpanel.android.MPConfig.DisableDecideChecker", "true");
-            data.putString("com.mixpanel.android.MPConfig.DisableExceptionHandler", "true");
-            data.putString("com.mixpanel.android.MPConfig.DisableFallback", "true");
-            data.putString("com.mixpanel.android.MPConfig.DisableViewCrawler", "true");
-            data.putString("com.mixpanel.android.MPConfig.TestMode", "true");
-            data.putString("com.mixpanel.android.MPConfig.UseIpAddressForGeolocation", "false");
+            data.putBoolean("com.mixpanel.android.MPConfig.AutoCheckForSurveys", false);
+            data.putBoolean("com.mixpanel.android.MPConfig.AutoShowMixpanelUpdates", false);
+            data.putBoolean("com.mixpanel.android.MPConfig.DisableAppOpenEvent", true);
+            data.putBoolean("com.mixpanel.android.MPConfig.DisableDecideChecker", true);
+            data.putBoolean("com.mixpanel.android.MPConfig.DisableExceptionHandler", true);
+            data.putBoolean("com.mixpanel.android.MPConfig.DisableFallback", true);
+            data.putBoolean("com.mixpanel.android.MPConfig.DisableViewCrawler", true);
+            data.putBoolean("com.mixpanel.android.MPConfig.TestMode", true);
+            data.putBoolean("com.mixpanel.android.MPConfig.UseIpAddressForGeolocation", false);
             data.putString("com.sprooki.LOCATION_SERVICES", "disable");
             data.putString("com.webengage.sdk.android.location_tracking", "false");
             data.putString("firebase_analytics_collection_deactivated", "true");
             data.putString("firebase_analytics_collection_enabled", "false");
             data.putString("firebase_crash_collection_enabled", "false");
-            data.putString("firebase_crashlytics_collection_enabled", "false");
+            data.putBoolean("firebase_crashlytics_collection_enabled", false);
             data.putString("firebase_performance_collection_deactivated", "true");
             data.putString("google_analytics_adid_collection_enabled", "false");
             data.putString("google_analytics_automatic_screen_reporting_enabled", "false");

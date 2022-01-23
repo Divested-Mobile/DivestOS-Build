@@ -101,7 +101,7 @@ git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze o
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480
 #applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Connectivity.patch"; #Change connectivity check URLs to ours
-applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Disable_Analytics.patch"; #Disable/reduce functionality of various ad/analytics libraries
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 if [ "$DOS_SENSORS_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0009-Sensors-P1.patch"; fi; #Permission for sensors access (MSe1969)
