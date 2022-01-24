@@ -3,13 +3,6 @@ PRODUCT_PACKAGES += \
     F-DroidOfficial \
     F-DroidPrivilegedExtensionOfficial
 
-# UnifiedNLP
-PRODUCT_PACKAGES += \
-    UnifiedNLP \
-    DejaVuNlpBackend \
-    IchnaeaNlpBackend \
-    NominatimNlpBackend
-
 # Replacements
 PRODUCT_PACKAGES += \
     EtarPrebuilt \

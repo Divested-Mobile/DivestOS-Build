@@ -74,7 +74,7 @@ git revert --no-edit a47d7ee7027ecb50e217c5e4d6ea7e201d7ea033; #Re-enable the do
 applyPatch "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys to recovery for OTA verification
 sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
-sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk; #Replace the Messaging app with Silence
+if [ "$DOS_SILENCE_INCLUDED" = true ]; then sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk; fi; #Replace the Messaging app with Silence
 sed -i 's/2021-06-05/2022-01-05/' core/version_defaults.mk; #Bump Security String #n-asb-2022-01 #XXX
 fi;
 
@@ -297,7 +297,7 @@ sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Ch
 if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/CM_BUILDTYPE := dos/CM_BUILDTYPE := dosNC/' config/common.mk; fi;
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
 cp -f "$DOS_PATCHES_COMMON/apns-conf.xml" prebuilt/common/etc/apns-conf.xml; #Update APN list
-sed -i 's/messaging/Silence/' config/telephony.mk; #Replace the Messaging app with Silence
+if [ "$DOS_SILENCE_INCLUDED" = true ]; then sed -i 's/messaging/Silence/' config/telephony.mk; fi; #Replace the Messaging app with Silence
 fi;
 
 if enterAndClear "vendor/cmsdk"; then
@@ -307,6 +307,8 @@ sed -i 's/shouldUseOptimizations(weight)/true/' cm/lib/main/java/org/cyanogenmod
 fi;
 
 if enter "vendor/divested"; then
+if [ "$DOS_MICROG_INCLUDED" != "NONE" ]; then echo "PRODUCT_PACKAGES += DejaVuNlpBackend IchnaeaNlpBackend NominatimNlpBackend" >> packages.mk; fi; #Include UnifiedNlp backends
+if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then echo "PRODUCT_PACKAGES += UnifiedNLP" >> packages.mk; fi; #Include UnifiedNlp
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then echo "PRODUCT_PACKAGES += GmsCore GsfProxy FakeStore" >> packages.mk; fi; #Include microG
 if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi; #Include blocker app
 sed -i 's/TalkBack/TalkBackLegacy/' packages.mk;
