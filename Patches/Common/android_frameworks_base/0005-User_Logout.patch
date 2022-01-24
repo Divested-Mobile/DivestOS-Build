@@ -1,0 +1,36 @@
+From f1d6d41b4fa836b7b0953eb3b24f3af6e1d5cbcf Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sun, 4 Oct 2020 19:02:09 -0400
+Subject: [PATCH] enable secondary user logout support by default
+
+---
+ .../server/devicepolicy/DevicePolicyManagerService.java     | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java b/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
+index ae354a953eec..47769ef9e7a8 100644
+--- a/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
++++ b/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
+@@ -1166,7 +1166,7 @@ public void onUserRestrictionsChanged(int userId, Bundle newRestrictions,
+         boolean requireAutoTime = false; // Can only be set by a device owner.
+         boolean forceEphemeralUsers = false; // Can only be set by a device owner.
+         boolean isNetworkLoggingEnabled = false; // Can only be set by a device owner.
+-        boolean isLogoutEnabled = false; // Can only be set by a device owner.
++        boolean isLogoutEnabled = true; // Can only be set by a device owner.
+ 
+         // one notification after enabling + one more after reboots
+         static final int DEF_MAXIMUM_NETWORK_LOGGING_NOTIFICATIONS_SHOWN = 2;
+@@ -15116,11 +15116,11 @@ public void setLogoutEnabled(ComponentName admin, boolean enabled) {
+     @Override
+     public boolean isLogoutEnabled() {
+         if (!mHasFeature) {
+-            return false;
++            return true;
+         }
+         synchronized (getLockObject()) {
+             ActiveAdmin deviceOwner = getDeviceOwnerAdminLocked();
+-            return (deviceOwner != null) && deviceOwner.isLogoutEnabled;
++            return (deviceOwner == null) || deviceOwner.isLogoutEnabled;
+         }
+     }
+ 
