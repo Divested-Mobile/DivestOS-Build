@@ -302,6 +302,8 @@ processRelease() {
 		done;
 	fi;
 
+	pkill java && sleep 10; #XXX: ugly hack
+
 	#Copy to archive
 	if [ "$DOS_AUTO_ARCHIVE_BUILDS" = true ]; then
 		echo -e "\e[0;32mCopying files to archive\e[0m";
@@ -325,6 +327,7 @@ processRelease() {
 			echo -e "\e[0;32mRemoving to reclaim space\e[0m";
 			#TODO: add a sanity check
 			rm -rf "$OUT_DIR";
+			if [ "$DOS_REMOVE_AFTER_FULL" = true ]; then rm -rf "$DOS_BUILD_BASE/out"; fi; #clobber entire workspace
 		fi;
 	fi;
 
