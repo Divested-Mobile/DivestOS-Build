@@ -24,14 +24,11 @@
 	<remove-project name="LineageOS/android_external_vim" />
 	<remove-project name="LineageOS/android_packages_apps_Calendar" />
 	<remove-project name="LineageOS/android_packages_apps_Eleven" />
-	<remove-project name="LineageOS/android_packages_apps_Email" />
-	<remove-project name="LineageOS/android_packages_apps_Exchange" />
 	<remove-project name="LineageOS/android_packages_apps_Jelly" />
 	<remove-project name="LineageOS/android_packages_apps_LockClock" />
 	<remove-project name="LineageOS/android_packages_apps_OpenWeatherMapProvider" />
 	<remove-project name="LineageOS/android_packages_apps_Stk" />
 	<remove-project name="LineageOS/android_packages_apps_Terminal" />
-	<remove-project name="LineageOS/android_packages_apps_UnifiedEmail" />
 	<remove-project name="LineageOS/android_packages_providers_PartnerBookmarksProvider" />
 	<remove-project name="LineageOS/android_packages_providers_WeatherProvider" />
 	<remove-project name="LineageOS/android_packages_screensavers_Basic" />
