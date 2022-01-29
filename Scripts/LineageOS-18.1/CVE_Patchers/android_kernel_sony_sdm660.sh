@@ -5,6 +5,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0242-0243.patch
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0251-0252.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0288-0289.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0298-0299.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.4/4.4.0300-0301.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/4.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0006.patch
@@ -290,10 +291,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39634/4.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39685/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39685/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-40490/3.9-^5.14/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-43976/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45485/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45486/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0429/4.4/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.4/0004.patch
-editKernelLocalversion "-dos.p295"
+editKernelLocalversion "-dos.p297"
 cd "$DOS_BUILD_BASE"
