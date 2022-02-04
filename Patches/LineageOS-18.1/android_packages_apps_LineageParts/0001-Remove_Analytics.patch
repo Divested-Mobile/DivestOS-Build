@@ -76,10 +76,10 @@ index 4236b27..eed044a 100644
      <bool name="config_showWeatherMenu">true</bool>
  
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index b0493d1..0351447 100644
+index 8fe201e..dc1015a 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -527,28 +527,6 @@
+@@ -530,28 +530,6 @@
                   <b>Total commits:</b> <xliff:g id="total_commits">%2$s</xliff:g><br/><br/>
                   <b>Last update:</b> <xliff:g id="date">%3$s</xliff:g>]]></string>
  

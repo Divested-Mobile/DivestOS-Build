@@ -67,7 +67,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|bin[/]atd|drexe|log_serial_arm|at_distributor|connfwexe";
 	blobs=$blobs"|OBDM_Permissions.apk";
 	if [ "$DOS_DEBLOBBER_REMOVE_ATFWD" = true ]; then
-		blobs=$blobs"|ATFWD-daemon";
+		blobs=$blobs"|ATFWD-daemon|atfwd_daemon";
 		blobs=$blobs"|vendor.qti.atcmdfwd.*|vendor.qti.hardware.radio.atcmdfwd.*";
 		blobs=$blobs"|atfwd.apk";
 		sepolicy=$sepolicy" atfwd.te";
