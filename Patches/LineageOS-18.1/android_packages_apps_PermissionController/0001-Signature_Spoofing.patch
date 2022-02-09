@@ -1,4 +1,4 @@
-From 07a7a113fb952844fad6b90ff064544a76c9f4c7 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Philip Nagler-Frank <philip@nagler.world>
 Date: Mon, 22 Mar 2021 21:07:09 -0400
 Subject: [PATCH] Add permission to allow an APK to fake a signature.
@@ -29,6 +29,3 @@ index 65fdd590a..fdd71e215 100644
          PLATFORM_PERMISSION_GROUPS = new ArrayMap<>();
          int numPlatformPermissions = PLATFORM_PERMISSIONS.size();
          for (int i = 0; i < numPlatformPermissions; i++) {
--- 
-2.30.2
-
