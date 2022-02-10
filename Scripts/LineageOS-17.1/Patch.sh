@@ -305,7 +305,6 @@ awk -i inplace '!/INODE_COUNT/' BoardConfig-lineage.mk; #mke2fs -1 incompatibili
 fi;
 
 if enterAndClear "device/google/marlin"; then
-git revert --no-edit 777dafa35f185b1f501e3c80b8ab495191583444; #remove some carrier blobs
 sed -i 's/BTLogSave \\/BTLogSave/' common/base.mk; #deblobber fixup
 fi;
 

@@ -240,15 +240,16 @@ echo "Deblobbing...";
 	blobs=$blobs"|FMRadioGoogle.apk|FmRadioTrampoline2.apk";
 
 	#[Google]
-	blobs=$blobs"|TetheringEntitlement.apk|CarrierLocation.apk|CarrierWifi.apk|CarrierSettings.apk";
+	blobs=$blobs"|TetheringEntitlement.apk|CarrierLocation.apk|CarrierWifi.apk";
+	#blobs=$blobs"CarrierSettings.apk|CarrierSetup.apk"; #XXX: breaks radio
 	blobs=$blobs"|HardwareInfo.apk";
 	blobs=$blobs"|SCONE.apk"; #???
 	blobs=$blobs"|DevicePersonalizationPrebuilt.*.apk"; #Live Captions?
 
 	#EUICC (Virtual SIM) [Google]
-	blobs=$blobs"|EuiccGoogle.apk|EuiccSupportPixel.apk"; #EUICC is useless without GMS
-	blobs=$blobs"|esim0.img|esim-v1.img|esim-full-v0.img";
-	makes=$makes"|android.hardware.telephony.euicc.*";
+	#blobs=$blobs"|EuiccGoogle.apk|EuiccSupportPixel.apk"; #EUICC is useless without GMS #XXX: breaks radio
+	#blobs=$blobs"|esim0.img|esim-v1.img|esim-full-v0.img";
+	#makes=$makes"|android.hardware.telephony.euicc.*";
 
 	#Google Camera
 	#blobs=$blobs"|com.google.android.camera.*";
@@ -301,6 +302,7 @@ echo "Deblobbing...";
 		blobs=$blobs"|imscm.xml|ims.xml|android.hardware.telephony.ims.xml";
 		blobs=$blobs"|qti_permissions.xml|qti-vzw-ims-internal.xml";
 		blobs=$blobs"|imssettings.apk|ims.apk";
+		#blobs=$blobs"|CarrierServices.apk"; #XXX: must be removed along with euicc due to gms dependency
 		blobs=$blobs"|imscmlibrary.jar|qti-vzw-ims-internal.jar";
 		blobs=$blobs"|com.qualcomm.qti.imscmservice.*|vendor.qti.ims.*";
 		#RTP
@@ -320,7 +322,7 @@ echo "Deblobbing...";
 		blobs=$blobs"|lib-imsrcscmclient.so|lib-ims-rcscmjni.so|lib-imsrcscmservice.so|lib-imsrcscm.so|lib-imsrcs.so|lib-imsrcs-v2.so|lib-rcsimssjni.so|lib-rcsjni.so|lib-uceservice.so";
 		blobs=$blobs"|rcsimssettings.jar|rcsservice.jar";
 		blobs=$blobs"|rcsimssettings.xml|rcsservice.xml";
-		blobs=$blobs"|CarrierServices.apk|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk";
+		blobs=$blobs"|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk";
 		#blobs=$blobs"|vendor.qti.ims.rcsconfig.*";
 		blobs=$blobs"|com.qualcomm.qti.uceservice.*";
 		makes=$makes"|rcs_service.*";
@@ -511,7 +513,7 @@ echo "Deblobbing...";
 	#[Verizon]
 	blobs=$blobs"|libmotricity.so|libakuaf.so";
 	blobs=$blobs"|com.qualcomm.location.vzw_library.jar|com.verizon.hardware.telephony.ehrpd.jar|com.verizon.hardware.telephony.lte.jar|com.verizon.ims.jar|VerizonUnifiedSettings.jar";
-	blobs=$blobs"|CarrierSetup.apk|OemDmTrigger.apk|appdirectedsmspermission.apk|AppDirectedSMSService.apk|AppDirectedSMSProxy.apk|VerizonSSOEngine.apk|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|VerizonAuthDialog.apk|MyVerizonServices.apk|WfcActivation.apk|obdm_stub.apk|QAS_DVC_MSP.*.apk|Showcase.apk|LLKAgent.apk";
+	blobs=$blobs"|OemDmTrigger.apk|appdirectedsmspermission.apk|AppDirectedSMSService.apk|AppDirectedSMSProxy.apk|VerizonSSOEngine.apk|VZWAPNLib.apk|vzwapnpermission.apk|VZWAPNService.apk|VZWAVS.apk|VzwLcSilent.apk|vzw_msdc_api.apk|VzwOmaTrigger.apk|VerizonAuthDialog.apk|MyVerizonServices.apk|WfcActivation.apk|obdm_stub.apk|QAS_DVC_MSP.*.apk|Showcase.apk|LLKAgent.apk";
 	blobs=$blobs"|com.android.vzwomatrigger.xml|vzw_mvs_permissions.xml|obdm_permissions.xml|com.verizon.services.xml|features-verizon.xml|com.qualcomm.location.vzw_library.xml|com.verizon.apn.xml|com.verizon.embms.xml|com.verizon.hardware.telephony.ehrpd.xml|com.verizon.hardware.telephony.lte.xml|com.verizon.ims.xml|com.verizon.provider.xml|com.vzw.vzwapnlib.xml|vzw_sso_permissions.xml|com.vzw.hardware.lte.xml|com.vzw.hardware.ehrpd.xml|verizon_config_params.txt|com.verizon.llkagent.xml|vzw_mvs_sysconfig.xml";
 
 	#Voice Recognition
@@ -712,9 +714,9 @@ deblobDevice() {
 			sed -i 's|<bool name="config_carrier_wfc_ims_available">true</bool>|<bool name="config_carrier_wfc_ims_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
 		fi;
 	fi;
-	if [ -f overlay/packages/services/Telephony/res/values/config.xml ]; then
-		awk -i inplace '!/platform_carrier_config_package/' overlay/packages/services/Telephony/res/values/config.xml;
-	fi;
+	#if [ -f overlay/packages/services/Telephony/res/values/config.xml ]; then
+	#	awk -i inplace '!/platform_carrier_config_package/' overlay/packages/services/Telephony/res/values/config.xml; #XXX: breaks radio
+	#fi;
 	if [ -d sepolicy ]; then
 		if [ -z "$replaceTime" ]; then
 			numfiles=(*); numfiles=${#numfiles[@]};
