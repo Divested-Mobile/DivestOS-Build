@@ -7,8 +7,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     EtarPrebuilt \
     FennecDOS \
-    FairEmail \
     SimpleGallery \
+    FairEmail \
     VanillaMusic
 
 ifeq ($(findstring flox,$(TARGET_PRODUCT)),)
