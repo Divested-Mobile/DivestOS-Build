@@ -33,14 +33,10 @@ source "$DOS_SCRIPTS_COMMON/Shell.sh";
 #buildDevice [device]
 #buildAll
 
-#Generate firmware deblobber
-#mka firmware_deblobber
-
 #
 #START OF PREPRATION
 #
 #Download some (non-executable) out-of-tree files for use later on
-alias patch='patch --no-backup-if-mismatch';
 cd "$DOS_TMP_DIR";
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then $DOS_TOR_WRAPPER wget "$DOS_HOSTS_BLOCKING_LIST" -N -O "$DOS_HOSTS_FILE"; fi;
 cd "$DOS_BUILD_BASE";
@@ -77,7 +73,7 @@ sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 if [ "$DOS_SILENCE_INCLUDED" = true ]; then sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk; fi; #Replace the Messaging app with Silence
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2022-01-05/' core/version_defaults.mk; #Bump Security String #n-asb-2022-01 #XXX
+sed -i 's/2021-06-05/2022-02-05/' core/version_defaults.mk; #Bump Security String #n-asb-2022-02 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
