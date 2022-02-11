@@ -278,6 +278,9 @@ if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/LINEAGE_BUILDTYP
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
 cp -f "$DOS_PATCHES_COMMON/apns-conf.xml" prebuilt/common/etc/apns-conf.xml; #Update APN list
 if [ "$DOS_SILENCE_INCLUDED" = true ]; then sed -i 's/messaging/Silence/' config/telephony.mk; fi; #Replace the Messaging app with Silence
+awk -i inplace '!/Eleven/' config/common_mobile.mk; #Remove Music Player
+awk -i inplace '!/Email/' config/common_mobile.mk; #Remove Email
+awk -i inplace '!/Exchange2/' config/common_mobile.mk;
 fi;
 
 if enter "vendor/divested"; then
