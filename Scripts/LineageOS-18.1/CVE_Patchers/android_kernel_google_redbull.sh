@@ -4,6 +4,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0181-0182.pat
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0185-0186.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0215-0216.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0226-0227.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0228-0229.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/4.19/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
@@ -233,7 +234,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-FragAttacks/^5.13/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-FragAttacks/^5.13/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc/^5.13/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-0322/4.19/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-24448/4.19/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-24958/^5.16/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-24959/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.19/0005.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3444/^5.11/0001.patch
-editKernelLocalversion "-dos.p235"
+editKernelLocalversion "-dos.p239"
 cd "$DOS_BUILD_BASE"

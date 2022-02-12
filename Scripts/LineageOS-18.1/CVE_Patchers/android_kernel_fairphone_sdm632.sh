@@ -3,6 +3,7 @@ cd "$DOS_BUILD_BASE""kernel/fairphone/sdm632"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0239-0240.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0242-0243.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0286-0287.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0300-0301.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/4.9/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-Graphene-Deny_USB/4.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0025.patch
@@ -326,8 +327,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0015.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0018.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0043.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-0330/4.9/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-24448/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-24958/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/4.9/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.9/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.9/0005.patch
-editKernelLocalversion "-dos.p329"
+editKernelLocalversion "-dos.p332"
 cd "$DOS_BUILD_BASE"

@@ -2,6 +2,7 @@
 cd "$DOS_BUILD_BASE""kernel/oneplus/sdm845"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0286-0287.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0289-0290.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0300-0301.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/4.9/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-Graphene-Deny_USB/4.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0024.patch
@@ -105,5 +106,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-43976/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45095/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45469/4.9-^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-0330/4.9/0005.patch
-editKernelLocalversion "-dos.p105"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-24448/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-24958/^5.16/0001.patch
+editKernelLocalversion "-dos.p108"
 cd "$DOS_BUILD_BASE"
