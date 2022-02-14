@@ -28,12 +28,12 @@ Change-Id: Ibbffdb5f3930df74ca8b4ba93d451f7fad086989
  create mode 100644 src/com/android/settings/network/CaptivePortalWarningDialogHost.java
 
 diff --git a/res/values-de/cm_strings.xml b/res/values-de/cm_strings.xml
-index ce8ba8c6eb..96223a68ce 100644
+index 7a4c93403e..894115bed2 100644
 --- a/res/values-de/cm_strings.xml
 +++ b/res/values-de/cm_strings.xml
-@@ -92,4 +92,7 @@
-     <string name="fast_charging_title">Schnelles Laden</string>
-     <string name="fast_charging_summary">Deaktivieren, um die vom Gerät beim Laden erzeugte Wärme zu reduzieren oder die Lebensdauer des Akkus zu verlängern</string>
+@@ -97,4 +97,7 @@
+     <string name="wifi_setup_wizard_title">WLAN-Netzwerk auswählen</string>
+     <string name="advanced_notifications_title">Erweiterte Benachrichtigungseinstellungen</string>
      <string name="peak_refresh_rate_summary_custom">Setzt die Aktualisierungsrate für einige Inhalte automatisch von 60 auf %1$d Hz herauf. Erhöhter Akkuverbrauch.</string>
 +    <string name="captive_portal_switch_title">Captive Portal Erkennung</string>
 +    <string name="captive_portal_switch_summary">Ein-/Ausschalten der Captive Portal Erkennung (Vorgabe EIN).</string>
