@@ -60,8 +60,10 @@ echo "Deblobbing...";
 	makes=$makes"|AntHalService|com.dsi.ant.antradio_library";
 
 	#aptX (Bluetooth Audio Compression Codec) [Qualcomm]
-	blobs=$blobs"|.*aptX.*|libbt-aptx.*.so";
-	blobs=$blobs"|aptxui.apk";
+	if [ "$DOS_DEBLOBBER_REMOVE_APTX" = true ]; then
+		blobs=$blobs"|.*aptX.*|libbt-aptx.*.so";
+		blobs=$blobs"|aptxui.apk";
+	fi;
 
 	#AT Command Handling/Forwarding (See: https://atcommands.org)
 	blobs=$blobs"|bin[/]atd|drexe|log_serial_arm|at_distributor|connfwexe";
@@ -606,7 +608,7 @@ deblobDevice() {
 	sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER := true/BOARD_SUPPORTS_SOUND_TRIGGER := false/' BoardConfig*.mk &>/dev/null || true; #Disable Sound Trigger
 	sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER_HAL := true/BOARD_SUPPORTS_SOUND_TRIGGER_HAL := false/' BoardConfig*.mk &>/dev/null || true;
 	sed -i 's/BOARD_SUPPORTS_SOUND_TRIGGER_5514 := true/BOARD_SUPPORTS_SOUND_TRIGGER_5514 := false/' BoardConfig*.mk &>/dev/null || true;
-	sed -i 's/AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true/AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := false/' BoardConfig*.mk &>/dev/null || true; #Disable Dolby
+	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then sed -i 's/AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true/AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := false/' BoardConfig*.mk &>/dev/null || true; fi; #Disable Dolby
 	sed -i 's/BOARD_ANT_WIRELESS_DEVICE := true/BOARD_ANT_WIRELESS_DEVICE := false/' BoardConfig*.mk &>/dev/null || true; #Disable ANT
 	awk -i inplace '!/BOARD_ANT_WIRELESS_DEVICE/' BoardConfig*.mk &>/dev/null || true;
 	if [ "$DOS_DEBLOBBER_REMOVE_RENDERSCRIPT" = true ] || [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
@@ -633,7 +635,7 @@ deblobDevice() {
 
 	awk -i inplace '!/loc.nlp_name/' *.prop *.mk &>/dev/null || true; #Disable QC Location Provider
 	sed -i 's/drm.service.enabled=true/drm.service.enabled=false/' *.prop *.mk &>/dev/null || true;
-	sed -i 's/bt.enableAptXHD=true/bt.enableAptXHD=false/' *.prop *.mk &>/dev/null || true; #Disable aptX
+	if [ "$DOS_DEBLOBBER_REMOVE_APTX" = true ]; then sed -i 's/bt.enableAptXHD=true/bt.enableAptXHD=false/' *.prop *.mk &>/dev/null || true; fi; #Disable aptX
 	if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i 's/cne.feature=./cne.feature=0/' *.prop *.mk &>/dev/null || true; fi; #Disable CNE
 	if [ "$DOS_DEBLOBBER_REMOVE_DPM" = true ]; then
 		sed -i 's/dpm.feature=11/dpm.feature=0/' *.prop *.mk &>/dev/null || true; #Disable DPM
