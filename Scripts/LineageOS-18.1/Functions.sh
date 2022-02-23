@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_fxtec_msm8998 kernel_google_coral kernel_google_msm kernel_google_msm-4.9 kernel_google_redbull kernel_google_sunfish kernel_google_wahoo kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_razer_sdm845 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_sony_sdm660 kernel_sony_sdm845 kernel_xiaomi_sdm660 kernel_xiaomi_sdm845 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250 kernel_zuk_msm8996";
+	startPatcher "kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_fxtec_msm8998 kernel_google_coral kernel_google_marlin kernel_google_msm kernel_google_msm-4.9 kernel_google_redbull kernel_google_sunfish kernel_google_wahoo kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_razer_sdm845 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_sony_sdm660 kernel_sony_sdm845 kernel_xiaomi_sdm660 kernel_xiaomi_sdm845 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -85,6 +85,9 @@ buildAll() {
 	buildDevice us996;
 	buildDevice oneplus3 verity; #needs manual patching - broken yyloc
 	buildDevice z2_plus verity;
+	#SD821
+	buildDevice marlin verity;
+	buildDevice sailfish verity;
 	#SD630
 	buildDevice pioneer;
 	buildDevice voyager;
@@ -159,7 +162,8 @@ patchWorkspace() {
 
 	#Deblobbing fixes
 	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
-	#none yet
+	cd device/google/marlin/marlin && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
+	cd device/google/marlin/sailfish && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
 }
 export -f patchWorkspace;
 

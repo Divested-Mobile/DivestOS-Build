@@ -97,6 +97,11 @@
 	<project path="device/fairphone/FP3" name="LineageOS/android_device_fairphone_FP3" remote="github" />
 	<project path="kernel/fairphone/sdm632" name="LineageOS/android_kernel_fairphone_sdm632" remote="github" />
 
+	<!-- Google Pixel (marlin/sailfish) -->
+	<project path="device/google/marlin" name="LineageOS/android_device_google_marlin" remote="github" />
+	<project path="device/google/sailfish" name="LineageOS/android_device_google_sailfish" remote="github" />
+	<project path="kernel/google/marlin" name="LineageOS/android_kernel_google_marlin" remote="github" />
+
 	<!-- Google Pixel 2 (taimen/walleye) -->
 	<project path="device/google/taimen" name="LineageOS/android_device_google_taimen" remote="github" />
 	<project path="device/google/muskie" name="LineageOS/android_device_google_muskie" remote="github" />

@@ -315,6 +315,10 @@ if enterAndClear "device/google/bonito"; then
 awk -i inplace '!/INODE_COUNT/' BoardConfigLineage.mk; #mke2fs -1 incompatibility (?)
 fi;
 
+if enterAndClear "device/google/marlin"; then
+sed -i 's/BTLogSave \\/BTLogSave/' common/base.mk; #deblobber fixup
+fi;
+
 if enterAndClear "device/google/redbull"; then
 awk -i inplace '!/sctp/' BoardConfig-common.mk modules.load; #fix compile after hardenDefconfig
 fi;
@@ -393,6 +397,10 @@ fi;
 
 if enterAndClear "device/zuk/msm8996-common"; then
 awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
+fi;
+
+if enterAndClear "kernel/google/marlin"; then
+git revert --no-edit a17f0cc9d8f16df52d3cf3ff64b37bf477f589e5; #enable verity on /vendor
 fi;
 
 if enterAndClear "kernel/google/wahoo"; then
