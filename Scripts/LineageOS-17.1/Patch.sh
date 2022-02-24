@@ -307,14 +307,6 @@ if enterAndClear "device/google/bonito"; then
 awk -i inplace '!/INODE_COUNT/' BoardConfig-lineage.mk; #mke2fs -1 incompatibility (?)
 fi;
 
-if enterAndClear "device/google/marlin"; then
-sed -i 's/BTLogSave \\/BTLogSave/' common/base.mk; #deblobber fixup
-fi;
-
-if enterAndClear "device/htc/m8-common"; then
-awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
-fi;
-
 if enterAndClear "device/motorola/clark"; then
 echo "allow mm-qcamerad camera_prop:property_service set;" >> sepolicy/mm-qcamerad.te;
 echo "allow mm-qcamerad property_socket:sock_file write;" >> sepolicy/mm-qcamerad.te;
@@ -349,14 +341,6 @@ fi;
 
 if enterAndClear "device/oppo/common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
-fi;
-
-if enterAndClear "device/zuk/msm8996-common"; then
-awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
-fi;
-
-if enterAndClear "kernel/google/marlin"; then
-git revert --no-edit dd4a454f080f60cc7c4f5cc281a48cba80947baf; #enable verity on /vendor
 fi;
 
 #Make changes to all devices

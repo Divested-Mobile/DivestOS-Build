@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_google_marlin kernel_google_msm-4.9 kernel_google_yellowstone kernel_htc_msm8974 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_xiaomi_sm6150 kernel_yandex_sdm660 kernel_zuk_msm8996";
+	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_google_msm-4.9 kernel_google_yellowstone kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_xiaomi_sm6150 kernel_yandex_sdm660";
 }
 export -f patchAllKernels;
 
@@ -61,18 +61,12 @@ buildAll() {
 	buildDevice merlin;
 	buildDevice osprey;
 	buildDevice surnia;
-	#SD801
-	buildDevice m8; #18.1 has issues?
 	#SD808
 	buildDevice clark;
 	#SD810
 	buildDevice oneplus2;
 	#SD820
 	buildDevice griffin;
-	buildDevice z2_plus verity;
-	#SD821
-	buildDevice marlin verity;
-	buildDevice sailfish verity;
 	#SD730
 	buildDevice davinci avb;
 	#SD855
@@ -111,11 +105,6 @@ patchWorkspace() {
 	sh "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
 	sh "$DOS_SCRIPTS_COMMON/Post.sh";
 	source build/envsetup.sh;
-
-	#Deblobbing fixes
-	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
-	cd device/google/marlin/marlin && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
-	cd device/google/marlin/sailfish && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
 }
 export -f patchWorkspace;
 

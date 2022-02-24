@@ -73,7 +73,7 @@ applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv a
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 if [ "$DOS_SILENCE_INCLUDED" = true ]; then sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/treble_common.mk; fi; #Replace the Messaging app with Silence
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2022-01-05/' core/version_defaults.mk; #Bump Security String #O_asb_2022-01 #XXX
+sed -i 's/2021-10-05/2022-02-05/' core/version_defaults.mk; #Bump Security String #O_asb_2022-02 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
