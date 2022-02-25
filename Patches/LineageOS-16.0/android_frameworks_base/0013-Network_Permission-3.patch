@@ -1,0 +1,51 @@
+From 6ef61fd6f745b9709269d3612a3a4eea2250ebec Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 21 Jul 2017 11:23:07 -0400
+Subject: [PATCH] add a NETWORK permission group for INTERNET
+
+---
+ core/res/AndroidManifest.xml    | 10 ++++++++++
+ core/res/res/values/strings.xml |  5 +++++
+ 2 files changed, 15 insertions(+)
+
+diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
+index d0449dfc4f57..822cf1166539 100644
+--- a/core/res/AndroidManifest.xml
++++ b/core/res/AndroidManifest.xml
+@@ -1342,10 +1342,20 @@
+     <!-- ======================================= -->
+     <eat-comment />
+ 
++    <!-- Network access
++         @hide
++    -->
++    <permission-group android:name="android.permission-group.NETWORK"
++        android:icon="@drawable/perm_group_network"
++        android:label="@string/permgrouplab_network"
++        android:description="@string/permgroupdesc_network"
++        android:priority="900" />
++
+     <!-- Allows applications to open network sockets.
+          <p>Protection level: normal
+     -->
+     <permission android:name="android.permission.INTERNET"
++        android:permissionGroup="android.permission-group.NETWORK"
+         android:description="@string/permdesc_createNetworkSockets"
+         android:label="@string/permlab_createNetworkSockets"
+         android:protectionLevel="dangerous|instant" />
+diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
+index f6600462ea74..a79fa8e95b6e 100644
+--- a/core/res/res/values/strings.xml
++++ b/core/res/res/values/strings.xml
+@@ -747,6 +747,11 @@
+     <string name="permgrouprequest_sensors">Allow
+         &lt;b><xliff:g id="app_name" example="Gmail">%1$s</xliff:g>&lt;/b> to access sensor data about your vital signs?</string>
+ 
++    <!-- Title of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
++    <string name="permgrouplab_network">Network</string>
++    <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
++    <string name="permgroupdesc_network">network access</string>
++
+     <!-- Title for the capability of an accessibility service to retrieve window content. -->
+     <string name="capability_title_canRetrieveWindowContent">Retrieve window content</string>
+     <!-- Description for the capability of an accessibility service to retrieve window content. -->

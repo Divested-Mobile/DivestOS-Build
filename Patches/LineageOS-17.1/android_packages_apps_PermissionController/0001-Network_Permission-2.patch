@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 21 Jul 2017 10:29:15 -0400
+Subject: [PATCH] add INTERNET permission toggle
+
+---
+ src/com/android/packageinstaller/permission/utils/Utils.java | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/com/android/packageinstaller/permission/utils/Utils.java b/src/com/android/packageinstaller/permission/utils/Utils.java
+index b7be30dcc..162b15f37 100644
+--- a/src/com/android/packageinstaller/permission/utils/Utils.java
++++ b/src/com/android/packageinstaller/permission/utils/Utils.java
+@@ -24,6 +24,7 @@ import static android.Manifest.permission_group.CAMERA;
+ import static android.Manifest.permission_group.CONTACTS;
+ import static android.Manifest.permission_group.LOCATION;
+ import static android.Manifest.permission_group.MICROPHONE;
++import static android.Manifest.permission_group.NETWORK;
+ import static android.Manifest.permission_group.PHONE;
+ import static android.Manifest.permission_group.SENSORS;
+ import static android.Manifest.permission_group.SMS;
+@@ -173,6 +174,8 @@ public final class Utils {
+ 
+         PLATFORM_PERMISSIONS.put(Manifest.permission.BODY_SENSORS, SENSORS);
+ 
++        PLATFORM_PERMISSIONS.put(Manifest.permission.INTERNET, NETWORK);
++
+         PLATFORM_PERMISSION_GROUPS = new ArrayMap<>();
+         int numPlatformPermissions = PLATFORM_PERMISSIONS.size();
+         for (int i = 0; i < numPlatformPermissions; i++) {

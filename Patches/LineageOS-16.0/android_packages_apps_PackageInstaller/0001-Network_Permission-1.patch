@@ -1,0 +1,48 @@
+From 880011e7af233249e1b70177daa3cd786574bc85 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 22 Jul 2017 21:43:50 -0400
+Subject: [PATCH] always treat INTERNET as a runtime permission
+
+---
+ .../permission/model/AppPermissionGroup.java               | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/src/com/android/packageinstaller/permission/model/AppPermissionGroup.java b/src/com/android/packageinstaller/permission/model/AppPermissionGroup.java
+index aafce8df5..e6087de4c 100644
+--- a/src/com/android/packageinstaller/permission/model/AppPermissionGroup.java
++++ b/src/com/android/packageinstaller/permission/model/AppPermissionGroup.java
+@@ -26,6 +26,7 @@
+ import android.content.pm.PackageManager;
+ import android.content.pm.PermissionGroupInfo;
+ import android.content.pm.PermissionInfo;
++import android.Manifest;
+ import android.os.Build;
+ import android.os.Process;
+ import android.os.UserHandle;
+@@ -338,7 +339,7 @@ public boolean areRuntimePermissionsGranted(String[] filterPermissions) {
+                     && !ArrayUtils.contains(filterPermissions, permission.getName())) {
+                 continue;
+             }
+-            if (mAppSupportsRuntimePermissions) {
++            if (mAppSupportsRuntimePermissions || Manifest.permission.INTERNET.equals(permission.getName())) {
+                 if (permission.isGranted()) {
+                     return true;
+                 }
+@@ -371,7 +372,7 @@ public boolean grantRuntimePermissions(boolean fixedByTheUser, String[] filterPe
+                 continue;
+             }
+ 
+-            if (mAppSupportsRuntimePermissions) {
++            if (mAppSupportsRuntimePermissions || Manifest.permission.INTERNET.equals(permission.getName())) {
+                 // Do not touch permissions fixed by the system.
+                 if (permission.isSystemFixed()) {
+                     return false;
+@@ -473,7 +474,7 @@ public boolean revokeRuntimePermissions(boolean fixedByTheUser, String[] filterP
+                 continue;
+             }
+ 
+-            if (mAppSupportsRuntimePermissions) {
++            if (mAppSupportsRuntimePermissions || Manifest.permission.INTERNET.equals(permission.getName())) {
+                 // Do not touch permissions fixed by the system.
+                 if (permission.isSystemFixed()) {
+                     return false;

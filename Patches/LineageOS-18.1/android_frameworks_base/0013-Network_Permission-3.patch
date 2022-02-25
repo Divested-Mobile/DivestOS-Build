@@ -1,0 +1,81 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 21 Jul 2017 11:23:07 -0400
+Subject: [PATCH] add a NETWORK permission group for INTERNET
+
+Ported from 10: b5c9f9407d5f5407686ea8c02fa67573ddc07824
+
+Changes from 10:
+- Needed to run `m api-stubs-docs-non-updatable-update-current-api`
+to fix the "You have tried to change the API from what has been
+previously approved" errors.
+---
+ api/current.txt                 | 1 +
+ core/res/AndroidManifest.xml    | 8 ++++++++
+ core/res/res/values/strings.xml | 5 +++++
+ non-updatable-api/current.txt   | 1 +
+ 4 files changed, 15 insertions(+)
+
+diff --git a/api/current.txt b/api/current.txt
+index 952ccdad992c..728c0e95ca6d 100644
+--- a/api/current.txt
++++ b/api/current.txt
+@@ -184,6 +184,7 @@ package android {
+     field public static final String CONTACTS = "android.permission-group.CONTACTS";
+     field public static final String LOCATION = "android.permission-group.LOCATION";
+     field public static final String MICROPHONE = "android.permission-group.MICROPHONE";
++    field public static final String NETWORK = "android.permission-group.NETWORK";
+     field public static final String PHONE = "android.permission-group.PHONE";
+     field public static final String SENSORS = "android.permission-group.SENSORS";
+     field public static final String SMS = "android.permission-group.SMS";
+diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
+index 0eff7ae9a0cd..00351c340a1a 100644
+--- a/core/res/AndroidManifest.xml
++++ b/core/res/AndroidManifest.xml
+@@ -1601,10 +1601,18 @@
+     <!-- ======================================= -->
+     <eat-comment />
+ 
++    <!-- Network access -->
++    <permission-group android:name="android.permission-group.NETWORK"
++        android:icon="@drawable/perm_group_network"
++        android:label="@string/permgrouplab_network"
++        android:description="@string/permgroupdesc_network"
++        android:priority="900" />
++
+     <!-- Allows applications to open network sockets.
+          <p>Protection level: normal
+     -->
+     <permission android:name="android.permission.INTERNET"
++        android:permissionGroup="android.permission-group.UNDEFINED"
+         android:description="@string/permdesc_createNetworkSockets"
+         android:label="@string/permlab_createNetworkSockets"
+         android:protectionLevel="dangerous|instant" />
+diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
+index 5c659123b027..7f114cf9b6b4 100644
+--- a/core/res/res/values/strings.xml
++++ b/core/res/res/values/strings.xml
+@@ -804,6 +804,11 @@
+     <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
+     <string name="permgroupdesc_sensors">access sensor data about your vital signs</string>
+ 
++    <!-- Title of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
++    <string name="permgrouplab_network">Network</string>
++    <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
++    <string name="permgroupdesc_network">access the network</string>
++
+     <!-- Title for the capability of an accessibility service to retrieve window content. -->
+     <string name="capability_title_canRetrieveWindowContent">Retrieve window content</string>
+     <!-- Description for the capability of an accessibility service to retrieve window content. -->
+diff --git a/non-updatable-api/current.txt b/non-updatable-api/current.txt
+index 5f15216e8400..189544f98594 100644
+--- a/non-updatable-api/current.txt
++++ b/non-updatable-api/current.txt
+@@ -184,6 +184,7 @@ package android {
+     field public static final String CONTACTS = "android.permission-group.CONTACTS";
+     field public static final String LOCATION = "android.permission-group.LOCATION";
+     field public static final String MICROPHONE = "android.permission-group.MICROPHONE";
++    field public static final String NETWORK = "android.permission-group.NETWORK";
+     field public static final String PHONE = "android.permission-group.PHONE";
+     field public static final String SENSORS = "android.permission-group.SENSORS";
+     field public static final String SMS = "android.permission-group.SMS";

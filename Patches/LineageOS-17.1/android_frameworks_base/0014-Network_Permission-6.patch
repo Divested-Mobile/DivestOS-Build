@@ -1,0 +1,125 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Pratyush <codelab@pratyush.dev>
+Date: Thu, 12 Aug 2021 03:44:41 +0530
+Subject: [PATCH] send uid for each user instead of just owner/admin user
+
+---
+ .../connectivity/PermissionMonitor.java       | 83 +++++++++++--------
+ 1 file changed, 49 insertions(+), 34 deletions(-)
+
+diff --git a/services/core/java/com/android/server/connectivity/PermissionMonitor.java b/services/core/java/com/android/server/connectivity/PermissionMonitor.java
+index 827dd3a3493d..6fa9ea20a481 100644
+--- a/services/core/java/com/android/server/connectivity/PermissionMonitor.java
++++ b/services/core/java/com/android/server/connectivity/PermissionMonitor.java
+@@ -132,7 +132,7 @@ public class PermissionMonitor {
+             for (String name : packages) {
+                 int userId = UserHandle.getUserId(uid);
+                 final PackageInfo app = getPackageInfo(name, userId);
+-                if (app != null && app.requestedPermissions != null) {
++                if (app != null && app.requestedPermissions != null && app.applicationInfo.uid == uid) {
+                     permission |= getNetdPermissionMask(app.requestedPermissions,
+                           app.requestedPermissionsFlags);
+                 }
+@@ -177,44 +177,45 @@ public class PermissionMonitor {
+         } else {
+             loge("failed to get the PackageManagerInternal service");
+         }
+-        List<PackageInfo> apps = mPackageManager.getInstalledPackages(GET_PERMISSIONS
+-                | MATCH_ANY_USER);
+-        if (apps == null) {
+-            loge("No apps");
+-            return;
+-        }
+ 
+         SparseIntArray netdPermsUids = new SparseIntArray();
+ 
+-        for (PackageInfo app : apps) {
+-            int uid = app.applicationInfo != null ? app.applicationInfo.uid : INVALID_UID;
+-            if (uid < 0) {
+-                continue;
+-            }
+-            mAllApps.add(UserHandle.getAppId(uid));
+-
+-            boolean isNetwork = hasNetworkPermission(app);
+-            boolean hasRestrictedPermission = hasRestrictedNetworkPermission(app);
+-
+-            if (isNetwork || hasRestrictedPermission) {
+-                Boolean permission = mApps.get(uid);
+-                // If multiple packages share a UID (cf: android:sharedUserId) and ask for different
+-                // permissions, don't downgrade (i.e., if it's already SYSTEM, leave it as is).
+-                if (permission == null || permission == NETWORK) {
+-                    mApps.put(uid, hasRestrictedPermission);
+-                }
+-            }
+-
+-            //TODO: unify the management of the permissions into one codepath.
+-            int otherNetdPerms = getNetdPermissionMask(app.requestedPermissions,
+-                    app.requestedPermissionsFlags);
+-            netdPermsUids.put(uid, netdPermsUids.get(uid) | otherNetdPerms);
+-        }
+-
+         List<UserInfo> users = mUserManager.getUsers(true);  // exclude dying users
+         if (users != null) {
+             for (UserInfo user : users) {
+                 mUsers.add(user.id);
++
++                List<PackageInfo> apps = mPackageManager.getInstalledPackagesAsUser(GET_PERMISSIONS, user.id);
++                if (apps == null) {
++                    loge("No apps");
++                    continue;
++                }
++
++                for (PackageInfo app : apps) {
++                    int uid = app.applicationInfo != null ? app.applicationInfo.uid : INVALID_UID;
++                    if (uid < 0) {
++                        continue;
++                    }
++                    mAllApps.add(UserHandle.getAppId(uid));
++
++                    boolean isNetwork = hasNetworkPermission(app);
++                    boolean hasRestrictedPermission = hasRestrictedNetworkPermission(app);
++
++                    if (isNetwork || hasRestrictedPermission) {
++                        Boolean permission = mApps.get(uid);
++                        // If multiple packages share a UID (cf: android:sharedUserId) and ask for different
++                        // permissions, don't downgrade (i.e., if it's already SYSTEM, leave it as is).
++                        if (permission == null || permission == NETWORK) {
++                            mApps.put(uid, hasRestrictedPermission);
++                        }
++                    }
++
++                    //TODO: unify the management of the permissions into one codepath.
++                    int otherNetdPerms = getNetdPermissionMask(app.requestedPermissions,
++                            app.requestedPermissionsFlags);
++                    netdPermsUids.put(uid, netdPermsUids.get(uid) | otherNetdPerms);
++                }
++
+             }
+         }
+ 
+@@ -307,9 +308,23 @@ public class PermissionMonitor {
+         List<Integer> network = new ArrayList<>();
+         List<Integer> system = new ArrayList<>();
+         for (Entry<Integer, Boolean> app : apps.entrySet()) {
+-            List<Integer> list = app.getValue() ? system : network;
+             for (int user : users) {
+-                list.add(UserHandle.getUid(user, app.getKey()));
++                int uid = UserHandle.getUid(user, UserHandle.getAppId(app.getKey()));
++                if (uid < 0) continue;
++                String[] packages = mPackageManager.getPackagesForUid(uid);
++                if (packages == null) continue;
++                for (String pkg : packages) {
++                    PackageInfo info = getPackageInfo(pkg, user);
++                    if (info != null && info.applicationInfo.uid == uid) {
++                        boolean isNetwork = hasNetworkPermission(info);
++                        boolean hasRestrictedPermission = hasRestrictedNetworkPermission(info);
++
++                        if (isNetwork || hasRestrictedPermission) {
++                            List<Integer> list = hasRestrictedPermission ? system : network;
++                            list.add(UserHandle.getUid(user, app.getKey()));
++                        }
++                    }
++                }
+             }
+         }
+         try {

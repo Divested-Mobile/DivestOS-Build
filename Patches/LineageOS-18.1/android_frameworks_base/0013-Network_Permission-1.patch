@@ -1,0 +1,95 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: inthewaves <inthewaves@pm.me>
+Date: Sat, 12 Sep 2020 12:28:34 -0700
+Subject: [PATCH] support new special runtime permissions
+
+These are treated as a runtime permission even for legacy apps. They
+need to be granted by default for all apps to maintain compatibility.
+
+Ported from 10: 4d5d82f4e2fb9ff68158bf30f3944591bb74dd04
+
+Changes from 10:
+- It seems like parts of PackageManagerService#resetUserChangesToRuntimePermissionsAndFlagsLPw
+were refactored into PermissionManagerService#resetRuntimePermissionsInternal.
+As a result, PackageManagerService is no longer modified.
+---
+ .../permission/PermissionManagerService.java  | 24 +++++++++++++++----
+ 1 file changed, 19 insertions(+), 5 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+index 8d2363b6e831..26b959879084 100644
+--- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
++++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+@@ -1461,7 +1461,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+         // to keep the review required permission flag per user while an
+         // install permission's state is shared across all users.
+         if (pkg.getTargetSdkVersion() < Build.VERSION_CODES.M
+-                && bp.isRuntime()) {
++                && bp.isRuntime() && !isSpecialRuntimePermission(permName)) {
+             return;
+         }
+ 
+@@ -1513,7 +1513,8 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+                     + permName + " for package " + packageName);
+         }
+ 
+-        if (pkg.getTargetSdkVersion() < Build.VERSION_CODES.M) {
++        if (pkg.getTargetSdkVersion() < Build.VERSION_CODES.M
++                && !isSpecialRuntimePermission(permName)) {
+             Slog.w(TAG, "Cannot grant runtime permission to a legacy app");
+             return;
+         }
+@@ -1623,7 +1624,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+         // to keep the review required permission flag per user while an
+         // install permission's state is shared across all users.
+         if (pkg.getTargetSdkVersion() < Build.VERSION_CODES.M
+-                && bp.isRuntime()) {
++                && bp.isRuntime() && !isSpecialRuntimePermission(bp.name)) {
+             return;
+         }
+ 
+@@ -1847,7 +1848,8 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+ 
+             // If this permission was granted by default or role, make sure it is.
+             if ((oldFlags & FLAG_PERMISSION_GRANTED_BY_DEFAULT) != 0
+-                    || (oldFlags & FLAG_PERMISSION_GRANTED_BY_ROLE) != 0) {
++                    || (oldFlags & FLAG_PERMISSION_GRANTED_BY_ROLE) != 0
++                    || isSpecialRuntimePermission(bp.getName())) {
+                 // PermissionPolicyService will handle the app op for runtime permissions later.
+                 grantRuntimePermissionInternal(permName, packageName, false,
+                         Process.SYSTEM_UID, userId, delayingPermCallback);
+@@ -2606,6 +2608,10 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+         }
+     }
+ 
++    public static boolean isSpecialRuntimePermission(final String permission) {
++        return false;
++    }
++
+     /**
+      * Restore the permission state for a package.
+      *
+@@ -2952,6 +2958,14 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+                                             }
+                                         }
+                                     }
++
++                                    if (isSpecialRuntimePermission(bp.name) &&
++                                            origPermissions.getRuntimePermissionState(bp.name, userId) == null) {
++                                        if (permissionsState.grantRuntimePermission(bp, userId)
++                                                != PERMISSION_OPERATION_FAILURE) {
++                                            wasChanged = true;
++                                        }
++                                    }
+                                 } else {
+                                     if (permState == null) {
+                                         // New permission
+@@ -3907,7 +3921,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+                     && (grantedPermissions == null
+                            || ArrayUtils.contains(grantedPermissions, permission))) {
+                 final int flags = permissionsState.getPermissionFlags(permission, userId);
+-                if (supportsRuntimePermissions) {
++                if (supportsRuntimePermissions || isSpecialRuntimePermission(bp.name)) {
+                     // Installer cannot change immutable permissions.
+                     if ((flags & immutableFlags) == 0) {
+                         grantRuntimePermissionInternal(permission, pkg.getPackageName(), false,

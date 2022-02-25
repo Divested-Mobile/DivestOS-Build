@@ -94,6 +94,15 @@ applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0005-User_Logout.patch";
 if [ "$DOS_SENSORS_PERM_NEW" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Sensors.patch"; fi #Permission for sensors access (MSe1969)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0011-Restore_SensorsOff.patch"; #Restore the Sensors Off tile
 applyPatch "$DOS_PATCHES/android_frameworks_base/0012-Private_DNS.patch"; #More 'Private DNS' options (CalyxOS)
+if [ "$DOS_GRAPHENE_NETWORK_PERM" = true ]; then
+applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-1.patch"; #Expose the NETWORK permission (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-2.patch";
+applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-3.patch";
+applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-4.patch";
+applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-5.patch";
+applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-6.patch";
+applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-7.patch";
+fi;
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0002-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0003-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
 hardenLocationConf services/core/java/com/android/server/location/gps_debug.conf; #Harden the default GPS config
@@ -168,6 +177,10 @@ if enterAndClear "hardware/qcom-caf/sm8250/audio"; then
 applyPatch "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-sm8150.patch"; #audio_extn: Fix unused parameter warning in utils.c
 fi;
 
+if enterAndClear "libcore"; then
+if [ "$DOS_GRAPHENE_NETWORK_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_libcore/0001-Network_Permission.patch"; fi; #Expose the NETWORK permission (GrapheneOS)
+fi;
+
 if enterAndClear "lineage-sdk"; then
 awk -i inplace '!/LineageWeatherManagerService/' lineage/res/res/values/config.xml; #Disable Weather
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi; #Remove AudioFX
@@ -189,6 +202,13 @@ fi;
 
 if enterAndClear "packages/apps/PermissionController"; then
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then applyPatch "$DOS_PATCHES/android_packages_apps_PermissionController/0001-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
+if [ "$DOS_GRAPHENE_NETWORK_PERM" = true ]; then
+applyPatch "$DOS_PATCHES/android_packages_apps_PermissionController/0002-Network_Permission-1.patch"; #Expose the NETWORK permission (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_PermissionController/0002-Network_Permission-2.patch";
+applyPatch "$DOS_PATCHES/android_packages_apps_PermissionController/0002-Network_Permission-3.patch";
+applyPatch "$DOS_PATCHES/android_packages_apps_PermissionController/0002-Network_Permission-4.patch";
+applyPatch "$DOS_PATCHES/android_packages_apps_PermissionController/0002-Network_Permission-5.patch";
+fi;
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
@@ -220,6 +240,10 @@ applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voic
 applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
 fi;
 
+if enterAndClear "packages/providers/DownloadProvider"; then
+if [ "$DOS_GRAPHENE_NETWORK_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; fi; #Expose the NETWORK permission (GrapheneOS)
+fi;
+
 if enterAndClear "packages/providers/TelephonyProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/304614.patch"; #mcc/mnc fix
 applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/312102.patch"; #mnc fix
@@ -242,6 +266,10 @@ fi;
 
 if enterAndClear "system/extras"; then
 applyPatch "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #FBE: pad filenames more (GrapheneOS)
+fi;
+
+if enterAndClear "system/netd"; then
+if [ "$DOS_GRAPHENE_NETWORK_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_system_netd/0001-Network_Permission.patch"; fi; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
 if enterAndClear "system/sepolicy"; then

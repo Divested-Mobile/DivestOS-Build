@@ -26,7 +26,7 @@ Change-Id: Ibbffdb5f3930df74ca8b4ba93d451f7fad086989
  create mode 100644 src/com/android/settings/network/CaptivePortalWarningDialogHost.java
 
 diff --git a/res/values-de/cm_strings.xml b/res/values-de/cm_strings.xml
-index 53dca0e6e7..dee07db2b4 100644
+index e78bbea120..54e2864c9a 100644
 --- a/res/values-de/cm_strings.xml
 +++ b/res/values-de/cm_strings.xml
 @@ -308,4 +308,7 @@

@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Pratyush <codelab@pratyush.dev>
+Date: Sat, 24 Jul 2021 04:33:31 +0530
+Subject: [PATCH] ui fix for special runtime permission
+
+---
+ .../permissioncontroller/permission/utils/KotlinUtils.kt    | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/com/android/permissioncontroller/permission/utils/KotlinUtils.kt b/src/com/android/permissioncontroller/permission/utils/KotlinUtils.kt
+index 64068fe41..63348d72a 100644
+--- a/src/com/android/permissioncontroller/permission/utils/KotlinUtils.kt
++++ b/src/com/android/permissioncontroller/permission/utils/KotlinUtils.kt
+@@ -467,7 +467,7 @@ object KotlinUtils {
+         if (!perm.isGrantedIncludingAppOp) {
+             val affectsAppOp = permissionToOp(perm.name) != null || perm.isBackgroundPermission
+ 
+-            if (supportsRuntime) {
++            if (supportsRuntime || Utils.isSpecialRuntimePermission(perm.name)) {
+                 app.packageManager.grantRuntimePermission(group.packageInfo.packageName, perm.name,
+                     user)
+                 isGranted = true
+@@ -640,7 +640,7 @@ object KotlinUtils {
+         val affectsAppOp = permissionToOp(perm.name) != null || perm.isBackgroundPermission
+ 
+         if (perm.isGrantedIncludingAppOp) {
+-            if (supportsRuntime) {
++            if (supportsRuntime || Utils.isSpecialRuntimePermission(perm.name)) {
+                 // Revoke the permission if needed.
+                 app.packageManager.revokeRuntimePermission(group.packageInfo.packageName,
+                     perm.name, user)
+@@ -927,4 +927,4 @@ fun NavController.navigateSafe(destResId: Int, args: Bundle? = null) {
+             navigate(destResId, args)
+         }
+     }
+-}
+\ No newline at end of file
++}

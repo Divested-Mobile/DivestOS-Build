@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sun, 17 Mar 2019 11:59:15 -0400
+Subject: [PATCH] make INTERNET into a special runtime permission
+
+Ported from 10: 5e2898e9d21dd6802bb0b0139e7e496c41e1cd80
+---
+ core/res/AndroidManifest.xml                                    | 2 +-
+ .../android/server/pm/permission/PermissionManagerService.java  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
+index ee428371a016..0eff7ae9a0cd 100644
+--- a/core/res/AndroidManifest.xml
++++ b/core/res/AndroidManifest.xml
+@@ -1607,7 +1607,7 @@
+     <permission android:name="android.permission.INTERNET"
+         android:description="@string/permdesc_createNetworkSockets"
+         android:label="@string/permlab_createNetworkSockets"
+-        android:protectionLevel="normal|instant" />
++        android:protectionLevel="dangerous|instant" />
+ 
+     <!-- Allows applications to access information about networks.
+          <p>Protection level: normal
+diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+index 26b959879084..9e6ecc739ffe 100644
+--- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
++++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+@@ -2609,7 +2609,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+     }
+ 
+     public static boolean isSpecialRuntimePermission(final String permission) {
+-        return false;
++        return Manifest.permission.INTERNET.equals(permission);
+     }
+ 
+     /**

@@ -1,0 +1,116 @@
+From 09632b10185b9133949a431e27089f72b5cfeefa Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 21 Jul 2017 08:42:55 -0400
+Subject: [PATCH] support new special runtime permissions
+
+These are treated as a runtime permission even for legacy apps. They
+need to be granted by default for all apps to maintain compatibility.
+---
+ .../server/pm/PackageManagerService.java      |  3 +-
+ .../permission/PermissionManagerService.java  | 30 ++++++++++++++-----
+ 2 files changed, 25 insertions(+), 8 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index c414abac12a7..46f02259e741 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -19462,7 +19462,8 @@ private void resetUserChangesToRuntimePermissionsAndFlagsLPw(
+             }
+ 
+             // If this permission was granted by default, make sure it is.
+-            if ((oldFlags & FLAG_PERMISSION_GRANTED_BY_DEFAULT) != 0) {
++            if ((oldFlags & FLAG_PERMISSION_GRANTED_BY_DEFAULT) != 0
++                    || PermissionManagerService.isSpecialRuntimePermission(bp.getName())) {
+                 if (permissionsState.grantRuntimePermission(bp, userId)
+                         != PERMISSION_OPERATION_FAILURE) {
+                     writeRuntimePermissions = true;
+diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+index c51a72406b53..cb8facb31020 100644
+--- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
++++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+@@ -659,6 +659,10 @@ private void removeDynamicPermission(
+         }
+     }
+ 
++    public static boolean isSpecialRuntimePermission(final String permission) {
++        return false;
++    }
++
+     private void grantPermissions(PackageParser.Package pkg, boolean replace,
+             String packageOfInterest, PermissionCallback callback) {
+         // IMPORTANT: There are two types of permissions: install and runtime.
+@@ -767,7 +771,8 @@ private void grantPermissions(PackageParser.Package pkg, boolean replace,
+                     // their permissions as always granted runtime ones since we need
+                     // to keep the review required permission flag per user while an
+                     // install permission's state is shared across all users.
+-                    if (!appSupportsRuntimePermissions && !mSettings.mPermissionReviewRequired) {
++                    if (!appSupportsRuntimePermissions && !mSettings.mPermissionReviewRequired &&
++                            !isSpecialRuntimePermission(bp.getName())) {
+                         // For legacy apps dangerous permissions are install time ones.
+                         grant = GRANT_INSTALL;
+                     } else if (origPermissions.hasInstallPermission(bp.getName())) {
+@@ -877,7 +882,8 @@ private void grantPermissions(PackageParser.Package pkg, boolean replace,
+                                                 updatedUserIds, userId);
+                                     }
+                                 } else if (mSettings.mPermissionReviewRequired
+-                                        && !appSupportsRuntimePermissions) {
++                                        && !appSupportsRuntimePermissions
++                                        && !isSpecialRuntimePermission(bp.getName())) {
+                                     // For legacy apps that need a permission review, every new
+                                     // runtime permission is granted but it is pending a review.
+                                     // We also need to review only platform defined runtime
+@@ -898,7 +904,15 @@ private void grantPermissions(PackageParser.Package pkg, boolean replace,
+                                         updatedUserIds = ArrayUtils.appendInt(
+                                                 updatedUserIds, userId);
+                                     }
+-                                }
++				} else if (isSpecialRuntimePermission(bp.name) &&
++					origPermissions.getRuntimePermissionState(bp.name, userId) == null) {
++                                    if (permissionsState.grantRuntimePermission(bp, userId)
++                                            != PermissionsState.PERMISSION_OPERATION_FAILURE) {
++                                        // We changed the permission, hence have to write.
++                                        updatedUserIds = ArrayUtils.appendInt(
++                                                updatedUserIds, userId);
++                                    }
++				}
+                                 // Propagate the permission flags.
+                                 permissionsState.updatePermissionFlags(bp, userId, flags, flags);
+                             }
+@@ -1350,7 +1364,7 @@ private void grantRequestedRuntimePermissionsForUser(PackageParser.Package pkg,
+                     && (grantedPermissions == null
+                            || ArrayUtils.contains(grantedPermissions, permission))) {
+                 final int flags = permissionsState.getPermissionFlags(permission, userId);
+-                if (supportsRuntimePermissions) {
++                if (supportsRuntimePermissions || isSpecialRuntimePermission(bp.name)) {
+                     // Installer cannot change immutable permissions.
+                     if ((flags & immutableFlags) == 0) {
+                         grantRuntimePermission(permission, pkg.packageName, false, callingUid,
+@@ -1409,7 +1423,7 @@ private void grantRuntimePermission(String permName, String packageName, boolean
+         // install permission's state is shared across all users.
+         if (mSettings.mPermissionReviewRequired
+                 && pkg.applicationInfo.targetSdkVersion < Build.VERSION_CODES.M
+-                && bp.isRuntime()) {
++                && bp.isRuntime() && !isSpecialRuntimePermission(bp.name)) {
+             return;
+         }
+ 
+@@ -1445,7 +1459,8 @@ private void grantRuntimePermission(String permName, String packageName, boolean
+                     + permName + " for package " + packageName);
+         }
+ 
+-        if (pkg.applicationInfo.targetSdkVersion < Build.VERSION_CODES.M) {
++        if (pkg.applicationInfo.targetSdkVersion < Build.VERSION_CODES.M
++                && !isSpecialRuntimePermission(permName)) {
+             Slog.w(TAG, "Cannot grant runtime permission to a legacy app");
+             return;
+         }
+@@ -1530,7 +1545,8 @@ private void revokeRuntimePermission(String permName, String packageName,
+         // install permission's state is shared across all users.
+         if (mSettings.mPermissionReviewRequired
+                 && pkg.applicationInfo.targetSdkVersion < Build.VERSION_CODES.M
+-                && bp.isRuntime()) {
++                && bp.isRuntime()
++                && !isSpecialRuntimePermission(permName)) {
+             return;
+         }
+ 

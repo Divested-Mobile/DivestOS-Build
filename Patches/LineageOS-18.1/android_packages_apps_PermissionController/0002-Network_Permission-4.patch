@@ -1,0 +1,83 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: inthewaves <inthewaves@pm.me>
+Date: Wed, 16 Sep 2020 17:30:37 -0700
+Subject: [PATCH] don't auto revoke Network and Sensors
+
+These shouldn't be automatically removed since apps are currently
+granted these by default for compatibility. Users have to explicitly
+remove them rather than granting them. Apps would need to be aware of
+them and request them from the user to treat them like the standard
+permissions.
+---
+ .../permission/data/AutoRevokeStateLiveData.kt        |  3 ++-
+ .../permission/service/AutoRevokePermissions.kt       |  6 +++---
+ .../permissioncontroller/permission/utils/Utils.java  | 11 +++++++++++
+ 3 files changed, 16 insertions(+), 4 deletions(-)
+
+diff --git a/src/com/android/permissioncontroller/permission/data/AutoRevokeStateLiveData.kt b/src/com/android/permissioncontroller/permission/data/AutoRevokeStateLiveData.kt
+index d84b7c9a3..0d74a8c2f 100644
+--- a/src/com/android/permissioncontroller/permission/data/AutoRevokeStateLiveData.kt
++++ b/src/com/android/permissioncontroller/permission/data/AutoRevokeStateLiveData.kt
+@@ -29,6 +29,7 @@ import com.android.permissioncontroller.permission.service.ExemptServicesLiveDat
+ import com.android.permissioncontroller.permission.service.isAutoRevokeEnabled
+ import com.android.permissioncontroller.permission.service.isPackageAutoRevokeExempt
+ import com.android.permissioncontroller.permission.service.isPackageAutoRevokePermanentlyExempt
++import com.android.permissioncontroller.permission.utils.Utils
+ import kotlinx.coroutines.Job
+ 
+ /**
+@@ -91,7 +92,7 @@ class AutoRevokeStateLiveData private constructor(
+                     permState.permFlags and (FLAG_PERMISSION_GRANTED_BY_DEFAULT or
+                             FLAG_PERMISSION_GRANTED_BY_ROLE) != 0
+                 } ?: false
+-                if (!default) {
++                if (!default && !Utils.isSpecialRuntimePermissionGroup(groupName)) {
+                     revocableGroups.add(groupName)
+                 }
+             }
+diff --git a/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt b/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt
+index 8dd8e8f77..d7f8f229f 100644
+--- a/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt
++++ b/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt
+@@ -239,8 +239,7 @@ class AutoRevokeOnBootReceiver : BroadcastReceiver() {
+ private suspend fun revokePermissionsOnUnusedApps(
+     context: Context,
+     sessionId: Long = INVALID_SESSION_ID
+-):
+-    List<Pair<String, UserHandle>> {
++): List<Pair<String, UserHandle>> {
+     if (!isAutoRevokeEnabled(context)) {
+         return emptyList()
+     }
+@@ -361,7 +360,8 @@ private suspend fun revokePermissionsOnUnusedApps(
+                     granted &&
+                     !group.isGrantedByDefault &&
+                     !group.isGrantedByRole &&
+-                    group.isUserSensitive) {
++                    group.isUserSensitive &&
++                    !Utils.isSpecialRuntimePermissionGroup(groupName)) {
+ 
+                     val revocablePermissions = group.permissions.keys.toList()
+ 
+diff --git a/src/com/android/permissioncontroller/permission/utils/Utils.java b/src/com/android/permissioncontroller/permission/utils/Utils.java
+index dab86e734..4a7de5416 100644
+--- a/src/com/android/permissioncontroller/permission/utils/Utils.java
++++ b/src/com/android/permissioncontroller/permission/utils/Utils.java
+@@ -659,6 +659,17 @@ public final class Utils {
+         return SPECIAL_RUNTIME_PERMISSIONS.containsKey(permission);
+     }
+ 
++    /**
++     * Is the permission group a special runtime permission group?
++     * These are treated as a runtime permission even for legacy apps. They
++     * need to be granted by default for all apps to maintain compatibility.
++     *
++     * @return whether the permission group is a special runtime permission group.
++     */
++    public static boolean isSpecialRuntimePermissionGroup(@NonNull String permissionGroup) {
++        return SPECIAL_RUNTIME_PERMISSIONS.containsValue(permissionGroup);
++    }
++
+     /**
+      * Should UI show this permission.
+      *
