@@ -28,7 +28,7 @@ index 0b2012fa759a..827dd3a3493d 100644
              @UserIdInt int userId) {
          // userId is _not_ uid
 -        int uid = mPackageManagerInternal.getPackageUid(packageName, 0, userId);
-+        int uid = mPackageManagerInternal.getPackageUidInternal( packageName, GET_PERMISSIONS, userId);
++        int uid = mPackageManagerInternal.getPackageUid( packageName, GET_PERMISSIONS, userId);
          sendPackagePermissionsForUid(uid, getPermissionForUid(uid));
      }
  
