@@ -1,4 +1,4 @@
-From 6ef61fd6f745b9709269d3612a3a4eea2250ebec Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Fri, 21 Jul 2017 11:23:07 -0400
 Subject: [PATCH] add a NETWORK permission group for INTERNET
@@ -9,10 +9,10 @@ Subject: [PATCH] add a NETWORK permission group for INTERNET
  2 files changed, 15 insertions(+)
 
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index d0449dfc4f57..822cf1166539 100644
+index 873162098247..8efe5474dfea 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
-@@ -1342,10 +1342,20 @@
+@@ -1355,10 +1355,20 @@
      <!-- ======================================= -->
      <eat-comment />
  
@@ -34,7 +34,7 @@ index d0449dfc4f57..822cf1166539 100644
          android:label="@string/permlab_createNetworkSockets"
          android:protectionLevel="dangerous|instant" />
 diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
-index f6600462ea74..a79fa8e95b6e 100644
+index 29af7d71914f..fd30d719b996 100644
 --- a/core/res/res/values/strings.xml
 +++ b/core/res/res/values/strings.xml
 @@ -747,6 +747,11 @@

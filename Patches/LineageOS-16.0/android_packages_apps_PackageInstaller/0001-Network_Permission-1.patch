@@ -1,4 +1,4 @@
-From 880011e7af233249e1b70177daa3cd786574bc85 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sat, 22 Jul 2017 21:43:50 -0400
 Subject: [PATCH] always treat INTERNET as a runtime permission
@@ -11,7 +11,7 @@ diff --git a/src/com/android/packageinstaller/permission/model/AppPermissionGrou
 index aafce8df5..e6087de4c 100644
 --- a/src/com/android/packageinstaller/permission/model/AppPermissionGroup.java
 +++ b/src/com/android/packageinstaller/permission/model/AppPermissionGroup.java
-@@ -26,6 +26,7 @@
+@@ -26,6 +26,7 @@ import android.content.pm.PackageItemInfo;
  import android.content.pm.PackageManager;
  import android.content.pm.PermissionGroupInfo;
  import android.content.pm.PermissionInfo;
@@ -19,7 +19,7 @@ index aafce8df5..e6087de4c 100644
  import android.os.Build;
  import android.os.Process;
  import android.os.UserHandle;
-@@ -338,7 +339,7 @@ public boolean areRuntimePermissionsGranted(String[] filterPermissions) {
+@@ -338,7 +339,7 @@ public final class AppPermissionGroup implements Comparable<AppPermissionGroup>
                      && !ArrayUtils.contains(filterPermissions, permission.getName())) {
                  continue;
              }
@@ -28,7 +28,7 @@ index aafce8df5..e6087de4c 100644
                  if (permission.isGranted()) {
                      return true;
                  }
-@@ -371,7 +372,7 @@ public boolean grantRuntimePermissions(boolean fixedByTheUser, String[] filterPe
+@@ -371,7 +372,7 @@ public final class AppPermissionGroup implements Comparable<AppPermissionGroup>
                  continue;
              }
  
@@ -37,7 +37,7 @@ index aafce8df5..e6087de4c 100644
                  // Do not touch permissions fixed by the system.
                  if (permission.isSystemFixed()) {
                      return false;
-@@ -473,7 +474,7 @@ public boolean revokeRuntimePermissions(boolean fixedByTheUser, String[] filterP
+@@ -473,7 +474,7 @@ public final class AppPermissionGroup implements Comparable<AppPermissionGroup>
                  continue;
              }
  

@@ -1,4 +1,4 @@
-From 2dd00723364fcf10e6c9e6c2e022e31524fda92d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sun, 17 Mar 2019 11:59:15 -0400
 Subject: [PATCH] make INTERNET into a special runtime permission
@@ -9,10 +9,10 @@ Subject: [PATCH] make INTERNET into a special runtime permission
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index d0ae9dbc55ae..d0449dfc4f57 100644
+index af1a6fa9e3c5..873162098247 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
-@@ -1348,7 +1348,7 @@
+@@ -1361,7 +1361,7 @@
      <permission android:name="android.permission.INTERNET"
          android:description="@string/permdesc_createNetworkSockets"
          android:label="@string/permlab_createNetworkSockets"
@@ -22,10 +22,10 @@ index d0ae9dbc55ae..d0449dfc4f57 100644
      <!-- Allows applications to access information about networks.
           <p>Protection level: normal
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index cb8facb31020..9b11c8e0ffd7 100644
+index 9f1fe8a6414a..f16f671a51dd 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-@@ -660,7 +660,7 @@ private void removeDynamicPermission(
+@@ -731,7 +731,7 @@ public class PermissionManagerService {
      }
  
      public static boolean isSpecialRuntimePermission(final String permission) {

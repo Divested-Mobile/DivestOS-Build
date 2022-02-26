@@ -1,4 +1,4 @@
-From c3c6a3206c1753cac7a8db72e2f05ddcf4c66d99 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Fri, 21 Jul 2017 10:29:15 -0400
 Subject: [PATCH] add NETWORK permission group
@@ -11,7 +11,7 @@ diff --git a/src/com/android/packageinstaller/permission/utils/Utils.java b/src/
 index 85a102831..423b319ee 100644
 --- a/src/com/android/packageinstaller/permission/utils/Utils.java
 +++ b/src/com/android/packageinstaller/permission/utils/Utils.java
-@@ -51,7 +51,8 @@
+@@ -51,7 +51,8 @@ public final class Utils {
              Manifest.permission_group.SMS,
              Manifest.permission_group.PHONE,
              Manifest.permission_group.MICROPHONE,

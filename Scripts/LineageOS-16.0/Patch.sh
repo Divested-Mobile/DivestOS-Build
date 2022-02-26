@@ -117,6 +117,11 @@ applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0005-User_Logout.patch"; #Allow user logout (GrapheneOS)
 if [ "$DOS_SENSORS_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0011-Sensors.patch"; fi; #Permission for sensors access (MSe1969)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/0012-Private_DNS.patch"; #More 'Private DNS' options (CalyxOS)
+if [ "$DOS_GRAPHENE_NETWORK_PERM" = true ]; then
+applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-1.patch"; #Expose the NETWORK permission (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-2.patch";
+applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-3.patch";
+fi;
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0002-Signature_Spoofing.patch"; fi; #Allow packages to spoof their signature (microG)
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0003-Harden_Sig_Spoofing.patch"; fi; #Restrict signature spoofing to system apps signed with the platform key
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox internal logging service
@@ -183,6 +188,10 @@ if enterAndClear "hardware/qcom/display-caf/msm8998"; then
 applyPatch "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8998.patch";
 fi;
 
+if enterAndClear "libcore"; then
+if [ "$DOS_GRAPHENE_NETWORK_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_libcore/0001-Network_Permission.patch"; fi; #Expose the NETWORK permission (GrapheneOS)
+fi;
+
 if enterAndClear "lineage-sdk"; then
 awk -i inplace '!/LineageWeatherManagerService/' lineage/res/res/values/config.xml; #Disable Weather
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi; #Remove AudioFX
@@ -199,6 +208,13 @@ fi;
 if enterAndClear "packages/apps/LineageParts"; then
 rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of the analytics
 applyPatch "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytics.patch"; #Remove analytics
+fi;
+
+if enterAndClear "packages/apps/PackageInstaller"; then
+if [ "$DOS_GRAPHENE_NETWORK_PERM" = true ]; then
+applyPatch "$DOS_PATCHES/android_packages_apps_PackageInstaller/0001-Network_Permission-1.patch"; #Expose the NETWORK permission (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_PackageInstaller/0001-Network_Permission-2.patch";
+fi;
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
@@ -232,6 +248,10 @@ fi;
 if enterAndClear "packages/inputmethods/LatinIME"; then
 applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
 applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
+fi;
+
+if enterAndClear "packages/providers/DownloadProvider"; then
+if [ "$DOS_GRAPHENE_NETWORK_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; fi; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
 if enterAndClear "packages/services/Telephony"; then

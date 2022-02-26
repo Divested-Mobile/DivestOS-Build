@@ -8,7 +8,7 @@ Subject: [PATCH] remove legacy NETWORK permission group reference
  1 file changed, 1 deletion(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index 302a58e5..65f38e86 100644
+index 067bc937..930a3b6f 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
 @@ -29,7 +29,6 @@
