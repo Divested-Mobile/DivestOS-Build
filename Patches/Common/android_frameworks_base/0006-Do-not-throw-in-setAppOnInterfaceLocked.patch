@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 3 Mar 2022 16:40:42 -0500
+Subject: [PATCH] Do not throw in setAppOnInterfaceLocked
+
+Signed-off-by: Tad <tad@spotco.us>
+Change-Id: Iae1e5f502ba9a467f63855e630408895636b971d
+---
+ .../java/com/android/server/NetworkManagementService.java   | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/services/core/java/com/android/server/NetworkManagementService.java b/services/core/java/com/android/server/NetworkManagementService.java
+index 5362e7a65129..3bfbd1d53c90 100644
+--- a/services/core/java/com/android/server/NetworkManagementService.java
++++ b/services/core/java/com/android/server/NetworkManagementService.java
+@@ -1596,13 +1596,7 @@ public class NetworkManagementService extends INetworkManagementService.Stub {
+         } catch (RemoteException e) {
+             throw new IllegalStateException(e);
+         } catch (ServiceSpecificException e) {
+-            // ENETDOWN is returned when the interface cannot be resolved to an index.
+-            // (and is only returned by bandwidthAdd... call)
+-            if (e.errorCode == ENETDOWN) {
+                 ok = false;
+-            } else {
+-                throw new IllegalStateException(e);
+-            }
+         }
+         return ok;
+     }
