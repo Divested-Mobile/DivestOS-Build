@@ -13,7 +13,6 @@ git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/ANY/000
 #git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0090-Unknown/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6544/3.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6704/^3.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-3076/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-3222/3.4/0003.patch
@@ -107,8 +106,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0463/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0627/3.4/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/3.4/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0751/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0786/3.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0824/3.4/0002.patch
@@ -377,6 +374,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28713/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28972/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-31916/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-34693/3.18/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-42008/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45095/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/3.4/0055.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/3.4/0056.patch
@@ -408,5 +406,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0045.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0046.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
-editKernelLocalversion "-dos.p408"
+editKernelLocalversion "-dos.p406"
 cd "$DOS_BUILD_BASE"

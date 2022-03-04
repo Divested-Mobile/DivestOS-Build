@@ -15,7 +15,6 @@ git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/ANY/000
 #git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0090-Unknown/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6544/3.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6703/^3.6/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6703/^3.6/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6704/^3.5/0001.patch
@@ -146,8 +145,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0630/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0630/3.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0633/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0648/3.4/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/3.4/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0750/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0751/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0786/3.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0794/3.4/0003.patch
@@ -452,6 +449,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-29650/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-31916/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-34693/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39634/3.18/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-42008/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45095/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/3.4/0060.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/3.4/0071.patch
@@ -486,5 +484,5 @@ git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0004/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13167/3.4/0014.patch
-editKernelLocalversion "-dos.p486"
+editKernelLocalversion "-dos.p484"
 cd "$DOS_BUILD_BASE"
