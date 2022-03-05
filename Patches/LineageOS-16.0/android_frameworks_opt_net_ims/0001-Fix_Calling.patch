@@ -4,7 +4,7 @@ Date: Mon, 12 Feb 2018 02:59:01 -0500
 Subject: [PATCH] Fix calling after VoLTE is removed from devices that had it
  previously enabled
 
-Change-Id: I2417cac6313de8d5110106be23ec2048b4562561
+Change-Id: Id5e3b8f7793d0783104b8b59581688c8ef821396
 ---
  src/java/com/android/ims/ImsManager.java | 20 +-------------------
  1 file changed, 1 insertion(+), 19 deletions(-)

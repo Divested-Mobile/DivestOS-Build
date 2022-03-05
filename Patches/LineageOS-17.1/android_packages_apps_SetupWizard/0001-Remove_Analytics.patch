@@ -3,7 +3,7 @@ From: Tad <tad@spotco.us>
 Date: Wed, 28 Feb 2018 08:12:03 -0500
 Subject: [PATCH] Remove analytics
 
-Change-Id: I189e9362c828569512e819cf655b03bfa3436830
+Change-Id: I044dd6b137b8a1d4a6dde3a63c0aaa454309341f
 ---
  res/layout/setup_lineage_settings.xml         | 36 -------------------
  .../lineageos/setupwizard/FinishActivity.java | 12 -------

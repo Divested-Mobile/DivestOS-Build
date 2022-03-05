@@ -5,7 +5,7 @@ Subject: [PATCH] msm8996-common: Don't advertise vorbis offloading support
 
 * Doesn't work at all.
 
-Change-Id: Icccbd9d1abb0da4b943b133a49803fbd0c0d5c2a
+Change-Id: I8cd6341b240c3820dbbdef497e23e785b6ed99dc
 ---
  audio/audio_policy_configuration.xml | 3 ---
  1 file changed, 3 deletions(-)

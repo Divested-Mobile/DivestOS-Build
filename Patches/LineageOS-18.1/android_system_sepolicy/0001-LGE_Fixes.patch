@@ -3,7 +3,7 @@ From: Tad <tad@spotco.us>
 Date: Tue, 14 Apr 2020 17:16:42 -0400
 Subject: [PATCH] Fix -user builds for many LGE devices
 
-Change-Id: I7d7e366f51d376ccba01fda9a2d5276c20cf77f4
+Change-Id: I3649cf211a356c57e129fbda1f5184a4bebc85af
 ---
  public/domain.te | 4 ++++
  1 file changed, 4 insertions(+)

@@ -3,7 +3,7 @@ From: Tad <tad@spotco.us>
 Date: Mon, 12 Feb 2018 02:55:55 -0500
 Subject: [PATCH] Harden signature spoofing
 
-Change-Id: I86f35690710612f23ffce9067e1fd4d58b9fba6f
+Change-Id: I31e2a20923fff883c87fa6425408971657d3d7b3
 ---
  core/res/AndroidManifest.xml | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)

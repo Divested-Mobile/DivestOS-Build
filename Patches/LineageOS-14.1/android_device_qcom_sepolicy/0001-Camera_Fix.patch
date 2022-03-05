@@ -3,7 +3,7 @@ From: Tad <tad@spotco.us>
 Date: Wed, 15 Mar 2017 12:51:35 -0400
 Subject: [PATCH] TEMPORARY fix camera not working on user builds
 
-Change-Id: I7590d396599fdbccba884391b333e309dbea4bb5
+Change-Id: I61e8c78bfd70be7c157c049dac201de21749d4a2
 ---
  common/mediaserver.te | 10 ++++------
  1 file changed, 4 insertions(+), 6 deletions(-)

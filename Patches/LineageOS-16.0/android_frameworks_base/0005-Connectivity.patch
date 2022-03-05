@@ -3,7 +3,7 @@ From: Tad <tad@spotco.us>
 Date: Tue, 8 May 2018 20:53:07 -0400
 Subject: [PATCH] Change connectivity check URLs to ours
 
-Change-Id: I2dac7210f9c7e953d5ee88e2871bd26c234dfce6
+Change-Id: Idd9bfb4a09db763c97d0ea3aabf428176e28d48f
 ---
  .../com/android/server/connectivity/NetworkMonitor.java   | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)

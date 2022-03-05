@@ -3,7 +3,7 @@ From: Tad <tad@spotco.us>
 Date: Tue, 14 Apr 2020 17:03:26 -0400
 Subject: [PATCH] Remove analytics
 
-Change-Id: I7f17bfdf094e0c1a9c15b28c72936de67eec235e
+Change-Id: Ic01c97d6ceac8d324609763973639b41b4581a76
 ---
  AndroidManifest.xml           | 25 -------------------------
  proguard.flags                |  1 -

@@ -3,7 +3,7 @@ From: Tad <tad@spotco.us>
 Date: Fri, 28 Dec 2018 21:22:20 -0500
 Subject: [PATCH] More preferred network modes
 
-Change-Id: I6ff09db51fcd64829c24509740ed9a52c3d104cb
+Change-Id: Ibd97b5209c002547da714cb176094fee57a18f6d
 ---
  res/values/strings.xml                        | 47 +++++++++++++++++++
  .../android/phone/MobileNetworkSettings.java  | 31 ++++++++++--

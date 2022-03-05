@@ -3,7 +3,7 @@ From: Tad <tad@spotco.us>
 Date: Mon, 5 Apr 2021 22:55:30 -0400
 Subject: [PATCH] Allow setting OTA public keys from environment variable
 
-Change-Id: I23c4acdff039f141afafcd0e736a341992f2f8ec
+Change-Id: Ib2a00de63b0c7a8790640462d13a84daf2076fa7
 ---
  core/Makefile          | 4 ++++
  core/product_config.mk | 5 +++++

@@ -4,7 +4,7 @@ Date: Fri, 28 Dec 2018 21:18:47 -0500
 Subject: [PATCH] Change UpdateEnabledNetworksValueAndSummary to handle all
  modes
 
-Change-Id: I92fe694627a90b619be21466da0b49cff39826c8
+Change-Id: I25bab65a6b3743a05f2d76395e59dc3f241a14d3
 ---
  .../android/phone/MobileNetworkSettings.java  | 50 ++++---------------
  1 file changed, 11 insertions(+), 39 deletions(-)

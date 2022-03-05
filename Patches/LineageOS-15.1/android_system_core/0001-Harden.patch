@@ -3,7 +3,9 @@ From: Daniel Micay <danielmicay@gmail.com>
 Date: Mon, 12 Feb 2018 03:29:58 -0500
 Subject: [PATCH] Harden
 
-Change-Id: Idd2da6d9989ec554ce5b0841781d323fdcd9eb87
+Change-Id: I46e3fc4ac896a509ab8ca90ae4ce09b820da434b
+[tad@spotco.us]: added protected fifos and regular from newer GrapheneOS patches
+[tad@spotco.us]: added IPv6 privacy options TODO split into another patch
 ---
  init/init.cpp   |  6 +++---
  rootdir/init.rc | 11 +++++++++++
