@@ -1,0 +1,73 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 18 Jul 2019 21:21:40 -0400
+Subject: [PATCH] label protected_{fifos,regular} as proc_security
+
+This is needed for init to override the default values.
+
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+[tad@spotco.us]: added to older targets to match
+Change-Id: I19be49956510d3e74f96b837ce7e8d33cff650c1
+---
+ prebuilts/api/26.0/private/genfs_contexts | 2 ++
+ prebuilts/api/27.0/private/genfs_contexts | 2 ++
+ prebuilts/api/28.0/private/genfs_contexts | 2 ++
+ private/genfs_contexts                    | 2 ++
+ 4 files changed, 8 insertions(+)
+
+diff --git a/prebuilts/api/26.0/private/genfs_contexts b/prebuilts/api/26.0/private/genfs_contexts
+index a2d9b892f..753cabf15 100644
+--- a/prebuilts/api/26.0/private/genfs_contexts
++++ b/prebuilts/api/26.0/private/genfs_contexts
+@@ -14,7 +14,9 @@ genfscon proc /cpuinfo u:object_r:proc_cpuinfo:s0
+ genfscon proc /softirqs u:object_r:proc_timer:s0
+ genfscon proc /stat u:object_r:proc_stat:s0
+ genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0
++genfscon proc /sys/fs/protected_fifos u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_hardlinks u:object_r:proc_security:s0
++genfscon proc /sys/fs/protected_regular u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_symlinks u:object_r:proc_security:s0
+ genfscon proc /sys/fs/suid_dumpable u:object_r:proc_security:s0
+ genfscon proc /sys/kernel/core_pattern u:object_r:usermodehelper:s0
+diff --git a/prebuilts/api/27.0/private/genfs_contexts b/prebuilts/api/27.0/private/genfs_contexts
+index e77a39b92..606d46cbe 100644
+--- a/prebuilts/api/27.0/private/genfs_contexts
++++ b/prebuilts/api/27.0/private/genfs_contexts
+@@ -14,7 +14,9 @@ genfscon proc /cpuinfo u:object_r:proc_cpuinfo:s0
+ genfscon proc /softirqs u:object_r:proc_timer:s0
+ genfscon proc /stat u:object_r:proc_stat:s0
+ genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0
++genfscon proc /sys/fs/protected_fifos u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_hardlinks u:object_r:proc_security:s0
++genfscon proc /sys/fs/protected_regular u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_symlinks u:object_r:proc_security:s0
+ genfscon proc /sys/fs/suid_dumpable u:object_r:proc_security:s0
+ genfscon proc /sys/kernel/core_pattern u:object_r:usermodehelper:s0
+diff --git a/prebuilts/api/28.0/private/genfs_contexts b/prebuilts/api/28.0/private/genfs_contexts
+index 60504982a..656a9557a 100644
+--- a/prebuilts/api/28.0/private/genfs_contexts
++++ b/prebuilts/api/28.0/private/genfs_contexts
+@@ -28,7 +28,9 @@ genfscon proc /swaps u:object_r:proc_swaps:s0
+ genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0
+ genfscon proc /sys/abi/swp u:object_r:proc_abi:s0
+ genfscon proc /sys/fs/pipe-max-size u:object_r:proc_pipe_conf:s0
++genfscon proc /sys/fs/protected_fifos u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_hardlinks u:object_r:proc_security:s0
++genfscon proc /sys/fs/protected_regular u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_symlinks u:object_r:proc_security:s0
+ genfscon proc /sys/fs/suid_dumpable u:object_r:proc_security:s0
+ genfscon proc /sys/kernel/core_pattern u:object_r:usermodehelper:s0
+diff --git a/private/genfs_contexts b/private/genfs_contexts
+index 6b8a6f581..28cf83ab2 100644
+--- a/private/genfs_contexts
++++ b/private/genfs_contexts
+@@ -31,7 +31,9 @@ genfscon proc /swaps u:object_r:proc_swaps:s0
+ genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0
+ genfscon proc /sys/abi/swp u:object_r:proc_abi:s0
+ genfscon proc /sys/fs/pipe-max-size u:object_r:proc_pipe_conf:s0
++genfscon proc /sys/fs/protected_fifos u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_hardlinks u:object_r:proc_security:s0
++genfscon proc /sys/fs/protected_regular u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_symlinks u:object_r:proc_security:s0
+ genfscon proc /sys/fs/suid_dumpable u:object_r:proc_security:s0
+ genfscon proc /sys/kernel/core_pattern u:object_r:usermodehelper:s0
