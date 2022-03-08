@@ -10,7 +10,7 @@ working properly with INTERNET as a runtime permission.
  1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/services/core/java/com/android/server/connectivity/PermissionMonitor.java b/services/core/java/com/android/server/connectivity/PermissionMonitor.java
-index 0b2012fa759a..827dd3a3493d 100644
+index 0b2012fa759a..3187d4ba1491 100644
 --- a/services/core/java/com/android/server/connectivity/PermissionMonitor.java
 +++ b/services/core/java/com/android/server/connectivity/PermissionMonitor.java
 @@ -130,7 +130,8 @@ public class PermissionMonitor {

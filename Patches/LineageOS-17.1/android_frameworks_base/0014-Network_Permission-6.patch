@@ -8,7 +8,7 @@ Subject: [PATCH] send uid for each user instead of just owner/admin user
  1 file changed, 49 insertions(+), 34 deletions(-)
 
 diff --git a/services/core/java/com/android/server/connectivity/PermissionMonitor.java b/services/core/java/com/android/server/connectivity/PermissionMonitor.java
-index 827dd3a3493d..6fa9ea20a481 100644
+index 3187d4ba1491..0a9b8b6a6e94 100644
 --- a/services/core/java/com/android/server/connectivity/PermissionMonitor.java
 +++ b/services/core/java/com/android/server/connectivity/PermissionMonitor.java
 @@ -132,7 +132,7 @@ public class PermissionMonitor {

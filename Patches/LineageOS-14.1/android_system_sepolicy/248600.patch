@@ -59,7 +59,7 @@ index 446c1829c..6099eb581 100644
  type proc_uid_cputime_removeuid, fs_type;
  type selinuxfs, fs_type, mlstrustedobject;
 diff --git a/genfs_contexts b/genfs_contexts
-index 31794a1e8..612cc5b70 100644
+index 7597b4c6d..3bf0282a2 100644
 --- a/genfs_contexts
 +++ b/genfs_contexts
 @@ -2,11 +2,14 @@
@@ -75,9 +75,9 @@ index 31794a1e8..612cc5b70 100644
 +genfscon proc /softirqs u:object_r:proc_timer:s0
 +genfscon proc /stat u:object_r:proc_stat:s0
  genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0
+ genfscon proc /sys/fs/protected_fifos u:object_r:proc_security:s0
  genfscon proc /sys/fs/protected_hardlinks u:object_r:proc_security:s0
- genfscon proc /sys/fs/protected_symlinks u:object_r:proc_security:s0
-@@ -23,6 +26,8 @@ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
+@@ -25,6 +28,8 @@ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
  genfscon proc /sys/net u:object_r:proc_net:s0
  genfscon proc /sys/vm/mmap_min_addr u:object_r:proc_security:s0
  genfscon proc /sys/vm/drop_caches u:object_r:proc_drop_caches:s0
