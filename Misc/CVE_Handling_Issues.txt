@@ -1,0 +1,6 @@
+The patcher needs tweaks for the following:
+CVE-2019-19051
+CVE-2016-7117
+CVE-2013-2147
+CVE-2015-8746
+CVE-2021-Misc2/ANY/0043.patch
