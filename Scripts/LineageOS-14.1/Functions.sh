@@ -108,6 +108,7 @@ patchWorkspace() {
 	repopick -it n-asb-2021-12;
 	repopick -it n-asb-2022-01;
 	repopick -it n-asb-2022-02;
+	repopick -it n-asb-2022-03;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
