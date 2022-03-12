@@ -122,7 +122,7 @@ buildAll() {
 	buildDevice coral avb;
 	buildDevice flame avb;
 	#buildDevice raphael avb; #unb + missing vendor
-	buildDevice vayu avb;
+	#buildDevice vayu avb; #broken vendor
 	#SD765
 	buildDevice bramble avb;
 	buildDevice redfin avb;

@@ -326,8 +326,8 @@ processRelease() {
 		if [ "$DOS_REMOVE_AFTER" = true ]; then
 			echo -e "\e[0;32mRemoving to reclaim space\e[0m";
 			#TODO: add a sanity check
-			rm -rf "$OUT_DIR";
-			if [ "$DOS_REMOVE_AFTER_FULL" = true ]; then rm -rf "$DOS_BUILD_BASE/out"; fi; #clobber entire workspace
+			rm -rf --one-file-system "$OUT_DIR";
+			if [ "$DOS_REMOVE_AFTER_FULL" = true ]; then rm -rf --one-file-system "$DOS_BUILD_BASE/out"; fi; #clobber entire workspace
 		fi;
 	fi;
 

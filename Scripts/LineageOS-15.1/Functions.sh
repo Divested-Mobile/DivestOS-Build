@@ -66,8 +66,8 @@ buildAll() {
 	buildDevice bullhead verity;
 	buildDevice ether; #Last version with working IMS
 	#SD810
-	buildDevice himaul; #broken - needs vendor bits
-	buildDevice oneplus2; #Last version with working IMS + broken - needs vendor patching
+	#buildDevice himaul; #broken - needs vendor bits
+	#buildDevice oneplus2; #Last version with working IMS + broken - needs vendor patching
 	#SD615
 	buildDevice Z00T;
 	#SD820

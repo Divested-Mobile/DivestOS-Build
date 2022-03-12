@@ -75,7 +75,7 @@ buildAll() {
 	buildDevice himaul;
 	#Exynos
 	buildDevice manta;
-	buildDevice n7100; #broken sepolicy
+	#buildDevice n7100; #broken sepolicy
 	buildDeviceUserDebug i9100;
 	buildDeviceUserDebug i9300;
 	buildDeviceUserDebug i9305;
