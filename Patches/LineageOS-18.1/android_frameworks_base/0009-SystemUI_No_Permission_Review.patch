@@ -8,7 +8,7 @@ Subject: [PATCH] allow SystemUI to directly manage Bluetooth/WiFi
  1 file changed, 3 insertions(+)
 
 diff --git a/packages/SystemUI/AndroidManifest.xml b/packages/SystemUI/AndroidManifest.xml
-index 6bee19745c87..ac231c5fafbe 100644
+index c536b6cb94df..cf0607449054 100644
 --- a/packages/SystemUI/AndroidManifest.xml
 +++ b/packages/SystemUI/AndroidManifest.xml
 @@ -78,6 +78,9 @@

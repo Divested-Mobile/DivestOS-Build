@@ -10,7 +10,7 @@ Ported from 10: 5e2898e9d21dd6802bb0b0139e7e496c41e1cd80
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index ee428371a016..0eff7ae9a0cd 100644
+index 26fd27b7b5ff..2a79c6019fc1 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
 @@ -1607,7 +1607,7 @@

@@ -338,7 +338,8 @@ echo "allow cameraserver sysfs_soc:file r_file_perms;" >> sepolicy/vendor/camera
 fi;
 
 if enterAndClear "device/essential/mata"; then
-git revert --no-edit 1f1d061c4d7ddedcac503608e8fa333aff30a693 3928b30a97fe7f6b6020bbd9d83a56a32de4ba16 e91f0fece65d32ca407be532e2c4456056b1a968; #Unbreak the earpiece speaker, breaking the loud speaker volume control on calls
+#git revert --no-edit 1f1d061c4d7ddedcac503608e8fa333aff30a693 3928b30a97fe7f6b6020bbd9d83a56a32de4ba16 e91f0fece65d32ca407be532e2c4456056b1a968; #Unbreak the earpiece speaker, breaking the loud speaker volume control on calls
+echo "allow permissioncontroller_app tethering_service:service_manager find;" > sepolicy/private/permissioncontroller_app.te;
 fi;
 
 if enterAndClear "device/google/bonito"; then
@@ -378,7 +379,8 @@ sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcn
 fi;
 
 if enterAndClear "device/lge/mako"; then
-applyPatch "$DOS_PATCHES/android_device_lge_mako/0001-LTE.patch"; #Enable LTE support
+git revert --no-edit 4d779eb8e653640f192878f3f666cb54ea65bf47;
+applyPatch "$DOS_PATCHES/android_device_lge_mako/0001-LTE.patch"; #Enable LTE support #TODO: rebase
 rm overlay/packages/apps/CarrierConfig/res/xml/vendor.xml;
 echo "pmf=0" >> wifi/wpa_supplicant_overlay.conf; #Wi-Fi chipset doesn't support PMF
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk; #broken releasetools
