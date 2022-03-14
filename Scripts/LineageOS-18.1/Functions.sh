@@ -148,6 +148,7 @@ patchWorkspace() {
 	#repopick -i 314453; #TaskViewTouchController: Null check current animation on drag
 	#repopick -i 320663; #Trebuchet: Don't hide home screen rotation setting
 	#repopick -i 321297; #fs_mgr: Don't enable clean_scratch_files on non-dynamic devices
+	#repopick -i 325011; #lineage: Opt-in to shipping full recovery image by default
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

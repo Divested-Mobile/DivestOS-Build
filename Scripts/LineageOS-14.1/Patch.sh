@@ -280,6 +280,7 @@ applyPatch "$DOS_PATCHES/android_system_vold/0001-AES256.patch"; #Add a variable
 fi;
 
 if enterAndClear "vendor/cm"; then
+rm overlay/common/frameworks/base/core/res/res/xml/config_webview_packages.xml; #Use the WebView overlay in vendor_divested instead
 rm build/target/product/security/lineage.x509.pem; #Remove Lineage keys
 rm -rf overlay/common/vendor/cmsdk/packages; #Remove analytics
 rm -rf overlay/common/frameworks/base/core/res/res/drawable-*/default_wallpaper.png; #Remove Lineage wallpaper

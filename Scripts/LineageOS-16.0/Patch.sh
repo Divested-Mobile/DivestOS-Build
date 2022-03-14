@@ -281,6 +281,7 @@ awk -i inplace '!/true cannot be used in user builds/' Android.mk; #Allow ignori
 fi;
 
 if enterAndClear "vendor/lineage"; then
+rm overlay/common/frameworks/base/core/res/res/xml/config_webview_packages.xml; #Use the WebView overlay in vendor_divested instead
 rm build/target/product/security/lineage.x509.pem; #Remove Lineage keys
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
 rm -rf verity_tool; #Resurrect dm-verity

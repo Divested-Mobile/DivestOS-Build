@@ -293,6 +293,7 @@ git revert --no-edit 3461ff5c9ad334c96780f3da14f1d23fcbee63ad; #breaks mako firs
 fi;
 
 if enterAndClear "vendor/lineage"; then
+rm overlay/common/frameworks/base/core/res/res/xml/config_webview_packages.xml; #Use the WebView overlay in vendor_divested instead
 rm build/target/product/security/lineage.x509.pem; #Remove Lineage keys
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
 rm -rf overlay/common/frameworks/base/core/res/res/drawable-*/default_wallpaper.png; #Remove Lineage wallpaper
