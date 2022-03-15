@@ -1,0 +1,80 @@
+From 1ebb1654556ed74d63e43fe7dbbceae5b20f569f Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 7 Feb 2015 20:14:24 -0500
+Subject: [PATCH] add memory protection for at_quick_exit
+
+---
+ .../lib/libc/stdlib/quick_exit.c              | 41 ++++++++++++++++---
+ 1 file changed, 36 insertions(+), 5 deletions(-)
+
+diff --git a/libc/upstream-freebsd/lib/libc/stdlib/quick_exit.c b/libc/upstream-freebsd/lib/libc/stdlib/quick_exit.c
+index ef8cdb1b40..b23d8642ae 100644
+--- a/libc/upstream-freebsd/lib/libc/stdlib/quick_exit.c
++++ b/libc/upstream-freebsd/lib/libc/stdlib/quick_exit.c
+@@ -28,6 +28,10 @@
+ 
+ #include <stdlib.h>
+ #include <pthread.h>
++#include <sys/mman.h>
++#include <unistd.h>
++
++#include "private/bionic_prctl.h"
+ 
+ /**
+  * Linked list of quick exit handlers.  This is simpler than the atexit()
+@@ -39,6 +43,10 @@ struct quick_exit_handler {
+ 	void (*cleanup)(void);
+ };
+ 
++static struct quick_exit_handler *pool_page;
++static struct quick_exit_handler *pool;
++static size_t pool_size;
++
+ /**
+  * Lock protecting the handlers list.
+  */
+@@ -51,16 +59,39 @@ static struct quick_exit_handler *handlers;
+ int
+ at_quick_exit(void (*func)(void))
+ {
++	size_t page_size = getpagesize();
+ 	struct quick_exit_handler *h;
+-	
+-	h = malloc(sizeof(*h));
+ 
+-	if (NULL == h)
+-		return (1);
+-	h->cleanup = func;
+ 	pthread_mutex_lock(&atexit_mutex);
++
++	if (pool_size < sizeof(*h)) {
++		void *ptr = mmap(NULL, page_size, PROT_READ|PROT_WRITE,
++		    MAP_ANONYMOUS|MAP_PRIVATE, -1, 0);
++		if (ptr == MAP_FAILED) {
++			pthread_mutex_unlock(&atexit_mutex);
++			return (1);
++		}
++		prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, ptr, page_size,
++		    "at_quick_exit handlers");
++		pool_page = pool = ptr;
++		pool_size = page_size;
++	} else {
++		if (mprotect(pool_page, page_size, PROT_READ|PROT_WRITE)) {
++			pthread_mutex_unlock(&atexit_mutex);
++			return (1);
++		}
++	}
++
++	h = pool++;
++	pool_size -= sizeof(*h);
++
++	h->cleanup = func;
++
+ 	h->next = handlers;
+ 	handlers = h;
++
++	mprotect(pool_page, page_size, PROT_READ);
++
+ 	pthread_mutex_unlock(&atexit_mutex);
+ 	return (0);
+ }

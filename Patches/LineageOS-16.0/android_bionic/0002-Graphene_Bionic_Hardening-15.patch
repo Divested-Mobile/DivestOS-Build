@@ -1,0 +1,101 @@
+From 85e5bca0a525a1cb8142aa092286ae3424983dd5 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 11 Dec 2015 01:52:08 -0500
+Subject: [PATCH] move pthread_internal_t out of the stack mapping
+
+[TODO: guard pages]
+---
+ libc/bionic/pthread_create.cpp   | 20 +++++++++++---------
+ libc/bionic/pthread_exit.cpp     |  7 +++++--
+ libc/bionic/pthread_internal.cpp |  1 +
+ 3 files changed, 17 insertions(+), 11 deletions(-)
+
+diff --git a/libc/bionic/pthread_create.cpp b/libc/bionic/pthread_create.cpp
+index 8825c6f240..e70af04094 100644
+--- a/libc/bionic/pthread_create.cpp
++++ b/libc/bionic/pthread_create.cpp
+@@ -191,7 +191,6 @@ static int __allocate_thread(pthread_attr_t* attr, pthread_internal_t** threadp,
+     // The caller didn't provide a stack, so allocate one.
+     // Make sure the stack size and guard size are multiples of PAGE_SIZE.
+     if (__builtin_add_overflow(attr->stack_size, attr->guard_size, &mmap_size)) return EAGAIN;
+-    if (__builtin_add_overflow(mmap_size, sizeof(pthread_internal_t), &mmap_size)) return EAGAIN;
+     mmap_size = __BIONIC_ALIGN(mmap_size, PAGE_SIZE);
+     attr->guard_size = __BIONIC_ALIGN(attr->guard_size, PAGE_SIZE);
+     attr->stack_base = __create_thread_mapped_space(mmap_size, attr->guard_size);
+@@ -210,21 +209,23 @@ static int __allocate_thread(pthread_attr_t* attr, pthread_internal_t** threadp,
+   //   thread stack (including guard)
+ 
+   // To safely access the pthread_internal_t and thread stack, we need to find a 16-byte aligned boundary.
+-  stack_top = reinterpret_cast<uint8_t*>(
+-                (reinterpret_cast<uintptr_t>(stack_top) - sizeof(pthread_internal_t)) & ~0xf);
+-
+-  pthread_internal_t* thread = reinterpret_cast<pthread_internal_t*>(stack_top);
+-  if (mmap_size == 0) {
+-    // If thread was not allocated by mmap(), it may not have been cleared to zero.
+-    // So assume the worst and zero it.
+-    memset(thread, 0, sizeof(pthread_internal_t));
++  stack_top = reinterpret_cast<uint8_t*>(reinterpret_cast<uintptr_t>(stack_top) & ~0xf);
++
++  pthread_internal_t* thread = static_cast<pthread_internal_t*>(
++    mmap(nullptr, sizeof(pthread_internal_t), PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS,
++         -1, 0));
++  if (thread == MAP_FAILED) {
++    if (thread->mmap_size != 0) munmap(thread->attr.stack_base, thread->mmap_size);
++    return EAGAIN;
+   }
++  prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, thread, sizeof(pthread_internal_t), "pthread_internal_t");
+   attr->stack_size = stack_top - reinterpret_cast<uint8_t*>(attr->stack_base);
+ 
+   thread->mmap_size = mmap_size;
+   thread->attr = *attr;
+   if (!__init_tls(thread)) {
+     if (thread->mmap_size != 0) munmap(thread->attr.stack_base, thread->mmap_size);
++    munmap(thread, sizeof(pthread_internal_t));
+     return EAGAIN;
+   }
+   __init_thread_stack_guard(thread);
+@@ -313,6 +314,7 @@ int pthread_create(pthread_t* thread_out, pthread_attr_t const* attr,
+     if (thread->mmap_size != 0) {
+       munmap(thread->attr.stack_base, thread->mmap_size);
+     }
++    munmap(thread, sizeof(pthread_internal_t));
+     async_safe_format_log(ANDROID_LOG_WARN, "libc", "pthread_create failed: clone failed: %s",
+                           strerror(clone_errno));
+     return clone_errno;
+diff --git a/libc/bionic/pthread_exit.cpp b/libc/bionic/pthread_exit.cpp
+index f1b65fdf7a..fe26696baf 100644
+--- a/libc/bionic/pthread_exit.cpp
++++ b/libc/bionic/pthread_exit.cpp
+@@ -118,7 +118,8 @@ void pthread_exit(void* return_value) {
+     // pthread_internal_t is freed below with stack, not here.
+     __pthread_internal_remove(thread);
+ 
+-    if (thread->mmap_size != 0) {
++    size_t mmap_size = thread->mmap_size;
++    if (mmap_size != 0) {
+       // We need to free mapped space for detached threads when they exit.
+       // That's not something we can do in C.
+ 
+@@ -126,7 +127,9 @@ void pthread_exit(void* return_value) {
+       // That's one last thing we can do before dropping to assembler.
+       ScopedSignalBlocker ssb;
+       __pthread_unmap_tls(thread);
+-      _exit_with_stack_teardown(thread->attr.stack_base, thread->mmap_size);
++      void* stack_base = thread->attr.stack_base;
++      munmap(thread, sizeof(pthread_internal_t));
++      _exit_with_stack_teardown(stack_base, mmap_size);
+     }
+   }
+ 
+diff --git a/libc/bionic/pthread_internal.cpp b/libc/bionic/pthread_internal.cpp
+index 829194cc71..b5de202487 100644
+--- a/libc/bionic/pthread_internal.cpp
++++ b/libc/bionic/pthread_internal.cpp
+@@ -91,6 +91,7 @@ static void __pthread_internal_free(pthread_internal_t* thread) {
+     // Free mapped space, including thread stack and pthread_internal_t.
+     munmap(thread->attr.stack_base, thread->mmap_size);
+   }
++  munmap(thread, sizeof(pthread_internal_t));
+ }
+ 
+ void __pthread_internal_remove_and_free(pthread_internal_t* thread) {

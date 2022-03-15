@@ -1,0 +1,163 @@
+From e4b9b31e6f9ff7eb9d168db6a99a775bf4f669c1 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 5 Feb 2015 21:53:16 -0500
+Subject: [PATCH] add a real explicit_bzero implementation
+
+Clang, GCC and other compilers special-case standard C functions like
+memset. Calls to memset will be optimized out.
+
+OpenBSD provides explicit_bzero to work around this but Android simply
+defines it as memset so nothing prevents it from being optimized away.
+
+This implementation uses a memory read constraint via empty inline
+assembly rather than something that may be broken via link-time
+optimization in the future.
+---
+ libc/Android.bp                                        | 1 +
+ libc/bionic/explicit_bzero.cpp                         | 7 +++++++
+ libc/include/string.h                                  | 1 +
+ libc/libc.arm.map                                      | 1 +
+ libc/libc.arm64.map                                    | 1 +
+ libc/libc.map.txt                                      | 1 +
+ libc/libc.mips.map                                     | 1 +
+ libc/libc.mips64.map                                   | 1 +
+ libc/libc.x86.map                                      | 1 +
+ libc/libc.x86_64.map                                   | 1 +
+ libc/upstream-openbsd/android/include/openbsd-compat.h | 2 --
+ 11 files changed, 16 insertions(+), 2 deletions(-)
+ create mode 100644 libc/bionic/explicit_bzero.cpp
+
+diff --git a/libc/Android.bp b/libc/Android.bp
+index 26ffc73b66..85a739e4e9 100644
+--- a/libc/Android.bp
++++ b/libc/Android.bp
+@@ -1329,6 +1329,7 @@ cc_library_static {
+         "bionic/eventfd_read.cpp",
+         "bionic/eventfd_write.cpp",
+         "bionic/exec.cpp",
++        "bionic/explicit_bzero.cpp",
+         "bionic/faccessat.cpp",
+         "bionic/fchmod.cpp",
+         "bionic/fchmodat.cpp",
+diff --git a/libc/bionic/explicit_bzero.cpp b/libc/bionic/explicit_bzero.cpp
+new file mode 100644
+index 0000000000..b06daa1386
+--- /dev/null
++++ b/libc/bionic/explicit_bzero.cpp
+@@ -0,0 +1,7 @@
++#include <string.h>
++
++void* explicit_bzero(void* s, size_t n) {
++  void *ptr = memset(s, 0, n);
++  __asm__ __volatile__("" : : "r"(ptr) : "memory");
++  return ptr;
++}
+diff --git a/libc/include/string.h b/libc/include/string.h
+index 54d5e1c800..5336777773 100644
+--- a/libc/include/string.h
++++ b/libc/include/string.h
+@@ -56,6 +56,7 @@ void* mempcpy(void* __dst, const void* __src, size_t __n) __INTRODUCED_IN(23);
+ #endif
+ void* memmove(void* __dst, const void* __src, size_t __n);
+ void* memset(void* __dst, int __ch, size_t __n);
++void* explicit_bzero(void *s, size_t n);
+ void* memmem(const void* __haystack, size_t __haystack_size, const void* __needle, size_t __needle_size) __attribute_pure__;
+ 
+ char* strchr(const char* __s, int __ch) __attribute_pure__;
+diff --git a/libc/libc.arm.map b/libc/libc.arm.map
+index b0f96a9ffc..28ad4913f6 100644
+--- a/libc/libc.arm.map
++++ b/libc/libc.arm.map
+@@ -330,6 +330,7 @@ LIBC {
+     execvp;
+     execvpe; # introduced=21
+     exit;
++    explicit_bzero;
+     faccessat; # introduced-arm=16 introduced-arm64=21 introduced-mips=16 introduced-mips64=21 introduced-x86=16 introduced-x86_64=21
+     fallocate; # introduced=21
+     fallocate64; # introduced=21
+diff --git a/libc/libc.arm64.map b/libc/libc.arm64.map
+index 6b0e415494..ee20108901 100644
+--- a/libc/libc.arm64.map
++++ b/libc/libc.arm64.map
+@@ -260,6 +260,7 @@ LIBC {
+     execvp;
+     execvpe; # introduced=21
+     exit;
++    explicit_bzero;
+     faccessat; # introduced-arm=16 introduced-arm64=21 introduced-mips=16 introduced-mips64=21 introduced-x86=16 introduced-x86_64=21
+     fallocate; # introduced=21
+     fallocate64; # introduced=21
+diff --git a/libc/libc.map.txt b/libc/libc.map.txt
+index 85c9a581cb..6c7e3eb368 100644
+--- a/libc/libc.map.txt
++++ b/libc/libc.map.txt
+@@ -332,6 +332,7 @@ LIBC {
+     execvp;
+     execvpe; # introduced=21
+     exit;
++    explicit_bzero;
+     faccessat; # introduced-arm=16 introduced-arm64=21 introduced-mips=16 introduced-mips64=21 introduced-x86=16 introduced-x86_64=21
+     fallocate; # introduced=21
+     fallocate64; # introduced=21
+diff --git a/libc/libc.mips.map b/libc/libc.mips.map
+index 9e760c2422..12faa5d86b 100644
+--- a/libc/libc.mips.map
++++ b/libc/libc.mips.map
+@@ -328,6 +328,7 @@ LIBC {
+     execvp;
+     execvpe; # introduced=21
+     exit;
++    explicit_bzero;
+     faccessat; # introduced-arm=16 introduced-arm64=21 introduced-mips=16 introduced-mips64=21 introduced-x86=16 introduced-x86_64=21
+     fallocate; # introduced=21
+     fallocate64; # introduced=21
+diff --git a/libc/libc.mips64.map b/libc/libc.mips64.map
+index 6b0e415494..ee20108901 100644
+--- a/libc/libc.mips64.map
++++ b/libc/libc.mips64.map
+@@ -260,6 +260,7 @@ LIBC {
+     execvp;
+     execvpe; # introduced=21
+     exit;
++    explicit_bzero;
+     faccessat; # introduced-arm=16 introduced-arm64=21 introduced-mips=16 introduced-mips64=21 introduced-x86=16 introduced-x86_64=21
+     fallocate; # introduced=21
+     fallocate64; # introduced=21
+diff --git a/libc/libc.x86.map b/libc/libc.x86.map
+index 2855f9e22d..8be30d8424 100644
+--- a/libc/libc.x86.map
++++ b/libc/libc.x86.map
+@@ -326,6 +326,7 @@ LIBC {
+     execvp;
+     execvpe; # introduced=21
+     exit;
++    explicit_bzero;
+     faccessat; # introduced-arm=16 introduced-arm64=21 introduced-mips=16 introduced-mips64=21 introduced-x86=16 introduced-x86_64=21
+     fallocate; # introduced=21
+     fallocate64; # introduced=21
+diff --git a/libc/libc.x86_64.map b/libc/libc.x86_64.map
+index 6b0e415494..ee20108901 100644
+--- a/libc/libc.x86_64.map
++++ b/libc/libc.x86_64.map
+@@ -260,6 +260,7 @@ LIBC {
+     execvp;
+     execvpe; # introduced=21
+     exit;
++    explicit_bzero;
+     faccessat; # introduced-arm=16 introduced-arm64=21 introduced-mips=16 introduced-mips64=21 introduced-x86=16 introduced-x86_64=21
+     fallocate; # introduced=21
+     fallocate64; # introduced=21
+diff --git a/libc/upstream-openbsd/android/include/openbsd-compat.h b/libc/upstream-openbsd/android/include/openbsd-compat.h
+index f178149311..929e61eeda 100644
+--- a/libc/upstream-openbsd/android/include/openbsd-compat.h
++++ b/libc/upstream-openbsd/android/include/openbsd-compat.h
+@@ -65,8 +65,6 @@ extern const char* __progname;
+ /* OpenBSD has this, but we can't really implement it correctly on Linux. */
+ #define issetugid() 0
+ 
+-#define explicit_bzero(p, s) memset(p, 0, s)
+-
+ /* OpenBSD has these in <sys/param.h>, but "ALIGN" isn't something we want to reserve. */
+ #define ALIGNBYTES (sizeof(uintptr_t) - 1)
+ #define ALIGN(p) (((uintptr_t)(p) + ALIGNBYTES) &~ ALIGNBYTES)

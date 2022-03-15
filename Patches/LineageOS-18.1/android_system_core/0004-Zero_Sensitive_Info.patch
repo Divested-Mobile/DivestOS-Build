@@ -1,0 +1,21 @@
+From b3a0c2c5db28852b6d485542c8a4f1649a256892 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Fri, 6 Feb 2015 11:41:57 -0500
+Subject: [PATCH] zero sensitive information with explicit_bzero
+
+---
+ init/security.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/init/security.cpp b/init/security.cpp
+index 6cbe642c081..82fc8ca6413 100644
+--- a/init/security.cpp
++++ b/init/security.cpp
+@@ -78,6 +78,7 @@ Result<void> MixHwrngIntoLinuxRngAction(const BuiltinArguments&) {
+         }
+ 
+         chunk_size = TEMP_FAILURE_RETRY(write(urandom_fd, buf, chunk_size));
++        explicit_bzero(buf, chunk_size);
+         if (chunk_size == -1) {
+             return ErrnoError() << "Failed to write to /dev/urandom";
+         }

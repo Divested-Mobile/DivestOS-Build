@@ -66,6 +66,25 @@ fi;
 if enterAndClear "bionic"; then
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi; #(GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_bionic/0002-Symbol_Ordering.patch"; fi; #(GrapheneOS)
+if [ "$DOS_GRAPHENE_BIONIC" = true ]; then
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-1.patch"; #Add a real explicit_bzero implementation (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-2.patch"; #Replace brk and sbrk with stubs (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-3.patch"; #Use blocking getrandom and avoid urandom fallback (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-4.patch"; #Fix undefined out-of-bounds accesses in sched.h (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-5.patch"; #Stop implicitly marking mappings as mergeable (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-6.patch"; #Replace VLA formatting buffer with dprintf (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-7.patch"; #Increase default pthread stack to 8MiB on 64-bit (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-8.patch"; #Make __stack_chk_guard read-only at runtime (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-9.patch"; #On 64-bit, zero the leading stack canary byte (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-10.patch"; #Switch pthread_atfork handler allocation to mmap (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-11.patch"; #Add memory protection for pthread_atfork handlers (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-12.patch"; #Add memory protection for at_quick_exit (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-13.patch"; #Add XOR mangling mitigation for thread-local dtors (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-14.patch"; #Use a better pthread_attr junk filling pattern (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-15.patch"; #Add guard page(s) between static_tls and stack (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-16.patch"; #Move pthread_internal_t behind guard page (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-17.patch"; #Add secondary stack randomization (GrapheneOS)
+fi;
 fi;
 
 if enterAndClear "build/make"; then
@@ -308,6 +327,7 @@ git revert --no-edit 3032c7aa5ce90c0ae9c08fe271052c6e0304a1e7 01266f589e6deaef30
 git revert --no-edit bd4142eab8b3cead0c25a2e660b4b048d1315d3c; #Always update recovery
 applyPatch "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysctl changes (GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_system_core/0002-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
+if [ "$DOS_GRAPHENE_BIONIC" = true ]; then applyPatch "$DOS_PATCHES/android_system_core/0003-Zero_Sensitive_Info.patch"; fi; #Zero sensitive information with explicit_bzero (GrapheneOS)
 fi;
 
 if enterAndClear "system/extras"; then

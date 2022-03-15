@@ -1,0 +1,47 @@
+From a47571704245e5514795f35bbcffdb8a533e738a Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 1 Oct 2016 05:11:44 -0400
+Subject: [PATCH] make __stack_chk_guard read-only at runtime
+
+---
+ libc/bionic/__libc_init_main_thread.cpp | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/libc/bionic/__libc_init_main_thread.cpp b/libc/bionic/__libc_init_main_thread.cpp
+index efa7dee57b..78d25fd977 100644
+--- a/libc/bionic/__libc_init_main_thread.cpp
++++ b/libc/bionic/__libc_init_main_thread.cpp
+@@ -28,22 +28,30 @@
+ 
+ #include "libc_init_common.h"
+ 
++#include <limits.h>
++#include <sys/mman.h>
++
++#include <async_safe/log.h>
++
+ #include "private/KernelArgumentBlock.h"
+ #include "private/bionic_arc4random.h"
+ #include "private/bionic_auxv.h"
+ #include "private/bionic_defs.h"
+ #include "private/bionic_globals.h"
+-#include "private/bionic_ssp.h"
+ #include "pthread_internal.h"
+ 
+ extern "C" int __set_tls(void* ptr);
+ extern "C" int __set_tid_address(int* tid_address);
+ 
+ // Declared in "private/bionic_ssp.h".
+-uintptr_t __stack_chk_guard = 0;
++__attribute__((aligned(PAGE_SIZE)))
++uintptr_t __stack_chk_guard[PAGE_SIZE / sizeof(uintptr_t)] = {0};
+ 
+ void __libc_init_global_stack_chk_guard(KernelArgumentBlock& args) {
+-  __libc_safe_arc4random_buf(&__stack_chk_guard, sizeof(__stack_chk_guard), args);
++  __libc_safe_arc4random_buf(&__stack_chk_guard[0], sizeof(__stack_chk_guard[0]), args);
++  if (mprotect(__stack_chk_guard, sizeof(__stack_chk_guard), PROT_READ) == -1) {
++    async_safe_fatal("mprotect __stack_chk_guard: %s", strerror(errno));
++  }
+ }
+ 
+ // Setup for the main thread. For dynamic executables, this is called by the
