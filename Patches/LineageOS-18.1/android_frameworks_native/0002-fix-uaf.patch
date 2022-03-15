@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 2 Jan 2021 20:17:35 -0500
+Subject: [PATCH] fix use-after-free in adbd_auth
+
+The writev call is using references to data from the packet after it's
+popped from the queue. This was discovered in GrapheneOS due to using
+zero-on-free by default. It ends up resulting in adb being unable to
+persistently whitelist keys.
+
+Change-Id: Ibd9c1c4170bfe632b598b7666d09e4ce939a9e95
+---
+ libs/adbd_auth/adbd_auth.cpp | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/libs/adbd_auth/adbd_auth.cpp b/libs/adbd_auth/adbd_auth.cpp
+index dae6eebaa5..15bd5c3913 100644
+--- a/libs/adbd_auth/adbd_auth.cpp
++++ b/libs/adbd_auth/adbd_auth.cpp
+@@ -282,9 +282,8 @@ public:
+             LOG(FATAL) << "adbd_auth: unhandled packet type?";
+         }
+ 
+-        output_queue_.pop_front();
+-
+         ssize_t rc = writev(framework_fd_.get(), iovs, iovcnt);
++        output_queue_.pop_front();
+         if (rc == -1 && errno != EAGAIN && errno != EWOULDBLOCK) {
+             PLOG(ERROR) << "adbd_auth: failed to write to framework fd";
+             ReplaceFrameworkFd(unique_fd());

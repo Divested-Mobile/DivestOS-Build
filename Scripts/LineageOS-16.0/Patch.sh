@@ -260,6 +260,10 @@ applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
 fi;
 
+#if enterAndClear "system/bt"; then
+#applyPatch "$DOS_PATCHES_COMMON/android_system_core/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
+#fi;
+
 if enterAndClear "system/core"; then
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert --no-edit b3609d82999d23634c5e6db706a3ecbc5348309a; #Always update recovery

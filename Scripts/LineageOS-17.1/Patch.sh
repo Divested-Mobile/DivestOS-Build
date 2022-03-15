@@ -261,6 +261,10 @@ fi;
 #applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch"; #XXX 17REBASE
 #fi;
 
+if enterAndClear "system/bt"; then
+applyPatch "$DOS_PATCHES_COMMON/android_system_core/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
+fi;
+
 if enterAndClear "system/core"; then
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert --no-edit 3032c7aa5ce90c0ae9c08fe271052c6e0304a1e7 01266f589e6deaef30b782531ae14435cdd2f18e; #insanity
