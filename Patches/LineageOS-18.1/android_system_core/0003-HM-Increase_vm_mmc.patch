@@ -1,0 +1,22 @@
+From 8c0f3c0e04d279daf9f0e9a338c698ed95a026b6 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 13 Dec 2018 09:26:25 -0500
+Subject: [PATCH] increase max_map_count for hardened malloc
+
+---
+ rootdir/init.rc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index a9af0b094da..9dd54445781 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -854,6 +854,8 @@ on boot
+     chown root system /sys/block/zram0/writeback
+     chmod 0664 /sys/block/zram0/writeback
+ 
++    write /proc/sys/vm/max_map_count 1048576
++
+     # Tweak background writeout
+     write /proc/sys/vm/dirty_expire_centisecs 200
+     write /proc/sys/vm/dirty_background_ratio  5

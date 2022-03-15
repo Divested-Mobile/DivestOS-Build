@@ -1,0 +1,21 @@
+From 4e6320c247b78f456a83a0393360e7be1105eb5a Mon Sep 17 00:00:00 2001
+From: anupritaisno1 <www.anuprita804@gmail.com>
+Date: Sun, 13 Sep 2020 09:35:41 +0000
+Subject: [PATCH] make hardened malloc available to apexes
+
+---
+ apex/apex.go | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/apex/apex.go b/apex/apex.go
+index 7da8e1cf2..66534426a 100644
+--- a/apex/apex.go
++++ b/apex/apex.go
+@@ -570,6 +570,7 @@ func makeApexAvailableBaseline() map[string][]string {
+ 		"libdexfile_support",
+ 		"libdexfile_support_static",
+ 		"libdl_static",
++		"libhardened_malloc",
+ 		"libjemalloc5",
+ 		"liblinker_main",
+ 		"liblinker_malloc",
