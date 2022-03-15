@@ -16,7 +16,7 @@ Change-Id: I79c0ed4ab97494434edc6c308a8a54bd123c02ee
  create mode 100644 src/com/android/settings/applications/specialaccess/sensor/SensorAccess.java
 
 diff --git a/res/values-de/strings.xml b/res/values-de/strings.xml
-index 14ea8dd84f..1bd3acf6c9 100644
+index 4edd33d66b..a22b3de82c 100644
 --- a/res/values-de/strings.xml
 +++ b/res/values-de/strings.xml
 @@ -4945,6 +4945,9 @@
@@ -30,7 +30,7 @@ index 14ea8dd84f..1bd3acf6c9 100644
      <string name="volte_5G_limited_title" msgid="5908052268836750629">"VoLTE deaktivieren?"</string>
      <string name="volte_5G_limited_text" msgid="7150583768725182345">"Dadurch wird auch deine 5G-Verbindung deaktiviert.\nWährend eines Sprachanrufs kannst du das Internet nicht nutzen und manche Apps funktionieren möglicherweise nicht."</string>
 diff --git a/res/values-fr/strings.xml b/res/values-fr/strings.xml
-index 66c5e069ed..97cbc16b84 100644
+index 005aa05953..7c2ad2eaf3 100644
 --- a/res/values-fr/strings.xml
 +++ b/res/values-fr/strings.xml
 @@ -4944,6 +4944,9 @@
@@ -44,7 +44,7 @@ index 66c5e069ed..97cbc16b84 100644
      <string name="volte_5G_limited_title" msgid="5908052268836750629">"Désactiver VoLTE ?"</string>
      <string name="volte_5G_limited_text" msgid="7150583768725182345">"Cela désactive également votre connexion 5G.\nLorsque vous effectuez un appel vocal, vous n\'avez pas accès à Internet et certaines applications peuvent ne pas fonctionner."</string>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index b2a03f9a46..8eab241cd4 100644
+index 0c6fe1a541..120e82f4dd 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -12237,4 +12237,9 @@

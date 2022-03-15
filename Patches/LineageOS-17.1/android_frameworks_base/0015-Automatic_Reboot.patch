@@ -1,0 +1,151 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: anupritaisno1 <www.anuprita804@gmail.com>
+Date: Mon, 7 Jun 2021 22:04:53 +0100
+Subject: [PATCH] automatically reboot device after timeout if set
+
+---
+ core/java/android/provider/Settings.java      |  7 ++++
+ data/etc/com.android.systemui.xml             |  1 +
+ packages/SystemUI/AndroidManifest.xml         |  3 ++
+ .../keyguard/KeyguardViewMediator.java        | 35 +++++++++++++++++++
+ 4 files changed, 46 insertions(+)
+
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index 07779405bbf6..c1677042d9ea 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -8215,6 +8215,13 @@ public final class Settings {
+         public static final String LOCK_SCREEN_SHOW_SILENT_NOTIFICATIONS =
+                 "lock_screen_show_silent_notifications";
+ 
++        /**
++         * Whether to automatically reboot the device after a user defined timeout
++         *
++         * @hide
++         */
++        public static final String SETTINGS_REBOOT_AFTER_TIMEOUT = "settings_reboot_after_timeout";
++
+         /**
+          * Indicates whether snooze options should be shown on notifications
+          * <p>
+diff --git a/data/etc/com.android.systemui.xml b/data/etc/com.android.systemui.xml
+index 2f5b5f3bf7b4..83779170d05c 100644
+--- a/data/etc/com.android.systemui.xml
++++ b/data/etc/com.android.systemui.xml
+@@ -44,6 +44,7 @@
+         <permission name="android.permission.READ_NETWORK_USAGE_HISTORY"/>
+         <permission name="android.permission.READ_PRIVILEGED_PHONE_STATE"/>
+         <permission name="android.permission.REAL_GET_TASKS"/>
++        <permission name="android.permission.REBOOT"/>
+         <permission name="android.permission.RECEIVE_MEDIA_RESOURCE_USAGE"/>
+         <permission name="android.permission.START_ACTIVITIES_FROM_BACKGROUND" />
+         <permission name="android.permission.START_ACTIVITY_AS_CALLER"/>
+diff --git a/packages/SystemUI/AndroidManifest.xml b/packages/SystemUI/AndroidManifest.xml
+index 55104b4e0ee2..5ed2807922d9 100644
+--- a/packages/SystemUI/AndroidManifest.xml
++++ b/packages/SystemUI/AndroidManifest.xml
+@@ -250,6 +250,9 @@
+     <!-- Permission to change the display color -->
+     <uses-permission android:name="android.permission.CONTROL_DISPLAY_COLOR_TRANSFORMS" />
+ 
++    <!-- Permission to allow rebooting the device after a user configurable amount of time -->
++    <uses-permission android:name="android.permission.REBOOT" />
++
+     <protected-broadcast android:name="com.android.settingslib.action.REGISTER_SLICE_RECEIVER" />
+     <protected-broadcast android:name="com.android.settingslib.action.UNREGISTER_SLICE_RECEIVER" />
+     <protected-broadcast android:name="com.android.settings.flashlight.action.FLASHLIGHT_CHANGED" />
+diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
+index 34f075d601cc..035581bd39a4 100644
+--- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
++++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
+@@ -152,6 +152,8 @@ public class KeyguardViewMediator extends SystemUI {
+ 
+     private final static String TAG = "KeyguardViewMediator";
+ 
++    private static final String DELAYED_REBOOT_ACTION =
++        "com.android.internal.policy.impl.PhoneWindowManager.DELAYED_REBOOT";
+     private static final String DELAYED_KEYGUARD_ACTION =
+         "com.android.internal.policy.impl.PhoneWindowManager.DELAYED_KEYGUARD";
+     private static final String DELAYED_LOCK_PROFILE_ACTION =
+@@ -273,6 +275,11 @@ public class KeyguardViewMediator extends SystemUI {
+      */
+     private int mDelayedProfileShowingSequence;
+ 
++    /**
++     * Same as {@link #mDelayedProfileShowingSequence}, but used for our reboot implementation
++     */
++    private int mDelayedRebootSequence;
++
+     /**
+      * If the user has disabled the keyguard, then requests to exit, this is
+      * how we'll ultimately let them know whether it was successful.  We use this
+@@ -703,6 +710,7 @@ public class KeyguardViewMediator extends SystemUI {
+         final IntentFilter delayedActionFilter = new IntentFilter();
+         delayedActionFilter.addAction(DELAYED_KEYGUARD_ACTION);
+         delayedActionFilter.addAction(DELAYED_LOCK_PROFILE_ACTION);
++        delayedActionFilter.addAction(DELAYED_REBOOT_ACTION);
+         mContext.registerReceiver(mDelayedLockBroadcastReceiver, delayedActionFilter,
+                 SYSTEMUI_PERMISSION, null /* scheduler */);
+ 
+@@ -976,6 +984,18 @@ public class KeyguardViewMediator extends SystemUI {
+         }
+     }
+ 
++    private void doRebootForOwnerAfterTimeoutIfEnabled(long rebootAfterTimeout) {
++        long when = SystemClock.elapsedRealtime() + rebootAfterTimeout;
++        Intent rebootIntent = new Intent(DELAYED_REBOOT_ACTION);
++        rebootIntent.putExtra("seq", mDelayedRebootSequence);
++        rebootIntent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
++        PendingIntent sender = PendingIntent.getBroadcast(mContext,
++                0, rebootIntent, PendingIntent.FLAG_CANCEL_CURRENT);
++        mAlarmManager.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, when, sender);
++        if (DEBUG) Log.d(TAG, "setting alarm to reboot device, timeout = "
++                         + String.valueOf(rebootAfterTimeout));
++    }
++
+     private void doKeyguardForChildProfilesLocked() {
+         UserManager um = UserManager.get(mContext);
+         for (int profileId : um.getEnabledProfileIds(UserHandle.myUserId())) {
+@@ -993,6 +1013,10 @@ public class KeyguardViewMediator extends SystemUI {
+         mDelayedProfileShowingSequence++;
+     }
+ 
++    private void cancelDoRebootForOwnerAfterTimeoutIfEnabled() {
++        mDelayedRebootSequence++;
++    }
++
+     /**
+      * Let's us know when the device is waking up.
+      */
+@@ -1370,6 +1394,10 @@ public class KeyguardViewMediator extends SystemUI {
+ 
+         if (DEBUG) Log.d(TAG, "doKeyguard: showing the lock screen");
+         showLocked(options);
++        final long rebootAfterTimeout = Settings.Global.getLong(mContext.getContentResolver(), Settings.Global.SETTINGS_REBOOT_AFTER_TIMEOUT, 0);
++        if (rebootAfterTimeout >= 1) {
++            doRebootForOwnerAfterTimeoutIfEnabled(rebootAfterTimeout);
++        }
+     }
+ 
+     private void lockProfile(int userId) {
+@@ -1530,6 +1558,12 @@ public class KeyguardViewMediator extends SystemUI {
+                         }
+                     }
+                 }
++            } else if (DELAYED_REBOOT_ACTION.equals(intent.getAction())) {
++                final int sequence = intent.getIntExtra("seq", 0);
++                if (sequence == mDelayedRebootSequence) {
++                    PowerManager pm = mContext.getSystemService(PowerManager.class);
++                    pm.reboot(null);
++                }
+             }
+         }
+     };
+@@ -1947,6 +1981,7 @@ public class KeyguardViewMediator extends SystemUI {
+             mHideAnimationRun = false;
+             adjustStatusBarLocked();
+             sendUserPresentBroadcast();
++            cancelDoRebootForOwnerAfterTimeoutIfEnabled();
+         }
+         Trace.endSection();
+     }
