@@ -1,0 +1,26 @@
+From ffde474ad7e72c72367f16a231bc30ea8ee3311b Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 15:11:59 -0400
+Subject: [PATCH] avoid AssetManager errors with exec spawning
+
+This causes harmless errors and wastes time spawning a process that's
+not going to succeed.
+---
+ core/jni/android_util_AssetManager.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/core/jni/android_util_AssetManager.cpp b/core/jni/android_util_AssetManager.cpp
+index 2b471fec9c8f..7a29db32808d 100644
+--- a/core/jni/android_util_AssetManager.cpp
++++ b/core/jni/android_util_AssetManager.cpp
+@@ -125,6 +125,10 @@ constexpr inline static ApkAssetsCookie JavaCookieToApkAssetsCookie(jint cookie)
+ 
+ // This is called by zygote (running as user root) as part of preloadResources.
+ static void NativeVerifySystemIdmaps(JNIEnv* /*env*/, jclass /*clazz*/) {
++  // avoid triggering an error with exec-based spawning
++  if (getuid() != 0) {
++    return;
++  }
+   switch (pid_t pid = fork()) {
+     case -1:
+       PLOG(ERROR) << "failed to fork for idmap";

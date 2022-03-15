@@ -1,0 +1,57 @@
+From 2a70bbac4a8342175971498084494845b4f24546 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 14:34:32 -0400
+Subject: [PATCH] disable JCA provider warm up for exec spawning
+
+---
+ .../com/android/internal/os/ZygoteInit.java   | 22 ++++++++++---------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index 04a323254c72..ad3b95ec67fc 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -159,7 +159,7 @@ static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+             WebViewFactory.prepareWebViewInZygote();
+         }
+         endPreload(fullPreload);
+-        warmUpJcaProviders();
++        warmUpJcaProviders(fullPreload);
+         Log.d(TAG, "end preload");
+ 
+         sPreloadComplete = true;
+@@ -229,7 +229,7 @@ private static void preloadTextResources() {
+      * By doing it here we avoid that each app does it when requesting a service from the provider
+      * for the first time.
+      */
+-    private static void warmUpJcaProviders() {
++    private static void warmUpJcaProviders(boolean fullPreload) {
+         long startTime = SystemClock.uptimeMillis();
+         Trace.traceBegin(
+                 Trace.TRACE_TAG_DALVIK, "Starting installation of AndroidKeyStoreProvider");
+@@ -241,15 +241,17 @@ private static void warmUpJcaProviders() {
+                 + (SystemClock.uptimeMillis() - startTime) + "ms.");
+         Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
+ 
+-        startTime = SystemClock.uptimeMillis();
+-        Trace.traceBegin(
+-                Trace.TRACE_TAG_DALVIK, "Starting warm up of JCA providers");
+-        for (Provider p : Security.getProviders()) {
+-            p.warmUpServiceProvision();
++        if (fullPreload) {
++            startTime = SystemClock.uptimeMillis();
++            Trace.traceBegin(
++                    Trace.TRACE_TAG_DALVIK, "Starting warm up of JCA providers");
++            for (Provider p : Security.getProviders()) {
++                p.warmUpServiceProvision();
++            }
++            Log.i(TAG, "Warmed up JCA providers in "
++                    + (SystemClock.uptimeMillis() - startTime) + "ms.");
++            Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
+         }
+-        Log.i(TAG, "Warmed up JCA providers in "
+-                + (SystemClock.uptimeMillis() - startTime) + "ms.");
+-        Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
+     }
+ 
+     /**

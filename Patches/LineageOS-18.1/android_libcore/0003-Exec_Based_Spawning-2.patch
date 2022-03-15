@@ -1,0 +1,53 @@
+From add34a4bc6aa69f21f012d62215b5af500bea551 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 11 Sep 2019 06:47:11 -0400
+Subject: [PATCH] disable ICU cache pinning for exec spawning
+
+---
+ .../main/java/dalvik/system/ZygoteHooks.java  | 26 +++++++++++--------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
+
+diff --git a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
+index de5a056143..e77cec2517 100644
+--- a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
++++ b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
+@@ -49,15 +49,17 @@ private ZygoteHooks() {
+      */
+     @libcore.api.CorePlatformApi
+     public static void onBeginPreload(boolean fullPreload) {
+-        // Pin ICU data in memory from this point that would normally be held by soft references.
+-        // Without this, any references created immediately below or during class preloading
+-        // would be collected when the Zygote GC runs in gcAndFinalize().
+-        CacheValue.setStrength(CacheValue.Strength.STRONG);
+-
+-        // Explicitly exercise code to cache data apps are likely to need.
+-        ULocale[] localesToPin = { ULocale.ROOT, ULocale.US, ULocale.getDefault() };
+-        for (ULocale uLocale : localesToPin) {
+-            new DecimalFormatSymbols(uLocale);
++        if (fullPreload) {
++            // Pin ICU data in memory from this point that would normally be held by soft references.
++            // Without this, any references created immediately below or during class preloading
++            // would be collected when the Zygote GC runs in gcAndFinalize().
++            CacheValue.setStrength(CacheValue.Strength.STRONG);
++
++            // Explicitly exercise code to cache data apps are likely to need.
++            ULocale[] localesToPin = { ULocale.ROOT, ULocale.US, ULocale.getDefault() };
++            for (ULocale uLocale : localesToPin) {
++                new DecimalFormatSymbols(uLocale);
++            }
+         }
+ 
+         // Framework's LocalLog is used during app start-up. It indirectly uses the current ICU time
+@@ -72,8 +74,10 @@ public static void onBeginPreload(boolean fullPreload) {
+      */
+     @libcore.api.CorePlatformApi
+     public static void onEndPreload(boolean fullPreload) {
+-        // All cache references created by ICU from this point will be soft.
+-        CacheValue.setStrength(CacheValue.Strength.SOFT);
++        if (fullPreload) {
++            // All cache references created by ICU from this point will be soft.
++            CacheValue.setStrength(CacheValue.Strength.SOFT);
++        }
+ 
+         // Clone standard descriptors as originals closed / rebound during zygote post fork.
+         FileDescriptor.in.cloneForFork();

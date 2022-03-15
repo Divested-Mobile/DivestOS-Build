@@ -1,0 +1,28 @@
+From c561811fad950dce791ef9941753ef95076da4c0 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 14:28:52 -0400
+Subject: [PATCH] disable resource preloading for exec spawning
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index e93e70443ee6..2d1f301668a4 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -136,9 +136,11 @@ static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+         bootTimingsTraceLog.traceBegin("CacheNonBootClasspathClassLoaders");
+         cacheNonBootClasspathClassLoaders();
+         bootTimingsTraceLog.traceEnd(); // CacheNonBootClasspathClassLoaders
+-        bootTimingsTraceLog.traceBegin("PreloadResources");
+-        preloadResources();
+-        bootTimingsTraceLog.traceEnd(); // PreloadResources
++        if (fullPreload) {
++            bootTimingsTraceLog.traceBegin("PreloadResources");
++            preloadResources();
++            bootTimingsTraceLog.traceEnd(); // PreloadResources
++        }
+         Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadAppProcessHALs");
+         nativePreloadAppProcessHALs();
+         Trace.traceEnd(Trace.TRACE_TAG_DALVIK);

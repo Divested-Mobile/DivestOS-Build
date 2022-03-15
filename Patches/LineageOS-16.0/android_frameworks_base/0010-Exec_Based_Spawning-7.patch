@@ -1,0 +1,28 @@
+From f133136b65841735895ec15acdd2c60ecd45e72d Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 14:31:29 -0400
+Subject: [PATCH] disable WebView reservation for exec spawning
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index fae438512d8f..75d10f6d92a8 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -147,9 +147,11 @@ static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+         }
+         preloadSharedLibraries();
+         preloadTextResources();
+-        // Ask the WebViewFactory to do any initialization that must run in the zygote process,
+-        // for memory sharing purposes.
+-        WebViewFactory.prepareWebViewInZygote();
++        if (fullPreload) {
++            // Ask the WebViewFactory to do any initialization that must run in the zygote process,
++            // for memory sharing purposes.
++            WebViewFactory.prepareWebViewInZygote();
++        }
+         if (fullPreload) {
+             endIcuCachePinning();
+         }

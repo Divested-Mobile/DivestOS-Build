@@ -1,4 +1,4 @@
-From ad05afeefb51c74813daf3a99eca2b23fc553c7c Mon Sep 17 00:00:00 2001
+From 13a992c716f9b39920a7b37af2f447ced8e45c15 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 11 Sep 2019 06:47:11 -0400
 Subject: [PATCH] disable ICU cache pinning for exec spawning
@@ -8,7 +8,7 @@ Subject: [PATCH] disable ICU cache pinning for exec spawning
  1 file changed, 15 insertions(+), 11 deletions(-)
 
 diff --git a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
-index af3b9cfe8..35e880558 100644
+index af3b9cfe8b..35e880558a 100644
 --- a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
 +++ b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
 @@ -48,15 +48,17 @@ private ZygoteHooks() {

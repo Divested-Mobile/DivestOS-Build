@@ -1,0 +1,28 @@
+From b2303adccc82b89f19a6f4af8834443fa7e01b67 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 14 May 2019 14:28:27 -0400
+Subject: [PATCH] disable OpenGL preloading for exec spawning
+
+---
+ core/java/com/android/internal/os/ZygoteInit.java | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
+index 22e3f549dad5..37be8d97987a 100644
+--- a/core/java/com/android/internal/os/ZygoteInit.java
++++ b/core/java/com/android/internal/os/ZygoteInit.java
+@@ -149,9 +149,11 @@ static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+         Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadAppProcessHALs");
+         nativePreloadAppProcessHALs();
+         Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
+-        Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadGraphicsDriver");
+-        maybePreloadGraphicsDriver();
+-        Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
++        if (fullPreload) {
++            Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadGraphicsDriver");
++            maybePreloadGraphicsDriver();
++            Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
++        }
+         preloadSharedLibraries();
+         preloadTextResources();
+         // Ask the WebViewFactory to do any initialization that must run in the zygote process,

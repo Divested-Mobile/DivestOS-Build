@@ -1,0 +1,47 @@
+From 29f28b53c0cc85612e66485bc250fc57d82bc622 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 11 Sep 2019 06:46:38 -0400
+Subject: [PATCH] add parameter for avoiding full preload with exec
+
+---
+ dalvik/src/main/java/dalvik/system/ZygoteHooks.java     | 4 ++--
+ mmodules/core_platform_api/api/platform/current-api.txt | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
+index 13769e137e..af3b9cfe8b 100644
+--- a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
++++ b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
+@@ -47,7 +47,7 @@ private ZygoteHooks() {
+      * Called when the zygote begins preloading classes and data.
+      */
+     @libcore.api.CorePlatformApi
+-    public static void onBeginPreload() {
++    public static void onBeginPreload(boolean fullPreload) {
+         // Pin ICU data in memory from this point that would normally be held by soft references.
+         // Without this, any references created immediately below or during class preloading
+         // would be collected when the Zygote GC runs in gcAndFinalize().
+@@ -64,7 +64,7 @@ public static void onBeginPreload() {
+      * Called when the zygote has completed preloading classes and data.
+      */
+     @libcore.api.CorePlatformApi
+-    public static void onEndPreload() {
++    public static void onEndPreload(boolean fullPreload) {
+         // All cache references created by ICU from this point will be soft.
+         CacheValue.setStrength(CacheValue.Strength.SOFT);
+     }
+diff --git a/mmodules/core_platform_api/api/platform/current-api.txt b/mmodules/core_platform_api/api/platform/current-api.txt
+index b2b81df415..cca6891580 100644
+--- a/mmodules/core_platform_api/api/platform/current-api.txt
++++ b/mmodules/core_platform_api/api/platform/current-api.txt
+@@ -854,8 +854,8 @@ package dalvik.system {
+ 
+   public final class ZygoteHooks {
+     method public static void gcAndFinalize();
+-    method public static void onBeginPreload();
+-    method public static void onEndPreload();
++    method public static void onBeginPreload(boolean);
++    method public static void onEndPreload(boolean);
+     method public static void postForkChild(int, boolean, boolean, String);
+     method public static void postForkCommon();
+     method public static void postForkSystemServer();
