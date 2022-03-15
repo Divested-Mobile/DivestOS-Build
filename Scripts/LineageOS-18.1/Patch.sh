@@ -332,7 +332,7 @@ fi;
 
 if enterAndClear "system/bt"; then
 git am "$DOS_PATCHES/android_system_bt/a2dp-master-fixes.patch"; #topic
-applyPatch "$DOS_PATCHES_COMMON/android_system_core/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
+applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
 
 if enterAndClear "system/core"; then
@@ -355,8 +355,8 @@ fi;
 if enterAndClear "system/sepolicy"; then
 applyPatch "$DOS_PATCHES/android_system_sepolicy/0002-protected_files.patch"; #Label protected_{fifos,regular} as proc_security (GrapheneOS)
 if [ "$DOS_GRAPHENE_PTRACE_SCOPE" = true ]; then
-applyPatch "$DOS_PATCHES/android_system_sepolicy/003-ptrace_scope-1.patch"; #Allow init to control kernel.yama.ptrace_scope (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_system_sepolicy/003-ptrace_scope-2.patch"; #Allow system to use persist.native_debug (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_system_sepolicy/0003-ptrace_scope-1.patch"; #Allow init to control kernel.yama.ptrace_scope (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_system_sepolicy/0003-ptrace_scope-2.patch"; #Allow system to use persist.native_debug (GrapheneOS)
 fi;
 git am "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/30.0";

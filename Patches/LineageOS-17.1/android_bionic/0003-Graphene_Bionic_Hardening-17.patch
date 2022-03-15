@@ -1,4 +1,4 @@
-From 7f61cc8a1c9abd04094a96959f242b7906fa3127 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Renlord <me@renlord.com>
 Date: Sun, 20 Oct 2019 08:17:11 +1100
 Subject: [PATCH] add secondary stack randomization
@@ -9,7 +9,7 @@ Subject: [PATCH] add secondary stack randomization
  2 files changed, 28 insertions(+), 5 deletions(-)
 
 diff --git a/libc/bionic/pthread_create.cpp b/libc/bionic/pthread_create.cpp
-index b4a044db18..c2b61a2171 100644
+index b4a044db1..c2b61a217 100644
 --- a/libc/bionic/pthread_create.cpp
 +++ b/libc/bionic/pthread_create.cpp
 @@ -29,6 +29,7 @@
@@ -84,7 +84,7 @@ index b4a044db18..c2b61a2171 100644
  }
  
 diff --git a/libc/include/sys/cdefs.h b/libc/include/sys/cdefs.h
-index a919a79224..d223f7f871 100644
+index a919a7922..d223f7f87 100644
 --- a/libc/include/sys/cdefs.h
 +++ b/libc/include/sys/cdefs.h
 @@ -57,6 +57,7 @@

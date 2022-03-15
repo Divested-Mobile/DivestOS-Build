@@ -1,4 +1,4 @@
-From dcd3b72ac9cac79d4322a17be150c46f65ffb3cd Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Mon, 19 Sep 2016 07:57:43 -0400
 Subject: [PATCH] fix undefined out-of-bounds accesses in sched.h
@@ -8,7 +8,7 @@ Subject: [PATCH] fix undefined out-of-bounds accesses in sched.h
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/libc/include/sched.h b/libc/include/sched.h
-index de6969f863..fd333a023a 100644
+index de6969f86..fd333a023 100644
 --- a/libc/include/sched.h
 +++ b/libc/include/sched.h
 @@ -71,7 +71,10 @@ int setns(int __fd, int __ns_type) __INTRODUCED_IN(21);

@@ -1,4 +1,4 @@
-From 5c42a527cf958ca3c81613178618d452e806994f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Renlord <me@renlord.com>
 Date: Thu, 12 Sep 2019 14:51:51 +1000
 Subject: [PATCH] add guard page(s) between static_tls and stack
@@ -8,7 +8,7 @@ Subject: [PATCH] add guard page(s) between static_tls and stack
  1 file changed, 19 insertions(+), 10 deletions(-)
 
 diff --git a/libc/bionic/pthread_create.cpp b/libc/bionic/pthread_create.cpp
-index 4cf14ad72b..6bbf970a0b 100644
+index 4cf14ad72..6bbf970a0 100644
 --- a/libc/bionic/pthread_create.cpp
 +++ b/libc/bionic/pthread_create.cpp
 @@ -218,9 +218,10 @@ int __init_thread(pthread_internal_t* thread) {

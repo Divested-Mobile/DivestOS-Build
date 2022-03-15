@@ -1,4 +1,4 @@
-From 7444dbc3cf11285fb94d5d00913016afd7b0dff2 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Mon, 4 Mar 2019 04:26:04 -0500
 Subject: [PATCH] use blocking getrandom and avoid urandom fallback
@@ -8,7 +8,7 @@ Subject: [PATCH] use blocking getrandom and avoid urandom fallback
  1 file changed, 2 insertions(+), 28 deletions(-)
 
 diff --git a/libc/bionic/getentropy.cpp b/libc/bionic/getentropy.cpp
-index 2c6e417b87..ad49039af1 100644
+index 2c6e417b8..ad49039af 100644
 --- a/libc/bionic/getentropy.cpp
 +++ b/libc/bionic/getentropy.cpp
 @@ -31,26 +31,6 @@

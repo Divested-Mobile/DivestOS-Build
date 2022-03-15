@@ -1,4 +1,4 @@
-From 9220cf622bab1099cbff937d88aa7ce2809bb9d4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Thu, 3 Dec 2015 12:58:31 -0500
 Subject: [PATCH] add memory protection for pthread_atfork handlers
@@ -8,7 +8,7 @@ Subject: [PATCH] add memory protection for pthread_atfork handlers
  1 file changed, 32 insertions(+), 2 deletions(-)
 
 diff --git a/libc/bionic/pthread_atfork.cpp b/libc/bionic/pthread_atfork.cpp
-index cc3657f126..d11dab84a7 100644
+index cc3657f12..d11dab84a 100644
 --- a/libc/bionic/pthread_atfork.cpp
 +++ b/libc/bionic/pthread_atfork.cpp
 @@ -47,6 +47,7 @@ struct atfork_t {

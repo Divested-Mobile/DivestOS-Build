@@ -1,4 +1,4 @@
-From e9751d3370aa44e6ca77843f7c7a7aac67e5bcc0 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 2 Dec 2015 23:37:28 -0500
 Subject: [PATCH] switch pthread_atfork handler allocation to mmap
@@ -8,7 +8,7 @@ Subject: [PATCH] switch pthread_atfork handler allocation to mmap
  1 file changed, 29 insertions(+), 6 deletions(-)
 
 diff --git a/libc/bionic/pthread_atfork.cpp b/libc/bionic/pthread_atfork.cpp
-index 84e511c2e8..651c026df5 100644
+index 84e511c2e..651c026df 100644
 --- a/libc/bionic/pthread_atfork.cpp
 +++ b/libc/bionic/pthread_atfork.cpp
 @@ -29,8 +29,11 @@

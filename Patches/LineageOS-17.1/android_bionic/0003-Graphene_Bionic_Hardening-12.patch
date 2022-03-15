@@ -1,4 +1,4 @@
-From 8ef71d1ffd51664bc8d61fd029efa899a87ddc30 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sat, 7 Feb 2015 20:14:24 -0500
 Subject: [PATCH] add memory protection for at_quick_exit
@@ -8,7 +8,7 @@ Subject: [PATCH] add memory protection for at_quick_exit
  1 file changed, 35 insertions(+), 5 deletions(-)
 
 diff --git a/libc/upstream-freebsd/lib/libc/stdlib/quick_exit.c b/libc/upstream-freebsd/lib/libc/stdlib/quick_exit.c
-index ef8cdb1b40..63b54e3fb8 100644
+index ef8cdb1b4..63b54e3fb 100644
 --- a/libc/upstream-freebsd/lib/libc/stdlib/quick_exit.c
 +++ b/libc/upstream-freebsd/lib/libc/stdlib/quick_exit.c
 @@ -28,6 +28,9 @@

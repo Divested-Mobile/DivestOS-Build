@@ -1,4 +1,4 @@
-From 611e5691f7e48aba8529e49b22885021f322b31e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sat, 16 Jul 2016 23:55:16 -0400
 Subject: [PATCH] replace VLA formatting buffer with dprintf
@@ -8,7 +8,7 @@ Subject: [PATCH] replace VLA formatting buffer with dprintf
  1 file changed, 1 insertion(+), 9 deletions(-)
 
 diff --git a/libc/bionic/bionic_systrace.cpp b/libc/bionic/bionic_systrace.cpp
-index bac3d88021..076e10dbfb 100644
+index bac3d8802..076e10dbf 100644
 --- a/libc/bionic/bionic_systrace.cpp
 +++ b/libc/bionic/bionic_systrace.cpp
 @@ -26,8 +26,6 @@

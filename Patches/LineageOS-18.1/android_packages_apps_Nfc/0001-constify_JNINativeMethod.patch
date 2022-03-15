@@ -1,4 +1,4 @@
-From e41f1d7f8eee4f6af7ad1f9c0b6cbf1aef94f3cd Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sun, 17 Mar 2019 20:58:37 -0400
 Subject: [PATCH] constify JNINativeMethod tables

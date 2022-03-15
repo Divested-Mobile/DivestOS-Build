@@ -1,4 +1,4 @@
-From a3a22a63d2cf265d5edc8cf613484e13fd03e19d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sun, 8 Feb 2015 01:18:54 -0500
 Subject: [PATCH] replace brk and sbrk with stubs
@@ -12,7 +12,7 @@ malloc.
  1 file changed, 8 insertions(+), 40 deletions(-)
 
 diff --git a/libc/bionic/brk.cpp b/libc/bionic/brk.cpp
-index e1a4b05345..ef93055139 100644
+index e1a4b0534..ef9305513 100644
 --- a/libc/bionic/brk.cpp
 +++ b/libc/bionic/brk.cpp
 @@ -29,48 +29,16 @@

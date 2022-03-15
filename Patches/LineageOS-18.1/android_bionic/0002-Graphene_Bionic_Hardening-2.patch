@@ -1,4 +1,4 @@
-From 31456ac632903235e14500af8b5d7dff2d25d724 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sun, 8 Feb 2015 01:18:54 -0500
 Subject: [PATCH] replace brk and sbrk with stubs
@@ -14,7 +14,7 @@ Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
  1 file changed, 8 insertions(+), 40 deletions(-)
 
 diff --git a/libc/bionic/brk.cpp b/libc/bionic/brk.cpp
-index 566c33a7a6..ef93055139 100644
+index 566c33a7a..ef9305513 100644
 --- a/libc/bionic/brk.cpp
 +++ b/libc/bionic/brk.cpp
 @@ -29,48 +29,16 @@

@@ -1,4 +1,4 @@
-From 85e5bca0a525a1cb8142aa092286ae3424983dd5 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Fri, 11 Dec 2015 01:52:08 -0500
 Subject: [PATCH] move pthread_internal_t out of the stack mapping
@@ -11,7 +11,7 @@ Subject: [PATCH] move pthread_internal_t out of the stack mapping
  3 files changed, 17 insertions(+), 11 deletions(-)
 
 diff --git a/libc/bionic/pthread_create.cpp b/libc/bionic/pthread_create.cpp
-index 8825c6f240..e70af04094 100644
+index 8825c6f24..e70af0409 100644
 --- a/libc/bionic/pthread_create.cpp
 +++ b/libc/bionic/pthread_create.cpp
 @@ -191,7 +191,6 @@ static int __allocate_thread(pthread_attr_t* attr, pthread_internal_t** threadp,
@@ -63,7 +63,7 @@ index 8825c6f240..e70af04094 100644
                            strerror(clone_errno));
      return clone_errno;
 diff --git a/libc/bionic/pthread_exit.cpp b/libc/bionic/pthread_exit.cpp
-index f1b65fdf7a..fe26696baf 100644
+index f1b65fdf7..fe26696ba 100644
 --- a/libc/bionic/pthread_exit.cpp
 +++ b/libc/bionic/pthread_exit.cpp
 @@ -118,7 +118,8 @@ void pthread_exit(void* return_value) {
@@ -88,7 +88,7 @@ index f1b65fdf7a..fe26696baf 100644
    }
  
 diff --git a/libc/bionic/pthread_internal.cpp b/libc/bionic/pthread_internal.cpp
-index 829194cc71..b5de202487 100644
+index 829194cc7..b5de20248 100644
 --- a/libc/bionic/pthread_internal.cpp
 +++ b/libc/bionic/pthread_internal.cpp
 @@ -91,6 +91,7 @@ static void __pthread_internal_free(pthread_internal_t* thread) {

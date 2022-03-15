@@ -1,4 +1,4 @@
-From aa9cc05d07a5855fcae2d9f21dd9672543eafbb3 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Fri, 6 Feb 2015 11:41:57 -0500
 Subject: [PATCH] zero sensitive information with explicit_bzero
@@ -8,7 +8,7 @@ Subject: [PATCH] zero sensitive information with explicit_bzero
  1 file changed, 1 insertion(+)
 
 diff --git a/init/security.cpp b/init/security.cpp
-index a3494a280bd..4b6c918ab30 100644
+index a3494a280..4b6c918ab 100644
 --- a/init/security.cpp
 +++ b/init/security.cpp
 @@ -73,6 +73,7 @@ Result<Success> MixHwrngIntoLinuxRngAction(const BuiltinArguments&) {

@@ -1,4 +1,4 @@
-From d8a62b5156007c507e6de4ced1e0db8c271504ee Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 9 Sep 2020 01:00:19 -0400
 Subject: [PATCH] constify JNINativeMethod tables
@@ -99,10 +99,10 @@ index bceea1d73..6b8a317bc 100644
      {"initNative", "()V", (void*)initNative},
      {"cleanupNative", "()V", (void*)cleanupNative},
 diff --git a/jni/com_android_bluetooth_gatt.cpp b/jni/com_android_bluetooth_gatt.cpp
-index 64db277f0..0aa06af5e 100644
+index 69b9fc2f8..ecc46760c 100644
 --- a/jni/com_android_bluetooth_gatt.cpp
 +++ b/jni/com_android_bluetooth_gatt.cpp
-@@ -2064,7 +2064,7 @@ static void gattTestNative(JNIEnv* env, jobject object, jint command,
+@@ -2118,7 +2118,7 @@ static void gattTestNative(JNIEnv* env, jobject object, jint command,
   */
  
  // JNI functions defined in AdvertiseManager class.
@@ -111,7 +111,7 @@ index 64db277f0..0aa06af5e 100644
      {"classInitNative", "()V", (void*)advertiseClassInitNative},
      {"initializeNative", "()V", (void*)advertiseInitializeNative},
      {"cleanupNative", "()V", (void*)advertiseCleanupNative},
-@@ -2091,7 +2091,7 @@ static JNINativeMethod sAdvertiseMethods[] = {
+@@ -2145,7 +2145,7 @@ static JNINativeMethod sAdvertiseMethods[] = {
  };
  
  // JNI functions defined in PeriodicScanManager class.
@@ -120,7 +120,7 @@ index 64db277f0..0aa06af5e 100644
      {"classInitNative", "()V", (void*)periodicScanClassInitNative},
      {"initializeNative", "()V", (void*)periodicScanInitializeNative},
      {"cleanupNative", "()V", (void*)periodicScanCleanupNative},
-@@ -2100,7 +2100,7 @@ static JNINativeMethod sPeriodicScanMethods[] = {
+@@ -2159,7 +2159,7 @@ static JNINativeMethod sPeriodicScanMethods[] = {
  };
  
  // JNI functions defined in ScanManager class.
@@ -129,7 +129,7 @@ index 64db277f0..0aa06af5e 100644
      {"registerScannerNative", "(JJ)V", (void*)registerScannerNative},
      {"unregisterScannerNative", "(I)V", (void*)unregisterScannerNative},
      {"gattClientScanNative", "(Z)V", (void*)gattClientScanNative},
-@@ -2133,7 +2133,7 @@ static JNINativeMethod sScanMethods[] = {
+@@ -2192,7 +2192,7 @@ static JNINativeMethod sScanMethods[] = {
  };
  
  // JNI functions defined in GattService class.

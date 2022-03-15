@@ -1,4 +1,4 @@
-From a042b5a0bada9933b7c488003e8f9d8d0d195525 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sat, 16 Jul 2016 23:55:16 -0400
 Subject: [PATCH] replace VLA formatting with dprintf-like function
@@ -9,7 +9,7 @@ Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
  1 file changed, 1 insertion(+), 9 deletions(-)
 
 diff --git a/libc/bionic/bionic_systrace.cpp b/libc/bionic/bionic_systrace.cpp
-index fd97712982..acd9b76814 100644
+index fd9771298..acd9b7681 100644
 --- a/libc/bionic/bionic_systrace.cpp
 +++ b/libc/bionic/bionic_systrace.cpp
 @@ -27,8 +27,6 @@

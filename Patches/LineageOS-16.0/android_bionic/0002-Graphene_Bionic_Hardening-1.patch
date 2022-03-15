@@ -1,4 +1,4 @@
-From e4b9b31e6f9ff7eb9d168db6a99a775bf4f669c1 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Thu, 5 Feb 2015 21:53:16 -0500
 Subject: [PATCH] add a real explicit_bzero implementation
@@ -28,10 +28,10 @@ optimization in the future.
  create mode 100644 libc/bionic/explicit_bzero.cpp
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index 26ffc73b66..85a739e4e9 100644
+index 5b3495ff2..72a7d9635 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
-@@ -1329,6 +1329,7 @@ cc_library_static {
+@@ -1361,6 +1361,7 @@ cc_library_static {
          "bionic/eventfd_read.cpp",
          "bionic/eventfd_write.cpp",
          "bionic/exec.cpp",
@@ -41,7 +41,7 @@ index 26ffc73b66..85a739e4e9 100644
          "bionic/fchmodat.cpp",
 diff --git a/libc/bionic/explicit_bzero.cpp b/libc/bionic/explicit_bzero.cpp
 new file mode 100644
-index 0000000000..b06daa1386
+index 000000000..b06daa138
 --- /dev/null
 +++ b/libc/bionic/explicit_bzero.cpp
 @@ -0,0 +1,7 @@
@@ -53,7 +53,7 @@ index 0000000000..b06daa1386
 +  return ptr;
 +}
 diff --git a/libc/include/string.h b/libc/include/string.h
-index 54d5e1c800..5336777773 100644
+index 54d5e1c80..533677777 100644
 --- a/libc/include/string.h
 +++ b/libc/include/string.h
 @@ -56,6 +56,7 @@ void* mempcpy(void* __dst, const void* __src, size_t __n) __INTRODUCED_IN(23);
@@ -65,7 +65,7 @@ index 54d5e1c800..5336777773 100644
  
  char* strchr(const char* __s, int __ch) __attribute_pure__;
 diff --git a/libc/libc.arm.map b/libc/libc.arm.map
-index b0f96a9ffc..28ad4913f6 100644
+index b0f96a9ff..28ad4913f 100644
 --- a/libc/libc.arm.map
 +++ b/libc/libc.arm.map
 @@ -330,6 +330,7 @@ LIBC {
@@ -77,7 +77,7 @@ index b0f96a9ffc..28ad4913f6 100644
      fallocate; # introduced=21
      fallocate64; # introduced=21
 diff --git a/libc/libc.arm64.map b/libc/libc.arm64.map
-index 6b0e415494..ee20108901 100644
+index 6b0e41549..ee2010890 100644
 --- a/libc/libc.arm64.map
 +++ b/libc/libc.arm64.map
 @@ -260,6 +260,7 @@ LIBC {
@@ -89,7 +89,7 @@ index 6b0e415494..ee20108901 100644
      fallocate; # introduced=21
      fallocate64; # introduced=21
 diff --git a/libc/libc.map.txt b/libc/libc.map.txt
-index 85c9a581cb..6c7e3eb368 100644
+index 85c9a581c..6c7e3eb36 100644
 --- a/libc/libc.map.txt
 +++ b/libc/libc.map.txt
 @@ -332,6 +332,7 @@ LIBC {
@@ -101,7 +101,7 @@ index 85c9a581cb..6c7e3eb368 100644
      fallocate; # introduced=21
      fallocate64; # introduced=21
 diff --git a/libc/libc.mips.map b/libc/libc.mips.map
-index 9e760c2422..12faa5d86b 100644
+index 9e760c242..12faa5d86 100644
 --- a/libc/libc.mips.map
 +++ b/libc/libc.mips.map
 @@ -328,6 +328,7 @@ LIBC {
@@ -113,7 +113,7 @@ index 9e760c2422..12faa5d86b 100644
      fallocate; # introduced=21
      fallocate64; # introduced=21
 diff --git a/libc/libc.mips64.map b/libc/libc.mips64.map
-index 6b0e415494..ee20108901 100644
+index 6b0e41549..ee2010890 100644
 --- a/libc/libc.mips64.map
 +++ b/libc/libc.mips64.map
 @@ -260,6 +260,7 @@ LIBC {
@@ -125,7 +125,7 @@ index 6b0e415494..ee20108901 100644
      fallocate; # introduced=21
      fallocate64; # introduced=21
 diff --git a/libc/libc.x86.map b/libc/libc.x86.map
-index 2855f9e22d..8be30d8424 100644
+index 2855f9e22..8be30d842 100644
 --- a/libc/libc.x86.map
 +++ b/libc/libc.x86.map
 @@ -326,6 +326,7 @@ LIBC {
@@ -137,7 +137,7 @@ index 2855f9e22d..8be30d8424 100644
      fallocate; # introduced=21
      fallocate64; # introduced=21
 diff --git a/libc/libc.x86_64.map b/libc/libc.x86_64.map
-index 6b0e415494..ee20108901 100644
+index 6b0e41549..ee2010890 100644
 --- a/libc/libc.x86_64.map
 +++ b/libc/libc.x86_64.map
 @@ -260,6 +260,7 @@ LIBC {
@@ -149,7 +149,7 @@ index 6b0e415494..ee20108901 100644
      fallocate; # introduced=21
      fallocate64; # introduced=21
 diff --git a/libc/upstream-openbsd/android/include/openbsd-compat.h b/libc/upstream-openbsd/android/include/openbsd-compat.h
-index f178149311..929e61eeda 100644
+index f17814931..929e61eed 100644
 --- a/libc/upstream-openbsd/android/include/openbsd-compat.h
 +++ b/libc/upstream-openbsd/android/include/openbsd-compat.h
 @@ -65,8 +65,6 @@ extern const char* __progname;

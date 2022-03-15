@@ -1,4 +1,4 @@
-From 725f61db82eb41098291ce06445ccfbf5d5b3581 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sun, 12 Mar 2017 17:49:13 -0400
 Subject: [PATCH] on 64-bit, zero the leading stack canary byte
@@ -10,7 +10,7 @@ mitigating non-terminated C string overflows.
  1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/libc/bionic/__libc_init_main_thread.cpp b/libc/bionic/__libc_init_main_thread.cpp
-index 2e3967daab..f5128de9ec 100644
+index 2e3967daa..f5128de9e 100644
 --- a/libc/bionic/__libc_init_main_thread.cpp
 +++ b/libc/bionic/__libc_init_main_thread.cpp
 @@ -49,8 +49,11 @@ uintptr_t __stack_chk_guard[PAGE_SIZE / sizeof(uintptr_t)] = {0};

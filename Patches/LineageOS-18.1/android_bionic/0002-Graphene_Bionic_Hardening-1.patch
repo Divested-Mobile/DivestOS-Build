@@ -1,4 +1,4 @@
-From 5412c371955014eee8b2246b386ae7f539bac09e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Thu, 5 Feb 2015 21:53:16 -0500
 Subject: [PATCH] add a real explicit_bzero implementation
@@ -22,10 +22,10 @@ optimization in the future.
  create mode 100644 libc/bionic/explicit_bzero.cpp
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index d3271ae919..043a03245d 100644
+index ce714054a..49108bf35 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
-@@ -1028,6 +1028,7 @@ cc_library_static {
+@@ -1047,6 +1047,7 @@ cc_library_static {
          "bionic/error.cpp",
          "bionic/eventfd.cpp",
          "bionic/exec.cpp",
@@ -35,7 +35,7 @@ index d3271ae919..043a03245d 100644
          "bionic/fchmodat.cpp",
 diff --git a/libc/bionic/explicit_bzero.cpp b/libc/bionic/explicit_bzero.cpp
 new file mode 100644
-index 0000000000..b06daa1386
+index 000000000..b06daa138
 --- /dev/null
 +++ b/libc/bionic/explicit_bzero.cpp
 @@ -0,0 +1,7 @@
@@ -47,7 +47,7 @@ index 0000000000..b06daa1386
 +  return ptr;
 +}
 diff --git a/libc/include/string.h b/libc/include/string.h
-index 0cc5611aa8..befffd0828 100644
+index 0cc5611aa..befffd082 100644
 --- a/libc/include/string.h
 +++ b/libc/include/string.h
 @@ -56,6 +56,7 @@ void* mempcpy(void* __dst, const void* __src, size_t __n) __INTRODUCED_IN(23);
@@ -59,7 +59,7 @@ index 0cc5611aa8..befffd0828 100644
  
  char* strchr(const char* __s, int __ch) __attribute_pure__;
 diff --git a/libc/libc.map.txt b/libc/libc.map.txt
-index 4bfb8a2320..36803984e9 100644
+index 4bfb8a232..36803984e 100644
 --- a/libc/libc.map.txt
 +++ b/libc/libc.map.txt
 @@ -332,6 +332,7 @@ LIBC {
@@ -71,7 +71,7 @@ index 4bfb8a2320..36803984e9 100644
      fallocate; # introduced=21
      fallocate64; # introduced=21
 diff --git a/libc/upstream-openbsd/android/include/openbsd-compat.h b/libc/upstream-openbsd/android/include/openbsd-compat.h
-index 878f71cec6..79a2604259 100644
+index 878f71cec..79a260425 100644
 --- a/libc/upstream-openbsd/android/include/openbsd-compat.h
 +++ b/libc/upstream-openbsd/android/include/openbsd-compat.h
 @@ -53,8 +53,6 @@ extern const char* __progname;

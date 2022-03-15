@@ -1,4 +1,4 @@
-From 7f0947cc0e4fc52a41ef8ecfba892f5534e1fee5 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sun, 12 Mar 2017 17:49:13 -0400
 Subject: [PATCH] on 64-bit, zero the leading stack canary byte
@@ -10,7 +10,7 @@ mitigating non-terminated C string overflows.
  1 file changed, 10 insertions(+)
 
 diff --git a/libc/bionic/__libc_init_main_thread.cpp b/libc/bionic/__libc_init_main_thread.cpp
-index 78d25fd977..ae2245829d 100644
+index 78d25fd97..ae2245829 100644
 --- a/libc/bionic/__libc_init_main_thread.cpp
 +++ b/libc/bionic/__libc_init_main_thread.cpp
 @@ -47,8 +47,18 @@ extern "C" int __set_tid_address(int* tid_address);

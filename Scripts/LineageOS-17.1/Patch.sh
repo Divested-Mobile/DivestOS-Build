@@ -318,7 +318,7 @@ fi;
 #fi;
 
 if enterAndClear "system/bt"; then
-applyPatch "$DOS_PATCHES_COMMON/android_system_core/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
+applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
 
 if enterAndClear "system/core"; then

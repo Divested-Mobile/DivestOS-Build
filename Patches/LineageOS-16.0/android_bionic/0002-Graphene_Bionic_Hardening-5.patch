@@ -1,4 +1,4 @@
-From 543e1df342cdd8720ce967d990ca28a2b9c26af2 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sat, 19 Nov 2016 09:56:14 -0500
 Subject: [PATCH] stop implicitly marking mappings as mergeable
@@ -8,7 +8,7 @@ Subject: [PATCH] stop implicitly marking mappings as mergeable
  1 file changed, 1 insertion(+), 18 deletions(-)
 
 diff --git a/libc/bionic/mmap.cpp b/libc/bionic/mmap.cpp
-index 35033199ae..c081068928 100644
+index 35033199a..c08106892 100644
 --- a/libc/bionic/mmap.cpp
 +++ b/libc/bionic/mmap.cpp
 @@ -39,8 +39,6 @@ extern "C" void*  __mmap2(void*, size_t, int, int, int, size_t);

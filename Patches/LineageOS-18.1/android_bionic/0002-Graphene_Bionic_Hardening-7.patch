@@ -1,4 +1,4 @@
-From 9ec639de1bec2f655bdfc0750e363a6f8de31c4a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Fri, 17 Jul 2015 21:32:05 -0400
 Subject: [PATCH] increase default pthread stack to 8MiB on 64-bit
@@ -9,10 +9,10 @@ Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
  1 file changed, 4 insertions(+)
 
 diff --git a/libc/bionic/pthread_internal.h b/libc/bionic/pthread_internal.h
-index d58725baf1..a108f5cc0d 100644
+index 1f055f59e..f84cc4dc8 100644
 --- a/libc/bionic/pthread_internal.h
 +++ b/libc/bionic/pthread_internal.h
-@@ -234,7 +234,11 @@ __LIBC_HIDDEN__ void pthread_key_clean_all(void);
+@@ -233,7 +233,11 @@ __LIBC_HIDDEN__ void pthread_key_clean_all(void);
  // stack overflows, we subtracted the same amount we were using there
  // from the default thread stack size. This should keep memory usage
  // roughly constant.

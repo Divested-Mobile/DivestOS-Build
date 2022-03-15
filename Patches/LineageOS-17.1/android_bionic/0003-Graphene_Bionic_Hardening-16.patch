@@ -1,4 +1,4 @@
-From 5cc8c34e60dbfeb1fd996bf83bb01a0443d93a8a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Thu, 10 Oct 2019 22:52:49 -0400
 Subject: [PATCH] move pthread_internal_t behind guard page
@@ -8,7 +8,7 @@ Subject: [PATCH] move pthread_internal_t behind guard page
  1 file changed, 9 insertions(+), 10 deletions(-)
 
 diff --git a/libc/bionic/pthread_create.cpp b/libc/bionic/pthread_create.cpp
-index 6bbf970a0b..b4a044db18 100644
+index 6bbf970a0..b4a044db1 100644
 --- a/libc/bionic/pthread_create.cpp
 +++ b/libc/bionic/pthread_create.cpp
 @@ -218,10 +218,13 @@ int __init_thread(pthread_internal_t* thread) {

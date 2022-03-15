@@ -1,4 +1,4 @@
-From 62f81c237b7f4a33fbb13752def9cbf3f5c9e0d4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: flawedworld <flawedworld@flawed.world>
 Date: Wed, 1 Sep 2021 20:36:10 +0000
 Subject: [PATCH] UserManager app installation restrictions
@@ -10,10 +10,10 @@ Subject: [PATCH] UserManager app installation restrictions
  3 files changed, 44 insertions(+), 5 deletions(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index bd1076547f2..eee095c3053 100644
+index 87ef39ed10..66b27f3263 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -7087,6 +7087,8 @@
+@@ -7088,6 +7088,8 @@
      <string name="user_enable_calling">Turn on phone calls</string>
      <!-- Title of preference to enable calling and SMS [CHAR LIMIT=45] -->
      <string name="user_enable_calling_sms">Turn on phone calls &amp; SMS</string>
@@ -23,7 +23,7 @@ index bd1076547f2..eee095c3053 100644
      <string name="user_remove_user">Delete user</string>
      <!-- Title for confirmation of turning on calls [CHAR LIMIT=40] -->
 diff --git a/res/xml/user_details_settings.xml b/res/xml/user_details_settings.xml
-index 9280ff11632..d0a055fae29 100644
+index 9280ff1163..d0a055fae2 100644
 --- a/res/xml/user_details_settings.xml
 +++ b/res/xml/user_details_settings.xml
 @@ -29,6 +29,10 @@
@@ -38,10 +38,10 @@ index 9280ff11632..d0a055fae29 100644
              android:key="remove_user"
              android:icon="@drawable/ic_delete"
 diff --git a/src/com/android/settings/users/UserDetailsSettings.java b/src/com/android/settings/users/UserDetailsSettings.java
-index 897b3c7b83a..dc5dfb1dcca 100644
+index 897b3c7b83..dc5dfb1dcc 100644
 --- a/src/com/android/settings/users/UserDetailsSettings.java
 +++ b/src/com/android/settings/users/UserDetailsSettings.java
-@@ -59,6 +59,7 @@
+@@ -59,6 +59,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
      private static final String KEY_ENABLE_TELEPHONY = "enable_calling";
      private static final String KEY_REMOVE_USER = "remove_user";
      private static final String KEY_APP_AND_CONTENT_ACCESS = "app_and_content_access";
@@ -49,7 +49,7 @@ index 897b3c7b83a..dc5dfb1dcca 100644
  
      /** Integer extra containing the userId to manage */
      static final String EXTRA_USER_ID = "user_id";
-@@ -78,6 +79,7 @@
+@@ -78,6 +79,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
      Preference mAppAndContentAccessPref;
      @VisibleForTesting
      Preference mRemoveUserPref;
@@ -57,7 +57,7 @@ index 897b3c7b83a..dc5dfb1dcca 100644
  
      @VisibleForTesting
      UserInfo mUserInfo;
-@@ -131,12 +133,37 @@ public boolean onPreferenceClick(Preference preference) {
+@@ -131,12 +133,37 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
  
      @Override
      public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -100,7 +100,7 @@ index 897b3c7b83a..dc5dfb1dcca 100644
          return true;
      }
  
-@@ -203,6 +230,7 @@ void initialize(Context context, Bundle arguments) {
+@@ -203,6 +230,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
          mPhonePref = findPreference(KEY_ENABLE_TELEPHONY);
          mRemoveUserPref = findPreference(KEY_REMOVE_USER);
          mAppAndContentAccessPref = findPreference(KEY_APP_AND_CONTENT_ACCESS);
@@ -108,7 +108,7 @@ index 897b3c7b83a..dc5dfb1dcca 100644
  
          mSwitchUserPref.setTitle(
                  context.getString(com.android.settingslib.R.string.user_switch_to_user,
-@@ -220,6 +248,7 @@ void initialize(Context context, Bundle arguments) {
+@@ -220,6 +248,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
              removePreference(KEY_ENABLE_TELEPHONY);
              removePreference(KEY_REMOVE_USER);
              removePreference(KEY_APP_AND_CONTENT_ACCESS);
@@ -116,7 +116,7 @@ index 897b3c7b83a..dc5dfb1dcca 100644
          } else {
              if (!Utils.isVoiceCapable(context)) { // no telephony
                  removePreference(KEY_ENABLE_TELEPHONY);
-@@ -244,10 +273,13 @@ void initialize(Context context, Bundle arguments) {
+@@ -244,10 +273,13 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
                  mPhonePref.setChecked(
                          !mDefaultGuestRestrictions.getBoolean(UserManager.DISALLOW_OUTGOING_CALLS));
                  mRemoveUserPref.setTitle(R.string.user_exit_guest_title);
@@ -130,7 +130,7 @@ index 897b3c7b83a..dc5dfb1dcca 100644
              }
              if (RestrictedLockUtilsInternal.hasBaseUserRestriction(context,
                      UserManager.DISALLOW_REMOVE_USER, UserHandle.myUserId())) {
-@@ -257,6 +289,7 @@ void initialize(Context context, Bundle arguments) {
+@@ -257,6 +289,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
              mRemoveUserPref.setOnPreferenceClickListener(this);
              mPhonePref.setOnPreferenceChangeListener(this);
              mAppAndContentAccessPref.setOnPreferenceClickListener(this);

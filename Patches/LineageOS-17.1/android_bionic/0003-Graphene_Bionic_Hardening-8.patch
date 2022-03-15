@@ -1,4 +1,4 @@
-From 8bbce1bc50f7b0fb210de3ef160542bbb08cdcc0 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sat, 1 Oct 2016 05:11:44 -0400
 Subject: [PATCH] make __stack_chk_guard read-only at runtime
@@ -8,7 +8,7 @@ Subject: [PATCH] make __stack_chk_guard read-only at runtime
  1 file changed, 12 insertions(+), 3 deletions(-)
 
 diff --git a/libc/bionic/__libc_init_main_thread.cpp b/libc/bionic/__libc_init_main_thread.cpp
-index 4984e38a13..2e3967daab 100644
+index 4984e38a1..2e3967daa 100644
 --- a/libc/bionic/__libc_init_main_thread.cpp
 +++ b/libc/bionic/__libc_init_main_thread.cpp
 @@ -28,6 +28,9 @@

@@ -98,7 +98,7 @@ sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 if [ "$DOS_SILENCE_INCLUDED" = true ]; then sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/treble_common.mk; fi; #Replace the Messaging app with Silence
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 17/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2022-01-05/2022-02-05/' core/version_defaults.mk; #Bump Security String #P_asb_2022-02 #XXX
+sed -i 's/2022-01-05/2022-03-05/' core/version_defaults.mk; #Bump Security String #P_asb_2022-03 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -311,7 +311,7 @@ applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred
 fi;
 
 #if enterAndClear "system/bt"; then
-#applyPatch "$DOS_PATCHES_COMMON/android_system_core/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
+#applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 #fi;
 
 if enterAndClear "system/core"; then

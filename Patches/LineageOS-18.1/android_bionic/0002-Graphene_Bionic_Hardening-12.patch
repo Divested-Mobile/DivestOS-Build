@@ -1,4 +1,4 @@
-From 0b03d92b7f2dc5f12211037e99821ccead27a687 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 27 Jan 2016 18:02:15 -0500
 Subject: [PATCH] add XOR mangling mitigation for thread-local dtors
@@ -11,7 +11,7 @@ Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
  3 files changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/libc/bionic/__cxa_thread_atexit_impl.cpp b/libc/bionic/__cxa_thread_atexit_impl.cpp
-index 99077c101d..74608513ef 100644
+index 99077c101..74608513e 100644
 --- a/libc/bionic/__cxa_thread_atexit_impl.cpp
 +++ b/libc/bionic/__cxa_thread_atexit_impl.cpp
 @@ -13,15 +13,17 @@
@@ -52,7 +52,7 @@ index 99077c101d..74608513ef 100644
        __loader_remove_thread_local_dtor(current->dso_handle);
      }
 diff --git a/libc/bionic/libc_init_common.cpp b/libc/bionic/libc_init_common.cpp
-index a82ca50b69..2ad0b58c5a 100644
+index a82ca50b6..2ad0b58c5 100644
 --- a/libc/bionic/libc_init_common.cpp
 +++ b/libc/bionic/libc_init_common.cpp
 @@ -45,6 +45,7 @@
@@ -72,7 +72,7 @@ index a82ca50b69..2ad0b58c5a 100644
  }
  
 diff --git a/libc/private/bionic_globals.h b/libc/private/bionic_globals.h
-index 6e7eb76e40..1b75ca0ee6 100644
+index 6e7eb76e4..1b75ca0ee 100644
 --- a/libc/private/bionic_globals.h
 +++ b/libc/private/bionic_globals.h
 @@ -43,6 +43,7 @@
