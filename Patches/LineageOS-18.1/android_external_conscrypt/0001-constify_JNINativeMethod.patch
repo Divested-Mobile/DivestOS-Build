@@ -1,0 +1,22 @@
+From dce2d0f64f68739fed38483948095621506ca244 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 18 Nov 2020 14:28:24 -0500
+Subject: [PATCH] constify JNINativeMethod table
+
+---
+ common/src/jni/main/cpp/conscrypt/native_crypto.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/common/src/jni/main/cpp/conscrypt/native_crypto.cc b/common/src/jni/main/cpp/conscrypt/native_crypto.cc
+index c739546e..8325707e 100644
+--- a/common/src/jni/main/cpp/conscrypt/native_crypto.cc
++++ b/common/src/jni/main/cpp/conscrypt/native_crypto.cc
+@@ -10078,7 +10078,7 @@ static jlong NativeCrypto_SSL_get1_session(JNIEnv* env, jclass, jlong ssl_addres
+ #define REF_X509_CRL "L" TO_STRING(JNI_JARJAR_PREFIX) "org/conscrypt/OpenSSLX509CRL;"
+ #define REF_SSL "L" TO_STRING(JNI_JARJAR_PREFIX) "org/conscrypt/NativeSsl;"
+ #define REF_SSL_CTX "L" TO_STRING(JNI_JARJAR_PREFIX) "org/conscrypt/AbstractSessionContext;"
+-static JNINativeMethod sNativeCryptoMethods[] = {
++static const JNINativeMethod sNativeCryptoMethods[] = {
+         CONSCRYPT_NATIVE_METHOD(clinit, "()V"),
+         CONSCRYPT_NATIVE_METHOD(EVP_PKEY_new_RSA, "([B[B[B[B[B[B[B[B)J"),
+         CONSCRYPT_NATIVE_METHOD(EVP_PKEY_new_EC_KEY, "(" REF_EC_GROUP REF_EC_POINT "[B)J"),

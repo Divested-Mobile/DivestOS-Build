@@ -1,0 +1,217 @@
+From a48ba29b986ad67a5388f4a053080263ac4a438b Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sun, 17 Mar 2019 21:19:00 -0400
+Subject: [PATCH] constify JNINativeMethod tables
+
+---
+ jni/com_android_bluetooth_a2dp.cpp                     | 2 +-
+ jni/com_android_bluetooth_a2dp_sink.cpp                | 2 +-
+ jni/com_android_bluetooth_avrcp_controller.cpp         | 2 +-
+ jni/com_android_bluetooth_avrcp_target.cpp             | 2 +-
+ jni/com_android_bluetooth_btservice_AdapterService.cpp | 2 +-
+ jni/com_android_bluetooth_gatt.cpp                     | 8 ++++----
+ jni/com_android_bluetooth_hearing_aid.cpp              | 2 +-
+ jni/com_android_bluetooth_hfp.cpp                      | 2 +-
+ jni/com_android_bluetooth_hfpclient.cpp                | 2 +-
+ jni/com_android_bluetooth_hid_device.cpp               | 2 +-
+ jni/com_android_bluetooth_hid_host.cpp                 | 2 +-
+ jni/com_android_bluetooth_pan.cpp                      | 2 +-
+ jni/com_android_bluetooth_sdp.cpp                      | 2 +-
+ 13 files changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/jni/com_android_bluetooth_a2dp.cpp b/jni/com_android_bluetooth_a2dp.cpp
+index af125bda7..9d1426378 100644
+--- a/jni/com_android_bluetooth_a2dp.cpp
++++ b/jni/com_android_bluetooth_a2dp.cpp
+@@ -473,7 +473,7 @@ static jboolean setCodecConfigPreferenceNative(JNIEnv* env, jobject object,
+   return (status == BT_STATUS_SUCCESS) ? JNI_TRUE : JNI_FALSE;
+ }
+ 
+-static JNINativeMethod sMethods[] = {
++static const JNINativeMethod sMethods[] = {
+     {"classInitNative", "()V", (void*)classInitNative},
+     {"initNative", "(I[Landroid/bluetooth/BluetoothCodecConfig;)V",
+      (void*)initNative},
+diff --git a/jni/com_android_bluetooth_a2dp_sink.cpp b/jni/com_android_bluetooth_a2dp_sink.cpp
+index 91de5af07..3bb20e3ae 100644
+--- a/jni/com_android_bluetooth_a2dp_sink.cpp
++++ b/jni/com_android_bluetooth_a2dp_sink.cpp
+@@ -219,7 +219,7 @@ static void informAudioTrackGainNative(JNIEnv* env, jobject object,
+   sBluetoothA2dpInterface->set_audio_track_gain((float)gain);
+ }
+ 
+-static JNINativeMethod sMethods[] = {
++static const JNINativeMethod sMethods[] = {
+     {"classInitNative", "()V", (void*)classInitNative},
+     {"initNative", "()V", (void*)initNative},
+     {"cleanupNative", "()V", (void*)cleanupNative},
+diff --git a/jni/com_android_bluetooth_avrcp_controller.cpp b/jni/com_android_bluetooth_avrcp_controller.cpp
+index 2d9e87bcb..5703a8bfb 100644
+--- a/jni/com_android_bluetooth_avrcp_controller.cpp
++++ b/jni/com_android_bluetooth_avrcp_controller.cpp
+@@ -1206,7 +1206,7 @@ static void playItemNative(JNIEnv* env, jobject object, jbyteArray address,
+   env->ReleaseByteArrayElements(address, addr, 0);
+ }
+ 
+-static JNINativeMethod sMethods[] = {
++static const JNINativeMethod sMethods[] = {
+     {"classInitNative", "()V", (void*)classInitNative},
+     {"initNative", "()V", (void*)initNative},
+     {"cleanupNative", "()V", (void*)cleanupNative},
+diff --git a/jni/com_android_bluetooth_avrcp_target.cpp b/jni/com_android_bluetooth_avrcp_target.cpp
+index 214feebcb..9bd85aa13 100644
+--- a/jni/com_android_bluetooth_avrcp_target.cpp
++++ b/jni/com_android_bluetooth_avrcp_target.cpp
+@@ -801,7 +801,7 @@ static void setVolume(int8_t volume) {
+   sCallbackEnv->CallVoidMethod(mJavaInterface, method_setVolume, volume);
+ }
+ 
+-static JNINativeMethod sMethods[] = {
++static const JNINativeMethod sMethods[] = {
+     {"classInitNative", "()V", (void*)classInitNative},
+     {"initNative", "()V", (void*)initNative},
+     {"sendMediaUpdateNative", "(ZZZ)V", (void*)sendMediaUpdateNative},
+diff --git a/jni/com_android_bluetooth_btservice_AdapterService.cpp b/jni/com_android_bluetooth_btservice_AdapterService.cpp
+index 06914e1e7..93d87afcc 100644
+--- a/jni/com_android_bluetooth_btservice_AdapterService.cpp
++++ b/jni/com_android_bluetooth_btservice_AdapterService.cpp
+@@ -1237,7 +1237,7 @@ static jbyteArray obfuscateAddressNative(JNIEnv* env, jobject obj,
+   return output_bytes;
+ }
+ 
+-static JNINativeMethod sMethods[] = {
++static const JNINativeMethod sMethods[] = {
+     /* name, signature, funcPtr */
+     {"classInitNative", "()V", (void*)classInitNative},
+     {"initNative", "(ZZ)Z", (void*)initNative},
+diff --git a/jni/com_android_bluetooth_gatt.cpp b/jni/com_android_bluetooth_gatt.cpp
+index 452151547..3bf3201fc 100644
+--- a/jni/com_android_bluetooth_gatt.cpp
++++ b/jni/com_android_bluetooth_gatt.cpp
+@@ -2065,7 +2065,7 @@ static void gattTestNative(JNIEnv* env, jobject object, jint command,
+  */
+ 
+ // JNI functions defined in AdvertiseManager class.
+-static JNINativeMethod sAdvertiseMethods[] = {
++static const JNINativeMethod sAdvertiseMethods[] = {
+     {"classInitNative", "()V", (void*)advertiseClassInitNative},
+     {"initializeNative", "()V", (void*)advertiseInitializeNative},
+     {"cleanupNative", "()V", (void*)advertiseCleanupNative},
+@@ -2092,7 +2092,7 @@ static JNINativeMethod sAdvertiseMethods[] = {
+ };
+ 
+ // JNI functions defined in PeriodicScanManager class.
+-static JNINativeMethod sPeriodicScanMethods[] = {
++static const JNINativeMethod sPeriodicScanMethods[] = {
+     {"classInitNative", "()V", (void*)periodicScanClassInitNative},
+     {"initializeNative", "()V", (void*)periodicScanInitializeNative},
+     {"cleanupNative", "()V", (void*)periodicScanCleanupNative},
+@@ -2101,7 +2101,7 @@ static JNINativeMethod sPeriodicScanMethods[] = {
+ };
+ 
+ // JNI functions defined in ScanManager class.
+-static JNINativeMethod sScanMethods[] = {
++static const JNINativeMethod sScanMethods[] = {
+     {"registerScannerNative", "(JJ)V", (void*)registerScannerNative},
+     {"unregisterScannerNative", "(I)V", (void*)unregisterScannerNative},
+     {"gattClientScanNative", "(Z)V", (void*)gattClientScanNative},
+@@ -2134,7 +2134,7 @@ static JNINativeMethod sScanMethods[] = {
+ };
+ 
+ // JNI functions defined in GattService class.
+-static JNINativeMethod sMethods[] = {
++static const JNINativeMethod sMethods[] = {
+     {"classInitNative", "()V", (void*)classInitNative},
+     {"initializeNative", "()V", (void*)initializeNative},
+     {"cleanupNative", "()V", (void*)cleanupNative},
+diff --git a/jni/com_android_bluetooth_hearing_aid.cpp b/jni/com_android_bluetooth_hearing_aid.cpp
+index f93a42a76..78dc96863 100644
+--- a/jni/com_android_bluetooth_hearing_aid.cpp
++++ b/jni/com_android_bluetooth_hearing_aid.cpp
+@@ -219,7 +219,7 @@ static void setVolumeNative(JNIEnv* env, jclass clazz, jint volume) {
+   sHearingAidInterface->SetVolume(volume);
+ }
+ 
+-static JNINativeMethod sMethods[] = {
++static const JNINativeMethod sMethods[] = {
+     {"classInitNative", "()V", (void*)classInitNative},
+     {"initNative", "()V", (void*)initNative},
+     {"cleanupNative", "()V", (void*)cleanupNative},
+diff --git a/jni/com_android_bluetooth_hfp.cpp b/jni/com_android_bluetooth_hfp.cpp
+index 16bf961cf..50b38ff90 100644
+--- a/jni/com_android_bluetooth_hfp.cpp
++++ b/jni/com_android_bluetooth_hfp.cpp
+@@ -917,7 +917,7 @@ static jboolean setActiveDeviceNative(JNIEnv* env, jobject object,
+   return (status == BT_STATUS_SUCCESS) ? JNI_TRUE : JNI_FALSE;
+ }
+ 
+-static JNINativeMethod sMethods[] = {
++static const JNINativeMethod sMethods[] = {
+     {"classInitNative", "()V", (void*)classInitNative},
+     {"initializeNative", "(IZ)V", (void*)initializeNative},
+     {"cleanupNative", "()V", (void*)cleanupNative},
+diff --git a/jni/com_android_bluetooth_hfpclient.cpp b/jni/com_android_bluetooth_hfpclient.cpp
+index f3adba21f..27d075dd5 100644
+--- a/jni/com_android_bluetooth_hfpclient.cpp
++++ b/jni/com_android_bluetooth_hfpclient.cpp
+@@ -819,7 +819,7 @@ static jboolean sendATCmdNative(JNIEnv* env, jobject object, jbyteArray address,
+   return (status == BT_STATUS_SUCCESS) ? JNI_TRUE : JNI_FALSE;
+ }
+ 
+-static JNINativeMethod sMethods[] = {
++static const JNINativeMethod sMethods[] = {
+     {"classInitNative", "()V", (void*)classInitNative},
+     {"initializeNative", "()V", (void*)initializeNative},
+     {"cleanupNative", "()V", (void*)cleanupNative},
+diff --git a/jni/com_android_bluetooth_hid_device.cpp b/jni/com_android_bluetooth_hid_device.cpp
+index 403e90403..0b792c974 100644
+--- a/jni/com_android_bluetooth_hid_device.cpp
++++ b/jni/com_android_bluetooth_hid_device.cpp
+@@ -498,7 +498,7 @@ static jboolean disconnectNative(JNIEnv* env, jobject thiz) {
+   return result;
+ }
+ 
+-static JNINativeMethod sMethods[] = {
++static const JNINativeMethod sMethods[] = {
+     {"classInitNative", "()V", (void*)classInitNative},
+     {"initNative", "()V", (void*)initNative},
+     {"cleanupNative", "()V", (void*)cleanupNative},
+diff --git a/jni/com_android_bluetooth_hid_host.cpp b/jni/com_android_bluetooth_hid_host.cpp
+index 7838ff6ce..9b233c654 100644
+--- a/jni/com_android_bluetooth_hid_host.cpp
++++ b/jni/com_android_bluetooth_hid_host.cpp
+@@ -498,7 +498,7 @@ static jboolean setIdleTimeNative(JNIEnv* env, jobject object,
+   return status == BT_STATUS_SUCCESS ? JNI_TRUE : JNI_FALSE;
+ }
+ 
+-static JNINativeMethod sMethods[] = {
++static const JNINativeMethod sMethods[] = {
+     {"classInitNative", "()V", (void*)classInitNative},
+     {"initializeNative", "()V", (void*)initializeNative},
+     {"cleanupNative", "()V", (void*)cleanupNative},
+diff --git a/jni/com_android_bluetooth_pan.cpp b/jni/com_android_bluetooth_pan.cpp
+index 85107a003..1857ff88d 100644
+--- a/jni/com_android_bluetooth_pan.cpp
++++ b/jni/com_android_bluetooth_pan.cpp
+@@ -231,7 +231,7 @@ static jboolean disconnectPanNative(JNIEnv* env, jobject object,
+   return ret;
+ }
+ 
+-static JNINativeMethod sMethods[] = {
++static const JNINativeMethod sMethods[] = {
+     {"classInitNative", "()V", (void*)classInitNative},
+     {"initializeNative", "()V", (void*)initializeNative},
+     {"cleanupNative", "()V", (void*)cleanupNative},
+diff --git a/jni/com_android_bluetooth_sdp.cpp b/jni/com_android_bluetooth_sdp.cpp
+index 827db71e9..879de1725 100644
+--- a/jni/com_android_bluetooth_sdp.cpp
++++ b/jni/com_android_bluetooth_sdp.cpp
+@@ -495,7 +495,7 @@ static void cleanupNative(JNIEnv* env, jobject object) {
+   }
+ }
+ 
+-static JNINativeMethod sMethods[] = {
++static const JNINativeMethod sMethods[] = {
+     /* name, signature, funcPtr */
+     {"classInitNative", "()V", (void*)classInitNative},
+     {"initializeNative", "()V", (void*)initializeNative},

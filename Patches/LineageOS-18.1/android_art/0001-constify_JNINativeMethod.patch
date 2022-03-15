@@ -1,0 +1,483 @@
+From c99c35cb2a323896d64708fcae5d01f83f937d1e Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 9 Sep 2020 12:28:42 -0400
+Subject: [PATCH] constify JNINativeMethod tables
+
+---
+ benchmark/micro-native/micro_native.cc                    | 8 ++++----
+ runtime/native/dalvik_system_BaseDexClassLoader.cc        | 2 +-
+ runtime/native/dalvik_system_DexFile.cc                   | 2 +-
+ runtime/native/dalvik_system_VMDebug.cc                   | 2 +-
+ runtime/native/dalvik_system_VMRuntime.cc                 | 2 +-
+ runtime/native/dalvik_system_VMStack.cc                   | 2 +-
+ runtime/native/dalvik_system_ZygoteHooks.cc               | 2 +-
+ runtime/native/java_lang_Class.cc                         | 2 +-
+ runtime/native/java_lang_Object.cc                        | 2 +-
+ runtime/native/java_lang_String.cc                        | 2 +-
+ runtime/native/java_lang_StringFactory.cc                 | 2 +-
+ runtime/native/java_lang_System.cc                        | 2 +-
+ runtime/native/java_lang_Thread.cc                        | 2 +-
+ runtime/native/java_lang_Throwable.cc                     | 2 +-
+ runtime/native/java_lang_VMClassLoader.cc                 | 2 +-
+ runtime/native/java_lang_invoke_MethodHandleImpl.cc       | 2 +-
+ runtime/native/java_lang_ref_FinalizerReference.cc        | 2 +-
+ runtime/native/java_lang_ref_Reference.cc                 | 2 +-
+ runtime/native/java_lang_reflect_Array.cc                 | 2 +-
+ runtime/native/java_lang_reflect_Constructor.cc           | 2 +-
+ runtime/native/java_lang_reflect_Executable.cc            | 2 +-
+ runtime/native/java_lang_reflect_Field.cc                 | 2 +-
+ runtime/native/java_lang_reflect_Method.cc                | 2 +-
+ runtime/native/java_lang_reflect_Parameter.cc             | 2 +-
+ runtime/native/java_lang_reflect_Proxy.cc                 | 2 +-
+ runtime/native/java_util_concurrent_atomic_AtomicLong.cc  | 2 +-
+ runtime/native/libcore_util_CharsetUtils.cc               | 2 +-
+ .../native/org_apache_harmony_dalvik_ddmc_DdmServer.cc    | 2 +-
+ .../org_apache_harmony_dalvik_ddmc_DdmVmInternal.cc       | 2 +-
+ runtime/native/sun_misc_Unsafe.cc                         | 2 +-
+ test/004-JniTest/jni_test.cc                              | 2 +-
+ test/139-register-natives/regnative.cc                    | 2 +-
+ 32 files changed, 35 insertions(+), 35 deletions(-)
+
+diff --git a/benchmark/micro-native/micro_native.cc b/benchmark/micro-native/micro_native.cc
+index dffbf3b11d..e70366cc48 100644
+--- a/benchmark/micro-native/micro_native.cc
++++ b/benchmark/micro-native/micro_native.cc
+@@ -38,7 +38,7 @@
+ static void NativeMethods_emptyJniStaticSynchronizedMethod0(JNIEnv*, jclass) { }
+ static void NativeMethods_emptyJniSynchronizedMethod0(JNIEnv*, jclass) { }
+ 
+-static JNINativeMethod gMethods_NormalOnly[] = {
++static const JNINativeMethod gMethods_NormalOnly[] = {
+   NATIVE_METHOD(NativeMethods, emptyJniStaticSynchronizedMethod0, "()V"),
+   NATIVE_METHOD(NativeMethods, emptyJniSynchronizedMethod0, "()V"),
+ };
+@@ -53,7 +53,7 @@ static void NativeMethods_emptyJniStaticMethod6L(JNIEnv*, jclass, jobject, jarra
+ static void NativeMethods_emptyJniStaticMethod0(JNIEnv*, jclass) { }
+ static void NativeMethods_emptyJniStaticMethod6(JNIEnv*, jclass, int, int, int, int, int, int) { }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   NATIVE_METHOD(NativeMethods, emptyJniMethod0, "()V"),
+   NATIVE_METHOD(NativeMethods, emptyJniMethod6, "(IIIIII)V"),
+   NATIVE_METHOD(NativeMethods, emptyJniMethod6L, "(Ljava/lang/String;[Ljava/lang/String;[[ILjava/lang/Object;[Ljava/lang/Object;[[[[Ljava/lang/Object;)V"),
+@@ -72,7 +72,7 @@ static void NativeMethods_emptyJniStaticMethod6L_Fast(JNIEnv*, jclass, jobject,
+ static void NativeMethods_emptyJniStaticMethod0_Fast(JNIEnv*, jclass) { }
+ static void NativeMethods_emptyJniStaticMethod6_Fast(JNIEnv*, jclass, int, int, int, int, int, int) { }
+ 
+-static JNINativeMethod gMethods_Fast[] = {
++static const JNINativeMethod gMethods_Fast[] = {
+   NATIVE_METHOD(NativeMethods, emptyJniMethod0_Fast, "()V"),
+   NATIVE_METHOD(NativeMethods, emptyJniMethod6_Fast, "(IIIIII)V"),
+   NATIVE_METHOD(NativeMethods, emptyJniMethod6L_Fast, "(Ljava/lang/String;[Ljava/lang/String;[[ILjava/lang/Object;[Ljava/lang/Object;[[[[Ljava/lang/Object;)V"),
+@@ -88,7 +88,7 @@ DEFINE_CRITICAL_JNI_METHOD(void, emptyJniStaticMethod0_1Critical)() { }
+ DEFINE_NORMAL_JNI_METHOD(void,   emptyJniStaticMethod6_1Critical)(JNIEnv*, jclass, int, int, int, int, int, int) { }
+ DEFINE_CRITICAL_JNI_METHOD(void, emptyJniStaticMethod6_1Critical)(int, int, int, int, int, int) { }
+ 
+-static JNINativeMethod gMethods_Critical[] = {
++static const JNINativeMethod gMethods_Critical[] = {
+   // Don't use NATIVE_METHOD because the name is mangled differently.
+   { "emptyJniStaticMethod0_Critical", "()V",
+         reinterpret_cast<void*>(NAME_CRITICAL_JNI_METHOD(emptyJniStaticMethod0_1Critical)) },
+diff --git a/runtime/native/dalvik_system_BaseDexClassLoader.cc b/runtime/native/dalvik_system_BaseDexClassLoader.cc
+index 607395d308..f3d84e57a8 100644
+--- a/runtime/native/dalvik_system_BaseDexClassLoader.cc
++++ b/runtime/native/dalvik_system_BaseDexClassLoader.cc
+@@ -58,7 +58,7 @@ static jobjectArray BaseDexClassLoader_computeClassLoaderContextsNative(JNIEnv*
+   return result;
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   NATIVE_METHOD(BaseDexClassLoader, computeClassLoaderContextsNative,
+                 "()[Ljava/lang/String;"),
+ };
+diff --git a/runtime/native/dalvik_system_DexFile.cc b/runtime/native/dalvik_system_DexFile.cc
+index d2b5edf333..cfeb9b62e5 100644
+--- a/runtime/native/dalvik_system_DexFile.cc
++++ b/runtime/native/dalvik_system_DexFile.cc
+@@ -900,7 +900,7 @@ static void DexFile_setTrusted(JNIEnv* env, jclass, jobject j_cookie) {
+   }
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   NATIVE_METHOD(DexFile, closeDexFile, "(Ljava/lang/Object;)Z"),
+   NATIVE_METHOD(DexFile,
+                 defineClassNative,
+diff --git a/runtime/native/dalvik_system_VMDebug.cc b/runtime/native/dalvik_system_VMDebug.cc
+index de43c4f384..df7e2ddbcf 100644
+--- a/runtime/native/dalvik_system_VMDebug.cc
++++ b/runtime/native/dalvik_system_VMDebug.cc
+@@ -627,7 +627,7 @@ static void VMDebug_setAllocTrackerStackDepth(JNIEnv* env, jclass, jint stack_de
+   }
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   NATIVE_METHOD(VMDebug, countInstancesOfClass, "(Ljava/lang/Class;Z)J"),
+   NATIVE_METHOD(VMDebug, countInstancesOfClasses, "([Ljava/lang/Class;Z)[J"),
+   NATIVE_METHOD(VMDebug, crash, "()V"),
+diff --git a/runtime/native/dalvik_system_VMRuntime.cc b/runtime/native/dalvik_system_VMRuntime.cc
+index efaa3d938a..39757f8dc2 100644
+--- a/runtime/native/dalvik_system_VMRuntime.cc
++++ b/runtime/native/dalvik_system_VMRuntime.cc
+@@ -775,7 +775,7 @@ static jboolean VMRuntime_isValidClassLoaderContext(JNIEnv* env,
+   return ClassLoaderContext::IsValidEncoding(encoded_class_loader_context.c_str());
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(VMRuntime, addressOf, "(Ljava/lang/Object;)J"),
+   NATIVE_METHOD(VMRuntime, bootClassPath, "()Ljava/lang/String;"),
+   NATIVE_METHOD(VMRuntime, clampGrowthLimit, "()V"),
+diff --git a/runtime/native/dalvik_system_VMStack.cc b/runtime/native/dalvik_system_VMStack.cc
+index 32733a8409..33d352f572 100644
+--- a/runtime/native/dalvik_system_VMStack.cc
++++ b/runtime/native/dalvik_system_VMStack.cc
+@@ -169,7 +169,7 @@ static jobjectArray VMStack_getAnnotatedThreadStackTrace(JNIEnv* env, jclass, jo
+   return GetThreadStack(soa, javaThread, fn);
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(VMStack, fillStackTraceElements, "(Ljava/lang/Thread;[Ljava/lang/StackTraceElement;)I"),
+   FAST_NATIVE_METHOD(VMStack, getCallingClassLoader, "()Ljava/lang/ClassLoader;"),
+   FAST_NATIVE_METHOD(VMStack, getClosestUserClassLoader, "()Ljava/lang/ClassLoader;"),
+diff --git a/runtime/native/dalvik_system_ZygoteHooks.cc b/runtime/native/dalvik_system_ZygoteHooks.cc
+index c37b8bb51c..114d83842b 100644
+--- a/runtime/native/dalvik_system_ZygoteHooks.cc
++++ b/runtime/native/dalvik_system_ZygoteHooks.cc
+@@ -434,7 +434,7 @@ static void ZygoteHooks_stopZygoteNoThreadCreation(JNIEnv* env ATTRIBUTE_UNUSED,
+   Runtime::Current()->SetZygoteNoThreadSection(false);
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   NATIVE_METHOD(ZygoteHooks, nativePreFork, "()J"),
+   NATIVE_METHOD(ZygoteHooks, nativePostZygoteFork, "()V"),
+   NATIVE_METHOD(ZygoteHooks, nativePostForkSystemServer, "(I)V"),
+diff --git a/runtime/native/java_lang_Class.cc b/runtime/native/java_lang_Class.cc
+index 2c537c6626..297a8d09f5 100644
+--- a/runtime/native/java_lang_Class.cc
++++ b/runtime/native/java_lang_Class.cc
+@@ -979,7 +979,7 @@ static jobject Class_newInstance(JNIEnv* env, jobject javaThis) {
+   return soa.AddLocalReference<jobject>(receiver.Get());
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(Class, classForName,
+                 "(Ljava/lang/String;ZLjava/lang/ClassLoader;)Ljava/lang/Class;"),
+   FAST_NATIVE_METHOD(Class, getDeclaredAnnotation,
+diff --git a/runtime/native/java_lang_Object.cc b/runtime/native/java_lang_Object.cc
+index 8fc10d1114..8740755199 100644
+--- a/runtime/native/java_lang_Object.cc
++++ b/runtime/native/java_lang_Object.cc
+@@ -54,7 +54,7 @@ static jint Object_identityHashCodeNative(JNIEnv* env, jclass, jobject javaObjec
+   return static_cast<jint>(o->IdentityHashCode());
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(Object, internalClone, "()Ljava/lang/Object;"),
+   FAST_NATIVE_METHOD(Object, notify, "()V"),
+   FAST_NATIVE_METHOD(Object, notifyAll, "()V"),
+diff --git a/runtime/native/java_lang_String.cc b/runtime/native/java_lang_String.cc
+index 7c7c5537fb..53fbcccc9b 100644
+--- a/runtime/native/java_lang_String.cc
++++ b/runtime/native/java_lang_String.cc
+@@ -110,7 +110,7 @@ static jcharArray String_toCharArray(JNIEnv* env, jobject java_this) {
+   return soa.AddLocalReference<jcharArray>(mirror::String::ToCharArray(s, soa.Self()));
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(String, charAt, "(I)C"),
+   FAST_NATIVE_METHOD(String, compareTo, "(Ljava/lang/String;)I"),
+   FAST_NATIVE_METHOD(String, concat, "(Ljava/lang/String;)Ljava/lang/String;"),
+diff --git a/runtime/native/java_lang_StringFactory.cc b/runtime/native/java_lang_StringFactory.cc
+index 178d5dabbd..c993714818 100644
+--- a/runtime/native/java_lang_StringFactory.cc
++++ b/runtime/native/java_lang_StringFactory.cc
+@@ -89,7 +89,7 @@ static jstring StringFactory_newStringFromString(JNIEnv* env, jclass, jstring to
+   return soa.AddLocalReference<jstring>(result);
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(StringFactory, newStringFromBytes, "([BIII)Ljava/lang/String;"),
+   FAST_NATIVE_METHOD(StringFactory, newStringFromChars, "(II[C)Ljava/lang/String;"),
+   FAST_NATIVE_METHOD(StringFactory, newStringFromString, "(Ljava/lang/String;)Ljava/lang/String;"),
+diff --git a/runtime/native/java_lang_System.cc b/runtime/native/java_lang_System.cc
+index 63cbd2c815..e7b3894aad 100644
+--- a/runtime/native/java_lang_System.cc
++++ b/runtime/native/java_lang_System.cc
+@@ -239,7 +239,7 @@ static void System_arraycopyBooleanUnchecked(JNIEnv* env,
+       javaDst, dstPos, count);
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(System, arraycopy, "(Ljava/lang/Object;ILjava/lang/Object;II)V"),
+   FAST_NATIVE_METHOD(System, arraycopyCharUnchecked, "([CI[CII)V"),
+   FAST_NATIVE_METHOD(System, arraycopyByteUnchecked, "([BI[BII)V"),
+diff --git a/runtime/native/java_lang_Thread.cc b/runtime/native/java_lang_Thread.cc
+index 5f21998998..f18979740e 100644
+--- a/runtime/native/java_lang_Thread.cc
++++ b/runtime/native/java_lang_Thread.cc
+@@ -201,7 +201,7 @@ static void Thread_yield(JNIEnv*, jobject) {
+   sched_yield();
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(Thread, currentThread, "()Ljava/lang/Thread;"),
+   FAST_NATIVE_METHOD(Thread, interrupted, "()Z"),
+   FAST_NATIVE_METHOD(Thread, isInterrupted, "()Z"),
+diff --git a/runtime/native/java_lang_Throwable.cc b/runtime/native/java_lang_Throwable.cc
+index b5ef7d807b..7a6a44baa5 100644
+--- a/runtime/native/java_lang_Throwable.cc
++++ b/runtime/native/java_lang_Throwable.cc
+@@ -38,7 +38,7 @@ static jobjectArray Throwable_nativeGetStackTrace(JNIEnv* env, jclass, jobject j
+   return Thread::InternalStackTraceToStackTraceElementArray(soa, javaStackState);
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(Throwable, nativeFillInStackTrace, "()Ljava/lang/Object;"),
+   FAST_NATIVE_METHOD(Throwable, nativeGetStackTrace, "(Ljava/lang/Object;)[Ljava/lang/StackTraceElement;"),
+ };
+diff --git a/runtime/native/java_lang_VMClassLoader.cc b/runtime/native/java_lang_VMClassLoader.cc
+index 11e02a2ce4..ce37a33086 100644
+--- a/runtime/native/java_lang_VMClassLoader.cc
++++ b/runtime/native/java_lang_VMClassLoader.cc
+@@ -155,7 +155,7 @@ static jobjectArray VMClassLoader_getBootClassPathEntries(JNIEnv* env, jclass) {
+   return array;
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(VMClassLoader, findLoadedClass, "(Ljava/lang/ClassLoader;Ljava/lang/String;)Ljava/lang/Class;"),
+   NATIVE_METHOD(VMClassLoader, getBootClassPathEntries, "()[Ljava/lang/String;"),
+ };
+diff --git a/runtime/native/java_lang_invoke_MethodHandleImpl.cc b/runtime/native/java_lang_invoke_MethodHandleImpl.cc
+index 0b26bd7c4a..6662fe49a2 100644
+--- a/runtime/native/java_lang_invoke_MethodHandleImpl.cc
++++ b/runtime/native/java_lang_invoke_MethodHandleImpl.cc
+@@ -68,7 +68,7 @@ static jobject MethodHandleImpl_getMemberInternal(JNIEnv* env, jobject thiz) {
+   return soa.AddLocalReference<jobject>(h_object.Get());
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   NATIVE_METHOD(MethodHandleImpl, getMemberInternal, "()Ljava/lang/reflect/Member;"),
+ };
+ 
+diff --git a/runtime/native/java_lang_ref_FinalizerReference.cc b/runtime/native/java_lang_ref_FinalizerReference.cc
+index 535b243411..0a8dfb6c09 100644
+--- a/runtime/native/java_lang_ref_FinalizerReference.cc
++++ b/runtime/native/java_lang_ref_FinalizerReference.cc
+@@ -42,7 +42,7 @@ static jobject FinalizerReference_getReferent(JNIEnv* env, jobject javaThis) {
+   return soa.AddLocalReference<jobject>(referent);
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(FinalizerReference, makeCircularListIfUnenqueued, "()Z"),
+   FAST_NATIVE_METHOD(FinalizerReference, getReferent, "()Ljava/lang/Object;"),
+ };
+diff --git a/runtime/native/java_lang_ref_Reference.cc b/runtime/native/java_lang_ref_Reference.cc
+index b241b1de25..89a381878c 100644
+--- a/runtime/native/java_lang_ref_Reference.cc
++++ b/runtime/native/java_lang_ref_Reference.cc
+@@ -42,7 +42,7 @@ static void Reference_clearReferent(JNIEnv* env, jobject javaThis) {
+   Runtime::Current()->GetHeap()->GetReferenceProcessor()->ClearReferent(ref);
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(Reference, getReferent, "()Ljava/lang/Object;"),
+   FAST_NATIVE_METHOD(Reference, clearReferent, "()V"),
+ };
+diff --git a/runtime/native/java_lang_reflect_Array.cc b/runtime/native/java_lang_reflect_Array.cc
+index ff94593cdf..e359e7d8a8 100644
+--- a/runtime/native/java_lang_reflect_Array.cc
++++ b/runtime/native/java_lang_reflect_Array.cc
+@@ -74,7 +74,7 @@ static jobject Array_createObjectArray(JNIEnv* env, jclass, jclass javaElementCl
+   return soa.AddLocalReference<jobject>(new_array);
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(Array, createMultiArray, "(Ljava/lang/Class;[I)Ljava/lang/Object;"),
+   FAST_NATIVE_METHOD(Array, createObjectArray, "(Ljava/lang/Class;I)Ljava/lang/Object;"),
+ };
+diff --git a/runtime/native/java_lang_reflect_Constructor.cc b/runtime/native/java_lang_reflect_Constructor.cc
+index f9cdc360bc..bc8c38d246 100644
+--- a/runtime/native/java_lang_reflect_Constructor.cc
++++ b/runtime/native/java_lang_reflect_Constructor.cc
+@@ -128,7 +128,7 @@ static jobject Constructor_newInstanceFromSerialization(JNIEnv* env, jclass unus
+     return env->NewObject(allocClass, ctor);
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(Constructor, getExceptionTypes, "()[Ljava/lang/Class;"),
+   FAST_NATIVE_METHOD(Constructor, newInstance0, "([Ljava/lang/Object;)Ljava/lang/Object;"),
+   FAST_NATIVE_METHOD(Constructor, newInstanceFromSerialization, "(Ljava/lang/Class;Ljava/lang/Class;)Ljava/lang/Object;"),
+diff --git a/runtime/native/java_lang_reflect_Executable.cc b/runtime/native/java_lang_reflect_Executable.cc
+index 2ce56b5153..4ba93e3dde 100644
+--- a/runtime/native/java_lang_reflect_Executable.cc
++++ b/runtime/native/java_lang_reflect_Executable.cc
+@@ -383,7 +383,7 @@ static jint Executable_getParameterCountInternal(JNIEnv* env, jobject javaMethod
+ }
+ 
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(Executable, compareMethodParametersInternal,
+                      "(Ljava/lang/reflect/Method;)I"),
+   FAST_NATIVE_METHOD(Executable, getAnnotationNative,
+diff --git a/runtime/native/java_lang_reflect_Field.cc b/runtime/native/java_lang_reflect_Field.cc
+index 42b6c2244f..0bd2344c03 100644
+--- a/runtime/native/java_lang_reflect_Field.cc
++++ b/runtime/native/java_lang_reflect_Field.cc
+@@ -507,7 +507,7 @@ static jboolean Field_isAnnotationPresentNative(JNIEnv* env,
+   return annotations::IsFieldAnnotationPresent(field, klass);
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(Field, get,        "(Ljava/lang/Object;)Ljava/lang/Object;"),
+   FAST_NATIVE_METHOD(Field, getBoolean, "(Ljava/lang/Object;)Z"),
+   FAST_NATIVE_METHOD(Field, getByte,    "(Ljava/lang/Object;)B"),
+diff --git a/runtime/native/java_lang_reflect_Method.cc b/runtime/native/java_lang_reflect_Method.cc
+index 0d9a2570b4..cddfd4ff6a 100644
+--- a/runtime/native/java_lang_reflect_Method.cc
++++ b/runtime/native/java_lang_reflect_Method.cc
+@@ -86,7 +86,7 @@ static jobject Method_invoke(JNIEnv* env, jobject javaMethod, jobject javaReceiv
+   return InvokeMethod(soa, javaMethod, javaReceiver, javaArgs);
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(Method, getDefaultValue, "()Ljava/lang/Object;"),
+   FAST_NATIVE_METHOD(Method, getExceptionTypes, "()[Ljava/lang/Class;"),
+   FAST_NATIVE_METHOD(Method, invoke, "(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;"),
+diff --git a/runtime/native/java_lang_reflect_Parameter.cc b/runtime/native/java_lang_reflect_Parameter.cc
+index 263a56796f..92bf9078a4 100644
+--- a/runtime/native/java_lang_reflect_Parameter.cc
++++ b/runtime/native/java_lang_reflect_Parameter.cc
+@@ -98,7 +98,7 @@ static jobject Parameter_getAnnotationNative(JNIEnv* env,
+       annotations::GetAnnotationForMethodParameter(method, parameterIndex, klass));
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(
+       Parameter,
+       getAnnotationNative,
+diff --git a/runtime/native/java_lang_reflect_Proxy.cc b/runtime/native/java_lang_reflect_Proxy.cc
+index f723ed223d..c2b533de5d 100644
+--- a/runtime/native/java_lang_reflect_Proxy.cc
++++ b/runtime/native/java_lang_reflect_Proxy.cc
+@@ -37,7 +37,7 @@ static jclass Proxy_generateProxy(JNIEnv* env, jclass, jstring name, jobjectArra
+       soa, name, interfaces, loader, methods, throws));
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(Proxy, generateProxy, "(Ljava/lang/String;[Ljava/lang/Class;Ljava/lang/ClassLoader;[Ljava/lang/reflect/Method;[[Ljava/lang/Class;)Ljava/lang/Class;"),
+ };
+ 
+diff --git a/runtime/native/java_util_concurrent_atomic_AtomicLong.cc b/runtime/native/java_util_concurrent_atomic_AtomicLong.cc
+index fa288edcb8..299ac5a61d 100644
+--- a/runtime/native/java_util_concurrent_atomic_AtomicLong.cc
++++ b/runtime/native/java_util_concurrent_atomic_AtomicLong.cc
+@@ -30,7 +30,7 @@ static jboolean AtomicLong_VMSupportsCS8(JNIEnv*, jclass) {
+   return QuasiAtomic::LongAtomicsUseMutexes(kRuntimeISA) ? JNI_FALSE : JNI_TRUE;
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   NATIVE_METHOD(AtomicLong, VMSupportsCS8, "()Z"),
+ };
+ 
+diff --git a/runtime/native/libcore_util_CharsetUtils.cc b/runtime/native/libcore_util_CharsetUtils.cc
+index 95e0d79cd9..b86bda4672 100644
+--- a/runtime/native/libcore_util_CharsetUtils.cc
++++ b/runtime/native/libcore_util_CharsetUtils.cc
+@@ -252,7 +252,7 @@ static jbyteArray CharsetUtils_toUtf8Bytes(JNIEnv* env, jclass, jstring java_str
+   return out.toByteArray();
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(CharsetUtils, asciiBytesToChars, "([BII[C)V"),
+   FAST_NATIVE_METHOD(CharsetUtils, isoLatin1BytesToChars, "([BII[C)V"),
+   FAST_NATIVE_METHOD(CharsetUtils, toAsciiBytes, "(Ljava/lang/String;II)[B"),
+diff --git a/runtime/native/org_apache_harmony_dalvik_ddmc_DdmServer.cc b/runtime/native/org_apache_harmony_dalvik_ddmc_DdmServer.cc
+index 419aed8578..ccbef4f3f4 100644
+--- a/runtime/native/org_apache_harmony_dalvik_ddmc_DdmServer.cc
++++ b/runtime/native/org_apache_harmony_dalvik_ddmc_DdmServer.cc
+@@ -38,7 +38,7 @@ static void DdmServer_nativeSendChunk(JNIEnv* env, jclass, jint type,
+   Runtime::Current()->GetRuntimeCallbacks()->DdmPublishChunk(static_cast<uint32_t>(type), chunk);
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(DdmServer, nativeSendChunk, "(I[BII)V"),
+ };
+ 
+diff --git a/runtime/native/org_apache_harmony_dalvik_ddmc_DdmVmInternal.cc b/runtime/native/org_apache_harmony_dalvik_ddmc_DdmVmInternal.cc
+index d405735f19..1c92bc75db 100644
+--- a/runtime/native/org_apache_harmony_dalvik_ddmc_DdmVmInternal.cc
++++ b/runtime/native/org_apache_harmony_dalvik_ddmc_DdmVmInternal.cc
+@@ -227,7 +227,7 @@ static void DdmVmInternal_threadNotify(JNIEnv*, jclass, jboolean enable) {
+   Dbg::DdmSetThreadNotification(enable);
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   NATIVE_METHOD(DdmVmInternal, enableRecentAllocations, "(Z)V"),
+   FAST_NATIVE_METHOD(DdmVmInternal, getRecentAllocations, "()[B"),
+   FAST_NATIVE_METHOD(DdmVmInternal, getRecentAllocationStatus, "()Z"),
+diff --git a/runtime/native/sun_misc_Unsafe.cc b/runtime/native/sun_misc_Unsafe.cc
+index 5014f340cd..bb9226d1fa 100644
+--- a/runtime/native/sun_misc_Unsafe.cc
++++ b/runtime/native/sun_misc_Unsafe.cc
+@@ -541,7 +541,7 @@ static void Unsafe_unpark(JNIEnv* env, jobject, jobject jthread) {
+   }
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   FAST_NATIVE_METHOD(Unsafe, compareAndSwapInt, "(Ljava/lang/Object;JII)Z"),
+   FAST_NATIVE_METHOD(Unsafe, compareAndSwapLong, "(Ljava/lang/Object;JJJ)Z"),
+   FAST_NATIVE_METHOD(Unsafe, compareAndSwapObject, "(Ljava/lang/Object;JLjava/lang/Object;Ljava/lang/Object;)Z"),
+diff --git a/test/004-JniTest/jni_test.cc b/test/004-JniTest/jni_test.cc
+index 540e6ce357..405ccd45c1 100644
+--- a/test/004-JniTest/jni_test.cc
++++ b/test/004-JniTest/jni_test.cc
+@@ -33,7 +33,7 @@ static JavaVM* jvm = nullptr;
+ static jint Java_Main_intFastNativeMethod(JNIEnv*, jclass, jint a, jint b, jint c);
+ static jint Java_Main_intCriticalNativeMethod(jint a, jint b, jint c);
+ 
+-static JNINativeMethod sMainMethods[] = {
++static const JNINativeMethod sMainMethods[] = {
+   {"intFastNativeMethod", "(III)I", reinterpret_cast<void*>(Java_Main_intFastNativeMethod) },
+   {"intCriticalNativeMethod", "(III)I", reinterpret_cast<void*>(Java_Main_intCriticalNativeMethod) },
+ };
+diff --git a/test/139-register-natives/regnative.cc b/test/139-register-natives/regnative.cc
+index d9c8b31ac7..083c14c1ec 100644
+--- a/test/139-register-natives/regnative.cc
++++ b/test/139-register-natives/regnative.cc
+@@ -22,7 +22,7 @@ namespace art {
+ static void foo(JNIEnv*, jclass) {
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+     { "foo", "()V", reinterpret_cast<void*>(foo) }
+ };
+ 

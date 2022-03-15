@@ -1,0 +1,199 @@
+From 07071814db0786252ddcb6149c61ea78be22f858 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sun, 17 Mar 2019 20:12:52 -0400
+Subject: [PATCH] constify JNINativeMethod tables
+
+---
+ cmds/hid/jni/com_android_commands_hid_Device.cpp           | 2 +-
+ core/jni/android_app_ActivityThread.cpp                    | 2 +-
+ core/jni/android_os_HwBinder.cpp                           | 2 +-
+ core/jni/android_os_HwBlob.cpp                             | 2 +-
+ core/jni/android_os_HwParcel.cpp                           | 2 +-
+ core/jni/android_os_HwRemoteBinder.cpp                     | 2 +-
+ core/jni/android_util_jar_StrictJarFile.cpp                | 2 +-
+ core/jni/android_view_DisplayListCanvas.cpp                | 2 +-
+ media/jni/android_media_ImageWriter.cpp                    | 4 ++--
+ media/jni/android_media_MediaSync.cpp                      | 2 +-
+ media/jni/soundpool/android_media_SoundPool.cpp            | 2 +-
+ services/core/jni/com_android_server_UsbMidiDevice.cpp     | 2 +-
+ services/core/jni/com_android_server_tv_TvUinputBridge.cpp | 2 +-
+ 13 files changed, 14 insertions(+), 14 deletions(-)
+
+diff --git a/cmds/hid/jni/com_android_commands_hid_Device.cpp b/cmds/hid/jni/com_android_commands_hid_Device.cpp
+index d4fdf85491d3..e18b4f9927cb 100644
+--- a/cmds/hid/jni/com_android_commands_hid_Device.cpp
++++ b/cmds/hid/jni/com_android_commands_hid_Device.cpp
+@@ -283,7 +283,7 @@ static void closeDevice(JNIEnv* /* env */, jclass /* clazz */, jlong ptr) {
+     }
+ }
+ 
+-static JNINativeMethod sMethods[] = {
++static const JNINativeMethod sMethods[] = {
+     { "nativeOpenDevice",
+             "(Ljava/lang/String;III[B"
+             "Lcom/android/commands/hid/Device$DeviceCallback;)J",
+diff --git a/core/jni/android_app_ActivityThread.cpp b/core/jni/android_app_ActivityThread.cpp
+index 93f2525eb29d..fa0eed3e232e 100644
+--- a/core/jni/android_app_ActivityThread.cpp
++++ b/core/jni/android_app_ActivityThread.cpp
+@@ -44,7 +44,7 @@ static void android_app_ActivityThread_initZygoteChildHeapProfiling(JNIEnv* env,
+     android_mallopt(M_INIT_ZYGOTE_CHILD_PROFILING, nullptr, 0);
+ }
+ 
+-static JNINativeMethod gActivityThreadMethods[] = {
++static const JNINativeMethod gActivityThreadMethods[] = {
+     // ------------ Regular JNI ------------------
+     { "nPurgePendingResources",        "()V",
+       (void*) android_app_ActivityThread_purgePendingResources },
+diff --git a/core/jni/android_os_HwBinder.cpp b/core/jni/android_os_HwBinder.cpp
+index 42e3942eb350..907c9ac27fc7 100644
+--- a/core/jni/android_os_HwBinder.cpp
++++ b/core/jni/android_os_HwBinder.cpp
+@@ -350,7 +350,7 @@ static void JHwBinder_report_sysprop_change(JNIEnv * /*env*/, jclass /*clazz*/)
+     report_sysprop_change();
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+     { "native_init", "()J", (void *)JHwBinder_native_init },
+     { "native_setup", "()V", (void *)JHwBinder_native_setup },
+ 
+diff --git a/core/jni/android_os_HwBlob.cpp b/core/jni/android_os_HwBlob.cpp
+index e5b72caf2792..84877da5dbb3 100644
+--- a/core/jni/android_os_HwBlob.cpp
++++ b/core/jni/android_os_HwBlob.cpp
+@@ -581,7 +581,7 @@ static jlong JHwBlob_native_handle(JNIEnv *env, jobject thiz) {
+     return handle;
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+     { "native_init", "()J", (void *)JHwBlob_native_init },
+     { "native_setup", "(I)V", (void *)JHwBlob_native_setup },
+ 
+diff --git a/core/jni/android_os_HwParcel.cpp b/core/jni/android_os_HwParcel.cpp
+index 7221ca11cc00..08f16f607367 100644
+--- a/core/jni/android_os_HwParcel.cpp
++++ b/core/jni/android_os_HwParcel.cpp
+@@ -960,7 +960,7 @@ static void JHwParcel_native_writeBuffer(
+     }
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+     { "native_init", "()J", (void *)JHwParcel_native_init },
+     { "native_setup", "(Z)V", (void *)JHwParcel_native_setup },
+ 
+diff --git a/core/jni/android_os_HwRemoteBinder.cpp b/core/jni/android_os_HwRemoteBinder.cpp
+index f8f841c6fd26..45c7dbf77404 100644
+--- a/core/jni/android_os_HwRemoteBinder.cpp
++++ b/core/jni/android_os_HwRemoteBinder.cpp
+@@ -455,7 +455,7 @@ static jint JHwRemoteBinder_hashCode(JNIEnv* env, jobject thiz) {
+     return static_cast<jint>(longHash ^ (longHash >> 32)); // See Long.hashCode()
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+     { "native_init", "()J", (void *)JHwRemoteBinder_native_init },
+ 
+     { "native_setup_empty", "()V",
+diff --git a/core/jni/android_util_jar_StrictJarFile.cpp b/core/jni/android_util_jar_StrictJarFile.cpp
+index 182a621c6978..71054e1e96dc 100644
+--- a/core/jni/android_util_jar_StrictJarFile.cpp
++++ b/core/jni/android_util_jar_StrictJarFile.cpp
+@@ -158,7 +158,7 @@ void StrictJarFile_nativeClose(JNIEnv*, jobject, jlong nativeHandle) {
+   CloseArchive(reinterpret_cast<ZipArchiveHandle>(nativeHandle));
+ }
+ 
+-JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+   NATIVE_METHOD(StrictJarFile, nativeOpenJarFile, "(Ljava/lang/String;I)J"),
+   NATIVE_METHOD(StrictJarFile, nativeStartIteration, "(JLjava/lang/String;)J"),
+   NATIVE_METHOD(StrictJarFile, nativeNextEntry, "(J)Ljava/util/zip/ZipEntry;"),
+diff --git a/core/jni/android_view_DisplayListCanvas.cpp b/core/jni/android_view_DisplayListCanvas.cpp
+index 40a133b9383b..693d61c1bccc 100644
+--- a/core/jni/android_view_DisplayListCanvas.cpp
++++ b/core/jni/android_view_DisplayListCanvas.cpp
+@@ -179,7 +179,7 @@ static void android_view_DisplayListCanvas_drawWebViewFunctor(jlong canvasPtr, j
+ 
+ const char* const kClassPathName = "android/graphics/RecordingCanvas";
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+ 
+     // ------------ @FastNative ------------------
+ 
+diff --git a/media/jni/android_media_ImageWriter.cpp b/media/jni/android_media_ImageWriter.cpp
+index 7a0eeee17b0d..2d69be305a6f 100644
+--- a/media/jni/android_media_ImageWriter.cpp
++++ b/media/jni/android_media_ImageWriter.cpp
+@@ -963,7 +963,7 @@ static jobjectArray Image_createSurfacePlanes(JNIEnv* env, jobject thiz,
+ 
+ // ----------------------------------------------------------------------------
+ 
+-static JNINativeMethod gImageWriterMethods[] = {
++static const JNINativeMethod gImageWriterMethods[] = {
+     {"nativeClassInit",         "()V",                        (void*)ImageWriter_classInit },
+     {"nativeInit",              "(Ljava/lang/Object;Landroid/view/Surface;II)J",
+                                                               (void*)ImageWriter_init },
+@@ -974,7 +974,7 @@ static JNINativeMethod gImageWriterMethods[] = {
+     {"cancelImage",             "(JLandroid/media/Image;)V",   (void*)ImageWriter_cancelImage },
+ };
+ 
+-static JNINativeMethod gImageMethods[] = {
++static const JNINativeMethod gImageMethods[] = {
+     {"nativeCreatePlanes",      "(II)[Landroid/media/ImageWriter$WriterSurfaceImage$SurfacePlane;",
+                                                                (void*)Image_createSurfacePlanes },
+     {"nativeGetWidth",          "()I",                         (void*)Image_getWidth },
+diff --git a/media/jni/android_media_MediaSync.cpp b/media/jni/android_media_MediaSync.cpp
+index f75200868a0d..994997f7c132 100644
+--- a/media/jni/android_media_MediaSync.cpp
++++ b/media/jni/android_media_MediaSync.cpp
+@@ -514,7 +514,7 @@ static void android_media_MediaSync_native_finalize(JNIEnv *env, jobject thiz) {
+     android_media_MediaSync_release(env, thiz);
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+     { "native_setSurface",
+       "(Landroid/view/Surface;)V",
+       (void *)android_media_MediaSync_native_setSurface },
+diff --git a/media/jni/soundpool/android_media_SoundPool.cpp b/media/jni/soundpool/android_media_SoundPool.cpp
+index f6706369f379..7032b4bf7ef9 100644
+--- a/media/jni/soundpool/android_media_SoundPool.cpp
++++ b/media/jni/soundpool/android_media_SoundPool.cpp
+@@ -242,7 +242,7 @@ android_media_SoundPool_release(JNIEnv *env, jobject thiz)
+ // ----------------------------------------------------------------------------
+ 
+ // Dalvik VM type signatures
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+     {   "_load",
+         "(Ljava/io/FileDescriptor;JJI)I",
+         (void *)android_media_SoundPool_load_FD
+diff --git a/services/core/jni/com_android_server_UsbMidiDevice.cpp b/services/core/jni/com_android_server_UsbMidiDevice.cpp
+index 79d935fe610c..86b43fcae705 100644
+--- a/services/core/jni/com_android_server_UsbMidiDevice.cpp
++++ b/services/core/jni/com_android_server_UsbMidiDevice.cpp
+@@ -135,7 +135,7 @@ android_server_UsbMidiDevice_close(JNIEnv *env, jobject thiz, jobjectArray fds)
+     }
+ }
+ 
+-static JNINativeMethod method_table[] = {
++static const JNINativeMethod method_table[] = {
+     { "nativeGetSubdeviceCount", "(II)I", (void*)android_server_UsbMidiDevice_get_subdevice_count },
+     { "nativeOpen", "(III)[Ljava/io/FileDescriptor;", (void*)android_server_UsbMidiDevice_open },
+     { "nativeClose", "([Ljava/io/FileDescriptor;)V", (void*)android_server_UsbMidiDevice_close },
+diff --git a/services/core/jni/com_android_server_tv_TvUinputBridge.cpp b/services/core/jni/com_android_server_tv_TvUinputBridge.cpp
+index 980922a806f5..84d6f3d83156 100644
+--- a/services/core/jni/com_android_server_tv_TvUinputBridge.cpp
++++ b/services/core/jni/com_android_server_tv_TvUinputBridge.cpp
+@@ -276,7 +276,7 @@ static void nativeClear(JNIEnv* env, jclass clazz, jlong ptr) {
+  * JNI registration
+  */
+ 
+-static JNINativeMethod gUinputBridgeMethods[] = {
++static const JNINativeMethod gUinputBridgeMethods[] = {
+     { "nativeOpen", "(Ljava/lang/String;Ljava/lang/String;III)J",
+         (void*)nativeOpen },
+     { "nativeClose", "(J)V",

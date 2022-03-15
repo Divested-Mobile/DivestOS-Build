@@ -1,0 +1,22 @@
+From b914409e0582f093957b3f9f1d151fffdecc5136 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sun, 31 Mar 2019 00:10:48 -0400
+Subject: [PATCH] constify JNINativeMethod table
+
+---
+ service/jni/com_android_server_wifi_WifiNative.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/service/jni/com_android_server_wifi_WifiNative.cpp b/service/jni/com_android_server_wifi_WifiNative.cpp
+index 262357ac65..90fd2d2cf7 100644
+--- a/service/jni/com_android_server_wifi_WifiNative.cpp
++++ b/service/jni/com_android_server_wifi_WifiNative.cpp
+@@ -76,7 +76,7 @@ static jbyteArray android_net_wifi_readKernelLogNative(JNIEnv *env, jclass cls)
+ /*
+  * JNI registration.
+  */
+-static JNINativeMethod gWifiMethods[] = {
++static const JNINativeMethod gWifiMethods[] = {
+     NATIVE_METHOD(android_net_wifi, readKernelLogNative, "()[B"),
+ };
+ 
