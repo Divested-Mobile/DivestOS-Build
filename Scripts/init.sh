@@ -59,6 +59,7 @@ export DOS_DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Serv
 export DOS_GPS_GLONASS_FORCED=false; #Enables GLONASS on all devices
 export DOS_GRAPHENE_MALLOC=true; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms on 16.0+17.1
 export DOS_GRAPHENE_EXEC=false; #Enables use of GrapheneOS' exec spawning feature on 16.0+17.1 XXX: broken (just on 17.1?)
+export DOS_GRAPHENE_PTRACE_SCOPE=true; #Enables the ptrace_scope toggle patchset on 18.1
 export DOS_GRAPHENE_NETWORK_PERM=true; #Enables use of GrapheneOS' NETWORK permission on 17.1+18.1
 export DOS_HOSTS_BLOCKING=true; #Set false to prevent inclusion of a HOSTS file
 export DOS_HOSTS_BLOCKING_APP="DNS66"; #App installed when built-in blocking is disabled. Options: DNS66
@@ -85,7 +86,7 @@ export DOS_GENERATE_DELTAS=true; #Creates deltas from existing target_files in $
 export DOS_GENERATE_DELTAS_DEVICES=('akari' 'alioth' 'Amber' 'aura' 'aurora' 'avicii' 'blueline' 'bonito' 'bramble' 'cheryl' 'coral' 'crosshatch' 'davinci' 'discovery' 'enchilada' 'fajita' 'flame' 'FP3' 'guacamole' 'guacamoleb' 'hotdog' 'hotdogb' 'marlin' 'mata' 'pioneer' 'pro1' 'redfin' 'sailfish' 'sargo' 'sunfish' 'taimen' 'vayu' 'voyager' 'walleye' 'xz2c'); #List of devices deltas will be generated for
 export DOS_AUTO_ARCHIVE_BUILDS=true; #Copies files to $DOS_BUILDS after signing
 export DOS_REMOVE_AFTER=true; #Removes device OUT directory after complete to reclaim space. Requires AUTO_ARCHIVE_BUILDS=true
-export DOS_REMOVE_AFTER_FULL=true; #Removes the entire OUT directory
+export DOS_REMOVE_AFTER_FULL=false; #Removes the entire OUT directory
 export DOS_GPG_SIGNING=true;
 export DOS_GPG_SIGNING_KEY="B8744D67F9F1E14E145DFD8E7F627E920F316994";
 

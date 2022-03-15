@@ -1,0 +1,143 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: flawedworld <38294951+flawedworld@users.noreply.github.com>
+Date: Mon, 5 Apr 2021 02:26:20 +0100
+Subject: [PATCH] allow init to control kernel.yama.ptrace_scope
+
+Change-Id: Id364a6a0e088be3bb00b245d580e29980f5c2650
+---
+ prebuilts/api/26.0/private/genfs_contexts | 1 +
+ prebuilts/api/27.0/private/genfs_contexts | 1 +
+ prebuilts/api/28.0/private/genfs_contexts | 1 +
+ prebuilts/api/29.0/private/genfs_contexts | 1 +
+ prebuilts/api/30.0/private/domain.te      | 1 +
+ prebuilts/api/30.0/private/genfs_contexts | 1 +
+ prebuilts/api/30.0/public/init.te         | 3 +++
+ private/domain.te                         | 1 +
+ private/genfs_contexts                    | 1 +
+ public/init.te                            | 3 +++
+ 10 files changed, 14 insertions(+)
+
+diff --git a/prebuilts/api/26.0/private/genfs_contexts b/prebuilts/api/26.0/private/genfs_contexts
+index 753cabf15..67203c998 100644
+--- a/prebuilts/api/26.0/private/genfs_contexts
++++ b/prebuilts/api/26.0/private/genfs_contexts
+@@ -29,6 +29,7 @@ genfscon proc /sys/kernel/perf_event_max_sample_rate u:object_r:proc_perf:s0
+ genfscon proc /sys/kernel/poweroff_cmd u:object_r:usermodehelper:s0
+ genfscon proc /sys/kernel/randomize_va_space u:object_r:proc_security:s0
+ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
++genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
+ genfscon proc /sys/net u:object_r:proc_net:s0
+ genfscon proc /sys/vm/mmap_min_addr u:object_r:proc_security:s0
+ genfscon proc /sys/vm/mmap_rnd_bits u:object_r:proc_security:s0
+diff --git a/prebuilts/api/27.0/private/genfs_contexts b/prebuilts/api/27.0/private/genfs_contexts
+index 606d46cbe..ac54e423a 100644
+--- a/prebuilts/api/27.0/private/genfs_contexts
++++ b/prebuilts/api/27.0/private/genfs_contexts
+@@ -29,6 +29,7 @@ genfscon proc /sys/kernel/perf_event_max_sample_rate u:object_r:proc_perf:s0
+ genfscon proc /sys/kernel/poweroff_cmd u:object_r:usermodehelper:s0
+ genfscon proc /sys/kernel/randomize_va_space u:object_r:proc_security:s0
+ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
++genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
+ genfscon proc /sys/net u:object_r:proc_net:s0
+ genfscon proc /sys/vm/mmap_min_addr u:object_r:proc_security:s0
+ genfscon proc /sys/vm/mmap_rnd_bits u:object_r:proc_security:s0
+diff --git a/prebuilts/api/28.0/private/genfs_contexts b/prebuilts/api/28.0/private/genfs_contexts
+index 44ca95fd5..89b55b28d 100644
+--- a/prebuilts/api/28.0/private/genfs_contexts
++++ b/prebuilts/api/28.0/private/genfs_contexts
+@@ -58,6 +58,7 @@ genfscon proc /sys/kernel/sched_tunable_scaling u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sysrq u:object_r:proc_sysrq:s0
+ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
++genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
+ genfscon proc /sys/net u:object_r:proc_net:s0
+ genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
+ genfscon proc /sys/vm/dirty_expire_centisecs u:object_r:proc_dirty:s0
+diff --git a/prebuilts/api/29.0/private/genfs_contexts b/prebuilts/api/29.0/private/genfs_contexts
+index 804996685..22a1ebf8d 100644
+--- a/prebuilts/api/29.0/private/genfs_contexts
++++ b/prebuilts/api/29.0/private/genfs_contexts
+@@ -68,6 +68,7 @@ genfscon proc /sys/kernel/sched_tunable_scaling u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sysrq u:object_r:proc_sysrq:s0
+ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
++genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
+ genfscon proc /sys/net u:object_r:proc_net:s0
+ genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
+ genfscon proc /sys/vm/dirty_expire_centisecs u:object_r:proc_dirty:s0
+diff --git a/prebuilts/api/30.0/private/domain.te b/prebuilts/api/30.0/private/domain.te
+index 7116dadfd..55264d01a 100644
+--- a/prebuilts/api/30.0/private/domain.te
++++ b/prebuilts/api/30.0/private/domain.te
+@@ -125,6 +125,7 @@ allow domain boringssl_self_test_marker:dir search;
+ # with other UIDs to these whitelisted domains.
+ neverallow {
+   domain
++  -init
+   -vold
+   userdebug_or_eng(`-llkd')
+   -dumpstate
+diff --git a/prebuilts/api/30.0/private/genfs_contexts b/prebuilts/api/30.0/private/genfs_contexts
+index c5f43c74a..c34705788 100644
+--- a/prebuilts/api/30.0/private/genfs_contexts
++++ b/prebuilts/api/30.0/private/genfs_contexts
+@@ -73,6 +73,7 @@ genfscon proc /sys/kernel/sched_tunable_scaling u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sysrq u:object_r:proc_sysrq:s0
+ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
++genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
+ genfscon proc /sys/net u:object_r:proc_net:s0
+ genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
+ genfscon proc /sys/vm/dirty_expire_centisecs u:object_r:proc_dirty:s0
+diff --git a/prebuilts/api/30.0/public/init.te b/prebuilts/api/30.0/public/init.te
+index 374c0c1f4..5698d53fd 100644
+--- a/prebuilts/api/30.0/public/init.te
++++ b/prebuilts/api/30.0/public/init.te
+@@ -144,6 +144,9 @@ allow init self:global_capability_class_set sys_time;
+ 
+ allow init self:global_capability_class_set { sys_rawio mknod };
+ 
++# Set /proc/sys/kernel/yama/ptrace_scope
++allow init self:capability { sys_ptrace };
++
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
+ allowxperm init dev_type:blk_file ioctl BLKROSET;
+diff --git a/private/domain.te b/private/domain.te
+index 7116dadfd..55264d01a 100644
+--- a/private/domain.te
++++ b/private/domain.te
+@@ -125,6 +125,7 @@ allow domain boringssl_self_test_marker:dir search;
+ # with other UIDs to these whitelisted domains.
+ neverallow {
+   domain
++  -init
+   -vold
+   userdebug_or_eng(`-llkd')
+   -dumpstate
+diff --git a/private/genfs_contexts b/private/genfs_contexts
+index c5f43c74a..c34705788 100644
+--- a/private/genfs_contexts
++++ b/private/genfs_contexts
+@@ -73,6 +73,7 @@ genfscon proc /sys/kernel/sched_tunable_scaling u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sysrq u:object_r:proc_sysrq:s0
+ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
++genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
+ genfscon proc /sys/net u:object_r:proc_net:s0
+ genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
+ genfscon proc /sys/vm/dirty_expire_centisecs u:object_r:proc_dirty:s0
+diff --git a/public/init.te b/public/init.te
+index 374c0c1f4..5698d53fd 100644
+--- a/public/init.te
++++ b/public/init.te
+@@ -144,6 +144,9 @@ allow init self:global_capability_class_set sys_time;
+ 
+ allow init self:global_capability_class_set { sys_rawio mknod };
+ 
++# Set /proc/sys/kernel/yama/ptrace_scope
++allow init self:capability { sys_ptrace };
++
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
+ allowxperm init dev_type:blk_file ioctl BLKROSET;
