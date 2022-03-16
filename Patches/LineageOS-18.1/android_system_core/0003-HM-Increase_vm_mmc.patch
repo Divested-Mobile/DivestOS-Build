@@ -1,4 +1,4 @@
-From 8c0f3c0e04d279daf9f0e9a338c698ed95a026b6 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Thu, 13 Dec 2018 09:26:25 -0500
 Subject: [PATCH] increase max_map_count for hardened malloc
@@ -8,10 +8,10 @@ Subject: [PATCH] increase max_map_count for hardened malloc
  1 file changed, 2 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index a9af0b094da..9dd54445781 100644
+index 23800b021..8125cb410 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -854,6 +854,8 @@ on boot
+@@ -865,6 +865,8 @@ on boot
      chown root system /sys/block/zram0/writeback
      chmod 0664 /sys/block/zram0/writeback
  
