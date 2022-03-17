@@ -14,7 +14,7 @@ Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
  create mode 100644 libc/bionic/h_malloc_wrapper.cpp
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index 49108bf35..d7c066890 100644
+index ce714054a..1599d5ed9 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
 @@ -50,6 +50,8 @@ libc_common_flags = [

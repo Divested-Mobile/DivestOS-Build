@@ -1,6 +1,6 @@
 The patcher needs tweaks for the following:
-CVE-2019-19051
-CVE-2016-7117
-CVE-2013-2147
-CVE-2015-8746
-CVE-2021-Misc2/ANY/0043.patch
+- CVE-2019-19051
+- CVE-2016-7117
+- CVE-2013-2147 is meant for cciss_ioctl32_passthru but is detected in cciss_ioctl32_big_passthru
+- CVE-2015-8746 is meant for nfs_v4_2_minor_ops but is detected in nfs_v4_1_minor_ops
+- CVE-2021-Misc2/ANY/0043.patch is meant for WLANTL_RxCachedFrames but is detected in WLANTL_RxFrames

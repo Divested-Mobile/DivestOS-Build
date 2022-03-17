@@ -1,4 +1,4 @@
-From 14800a3e7070240a314cbd695f71984a888cc90f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 5 Dec 2018 09:29:25 -0500
 Subject: [PATCH] avoid setting RLIMIT_AS with hardened malloc
@@ -13,7 +13,7 @@ Change-Id: Ibfb7164d764fcb9244055953bedc9a1c424cedcb
  1 file changed, 8 insertions(+)
 
 diff --git a/media/libmedia/MediaUtils.cpp b/media/libmedia/MediaUtils.cpp
-index bcdc3bdcf..de217c70b 100644
+index bcdc3bdcfe..de217c70bf 100644
 --- a/media/libmedia/MediaUtils.cpp
 +++ b/media/libmedia/MediaUtils.cpp
 @@ -38,6 +38,14 @@ void limitProcessMemory(

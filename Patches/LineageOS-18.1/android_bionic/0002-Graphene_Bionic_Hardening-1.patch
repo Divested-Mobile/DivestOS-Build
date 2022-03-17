@@ -22,10 +22,10 @@ optimization in the future.
  create mode 100644 libc/bionic/explicit_bzero.cpp
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index 78a7ef23c..4ee36c8df 100644
+index 1599d5ed9..d7c066890 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
-@@ -1055,6 +1055,7 @@ cc_library_static {
+@@ -1056,6 +1056,7 @@ cc_library_static {
          "bionic/error.cpp",
          "bionic/eventfd.cpp",
          "bionic/exec.cpp",

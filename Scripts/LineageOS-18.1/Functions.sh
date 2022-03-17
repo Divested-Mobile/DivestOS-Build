@@ -132,7 +132,7 @@ buildAll() {
 	buildDevice alioth avb;
 	#SD670
 	buildDevice bonito avb; #error: ln: cannot create symbolic link from '/data/vendor/rfs/mpss' to 'out/target/product/bonito/vendor/rfs/msm/mpss//readwrite':
-	buildDevice sargo avb;
+	#buildDevice sargo avb;
 }
 export -f buildAll;
 
