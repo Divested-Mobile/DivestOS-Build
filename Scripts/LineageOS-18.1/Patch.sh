@@ -450,6 +450,7 @@ fi;
 
 if enterAndClear "device/htc/msm8974-common"; then
 applyPatch "$DOS_PATCHES/android_device_htc_msm8974-common/295147.patch"; #Enable ZRAM
+echo "MALLOC_SVELTE_FOR_LIBC32 := true" >> BoardConfigCommon.mk; #Fix video recording
 fi;
 
 if enterAndClear "device/lge/g2-common"; then

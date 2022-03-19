@@ -74,6 +74,10 @@ sed -i 's|0OTA_SERVER_ONION0|'"$DOS_BRANDING_SERVER_OTA_ONION"'|' src/org/lineag
 sed -i 's|>LineageOS|>'"$DOS_BRANDING_NAME"'|' res/values*/strings.xml;
 fi;
 
+if enter "system/core"; then
+sed -i 's/LineageOS/'"$DOS_BRANDING_NAME"'/' debuggerd/libdebuggerd/tombstone.cpp;
+fi;
+
 if enter "vendor/lineage"; then
 sed -i 's|https://lineageos.org/legal|'"$DOS_BRANDING_LINK_ABOUT"'|' build/core/main_version.mk
 sed -i '/.*ZIPPATH=/s/lineage/'"$DOS_BRANDING_ZIP_PREFIX"'/' build/envsetup.sh;
