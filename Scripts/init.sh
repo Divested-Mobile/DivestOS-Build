@@ -57,7 +57,7 @@ export DOS_DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Serv
 
 #Features
 export DOS_GPS_GLONASS_FORCED=false; #Enables GLONASS on all devices
-export DOS_GRAPHENE_BIONIC=false; #Enables the bionic hardening patchset on 16.0+17.1+18.1
+export DOS_GRAPHENE_BIONIC=true; #Enables the bionic hardening patchset on 16.0+17.1+18.1
 export DOS_GRAPHENE_CONSTIFY=true; #Enables 'Constify JNINativeMethod tables' patchset on 16.0+17.1+18.1
 export DOS_GRAPHENE_MALLOC=true; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms on 16.0+17.1+18.1
 export DOS_GRAPHENE_EXEC=false; #Enables use of GrapheneOS' exec spawning feature on 16.0+17.1+18.1 XXX: breaks things like VoLTE
