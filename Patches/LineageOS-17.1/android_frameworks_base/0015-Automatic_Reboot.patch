@@ -11,23 +11,23 @@ Subject: [PATCH] automatically reboot device after timeout if set
  4 files changed, 46 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 07779405bbf6..c1677042d9ea 100644
+index 07779405bbf6..89d736730a3e 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -8215,6 +8215,13 @@ public final class Settings {
-         public static final String LOCK_SCREEN_SHOW_SILENT_NOTIFICATIONS =
-                 "lock_screen_show_silent_notifications";
- 
+@@ -15120,6 +15120,13 @@ public final class Settings {
+          */
+         public static final String POWER_BUTTON_SUPPRESSION_DELAY_AFTER_GESTURE_WAKE =
+                 "power_button_suppression_delay_after_gesture_wake";
++
 +        /**
 +         * Whether to automatically reboot the device after a user defined timeout
 +         *
 +         * @hide
 +         */
 +        public static final String SETTINGS_REBOOT_AFTER_TIMEOUT = "settings_reboot_after_timeout";
-+
-         /**
-          * Indicates whether snooze options should be shown on notifications
-          * <p>
+     }
+ 
+     /**
 diff --git a/data/etc/com.android.systemui.xml b/data/etc/com.android.systemui.xml
 index 2f5b5f3bf7b4..83779170d05c 100644
 --- a/data/etc/com.android.systemui.xml

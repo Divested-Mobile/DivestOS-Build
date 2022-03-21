@@ -141,9 +141,11 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-5.patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-6.patch";
 applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-7.patch";
 fi;
+if [ "$DOS_TIMEOUTS" = true ]; then
 applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0015-Bluetooth_Timeout.patch"; #Timeout for Bluetooth (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0016-WiFi_Timeout.patch"; #Timeout for Wi-Fi (GrapheneOS)
+fi;
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0017-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then
 applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-1.patch"; #Add exec-based spawning support (GrapheneOS)
@@ -293,9 +295,11 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Togg
 if [ "$DOS_SENSORS_PERM_NEW" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0002-Sensors.patch"; fi; #Permission for sensors access (MSe1969)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0003-Remove_SensorsOff_Tile.patch"; #Remove the Sensors Off development tile
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (CalyxOS)
+if [ "$DOS_TIMEOUTS" = true ]; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0005-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0006-Bluetooth_Timeout.patch"; #Timeout for Bluetooth (CalyxOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0007-WiFi_Timeout.patch"; #Timeout for Wi-Fi (CalyxOS)
+fi;
 if [ "$DOS_GRAPHENE_PTRACE_SCOPE" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0008-ptrace_scope.patch"; fi; #Add native debugging setting (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0009-Install_Restrictions.patch"; #UserManager app installation restrictions (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service

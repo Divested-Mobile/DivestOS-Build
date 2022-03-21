@@ -57,6 +57,7 @@ cp -r "$DOS_PATCHES_COMMON""android_vendor_divested/." "$DOS_BUILD_BASE""vendor/
 
 if enterAndClear "bionic"; then
 applyPatch "$DOS_PATCHES_COMMON/android_bionic/0001-Wildcard_Hosts.patch"; #Support wildcards in cached hosts file (backport from 16.0+)
+#if [ "$DOS_GRAPHENE_MALLOC_BROKEN" = true ]; then applyPatch "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi; #(GrapheneOS)
 fi;
 
 if enterAndClear "bootable/recovery"; then
@@ -95,9 +96,20 @@ if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then DOS_WEBVIEW_CHERRYPI
 if [ "$DOS_WEBVIEW_LFS" = true ]; then git lfs pull; fi; #Ensure the objects are available
 fi;
 
+#if [ "$DOS_GRAPHENE_MALLOC_BROKEN" = true ]; then
+#if enterAndClear "external/hardened_malloc"; then
+#applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc/0001-Broken_Audio.patch"; #DeviceDescriptor sorting wrongly relies on malloc addresses (GrapheneOS)
+#applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc/0002-Broken_Cameras.patch"; #Expand workaround to all camera executables
+#fi;
+#fi;
+
 if enterAndClear "external/svox"; then
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 fi;
+
+#if enterAndClear "frameworks/av"; then
+#if [ "$DOS_GRAPHENE_MALLOC_BROKEN" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; fi; #(GrapheneOS)
+#fi;
 
 if enterAndClear "frameworks/base"; then
 #applyPatch "$DOS_PATCHES/android_frameworks_base/0005-Connectivity.patch"; #Change connectivity check URLs to ours
@@ -238,6 +250,7 @@ if enterAndClear "system/core"; then
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert --no-edit a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4; #Always update recovery
 applyPatch "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysctl changes (GrapheneOS)
+if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_system_core/0002-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
 fi;
 
 if enterAndClear "system/sepolicy"; then

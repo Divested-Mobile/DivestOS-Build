@@ -72,6 +72,11 @@
 	<project path="external/chromium-webview" name="divested-mobile/mulch" groups="pdk" clone-depth="1" remote="gitlab" revision="master" />
 <!-- END OF BRANCH SWITCHING -->
 
+<!-- START OF ADDITIONAL REPOS -->
+	<!-- GrapheneOS
+	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="464bfd4d829927f19fd5d2729a101ee241319d1e" /> -->
+<!-- END OF ADDITIONAL REPOS -->
+
 <!-- START OF DEVICE REPOS -->
 	<!-- Common -->
 	<project path="packages/resources/devicesettings" name="LineageOS/android_packages_resources_devicesettings" remote="github" />

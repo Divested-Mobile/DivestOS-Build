@@ -1,0 +1,73 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: flawedworld <38294951+flawedworld@users.noreply.github.com>
+Date: Mon, 5 Apr 2021 02:27:06 +0100
+Subject: [PATCH] allow system to use persist.native_debug
+
+---
+ prebuilts/api/26.0/private/property_contexts | 1 +
+ prebuilts/api/27.0/private/property_contexts | 1 +
+ prebuilts/api/28.0/private/property_contexts | 1 +
+ prebuilts/api/29.0/private/property_contexts | 1 +
+ private/property_contexts                    | 1 +
+ 5 files changed, 5 insertions(+)
+
+diff --git a/prebuilts/api/26.0/private/property_contexts b/prebuilts/api/26.0/private/property_contexts
+index 4c27b35d6..c48ba4012 100644
+--- a/prebuilts/api/26.0/private/property_contexts
++++ b/prebuilts/api/26.0/private/property_contexts
+@@ -44,6 +44,7 @@ service.adb.tcp.port    u:object_r:shell_prop:s0
+ persist.audio.          u:object_r:audio_prop:s0
+ persist.bluetooth.      u:object_r:bluetooth_prop:s0
+ persist.debug.          u:object_r:persist_debug_prop:s0
++persist.native_debug    u:object_r:system_prop:s0
+ persist.logd.           u:object_r:logd_prop:s0
+ persist.logd.security   u:object_r:device_logging_prop:s0
+ persist.logd.logpersistd        u:object_r:logpersistd_logging_prop:s0
+diff --git a/prebuilts/api/27.0/private/property_contexts b/prebuilts/api/27.0/private/property_contexts
+index 8eb2f28b2..237e6fcc1 100644
+--- a/prebuilts/api/27.0/private/property_contexts
++++ b/prebuilts/api/27.0/private/property_contexts
+@@ -44,6 +44,7 @@ service.adb.tcp.port    u:object_r:shell_prop:s0
+ persist.audio.          u:object_r:audio_prop:s0
+ persist.bluetooth.      u:object_r:bluetooth_prop:s0
+ persist.debug.          u:object_r:persist_debug_prop:s0
++persist.native_debug    u:object_r:system_prop:s0
+ persist.logd.           u:object_r:logd_prop:s0
+ persist.logd.security   u:object_r:device_logging_prop:s0
+ persist.logd.logpersistd        u:object_r:logpersistd_logging_prop:s0
+diff --git a/prebuilts/api/28.0/private/property_contexts b/prebuilts/api/28.0/private/property_contexts
+index 32be0b377..afe0f70fe 100644
+--- a/prebuilts/api/28.0/private/property_contexts
++++ b/prebuilts/api/28.0/private/property_contexts
+@@ -44,6 +44,7 @@ service.adb.tcp.port    u:object_r:shell_prop:s0
+ persist.audio.          u:object_r:audio_prop:s0
+ persist.bluetooth.      u:object_r:bluetooth_prop:s0
+ persist.debug.          u:object_r:persist_debug_prop:s0
++persist.native_debug    u:object_r:system_prop:s0
+ persist.logd.           u:object_r:logd_prop:s0
+ ro.logd.                u:object_r:logd_prop:s0
+ persist.logd.security   u:object_r:device_logging_prop:s0
+diff --git a/prebuilts/api/29.0/private/property_contexts b/prebuilts/api/29.0/private/property_contexts
+index a63e0b4dc..bd8c4f183 100644
+--- a/prebuilts/api/29.0/private/property_contexts
++++ b/prebuilts/api/29.0/private/property_contexts
+@@ -49,6 +49,7 @@ service.adb.tcp.port    u:object_r:shell_prop:s0
+ persist.audio.          u:object_r:audio_prop:s0
+ persist.bluetooth.      u:object_r:bluetooth_prop:s0
+ persist.debug.          u:object_r:persist_debug_prop:s0
++persist.native_debug    u:object_r:system_prop:s0
+ persist.logd.           u:object_r:logd_prop:s0
+ ro.logd.                u:object_r:logd_prop:s0
+ persist.logd.security   u:object_r:device_logging_prop:s0
+diff --git a/private/property_contexts b/private/property_contexts
+index a63e0b4dc..bd8c4f183 100644
+--- a/private/property_contexts
++++ b/private/property_contexts
+@@ -49,6 +49,7 @@ service.adb.tcp.port    u:object_r:shell_prop:s0
+ persist.audio.          u:object_r:audio_prop:s0
+ persist.bluetooth.      u:object_r:bluetooth_prop:s0
+ persist.debug.          u:object_r:persist_debug_prop:s0
++persist.native_debug    u:object_r:system_prop:s0
+ persist.logd.           u:object_r:logd_prop:s0
+ ro.logd.                u:object_r:logd_prop:s0
+ persist.logd.security   u:object_r:device_logging_prop:s0

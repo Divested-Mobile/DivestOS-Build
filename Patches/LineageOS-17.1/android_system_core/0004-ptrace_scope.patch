@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: flawedworld <38294951+flawedworld@users.noreply.github.com>
+Date: Mon, 5 Apr 2021 03:02:51 +0100
+Subject: [PATCH] add a property for controlling ptrace_scope
+
+---
+ rootdir/init.rc | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index c175bc4ac..93030dc1b 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -836,6 +836,13 @@ on property:sys.sysctl.extra_free_kbytes=*
+ on property:sys.sysctl.tcp_def_init_rwnd=*
+     write /proc/sys/net/ipv4/tcp_default_init_rwnd ${sys.sysctl.tcp_def_init_rwnd}
+ 
++on property:persist.native_debug=true
++    write /proc/sys/kernel/yama/ptrace_scope 0
++
++on property:persist.native_debug=false
++    write /proc/sys/kernel/yama/ptrace_scope 2
++
++
+ on property:security.perf_harden=0
+     write /proc/sys/kernel/perf_event_paranoid 1
+     write /proc/sys/kernel/perf_event_max_sample_rate ${debug.perf_event_max_sample_rate:-100000}

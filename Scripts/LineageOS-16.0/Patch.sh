@@ -121,8 +121,8 @@ fi;
 
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
 if enterAndClear "external/hardened_malloc"; then
-applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Audio.patch"; #DeviceDescriptor sorting wrongly relies on malloc addresses (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0002-Broken_Cameras.patch"; #Expand workaround to all camera executables
+applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc/0001-Broken_Audio.patch"; #DeviceDescriptor sorting wrongly relies on malloc addresses (GrapheneOS)
+applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc/0002-Broken_Cameras.patch"; #Expand workaround to all camera executables
 fi;
 fi;
 
