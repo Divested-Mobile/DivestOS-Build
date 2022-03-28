@@ -1,4 +1,4 @@
-From 2e07ab8c242551e6847bffef84546ed5eaf345cf Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 11 Sep 2019 06:43:55 -0400
 Subject: [PATCH] pass through fullPreload to libcore
@@ -11,7 +11,7 @@ diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/a
 index b9460f56d003..467183355515 100644
 --- a/core/java/com/android/internal/os/ZygoteInit.java
 +++ b/core/java/com/android/internal/os/ZygoteInit.java
-@@ -128,7 +128,7 @@
+@@ -128,7 +128,7 @@ public class ZygoteInit {
      static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
          Log.d(TAG, "begin preload");
          bootTimingsTraceLog.traceBegin("BeginPreload");
@@ -20,7 +20,7 @@ index b9460f56d003..467183355515 100644
          bootTimingsTraceLog.traceEnd(); // BeginPreload
          bootTimingsTraceLog.traceBegin("PreloadClasses");
          preloadClasses();
-@@ -150,7 +150,7 @@ static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+@@ -150,7 +150,7 @@ public class ZygoteInit {
          // Ask the WebViewFactory to do any initialization that must run in the zygote process,
          // for memory sharing purposes.
          WebViewFactory.prepareWebViewInZygote();
@@ -29,7 +29,7 @@ index b9460f56d003..467183355515 100644
          warmUpJcaProviders();
          Log.d(TAG, "end preload");
  
-@@ -168,14 +168,14 @@ public static void lazyPreload() {
+@@ -168,14 +168,14 @@ public class ZygoteInit {
          preload(new TimingsTraceLog("ZygoteInitTiming_lazy", Trace.TRACE_TAG_DALVIK));
      }
  

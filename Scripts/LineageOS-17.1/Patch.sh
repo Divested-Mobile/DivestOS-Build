@@ -147,6 +147,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-9.patc
 applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-10.patch";
 applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-11.patch";
 applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-12.patch";
+sed -i 's/sys.spawn.exec/persist.security.exec_spawn/' core/java/com/android/internal/os/ZygoteConnection.java;
 fi;
 applyPatch "$DOS_PATCHES/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after three failed attempts (GrapheneOS)
@@ -296,6 +297,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0006-Bluetooth_Timeout.p
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0007-WiFi_Timeout.patch"; #Timeout for Wi-Fi (CalyxOS)
 fi;
 if [ "$DOS_GRAPHENE_PTRACE_SCOPE" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0008-ptrace_scope.patch"; fi; #Add native debugging setting (GrapheneOS)
+if [ "$DOS_GRAPHENE_EXEC" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0009-exec_spawning_toggle.patch"; fi; #Add exec spawning toggle (GrapheneOS)
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 if [ "$DOS_MICROG_INCLUDED" = "FULL" ]; then sed -i 's/GSETTINGS_PROVIDER = "com.google.settings";/GSETTINGS_PROVIDER = "com.google.oQuae4av";/' src/com/android/settings/backup/PrivacySettingsUtils.java; fi; #microG doesn't support Backup, hide the options

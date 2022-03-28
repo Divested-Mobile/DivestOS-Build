@@ -1,4 +1,4 @@
-From 0044836677b9be153e04a91dddddcb74d9585643 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Tue, 14 May 2019 14:28:27 -0400
 Subject: [PATCH] disable OpenGL preloading for exec spawning
@@ -11,7 +11,7 @@ diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/a
 index 467183355515..e93e70443ee6 100644
 --- a/core/java/com/android/internal/os/ZygoteInit.java
 +++ b/core/java/com/android/internal/os/ZygoteInit.java
-@@ -142,9 +142,11 @@ static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+@@ -142,9 +142,11 @@ public class ZygoteInit {
          Trace.traceBegin(Trace.TRACE_TAG_DALVIK, "PreloadAppProcessHALs");
          nativePreloadAppProcessHALs();
          Trace.traceEnd(Trace.TRACE_TAG_DALVIK);

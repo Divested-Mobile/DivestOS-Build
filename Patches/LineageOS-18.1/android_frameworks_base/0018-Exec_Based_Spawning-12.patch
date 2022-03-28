@@ -1,4 +1,4 @@
-From 98634286bbdffe967a9a03442e5aa324ec26986a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: anupritaisno1 <www.anuprita804@gmail.com>
 Date: Fri, 30 Oct 2020 22:26:09 +0000
 Subject: [PATCH] pass through runtime flags for exec spawning and implement
@@ -16,7 +16,7 @@ diff --git a/core/java/com/android/internal/os/ExecInit.java b/core/java/com/and
 index 830e5b562a91..749c67abf389 100644
 --- a/core/java/com/android/internal/os/ExecInit.java
 +++ b/core/java/com/android/internal/os/ExecInit.java
-@@ -31,15 +31,20 @@ public static void main(String[] args) {
+@@ -31,15 +31,20 @@ public class ExecInit {
          // Parse our mandatory argument.
          int targetSdkVersion = Integer.parseInt(args[0], 10);
  
@@ -39,7 +39,7 @@ index 830e5b562a91..749c67abf389 100644
          r.run();
      }
  
-@@ -52,9 +57,9 @@ public static void main(String[] args) {
+@@ -52,9 +57,9 @@ public class ExecInit {
       * @param args Arguments for {@link RuntimeInit#main}.
       */
      public static void execApplication(String niceName, int targetSdkVersion,
@@ -51,7 +51,7 @@ index 830e5b562a91..749c67abf389 100644
          String[] argv = new String[baseArgs + args.length];
          if (VMRuntime.is64BitInstructionSet(instructionSet)) {
              argv[0] = "/system/bin/app_process64";
-@@ -68,6 +73,7 @@ public static void execApplication(String niceName, int targetSdkVersion,
+@@ -68,6 +73,7 @@ public class ExecInit {
          }
          argv[3 + niceArgs] = "com.android.internal.os.ExecInit";
          argv[4 + niceArgs] = Integer.toString(targetSdkVersion);
@@ -63,7 +63,7 @@ diff --git a/core/java/com/android/internal/os/Zygote.java b/core/java/com/andro
 index a7d9827855a2..aa874ad98a78 100644
 --- a/core/java/com/android/internal/os/Zygote.java
 +++ b/core/java/com/android/internal/os/Zygote.java
-@@ -1097,4 +1097,13 @@ static void appendQuotedShellArgs(StringBuilder command, String[] args) {
+@@ -1097,4 +1097,13 @@ public final class Zygote {
       * fully-feature Memory Tagging, rather than the static Tagged Pointers.
       */
      public static native boolean nativeSupportsTaggedPointers();
@@ -81,7 +81,7 @@ diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java
 index 9b4664178530..4ae69677f1dd 100644
 --- a/core/java/com/android/internal/os/ZygoteConnection.java
 +++ b/core/java/com/android/internal/os/ZygoteConnection.java
-@@ -505,7 +505,7 @@ private Runnable handleChildProc(ZygoteArguments parsedArgs,
+@@ -505,7 +505,7 @@ class ZygoteConnection {
                  if (SystemProperties.getBoolean("sys.spawn.exec", true) &&
                          (parsedArgs.mRuntimeFlags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
                      ExecInit.execApplication(parsedArgs.mNiceName, parsedArgs.mTargetSdkVersion,

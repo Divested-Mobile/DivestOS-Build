@@ -1,4 +1,4 @@
-From add34a4bc6aa69f21f012d62215b5af500bea551 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 11 Sep 2019 06:47:11 -0400
 Subject: [PATCH] disable ICU cache pinning for exec spawning
@@ -11,7 +11,7 @@ diff --git a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java b/dalvik/src/ma
 index de5a056143..e77cec2517 100644
 --- a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
 +++ b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
-@@ -49,15 +49,17 @@ private ZygoteHooks() {
+@@ -49,15 +49,17 @@ public final class ZygoteHooks {
       */
      @libcore.api.CorePlatformApi
      public static void onBeginPreload(boolean fullPreload) {
@@ -38,7 +38,7 @@ index de5a056143..e77cec2517 100644
          }
  
          // Framework's LocalLog is used during app start-up. It indirectly uses the current ICU time
-@@ -72,8 +74,10 @@ public static void onBeginPreload(boolean fullPreload) {
+@@ -72,8 +74,10 @@ public final class ZygoteHooks {
       */
      @libcore.api.CorePlatformApi
      public static void onEndPreload(boolean fullPreload) {

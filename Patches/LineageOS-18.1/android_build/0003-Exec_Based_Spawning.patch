@@ -1,4 +1,4 @@
-From a2b51906dece2ea351b5aa4b66fa8cdefbf37ff6 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Thu, 17 Sep 2020 10:53:00 -0400
 Subject: [PATCH] disable enforce RRO for mainline devices
@@ -12,10 +12,10 @@ exec-based spawning in GrapheneOS.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/product/mainline_system.mk b/target/product/mainline_system.mk
-index 1f22163c32..db2af7d1d2 100644
+index e9f9dde138..1199b78598 100644
 --- a/target/product/mainline_system.mk
 +++ b/target/product/mainline_system.mk
-@@ -115,7 +115,7 @@ PRODUCT_COPY_FILES += \
+@@ -118,7 +118,7 @@ PRODUCT_COPY_FILES += \
  # Enable dynamic partition size
  PRODUCT_USE_DYNAMIC_PARTITION_SIZE := true
  

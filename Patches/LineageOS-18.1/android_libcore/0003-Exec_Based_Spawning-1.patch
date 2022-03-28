@@ -1,4 +1,4 @@
-From 4c2635390c10512b0c79ee1f3658a25d6b671ca0 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 11 Sep 2019 06:46:38 -0400
 Subject: [PATCH] add parameter for avoiding full preload with exec
@@ -12,7 +12,7 @@ diff --git a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java b/dalvik/src/ma
 index 7e8fe3651e..de5a056143 100644
 --- a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
 +++ b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
-@@ -48,7 +48,7 @@ private ZygoteHooks() {
+@@ -48,7 +48,7 @@ public final class ZygoteHooks {
       * Called when the zygote begins preloading classes and data.
       */
      @libcore.api.CorePlatformApi
@@ -21,7 +21,7 @@ index 7e8fe3651e..de5a056143 100644
          // Pin ICU data in memory from this point that would normally be held by soft references.
          // Without this, any references created immediately below or during class preloading
          // would be collected when the Zygote GC runs in gcAndFinalize().
-@@ -71,7 +71,7 @@ public static void onBeginPreload() {
+@@ -71,7 +71,7 @@ public final class ZygoteHooks {
       * Called when the zygote has completed preloading classes and data.
       */
      @libcore.api.CorePlatformApi

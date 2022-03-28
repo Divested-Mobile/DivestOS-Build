@@ -1,4 +1,4 @@
-From b4cd877e3a0c2384b8939d5d1e2b6b734bbd13b2 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 11 Sep 2019 06:58:51 -0400
 Subject: [PATCH] disable preloading HALs for exec spawning
@@ -11,7 +11,7 @@ diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/a
 index 0877a1668930..d19868ebd9ca 100644
 --- a/core/java/com/android/internal/os/ZygoteInit.java
 +++ b/core/java/com/android/internal/os/ZygoteInit.java
-@@ -145,9 +145,11 @@ static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+@@ -145,9 +145,11 @@ public class ZygoteInit {
              preloadResources();
              bootTimingsTraceLog.traceEnd(); // PreloadResources
          }
