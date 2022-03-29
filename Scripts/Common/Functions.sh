@@ -536,6 +536,15 @@ hardenBootArgs() {
 }
 export -f hardenBootArgs;
 
+disableEnforceRRO() {
+	cd "$DOS_BUILD_BASE$1";
+	awk -i inplace '!/PRODUCT_ENFORCE_RRO_TARGETS .= framework-res/' *.mk &>/dev/null || true;
+	awk -i inplace '!/PRODUCT_ENFORCE_RRO_TARGETS .= \*/' *.mk &>/dev/null || true;
+	sed -i '/PRODUCT_ENFORCE_RRO_TARGETS .= \\/,+1 d' *.mk &>/dev/null || true;
+	cd "$DOS_BUILD_BASE";
+}
+export -f disableEnforceRRO;
+
 disableAPEX() {
 	cd "$DOS_BUILD_BASE$1";
 	awk -i inplace '!/DEXPREOPT_GENERATE_APEX_IMAGE/' *.mk &>/dev/null || true;
