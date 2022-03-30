@@ -1,0 +1,241 @@
+RQ3A.211001.001.2021100606
+QQ3A.200805.001.2020.09.11.14
+PQ3B.190801.002.2019.08.25.15
+
+https time
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/940beb096b9dc078ec1a051ee8c73667885fa5a9
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/b92c2eb03ea574cd4a9def02bb81e99812068595
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/546c1099f2775391c86f996104d74f307a954a74
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/ec7b5ee8caa40b9100ec5842a6a63aea3b68eae0
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/961eaeb2220d073b8de325f8d5d5927dbf905645
+
+misc fixes
+10 https://github.com/GrapheneOS-Archive/platform_frameworks_av/commit/9a8d1a96aa9fc4ed8e1b94a40fddfa29456c64dc
+10 https://github.com/GrapheneOS-Archive/platform_frameworks_av/commit/4a2430b6f4b09959487b8de4b73fcfe0c524fc01
+10 https://github.com/GrapheneOS-Archive/platform_external_sonivox/commit/196265966450398d652b06d6c6962c86e1d291a9
+
+sqlite
+8 https://github.com/GrapheneOS-Archive/platform_external_sqlite/commit/XXX6fc2df466a4b200e09befbb97447ad27fdc92ba1XXX
+8 https://github.com/GrapheneOS-Archive/platform_external_sqlite/commit/XXX0c40f7de016d075812cae07e97d8eea1c75ed6c5XXX
+
+sensitive notifications
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/6e027c935088ae32c82b69ed4e072b1d2a8c08a9
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/12a3d6dc2b94af26e1be34ec81c2581ef17f1582
+
+show passwords
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/83586f8b4e0e5075f9823d05158c893b23585eb1
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/63f3727cd9cb32c1195cfd83ff9b0d54d7d8dd7d
+
+preferred network mode
+11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/286910c6cbc8c77153e7e230a4d02bea745ea571
+
+auto-var-init
+10 https://github.com/GrapheneOS/platform_build_soong/commit/e1b0c965952c47663d4266293b5d0e3f95121260
+
+nojit
+11 https://github.com/GrapheneOS/platform_build/commit/8c9183f29406a93cb596ebd76ca27eb8c5f8bbe8
+11 https://github.com/GrapheneOS/platform_build/commit/904c1e837a2dd9b251d57c2e064186d5af047df0
+11 https://github.com/GrapheneOS/platform_build/commit/9fbeacdfb2a706d37dcf4403bdfad984da8c8a09
+11 https://github.com/GrapheneOS/platform_build/commit/bce436243196294fa115b9be5f877f5433201919
+11 https://github.com/GrapheneOS/platform_build/commit/8207f8f751f2c2380185a3c4063a91f116d8a51a
+11 https://github.com/GrapheneOS/platform_build/commit/528af7def25b4001b8323b106732ccd88a4587ce
+11 https://github.com/GrapheneOS/platform_build/commit/0894969e87d8d849fc7ef89d3bb1acafb240ac9d
+11 https://github.com/GrapheneOS/platform_build/commit/8f8570e39ce4e8b24909600de4cc7e59b9b6dfde
+11 https://github.com/GrapheneOS/platform_build/commit/d3193b690099f69c537e88273cd357cc2db209a1
+10 https://github.com/GrapheneOS/platform_build/commit/290014d5a9167f7787b32f40a34df45289bd578f
+10 https://github.com/GrapheneOS/platform_build/commit/4af9e1a6342b4f496cca6a697dfb67214149fc16
+10 https://github.com/GrapheneOS/platform_build/commit/552a2657da478cfca86771f504f4a6ed12305a14
+10 https://github.com/GrapheneOS/platform_build/commit/ef245af5839277e83b5e6653b428835b15c3bf2f
+10 https://github.com/GrapheneOS/platform_build/commit/6e6ec93b90b279eb66709ef33573488c8da66324
+10 https://github.com/GrapheneOS/platform_build/commit/add2c0ef728309cadde9a81c5a836f04bd257e61
+10 https://github.com/GrapheneOS/platform_build/commit/640c643cd52c85f05cf5e08dbd93a9e6c1351f80
+10 https://github.com/GrapheneOS/platform_build/commit/6e0514f7ba35cf762c976393ccdefd885d26060d
+10 https://github.com/GrapheneOS/platform_build/commit/8ca8d19af60129049baa03a91d96bf4f622769f2
+9  https://github.com/GrapheneOS/platform_build/commit/2a1c8533cd819f9f40acd0fa7587a6ab930cb9ab
+9  https://github.com/GrapheneOS/platform_build/commit/03085dc44d73339f2dc7c045d1ccee08a27fc8cc
+9  https://github.com/GrapheneOS/platform_build/commit/aa5b687d56d5b079ffe05e71c92adfa92857cf80
+9  https://github.com/GrapheneOS/platform_build/commit/5b9927197e63593b9220d1a9280021252ef205e9
+9  https://github.com/GrapheneOS/platform_build/commit/e36c7aefaa78a1ed5b94c7f51d29277008eea232
+
+[implemented] always random mac
+11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/9bc33b2f1a94c5b801f2c7078b996478cd4d11ac
+11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/bef63219dd362fb130bcaf5da123aeda0259525e
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/af41ef65b2eccd298787141fefdd6f63d2b425ee
+11 https://github.com/GrapheneOS/platform_packages_modules_NetworkStack/commit/1af8ee8f7017ebec8bf7b1507b3ed8cfa71af9b5
+11 https://github.com/GrapheneOS/platform_frameworks_opt_net_wifi/commit/a0d9bda06b71694f38fe02bbe24628ee21a7d270
+10 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/69a0172f6cfc757c6e82b9020b6566e76b398c49
+10 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/39dc6fd36f436ce9e2d41f2b9d15d17b5db2ac38
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/96a3022775e954c2ccd4035287364d24d822b831
+10 https://github.com/GrapheneOS/platform_frameworks_opt_net_wifi/commit/87ede685fec2f92b978891c2eed5776f5f2ca204
+
+[implemented] bionic hardening
+11 https://github.com/GrapheneOS/platform_system_core/commit/b3a0c2c5db28852b6d485542c8a4f1649a256892
+11 https://github.com/GrapheneOS/platform_bionic/commit/5412c371955014eee8b2246b386ae7f539bac09e #explicit zero
+11 https://github.com/GrapheneOS/platform_bionic/commit/31456ac632903235e14500af8b5d7dff2d25d724 #brk
+11 https://github.com/GrapheneOS/platform_bionic/commit/58ebc243ea3085056e6aba765d879807fa1a46d6 #random
+11 https://github.com/GrapheneOS/platform_bionic/commit/5323b39f7ec1fce2d788f1c8a2c28cfd32d5ccc4 #undefined
+11 https://github.com/GrapheneOS/platform_bionic/commit/6a91d9dddb01964134e50cc73f6f158706da800a #merge
+11 https://github.com/GrapheneOS/platform_bionic/commit/a042b5a0bada9933b7c488003e8f9d8d0d195525 #vla formatting
+11 https://github.com/GrapheneOS/platform_bionic/commit/9ec639de1bec2f655bdfc0750e363a6f8de31c4a #pthread
+11 https://github.com/GrapheneOS/platform_bionic/commit/49571a0a496539b9af763b8ef30c5b5db57c8be7 #read only
+11 https://github.com/GrapheneOS/platform_bionic/commit/149cc5ccb870640b2536b6bd5dfa1292f9dd6178 #zero
+11 https://github.com/GrapheneOS/platform_bionic/commit/2e613ccbe7a6b2aa8f1688ed8493267d12c66d23 #fork mmap
+11 https://github.com/GrapheneOS/platform_bionic/commit/e239c7dff88bbc37a3e902a695565fdbf6ed0b08 #memprot pthread
+11 https://github.com/GrapheneOS/platform_bionic/commit/0b03d92b7f2dc5f12211037e99821ccead27a687 #xor
+11 https://github.com/GrapheneOS/platform_bionic/commit/de08419b8256ab7daf6ef7c7835348f9aaeb7478 #junk
+11 https://github.com/GrapheneOS/platform_bionic/commit/897d4903e24c9f6b772539e9f8e0bf3520ed8838 #guard
+11 https://github.com/GrapheneOS/platform_bionic/commit/648cd68ca3ffefe685ae6acdae17171c8acfa75b #ptrhread guard
+11 https://github.com/GrapheneOS/platform_bionic/commit/0bc4dbcbd27c7f48713913101fb3c868c215c1a3 #stack rand
+10 https://github.com/GrapheneOS/platform_system_core/commit/aa9cc05d07a5855fcae2d9f21dd9672543eafbb3
+10 https://github.com/GrapheneOS/platform_bionic/commit/a8cdbb6352e4ff708b791c7f3a976de8a6383105 #explicit zero
+10 https://github.com/GrapheneOS/platform_bionic/commit/b28302c668013a5588a6939f0bbced0b7b288cc2 #brk
+10 https://github.com/GrapheneOS/platform_bionic/commit/9f8be7d07cc063933f8def97672c7671dd4fc360 #random
+10 https://github.com/GrapheneOS/platform_bionic/commit/cb91a7ee3aed607dab2d89f2f6b823bf28ea34a0 #undefined
+10 https://github.com/GrapheneOS/platform_bionic/commit/08279e2fdd75d20ede2a56c326604f426557cea4 #merge
+10 https://github.com/GrapheneOS/platform_bionic/commit/6a18bd565d9344db5f46f2bb423309dcb134be6e #vla formatting
+10 https://github.com/GrapheneOS/platform_bionic/commit/2f392c2d081fad13f61164ab07841818b972f950 #pthread
+10 https://github.com/GrapheneOS/platform_bionic/commit/8bbce1bc50f7b0fb210de3ef160542bbb08cdcc0 #read only
+10 https://github.com/GrapheneOS/platform_bionic/commit/725f61db82eb41098291ce06445ccfbf5d5b3581 #zero
+10 https://github.com/GrapheneOS/platform_bionic/commit/4cd257135f72ceb7ddd32538d2ba579736bf7a12 #fork mmap
+10 https://github.com/GrapheneOS/platform_bionic/commit/9220cf622bab1099cbff937d88aa7ce2809bb9d4 #memprot pthread
+10 https://github.com/GrapheneOS/platform_bionic/commit/8ef71d1ffd51664bc8d61fd029efa899a87ddc30 #memprot exit
+10 https://github.com/GrapheneOS/platform_bionic/commit/0eaef1abbdcbf40c990fcba1bd91401bdd38a9c5 #xor
+10 https://github.com/GrapheneOS/platform_bionic/commit/64f1cc2148c1834212f6704ba08b626696501271 #junk
+10 https://github.com/GrapheneOS/platform_bionic/commit/5c42a527cf958ca3c81613178618d452e806994f #guard
+10 https://github.com/GrapheneOS/platform_bionic/commit/5cc8c34e60dbfeb1fd996bf83bb01a0443d93a8a #pthread guard
+10 https://github.com/GrapheneOS/platform_bionic/commit/7f61cc8a1c9abd04094a96959f242b7906fa3127 #stack rand
+9  https://github.com/GrapheneOS/platform_system_core/commit/abdf523d26450814fc3f5c211f3baa643c48bae3
+9  https://github.com/GrapheneOS/platform_bionic/commit/e4b9b31e6f9ff7eb9d168db6a99a775bf4f669c1 #explicit zero
+9  https://github.com/GrapheneOS/platform_bionic/commit/a3a22a63d2cf265d5edc8cf613484e13fd03e19d #brk
+9  https://github.com/GrapheneOS/platform_bionic/commit/7444dbc3cf11285fb94d5d00913016afd7b0dff2 #random
+9  https://github.com/GrapheneOS/platform_bionic/commit/dcd3b72ac9cac79d4322a17be150c46f65ffb3cd #undefined
+9  https://github.com/GrapheneOS/platform_bionic/commit/543e1df342cdd8720ce967d990ca28a2b9c26af2 #merge
+9  https://github.com/GrapheneOS/platform_bionic/commit/611e5691f7e48aba8529e49b22885021f322b31e #vla formatting
+9  https://github.com/GrapheneOS/platform_bionic/commit/8de97ce864cc781d077160a8efd4902d4338078c #pthread
+9  https://github.com/GrapheneOS/platform_bionic/commit/a47571704245e5514795f35bbcffdb8a533e738a #read only
+9  https://github.com/GrapheneOS/platform_bionic/commit/7f0947cc0e4fc52a41ef8ecfba892f5534e1fee5 #zero
+9  https://github.com/GrapheneOS/platform_bionic/commit/e9751d3370aa44e6ca77843f7c7a7aac67e5bcc0 #fork mmap
+9  https://github.com/GrapheneOS/platform_bionic/commit/83cd86d0d522c64726dac41614c00f2534044f73 #memprot pthread
+9  https://github.com/GrapheneOS/platform_bionic/commit/1ebb1654556ed74d63e43fe7dbbceae5b20f569f #memprot exit
+9  https://github.com/GrapheneOS/platform_bionic/commit/488ba483cf9ad195fda33b3250115a308bf03f75 #xor
+9  https://github.com/GrapheneOS/platform_bionic/commit/f9351d884bddaf126a8fc45c8cb14e7ca2cf463b #junk
+9  https://github.com/GrapheneOS/platform_bionic/commit/85e5bca0a525a1cb8142aa092286ae3424983dd5 #move
+
+[implemented] automatically reboot device after timeout if set
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/3afe69fda4e6d89c90bb5d35e43ed2cc272e20dc
+11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/607919bb5de5aa42558f73840a1f1c06fc5c04fd
+
+[implemented] Bluetooth auto turn off (CalyxOS)
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/e9d17cd4807dbfa837b16296b3a2e4434c060002
+11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/43ca9fac87286bab5db3be5ee079e0047a469a66
+
+[implemented] Wi-Fi auto turn off (CalyxOS)
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/423f3e151beae0c608881d4bf16b8dff22b5efc6
+11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/ff9e9e0abf72b4df05d21bb462a305c8c09a8ba0
+
+[implemented] ptrace scope
+11 https://github.com/GrapheneOS/platform_system_core/commit/ad017fba58cf8918a2dfe05f90affd2e1abe6b6a
+11 https://github.com/GrapheneOS/platform_system_sepolicy/commit/3b896055810f2e38cde0095083811c35bc0a49c6
+11 https://github.com/GrapheneOS/platform_system_sepolicy/commit/8b0419ac044d5173b9c787cc66180a586c3a601b
+11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/52ea603339c54d589009c8ee218509f3835ad011
+
+[implemented] fwrapv
+11 https://github.com/GrapheneOS/platform_build_soong/commit/7c87660739544e1ab3bef757dae869894c01cb2e
+11 https://github.com/GrapheneOS/platform_build/commit/508c9f9cbd04cdb52806e4ac2e6dd48fd27254d6
+10 https://github.com/GrapheneOS/platform_build_soong/commit/6760a427250f7a8249fe45bfd5af35f54ed739b1
+10 https://github.com/GrapheneOS/platform_build/commit/63c497725740bfb6c673456d38f14d8c6030c991
+9  https://github.com/GrapheneOS/platform_build_soong/commit/adec149524637ba191e0db27d9b729b4cd53cd9e
+9  https://github.com/GrapheneOS/platform_build/commit/5f919d5c9d9e7605b82841ffdcf5d1a16a1613fa
+
+[implemented upstream] bitpool sanity checks
+10 https://github.com/GrapheneOS/platform_system_bt/commit/f246a4ddb58ef07159bed97cdab9e078e2cc92f5
+
+[implemented] uaf
+11 https://github.com/GrapheneOS/platform_frameworks_native/commit/1f05db99ab42ee184c1c318f66bf6ee4b869ae5b
+
+[implemented] alloc_size
+11 https://github.com/GrapheneOS/platform_system_bt/commit/f242089d3fe68666cba509f005f0ff7d6c26a015
+10 https://github.com/GrapheneOS/platform_system_bt/commit/abcf485dcff6c7b06b0f241b4729fc8e2cf1d74f
+9x https://github.com/GrapheneOS/platform_system_bt/commit/c5db5a9f9e8c0b7fc0b96390f5a58089f8fbbe32
+
+[implemented] secondary user disable install
+11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/62f81c237b7f4a33fbb13752def9cbf3f5c9e0d4
+
+[implemented] constify
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/63b9f96a121648ce0815b4ff21a670af9d643203
+11 https://github.com/GrapheneOS/platform_packages_apps_Bluetooth/commit/d8a62b5156007c507e6de4ced1e0db8c271504ee
+11 https://github.com/GrapheneOS/platform_libcore/commit/e3a4d64f29c9a0cad11fe06af6ff378c9ea9dbea
+11 https://github.com/GrapheneOS/platform_packages_apps_Nfc/commit/e41f1d7f8eee4f6af7ad1f9c0b6cbf1aef94f3cd
+11 https://github.com/GrapheneOS/platform_frameworks_ex/commit/c34b037486b38bed7a45b26f736e9fe4a8c931f2
+11 https://github.com/GrapheneOS/platform_external_conscrypt/commit/dce2d0f64f68739fed38483948095621506ca244
+11 https://github.com/GrapheneOS/platform_art/commit/c99c35cb2a323896d64708fcae5d01f83f937d1e
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/07071814db0786252ddcb6149c61ea78be22f858
+10 https://github.com/GrapheneOS/platform_packages_apps_Bluetooth/commit/a48ba29b986ad67a5388f4a053080263ac4a438b
+10 https://github.com/GrapheneOS/platform_libcore/commit/157fa7811544321cc61b9aae0218aaa5f13d4f6f
+10 https://github.com/GrapheneOS/platform_frameworks_opt_net_wifi/commit/b914409e0582f093957b3f9f1d151fffdecc5136
+10 https://github.com/GrapheneOS/platform_packages_apps_Nfc/commit/20a51f508b32b64cc60f2fc300372442a4ce0dc2
+10 https://github.com/GrapheneOS/platform_external_conscrypt/commit/b8afb8af3773d630550354bd3da95da947fbb81e
+10 https://github.com/GrapheneOS/platform_art/commit/e1b6653db794da9beaa0ea1f23ced5306e887fa9
+9  https://github.com/GrapheneOS/platform_frameworks_base/commit/ff688b68a7df485c5628bda976bc5cc84999e81b
+9  https://github.com/GrapheneOS/platform_packages_apps_Bluetooth/commit/866f0df315bb1172d73648b61999af01a1130971
+9  https://github.com/GrapheneOS/platform_libcore/commit/77c9fa981a7b058ff66f5d19929c54ca7d298e4e
+9  https://github.com/GrapheneOS/platform_frameworks_opt_net_wifi/commit/fbf620e59c16915a2a277ed934bc9a77fbcce4ac
+9  https://github.com/GrapheneOS/platform_packages_apps_Nfc/commit/ceaf63c790b0ef23cf5f25d1b5c361aafd2925b5
+9  https://github.com/GrapheneOS/platform_external_conscrypt/commit/253247fc3955ecf18ff42bf8b73d075134e8f1f2
+9  https://github.com/GrapheneOS/platform_art/commit/76bf4c46f0090423ead013f02c6b0b4e58b33c95
+
+[implemented] exec spawning toggle
+12 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/9ae00559df9661b8b46750cba93266c5adaacf0e
+12 https://github.com/GrapheneOS/platform_frameworks_base/commit/f4b8f281032c4d69b22c6d1b47adec3123c526fc
+
+[implemented] exec spawning
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/14c3c1d4cd2df5dde69274e76a91b42fa383e577
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/ac1943345ec96411ecbac3ce9b15cb371cc03551
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/1abb8050413dae6ac6c1a082a38fb555c88534b9
+11  https://github.com/GrapheneOS/platform_frameworks_base/commit/2e07ab8c242551e6847bffef84546ed5eaf345cf
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/0044836677b9be153e04a91dddddcb74d9585643
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/c561811fad950dce791ef9941753ef95076da4c0
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/7a848373efa0bd5b948af7ade19927a8706f9ea2
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/89646bdeb19463424158544c6942224320e9e180
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/2a70bbac4a8342175971498084494845b4f24546
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/d414dcaa351e7a890d31c1da949421fb435ff168
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/b4cd877e3a0c2384b8939d5d1e2b6b734bbd13b2
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/98634286bbdffe967a9a03442e5aa324ec26986a
+11 https://github.com/GrapheneOS/platform_libcore/commit/4c2635390c10512b0c79ee1f3658a25d6b671ca0
+11 https://github.com/GrapheneOS/platform_libcore/commit/add34a4bc6aa69f21f012d62215b5af500bea551
+11 https://github.com/GrapheneOS/platform_build/commit/a2b51906dece2ea351b5aa4b66fa8cdefbf37ff6
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/527787f3c82d385c98c2e954bbbf092937100085
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/ffde474ad7e72c72367f16a231bc30ea8ee3311b
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/aa87e487c42e3f23b42ac151fc6a37f5cb4751e7
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/c906fe97221c7f48d5e8a6be508fb85f8df113b1
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/c69c3eecd4f34a932760303e10e3a47798335f7e
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/b2303adccc82b89f19a6f4af8834443fa7e01b67
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/5bb05db6f73992cc345d3662652bea024f3ace3b
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/536b4976880224d8518e9208f4e3caacf79e64c9
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/24802a832b514452df5cea11759be8d33a7b8bc0
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/ce6dcc2368fbf817c1c7ae2595b0367750b741dc
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/3d3d5c4d38a1614ba6e9c8baa517516bdb647223
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/2eda592b79edd89907769fbc9e8ad175523bff0b
+10 https://github.com/GrapheneOS/platform_libcore/commit/29f28b53c0cc85612e66485bc250fc57d82bc622
+10 https://github.com/GrapheneOS/platform_libcore/commit/13a992c716f9b39920a7b37af2f447ced8e45c15
+9  https://github.com/GrapheneOS/platform_frameworks_base/commit/750efbf6bce8bbe850679eb6a90b00108314226c
+9  https://github.com/GrapheneOS/platform_frameworks_base/commit/ed563b6f26452581f9dba1c1ef245e893f5045ca
+9   https://github.com/GrapheneOS/platform_frameworks_base/commit/aad3c7d750f9814344514cb187112e50574bb382
+9  https://github.com/GrapheneOS/platform_frameworks_base/commit/da3180f9a8e75b10826ce2faf046c0f3912dfd59
+9  https://github.com/GrapheneOS/platform_frameworks_base/commit/68773a29b77d6e87201b3af1b0b21e9385a1bdb0
+9  https://github.com/GrapheneOS/platform_frameworks_base/commit/283b3fa09c002861fa5525a2be8071953e05e794
+9  https://github.com/GrapheneOS/platform_frameworks_base/commit/f133136b65841735895ec15acdd2c60ecd45e72d
+9  https://github.com/GrapheneOS/platform_frameworks_base/commit/01a01ce5f6570f31232bc488da5683481ca32388
+9  https://github.com/GrapheneOS/platform_frameworks_base/commit/17c309c0988ccea718ee0779d23387d6af40a80d
+9  https://github.com/GrapheneOS/platform_frameworks_base/commit/8806ec3ef166fe1fd1eeb690ace6dd5a7682195c
+
+[implemented] hardened_malloc
+11 https://github.com/GrapheneOS/platform_system_core/commit/8c0f3c0e04d279daf9f0e9a338c698ed95a026b6
+11 https://github.com/GrapheneOS/platform_build_soong/commit/4e6320c247b78f456a83a0393360e7be1105eb5a
+11 https://github.com/GrapheneOS/platform_bionic/commit/108754debbfbaf19843aecc76679f302780c5686
+10 https://github.com/GrapheneOS/platform_system_core/commit/818be3fc1d27718254970feec80dad8bc257c8c0
+10 https://github.com/GrapheneOS/platform_bionic/commit/010949662f6579419dd310606bf1418dbd53a971
+10 https://github.com/GrapheneOS/platform_bionic/commit/ede5e38f5b11f362c393e35911d5440db27c402a
+9  https://github.com/GrapheneOS/platform_system_core/commit/80754c93bfa716519cf4fe3e604dfa03ab93c105
+9  https://github.com/GrapheneOS/platform_bionic/commit/20160b81611d6f2acd9ab59241bebeac7cf1d71c
+9  https://github.com/GrapheneOS-Archive/platform_frameworks_av/commit/08cecf5536d210bd0c4f72565a3276e14e1df596
