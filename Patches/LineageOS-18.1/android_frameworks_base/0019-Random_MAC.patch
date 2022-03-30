@@ -1,0 +1,75 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Renlord <me@renlord.com>
+Date: Fri, 13 Dec 2019 22:44:39 +1100
+Subject: [PATCH] add option of always randomizing MAC addresses
+
+---
+ api/system-current.txt                            |  1 +
+ wifi/api/system-current.txt                       |  1 +
+ wifi/java/android/net/wifi/WifiConfiguration.java | 15 +++++++++++----
+ 3 files changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/api/system-current.txt b/api/system-current.txt
+index f07ebaf19cb6..21dbbbc244a6 100755
+--- a/api/system-current.txt
++++ b/api/system-current.txt
+@@ -7117,6 +7117,7 @@ package android.net.wifi {
+     field @Deprecated public static final int METERED_OVERRIDE_METERED = 1; // 0x1
+     field @Deprecated public static final int METERED_OVERRIDE_NONE = 0; // 0x0
+     field @Deprecated public static final int METERED_OVERRIDE_NOT_METERED = 2; // 0x2
++    field @Deprecated public static final int RANDOMIZATION_ALWAYS = 100; // 0x64
+     field @Deprecated public static final int RANDOMIZATION_NONE = 0; // 0x0
+     field @Deprecated public static final int RANDOMIZATION_PERSISTENT = 1; // 0x1
+     field @Deprecated public static final int RECENT_FAILURE_AP_UNABLE_TO_HANDLE_NEW_STA = 17; // 0x11
+diff --git a/wifi/api/system-current.txt b/wifi/api/system-current.txt
+index 07793c1eb02a..2a9fa1093774 100644
+--- a/wifi/api/system-current.txt
++++ b/wifi/api/system-current.txt
+@@ -320,6 +320,7 @@ package android.net.wifi {
+     field @Deprecated public static final int METERED_OVERRIDE_METERED = 1; // 0x1
+     field @Deprecated public static final int METERED_OVERRIDE_NONE = 0; // 0x0
+     field @Deprecated public static final int METERED_OVERRIDE_NOT_METERED = 2; // 0x2
++    field @Deprecated public static final int RANDOMIZATION_ALWAYS = 100; // 0x64
+     field @Deprecated public static final int RANDOMIZATION_NONE = 0; // 0x0
+     field @Deprecated public static final int RANDOMIZATION_PERSISTENT = 1; // 0x1
+     field @Deprecated public static final int RECENT_FAILURE_AP_UNABLE_TO_HANDLE_NEW_STA = 17; // 0x11
+diff --git a/wifi/java/android/net/wifi/WifiConfiguration.java b/wifi/java/android/net/wifi/WifiConfiguration.java
+index 71f0ab8087ab..8f52ba46a409 100644
+--- a/wifi/java/android/net/wifi/WifiConfiguration.java
++++ b/wifi/java/android/net/wifi/WifiConfiguration.java
+@@ -1130,7 +1130,8 @@ public class WifiConfiguration implements Parcelable {
+     @Retention(RetentionPolicy.SOURCE)
+     @IntDef(prefix = {"RANDOMIZATION_"}, value = {
+             RANDOMIZATION_NONE,
+-            RANDOMIZATION_PERSISTENT})
++            RANDOMIZATION_PERSISTENT,
++            RANDOMIZATION_ALWAYS})
+     public @interface MacRandomizationSetting {}
+ 
+     /**
+@@ -1145,16 +1146,22 @@ public class WifiConfiguration implements Parcelable {
+      */
+     @SystemApi
+     public static final int RANDOMIZATION_PERSISTENT = 1;
++    /**
++     * @hide
++     * Generate a randomize MAC always
++     */
++    @SystemApi
++    public static final int RANDOMIZATION_ALWAYS = 100;
+ 
+     /**
+      * Level of MAC randomization for this network.
+-     * One of {@link #RANDOMIZATION_NONE} or {@link #RANDOMIZATION_PERSISTENT}.
+-     * By default this field is set to {@link #RANDOMIZATION_PERSISTENT}.
++     * One of {@link #RANDOMIZATION_NONE} or {@link #RANDOMIZATION_PERSISTENT} or RANDOMIZATION_ALWAYS.
++     * By default this field is set to RANDOMIZATION_ALWAYS in GrapheneOS.
+      * @hide
+      */
+     @SystemApi
+     @MacRandomizationSetting
+-    public int macRandomizationSetting = RANDOMIZATION_PERSISTENT;
++    public int macRandomizationSetting = RANDOMIZATION_ALWAYS;
+ 
+     /**
+      * @hide

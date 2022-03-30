@@ -1,0 +1,193 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Renlord <me@renlord.com>
+Date: Sun, 8 Dec 2019 23:58:24 +0100
+Subject: [PATCH] add option to always randomize MAC
+
+RANDOMIZATION_ALWAYS is set as the default option
+---
+ res/values/arrays.xml                         |  4 ++-
+ .../WifiDetailPreferenceController.java       |  5 +--
+ .../WifiPrivacyPreferenceController.java      | 31 ++++++++++++++-----
+ .../WifiDetailPreferenceController2.java      |  2 +-
+ .../WifiPrivacyPreferenceController2.java     | 31 +++++++++++++++----
+ 5 files changed, 56 insertions(+), 17 deletions(-)
+
+diff --git a/res/values/arrays.xml b/res/values/arrays.xml
+index 6259f4d1a5..e93794e955 100644
+--- a/res/values/arrays.xml
++++ b/res/values/arrays.xml
+@@ -1332,7 +1332,8 @@
+     </string-array>
+ 
+     <string-array name="wifi_privacy_entries">
+-        <item>Use randomized MAC (default)</item>
++        <item>Use fully randomized MAC (default)</item>
++        <item>Use per-network randomized MAC</item>
+         <item>Use device MAC</item>
+     </string-array>
+ 
+@@ -1348,6 +1349,7 @@
+     </string-array>
+ 
+     <string-array name="wifi_privacy_values" translatable="false">
++        <item>100</item>
+         <item>1</item>
+         <item>0</item>
+     </string-array>
+diff --git a/src/com/android/settings/wifi/details/WifiDetailPreferenceController.java b/src/com/android/settings/wifi/details/WifiDetailPreferenceController.java
+index 8dd8d7ad6a..d900bc6a27 100644
+--- a/src/com/android/settings/wifi/details/WifiDetailPreferenceController.java
++++ b/src/com/android/settings/wifi/details/WifiDetailPreferenceController.java
+@@ -822,7 +822,8 @@ public class WifiDetailPreferenceController extends AbstractPreferenceController
+ 
+         // return randomized MAC address
+         if (mWifiConfig != null &&
+-                mWifiConfig.macRandomizationSetting == WifiConfiguration.RANDOMIZATION_PERSISTENT) {
++                (mWifiConfig.macRandomizationSetting == WifiConfiguration.RANDOMIZATION_PERSISTENT
++                 || mWifiConfig.macRandomizationSetting == WifiConfiguration.RANDOMIZATION_ALWAYS)) {
+             return mWifiConfig.getRandomizedMacAddress().toString();
+         }
+ 
+@@ -1288,7 +1289,7 @@ public class WifiDetailPreferenceController extends AbstractPreferenceController
+ 
+         mMacAddressPref.setTitle(
+                 (mWifiConfig.macRandomizationSetting
+-                        == WifiConfiguration.RANDOMIZATION_PERSISTENT)
++                        != WifiConfiguration.RANDOMIZATION_NONE)
+                         ? R.string.wifi_advanced_randomized_mac_address_title
+                         : R.string.wifi_advanced_device_mac_address_title);
+ 
+diff --git a/src/com/android/settings/wifi/details/WifiPrivacyPreferenceController.java b/src/com/android/settings/wifi/details/WifiPrivacyPreferenceController.java
+index 6658411479..2266805808 100644
+--- a/src/com/android/settings/wifi/details/WifiPrivacyPreferenceController.java
++++ b/src/com/android/settings/wifi/details/WifiPrivacyPreferenceController.java
+@@ -115,11 +115,12 @@ public class WifiPrivacyPreferenceController extends BasePreferenceController im
+         if (mWifiConfiguration != null) {
+             return mWifiConfiguration.macRandomizationSetting;
+         }
+-        return WifiConfiguration.RANDOMIZATION_PERSISTENT;
++        return WifiConfiguration.RANDOMIZATION_ALWAYS;
+     }
+ 
+-    private static final int PREF_RANDOMIZATION_PERSISTENT = 0;
+-    private static final int PREF_RANDOMIZATION_NONE = 1;
++    private static final int PREF_RANDOMIZATION_ALWAYS = 0;
++    private static final int PREF_RANDOMIZATION_PERSISTENT = 1;
++    private static final int PREF_RANDOMIZATION_NONE = 2;
+ 
+     /**
+      * Returns preference index value.
+@@ -128,8 +129,16 @@ public class WifiPrivacyPreferenceController extends BasePreferenceController im
+      * @return index value of preference
+      */
+     public static int translateMacRandomizedValueToPrefValue(int macRandomized) {
+-        return (macRandomized == WifiConfiguration.RANDOMIZATION_PERSISTENT)
+-            ? PREF_RANDOMIZATION_PERSISTENT : PREF_RANDOMIZATION_NONE;
++        switch (macRandomized) {
++            case WifiConfiguration.RANDOMIZATION_ALWAYS:
++                return PREF_RANDOMIZATION_ALWAYS;
++            case WifiConfiguration.RANDOMIZATION_PERSISTENT:
++                return PREF_RANDOMIZATION_PERSISTENT;
++            case WifiConfiguration.RANDOMIZATION_NONE:
++                return PREF_RANDOMIZATION_NONE;
++            default:
++                return PREF_RANDOMIZATION_ALWAYS;
++        }
+     }
+ 
+     /**
+@@ -139,8 +148,16 @@ public class WifiPrivacyPreferenceController extends BasePreferenceController im
+      * @return mac randomized value
+      */
+     public static int translatePrefValueToMacRandomizedValue(int prefMacRandomized) {
+-        return (prefMacRandomized == PREF_RANDOMIZATION_PERSISTENT)
+-            ? WifiConfiguration.RANDOMIZATION_PERSISTENT : WifiConfiguration.RANDOMIZATION_NONE;
++        switch (prefMacRandomized) {
++            case PREF_RANDOMIZATION_ALWAYS:
++                return WifiConfiguration.RANDOMIZATION_ALWAYS;
++            case PREF_RANDOMIZATION_PERSISTENT:
++                return WifiConfiguration.RANDOMIZATION_PERSISTENT;
++            case PREF_RANDOMIZATION_NONE:
++                return WifiConfiguration.RANDOMIZATION_NONE;
++            default:
++                return WifiConfiguration.RANDOMIZATION_ALWAYS;
++        }
+     }
+ 
+     private void updateSummary(DropDownPreference preference, int macRandomized) {
+diff --git a/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java b/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
+index 9b305777fd..f04bbcd38f 100644
+--- a/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
++++ b/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
+@@ -749,7 +749,7 @@ public class WifiDetailPreferenceController2 extends AbstractPreferenceControlle
+ 
+         mMacAddressPref.setVisible(true);
+ 
+-        mMacAddressPref.setTitle((mWifiEntry.getPrivacy() == WifiEntry.PRIVACY_RANDOMIZED_MAC)
++        mMacAddressPref.setTitle((mWifiEntry.getPrivacy() != WifiEntry.PRIVACY_DEVICE_MAC)
+                 ? R.string.wifi_advanced_randomized_mac_address_title
+                 : R.string.wifi_advanced_device_mac_address_title);
+ 
+diff --git a/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java b/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java
+index d6e1b6054d..ab51c59e1a 100644
+--- a/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java
++++ b/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java
+@@ -100,8 +100,9 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
+         return mWifiEntry.getPrivacy();
+     }
+ 
+-    private static final int PREF_RANDOMIZATION_PERSISTENT = 0;
+-    private static final int PREF_RANDOMIZATION_NONE = 1;
++    private static final int PREF_RANDOMIZATION_ALWAYS = 0;
++    private static final int PREF_RANDOMIZATION_PERSISTENT = 1;
++    private static final int PREF_RANDOMIZATION_NONE = 2;
+ 
+     /**
+      * Returns preference index value.
+@@ -110,8 +111,16 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
+      * @return index value of preference
+      */
+     public static int translateMacRandomizedValueToPrefValue(int macRandomized) {
+-        return (macRandomized == WifiEntry.PRIVACY_RANDOMIZED_MAC)
+-            ? PREF_RANDOMIZATION_PERSISTENT : PREF_RANDOMIZATION_NONE;
++        switch (macRandomized) {
++            case WifiConfiguration.RANDOMIZATION_ALWAYS:
++                return PREF_RANDOMIZATION_ALWAYS;
++            case WifiConfiguration.RANDOMIZATION_PERSISTENT:
++                return PREF_RANDOMIZATION_PERSISTENT;
++            case WifiConfiguration.RANDOMIZATION_NONE:
++                return PREF_RANDOMIZATION_NONE;
++            default:
++                return PREF_RANDOMIZATION_ALWAYS;
++        }
+     }
+ 
+     /**
+@@ -121,8 +130,16 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
+      * @return mac randomized value
+      */
+     public static int translatePrefValueToMacRandomizedValue(int prefMacRandomized) {
+-        return (prefMacRandomized == PREF_RANDOMIZATION_PERSISTENT)
+-            ? WifiEntry.PRIVACY_RANDOMIZED_MAC : WifiEntry.PRIVACY_DEVICE_MAC;
++        switch (prefMacRandomized) {
++            case PREF_RANDOMIZATION_ALWAYS:
++                return WifiConfiguration.RANDOMIZATION_ALWAYS;
++            case PREF_RANDOMIZATION_PERSISTENT:
++                return WifiConfiguration.RANDOMIZATION_PERSISTENT;
++            case PREF_RANDOMIZATION_NONE:
++                return WifiConfiguration.RANDOMIZATION_NONE;
++            default:
++                return WifiConfiguration.RANDOMIZATION_ALWAYS;
++        }
+     }
+ 
+     private void updateSummary(DropDownPreference preference, int macRandomized) {
+@@ -152,6 +169,8 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
+                 return WifiEntry.PRIVACY_DEVICE_MAC;
+             case WifiConfiguration.RANDOMIZATION_PERSISTENT:
+                 return WifiEntry.PRIVACY_RANDOMIZED_MAC;
++            case WifiConfiguration.RANDOMIZATION_ALWAYS:
++                return WifiEntry.PRIVACY_FULLY_RANDOMIZED_MAC;
+             default:
+                 return WifiEntry.PRIVACY_UNKNOWN;
+         }

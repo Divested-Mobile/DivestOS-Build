@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Renlord <me@renlord.com>
+Date: Fri, 13 Dec 2019 22:44:39 +1100
+Subject: [PATCH] add option of always randomizing MAC addresses
+
+---
+ wifi/java/android/net/wifi/WifiConfiguration.java | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/wifi/java/android/net/wifi/WifiConfiguration.java b/wifi/java/android/net/wifi/WifiConfiguration.java
+index 88f2bb2ad6e8..24a9b043b75c 100644
+--- a/wifi/java/android/net/wifi/WifiConfiguration.java
++++ b/wifi/java/android/net/wifi/WifiConfiguration.java
+@@ -1015,12 +1015,17 @@ public class WifiConfiguration implements Parcelable {
+      * Generate a randomized MAC once and reuse it for all connections to this network
+      */
+     public static final int RANDOMIZATION_PERSISTENT = 1;
++    /**
++     * @hide
++     * Generate a randomize MAC always
++     */
++    public static final int RANDOMIZATION_ALWAYS = 100;
+ 
+     /**
+      * @hide
+      * Level of MAC randomization for this network
+      */
+-    public int macRandomizationSetting = RANDOMIZATION_PERSISTENT;
++    public int macRandomizationSetting = RANDOMIZATION_ALWAYS;
+ 
+     /**
+      * @hide

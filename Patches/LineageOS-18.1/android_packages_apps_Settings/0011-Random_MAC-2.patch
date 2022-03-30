@@ -1,0 +1,1368 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 2 Dec 2020 10:38:08 -0500
+Subject: [PATCH] remove partial MAC randomization translations
+
+---
+ res/values-af/arrays.xml        | 4 ----
+ res/values-am/arrays.xml        | 4 ----
+ res/values-ar/arrays.xml        | 4 ----
+ res/values-as/arrays.xml        | 4 ----
+ res/values-az/arrays.xml        | 4 ----
+ res/values-b+sr+Latn/arrays.xml | 4 ----
+ res/values-be/arrays.xml        | 4 ----
+ res/values-bg/arrays.xml        | 4 ----
+ res/values-bn/arrays.xml        | 4 ----
+ res/values-bs/arrays.xml        | 4 ----
+ res/values-ca/arrays.xml        | 4 ----
+ res/values-cs/arrays.xml        | 4 ----
+ res/values-da/arrays.xml        | 4 ----
+ res/values-de/arrays.xml        | 4 ----
+ res/values-el/arrays.xml        | 4 ----
+ res/values-en-rAU/arrays.xml    | 4 ----
+ res/values-en-rCA/arrays.xml    | 4 ----
+ res/values-en-rGB/arrays.xml    | 4 ----
+ res/values-en-rIN/arrays.xml    | 4 ----
+ res/values-en-rXC/arrays.xml    | 4 ----
+ res/values-es-rUS/arrays.xml    | 4 ----
+ res/values-es/arrays.xml        | 4 ----
+ res/values-et/arrays.xml        | 4 ----
+ res/values-eu/arrays.xml        | 4 ----
+ res/values-fa/arrays.xml        | 4 ----
+ res/values-fi/arrays.xml        | 4 ----
+ res/values-fr-rCA/arrays.xml    | 4 ----
+ res/values-fr/arrays.xml        | 4 ----
+ res/values-gl/arrays.xml        | 4 ----
+ res/values-gu/arrays.xml        | 4 ----
+ res/values-hi/arrays.xml        | 4 ----
+ res/values-hr/arrays.xml        | 4 ----
+ res/values-hu/arrays.xml        | 4 ----
+ res/values-hy/arrays.xml        | 4 ----
+ res/values-in/arrays.xml        | 4 ----
+ res/values-is/arrays.xml        | 4 ----
+ res/values-it/arrays.xml        | 4 ----
+ res/values-iw/arrays.xml        | 4 ----
+ res/values-ja/arrays.xml        | 4 ----
+ res/values-ka/arrays.xml        | 4 ----
+ res/values-kk/arrays.xml        | 4 ----
+ res/values-km/arrays.xml        | 4 ----
+ res/values-kn/arrays.xml        | 4 ----
+ res/values-ko/arrays.xml        | 4 ----
+ res/values-ky/arrays.xml        | 4 ----
+ res/values-lo/arrays.xml        | 4 ----
+ res/values-lt/arrays.xml        | 4 ----
+ res/values-lv/arrays.xml        | 4 ----
+ res/values-mk/arrays.xml        | 4 ----
+ res/values-ml/arrays.xml        | 4 ----
+ res/values-mn/arrays.xml        | 4 ----
+ res/values-mr/arrays.xml        | 4 ----
+ res/values-ms/arrays.xml        | 4 ----
+ res/values-my/arrays.xml        | 4 ----
+ res/values-nb/arrays.xml        | 4 ----
+ res/values-ne/arrays.xml        | 4 ----
+ res/values-nl/arrays.xml        | 4 ----
+ res/values-or/arrays.xml        | 4 ----
+ res/values-pa/arrays.xml        | 4 ----
+ res/values-pl/arrays.xml        | 4 ----
+ res/values-pt-rBR/arrays.xml    | 4 ----
+ res/values-pt-rPT/arrays.xml    | 4 ----
+ res/values-pt/arrays.xml        | 4 ----
+ res/values-ro/arrays.xml        | 4 ----
+ res/values-ru/arrays.xml        | 4 ----
+ res/values-si/arrays.xml        | 4 ----
+ res/values-sk/arrays.xml        | 4 ----
+ res/values-sl/arrays.xml        | 4 ----
+ res/values-sq/arrays.xml        | 4 ----
+ res/values-sr/arrays.xml        | 4 ----
+ res/values-sv/arrays.xml        | 4 ----
+ res/values-sw/arrays.xml        | 4 ----
+ res/values-ta/arrays.xml        | 4 ----
+ res/values-te/arrays.xml        | 4 ----
+ res/values-th/arrays.xml        | 4 ----
+ res/values-tl/arrays.xml        | 4 ----
+ res/values-tr/arrays.xml        | 4 ----
+ res/values-uk/arrays.xml        | 4 ----
+ res/values-ur/arrays.xml        | 4 ----
+ res/values-uz/arrays.xml        | 4 ----
+ res/values-vi/arrays.xml        | 4 ----
+ res/values-zh-rCN/arrays.xml    | 4 ----
+ res/values-zh-rHK/arrays.xml    | 4 ----
+ res/values-zh-rTW/arrays.xml    | 4 ----
+ res/values-zu/arrays.xml        | 4 ----
+ 85 files changed, 340 deletions(-)
+
+diff --git a/res/values-af/arrays.xml b/res/values-af/arrays.xml
+index 5b8ed28439..be4355ad42 100644
+--- a/res/values-af/arrays.xml
++++ b/res/values-af/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Hanteer as beperk"</item>
+     <item msgid="2047166446768045816">"Hanteer as onbeperk"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Gebruik ewekansige MAC (verstek)"</item>
+-    <item msgid="741680937828608749">"Gebruik toestel-MAC"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Nee"</item>
+     <item msgid="2163015208097377388">"Ja"</item>
+diff --git a/res/values-am/arrays.xml b/res/values-am/arrays.xml
+index f44cb4809e..a343c0916f 100644
+--- a/res/values-am/arrays.xml
++++ b/res/values-am/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"እንደ ተለካ አስተናግድ"</item>
+     <item msgid="2047166446768045816">"እንደ ያልተለካ አስተናግድ"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"የዘፈቀደ ማክ ይጠቀሙ (ነባሪ)"</item>
+-    <item msgid="741680937828608749">"የመሣሪያ ማክ ይጠቀሙ"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"አይ"</item>
+     <item msgid="2163015208097377388">"አዎ"</item>
+diff --git a/res/values-ar/arrays.xml b/res/values-ar/arrays.xml
+index 4218a24b19..d0f3705583 100644
+--- a/res/values-ar/arrays.xml
++++ b/res/values-ar/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"معاملة الشبكة باعتبارها تفرض تكلفة استخدام"</item>
+     <item msgid="2047166446768045816">"معاملة الشبكة باعتبارها لا تفرض تكلفة استخدام"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"‏استخدام عنوان MAC عشوائي (الإعداد التلقائي)"</item>
+-    <item msgid="741680937828608749">"‏استخدام عنوان MAC للجهاز"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"لا"</item>
+     <item msgid="2163015208097377388">"نعم"</item>
+diff --git a/res/values-as/arrays.xml b/res/values-as/arrays.xml
+index ac224cbb33..d58efd7d84 100644
+--- a/res/values-as/arrays.xml
++++ b/res/values-as/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"মিটাৰ কৰা হিছাপে আচৰণ কৰক"</item>
+     <item msgid="2047166446768045816">"নিৰিখ অনিৰ্দিষ্ট বুলি গণ্য কৰক"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"যাদৃচ্ছিক MAC ব্যৱহাৰ কৰক (ডিফ’ল্ট)"</item>
+-    <item msgid="741680937828608749">"ডিভাইচৰ MAC ব্যৱহাৰ কৰক"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"নহয়"</item>
+     <item msgid="2163015208097377388">"হয়"</item>
+diff --git a/res/values-az/arrays.xml b/res/values-az/arrays.xml
+index 1a73dd637e..370387554f 100644
+--- a/res/values-az/arrays.xml
++++ b/res/values-az/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Limitli olaraq qəbul edin"</item>
+     <item msgid="2047166446768045816">"Limitisiz olaraq qəbul edin"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"İxtiyari MAC (defolt) istifadə edin"</item>
+-    <item msgid="741680937828608749">"MAC cihazından istifadə edin"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Xeyr"</item>
+     <item msgid="2163015208097377388">"Bəli"</item>
+diff --git a/res/values-b+sr+Latn/arrays.xml b/res/values-b+sr+Latn/arrays.xml
+index c58829c465..d072a0cbea 100644
+--- a/res/values-b+sr+Latn/arrays.xml
++++ b/res/values-b+sr+Latn/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Tretiraj kao mrežu sa ograničenjem"</item>
+     <item msgid="2047166446768045816">"Tretiraj kao mrežu bez ograničenja"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Koristi nasumično izabranu MAC adresu (podrazumevano)"</item>
+-    <item msgid="741680937828608749">"Koristi MAC adresu uređaja"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Ne"</item>
+     <item msgid="2163015208097377388">"Da"</item>
+diff --git a/res/values-be/arrays.xml b/res/values-be/arrays.xml
+index 0e22b482df..8489cbbea3 100644
+--- a/res/values-be/arrays.xml
++++ b/res/values-be/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Лімітная"</item>
+     <item msgid="2047166446768045816">"Безлімітная"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Выпадковы MAC-адрас (стандартна)"</item>
+-    <item msgid="741680937828608749">"Выкарыстоўваць MAC-адрас прылады"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Не"</item>
+     <item msgid="2163015208097377388">"Так"</item>
+diff --git a/res/values-bg/arrays.xml b/res/values-bg/arrays.xml
+index 6960746676..8a6c7315ab 100644
+--- a/res/values-bg/arrays.xml
++++ b/res/values-bg/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Третиране като мрежа с отчитане"</item>
+     <item msgid="2047166446768045816">"Третиране като мрежа без отчитане"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Произв. генериран MAC адрес (станд.)"</item>
+-    <item msgid="741680937828608749">"Използване на MAC адреса на устройството"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Не"</item>
+     <item msgid="2163015208097377388">"Да"</item>
+diff --git a/res/values-bn/arrays.xml b/res/values-bn/arrays.xml
+index 8b5aaa17c6..5ec3f390df 100644
+--- a/res/values-bn/arrays.xml
++++ b/res/values-bn/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"মিটারিং চালু রাখুন"</item>
+     <item msgid="2047166446768045816">"মিটারিং বন্ধ রাখুন"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"র‍্যান্ডমাইজ করা MAC ব্যবহার করুন (ডিফল্ট)"</item>
+-    <item msgid="741680937828608749">"ডিভাইসের MAC ব্যবহার করুন"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"না"</item>
+     <item msgid="2163015208097377388">"হ্যাঁ"</item>
+diff --git a/res/values-bs/arrays.xml b/res/values-bs/arrays.xml
+index 7887d4ace3..89d6319717 100644
+--- a/res/values-bs/arrays.xml
++++ b/res/values-bs/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Tretiraj kao vezu s naplatom"</item>
+     <item msgid="2047166446768045816">"Tretiraj kao vezu bez naplate"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Koristi nasumičnu MAC adresu (zadano)"</item>
+-    <item msgid="741680937828608749">"Koristi MAC adresu uređaja"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Ne"</item>
+     <item msgid="2163015208097377388">"Da"</item>
+diff --git a/res/values-ca/arrays.xml b/res/values-ca/arrays.xml
+index 30fa788c9b..aaf9df2524 100644
+--- a/res/values-ca/arrays.xml
++++ b/res/values-ca/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Tracta com a xarxa d\'ús mesurat"</item>
+     <item msgid="2047166446768045816">"Tracta com a xarxa d\'ús no mesurat"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Utilitza adreça MAC aleatòria (predeterminat)"</item>
+-    <item msgid="741680937828608749">"Utilitza adreça MAC del dispositiu"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"No"</item>
+     <item msgid="2163015208097377388">"Sí"</item>
+diff --git a/res/values-cs/arrays.xml b/res/values-cs/arrays.xml
+index 179cd3bf9b..c241bd3fb9 100644
+--- a/res/values-cs/arrays.xml
++++ b/res/values-cs/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Považovat za měřenou síť"</item>
+     <item msgid="2047166446768045816">"Považovat za neměřenou síť"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Použít náhodnou MAC (výchozí)"</item>
+-    <item msgid="741680937828608749">"Použít adresu MAC zařízení"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Ne"</item>
+     <item msgid="2163015208097377388">"Ano"</item>
+diff --git a/res/values-da/arrays.xml b/res/values-da/arrays.xml
+index 2aa7c34f16..ba99b7518f 100644
+--- a/res/values-da/arrays.xml
++++ b/res/values-da/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Håndter som forbrugsafregnet netværk"</item>
+     <item msgid="2047166446768045816">"Håndter som ubegrænset netværk"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Anvend tilfældig MAC (standard)"</item>
+-    <item msgid="741680937828608749">"Anvend enhedens MAC"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Nej"</item>
+     <item msgid="2163015208097377388">"Ja"</item>
+diff --git a/res/values-de/arrays.xml b/res/values-de/arrays.xml
+index e1b59f2c4f..ad443fdba3 100644
+--- a/res/values-de/arrays.xml
++++ b/res/values-de/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Wie \"kostenpflichtig\" behandeln"</item>
+     <item msgid="2047166446768045816">"Wie \"ohne Datenlimit\" behandeln"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Zufällige MAC-Adresse verwenden (Standard)"</item>
+-    <item msgid="741680937828608749">"MAC-Adresse des Geräts verwenden"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Nein"</item>
+     <item msgid="2163015208097377388">"Ja"</item>
+diff --git a/res/values-el/arrays.xml b/res/values-el/arrays.xml
+index e0d0aa777e..5ebebacb42 100644
+--- a/res/values-el/arrays.xml
++++ b/res/values-el/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Χρήση ως δικτύου με περιορισμούς"</item>
+     <item msgid="2047166446768045816">"Χρήση ως δικτύου χωρίς περιορισμούς"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Χρήση τυχαίου MAC (προεπιλογή)"</item>
+-    <item msgid="741680937828608749">"Χρήση MAC συσκευής"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Όχι"</item>
+     <item msgid="2163015208097377388">"Ναι"</item>
+diff --git a/res/values-en-rAU/arrays.xml b/res/values-en-rAU/arrays.xml
+index ec8510a50e..a06b19a556 100644
+--- a/res/values-en-rAU/arrays.xml
++++ b/res/values-en-rAU/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Treat as metered"</item>
+     <item msgid="2047166446768045816">"Treat as unmetered"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Use randomised MAC (default)"</item>
+-    <item msgid="741680937828608749">"Use device MAC"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"No"</item>
+     <item msgid="2163015208097377388">"Yes"</item>
+diff --git a/res/values-en-rCA/arrays.xml b/res/values-en-rCA/arrays.xml
+index 47c9e00e40..a06b19a556 100644
+--- a/res/values-en-rCA/arrays.xml
++++ b/res/values-en-rCA/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Treat as metered"</item>
+     <item msgid="2047166446768045816">"Treat as unmetered"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Use randomized MAC (default)"</item>
+-    <item msgid="741680937828608749">"Use device MAC"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"No"</item>
+     <item msgid="2163015208097377388">"Yes"</item>
+diff --git a/res/values-en-rGB/arrays.xml b/res/values-en-rGB/arrays.xml
+index ec8510a50e..a06b19a556 100644
+--- a/res/values-en-rGB/arrays.xml
++++ b/res/values-en-rGB/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Treat as metered"</item>
+     <item msgid="2047166446768045816">"Treat as unmetered"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Use randomised MAC (default)"</item>
+-    <item msgid="741680937828608749">"Use device MAC"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"No"</item>
+     <item msgid="2163015208097377388">"Yes"</item>
+diff --git a/res/values-en-rIN/arrays.xml b/res/values-en-rIN/arrays.xml
+index ec8510a50e..a06b19a556 100644
+--- a/res/values-en-rIN/arrays.xml
++++ b/res/values-en-rIN/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Treat as metered"</item>
+     <item msgid="2047166446768045816">"Treat as unmetered"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Use randomised MAC (default)"</item>
+-    <item msgid="741680937828608749">"Use device MAC"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"No"</item>
+     <item msgid="2163015208097377388">"Yes"</item>
+diff --git a/res/values-en-rXC/arrays.xml b/res/values-en-rXC/arrays.xml
+index d900cd1feb..cd7ded213a 100644
+--- a/res/values-en-rXC/arrays.xml
++++ b/res/values-en-rXC/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‏‏‎‏‏‎‏‎‎‎‏‏‏‎‎‏‎‎‎‎‎‏‎‎‎‎‏‎‎‏‎‎‎‏‎‏‎‎‎‏‏‏‎‎‎‎‏‎‎‏‎‏‏‏‏‎‏‎‎‏‏‎‏‏‏‎Treat as metered‎‏‎‎‏‎"</item>
+     <item msgid="2047166446768045816">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‏‎‏‏‏‏‎‎‎‏‏‎‏‎‎‎‏‏‏‏‏‏‏‏‎‎‎‎‏‎‎‏‎‏‏‏‎‏‏‏‏‎‏‏‎‏‎‏‎‎‏‏‏‏‏‎‏‏‏‏‏‎‎‎‎Treat as unmetered‎‏‎‎‏‎"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‏‏‎‏‏‎‎‎‎‎‏‏‎‎‎‎‎‏‎‎‏‎‎‎‏‎‎‎‎‏‏‏‎‏‏‏‎‏‏‏‏‏‎‎‎‏‏‎‎‎‏‏‏‎‎‏‎‎‏‎‎‏‎‎‏‎Use randomized MAC (default)‎‏‎‎‏‎"</item>
+-    <item msgid="741680937828608749">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‏‎‎‏‎‏‎‎‏‎‎‏‎‏‎‏‏‏‏‏‎‏‎‏‏‏‎‎‎‏‎‎‎‏‎‎‎‏‏‏‏‏‏‎‎‏‏‏‏‏‎‏‎‏‎‏‏‏‎‏‏‎‏‎Use device MAC‎‏‎‎‏‎"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‎‏‏‏‎‎‏‎‏‏‏‏‏‏‏‏‎‏‏‎‏‎‎‏‎‎‏‎‏‏‏‏‏‏‏‏‎‎‏‎‎‎‏‎‎‎‎‏‏‎‏‏‏‏‎‏‏‎‎‏‏‎‎No‎‏‎‎‏‎"</item>
+     <item msgid="2163015208097377388">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‏‎‏‏‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‏‎‎‏‎‏‏‎‏‏‏‏‏‎‎‏‎‎‎‏‎‎‏‏‎‏‎‎‏‎‏‏‎‏‏‎‎‎‏‏‎‏‏‎‎‎Yes‎‏‎‎‏‎"</item>
+diff --git a/res/values-es-rUS/arrays.xml b/res/values-es-rUS/arrays.xml
+index b88ae64cdb..30bcf95977 100644
+--- a/res/values-es-rUS/arrays.xml
++++ b/res/values-es-rUS/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Tratar como red de uso medido"</item>
+     <item msgid="2047166446768045816">"Tratar como red de uso no medido"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Usar MAC aleatoria (pred.)"</item>
+-    <item msgid="741680937828608749">"Usar MAC del dispositivo"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"No"</item>
+     <item msgid="2163015208097377388">"Sí"</item>
+diff --git a/res/values-es/arrays.xml b/res/values-es/arrays.xml
+index 1f2dc1ad43..da3d30e84b 100644
+--- a/res/values-es/arrays.xml
++++ b/res/values-es/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Tratar como red de uso medido"</item>
+     <item msgid="2047166446768045816">"Tratar como red de uso no medido"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Usar dirección MAC aleatoria (predeterminado)"</item>
+-    <item msgid="741680937828608749">"Usar dirección MAC del dispositivo"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"No"</item>
+     <item msgid="2163015208097377388">"Sí"</item>
+diff --git a/res/values-et/arrays.xml b/res/values-et/arrays.xml
+index 036cf5fa1c..c9924740f8 100644
+--- a/res/values-et/arrays.xml
++++ b/res/values-et/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Käsitle mahupõhisena"</item>
+     <item msgid="2047166446768045816">"Käsitle mittemahupõhisena"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Kasuta juhuslikku MAC-aadressi (vaikeseade)"</item>
+-    <item msgid="741680937828608749">"Kasuta seadme MAC-aadressi"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Ei"</item>
+     <item msgid="2163015208097377388">"Jah"</item>
+diff --git a/res/values-eu/arrays.xml b/res/values-eu/arrays.xml
+index ff3a8a92bd..18b3302c91 100644
+--- a/res/values-eu/arrays.xml
++++ b/res/values-eu/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Tratatu sare neurtu gisa"</item>
+     <item msgid="2047166446768045816">"Tratatu neurtu gabeko sare gisa"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Erabili ausaz aukeratutako MAC helbidea (lehenetsia)"</item>
+-    <item msgid="741680937828608749">"Erabili gailuaren MAC helbidea"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Ez"</item>
+     <item msgid="2163015208097377388">"Bai"</item>
+diff --git a/res/values-fa/arrays.xml b/res/values-fa/arrays.xml
+index 9f010de3ee..67d2a51ba6 100644
+--- a/res/values-fa/arrays.xml
++++ b/res/values-fa/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"محدودشده حساب شود"</item>
+     <item msgid="2047166446768045816">"محدودنشده حساب شود"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"‏استفاده از MAC تصادفی (پیش‌فرض)"</item>
+-    <item msgid="741680937828608749">"‏استفاده از MAC دستگاه"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"نه"</item>
+     <item msgid="2163015208097377388">"بله"</item>
+diff --git a/res/values-fi/arrays.xml b/res/values-fi/arrays.xml
+index 92a3668e0b..dbb5afb461 100644
+--- a/res/values-fi/arrays.xml
++++ b/res/values-fi/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Merkitse maksulliseksi"</item>
+     <item msgid="2047166446768045816">"Merkitse maksuttomaksi"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Käytä satunnaistettua MACia (oletus)"</item>
+-    <item msgid="741680937828608749">"Käytä laitteen MAC-osoitetta"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Ei"</item>
+     <item msgid="2163015208097377388">"Kyllä"</item>
+diff --git a/res/values-fr-rCA/arrays.xml b/res/values-fr-rCA/arrays.xml
+index 70688e9f99..2f322a7c53 100644
+--- a/res/values-fr-rCA/arrays.xml
++++ b/res/values-fr-rCA/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Considérer comme facturé à l\'usage"</item>
+     <item msgid="2047166446768045816">"Considérer comme non facturé à l\'usage"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Utiliser une adresse MAC aléatoire (par défaut)"</item>
+-    <item msgid="741680937828608749">"Utiliser l\'adresse MAC de l\'appareil"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Non"</item>
+     <item msgid="2163015208097377388">"Oui"</item>
+diff --git a/res/values-fr/arrays.xml b/res/values-fr/arrays.xml
+index 93d84fd69b..75340a00c7 100644
+--- a/res/values-fr/arrays.xml
++++ b/res/values-fr/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Considérer comme facturé à l\'usage"</item>
+     <item msgid="2047166446768045816">"Considérer comme non facturé à l\'usage"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Utiliser adresse MAC aléatoire (par défaut)"</item>
+-    <item msgid="741680937828608749">"Utiliser adresse MAC de l\'appareil"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Non"</item>
+     <item msgid="2163015208097377388">"Oui"</item>
+diff --git a/res/values-gl/arrays.xml b/res/values-gl/arrays.xml
+index 7aa91b8205..9c6e76bdc1 100644
+--- a/res/values-gl/arrays.xml
++++ b/res/values-gl/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Tratar como rede sen tarifa plana"</item>
+     <item msgid="2047166446768045816">"Tratar como rede con tarifa plana"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Usar MAC aleatorio (valor predeterminado)"</item>
+-    <item msgid="741680937828608749">"Usar dispositivo MAC"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Non"</item>
+     <item msgid="2163015208097377388">"Si"</item>
+diff --git a/res/values-gu/arrays.xml b/res/values-gu/arrays.xml
+index 4c86afb43d..63c66d6dd7 100644
+--- a/res/values-gu/arrays.xml
++++ b/res/values-gu/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"મીટર કરેલ તરીકે ગણો"</item>
+     <item msgid="2047166446768045816">"મીટર ન કરેલ તરીકે ગણો"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"રેન્ડમ કરેલ MACનો ઉપયોગ કરો (ડિફૉલ્ટ)"</item>
+-    <item msgid="741680937828608749">"MAC ડિવાઇસનો ઉપયોગ કરો"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"ના"</item>
+     <item msgid="2163015208097377388">"હા"</item>
+diff --git a/res/values-hi/arrays.xml b/res/values-hi/arrays.xml
+index 322456e9ed..1ab9d6c8ff 100644
+--- a/res/values-hi/arrays.xml
++++ b/res/values-hi/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"इस कनेक्शन में डेटा से जुड़ी पाबंदी है"</item>
+     <item msgid="2047166446768045816">"इस कनेक्शन में डेटा से जुड़ी पाबंदी नहीं है"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"किसी भी MAC पते का इस्तेमाल करें (डिफ़ॉल्ट सेटिंग)"</item>
+-    <item msgid="741680937828608749">"डिवाइस MAC का इस्तेमाल करें"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"नहीं"</item>
+     <item msgid="2163015208097377388">"हां"</item>
+diff --git a/res/values-hr/arrays.xml b/res/values-hr/arrays.xml
+index 5c322b27b2..03a6f70ce4 100644
+--- a/res/values-hr/arrays.xml
++++ b/res/values-hr/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Mreža s ograničenim prometom"</item>
+     <item msgid="2047166446768045816">"Mreža bez ograničenja prometa"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Koristi nasumičnu MAC adresu (zadano)"</item>
+-    <item msgid="741680937828608749">"Upotrijebi MAC adresu uređaja"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Ne"</item>
+     <item msgid="2163015208097377388">"Da"</item>
+diff --git a/res/values-hu/arrays.xml b/res/values-hu/arrays.xml
+index 8ea94c5485..e8a06c798c 100644
+--- a/res/values-hu/arrays.xml
++++ b/res/values-hu/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Kezelje forgalomkorlátosként"</item>
+     <item msgid="2047166446768045816">"Kezelje nem forgalomkorlátosként"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Véletlenszerű MAC-cím használata (alapértelmezett)"</item>
+-    <item msgid="741680937828608749">"Az eszköz MAC-címének használata"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Nem"</item>
+     <item msgid="2163015208097377388">"Igen"</item>
+diff --git a/res/values-hy/arrays.xml b/res/values-hy/arrays.xml
+index 50238b9472..85c7718b22 100644
+--- a/res/values-hy/arrays.xml
++++ b/res/values-hy/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Սահմանափակ"</item>
+     <item msgid="2047166446768045816">"Անսահմանափակ"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Օգտագործել պատահական MAC հասցե (կանխադրված)"</item>
+-    <item msgid="741680937828608749">"Օգտագործել սարքի MAC հասցեն"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Ոչ"</item>
+     <item msgid="2163015208097377388">"Այո"</item>
+diff --git a/res/values-in/arrays.xml b/res/values-in/arrays.xml
+index 0974a2b1fb..047bab995e 100644
+--- a/res/values-in/arrays.xml
++++ b/res/values-in/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Perlakukan sebagai berbayar"</item>
+     <item msgid="2047166446768045816">"Perlakukan sebagai tidak berbayar"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Gunakan MAC acak (default)"</item>
+-    <item msgid="741680937828608749">"Gunakan MAC perangkat"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Tidak"</item>
+     <item msgid="2163015208097377388">"Ya"</item>
+diff --git a/res/values-is/arrays.xml b/res/values-is/arrays.xml
+index 90d6b3be01..0eb94fcc54 100644
+--- a/res/values-is/arrays.xml
++++ b/res/values-is/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Meðhöndla sem mælt"</item>
+     <item msgid="2047166446768045816">"Meðhöndla sem ótakmarkað"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Nota MAC-vistfang af handahófi (sjálfgefið)"</item>
+-    <item msgid="741680937828608749">"Nota MAC-vistfang tækis"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Nei"</item>
+     <item msgid="2163015208097377388">"Já"</item>
+diff --git a/res/values-it/arrays.xml b/res/values-it/arrays.xml
+index 5a9f87f85c..afd37aa5df 100644
+--- a/res/values-it/arrays.xml
++++ b/res/values-it/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Considera a consumo"</item>
+     <item msgid="2047166446768045816">"Considera non a consumo"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Usa MAC casuale (predefinito)"</item>
+-    <item msgid="741680937828608749">"Usa MAC del dispositivo"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"No"</item>
+     <item msgid="2163015208097377388">"Sì"</item>
+diff --git a/res/values-iw/arrays.xml b/res/values-iw/arrays.xml
+index 1015c32ac6..a7a208034d 100644
+--- a/res/values-iw/arrays.xml
++++ b/res/values-iw/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"יש להתייחס כרשת נמדדת"</item>
+     <item msgid="2047166446768045816">"יש להתייחס כרשת לא נמדדת"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"‏שימוש ב-MAC אקראי (ברירת מחדל)"</item>
+-    <item msgid="741680937828608749">"‏שימוש ב-MAC של המכשיר"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"לא"</item>
+     <item msgid="2163015208097377388">"כן"</item>
+diff --git a/res/values-ja/arrays.xml b/res/values-ja/arrays.xml
+index a73bef3548..0b7e9f118c 100644
+--- a/res/values-ja/arrays.xml
++++ b/res/values-ja/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"従量制として扱う"</item>
+     <item msgid="2047166446768045816">"定額制として扱う"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"ランダム MAC を使用（デフォルト）"</item>
+-    <item msgid="741680937828608749">"デバイスの MAC を使用"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"いいえ"</item>
+     <item msgid="2163015208097377388">"はい"</item>
+diff --git a/res/values-ka/arrays.xml b/res/values-ka/arrays.xml
+index 077403f35f..0decbcd3b3 100644
+--- a/res/values-ka/arrays.xml
++++ b/res/values-ka/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"ლიმიტირებულად ჩათვლა"</item>
+     <item msgid="2047166446768045816">"არალიმიტირებულად ჩათვლა"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"შემთხვევითი MAC-ის გამოყენება (ნაგულ.)"</item>
+-    <item msgid="741680937828608749">"მოწყობილობის MAC-მისამართის გამოყენება"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"არა"</item>
+     <item msgid="2163015208097377388">"დიახ"</item>
+diff --git a/res/values-kk/arrays.xml b/res/values-kk/arrays.xml
+index a69562f1b9..69144b7ae0 100644
+--- a/res/values-kk/arrays.xml
++++ b/res/values-kk/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Трафик саналсын"</item>
+     <item msgid="2047166446768045816">"Трафик саналмасын"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Кездейсоқ MAC мекенжайын пайдалану (әдепкі)"</item>
+-    <item msgid="741680937828608749">"Құрылғының MAC мекенжайын пайдалану"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Жоқ"</item>
+     <item msgid="2163015208097377388">"Иә"</item>
+diff --git a/res/values-km/arrays.xml b/res/values-km/arrays.xml
+index d074efd436..78c28f3276 100644
+--- a/res/values-km/arrays.xml
++++ b/res/values-km/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"ចាត់​ទុកថាផ្អែកតាមទិន្នន័យដែលប្រើ"</item>
+     <item msgid="2047166446768045816">"​ចាត់​ទុកថាមិនផ្អែកតាមទិន្នន័យដែលប្រើ"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"ប្រើ MAC ចៃដន្យ (លំនាំដើម)"</item>
+-    <item msgid="741680937828608749">"ប្រើ MAC ឧបករណ៍"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"ទេ"</item>
+     <item msgid="2163015208097377388">"បាទ/ចាស"</item>
+diff --git a/res/values-kn/arrays.xml b/res/values-kn/arrays.xml
+index e858ca660f..3f1cce11dd 100644
+--- a/res/values-kn/arrays.xml
++++ b/res/values-kn/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"ಮೀಟರ್ ಮಾಡಿದೆ ಎಂದು ಪರಿಗಣಿಸಿ"</item>
+     <item msgid="2047166446768045816">"ಮೀಟರ್ ಮಾಡಲಾಗಿಲ್ಲ ಎಂದು ಪರಿಗಣಿಸಿ"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"ಯಾದೃಚ್ಛಿಕವಾದ MAC (ಡೀಫಾಲ್ಟ್) ಅನ್ನು ಬಳಸಿ"</item>
+-    <item msgid="741680937828608749">"ಸಾಧನದ MAC ಬಳಸಿ"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"ಇಲ್ಲ"</item>
+     <item msgid="2163015208097377388">"ಹೌದು"</item>
+diff --git a/res/values-ko/arrays.xml b/res/values-ko/arrays.xml
+index 8c61c6b50b..27f30fbf06 100644
+--- a/res/values-ko/arrays.xml
++++ b/res/values-ko/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"종량제 Wi-Fi로 취급"</item>
+     <item msgid="2047166446768045816">"무제한 Wi-Fi로 취급"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"무작위 MAC 사용(기본값)"</item>
+-    <item msgid="741680937828608749">"기기 MAC 사용"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"아니요"</item>
+     <item msgid="2163015208097377388">"예"</item>
+diff --git a/res/values-ky/arrays.xml b/res/values-ky/arrays.xml
+index 0cd420ac62..a8360801e1 100644
+--- a/res/values-ky/arrays.xml
++++ b/res/values-ky/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Ченелет"</item>
+     <item msgid="2047166446768045816">"Ченелбейт"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Туш келди MAC дарек колдонулат (демейки)"</item>
+-    <item msgid="741680937828608749">"MAC түзмөгүн колдонуу"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Жок"</item>
+     <item msgid="2163015208097377388">"Ооба"</item>
+diff --git a/res/values-lo/arrays.xml b/res/values-lo/arrays.xml
+index 2568a52c76..5f2702b085 100644
+--- a/res/values-lo/arrays.xml
++++ b/res/values-lo/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"ໃຊ້ແບບວັດແທກປະລິມານ"</item>
+     <item msgid="2047166446768045816">"ໃຊ້ແບບບໍ່ວັດແທກປະລິມານ"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"ໃຊ້ MAC ແບບສຸ່ມ (ຄ່າເລີ່ມຕົ້ນ)"</item>
+-    <item msgid="741680937828608749">"ໃຊ້ MAC ອຸປະກອນ"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"ບໍ່"</item>
+     <item msgid="2163015208097377388">"ແມ່ນ"</item>
+diff --git a/res/values-lt/arrays.xml b/res/values-lt/arrays.xml
+index d423cd5cea..9a7480d938 100644
+--- a/res/values-lt/arrays.xml
++++ b/res/values-lt/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Laikyti matuojamu"</item>
+     <item msgid="2047166446768045816">"Laikyti nematuojamu"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Naudoti atsitiktine tvarka parinktą MAC (numatyta)"</item>
+-    <item msgid="741680937828608749">"Naudoti įrenginio MAC"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Ne"</item>
+     <item msgid="2163015208097377388">"Taip"</item>
+diff --git a/res/values-lv/arrays.xml b/res/values-lv/arrays.xml
+index f3d5006230..3b8953b0fb 100644
+--- a/res/values-lv/arrays.xml
++++ b/res/values-lv/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Maksas"</item>
+     <item msgid="2047166446768045816">"Bezmaksas"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Izmantot nejaušā secībā atlasītu MAC adresi (noklusējums)"</item>
+-    <item msgid="741680937828608749">"Izmantot ierīces MAC adresi"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Nē"</item>
+     <item msgid="2163015208097377388">"Jā"</item>
+diff --git a/res/values-mk/arrays.xml b/res/values-mk/arrays.xml
+index 1517863d68..809514238c 100644
+--- a/res/values-mk/arrays.xml
++++ b/res/values-mk/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Сметај како ограничена мрежа"</item>
+     <item msgid="2047166446768045816">"Сметај како неограничена мрежа"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Користи рандомизирана MAC-адреса (стандардно)"</item>
+-    <item msgid="741680937828608749">"Користи ја MAC-адресата на уредот"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Не"</item>
+     <item msgid="2163015208097377388">"Да"</item>
+diff --git a/res/values-ml/arrays.xml b/res/values-ml/arrays.xml
+index 2edb09ed8e..0623933ea0 100644
+--- a/res/values-ml/arrays.xml
++++ b/res/values-ml/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"മീറ്റർ ചെയ്തതായി കണക്കാക്കുക"</item>
+     <item msgid="2047166446768045816">"മീറ്റർ ചെയ്യാത്തതായി കണക്കാക്കുക"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"ക്രമരഹിതമാക്കിയ MAC ഉപയോഗിക്കുക (ഡിഫോൾട്ട്)"</item>
+-    <item msgid="741680937828608749">"ഉപകരണ MAC വിലാസം ഉപയോഗിക്കൂ"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"ഇല്ല"</item>
+     <item msgid="2163015208097377388">"ഉവ്വ്"</item>
+diff --git a/res/values-mn/arrays.xml b/res/values-mn/arrays.xml
+index 0c9940e6af..b0f8077c35 100644
+--- a/res/values-mn/arrays.xml
++++ b/res/values-mn/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Хязгаартайгаар тохируулах"</item>
+     <item msgid="2047166446768045816">"Хязгааргүйгээр тохируулах"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Санамсаргүй үүссэн MAC-г ашиглах (өгөгдмөл)"</item>
+-    <item msgid="741680937828608749">"Төхөөрөмжийн MAC-г ашиглах"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Үгүй"</item>
+     <item msgid="2163015208097377388">"Тийм"</item>
+diff --git a/res/values-mr/arrays.xml b/res/values-mr/arrays.xml
+index 4a25f9e007..b06821c178 100644
+--- a/res/values-mr/arrays.xml
++++ b/res/values-mr/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"मर्यादित डेटा वापराचे नेटवर्क"</item>
+     <item msgid="2047166446768045816">"अमर्याद डेटा वापराचे नेटवर्क"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"रँडमाइझ केलेले MAC वापरा (डीफॉल्ट)"</item>
+-    <item msgid="741680937828608749">"डिव्हाइस MAC वापरा"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"नाही"</item>
+     <item msgid="2163015208097377388">"होय"</item>
+diff --git a/res/values-ms/arrays.xml b/res/values-ms/arrays.xml
+index 9a9aadc48a..5a9f48c5c8 100644
+--- a/res/values-ms/arrays.xml
++++ b/res/values-ms/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Anggap sebagai bermeter"</item>
+     <item msgid="2047166446768045816">"Anggap sebagai tidak bermeter"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Gunakan MAC terawak (lalai)"</item>
+-    <item msgid="741680937828608749">"Gunakan MAC peranti"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Tidak"</item>
+     <item msgid="2163015208097377388">"Ya"</item>
+diff --git a/res/values-my/arrays.xml b/res/values-my/arrays.xml
+index 60f8af9a28..88bd581d27 100644
+--- a/res/values-my/arrays.xml
++++ b/res/values-my/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"အခမဲ့ မဟုတ်သော အသုံးပြုခြင်းအဖြစ် သတ်မှတ်ရန်"</item>
+     <item msgid="2047166446768045816">"အခမဲ့ အသုံးပြုခြင်းအဖြစ် သတ်မှတ်ရန်"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"ကျပန်း MAC ကို အသုံးပြုရန် (မူရင်း)"</item>
+-    <item msgid="741680937828608749">"ကိရိယာ၏ MAC သုံးရန်"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"No"</item>
+     <item msgid="2163015208097377388">"Yes"</item>
+diff --git a/res/values-nb/arrays.xml b/res/values-nb/arrays.xml
+index 951578c2c0..8ce027dae4 100644
+--- a/res/values-nb/arrays.xml
++++ b/res/values-nb/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Behandle som med datamåling"</item>
+     <item msgid="2047166446768045816">"Behandle som uten datamåling"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Bruk tilfeldig MAC-adresse (standard)"</item>
+-    <item msgid="741680937828608749">"Bruk enhetens MAC-adresse"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Nei"</item>
+     <item msgid="2163015208097377388">"Ja"</item>
+diff --git a/res/values-ne/arrays.xml b/res/values-ne/arrays.xml
+index e891c0fbb4..8348ba1a8a 100644
+--- a/res/values-ne/arrays.xml
++++ b/res/values-ne/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"सशुल्क वाइफाइका रूपमा लिनुहोस्"</item>
+     <item msgid="2047166446768045816">"नि:शुल्क वाइफाइको रूपमा लिनुहोस्"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"क्रमरहित MAC प्रयोग गर्नुहोस् (पूर्वनिर्धारित)"</item>
+-    <item msgid="741680937828608749">"यन्त्रको MAC प्रयोग गर्नुहोस्"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"होइन"</item>
+     <item msgid="2163015208097377388">"हो"</item>
+diff --git a/res/values-nl/arrays.xml b/res/values-nl/arrays.xml
+index 20ac6f3dba..3654b8bbe8 100644
+--- a/res/values-nl/arrays.xml
++++ b/res/values-nl/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Behandelen als wifi met datalimiet"</item>
+     <item msgid="2047166446768045816">"Behandelen als wifi zonder datalimiet"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Willekeurig MAC-adres gebruiken (standaard)"</item>
+-    <item msgid="741680937828608749">"MAC-adres van apparaat gebruiken"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Nee"</item>
+     <item msgid="2163015208097377388">"Ja"</item>
+diff --git a/res/values-or/arrays.xml b/res/values-or/arrays.xml
+index 7bf91931c0..f68bb2470c 100644
+--- a/res/values-or/arrays.xml
++++ b/res/values-or/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"ମିଟର୍ ହୋଇଥିବା ରୂପେ ବିବେଚନା କରନ୍ତୁ"</item>
+     <item msgid="2047166446768045816">"ମିଟର୍ ହୋଇନଥିବା ରୂପେ ବିବେଚନା କରନ୍ତୁ"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"ରେଣ୍ଡମାଇଜ୍ MAC ବ୍ୟବହାର କରନ୍ତୁ (ଡିଫଲ୍ଟ)"</item>
+-    <item msgid="741680937828608749">"MAC ଡିଭାଇସ୍ ବ୍ୟବହାର କରନ୍ତୁ"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"ନା"</item>
+     <item msgid="2163015208097377388">"ହଁ"</item>
+diff --git a/res/values-pa/arrays.xml b/res/values-pa/arrays.xml
+index dc7a4c34d8..dcb21ecffc 100644
+--- a/res/values-pa/arrays.xml
++++ b/res/values-pa/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"ਮੀਟਰਬੱਧ ਮੰਨੋ"</item>
+     <item msgid="2047166446768045816">"ਗੈਰ-ਮੀਟਰਬੱਧ ਮੰਨੋ"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"ਬੇਤਰਤੀਬ MAC (ਪੂਰਵ-ਨਿਰਧਾਰਤ) ਵਰਤੋ"</item>
+-    <item msgid="741680937828608749">"ਡੀਵਾਈਸ MAC ਵਰਤੋ"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"ਨਹੀਂ"</item>
+     <item msgid="2163015208097377388">"ਹਾਂ"</item>
+diff --git a/res/values-pl/arrays.xml b/res/values-pl/arrays.xml
+index c2c4ed0f2a..7c1e026dac 100644
+--- a/res/values-pl/arrays.xml
++++ b/res/values-pl/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Traktuj jako sieć z pomiarem użycia danych"</item>
+     <item msgid="2047166446768045816">"Traktuj jako sieć bez pomiaru użycia danych"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Używaj randomizowanego adresu MAC (domyślnie)"</item>
+-    <item msgid="741680937828608749">"Używaj adresu MAC urządzenia"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Nie"</item>
+     <item msgid="2163015208097377388">"Tak"</item>
+diff --git a/res/values-pt-rBR/arrays.xml b/res/values-pt-rBR/arrays.xml
+index 389a7d8265..e8133c006d 100644
+--- a/res/values-pt-rBR/arrays.xml
++++ b/res/values-pt-rBR/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Tratar como limitada"</item>
+     <item msgid="2047166446768045816">"Tratar como ilimitada"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Usar MAC aleatório (padrão)"</item>
+-    <item msgid="741680937828608749">"Usar MAC do dispositivo"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Não"</item>
+     <item msgid="2163015208097377388">"Sim"</item>
+diff --git a/res/values-pt-rPT/arrays.xml b/res/values-pt-rPT/arrays.xml
+index 319ef23b12..9f712e31b5 100644
+--- a/res/values-pt-rPT/arrays.xml
++++ b/res/values-pt-rPT/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Tratar como acesso limitado"</item>
+     <item msgid="2047166446768045816">"Tratar como acesso ilimitado"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Utilizar MAC aleatório (predefinição)"</item>
+-    <item msgid="741680937828608749">"Utilizar MAC do dispositivo"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Não"</item>
+     <item msgid="2163015208097377388">"Sim"</item>
+diff --git a/res/values-pt/arrays.xml b/res/values-pt/arrays.xml
+index 389a7d8265..e8133c006d 100644
+--- a/res/values-pt/arrays.xml
++++ b/res/values-pt/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Tratar como limitada"</item>
+     <item msgid="2047166446768045816">"Tratar como ilimitada"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Usar MAC aleatório (padrão)"</item>
+-    <item msgid="741680937828608749">"Usar MAC do dispositivo"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Não"</item>
+     <item msgid="2163015208097377388">"Sim"</item>
+diff --git a/res/values-ro/arrays.xml b/res/values-ro/arrays.xml
+index e069752b51..bdbdd44aaf 100644
+--- a/res/values-ro/arrays.xml
++++ b/res/values-ro/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Tratează ca fiind contorizată"</item>
+     <item msgid="2047166446768045816">"Tratează ca fiind necontorizată"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Folosiți o adresă MAC aleatorie (prestabilit)"</item>
+-    <item msgid="741680937828608749">"Folosiți adresa MAC a dispozitivului"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Nu"</item>
+     <item msgid="2163015208097377388">"Da"</item>
+diff --git a/res/values-ru/arrays.xml b/res/values-ru/arrays.xml
+index c78d052c71..8721192709 100644
+--- a/res/values-ru/arrays.xml
++++ b/res/values-ru/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"С тарификацией"</item>
+     <item msgid="2047166446768045816">"Без тарификации"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Случайный MAC-адрес (по умолчанию)"</item>
+-    <item msgid="741680937828608749">"MAC-адрес устройства"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Нет"</item>
+     <item msgid="2163015208097377388">"Да"</item>
+diff --git a/res/values-si/arrays.xml b/res/values-si/arrays.xml
+index e67cd3c1b4..e664c59454 100644
+--- a/res/values-si/arrays.xml
++++ b/res/values-si/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"මනින ලද ලෙස සලකන්න"</item>
+     <item msgid="2047166446768045816">"නොමනින ලද ලෙස සලකන්න"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"අහඹු කළ MAC භාවිත කරන්න (පෙරනිමි)"</item>
+-    <item msgid="741680937828608749">"MAC උපාංගය භාවිත කරන්න"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"නැත"</item>
+     <item msgid="2163015208097377388">"ඔව්"</item>
+diff --git a/res/values-sk/arrays.xml b/res/values-sk/arrays.xml
+index 3c68c3389d..5ed95595e4 100644
+--- a/res/values-sk/arrays.xml
++++ b/res/values-sk/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Považovať za meranú sieť"</item>
+     <item msgid="2047166446768045816">"Považovať za nemeranú sieť"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Použiť náhodnú MAC (predvolené)"</item>
+-    <item msgid="741680937828608749">"Používať adresu MAC zariadenia"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Nie"</item>
+     <item msgid="2163015208097377388">"Áno"</item>
+diff --git a/res/values-sl/arrays.xml b/res/values-sl/arrays.xml
+index 635df4dfda..b527644575 100644
+--- a/res/values-sl/arrays.xml
++++ b/res/values-sl/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Obravnavaj kot: omejen prenos podatkov"</item>
+     <item msgid="2047166446768045816">"Obravnavaj kot: neomejen prenos podatkov"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Uporaba naključnega MAC (privzeto)"</item>
+-    <item msgid="741680937828608749">"Uporaba naslova MAC naprave"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Ne"</item>
+     <item msgid="2163015208097377388">"Da"</item>
+diff --git a/res/values-sq/arrays.xml b/res/values-sq/arrays.xml
+index 305b0721a5..fb593d99db 100644
+--- a/res/values-sq/arrays.xml
++++ b/res/values-sq/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Trajto si me matje"</item>
+     <item msgid="2047166446768045816">"Trajto si pa matje"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Përdor adresë MAC të rastësishme (parazgjedhje)"</item>
+-    <item msgid="741680937828608749">"Përdor adresën MAC të pajisjes"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Jo"</item>
+     <item msgid="2163015208097377388">"Po"</item>
+diff --git a/res/values-sr/arrays.xml b/res/values-sr/arrays.xml
+index 5a3c3407d9..5f40eba5e9 100644
+--- a/res/values-sr/arrays.xml
++++ b/res/values-sr/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Третирај као мрежу са ограничењем"</item>
+     <item msgid="2047166446768045816">"Третирај као мрежу без ограничења"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Користи насумично изабрану MAC адресу (подразумевано)"</item>
+-    <item msgid="741680937828608749">"Користи MAC адресу уређаја"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Не"</item>
+     <item msgid="2163015208097377388">"Да"</item>
+diff --git a/res/values-sv/arrays.xml b/res/values-sv/arrays.xml
+index ef7ebca8eb..c756bb30a9 100644
+--- a/res/values-sv/arrays.xml
++++ b/res/values-sv/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Behandla som nätverk med datapriser"</item>
+     <item msgid="2047166446768045816">"Behandla som nätverk utan datapriser"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Använd slumpgenererad MAC-adress (standard)"</item>
+-    <item msgid="741680937828608749">"Använd enhetens MAC-adress"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Nej"</item>
+     <item msgid="2163015208097377388">"Ja"</item>
+diff --git a/res/values-sw/arrays.xml b/res/values-sw/arrays.xml
+index 53006c7a29..830990134e 100644
+--- a/res/values-sw/arrays.xml
++++ b/res/values-sw/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Tumia kama mtandao unaopima data"</item>
+     <item msgid="2047166446768045816">"Tumia kama mtandao usiopima data"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Anwani ya MAC ya nasibu (chaguomsingi)"</item>
+-    <item msgid="741680937828608749">"Tumia anwani ya MAC ya kifaa"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Hapana"</item>
+     <item msgid="2163015208097377388">"Ndiyo"</item>
+diff --git a/res/values-ta/arrays.xml b/res/values-ta/arrays.xml
+index 737d835e6f..a9da4b013b 100644
+--- a/res/values-ta/arrays.xml
++++ b/res/values-ta/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"டேட்டா அளவிடப்பட்டது"</item>
+     <item msgid="2047166446768045816">"டேட்டா அளவிடப்படாதது"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"ரேண்டம் MACகைப் பயன்படுத்து (இயல்புநிலை)"</item>
+-    <item msgid="741680937828608749">"சாதன MACகைப் பயன்படுத்து"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"வேண்டாம்"</item>
+     <item msgid="2163015208097377388">"ஆம்"</item>
+diff --git a/res/values-te/arrays.xml b/res/values-te/arrays.xml
+index a9a21fc689..340cf6ae48 100644
+--- a/res/values-te/arrays.xml
++++ b/res/values-te/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"గణించబడేదానిగా పరిగణించండి"</item>
+     <item msgid="2047166446768045816">"గణించబడనిదిగా పరిగణించండి"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"ర్యాండ‌మ్‌గా రూపొందించిన MAC అడ్రస్‌ను ఉపయోగించండి (ఆటోమేటిక్‌)"</item>
+-    <item msgid="741680937828608749">"పరికర MAC అడ్రస్‌ని ఉపయోగించండి"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"లేదు"</item>
+     <item msgid="2163015208097377388">"అవును"</item>
+diff --git a/res/values-th/arrays.xml b/res/values-th/arrays.xml
+index d035f21ffe..9167a9c78a 100644
+--- a/res/values-th/arrays.xml
++++ b/res/values-th/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"ถือว่ามีการจำกัดปริมาณอินเทอร์เน็ต"</item>
+     <item msgid="2047166446768045816">"ถือว่าไม่มีการวัดปริมาณอินเทอร์เน็ต"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"ใช้ MAC แบบสุ่ม (ค่าเริ่มต้น)"</item>
+-    <item msgid="741680937828608749">"ใช้ที่อยู่ MAC ของอุปกรณ์"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"ไม่"</item>
+     <item msgid="2163015208097377388">"ใช่"</item>
+diff --git a/res/values-tl/arrays.xml b/res/values-tl/arrays.xml
+index a8cef12dcd..56a50606e6 100644
+--- a/res/values-tl/arrays.xml
++++ b/res/values-tl/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Ituring bilang nakametro"</item>
+     <item msgid="2047166446768045816">"Ituring bilang hindi nakametro"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Gamitin ang na-randomize na MAC (default)"</item>
+-    <item msgid="741680937828608749">"Gamitin ang device MAC"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Hindi"</item>
+     <item msgid="2163015208097377388">"Oo"</item>
+diff --git a/res/values-tr/arrays.xml b/res/values-tr/arrays.xml
+index e193a59ed7..062c1c652b 100644
+--- a/res/values-tr/arrays.xml
++++ b/res/values-tr/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Sınırlı gibi kullan"</item>
+     <item msgid="2047166446768045816">"Sınırsız gibi kullan"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Rastgele MAC kullan (varsayılan)"</item>
+-    <item msgid="741680937828608749">"Cihazın MAC adresini kullan"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Hayır"</item>
+     <item msgid="2163015208097377388">"Evet"</item>
+diff --git a/res/values-uk/arrays.xml b/res/values-uk/arrays.xml
+index 04f31d6940..6be0cbc325 100644
+--- a/res/values-uk/arrays.xml
++++ b/res/values-uk/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Вважати тарифікованою"</item>
+     <item msgid="2047166446768045816">"Вважати нетарифікованою"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Використовувати довільну MAC-адресу (за умовчанням)"</item>
+-    <item msgid="741680937828608749">"Використовувати MAC-адресу пристрою"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Ні"</item>
+     <item msgid="2163015208097377388">"Так"</item>
+diff --git a/res/values-ur/arrays.xml b/res/values-ur/arrays.xml
+index cee2d51999..6e5eaea6ad 100644
+--- a/res/values-ur/arrays.xml
++++ b/res/values-ur/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"میٹر شدہ کے بطور خیال کریں"</item>
+     <item msgid="2047166446768045816">"غیر میٹر شدہ کے بطور خیال کریں"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"‏بے ترتیب MAC کا استعمال کریں (ڈیفالٹ)"</item>
+-    <item msgid="741680937828608749">"‏آلہ کا MAC استعمال کریں"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"نہیں"</item>
+     <item msgid="2163015208097377388">"ہاں"</item>
+diff --git a/res/values-uz/arrays.xml b/res/values-uz/arrays.xml
+index e05793840b..5cd865a6a0 100644
+--- a/res/values-uz/arrays.xml
++++ b/res/values-uz/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Bu – pulli tarmoq"</item>
+     <item msgid="2047166446768045816">"Bu – bepul tarmoq"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Tasodifiy MAC manzil (standart)"</item>
+-    <item msgid="741680937828608749">"Qurilmaning MAC manzili"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Yo‘q"</item>
+     <item msgid="2163015208097377388">"Ha"</item>
+diff --git a/res/values-vi/arrays.xml b/res/values-vi/arrays.xml
+index 0895ab8ef7..eaf3d4b773 100644
+--- a/res/values-vi/arrays.xml
++++ b/res/values-vi/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Coi như có đo lượng dữ liệu"</item>
+     <item msgid="2047166446768045816">"Coi như không đo lượng dữ liệu"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Sử dụng MAC ngẫu nhiên (mặc định)"</item>
+-    <item msgid="741680937828608749">"Sử dụng MAC của thiết bị"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Không"</item>
+     <item msgid="2163015208097377388">"Có"</item>
+diff --git a/res/values-zh-rCN/arrays.xml b/res/values-zh-rCN/arrays.xml
+index bb96438c03..3a04873c2d 100644
+--- a/res/values-zh-rCN/arrays.xml
++++ b/res/values-zh-rCN/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"视为按流量计费"</item>
+     <item msgid="2047166446768045816">"视为不按流量计费"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"使用随机 MAC（默认）"</item>
+-    <item msgid="741680937828608749">"使用设备 MAC"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"否"</item>
+     <item msgid="2163015208097377388">"是"</item>
+diff --git a/res/values-zh-rHK/arrays.xml b/res/values-zh-rHK/arrays.xml
+index c4ed3db89b..b436bf9e4a 100644
+--- a/res/values-zh-rHK/arrays.xml
++++ b/res/values-zh-rHK/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"視為按用量收費"</item>
+     <item msgid="2047166446768045816">"視為非按用量收費"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"使用隨機 MAC (預設)"</item>
+-    <item msgid="741680937828608749">"使用裝置 MAC"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"否"</item>
+     <item msgid="2163015208097377388">"是"</item>
+diff --git a/res/values-zh-rTW/arrays.xml b/res/values-zh-rTW/arrays.xml
+index ecfa5e6629..d5b9f71ebe 100644
+--- a/res/values-zh-rTW/arrays.xml
++++ b/res/values-zh-rTW/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"視為計量付費"</item>
+     <item msgid="2047166446768045816">"視為非計量付費"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"使用隨機化 MAC (預設)"</item>
+-    <item msgid="741680937828608749">"使用裝置 MAC"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"否"</item>
+     <item msgid="2163015208097377388">"是"</item>
+diff --git a/res/values-zu/arrays.xml b/res/values-zu/arrays.xml
+index 81a602b4fb..c2d2bf1298 100644
+--- a/res/values-zu/arrays.xml
++++ b/res/values-zu/arrays.xml
+@@ -493,10 +493,6 @@
+     <item msgid="3779092145391320375">"Phatha njengokulinganisiwe"</item>
+     <item msgid="2047166446768045816">"Phatha njengokungalinganisiwe"</item>
+   </string-array>
+-  <string-array name="wifi_privacy_entries">
+-    <item msgid="3485945604919292489">"Sebenzisa i-MAC engahleliwe (okuzenzakalelayo)"</item>
+-    <item msgid="741680937828608749">"Sebenzisa i-MAC yedivayisi"</item>
+-  </string-array>
+   <string-array name="wifi_hidden_entries">
+     <item msgid="342232116597649254">"Cha"</item>
+     <item msgid="2163015208097377388">"Yebo"</item>
