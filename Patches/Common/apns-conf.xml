@@ -2,7 +2,7 @@
 <!--
 /*
 ** Copyright 2006, Google Inc.
-** Copyright 2016-2021 The LineageOS project
+** Copyright 2016-2022 The LineageOS project
 **
 ** Licensed under the Apache License, Version 2.0 (the "License");
 ** you may not use this file except in compliance with the License.
@@ -125,6 +125,7 @@
   <apn carrier="Orange FR-MMS" mcc="208" mnc="01" apn="orange.acte" proxy="" port="" user="orange" password="orange" server="*" mmsc="http://mms.orange.fr" mmsproxy="192.168.10.200" mmsport="8080" type="mms" />
   <apn carrier="Orange MMS" mcc="208" mnc="01" apn="Orange.acte" proxy="" port="" user="Orange" password="orange" mmsc="http://mms.orange.fr" mmsproxy="192.168.10.200" mmsport="8080" type="mms" />
   <apn carrier="Orange Internet" mcc="208" mnc="01" apn="ofnew.fr" proxy="192.168.10.100" port="8080" user="orange" password="orange" mmsc="" type="tethering" />
+  <apn carrier="Orange IA" mcc="208" mnc="01" apn="" protocol="IPV6" type="ia" user_editable="false" user_visible="false" />
   <apn carrier="Carrefour WAP" mcc="208" mnc="01" apn="ofnew.fr" proxy="192.168.10.100" port="8080" mmsc="" user="orange" password="orange" type="default,supl" />
   <apn carrier="Carrefour MMS" mcc="208" mnc="01" apn="orange.acte" proxy="" port="" mmsproxy="192.168.10.200" mmsport="8080" mmsc="http://mms.orange.fr" user="orange" password="orange" type="mms" />
   <apn carrier="NRJ WAP" mcc="208" mnc="01" apn="ofnew.fr" proxy="192.168.10.100" port="8080" mmsc="" user="orange" password="orange" type="default,supl" />
@@ -808,7 +809,7 @@
   <apn carrier="Telenor SE" mcc="240" mnc="08" apn="internet.telenor.se" type="default,supl" />
   <apn carrier="Universal" mcc="240" mnc="08" apn="sp-services" proxy="172.030.253.241" port="8799" mmsc="http://mms" mmsproxy="172.30.253.241" mmsport="8799" type="default,supl,mms" />
   <apn carrier="Cellip" mcc="240" mnc="08" apn="services.telenor.se" proxy="172.30.253.241" port="8799" mmsproxy="172.030.253.241" mmsport="8799" mmsc="http://mms/" user="" password="" type="default,supl,mms" />
-  <apn carrier="Telenor Mobilsurf" mcc="240" mnc="08" apn="services.telenor.se" proxy="" port="" user="" password="" mmsc="" type="default,supl" />
+  <apn carrier="Telenor Mobilsurf" mcc="240" mnc="08" apn="services.telenor.se" proxy="" port="" user="" password="" mmsc="" type="default,supl" mvno_match_data="24008" mvno_type="imsi" />
   <apn carrier="Telenor MMS" mcc="240" mnc="08" apn="services.telenor.se" proxy="" port="" user="" password="" mmsc="http://mms" mmsproxy="172.30.253.241" mmsport="8799" type="mms" />
   <apn carrier="Glocalnet Internet" mcc="240" mnc="08" apn="internet.glocalnet.se" proxy="" port="" user="" password="" mmsc="" type="default,supl" />
   <apn carrier="Glocalnet MMS" mcc="240" mnc="08" apn="services.glocalnet.se" proxy="" port="" user="" password="" mmsc="http://mms" mmsproxy="172.30.253.241" mmsport="8799" type="mms" />
@@ -1190,9 +1191,9 @@
   <apn carrier="ProMonte MMS" mcc="297" mnc="01" apn="mms.promonte.com" proxy="" port="" user="mms" password="mms" mmsc="http://mm.vor.promonte.com" mmsproxy="192.168.246.5" mmsport="8080" type="mms" />
   <apn carrier="T-Mobile CG MMS" mcc="297" mnc="02" apn="mms" proxy="" port="" user="38267" password="38267" mmsc="http://192.168.180.100/servlets/mms" mmsproxy="10.0.5.19" mmsport="8080" type="mms" />
   <apn carrier="T-Mobile CG" mcc="297" mnc="02" apn="tmcg-wnw" proxy="" port="" user="38267" password="38267" mmsc="" type="default,supl" />
-  <apn carrier="TELUS SP" mcc="302" mnc="220" apn="sp.telus.com" type="default,mms,supl,hipri,ia" mmsc="http://aliasredirect.net/proxy/mmsc" mmsproxy="mmscproxy.mobility.ca" mmsport="8799" protocol="IPV6" roaming_protocol="IP" mvno_match_data="5455" mvno_type="gid" />
+  <apn carrier="TELUS SP" mcc="302" mnc="220" apn="sp.telus.com" type="default,mms,supl,hipri,ia" mmsc="http://aliasredirect.net/proxy/mmsc" mmsproxy="mmscproxy.mobility.ca" mmsport="8799" protocol="IP" roaming_protocol="IP" mvno_match_data="5455" mvno_type="gid" />
   <apn carrier="TELUS ISP" mcc="302" mnc="220" apn="isp.telus.com" server="*" type="dun" protocol="IP" mvno_match_data="5455" mvno_type="gid" />
-  <apn carrier="TELUS IMS" mcc="302" mnc="220" apn="ims" type="ims" protocol="IPV6" mvno_match_data="5455" mvno_type="gid" user_visible="false" />
+  <apn carrier="TELUS IMS" mcc="302" mnc="220" apn="ims" type="ims" protocol="IP" mvno_match_data="5455" mvno_type="gid" user_visible="false" />
   <apn carrier="Koodo SP" mcc="302" mnc="220" apn="sp.koodo.com" type="*" mmsc="http://aliasredirect.net/proxy/koodo/mmsc" mmsproxy="74.49.0.18" mmsport="80" protocol="IP" roaming_protocol="IP" mvno_match_data="4B4F" mvno_type="gid" />
   <apn carrier="Koodo IMS" mcc="302" mnc="220" apn="ims" type="ims" protocol="IPV6" mvno_match_data="4B4F" mvno_type="gid" />
   <apn carrier="Mobile Internet" mcc="302" mnc="220" apn="sp.mb.com" type="default,mms,supl" mmsc="http://aliasredirect.net/proxy/mb/mmsc" mmsproxy="74.49.0.18" mmsport="80" mvno_match_data="5043" mvno_type="gid" />
@@ -1200,9 +1201,9 @@
   <apn carrier="Mobile Internet" mcc="302" mnc="220" apn="sp.mb.com" type="default,mms,agps,supl,fota,hipri" mmsc="http://aliasredirect.net/proxy/mb/mmsc" mmsproxy="74.49.0.18" mmsport="80" mvno_type="gid" mvno_match_data="4D4F" />
   <apn carrier="Tethered Mobile Internet" mcc="302" mnc="220" apn="isp.mb.com" type="dun" mvno_type="gid" mvno_match_data="4D4F" />
   <apn carrier="Public Mobile" mcc="302" mnc="220" apn="sp.mb.com" mmsc="http://aliasredirect.net/proxy/mb/mmsc" mmsproxy="74.49.0.18" mmsport="80" mvno_match_data="50" mvno_type="gid" type="default,supl,mms" />
-  <apn carrier="TELUS SP" mcc="302" mnc="221" apn="sp.telus.com" type="default,mms,supl,hipri,ia" mmsc="http://aliasredirect.net/proxy/mmsc" mmsproxy="mmscproxy.mobility.ca" mmsport="8799" protocol="IPV6" roaming_protocol="IP" mvno_match_data="5455" mvno_type="gid" />
+  <apn carrier="TELUS SP" mcc="302" mnc="221" apn="sp.telus.com" type="default,mms,supl,hipri,ia" mmsc="http://aliasredirect.net/proxy/mmsc" mmsproxy="mmscproxy.mobility.ca" mmsport="8799" protocol="IP" roaming_protocol="IP" mvno_match_data="5455" mvno_type="gid" />
   <apn carrier="TELUS ISP" mcc="302" mnc="221" apn="isp.telus.com" server="*" type="dun" protocol="IP" mvno_match_data="5455" mvno_type="gid" />
-  <apn carrier="TELUS IMS" mcc="302" mnc="221" apn="ims" type="ims" protocol="IPV6" mvno_match_data="5455" mvno_type="gid" user_visible="false" />
+  <apn carrier="TELUS IMS" mcc="302" mnc="221" apn="ims" type="ims" protocol="IP" mvno_match_data="5455" mvno_type="gid" user_visible="false" />
   <apn carrier="Koodo SP" mcc="302" mnc="221" apn="sp.koodo.com" type="*" mmsc="http://aliasredirect.net/proxy/koodo/mmsc" mmsproxy="74.49.0.18" mmsport="80" protocol="IP" roaming_protocol="IP" mvno_match_data="4B4F" mvno_type="gid" />
   <apn carrier="Koodo IMS" mcc="302" mnc="221" apn="ims" type="ims" protocol="IPV6" mvno_match_data="4B4F" mvno_type="gid" />
   <apn carrier="PC mobile" mcc="302" mnc="221" apn="sp.mb.com" type="default,mms,supl" mmsc="http://aliasredirect.net/proxy/mb/mmsc" mmsproxy="74.49.0.18" mmsport="80" mvno_match_data="5043" mvno_type="gid" />
@@ -1332,33 +1333,34 @@
   <apn carrier="WCW Internet" mcc="310" mnc="180" apn="internet.wcc.net" user="3257630000" password="mmsc" type="default,supl" authtype="0" />
   <apn carrier="WCW-MMS" mcc="310" mnc="180" apn="mms.wcc.net" proxy="209.55.70.246" port="80" mmsc="http://mms.wcc.net" mmsproxy="209.55.70.246" mmsport="80" user="13257630000" password="mmsc" type="mms" authtype="3" />
   <apn carrier="WCW-MMS only" mcc="310" mnc="180" apn="mms.wcc.net" proxy="209.55.70.244" port="80" mmsc="http://mms.wcc.net" mmsproxy="209.55.70.246" mmsport="80" user="3257630000" password="mmsc" type="default,mms" authtype="3" />
-  <apn carrier="Ting Data (X3)" mcc="310" mnc="240" apn="wireless.dish.com" mmsc="http://wholesale.mmsmvno.com/mms/wapenc" protocol="IPV4V6" roaming_protocol="IPV4V6" type="default,admin,fota,mms,supl,hipri,internet,dun" />
-  <apn carrier="Ting Data (X3)" mcc="310" mnc="240" apn="tethering.dish.com" mmsc="http://wholesale.mmsmvno.com/mms/wapenc" protocol="IPV4V6" roaming_protocol="IPV4V6" type="default,admin,fota,mms,supl,hipri,internet,dun" />
-  <apn carrier="Ting Data (X1)" mcc="310" mnc="260" apn="wholesale" mmsc="http://wholesale.mmsmvno.com/mms/wapenc" protocol="IPV4V6" roaming_protocol="IPV4V6" type="default,admin,fota,mms,supl,hipri,internet,dun" />
-  <apn carrier="T-Mobile US LTE" mcc="310" mnc="260" apn="fast.t-mobile.com" mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc" type="default,supl,mms" protocol="IPV6" roaming_protocol="IPV4V6" mtu="1440" />
+  <apn carrier="Ting Data" mcc="310" mnc="240" apn="wireless.dish.com" mmsc="http://wholesale.mmsmvno.com/mms/wapenc" protocol="IPV4V6" roaming_protocol="IPV4V6" type="default,admin,fota,mms,supl,hipri,internet,dun" />
+  <apn carrier="T-Mobile US IMS" carrier_id="1" mcc="310" mnc="260" apn="ims" type="ims" protocol="IPV6" bearer_bitmask="14|19|20" mtu="1440" user_visible="false" />
+  <apn carrier="T-Mobile US IMS" carrier_id="1" mcc="310" mnc="260" apn="ims" type="ims" protocol="IPV6" roaming_protocol="IPV6" bearer_bitmask="18" mtu="1440" user_visible="false" />
+  <apn carrier="T-Mobile MMS" carrier_id="1" mcc="310" mnc="260" apn="TMUS" mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc" type="mms" protocol="IPV6" roaming_protocol="IPV6" bearer_bitmask="18" user_editable="false" />
+  <apn carrier="T-Mobile US" carrier_id="1" mcc="310" mnc="260" apn="fast.t-mobile.com" mmsc="http://mms.msg.eng.t-mobile.com/mms/wapenc" type="default,supl,ia,mms" protocol="IPV6" bearer_bitmask="1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17" mtu="1440" user_editable="false" />
+  <apn carrier="T-Mobile Tethering" carrier_id="1" mcc="310" mnc="260" apn="pcweb.tmobile.com" type="dun" protocol="IPV4V6" user_visible="false" />
   <apn carrier="Project Fi - T" mcc="310" mnc="260" apn="h2g2" type="ia" protocol="IPV4V6" roaming_protocol="IPV4V6" mvno_match_data="31026097" mvno_type="IMSI" />
   <apn carrier="Project Fi - T" mcc="310" mnc="260" apn="h2g2" user="none" server="*" password="none" mmsc="http://mmsc1.g-mms.com/mms/wapenc" protocol="IPV6" roaming_protocol="IP" mvno_match_data="31026097" mvno_type="IMSI" />
   <apn carrier="T-Mobile IMS" mcc="310" mnc="260" apn="ims" type="ims" modem_cognitive="true" protocol="IPV6" />
   <apn carrier="MetroPCS 260" mcc="310" mnc="260" apn="fast.metropcs.com" protocol="IPV6" roaming_protocol="IPV4V6" mvno_match_data="6D" mvno_type="gid" type="ia" mtu="1440" />
   <apn carrier="MetroPCS 260" mcc="310" mnc="260" apn="fast.metropcs.com" mmsc="http://metropcs.mmsmvno.com/mms/wapenc" protocol="IPV6" roaming_protocol="IP" mvno_match_data="6D" mvno_type="gid" type="default,supl,mms,dun" mtu="1440" />
   <apn carrier="MetroPCS 260 IMS" mcc="310" mnc="260" apn="ims" type="ims" mvno_match_data="6D" mvno_type="gid" protocol="IPV6" roaming_protocol="IPV6" mtu="1440" />
-  <apn carrier="Net10" mcc="310" mnc="260" apn="wap.tracfone" port="8080" mmsc="http://mms.tracfone.com" type="default,mms,supl" />
+  <apn carrier="TFWAP" carrier_id="10001" mcc="310" mnc="260" apn="wap.tracfone" mmsc="http://TF.mmsmvno.com/mms/wapenc" type="default,mms,supl" protocol="IP" roaming_protocol="IP" bearer_bitmask="1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17" mvno_type="gid" mvno_match_data="DDFF" />
+  <apn carrier="TFWAP" carrier_id="10001" mcc="310" mnc="260" apn="wap.tracfone" mmsc="http://TF.mmsmvno.com/mms/wapenc" type="default,mms,supl" protocol="IP" roaming_protocol="IP" bearer_bitmask="1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17" mvno_type="gid" mvno_match_data="DEFF" />
   <apn carrier="Family Mobile" mcc="310" mnc="260" apn="web.omwtoday.com" port="" mmsc="http://wirelessfour.mmsmvno.com/mms/wapenc" mvno_type="gid" mvno_match_data="4d4b" type="default,mms,supl" />
-  <apn carrier="I-Wireless" mcc="310" mnc="260" apn="i2.iwireless.com" proxy="" port="" user="" password="" mmsc="http://mmsc.iwireless.datonair.net:6672" type="default,supl,mms" />
   <apn carrier="Ultra" mcc="310" mnc="260" apn="Wholesale" port="8080" mmsc="http://wholesale.mmsmvno.com/mms/wapenc" mvno_type="gid" mvno_match_data="6132" type="default,mms,supl,dun" />
   <apn carrier="GIV Mobile" mcc="310" mnc="260" apn="wholesale" port="" mmsc="http://wholesale.mmsmvno.com/mms/wapenc" type="default,mms,supl" />
   <apn carrier="ROK mobile" mcc="310" mnc="260" apn="wholesale" port="" mmsc="http://wholesale.mmsmvno.com/mms/wapenc" type="default,mms,supl,admin" />
   <apn carrier="UVA Wireless" mcc="310" mnc="260" apn="wholesale" port="" mmsc="http://wholesale.mmsmvno.com/mms/wapenc" type="default,mms,supl,admin" />
-  <apn carrier="PTel" mcc="310" mnc="260" apn="wholesale" port="" mmsc="http://mms.wholesale.mmsmvno.com/mms/wapenc" type="default,mms,supl" />
-  <apn carrier="Ready SIM" mcc="310" mnc="260" apn="wholesale" port="" mmsc="http://mms.wholesale.mmsmvno.com/mms/wapenc" type="default,mms,supl" />
-  <apn carrier="Red Pocket" mcc="310" mnc="260" apn="wholesale" port="" mmsc="http://mms.wholesale.mmsmvno.com/mms/wapenc" mmsproxy="216.155.165.50" mmsport="8080" type="default,mms,supl" />
+  <apn carrier="Consumer Cellular" carrier_id="10023" mcc="310" mnc="260" apn="wholesale" proxy="" port="" mmsc="http://wholesale.mmsmvno.com/mms/wapenc" mmsproxy="" mmsport="80" user="" password="" type="default,mms,supl,hipri" mvno_type="gid" mvno_match_data="2AC9" />
+  <apn carrier="Red Pocket Mobile" carrier_id="10011" mcc="310" mnc="260" apn="wholesale" mmsc="http://wholesale.mmsmvno.com/mms/wapenc" type="default,mms,supl" mvno_type="gid" mvno_match_data="4201" />
+  <apn carrier="ZIP SIM" carrier_id="2071" mcc="310" mnc="260" apn="wholesale" mmsc="http://wholesale.mmsmvno.com/mms/wapenc" type="default,mms,supl" mvno_type="gid" mvno_match_data="7031" />
   <apn carrier="Univision Mobile" mcc="310" mnc="260" apn="multibrand" port="" mmsc="http://uvm.mmsmvno.com/mms/wapenc" mvno_type="gid" mvno_match_data="554d" type="default,mms,supl" />
   <apn carrier="Brightspot" mcc="310" mnc="260" apn="multibrand" port="" mmsc="http://brtspt.mmsmvno.com/mms/wapenc" type="default,mms,supl" />
   <apn carrier="GoSmart" mcc="310" mnc="260" apn="multibrand" port="" mmsc="http://gsmt.mmsmvno.com/mms/wapenc" type="default,mms,supl" />
   <apn carrier="Straight Talk" mcc="310" mnc="260" apn="wap.tracfone" port="8080" mmsc="http://mms.tracfone.com" mvno_type="gid" mvno_match_data="deff" type="default,mms,supl" />
   <apn carrier="Telcel America" mcc="310" mnc="260" apn="wap.tracfone" port="" mmsc="http://mms.tracfone.com" mmsproxy="216.155.165.40" mmsport="8080" type="default,mms,supl" />
   <apn carrier="Tracfone" mcc="310" mnc="260" apn="wap.tracfone" port="" mmsc="http://mms.tracfone.com" type="default,mms,supl" />
-  <apn carrier="Solavei" mcc="310" mnc="260" apn="solavei" port="" mmsc="http://solavei.mmsmvno.com/mms/wapenc" type="default,mms,supl" />
   <apn carrier="CellOne WAP" mcc="310" mnc="260" apn="wap.cellular1.net" proxy="10.10.0.97" port="9201" mmsc="http://mms.cellular1.net/ecit/mms.php" mmsproxy="10.10.0.97" mmsport="9201" type="default,supl,mms" authtype="0" />
   <apn carrier="Simple" mcc="310" mnc="260" apn="simple" port="" mmsc="http://smpl.mms.msg.eng.t-mobile.com/mms/wapenc" mvno_type="gid" mvno_match_data="534d" type="default,mms,supl" />
   <apn carrier="Simple" mcc="310" mnc="260" apn="simple" proxy="216.155.165.50" port="8080" user="" password="" mmsc="http://smpl.mms.msg.eng.t-mobile.com/mms/wapenc" mmsproxy="216.155.165.50" mmsport="8080" type="default,supl,mms" />
@@ -1411,7 +1413,7 @@
   <apn carrier="COET Web" name="COET Web" apn="web.celloneet.com" user="user1@web.celloneet.com" password="celloneet" server="http://192.168.100.14" mmsc="http://192.168.100.14" mmsproxy="209.4.229.81" mmsport="9201" mcc="310" mnc="390" type="default,supl,mms" authtype="1" />
   <apn carrier="Celloneet MMS" mcc="310" mnc="390" apn="mms.celloneet.com" proxy="" port="" user="user1@mms.celloneet.com" password="celloneet" mmsc="http://mms.celloneet.com/servlets/mms" mmsproxy="63.99.231.135" mmsport="8080" type="mms" />
   <apn carrier="ATT" mcc="310" mnc="410" apn="phone" mmsc="http://mmsc.mobile.att.net/" mmsproxy="proxy.mobile.att.net" mmsport="80" type="default,mms,supl" />
-  <apn carrier="Net10" mcc="310" mnc="410" apn="tfdata" mmsc="http://mms-tf.net" mmsproxy="mms3.tracfone.com" mmsport="80" type="default,mms,supl" />
+  <apn carrier="Net 10" mcc="310" mnc="410" apn="tfdata" type="default,supl,mms" protocol="IP" roaming_protocol="IP" mmsc="http://mms-tf.net" mmsproxy="mms3.tracfone.com" mmsport="80" />
   <apn carrier="Straight Talk" mcc="310" mnc="410" apn="tfdata" port="80" mmsc="http://mms-tf.net" mmsproxy="mms3.tracfone.com" mmsport="80" mvno_type="gid" mvno_match_data="deff" type="default,mms,supl" />
   <apn carrier="Red Pocket" mcc="310" mnc="410" apn="PRODATA" port="" mmsc="http://mmsc.mobile.att.net" mmsproxy="proxy.mobile.att.net" mmsport="80" mvno_type="gid" mvno_match_data="4201" type="default,mms,supl" />
   <apn carrier="Black Wireless" mcc="310" mnc="410" apn="att.mvno" proxy="66.209.11.33" port="80" mmsc="http://mmsc.cingular.com" mmsproxy="66.209.11.33" mmsport="80" type="default,mms,supl,agps,fota" authtype="1" />
@@ -3215,6 +3217,7 @@
   <apn carrier="Celcom 3G MMS" mcc="502" mnc="19" apn="celcom3g" mmsc="http://mms.celcom.net.my" mmsproxy="10.128.1.242" mmsport="8080" type="mms" />
   <apn carrier="Celcom 2G Internet" mcc="502" mnc="19" apn="celcom.net.my" type="default,supl" />
   <apn carrier="Celcom 2G MMS" mcc="502" mnc="19" apn="mms.celcom.net.my" mmsc="http://mms.celcom.net.my" mmsproxy="10.128.1.242" mmsport="8080" type="mms" />
+  <apn carrier="Unifi" mcc="502" mnc="153" apn="unifi" type="default,supl" />
   <apn carrier="Telstra Internet" mcc="505" mnc="01" apn="telstra.wap" user="" password="" type="default,supl" />
   <apn carrier="Telstra Broadband" mcc="505" mnc="01" apn="telstra.internet" user="" password="" type="dun" />
   <apn carrier="Telstra MMS" mcc="505" mnc="01" apn="telstra.mms" proxy="" port="" mmsproxy="10.1.1.180" mmsport="80" mmsc="http://mmsc.telstra.com:8002" user="" password="" type="mms" />

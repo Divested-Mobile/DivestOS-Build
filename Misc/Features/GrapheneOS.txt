@@ -18,10 +18,6 @@ sqlite
 8 https://github.com/GrapheneOS-Archive/platform_external_sqlite/commit/XXX6fc2df466a4b200e09befbb97447ad27fdc92ba1XXX
 8 https://github.com/GrapheneOS-Archive/platform_external_sqlite/commit/XXX0c40f7de016d075812cae07e97d8eea1c75ed6c5XXX
 
-sensitive notifications
-11 https://github.com/GrapheneOS/platform_frameworks_base/commit/6e027c935088ae32c82b69ed4e072b1d2a8c08a9
-10 https://github.com/GrapheneOS/platform_frameworks_base/commit/12a3d6dc2b94af26e1be34ec81c2581ef17f1582
-
 show passwords
 11 https://github.com/GrapheneOS/platform_frameworks_base/commit/83586f8b4e0e5075f9823d05158c893b23585eb1
 10 https://github.com/GrapheneOS/platform_frameworks_base/commit/63f3727cd9cb32c1195cfd83ff9b0d54d7d8dd7d
@@ -56,6 +52,10 @@ nojit
 9  https://github.com/GrapheneOS/platform_build/commit/aa5b687d56d5b079ffe05e71c92adfa92857cf80
 9  https://github.com/GrapheneOS/platform_build/commit/5b9927197e63593b9220d1a9280021252ef205e9
 9  https://github.com/GrapheneOS/platform_build/commit/e36c7aefaa78a1ed5b94c7f51d29277008eea232
+
+[implemented] sensitive notifications
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/6e027c935088ae32c82b69ed4e072b1d2a8c08a9
+10 https://github.com/GrapheneOS/platform_frameworks_base/commit/12a3d6dc2b94af26e1be34ec81c2581ef17f1582
 
 [implemented] always random mac
 11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/9bc33b2f1a94c5b801f2c7078b996478cd4d11ac
@@ -192,7 +192,7 @@ nojit
 11 https://github.com/GrapheneOS/platform_frameworks_base/commit/14c3c1d4cd2df5dde69274e76a91b42fa383e577
 11 https://github.com/GrapheneOS/platform_frameworks_base/commit/ac1943345ec96411ecbac3ce9b15cb371cc03551
 11 https://github.com/GrapheneOS/platform_frameworks_base/commit/1abb8050413dae6ac6c1a082a38fb555c88534b9
-11  https://github.com/GrapheneOS/platform_frameworks_base/commit/2e07ab8c242551e6847bffef84546ed5eaf345cf
+11 https://github.com/GrapheneOS/platform_frameworks_base/commit/2e07ab8c242551e6847bffef84546ed5eaf345cf
 11 https://github.com/GrapheneOS/platform_frameworks_base/commit/0044836677b9be153e04a91dddddcb74d9585643
 11 https://github.com/GrapheneOS/platform_frameworks_base/commit/c561811fad950dce791ef9941753ef95076da4c0
 11 https://github.com/GrapheneOS/platform_frameworks_base/commit/7a848373efa0bd5b948af7ade19927a8706f9ea2
@@ -220,7 +220,7 @@ nojit
 10 https://github.com/GrapheneOS/platform_libcore/commit/13a992c716f9b39920a7b37af2f447ced8e45c15
 9  https://github.com/GrapheneOS/platform_frameworks_base/commit/750efbf6bce8bbe850679eb6a90b00108314226c
 9  https://github.com/GrapheneOS/platform_frameworks_base/commit/ed563b6f26452581f9dba1c1ef245e893f5045ca
-9   https://github.com/GrapheneOS/platform_frameworks_base/commit/aad3c7d750f9814344514cb187112e50574bb382
+9  https://github.com/GrapheneOS/platform_frameworks_base/commit/aad3c7d750f9814344514cb187112e50574bb382
 9  https://github.com/GrapheneOS/platform_frameworks_base/commit/da3180f9a8e75b10826ce2faf046c0f3912dfd59
 9  https://github.com/GrapheneOS/platform_frameworks_base/commit/68773a29b77d6e87201b3af1b0b21e9385a1bdb0
 9  https://github.com/GrapheneOS/platform_frameworks_base/commit/283b3fa09c002861fa5525a2be8071953e05e794
