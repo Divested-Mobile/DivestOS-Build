@@ -410,6 +410,7 @@ rm overlay/common/frameworks/base/core/res/res/xml/config_webview_packages.xml; 
 rm build/target/product/security/lineage.x509.pem; #Remove Lineage keys
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
 rm -rf overlay/common/frameworks/base/core/res/res/drawable-*/default_wallpaper.png; #Remove Lineage wallpaper
+rm -rf overlay/common/packages/modules/NetworkStack/res/values/config.xml; #Do not set device model as DHCP hostname
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then awk -i inplace '!/50-lineage.sh/' config/*.mk; fi; #Make sure our hosts is always used
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/*.mk; #Remove Lineage extra keys
 awk -i inplace '!/security\/lineage/' config/*.mk; #Remove Lineage extra keys
