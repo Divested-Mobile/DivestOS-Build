@@ -391,7 +391,6 @@ git revert --no-edit c68499e3ff10f2a31f913e14f66aafb4ed94d42d; #Do not skip payl
 fi;
 
 if enterAndClear "vendor/lineage"; then
-rm overlay/common/frameworks/base/core/res/res/xml/config_webview_packages.xml; #Use the WebView overlay in vendor_divested instead
 rm build/target/product/security/lineage.x509.pem; #Remove Lineage keys
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
 rm -rf overlay/common/frameworks/base/core/res/res/drawable-*/default_wallpaper.png; #Remove Lineage wallpaper
