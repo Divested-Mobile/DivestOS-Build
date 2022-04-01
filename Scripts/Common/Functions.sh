@@ -536,6 +536,41 @@ hardenBootArgs() {
 }
 export -f hardenBootArgs;
 
+enableAutoVarInit() {
+	cd "$DOS_BUILD_BASE";
+	for kernel in "${DOS_AUTOVARINIT_KERNELS[@]}"
+	do
+		if [ -d "$DOS_BUILD_BASE/kernel/$kernel" ]; then
+			cd "$DOS_BUILD_BASE/kernel/$kernel";
+			if git apply --check "$DOS_PATCHES_COMMON/android_kernel_common/0001-auto_var_init.patch" &> /dev/null; then
+				if git apply "$DOS_PATCHES_COMMON/android_kernel_common/0001-auto_var_init.patch" &> /dev/null; then #(GrapheneOS)
+					echo "auto-var-init: Enabled for $kernel";
+				else
+					echo "auto-var-init: Failed to enable for $kernel";
+				fi;
+			elif git apply --check --reverse "$DOS_PATCHES_COMMON/android_kernel_common/0001-auto_var_init.patch" &> /dev/null; then
+				echo "auto-var-init: Already enabled for $kernel";
+			elif grep -q "trivial-auto-var-init=pattern" Makefile; then
+				sed -i 's/ftrivial-auto-var-init=pattern/ftrivial-auto-var-init=zero -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang/' Makefile; #(GrapheneOS)
+				grep -q "trivial-auto-var-init=pattern" Makefile;
+				if [ $? -eq 0 ]; then
+					echo "auto-var-init: Failed to switch from pattern to zero on $kernel";
+				else
+					echo "auto-var-init: Switched from pattern to zero on $kernel";
+				fi;
+			elif grep -q "trivial-auto-var-init=zero" Makefile; then
+				echo "auto-var-init: Already enabled for $kernel";
+			else
+				echo "auto-var-init: Could not enable for $kernel";
+			fi;
+#		else
+#			echo "auto-var-init: $kernel not in tree";
+		fi;
+	done;
+	cd "$DOS_BUILD_BASE";
+}
+export -f enableAutoVarInit;
+
 disableEnforceRRO() {
 	cd "$DOS_BUILD_BASE$1";
 	awk -i inplace '!/PRODUCT_ENFORCE_RRO_TARGETS .= framework-res/' *.mk &>/dev/null || true;
