@@ -414,7 +414,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-34693/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37576/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-42008/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45095/4.4/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45868/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/3.4/0057.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/3.4/0060.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/3.4/0061.patch
@@ -440,5 +439,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0040.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0041.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0043.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
-editKernelLocalversion "-dos.p440"
+editKernelLocalversion "-dos.p439"
 cd "$DOS_BUILD_BASE"
