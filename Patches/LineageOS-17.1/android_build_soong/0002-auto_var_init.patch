@@ -1,0 +1,21 @@
+From af24d46eff1f846432eb5e9ff8365edde901addd Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 8 Apr 2020 10:42:11 -0400
+Subject: [PATCH] enable -ftrivial-auto-var-init=zero
+
+---
+ cc/config/global.go | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/cc/config/global.go b/cc/config/global.go
+index 7c7b47a51..26806ce18 100644
+--- a/cc/config/global.go
++++ b/cc/config/global.go
+@@ -58,6 +58,7 @@ var (
+ 		"-fno-short-enums",
+ 		"-funwind-tables",
+ 		"-fstack-protector-strong",
++		"-ftrivial-auto-var-init=zero -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang",
+ 		"-Wa,--noexecstack",
+ 		"-D_FORTIFY_SOURCE=2",
+ 

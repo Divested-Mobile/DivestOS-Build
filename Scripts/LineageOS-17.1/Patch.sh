@@ -101,6 +101,7 @@ fi;
 
 if enterAndClear "build/soong"; then
 applyPatch "$DOS_PATCHES/android_build_soong/0001-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_build_soong/0002-auto_var_init.patch"; #Enable -ftrivial-auto-var-init=zero (GrapheneOS)
 fi;
 
 if enterAndClear "device/qcom/sepolicy-legacy"; then
