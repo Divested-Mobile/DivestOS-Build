@@ -1,4 +1,4 @@
-From ce6dcc2368fbf817c1c7ae2595b0367750b741dc Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Tue, 14 May 2019 14:34:32 -0400
 Subject: [PATCH] disable JCA provider warm up for exec spawning
@@ -8,10 +8,10 @@ Subject: [PATCH] disable JCA provider warm up for exec spawning
  1 file changed, 12 insertions(+), 10 deletions(-)
 
 diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
-index 94e58405ce63..dbd24ef27d26 100644
+index b711db51db05..209b9f6855fd 100644
 --- a/core/java/com/android/internal/os/ZygoteInit.java
 +++ b/core/java/com/android/internal/os/ZygoteInit.java
-@@ -166,7 +166,7 @@ static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+@@ -166,7 +166,7 @@ public class ZygoteInit {
              WebViewFactory.prepareWebViewInZygote();
          }
          endPreload(fullPreload);
@@ -20,7 +20,7 @@ index 94e58405ce63..dbd24ef27d26 100644
          Log.d(TAG, "end preload");
  
          sPreloadComplete = true;
-@@ -230,7 +230,7 @@ private static void preloadTextResources() {
+@@ -230,7 +230,7 @@ public class ZygoteInit {
       * By doing it here we avoid that each app does it when requesting a service from the provider
       * for the first time.
       */
@@ -29,7 +29,7 @@ index 94e58405ce63..dbd24ef27d26 100644
          long startTime = SystemClock.uptimeMillis();
          Trace.traceBegin(
                  Trace.TRACE_TAG_DALVIK, "Starting installation of AndroidKeyStoreProvider");
-@@ -242,15 +242,17 @@ private static void warmUpJcaProviders() {
+@@ -242,15 +242,17 @@ public class ZygoteInit {
                  + (SystemClock.uptimeMillis() - startTime) + "ms.");
          Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
  

@@ -1,4 +1,4 @@
-From 750efbf6bce8bbe850679eb6a90b00108314226c Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Sat, 14 Mar 2015 18:10:20 -0400
 Subject: [PATCH] add exec-based spawning support
@@ -135,7 +135,7 @@ diff --git a/core/java/com/android/internal/os/WrapperInit.java b/core/java/com/
 index f0e779694c90..9f41a4136db9 100644
 --- a/core/java/com/android/internal/os/WrapperInit.java
 +++ b/core/java/com/android/internal/os/WrapperInit.java
-@@ -183,7 +183,7 @@ private static Runnable wrapperInit(int targetSdkVersion, String[] argv) {
+@@ -183,7 +183,7 @@ public class WrapperInit {
       *       This is acceptable here as failure will leave the wrapped app with strictly less
       *       capabilities, which may make it crash, but not exceed its allowances.
       */
@@ -148,7 +148,7 @@ diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java
 index f537e3e2897b..7d51be259c20 100644
 --- a/core/java/com/android/internal/os/ZygoteConnection.java
 +++ b/core/java/com/android/internal/os/ZygoteConnection.java
-@@ -880,6 +880,13 @@ private Runnable handleChildProc(Arguments parsedArgs, FileDescriptor[] descript
+@@ -880,6 +880,13 @@ class ZygoteConnection {
              throw new IllegalStateException("WrapperInit.execApplication unexpectedly returned");
          } else {
              if (!isZygote) {

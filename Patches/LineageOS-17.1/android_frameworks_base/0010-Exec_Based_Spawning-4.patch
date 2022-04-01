@@ -1,4 +1,4 @@
-From c906fe97221c7f48d5e8a6be508fb85f8df113b1 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Tue, 14 May 2019 14:24:21 -0400
 Subject: [PATCH] add parameter for avoiding full preload with exec
@@ -12,7 +12,7 @@ diff --git a/core/java/com/android/internal/os/ExecInit.java b/core/java/com/and
 index 10edd64e0f95..3ba4664ae8cf 100644
 --- a/core/java/com/android/internal/os/ExecInit.java
 +++ b/core/java/com/android/internal/os/ExecInit.java
-@@ -33,7 +33,7 @@ public static void main(String[] args) {
+@@ -33,7 +33,7 @@ public class ExecInit {
  
          // Mimic system Zygote preloading.
          ZygoteInit.preload(new TimingsTraceLog("ExecInitTiming",
@@ -22,10 +22,10 @@ index 10edd64e0f95..3ba4664ae8cf 100644
          // Launch the application.
          String[] runtimeArgs = new String[args.length - 1];
 diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
-index 7ec8309e47de..e59cb784dc78 100644
+index 226f03ff9abb..4f89585af067 100644
 --- a/core/java/com/android/internal/os/ZygoteInit.java
 +++ b/core/java/com/android/internal/os/ZygoteInit.java
-@@ -132,7 +132,7 @@
+@@ -132,7 +132,7 @@ public class ZygoteInit {
       */
      private static ClassLoader sCachedSystemServerClassLoader = null;
  
@@ -34,7 +34,7 @@ index 7ec8309e47de..e59cb784dc78 100644
          Log.d(TAG, "begin preload");
          bootTimingsTraceLog.traceBegin("BeginPreload");
          beginPreload();
-@@ -164,6 +164,10 @@ static void preload(TimingsTraceLog bootTimingsTraceLog) {
+@@ -164,6 +164,10 @@ public class ZygoteInit {
          sPreloadComplete = true;
      }
  

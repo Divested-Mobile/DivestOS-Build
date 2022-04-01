@@ -1,4 +1,4 @@
-From 68773a29b77d6e87201b3af1b0b21e9385a1bdb0 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Tue, 14 May 2019 14:29:36 -0400
 Subject: [PATCH] disable ICU cache pinning for exec spawning
@@ -11,7 +11,7 @@ diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/a
 index 17bdfaa79d0b..1dfe23e32937 100644
 --- a/core/java/com/android/internal/os/ZygoteInit.java
 +++ b/core/java/com/android/internal/os/ZygoteInit.java
-@@ -122,9 +122,11 @@
+@@ -122,9 +122,11 @@ public class ZygoteInit {
  
      static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
          Log.d(TAG, "begin preload");
@@ -26,7 +26,7 @@ index 17bdfaa79d0b..1dfe23e32937 100644
          bootTimingsTraceLog.traceBegin("PreloadClasses");
          preloadClasses();
          bootTimingsTraceLog.traceEnd(); // PreloadClasses
-@@ -146,7 +148,9 @@ static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+@@ -146,7 +148,9 @@ public class ZygoteInit {
          // Ask the WebViewFactory to do any initialization that must run in the zygote process,
          // for memory sharing purposes.
          WebViewFactory.prepareWebViewInZygote();

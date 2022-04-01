@@ -1,4 +1,4 @@
-From c69c3eecd4f34a932760303e10e3a47798335f7e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Wed, 11 Sep 2019 06:43:55 -0400
 Subject: [PATCH] pass through fullPreload to libcore
@@ -8,10 +8,10 @@ Subject: [PATCH] pass through fullPreload to libcore
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/android/internal/os/ZygoteInit.java
-index e59cb784dc78..22e3f549dad5 100644
+index 4f89585af067..51e0e82ea152 100644
 --- a/core/java/com/android/internal/os/ZygoteInit.java
 +++ b/core/java/com/android/internal/os/ZygoteInit.java
-@@ -135,7 +135,7 @@
+@@ -135,7 +135,7 @@ public class ZygoteInit {
      static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
          Log.d(TAG, "begin preload");
          bootTimingsTraceLog.traceBegin("BeginPreload");
@@ -20,7 +20,7 @@ index e59cb784dc78..22e3f549dad5 100644
          bootTimingsTraceLog.traceEnd(); // BeginPreload
          bootTimingsTraceLog.traceBegin("PreloadClasses");
          preloadClasses();
-@@ -157,7 +157,7 @@ static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+@@ -157,7 +157,7 @@ public class ZygoteInit {
          // Ask the WebViewFactory to do any initialization that must run in the zygote process,
          // for memory sharing purposes.
          WebViewFactory.prepareWebViewInZygote();
@@ -29,7 +29,7 @@ index e59cb784dc78..22e3f549dad5 100644
          warmUpJcaProviders();
          Log.d(TAG, "end preload");
  
-@@ -175,14 +175,14 @@ public static void lazyPreload() {
+@@ -175,14 +175,14 @@ public class ZygoteInit {
          preload(new TimingsTraceLog("ZygoteInitTiming_lazy", Trace.TRACE_TAG_DALVIK));
      }
  

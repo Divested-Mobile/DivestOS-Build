@@ -37,6 +37,7 @@ enableAVB() {
 		cd "$DOS_BUILD_BASE/$1";
 		sed -i 's/--set_hashtree_disabled_flag//' *.mk &>/dev/null || true;
 		sed -i 's/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 2/' *.mk &>/dev/null || true;
+		#TODO: investigate BOARD_AVB_RECOVERY_KEY_PATH
 		echo "Enabled AVB for $1";
 		cd "$DOS_BUILD_BASE";
 	fi;

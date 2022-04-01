@@ -1,4 +1,4 @@
-From da3180f9a8e75b10826ce2faf046c0f3912dfd59 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Tue, 14 May 2019 14:28:52 -0400
 Subject: [PATCH] disable resource preloading for exec spawning
@@ -11,7 +11,7 @@ diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/a
 index 09ec9f235451..17bdfaa79d0b 100644
 --- a/core/java/com/android/internal/os/ZygoteInit.java
 +++ b/core/java/com/android/internal/os/ZygoteInit.java
-@@ -128,9 +128,11 @@ static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+@@ -128,9 +128,11 @@ public class ZygoteInit {
          bootTimingsTraceLog.traceBegin("PreloadClasses");
          preloadClasses();
          bootTimingsTraceLog.traceEnd(); // PreloadClasses

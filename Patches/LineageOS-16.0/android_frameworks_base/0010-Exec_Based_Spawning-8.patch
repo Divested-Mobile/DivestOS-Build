@@ -1,4 +1,4 @@
-From 01a01ce5f6570f31232bc488da5683481ca32388 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Tue, 14 May 2019 14:34:32 -0400
 Subject: [PATCH] disable JCA provider warm up for exec spawning
@@ -11,7 +11,7 @@ diff --git a/core/java/com/android/internal/os/ZygoteInit.java b/core/java/com/a
 index 75d10f6d92a8..214dbd451099 100644
 --- a/core/java/com/android/internal/os/ZygoteInit.java
 +++ b/core/java/com/android/internal/os/ZygoteInit.java
-@@ -155,7 +155,7 @@ static void preload(TimingsTraceLog bootTimingsTraceLog, boolean fullPreload) {
+@@ -155,7 +155,7 @@ public class ZygoteInit {
          if (fullPreload) {
              endIcuCachePinning();
          }
@@ -20,7 +20,7 @@ index 75d10f6d92a8..214dbd451099 100644
          Log.d(TAG, "end preload");
  
          sPreloadComplete = true;
-@@ -223,7 +223,7 @@ private static void preloadTextResources() {
+@@ -223,7 +223,7 @@ public class ZygoteInit {
       * By doing it here we avoid that each app does it when requesting a service from the
       * provider for the first time.
       */
@@ -29,7 +29,7 @@ index 75d10f6d92a8..214dbd451099 100644
          long startTime = SystemClock.uptimeMillis();
          Trace.traceBegin(
                  Trace.TRACE_TAG_DALVIK, "Starting installation of AndroidKeyStoreProvider");
-@@ -235,15 +235,17 @@ private static void warmUpJcaProviders() {
+@@ -235,15 +235,17 @@ public class ZygoteInit {
                  + (SystemClock.uptimeMillis() - startTime) + "ms.");
          Trace.traceEnd(Trace.TRACE_TAG_DALVIK);
  

@@ -1,4 +1,4 @@
-From ffde474ad7e72c72367f16a231bc30ea8ee3311b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Tue, 14 May 2019 15:11:59 -0400
 Subject: [PATCH] avoid AssetManager errors with exec spawning

@@ -1,4 +1,4 @@
-From 8806ec3ef166fe1fd1eeb690ace6dd5a7682195c Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Tue, 21 May 2019 23:54:20 -0400
 Subject: [PATCH] disable exec spawning when using debugging options
@@ -13,7 +13,7 @@ diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java
 index 7d51be259c20..48a68d96e84c 100644
 --- a/core/java/com/android/internal/os/ZygoteConnection.java
 +++ b/core/java/com/android/internal/os/ZygoteConnection.java
-@@ -880,7 +880,7 @@ private Runnable handleChildProc(Arguments parsedArgs, FileDescriptor[] descript
+@@ -880,7 +880,7 @@ class ZygoteConnection {
              throw new IllegalStateException("WrapperInit.execApplication unexpectedly returned");
          } else {
              if (!isZygote) {
