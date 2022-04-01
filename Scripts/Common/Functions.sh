@@ -394,6 +394,7 @@ smallerSystem() {
 	echo "SMALLER_FONT_FOOTPRINT := true" >> BoardConfig.mk;
 	#echo "MINIMAL_FONT_FOOTPRINT := true" >> BoardConfig.mk;
 	sed -i 's/common_full_phone.mk/common_mini_phone.mk/' *.mk &>/dev/null || true;
+	echo "Set smaller system args for $PWD";
 }
 export -f smallerSystem;
 
@@ -404,6 +405,7 @@ deblobAudio() {
 		awk -i inplace '!/DOLBY_/' hardware/qcom/audio-caf/*/configs/*/*.mk &>/dev/null || true;
 		#awk -i inplace '!/vendor.audio.dolby/' hardware/qcom/audio-caf/*/configs/*/*.mk &>/dev/null || true;
 	fi;
+	echo "Deblobbed audio!";
 }
 export -f deblobAudio;
 
@@ -415,6 +417,7 @@ export -f imsAllowDiag;
 
 extremeWiFiDeepSleep() {
        sed -i 's/gEnablePowerSaveOffload=2/gEnablePowerSaveOffload=4/' $1;
+	echo "Enabled extreme Wi-Fi deep sleep for $1";
 }
 export -f extremeWiFiDeepSleep;
 
@@ -538,6 +541,7 @@ export -f hardenBootArgs;
 
 enableAutoVarInit() {
 	cd "$DOS_BUILD_BASE";
+	echo "auto-var-init: Starting!";
 	for kernel in "${DOS_AUTOVARINIT_KERNELS[@]}"
 	do
 		if [ -d "$DOS_BUILD_BASE/kernel/$kernel" ]; then
@@ -563,10 +567,11 @@ enableAutoVarInit() {
 			else
 				echo "auto-var-init: Could not enable for $kernel";
 			fi;
-#		else
-#			echo "auto-var-init: $kernel not in tree";
+		else
+			echo "auto-var-init: $kernel not in tree";
 		fi;
 	done;
+	echo "auto-var-init: Finished!";
 	cd "$DOS_BUILD_BASE";
 }
 export -f enableAutoVarInit;
@@ -579,6 +584,7 @@ disableEnforceRRO() {
 	#TODO: Find a new home for these two
 	awk -i inplace '!/persist.device_config.runtime_native.usap_pool_enabled=true/' *.prop &>/dev/null || true;
 	awk -i inplace '!/config_pinnerCameraApp/' overlay/frameworks/base/core/res/res/values/config.xml &>/dev/null || true;
+	echo "Disabled enforced RRO for $1";
 	cd "$DOS_BUILD_BASE";
 }
 export -f disableEnforceRRO;
@@ -587,6 +593,7 @@ disableAPEX() {
 	cd "$DOS_BUILD_BASE$1";
 	awk -i inplace '!/DEXPREOPT_GENERATE_APEX_IMAGE/' *.mk &>/dev/null || true;
 	awk -i inplace '!/updatable_apex.mk/' *.mk &>/dev/null || true;
+	echo "Disabled APEX for $1";
 	cd "$DOS_BUILD_BASE";
 }
 export -f disableAPEX;

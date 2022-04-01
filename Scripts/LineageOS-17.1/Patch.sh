@@ -331,11 +331,11 @@ applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voic
 applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
 fi;
 
-if [ "$DOS_GRAPHENE_RANDOM_MAC" = true ]; then
-if enterAndClear "packages/modules/NetworkStack"; then
-applyPatch "$DOS_PATCHES/android_packages_modules_NetworkStack/0001-Random_MAC.patch"; #Avoid reusing DHCP state for full MAC randomization (GrapheneOS)
-fi;
-fi;
+#if [ "$DOS_GRAPHENE_RANDOM_MAC" = true ]; then
+#if enterAndClear "packages/modules/NetworkStack"; then
+#applyPatch "$DOS_PATCHES/android_packages_modules_NetworkStack/0001-Random_MAC.patch"; #Avoid reusing DHCP state for full MAC randomization (GrapheneOS) #FIXME: DhcpClient.java:960: error: cannot find symbol
+#fi;
+#fi;
 
 if enterAndClear "packages/providers/DownloadProvider"; then
 if [ "$DOS_GRAPHENE_NETWORK_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; fi; #Expose the NETWORK permission (GrapheneOS)
@@ -345,6 +345,10 @@ fi;
 #applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch"; #XXX 17REBASE
 #applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch"; #XXX 17REBASE
 #fi;
+
+if enterAndClear "prebuilts/abi-dumps/vndk"; then
+applyPatch "$DOS_PATCHES/android_prebuilts_abi-dumps_vndk/0001-protobuf-avi.patch"; #Work around ABI changes from compiler hardening (GrapheneOS)
+fi;
 
 if enterAndClear "system/bt"; then
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
