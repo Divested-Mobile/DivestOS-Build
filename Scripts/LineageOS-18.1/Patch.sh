@@ -573,9 +573,9 @@ find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {}
 find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'disableAPEX "{}"';
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'disableEnforceRRO "{}"'; fi;
 cd "$DOS_BUILD_BASE";
-deblobAudio;
-removeBuildFingerprints;
-enableAutoVarInit;
+deblobAudio || true;
+removeBuildFingerprints || true;
+enableAutoVarInit || true;
 
 #Tweaks for <2GB RAM devices
 #enableLowRam "device/samsung/serrano3gxx";

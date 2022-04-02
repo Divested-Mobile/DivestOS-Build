@@ -540,6 +540,7 @@ hardenBootArgs() {
 export -f hardenBootArgs;
 
 enableAutoVarInit() {
+	DOS_AUTOVARINIT_KERNELS=('essential/msm8998' 'fxtec/msm8998' 'google/coral' 'google/msm-4.9' 'google/sunfish' 'google/wahoo' 'oneplus/msm8996' 'oneplus/msm8998' 'oneplus/sdm845' 'oneplus/sm7250' 'oneplus/sm8150' 'razer/msm8998' 'razer/sdm845' 'sony/sdm660' 'sony/sdm845' 'xiaomi/sdm660' 'xiaomi/sdm845' 'xiaomi/sm6150' 'xiaomi/sm8150' 'xiaomi/sm8250' 'zuk/msm8996'); #redbull already supports init_stack_all_zero
 	cd "$DOS_BUILD_BASE";
 	echo "auto-var-init: Starting!";
 	for kernel in "${DOS_AUTOVARINIT_KERNELS[@]}"
@@ -567,8 +568,8 @@ enableAutoVarInit() {
 			else
 				echo "auto-var-init: Could not enable for $kernel";
 			fi;
-		else
-			echo "auto-var-init: $kernel not in tree";
+#		else
+#			echo "auto-var-init: $kernel not in tree";
 		fi;
 	done;
 	echo "auto-var-init: Finished!";
@@ -799,7 +800,8 @@ hardenDefconfig() {
 	optionsYes+=("IO_STRICT_DEVMEM");
 
 	#Linux 4.6
-	optionsYes+=("ARM64_UAO" "PAGE_POISONING" "PAGE_POISONING_ENABLE_DEFAULT" "PAGE_POISONING_NO_SANITY");
+	optionsYes+=("ARM64_UAO" "PAGE_POISONING" "PAGE_POISONING_ZERO");
+	#Disabled: PAGE_POISONING_NO_SANITY
 
 	#Linux 4.7
 	optionsYes+=("ASYMMETRIC_KEY_TYPE" "RANDOMIZE_BASE" "SLAB_FREELIST_RANDOM");
@@ -834,17 +836,11 @@ hardenDefconfig() {
 	#Linux 4.18
 	optionsYes+=("HARDEN_BRANCH_PREDICTOR" "STACKPROTECTOR" "STACKPROTECTOR_STRONG");
 
-	#Linux 4.19
-	optionsYes+=("PAGE_POISONING_ZERO");
-
 	#Linux 5.0
 	optionsYes+=("ARM64_PTR_AUTH" "RODATA_FULL_DEFAULT_ENABLED" "STACKPROTECTOR_PER_TASK");
 
 	#Linux 5.2
 	optionsYes+=("INIT_STACK_ALL" "SHUFFLE_PAGE_ALLOCATOR");
-
-	#Linux 5.3
-	optionsYes+=("INIT_ON_ALLOC_DEFAULT_ON" "INIT_ON_FREE_DEFAULT_ON");
 
 	#Linux 5.8
 	optionsYes+=("ARM64_BTI_KERNEL" "DEBUG_WX");
@@ -862,7 +858,7 @@ hardenDefconfig() {
 	#optionsYes+=("GCC_PLUGINS" "GCC_PLUGIN_LATENT_ENTROPY" "GCC_PLUGIN_RANDSTRUCT" "GCC_PLUGIN_STRUCTLEAK" "GCC_PLUGIN_STRUCTLEAK_BYREF_ALL");
 
 	#GrapheneOS Patches
-	optionsYes+=("PAGE_SANITIZE" "PAGE_SANITIZE_VERIFY" "SLAB_HARDENED" "SLAB_SANITIZE" "SLAB_SANITIZE_VERIFY");
+	optionsYes+=("SLAB_HARDENED" "SLAB_SANITIZE" "SLAB_SANITIZE_VERIFY");
 	#Disabled: SLAB_CANARY (breakage?)
 
 	#out of tree or renamed or removed ?
@@ -873,6 +869,28 @@ hardenDefconfig() {
 
 	#Hardware enablement #XXX: This needs a better home
 	optionsYes+=("HID_GENERIC" "HID_STEAM" "HID_SONY" "HID_WIIMOTE" "INPUT_JOYSTICK" "JOYSTICK_XPAD" "USB_USBNET" "USB_NET_CDCETHER");
+
+	modernKernels=('google/coral' 'google/redbull' 'google/sunfish' 'oneplus/sm8150' 'xiaomi/sm8150' 'xiaomi/sm8250');
+	for kernelModern in "${modernKernels[@]}"; do
+		if [[ "$1" == *"/$kernelModern"* ]]; then
+			optionsYes+=("INIT_ON_ALLOC_DEFAULT_ON" "INIT_ON_FREE_DEFAULT_ON" "PAGE_SANITIZE_VERIFY");
+			#TODO: also disable slub_debug=P for these devices
+		fi;
+	done;
+
+	oldKernels=('essential/msm8998' 'fairphone/sdm632' 'fxtec/msm8998' 'google/msm-4.9' 'oneplus/msm8998' 'oneplus/sdm845' 'oneplus/sm7250' 'razer/msm8998' 'razer/sdm845' 'sony/sdm660' 'sony/sdm845' 'xiaomi/sdm660' 'xiaomi/sdm845' 'xiaomi/sm6150' 'yandex/sdm660' 'zuk/msm8996');
+	for kernelOld in "${oldKernels[@]}"; do
+		if [[ "$1" == *"/$kernelOld"* ]]; then
+			optionsYes+=("PAGE_POISONING_ENABLE_DEFAULT");
+		fi;
+	done;
+
+	weirdKernels=('google/wahoo');
+	for kernelWeird in "${weirdKernels[@]}"; do
+		if [[ "$1" == *"/$kernelWeird"* ]]; then
+			optionsYes+=("PAGE_SANITIZE" "PAGE_SANITIZE_VERIFY");
+		fi;
+	done;
 
 	for option in "${optionsYes[@]}"
 	do
