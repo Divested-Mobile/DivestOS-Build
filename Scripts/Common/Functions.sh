@@ -800,8 +800,7 @@ hardenDefconfig() {
 	optionsYes+=("IO_STRICT_DEVMEM");
 
 	#Linux 4.6
-	optionsYes+=("ARM64_UAO" "PAGE_POISONING" "PAGE_POISONING_ZERO");
-	#Disabled: PAGE_POISONING_NO_SANITY
+	optionsYes+=("ARM64_UAO" "PAGE_POISONING" "PAGE_POISONING_ZERO" "PAGE_POISONING_NO_SANITY");
 
 	#Linux 4.7
 	optionsYes+=("ASYMMETRIC_KEY_TYPE" "RANDOMIZE_BASE" "SLAB_FREELIST_RANDOM");
@@ -858,7 +857,7 @@ hardenDefconfig() {
 	#optionsYes+=("GCC_PLUGINS" "GCC_PLUGIN_LATENT_ENTROPY" "GCC_PLUGIN_RANDSTRUCT" "GCC_PLUGIN_STRUCTLEAK" "GCC_PLUGIN_STRUCTLEAK_BYREF_ALL");
 
 	#GrapheneOS Patches
-	optionsYes+=("SLAB_HARDENED" "SLAB_SANITIZE" "SLAB_SANITIZE_VERIFY");
+	optionsYes+=("PAGE_SANITIZE" "PAGE_SANITIZE_VERIFY" "SLAB_HARDENED" "SLAB_SANITIZE" "SLAB_SANITIZE_VERIFY");
 	#Disabled: SLAB_CANARY (breakage?)
 
 	#out of tree or renamed or removed ?
@@ -873,7 +872,7 @@ hardenDefconfig() {
 	modernKernels=('google/coral' 'google/redbull' 'google/sunfish' 'oneplus/sm8150' 'xiaomi/sm8150' 'xiaomi/sm8250');
 	for kernelModern in "${modernKernels[@]}"; do
 		if [[ "$1" == *"/$kernelModern"* ]]; then
-			optionsYes+=("INIT_ON_ALLOC_DEFAULT_ON" "INIT_ON_FREE_DEFAULT_ON" "PAGE_SANITIZE_VERIFY");
+			optionsYes+=("INIT_ON_ALLOC_DEFAULT_ON" "INIT_ON_FREE_DEFAULT_ON");
 			#TODO: also disable slub_debug=P for these devices
 		fi;
 	done;
@@ -882,13 +881,6 @@ hardenDefconfig() {
 	for kernelOld in "${oldKernels[@]}"; do
 		if [[ "$1" == *"/$kernelOld"* ]]; then
 			optionsYes+=("PAGE_POISONING_ENABLE_DEFAULT");
-		fi;
-	done;
-
-	weirdKernels=('google/wahoo');
-	for kernelWeird in "${weirdKernels[@]}"; do
-		if [[ "$1" == *"/$kernelWeird"* ]]; then
-			optionsYes+=("PAGE_SANITIZE" "PAGE_SANITIZE_VERIFY");
 		fi;
 	done;
 
