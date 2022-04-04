@@ -90,7 +90,6 @@ git revert --no-edit def3f14af17ae92192d2cc7d22349cabfa906fd6; #Re-enable the do
 applyPatch "$DOS_PATCHES/android_build/0001-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_build/0002-OTA_Keys.patch"; #Add correct keys to recovery for OTA verification
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then applyPatch "$DOS_PATCHES/android_build/0003-Exec_Based_Spawning.patch"; fi; #Add exec-based spawning support (GrapheneOS) #XXX: most devices override this
-#if [ "$DOS_GRAPHENE_EXEC" = true ]; then sed -i 's/enforce_rro_enabled := true/enforce_rro_enabled :=/g' core/package_internal.mk; fi; #XXX: insane?
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 if [ "$DOS_SILENCE_INCLUDED" = true ]; then sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/aosp_product.mk; fi; #Replace the Messaging app with Silence
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
