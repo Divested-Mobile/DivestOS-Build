@@ -1,0 +1,21 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sun, 6 Aug 2017 08:19:36 -0400
+Subject: [PATCH] remove legacy NETWORK permission group reference
+
+---
+ AndroidManifest.xml | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 43cf258e..dfce071d 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -29,7 +29,6 @@
+ 
+     <!-- Allows to queue downloads without a notification shown while the download runs. -->
+     <permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"
+-        android:permissionGroup="android.permission-group.NETWORK"
+         android:label="@string/permlab_downloadWithoutNotification"
+         android:description="@string/permdesc_downloadWithoutNotification"
+         android:protectionLevel="normal"/>

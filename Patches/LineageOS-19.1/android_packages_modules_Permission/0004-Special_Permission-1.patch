@@ -1,0 +1,110 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: inthewaves <inthewaves@pm.me>
+Date: Sat, 12 Sep 2020 15:40:58 -0700
+Subject: [PATCH] refactor handling of special runtime permissions
+
+---
+ .../permission/model/AppPermissionGroup.java   |  5 ++---
+ .../permission/model/Permission.java           |  5 +++--
+ .../permission/utils/Utils.java                | 18 ++++++++++++++++++
+ 3 files changed, 23 insertions(+), 5 deletions(-)
+
+diff --git a/PermissionController/src/com/android/permissioncontroller/permission/model/AppPermissionGroup.java b/PermissionController/src/com/android/permissioncontroller/permission/model/AppPermissionGroup.java
+index a74a63121..87001d20a 100644
+--- a/PermissionController/src/com/android/permissioncontroller/permission/model/AppPermissionGroup.java
++++ b/PermissionController/src/com/android/permissioncontroller/permission/model/AppPermissionGroup.java
+@@ -34,7 +34,6 @@ import android.content.pm.PackageManager;
+ import android.content.pm.PackageManager.NameNotFoundException;
+ import android.content.pm.PermissionGroupInfo;
+ import android.content.pm.PermissionInfo;
+-import android.Manifest;
+ import android.os.Build;
+ import android.os.UserHandle;
+ import android.permission.PermissionManager;
+@@ -873,7 +872,7 @@ public final class AppPermissionGroup implements Comparable<AppPermissionGroup>
+ 
+             boolean wasGranted = permission.isGrantedIncludingAppOp();
+ 
+-            if (mAppSupportsRuntimePermissions || Manifest.permission.INTERNET.equals(permission.getName()) || Manifest.permission.OTHER_SENSORS.equals(permission.getName())) {
++            if (mAppSupportsRuntimePermissions || Utils.isSpecialRuntimePermission(permission.getName())) {
+                 // Do not touch permissions fixed by the system.
+                 if (permission.isSystemFixed()) {
+                     wasAllGranted = false;
+@@ -1058,7 +1057,7 @@ public final class AppPermissionGroup implements Comparable<AppPermissionGroup>
+                 break;
+             }
+ 
+-            if (mAppSupportsRuntimePermissions || Manifest.permission.INTERNET.equals(permission.getName()) || Manifest.permission.OTHER_SENSORS.equals(permission.getName())) {
++            if (mAppSupportsRuntimePermissions || Utils.isSpecialRuntimePermission(permission.getName())) {
+                 // Revoke the permission if needed.
+                 if (permission.isGranted()) {
+                     permission.setGranted(false);
+diff --git a/PermissionController/src/com/android/permissioncontroller/permission/model/Permission.java b/PermissionController/src/com/android/permissioncontroller/permission/model/Permission.java
+index f65b75a9c..3f17de882 100644
+--- a/PermissionController/src/com/android/permissioncontroller/permission/model/Permission.java
++++ b/PermissionController/src/com/android/permissioncontroller/permission/model/Permission.java
+@@ -18,10 +18,11 @@ package com.android.permissioncontroller.permission.model;
+ 
+ import android.content.pm.PackageManager;
+ import android.content.pm.PermissionInfo;
+-import android.Manifest;
+ 
+ import androidx.annotation.NonNull;
+ 
++import com.android.permissioncontroller.permission.utils.Utils;
++
+ import java.util.ArrayList;
+ import java.util.Objects;
+ 
+@@ -138,7 +139,7 @@ public final class Permission {
+      * @return {@code true} if the permission (and the app-op) is granted.
+      */
+     public boolean isGrantedIncludingAppOp() {
+-        return mGranted && (!affectsAppOp() || isAppOpAllowed()) && (!isReviewRequired() || Manifest.permission.INTERNET.equals(mName) || Manifest.permission.OTHER_SENSORS.equals(mName));
++        return mGranted && (!affectsAppOp() || isAppOpAllowed()) && (!isReviewRequired() || Utils.isSpecialRuntimePermission(mName));
+     }
+ 
+     public boolean isReviewRequired() {
+diff --git a/PermissionController/src/com/android/permissioncontroller/permission/utils/Utils.java b/PermissionController/src/com/android/permissioncontroller/permission/utils/Utils.java
+index fdd04c8c9..5a309a7de 100644
+--- a/PermissionController/src/com/android/permissioncontroller/permission/utils/Utils.java
++++ b/PermissionController/src/com/android/permissioncontroller/permission/utils/Utils.java
+@@ -178,6 +178,9 @@ public final class Utils {
+      */
+     public static final long ONE_TIME_PERMISSIONS_TIMEOUT_MILLIS = 1 * 60 * 1000; // 1 minute
+ 
++    /** Mapping permission -> group for all special runtime permissions */
++    private static final ArrayMap<String, String> SPECIAL_RUNTIME_PERMISSIONS;
++
+     /** Mapping permission -> group for all dangerous platform permissions */
+     private static final ArrayMap<String, String> PLATFORM_PERMISSIONS;
+ 
+@@ -286,6 +289,10 @@ public final class Utils {
+         PLATFORM_PERMISSIONS.put(Manifest.permission.INTERNET, NETWORK);
+         PLATFORM_PERMISSIONS.put(Manifest.permission.OTHER_SENSORS, OTHER_SENSORS);
+ 
++        SPECIAL_RUNTIME_PERMISSIONS = new ArrayMap<>();
++        SPECIAL_RUNTIME_PERMISSIONS.put(Manifest.permission.INTERNET, NETWORK);
++        SPECIAL_RUNTIME_PERMISSIONS.put(Manifest.permission.OTHER_SENSORS, OTHER_SENSORS);
++
+         PLATFORM_PERMISSION_GROUPS = new ArrayMap<>();
+         int numPlatformPermissions = PLATFORM_PERMISSIONS.size();
+         for (int i = 0; i < numPlatformPermissions; i++) {
+@@ -725,6 +732,17 @@ public final class Utils {
+         return PLATFORM_PERMISSIONS.containsKey(permission);
+     }
+ 
++    /**
++     * Is the permission a special runtime permission?
++     * These are treated as a runtime permission even for legacy apps. They
++     * need to be granted by default for all apps to maintain compatibility.
++     *
++     * @return whether the permission is a special runtime permission.
++     */
++    public static boolean isSpecialRuntimePermission(@NonNull String permission) {
++        return SPECIAL_RUNTIME_PERMISSIONS.containsKey(permission);
++    }
++
+     /**
+      * Should UI show this permission.
+      *

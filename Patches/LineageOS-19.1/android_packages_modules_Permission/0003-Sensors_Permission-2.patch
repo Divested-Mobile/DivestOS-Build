@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 7 Oct 2017 15:56:35 -0400
+Subject: [PATCH] add OTHER_SENSORS permission group
+
+ported from 10: fc8c816e07ce39583774db8fe668e0505b6aa504
+---
+ .../android/permissioncontroller/permission/utils/Utils.java    | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/PermissionController/src/com/android/permissioncontroller/permission/utils/Utils.java b/PermissionController/src/com/android/permissioncontroller/permission/utils/Utils.java
+index 79ff02e48..fdd04c8c9 100644
+--- a/PermissionController/src/com/android/permissioncontroller/permission/utils/Utils.java
++++ b/PermissionController/src/com/android/permissioncontroller/permission/utils/Utils.java
+@@ -25,6 +25,7 @@ import static android.Manifest.permission_group.LOCATION;
+ import static android.Manifest.permission_group.MICROPHONE;
+ import static android.Manifest.permission_group.NEARBY_DEVICES;
+ import static android.Manifest.permission_group.NETWORK;
++import static android.Manifest.permission_group.OTHER_SENSORS;
+ import static android.Manifest.permission_group.PHONE;
+ import static android.Manifest.permission_group.SENSORS;
+ import static android.Manifest.permission_group.SMS;
+@@ -283,6 +284,7 @@ public final class Utils {
+         PLATFORM_PERMISSIONS.put(Manifest.permission.BODY_SENSORS, SENSORS);
+ 
+         PLATFORM_PERMISSIONS.put(Manifest.permission.INTERNET, NETWORK);
++        PLATFORM_PERMISSIONS.put(Manifest.permission.OTHER_SENSORS, OTHER_SENSORS);
+ 
+         PLATFORM_PERMISSION_GROUPS = new ArrayMap<>();
+         int numPlatformPermissions = PLATFORM_PERMISSIONS.size();

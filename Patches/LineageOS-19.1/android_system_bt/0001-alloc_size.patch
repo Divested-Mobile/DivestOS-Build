@@ -1,0 +1,25 @@
+From 3ee1dde662b9b42c1a344fc9c6613b12e96b80cf Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 1 Jul 2017 13:21:18 -0400
+Subject: [PATCH] add alloc_size attributes to the allocator
+
+This results in expanded _FORTIFY_SOURCE coverage.
+---
+ osi/include/allocator.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/osi/include/allocator.h b/osi/include/allocator.h
+index 3a4141f384..4fa059eb14 100644
+--- a/osi/include/allocator.h
++++ b/osi/include/allocator.h
+@@ -37,8 +37,8 @@ extern const allocator_t allocator_calloc;
+ char* osi_strdup(const char* str);
+ char* osi_strndup(const char* str, size_t len);
+ 
+-void* osi_malloc(size_t size);
+-void* osi_calloc(size_t size);
++void* osi_malloc(size_t size) __attribute__((alloc_size(1)));
++void* osi_calloc(size_t size) __attribute__((alloc_size(1)));
+ void osi_free(void* ptr);
+ 
+ // Free a buffer that was previously allocated with function |osi_malloc|

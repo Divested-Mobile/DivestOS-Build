@@ -1,0 +1,49 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Danny Lin <danny@kdrag0n.dev>
+Date: Tue, 5 Oct 2021 16:27:43 -0700
+Subject: [PATCH] net: Notify ConnectivityService of runtime permission changes
+
+ConnectivityService needs permission change events in order to enforce
+INTERNET permission updates correctly at runtime.
+
+Change-Id: I74b0b8a5aa70f0794b4f3d72c70167dbe2aae88d
+---
+ .../server/net/NetworkPolicyManagerService.java       | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/services/core/java/com/android/server/net/NetworkPolicyManagerService.java b/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
+index 0a85854b2af8..236dd19e0982 100644
+--- a/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
++++ b/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
+@@ -182,6 +182,7 @@ import android.content.pm.IPackageManager;
+ import android.content.pm.PackageInfo;
+ import android.content.pm.PackageManager;
+ import android.content.pm.PackageManager.NameNotFoundException;
++import android.content.pm.PackageManagerInternal;
+ import android.content.pm.UserInfo;
+ import android.content.res.Resources;
+ import android.database.ContentObserver;
+@@ -282,6 +283,7 @@ import com.android.server.LocalServices;
+ import com.android.server.ServiceThread;
+ import com.android.server.SystemConfig;
+ import com.android.server.connectivity.MultipathPolicyTracker;
++import com.android.server.pm.permission.PermissionManagerServiceInternal;
+ import com.android.server.usage.AppStandbyInternal;
+ import com.android.server.usage.AppStandbyInternal.AppIdleStateChangeListener;
+ 
+@@ -797,6 +799,15 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
+     public void bindConnectivityManager() {
+         mConnManager = Objects.requireNonNull(mContext.getSystemService(ConnectivityManager.class),
+                 "missing ConnectivityManager");
++
++        // Listen for permission changes and forward to ConnectivityService
++        PermissionManagerServiceInternal pm = LocalServices.getService(
++                PermissionManagerServiceInternal.class);
++        PackageManagerInternal pmi = LocalServices.getService(PackageManagerInternal.class);
++        pm.addOnRuntimePermissionStateChangedListener((packageName, userId) -> {
++            int uid = pmi.getPackageUid(packageName, PackageManager.GET_PERMISSIONS, userId);
++            mConnManager.onPackagePermissionChanged(uid);
++        });
+     }
+ 
+     @GuardedBy("mUidRulesFirstLock")

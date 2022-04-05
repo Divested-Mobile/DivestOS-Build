@@ -1,0 +1,88 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: renlord <me@renlord.com>
+Date: Fri, 15 Oct 2021 19:11:18 +0530
+Subject: [PATCH] add support for always generating new random MAC
+
+To trigger re-generation of randomized MAC addressed for an already
+connected AP. User simply has to toggle on/off wifi. Otherwise, on
+re-connection, a new randomized MAC address also gets generated.
+
+based on https://github.com/GrapheneOS/platform_frameworks_opt_net_wifi/commit/a0d9bda06b71694f38fe02bbe24628ee21a7d270
+---
+ .../wifitrackerlib/StandardWifiEntry.java     | 32 ++++++++++++++-----
+ .../com/android/wifitrackerlib/WifiEntry.java |  1 +
+ 2 files changed, 25 insertions(+), 8 deletions(-)
+
+diff --git a/libs/WifiTrackerLib/src/com/android/wifitrackerlib/StandardWifiEntry.java b/libs/WifiTrackerLib/src/com/android/wifitrackerlib/StandardWifiEntry.java
+index 4f63ced83..3d3000d33 100644
+--- a/libs/WifiTrackerLib/src/com/android/wifitrackerlib/StandardWifiEntry.java
++++ b/libs/WifiTrackerLib/src/com/android/wifitrackerlib/StandardWifiEntry.java
+@@ -260,7 +260,7 @@ public class StandardWifiEntry extends WifiEntry {
+                 return wifiInfoMac;
+             }
+         }
+-        if (mTargetWifiConfig == null || getPrivacy() != PRIVACY_RANDOMIZED_MAC) {
++        if (mTargetWifiConfig == null || getPrivacy() == PRIVACY_DEVICE_MAC) {
+             final String[] factoryMacs = mWifiManager.getFactoryMacAddresses();
+             if (factoryMacs.length > 0) {
+                 return factoryMacs[0];
+@@ -522,12 +522,18 @@ public class StandardWifiEntry extends WifiEntry {
+     @Override
+     @Privacy
+     public synchronized int getPrivacy() {
+-        if (mTargetWifiConfig != null
+-                && mTargetWifiConfig.macRandomizationSetting
+-                == WifiConfiguration.RANDOMIZATION_NONE) {
+-            return PRIVACY_DEVICE_MAC;
++        if (mTargetWifiConfig != null) {
++            switch (mTargetWifiConfig.macRandomizationSetting) {
++                case WifiConfiguration.RANDOMIZATION_NONE:
++                    return PRIVACY_DEVICE_MAC;
++                case WifiConfiguration.RANDOMIZATION_ALWAYS:
++                    return PRIVACY_RANDOMIZATION_ALWAYS;
++                default:
++                    // WifiConfiguration.RANDOMIZATION_AUTO and WifiConfiguration.RANDOMIZATION_PERSISTENT
++                    return PRIVACY_RANDOMIZED_MAC;
++            }
+         } else {
+-            return PRIVACY_RANDOMIZED_MAC;
++            return PRIVACY_RANDOMIZATION_ALWAYS;
+         }
+     }
+ 
+@@ -537,11 +543,21 @@ public class StandardWifiEntry extends WifiEntry {
+             return;
+         }
+ 
+-        mTargetWifiConfig.macRandomizationSetting = privacy == PRIVACY_RANDOMIZED_MAC
+-                ? WifiConfiguration.RANDOMIZATION_AUTO : WifiConfiguration.RANDOMIZATION_NONE;
++        mTargetWifiConfig.macRandomizationSetting = translatePrivacyToWifiConfigurationValues(privacy);
+         mWifiManager.save(mTargetWifiConfig, null /* listener */);
+     }
+ 
++    private static int translatePrivacyToWifiConfigurationValues(int privacyValue) {
++        switch (privacyValue) {
++            case PRIVACY_RANDOMIZED_MAC:
++                return WifiConfiguration.RANDOMIZATION_PERSISTENT;
++            case PRIVACY_DEVICE_MAC:
++                return WifiConfiguration.RANDOMIZATION_NONE;
++            default:
++                return WifiConfiguration.RANDOMIZATION_ALWAYS;
++        }
++    }
++
+     @Override
+     public synchronized boolean isAutoJoinEnabled() {
+         if (mTargetWifiConfig == null) {
+diff --git a/libs/WifiTrackerLib/src/com/android/wifitrackerlib/WifiEntry.java b/libs/WifiTrackerLib/src/com/android/wifitrackerlib/WifiEntry.java
+index 15edf8a18..e3bc3a45b 100644
+--- a/libs/WifiTrackerLib/src/com/android/wifitrackerlib/WifiEntry.java
++++ b/libs/WifiTrackerLib/src/com/android/wifitrackerlib/WifiEntry.java
+@@ -156,6 +156,7 @@ public class WifiEntry implements Comparable<WifiEntry> {
+     public static final int PRIVACY_DEVICE_MAC = 0;
+     public static final int PRIVACY_RANDOMIZED_MAC = 1;
+     public static final int PRIVACY_UNKNOWN = 2;
++    public static final int PRIVACY_RANDOMIZATION_ALWAYS = 100;
+ 
+     @Retention(RetentionPolicy.SOURCE)
+     @IntDef(value = {

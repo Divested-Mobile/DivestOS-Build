@@ -1,0 +1,69 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Tue, 6 Apr 2021 05:04:32 -0400
+Subject: [PATCH] Allow setting OTA public keys from environment variable
+
+Change-Id: Ib2a00de63b0c7a8790640462d13a84daf2076fa7
+---
+ core/product_config.mk             |  5 +++++
+ target/product/security/Android.mk | 21 +++++++++++++++++----
+ 2 files changed, 22 insertions(+), 4 deletions(-)
+
+diff --git a/core/product_config.mk b/core/product_config.mk
+index 4b4ba3ccb8..dac79d1ff7 100644
+--- a/core/product_config.mk
++++ b/core/product_config.mk
+@@ -314,6 +314,11 @@ ENFORCE_SYSTEM_CERTIFICATE_ALLOW_LIST := $(PRODUCT_ARTIFACT_SYSTEM_CERTIFICATE_R
+ PRODUCT_OTA_PUBLIC_KEYS := $(sort $(PRODUCT_OTA_PUBLIC_KEYS))
+ PRODUCT_EXTRA_RECOVERY_KEYS := $(sort $(PRODUCT_EXTRA_RECOVERY_KEYS))
+ 
++ifneq ($(OTA_KEY_OVERRIDE_DIR),)
++    PRODUCT_OTA_PUBLIC_KEYS := $(OTA_KEY_OVERRIDE_DIR)/releasekey.x509.pem
++    PRODUCT_EXTRA_RECOVERY_KEYS := $(OTA_KEY_OVERRIDE_DIR)/extra
++endif
++
+ # Resolve and setup per-module dex-preopt configs.
+ DEXPREOPT_DISABLED_MODULES :=
+ # If a module has multiple setups, the first takes precedence.
+diff --git a/target/product/security/Android.mk b/target/product/security/Android.mk
+index cedad5b490..7eea027506 100644
+--- a/target/product/security/Android.mk
++++ b/target/product/security/Android.mk
+@@ -63,8 +63,15 @@ LOCAL_MODULE_CLASS := ETC
+ LOCAL_MODULE_STEM := otacerts.zip
+ LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/security
+ include $(BUILD_SYSTEM)/base_rules.mk
+-$(LOCAL_BUILT_MODULE): PRIVATE_CERT := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
+-$(LOCAL_BUILT_MODULE): $(SOONG_ZIP) $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
++
++OTA_PUBLIC_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
++
++ifneq ($(OTA_KEY_OVERRIDE_DIR),)
++    OTA_PUBLIC_KEYS := $(OTA_KEY_OVERRIDE_DIR)/releasekey.x509.pem
++endif
++
++$(LOCAL_BUILT_MODULE): PRIVATE_CERT := $(OTA_PUBLIC_KEYS)
++$(LOCAL_BUILT_MODULE): $(SOONG_ZIP) $(OTA_PUBLIC_KEYS)
+ 	$(SOONG_ZIP) -o $@ -j -symlinks=false -f $(PRIVATE_CERT)
+ 
+ 
+@@ -82,11 +89,17 @@ include $(BUILD_SYSTEM)/base_rules.mk
+ 
+ extra_recovery_keys := $(patsubst %,%.x509.pem,$(PRODUCT_EXTRA_RECOVERY_KEYS))
+ 
+-$(LOCAL_BUILT_MODULE): PRIVATE_CERT := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
+++OTA_PUBLIC_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
+++
++ifneq ($(OTA_KEY_OVERRIDE_DIR),)
++    OTA_PUBLIC_KEYS := $(OTA_KEY_OVERRIDE_DIR)/releasekey.x509.pem
++endif
++
++$(LOCAL_BUILT_MODULE): PRIVATE_CERT := $(OTA_PUBLIC_KEYS)
+ $(LOCAL_BUILT_MODULE): PRIVATE_EXTRA_RECOVERY_KEYS := $(extra_recovery_keys)
+ $(LOCAL_BUILT_MODULE): \
+ 	    $(SOONG_ZIP) \
+-	    $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem \
++	    $(OTA_PUBLIC_KEYS) \
+ 	    $(extra_recovery_keys)
+ 	$(SOONG_ZIP) -o $@ -j -symlinks=false \
+ 	    $(foreach key_file, $(PRIVATE_CERT) $(PRIVATE_EXTRA_RECOVERY_KEYS), -f $(key_file))

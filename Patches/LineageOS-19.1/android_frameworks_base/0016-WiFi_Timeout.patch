@@ -1,0 +1,123 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Pratyush <codelab@pratyush.dev>
+Date: Tue, 6 Jul 2021 18:18:06 +0530
+Subject: [PATCH] Wi-Fi auto turn off
+
+---
+ core/java/android/provider/Settings.java      |  6 ++
+ .../server/net/NetworkStatsService.java       | 69 +++++++++++++++++++
+ 2 files changed, 75 insertions(+)
+
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index 580f9745eea7..1d8745501553 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -16379,6 +16379,12 @@ public final class Settings {
+          */
+         public static final String RESTRICTED_NETWORKING_MODE = "restricted_networking_mode";
+ 
++        /**
++         * The amount of time in milliseconds before Wi-Fi is turned off
++         * @hide
++         */
++        public static final String WIFI_OFF_TIMEOUT = "wifi_off_timeout";
++
+         /**
+          * Whether to automatically reboot the device after a user defined timeout
+          *
+diff --git a/services/core/java/com/android/server/net/NetworkStatsService.java b/services/core/java/com/android/server/net/NetworkStatsService.java
+index 097b0711eff7..0a4fca3ec09d 100644
+--- a/services/core/java/com/android/server/net/NetworkStatsService.java
++++ b/services/core/java/com/android/server/net/NetworkStatsService.java
+@@ -96,6 +96,7 @@ import android.net.INetworkStatsSession;
+ import android.net.Network;
+ import android.net.NetworkCapabilities;
+ import android.net.NetworkIdentity;
++import android.net.NetworkInfo;
+ import android.net.NetworkSpecifier;
+ import android.net.NetworkStack;
+ import android.net.NetworkStateSnapshot;
+@@ -110,8 +111,10 @@ import android.net.Uri;
+ import android.net.netstats.provider.INetworkStatsProvider;
+ import android.net.netstats.provider.INetworkStatsProviderCallback;
+ import android.net.netstats.provider.NetworkStatsProvider;
++import android.net.wifi.WifiManager;
+ import android.os.BestClock;
+ import android.os.Binder;
++import android.os.Bundle;
+ import android.os.DropBoxManager;
+ import android.os.Environment;
+ import android.os.Handler;
+@@ -449,6 +452,72 @@ public class NetworkStatsService extends INetworkStatsService.Stub {
+         mContentResolver = mContext.getContentResolver();
+         mContentObserver = mDeps.makeContentObserver(mHandler, mSettings,
+                 mNetworkStatsSubscriptionsMonitor);
++        IntentFilter wifiFilter = new IntentFilter();
++        wifiFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
++        wifiFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
++
++        context.registerReceiver(
++                new BroadcastReceiver() {
++                    @Override
++                    public void onReceive(Context context, Intent intent) {
++                        if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())) {
++                            Bundle bundle = intent.getExtras();
++                            NetworkInfo networkInfo = bundle.getParcelable(WifiManager.EXTRA_NETWORK_INFO);
++                            isWifiConnected = networkInfo != null && networkInfo.isConnected();
++                        }
++                        reconfigureWiFiTimeoutListener();
++                    }
++                }, wifiFilter
++        );
++
++        context.getContentResolver().registerContentObserver(
++                Global.getUriFor(Global.WIFI_OFF_TIMEOUT),
++                false,
++                new ContentObserver(new Handler(context.getMainLooper())) {
++                    @Override
++                    public void onChange(boolean selfChange) {
++                        super.onChange(selfChange);
++                        reconfigureWiFiTimeoutListener();
++                    }
++                });
++    }
++
++    private static boolean isWifiConnected = false;
++    private final AlarmManager.OnAlarmListener listener = this::turnOffWifi;
++
++    private void turnOffWifi() {
++        WifiManager wifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
++        if (isWifiTimeoutEnabled(mContext) && wifiManager.isWifiEnabled()) {
++            // setWifiEnabled(enabled) is deprecated, though AOSP still uses
++            // it internally and system apps/services are exempted
++            wifiManager.setWifiEnabled(false);
++        }
++    }
++
++    private void reconfigureWiFiTimeoutListener() {
++        if (isWifiTimeoutEnabled(mContext) && !isWifiConnected) {
++            final long timeout = SystemClock.elapsedRealtime() + wifiTimeoutDurationInMilli(mContext);
++            mAlarmManager.cancel(listener);
++            mAlarmManager.setExact(
++                    AlarmManager.ELAPSED_REALTIME_WAKEUP,
++                    timeout,
++                    "Wi-Fi Idle Timeout",
++                    listener,
++                    new Handler(mContext.getMainLooper())
++            );
++        } else {
++            mAlarmManager.cancel(listener);
++        }
++    }
++
++    private static long wifiTimeoutDurationInMilli(Context mContext) {
++        return Settings.Global.getLong(mContext.getContentResolver(),
++                Global.WIFI_OFF_TIMEOUT, 0);
++    }
++
++    /** Zero is default and means disabled */
++    private static boolean isWifiTimeoutEnabled(Context mContext) {
++        return 0 != wifiTimeoutDurationInMilli(mContext);
+     }
+ 
+     /**

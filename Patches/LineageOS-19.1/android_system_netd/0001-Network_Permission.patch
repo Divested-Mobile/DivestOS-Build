@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Pratyush <codelab@pratyush.dev>
+Date: Thu, 12 Aug 2021 00:15:25 +0530
+Subject: [PATCH] use uid instead of app id for tracking INTERNET permission
+
+Change-Id: Ibec846480f3b440b5a323c86efa95c2fd1d81284
+---
+ bpf_progs/netd.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
+
+diff --git a/bpf_progs/netd.c b/bpf_progs/netd.c
+index e9e1477f..df60a59f 100644
+--- a/bpf_progs/netd.c
++++ b/bpf_progs/netd.c
+@@ -349,14 +349,8 @@ DEFINE_BPF_PROG_KVER("cgroupsock/inet/create", AID_ROOT, AID_ROOT, inet_socket_c
+                      KVER(4, 14, 0))
+ (struct bpf_sock* sk) {
+     uint64_t gid_uid = bpf_get_current_uid_gid();
+-    /*
+-     * A given app is guaranteed to have the same app ID in all the profiles in
+-     * which it is installed, and install permission is granted to app for all
+-     * user at install time so we only check the appId part of a request uid at
+-     * run time. See UserHandle#isSameApp for detail.
+-     */
+-    uint32_t appId = (gid_uid & 0xffffffff) % PER_USER_RANGE;
+-    uint8_t* permissions = bpf_uid_permission_map_lookup_elem(&appId);
++    uint32_t uid = (gid_uid & 0xffffffff);
++    uint8_t* permissions = bpf_uid_permission_map_lookup_elem(&uid);
+     if (!permissions) {
+         // UID not in map. Default to just INTERNET permission.
+         return 1;

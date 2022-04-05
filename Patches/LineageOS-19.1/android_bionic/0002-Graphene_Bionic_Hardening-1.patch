@@ -1,0 +1,89 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: anupritaisno1 <www.anuprita804@gmail.com>
+Date: Wed, 13 Oct 2021 15:00:25 +0530
+Subject: [PATCH] add a real explicit_bzero implementation
+
+Clang, GCC and other compilers special-case standard C functions like
+memset. Calls to memset will be optimized out.
+
+OpenBSD provides explicit_bzero to work around this but Android simply
+defines it as memset so nothing prevents it from being optimized away.
+
+This implementation uses a memory read constraint via empty inline
+assembly rather than something that may be broken via link-time
+optimization in the future.
+
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+Change-Id: Ia021e30f86ee4b998d541fbf7262110f9d1d6fbf
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+---
+ libc/Android.bp                                        | 1 +
+ libc/bionic/explicit_bzero.cpp                         | 7 +++++++
+ libc/include/string.h                                  | 1 +
+ libc/libc.map.txt                                      | 1 +
+ libc/upstream-openbsd/android/include/openbsd-compat.h | 2 --
+ 5 files changed, 10 insertions(+), 2 deletions(-)
+ create mode 100644 libc/bionic/explicit_bzero.cpp
+
+diff --git a/libc/Android.bp b/libc/Android.bp
+index 75b06f58c..cae5d8776 100644
+--- a/libc/Android.bp
++++ b/libc/Android.bp
+@@ -1084,6 +1084,7 @@ cc_library_static {
+         "bionic/error.cpp",
+         "bionic/eventfd.cpp",
+         "bionic/exec.cpp",
++        "bionic/explicit_bzero.cpp",
+         "bionic/faccessat.cpp",
+         "bionic/fchmod.cpp",
+         "bionic/fchmodat.cpp",
+diff --git a/libc/bionic/explicit_bzero.cpp b/libc/bionic/explicit_bzero.cpp
+new file mode 100644
+index 000000000..b06daa138
+--- /dev/null
++++ b/libc/bionic/explicit_bzero.cpp
+@@ -0,0 +1,7 @@
++#include <string.h>
++
++void* explicit_bzero(void* s, size_t n) {
++  void *ptr = memset(s, 0, n);
++  __asm__ __volatile__("" : : "r"(ptr) : "memory");
++  return ptr;
++}
+diff --git a/libc/include/string.h b/libc/include/string.h
+index 0cc5611aa..befffd082 100644
+--- a/libc/include/string.h
++++ b/libc/include/string.h
+@@ -56,6 +56,7 @@ void* mempcpy(void* __dst, const void* __src, size_t __n) __INTRODUCED_IN(23);
+ #endif
+ void* memmove(void* __dst, const void* __src, size_t __n);
+ void* memset(void* __dst, int __ch, size_t __n);
++void* explicit_bzero(void *s, size_t n);
+ void* memmem(const void* __haystack, size_t __haystack_size, const void* __needle, size_t __needle_size) __attribute_pure__;
+ 
+ char* strchr(const char* __s, int __ch) __attribute_pure__;
+diff --git a/libc/libc.map.txt b/libc/libc.map.txt
+index c31e30681..cab7c1363 100644
+--- a/libc/libc.map.txt
++++ b/libc/libc.map.txt
+@@ -332,6 +332,7 @@ LIBC {
+     execvp;
+     execvpe; # introduced=21
+     exit;
++    explicit_bzero; # introduced=31
+     faccessat;
+     fallocate; # introduced=21
+     fallocate64; # introduced=21
+diff --git a/libc/upstream-openbsd/android/include/openbsd-compat.h b/libc/upstream-openbsd/android/include/openbsd-compat.h
+index 6c21c5b49..49d98c3d2 100644
+--- a/libc/upstream-openbsd/android/include/openbsd-compat.h
++++ b/libc/upstream-openbsd/android/include/openbsd-compat.h
+@@ -57,8 +57,6 @@ extern const char* __progname;
+ /* OpenBSD has this, but we can't really implement it correctly on Linux. */
+ #define issetugid() 0
+ 
+-#define explicit_bzero(p, s) memset(p, 0, s)
+-
+ /* OpenBSD has this in paths.h. But this directory doesn't normally exist.
+  * Even when it does exist, only the 'shell' user has permissions.
+  */

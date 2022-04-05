@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Mon, 18 Oct 2021 03:23:42 -0400
+Subject: [PATCH] fix usage UI summary for Network/Sensors
+
+---
+ PermissionController/res/values/strings.xml                 | 3 +++
+ .../ui/handheld/PermissionUsageV2ControlPreference.java     | 6 +++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/PermissionController/res/values/strings.xml b/PermissionController/res/values/strings.xml
+index 7a086816d..8799a54bd 100644
+--- a/PermissionController/res/values/strings.xml
++++ b/PermissionController/res/values/strings.xml
+@@ -450,6 +450,9 @@
+         <item quantity="other"><xliff:g id="number" example="7">%s</xliff:g> apps</item>
+     </plurals>
+ 
++    <!-- Summary text if tracking permission usage is not supported [CHAR LIMIT=60] -->
++    <string name="permission_usage_preference_summary_not_supported">Tracking usage not yet supported</string>
++
+     <!-- Summary text if a permission usage is not used [CHAR LIMIT=60] -->
+     <string name="permission_usage_preference_summary_not_used">Not used in past 24 hours</string>
+ 
+diff --git a/PermissionController/src/com/android/permissioncontroller/permission/ui/handheld/PermissionUsageV2ControlPreference.java b/PermissionController/src/com/android/permissioncontroller/permission/ui/handheld/PermissionUsageV2ControlPreference.java
+index 794c760d1..6d5eaebe2 100644
+--- a/PermissionController/src/com/android/permissioncontroller/permission/ui/handheld/PermissionUsageV2ControlPreference.java
++++ b/PermissionController/src/com/android/permissioncontroller/permission/ui/handheld/PermissionUsageV2ControlPreference.java
+@@ -72,7 +72,11 @@ public class PermissionUsageV2ControlPreference extends Preference {
+ 
+         if (mCount == 0) {
+             this.setEnabled(false);
+-            setSummary(R.string.permission_usage_preference_summary_not_used);
++            if (groupName.equals(Manifest.permission_group.NETWORK) || groupName.equals(Manifest.permission_group.OTHER_SENSORS)) {
++                setSummary(R.string.permission_usage_preference_summary_not_supported);
++            } else {
++                setSummary(R.string.permission_usage_preference_summary_not_used);
++            }
+         } else if (SENSOR_DATA_PERMISSIONS.contains(groupName)) {
+             setOnPreferenceClickListener((preference) -> {
+                 Intent intent = new Intent(Intent.ACTION_REVIEW_PERMISSION_HISTORY);

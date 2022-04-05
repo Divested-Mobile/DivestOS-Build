@@ -1,0 +1,48 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Danny Lin <danny@kdrag0n.dev>
+Date: Mon, 11 Oct 2021 15:03:59 -0700
+Subject: [PATCH] SystemUI: Use new privacy indicators for location
+
+Android has had location indicators for a while, but let's use the new
+privacy indicator infrastructure for displaying them. This makes them
+integrate better with the new camera and microphone indicators.
+
+Change-Id: Ie457bb2dad17bddbf9dc3a818e3ec586023ce918
+---
+ core/java/android/permission/PermissionUsageHelper.java       | 2 +-
+ .../src/com/android/systemui/privacy/PrivacyItemController.kt | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/android/permission/PermissionUsageHelper.java b/core/java/android/permission/PermissionUsageHelper.java
+index cf2361a1026a..5ba24a3d4e7a 100644
+--- a/core/java/android/permission/PermissionUsageHelper.java
++++ b/core/java/android/permission/PermissionUsageHelper.java
+@@ -101,7 +101,7 @@ public class PermissionUsageHelper implements AppOpsManager.OnOpActiveChangedLis
+ 
+     private static boolean shouldShowLocationIndicator() {
+         return DeviceConfig.getBoolean(DeviceConfig.NAMESPACE_PRIVACY,
+-                PROPERTY_LOCATION_INDICATORS_ENABLED, false);
++                PROPERTY_LOCATION_INDICATORS_ENABLED, true);
+     }
+ 
+     private static long getRecentThreshold(Long now) {
+diff --git a/packages/SystemUI/src/com/android/systemui/privacy/PrivacyItemController.kt b/packages/SystemUI/src/com/android/systemui/privacy/PrivacyItemController.kt
+index e072b4a3646c..f7bf1c3af7a2 100644
+--- a/packages/SystemUI/src/com/android/systemui/privacy/PrivacyItemController.kt
++++ b/packages/SystemUI/src/com/android/systemui/privacy/PrivacyItemController.kt
+@@ -73,7 +73,7 @@ class PrivacyItemController @Inject constructor(
+         private const val MIC_CAMERA = SystemUiDeviceConfigFlags.PROPERTY_MIC_CAMERA_ENABLED
+         private const val LOCATION = SystemUiDeviceConfigFlags.PROPERTY_LOCATION_INDICATORS_ENABLED
+         private const val DEFAULT_MIC_CAMERA = true
+-        private const val DEFAULT_LOCATION = false
++        private const val DEFAULT_LOCATION = true
+         @VisibleForTesting const val TIME_TO_HOLD_INDICATORS = 5000L
+     }
+ 
+@@ -381,4 +381,4 @@ class PrivacyItemController @Inject constructor(
+             listeningCanceller = delegate.executeDelayed({ setListeningState() }, 0L)
+         }
+     }
+-}
+\ No newline at end of file
++}

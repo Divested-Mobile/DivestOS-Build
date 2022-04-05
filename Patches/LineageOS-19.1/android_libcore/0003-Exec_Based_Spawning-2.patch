@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 14 Oct 2021 17:00:10 -0400
+Subject: [PATCH] disable ICU cache pinning for exec spawning
+
+---
+ dalvik/src/main/java/dalvik/system/ZygoteHooks.java | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
+index 763511d2187..179c19ac8d5 100644
+--- a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
++++ b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
+@@ -63,9 +63,11 @@ public final class ZygoteHooks {
+     @SystemApi(client = MODULE_LIBRARIES)
+     @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
+     public static void onBeginPreload(boolean fullPreload) {
+-        com.android.i18n.system.ZygoteHooks.onBeginPreload();
++        if (fullPreload) {
++            com.android.i18n.system.ZygoteHooks.onBeginPreload();
+ 
+-        ICU.initializeCacheInZygote();
++            ICU.initializeCacheInZygote();
++        }
+ 
+         // Look up JaCoCo on the boot classpath, if it exists. This will be used later for enabling
+         // memory-mapped Java coverage.
+@@ -100,7 +102,9 @@ public final class ZygoteHooks {
+     @SystemApi(client = MODULE_LIBRARIES)
+     @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
+     public static void onEndPreload(boolean fullPreload) {
+-        com.android.i18n.system.ZygoteHooks.onEndPreload();
++        if (fullPreload) {
++            com.android.i18n.system.ZygoteHooks.onEndPreload();
++        }
+ 
+         // Clone standard descriptors as originals closed / rebound during zygote post fork.
+         FileDescriptor.in.cloneForFork();

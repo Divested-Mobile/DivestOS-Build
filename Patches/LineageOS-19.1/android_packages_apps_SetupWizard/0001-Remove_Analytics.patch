@@ -1,0 +1,178 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Fri, 3 Sep 2021 08:52:48 -0400
+Subject: [PATCH] Remove analytics
+
+Change-Id: I044dd6b137b8a1d4a6dde3a63c0aaa454309341f
+---
+ res/layout/setup_lineage_settings.xml         | 29 -----------------
+ .../lineageos/setupwizard/FinishActivity.java | 13 --------
+ .../setupwizard/LineageSettingsActivity.java  | 32 -------------------
+ .../lineageos/setupwizard/SetupWizardApp.java |  1 -
+ 4 files changed, 75 deletions(-)
+
+diff --git a/res/layout/setup_lineage_settings.xml b/res/layout/setup_lineage_settings.xml
+index 5d206e4..db3594a 100644
+--- a/res/layout/setup_lineage_settings.xml
++++ b/res/layout/setup_lineage_settings.xml
+@@ -45,35 +45,6 @@
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent">
+ 
+-                    <!-- Whether or not to enable metrics -->
+-                    <LinearLayout
+-                        android:id="@+id/metrics"
+-                        android:orientation="horizontal"
+-                        android:layout_width="match_parent"
+-                        android:layout_height="wrap_content"
+-                        android:paddingLeft="@dimen/location_margin_left"
+-                        android:paddingRight="@dimen/content_margin_right"
+-                        android:background="?android:attr/selectableItemBackground"
+-                        android:clickable="true">
+-
+-
+-                        <CheckBox
+-                            android:id="@+id/enable_metrics_checkbox"
+-                            android:layout_width="wrap_content"
+-                            android:layout_height="wrap_content"
+-                            android:duplicateParentState="true"
+-                            android:clickable="false"
+-                            style="@style/SudCheckBox.Multiline" />
+-
+-                        <TextView
+-                            android:id="@+id/enable_metrics_summary"
+-                            android:layout_width="wrap_content"
+-                            android:layout_height="wrap_content"
+-                            android:text="@string/services_metrics_label"
+-                            style="@style/SudCheckBox.Multiline" />
+-
+-                    </LinearLayout>
+-
+                     <!-- Checkbox for using on-screen nav keys -->
+                     <LinearLayout
+                         android:id="@+id/nav_keys"
+diff --git a/src/org/lineageos/setupwizard/FinishActivity.java b/src/org/lineageos/setupwizard/FinishActivity.java
+index 95e3166..0a07369 100644
+--- a/src/org/lineageos/setupwizard/FinishActivity.java
++++ b/src/org/lineageos/setupwizard/FinishActivity.java
+@@ -26,7 +26,6 @@ import static org.lineageos.setupwizard.Manifest.permission.FINISH_SETUP;
+ import static org.lineageos.setupwizard.SetupWizardApp.ACTION_SETUP_COMPLETE;
+ import static org.lineageos.setupwizard.SetupWizardApp.DISABLE_NAV_KEYS;
+ import static org.lineageos.setupwizard.SetupWizardApp.ENABLE_RECOVERY_UPDATE;
+-import static org.lineageos.setupwizard.SetupWizardApp.KEY_SEND_METRICS;
+ import static org.lineageos.setupwizard.SetupWizardApp.LOGV;
+ import static org.lineageos.setupwizard.SetupWizardApp.NAVIGATION_OPTION_KEY;
+ import static org.lineageos.setupwizard.SetupWizardApp.UPDATE_RECOVERY_PROP;
+@@ -175,7 +174,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
+     }
+ 
+     private void completeSetup() {
+-        handleEnableMetrics(mSetupWizardApp);
+         handleNavKeys(mSetupWizardApp);
+         handleRecoveryUpdate(mSetupWizardApp);
+         handleNavigationOption(mSetupWizardApp);
+@@ -189,17 +187,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
+         startActivityForResult(intent, NEXT_REQUEST);
+     }
+ 
+-    private static void handleEnableMetrics(SetupWizardApp setupWizardApp) {
+-        Bundle privacyData = setupWizardApp.getSettingsBundle();
+-        if (privacyData != null
+-                && privacyData.containsKey(KEY_SEND_METRICS)) {
+-            LineageSettings.Secure.putInt(setupWizardApp.getContentResolver(),
+-                    LineageSettings.Secure.STATS_COLLECTION,
+-                    privacyData.getBoolean(KEY_SEND_METRICS)
+-                            ? 1 : 0);
+-        }
+-    }
+-
+     private static void handleNavKeys(SetupWizardApp setupWizardApp) {
+         if (setupWizardApp.getSettingsBundle().containsKey(DISABLE_NAV_KEYS)) {
+             writeDisableNavkeysOption(setupWizardApp,
+diff --git a/src/org/lineageos/setupwizard/LineageSettingsActivity.java b/src/org/lineageos/setupwizard/LineageSettingsActivity.java
+index ace417f..5f77401 100644
+--- a/src/org/lineageos/setupwizard/LineageSettingsActivity.java
++++ b/src/org/lineageos/setupwizard/LineageSettingsActivity.java
+@@ -18,7 +18,6 @@
+ package org.lineageos.setupwizard;
+ 
+ import static org.lineageos.setupwizard.SetupWizardApp.DISABLE_NAV_KEYS;
+-import static org.lineageos.setupwizard.SetupWizardApp.KEY_SEND_METRICS;
+ 
+ import android.app.Activity;
+ import android.content.Context;
+@@ -50,17 +49,10 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
+ 
+     private SetupWizardApp mSetupWizardApp;
+ 
+-    private CheckBox mMetrics;
+     private CheckBox mNavKeys;
+ 
+     private boolean mSupportsKeyDisabler = false;
+ 
+-    private final View.OnClickListener mMetricsClickListener = view -> {
+-        boolean checked = !mMetrics.isChecked();
+-        mMetrics.setChecked(checked);
+-        mSetupWizardApp.getSettingsBundle().putBoolean(KEY_SEND_METRICS, checked);
+-    };
+-
+     private final View.OnClickListener mNavKeysClickListener = view -> {
+         boolean checked = !mNavKeys.isChecked();
+         mNavKeys.setChecked(checked);
+@@ -80,20 +72,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
+                 privacyPolicy, policySummary);
+         getGlifLayout().setDescriptionText(servicesFullDescription);
+ 
+-        View metricsRow = findViewById(R.id.metrics);
+-        metricsRow.setOnClickListener(mMetricsClickListener);
+-        metricsRow.requestFocus();
+-        String metricsHelpImproveLineage =
+-                getString(R.string.services_help_improve_cm, os_name);
+-        String metricsSummary = getString(R.string.services_metrics_label,
+-                metricsHelpImproveLineage, os_name, os_name);
+-        final SpannableStringBuilder metricsSpan = new SpannableStringBuilder(metricsSummary);
+-        metricsSpan.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+-                0, metricsHelpImproveLineage.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+-        TextView metrics = (TextView) findViewById(R.id.enable_metrics_summary);
+-        metrics.setText(metricsSpan);
+-        mMetrics = (CheckBox) findViewById(R.id.enable_metrics_checkbox);
+-
+         View navKeysRow = findViewById(R.id.nav_keys);
+         navKeysRow.setOnClickListener(mNavKeysClickListener);
+         mNavKeys = (CheckBox) findViewById(R.id.nav_keys_checkbox);
+@@ -110,7 +88,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
+     public void onResume() {
+         super.onResume();
+         updateDisableNavkeysOption();
+-        updateMetricsOption();
+     }
+ 
+     @Override
+@@ -134,15 +111,6 @@ public class LineageSettingsActivity extends BaseSetupWizardActivity {
+         return R.drawable.ic_features;
+     }
+ 
+-    private void updateMetricsOption() {
+-        final Bundle myPageBundle = mSetupWizardApp.getSettingsBundle();
+-        boolean metricsChecked =
+-                !myPageBundle.containsKey(KEY_SEND_METRICS) || myPageBundle
+-                        .getBoolean(KEY_SEND_METRICS);
+-        mMetrics.setChecked(metricsChecked);
+-        myPageBundle.putBoolean(KEY_SEND_METRICS, metricsChecked);
+-    }
+-
+     private void updateDisableNavkeysOption() {
+         if (mSupportsKeyDisabler) {
+             final Bundle myPageBundle = mSetupWizardApp.getSettingsBundle();
+diff --git a/src/org/lineageos/setupwizard/SetupWizardApp.java b/src/org/lineageos/setupwizard/SetupWizardApp.java
+index dcfe3bc..9466815 100644
+--- a/src/org/lineageos/setupwizard/SetupWizardApp.java
++++ b/src/org/lineageos/setupwizard/SetupWizardApp.java
+@@ -60,7 +60,6 @@ public class SetupWizardApp extends Application {
+     public static final String EXTRA_ENABLE_NEXT_ON_CONNECT = "wifi_enable_next_on_connect";
+ 
+     public static final String KEY_DETECT_CAPTIVE_PORTAL = "captive_portal_detection_enabled";
+-    public static final String KEY_SEND_METRICS = "send_metrics";
+     public static final String DISABLE_NAV_KEYS = "disable_nav_keys";
+     public static final String ENABLE_RECOVERY_UPDATE = "enable_recovery_update";
+     public static final String UPDATE_RECOVERY_PROP = "persist.vendor.recovery_update";

@@ -1,0 +1,44 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Tue, 19 Oct 2021 08:17:55 -0400
+Subject: [PATCH] stop auto-granting location to system browsers
+
+---
+ .../role/model/BrowserRoleBehavior.java         | 17 -----------------
+ 1 file changed, 17 deletions(-)
+
+diff --git a/PermissionController/src/com/android/permissioncontroller/role/model/BrowserRoleBehavior.java b/PermissionController/src/com/android/permissioncontroller/role/model/BrowserRoleBehavior.java
+index d359fc4ae..9765432ea 100644
+--- a/PermissionController/src/com/android/permissioncontroller/role/model/BrowserRoleBehavior.java
++++ b/PermissionController/src/com/android/permissioncontroller/role/model/BrowserRoleBehavior.java
+@@ -52,11 +52,6 @@ public class BrowserRoleBehavior implements RoleBehavior {
+             .addCategory(Intent.CATEGORY_BROWSABLE)
+             .setData(Uri.fromParts("http", "", null));
+ 
+-    private static final List<String> SYSTEM_BROWSER_PERMISSIONS = Arrays.asList(
+-            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+-            android.Manifest.permission.ACCESS_FINE_LOCATION
+-    );
+-
+     @Nullable
+     @Override
+     public String getFallbackHolder(@NonNull Role role, @NonNull Context context) {
+@@ -130,18 +125,6 @@ public class BrowserRoleBehavior implements RoleBehavior {
+         return new ArrayList<>(packageNames);
+     }
+ 
+-    @Override
+-    public void grant(@NonNull Role role, @NonNull String packageName, @NonNull Context context) {
+-        // @see com.android.server.pm.permission.DefaultPermissionGrantPolicy
+-        //      #grantDefaultPermissionsToDefaultBrowser(java.lang.String, int)
+-        if (SdkLevel.isAtLeastS()) {
+-            if (PackageUtils.isSystemPackage(packageName, context)) {
+-                Permissions.grant(packageName, SYSTEM_BROWSER_PERMISSIONS, false, false, false,
+-                        true, false, context);
+-            }
+-        }
+-    }
+-
+     @Override
+     public boolean isVisibleAsUser(@NonNull Role role, @NonNull UserHandle user,
+             @NonNull Context context) {

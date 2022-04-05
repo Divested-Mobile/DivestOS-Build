@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Mon, 4 Jan 2021 19:56:14 -0500
+Subject: [PATCH] constify JNINativeMethod table
+
+---
+ framesequence/jni/FrameSequenceJNI.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/framesequence/jni/FrameSequenceJNI.cpp b/framesequence/jni/FrameSequenceJNI.cpp
+index c701f03..4041733 100644
+--- a/framesequence/jni/FrameSequenceJNI.cpp
++++ b/framesequence/jni/FrameSequenceJNI.cpp
+@@ -141,7 +141,7 @@ static jlong JNICALL nativeGetFrame(
+     return delayMs;
+ }
+ 
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+     {   "nativeDecodeByteArray",
+         "([BII)L" JNI_PACKAGE "/FrameSequence;",
+         (void*) nativeDecodeByteArray

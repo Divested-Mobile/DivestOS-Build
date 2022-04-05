@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 18 Nov 2020 14:28:24 -0500
+Subject: [PATCH] constify JNINativeMethod table
+
+---
+ common/src/jni/main/cpp/conscrypt/native_crypto.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/common/src/jni/main/cpp/conscrypt/native_crypto.cc b/common/src/jni/main/cpp/conscrypt/native_crypto.cc
+index 5b0acf0d..f8142151 100644
+--- a/common/src/jni/main/cpp/conscrypt/native_crypto.cc
++++ b/common/src/jni/main/cpp/conscrypt/native_crypto.cc
+@@ -10354,7 +10354,7 @@ static jlong NativeCrypto_SSL_get1_session(JNIEnv* env, jclass, jlong ssl_addres
+ #define REF_X509_CRL "L" TO_STRING(JNI_JARJAR_PREFIX) "org/conscrypt/OpenSSLX509CRL;"
+ #define REF_SSL "L" TO_STRING(JNI_JARJAR_PREFIX) "org/conscrypt/NativeSsl;"
+ #define REF_SSL_CTX "L" TO_STRING(JNI_JARJAR_PREFIX) "org/conscrypt/AbstractSessionContext;"
+-static JNINativeMethod sNativeCryptoMethods[] = {
++static const JNINativeMethod sNativeCryptoMethods[] = {
+         CONSCRYPT_NATIVE_METHOD(clinit, "()V"),
+         CONSCRYPT_NATIVE_METHOD(CMAC_CTX_new, "()J"),
+         CONSCRYPT_NATIVE_METHOD(CMAC_CTX_free, "(J)V"),

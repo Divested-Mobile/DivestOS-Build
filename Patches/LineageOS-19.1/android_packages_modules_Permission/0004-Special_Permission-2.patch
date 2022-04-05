@@ -1,0 +1,73 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: inthewaves <inthewaves@pm.me>
+Date: Wed, 16 Sep 2020 17:30:37 -0700
+Subject: [PATCH] don't auto revoke Network and Sensors
+
+These shouldn't be automatically removed since apps are currently
+granted these by default for compatibility. Users have to explicitly
+remove them rather than granting them. Apps would need to be aware of
+them and request them from the user to treat them like the standard
+permissions.
+---
+ .../data/HibernationSettingStateLiveData.kt           |  3 ++-
+ .../permission/service/AutoRevokePermissions.kt       |  3 ++-
+ .../permissioncontroller/permission/utils/Utils.java  | 11 +++++++++++
+ 3 files changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/PermissionController/src/com/android/permissioncontroller/permission/data/HibernationSettingStateLiveData.kt b/PermissionController/src/com/android/permissioncontroller/permission/data/HibernationSettingStateLiveData.kt
+index 18686875a..fad5be5b6 100644
+--- a/PermissionController/src/com/android/permissioncontroller/permission/data/HibernationSettingStateLiveData.kt
++++ b/PermissionController/src/com/android/permissioncontroller/permission/data/HibernationSettingStateLiveData.kt
+@@ -30,6 +30,7 @@ import com.android.permissioncontroller.hibernation.HibernationEnabledLiveData
+ import com.android.permissioncontroller.hibernation.isHibernationJobEnabled
+ import com.android.permissioncontroller.hibernation.isPackageHibernationExemptByUser
+ import com.android.permissioncontroller.hibernation.isPackageHibernationExemptBySystem
++import com.android.permissioncontroller.permission.utils.Utils
+ import kotlinx.coroutines.Job
+ 
+ /**
+@@ -95,7 +96,7 @@ class HibernationSettingStateLiveData private constructor(
+                     permState.permFlags and (FLAG_PERMISSION_GRANTED_BY_DEFAULT or
+                             FLAG_PERMISSION_GRANTED_BY_ROLE) != 0
+                 } ?: false
+-                if (!default) {
++                if (!default && !Utils.isSpecialRuntimePermissionGroup(groupName)) {
+                     revocableGroups.add(groupName)
+                 }
+             }
+diff --git a/PermissionController/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt b/PermissionController/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt
+index d57e79751..4cfa0d38b 100644
+--- a/PermissionController/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt
++++ b/PermissionController/src/com/android/permissioncontroller/permission/service/AutoRevokePermissions.kt
+@@ -100,7 +100,8 @@ suspend fun revokeAppPermissions(
+                     !group.isGrantedByDefault &&
+                     !group.isGrantedByRole &&
+                     !group.isRevokeWhenRequested &&
+-                    group.isUserSensitive) {
++                    group.isUserSensitive &&
++                    !Utils.isSpecialRuntimePermissionGroup(groupName)) {
+ 
+                     val revocablePermissions = group.permissions.keys.toList()
+ 
+diff --git a/PermissionController/src/com/android/permissioncontroller/permission/utils/Utils.java b/PermissionController/src/com/android/permissioncontroller/permission/utils/Utils.java
+index 5a309a7de..3df07ff43 100644
+--- a/PermissionController/src/com/android/permissioncontroller/permission/utils/Utils.java
++++ b/PermissionController/src/com/android/permissioncontroller/permission/utils/Utils.java
+@@ -743,6 +743,17 @@ public final class Utils {
+         return SPECIAL_RUNTIME_PERMISSIONS.containsKey(permission);
+     }
+ 
++    /**
++     * Is the permission group a special runtime permission group?
++     * These are treated as a runtime permission even for legacy apps. They
++     * need to be granted by default for all apps to maintain compatibility.
++     *
++     * @return whether the permission group is a special runtime permission group.
++     */
++    public static boolean isSpecialRuntimePermissionGroup(@NonNull String permissionGroup) {
++        return SPECIAL_RUNTIME_PERMISSIONS.containsValue(permissionGroup);
++    }
++
+     /**
+      * Should UI show this permission.
+      *

@@ -1,0 +1,103 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: renlord <me@renlord.com>
+Date: Fri, 15 Oct 2021 19:28:34 +0530
+Subject: [PATCH] add option of always randomizing MAC addresses
+
+---
+ framework/api/system-current.txt                 |  1 +
+ .../java/android/net/wifi/WifiConfiguration.java | 16 ++++++++++++----
+ .../android/server/wifi/WifiConfigManager.java   |  7 ++++++-
+ .../server/wifi/WifiConfigurationUtil.java       |  2 +-
+ 4 files changed, 20 insertions(+), 6 deletions(-)
+
+diff --git a/framework/api/system-current.txt b/framework/api/system-current.txt
+index dda74810f..855a5c53d 100644
+--- a/framework/api/system-current.txt
++++ b/framework/api/system-current.txt
+@@ -380,6 +380,7 @@ package android.net.wifi {
+     field @Deprecated public static final int METERED_OVERRIDE_METERED = 1; // 0x1
+     field @Deprecated public static final int METERED_OVERRIDE_NONE = 0; // 0x0
+     field @Deprecated public static final int METERED_OVERRIDE_NOT_METERED = 2; // 0x2
++    field @Deprecated public static final int RANDOMIZATION_ALWAYS = 100; // 0x64
+     field @Deprecated public static final int RANDOMIZATION_AUTO = 3; // 0x3
+     field @Deprecated public static final int RANDOMIZATION_NONE = 0; // 0x0
+     field @Deprecated public static final int RANDOMIZATION_NON_PERSISTENT = 2; // 0x2
+diff --git a/framework/java/android/net/wifi/WifiConfiguration.java b/framework/java/android/net/wifi/WifiConfiguration.java
+index 924cd3345..fa96b73c0 100644
+--- a/framework/java/android/net/wifi/WifiConfiguration.java
++++ b/framework/java/android/net/wifi/WifiConfiguration.java
+@@ -1641,7 +1641,8 @@ public class WifiConfiguration implements Parcelable {
+             RANDOMIZATION_NONE,
+             RANDOMIZATION_PERSISTENT,
+             RANDOMIZATION_NON_PERSISTENT,
+-            RANDOMIZATION_AUTO})
++            RANDOMIZATION_AUTO,
++            RANDOMIZATION_ALWAYS})
+     public @interface MacRandomizationSetting {}
+ 
+     /**
+@@ -1672,16 +1673,23 @@ public class WifiConfiguration implements Parcelable {
+     @SystemApi
+     public static final int RANDOMIZATION_AUTO = 3;
+ 
++    /**
++     * @hide
++     * Generate a randomize MAC always
++     */
++    @SystemApi
++    public static final int RANDOMIZATION_ALWAYS = 100;
++
+     /**
+      * Level of MAC randomization for this network.
+      * One of {@link #RANDOMIZATION_NONE}, {@link #RANDOMIZATION_AUTO},
+-     * {@link #RANDOMIZATION_PERSISTENT} or {@link #RANDOMIZATION_NON_PERSISTENT}.
+-     * By default this field is set to {@link #RANDOMIZATION_AUTO}.
++     * {@link #RANDOMIZATION_PERSISTENT} or {@link #RANDOMIZATION_NON_PERSISTENT} or RANDOMIZATION_ALWAYS.
++     * By default this field is set to RANDOMIZATION_ALWAYS in GrapheneOS.
+      * @hide
+      */
+     @SystemApi
+     @MacRandomizationSetting
+-    public int macRandomizationSetting = RANDOMIZATION_AUTO;
++    public int macRandomizationSetting = RANDOMIZATION_ALWAYS;
+ 
+     /**
+      * Randomized MAC address to use with this particular network
+diff --git a/service/java/com/android/server/wifi/WifiConfigManager.java b/service/java/com/android/server/wifi/WifiConfigManager.java
+index 1c87eb2fa..9032bfb54 100644
+--- a/service/java/com/android/server/wifi/WifiConfigManager.java
++++ b/service/java/com/android/server/wifi/WifiConfigManager.java
+@@ -431,6 +431,10 @@ public class WifiConfigManager {
+             return false;
+         }
+ 
++        if (config.macRandomizationSetting == WifiConfiguration.RANDOMIZATION_ALWAYS) {
++            return true;
++        }
++
+         // Use enhanced randomization if it's forced on by dev option
+         if (mFrameworkFacade.getIntegerSetting(mContext,
+                 ENHANCED_MAC_RANDOMIZATION_FEATURE_FORCE_ENABLE_FLAG, 0) == 1) {
+@@ -580,7 +584,8 @@ public class WifiConfigManager {
+     private MacAddress updateRandomizedMacIfNeeded(WifiConfiguration config) {
+         boolean shouldUpdateMac = config.randomizedMacExpirationTimeMs
+                 < mClock.getWallClockMillis() || mClock.getWallClockMillis()
+-                - config.randomizedMacLastModifiedTimeMs >= ENHANCED_MAC_REFRESH_MS_MAX;
++                - config.randomizedMacLastModifiedTimeMs >= ENHANCED_MAC_REFRESH_MS_MAX ||
++                config.macRandomizationSetting == WifiConfiguration.RANDOMIZATION_ALWAYS;
+         if (!shouldUpdateMac) {
+             return config.getRandomizedMacAddress();
+         }
+diff --git a/service/java/com/android/server/wifi/WifiConfigurationUtil.java b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
+index 5e0db72f6..f63ccb32d 100644
+--- a/service/java/com/android/server/wifi/WifiConfigurationUtil.java
++++ b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
+@@ -225,7 +225,7 @@ public class WifiConfigurationUtil {
+     public static boolean hasMacRandomizationSettingsChanged(WifiConfiguration existingConfig,
+             WifiConfiguration newConfig) {
+         if (existingConfig == null) {
+-            return newConfig.macRandomizationSetting != WifiConfiguration.RANDOMIZATION_AUTO;
++            return newConfig.macRandomizationSetting != WifiConfiguration.RANDOMIZATION_ALWAYS;
+         }
+         return newConfig.macRandomizationSetting != existingConfig.macRandomizationSetting;
+     }

@@ -1,0 +1,92 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sun, 17 Mar 2019 20:58:37 -0400
+Subject: [PATCH] constify JNINativeMethod tables
+
+---
+ nci/jni/NativeLlcpConnectionlessSocket.cpp | 2 +-
+ nci/jni/NativeLlcpServiceSocket.cpp        | 2 +-
+ nci/jni/NativeLlcpSocket.cpp               | 2 +-
+ nci/jni/NativeNfcManager.cpp               | 2 +-
+ nci/jni/NativeNfcTag.cpp                   | 2 +-
+ nci/jni/NativeP2pDevice.cpp                | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/nci/jni/NativeLlcpConnectionlessSocket.cpp b/nci/jni/NativeLlcpConnectionlessSocket.cpp
+index 7506d80e..e1e547ec 100644
+--- a/nci/jni/NativeLlcpConnectionlessSocket.cpp
++++ b/nci/jni/NativeLlcpConnectionlessSocket.cpp
+@@ -280,7 +280,7 @@ static jboolean nativeLlcpConnectionlessSocket_doClose(JNIEnv* e, jobject o) {
+ ** Description:     JNI functions
+ **
+ *****************************************************************************/
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+     {"doSendTo", "(I[B)Z", (void*)nativeLlcpConnectionlessSocket_doSendTo},
+     {"doReceiveFrom", "(I)Lcom/android/nfc/LlcpPacket;",
+      (void*)nativeLlcpConnectionlessSocket_doReceiveFrom},
+diff --git a/nci/jni/NativeLlcpServiceSocket.cpp b/nci/jni/NativeLlcpServiceSocket.cpp
+index 76ffeea5..4d2297c4 100644
+--- a/nci/jni/NativeLlcpServiceSocket.cpp
++++ b/nci/jni/NativeLlcpServiceSocket.cpp
+@@ -128,7 +128,7 @@ static jboolean nativeLlcpServiceSocket_doClose(JNIEnv* e, jobject o) {
+ ** Description:     JNI functions
+ **
+ *****************************************************************************/
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+     {"doAccept", "(III)Lcom/android/nfc/dhimpl/NativeLlcpSocket;",
+      (void*)nativeLlcpServiceSocket_doAccept},
+     {"doClose", "()Z", (void*)nativeLlcpServiceSocket_doClose},
+diff --git a/nci/jni/NativeLlcpSocket.cpp b/nci/jni/NativeLlcpSocket.cpp
+index 0ee0d248..fa49ec94 100644
+--- a/nci/jni/NativeLlcpSocket.cpp
++++ b/nci/jni/NativeLlcpSocket.cpp
+@@ -214,7 +214,7 @@ static jint nativeLlcpSocket_doGetRemoteSocketRW(JNIEnv* e, jobject o) {
+ ** Description:     JNI functions
+ **
+ *****************************************************************************/
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+     {"doConnect", "(I)Z", (void*)nativeLlcpSocket_doConnect},
+     {"doConnectBy", "(Ljava/lang/String;)Z",
+      (void*)nativeLlcpSocket_doConnectBy},
+diff --git a/nci/jni/NativeNfcManager.cpp b/nci/jni/NativeNfcManager.cpp
+index 28ae464a..6804497b 100644
+--- a/nci/jni/NativeNfcManager.cpp
++++ b/nci/jni/NativeNfcManager.cpp
+@@ -2149,7 +2149,7 @@ static void nfcManager_doSetNfceePowerAndLinkCtrl(JNIEnv* e, jobject o,
+ ** JNI functions for android-4.0.1_r1
+ **
+ *****************************************************************************/
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+     {"doDownload", "()Z", (void*)nfcManager_doDownload},
+ 
+     {"initializeNativeStructure", "()Z", (void*)nfcManager_initNativeStruc},
+diff --git a/nci/jni/NativeNfcTag.cpp b/nci/jni/NativeNfcTag.cpp
+index cc167e67..a53c1425 100644
+--- a/nci/jni/NativeNfcTag.cpp
++++ b/nci/jni/NativeNfcTag.cpp
+@@ -1853,7 +1853,7 @@ void nativeNfcTag_releaseRfInterfaceMutexLock() {
+ ** JNI functions for Android 4.0.3
+ **
+ *****************************************************************************/
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+     {"doConnect", "(I)I", (void*)nativeNfcTag_doConnect},
+     {"doDisconnect", "()Z", (void*)nativeNfcTag_doDisconnect},
+     {"doReconnect", "()I", (void*)nativeNfcTag_doReconnect},
+diff --git a/nci/jni/NativeP2pDevice.cpp b/nci/jni/NativeP2pDevice.cpp
+index 23f5db41..396c6d0c 100644
+--- a/nci/jni/NativeP2pDevice.cpp
++++ b/nci/jni/NativeP2pDevice.cpp
+@@ -58,7 +58,7 @@ static jboolean nativeP2pDeviceDoSend(JNIEnv*, jobject, jbyteArray) {
+ ** Description:     JNI functions
+ **
+ *****************************************************************************/
+-static JNINativeMethod gMethods[] = {
++static const JNINativeMethod gMethods[] = {
+     {"doConnect", "()Z", (void*)nativeP2pDeviceDoConnect},
+     {"doDisconnect", "()Z", (void*)nativeP2pDeviceDoDisconnect},
+     {"doTransceive", "([B)[B", (void*)nativeP2pDeviceDoTransceive},

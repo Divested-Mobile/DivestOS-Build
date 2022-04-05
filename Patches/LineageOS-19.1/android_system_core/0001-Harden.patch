@@ -1,0 +1,60 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Mon, 12 Feb 2018 03:29:58 -0500
+Subject: [PATCH] Harden
+
+Change-Id: I46e3fc4ac896a509ab8ca90ae4ce09b820da434b
+[tad@spotco.us]: added protected fifos and regular from newer GrapheneOS patches
+[tad@spotco.us]: added IPv6 privacy options TODO split into another patch
+---
+ init/first_stage_init.cpp |  6 +++---
+ rootdir/init.rc           | 11 +++++++++++
+ 2 files changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
+index c7b7b0c13..3ccacf56e 100644
+--- a/init/first_stage_init.cpp
++++ b/init/first_stage_init.cpp
+@@ -202,9 +202,9 @@ int FirstStageMain(int argc, char** argv) {
+     CHECKCALL(mkdir("/dev/pts", 0755));
+     CHECKCALL(mkdir("/dev/socket", 0755));
+     CHECKCALL(mkdir("/dev/dm-user", 0755));
+-    CHECKCALL(mount("devpts", "/dev/pts", "devpts", 0, NULL));
++    CHECKCALL(mount("devpts", "/dev/pts", "devpts", MS_NOSUID|MS_NOEXEC, NULL));
+ #define MAKE_STR(x) __STRING(x)
+-    CHECKCALL(mount("proc", "/proc", "proc", 0, "hidepid=2,gid=" MAKE_STR(AID_READPROC)));
++    CHECKCALL(mount("proc", "/proc", "proc", MS_NOSUID|MS_NODEV|MS_NOEXEC, "hidepid=2,gid=" MAKE_STR(AID_READPROC)));
+ #undef MAKE_STR
+     // Don't expose the raw commandline to unprivileged processes.
+     CHECKCALL(chmod("/proc/cmdline", 0440));
+@@ -216,7 +216,7 @@ int FirstStageMain(int argc, char** argv) {
+     android::base::ReadFileToString("/proc/bootconfig", &bootconfig);
+     gid_t groups[] = {AID_READPROC};
+     CHECKCALL(setgroups(arraysize(groups), groups));
+-    CHECKCALL(mount("sysfs", "/sys", "sysfs", 0, NULL));
++    CHECKCALL(mount("sysfs", "/sys", "sysfs", MS_NOSUID|MS_NODEV|MS_NOEXEC, NULL));
+     CHECKCALL(mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL));
+ 
+     CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 5116c0fea..08e8938cb 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -296,6 +296,17 @@ on init
+     write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
+     write /proc/sys/kernel/sched_child_runs_first 0
+ 
++    write /proc/sys/kernel/dmesg_restrict 1
++    write /proc/sys/fs/protected_hardlinks 1
++    write /proc/sys/fs/protected_symlinks 1
++    write /proc/sys/fs/protected_fifos 1
++    write /proc/sys/fs/protected_regular 1
++    write /proc/sys/net/ipv6/conf/all/use_tempaddr 2
++    write /proc/sys/net/ipv6/conf/all/max_addresses 128
++    write /proc/sys/net/ipv6/conf/all/temp_prefered_lft 21600
++    write /proc/sys/net/ipv6/conf/default/use_tempaddr 2
++    write /proc/sys/net/ipv6/conf/default/max_addresses 128
++    write /proc/sys/net/ipv6/conf/default/temp_prefered_lft 21600
+     write /proc/sys/kernel/randomize_va_space 2
+     write /proc/sys/vm/mmap_min_addr 32768
+     write /proc/sys/net/ipv4/ping_group_range "0 2147483647"
