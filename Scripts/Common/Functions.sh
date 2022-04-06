@@ -309,7 +309,7 @@ processRelease() {
 	#OTA
 	echo -e "\e[0;32mCreating OTA\e[0m";
 	"$RELEASETOOLS_PREFIX"ota_from_target_files $BLOCK_SWITCHES -k "$KEY_DIR/releasekey" \
-		"$OUT_DIR/$PREFIX-target_files.zip"  \
+		"$OUT_DIR/$PREFIX-target_files.zip" \
 		"$OUT_DIR/$PREFIX-ota.zip";
 	md5sum "$OUT_DIR/$PREFIX-ota.zip" > "$OUT_DIR/$PREFIX-ota.zip.md5sum";
 	sha512sum "$OUT_DIR/$PREFIX-ota.zip" > "$OUT_DIR/$PREFIX-ota.zip.sha512sum";
@@ -464,13 +464,13 @@ deblobAudio() {
 export -f deblobAudio;
 
 imsAllowDiag() {
-       find device -name "ims.te" -type f -exec sh -c "echo 'diag_use(ims)' >> {}" \;
-       find device -name "hal_imsrtp.te" -type f -exec sh -c "echo 'diag_use(hal_imsrtp)' >> {}" \;
+	find device -name "ims.te" -type f -exec sh -c "echo 'diag_use(ims)' >> {}" \;
+	find device -name "hal_imsrtp.te" -type f -exec sh -c "echo 'diag_use(hal_imsrtp)' >> {}" \;
 }
 export -f imsAllowDiag;
 
 extremeWiFiDeepSleep() {
-       sed -i 's/gEnablePowerSaveOffload=2/gEnablePowerSaveOffload=4/' $1;
+	sed -i 's/gEnablePowerSaveOffload=2/gEnablePowerSaveOffload=4/' $1;
 	echo "Enabled extreme Wi-Fi deep sleep for $1";
 }
 export -f extremeWiFiDeepSleep;
@@ -560,7 +560,7 @@ export -f hardenLocationFWB;
 
 enableZram() {
 	cd "$DOS_BUILD_BASE$1";
-	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
+	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 	echo "Enabled zram for $1";
 	cd "$DOS_BUILD_BASE";
 }
@@ -569,16 +569,16 @@ export -f enableZram;
 hardenUserdata() {
 	cd "$DOS_BUILD_BASE$1";
 
-	#awk -i inplace '!/f2fs/' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
+	#awk -i inplace '!/f2fs/' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 
 	#Remove latemount to allow selinux contexts be restored upon /cache wipe
 	#Fixes broken OTA updater and broken /recovery updater
-	sed -i '/\/cache/s|latemount,||' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
+	sed -i '/\/cache/s|latemount,||' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 
 	#TODO: Ensure: noatime,nosuid,nodev
-	sed -i '/\/data/{/discard/!s|nosuid|discard,nosuid|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
+	sed -i '/\/data/{/discard/!s|nosuid|discard,nosuid|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 	if [ "$1" != "device/samsung/tuna" ] && [ "$1" != "device/amazon/hdx-common" ]; then #tuna needs first boot to init, hdx-c has broken encryption
-		sed -i 's|encryptable=/|forceencrypt=/|' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
+		sed -i 's|encryptable=/|forceencrypt=/|' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 	fi;
 	echo "Hardened /data for $1";
 	cd "$DOS_BUILD_BASE";
