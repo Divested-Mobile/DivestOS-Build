@@ -208,6 +208,10 @@ processRelease() {
 	echo -e "\e[0;32mProcessing release for $DEVICE\e[0m";
 
 	#Arguments
+	DOS_DEVICES_VBMETA=('akari' 'aura' 'aurora' 'beryllium' 'blueline' 'bonito' 'crosshatch' 'davinci' 'enchilada' 'fajita' 'FP3' 'guacamole' 'guacamoleb' 'lavender' 'pro1' 'raphael' 'sargo' 'taimen' 'walleye' 'xz2c');
+	DOS_DEVICES_VBMETA_SYSTEM=('alioth' 'avicii' 'hotdog' 'hotdogb' 'lmi' 'vayu');
+	DOS_DEVICES_VBMETA_SYSTEM_FULL=('bramble' 'coral' 'flame' 'redfin' 'sunfish');
+	DOS_DEVICES_VBMETA_EVERYTHING=('oriole' 'raven');
 	if [ "$BLOCK" != false ]; then
 		local BLOCK_SWITCHES="--block";
 	fi;
@@ -217,13 +221,92 @@ processRelease() {
 			--replace_verity_keyid "$KEY_DIR/verity.x509.pem");
 		echo -e "\e[0;32m\t+ Verified Boot 1.0\e[0m";
 	elif [[ "$VERITY" == "avb" ]]; then
-		#TODO: Verify if both SHA512 and RSA4096 is always supported
-		local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" \
-			--avb_vbmeta_algorithm SHA256_RSA4096 \
-			--avb_system_key "$KEY_DIR/avb.pem" \
-			--avb_system_algorithm SHA256_RSA4096);
 		local AVB_PKMD="$KEY_DIR/avb_pkmd.bin";
-		echo -e "\e[0;32m\t+ Verified Boot 2.0\e[0m";
+
+		if [ "$DOS_SIGNING_NOCHAIN" = true ]; then
+			local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" --avb_vbmeta_algorithm SHA256_RSA4096);
+			echo -e "\e[0;32m\t+ Verified Boot 2.0 with VBMETA and NOCHAIN\e[0m";
+		else
+			if [[ " ${DOS_DEVICES_VBMETA[@]} " =~ " ${DEVICE} " ]]; then
+				local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" --avb_vbmeta_algorithm SHA256_RSA4096);
+				echo -e "\e[0;32m\t+ Verified Boot 2.0 with VBMETA\e[0m";
+			fi;
+			if [[ " ${DOS_DEVICES_VBMETA_SYSTEM[@]} " =~ " ${DEVICE} " ]]; then
+				local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" --avb_vbmeta_algorithm SHA256_RSA4096 \
+					--avb_system_key "$KEY_DIR/avb.pem" --avb_system_algorithm SHA256_RSA4096);
+				echo -e "\e[0;32m\t+ Verified Boot 2.0 with VBMETA and VBMETA_SYSTEM\e[0m";
+			fi;
+			if [[ " ${DOS_DEVICES_VBMETA_SYSTEM_FULL[@]} " =~ " ${DEVICE} " ]]; then
+				local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" --avb_vbmeta_algorithm SHA256_RSA4096 \
+					--avb_system_key "$KEY_DIR/avb.pem" --avb_system_algorithm SHA256_RSA4096 \
+					--avb_vbmeta_system_key "$KEY_DIR/avb.pem" --avb_vbmeta_system_algorithm SHA256_RSA4096);
+				echo -e "\e[0;32m\t+ Verified Boot 2.0 with VBMETA and VBMETA_SYSTEM_FULL\e[0m";
+			fi;
+			if [[ " ${DOS_DEVICES_VBMETA_EVERYTHING[@]} " =~ " ${DEVICE} " ]]; then
+				local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" --avb_vbmeta_algorithm SHA256_RSA4096 \
+					--avb_system_key "$KEY_DIR/avb.pem" --avb_system_algorithm SHA256_RSA4096 \
+					--avb_vbmeta_system_key "$KEY_DIR/avb.pem" --avb_vbmeta_system_algorithm SHA256_RSA4096 \
+					--avb_vbmeta_vendor_key "$KEY_DIR/avb.pem" --avb_vbmeta_vendor_algorithm SHA256_RSA4096 \
+					--avb_boot_key "$KEY_DIR/avb.pem" --avb_boot_algorithm SHA256_RSA4096);
+				echo -e "\e[0;32m\t+ Verified Boot 2.0 with VBMETA_EVERYTHING\e[0m";
+			fi;
+		fi;
+	fi;
+	if [[ "$DOS_VERSION" == "LineageOS-17.1" ]] || [[ "$DOS_VERSION" == "LineageOS-18.1" ]] || [[ "$DOS_VERSION" == "LineageOS-19.1" ]]; then
+		local APEX_SWITCHES=(--extra_apks com.android.adbd.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.adbd.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.apex.cts.shim.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.apex.cts.shim.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.appsearch.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.appsearch.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.art.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.art.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.art.debug.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.art.debug.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.cellbroadcast.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.cellbroadcast.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.conscrypt.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.conscrypt.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.extservices.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.extservices.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.i18n.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.i18n.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.ipsec.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.ipsec.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.media.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.media.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.media.swcodec.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.media.swcodec.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.mediaprovider.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.mediaprovider.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.neuralnetworks.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.neuralnetworks.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.os.statsd.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.os.statsd.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.permission.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.permission.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.resolv.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.resolv.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.runtime.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.runtime.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.scheduling.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.scheduling.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.sdkext.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.sdkext.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.tethering.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.tethering.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.tzdata.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.tzdata.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.vndk.current.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.vndk.current.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.wifi.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.wifi.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.google.pixel.camera.hal.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.google.pixel.camera.hal.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.vibrator.sunfish.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.vibrator.sunfish.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.vibrator.drv2624.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.vibrator.drv2624.apex="$KEY_DIR/avb.pem");
 	fi;
 
 	#Malware Scan
@@ -235,6 +318,8 @@ processRelease() {
 	#Target Files
 	echo -e "\e[0;32mSigning target files\e[0m";
 	"$RELEASETOOLS_PREFIX"sign_target_files_apks -o -d "$KEY_DIR" \
+		--extra_apks OsuLogin.apk,ServiceConnectivityResources.apk,ServiceWifiResources.apk="$KEY_DIR/releasekey" \
+		"${APEX_SWITCHES[@]}" \
 		"${VERITY_SWITCHES[@]}" \
 		$OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files-*.zip \
 		"$OUT_DIR/$PREFIX-target_files.zip";
