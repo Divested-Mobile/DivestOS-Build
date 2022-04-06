@@ -381,9 +381,9 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
-if enterAndClear "device/google/bonito"; then
+#if enterAndClear "device/google/bonito"; then
 #awk -i inplace '!/INODE_COUNT/' BoardConfigLineage.mk; #mke2fs -1 incompatibility (?) #XXX 19REBASE: still needed?
-fi;
+#fi;
 
 if enterAndClear "device/google/redbull"; then
 awk -i inplace '!/sctp/' BoardConfig-common.mk modules.load; #fix compile after hardenDefconfig
