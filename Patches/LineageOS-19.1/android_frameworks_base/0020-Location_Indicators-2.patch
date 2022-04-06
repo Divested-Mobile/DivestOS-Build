@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: flawedworld <flawedworld@flawed.world>
+Date: Fri, 25 Feb 2022 01:02:26 +0000
+Subject: [PATCH] Exclude Bluetooth app from Location indicators
+
+---
+ core/res/res/values/config.xml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/core/res/res/values/config.xml b/core/res/res/values/config.xml
+index 7305ccc93e93..5114704eac33 100644
+--- a/core/res/res/values/config.xml
++++ b/core/res/res/values/config.xml
+@@ -1753,7 +1753,9 @@
+          set before. -->
+     <bool name="config_defaultAdasGnssLocationEnabled" translatable="false">false</bool>
+ 
+-    <string-array name="config_locationExtraPackageNames" translatable="false"></string-array>
++    <string-array name="config_locationExtraPackageNames" translatable="false">
++     <item>com.android.bluetooth</item>
++    </string-array>
+ 
+     <!-- The package name of the default network recommendation app.
+          A network recommendation provider must:

@@ -91,7 +91,6 @@ applyPatch "$DOS_PATCHES/android_build/0001-Enable_fwrapv.patch"; #Use -fwrapv a
 applyPatch "$DOS_PATCHES/android_build/0002-OTA_Keys.patch"; #Add correct keys to recovery for OTA verification
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then applyPatch "$DOS_PATCHES/android_build/0003-Exec_Based_Spawning.patch"; fi; #Add exec-based spawning support (GrapheneOS) #XXX: most devices override this
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
-if [ "$DOS_SILENCE_INCLUDED" = true ]; then sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/aosp_product.mk; fi; #Replace the Messaging app with Silence
 awk -i inplace '!/updatable_apex.mk/' target/product/generic_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 fi;
@@ -111,9 +110,9 @@ if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_ex
 fi;
 
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
-#if enterAndClear "external/hardened_malloc"; then
-#applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras.patch"; #Expand workaround to all camera executables #XXX 19REBASE
-#fi;
+if enterAndClear "external/hardened_malloc"; then
+applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras.patch"; #Expand workaround to all camera executables
+fi;
 fi;
 
 if enterAndClear "frameworks/base"; then
@@ -124,11 +123,12 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Rev
 applyPatch "$DOS_PATCHES/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after three failed attempts (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0005-User_Logout.patch"; #Allow user logout (GrapheneOS)
-#applyPatch "$DOS_PATCHES/android_frameworks_base/0012-Private_DNS.patch"; #More 'Private DNS' options (CalyxOS) #XXX 19REBASE: moved
 applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions.patch"; #Support new special runtime permissions (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-1.patch"; #Make INTERNET into a special runtime permission (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-2.patch"; #Add a NETWORK permission group for INTERNET (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-3.patch"; #net: Notify ConnectivityService of runtime permission changes (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-4.patch"; #Make DownloadManager.enqueue() a no-op when INTERNET permission is revoked (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-5.patch"; #Make DownloadManager.query() a no-op when INTERNET permission is revoked (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Sensors_Permission.patch"; #Add special runtime permission for other sensors (GrapheneOS)
 if [ "$DOS_TIMEOUTS" = true ]; then
 applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
@@ -151,7 +151,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-11.pat
 applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-12.patch";
 sed -i 's/sys.spawn.exec/persist.security.exec_spawn/' core/java/com/android/internal/os/ZygoteConnection.java;
 fi;
-applyPatch "$DOS_PATCHES/android_frameworks_base/0020-Location_Indicators.patch"; #SystemUI: Use new privacy indicators for location (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0020-Location_Indicators-1.patch"; #SystemUI: Use new privacy indicators for location (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0020-Location_Indicators-2.patch"; #Exclude Bluetooth app from Location indicators (GrapheneOS)
 hardenLocationConf services/core/java/com/android/server/location/gnss/gps_debug.conf; #Harden the default GPS config
 changeDefaultDNS; #Change the default DNS servers
 sed -i 's/DEFAULT_USE_COMPACTION = false;/DEFAULT_USE_COMPACTION = true;/' services/core/java/com/android/server/am/CachedAppOptimizer.java; #Enable app compaction by default (GrapheneOS)
@@ -171,7 +172,7 @@ if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_fr
 fi;
 
 if enterAndClear "frameworks/native"; then
-then applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors_Permission.patch"; #Require OTHER_SENSORS permission for sensors (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors_Permission.patch"; #Require OTHER_SENSORS permission for sensors (GrapheneOS)
 fi;
 
 if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
@@ -272,6 +273,13 @@ applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voic
 applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
 fi;
 
+if enterAndClear "packages/modules/Connectivity"; then
+applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-1.patch"; #Add callback for enforcing INTERNET permission changes (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-2.patch"; #Use uid instead of app id (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-3.patch"; #Skip reportNetworkConnectivity() when permission is revoked (GrapheneOS)
+#applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0002-Private_DNS.patch"; #More 'Private DNS' options (CalyxOS) #XXX 19REBASE
+fi;
+
 if [ "$DOS_GRAPHENE_RANDOM_MAC" = true ]; then
 if enterAndClear "packages/modules/NetworkStack"; then
 applyPatch "$DOS_PATCHES/android_packages_modules_NetworkStack/0001-Random_MAC.patch"; #Avoid reusing DHCP state for full MAC randomization (GrapheneOS)
@@ -348,7 +356,6 @@ sed -i 's/LINEAGE_BUILDTYPE := UNOFFICIAL/LINEAGE_BUILDTYPE := dos/' config/*.mk
 if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then sed -i 's/LINEAGE_BUILDTYPE := dos/LINEAGE_BUILDTYPE := dosNC/' config/*.mk; fi;
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
 cp -f "$DOS_PATCHES_COMMON/apns-conf.xml" prebuilt/common/etc/apns-conf.xml; #Update APN list
-if [ "$DOS_SILENCE_INCLUDED" = true ]; then sed -i 's/messaging/Silence/' config/telephony.mk; fi; #Replace the Messaging app with Silence
 awk -i inplace '!/Eleven/' config/common_mobile.mk; #Remove Music Player
 fi;
 
@@ -367,7 +374,9 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
-#none yet
+if enterAndClear "kernel/google/wahoo"; then
+sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
+fi;
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
@@ -397,8 +406,8 @@ enableAutoVarInit || true;
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l*; #Fix builds with GCC 10
 rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk || true;
-awk -i inplace '!/config_wifi_batched_scan_supported/' device/*/*/overlay/frameworks/opt/net/wifi/service/res/values/config.xml; #deprecated
-awk -i inplace '!/config_wifi_batched_scan_supported/' device/*/*/overlay/frameworks/base/core/res/res/values/config.xml; #deprecated
+#awk -i inplace '!/config_wifi_batched_scan_supported/' device/*/*/overlay/frameworks/opt/net/wifi/service/res/values/config.xml || true; #deprecated
+#awk -i inplace '!/config_wifi_batched_scan_supported/' device/*/*/overlay/frameworks/base/core/res/res/values/config.xml || true; #deprecated
 #
 #END OF DEVICE CHANGES
 #

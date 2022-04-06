@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Sat, 5 Feb 2022 11:08:55 +0200
+Subject: [PATCH] make DownloadManager.query() a no-op when INTERNET permission
+ is revoked
+
+---
+ core/java/android/app/DownloadManager.java | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/core/java/android/app/DownloadManager.java b/core/java/android/app/DownloadManager.java
+index c209660f4197..2b141e17a80b 100644
+--- a/core/java/android/app/DownloadManager.java
++++ b/core/java/android/app/DownloadManager.java
+@@ -34,6 +34,7 @@ import android.content.Context;
+ import android.database.Cursor;
+ import android.database.CursorWrapper;
+ import android.database.DatabaseUtils;
++import android.database.MatrixCursor;
+ import android.net.ConnectivityManager;
+ import android.net.NetworkPolicyManager;
+ import android.net.Uri;
+@@ -1170,6 +1171,12 @@ public class DownloadManager {
+ 
+     /** @hide */
+     public Cursor query(Query query, String[] projection) {
++        // don't crash apps that expect INTERNET permission to be always granted
++        Context ctx = ActivityThread.currentApplication();
++        if (ctx != null && ctx.checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
++            // underlying provider is protected by the INTERNET permission
++            return new MatrixCursor(projection);
++        }
+         Cursor underlyingCursor = query.runQuery(mResolver, projection, mBaseUri);
+         if (underlyingCursor == null) {
+             return null;

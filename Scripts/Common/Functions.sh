@@ -199,7 +199,7 @@ processRelease() {
 	local OUT_DIR="$DOS_BUILD_BASE/out/target/product/$DEVICE/";
 
 	local RELEASETOOLS_PREFIX="build/tools/releasetools/";
-	if [[ "$DOS_VERSION" == "LineageOS-18.1" ]]; then
+	if [[ "$DOS_VERSION" == "LineageOS-18.1" ]] || [[ "$DOS_VERSION" == "LineageOS-19.1" ]]; then
 		local RELEASETOOLS_PREFIX="";
 	fi;
 
@@ -724,7 +724,7 @@ changeDefaultDNS() {
 		echo "You must first set a preset via the DOS_DEFAULT_DNS_PRESET variable in init.sh!";
 	fi;
 
-	local files="$DOS_BUILD_BASE/bionic/libc/dns/net/getaddrinfo.c $DOS_BUILD_BASE/packages/apps/Dialer/java/com/android/voicemail/impl/sync/VvmNetworkRequestCallback.java $DOS_BUILD_BASE/packages/modules/Connectivity/framework/src/android/net/util/DnsUtils.java $DOS_BUILD_BASE/packages/modules/DnsResolver/getaddrinfo.cpp core/java/android/net/util/DnsUtils.java core/res/res/values/config.xml packages/SettingsLib/res/values/strings.xml packages/Tethering/src/com/android/networkstack/tethering/TetheringConfiguration.java services/core/java/com/android/server/connectivity/NetworkDiagnostics.java services/core/java/com/android/server/connectivity/Tethering.java services/core/java/com/android/server/connectivity/tethering/TetheringConfiguration.java services/java/com/android/server/connectivity/Tethering.java tests/BandwidthTests/src/com/android/tests/bandwidthenforcement/BandwidthEnforcementTestService.java core/java/com/android/internal/net/VpnProfile.java";
+	local files="$DOS_BUILD_BASE/bionic/libc/dns/net/getaddrinfo.c $DOS_BUILD_BASE/packages/apps/Dialer/java/com/android/voicemail/impl/sync/VvmNetworkRequestCallback.java $DOS_BUILD_BASE/packages/modules/Connectivity/framework/src/android/net/util/DnsUtils.java $DOS_BUILD_BASE/packages/modules/Connectivity/service/src/com/android/server/connectivity/NetworkDiagnostics.java $DOS_BUILD_BASE/packages/modules/Connectivity/Tethering/src/com/android/networkstack/tethering/TetheringConfiguration.java $DOS_BUILD_BASE/packages/modules/DnsResolver/DnsResolver/doh.rs $DOS_BUILD_BASE/packages/modules/DnsResolver/DnsResolver/getaddrinfo.cpp $DOS_BUILD_BASE/packages/modules/DnsResolver/getaddrinfo.cpp core/java/android/net/util/DnsUtils.java core/java/com/android/internal/net/VpnProfile.java core/res/res/values/config.xml packages/SettingsLib/res/values/strings.xml packages/Tethering/src/com/android/networkstack/tethering/TetheringConfiguration.java services/core/java/com/android/server/connectivity/NetworkDiagnostics.java services/core/java/com/android/server/connectivity/Tethering.java services/core/java/com/android/server/connectivity/tethering/TetheringConfiguration.java services/java/com/android/server/connectivity/Tethering.java tests/BandwidthTests/src/com/android/tests/bandwidthenforcement/BandwidthEnforcementTestService.java";
 	sed -i "s/8\.8\.8\.8/$dnsPrimary/" $files &>/dev/null || true;
 	sed -i "s/2001:4860:4860::8888/$dnsPrimaryV6/" $files &>/dev/null || true;
 	sed -i "s/8\.8\.4\.4/$dnsSecondary/" $files &>/dev/null || true;

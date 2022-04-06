@@ -1,0 +1,228 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Thu, 21 Oct 2021 20:54:37 -0400
+Subject: [PATCH] Add more 'Private DNS' options
+
+This adds thirteen DNS providers as available presets.
+
+Credit: CalyxOS
+- Chirayu Desai <chirayudesai1@gmail.com>
+  https://review.calyxos.org/c/CalyxOS/platform_frameworks_base/+/446
+- Oliver Scott <olivercscott@gmail.com>
+  https://review.calyxos.org/c/CalyxOS/platform_frameworks_base/+/2327
+- Pavel Shirshov <pshirshov@eml.cc>
+  https://review.calyxos.org/c/CalyxOS/platform_frameworks_base/+/5356
+
+Signed-off-by: Tad <tad@spotco.us>
+Change-Id: Id75a774ce1ed109a83c6a5bf512536c643165d71
+---
+ .../java/android/net/ConnectivityManager.java | 104 ++++++++++++++++++
+ .../server/connectivity/DnsManager.java       |  66 +++++++++++
+ 2 files changed, 170 insertions(+)
+
+diff --git a/core/java/android/net/ConnectivityManager.java b/core/java/android/net/ConnectivityManager.java
+index ed03f5198d6f..7df32c10b16b 100644
+--- a/core/java/android/net/ConnectivityManager.java
++++ b/core/java/android/net/ConnectivityManager.java
+@@ -796,6 +796,58 @@ public class ConnectivityManager {
+      * @hide
+      */
+     public static final String PRIVATE_DNS_MODE_OFF = "off";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_ADGUARD = "adguard";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_APPLIEDPRIVACY = "appliedprivacy";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_CLEANBROWSING = "cleanbrowsing";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_CIRA = "cira";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_CZNIC = "cznic";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_CLOUDFLARE = "cloudflare";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_GOOGLE = "google";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_MULLVAD = "mullvad";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_QUADNINE = "quadnine";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_RESTENA = "restena";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_SWITCH = "switch";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_TWNIC = "twnic";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_MODE_UNCENSOREDDNS = "uncensoreddns";
+     /**
+      * @hide
+      */
+@@ -804,6 +856,58 @@ public class ConnectivityManager {
+      * @hide
+      */
+     public static final String PRIVATE_DNS_MODE_PROVIDER_HOSTNAME = "hostname";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_APPLIEDPRIVACY = "dot1.applied-privacy.net";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_ADGUARD = "dns.adguard.com";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_CIRA = "protected.canadianshield.cira.ca";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_CZNIC = "odvr.nic.cz";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_CLEANBROWSING = "security-filter-dns.cleanbrowsing.org";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_CLOUDFLARE = "security.cloudflare-dns.com";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_GOOGLE = "dns.google";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_MULLVAD = "adblock.doh.mullvad.net";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_QUADNINE = "dns.quad9.net";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_RESTENA = "kaitain.restena.lu";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_SWITCH = "dns.switch.ch";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_TWNIC = "101.101.101.101";
++    /**
++     * @hide
++     */
++    public static final String PRIVATE_DNS_SPECIFIER_UNCENSOREDDNS = "unicast.censurfridns.dk";
+     /**
+      * The default Private DNS mode.
+      *
+diff --git a/services/core/java/com/android/server/connectivity/DnsManager.java b/services/core/java/com/android/server/connectivity/DnsManager.java
+index cf6a7f6e8d70..5d3de9edc930 100644
+--- a/services/core/java/com/android/server/connectivity/DnsManager.java
++++ b/services/core/java/com/android/server/connectivity/DnsManager.java
+@@ -18,6 +18,32 @@ package com.android.server.connectivity;
+ 
+ import static android.net.ConnectivityManager.PRIVATE_DNS_DEFAULT_MODE_FALLBACK;
+ import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_OFF;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_ADGUARD;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_APPLIEDPRIVACY;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_CIRA;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_CLEANBROWSING;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_CLOUDFLARE;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_CZNIC;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_GOOGLE;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_MULLVAD;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_QUADNINE;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_RESTENA;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_SWITCH;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_TWNIC;
++import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_UNCENSOREDDNS;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_ADGUARD;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_APPLIEDPRIVACY;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_CIRA;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_CLEANBROWSING;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_CLOUDFLARE;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_CZNIC;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_GOOGLE;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_MULLVAD;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_QUADNINE;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_RESTENA;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_SWITCH;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_TWNIC;
++import static android.net.ConnectivityManager.PRIVATE_DNS_SPECIFIER_UNCENSOREDDNS;
+ import static android.net.ConnectivityManager.PRIVATE_DNS_MODE_PROVIDER_HOSTNAME;
+ import static android.provider.Settings.Global.DNS_RESOLVER_MAX_SAMPLES;
+ import static android.provider.Settings.Global.DNS_RESOLVER_MIN_SAMPLES;
+@@ -136,6 +162,46 @@ public class DnsManager {
+             return new PrivateDnsConfig(specifier, null);
+         }
+ 
++        if (PRIVATE_DNS_MODE_ADGUARD.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_ADGUARD, null);
++        }
++        if (PRIVATE_DNS_MODE_APPLIEDPRIVACY.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_APPLIEDPRIVACY, null);
++        }
++        if (PRIVATE_DNS_MODE_CIRA.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_CIRA, null);
++        }
++        if (PRIVATE_DNS_MODE_CLEANBROWSING.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_CLEANBROWSING, null);
++        }
++        if (PRIVATE_DNS_MODE_CLOUDFLARE.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_CLOUDFLARE, null);
++        }
++        if (PRIVATE_DNS_MODE_CZNIC.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_CZNIC, null);
++        }
++        if (PRIVATE_DNS_MODE_GOOGLE.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_GOOGLE, null);
++        }
++        if (PRIVATE_DNS_MODE_MULLVAD.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_MULLVAD, null);
++        }
++        if (PRIVATE_DNS_MODE_QUADNINE.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_QUADNINE, null);
++        }
++        if (PRIVATE_DNS_MODE_RESTENA.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_RESTENA, null);
++        }
++        if (PRIVATE_DNS_MODE_SWITCH.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_SWITCH, null);
++        }
++        if (PRIVATE_DNS_MODE_TWNIC.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_TWNIC, null);
++        }
++        if (PRIVATE_DNS_MODE_UNCENSOREDDNS.equals(mode)) {
++            return new PrivateDnsConfig(PRIVATE_DNS_SPECIFIER_UNCENSOREDDNS, null);
++        }
++
+         return new PrivateDnsConfig(useTls);
+     }
+ 

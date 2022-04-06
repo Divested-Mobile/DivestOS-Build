@@ -1,4 +1,4 @@
-From 8e01dd93f29aba79e15a211084582afd9681e8ab Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Thu, 17 Sep 2020 10:53:00 -0400
 Subject: [PATCH] disable enforce RRO for mainline devices
@@ -14,10 +14,10 @@ Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/product/generic_system.mk b/target/product/generic_system.mk
-index d930957dfb..f0a9400b86 100644
+index f13c9db4d1..06126f5117 100644
 --- a/target/product/generic_system.mk
 +++ b/target/product/generic_system.mk
-@@ -113,7 +113,7 @@ PRODUCT_COPY_FILES += \
+@@ -116,7 +116,7 @@ PRODUCT_COPY_FILES += \
  # Enable dynamic partition size
  PRODUCT_USE_DYNAMIC_PARTITION_SIZE := true
  

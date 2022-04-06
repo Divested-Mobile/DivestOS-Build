@@ -584,8 +584,8 @@ sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" ker
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l*; #Fix builds with GCC 10
 rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk || true;
-awk -i inplace '!/config_wifi_batched_scan_supported/' device/*/*/overlay/frameworks/opt/net/wifi/service/res/values/config.xml; #deprecated
-awk -i inplace '!/config_wifi_batched_scan_supported/' device/*/*/overlay/frameworks/base/core/res/res/values/config.xml; #deprecated
+awk -i inplace '!/config_wifi_batched_scan_supported/' device/*/*/overlay/frameworks/opt/net/wifi/service/res/values/config.xml || true; #deprecated
+awk -i inplace '!/config_wifi_batched_scan_supported/' device/*/*/overlay/frameworks/base/core/res/res/values/config.xml || true; #deprecated
 #
 #END OF DEVICE CHANGES
 #

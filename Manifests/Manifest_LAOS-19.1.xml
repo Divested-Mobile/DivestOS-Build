@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+	<remote name="gitlab" fetch="https://gitlab.com/" />
+
+<!-- START OF UNNECESSARY REPO REMOVAL -->
+	<remove-project name="LineageOS/android_external_ant-wireless_ant_native" />
+	<remove-project name="LineageOS/android_external_ant-wireless_ant_service" />
+	<remove-project name="LineageOS/android_external_bash" />
+	<remove-project name="LineageOS/android_external_htop" />
+	<remove-project name="LineageOS/android_external_libncurses" />
+	<remove-project name="LineageOS/android_external_nano" />
+	<remove-project name="LineageOS/android_external_openssh" />
+	<remove-project name="LineageOS/android_external_vim" />
+	<remove-project name="LineageOS/android_packages_apps_Eleven" />
+	<remove-project name="LineageOS/android_packages_apps_Jelly" />
+	<remove-project name="LineageOS/android_packages_apps_Stk" />
+	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_aarch64_aarch64-linux-android-4.9" />
+	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_arm_arm-linux-androideabi-4.9" />
+	<remove-project name="LineageOS/android_prebuilts_gcc_darwin-x86_x86_x86_64-linux-android-4.9" />
+	<remove-project name="LineageOS/ansible" />
+	<remove-project name="LineageOS/charter" />
+	<remove-project name="LineageOS/cm_crowdin" />
+	<remove-project name="LineageOS/contributors-cloud-generator" />
+	<remove-project name="LineageOS/cve_tracker" />
+	<remove-project name="LineageOS/hudson" />
+	<remove-project name="LineageOS/lineage_wiki" />
+	<remove-project name="LineageOS/mirror" />
+	<remove-project name="LineageOS/scripts" />
+	<remove-project name="LineageOS/slackbot" />
+	<remove-project name="LineageOS/www" />
+	<remove-project name="platform/packages/apps/SampleLocationAttribution" />
+	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
+	<remove-project name="platform/prebuilts/gcc/darwin-x86/host/i686-apple-darwin-4.2.1" />
+	<remove-project name="platform/prebuilts/gdb/darwin-x86" />
+	<remove-project name="platform/prebuilts/go/darwin-x86" />
+	<remove-project name="platform/prebuilts/python/darwin-x86/2.7.5" />
+<!-- END OF UNNECESSARY REPO REMOVAL -->
+
+<!-- START OF BRANCH SWITCHING -->
+	<!--<remove-project name="platform/external/swiftshader" />
+	<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />-->
+
+	<!-- Switch to the Mulch WebView -->
+	<remove-project name="LineageOS/android_external_chromium-webview" />
+	<project path="external/chromium-webview" name="divested-mobile/mulch" groups="pdk" clone-depth="1" remote="gitlab" revision="master" />
+<!-- END OF BRANCH SWITCHING -->
+
+<!-- START OF ADDITIONAL REPOS -->
+	<!-- GrapheneOS -->
+	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="12.1" />
+<!-- END OF ADDITIONAL REPOS -->
+
+<!-- START OF DEVICE REPOS -->
+	<!-- Common -->
+	<project path="system/qcom" name="LineageOS/android_system_qcom" remote="github" />
+	<project path="external/bson" name="LineageOS/android_external_bson" remote="github" />
+	<project path="hardware/sony/macaddrsetup" name="LineageOS/android_hardware_sony_macaddrsetup" remote="github" />
+	<project path="hardware/sony/simdetect" name="LineageOS/android_hardware_sony_simdetect" remote="github" />
+	<project path="hardware/sony/SonyOpenTelephony" name="LineageOS/android_hardware_sony_SonyOpenTelephony" remote="github" />
+
+	<!-- Google Pixel 2 (taimen/walleye) -->
+	<project path="device/google/taimen" name="LineageOS/android_device_google_taimen" remote="github" />
+	<project path="device/google/muskie" name="LineageOS/android_device_google_muskie" remote="github" />
+	<project path="device/google/walleye" name="LineageOS/android_device_google_walleye" remote="github" />
+	<project path="device/google/wahoo" name="LineageOS/android_device_google_wahoo" remote="github" />
+	<project path="kernel/google/wahoo" name="LineageOS/android_kernel_google_wahoo" remote="github" />
+
+</manifest>

@@ -5,6 +5,7 @@ Subject: [PATCH] use Scudo on 32-bit and hardened_malloc on 64-bit
 
 Co-authored-by: anupritaisno1 <www.anuprita804@gmail.com>
 Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+[tad@spotco.us]: kept Lineage's scudo 32-bit workaround
 ---
  libc/Android.bp                  | 39 +++++++++++-------------
  libc/bionic/h_malloc_wrapper.cpp | 51 ++++++++++++++++++++++++++++++++

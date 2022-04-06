@@ -26,7 +26,6 @@ index 4b4ba3ccb8..dac79d1ff7 100644
  DEXPREOPT_DISABLED_MODULES :=
  # If a module has multiple setups, the first takes precedence.
 diff --git a/target/product/security/Android.mk b/target/product/security/Android.mk
-index cedad5b490..7eea027506 100644
 --- a/target/product/security/Android.mk
 +++ b/target/product/security/Android.mk
 @@ -63,8 +63,15 @@ LOCAL_MODULE_CLASS := ETC
@@ -52,8 +51,8 @@ index cedad5b490..7eea027506 100644
  extra_recovery_keys := $(patsubst %,%.x509.pem,$(PRODUCT_EXTRA_RECOVERY_KEYS))
  
 -$(LOCAL_BUILT_MODULE): PRIVATE_CERT := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
-++OTA_PUBLIC_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
-++
++OTA_PUBLIC_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
++
 +ifneq ($(OTA_KEY_OVERRIDE_DIR),)
 +    OTA_PUBLIC_KEYS := $(OTA_KEY_OVERRIDE_DIR)/releasekey.x509.pem
 +endif

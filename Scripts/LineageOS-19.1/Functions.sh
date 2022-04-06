@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2022-04-04
 
 patchAllKernels() {
-	startPatcher ""; #XXX 19REBASE
+	startPatcher "kernel_google_wahoo";
 }
 export -f patchAllKernels;
 
@@ -55,7 +55,9 @@ buildAll() {
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
-	 #XXX 19REBASE
+	#SD835
+	buildDevice taimen avb;
+	#buildDevice walleye avb;
 }
 export -f buildAll;
 
@@ -65,7 +67,9 @@ patchWorkspace() {
 	touch DOS_PATCHED_FLAG;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
+	repopick -i 328251; #Scape apostrophes
+	#repopick -it S_asb_2022-04;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
