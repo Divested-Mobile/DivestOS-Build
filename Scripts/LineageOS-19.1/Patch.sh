@@ -381,6 +381,14 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
+if enterAndClear "device/google/bonito"; then
+#awk -i inplace '!/INODE_COUNT/' BoardConfigLineage.mk; #mke2fs -1 incompatibility (?) #XXX 19REBASE: still needed?
+fi;
+
+if enterAndClear "device/google/redbull"; then
+awk -i inplace '!/sctp/' BoardConfig-common.mk modules.load; #fix compile after hardenDefconfig
+fi;
+
 if enterAndClear "kernel/google/wahoo"; then
 sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
 fi;

@@ -59,11 +59,74 @@
 	<project path="hardware/sony/simdetect" name="LineageOS/android_hardware_sony_simdetect" remote="github" />
 	<project path="hardware/sony/SonyOpenTelephony" name="LineageOS/android_hardware_sony_SonyOpenTelephony" remote="github" />
 
+	<!-- F(x)tec Pro¹ (pro1) -->
+	<project path="device/fxtec/pro1" name="LineageOS/android_device_fxtec_pro1" remote="github" />
+	<project path="kernel/fxtec/msm8998" name="LineageOS/android_kernel_fxtec_msm8998" remote="github" />
+
 	<!-- Google Pixel 2 (taimen/walleye) -->
 	<project path="device/google/taimen" name="LineageOS/android_device_google_taimen" remote="github" />
 	<project path="device/google/muskie" name="LineageOS/android_device_google_muskie" remote="github" />
 	<project path="device/google/walleye" name="LineageOS/android_device_google_walleye" remote="github" />
 	<project path="device/google/wahoo" name="LineageOS/android_device_google_wahoo" remote="github" />
 	<project path="kernel/google/wahoo" name="LineageOS/android_kernel_google_wahoo" remote="github" />
+
+	<!-- Google Pixel 3 (crosshatch/blueline) -->
+	<project path="device/google/crosshatch" name="LineageOS/android_device_google_crosshatch" remote="github" />
+	<project path="device/google/blueline" name="LineageOS/android_device_google_blueline" remote="github" />
+	<project path="kernel/google/msm-4.9" name="LineageOS/android_kernel_google_msm-4.9" remote="github" />
+
+	<!-- Google Pixel 3a (bonito/sargo) -->
+	<project path="device/google/bonito" name="LineageOS/android_device_google_bonito" remote="github" />
+	<project path="device/google/sargo" name="LineageOS/android_device_google_sargo" remote="github" />
+	<!-- uses google/msm-4.9 kernel -->
+
+	<!-- Google Pixel 4 (coral/flame) -->
+	<project path="device/google/coral" name="LineageOS/android_device_google_coral" remote="github" />
+	<project path="device/google/flame" name="LineageOS/android_device_google_flame" remote="github" />
+	<project path="kernel/google/msm-4.14" name="LineageOS/android_kernel_google_msm-4.14" remote="github" />
+
+	<!-- Google Pixel 4a (sunfish) -->
+	<project path="device/google/sunfish" name="LineageOS/android_device_google_sunfish" remote="github" />
+	<!-- uses google/msm-4.14 kernel -->
+
+	<!-- Google Pixel 4a 5G (bramble) -->
+	<project path="device/google/bramble" name="LineageOS/android_device_google_bramble" remote="github" />
+	<project path="device/google/redbull" name="LineageOS/android_device_google_redbull" remote="github" />
+	<project path="kernel/google/redbull" name="LineageOS/android_kernel_google_redbull" remote="github" />
+
+	<!-- Google Pixel 5 (redfin) -->
+	<project path="device/google/redfin" name="LineageOS/android_device_google_redfin" remote="github" />
+	<!-- uses redbull commons -->
+
+	<!-- OnePlus 6 (enchilada) -->
+	<project path="hardware/oneplus" name="LineageOS/android_hardware_oneplus" remote="github" />
+	<project path="device/oneplus/sdm845-common" name="LineageOS/android_device_oneplus_sdm845-common" remote="github" />
+	<project path="device/oneplus/enchilada" name="LineageOS/android_device_oneplus_enchilada" remote="github" />
+	<project path="kernel/oneplus/sdm845" name="LineageOS/android_kernel_oneplus_sdm845" remote="github" />
+
+	<!-- OnePlus 6T (fajita) -->
+	<project path="device/oneplus/fajita" name="LineageOS/android_device_oneplus_fajita" remote="github" />
+
+	<!-- OnePlus 7 Pro (guacamole) -->
+	<project path="device/oneplus/sm8150-common" name="LineageOS/android_device_oneplus_sm8150-common" remote="github" />
+	<project path="device/oneplus/guacamole" name="LineageOS/android_device_oneplus_guacamole" remote="github" />
+	<project path="kernel/oneplus/sm8150" name="LineageOS/android_kernel_oneplus_sm8150" remote="github" />
+
+	<!-- OnePlus 7T Pro (hotdog) -->
+	<project path="device/oneplus/hotdog" name="LineageOS/android_device_oneplus_hotdog" remote="github" />
+
+	<!-- OnePlus 7T (hotdogb) -->
+	<project path="device/oneplus/hotdogb" name="LineageOS/android_device_oneplus_hotdogb" remote="github" />
+
+	<!-- Sony Xperia XA2 (pioneer) -->
+	<project path="device/sony/pioneer" name="LineageOS/android_device_sony_pioneer" remote="github" />
+	<project path="device/sony/nile-common" name="LineageOS/android_device_sony_nile-common" remote="github" />
+	<project path="kernel/sony/sdm660" name="LineageOS/android_kernel_sony_sdm660" remote="github" />
+
+	<!-- Sony Xperia XA2 Plus (voyager) -->
+	<project path="device/sony/voyager" name="LineageOS/android_device_sony_voyager" remote="github" />
+
+	<!-- Sony Xperia XA2 Ultra (discovery) -->
+	<project path="device/sony/discovery" name="LineageOS/android_device_sony_discovery" remote="github" />
 
 </manifest>

@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2022-04-04
 
 patchAllKernels() {
-	startPatcher "kernel_google_wahoo";
+	startPatcher "kernel_fxtec_msm8998 kernel_google_msm-4.9 kernel_google_msm-4.14 kernel_google_redbull kernel_google_wahoo kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_sony_sdm660";
 }
 export -f patchAllKernels;
 
@@ -55,9 +55,33 @@ buildAll() {
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
+	#SD630
+	buildDevice pioneer;
+	buildDevice voyager;
+	buildDevice discovery;
 	#SD835
 	buildDevice taimen avb;
-	#buildDevice walleye avb;
+	buildDevice walleye avb;
+	#SD845
+	buildDevice pro1 avb;
+	buildDevice crosshatch avb;
+	buildDevice blueline avb;
+	buildDevice enchilada avb; #TODO: update kernel to 4.9.282 like 18.1
+	buildDevice fajita avb;
+	#SD730
+	buildDevice sunfish avb;
+	#SD855
+	buildDevice guacamole avb;
+	buildDevice hotdog avb;
+	buildDevice hotdogb avb;
+	buildDevice coral avb;
+	buildDevice flame avb;
+	#SD765
+	buildDevice bramble avb;
+	buildDevice redfin avb;
+	#SD670
+	buildDevice bonito avb;
+	buildDevice sargo avb;
 }
 export -f buildAll;
 
