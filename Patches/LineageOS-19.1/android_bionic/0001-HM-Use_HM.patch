@@ -7,14 +7,14 @@ Co-authored-by: anupritaisno1 <www.anuprita804@gmail.com>
 Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
 [tad@spotco.us]: kept Lineage's scudo 32-bit workaround
 ---
- libc/Android.bp                  | 39 +++++++++++-------------
- libc/bionic/h_malloc_wrapper.cpp | 51 ++++++++++++++++++++++++++++++++
+ libc/Android.bp                  | 54 +++++++++++++++-----------------
+ libc/bionic/h_malloc_wrapper.cpp | 51 ++++++++++++++++++++++++++++++
  libc/bionic/malloc_common.h      |  8 +++++
- 3 files changed, 77 insertions(+), 21 deletions(-)
+ 3 files changed, 84 insertions(+), 29 deletions(-)
  create mode 100644 libc/bionic/h_malloc_wrapper.cpp
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index 98b878151..75b06f58c 100644
+index 98b878151..4bc0a77b3 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
 @@ -68,6 +68,8 @@ libc_common_flags = [
@@ -26,7 +26,7 @@ index 98b878151..75b06f58c 100644
  ]
  
  // Define some common cflags
-@@ -113,33 +115,20 @@ cc_defaults {
+@@ -113,19 +115,6 @@ cc_defaults {
      ldflags: ["-Wl,-z,muldefs"],
  
      multilib: {
@@ -46,15 +46,8 @@ index 98b878151..75b06f58c 100644
          lib32: {
              product_variables: {
                  malloc_zero_contents: {
-                     cflags: ["-DSCUDO_ZERO_CONTENTS"],
-                 },
-                 malloc_pattern_fill_contents: {
--                    cflags: ["-DSCUDO_PATTERN_FILL_CONTENTS"],
-+                     cflags: ["-DSCUDO_PATTERN_FILL_CONTENTS"],
-                 },
-                 malloc_not_svelte_libc32: {
--                    cflags: ["-DUSE_SCUDO"],
-+                   cflags: ["-DUSE_SCUDO"],
+@@ -138,8 +127,8 @@ cc_defaults {
+                     cflags: ["-DUSE_SCUDO"],
                  },
              },
 -        },
@@ -64,7 +57,37 @@ index 98b878151..75b06f58c 100644
  }
  
  libc_scudo_product_variables = {
-@@ -194,12 +183,20 @@ cc_defaults {
+@@ -173,20 +162,19 @@ libc32_scudo_product_variables = {
+ // ========================================================
+ cc_defaults {
+     name: "libc_native_allocator_defaults",
+-
+-    whole_static_libs: [
+-        "libjemalloc5",
+-        "libc_jemalloc_wrapper",
+-    ],
+-    header_libs: ["gwp_asan_headers"],
++    whole_static_libs: ["libc_jemalloc_wrapper"],
+     multilib: {
+-        lib64: {
+-            product_variables: libc_scudo_product_variables,
+-        },
+         lib32: {
++            whole_static_libs: ["libjemalloc5"],
+             product_variables: libc32_scudo_product_variables,
+-        }
++        },
++        lib64: {
++            cflags: ["-DH_MALLOC_PREFIX"],
++            whole_static_libs: ["libhardened_malloc"],
++        },
+     },
++
++    header_libs: ["gwp_asan_headers"],
+ }
+ 
+ // Functions not implemented by jemalloc directly, or that need to
+@@ -194,12 +182,20 @@ cc_defaults {
  cc_library_static {
      name: "libc_jemalloc_wrapper",
      defaults: ["libc_defaults"],

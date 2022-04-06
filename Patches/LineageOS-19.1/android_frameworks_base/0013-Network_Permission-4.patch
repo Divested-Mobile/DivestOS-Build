@@ -1,4 +1,4 @@
-From 2f262ed47122e57283ee85c2cca138728559ef35 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
 Date: Mon, 10 Jan 2022 15:50:33 +0200
 Subject: [PATCH] make DownloadManager.enqueue() a no-op when INTERNET
@@ -9,7 +9,7 @@ Subject: [PATCH] make DownloadManager.enqueue() a no-op when INTERNET
  1 file changed, 8 insertions(+)
 
 diff --git a/core/java/android/app/DownloadManager.java b/core/java/android/app/DownloadManager.java
-index 355092378279..cb4a16641953 100644
+index c209660f4197..ed0ba8b4b642 100644
 --- a/core/java/android/app/DownloadManager.java
 +++ b/core/java/android/app/DownloadManager.java
 @@ -16,6 +16,7 @@
@@ -20,7 +20,7 @@ index 355092378279..cb4a16641953 100644
  import android.annotation.NonNull;
  import android.annotation.Nullable;
  import android.annotation.RequiresPermission;
-@@ -31,6 +32,7 @@
+@@ -31,6 +32,7 @@ import android.content.ContentResolver;
  import android.content.ContentUris;
  import android.content.ContentValues;
  import android.content.Context;
@@ -28,7 +28,7 @@ index 355092378279..cb4a16641953 100644
  import android.database.Cursor;
  import android.database.CursorWrapper;
  import android.database.DatabaseUtils;
-@@ -1115,6 +1117,12 @@ public void onMediaStoreDownloadsDeleted(@NonNull LongSparseArray<String> idToMi
+@@ -1123,6 +1125,12 @@ public class DownloadManager {
       * calls related to this download.
       */
      public long enqueue(Request request) {

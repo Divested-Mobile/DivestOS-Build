@@ -35,7 +35,7 @@ sed -i 's/static bool slab_nomerge __ro_after_init = !IS_ENABLED(CONFIG_SLAB_MER
 #sed -i 's/= IS_ENABLED(CONFIG_PAGE_POISONING_ENABLE_DEFAULT);/= true;/' kernel/*/*/mm/page_poison.c &>/dev/null || true; #4.4+ #XXX: shouldn't be enabled past 5.3
 
 #Build speedup
-sed -i 's/flags.Tidy = true/flags.Tidy = false/' build/soong/cc/tidy.go &>/dev/null || true; #Disable clang-tidy (GrapheneOS/kdrag0n)
+sed -i 's/flags.Tidy = true/flags.Tidy = false/' build/soong/cc/tidy.go &>/dev/null || true; #Disable clang-tidy (kdrag0n)
 
 cd "$DOS_BUILD_BASE";
 echo -e "\e[0;32m[SCRIPT COMPLETE] Post tweaks complete\e[0m";

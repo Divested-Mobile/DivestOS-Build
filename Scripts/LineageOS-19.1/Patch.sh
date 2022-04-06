@@ -153,6 +153,7 @@ sed -i 's/sys.spawn.exec/persist.security.exec_spawn/' core/java/com/android/int
 fi;
 applyPatch "$DOS_PATCHES/android_frameworks_base/0020-Location_Indicators-1.patch"; #SystemUI: Use new privacy indicators for location (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0020-Location_Indicators-2.patch"; #Exclude Bluetooth app from Location indicators (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0021-Boot_Animation.patch"; #Use basic boot animation
 hardenLocationConf services/core/java/com/android/server/location/gnss/gps_debug.conf; #Harden the default GPS config
 changeDefaultDNS; #Change the default DNS servers
 sed -i 's/DEFAULT_USE_COMPACTION = false;/DEFAULT_USE_COMPACTION = true;/' services/core/java/com/android/server/am/CachedAppOptimizer.java; #Enable app compaction by default (GrapheneOS)
@@ -239,7 +240,7 @@ if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_pa
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
+#applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969) #XXX 19REBASE: broken?
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (CalyxOS) #XXX 19REBASE
 if [ "$DOS_TIMEOUTS" = true ]; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0005-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
@@ -278,6 +279,11 @@ applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Perm
 applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-2.patch"; #Use uid instead of app id (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-3.patch"; #Skip reportNetworkConnectivity() when permission is revoked (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0002-Private_DNS.patch"; #More 'Private DNS' options (CalyxOS) #XXX 19REBASE
+fi;
+
+if enterAndClear "packages/modules/DnsResolver"; then
+applyPatch "$DOS_PATCHES/android_packages_modules_DnsResolver/0001-Hosts_Cache.patch"; #DnsResolver: Sort and cache hosts file data for fast lookup (LineageOS)
+applyPatch "$DOS_PATCHES/android_packages_modules_DnsResolver/0002-Hosts_Wildcards.patch"; #DnsResolver: Support wildcards in cached hosts file (LineageOS)
 fi;
 
 if [ "$DOS_GRAPHENE_RANDOM_MAC" = true ]; then
@@ -366,6 +372,7 @@ if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then echo "PRODUCT_PACKAGES += UnifiedNLP
 if [ "$DOS_HOSTS_BLOCKING" = false ]; then echo "PRODUCT_PACKAGES += $DOS_HOSTS_BLOCKING_APP" >> packages.mk; fi; #Include blocker app
 #echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #Add deny usb service, all of our kernels have the necessary patch #XXX 19REBASE: is this necessary?
 echo "PRODUCT_PACKAGES += eSpeakNG" >> packages.mk; #PicoTTS needs work to compile on 18.1, use eSpeak-NG instead
+awk -i inplace '!/F-DroidPrivilegedExtensionOfficial/' packages.mk; #Appears to be broken
 fi;
 #
 #END OF ROM CHANGES

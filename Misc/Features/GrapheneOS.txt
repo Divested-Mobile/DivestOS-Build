@@ -214,13 +214,13 @@ nojit
 11 https://github.com/GrapheneOS/platform_frameworks_base/commit/3afe69fda4e6d89c90bb5d35e43ed2cc272e20dc
 11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/607919bb5de5aa42558f73840a1f1c06fc5c04fd
 
-[implemented] Bluetooth auto turn off (partial CalyxOS?
+[implemented] Bluetooth auto turn off (partial CalyxOS)
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/6577307ef97cfeb4ba951d0c9e2696a21bd1237a
 12 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/cfc5b87c62cc67b5a242a3030eba7fff934871b5
 11 https://github.com/GrapheneOS/platform_frameworks_base/commit/e9d17cd4807dbfa837b16296b3a2e4434c060002
 11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/43ca9fac87286bab5db3be5ee079e0047a469a66
 
-[implemented] Wi-Fi auto turn off (partial CalyxOS?)
+[implemented] Wi-Fi auto turn off (partial CalyxOS)
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/b008fb6e05af55577bad6046af4a91af4fccaeca
 12 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/0f8a16323cfe431da8146e5ae58972c42b4d32d6
 11 https://github.com/GrapheneOS/platform_frameworks_base/commit/423f3e151beae0c608881d4bf16b8dff22b5efc6

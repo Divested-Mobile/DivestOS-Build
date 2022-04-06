@@ -26,6 +26,7 @@ index 4b4ba3ccb8..dac79d1ff7 100644
  DEXPREOPT_DISABLED_MODULES :=
  # If a module has multiple setups, the first takes precedence.
 diff --git a/target/product/security/Android.mk b/target/product/security/Android.mk
+index cedad5b490..76d3e5ad1d 100644
 --- a/target/product/security/Android.mk
 +++ b/target/product/security/Android.mk
 @@ -63,8 +63,15 @@ LOCAL_MODULE_CLASS := ETC

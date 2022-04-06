@@ -24,7 +24,7 @@ source "$DOS_SCRIPTS_COMMON/Shell.sh";
 echo "Rebranding...";
 
 if enter "bootable/recovery"; then
-#git revert --no-edit c4071b4f; #use standard animation #XXX 19REBASE
+git revert --no-edit b8aba40343b694ddd03e2c03be5027c6c9a08371; #use standard animation
 awk -i inplace '!/DrawSurface\(logo.get\(\)/' recovery_ui/screen_ui.cpp; #Hide logo
 mogrify -format png -fill "#FF5722" -opaque "#167C80" -fuzz 10% res-*/images/*sel.png; #Recolor icons
 mogrify -format png -fill "#FF5722" -opaque "#7c4dff" -fuzz 10% res-*/images/ic_back_sel.png;
@@ -33,7 +33,7 @@ sed -i 's|0xf8, 0x90, 0xff|0xff, 0x98, 0x00|' recovery_ui/*ui.cpp; #Recolor acce
 sed -i 's|0xe6, 0x51, 0x00|0x4c, 0xaf, 0x50|' recovery_ui/*ui.cpp; #Recolor accents (fastboot primary)
 sed -i 's|0xfd, 0xd8, 0x35|0x8b, 0xc3, 0x4a|' recovery_ui/*ui.cpp; #Recolor accents (fastboot secondary)
 sed -i 's|0xfd, 0xd8,0x35|0x8b, 0xc3, 0x4a|' recovery_ui/*ui.cpp; #Recolor accents (fastboot secondary typo)
-#sed -i 's|0x16, 0x7c, 0x80|0x03, 0xa9, 0xf4|' recovery_ui/*ui.cpp; #Recolor text #XXX 19REBASE
+sed -i 's|0x16, 0x7c, 0x80|0x03, 0xa9, 0xf4|' recovery_ui/*ui.cpp; #Recolor text
 sed -i 's|Android Recovery|'"$DOS_BRANDING_NAME"' Recovery|' recovery_ui/*ui.cpp; #not used (yet)
 sed -i 's|LineageOS|'"$DOS_BRANDING_NAME"'|' recovery_ui/*ui.cpp; #not used (yet)
 sed -i 's|Lineage |'"$DOS_BRANDING_NAME"' |' recovery.cpp; #not used (yet)
