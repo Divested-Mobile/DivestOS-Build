@@ -38,17 +38,15 @@ enableAVB() {
 		awk -i inplace '!/AVB_MAKE_VBMETA_IMAGE_ARGS += --set_hashtree_disabled_flag/' *.mk &>/dev/null || true;
 		awk -i inplace '!/AVB_MAKE_VBMETA_IMAGE_ARGS += --flag/' *.mk &>/dev/null || true;
 		#Disable chaining
-		if [ "$DOS_SIGNING_NOCHAIN" = true ]; then
-			awk -i inplace '!/BOARD_AVB_VBMETA_SYSTEM/' *.mk &>/dev/null || true;
-			awk -i inplace '!/BOARD_AVB_BOOT/' *.mk &>/dev/null || true;
-			awk -i inplace '!/BOARD_AVB_RECOVERY/' *.mk &>/dev/null || true;
-			sed -i 's/vbmeta_system//' *.mk &>/dev/null || true;
-			sed -i '/\/system /{s|avb=vbmeta_system|avb=vbmeta|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
-			sed -i '/\/system_ext/{s|avb=vbmeta_system|avb|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
-			sed -i '/\/system_ext/{s|avb=vbmeta|avb|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
-			sed -i '/\/vendor/{s|avb=vbmeta_system|avb|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
-			sed -i '/\/vendor/{s|avb=vbmeta|avb|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
-		fi;
+		awk -i inplace '!/BOARD_AVB_VBMETA_SYSTEM/' *.mk &>/dev/null || true;
+		awk -i inplace '!/BOARD_AVB_BOOT/' *.mk &>/dev/null || true;
+		awk -i inplace '!/BOARD_AVB_RECOVERY/' *.mk &>/dev/null || true;
+		sed -i 's/vbmeta_system//' *.mk &>/dev/null || true;
+		sed -i '/\/system /{s|avb=vbmeta_system|avb=vbmeta|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
+		sed -i '/\/system_ext/{s|avb=vbmeta_system|avb|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
+		sed -i '/\/system_ext/{s|avb=vbmeta|avb|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
+		sed -i '/\/vendor/{s|avb=vbmeta_system|avb|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
+		sed -i '/\/vendor/{s|avb=vbmeta|avb|}' fstab.* root/fstab.* rootdir/fstab.* rootdir/*/fstab.* &>/dev/null || true;
 		echo "Enabled AVB for $1";
 		cd "$DOS_BUILD_BASE";
 	fi;

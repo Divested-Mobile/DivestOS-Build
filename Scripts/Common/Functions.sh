@@ -208,10 +208,6 @@ processRelease() {
 	echo -e "\e[0;32mProcessing release for $DEVICE\e[0m";
 
 	#Arguments
-	DOS_DEVICES_VBMETA=('akari' 'aura' 'aurora' 'beryllium' 'blueline' 'bonito' 'crosshatch' 'davinci' 'enchilada' 'fajita' 'FP3' 'guacamole' 'guacamoleb' 'lavender' 'pro1' 'raphael' 'sargo' 'taimen' 'walleye' 'xz2c');
-	DOS_DEVICES_VBMETA_SYSTEM=('alioth' 'avicii' 'hotdog' 'hotdogb' 'lmi' 'vayu');
-	DOS_DEVICES_VBMETA_SYSTEM_FULL=('bramble' 'coral' 'flame' 'redfin' 'sunfish');
-	DOS_DEVICES_VBMETA_EVERYTHING=('oriole' 'raven');
 	if [ "$BLOCK" != false ]; then
 		local BLOCK_SWITCHES="--block";
 	fi;
@@ -222,35 +218,8 @@ processRelease() {
 		echo -e "\e[0;32m\t+ Verified Boot 1.0\e[0m";
 	elif [[ "$VERITY" == "avb" ]]; then
 		local AVB_PKMD="$KEY_DIR/avb_pkmd.bin";
-
-		if [ "$DOS_SIGNING_NOCHAIN" = true ]; then
-			local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" --avb_vbmeta_algorithm SHA256_RSA4096);
-			echo -e "\e[0;32m\t+ Verified Boot 2.0 with VBMETA and NOCHAIN\e[0m";
-		else
-			if [[ " ${DOS_DEVICES_VBMETA[@]} " =~ " ${DEVICE} " ]]; then
-				local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" --avb_vbmeta_algorithm SHA256_RSA4096);
-				echo -e "\e[0;32m\t+ Verified Boot 2.0 with VBMETA\e[0m";
-			fi;
-			if [[ " ${DOS_DEVICES_VBMETA_SYSTEM[@]} " =~ " ${DEVICE} " ]]; then
-				local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" --avb_vbmeta_algorithm SHA256_RSA4096 \
-					--avb_system_key "$KEY_DIR/avb.pem" --avb_system_algorithm SHA256_RSA4096);
-				echo -e "\e[0;32m\t+ Verified Boot 2.0 with VBMETA and VBMETA_SYSTEM\e[0m";
-			fi;
-			if [[ " ${DOS_DEVICES_VBMETA_SYSTEM_FULL[@]} " =~ " ${DEVICE} " ]]; then
-				local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" --avb_vbmeta_algorithm SHA256_RSA4096 \
-					--avb_system_key "$KEY_DIR/avb.pem" --avb_system_algorithm SHA256_RSA4096 \
-					--avb_vbmeta_system_key "$KEY_DIR/avb.pem" --avb_vbmeta_system_algorithm SHA256_RSA4096);
-				echo -e "\e[0;32m\t+ Verified Boot 2.0 with VBMETA and VBMETA_SYSTEM_FULL\e[0m";
-			fi;
-			if [[ " ${DOS_DEVICES_VBMETA_EVERYTHING[@]} " =~ " ${DEVICE} " ]]; then
-				local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" --avb_vbmeta_algorithm SHA256_RSA4096 \
-					--avb_system_key "$KEY_DIR/avb.pem" --avb_system_algorithm SHA256_RSA4096 \
-					--avb_vbmeta_system_key "$KEY_DIR/avb.pem" --avb_vbmeta_system_algorithm SHA256_RSA4096 \
-					--avb_vbmeta_vendor_key "$KEY_DIR/avb.pem" --avb_vbmeta_vendor_algorithm SHA256_RSA4096 \
-					--avb_boot_key "$KEY_DIR/avb.pem" --avb_boot_algorithm SHA256_RSA4096);
-				echo -e "\e[0;32m\t+ Verified Boot 2.0 with VBMETA_EVERYTHING\e[0m";
-			fi;
-		fi;
+		local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" --avb_vbmeta_algorithm SHA256_RSA4096);
+		echo -e "\e[0;32m\t+ Verified Boot 2.0 with VBMETA and NOCHAIN\e[0m";
 	fi;
 	if [[ "$DOS_VERSION" == "LineageOS-17.1" ]] || [[ "$DOS_VERSION" == "LineageOS-18.1" ]] || [[ "$DOS_VERSION" == "LineageOS-19.1" ]]; then
 		local APEX_SWITCHES=(--extra_apks com.android.adbd.apex="$KEY_DIR/releasekey" \
