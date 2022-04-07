@@ -16,13 +16,6 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 umask 0022;
 
-if [ "$DOS_NON_COMMERCIAL_USE_PATCHES" = true ]; then
-	echo -e "\e[0;33mWARNING: YOU HAVE ENABLED PATCHES THAT WHILE ARE OPEN SOURCE ARE ALSO ENCUMBERED BY RESTRICTIVE LICENSES\e[0m";
-	echo -e "\e[0;33mPLEASE SEE THE 'LICENSES' FILE AT THE ROOT OF THIS REPOSITORY FOR MORE INFORMATION\e[0m";
-	echo -e "\e[0;33mDISABLE THEM BY SETTING 'NON_COMMERCIAL_USE_PATCHES' TO 'false' IN 'Scripts/init.sh'\e[0m";
-	sleep 15;
-fi;
-
 startPatcher() {
 	java -jar "$DOS_BINARY_PATCHER" patch workspace "$DOS_BUILD_BASE" "$DOS_WORKSPACE_ROOT""Patches/Linux/" "$DOS_SCRIPTS_CVES" $1;
 }
@@ -406,16 +399,6 @@ removeBuildFingerprints() {
 }
 export -f removeBuildFingerprints;
 
-disableDexPreOpt() {
-	cd "$DOS_BUILD_BASE$1";
-	if [ -f BoardConfig.mk ]; then
-		sed -i "s/WITH_DEXPREOPT := true/WITH_DEXPREOPT := false/" BoardConfig.mk;
-		echo "Disabled dexpreopt";
-	fi;
-	cd "$DOS_BUILD_BASE";
-}
-export -f disableDexPreOpt;
-
 compressRamdisks() {
 	if [ -f BoardConfig.mk ]; then
 		echo "LZMA_RAMDISK_TARGETS := boot,recovery" >> BoardConfig.mk;
@@ -423,23 +406,6 @@ compressRamdisks() {
 	fi;
 }
 export -f compressRamdisks;
-
-addVerity() {
-	echo 'ifeq ($(TARGET_BUILD_VARIANT),user)' >> device.mk;
-	echo 'PRODUCT_SYSTEM_VERITY_PARTITION := /dev/block/by-name/system' >> device.mk;
-	echo '$(call inherit-product, build/target/product/verity.mk)' >> device.mk;
-	echo 'endif' >> device.mk;
-
-	sed -i '/on init/a\\    verity_load_state' rootdir/etc/init."${PWD##*/}".rc;
-	sed -i '/on early-boot/a\\    verity_update_state' rootdir/etc/init."${PWD##*/}".rc;
-}
-export -f addVerity;
-
-optimizeImagesRecursive() {
-	find "$1" -type f -name "*.jp*g" -print0 | xargs -0 -n1 -P 16 jpegoptim;
-	find "$1" -type f -name "*.png" -print0 | xargs -0 -n1 -P 16 optipng;
-}
-export -f optimizeImagesRecursive;
 
 smallerSystem() {
 	echo "BOARD_SYSTEMIMAGE_JOURNAL_SIZE := 0" >> BoardConfig.mk;
@@ -462,18 +428,6 @@ deblobAudio() {
 	echo "Deblobbed audio!";
 }
 export -f deblobAudio;
-
-imsAllowDiag() {
-	find device -name "ims.te" -type f -exec sh -c "echo 'diag_use(ims)' >> {}" \;
-	find device -name "hal_imsrtp.te" -type f -exec sh -c "echo 'diag_use(hal_imsrtp)' >> {}" \;
-}
-export -f imsAllowDiag;
-
-extremeWiFiDeepSleep() {
-	sed -i 's/gEnablePowerSaveOffload=2/gEnablePowerSaveOffload=4/' $1;
-	echo "Enabled extreme Wi-Fi deep sleep for $1";
-}
-export -f extremeWiFiDeepSleep;
 
 volteOverride() {
 	cd "$DOS_BUILD_BASE$1";
@@ -557,14 +511,6 @@ hardenLocationFWB() {
 	echo "Enhanced location services for $dir";
 }
 export -f hardenLocationFWB;
-
-enableZram() {
-	cd "$DOS_BUILD_BASE$1";
-	sed -i 's|#/dev/block/zram0|/dev/block/zram0|' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
-	echo "Enabled zram for $1";
-	cd "$DOS_BUILD_BASE";
-}
-export -f enableZram;
 
 hardenUserdata() {
 	cd "$DOS_BUILD_BASE$1";

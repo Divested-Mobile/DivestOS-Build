@@ -54,7 +54,6 @@ buildAll() {
 	umask 0022;
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
-	if [ "$DOS_OPTIMIZE_IMAGES" = true ]; then optimizeImagesRecursive "$DOS_BUILD_BASE"; fi;
 	#SD630
 	buildDevice pioneer;
 	buildDevice voyager;
@@ -66,7 +65,7 @@ buildAll() {
 	buildDevice pro1 avb;
 	buildDevice crosshatch avb;
 	buildDevice blueline avb;
-	buildDevice enchilada avb; #TODO: update kernel to 4.9.282 like 18.1
+	buildDevice enchilada avb;
 	buildDevice fajita avb;
 	#SD730
 	buildDevice sunfish avb;
