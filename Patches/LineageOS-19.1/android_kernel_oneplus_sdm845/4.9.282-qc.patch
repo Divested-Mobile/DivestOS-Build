@@ -562,7 +562,7 @@ Change-Id: Ie4ee3fa1a2c9d22acdcb19f4d07e068ef4388513
  drivers/char/diag/diagfwd.c                   |   32 +-
  drivers/char/diag/diagfwd.h                   |    5 +-
  drivers/char/diag/diagfwd_cntl.c              |    5 +-
- drivers/char/diag/diagmem.c                   |    8 +-
+ drivers/char/diag/diagmem.c                   |    2 +-
  drivers/char/hpet.c                           |    4 +
  drivers/char/ipmi/ipmi_watchdog.c             |   22 +-
  drivers/char/pcmcia/cm4000_cs.c               |    4 +
@@ -3021,7 +3021,7 @@ Change-Id: Ie4ee3fa1a2c9d22acdcb19f4d07e068ef4388513
  tools/testing/selftests/x86/syscall_nt.c      |    1 +
  tools/usb/usbip/libsrc/usbip_host_common.c    |    2 +-
  virt/kvm/kvm_main.c                           |   25 +-
- 3015 files changed, 35155 insertions(+), 14779 deletions(-)
+ 3015 files changed, 35150 insertions(+), 14778 deletions(-)
  create mode 100644 Documentation/devicetree/bindings/input/hall_sensor.txt
  create mode 100644 Documentation/devicetree/bindings/input/misc/bma2x2.txt
  create mode 100644 Documentation/devicetree/bindings/input/misc/ltr553.txt
@@ -26174,7 +26174,7 @@ index 76d091a00204..f08cc88af35b 100644
  			"diag:peripheral: %d: pkt_id: %d\n",
  			p_info->peripheral, ctrl_pkt->pkt_id);
 diff --git a/drivers/char/diag/diagmem.c b/drivers/char/diag/diagmem.c
-index 2a3602568a1d..92e01724c313 100644
+index 2a3602568a1d..e7e8195cb30e 100644
 --- a/drivers/char/diag/diagmem.c
 +++ b/drivers/char/diag/diagmem.c
 @@ -1,4 +1,4 @@
@@ -26183,26 +26183,6 @@ index 2a3602568a1d..92e01724c313 100644
   *
   * This program is free software; you can redistribute it and/or modify
   * it under the terms of the GNU General Public License version 2 and
-@@ -152,6 +152,9 @@ void diagmem_setsize(int pool_idx, int itemsize, int poolsize)
- 	}
- 
- 	diag_mempools[pool_idx].itemsize = itemsize;
-+	if (diag_mempools[pool_idx].pool)
-+		diag_mempools[pool_idx].pool->pool_data =
-+			(void *)(uintptr_t)itemsize;
- 	diag_mempools[pool_idx].poolsize = poolsize;
- 	pr_debug("diag: Mempool %s sizes: itemsize %d poolsize %d\n",
- 		 diag_mempools[pool_idx].name, diag_mempools[pool_idx].itemsize,
-@@ -177,7 +180,8 @@ void *diagmem_alloc(struct diagchar_dev *driver, int size, int pool_type)
- 					   mempool->name);
- 			break;
- 		}
--		if (size == 0 || size > mempool->itemsize) {
-+		if (size == 0 || size > mempool->itemsize ||
-+			size > (int)mempool->pool->pool_data) {
- 			pr_err_ratelimited("diag: cannot alloc from mempool %s, invalid size: %d\n",
- 					   mempool->name, size);
- 			break;
 diff --git a/drivers/char/hpet.c b/drivers/char/hpet.c
 index bedfd2412ec1..7975ddd40b35 100644
 --- a/drivers/char/hpet.c
