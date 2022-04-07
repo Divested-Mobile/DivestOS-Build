@@ -50,6 +50,7 @@ enableAVB() {
 		sed -i '/\/vendor/{s|avb=vbmeta|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		sed -i '/\/product/{s|avb=vbmeta_system|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		sed -i '/\/product/{s|avb=vbmeta|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
+		#TODO: remove avb_keys=.*?
 		echo "Enabled AVB for $1";
 		cd "$DOS_BUILD_BASE";
 	fi;

@@ -335,7 +335,7 @@ applyPatch "$DOS_PATCHES/android_system_netd/0001-Network_Permission.patch"; #Ex
 fi;
 
 if enterAndClear "system/security"; then
-git revert --no-edit b6bff12bafc19f44d8cfd1897603523362c62929; #Known to cause issues on Pixel 3/XL and likely others (GrapheneOS)
+git revert --no-edit b6bff12bafc19f44d8cfd1897603523362c62929; #Known to cause issues on Pixel 3/XL and likely others (GrapheneOS) #XXX
 fi
 
 if enterAndClear "system/sepolicy"; then
@@ -426,8 +426,6 @@ enableAutoVarInit || true;
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l*; #Fix builds with GCC 10
 rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk || true;
-#awk -i inplace '!/config_wifi_batched_scan_supported/' device/*/*/overlay/frameworks/opt/net/wifi/service/res/values/config.xml || true; #deprecated
-#awk -i inplace '!/config_wifi_batched_scan_supported/' device/*/*/overlay/frameworks/base/core/res/res/values/config.xml || true; #deprecated
 #
 #END OF DEVICE CHANGES
 #
