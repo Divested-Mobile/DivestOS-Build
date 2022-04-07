@@ -335,6 +335,10 @@ if enterAndClear "system/netd"; then
 applyPatch "$DOS_PATCHES/android_system_netd/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
+if enterAndClear "system/security"; then
+git revert --no-edit b6bff12bafc19f44d8cfd1897603523362c62929; #Known to cause issues on Pixel 3/XL and likely others (GrapheneOS)
+fi
+
 if enterAndClear "system/sepolicy"; then
 applyPatch "$DOS_PATCHES/android_system_sepolicy/0002-protected_files.patch"; #Label protected_{fifos,regular} as proc_security (GrapheneOS) #XXX 19REBASE: add to other versions too
 if [ "$DOS_GRAPHENE_PTRACE_SCOPE" = true ]; then
