@@ -246,7 +246,8 @@ echo "Deblobbing...";
 	#blobs=$blobs"CarrierSettings.apk|CarrierSetup.apk"; #XXX: breaks radio
 	blobs=$blobs"|HardwareInfo.apk";
 	blobs=$blobs"|SCONE.apk"; #???
-	blobs=$blobs"|DevicePersonalizationPrebuilt.*.apk"; #Live Captions?
+	blobs=$blobs"|DevicePersonalizationPrebuilt.*.apk|DeviceIntelligence.*.apk";
+	overlay=$overlay"|config_defaultAttentionService|config_defaultSystemCaptionsManagerService|config_defaultSystemCaptionsService|config_systemAmbientAudioIntelligence|config_systemAudioIntelligence|config_systemNotificationIntelligence|config_systemTextIntelligence|config_systemUiIntelligence|config_systemVisualIntelligence";
 
 	#EUICC (Virtual SIM) [Google]
 	#blobs=$blobs"|EuiccGoogle.apk|EuiccSupportPixel.apk"; #EUICC is useless without GMS #XXX: breaks radio
@@ -699,25 +700,25 @@ deblobDevice() {
 		fi;
 	fi;
 	if [ -f overlay/frameworks/base/core/res/res/values/config.xml ]; then
-		awk -i inplace '!/'$overlay'/' overlay/frameworks/base/core/res/res/values/config.xml;
-		sed -i 's|<bool name="config_enableWifiDisplay">true</bool>|<bool name="config_enableWifiDisplay">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-		sed -i 's|<bool name="config_uiBlurEnabled">true</bool>|<bool name="config_uiBlurEnabled">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml; #Disable UIBlur
+		awk -i inplace '!/'$overlay'/' overlay*/frameworks/base/core/res/res/values/config.xml;
+		sed -i 's|<bool name="config_enableWifiDisplay">true</bool>|<bool name="config_enableWifiDisplay">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
+		sed -i 's|<bool name="config_uiBlurEnabled">true</bool>|<bool name="config_uiBlurEnabled">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml; #Disable UIBlur
 		#Disable IMS
 		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
-			sed -i 's|<bool name="config_carrier_volte_available">true</bool>|<bool name="config_carrier_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-			sed -i 's|<bool name="config_carrier_vt_available">true</bool>|<bool name="config_carrier_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-			sed -i 's|<bool name="config_device_volte_available">true</bool>|<bool name="config_device_volte_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-			sed -i 's|<bool name="config_device_vt_available">true</bool>|<bool name="config_device_vt_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-			sed -i 's|<bool name="config_dynamic_bind_ims">true</bool>|<bool name="config_dynamic_bind_ims">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-			awk -i inplace '!/config_ims_package/' overlay/frameworks/base/core/res/res/values/config.xml;
+			sed -i 's|<bool name="config_carrier_volte_available">true</bool>|<bool name="config_carrier_volte_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
+			sed -i 's|<bool name="config_carrier_vt_available">true</bool>|<bool name="config_carrier_vt_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
+			sed -i 's|<bool name="config_device_volte_available">true</bool>|<bool name="config_device_volte_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
+			sed -i 's|<bool name="config_device_vt_available">true</bool>|<bool name="config_device_vt_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
+			sed -i 's|<bool name="config_dynamic_bind_ims">true</bool>|<bool name="config_dynamic_bind_ims">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
+			awk -i inplace '!/config_ims_package/' overlay*/frameworks/base/core/res/res/values/config.xml;
 		fi;
 		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then
-			sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
-			sed -i 's|<bool name="config_carrier_wfc_ims_available">true</bool>|<bool name="config_carrier_wfc_ims_available">false</bool>|' overlay/frameworks/base/core/res/res/values/config.xml;
+			sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
+			sed -i 's|<bool name="config_carrier_wfc_ims_available">true</bool>|<bool name="config_carrier_wfc_ims_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
 		fi;
 	fi;
 	#if [ -f overlay/packages/services/Telephony/res/values/config.xml ]; then
-	#	awk -i inplace '!/platform_carrier_config_package/' overlay/packages/services/Telephony/res/values/config.xml; #XXX: breaks radio
+	#	awk -i inplace '!/platform_carrier_config_package/' overlay*/packages/services/Telephony/res/values/config.xml; #XXX: breaks radio
 	#fi;
 	if [ -d sepolicy ]; then
 		if [ -z "$replaceTime" ]; then
