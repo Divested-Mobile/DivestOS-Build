@@ -36,7 +36,17 @@ enableAVB() {
 	if [ -d "$DOS_BUILD_BASE/$1" ]; then
 		cd "$DOS_BUILD_BASE/$1";
 		awk -i inplace '!/AVB_MAKE_VBMETA_IMAGE_ARGS \+= --set_hashtree_disabled_flag/' *.mk &>/dev/null || true;
-		awk -i inplace '!/AVB_MAKE_VBMETA_IMAGE_ARGS \+= --flag/' *.mk &>/dev/null || true;
+		if [[ "$1" == *"xiaomi"* ]]; then #XXX: broken
+			sed -i 's/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 2/' *.mk &>/dev/null || true;
+			echo "Setting PERMISSIVE AVB for $1";
+		elif [[ "$DOS_VERSION" == "LineageOS-18.1" ]] && [[ "$1" == *"oneplus/sdm845-common"* ]]; then #XXX: uses stock /vendor
+			sed -i 's/AVB_MAKE_VBMETA_IMAGE_ARGS += --flag 2/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 2/' *.mk &>/dev/null || true;
+			sed -i 's/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 2/' *.mk &>/dev/null || true;
+			echo "Setting PERMISSIVE AVB for $1";
+		else
+			awk -i inplace '!/AVB_MAKE_VBMETA_IMAGE_ARGS \+= --flag/' *.mk &>/dev/null || true;
+			echo "Setting ENFORCING AVB for $1";
+		fi;
 		#Disable chaining
 		awk -i inplace '!/BOARD_AVB_VBMETA_SYSTEM/' *.mk &>/dev/null || true;
 		awk -i inplace '!/BOARD_AVB_BOOT/' *.mk &>/dev/null || true;
@@ -155,10 +165,20 @@ sed -i 's/wait/wait,verify/g' kernel/zuk/msm8996/arch/arm/boot/dts/qcom/zuk/comm
 sed -i 's/^\treturn VERITY_STATE_DISABLE;//' kernel/*/*/drivers/md/dm-android-verity.c &>/dev/null || true;
 #sed -i 's/#if 0/#if 1/' kernel/*/*/drivers/power/reset/msm-poweroff.c &>/dev/null || true; #TODO: needs refinement
 
-#Ensure OEM unlocking toggle is available
+#Ensure OEM unlocking toggle is always available
+sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/essential/mata/system.prop &>/dev/null || true;
+sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/fairphone/FP3/system.prop &>/dev/null || true;
+sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/fxtec/pro1/system.prop &>/dev/null || true;
+sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/nextbit/ether/system.prop &>/dev/null || true;
 sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/oneplus/avicii/system.prop &>/dev/null || true;
+sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/oneplus/avicii/system.prop &>/dev/null || true;
+sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/oneplus/msm8998-common/system.prop &>/dev/null || true;
+sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/oneplus/oneplus2/system.prop &>/dev/null || true;
+sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/oneplus/sdm845-common/system.prop &>/dev/null || true;
 sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/oneplus/sdm845-common/system.prop &>/dev/null || true;
 sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/oneplus/sm8150-common/system.prop &>/dev/null || true;
+sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/oneplus/sm8150-common/system.prop &>/dev/null || true;
+sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/razer/aura/system.prop &>/dev/null || true;
 #sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/google/yellowstone/system.prop &>/dev/null || true;
 #sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/yandex/Amber/system.prop &>/dev/null || true;
 
