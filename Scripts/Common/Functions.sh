@@ -533,7 +533,7 @@ export -f hardenUserdata;
 
 hardenBootArgs() {
 	cd "$DOS_BUILD_BASE$1";
-	sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := slub_debug=FZP /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true; #TODO: inline this
+	sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := init_on_alloc=1 init_on_free=1 page_alloc.shuffle=1 page_poison=1 kpti=on randomize_kstack_offset=on slab_nomerge slub_debug=FZP /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true; #TODO: inline this
 	echo "Hardened kernel command line arguments for $1";
 	cd "$DOS_BUILD_BASE";
 }
