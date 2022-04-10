@@ -177,7 +177,6 @@ sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/on
 sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/oneplus/sdm845-common/system.prop &>/dev/null || true;
 sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/oneplus/sdm845-common/system.prop &>/dev/null || true;
 sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/oneplus/sm8150-common/system.prop &>/dev/null || true;
-sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/oneplus/sm8150-common/system.prop &>/dev/null || true;
 sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/razer/aura/system.prop &>/dev/null || true;
 #sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/google/yellowstone/system.prop &>/dev/null || true;
 #sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/yandex/Amber/system.prop &>/dev/null || true;
