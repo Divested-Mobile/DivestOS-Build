@@ -85,6 +85,7 @@
 	<project path="hardware/sony/macaddrsetup" name="LineageOS/android_hardware_sony_macaddrsetup" remote="github" />
 	<project path="hardware/sony/simdetect" name="LineageOS/android_hardware_sony_simdetect" remote="github" />
 	<project path="hardware/sony/SonyOpenTelephony" name="LineageOS/android_hardware_sony_SonyOpenTelephony" remote="github" />
+	<project path="packages/apps/ElmyraService" name="LineageOS/android_packages_apps_ElmyraService" remote="github" />
 
 	<!-- Essential PH-1 (mata) -->
 	<project path="device/essential/mata" name="LineageOS/android_device_essential_mata" remote="github" />
