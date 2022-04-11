@@ -55,7 +55,7 @@ index 617548cadc..9caf926229 100644
          <item msgid="6490061470416867723">Small</item>
          <item msgid="3579015730662088893">Default</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 120e82f4dd..6ff1f16fdf 100644
+index 0c6fe1a541..b9f886d492 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -647,6 +647,9 @@

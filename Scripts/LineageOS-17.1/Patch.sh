@@ -152,18 +152,16 @@ fi;
 applyPatch "$DOS_PATCHES/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after three failed attempts (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0005-User_Logout.patch"; #Allow user logout (GrapheneOS)
-if [ "$DOS_SENSORS_PERM_NEW" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0011-Sensors.patch"; fi; #Permission for sensors access (MSe1969)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0012-Restore_SensorsOff.patch"; #Restore the Sensors Off tile
 applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Private_DNS.patch"; #More 'Private DNS' options (CalyxOS)
-if [ "$DOS_GRAPHENE_NETWORK_PERM" = true ]; then
-applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Network_Permission-1.patch"; #Expose the NETWORK permission (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Network_Permission-2.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Network_Permission-3.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Network_Permission-4.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Network_Permission-5.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Network_Permission-6.patch";
-applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Network_Permission-7.patch";
-fi;
+applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Special_Permissions.patch"; #Support new special runtime permissions (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Network_Permission-1.patch"; #Make INTERNET into a special runtime permission (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Network_Permission-2.patch"; #Add a NETWORK permission group for INTERNET (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Network_Permission-3.patch"; #Enforce INTERNET as a runtime permission. (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Network_Permission-4.patch"; #Fix INTERNET enforcement for secondary users (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Network_Permission-5.patch"; #Send uid for each user instead of just owner/admin user (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Network_Permission-6.patch"; #Skip reportNetworkConnectivity() when permission is revoked (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Sensors_Permission.patch"; #Add special runtime permission for other sensors (GrapheneOS)
 if [ "$DOS_TIMEOUTS" = true ]; then
 applyPatch "$DOS_PATCHES/android_frameworks_base/0015-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0016-Bluetooth_Timeout.patch"; #Timeout for Bluetooth (GrapheneOS)
@@ -187,7 +185,7 @@ rm -rf packages/PrintRecommendationService; #Creates popups to install proprieta
 fi;
 
 if enterAndClear "frameworks/native"; then
-if [ "$DOS_SENSORS_PERM_NEW" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors.patch"; fi; #Permission for sensors access (MSe1969)
+applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors.patch"; #Require OTHER_SENSORS permission for sensors (GrapheneOS)
 fi;
 
 if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
@@ -247,7 +245,7 @@ if [ "$DOS_GRAPHENE_EXEC" = true ]; then
 applyPatch "$DOS_PATCHES/android_libcore/0001-Exec_Based_Spawning-1.patch"; #Add exec-based spawning support (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_libcore/0001-Exec_Based_Spawning-2.patch";
 fi;
-if [ "$DOS_GRAPHENE_NETWORK_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_libcore/0003-Network_Permission.patch"; fi; #Expose the NETWORK permission (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_libcore/0003-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_libcore/0004-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
@@ -279,16 +277,15 @@ if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_pa
 fi;
 
 if enterAndClear "packages/apps/PermissionController"; then
-if [ "$DOS_GRAPHENE_NETWORK_PERM" = true ]; then
-applyPatch "$DOS_PATCHES/android_packages_apps_PermissionController/0001-Network_Permission-1.patch"; #Expose the NETWORK permission (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_packages_apps_PermissionController/0001-Network_Permission-2.patch";
-fi;
+applyPatch "$DOS_PATCHES/android_packages_apps_PermissionController/0001-Network_Permission-1.patch"; #Always treat INTERNET as a runtime permission (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_PermissionController/0001-Network_Permission-2.patch"; #Add INTERNET permission toggle (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_PermissionController/0001-Sensors_Permission-1.patch"; #Always treat OTHER_SENSORS as a runtime permission (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_PermissionController/0001-Sensors_Permission-2.patch"; #Add OTHER_SENSORS permission group (GrapheneOS)
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
 git revert --no-edit 486980cfecce2ca64267f41462f9371486308e9d; #Don't hide OEM unlock
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
-if [ "$DOS_SENSORS_PERM_NEW" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0002-Sensors.patch"; fi; #Permission for sensors access (MSe1969)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0003-Remove_SensorsOff_Tile.patch"; #Remove the Sensors Off development tile
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (CalyxOS)
 if [ "$DOS_TIMEOUTS" = true ]; then
@@ -333,7 +330,7 @@ fi;
 #fi;
 
 if enterAndClear "packages/providers/DownloadProvider"; then
-if [ "$DOS_GRAPHENE_NETWORK_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; fi; #Expose the NETWORK permission (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
 #if enterAndClear "packages/services/Telephony"; then
@@ -364,7 +361,7 @@ applyPatch "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #
 fi;
 
 if enterAndClear "system/netd"; then
-if [ "$DOS_GRAPHENE_NETWORK_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_system_netd/0001-Network_Permission.patch"; fi; #Expose the NETWORK permission (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_system_netd/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
 if enterAndClear "system/sepolicy"; then

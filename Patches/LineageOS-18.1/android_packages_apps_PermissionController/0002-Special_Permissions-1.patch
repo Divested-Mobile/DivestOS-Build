@@ -4,13 +4,13 @@ Date: Sat, 12 Sep 2020 15:40:58 -0700
 Subject: [PATCH] refactor handling of special runtime permissions
 
 ---
- .../permission/model/AppPermissionGroup.java    |  5 ++---
- .../permission/model/Permission.java            |  5 +++--
- .../permission/utils/Utils.java                 | 17 +++++++++++++++++
- 3 files changed, 22 insertions(+), 5 deletions(-)
+ .../permission/model/AppPermissionGroup.java   |  5 ++---
+ .../permission/model/Permission.java           |  5 +++--
+ .../permission/utils/Utils.java                | 18 ++++++++++++++++++
+ 3 files changed, 23 insertions(+), 5 deletions(-)
 
 diff --git a/src/com/android/permissioncontroller/permission/model/AppPermissionGroup.java b/src/com/android/permissioncontroller/permission/model/AppPermissionGroup.java
-index 0399a1836..cb4eab9f7 100644
+index 4838046ac..cb4eab9f7 100644
 --- a/src/com/android/permissioncontroller/permission/model/AppPermissionGroup.java
 +++ b/src/com/android/permissioncontroller/permission/model/AppPermissionGroup.java
 @@ -34,7 +34,6 @@ import android.content.pm.PackageManager;
@@ -25,7 +25,7 @@ index 0399a1836..cb4eab9f7 100644
  
              boolean wasGranted = permission.isGrantedIncludingAppOp();
  
--            if (mAppSupportsRuntimePermissions || Manifest.permission.INTERNET.equals(permission.getName())) {
+-            if (mAppSupportsRuntimePermissions || Manifest.permission.INTERNET.equals(permission.getName()) || Manifest.permission.OTHER_SENSORS.equals(permission.getName())) {
 +            if (mAppSupportsRuntimePermissions || Utils.isSpecialRuntimePermission(permission.getName())) {
                  // Do not touch permissions fixed by the system.
                  if (permission.isSystemFixed()) {
@@ -34,13 +34,13 @@ index 0399a1836..cb4eab9f7 100644
                  break;
              }
  
--            if (mAppSupportsRuntimePermissions || Manifest.permission.INTERNET.equals(permission.getName())) {
+-            if (mAppSupportsRuntimePermissions || Manifest.permission.INTERNET.equals(permission.getName()) || Manifest.permission.OTHER_SENSORS.equals(permission.getName())) {
 +            if (mAppSupportsRuntimePermissions || Utils.isSpecialRuntimePermission(permission.getName())) {
                  // Revoke the permission if needed.
                  if (permission.isGranted()) {
                      permission.setGranted(false);
 diff --git a/src/com/android/permissioncontroller/permission/model/Permission.java b/src/com/android/permissioncontroller/permission/model/Permission.java
-index 3af5241af..3f17de882 100644
+index f65b75a9c..3f17de882 100644
 --- a/src/com/android/permissioncontroller/permission/model/Permission.java
 +++ b/src/com/android/permissioncontroller/permission/model/Permission.java
 @@ -18,10 +18,11 @@ package com.android.permissioncontroller.permission.model;
@@ -60,16 +60,16 @@ index 3af5241af..3f17de882 100644
       * @return {@code true} if the permission (and the app-op) is granted.
       */
      public boolean isGrantedIncludingAppOp() {
--        return mGranted && (!affectsAppOp() || isAppOpAllowed()) && (!isReviewRequired() || Manifest.permission.INTERNET.equals(mName));
+-        return mGranted && (!affectsAppOp() || isAppOpAllowed()) && (!isReviewRequired() || Manifest.permission.INTERNET.equals(mName) || Manifest.permission.OTHER_SENSORS.equals(mName));
 +        return mGranted && (!affectsAppOp() || isAppOpAllowed()) && (!isReviewRequired() || Utils.isSpecialRuntimePermission(mName));
      }
  
      public boolean isReviewRequired() {
 diff --git a/src/com/android/permissioncontroller/permission/utils/Utils.java b/src/com/android/permissioncontroller/permission/utils/Utils.java
-index 2f0dc3d21..dab86e734 100644
+index 81d1994bc..2c55aed22 100644
 --- a/src/com/android/permissioncontroller/permission/utils/Utils.java
 +++ b/src/com/android/permissioncontroller/permission/utils/Utils.java
-@@ -145,6 +145,9 @@ public final class Utils {
+@@ -146,6 +146,9 @@ public final class Utils {
       */
      public static final long ONE_TIME_PERMISSIONS_TIMEOUT_MILLIS = 1 * 60 * 1000; // 1 minute
  
@@ -79,17 +79,18 @@ index 2f0dc3d21..dab86e734 100644
      /** Mapping permission -> group for all dangerous platform permissions */
      private static final ArrayMap<String, String> PLATFORM_PERMISSIONS;
  
-@@ -212,6 +215,9 @@ public final class Utils {
- 
+@@ -214,6 +217,10 @@ public final class Utils {
          PLATFORM_PERMISSIONS.put(Manifest.permission.INTERNET, NETWORK);
+         PLATFORM_PERMISSIONS.put(Manifest.permission.OTHER_SENSORS, OTHER_SENSORS);
  
 +        SPECIAL_RUNTIME_PERMISSIONS = new ArrayMap<>();
 +        SPECIAL_RUNTIME_PERMISSIONS.put(Manifest.permission.INTERNET, NETWORK);
++        SPECIAL_RUNTIME_PERMISSIONS.put(Manifest.permission.OTHER_SENSORS, OTHER_SENSORS);
 +
          PLATFORM_PERMISSION_GROUPS = new ArrayMap<>();
          int numPlatformPermissions = PLATFORM_PERMISSIONS.size();
          for (int i = 0; i < numPlatformPermissions; i++) {
-@@ -642,6 +648,17 @@ public final class Utils {
+@@ -644,6 +651,17 @@ public final class Utils {
          return PLATFORM_PERMISSIONS.containsKey(permission);
      }
  

@@ -1,36 +1,62 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
-Date: Sun, 17 Mar 2019 11:59:15 -0400
-Subject: [PATCH] make INTERNET into a special runtime permission
+Date: Fri, 21 Jul 2017 11:23:07 -0400
+Subject: [PATCH] add a NETWORK permission group for INTERNET
 
 ---
- core/res/AndroidManifest.xml                                    | 2 +-
- .../android/server/pm/permission/PermissionManagerService.java  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ api/current.txt                 | 1 +
+ core/res/AndroidManifest.xml    | 8 ++++++++
+ core/res/res/values/strings.xml | 5 +++++
+ 3 files changed, 14 insertions(+)
 
+diff --git a/api/current.txt b/api/current.txt
+index cd78602d9cd9..b99634c11742 100644
+--- a/api/current.txt
++++ b/api/current.txt
+@@ -176,6 +176,7 @@ package android {
+     field public static final String CONTACTS = "android.permission-group.CONTACTS";
+     field public static final String LOCATION = "android.permission-group.LOCATION";
+     field public static final String MICROPHONE = "android.permission-group.MICROPHONE";
++    field public static final String NETWORK = "android.permission-group.NETWORK";
+     field public static final String PHONE = "android.permission-group.PHONE";
+     field public static final String SENSORS = "android.permission-group.SENSORS";
+     field public static final String SMS = "android.permission-group.SMS";
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 7bcd7a048db4..571099f059c8 100644
+index 571099f059c8..b51e4f21454b 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
-@@ -1539,7 +1539,7 @@
+@@ -1533,10 +1533,18 @@
+     <!-- ======================================= -->
+     <eat-comment />
+ 
++    <!-- Network access -->
++    <permission-group android:name="android.permission-group.NETWORK"
++        android:icon="@drawable/perm_group_network"
++        android:label="@string/permgrouplab_network"
++        android:description="@string/permgroupdesc_network"
++        android:priority="900" />
++
+     <!-- Allows applications to open network sockets.
+          <p>Protection level: normal
+     -->
      <permission android:name="android.permission.INTERNET"
++        android:permissionGroup="android.permission-group.UNDEFINED"
          android:description="@string/permdesc_createNetworkSockets"
          android:label="@string/permlab_createNetworkSockets"
--        android:protectionLevel="normal|instant" />
-+        android:protectionLevel="dangerous|instant" />
+         android:protectionLevel="dangerous|instant" />
+diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
+index e2afd1e1e0cc..2cf2b923ef90 100644
+--- a/core/res/res/values/strings.xml
++++ b/core/res/res/values/strings.xml
+@@ -792,6 +792,11 @@
+     <string name="permgrouprequest_sensors">Allow
+         &lt;b><xliff:g id="app_name" example="Gmail">%1$s</xliff:g>&lt;/b> to access sensor data about your vital signs?</string>
  
-     <!-- Allows applications to access information about networks.
-          <p>Protection level: normal
-diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 293bdc7ba197..3a71bc8d015b 100644
---- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-+++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-@@ -985,7 +985,7 @@ public class PermissionManagerService {
-     }
- 
-     public static boolean isSpecialRuntimePermission(final String permission) {
--        return false;
-+        return Manifest.permission.INTERNET.equals(permission);
-     }
- 
-     /**
++    <!-- Title of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
++    <string name="permgrouplab_network">Network</string>
++    <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
++    <string name="permgroupdesc_network">access the network</string>
++
+     <!-- Title for the capability of an accessibility service to retrieve window content. -->
+     <string name="capability_title_canRetrieveWindowContent">Retrieve window content</string>
+     <!-- Description for the capability of an accessibility service to retrieve window content. -->

@@ -60,10 +60,10 @@ index 8dd8e8f77..d7f8f229f 100644
                      val revocablePermissions = group.permissions.keys.toList()
  
 diff --git a/src/com/android/permissioncontroller/permission/utils/Utils.java b/src/com/android/permissioncontroller/permission/utils/Utils.java
-index dab86e734..4a7de5416 100644
+index 2c55aed22..90acf9223 100644
 --- a/src/com/android/permissioncontroller/permission/utils/Utils.java
 +++ b/src/com/android/permissioncontroller/permission/utils/Utils.java
-@@ -659,6 +659,17 @@ public final class Utils {
+@@ -662,6 +662,17 @@ public final class Utils {
          return SPECIAL_RUNTIME_PERMISSIONS.containsKey(permission);
      }
  

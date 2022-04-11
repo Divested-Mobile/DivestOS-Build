@@ -1,116 +1,36 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
-Date: Fri, 21 Jul 2017 08:42:55 -0400
-Subject: [PATCH] support new special runtime permissions
+Date: Sun, 17 Mar 2019 11:59:15 -0400
+Subject: [PATCH] make INTERNET into a special runtime permission
 
-These are treated as a runtime permission even for legacy apps. They
-need to be granted by default for all apps to maintain compatibility.
 ---
- .../server/pm/PackageManagerService.java      |  3 +-
- .../permission/PermissionManagerService.java  | 30 ++++++++++++++-----
- 2 files changed, 25 insertions(+), 8 deletions(-)
+ core/res/AndroidManifest.xml                                    | 2 +-
+ .../android/server/pm/permission/PermissionManagerService.java  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index dc44fe17722d..e9fd656478dc 100644
---- a/services/core/java/com/android/server/pm/PackageManagerService.java
-+++ b/services/core/java/com/android/server/pm/PackageManagerService.java
-@@ -19704,7 +19704,8 @@ public class PackageManagerService extends IPackageManager.Stub
-             }
+diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
+index af1a6fa9e3c5..873162098247 100644
+--- a/core/res/AndroidManifest.xml
++++ b/core/res/AndroidManifest.xml
+@@ -1361,7 +1361,7 @@
+     <permission android:name="android.permission.INTERNET"
+         android:description="@string/permdesc_createNetworkSockets"
+         android:label="@string/permlab_createNetworkSockets"
+-        android:protectionLevel="normal|instant" />
++        android:protectionLevel="dangerous|instant" />
  
-             // If this permission was granted by default, make sure it is.
--            if ((oldFlags & FLAG_PERMISSION_GRANTED_BY_DEFAULT) != 0) {
-+            if ((oldFlags & FLAG_PERMISSION_GRANTED_BY_DEFAULT) != 0
-+                    || PermissionManagerService.isSpecialRuntimePermission(bp.getName())) {
-                 if (permissionsState.grantRuntimePermission(bp, userId)
-                         != PERMISSION_OPERATION_FAILURE) {
-                     writeRuntimePermissions = true;
+     <!-- Allows applications to access information about networks.
+          <p>Protection level: normal
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 79b2636481b3..9f1fe8a6414a 100644
+index 9f1fe8a6414a..f16f671a51dd 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-@@ -730,6 +730,10 @@ public class PermissionManagerService {
-         }
+@@ -731,7 +731,7 @@ public class PermissionManagerService {
      }
  
-+    public static boolean isSpecialRuntimePermission(final String permission) {
-+        return false;
-+    }
-+
+     public static boolean isSpecialRuntimePermission(final String permission) {
+-        return false;
++        return Manifest.permission.INTERNET.equals(permission);
+     }
+ 
      private void grantPermissions(PackageParser.Package pkg, boolean replace,
-             String packageOfInterest, PermissionCallback callback) {
-         // IMPORTANT: There are two types of permissions: install and runtime.
-@@ -838,7 +842,8 @@ public class PermissionManagerService {
-                     // their permissions as always granted runtime ones since we need
-                     // to keep the review required permission flag per user while an
-                     // install permission's state is shared across all users.
--                    if (!appSupportsRuntimePermissions && !mSettings.mPermissionReviewRequired) {
-+                    if (!appSupportsRuntimePermissions && !mSettings.mPermissionReviewRequired &&
-+                            !isSpecialRuntimePermission(bp.getName())) {
-                         // For legacy apps dangerous permissions are install time ones.
-                         grant = GRANT_INSTALL;
-                     } else if (origPermissions.hasInstallPermission(bp.getName())) {
-@@ -948,7 +953,8 @@ public class PermissionManagerService {
-                                                 updatedUserIds, userId);
-                                     }
-                                 } else if (mSettings.mPermissionReviewRequired
--                                        && !appSupportsRuntimePermissions) {
-+                                        && !appSupportsRuntimePermissions
-+                                        && !isSpecialRuntimePermission(bp.getName())) {
-                                     // For legacy apps that need a permission review, every new
-                                     // runtime permission is granted but it is pending a review.
-                                     // We also need to review only platform defined runtime
-@@ -969,7 +975,15 @@ public class PermissionManagerService {
-                                         updatedUserIds = ArrayUtils.appendInt(
-                                                 updatedUserIds, userId);
-                                     }
--                                }
-+				} else if (isSpecialRuntimePermission(bp.name) &&
-+					origPermissions.getRuntimePermissionState(bp.name, userId) == null) {
-+                                    if (permissionsState.grantRuntimePermission(bp, userId)
-+                                            != PermissionsState.PERMISSION_OPERATION_FAILURE) {
-+                                        // We changed the permission, hence have to write.
-+                                        updatedUserIds = ArrayUtils.appendInt(
-+                                                updatedUserIds, userId);
-+                                    }
-+				}
-                                 // Propagate the permission flags.
-                                 permissionsState.updatePermissionFlags(bp, userId, flags, flags);
-                             }
-@@ -1421,7 +1435,7 @@ public class PermissionManagerService {
-                     && (grantedPermissions == null
-                            || ArrayUtils.contains(grantedPermissions, permission))) {
-                 final int flags = permissionsState.getPermissionFlags(permission, userId);
--                if (supportsRuntimePermissions) {
-+                if (supportsRuntimePermissions || isSpecialRuntimePermission(bp.name)) {
-                     // Installer cannot change immutable permissions.
-                     if ((flags & immutableFlags) == 0) {
-                         grantRuntimePermission(permission, pkg.packageName, false, callingUid,
-@@ -1480,7 +1494,7 @@ public class PermissionManagerService {
-         // install permission's state is shared across all users.
-         if (mSettings.mPermissionReviewRequired
-                 && pkg.applicationInfo.targetSdkVersion < Build.VERSION_CODES.M
--                && bp.isRuntime()) {
-+                && bp.isRuntime() && !isSpecialRuntimePermission(bp.name)) {
-             return;
-         }
- 
-@@ -1516,7 +1530,8 @@ public class PermissionManagerService {
-                     + permName + " for package " + packageName);
-         }
- 
--        if (pkg.applicationInfo.targetSdkVersion < Build.VERSION_CODES.M) {
-+        if (pkg.applicationInfo.targetSdkVersion < Build.VERSION_CODES.M
-+                && !isSpecialRuntimePermission(permName)) {
-             Slog.w(TAG, "Cannot grant runtime permission to a legacy app");
-             return;
-         }
-@@ -1601,7 +1616,8 @@ public class PermissionManagerService {
-         // install permission's state is shared across all users.
-         if (mSettings.mPermissionReviewRequired
-                 && pkg.applicationInfo.targetSdkVersion < Build.VERSION_CODES.M
--                && bp.isRuntime()) {
-+                && bp.isRuntime()
-+                && !isSpecialRuntimePermission(permName)) {
-             return;
-         }
- 

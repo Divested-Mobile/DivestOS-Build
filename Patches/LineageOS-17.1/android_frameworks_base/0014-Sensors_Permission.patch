@@ -1,0 +1,114 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 7 Oct 2017 15:54:42 -0400
+Subject: [PATCH] add special runtime permission for other sensors
+
+This covers sensors not included in the existing runtime permission for
+body sensors.
+---
+ api/current.txt                                      |  2 ++
+ core/java/android/content/pm/PackageParser.java      |  2 ++
+ core/res/AndroidManifest.xml                         | 12 ++++++++++++
+ core/res/res/values/strings.xml                      | 12 ++++++++++++
+ .../pm/permission/PermissionManagerService.java      |  2 +-
+ 5 files changed, 29 insertions(+), 1 deletion(-)
+
+diff --git a/api/current.txt b/api/current.txt
+index b99634c11742..d74627f45dbd 100644
+--- a/api/current.txt
++++ b/api/current.txt
+@@ -100,6 +100,7 @@ package android {
+     field public static final String MOUNT_UNMOUNT_FILESYSTEMS = "android.permission.MOUNT_UNMOUNT_FILESYSTEMS";
+     field public static final String NFC = "android.permission.NFC";
+     field public static final String NFC_TRANSACTION_EVENT = "android.permission.NFC_TRANSACTION_EVENT";
++    field public static final String OTHER_SENSORS = "android.permission.OTHER_SENSORS";
+     field public static final String PACKAGE_USAGE_STATS = "android.permission.PACKAGE_USAGE_STATS";
+     field @Deprecated public static final String PERSISTENT_ACTIVITY = "android.permission.PERSISTENT_ACTIVITY";
+     field @Deprecated public static final String PROCESS_OUTGOING_CALLS = "android.permission.PROCESS_OUTGOING_CALLS";
+@@ -177,6 +178,7 @@ package android {
+     field public static final String LOCATION = "android.permission-group.LOCATION";
+     field public static final String MICROPHONE = "android.permission-group.MICROPHONE";
+     field public static final String NETWORK = "android.permission-group.NETWORK";
++    field public static final String OTHER_SENSORS = "android.permission-group.OTHER_SENSORS";
+     field public static final String PHONE = "android.permission-group.PHONE";
+     field public static final String SENSORS = "android.permission-group.SENSORS";
+     field public static final String SMS = "android.permission-group.SMS";
+diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android/content/pm/PackageParser.java
+index 861b0d922d32..e9a0696ebaff 100644
+--- a/core/java/android/content/pm/PackageParser.java
++++ b/core/java/android/content/pm/PackageParser.java
+@@ -286,6 +286,8 @@ public class PackageParser {
+     @UnsupportedAppUsage
+     public static final PackageParser.NewPermissionInfo NEW_PERMISSIONS[] =
+         new PackageParser.NewPermissionInfo[] {
++            new PackageParser.NewPermissionInfo(android.Manifest.permission.OTHER_SENSORS,
++                    android.os.Build.VERSION_CODES.CUR_DEVELOPMENT + 1, 0),
+             new PackageParser.NewPermissionInfo(android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                     android.os.Build.VERSION_CODES.DONUT, 0),
+             new PackageParser.NewPermissionInfo(android.Manifest.permission.READ_PHONE_STATE,
+diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
+index b51e4f21454b..d5bc3cd38c07 100644
+--- a/core/res/AndroidManifest.xml
++++ b/core/res/AndroidManifest.xml
+@@ -1331,6 +1331,18 @@
+         android:description="@string/permdesc_useBiometric"
+         android:protectionLevel="normal" />
+ 
++    <permission-group android:name="android.permission-group.OTHER_SENSORS"
++        android:icon="@drawable/perm_group_location"
++        android:label="@string/permgrouplab_otherSensors"
++        android:description="@string/permgroupdesc_otherSensors"
++        android:priority="1000" />
++
++    <permission android:name="android.permission.OTHER_SENSORS"
++        android:permissionGroup="android.permission-group.UNDEFINED"
++        android:label="@string/permlab_otherSensors"
++        android:description="@string/permdesc_otherSensors"
++        android:protectionLevel="dangerous" />
++
+     <!-- ====================================================================== -->
+     <!-- REMOVED PERMISSIONS                                                    -->
+     <!-- ====================================================================== -->
+diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
+index 2cf2b923ef90..ae206c1f5872 100644
+--- a/core/res/res/values/strings.xml
++++ b/core/res/res/values/strings.xml
+@@ -792,6 +792,11 @@
+     <string name="permgrouprequest_sensors">Allow
+         &lt;b><xliff:g id="app_name" example="Gmail">%1$s</xliff:g>&lt;/b> to access sensor data about your vital signs?</string>
+ 
++    <!-- Title of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
++    <string name="permgrouplab_otherSensors">Sensors</string>
++    <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
++    <string name="permgroupdesc_otherSensors">access sensor data about orientation, movement, etc.</string>
++
+     <!-- Title of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
+     <string name="permgrouplab_network">Network</string>
+     <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
+@@ -1085,6 +1090,13 @@
+     <string name="permdesc_bodySensors" product="default">Allows the app to access data from sensors
+     that monitor your physical condition, such as your heart rate.</string>
+ 
++    <!-- Title of the sensors permission, listed so the user can decide whether to allow the application to access sensor data. [CHAR LIMIT=80] -->
++    <string name="permlab_otherSensors">access sensors (like the compass)
++    </string>
++    <!-- Description of the sensors permission, listed so the user can decide whether to allow the application to access data from sensors. [CHAR LIMIT=NONE] -->
++    <string name="permdesc_otherSensors" product="default">Allows the app to access data from sensors
++    monitoring orientation, movement, vibration (including low frequency sound) and environmental data</string>
++
+     <!-- Title of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
+     <string name="permlab_readCalendar">Read calendar events and details</string>
+     <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
+diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+index 3a71bc8d015b..3eb4262ba634 100644
+--- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
++++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+@@ -985,7 +985,7 @@ public class PermissionManagerService {
+     }
+ 
+     public static boolean isSpecialRuntimePermission(final String permission) {
+-        return Manifest.permission.INTERNET.equals(permission);
++        return Manifest.permission.INTERNET.equals(permission) || Manifest.permission.OTHER_SENSORS.equals(permission);
+     }
+ 
+     /**

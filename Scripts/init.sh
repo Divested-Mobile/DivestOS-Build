@@ -62,7 +62,6 @@ export DOS_GRAPHENE_CONSTIFY=true; #Enables 'Constify JNINativeMethod tables' pa
 export DOS_GRAPHENE_MALLOC=true; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms on 16.0+17.1+18.1+19.1
 export DOS_GRAPHENE_EXEC=true; #Enables use of GrapheneOS' exec spawning feature on 16.0+17.1+18.1+19.1
 export DOS_GRAPHENE_PTRACE_SCOPE=true; #Enables the GrapheneOS ptrace_scope toggle patchset on 17.1+18.1+19.1
-export DOS_GRAPHENE_NETWORK_PERM=true; #Enables use of GrapheneOS' NETWORK permission on 17.1+18.1, 19.1 has no toggle
 export DOS_GRAPHENE_RANDOM_MAC=true; #Enables the GrapheneOS always randomize Wi-Fi MAC patchset on 17.1+18.1+19.1
 export DOS_TIMEOUTS=true; #Enables the GrapheneOS/CalyxOS patchset for automatic timeouts of reboot/Wi-Fi/Bluetooth on 17.1+18.1+19.1
 export DOS_HOSTS_BLOCKING=true; #Set false to prevent inclusion of a HOSTS file
@@ -70,8 +69,7 @@ export DOS_HOSTS_BLOCKING_LIST="https://divested.dev/hosts-wildcards"; #Must be 
 export DOS_LOWRAM_ENABLED=false; #Set true to enable low_ram on all devices
 export DOS_MICROG_INCLUDED="NONE"; #Determines inclusion of microG. Options: NONE, NLP, FULL (removed)
 export DOS_SILENCE_INCLUDED=true; #Set false to disable inclusion of Silence SMS app
-export DOS_SENSORS_PERM=false; #Set true to provide a per-app sensors permission for 14.1/15.1/16.0 #XXX: can break things like camera
-export DOS_SENSORS_PERM_NEW=true; #For 17.1+18.1
+export DOS_SENSORS_PERM=false; #Set true to provide a per-app sensors permission for 14.1/15.1 #XXX: can break things like camera
 export DOS_STRONG_ENCRYPTION_ENABLED=false; #Set true to enable AES 256-bit FDE encryption on 14.1+15.1 XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
 export DOS_WEBVIEW_LFS=true; #Whether to `git lfs pull` in the WebView repository
 #alias DOS_WEBVIEW_CHERRYPICK='git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/00/316600/2';
@@ -132,7 +130,7 @@ gpgVerifyGitHead() {
 export -f gpgVerifyGitHead;
 
 BUILD_WORKING_DIR=${PWD##*/};
-DOS_VERSION=$BUILD_WORKING_DIR;
+export DOS_VERSION=$BUILD_WORKING_DIR;
 if [ -d ".repo" ]; then
 	echo "Detected $BUILD_WORKING_DIR";
 else

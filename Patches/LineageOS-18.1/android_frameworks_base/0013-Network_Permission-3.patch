@@ -1,81 +1,112 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Daniel Micay <danielmicay@gmail.com>
-Date: Fri, 21 Jul 2017 11:23:07 -0400
-Subject: [PATCH] add a NETWORK permission group for INTERNET
+From: Zoraver Kang <zkang@wpi.edu>
+Date: Mon, 16 Sep 2019 16:41:30 -0400
+Subject: [PATCH] Enforce INTERNET as a runtime permission.
 
-Ported from 10: b5c9f9407d5f5407686ea8c02fa67573ddc07824
-
-Changes from 10:
-- Needed to run `m api-stubs-docs-non-updatable-update-current-api`
-to fix the "You have tried to change the API from what has been
-previously approved" errors.
+Ported from 10: 69f726bc4219a7acea0319ae8d4b5fda48cd9861
 ---
- api/current.txt                 | 1 +
- core/res/AndroidManifest.xml    | 8 ++++++++
- core/res/res/values/strings.xml | 5 +++++
- non-updatable-api/current.txt   | 1 +
- 4 files changed, 15 insertions(+)
+ .../connectivity/PermissionMonitor.java       | 59 ++++++++++++-------
+ 1 file changed, 39 insertions(+), 20 deletions(-)
 
-diff --git a/api/current.txt b/api/current.txt
-index 952ccdad992c..728c0e95ca6d 100644
---- a/api/current.txt
-+++ b/api/current.txt
-@@ -184,6 +184,7 @@ package android {
-     field public static final String CONTACTS = "android.permission-group.CONTACTS";
-     field public static final String LOCATION = "android.permission-group.LOCATION";
-     field public static final String MICROPHONE = "android.permission-group.MICROPHONE";
-+    field public static final String NETWORK = "android.permission-group.NETWORK";
-     field public static final String PHONE = "android.permission-group.PHONE";
-     field public static final String SENSORS = "android.permission-group.SENSORS";
-     field public static final String SMS = "android.permission-group.SMS";
-diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 2a79c6019fc1..e70e54b62f61 100644
---- a/core/res/AndroidManifest.xml
-+++ b/core/res/AndroidManifest.xml
-@@ -1601,10 +1601,18 @@
-     <!-- ======================================= -->
-     <eat-comment />
+diff --git a/services/core/java/com/android/server/connectivity/PermissionMonitor.java b/services/core/java/com/android/server/connectivity/PermissionMonitor.java
+index f0b7150dd84f..41c013b4b197 100644
+--- a/services/core/java/com/android/server/connectivity/PermissionMonitor.java
++++ b/services/core/java/com/android/server/connectivity/PermissionMonitor.java
+@@ -29,6 +29,7 @@ import static android.os.Process.INVALID_UID;
+ import static android.os.Process.SYSTEM_UID;
  
-+    <!-- Network access -->
-+    <permission-group android:name="android.permission-group.NETWORK"
-+        android:icon="@drawable/perm_group_network"
-+        android:label="@string/permgrouplab_network"
-+        android:description="@string/permgroupdesc_network"
-+        android:priority="900" />
-+
-     <!-- Allows applications to open network sockets.
-          <p>Protection level: normal
-     -->
-     <permission android:name="android.permission.INTERNET"
-+        android:permissionGroup="android.permission-group.UNDEFINED"
-         android:description="@string/permdesc_createNetworkSockets"
-         android:label="@string/permlab_createNetworkSockets"
-         android:protectionLevel="dangerous|instant" />
-diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
-index 5c659123b027..7f114cf9b6b4 100644
---- a/core/res/res/values/strings.xml
-+++ b/core/res/res/values/strings.xml
-@@ -804,6 +804,11 @@
-     <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
-     <string name="permgroupdesc_sensors">access sensor data about your vital signs</string>
+ import android.annotation.NonNull;
++import android.annotation.UserIdInt;
+ import android.content.Context;
+ import android.content.pm.ApplicationInfo;
+ import android.content.pm.PackageInfo;
+@@ -55,6 +56,7 @@ import com.android.internal.util.ArrayUtils;
+ import com.android.internal.util.IndentingPrintWriter;
+ import com.android.server.LocalServices;
+ import com.android.server.SystemConfig;
++import com.android.server.pm.permission.PermissionManagerServiceInternal;
  
-+    <!-- Title of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
-+    <string name="permgrouplab_network">Network</string>
-+    <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
-+    <string name="permgroupdesc_network">access the network</string>
+ import java.util.ArrayList;
+ import java.util.Collection;
+@@ -80,6 +82,7 @@ public class PermissionMonitor {
+     private static final int VERSION_Q = Build.VERSION_CODES.Q;
+ 
+     private final PackageManager mPackageManager;
++    private final PackageManagerInternal mPackageManagerInternal;
+     private final UserManager mUserManager;
+     private final INetd mNetd;
+ 
+@@ -104,26 +107,6 @@ public class PermissionMonitor {
+ 
+     private class PackageListObserver implements PackageManagerInternal.PackageListObserver {
+ 
+-        private int getPermissionForUid(int uid) {
+-            int permission = 0;
+-            // Check all the packages for this UID. The UID has the permission if any of the
+-            // packages in it has the permission.
+-            String[] packages = mPackageManager.getPackagesForUid(uid);
+-            if (packages != null && packages.length > 0) {
+-                for (String name : packages) {
+-                    final PackageInfo app = getPackageInfo(name);
+-                    if (app != null && app.requestedPermissions != null) {
+-                        permission |= getNetdPermissionMask(app.requestedPermissions,
+-                              app.requestedPermissionsFlags);
+-                    }
+-                }
+-            } else {
+-                // The last package of this uid is removed from device. Clean the package up.
+-                permission = INetd.PERMISSION_UNINSTALLED;
+-            }
+-            return permission;
+-        }
+-
+         @Override
+         public void onPackageAdded(String packageName, int uid) {
+             sendPackagePermissionsForUid(uid, getPermissionForUid(uid));
+@@ -140,10 +123,46 @@ public class PermissionMonitor {
+         }
+     }
+ 
++    private int getPermissionForUid(int uid) {
++        int permission = 0;
++        // Check all the packages for this UID. The UID has the permission if any of the
++        // packages in it has the permission.
++        String[] packages = mPackageManager.getPackagesForUid(uid);
++        if (packages != null && packages.length > 0) {
++            for (String name : packages) {
++                final PackageInfo app = getPackageInfo(name);
++                if (app != null && app.requestedPermissions != null) {
++                    permission |= getNetdPermissionMask(app.requestedPermissions,
++                          app.requestedPermissionsFlags);
++                }
++            }
++        } else {
++            // The last package of this uid is removed from device. Clean the package up.
++            permission = INetd.PERMISSION_UNINSTALLED;
++        }
++        return permission;
++    }
 +
-     <!-- Title for the capability of an accessibility service to retrieve window content. -->
-     <string name="capability_title_canRetrieveWindowContent">Retrieve window content</string>
-     <!-- Description for the capability of an accessibility service to retrieve window content. -->
-diff --git a/non-updatable-api/current.txt b/non-updatable-api/current.txt
-index 5f15216e8400..189544f98594 100644
---- a/non-updatable-api/current.txt
-+++ b/non-updatable-api/current.txt
-@@ -184,6 +184,7 @@ package android {
-     field public static final String CONTACTS = "android.permission-group.CONTACTS";
-     field public static final String LOCATION = "android.permission-group.LOCATION";
-     field public static final String MICROPHONE = "android.permission-group.MICROPHONE";
-+    field public static final String NETWORK = "android.permission-group.NETWORK";
-     field public static final String PHONE = "android.permission-group.PHONE";
-     field public static final String SENSORS = "android.permission-group.SENSORS";
-     field public static final String SMS = "android.permission-group.SMS";
++    // implements OnRuntimePermissionStateChangedListener
++    private void enforceINTERNETAsRuntimePermission(@NonNull String packageName,
++            @UserIdInt int userId) {
++        // userId is _not_ uid
++        int uid = mPackageManagerInternal.getPackageUid(packageName, 0, userId);
++        sendPackagePermissionsForUid(uid, getPermissionForUid(uid));
++    }
++
+     public PermissionMonitor(Context context, INetd netd) {
+         mPackageManager = context.getPackageManager();
+         mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
+         mNetd = netd;
++
++        mPackageManagerInternal = LocalServices.getService(
++                PackageManagerInternal.class);
++
++        final PermissionManagerServiceInternal permManagerInternal = LocalServices.getService(
++                PermissionManagerServiceInternal.class);
++        permManagerInternal.addOnRuntimePermissionStateChangedListener(
++                this::enforceINTERNETAsRuntimePermission);
+     }
+ 
+     // Intended to be called only once at startup, after the system is ready. Installs a broadcast

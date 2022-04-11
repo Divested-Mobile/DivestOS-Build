@@ -1,0 +1,46 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 7 Oct 2017 15:55:58 -0400
+Subject: [PATCH] always treat OTHER_SENSORS as a runtime permission
+
+ported from 10: a1204e6126189810018ff5540858536a1c58ac37
+---
+ .../permission/model/AppPermissionGroup.java                  | 4 ++--
+ .../permissioncontroller/permission/model/Permission.java     | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/com/android/permissioncontroller/permission/model/AppPermissionGroup.java b/src/com/android/permissioncontroller/permission/model/AppPermissionGroup.java
+index 0399a1836..4838046ac 100644
+--- a/src/com/android/permissioncontroller/permission/model/AppPermissionGroup.java
++++ b/src/com/android/permissioncontroller/permission/model/AppPermissionGroup.java
+@@ -873,7 +873,7 @@ public final class AppPermissionGroup implements Comparable<AppPermissionGroup>
+ 
+             boolean wasGranted = permission.isGrantedIncludingAppOp();
+ 
+-            if (mAppSupportsRuntimePermissions || Manifest.permission.INTERNET.equals(permission.getName())) {
++            if (mAppSupportsRuntimePermissions || Manifest.permission.INTERNET.equals(permission.getName()) || Manifest.permission.OTHER_SENSORS.equals(permission.getName())) {
+                 // Do not touch permissions fixed by the system.
+                 if (permission.isSystemFixed()) {
+                     wasAllGranted = false;
+@@ -1058,7 +1058,7 @@ public final class AppPermissionGroup implements Comparable<AppPermissionGroup>
+                 break;
+             }
+ 
+-            if (mAppSupportsRuntimePermissions || Manifest.permission.INTERNET.equals(permission.getName())) {
++            if (mAppSupportsRuntimePermissions || Manifest.permission.INTERNET.equals(permission.getName()) || Manifest.permission.OTHER_SENSORS.equals(permission.getName())) {
+                 // Revoke the permission if needed.
+                 if (permission.isGranted()) {
+                     permission.setGranted(false);
+diff --git a/src/com/android/permissioncontroller/permission/model/Permission.java b/src/com/android/permissioncontroller/permission/model/Permission.java
+index 3af5241af..f65b75a9c 100644
+--- a/src/com/android/permissioncontroller/permission/model/Permission.java
++++ b/src/com/android/permissioncontroller/permission/model/Permission.java
+@@ -138,7 +138,7 @@ public final class Permission {
+      * @return {@code true} if the permission (and the app-op) is granted.
+      */
+     public boolean isGrantedIncludingAppOp() {
+-        return mGranted && (!affectsAppOp() || isAppOpAllowed()) && (!isReviewRequired() || Manifest.permission.INTERNET.equals(mName));
++        return mGranted && (!affectsAppOp() || isAppOpAllowed()) && (!isReviewRequired() || Manifest.permission.INTERNET.equals(mName) || Manifest.permission.OTHER_SENSORS.equals(mName));
+     }
+ 
+     public boolean isReviewRequired() {

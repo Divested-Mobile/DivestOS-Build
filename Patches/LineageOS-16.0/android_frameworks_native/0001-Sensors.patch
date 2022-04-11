@@ -1,156 +1,21 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: MSe1969 <mse1969@posteo.de>
-Date: Fri, 15 Mar 2019 22:14:54 +0100
-Subject: [PATCH] AppOps/PrivacyGuard: New Sensor checks [native]
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 7 Oct 2017 16:28:57 -0400
+Subject: [PATCH] require OTHER_SENSORS permission for sensors
 
-Add two AppOps for sensor access:
-- OP_MOTION_SENSORS (default: allow, strict)
-- OP_OTHER_SENSORS  (default: allow)
-
-This change updated the AppOPs binder for the newly defined Ops,
-implements the logic for the sensors and adapts the logic for
-checking the Ops, if an Op is not linked to a permission.
-
-Change-Id: Ic56e7bd48acda8790d6ab917a07cd7b747d4de87
 ---
- libs/binder/include/binder/AppOpsManager.h |  4 +++-
- libs/sensor/Sensor.cpp                     | 10 +++++++++
- services/sensorservice/SensorService.cpp   | 25 ++++++++++++----------
- 3 files changed, 27 insertions(+), 12 deletions(-)
+ libs/sensor/Sensor.cpp | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/libs/binder/include/binder/AppOpsManager.h b/libs/binder/include/binder/AppOpsManager.h
-index fb682ecde7..83887787c9 100644
---- a/libs/binder/include/binder/AppOpsManager.h
-+++ b/libs/binder/include/binder/AppOpsManager.h
-@@ -119,7 +119,9 @@ public:
-         OP_BOOT_COMPLETED = 79,
-         OP_NFC_CHANGE = 80,
-         OP_DATA_CONNECT_CHANGE = 81,
--        OP_SU = 82
-+        OP_SU = 82,
-+        OP_MOTION_SENSORS = 83,
-+        OP_OTHER_SENSORS = 84
-     };
- 
-     AppOpsManager();
 diff --git a/libs/sensor/Sensor.cpp b/libs/sensor/Sensor.cpp
-index 2383516c95..835794b1bd 100644
+index 2383516c95..054596b83a 100644
 --- a/libs/sensor/Sensor.cpp
 +++ b/libs/sensor/Sensor.cpp
 @@ -52,6 +52,7 @@ Sensor::Sensor(struct sensor_t const& hwSensor, const uuid_t& uuid, int halVersi
      mMinDelay = hwSensor.minDelay;
      mFlags = 0;
      mUuid = uuid;
-+    mRequiredAppOp = AppOpsManager::OP_OTHER_SENSORS;  //default, other values are explicitly set
++    mRequiredPermission = "android.permission.OTHER_SENSORS";
  
      // Set fifo event count zero for older devices which do not support batching. Fused
      // sensors also have their fifo counts set to zero.
-@@ -86,6 +87,7 @@ Sensor::Sensor(struct sensor_t const& hwSensor, const uuid_t& uuid, int halVersi
-     switch (mType) {
-     case SENSOR_TYPE_ACCELEROMETER:
-         mStringType = SENSOR_STRING_TYPE_ACCELEROMETER;
-+        mRequiredAppOp = AppOpsManager::OP_MOTION_SENSORS;
-         mFlags |= SENSOR_FLAG_CONTINUOUS_MODE;
-         break;
-     case SENSOR_TYPE_AMBIENT_TEMPERATURE:
-@@ -106,10 +108,12 @@ Sensor::Sensor(struct sensor_t const& hwSensor, const uuid_t& uuid, int halVersi
-         break;
-     case SENSOR_TYPE_GYROSCOPE:
-         mStringType = SENSOR_STRING_TYPE_GYROSCOPE;
-+        mRequiredAppOp = AppOpsManager::OP_MOTION_SENSORS;
-         mFlags |= SENSOR_FLAG_CONTINUOUS_MODE;
-         break;
-     case SENSOR_TYPE_GYROSCOPE_UNCALIBRATED:
-         mStringType = SENSOR_STRING_TYPE_GYROSCOPE_UNCALIBRATED;
-+        mRequiredAppOp = AppOpsManager::OP_MOTION_SENSORS;
-         mFlags |= SENSOR_FLAG_CONTINUOUS_MODE;
-         break;
-     case SENSOR_TYPE_HEART_RATE: {
-@@ -125,6 +129,7 @@ Sensor::Sensor(struct sensor_t const& hwSensor, const uuid_t& uuid, int halVersi
-         break;
-     case SENSOR_TYPE_LINEAR_ACCELERATION:
-         mStringType = SENSOR_STRING_TYPE_LINEAR_ACCELERATION;
-+        mRequiredAppOp = AppOpsManager::OP_MOTION_SENSORS;
-         mFlags |= SENSOR_FLAG_CONTINUOUS_MODE;
-         break;
-     case SENSOR_TYPE_MAGNETIC_FIELD:
-@@ -160,6 +165,7 @@ Sensor::Sensor(struct sensor_t const& hwSensor, const uuid_t& uuid, int halVersi
-         break;
-     case SENSOR_TYPE_SIGNIFICANT_MOTION:
-         mStringType = SENSOR_STRING_TYPE_SIGNIFICANT_MOTION;
-+        mRequiredAppOp = AppOpsManager::OP_MOTION_SENSORS;
-         mFlags |= SENSOR_FLAG_ONE_SHOT_MODE;
-         if (halVersion < SENSORS_DEVICE_API_VERSION_1_3) {
-             mFlags |= SENSOR_FLAG_WAKE_UP;
-@@ -167,10 +173,12 @@ Sensor::Sensor(struct sensor_t const& hwSensor, const uuid_t& uuid, int halVersi
-         break;
-     case SENSOR_TYPE_STEP_COUNTER:
-         mStringType = SENSOR_STRING_TYPE_STEP_COUNTER;
-+        mRequiredAppOp = AppOpsManager::OP_MOTION_SENSORS;
-         mFlags |= SENSOR_FLAG_ON_CHANGE_MODE;
-         break;
-     case SENSOR_TYPE_STEP_DETECTOR:
-         mStringType = SENSOR_STRING_TYPE_STEP_DETECTOR;
-+        mRequiredAppOp = AppOpsManager::OP_MOTION_SENSORS;
-         mFlags |= SENSOR_FLAG_SPECIAL_REPORTING_MODE;
-         break;
-     case SENSOR_TYPE_TEMPERATURE:
-@@ -236,6 +244,7 @@ Sensor::Sensor(struct sensor_t const& hwSensor, const uuid_t& uuid, int halVersi
-         break;
-     case SENSOR_TYPE_MOTION_DETECT:
-         mStringType = SENSOR_STRING_TYPE_MOTION_DETECT;
-+        mRequiredAppOp = AppOpsManager::OP_MOTION_SENSORS;
-         mFlags |= SENSOR_FLAG_ONE_SHOT_MODE;
-         if (halVersion < SENSORS_DEVICE_API_VERSION_1_3) {
-             mFlags |= SENSOR_FLAG_WAKE_UP;
-@@ -251,6 +260,7 @@ Sensor::Sensor(struct sensor_t const& hwSensor, const uuid_t& uuid, int halVersi
- 
-     case SENSOR_TYPE_ACCELEROMETER_UNCALIBRATED:
-         mStringType = SENSOR_STRING_TYPE_ACCELEROMETER_UNCALIBRATED;
-+        mRequiredAppOp = AppOpsManager::OP_MOTION_SENSORS;
-         mFlags |= SENSOR_FLAG_CONTINUOUS_MODE;
-         break;
-     default:
-diff --git a/services/sensorservice/SensorService.cpp b/services/sensorservice/SensorService.cpp
-index 1c3e943543..142c5a274e 100644
---- a/services/sensorservice/SensorService.cpp
-+++ b/services/sensorservice/SensorService.cpp
-@@ -1545,6 +1545,20 @@ status_t SensorService::flushSensor(const sp<SensorEventConnection>& connection,
- 
- bool SensorService::canAccessSensor(const Sensor& sensor, const char* operation,
-         const String16& opPackageName) {
-+
-+    // Due to the new SENSOR AppOps, which do not correspond to any permission,
-+    // we need to check for the AppOp BEFORE checking any permission
-+    const int32_t opCode = sensor.getRequiredAppOp();
-+    if (opCode >= 0) {
-+        AppOpsManager appOps;
-+        if (appOps.noteOp(opCode, IPCThreadState::self()->getCallingUid(), opPackageName)
-+                        != AppOpsManager::MODE_ALLOWED) {
-+            ALOGE("%s a sensor (%s) without enabled required app op: %d",
-+                    operation, sensor.getName().string(), opCode);
-+            return false;
-+        }
-+    }
-+
-     const String8& requiredPermission = sensor.getRequiredPermission();
- 
-     if (requiredPermission.length() <= 0) {
-@@ -1567,17 +1581,6 @@ bool SensorService::canAccessSensor(const Sensor& sensor, const char* operation,
-         return false;
-     }
- 
--    const int32_t opCode = sensor.getRequiredAppOp();
--    if (opCode >= 0) {
--        AppOpsManager appOps;
--        if (appOps.noteOp(opCode, IPCThreadState::self()->getCallingUid(), opPackageName)
--                        != AppOpsManager::MODE_ALLOWED) {
--            ALOGE("%s a sensor (%s) without enabled required app op: %d",
--                    operation, sensor.getName().string(), opCode);
--            return false;
--        }
--    }
--
-     return true;
- }
- 

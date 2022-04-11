@@ -1,81 +1,21 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: MSe1969 <mse1969@posteo.de>
-Date: Sat, 14 Nov 2020 13:21:18 +0100
-Subject: [PATCH] AppOps: New Op for (Other) sensors access
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 7 Oct 2017 16:28:57 -0400
+Subject: [PATCH] require OTHER_SENSORS permission for sensors
 
- * Add missing Ops to the enum, as pre-requisite to add new sensor op
- * Add new sensor op to enum
- * Invoke OP_OTHER_SENSORS as default
- * Adapt logic for checking the Ops, if no permission is linked
-
-Change-Id: If4011566a391314afed9a26e1dcf6e4bc838e4f7
 ---
- libs/binder/include/binder/AppOpsManager.h | 13 +++++++++++++
- libs/sensor/Sensor.cpp                     |  1 +
- services/sensorservice/SensorService.cpp   |  9 +++++----
- 3 files changed, 19 insertions(+), 4 deletions(-)
+ libs/sensor/Sensor.cpp | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/libs/binder/include/binder/AppOpsManager.h b/libs/binder/include/binder/AppOpsManager.h
-index 17493b4252..89c0eacb8a 100644
---- a/libs/binder/include/binder/AppOpsManager.h
-+++ b/libs/binder/include/binder/AppOpsManager.h
-@@ -109,6 +109,19 @@ public:
-         OP_START_FOREGROUND = 76,
-         OP_BLUETOOTH_SCAN = 77,
-         OP_USE_BIOMETRIC = 78,
-+        OP_ACTIVITY_RECOGNITION = 79,
-+        OP_SMS_FINANCIAL_TRANSACTIONS = 80,
-+        OP_READ_MEDIA_AUDIO = 81,
-+        OP_WRITE_MEDIA_AUDIO = 82,
-+        OP_READ_MEDIA_VIDEO = 83,
-+        OP_WRITE_MEDIA_VIDEO = 84,
-+        OP_READ_MEDIA_IMAGES = 85,
-+        OP_WRITE_MEDIA_IMAGES = 86,
-+        OP_LEGACY_STORAGE = 87,
-+        OP_ACCESS_ACCESSIBILITY = 88,
-+        OP_READ_DEVICE_IDENTIFIERS = 89,
-+        OP_ACCESS_MEDIA_LOCATION = 90,
-+        OP_OTHER_SENSORS = 91,
-     };
- 
-     AppOpsManager();
 diff --git a/libs/sensor/Sensor.cpp b/libs/sensor/Sensor.cpp
-index abc910302c..8a318543a7 100644
+index abc910302c..8b6e96aef6 100644
 --- a/libs/sensor/Sensor.cpp
 +++ b/libs/sensor/Sensor.cpp
 @@ -59,6 +59,7 @@ Sensor::Sensor(struct sensor_t const& hwSensor, const uuid_t& uuid, int halVersi
      mMinDelay = hwSensor.minDelay;
      mFlags = 0;
      mUuid = uuid;
-+    mRequiredAppOp = AppOpsManager::OP_OTHER_SENSORS;  //default, other values are explicitly set
++    mRequiredPermission = "android.permission.OTHER_SENSORS";
  
      // Set fifo event count zero for older devices which do not support batching. Fused
      // sensors also have their fifo counts set to zero.
-diff --git a/services/sensorservice/SensorService.cpp b/services/sensorservice/SensorService.cpp
-index 6bb250e7bb..58297122a5 100644
---- a/services/sensorservice/SensorService.cpp
-+++ b/services/sensorservice/SensorService.cpp
-@@ -1643,10 +1643,9 @@ status_t SensorService::flushSensor(const sp<SensorEventConnection>& connection,
- 
- bool SensorService::canAccessSensor(const Sensor& sensor, const char* operation,
-         const String16& opPackageName) {
-+
-     // Check if a permission is required for this sensor
--    if (sensor.getRequiredPermission().length() <= 0) {
--        return true;
--    }
-+    bool noAssociatedPermission = (sensor.getRequiredPermission().length() <= 0);
- 
-     const int32_t opCode = sensor.getRequiredAppOp();
-     const int32_t appOpMode = sAppOpsManager.checkOp(opCode,
-@@ -1654,7 +1653,9 @@ bool SensorService::canAccessSensor(const Sensor& sensor, const char* operation,
-     bool appOpAllowed = appOpMode == AppOpsManager::MODE_ALLOWED;
- 
-     bool canAccess = false;
--    if (hasPermissionForSensor(sensor)) {
-+    if (noAssociatedPermission) {
-+        canAccess = appOpAllowed;
-+    } else if (hasPermissionForSensor(sensor)) {
-         // Ensure that the AppOp is allowed, or that there is no necessary app op for the sensor
-         if (opCode < 0 || appOpAllowed) {
-             canAccess = true;
