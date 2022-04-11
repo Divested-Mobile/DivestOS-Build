@@ -1,4 +1,4 @@
-From 5b67eac60d807e6b159a334577296e3c606e275f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Tue, 2 Nov 2021 14:44:13 -0400
 Subject: [PATCH] invalidate icon cache between OS releases
@@ -11,7 +11,7 @@ diff --git a/iconloaderlib/src/com/android/launcher3/icons/cache/BaseIconCache.j
 index 7c4624d..c2b8eeb 100644
 --- a/iconloaderlib/src/com/android/launcher3/icons/cache/BaseIconCache.java
 +++ b/iconloaderlib/src/com/android/launcher3/icons/cache/BaseIconCache.java
-@@ -229,7 +229,7 @@ public IconCacheUpdateHandler getUpdateHandler() {
+@@ -229,7 +229,7 @@ public abstract class BaseIconCache {
       */
      private void updateSystemState() {
          mLocaleList = mContext.getResources().getConfiguration().getLocales();
