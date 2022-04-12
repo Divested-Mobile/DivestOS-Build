@@ -582,9 +582,6 @@ disableEnforceRRO() {
 	awk -i inplace '!/PRODUCT_ENFORCE_RRO_TARGETS .= framework-res/' *.mk &>/dev/null || true;
 	awk -i inplace '!/PRODUCT_ENFORCE_RRO_TARGETS .= \*/' *.mk &>/dev/null || true;
 	sed -i '/PRODUCT_ENFORCE_RRO_TARGETS .= \\/,+1 d' *.mk &>/dev/null || true;
-	#TODO: Find a new home for these two
-	awk -i inplace '!/persist.device_config.runtime_native.usap_pool_enabled=true/' *.prop &>/dev/null || true;
-	awk -i inplace '!/config_pinnerCameraApp/' overlay/frameworks/base/core/res/res/values/config.xml &>/dev/null || true;
 	echo "Disabled enforced RRO for $1";
 	cd "$DOS_BUILD_BASE";
 }

@@ -152,7 +152,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-7.patc
 applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-8.patch";
 applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-9.patch";
 applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-10.patch";
-sed -i 's/sys.spawn.exec/persist.security.exec_spawn/' core/java/com/android/internal/os/ZygoteConnection.java;
+sed -i 's/sys.spawn.exec/persist.security.exec_spawn_new/' core/java/com/android/internal/os/ZygoteConnection.java;
 fi;
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after three failed attempts (GrapheneOS)
@@ -376,7 +376,6 @@ fi;
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
-if [ "$DOS_LOWRAM_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'enableLowRam "{}"'; fi;
 find "hardware/qcom/gps" -name "gps\.conf" -type f -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenLocationConf "{}"';
 find "device" -name "gps\.conf" -type f -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenLocationConf "{}"';
 find "vendor" -name "gps\.conf" -type f -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenLocationConf "{}"';

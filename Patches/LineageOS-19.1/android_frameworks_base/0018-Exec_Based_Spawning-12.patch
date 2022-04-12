@@ -82,7 +82,7 @@ index 27518dd4cdce..a8d9400c7992 100644
 --- a/core/java/com/android/internal/os/ZygoteConnection.java
 +++ b/core/java/com/android/internal/os/ZygoteConnection.java
 @@ -539,7 +539,7 @@ class ZygoteConnection {
-                 if (SystemProperties.getBoolean("sys.spawn.exec", true) &&
+                 if (SystemProperties.getBoolean("sys.spawn.exec", false) &&
                          (parsedArgs.mRuntimeFlags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
                      ExecInit.execApplication(parsedArgs.mNiceName, parsedArgs.mTargetSdkVersion,
 -                            VMRuntime.getCurrentInstructionSet(), parsedArgs.mRemainingArgs);

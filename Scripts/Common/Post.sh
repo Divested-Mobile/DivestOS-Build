@@ -37,5 +37,9 @@ sed -i 's/static bool slab_nomerge __ro_after_init = !IS_ENABLED(CONFIG_SLAB_MER
 #Build speedup
 sed -i 's/flags.Tidy = true/flags.Tidy = false/' build/soong/cc/tidy.go &>/dev/null || true; #Disable clang-tidy (kdrag0n)
 
+#Reduce memory usage
+awk -i inplace '!/persist.device_config.runtime_native.usap_pool_enabled=true/' device/*/*/*.prop &>/dev/null || true;
+awk -i inplace '!/config_pinnerCameraApp/' device/*/*/overlay/frameworks/base/core/res/res/values/config.xml &>/dev/null || true;
+
 cd "$DOS_BUILD_BASE";
 echo -e "\e[0;32m[SCRIPT COMPLETE] Post tweaks complete\e[0m";

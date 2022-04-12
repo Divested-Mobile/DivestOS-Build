@@ -88,7 +88,7 @@ index 0000000000..78f021210a
 +public class ExecSpawnPreferenceController extends AbstractPreferenceController
 +        implements PreferenceControllerMixin, OnResume, Preference.OnPreferenceChangeListener {
 +
-+    private static final String SYS_KEY_EXEC_SPAWN = "persist.security.exec_spawn";
++    private static final String SYS_KEY_EXEC_SPAWN = "persist.security.exec_spawn_new";
 +    private static final String PREF_KEY_EXEC_SPAWN = "exec_spawn";
 +    private static final String PREF_KEY_SECURITY_CATEGORY = "security_category";
 +
@@ -128,7 +128,7 @@ index 0000000000..78f021210a
 +
 +        if (mIsAdmin) {
 +            mExecSpawn = (SwitchPreference) mSecurityCategory.findPreference(PREF_KEY_EXEC_SPAWN);
-+            mExecSpawn.setChecked(SystemProperties.getBoolean(SYS_KEY_EXEC_SPAWN, true));
++            mExecSpawn.setChecked(SystemProperties.getBoolean(SYS_KEY_EXEC_SPAWN, false));
 +        } else {
 +            mSecurityCategory.removePreference(mSecurityCategory.findPreference(PREF_KEY_EXEC_SPAWN));
 +        }

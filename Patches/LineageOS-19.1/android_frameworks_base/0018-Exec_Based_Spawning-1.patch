@@ -161,7 +161,7 @@ index 993e4e7b4b3d..756547706f60 100644
                  }
  
 -                if (parsedArgs.mInvokeWith != null || parsedArgs.mStartChildZygote
-+                if (parsedArgs.mInvokeWith != null || SystemProperties.getBoolean("sys.spawn.exec", true) || parsedArgs.mStartChildZygote
++                if (parsedArgs.mInvokeWith != null || SystemProperties.getBoolean("sys.spawn.exec", false) || parsedArgs.mStartChildZygote
                          || !multipleOK || peer.getUid() != Process.SYSTEM_UID) {
                      // Continue using old code for now. TODO: Handle these cases in the other path.
                      pid = Zygote.forkAndSpecialize(parsedArgs.mUid, parsedArgs.mGid,
@@ -169,7 +169,7 @@ index 993e4e7b4b3d..756547706f60 100644
              throw new IllegalStateException("WrapperInit.execApplication unexpectedly returned");
          } else {
              if (!isZygote) {
-+                if (SystemProperties.getBoolean("sys.spawn.exec", true)) {
++                if (SystemProperties.getBoolean("sys.spawn.exec", false)) {
 +                    ExecInit.execApplication(parsedArgs.mNiceName, parsedArgs.mTargetSdkVersion,
 +                            VMRuntime.getCurrentInstructionSet(), parsedArgs.mRemainingArgs);
 +

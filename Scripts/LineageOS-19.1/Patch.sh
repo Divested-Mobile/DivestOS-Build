@@ -148,7 +148,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-9.patc
 applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-10.patch";
 applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-11.patch";
 applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-12.patch";
-sed -i 's/sys.spawn.exec/persist.security.exec_spawn/' core/java/com/android/internal/os/ZygoteConnection.java;
+sed -i 's/sys.spawn.exec/persist.security.exec_spawn_new/' core/java/com/android/internal/os/ZygoteConnection.java;
 fi;
 applyPatch "$DOS_PATCHES/android_frameworks_base/0020-Location_Indicators-1.patch"; #SystemUI: Use new privacy indicators for location (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0020-Location_Indicators-2.patch"; #Exclude Bluetooth app from Location indicators (GrapheneOS)
@@ -401,7 +401,6 @@ fi;
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
-if [ "$DOS_LOWRAM_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'enableLowRam "{}"'; fi;
 find "hardware/qcom/gps" -name "gps\.conf" -type f -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenLocationConf "{}"';
 find "device" -name "gps\.conf" -type f -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenLocationConf "{}"';
 find "vendor" -name "gps\.conf" -type f -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenLocationConf "{}"';

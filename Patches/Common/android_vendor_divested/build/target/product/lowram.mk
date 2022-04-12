@@ -18,7 +18,9 @@
 
 # Set lowram options
 PRODUCT_PROPERTY_OVERRIDES += \
+     sys.spawn.exec=false \
      persist.security.exec_spawn=false \
+     persist.security.exec_spawn_new=false \
      ro.config.low_ram=true \
      ro.lmk.critical_upgrade=true \
      ro.lmk.upgrade_pressure=40 \
@@ -34,7 +36,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
      pm.dexopt.downgrade_after_inactive_days=10
 
 # Speed profile services and wifi-service to reduce RAM and storage.
+ifeq ($(findstring mako,$(TARGET_PRODUCT)),)
 PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
+endif
 
 # Always preopt extracted APKs to prevent extracting out of the APK for gms
 # modules.
@@ -58,12 +62,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Do not generate libartd.
 PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false
-
-# Do not spin up a separate process for the network stack on go devices, use an in-process APK.
-#PRODUCT_PACKAGES += InProcessNetworkStack
-#PRODUCT_PACKAGES += CellBroadcastAppPlatform
-#PRODUCT_PACKAGES += CellBroadcastServiceModulePlatform
-#PRODUCT_PACKAGES += com.android.tethering.inprocess
 
 # Strip the local variable table and the local variable type table to reduce
 # the size of the system image. This has no bearing on stack traces, but will

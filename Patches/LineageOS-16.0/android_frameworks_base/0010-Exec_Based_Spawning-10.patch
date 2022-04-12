@@ -17,8 +17,8 @@ index 7d51be259c20..48a68d96e84c 100644
              throw new IllegalStateException("WrapperInit.execApplication unexpectedly returned");
          } else {
              if (!isZygote) {
--                if (SystemProperties.getBoolean("sys.spawn.exec", true)) {
-+                if (SystemProperties.getBoolean("sys.spawn.exec", true) && parsedArgs.runtimeFlags == 0) {
+-                if (SystemProperties.getBoolean("sys.spawn.exec", false)) {
++                if (SystemProperties.getBoolean("sys.spawn.exec", false) && parsedArgs.runtimeFlags == 0) {
                      ExecInit.execApplication(parsedArgs.niceName, parsedArgs.targetSdkVersion,
                              VMRuntime.getCurrentInstructionSet(), parsedArgs.remainingArgs);
  
