@@ -62,5 +62,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39792/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-44879/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45469/4.9-^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
-editKernelLocalversion "-dos.p62"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/^5.17/0001.patch
+editKernelLocalversion "-dos.p63"
 cd "$DOS_BUILD_BASE"

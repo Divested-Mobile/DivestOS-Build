@@ -419,7 +419,7 @@ removeBuildFingerprints || true;
 enableAutoVarInit || true;
 
 #Tweaks for <4GB RAM devices
-#none yet
+enableLowRam "device/sony/pioneer" "pioneer";
 
 #Fix broken options enabled by hardenDefconfig()
 #none yet

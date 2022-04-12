@@ -327,6 +327,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0032.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0040.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0041.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0043.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/^5.17/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13167/3.4/0014.patch
-editKernelLocalversion "-dos.p328"
+editKernelLocalversion "-dos.p329"
 cd "$DOS_BUILD_BASE"
