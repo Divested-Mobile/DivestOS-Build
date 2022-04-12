@@ -1,7 +1,7 @@
 # F-Droid
 PRODUCT_PACKAGES += \
-    F-DroidOfficial \
-    F-DroidPrivilegedExtensionOfficial
+    F-DroidOfficial
+#    F-DroidPrivilegedExtensionOfficial
 
 # Replacements
 PRODUCT_PACKAGES += \
