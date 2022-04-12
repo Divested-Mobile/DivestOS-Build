@@ -477,12 +477,12 @@ removeBuildFingerprints || true;
 enableAutoVarInit || true;
 
 #Tweaks for <2GB RAM devices
-enableLowRam "device/asus/fugu" "fugu";
-enableLowRam "device/motorola/harpia" "harpia";
-enableLowRam "device/motorola/merlin" "merlin";
-enableLowRam "device/motorola/msm8916-common" "msm8916-common";
-enableLowRam "device/motorola/osprey" "osprey";
-enableLowRam "device/motorola/surnia" "surnia";
+enableLowRam "device/asus/fugu" "fugu" true;
+enableLowRam "device/motorola/harpia" "harpia" true;
+enableLowRam "device/motorola/merlin" "merlin" true;
+enableLowRam "device/motorola/msm8916-common" "msm8916-common" true;
+enableLowRam "device/motorola/osprey" "osprey" true;
+enableLowRam "device/motorola/surnia" "surnia" true;
 #Tweaks for <3GB RAM devices
 enableLowRam "device/cyanogen/msm8916-common" "msm8916-common";
 enableLowRam "device/motorola/clark" "clark";

@@ -559,10 +559,10 @@ removeBuildFingerprints || true;
 enableAutoVarInit || true;
 
 #Tweaks for <2GB RAM devices
-enableLowRam "device/samsung/msm8930-common" "msm8930-common";
-enableLowRam "device/samsung/serrano3gxx" "serrano3gxx";
-enableLowRam "device/samsung/serrano-common" "serrano-common";
-enableLowRam "device/samsung/serranoltexx" "serranoltexx";
+enableLowRam "device/samsung/msm8930-common" "msm8930-common" true true;
+enableLowRam "device/samsung/serrano3gxx" "serrano3gxx" true true;
+enableLowRam "device/samsung/serrano-common" "serrano-common" true true;
+enableLowRam "device/samsung/serranoltexx" "serranoltexx" true true;
 #Tweaks for <3GB RAM devices
 enableLowRam "device/asus/flox" "flox";
 enableLowRam "device/fairphone/FP2" "FP2";
