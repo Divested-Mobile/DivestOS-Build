@@ -560,8 +560,25 @@ removeBuildFingerprints || true;
 enableAutoVarInit || true;
 
 #Tweaks for <2GB RAM devices
-#enableLowRam "device/samsung/serrano3gxx";
-#enableLowRam "device/samsung/serranoltexx";
+enableLowRam "device/samsung/msm8930-common" "msm8930-common";
+enableLowRam "device/samsung/serrano3gxx" "serrano3gxx";
+enableLowRam "device/samsung/serrano-common" "serrano-common";
+enableLowRam "device/samsung/serranoltexx" "serranoltexx";
+#Tweaks for <3GB RAM devices
+enableLowRam "device/asus/flox" "flox";
+enableLowRam "device/fairphone/FP2" "FP2";
+enableLowRam "device/htc/m8-common" "m8-common";
+enableLowRam "device/htc/m8" "m8";
+enableLowRam "device/htc/msm8974-common" "msm8974-common";
+enableLowRam "device/lge/d802" "d802";
+enableLowRam "device/lge/g2-common" "g2-common";
+enableLowRam "device/lge/mako" "mako";
+enableLowRam "device/motorola/victara" "victara";
+enableLowRam "device/samsung/jf-common" "jf-common";
+enableLowRam "device/samsung/jfltexx" "jfltexx";
+enableLowRam "device/samsung/klte-common" "klte-common";
+enableLowRam "device/samsung/klte" "klte";
+enableLowRam "device/samsung/msm8974-common" "msm8974-common";
 
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile

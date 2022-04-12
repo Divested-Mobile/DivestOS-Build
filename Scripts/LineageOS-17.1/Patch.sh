@@ -478,10 +478,16 @@ removeBuildFingerprints || true;
 enableAutoVarInit || true;
 
 #Tweaks for <2GB RAM devices
-#enableLowRam "device/motorola/harpia";
-#enableLowRam "device/motorola/merlin";
-#enableLowRam "device/motorola/osprey";
-#enableLowRam "device/motorola/surnia";
+enableLowRam "device/asus/fugu" "fugu";
+enableLowRam "device/motorola/harpia" "harpia";
+enableLowRam "device/motorola/merlin" "merlin";
+enableLowRam "device/motorola/msm8916-common" "msm8916-common";
+enableLowRam "device/motorola/osprey" "osprey";
+enableLowRam "device/motorola/surnia" "surnia";
+#Tweaks for <3GB RAM devices
+enableLowRam "device/cyanogen/msm8916-common" "msm8916-common";
+enableLowRam "device/motorola/clark" "clark";
+enableLowRam "device/wileyfox/crackling" "crackling";
 
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/yellowstone/arch/arm*/configs/*_defconfig; #Breaks on compile

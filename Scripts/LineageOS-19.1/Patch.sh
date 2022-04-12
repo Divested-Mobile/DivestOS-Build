@@ -418,7 +418,7 @@ deblobAudio || true;
 removeBuildFingerprints || true;
 enableAutoVarInit || true;
 
-#Tweaks for <2GB RAM devices
+#Tweaks for <4GB RAM devices
 #none yet
 
 #Fix broken options enabled by hardenDefconfig()
