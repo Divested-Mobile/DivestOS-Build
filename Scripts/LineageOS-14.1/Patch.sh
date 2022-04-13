@@ -305,6 +305,7 @@ if enter "vendor/divested"; then
 if [ "$DOS_MICROG_INCLUDED" != "NONE" ]; then echo "PRODUCT_PACKAGES += DejaVuNlpBackend IchnaeaNlpBackend NominatimNlpBackend" >> packages.mk; fi; #Include UnifiedNlp backends
 if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then echo "PRODUCT_PACKAGES += UnifiedNLP" >> packages.mk; fi; #Include UnifiedNlp
 sed -i 's/TalkBack/TalkBackLegacy/' packages.mk;
+awk -i inplace '!/downgrade_after_inactive_days/' build/target/product/lowram.mk; #exceeds length limit
 fi;
 #
 #END OF ROM CHANGES

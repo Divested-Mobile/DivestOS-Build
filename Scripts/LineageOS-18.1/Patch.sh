@@ -418,6 +418,7 @@ if [ "$DOS_MICROG_INCLUDED" != "NONE" ]; then echo "PRODUCT_PACKAGES += DejaVuNl
 if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then echo "PRODUCT_PACKAGES += UnifiedNLP" >> packages.mk; fi; #Include UnifiedNlp
 echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #Add deny usb service, all of our kernels have the necessary patch
 echo "PRODUCT_PACKAGES += eSpeakNG" >> packages.mk; #PicoTTS needs work to compile on 18.1, use eSpeak-NG instead
+awk -i inplace '!/speed-profile/' build/target/product/lowram.mk; #breaks compile on some dexpreopt devices
 fi;
 #
 #END OF ROM CHANGES
@@ -559,10 +560,10 @@ removeBuildFingerprints || true;
 enableAutoVarInit || true;
 
 #Tweaks for <2GB RAM devices
-enableLowRam "device/samsung/msm8930-common" "msm8930-common" true true;
-enableLowRam "device/samsung/serrano3gxx" "serrano3gxx" true true;
-enableLowRam "device/samsung/serrano-common" "serrano-common" true true;
-enableLowRam "device/samsung/serranoltexx" "serranoltexx" true true;
+enableLowRam "device/samsung/msm8930-common" "msm8930-common";
+enableLowRam "device/samsung/serrano3gxx" "serrano3gxx";
+enableLowRam "device/samsung/serrano-common" "serrano-common";
+enableLowRam "device/samsung/serranoltexx" "serranoltexx";
 #Tweaks for <3GB RAM devices
 enableLowRam "device/asus/flox" "flox";
 enableLowRam "device/fairphone/FP2" "FP2";

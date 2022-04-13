@@ -406,6 +406,7 @@ if enter "vendor/divested"; then
 if [ "$DOS_MICROG_INCLUDED" != "NONE" ]; then echo "PRODUCT_PACKAGES += DejaVuNlpBackend IchnaeaNlpBackend NominatimNlpBackend" >> packages.mk; fi; #Include UnifiedNlp backends
 if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then echo "PRODUCT_PACKAGES += UnifiedNLP" >> packages.mk; fi; #Include UnifiedNlp
 echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #Add deny usb service, all of our kernels have the necessary patch
+awk -i inplace '!/speed-profile/' build/target/product/lowram.mk; #breaks compile on some dexpreopt devices
 fi;
 #
 #END OF ROM CHANGES
@@ -477,12 +478,12 @@ removeBuildFingerprints || true;
 enableAutoVarInit || true;
 
 #Tweaks for <2GB RAM devices
-enableLowRam "device/asus/fugu" "fugu" true;
-enableLowRam "device/motorola/harpia" "harpia" true;
-enableLowRam "device/motorola/merlin" "merlin" true;
-enableLowRam "device/motorola/msm8916-common" "msm8916-common" true;
-enableLowRam "device/motorola/osprey" "osprey" true;
-enableLowRam "device/motorola/surnia" "surnia" true;
+enableLowRam "device/asus/fugu" "fugu";
+enableLowRam "device/motorola/harpia" "harpia";
+enableLowRam "device/motorola/merlin" "merlin";
+enableLowRam "device/motorola/msm8916-common" "msm8916-common";
+enableLowRam "device/motorola/osprey" "osprey";
+enableLowRam "device/motorola/surnia" "surnia";
 #Tweaks for <3GB RAM devices
 enableLowRam "device/cyanogen/msm8916-common" "msm8916-common";
 enableLowRam "device/motorola/clark" "clark";

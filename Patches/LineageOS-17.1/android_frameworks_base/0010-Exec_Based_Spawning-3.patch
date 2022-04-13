@@ -10,7 +10,7 @@ spawning when doing debugging.
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java/com/android/internal/os/ZygoteConnection.java
-index 96348aa30b87..a3051979e341 100644
+index 478ccfb2f568..355c1115fb4f 100644
 --- a/core/java/com/android/internal/os/ZygoteConnection.java
 +++ b/core/java/com/android/internal/os/ZygoteConnection.java
 @@ -596,7 +596,8 @@ class ZygoteConnection {
