@@ -289,6 +289,12 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
+if enterAndClear "device/asus/deb"; then
+compressRamdisks;
+sed -i 's|vendor/cm|vendor/lineage|' lineage.mk;
+awk -i inplace '!/ioctl/' sepolicy/audioserver.te; #neverallow
+fi;
+
 if enterAndClear "device/asus/flo"; then
 compressRamdisks;
 echo "/dev/block/platform/msm_sdcc\.1/by-name/misc u:object_r:misc_block_device:s0" >> sepolicy/file_contexts;

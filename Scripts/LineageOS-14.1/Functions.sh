@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_amazon_hdx-common kernel_asus_grouper kernel_htc_msm8960 kernel_htc_msm8994 kernel_lge_msm8992 kernel_motorola_msm8992 kernel_samsung_exynos5420 kernel_samsung_manta kernel_samsung_smdk4412 kernel_samsung_tuna kernel_samsung_universal8890";
+	startPatcher "kernel_amazon_hdx-common kernel_asus_grouper kernel_htc_msm8960 kernel_htc_msm8994 kernel_lge_msm8992 kernel_motorola_msm8992 kernel_samsung_d2 kernel_samsung_exynos5420 kernel_samsung_manta kernel_samsung_smdk4412 kernel_samsung_tuna kernel_samsung_universal8890";
 }
 export -f patchAllKernels;
 
@@ -64,6 +64,11 @@ buildAll() {
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#Select devices are userdebug due to SELinux policy issues
+	#SDS4P
+	buildDeviceUserDebug d2att;
+	buildDeviceUserDebug d2spr;
+	buildDeviceUserDebug d2tmo;
+	buildDeviceUserDebug d2vzw;
 	#SD600
 	buildDeviceUserDebug m7;
 	#SD801
@@ -71,18 +76,23 @@ buildAll() {
 	buildDeviceUserDebug apollo;
 	#SD808
 	buildDevice clark; #Last version with working IMS
+	buildDevice h811;
 	buildDevice h815;
 	#SD810
 	buildDevice himaul;
+	buildDevice himawl;
 	#Exynos
 	buildDevice manta;
 	#buildDevice n7100; #broken sepolicy
 	buildDeviceUserDebug i9100;
 	buildDeviceUserDebug i9300;
 	buildDeviceUserDebug i9305;
+	buildDevice n5100;
 	buildDevice n5110;
+	buildDevice n5120;
 	buildDevice v1awifi;
 	buildDevice herolte;
+	buildDevice hero2lte;
 	#OMAP
 	buildDevice maguro;
 	buildDevice toro;

@@ -61,27 +61,43 @@ buildAll() {
 	buildDevice serrano3gxx; #unb
 	buildDevice serranoltexx; #unb
 	#SD600
-	buildDevice jfltexx;
+	buildDevice jfltexx; #TODO: jactivelte, jfvelte
+	buildDevice jflteatt;
+	buildDevice jfltespr;
+	buildDevice jfltevzw;
 	#SD800
+	buildDevice d800;
+	buildDevice d801;
 	buildDevice d802;
+	buildDevice d803;
 	#SD801
 	buildDevice bacon;
+	buildDevice d850;
+	buildDevice d851;
 	buildDevice d852;
 	buildDevice d855;
+	buildDevice f400;
+	buildDevice ls990;
+	buildDevice vs985;
 	buildDevice FP2;
-	buildDevice klte;
+	buildDevice klte; #TODO: klteaio, kltechn, kltechnduo, klteduos, kltedv, kltekdi, kltekor
 	buildDevice m8; #unb18
+	#buildDevice m8d; #unb18 #TODO
 	buildDevice victara;
 	#SD805
 	buildDevice shamu verity;
 	#SD808
 	buildDevice ether;
 	#SD820
+	buildDevice h830;
 	buildDevice h850;
 	buildDevice rs988;
 	buildDevice h910;
+	buildDevice h918;
 	buildDevice h990;
+	buildDevice ls997;
 	buildDevice us996;
+	buildDevice vs995;
 	buildDevice oneplus3 verity; #needs manual patching - broken yyloc
 	buildDevice z2_plus verity;
 	#SD821
@@ -172,8 +188,8 @@ enableDexPreOpt() {
 	if [ -f BoardConfig.mk ]; then
 		echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 		echo "WITH_DEXPREOPT_DEBUG_INFO := false" >> BoardConfig.mk;
-		#m8, jfltexx: /system partition too small
-		if [ "$1" != "device/htc/m8" ] && [ "$1" != "device/samsung/jfltexx" ]; then
+		#m8*, jflte*: /system partition too small
+		if [ "$1" != "device/htc/m8" ] && [ "$1" != "device/htc/m8d" ] && [ "$1" != "device/samsung/jfltexx" ] && [ "$1" != "device/samsung/jflteatt" ] && [ "$1" != "device/samsung/jfltespr" ] && [ "$1" != "device/samsung/jfltevzw" ]; then
 			echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false" >> BoardConfig.mk;
 			echo "Enabled full dexpreopt for $1";
 		else

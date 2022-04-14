@@ -73,6 +73,7 @@ enableVerity "device/essential/mata";
 enableVerity "device/google/marlin";
 enableVerity "device/google/sailfish";
 #enableVerity "device/htc/flounder"; #XXX: no boot
+#enableVerity "device/htc/flounder_lte";
 enableVerity "device/huawei/angler";
 enableVerity "device/lge/bullhead";
 enableVerity "device/moto/shamu";

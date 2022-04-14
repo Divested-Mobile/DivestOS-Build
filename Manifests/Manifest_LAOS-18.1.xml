@@ -143,26 +143,36 @@
 	<project path="device/google/redfin" name="LineageOS/android_device_google_redfin" remote="github" />
 	<!-- uses redbull commons -->
 
-	<!-- HTC One (m8) -->
+	<!-- HTC One (m8/m8d) -->
 	<project path="device/htc/m8" name="LineageOS/android_device_htc_m8" remote="github" />
+	<project path="device/htc/m8d" name="LineageOS/android_device_htc_m8d" remote="github" />
 	<project path="device/htc/m8-common" name="LineageOS/android_device_htc_m8-common" remote="github" />
 	<project path="device/htc/msm8974-common" name="LineageOS/android_device_htc_msm8974-common" remote="github" />
 	<project path="kernel/htc/msm8974" name="LineageOS/android_kernel_htc_msm8974" remote="github" />
 
-	<!-- LG G2 (d802) -->
+	<!-- LG G2 (d800/d801/d802/d803) -->
 	<project path="device/lge/g2-common" name="LineageOS/android_device_lge_g2-common" remote="github" />
+	<project path="device/lge/d800" name="LineageOS/android_device_lge_d800" remote="github" />
+	<project path="device/lge/d801" name="LineageOS/android_device_lge_d801" remote="github" />
 	<project path="device/lge/d802" name="LineageOS/android_device_lge_d802" remote="github" />
+	<project path="device/lge/d803" name="LineageOS/android_device_lge_d803" remote="github" />
 	<project path="kernel/lge/msm8974" name="LineageOS/android_kernel_lge_msm8974" remote="github" />
 
-	<!-- LG G3 (d855) -->
+	<!-- LG G3 (d850/d851/d852/d855/vs985) -->
 	<project path="device/lge/g3-common" name="LineageOS/android_device_lge_g3-common" remote="github" />
+	<project path="device/lge/d850" name="LineageOS/android_device_lge_d850" remote="github" />
+	<project path="device/lge/d851" name="LineageOS/android_device_lge_d851" remote="github" />
 	<project path="device/lge/d852" name="LineageOS/android_device_lge_d852" remote="github" />
 	<project path="device/lge/d855" name="LineageOS/android_device_lge_d855" remote="github" />
+	<project path="device/lge/f400" name="LineageOS/android_device_lge_f400" remote="github" />
+	<project path="device/lge/ls990" name="LineageOS/android_device_lge_ls990" remote="github" />
+	<project path="device/lge/vs985" name="LineageOS/android_device_lge_vs985" remote="github" />
 	<project path="kernel/lge/g3" name="LineageOS/android_kernel_lge_g3" remote="github" />
 
 	<!-- LG G5 (h850:intl, rs988:us) -->
 	<project path="device/lge/common" name="LineageOS/android_device_lge_common" remote="github" />
 	<project path="device/lge/g5-common" name="LineageOS/android_device_lge_g5-common" remote="github" />
+	<project path="device/lge/h830" name="LineageOS/android_device_lge_h830" remote="github" />
 	<project path="device/lge/h850" name="LineageOS/android_device_lge_h850" remote="github" />
 	<project path="device/lge/rs988" name="LineageOS/android_device_lge_rs988" remote="github" />
 	<project path="device/lge/msm8996-common" name="LineageOS/android_device_lge_msm8996-common" remote="github" />
@@ -173,6 +183,9 @@
 	<project path="device/lge/h990" name="LineageOS/android_device_lge_h990" remote="github" />
 	<project path="device/lge/us996" name="LineageOS/android_device_lge_us996" remote="github" />
 	<project path="device/lge/h910" name="LineageOS/android_device_lge_h910" remote="github" />
+	<project path="device/lge/h918" name="LineageOS/android_device_lge_h918" remote="github" />
+	<project path="device/lge/ls997" name="LineageOS/android_device_lge_ls997" remote="github" />
+	<project path="device/lge/vs995" name="LineageOS/android_device_lge_vs995" remote="github" />
 	<!-- uses lge msm8996 commons -->
 
 	<!-- Moto X 2014 (victara) -->
@@ -246,8 +259,11 @@
 	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
 	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
 
-	<!-- Samsung Galaxy S4 (jfltexx) -->
+	<!-- Samsung Galaxy S4 (jfltexx/jflteatt/jfltespr/jfltevzw) -->
 	<project path="device/samsung/jfltexx" name="LineageOS/android_device_samsung_jfltexx" remote="github" />
+	<project path="device/samsung/jflteatt" name="LineageOS/android_device_samsung_jflteatt" remote="github" />
+	<project path="device/samsung/jfltespr" name="LineageOS/android_device_samsung_jfltespr" remote="github" />
+	<project path="device/samsung/jfltevzw" name="LineageOS/android_device_samsung_jfltevzw" remote="github" />
 	<project path="device/samsung/jf-common" name="LineageOS/android_device_samsung_jf-common" remote="github" />
 	<project path="kernel/samsung/jf" name="LineageOS/android_kernel_samsung_jf" remote="github" />
 

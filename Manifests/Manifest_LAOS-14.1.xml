@@ -95,13 +95,15 @@
 	<project path="device/htc/msm8960-common" name="LineageOS/android_device_htc_msm8960-common" remote="github" />
 	<project path="kernel/htc/msm8960" name="LineageOS/android_kernel_htc_msm8960" remote="github" />
 
-	<!-- HTC One (m9) -->
+	<!-- HTC One (himaul/himawl) -->
 	<project path="device/htc/himaul" name="LineageOS/android_device_htc_himaul" remote="github" />
+	<project path="device/htc/himawl" name="LineageOS/android_device_htc_himawl" remote="github" />
 	<project path="device/htc/hima-common" name="LineageOS/android_device_htc_hima-common" remote="github" />
 	<project path="kernel/htc/msm8994" name="LineageOS/android_kernel_htc_msm8994" remote="github" />
 
-	<!-- LG G4 (h815) -->
+	<!-- LG G4 (h811/h815) -->
 	<project path="device/lge/g4-common" name="LineageOS/android_device_lge_g4-common" remote="github" />
+	<project path="device/lge/h811" name="LineageOS/android_device_lge_h811" remote="github" />
 	<project path="device/lge/h815" name="LineageOS/android_device_lge_h815" remote="github" />
 	<project path="kernel/lge/msm8992" name="LineageOS/android_kernel_lge_msm8992" remote="github" />
 
@@ -126,7 +128,7 @@
 	<project path="kernel/samsung/smdk4412" name="LineageOS/android_kernel_samsung_smdk4412" remote="github" />
 	<project path="packages/apps/SamsungServiceMode" name="LineageOS/android_packages_apps_SamsungServiceMode" remote="github" />
 
-	<!-- Samsung Galaxy Nexus (maguro/toro(plus)) -->
+	<!-- Samsung Galaxy Nexus (maguro/toro/toroplus) -->
 	<project path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.7" name="platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7" remote="aosp" revision="refs/tags/android-4.4.4_r2" />
 	<project path="device/samsung/maguro" name="Galaxy-Nexus/android_device_samsung_maguro" remote="github" />
 	<project path="device/samsung/toro" name="LineageOS/android_device_samsung_toro" remote="github" revision="cm-13.0" />
@@ -137,9 +139,11 @@
 	<!-- Samsung Galaxy Note 2 (n7100) -->
 	<project path="device/samsung/n7100" name="LineageOS/android_device_samsung_n7100" remote="github" />
 
-	<!-- Samsung Galaxy Note 8.0 Wi-Fi (n5110) -->
+	<!-- Samsung Galaxy Note 8.0 Wi-Fi (n5100/n5110/n5120) -->
 	<project path="device/samsung/kona-common" name="LineageOS/android_device_samsung_kona-common" remote="github" />
+	<project path="device/samsung/n5100" name="LineageOS/android_device_samsung_n5100" remote="github" />
 	<project path="device/samsung/n5110" name="LineageOS/android_device_samsung_n5110" remote="github" />
+	<project path="device/samsung/n5120" name="LineageOS/android_device_samsung_n5120" remote="github" />
 
 	<!-- Samsung Galaxy Note Pro 12.1 Wi-Fi (v1awifi) -->
 	<project path="device/samsung/exynos5420-common" name="LineageOS/android_device_samsung_exynos5420-common" remote="github" />
@@ -151,12 +155,22 @@
 	<project path="device/samsung/i9100" name="LineageOS/android_device_samsung_i9100" remote="github" />
 	<project path="device/samsung/galaxys2-common" name="LineageOS/android_device_samsung_galaxys2-common" remote="github" />
 
-	<!-- Samsung Galaxy S III (i9300) -->
+	<!-- Samsung Galaxy S III Exynos (i9300/i9305) -->
 	<project path="device/samsung/i9300" name="LineageOS/android_device_samsung_i9300" remote="github" />
 	<project path="device/samsung/i9305" name="LineageOS/android_device_samsung_i9305" remote="github" />
 
-	<!-- Samsung Galaxy S7 (herolte) -->
+	<!-- Samsung Galaxy S III QCOM (d2att/d2spr/d2tmo/d2vzw) -->
+	<project path="device/samsung/msm8960-common" name="LineageOS/android_device_samsung_msm8960-common" remote="github" />
+	<project path="device/samsung/d2-common" name="LineageOS/android_device_samsung_d2-common" remote="github" />
+	<project path="device/samsung/d2att" name="LineageOS/android_device_samsung_d2att" remote="github" />
+	<project path="device/samsung/d2spr" name="LineageOS/android_device_samsung_d2spr" remote="github" />
+	<project path="device/samsung/d2tmo" name="LineageOS/android_device_samsung_d2tmo" remote="github" />
+	<project path="device/samsung/d2vzw" name="LineageOS/android_device_samsung_d2vzw" remote="github" />
+	<project path="kernel/samsung/d2" name="LineageOS/android_kernel_samsung_d2" remote="github" />
+
+	<!-- Samsung Galaxy S7 (herolte/hero2lte) -->
 	<project path="device/samsung/herolte" name="LineageOS/android_device_samsung_herolte" remote="github" />
+	<project path="device/samsung/hero2lte" name="LineageOS/android_device_samsung_hero2lte" remote="github" />
 	<project path="device/samsung/hero-common" name="LineageOS/android_device_samsung_hero-common" remote="github" />
 	<project path="hardware/samsung_slsi-cm/exynos" name="LineageOS/android_hardware_samsung_slsi-cm_exynos" remote="github" />
 	<project path="hardware/samsung_slsi-cm/exynos5" name="LineageOS/android_hardware_samsung_slsi-cm_exynos5" remote="github" />

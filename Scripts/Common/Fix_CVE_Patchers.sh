@@ -78,6 +78,7 @@ commentPatches android_kernel_oneplus_sm7250.sh "CVE-2018-5873" "CVE-2020-1749" 
 commentPatches android_kernel_oneplus_sm8150.sh "CVE-2019-16746" "CVE-2019-19319" "CVE-2020-0067" "CVE-2020-8992" "CVE-2020-24588/4.14/0018.patch" "CVE-2021-30324" "CVE-2021-45469";
 commentPatches android_kernel_razer_msm8998.sh "0008-Graphene-Kernel_Hardening/4.4/0011.patch" "0008-Graphene-Kernel_Hardening/4.4/0012.patch" "0008-Graphene-Kernel_Hardening/4.4/0014.patch" "0008-Graphene-Kernel_Hardening/4.4/0019.patch" "CVE-2019-14070/ANY/0005.patch" "CVE-2020-16166";
 commentPatches android_kernel_samsung_apq8084.sh "0006-AndroidHardening-Kernel_Hardening/3.10/0009.patch";
+commentPatches android_kernel_samsung_d2.sh "CVE-2021-Misc2/3.4/0055.patch" "CVE-2021-Misc2/3.4/0056.patch";
 commentPatches android_kernel_samsung_exynos5420.sh "CVE-2021-Misc2/3.4/0061.patch" "CVE-2021-Misc2/3.4/0062.patch";
 commentPatches android_kernel_samsung_jf.sh "CVE-2019-11599";
 commentPatches android_kernel_samsung_manta.sh "CVE-2021-Misc2/3.4/0055.patch" "CVE-2021-Misc2/3.4/0056.patch";
@@ -105,7 +106,7 @@ do
 	commentPatches $script "CVE-2017-15868/3.4" "CVE-2018-10877/3.4";
 done
 #3.4
-declare -a threeDotFour=("${threeDotZero[@]}" "android_kernel_amazon_hdx-common.sh" "android_kernel_asus_grouper.sh" "android_kernel_htc_msm8960.sh" "android_kernel_samsung_exynos5420.sh" "android_kernel_samsung_manta.sh" "android_kernel_google_msm.sh" "android_kernel_lge_hammerhead.sh" "android_kernel_cyanogen_msm8974.sh" "android_kernel_htc_msm8974.sh" "android_kernel_fairphone_msm8974.sh" "android_kernel_lge_g3.sh" "android_kernel_lge_mako.sh" "android_kernel_lge_msm8974.sh" "android_kernel_motorola_msm8974.sh" "android_kernel_oppo_msm8974.sh" "android_kernel_samsung_jf.sh" "android_kernel_samsung_msm8930-common.sh" "android_kernel_samsung_msm8974.sh");
+declare -a threeDotFour=("${threeDotZero[@]}" "android_kernel_amazon_hdx-common.sh" "android_kernel_asus_grouper.sh" "android_kernel_htc_msm8960.sh" "android_kernel_samsung_exynos5420.sh" "android_kernel_samsung_manta.sh" "android_kernel_google_msm.sh" "android_kernel_lge_hammerhead.sh" "android_kernel_cyanogen_msm8974.sh" "android_kernel_htc_msm8974.sh" "android_kernel_fairphone_msm8974.sh" "android_kernel_lge_g3.sh" "android_kernel_lge_mako.sh" "android_kernel_lge_msm8974.sh" "android_kernel_motorola_msm8974.sh" "android_kernel_oppo_msm8974.sh" "android_kernel_samsung_d2.sh" "android_kernel_samsung_jf.sh" "android_kernel_samsung_msm8930-common.sh" "android_kernel_samsung_msm8974.sh");
 for script in "${threeDotFour[@]}"
 do
 	commentPatches $script "0006-AndroidHardening-Kernel_Hardening/3.10/0008.patch" "0006-AndroidHardening-Kernel_Hardening/3.18/0043.patch" "CVE-2017-5551/3.10" "CVE-2017-7187/3.18" "CVE-2017-18193/3.18" "CVE-2020-14305/4.4";

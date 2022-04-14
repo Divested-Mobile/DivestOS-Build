@@ -55,6 +55,7 @@ buildAll() {
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#SDS4P
+	buildDevice deb;
 	buildDevice flo; #Last version without repartitioning required + 18.1 has random power off issue
 	#SD801
 	buildDevice hammerhead; #Last version with working Bluetooth
@@ -77,6 +78,7 @@ buildAll() {
 	buildDevice fugu;
 	#Tegra
 	buildDevice flounder verity;
+	buildDevice flounder_lte verity;
 	buildDevice dragon verity;
 }
 export -f buildAll;

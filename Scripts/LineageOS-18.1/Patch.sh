@@ -520,6 +520,18 @@ if enterAndClear "device/samsung/jfltexx"; then
 smallerSystem;
 fi;
 
+if enterAndClear "device/samsung/jflteatt"; then
+smallerSystem;
+fi;
+
+if enterAndClear "device/samsung/jfltespr"; then
+smallerSystem;
+fi;
+
+if enterAndClear "device/samsung/jfltevzw"; then
+smallerSystem;
+fi;
+
 if enterAndClear "device/samsung/msm8974-common"; then
 echo "TARGET_RECOVERY_DENSITY := hdpi" >> BoardConfigCommon.mk;
 echo "allow hal_gnss_default ssr_device:chr_file { open read };" >> sepolicy/common/hal_gnss_default.te;
@@ -569,12 +581,19 @@ enableLowRam "device/asus/flox" "flox";
 enableLowRam "device/fairphone/FP2" "FP2";
 enableLowRam "device/htc/m8-common" "m8-common";
 enableLowRam "device/htc/m8" "m8";
+enableLowRam "device/htc/m8d" "m8d";
 enableLowRam "device/htc/msm8974-common" "msm8974-common";
+enableLowRam "device/lge/d800" "d800";
+enableLowRam "device/lge/d801" "d801";
 enableLowRam "device/lge/d802" "d802";
+enableLowRam "device/lge/d803" "d803";
 enableLowRam "device/lge/g2-common" "g2-common";
 enableLowRam "device/lge/mako" "mako";
 enableLowRam "device/motorola/victara" "victara";
 enableLowRam "device/samsung/jf-common" "jf-common";
+enableLowRam "device/samsung/jflteatt" "jflteatt";
+enableLowRam "device/samsung/jfltespr" "jfltespr";
+enableLowRam "device/samsung/jfltevzw" "jfltevzw";
 enableLowRam "device/samsung/jfltexx" "jfltexx";
 enableLowRam "device/samsung/klte-common" "klte-common";
 enableLowRam "device/samsung/klte" "klte";
