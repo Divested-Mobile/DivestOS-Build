@@ -151,8 +151,7 @@ generateBootAnimationMask() {
 	local text=$1;
 	local font=$2
 	local output=$3;
-	convert -background black -fill transparent -font "$font" -gravity center -size 512x128 label:"$text" "$output";
-	#optipng "$output"; #XXX: breaks boot animation on 14.1?
+	convert -depth 8 -background black -fill transparent -font "$font" -gravity center -size 512x128 label:"$text" "PNG32:$output";
 }
 export -f generateBootAnimationMask;
 
@@ -160,9 +159,8 @@ generateBootAnimationShine() {
 	local color=$1;
 	local style=$2;
 	local output=$3;
-	#The colors need to be symmetrical in order to make the animation smooth and not have any noticble lines
-	convert -size 1024x128 -define gradient:angle=90 "$style":"$color" \( +clone -flop \) +append "$output";
-	#optipng "$output";
+	#The colors need to be symmetrical in order to make the animation smooth and not have any noticeable lines
+	convert -depth 8 -size 1024x128 -define gradient:angle=90 "$style":"$color" \( +clone -flop \) +append "PNG24:$output";
 }
 export -f generateBootAnimationShine;
 
@@ -179,7 +177,7 @@ export -f audit2allowADB;
 
 processRelease() {
 	#Reference (MIT): GrapheneOS
-	#https://github.com/GrapheneOS/script/blob/10/release.sh
+	#https://github.com/GrapheneOS/script/blob/12.1/release.sh
 	local DEVICE="$1";
 	local BLOCK="$2";
 	local VERITY="$3";

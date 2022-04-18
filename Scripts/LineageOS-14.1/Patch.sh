@@ -417,14 +417,26 @@ enableLowRam "device/samsung/smdk4412-common";
 enableLowRam "device/samsung/toro";
 enableLowRam "device/samsung/toroplus";
 enableLowRam "device/samsung/tuna";
+enableLowRam "device/unihertz/jellypro";
 #Tweaks for <3GB RAM devices
+#enableLowRam "device/amazon/apollo";
+#enableLowRam "device/amazon/hdx-common";
+#enableLowRam "device/amazon/thor";
+#enableLowRam "device/htc/m7";
+#enableLowRam "device/htc/m7-common";
+#enableLowRam "device/htc/msm8960-common";
 #enableLowRam "device/samsung/d2att";
 #enableLowRam "device/samsung/d2-common";
 #enableLowRam "device/samsung/d2spr";
 #enableLowRam "device/samsung/d2tmo";
 #enableLowRam "device/samsung/d2vzw";
 #enableLowRam "device/samsung/i9305";
+#enableLowRam "device/samsung/kona-common";
 #enableLowRam "device/samsung/msm8960-common";
+#enableLowRam "device/samsung/n5100";
+#enableLowRam "device/samsung/n5110";
+#enableLowRam "device/samsung/n5120";
+#enableLowRam "device/samsung/n7100";
 
 #Fixes
 #Fix broken options enabled by hardenDefconfig()

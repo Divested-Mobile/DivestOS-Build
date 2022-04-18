@@ -29,7 +29,7 @@ awk -i inplace '!/DrawSurface\(logo.get\(\)/' recovery_ui/screen_ui.cpp; #Hide l
 mogrify -format png -fill "#FF5722" -opaque "#167C80" -fuzz 10% res-*/images/*sel.png; #Recolor icons
 mogrify -format png -fill "#FF5722" -opaque "#7c4dff" -fuzz 10% res-*/images/ic_back_sel.png;
 sed -i 's|0x7c, 0x4d, 0xff|0xff, 0x57, 0x22|' recovery_ui/*ui.cpp; #Recolor accents (recovery primary)
-sed -i 's|0xf8, 0x90, 0xff|0xff, 0x98, 0x00|' recovery_ui/*ui.cpp; #Recolor accents (recovery secondar)
+sed -i 's|0xf8, 0x90, 0xff|0xff, 0x98, 0x00|' recovery_ui/*ui.cpp; #Recolor accents (recovery secondary)
 sed -i 's|0xe6, 0x51, 0x00|0x4c, 0xaf, 0x50|' recovery_ui/*ui.cpp; #Recolor accents (fastboot primary)
 sed -i 's|0xfd, 0xd8, 0x35|0x8b, 0xc3, 0x4a|' recovery_ui/*ui.cpp; #Recolor accents (fastboot secondary)
 sed -i 's|0xfd, 0xd8,0x35|0x8b, 0xc3, 0x4a|' recovery_ui/*ui.cpp; #Recolor accents (fastboot secondary typo)

@@ -296,15 +296,15 @@ fi;
 fi;
 
 if enterAndClear "packages/modules/Permission"; then
-applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0002-Network_Permission-1.patch"; #always treat INTERNET as a runtime permission (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0002-Network_Permission-2.patch"; #add INTERNET permission toggle (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0003-Sensors_Permission-1.patch"; #always treat OTHER_SENSORS as a runtime permission (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0003-Sensors_Permission-2.patch"; #add OTHER_SENSORS permission group (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0004-Special_Permission-1.patch"; #refactor handling of special runtime permissions (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0004-Special_Permission-2.patch"; #don't auto revoke Network and Sensors (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0004-Special_Permission-3.patch"; #ui fix for special runtime permission (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0004-Special_Permission-4.patch"; #fix usage UI summary for Network/Sensors (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0005-Browser_No_Location.patch"; #stop auto-granting location to system browsers (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0002-Network_Permission-1.patch"; #Always treat INTERNET as a runtime permission (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0002-Network_Permission-2.patch"; #Add INTERNET permission toggle (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0003-Sensors_Permission-1.patch"; #Always treat OTHER_SENSORS as a runtime permission (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0003-Sensors_Permission-2.patch"; #Add OTHER_SENSORS permission group (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0004-Special_Permission-1.patch"; #Refactor handling of special runtime permissions (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0004-Special_Permission-2.patch"; #Don't auto revoke Network and Sensors (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0004-Special_Permission-3.patch"; #UI fix for special runtime permission (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0004-Special_Permission-4.patch"; #Fix usage UI summary for Network/Sensors (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0005-Browser_No_Location.patch"; #Stop auto-granting location to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0006-Location_Indicators.patch"; #SystemUI: Use new privacy indicators for location (GrapheneOS)
 fi;
 

@@ -1,10 +1,10 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
-Date: Wed, 6 Apr 2022 20:15:35 -0400
-Subject: [PATCH] Merge remote-tracking branch 'qc/msm-4.9' into HEAD
+Date: Mon, 18 Apr 2022 15:51:34 -0400
+Subject: [PATCH] Merge remote-tracking branch qc/msm-4.9 into HEAD
 
 Signed-off-by: Tad <tad@spotco.us>
-Change-Id: Ie4ee3fa1a2c9d22acdcb19f4d07e068ef4388513
+Change-Id: I5aa215f0a850fbeddd01e25c76946c8e290413e0
 ---
  Documentation/ABI/testing/sysfs-bus-iio       |    3 +-
  Documentation/DocBook/libata.tmpl             |    2 +-
@@ -727,15 +727,15 @@ Change-Id: Ie4ee3fa1a2c9d22acdcb19f4d07e068ef4388513
  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           |    8 +-
  drivers/gpu/host1x/bus.c                      |    9 +
  drivers/gpu/ipu-v3/ipu-image-convert.c        |   58 +-
- drivers/gpu/msm/a6xx_reg.h                    |    3 +-
+ drivers/gpu/msm/a6xx_reg.h                    |    1 +
  drivers/gpu/msm/adreno.c                      |   10 +
  drivers/gpu/msm/adreno.h                      |    1 +
  drivers/gpu/msm/adreno_a6xx.c                 |   29 +
+ drivers/gpu/msm/adreno_a6xx_preempt.c         |    6 +-
  drivers/gpu/msm/adreno_a6xx_snapshot.c        |   49 +-
  drivers/gpu/msm/adreno_debugfs.c              |   24 +-
  drivers/gpu/msm/adreno_dispatch.c             |    2 +-
- drivers/gpu/msm/adreno_ioctl.c                |    7 +-
- drivers/gpu/msm/adreno_pm4types.h             |    2 +-
+ drivers/gpu/msm/adreno_ioctl.c                |    5 +-
  drivers/gpu/msm/adreno_snapshot.c             |    6 +-
  drivers/gpu/msm/kgsl.c                        |   18 +-
  drivers/gpu/msm/kgsl.h                        |    2 +
@@ -3021,7 +3021,7 @@ Change-Id: Ie4ee3fa1a2c9d22acdcb19f4d07e068ef4388513
  tools/testing/selftests/x86/syscall_nt.c      |    1 +
  tools/usb/usbip/libsrc/usbip_host_common.c    |    2 +-
  virt/kvm/kvm_main.c                           |   25 +-
- 3015 files changed, 35150 insertions(+), 14778 deletions(-)
+ 3015 files changed, 35151 insertions(+), 14777 deletions(-)
  create mode 100644 Documentation/devicetree/bindings/input/hall_sensor.txt
  create mode 100644 Documentation/devicetree/bindings/input/misc/bma2x2.txt
  create mode 100644 Documentation/devicetree/bindings/input/misc/ltr553.txt
@@ -30505,16 +30505,10 @@ index 50b73f3876fb..098b86eb26d7 100644
  	if (ret < 0) {
  		dev_err(priv->ipu->dev, "could not acquire irq %d\n",
 diff --git a/drivers/gpu/msm/a6xx_reg.h b/drivers/gpu/msm/a6xx_reg.h
-index e3a664e62577..c0c0c9b39afa 100644
+index 0dc9bc1f0a99..fb0ce9a9f410 100644
 --- a/drivers/gpu/msm/a6xx_reg.h
 +++ b/drivers/gpu/msm/a6xx_reg.h
-@@ -1,4 +1,4 @@
--/* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
-+/* Copyright (c) 2017-2018,2020, The Linux Foundation. All rights reserved.
-  *
-  * This program is free software; you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License version 2 and
-@@ -1021,6 +1021,7 @@
+@@ -1024,6 +1024,7 @@
  /* GPUCC registers */
  #define A6XX_GPU_CC_GX_GDSCR                   0x24403
  #define A6XX_GPU_CC_GX_DOMAIN_MISC		0x24542
@@ -30523,10 +30517,10 @@ index e3a664e62577..c0c0c9b39afa 100644
  /* GPU RSC sequencer registers */
  #define	A6XX_RSCC_PDC_SEQ_START_ADDR			0x23408
 diff --git a/drivers/gpu/msm/adreno.c b/drivers/gpu/msm/adreno.c
-index be168688ae8d..ddb02c86d826 100644
+index 284dba3f1c5d..30424739c5e1 100644
 --- a/drivers/gpu/msm/adreno.c
 +++ b/drivers/gpu/msm/adreno.c
-@@ -2268,6 +2268,14 @@ int adreno_reset(struct kgsl_device *device, int fault)
+@@ -2271,6 +2271,14 @@ int adreno_reset(struct kgsl_device *device, int fault)
  		}
  	}
  	if (ret) {
@@ -30541,7 +30535,7 @@ index be168688ae8d..ddb02c86d826 100644
  		/* If soft reset failed/skipped, then pull the power */
  		kgsl_pwrctrl_change_state(device, KGSL_STATE_INIT);
  		/* since device is officially off now clear start bit */
-@@ -2281,6 +2289,8 @@ int adreno_reset(struct kgsl_device *device, int fault)
+@@ -2284,6 +2292,8 @@ int adreno_reset(struct kgsl_device *device, int fault)
  
  			msleep(20);
  		}
@@ -30551,10 +30545,10 @@ index be168688ae8d..ddb02c86d826 100644
  	if (ret)
  		return ret;
 diff --git a/drivers/gpu/msm/adreno.h b/drivers/gpu/msm/adreno.h
-index 43125221826a..54386862ff00 100644
+index ea8ad562234a..d5eaebd0d8c2 100644
 --- a/drivers/gpu/msm/adreno.h
 +++ b/drivers/gpu/msm/adreno.h
-@@ -1002,6 +1002,7 @@ struct adreno_gpudev {
+@@ -1016,6 +1016,7 @@ struct adreno_gpudev {
  	int (*reset)(struct kgsl_device *, int fault);
  	int (*soft_reset)(struct adreno_device *);
  	bool (*gx_is_on)(struct adreno_device *);
@@ -30642,6 +30636,30 @@ index 5a3a26d0083f..300361744cb4 100644
  	.sptprac_is_on = a6xx_sptprac_is_on,
  	.ccu_invalidate = a6xx_ccu_invalidate,
  	.perfcounter_update = a6xx_perfcounter_update,
+diff --git a/drivers/gpu/msm/adreno_a6xx_preempt.c b/drivers/gpu/msm/adreno_a6xx_preempt.c
+index a5068687185e..ffae3361248f 100644
+--- a/drivers/gpu/msm/adreno_a6xx_preempt.c
++++ b/drivers/gpu/msm/adreno_a6xx_preempt.c
+@@ -545,7 +545,8 @@ unsigned int a6xx_preemption_pre_ibsubmit(
+ 	if (context) {
+ 		struct adreno_context *drawctxt = ADRENO_CONTEXT(context);
+ 		struct adreno_ringbuffer *rb = drawctxt->rb;
+-		uint64_t dest = PREEMPT_SCRATCH_ADDR(adreno_dev, rb->id);
++		uint64_t dest = adreno_dev->preempt.scratch.gpuaddr +
++			sizeof(u64) * rb->id;
+ 
+ 		*cmds++ = cp_mem_packet(adreno_dev, CP_MEM_WRITE, 2, 2);
+ 		cmds += cp_gpuaddr(adreno_dev, cmds, dest);
+@@ -578,7 +579,8 @@ unsigned int a6xx_preemption_post_ibsubmit(struct adreno_device *adreno_dev,
+ 	struct adreno_ringbuffer *rb = adreno_dev->cur_rb;
+ 
+ 	if (rb) {
+-		uint64_t dest = PREEMPT_SCRATCH_ADDR(adreno_dev, rb->id);
++		uint64_t dest = adreno_dev->preempt.scratch.gpuaddr +
++			sizeof(u64) * rb->id;
+ 
+ 		*cmds++ = cp_mem_packet(adreno_dev, CP_MEM_WRITE, 2, 2);
+ 		cmds += cp_gpuaddr(adreno_dev, cmds, dest);
 diff --git a/drivers/gpu/msm/adreno_a6xx_snapshot.c b/drivers/gpu/msm/adreno_a6xx_snapshot.c
 index d3f13d4a9541..639133ae094b 100644
 --- a/drivers/gpu/msm/adreno_a6xx_snapshot.c
@@ -30809,16 +30827,10 @@ index b4bc750a9c1a..cf2c1c06c38f 100644
  			if (ret)
  				return ret;
 diff --git a/drivers/gpu/msm/adreno_ioctl.c b/drivers/gpu/msm/adreno_ioctl.c
-index ff9a69a29130..a5d1c0cc6f57 100644
+index 04ae62abe3b8..94a617c0e49d 100644
 --- a/drivers/gpu/msm/adreno_ioctl.c
 +++ b/drivers/gpu/msm/adreno_ioctl.c
-@@ -1,4 +1,4 @@
--/* Copyright (c) 2002,2007-2018,2020, The Linux Foundation. All rights reserved.
-+/* Copyright (c) 2002,2007-2018,2020-2021, The Linux Foundation. All rights reserved.
-  *
-  * This program is free software; you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License version 2 and
-@@ -195,11 +195,8 @@ long adreno_ioctl_helper(struct kgsl_device_private *dev_priv,
+@@ -204,11 +204,8 @@ long adreno_ioctl_helper(struct kgsl_device_private *dev_priv,
  			break;
  	}
  
@@ -30831,16 +30843,6 @@ index ff9a69a29130..a5d1c0cc6f57 100644
  
  	if (WARN_ON(_IOC_SIZE(cmds[i].cmd) > sizeof(data))) {
  		if (__ratelimit(&_rs))
-diff --git a/drivers/gpu/msm/adreno_pm4types.h b/drivers/gpu/msm/adreno_pm4types.h
-index cf30a834546b..543496399044 100644
---- a/drivers/gpu/msm/adreno_pm4types.h
-+++ b/drivers/gpu/msm/adreno_pm4types.h
-@@ -1,4 +1,4 @@
--/* Copyright (c) 2002,2007-2017,2020, The Linux Foundation. All rights reserved.
-+/* Copyright (c) 2002,2007-2017,2020 The Linux Foundation. All rights reserved.
-  *
-  * This program is free software; you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License version 2 and
 diff --git a/drivers/gpu/msm/adreno_snapshot.c b/drivers/gpu/msm/adreno_snapshot.c
 index 178369171cb0..dabc443d4ece 100644
 --- a/drivers/gpu/msm/adreno_snapshot.c

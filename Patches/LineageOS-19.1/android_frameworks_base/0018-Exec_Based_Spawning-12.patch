@@ -78,7 +78,7 @@ index 6d4b8c5ea1ad..1f0ac0bd6520 100644
 +    public static native void nativeHandleRuntimeFlags(int runtimeFlags);
  }
 diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java/com/android/internal/os/ZygoteConnection.java
-index 27518dd4cdce..a8d9400c7992 100644
+index 4573cb2c0b59..9cc90f3ac142 100644
 --- a/core/java/com/android/internal/os/ZygoteConnection.java
 +++ b/core/java/com/android/internal/os/ZygoteConnection.java
 @@ -539,7 +539,7 @@ class ZygoteConnection {

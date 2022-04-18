@@ -392,6 +392,9 @@ removeBuildFingerprints || true;
 
 #Tweaks for <2GB RAM devices
 enableLowRam "device/asus/fugu" "fugu";
+#Tweaks for <3GB RAM devices
+#enableLowRam "device/lge/hammerhead" "hammerhead";
+#enableLowRam "device/samsung/kccat6" "kccat6";
 
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/asus/msm8953/arch/arm64/configs/*_defconfig; #Breaks on compile

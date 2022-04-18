@@ -334,6 +334,13 @@ removeBuildFingerprints || true;
 
 #Tweaks for <2GB RAM devices
 enableLowRam "device/asus/fugu";
+#Tweaks for <3GB RAM devices
+#enableLowRam "device/asus/deb";
+#enableLowRam "device/asus/flo";
+#enableLowRam "device/htc/flounder";
+#enableLowRam "device/htc/flounder_lte";
+#enableLowRam "device/lge/bullhead";
+#enableLowRam "device/lge/hammerhead";
 
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
