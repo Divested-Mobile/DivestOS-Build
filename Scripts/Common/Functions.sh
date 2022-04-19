@@ -538,6 +538,7 @@ hardenBootArgs() {
 export -f hardenBootArgs;
 
 enableAutoVarInit() {
+	#grep TARGET_KERNEL_CLANG_COMPILE Build/*/device/*/*/*.mk -l
 	DOS_AUTOVARINIT_KERNELS=('essential/msm8998' 'fxtec/msm8998' 'google/coral' 'google/msm-4.9' 'google/sunfish' 'google/wahoo' 'oneplus/msm8996' 'oneplus/msm8998' 'oneplus/sdm845' 'oneplus/sm7250' 'oneplus/sm8150' 'razer/msm8998' 'razer/sdm845' 'sony/sdm660' 'sony/sdm845' 'xiaomi/sdm660' 'xiaomi/sdm845' 'xiaomi/sm6150' 'xiaomi/sm8150' 'xiaomi/sm8250' 'zuk/msm8996'); #redbull already supports init_stack_all_zero
 	cd "$DOS_BUILD_BASE";
 	echo "auto-var-init: Starting!";
@@ -578,6 +579,7 @@ export -f enableAutoVarInit;
 updateRegDb() {
 	cd "$DOS_BUILD_BASE$1";
 	#Latest database cannot be used due to differing flags, only update supported kernels
+	#md5sum Build/*/kernel/*/*/net/wireless/genregdb.awk | sort
 	if echo "d9ef5910b573c634fa7845bb6511ba89  net/wireless/genregdb.awk" | md5sum --check --quiet &>/dev/null; then
 		cp "$DOS_PATCHES_COMMON/wireless-regdb/db.txt" "net/wireless/db.txt";
 		echo "regdb: updated for $1";

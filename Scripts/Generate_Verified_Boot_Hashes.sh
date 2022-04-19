@@ -1,5 +1,7 @@
 #!/bin/sh
+#grep "verity\.mk" Build/*/device/*/*/*.mk -l
 VERITY_DEVICES=('Amber' 'angler' 'bullhead' 'cheeseburger' 'cheryl' 'dragon' 'dumpling' 'flounder' 'marlin' 'mata' 'oneplus3' 'sailfish' 'shamu' 'z2_plus');
+#grep "AVB_ENABLE" Build/*/device/*/*/*.mk -l
 AVB_DEVICES=('akari' 'alioth' 'aura' 'aurora' 'avicii' 'beryllium' 'blueline' 'bonito' 'bramble' 'coral' 'crosshatch' 'davinci' 'enchilada' 'fajita' 'flame' 'FP3' 'guacamole' 'guacamoleb' 'hotdog' 'hotdogb' 'lavender' 'lmi' 'pro1' 'raphael' 'redfin' 'sargo' 'sunfish' 'taimen' 'vayu' 'walleye' 'xz2c');
 
 #TODO: Make this a function?

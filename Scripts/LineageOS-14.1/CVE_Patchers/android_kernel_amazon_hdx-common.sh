@@ -743,11 +743,12 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/3.4/0064.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/3.4/0065.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/3.4/0068.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/3.4/0070.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1353/^5.17/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/^5.17/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-after-free-for-hub-usb-device.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-4592/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2014-9728/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-4002/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13167/3.4/0014.patch
-editKernelLocalversion "-dos.p749"
+editKernelLocalversion "-dos.p750"
 cd "$DOS_BUILD_BASE"
