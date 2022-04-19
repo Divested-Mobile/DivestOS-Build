@@ -1,0 +1,289 @@
+From 7151fea3ef434af357a468fa4c93645912a89849 Mon Sep 17 00:00:00 2001
+From: Tibor Dusnoki <tdusnoki@inf.u-szeged.hu>
+Date: Wed, 23 Feb 2022 10:37:45 +0100
+Subject: [PATCH 1/2] Warn when running activity from 32 bit app on ARM
+ devices.
+
+Starting August 1, 2019 it is required to have 64-bit versions of apps.
+As we prepare for the 64-bit requirement this warning dialog notifies users when running an APK using deprecated ABI to update their apps or contact developers to comply to Google's policies.
+
+Change-Id: If0ca5cbcee571a1095c45c96f0126fce8d0f218c
+---
+ core/res/res/values/strings.xml               |  3 +
+ core/res/res/values/symbols.xml               |  2 +
+ .../com/android/server/wm/AppWarnings.java    | 55 +++++++++++++
+ .../server/wm/DeprecatedAbiDialog.java        | 80 +++++++++++++++++++
+ 4 files changed, 140 insertions(+)
+ create mode 100644 services/core/java/com/android/server/wm/DeprecatedAbiDialog.java
+
+diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
+index ae206c1f5872..5581a56ade91 100644
+--- a/core/res/res/values/strings.xml
++++ b/core/res/res/values/strings.xml
+@@ -5083,6 +5083,9 @@
+     <!-- Title for button to see application detail in app store which it came from - it may allow user to update to newer version. [CHAR LIMIT=50] -->
+     <string name="deprecated_target_sdk_app_store">Check for update</string>
+ 
++    <!-- Message displayed in dialog when app is 32 bit on a 64 bit system. [CHAR LIMIT=NONE] -->
++    <string name="deprecated_abi_message">This app needs to be updated by its developer to improve compatibility. Try checking for updates, or contact the developer.</string>
++
+     <!-- Notification title shown when new SMS/MMS is received while the device is locked [CHAR LIMIT=NONE] -->
+     <string name="new_sms_notification_title">You have new messages</string>
+     <!-- Notification content shown when new SMS/MMS is received while the device is locked [CHAR LIMIT=NONE] -->
+diff --git a/core/res/res/values/symbols.xml b/core/res/res/values/symbols.xml
+index 5481457d0958..e632f3ef5903 100644
+--- a/core/res/res/values/symbols.xml
++++ b/core/res/res/values/symbols.xml
+@@ -3007,6 +3007,8 @@
+   <java-symbol type="string" name="deprecated_target_sdk_message" />
+   <java-symbol type="string" name="deprecated_target_sdk_app_store" />
+ 
++  <java-symbol type="string" name="deprecated_abi_message" />
++
+   <!-- New SMS notification while phone is locked. -->
+   <java-symbol type="string" name="new_sms_notification_title" />
+   <java-symbol type="string" name="new_sms_notification_content" />
+diff --git a/services/core/java/com/android/server/wm/AppWarnings.java b/services/core/java/com/android/server/wm/AppWarnings.java
+index 6c3fbc1f4160..08e842fe79f9 100644
+--- a/services/core/java/com/android/server/wm/AppWarnings.java
++++ b/services/core/java/com/android/server/wm/AppWarnings.java
+@@ -42,6 +42,7 @@ import java.nio.charset.StandardCharsets;
+ import java.util.HashMap;
+ import java.util.HashSet;
+ import java.util.Map;
++import java.util.Arrays;
+ 
+ /**
+  * Manages warning dialogs shown during application lifecycle.
+@@ -53,6 +54,7 @@ class AppWarnings {
+     public static final int FLAG_HIDE_DISPLAY_SIZE = 0x01;
+     public static final int FLAG_HIDE_COMPILE_SDK = 0x02;
+     public static final int FLAG_HIDE_DEPRECATED_SDK = 0x04;
++    public static final int FLAG_HIDE_DEPRECATED_ABI = 0x05;
+ 
+     private final HashMap<String, Integer> mPackageFlags = new HashMap<>();
+ 
+@@ -65,6 +67,7 @@ class AppWarnings {
+     private UnsupportedDisplaySizeDialog mUnsupportedDisplaySizeDialog;
+     private UnsupportedCompileSdkDialog mUnsupportedCompileSdkDialog;
+     private DeprecatedTargetSdkVersionDialog mDeprecatedTargetSdkVersionDialog;
++    private DeprecatedAbiDialog mDeprecatedAbiDialog;
+ 
+     /** @see android.app.ActivityManager#alwaysShowUnsupportedCompileSdkWarning */
+     private HashSet<ComponentName> mAlwaysShowUnsupportedCompileSdkWarningActivities =
+@@ -158,6 +161,19 @@ class AppWarnings {
+         }
+     }
+ 
++    /**
++     * Shows the "deprecated abi" warning, if necessary.
++     *
++     * @param r activity record for which the warning may be displayed
++     */
++    public void showDeprecatedAbiDialogIfNeeded(ActivityRecord r) {
++        final String appAbi = r.info.applicationInfo.primaryCpuAbi;
++        final boolean is64BitArmDevice = Arrays.stream(Build.SUPPORTED_64_BIT_ABIS).anyMatch("arm64-v8a"::equals);
++        if (is64BitArmDevice && appAbi != null && appAbi != "arm64-v8a") {
++            mUiHandler.showDeprecatedAbiDialog(r);
++        }
++    }
++
+     /**
+      * Called when an activity is being started.
+      *
+@@ -167,6 +183,7 @@ class AppWarnings {
+         showUnsupportedCompileSdkDialogIfNeeded(r);
+         showUnsupportedDisplaySizeDialogIfNeeded(r);
+         showDeprecatedTargetDialogIfNeeded(r);
++        showDeprecatedAbiDialogIfNeeded(r);
+     }
+ 
+     /**
+@@ -291,6 +308,27 @@ class AppWarnings {
+         }
+     }
+ 
++    /**
++     * Shows the "deprecated abi" warning for the given application.
++     * <p>
++     * <strong>Note:</strong> Must be called on the UI thread.
++     *
++     * @param ar record for the activity that triggered the warning
++     */
++    @UiThread
++    private void showDeprecatedAbiDialogUiThread(ActivityRecord ar) {
++        if (mDeprecatedAbiDialog != null) {
++            mDeprecatedAbiDialog.dismiss();
++            mDeprecatedAbiDialog = null;
++        }
++        if (ar != null && !hasPackageFlag(
++                ar.packageName, FLAG_HIDE_DEPRECATED_ABI)) {
++            mDeprecatedAbiDialog = new DeprecatedAbiDialog(
++                    AppWarnings.this, mUiContext, ar.info.applicationInfo);
++            mDeprecatedAbiDialog.show();
++        }
++    }
++
+     /**
+      * Dismisses all warnings for the given package.
+      * <p>
+@@ -321,6 +359,13 @@ class AppWarnings {
+             mDeprecatedTargetSdkVersionDialog.dismiss();
+             mDeprecatedTargetSdkVersionDialog = null;
+         }
++
++        // Hides the "deprecated abi" dialog if necessary.
++        if (mDeprecatedAbiDialog != null && (name == null || name.equals(
++                mDeprecatedAbiDialog.getPackageName()))) {
++            mDeprecatedAbiDialog.dismiss();
++            mDeprecatedAbiDialog = null;
++        }
+     }
+ 
+     /**
+@@ -374,6 +419,7 @@ class AppWarnings {
+         private static final int MSG_SHOW_UNSUPPORTED_COMPILE_SDK_DIALOG = 3;
+         private static final int MSG_HIDE_DIALOGS_FOR_PACKAGE = 4;
+         private static final int MSG_SHOW_DEPRECATED_TARGET_SDK_DIALOG = 5;
++        private static final int MSG_SHOW_DEPRECATED_ABI_DIALOG = 6;
+ 
+         public UiHandler(Looper looper) {
+             super(looper, null, true);
+@@ -401,6 +447,10 @@ class AppWarnings {
+                     final ActivityRecord ar = (ActivityRecord) msg.obj;
+                     showDeprecatedTargetSdkDialogUiThread(ar);
+                 } break;
++                case MSG_SHOW_DEPRECATED_ABI_DIALOG: {
++                    final ActivityRecord ar = (ActivityRecord) msg.obj;
++                    showDeprecatedAbiDialogUiThread(ar);
++                } break;
+             }
+         }
+ 
+@@ -424,6 +474,11 @@ class AppWarnings {
+             obtainMessage(MSG_SHOW_DEPRECATED_TARGET_SDK_DIALOG, r).sendToTarget();
+         }
+ 
++        public void showDeprecatedAbiDialog(ActivityRecord r) {
++            removeMessages(MSG_SHOW_DEPRECATED_ABI_DIALOG);
++            obtainMessage(MSG_SHOW_DEPRECATED_ABI_DIALOG, r).sendToTarget();
++        }
++
+         public void hideDialogsForPackage(String name) {
+             obtainMessage(MSG_HIDE_DIALOGS_FOR_PACKAGE, name).sendToTarget();
+         }
+diff --git a/services/core/java/com/android/server/wm/DeprecatedAbiDialog.java b/services/core/java/com/android/server/wm/DeprecatedAbiDialog.java
+new file mode 100644
+index 000000000000..d2e611965dd4
+--- /dev/null
++++ b/services/core/java/com/android/server/wm/DeprecatedAbiDialog.java
+@@ -0,0 +1,80 @@
++/*
++ * Copyright (C) 2022 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.server.wm;
++
++import static com.android.server.wm.ActivityTaskManagerDebugConfig.TAG_ATM;
++import static com.android.server.wm.ActivityTaskManagerDebugConfig.TAG_WITH_CLASS_NAME;
++
++import android.app.AlertDialog;
++import android.content.Context;
++import android.content.pm.ApplicationInfo;
++import android.content.pm.PackageItemInfo;
++import android.content.pm.PackageManager;
++import android.util.Log;
++import android.view.Window;
++import android.view.WindowManager;
++
++import com.android.internal.R;
++
++public class DeprecatedAbiDialog {
++    private static final String TAG = TAG_WITH_CLASS_NAME ? "DeprecatedAbiDialog" : TAG_ATM;
++
++    private final AlertDialog mDialog;
++    private final String mPackageName;
++
++    public DeprecatedAbiDialog(final AppWarnings manager, Context context,
++            ApplicationInfo appInfo) {
++        mPackageName = appInfo.packageName;
++
++        final PackageManager pm = context.getPackageManager();
++        final CharSequence label = appInfo.loadSafeLabel(pm,
++                PackageItemInfo.DEFAULT_MAX_LABEL_SIZE_PX,
++                PackageItemInfo.SAFE_LABEL_FLAG_FIRST_LINE
++                        | PackageItemInfo.SAFE_LABEL_FLAG_TRIM);
++        final CharSequence message = context.getString(R.string.deprecated_abi_message);
++
++        final AlertDialog.Builder builder = new AlertDialog.Builder(context)
++                .setPositiveButton(R.string.ok, (dialog, which) ->
++                    manager.setPackageFlag(
++                            mPackageName, AppWarnings.FLAG_HIDE_DEPRECATED_ABI, true))
++                .setMessage(message)
++                .setTitle(label);
++
++        // Ensure the content view is prepared.
++        mDialog = builder.create();
++        mDialog.create();
++
++        final Window window = mDialog.getWindow();
++        window.setType(WindowManager.LayoutParams.TYPE_PHONE);
++
++        // DO NOT MODIFY. Used by CTS to verify the dialog is displayed.
++        window.getAttributes().setTitle("DeprecatedAbiDialog");
++    }
++
++    public String getPackageName() {
++        return mPackageName;
++    }
++
++    public void show() {
++        Log.w(TAG, "Showing ABI deprecation warning for package " + mPackageName);
++        mDialog.show();
++    }
++
++    public void dismiss() {
++        mDialog.dismiss();
++    }
++}
+-- 
+2.35.1
+
+
+From 8380b8e8ddf41a7a0a20a95861f9dafcb7bff110 Mon Sep 17 00:00:00 2001
+From: flawedworld <flawedworld@flawed.world>
+Date: Tue, 12 Apr 2022 23:32:31 +0100
+Subject: [PATCH 2/2] Make 32 bit deprecation dialogue more user friendly
+
+---
+ core/res/res/values/strings.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
+index 5581a56ade91..a5fa280f41f7 100644
+--- a/core/res/res/values/strings.xml
++++ b/core/res/res/values/strings.xml
+@@ -5084,7 +5084,7 @@
+     <string name="deprecated_target_sdk_app_store">Check for update</string>
+ 
+     <!-- Message displayed in dialog when app is 32 bit on a 64 bit system. [CHAR LIMIT=NONE] -->
+-    <string name="deprecated_abi_message">This app needs to be updated by its developer to improve compatibility. Try checking for updates, or contact the developer.</string>
++    <string name="deprecated_abi_message">This is a 32 bit app, which is a likely indicator that this app is outdated and potentially unmaintained. Try checking for updates, or contact the developer.</string>
+ 
+     <!-- Notification title shown when new SMS/MMS is received while the device is locked [CHAR LIMIT=NONE] -->
+     <string name="new_sms_notification_title">You have new messages</string>
+-- 
+2.35.1
+
