@@ -1,0 +1,72 @@
+From e336a0c51b42f5a43d4d7216cf0de7fb27c8b138 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Wed, 20 Apr 2022 00:40:52 -0400
+Subject: [PATCH] Add a toggle to disable /etc/hosts lookup
+
+Signed-off-by: Tad <tad@spotco.us>
+Change-Id: I92679c57e73228dc194e61a86ea1a18b2ac90e04
+---
+ libc/dns/net/getaddrinfo.c | 37 +++++++++++++++++++++++--------------
+ 1 file changed, 23 insertions(+), 14 deletions(-)
+
+diff --git a/libc/dns/net/getaddrinfo.c b/libc/dns/net/getaddrinfo.c
+index cc94b21e2..d4d1db259 100644
+--- a/libc/dns/net/getaddrinfo.c
++++ b/libc/dns/net/getaddrinfo.c
+@@ -83,6 +83,7 @@
+ #include <sys/stat.h>
+ #include <sys/param.h>
+ #include <sys/socket.h>
++#include <sys/system_properties.h>
+ #include <sys/un.h>
+ #include <net/if.h>
+ #include <netinet/in.h>
+@@ -2129,23 +2130,31 @@ _files_getaddrinfo(void *rv, void *cb_data, va_list ap)
+ 
+ 	memset(&sentinel, 0, sizeof(sentinel));
+ 	cur = &sentinel;
+-	int gai_error = hc_getaddrinfo(name, NULL, pai, &cur);
+-	if (gai_error != EAI_SYSTEM) {
+-		*((struct addrinfo **)rv) = sentinel.ai_next;
+-		return (gai_error == 0 ? NS_SUCCESS : NS_NOTFOUND);
+-	}
+ 
+-//	fprintf(stderr, "_files_getaddrinfo() name = '%s'\n", name);
+-	memset(&sentinel, 0, sizeof(sentinel));
+-	cur = &sentinel;
++	int hostsDisabled = 0;
++	char value[PROP_VALUE_MAX] = { 0 };
++	if (__system_property_get("persist.security.hosts_disable", value) != 0)
++		hostsDisabled = atoi(value);
+ 
+-	_sethtent(&hostf);
+-	while ((p = _gethtent(&hostf, name, pai)) != NULL) {
+-		cur->ai_next = p;
+-		while (cur && cur->ai_next)
+-			cur = cur->ai_next;
++	if (hostsDisabled == 0) {
++		int gai_error = hc_getaddrinfo(name, NULL, pai, &cur);
++		if (gai_error != EAI_SYSTEM) {
++			*((struct addrinfo **)rv) = sentinel.ai_next;
++			return (gai_error == 0 ? NS_SUCCESS : NS_NOTFOUND);
++		}
++
++//		fprintf(stderr, "_files_getaddrinfo() name = '%s'\n", name);
++		memset(&sentinel, 0, sizeof(sentinel));
++		cur = &sentinel;
++
++		_sethtent(&hostf);
++		while ((p = _gethtent(&hostf, name, pai)) != NULL) {
++			cur->ai_next = p;
++			while (cur && cur->ai_next)
++				cur = cur->ai_next;
++		}
++		_endhtent(&hostf);
+ 	}
+-	_endhtent(&hostf);
+ 
+ 	*((struct addrinfo **)rv) = sentinel.ai_next;
+ 	if (sentinel.ai_next == NULL)
+-- 
+2.36.0
+
