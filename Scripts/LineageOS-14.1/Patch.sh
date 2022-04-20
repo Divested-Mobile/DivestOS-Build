@@ -56,18 +56,18 @@ cp -r "$DOS_PREBUILT_APPS""android_vendor_FDroid_PrebuiltApps/." "$DOS_BUILD_BAS
 cp -r "$DOS_PATCHES_COMMON""android_vendor_divested/." "$DOS_BUILD_BASE""vendor/divested/"; #Add our vendor files
 
 if enterAndClear "bionic"; then
-applyPatch "$DOS_PATCHES_COMMON/android_bionic/0001-Wildcard_Hosts.patch"; #Support wildcards in cached hosts file (backport from 16.0+)
+applyPatch "$DOS_PATCHES_COMMON/android_bionic/0001-Wildcard_Hosts.patch"; #Support wildcards in cached hosts file (backport from 16.0+) (tdm)
 fi;
 
 if enterAndClear "bootable/recovery"; then
 git revert --no-edit 3c0d796b79c7a1ee904e0cef7c0f2e20bf84c237; #Remove sideload cache, breaks with large files
-applyPatch "$DOS_PATCHES/android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button?
+applyPatch "$DOS_PATCHES/android_bootable_recovery/0001-Squash_Menus.patch"; #What's a back button? (DivestOS)
 sed -i 's/(!has_serial_number || serial_number_matched)/!has_serial_number/' recovery.cpp; #Abort package installs if they are specific to a serial number (GrapheneOS)
 fi;
 
 if enterAndClear "build"; then
 git revert --no-edit a47d7ee7027ecb50e217c5e4d6ea7e201d7ea033; #Re-enable the downgrade check
-applyPatch "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys to recovery for OTA verification
+applyPatch "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys to recovery for OTA verification (DivestOS)
 sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 if [ "$DOS_SILENCE_INCLUDED" = true ]; then sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk; fi; #Replace the Messaging app with Silence
@@ -77,8 +77,8 @@ sed -i 's/2021-06-05/2022-04-05/' core/version_defaults.mk; #Bump Security Strin
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
-applyPatch "$DOS_PATCHES/android_device_qcom_sepolicy/248649.patch"; #msm_irqbalance: Allow read for stats and interrupts
-applyPatch "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on user builds XXX: REMOVE THIS TRASH
+applyPatch "$DOS_PATCHES/android_device_qcom_sepolicy/248649.patch"; #msm_irqbalance: Allow read for stats and interrupts (syphyr)
+applyPatch "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on user builds XXX: REMOVE THIS TRASH (DivestOS)
 fi;
 
 if enterAndClear "external/chromium-webview"; then
@@ -91,13 +91,13 @@ applyPatch "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Ena
 fi;
 
 if enterAndClear "frameworks/av"; then
-applyPatch "$DOS_PATCHES/android_frameworks_av/212799.patch"; #FLAC extractor CVE-2017-0592. alt: 212827/174106
+applyPatch "$DOS_PATCHES/android_frameworks_av/212799.patch"; #FLAC extractor CVE-2017-0592. alt: 212827/174106 (AOSP)
 fi;
 
 if enterAndClear "frameworks/base"; then
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
-applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME
-applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480
+applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 if [ "$DOS_SENSORS_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0009-Sensors-P1.patch"; fi; #Permission for sensors access (MSe1969)
@@ -116,7 +116,7 @@ fi;
 
 if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
 if enterAndClear "frameworks/opt/net/ims"; then
-applyPatch "$DOS_PATCHES/android_frameworks_opt_net_ims/0001-Fix_Calling.patch"; #Fix calling when IMS is removed
+applyPatch "$DOS_PATCHES/android_frameworks_opt_net_ims/0001-Fix_Calling.patch"; #Fix calling when IMS is removed (DivestOS)
 fi;
 fi;
 
@@ -130,23 +130,23 @@ awk -i inplace '!/com.android.internal.R.bool.config_permissionReviewRequired/' 
 fi;
 
 if enterAndClear "hardware/ti/omap4"; then
-applyPatch "$DOS_PATCHES/android_hardware_ti_omap4/0001-tuna-camera.patch"; #Fix camera on tuna
+applyPatch "$DOS_PATCHES/android_hardware_ti_omap4/0001-tuna-camera.patch"; #Fix camera on tuna (repinski)
 fi;
 
 if enterAndClear "hardware/ti/wlan"; then
 #krack fixes
-applyPatch "$DOS_PATCHES/android_hardware_ti_wlan/209209.patch"; #wl12xx: Update SR and MR firmwares versions
-applyPatch "$DOS_PATCHES/android_hardware_ti_wlan/209210.patch"; #wl12xx: Update SR PLT firmwares
+applyPatch "$DOS_PATCHES/android_hardware_ti_wlan/209209.patch"; #wl12xx: Update SR and MR firmwares versions (Texas Instruments)
+applyPatch "$DOS_PATCHES/android_hardware_ti_wlan/209210.patch"; #wl12xx: Update SR PLT firmwares (Texas Instruments)
 fi;
 
 if enterAndClear "hardware/qcom/display"; then
-applyPatch "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8084.patch" --directory="msm8084";
+applyPatch "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8084.patch" --directory="msm8084"; #(Qualcomm)
 applyPatch "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8916.patch" --directory="msm8226";
 applyPatch "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8960.patch" --directory="msm8960";
 applyPatch "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8974.patch" --directory="msm8974";
 applyPatch "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8994.patch" --directory="msm8994";
 #missing msm8909, msm8996, msm8998
-applyPatch "$DOS_PATCHES/android_hardware_qcom_display/229952.patch"; #n_asb_09-2018-qcom
+applyPatch "$DOS_PATCHES/android_hardware_qcom_display/229952.patch"; #n_asb_09-2018-qcom (AOSP)
 fi;
 
 if enterAndClear "hardware/qcom/display-caf/apq8084"; then
@@ -174,43 +174,43 @@ applyPatch "$DOS_PATCHES_COMMON/android_hardware_qcom_display/CVE-2019-2306-msm8
 fi;
 
 if enterAndClear "hardware/qcom/display-caf/msm8996"; then
-applyPatch "$DOS_PATCHES/android_hardware_qcom_display/227623.patch"; #n_asb_09-2018-qcom
+applyPatch "$DOS_PATCHES/android_hardware_qcom_display/227623.patch"; #n_asb_09-2018-qcom (AOSP)
 fi;
 
 if enterAndClear "hardware/qcom/display-caf/msm8998"; then
-applyPatch "$DOS_PATCHES/android_hardware_qcom_display/227624.patch"; #n_asb_09-2018-qcom
+applyPatch "$DOS_PATCHES/android_hardware_qcom_display/227624.patch"; #n_asb_09-2018-qcom (AOSP)
 fi;
 
 if enterAndClear "hardware/qcom/gps"; then
-applyPatch "$DOS_PATCHES/android_hardware_qcom_gps/0001-rollover.patch"; #Fix week rollover
+applyPatch "$DOS_PATCHES/android_hardware_qcom_gps/0001-rollover.patch"; #Fix week rollover (jlask)
 fi;
 
 if enterAndClear "hardware/qcom/media"; then
-applyPatch "$DOS_PATCHES/android_hardware_qcom_media/229950.patch"; #n_asb_09-2018-qcom
-applyPatch "$DOS_PATCHES/android_hardware_qcom_media/229951.patch"; #n_asb_09-2018-qcom
+applyPatch "$DOS_PATCHES/android_hardware_qcom_media/229950.patch"; #n_asb_09-2018-qcom (AOSP)
+applyPatch "$DOS_PATCHES/android_hardware_qcom_media/229951.patch"; #n_asb_09-2018-qcom (AOSP)
 fi;
 
 if enterAndClear "hardware/qcom/media-caf/apq8084"; then
-applyPatch "$DOS_PATCHES/android_hardware_qcom_media/227620.patch"; #n_asb_09-2018-qcom
+applyPatch "$DOS_PATCHES/android_hardware_qcom_media/227620.patch"; #n_asb_09-2018-qcom (CAF)
 fi;
 
 if enterAndClear "hardware/qcom/media-caf/msm8994"; then
-applyPatch "$DOS_PATCHES/android_hardware_qcom_media/227622.patch"; #n_asb_09-2018-qcom
+applyPatch "$DOS_PATCHES/android_hardware_qcom_media/227622.patch"; #n_asb_09-2018-qcom (CAF)
 fi;
 
 if enterAndClear "packages/apps/CMParts"; then
 rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of CMStats
-applyPatch "$DOS_PATCHES/android_packages_apps_CMParts/0001-Remove_Analytics.patch"; #Remove the rest of CMStats
-applyPatch "$DOS_PATCHES/android_packages_apps_CMParts/0002-Reduced_Resolution.patch"; #Allow reducing resolution to save power
+applyPatch "$DOS_PATCHES/android_packages_apps_CMParts/0001-Remove_Analytics.patch"; #Remove the rest of CMStats (DivestOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_CMParts/0002-Reduced_Resolution.patch"; #Allow reducing resolution to save power (DivestOS)
 fi;
 
 if enterAndClear "packages/apps/PackageInstaller"; then
-applyPatch "$DOS_PATCHES/android_packages_apps_PackageInstaller/64d8b44.patch"; #Fix an issue with Permission Review
+applyPatch "$DOS_PATCHES/android_packages_apps_PackageInstaller/64d8b44.patch"; #Fix an issue with Permission Review (AOSP/452540)
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
 git revert --no-edit 2ebe6058c546194a301c1fd22963d6be4adbf961; #Don't hide OEM unlock
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/201113.patch"; #wifi: Add world regulatory domain country code
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/201113.patch"; #wifi: Add world regulatory domain country code (syphyr)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 if [ "$DOS_SENSORS_PERM" = true ]; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0002-Sensors-P1.patch"; #Permission for sensors access (MSe1969)
@@ -221,12 +221,12 @@ sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/a
 fi;
 
 if enterAndClear "packages/apps/SetupWizard"; then
-applyPatch "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove the rest of CMStats
+applyPatch "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove the rest of CMStats (DivestOS)
 fi;
 
 if enterAndClear "packages/apps/Updater"; then
-applyPatch "$DOS_PATCHES/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server
-applyPatch "$DOS_PATCHES/android_packages_apps_Updater/0002-Tor_Support.patch"; #Add Tor support
+applyPatch "$DOS_PATCHES/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server (DivestOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_Updater/0002-Tor_Support.patch"; #Add Tor support (DivestOS)
 #TODO: Remove changelog
 fi;
 
@@ -241,20 +241,20 @@ sed -i 's/WallpaperUtils.EXTRA_WALLPAPER_OFFSET, 0);/WallpaperUtils.EXTRA_WALLPA
 fi;
 
 if enterAndClear "packages/inputmethods/LatinIME"; then
-applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key
+applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key (DivestOS)
 applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
 fi;
 
 if enterAndClear "packages/services/Telephony"; then
-applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch";
+applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch"; #(DivestOS)
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
 fi;
 
 if enterAndClear "system/bt"; then
-applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #Increase maximum Bluetooth SBC codec bitrate for SBC HD
-applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #Explicit SBC Dual Channel (SBC HD) support
-applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one
-applyPatch "$DOS_PATCHES/android_system_bt/0001-NO_READENCRKEYSIZE.patch"; #Add an option to let devices opt-out of the HCI_READ_ENCR_KEY_SIZE_SUPPORTED assert
+applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
+applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
+applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)
+applyPatch "$DOS_PATCHES/android_system_bt/0001-NO_READENCRKEYSIZE.patch"; #Add an option to let devices opt-out of the HCI_READ_ENCR_KEY_SIZE_SUPPORTED assert (DivestOS)
 fi;
 
 if enterAndClear "system/core"; then
@@ -266,12 +266,12 @@ fi;
 
 if enterAndClear "system/sepolicy"; then
 applyPatch "$DOS_PATCHES/android_system_sepolicy/0002-protected_files.patch"; #label protected_{fifos,regular} as proc_security (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_system_sepolicy/248600.patch"; #Restrict access to timing information in /proc
-applyPatch "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices
+applyPatch "$DOS_PATCHES/android_system_sepolicy/248600.patch"; #Restrict access to timing information in /proc (AndroidHardening)
+applyPatch "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices (DivestOS)
 fi;
 
 if enterAndClear "system/vold"; then
-applyPatch "$DOS_PATCHES/android_system_vold/0001-AES256.patch"; #Add a variable for enabling AES-256 bit encryption
+applyPatch "$DOS_PATCHES/android_system_vold/0001-AES256.patch"; #Add a variable for enabling AES-256 bit encryption (DivestOS)
 fi;
 
 if enterAndClear "vendor/cm"; then
@@ -322,8 +322,8 @@ sed -i 's/,encryptable=footer//' rootdir/etc/fstab.qcom; #Using footer will brea
 fi;
 
 if enterAndClear "device/asus/grouper"; then
-applyPatch "$DOS_PATCHES/android_device_asus_grouper/0001-Update_Blobs.patch";
-applyPatch "$DOS_PATCHES/android_device_asus_grouper/0002-Perf_Tweaks.patch";
+applyPatch "$DOS_PATCHES/android_device_asus_grouper/0001-Update_Blobs.patch"; #(harryyoud)
+applyPatch "$DOS_PATCHES/android_device_asus_grouper/0002-Perf_Tweaks.patch"; #(AndDiSa)
 rm proprietary-blobs.txt;
 cp "$DOS_PATCHES/android_device_asus_grouper/lineage-proprietary-files.txt" lineage-proprietary-files.txt;
 echo "allow gpsd system_data_file:dir write;" >> sepolicy/gpsd.te;
@@ -373,11 +373,11 @@ if enterAndClear "device/samsung/tuna"; then
 rm setup-makefiles.sh; #broken, deblobber will still function
 sed -i 's|vendor/maguro/|vendor/|' libgps-shim/gps.c; #fix dlopen not found
 #See: https://review.lineageos.org/q/topic:tuna-sepolicies
-applyPatch "$DOS_PATCHES/android_device_samsung_tuna/0001-fix_denial.patch";
+applyPatch "$DOS_PATCHES/android_device_samsung_tuna/0001-fix_denial.patch"; #(nailyk)
 applyPatch "$DOS_PATCHES/android_device_samsung_tuna/0002-fix_denial.patch";
 applyPatch "$DOS_PATCHES/android_device_samsung_tuna/0003-fix_denial.patch";
 applyPatch "$DOS_PATCHES/android_device_samsung_tuna/0004-fix_denial.patch";
-applyPatch "$DOS_PATCHES/android_device_samsung_tuna/0005-fix_denial.patch";
+applyPatch "$DOS_PATCHES/android_device_samsung_tuna/0005-fix_denial.patch"; #(DivestOS)
 echo "allow system_server system_file:file execmod;" >> sepolicy/system_server.te; #fix gps load
 echo "PRODUCT_PROPERTY_OVERRIDES += persist.sys.force_highendgfx=true" >> device.mk; #override low_ram to fix artifacting
 fi;
