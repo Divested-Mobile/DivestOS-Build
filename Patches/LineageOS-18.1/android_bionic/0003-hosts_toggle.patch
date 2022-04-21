@@ -1,4 +1,4 @@
-From f5cc53d8d4dfcffe5d1c7b029078803112e79919 Mon Sep 17 00:00:00 2001
+From f4290ee3eceb3843429255aeae9a86dc19b24312 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Wed, 20 Apr 2022 00:40:52 -0400
 Subject: [PATCH] Add a toggle to disable /etc/hosts lookup
@@ -10,7 +10,7 @@ Change-Id: I92679c57e73228dc194e61a86ea1a18b2ac90e04
  1 file changed, 6 insertions(+)
 
 diff --git a/libc/dns/net/getaddrinfo.c b/libc/dns/net/getaddrinfo.c
-index cc94b21e2..36c887a38 100644
+index cc94b21e2..12294da04 100644
 --- a/libc/dns/net/getaddrinfo.c
 +++ b/libc/dns/net/getaddrinfo.c
 @@ -83,6 +83,7 @@
@@ -21,18 +21,18 @@ index cc94b21e2..36c887a38 100644
  #include <sys/un.h>
  #include <net/if.h>
  #include <netinet/in.h>
-@@ -2118,6 +2119,11 @@ found:
- static int
- _files_getaddrinfo(void *rv, void *cb_data, va_list ap)
- {
+@@ -2127,6 +2128,11 @@ _files_getaddrinfo(void *rv, void *cb_data, va_list ap)
+ 	name = va_arg(ap, char *);
+ 	pai = va_arg(ap, struct addrinfo *);
+ 
 +	char value[PROP_VALUE_MAX] = { 0 };
 +	if (__system_property_get("persist.security.hosts_disable", value) != 0)
-+		if (atoi(value) != 0)
++		if (atoi(value) != 0 && strcmp(name, "localhost") != 0 && strcmp(name, "ip6-localhost") != 0)
 +			return NS_NOTFOUND;
 +
- 	const char *name;
- 	const struct addrinfo *pai;
- 	struct addrinfo sentinel, *cur;
+ 	memset(&sentinel, 0, sizeof(sentinel));
+ 	cur = &sentinel;
+ 	int gai_error = hc_getaddrinfo(name, NULL, pai, &cur);
 -- 
 2.36.0
 
