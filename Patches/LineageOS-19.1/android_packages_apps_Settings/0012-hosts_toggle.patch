@@ -16,12 +16,12 @@ Change-Id: Ic01a142722372d9d57f52947025cd9db23e58ef4
  create mode 100644 src/com/android/settings/security/HostsPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index c8e830342b..b04499511b 100644
+index 970533145b..2586ff2612 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -11969,6 +11969,9 @@
-     <!-- If blurs are supported on SurfaceFlinger, summary. [CHAR LIMIT=NONE] -->
-     <string name="enable_blurs_on_windows_summary">Enables window blurs at compositor level. Requires device reboot.</string>
+@@ -13117,6 +13117,9 @@
+     <string name="native_debug_title">Enable native code debugging</string>
+     <string name="native_debug_summary">Generate useful logs / bug reports from crashes and permit debugging native code.</string>
  
 +    <string name="hosts_disable_title">Disable DNS content blocker</string>
 +    <string name="hosts_disable_summary">Disables use of the included /etc/hosts database for data collection and malware blocking.</string>
@@ -30,22 +30,22 @@ index c8e830342b..b04499511b 100644
      <string name="privacy_dashboard_title">Privacy</string>
      <!-- Summary for the top level Privacy Settings [CHAR LIMIT=NONE]-->
 diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
-index 75cc0b261d..62d42246a3 100644
+index 20f0d4df5b..011f6e1117 100644
 --- a/res/xml/security_dashboard_settings.xml
 +++ b/res/xml/security_dashboard_settings.xml
 @@ -75,6 +75,12 @@
-             android:title="@string/native_debug_title"
              android:summary="@string/native_debug_summary"
              android:persistent="false" />
-+
+ 
 +        <SwitchPreference
 +            android:key="hosts_disable"
 +            android:title="@string/hosts_disable_title"
 +            android:summary="@string/hosts_disable_summary"
 +            android:persistent="false" />
-     </PreferenceCategory>
- 
-     <!-- work profile security section -->
++
+         <com.android.settingslib.RestrictedPreference
+             android:key="biometric_settings"
+             android:title="@string/security_settings_biometric_preference_title"
 diff --git a/src/com/android/settings/security/HostsPreferenceController.java b/src/com/android/settings/security/HostsPreferenceController.java
 new file mode 100644
 index 0000000000..d8af6d2649
@@ -159,10 +159,10 @@ index 0000000000..d8af6d2649
 +    }
 +}
 diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
-index 387814c406..0fbcd27104 100644
+index a940165bed..dbb9987f0c 100644
 --- a/src/com/android/settings/security/SecuritySettings.java
 +++ b/src/com/android/settings/security/SecuritySettings.java
-@@ -121,6 +121,7 @@ public class SecuritySettings extends DashboardFragment {
+@@ -125,6 +125,7 @@ public class SecuritySettings extends DashboardFragment {
          securityPreferenceControllers.add(new AutoRebootPreferenceController(context));
          securityPreferenceControllers.add(new ExecSpawnPreferenceController(context));
          securityPreferenceControllers.add(new NativeDebugPreferenceController(context));
@@ -170,3 +170,6 @@ index 387814c406..0fbcd27104 100644
          controllers.add(new PreferenceCategoryController(context, SECURITY_CATEGORY)
                  .setChildren(securityPreferenceControllers));
          controllers.addAll(securityPreferenceControllers);
+-- 
+2.36.0
+

@@ -1,4 +1,4 @@
-From 5f63f4b6526c5bf88d5b0676afb6e4917154c96e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tom Marshall <tdm.code@gmail.com>
 Date: Thu, 16 Jan 2020 13:07:04 -0800
 Subject: [PATCH] bionic: Support wildcards in cached hosts file
@@ -67,6 +67,3 @@ index deafb78b7..5038986be 100644
  /*
   * Find next name on line, if any.
   *
--- 
-2.36.0
-

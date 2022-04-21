@@ -1,4 +1,4 @@
-From d7d848b5d0b398e7a85d4d7ca112bbf3198ff6a5 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tom Marshall <tdm@cyngn.com>
 Date: Fri, 17 Jun 2016 16:38:12 -0700
 Subject: [PATCH] bionic: Sort and cache hosts file data for fast lookup
@@ -641,6 +641,3 @@ index 483105a95..1399378cd 100644
  #if 0
  	{
  		res_state res = __res_get_state();
--- 
-2.36.0
-
