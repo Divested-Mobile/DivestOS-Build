@@ -41,7 +41,10 @@
 	<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />-->
 
 	<!-- Switch to the Mulch WebView -->
-	<remove-project name="LineageOS/android_external_chromium-webview" />
+	<remove-project name="LineageOS/android_external_chromium-webview_patches" />
+	<remove-project name="LineageOS/android_external_chromium-webview_prebuilt_arm" />
+	<remove-project name="LineageOS/android_external_chromium-webview_prebuilt_arm64" />
+	<remove-project name="LineageOS/android_external_chromium-webview_prebuilt_x86" />
 	<project path="external/chromium-webview" name="divested-mobile/mulch" groups="pdk" clone-depth="1" remote="gitlab" revision="master" />
 <!-- END OF BRANCH SWITCHING -->
 
@@ -118,6 +121,10 @@
 	<!-- OnePlus 7T (hotdogb) -->
 	<project path="device/oneplus/hotdogb" name="LineageOS/android_device_oneplus_hotdogb" remote="github" />
 
+	<!-- Razer Phone 2 (aura) -->
+	<project path="device/razer/aura" name="LineageOS/android_device_razer_aura" remote="github" />
+	<project path="kernel/razer/sdm845" name="LineageOS/android_kernel_razer_sdm845" remote="github" />
+
 	<!-- Sony Xperia XA2 (pioneer) -->
 	<project path="device/sony/pioneer" name="LineageOS/android_device_sony_pioneer" remote="github" />
 	<project path="device/sony/nile-common" name="LineageOS/android_device_sony_nile-common" remote="github" />
@@ -128,5 +135,11 @@
 
 	<!-- Sony Xperia XA2 Ultra (discovery) -->
 	<project path="device/sony/discovery" name="LineageOS/android_device_sony_discovery" remote="github" />
+
+	<!-- Xiaomi Poco F1 (beryllium) -->
+	<project path="hardware/xiaomi" name="LineageOS/android_hardware_xiaomi" remote="github" />
+	<project path="device/xiaomi/beryllium" name="LineageOS/android_device_xiaomi_beryllium" remote="github" />
+	<project path="device/xiaomi/sdm845-common" name="LineageOS/android_device_xiaomi_sdm845-common" remote="github" />
+	<project path="kernel/xiaomi/sdm845" name="LineageOS/android_kernel_xiaomi_sdm845" remote="github" />
 
 </manifest>

@@ -9,7 +9,7 @@ Subject: [PATCH] Wi-Fi auto turn off
  2 files changed, 75 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 580f9745eea7..1d8745501553 100644
+index 069ad604024b..88bf06c5a1b2 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
 @@ -16379,6 +16379,12 @@ public final class Settings {

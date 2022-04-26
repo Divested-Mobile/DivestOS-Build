@@ -13,7 +13,7 @@ Change-Id: If891bfbcc144c9336ba013260bad2b7c7a59c054
  4 files changed, 46 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 01e369779e1e..52103c3a3f99 100644
+index dd5776a51f94..87ed442b0f79 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
 @@ -16378,6 +16378,13 @@ public final class Settings {

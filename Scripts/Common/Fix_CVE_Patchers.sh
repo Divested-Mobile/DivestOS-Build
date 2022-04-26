@@ -87,7 +87,7 @@ commentPatches android_kernel_samsung_smdk4412.sh "CVE-2012-2127" "CVE-2016-8463
 commentPatches android_kernel_samsung_tuna.sh "CVE-2012-2127";
 commentPatches android_kernel_samsung_universal8890.sh "0008-Graphene-Kernel_Hardening/4.9/0053.patch" "0008-Graphene-Kernel_Hardening/4.9/0055.patch" "CVE-2016-7917" "CVE-2018-1092" "CVE-2018-17972" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166";
 commentPatches android_kernel_samsung_universal9810.sh "CVE-2020-1749";
-commentPatches android_kernel_sony_sdm660.sh "CVE-2019-19319" "CVE-2020-0305" "CVE-2020-8992" "CVE-2020-16166";
+commentPatches android_kernel_sony_sdm660.sh "0008-Graphene-Kernel_Hardening/4.4/0019.patch" "CVE-2019-19319" "CVE-2020-0305" "CVE-2020-8992" "CVE-2020-16166";
 commentPatches android_kernel_sony_sdm845.sh "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992";
 commentPatches android_kernel_xiaomi_msm8937.sh "CVE-2017-13162" "CVE-2019-14070" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-16166" "CVE-2021-39715/ANY/0001.patch";
 commentPatches android_kernel_xiaomi_sdm660.sh "0008-Graphene-Kernel_Hardening/4.4/0019.patch";

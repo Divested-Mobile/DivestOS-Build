@@ -76,7 +76,7 @@ export DOS_WEBVIEW_LFS=true; #Whether to `git lfs pull` in the WebView repositor
 #Servers
 export DOS_DEFAULT_DNS_PRESET="Quad9"; #Sets default DNS. Options: See changeDefaultDNS() in Scripts/Common/Functions.sh
 export DOS_GPS_NTP_SERVER="2.android.pool.ntp.org"; #Options: Any NTP pool
-export DOS_GPS_SUPL_HOST="supl.google.com"; #Options: supl.{google,vodafone,sonyericsson}.com
+export DOS_GPS_SUPL_HOST="supl.google.com"; #Options: Any *valid* SUPL server
 
 #Release Processing
 export DOS_MALWARE_SCAN_BEFORE_SIGN=false; #Scan device files for malware before signing

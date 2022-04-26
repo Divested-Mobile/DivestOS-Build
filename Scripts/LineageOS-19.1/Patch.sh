@@ -425,13 +425,14 @@ removeBuildFingerprints || true;
 enableAutoVarInit || true;
 
 #Tweaks for <4GB RAM devices
-enableLowRam "device/sony/pioneer" "pioneer";
+#enableLowRam "device/sony/pioneer" "pioneer";
 
 #Fix broken options enabled by hardenDefconfig()
 #none yet
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l*; #Fix builds with GCC 10
 rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk || true;
+rm -v device/*/*/overlay/frameworks/base/packages/overlays/NoCutoutOverlay/res/values/config.xml || true;
 #
 #END OF DEVICE CHANGES
 #

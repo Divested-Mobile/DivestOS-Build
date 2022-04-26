@@ -59,10 +59,9 @@ index d0c11d2b0..cc94b21e2 100644
  	cur = &sentinel;
 diff --git a/libc/dns/net/hosts_cache.c b/libc/dns/net/hosts_cache.c
 new file mode 100644
-index 000000000..deafb78b7
 --- /dev/null
 +++ b/libc/dns/net/hosts_cache.c
-@@ -0,0 +1,524 @@
+@@ -0,0 +1,520 @@
 +/*
 + * Copyright (C) 2016 The CyanogenMod Project
 + *
@@ -106,10 +105,6 @@ index 000000000..deafb78b7
 +
 +#define ESTIMATED_LINELEN	32
 +#define HCFILE_ALLOC_SIZE	256
-+
-+/* From sethostent.c */
-+#define ALIGNBYTES	(sizeof(uintptr_t) - 1)
-+#define ALIGN(p)	(((uintptr_t)(p) + ALIGNBYTES) &~ ALIGNBYTES)
 +
 +/*
 + * Host cache entry for hcfile.c_data.
@@ -617,7 +612,6 @@ index 000000000..fa5488f51
 +
 +int hc_gethtbyname(const char *host, int af, struct getnamaddr *info);
 diff --git a/libc/dns/net/sethostent.c b/libc/dns/net/sethostent.c
-index 483105a95..1399378cd 100644
 --- a/libc/dns/net/sethostent.c
 +++ b/libc/dns/net/sethostent.c
 @@ -55,6 +55,8 @@ __RCSID("$NetBSD: sethostent.c,v 1.20 2014/03/17 13:24:23 christos Exp $");

@@ -170,6 +170,3 @@ index a940165bed..dbb9987f0c 100644
          controllers.add(new PreferenceCategoryController(context, SECURITY_CATEGORY)
                  .setChildren(securityPreferenceControllers));
          controllers.addAll(securityPreferenceControllers);
--- 
-2.36.0
-

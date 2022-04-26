@@ -10,7 +10,7 @@ Change-Id: Iea165003474e1107dc77980985bf9928c369dbb5
  1 file changed, 4 insertions(+)
 
 diff --git a/getaddrinfo.cpp b/getaddrinfo.cpp
-index 071f6ac..955b5c2 100644
+index f0c0ba8..8548b1a 100644
 --- a/getaddrinfo.cpp
 +++ b/getaddrinfo.cpp
 @@ -57,6 +57,7 @@
@@ -21,7 +21,7 @@ index 071f6ac..955b5c2 100644
  
  #include "Experiments.h"
  #include "netd_resolv/resolv.h"
-@@ -1556,6 +1557,9 @@ static struct addrinfo* getCustomHosts(const size_t netid, const char* _Nonnull
+@@ -1554,6 +1555,9 @@ static struct addrinfo* getCustomHosts(const size_t netid, const char* _Nonnull
  
  static bool files_getaddrinfo(const size_t netid, const char* name, const addrinfo* pai,
                                addrinfo** res) {
