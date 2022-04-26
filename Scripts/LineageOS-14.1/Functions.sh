@@ -83,7 +83,6 @@ buildAll() {
 	buildDevice himawl;
 	#Exynos
 	buildDevice manta;
-	#buildDevice n7100; #broken sepolicy
 	buildDeviceUserDebug i9100;
 	buildDeviceUserDebug i9300;
 	buildDeviceUserDebug i9305;
@@ -99,8 +98,6 @@ buildAll() {
 	buildDevice toroplus;
 	#Tegra
 	buildDevice grouper; #needs manual patching - one-repo vendor blob patch
-	#MediaTek
-	buildDeviceUserDebug jellypro; #XXX: blob kernel and permissive selinux
 }
 export -f buildAll;
 

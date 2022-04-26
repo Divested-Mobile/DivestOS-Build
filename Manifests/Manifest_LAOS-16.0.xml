@@ -89,10 +89,6 @@
 	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
 	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
 
-	<!-- Asus ZenFone 3 (zenfone3) -->
-	<project path="device/asus/zenfone3" name="LineageOS/android_device_asus_zenfone3" remote="github" />
-	<project path="kernel/asus/msm8953" name="LineageOS/android_kernel_asus_msm8953" remote="github" />
-
 	<!-- Google Project Tango (yellowstone) -->
 	<project path="device/google/yellowstone" name="LineageOS/android_device_google_yellowstone" remote="github" />
 	<project path="kernel/google/yellowstone" name="LineageOS/android_kernel_google_yellowstone" remote="github" />
@@ -101,10 +97,6 @@
 	<!-- Nexus 5 (hammerhead) -->
 	<project path="device/lge/hammerhead" name="LineageOS/android_device_lge_hammerhead" remote="github" />
 	<project path="kernel/lge/hammerhead" name="LineageOS/android_kernel_lge_hammerhead" remote="github" />
-
-	<!-- Nexus Player (fugu) -->
-	<project path="device/asus/fugu" name="LineageOS/android_device_asus_fugu" remote="github" />
-	<project path="kernel/asus/fugu" name="LineageOS/android_kernel_asus_fugu" remote="github" />
 
 	<!-- Samsung Galaxy S5 Plus (kccat6) -->
 	<project path="device/samsung/kccat6" name="LineageOS/android_device_samsung_kccat6" remote="github" />

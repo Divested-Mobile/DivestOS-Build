@@ -312,10 +312,6 @@ fi;
 #git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
 #fi;
 
-if enterAndClear "device/oneplus/oneplus2"; then
-sed -i 's|etc/permissions/qti_libpermissions.xml|vendor/etc/permissions/qti_libpermissions.xml|' proprietary-files.txt; #Fix outdated path
-fi;
-
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
 find "hardware/qcom/gps" -name "gps\.conf" -type f -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenLocationConf "{}"';

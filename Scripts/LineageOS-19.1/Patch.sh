@@ -381,6 +381,7 @@ if [ "$DOS_MICROG_INCLUDED" = "NLP" ]; then echo "PRODUCT_PACKAGES += UnifiedNLP
 echo "PRODUCT_PACKAGES += eSpeakNG" >> packages.mk; #PicoTTS needs work to compile on 18.1, use eSpeak-NG instead
 awk -i inplace '!/speed-profile/' build/target/product/lowram.mk; #breaks compile on some dexpreopt devices
 sed -i 's/wifi,cell/internet/' overlay/common/frameworks/base/packages/SystemUI/res/values/config.xml; #Use the modern quick tile
+sed -i 's|system/etc|$(TARGET_COPY_OUT_PRODUCT)/etc|' divested.mk;
 fi;
 #
 #END OF ROM CHANGES
@@ -389,10 +390,6 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
-#if enterAndClear "device/google/bonito"; then
-#awk -i inplace '!/INODE_COUNT/' BoardConfigLineage.mk; #mke2fs -1 incompatibility (?) #XXX 19REBASE: still needed?
-#fi;
-
 if enterAndClear "device/google/redbull"; then
 awk -i inplace '!/sctp/' BoardConfig-common.mk modules.load; #fix compile after hardenDefconfig
 fi;

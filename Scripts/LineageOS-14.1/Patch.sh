@@ -382,10 +382,6 @@ echo "allow system_server system_file:file execmod;" >> sepolicy/system_server.t
 echo "PRODUCT_PROPERTY_OVERRIDES += persist.sys.force_highendgfx=true" >> device.mk; #override low_ram to fix artifacting
 fi;
 
-if enterAndClear "device/unihertz/jellypro"; then
-sed -i 's/androidboot.selinux=disabled//' BoardConfig.mk;
-fi;
-
 if enter "vendor/google"; then
 echo "" > atv/atv-common.mk;
 fi;
@@ -418,7 +414,6 @@ enableLowRam "device/samsung/smdk4412-common";
 enableLowRam "device/samsung/toro";
 enableLowRam "device/samsung/toroplus";
 enableLowRam "device/samsung/tuna";
-enableLowRam "device/unihertz/jellypro";
 #Tweaks for <3GB RAM devices
 #enableLowRam "device/amazon/apollo";
 #enableLowRam "device/amazon/hdx-common";
@@ -437,7 +432,6 @@ enableLowRam "device/unihertz/jellypro";
 #enableLowRam "device/samsung/n5100";
 #enableLowRam "device/samsung/n5110";
 #enableLowRam "device/samsung/n5120";
-#enableLowRam "device/samsung/n7100";
 
 #Fixes
 #Fix broken options enabled by hardenDefconfig()

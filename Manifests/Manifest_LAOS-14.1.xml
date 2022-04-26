@@ -136,9 +136,6 @@
 	<project path="device/samsung/tuna" name="Galaxy-Nexus/android_device_samsung_tuna" remote="github" />
 	<project path="kernel/samsung/tuna" name="Galaxy-Nexus/android_kernel_samsung_tuna" remote="github" />
 
-	<!-- Samsung Galaxy Note 2 (n7100) -->
-	<project path="device/samsung/n7100" name="LineageOS/android_device_samsung_n7100" remote="github" />
-
 	<!-- Samsung Galaxy Note 8.0 Wi-Fi (n5100/n5110/n5120) -->
 	<project path="device/samsung/kona-common" name="LineageOS/android_device_samsung_kona-common" remote="github" />
 	<project path="device/samsung/n5100" name="LineageOS/android_device_samsung_n5100" remote="github" />
@@ -177,10 +174,6 @@
 	<project path="hardware/samsung_slsi-cm/exynos8890" name="LineageOS/android_hardware_samsung_slsi-cm_exynos8890" remote="github" />
 	<project path="hardware/samsung_slsi-cm/openmax" name="LineageOS/android_hardware_samsung_slsi-cm_openmax" remote="github" />
 	<project path="kernel/samsung/universal8890" name="LineageOS/android_kernel_samsung_universal8890" remote="github" />
-
-	<!-- Unihertz Jelly Pro (jellypro) -->
-	<project path="device/unihertz/jellypro" name="LineageOS-MediaTek/android_device_unihertz_jellypro" remote="github" />
-	<project path="device/mediatek/common" name="LineageOS-MediaTek/android_device_mediatek_common" remote="github" />
 
 	<!-- NXP -->
 	<project path="vendor/nxp-nfc/opensource/frameworks" name="LineageOS/android_vendor_nxp-nfc_opensource_frameworks" remote="github" />

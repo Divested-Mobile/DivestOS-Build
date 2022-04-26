@@ -94,10 +94,6 @@
 	<project path="device/essential/mata" name="LineageOS/android_device_essential_mata" remote="github" />
 	<project path="kernel/essential/msm8998" name="LineageOS/android_kernel_essential_msm8998" remote="github" />
 
-	<!-- F(x)tec Pro¹ (pro1) -->
-	<project path="device/fxtec/pro1" name="LineageOS/android_device_fxtec_pro1" remote="github" />
-	<project path="kernel/fxtec/msm8998" name="LineageOS/android_kernel_fxtec_msm8998" remote="github" />
-
 	<!-- Fairphone 2 (FP2) -->
 	<project path="device/fairphone/FP2" name="LineageOS/android_device_fairphone_FP2" remote="github" />
 	<project path="kernel/fairphone/msm8974" name="LineageOS/android_kernel_fairphone_msm8974" remote="github" />
@@ -122,29 +118,6 @@
 	<project path="device/google/crosshatch" name="LineageOS/android_device_google_crosshatch" remote="github" />
 	<project path="device/google/blueline" name="LineageOS/android_device_google_blueline" remote="github" />
 	<project path="kernel/google/msm-4.9" name="LineageOS/android_kernel_google_msm-4.9" remote="github" />
-
-	<!-- Google Pixel 3a (bonito/sargo) -->
-	<project path="device/google/bonito" name="LineageOS/android_device_google_bonito" remote="github" />
-	<project path="device/google/sargo" name="LineageOS/android_device_google_sargo" remote="github" />
-	<!-- uses google/msm-4.9 kernel -->
-
-	<!-- Google Pixel 4 (coral/flame) -->
-	<project path="device/google/coral" name="LineageOS/android_device_google_coral" remote="github" />
-	<project path="device/google/flame" name="LineageOS/android_device_google_flame" remote="github" />
-	<project path="kernel/google/coral" name="LineageOS/android_kernel_google_coral" remote="github" />
-
-	<!-- Google Pixel 4a (sunfish) -->
-	<project path="device/google/sunfish" name="LineageOS/android_device_google_sunfish" remote="github" />
-	<project path="kernel/google/sunfish" name="LineageOS/android_kernel_google_sunfish" remote="github" />
-
-	<!-- Google Pixel 4a 5G (bramble) -->
-	<project path="device/google/bramble" name="LineageOS/android_device_google_bramble" remote="github" />
-	<project path="device/google/redbull" name="LineageOS/android_device_google_redbull" remote="github" />
-	<project path="kernel/google/redbull" name="LineageOS/android_kernel_google_redbull" remote="github" />
-
-	<!-- Google Pixel 5 (redfin) -->
-	<project path="device/google/redfin" name="LineageOS/android_device_google_redfin" remote="github" />
-	<!-- uses redbull commons -->
 
 	<!-- HTC One (m8/m8d) -->
 	<project path="device/htc/m8" name="LineageOS/android_device_htc_m8" remote="github" />
@@ -253,10 +226,6 @@
 	<!-- Razer Phone (cheryl) -->
 	<project path="device/razer/cheryl" name="LineageOS/android_device_razer_cheryl" remote="github" />
 	<project path="kernel/razer/msm8998" name="LineageOS/android_kernel_razer_msm8998" remote="github" />
-
-	<!-- Razer Phone 2 (aura) -->
-	<project path="device/razer/aura" name="LineageOS/android_device_razer_aura" remote="github" />
-	<project path="kernel/razer/sdm845" name="LineageOS/android_kernel_razer_sdm845" remote="github" />
 
 	<!-- Samsung Common -->
 	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />

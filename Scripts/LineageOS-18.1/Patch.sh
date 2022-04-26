@@ -447,16 +447,8 @@ if enterAndClear "device/essential/mata"; then
 echo "allow permissioncontroller_app tethering_service:service_manager find;" > sepolicy/private/permissioncontroller_app.te;
 fi;
 
-if enterAndClear "device/google/bonito"; then
-awk -i inplace '!/INODE_COUNT/' BoardConfigLineage.mk; #mke2fs -1 incompatibility (?)
-fi;
-
 if enterAndClear "device/google/marlin"; then
 sed -i 's/BTLogSave \\/BTLogSave/' common/base.mk; #deblobber fixup
-fi;
-
-if enterAndClear "device/google/redbull"; then
-awk -i inplace '!/sctp/' BoardConfig-common.mk modules.load; #fix compile after hardenDefconfig
 fi;
 
 if enterAndClear "device/htc/m8-common"; then

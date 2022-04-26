@@ -63,14 +63,10 @@ buildAll() {
 	buildDevice lentislte;
 	#SD615
 	buildDevice kipper;
-	#SD625
-	#buildDevice zenfone3; #broken - ninja: error: 'android.hidl.base@1.0.so', missing and no known rule to make it
 	#SD430
 	buildDevice land;
 	#SD435
 	buildDevice santoni;
-	#Intel
-	#buildDevice fugu; #broken - ninja: error: 'libpcre2.so' missing and no known rule to make it
 	#Tegra
 	buildDevice yellowstone; #broken sepolicy?
 }

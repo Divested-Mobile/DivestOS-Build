@@ -420,10 +420,6 @@ if enterAndClear "device/cyanogen/msm8916-common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 fi;
 
-if enterAndClear "device/google/bonito"; then
-awk -i inplace '!/INODE_COUNT/' BoardConfig-lineage.mk; #mke2fs -1 incompatibility (?)
-fi;
-
 if enterAndClear "device/motorola/clark"; then
 echo "allow mm-qcamerad camera_prop:property_service set;" >> sepolicy/mm-qcamerad.te;
 echo "allow mm-qcamerad property_socket:sock_file write;" >> sepolicy/mm-qcamerad.te;
@@ -480,7 +476,6 @@ removeBuildFingerprints || true;
 enableAutoVarInit || true;
 
 #Tweaks for <2GB RAM devices
-enableLowRam "device/asus/fugu" "fugu";
 enableLowRam "device/motorola/harpia" "harpia";
 enableLowRam "device/motorola/merlin" "merlin";
 enableLowRam "device/motorola/msm8916-common" "msm8916-common";
@@ -491,7 +486,6 @@ enableLowRam "device/cyanogen/msm8916-common" "msm8916-common";
 enableLowRam "device/wileyfox/crackling" "crackling";
 
 #Fix broken options enabled by hardenDefconfig()
-sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/yellowstone/arch/arm*/configs/*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/motorola/msm8996/arch/arm64/configs/*_defconfig; #Breaks on compile
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l*; #Fix builds with GCC 10

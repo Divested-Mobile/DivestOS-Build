@@ -365,10 +365,6 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
-if enterAndClear "device/asus/zenfone3"; then
-rm -rf libhidl; #breaks other devices
-fi;
-
 if enterAndClear "device/lge/hammerhead"; then
 git am $DOS_PATCHES/android_device_lge_hammerhead/*.patch; #hh-p-sepolicy
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> BoardConfig.mk; #qcom-legacy sepolicy
@@ -392,13 +388,12 @@ deblobAudio || true;
 removeBuildFingerprints || true;
 
 #Tweaks for <2GB RAM devices
-enableLowRam "device/asus/fugu" "fugu";
+#none yet
 #Tweaks for <3GB RAM devices
 #enableLowRam "device/lge/hammerhead" "hammerhead";
 #enableLowRam "device/samsung/kccat6" "kccat6";
 
 #Fix broken options enabled by hardenDefconfig()
-sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/asus/msm8953/arch/arm64/configs/*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/yellowstone/arch/arm*/configs/*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/xiaomi/msm8937/arch/arm64/configs/*_defconfig; #Breaks on compile
 

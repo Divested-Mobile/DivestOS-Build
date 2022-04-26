@@ -98,11 +98,6 @@
 	<project path="device/google/dragon" name="LineageOS/android_device_google_dragon" remote="github" />
 	<project path="kernel/google/dragon" name="LineageOS/android_kernel_google_dragon" remote="github" />
 
-	<!-- HTC One (himaul) -->
-	<project path="device/htc/himaul" name="LineageOS/android_device_htc_himaul" remote="github" />
-	<project path="device/htc/hima-common" name="LineageOS/android_device_htc_hima-common" remote="github" />
-	<project path="kernel/htc/msm8994" name="LineageOS/android_kernel_htc_msm8994" remote="github" />
-
 	<!-- LG G6 (h870:intl, us997:us) -->
 	<project path="device/lge/common" name="LineageOS/android_device_lge_common" remote="github" />
 	<project path="device/lge/msm8996-common" name="LineageOS/android_device_lge_msm8996-common" remote="github" />
@@ -144,11 +139,6 @@
 	<!-- Nexus Player (fugu) -->
 	<project path="device/asus/fugu" name="LineageOS/android_device_asus_fugu" remote="github" />
 	<project path="kernel/asus/fugu" name="LineageOS/android_kernel_asus_fugu" remote="github" />
-
-	<!-- OnePlus 2 (oneplus2) -->
-	<project path="device/oppo/common" name="LineageOS/android_device_oppo_common" remote="github" />
-	<project path="device/oneplus/oneplus2" name="LineageOS/android_device_oneplus_oneplus2" remote="github" />
-	<project path="kernel/oneplus/msm8994" name="LineageOS/android_kernel_oneplus_msm8994" remote="github" />
 
 	<!-- ZTE Axon 7 (axon7) -->
 	<project path="device/zte/axon7" name="LineageOS/android_device_zte_axon7" remote="github" />

@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_cyanogen_msm8916 kernel_google_msm-4.9 kernel_google_yellowstone kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_xiaomi_sm6150 kernel_yandex_sdm660";
+	startPatcher "kernel_cyanogen_msm8916 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_xiaomi_sm6150 kernel_yandex_sdm660";
 }
 export -f patchAllKernels;
 
@@ -74,13 +74,6 @@ buildAll() {
 	buildDevice Amber verity;
 	#SD765
 	buildDevice avicii avb;
-	#SD670
-	buildDevice bonito avb; #18.1 not compiling
-	buildDevice sargo avb;
-	#Intel
-	#buildDevice fugu; #broken
-	#Tegra
-	#buildDevice yellowstone; #broken
 }
 export -f buildAll;
 

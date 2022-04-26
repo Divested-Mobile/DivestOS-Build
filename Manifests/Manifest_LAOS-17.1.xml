@@ -82,16 +82,6 @@
 	<project path="hardware/sony/thermanager" name="LineageOS/android_hardware_sony_thermanager" remote="github" />
 	<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />
 
-	<!-- Google Project Tango (yellowstone) -->
-	<project path="device/google/yellowstone" name="LineageOS/android_device_google_yellowstone" remote="github" />
-	<project path="kernel/google/yellowstone" name="LineageOS/android_kernel_google_yellowstone" remote="github" />
-	<project path="hardware/nvidia/libstagefrighthw" name="LineageOS/android_hardware_nvidia_libstagefrighthw" remote="github" revision="lineage-16.0" />
-
-	<!-- Google Pixel 3a (bonito/sargo) -->
-	<project path="device/google/bonito" name="LineageOS/android_device_google_bonito" remote="github" />
-	<project path="device/google/sargo" name="LineageOS/android_device_google_sargo" remote="github" />
-	<project path="kernel/google/msm-4.9" name="LineageOS/android_kernel_google_msm-4.9" remote="github" />
-
 	<!-- Motorola msm8916 commons -->
 	<project path="device/motorola/msm8916-common" name="LineageOS/android_device_motorola_msm8916-common" remote="github" />
 	<project path="kernel/motorola/msm8916" name="LineageOS/android_kernel_motorola_msm8916" remote="github" />
@@ -111,10 +101,6 @@
 	<!-- Moto Z (griffin) -->
 	<project path="device/motorola/griffin" name="LineageOS/android_device_motorola_griffin" remote="github" />
 	<project path="kernel/motorola/msm8996" name="LineageOS/android_kernel_motorola_msm8996" remote="github" />
-
-	<!-- Nexus Player (fugu) -->
-	<project path="device/asus/fugu" name="LineageOS/android_device_asus_fugu" remote="github" />
-	<project path="kernel/asus/fugu" name="LineageOS/android_kernel_asus_fugu" remote="github" />
 
 	<!-- OnePlus 2 (oneplus2) -->
 	<project path="device/oppo/common" name="LineageOS/android_device_oppo_common" remote="github" />
