@@ -73,6 +73,7 @@ buildAll() {
 	buildDevice sunfish avb;
 	#SD855
 	buildDevice guacamole avb;
+	buildDevice guacamoleb avb;
 	buildDevice hotdog avb;
 	buildDevice hotdogb avb;
 	buildDevice coral avb;
