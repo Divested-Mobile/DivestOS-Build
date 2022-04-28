@@ -87,7 +87,8 @@ echo "Deblobbing...";
 	fi;
 
 	#Clearkey (DRM) [Google]
-	blobs=$blobs"|libdrmclearkeyplugin.so";
+	blobs=$blobs"|libdrmclearkeyplugin.so"; #prebuilt
+	#makes=$makes"|android.hardware.drm.*clearkey.*|libdrmclearkeyplugin"; #from source XXX: Breaks some Chromium forks
 
 	#CMN (?) [?]
 	#blobs=$blobs"|cmnlib.*";
@@ -173,7 +174,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|smc_pa.ift|drmserver.samsung"; #Samsung
 	blobs=$blobs"|provision_device";
 	#blobs=$blobs"|libasfparser.so|libsavsff.so"; #Parsers
-	makes=$makes"|android.hardware.drm.*|libdrmclearkeyplugin";
+	#makes=$makes"|android.hardware.drm.*";
 	#makes=$makes"|libdrmframework.*"; #necessary to compile
 	#makes=$makes"|mediadrmserver|com.android.mediadrm.signer.*|drmserver"; #Works but causes long boot times
 	#sepolicy=$sepolicy" drmserver.te mediadrmserver.te";
@@ -279,9 +280,11 @@ echo "Deblobbing...";
 	#HDCP (DRM)
 	blobs=$blobs"|libmm-hdcpmgr.so|libstagefright_hdcp.so|libhdcp2.so";
 	blobs=$blobs"|libtsechdcp.so|libtlk_secure_hdcp_up.so|libstagefright_hdcp.so|libnvhdcp.so";
+	blobs=$blobs"|android.hardware.drm.*hdcp.*";
 	blobs=$blobs"|srm.bin|insthk|hdcp_test|tsechdcp_test";
 	blobs=$blobs"|hdcp2xtest.srm";
 	blobs=$blobs"|hdcp1.*|hdcp2.*|tzhdcp.*";
+	makes=$makes"|android.hardware.drm.*hdcp.*";
 
 	#HDR
 	blobs=$blobs"|libdovi.so";
@@ -444,9 +447,10 @@ echo "Deblobbing...";
 
 	#Playready (DRM) [Microsoft]
 	blobs=$blobs"|prapp|scranton_RD";
-	blobs=$blobs"|libtzplayready.so|libdrmprplugin.so|libprdrmdecrypt.so|libprmediadrmdecrypt.so|libprmediadrmplugin.so|libseppr_hal.so";
+	blobs=$blobs"|libtzplayready.so|libdrmprplugin.so|libprdrmdecrypt.so|libprmediadrmdecrypt.so|libprmediadrmplugin.so|libseppr_hal.so|android.hardware.drm.*playready.*";
 	blobs=$blobs"|PR-ModelCert";
 	blobs=$blobs"|playread.*|hcheck.*";
+	makes=$makes"|android.hardware.drm.*playready.*";
 
 	#Power [Google]
 	blobs=$blobs"|LowPowerMonitorDevice.*.jar|PowerAnomaly.*.jar";
@@ -546,17 +550,17 @@ echo "Deblobbing...";
 	blobs=$blobs"|WfdCommon.jar";
 	blobs=$blobs"|wfdvndservice.rc";
 	blobs=$blobs"|wfdconfigsink.xml|wfdconfig.xml";
-	blobs=$blobs"|com.qualcomm.qti.wifidisplayhal.*|vendor.qti.hardware.wifidisplaysession.*|android.hardware.drm@1.1-service.wfdhdcp.*";
-	makes=$makes"|WfdCommon";
+	blobs=$blobs"|com.qualcomm.qti.wifidisplayhal.*|vendor.qti.hardware.wifidisplaysession.*|android.hardware.drm.*wfdhdcp.*";
+	makes=$makes"|WfdCommon|android.hardware.drm.*wfdhdcp.*";
 
 	#Widevine (DRM) [Google]
-	blobs=$blobs"|libdrmclearkeyplugin.so|libdrmwvmplugin.so|libmarlincdmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvhidl.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|libdrmmtkutil.so|libsepdrm.*.so|libvtswidevine32.so|libvtswidevine64.so";
+	blobs=$blobs"|libdrmwvmplugin.so|libmarlincdmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvhidl.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|libdrmmtkutil.so|libsepdrm.*.so|libvtswidevine32.so|libvtswidevine64.so|android.hardware.drm.*widevine.*";
 	blobs=$blobs"|test-wvdrmplugin|oemwvtest";
 	blobs=$blobs"|com.google.widevine.software.drm.jar";
 	blobs=$blobs"|com.google.widevine.software.drm.xml";
 	#blobs=$blobs"|smc_pa_wvdrm.ift"; breaks maguro/toro* boot
 	blobs=$blobs"|tzwidevine.*|tzwvcpybuf.*|widevine.*";
-	makes=$makes"|libshim_wvm|move_widevine_data.sh";
+	makes=$makes"|libshim_wvm|move_widevine_data.sh|android.hardware.drm.*widevine.*";
 
 	#WiPower (Wireless Charging) [Qualcomm]
 	blobs=$blobs"|libwbc_jni.so|wbc_hal.default.so";
@@ -801,8 +805,7 @@ deblobVendorBp() {
 	sed -i -E "s/srcs.*("$blobs").*/srcs: \[\"proprietary\/vendor\/lib\/libtime_genoff.so\"\], enabled: false,/g" "$bpfile";
 	#TODO make this work for more then these two blobs
 	#Credit: https://stackoverflow.com/a/26053127
-	sed -i ':a;N;s/\n/&/3;Ta;/manifest_android.hardware.drm@1.3-service.widevine.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
-	sed -i ':a;N;s/\n/&/3;Ta;/manifest_android.hardware.drm@1.4-service.widevine.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
+	sed -i ':a;N;s/\n/&/3;Ta;/manifest_android.hardware.drm@1.*-service.widevine.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
 	sed -i ':a;N;s/\n/&/3;Ta;/vendor.qti.hardware.radio.atcmdfwd@1.0.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
 }
 export -f deblobVendorBp;
@@ -822,7 +825,7 @@ find device -name "*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'awk
 find vendor -name "*endor*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobVendorMk "{}"'; #Deblob all makefiles
 find vendor -name "Android.bp" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobVendorBp "{}"'; #Deblob all makefiles
 deblobVendors; #Deblob entire vendor directory
-rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove ClearKey
+#rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove ClearKey
 rm -rf vendor/samsung/nodevice;
 #
 #END OF DEBLOBBING
