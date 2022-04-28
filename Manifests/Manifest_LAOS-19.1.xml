@@ -124,6 +124,10 @@
 	<!-- OnePlus 7T (hotdogb) -->
 	<project path="device/oneplus/hotdogb" name="LineageOS/android_device_oneplus_hotdogb" remote="github" />
 
+	<!-- Razer Phone (cheryl) -->
+	<project path="device/razer/cheryl" name="LineageOS/android_device_razer_cheryl" remote="github" />
+	<project path="kernel/razer/msm8998" name="LineageOS/android_kernel_razer_msm8998" remote="github" />
+
 	<!-- Razer Phone 2 (aura) -->
 	<project path="device/razer/aura" name="LineageOS/android_device_razer_aura" remote="github" />
 	<project path="kernel/razer/sdm845" name="LineageOS/android_kernel_razer_sdm845" remote="github" />
