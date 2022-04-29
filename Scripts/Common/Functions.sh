@@ -306,6 +306,8 @@ processRelease() {
 	sha512sum "$OUT_DIR/$PREFIX-ota.zip" > "$OUT_DIR/$PREFIX-ota.zip.sha512sum";
 
 	#Deltas
+	#grep update_engine Build/*/device/*/*/*.mk -l
+	local DOS_GENERATE_DELTAS_DEVICES=('akari' 'alioth' 'Amber' 'aura' 'aurora' 'avicii' 'blueline' 'bonito' 'bramble' 'cheryl' 'coral' 'crosshatch' 'davinci' 'discovery' 'enchilada' 'fajita' 'flame' 'FP3' 'guacamole' 'guacamoleb' 'hotdog' 'hotdogb' 'marlin' 'mata' 'pioneer' 'pro1' 'redfin' 'sailfish' 'sargo' 'sunfish' 'taimen' 'vayu' 'voyager' 'walleye' 'xz2c');
 	if [ "$DOS_GENERATE_DELTAS" = true ]; then
 		if [[ " ${DOS_GENERATE_DELTAS_DEVICES[@]} " =~ " ${DEVICE} " ]]; then
 			for LAST_TARGET_FILES in $ARCHIVE/target_files/$DOS_BRANDING_ZIP_PREFIX-$VERSION-*-dos-$DEVICE-target_files.zip; do
@@ -539,7 +541,7 @@ export -f hardenBootArgs;
 
 enableAutoVarInit() {
 	#grep TARGET_KERNEL_CLANG_COMPILE Build/*/device/*/*/*.mk -l
-	DOS_AUTOVARINIT_KERNELS=('essential/msm8998' 'fxtec/msm8998' 'google/coral' 'google/msm-4.9' 'google/sunfish' 'google/wahoo' 'oneplus/msm8996' 'oneplus/msm8998' 'oneplus/sdm845' 'oneplus/sm7250' 'oneplus/sm8150' 'razer/msm8998' 'razer/sdm845' 'sony/sdm660' 'sony/sdm845' 'xiaomi/sdm660' 'xiaomi/sdm845' 'xiaomi/sm6150' 'xiaomi/sm8150' 'xiaomi/sm8250' 'zuk/msm8996'); #redbull already supports init_stack_all_zero
+	local DOS_AUTOVARINIT_KERNELS=('essential/msm8998' 'fxtec/msm8998' 'google/coral' 'google/msm-4.9' 'google/sunfish' 'google/wahoo' 'oneplus/msm8996' 'oneplus/msm8998' 'oneplus/sdm845' 'oneplus/sm7250' 'oneplus/sm8150' 'razer/msm8998' 'razer/sdm845' 'sony/sdm660' 'sony/sdm845' 'xiaomi/sdm660' 'xiaomi/sdm845' 'xiaomi/sm6150' 'xiaomi/sm8150' 'xiaomi/sm8250' 'zuk/msm8996'); #redbull already supports init_stack_all_zero
 	cd "$DOS_BUILD_BASE";
 	echo "auto-var-init: Starting!";
 	for kernel in "${DOS_AUTOVARINIT_KERNELS[@]}"

@@ -30,6 +30,7 @@ echo "Deblobbing...";
 	#WARNING: STRAY DELIMITERS WILL RESULT IN FILE DELETIONS
 	blobs=""; #Delimited using "|"
 	makes="";
+	manifests="";
 	overlay="invalid_placeholder_aekiekan";
 	ipcSec="";
 	kernels=""; #Delimited using " "
@@ -50,6 +51,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|IFAAService.apk";
 	blobs=$blobs"|vendor.oneplus.hardware.ifaa.*";
 	makes=$makes"org.ifaa.android.manager";
+	manifests="mlipay|hardware.ifaa";
 
 	#AIV (DRM) [Amazon]
 	blobs=$blobs"|libaivdrmclient.so|libAivPlay.so";
@@ -58,6 +60,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|libantradio.so";
 	#blobs=$blobs"|com.qualcomm.qti.ant.*";
 	makes=$makes"|AntHalService|com.dsi.ant.antradio_library";
+	manifests=$manifests"|AntHci";
 
 	#aptX (Bluetooth Audio Compression Codec) [Qualcomm]
 	if [ "$DOS_DEBLOBBER_REMOVE_APTX" = true ]; then
@@ -73,6 +76,7 @@ echo "Deblobbing...";
 		blobs=$blobs"|vendor.qti.atcmdfwd.*|vendor.qti.hardware.radio.atcmdfwd.*";
 		blobs=$blobs"|atfwd.apk";
 		sepolicy=$sepolicy" atfwd.te";
+		manifests=$manifests"|AtCmdFwd";
 	fi;
 
 	#AudioFX (Audio Effects)
@@ -87,8 +91,9 @@ echo "Deblobbing...";
 	fi;
 
 	#Clearkey (DRM) [Google]
-	blobs=$blobs"|libdrmclearkeyplugin.so"; #prebuilt
-	#makes=$makes"|android.hardware.drm.*clearkey.*|libdrmclearkeyplugin"; #from source XXX: Breaks some Chromium forks
+	blobs=$blobs"|libdrmclearkeyplugin.so";
+	makes=$makes"|android.hardware.drm.*clearkey.*|libdrmclearkeyplugin";
+	manifests=$manifests"|clearkey";
 
 	#CMN (?) [?]
 	#blobs=$blobs"|cmnlib.*";
@@ -105,6 +110,7 @@ echo "Deblobbing...";
 		overlay=$overlay"|config_wlan_data_service_package|config_wlan_network_service_package|config_qualified_networks_service_package";
 		#makes=$makes"|libcnefeatureconfig"; XXX: breaks radio
 		sepolicy=$sepolicy" cnd.te qcneservice.te";
+		manifests=$manifests"|com.quicinc.cne|iwlan";
 	fi;
 
 	#CPPF (DRM) [?]
@@ -156,6 +162,7 @@ echo "Deblobbing...";
 		blobs=$blobs"|com.qualcomm.qti.dpm.*";
 		sepolicy=$sepolicy" dpmd.te";
 		ipcSec=$ipcSec"|47:4294967295:1001:3004|48:4294967295:1000:3004";
+		manifests=$manifests"|dpmQmiService";
 	fi;
 
 	#DRM
@@ -171,10 +178,12 @@ echo "Deblobbing...";
 	#blobs=$blobs"|libtpa_core.so|libdataencrypt_tpa.so|libpkip.so"; #OMAP SMC
 	blobs=$blobs"|vendor.oneplus.hardware.drmkey.*|bin[/]hw[/]vendor.oneplus.hardware.hdcpkey.*|etc[/]init[/]vendor.oneplus.hardware.hdcpkey.*"; #OnePlus
 	#blobs=$blobs"|vendor.oneplus.hardware.hdcpkey.*.so"; #XXX: Breaks radio, linked by libril-qc-hal-qmi.so
+	#manifests=$manifests"|OneplusHdcpKey";
 	blobs=$blobs"|smc_pa.ift|drmserver.samsung"; #Samsung
 	blobs=$blobs"|provision_device";
 	#blobs=$blobs"|libasfparser.so|libsavsff.so"; #Parsers
-	#makes=$makes"|android.hardware.drm.*";
+	makes=$makes"|android.hardware.drm.*";
+	manifests=$manifests"|android.hardware.drm";
 	#makes=$makes"|libdrmframework.*"; #necessary to compile
 	#makes=$makes"|mediadrmserver|com.android.mediadrm.signer.*|drmserver"; #Works but causes long boot times
 	#sepolicy=$sepolicy" drmserver.te mediadrmserver.te";
@@ -184,6 +193,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|embms.apk";
 	blobs=$blobs"|embms.xml";
 	blobs=$blobs"|embmslibrary.jar";
+	manifests=$manifests"|embms";
 
 	#External Accessories
 	if [ "$DOS_DEBLOBBER_REMOVE_ACCESSORIES" = true ]; then
@@ -285,6 +295,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|hdcp2xtest.srm";
 	blobs=$blobs"|hdcp1.*|hdcp2.*|tzhdcp.*";
 	makes=$makes"|android.hardware.drm.*hdcp.*";
+	manifests=$manifests"|HDCPSession";
 
 	#HDR
 	blobs=$blobs"|libdovi.so";
@@ -292,6 +303,7 @@ echo "Deblobbing...";
 	#blobs=$blobs"|libhdr_tm.so"; #XXX: potential breakage
 	blobs=$blobs"|DolbyVisionService.apk";
 	blobs=$blobs"|dolby_vision.cfg|hdr_tm_config.xml";
+	manifests=$manifests"|dolby.hardware.dms";
 
 	#I/O Prefetcher [Qualcomm]
 	#blobs=$blobs"|libqc-opt.so"; #Can break camera in some cases
@@ -299,6 +311,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|bin[/]iop";
 	blobs=$blobs"|QPerformance.jar";
 	blobs=$blobs"|vendor.qti.hardware.iop.*";
+	manifests=$manifests"|hardware.iop";
 
 	#IMS (VoLTE/Wi-Fi Calling) [Qualcomm]
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
@@ -320,6 +333,7 @@ echo "Deblobbing...";
 		makes=$makes"|ims-ext-common";
 		sepolicy=$sepolicy" ims.te imscm.te imswmsproxy.te";
 		ipcSec=$ipcSec"|32:4294967295:1001";
+		manifests=$manifests"|qti.ims|radio.ims";
 	fi;
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_RCS" = true ]; then
 		#RCS (Proprietary messaging protocol)
@@ -331,6 +345,7 @@ echo "Deblobbing...";
 		blobs=$blobs"|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk";
 		#blobs=$blobs"|vendor.qti.ims.rcsconfig.*";
 		blobs=$blobs"|com.qualcomm.qti.uceservice.*";
+		manifests=$manifests"|uceservice";
 		makes=$makes"|rcs_service.*";
 		ipcSec=$ipcSec"|18:4294967295:1001:3004";
 	fi;
@@ -451,6 +466,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|PR-ModelCert";
 	blobs=$blobs"|playread.*|hcheck.*";
 	makes=$makes"|android.hardware.drm.*playready.*";
+	manifests=$manifests"|playready";
 
 	#Power [Google]
 	blobs=$blobs"|LowPowerMonitorDevice.*.jar|PowerAnomaly.*.jar";
@@ -481,10 +497,12 @@ echo "Deblobbing...";
 	blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureExtAuthJNI.so|libSecureSampleAuthClient.so";
 	#blobs=$blobs"|libsdedrm.so"; #Direct Rendering Manager not evil DRM? #XXX: potential breakage
 	blobs=$blobs"|vendor.qti.hardware.tui.*";
+	manifests=$manifests"|tui_comm|trustedui";
 
 	#Soter (Biometric Auth) [Tencent]
 	blobs=$blobs"|SoterService.apk";
 	blobs=$blobs"|vendor.qti.hardware.soter.*";
+	manifests=$manifests"|ISoter|hardware.soter";
 
 	#[Sprint]
 	blobs=$blobs"|CQATest.apk|GCS.apk|HiddenMenu.apk|HiddenMenuLight.apk|LifetimeData.apk|SprintHM.apk|LifeTimerService.apk|SecPhone.apk|SprintMenu.apk";
@@ -513,6 +531,7 @@ echo "Deblobbing...";
 	#blobs=$blobs"|vendor.qti.hardware.improvetouch.*"; #TODO: test with just this line uncommented
 	#blobs=$blobs"|hbtp_daemon|hbtp_cmd.sh";
 	#blobs=$blobs"|libhbtpclient.so|libhbtpdsp.so|libhbtpfrmwk.so";
+	#manifests=$manifests"|improvetouch";
 
 	#Venus (Hardware Video Decoding) [Qualcomm]
 	#blobs=$blobs"|venus.*";
@@ -541,6 +560,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|wifilearner";
 	blobs=$blobs"|vendor.qti.hardware.wifi.wifilearner.*|vendor.qti.hardware.wigig.*";
 	blobs=$blobs"|libwigig_flashaccess.so|libwigig_pciaccess.so|libwigig_utils.so|libwigigsensing.so";
+	manifests=$manifests"|wifilearner";
 
 	#Wfd (Wireless Display) [Qualcomm]
 	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wfd-commonsys/ [useless]
@@ -552,6 +572,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|wfdconfigsink.xml|wfdconfig.xml";
 	blobs=$blobs"|com.qualcomm.qti.wifidisplayhal.*|vendor.qti.hardware.wifidisplaysession.*|android.hardware.drm.*wfdhdcp.*";
 	makes=$makes"|WfdCommon|android.hardware.drm.*wfdhdcp.*";
+	manifests=$manifests"|wfdhdcp|wifidisplayhdcphal|WifiDisplay";
 
 	#Widevine (DRM) [Google]
 	blobs=$blobs"|libdrmwvmplugin.so|libmarlincdmplugin.so|libwvdrmengine.so|libwvdrm_L1.so|libwvdrm_L3.so|libwvhidl.so|libwvm.so|libWVphoneAPI.so|libWVStreamControlAPI_L1.so|libWVStreamControlAPI_L3.so|libdrmmtkutil.so|libsepdrm.*.so|libvtswidevine32.so|libvtswidevine64.so|android.hardware.drm.*widevine.*";
@@ -575,6 +596,7 @@ echo "Deblobbing...";
 	export ipcSec;
 	export kernels;
 	export sepolicy;
+	export manifests;
 #
 #END OF BLOBS ARRAY
 #
@@ -824,8 +846,10 @@ find device -name "*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'awk
 #find kernel -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobKernel "{}"'; #Deblob all kernel directories
 find vendor -name "*endor*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobVendorMk "{}"'; #Deblob all makefiles
 find vendor -name "Android.bp" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobVendorBp "{}"'; #Deblob all makefiles
+perl -0777 -pe 's,(<hal.*?>.*?</hal>),$1 =~ /'$manifests'/?"":$1,gse' -i $(grep 'format="hidl"' "$DOS_BUILD_BASE/device" -ril); #Deblob all matrixes #Credit: https://unix.stackexchange.com/a/72160
+perl -0777 -pe 's,(<hal.*?>.*?</hal>),$1 =~ /'$manifests'/?"":$1,gse' -i $(grep 'format="hidl"' "$DOS_BUILD_BASE/hardware/interfaces" -ril);
 deblobVendors; #Deblob entire vendor directory
-#rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove ClearKey
+rm -rf frameworks/av/drm/mediadrm/plugins/clearkey frameworks/av/drm/mediacas/plugins/clearkey; #Remove ClearKey
 rm -rf vendor/samsung/nodevice;
 #
 #END OF DEBLOBBING
