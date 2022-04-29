@@ -23,10 +23,10 @@ index 7a086816d..8799a54bd 100644
      <string name="permission_usage_preference_summary_not_used">Not used in past 24 hours</string>
  
 diff --git a/PermissionController/src/com/android/permissioncontroller/permission/ui/handheld/PermissionUsageV2ControlPreference.java b/PermissionController/src/com/android/permissioncontroller/permission/ui/handheld/PermissionUsageV2ControlPreference.java
-index 794c760d1..6d5eaebe2 100644
+index 15c8d3cff..bba384bb5 100644
 --- a/PermissionController/src/com/android/permissioncontroller/permission/ui/handheld/PermissionUsageV2ControlPreference.java
 +++ b/PermissionController/src/com/android/permissioncontroller/permission/ui/handheld/PermissionUsageV2ControlPreference.java
-@@ -72,7 +72,11 @@ public class PermissionUsageV2ControlPreference extends Preference {
+@@ -81,7 +81,11 @@ public class PermissionUsageV2ControlPreference extends Preference {
  
          if (mCount == 0) {
              this.setEnabled(false);

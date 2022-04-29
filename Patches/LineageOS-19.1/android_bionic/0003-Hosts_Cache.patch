@@ -22,10 +22,10 @@ Change-Id: I3b322883cbc48b0d76a0ce9d149b59faaac1dc58
 (cherry picked from commit ed4c3a6bd449a4ed70645071a440ae146f194116)
 ---
  libc/dns/net/getaddrinfo.c |  10 +
- libc/dns/net/hosts_cache.c | 524 +++++++++++++++++++++++++++++++++++++
+ libc/dns/net/hosts_cache.c | 520 +++++++++++++++++++++++++++++++++++++
  libc/dns/net/hosts_cache.h |  23 ++
  libc/dns/net/sethostent.c  |   7 +
- 4 files changed, 564 insertions(+)
+ 4 files changed, 560 insertions(+)
  create mode 100644 libc/dns/net/hosts_cache.c
  create mode 100644 libc/dns/net/hosts_cache.h
 
@@ -59,6 +59,7 @@ index d0c11d2b0..cc94b21e2 100644
  	cur = &sentinel;
 diff --git a/libc/dns/net/hosts_cache.c b/libc/dns/net/hosts_cache.c
 new file mode 100644
+index 000000000..52d29e032
 --- /dev/null
 +++ b/libc/dns/net/hosts_cache.c
 @@ -0,0 +1,520 @@
@@ -612,6 +613,7 @@ index 000000000..fa5488f51
 +
 +int hc_gethtbyname(const char *host, int af, struct getnamaddr *info);
 diff --git a/libc/dns/net/sethostent.c b/libc/dns/net/sethostent.c
+index 483105a95..1399378cd 100644
 --- a/libc/dns/net/sethostent.c
 +++ b/libc/dns/net/sethostent.c
 @@ -55,6 +55,8 @@ __RCSID("$NetBSD: sethostent.c,v 1.20 2014/03/17 13:24:23 christos Exp $");

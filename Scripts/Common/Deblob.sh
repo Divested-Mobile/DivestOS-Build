@@ -248,7 +248,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|HardwareInfo.apk";
 	blobs=$blobs"|SCONE.apk"; #???
 	blobs=$blobs"|DevicePersonalizationPrebuilt.*.apk|DeviceIntelligence.*.apk";
-	overlay=$overlay"|config_defaultAttentionService|config_defaultSystemCaptionsManagerService|config_defaultSystemCaptionsService|config_systemAmbientAudioIntelligence|config_systemAudioIntelligence|config_systemNotificationIntelligence|config_systemTextIntelligence|config_systemUiIntelligence|config_systemVisualIntelligence";
+	overlay=$overlay"|config_defaultAttentionService|config_defaultSystemCaptionsManagerService|config_defaultSystemCaptionsService|config_systemAmbientAudioIntelligence|config_systemAudioIntelligence|config_systemNotificationIntelligence|config_systemTextIntelligence|config_systemUiIntelligence|config_systemVisualIntelligence|config_defaultContentSuggestionsService";
 
 	#EUICC (Virtual SIM) [Google]
 	#blobs=$blobs"|EuiccGoogle.apk|EuiccSupportPixel.apk"; #EUICC is useless without GMS #XXX: breaks radio

@@ -21,10 +21,10 @@ Change-Id: I4b0bb81699151d5b371850daebf785e35ec9b180
  1 file changed, 28 insertions(+), 1 deletion(-)
 
 diff --git a/libc/dns/net/hosts_cache.c b/libc/dns/net/hosts_cache.c
-index deafb78b7..5038986be 100644
+index 52d29e032..fc6370d0c 100644
 --- a/libc/dns/net/hosts_cache.c
 +++ b/libc/dns/net/hosts_cache.c
-@@ -121,7 +121,7 @@ static int cmp_hcent_name(const void *a, const void *b)
+@@ -117,7 +117,7 @@ static int cmp_hcent_name(const void *a, const void *b)
  	return hstrcmp(na, nb);
  }
  
@@ -33,7 +33,7 @@ index deafb78b7..5038986be 100644
  {
  	size_t first, last, mid;
  	struct hcent *cur = NULL;
-@@ -162,6 +162,33 @@ found:
+@@ -158,6 +158,33 @@ found:
  	return cur;
  }
  
