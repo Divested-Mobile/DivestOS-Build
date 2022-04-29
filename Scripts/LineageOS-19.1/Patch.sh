@@ -398,9 +398,9 @@ if enterAndClear "kernel/google/wahoo"; then
 sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
 fi;
 
-if enterAndClear "kernel/oneplus/sdm845"; then
-applyPatch "$DOS_PATCHES/android_kernel_oneplus_sdm845/4.9.282-qc.patch"; #4.9.227 -> 4.9.282
-fi;
+#if enterAndClear "kernel/oneplus/sdm845"; then
+#applyPatch "$DOS_PATCHES/android_kernel_oneplus_sdm845/4.9.282-qc.patch"; #4.9.227 -> 4.9.282 #XXX: broken
+#fi;
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
