@@ -849,7 +849,8 @@ find vendor -name "Android.bp" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -
 perl -0777 -pe 's,(<hal.*?>.*?</hal>),$1 =~ /'$manifests'/?"":$1,gse' -i $(grep 'format="hidl"' "$DOS_BUILD_BASE/device" -ril); #Deblob all matrixes #Credit: https://unix.stackexchange.com/a/72160
 perl -0777 -pe 's,(<hal.*?>.*?</hal>),$1 =~ /'$manifests'/?"":$1,gse' -i $(grep 'format="hidl"' "$DOS_BUILD_BASE/hardware/interfaces" -ril);
 deblobVendors; #Deblob entire vendor directory
-rm -rf frameworks/av/drm/mediadrm/plugins/clearkey frameworks/av/drm/mediacas/plugins/clearkey; #Remove ClearKey
+rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove ClearKey
+#rm -rf frameworks/av/drm/mediacas/plugins/clearkey; #XXX: breaks protobuf inclusion
 rm -rf vendor/samsung/nodevice;
 #
 #END OF DEBLOBBING
