@@ -1,6 +1,6 @@
 #!/bin/bash
 #DivestOS: A privacy focused mobile distribution
-#Copyright (c) 2017-2021 Divested Computing Group
+#Copyright (c) 2017-2022 Divested Computing Group
 #
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
@@ -876,7 +876,7 @@ hardenDefconfig() {
 	optionsYes+=("HARDEN_BRANCH_HISTORY" "MITIGATE_SPECTRE_BRANCH_HISTORY");
 
 	#Linux 5.18
-	#optionsYes+=("SHADOW_CALL_STACK");
+	#optionsYes+=("SHADOW_CALL_STACK" "SHADOW_CALL_STACK_VMAP");
 
 	#GCC Plugins - 4.19								- 5.2
 	#optionsYes+=("GCC_PLUGINS" "GCC_PLUGIN_LATENT_ENTROPY" "GCC_PLUGIN_RANDSTRUCT" "GCC_PLUGIN_STACKLEAK" "GCC_PLUGIN_STRUCTLEAK" "GCC_PLUGIN_STRUCTLEAK_BYREF_ALL");

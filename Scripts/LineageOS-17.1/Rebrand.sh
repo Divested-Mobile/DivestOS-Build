@@ -1,6 +1,6 @@
 #!/bin/bash
 #DivestOS: A privacy focused mobile distribution
-#Copyright (c) 2017-2021 Divested Computing Group
+#Copyright (c) 2017-2022 Divested Computing Group
 #
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
