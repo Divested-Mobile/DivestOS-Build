@@ -390,8 +390,18 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
+if enterAndClear "device/essential/mata"; then
+echo "allow permissioncontroller_app tethering_service:service_manager find;" > sepolicy/private/permissioncontroller_app.te;
+fi;
+
 if enterAndClear "device/google/redbull"; then
 awk -i inplace '!/sctp/' BoardConfig-common.mk modules.load; #fix compile after hardenDefconfig
+fi;
+
+if enterAndClear "device/oneplus/msm8998-common"; then
+awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
+sed -i '/PRODUCT_SYSTEM_VERITY_PARTITION/iPRODUCT_VENDOR_VERITY_PARTITION := /dev/block/bootdevice/by-name/vendor' common.mk; #Support verity on /vendor too
+awk -i inplace '!/vendor_sensors_dbg_prop/' sepolicy/vendor/hal_camera_default.te; #fixup
 fi;
 
 if enterAndClear "kernel/google/wahoo"; then
