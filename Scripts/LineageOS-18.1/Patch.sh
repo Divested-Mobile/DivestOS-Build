@@ -325,6 +325,7 @@ fi;
 if enterAndClear "packages/apps/Updater"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Updater/0001-Server.patch"; #Switch to our server (DivestOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Updater/0002-Tor_Support.patch"; #Add Tor support (DivestOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_Updater/330099.patch"; #Add prop for allowing major updates (erfanoabdi)
 sed -i 's/PROP_BUILD_VERSION_INCREMENTAL);/PROP_BUILD_VERSION_INCREMENTAL).replaceAll("\\\\.", "");/' src/org/lineageos/updater/misc/Utils.java; #Remove periods from incremental version
 #TODO: Remove changelog
 fi;
@@ -444,6 +445,8 @@ fi;
 
 if enterAndClear "device/essential/mata"; then
 echo "allow permissioncontroller_app tethering_service:service_manager find;" > sepolicy/private/permissioncontroller_app.te;
+echo "lineage.updater.allow_major_update=true" >> system.prop; #mata has semi-broken recovery, allow major updates via Updater
+echo "persist.graphics.vulkan.disable=true" >> vendor.prop; #mata has a graphics stack from lavender for faster OpenGL, but Vulkan appears non-functional
 fi;
 
 if enterAndClear "device/google/marlin"; then

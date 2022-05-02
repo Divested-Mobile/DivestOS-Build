@@ -157,6 +157,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0020-Location_Indicators-1.patc
 applyPatch "$DOS_PATCHES/android_frameworks_base/0020-Location_Indicators-2.patch"; #Exclude Bluetooth app from Location indicators (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0021-Boot_Animation.patch"; #Use basic boot animation (DivestOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0007-ABI_Warning.patch"; #Warn when running activity from 32 bit app on ARM64 devices. (AOSP)
+applyPatch "$DOS_PATCHES/android_frameworks_base/326692.patch"; #Skip screen on animation when wake and unlock via biometrics (jesec)
 hardenLocationConf services/core/java/com/android/server/location/gnss/gps_debug.conf; #Harden the default GPS config
 changeDefaultDNS; #Change the default DNS servers
 sed -i 's/DEFAULT_USE_COMPACTION = false;/DEFAULT_USE_COMPACTION = true;/' services/core/java/com/android/server/am/CachedAppOptimizer.java; #Enable app compaction by default (GrapheneOS)
@@ -392,6 +393,7 @@ fi;
 #
 if enterAndClear "device/essential/mata"; then
 echo "allow permissioncontroller_app tethering_service:service_manager find;" > sepolicy/private/permissioncontroller_app.te;
+echo "persist.graphics.vulkan.disable=true" >> vendor.prop; #mata has a graphics stack from lavender for faster OpenGL, but Vulkan appears non-functional
 fi;
 
 if enterAndClear "device/google/redbull"; then

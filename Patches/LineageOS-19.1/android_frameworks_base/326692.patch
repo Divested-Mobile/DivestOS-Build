@@ -1,0 +1,29 @@
+From ddf071766e4388217b14b9572eccbd3507cfa80d Mon Sep 17 00:00:00 2001
+From: Jesse Chan <jc@lineageos.org>
+Date: Sat, 15 Aug 2020 21:38:06 +0800
+Subject: [PATCH] Skip screen on animation when wake and unlock via biometrics
+
+Screen on animation is slow. Modern fingerprint sensor is *FAST*.
+We need moar speed to deliver better user experience.
+
+* OEMs are doing this for years.
+
+Change-Id: I5f98259eb992b2f43872f957fcb0092412fe558c
+---
+ .../src/com/android/systemui/statusbar/phone/StatusBar.java    | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
+index a515bf54436c..9ff524f82866 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
+@@ -3920,7 +3920,8 @@ public void updateScrimController() {
+ 
+         boolean launchingAffordanceWithPreview =
+                 mNotificationPanelViewController.isLaunchingAffordanceWithPreview();
+-        mScrimController.setLaunchingAffordanceWithPreview(launchingAffordanceWithPreview);
++        mScrimController.setLaunchingAffordanceWithPreview(launchingAffordanceWithPreview
++                || mBiometricUnlockController.isWakeAndUnlock());
+ 
+         if (mStatusBarKeyguardViewManager.isShowingAlternateAuth()) {
+             if (mState == StatusBarState.SHADE || mState == StatusBarState.SHADE_LOCKED) {

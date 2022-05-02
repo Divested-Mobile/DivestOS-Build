@@ -51,7 +51,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|IFAAService.apk";
 	blobs=$blobs"|vendor.oneplus.hardware.ifaa.*";
 	makes=$makes"org.ifaa.android.manager";
-	manifests="mlipay|hardware.ifaa";
+	manifests="alipay|mlipay|hardware.ifaa";
 
 	#AIV (DRM) [Amazon]
 	blobs=$blobs"|libaivdrmclient.so|libAivPlay.so";
@@ -121,7 +121,7 @@ echo "Deblobbing...";
 	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/diag/ [headers]
 	#https://source.codeaurora.org/quic/imm/imm/sources/diag/ [related?]
 	blobs=$blobs"|[/]diag[/]|diag_callback_client|diag_dci_sample|diag_klog|diag_mdlog|diag_mdlog-getlogs|diag_mdlog-wrap|diag[/]mdm|diag_qshrink4_daemon|diag_socket_log|diag_uart_log|drmdiagapp|libdrmdiag.so|ssr_diag|test_diag|cnss_diag";
-	#blobs=$blobs"|libdiag.so|libsdm-diag.so|libDiagService.so"; #XXX: Breaks qseecomd AND brightness control (?)
+	#blobs=$blobs"|libdiag.so|libsdm-diag.so|libDiagService.so"; #XXX: Breaks things
 	ipcSec="4097:4294967295:2002:2950:3009:2901|4097:4294967295:3009";
 
 	#Dirac (Audio Codec + Effects) [Dirac]
@@ -178,7 +178,7 @@ echo "Deblobbing...";
 	#blobs=$blobs"|libtpa_core.so|libdataencrypt_tpa.so|libpkip.so"; #OMAP SMC
 	blobs=$blobs"|vendor.oneplus.hardware.drmkey.*|bin[/]hw[/]vendor.oneplus.hardware.hdcpkey.*|etc[/]init[/]vendor.oneplus.hardware.hdcpkey.*"; #OnePlus
 	#blobs=$blobs"|vendor.oneplus.hardware.hdcpkey.*.so"; #XXX: Breaks radio, linked by libril-qc-hal-qmi.so
-	#manifests=$manifests"|OneplusHdcpKey";
+	manifests=$manifests"|OneplusHdcpKey";
 	blobs=$blobs"|smc_pa.ift|drmserver.samsung"; #Samsung
 	blobs=$blobs"|provision_device";
 	#blobs=$blobs"|libasfparser.so|libsavsff.so"; #Parsers
@@ -242,10 +242,10 @@ echo "Deblobbing...";
 
 	#Fingerprint Reader
 	if [ "$DOS_DEBLOBBER_REMOVE_FP" = true ]; then
-		blobs=$blobs"|fingerprint.*.so|libbauthserver.so|libcom_fingerprints_service.so|libegis_fp_normal_sensor_test.so|lib_fpc_tac_shared.so|libfpfactory.*.so|libsynaFpSensorTestNwd.so";
-		blobs=$blobs"|fpc_early_loader";
+		blobs=$blobs"|fingerprint.*.so|libbauthserver.so|libcom_fingerprints_service.so|libegis_fp_normal_sensor_test.so|lib_fpc_tac_shared.so|libfpfactory.*.so|libsynaFpSensorTestNwd.so|libbl_fp_algo.so|libBtlFpHal.so|libxuFPAlg.so|libgf_hal.so|libgoodixfingerprintd_binder.so|fp_hal_extension.so|libgf_ud_hal.so|goodix.fod.*.so";
+		blobs=$blobs"|fpc_early_loader|btlfpserver";
 		blobs=$blobs"|fpctzappfingerprint.*";
-		blobs=$blobs"|android.hardware.biometrics.fingerprint.*";
+		blobs=$blobs"|android.hardware.biometrics.fingerprint.*|vendor.qti.hardware.fingerprint.*";
 		makes=$makes"|android.hardware.biometrics.fingerprint.*|android.hardware.fingerprint.*";
 	fi;
 
@@ -557,10 +557,11 @@ echo "Deblobbing...";
 	#Wi-Fi [Qualcomm]
 	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wigig/ [headers]
 	#https://source.codeaurora.org/quic/qsdk/oss/wigig-utils/ [useless]
-	blobs=$blobs"|wifilearner";
+	blobs=$blobs"|wifilearner|wigighalsvc|wigignpt|fstman";
+	blobs=$blobs"|wigig-service.jar";
 	blobs=$blobs"|vendor.qti.hardware.wifi.wifilearner.*|vendor.qti.hardware.wigig.*";
-	blobs=$blobs"|libwigig_flashaccess.so|libwigig_pciaccess.so|libwigig_utils.so|libwigigsensing.so";
-	manifests=$manifests"|wifilearner";
+	blobs=$blobs"|libwigig_flashaccess.so|libwigig_pciaccess.so|libwigig_utils.so|libwigigsensing.so|libwigig.*.so";
+	manifests=$manifests"|wifilearner|wigig";
 
 	#Wfd (Wireless Display) [Qualcomm]
 	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wfd-commonsys/ [useless]
