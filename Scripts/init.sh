@@ -48,6 +48,7 @@ export DOS_DEBLOBBER_REMOVE_DPM=true; #Set true to remove all DPM blobs
 export DOS_DEBLOBBER_REMOVE_DPP=false; #Set true to remove all Display Post Processing blobs #XXX: Breaks boot on select devices
 export DOS_DEBLOBBER_REMOVE_FP=false; #Set true to remove all fingerprint reader blobs
 export DOS_DEBLOBBER_REMOVE_GRAPHICS=false; #Set true to remove all graphics blobs and use SwiftShader CPU renderer #TODO: Needs work
+export DOS_DEBLOBBER_REMOVE_EUICC=true; #Set true to remove all EUICC blobs
 export DOS_DEBLOBBER_REMOVE_IMS=false; #Set true to remove all IMS blobs XXX: Carriers are phasing out 3G, making IMS mandatory for calls
 export DOS_DEBLOBBER_REMOVE_IPA=false; #Set true to remove all IPA blobs
 export DOS_DEBLOBBER_REMOVE_IR=false; #Set true to remove all IR blobs

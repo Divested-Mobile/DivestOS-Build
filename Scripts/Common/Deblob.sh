@@ -254,16 +254,20 @@ echo "Deblobbing...";
 
 	#[Google]
 	blobs=$blobs"|TetheringEntitlement.apk|CarrierLocation.apk|CarrierWifi.apk";
-	#blobs=$blobs"CarrierSettings.apk|CarrierSetup.apk"; #XXX: breaks radio
+	blobs=$blobs"|CarrierSettings.apk|CarrierSetup.apk";
 	blobs=$blobs"|HardwareInfo.apk";
 	blobs=$blobs"|SCONE.apk"; #???
 	blobs=$blobs"|DevicePersonalizationPrebuilt.*.apk|DeviceIntelligence.*.apk";
 	overlay=$overlay"|config_defaultAttentionService|config_defaultSystemCaptionsManagerService|config_defaultSystemCaptionsService|config_systemAmbientAudioIntelligence|config_systemAudioIntelligence|config_systemNotificationIntelligence|config_systemTextIntelligence|config_systemUiIntelligence|config_systemVisualIntelligence|config_defaultContentSuggestionsService";
+	overlay=$overlay"|platform_carrier_config_package";
 
 	#EUICC (Virtual SIM) [Google]
-	#blobs=$blobs"|EuiccGoogle.apk|EuiccSupportPixel.apk"; #EUICC is useless without GMS #XXX: breaks radio
-	#blobs=$blobs"|esim0.img|esim-v1.img|esim-full-v0.img";
-	#makes=$makes"|android.hardware.telephony.euicc.*";
+	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_EUICC" = true ]; then
+		blobs=$blobs"|EuiccGoogle.apk|EuiccSupportPixel.apk|EuiccSupportPixelPermissions.apk"; #EUICC is useless without GMS
+		blobs=$blobs"|esim0.img|esim-v1.img|esim-full-v0.img|esim-a1.img|esim-a2.img";
+		makes=$makes"|android.hardware.telephony.euicc.*|GoogleParts";
+		overlay=$overlay"|config_telephonyEuiccDeviceCapabilities";
+	fi;
 
 	#Google Camera
 	#blobs=$blobs"|com.google.android.camera.*";
@@ -321,7 +325,6 @@ echo "Deblobbing...";
 		blobs=$blobs"|imscm.xml|ims.xml|android.hardware.telephony.ims.xml";
 		blobs=$blobs"|qti_permissions.xml|qti-vzw-ims-internal.xml";
 		blobs=$blobs"|imssettings.apk|ims.apk";
-		#blobs=$blobs"|CarrierServices.apk"; #XXX: must be removed along with euicc due to gms dependency
 		blobs=$blobs"|imscmlibrary.jar|qti-vzw-ims-internal.jar";
 		blobs=$blobs"|com.qualcomm.qti.imscmservice.*|vendor.qti.ims.*";
 		#RTP
@@ -335,6 +338,9 @@ echo "Deblobbing...";
 		ipcSec=$ipcSec"|32:4294967295:1001";
 		manifests=$manifests"|qti.ims|radio.ims";
 	fi;
+	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_EUICC" = true ]; then
+		blobs=$blobs"|CarrierServices.apk"; #XXX: must be removed along with euicc
+	fi;
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_RCS" = true ]; then
 		#RCS (Proprietary messaging protocol)
 		#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/rcs-service/ [useless]
@@ -346,7 +352,7 @@ echo "Deblobbing...";
 		#blobs=$blobs"|vendor.qti.ims.rcsconfig.*";
 		blobs=$blobs"|com.qualcomm.qti.uceservice.*";
 		manifests=$manifests"|uceservice";
-		makes=$makes"|rcs_service.*";
+		makes=$makes"|rcs_service.*|RcsService|PresencePolling";
 		ipcSec=$ipcSec"|18:4294967295:1001:3004";
 	fi;
 
@@ -427,6 +433,14 @@ echo "Deblobbing...";
 	blobs=$blobs"|libcce-socketjni.so|libmotocare.so";
 	#blobs=$blobs"|qmi_motext_hook|libmdmcutback.so|libqmimotext.so|libmotext_inf.so"; #necessary for radio
 	makes=$makes"|com.motorola.cameraone.xml";
+
+	#OEMLock (disables OEM unlock toggle) [Google?]
+	#XXX: cannot be removed because the AOSP no-op service just uses the PDB
+	#blobs=$blobs"|oemlock-bridge|oemlock-bridge-client|oemlock_provision";
+	#blobs=$blobs"|android.hardware.oemlock.*";
+	#blobs=$blobs"|liboemlock.so|liboemlock.*.so|liboemlock-provision.so";
+	#makes=$makes"|android.hardware.oemlock.*";
+	#manifests=$manifests"|OemLock";
 
 	#OMA-DM/SyncML #See: https://www.blackhat.com/docs/us-14/materials/us-14-Solnik-Cellular-Exploitation-On-A-Global-Scale-The-Rise-And-Fall-Of-The-Control-Protocol.pdf
 	blobs=$blobs"|SyncMLSvc.apk|libsyncml_core.so|libsyncml_port.so"; #SyncML
@@ -551,7 +565,7 @@ echo "Deblobbing...";
 	#blobs=$blobs"|aonvr1.bin|aonvr2.bin"; #XXX: required by adspd, likely for more than VR
 	blobs=$blobs"|vendor.qti.voiceprint.*";
 	blobs=$blobs"|com.android.hotwordenrollment.*";
-	#makes=$makes"|android.hardware.soundtrigger.*|libsoundtriggerservice";
+	#makes=$makes"|android.hardware.soundtrigger.*|libsoundtriggerservice|sound_trigger.*";
 	#makes=$makes"|sound_trigger_mixer_paths.xml|sound_trigger_platform_info.xml";
 
 	#Wi-Fi [Qualcomm]
@@ -744,9 +758,9 @@ deblobDevice() {
 			sed -i 's|<bool name="config_carrier_wfc_ims_available">true</bool>|<bool name="config_carrier_wfc_ims_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
 		fi;
 	fi;
-	#if [ -f overlay/packages/services/Telephony/res/values/config.xml ]; then
-	#	awk -i inplace '!/platform_carrier_config_package/' overlay*/packages/services/Telephony/res/values/config.xml; #XXX: breaks radio
-	#fi;
+	if [ -f overlay/packages/services/Telephony/res/values/config.xml ]; then
+		awk -i inplace '!/platform_carrier_config_package/' overlay*/packages/services/Telephony/res/values/config.xml;
+	fi;
 	if [ -d sepolicy ]; then
 		if [ -z "$replaceTime" ]; then
 			numfiles=(*); numfiles=${#numfiles[@]};

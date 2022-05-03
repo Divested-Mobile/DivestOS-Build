@@ -1,4 +1,4 @@
-From ddf071766e4388217b14b9572eccbd3507cfa80d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jesse Chan <jc@lineageos.org>
 Date: Sat, 15 Aug 2020 21:38:06 +0800
 Subject: [PATCH] Skip screen on animation when wake and unlock via biometrics
@@ -14,10 +14,10 @@ Change-Id: I5f98259eb992b2f43872f957fcb0092412fe558c
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
-index a515bf54436c..9ff524f82866 100644
+index 371887ba60de..a0630e4831e1 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
-@@ -3920,7 +3920,8 @@ public void updateScrimController() {
+@@ -3924,7 +3924,8 @@ public class StatusBar extends SystemUI implements
  
          boolean launchingAffordanceWithPreview =
                  mNotificationPanelViewController.isLaunchingAffordanceWithPreview();
