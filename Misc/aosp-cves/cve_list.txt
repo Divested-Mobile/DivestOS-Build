@@ -1,4 +1,4 @@
-#Last checked 2021/12/11
+#Last checked 2022/05/03
 CVE-2014-9028
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/fe03f73d86bb415f5d5145f0de091834d89ae3a9
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/5859ae22db0a2d16af3e3ca19d582de37daf5eb6
@@ -1845,6 +1845,8 @@ CVE-2020-0280
 	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/2db66c94148dbe6824352f992562ffdbbe27c7ba
 CVE-2020-0294
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/d4bd69cef05d379555418a8fe748ec94ff6bd6d0
+CVE-2020-0338
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/6ebf410b818c6a525130d5fcb72381217fec8e7a
 CVE-2020-0368
 	Link - packages/providers/ContactsProvider - https://android.googlesource.com/platform/packages/providers/ContactsProvider/+/008f8bfa9d1025f108c686d547e3c953d4fae30b
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/a3986a5def1070ab7b216e92c4b4ce6eef54dc54
@@ -2558,6 +2560,8 @@ CVE-2021-0641
 	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/3987dc05c4cbf727d73c2e847692856df9aee6d2
 CVE-2021-0642
 	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/704bf010cffb73dc1249e421a83af1eef68c5b52
+CVE-2021-0643
+	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/f6bb9b20840c29e74a37ea2b880e63b3fc9470ff
 CVE-2021-0645
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/7b82cbbe3411396b187b68548f2c325b42e964a6
 CVE-2021-0646
@@ -2571,6 +2575,8 @@ CVE-2021-0651
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/efdcec1e29a4179aeb5df314321bb1d5e1ba0bee
 CVE-2021-0653
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/29eb352baad77de762ce68cae74b3247b9127352
+CVE-2021-0694
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/5d30b701587920280c12210af22f3457b802da6e
 CVE-2021-0702
 	Link - system/apex - https://android.googlesource.com/platform/system/apex/+/04bc18a50f900652ff9c07590d12809fc111a451
 CVE-2021-0704
@@ -2619,6 +2625,8 @@ CVE-2021-0955
 	Link - packages/providers/MediaProvider - https://android.googlesource.com/platform/packages/providers/MediaProvider/+/e81d03db8006fddf6e7c8a8eda1b73743314a214
 CVE-2021-0956
 	Link - packages/apps/Nfc - https://android.googlesource.com/platform/packages/apps/Nfc/+/7d90cc6e0556057571f9fde9785dd0658c1a3eb0
+CVE-2021-0957
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/e4d9de5961d9ec2fa9dc7103e4eb652e60d624c3
 CVE-2021-0958
 	Link - system/security - https://android.googlesource.com/platform/system/security/+/b7f303146fecc166260aced8de677dfc7322f7a3
 CVE-2021-0963
@@ -2771,5 +2779,109 @@ CVE-2021-1978
 	Link - external/wpa_supplicant_8 - https://source.codeaurora.org/quic/la/platform/external/wpa_supplicant_8/commit?id=ddffe981e88146adf777ce64c1c2dac2e1dad05e
 CVE-2021-30312
 	Link - external/wigig-utils - https://source.codeaurora.org/quic/qsdk/oss/wigig-utils/commit/?id=c1f7ee3b7044b85fa5162d7ed9a8c427b40b001e
+CVE-2021-30353
+	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/audio/commit/?id=af30f0103a50df510a71a12047b5c68b4e3b8a72
+	Link - https://source.codeaurora.org/quic/le/platform/hardware/qcom/audio/commit/?id=37a434f57bddfad4544102c4d15f93120bbac71d
+CVE-2021-35068
+	Link - system/bt - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/system/bt/commit/?id=ef43deea3f1408b249a59ba8a8bfafdaeec025fb
+CVE-2021-35092
+	Link - https://source.codeaurora.org/quic/qsdk/platform/vendor/qcom-opensource/data-kernel/commit/?id=750c833c5fff296626289fc804a3065b37ce191f
+CVE-2021-39619
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/a70c46b8a5ac697c87017f9c3fdebb03d3cc0292
+CVE-2021-39620
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/f2e0a95700a937e421647623a60c9fc01d6e5d87
+CVE-2021-39621
+	Link - packages/apps/Dialer - https://android.googlesource.com/platform/packages/apps/Dialer/+/9c452d9f25d8fb41fd3ec627293a2481fde778d4
+CVE-2021-39623
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/5753afcd4c87f5566f4014cce1cbc8d767572331
+CVE-2021-39626
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/3f280c15b1808a94acd3ce2c4145c74e6f183855
+CVE-2021-39627
+	Link - packages/apps/Dialer - https://android.googlesource.com/platform/packages/apps/Dialer/+/9c452d9f25d8fb41fd3ec627293a2481fde778d4
+CVE-2021-39628
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b34e3b0cb7d0d5227e845a05fe58d3e286348a7a
+CVE-2021-39629
+	Link - hardware/nxp/nfc - https://android.googlesource.com/platform/hardware/nxp/nfc/+/63162916491d3ad034e0288fb2e254cf2b66db92
+CVE-2021-39630
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b2dc041a4e84986e3a6932b127d3a18ef02b6d0a
+CVE-2021-39631
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/a36d55e8f83e8bf6e50254cda04632e233598f42
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/d2d3da3850d1eefd2a49dc93e1b6f953711a8902
+CVE-2021-39632
+	Link - bootable/recovery - https://android.googlesource.com/platform/bootable/recovery/+/f0a760b3a154ad328c682ec8559287befff14945
+CVE-2021-39659
+	Link - packages/services/Telecomm - https://android.googlesource.com/platform/packages/services/Telecomm/+/f1cae30e2c9837d1587a3a732bcc9398bd1f9e63
+CVE-2021-39664
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/18c66d8fee0e0dd8681182a59b59119a21e09c0c
+CVE-2021-39665
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/d0e524f58873f81549c7abfade30d8c9d2406a1c
+CVE-2021-39666
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/1b3b20e3ffbee16770c382d14ecbc4ec28cea88d
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/fc120151250f8627b34e72ea3b01060bd9819c22
+CVE-2021-39667
+	Link - external/libavc - https://android.googlesource.com/platform/external/libavc/+/dc110841d6a3fb2f9c9f1af04b3b71da40fbd392
+CVE-2021-39668
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/f84fdf2e6a98b81c7b55517227bd4cb53318d5aa
+CVE-2021-39669
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/3dd874316af29ccd08d99dfea672ccd8a5d06452
+CVE-2021-39671
+	Link - system/tools/aidl - https://android.googlesource.com/platform/system/tools/aidl/+/dd0d78f0ead984881caee291751226001f92587e
+	Link - system/tools/aidl - https://android.googlesource.com/platform/system/tools/aidl/+/3f4f24f1fc01aabae8253eb041c6cb236e54402b
+CVE-2021-39674
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/eeefcc7c75af2f41caba0de0175d3d843c4e882f
+CVE-2021-39675
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/fef77a189022aa7ac53136e582a1444b1d2ef5f0
+CVE-2021-39689
+	Link - system/security - https://android.googlesource.com/platform/system/security/+/9a374680df1912fb983bf174d88ddeb71932cec1
+CVE-2021-39690
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/2914a57d755051a3e5f05154d784a08019500946
+CVE-2021-39692
+	Link - packages/apps/ManagedProvisioning - https://android.googlesource.com/platform/packages/apps/ManagedProvisioning/+/a07188111567974bc8a2c817825c28169c589535
+CVE-2021-39693
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/f14e212d82b32053d151eedf97ac59a4b5b18369
+CVE-2021-39695
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b5efdf729385cc54f225496d3ba20f1cb5b68250
+CVE-2021-39697
+	Link - packages/providers/DownloadProvider - https://android.googlesource.com/platform/packages/providers/DownloadProvider/+/0dc5048914eb6a7f919c8749172b971cbb315870
+	Link - packages/providers/DownloadProvider - https://android.googlesource.com/platform/packages/providers/DownloadProvider/+/9ff84f6d353a7647efba91d74e31d17ba6b765b7
+CVE-2021-39701
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/d0e683b8f65ba43e596911324bbff2e4f9909303
+CVE-2021-39702
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/db9333baac7c609a32536a2f8d66233132306aab
+CVE-2021-39703
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/54f4c1843d4d41fb784f416575ec8b9857e3d195
+CVE-2021-39704
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b925955552885a049fcbff978415612dad3e447d
+CVE-2021-39706
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/6407b20ab3ab49318ba5cbfc0d6b59c675df67b4
+	Link - packages/apps/Car/Settings - https://android.googlesource.com/platform/packages/apps/Car/Settings/+/6a6489935d203715a755b21b374e1e3b3085aa3f
+CVE-2021-39707
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/4fb753d22e6a2505b1667950d153bc03ad8ae422
+CVE-2021-39709
+	Link - packages/services/Telephony - https://android.googlesource.com/platform/packages/services/Telephony/+/7c9b65a4de4540a50a16781e9f55857544453bc2
+CVE-2021-39794
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/f2387994151fb5c22c9e645647945e1471fe8ac1
+CVE-2021-39795
+	Link - packages/providers/MediaProvider - https://android.googlesource.com/platform/packages/providers/MediaProvider/+/cc72a7edde71d1dae05aafb31dc922cbfa1b6c82
+CVE-2021-39796
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/e74a2a320bf896bc30618ce486203bafe453c469
+CVE-2021-39797
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/c3ea2d31568121d012a0da7cbe8260f1304ca19f
+CVE-2021-39798
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/18b5537c74e29f3420882c37f81e95bebdb54029
+CVE-2021-39799
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b716ef0497811c40f4908d657d3c9f99fa23595d
+CVE-2021-39803
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/4b93da988f02c652f3429661f9a9859fa1c1ea0a
+CVE-2021-39804
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/3942f55f1c8e36b0f9d4c5acf99b177476f96457
+CVE-2021-39805
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/1e38a411e70f7f9fa6b78e4e75479e818f20e401
+CVE-2021-39807
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/c59ecb07f5b16d38f3976ce393cc5c29a241963a
+CVE-2021-39808
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/45b4a71f5cc366c338c1ceb217a602960fd31401
+CVE-2021-39809
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/2ed08261136fe59edd04af2b186bf0413aea108f
 CVE-0000-0000
 #The above line must be the last line
