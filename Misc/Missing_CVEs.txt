@@ -26,6 +26,7 @@ https://nvd.nist.gov/vuln/detail/CVE-2020-27066	- no links
 https://nvd.nist.gov/vuln/detail/CVE-2020-3623 	- no links
 https://nvd.nist.gov/vuln/detail/CVE-2020-3648 	- vendor shenanigans
 https://nvd.nist.gov/vuln/detail/CVE-2021-39712
+https://nvd.nist.gov/vuln/detail/CVE-2022-20118
 
 https://github.com/bobfuzzer/CVE
 

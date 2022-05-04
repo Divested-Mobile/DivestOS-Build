@@ -459,6 +459,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0040.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0041.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0043.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1353/^5.17/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-22064/prima/0005.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/^5.17/0001.patch
-editKernelLocalversion "-dos.p460"
+editKernelLocalversion "-dos.p461"
 cd "$DOS_BUILD_BASE"
