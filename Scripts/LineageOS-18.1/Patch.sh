@@ -446,7 +446,6 @@ fi;
 if enterAndClear "device/essential/mata"; then
 echo "allow permissioncontroller_app tethering_service:service_manager find;" > sepolicy/private/permissioncontroller_app.te;
 echo "lineage.updater.allow_major_update=true" >> system.prop; #mata has semi-broken recovery, allow major updates via Updater
-echo "persist.graphics.vulkan.disable=true" >> vendor.prop; #mata has a graphics stack from lavender for faster OpenGL, but Vulkan appears non-functional
 fi;
 
 if enterAndClear "device/google/marlin"; then

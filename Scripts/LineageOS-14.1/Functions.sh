@@ -111,13 +111,13 @@ patchWorkspace() {
 	repopick -i 315718; #CVE-2021-1957
 	repopick -it n-asb-2021-09;
 	repopick -it n-asb-2021-10;
-	repopick -it tzdb2021c_N;
 	repopick -it n-asb-2021-11;
 	repopick -it n-asb-2021-12;
 	repopick -it n-asb-2022-01;
 	repopick -it n-asb-2022-02;
 	repopick -it n-asb-2022-03;
 	repopick -it n-asb-2022-04;
+	repopick -it tzdb_N;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

@@ -236,6 +236,7 @@ fi;
 
 if enterAndClear "packages/apps/Dialer"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Dialer/0001-Not_Private_Banner.patch"; #Add a privacy warning banner to calls (CalyxOS)
+sed -i 's/>true/>false/' java/com/android/incallui/res/values/lineage_config.xml; #XXX: temporary workaround for black screen on incoming calls https://gitlab.com/LineageOS/issues/android/-/issues/4632
 fi;
 
 if enterAndClear "packages/apps/LineageParts"; then
@@ -393,7 +394,6 @@ fi;
 #
 if enterAndClear "device/essential/mata"; then
 echo "allow permissioncontroller_app tethering_service:service_manager find;" > sepolicy/private/permissioncontroller_app.te;
-echo "persist.graphics.vulkan.disable=true" >> vendor.prop; #mata has a graphics stack from lavender for faster OpenGL, but Vulkan appears non-functional
 fi;
 
 if enterAndClear "device/google/redbull"; then
