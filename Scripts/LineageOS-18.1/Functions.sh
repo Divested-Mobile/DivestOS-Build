@@ -131,7 +131,7 @@ buildAll() {
 	buildDevice hotdog avb;
 	buildDevice hotdogb avb;
 	#buildDevice raphael avb; #unb + missing vendor
-	buildDevice vayu avb; #needs init.qcom.sensors.sh
+	buildDevice vayu avb;
 	#SD865
 	buildDevice lmi avb;
 	#SD870

@@ -47,6 +47,9 @@ echo "Deblobbing...";
 
 	#Alipay (Payment Platform) [Alibaba]
 	blobs=$blobs"ifaadaemon|ifaadaemonProxy";
+	blobs=$blobs"|mlipayd.*";
+	blobs=$blobs"|libmlipay.*.so";
+	blobs=$blobs"|vendor.xiaomi.hardware.mlipay.*";
 	blobs=$blobs"|alipay.*";
 	blobs=$blobs"|IFAAService.apk";
 	blobs=$blobs"|vendor.oneplus.hardware.ifaa.*";
@@ -267,7 +270,7 @@ echo "Deblobbing...";
 		blobs=$blobs"|EuiccGoogle.apk|EuiccSupportPixel.apk|EuiccSupportPixelPermissions.apk"; #EUICC is useless without GMS
 		blobs=$blobs"|esim0.img|esim-v1.img|esim-full-v0.img|esim-a1.img|esim-a2.img";
 		makes=$makes"|android.hardware.telephony.euicc.*|GoogleParts";
-		overlay=$overlay"|config_telephonyEuiccDeviceCapabilities";
+		#overlay=$overlay"|config_telephonyEuiccDeviceCapabilities"; #TODO handle multiple lines
 	fi;
 
 	#Google Camera

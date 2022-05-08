@@ -1,4 +1,4 @@
-From 10b36261bda3a4d5459f55a0dca8e55b00203354 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Erfan Abdi <erfangplus@gmail.com>
 Date: Tue, 26 Apr 2022 00:18:03 +0430
 Subject: [PATCH] Updater: Add prop for allowing major updates
@@ -10,10 +10,10 @@ Change-Id: Ida461cab7f0c4953fbdd6ea4928bf14fff386056
  2 files changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/src/org/lineageos/updater/misc/Constants.java b/src/org/lineageos/updater/misc/Constants.java
-index 6144ed74..554098ef 100644
+index 37e81d8..dbdc983 100644
 --- a/src/org/lineageos/updater/misc/Constants.java
 +++ b/src/org/lineageos/updater/misc/Constants.java
-@@ -46,6 +46,7 @@ private Constants() {
+@@ -47,6 +47,7 @@ public final class Constants {
      public static final String PROP_RELEASE_TYPE = "ro.lineage.releasetype";
      public static final String PROP_UPDATER_ALLOW_DOWNGRADING = "lineage.updater.allow_downgrading";
      public static final String PROP_UPDATER_URI = "lineage.updater.uri";
@@ -22,10 +22,10 @@ index 6144ed74..554098ef 100644
      public static final String PREF_INSTALL_OLD_TIMESTAMP = "install_old_timestamp";
      public static final String PREF_INSTALL_NEW_TIMESTAMP = "install_new_timestamp";
 diff --git a/src/org/lineageos/updater/misc/Utils.java b/src/org/lineageos/updater/misc/Utils.java
-index 79ded8f2..c1896410 100644
+index 2b42726..73985da 100644
 --- a/src/org/lineageos/updater/misc/Utils.java
 +++ b/src/org/lineageos/updater/misc/Utils.java
-@@ -113,8 +113,9 @@ public static boolean isCompatible(UpdateBaseInfo update) {
+@@ -114,8 +114,9 @@ public class Utils {
      public static boolean canInstall(UpdateBaseInfo update) {
          return (SystemProperties.getBoolean(Constants.PROP_UPDATER_ALLOW_DOWNGRADING, false) ||
                  update.getTimestamp() > SystemProperties.getLong(Constants.PROP_BUILD_DATE, 0)) &&
