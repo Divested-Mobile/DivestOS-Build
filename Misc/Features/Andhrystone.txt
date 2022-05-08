@@ -1,19 +1,31 @@
-msm8930
-	n800 - 5.5m/10.8m
+Tegra
+	grouper/14.1 - 4.7m/18.4m
+	dragon/15.1 -
 
-tegra 3
-	grouper bOC - 5.4m/5.4m
-	grouper 4.4 - 4.9m/19.6m
-	grouper ADS - 5.2m/20m
-	grouper - 4.7m/18.4m
+OMAP
+	toroplus/14.1 - 4.6m/9.4m
 
-msm8960
-	mako oc - 6.4m/20.2m
+SDS4P
+	mako/18.1 - 6.7/13.4m
 
-msm8974
-	thor oc - 9.9m/19.8m
-	d852 oc - 13.9m/25.0m
-	bacon oc - 
+SD400
+	n800/11.0 - 5.5m/10.8m
 
-msm8992
-	clark - 6.9/48.2m
+SD801
+	d852/18.1 - 12.3m/25.0m
+	bacon/18.1 - 12.4/24.9m
+	klte/18.1 - 12.1/24.6m
+
+SD808
+	clark/17.1 - 6.9/41.8m
+
+SD821
+	sailfish/18.1 - 18.0m/58.4m
+
+SD835
+	cheeseburger/18.1 - 18.4m/106.2m
+	mata/19.1 - 17.8/105.4m
+	taimen/19.1 - 18.5/107.2m
+
+SD845
+	fajita/19.1 - 27.8/141.3m
