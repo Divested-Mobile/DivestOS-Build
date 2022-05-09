@@ -45,16 +45,22 @@ echo "Deblobbing...";
 	#blobs=$blobs"|libfastcvadsp_stub.so|libfastcvopt.so|libadsp.*.so|libscve.*.so";
 	#sepolicy=$sepolicy" adspd.te adsprpcd.te";
 
-	#Alipay (Payment Platform) [Alibaba]
+	#IFAA (???) [Qualcomm/OnePlus?]
 	blobs=$blobs"ifaadaemon|ifaadaemonProxy";
-	blobs=$blobs"|mlipayd.*";
-	blobs=$blobs"|libmlipay.*.so";
-	blobs=$blobs"|vendor.xiaomi.hardware.mlipay.*";
-	blobs=$blobs"|alipay.*";
 	blobs=$blobs"|IFAAService.apk";
 	blobs=$blobs"|vendor.oneplus.hardware.ifaa.*";
 	makes=$makes"org.ifaa.android.manager";
-	manifests="alipay|mlipay|hardware.ifaa";
+	manifests=$manifests"hardware.ifaa";
+
+	#Alipay (Payment Platform) [Alibaba]
+	blobs=$blobs"|alipay.*";
+	manifests=$manifests"|alipay";
+
+	#Mlipay (Payment Platform) [Xiaomi]
+	blobs=$blobs"|mlipayd.*";
+	blobs=$blobs"|libmlipay.*.so";
+	blobs=$blobs"|vendor.xiaomi.hardware.mlipay.*";
+	manifests=$manifests"|mlipay";
 
 	#AIV (DRM) [Amazon]
 	blobs=$blobs"|libaivdrmclient.so|libAivPlay.so";
