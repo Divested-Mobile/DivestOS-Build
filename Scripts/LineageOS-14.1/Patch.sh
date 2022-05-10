@@ -73,7 +73,7 @@ sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 if [ "$DOS_SILENCE_INCLUDED" = true ]; then sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk; fi; #Replace the Messaging app with Silence
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2022-04-05/' core/version_defaults.mk; #Bump Security String #n-asb-2022-04 #XXX
+sed -i 's/2021-06-05/2022-05-05/' core/version_defaults.mk; #Bump Security String #n-asb-2022-05 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
