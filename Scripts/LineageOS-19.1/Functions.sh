@@ -60,9 +60,9 @@ buildAll() {
 	buildDevice discovery;
 	#SD835
 	buildDevice cheryl verity;
-	buildDevice cheeseburger verity;
-	buildDevice dumpling verity;
-	buildDevice mata verity;
+	#buildDevice cheeseburger verity; #unb, radio broken pending upstream merge
+	#buildDevice dumpling verity;
+	buildDevice mata verity; #unb, unofficial pending upstream merge
 	buildDevice taimen avb;
 	buildDevice walleye avb;
 	#SD845
@@ -99,7 +99,6 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -i 330781; #PermissionManager: add null check for mLocationProviderPkgName, mLocationExtraPkgNames
-	#repopick -it S_asb_2022-05;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

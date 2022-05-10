@@ -26,7 +26,6 @@
 	<remove-project name="LineageOS/hudson" />
 	<remove-project name="LineageOS/lineage_wiki" />
 	<remove-project name="LineageOS/mirror" />
-	<remove-project name="LineageOS/slackbot" />
 	<remove-project name="LineageOS/www" />
 	<remove-project name="platform/packages/apps/SampleLocationAttribution" />
 	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
