@@ -232,4 +232,18 @@
     <!-- Flag indicating whether we should enable smart battery. -->
     <bool name="config_smart_battery_available">true</bool>
 
+    <!-- Packages to be excluded from location indicators -->
+    <string-array name="config_locationExtraPackageNames" translatable="false">
+        <!-- Bluetooth -->
+        <item>com.android.bluetooth</item>
+        <!-- Phone Services -->
+        <item>com.android.phone</item>
+        <!-- ImsService on raviole -->
+        <item>com.shannon.imsservice</item>
+        <!-- DejaVuLocationService -->
+        <item>org.fitchfamily.android.dejavu</item>
+        <!-- MozillaNlpBackend -->
+        <item>org.microg.nlp.backend.ichnaea</item>
+    </string-array>
+
 </resources>

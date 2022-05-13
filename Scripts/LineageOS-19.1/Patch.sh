@@ -158,8 +158,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-11.pat
 applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-12.patch";
 sed -i 's/sys.spawn.exec/persist.security.exec_spawn_new/' core/java/com/android/internal/os/ZygoteConnection.java;
 fi;
-applyPatch "$DOS_PATCHES/android_frameworks_base/0020-Location_Indicators-1.patch"; #SystemUI: Use new privacy indicators for location (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_frameworks_base/0020-Location_Indicators-2.patch"; #Exclude Bluetooth app from Location indicators (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0020-Location_Indicators.patch"; #SystemUI: Use new privacy indicators for location (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0021-Boot_Animation.patch"; #Use basic boot animation (DivestOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0007-ABI_Warning.patch"; #Warn when running activity from 32 bit app on ARM64 devices. (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/326692.patch"; #Skip screen on animation when wake and unlock via biometrics (jesec)
