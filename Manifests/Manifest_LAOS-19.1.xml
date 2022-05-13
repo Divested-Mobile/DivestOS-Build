@@ -63,8 +63,8 @@
 	<project path="packages/apps/ElmyraService" name="LineageOS/android_packages_apps_ElmyraService" remote="github" />
 
 	<!-- Essential PH-1 (mata) -->
-	<project path="device/essential/mata" name="npjohnson/android_device_essential_mata" remote="github" />
-	<project path="kernel/essential/msm8998" name="npjohnson/android_kernel_essential_msm8998" remote="github" />
+	<project path="device/essential/mata" name="LineageOS/android_device_essential_mata" remote="github" />
+	<project path="kernel/essential/msm8998" name="LineageOS/android_kernel_essential_msm8998" remote="github" />
 
 	<!-- F(x)tec Pro¹ (pro1) -->
 	<project path="device/fxtec/pro1" name="LineageOS/android_device_fxtec_pro1" remote="github" />

@@ -62,7 +62,7 @@ buildAll() {
 	buildDevice cheryl verity;
 	#buildDevice cheeseburger verity; #unb, radio broken pending upstream merge
 	#buildDevice dumpling verity;
-	buildDevice mata verity; #unb, unofficial pending upstream merge
+	buildDevice mata verity; #unb, pending upstream merge
 	buildDevice taimen avb;
 	buildDevice walleye avb;
 	#SD845
