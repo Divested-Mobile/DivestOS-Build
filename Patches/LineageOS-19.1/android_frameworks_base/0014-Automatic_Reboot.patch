@@ -43,7 +43,7 @@ index f2a33de008d6..354fd82f3a0d 100644
          <permission name="android.permission.RECEIVE_MEDIA_RESOURCE_USAGE"/>
          <permission name="android.permission.START_ACTIVITIES_FROM_BACKGROUND" />
 diff --git a/packages/SystemUI/AndroidManifest.xml b/packages/SystemUI/AndroidManifest.xml
-index 5797aa01bfc0..cd3e8b391982 100644
+index cdec5a47b240..3210af7bdebc 100644
 --- a/packages/SystemUI/AndroidManifest.xml
 +++ b/packages/SystemUI/AndroidManifest.xml
 @@ -292,6 +292,9 @@
@@ -53,9 +53,9 @@ index 5797aa01bfc0..cd3e8b391982 100644
 +    <!-- Permission to allow rebooting the device after a user configurable amount of time -->
 +    <uses-permission android:name="android.permission.REBOOT" />
 +
+     <uses-permission android:name="lineageos.permission.WRITE_SETTINGS"/>
+ 
      <protected-broadcast android:name="com.android.settingslib.action.REGISTER_SLICE_RECEIVER" />
-     <protected-broadcast android:name="com.android.settingslib.action.UNREGISTER_SLICE_RECEIVER" />
-     <protected-broadcast android:name="com.android.settings.flashlight.action.FLASHLIGHT_CHANGED" />
 diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 index 597860087158..abcfcd616dd8 100644
 --- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
