@@ -112,24 +112,24 @@ buildAll() {
 	buildDevice cheryl verity;
 	buildDevice cheeseburger verity;
 	buildDevice dumpling verity;
-	buildDevice mata verity;
-	buildDevice taimen avb;
-	buildDevice walleye avb;
+	#buildDevice mata verity; #superseded
+	#buildDevice taimen avb; #superseded
+	#buildDevice walleye avb; #superseded
 	#SD845
-	buildDevice beryllium avb;
+	#buildDevice beryllium avb; #superseded
 	buildDevice crosshatch avb;
 	buildDevice blueline avb;
-	buildDevice enchilada avb; #XXX: uses stock /vendor
-	buildDevice fajita avb; #XXX: uses stock /vendor
+	#buildDevice enchilada avb; #XXX: uses stock /vendor #superseded
+	#buildDevice fajita avb; #XXX: uses stock /vendor #superseded
 	buildDevice akari avb;
 	buildDevice aurora avb;
 	buildDevice xz2c avb;
 	#SD632
 	buildDevice FP3 avb;
 	#SD855
-	buildDevice guacamole avb;
-	buildDevice hotdog avb;
-	buildDevice hotdogb avb;
+	#buildDevice guacamole avb; #superseded
+	#buildDevice hotdog avb; #superseded
+	#buildDevice hotdogb avb; #superseded
 	#buildDevice raphael avb; #unb + missing vendor
 	buildDevice vayu avb;
 	#SD865

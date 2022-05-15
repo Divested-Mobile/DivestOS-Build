@@ -69,7 +69,7 @@ buildAll() {
 	#SD730
 	buildDevice davinci avb;
 	#SD855
-	buildDevice guacamoleb avb;
+	#buildDevice guacamoleb avb; #superseded
 	#SD660
 	buildDevice Amber verity;
 	#SD765
