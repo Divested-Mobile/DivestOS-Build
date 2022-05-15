@@ -3,20 +3,42 @@ From: flawedworld <38294951+flawedworld@users.noreply.github.com>
 Date: Mon, 5 Apr 2021 02:26:20 +0100
 Subject: [PATCH] allow init to control kernel.yama.ptrace_scope
 
+[tad@spotco.us]: added to older targets to match
+
 Change-Id: Id364a6a0e088be3bb00b245d580e29980f5c2650
 ---
+ prebuilts/api/26.0/private/domain.te      | 1 +
  prebuilts/api/26.0/private/genfs_contexts | 1 +
+ prebuilts/api/26.0/public/init.te         | 3 +++
+ prebuilts/api/27.0/private/domain.te      | 1 +
  prebuilts/api/27.0/private/genfs_contexts | 1 +
+ prebuilts/api/27.0/public/init.te         | 3 +++
+ prebuilts/api/28.0/private/domain.te      | 1 +
  prebuilts/api/28.0/private/genfs_contexts | 1 +
+ prebuilts/api/28.0/public/init.te         | 3 +++
+ prebuilts/api/29.0/private/domain.te      | 1 +
  prebuilts/api/29.0/private/genfs_contexts | 1 +
+ prebuilts/api/29.0/public/init.te         | 3 +++
  prebuilts/api/30.0/private/domain.te      | 1 +
  prebuilts/api/30.0/private/genfs_contexts | 1 +
  prebuilts/api/30.0/public/init.te         | 3 +++
  private/domain.te                         | 1 +
  private/genfs_contexts                    | 1 +
  public/init.te                            | 3 +++
- 10 files changed, 14 insertions(+)
+ 18 files changed, 30 insertions(+)
 
+diff --git a/prebuilts/api/26.0/private/domain.te b/prebuilts/api/26.0/private/domain.te
+index d37a0bd26..69f98161c 100644
+--- a/prebuilts/api/26.0/private/domain.te
++++ b/prebuilts/api/26.0/private/domain.te
+@@ -7,6 +7,7 @@ allow domain crash_dump:process sigchld;
+ # with other UIDs to these whitelisted domains.
+ neverallow {
+   domain
++  -init
+   -vold
+   -dumpstate
+   -storaged
 diff --git a/prebuilts/api/26.0/private/genfs_contexts b/prebuilts/api/26.0/private/genfs_contexts
 index 753cabf15..67203c998 100644
 --- a/prebuilts/api/26.0/private/genfs_contexts
@@ -29,6 +51,32 @@ index 753cabf15..67203c998 100644
  genfscon proc /sys/net u:object_r:proc_net:s0
  genfscon proc /sys/vm/mmap_min_addr u:object_r:proc_security:s0
  genfscon proc /sys/vm/mmap_rnd_bits u:object_r:proc_security:s0
+diff --git a/prebuilts/api/26.0/public/init.te b/prebuilts/api/26.0/public/init.te
+index 6d43ef463..04422e1d0 100644
+--- a/prebuilts/api/26.0/public/init.te
++++ b/prebuilts/api/26.0/public/init.te
+@@ -93,6 +93,9 @@ allow init self:capability sys_time;
+ 
+ allow init self:capability { sys_rawio mknod };
+ 
++# Set /proc/sys/kernel/yama/ptrace_scope
++allow init self:capability { sys_ptrace };
++
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
+ 
+diff --git a/prebuilts/api/27.0/private/domain.te b/prebuilts/api/27.0/private/domain.te
+index d37a0bd26..69f98161c 100644
+--- a/prebuilts/api/27.0/private/domain.te
++++ b/prebuilts/api/27.0/private/domain.te
+@@ -7,6 +7,7 @@ allow domain crash_dump:process sigchld;
+ # with other UIDs to these whitelisted domains.
+ neverallow {
+   domain
++  -init
+   -vold
+   -dumpstate
+   -storaged
 diff --git a/prebuilts/api/27.0/private/genfs_contexts b/prebuilts/api/27.0/private/genfs_contexts
 index 606d46cbe..ac54e423a 100644
 --- a/prebuilts/api/27.0/private/genfs_contexts
@@ -41,6 +89,32 @@ index 606d46cbe..ac54e423a 100644
  genfscon proc /sys/net u:object_r:proc_net:s0
  genfscon proc /sys/vm/mmap_min_addr u:object_r:proc_security:s0
  genfscon proc /sys/vm/mmap_rnd_bits u:object_r:proc_security:s0
+diff --git a/prebuilts/api/27.0/public/init.te b/prebuilts/api/27.0/public/init.te
+index e6162a939..78d1ab527 100644
+--- a/prebuilts/api/27.0/public/init.te
++++ b/prebuilts/api/27.0/public/init.te
+@@ -98,6 +98,9 @@ allow init self:capability sys_time;
+ 
+ allow init self:capability { sys_rawio mknod };
+ 
++# Set /proc/sys/kernel/yama/ptrace_scope
++allow init self:capability { sys_ptrace };
++
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
+ 
+diff --git a/prebuilts/api/28.0/private/domain.te b/prebuilts/api/28.0/private/domain.te
+index fb6ba4f78..e4bf76af7 100644
+--- a/prebuilts/api/28.0/private/domain.te
++++ b/prebuilts/api/28.0/private/domain.te
+@@ -7,6 +7,7 @@ allow domain crash_dump:process sigchld;
+ # with other UIDs to these whitelisted domains.
+ neverallow {
+   domain
++  -init
+   -vold
+   -dumpstate
+   userdebug_or_eng(`-incidentd')
 diff --git a/prebuilts/api/28.0/private/genfs_contexts b/prebuilts/api/28.0/private/genfs_contexts
 index 44ca95fd5..89b55b28d 100644
 --- a/prebuilts/api/28.0/private/genfs_contexts
@@ -53,6 +127,32 @@ index 44ca95fd5..89b55b28d 100644
  genfscon proc /sys/net u:object_r:proc_net:s0
  genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
  genfscon proc /sys/vm/dirty_expire_centisecs u:object_r:proc_dirty:s0
+diff --git a/prebuilts/api/28.0/public/init.te b/prebuilts/api/28.0/public/init.te
+index dafc06f99..bc38c7760 100644
+--- a/prebuilts/api/28.0/public/init.te
++++ b/prebuilts/api/28.0/public/init.te
+@@ -112,6 +112,9 @@ allow init self:global_capability_class_set sys_time;
+ 
+ allow init self:global_capability_class_set { sys_rawio mknod };
+ 
++# Set /proc/sys/kernel/yama/ptrace_scope
++allow init self:capability { sys_ptrace };
++
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
+ 
+diff --git a/prebuilts/api/29.0/private/domain.te b/prebuilts/api/29.0/private/domain.te
+index 209eeb0dd..3a36ec678 100644
+--- a/prebuilts/api/29.0/private/domain.te
++++ b/prebuilts/api/29.0/private/domain.te
+@@ -86,6 +86,7 @@ userdebug_or_eng(`
+ # with other UIDs to these whitelisted domains.
+ neverallow {
+   domain
++  -init
+   -vold
+   userdebug_or_eng(`-llkd')
+   -dumpstate
 diff --git a/prebuilts/api/29.0/private/genfs_contexts b/prebuilts/api/29.0/private/genfs_contexts
 index 804996685..22a1ebf8d 100644
 --- a/prebuilts/api/29.0/private/genfs_contexts
@@ -65,6 +165,20 @@ index 804996685..22a1ebf8d 100644
  genfscon proc /sys/net u:object_r:proc_net:s0
  genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
  genfscon proc /sys/vm/dirty_expire_centisecs u:object_r:proc_dirty:s0
+diff --git a/prebuilts/api/29.0/public/init.te b/prebuilts/api/29.0/public/init.te
+index 2d52f5966..aa0036f1b 100644
+--- a/prebuilts/api/29.0/public/init.te
++++ b/prebuilts/api/29.0/public/init.te
+@@ -121,6 +121,9 @@ allow init self:global_capability_class_set sys_time;
+ 
+ allow init self:global_capability_class_set { sys_rawio mknod };
+ 
++# Set /proc/sys/kernel/yama/ptrace_scope
++allow init self:capability { sys_ptrace };
++
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
+ allowxperm init dev_type:blk_file ioctl BLKROSET;
 diff --git a/prebuilts/api/30.0/private/domain.te b/prebuilts/api/30.0/private/domain.te
 index 7116dadfd..55264d01a 100644
 --- a/prebuilts/api/30.0/private/domain.te

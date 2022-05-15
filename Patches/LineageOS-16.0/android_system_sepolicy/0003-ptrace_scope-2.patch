@@ -10,10 +10,8 @@ Change-Id: I252d92ae9f29143cce3cce1c0a2feb513f70b641
  prebuilts/api/26.0/private/property_contexts | 1 +
  prebuilts/api/27.0/private/property_contexts | 1 +
  prebuilts/api/28.0/private/property_contexts | 1 +
- prebuilts/api/29.0/private/property_contexts | 1 +
- prebuilts/api/30.0/private/property_contexts | 1 +
  private/property_contexts                    | 1 +
- 6 files changed, 6 insertions(+)
+ 4 files changed, 4 insertions(+)
 
 diff --git a/prebuilts/api/26.0/private/property_contexts b/prebuilts/api/26.0/private/property_contexts
 index 4c27b35d6..c48ba4012 100644
@@ -51,37 +49,13 @@ index 32be0b377..afe0f70fe 100644
  persist.logd.           u:object_r:logd_prop:s0
  ro.logd.                u:object_r:logd_prop:s0
  persist.logd.security   u:object_r:device_logging_prop:s0
-diff --git a/prebuilts/api/29.0/private/property_contexts b/prebuilts/api/29.0/private/property_contexts
-index cb81ba693..f1fbfebd0 100644
---- a/prebuilts/api/29.0/private/property_contexts
-+++ b/prebuilts/api/29.0/private/property_contexts
-@@ -49,6 +49,7 @@ service.adb.tcp.port    u:object_r:shell_prop:s0
- persist.audio.          u:object_r:audio_prop:s0
- persist.bluetooth.      u:object_r:bluetooth_prop:s0
- persist.debug.          u:object_r:persist_debug_prop:s0
-+persist.native_debug    u:object_r:system_prop:s0
- persist.logd.           u:object_r:logd_prop:s0
- ro.logd.                u:object_r:logd_prop:s0
- persist.logd.security   u:object_r:device_logging_prop:s0
-diff --git a/prebuilts/api/30.0/private/property_contexts b/prebuilts/api/30.0/private/property_contexts
-index a4fab1f22..1a9571360 100644
---- a/prebuilts/api/30.0/private/property_contexts
-+++ b/prebuilts/api/30.0/private/property_contexts
-@@ -56,6 +56,7 @@ persist.audio.          u:object_r:audio_prop:s0
- persist.bluetooth.      u:object_r:bluetooth_prop:s0
- persist.nfc_cfg.        u:object_r:nfc_prop:s0
- persist.debug.          u:object_r:persist_debug_prop:s0
-+persist.native_debug    u:object_r:system_prop:s0
- persist.logd.           u:object_r:logd_prop:s0
- ro.logd.                u:object_r:logd_prop:s0
- persist.logd.security   u:object_r:device_logging_prop:s0
 diff --git a/private/property_contexts b/private/property_contexts
-index a4fab1f22..1a9571360 100644
+index 32be0b377..afe0f70fe 100644
 --- a/private/property_contexts
 +++ b/private/property_contexts
-@@ -56,6 +56,7 @@ persist.audio.          u:object_r:audio_prop:s0
+@@ -44,6 +44,7 @@ service.adb.tcp.port    u:object_r:shell_prop:s0
+ persist.audio.          u:object_r:audio_prop:s0
  persist.bluetooth.      u:object_r:bluetooth_prop:s0
- persist.nfc_cfg.        u:object_r:nfc_prop:s0
  persist.debug.          u:object_r:persist_debug_prop:s0
 +persist.native_debug    u:object_r:system_prop:s0
  persist.logd.           u:object_r:logd_prop:s0

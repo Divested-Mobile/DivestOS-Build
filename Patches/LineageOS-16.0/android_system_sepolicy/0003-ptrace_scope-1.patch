@@ -16,13 +16,10 @@ Change-Id: Id364a6a0e088be3bb00b245d580e29980f5c2650
  prebuilts/api/28.0/private/domain.te      | 1 +
  prebuilts/api/28.0/private/genfs_contexts | 1 +
  prebuilts/api/28.0/public/init.te         | 3 +++
- prebuilts/api/29.0/private/domain.te      | 1 +
- prebuilts/api/29.0/private/genfs_contexts | 1 +
- prebuilts/api/29.0/public/init.te         | 3 +++
  private/domain.te                         | 1 +
  private/genfs_contexts                    | 1 +
  public/init.te                            | 3 +++
- 15 files changed, 25 insertions(+)
+ 12 files changed, 20 insertions(+)
 
 diff --git a/prebuilts/api/26.0/private/domain.te b/prebuilts/api/26.0/private/domain.te
 index d37a0bd26..69f98161c 100644
@@ -49,19 +46,19 @@ index 753cabf15..67203c998 100644
  genfscon proc /sys/vm/mmap_min_addr u:object_r:proc_security:s0
  genfscon proc /sys/vm/mmap_rnd_bits u:object_r:proc_security:s0
 diff --git a/prebuilts/api/26.0/public/init.te b/prebuilts/api/26.0/public/init.te
-index 6d43ef463..04422e1d0 100644
+index 6d43ef463..947eaaeca 100644
 --- a/prebuilts/api/26.0/public/init.te
 +++ b/prebuilts/api/26.0/public/init.te
-@@ -93,6 +93,9 @@ allow init self:capability sys_time;
- 
- allow init self:capability { sys_rawio mknod };
+@@ -96,6 +96,9 @@ allow init self:capability { sys_rawio mknod };
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
  
 +# Set /proc/sys/kernel/yama/ptrace_scope
 +allow init self:capability { sys_ptrace };
 +
- # Mounting filesystems from block devices.
- allow init dev_type:blk_file r_file_perms;
- 
+ # Mounting filesystems.
+ # Only allow relabelto for types used in context= mount options,
+ # which should all be assigned the contextmount_type attribute.
 diff --git a/prebuilts/api/27.0/private/domain.te b/prebuilts/api/27.0/private/domain.te
 index d37a0bd26..69f98161c 100644
 --- a/prebuilts/api/27.0/private/domain.te
@@ -87,19 +84,19 @@ index 606d46cbe..ac54e423a 100644
  genfscon proc /sys/vm/mmap_min_addr u:object_r:proc_security:s0
  genfscon proc /sys/vm/mmap_rnd_bits u:object_r:proc_security:s0
 diff --git a/prebuilts/api/27.0/public/init.te b/prebuilts/api/27.0/public/init.te
-index e6162a939..78d1ab527 100644
+index e6162a939..76de36515 100644
 --- a/prebuilts/api/27.0/public/init.te
 +++ b/prebuilts/api/27.0/public/init.te
-@@ -98,6 +98,9 @@ allow init self:capability sys_time;
- 
- allow init self:capability { sys_rawio mknod };
+@@ -101,6 +101,9 @@ allow init self:capability { sys_rawio mknod };
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
  
 +# Set /proc/sys/kernel/yama/ptrace_scope
 +allow init self:capability { sys_ptrace };
 +
- # Mounting filesystems from block devices.
- allow init dev_type:blk_file r_file_perms;
- 
+ # Mounting filesystems.
+ # Only allow relabelto for types used in context= mount options,
+ # which should all be assigned the contextmount_type attribute.
 diff --git a/prebuilts/api/28.0/private/domain.te b/prebuilts/api/28.0/private/domain.te
 index fb6ba4f78..e4bf76af7 100644
 --- a/prebuilts/api/28.0/private/domain.te
@@ -113,10 +110,10 @@ index fb6ba4f78..e4bf76af7 100644
    -dumpstate
    userdebug_or_eng(`-incidentd')
 diff --git a/prebuilts/api/28.0/private/genfs_contexts b/prebuilts/api/28.0/private/genfs_contexts
-index 44ca95fd5..89b55b28d 100644
+index 656a9557a..126313ed8 100644
 --- a/prebuilts/api/28.0/private/genfs_contexts
 +++ b/prebuilts/api/28.0/private/genfs_contexts
-@@ -58,6 +58,7 @@ genfscon proc /sys/kernel/sched_tunable_scaling u:object_r:proc_sched:s0
+@@ -59,6 +59,7 @@ genfscon proc /sys/kernel/sched_tunable_scaling u:object_r:proc_sched:s0
  genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
  genfscon proc /sys/kernel/sysrq u:object_r:proc_sysrq:s0
  genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
@@ -125,9 +122,47 @@ index 44ca95fd5..89b55b28d 100644
  genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
  genfscon proc /sys/vm/dirty_expire_centisecs u:object_r:proc_dirty:s0
 diff --git a/prebuilts/api/28.0/public/init.te b/prebuilts/api/28.0/public/init.te
-index dafc06f99..bc38c7760 100644
+index 9eff0b0be..e52fa7eee 100644
 --- a/prebuilts/api/28.0/public/init.te
 +++ b/prebuilts/api/28.0/public/init.te
+@@ -115,6 +115,9 @@ allow init self:global_capability_class_set { sys_rawio mknod };
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
+ 
++# Set /proc/sys/kernel/yama/ptrace_scope
++allow init self:capability { sys_ptrace };
++
+ # Mounting filesystems.
+ # Only allow relabelto for types used in context= mount options,
+ # which should all be assigned the contextmount_type attribute.
+diff --git a/private/domain.te b/private/domain.te
+index fb6ba4f78..e4bf76af7 100644
+--- a/private/domain.te
++++ b/private/domain.te
+@@ -7,6 +7,7 @@ allow domain crash_dump:process sigchld;
+ # with other UIDs to these whitelisted domains.
+ neverallow {
+   domain
++  -init
+   -vold
+   -dumpstate
+   userdebug_or_eng(`-incidentd')
+diff --git a/private/genfs_contexts b/private/genfs_contexts
+index 28cf83ab2..bd64f01ba 100644
+--- a/private/genfs_contexts
++++ b/private/genfs_contexts
+@@ -62,6 +62,7 @@ genfscon proc /sys/kernel/sched_tunable_scaling u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
+ genfscon proc /sys/kernel/sysrq u:object_r:proc_sysrq:s0
+ genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
++genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
+ genfscon proc /sys/net u:object_r:proc_net:s0
+ genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
+ genfscon proc /sys/vm/dirty_expire_centisecs u:object_r:proc_dirty:s0
+diff --git a/public/init.te b/public/init.te
+index 05a61aec3..0dd4481a5 100644
+--- a/public/init.te
++++ b/public/init.te
 @@ -112,6 +112,9 @@ allow init self:global_capability_class_set sys_time;
  
  allow init self:global_capability_class_set { sys_rawio mknod };
@@ -138,79 +173,3 @@ index dafc06f99..bc38c7760 100644
  # Mounting filesystems from block devices.
  allow init dev_type:blk_file r_file_perms;
  
-diff --git a/prebuilts/api/29.0/private/domain.te b/prebuilts/api/29.0/private/domain.te
-index 1d26761d6..62cbb04a1 100644
---- a/prebuilts/api/29.0/private/domain.te
-+++ b/prebuilts/api/29.0/private/domain.te
-@@ -86,6 +86,7 @@ userdebug_or_eng(`
- # with other UIDs to these whitelisted domains.
- neverallow {
-   domain
-+  -init
-   -vold
-   userdebug_or_eng(`-llkd')
-   -dumpstate
-diff --git a/prebuilts/api/29.0/private/genfs_contexts b/prebuilts/api/29.0/private/genfs_contexts
-index e72803627..27828d91b 100644
---- a/prebuilts/api/29.0/private/genfs_contexts
-+++ b/prebuilts/api/29.0/private/genfs_contexts
-@@ -71,6 +71,7 @@ genfscon proc /sys/kernel/sched_tunable_scaling u:object_r:proc_sched:s0
- genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
- genfscon proc /sys/kernel/sysrq u:object_r:proc_sysrq:s0
- genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
-+genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
- genfscon proc /sys/net u:object_r:proc_net:s0
- genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
- genfscon proc /sys/vm/dirty_expire_centisecs u:object_r:proc_dirty:s0
-diff --git a/prebuilts/api/29.0/public/init.te b/prebuilts/api/29.0/public/init.te
-index e7e5b6517..1ba495de3 100644
---- a/prebuilts/api/29.0/public/init.te
-+++ b/prebuilts/api/29.0/public/init.te
-@@ -123,6 +123,9 @@ allow init self:global_capability_class_set sys_time;
- 
- allow init self:global_capability_class_set { sys_rawio mknod };
- 
-+# Set /proc/sys/kernel/yama/ptrace_scope
-+allow init self:capability { sys_ptrace };
-+
- # Mounting filesystems from block devices.
- allow init dev_type:blk_file r_file_perms;
- allowxperm init dev_type:blk_file ioctl BLKROSET;
-diff --git a/private/domain.te b/private/domain.te
-index 1d26761d6..62cbb04a1 100644
---- a/private/domain.te
-+++ b/private/domain.te
-@@ -86,6 +86,7 @@ userdebug_or_eng(`
- # with other UIDs to these whitelisted domains.
- neverallow {
-   domain
-+  -init
-   -vold
-   userdebug_or_eng(`-llkd')
-   -dumpstate
-diff --git a/private/genfs_contexts b/private/genfs_contexts
-index e72803627..27828d91b 100644
---- a/private/genfs_contexts
-+++ b/private/genfs_contexts
-@@ -71,6 +71,7 @@ genfscon proc /sys/kernel/sched_tunable_scaling u:object_r:proc_sched:s0
- genfscon proc /sys/kernel/sched_wakeup_granularity_ns u:object_r:proc_sched:s0
- genfscon proc /sys/kernel/sysrq u:object_r:proc_sysrq:s0
- genfscon proc /sys/kernel/usermodehelper u:object_r:usermodehelper:s0
-+genfscon proc /sys/kernel/yama/ptrace_scope u:object_r:proc_security:s0
- genfscon proc /sys/net u:object_r:proc_net:s0
- genfscon proc /sys/vm/dirty_background_ratio u:object_r:proc_dirty:s0
- genfscon proc /sys/vm/dirty_expire_centisecs u:object_r:proc_dirty:s0
-diff --git a/public/init.te b/public/init.te
-index e7e5b6517..1ba495de3 100644
---- a/public/init.te
-+++ b/public/init.te
-@@ -123,6 +123,9 @@ allow init self:global_capability_class_set sys_time;
- 
- allow init self:global_capability_class_set { sys_rawio mknod };
- 
-+# Set /proc/sys/kernel/yama/ptrace_scope
-+allow init self:capability { sys_ptrace };
-+
- # Mounting filesystems from block devices.
- allow init dev_type:blk_file r_file_perms;
- allowxperm init dev_type:blk_file ioctl BLKROSET;

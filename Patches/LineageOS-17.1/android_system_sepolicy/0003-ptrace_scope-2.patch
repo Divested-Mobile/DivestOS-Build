@@ -3,6 +3,9 @@ From: flawedworld <38294951+flawedworld@users.noreply.github.com>
 Date: Mon, 5 Apr 2021 02:27:06 +0100
 Subject: [PATCH] allow system to use persist.native_debug
 
+[tad@spotco.us]: added to older targets to match
+
+Change-Id: I252d92ae9f29143cce3cce1c0a2feb513f70b641
 ---
  prebuilts/api/26.0/private/property_contexts | 1 +
  prebuilts/api/27.0/private/property_contexts | 1 +
