@@ -263,13 +263,13 @@ echo "Deblobbing...";
 
 	#[Google]
 	blobs=$blobs"|TetheringEntitlement.apk|CarrierLocation.apk|CarrierWifi.apk";
-	#blobs=$blobs"|CarrierSettings.apk|CarrierSetup.apk";
+	blobs=$blobs"|CarrierSettings.apk|CarrierSetup.apk";
 	blobs=$blobs"|HardwareInfo.apk";
 	blobs=$blobs"|SCONE.apk"; #???
 	blobs=$blobs"|DevicePersonalizationPrebuilt.*.apk|DeviceIntelligence.*.apk";
 	overlay=$overlay"|config_defaultAttentionService|config_defaultSystemCaptionsManagerService|config_defaultSystemCaptionsService|config_systemAmbientAudioIntelligence|config_systemAudioIntelligence|config_systemNotificationIntelligence|config_systemTextIntelligence|config_systemUiIntelligence|config_systemVisualIntelligence|config_defaultContentSuggestionsService";
 	overlay=$overlay"|config_defaultWellbeingPackage|config_defaultSupervisionProfileOwnerComponent";
-	#overlay=$overlay"|platform_carrier_config_package";
+	overlay=$overlay"|platform_carrier_config_package";
 
 	#EUICC (Virtual SIM) [Google]
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_EUICC" = true ]; then
@@ -769,9 +769,9 @@ deblobDevice() {
 			sed -i 's|<bool name="config_carrier_wfc_ims_available">true</bool>|<bool name="config_carrier_wfc_ims_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
 		fi;
 	fi;
-	#if [ -f overlay/packages/services/Telephony/res/values/config.xml ]; then
-	#	awk -i inplace '!/platform_carrier_config_package/' overlay*/packages/services/Telephony/res/values/config.xml;
-	#fi;
+	if [ -f overlay/packages/services/Telephony/res/values/config.xml ]; then
+		awk -i inplace '!/platform_carrier_config_package/' overlay*/packages/services/Telephony/res/values/config.xml;
+	fi;
 	if [ -d sepolicy ]; then
 		if [ -z "$replaceTime" ]; then
 			numfiles=(*); numfiles=${#numfiles[@]};
