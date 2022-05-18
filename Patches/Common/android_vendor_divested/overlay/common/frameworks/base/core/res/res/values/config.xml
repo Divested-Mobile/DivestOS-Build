@@ -238,6 +238,8 @@
         <item>com.android.bluetooth</item>
         <!-- Phone Services -->
         <item>com.android.phone</item>
+        <!-- VoWiFi -->
+        <item>com.qualcomm.qti.cne</item>
         <!-- ImsService on raviole -->
         <item>com.shannon.imsservice</item>
         <!-- DejaVuLocationService -->
