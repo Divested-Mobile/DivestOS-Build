@@ -60,8 +60,8 @@ buildAll() {
 	buildDevice discovery;
 	#SD835
 	buildDevice cheryl verity;
-	#buildDevice cheeseburger verity; #unb, radio broken pending upstream merge
-	#buildDevice dumpling verity;
+	buildDevice cheeseburger verity; #unb
+	buildDevice dumpling verity;
 	buildDevice mata verity;
 	buildDevice taimen avb;
 	buildDevice walleye avb;
@@ -97,7 +97,9 @@ patchWorkspace() {
 	touch DOS_PATCHED_FLAG;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
+	repopick -i 326739; #Trust: Add option to always disable USB gadgets
+	repopick -i 327531; #msm8998-common: sepolicy: update rild access to vendor_data_file
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

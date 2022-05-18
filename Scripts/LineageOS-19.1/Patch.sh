@@ -404,6 +404,10 @@ sed -i '/PRODUCT_SYSTEM_VERITY_PARTITION/iPRODUCT_VENDOR_VERITY_PARTITION := /de
 awk -i inplace '!/vendor_sensors_dbg_prop/' sepolicy/vendor/hal_camera_default.te; #fixup
 fi;
 
+if enterAndClear "device/oneplus/sdm845-common"; then
+sed -i 's/zramsize=1073741824/zramsize=2147483648,max_comp_streams=8/' rootdir/etc/fstab.qcom;
+fi
+
 if enterAndClear "kernel/google/wahoo"; then
 sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
 fi;

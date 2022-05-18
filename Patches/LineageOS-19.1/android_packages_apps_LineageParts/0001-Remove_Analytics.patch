@@ -76,7 +76,7 @@ index a3ee437..c4532c5 100644
           The array should be sorted in the same order as the
           touchscreen gestures advertised by the device's LineageHW impl. -->
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 0915dfd..a2d4d45 100644
+index a673536..f98c2b0 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -532,28 +532,6 @@
@@ -125,12 +125,12 @@ index 803b214..371382c 100644
            android:title="@string/power_menu_title"
            android:fragment="org.lineageos.lineageparts.input.PowerMenuActions"
 diff --git a/res/xml/trust_preferences.xml b/res/xml/trust_preferences.xml
-index bdb1aa7..0097a52 100644
+index 108371c..3b89030 100644
 --- a/res/xml/trust_preferences.xml
 +++ b/res/xml/trust_preferences.xml
-@@ -45,9 +45,6 @@
-             android:summary="@string/trust_restrict_usb_summary"
-             android:defaultValue="false" />
+@@ -47,9 +47,6 @@
+             android:entryValues="@array/trust_restrict_usb_values"
+             android:defaultValue="0" />
  
 -        <org.lineageos.internal.lineageparts.LineagePartsPreference
 -            android:key="lineagestats" />
