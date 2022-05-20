@@ -4,6 +4,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0239-0240.patch
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0242-0243.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0286-0287.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0300-0301.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0313-0314.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/4.9/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-Graphene-Deny_USB/4.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0024.patch
@@ -244,6 +245,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-38208/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-38209/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39648/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39656/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39713/4.9/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39714/4.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-40490/3.9-^5.14/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-42008/4.9/0005.patch
@@ -268,6 +270,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1198/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1280/4.9/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1353/^5.17/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1516/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1734/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20009/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-23039/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-23042/4.9/0003.patch
@@ -283,5 +286,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-30594/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.9/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.9/0007.patch
-editKernelLocalversion "-dos.p283"
+editKernelLocalversion "-dos.p286"
 cd "$DOS_BUILD_BASE"

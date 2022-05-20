@@ -2,6 +2,7 @@
 cd "$DOS_BUILD_BASE""kernel/google/msm-4.9"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0300-0301.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0311-0312.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0313-0314.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0005-Graphene-Deny_USB/4.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0024.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0025.patch
@@ -77,6 +78,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28715/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33033/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33098/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-38199/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39713/4.9/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-42739/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-43976/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-44879/^5.16/0001.patch
@@ -91,6 +93,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1195/4.9/0014.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1198/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1353/^5.17/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1516/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1734/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20009/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-23036/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-23036/4.9/0006.patch
@@ -109,5 +112,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28356/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-30594/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-GPZ2253/4.9/0007.patch
-editKernelLocalversion "-dos.p109"
+editKernelLocalversion "-dos.p112"
 cd "$DOS_BUILD_BASE"
