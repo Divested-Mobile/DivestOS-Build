@@ -249,6 +249,10 @@ echo "Deblobbing...";
 		makes=$makes"|android.hardware.renderscript.*";
 	fi;
 
+	#Felicia [Google?]
+	blobs=$blobs"|MobileFeliCaClient.apk|MobileFeliCaMenuMainApp.apk|MobileFeliCaSettingApp.apk|MobileFeliCaWebPlugin.apk|MobileFeliCaWebPluginBoot.apk";
+	blobs=$blobs"|etc[/]felica[/]";
+
 	#Fingerprint Reader
 	if [ "$DOS_DEBLOBBER_REMOVE_FP" = true ]; then
 		blobs=$blobs"|fingerprint.*.so|libbauthserver.so|libcom_fingerprints_service.so|libegis_fp_normal_sensor_test.so|lib_fpc_tac_shared.so|libfpfactory.*.so|libsynaFpSensorTestNwd.so|libbl_fp_algo.so|libBtlFpHal.so|libxuFPAlg.so|libgf_hal.so|libgoodixfingerprintd_binder.so|fp_hal_extension.so|libgf_ud_hal.so|goodix.fod.*.so";
@@ -267,6 +271,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|HardwareInfo.apk";
 	blobs=$blobs"|SCONE.apk"; #???
 	blobs=$blobs"|DevicePersonalizationPrebuilt.*.apk|DeviceIntelligence.*.apk";
+	blobs=$blobs"|libhwinfo.jar|com.google.android.hardwareinfo.xml";
 	overlay=$overlay"|config_defaultAttentionService|config_defaultSystemCaptionsManagerService|config_defaultSystemCaptionsService|config_systemAmbientAudioIntelligence|config_systemAudioIntelligence|config_systemNotificationIntelligence|config_systemTextIntelligence|config_systemUiIntelligence|config_systemVisualIntelligence|config_defaultContentSuggestionsService";
 	overlay=$overlay"|config_defaultWellbeingPackage|config_defaultSupervisionProfileOwnerComponent";
 	overlay=$overlay"|platform_carrier_config_package";
@@ -275,12 +280,21 @@ echo "Deblobbing...";
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_EUICC" = true ]; then
 		blobs=$blobs"|EuiccGoogle.apk|EuiccSupportPixel.apk|EuiccSupportPixelPermissions.apk"; #EUICC is useless without GMS
 		blobs=$blobs"|esim0.img|esim-v1.img|esim-full-v0.img|esim-a1.img|esim-a2.img";
+		blobs=$blobs"|com.google.euiccpixel.xml|com.google.euiccpixel.permissions.xml";
 		makes=$makes"|android.hardware.telephony.euicc.*|GoogleParts";
 		#overlay=$overlay"|config_telephonyEuiccDeviceCapabilities"; #TODO handle multiple lines
 	fi;
 
 	#Google Camera
-	#blobs=$blobs"|com.google.android.camera.*";
+	blobs=$blobs"|com.google.android.camera.*|PixelCameraServices.*.apk";
+
+	#Google NFC
+	blobs=$blobs"|PixelNfc.apk";
+
+	#Google RIL
+	blobs=$blobs"|grilservice.apk|RilConfigService.apk";
+	blobs=$blobs"|google-ril.jar|RadioConfigLib.jar";
+	blobs=$blobs"|google-ril.xml";
 
 	#Google Setup Wizard
 	blobs=$blobs"|DreamlinerPrebuilt.apk|DreamlinerUpdater.apk";
@@ -459,7 +473,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|libdme_main.so|libwbxmlparser.so|libprovlib.so";
 	blobs=$blobs"|dm_agent|dm_agent_binder";
 	blobs=$blobs"|npsmobex"; #Samsung?
-	blobs=$blobs"|ConnMO.apk|OmaDmclient.apk|USCCDM.apk|com.android.omadm.service.xml|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMConfigUpdateLight.apk|DMService.apk|libdmengine.so|libdmjavaplugin.so|SprintDM.apk|SDM.apk|whitelist_com.android.omadm.service.xml|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml|com.google.omadm.trigger.xml|com.android.sdm.plugins.diagmon.xml|com.android.sdm.plugins.dcmo.xml|com.android.sdm.plugins.usccdm.xml"; #Sprint
+	blobs=$blobs"|ConnMO.apk|OmaDmclient.apk|USCCDM.apk|com.android.omadm.service.xml|com.android.omadm.radioconfig.xml|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMConfigUpdateLight.apk|DMService.apk|libdmengine.so|libdmjavaplugin.so|SprintDM.apk|SDM.apk|whitelist_com.android.omadm.service.xml|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml|com.google.omadm.trigger.xml|com.android.sdm.plugins.diagmon.xml|com.android.sdm.plugins.dcmo.xml|com.android.sdm.plugins.usccdm.xml"; #Sprint
 
 	#OpenMobileAPI [SIM Alliance]
 	#https://github.com/seek-for-android/platform_packages_apps_SmartCardService
@@ -638,9 +652,12 @@ deblobDevice() {
 	if [ -f Android.mk ]; then
 		#Some devices store these in a dedicated firmware partition, others in /system/vendor/firmware, either way the following are just symlinks
 		#sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Remove CMN firmware
+		if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CNE_SYMLINKS)//' Android.mk; fi; #Remove CNE blobs
+		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(DM_SYMLINKS)//' Android.mk; #Remove OMA-DM blobs
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(DXHDCP2_SYMLINKS)//' Android.mk; #Remove Discretix firmware
 		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(IMS_SYMLINKS)//' Android.mk; fi; #Remove IMS firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(PLAYREADY_SYMLINKS)//' Android.mk; #Remove Microsoft Playready firmware
+		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(SECUREUI_SYMLINKS)//' Android.mk; #Remove OMA-DM blobs
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WIDEVINE_SYMLINKS)//' Android.mk; #Remove Google Widevine firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WV_SYMLINKS)//' Android.mk; #Remove Google Widevine firmware
 	fi;

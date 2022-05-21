@@ -110,8 +110,8 @@ buildAll() {
 	buildDevice lavender avb;
 	#SD835
 	buildDevice cheryl verity;
-	buildDevice cheeseburger verity;
-	buildDevice dumpling verity;
+	#buildDevice cheeseburger verity; #superseded
+	#buildDevice dumpling verity; #superseded
 	#buildDevice mata verity; #superseded
 	#buildDevice taimen avb; #superseded
 	#buildDevice walleye avb; #superseded
