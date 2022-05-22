@@ -484,9 +484,10 @@ echo "Deblobbing...";
 	#blobs=$blobs"|msm_irqbalance";
 	#Devices utilizing perfd won't hotplug cores without it
 	#blobs=$blobs"|mpdecision|perfd";
-	#blobs=$blobs"|libqti-perfd.*.so";
+	#blobs=$blobs"|libqti-perfd.*.so|libperfconfig.so|libperfgluelayer.so|libperfioctl.so";
 	#blobs=$blobs"|perf-profile.*.conf";
-	#blobs=$blobs"|vendor.qti.hardware.perf.*";
+	#blobs=$blobs"|vendor.qti.hardware.perf.*|vendor.qti.memory.pasrmanager.*";
+	#manifests=$manifests"|IPerf";
 	blobs=$blobs"|Perfdump.apk";
 
 	#Peripheral Manager
@@ -716,6 +717,7 @@ deblobDevice() {
 	sed -i 's/bluetooth.emb_wp_mode=true/bluetooth.emb_wp_mode=false/' *.prop *.mk &>/dev/null || true; #Disable WiPower
 	sed -i 's/bluetooth.wipower=true/bluetooth.wipower=false/' *.prop *.mk &>/dev/null || true; #Disable WiPower
 	sed -i 's/wfd.enable=1/wfd.enable=0/' *.prop *.mk &>/dev/null || true; #Disable Wi-Fi display
+	awk -i inplace '!/vendor.camera.extensions/' *.prop *.mk &>/dev/null || true; #Disable camera extensions
 	if [ -f system.prop ]; then
 		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
 		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then

@@ -99,7 +99,6 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -i 326739; #Trust: Add option to always disable USB gadgets
-	repopick -i 327531; #msm8998-common: sepolicy: update rild access to vendor_data_file
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

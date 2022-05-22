@@ -104,12 +104,12 @@ buildAll() {
 	buildDevice marlin verity;
 	buildDevice sailfish verity;
 	#SD630
-	buildDevice pioneer;
-	buildDevice voyager;
-	buildDevice discovery;
+	#buildDevice pioneer; #superseded
+	#buildDevice voyager; #superseded
+	#buildDevice discovery; #superseded
 	buildDevice lavender avb;
 	#SD835
-	buildDevice cheryl verity;
+	#buildDevice cheryl verity; #superseded
 	#buildDevice cheeseburger verity; #superseded
 	#buildDevice dumpling verity; #superseded
 	#buildDevice mata verity; #superseded
@@ -117,8 +117,8 @@ buildAll() {
 	#buildDevice walleye avb; #superseded
 	#SD845
 	#buildDevice beryllium avb; #superseded
-	buildDevice crosshatch avb;
-	buildDevice blueline avb;
+	#buildDevice crosshatch avb; #superseded
+	#buildDevice blueline avb; #superseded
 	#buildDevice enchilada avb; #XXX: uses stock /vendor #superseded
 	#buildDevice fajita avb; #XXX: uses stock /vendor #superseded
 	buildDevice akari avb;
