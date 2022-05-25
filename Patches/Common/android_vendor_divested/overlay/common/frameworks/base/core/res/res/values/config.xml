@@ -246,6 +246,8 @@
         <item>org.fitchfamily.android.dejavu</item>
         <!-- MozillaNlpBackend -->
         <item>org.microg.nlp.backend.ichnaea</item>
+        <!-- Printing -->
+        <item>com.android.printspooler</item>
     </string-array>
 
 </resources>
