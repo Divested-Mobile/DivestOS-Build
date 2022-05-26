@@ -777,7 +777,7 @@ hardenDefconfig() {
 	#Enable supported options
 	#Linux <3.0
 	declare -a optionsYes=("BUG" "DEBUG_CREDENTIALS" "DEBUG_KERNEL" "DEBUG_LIST" "DEBUG_NOTIFIERS" "DEBUG_RODATA" "DEBUG_SET_MODULE_RONX" "DEBUG_VIRTUAL" "IPV6_PRIVACY" "SECCOMP" "SECURITY" "SECURITY_DMESG_RESTRICT" "SLUB_DEBUG" "STRICT_DEVMEM" "SYN_COOKIES");
-	optionsYes+=("DEBUG_FS"); #fix compile issues
+	optionsYes+=("DEBUG_FS" "MODULES"); #fix compile issues
 	#optionsYes+=("DEBUG_SG"); #bootloops - https://patchwork.kernel.org/patch/8989981
 
 	#Linux 3.4
