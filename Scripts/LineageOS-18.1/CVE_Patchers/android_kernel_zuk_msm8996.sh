@@ -313,7 +313,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1016/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1198/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1353/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1516/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1652/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1734/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1836/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20009/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-22064/qcacld-2.0/0003.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-22065/qcacld-2.0/0002.patch --directory=drivers/staging/qcacld-2.0
@@ -332,5 +334,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26145/qcacld-2.0/0008.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.4/0006.patch
-editKernelLocalversion "-dos.p332"
+editKernelLocalversion "-dos.p334"
 cd "$DOS_BUILD_BASE"
