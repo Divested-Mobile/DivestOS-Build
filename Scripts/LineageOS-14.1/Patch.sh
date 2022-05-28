@@ -441,11 +441,8 @@ sed -i "s/CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE=y/# CONFIG_ASYMMETRIC_PUBLIC_KEY_
 sed -i "s/CONFIG_SYSTEM_TRUSTED_KEYRING=y/# CONFIG_SYSTEM_TRUSTED_KEYRING is not set/" kernel/amazon/hdx-common/arch/arm/configs/*defconfig; #Breaks on compile
 sed -i "s/CONFIG_ASYMMETRIC_KEY_TYPE=y/# CONFIG_ASYMMETRIC_KEY_TYPE is not set/" kernel/amazon/hdx-common/arch/arm/configs/*defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/asus/grouper/arch/arm/configs/grouper_defconfig; #Breaks on compile
-sed -i "s/CONFIG_MODULES=y/# CONFIG_MODULES is not set/" kernel/asus/grouper/arch/arm/configs/grouper_defconfig; #Breaks on compile
 awk -i inplace '!/STACKPROTECTOR/' kernel/lge/msm8992/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_ARM_SMMU=y/# CONFIG_ARM_SMMU is not set/" kernel/motorola/msm8992/arch/arm64/configs/*defconfig; #Breaks on compile
-sed -i "s/CONFIG_MODULES=y/# CONFIG_MODULES is not set/" kernel/samsung/manta/arch/arm/configs/lineage_*_defconfig; #Breaks on compile
-sed -i "s/CONFIG_MODULES=y/# CONFIG_MODULES is not set/" kernel/samsung/universal8890/arch/arm64/configs/exynos8890-hero*lte_defconfig; #Breaks on compile
 #tuna fixes
 awk -i inplace '!/nfc_enhanced.mk/' device/samsung/toro*/lineage.mk;
 awk -i inplace '!/TARGET_RECOVERY_UPDATER_LIBS/' device/samsung/toro*/BoardConfig.mk;
