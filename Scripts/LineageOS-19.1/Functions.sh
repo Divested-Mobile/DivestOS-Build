@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2022-04-04
 
 patchAllKernels() {
-	startPatcher "kernel_essential_msm8998 kernel_fxtec_msm8998 kernel_google_msm-4.9 kernel_google_msm-4.14 kernel_google_redbull kernel_google_wahoo kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_razer_msm8998 kernel_razer_sdm845 kernel_sony_sdm660 kernel_xiaomi_sdm845";
+	startPatcher "kernel_essential_msm8998 kernel_fxtec_msm8998 kernel_google_msm-4.9 kernel_google_msm-4.14 kernel_google_redbull kernel_google_wahoo kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_razer_msm8998 kernel_razer_sdm845 kernel_sony_sdm660 kernel_xiaomi_sdm845 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250";
 }
 export -f patchAllKernels;
 
@@ -82,6 +82,11 @@ buildAll() {
 	buildDevice hotdogb avb;
 	buildDevice coral avb;
 	buildDevice flame avb;
+	buildDevice vayu avb;
+	#SD865
+	buildDevice lmi avb;
+	#SD870
+	buildDevice alioth avb;
 	#SD765
 	buildDevice bramble avb;
 	buildDevice redfin avb;
