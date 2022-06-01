@@ -82,7 +82,7 @@ buildAll() {
 	buildDevice hotdogb avb;
 	buildDevice coral avb;
 	buildDevice flame avb;
-	buildDevice vayu avb;
+	#buildDevice vayu avb; #unb
 	#SD865
 	buildDevice lmi avb;
 	#SD870

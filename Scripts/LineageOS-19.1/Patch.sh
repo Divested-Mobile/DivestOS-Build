@@ -435,7 +435,8 @@ enableAutoVarInit || true;
 #enableLowRam "device/sony/pioneer" "pioneer";
 
 #Fix broken options enabled by hardenDefconfig()
-#none yet
+sed -i "s/CONFIG_DEBUG_FS=y/# CONFIG_DEBUG_FS is not set/" kernel/google/redbull/arch/arm64/configs/redbull_defconfig; #Breaks vintf check
+sed -i "s/CONFIG_DEBUG_FS=y/# CONFIG_DEBUG_FS is not set/" kernel/xiaomi/sm8250/arch/arm64/configs/vendor/*_defconfig; #Breaks vintf check
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l*; #Fix builds with GCC 10
 rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk || true;

@@ -171,7 +171,7 @@
 	<!-- uses xiaomi sm8250 commons -->
 
 	<!-- Xiaomi POCO X3 Pro (vayu) -->
-	<project path="device/xiaomi/vayu" name="LineageOS/android_device_xiaomi_vayu" remote="github" />
+	<!--<project path="device/xiaomi/vayu" name="LineageOS/android_device_xiaomi_vayu" remote="github" />-->
 	<!-- uses xiaomi sm8150 commons -->
 
 </manifest>

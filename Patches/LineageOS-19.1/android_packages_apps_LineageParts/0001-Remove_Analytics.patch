@@ -14,7 +14,7 @@ Change-Id: Ic01c97d6ceac8d324609763973639b41b4581a76
  6 files changed, 59 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index 0c6542a..5dd522c 100644
+index b266fb7..5370ad8 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
 @@ -226,31 +226,6 @@
