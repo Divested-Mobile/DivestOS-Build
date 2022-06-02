@@ -96,6 +96,7 @@ if [ "$DOS_GRAPHENE_EXEC" = true ]; then applyPatch "$DOS_PATCHES/android_build/
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/updatable_apex.mk/' target/product/generic_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
+#sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
 fi;
 
 if enterAndClear "build/soong"; then
@@ -435,8 +436,7 @@ enableAutoVarInit || true;
 #enableLowRam "device/sony/pioneer" "pioneer";
 
 #Fix broken options enabled by hardenDefconfig()
-sed -i "s/CONFIG_DEBUG_FS=y/# CONFIG_DEBUG_FS is not set/" kernel/google/redbull/arch/arm64/configs/redbull_defconfig; #Breaks vintf check
-sed -i "s/CONFIG_DEBUG_FS=y/# CONFIG_DEBUG_FS is not set/" kernel/xiaomi/sm8250/arch/arm64/configs/vendor/*_defconfig; #Breaks vintf check
+#none yet
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l*; #Fix builds with GCC 10
 rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk || true;

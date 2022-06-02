@@ -60,7 +60,7 @@ buildAll() {
 	buildDevice discovery;
 	#SD835
 	buildDevice cheryl verity;
-	buildDevice cheeseburger verity; #unb
+	buildDevice cheeseburger verity;
 	buildDevice dumpling verity;
 	buildDevice mata verity;
 	buildDevice taimen avb;
@@ -76,17 +76,17 @@ buildAll() {
 	#SD730
 	buildDevice sunfish avb;
 	#SD855
-	buildDevice guacamole avb;
-	buildDevice guacamoleb avb;
-	buildDevice hotdog avb;
-	buildDevice hotdogb avb;
+	buildDevice guacamole avb; #unb
+	buildDevice guacamoleb avb; #unb
+	buildDevice hotdog avb; #unb
+	buildDevice hotdogb avb; #unb
 	buildDevice coral avb;
 	buildDevice flame avb;
-	#buildDevice vayu avb; #unb
+	buildDevice vayu avb; #unb
 	#SD865
-	buildDevice instantnoodle avb;
-	buildDevice instantnoodlep avb;
-	buildDevice kebab avb;
+	buildDevice instantnoodle avb; #unb
+	buildDevice instantnoodlep avb; #unb
+	buildDevice kebab avb; #unb
 	buildDevice lmi avb;
 	#SD870
 	buildDevice alioth avb;
@@ -96,6 +96,7 @@ buildAll() {
 	#SD765
 	buildDevice bramble avb;
 	buildDevice redfin avb;
+	#TODO: barbet
 	#SD670
 	buildDevice bonito avb;
 	buildDevice sargo avb;

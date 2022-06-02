@@ -533,7 +533,11 @@ export -f hardenUserdata;
 
 hardenBootArgs() {
 	cd "$DOS_BUILD_BASE$1";
-	sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := slub_debug=FZP /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true; #TODO: inline this
+	if [[ "$1" != *"device/google/coral"* ]] && [[ "$1" != *"device/google/flame"* ]] && [[ "$1" != *"device/google/redbull"* ]] && [[ "$1" != *"device/google/redfin"* ]] && [[ "$1" != *"device/google/sunfish"* ]] && [[ "$1" != *"device/oneplus/sm8150-common"* ]] && [[ "$1" != *"device/oneplus/sm8250-common"* ]] && [[ "$1" != *"device/oneplus/sm8350-common"* ]] && [[ "$1" != *"device/xiaomi/sm8150-common"* ]] && [[ "$1" != *"device/xiaomi/sm8250-common"* ]] && [[ "$1" != *"device/oneplus/guacamole"* ]] && [[ "$1" != *"device/oneplus/guacamoleb"* ]] && [[ "$1" != *"device/oneplus/hotdog"* ]] && [[ "$1" != *"device/oneplus/hotdogb"* ]] && [[ "$1" != *"device/oneplus/instantnoodle"* ]] && [[ "$1" != *"device/oneplus/instantnoodlep"* ]] && [[ "$1" != *"device/oneplus/kebab"* ]] && [[ "$1" != *"device/oneplus/lemonade"* ]] && [[ "$1" != *"device/oneplus/lemonadep"* ]] && [[ "$1" != *"device/xiaomi/vayu"* ]] && [[ "$1" != *"device/xiaomi/lmi"* ]] && [[ "$1" != *"device/xiaomi/alioth"* ]]; then
+		sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := slub_debug=FP /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true;
+	else
+		sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := slub_debug=F /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true;
+	fi;
 	echo "Hardened kernel command line arguments for $1";
 	cd "$DOS_BUILD_BASE";
 }
@@ -757,8 +761,8 @@ getDefconfig() {
 	elif ls arch/arm64/configs/lineage*defconfig 1> /dev/null 2>&1; then
 		local defconfigPath="arch/arm64/configs/lineage*defconfig";
 	else
-		#grep TARGET_KERNEL_CONFIG /mnt/dos/Build/*/device/ -Rih | sed 's|TARGET_KERNEL_CONFIG .= |arch/arm\*/configs/|' | grep -v lineage | sort -u
-		#grep TARGET_KERNEL_VARIANT_CONFIG /mnt/dos/Build/*/device/ -Rih | sed 's|TARGET_KERNEL_VARIANT_CONFIG .= |arch/arm\*/configs/|' | grep -v lineage | sort -u
+		#grep TARGET_KERNEL_CONFIG Build/*/device/ -Rih | sed 's|TARGET_KERNEL_CONFIG .= |arch/arm\*/configs/|' | grep -v lineage | sort -u
+		#grep TARGET_KERNEL_VARIANT_CONFIG Build/*/device/ -Rih | sed 's|TARGET_KERNEL_VARIANT_CONFIG .= |arch/arm\*/configs/|' | grep -v lineage | sort -u
 		local defconfigPath="arch/arm*/configs/lineage*defconfig arch/arm*/configs/vendor/lineage*defconfig arch/arm*/configs/apollo_defconfig arch/arm*/configs/apq8084_sec_defconfig arch/arm*/configs/apq8084_sec_kccat6_eur_defconfig arch/arm*/configs/apq8084_sec_lentislte_skt_defconfig arch/arm*/configs/aura_defconfig arch/arm*/configs/b1c1_defconfig arch/arm*/configs/beryllium_defconfig arch/arm*/configs/bonito_defconfig arch/arm*/configs/clark_defconfig arch/arm*/configs/discovery_defconfig arch/arm*/configs/enchilada_defconfig arch/arm*/configs/exynos8890-hero2lte_defconfig arch/arm*/configs/exynos8890-herolte_defconfig arch/arm*/configs/floral_defconfig arch/arm*/configs/griffin_defconfig arch/arm*/configs/grouper_defconfig arch/arm*/configs/harpia_defconfig arch/arm*/configs/jf_att_defconfig arch/arm*/configs/jf_eur_defconfig arch/arm*/configs/jf_spr_defconfig arch/arm*/configs/jf_vzw_defconfig arch/arm*/configs/lavender_defconfig arch/arm*/configs/m1s1_defconfig arch/arm*/configs/m7_defconfig arch/arm*/configs/m8_defconfig arch/arm*/configs/m8dug_defconfig arch/arm*/configs/merlin_defconfig arch/arm*/configs/msm8930_serrano_eur_3g_defconfig arch/arm*/configs/msm8930_serrano_eur_lte_defconfig arch/arm*/configs/msm8974-hdx_defconfig arch/arm*/configs/msm8974-hdx-perf_defconfig arch/arm*/configs/oneplus2_defconfig arch/arm*/configs/osprey_defconfig arch/arm*/configs/pioneer_defconfig arch/arm*/configs/redbull_defconfig arch/arm*/configs/samsung_serrano_defconfig arch/arm*/configs/samsung_serrano_usa_defconfig arch/arm*/configs/shamu_defconfig arch/arm*/configs/sunfish_defconfig arch/arm*/configs/surnia_defconfig arch/arm*/configs/tama_akari_defconfig arch/arm*/configs/tama_apollo_defconfig arch/arm*/configs/tama_aurora_defconfig arch/arm*/configs/thor_defconfig arch/arm*/configs/tuna_defconfig arch/arm*/configs/twrp_defconfig arch/arm*/configs/vendor/alioth_defconfig arch/arm*/configs/vendor/kona-perf_defconfig arch/arm*/configs/vendor/lahaina-qgki_defconfig arch/arm*/configs/vendor/lito-perf_defconfig arch/arm*/configs/vendor/lmi_defconfig arch/arm*/configs/vendor/raphael_defconfig arch/arm*/configs/vendor/sm8150-perf_defconfig arch/arm*/configs/vendor/vayu_defconfig arch/arm*/configs/voyager_defconfig arch/arm*/configs/yellowstone_defconfig arch/arm*/configs/Z00T_defconfig arch/arm*/configs/z2_plus_defconfig arch/arm*/configs/zenfone3-perf_defconfig";
 	fi;
 	echo $defconfigPath;
@@ -772,12 +776,15 @@ hardenDefconfig() {
 	#See https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings
 	#and (GPL-3.0) https://github.com/a13xp0p0v/kconfig-hardened-check/blob/master/kconfig_hardened_check/__init__.py
 
-	local defconfigPath=$(getDefconfig)
+	local defconfigPath=$(getDefconfig);
+	local kernelVersion="0.0.0";
+	if [ -f "Makefile" ]; then
+		local kernelVersion=$(head -n5 "Makefile" | sed '/# SPDX-License-Identifier: GPL-2.0/d;/EXTRAVERSION/d;/NAME/d' | sed 's/.*= //;s/\n//' | sed -e :a -e N -e '$!ba' -e 's/\n/ /g' | sed 's/\ /./g');
+	fi;
 
 	#Enable supported options
 	#Linux <3.0
 	declare -a optionsYes=("BUG" "DEBUG_CREDENTIALS" "DEBUG_KERNEL" "DEBUG_LIST" "DEBUG_NOTIFIERS" "DEBUG_RODATA" "DEBUG_SET_MODULE_RONX" "DEBUG_VIRTUAL" "IPV6_PRIVACY" "SECCOMP" "SECURITY" "SECURITY_DMESG_RESTRICT" "SLUB_DEBUG" "STRICT_DEVMEM" "SYN_COOKIES");
-	#optionsYes+=("DEBUG_FS"); #fix compile issues
 	#optionsYes+=("DEBUG_SG"); #bootloops - https://patchwork.kernel.org/patch/8989981
 
 	#Linux 3.4
@@ -896,11 +903,10 @@ hardenDefconfig() {
 	#Hardware enablement #XXX: This needs a better home
 	optionsYes+=("HID_GENERIC" "HID_STEAM" "HID_SONY" "HID_WIIMOTE" "INPUT_JOYSTICK" "JOYSTICK_XPAD" "USB_USBNET" "USB_NET_CDCETHER");
 
-	modernKernels=('google/coral' 'google/redbull' 'google/sunfish' 'oneplus/sm8150' 'xiaomi/sm8150' 'xiaomi/sm8250');
+	modernKernels=('google/coral' 'google/redbull' 'google/sunfish' 'oneplus/sm8150' 'oneplus/sm8250' 'oneplus/sm8350' 'xiaomi/sm8150' 'xiaomi/sm8250');
 	for kernelModern in "${modernKernels[@]}"; do
 		if [[ "$1" == *"/$kernelModern"* ]]; then
 			optionsYes+=("INIT_ON_ALLOC_DEFAULT_ON" "INIT_ON_FREE_DEFAULT_ON");
-			#TODO: also disable slub_debug=P for these devices
 		fi;
 	done;
 
@@ -923,8 +929,11 @@ hardenDefconfig() {
 	#Disable supported options
 	#Disabled: MSM_SMP2P_TEST, MAGIC_SYSRQ (breaks compile), KALLSYMS (breaks boot on select devices), IKCONFIG (breaks recovery), MSM_DLOAD_MODE (breaks compile), PROC_PAGE_MONITOR (breaks memory stats), SCHED_DEBUG (breaks compile), INET_DIAG
 	declare -a optionsNo=("ACPI_APEI_EINJ" "ACPI_CUSTOM_METHOD" "ACPI_TABLE_UPGRADE" "BINFMT_AOUT" "BINFMT_MISC" "BLK_DEV_FD" "BT_HS" "CHECKPOINT_RESTORE" "COMPAT_BRK" "COMPAT_VDSO" "CP_ACCESS64" "DEBUG_KMEMLEAK" "DEVKMEM" "DEVMEM" "DEVPORT" "EARJACK_DEBUGGER" "GCC_PLUGIN_RANDSTRUCT_PERFORMANCE" "FB_VIRTUAL" "HARDENED_USERCOPY_FALLBACK" "HARDENED_USERCOPY_PAGESPAN" "HIBERNATION" "HWPOISON_INJECT" "IA32_EMULATION" "IOMMU_NON_SECURE" "INPUT_EVBUG" "IO_URING" "IP_DCCP" "IP_SCTP" "KEXEC" "KEXEC_FILE" "KSM" "LDISC_AUTOLOAD" "LEGACY_PTYS" "LIVEPATCH" "MEM_SOFT_DIRTY" "MMIOTRACE" "MMIOTRACE_TEST" "MODIFY_LDT_SYSCALL" "MSM_BUSPM_DEV" "NEEDS_SYSCALL_FOR_CMPXCHG" "NOTIFIER_ERROR_INJECTION" "OABI_COMPAT" "PAGE_OWNER" "PROC_KCORE" "PROC_VMCORE" "RDS" "RDS_TCP" "SECURITY_SELINUX_DISABLE" "SECURITY_WRITABLE_HOOKS" "SLAB_MERGE_DEFAULT" "STACKLEAK_METRICS" "STACKLEAK_RUNTIME_DISABLE" "TIMER_STATS" "TSC" "TSPP2" "UKSM" "UPROBES" "USELIB" "USERFAULTFD" "VIDEO_VIVID" "WLAN_FEATURE_MEMDUMP" "X86_IOPL_IOPERM" "X86_PTDUMP" "X86_VSYSCALL_EMULATION" "ZSMALLOC_STAT");
-	optionsNo+=("CFI_PERMISSIVE");
-	#optionsNo+=("FTRACE" "KPROBE_EVENTS" "UPROBE_EVENTS" "GENERIC_TRACER" "FUNCTION_TRACER" "STACK_TRACER" "HIST_TRIGGERS" "BLK_DEV_IO_TRACE" "FAIL_FUTEX" "DYNAMIC_DEBUG");
+	#optionsNo+=("CFI_PERMISSIVE");
+	if [[ $kernelVersion == "4."* ]] || [[ $kernelVersion == "5."* ]]; then
+		optionsNo+=("DEBUG_FS");
+		optionsNo+=("FTRACE" "KPROBE_EVENTS" "UPROBE_EVENTS" "GENERIC_TRACER" "FUNCTION_TRACER" "STACK_TRACER" "HIST_TRIGGERS" "BLK_DEV_IO_TRACE" "FAIL_FUTEX" "DYNAMIC_DEBUG");
+	fi;
 	optionsNo+=("CORESIGHT_CSR" "CORESIGHT_CTI_SAVE_DISABLE" "CORESIGHT_CTI" "CORESIGHT_DBGUI" "CORESIGHT_ETM" "CORESIGHT_ETMV4" "CORESIGHT_EVENT" "CORESIGHT_FUNNEL" "CORESIGHT_FUSE" "CORESIGHT_HWEVENT" "CORESIGHT_QPDI" "CORESIGHT_REMOTE_ETM" "CORESIGHT_REPLICATOR" "CORESIGHT_STM_DEFAULT_ENABLE" "CORESIGHT_STM" "CORESIGHT_TMC" "CORESIGHT_TPDA" "CORESIGHT_TPDM_DEFAULT_ENABLE" "CORESIGHT_TPDM" "CORESIGHT_TPIU" "CORESIGHT" "DEBUG_ATOMIC_SLEEP" "DEBUG_BUS_VOTER" "DEBUG_MUTEXES" "DEBUG_PAGEALLOC" "DEBUG_STACK_USAGE" "FB_MSM_MDSS_XLOG_DEBUG" "HAVE_CORESIGHT_SINK" "HAVE_DEBUG_BUGVERBOSE" "HAVE_DEBUG_KMEMLEAK" "IOMMU_DEBUG" "IOMMU_DEBUG_TRACKING" "IOMMU_TESTS" "L2TP_DEBUGFS" "LOCKUP_DETECTOR" "LOG_BUF_MAGIC" "MSMB_CAMERA_DEBUG" "MSM_CAMERA_DEBUG" "MSM_SMD_DEBUG" "OF_CORESIGHT" "PREEMPT_TRACER" "DEBUG_SPINLOCK");
 
 	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then optionsNo+=("IPA" "RMNET_IPA"); fi;
