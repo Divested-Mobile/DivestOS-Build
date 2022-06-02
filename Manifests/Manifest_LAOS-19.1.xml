@@ -136,6 +136,26 @@
 	<!-- OnePlus 7T (hotdogb) -->
 	<project path="device/oneplus/hotdogb" name="LineageOS/android_device_oneplus_hotdogb" remote="github" />
 
+	<!-- OnePlus 8 Pro (instantnoodlep) -->
+	<project path="device/oneplus/sm8250-common" name="LineageOS/android_device_oneplus_sm8250-common" remote="github" />
+	<project path="device/oneplus/instantnoodlep" name="LineageOS/android_device_oneplus_instantnoodlep" remote="github" />
+	<project path="kernel/oneplus/sm8250" name="LineageOS/android_kernel_oneplus_sm8250" remote="github" />
+
+	<!-- OnePlus 8 (instantnoodle) -->
+	<project path="device/oneplus/instantnoodle" name="LineageOS/android_device_oneplus_instantnoodle" remote="github" />
+
+	<!-- OnePlus 8T (kebab) -->
+	<project path="device/oneplus/kebab" name="LineageOS/android_device_oneplus_kebab" remote="github" />
+
+	<!-- OnePlus 9 Pro (lemonadep) -->
+	<project path="hardware/oplus" name="LineageOS/android_hardware_oplus" remote="github" />
+	<project path="device/oneplus/sm8350-common" name="LineageOS/android_device_oneplus_sm8350-common" remote="github" />
+	<project path="device/oneplus/lemonadep" name="LineageOS/android_device_oneplus_lemonadep" remote="github" />
+	<project path="kernel/oneplus/sm8350" name="LineageOS/android_kernel_oneplus_sm8350" remote="github" />
+
+	<!-- OnePlus 9 (lemonade) -->
+	<project path="device/oneplus/lemonade" name="LineageOS/android_device_oneplus_lemonade" remote="github" />
+
 	<!-- Razer Phone (cheryl) -->
 	<project path="device/razer/cheryl" name="LineageOS/android_device_razer_cheryl" remote="github" />
 	<project path="kernel/razer/msm8998" name="LineageOS/android_kernel_razer_msm8998" remote="github" />

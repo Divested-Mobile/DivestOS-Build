@@ -53,7 +53,12 @@ cat "$DOS_SIGNING_KEYS/guacamoleb/verity.x509.pem" >> "kernel/oneplus/sm8150/cer
 cat "$DOS_SIGNING_KEYS/guacamole/verity.x509.pem" >> "kernel/oneplus/sm8150/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/hotdogb/verity.x509.pem" >> "kernel/oneplus/sm8150/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/hotdog/verity.x509.pem" >> "kernel/oneplus/sm8150/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/instantnoodlep/verity.x509.pem" >> "kernel/oneplus/sm8250/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/instantnoodle/verity.x509.pem" >> "kernel/oneplus/sm8250/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/kebab/verity.x509.pem" >> "kernel/oneplus/sm8250/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/lavender/verity.x509.pem" >> "kernel/xiaomi/sdm660/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/lemonadep/verity.x509.pem" >> "kernel/oneplus/sm8350/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/lemonade/verity.x509.pem" >> "kernel/oneplus/sm8350/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/lmi/verity.x509.pem" >> "kernel/xiaomi/sm8250/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/marlin/verity.x509.pem" >> "kernel/google/marlin/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/mata/verity.x509.pem" >> "kernel/essential/msm8998/certs/verity.x509.pem";
@@ -110,7 +115,12 @@ cp -v "$DOS_SIGNING_KEYS/guacamoleb/verifiedboot_relkeys.der.x509" "kernel/onepl
 cp -v "$DOS_SIGNING_KEYS/guacamole/verifiedboot_relkeys.der.x509" "kernel/oneplus/sm8150/verifiedboot_guacamole_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/hotdogb/verifiedboot_relkeys.der.x509" "kernel/oneplus/sm8150/verifiedboot_hotdogb_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/hotdog/verifiedboot_relkeys.der.x509" "kernel/oneplus/sm8150/verifiedboot_hotdog_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/instantnoodlep/verifiedboot_relkeys.der.x509" "kernel/oneplus/sm8250/verifiedboot_instantnoodlep_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/instantnoodle/verifiedboot_relkeys.der.x509" "kernel/oneplus/sm8250/verifiedboot_instantnoodle_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/kebab/verifiedboot_relkeys.der.x509" "kernel/oneplus/sm8250/verifiedboot_kebab_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/lavender/verifiedboot_relkeys.der.x509" "kernel/xiaomi/sdm660/verifiedboot_lavender_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/lemonadep/verifiedboot_relkeys.der.x509" "kernel/oneplus/sm8350/verifiedboot_lemonadep_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/lemonade/verifiedboot_relkeys.der.x509" "kernel/oneplus/sm8350/verifiedboot_lemonade_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/lmi/verifiedboot_relkeys.der.x509" "kernel/xiaomi/sm8250/verifiedboot_lmi_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/marlin/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_marlin_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/mata/verifiedboot_relkeys.der.x509" "kernel/essential/msm8998/verifiedboot_mata_dos_relkeys.der.x509";
