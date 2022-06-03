@@ -1,0 +1,40 @@
+3.10
+0006-AndroidHardening-Kernel_Hardening/3.10/0007.patch:Subject: [PATCH] add page sanitization / verification
+0006-AndroidHardening-Kernel_Hardening/3.10/0008.patch:Subject: [PATCH] add slub sanitization
+0006-AndroidHardening-Kernel_Hardening/3.10/0009.patch:Subject: [PATCH] slub: add check for write-after-free
+TODO
+
+3.18
+0006-AndroidHardening-Kernel_Hardening/3.18/0024.patch:Subject: [PATCH] add page sanitization / verification
+0006-AndroidHardening-Kernel_Hardening/3.18/0025.patch:Subject: [PATCH] add slub sanitization
+0006-AndroidHardening-Kernel_Hardening/3.18/0026.patch:Subject: [PATCH] slub: add check for write-after-free
+DOES NOT SUPPORT page_posion=1: zte/msm8996, google/dragon, motorola/msm8996, lge/msm8996, samsung/universal8890, xiaomi/msm8937, oneplus/msm8996
+
+4.4
+0008-Graphene-Kernel_Hardening/4.4/0020.patch:Subject: [PATCH] add simpler page sanitization
+0008-Graphene-Kernel_Hardening/4.4/0021.patch:Subject: [PATCH] add support for verifying page sanitization
+0008-Graphene-Kernel_Hardening/4.4/0022.patch:Subject: [PATCH] slub: add basic full slab sanitization
+0008-Graphene-Kernel_Hardening/4.4/0023.patch:Subject: [PATCH] slub: add support for verifying slab sanitization
+NEEDS slub_debug=P and page_poison=1: yandex/sdm660, oneplus/msm8998, razer/msm8998, sony/sdm660, xiaomi/sdm660, essential/msm8998, fxtec/msm8998, zuk/msm8996
+
+4.9
+0008-Graphene-Kernel_Hardening/4.9/0035.patch:Subject: [PATCH] add simpler page sanitization
+0008-Graphene-Kernel_Hardening/4.9/0036.patch:Subject: [PATCH] add support for verifying page sanitization
+0008-Graphene-Kernel_Hardening/4.9/0037.patch:Subject: [PATCH] slub: add basic full slab sanitization
+0008-Graphene-Kernel_Hardening/4.9/0038.patch:Subject: [PATCH] slub: add support for verifying slab sanitization
+
+INIT_ON_ALLOC/INIT_ON_FREE
+4.14
+0008-Graphene-Kernel_Hardening/4.14/0063.patch:Subject: [PATCH] mm: add support for verifying page sanitization
+0008-Graphene-Kernel_Hardening/4.14/0064.patch:Subject: [PATCH] slub: Extend init_on_free to slab caches with constructors
+0008-Graphene-Kernel_Hardening/4.14/0065.patch:Subject: [PATCH] slub: Add support for verifying slab sanitization
+0008-Graphene-Kernel_Hardening/4.14/0066.patch:Subject: [PATCH] slub: Extend init_on_alloc to slab caches with constructors
+NEEDS slub_debug=P and page_poison=1: xiaomi/sm6150
+
+4.19
+0008-Graphene-Kernel_Hardening/4.19/0093.patch:Subject: [PATCH] mm: add support for verifying page sanitization
+0008-Graphene-Kernel_Hardening/4.19/0094.patch:Subject: [PATCH] slub: Extend init_on_free to slab caches with constructors
+0008-Graphene-Kernel_Hardening/4.19/0095.patch:Subject: [PATCH] slub: Add support for verifying slab sanitization
+0008-Graphene-Kernel_Hardening/4.19/0096.patch:Subject: [PATCH] slub: Extend init_on_alloc to slab caches with constructors
+NEEDS slub_debug=P and page_poison=1: oneplus/sm7250
+MISSING: oneplus/sm8150, google/redbull

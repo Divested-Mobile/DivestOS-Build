@@ -531,28 +531,6 @@ hardenUserdata() {
 }
 export -f hardenUserdata;
 
-hardenBootArgs() {
-	cd "$DOS_BUILD_BASE$1";
-	#These following devices have 0006-AndroidHardening-Kernel_Hardening/3.10/0008.patch
-	local NO_NEED_SLUB_POSION=(); #TODO
-	#These following devices have 0006-AndroidHardening-Kernel_Hardening/3.18/0025.patch
-	NO_NEED_SLUB_POISON+=('google/dragon' 'google/marlin' 'google/marlin/marlin' 'google/marlin/sailfish' 'lge/g5-common' 'lge/g6-common' 'lge/h830' 'lge/h850' 'lge/h870' 'lge/h910' 'lge/h918' 'lge/h990' 'lge/ls997' 'lge/msm8996-common' 'lge/rs988' 'lge/us996' 'lge/us997' 'lge/v20-common' 'lge/vs995' 'motorola/griffin' 'oneplus/oneplus3' 'samsung/hero2lte' 'samsung/hero-common' 'samsung/herolte' 'xiaomi/land' 'xiaomi/msm8937-common' 'xiaomi/santoni' 'zte/axon7');
-	#These following devices have 0008-Graphene-Kernel_Hardening/4.4/0022.patch
-	NO_NEED_SLUB_POISON+=('google/muskie' 'google/wahoo');
-	#These following devices have 0008-Graphene-Kernel_Hardening/4.9/0037.patch
-	NO_NEED_SLUB_POISON+=('fairphone/FP3' 'google/bonito' 'google/bonito/bonito' 'google/bonito/sargo' 'google/crosshatch' 'google/crosshatch/blueline' 'google/crosshatch/crosshatch' 'oneplus/enchilada' 'oneplus/fajita' 'oneplus/sdm845-common' 'razer/aura' 'sony/akari' 'sony/aurora' 'sony/tama-common' 'sony/xz2c' 'xiaomi/beryllium' 'xiaomi/sdm845-common');
-	#These following devices have INIT_ON_ALLOC/FREE
-	NO_NEED_SLUB_POSION+=('google/coral' 'google/coral/coral' 'google/coral/flame' 'google/flame' 'google/redbull' 'google/redfin' 'google/redfin/redfin' 'google/sunfish' 'google/sunfish/sunfish' 'oneplus/guacamole' 'oneplus/guacamoleb' 'oneplus/hotdog' 'oneplus/hotdogb' 'oneplus/instantnoodle' 'oneplus/instantnoodlep' 'oneplus/kebab' 'oneplus/lemonade' 'oneplus/lemonadep' 'oneplus/sm8150-common' 'oneplus/sm8250-common' 'oneplus/sm8350-common' 'xiaomi/alioth' 'xiaomi/lmi' 'xiaomi/sm8150-common' 'xiaomi/sm8250-common' 'xiaomi/vayu');
-	if [[ " ${NO_NEED_SLUB_POSION[@]} " =~ " ${1} " ]]; then
-		echo "Skipped kernel command line arguments for $1";
-	else
-		sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := slub_debug=P /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true;
-		echo "Enabled slub_debug=P for $1";
-	fi;
-	cd "$DOS_BUILD_BASE";
-}
-export -f hardenBootArgs;
-
 enableAutoVarInit() {
 	#grep TARGET_KERNEL_CLANG_COMPILE Build/*/device/*/*/*.mk -l
 	local DOS_AUTOVARINIT_KERNELS=('essential/msm8998' 'fxtec/msm8998' 'google/coral' 'google/msm-4.9' 'google/msm-4.14' 'google/sunfish' 'google/wahoo' 'oneplus/msm8996' 'oneplus/msm8998' 'oneplus/sdm845' 'oneplus/sm7250' 'oneplus/sm8150' 'oneplus/sm8250' 'razer/msm8998' 'razer/sdm845' 'sony/sdm660' 'sony/sdm845' 'xiaomi/sdm660' 'xiaomi/sdm845' 'xiaomi/sm6150' 'xiaomi/sm8150' 'xiaomi/sm8250' 'zuk/msm8996'); #redbull/lemonade* already supports init_stack_all_zero
@@ -794,7 +772,7 @@ hardenDefconfig() {
 
 	#Enable supported options
 	#Linux <3.0
-	declare -a optionsYes=("BUG" "DEBUG_CREDENTIALS" "DEBUG_KERNEL" "DEBUG_LIST" "DEBUG_NOTIFIERS" "DEBUG_RODATA" "DEBUG_SET_MODULE_RONX" "DEBUG_VIRTUAL" "IPV6_PRIVACY" "SECCOMP" "SECURITY" "SECURITY_DMESG_RESTRICT" "SLUB_DEBUG" "STRICT_DEVMEM" "SYN_COOKIES");
+	declare -a optionsYes=("BUG" "DEBUG_CREDENTIALS" "DEBUG_KERNEL" "DEBUG_LIST" "DEBUG_NOTIFIERS" "DEBUG_RODATA" "DEBUG_SET_MODULE_RONX" "DEBUG_VIRTUAL" "IPV6_PRIVACY" "SECCOMP" "SECURITY" "SECURITY_DMESG_RESTRICT" "STRICT_DEVMEM" "SYN_COOKIES");
 	#optionsYes+=("DEBUG_SG"); #bootloops - https://patchwork.kernel.org/patch/8989981
 
 	#Linux 3.4
@@ -940,6 +918,7 @@ hardenDefconfig() {
 	#Disabled: MSM_SMP2P_TEST, MAGIC_SYSRQ (breaks compile), KALLSYMS (breaks boot on select devices), IKCONFIG (breaks recovery), MSM_DLOAD_MODE (breaks compile), PROC_PAGE_MONITOR (breaks memory stats), SCHED_DEBUG (breaks compile), INET_DIAG
 	declare -a optionsNo=("ACPI_APEI_EINJ" "ACPI_CUSTOM_METHOD" "ACPI_TABLE_UPGRADE" "BINFMT_AOUT" "BINFMT_MISC" "BLK_DEV_FD" "BT_HS" "CHECKPOINT_RESTORE" "COMPAT_BRK" "COMPAT_VDSO" "CP_ACCESS64" "DEBUG_KMEMLEAK" "DEVKMEM" "DEVMEM" "DEVPORT" "EARJACK_DEBUGGER" "GCC_PLUGIN_RANDSTRUCT_PERFORMANCE" "FB_VIRTUAL" "HARDENED_USERCOPY_FALLBACK" "HARDENED_USERCOPY_PAGESPAN" "HIBERNATION" "HWPOISON_INJECT" "IA32_EMULATION" "IOMMU_NON_SECURE" "INPUT_EVBUG" "IO_URING" "IP_DCCP" "IP_SCTP" "KEXEC" "KEXEC_FILE" "KSM" "LDISC_AUTOLOAD" "LEGACY_PTYS" "LIVEPATCH" "MEM_SOFT_DIRTY" "MMIOTRACE" "MMIOTRACE_TEST" "MODIFY_LDT_SYSCALL" "MSM_BUSPM_DEV" "NEEDS_SYSCALL_FOR_CMPXCHG" "NOTIFIER_ERROR_INJECTION" "OABI_COMPAT" "PAGE_OWNER" "PROC_KCORE" "PROC_VMCORE" "RDS" "RDS_TCP" "SECURITY_SELINUX_DISABLE" "SECURITY_WRITABLE_HOOKS" "SLAB_MERGE_DEFAULT" "STACKLEAK_METRICS" "STACKLEAK_RUNTIME_DISABLE" "TIMER_STATS" "TSC" "TSPP2" "UKSM" "UPROBES" "USELIB" "USERFAULTFD" "VIDEO_VIVID" "WLAN_FEATURE_MEMDUMP" "X86_IOPL_IOPERM" "X86_PTDUMP" "X86_VSYSCALL_EMULATION" "ZSMALLOC_STAT");
 	#optionsNo+=("CFI_PERMISSIVE");
+	optionsNo+=("SLUB_DEBUG");
 	if [[ $kernelVersion == "4."* ]] || [[ $kernelVersion == "5."* ]]; then
 		optionsNo+=("DEBUG_FS");
 		optionsNo+=("FTRACE" "KPROBE_EVENTS" "UPROBE_EVENTS" "GENERIC_TRACER" "FUNCTION_TRACER" "STACK_TRACER" "HIST_TRIGGERS" "BLK_DEV_IO_TRACE" "FAIL_FUTEX" "DYNAMIC_DEBUG");
