@@ -533,12 +533,22 @@ export -f hardenUserdata;
 
 hardenBootArgs() {
 	cd "$DOS_BUILD_BASE$1";
-	if [[ "$1" != *"device/google/coral"* ]] && [[ "$1" != *"device/google/flame"* ]] && [[ "$1" != *"device/google/redbull"* ]] && [[ "$1" != *"device/google/redfin"* ]] && [[ "$1" != *"device/google/sunfish"* ]] && [[ "$1" != *"device/oneplus/sm8150-common"* ]] && [[ "$1" != *"device/oneplus/sm8250-common"* ]] && [[ "$1" != *"device/oneplus/sm8350-common"* ]] && [[ "$1" != *"device/xiaomi/sm8150-common"* ]] && [[ "$1" != *"device/xiaomi/sm8250-common"* ]] && [[ "$1" != *"device/oneplus/guacamole"* ]] && [[ "$1" != *"device/oneplus/guacamoleb"* ]] && [[ "$1" != *"device/oneplus/hotdog"* ]] && [[ "$1" != *"device/oneplus/hotdogb"* ]] && [[ "$1" != *"device/oneplus/instantnoodle"* ]] && [[ "$1" != *"device/oneplus/instantnoodlep"* ]] && [[ "$1" != *"device/oneplus/kebab"* ]] && [[ "$1" != *"device/oneplus/lemonade"* ]] && [[ "$1" != *"device/oneplus/lemonadep"* ]] && [[ "$1" != *"device/xiaomi/vayu"* ]] && [[ "$1" != *"device/xiaomi/lmi"* ]] && [[ "$1" != *"device/xiaomi/alioth"* ]]; then
-		sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := slub_debug=FP /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true;
+	#These following devices have 0006-AndroidHardening-Kernel_Hardening/3.10/0008.patch
+	local NO_NEED_SLUB_POSION=(); #TODO
+	#These following devices have 0006-AndroidHardening-Kernel_Hardening/3.18/0025.patch
+	NO_NEED_SLUB_POISON+=('google/dragon' 'google/marlin' 'google/marlin/marlin' 'google/marlin/sailfish' 'lge/g5-common' 'lge/g6-common' 'lge/h830' 'lge/h850' 'lge/h870' 'lge/h910' 'lge/h918' 'lge/h990' 'lge/ls997' 'lge/msm8996-common' 'lge/rs988' 'lge/us996' 'lge/us997' 'lge/v20-common' 'lge/vs995' 'motorola/griffin' 'oneplus/oneplus3' 'samsung/hero2lte' 'samsung/hero-common' 'samsung/herolte' 'xiaomi/land' 'xiaomi/msm8937-common' 'xiaomi/santoni' 'zte/axon7');
+	#These following devices have 0008-Graphene-Kernel_Hardening/4.4/0022.patch
+	NO_NEED_SLUB_POISON+=('google/muskie' 'google/wahoo');
+	#These following devices have 0008-Graphene-Kernel_Hardening/4.9/0037.patch
+	NO_NEED_SLUB_POISON+=('fairphone/FP3' 'google/bonito' 'google/bonito/bonito' 'google/bonito/sargo' 'google/crosshatch' 'google/crosshatch/blueline' 'google/crosshatch/crosshatch' 'oneplus/enchilada' 'oneplus/fajita' 'oneplus/sdm845-common' 'razer/aura' 'sony/akari' 'sony/aurora' 'sony/tama-common' 'sony/xz2c' 'xiaomi/beryllium' 'xiaomi/sdm845-common');
+	#These following devices have INIT_ON_ALLOC/FREE
+	NO_NEED_SLUB_POSION+=('google/coral' 'google/coral/coral' 'google/coral/flame' 'google/flame' 'google/redbull' 'google/redfin' 'google/redfin/redfin' 'google/sunfish' 'google/sunfish/sunfish' 'oneplus/guacamole' 'oneplus/guacamoleb' 'oneplus/hotdog' 'oneplus/hotdogb' 'oneplus/instantnoodle' 'oneplus/instantnoodlep' 'oneplus/kebab' 'oneplus/lemonade' 'oneplus/lemonadep' 'oneplus/sm8150-common' 'oneplus/sm8250-common' 'oneplus/sm8350-common' 'xiaomi/alioth' 'xiaomi/lmi' 'xiaomi/sm8150-common' 'xiaomi/sm8250-common' 'xiaomi/vayu');
+	if [[ " ${NO_NEED_SLUB_POSION[@]} " =~ " ${1} " ]]; then
+		echo "Skipped kernel command line arguments for $1";
 	else
-		sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := slub_debug=F /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true;
+		sed -i 's/BOARD_KERNEL_CMDLINE := /BOARD_KERNEL_CMDLINE := slub_debug=P /' BoardConfig*.mk */BoardConfig*.mk &>/dev/null || true;
+		echo "Enabled slub_debug=P for $1";
 	fi;
-	echo "Hardened kernel command line arguments for $1";
 	cd "$DOS_BUILD_BASE";
 }
 export -f hardenBootArgs;
