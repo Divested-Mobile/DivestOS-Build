@@ -1,0 +1,25 @@
+From 3f69205d062a4f7dd241e6262acd77f45a68253a Mon Sep 17 00:00:00 2001
+From: flawedworld <flawedworld@flawed.world>
+Date: Wed, 25 May 2022 23:47:12 +0100
+Subject: [PATCH] Use common intent for directions instead of Google Maps URL
+
+---
+ src/com/android/contacts/util/StructuredPostalUtils.java | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/src/com/android/contacts/util/StructuredPostalUtils.java b/src/com/android/contacts/util/StructuredPostalUtils.java
+index 6e46176ca8..f5f454948e 100644
+--- a/src/com/android/contacts/util/StructuredPostalUtils.java
++++ b/src/com/android/contacts/util/StructuredPostalUtils.java
+@@ -32,10 +32,6 @@ public static Uri getPostalAddressUri(String postalAddress) {
+     }
+ 
+     public static Intent getViewPostalAddressDirectionsIntent(String postalAddress) {
+-        return new Intent(Intent.ACTION_VIEW, getPostalAddressDirectionsUri(postalAddress));
+-    }
+-
+-    public static Uri getPostalAddressDirectionsUri(String postalAddress) {
+-        return Uri.parse("https://maps.google.com/maps?daddr=" + Uri.encode(postalAddress));
++        return new Intent(Intent.ACTION_VIEW, getPostalAddressUri(postalAddress));
+     }
+ }

@@ -1,0 +1,53 @@
+From 66f406b9797194895e607b080cefa5ab27189e77 Mon Sep 17 00:00:00 2001
+From: Chirayu Desai <chirayudesai1@gmail.com>
+Date: Wed, 25 May 2022 23:59:57 +0100
+Subject: [PATCH] Don't prompt to add account when creating a contact
+
+---
+ .../ContactEditorAccountsChangedActivity.java | 33 +++----------------
+ 1 file changed, 5 insertions(+), 28 deletions(-)
+
+diff --git a/src/com/android/contacts/activities/ContactEditorAccountsChangedActivity.java b/src/com/android/contacts/activities/ContactEditorAccountsChangedActivity.java
+index 8f0509bab..1ae79a8bb 100644
+--- a/src/com/android/contacts/activities/ContactEditorAccountsChangedActivity.java
++++ b/src/com/android/contacts/activities/ContactEditorAccountsChangedActivity.java
+@@ -171,34 +171,11 @@ public void onClick(View v) {
+                 }
+             });
+         } else {
+-            // If the user has 0 writable accounts, we will just show the user a message with 2
+-            // possible action buttons.
+-            view = View.inflate(this,
+-                    R.layout.contact_editor_accounts_changed_activity_with_text, null);
+-
+-            final TextView textView = (TextView) view.findViewById(R.id.text);
+-            final Button leftButton = (Button) view.findViewById(R.id.left_button);
+-            final Button rightButton = (Button) view.findViewById(R.id.right_button);
+-
+-            textView.setText(getString(R.string.contact_editor_prompt_zero_accounts));
+-
+-            // This button allows the user to continue editing the contact as a phone-only
+-            // local contact.
+-            leftButton.setText(getString(android.R.string.cancel));
+-            leftButton.setOnClickListener(new OnClickListener() {
+-                @Override
+-                public void onClick(View v) {
+-                    // Remember that the user wants to create local contacts, so the user is not
+-                    // prompted again with this activity.
+-                    saveAccountAndReturnResult(AccountWithDataSet.getNullAccount());
+-                    finish();
+-                }
+-            });
+-
+-            // This button allows the user to add a new account to the device and return to
+-            // this app afterwards.
+-            rightButton.setText(getString(R.string.add_account));
+-            rightButton.setOnClickListener(mAddAccountClickListener);
++            view = null; // Only to make the compiler happy
++            // If the user has 0 writable accounts, don't bother, let them continue editing
++            // the contact as a phone-only local contact.
++            saveAccountAndReturnResult(AccountWithDataSet.getNullAccount());
++            finish();
+         }
+ 
+         if (mDialog != null && mDialog.isShowing()) {
