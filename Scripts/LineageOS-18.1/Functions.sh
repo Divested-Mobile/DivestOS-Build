@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_essential_msm8998 kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_google_marlin kernel_google_msm kernel_google_msm-4.9 kernel_google_wahoo kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_oppo_msm8974 kernel_razer_msm8998 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_sony_sdm660 kernel_sony_sdm845 kernel_xiaomi_sdm660 kernel_xiaomi_sdm845 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250 kernel_zuk_msm8996";
+	startPatcher "kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_google_marlin kernel_google_msm kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oppo_msm8974 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_sony_sdm845 kernel_xiaomi_sdm660 kernel_xiaomi_sdm845 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -81,8 +81,8 @@ buildAll() {
 	buildDevice vs985;
 	buildDevice FP2;
 	buildDevice klte; #TODO: klteaio, kltechn, kltechnduo, klteduos, kltedv, kltekdi, kltekor
-	buildDevice m8; #unb18
-	#buildDevice m8d; #unb18 #TODO
+	buildDevice m8; #unb
+	#buildDevice m8d; #unb #TODO
 	buildDevice victara;
 	#SD805
 	buildDevice shamu verity;
@@ -103,39 +103,19 @@ buildAll() {
 	#SD821
 	buildDevice marlin verity;
 	buildDevice sailfish verity;
-	#SD630
-	#buildDevice pioneer; #superseded
-	#buildDevice voyager; #superseded
-	#buildDevice discovery; #superseded
 	buildDevice lavender avb;
-	#SD835
-	#buildDevice cheryl verity; #superseded
-	#buildDevice cheeseburger verity; #superseded
-	#buildDevice dumpling verity; #superseded
-	#buildDevice mata verity; #superseded
-	#buildDevice taimen avb; #superseded
-	#buildDevice walleye avb; #superseded
 	#SD845
-	#buildDevice beryllium avb; #superseded
-	#buildDevice crosshatch avb; #superseded
-	#buildDevice blueline avb; #superseded
-	#buildDevice enchilada avb; #XXX: uses stock /vendor #superseded
-	#buildDevice fajita avb; #XXX: uses stock /vendor #superseded
 	buildDevice akari avb;
 	buildDevice aurora avb;
 	buildDevice xz2c avb;
 	#SD632
 	buildDevice FP3 avb;
 	#SD855
-	#buildDevice guacamole avb; #superseded
-	#buildDevice hotdog avb; #superseded
-	#buildDevice hotdogb avb; #superseded
-	#buildDevice raphael avb; #unb + missing vendor
-	buildDevice vayu avb;
+	buildDevice vayu avb; #superseded
 	#SD865
-	buildDevice lmi avb;
+	buildDevice lmi avb; #superseded
 	#SD870
-	buildDevice alioth avb;
+	buildDevice alioth avb; #superseded
 }
 export -f buildAll;
 

@@ -440,11 +440,6 @@ echo "allow cameraserver sysfs_soc:dir r_dir_perms;" >> sepolicy/vendor/camerase
 echo "allow cameraserver sysfs_soc:file r_file_perms;" >> sepolicy/vendor/cameraserver.te;
 fi;
 
-if enterAndClear "device/essential/mata"; then
-echo "allow permissioncontroller_app tethering_service:service_manager find;" > sepolicy/private/permissioncontroller_app.te;
-echo "lineage.updater.allow_major_update=true" >> system.prop; #mata has semi-broken recovery, allow major updates via Updater
-fi;
-
 if enterAndClear "device/google/marlin"; then
 sed -i 's/BTLogSave \\/BTLogSave/' common/base.mk; #deblobber fixup
 fi;
@@ -498,12 +493,6 @@ git revert --no-edit 0ba2cb240e8483fa85fcc831328f70f65eeb7180 2be3c88c331387f039
 #git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
 fi;
 
-if enterAndClear "device/oneplus/msm8998-common"; then
-awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
-sed -i '/PRODUCT_SYSTEM_VERITY_PARTITION/iPRODUCT_VENDOR_VERITY_PARTITION := /dev/block/bootdevice/by-name/vendor' common.mk; #Support verity on /vendor too
-awk -i inplace '!/vendor_sensors_dbg_prop/' sepolicy/vendor/hal_camera_default.te; #fixup
-fi;
-
 if enterAndClear "device/oppo/common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
 fi;
@@ -541,14 +530,6 @@ fi;
 if enterAndClear "kernel/google/marlin"; then
 git revert --no-edit a17f0cc9d8f16df52d3cf3ff64b37bf477f589e5; #enable verity on /vendor
 fi;
-
-if enterAndClear "kernel/google/wahoo"; then
-sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
-fi;
-
-#if enterAndClear "kernel/oneplus/sdm845"; then
-#applyPatch "$DOS_PATCHES/android_kernel_oneplus_sdm845/4.9.282-qc.patch"; #4.9.227 -> 4.9.282
-#fi;
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";

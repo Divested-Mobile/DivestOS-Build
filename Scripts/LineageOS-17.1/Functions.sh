@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_cyanogen_msm8916 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_xiaomi_sm6150 kernel_yandex_sdm660";
+	startPatcher "kernel_cyanogen_msm8916 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_sm7250 kernel_xiaomi_sm6150 kernel_yandex_sdm660";
 }
 export -f patchAllKernels;
 
@@ -68,8 +68,6 @@ buildAll() {
 	buildDevice griffin;
 	#SD730
 	buildDevice davinci avb;
-	#SD855
-	#buildDevice guacamoleb avb; #superseded
 	#SD660
 	buildDevice Amber verity;
 	#SD765
