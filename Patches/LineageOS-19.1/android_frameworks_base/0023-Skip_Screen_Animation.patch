@@ -1,0 +1,29 @@
+From bd956da828fe5ffce6daf5b30fce7b942cfa6794 Mon Sep 17 00:00:00 2001
+From: Danny Lin <danny@kdrag0n.dev>
+Date: Tue, 15 Dec 2020 16:58:40 -0800
+Subject: [PATCH] SystemUI: Skip screen-on animation in all scenarios
+
+Unlike turning the screen off, turning it on is a time-critical
+operation that should be done as fast as possible without a slow
+animation. It's not only noticeable when using capacitive fingerprint
+sensors.
+
+Change-Id: I87276128456afd9f535742477d9f76d025a12539
+---
+ .../src/com/android/systemui/statusbar/phone/StatusBar.java    | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
+index 07bc9fcfaac9..f344d36db344 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
+@@ -3737,8 +3737,7 @@ public void updateScrimController() {
+ 
+         boolean launchingAffordanceWithPreview =
+                 mNotificationPanelViewController.isLaunchingAffordanceWithPreview();
+-        mScrimController.setLaunchingAffordanceWithPreview(launchingAffordanceWithPreview
+-                || mBiometricUnlockController.isWakeAndUnlock());
++        mScrimController.setLaunchingAffordanceWithPreview(true);
+ 
+         if (mStatusBarKeyguardViewManager.isShowingAlternateAuth()) {
+             if (mState == StatusBarState.SHADE || mState == StatusBarState.SHADE_LOCKED) {
