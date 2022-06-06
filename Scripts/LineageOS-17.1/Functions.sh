@@ -67,7 +67,7 @@ buildAll() {
 	#SD820
 	buildDevice griffin;
 	#SD730
-	buildDevice davinci avb;
+	buildDevice davinci avb; #missing deps
 	#SD660
 	buildDevice Amber verity;
 	#SD765
