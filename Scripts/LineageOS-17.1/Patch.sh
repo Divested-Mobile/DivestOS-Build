@@ -297,7 +297,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0008-ptrace_scope.patch"
 if [ "$DOS_GRAPHENE_EXEC" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0009-exec_spawning_toggle.patch"; fi; #Add exec spawning toggle (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0010-Random_MAC-1.patch"; #Add option to always randomize MAC (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0010-Random_MAC-2.patch"; #Remove partial MAC randomization translations (GrapheneOS)
-sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length (GrapheneOS)
+sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 64;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase max password length (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 fi;
 

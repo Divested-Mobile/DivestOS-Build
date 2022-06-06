@@ -220,7 +220,7 @@ if [ "$DOS_SENSORS_PERM" = true ]; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0002-Sensors-P1.patch"; #Permission for sensors access (MSe1969)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0002-Sensors-P2.patch";
 fi;
-sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 48;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length (GrapheneOS)
+sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 64;/' src/com/android/settings/ChooseLockPassword.java; #Increase max password length (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 fi;
 
