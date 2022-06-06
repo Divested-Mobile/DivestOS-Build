@@ -169,7 +169,6 @@ sed -i 's/(notif.needNotify)/(true)/' location/java/com/android/internal/locatio
 sed -i 's/entry == null/entry == null || true/' core/java/android/os/RecoverySystem.java; #Skip strict update compatibiltity checks XXX: TEMPORARY FIX
 sed -i 's/!Build.isBuildConsistent()/false/' services/core/java/com/android/server/am/ActivityManagerService.java; #Disable partition fingerprint mismatch warnings XXX: TEMPORARY FIX
 sed -i 's/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 72 \* 60 \* 60 \* 1000;/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 12 * 60 * 60 * 1000;/' core/java/android/app/admin/DevicePolicyManager.java; #Decrease the strong auth prompt timeout to occur more often
-sed -i 's/MAX_PASSWORD_LENGTH = 16;/MAX_PASSWORD_LENGTH = 64;/' core/java/android/app/admin/DevicePolicyManager.java; # Increase max password length (GrapheneOS) 
 hardenLocationFWB "$DOS_BUILD_BASE"; #Harden the default GPS config
 changeDefaultDNS; #Change the default DNS servers
 sed -i '301i\        if(packageList != null && packageList.length() > 0) { packageList += ","; } packageList += "net.sourceforge.opencamera";' core/java/android/hardware/Camera.java; #Add Open Camera to aux camera allowlist
