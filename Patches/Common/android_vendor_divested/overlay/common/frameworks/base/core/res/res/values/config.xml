@@ -242,6 +242,8 @@
         <item>com.qualcomm.qti.cne</item>
         <!-- ImsService on raviole -->
         <item>com.shannon.imsservice</item>
+        <!-- Fused Location Provider -->
+        <item>com.android.location.fused</item>
         <!-- DejaVuLocationService -->
         <item>org.fitchfamily.android.dejavu</item>
         <!-- MozillaNlpBackend -->
