@@ -112,6 +112,15 @@
 	<project path="device/oneplus/avicii" name="LineageOS/android_device_oneplus_avicii" remote="github" />
 	<project path="kernel/oneplus/sm7250" name="LineageOS/android_kernel_oneplus_sm7250" remote="github" />
 
+	<!-- Samsung Galaxy S9 (starlte) -->
+	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
+	<project path="device/samsung/starlte" name="LineageOS/android_device_samsung_starlte" remote="github" />
+	<project path="device/samsung/universal9810-common" name="LineageOS/android_device_samsung_universal9810-common" remote="github" />
+	<project path="kernel/samsung/universal9810" name="LineageOS/android_kernel_samsung_universal9810" remote="github" />
+
+	<!-- Samsung Galaxy S9+ (star2lte) -->
+	<project path="device/samsung/star2lte" name="LineageOS/android_device_samsung_star2lte" remote="github" />
+
 	<!-- Wileyfox Swift (crackling) -->
 	<project path="device/wileyfox/crackling" name="LineageOS/android_device_wileyfox_crackling" remote="github" />
 	<project path="device/cyanogen/msm8916-common" name="LineageOS/android_device_cyanogen_msm8916-common" remote="github" />

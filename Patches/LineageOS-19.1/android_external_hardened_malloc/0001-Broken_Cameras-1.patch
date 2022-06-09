@@ -1,4 +1,4 @@
-From 0537fbb546866038d54b49cabeee8135be19f30f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Tue, 1 Jan 2019 14:45:27 -0500
 Subject: [PATCH] workarounds for Pixel 3 SoC era camera driver bugs
@@ -8,7 +8,7 @@ Subject: [PATCH] workarounds for Pixel 3 SoC era camera driver bugs
  1 file changed, 28 insertions(+), 5 deletions(-)
 
 diff --git a/h_malloc.c b/h_malloc.c
-index 39ba84df..5fceaef6 100644
+index 39ba84d..5fceaef 100644
 --- a/h_malloc.c
 +++ b/h_malloc.c
 @@ -76,6 +76,9 @@ static union {

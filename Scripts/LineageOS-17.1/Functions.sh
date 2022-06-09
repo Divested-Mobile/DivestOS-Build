@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_cyanogen_msm8916 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_sm7250 kernel_xiaomi_sm6150 kernel_yandex_sdm660";
+	startPatcher "kernel_cyanogen_msm8916 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_sm7250 kernel_samsung_universal9810 kernel_xiaomi_sm6150 kernel_yandex_sdm660";
 }
 export -f patchAllKernels;
 
@@ -72,6 +72,9 @@ buildAll() {
 	buildDevice Amber verity;
 	#SD765
 	buildDevice avicii avb;
+	#Exynos
+	#buildDevice starlte; #broken - error: memremap.c:(.text+0xd248): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `sl_softirq_entry'
+	#buildDevice star2lte;
 }
 export -f buildAll;
 
