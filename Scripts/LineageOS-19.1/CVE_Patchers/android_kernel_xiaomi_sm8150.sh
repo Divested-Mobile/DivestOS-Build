@@ -298,6 +298,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35084/qca-wifi-host-cmn/0001.patch --
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35085/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35088/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35105/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35118/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35119/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37576/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-38160/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-38198/4.14/0002.patch
@@ -342,8 +344,12 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1652/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1729/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1734/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1836/4.14/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1975/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20009/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20009/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20141/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20148/^5.15/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20154/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-23039/^5.17/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-24448/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-24958/4.14/0003.patch
@@ -362,5 +368,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27830/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.14/0002.patch
-editKernelLocalversion "-dos.p362"
+editKernelLocalversion "-dos.p368"
 cd "$DOS_BUILD_BASE"
