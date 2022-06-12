@@ -11,10 +11,10 @@ need to be granted by default for all apps to maintain compatibility.
  2 files changed, 20 insertions(+), 6 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index edaa60f4b09e..834a6b0d5260 100644
+index 443687a650c8..69bf7c5f38b5 100644
 --- a/services/core/java/com/android/server/pm/PackageManagerService.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerService.java
-@@ -20162,7 +20162,8 @@ public class PackageManagerService extends IPackageManager.Stub
+@@ -20172,7 +20172,8 @@ public class PackageManagerService extends IPackageManager.Stub
              }
  
              // If this permission was granted by default, make sure it is.

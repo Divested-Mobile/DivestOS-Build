@@ -22,10 +22,10 @@ index cd78602d9cd9..b99634c11742 100644
      field public static final String SENSORS = "android.permission-group.SENSORS";
      field public static final String SMS = "android.permission-group.SMS";
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 571099f059c8..b51e4f21454b 100644
+index 85e86237adf6..a951eb951613 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
-@@ -1533,10 +1533,18 @@
+@@ -1534,10 +1534,18 @@
      <!-- ======================================= -->
      <eat-comment />
  
