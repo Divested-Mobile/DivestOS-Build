@@ -53,7 +53,7 @@ index 0000000..53c62dd
 +
 +</resources>
 diff --git a/system_prop.mk b/system_prop.mk
-index 224979b..7cb7fac 100644
+index 547da5f..e240393 100644
 --- a/system_prop.mk
 +++ b/system_prop.mk
 @@ -47,7 +47,7 @@ PRODUCT_PROPERTY_OVERRIDES += \

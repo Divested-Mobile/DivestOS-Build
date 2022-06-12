@@ -25,10 +25,10 @@ index 2698694..2896531 100644
  /devices/msm_sdcc.2/mmc_host*                       auto             auto    defaults                                                                    voldmanaged=sdcard1:auto,encryptable=userdata
  /devices/platform/xhci-hcd/usb*                     auto             auto    defaults                                                                    voldmanaged=usb:auto
 diff --git a/rootdir/etc/init.qcom.rc b/rootdir/etc/init.qcom.rc
-index c978a74..470ce27 100644
+index 5a6eebc..39484d9 100644
 --- a/rootdir/etc/init.qcom.rc
 +++ b/rootdir/etc/init.qcom.rc
-@@ -289,6 +289,10 @@ service wcnss-service /vendor/bin/wcnss_service
+@@ -288,6 +288,10 @@ service wcnss-service /vendor/bin/wcnss_service
      oneshot
  
  ## Properties start here
