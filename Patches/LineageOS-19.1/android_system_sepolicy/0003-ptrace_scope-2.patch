@@ -90,7 +90,7 @@ index a51fa3a07..a294de0a3 100644
  persist.logd.           u:object_r:logd_prop:s0
  ro.logd.                u:object_r:logd_prop:s0
 diff --git a/prebuilts/api/32.0/private/property_contexts b/prebuilts/api/32.0/private/property_contexts
-index f235b35b7..895b8f1df 100644
+index 97c06b8f0..de078ce0f 100644
 --- a/prebuilts/api/32.0/private/property_contexts
 +++ b/prebuilts/api/32.0/private/property_contexts
 @@ -54,6 +54,7 @@ persist.audio.          u:object_r:audio_prop:s0
@@ -102,7 +102,7 @@ index f235b35b7..895b8f1df 100644
  persist.logd.           u:object_r:logd_prop:s0
  ro.logd.                u:object_r:logd_prop:s0
 diff --git a/private/property_contexts b/private/property_contexts
-index f235b35b7..895b8f1df 100644
+index 97c06b8f0..de078ce0f 100644
 --- a/private/property_contexts
 +++ b/private/property_contexts
 @@ -54,6 +54,7 @@ persist.audio.          u:object_r:audio_prop:s0

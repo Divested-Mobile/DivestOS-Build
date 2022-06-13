@@ -16,10 +16,10 @@ Change-Id: Ic01a142722372d9d57f52947025cd9db23e58ef4
  create mode 100644 src/com/android/settings/security/HostsPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 970533145b..2586ff2612 100644
+index 3cad5ba33b..67c47bc7b3 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -13117,6 +13117,9 @@
+@@ -13124,6 +13124,9 @@
      <string name="native_debug_title">Enable native code debugging</string>
      <string name="native_debug_summary">Generate useful logs / bug reports from crashes and permit debugging native code.</string>
  

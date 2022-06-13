@@ -443,7 +443,7 @@ enableAutoVarInit || true;
 #enableLowRam "device/sony/pioneer" "pioneer";
 
 #Fix broken options enabled by hardenDefconfig()
-#none yet
+echo "CONFIG_DEBUG_FS=y" >> kernel/oneplus/sm8150/arch/arm64/configs/vendor/sm8150-perf_defconfig;
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l*; #Fix builds with GCC 10
 rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk || true;

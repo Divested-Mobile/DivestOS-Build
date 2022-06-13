@@ -14,10 +14,10 @@ Change-Id: I87276128456afd9f535742477d9f76d025a12539
  1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
-index a0630e4831e1..00169546a799 100644
+index 7141e2801f10..dbc620f4b8f2 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
-@@ -3924,8 +3924,7 @@ public class StatusBar extends SystemUI implements
+@@ -3933,8 +3933,7 @@ public class StatusBar extends SystemUI implements
  
          boolean launchingAffordanceWithPreview =
                  mNotificationPanelViewController.isLaunchingAffordanceWithPreview();

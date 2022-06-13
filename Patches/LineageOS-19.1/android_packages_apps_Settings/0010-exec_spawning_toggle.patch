@@ -12,10 +12,10 @@ Subject: [PATCH] add exec spawning toggle
  create mode 100644 src/com/android/settings/security/ExecSpawnPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 86fca902ec..19d4cdec54 100644
+index 0d68efa6c9..406165be65 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -13109,6 +13109,9 @@
+@@ -13116,6 +13116,9 @@
      <!-- UI debug setting: Force enable "smart dark" UI rendering feature summary [CHAR LIMIT=NONE] -->
      <string name="hwui_force_dark_summary">Overrides the force-dark feature to be always-on</string>
  

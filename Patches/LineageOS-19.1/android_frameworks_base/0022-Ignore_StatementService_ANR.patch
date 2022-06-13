@@ -12,7 +12,7 @@ they get a message each time it tries again.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/core/res/res/values/config.xml b/core/res/res/values/config.xml
-index 7305ccc93e93..5c09243b61e6 100644
+index 07367aee8f5c..033bc8771e3c 100644
 --- a/core/res/res/values/config.xml
 +++ b/core/res/res/values/config.xml
 @@ -3597,7 +3597,7 @@

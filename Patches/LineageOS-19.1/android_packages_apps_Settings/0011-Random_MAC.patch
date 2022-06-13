@@ -26,7 +26,7 @@ index 8111d3aaa9..de57fb3525 100644
  
              <LinearLayout
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index a474c3bde0..dffc6daf07 100644
+index abecdd1a40..f50d130936 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -1397,6 +1397,12 @@

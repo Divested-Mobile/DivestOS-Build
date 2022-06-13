@@ -10,10 +10,10 @@ Ported from 10: 5e2898e9d21dd6802bb0b0139e7e496c41e1cd80
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 030310406949..7c4a046fda7b 100644
+index cb6ef5a8f1ae..4692ddb26491 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
-@@ -1735,7 +1735,7 @@
+@@ -1736,7 +1736,7 @@
      <permission android:name="android.permission.INTERNET"
          android:description="@string/permdesc_createNetworkSockets"
          android:label="@string/permlab_createNetworkSockets"

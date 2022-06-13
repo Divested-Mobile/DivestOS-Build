@@ -46,10 +46,10 @@ index 86fef5d9df19..5edc8d35082e 100644
                      android.os.Build.VERSION_CODES.DONUT, 0),
              new PackageParser.NewPermissionInfo(android.Manifest.permission.READ_PHONE_STATE,
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 76811630410d..3053eb4e1e16 100644
+index 03bab921ca9a..b8971f77dd18 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
-@@ -1498,6 +1498,18 @@
+@@ -1499,6 +1499,18 @@
          android:description="@string/permdesc_useBiometric"
          android:protectionLevel="normal" />
  

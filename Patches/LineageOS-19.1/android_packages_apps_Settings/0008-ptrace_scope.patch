@@ -12,10 +12,10 @@ Subject: [PATCH] add native debugging setting
  create mode 100644 src/com/android/settings/security/NativeDebugPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 2262ef679a..86fca902ec 100644
+index 0db3572289..0d68efa6c9 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -13109,6 +13109,9 @@
+@@ -13116,6 +13116,9 @@
      <!-- UI debug setting: Force enable "smart dark" UI rendering feature summary [CHAR LIMIT=NONE] -->
      <string name="hwui_force_dark_summary">Overrides the force-dark feature to be always-on</string>
  

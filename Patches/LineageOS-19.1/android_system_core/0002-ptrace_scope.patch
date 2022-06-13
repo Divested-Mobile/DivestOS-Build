@@ -9,10 +9,10 @@ Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 08e8938cb..1617822a9 100644
+index b646813a8..c2bef6b8c 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1174,6 +1174,12 @@ on property:perf.drop_caches=3
+@@ -1226,6 +1226,12 @@ on property:perf.drop_caches=3
  on property:net.tcp_def_init_rwnd=*
      write /proc/sys/net/ipv4/tcp_default_init_rwnd ${net.tcp_def_init_rwnd}
  

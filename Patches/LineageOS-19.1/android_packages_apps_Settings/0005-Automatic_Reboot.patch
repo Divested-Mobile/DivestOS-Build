@@ -13,7 +13,7 @@ Subject: [PATCH] add auto-reboot setting
  create mode 100644 src/com/android/settings/security/AutoRebootPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 0fe13feb3e..7472ef5ecd 100644
+index 9f0af97fa5..b5fb3b02b5 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -110,6 +110,37 @@
@@ -55,7 +55,7 @@ index 0fe13feb3e..7472ef5ecd 100644
           These are shown in a list dialog. -->
      <string-array name="lock_after_timeout_entries">
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 79ca7a465f..76aa5de4c7 100644
+index 3e0e8e186d..610e93d0b8 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -650,6 +650,9 @@
