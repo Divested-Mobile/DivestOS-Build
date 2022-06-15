@@ -81,6 +81,7 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	#repopick -it pie-firewall;
 	repopick -it P_asb_2022-05;
+	repopick -it P_asb_2022-06;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

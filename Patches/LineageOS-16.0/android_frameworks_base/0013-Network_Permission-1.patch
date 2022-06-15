@@ -9,10 +9,10 @@ Subject: [PATCH] make INTERNET into a special runtime permission
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index af1a6fa9e3c5..873162098247 100644
+index 0aafab66dabd..c66b55feff34 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
-@@ -1361,7 +1361,7 @@
+@@ -1362,7 +1362,7 @@
      <permission android:name="android.permission.INTERNET"
          android:description="@string/permdesc_createNetworkSockets"
          android:label="@string/permlab_createNetworkSockets"

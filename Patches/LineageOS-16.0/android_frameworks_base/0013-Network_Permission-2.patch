@@ -9,10 +9,10 @@ Subject: [PATCH] add a NETWORK permission group for INTERNET
  2 files changed, 15 insertions(+)
 
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 873162098247..8efe5474dfea 100644
+index c66b55feff34..a98b3bf710f3 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
-@@ -1355,10 +1355,20 @@
+@@ -1356,10 +1356,20 @@
      <!-- ======================================= -->
      <eat-comment />
  
