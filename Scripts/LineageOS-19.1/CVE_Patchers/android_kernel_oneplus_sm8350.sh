@@ -1,6 +1,7 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/oneplus/sm8350"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/5.4/5.4.0193-0194.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/5.4/5.4.0198-0199.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/ANY/0001.patch
@@ -44,6 +45,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1652/5.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1729/5.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1734/5.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1836/5.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1966/5.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1974/5.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1975/5.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20148/^5.15/0002.patch
@@ -65,5 +67,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/5.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28893/5.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-29581/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-30594/5.4/0007.patch
-editKernelLocalversion "-dos.p65"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-32981/5.4/0007.patch
+editKernelLocalversion "-dos.p68"
 cd "$DOS_BUILD_BASE"

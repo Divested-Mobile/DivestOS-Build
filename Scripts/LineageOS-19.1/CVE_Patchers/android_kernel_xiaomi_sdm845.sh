@@ -1,5 +1,6 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/xiaomi/sdm845"
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0318-0319.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0025.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0026.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0027.patch
@@ -62,7 +63,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35119/qca-wifi-host-cmn/0001.patch --
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39792/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-44879/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45469/4.9-^5.16/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1966/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20148/^5.15/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
-editKernelLocalversion "-dos.p64"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-32981/4.9/0004.patch
+editKernelLocalversion "-dos.p67"
 cd "$DOS_BUILD_BASE"

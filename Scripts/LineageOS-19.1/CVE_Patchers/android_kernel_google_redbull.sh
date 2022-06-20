@@ -3,6 +3,7 @@ cd "$DOS_BUILD_BASE""kernel/google/redbull"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0224-0225.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0226-0227.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0238-0239.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0247-0248.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.19/0087.patch
@@ -92,6 +93,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1678/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1729/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1734/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1836/4.19/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1966/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1974/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1975/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20148/^5.15/0002.patch
@@ -113,6 +115,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28389/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-29581/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-30594/4.19/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-32981/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-GPZ2253/4.19/0005.patch
-editKernelLocalversion "-dos.p114"
+editKernelLocalversion "-dos.p117"
 cd "$DOS_BUILD_BASE"
