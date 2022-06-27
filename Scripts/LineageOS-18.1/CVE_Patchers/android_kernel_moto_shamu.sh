@@ -260,13 +260,14 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-40490/3.9-^5.14/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-42008/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45095/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45868/4.4/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1353/4.4/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1353/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1516/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1836/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2153/^5.17/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
-editKernelLocalversion "-dos.p268"
+editKernelLocalversion "-dos.p269"
 cd "$DOS_BUILD_BASE"
