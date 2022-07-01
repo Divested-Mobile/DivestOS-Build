@@ -70,6 +70,10 @@
 	<project path="device/fxtec/pro1" name="LineageOS/android_device_fxtec_pro1" remote="github" />
 	<project path="kernel/fxtec/msm8998" name="LineageOS/android_kernel_fxtec_msm8998" remote="github" />
 
+	<!-- Fairphone 3 (FP3) -->
+	<project path="device/fairphone/FP3" name="LineageOS/android_device_fairphone_FP3" remote="github" />
+	<project path="kernel/fairphone/sdm632" name="LineageOS/android_kernel_fairphone_sdm632" remote="github" />
+
 	<!-- Google Pixel 2 (taimen/walleye) -->
 	<project path="device/google/taimen" name="LineageOS/android_device_google_taimen" remote="github" />
 	<project path="device/google/muskie" name="LineageOS/android_device_google_muskie" remote="github" />
@@ -174,6 +178,17 @@
 
 	<!-- Sony Xperia XA2 Ultra (discovery) -->
 	<project path="device/sony/discovery" name="LineageOS/android_device_sony_discovery" remote="github" />
+
+	<!-- Sony Xperia XZ2 (akari) -->
+	<project path="device/sony/akari" name="LineageOS/android_device_sony_akari" remote="github" />
+	<project path="device/sony/tama-common" name="LineageOS/android_device_sony_tama-common" remote="github" />
+	<project path="kernel/sony/sdm845" name="LineageOS/android_kernel_sony_sdm845" remote="github" />
+
+	<!-- Sony Xperia XZ2 Premium (aurora) -->
+	<project path="device/sony/aurora" name="LineageOS/android_device_sony_aurora" remote="github" />
+
+	<!-- Sony Xperia XZ2 Compact (xz2c) -->
+	<project path="device/sony/xz2c" name="LineageOS/android_device_sony_xz2c" remote="github" />
 
 	<!-- Xiaomi Poco F1 (beryllium) -->
 	<project path="hardware/xiaomi" name="LineageOS/android_hardware_xiaomi" remote="github" />

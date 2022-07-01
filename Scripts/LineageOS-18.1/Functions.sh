@@ -105,11 +105,11 @@ buildAll() {
 	buildDevice sailfish verity;
 	buildDevice lavender avb;
 	#SD845
-	buildDevice akari avb;
-	buildDevice aurora avb;
-	buildDevice xz2c avb;
+	buildDevice akari avb; #superseded
+	buildDevice aurora avb; #superseded
+	buildDevice xz2c avb; #superseded
 	#SD632
-	buildDevice FP3 avb;
+	buildDevice FP3 avb; #superseded
 	#SD855
 	buildDevice vayu avb; #superseded
 	#SD865
