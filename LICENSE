@@ -8,6 +8,8 @@ Patches/
 	Common/
 		android_vendor_divested - GPL-3.0-or-later
 			default_wallpaper.png - Unsplash, Pawel Czerwinski
+		android_kernel_* - GPL-2.0-only
+		wireless-regdb - See LICENSE included (ISC)
 		[Everything Else] - Apache-2.0
 	LineageOS-*/
 		android_kernel_* - GPL-2.0-only
