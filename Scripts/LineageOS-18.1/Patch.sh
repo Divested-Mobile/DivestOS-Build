@@ -449,10 +449,6 @@ if enterAndClear "device/htc/m8-common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 fi;
 
-if enterAndClear "device/htc/msm8974-common"; then
-applyPatch "$DOS_PATCHES/android_device_htc_msm8974-common/295147.patch"; #Enable ZRAM (bgcngm)
-fi;
-
 if enterAndClear "device/lge/g2-common"; then
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 echo "allow hwaddrs self:capability { fowner };" >> sepolicy/hwaddrs.te;

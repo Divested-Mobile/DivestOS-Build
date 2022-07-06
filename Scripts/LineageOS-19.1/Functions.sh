@@ -116,6 +116,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -i 330448; #tools: Let adb secure check depend on "==0" rather than "!=1"
+	#repopick -it S_asb_2022-07;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

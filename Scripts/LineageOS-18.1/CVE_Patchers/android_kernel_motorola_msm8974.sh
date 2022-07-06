@@ -377,6 +377,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14331/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-15393/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-15436/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/4.4/0006.patch
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24588/4.4/0019.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24588/4.4/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24588/prima/0015.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25211/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25643/3.18/0002.patch
@@ -444,5 +446,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1836/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-22064/prima/0005.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
-editKernelLocalversion "-dos.p444"
+editKernelLocalversion "-dos.p446"
 cd "$DOS_BUILD_BASE"

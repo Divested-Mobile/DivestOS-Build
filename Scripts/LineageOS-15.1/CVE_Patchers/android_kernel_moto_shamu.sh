@@ -228,6 +228,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-14386/3.10-^4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-15393/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-15436/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/4.4/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24588/4.4/0019.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24588/4.4/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25211/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25643/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-25668/3.18/0007.patch
@@ -291,5 +293,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-sy
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
-editKernelLocalversion "-dos.p291"
+editKernelLocalversion "-dos.p293"
 cd "$DOS_BUILD_BASE"
