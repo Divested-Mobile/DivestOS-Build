@@ -112,6 +112,13 @@ fi;
 #fi;
 
 if enterAndClear "frameworks/base"; then
+git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/08/331108/1 && git cherry-pick FETCH_HEAD; #n-asb-2022-05 Always restart apps if base.apk gets updated.
+git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/61/330961/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-05 Keyguard - Treat messsages to lock with priority
+git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/49/332449/2 && git cherry-pick FETCH_HEAD; #n-asb-2022-06 DO NOT MERGE Add an OEM configurable limit for zen rules
+git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/57/332757/2 && git cherry-pick FETCH_HEAD; #P_asb_2022-06 limit TelecomManager#registerPhoneAccount to 10; api doc update
+git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/76/332776/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-06 Update GeofenceHardwareRequestParcelable to match parcel/unparcel format.
+git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/78/332778/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-06 Fix security hole in GateKeeperResponse
+git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/79/332779/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-06 RESTRICT AUTOMERGE Prevent non-admin users from deleting system apps.
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after three failed attempts (GrapheneOS)
@@ -131,6 +138,7 @@ rm -rf packages/PrintRecommendationService; #Creates popups to install proprieta
 fi;
 
 if enterAndClear "frameworks/native"; then
+git fetch https://github.com/LineageOS/android_frameworks_native refs/changes/52/326752/2 && git cherry-pick FETCH_HEAD; #P_asb_2022-03 Check if the window is partially obscured for slippery enters
 if [ "$DOS_SENSORS_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors.patch"; fi; #Permission for sensors access (MSe1969)
 fi;
 
@@ -191,10 +199,24 @@ awk -i inplace '!/WeatherManagerServiceBroker/' lineage/res/res/values/config.xm
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi; #Remove AudioFX
 fi;
 
+if enterAndClear "packages/apps/Bluetooth"; then
+git fetch https://github.com/LineageOS/android_packages_apps_Bluetooth refs/changes/51/332451/1 && git cherry-pick FETCH_HEAD; #n-asb-2022-06 Removes app access to BluetoothAdapter#setScanMode by requiring BLUETOOTH_PRIVILEGED permission.
+git fetch https://github.com/LineageOS/android_packages_apps_Bluetooth refs/changes/52/332452/1 && git cherry-pick FETCH_HEAD; #n-asb-2022-06 Removes app access to BluetoothAdapter#setDiscoverableTimeout by requiring BLUETOOTH_PRIVILEGED permission.
+fi;
+
 if enterAndClear "packages/apps/Contacts"; then
+git fetch https://github.com/LineageOS/android_packages_apps_Contacts refs/changes/60/332760/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-06 No longer export CallSubjectDialog
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0003-Skip_Accounts.patch"; #Don't prompt to add account when creating a contact (CalyxOS)
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0004-No_GMaps.patch"; #Use common intent for directions instead of Google Maps URL (GrapheneOS)
+fi;
+
+if enterAndClear "packages/apps/Dialer"; then
+git fetch https://github.com/LineageOS/android_packages_apps_Dialer refs/changes/61/332761/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-06 No longer export CallSubjectDialog
+fi;
+
+if enterAndClear "packages/apps/KeyChain"; then
+git fetch https://github.com/LineageOS/android_packages_apps_KeyChain refs/changes/36/334036/1 && git cherry-pick FETCH_HEAD; #n-asb-2022-07 Encode authority part of uri before showing in UI
 fi;
 
 if enterAndClear "packages/apps/LineageParts"; then
@@ -202,7 +224,15 @@ rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml 
 applyPatch "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytics.patch"; #Remove analytics (DivestOS)
 fi;
 
+if enterAndClear "packages/apps/Nfc"; then
+git fetch https://github.com/LineageOS/android_packages_apps_Nfc refs/changes/46/328346/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-04 Do not set default contactless application without user interaction
+fi;
+
 if enterAndClear "packages/apps/Settings"; then
+git fetch https://github.com/LineageOS/android_packages_apps_Settings refs/changes/99/327099/1 && git cherry-pick FETCH_HEAD; #n-asb-2022-03 Add caller check to com.android.credentials.RESET [Backport]
+git fetch https://github.com/LineageOS/android_packages_apps_Settings refs/changes/58/326758/2 && git cherry-pick FETCH_HEAD; #P_asb_2022-03 Fix bypass CALL_PRIVILEGED permission in AppRestrictionsFragment
+git fetch https://github.com/LineageOS/android_packages_apps_Settings refs/changes/63/332763/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-06 Prevent exfiltration of system files via user image settings.
+git fetch https://github.com/LineageOS/android_packages_apps_Settings refs/changes/37/334037/1 && git cherry-pick FETCH_HEAD; #n-asb-2022-07 Fix LaunchAnyWhere in AppRestrictionsFragment
 git revert --no-edit a96df110e84123fe1273bff54feca3b4ca484dcd; #Don't hide OEM unlock
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 if [ "$DOS_SENSORS_PERM" = true ]; then
@@ -239,16 +269,30 @@ if enterAndClear "packages/providers/MediaProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/0001-External_Permission.patch"; #Fix permission denial (luca.stefani)
 fi;
 
+if enterAndClear "packages/services/Telecomm"; then
+git fetch https://github.com/LineageOS/android_packages_services_Telecomm refs/changes/59/330959/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-05 Handle null bindings returned from ConnectionService.
+git fetch https://github.com/LineageOS/android_packages_services_Telecomm refs/changes/64/332764/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-06 limit TelecomManager#registerPhoneAccount to 10
+fi;
+
 if enterAndClear "packages/services/Telephony"; then
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch"; #(DivestOS)
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
 fi;
 
+if enterAndClear "system/bt"; then
+git fetch https://github.com/LineageOS/android_system_bt refs/changes/47/328347/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-04 Security fix OOB read due to invalid count in stack/avrc/avrc_pars_ct
+fi;
+
 if enterAndClear "system/core"; then
+git fetch https://github.com/LineageOS/android_system_core refs/changes/65/332765/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-06 Backport of Win-specific suppression of potentially rogue construct that can engage in directory traversal on the host.
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert --no-edit a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4; #Always update recovery
 applyPatch "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysctl changes (GrapheneOS)
 #if [ "$DOS_GRAPHENE_MALLOC_BROKEN" = true ]; then applyPatch "$DOS_PATCHES/android_system_core/0002-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
+fi;
+
+if enterAndClear "system/nfc"; then
+git fetch https://github.com/LineageOS/android_system_nfc refs/changes/67/332767/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-06 Double Free in ce_t4t_data_cback
 fi;
 
 if enterAndClear "system/sepolicy"; then
@@ -259,6 +303,10 @@ fi;
 
 if enterAndClear "system/vold"; then
 applyPatch "$DOS_PATCHES/android_system_vold/0001-AES256.patch"; #Add a variable for enabling AES-256 bit encryption (DivestOS)
+fi;
+
+if enterAndClear "vendor/nxp/opensource/external/libnfc-nci"; then
+git fetch https://github.com/LineageOS/android_vendor_nxp_opensource_external_libnfc-nci refs/changes/71/332771/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-06 Double Free in ce_t4t_data_cback
 fi;
 
 if enterAndClear "vendor/lineage"; then

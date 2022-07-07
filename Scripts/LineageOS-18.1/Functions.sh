@@ -125,11 +125,12 @@ patchWorkspace() {
 	touch DOS_PATCHED_FLAG;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
 	#repopick -it eleven-firewall;
 	#repopick -i 314130; #adbconnection: don't spin if adbd isn't running
 	#repopick -i 314453; #TaskViewTouchController: Null check current animation on drag
 	#repopick -i 325011; #lineage: Opt-in to shipping full recovery image by default
+	repopick -it R_asb_2022-07;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
