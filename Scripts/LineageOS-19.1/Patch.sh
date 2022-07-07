@@ -288,7 +288,6 @@ if enterAndClear "packages/apps/ThemePicker"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_ThemePicker/0001-Monet_Toggle.patch"; #Add a UI for enabling Material You (GrapheneOS)
 fi;
 
-
 if enterAndClear "packages/apps/Trebuchet"; then
 cp $DOS_BUILD_BASE/vendor/divested/overlay/common/packages/apps/Trebuchet/res/xml/default_workspace_*.xml res/xml/; #XXX: Likely no longer needed
 fi;

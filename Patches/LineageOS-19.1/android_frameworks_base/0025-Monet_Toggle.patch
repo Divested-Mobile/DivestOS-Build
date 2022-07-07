@@ -5,11 +5,11 @@ Subject: [PATCH] make monet based theming user configurable
 
 ---
  core/java/android/provider/Settings.java      | 21 +++++
- .../theme/ThemeOverlayController.java         | 78 +++++++++++--------
- 2 files changed, 66 insertions(+), 33 deletions(-)
+ .../theme/ThemeOverlayController.java         | 76 +++++++++++--------
+ 2 files changed, 65 insertions(+), 32 deletions(-)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 1c5650b540f0..c1a6f740f780 100644
+index d7cc36ff4ae2..72e6362c0a96 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
 @@ -6341,6 +6341,27 @@ public final class Settings {
@@ -41,15 +41,9 @@ index 1c5650b540f0..c1a6f740f780 100644
           * Control whether to enable adaptive sleep mode.
           * @hide
 diff --git a/packages/SystemUI/src/com/android/systemui/theme/ThemeOverlayController.java b/packages/SystemUI/src/com/android/systemui/theme/ThemeOverlayController.java
-index 482a70defb3f..7967c645a7b5 100644
+index 482a70defb3f..02c1ab5f82f6 100644
 --- a/packages/SystemUI/src/com/android/systemui/theme/ThemeOverlayController.java
 +++ b/packages/SystemUI/src/com/android/systemui/theme/ThemeOverlayController.java
-@@ -1,4 +1,4 @@
--/*
-+f/*
-  * Copyright (C) 2019 The Android Open Source Project
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
 @@ -111,7 +111,6 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
      private final SecureSettings mSecureSettings;
      private final Executor mMainExecutor;
