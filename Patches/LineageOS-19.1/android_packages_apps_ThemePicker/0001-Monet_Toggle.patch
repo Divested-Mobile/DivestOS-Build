@@ -180,7 +180,7 @@ index 0000000..214d6b1
 +        return Settings.Secure.getIntForUser(
 +                context.getContentResolver(),
 +                Settings.Secure.MONET_MODE,
-+                MONET_MODE_DISABLED,
++                MONET_MODE_ENABLED,
 +                context.getUserId()
 +        ) == MONET_MODE_ENABLED;
 +    }

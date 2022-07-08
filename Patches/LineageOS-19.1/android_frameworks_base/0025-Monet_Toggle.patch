@@ -73,7 +73,7 @@ index 482a70defb3f..02c1ab5f82f6 100644
 +        return Settings.Secure.getIntForUser(
 +                mContext.getContentResolver(),
 +                Settings.Secure.MONET_MODE,
-+                Settings.Secure.MONET_MODE_DISABLED,
++                Settings.Secure.MONET_MODE_ENABLED,
 +                user
 +        ) == Settings.Secure.MONET_MODE_ENABLED;
 +    }
