@@ -113,7 +113,6 @@ fi;
 
 if enterAndClear "frameworks/base"; then
 git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/08/331108/1 && git cherry-pick FETCH_HEAD; #n-asb-2022-05 Always restart apps if base.apk gets updated.
-git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/61/330961/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-05 Keyguard - Treat messsages to lock with priority
 git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/49/332449/2 && git cherry-pick FETCH_HEAD; #n-asb-2022-06 DO NOT MERGE Add an OEM configurable limit for zen rules
 git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/57/332757/2 && git cherry-pick FETCH_HEAD; #P_asb_2022-06 limit TelecomManager#registerPhoneAccount to 10; api doc update
 git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/76/332776/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-06 Update GeofenceHardwareRequestParcelable to match parcel/unparcel format.
@@ -270,7 +269,6 @@ applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/0001-External_
 fi;
 
 if enterAndClear "packages/services/Telecomm"; then
-git fetch https://github.com/LineageOS/android_packages_services_Telecomm refs/changes/59/330959/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-05 Handle null bindings returned from ConnectionService.
 git fetch https://github.com/LineageOS/android_packages_services_Telecomm refs/changes/64/332764/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-06 limit TelecomManager#registerPhoneAccount to 10
 fi;
 

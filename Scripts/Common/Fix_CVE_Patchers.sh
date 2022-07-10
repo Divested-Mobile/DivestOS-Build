@@ -123,7 +123,7 @@ done
 declare -a threeDotEighteen=("${threeDotTen[@]}" "android_kernel_samsung_universal8890.sh" "android_kernel_google_dragon.sh" "android_kernel_lge_msm8996.sh" "android_kernel_zte_msm8996.sh" "android_kernel_asus_msm8953.sh" "android_kernel_xiaomi_msm8937.sh" "android_kernel_google_marlin.sh" "android_kernel_motorola_msm8996.sh" "android_kernel_oneplus_msm8996.sh");
 for script in "${threeDotEighteen[@]}"
 do
-	commentPatches $script "0008-Graphene-Kernel_Hardening/4.4/0006.patch" "CVE-2018-16597/4.4" "CVE-2019-19319/4.4" "CVE-2020-0305/4.4" "CVE-2020-0429/4.4" "CVE-2020-8992/4.4" "CVE-2021-1048/4.4" "CVE-2021-3428/4.4" "CVE-2021-20265/4.4";
+	commentPatches $script "0008-Graphene-Kernel_Hardening/4.4/0006.patch" "CVE-2018-16597/4.4" "CVE-2019-19319/4.4" "CVE-2020-0305/4.4" "CVE-2020-0429/4.4" "CVE-2020-8992/4.4" "CVE-2021-1048/4.4" "CVE-2021-3428/4.4" "CVE-2021-20265/4.4" "CVE-2022-1184/4.9/0007.patch";
 done
 #4.4
 declare -a fourDotFour=("${threeDotEighteen[@]}" "android_kernel_essential_msm8998.sh" "android_kernel_fxtec_msm8998.sh" "android_kernel_zuk_msm8996.sh" "android_kernel_xiaomi_sdm660.sh" "android_kernel_sony_sdm660.sh" "android_kernel_razer_msm8998.sh" "android_kernel_oneplus_msm8998.sh" "android_kernel_google_wahoo.sh" "android_kernel_yandex_sdm660.sh" "android_kernel_zuk_msm8996.sh");
