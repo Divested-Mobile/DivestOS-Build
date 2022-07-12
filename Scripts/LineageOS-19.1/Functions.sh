@@ -97,7 +97,7 @@ buildAll() {
 	buildDevice alioth avb;
 	#SD888
 	buildDevice lemonade avb;
-	buildDevice lemonadep;
+	buildDevice lemonadep avb;
 	#SD765
 	buildDevice bramble avb;
 	buildDevice redfin avb;
@@ -114,9 +114,7 @@ patchWorkspace() {
 	touch DOS_PATCHED_FLAG;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	source build/envsetup.sh;
-	repopick -i 330448; #tools: Let adb secure check depend on "==0" rather than "!=1"
-	#repopick -it S_asb_2022-07;
+	#source build/envsetup.sh;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

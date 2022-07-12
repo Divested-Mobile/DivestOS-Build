@@ -65,7 +65,7 @@ index f2d0f21..d5f0c46 100755
  
 diff --git a/src/com/android/customization/model/monet/MonetModeSectionController.java b/src/com/android/customization/model/monet/MonetModeSectionController.java
 new file mode 100644
-index 0000000..214d6b1
+index 0000000..95796a1
 --- /dev/null
 +++ b/src/com/android/customization/model/monet/MonetModeSectionController.java
 @@ -0,0 +1,126 @@
