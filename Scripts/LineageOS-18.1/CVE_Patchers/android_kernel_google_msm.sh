@@ -372,6 +372,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0013.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0014.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0019.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1353/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1652/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1836/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20141/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-24958/3.4/0017.patch
@@ -382,5 +383,5 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-sy
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-5d89eb01c93d8a62998e3bdccae28a7732e3bd51.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-7be3e08d7a523207486701b2d34607137558066f.patch
-editKernelLocalversion "-dos.p382"
+editKernelLocalversion "-dos.p383"
 cd "$DOS_BUILD_BASE"

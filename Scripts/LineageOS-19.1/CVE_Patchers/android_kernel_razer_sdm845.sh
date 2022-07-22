@@ -1,6 +1,7 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/razer/sdm845"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0318-0319.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0322-0323.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0025.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0026.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0027.patch
@@ -57,6 +58,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3674/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24394/^5.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33098/^5.12/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33656/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35084/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35119/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39792/ANY/0001.patch
@@ -77,5 +79,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33740/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33741/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33742/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33744/4.9/0004.patch
-editKernelLocalversion "-dos.p77"
+editKernelLocalversion "-dos.p79"
 cd "$DOS_BUILD_BASE"

@@ -219,6 +219,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/3.4/0072.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/3.4/0073.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0043.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1353/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1652/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1836/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20141/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-22064/prima/0005.patch --directory=drivers/staging/prima
@@ -228,5 +229,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-24958/3.4/0018.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25258/3.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25375/3.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/4.4/0008.patch
-editKernelLocalversion "-dos.p228"
+editKernelLocalversion "-dos.p229"
 cd "$DOS_BUILD_BASE"
