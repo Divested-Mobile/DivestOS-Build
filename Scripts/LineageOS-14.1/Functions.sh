@@ -121,6 +121,7 @@ patchWorkspace() {
 	repopick -it n-asb-2022-05;
 	repopick -it n-asb-2022-06;
 	repopick -it n-asb-2022-07;
+	repopick -i 334325; #Modify conditions for preventing updated system apps from being downgraded
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
