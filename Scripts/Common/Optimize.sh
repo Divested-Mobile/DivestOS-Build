@@ -23,6 +23,15 @@ source "$DOS_SCRIPTS_COMMON/Shell.sh";
 
 echo "Optimizing...";
 
+if [ "$DOS_GRAPHENE_MALLOC_MEMORY_EFFICIENT" = true ]; then
+if enter "external/hardened_malloc"; then
+#Taken from upstream's light variant
+sed -i 's/SLAB_QUARANTINE_RANDOM_LENGTH=1/SLAB_QUARANTINE_RANDOM_LENGTH=0/' Android.bp;
+sed -i 's/SLAB_QUARANTINE_QUEUE_LENGTH=1/SLAB_QUARANTINE_QUEUE_LENGTH=0/' Android.bp;
+sed -i 's/GUARD_SLABS_INTERVAL=1/GUARD_SLABS_INTERVAL=8/' Android.bp;
+fi;
+fi;
+
 if enter "frameworks/base"; then
 sed -i 's/ScaleSetting = 1.0f;/ScaleSetting = 0.5f;/' services/java/com/android/server/wm/WindowManagerService.java &>/dev/null || true;
 sed -i 's/AnimationScale = 1.0f;/AnimationScale = 0.5f;/' services/java/com/android/server/wm/WindowManagerService.java &>/dev/null || true;

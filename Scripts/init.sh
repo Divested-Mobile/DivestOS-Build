@@ -61,6 +61,7 @@ export DOS_GPS_GLONASS_FORCED=false; #Enables GLONASS on all devices
 export DOS_GRAPHENE_BIONIC=true; #Enables the bionic hardening patchset on 16.0+17.1+18.1+19.1
 export DOS_GRAPHENE_CONSTIFY=true; #Enables 'Constify JNINativeMethod tables' patchset on 16.0+17.1+18.1+19.1
 export DOS_GRAPHENE_MALLOC=true; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms on 16.0+17.1+18.1+19.1
+export DOS_GRAPHENE_MALLOC_MEMORY_EFFICIENT=true; #Disables slab quarantines and raises the guard slab interval from 1 to 8 to reduce memory usage at cost of reduced hardening
 export DOS_GRAPHENE_EXEC=true; #Enables use of GrapheneOS' exec spawning feature on 16.0+17.1+18.1+19.1
 export DOS_HOSTS_BLOCKING=true; #Set false to prevent inclusion of a HOSTS file
 export DOS_HOSTS_BLOCKING_LIST="https://divested.dev/hosts-wildcards"; #Must be in the format "127.0.0.1 bad.domain.tld"
