@@ -23,12 +23,6 @@ source "$DOS_SCRIPTS_COMMON/Shell.sh";
 
 echo "Optimizing...";
 
-if [ "$DOS_GRAPHENE_MALLOC_MEMORY_EFFICIENT" = true ]; then
-if enter "external/hardened_malloc"; then
-sed -i 's/CONFIG_EXTENDED_SIZE_CLASSES=true/CONFIG_EXTENDED_SIZE_CLASSES=false/' Android.bp;
-fi;
-fi;
-
 if enter "frameworks/base"; then
 sed -i 's/ScaleSetting = 1.0f;/ScaleSetting = 0.5f;/' services/java/com/android/server/wm/WindowManagerService.java &>/dev/null || true;
 sed -i 's/AnimationScale = 1.0f;/AnimationScale = 0.5f;/' services/java/com/android/server/wm/WindowManagerService.java &>/dev/null || true;
