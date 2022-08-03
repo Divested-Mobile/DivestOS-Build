@@ -25,10 +25,7 @@ echo "Optimizing...";
 
 if [ "$DOS_GRAPHENE_MALLOC_MEMORY_EFFICIENT" = true ]; then
 if enter "external/hardened_malloc"; then
-#Taken from upstream's light variant
-sed -i 's/SLAB_QUARANTINE_RANDOM_LENGTH=1/SLAB_QUARANTINE_RANDOM_LENGTH=0/' Android.bp;
-sed -i 's/SLAB_QUARANTINE_QUEUE_LENGTH=1/SLAB_QUARANTINE_QUEUE_LENGTH=0/' Android.bp;
-sed -i 's/GUARD_SLABS_INTERVAL=1/GUARD_SLABS_INTERVAL=8/' Android.bp;
+sed -i 's/CONFIG_EXTENDED_SIZE_CLASSES=true/CONFIG_EXTENDED_SIZE_CLASSES=false/' Android.bp;
 fi;
 fi;
 
