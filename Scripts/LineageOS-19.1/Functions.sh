@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2022-04-04
 
 patchAllKernels() {
-	startPatcher "kernel_essential_msm8998 kernel_fxtec_msm8998 kernel_fairphone_sdm632 kernel_google_msm-4.9 kernel_google_msm-4.14 kernel_google_redbull kernel_google_wahoo kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_oneplus_sm8250 kernel_oneplus_sm8350 kernel_razer_msm8998 kernel_razer_sdm845 kernel_sony_sdm660 kernel_sony_sdm845 kernel_xiaomi_sdm845 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250";
+	startPatcher "kernel_essential_msm8998 kernel_fxtec_msm8998 kernel_fairphone_sdm632 kernel_fairphone_sm7225 kernel_google_msm-4.9 kernel_google_msm-4.14 kernel_google_redbull kernel_google_wahoo kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_oneplus_sm8250 kernel_oneplus_sm8350 kernel_razer_msm8998 kernel_razer_sdm845 kernel_sony_sdm660 kernel_sony_sdm845 kernel_xiaomi_sdm845 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250";
 }
 export -f patchAllKernels;
 
@@ -80,6 +80,8 @@ buildAll() {
 	buildDevice sunfish avb;
 	#SD632
 	buildDevice FP3 avb;
+	#SD750
+	buildDevice FP4 avb;
 	#SD855
 	buildDevice guacamole avb; #unb
 	buildDevice guacamoleb avb; #unb

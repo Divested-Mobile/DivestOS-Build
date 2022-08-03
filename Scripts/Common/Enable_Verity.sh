@@ -91,6 +91,7 @@ enableVerity "device/zuk/msm8996-common";
 enableVerity "device/zuk/z2_plus";
 
 enableAVB "device/fairphone/FP3";
+enableAVB "device/fairphone/FP4";
 enableAVB "device/fxtec/pro1";
 enableAVB "device/google/blueline";
 enableAVB "device/google/bonito";
@@ -176,6 +177,7 @@ sed -i 's/^\treturn VERITY_STATE_DISABLE;//' kernel/*/*/drivers/md/dm-android-ve
 #Ensure OEM unlocking toggle is always available
 sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/essential/mata/system.prop &>/dev/null || true;
 sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/fairphone/FP3/system.prop &>/dev/null || true;
+sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/fairphone/FP4/system.prop &>/dev/null || true;
 sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/fxtec/pro1/system.prop &>/dev/null || true;
 sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/google/bonito/vendor.prop &>/dev/null || true;
 sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/google/coral/vendor.prop &>/dev/null || true;

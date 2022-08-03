@@ -48,6 +48,7 @@ cat "$DOS_SIGNING_KEYS/fajita/verity.x509.pem" >> "kernel/oneplus/sdm845/certs/v
 cat "$DOS_SIGNING_KEYS/flame/verity.x509.pem" >> "kernel/google/coral/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/flounder/verity.x509.pem" >> "kernel/htc/flounder/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/FP3/verity.x509.pem" >> "kernel/fairphone/sdm632/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/FP4/verity.x509.pem" >> "kernel/fairphone/sm7225/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/griffin/verity.x509.pem" >> "kernel/motorola/msm8996/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/guacamoleb/verity.x509.pem" >> "kernel/oneplus/sm8150/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/guacamole/verity.x509.pem" >> "kernel/oneplus/sm8150/certs/verity.x509.pem";
@@ -110,6 +111,7 @@ cp -v "$DOS_SIGNING_KEYS/fajita/verifiedboot_relkeys.der.x509" "kernel/oneplus/s
 cp -v "$DOS_SIGNING_KEYS/flame/verifiedboot_relkeys.der.x509" "kernel/google/coral/verifiedboot_flame_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/flounder/verifiedboot_relkeys.der.x509" "kernel/htc/flounder/verifiedboot_flounder_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/FP3/verifiedboot_relkeys.der.x509" "kernel/fairphone/sdm632/verifiedboot_FP3_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/FP4/verifiedboot_relkeys.der.x509" "kernel/fairphone/sm7225/verifiedboot_FP4_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/griffin/verifiedboot_relkeys.der.x509" "kernel/motorola/msm8996/verifiedboot_griffin_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/guacamoleb/verifiedboot_relkeys.der.x509" "kernel/oneplus/sm8150/verifiedboot_guacamoleb_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/guacamole/verifiedboot_relkeys.der.x509" "kernel/oneplus/sm8150/verifiedboot_guacamole_dos_relkeys.der.x509";

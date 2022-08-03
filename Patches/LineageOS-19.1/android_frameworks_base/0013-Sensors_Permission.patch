@@ -33,7 +33,7 @@ index 8d0391a80193..57f4821bb631 100644
      field @Deprecated public static final String PERSISTENT_ACTIVITY = "android.permission.PERSISTENT_ACTIVITY";
      field @Deprecated public static final String PROCESS_OUTGOING_CALLS = "android.permission.PROCESS_OUTGOING_CALLS";
 diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android/content/pm/PackageParser.java
-index 86fef5d9df19..5edc8d35082e 100644
+index f92c2951fdef..8f5df4672dc0 100644
 --- a/core/java/android/content/pm/PackageParser.java
 +++ b/core/java/android/content/pm/PackageParser.java
 @@ -283,6 +283,8 @@ public class PackageParser {
