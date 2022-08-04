@@ -1,4 +1,4 @@
-#Last checked 2022/05/03
+#Last checked 2022/08/04
 CVE-2014-9028
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/fe03f73d86bb415f5d5145f0de091834d89ae3a9
 	Link - external/flac - https://android.googlesource.com/platform/external/flac/+/5859ae22db0a2d16af3e3ca19d582de37daf5eb6
@@ -2841,6 +2841,8 @@ CVE-2021-39693
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/f14e212d82b32053d151eedf97ac59a4b5b18369
 CVE-2021-39695
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b5efdf729385cc54f225496d3ba20f1cb5b68250
+CVE-2021-39696
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/6ae9525c7fd6d72834be28298d836d8f30c0120c
 CVE-2021-39697
 	Link - packages/providers/DownloadProvider - https://android.googlesource.com/platform/packages/providers/DownloadProvider/+/0dc5048914eb6a7f919c8749172b971cbb315870
 	Link - packages/providers/DownloadProvider - https://android.googlesource.com/platform/packages/providers/DownloadProvider/+/9ff84f6d353a7647efba91d74e31d17ba6b765b7
@@ -2883,5 +2885,108 @@ CVE-2021-39808
 	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/45b4a71f5cc366c338c1ceb217a602960fd31401
 CVE-2021-39809
 	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/2ed08261136fe59edd04af2b186bf0413aea108f
+CVE-2022-20006
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/563fdf4259d0e28fd960acbb63431e146707d11b
+CVE-2022-20123
+	Link - packages/apps/Nfc - https://android.googlesource.com/platform/packages/apps/Nfc/+/f0d86f7fe23499cd4c6631348618463fbc496436
+CVE-2022-20126
+	Link - packages/apps/Bluetooth - https://android.googlesource.com/platform/packages/apps/Bluetooth/+/e49e5dc377dd39c523c287b71c0831159e2cc6ae
+CVE-2022-20127
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/2fcf7d677bcebae5a00db43938460bcce267149e
+CVE-2022-20129
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/f0f67b5a319efedbf8693b436a641fa65bc2d8be
+	Link - packages/services/Telecomm - https://android.googlesource.com/platform/packages/services/Telecomm/+/eb3394e3a8e21cd07c4f7a7ad43494ba14a8cbf4
+CVE-2022-20130
+	Link - external/aac - https://android.googlesource.com/platform/external/aac/+/eb07c22519d94e573f2a02947094acd2219dc07a
+CVE-2022-20131
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/1c6ab25b3d76c2ced764dc649bec6cf05aecd198
+CVE-2022-20133
+	Link - packages/apps/Bluetooth - https://android.googlesource.com/platform/packages/apps/Bluetooth/+/cc22abc0643c66e5873cbd0d15cd128816a186cf
+CVE-2022-20134
+	Link - packages/apps/Contacts - https://android.googlesource.com/platform/packages/apps/Contacts/+/af44f5ac3f3fb660c6646d62c6da9b988d767b36
+	Link - packages/apps/Dialer - https://android.googlesource.com/platform/packages/apps/Dialer/+/380a088b2d03f239e37b23c051beadd7d0280dbf
+CVE-2022-20135
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/5d2176df6923a8984e2b81d8eb4b728f01f1c760
+CVE-2022-20137
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/4c4a1f58c16d05c96dafae1047b44fe6e6a9a8c0
+CVE-2022-20138
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/b519b549fdb029dcdb6a51de944897e04e114e5f
+	Link - packages/apps/ManagedProvisioning - https://android.googlesource.com/platform/packages/apps/ManagedProvisioning/+/1a7ef6ddd4c267323cd017c752d4da5392de0390
+CVE-2022-20140
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/7056e665e7d4782af9474b1645c59afbb2b76efd
+CVE-2022-20142
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/e20d8ae7104f3235c8a2d72c85d19644e2ac8d86
+CVE-2022-20143
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/c69747578155fc2b2b5a6d690b1e8263f281eb67
+CVE-2022-20144
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/bfb1cd5fd27c8d854336163540bb5b014ad504d1
+	Link - packages/apps/EmergencyInfo - https://android.googlesource.com/platform/packages/apps/EmergencyInfo/+/fac28abbe64a1c3e430414f35139988ef96edb7c
+CVE-2022-20147
+	Link - system/nfc - https://android.googlesource.com/platform/system/nfc/+/88c5c267e889699c71412022e3fcb03d20100e99
+CVE-2022-20219
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/2ba316f58e4429033caa495cbc22a0d66dd92d15
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/6ba336c0e280183a04ca45b217a7e89f8419d62b
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/0067ba2426506ec7516dcb18bec5f8a68c116fe9
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/16cf824d3a3dab638698ffaa995621ae18cfcf4e
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/187187a31441e44c29d13c1a04c932abc420b709
+CVE-2022-20220
+	Link - packages/providers/ContactsProvider - https://android.googlesource.com/platform/packages/providers/ContactsProvider/+/0aba93d7d0a92a277f540fec7d5b04b2850fa184
+CVE-2022-20221
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/9e39fc68e82739dbd9f7403de244959ac7d54d2d
+CVE-2022-20222
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/a47b8c7e985fb5aa253c5b1367a631c9c028b4aa
+CVE-2022-20223
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/abadb382114fa8af5209295c9bae2ca2b08935f3
+CVE-2022-20224
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/7c21b56b7880579965e95cf24c2ab49326a3f2b9
+CVE-2022-20225
+	Link - frameworks/opt/telephony - https://android.googlesource.com/platform/frameworks/opt/telephony/+/37d1a266646b4fedda3bcab73eb1c1f01285c4be
+CVE-2022-20226
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/1ff38ab351a617c4870eec236b70932ff2c4473b
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/20303e05bf73796124ab70a279cf849b61b97905
+CVE-2022-20228
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/a12f8a065c081b7aa2d7aaa1df79498c282c53d2
+CVE-2022-20229
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/a0c22fb6770dd8c70f45bed9070d4fb2c83d5289
+CVE-2022-20230
+	Link - packages/apps/KeyChain - https://android.googlesource.com/platform/packages/apps/KeyChain/+/2184df9eef9ad67630d3540cb97e70ec61e8f65c
+CVE-2022-20344
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/a49c413aee3f89aa68963f67fb144355608e12c6
+CVE-2022-20345
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/e0dd01b536919d5407968eae341b72fa10ec0b7d
+CVE-2022-20346
+	Link - frameworks/av - https://android.googlesource.com/platform/frameworks/av/+/3b933840bc3839b8f99b2689257e365ec2d134db
+CVE-2022-20347
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/01b6a6222e5e8cf59e317f4f52df71308bfb8bc5
+CVE-2022-20348
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/ba075274a7acc99bb15e3c3306b2768356aa0459
+CVE-2022-20349
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/ba075274a7acc99bb15e3c3306b2768356aa0459
+CVE-2022-20350
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/9d7b4f0fa2100721a5dc00e8fdd1be712b9bbbea
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/acc83ab08d46755512ceb38d7fc521b2491d6bfb
+CVE-2022-20352
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/f796ac71c3c583139d7cfe8cc70fd1f2f4e251a0
+CVE-2022-20353
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/a9da6b809944018ef4c1a8eaecdec9cdecf47e15
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/1de10d24aa8d6a54b991299091877b18ee696d73
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/9bd1402e5aa758f2843154f395b5a5dfa91c1dca
+CVE-2022-20354
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/90fece0bec5e4d5c04c422d09c2122ac0b894da5
+CVE-2022-20355
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/d8f82ebc74c75baeda86f132ddb2096a894ec199
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/d8f82ebc74c75baeda86f132ddb2096a894ec199
+CVE-2022-20356
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/05cd832c241a543feb3a833e75b56c6f253b05e9
+CVE-2022-20357
+	Link - frameworks/native - https://android.googlesource.com/platform/frameworks/native/+/06ea6b381117a4f49c2854bb54efb099b7295276
+CVE-2022-20358
+	Link - frameworks/base - https://android.googlesource.com/platform/frameworks/base/+/e86156084bcf92b6160577f48b5b2dd584349e2e
+CVE-2022-20360
+	Link - packages/apps/Settings - https://android.googlesource.com/platform/packages/apps/Settings/+/645407c8e603337aee6882fc49c44f49bc5707a6
+CVE-2022-20361
+	Link - system/bt - https://android.googlesource.com/platform/system/bt/+/6ad3f69b2199d953647e1053e8de2a8c26f1b8d6
+CVE-2022-22096
+	Link - system/bt - https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/system/bt/commit/?id=471f78b3129cc66d667e1b7a3f0b2059e19f05a5
 CVE-0000-0000
 #The above line must be the last line
