@@ -74,7 +74,7 @@
     <integer name="config_multiuserMaximumUsers">16</integer>
 
     <!-- Remote server that can provide NTP responses. -->
-    <string translatable="false" name="config_ntpServer">1.android.pool.ntp.org</string>
+    <string translatable="false" name="config_ntpServer">2.android.pool.ntp.org</string>
 
     <!-- The default journal mode to use use when Write-Ahead Logging is not active.
          Choices are: OFF, DELETE, TRUNCATE, PERSIST and MEMORY.
