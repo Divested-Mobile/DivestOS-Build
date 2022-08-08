@@ -88,7 +88,7 @@ patchWorkspace() {
 
 	#source build/envsetup.sh;
 	#TODO: pull in P_asb_2022-07, and recheck n-asb-2022-07
-	#TODO: pull in n-asb-2022-08
+	#TODO: pull in P_asb_2022-08 and n-asb-2022-08
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
