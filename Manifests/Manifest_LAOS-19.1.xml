@@ -75,8 +75,8 @@
 	<project path="kernel/fairphone/sdm632" name="LineageOS/android_kernel_fairphone_sdm632" remote="github" />
 
 	<!-- Fairphone 4 (FP4) -->
-	<project path="device/fairphone/FP4" name="WeAreFairphone/android_device_fairphone_FP4" remote="github" revision="staging/lineage-19.1" />
-	<project path="kernel/fairphone/sm7225" name="WeAreFairphone/android_kernel_fairphone_sm7225" remote="github" revision="staging/lineage-19.1" />
+	<project path="device/fairphone/FP4" name="LineageOS/android_device_fairphone_FP4" remote="github" />
+	<project path="kernel/fairphone/sm7225" name="LineageOS/android_kernel_fairphone_sm7225" remote="github" />
 
 	<!-- Google Pixel 2 (taimen/walleye) -->
 	<project path="device/google/taimen" name="LineageOS/android_device_google_taimen" remote="github" />

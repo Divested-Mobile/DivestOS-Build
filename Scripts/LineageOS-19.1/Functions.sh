@@ -81,7 +81,7 @@ buildAll() {
 	#SD632
 	buildDevice FP3 avb;
 	#SD750
-	buildDevice FP4 avb;
+	buildDevice FP4 avb; #unb
 	#SD855
 	buildDevice guacamole avb; #unb
 	buildDevice guacamoleb avb; #unb
@@ -89,7 +89,7 @@ buildAll() {
 	buildDevice hotdogb avb; #unb
 	buildDevice coral avb;
 	buildDevice flame avb;
-	buildDevice vayu avb; #unb
+	buildDevice vayu avb;
 	#SD865
 	buildDevice instantnoodle avb; #unb
 	buildDevice instantnoodlep avb; #unb
@@ -118,6 +118,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -it S_asb_2022-08;
+	repopick -i 335090 335091; #FP4 Bluetooth fixes
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

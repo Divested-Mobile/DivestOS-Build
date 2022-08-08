@@ -41,7 +41,7 @@ index d7cc36ff4ae2..72e6362c0a96 100644
           * Control whether to enable adaptive sleep mode.
           * @hide
 diff --git a/packages/SystemUI/src/com/android/systemui/theme/ThemeOverlayController.java b/packages/SystemUI/src/com/android/systemui/theme/ThemeOverlayController.java
-index 02632cb3fc17..ea97abd4c423 100644
+index b732ef6b873a..d500270464c3 100644
 --- a/packages/SystemUI/src/com/android/systemui/theme/ThemeOverlayController.java
 +++ b/packages/SystemUI/src/com/android/systemui/theme/ThemeOverlayController.java
 @@ -117,7 +117,6 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
@@ -89,7 +89,7 @@ index 02632cb3fc17..ea97abd4c423 100644
          mConfigurationController = configurationController;
          mDeviceProvisionedController = deviceProvisionedController;
          mBroadcastDispatcher = broadcastDispatcher;
-@@ -441,10 +452,6 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
+@@ -468,10 +479,6 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
                  },
                  UserHandle.USER_ALL);
  
@@ -100,7 +100,7 @@ index 02632cb3fc17..ea97abd4c423 100644
          mUserTracker.addCallback(mUserTrackerCallback, mMainExecutor);
  
          mConfigurationController.addCallback(mConfigurationListener);
-@@ -452,8 +459,8 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
+@@ -479,8 +486,8 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
  
          // Upon boot, make sure we have the most up to date colors
          Runnable updateColors = () -> {
@@ -111,7 +111,7 @@ index 02632cb3fc17..ea97abd4c423 100644
              Runnable applyColors = () -> {
                  if (DEBUG) Log.d(TAG, "Boot colors: " + systemColor);
                  mCurrentColors.put(mUserTracker.getUserId(), systemColor);
-@@ -479,7 +486,7 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
+@@ -506,7 +513,7 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
              @Override
              public void onFinishedGoingToSleep() {
                  final int userId = mUserTracker.getUserId();
@@ -120,7 +120,7 @@ index 02632cb3fc17..ea97abd4c423 100644
                  if (colors != null) {
                      int flags = mDeferredWallpaperColorsFlags.get(userId);
  
-@@ -490,10 +497,27 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
+@@ -517,10 +524,27 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
                  }
              }
          });
@@ -149,7 +149,7 @@ index 02632cb3fc17..ea97abd4c423 100644
          final int mainColor;
          final int accentCandidate;
          if (currentColors == null) {
-@@ -512,14 +536,12 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
+@@ -539,14 +563,12 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
          mMainWallpaperColor = mainColor;
          mWallpaperAccentColor = accentCandidate;
  
@@ -170,7 +170,7 @@ index 02632cb3fc17..ea97abd4c423 100644
          }
  
          updateThemeOverlays();
-@@ -593,7 +615,7 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
+@@ -620,7 +642,7 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
  
          // Let's generate system overlay if the style picker decided to override it.
          OverlayIdentifier systemPalette = categoryToPackage.get(OVERLAY_CATEGORY_SYSTEM_PALETTE);
@@ -179,7 +179,7 @@ index 02632cb3fc17..ea97abd4c423 100644
              try {
                  String colorString =  systemPalette.getPackageName().toLowerCase();
                  if (!colorString.startsWith("#")) {
-@@ -607,20 +629,11 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
+@@ -634,20 +656,11 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
                  // Color.parseColor doesn't catch any exceptions from the calls it makes
                  Log.w(TAG, "Invalid color definition: " + systemPalette.getPackageName(), e);
              }
@@ -201,7 +201,7 @@ index 02632cb3fc17..ea97abd4c423 100644
              try {
                  String colorString =  accentPalette.getPackageName().toLowerCase();
                  if (!colorString.startsWith("#")) {
-@@ -634,7 +647,7 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
+@@ -661,7 +674,7 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
                  // Color.parseColor doesn't catch any exceptions from the calls it makes
                  Log.w(TAG, "Invalid color definition: " + accentPalette.getPackageName(), e);
              }
@@ -210,7 +210,7 @@ index 02632cb3fc17..ea97abd4c423 100644
              try {
                  Integer.parseInt(accentPalette.getPackageName().toLowerCase(), 16);
                  categoryToPackage.remove(OVERLAY_CATEGORY_ACCENT_COLOR);
-@@ -692,7 +705,6 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
+@@ -719,7 +732,6 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
          pw.println("mWallpaperAccentColor=" + Integer.toHexString(mWallpaperAccentColor));
          pw.println("mSecondaryOverlay=" + mSecondaryOverlay);
          pw.println("mNeutralOverlay=" + mNeutralOverlay);

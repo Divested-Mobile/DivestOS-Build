@@ -76,10 +76,10 @@ index a3ee437..c4532c5 100644
           The array should be sorted in the same order as the
           touchscreen gestures advertised by the device's LineageHW impl. -->
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 9d88587..7ce522a 100644
+index 02a5316..a806a7c 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -532,28 +532,6 @@
+@@ -533,28 +533,6 @@
                   <b>Total commits:</b> <xliff:g id="total_commits">%2$s</xliff:g><br/><br/>
                   <b>Last update:</b> <xliff:g id="date">%3$s</xliff:g>]]></string>
  
