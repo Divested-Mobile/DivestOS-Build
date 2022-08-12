@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ayush Sharma <ayushsha@google.com>
+Date: Wed, 16 Mar 2022 10:32:23 +0000
+Subject: [PATCH] Fix security hole in GateKeeperResponse
+
+GateKeeperResponse has inconsistent writeToParcel() and
+createFromParcel() methods, making it possible for a malicious app to
+create a Bundle that changes contents after reserialization. Such
+Bundles can be used to execute Intents with system privileges.
+
+We fixed related issues previously for GateKeeperResponse class, but
+one of the case was remaining when payload is byte array of size 0,
+Fixing this case now.
+
+Bug: 220303465
+Test: With the POC provided in the bug.
+Change-Id: Ida28d611edd674e76ed39dd8037f52abcba82586
+Merged-In: Ida28d611edd674e76ed39dd8037f52abcba82586
+
+(cherry picked from commit 46653a91c30245ca29d41d69174813979a910496)
+
+Change-Id: I486348c7a01c6f59c952b20fb4a36429fff22958
+(cherry picked from commit 658c53c47c0d1b6a74d3c0a72372aaaba16c2516)
+Merged-In: I486348c7a01c6f59c952b20fb4a36429fff22958
+---
+ core/java/android/service/gatekeeper/GateKeeperResponse.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/java/android/service/gatekeeper/GateKeeperResponse.java b/core/java/android/service/gatekeeper/GateKeeperResponse.java
+index 9b529345851b..4502c0ef2898 100644
+--- a/core/java/android/service/gatekeeper/GateKeeperResponse.java
++++ b/core/java/android/service/gatekeeper/GateKeeperResponse.java
+@@ -103,7 +103,7 @@ public final class GateKeeperResponse implements Parcelable {
+             dest.writeInt(mTimeout);
+         } else if (mResponseCode == RESPONSE_OK) {
+             dest.writeInt(mShouldReEnroll ? 1 : 0);
+-            if (mPayload != null) {
++            if (mPayload != null && mPayload.length > 0) {
+                 dest.writeInt(mPayload.length);
+                 dest.writeByteArray(mPayload);
+             } else {

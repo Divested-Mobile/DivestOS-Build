@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: David Christie <dnchrist@google.com>
+Date: Fri, 11 Mar 2022 01:13:31 +0000
+Subject: [PATCH] Update GeofenceHardwareRequestParcelable to match
+ parcel/unparcel format.
+
+Test: manual
+Bug: 216631962
+
+Change-Id: I3d6d1be9d6c312fe0bf98f600ff8fc9c617f8ec3
+(cherry picked from commit 3e1ffdb29417f4fb994587a013fa56c83e157f6f)
+Merged-In: I3d6d1be9d6c312fe0bf98f600ff8fc9c617f8ec3
+---
+ .../location/GeofenceHardwareRequestParcelable.java      | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/core/java/android/hardware/location/GeofenceHardwareRequestParcelable.java b/core/java/android/hardware/location/GeofenceHardwareRequestParcelable.java
+index d3311f5c8c5e..fc27d1de6372 100644
+--- a/core/java/android/hardware/location/GeofenceHardwareRequestParcelable.java
++++ b/core/java/android/hardware/location/GeofenceHardwareRequestParcelable.java
+@@ -16,9 +16,9 @@
+ 
+ package android.hardware.location;
+ 
++import android.os.BadParcelableException;
+ import android.os.Parcel;
+ import android.os.Parcelable;
+-import android.util.Log;
+ 
+ /**
+  * Geofence Hardware Request used for internal location services communication.
+@@ -139,11 +139,8 @@ public final class GeofenceHardwareRequestParcelable implements Parcelable {
+         @Override
+         public GeofenceHardwareRequestParcelable createFromParcel(Parcel parcel) {
+             int geofenceType = parcel.readInt();
+-            if(geofenceType != GeofenceHardwareRequest.GEOFENCE_TYPE_CIRCLE) {
+-                Log.e(
+-                        "GeofenceHardwareRequest",
+-                        String.format("Invalid Geofence type: %d", geofenceType));
+-                return null;
++            if (geofenceType != GeofenceHardwareRequest.GEOFENCE_TYPE_CIRCLE) {
++                throw new BadParcelableException("Invalid Geofence type: " + geofenceType);
+             }
+ 
+             GeofenceHardwareRequest request = GeofenceHardwareRequest.createCircularGeofence(

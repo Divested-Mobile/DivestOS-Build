@@ -12,10 +12,10 @@ Change-Id: I36cbd7ce1a070201da24dc237154355e780d01b4
  create mode 100644 overlay/packages/services/Telephony/res/values/config.xml
 
 diff --git a/overlay/frameworks/base/core/res/res/values/config.xml b/overlay/frameworks/base/core/res/res/values/config.xml
-index 560ab27..63a5014 100644
+index 35452d5..0b0b09a 100644
 --- a/overlay/frameworks/base/core/res/res/values/config.xml
 +++ b/overlay/frameworks/base/core/res/res/values/config.xml
-@@ -178,7 +178,7 @@
+@@ -168,7 +168,7 @@
           Empty is viewed as "all".  Only used on devices which
           don't support RIL_REQUEST_GET_RADIO_CAPABILITY
           format is UMTS|LTE|... -->
@@ -53,10 +53,10 @@ index 0000000..53c62dd
 +
 +</resources>
 diff --git a/system_prop.mk b/system_prop.mk
-index 547da5f..e240393 100644
+index 716e920..984f25d 100644
 --- a/system_prop.mk
 +++ b/system_prop.mk
-@@ -47,7 +47,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
+@@ -45,7 +45,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
  # RIL
  PRODUCT_PROPERTY_OVERRIDES += \
      rild.libpath=/vendor/lib/libril-qc-qmi-1.so \

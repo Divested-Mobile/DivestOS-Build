@@ -1,0 +1,79 @@
+From fef5461b2b30113364e7c6336de0ddebf7889156 Mon Sep 17 00:00:00 2001
+From: Alex Johnston <acjohnston@google.com>
+Date: Wed, 5 Jan 2022 22:19:29 +0000
+Subject: [PATCH] Add caller check to com.android.credentials.RESET [Backport]
+
+* Only the Settings app can reset credentials
+  via com.android.credentials.RESET.
+* com.android.credentials.INSTALL should still be
+  callable by CertInstaller.
+
+Manual testing steps:
+* Install certificate via Settings
+* Verify unable to reset certificates via test app
+  provided in the bug (app-debug.apk)
+* Verify able to reset certificates via Settings
+* Verify com.android.credentials.INSTALL isn't changed
+
+Bug: 200164168
+Test: manual
+
+Change-Id: I9dfde586616d004befbee529f2ae842d22795065
+(cherry picked from commit 4c1272a921bb9037e17a01e1e5a0692f7f704c3d)
+Merged-In: I9dfde586616d004befbee529f2ae842d22795065
+(cherry picked from commit 35e3d0c1b0598b2032fc6c134c657255f1907594)
+Merged-In: I9dfde586616d004befbee529f2ae842d22795065
+---
+ .../android/settings/CredentialStorage.java    | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/settings/CredentialStorage.java b/src/com/android/settings/CredentialStorage.java
+index eed380bae4f..1c82bff713f 100644
+--- a/src/com/android/settings/CredentialStorage.java
++++ b/src/com/android/settings/CredentialStorage.java
+@@ -17,6 +17,7 @@
+ package com.android.settings;
+ 
+ import android.app.Activity;
++import android.app.ActivityManagerNative;
+ import android.app.AlertDialog;
+ import android.app.admin.DevicePolicyManager;
+ import android.content.Context;
+@@ -27,6 +28,7 @@
+ import android.content.res.Resources;
+ import android.os.AsyncTask;
+ import android.os.Bundle;
++import android.os.IBinder;
+ import android.os.Process;
+ import android.os.RemoteException;
+ import android.os.UserHandle;
+@@ -128,7 +130,7 @@ protected void onResume() {
+         String action = intent.getAction();
+         UserManager userManager = (UserManager) getSystemService(Context.USER_SERVICE);
+         if (!userManager.hasUserRestriction(UserManager.DISALLOW_CONFIG_CREDENTIALS)) {
+-            if (ACTION_RESET.equals(action)) {
++            if (ACTION_RESET.equals(action) && checkCallerIsSelf()) {
+                 new ResetDialog();
+             } else {
+                 if (ACTION_INSTALL.equals(action) && checkCallerIsCertInstallerOrSelfInProfile()) {
+@@ -405,6 +407,20 @@ private ConfigureKeyGuardDialog() {
+         }
+     }
+ 
++    /**
++     * Check that the caller is Settings.
++     */
++    private boolean checkCallerIsSelf() {
++        try {
++            IBinder activityToken = getActivityToken();
++            return Process.myUid() == ActivityManagerNative.getDefault()
++                    .getLaunchedFromUid(activityToken);
++        } catch (RemoteException re) {
++            // Error talking to ActivityManager, just give up
++            return false;
++        }
++    }
++
+     /**
+      * Check that the caller is either certinstaller or Settings running in a profile of this user.
+      */

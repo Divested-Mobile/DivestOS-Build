@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Julia Reynolds <juliacr@google.com>
+Date: Tue, 1 Mar 2022 10:30:27 -0500
+Subject: [PATCH] DO NOT MERGE Add an OEM configurable limit for zen rules
+
+Test: ZenModeHelperTest
+Bug: 220735360
+Change-Id: I3da105951af90007bf48dc6cf00aed3e28778b36
+Merged-In: I3da105951af90007bf48dc6cf00aed3e28778b36
+(cherry picked from commit 3072d98c2dc2b709bd8ffc343c101557a53dd188)
+Merged-In: I3da105951af90007bf48dc6cf00aed3e28778b36
+---
+ .../com/android/server/notification/ZenModeHelper.java     | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/notification/ZenModeHelper.java b/services/core/java/com/android/server/notification/ZenModeHelper.java
+index ffdafc562673..6b72ae63c463 100644
+--- a/services/core/java/com/android/server/notification/ZenModeHelper.java
++++ b/services/core/java/com/android/server/notification/ZenModeHelper.java
+@@ -83,6 +83,7 @@ public class ZenModeHelper {
+ 
+     // The amount of time rules instances can exist without their owning app being installed.
+     private static final int RULE_INSTANCE_GRACE_PERIOD = 1000 * 60 * 60 * 72;
++    static final int RULE_LIMIT_PER_PACKAGE = 100;
+ 
+     private final Context mContext;
+     private final H mHandler;
+@@ -305,8 +306,10 @@ public class ZenModeHelper {
+                 ruleInstanceLimit = owner.metaData.getInt(
+                         ConditionProviderService.META_DATA_RULE_INSTANCE_LIMIT, -1);
+             }
+-            if (ruleInstanceLimit > 0 && ruleInstanceLimit
+-                    < (getCurrentInstanceCount(automaticZenRule.getOwner()) + 1)) {
++            int newRuleInstanceCount = getCurrentInstanceCount(automaticZenRule.getOwner())
++                    + 1;
++            if (newRuleInstanceCount > RULE_LIMIT_PER_PACKAGE
++                    || (ruleInstanceLimit > 0 && ruleInstanceLimit < newRuleInstanceCount)) {
+                 throw new IllegalArgumentException("Rule instance limit exceeded");
+             }
+         }
