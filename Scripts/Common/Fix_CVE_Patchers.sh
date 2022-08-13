@@ -35,7 +35,7 @@ commentPatches() {
 #	0006-AndroidHardening-Kernel_Hardening/3.10/0009.patch
 #	CVE-2017-13218/4.4/0025.patch
 
-commentPatches android_kernel_amazon_hdx-common.sh "CVE-2021-Misc2/3.4/0055.patch" "CVE-2021-Misc2/3.4/0056.patch";
+commentPatches android_kernel_amazon_hdx-common.sh "CVE-2019-14070/3.4/0008.patch" "CVE-2021-Misc2/3.4/0055.patch" "CVE-2021-Misc2/3.4/0056.patch";
 commentPatches android_kernel_asus_fugu.sh "CVE-2014-2568" "CVE-2014-8559" "CVE-2015-8746" "CVE-2017-5551" "LVT-2017-0003/3.10/0001.patch";
 commentPatches android_kernel_asus_grouper.sh "CVE-2017-15868" "CVE-2021-Misc2/3.4/0055.patch" "CVE-2021-Misc2/3.4/0056.patch";
 commentPatches android_kernel_asus_msm8916.sh "CVE-2018-13913/ANY/0001.patch";
