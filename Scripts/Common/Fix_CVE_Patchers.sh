@@ -41,7 +41,7 @@ commentPatches android_kernel_asus_grouper.sh "CVE-2017-15868" "CVE-2021-Misc2/3
 commentPatches android_kernel_asus_msm8916.sh "CVE-2018-13913/ANY/0001.patch";
 commentPatches android_kernel_asus_msm8953.sh "CVE-2017-13162/3.18/0001.patch";
 commentPatches android_kernel_cyanogen_msm8916.sh "CVE-2018-13913/ANY/0001.patch" "CVE-2018-5897" "CVE-2018-9514" "CVE-2018-11266";
-commentPatches android_kernel_cyanogen_msm8974.sh "CVE-2017-7373";
+commentPatches android_kernel_cyanogen_msm8974.sh "CVE-2017-7373" "CVE-2019-14070/3.4/0008.patch";
 commentPatches android_kernel_essential_msm8998.sh "0008-Graphene-Kernel_Hardening/4.4/0019.patch" "CVE-2017-13218" "CVE-2019-14047/ANY/0002.patch";
 commentPatches android_kernel_fairphone_msm8974.sh "CVE-2018-20169";
 commentPatches android_kernel_fairphone_sdm632.sh "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992" "CVE-2021-3347" "CVE-2021-20322";
