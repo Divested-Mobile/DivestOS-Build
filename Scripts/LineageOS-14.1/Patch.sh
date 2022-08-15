@@ -207,6 +207,7 @@ if enterAndClear "packages/apps/CMParts"; then
 rm -rf src/org/cyanogenmod/cmparts/cmstats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of CMStats
 applyPatch "$DOS_PATCHES/android_packages_apps_CMParts/0001-Remove_Analytics.patch"; #Remove the rest of CMStats (DivestOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_CMParts/0002-Reduced_Resolution.patch"; #Allow reducing resolution to save power (DivestOS)
+cp -f "$DOS_PATCHES_COMMON/contributors.db" assets/contributors.db; #Update contributors cloud
 fi;
 
 if enterAndClear "packages/apps/PackageInstaller"; then

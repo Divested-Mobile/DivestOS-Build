@@ -14,6 +14,9 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
+umask 0022;
+set -uo pipefail;
+source "$DOS_SCRIPTS_COMMON/Shell.sh";
 
 #grep "verity\.mk" Build/*/device/*/*/*.mk -l
 VERITY_DEVICES=('Amber' 'angler' 'bullhead' 'cheeseburger' 'cheryl' 'dragon' 'dumpling' 'flounder' 'marlin' 'mata' 'oneplus3' 'sailfish' 'shamu' 'z2_plus');

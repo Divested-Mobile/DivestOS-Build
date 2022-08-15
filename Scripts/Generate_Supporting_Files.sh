@@ -15,6 +15,8 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #source build/envsetup.sh && breakfast lineage_clark-user && make -j20 otatools;
+umask 0022;
+set -uo pipefail;
 
 export repoDir="/mnt/backup-1/DOS/Builds/Supporting_Files/";
 mkdir -p $repoDir;

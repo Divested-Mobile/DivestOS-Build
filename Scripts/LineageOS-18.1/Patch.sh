@@ -283,6 +283,7 @@ fi;
 if enterAndClear "packages/apps/LineageParts"; then
 rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of the analytics
 applyPatch "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytics.patch"; #Remove analytics (DivestOS)
+cp -f "$DOS_PATCHES_COMMON/contributors.db" assets/contributors.db; #Update contributors cloud
 fi;
 
 if enterAndClear "packages/apps/Nfc"; then

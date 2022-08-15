@@ -13,6 +13,8 @@
 #
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
+umask 0022;
+set -uo pipefail;
 
 export version="104.0.5112.69-1";
 export PATH=$PATH:$HOME/Android/Sdk/build-tools/28.0.3;
