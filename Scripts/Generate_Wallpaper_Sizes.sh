@@ -16,7 +16,6 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 umask 0022;
 set -uo pipefail;
-source "$DOS_SCRIPTS_COMMON/Shell.sh";
 
 mkdir drawable-nodpi drawable-hdpi drawable-xhdpi drawable-xxhdpi drawable-xxxhdpi drawable-sw600dp-nodpi drawable-sw720dp-nodpi;
 
