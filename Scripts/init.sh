@@ -111,12 +111,12 @@ export DOS_THEME_700="E64A19"; #Deep Orange 700
 umask 0022;
 
 gpgVerifyGitHead() {
-	if [ -r "$HOME/.gnupg" ]; then
-		if git -C $1 verify-commit HEAD; then
+	if [ -r "$DOS_TMP_GNUPG/pubring.kbx" ]; then
+		if git -C "$1" verify-commit HEAD &>/dev/null; then
 			echo -e "\e[0;32mGPG Verified Git HEAD Successfully: $1\e[0m";
 		else
 			echo -e "\e[0;31mWARNING: GPG Verification of Git HEAD Failed: $1\e[0m";
-			sleep 60;
+			#sleep 60;
 		fi;
 		#git -C $1 log --show-signature -1;
 	else
@@ -143,6 +143,12 @@ fi;
 export DOS_TMP_DIR="/tmp/dos_tmp";
 mkdir -p "$DOS_TMP_DIR";
 export DOS_HOSTS_FILE="$DOS_TMP_DIR/hosts";
+export DOS_TMP_GNUPG="$DOS_TMP_DIR/gnupg-$RANDOM";
+mkdir -p "$DOS_TMP_GNUPG";
+export GNUPGHOME="$DOS_TMP_GNUPG";
+chmod 700 "$DOS_TMP_GNUPG";
+export DOS_VERIFICATION_KEYRING=$DOS_WORKSPACE_ROOT"Misc/pubring.kbx";
+cp "$DOS_VERIFICATION_KEYRING" "$DOS_TMP_GNUPG/";
 
 export DOS_PREBUILT_APPS=$DOS_WORKSPACE_ROOT"PrebuiltApps/";
 export DOS_PATCHES_COMMON=$DOS_WORKSPACE_ROOT"Patches/Common/";
@@ -172,10 +178,10 @@ export LC_ALL=C;
 export LANG=en_US.UTF-8;
 
 #START OF VERIFICATION
-#gpgVerifyGitHead $DOS_WORKSPACE_ROOT;
-#gpgVerifyGitHead $DOS_PREBUILT_APPS;
-#gpgVerifyGitHead $DOS_PATCHES_LINUX_CVES;
-#gpgVerifyGitHead $DOS_WALLPAPERS;
+gpgVerifyGitHead $DOS_WORKSPACE_ROOT;
+gpgVerifyGitHead $DOS_PREBUILT_APPS;
+gpgVerifyGitHead $DOS_PATCHES_LINUX_CVES;
+gpgVerifyGitHead $DOS_WALLPAPERS;
 #END OF VERIFICATION
 
 source "$DOS_SCRIPTS_COMMON/Shell.sh";

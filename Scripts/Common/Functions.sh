@@ -89,9 +89,9 @@ applyPatch() {
 export -f applyPatch;
 
 gpgVerifyDirectory() {
-	if [ -r "$HOME/.gnupg" ]; then
+	if [ -r "$DOS_TMP_GNUPG/pubring.kbx" ]; then
 		for sig in $1/*.asc; do
-			if gpg --verify $sig &>/dev/null; then
+			if gpg --homedir "$DOS_TMP_GNUPG" --verify $sig &>/dev/null; then
 				echo -e "\e[0;32mGPG Verified Successfully: $sig\e[0m";
 			else
 				echo -e "\e[0;31mWARNING: GPG Verification Failed: $sig\e[0m";
@@ -99,7 +99,7 @@ gpgVerifyDirectory() {
 			fi;
 		done;
 	else
-		echo -e "\e[0;33mWARNING: ~/.gnupg is unavailable, GPG verification of $1 will not be performed!\e[0m";
+		echo -e "\e[0;33mWARNING: keyring is unavailable, GPG verification of $1 will not be performed!\e[0m";
 	fi;
 }
 export -f gpgVerifyDirectory;
