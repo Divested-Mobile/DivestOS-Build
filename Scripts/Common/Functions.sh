@@ -772,8 +772,12 @@ hardenDefconfig() {
 
 	#Enable supported options
 	#Linux <3.0
-	declare -a optionsYes=("BUG" "DEBUG_CREDENTIALS" "DEBUG_KERNEL" "DEBUG_LIST" "DEBUG_NOTIFIERS" "DEBUG_RODATA" "DEBUG_SET_MODULE_RONX" "DEBUG_VIRTUAL" "IPV6_PRIVACY" "SECCOMP" "SECURITY" "SECURITY_DMESG_RESTRICT" "STRICT_DEVMEM" "SYN_COOKIES");
+	declare -a optionsYes=("BUG" "DEBUG_CREDENTIALS" "DEBUG_KERNEL" "DEBUG_LIST" "DEBUG_RODATA" "DEBUG_SET_MODULE_RONX" "DEBUG_VIRTUAL" "IPV6_PRIVACY" "SECCOMP" "SECURITY" "SECURITY_DMESG_RESTRICT" "STRICT_DEVMEM" "SYN_COOKIES");
 	#optionsYes+=("DEBUG_SG"); #bootloops - https://patchwork.kernel.org/patch/8989981
+
+	if [[ $kernelVersion == "3."* ]] || [[ $kernelVersion == "4.4"* ]] || [[ $kernelVersion == "4.9"* ]]; then
+		optionsYes+=("DEBUG_NOTIFIERS"); #(https://github.com/GrapheneOS/os-issue-tracker/issues/681)
+	fi;
 
 	#Linux 3.4
 	optionsYes+=("SECURITY_YAMA");
@@ -880,7 +884,7 @@ hardenDefconfig() {
 
 	#GrapheneOS Patches
 	optionsYes+=("PAGE_SANITIZE" "PAGE_SANITIZE_VERIFY" "SLAB_HARDENED" "SLAB_SANITIZE" "SLAB_SANITIZE_VERIFY");
-	#Disabled: SLAB_CANARY (breakage?)
+	#Disabled: SLAB_CANARY (https://github.com/GrapheneOS/os-issue-tracker/issues/124)
 
 	#out of tree or renamed or removed ?
 	optionsYes+=("KAISER" "KGSL_PER_PROCESS_PAGE_TABLE" "MMC_SECDISCARD" "SECURITY_PERF_EVENTS_RESTRICT" "SLUB_HARDENED" "STRICT_MEMORY_RWX");
