@@ -91,7 +91,7 @@ buildAll() {
 	buildDevice flame avb;
 	buildDevice vayu avb;
 	#SD865
-	buildDevice instantnoodle avb;
+	buildDevice instantnoodle avb; #TODO: don't disable CONFIG_CORESIGHT_*
 	buildDevice instantnoodlep avb;
 	buildDevice kebab avb;
 	buildDevice lmi avb;
