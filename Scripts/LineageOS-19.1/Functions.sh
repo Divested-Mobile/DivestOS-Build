@@ -91,9 +91,9 @@ buildAll() {
 	buildDevice flame avb;
 	buildDevice vayu avb;
 	#SD865
-	buildDevice instantnoodle avb; #unb
-	buildDevice instantnoodlep avb; #unb
-	buildDevice kebab avb; #unb
+	buildDevice instantnoodle avb;
+	buildDevice instantnoodlep avb;
+	buildDevice kebab avb;
 	buildDevice lmi avb;
 	#SD870
 	buildDevice alioth avb;
@@ -116,8 +116,7 @@ patchWorkspace() {
 	touch DOS_PATCHED_FLAG;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 
-	source build/envsetup.sh;
-	repopick -i 335090; #FP4 Bluetooth fixes
+	#source build/envsetup.sh;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
