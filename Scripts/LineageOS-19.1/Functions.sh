@@ -109,8 +109,10 @@ patchWorkspace() {
 	cd "$DOS_BUILD_BASE$1";
 	touch DOS_PATCHED_FLAG;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
-	verifyAllTags;
-	gpgVerifyGitHead $DOS_BUILD_BASE"external/chromium-webview";
+	verifyAllPlatformTags;
+	gpgVerifyGitTag "$DOS_BUILD_BASE/external/hardened_malloc";
+	gpgVerifyGitTag "$DOS_BUILD_BASE/external/SecureCamera";
+	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
 	#source build/envsetup.sh;
 

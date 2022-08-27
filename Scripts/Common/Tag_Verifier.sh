@@ -20,11 +20,16 @@ source "$DOS_SCRIPTS_COMMON/Shell.sh";
 
 gpgVerifyGitTag() {
 	if [ -r "$DOS_TMP_GNUPG/pubring.kbx" ]; then
-		if git -C "$1" verify-tag "$2" &>/dev/null; then
-			echo -e "\e[0;32mGPG Verified Git Tag Successfully: $1\e[0m";
+		tagMatch=$(git -C "$1" describe --exact-match HEAD);
+		if [ ! -z "$tagMatch" ]; then
+			if git -C "$1" verify-tag "$tagMatch" &>/dev/null; then
+				echo -e "\e[0;32mGPG Verified Git Tag Successfully: $1\e[0m";
+			else
+				echo -e "\e[0;31mWARNING: GPG Verification of Git Tag Failed: $1\e[0m";
+				#sleep 60;
+			fi;
 		else
-			echo -e "\e[0;31mWARNING: GPG Verification of Git Tag Failed: $1\e[0m";
-			#sleep 60;
+			echo -e "\e[0;33mWARNING: No tag match for $1 \e[0m";
 		fi;
 		#git -C $1 log --show-signature -1;
 	else
@@ -33,14 +38,9 @@ gpgVerifyGitTag() {
 }
 export -f gpgVerifyGitHead;
 
-verifyTagIfPossible() {
+verifyTagIfPlatform() {
 	if [[ "$1" == "platform/"* ]]; then
-		tagMatch=$(git -C "$DOS_BUILD_BASE$2" describe --exact-match HEAD);
-		if [ ! -z "$tagMatch" ]; then
-			gpgVerifyGitTag "$DOS_BUILD_BASE$2" "$tagMatch";
-		else
-			echo -e "\e[0;33mWARNING: No tag match for $2 \e[0m";
-		fi;
+		gpgVerifyGitTag "$DOS_BUILD_BASE$2";
 	fi;
 }
-export -f verifyTagIfPossible;
+export -f verifyTagIfPlatform;

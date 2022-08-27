@@ -186,4 +186,5 @@ gpgVerifyGitHead $DOS_WALLPAPERS;
 
 source "$DOS_SCRIPTS_COMMON/Shell.sh";
 source "$DOS_SCRIPTS_COMMON/Functions.sh";
+source "$DOS_SCRIPTS_COMMON/Tag_Verifier.sh";
 source "$DOS_SCRIPTS/Functions.sh";

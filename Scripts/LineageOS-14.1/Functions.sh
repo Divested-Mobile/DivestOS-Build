@@ -100,8 +100,8 @@ patchWorkspace() {
 	cd "$DOS_BUILD_BASE$1";
 	touch DOS_PATCHED_FLAG;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
-	verifyAllTags;
-	gpgVerifyGitHead $DOS_BUILD_BASE"external/chromium-webview";
+	verifyAllPlatformTags;
+	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
 	source build/envsetup.sh;
 	#repopick -it bt-sbc-hd-dualchannel-nougat;

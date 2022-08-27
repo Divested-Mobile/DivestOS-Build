@@ -27,10 +27,10 @@ resetWorkspace() {
 }
 export -f resetWorkspace;
 
-verifyAllTags() {
-	repo forall -c 'source $DOS_WORKSPACE_ROOT/Scripts/Common/Tag_Verifier.sh && verifyTagIfPossible $REPO_PROJECT $REPO_PATH';
+verifyAllPlatformTags() {
+	repo forall -c 'source $DOS_WORKSPACE_ROOT/Scripts/Common/Tag_Verifier.sh && verifyTagIfPlatform $REPO_PROJECT $REPO_PATH';
 }
-export -f verifyAllTags;
+export -f verifyAllPlatformTags;
 
 enter() {
 	echo "================================================================================================"
