@@ -120,7 +120,7 @@ gpgVerifyGitHead() {
 		fi;
 		#git -C $1 log --show-signature -1;
 	else
-		echo -e "\e[0;33mWARNING: ~/.gnupg is unavailable, GPG verification of $1 will not be performed!\e[0m";
+		echo -e "\e[0;33mWARNING: keyring is unavailable, GPG verification of $1 will not be performed!\e[0m";
 	fi;
 }
 export -f gpgVerifyGitHead;

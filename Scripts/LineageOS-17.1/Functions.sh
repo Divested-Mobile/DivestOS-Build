@@ -23,12 +23,6 @@ patchAllKernels() {
 }
 export -f patchAllKernels;
 
-resetWorkspace() {
-	umask 0022;
-	repo forall -c 'git add -A && git reset --hard' && rm -rf out DOS_PATCHED_FLAG && repo sync -j8 --force-sync --detach;
-}
-export -f resetWorkspace;
-
 scanWorkspaceForMalware() {
 	local scanQueue="$DOS_BUILD_BASE/android $DOS_BUILD_BASE/art $DOS_BUILD_BASE/bionic $DOS_BUILD_BASE/bootable $DOS_BUILD_BASE/build $DOS_BUILD_BASE/dalvik $DOS_BUILD_BASE/device $DOS_BUILD_BASE/hardware $DOS_BUILD_BASE/libcore $DOS_BUILD_BASE/libnativehelper $DOS_BUILD_BASE/packages $DOS_BUILD_BASE/pdk $DOS_BUILD_BASE/platform_testing $DOS_BUILD_BASE/sdk $DOS_BUILD_BASE/system";
 	scanQueue=$scanQueue" $DOS_BUILD_BASE/lineage-sdk $DOS_BUILD_BASE/vendor/lineage";
@@ -83,6 +77,8 @@ patchWorkspace() {
 	cd "$DOS_BUILD_BASE$1";
 	touch DOS_PATCHED_FLAG;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
+	verifyAllTags;
+	gpgVerifyGitHead $DOS_BUILD_BASE"external/chromium-webview";
 
 	#source build/envsetup.sh;
 	#repopick -it ten-firewall;

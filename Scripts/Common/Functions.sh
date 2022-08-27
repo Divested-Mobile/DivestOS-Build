@@ -21,6 +21,17 @@ startPatcher() {
 }
 export -f startPatcher;
 
+resetWorkspace() {
+	umask 0022;
+	repo forall -c 'git add -A && git reset --hard' && rm -rf out DOS_PATCHED_FLAG && repo sync -j8 --force-sync --detach;
+}
+export -f resetWorkspace;
+
+verifyAllTags() {
+	repo forall -c 'source $DOS_WORKSPACE_ROOT/Scripts/Common/Tag_Verifier.sh && verifyTagIfPossible $REPO_PROJECT $REPO_PATH';
+}
+export -f verifyAllTags;
+
 enter() {
 	echo "================================================================================================"
 	local dir="$1";
