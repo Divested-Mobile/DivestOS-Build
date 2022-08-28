@@ -12,7 +12,7 @@ Change-Id: Id4dd5e287c1162f4c8b7fbb2411b834fe98f2516
  1 file changed, 1 insertion(+)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index 05e6d77d..2e33a3a4 100644
+index 05e6d77d7..2e33a3a4b 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
 @@ -13,6 +13,7 @@
