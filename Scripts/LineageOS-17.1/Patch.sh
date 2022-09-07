@@ -97,6 +97,7 @@ if [ "$DOS_SILENCE_INCLUDED" = true ]; then sed -i 's/messaging/Silence/' target
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
+sed -i 's/2022-08-05/2022-09-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2022-09 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -116,6 +117,13 @@ fi;
 
 if enterAndClear "external/conscrypt"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_external_conscrypt/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
+fi;
+
+if enterAndClear "external/expat"; then
+git fetch https://github.com/LineageOS/android_external_expat refs/changes/86/337986/1 && git cherry-pick FETCH_HEAD; #Q_asb_2022-09
+git fetch https://github.com/LineageOS/android_external_expat refs/changes/87/337987/1 && git cherry-pick FETCH_HEAD;
+git fetch https://github.com/LineageOS/android_external_expat refs/changes/88/337988/1 && git cherry-pick FETCH_HEAD;
+git fetch https://github.com/LineageOS/android_external_expat refs/changes/89/337989/1 && git cherry-pick FETCH_HEAD;
 fi;
 
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
