@@ -114,7 +114,8 @@ patchWorkspace() {
 	gpgVerifyGitTag "$DOS_BUILD_BASE/external/SecureCamera";
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
+	repopick -it S_asb_2022-09; #TODO: needs picks
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
