@@ -97,7 +97,6 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/generic_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
-sed -i 's/2022-08-05/2022-09-05/' core/version_defaults.mk; #Bump Security String #S_asb_2022-09 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -112,13 +111,6 @@ fi;
 
 if enterAndClear "external/conscrypt"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_external_conscrypt/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
-fi;
-
-if enterAndClear "external/expat"; then
-git fetch https://github.com/LineageOS/android_external_expat refs/changes/00/337900/1 && git cherry-pick FETCH_HEAD; #S_asb_2022-09
-git fetch https://github.com/LineageOS/android_external_expat refs/changes/01/337901/1 && git cherry-pick FETCH_HEAD;
-git fetch https://github.com/LineageOS/android_external_expat refs/changes/02/337902/1 && git cherry-pick FETCH_HEAD;
-git fetch https://github.com/LineageOS/android_external_expat refs/changes/03/337903/1 && git cherry-pick FETCH_HEAD;
 fi;
 
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then

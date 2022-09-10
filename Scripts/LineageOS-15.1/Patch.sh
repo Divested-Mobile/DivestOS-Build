@@ -74,7 +74,7 @@ applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv a
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 if [ "$DOS_SILENCE_INCLUDED" = true ]; then sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/treble_common.mk; fi; #Replace the Messaging app with Silence
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2022-08-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2022-09-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -94,6 +94,10 @@ fi;
 if enterAndClear "external/chromium-webview"; then
 if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then DOS_WEBVIEW_CHERRYPICK; fi; #Update the WebView to latest if available
 if [ "$DOS_WEBVIEW_LFS" = true ]; then git lfs pull; fi; #Ensure the objects are available
+fi;
+
+if enterAndClear "external/expat"; then
+applyPatch "$DOS_PATCHES/android_external_expat/337987.patch"; #Q_asb_2022-09 Prevent XML_GetBuffer signed integer overflow
 fi;
 
 #if [ "$DOS_GRAPHENE_MALLOC_BROKEN" = true ]; then
@@ -126,6 +130,10 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/335117-backport.patch"; #P_asb_
 #applyPatch "$DOS_PATCHES/android_frameworks_base/335119.patch"; #P_asb_2022-08 Remove package title from notification access confirmation intent TODO: 335116 must be backported
 applyPatch "$DOS_PATCHES/android_frameworks_base/335120.patch"; #P_asb_2022-08 Stop using invalid URL to prevent unexpected crash
 applyPatch "$DOS_PATCHES/android_frameworks_base/335121-backport.patch"; #P_asb_2022-08 Only allow the system server to connect to sync adapters
+applyPatch "$DOS_PATCHES/android_frameworks_base/337990.patch"; #Q_asb_2022-09 Fix duplicate permission privilege escalation
+applyPatch "$DOS_PATCHES/android_frameworks_base/337991.patch"; #Q_asb_2022-09 Parcel: recycle recycles
+applyPatch "$DOS_PATCHES/android_frameworks_base/337992-backport.patch"; #Q_asb_2022-09 IMMS: Make IMMS PendingIntents immutable
+applyPatch "$DOS_PATCHES/android_frameworks_base/337993.patch"; #Q_asb_2022-09 Remove package name from SafetyNet logs
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after three failed attempts (GrapheneOS)
@@ -302,6 +310,9 @@ applyPatch "$DOS_PATCHES/android_system_bt/334266.patch"; #P_asb_2022-07 Securit
 applyPatch "$DOS_PATCHES/android_system_bt/334267.patch"; #P_asb_2022-07 Check Avrcp packet vendor length before extracting length
 applyPatch "$DOS_PATCHES/android_system_bt/334268.patch"; #P_asb_2022-07 Security: Fix out of bound read in AT_SKIP_REST
 applyPatch "$DOS_PATCHES/android_system_bt/335109.patch"; #P_asb_2022-08 Removing bonded device when auth fails due to missing keys
+applyPatch "$DOS_PATCHES/android_system_bt/337995-backport.patch"; #Q_asb_2022-09 Fix OOB in bnep_is_packet_allowed
+applyPatch "$DOS_PATCHES/android_system_bt/337996.patch"; #Q_asb_2022-09 Fix OOB in BNEP_Write
+applyPatch "$DOS_PATCHES/android_system_bt/337997.patch"; #Q_asb_2022-09 Fix OOB in reassemble_and_dispatch
 fi;
 
 if enterAndClear "system/core"; then

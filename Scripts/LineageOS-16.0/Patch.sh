@@ -98,7 +98,7 @@ sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 if [ "$DOS_SILENCE_INCLUDED" = true ]; then sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk target/product/treble_common.mk; fi; #Replace the Messaging app with Silence
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 17/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2022-01-05/2022-08-05/' core/version_defaults.mk; #Bump Security String #P_asb_2022-08 #XXX
+sed -i 's/2022-01-05/2022-09-05/' core/version_defaults.mk; #Bump Security String #P_asb_2022-09 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -117,6 +117,13 @@ fi;
 
 if enterAndClear "external/conscrypt"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_external_conscrypt/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
+fi;
+
+if enterAndClear "external/expat"; then
+git fetch https://github.com/LineageOS/android_external_expat refs/changes/86/337986/2 && git cherry-pick FETCH_HEAD; #Q_asb_2022-09
+git fetch https://github.com/LineageOS/android_external_expat refs/changes/87/337987/2 && git cherry-pick FETCH_HEAD;
+git fetch https://github.com/LineageOS/android_external_expat refs/changes/88/337988/2 && git cherry-pick FETCH_HEAD;
+git fetch https://github.com/LineageOS/android_external_expat refs/changes/89/337989/2 && git cherry-pick FETCH_HEAD;
 fi;
 
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
@@ -138,6 +145,10 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_fram
 fi;
 
 if enterAndClear "frameworks/base"; then
+git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/90/337990/2 && git cherry-pick FETCH_HEAD; #Q_asb_2022-09
+git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/91/337991/2 && git cherry-pick FETCH_HEAD;
+applyPatch "$DOS_PATCHES/android_frameworks_base/337992-Backport.patch"; #(MSe1969)
+git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/93/337993/2 && git cherry-pick FETCH_HEAD;
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -311,9 +322,12 @@ applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
 fi;
 
-#if enterAndClear "system/bt"; then
+if enterAndClear "system/bt"; then
+git fetch https://github.com/LineageOS/android_vendor_qcom_opensource_system_bt refs/changes/95/337995/1 && git cherry-pick FETCH_HEAD; #Q_asb_2022-09
+git fetch https://github.com/LineageOS/android_vendor_qcom_opensource_system_bt refs/changes/96/337996/1 && git cherry-pick FETCH_HEAD;
+git fetch https://github.com/LineageOS/android_vendor_qcom_opensource_system_bt refs/changes/97/337997/1 && git cherry-pick FETCH_HEAD;
 #applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
-#fi;
+fi;
 
 if enterAndClear "system/core"; then
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
