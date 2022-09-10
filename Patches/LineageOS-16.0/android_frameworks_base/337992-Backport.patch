@@ -1,4 +1,4 @@
-From 3a1887eb6147d7e51a79c387aaed38c08056c789 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Adrian Roos <roosa@google.com>
 Date: Thu, 24 Sep 2020 15:30:46 +0200
 Subject: [PATCH] IMMS: Make IMMS PendingIntents immutable
@@ -19,7 +19,7 @@ diff --git a/services/core/java/com/android/server/InputMethodManagerService.jav
 index 412b314aefbf..e728b0aa92e8 100644
 --- a/services/core/java/com/android/server/InputMethodManagerService.java
 +++ b/services/core/java/com/android/server/InputMethodManagerService.java
-@@ -1402,7 +1402,8 @@ public void executeMessage(Message msg) {
+@@ -1402,7 +1402,8 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
  
          Intent intent = new Intent(ACTION_SHOW_INPUT_METHOD_PICKER)
                  .setPackage(mContext.getPackageName());
@@ -29,7 +29,7 @@ index 412b314aefbf..e728b0aa92e8 100644
  
          mShowOngoingImeSwitcherForPhones = false;
  
-@@ -2003,7 +2004,8 @@ InputBindResult startInputInnerLocked() {
+@@ -2003,7 +2004,8 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
          mCurIntent.putExtra(Intent.EXTRA_CLIENT_LABEL,
                  com.android.internal.R.string.input_method_binding_label);
          mCurIntent.putExtra(Intent.EXTRA_CLIENT_INTENT, PendingIntent.getActivity(

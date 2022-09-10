@@ -130,10 +130,10 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/335117-backport.patch"; #P_asb_
 #applyPatch "$DOS_PATCHES/android_frameworks_base/335119.patch"; #P_asb_2022-08 Remove package title from notification access confirmation intent TODO: 335116 must be backported
 applyPatch "$DOS_PATCHES/android_frameworks_base/335120.patch"; #P_asb_2022-08 Stop using invalid URL to prevent unexpected crash
 applyPatch "$DOS_PATCHES/android_frameworks_base/335121-backport.patch"; #P_asb_2022-08 Only allow the system server to connect to sync adapters
-applyPatch "$DOS_PATCHES/android_frameworks_base/337990.patch"; #Q_asb_2022-09 Fix duplicate permission privilege escalation
+#applyPatch "$DOS_PATCHES/android_frameworks_base/337990.patch"; #Q_asb_2022-09 Fix duplicate permission privilege escalation #XXX: needs getProtection() backport
 applyPatch "$DOS_PATCHES/android_frameworks_base/337991.patch"; #Q_asb_2022-09 Parcel: recycle recycles
 applyPatch "$DOS_PATCHES/android_frameworks_base/337992-backport.patch"; #Q_asb_2022-09 IMMS: Make IMMS PendingIntents immutable
-applyPatch "$DOS_PATCHES/android_frameworks_base/337993.patch"; #Q_asb_2022-09 Remove package name from SafetyNet logs
+#applyPatch "$DOS_PATCHES/android_frameworks_base/337993.patch"; #Q_asb_2022-09 Remove package name from SafetyNet logs #XXX: depends on 337990
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after three failed attempts (GrapheneOS)

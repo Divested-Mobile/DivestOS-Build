@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Venkata Jagadeesh Garaga <quic_vgaraga@quicinc.com>
 Date: Tue, 22 Mar 2022 13:35:43 +0530
-Subject: [PATCH 2/2] Fix OOB in reassemble_and_dispatch
+Subject: [PATCH] Fix OOB in reassemble_and_dispatch
 
 Fix OOB while reading L2cap length in HCI pkt
 

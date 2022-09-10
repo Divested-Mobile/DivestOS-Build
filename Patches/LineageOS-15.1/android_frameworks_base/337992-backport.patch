@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Adrian Roos <roosa@google.com>
 Date: Thu, 24 Sep 2020 15:30:46 +0200
-Subject: [PATCH 3/4] IMMS: Make IMMS PendingIntents immutable
+Subject: [PATCH] IMMS: Make IMMS PendingIntents immutable
 
 Fixes: 154913391
 Test: n/a

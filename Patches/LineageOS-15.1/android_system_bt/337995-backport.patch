@@ -15,10 +15,10 @@ CRs-Fixed: 3155069
  3 files changed, 24 insertions(+), 5 deletions(-)
 
 diff --git a/stack/bnep/bnep_api.cc b/stack/bnep/bnep_api.cc
-index 4d1c2d99e..817507320 100644
+index e5d3c0948..60c8d1117 100644
 --- a/stack/bnep/bnep_api.cc
 +++ b/stack/bnep/bnep_api.cc
-@@ -360,7 +360,7 @@ tBNEP_RESULT BNEP_WriteBuf(uint16_t handle, const RawAddress& p_dest_addr,
+@@ -355,7 +355,7 @@ tBNEP_RESULT BNEP_WriteBuf(uint16_t handle, const RawAddress& p_dest_addr,
    /* Check if the packet should be filtered out */
    p_data = (uint8_t*)(p_buf + 1) + p_buf->offset;
    if (bnep_is_packet_allowed(p_bcb, p_dest_addr, protocol, fw_ext_present,
@@ -27,7 +27,7 @@ index 4d1c2d99e..817507320 100644
      /*
      ** If packet is filtered and ext headers are present
      ** drop the data and forward the ext headers
-@@ -372,6 +372,11 @@ tBNEP_RESULT BNEP_WriteBuf(uint16_t handle, const RawAddress& p_dest_addr,
+@@ -367,6 +367,11 @@ tBNEP_RESULT BNEP_WriteBuf(uint16_t handle, const RawAddress& p_dest_addr,
        org_len = p_buf->len;
        new_len = 0;
        do {
@@ -39,7 +39,7 @@ index 4d1c2d99e..817507320 100644
          ext = *p_data++;
          length = *p_data++;
          p_data += length;
-@@ -466,7 +471,7 @@ tBNEP_RESULT BNEP_Write(uint16_t handle, const RawAddress& p_dest_addr,
+@@ -457,7 +462,7 @@ tBNEP_RESULT BNEP_Write(uint16_t handle, const RawAddress& p_dest_addr,
  
    /* Check if the packet should be filtered out */
    if (bnep_is_packet_allowed(p_bcb, p_dest_addr, protocol, fw_ext_present,
@@ -48,7 +48,7 @@ index 4d1c2d99e..817507320 100644
      /*
      ** If packet is filtered and ext headers are present
      ** drop the data and forward the ext headers
-@@ -479,6 +484,10 @@ tBNEP_RESULT BNEP_Write(uint16_t handle, const RawAddress& p_dest_addr,
+@@ -470,6 +475,10 @@ tBNEP_RESULT BNEP_Write(uint16_t handle, const RawAddress& p_dest_addr,
        new_len = 0;
        p = p_data;
        do {

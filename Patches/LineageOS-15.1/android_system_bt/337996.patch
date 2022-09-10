@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chienyuan <chienyuanhuang@google.com>
 Date: Wed, 30 Jan 2019 19:17:03 +0800
-Subject: [PATCH 1/2] Fix OOB in BNEP_Write
+Subject: [PATCH] Fix OOB in BNEP_Write
 
 Bug: 112050583
 Test: PoC
@@ -13,7 +13,7 @@ CRs-Fixed: 3155069
  1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/stack/bnep/bnep_api.cc b/stack/bnep/bnep_api.cc
-index e5d3c0948..4d1c2d99e 100644
+index 60c8d1117..817507320 100644
 --- a/stack/bnep/bnep_api.cc
 +++ b/stack/bnep/bnep_api.cc
 @@ -346,10 +346,15 @@ tBNEP_RESULT BNEP_WriteBuf(uint16_t handle, const RawAddress& p_dest_addr,
@@ -33,7 +33,7 @@ index e5d3c0948..4d1c2d99e 100644
    }
  
    /* Check if the packet should be filtered out */
-@@ -446,9 +451,13 @@ tBNEP_RESULT BNEP_Write(uint16_t handle, const RawAddress& p_dest_addr,
+@@ -451,9 +456,13 @@ tBNEP_RESULT BNEP_Write(uint16_t handle, const RawAddress& p_dest_addr,
  
    /* Check MTU size. Consider the possibility of having extension headers */
    if (len > BNEP_MTU_SIZE) {

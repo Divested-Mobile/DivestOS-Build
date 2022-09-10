@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Steven Moreland <smoreland@google.com>
 Date: Wed, 30 Mar 2022 21:46:29 +0000
-Subject: [PATCH 2/4] Parcel: recycle recycles
+Subject: [PATCH] Parcel: recycle recycles
 
 Before, it was like getting a used pan with food stuck on it. We run
 a clean ship here. You want a Parcel? You get a fresh Parcel. When
