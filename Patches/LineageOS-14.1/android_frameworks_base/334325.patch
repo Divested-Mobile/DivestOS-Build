@@ -1,0 +1,36 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Bin Wang <bin.wang@oppo.corp-partner.google.com>
+Date: Thu, 23 Jun 2022 16:00:24 +0800
+Subject: [PATCH] Modify conditions for preventing updated system apps from
+ being downgraded
+
+Add two conditions prior to deciding whether a specific user can downgrade system apps by deletePackageX.
+1.uninstalledPs must be a updated system app.
+2.deleteFlags does not contains PackageManager.DELETE_SYSTEM_APP, since flag PackageManager.DELETE_SYSTEM_APP
+will just mark the app as uninstalled for the specific user instead of uninstalling the update and rolling back
+to the older system version.
+
+Test: Update a system app and create some multi users; Then use command "pm uninstall --user ${userId} ${packageName}"
+to uninstall the system app for a specific user; The result is that the system app is marked as uninstalled for
+this specific user successfully
+
+Signed-off-by: Bin Wang <bin.wang@oppo.corp-partner.google.com>
+Change-Id: I2c6c8c4ad1b41995c4d7d0153a036edcfae03687
+---
+ .../core/java/com/android/server/pm/PackageManagerService.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index 9265358b8b37..e109337809cf 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -16059,7 +16059,8 @@ public class PackageManagerService extends IPackageManager.Stub {
+                 Slog.w(TAG, "Not removing non-existent package " + packageName);
+                 return PackageManager.DELETE_FAILED_INTERNAL_ERROR;
+             }
+-            if (isSystemApp(uninstalledPs)) {
++            if (isUpdatedSystemApp(uninstalledPs)
++                    && ((deleteFlags & PackageManager.DELETE_SYSTEM_APP) == 0)) {
+                 UserInfo userInfo = sUserManager.getUserInfo(userId);
+                 if (userInfo == null || !userInfo.isAdmin()) {
+                     Slog.w(TAG, "Not removing package " + packageName

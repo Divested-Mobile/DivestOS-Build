@@ -1,0 +1,72 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Santiago Seifert <aquilescanta@google.com>
+Date: Thu, 2 Sep 2021 10:29:09 +0100
+Subject: [PATCH] Fix heap-buffer-overflow in MPEG4Extractor
+
+Caused by the extractor assuming that sample size will never exceed
+the declared max input size (as in AMEDIAFORMAT_KEY_MAX_INPUT_SIZE).
+
+Bug: 188893559
+Test: Ran the fuzzer using the bug's testcase.
+Change-Id: I31f2b9a4f1b561c4466c76ea2af8dd532622102a
+Merged-In: I31f2b9a4f1b561c4466c76ea2af8dd532622102a
+(cherry picked from commit 621f0e12017a2d057aeaa1937e979ce61b2ac3cf)
+(cherry picked from commit d13a4efc7a5c07c95a00036a7db15b16116b41a5)
+---
+ media/libstagefright/MPEG4Extractor.cpp | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/media/libstagefright/MPEG4Extractor.cpp b/media/libstagefright/MPEG4Extractor.cpp
+index 989ce75e15..805ff486bb 100644
+--- a/media/libstagefright/MPEG4Extractor.cpp
++++ b/media/libstagefright/MPEG4Extractor.cpp
+@@ -149,6 +149,7 @@ private:
+ 
+     bool mWantsNALFragments;
+ 
++    size_t mSrcBufferSize;
+     uint8_t *mSrcBuffer;
+ 
+     size_t parseNALSize(const uint8_t *data) const;
+@@ -3763,6 +3764,7 @@ MPEG4Source::MPEG4Source(
+       mGroup(NULL),
+       mBuffer(NULL),
+       mWantsNALFragments(false),
++      mSrcBufferSize(0),
+       mSrcBuffer(NULL) {
+ #ifdef DOLBY_ENABLE
+       ALOGV("@DDP MPEG4Source::MPEG4Source");
+@@ -3876,6 +3878,7 @@ status_t MPEG4Source::start(MetaData *params) {
+         mGroup = NULL;
+         return ERROR_MALFORMED;
+     }
++    mSrcBufferSize = max_size;
+ 
+     mStarted = true;
+ 
+@@ -3892,6 +3895,7 @@ status_t MPEG4Source::stop() {
+         mBuffer = NULL;
+     }
+ 
++    mSrcBufferSize = 0;
+     delete[] mSrcBuffer;
+     mSrcBuffer = NULL;
+ 
+@@ -4727,11 +4731,15 @@ status_t MPEG4Source::read(
+         ssize_t num_bytes_read = 0;
+         int32_t drm = 0;
+         bool usesDRM = (mFormat->findInt32(kKeyIsDRM, &drm) && drm != 0);
+-        if (usesDRM) {
++        if (usesDRM && size <= mBuffer->size()) {
+             num_bytes_read =
+                 mDataSource->readAt(offset, (uint8_t*)mBuffer->data(), size);
+-        } else {
++        } else if (!usesDRM && size <= mSrcBufferSize) {
+             num_bytes_read = mDataSource->readAt(offset, mSrcBuffer, size);
++        } else {
++            // The sample is larger than the expected maximum size. Fall through and let the failure
++            // be handled by the following if.
++            android_errorWriteLog(0x534e4554, "188893559");
+         }
+ 
+         if (num_bytes_read < (ssize_t)size) {

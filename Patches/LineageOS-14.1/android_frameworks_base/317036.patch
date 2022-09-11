@@ -1,0 +1,63 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Rhed Jao <rhedjao@google.com>
+Date: Fri, 30 Jul 2021 15:52:05 +0800
+Subject: [PATCH] DO NOT MERGE Apply a maximum char count to the load label api
+
+The system is overwhelmed by an enormous label string returned by
+the load label api. This cl truncates the label string if it exceeds
+the maximum safe length.
+
+Also update the max safe label length to 1000 characters, which is
+enough.
+
+Bug: 67013844
+Test: atest PackageManagerTest
+Change-Id: Ia4d768cc93a47cfb8b6f7c4b6dc73abd801809bd
+Merged-in: Ia4d768cc93a47cfb8b6f7c4b6dc73abd801809bd
+(cherry picked from commit 7380c153b97bfa38a0dfa9cccc71062f6d6bd6f4)
+---
+ .../android/content/pm/PackageItemInfo.java     | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/core/java/android/content/pm/PackageItemInfo.java b/core/java/android/content/pm/PackageItemInfo.java
+index 73ae83e32f68..4ce6a8db2f3f 100644
+--- a/core/java/android/content/pm/PackageItemInfo.java
++++ b/core/java/android/content/pm/PackageItemInfo.java
+@@ -47,7 +47,7 @@ import java.util.Comparator;
+ public class PackageItemInfo {
+     private static final float MAX_LABEL_SIZE_PX = 500f;
+     /** The maximum length of a safe label, in characters */
+-    private static final int MAX_SAFE_LABEL_LENGTH = 50000;
++    private static final int MAX_SAFE_LABEL_LENGTH = 1000;
+ 
+     /**
+      * Public name of this item. From the "android:name" attribute.
+@@ -135,6 +135,12 @@ public class PackageItemInfo {
+      * item does not have a label, its name is returned.
+      */
+     public CharSequence loadLabel(PackageManager pm) {
++        // Trims the label string to the MAX_SAFE_LABEL_LENGTH. This is to prevent that the
++        // system is overwhelmed by an enormous string returned by the application.
++        return trimToSize(loadUnsafeLabel(pm), MAX_SAFE_LABEL_LENGTH);
++    }
++
++    private CharSequence loadUnsafeLabel(PackageManager pm) {
+         if (nonLocalizedLabel != null) {
+             return nonLocalizedLabel;
+         }
+@@ -212,6 +218,15 @@ public class PackageItemInfo {
+                 TextUtils.TruncateAt.END);
+     }
+ 
++    private CharSequence trimToSize(CharSequence label, int size) {
++        if (TextUtils.isEmpty(label) || label.length() <= size) return label;
++        if (Character.isHighSurrogate(label.charAt(size - 1))
++                && Character.isLowSurrogate(label.charAt(size))) {
++            size = size - 1;
++        }
++        return label.subSequence(0, size);
++    }
++
+     /**
+      * Retrieve the current graphical icon associated with this item.  This
+      * will call back on the given PackageManager to load the icon from

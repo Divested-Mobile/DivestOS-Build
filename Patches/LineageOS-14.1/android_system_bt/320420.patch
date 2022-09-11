@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Manton <cmanton@google.com>
+Date: Wed, 29 Sep 2021 17:49:25 -0700
+Subject: [PATCH] osi: Prevent memory allocations with MSB set
+
+Limit allocations on 32bit to 2 GB
+Limit allocations on 64bit to 8 Exabyte
+
+Bug: 197868577
+Tag: #refactor
+Test: gd/cert/run
+Ignore-AOSP-First: Security
+Change-Id: I1c347084d7617b1e364a3241f1b37b398a2a6c6a
+(cherry picked from commit cee4d086c959e174328a0e173398d99f59ccbb1f)
+---
+ osi/src/allocator.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/osi/src/allocator.c b/osi/src/allocator.c
+index 3d821a826..a81a206a9 100644
+--- a/osi/src/allocator.c
++++ b/osi/src/allocator.c
+@@ -63,6 +63,7 @@ char *osi_strndup(const char *str, size_t len) {
+ }
+ 
+ void *osi_malloc(size_t size) {
++  assert((ssize_t)size >= 0);
+   size_t real_size = allocation_tracker_resize_for_canary(size);
+   void *ptr = malloc(real_size);
+   assert(ptr);
+@@ -70,6 +71,7 @@ void *osi_malloc(size_t size) {
+ }
+ 
+ void *osi_calloc(size_t size) {
++  assert((ssize_t)size >= 0);
+   size_t real_size = allocation_tracker_resize_for_canary(size);
+   void *ptr = calloc(1, real_size);
+   assert(ptr);

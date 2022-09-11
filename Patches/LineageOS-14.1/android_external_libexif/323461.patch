@@ -1,0 +1,80 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jayant Chowdhary <jchowdhary@google.com>
+Date: Fri, 12 Nov 2021 18:22:59 +0000
+Subject: [PATCH] Zero initialize ExifMnoteData<vendor> during construction
+ with exif_mnote_data_<vendor>_new.
+
+This is in order to not have an uninitialized 'mem' pointer in parent
+ExifMnoteData after construction, when a non default ExifMem is used.
+
+Bug: 205915333
+Bug: 196085005
+
+Test: create exif_mnote_data_<vendor>_new with non default exif mem using
+      malloc debug; use exif_mem pointer from previously created
+      ExifMnoteData, client app doesn't crash.
+
+Change-Id: I35a393cdfb03755109aaa8f725b0792aef359dc6
+Merged-In: Id106e79e829329145d27a93273241b58878bfac3
+Signed-off-by: Jayant Chowdhary <jchowdhary@google.com>
+(cherry picked from commit c9da78d8d9f302c767b366ef256e24fa32f8784f)
+Merged-In:I35a393cdfb03755109aaa8f725b0792aef359dc6
+---
+ libexif/canon/exif-mnote-data-canon.c     | 2 ++
+ libexif/fuji/exif-mnote-data-fuji.c       | 2 ++
+ libexif/olympus/exif-mnote-data-olympus.c | 2 ++
+ libexif/pentax/exif-mnote-data-pentax.c   | 2 ++
+ 4 files changed, 8 insertions(+)
+
+diff --git a/libexif/canon/exif-mnote-data-canon.c b/libexif/canon/exif-mnote-data-canon.c
+index 6d97930..3a0778c 100644
+--- a/libexif/canon/exif-mnote-data-canon.c
++++ b/libexif/canon/exif-mnote-data-canon.c
+@@ -384,6 +384,8 @@ exif_mnote_data_canon_new (ExifMem *mem, ExifDataOption o)
+ 	if (!d)
+ 		return NULL;
+ 
++        memset(d, 0, sizeof(ExifMnoteDataCanon));
++
+ 	exif_mnote_data_construct (d, mem);
+ 
+ 	/* Set up function pointers */
+diff --git a/libexif/fuji/exif-mnote-data-fuji.c b/libexif/fuji/exif-mnote-data-fuji.c
+index 3f3091b..ce70bb6 100644
+--- a/libexif/fuji/exif-mnote-data-fuji.c
++++ b/libexif/fuji/exif-mnote-data-fuji.c
+@@ -342,6 +342,8 @@ exif_mnote_data_fuji_new (ExifMem *mem)
+ 	d = exif_mem_alloc (mem, sizeof (ExifMnoteDataFuji));
+ 	if (!d) return NULL;
+ 
++        memset(d, 0, sizeof(ExifMnoteDataFuji));
++
+ 	exif_mnote_data_construct (d, mem);
+ 
+ 	/* Set up function pointers */
+diff --git a/libexif/olympus/exif-mnote-data-olympus.c b/libexif/olympus/exif-mnote-data-olympus.c
+index 493463b..f11616c 100644
+--- a/libexif/olympus/exif-mnote-data-olympus.c
++++ b/libexif/olympus/exif-mnote-data-olympus.c
+@@ -657,6 +657,8 @@ exif_mnote_data_olympus_new (ExifMem *mem)
+ 	d = exif_mem_alloc (mem, sizeof (ExifMnoteDataOlympus));
+ 	if (!d) return NULL;
+ 
++        memset(d, 0, sizeof(ExifMnoteDataOlympus));
++
+ 	exif_mnote_data_construct (d, mem);
+ 
+ 	/* Set up function pointers */
+diff --git a/libexif/pentax/exif-mnote-data-pentax.c b/libexif/pentax/exif-mnote-data-pentax.c
+index b4722d6..3676563 100644
+--- a/libexif/pentax/exif-mnote-data-pentax.c
++++ b/libexif/pentax/exif-mnote-data-pentax.c
+@@ -443,6 +443,8 @@ exif_mnote_data_pentax_new (ExifMem *mem)
+ 	d = exif_mem_alloc (mem, sizeof (ExifMnoteDataPentax));
+ 	if (!d) return NULL;
+ 
++        memset(d, 0, sizeof(ExifMnoteDataPentax));
++
+ 	exif_mnote_data_construct (d, mem);
+ 
+ 	/* Set up function pointers */

@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hansong Zhang <hsz@google.com>
+Date: Wed, 18 Aug 2021 16:35:00 -0700
+Subject: [PATCH] DO NOT MERGE Bluetooth: Fix formatting in getAlias()
+
+Bug: 180747689
+Test: manual
+Change-Id: Ic309f4aad116fd424d5d0d0e2016d61be8826b78
+(cherry picked from commit 3bdad2df2e34c948bde80a51ae232c46848dab06)
+---
+ core/java/android/bluetooth/BluetoothDevice.java | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/core/java/android/bluetooth/BluetoothDevice.java b/core/java/android/bluetooth/BluetoothDevice.java
+index 3134445112f0..44fb652cabb0 100644
+--- a/core/java/android/bluetooth/BluetoothDevice.java
++++ b/core/java/android/bluetooth/BluetoothDevice.java
+@@ -770,8 +770,17 @@ public final class BluetoothDevice implements Parcelable {
+             return null;
+         }
+         try {
+-            return sService.getRemoteAlias(this);
+-        } catch (RemoteException e) {Log.e(TAG, "", e);}
++            String alias = sService.getRemoteAlias(this);
++            if (alias == null) {
++                return getName();
++            }
++            return alias
++                    .replace('\t', ' ')
++                    .replace('\n', ' ')
++                    .replace('\r', ' ');
++        } catch (RemoteException e) {
++            Log.e(TAG, "", e);
++        }
+         return null;
+     }
+ 

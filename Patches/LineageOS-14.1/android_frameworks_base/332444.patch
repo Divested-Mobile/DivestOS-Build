@@ -1,0 +1,36 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Selim Cinek <cinek@google.com>
+Date: Fri, 5 May 2017 14:45:11 -0700
+Subject: [PATCH] Fixed a concurrent modification crash
+
+Test: runtest -x packages/SystemUI/tests/src/com/android/systemui/settings/CurrentUserTrackerTest.java
+Change-Id: I23261843b7366d3a66a795a41c61b7661f7ca3a6
+Fixes: 38006784
+
+[syphyr: Backport to LineageOS 14.1: implement the actual fix only -
+without exposing private members for testing visibility]
+Signed-off-by: syphyr <syphyr@gmail.com>
+Change-Id: Iceb22cc9d93f893e12def6b4e6d2b8cfba9a1b9f
+---
+ .../com/android/systemui/settings/CurrentUserTracker.java | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/settings/CurrentUserTracker.java b/packages/SystemUI/src/com/android/systemui/settings/CurrentUserTracker.java
+index 005206fcd14c..90d8b61b9157 100644
+--- a/packages/SystemUI/src/com/android/systemui/settings/CurrentUserTracker.java
++++ b/packages/SystemUI/src/com/android/systemui/settings/CurrentUserTracker.java
+@@ -105,8 +105,12 @@ public abstract class CurrentUserTracker {
+         private void notifyUserSwitched(int newUserId) {
+             if (mCurrentUserId != newUserId) {
+                 mCurrentUserId = newUserId;
+-                for (Consumer<Integer> consumer : mCallbacks) {
+-                    consumer.accept(newUserId);
++                List<Consumer<Integer>> callbacks = new ArrayList<>(mCallbacks);
++                for (Consumer<Integer> consumer : callbacks) {
++                    // Accepting may modify this list
++                    if (mCallbacks.contains(consumer)) {
++                        consumer.accept(newUserId);
++                    }
+                 }
+             }
+         }

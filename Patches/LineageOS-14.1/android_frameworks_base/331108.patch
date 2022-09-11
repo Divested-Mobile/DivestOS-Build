@@ -1,0 +1,87 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alex Buynytskyy <alexbuy@google.com>
+Date: Thu, 24 Feb 2022 21:40:13 -0800
+Subject: [PATCH] Always restart apps if base.apk gets updated.
+
+Bug: 219044664
+Fixes: 219044664
+Test: atest PackageManagerShellCommandTest
+Change-Id: I27a0c5009b2d5f1ea51618b9acfa1e6ccee71296
+Merged-In: I27a0c5009b2d5f1ea51618b9acfa1e6ccee71296
+(cherry picked from commit a5dd59db6d1889ae0aa95ef01bbf8c98e360a2f2)
+Merged-In: I27a0c5009b2d5f1ea51618b9acfa1e6ccee71296
+---
+ .../android/content/pm/IPackageInstallerSession.aidl |  2 ++
+ core/java/android/content/pm/PackageInstaller.java   | 12 ++++++++++++
+ .../android/server/pm/PackageInstallerSession.java   | 10 ++++++++++
+ 3 files changed, 24 insertions(+)
+
+diff --git a/core/java/android/content/pm/IPackageInstallerSession.aidl b/core/java/android/content/pm/IPackageInstallerSession.aidl
+index 2a3fac341e24..c612e6afc6e3 100644
+--- a/core/java/android/content/pm/IPackageInstallerSession.aidl
++++ b/core/java/android/content/pm/IPackageInstallerSession.aidl
+@@ -34,4 +34,6 @@ interface IPackageInstallerSession {
+     void close();
+     void commit(in IntentSender statusReceiver);
+     void abandon();
++
++    int getInstallFlags();
+ }
+diff --git a/core/java/android/content/pm/PackageInstaller.java b/core/java/android/content/pm/PackageInstaller.java
+index ed8143e36f03..3516590338c5 100644
+--- a/core/java/android/content/pm/PackageInstaller.java
++++ b/core/java/android/content/pm/PackageInstaller.java
+@@ -844,6 +844,18 @@ public class PackageInstaller {
+                 throw e.rethrowFromSystemServer();
+             }
+         }
++
++        /**
++         * @return Session's {@link SessionParams#installFlags}.
++         * @hide
++         */
++        public int getInstallFlags() {
++            try {
++                return mSession.getInstallFlags();
++            } catch (RemoteException e) {
++                throw e.rethrowFromSystemServer();
++            }
++        }
+     }
+ 
+     /**
+diff --git a/services/core/java/com/android/server/pm/PackageInstallerSession.java b/services/core/java/com/android/server/pm/PackageInstallerSession.java
+index 6eb7bcd9893a..d0721071e308 100644
+--- a/services/core/java/com/android/server/pm/PackageInstallerSession.java
++++ b/services/core/java/com/android/server/pm/PackageInstallerSession.java
+@@ -62,6 +62,7 @@ import android.system.OsConstants;
+ import android.system.StructStat;
+ import android.text.TextUtils;
+ import android.util.ArraySet;
++import android.util.EventLog;
+ import android.util.ExceptionUtils;
+ import android.util.MathUtils;
+ import android.util.Slog;
+@@ -808,6 +809,10 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
+             if (mResolvedBaseFile == null) {
+                 mResolvedBaseFile = new File(appInfo.getBaseCodePath());
+                 mResolvedInheritedFiles.add(mResolvedBaseFile);
++            } else if ((params.installFlags & PackageManager.INSTALL_DONT_KILL_APP) != 0) {
++                EventLog.writeEvent(0x534e4554, "219044664");
++                // Installing base.apk. Make sure the app is restarted.
++                params.setDontKillApp(false);
+             }
+ 
+             // Inherit splits if not overridden
+@@ -1136,6 +1141,11 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
+         dispatchSessionFinished(INSTALL_FAILED_ABORTED, "Session was abandoned", null);
+     }
+ 
++    @Override
++    public int getInstallFlags() {
++        return params.installFlags;
++    }
++
+     private void dispatchSessionFinished(int returnCode, String msg, Bundle extras) {
+         mFinalStatus = returnCode;
+         mFinalMessage = msg;

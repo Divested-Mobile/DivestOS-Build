@@ -1,0 +1,50 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Rakesh Kumar <rakesh.kumar@ittiam.com>
+Date: Wed, 28 Apr 2021 23:44:50 +0530
+Subject: [PATCH] Decoder: Update check for increment u2_cur_slice_num
+
+Increment u2_cur_slice_num only if current slice had atleast
+one MB of memory left.
+
+Test: clusterfuzz generated poc in bug
+Bug: b/182152757
+Bug: b/179938345
+Bug: b/185112718
+
+Change-Id: Ic5eb07e961bccb7fde954bcfd791fd879804e335
+(cherry picked from commit a88e0683a420d7ee9aa4b6f41f94cb8dc0c5e040)
+---
+ decoder/ih264d_parse_slice.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/decoder/ih264d_parse_slice.c b/decoder/ih264d_parse_slice.c
+index cf2dda9..ffe7f2b 100644
+--- a/decoder/ih264d_parse_slice.c
++++ b/decoder/ih264d_parse_slice.c
+@@ -1476,17 +1476,20 @@ WORD32 ih264d_parse_decode_slice(UWORD8 u1_is_idr_slice,
+         i1_is_end_of_poc = 0;
+     }
+ 
+-    if (ps_dec->u4_first_slice_in_pic == 0)
++    /* Increment only if the current slice has atleast 1 more MB */
++    if (ps_dec->u4_first_slice_in_pic == 0 &&
++        (ps_dec->ps_parse_cur_slice->u4_first_mb_in_slice <
++        (UWORD32)(ps_dec->u2_total_mbs_coded >> ps_dec->ps_cur_slice->u1_mbaff_frame_flag)))
+     {
+         ps_dec->ps_parse_cur_slice++;
+         ps_dec->u2_cur_slice_num++;
++        // in the case of single core increment ps_decode_cur_slice
++        if(ps_dec->u1_separate_parse == 0)
++        {
++            ps_dec->ps_decode_cur_slice++;
++        }
+     }
+ 
+-    // in the case of single core increment ps_decode_cur_slice
+-    if((ps_dec->u1_separate_parse == 0) && (ps_dec->u4_first_slice_in_pic == 0))
+-    {
+-        ps_dec->ps_decode_cur_slice++;
+-    }
+     ps_dec->u1_slice_header_done = 0;
+ 
+ 

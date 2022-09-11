@@ -1,0 +1,59 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jack Yu <jackcwyu@google.com>
+Date: Thu, 13 Jan 2022 16:27:22 +0800
+Subject: [PATCH] Do not set default contactless application without user
+ interaction
+
+Keep the default contactless apllication "not set" if user does not
+select one from the Settings page.
+
+Bug: 212610736
+Test: Manual
+Merged-In: I8e1d67528eca037f4f88380a96f8c542965a1981
+Change-Id: I8e1d67528eca037f4f88380a96f8c542965a1981
+(cherry picked from commit 4177b086cf2f1ae9c1831cb1a7ed88233c7a6aca)
+Merged-In:I8e1d67528eca037f4f88380a96f8c542965a1981
+---
+ .../cardemulation/CardEmulationManager.java   | 27 +++----------------
+ 1 file changed, 4 insertions(+), 23 deletions(-)
+
+diff --git a/src/com/android/nfc/cardemulation/CardEmulationManager.java b/src/com/android/nfc/cardemulation/CardEmulationManager.java
+index cff9dd3e..af31f89c 100644
+--- a/src/com/android/nfc/cardemulation/CardEmulationManager.java
++++ b/src/com/android/nfc/cardemulation/CardEmulationManager.java
+@@ -205,31 +205,12 @@ public class CardEmulationManager implements RegisteredServicesCache.Callback,
+ 
+     void verifyDefaults(int userId, List<ApduServiceInfo> services) {
+         ComponentName defaultPaymentService =
+-                getDefaultServiceForCategory(userId, CardEmulation.CATEGORY_PAYMENT, false);
++                getDefaultServiceForCategory(userId, CardEmulation.CATEGORY_PAYMENT, true);
+         if (DBG) Log.d(TAG, "Current default: " + defaultPaymentService);
+         if (defaultPaymentService == null) {
+-            // A payment service may have been removed, leaving only one;
+-            // in that case, automatically set that app as default.
+-            int numPaymentServices = 0;
+-            ComponentName lastFoundPaymentService = null;
+-            for (ApduServiceInfo service : services) {
+-                if (service.hasCategory(CardEmulation.CATEGORY_PAYMENT))  {
+-                    numPaymentServices++;
+-                    lastFoundPaymentService = service.getComponent();
+-                }
+-            }
+-            if (numPaymentServices > 1) {
+-                // More than one service left, leave default unset
+-                if (DBG) Log.d(TAG, "No default set, more than one service left.");
+-            } else if (numPaymentServices == 1) {
+-                // Make single found payment service the default
+-                if (DBG) Log.d(TAG, "No default set, making single service default.");
+-                setDefaultServiceForCategoryChecked(userId, lastFoundPaymentService,
+-                        CardEmulation.CATEGORY_PAYMENT);
+-            } else {
+-                // No payment services left, leave default at null
+-                if (DBG) Log.d(TAG, "No default set, last payment service removed.");
+-            }
++            // A payment service may have been removed, set default payment selection to "not set".
++            if (DBG) Log.d(TAG, "No default set, last payment service removed.");
++            setDefaultServiceForCategoryChecked(userId, null, CardEmulation.CATEGORY_PAYMENT);
+         }
+     }
+ 

@@ -1,0 +1,203 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alisher Alikhodjaev <alisher@google.com>
+Date: Wed, 25 Aug 2021 17:33:04 -0700
+Subject: [PATCH] Type confusion due to race condition on tag type change
+
+Pending timers need to be canceled before a tag type is changed.
+
+Bug: 192472262
+Test: build ok
+Merged-In: Icd4b5a1615dac4548c6343344e17d7f087c7c057
+Merged-In: Iebfcaf9d269381ef2ba14a26e6124f173d2299ec
+Merged-In: I93c36bf0f6b92e33a5d03d7420251f5bcf112d66
+Change-Id: Ied6cb8c73f4ed60e847b94c18cebad87f7c37463
+(cherry picked from commit c46f6bae6eead08db2cf8802597d6a79abecd61d)
+---
+ src/nfa/rw/nfa_rw_main.c | 47 ++++++++++++++++++++++++++++++++++++++++
+ src/nfc/int/rw_int.h     | 10 +++++++++
+ src/nfc/tags/rw_main.c   | 35 ++++++++++++++++++++++++++++++
+ 3 files changed, 92 insertions(+)
+
+diff --git a/src/nfa/rw/nfa_rw_main.c b/src/nfa/rw/nfa_rw_main.c
+index 2176c08..800eb06 100644
+--- a/src/nfa/rw/nfa_rw_main.c
++++ b/src/nfa/rw/nfa_rw_main.c
+@@ -28,6 +28,7 @@
+ #include "nfa_rw_int.h"
+ #include "nfa_dm_int.h"
+ #include "nfa_sys_int.h"
++#include "rw_int.h"
+ 
+ /* NFA_RW control block */
+ tNFA_RW_CB nfa_rw_cb;
+@@ -93,6 +94,52 @@ void nfa_rw_init (void)
+ *******************************************************************************/
+ void nfa_rw_sys_disable (void)
+ {
++    tRW_T1T_CB* p_t1t;
++    tRW_T2T_CB* p_t2t;
++    tRW_T3T_CB* p_t3t;
++    tRW_T4T_CB* p_t4t;
++    tRW_I93_CB* p_i93;
++
++    switch (rw_cb.tcb_type) {
++      case RW_CB_TYPE_T1T:
++        p_t1t = &rw_cb.tcb.t1t;
++        if (p_t1t->p_cur_cmd_buf != NULL) {
++          GKI_freebuf(p_t1t->p_cur_cmd_buf);
++          p_t1t->p_cur_cmd_buf = NULL;
++        }
++        break;
++      case RW_CB_TYPE_T2T:
++        p_t2t = &rw_cb.tcb.t2t;
++        if (p_t2t->p_cur_cmd_buf != NULL) {
++          GKI_freebuf(p_t2t->p_cur_cmd_buf);
++          p_t2t->p_cur_cmd_buf = NULL;
++        }
++        if (p_t2t->p_sec_cmd_buf != NULL) {
++          GKI_freebuf(p_t2t->p_sec_cmd_buf);
++          p_t2t->p_sec_cmd_buf = NULL;
++        }
++        break;
++      case RW_CB_TYPE_T3T:
++        p_t3t = &rw_cb.tcb.t3t;
++        if (p_t3t->p_cur_cmd_buf != NULL) {
++          GKI_freebuf(p_t3t->p_cur_cmd_buf);
++          p_t3t->p_cur_cmd_buf = NULL;
++        }
++        break;
++      case RW_CB_TYPE_T4T: /* do nothing */
++        p_t4t = &rw_cb.tcb.t4t;
++        break;
++      case RW_CB_TYPE_T5T:
++        p_i93 = &rw_cb.tcb.i93;
++        if (p_i93->p_retry_cmd != NULL) {
++          GKI_freebuf(p_i93->p_retry_cmd);
++          p_i93->p_retry_cmd = NULL;
++        }
++        break;
++      default: /* do nothing */
++        break;
++    }
++
+     /* Return to idle */
+     NFC_SetStaticRfCback (NULL);
+ 
+diff --git a/src/nfc/int/rw_int.h b/src/nfc/int/rw_int.h
+index ef07b47..013dcab 100644
+--- a/src/nfc/int/rw_int.h
++++ b/src/nfc/int/rw_int.h
+@@ -570,9 +570,19 @@ typedef union
+     tRW_I93_CB          i93;
+ } tRW_TCB;
+ 
++/* RW callback type */
++#define RW_CB_TYPE_UNKNOWN 0
++#define RW_CB_TYPE_T1T 1
++#define RW_CB_TYPE_T2T 2
++#define RW_CB_TYPE_T3T 3
++#define RW_CB_TYPE_T4T 4
++#define RW_CB_TYPE_T5T 5
++typedef uint8_t tRW_CB_TYPE;
++
+ /* RW control blocks */
+ typedef struct
+ {
++    tRW_CB_TYPE         tcb_type;
+     tRW_TCB             tcb;
+     tRW_CBACK           *p_cback;
+     UINT32              cur_retry;          /* Retry count for the current operation */
+diff --git a/src/nfc/tags/rw_main.c b/src/nfc/tags/rw_main.c
+index d9fe097..b1dcd34 100644
+--- a/src/nfc/tags/rw_main.c
++++ b/src/nfc/tags/rw_main.c
+@@ -30,6 +30,7 @@
+ 
+ #if (NFC_INCLUDED == TRUE)
+ #include "nfc_api.h"
++#include "nfc_int.h"
+ #include "nci_hmsgs.h"
+ #include "rw_api.h"
+ #include "rw_int.h"
+@@ -218,6 +219,34 @@ tNFC_STATUS RW_SetActivatedTagType (tNFC_ACTIVATE_DEVT *p_activate_params, tRW_C
+         return (NFC_STATUS_FAILED);
+     }
+ 
++    switch (rw_cb.tcb_type) {
++      case RW_CB_TYPE_T1T: {
++        nfc_stop_quick_timer(&rw_cb.tcb.t1t.timer);
++        break;
++      }
++      case RW_CB_TYPE_T2T: {
++        nfc_stop_quick_timer(&rw_cb.tcb.t2t.t2_timer);
++        break;
++      }
++      case RW_CB_TYPE_T3T: {
++        nfc_stop_quick_timer(&rw_cb.tcb.t3t.timer);
++        nfc_stop_quick_timer(&rw_cb.tcb.t3t.poll_timer);
++        break;
++      }
++      case RW_CB_TYPE_T4T: {
++        nfc_stop_quick_timer(&rw_cb.tcb.t4t.timer);
++        break;
++      }
++      case RW_CB_TYPE_T5T: {
++        nfc_stop_quick_timer(&rw_cb.tcb.i93.timer);
++        break;
++      }
++      case RW_CB_TYPE_UNKNOWN: {
++        break;
++      }
++    }
++
++
+     /* Reset tag-specific area of control block */
+     memset (&rw_cb.tcb, 0, sizeof (tRW_TCB));
+ 
+@@ -233,6 +262,7 @@ tNFC_STATUS RW_SetActivatedTagType (tNFC_ACTIVATE_DEVT *p_activate_params, tRW_C
+         /* Type1Tag    - NFC-A */
+         if (p_activate_params->rf_tech_param.mode == NFC_DISCOVERY_TYPE_POLL_A)
+         {
++            rw_cb.tcb_type = RW_CB_TYPE_T1T;
+             status = rw_t1t_select (p_activate_params->rf_tech_param.param.pa.hr,
+                                     p_activate_params->rf_tech_param.param.pa.nfcid1);
+         }
+@@ -242,6 +272,7 @@ tNFC_STATUS RW_SetActivatedTagType (tNFC_ACTIVATE_DEVT *p_activate_params, tRW_C
+         /* Type2Tag    - NFC-A */
+         if (p_activate_params->rf_tech_param.mode == NFC_DISCOVERY_TYPE_POLL_A)
+         {
++            rw_cb.tcb_type = RW_CB_TYPE_T2T;
+             if (p_activate_params->rf_tech_param.param.pa.sel_rsp == NFC_SEL_RES_NFC_FORUM_T2T)
+                 status      = rw_t2t_select ();
+         }
+@@ -251,6 +282,7 @@ tNFC_STATUS RW_SetActivatedTagType (tNFC_ACTIVATE_DEVT *p_activate_params, tRW_C
+         /* Type3Tag    - NFC-F */
+         if (p_activate_params->rf_tech_param.mode == NFC_DISCOVERY_TYPE_POLL_F)
+         {
++            rw_cb.tcb_type = RW_CB_TYPE_T3T;
+             status = rw_t3t_select (p_activate_params->rf_tech_param.param.pf.nfcid2,
+                                     p_activate_params->rf_tech_param.param.pf.mrti_check,
+                                     p_activate_params->rf_tech_param.param.pf.mrti_update);
+@@ -262,6 +294,7 @@ tNFC_STATUS RW_SetActivatedTagType (tNFC_ACTIVATE_DEVT *p_activate_params, tRW_C
+         if (  (p_activate_params->rf_tech_param.mode == NFC_DISCOVERY_TYPE_POLL_B)
+             ||(p_activate_params->rf_tech_param.mode == NFC_DISCOVERY_TYPE_POLL_A)  )
+         {
++            rw_cb.tcb_type = RW_CB_TYPE_T4T;
+             status          = rw_t4t_select ();
+         }
+     }
+@@ -270,12 +303,14 @@ tNFC_STATUS RW_SetActivatedTagType (tNFC_ACTIVATE_DEVT *p_activate_params, tRW_C
+         /* ISO 15693 */
+         if (p_activate_params->rf_tech_param.mode == NFC_DISCOVERY_TYPE_POLL_ISO15693)
+         {
++            rw_cb.tcb_type = RW_CB_TYPE_T5T;
+             status          = rw_i93_select (p_activate_params->rf_tech_param.param.pi93.uid);
+         }
+     }
+     /* TODO set up callback for proprietary protocol */
+     else
+     {
++        rw_cb.tcb_type = RW_CB_TYPE_UNKNOWN;
+         RW_TRACE_ERROR0 ("RW_SetActivatedTagType Invalid protocol");
+     }
+ 

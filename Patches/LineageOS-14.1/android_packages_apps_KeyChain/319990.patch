@@ -1,0 +1,51 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tianyi Hu <hutianyi@bytedance.com>
+Date: Wed, 15 Sep 2021 21:43:18 +0800
+Subject: [PATCH] DO NOT MERGE Hide overlay on KeyChainActivity
+
+Hide non system overlay to improve security.
+
+Test: N/A
+Bug: 199754277
+Merged-In: Ia0e97f40d79a7f89035572e0175990694870938f
+Change-Id: Ia0e97f40d79a7f89035572e0175990694870938f
+(cherry picked from commit cdca35442c767d64f6d0db4af438a3856263857a)
+---
+ AndroidManifest.xml                            | 2 ++
+ src/com/android/keychain/KeyChainActivity.java | 3 +++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 3e03c87..807966a 100755
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -3,6 +3,8 @@
+           package="com.android.keychain"
+           android:sharedUserId="android.uid.system"
+           >
++    <uses-permission android:name="android.permission.HIDE_NON_SYSTEM_OVERLAY_WINDOWS"/>
++
+     <application android:label="@string/app_name"
+             android:allowBackup="false"
+             android:usesCleartextTraffic="false" >
+diff --git a/src/com/android/keychain/KeyChainActivity.java b/src/com/android/keychain/KeyChainActivity.java
+index b5058b2..eac36b4 100644
+--- a/src/com/android/keychain/KeyChainActivity.java
++++ b/src/com/android/keychain/KeyChainActivity.java
+@@ -61,6 +61,8 @@ import java.util.List;
+ 
+ import javax.security.auth.x500.X500Principal;
+ 
++import static android.view.WindowManager.LayoutParams.PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS;
++
+ public class KeyChainActivity extends Activity {
+     private static final String TAG = "KeyChain";
+ 
+@@ -84,6 +86,7 @@ public class KeyChainActivity extends Activity {
+ 
+     @Override public void onCreate(Bundle savedState) {
+         super.onCreate(savedState);
++        getWindow().addPrivateFlags(PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);
+         if (savedState == null) {
+             mState = State.INITIAL;
+         } else {

@@ -1,0 +1,85 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Edgar Wang <edgarwang@google.com>
+Date: Thu, 6 Jan 2022 20:53:48 +0800
+Subject: [PATCH] Fix bypass CALL_PRIVILEGED permission in
+ AppRestrictionsFragment
+
+In onReceive of AppRestrictionsFragment.java, there is a possible way to
+start a phone call without permissions due to a confused deputy.
+This could lead to local escalation of privilege with no additional
+execution privileges needed.
+
+We should not allow the restrictionsIntent to startActivity simply
+because it resolves to multiple activities.
+Instead, we should call resolveActivity and check the result's package
+name is same as current package name, then it is safe to startActivity.
+
+Bug: 200688991
+Test: manual verify
+Change-Id: Iaa2d3a9497c3266babe0789961befc9776a4db7a
+Merged-In: Iaa2d3a9497c3266babe0789961befc9776a4db7a
+(cherry picked from commit 359512cd9553c940af3c9045b856647b7529731a)
+(cherry picked from commit f57d75f127fe96e91250585208a339763f1a2253)
+Merged-In:Iaa2d3a9497c3266babe0789961befc9776a4db7a
+---
+ .../users/AppRestrictionsFragment.java        | 24 +++++++++++++------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
+
+diff --git a/src/com/android/settings/users/AppRestrictionsFragment.java b/src/com/android/settings/users/AppRestrictionsFragment.java
+index f72bf9e97b..ee2114219e 100644
+--- a/src/com/android/settings/users/AppRestrictionsFragment.java
++++ b/src/com/android/settings/users/AppRestrictionsFragment.java
+@@ -17,6 +17,7 @@
+ package com.android.settings.users;
+ 
+ import android.app.Activity;
++import android.content.ActivityNotFoundException;
+ import android.content.BroadcastReceiver;
+ import android.content.Context;
+ import android.content.Intent;
+@@ -44,6 +45,7 @@ import android.support.v7.preference.Preference.OnPreferenceChangeListener;
+ import android.support.v7.preference.Preference.OnPreferenceClickListener;
+ import android.support.v7.preference.PreferenceGroup;
+ import android.support.v7.preference.PreferenceViewHolder;
++import android.util.EventLog;
+ import android.util.Log;
+ import android.view.View;
+ import android.view.View.OnClickListener;
+@@ -634,7 +636,15 @@ public class AppRestrictionsFragment extends SettingsPreferenceFragment implemen
+             } else if (restrictionsIntent != null) {
+                 preference.setRestrictions(restrictions);
+                 if (invokeIfCustom && AppRestrictionsFragment.this.isResumed()) {
+-                    assertSafeToStartCustomActivity(restrictionsIntent);
++                    try {
++                        assertSafeToStartCustomActivity(restrictionsIntent);
++                    } catch (ActivityNotFoundException | SecurityException e) {
++                        // return without startActivity
++                        Log.e(TAG, "Cannot start restrictionsIntent " + e);
++                        EventLog.writeEvent(0x534e4554, "200688991", -1 /* UID */, "");
++                        return;
++                    }
++
+                     int requestCode = generateCustomActivityRequestCode(
+                             RestrictionsResultReceiver.this.preference);
+                     AppRestrictionsFragment.this.startActivityForResult(
+@@ -648,14 +658,14 @@ public class AppRestrictionsFragment extends SettingsPreferenceFragment implemen
+             if (intent.getPackage() != null && intent.getPackage().equals(packageName)) {
+                 return;
+             }
+-            // Activity can be started if intent resolves to multiple activities
+-            List<ResolveInfo> resolveInfos = AppRestrictionsFragment.this.mPackageManager
+-                    .queryIntentActivities(intent, 0 /* no flags */);
+-            if (resolveInfos.size() != 1) {
+-                return;
++            ResolveInfo resolveInfo = mPackageManager.resolveActivity(
++                    intent, PackageManager.MATCH_DEFAULT_ONLY);
++
++            if (resolveInfo == null) {
++                throw new ActivityNotFoundException("No result for resolving " + intent);
+             }
+             // Prevent potential privilege escalation
+-            ActivityInfo activityInfo = resolveInfos.get(0).activityInfo;
++            ActivityInfo activityInfo = resolveInfo.activityInfo;
+             if (!packageName.equals(activityInfo.packageName)) {
+                 throw new SecurityException("Application " + packageName
+                         + " is not allowed to start activity " + intent);

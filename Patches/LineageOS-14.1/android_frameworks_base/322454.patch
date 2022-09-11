@@ -1,0 +1,46 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Aseem Kumar <aseemk@google.com>
+Date: Mon, 17 May 2021 09:25:03 +0000
+Subject: [PATCH] Prevent apps from spamming addAccountExplicitly.
+
+See comment here for the discussion on solution
+https://b.corp.google.com/issues/169762606#comment14
+
+Change-Id: If212df3a3b7be1de0fb26b8e88b2fcbb8077c253
+
+Bug: 169762606
+(cherry picked from commit 11053c17b397db67b20e96ce769508766cef7db9)
+
+Change-Id: I6494366a5695daedc3f4f0046da9e130a5363f5f
+Merged-In: If212df3a3b7be1de0fb26b8e88b2fcbb8077c253
+(cherry picked from commit 5beff34b5738ee050d04ff5786e8c883bb5585f8)
+Merged-In:I6494366a5695daedc3f4f0046da9e130a5363f5f
+---
+ core/java/android/accounts/Account.java | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/core/java/android/accounts/Account.java b/core/java/android/accounts/Account.java
+index 3f90f36fb2a1..1546ae14862d 100644
+--- a/core/java/android/accounts/Account.java
++++ b/core/java/android/accounts/Account.java
+@@ -28,6 +28,7 @@ import android.util.ArraySet;
+ import android.util.Log;
+ import com.android.internal.annotations.GuardedBy;
+ 
++import java.util.Objects;
+ import java.util.Set;
+ 
+ /**
+@@ -80,6 +81,12 @@ public class Account implements Parcelable {
+         if (TextUtils.isEmpty(type)) {
+             throw new IllegalArgumentException("the type must not be empty: " + type);
+         }
++        if (name.length() > 200) {
++            throw new IllegalArgumentException("account name is longer than 200 characters");
++        }
++        if (type.length() > 200) {
++            throw new IllegalArgumentException("account type is longer than 200 characters");
++        }
+         this.name = name;
+         this.type = type;
+         this.accessId = accessId;

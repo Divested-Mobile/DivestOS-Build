@@ -98,6 +98,8 @@ fi;
 
 if enterAndClear "external/expat"; then
 applyPatch "$DOS_PATCHES/android_external_expat/337987.patch"; #Q_asb_2022-09 Prevent XML_GetBuffer signed integer overflow
+applyPatch "$DOS_PATCHES/android_external_expat/337988-backport.patch"; #n-asb-2022-09 Prevent integer overflow in function doProlog
+applyPatch "$DOS_PATCHES/android_external_expat/337989-backport.patch"; #n-asb-2022-09 Prevent more integer overflows
 fi;
 
 #if [ "$DOS_GRAPHENE_MALLOC_BROKEN" = true ]; then

@@ -1,0 +1,53 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Gopalakrishnan Nallasamy <gokrishnan@google.com>
+Date: Wed, 29 Sep 2021 08:24:26 -0700
+Subject: [PATCH] SimpleDecodingSource:Prevent OOB write in heap mem
+
+doRead() doesn't handle situations when received byte do not fit into
+input buffer in case of vorbis audio compression. It results in OOB
+write in heap memory right after the allocated input buffer. Added
+code to copy kKeyValidSamples only if there was enough space.
+Otherwise, print a warning log.
+
+Bug: 194105348
+
+Test: post-submit media cts tests
+Change-Id: I2b27580deff9ad937b68703a1e7c3ff2a6dccc60
+(cherry picked from commit a625b40e1c210f1e8ed57962eee9f70cef06fb1b)
+(cherry picked from commit f3590a1b18d8cde4ac1cbc135c1022816096438d)
+Merged-In:I2b27580deff9ad937b68703a1e7c3ff2a6dccc60
+---
+ media/libstagefright/SimpleDecodingSource.cpp | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/media/libstagefright/SimpleDecodingSource.cpp b/media/libstagefright/SimpleDecodingSource.cpp
+index 2503a3205d..66e17c9c31 100644
+--- a/media/libstagefright/SimpleDecodingSource.cpp
++++ b/media/libstagefright/SimpleDecodingSource.cpp
+@@ -292,18 +292,23 @@ status_t SimpleDecodingSource::doRead(
+                 }
+                 size_t cpLen = min(in_buf->range_length(), in_buffer->capacity());
+                 memcpy(in_buffer->base(), (uint8_t *)in_buf->data() + in_buf->range_offset(),
+-                        cpLen );
++                        cpLen);
+ 
+                 if (mIsVorbis) {
+                     int32_t numPageSamples;
+                     if (!in_buf->meta_data()->findInt32(kKeyValidSamples, &numPageSamples)) {
+                         numPageSamples = -1;
+                     }
+-                    memcpy(in_buffer->base() + cpLen, &numPageSamples, sizeof(numPageSamples));
++                    if (cpLen + sizeof(numPageSamples) <= in_buffer->capacity()) {
++                        memcpy(in_buffer->base() + cpLen, &numPageSamples, sizeof(numPageSamples));
++                        cpLen += sizeof(numPageSamples);
++                    } else {
++                        ALOGW("Didn't have enough space to copy kKeyValidSamples");
++                    }
+                 }
+ 
+                 res = mCodec->queueInputBuffer(
+-                        in_ix, 0 /* offset */, in_buf->range_length() + (mIsVorbis ? 4 : 0),
++                        in_ix, 0 /* offset */, cpLen,
+                         timestampUs, 0 /* flags */);
+                 if (res != OK) {
+                     ALOGI("[%s] failed to queue input buffer #%zu", mComponentName.c_str(), in_ix);

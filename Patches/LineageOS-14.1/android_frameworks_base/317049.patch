@@ -1,0 +1,93 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Dementyev <dementyev@google.com>
+Date: Thu, 17 Jun 2021 13:16:38 -0700
+Subject: [PATCH] Change ownership of the account request notification.
+
+Add "Permission requested by Application..." string.
+Test: manual
+Bug: 179338675
+
+Change-Id: Ib66ccc1b39bd1f3f8fa3b1efc38a9d413b72a321
+(cherry picked from commit 26de0c231ffb9fd8d22e80ca120c766c26276779)
+---
+ core/res/res/values/strings.xml               |  2 ++
+ core/res/res/values/symbols.xml               |  1 +
+ .../accounts/AccountManagerService.java       | 19 ++++++++++++++-----
+ 3 files changed, 17 insertions(+), 5 deletions(-)
+
+diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
+index d3df61ba1942..1e32ca2629d2 100755
+--- a/core/res/res/values/strings.xml
++++ b/core/res/res/values/strings.xml
+@@ -3309,6 +3309,8 @@
+     <string name="deny">Deny</string>
+     <string name="permission_request_notification_title">Permission requested</string>
+     <string name="permission_request_notification_with_subtitle">Permission requested\nfor account <xliff:g id="account" example="foo@gmail.com">%s</xliff:g>.</string>
++     <!-- Title and subtitle for notification shown when app request account access (two lines) [CHAR LIMIT=NONE] -->
++    <string name="permission_request_notification_for_app_with_subtitle">Permission requested by <xliff:g id="app" example="Gmail">%1$s</xliff:g>\nfor account <xliff:g id="account" example="foo@gmail.com">%2$s</xliff:g>.</string>
+ 
+     <!-- Message to show when an intent automatically switches users into the personal profile. -->
+     <string name="forward_intent_to_owner">You\'re using this app outside of your work profile</string>
+diff --git a/core/res/res/values/symbols.xml b/core/res/res/values/symbols.xml
+index eeacb08436e2..71e388d48ba7 100755
+--- a/core/res/res/values/symbols.xml
++++ b/core/res/res/values/symbols.xml
+@@ -462,6 +462,7 @@
+   <java-symbol type="string" name="menu_space_shortcut_label" />
+   <java-symbol type="string" name="notification_title" />
+   <java-symbol type="string" name="permission_request_notification_with_subtitle" />
++  <java-symbol type="string" name="permission_request_notification_for_app_with_subtitle" />
+   <java-symbol type="string" name="prepend_shortcut_label" />
+   <java-symbol type="string" name="paste_as_plain_text" />
+   <java-symbol type="string" name="replace" />
+diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
+index 126955add01a..520a0d314318 100644
+--- a/services/core/java/com/android/server/accounts/AccountManagerService.java
++++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
+@@ -502,7 +502,7 @@ public class AccountManagerService
+         if (!checkAccess || hasAccountAccess(account, packageName,
+                 UserHandle.getUserHandleForUid(uid))) {
+             cancelNotification(getCredentialPermissionNotificationId(account,
+-                    AccountManager.ACCOUNT_ACCESS_TOKEN_TYPE, uid), packageName,
++                    AccountManager.ACCOUNT_ACCESS_TOKEN_TYPE, uid),
+                     UserHandle.getUserHandleForUid(uid));
+         }
+     }
+@@ -2572,8 +2572,8 @@ public class AccountManagerService
+         String authTokenType = intent.getStringExtra(
+                 GrantCredentialsPermissionActivity.EXTRAS_AUTH_TOKEN_TYPE);
+         final String titleAndSubtitle =
+-                mContext.getString(R.string.permission_request_notification_with_subtitle,
+-                account.name);
++                mContext.getString(R.string.permission_request_notification_for_app_with_subtitle,
++                getApplicationLabel(packageName), account.name);
+         final int index = titleAndSubtitle.indexOf('\n');
+         String title = titleAndSubtitle;
+         String subtitle = "";
+@@ -2594,7 +2594,16 @@ public class AccountManagerService
+                         PendingIntent.FLAG_CANCEL_CURRENT, null, user))
+                 .build();
+         installNotification(getCredentialPermissionNotificationId(
+-                account, authTokenType, uid), n, packageName, user.getIdentifier());
++                account, authTokenType, uid), n, "android", user.getIdentifier());
++    }
++
++    private String getApplicationLabel(String packageName) {
++        try {
++            return mPackageManager.getApplicationLabel(
++                    mPackageManager.getApplicationInfo(packageName, 0)).toString();
++        } catch (PackageManager.NameNotFoundException e) {
++            return packageName;
++        }
+     }
+ 
+     private Intent newGrantCredentialsPermissionIntent(Account account, String packageName,
+@@ -3582,7 +3591,7 @@ public class AccountManagerService
+ 
+             private void handleAuthenticatorResponse(boolean accessGranted) throws RemoteException {
+                 cancelNotification(getCredentialPermissionNotificationId(account,
+-                        AccountManager.ACCOUNT_ACCESS_TOKEN_TYPE, uid), packageName,
++                        AccountManager.ACCOUNT_ACCESS_TOKEN_TYPE, uid),
+                         UserHandle.getUserHandleForUid(uid));
+                 if (callback != null) {
+                     Bundle result = new Bundle();

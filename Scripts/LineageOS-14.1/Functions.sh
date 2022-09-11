@@ -105,22 +105,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	#repopick -it bt-sbc-hd-dualchannel-nougat;
-	repopick -i 315718; #CVE-2021-1957
-	repopick -it n-asb-2021-09;
-	repopick -it n-asb-2021-10;
-	repopick -it n-asb-2021-11;
-	repopick -it n-asb-2021-12;
-	repopick -it n-asb-2022-01;
-	repopick -it n-asb-2022-02;
-	repopick -it n-asb-2022-03;
-	repopick -it n-asb-2022-04;
 	repopick -it tzdb_N;
-	repopick -it n-asb-2022-05;
-	repopick -it n-asb-2022-06;
-	repopick -it n-asb-2022-07;
-	repopick -i 334325; #Modify conditions for preventing updated system apps from being downgraded
-	repopick -it n-asb-2022-08;
-	repopick -it n-asb-2022-09;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

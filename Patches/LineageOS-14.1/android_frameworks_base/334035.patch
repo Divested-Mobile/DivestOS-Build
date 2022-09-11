@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Julia Reynolds <juliacr@google.com>
+Date: Wed, 7 Jul 2021 16:19:44 -0400
+Subject: [PATCH] DO NOT MERGE Crash invalid FGS notifications
+
+Test: CTS, ActivityManagerProcessStateTest
+Fixes: 191981182
+Change-Id: I13a0202b25c8118db47edba11a93c1939c94b392
+Merged-In: I13a0202b25c8118db47edba11a93c1939c94b392
+(cherry picked from commit 6f657f8f5b7d41af426d6cd8d60bfda6e12057c0)
+(cherry picked from commit b6b2906ea6472d182e6ae03c581a63802cd84f08)
+Merged-In: I13a0202b25c8118db47edba11a93c1939c94b392
+---
+ .../server/notification/NotificationManagerService.java    | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/notification/NotificationManagerService.java b/services/core/java/com/android/server/notification/NotificationManagerService.java
+index 7ced1f96cc49..84ea9ce7751a 100644
+--- a/services/core/java/com/android/server/notification/NotificationManagerService.java
++++ b/services/core/java/com/android/server/notification/NotificationManagerService.java
+@@ -2732,8 +2732,11 @@ public class NotificationManagerService extends SystemService {
+                     pkg, PackageManager.MATCH_DEBUG_TRIAGED_MISSING,
+                     (userId == UserHandle.USER_ALL) ? UserHandle.USER_SYSTEM : userId);
+             Notification.addFieldsFromContext(ai, userId, notification);
+-        } catch (NameNotFoundException e) {
+-            Slog.e(TAG, "Cannot create a context for sending app", e);
++        } catch (Exception e) {
++            if ((notification.flags & Notification.FLAG_FOREGROUND_SERVICE) != 0) {
++                throw new SecurityException("Invalid FGS notification", e);
++            }
++            Slog.e(TAG, "Cannot fix notification", e);
+             return;
+         }
+ 

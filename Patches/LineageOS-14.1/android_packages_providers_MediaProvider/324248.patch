@@ -1,0 +1,147 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Zim <zezeozue@google.com>
+Date: Thu, 4 Nov 2021 11:05:39 +0000
+Subject: [PATCH] Open all files with O_NOFOLLOW.
+
+SD cards don't support symlinks, so we have no reason to try
+following them if somehow an evil caller is able to sneak them into
+the database.
+
+Bug: 124329382
+Bug: 200682135
+Test: atest --test-mapping packages/providers/MediaProvider
+Change-Id: Idb1f3ee1db90913a97a50515003f211519037066
+Merged-In: Idb1f3ee1db90913a97a50515003f211519037066
+(cherry picked from commit b50868065a4cf0c15e96aea66732afc89c388022)
+Merged-In: Idb1f3ee1db90913a97a50515003f211519037066
+---
+ .../media/MediaDocumentsProvider.java         |  4 +-
+ .../providers/media/MediaProvider.java        | 77 ++++++++++++++++++-
+ 2 files changed, 76 insertions(+), 5 deletions(-)
+
+diff --git a/src/com/android/providers/media/MediaDocumentsProvider.java b/src/com/android/providers/media/MediaDocumentsProvider.java
+index 7c3d773a6..c2877731c 100644
+--- a/src/com/android/providers/media/MediaDocumentsProvider.java
++++ b/src/com/android/providers/media/MediaDocumentsProvider.java
+@@ -799,7 +799,7 @@ public class MediaDocumentsProvider extends DocumentsProvider {
+                     null, signal);
+             if (cursor.moveToFirst()) {
+                 final String data = cursor.getString(ImageThumbnailQuery._DATA);
+-                return ParcelFileDescriptor.open(
++                return MediaProvider.openSafely(
+                         new File(data), ParcelFileDescriptor.MODE_READ_ONLY);
+             }
+         } finally {
+@@ -886,7 +886,7 @@ public class MediaDocumentsProvider extends DocumentsProvider {
+                     null, signal);
+             if (cursor.moveToFirst()) {
+                 final String data = cursor.getString(VideoThumbnailQuery._DATA);
+-                return new AssetFileDescriptor(ParcelFileDescriptor.open(
++                return new AssetFileDescriptor(MediaProvider.openSafely(
+                         new File(data), ParcelFileDescriptor.MODE_READ_ONLY), 0,
+                         AssetFileDescriptor.UNKNOWN_LENGTH);
+             }
+diff --git a/src/com/android/providers/media/MediaProvider.java b/src/com/android/providers/media/MediaProvider.java
+index f0370d7a3..d8a68cff2 100644
+--- a/src/com/android/providers/media/MediaProvider.java
++++ b/src/com/android/providers/media/MediaProvider.java
+@@ -21,9 +21,25 @@ import static android.Manifest.permission.INTERACT_ACROSS_USERS;
+ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+ import static android.Manifest.permission.WRITE_MEDIA_STORAGE;
++import static android.os.ParcelFileDescriptor.MODE_APPEND;
++import static android.os.ParcelFileDescriptor.MODE_CREATE;
+ import static android.os.ParcelFileDescriptor.MODE_READ_ONLY;
++import static android.os.ParcelFileDescriptor.MODE_READ_WRITE;
++import static android.os.ParcelFileDescriptor.MODE_TRUNCATE;
+ import static android.os.ParcelFileDescriptor.MODE_WRITE_ONLY;
+-
++import static android.system.OsConstants.O_APPEND;
++import static android.system.OsConstants.O_CLOEXEC;
++import static android.system.OsConstants.O_CREAT;
++import static android.system.OsConstants.O_NOFOLLOW;
++import static android.system.OsConstants.O_RDONLY;
++import static android.system.OsConstants.O_RDWR;
++import static android.system.OsConstants.O_TRUNC;
++import static android.system.OsConstants.O_WRONLY;
++import static android.system.OsConstants.S_IRWXG;
++import static android.system.OsConstants.S_IRWXU;
++
++import android.annotation.NonNull;
++import android.annotation.Nullable;
+ import android.app.AppOpsManager;
+ import android.app.SearchManager;
+ import android.content.BroadcastReceiver;
+@@ -5035,7 +5051,62 @@ public class MediaProvider extends ContentProvider {
+             file = Environment.maybeTranslateEmulatedPathToInternal(file);
+         }
+ 
+-        return ParcelFileDescriptor.open(file, modeBits);
++        return openSafely(file, modeBits);
++    }
++
++    /**
++     * Drop-in replacement for {@link ParcelFileDescriptor#open(File, int)}
++     * which adds security features like {@link OsConstants#O_CLOEXEC} and
++     * {@link OsConstants#O_NOFOLLOW}.
++     */
++    public static @NonNull ParcelFileDescriptor openSafely(@NonNull File file, int pfdFlags)
++            throws FileNotFoundException {
++        final int posixFlags = translateModePfdToPosix(pfdFlags) | O_CLOEXEC | O_NOFOLLOW;
++        try {
++            final FileDescriptor fd = Os.open(file.getAbsolutePath(), posixFlags,
++                    S_IRWXU | S_IRWXG);
++            try {
++                return ParcelFileDescriptor.dup(fd);
++            } finally {
++                closeQuietly(fd);
++            }
++        } catch (IOException | ErrnoException e) {
++            throw new FileNotFoundException(e.getMessage());
++        }
++    }
++
++    private static void closeQuietly(@Nullable FileDescriptor fd) {
++        if (fd == null) return;
++        try {
++            Os.close(fd);
++        } catch (ErrnoException ignored) {
++        }
++    }
++
++    /**
++     * Shamelessly borrowed from {@code android.os.FileUtils}.
++     */
++    private static int translateModePfdToPosix(int mode) {
++        int res = 0;
++        if ((mode & MODE_READ_WRITE) == MODE_READ_WRITE) {
++            res = O_RDWR;
++        } else if ((mode & MODE_WRITE_ONLY) == MODE_WRITE_ONLY) {
++            res = O_WRONLY;
++        } else if ((mode & MODE_READ_ONLY) == MODE_READ_ONLY) {
++            res = O_RDONLY;
++        } else {
++            throw new IllegalArgumentException("Bad mode: " + mode);
++        }
++        if ((mode & MODE_CREATE) == MODE_CREATE) {
++            res |= O_CREAT;
++        }
++        if ((mode & MODE_TRUNCATE) == MODE_TRUNCATE) {
++            res |= O_TRUNC;
++        }
++        if ((mode & MODE_APPEND) == MODE_APPEND) {
++            res |= O_APPEND;
++        }
++        return res;
+     }
+ 
+     private void deleteIfAllowed(Uri uri, String path) {
+@@ -5268,7 +5339,7 @@ public class MediaProvider extends ContentProvider {
+         }
+         try {
+             File f = new File(path);
+-            ParcelFileDescriptor pfd = ParcelFileDescriptor.open(f,
++            ParcelFileDescriptor pfd = openSafely(f,
+                     ParcelFileDescriptor.MODE_READ_ONLY);
+ 
+             try (MediaScanner scanner = new MediaScanner(context, INTERNAL_VOLUME)) {

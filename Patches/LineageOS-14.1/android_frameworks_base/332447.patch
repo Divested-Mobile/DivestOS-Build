@@ -1,0 +1,44 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Oli Lan <olilan@google.com>
+Date: Fri, 25 Mar 2022 10:02:41 +0000
+Subject: [PATCH] RESTRICT AUTOMERGE Prevent non-admin users from deleting
+ system apps.
+
+This addresses a security issue where the guest user can remove updates
+for system apps.
+
+With this CL, attempts to uninstall/downgrade system apps will fail if
+attempted by a non-admin user.
+
+This is a backport of ag/17352264.
+
+Bug: 170646036
+Test: manual, try uninstalling system app update as guest
+Change-Id: I5bbaaf83d035c500bfc02ff4b9b0e7fb1e7c2feb
+Merged-In: I4e959e296cca9bbdfc8fccc5e5e0e654ca524165
+(cherry picked from commit a7621e0ce00f1d140b375518e26cf75693314203)
+Merged-In: I5bbaaf83d035c500bfc02ff4b9b0e7fb1e7c2feb
+---
+ .../com/android/server/pm/PackageManagerService.java     | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index 2e63c6c4d4e3..9265358b8b37 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -16059,6 +16059,15 @@ public class PackageManagerService extends IPackageManager.Stub {
+                 Slog.w(TAG, "Not removing non-existent package " + packageName);
+                 return PackageManager.DELETE_FAILED_INTERNAL_ERROR;
+             }
++            if (isSystemApp(uninstalledPs)) {
++                UserInfo userInfo = sUserManager.getUserInfo(userId);
++                if (userInfo == null || !userInfo.isAdmin()) {
++                    Slog.w(TAG, "Not removing package " + packageName
++                            + " as only admin user may downgrade system apps");
++                    EventLog.writeEvent(0x534e4554, "170646036", -1, packageName);
++                    return PackageManager.DELETE_FAILED_USER_RESTRICTED;
++                }
++            }
+             allUsers = sUserManager.getUserIds();
+             info.origUsers = uninstalledPs.queryInstalledUsers(allUsers, true);
+         }

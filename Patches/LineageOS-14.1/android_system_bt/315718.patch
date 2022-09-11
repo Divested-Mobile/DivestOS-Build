@@ -1,0 +1,50 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Sumit Deshmukh <sumitd@codeaurora.org>
+Date: Tue, 16 Apr 2019 12:38:32 +0530
+Subject: [PATCH] BLE: [IOT] Initiate disconnection when encryption fails
+ during pairing
+
+Usecase:
+1. Keep remote device (IOGEAR Keyboard) in advertising mode.
+2. Pair and connect remote device with DUT.
+3. Disconnect remote from settings menu.
+4. Keep remote back in pairing mode. (This deletes link key
+   at remote side.)
+5. Select remote for connection from Settings menu from
+   paired devices.
+
+Issue:
+Device is seen stuck in "Connecting state" in settings app.
+
+Root Cause:
+When pairing is initiated again from DUT (step 5), encryption
+change event is received with status "PIN or Key Missing" after
+connection complete but disconnection is not initiated by DUT
+thereafter.
+
+Fix:
+Trigger disconnection if encyption fails with reason like
+HCI_ERR_AUTH_FAILURE, HCI_ERR_KEY_MISSING,
+HCI_ERR_ENCRY_MODE_NOT_ACCEPTABLE etc
+
+CRs-Fixed: 2427750
+Change-Id: Ie93938a5dc68c6bbd4b6c375c360f09e797f9e77
+---
+ stack/btm/btm_ble.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/stack/btm/btm_ble.c b/stack/btm/btm_ble.c
+index 51fd748c0..6bb85a4ce 100644
+--- a/stack/btm/btm_ble.c
++++ b/stack/btm/btm_ble.c
+@@ -1643,7 +1643,9 @@ void btm_ble_link_encrypted(BD_ADDR bd_addr, UINT8 encr_enable)
+     {
+         if (encr_enable)
+             btm_sec_dev_rec_cback_event(p_dev_rec, BTM_SUCCESS, TRUE);
+-        else if (p_dev_rec->role_master)
++        else if (p_dev_rec->sec_flags & ~BTM_SEC_LE_LINK_KEY_KNOWN) {
++            btm_sec_dev_rec_cback_event(p_dev_rec, BTM_FAILED_ON_SECURITY, TRUE);
++        } else if (p_dev_rec->role_master)
+             btm_sec_dev_rec_cback_event(p_dev_rec, BTM_ERR_PROCESSING, TRUE);
+ 
+     }

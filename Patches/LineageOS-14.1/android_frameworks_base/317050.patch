@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MahendaviAamir <mahendavi.aamirmohammedbhai@sasken.com>
+Date: Wed, 9 Jun 2021 17:10:42 +0530
+Subject: [PATCH] Send targeted broadcasts to prevent other apps from receiving
+ them.
+
+When sending broadcasts ACTION_SNOOZE_WARNING in NPMS, which may
+contain sensitive information, explicitly set the package name
+that should receive it to prevent other apps from receiving them.
+
+Bug: 177931370
+Test: manual
+Change-Id: I2a0a0dc09e27791de829bacfb2e865ffea993715
+Merged-In: I11d736771d859d2af27d5c84a502ab038974e2e2
+(cherry picked from commit fdbcf17a4eda04e3140b5d97658a3d4815abd9f5)
+---
+ .../com/android/server/net/NetworkPolicyManagerService.java | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/net/NetworkPolicyManagerService.java b/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
+index fddfb003029b..c1111607f0dc 100644
+--- a/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
++++ b/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
+@@ -1067,7 +1067,8 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
+                 builder.setDefaults(Notification.DEFAULT_ALL);
+                 builder.setPriority(Notification.PRIORITY_HIGH);
+ 
+-                final Intent snoozeIntent = buildSnoozeWarningIntent(policy.template);
++                final Intent snoozeIntent = buildSnoozeWarningIntent(policy.template,
++                        mContext.getPackageName());
+                 builder.setDeleteIntent(PendingIntent.getBroadcast(
+                         mContext, 0, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+ 
+@@ -3607,9 +3608,10 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
+         return new Intent(ACTION_ALLOW_BACKGROUND);
+     }
+ 
+-    private static Intent buildSnoozeWarningIntent(NetworkTemplate template) {
++    private static Intent buildSnoozeWarningIntent(NetworkTemplate template, String targetPackage) {
+         final Intent intent = new Intent(ACTION_SNOOZE_WARNING);
+         intent.putExtra(EXTRA_NETWORK_TEMPLATE, template);
++        intent.setPackage(targetPackage);
+         return intent;
+     }
+ 

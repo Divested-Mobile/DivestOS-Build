@@ -1,0 +1,50 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Christopher Tate <ctate@google.com>
+Date: Mon, 7 Jun 2021 15:02:45 -0700
+Subject: [PATCH] Fix side effects of trace-ipc and dumpheap commands
+
+These shell commands were implicitly deleting any client-named file for
+which the system uid had deletion capability.  They no longer do this,
+instead using only the client's own capabilities and file manipulation
+modes.
+
+Bug: 185398942
+Test: manual "adb shell cmd activity dumpheap system_server /data/system/last-fstrim"
+Test: atest CtsPermissionTestCases:ShellCommandPermissionTest
+
+[basilgello: Backport to LineageOS 14.1:
+ - Adjust file name,
+ - Do not remove file creation statements]
+Signed-off-by: Vasyl Gello <vasek.gello@gmail.com>
+
+Merged-In: Ie61ab2c3f4bfbd04de09ca99c1116d1129461e8f
+Change-Id: Ie61ab2c3f4bfbd04de09ca99c1116d1129461e8f
+(cherry picked from commit 6984eaa9f4a369228259047c2f797d022afb8f3b)
+---
+ cmds/am/src/com/android/commands/am/Am.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/cmds/am/src/com/android/commands/am/Am.java b/cmds/am/src/com/android/commands/am/Am.java
+index 618a7ed34708..ebf3d0b8a8fc 100644
+--- a/cmds/am/src/com/android/commands/am/Am.java
++++ b/cmds/am/src/com/android/commands/am/Am.java
+@@ -945,8 +945,8 @@ public class Am extends BaseCommand {
+         ParcelFileDescriptor fd = null;
+ 
+         try {
++            // Writes an error message to stderr on failure
+             File file = new File(filename);
+-            file.delete();
+             fd = openForSystemServer(file,
+                     ParcelFileDescriptor.MODE_CREATE |
+                             ParcelFileDescriptor.MODE_TRUNCATE |
+@@ -1094,8 +1094,8 @@ public class Am extends BaseCommand {
+         ParcelFileDescriptor fd = null;
+ 
+         try {
++            // Writes an error message to stderr on failure
+             File file = new File(heapFile);
+-            file.delete();
+             fd = openForSystemServer(file,
+                     ParcelFileDescriptor.MODE_CREATE |
+                     ParcelFileDescriptor.MODE_TRUNCATE |

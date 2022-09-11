@@ -1,0 +1,1411 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Bill Yi <byi@google.com>
+Date: Tue, 17 Aug 2021 22:14:24 -0700
+Subject: [PATCH] Import translations. DO NOT MERGE ANYWHERE
+
+BUG:167403112
+
+Auto-generated-cl: translation import
+
+[basilgello: Back-port to LineageOS 14.1]
+
+Since the patch is too big to apply it manually, I splitted
+the patch into '/tmp/a' with this script:
+
+===
+
+PREVLINENO=""
+PREVFILENAME=""
+grep -n "^diff " "$1" | while read LINE; do
+	CURLINENO="$(echo "$LINE" | awk -F: '{print $1}')"
+	FILENAME="$(echo "$LINE" | awk '{print $3}' | sed 's,^'$2'/,,')"
+
+	if [ ! -z "$PREVLINENO" ]; then
+		DIRNAME="$(dirname "$PREVFILENAME")"
+
+		mkdir -p "$DIRNAME"
+		REALCURLINENO="$(expr $CURLINENO - 1)"
+		sed -n $PREVLINENO","$REALCURLINENO"p" "$1" |
+			sed '/^Only in/d' >"$PREVFILENAME.diff"
+		echo "---" >>"$PREVFILENAME.diff"
+	fi
+
+	PREVLINENO="$CURLINENO"
+	PREVFILENAME="$FILENAME"
+done
+
+echo "$PREVFILENAME"
+===
+
+then imported the filediffs which exist in the resource tree:
+
+===
+for _1 in $(find /tmp/a/ -type f)
+do
+        _2="${_1/.diff/}"
+        _2="${_2/\/tmp\/a\//}"
+        if [ -f "$_2" ]; then
+                sed -i '\|^</resources>|d' "$_2"
+                sed -n '/^+ /{s/^+//; p}' "/tmp/a/$_2.diff" >> "$_2"
+                echo "</resources>" >> "$_2"
+        fi
+done
+===
+
+Signed-off-by: Vasyl Gello <vasek.gello@gmail.com>
+
+Change-Id: Id5c579245cf72f10f4d15fcb69d24bcf58dd281a
+(cherry picked from commit 88a0994ed854f04730d178159f8bb95f08c4597b)
+---
+ res/values-af/strings.xml        | 17 +++++++++++++++++
+ res/values-am/strings.xml        | 17 +++++++++++++++++
+ res/values-ar/strings.xml        | 17 +++++++++++++++++
+ res/values-b+sr+Latn/strings.xml | 17 +++++++++++++++++
+ res/values-bg/strings.xml        | 17 +++++++++++++++++
+ res/values-ca/strings.xml        | 17 +++++++++++++++++
+ res/values-cs/strings.xml        | 17 +++++++++++++++++
+ res/values-da/strings.xml        | 17 +++++++++++++++++
+ res/values-de/strings.xml        | 17 +++++++++++++++++
+ res/values-el/strings.xml        | 17 +++++++++++++++++
+ res/values-en-rAU/strings.xml    | 17 +++++++++++++++++
+ res/values-en-rGB/strings.xml    | 17 +++++++++++++++++
+ res/values-en-rIN/strings.xml    | 17 +++++++++++++++++
+ res/values-es-rUS/strings.xml    | 17 +++++++++++++++++
+ res/values-es/strings.xml        | 17 +++++++++++++++++
+ res/values-fa/strings.xml        | 17 +++++++++++++++++
+ res/values-fi/strings.xml        | 17 +++++++++++++++++
+ res/values-fr-rCA/strings.xml    | 17 +++++++++++++++++
+ res/values-fr/strings.xml        | 17 +++++++++++++++++
+ res/values-hi/strings.xml        | 17 +++++++++++++++++
+ res/values-hr/strings.xml        | 17 +++++++++++++++++
+ res/values-hu/strings.xml        | 17 +++++++++++++++++
+ res/values-in/strings.xml        | 17 +++++++++++++++++
+ res/values-it/strings.xml        | 17 +++++++++++++++++
+ res/values-iw/strings.xml        | 17 +++++++++++++++++
+ res/values-ja/strings.xml        | 17 +++++++++++++++++
+ res/values-ko/strings.xml        | 17 +++++++++++++++++
+ res/values-lt/strings.xml        | 17 +++++++++++++++++
+ res/values-lv/strings.xml        | 17 +++++++++++++++++
+ res/values-nb/strings.xml        | 17 +++++++++++++++++
+ res/values-nl/strings.xml        | 17 +++++++++++++++++
+ res/values-pl/strings.xml        | 17 +++++++++++++++++
+ res/values-pt-rBR/strings.xml    | 17 +++++++++++++++++
+ res/values-pt-rPT/strings.xml    | 17 +++++++++++++++++
+ res/values-pt/strings.xml        | 17 +++++++++++++++++
+ res/values-ro/strings.xml        | 17 +++++++++++++++++
+ res/values-ru/strings.xml        | 17 +++++++++++++++++
+ res/values-sk/strings.xml        | 17 +++++++++++++++++
+ res/values-sl/strings.xml        | 17 +++++++++++++++++
+ res/values-sr/strings.xml        | 17 +++++++++++++++++
+ res/values-sv/strings.xml        | 17 +++++++++++++++++
+ res/values-sw/strings.xml        | 17 +++++++++++++++++
+ res/values-th/strings.xml        | 17 +++++++++++++++++
+ res/values-tl/strings.xml        | 17 +++++++++++++++++
+ res/values-tr/strings.xml        | 17 +++++++++++++++++
+ res/values-uk/strings.xml        | 17 +++++++++++++++++
+ res/values-vi/strings.xml        | 17 +++++++++++++++++
+ res/values-zh-rCN/strings.xml    | 17 +++++++++++++++++
+ res/values-zh-rHK/strings.xml    | 17 +++++++++++++++++
+ res/values-zh-rTW/strings.xml    | 17 +++++++++++++++++
+ 50 files changed, 850 insertions(+)
+
+diff --git a/res/values-af/strings.xml b/res/values-af/strings.xml
+index 7305defade..c89e846582 100644
+--- a/res/values-af/strings.xml
++++ b/res/values-af/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Jou berging word nou deur die bergingbestuurder bestuur"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Diensverskaffervoorsiening-inligting"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Trigger-diensverskaffervoorsiening"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"\'n Toestel wil toegang tot jou boodskappe hê. Tik vir besonderhede."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Gee toegang tot boodskappe?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"\'n Bluetooth-toestel, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, wil toegang tot jou boodskappe hê.\n\nJy het nog nooit aan <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> gekoppel nie."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"\'n Toestel wil toegang tot jou kontakte en oproeprekord hê. Tik vir besonderhede."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Gee toegang tot kontakte en oproeprekord?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"\'n Bluetooth-toestel, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, wil toegang tot jou kontakte en oproeprekord hê. Dit sluit data oor inkomende en uitgaande oproepe in.\n\nJy het nog nooit aan <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> gekoppel nie."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Moenie toelaat nie"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Versoek vir toegang tot SIM-kaart"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"\'n Toestel wil toegang tot jou SIM-kaart hê. Tik vir besonderhede."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Laat toegang tot SIM-kaart toe?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"\'n Bluetooth-toestel, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, wil toegang tot data op jou SIM-kaart hê. Dit sluit jou kontakte in.\n\nTerwyl <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> gekoppel is, sal hulle alle oproepe ontvang wat na <xliff:g id="PHONE_NUMBER">%3$s</xliff:g> toe gemaak word."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Bluetooth-toestel is beskikbaar"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"\'n Toestel wil koppel. Tik vir besonderhede."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Koppel aan Bluetooth-toestel?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> wil aan hierdie foon koppel.\n\nJy het nog nie voorheen aan <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> gekoppel nie."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Moenie koppel nie"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Koppel"</string>
+ </resources>
+diff --git a/res/values-am/strings.xml b/res/values-am/strings.xml
+index 7d70dc6cbe..d3f0c6cbca 100644
+--- a/res/values-am/strings.xml
++++ b/res/values-am/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"የእርስዎ ማከማቻ አሁን በማከማቻ አስተዳዳሪ እየተዳደረ ነው"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"የአገልግሎት አቅራቢ አቅርቦት መረጃ"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"የቀስቃሴ አገልግሎት አቅራቢ አቅርቦት"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"አንድ መሣሪያ መልዕክቶችዎን መድረስ ይፈልጋል። ዝርዝሮችን ለማግኘት መታ ያድርጉ።"</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"የመልዕክቶች መዳረሻ ይፈቀድ?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"አንድ የብሉቱዝ መሣሪያ <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> መልዕክቶችዎን መድረስ ይፈልጋል።\n\nከዚህ በፊት ከ<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> ጋር አልተገናኙም።"</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"አንድ መሣሪያ የእርስዎን እውቂያዎች እና የጥሪ ምዝግብ ማስታወሻ መድረስ ይፈልጋል። ዝርዝሮችን ለማግኘት መታ ያድርጉ።"</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"የእውቂያዎች እና የጥሪ ምዝግብ ማስታወሻ መዳረሻ ይፈቀድ?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"አንድ የብሉቱዝ መሣሪያ <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> የእርስዎን እውቂያዎች እና የጥሪ ምዝግብ ማስታወሻ መድረስ ይፈልጋል። ይህ የገቢ እና ወጪ ጥሪዎች ውሂብን ያካትታል።\n\nከዚህ በፊት ከ<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> ጋር አልተገናኙም።"</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"አትፍቀድ"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"የሲም ካርድ መዳረሻ ጥያቄ"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"አንድ መሣሪያ ሲም ካርድዎን መድረስ ይፈልጋል። ዝርዝሮችን ለማግኘት መታ ያድርጉ።"</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"የሲም ካርድ መዳረሻ ይፈቀድ?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"አንድ የብሉቱዝ መሣሪያ <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> በሲም ካርድዎ ላይ ውሂብን መድረስ ይፈልጋል። ይህ የእርስዎን እውቂያዎች ያካትታል።\n\nተገናኝቶ ሳለ <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> ለ<xliff:g id="PHONE_NUMBER">%3$s</xliff:g> የተደረጉ ሁሉንም ጥሪዎች ይቀበላል።"</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"የብሉቱዝ መሣሪያ ይገኛል"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"አንድ መሣሪያ መገናኘት ይፈልጋል። ዝርዝሮችን ለማግኘት መታ ያድርጉ።"</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"ከብሉቱዝ መሣሪያ ጋር ይገናኝ?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> ከዚህ ስልክ ጋር መገናኘት ይፈልጋል።\n\nከዚህ በፊት ከ<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> ጋር አልተገናኙም።"</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"አታገናኝ"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"አገናኝ"</string>
+ </resources>
+diff --git a/res/values-ar/strings.xml b/res/values-ar/strings.xml
+index 0353c3bcf8..e64d14a5fd 100644
+--- a/res/values-ar/strings.xml
++++ b/res/values-ar/strings.xml
+@@ -3403,4 +3403,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"تتم إدارة السعة التخزينية لجهازك الآن عن طريق مدير السعة التخزينية"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"معلومات توفير خدمة مشغل شبكة الجوال"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"بدء توفير خدمة مشغل شبكة الجوال"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"يريد جهاز الوصول إلى رسائلك. انقر للحصول على التفاصيل."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"هل تريد السماح بالوصول إلى الرسائل؟"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"يريد جهاز يتضمّن بلوتوث، اسمه <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>، الوصول إلى رسائلك.\n\nلم يتم ربطك بالجهاز <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> في السابق."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"يريد جهاز الوصول إلى جهات الاتصال وسجلّ المكالمات. انقر للحصول على التفاصيل."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"هل تريد السماح بالوصول إلى جهات الاتصال وسجلّ المكالمات؟"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"يريد جهاز يتضمّن بلوتوث، اسمه <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>، الوصول إلى جهات الاتصال وسجلّ المكالمات. يتضمن ذلك الوصول إلى بيانات عن المكالمات الواردة والصادرة.\n\nلم يتم ربطك بالجهاز <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> في السابق."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"عدم السماح"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"‏طلب الوصول إلى شريحة SIM"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"‏يريد أحد الأجهزة الوصول إلى شريحة SIM. انقر للحصول على التفاصيل."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"‏هل تريد السماح بالوصول إلى شريحة SIM؟"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"‏يريد الجهاز الذي يتضمّن بلوتوث <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> الوصول إلى البيانات على شريحة SIM. يتضمّن ذلك جهات اتصالك.\n\nعندما يكون الجهاز متصلاً، سيتلقّى <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> كل المكالمات التي يتم إجراؤها إلى الرقم <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"يتوفّر جهاز يتضمّن بلوتوث"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"يريد أحد الأجهزة الاتصال بجهازك. انقر للحصول على التفاصيل."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"هل تريد الاتصال بالجهاز الذي يتضمّن بلوتوث؟"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"يريد <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> الاتصال بهذا الهاتف.\n\nلم تتصل بالجهاز <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> من قبل."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"عدم الاتصال"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"الاتصال"</string>
+ </resources>
+diff --git a/res/values-b+sr+Latn/strings.xml b/res/values-b+sr+Latn/strings.xml
+index 1306c1606e..dc22a54702 100644
+--- a/res/values-b+sr+Latn/strings.xml
++++ b/res/values-b+sr+Latn/strings.xml
+@@ -3295,4 +3295,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Memorijskim prostorom sada upravlja Menadžer memorijskog prostora"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Informacije o dodeli mobilnog operatera"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Pokretanje dodele mobilnog operatera"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Uređaj želi da pristupa porukama. Dodirnite za detalje."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Želite li da dozvolite pristup porukama?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Bluetooth uređaj, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, želi da pristupa porukama.\n\nRanije se niste povezivali sa uređajem <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Uređaj želi da pristupa kontaktima i evidenciji poziva. Dodirnite za detalje."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Želite li da dozvolite pristup kontaktima i evidenciji poziva?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Bluetooth uređaj, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, želi da pristupa kontaktima i evidenciji poziva. To obuhvata podatke o dolaznim i odlaznim pozivima.\n\nRanije se niste povezivali sa uređajem <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Ne dozvoli"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Zahtev za pristup SIM kartici"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Uređaj želi da pristupa SIM kartici. Dodirnite za detalje."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Želite da dozvolite pristup SIM kartici?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Bluetooth uređaj, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, želi da pristupa podacima na SIM kartici. To obuhvata vaše kontakte.\n\nDok ste povezani, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> će primati sve pozive upućene na <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Bluetooth uređaj je dostupan"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Uređaj želi da se poveže. Dodirnite za detalje."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Želite da se povežete sa Bluetooth uređajem?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> želi da se poveže sa ovim telefonom.\n\nRanije se niste povezivali sa uređajem <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Ne povezuj"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Poveži"</string>
+ </resources>
+diff --git a/res/values-bg/strings.xml b/res/values-bg/strings.xml
+index 535a81604a..76b9df05eb 100644
+--- a/res/values-bg/strings.xml
++++ b/res/values-bg/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Хранилището ви вече се управлява от съответния мениджър"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Carrier Provisioning Info"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Задействане на обезпечаването от оператора"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Устройство иска достъп до съобщенията ви. Докоснете за подробности."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Да се разреши ли достъпът до съобщенията?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Устройство с Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) иска да осъществи достъп до съобщенията ви.\n\nДосега не сте се свързвали с(ъс) <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Устройство иска достъп до контактите ви и списъка с обажданията ви. Докоснете за подробности."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Да се разреши ли достъпът до контактите и списъка с обажданията?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Устройство с Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) иска да осъществи достъп до контактите ви и списъка с обажданията ви. Това включва данни за входящите и изходящите обаждания.\n\nДосега не сте се свързвали с(ъс) <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Забраняване"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Заявка за достъп до SIM картата"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Устройство иска да осъществи достъп до SIM картата ви. Докоснете за подробности."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Да се разреши ли достъпът до SIM картата?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Устройство с Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) иска да осъществи достъп до данните на SIM картата ви. Това включва контактите ви.\n\nДокато е свързано, устройството „<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>“ ще получава всички обаждания до <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Има налично устройство с Bluetooth"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Устройство иска да се свърже. Докоснете за подробности."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Да се установи ли връзка с устройството с Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> иска да се свърже с този телефон.\n\nДосега не сте се свързвали с(ъс) <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Отказ"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Свързване"</string>
+ </resources>
+diff --git a/res/values-ca/strings.xml b/res/values-ca/strings.xml
+index 50ec304b9f..65cfb3610e 100644
+--- a/res/values-ca/strings.xml
++++ b/res/values-ca/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Ara mateix, el gestor d\'emmagatzematge gestiona el teu emmagatzematge"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Informació de serveis de l\'operador de telefonia mòbil"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Activa els serveis de l\'operador de telefonia mòbil"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Un dispositiu vol accedir als teus missatges. Toca per obtenir més detalls."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Vols permetre l\'accés als missatges?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Un dispositiu Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, vol accedir als teus missatges.\n\nNo t\'has connectat a <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> abans."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Un dispositiu vol accedir als teus contactes i al registre de trucades. Toca per obtenir més detalls."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Vols permetre l\'accés als contactes i al registre de trucades?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Un dispositiu Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, vol accedir als teus contactes i al registre de trucades. Això inclou dades sobre les trucades entrants i sortints.\n\nNo t\'has connectat a <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> abans."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"No permetis"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Sol·licitud d\'accés a la targeta SIM"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Un dispositiu vol accedir a la teva targeta SIM. Toca per obtenir informació."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Vols permetre l\'accés a la targeta SIM?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Un dispositiu Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, vol accedir a les dades de la teva targeta SIM. Això inclou els teus contactes.\n\nMentre estigui connectat, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> rebrà totes les trucades que es facin a <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Dispositiu Bluetooth disponible"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Un dispositiu vol connectar-se al teu. Toca per obtenir informació."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Vols connectar-te al dispositiu Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> vol connectar-se a aquest telèfon.\n\nNo t\'has connectat a <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> abans."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"No connectis"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Connecta"</string>
+ </resources>
+diff --git a/res/values-cs/strings.xml b/res/values-cs/strings.xml
+index d313f7a3c0..204ce67618 100644
+--- a/res/values-cs/strings.xml
++++ b/res/values-cs/strings.xml
+@@ -3331,4 +3331,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Úložiště je nyní spravováno správcem úložiště."</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Informace o zprovoznění služby u operátora"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Spustit zprovoznění služby u operátora"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Zařízení žádá o přístup k vašim zprávám. Podrobnosti zobrazíte klepnutím."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Chcete povolit přístup ke zprávám?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Zařízení Bluetooth <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> žádá o přístup k vašim zprávám.\n\nK zařízení <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> jste se ještě nikdy nepřipojili."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Zařízení žádá o přístup k vašim kontaktům a seznamu hovorů. Podrobnosti zobrazíte klepnutím."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Chcete povolit přístup ke kontaktům a seznamu hovorů?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Zařízení Bluetooth <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> žádá o přístup k vašim kontaktům a seznamu hovorů. To zahrnuje data o příchozích a odchozích hovorech.\n\nK zařízení <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> jste se ještě nikdy nepřipojili."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Nepovolovat"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Žádost o přístup k SIM kartě"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Zařízení žádá o přístup k vaší SIM kartě. Podrobnosti zobrazíte klepnutím."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Povolit přístup k SIM kartě?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Zařízení Bluetooth <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> žádá o přístup k datům na vaší SIM kartě. Tato data zahrnují i vaše kontakty.\n\nBěhem připojení bude zařízení <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> přijímat všechny hovory směrované na číslo <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Je dostupné zařízení Bluetooth"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Zařízení žádá o připojení. Podrobnosti zobrazíte klepnutím."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Připojit k zařízení Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"Zařízení <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> žádá o připojení k tomuto telefonu.\n\nK zařízení <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> jste se ještě nikdy nepřipojili."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Nepřipojovat"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Připojit"</string>
+ </resources>
+diff --git a/res/values-da/strings.xml b/res/values-da/strings.xml
+index 000cb2d99f..a1878e3638 100644
+--- a/res/values-da/strings.xml
++++ b/res/values-da/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Din lagerplads administreres nu af lageradministratoren"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Oplysninger om mobilselskab"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Udløs mobilselskab"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"En enhed vil gerne have adgang til dine beskeder. Tryk for at få flere oplysninger."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Vil du give adgang til beskeder?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"En Bluetooth-enhed, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, vil gerne have adgang til dine beskeder.\n\nDu har ikke oprettet forbindelse til <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> før."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"En enhed vil gerne have adgang til dine kontakter og din opkaldshistorik. Tryk for at få flere oplysninger."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Vil du give adgang til kontakter og opkaldshistorik?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"En Bluetooth-enhed, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, vil gerne have adgang til dine kontakter og din opkaldshistorik. Dette omfatter data om indgående og udgående opkald.\n\nDu har ikke oprettet forbindelse til <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> før."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Tillad ikke"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Anmodning om adgang til SIM-kort"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"En enhed vil gerne have adgang til dit SIM-kort. Tryk for at få flere oplysninger."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Vil du give adgang til SIM-kortet?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Bluetooth-enheden <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> vil gerne have adgang til data på dit SIM-kort. Dette omfatter dine kontakter.\n\nNår der er oprettet forbindelse, vil <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> modtage alle indgående opkald til <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"En Bluetooth-enhed er tilgængelig"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"En enhed vil gerne oprette forbindelse. Tryk for at få flere oplysninger."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Vil du oprette forbindelse til Bluetooth-enheden?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> vil gerne oprette forbindelse til denne telefon.\n\nDu har ikke tidligere oprettet forbindelse til <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Opret ikke forbindelse"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Opret forbindelse"</string>
+ </resources>
+diff --git a/res/values-de/strings.xml b/res/values-de/strings.xml
+index 4d1b5dedcf..19d05ebf0f 100644
+--- a/res/values-de/strings.xml
++++ b/res/values-de/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Dein Speicher wird jetzt vom Speichermanager verwaltet"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Informationen zur Nutzerverwaltung durch den Anbieter"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Nutzerverwaltung durch den Anbieter auslösen"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Ein Gerät fordert Zugriff auf deine Nachrichten an. Weitere Informationen."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Möchtest du den Zugriff auf Nachrichten zulassen?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Ein Bluetooth-Gerät (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) fordert Zugriff auf deine Nachrichten an.\n\nDein Gerät war bisher noch nicht mit <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> verbunden."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Ein Gerät fordert Zugriff auf deine Kontakte und deine Anrufliste an. Weitere Informationen."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Möchtest du den Zugriff auf Kontakte und Anrufliste zulassen?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Ein Bluetooth-Gerät (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) fordert Zugriff auf deine Kontakte und deine Anrufliste an. Dazu gehören auch Daten über ein- und ausgehende Anrufe.\n\nDein Gerät war bisher noch nicht mit <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> verbunden."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Nicht zulassen"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Anfrage nach Zugriff auf SIM-Karte"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Ein Gerät möchte auf deine SIM-Karte zugreifen. Weitere Informationen."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Zugriff auf SIM-Karte erlauben?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Ein Bluetooth-Gerät, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, möchte auf Daten auf deiner SIM-Karte zugreifen. Das betrifft auch deine Kontakte.\n\nSo lange die Verbindung besteht, erhält <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> alle Anrufe für <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Ein Bluetooth-Gerät ist verfügbar"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Ein Gerät möchte sich verbinden. Weitere Informationen."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Mit Bluetooth-Gerät verbinden?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> möchte sich mit diesem Smartphone verbinden.\n\nDu hast dich bisher nicht mit <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> verbunden."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Nicht verbinden"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Verbinden"</string>
+ </resources>
+diff --git a/res/values-el/strings.xml b/res/values-el/strings.xml
+index 7934c502ec..47f753c94d 100644
+--- a/res/values-el/strings.xml
++++ b/res/values-el/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Στο εξής, γίνεται διαχείριση του αποθηκευτικού σας χώρου από τον διαχειριστή αποθηκευτικού χώρου"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Πληροφορίες παροχής εταιρείας κινητής τηλεφωνίας"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Ενεργοποίηση παροχής εταιρείας κινητής τηλεφωνίας"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Μια συσκευή θέλει να αποκτήσει πρόσβαση στα μηνύματά σας. Πατήστε για λεπτομέρειες."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Να επιτρέπεται η πρόσβαση σε μηνύματα;"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Μια συσκευή Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, θέλει να αποκτήσει πρόσβαση στα μηνύματά σας.\n\nΔεν έχετε συνδεθεί στη συσκευή <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> στο παρελθόν."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Μια συσκευή θέλει να αποκτήσει πρόσβαση στις επαφές και το αρχείο καταγραφής κλήσεων. Πατήστε για λεπτομέρειες."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Να επιτρέπεται η πρόσβαση στις επαφές και στο αρχείο καταγραφής κλήσεων;"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Η συσκευή Bluetooth <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> θέλει να αποκτήσει πρόσβαση στις επαφές και το αρχείο καταγραφής κλήσεων. Αυτό περιλαμβάνει δεδομένα σχετικά με τις εισερχόμενες και τις εξερχόμενες κλήσεις.\n\nΔεν έχετε συνδεθεί στη συσκευή <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> στο παρελθόν."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Να μην επιτρέπεται"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Αίτημα πρόσβασης στην κάρτα SIM"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Μια συσκευή θέλει να αποκτήσει πρόσβαση στην κάρτα SIM. Πατήστε για λεπτομέρειες."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Να επιτρέπεται η πρόσβαση στην κάρτα SIM;"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Η συσκευή Bluetooth <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, θέλει να αποκτήσει πρόσβαση σε δεδομένα της κάρτας SIM. Στα δεδομένα περιλαμβάνονται οι επαφές σας.\n\nΌταν είναι συνδεδεμένη, η συσκευή <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> θα λαμβάνει όλες τις κλήσεις που πραγματοποιούνται στον αριθμό τηλεφώνου <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Υπάρχει διαθέσιμη συσκευή Bluetooth"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Μια συσκευή θέλει να συνδεθεί. Πατήστε για λεπτομέρειες."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Σύνδεση σε συσκευή Bluetooth;"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"Η συσκευή <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> θέλει να συνδεθεί σε αυτό το τηλέφωνο.\n\nΔεν έχετε συνδεθεί στο παρελθόν στη συσκευή <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Να μην γίνει σύνδεση"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Σύνδεση"</string>
+ </resources>
+diff --git a/res/values-en-rAU/strings.xml b/res/values-en-rAU/strings.xml
+index e57faea997..007f5b3231 100644
+--- a/res/values-en-rAU/strings.xml
++++ b/res/values-en-rAU/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Your storage is now being managed by the storage manager"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Operator Provisioning Info"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Trigger Operator Provisioning"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"A device wants to access your messages. Tap for details."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Allow access to messages?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"A Bluetooth device, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, wants to access your messages.\n\nYou haven’t connected to <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> before."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"A device wants to access your contacts and call log. Tap for details."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Allow access to contacts and call log?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"A Bluetooth device, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, wants to access your contacts and call log. This includes data about incoming and outgoing calls.\n\nYou haven’t connected to <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> before."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Don\'t allow"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"SIM card access request"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"A device wants to access your SIM card. Tap for details."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Allow access to SIM card?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"A Bluetooth device, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, wants to access data on your SIM card. This includes your contacts.\n\nWhile connected, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> will receive all calls made to <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Bluetooth device available"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"A device wants to connect. Tap for details."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Connect to Bluetooth device?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> wants to connect to this phone.\n\nYou haven’t connected to <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> before."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Don’t connect"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Connect"</string>
+ </resources>
+diff --git a/res/values-en-rGB/strings.xml b/res/values-en-rGB/strings.xml
+index 6a22132233..562d21263d 100644
+--- a/res/values-en-rGB/strings.xml
++++ b/res/values-en-rGB/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Your storage is now being managed by the storage manager"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Operator Provisioning Info"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Trigger Operator Provisioning"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"A device wants to access your messages. Tap for details."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Allow access to messages?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"A Bluetooth device, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, wants to access your messages.\n\nYou haven’t connected to <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> before."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"A device wants to access your contacts and call log. Tap for details."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Allow access to contacts and call log?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"A Bluetooth device, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, wants to access your contacts and call log. This includes data about incoming and outgoing calls.\n\nYou haven’t connected to <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> before."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Don\'t allow"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"SIM card access request"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"A device wants to access your SIM card. Tap for details."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Allow access to SIM card?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"A Bluetooth device, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, wants to access data on your SIM card. This includes your contacts.\n\nWhile connected, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> will receive all calls made to <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Bluetooth device available"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"A device wants to connect. Tap for details."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Connect to Bluetooth device?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> wants to connect to this phone.\n\nYou haven’t connected to <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> before."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Don’t connect"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Connect"</string>
+ </resources>
+diff --git a/res/values-en-rIN/strings.xml b/res/values-en-rIN/strings.xml
+index 6a22132233..562d21263d 100644
+--- a/res/values-en-rIN/strings.xml
++++ b/res/values-en-rIN/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Your storage is now being managed by the storage manager"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Operator Provisioning Info"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Trigger Operator Provisioning"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"A device wants to access your messages. Tap for details."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Allow access to messages?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"A Bluetooth device, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, wants to access your messages.\n\nYou haven’t connected to <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> before."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"A device wants to access your contacts and call log. Tap for details."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Allow access to contacts and call log?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"A Bluetooth device, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, wants to access your contacts and call log. This includes data about incoming and outgoing calls.\n\nYou haven’t connected to <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> before."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Don\'t allow"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"SIM card access request"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"A device wants to access your SIM card. Tap for details."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Allow access to SIM card?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"A Bluetooth device, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, wants to access data on your SIM card. This includes your contacts.\n\nWhile connected, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> will receive all calls made to <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Bluetooth device available"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"A device wants to connect. Tap for details."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Connect to Bluetooth device?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> wants to connect to this phone.\n\nYou haven’t connected to <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> before."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Don’t connect"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Connect"</string>
+ </resources>
+diff --git a/res/values-es-rUS/strings.xml b/res/values-es-rUS/strings.xml
+index 7a573307bd..38c1b222d6 100644
+--- a/res/values-es-rUS/strings.xml
++++ b/res/values-es-rUS/strings.xml
+@@ -3257,4 +3257,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Tu almacenamiento ahora está a cargo del administrador de almacenamiento"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Información del aprovisionamiento del proveedor"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Activar aprovisionamiento del proveedor"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Un dispositivo quiere acceder a tus mensajes. Presiona para ver más detalles"</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"¿Quieres permitir el acceso a los mensajes?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Un dispositivo Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, quiere acceder a tus mensajes.\n\nNunca antes te habías conectado a <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Un dispositivo quiere acceder a tus contactos y al registro de llamadas. Presiona para ver más detalles"</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"¿Quieres permitir el acceso a los contactos y al registro de llamadas?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Un dispositivo Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, quiere acceder a tus contactos y al registro de llamadas. Esto incluye datos sobre llamadas entrantes y salientes.\n\nNunca antes te habías conectado a <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"No permitir"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Solicitud de acceso a la tarjeta SIM"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Un dispositivo quiere acceder a tu tarjeta SIM. Presiona para ver más detalles."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"¿Permitir acceso a la tarjeta SIM?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Un dispositivo Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, quiere acceder a los datos de tu tarjeta SIM. Eso incluye tus contactos.\n\nMientras estés conectado, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> recibiremos todas las llamadas que realices a <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Dispositivo Bluetooth disponible"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Un dispositivo quiere conectarse. Presiona para ver más detalles."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"¿Conectar al dispositivo Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> quiere conectarse a este teléfono.\n\nNo te conectaste a <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> antes."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"No conectar"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Conectar"</string>
+ </resources>
+diff --git a/res/values-es/strings.xml b/res/values-es/strings.xml
+index 0d867de44f..389475ecb0 100644
+--- a/res/values-es/strings.xml
++++ b/res/values-es/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"El Administrador de Almacenamiento gestiona ahora el almacenamiento"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Información de servicios del operador"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Activar servicios del operador"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Un dispositivo quiere acceder a tus mensajes. Toca para consultar información detallada."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"¿Permitir acceso a los mensajes?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Un dispositivo Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, quiere acceder a tus mensajes.\n\nEs la primera vez que te conectas a <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Un dispositivo quiere acceder a tus contactos y a tu registro de llamadas. Toca para consultar información detallada."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"¿Permitir acceso a los contactos y al registro de llamadas?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Un dispositivo Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) quiere acceder a tus contactos y a tu registro de llamadas, lo que incluye datos sobre llamadas entrantes y salientes.\n\nEs la primera vez que te conectas a <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"No permitir"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Solicitud de acceso a la tarjeta SIM"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Un dispositivo quiere acceder a la tarjeta SIM. Toca para consultar más información."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"¿Permitir acceso a la tarjeta SIM?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Un dispositivo Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) quiere acceder a los datos de tu tarjeta SIM. También tendrá acceso a tus contactos.\n\nMientras esté conectado, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> recibirá todas las llamadas dirigidas al <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Dispositivo Bluetooth disponible"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Un dispositivo quiere conectarse. Toca para consultar más información."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"¿Conectar con dispositivo Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> quiere conectarse a este teléfono.\n\nEs la primera vez que te conectas a <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"No conectar"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Conectar"</string>
+ </resources>
+diff --git a/res/values-fa/strings.xml b/res/values-fa/strings.xml
+index c15eaa826c..5e0c4f0825 100644
+--- a/res/values-fa/strings.xml
++++ b/res/values-fa/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"حافظه شما اکنون توسط مدیر حافظه مدیریت می‌شود"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"اطلاعات ارائه شرکت مخابراتی"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"شروع ارائه شرکت مخابراتی"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"دستگاهی می‌خواهد به پیام‌هایتان دسترسی داشته باشد. برای جزئیات ضربه بزنید."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"دسترسی به پیام‌ها مجاز شود؟"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"دستگاه بلوتوثی (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) می‌خواهد به پیام‌هایتان دسترسی داشته باشد.\n\nقبلاً به <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> متصل نشده‌اید."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"دستگاهی می‌خواهد به مخاطبین و گزارش تماس شما دسترسی داشته باشد. برای جزئیات ضربه بزنید."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"دسترسی به مخاطبین و گزارش تماس مجاز شود؟"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"دستگاه بلوتوثی (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) می‌خواهد به مخاطبین و گزارش تماس شما دسترسی داشته باشد. این شامل داده‌های مربوط به تماس‌های ورودی و خروجی می‌شود.\n\nتاکنون به <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> متصل نشده‌اید."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"مجاز نیست"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"درخواست دسترسی به سیم‌کارت"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"دستگاهی می‌خواهد به سیم‌کارتتان دسترسی داشته باشد. برای دیدن جزئیات، ضربه بزنید."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"دسترسی به سیم‌کارت مجاز شود؟"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"دستگاه بلوتوثی (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) می‌خواهد به داده‌های سیم‌کارتتان دسترسی داشته باشد. این داده‌ها شامل مخاطبین شما می‌شود.\n\nوقتی متصل باشد، <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> همه تماس‌هایی را که با <xliff:g id="PHONE_NUMBER">%3$s</xliff:g> برقرار می‌شود دریافت خواهد کرد."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"دستگاه بلوتوث دردسترس است"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"دستگاهی می‌خواهد متصل شود. برای دیدن جزئیات، ضربه بزنید."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"به دستگاه بلوتوث متصل می‌شوید؟"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> می‌خواهد به این تلفن متصل شود.\n\nقبلاً به <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> متصل نشده‌اید."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"متصل نشود"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"متصل شود"</string>
+ </resources>
+diff --git a/res/values-fi/strings.xml b/res/values-fi/strings.xml
+index 14136bd2a7..b223c0ece1 100644
+--- a/res/values-fi/strings.xml
++++ b/res/values-fi/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Tallennustilan hallinta hallitsee nyt tallennustilaasi."</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Operaattorin hallintatiedot"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Ota operaattorin hallinta käyttöön"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Laite pyytää pääsyä viesteihisi. Katso lisätietoja napauttamalla."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Sallitaanko pääsy viesteihin?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Bluetooth-laite, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, pyytää pääsyä viesteihisi.\n\n<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> ei ole ennen ollut yhteydessä laitteeseesi."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Laite pyytää pääsyä yhteystietoihisi ja puhelulokiisi. Katso lisätietoja napauttamalla."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Sallitaanko pääsy yhteystietoihin ja puhelulokiin?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Bluetooth-laite, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, pyytää pääsyä yhteystietoihisi ja puhelulokiisi. Tämä sisältää datan saapuvista ja lähtevistä puheluista.\n\n<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> ei ole ennen ollut yhteydessä laitteeseesi."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Älä salli"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"SIM-kortin pääsyoikeuspyyntö"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Laite haluaa pääsyn SIM-korttiisi. Katso lisätietoja napauttamalla."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Sallitaanko pääsy SIM-korttiin?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Bluetooth-laite, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, haluaa pääsyn SIM-korttisi dataan. Yhteystietosi sisältyvät dataan.\n\n<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> vastaanottaa yhteyden aikana kaikki puhelut, jotka soitetaan numeroon <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Bluetooth-laite saatavilla"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Laite haluaa muodostaa yhteyden. Katso lisätietoja napauttamalla."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Yhdistetäänkö Bluetooth-laitteeseen?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> haluaa yhdistää tähän puhelimeen.\n\n<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> ei ole ennen muodostanut yhteyttä."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Älä yhdistä"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Yhdistä"</string>
+ </resources>
+diff --git a/res/values-fr-rCA/strings.xml b/res/values-fr-rCA/strings.xml
+index 639fcd27f0..38c27094d6 100644
+--- a/res/values-fr-rCA/strings.xml
++++ b/res/values-fr-rCA/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Votre espace de stockage est maintenant géré par le gestionnaire de stockage"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Données d\'approvisionnement du fournisseur de services"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Déclencher l\'approvisionnement du fournisseur de services"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Un appareil souhaite accéder à vos messages. Touchez l\'écran pour en savoir plus."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Autoriser l\'accès aux messages?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Un appareil Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, souhaite accéder à vos messages.\n\nVous ne vous êtes jamais connecté à <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> auparavant."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Un appareil veut accéder à vos contacts et à votre journal d\'appels. Touchez l\'écran pour en savoir plus."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Autoriser l\'accès aux contacts et au journal d\'appels?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Un appareil Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, souhaite accéder à vos contacts et à votre journal d\'appels. Cela comprend des données à propos des appels entrants et sortants.\n\nVous ne vous êtes jamais connecté à <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> auparavant."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Ne pas autoriser"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Demande d\'accès à la carte SIM"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Un appareil veut accéder à votre carte SIM. Touchez l\'écran pour en savoir plus."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Autoriser l\'accès à la carte SIM?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Un appareil Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, veut accéder aux données de votre carte SIM. Parmi celles-ci figurent vos contacts.\n\nPendant qu\'il est connecté, l\'appareil <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> recevra tous les appels passés au numéro <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Appareil Bluetooth accessible"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Un appareil veut se connecter. Touchez l\'écran pour en savoir plus."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Se connecter à un appareil Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> veut se connecter à ce téléphone.\n\nVous ne vous êtes jamais connecté à <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> auparavant."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Ne pas se connecter"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Se connecter"</string>
+ </resources>
+diff --git a/res/values-fr/strings.xml b/res/values-fr/strings.xml
+index 434527e316..4aaf6a4b04 100644
+--- a/res/values-fr/strings.xml
++++ b/res/values-fr/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Votre espace de stockage est désormais géré par le gestionnaire d\'espace de stockage."</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Informations de gestion des comptes opérateur"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Déclencher la gestion des comptes opérateur"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Un appareil souhaite accéder à vos messages. Appuyez ici pour plus de détails."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Autoriser l\'accès aux messages ?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Un appareil Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, souhaite accéder à vos messages.\n\nVous ne vous êtes jamais connecté à <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> auparavant."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Un appareil souhaite accéder à vos contacts et à votre journal d\'appels. Appuyez ici pour plus de détails."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Autoriser l\'accès aux contacts et au journal d\'appels ?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Un appareil Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, souhaite accéder à vos contacts et à votre journal d\'appels. Ceci inclut des données concernant les appels entrants et sortants.\n\nVous ne vous êtes jamais connecté à <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> auparavant."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Ne pas autoriser"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Demande d\'accès à la carte SIM"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Un appareil souhaite accéder à votre carte SIM. Appuyez ici pour plus de détails."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Autoriser l\'accès à la carte SIM ?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"L\'appareil Bluetooth <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> souhaite accéder aux données de votre carte SIM. Cela inclut vos contacts.\n\nUne fois la connexion établie, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> recevra tous les appels passés au <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Appareil Bluetooth indisponible"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Un appareil souhaite se connecter. Appuyez ici pour plus de détails."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Autoriser la connexion Bluetooth ?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> souhaite se connecter à ce téléphone.\n\nC\'est la première fois que votre téléphone se connecte à <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Refuser la connexion"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Autoriser la connexion"</string>
+ </resources>
+diff --git a/res/values-hi/strings.xml b/res/values-hi/strings.xml
+index 2901bb8ff8..6ac0c9d200 100644
+--- a/res/values-hi/strings.xml
++++ b/res/values-hi/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"आपकी जगह का प्रबंधन अब जगह प्रबंधक द्वारा किया जा रहा है"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"वाहक प्रावधान जानकारी"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"वाहक प्रावधान ट्रिगर करें"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"एक डिवाइस आपके मैसेज ऐक्सेस करना चाहता है. जानकारी के लिए टैप करें."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"क्या आप मैसेज का ऐक्सेस देना चाहते हैं?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"एक ब्लूटूथ डिवाइस, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> आपके मैसेज ऐक्सेस करना चाहता है.\n\nआपने इससे पहले कभी अपने डिवाइस को <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> से कनेक्ट नहीं किया है."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"एक डिवाइस आपके संपर्क और कॉल लॉग ऐक्सेस करना चाहता है. जानकारी के लिए टैप करें."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"क्या आप अपने संपर्क और कॉल लॉग का ऐक्सेस देना चाहते हैं?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"एक ब्लूटूथ डिवाइस, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> आपके संपर्क और कॉल लॉग ऐक्सेस करना चाहता है. इसमें, आपके किए गए (आउटगोइंग) कॉल और आने वाले (इनकमिंग) कॉल से जुड़ा डेटा भी शामिल है.\n\nआपने इससे पहले कभी अपने डिवाइस को <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> से कनेक्ट नहीं किया है."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"अनुमति न दें"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"सिम कार्ड को ऐक्सेस करने का अनुरोध"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"डिवाइस आपके सिम कार्ड को ऐक्सेस करना चाहता है. जानकारी पाने के लिए टैप करें."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"क्या आप सिम कार्ड का ऐक्सेस देना चाहते हैं?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"ब्लूटूथ डिवाइस, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> आपके सिम कार्ड पर मौजूद डेटा को ऐक्सेस करना चाहता है. इस डेटा में आपके संपर्क शामिल हैं.\n\nजब <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> कनेक्ट रहेगा, तो यह डिवाइस <xliff:g id="PHONE_NUMBER">%3$s</xliff:g> पर आने वाले सभी कॉल लेगा."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"ब्लूटूथ डिवाइस उपलब्ध है"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"ब्लूटूथ डिवाइस आपके डिवाइस से कनेक्ट होना चाहता है जानकारी पाने के लिए टैप करें."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"ब्लूटूथ डिवाइस से कनेक्ट करना चाहते हैं?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"ब्लूटूथ डिवाइस, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> इस फ़ोन से कनेक्ट होना चाहता है.\n\nआपने पहले कभी <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> से कनेक्ट नहीं किया है."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"कनेक्ट न करें"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"कनेक्ट करें"</string>
+ </resources>
+diff --git a/res/values-hr/strings.xml b/res/values-hr/strings.xml
+index df896b8db3..18f20b2f05 100644
+--- a/res/values-hr/strings.xml
++++ b/res/values-hr/strings.xml
+@@ -3295,4 +3295,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Vašom pohranom sada upravlja upravitelj pohrane"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Informacije o uslugama mobilnog operatera"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Pokretanje usluga mobilnog operatera"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Uređaj želi pristupiti vašim porukama. Dodirnite da biste vidjeli pojedinosti."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Dopustiti pristup porukama?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Bluetooth uređaj <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> želi pristupiti vašim porukama.\n\nDosad se niste povezali s uređajem <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Uređaj želi pristupiti vašim kontaktima i zapisniku poziva. Dodirnite da biste vidjeli pojedinosti."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Dopustiti pristup kontaktima i zapisniku poziva?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Bluetooth uređaj <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> želi pristupiti vašim kontaktima i zapisniku poziva. To uključuje podatke o dolaznim i odlaznim pozivima.\n\nDo sad se niste povezali s uređajem <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Nemoj dopustiti"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Zahtjev za pristup SIM kartici"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Uređaj želi pristupiti vašoj SIM kartici. Dodirnite da biste vidjeli pojedinosti."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Želite li dopustiti pristup SIM kartici?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Bluetooth uređaj <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> želi pristupiti podacima na vašoj SIM kartici. To uključuje vaše kontakte.\n\nDok ste povezani, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> će primati sve pozive upućene broju <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Bluetooth uređaj dostupan"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Uređaj se želi povezati. Dodirnite da biste vidjeli pojedinosti."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Želite li se povezati s Bluetooth uređajem?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> se želi povezati s ovim telefonom.\n\nDosad se niste povezivali s uređajem <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Nemoj povezati"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Poveži"</string>
+ </resources>
+diff --git a/res/values-hu/strings.xml b/res/values-hu/strings.xml
+index b6d1ba90db..9474b452ef 100644
+--- a/res/values-hu/strings.xml
++++ b/res/values-hu/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Tárhelyét mostantól a tárhelykezelő kezeli"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Információ a szolgáltatói hozzáférésről"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Szolgáltatói ellátás aktiválása"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Egy eszköz hozzá szeretne férni az Ön üzeneteihez. Koppintson a részletekért."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Engedélyezi az üzenetekhez való hozzáférést?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Egy Bluetooth-eszköz (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) hozzá szeretne férni az Ön üzeneteihez.\n\nEddig még nem csatlakozott a következő eszközhöz: <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Egy eszköz hozzá szeretne férni az Ön névjegyeihez és hívásnaplójához. Koppintson a részletekért."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Engedélyezi a névjegyeihez és a hívásnaplójához való hozzáférést?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Egy Bluetooth-eszköz (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) hozzá szeretne férni az Ön névjegyeihez és hívásnaplójához. Ide tartoznak a bejövő és kimenő hívások adatai is.\n\nEddig még nem csatlakozott a következő eszközhöz: <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Tiltás"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"SIM-kártyához való hozzáférés kérése"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Egy eszköz szeretne hozzáférni a SIM-kártyájához. Koppintson a részletekért."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Engedélyezi a SIM-kártyához való hozzáférést?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Egy Bluetooth-eszköz (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) szeretne hozzáférni a SIM-kártyáján található adatokhoz (többek között a névjegyeihez is).\n\nAmíg csatlakozik, a(z) <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> eszköz fogadja majd a(z) <xliff:g id="PHONE_NUMBER">%3$s</xliff:g> telefonszámra érkező összes hívást."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Bluetooth-eszköz áll rendelkezésre"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Egy eszköz csatlakozni szeretne. Koppintson a részletekért."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Csatlakozik a Bluetooth-eszközhöz?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"A következő csatlakozni szeretne ehhez a telefonhoz: <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>.\n\nÖn eddig még nem csatlakozott a(z) <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> eszközhöz."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Ne csatlakozzon"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Csatlakozás"</string>
+ </resources>
+diff --git a/res/values-in/strings.xml b/res/values-in/strings.xml
+index 1397cdb54d..0892d1def4 100644
+--- a/res/values-in/strings.xml
++++ b/res/values-in/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Penyimpanan kini dikelola oleh pengelola penyimpanan"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Info Provisioning Operator"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Memicu Provisioning Operator"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Sebuah perangkat ingin mengakses pesan Anda. Ketuk untuk melihat detailnya."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Izinkan akses ke pesan?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Sebuah perangkat Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, ingin mengakses pesan Anda.\n\nAnda belum pernah terhubung ke <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> sebelumnya."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Sebuah perangkat ingin mengakses kontak dan log panggilan Anda. Ketuk untuk melihat detailnya."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Izinkan akses ke kontak dan log panggilan?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Sebuah perangkat Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, ingin mengakses kontak dan log panggilan Anda. Ini mencakup data tentang panggilan masuk dan keluar.\n\nAnda belum pernah terhubung ke <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> sebelumnya."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Jangan izinkan"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Permintaan akses kartu SIM"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Sebuah perangkat ingin mengakses kartu SIM Anda. Ketuk untuk melihat detailnya."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Izinkan akses ke kartu SIM?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Perangkat Bluetooth bernama <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> ingin mengakses data di kartu SIM Anda. Data ini mencakup kontak Anda.\n\nSaat terhubung, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> akan menerima semua panggilan telepon yang dilakukan ke <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Perangkat Bluetooth tersedia"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Sebuah perangkat ingin terhubung. Ketuk untuk melihat detailnya."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Hubungkan ke perangkat Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> ingin terhubung ke ponsel ini.\n\nAnda belum pernah terhubung ke <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> sebelumnya."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Jangan hubungkan"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Hubungkan"</string>
+ </resources>
+diff --git a/res/values-it/strings.xml b/res/values-it/strings.xml
+index 5c8a8c0721..29c2410f4e 100644
+--- a/res/values-it/strings.xml
++++ b/res/values-it/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Il tuo spazio di archiviazione è ora gestito dalla Gestione memoria"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Informazioni sul provisioning operatore"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Attiva provisioning operatore"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Un dispositivo richiede l\'accesso ai tuoi messaggi. Tocca per conoscere i dettagli."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Vuoi consentire l\'accesso ai messaggi?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Un dispositivo Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, richiede l\'accesso ai tuoi messaggi.\n\nNon hai mai effettuato la connessione a <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> in passato."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Un dispositivo richiede l\'accesso ai tuoi contatti e al tuo registro chiamate. Tocca per conoscere i dettagli."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Vuoi consentire l\'accesso a contatti e registro chiamate?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Un dispositivo Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, richiede l\'accesso ai tuoi contatti e al tuo registro chiamate, inclusi i dati relativi a chiamate in arrivo e in uscita.\n\nNon hai mai effettuato la connessione a <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> in passato."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Non consentire"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Richiesta di accesso alla scheda SIM"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Un dispositivo vuole accedere alla tua scheda SIM. Tocca per conoscere i dettagli."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Consentire l\'accesso alla scheda SIM?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Un dispositivo Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, vuole accedere ai dati della tua scheda SIM. Sono inclusi i tuoi contatti.\n\nDurante la connessione, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> riceverà tutte le chiamate effettuate al numero <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Dispositivo Bluetooth disponibile"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Un dispositivo vuole connettersi. Tocca per conoscere i dettagli."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Connettersi al dispositivo Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> vorrebbe connettersi a questo telefono.\n\nNon hai mai effettuato la connessione al dispositivo <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Non connettere"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Connetti"</string>
+ </resources>
+diff --git a/res/values-iw/strings.xml b/res/values-iw/strings.xml
+index 2afe97516f..b45f91ba31 100644
+--- a/res/values-iw/strings.xml
++++ b/res/values-iw/strings.xml
+@@ -3333,4 +3333,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"האחסון שלך מנוהל כעת על ידי מנהל האחסון"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"פרטי ניהול תצורה של ספק סלולרי"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"הפעל ניהול תצורה של ספק סלולרי"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"מכשיר מבקש לקבל גישה להודעות. יש להקיש לקבלת פרטים."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"להעניק גישה להודעות?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"‏מכשיר Bluetooth,‏ <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, מבקש לקבל גישה להודעות.\n\nלא התחברת בעבר למכשיר <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"מכשיר מבקש לקבל גישה לאנשי הקשר וליומן השיחות. יש להקיש לקבלת פרטים."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"להעניק גישה לאנשי הקשר וליומן השיחות?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"‏מכשיר Bluetooth,‏ <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, מבקש לקבל גישה לאנשי הקשר וליומן השיחות. הגישה תכלול גם נתונים על שיחות נכנסות ויוצאות.\n\nלא התחברת בעבר למכשיר <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"אין אישור"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"‏בקשת גישה לכרטיס ה-SIM"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"‏מכשיר מבקש גישה לכרטיס SIM שלך. יש להקיש לקבלת פרטים."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"‏להעניק גישה לכרטיס ה-SIM?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"‏מכשיר Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, מבקש גישה לנתונים בכרטיס ה-SIM שלך. הנתונים האלה כוללים את אנשי הקשר שלך.\n\nבמהלך החיבור, כל השיחות שיבוצעו למספר <xliff:g id="PHONE_NUMBER">%3$s</xliff:g> ינותבו אל <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"‏מכשיר ה-Bluetooth זמין"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"מכשיר מבקש להתחבר. יש להקיש לקבלת פרטים."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"‏להתחבר למכשיר ה-Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> מבקש להתחבר לטלפון הזה.\n\nלא התחברת אל <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> בעבר."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"אין להתחבר"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"התחברות"</string>
+ </resources>
+diff --git a/res/values-ja/strings.xml b/res/values-ja/strings.xml
+index a2279c4b4c..950c2bb781 100644
+--- a/res/values-ja/strings.xml
++++ b/res/values-ja/strings.xml
+@@ -3263,4 +3263,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"お使いのストレージの管理はストレージ マネージャが行うようになりました"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"携帯通信会社のプロビジョニング情報"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"携帯通信会社のプロビジョニングをトリガー"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"デバイスがメッセージにアクセスしようとしています。タップして詳細をご確認ください。"</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"メッセージへのアクセスを許可しますか？"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Bluetooth デバイス <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> がメッセージにアクセスしようとしています。\n\nこれまでに <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> に接続したことはありません。"</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"デバイスが連絡先と通話履歴にアクセスしようとしています。タップして詳細をご確認ください。"</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"連絡先と通話履歴へのアクセスを許可しますか？"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Bluetooth デバイス <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> が連絡先と通話履歴にアクセスしようとしています。これには着信や発信に関するデータも含まれます。\n\nこれまでに <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> に接続したことはありません。"</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"許可しない"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"SIM カードへのアクセスのリクエスト"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"デバイスが SIM カードにアクセスしようとしています。タップして詳細をご確認ください。"</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"SIM カードへのアクセスを許可しますか？"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Bluetooth デバイス <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> が SIM カードのデータにアクセスしようとしています。これには連絡先のデータが含まれます。\n\n<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> は接続されると、<xliff:g id="PHONE_NUMBER">%3$s</xliff:g> への通話をすべて受信するようになります。"</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Bluetooth デバイスが利用可能です"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"別のデバイスが接続しようとしています。タップして詳細をご確認ください。"</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Bluetooth デバイスに接続しますか？"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> がこのスマートフォンに接続しようとしています。\n\nこれまでに <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> に接続したことはありません。"</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"接続しない"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"接続"</string>
+ </resources>
+diff --git a/res/values-ko/strings.xml b/res/values-ko/strings.xml
+index 43b80927d5..a4691a22f2 100644
+--- a/res/values-ko/strings.xml
++++ b/res/values-ko/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"현재 저장용량 관리자가 저장용량을 관리하고 있습니다."</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Carrier Provisioning Info"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Trigger Carrier Provisioning"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"기기에서 메시지에 액세스하려고 합니다. 탭하여 세부정보를 확인하세요."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"메시지 액세스를 허용하시겠습니까?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"블루투스 기기 <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>에서 메시지에 액세스하려고 합니다.\n\n전에는 <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>에 연결한 적이 없습니다."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"기기에서 연락처와 통화 기록에 액세스하려고 합니다. 탭하여 세부정보를 확인하세요."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"연락처와 통화 기록 액세스를 허용하시겠습니까?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"블루투스 기기 <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>에서 연락처와 통화 기록에 액세스하려고 합니다. 여기에는 수신 전화와 발신 전화에 관한 데이터도 포함됩니다.\n\n전에는 <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>에 연결한 적이 없습니다."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"허용 안함"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"SIM 카드 액세스 요청"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"기기에서 SIM 카드에 액세스하려고 합니다. 탭하여 세부정보를 확인하세요."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"SIM 카드 액세스를 허용하시겠습니까?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"블루투스 기기 <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>에서 SIM 카드 데이터에 액세스하려고 합니다. 여기에는 연락처 정보가 포함되어 있습니다.\n\n연결된 상태에서는 <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>에서 <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>번으로 수신되는 모든 전화를 받습니다."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"블루투스 기기 사용 가능"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"연결을 시도하는 기기가 있습니다. 탭하여 세부정보를 확인하세요."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"블루투스 기기에 연결하시겠습니까?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>에서 이 휴대전화에 연결하려고 합니다.\n\n전에는 <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>에 연결한 적이 없습니다."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"연결 안함"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"연결"</string>
+ </resources>
+diff --git a/res/values-lt/strings.xml b/res/values-lt/strings.xml
+index 55b074a965..645145f258 100644
+--- a/res/values-lt/strings.xml
++++ b/res/values-lt/strings.xml
+@@ -3333,4 +3333,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Saugyklą dabar tvarko saugyklos valdytojas"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Operatoriaus aprūpinimo informacija"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Aktyviklio operatoriaus aprūpinimas"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Įrenginys nori pasiekti jūsų pranešimus. Palieskite, jei reikia išsamios informacijos."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Leisti pasiekti pranešimus?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"„Bluetooth“ įrenginys „<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>“ nori pasiekti jūsų pranešimus.\n\nPrie „<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>“ dar niekada nebuvote prisijungę."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Įrenginys nori pasiekti jūsų kontaktus ir skambučių žurnalą. Palieskite, jei reikia išsamios informacijos."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Leisti pasiekti kontaktus ir skambučių žurnalą?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"„Bluetooth“ įrenginys „<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>“ nori pasiekti jūsų kontaktus ir skambučių žurnalą. Tai apima duomenis apie gaunamuosius ir siunčiamuosius skambučius.\n\nPrie „<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>“ dar niekada nebuvote prisijungę."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Neleisti"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"SIM kortelės prieigos užklausa"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Įrenginys nori pasiekti jūsų SIM kortelę. Palieskite, jei reikia išsamios informacijos."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Leisti pasiekti SIM kortelę?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"„Bluetooth“ įrenginys (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) nori pasiekti duomenis jūsų SIM kortelėje. Tai apima jūsų kontaktus.\n\nPrisijungęs įrenginys <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> gaus visus telefono numeriu <xliff:g id="PHONE_NUMBER">%3$s</xliff:g> atliktus skambučius."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Pasiekiamas „Bluetooth“ įrenginys"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Įrenginys nori prisijungti. Palieskite, jei reikia išsamios informacijos."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Prisijungti prie „Bluetooth“ įrenginio?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> nori prisijungti prie šio telefono.\n\nAnksčiau nebuvote prisijungę prie <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Neprisijungti"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Susieti"</string>
+ </resources>
+diff --git a/res/values-lv/strings.xml b/res/values-lv/strings.xml
+index 7513656733..8ec0790107 100644
+--- a/res/values-lv/strings.xml
++++ b/res/values-lv/strings.xml
+@@ -3295,4 +3295,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Tagad jūsu krātuvi pārvalda krātuves pārvaldnieks"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Informācija par operatora nodrošināšanu"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Aktivizēt operatora nodrošināšanu"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Kāda ierīce pieprasa atļauju piekļūt jūsu ziņojumiem. Pieskarieties, lai skatītu detalizētu informāciju."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Vai atļaujat piekļūt ziņojumiem?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Bluetooth ierīce “<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>” pieprasa atļauju piekļūt jūsu ziņojumiem.\n\nJūs iepriekš neesat izveidojis savienojumu ar ierīci “<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>”."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Kāda ierīce pieprasa atļauju piekļūt jūsu kontaktpersonu datiem un zvanu žurnālam. Pieskarieties, lai skatītu detalizētu informāciju."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Vai atļaujat piekļūt kontaktpersonu datiem un zvanu žurnālam?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Bluetooth ierīce “<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>” pieprasa atļauju piekļūt jūsu kontaktpersonu datiem un zvanu žurnālam. Tas attiecas arī uz datiem par ienākošajiem un izejošajiem zvaniem.\n\nJūs iepriekš neesat izveidojis savienojumu ar ierīci “<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>”."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Neatļaut"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"SIM kartes piekļuves pieprasījums"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Kāda ierīce pieprasa piekļuvi jūsu SIM kartei. Pieskarieties, lai skatītu detalizētu informāciju."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Vai atļaut piekļuvi SIM kartei?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Bluetooth ierīce “<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>” pieprasa atļauju piekļūt jūsu SIM kartē saglabātajiem datiem, tostarp kontaktpersonām.\n\nKamēr savienojums būs aktīvs, visi zvani uz numuru <xliff:g id="PHONE_NUMBER">%3$s</xliff:g> tiks saņemti ierīcē <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Ir pieejama Bluetooth ierīce"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Ierīce pieprasa atļauju izveidot savienojumu. Pieskarieties, lai skatītu detalizētu informāciju."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Vai izveidot savienojumu ar Bluetooth ierīci?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"Ierīce “<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>” pieprasa atļauju izveidot savienojumu ar šo tālruni.\n\nIepriekš neesat veidojis savienojumu ar ierīci <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Neizveidot savienojumu"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Izveidot savienojumu"</string>
+ </resources>
+diff --git a/res/values-nb/strings.xml b/res/values-nb/strings.xml
+index 1564c3aebd..e7bb6a0f6b 100644
+--- a/res/values-nb/strings.xml
++++ b/res/values-nb/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Lagringsplassen din blir nå administrert av lagringsadministratoren"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Informasjon om operatørhåndtering"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Utløs operatørhåndtering"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"En enhet vil ha tilgang til meldingene dine. Trykk for å se mer informasjon."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Vil du gi tilgang til meldinger?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"En Bluetooth-enhet, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, vil ha tilgang til meldingene dine.\n\nDu har ikke koblet til <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> tidligere."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"En enhet vil ha tilgang til kontaktene dine og samtaleloggen din. Trykk for å se mer informasjon."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Vil du gi tilgang til kontaktene og samtaleloggen?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"En Bluetooth-enhet, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, vil ha tilgang til kontaktene dine og samtaleloggen din. Dette inkluderer data om innkommende og utgående anrop.\n\nDu har ikke koblet til <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> tidligere."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Ikke tillat"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Forespørsel om tilgang til SIM-kort"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"En enhet vil ha tilgang til SIM-kortet ditt. Trykk for å se mer informasjon."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Vil du gi tilgang til SIM-kortet?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"En Bluetooth-enhet, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, vil ha tilgang til dataene på SIM-kortet ditt. Dette inkluderer kontaktene dine.\n\nNår <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> er tilkoblet, mottar enheten alle anrop til <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"En Bluetooth-enhet er tilgjengelig"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"En enhet vil koble til. Trykk for å se mer informasjon."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Vil du koble til Bluetooth-enheten?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> vil koble til denne telefonen.\n\nDu har ikke koblet til <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> tidligere."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Ikke koble til"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Koble til"</string>
+ </resources>
+diff --git a/res/values-nl/strings.xml b/res/values-nl/strings.xml
+index b5fd751567..b57e8e5810 100644
+--- a/res/values-nl/strings.xml
++++ b/res/values-nl/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Je opslag wordt nu beheerd door de opslagbeheerder"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Gegevens voor providerregistratie"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Providerregistratie activeren"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Een apparaat wil toegang tot je berichten. Tik voor details."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Toegang tot berichten toestaan?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Een bluetooth-apparaat (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) wil toegang tot je berichten.\n\nJe hebt niet eerder verbinding gemaakt met <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Een apparaat wil toegang tot je contacten en gesprekslijst. Tik voor details."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Toegang tot contacten en gesprekslijst toestaan?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Een bluetooth-apparaat (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) wil toegang tot je contacten en gesprekslijst. Dit omvat gegevens over inkomende en uitgaande gesprekken.\n\nJe hebt niet eerder verbinding gemaakt met <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Niet toestaan"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Verzoek voor toegang tot simkaart"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Een apparaat wil toegang tot je simkaart. Tik voor informatie."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Toegang tot simkaart toestaan?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Een bluetooth-apparaat (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) wil toegang tot gegevens op je simkaart. Dit zijn onder andere je contacten.\n\nTerwijl <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> is verbonden, ontvangt dit apparaat alle gesprekken naar <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Bluetooth-apparaat beschikbaar"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Een apparaat wil verbinding maken. Tik voor informatie."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Verbinding maken met bluetooth-apparaat?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> wil verbinding maken met deze telefoon.\n\nJe hebt nog niet eerder verbinding gemaakt met <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Geen verbinding maken"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Verbinding maken"</string>
+ </resources>
+diff --git a/res/values-pl/strings.xml b/res/values-pl/strings.xml
+index 889ab42063..0665c17ac5 100644
+--- a/res/values-pl/strings.xml
++++ b/res/values-pl/strings.xml
+@@ -3331,4 +3331,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Pamięcią zarządza teraz menedżer miejsca"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Informacje o obsłudze administracyjnej operatora"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Uruchom obsługę administracyjną operatora"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Urządzenie chce uzyskać dostęp do Twoich wiadomości. Kliknij, aby wyświetlić szczegóły."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Zezwolić na dostęp do wiadomości?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Urządzenie Bluetooth <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> chce uzyskać dostęp do Twoich wiadomości.\n\nTwoje urządzenie nie łączyło się wcześniej z urządzeniem <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Urządzenie chce uzyskać dostęp do Twoich kontaktów i rejestru połączeń. Kliknij, aby wyświetlić szczegóły."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Zezwolić na dostęp do kontaktów i rejestru połączeń?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Urządzenie Bluetooth <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> chce uzyskać dostęp do Twoich kontaktów i rejestru połączeń. Chodzi między innymi o dane o połączeniach przychodzących i wychodzących.\n\nTwoje urządzenie nie łączyło się wcześniej z urządzeniem <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Nie zezwalaj"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Prośba o dostęp do karty SIM"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Urządzenie chce uzyskać dostęp do Twojej karty SIM. Kliknij, by wyświetlić szczegóły."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Zezwolić na dostęp do karty SIM?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Urządzenie Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) chce uzyskać dostęp do danych na Twojej karcie SIM. Te dane obejmują również Twoje kontakty.\n\nGdy urządzenia będą połączone, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> będzie otrzymywać wszystkie rozmowy przychodzące na numer <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Dostępne jest urządzenie Bluetooth"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Urządzenie chce się połączyć. Kliknij, by wyświetlić szczegóły."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Połączyć z urządzeniem Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> chce połączyć się z tym telefonem.\n\nTwój telefon nigdy wcześniej nie był połączony z urządzeniem <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Nie łącz"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Połącz"</string>
+ </resources>
+diff --git a/res/values-pt-rBR/strings.xml b/res/values-pt-rBR/strings.xml
+index a4dc8b2d46..66c634ecfd 100644
+--- a/res/values-pt-rBR/strings.xml
++++ b/res/values-pt-rBR/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Seu armazenamento está sendo controlado pelo gerenciador de armazenamento"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Informações de aprovisionamento da operadora"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Acionar aprovisionamento da operadora"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Um dispositivo quer acessar suas mensagens. Toque para ver detalhes."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Conceder acesso às mensagens?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Um dispositivo Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) quer acessar suas mensagens.\n\nVocê nunca se conectou a <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Um dispositivo quer acessar seus contatos e seu registro de chamadas. Toque para ver detalhes."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Conceder acesso aos contatos e ao registro de chamadas?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Um dispositivo Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) quer acessar seus contatos e seu registro de chamadas. Isso inclui dados sobre chamadas recebidas e realizadas.\n\nVocê nunca se conectou a <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Não permitir"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Solicitação de acesso ao chip"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Um dispositivo quer acessar seu chip. Toque para ver detalhes."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Permitir acesso ao chip?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Um dispositivo Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) quer acessar dados no seu chip. Isso inclui seus contatos.\n\nEnquanto estiver conectado, o <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> receberá todas as chamadas feitas para o número <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Dispositivo Bluetooth disponível"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Um dispositivo quer se conectar. Toque para ver detalhes."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Conectar ao dispositivo Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> quer se conectar a este smartphone.\n\nVocê nunca se conectou ao <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Não conectar"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Conectar"</string>
+ </resources>
+diff --git a/res/values-pt-rPT/strings.xml b/res/values-pt-rPT/strings.xml
+index 3ad51989fd..7c822f31ef 100644
+--- a/res/values-pt-rPT/strings.xml
++++ b/res/values-pt-rPT/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"O seu armazenamento está agora a ser gerido pelo gestor de armazenamento"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Informações de fornecimento do operador"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Acionar fornecimento do operador"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Um dispositivo pretende aceder às suas mensagens. Toque para obter detalhes."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Pretende permitir o acesso às mensagens?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Um dispositivo Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, pretende aceder às suas mensagens.\n\nNão estabeleceu ligação ao dispositivo <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> anteriormente."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Um dispositivo pretende aceder aos seus contactos e registo de chamadas. Toque para obter detalhes."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Pretende permitir o acesso aos contactos e registo de chamadas?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Um dispositivo Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, pretende aceder aos seus contactos e registo de chamadas. Isto inclui dados acerca de chamadas recebidas e efetuadas.\n\nNão estabeleceu ligação ao dispositivo <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> anteriormente."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Não permitir"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Pedido de acesso ao cartão SIM"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Um dispositivo pretende aceder ao seu cartão SIM. Toque para obter detalhes."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Pretende permitir o acesso ao cartão SIM?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Um dispositivo Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, pretende aceder aos dados no seu cartão SIM. Estes dados incluem os seus contactos.\n\nEnquanto estiver ligado, o dispositivo <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> vai receber todas as chamadas efetuadas para <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Dispositivo Bluetooth disponível"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Um dispositivo pretende estabelecer ligação. Toque para obter detalhes."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Pretende ligar ao dispositivo Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"O dispositivo <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> pretende ligar-se a este telemóvel.\n\nNão estabeleceu ligação ao dispositivo <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> anteriormente."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Não ligar"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Ligar"</string>
+ </resources>
+diff --git a/res/values-pt/strings.xml b/res/values-pt/strings.xml
+index a4dc8b2d46..66c634ecfd 100644
+--- a/res/values-pt/strings.xml
++++ b/res/values-pt/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Seu armazenamento está sendo controlado pelo gerenciador de armazenamento"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Informações de aprovisionamento da operadora"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Acionar aprovisionamento da operadora"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Um dispositivo quer acessar suas mensagens. Toque para ver detalhes."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Conceder acesso às mensagens?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Um dispositivo Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) quer acessar suas mensagens.\n\nVocê nunca se conectou a <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Um dispositivo quer acessar seus contatos e seu registro de chamadas. Toque para ver detalhes."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Conceder acesso aos contatos e ao registro de chamadas?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Um dispositivo Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) quer acessar seus contatos e seu registro de chamadas. Isso inclui dados sobre chamadas recebidas e realizadas.\n\nVocê nunca se conectou a <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Não permitir"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Solicitação de acesso ao chip"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Um dispositivo quer acessar seu chip. Toque para ver detalhes."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Permitir acesso ao chip?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Um dispositivo Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) quer acessar dados no seu chip. Isso inclui seus contatos.\n\nEnquanto estiver conectado, o <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> receberá todas as chamadas feitas para o número <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Dispositivo Bluetooth disponível"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Um dispositivo quer se conectar. Toque para ver detalhes."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Conectar ao dispositivo Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> quer se conectar a este smartphone.\n\nVocê nunca se conectou ao <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Não conectar"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Conectar"</string>
+ </resources>
+diff --git a/res/values-ro/strings.xml b/res/values-ro/strings.xml
+index 7538004a6a..0b90949114 100644
+--- a/res/values-ro/strings.xml
++++ b/res/values-ro/strings.xml
+@@ -3295,4 +3295,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Spațiul de stocare este acum gestionat de managerul spațiului de stocare"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Informații despre provizionarea operatorului"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Declanșați provizionarea operatorului"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Un dispozitiv solicită acces la mesajele dvs. Atingeți pentru detalii."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Permiteți accesul la mesaje?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Un dispozitiv Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, solicită acces la mesajele dvs.\n\nNu v-ați mai conectat la <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Un dispozitiv solicită acces la persoanele de contact și la jurnalul dvs. de apeluri. Atingeți pentru detalii."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Permiteți accesul la agendă și la jurnalul de apeluri?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Un dispozitiv Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, solicită acces la persoanele dvs. de contact și la jurnalul de apeluri. Aici sunt incluse date despre apelurile primite și efectuate.\n\nNu v-ați mai conectat la <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Nu permiteți"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Solicitare de acces la cardul SIM"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Un dispozitiv solicită acces la cardul SIM. Atingeți pentru detalii."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Permiteți accesul la cardul SIM?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Un dispozitiv Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, solicită acces la datele de pe cardul SIM. Aici este inclusă agenda.\n\nDupă ce se conectează, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> va primi toate apelurile primite la <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Este disponibil un dispozitiv Bluetooth"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Un dispozitiv solicită conectarea. Atingeți pentru detalii."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Vă conectați la dispozitivul Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> solicită conectarea la acest telefon.\n\nNu v-ați mai conectat la <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Nu vă conectați"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Conectați-vă"</string>
+ </resources>
+diff --git a/res/values-ru/strings.xml b/res/values-ru/strings.xml
+index c2346806e5..9af521ca7b 100644
+--- a/res/values-ru/strings.xml
++++ b/res/values-ru/strings.xml
+@@ -3331,4 +3331,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Память устройства теперь управляется менеджером хранилища"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Сведения об операторе"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Запустить синхронизацию оператора"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Устройство запрашивает доступ к вашим сообщениям. Нажмите, чтобы узнать больше."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Предоставить доступ к сообщениям?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Устройство Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) запрашивает доступ к вашим сообщениям.\n\nЭто ваше первое подключение к устройству \"<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>\"."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Устройство запрашивает доступ к вашим контактам и списку вызовов. Нажмите, чтобы узнать больше."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Предоставить доступ к контактам и списку вызовов?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Устройство Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) запрашивает доступ к вашим контактам и списку вызовов, включая данные о входящих и исходящих звонках.\n\nЭто ваше первое подключение к устройству \"<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>\"."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Запретить"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Запрос на доступ к SIM-карте"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Устройство запрашивает доступ к вашей SIM-карте. Нажмите, чтобы узнать больше."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Предоставить доступ к SIM-карте?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Устройство Bluetooth \"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>\" запрашивает доступ к данным на SIM-карте, в том числе к вашим контактам.\n\nПока устройство \"<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>\" подключено, оно будет принимать все входящие вызовы на номер <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Доступно устройство Bluetooth"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Устройство запрашивает разрешение на подключение. Нажмите, чтобы узнать больше."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Подключиться к устройству Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"Устройство \"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>\" хочет подключиться к этому телефону.\n\nЭто ваше первое подключение к устройству \"<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>\"."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Не подключаться"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Подключиться"</string>
+ </resources>
+diff --git a/res/values-sk/strings.xml b/res/values-sk/strings.xml
+index 3174c120b1..043d0e6d65 100644
+--- a/res/values-sk/strings.xml
++++ b/res/values-sk/strings.xml
+@@ -3331,4 +3331,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Vaše úložisko odteraz riadi správca úložiska"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Informácie o poskytovaní služieb operátorom"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Spustiť poskytovanie služieb operátorom"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Zariadenie vyžaduje prístup k vašim správam. Klepnutím zobrazíte podrobnosti."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Chcete povoliť prístup k správam?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Zariadenie <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> s rozhraním Bluetooth vyžaduje prístup k vašim správam.\n\nK zariadeniu <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> ste sa predtým nikdy nepripojili."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Zariadenie vyžaduje prístup k vašim kontaktom a zoznamu hovorov. Klepnutím zobrazíte podrobnosti."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Chcete povoliť prístup ku kontaktom a zoznamu hovorov?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Zariadenie <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> s rozhraním Bluetooth vyžaduje prístup k vašim kontaktom a zoznamu hovorov. Zahŕňa to údaje o prichádzajúcich a odchádzajúcich hovoroch.\n\nK zariadeniu <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> ste sa predtým nikdy nepripojili."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Nepovoliť"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Žiadosť o prístup k SIM karte"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Zariadenie požaduje prístup k vašej SIM karte. Klepnutím zobrazíte podrobnosti."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Chcete povoliť prístup k SIM karte?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Zariadenie s rozhraním Bluetooth <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> požaduje prístup k údajom na vašej SIM karte. Zahŕňa to aj kontakty.\n\nPočas pripojenia bude zariadenie <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> prijímať všetky hovory smerujúce na číslo <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"K dispozícii je zariadenie s rozhraním Bluetooth"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Zariadenie sa chce pripojiť. Klepnutím zobrazíte podrobnosti."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Chcete sa pripojiť k zariadeniu s rozhraním Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> sa chce pripojiť k tomuto telefónu.\n\nK zariadeniu <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> ste sa ešte nikdy nepripojili."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Nepripojiť"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Pripojiť"</string>
+ </resources>
+diff --git a/res/values-sl/strings.xml b/res/values-sl/strings.xml
+index afe3ce2c0a..f17fe239d7 100644
+--- a/res/values-sl/strings.xml
++++ b/res/values-sl/strings.xml
+@@ -3331,4 +3331,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Shrambo zdaj upravlja upravitelj shrambe"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Podatki o omogočanju uporabe operaterja"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Sproži omogočanje uporabe operaterja"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Naprava želi dostopati do vaših sporočil. Dotaknite se za podrobnosti."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Želite dovoliti dostop do sporočil?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Naprava Bluetooth <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> želi dostopati do vaših sporočil.\n\nŠe nikoli niste vzpostavili povezave z napravo <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Naprava želi dostopati do vaših stikov in dnevnika klicev. Dotaknite se za podrobnosti."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Želite dovoliti dostop do stikov in dnevnika klicev?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Naprava Bluetooth <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> želi dostopati do vaših stikov in dnevnika klicev. To vključuje podatke o dohodnih in odhodnih klicih.\n\nŠe nikoli niste vzpostavili povezave z napravo <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Ne dovoli"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Zahteva za dostop do kartice SIM"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Naprava želi dostopati do kartice SIM. Dotaknite se za podrobnosti."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Želite dovoliti dostop do kartice SIM?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Naprava Bluetooth <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> želi dostopati do podatkov na kartici SIM. To vključuje vaše stike.\n\nDokler bo povezava vzpostavljena, bo naprava <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> prejemala vse klice na številko <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Naprava Bluetooth je na voljo"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Naprava želi vzpostaviti povezavo. Dotaknite se za podrobnosti."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Želite vzpostaviti povezavo z napravo Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"Naprava <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> se želi povezati s tem telefonom.\n\nŠe nikoli niste vzpostavili povezave z napravo <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Ne poveži"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Poveži"</string>
+ </resources>
+diff --git a/res/values-sr/strings.xml b/res/values-sr/strings.xml
+index fda00b5da1..cd40bed518 100644
+--- a/res/values-sr/strings.xml
++++ b/res/values-sr/strings.xml
+@@ -3295,4 +3295,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Меморијским простором сада управља Менаџер меморијског простора"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Информације о додели мобилног оператера"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Покретање доделе мобилног оператера"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Уређај жели да приступа порукама. Додирните за детаље."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Желите ли да дозволите приступ порукама?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Bluetooth уређај, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, жели да приступа порукама.\n\nРаније се нисте повезивали са уређајем <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Уређај жели да приступа контактима и евиденцији позива. Додирните за детаље."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Желите ли да дозволите приступ контактима и евиденцији позива?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Bluetooth уређај, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, жели да приступа контактима и евиденцији позива. То обухвата податке о долазним и одлазним позивима.\n\nРаније се нисте повезивали са уређајем <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Не дозволи"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Захтев за приступ SIM картици"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Уређај жели да приступа SIM картици. Додирните за детаље."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Желите да дозволите приступ SIM картици?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Bluetooth уређај, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, жели да приступа подацима на SIM картици. То обухвата ваше контакте.\n\nДок сте повезани, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> ће примати све позиве упућене на <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Bluetooth уређај је доступан"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Уређај жели да се повеже. Додирните за детаље."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Желите да се повежете са Bluetooth уређајем?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> жели да се повеже са овим телефоном.\n\nРаније се нисте повезивали са уређајем <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Не повезуј"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Повежи"</string>
+ </resources>
+diff --git a/res/values-sv/strings.xml b/res/values-sv/strings.xml
+index 96af86a45b..0619b36d2d 100644
+--- a/res/values-sv/strings.xml
++++ b/res/values-sv/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Ditt lagringsutrymme hanteras nu av lagringshanteraren"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Information om operatörsadministration"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Aktivera operatörsadministration"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"En enhet vill få åtkomst till dina meddelanden. Tryck här för mer information."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Vill du tillåta åtkomst till meddelanden?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"En Bluetooth-enhet, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, vill få åtkomst till dina meddelanden.\n\nDu har inte anslutit till <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> tidigare."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"En enhet vill få åtkomst till dina kontakter och samtalshistoriken. Tryck här för mer information."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Vill du tillåta åtkomst till kontakter och samtalshistorik?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"En Bluetooth-enhet, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, vill få åtkomst till dina kontakter och samtalshistoriken. Detta inkluderar data om inkommande och utgående samtal.\n\nDu har inte anslutit till <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> tidigare."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Tillåt inte"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Begäran om åtkomst till SIM-kort"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"En enhet vill få åtkomst till ditt SIM-kort. Tryck här för mer information."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Vill du tillåta åtkomst till SIM-kortet?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"En Bluetooth-enhet, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, vill få åtkomst till data på ditt SIM-kort. Detta inkluderar dina kontakter.\n\nNär <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> är ansluten tar den emot alla samtal till <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"En Bluetooth-enhet är tillgänglig"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"En enhet vill ansluta. Tryck här för mer information."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Vill du ansluta till Bluetooth-enheten?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> vill ansluta till den här telefonen.\n\nDu har inte anslutit till <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> tidigare."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Anslut inte"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Anslut"</string>
+ </resources>
+diff --git a/res/values-sw/strings.xml b/res/values-sw/strings.xml
+index 17b6f5aaf0..e1044f1170 100644
+--- a/res/values-sw/strings.xml
++++ b/res/values-sw/strings.xml
+@@ -3263,4 +3263,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Hifadhi yako sasa inasimamiwa na kidhibiti cha hifadhi"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Maelezo ya Utaratibu wa Mtoa Huduma"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Anzisha Utaratibu wa Mtoa Huduma"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Kifaa kinataka kufikia ujumbe wako. Gusa ili upate maelezo."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Ungependa kuruhusu kifaa kifikie ujumbe?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Kifaa chenye Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, kinataka kufikia ujumbe wako.\n\nHujawahi kuunganisha kwenye <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Kifaa kinataka kufikia anwani na kumbukumbu za simu. Gusa ili upate maelezo."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Ungependa kuruhusu kifaa kifikie anwani na kumbukumbu za simu?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Kifaa chenye Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, kinataka kufikia anwani na kumbukumbu za simu. Hii ni pamoja na data kuhusu simu unazopigiwa na unazopiga.\n\nHujawahi kuunganisha kwenye <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Usiruhusu"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Ombi la kufikia SIM kadi"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Kifaa kinataka kufikia SIM kadi yako. Gusa ili upate maelezo."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Ungependa kuruhusu ifikie SIM kadi?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Kifaa chenye Bluetooth, <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, kinataka kufikia data iliyo kwenye SIM kadi yako. Hii ni pamoja na anwani zako.\n\nKikiunganishwa, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> kitapokea simu zote zinazopigwa kwa <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Kifaa chenye Bluetooth kinapatikana"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Kifaa kinataka kuunganisha. Gusa ili upate maelezo."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Ungependa kuunganisha kwenye kifaa chenye Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> kinataka kuunganishwa kwenye simu hii.\n\nHujawahi kuunganisha kwenye <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Usiunganishe"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Unganisha"</string>
+ </resources>
+diff --git a/res/values-th/strings.xml b/res/values-th/strings.xml
+index cd68a81ac5..56925e2e2e 100644
+--- a/res/values-th/strings.xml
++++ b/res/values-th/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"ตัวจัดการพื้นที่เก็บข้อมูลกำลังจัดการพื้นที่เก็บข้อมูลของคุณ"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"ข้อมูลการจัดสรรผู้ให้บริการ"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"ทริกเกอร์การจัดสรรผู้ให้บริการ"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"อุปกรณ์หนึ่งต้องการเข้าถึงข้อความของคุณ แตะเพื่อดูรายละเอียด"</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"อนุญาตให้เข้าถึงข้อความไหม"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"อุปกรณ์บลูทูธ <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> ต้องการเข้าถึงข้อความของคุณ\n\nคุณไม่เคยเชื่อมต่อกับ <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> มาก่อน"</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"อุปกรณ์หนึ่งต้องการเข้าถึงรายชื่อติดต่อและบันทึกการโทร แตะเพื่อดูรายละเอียด"</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"อนุญาตให้เข้าถึงรายชื่อติดต่อและบันทึกการโทรไหม"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"อุปกรณ์บลูทูธ <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> ต้องการเข้าถึงรายชื่อติดต่อและบันทึกการโทร ซึ่งรวมถึงข้อมูลเกี่ยวกับสายเรียกเข้าและโทรออก\n\nคุณไม่เคยเชื่อมต่อกับ <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> มาก่อน"</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"ไม่อนุญาต"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"คำขอเข้าถึงซิมการ์ด"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"อุปกรณ์หนึ่งต้องการเข้าถึงซิมการ์ดของคุณ แตะเพื่อดูรายละเอียด"</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"อนุญาตให้เข้าถึงซิมการ์ดไหม"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"อุปกรณ์บลูทูธ <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> ต้องการเข้าถึงข้อมูลในซิมการ์ดของคุณ ซึ่งรวมถึงรายชื่อติดต่อ\n\nขณะที่เชื่อมต่อ <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> จะได้รับทุกสายที่โทรหา <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>"</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"อุปกรณ์บลูทูธพร้อมเชื่อมต่อ"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"อุปกรณ์หนึ่งต้องการเชื่อมต่อด้วย แตะเพื่อดูรายละเอียด"</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"เชื่อมต่ออุปกรณ์บลูทูธไหม"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> ต้องการเชื่อมต่อโทรศัพท์เครื่องนี้\n\nคุณไม่เคยเชื่อมต่อกับ <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> มาก่อน"</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"ไม่เชื่อมต่อ"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"เชื่อมต่อ"</string>
+ </resources>
+diff --git a/res/values-tl/strings.xml b/res/values-tl/strings.xml
+index 0c6308f8a8..2569417f29 100644
+--- a/res/values-tl/strings.xml
++++ b/res/values-tl/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Pinamamahalaan na ngayon ng storage manager ang iyong storage"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Impormasyon sa Provisioning ng Carrier"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"I-trigger ang Provisioning ng Carrier"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Gustong i-access ng isang device ang iyong mga mensahe. I-tap para sa mga detalye."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Payagan ang access sa mga mensahe?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Gustong i-access ng isang Bluetooth device, ang <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, ang iyong mga mensahe.\n\nHindi ka pa nakakakonekta dati sa <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Gustong i-access ng isang device ang iyong mga contact at log ng tawag. I-tap para sa mga detalye."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Payagan ang access sa mga contact at log ng tawag?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Gustong i-access ng isang Bluetooth device, ang <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, ang iyong mga contact at log ng tawag. Kasama rito ang data tungkol sa mga papasok at papalabas na tawag.\n\nHindi ka pa nakakakonekta dati sa <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Huwag payagan"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Kahilingan sa pag-access sa SIM card"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Gustong i-access ng isang device ang iyong SIM card. I-tap para sa mga detalye."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Payagan ang access sa SIM card?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Gustong i-access ng Bluetooth device na <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> ang data sa iyong SIM card. Kasama rito ang iyong mga contact.\n\nHabang nakakonekta, matatanggap ng <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> ang lahat ng tawag sa <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Available ang Bluetooth device"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Gustong kumonekta ng device. I-tap para sa mga detalye."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Kumonekta sa Bluetooth device?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"Gustong kumonekta ng <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> sa teleponong ito.\n\nHindi ka pa nakakakonekta sa <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> dati."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Huwag kumonekta"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Kumonekta"</string>
+ </resources>
+diff --git a/res/values-tr/strings.xml b/res/values-tr/strings.xml
+index 3a5e831685..c446b27b9d 100644
+--- a/res/values-tr/strings.xml
++++ b/res/values-tr/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Depolama alanınız artık depolama yöneticisi tarafından yönetiliyor"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Operatör Temel Hazırlık Bilgileri"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Tetikleyici Operatör Temel Hazırlığı"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Bir cihaz, mesajlarınıza erişmek istiyor. Ayrıntılar için dokunun."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Mesajlara erişime izin verilsin mi?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> adlı Bluetooth cihazı, mesajlarınıza erişmek istiyor.\n\n<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> adlı cihaza daha önce hiç bağlanmadınız."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Bir cihaz, kişilerinize ve arama kaydınıza erişmek istiyor. Ayrıntılar için dokunun."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Kişilerinize ve arama kaydınıza erişime izin verilsin mi?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> adlı Bluetooth cihazı, kişilerinize ve arama kaydınıza erişmek istiyor. Buna, gelen ve giden aramalarınıza ait verileri dahildir.\n\n<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> adlı cihaza daha önce hiç bağlanmadınız."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"İzin verme"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"SIM karta erişim isteği"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Bir cihaz SIM kartınıza erişmek istiyor. Ayrıntılar için dokunun."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"SIM karta erişime izin verilsin mi?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> adlı Bluetooth cihazı, kişileriniz de dahil olmak üzere SIM kartınızdaki verilere ulaşmak istiyor.\n\nBağlantı süresince <xliff:g id="PHONE_NUMBER">%3$s</xliff:g> numarasına gelen tüm aramaları <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> adlı cihaz alacak."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Kullanılabilir Bluetooth cihaz"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Bir cihaz bağlanmak istiyor. Ayrıntılar için dokunun."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Bluetooth cihazına bağlanılsın mı?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>, bu telefona bağlanmak istiyor.\n\n<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> adlı cihaza daha önce bağlanmadınız."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Bağlanma"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Bağlan"</string>
+ </resources>
+diff --git a/res/values-uk/strings.xml b/res/values-uk/strings.xml
+index 5cbff65844..d37c4985dc 100644
+--- a/res/values-uk/strings.xml
++++ b/res/values-uk/strings.xml
+@@ -3331,4 +3331,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Зараз пам’яттю керує диспетчер пам’яті"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Інформація про ініціалізацію оператора"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Активатор ініціалізації оператора"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Інший пристрій хоче отримати доступ до ваших повідомлень. Натисніть, щоб дізнатися більше."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Дозволити доступ до повідомлень?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Пристрій із Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) хоче отримати доступ до ваших повідомлень.\n\nВи ще не підключалися до пристрою \"<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>\"."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Інший пристрій хоче отримати доступ до ваших контактів і журналу викликів. Натисніть, щоб дізнатися більше."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Дозволити доступ до контактів і журналу викликів?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Пристрій із Bluetooth (<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>) хоче отримати доступ до ваших контактів і журналу викликів, зокрема даних про вхідні й вихідні дзвінки.\n\nВи ще не підключалися до пристрою \"<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>\"."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Не дозволяти"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Запити на доступ до SIM-карти"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Пристрій хоче отримати доступ до SIM-карти. Натисніть, щоб дізнатися більше."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Дозволити доступ до SIM-карти?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Пристрій із Bluetooth \"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>\" хоче отримати доступ до даних на вашій SIM-карті, зокрема до контактів.\n\nПід час підключення пристрій \"<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>\" зможе отримувати всі виклики, що надходитимуть на номер <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Доступний пристрій із Bluetooth"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Пристрій хоче підключитися. Натисніть, щоб дізнатися більше."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Підключитися до пристрою з Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"Пристрій \"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>\" хоче підключитися до цього телефона.\n\nВи ще не підключалися до пристрою \"<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>\"."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Не підключатися"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Підключитися"</string>
+ </resources>
+diff --git a/res/values-vi/strings.xml b/res/values-vi/strings.xml
+index 8c93d7f4c6..dec7547003 100644
+--- a/res/values-vi/strings.xml
++++ b/res/values-vi/strings.xml
+@@ -3259,4 +3259,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"Bộ nhớ của bạn hiện đang được quản lý bởi trình quản lý bộ nhớ"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"Thông tin cấp phép của nhà cung cấp dịch vụ"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"Kích hoạt cấp phép của nhà cung cấp dịch vụ"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"Một thiết bị muốn truy cập vào tin nhắn của bạn. Hãy nhấn để biết thông tin chi tiết."</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"Cho phép truy cập vào tin nhắn?"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"Thiết bị Bluetooth <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> muốn truy cập vào tin nhắn của bạn.\n\nBạn chưa từng kết nối với <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"Một thiết bị muốn truy cập vào danh bạ và nhật ký cuộc gọi của bạn. Hãy nhấn để biết thông tin chi tiết."</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"Cho phép truy cập vào danh bạ và nhật ký cuộc gọi?"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"Thiết bị Bluetooth <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> muốn truy cập vào danh bạ và nhật ký cuộc gọi của bạn, trong đó có cả dữ liệu về cuộc gọi đi và cuộc gọi đến.\n\nBạn chưa từng kết nối với <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"Không cho phép"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"Yêu cầu truy cập vào thẻ SIM"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"Một thiết bị muốn truy cập vào thẻ SIM của bạn. Hãy nhấn để xem thông tin chi tiết."</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"Cho phép truy cập vào thẻ SIM?"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"Một thiết bị Bluetooth là <xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> muốn truy cập vào dữ liệu trên thẻ SIM của bạn. Dữ liệu này bao gồm cả danh bạ của bạn.\n\nSau khi kết nối, <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g> sẽ nhận được tất cả các cuộc gọi đến số <xliff:g id="PHONE_NUMBER">%3$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"Hiện có thiết bị Bluetooth"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"Một thiết bị muốn kết nối. Hãy nhấn để xem thông tin chi tiết."</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"Kết nối với thiết bị Bluetooth?"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g> muốn kết nối với điện thoại này.\n\nBạn chưa từng kết nối với <xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>."</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"Không kết nối"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Kết nối"</string>
+ </resources>
+diff --git a/res/values-zh-rCN/strings.xml b/res/values-zh-rCN/strings.xml
+index 74b54de365..b65a5cc646 100644
+--- a/res/values-zh-rCN/strings.xml
++++ b/res/values-zh-rCN/strings.xml
+@@ -3298,4 +3298,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"您的存储空间目前是由存储空间管理器管理"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"运营商配置信息"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"触发运营商配置"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"有设备想要访问您的消息。点按可了解详情。"</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"要允许访问消息吗？"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"蓝牙设备“<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>”想要访问您的消息。\n\n您之前没有连接过“<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>”。"</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"有设备想要访问您的通讯录和通话记录。点按可了解详情。"</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"要允许访问通讯录和通话记录吗？"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"蓝牙设备“<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>”想要访问您的通讯录和通话记录，包括有关来电和去电的数据。\n\n您之前没有连接过“<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>”。"</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"不允许"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"SIM 卡访问请求"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"有一部设备想访问您的 SIM 卡。点按可了解详情。"</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"要允许访问 SIM 卡吗？"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"蓝牙设备“<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>”想访问您的 SIM 卡中的数据。其中包括您的联系人信息。\n\n在保持连接期间，“<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>”将会收到打给 <xliff:g id="PHONE_NUMBER">%3$s</xliff:g> 的所有电话。"</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"有可用的蓝牙设备"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"有一部设备想要连接。点按可了解详情。"</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"要连接到蓝牙设备吗？"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"“<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>”想连接到此手机。\n\n您之前没有连接过“<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>”。"</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"不连接"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"连接"</string>
+ </resources>
+diff --git a/res/values-zh-rHK/strings.xml b/res/values-zh-rHK/strings.xml
+index 051663c4d6..23432b6bf6 100644
+--- a/res/values-zh-rHK/strings.xml
++++ b/res/values-zh-rHK/strings.xml
+@@ -3262,4 +3262,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"您的儲存空間即將由儲存空間管理員管理"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"流動網絡供應商佈建資料"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"觸發流動網絡供應商佈建程序"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"有裝置想存取您的訊息。輕按即可瞭解詳情。"</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"要允許存取訊息嗎？"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"藍牙裝置「<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>」想存取您的訊息。\n\n請注意，您從未連接「<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>」。"</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"有裝置要求存取您的聯絡人資料和通話記錄。輕按即可瞭解詳情。"</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"要允許存取聯絡人和通話記錄嗎？"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"藍牙裝置「<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>」想存取您的聯絡人資料和通話記錄，包括來電和撥出電話的資料。\n\n您從未連接「<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>」。"</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"不允許"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"SIM 卡存取要求"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"有裝置想存取 SIM 卡。輕按即可瞭解詳情。"</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"要允許存取 SIM 卡嗎？"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"藍牙裝置「<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>」想存取 SIM 卡上的資料，包括您的聯絡人。\n\n連接後，打給 <xliff:g id="PHONE_NUMBER">%3$s</xliff:g> 的所有來電都會轉到「<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>」。"</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"有可用的藍牙裝置"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"有裝置要連接。輕按即可瞭解詳情。"</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"要連接藍牙裝置嗎？"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"「<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>」想連接此手機。\n\n請注意，您從未連接「<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>」"</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"不要連接"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"連接"</string>
+ </resources>
+diff --git a/res/values-zh-rTW/strings.xml b/res/values-zh-rTW/strings.xml
+index ddddb7dc72..312b62ad22 100644
+--- a/res/values-zh-rTW/strings.xml
++++ b/res/values-zh-rTW/strings.xml
+@@ -3263,4 +3263,21 @@
+     <string name="automatic_storage_manager_activation_warning" msgid="6353100011690933254">"你的儲存空間目前是由儲存空間管理員管理"</string>
+     <string name="carrier_provisioning" msgid="4398683675591893169">"行動通訊業者佈建資訊"</string>
+     <string name="trigger_carrier_provisioning" msgid="3434865918009286187">"觸發行動通訊業者佈建程序"</string>
++    <string name="bluetooth_message_access_notification_content" msgid="5111712860712823893">"一部裝置想要存取你的訊息。輕觸即可瞭解詳情。"</string>
++    <string name="bluetooth_message_access_dialog_title" msgid="9009836130395061579">"要允許存取訊息嗎？"</string>
++    <string name="bluetooth_message_access_dialog_content" msgid="7186694737578788487">"藍牙裝置「<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>」想要存取你的訊息。\n\n請注意，你從未與「<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>」建立連線。"</string>
++    <string name="bluetooth_phonebook_access_notification_content" msgid="9175220052703433637">"一部裝置想要存取你的聯絡人資料和通話記錄。輕觸即可瞭解詳情。"</string>
++    <string name="bluetooth_phonebook_access_dialog_title" msgid="7624607995928968721">"要允許存取聯絡人和通話記錄嗎？"</string>
++    <string name="bluetooth_phonebook_access_dialog_content" msgid="959658135522249170">"藍牙裝置「<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>」想要存取你的聯絡人資料和通話記錄，包括你接聽及撥打的電話。\n\n請注意，你從未與「<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>」建立連線。"</string>
++    <string name="request_manage_bluetooth_permission_dont_allow" msgid="8798061333407581300">"不允許"</string>
++    <string name="bluetooth_sim_card_access_notification_title" msgid="5217037846900908318">"SIM 卡存取要求"</string>
++    <string name="bluetooth_sim_card_access_notification_content" msgid="6759306429895300286">"有裝置想要存取 SIM 卡。輕觸即可瞭解詳情。"</string>
++    <string name="bluetooth_sim_card_access_dialog_title" msgid="4486768729352090174">"要允許存取 SIM 卡嗎？"</string>
++    <string name="bluetooth_sim_card_access_dialog_content" msgid="4153857191661567190">"藍牙裝置「<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>」想要存取 SIM 卡上的資料，包括你的聯絡人。\n\n連線後，打給 <xliff:g id="PHONE_NUMBER">%3$s</xliff:g> 的每通電話都會轉到「<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>」。"</string>
++    <string name="bluetooth_connect_access_notification_title" msgid="2573547043170883947">"有可用的藍牙裝置"</string>
++    <string name="bluetooth_connect_access_notification_content" msgid="1328465545685433304">"有裝置想要連線。輕觸即可瞭解詳情。"</string>
++    <string name="bluetooth_connect_access_dialog_title" msgid="1948056782712451381">"要連線到藍牙裝置嗎？"</string>
++    <string name="bluetooth_connect_access_dialog_content" msgid="4336436466468405850">"「<xliff:g id="DEVICE_NAME_0">%1$s</xliff:g>」想要連線到這支手機。\n\n請注意，你從未與「<xliff:g id="DEVICE_NAME_1">%2$s</xliff:g>」連線。"</string>
++    <string name="bluetooth_connect_access_dialog_negative" msgid="4944672755226375059">"不要連線"</string>
++    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"連線"</string>
+ </resources>

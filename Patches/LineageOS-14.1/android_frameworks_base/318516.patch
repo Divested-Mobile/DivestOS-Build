@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jayant Chowdhary <jchowdhary@google.com>
+Date: Wed, 9 Jun 2021 14:34:54 -0700
+Subject: [PATCH] camera2: Fix exception swallowing in params classes
+ createFromParcel
+
+Do not catch exceptions when we attempt to create the following classes
+from a parcel
+- OutputConfiguration
+- VendorTagDescriptor
+- VendorTagDescriptorCache
+- SessionConfiguration
+This could cause subsequent parcel information to be read incorrectly.
+
+Bug: 188675581
+
+Test: Sample app which tries to write invalid data into an
+      OutputConfiguration parcel to send in an intent via Broadcast. When read by the receiving app,
+      gets an exception (not swallowed).
+
+Merged-In: I745ca49daa6ca36b1020d518e9f346b52684f2b1
+Change-Id: I745ca49daa6ca36b1020d518e9f346b52684f2b1
+Signed-off-by: Jayant Chowdhary <jchowdhary@google.com>
+(cherry picked from commit 6b0bcd60c81003e6a193aeccf44ee03f188e3984)
+(cherry picked from commit 8a11538146d894264420d5baa554e3968496b020)
+---
+ .../hardware/camera2/params/OutputConfiguration.java      | 8 +-------
+ .../hardware/camera2/params/VendorTagDescriptor.java      | 8 +-------
+ 2 files changed, 2 insertions(+), 14 deletions(-)
+
+diff --git a/core/java/android/hardware/camera2/params/OutputConfiguration.java b/core/java/android/hardware/camera2/params/OutputConfiguration.java
+index 69c00e987302..15b64993912c 100644
+--- a/core/java/android/hardware/camera2/params/OutputConfiguration.java
++++ b/core/java/android/hardware/camera2/params/OutputConfiguration.java
+@@ -395,13 +395,7 @@ public final class OutputConfiguration implements Parcelable {
+             new Parcelable.Creator<OutputConfiguration>() {
+         @Override
+         public OutputConfiguration createFromParcel(Parcel source) {
+-            try {
+-                OutputConfiguration outputConfiguration = new OutputConfiguration(source);
+-                return outputConfiguration;
+-            } catch (Exception e) {
+-                Log.e(TAG, "Exception creating OutputConfiguration from parcel", e);
+-                return null;
+-            }
++            return new OutputConfiguration(source);
+         }
+ 
+         @Override
+diff --git a/core/java/android/hardware/camera2/params/VendorTagDescriptor.java b/core/java/android/hardware/camera2/params/VendorTagDescriptor.java
+index ea424e594081..893bde1e1430 100644
+--- a/core/java/android/hardware/camera2/params/VendorTagDescriptor.java
++++ b/core/java/android/hardware/camera2/params/VendorTagDescriptor.java
+@@ -36,13 +36,7 @@ public final class VendorTagDescriptor implements Parcelable {
+             new Parcelable.Creator<VendorTagDescriptor>() {
+         @Override
+         public VendorTagDescriptor createFromParcel(Parcel source) {
+-            try {
+-                VendorTagDescriptor vendorDescriptor = new VendorTagDescriptor(source);
+-                return vendorDescriptor;
+-            } catch (Exception e) {
+-                Log.e(TAG, "Exception creating VendorTagDescriptor from parcel", e);
+-                return null;
+-            }
++            return new VendorTagDescriptor(source);
+         }
+ 
+         @Override

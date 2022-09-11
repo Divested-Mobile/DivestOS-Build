@@ -1,0 +1,46 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ted Wang <tedwang@google.com>
+Date: Thu, 13 Jan 2022 15:00:32 +0800
+Subject: [PATCH] Security fix OOB read due to invalid count in
+ stack/avrc/avrc_pars_ct
+
+Bug: 205837191
+Tag: #security
+Test: PoC test program
+Ignore-AOSP-First: Security
+Change-Id: I7b5bcb6551a8c0c015566327e13ba719271ce374
+Merged-In: I7b5bcb6551a8c0c015566327e13ba719271ce374
+(cherry picked from commit 60a5d2f63bf95ed386a2ca6c43f1d88bb1d07003)
+Merged-In:I7b5bcb6551a8c0c015566327e13ba719271ce374
+---
+ stack/avrc/avrc_pars_ct.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/stack/avrc/avrc_pars_ct.c b/stack/avrc/avrc_pars_ct.c
+index cff7bffbe..077ef1210 100644
+--- a/stack/avrc/avrc_pars_ct.c
++++ b/stack/avrc/avrc_pars_ct.c
+@@ -285,6 +285,11 @@ static tAVRC_STS avrc_ctrl_pars_vendor_rsp(
+                          __func__, p_result->get_caps.capability_id, p_result->get_caps.count);
+         if (p_result->get_caps.capability_id == AVRC_CAP_COMPANY_ID)
+         {
++            if (p_result->get_caps.count > AVRC_CAP_MAX_NUM_COMP_ID)
++            {
++                android_errorWriteLog(0x534e4554, "205837191");
++                return AVRC_STS_INTERNAL_ERR;
++            }
+             min_len += MIN(p_result->get_caps.count, AVRC_CAP_MAX_NUM_COMP_ID) * 3;
+             if (len < min_len) goto length_error;
+             for(int xx = 0; ((xx < p_result->get_caps.count) && (xx < AVRC_CAP_MAX_NUM_COMP_ID));
+@@ -295,6 +300,11 @@ static tAVRC_STS avrc_ctrl_pars_vendor_rsp(
+         }
+         else if (p_result->get_caps.capability_id == AVRC_CAP_EVENTS_SUPPORTED)
+         {
++            if (p_result->get_caps.count > AVRC_CAP_MAX_NUM_EVT_ID)
++            {
++                android_errorWriteLog(0x534e4554, "205837191");
++                return AVRC_STS_INTERNAL_ERR;
++            }
+             min_len += MIN(p_result->get_caps.count, AVRC_CAP_MAX_NUM_EVT_ID);
+             if (len < min_len) goto length_error;
+             for(int xx = 0; ((xx < p_result->get_caps.count) && (xx < AVRC_CAP_MAX_NUM_EVT_ID));

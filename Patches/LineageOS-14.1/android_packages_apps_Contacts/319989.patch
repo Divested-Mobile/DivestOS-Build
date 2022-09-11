@@ -1,0 +1,95 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Gary Mai <garymai@google.com>
+Date: Wed, 15 Sep 2021 16:20:01 -0700
+Subject: [PATCH] Address photo editing security bug
+
+Filter to only system apps that can handle cropping.
+Otherwise, save the photo as is.
+
+Bug: 195748381
+Test: Manual test with the PoC. Verified only the system installed app
+was able to crop the photo and no crop was offered when it was disabled
+
+Change-Id: Id1527f589064aa278715afcb060647ec6841e6da
+(cherry picked from commit 8b19ca470847f5f77d5b2e5dd086aae9ad4ea389)
+---
+ .../contacts/activities/AttachPhotoActivity.java    | 13 ++++++++-----
+ .../contacts/detail/PhotoSelectionHandler.java      | 13 ++++++++-----
+ 2 files changed, 16 insertions(+), 10 deletions(-)
+
+diff --git a/src/com/android/contacts/activities/AttachPhotoActivity.java b/src/com/android/contacts/activities/AttachPhotoActivity.java
+index 1abbecfd1..012bd1501 100644
+--- a/src/com/android/contacts/activities/AttachPhotoActivity.java
++++ b/src/com/android/contacts/activities/AttachPhotoActivity.java
+@@ -187,7 +187,8 @@ public class AttachPhotoActivity extends ContactsActivity {
+             }
+             ContactPhotoUtils.addPhotoPickerExtras(intent, mCroppedPhotoUri);
+             ContactPhotoUtils.addCropExtras(intent, mPhotoDim != 0 ? mPhotoDim : mDefaultPhotoDim);
+-            if (!hasIntentHandler(intent)) {
++            final ResolveInfo intentHandler = getIntentHandler(intent);
++            if (intentHandler == null) {
+                 // No activity supports the crop action. So skip cropping and set the photo
+                 // without performing any cropping.
+                 mCroppedPhotoUri = mTempPhotoUri;
+@@ -201,6 +202,7 @@ public class AttachPhotoActivity extends ContactsActivity {
+                 return;
+             }
+ 
++            intent.setPackage(intentHandler.activityInfo.packageName);
+             try {
+                 startActivityForResult(intent, REQUEST_CROP_PHOTO);
+             } catch (ActivityNotFoundException ex) {
+@@ -227,10 +229,11 @@ public class AttachPhotoActivity extends ContactsActivity {
+         }
+     }
+ 
+-    private boolean hasIntentHandler(Intent intent) {
+-        final List<ResolveInfo> resolveInfo = getPackageManager()
+-                .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+-        return resolveInfo != null && resolveInfo.size() > 0;
++    private ResolveInfo getIntentHandler(Intent intent) {
++        final List<ResolveInfo> resolveInfos = getPackageManager()
++                .queryIntentActivities(intent,
++                        PackageManager.MATCH_DEFAULT_ONLY | PackageManager.MATCH_SYSTEM_ONLY);
++        return (resolveInfos != null && resolveInfos.size() > 0) ? resolveInfos.get(0) : null;
+     }
+ 
+     // TODO: consider moving this to ContactLoader, especially if we keep adding similar
+diff --git a/src/com/android/contacts/detail/PhotoSelectionHandler.java b/src/com/android/contacts/detail/PhotoSelectionHandler.java
+index d2e5763a0..302e8c1a9 100644
+--- a/src/com/android/contacts/detail/PhotoSelectionHandler.java
++++ b/src/com/android/contacts/detail/PhotoSelectionHandler.java
+@@ -241,7 +241,8 @@ public abstract class PhotoSelectionHandler implements OnClickListener {
+      */
+     private void doCropPhoto(Uri inputUri, Uri outputUri) {
+         final Intent intent = getCropImageIntent(inputUri, outputUri);
+-        if (!hasIntentHandler(intent)) {
++        final ResolveInfo intentHandler = getIntentHandler(intent);
++        if (intentHandler == null) {
+             try {
+                 getListener().onPhotoSelected(inputUri);
+             } catch (FileNotFoundException e) {
+@@ -251,6 +252,7 @@ public abstract class PhotoSelectionHandler implements OnClickListener {
+             }
+             return;
+         }
++        intent.setPackage(intentHandler.activityInfo.packageName);
+         try {
+             // Launch gallery to crop the photo
+             startPhotoActivity(intent, REQUEST_CROP_PHOTO, inputUri);
+@@ -321,10 +323,11 @@ public abstract class PhotoSelectionHandler implements OnClickListener {
+         return intent;
+     }
+ 
+-    private boolean hasIntentHandler(Intent intent) {
+-        final List<ResolveInfo> resolveInfo = mContext.getPackageManager()
+-                .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+-        return resolveInfo != null && resolveInfo.size() > 0;
++    private ResolveInfo getIntentHandler(Intent intent) {
++        final List<ResolveInfo> resolveInfos = mContext.getPackageManager()
++                .queryIntentActivities(intent,
++                        PackageManager.MATCH_DEFAULT_ONLY | PackageManager.MATCH_SYSTEM_ONLY);
++        return (resolveInfos != null && resolveInfos.size() > 0) ? resolveInfos.get(0) : null;
+     }
+ 
+     /**

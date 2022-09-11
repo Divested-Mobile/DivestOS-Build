@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Siarhei Vishniakou <svv@google.com>
+Date: Wed, 9 Dec 2020 08:07:46 -1000
+Subject: [PATCH] Check if the window is partially obscured for slippery enters
+
+Currently, we only check whether a window is partially obscured during
+the initial tap down. However, there is another use case: slippery
+enter.
+
+During a slippery enter, the touch down is generated into the
+slipped-into window, and touch cancel is generated for the slipped-from
+window. The window receiving the slippery enter does not need to have
+any flags.
+
+Until we figure out whether we can restrict the usage of this flag to
+system components, add this check as an intermediate fix.
+
+Bug: 157929241
+Test: atest FlagSlipperyTest
+Test: atest inputflinger_tests
+Change-Id: I93d9681479f41244ffed4b1f88cceb69be71adf2
+Merged-In: I93d9681479f41244ffed4b1f88cceb69be71adf2
+(cherry picked from commit 870ececa8d5dfb293e671c716f98ccddae24147f)
+(cherry picked from commit 6e689ffe3fad4b190629e11222936fb7cda041c2)
+Merged-In:I93d9681479f41244ffed4b1f88cceb69be71adf2
+---
+ services/inputflinger/InputDispatcher.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/services/inputflinger/InputDispatcher.cpp b/services/inputflinger/InputDispatcher.cpp
+index 37e9038aa6..07040a626b 100644
+--- a/services/inputflinger/InputDispatcher.cpp
++++ b/services/inputflinger/InputDispatcher.cpp
+@@ -1391,6 +1391,8 @@ int32_t InputDispatcher::findTouchedWindowTargetsLocked(nsecs_t currentTime,
+                 }
+                 if (isWindowObscuredAtPointLocked(newTouchedWindowHandle, x, y)) {
+                     targetFlags |= InputTarget::FLAG_WINDOW_IS_OBSCURED;
++                } else if (isWindowObscuredLocked(newTouchedWindowHandle)) {
++                    targetFlags |= InputTarget::FLAG_WINDOW_IS_PARTIALLY_OBSCURED;
+                 }
+ 
+                 BitSet32 pointerIds;

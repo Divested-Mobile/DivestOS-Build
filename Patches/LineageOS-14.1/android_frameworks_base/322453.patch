@@ -1,0 +1,44 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jeff Sharkey <jsharkey@android.com>
+Date: Thu, 23 Apr 2020 11:11:06 -0600
+Subject: [PATCH] Force-set a ClipData to prevent later migration.
+
+migrateExtraStreamToClipData() will only offer to promote Uri values
+if a ClipData isn't already defined, so we ensure that a ClipData
+value is always defined.  This blocks later promotion and granting.
+
+Bug: 200683077
+Bug: 123700107
+Test: manual
+Change-Id: I99c1411e8b4eb01eb27ac4306e3bf6cc88cb4273
+(cherry picked from commit 6ebf410b818c6a525130d5fcb72381217fec8e7a)
+(cherry picked from commit 3cf2b049867977916d29f1674f71e89b49ea1f69)
+Merged-In:I99c1411e8b4eb01eb27ac4306e3bf6cc88cb4273
+---
+ .../com/android/server/accounts/AccountManagerService.java  | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
+index dd3e4d9cb17c..3aea365b7ced 100644
+--- a/services/core/java/com/android/server/accounts/AccountManagerService.java
++++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
+@@ -47,6 +47,7 @@ import android.app.admin.DevicePolicyManager;
+ import android.app.admin.DevicePolicyManagerInternal;
+ import android.content.BroadcastReceiver;
+ import android.content.ComponentName;
++import android.content.ClipData;
+ import android.content.ContentValues;
+ import android.content.Context;
+ import android.content.Intent;
+@@ -4218,6 +4219,11 @@ public class AccountManagerService
+          * supplied entries in the system Settings app.
+          */
+         protected boolean checkKeyIntent(int authUid, Intent intent) {
++            // Explicitly set an empty ClipData to ensure that we don't offer to
++            // promote any Uris contained inside for granting purposes
++            if (intent.getClipData() == null) {
++                intent.setClipData(ClipData.newPlainText(null, null));
++            }
+             intent.setFlags(intent.getFlags() & ~(Intent.FLAG_GRANT_READ_URI_PERMISSION
+                     | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                     | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION

@@ -1,0 +1,70 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Aayush Soni <aayush.soni@ittiam.com>
+Date: Mon, 5 Jul 2021 10:11:29 +0530
+Subject: [PATCH] sonivox: Fix global buffer overflow in WT_InterpolateNoLoop
+
+Check for loop end before accessing new samples
+
+Bug: 190286685
+
+Test: POC in bug description
+
+Change-Id: I26a187d161d713c1a1b1b3009256acfd9e263fb3
+(cherry picked from commit 8bfcd9c03af5170b5003712fb77f096b5c9f341b)
+---
+ arm-wt-22k/lib_src/eas_wtengine.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/arm-wt-22k/lib_src/eas_wtengine.c b/arm-wt-22k/lib_src/eas_wtengine.c
+index 854d4b4..68a0400 100644
+--- a/arm-wt-22k/lib_src/eas_wtengine.c
++++ b/arm-wt-22k/lib_src/eas_wtengine.c
+@@ -282,6 +282,7 @@ void WT_InterpolateNoLoop (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame)
+     EAS_I32 phaseFrac;
+     EAS_I32 acc0;
+     const EAS_SAMPLE *pSamples;
++    const EAS_SAMPLE *bufferEndP1;
+     EAS_I32 samp1;
+     EAS_I32 samp2;
+     EAS_I32 numSamples;
+@@ -296,8 +297,9 @@ void WT_InterpolateNoLoop (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame)
+     pOutputBuffer = pWTIntFrame->pAudioBuffer;
+ 
+     phaseInc = pWTIntFrame->frame.phaseIncrement;
++    bufferEndP1 = (const EAS_SAMPLE*) pWTVoice->loopEnd + 1;
+     pSamples = (const EAS_SAMPLE*) pWTVoice->phaseAccum;
+-    phaseFrac = (EAS_I32)pWTVoice->phaseFrac;
++    phaseFrac = (EAS_I32)(pWTVoice->phaseFrac & PHASE_FRAC_MASK);
+ 
+     /* fetch adjacent samples */
+ #if defined(_8_BIT_SAMPLES)
+@@ -312,6 +314,7 @@ void WT_InterpolateNoLoop (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame)
+ 
+     while (numSamples--) {
+ 
++        EAS_I32 nextSamplePhaseInc;
+ 
+         /* linear interpolation */
+         acc0 = samp2 - samp1;
+@@ -326,13 +329,18 @@ void WT_InterpolateNoLoop (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame)
+         /* increment phase */
+         phaseFrac += phaseInc;
+         /*lint -e{704} <avoid divide>*/
+-        acc0 = phaseFrac >> NUM_PHASE_FRAC_BITS;
++        nextSamplePhaseInc = phaseFrac >> NUM_PHASE_FRAC_BITS;
+ 
+         /* next sample */
+-        if (acc0 > 0) {
++        if (nextSamplePhaseInc > 0) {
++
++            /* check for loop end */
++            if ( &pSamples[nextSamplePhaseInc+1] >= bufferEndP1) {
++                break;
++            }
+ 
+             /* advance sample pointer */
+-            pSamples += acc0;
++            pSamples += nextSamplePhaseInc;
+             phaseFrac = (EAS_I32)((EAS_U32)phaseFrac & PHASE_FRAC_MASK);
+ 
+             /* fetch new samples */

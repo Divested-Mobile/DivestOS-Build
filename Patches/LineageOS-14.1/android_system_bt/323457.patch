@@ -1,0 +1,50 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Martin Brabham <optedoblivion@google.com>
+Date: Fri, 29 Oct 2021 21:27:27 +0000
+Subject: [PATCH] Reset the IRK after all devices are unpaired
+
+Bug: 204355134
+Bug: 195410559
+Test: Check IRK, pair devices, unpair all devices, Check IRK
+Tag: #security
+Change-Id: I8e44f010a72dcdec595d81293a05f49ccc054065
+Merged-In: I8e44f010a72dcdec595d81293a05f49ccc054065
+(cherry picked from commit 6b3c0f6a368dbf6fe9d0d3ca625d47a69fe15d2f)
+Merged-In:I8e44f010a72dcdec595d81293a05f49ccc054065
+---
+ bta/dm/bta_dm_act.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/bta/dm/bta_dm_act.c b/bta/dm/bta_dm_act.c
+index ff25cef00..74dc74704 100644
+--- a/bta/dm/bta_dm_act.c
++++ b/bta/dm/bta_dm_act.c
+@@ -35,6 +35,7 @@
+ #include "bta_dm_co.h"
+ #include "bta_dm_int.h"
+ #include "bta_sys.h"
++#include "btif/include/btif_storage.h"
+ #include "btm_api.h"
+ #include "btm_int.h"
+ #include "btu.h"
+@@ -44,6 +45,7 @@
+ #include "osi/include/log.h"
+ #include "osi/include/osi.h"
+ #include "sdp_api.h"
++#include "stack/btm/btm_ble_int.h"
+ #include "utl.h"
+ 
+ #if (GAP_INCLUDED == TRUE)
+@@ -865,6 +867,12 @@ void bta_dm_remove_device(tBTA_DM_MSG *p_data)
+     BD_ADDR dummy_bda = {0};
+     if (continue_delete_other_dev && (bdcmp(other_address, dummy_bda) != 0))
+         bta_dm_process_remove_device(other_address);
++
++    /* Check the length of the paired devices, and if 0 then reset IRK */
++    if (btif_storage_get_num_bonded_devices() < 1) {
++        LOG_INFO(LOG_TAG, "Last paired device removed, resetting IRK");
++        btm_ble_reset_id();
++    }
+ }
+ 
+ /*******************************************************************************

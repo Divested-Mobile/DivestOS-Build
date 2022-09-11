@@ -1,0 +1,77 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Harish Mahendrakar <harish.mahendrakar@ittiam.com>
+Date: Tue, 5 Oct 2021 15:35:31 -0700
+Subject: [PATCH] Move slice increments after completing header parsing
+
+Slice increments are now done after completing header parse.
+Earlier this was done before validating mmco related parameters
+and calculating poc. In case there were errors that were detected
+at this stage, slice increments were incorrect.
+
+Bug: 199536974
+Bug: 199733300
+Bug: 205702093
+Bug: oss-fuzz#38387
+Bug: oss-fuzz#38482
+Bug: oss-fuzz#40851
+Test: ossfuzz generated poc in bug
+
+Change-Id: I8569e9369e4ab6f6c69c81b937f111c299b7a134
+(cherry picked from commit cd0385dc074c6ba119dffbcd3df669a9b9ca1790)
+(cherry picked from commit dc110841d6a3fb2f9c9f1af04b3b71da40fbd392)
+Merged-In:I8569e9369e4ab6f6c69c81b937f111c299b7a134
+---
+ decoder/ih264d_parse_slice.c | 33 ++++++++++++++++-----------------
+ 1 file changed, 16 insertions(+), 17 deletions(-)
+
+diff --git a/decoder/ih264d_parse_slice.c b/decoder/ih264d_parse_slice.c
+index ffe7f2b..43025e5 100644
+--- a/decoder/ih264d_parse_slice.c
++++ b/decoder/ih264d_parse_slice.c
+@@ -1476,23 +1476,6 @@ WORD32 ih264d_parse_decode_slice(UWORD8 u1_is_idr_slice,
+         i1_is_end_of_poc = 0;
+     }
+ 
+-    /* Increment only if the current slice has atleast 1 more MB */
+-    if (ps_dec->u4_first_slice_in_pic == 0 &&
+-        (ps_dec->ps_parse_cur_slice->u4_first_mb_in_slice <
+-        (UWORD32)(ps_dec->u2_total_mbs_coded >> ps_dec->ps_cur_slice->u1_mbaff_frame_flag)))
+-    {
+-        ps_dec->ps_parse_cur_slice++;
+-        ps_dec->u2_cur_slice_num++;
+-        // in the case of single core increment ps_decode_cur_slice
+-        if(ps_dec->u1_separate_parse == 0)
+-        {
+-            ps_dec->ps_decode_cur_slice++;
+-        }
+-    }
+-
+-    ps_dec->u1_slice_header_done = 0;
+-
+-
+     if(u1_field_pic_flag)
+     {
+         ps_dec->u2_prv_frame_num = u2_frame_num;
+@@ -1546,6 +1529,22 @@ WORD32 ih264d_parse_decode_slice(UWORD8 u1_is_idr_slice,
+         }
+     }
+ 
++    /* Increment only if the current slice has atleast 1 more MB */
++    if (ps_dec->u4_first_slice_in_pic == 0 &&
++        (ps_dec->ps_parse_cur_slice->u4_first_mb_in_slice <
++        (UWORD32)(ps_dec->u2_total_mbs_coded >> ps_dec->ps_cur_slice->u1_mbaff_frame_flag)))
++    {
++        ps_dec->ps_parse_cur_slice++;
++        ps_dec->u2_cur_slice_num++;
++        // in the case of single core increment ps_decode_cur_slice
++        if(ps_dec->u1_separate_parse == 0)
++        {
++            ps_dec->ps_decode_cur_slice++;
++        }
++    }
++
++    ps_dec->u1_slice_header_done = 0;
++
+     /*--------------------------------------------------------------------*/
+     /* Copy the values read from the bitstream to the slice header and then*/
+     /* If the slice is first slice in picture, then do Start of Picture   */

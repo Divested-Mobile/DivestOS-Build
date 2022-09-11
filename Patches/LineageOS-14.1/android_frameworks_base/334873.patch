@@ -1,0 +1,60 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Makoto Onuki <omakoto@google.com>
+Date: Tue, 19 Apr 2022 10:54:18 -0700
+Subject: [PATCH] Only allow the system server to connect to sync adapters
+
+Bug: 203229608
+Test: Manual test with changing the check logic + debug log
+Change-Id: If18009f61360564d02dcda9b1e5fa15685e3250f
+(cherry picked from commit 58270527d11ac7e5f07d337a402d8edf046a63ee)
+(cherry picked from commit 7d1397a54475ed7fee632339ef7c60b432f0fbff)
+Merged-In: If18009f61360564d02dcda9b1e5fa15685e3250f
+---
+ .../content/AbstractThreadedSyncAdapter.java    | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/core/java/android/content/AbstractThreadedSyncAdapter.java b/core/java/android/content/AbstractThreadedSyncAdapter.java
+index 58bd5cda825d..9d1978a3a5ef 100644
+--- a/core/java/android/content/AbstractThreadedSyncAdapter.java
++++ b/core/java/android/content/AbstractThreadedSyncAdapter.java
+@@ -17,6 +17,7 @@
+ package android.content;
+ 
+ import android.accounts.Account;
++import android.os.Binder;
+ import android.os.Bundle;
+ import android.os.IBinder;
+ import android.os.Process;
+@@ -160,9 +161,22 @@ public abstract class AbstractThreadedSyncAdapter {
+     }
+ 
+     private class ISyncAdapterImpl extends ISyncAdapter.Stub {
++        private boolean isCallerSystem() {
++            final long callingUid = Binder.getCallingUid();
++            if (callingUid != Process.SYSTEM_UID) {
++                android.util.EventLog.writeEvent(0x534e4554, "203229608", -1, "");
++                return false;
++            }
++            return true;
++        }
++
+         @Override
+         public void startSync(ISyncContext syncContext, String authority, Account account,
+                 Bundle extras) {
++            if (!isCallerSystem()) {
++                return;
++            }
++
+             final SyncContext syncContextClient = new SyncContext(syncContext);
+ 
+             boolean alreadyInProgress;
+@@ -203,6 +217,9 @@ public abstract class AbstractThreadedSyncAdapter {
+ 
+         @Override
+         public void cancelSync(ISyncContext syncContext) {
++            if (!isCallerSystem()) {
++                return;
++            }
+             // synchronize to make sure that mSyncThreads doesn't change between when we
+             // check it and when we use it
+             SyncThread info = null;

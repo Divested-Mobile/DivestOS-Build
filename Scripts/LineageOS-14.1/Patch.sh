@@ -86,15 +86,77 @@ if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then DOS_WEBVIEW_CHERRYPI
 if [ "$DOS_WEBVIEW_LFS" = true ]; then git lfs pull; fi; #Ensure the objects are available
 fi;
 
+if enterAndClear "external/expat"; then
+applyPatch "$DOS_PATCHES/android_external_expat/337987-backport.patch"; #n-asb-2022-09 Prevent XML_GetBuffer signed integer overflow
+applyPatch "$DOS_PATCHES/android_external_expat/337988-backport.patch"; #n-asb-2022-09 Prevent integer overflow in function doProlog
+applyPatch "$DOS_PATCHES/android_external_expat/337989-backport.patch"; #n-asb-2022-09 Prevent more integer overflows
+fi;
+
+if enterAndClear "external/libavc"; then
+applyPatch "$DOS_PATCHES/android_external_libavc/315711.patch"; #n-asb-2021-09 Decoder: Update check for increment u2_cur_slice_num
+applyPatch "$DOS_PATCHES/android_external_libavc/323462.patch"; #n-asb-2022-02 Move slice increments after completing header parsing
+fi;
+
+if enterAndClear "external/libexif"; then
+applyPatch "$DOS_PATCHES/android_external_libexif/323459.patch"; #n-asb-2022-02 Fix MakerNote tag size overflow issues at read time.
+applyPatch "$DOS_PATCHES/android_external_libexif/323460.patch"; #n-asb-2022-02 Ensure MakeNote data pointers are initialized with NULL.
+applyPatch "$DOS_PATCHES/android_external_libexif/323461.patch"; #n-asb-2022-02 Zero initialize ExifMnoteData<vendor> during construction with exif_mnote_data_<vendor>_new.
+fi;
+
+if enterAndClear "external/libnfc-nci"; then
+applyPatch "$DOS_PATCHES/android_external_libnfc-nci/317037.patch"; #n-asb-2021-10 Type confusion due to race condition on tag type change
+applyPatch "$DOS_PATCHES/android_external_libnfc-nci/318515.patch"; #n-asb-2021-11 OOBW in phNxpNciHal_process_ext_rsp
+applyPatch "$DOS_PATCHES/android_external_libnfc-nci/332458.patch"; #n-asb-2022-06 Out of Bounds Read in nfa_dm_check_set_config
+applyPatch "$DOS_PATCHES/android_external_libnfc-nci/332459.patch"; #n-asb-2022-06 OOBR in nfc_ncif_proc_ee_discover_req()
+applyPatch "$DOS_PATCHES/android_external_libnfc-nci/332460.patch"; #n-asb-2022-06 Double Free in ce_t4t_data_cback
+fi;
+
+if enterAndClear "external/sonivox"; then
+applyPatch "$DOS_PATCHES/android_external_sonivox/317038.patch"; #n-asb-2021-10 Fix global buffer overflow in WT_InterpolateNoLoop
+fi;
+
 if enterAndClear "external/sqlite"; then
 applyPatch "$DOS_PATCHES/android_external_sqlite/0001-Secure_Delete.patch"; #Enable secure_delete by default (AndroidHardening-13.0)
 fi;
 
+if enterAndClear "external/tremolo"; then
+applyPatch "$DOS_PATCHES/android_external_tremolo/319986.patch"; #n-asb-2021-12 handle cases where order isn't a multiple of dimension
+fi;
+
 if enterAndClear "frameworks/av"; then
 applyPatch "$DOS_PATCHES/android_frameworks_av/212799.patch"; #FLAC extractor CVE-2017-0592. alt: 212827/174106 (AOSP)
+applyPatch "$DOS_PATCHES/android_frameworks_av/319987.patch"; #n-asb-2021-12 Fix heap-buffer-overflow in MPEG4Extractor
+applyPatch "$DOS_PATCHES/android_frameworks_av/321222.patch"; #n-asb-2022-01 SimpleDecodingSource:Prevent OOB write in heap mem
 fi;
 
 if enterAndClear "frameworks/base"; then
+applyPatch "$DOS_PATCHES/android_frameworks_base/315712.patch"; #n-asb-2021-09 Fix race condition between lockNow() and updateLockscreenTimeout
+applyPatch "$DOS_PATCHES/android_frameworks_base/315713.patch"; #n-asb-2021-09 Improve ellipsize performance
+applyPatch "$DOS_PATCHES/android_frameworks_base/315740.patch"; #n-asb-2021-09 Fix side effects of trace-ipc and dumpheap commands
+applyPatch "$DOS_PATCHES/android_frameworks_base/315741.patch"; #n-asb-2021-09 Don't attach private Notification to A11yEvent when user locked
+applyPatch "$DOS_PATCHES/android_frameworks_base/317035.patch"; #n-asb-2021-10 Fix a potential thread safety issue in VectorDrawable
+applyPatch "$DOS_PATCHES/android_frameworks_base/317036.patch"; #n-asb-2021-10 Apply a maximum char count to the load label api
+applyPatch "$DOS_PATCHES/android_frameworks_base/317049.patch"; #n-asb-2021-10 Change ownership of the account request notification.
+applyPatch "$DOS_PATCHES/android_frameworks_base/317050.patch"; #n-asb-2021-10 Send targeted broadcasts to prevent other apps from receiving them.
+applyPatch "$DOS_PATCHES/android_frameworks_base/318516.patch"; #n-asb-2021-11 camera2: Fix exception swallowing in params classes createFromParcel
+applyPatch "$DOS_PATCHES/android_frameworks_base/318517.patch"; #n-asb-2021-11 Bluetooth: Fix formatting in getAlias()
+applyPatch "$DOS_PATCHES/android_frameworks_base/319988.patch"; #n-asb-2021-12 Fix serialization bug in GpsNavigationMessage
+applyPatch "$DOS_PATCHES/android_frameworks_base/322452.patch"; #n-asb-2022-01 Fix another AddAccountSettings memory leak
+applyPatch "$DOS_PATCHES/android_frameworks_base/322453.patch"; #n-asb-2022-01 Force-set a ClipData to prevent later migration.
+applyPatch "$DOS_PATCHES/android_frameworks_base/322454.patch"; #n-asb-2022-01 Prevent apps from spamming addAccountExplicitly.
+applyPatch "$DOS_PATCHES/android_frameworks_base/331108.patch"; #n-asb-2022-05 Always restart apps if base.apk gets updated.
+applyPatch "$DOS_PATCHES/android_frameworks_base/332444.patch"; #n-asb-2022-06 Fixed a concurrent modification crash
+applyPatch "$DOS_PATCHES/android_frameworks_base/332445.patch"; #n-asb-2022-06 Fix security hole in GateKeeperResponse
+applyPatch "$DOS_PATCHES/android_frameworks_base/332446.patch"; #n-asb-2022-06 Update GeofenceHardwareRequestParcelable to match parcel/unparcel format.
+applyPatch "$DOS_PATCHES/android_frameworks_base/332447.patch"; #n-asb-2022-06 Prevent non-admin users from deleting system apps.
+applyPatch "$DOS_PATCHES/android_frameworks_base/334325.patch"; #n-asb-2022-06-FIXUP Modify conditions for preventing updated system apps from being downgraded
+applyPatch "$DOS_PATCHES/android_frameworks_base/332448.patch"; #n-asb-2022-06 limit TelecomManager#registerPhoneAccount to 10; api doc update
+applyPatch "$DOS_PATCHES/android_frameworks_base/332449.patch"; #n-asb-2022-06 Add an OEM configurable limit for zen rules
+applyPatch "$DOS_PATCHES/android_frameworks_base/334035.patch"; #n-asb-2022-07 Crash invalid FGS notifications
+applyPatch "$DOS_PATCHES/android_frameworks_base/334871.patch"; #n-asb-2022-08 Only allow system and same app to apply relinquishTaskIdentity
+applyPatch "$DOS_PATCHES/android_frameworks_base/334872.patch"; #n-asb-2022-08 Stop using invalid URL to prevent unexpected crash
+applyPatch "$DOS_PATCHES/android_frameworks_base/334873.patch"; #n-asb-2022-08 Only allow the system server to connect to sync adapters
+applyPatch "$DOS_PATCHES/android_frameworks_base/338003.patch"; #n-asb-2022-09 IMMS: Make IMMS PendingIntents immutable
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -112,6 +174,8 @@ rm -rf packages/PrintRecommendationService; #Creates popups to install proprieta
 fi;
 
 if enterAndClear "frameworks/native"; then
+applyPatch "$DOS_PATCHES/android_frameworks_native/315714.patch"; #n-asb-2021-09 Do not modify vector after getting references
+applyPatch "$DOS_PATCHES/android_frameworks_native/325993.patch"; #n-asb-2022-03 Check if the window is partially obscured for slippery enters
 if [ "$DOS_SENSORS_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors.patch"; fi; #Permission for sensors access (MSe1969)
 fi;
 
@@ -199,7 +263,15 @@ if enterAndClear "hardware/qcom/media-caf/msm8994"; then
 applyPatch "$DOS_PATCHES/android_hardware_qcom_media/227622.patch"; #n_asb_09-2018-qcom (CAF)
 fi;
 
+if enterAndClear "packages/apps/Bluetooth"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/332451.patch"; #n-asb-2022-06 Removes app access to BluetoothAdapter#setScanMode by requiring BLUETOOTH_PRIVILEGED permission.
+applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/332452.patch"; #n-asb-2022-06 Removes app access to BluetoothAdapter#setDiscoverableTimeout by requiring BLUETOOTH_PRIVILEGED permission.
+fi;
+
 if enterAndClear "packages/apps/Contacts"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Contacts/318518.patch"; #n-asb-2021-11 Add permission to start NFC activity to ensure it is from NFC stack
+applyPatch "$DOS_PATCHES/android_packages_apps_Contacts/319989.patch"; #n-asb-2021-12 Address photo editing security bug
+applyPatch "$DOS_PATCHES/android_packages_apps_Contacts/332453.patch"; #n-asb-2022-06 No longer export CallSubjectDialog
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0004-No_GMaps.patch"; #Use common intent for directions instead of Google Maps URL (GrapheneOS)
 fi;
 
@@ -210,11 +282,36 @@ applyPatch "$DOS_PATCHES/android_packages_apps_CMParts/0002-Reduced_Resolution.p
 cp -f "$DOS_PATCHES_COMMON/contributors.db" assets/contributors.db; #Update contributors cloud
 fi;
 
+if enterAndClear "packages/apps/Dialer"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Dialer/332454.patch"; #n-asb-2022-06 No longer export CallSubjectDialog
+fi;
+
+if enterAndClear "packages/apps/KeyChain"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_KeyChain/319990.patch"; #n-asb-2021-12 Hide overlay on KeyChainActivity
+applyPatch "$DOS_PATCHES/android_packages_apps_KeyChain/334036.patch"; #n-asb-2022-07 Encode authority part of uri before showing in UI
+fi;
+
+if enterAndClear "packages/apps/Nfc"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/315715.patch"; #n-asb-2021-09 Add HIDE_NON_SYSTEM_OVERLAY_WINDOWS permission to Nfc
+applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/328308.patch"; #n-asb-2022-04 Do not set default contactless application without user interaction
+applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/332455.patch"; #n-asb-2022-06 OOB read in phNciNfc_RecvMfResp()
+fi;
+
 if enterAndClear "packages/apps/PackageInstaller"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_PackageInstaller/64d8b44.patch"; #Fix an issue with Permission Review (AOSP/452540)
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/315716.patch"; #n-asb-2021-09 Update string
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/315717.patch"; #n-asb-2021-09 Fix phishing attacks over Bluetooth due to unclear warning message
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/318519.patch"; #n-asb-2021-11 Import translations.
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/319991.patch"; #n-asb-2021-12 BluetoothSecurity: Add BLUETOOTH_PRIVILEGED permission for pairing dialog
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/323458.patch"; #n-asb-2022-02 Rephrase dialog message of clear storage dialog for security concern
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/325994.patch"; #n-asb-2022-03 Fix bypass CALL_PRIVILEGED permission in AppRestrictionsFragment
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/327099.patch"; #n-asb-2022-03 Add caller check to com.android.credentials.RESET
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/334037.patch"; #n-asb-2022-07 Fix LaunchAnyWhere in AppRestrictionsFragment
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/334874.patch"; #n-asb-2022-08 Verify ringtone from ringtone picker is audio
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/334875.patch"; #n-asb-2022-08 Fix Settings crash when setting a null ringtone
 git revert --no-edit 2ebe6058c546194a301c1fd22963d6be4adbf961; #Don't hide OEM unlock
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/201113.patch"; #wifi: Add world regulatory domain country code (syphyr)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
@@ -251,12 +348,37 @@ applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voic
 applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
 fi;
 
+if enterAndClear "packages/services/Telecomm"; then
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/332456.patch"; #n-asb-2022-06 limit TelecomManager#registerPhoneAccount to 10
+fi;
+
 if enterAndClear "packages/services/Telephony"; then
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch"; #(DivestOS)
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
 fi;
 
+if enterAndClear "packages/providers/ContactsProvider"; then
+applyPatch "$DOS_PATCHES/android_packages_providers_ContactsProvider/334876.patch"; #n-asb-2022-08 enforce stricter CallLogProvider query
+fi;
+
+if enterAndClear "packages/providers/MediaProvider"; then
+applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/324248.patch"; #n-asb-2022-02 Open all files with O_NOFOLLOW.
+fi;
+
 if enterAndClear "system/bt"; then
+applyPatch "$DOS_PATCHES/android_system_bt/315718.patch"; #BLE: [IOT] Initiate disconnection when encryption fails during pairing #CVE-2021-1957
+applyPatch "$DOS_PATCHES/android_system_bt/315719.patch"; #n-asb-2021-09 SMP: Reject pairing if public_key.x match
+applyPatch "$DOS_PATCHES/android_system_bt/320420.patch"; #n-asb-2021-12 osi: Prevent memory allocations with MSB set
+applyPatch "$DOS_PATCHES/android_system_bt/323456.patch"; #n-asb-2022-02 security: Use-After-Free in btm_sec_[dis]connected
+applyPatch "$DOS_PATCHES/android_system_bt/323457.patch"; #n-asb-2022-02 Reset the IRK after all devices are unpaired
+applyPatch "$DOS_PATCHES/android_system_bt/328306.patch"; #n-asb-2022-04 Security fix OOB read due to invalid count in stack/avrc/avrc_pars_ct
+applyPatch "$DOS_PATCHES/android_system_bt/334032.patch"; #n-asb-2022-07 Security: Fix out of bound write in HFP client
+applyPatch "$DOS_PATCHES/android_system_bt/334033.patch"; #n-asb-2022-07 Check Avrcp packet vendor length before extracting length
+applyPatch "$DOS_PATCHES/android_system_bt/334034.patch"; #n-asb-2022-07 Security: Fix out of bound read in AT_SKIP_REST
+applyPatch "$DOS_PATCHES/android_system_bt/334877.patch"; #n-asb-2022-08 Removing bonded device when auth fails due to missing keys
+applyPatch "$DOS_PATCHES/android_system_bt/337998.patch"; #n-asb-2022-09 Fix OOB in BNEP_Write
+applyPatch "$DOS_PATCHES/android_system_bt/337999.patch"; #n-asb-2022-09 Fix OOB in bnep_is_packet_allowed
+applyPatch "$DOS_PATCHES/android_system_bt/338000.patch"; #n-asb-2022-09 Fix OOB in reassemble_and_dispatch
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)
@@ -264,6 +386,7 @@ applyPatch "$DOS_PATCHES/android_system_bt/0001-NO_READENCRKEYSIZE.patch"; #Add 
 fi;
 
 if enterAndClear "system/core"; then
+applyPatch "$DOS_PATCHES/android_system_core/332457.patch"; #n-asb-2022-06 Backport of Win-specific suppression of potentially rogue construct that can engage
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert --no-edit 0217dddeb5c16903c13ff6c75213619b79ea622b d7aa1231b6a0631f506c0c23816f2cd81645b15f; #Always update recovery XXX: This doesn't seem to work
 applyPatch "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysctl changes (GrapheneOS)

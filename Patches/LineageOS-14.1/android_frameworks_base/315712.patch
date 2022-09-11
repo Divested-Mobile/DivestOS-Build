@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jorim Jaggi <jjaggi@google.com>
+Date: Thu, 20 May 2021 18:35:30 +0200
+Subject: [PATCH] Fix race condition between lockNow() and
+ updateLockscreenTimeout
+
+If updateLockscreenTimeout gets called before the Runnable queued
+from lockNow gets executed, lockNow request will be ignored. Fix
+this by not clearing out the runnable if it's pending lock request.
+
+Test: Switch user, ensure lockscreen comes up
+Bug: 161149543
+Change-Id: Ie486396fd7328edf8ca0912df92524bb82a1fb7f
+(cherry picked from commit 875fa991aac0f3bbd5c66327408ceae60a24a6b3)
+Merged-In: Ie486396fd7328edf8ca0912df92524bb82a1fb7f
+(cherry picked from commit 1692babe5e60b4e10f23d4960455ccbff6616ba3)
+---
+ .../android/server/policy/PhoneWindowManager.java    | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/policy/PhoneWindowManager.java b/services/core/java/com/android/server/policy/PhoneWindowManager.java
+index 67949ef13137..6a22c505beb3 100644
+--- a/services/core/java/com/android/server/policy/PhoneWindowManager.java
++++ b/services/core/java/com/android/server/policy/PhoneWindowManager.java
+@@ -853,6 +853,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+ 
+     private final List<DeviceKeyHandler> mDeviceKeyHandlers = new ArrayList<>();
+ 
++    private boolean mLockNowPending = false;
++
+     private static final int MSG_ENABLE_POINTER_LOCATION = 1;
+     private static final int MSG_DISABLE_POINTER_LOCATION = 2;
+     private static final int MSG_DISPATCH_MEDIA_KEY_WITH_WAKE_LOCK = 3;
+@@ -8199,6 +8201,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+                     mKeyguardDelegate.doKeyguardTimeout(options);
+                 }
+                 mLockScreenTimerActive = false;
++                mLockNowPending = false;
+                 options = null;
+             }
+         }
+@@ -8208,7 +8211,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+         }
+     }
+ 
+-    ScreenLockTimeout mScreenLockTimeout = new ScreenLockTimeout();
++    final ScreenLockTimeout mScreenLockTimeout = new ScreenLockTimeout();
+ 
+     @Override
+     public void lockNow(Bundle options) {
+@@ -8220,10 +8223,17 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+             mScreenLockTimeout.setLockOptions(options);
+         }
+         mHandler.post(mScreenLockTimeout);
++        synchronized (mScreenLockTimeout) {
++            mLockNowPending = true;
++        }
+     }
+ 
+     private void updateLockScreenTimeout() {
+         synchronized (mScreenLockTimeout) {
++            if (mLockNowPending) {
++                Log.w(TAG, "lockNow pending, ignore updating lockscreen timeout");
++                return;
++            }
+             boolean enable = (mAllowLockscreenWhenOn && mAwake &&
+                     mKeyguardDelegate != null && mKeyguardDelegate.isSecure(mCurrentUserId));
+             if (mLockScreenTimerActive != enable) {

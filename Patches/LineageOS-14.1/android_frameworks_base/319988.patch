@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Yu-Han Yang <yuhany@google.com>
+Date: Tue, 21 Sep 2021 12:29:34 -0700
+Subject: [PATCH] Fix serialization bug in GpsNavigationMessage
+
+Bug: 196970023
+Test: presubmits passing.
+Change-Id: I69f51eb2faac0cf2ee9f7a5f94f7100925f7221c
+(cherry picked from commit 8bcd86e6626a38df525507cd25044cc9592b9b0d)
+---
+ location/java/android/location/GpsNavigationMessage.java | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/location/java/android/location/GpsNavigationMessage.java b/location/java/android/location/GpsNavigationMessage.java
+index 5c3c71012cdd..16ac26d7852d 100644
+--- a/location/java/android/location/GpsNavigationMessage.java
++++ b/location/java/android/location/GpsNavigationMessage.java
+@@ -259,12 +259,8 @@ public class GpsNavigationMessage implements Parcelable {
+             parcel.readByteArray(data);
+             navigationMessage.setData(data);
+ 
+-            if (parcel.dataAvail() >= Integer.SIZE) {
+-                int status = parcel.readInt();
+-                navigationMessage.setStatus((short) status);
+-            } else {
+-                navigationMessage.setStatus(STATUS_UNKNOWN);
+-            }
++            int status = parcel.readInt();
++            navigationMessage.setStatus((short) status);
+ 
+             return navigationMessage;
+         }

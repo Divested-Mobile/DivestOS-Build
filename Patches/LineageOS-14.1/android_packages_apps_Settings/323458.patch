@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Yanting Yang <yantingyang@google.com>
+Date: Thu, 14 Oct 2021 15:06:33 +0000
+Subject: [PATCH] Rephrase dialog message of clear storage dialog for security
+ concern
+
+Bug: 193890833
+Test: visual
+Change-Id: I8f0b066de710169ee8b922c44b6519ca21b9c7ef
+(cherry picked from commit 0c359da620498d536d81cb97d5ae48048201c226)
+(cherry picked from commit 7d22136fb086da3edff0664d8fe5f5e0b70fd77d)
+Merged-In:I8f0b066de710169ee8b922c44b6519ca21b9c7ef
+---
+ res/values/strings.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index f98146b139..d63cbc6b60 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -3508,7 +3508,7 @@
+     <!-- Manage applications, individual application screen, confirmation dialog title. Displays when user selects to "Clear data". -->
+     <string name="clear_data_dlg_title">Delete app data?</string>
+     <!-- Manage applications, individual application screen, confirmation dialog message. Displays when user selects to "Clear data". It warns the user of the consequences of clearing the data for an app. -->
+-    <string name="clear_data_dlg_text">All this app\u2019s data will be deleted permanently. This includes all files, settings, accounts, databases, etc.</string>
++    <string name="clear_data_dlg_text">This app\u2019s data will be permanently deleted. This includes files, settings, databases, and other app data.</string>
+     <!-- Manage applications, individual application screen, confirmation dialog button. Displays when user selects to "Clear data". Goes through with the clearing of the data. -->
+     <string name="dlg_ok">OK</string>
+     <!-- Manage applications, individual application screen, confirmation dialog button. Displays when user selects to "Clear data". -->

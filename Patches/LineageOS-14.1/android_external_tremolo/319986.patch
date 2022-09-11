@@ -1,0 +1,78 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Harish Mahendrakar <harish.mahendrakar@ittiam.com>
+Date: Wed, 15 Sep 2021 18:40:53 -0700
+Subject: [PATCH] handle cases where order isn't a multiple of dimension
+
+loop around vorbis_book_decodev_set() didn't support a case where
+info->order wasn't an integer multple of dimension.
+
+vorbis_book_decodev_set() is now updated to handle the loop inside
+with appropriate checks added.
+
+Other functions vorbis_book_decode_*() have appropriate checks where
+they are called. So added a comment for those.
+
+This fix is similar to the one in Xiph tremor project's
+commit 80661a13c93a01f25b8df4e89fecad0eee69ddcc
+
+Bug: 199065614
+Test: clusterfuzz generated poc in bug
+Test: atest VorbisDecoderTest -- --enable-module-dynamic-download=true
+Test: atest VtsHalMediaC2V1_0TargetAudioDecTest
+Test: atest CtsMediaV2TestCases -- --module-arg  CtsMediaV2TestCases:\
+ instrumentation-arg:codec-prefix:=c2.android.vorbis.decoder
+
+Change-Id: Ibb94e7fc361e843caad7f7620229377dc1f8dd73
+(cherry picked from commit 42aa2b936a078e2f69725e95009affcc93cb0f98)
+---
+ Tremolo/codebook.c | 5 +++++
+ Tremolo/floor0.c   | 5 ++---
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/Tremolo/codebook.c b/Tremolo/codebook.c
+index a06302d..de6f3cb 100644
+--- a/Tremolo/codebook.c
++++ b/Tremolo/codebook.c
+@@ -838,6 +838,7 @@ static int decode_map(codebook *s, oggpack_buffer *b, ogg_int32_t *v, int point)
+ #endif
+ 
+ /* returns 0 on OK or -1 on eof *************************************/
++/* decode vector / dim granularity gaurding is done in the upper layer */
+ long vorbis_book_decodevs_add(codebook *book,ogg_int32_t *a,
+                               oggpack_buffer *b,int n,int point){
+   if(book->used_entries>0){
+@@ -855,6 +856,7 @@ long vorbis_book_decodevs_add(codebook *book,ogg_int32_t *a,
+   return 0;
+ }
+ 
++/* decode vector / dim granularity gaurding is done in the upper layer */
+ long vorbis_book_decodev_add(codebook *book,ogg_int32_t *a,
+                              oggpack_buffer *b,int n,int point){
+   if(book->used_entries>0){
+@@ -871,6 +873,9 @@ long vorbis_book_decodev_add(codebook *book,ogg_int32_t *a,
+   return 0;
+ }
+ 
++/* unlike the others, we guard against n not being an integer number
++   of <dim> internally rather than in the upper layer (called only by
++   floor0) */
+ long vorbis_book_decodev_set(codebook *book,ogg_int32_t *a,
+                              oggpack_buffer *b,int n,int point){
+   if(book->used_entries>0){
+diff --git a/Tremolo/floor0.c b/Tremolo/floor0.c
+index b6ece29..812c720 100644
+--- a/Tremolo/floor0.c
++++ b/Tremolo/floor0.c
+@@ -419,10 +419,9 @@ ogg_int32_t *floor0_inverse1(vorbis_dsp_state *vd,vorbis_info_floor *i,
+       }
+       ogg_int32_t last=0;
+ 
+-      for(j=0;j<info->order;j+=b->dim)
+-        if(vorbis_book_decodev_set(b,lsp+j,&vd->opb,b->dim,-24)==-1)goto eop;
++      if(vorbis_book_decodev_set(b,lsp,&vd->opb,info->order,-24)==-1)goto eop;
+       for(j=0;j<info->order;){
+-        for(k=0;k<b->dim;k++,j++)lsp[j]+=last;
++        for(k=0;k<b->dim && j<info->order;k++,j++)lsp[j]+=last;
+         last=lsp[j-1];
+       }
+ 

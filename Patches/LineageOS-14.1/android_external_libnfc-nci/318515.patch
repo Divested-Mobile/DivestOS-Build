@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alisher Alikhodjaev <alisher@google.com>
+Date: Tue, 4 May 2021 17:46:57 -0700
+Subject: [PATCH] OOBW in phNxpNciHal_process_ext_rsp
+
+Bug: 181584626
+Bug: 181660091
+Bug: 181660093
+Test: build ok
+Change-Id: I05959cc1bbba12aab896fd93684ce163217e599d
+(cherry picked from commit 528b21d3443efd763313a446624ea985f3d46722)
+---
+ halimpl/pn54x/hal/phNxpNciHal_ext.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/halimpl/pn54x/hal/phNxpNciHal_ext.c b/halimpl/pn54x/hal/phNxpNciHal_ext.c
+index b7c3159..bb667e9 100644
+--- a/halimpl/pn54x/hal/phNxpNciHal_ext.c
++++ b/halimpl/pn54x/hal/phNxpNciHal_ext.c
+@@ -323,6 +323,11 @@ NFCSTATUS phNxpNciHal_process_ext_rsp (uint8_t *p_ntf, uint16_t *p_len)
+         {
+             icode_send_eof = 0;
+         }
++        if (*p_len <= (p_ntf[2] + 2)) {
++            android_errorWriteLog(0x534e4554, "181660091");
++            NXPLOG_NCIHAL_E("length error!");
++            return NFCSTATUS_FAILED;
++        }
+         if (p_ntf[p_ntf[2]+ 2] == 0x00)
+         {
+             NXPLOG_NCIHAL_D ("> Going through workaround - data of ISO 15693");
+@@ -352,7 +357,7 @@ NFCSTATUS phNxpNciHal_process_ext_rsp (uint8_t *p_ntf, uint16_t *p_len)
+                 p_ntf[2] == 0x01 &&
+                 p_ntf[3] == 0x06 )
+     {
+-        NXPLOG_NCIHAL_D ("> Deinit workaround for LLCP set_config 0x%x 0x%x 0x%x", p_ntf[21], p_ntf[22], p_ntf[23]);
++        /* NXPLOG_NCIHAL_D ("> Deinit workaround for LLCP set_config 0x%x 0x%x 0x%x", p_ntf[21], p_ntf[22], p_ntf[23]); */
+         p_ntf[0] = 0x40;
+         p_ntf[1] = 0x02;
+         p_ntf[2] = 0x02;

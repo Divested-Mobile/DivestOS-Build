@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hansong Zhang <hsz@google.com>
+Date: Mon, 7 Jun 2021 11:06:17 -0700
+Subject: [PATCH] SMP: Reject pairing if public_key.x match
+
+Bug: 189329824
+Test: POC
+Test: pair an LE device
+Change-Id: If6d8a72075f0cf657cadfab033cacffeb22868cb
+Tag: #security
+(cherry picked from commit 9fbf77d1a81b3a1e09d4efa96070a568431e844d)
+---
+ stack/smp/smp_act.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/stack/smp/smp_act.c b/stack/smp/smp_act.c
+index 8702e1095..fffee6f75 100644
+--- a/stack/smp/smp_act.c
++++ b/stack/smp/smp_act.c
+@@ -757,8 +757,7 @@ void smp_process_pairing_public_key(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
+     memcpy(pt.x, p_cb->peer_publ_key.x, BT_OCTET32_LEN);
+     memcpy(pt.y, p_cb->peer_publ_key.y, BT_OCTET32_LEN);
+ 
+-    if (!memcmp(p_cb->peer_publ_key.x, p_cb->loc_publ_key.x, BT_OCTET32_LEN) &&
+-        !memcmp(p_cb->peer_publ_key.y, p_cb->loc_publ_key.y, BT_OCTET32_LEN))
++    if (!memcmp(p_cb->peer_publ_key.x, p_cb->loc_publ_key.x, BT_OCTET32_LEN))
+     {
+         android_errorWriteLog(0x534e4554, "174886838");
+         SMP_TRACE_WARNING("Remote and local public keys can't match");
