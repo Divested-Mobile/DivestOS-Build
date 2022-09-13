@@ -21,7 +21,8 @@ set -uo pipefail;
 wget "https://github.com/LineageOS/android_vendor_lineage/raw/lineage-19.1/prebuilt/common/etc/apns-conf.xml" -O ../Patches/Common/apns-conf.xml;
 
 #Visual VoiceMail Config
-wget "https://raw.githubusercontent.com/LineageOS/android_vendor_lineage/lineage-19.1/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
+#wget "https://raw.githubusercontent.com/LineageOS/android_vendor_lineage/lineage-19.1/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
+wget "https://raw.githubusercontent.com/GrapheneOS/platform_packages_apps_Dialer/13/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
 
 #LineageOS Contributors Cloud
 wget "https://github.com/LineageOS/android_packages_apps_LineageParts/raw/lineage-19.1/assets/contributors.db" -O ../Patches/Common/contributors.db;
