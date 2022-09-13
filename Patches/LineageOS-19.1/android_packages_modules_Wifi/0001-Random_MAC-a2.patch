@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Khanjan Desai <khanjan@codeaurora.org>
+Date: Fri, 9 Jul 2021 22:24:50 +0530
+Subject: [PATCH 2/2] WifiService: Capture BackendBusyException in
+ MacRandomization
+
+While obtaining hash for Mac Randomization, the framework is
+rebooting due to BackendBusyException.
+
+Added cache for BackendBusyException to avoid reboot.
+
+Change-Id: I7bb606f00e311e4435e30dd86cb77d3507e38627
+CRs-Fixed: 2987402
+---
+ service/java/com/android/server/wifi/MacAddressUtil.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/service/java/com/android/server/wifi/MacAddressUtil.java b/service/java/com/android/server/wifi/MacAddressUtil.java
+index 3ea265491..b6526ccf4 100644
+--- a/service/java/com/android/server/wifi/MacAddressUtil.java
++++ b/service/java/com/android/server/wifi/MacAddressUtil.java
+@@ -26,6 +26,7 @@ import java.nio.ByteBuffer;
+ import java.nio.charset.StandardCharsets;
+ import java.security.InvalidAlgorithmParameterException;
+ import java.security.InvalidKeyException;
++import android.security.keystore.BackendBusyException;
+ import java.security.Key;
+ import java.security.KeyStore;
+ import java.security.KeyStoreException;
+@@ -101,7 +102,7 @@ public class MacAddressUtil {
+             result.init(key);
+             return result;
+         } catch (KeyStoreException | NoSuchAlgorithmException | InvalidKeyException
+-                | UnrecoverableKeyException | NoSuchProviderException e) {
++                | UnrecoverableKeyException | NoSuchProviderException | BackendBusyException e) {
+             Log.e(TAG, "Failure in obtainMacRandHashFunction", e);
+             return null;
+         }

@@ -148,6 +148,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-9.patc
 applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-10.patch";
 applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-11.patch";
 applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-12.patch";
+applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-13.patch";
 sed -i 's/sys.spawn.exec/persist.security.exec_spawn_new/' core/java/com/android/internal/os/ZygoteConnection.java;
 fi;
 applyPatch "$DOS_PATCHES/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)

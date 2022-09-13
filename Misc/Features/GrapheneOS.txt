@@ -1,6 +1,11 @@
+SQ3A.220705.004.2022081800
 RQ3A.211001.001.2021100606
 QQ3A.200805.001.2020.09.11.14
 PQ3B.190801.002.2019.08.25.15
+
+
+show crash details
+12 https://github.com/GrapheneOS/platform_frameworks_base/commit/e740f4b78344c5671d022dfe90bed9e2dacd3db6
 
 https time
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/1d4e3f495b7b544f6314f04243e9d47b3f8e7102
@@ -107,6 +112,7 @@ nojit
 12 https://github.com/GrapheneOS/platform_packages_modules_Permission/commit/452c474dfae9a312f6e01db5b28de308dbb14cc2
 12 https://github.com/GrapheneOS/platform_packages_modules_Permission/commit/daed8c4e3ff8bf94a2a9aa319d32ec2ff5653c8f
 12 https://github.com/GrapheneOS/platform_frameworks_native/commit/dcef490d7cab7bb9f96f8bfe19a8779ac140b26d
+12 https://github.com/GrapheneOS/platform_frameworks_native/commit/69be2f0d12126cb8047671ed394aec3f7ff236e8
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/a949bd530bdbedf2078119a90a93d7c15bca6975
 11 https://github.com/GrapheneOS/platform_packages_modules_Permission/commit/d18b364558ca86fe3d9bbb643f7dc79d1a57aa5d
 11 https://github.com/GrapheneOS/platform_packages_modules_Permission/commit/cc9b673157996228e8096f83b993cce33a717e14
@@ -122,6 +128,9 @@ nojit
 9 https://github.com/GrapheneOS/platform_frameworks_base/commit/899441075ddbfc945cff97e433c9e1c9d6bde7af
 
 [implemented] network permission
+12xhttps://github.com/GrapheneOS/platform_frameworks_base/commit/30370e36ac6945d4c837fb217ea747f66a6a7361
+12xhttps://github.com/GrapheneOS/platform_frameworks_base/commit/3dbe45681a043d44080e8c579e36a3a4562e75a1
+12xhttps://github.com/GrapheneOS/platform_frameworks_base/commit/fdf369f81209a9dea42ad0f4eff8e3912d48b8af
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/947744f753638c82775186a3876f2b2ffd7c0244
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/7f33d084d32a5f95f53d1919f92f5b14cd310d15
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/0a0fdab36ba9c582e9abafc6f42f4e761d1112b5
@@ -135,6 +144,7 @@ nojit
 12 https://github.com/GrapheneOS/platform_packages_modules_Connectivity/commit/9c4a5ac0cb34b751dbd8cda9f75f21f39b566681
 12 https://github.com/GrapheneOS/platform_packages_modules_Connectivity/commit/dbf6ae4cd96450a21be0a4dd85fb5addeba67462
 12 https://github.com/GrapheneOS/platform_packages_modules_Connectivity/commit/34cded990ebd8da8c47cab88f0b1ef523a05d122
+12xhttps://github.com/GrapheneOS/platform_packages_modules_Connectivity/commit/4b0ab9a58728b59558d690582c39c84d5d8b5bf6
 12 https://github.com/GrapheneOS/platform_libcore/commit/7110daa77503720bbd2f233df53be90b742ce85a
 11 https://github.com/GrapheneOS/platform_packages_modules_Permission/commit/d4b073b2c17f382a4bc922c3f12dc3673e3d8472
 11 https://github.com/GrapheneOS/platform_packages_modules_Permission/commit/7396a2da80a06f1405b34370a9e2883dca57ba79
@@ -165,6 +175,8 @@ nojit
 [implemented] always random mac
 12 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/2e67bc8b420752bec795235ab6d5c27d0956b017
 12 https://github.com/GrapheneOS/platform_packages_modules_Wifi/commit/9a9e6eb3232720776230eebd70ab9816d5127c53
+12 https://github.com/GrapheneOS/platform_packages_modules_Wifi/commit/8bd5c19549b782a23c44afe313c52fc3253b5024
+12 https://github.com/GrapheneOS/platform_packages_modules_Wifi/commit/ebbd3e73c6c460c95169200ca26779748e7abe38
 12 https://github.com/GrapheneOS/platform_packages_modules_NetworkStack/commit/dbc7cd419cdddcae2fc0c10d3cef6b8cdb31e2c4
 12 https://github.com/GrapheneOS/platform_frameworks_opt_net_wifi/commit/776beebd3d221740ac1b77d8535f745415d171a0
 11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/9bc33b2f1a94c5b801f2c7078b996478cd4d11ac
@@ -347,6 +359,7 @@ nojit
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/46b912e1646989a525b9f948711813beb445e9b6
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/067d641615de51032ee8e34d2939bcd4894c2e6d
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/8bc4887e3f0be372867537ae1e6b9bed86957412
+12 https://github.com/GrapheneOS/platform_frameworks_base/commit/88104aed9e07391d2479eee8d60c954cd01fa1d1
 12 https://github.com/GrapheneOS/platform_build/commit/8e01dd93f29aba79e15a211084582afd9681e8ab
 12 https://github.com/GrapheneOS/platform_libcore/commit/c5ee98157523315b3829d0158082433f8b9f96a3
 12 https://github.com/GrapheneOS/platform_libcore/commit/7f186c7a6745e1ce9e407e10782086fa35ef746e

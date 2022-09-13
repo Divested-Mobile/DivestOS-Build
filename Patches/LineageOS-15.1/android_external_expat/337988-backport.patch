@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Sadaf Ebrahimi <sadafebrahimi@google.com>
 Date: Fri, 3 Jun 2022 03:40:21 +0000
-Subject: [PATCH 1/2] Prevent integer overflow in function doProlog
+Subject: [PATCH] Prevent integer overflow in function doProlog
 
 Bug: http://b/221256678
 Change-Id: I6fe381103f4eb287726d1ccb5bfec99db160ffe4

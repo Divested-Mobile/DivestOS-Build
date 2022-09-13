@@ -1,0 +1,98 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: xshu <xshu@google.com>
+Date: Thu, 4 Nov 2021 16:51:09 +0800
+Subject: [PATCH 1/2] Fix MAC address leak after SSR
+
+Re-randomize MAC at interface up if the previous attempt to re-randomize
+failed.
+
+Bug: 197776883
+Test: atest com.android.server.wifi
+Change-Id: Ifffec40276171583f07868b81098bc7d17288ae1
+CRs-Fixed: 3011538
+(Cherry-picked from 85daf5384212f7892ca72a924e14298b2fade1c7)
+---
+ .../android/server/wifi/ClientModeImpl.java   | 34 ++++++++++++++++---
+ .../wifi/ConcreteClientModeManager.java       |  3 ++
+ 2 files changed, 32 insertions(+), 5 deletions(-)
+
+diff --git a/service/java/com/android/server/wifi/ClientModeImpl.java b/service/java/com/android/server/wifi/ClientModeImpl.java
+index cff2c0258..cacfeb874 100644
+--- a/service/java/com/android/server/wifi/ClientModeImpl.java
++++ b/service/java/com/android/server/wifi/ClientModeImpl.java
+@@ -249,6 +249,7 @@ public class ClientModeImpl extends StateMachine implements ClientMode {
+     private final String mInterfaceName;
+     private final ConcreteClientModeManager mClientModeManager;
+ 
++    private boolean mFailedToResetMacAddress = false;
+     private int mLastSignalLevel = -1;
+     private int mLastTxKbps = -1;
+     private int mLastRxKbps = -1;
+@@ -1201,6 +1202,27 @@ public class ClientModeImpl extends StateMachine implements ClientMode {
+         return sb.toString();
+     }
+ 
++    /**
++     * receives changes in the interface up/down events for the interface associated with this
++     * ClientModeImpl. This is expected to be called from the ClientModeManager running on the
++     * wifi handler thread.
++     */
++    public void onUpChanged(boolean isUp) {
++        if (isUp && mFailedToResetMacAddress) {
++            // When the firmware does a subsystem restart, wifi will disconnect but we may fail to
++            // re-randomize the MAC address of the interface since it's undergoing recovery. Thus,
++            // check every time the interface goes up and re-randomize if the failure was detected.
++            if (mWifiGlobals.isConnectedMacRandomizationEnabled()) {
++                mFailedToResetMacAddress = !mWifiNative.setStaMacAddress(
++                        mInterfaceName, MacAddressUtils.createRandomUnicastAddress());
++                if (mFailedToResetMacAddress) {
++                    Log.e(getTag(), "Failed to set random MAC address on interface up");
++                }
++            }
++        }
++        // No need to handle interface down since it's already handled in the ClientModeManager.
++    }
++
+     public WifiLinkLayerStats getWifiLinkLayerStats() {
+         if (mInterfaceName == null) {
+             loge("getWifiLinkLayerStats called without an interface");
+@@ -3205,9 +3227,10 @@ public class ClientModeImpl extends StateMachine implements ClientMode {
+         mLastSimBasedConnectionCarrierName = null;
+         mLastSignalLevel = -1;
+         if (mWifiGlobals.isConnectedMacRandomizationEnabled()) {
+-            if (!mWifiNative.setStaMacAddress(
+-                    mInterfaceName, MacAddressUtils.createRandomUnicastAddress())) {
+-                Log.e(getTag(), "Failed to set random MAC address on bootup");
++            mFailedToResetMacAddress = !mWifiNative.setStaMacAddress(
++                    mInterfaceName, MacAddressUtils.createRandomUnicastAddress());
++            if (mFailedToResetMacAddress) {
++                Log.e(getTag(), "Failed to set random MAC address on ClientMode creation");
+             }
+         }
+         mWifiInfo.setMacAddress(mWifiNative.getMacAddress(mInterfaceName));
+@@ -4253,8 +4276,9 @@ public class ClientModeImpl extends StateMachine implements ClientMode {
+             // 2. Set a random MAC address to ensure that we're not leaking the MAC address.
+             mWifiNative.disableNetwork(mInterfaceName);
+             if (mWifiGlobals.isConnectedMacRandomizationEnabled()) {
+-                if (!mWifiNative.setStaMacAddress(
+-                        mInterfaceName, MacAddressUtils.createRandomUnicastAddress())) {
++                mFailedToResetMacAddress = !mWifiNative.setStaMacAddress(
++                        mInterfaceName, MacAddressUtils.createRandomUnicastAddress());
++                if (mFailedToResetMacAddress) {
+                     Log.e(getTag(), "Failed to set random MAC address on disconnect");
+                 }
+             }
+diff --git a/service/java/com/android/server/wifi/ConcreteClientModeManager.java b/service/java/com/android/server/wifi/ConcreteClientModeManager.java
+index 1e6d63d31..0c6183d58 100644
+--- a/service/java/com/android/server/wifi/ConcreteClientModeManager.java
++++ b/service/java/com/android/server/wifi/ConcreteClientModeManager.java
+@@ -856,6 +856,9 @@ public class ConcreteClientModeManager implements ClientModeManager {
+                     Log.d(getTag(), "interface down!");
+                     mStateMachine.sendMessage(CMD_INTERFACE_DOWN);
+                 }
++                if (mClientModeImpl != null) {
++                    mClientModeImpl.onUpChanged(isUp);
++                }
+             }
+ 
+             @Override

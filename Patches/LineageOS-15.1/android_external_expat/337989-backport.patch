@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Sadaf Ebrahimi <sadafebrahimi@google.com>
 Date: Wed, 15 Jun 2022 04:14:33 +0000
-Subject: [PATCH 2/2] Prevent more integer overflows
+Subject: [PATCH] Prevent more integer overflows
 
 Bug: http://b/219942275
 Change-Id: I7489f59564e0053a4a46bb8c362f7c36ab0b3c9d
