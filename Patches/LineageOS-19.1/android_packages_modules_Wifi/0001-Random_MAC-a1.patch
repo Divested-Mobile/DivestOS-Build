@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: xshu <xshu@google.com>
 Date: Thu, 4 Nov 2021 16:51:09 +0800
-Subject: [PATCH 1/2] Fix MAC address leak after SSR
+Subject: [PATCH] Fix MAC address leak after SSR
 
 Re-randomize MAC at interface up if the previous attempt to re-randomize
 failed.

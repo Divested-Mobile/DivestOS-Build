@@ -1,8 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Khanjan Desai <khanjan@codeaurora.org>
 Date: Fri, 9 Jul 2021 22:24:50 +0530
-Subject: [PATCH 2/2] WifiService: Capture BackendBusyException in
- MacRandomization
+Subject: [PATCH] WifiService: Capture BackendBusyException in MacRandomization
 
 While obtaining hash for Mac Randomization, the framework is
 rebooting due to BackendBusyException.
