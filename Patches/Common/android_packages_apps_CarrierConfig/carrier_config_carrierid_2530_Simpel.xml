@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="carrier_certificate_string_array" num="1">
+        <item value="66D1423581F5C3FC7AE91C53DCEFA2AD7DEF0265FE261ED4FB7423E0F57C0AFE:nl.oberon.tmobile.my"/>
+    </string-array>
+</carrier_config>

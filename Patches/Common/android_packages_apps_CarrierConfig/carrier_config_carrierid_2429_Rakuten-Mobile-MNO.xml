@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string name="5g_icon_configuration_string">connected_mmwave:5G,connected:5G,not_restricted_rrc_idle:5G</string>
+    <string name="5g_icon_display_grace_period_string">connected_mmwave,legacy,15;connected,legacy,15;connected_mmwave,not_restricted_rrc_con,15;connected,not_restricted_rrc_con,15;not_restricted_rrc_idle,not_restricted_rrc_con,15</string>
+    <boolean name="enabledMMS" value="false"/>
+    <int name="maxMessageSize" value="2097152"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxImageWidth" value="2592"/>
+    <boolean name="nr_timers_reset_if_non_endc_and_rrc_idle_bool" value="true"/>
+    <string-array name="carrier_certificate_string_array" num="1">
+        <item value="99F04B13AA9672BD6292921D88365D9C1953BD6078E4BFAD344D02CDCFACF17E"/>
+    </string-array>
+</carrier_config>

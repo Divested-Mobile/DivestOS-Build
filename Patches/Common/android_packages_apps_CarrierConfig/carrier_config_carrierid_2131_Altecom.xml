@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <string-array name="non_roaming_operator_string_array" num="21">
+        <item value="21401"/>
+        <item value="21402"/>
+        <item value="21403"/>
+        <item value="21404"/>
+        <item value="21405"/>
+        <item value="21406"/>
+        <item value="21407"/>
+        <item value="21408"/>
+        <item value="21409"/>
+        <item value="214010"/>
+        <item value="214011"/>
+        <item value="214012"/>
+        <item value="214013"/>
+        <item value="214014"/>
+        <item value="214015"/>
+        <item value="214016"/>
+        <item value="214017"/>
+        <item value="214018"/>
+        <item value="214019"/>
+        <item value="214020"/>
+        <item value="214021"/>
+    </string-array>
+</carrier_config>

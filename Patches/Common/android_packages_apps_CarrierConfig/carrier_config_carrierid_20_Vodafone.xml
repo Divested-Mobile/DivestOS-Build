@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxMessageSize" value="1048576"/>
+    <int name="maxImageWidth" value="2592"/>
+    <int name="default_mtu_int" value="1358"/>
+    <string name="default_vm_number_string">+31654501233</string>
+</carrier_config>

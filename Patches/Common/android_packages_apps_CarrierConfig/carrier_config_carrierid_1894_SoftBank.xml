@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string name="5g_icon_configuration_string">connected_mmwave:5G,connected:5G,not_restricted_rrc_idle:5G</string>
+    <string name="5g_icon_display_grace_period_string">connected_mmwave,legacy,31;connected,legacy,31;connected_mmwave,not_restricted_rrc_con,31;connected,not_restricted_rrc_con,31;not_restricted_rrc_idle,not_restricted_rrc_con,15</string>
+    <boolean name="carrier_supports_ss_over_ut_bool" value="true"/>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <boolean name="enabledMMS" value="true"/>
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <boolean name="ignore_data_enabled_changed_for_video_calls" value="true"/>
+    <boolean name="call_barring_supports_password_change_bool" value="false"/>
+    <boolean name="call_barring_supports_deactivate_all_bool" value="false"/>
+    <int name="maxMessageTextSize" value="-1"/>
+    <int name="recipientLimit" value="-1"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxMessageSize" value="307200"/>
+    <int name="maxImageWidth" value="2592"/>
+    <boolean name="nr_timers_reset_if_non_endc_and_rrc_idle_bool" value="true"/>
+    <int name="volte_replacement_rat_int" value="3"/>
+    <int name="ims_dtmf_tone_delay_int" value="215"/>
+    <int name="default_mtu_int" value="1422"/>
+    <string name="default_vm_number_string">1416</string>
+    <string-array name="carrier_certificate_string_array" num="1">
+        <item value="8CD14DE82459630273B8D4C4F0C7C042FA0EF419C2B76A0AAD3D7A0646B015B9"/>
+    </string-array>
+</carrier_config>

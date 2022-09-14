@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="mmi_two_digit_number_pattern_string_array" num="5">
+        <item value="92"/>
+        <item value="93"/>
+        <item value="94"/>
+        <item value="95"/>
+        <item value="96"/>
+    </string-array>
+    <string-array name="carrier_certificate_string_array" num="1">
+        <item value="CC12A9016142DD2080D20F8075C5CC418F64423D3EA773AEC3C838A51508569C:com.hrvatskitelekom.m.mojT"/>
+    </string-array>
+</carrier_config>

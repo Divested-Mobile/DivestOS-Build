@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxMessageSize" value="614400"/>
+    <int name="maxImageWidth" value="2592"/>
+    <string-array name="non_roaming_operator_string_array" num="1">
+        <item value="20801"/>
+    </string-array>
+    <string-array name="carrier_certificate_string_array" num="2">
+      <item value="d543e9f245aa584a84c608069cffe1f507be61eb496d7585ac02a2fce05dcb28"/>
+      <item value="a1fe35ab00f6301fdafda1309b8faac2895bf5d46ef5d9ae6895c5a5ad84eeb7"/>
+    </string-array>
+</carrier_config>

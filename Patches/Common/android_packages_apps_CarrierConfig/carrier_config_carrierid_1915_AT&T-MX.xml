@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="allow_emergency_numbers_in_call_log_bool" value="true"/>
+    <boolean name="skip_cf_fail_to_disable_dialog_bool" value="true"/>
+    <string-array name="mmi_two_digit_number_pattern_string_array" num="1">
+        <item value="#9"/>
+    </string-array>
+</carrier_config>

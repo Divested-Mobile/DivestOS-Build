@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="allow_hold_call_during_emergency_bool" value="false"/>
+    <boolean name="carrier_default_wfc_ims_roaming_enabled_bool" value="true"/>
+    <boolean name="carrier_supports_ss_over_ut_bool" value="true"/>
+    <boolean name="limited_sim_function_notification_for_dsds_bool" value="true"/>
+    <boolean name="show_4g_for_3g_data_icon_bool" value="true"/>
+    <string-array name="mmi_two_digit_number_pattern_string_array" num="22">
+        <item value="0"/>
+        <item value="00"/>
+        <item value="*0"/>
+        <item value="*1"/>
+        <item value="*2"/>
+        <item value="*3"/>
+        <item value="*4"/>
+        <item value="*5"/>
+        <item value="*6"/>
+        <item value="*7"/>
+        <item value="*8"/>
+        <item value="*9"/>
+        <item value="#0"/>
+        <item value="#1"/>
+        <item value="#2"/>
+        <item value="#3"/>
+        <item value="#4"/>
+        <item value="#5"/>
+        <item value="#6"/>
+        <item value="#7"/>
+        <item value="#8"/>
+        <item value="#9"/>
+    </string-array>
+</carrier_config>

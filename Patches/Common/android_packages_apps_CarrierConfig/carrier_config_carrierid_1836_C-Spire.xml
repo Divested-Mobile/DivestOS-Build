@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="enableSMSDeliveryReports" value="false"/>
+    <boolean name="enableMMSDeliveryReports" value="false"/>
+    <boolean name="enableMMSReadReports" value="false"/>
+    <boolean name="enabledMMS" value="true"/>
+    <boolean name="enableMultipartSMS" value="false"/>
+    <int name="smsToMmsTextThreshold" value="-1"/>
+    <int name="maxMessageTextSize" value="-1"/>
+    <int name="recipientLimit" value="20"/>
+    <int name="maxImageHeight" value="2432"/>
+    <int name="maxSubjectLength" value="80"/>
+    <int name="maxMessageSize" value="1048576"/>
+    <int name="maxImageWidth" value="4320"/>
+    <string name="httpParams">X-CS3G-MDN: 1##LINE1NOCOUNTRYCODE##</string>
+    <string name="emailGatewayNumber">6245</string>
+    <string name="sim_country_iso_override_string">us</string>
+</carrier_config>

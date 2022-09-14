@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <int name="carrier_default_wfc_ims_mode_int" value="1" />
+    <boolean name="carrier_default_wfc_ims_enabled_bool" value="true" />
+    <boolean name="carrier_default_wfc_ims_roaming_enabled_bool" value="true" />
+    <boolean name="carrier_supports_ss_over_ut_bool" value="true"/>
+    <boolean name="carrier_ims_gba_required_bool" value="true"/>
+    <boolean name="carrier_name_override_bool" value="true"/>
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <boolean name="carrier_volte_tty_supported_bool" value="false"/>
+    <boolean name="carrier_vowifi_tty_supported_bool" value="false"/>
+    <boolean name="carrier_vt_available_bool" value="true"/>
+    <boolean name="carrier_wfc_ims_available_bool" value="true"/>
+    <boolean name="carrier_wfc_supports_wifi_only_bool" value="true"/>
+    <boolean name="mmsCloseConnection" value="true"/>
+    <boolean name="rtt_supported_bool" value="true"/>
+    <boolean name="hide_tty_hco_vco_with_rtt" value="true"/>
+    <boolean name="wfc_carrier_name_override_by_pnn_bool" value="true"/>
+    <boolean name="ims.enable_presence_capability_exchange_bool" value="true"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxImageWidth" value="2592"/>
+    <int name="maxMessageSize" value="1048576"/>
+    <int name="volte_replacement_rat_int" value="3"/>
+    <int name="vvm_port_number_int" value="1808"/>
+    <int name="wfc_spn_format_idx_int" value="1"/>
+    <int name="gba_ua_security_organization_int" value="1"/> <!-- ORG_3GPP -->
+    <int name="gba_ua_security_protocol_int" value="65536"/> <!-- UA_SECURITY_PROTOCOL_3GPP_TLS_DEFAULT -->
+    <int name="gba_ua_tls_cipher_suite_int" value="47"/> <!-- TLS_RSA_WITH_AES_128_CBC_SHA -->
+    <int name="default_mtu_int" value="1440"/>
+    <string name="carrier_name_string">T-Mobile</string>
+    <string name="carrier_vvm_package_name_string">com.tmobile.vvm.application</string>
+    <string name="vvm_destination_number_string">122</string>
+    <string name="vvm_type_string">vvm_type_cvvm</string>
+    <string name="call_composer_picture_server_url_string">https://ue.fcs.mstore.msg.t-mobile.com/restclient/V1/FCS/Upload</string>
+    <string-array name="wfc_operator_error_codes_string_array" num="1">
+        <item value="REG09|0"/>
+    </string-array>
+    <string-array name="carrier_certificate_string_array" num="4">
+        <item value="92B5F8117FBD9BD5738FF168A4FA12CBE284BE834EDE1A7BB44DD8455BA15920"/>
+        <item value="3D1A4BEF6EE7AF7D34D120E7B1AAC0DD245585DE6237CF100F68333AFACFF562"/>
+        <item value="6892793FC413019D2DF609DFED7AF622D0F2D8FCF96EFA7E3FB87EEA34E10B93"/>
+        <item value="7B68FD9D4E7610C9CB35FC0C6CC06EA04C6906E3DFA9F48F9A05460AF36BFFFC"/>
+    </string-array>
+    <string name="5g_icon_configuration_string">connected_mmwave:5G_Plus,connected:5G,not_restricted_rrc_idle:5G,not_restricted_rrc_con:5G</string>
+    <string name="5g_icon_display_grace_period_string">connected_mmwave,legacy,30;connected,legacy,30;not_restricted_rrc_idle,legacy,30;not_restricted_rrc_con,legacy,30</string>
+    <int-array name="additional_nr_advanced_bands_int_array" num="1">
+        <item value="41"/>
+    </int-array>
+    <boolean name="enable_nr_advanced_for_roaming_bool" value="false"/>
+</carrier_config>

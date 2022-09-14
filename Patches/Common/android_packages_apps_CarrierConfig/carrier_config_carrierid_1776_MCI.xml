@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="enableSMSDeliveryReports" value="false"/>
+    <boolean name="supportMmsContentDisposition" value="false"/>
+    <boolean name="enableMMSDeliveryReports" value="false"/>
+    <boolean name="enableMMSReadReports" value="false"/>
+    <boolean name="sendMultipartSmsAsSeparateMessages" value="true"/>
+    <boolean name="enableMultipartSMS" value="false"/>
+    <boolean name="mmsCloseConnection" value="true"/>
+    <int name="maxMessageTextSize" value="-1"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxMessageSize" value="1048576"/>
+    <int name="maxImageWidth" value="2592"/>
+</carrier_config>

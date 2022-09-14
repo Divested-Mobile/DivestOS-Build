@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<carrier_config_list>
+    <!-- Tracfone Vzw shows empty string as SPN -->
+    <carrier_config gid1="BA01270000000000">
+        <boolean name="carrier_name_override_bool" value="true" />
+        <string name="carrier_name_string"></string>
+    </carrier_config>
+    <!-- XFINITY Mobile as operator name for Xfinity -->
+    <carrier_config gid1="BA01450000000000">
+        <boolean name="cdma_home_registered_plmn_name_override_bool" value="true" />
+        <string name="cdma_home_registered_plmn_name_string">XFINITY Mobile</string>
+    </carrier_config>
+</carrier_config_list>

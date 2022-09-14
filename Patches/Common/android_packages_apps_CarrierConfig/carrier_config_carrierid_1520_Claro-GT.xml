@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="mmi_two_digit_number_pattern_string_array" num="3">
+        <item value="*1"/>
+        <item value="*5"/>
+        <item value="*9"/>
+    </string-array>
+    <string-array name="carrier_certificate_string_array" num="4">
+      <item value="7D7226772D4F6D778FEF53A36BE15AD78D8D9D4BC4CE00C5F2E3216C19480FA0"/>
+      <item value="2333f4065b9f054363ca63d1866cc168f45d641645b31131b14e173b9c922d15:co.sitic.pp"/>
+      <item value="14d54c64599a3e9a3b766239b160de3935093e0a:co.sitic.pp"/>
+      <item value="f54cac11d5af77a5f10c21d536ad5d1c40b00d63a92cab917aa84dc714d622d8:co.sitic.pp"/>
+    </string-array>
+</carrier_config>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="non_roaming_operator_string_array" num="2">
+        <item value="20801"/>
+        <item value="20815"/>
+    </string-array>
+    <string-array name="carrier_certificate_string_array" num="1">
+        <item value="b67affcda89e3193b1595036d7c6cdbe22be5ca24c9f6cf93fc6b48f91d7310d:com.orange.caraibe.orangeetmoicaraibe,com.orange.caraibe.soshcaraibe,com.orange.update,com.orange.phone"/>
+    </string-array>
+    <string name="config_plans_package_override_string">com.orange.caraibe.orangeetmoicaraibe</string>
+</carrier_config>

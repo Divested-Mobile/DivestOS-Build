@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string name="sim_country_iso_override_string">bs</string>
+</carrier_config>

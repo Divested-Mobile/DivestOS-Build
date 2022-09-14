@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string name="5g_icon_configuration_string">connected_mmwave:5G,connected:5G,not_restricted_rrc_idle:5G</string>
+    <string name="5g_icon_display_grace_period_string">connected_mmwave,legacy,31;connected,legacy,31;connected_mmwave,not_restricted_rrc_con,31;connected,not_restricted_rrc_con,31;not_restricted_rrc_idle,not_restricted_rrc_con,15</string>
+    <boolean name="allow_emergency_numbers_in_call_log_bool" value="true"/>
+    <boolean name="allow_hold_call_during_emergency_bool" value="false"/>
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <boolean name="enabledMMS" value="false"/>
+    <boolean name="hide_ims_apn_bool" value="true"/>
+    <boolean name="hide_lte_plus_data_icon_bool" value="false"/>
+    <boolean name="ignore_data_enabled_changed_for_video_calls" value="true"/>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <int name="volte_replacement_rat_int" value="3"/>
+    <string-array name="ims_reasoninfo_mapping_string_array" num="1">
+        <item value="332||510"/>
+    </string-array>
+    <string-array name="missed_incoming_call_sms_originator_string_array" num="2">
+        <item value="DoCoMo SMS"/>
+        <item value="DoCoMo"/>
+    </string-array>
+    <string-array name="missed_incoming_call_sms_pattern_string_array" num="5">
+        <!-- Incoming phone call history with caller id -->
+        <item value="^(?&lt;month&gt;0[1-9]|1[012])/(?&lt;day&gt;0[1-9]|1[0-9]|2[0-9]|3[0-1])\s(?&lt;hour&gt;[0-1][0-9]|2[0-3]):(?&lt;minute&gt;[0-5][0-9])\s(\n|\s\n)(?&lt;callerId&gt;\+[0-9]{1,16}|[0-9]{1,17})\b\s*"/>
+        <!-- Incoming phone call history without caller id -->
+        <item value="^(?&lt;month&gt;0[1-9]|1[012])/(?&lt;day&gt;0[1-9]|1[0-9]|2[0-9]|3[0-1])\s(?&lt;hour&gt;[0-1][0-9]|2[0-3]):(?&lt;minute&gt;[0-5][0-9])\s\s\n(非通知設定|公衆電話|通知不可能)\b\s*"/>
+        <!-- Incoming video phone call history with caller id -->
+        <item value="^(?&lt;month&gt;0[1-9]|1[012])/(?&lt;day&gt;0[1-9]|1[0-9]|2[0-9]|3[0-1])\s(?&lt;hour&gt;[0-1][0-9]|2[0-3]):(?&lt;minute&gt;[0-5][0-9])\sﾃﾚﾋﾞ電話\s\n(?&lt;callerId&gt;\+[0-9]{1,16}|[0-9]{1,17})\b\s*"/>
+        <!-- Incoming video phone call history without caller id -->
+        <item value="^(?&lt;month&gt;0[1-9]|1[012])/(?&lt;day&gt;0[1-9]|1[0-9]|2[0-9]|3[0-1])\s(?&lt;hour&gt;[0-1][0-9]|2[0-3]):(?&lt;minute&gt;[0-5][0-9])\sﾃﾚﾋﾞ電話\s\n(非通知設定|公衆電話|通知不可能)\b\s*"/>
+        <!-- Incoming phone call while roaming history with caller id -->
+        <item value="^海外\s着信通知\(日本時間\)\s\n(?&lt;month&gt;0[1-9]|1[012])/(?&lt;day&gt;0[1-9]|1[0-9]|2[0-9]|3[0-1])\s(?&lt;hour&gt;[0-1][0-9]|2[0-3]):(?&lt;minute&gt;[0-5][0-9])\s\s\n(?&lt;callerId&gt;\+[0-9]{1,16}|[0-9]{1,17})\b\s*"/>
+    </string-array>
+    <boolean name="nr_timers_reset_if_non_endc_and_rrc_idle_bool" value="true"/>
+</carrier_config>

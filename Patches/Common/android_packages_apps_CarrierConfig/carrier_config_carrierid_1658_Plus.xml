@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="carrier_certificate_string_array" num="2">
+        <item value="e3266a6cf0b5e2ae1cf2727f321441e4e07c5adcf328296ed23b819760fa61e1:com.n7mobile.plusapps,com.n7mobile.pluswidget"/>
+        <item value="8a825148825f2c8502caad446b5582793b0cfda1cd220581ea80b11ad833c55e:com.n7mobile.plusapps,com.n7mobile.pluswidget"/>
+    </string-array>
+</carrier_config>

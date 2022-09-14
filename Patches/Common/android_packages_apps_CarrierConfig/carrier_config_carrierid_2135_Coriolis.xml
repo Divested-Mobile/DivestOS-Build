@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxMessageSize" value="614400"/>
+    <int name="maxImageWidth" value="2592"/>
+    <int name="vvm_port_number_int" value="5499"/>
+    <string name="vvm_destination_number_string">223</string>
+    <string name="vvm_type_string">vvm_type_omtp</string>
+    <string-array name="carrier_vvm_package_name_string_array" num="1">
+        <item value="com.coriolis.visualvoicemailcoriolis"/>
+    </string-array>
+    <string name="sim_country_iso_override_string">fr</string>
+    <string-array name="non_roaming_operator_string_array" num="2">
+        <item value="20801"/>
+        <item value="20810"/>
+    </string-array>
+</carrier_config>

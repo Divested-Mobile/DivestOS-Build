@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxMessageSize" value="614400"/>
+    <int name="maxImageWidth" value="2592"/>
+    <int name="default_mtu_int" value="1358"/>
+    <string name="sim_country_iso_override_string">ca</string>
+    <string-array name="non_roaming_operator_string_array" num="1">
+        <item value="302"/>
+    </string-array>
+</carrier_config>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="inflate_signal_strength_bool" value="true" />
+    <string-array name="carrier_certificate_string_array" num="3">
+        <item value="319B78A5F33B8876ED80F0D6A69D163B35598A70E4C6B7044667DBF8E0FF3B00"/>
+        <item value="2FBD0E00759E4293AE10DBB1AF83250455EB532F296D090705A5EAE79009E48D"/>
+        <item value="B09473061A2A8A197B97A3B3EFEE52E1919BA548CC26B785FB7E5F769A7333F0"/>
+    </string-array>
+</carrier_config>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="carrier_name_override_bool" value="true"/>
+    <string name="carrier_name_string">HOT mobile</string>
+    <string name="sim_country_iso_override_string">il</string>
+    <string-array name="non_roaming_operator_string_array" num="1">
+        <item value="42503"/>
+    </string-array>
+</carrier_config>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="non_roaming_operator_string_array" num="1">
+        <item value="23203"/>
+    </string-array>
+</carrier_config>

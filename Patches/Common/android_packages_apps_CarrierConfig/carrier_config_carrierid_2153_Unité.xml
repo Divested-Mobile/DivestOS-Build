@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <int-array name="only_single_dc_allowed_int_array" num="8">
+        <item value="1"/>
+        <item value="2"/>
+        <item value="3"/>
+        <item value="9"/>
+        <item value="10"/>
+        <item value="11"/>
+        <item value="14"/>
+        <item value="15"/>
+    </int-array>
+</carrier_config>

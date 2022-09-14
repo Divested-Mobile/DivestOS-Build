@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="enableSMSDeliveryReports" value="false"/>
+    <boolean name="enableMMSDeliveryReports" value="false"/>
+    <boolean name="enableMMSReadReports" value="false"/>
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <boolean name="support_conference_call_bool" value="false"/>
+    <boolean name="editable_enhanced_4g_lte_bool" value="false"/>
+    <boolean name="hide_preferred_network_type_bool" value="true"/>
+    <boolean name="additional_call_setting_bool" value="false"/>
+    <boolean name="allow_emergency_numbers_in_call_log_bool" value="true"/>
+    <boolean name="allow_emergency_video_calls_bool" value="true"/>
+    <boolean name="carrier_name_override_bool" value="true"/>
+    <int name="smsToMmsTextLengthThreshold" value="80"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxMessageSize" value="1048576"/>
+    <int name="maxImageWidth" value="2592"/>
+    <int name="carrier_instant_lettering_length_limit_int" value="64"/>
+    <int name="default_mtu_int" value="1428"/>
+    <string name="carrier_instant_lettering_invalid_chars_string">["&lt;&gt;\\\n]</string>
+    <string name="carrier_instant_lettering_encoding_string">EUC-KR</string>
+    <string name="carrier_name_string">LG U+</string>
+    <string-array name="bandwidth_string_array" num="19">
+        <item value="GPRS:24,24"/>
+        <item value="EDGE:70,18"/>
+        <item value="UMTS:115,115"/>
+        <item value="CDMA-IS95A:14,14"/>
+        <item value="CDMA-IS95B:14,14"/>
+        <item value="1xRTT:30,30"/>
+        <item value="EvDo-rev.0:750,48"/>
+        <item value="EvDo-rev.A:950,550"/>
+        <item value="HSDPA:4300,620"/>
+        <item value="HSUPA:4300,1800"/>
+        <item value="HSPA:4300,1800"/>
+        <item value="EvDo-rev.B:1500,550"/>
+        <item value="eHRPD:750,48"/>
+        <item value="HSPAP:13000,3400"/>
+        <item value="TD-SCDMA:115,115"/>
+        <item value="LTE:30000,15000"/>
+        <item value="NR_NSA:563200,61440"/>
+        <item value="NR_NSA_MMWAVE:563200,614400"/>
+        <item value="NR_SA:563200,61440"/>
+    </string-array>
+    <string-array name="carrier_certificate_string_array" num="15">
+        <item value="2e8478b7b90411ad9075a182725b9a37857440a170fefa8853ee945d0a88170c"/>
+        <item value="6a26b25d1fa974aed6f81ed30a55a72d51e20f6905decbf01e84ecce5fb96454"/>
+        <item value="0f18fddfc990b285798f3bee5710cc5cde9ffd913fd6942f296c4656c7065d8c"/>
+        <item value="0c3eff3693ba9a469fc836c046ebc726ac50c54b36370af8d26cb774b8e88b9f"/>
+        <item value="4986b8386ce4dc1cfd01f5b0541d88caca2695fe24c4d909c8fec2d6a26a2beb"/>
+        <item value="1a8791e1f56e2195b31df30217a2ffe0ef5be2cc6d0058796d2d7f5ce9738cf4"/>
+        <item value="ac3a4e7afeddde9550922ed6e3af343a3fe99a0e5f5a80902354052341ceaef4"/>
+        <item value="606c79a42e1fcb54b1f0abed3602d4aa7b6823ba9909e0df17edce0bcba7b35f"/>
+        <item value="4b0170b8c2924f85c9cebc6230e7eca39d4d8f86cfc443f2f25b93558aabf4df"/>
+        <item value="370259a6a2d8f6cbc838d7375dd2dc6bf05b7a8a5c8d27def9539431b34f43af"/>
+        <item value="4f444ba61644f72a47c99187eab4ebb9f7127ea38eeaacfa0a305511bf55233f"/>
+        <item value="cefc3c7e03e7156bb9fc9e4d31edec96fd461782e7f37cb6e79850bfc1f9c7fb"/>
+        <item value="8f452024920b1e8e0380e293e40426dffe0adfb5e675f4cc6f9266e1c08afa21"/>
+        <item value="212beda6fbf1a07b3557a02c3cf0646263eed855a632f0d45f0bceb311c064c6"/>
+        <item value="34bfb7ae9228d1117d6f594c6812f969ca7aaeb3dbd44be713d1ec2f122d8d01"/>
+    </string-array>
+</carrier_config>

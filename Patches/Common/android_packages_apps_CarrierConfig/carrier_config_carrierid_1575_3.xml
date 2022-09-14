@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+  <string-array name="carrier_certificate_string_array" num="3">
+    <item value="7A6D2E2EDEA23A93FA95A447535675CFB543919698196FB720B1520658D25DC7"/>
+    <item value="A69A419CFB5FB8344D2AEDCED6BC2A7FCB74F85161BCA9265C54E95E478839C3"/>
+    <item value="998DA7CED0E1A3A14E51FAEF1F8608A494BDA791B6609A1C5E599F9B64F01674"/>
+  </string-array>
+</carrier_config>

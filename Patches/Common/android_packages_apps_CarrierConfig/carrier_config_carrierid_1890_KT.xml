@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="allow_emergency_numbers_in_call_log_bool" value="true"/>
+    <boolean name="allow_emergency_video_calls_bool" value="true"/>
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <boolean name="enableMMSDeliveryReports" value="false"/>
+    <boolean name="enableMMSReadReports" value="false"/>
+    <boolean name="enableSMSDeliveryReports" value="false"/>
+    <boolean name="support_conference_call_bool" value="false"/>
+    <int name="carrier_instant_lettering_length_limit_int" value="64"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxImageWidth" value="2592"/>
+    <int name="maxMessageSize" value="1048576"/>
+    <int name="default_mtu_int" value="1450"/>
+    <string name="carrier_instant_lettering_encoding_string">EUC-KR</string>
+    <string name="carrier_instant_lettering_invalid_chars_string">["&lt;&gt;\\\n]</string>
+    <string-array name="bandwidth_string_array" num="19">
+        <item value="GPRS:24,24"/>
+        <item value="EDGE:70,18"/>
+        <item value="UMTS:115,115"/>
+        <item value="CDMA-IS95A:14,14"/>
+        <item value="CDMA-IS95B:14,14"/>
+        <item value="1xRTT:30,30"/>
+        <item value="EvDo-rev.0:750,48"/>
+        <item value="EvDo-rev.A:950,550"/>
+        <item value="HSDPA:4300,620"/>
+        <item value="HSUPA:4300,1800"/>
+        <item value="HSPA:4300,1800"/>
+        <item value="EvDo-rev.B:1500,550"/>
+        <item value="eHRPD:750,48"/>
+        <item value="HSPAP:13000,3400"/>
+        <item value="TD-SCDMA:115,115"/>
+        <item value="LTE:30000,15000"/>
+        <item value="NR_NSA:563200,61440"/>
+        <item value="NR_NSA_MMWAVE:563200,614400"/>
+        <item value="NR_SA:563200,61440"/>
+    </string-array>
+    <string-array name="carrier_certificate_string_array" num="9">
+        <item value="98987CACCAAF8355A4DC1FEF2600441F8B0EC923BBFAA3327D099CE4CDE29B0E"/>
+        <item value="7117EE13C842F1009553C8B70FFF7CF30EC8F04118AE87B6722E2F05193EA09A"/>
+        <item value="30BCC971FC0B69D54E7795B73EA2B11BF526E783850AFD2E73E1EE66DF120630"/>
+        <item value="5EB5628F73BDA9BA3E89EDE80779F105EB45392F19B58844C879E078394CC0B6"/>
+        <item value="EAF56C49D86B958F040A14CE1A94D4C416E44AA19C6AF87C2CC7E02E5DD9B771"/>
+        <item value="EE0E64652EC30DE70A3753F4B139B782092608739A9FD213A0A9075F13F97DC5"/>
+        <item value="0334C8DDD8877B41912D950754D82BE8713E0573AF6D56FBB0537E1FD322A125"/>
+        <item value="F5A500ED4E83B7E9BDF80E1837B4A7A1D5D2D03C6B5AE66060644E8C9BF76C87"/>
+        <item value="C14BC5BC392DA316E7477D3BB4FB1AC045CDB7FA07874967143633F69373493F"/>
+    </string-array>
+</carrier_config>

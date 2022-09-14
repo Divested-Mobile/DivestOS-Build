@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <boolean name="carrier_supports_ss_over_ut_bool" value="true"/>
+    <string-array name="non_roaming_operator_string_array" num="2">
+        <item value="23430"/>
+        <item value="23433"/>
+    </string-array>
+</carrier_config>

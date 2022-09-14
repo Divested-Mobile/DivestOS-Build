@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="carrier_default_wfc_ims_roaming_enabled_bool" value="true" />
+    <boolean name="allow_non_emergency_calls_in_ecm_bool" value="false"/>
+    <boolean name="apn_expand_bool" value="false"/>
+    <boolean name="carrier_name_override_bool" value="true"/>
+    <boolean name="carrier_settings_enable_bool" value="true"/>
+    <boolean name="config_telephony_use_own_number_for_voicemail_bool" value="true"/>
+    <boolean name="dtmf_type_enabled_bool" value="true"/>
+    <boolean name="enableMMSDeliveryReports" value="false"/>
+    <boolean name="enableMMSReadReports" value="false"/>
+    <boolean name="enableMultipartSMS" value="true"/>
+    <boolean name="enableSMSDeliveryReports" value="false"/>
+    <boolean name="enabledMMS" value="true"/>
+    <boolean name="show_cdma_choices_bool" value="true"/>
+    <boolean name="stk_disable_launch_browser_bool" value="true"/>
+    <boolean name="supportMmsContentDisposition" value="false"/>
+    <boolean name="support_swap_after_merge_bool" value="false"/>
+    <boolean name="use_hfa_for_provisioning_bool" value="true"/>
+    <boolean name="voicemail_notification_persistent_bool" value="true"/>
+    <boolean name="volte_5g_limited_alert_dialog_bool" value="true"/>
+    <int name="cdma_3waycall_flash_delay_int" value="300"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxImageWidth" value="2592"/>
+    <int name="maxMessageSize" value="1048576"/>
+    <int name="maxMessageTextSize" value="-1"/>
+    <int name="maxSubjectLength" value="80"/>
+    <int name="recipientLimit" value="40"/>
+    <int name="smsToMmsTextThreshold" value="6"/>
+    <int name="volte_replacement_rat_int" value="6"/>
+    <int name="default_mtu_int" value="1422"/>
+    <string name="carrier_eri_file_name_string">eri_310120.xml</string>
+    <string name="carrier_name_string">Sprint</string>
+    <string name="emailGatewayNumber">6245</string>
+    <string name="httpParams">X-MDN: ##LINE1##|Proxy-Authorization: Basic ##NAI##</string>
+    <string name="naiSuffix">:pcs</string>
+    <string-array name="mmi_two_digit_number_pattern_string_array" num="1">
+        <item value="*2"/>
+    </string-array>
+</carrier_config>

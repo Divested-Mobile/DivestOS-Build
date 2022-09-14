@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <boolean name="carrier_volte_tty_supported_bool" value="false"/>
+    <boolean name="enabledMMS" value="true"/>
+    <boolean name="enableMultipartSMS" value="true"/>
+    <boolean name="carrier_wfc_ims_available_bool" value="true"/>
+    <boolean name="carrier_ims_gba_required_bool" value="true"/>
+    <boolean name="carrier_name_override_bool" value="true"/>
+    <int name="smsToMmsTextThreshold" value="1"/>
+    <int name="maxMessageTextSize" value="-1"/>
+    <int name="recipientLimit" value="20"/>
+    <int name="maxImageHeight" value="2432"/>
+    <int name="maxSubjectLength" value="80"/>
+    <int name="maxMessageSize" value="1228800"/>
+    <int name="maxImageWidth" value="4320"/>
+    <int name="default_mtu_int" value="1440"/>
+    <string name="httpParams">X-MDN: ##LINE1##</string>
+    <string name="carrier_name_string">T-Mobile</string>
+</carrier_config>

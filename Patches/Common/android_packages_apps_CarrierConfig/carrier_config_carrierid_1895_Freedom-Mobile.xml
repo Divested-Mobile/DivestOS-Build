@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="carrier_default_wfc_ims_roaming_enabled_bool" value="true" />
+    <boolean name="carrier_supports_ss_over_ut_bool" value="true"/>
+    <int name="smsToMmsTextThreshold" value="6"/>
+    <int name="recipientLimit" value="20"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxSubjectLength" value="80"/>
+    <int name="maxMessageSize" value="1048576"/>
+    <int name="maxImageWidth" value="2592"/>
+    <string name="sim_country_iso_override_string">ca</string>
+</carrier_config>

@@ -317,6 +317,10 @@ if enterAndClear "packages/providers/DownloadProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
+if enterAndClear "packages/providers/TelephonyProvider"; then
+cp $DOS_PATCHES_COMMON/android_packages_providers_TelephonyProvider/carrier_list.* assets/;
+fi;
+
 if enterAndClear "packages/services/Telephony"; then
 git revert --no-edit 99564aaf0417c9ddf7d6aeb10d326e5b24fa8f55;
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch"; #(DivestOS)

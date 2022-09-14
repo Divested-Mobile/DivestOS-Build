@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="carrier_supports_ss_over_ut_bool" value="true"/>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <boolean name="supportHttpCharsetHeader" value="false"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxMessageSize" value="614400"/>
+    <int name="maxImageWidth" value="2592"/>
+    <string-array name="carrier_certificate_string_array" num="1">
+        <item value="a0058f6467628ea2031c4c9d8519abecb2671f6a1752b15a89369cdcb8d2952b"/>
+    </string-array>
+</carrier_config>

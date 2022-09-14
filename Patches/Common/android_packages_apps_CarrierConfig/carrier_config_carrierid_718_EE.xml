@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="carrier_name_override_bool" value="true"/>
+    <boolean name="display_voicemail_number_as_default_call_forwarding_number" value="true"/>
+    <boolean name="prefer_2g_bool" value="false"/>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <int name="wfc_spn_format_idx_int" value="1"/>
+    <string name="carrier_name_string">EE</string>
+    <string-array name="non_roaming_operator_string_array" num="6">
+        <item value="23430"/>
+        <item value="23431"/>
+        <item value="23432"/>
+        <item value="23433"/>
+        <item value="23434"/>
+        <item value="23486"/>
+    </string-array>
+    <string-array name="wfc_operator_error_codes_string_array" num="1">
+        <item value="REG09|0"/>
+    </string-array>
+</carrier_config>

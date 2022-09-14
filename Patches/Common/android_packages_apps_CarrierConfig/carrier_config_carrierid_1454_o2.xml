@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="carrier_supports_ss_over_ut_bool" value="true"/>
+    <boolean name="hide_lte_plus_data_icon_bool" value="false"/>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxImageWidth" value="2592"/>
+    <int name="maxMessageSize" value="614400"/>
+    <string name="default_vm_number_string">+491793000333</string>
+    <boolean name="use_only_dialed_sim_ecc_list_bool" value="true"/>
+</carrier_config>

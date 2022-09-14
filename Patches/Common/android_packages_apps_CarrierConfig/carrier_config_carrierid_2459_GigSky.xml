@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="force_home_network_bool" value="true"/>
+    <boolean name="inflate_signal_strength_bool" value="true" />
+</carrier_config>

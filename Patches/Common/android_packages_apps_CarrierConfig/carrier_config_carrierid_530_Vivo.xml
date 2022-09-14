@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+  <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+  <string-array name="carrier_certificate_string_array" num="2">
+    <item value="406D7DE3DF7F58F4DDE4758ED79280566D9BB8CACF46DB725D6AFCB7E3D6EE8E:br.com.vivo"/>
+    <item value="45A8BFA55CA3B9DB73D35F0C9961803A47BC9B539053C0CB820DF0DB839EE85A:br.com.vivo.meuvivoempresas"/>
+  </string-array>
+</carrier_config>

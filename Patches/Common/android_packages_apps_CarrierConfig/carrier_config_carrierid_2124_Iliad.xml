@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string name="sim_country_iso_override_string">it</string>
+    <string-array name="carrier_certificate_string_array" num="1">
+        <item value="8227db5476f1d42a17bead90b73c8624b262152edad34ebd8f7e6472a47c6e03"/>
+    </string-array>
+</carrier_config>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="enableMMSDeliveryReports" value="false"/>
+    <boolean name="enableMMSReadReports" value="false"/>
+    <boolean name="enabledMMS" value="true"/>
+    <boolean name="enableMultipartSMS" value="true"/>
+    <int name="smsToMmsTextThreshold" value="1"/>
+    <int name="maxMessageTextSize" value="-1"/>
+    <int name="recipientLimit" value="20"/>
+    <int name="maxImageHeight" value="2432"/>
+    <int name="maxSubjectLength" value="80"/>
+    <int name="maxMessageSize" value="8388608"/>
+    <int name="maxImageWidth" value="4320"/>
+    <string name="httpParams">X-MDN: ##LINE1##</string>
+    <boolean name="inflate_signal_strength_bool" value="true" />
+    <string name="5g_icon_configuration_string">connected_mmwave:5G_Plus,connected:5G,not_restricted_rrc_idle:5G,not_restricted_rrc_con:5G</string>
+</carrier_config>

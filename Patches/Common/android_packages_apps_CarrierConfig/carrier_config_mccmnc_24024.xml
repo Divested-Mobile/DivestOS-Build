@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<carrier_config_list>
+<carrier_config>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true" />
+<int name="maxImageHeight" value="1944" />
+<int name="maxMessageSize" value="614400" />
+<int name="maxImageWidth" value="2592" />
+</carrier_config>
+</carrier_config_list>

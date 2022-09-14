@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="allow_hold_call_during_emergency_bool" value="false"/>
+    <boolean name="carrier_default_wfc_ims_roaming_enabled_bool" value="true" />
+    <boolean name="carrier_supports_ss_over_ut_bool" value="true"/>
+    <boolean name="enableSMSDeliveryReports" value="false"/>
+    <boolean name="csp_enabled_bool" value="true"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxMessageSize" value="1048576"/>
+    <int name="maxImageWidth" value="2592"/>
+    <string name="carrier_name_string">cricket</string>
+    <string-array name="roaming_operator_string_array" num="5">
+        <item value="310110"/>
+        <item value="310140"/>
+        <item value="310400"/>
+        <item value="310470"/>
+        <item value="311170"/>
+    </string-array>
+    <string-array name="non_roaming_operator_string_array" num="7">
+        <item value="310"/>
+        <item value="311"/>
+        <item value="312"/>
+        <item value="313"/>
+        <item value="314"/>
+        <item value="315"/>
+        <item value="316"/>
+    </string-array>
+</carrier_config>

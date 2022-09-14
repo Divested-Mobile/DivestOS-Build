@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="support_tdscdma_roaming_networks_string_array" num="4">
+        <item value="46000"/>
+        <item value="46002"/>
+        <item value="46007"/>
+        <item value="46008"/>
+    </string-array>
+</carrier_config>

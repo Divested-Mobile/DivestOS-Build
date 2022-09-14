@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="enableSMSDeliveryReports" value="false"/>
+    <boolean name="enableMMSDeliveryReports" value="false"/>
+    <boolean name="enableMMSReadReports" value="false"/>
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <boolean name="support_conference_call_bool" value="false"/>
+    <boolean name="allow_emergency_numbers_in_call_log_bool" value="true"/>
+    <boolean name="allow_emergency_video_calls_bool" value="true"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxMessageSize" value="1048576"/>
+    <int name="maxImageWidth" value="2592"/>
+    <int name="carrier_instant_lettering_length_limit_int" value="16"/>
+    <int name="default_mtu_int" value="1440"/>
+    <string name="carrier_instant_lettering_invalid_chars_string">[\n]</string>
+    <string name="carrier_instant_lettering_escaped_chars_string">"\</string>
+    <string name="carrier_instant_lettering_encoding_string">EUC-KR</string>
+    <string-array name="bandwidth_string_array" num="19">
+        <item value="GPRS:24,24"/>
+        <item value="EDGE:70,18"/>
+        <item value="UMTS:115,115"/>
+        <item value="CDMA-IS95A:14,14"/>
+        <item value="CDMA-IS95B:14,14"/>
+        <item value="1xRTT:30,30"/>
+        <item value="EvDo-rev.0:750,48"/>
+        <item value="EvDo-rev.A:950,550"/>
+        <item value="HSDPA:4300,620"/>
+        <item value="HSUPA:4300,1800"/>
+        <item value="HSPA:4300,1800"/>
+        <item value="EvDo-rev.B:1500,550"/>
+        <item value="eHRPD:750,48"/>
+        <item value="HSPAP:13000,3400"/>
+        <item value="TD-SCDMA:115,115"/>
+        <item value="LTE:30000,15000"/>
+        <item value="NR_NSA:563200,61440"/>
+        <item value="NR_NSA_MMWAVE:563200,614400"/>
+        <item value="NR_SA:563200,61440"/>
+    </string-array>
+    <string-array name="carrier_certificate_string_array" num="1">
+        <item value="59DFFFDDCCC1929A5C089E53B05A27A42F6517B1"/>
+    </string-array>
+</carrier_config>

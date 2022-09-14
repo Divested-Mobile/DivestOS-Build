@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="allowAttachAudio" value="true"/>
+    <boolean name="dtmf_type_enabled_bool" value="true"/>
+    <boolean name="enableMMSReadReports" value="false"/>
+    <boolean name="enableMultipartSMS" value="false"/>
+    <boolean name="enabledNotifyWapMMSC" value="true"/>
+    <boolean name="enabledTransID" value="true"/>
+    <boolean name="show_apn_setting_cdma_bool" value="true"/>
+    <boolean name="show_cdma_choices_bool" value="true"/>
+    <boolean name="support_swap_after_merge_bool" value="false"/>
+    <boolean name="support_wps_over_ims_bool" value="false"/>
+    <boolean name="use_otasp_for_provisioning_bool" value="true"/>
+    <boolean name="volte_5g_limited_alert_dialog_bool" value="true"/>
+    <int name="cdma_3waycall_flash_delay_int" value="300"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxImageWidth" value="2592"/>
+    <int name="maxMessageSize" value="1048576"/>
+    <int name="maxSubjectLength" value="80"/>
+    <int name="recipientLimit" value="20"/>
+    <string name="carrier_eri_file_name_string">eri_311220.xml</string>
+    <string name="emailGatewayNumber">6245</string>
+    <string name="httpParams">x-vzw-mdn: 1##LINE1NOCOUNTRYCODE##</string>
+    <string name="sim_country_iso_override_string">us</string>
+    <string name="uaProfTagName">x-wap-profile</string>
+</carrier_config>

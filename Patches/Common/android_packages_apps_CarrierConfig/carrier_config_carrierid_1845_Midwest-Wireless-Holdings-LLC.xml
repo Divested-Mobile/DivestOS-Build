@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="dtmf_type_enabled_bool" value="true"/>
+    <boolean name="show_apn_setting_cdma_bool" value="true"/>
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <boolean name="mmsCloseConnection" value="true"/>
+    <int name="volte_replacement_rat_int" value="6"/>
+</carrier_config>

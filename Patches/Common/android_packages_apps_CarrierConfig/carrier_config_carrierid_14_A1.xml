@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <string name="default_vm_number_string">66477</string>
+    <string-array name="non_roaming_operator_string_array" num="1">
+        <item value="23201"/>
+    </string-array>
+</carrier_config>

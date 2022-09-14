@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="mmi_two_digit_number_pattern_string_array" num="1">
+        <item value="*2"/>
+    </string-array>
+</carrier_config>

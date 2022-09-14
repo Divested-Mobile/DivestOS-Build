@@ -251,6 +251,11 @@ if enterAndClear "packages/apps/Bluetooth"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
+if enterAndClear "packages/apps/CarrierConfig"; then
+rm -rf assets/*.xml;
+cp $DOS_PATCHES_COMMON/android_packages_apps_CarrierConfig/*.xml assets/;
+fi;
+
 if enterAndClear "packages/apps/Contacts"; then
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0002-No_Google_Backup.patch"; #Backups are not sent to Google (GrapheneOS)
@@ -350,6 +355,10 @@ fi;
 
 if enterAndClear "packages/providers/DownloadProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
+fi;
+
+if enterAndClear "packages/providers/TelephonyProvider"; then
+cp $DOS_PATCHES_COMMON/android_packages_providers_TelephonyProvider/carrier_list.* assets/latest_carrier_id/;
 fi;
 
 if enterAndClear "system/bt"; then

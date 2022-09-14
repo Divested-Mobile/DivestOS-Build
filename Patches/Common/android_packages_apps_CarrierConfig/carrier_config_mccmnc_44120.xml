@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<carrier_config_list>
+<carrier_config>
+<int name="maxMessageTextSize" value="-1" />
+<int name="recipientLimit" value="-1" />
+<int name="maxImageHeight" value="1944" />
+<int name="maxMessageSize" value="307200" />
+<int name="maxImageWidth" value="2592" />
+<boolean name="enabledMMS" value="true" />
+<boolean name="carrier_force_disable_etws_cmas_test_bool" value="true" />
+<boolean name="carrier_volte_available_bool" value="true" />
+<int name="volte_replacement_rat_int" value="3" />
+</carrier_config>
+</carrier_config_list>

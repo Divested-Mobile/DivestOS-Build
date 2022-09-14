@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="non_roaming_operator_string_array" num="1">
+        <item value="21901"/>
+    </string-array>
+    <string-array name="mmi_two_digit_number_pattern_string_array" num="5">
+        <item value="92"/>
+        <item value="93"/>
+        <item value="94"/>
+        <item value="95"/>
+        <item value="96"/>
+    </string-array>
+</carrier_config>

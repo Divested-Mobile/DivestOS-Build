@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="mmi_two_digit_number_pattern_string_array" num="22">
+        <item value="0"/>
+        <item value="00"/>
+        <item value="*0"/>
+        <item value="*1"/>
+        <item value="*2"/>
+        <item value="*3"/>
+        <item value="*4"/>
+        <item value="*5"/>
+        <item value="*6"/>
+        <item value="*7"/>
+        <item value="*8"/>
+        <item value="*9"/>
+        <item value="#0"/>
+        <item value="#1"/>
+        <item value="#2"/>
+        <item value="#3"/>
+        <item value="#4"/>
+        <item value="#5"/>
+        <item value="#6"/>
+        <item value="#7"/>
+        <item value="#8"/>
+        <item value="#9"/>
+    </string-array>
+</carrier_config>

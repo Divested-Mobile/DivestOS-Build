@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="allow_emergency_numbers_in_call_log_bool" value="true"/>
+    <boolean name="support_tdscdma_bool" value="true"/>
+    <boolean name="allow_add_call_during_video_call" value="false" />
+    <boolean name="allow_hold_video_call_bool" value="false" />
+    <boolean name="support_video_conference_call_bool" value="false"/>
+    <int name="default_mtu_int" value="1400"/>
+</carrier_config>

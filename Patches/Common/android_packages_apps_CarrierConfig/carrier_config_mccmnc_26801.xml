@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<carrier_config_list>
+    <carrier_config>
+        <boolean name="show_4g_for_lte_data_icon_bool" value="true" />
+        <boolean name="carrier_volte_available_bool" value="true" />
+        <int name="volte_replacement_rat_int" value="3" />
+        <string name="default_vm_number_string">123</string>
+    </carrier_config>
+</carrier_config_list>

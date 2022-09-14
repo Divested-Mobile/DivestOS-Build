@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="dtmf_type_enabled_bool" value="true"/>
+    <boolean name="enableSMSDeliveryReports" value="false"/>
+    <boolean name="supportMmsContentDisposition" value="false"/>
+    <boolean name="voicemail_notification_persistent_bool" value="true"/>
+    <boolean name="enableMMSDeliveryReports" value="false"/>
+    <boolean name="enableMMSReadReports" value="false"/>
+    <boolean name="enabledMMS" value="true"/>
+    <boolean name="enableMultipartSMS" value="true"/>
+    <boolean name="allow_non_emergency_calls_in_ecm_bool" value="false"/>
+    <boolean name="config_telephony_use_own_number_for_voicemail_bool" value="true"/>
+    <int name="smsToMmsTextThreshold" value="6"/>
+    <int name="maxMessageTextSize" value="-1"/>
+    <int name="recipientLimit" value="40"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxSubjectLength" value="80"/>
+    <int name="maxMessageSize" value="1048576"/>
+    <int name="cdma_3waycall_flash_delay_int" value="300"/>
+    <int name="maxImageWidth" value="2592"/>
+    <string name="httpParams">X-MDN: ##LINE1##|Proxy-Authorization: Basic ##NAI##</string>
+    <string name="emailGatewayNumber">6245</string>
+    <string name="naiSuffix">:pcs</string>
+    <string name="carrier_eri_file_name_string">eri_311490.xml</string>
+    <string-array name="mmi_two_digit_number_pattern_string_array" num="1">
+        <item value="*2"/>
+    </string-array>
+</carrier_config>

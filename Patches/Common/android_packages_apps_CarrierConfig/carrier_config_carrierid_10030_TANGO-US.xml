@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="hide_lte_plus_data_icon_bool" value="false"/>
+    <boolean name="inflate_signal_strength_bool" value="true"/>
+    <boolean name="enableSMSDeliveryReports" value="false"/>
+    <boolean name="enableMMSDeliveryReports" value="false"/>
+    <boolean name="enableMMSReadReports" value="false"/>
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <boolean name="carrier_default_data_roaming_enabled_bool" value="true"/>
+    <boolean name="is_ims_conference_size_enforced_bool" value="true"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxImageWidth" value="2592"/>
+    <int name="maxMessageSize" value="1048576"/>
+    <int name="recipientLimit" value="10"/>
+    <int name="maxSubjectLength" value="80"/>
+    <int name="ims_dtmf_tone_delay_int" value="120"/>
+    <int name="ims_conference_size_limit_int" value="5"/>
+    <string-array name="mmi_two_digit_number_pattern_string_array" num="22">
+        <item value="0"/>
+        <item value="00"/>
+        <item value="*0"/>
+        <item value="*1"/>
+        <item value="*2"/>
+        <item value="*3"/>
+        <item value="*4"/>
+        <item value="*5"/>
+        <item value="*6"/>
+        <item value="*7"/>
+        <item value="*8"/>
+        <item value="*9"/>
+        <item value="#0"/>
+        <item value="#1"/>
+        <item value="#2"/>
+        <item value="#3"/>
+        <item value="#4"/>
+        <item value="#5"/>
+        <item value="#6"/>
+        <item value="#7"/>
+        <item value="#8"/>
+        <item value="#9"/>
+    </string-array>
+    <string-array name="carrier_certificate_string_array" num="1">
+        <item value="05A54ED7D31A99557BF99D0E2F5E15A89D43E46387C22B30F2014F04432500FA"/>
+    </string-array>
+</carrier_config>

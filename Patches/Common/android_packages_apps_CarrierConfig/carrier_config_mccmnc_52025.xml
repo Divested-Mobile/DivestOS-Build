@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config_list>
+    <carrier_config>
+        <string-array name="roaming_operator_string_array" num="1">
+            <item value="520"/>
+        </string-array>
+    </carrier_config>
+</carrier_config_list>

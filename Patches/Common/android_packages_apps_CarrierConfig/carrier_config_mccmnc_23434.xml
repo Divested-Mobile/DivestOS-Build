@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config_list>
+    <carrier_config>
+        <boolean name="show_4g_for_lte_data_icon_bool" value="true" />
+        <int name="vvm_port_number_int" value="20481"/>
+        <string name="vvm_destination_number_string">887</string>
+        <string-array name="non_roaming_operator_string_array" num="6">
+            <item value="23430"/>
+            <item value="23431"/>
+            <item value="23432"/>
+            <item value="23433"/>
+            <item value="23434"/>
+            <item value="23486"/>
+        </string-array>
+    </carrier_config>
+</carrier_config_list>

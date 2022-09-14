@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="carrier_certificate_string_array" num="5">
+        <item value="191A9C9711282CCD1133C9F9EFA7D1077BCAAFB99E379A438207EE0D86218917:de.telekom.tsc"/>
+        <item value="EE403A97B076CDEA7A8E8E9BC8011C0A45CEC08905F400EBECE62C946614977D:de.telekom.appstarter"/>
+        <item value="1C435EDC05148B8A9365A8625FEFFC87B8289B83FD893C2877B27BB08ED2444D:gr.cosmote.myaccount.widget"/>
+        <item value="4828585D815D9E27444FC38CD74D13296332043BBF53DA71277B6D5C1A97022B:gr.cosmote.whatsup"/>
+        <item value="9F3DD33751029CD02AFC39D5C650533E542AA6E4FE0A647DF096B2F5D1907299:gr.cosmote.frog"/>
+    </string-array>
+</carrier_config>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="carrier_supports_ss_over_ut_bool" value="true"/>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <boolean name="support_ims_conference_event_package_bool" value="false"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxMessageSize" value="614400"/>
+    <int name="maxImageWidth" value="2592"/>
+    <string-array name="carrier_certificate_string_array" num="1">
+        <item value="5f00d30d66af74dd43e98a00695362719d8e7c9e7de367b962769cdfe12bd9da:com.sfr.otp,com.sfr.mobileconnect,com.sfr.android.moncompte,com.sfr.android.redmoncompte"/>
+    </string-array>
+</carrier_config>

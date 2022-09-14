@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<carrier_config_list>
+<carrier_config>
+<int name="aliasMinChars" value="2" />
+<int name="smsToMmsTextThreshold" value="7" />
+<boolean name="enabledTransID" value="true" />
+<boolean name="aliasEnabled" value="true" />
+<boolean name="allowAttachAudio" value="false" />
+<int name="recipientLimit" value="20" />
+<string name="uaProfTagName">Profile</string>
+<int name="aliasMaxChars" value="48" />
+<int name="maxImageHeight" value="1944" />
+<int name="maxSubjectLength" value="80" />
+<string name="httpParams">x-up-calling-line-id: 1##LINE1NOCOUNTRYCODE##|X-VzW-MDN: 1##LINE1NOCOUNTRYCODE##</string>
+<string name="emailGatewayNumber">6245</string>
+<int name="maxMessageSize" value="1258291" />
+<boolean name="enableMMSReadReports" value="false" />
+<int name="maxImageWidth" value="2592" />
+<boolean name="enabledNotifyWapMMSC" value="true" />
+<boolean name="enableMultipartSMS" value="true" />
+</carrier_config>
+</carrier_config_list>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string name="5g_icon_configuration_string">connected_mmwave:5G,connected:5G,not_restricted_rrc_idle:5G</string>
+    <string name="5g_icon_display_grace_period_string">connected_mmwave,legacy,31;connected,legacy,31;connected_mmwave,not_restricted_rrc_con,31;connected,not_restricted_rrc_con,31;not_restricted_rrc_idle,not_restricted_rrc_con,15</string>
+    <boolean name="carrier_supports_ss_over_ut_bool" value="true"/>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <boolean name="allow_emergency_numbers_in_call_log_bool" value="true"/>
+    <boolean name="disable_dun_apn_while_roaming_with_preset_apn_bool" value="true"/>
+    <boolean name="nr_timers_reset_if_non_endc_and_rrc_idle_bool" value="true"/>
+    <boolean name="carrier_name_override_bool" value="true"/>
+    <int name="default_mtu_int" value="1420"/>
+    <string name="carrier_name_string">au</string>
+</carrier_config>

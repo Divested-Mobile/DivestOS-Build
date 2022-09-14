@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="carrier_supports_ss_over_ut_bool" value="true"/>
+    <boolean name="hide_lte_plus_data_icon_bool" value="false"/>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <int name="volte_replacement_rat_int" value="3"/>
+    <!-- wfcSpnFormat is "%s WiFi Calling" -->
+    <int name="wfc_spn_format_idx_int" value="11"/>
+    <int name="default_mtu_int" value="1358"/>
+    <string name="default_vm_number_string">5500</string>
+</carrier_config>

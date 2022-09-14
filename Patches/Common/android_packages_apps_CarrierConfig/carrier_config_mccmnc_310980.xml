@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<carrier_config_list>
+    <carrier_config>
+        <int name="maxImageHeight" value="1944" />
+        <int name="maxMessageSize" value="1048576" />
+        <int name="maxImageWidth" value="2592" />
+        <boolean name="enableSMSDeliveryReports" value="false" />
+        <boolean name="csp_enabled_bool" value="true" />
+        <boolean name="carrier_name_override_bool" value="true" />
+        <string name="carrier_name_string">AT&amp;T</string>
+    </carrier_config>
+</carrier_config_list>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxImageWidth" value="2592"/>
+    <int name="maxMessageSize" value="512000"/>
+    <string-array name="non_roaming_operator_string_array" num="20">
+        <item value="21401"/>
+        <item value="21402"/>
+        <item value="21403"/>
+        <item value="21404"/>
+        <item value="21406"/>
+        <item value="21407"/>
+        <item value="21408"/>
+        <item value="21409"/>
+        <item value="214010"/>
+        <item value="214011"/>
+        <item value="214012"/>
+        <item value="214013"/>
+        <item value="214014"/>
+        <item value="214015"/>
+        <item value="214016"/>
+        <item value="214017"/>
+        <item value="214018"/>
+        <item value="214019"/>
+        <item value="214020"/>
+        <item value="214021"/>
+  </string-array>
+  <string-array name="carrier_certificate_string_array" num="1">
+    <item value="e1b6e6cbfe0673164931be46d95fa7e43fb92dac49acc10a6c0909e5eada15fa"/>
+  </string-array>
+  <string name="call_redirection_service_component_name_string">com.movistar.android.mimovistar.es/com.tuenti.messenger.callinterceptor.CallInterceptorService</string>
+</carrier_config>

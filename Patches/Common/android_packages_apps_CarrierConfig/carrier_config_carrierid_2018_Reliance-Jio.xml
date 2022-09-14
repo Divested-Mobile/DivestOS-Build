@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="carrier_default_wfc_ims_roaming_enabled_bool" value="true"/>
+    <boolean name="carrier_supports_ss_over_ut_bool" value="true"/>
+    <boolean name="carrier_name_override_bool" value="true"/>
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <boolean name="hide_ims_apn_bool" value="true"/>
+    <int name="httpSocketTimeout" value="300000"/>
+    <int name="volte_replacement_rat_int" value="3"/>
+    <string name="carrier_name_string">JIO</string>
+    <string-array name="roaming_operator_string_array" num="2">
+        <item value="404"/>
+        <item value="405"/>
+    </string-array>
+    <string-array name="allowed_initial_attach_apn_types_string_array" num="2">
+        <item value="ia"/>
+        <item value="default"/>
+    </string-array>
+</carrier_config>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="carrier_supports_ss_over_ut_bool" value="true"/>
+    <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <int name="smsToMmsTextThreshold" value="10"/>
+    <int name="default_mtu_int" value="1358"/>
+    <string name="default_vm_number_string">121</string>
+    <string-array name="feature_access_codes_string_array" num="3">
+        <item value="153"/>
+        <item value="132"/>
+        <item value="45"/>
+    </string-array>
+    <string-array name="read_only_apn_types_string_array" num="0"/>
+</carrier_config>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="enabledMMS" value="true"/>
+    <boolean name="enableMultipartSMS" value="true"/>
+    <int name="smsToMmsTextThreshold" value="1"/>
+    <int name="maxMessageTextSize" value="-1"/>
+    <int name="recipientLimit" value="20"/>
+    <int name="maxImageHeight" value="2432"/>
+    <int name="maxSubjectLength" value="80"/>
+    <int name="maxMessageSize" value="1228800"/>
+    <int name="maxImageWidth" value="4320"/>
+    <string name="httpParams">X-MDN: ##LINE1##</string>
+</carrier_config>
