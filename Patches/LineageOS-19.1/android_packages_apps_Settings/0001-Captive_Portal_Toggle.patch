@@ -28,10 +28,10 @@ Change-Id: Ibbffdb5f3930df74ca8b4ba93d451f7fad086989
  create mode 100644 src/com/android/settings/network/CaptivePortalWarningDialogHost.java
 
 diff --git a/res/values-de/cm_strings.xml b/res/values-de/cm_strings.xml
-index daf7a19a8f..326564d973 100644
+index 1428fbf300..12b4a68a04 100644
 --- a/res/values-de/cm_strings.xml
 +++ b/res/values-de/cm_strings.xml
-@@ -36,6 +36,9 @@
+@@ -56,6 +56,9 @@
      <string name="volume_link_notification_title">Klingelton- und Benachrichtigungslautstärke verknüpfen</string>
      <string name="unlock_scramble_pin_layout_title">Zufällige Anordnung</string>
      <string name="unlock_scramble_pin_layout_summary">Bei jedem Entsperrversuch die Ziffernanordnung zufällig neu wählen</string>
@@ -42,10 +42,10 @@ index daf7a19a8f..326564d973 100644
      <string name="lockpattern_settings_enable_error_path_title">Sperrmuster-Fehler anzeigen</string>
      <string name="lockpattern_settings_enable_dots_title">Sperrmuster-Punkte anzeigen</string>
 diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
-index 01d746958e..9923c03f0e 100644
+index 2e727640c2..6f14256ebf 100644
 --- a/res/values/cm_strings.xml
 +++ b/res/values/cm_strings.xml
-@@ -78,6 +78,11 @@
+@@ -82,6 +82,11 @@
      <string name="unlock_scramble_pin_layout_title">Scramble layout</string>
      <string name="unlock_scramble_pin_layout_summary">Scramble PIN layout when unlocking device</string>
  
@@ -54,9 +54,9 @@ index 01d746958e..9923c03f0e 100644
 +    <string name="captive_portal_switch_summary">Enable or disable the captive portal probing for connection attempts (default ON).</string>
 +    <string name="captive_portal_switch_warning">If you switch off the captive portal, you will not receive connectivity informations any longer. Really switch off?</string>
 +
-     <!-- Lock screen pattern size -->
-     <string name="lock_pattern_size_3" translatable="false">3 \u00d7 3</string>
-     <string name="lock_pattern_size_4" translatable="false">4 \u00d7 4</string>
+     <!-- Fingerprint wake-and-unlock -->
+     <string name="fingerprint_wake_unlock_title">Touch fingerprint to unlock</string>
+     <string name="fingerprint_wake_unlock_touch">Listens for events while the screen is off</string>
 diff --git a/res/xml/network_and_internet.xml b/res/xml/network_and_internet.xml
 index d842aad021..7f82235a2b 100644
 --- a/res/xml/network_and_internet.xml

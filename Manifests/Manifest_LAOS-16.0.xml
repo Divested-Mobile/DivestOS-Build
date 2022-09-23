@@ -27,7 +27,7 @@
 	<remove-project name="LineageOS/android_packages_apps_Jelly" />
 	<remove-project name="LineageOS/android_packages_apps_LockClock" />
 	<remove-project name="LineageOS/android_packages_apps_OpenWeatherMapProvider" />
-	<remove-project name="LineageOS/android_packages_apps_Stk" />
+	<!--<remove-project name="LineageOS/android_packages_apps_Stk" />-->
 	<remove-project name="LineageOS/android_packages_apps_Terminal" />
 	<remove-project name="LineageOS/android_packages_providers_PartnerBookmarksProvider" />
 	<remove-project name="LineageOS/android_packages_providers_WeatherProvider" />

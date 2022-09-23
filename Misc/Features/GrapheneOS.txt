@@ -4,9 +4,6 @@ QQ3A.200805.001.2020.09.11.14
 PQ3B.190801.002.2019.08.25.15
 
 
-show crash details
-12 https://github.com/GrapheneOS/platform_frameworks_base/commit/e740f4b78344c5671d022dfe90bed9e2dacd3db6
-
 https time
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/1d4e3f495b7b544f6314f04243e9d47b3f8e7102
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/2c04a077ec9f3ac6857885199f49f4845b70ec2e
@@ -65,6 +62,9 @@ nojit
 9  https://github.com/GrapheneOS/platform_build/commit/aa5b687d56d5b079ffe05e71c92adfa92857cf80
 9  https://github.com/GrapheneOS/platform_build/commit/5b9927197e63593b9220d1a9280021252ef205e9
 9  https://github.com/GrapheneOS/platform_build/commit/e36c7aefaa78a1ed5b94c7f51d29277008eea232
+
+[implemented] show crash details
+12 https://github.com/GrapheneOS/platform_frameworks_base/commit/e740f4b78344c5671d022dfe90bed9e2dacd3db6
 
 [implemented] monet toggle
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/e77f8f544c8c6e826d8497be6ebbc69d72d2f1a5

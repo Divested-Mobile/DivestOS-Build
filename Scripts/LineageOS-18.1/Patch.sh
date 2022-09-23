@@ -553,6 +553,8 @@ cd "$DOS_BUILD_BASE";
 deblobAudio || true;
 removeBuildFingerprints || true;
 enableAutoVarInit || true;
+cd "$DOS_BUILD_BASE";
+#rm -rfv device/*/*/overlay/CarrierConfigResCommon device/*/*/rro_overlays/CarrierConfigOverlay device/*/*/overlay/packages/apps/CarrierConfig/res/xml/vendor.xml;
 
 #Tweaks for <2GB RAM devices
 enableLowRam "device/samsung/msm8930-common" "msm8930-common";
