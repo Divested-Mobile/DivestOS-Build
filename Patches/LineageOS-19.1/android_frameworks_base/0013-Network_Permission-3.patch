@@ -12,10 +12,10 @@ Change-Id: I74b0b8a5aa70f0794b4f3d72c70167dbe2aae88d
  1 file changed, 11 insertions(+)
 
 diff --git a/services/core/java/com/android/server/net/NetworkPolicyManagerService.java b/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
-index 0a85854b2af8..236dd19e0982 100644
+index 7d70b6d73497..07918a9a903b 100644
 --- a/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
 +++ b/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
-@@ -182,6 +182,7 @@ import android.content.pm.IPackageManager;
+@@ -185,6 +185,7 @@ import android.content.pm.IPackageManager;
  import android.content.pm.PackageInfo;
  import android.content.pm.PackageManager;
  import android.content.pm.PackageManager.NameNotFoundException;
@@ -23,7 +23,7 @@ index 0a85854b2af8..236dd19e0982 100644
  import android.content.pm.UserInfo;
  import android.content.res.Resources;
  import android.database.ContentObserver;
-@@ -282,6 +283,7 @@ import com.android.server.LocalServices;
+@@ -285,6 +286,7 @@ import com.android.server.LocalServices;
  import com.android.server.ServiceThread;
  import com.android.server.SystemConfig;
  import com.android.server.connectivity.MultipathPolicyTracker;
@@ -31,7 +31,7 @@ index 0a85854b2af8..236dd19e0982 100644
  import com.android.server.usage.AppStandbyInternal;
  import com.android.server.usage.AppStandbyInternal.AppIdleStateChangeListener;
  
-@@ -797,6 +799,15 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
+@@ -802,6 +804,15 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
      public void bindConnectivityManager() {
          mConnManager = Objects.requireNonNull(mContext.getSystemService(ConnectivityManager.class),
                  "missing ConnectivityManager");
