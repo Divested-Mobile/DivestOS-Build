@@ -120,10 +120,10 @@ if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_ex
 fi;
 
 if enterAndClear "external/expat"; then
-git fetch https://github.com/LineageOS/android_external_expat refs/changes/86/337986/2 && git cherry-pick FETCH_HEAD; #Q_asb_2022-09
-git fetch https://github.com/LineageOS/android_external_expat refs/changes/87/337987/2 && git cherry-pick FETCH_HEAD;
-git fetch https://github.com/LineageOS/android_external_expat refs/changes/88/337988/2 && git cherry-pick FETCH_HEAD;
-git fetch https://github.com/LineageOS/android_external_expat refs/changes/89/337989/2 && git cherry-pick FETCH_HEAD;
+git fetch https://github.com/LineageOS/android_external_expat refs/changes/53/338353/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-09
+git fetch https://github.com/LineageOS/android_external_expat refs/changes/54/338354/1 && git cherry-pick FETCH_HEAD;
+git fetch https://github.com/LineageOS/android_external_expat refs/changes/55/338355/1 && git cherry-pick FETCH_HEAD;
+git fetch https://github.com/LineageOS/android_external_expat refs/changes/56/338356/1 && git cherry-pick FETCH_HEAD;
 fi;
 
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
@@ -145,10 +145,6 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_fram
 fi;
 
 if enterAndClear "frameworks/base"; then
-git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/90/337990/2 && git cherry-pick FETCH_HEAD; #Q_asb_2022-09
-git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/91/337991/2 && git cherry-pick FETCH_HEAD;
-applyPatch "$DOS_PATCHES/android_frameworks_base/337992-Backport.patch"; #(MSe1969)
-git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/93/337993/2 && git cherry-pick FETCH_HEAD;
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -327,12 +323,9 @@ applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
 fi;
 
-if enterAndClear "system/bt"; then
-git fetch https://github.com/LineageOS/android_vendor_qcom_opensource_system_bt refs/changes/95/337995/1 && git cherry-pick FETCH_HEAD; #Q_asb_2022-09
-git fetch https://github.com/LineageOS/android_vendor_qcom_opensource_system_bt refs/changes/96/337996/1 && git cherry-pick FETCH_HEAD;
-git fetch https://github.com/LineageOS/android_vendor_qcom_opensource_system_bt refs/changes/97/337997/1 && git cherry-pick FETCH_HEAD;
+#if enterAndClear "system/bt"; then
 #applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
-fi;
+#fi;
 
 if enterAndClear "system/core"; then
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
