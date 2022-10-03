@@ -705,7 +705,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2153/^5.17/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2318/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2503/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2588/4.9/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2663/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2663/4.9/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3028/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3061/^5.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20141/4.4/0004.patch
@@ -721,7 +721,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33744/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-36123/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-36879/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-39188/4.9/0005.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-39842/^5.19/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-39842/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0004-net-add-recursion-limit-to-GRO.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
