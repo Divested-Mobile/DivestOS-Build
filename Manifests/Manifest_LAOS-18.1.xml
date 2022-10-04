@@ -92,10 +92,6 @@
 	<project path="device/fairphone/FP2" name="LineageOS/android_device_fairphone_FP2" remote="github" />
 	<project path="kernel/fairphone/msm8974" name="LineageOS/android_kernel_fairphone_msm8974" remote="github" />
 
-	<!-- Fairphone 3 (FP3) -->
-	<project path="device/fairphone/FP3" name="LineageOS/android_device_fairphone_FP3" remote="github" />
-	<project path="kernel/fairphone/sdm632" name="LineageOS/android_kernel_fairphone_sdm632" remote="github" />
-
 	<!-- Google Pixel (marlin/sailfish) -->
 	<project path="device/google/marlin" name="LineageOS/android_device_google_marlin" remote="github" />
 	<project path="device/google/sailfish" name="LineageOS/android_device_google_sailfish" remote="github" />
@@ -203,33 +199,8 @@
 	<project path="device/samsung/msm8974-common" name="LineageOS/android_device_samsung_msm8974-common" remote="github" />
 	<project path="kernel/samsung/msm8974" name="LineageOS/android_kernel_samsung_msm8974" remote="github" />
 
-	<!-- Sony Xperia XZ2 (akari) -->
-	<project path="device/sony/akari" name="LineageOS/android_device_sony_akari" remote="github" />
-	<project path="device/sony/tama-common" name="LineageOS/android_device_sony_tama-common" remote="github" />
-	<project path="kernel/sony/sdm845" name="LineageOS/android_kernel_sony_sdm845" remote="github" />
-
-	<!-- Sony Xperia XZ2 Premium (aurora) -->
-	<project path="device/sony/aurora" name="LineageOS/android_device_sony_aurora" remote="github" />
-
-	<!-- Sony Xperia XZ2 Compact (xz2c) -->
-	<project path="device/sony/xz2c" name="LineageOS/android_device_sony_xz2c" remote="github" />
-
-	<!-- Xiaomi POCO F2 Pro / Redmi K30 Pro / Redmi K30 Pro Zoom Edition (lmi) -->
-	<project path="hardware/xiaomi" name="LineageOS/android_hardware_xiaomi" remote="github" />
-	<project path="device/xiaomi/lmi" name="LineageOS/android_device_xiaomi_lmi" remote="github" />
-	<project path="device/xiaomi/sm8250-common" name="LineageOS/android_device_xiaomi_sm8250-common" remote="github" />
-	<project path="kernel/xiaomi/sm8250" name="LineageOS/android_kernel_xiaomi_sm8250" remote="github" />
-
-	<!-- Xiaomi POCO F3 / Redmi K40 / Mi 11X (alioth) -->
-	<project path="device/xiaomi/alioth" name="LineageOS/android_device_xiaomi_alioth" remote="github" />
-	<!-- uses xiaomi sm8250 commons -->
-
-	<!-- Xiaomi POCO X3 Pro (vayu) -->
-	<project path="device/xiaomi/vayu" name="LineageOS/android_device_xiaomi_vayu" remote="github" />
-	<project path="device/xiaomi/sm8150-common" name="LineageOS/android_device_xiaomi_sm8150-common" remote="github" />
-	<project path="kernel/xiaomi/sm8150" name="LineageOS/android_kernel_xiaomi_sm8150" remote="github" />
-
 	<!-- Xiaomi Redmi Note 7 (lavender) -->
+	<project path="hardware/xiaomi" name="LineageOS/android_hardware_xiaomi" remote="github" />
 	<project path="device/xiaomi/lavender" name="LineageOS/android_device_xiaomi_lavender" remote="github" />
 	<project path="device/xiaomi/sdm660-common" name="LineageOS/android_device_xiaomi_sdm660-common" remote="github" />
 	<project path="kernel/xiaomi/sdm660" name="LineageOS/android_kernel_xiaomi_sdm660" remote="github" />

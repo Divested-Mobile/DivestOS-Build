@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_fairphone_msm8974 kernel_fairphone_sdm632 kernel_google_marlin kernel_google_msm kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oppo_msm8974 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_sony_sdm845 kernel_xiaomi_sdm660 kernel_xiaomi_sdm845 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250 kernel_zuk_msm8996";
+	startPatcher "kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oppo_msm8974 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_xiaomi_sdm660 kernel_xiaomi_sdm845 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -98,18 +98,6 @@ buildAll() {
 	buildDevice marlin verity;
 	buildDevice sailfish verity;
 	buildDevice lavender avb;
-	#SD845
-	buildDevice akari avb; #superseded
-	buildDevice aurora avb; #superseded
-	buildDevice xz2c avb; #superseded
-	#SD632
-	buildDevice FP3 avb; #superseded
-	#SD855
-	buildDevice vayu avb; #superseded
-	#SD865
-	buildDevice lmi avb; #superseded
-	#SD870
-	buildDevice alioth avb; #superseded
 }
 export -f buildAll;
 
