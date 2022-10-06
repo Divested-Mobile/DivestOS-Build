@@ -73,7 +73,7 @@ sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 if [ "$DOS_SILENCE_INCLUDED" = true ]; then sed -i 's/messaging/Silence/' target/product/aosp_base_telephony.mk; fi; #Replace the Messaging app with Silence
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2022-09-05/' core/version_defaults.mk; #Bump Security String #n-asb-2022-09 #XXX
+sed -i 's/2021-06-05/2022-10-05/' core/version_defaults.mk; #Bump Security String #n-asb-2022-10 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -109,6 +109,7 @@ applyPatch "$DOS_PATCHES/android_external_libnfc-nci/318515.patch"; #n-asb-2021-
 applyPatch "$DOS_PATCHES/android_external_libnfc-nci/332458.patch"; #n-asb-2022-06 Out of Bounds Read in nfa_dm_check_set_config
 applyPatch "$DOS_PATCHES/android_external_libnfc-nci/332459.patch"; #n-asb-2022-06 OOBR in nfc_ncif_proc_ee_discover_req()
 applyPatch "$DOS_PATCHES/android_external_libnfc-nci/332460.patch"; #n-asb-2022-06 Double Free in ce_t4t_data_cback
+applyPatch "$DOS_PATCHES/android_external_libnfc-nci/341071.patch"; #n-asb-2022-10 The length of a packet should be non-zero
 fi;
 
 if enterAndClear "external/sonivox"; then
@@ -379,6 +380,7 @@ applyPatch "$DOS_PATCHES/android_system_bt/334877.patch"; #n-asb-2022-08 Removin
 applyPatch "$DOS_PATCHES/android_system_bt/337998.patch"; #n-asb-2022-09 Fix OOB in BNEP_Write
 applyPatch "$DOS_PATCHES/android_system_bt/337999.patch"; #n-asb-2022-09 Fix OOB in bnep_is_packet_allowed
 applyPatch "$DOS_PATCHES/android_system_bt/338000.patch"; #n-asb-2022-09 Fix OOB in reassemble_and_dispatch
+applyPatch "$DOS_PATCHES/android_system_bt/341070.patch"; #n-asb-2022-10 Fix potential interger overflow when parsing vendor response
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)

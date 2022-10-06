@@ -9,7 +9,7 @@ Subject: [PATCH] add parameter for avoiding full preload with exec
  2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
-index 13769e137e..af3b9cfe8b 100644
+index 13769e137ec..af3b9cfe8bf 100644
 --- a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
 +++ b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
 @@ -47,7 +47,7 @@ public final class ZygoteHooks {
@@ -31,7 +31,7 @@ index 13769e137e..af3b9cfe8b 100644
          CacheValue.setStrength(CacheValue.Strength.SOFT);
      }
 diff --git a/mmodules/core_platform_api/api/platform/current-api.txt b/mmodules/core_platform_api/api/platform/current-api.txt
-index b2b81df415..cca6891580 100644
+index b2b81df4150..cca68915806 100644
 --- a/mmodules/core_platform_api/api/platform/current-api.txt
 +++ b/mmodules/core_platform_api/api/platform/current-api.txt
 @@ -854,8 +854,8 @@ package dalvik.system {

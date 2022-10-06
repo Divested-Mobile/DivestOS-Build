@@ -9,7 +9,7 @@ Subject: [PATCH] don't throw SecurityException when INTERNET permission is
  1 file changed, 1 insertion(+), 10 deletions(-)
 
 diff --git a/ojluni/src/main/java/java/net/Inet6AddressImpl.java b/ojluni/src/main/java/java/net/Inet6AddressImpl.java
-index bb722f3df2..212f8b50ef 100644
+index bb722f3df2a..212f8b50ef3 100644
 --- a/ojluni/src/main/java/java/net/Inet6AddressImpl.java
 +++ b/ojluni/src/main/java/java/net/Inet6AddressImpl.java
 @@ -141,16 +141,7 @@ class Inet6AddressImpl implements InetAddressImpl {

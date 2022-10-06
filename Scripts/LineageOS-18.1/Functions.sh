@@ -93,7 +93,7 @@ buildAll() {
 	buildDevice us996;
 	buildDevice vs995;
 	buildDevice oneplus3 verity; #needs manual patching - broken yyloc
-	buildDevice z2_plus verity;
+	buildDevice z2_plus verity; #broken
 	#SD821
 	buildDevice marlin verity;
 	buildDevice sailfish verity;

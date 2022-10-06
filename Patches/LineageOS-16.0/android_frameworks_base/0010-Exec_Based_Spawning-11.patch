@@ -16,10 +16,10 @@ Zygote-based spawning never calls IPCThreadState::stopProcess().
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/cmds/app_process/app_main.cpp b/cmds/app_process/app_main.cpp
-index 12083b6fe20b..4ca8b1e18431 100644
+index 1671337511b7..007783d7853e 100644
 --- a/cmds/app_process/app_main.cpp
 +++ b/cmds/app_process/app_main.cpp
-@@ -85,8 +85,10 @@ public:
+@@ -84,8 +84,10 @@ public:
          AndroidRuntime* ar = AndroidRuntime::getRuntime();
          ar->callMain(mClassName, mClass, mArgs);
  

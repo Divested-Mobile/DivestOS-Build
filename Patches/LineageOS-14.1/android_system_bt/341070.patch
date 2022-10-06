@@ -1,0 +1,49 @@
+From 3adbba6cba5251cb939612c21225f888c961d3c8 Mon Sep 17 00:00:00 2001
+From: Ted Wang <tedwang@google.com>
+Date: Fri, 1 Apr 2022 11:22:34 +0800
+Subject: [PATCH] Fix potential interger overflow when parsing vendor response
+
+Add check for str_len to prevent potential OOB read in vendor response.
+
+Bug: 205570663
+Tag: #security
+Test: net_test_stack:StackAvrcpTest
+Ignore-AOSP-First: Security
+Change-Id: Iea2c3e17c2c8cc56468c4456822e1c4c5c15f5bc
+Merged-In: Iea2c3e17c2c8cc56468c4456822e1c4c5c15f5bc
+(cherry picked from commit 96ef1fc9cbe38f1224b4e4a2dca3ecfb44a6aece)
+Merged-In: Iea2c3e17c2c8cc56468c4456822e1c4c5c15f5bc
+[basilgello: Backport to LineageOS 14.1: only AVRC_PDU_GET_ELEMENT_ATTR
+ is present in the affected logic]
+Signed-off-by: Vasyl Gello <vasek.gello@gmail.com>
+---
+ stack/avrc/avrc_pars_ct.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/stack/avrc/avrc_pars_ct.c b/stack/avrc/avrc_pars_ct.c
+index cff7bffbe9..88f83066e6 100644
+--- a/stack/avrc/avrc_pars_ct.c
++++ b/stack/avrc/avrc_pars_ct.c
+@@ -531,8 +531,12 @@ static tAVRC_STS avrc_ctrl_pars_vendor_rsp(
+                 BE_STREAM_TO_UINT32(p_attrs[i].attr_id, p);
+                 BE_STREAM_TO_UINT16(p_attrs[i].name.charset_id, p);
+                 BE_STREAM_TO_UINT16(p_attrs[i].name.str_len, p);
+-                min_len += p_attrs[i].name.str_len;
+-                if (len < min_len)
++                if ((UINT16)(min_len + p_attrs[i].name.str_len) <
++                    min_len) {
++                   // Check for overflow
++                   android_errorWriteLog(0x534e4554, "205570663");
++                }
++                if (len - min_len < p_attrs[i].name.str_len)
+                 {
+                    for (int j = 0; j < i; j++)
+                    {
+@@ -542,6 +546,7 @@ static tAVRC_STS avrc_ctrl_pars_vendor_rsp(
+                    p_result->get_attrs.num_attrs = 0;
+                    goto length_error;
+                 }
++                min_len += p_attrs[i].name.str_len;
+                 if (p_attrs[i].name.str_len > 0)
+                 {
+                     p_attrs[i].name.p_str = (UINT8 *)osi_calloc(p_attrs[i].name.str_len);

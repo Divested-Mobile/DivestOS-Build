@@ -151,7 +151,7 @@ index d7b6fe9c708f..ae6c080a2f60 100644
      }
  
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
-index dbc620f4b8f2..8595aa23d316 100644
+index 14880bbfe882..57db9fa28e20 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
 @@ -230,6 +230,7 @@ import com.android.systemui.statusbar.phone.ongoingcall.OngoingCallController;
@@ -192,7 +192,7 @@ index dbc620f4b8f2..8595aa23d316 100644
              if (mLaunchCameraOnFinishedGoingToSleep) {
                  mLaunchCameraOnFinishedGoingToSleep = false;
  
-@@ -3792,6 +3802,9 @@ public class StatusBar extends SystemUI implements
+@@ -3803,6 +3813,9 @@ public class StatusBar extends SystemUI implements
                  }
              }
              updateScrimController();
