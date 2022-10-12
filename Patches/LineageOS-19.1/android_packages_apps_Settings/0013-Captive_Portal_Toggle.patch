@@ -217,7 +217,7 @@ index 0000000000..ae62133141
 +                        cr, Settings.Global.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS,
 +                        STANDARD_OTHER_FALLBACK_URLS);
 +                Settings.Global.putInt(cr, Settings.Global.CAPTIVE_PORTAL_MODE,
-+                        Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT);
++                        Settings.Global.CAPTIVE_PORTAL_MODE_IGNORE);
 +        }
 +    }
 +
