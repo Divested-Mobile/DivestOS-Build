@@ -1,4 +1,4 @@
-From 3adbba6cba5251cb939612c21225f888c961d3c8 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ted Wang <tedwang@google.com>
 Date: Fri, 1 Apr 2022 11:22:34 +0800
 Subject: [PATCH] Fix potential interger overflow when parsing vendor response
@@ -21,10 +21,10 @@ Signed-off-by: Vasyl Gello <vasek.gello@gmail.com>
  1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/stack/avrc/avrc_pars_ct.c b/stack/avrc/avrc_pars_ct.c
-index cff7bffbe9..88f83066e6 100644
+index 077ef1210..fc94424ba 100644
 --- a/stack/avrc/avrc_pars_ct.c
 +++ b/stack/avrc/avrc_pars_ct.c
-@@ -531,8 +531,12 @@ static tAVRC_STS avrc_ctrl_pars_vendor_rsp(
+@@ -541,8 +541,12 @@ static tAVRC_STS avrc_ctrl_pars_vendor_rsp(
                  BE_STREAM_TO_UINT32(p_attrs[i].attr_id, p);
                  BE_STREAM_TO_UINT16(p_attrs[i].name.charset_id, p);
                  BE_STREAM_TO_UINT16(p_attrs[i].name.str_len, p);
@@ -39,7 +39,7 @@ index cff7bffbe9..88f83066e6 100644
                  {
                     for (int j = 0; j < i; j++)
                     {
-@@ -542,6 +546,7 @@ static tAVRC_STS avrc_ctrl_pars_vendor_rsp(
+@@ -552,6 +556,7 @@ static tAVRC_STS avrc_ctrl_pars_vendor_rsp(
                     p_result->get_attrs.num_attrs = 0;
                     goto length_error;
                  }

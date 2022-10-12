@@ -11,7 +11,7 @@ Subject: [PATCH] add parameter for avoiding full preload with exec
  4 files changed, 30 insertions(+), 2 deletions(-)
 
 diff --git a/api/module-lib-current.txt b/api/module-lib-current.txt
-index 15741a78057..e554dd77cb8 100644
+index 15741a7805..e554dd77cb 100644
 --- a/api/module-lib-current.txt
 +++ b/api/module-lib-current.txt
 @@ -366,7 +366,9 @@ package dalvik.system {
@@ -25,7 +25,7 @@ index 15741a78057..e554dd77cb8 100644
      method public static void postForkChild(int, boolean, boolean, String);
      method public static void postForkCommon();
 diff --git a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
-index a17a2574f7b..763511d2187 100644
+index a17a2574f7..763511d218 100644
 --- a/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
 +++ b/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
 @@ -62,7 +62,7 @@ public final class ZygoteHooks {
@@ -83,7 +83,7 @@ index a17a2574f7b..763511d2187 100644
       * Runs several special GCs to try to clean up a few generations of
       * softly- and final-reachable objects, along with any other garbage.
 diff --git a/mmodules/core_platform_api/api/legacy_platform/current.txt b/mmodules/core_platform_api/api/legacy_platform/current.txt
-index 15741a78057..e554dd77cb8 100644
+index 15741a7805..e554dd77cb 100644
 --- a/mmodules/core_platform_api/api/legacy_platform/current.txt
 +++ b/mmodules/core_platform_api/api/legacy_platform/current.txt
 @@ -366,7 +366,9 @@ package dalvik.system {
@@ -97,7 +97,7 @@ index 15741a78057..e554dd77cb8 100644
      method public static void postForkChild(int, boolean, boolean, String);
      method public static void postForkCommon();
 diff --git a/mmodules/core_platform_api/api/stable_platform/current.txt b/mmodules/core_platform_api/api/stable_platform/current.txt
-index 15741a78057..e554dd77cb8 100644
+index 15741a7805..e554dd77cb 100644
 --- a/mmodules/core_platform_api/api/stable_platform/current.txt
 +++ b/mmodules/core_platform_api/api/stable_platform/current.txt
 @@ -366,7 +366,9 @@ package dalvik.system {

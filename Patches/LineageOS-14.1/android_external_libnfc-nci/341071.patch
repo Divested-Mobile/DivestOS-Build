@@ -1,4 +1,4 @@
-From 142a4f4670c6c3280ed56f8ae643b02b12f0030e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Alisher Alikhodjaev <alisher@google.com>
 Date: Tue, 2 Aug 2022 13:32:30 -0700
 Subject: [PATCH] The length of a packet should be non-zero

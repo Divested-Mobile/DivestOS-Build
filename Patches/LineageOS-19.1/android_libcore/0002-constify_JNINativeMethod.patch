@@ -20,7 +20,7 @@ Subject: [PATCH] constify JNINativeMethod tables
  13 files changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/luni/src/main/native/android_system_OsConstants.cpp b/luni/src/main/native/android_system_OsConstants.cpp
-index 50e3c104666..8ad66d2742b 100644
+index 50e3c10466..8ad66d2742 100644
 --- a/luni/src/main/native/android_system_OsConstants.cpp
 +++ b/luni/src/main/native/android_system_OsConstants.cpp
 @@ -722,7 +722,7 @@ static void OsConstants_initConstants(JNIEnv* env, jclass c) {
@@ -33,7 +33,7 @@ index 50e3c104666..8ad66d2742b 100644
  };
  void register_android_system_OsConstants(JNIEnv* env) {
 diff --git a/luni/src/main/native/java_lang_StringToReal.cpp b/luni/src/main/native/java_lang_StringToReal.cpp
-index 7a492856394..edd71fad700 100644
+index 7a49285639..edd71fad70 100644
 --- a/luni/src/main/native/java_lang_StringToReal.cpp
 +++ b/luni/src/main/native/java_lang_StringToReal.cpp
 @@ -892,7 +892,7 @@ static jdouble StringToReal_parseDblImpl(JNIEnv* env, jclass, jstring s, jint e)
@@ -46,7 +46,7 @@ index 7a492856394..edd71fad700 100644
      NATIVE_METHOD(StringToReal, parseDblImpl, "(Ljava/lang/String;I)D"),
  };
 diff --git a/luni/src/main/native/java_lang_invoke_MethodHandle.cpp b/luni/src/main/native/java_lang_invoke_MethodHandle.cpp
-index 0441d4552dc..3335c6de9ac 100644
+index 0441d4552d..3335c6de9a 100644
 --- a/luni/src/main/native/java_lang_invoke_MethodHandle.cpp
 +++ b/luni/src/main/native/java_lang_invoke_MethodHandle.cpp
 @@ -29,7 +29,7 @@ static jobject MethodHandle_invoke(JNIEnv* env, jobject, jobjectArray) {
@@ -59,7 +59,7 @@ index 0441d4552dc..3335c6de9ac 100644
      NATIVE_METHOD(MethodHandle, invoke, "([Ljava/lang/Object;)Ljava/lang/Object;"),
  };
 diff --git a/luni/src/main/native/java_lang_invoke_VarHandle.cpp b/luni/src/main/native/java_lang_invoke_VarHandle.cpp
-index e1cc1c7f8b5..9f5215a5204 100644
+index e1cc1c7f8b..9f5215a520 100644
 --- a/luni/src/main/native/java_lang_invoke_VarHandle.cpp
 +++ b/luni/src/main/native/java_lang_invoke_VarHandle.cpp
 @@ -210,7 +210,7 @@ static jboolean VarHandle_weakCompareAndSetRelease(JNIEnv* env, jobject, jobject
@@ -72,7 +72,7 @@ index e1cc1c7f8b5..9f5215a5204 100644
    NATIVE_METHOD(VarHandle, compareAndExchangeAcquire, "([Ljava/lang/Object;)Ljava/lang/Object;"),
    NATIVE_METHOD(VarHandle, compareAndExchangeRelease, "([Ljava/lang/Object;)Ljava/lang/Object;"),
 diff --git a/luni/src/main/native/libcore_icu_ICU.cpp b/luni/src/main/native/libcore_icu_ICU.cpp
-index f9401d1edb7..1531ad1ca59 100644
+index f9401d1edb..1531ad1ca5 100644
 --- a/luni/src/main/native/libcore_icu_ICU.cpp
 +++ b/luni/src/main/native/libcore_icu_ICU.cpp
 @@ -112,7 +112,7 @@ static jstring ICU_getUnicodeVersion(JNIEnv* env, jclass) {
@@ -85,7 +85,7 @@ index f9401d1edb7..1531ad1ca59 100644
      NATIVE_METHOD(ICU, getCldrVersion, "()Ljava/lang/String;"),
      NATIVE_METHOD(ICU, getDefaultLocale, "()Ljava/lang/String;"),
 diff --git a/luni/src/main/native/libcore_io_AsynchronousCloseMonitor.cpp b/luni/src/main/native/libcore_io_AsynchronousCloseMonitor.cpp
-index e99edd6c4f9..61b75bcd358 100644
+index e99edd6c4f..61b75bcd35 100644
 --- a/luni/src/main/native/libcore_io_AsynchronousCloseMonitor.cpp
 +++ b/luni/src/main/native/libcore_io_AsynchronousCloseMonitor.cpp
 @@ -26,7 +26,7 @@ static void AsynchronousCloseMonitor_signalBlockedThreads(JNIEnv* env, jclass, j
@@ -98,7 +98,7 @@ index e99edd6c4f9..61b75bcd358 100644
  };
  void register_libcore_io_AsynchronousCloseMonitor(JNIEnv* env) {
 diff --git a/luni/src/main/native/libcore_io_Linux.cpp b/luni/src/main/native/libcore_io_Linux.cpp
-index d7b6c22aa57..996085b1423 100755
+index d7b6c22aa5..996085b142 100755
 --- a/luni/src/main/native/libcore_io_Linux.cpp
 +++ b/luni/src/main/native/libcore_io_Linux.cpp
 @@ -2741,7 +2741,7 @@ static jint Linux_writev(JNIEnv* env, jobject, jobject javaFd, jobjectArray buff
@@ -111,7 +111,7 @@ index d7b6c22aa57..996085b1423 100755
      NATIVE_METHOD(Linux, access, "(Ljava/lang/String;I)Z"),
      NATIVE_METHOD(Linux, android_fdsan_exchange_owner_tag, "(Ljava/io/FileDescriptor;JJ)V"),
 diff --git a/luni/src/main/native/libcore_io_Memory.cpp b/luni/src/main/native/libcore_io_Memory.cpp
-index b8a88450006..7dec85dab80 100644
+index b8a8845000..7dec85dab8 100644
 --- a/luni/src/main/native/libcore_io_Memory.cpp
 +++ b/luni/src/main/native/libcore_io_Memory.cpp
 @@ -290,7 +290,7 @@ static void Memory_unsafeBulkPut(JNIEnv* env, jclass, jbyteArray dstArray, jint
@@ -124,7 +124,7 @@ index b8a88450006..7dec85dab80 100644
      FAST_NATIVE_METHOD(Memory, peekByte, "(J)B"),
      NATIVE_METHOD(Memory, peekByteArray, "(J[BII)V"),
 diff --git a/luni/src/main/native/libcore_math_NativeBN.cpp b/luni/src/main/native/libcore_math_NativeBN.cpp
-index dc4b947358b..c6af376f6bc 100644
+index dc4b947358..c6af376f6b 100644
 --- a/luni/src/main/native/libcore_math_NativeBN.cpp
 +++ b/luni/src/main/native/libcore_math_NativeBN.cpp
 @@ -164,7 +164,7 @@ static void NativeBN_BN_mod_exp(JNIEnv* env, jclass, jlong r, jlong a, jlong p,
@@ -137,7 +137,7 @@ index dc4b947358b..c6af376f6bc 100644
     NATIVE_METHOD(NativeBN, BN_free, "(J)V"),
     NATIVE_METHOD(NativeBN, BN_mod_exp, "(JJJJ)V"),
 diff --git a/luni/src/main/native/libcore_util_NativeAllocationRegistry.cpp b/luni/src/main/native/libcore_util_NativeAllocationRegistry.cpp
-index ded578a9580..faaa5c7a7c4 100644
+index ded578a958..faaa5c7a7c 100644
 --- a/luni/src/main/native/libcore_util_NativeAllocationRegistry.cpp
 +++ b/luni/src/main/native/libcore_util_NativeAllocationRegistry.cpp
 @@ -29,7 +29,7 @@ static void NativeAllocationRegistry_applyFreeFunction(JNIEnv*,
@@ -150,7 +150,7 @@ index ded578a9580..faaa5c7a7c4 100644
  };
  
 diff --git a/luni/src/main/native/org_apache_harmony_xml_ExpatParser.cpp b/luni/src/main/native/org_apache_harmony_xml_ExpatParser.cpp
-index fdabcf71591..62a2cd37b76 100644
+index fdabcf7159..62a2cd37b7 100644
 --- a/luni/src/main/native/org_apache_harmony_xml_ExpatParser.cpp
 +++ b/luni/src/main/native/org_apache_harmony_xml_ExpatParser.cpp
 @@ -1366,7 +1366,7 @@ static void ExpatParser_staticInitialize(JNIEnv* env, jobject classObject, jstri
@@ -172,7 +172,7 @@ index fdabcf71591..62a2cd37b76 100644
      NATIVE_METHOD(ExpatAttributes, getIndexForQName, "(JLjava/lang/String;)I"),
      NATIVE_METHOD(ExpatAttributes, getIndex, "(JLjava/lang/String;Ljava/lang/String;)I"),
 diff --git a/luni/src/main/native/sun_misc_Unsafe.cpp b/luni/src/main/native/sun_misc_Unsafe.cpp
-index 49848a2db2b..87b2feac807 100644
+index 49848a2db2..87b2feac80 100644
 --- a/luni/src/main/native/sun_misc_Unsafe.cpp
 +++ b/luni/src/main/native/sun_misc_Unsafe.cpp
 @@ -23,7 +23,7 @@ static jobject Unsafe_allocateInstance(JNIEnv* env, jclass, jclass c) {
@@ -185,7 +185,7 @@ index 49848a2db2b..87b2feac807 100644
  };
  void register_sun_misc_Unsafe(JNIEnv* env) {
 diff --git a/ojluni/src/main/native/Character.cpp b/ojluni/src/main/native/Character.cpp
-index 3e27c674d2f..719190c81ae 100644
+index 3e27c674d2..719190c81a 100644
 --- a/ojluni/src/main/native/Character.cpp
 +++ b/ojluni/src/main/native/Character.cpp
 @@ -158,7 +158,7 @@ Character_getNameImpl(JNIEnv* env, jclass, jint codePoint) {
