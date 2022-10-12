@@ -63,6 +63,9 @@ nojit
 9  https://github.com/GrapheneOS/platform_build/commit/5b9927197e63593b9220d1a9280021252ef205e9
 9  https://github.com/GrapheneOS/platform_build/commit/e36c7aefaa78a1ed5b94c7f51d29277008eea232
 
+[implemented] captive portal toggle
+12 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/2a0b0b9193195c360260a3ef7094e45c44b79a24
+
 [implemented] show crash details
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/e740f4b78344c5671d022dfe90bed9e2dacd3db6
 
