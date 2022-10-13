@@ -5749,13 +5749,6 @@ carrier_id {
   }
 }
 carrier_id {
-  canonical_id: 1826
-  carrier_name: "Rural Cellular Corporation"
-  carrier_attribute {
-    mccmnc_tuple: "310890"
-  }
-}
-carrier_id {
   canonical_id: 1827
   carrier_name: "Mid-Rivers"
   carrier_attribute {
@@ -5857,6 +5850,7 @@ carrier_id {
     mccmnc_tuple: "310597"
     mccmnc_tuple: "310598"
     mccmnc_tuple: "310599"
+    mccmnc_tuple: "310890"
     mccmnc_tuple: "311270"
     mccmnc_tuple: "311280"
     mccmnc_tuple: "311281"
@@ -8418,10 +8412,12 @@ carrier_id {
   carrier_attribute {
     mccmnc_tuple: "311480"
     gid1: "bae1000000000000"
+    gid2: "1A00000000000000"
   }
   carrier_attribute {
     mccmnc_tuple: "311480"
     gid1: "bae2000000000000"
+    gid2: "1C00000000000000"
   }
 }
 carrier_id {
@@ -10908,7 +10904,7 @@ carrier_id {
 }
 carrier_id {
   canonical_id: 2498
-  carrier_name: "Altice USA"
+  carrier_name: "Optimum"
   carrier_attribute {
     mccmnc_tuple: "313390"
   }
@@ -10981,6 +10977,7 @@ carrier_id {
   carrier_attribute {
     mccmnc_tuple: "27215"
     gid1: "75696531FFFFFFFFFF"
+    gid2: "75696532FFFFFFFFFF"
   }
   carrier_attribute {
     mccmnc_tuple: "20601"
@@ -11314,6 +11311,22 @@ carrier_id {
   carrier_name: "Ice Norway"
   carrier_attribute {
     mccmnc_tuple: "24214"
+  }
+}
+carrier_id {
+  canonical_id: 2549
+  carrier_name: "Lycamobile"
+  carrier_attribute {
+    mccmnc_tuple: "50519"
+    spn: "Lycamobile"
+  }
+}
+carrier_id {
+  canonical_id: 2550
+  carrier_name: "Vodafone"
+  carrier_attribute {
+    mccmnc_tuple: "54715"
+    spn: "Vodafone PF"
   }
 }
 carrier_id {
@@ -11655,4 +11668,4 @@ carrier_id {
   }
   parent_canonical_id: 2531
 }
-version: 67108881
+version: 67108882
