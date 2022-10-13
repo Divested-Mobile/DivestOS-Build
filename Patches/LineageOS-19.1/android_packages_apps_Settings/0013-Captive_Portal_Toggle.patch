@@ -61,7 +61,7 @@ index 67c47bc7b3..58b17eeccf 100644
      <!-- Description of how many characters are used in owner info [CHAR LIMIT=40]-->
 diff --git a/src/com/android/settings/network/ConnectivityCheckPreferenceController.java b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 new file mode 100644
-index 0000000000..ae62133141
+index 0000000000..bf16eb825a
 --- /dev/null
 +++ b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 @@ -0,0 +1,176 @@

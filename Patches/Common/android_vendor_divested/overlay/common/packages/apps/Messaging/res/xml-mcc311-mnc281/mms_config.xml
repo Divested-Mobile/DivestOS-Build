@@ -18,7 +18,25 @@
     <bool name="enableMultipartSMS">true</bool>
     <int name="smsToMmsTextThreshold">7</int>
     <int name="maxFrameRate">15</int>
-    <string name="hiddenContactsData"> {\n          \"hidden_contact\": [\n              {\n                  \"display_name\": \"Verizon Global Support\",\n                  \"return_number\": \"9085594899\",\n                  \"range\": [{\"start\": \"900080005330\", \"end\": \"900080005349\"}]\n              },\n              {\n                  \"display_name\": \"Verizon Wireless\",\n                  \"range\": [{\"start\": \"900080000105\", \"end\": \"900080000105\"},\n                            {\"start\": \"900080000111\", \"end\": \"900080000111\"},\n                            {\"start\": \"900080000117\", \"end\": \"900080000117\"},\n                            {\"start\": \"900080004000\", \"end\": \"900080004009\"},\n                            {\"start\": \"900080004020\", \"end\": \"900080004024\"},\n                            {\"start\": \"900080005030\", \"end\": \"900080005039\"},\n                            {\"start\": \"900090005000\", \"end\": \"900090005999\"}]\n              }\n          ]\n      } </string>
+    <string name="hiddenContactsData"> {
+          "hidden_contact": [
+              {
+                  "display_name": "Verizon Global Support",
+                  "return_number": "9085594899",
+                  "range": [{"start": "900080005330", "end": "900080005349"}]
+              },
+              {
+                  "display_name": "Verizon Wireless",
+                  "range": [{"start": "900080000105", "end": "900080000105"},
+                            {"start": "900080000111", "end": "900080000111"},
+                            {"start": "900080000117", "end": "900080000117"},
+                            {"start": "900080004000", "end": "900080004009"},
+                            {"start": "900080004020", "end": "900080004024"},
+                            {"start": "900080005030", "end": "900080005039"},
+                            {"start": "900090005000", "end": "900090005999"}]
+              }
+          ]
+      } </string>
     <string name="smsErrorDescMap">verizon_cdma</string>
     <int name="emailGatewaySmsToMmsTextThreshold">1</int>
     <bool name="supportMmsPriority">true</bool>

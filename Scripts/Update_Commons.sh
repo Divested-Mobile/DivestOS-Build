@@ -29,3 +29,5 @@ wget "https://github.com/LineageOS/android_packages_apps_LineageParts/raw/lineag
 
 #TODO: wireless-regdb
 #https://mirrors.edge.kernel.org/pub/software/network/wireless-regdb/
+
+#TODO: MMS
