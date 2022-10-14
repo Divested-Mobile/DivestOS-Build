@@ -73,6 +73,12 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-39188/5.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-39842/5.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-40307/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-41222/5.4/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-41674/^6.0/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42703/5.4/0007.patch
-editKernelLocalversion "-dos.p74"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42720/^6.0/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42721/^6.0/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-MiscWireless/^6.0/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-MiscWireless/^6.0/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-MiscWireless/^6.0/0004.patch
+editKernelLocalversion "-dos.p80"
 cd "$DOS_BUILD_BASE"
