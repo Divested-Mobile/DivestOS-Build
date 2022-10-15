@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2022-10-15
 
 patchAllKernels() {
-	startPatcher ""; #TODO: 20REBASE
+	startPatcher "kernel_fairphone_sm7225 kernel_google_msm-4.14 kernel_google_redbull kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_oneplus_sm8250 kernel_oneplus_sm8350"; #kernel_xiaomi_sdm845
 }
 export -f patchAllKernels;
 
@@ -48,7 +48,37 @@ buildAll() {
 	umask 0022;
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
-	#TODO: 20REBASE
+	#SD835
+	buildDevice cheeseburger verity;
+	buildDevice dumpling verity;
+	#SD845
+	#buildDevice beryllium avb; #pending vendor
+	buildDevice enchilada avb;
+	buildDevice fajita avb;
+	#SD730
+	buildDevice sunfish avb;
+	#SD750
+	buildDevice FP4 avb; #unb
+	#SD855
+	buildDevice guacamole avb; #unb
+	buildDevice guacamoleb avb; #unb
+	buildDevice hotdog avb; #unb
+	buildDevice hotdogb avb; #unb
+	buildDevice coral avb;
+	buildDevice flame avb;
+	#SD865
+	buildDevice instantnoodle avb;
+	buildDevice instantnoodlep avb;
+	buildDevice kebab avb;
+	#SD888
+	buildDevice lemonade avb;
+	buildDevice lemonadep avb;
+	#SD765
+	buildDevice bramble avb;
+	buildDevice redfin avb;
+	#TODO: barbet
+	#Tensor
+	#TODO: oriole, raven, bluejay
 }
 export -f buildAll;
 
