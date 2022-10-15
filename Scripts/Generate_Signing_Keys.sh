@@ -36,6 +36,8 @@ sed -i 's/4096/2048/' "$DOS_BUILD_BASE"/development/tools/make_key;
 "$DOS_BUILD_BASE"/development/tools/make_key releasekey "$desc" "$type";
 sed -i 's/2048/4096/' "$DOS_BUILD_BASE"/development/tools/make_key;
 "$DOS_BUILD_BASE"/development/tools/make_key extra "$desc" "$type";
+"$DOS_BUILD_BASE"/development/tools/make_key bluetooth "$desc" "$type";
+"$DOS_BUILD_BASE"/development/tools/make_key sdk_sandbox "$desc" "$type";
 "$DOS_BUILD_BASE"/development/tools/make_key future-1 "$desc" "$type";
 "$DOS_BUILD_BASE"/development/tools/make_key future-2 "$desc" "$type";
 "$DOS_BUILD_BASE"/development/tools/make_key media "$desc" "$type";

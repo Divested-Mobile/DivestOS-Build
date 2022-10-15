@@ -308,6 +308,7 @@ nojit
 
 [implemented] Bluetooth auto turn off (partial CalyxOS)
 13 https://github.com/GrapheneOS/platform_frameworks_base/commit/647d5ff84f600579576cacbda2e9ecfa4efaa5ac
+13 https://github.com/GrapheneOS/platform_frameworks_base/commit/361852566554d2c362195e31417e8e94f8493586
 13 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/38ba109db0f7e79821c014b199a18f3a1af6e250
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/6577307ef97cfeb4ba951d0c9e2696a21bd1237a
 12 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/cfc5b87c62cc67b5a242a3030eba7fff934871b5

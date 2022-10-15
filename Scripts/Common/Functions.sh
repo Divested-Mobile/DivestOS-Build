@@ -201,7 +201,7 @@ processRelease() {
 	local OUT_DIR="$DOS_BUILD_BASE/out/target/product/$DEVICE/";
 
 	local RELEASETOOLS_PREFIX="build/tools/releasetools/";
-	if [[ "$DOS_VERSION" == "LineageOS-18.1" ]] || [[ "$DOS_VERSION" == "LineageOS-19.1" ]]; then
+	if [[ "$DOS_VERSION" == "LineageOS-18.1" ]] || [[ "$DOS_VERSION" == "LineageOS-19.1" ]] || [[ "$DOS_VERSION" == "LineageOS-20.0" ]]; then
 		local RELEASETOOLS_PREFIX="";
 	fi;
 
@@ -223,17 +223,20 @@ processRelease() {
 		local VERITY_SWITCHES=(--avb_vbmeta_key "$KEY_DIR/avb.pem" --avb_vbmeta_algorithm SHA256_RSA4096);
 		echo -e "\e[0;32m\t+ Verified Boot 2.0 with VBMETA and NOCHAIN\e[0m";
 	fi;
-	if [[ "$DOS_VERSION" == "LineageOS-17.1" ]] || [[ "$DOS_VERSION" == "LineageOS-18.1" ]] || [[ "$DOS_VERSION" == "LineageOS-19.1" ]]; then
-		local APEX_SWITCHES=(--extra_apks AdServicesApk.apk="$KEY_DIR/releasekey" \
-			--extra_apks Bluetooth.apk="$KEY_DIR/bluetooth" \
-			--extra_apks HalfSheetUX.apk="$KEY_DIR/releasekey" \
-			--extra_apks OsuLogin.apk="$KEY_DIR/releasekey" \
-			--extra_apks SafetyCenterResources.apk="$KEY_DIR/releasekey" \
-			--extra_apks ServiceConnectivityResources.apk="$KEY_DIR/releasekey" \
-			--extra_apks ServiceUwbResources.apk="$KEY_DIR/releasekey" \
-			--extra_apks ServiceWifiResources.apk="$KEY_DIR/releasekey" \
-			--extra_apks WifiDialog.apk="$KEY_DIR/releasekey" \
-			--extra_apks com.android.adbd.apex="$KEY_DIR/releasekey" \
+
+	local APK_SWITCHES=(--extra_apks AdServicesApk.apk="$KEY_DIR/releasekey" \
+		--extra_apks HalfSheetUX.apk="$KEY_DIR/releasekey" \
+		--extra_apks OsuLogin.apk="$KEY_DIR/releasekey" \
+		--extra_apks SafetyCenterResources.apk="$KEY_DIR/releasekey" \
+		--extra_apks ServiceConnectivityResources.apk="$KEY_DIR/releasekey" \
+		--extra_apks ServiceUwbResources.apk="$KEY_DIR/releasekey" \
+		--extra_apks ServiceWifiResources.apk="$KEY_DIR/releasekey" \
+		--extra_apks WifiDialog.apk="$KEY_DIR/releasekey");
+	if [[ "$DOS_VERSION" == "LineageOS-20.0" ]]; then
+		local APK_SWITCHES_EXTRA=(--extra_apks Bluetooth.apk="$KEY_DIR/bluetooth");
+	fi;
+	if [[ "$DOS_VERSION" == "LineageOS-17.1" ]] || [[ "$DOS_VERSION" == "LineageOS-18.1" ]] || [[ "$DOS_VERSION" == "LineageOS-19.1" ]] || [[ "$DOS_VERSION" == "LineageOS-20.0" ]]; then
+		local APEX_SWITCHES=(--extra_apks com.android.adbd.apex="$KEY_DIR/releasekey" \
 			--extra_apex_payload_key com.android.adbd.apex="$KEY_DIR/avb.pem" \
 			--extra_apks com.android.adservices.apex="$KEY_DIR/releasekey" \
 			--extra_apex_payload_key com.android.adservices.apex="$KEY_DIR/avb.pem" \
@@ -310,7 +313,8 @@ processRelease() {
 	#Target Files
 	echo -e "\e[0;32mSigning target files\e[0m";
 	"$RELEASETOOLS_PREFIX"sign_target_files_apks -o -d "$KEY_DIR" \
-		--extra_apks OsuLogin.apk,ServiceConnectivityResources.apk,ServiceWifiResources.apk="$KEY_DIR/releasekey" \
+		"${APK_SWITCHES[@]}" \
+		"${APK_SWITCHES_EXTRA[@]}" \
 		"${APEX_SWITCHES[@]}" \
 		"${VERITY_SWITCHES[@]}" \
 		$OUT_DIR/obj/PACKAGING/target_files_intermediates/*$DEVICE-target_files-*.zip \
