@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Wed, 6 Apr 2022 01:10:00 -0400
+Subject: [PATCH] Use basic boot animation
+
+Signed-off-by: Tad <tad@spotco.us>
+Change-Id: I0c87ddd9aec21fc610f3d17701192c04150308d7
+---
+ cmds/bootanimation/BootAnimation.cpp | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
+
+diff --git a/cmds/bootanimation/BootAnimation.cpp b/cmds/bootanimation/BootAnimation.cpp
+index 50c8e933d25f..9f4e6a158cc4 100644
+--- a/cmds/bootanimation/BootAnimation.cpp
++++ b/cmds/bootanimation/BootAnimation.cpp
+@@ -726,7 +726,7 @@ GLuint linkShader(GLuint vertexShader, GLuint fragmentShader) {
+ }
+ 
+ void BootAnimation::initShaders() {
+-    bool dynamicColoringEnabled = mAnimation != nullptr && mAnimation->dynamicColoringEnabled;
++    bool dynamicColoringEnabled = false;
+     GLuint vertexShader = compileShader(GL_VERTEX_SHADER, (const GLchar *)VERTEX_SHADER_SOURCE);
+     GLuint imageFragmentShader =
+         compileShader(GL_FRAGMENT_SHADER, dynamicColoringEnabled
+@@ -762,14 +762,7 @@ bool BootAnimation::threadLoop() {
+     bool result;
+     initShaders();
+ 
+-    // We have no bootanimation file, so we use the stock android logo
+-    // animation.
+-    if (mZipFileName.isEmpty()) {
+-        ALOGD("No animation file");
+-        result = android();
+-    } else {
+-        result = movie();
+-    }
++    result = android();
+ 
+     mCallbacks->shutdown();
+     eglMakeCurrent(mDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);

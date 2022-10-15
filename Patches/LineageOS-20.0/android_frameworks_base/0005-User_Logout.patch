@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: flawedworld <flawedworld@flawed.world>
+Date: Fri, 15 Oct 2021 17:07:13 +0100
+Subject: [PATCH] enable secondary user logout support by default
+
+Ported from 11, 12 moved the isLogoutEnabled boolean to ActiveAdmin.java
+---
+ .../java/com/android/server/devicepolicy/ActiveAdmin.java     | 2 +-
+ .../server/devicepolicy/DevicePolicyManagerService.java       | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/services/devicepolicy/java/com/android/server/devicepolicy/ActiveAdmin.java b/services/devicepolicy/java/com/android/server/devicepolicy/ActiveAdmin.java
+index 0c69067ab131..ef3213b68bfe 100644
+--- a/services/devicepolicy/java/com/android/server/devicepolicy/ActiveAdmin.java
++++ b/services/devicepolicy/java/com/android/server/devicepolicy/ActiveAdmin.java
+@@ -214,7 +214,7 @@ class ActiveAdmin {
+     boolean requireAutoTime = false;
+     boolean forceEphemeralUsers = false;
+     boolean isNetworkLoggingEnabled = false;
+-    boolean isLogoutEnabled = false;
++    boolean isLogoutEnabled = true;
+ 
+     // one notification after enabling + one more after reboots
+     static final int DEF_MAXIMUM_NETWORK_LOGGING_NOTIFICATIONS_SHOWN = 2;
+diff --git a/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java b/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
+index 7bbcea21ca09..4be9c1a1d54a 100644
+--- a/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
++++ b/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
+@@ -16083,11 +16083,11 @@ public class DevicePolicyManagerService extends BaseIDevicePolicyManager {
+     @Override
+     public boolean isLogoutEnabled() {
+         if (!mHasFeature) {
+-            return false;
++            return true;
+         }
+         synchronized (getLockObject()) {
+             ActiveAdmin deviceOwner = getDeviceOwnerAdminLocked();
+-            return (deviceOwner != null) && deviceOwner.isLogoutEnabled;
++            return (deviceOwner == null) || deviceOwner.isLogoutEnabled;
+         }
+     }
+ 

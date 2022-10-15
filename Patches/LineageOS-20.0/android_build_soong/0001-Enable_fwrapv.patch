@@ -1,0 +1,64 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 23 Aug 2017 20:28:03 -0400
+Subject: [PATCH] use -fwrapv when signed overflow checking is off
+
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+---
+ cc/cc.go       |  2 ++
+ cc/cc_test.go  |  2 +-
+ cc/sanitize.go | 12 ++++++++++++
+ 3 files changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/cc/cc.go b/cc/cc.go
+index d17369c70..44060049a 100644
+--- a/cc/cc.go
++++ b/cc/cc.go
+@@ -1853,6 +1853,8 @@ func (c *Module) GenerateAndroidBuildActions(actx android.ModuleContext) {
+ 	}
+ 	if c.sanitize != nil {
+ 		flags = c.sanitize.flags(ctx, flags)
++	} else {
++		flags.Local.CFlags = append(flags.Local.CFlags, "-fwrapv")
+ 	}
+ 	if c.coverage != nil {
+ 		flags, deps = c.coverage.flags(ctx, flags, deps)
+diff --git a/cc/cc_test.go b/cc/cc_test.go
+index 09cc352a2..af6188905 100644
+--- a/cc/cc_test.go
++++ b/cc/cc_test.go
+@@ -4041,7 +4041,7 @@ func TestIncludeDirectoryOrdering(t *testing.T) {
+ 	conly := []string{"-fPIC", "${config.CommonGlobalConlyflags}"}
+ 	cppOnly := []string{"-fPIC", "${config.CommonGlobalCppflags}", "${config.DeviceGlobalCppflags}", "${config.ArmCppflags}"}
+ 
+-	cflags := []string{"-Wall", "-Werror", "-std=candcpp"}
++	cflags := []string{"-Wall", "-Werror", "-std=candcpp", "-fwrapv"}
+ 	cstd := []string{"-std=gnu99", "-std=conly"}
+ 	cppstd := []string{"-std=gnu++17", "-std=cpp", "-fno-rtti"}
+ 
+diff --git a/cc/sanitize.go b/cc/sanitize.go
+index 814fef6a9..e29a3afda 100644
+--- a/cc/sanitize.go
++++ b/cc/sanitize.go
+@@ -596,9 +596,21 @@ func (sanitize *sanitize) flags(ctx ModuleContext, flags Flags) Flags {
+ 	}
+ 
+ 	if !sanitize.Properties.SanitizerEnabled && !sanitize.Properties.UbsanRuntimeDep {
++		flags.Local.CFlags = append(flags.Local.CFlags, "-fwrapv")
+ 		return flags
+ 	}
+ 
++        wrapv := true
++        for _, element := range sanitize.Properties.Sanitizers {
++                if (element == "signed-integer-overflow" || element == "integer" || element == "undefined") {
++                        wrapv = false
++                        break
++                }
++        }
++        if wrapv {
++                flags.Local.CFlags = append(flags.Local.CFlags, "-fwrapv")
++        }
++
+ 	if Bool(sanitize.Properties.Sanitize.Address) {
+ 		if ctx.Arch().ArchType == android.Arm {
+ 			// Frame pointer based unwinder in ASan requires ARM frame setup.

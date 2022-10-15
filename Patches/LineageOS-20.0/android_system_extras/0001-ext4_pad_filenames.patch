@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 9 Sep 2020 01:53:11 -0400
+Subject: [PATCH] pad filenames to 32 bytes instead of 16 or 4 bytes
+
+This was adopted before the earliest stable release of GrapheneOS, so
+backwards compatibility is not implemented anymore.
+
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+---
+ libfscrypt/fscrypt.cpp | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
+
+diff --git a/libfscrypt/fscrypt.cpp b/libfscrypt/fscrypt.cpp
+index f6e97f11..b9cd7004 100644
+--- a/libfscrypt/fscrypt.cpp
++++ b/libfscrypt/fscrypt.cpp
+@@ -226,18 +226,8 @@ bool ParseOptionsForApiLevel(unsigned int first_api_level, const std::string& op
+         }
+     }
+ 
+-    // In the original setting of v1 policies and AES-256-CTS we used 4-byte
+-    // padding of filenames, so retain that on old first_api_levels.
+-    //
+-    // For everything else, use 16-byte padding.  This is more secure (it helps
+-    // hide the length of filenames), and it makes the inputs evenly divisible
+-    // into cipher blocks which is more efficient for encryption and decryption.
+-    if (first_api_level <= __ANDROID_API_Q__ && options->version == 1 &&
+-        options->filenames_mode == FSCRYPT_MODE_AES_256_CTS) {
+-        options->flags |= FSCRYPT_POLICY_FLAGS_PAD_4;
+-    } else {
+-        options->flags |= FSCRYPT_POLICY_FLAGS_PAD_16;
+-    }
++    // GrapheneOS has always used the maximum 32 byte padding.
++    options->flags |= FSCRYPT_POLICY_FLAGS_PAD_32;
+ 
+     // Use DIRECT_KEY for Adiantum, since it's much more efficient but just as
+     // secure since Android doesn't reuse the same master key for multiple

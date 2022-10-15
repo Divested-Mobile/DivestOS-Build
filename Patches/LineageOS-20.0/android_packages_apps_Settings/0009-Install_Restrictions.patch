@@ -1,0 +1,141 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: flawedworld <flawedworld@flawed.world>
+Date: Wed, 1 Sep 2021 23:36:10 +0300
+Subject: [PATCH] UserManager app installation restrictions
+
+---
+ res/values/strings.xml                        |  2 +
+ res/xml/user_details_settings.xml             |  4 ++
+ .../settings/users/UserDetailsSettings.java   | 43 ++++++++++++++++---
+ 3 files changed, 44 insertions(+), 5 deletions(-)
+
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 7f05a40666..cad27ff267 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -7778,6 +7778,8 @@
+     <string name="user_enable_calling">Turn on phone calls</string>
+     <!-- Title of preference to enable calling and SMS [CHAR LIMIT=45] -->
+     <string name="user_enable_calling_sms">Turn on phone calls &amp; SMS</string>
++    <!-- Title of preference to disallow installing apps [CHAR LIMIT=45] -->
++    <string name="user_disallow_install_apps">Disallow installing apps</string>
+     <!-- Title of preference to remove the user [CHAR LIMIT=35] -->
+     <string name="user_remove_user">Delete user</string>
+     <!-- Title for confirmation of turning on calls [CHAR LIMIT=40] -->
+diff --git a/res/xml/user_details_settings.xml b/res/xml/user_details_settings.xml
+index 2301bac1d4..d2766360a0 100644
+--- a/res/xml/user_details_settings.xml
++++ b/res/xml/user_details_settings.xml
+@@ -29,6 +29,10 @@
+             android:key="app_and_content_access"
+             android:icon="@drawable/ic_lock_closed"
+             android:title="@string/user_restrictions_title" />
++    <SwitchPreference
++            android:icon="@drawable/ic_settings_install"
++            android:key="disallow_install_apps"
++            android:title="@string/user_disallow_install_apps" />
+     <com.android.settingslib.RestrictedPreference
+             android:key="app_copying"
+             android:icon="@drawable/ic_apps"
+diff --git a/src/com/android/settings/users/UserDetailsSettings.java b/src/com/android/settings/users/UserDetailsSettings.java
+index 99760401d2..5f9387f1f6 100644
+--- a/src/com/android/settings/users/UserDetailsSettings.java
++++ b/src/com/android/settings/users/UserDetailsSettings.java
+@@ -64,6 +64,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
+     private static final String KEY_REMOVE_USER = "remove_user";
+     private static final String KEY_APP_AND_CONTENT_ACCESS = "app_and_content_access";
+     private static final String KEY_APP_COPYING = "app_copying";
++    private static final String KEY_DISALLOW_INSTALL_APPS = "disallow_install_apps";
+ 
+     /** Integer extra containing the userId to manage */
+     static final String EXTRA_USER_ID = "user_id";
+@@ -92,6 +93,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
+     Preference mAppCopyingPref;
+     @VisibleForTesting
+     Preference mRemoveUserPref;
++    private SwitchPreference mInstallAppsPref;
+ 
+     @VisibleForTesting
+     /** The user being studied (not the user doing the studying). */
+@@ -159,12 +161,37 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
+ 
+     @Override
+     public boolean onPreferenceChange(Preference preference, Object newValue) {
+-        if (Boolean.TRUE.equals(newValue)) {
+-            showDialog(mUserInfo.isGuest() ? DIALOG_CONFIRM_ENABLE_CALLING
+-                    : DIALOG_CONFIRM_ENABLE_CALLING_AND_SMS);
+-            return false;
++        if (preference == mPhonePref) {
++            if (Boolean.TRUE.equals(newValue)) {
++                showDialog(mUserInfo.isGuest() ? DIALOG_CONFIRM_ENABLE_CALLING
++                        : DIALOG_CONFIRM_ENABLE_CALLING_AND_SMS);
++                return false;
++            }
++            enableCallsAndSms(false);
++        } else if (preference == mInstallAppsPref) {
++            if (mUserInfo.isGuest()) {
++                mDefaultGuestRestrictions.putBoolean(UserManager.DISALLOW_INSTALL_APPS, (Boolean) newValue);
++                mUserManager.setDefaultGuestRestrictions(mDefaultGuestRestrictions);
++
++                // Update the guest's restrictions, if there is a guest
++                // TODO: Maybe setDefaultGuestRestrictions() can internally just set the restrictions
++                // on any existing guest rather than do it here with multiple Binder calls.
++                List<UserInfo> users = mUserManager.getUsers(true);
++                for (UserInfo user: users) {
++                    if (user.isGuest()) {
++                        UserHandle userHandle = UserHandle.of(user.id);
++                        for (String key : mDefaultGuestRestrictions.keySet()) {
++                            mUserManager.setUserRestriction(
++                                    key, mDefaultGuestRestrictions.getBoolean(key), userHandle);
++                        }
++                    }
++                }
++            } else {
++                UserHandle userHandle = UserHandle.of(mUserInfo.id);
++                mUserManager.setUserRestriction(UserManager.DISALLOW_INSTALL_APPS, (Boolean) newValue,
++                        userHandle);
++            }
+         }
+-        enableCallsAndSms(false);
+         return true;
+     }
+ 
+@@ -258,6 +285,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
+         mRemoveUserPref = findPreference(KEY_REMOVE_USER);
+         mAppAndContentAccessPref = findPreference(KEY_APP_AND_CONTENT_ACCESS);
+         mAppCopyingPref = findPreference(KEY_APP_COPYING);
++        mInstallAppsPref = findPreference(KEY_DISALLOW_INSTALL_APPS);
+ 
+         mSwitchUserPref.setTitle(
+                 context.getString(com.android.settingslib.R.string.user_switch_to_user,
+@@ -276,6 +304,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
+             removePreference(KEY_REMOVE_USER);
+             removePreference(KEY_APP_AND_CONTENT_ACCESS);
+             removePreference(KEY_APP_COPYING);
++            removePreference(KEY_DISALLOW_INSTALL_APPS);
+         } else {
+             if (!Utils.isVoiceCapable(context)) { // no telephony
+                 removePreference(KEY_ENABLE_TELEPHONY);
+@@ -309,11 +338,14 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
+                 if (!SHOW_APP_COPYING_PREF) {
+                     removePreference(KEY_APP_COPYING);
+                 }
++                removePreference(KEY_DISALLOW_INSTALL_APPS);
+             } else {
+                 mPhonePref.setChecked(!mUserManager.hasUserRestriction(
+                         UserManager.DISALLOW_OUTGOING_CALLS, new UserHandle(userId)));
+                 mRemoveUserPref.setTitle(R.string.user_remove_user);
+                 removePreference(KEY_APP_COPYING);
++                mInstallAppsPref.setChecked(mUserManager.hasUserRestriction(
++                        UserManager.DISALLOW_INSTALL_APPS, new UserHandle(userId)));
+             }
+             if (RestrictedLockUtilsInternal.hasBaseUserRestriction(context,
+                     UserManager.DISALLOW_REMOVE_USER, UserHandle.myUserId())) {
+@@ -324,6 +356,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
+             mPhonePref.setOnPreferenceChangeListener(this);
+             mAppAndContentAccessPref.setOnPreferenceClickListener(this);
+             mAppCopyingPref.setOnPreferenceClickListener(this);
++            mInstallAppsPref.setOnPreferenceChangeListener(this);
+         }
+     }
+ 

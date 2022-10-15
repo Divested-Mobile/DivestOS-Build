@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 18 Jul 2019 21:21:40 -0400
+Subject: [PATCH] label protected_{fifos,regular} as proc_security
+
+This is needed for init to override the default values.
+---
+ prebuilts/api/33.0/private/genfs_contexts | 2 ++
+ private/genfs_contexts                    | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/prebuilts/api/33.0/private/genfs_contexts b/prebuilts/api/33.0/private/genfs_contexts
+index 65784709c..6c4bf98eb 100644
+--- a/prebuilts/api/33.0/private/genfs_contexts
++++ b/prebuilts/api/33.0/private/genfs_contexts
+@@ -40,7 +40,9 @@ genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0
+ genfscon proc /kpageflags u:object_r:proc_kpageflags:s0
+ genfscon proc /sys/abi/swp u:object_r:proc_abi:s0
+ genfscon proc /sys/fs/pipe-max-size u:object_r:proc_pipe_conf:s0
++genfscon proc /sys/fs/protected_fifos u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_hardlinks u:object_r:proc_security:s0
++genfscon proc /sys/fs/protected_regular u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_symlinks u:object_r:proc_security:s0
+ genfscon proc /sys/fs/suid_dumpable u:object_r:proc_security:s0
+ genfscon proc /sys/fs/verity/require_signatures u:object_r:proc_fs_verity:s0
+diff --git a/private/genfs_contexts b/private/genfs_contexts
+index 65784709c..6c4bf98eb 100644
+--- a/private/genfs_contexts
++++ b/private/genfs_contexts
+@@ -40,7 +40,9 @@ genfscon proc /sysrq-trigger u:object_r:proc_sysrq:s0
+ genfscon proc /kpageflags u:object_r:proc_kpageflags:s0
+ genfscon proc /sys/abi/swp u:object_r:proc_abi:s0
+ genfscon proc /sys/fs/pipe-max-size u:object_r:proc_pipe_conf:s0
++genfscon proc /sys/fs/protected_fifos u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_hardlinks u:object_r:proc_security:s0
++genfscon proc /sys/fs/protected_regular u:object_r:proc_security:s0
+ genfscon proc /sys/fs/protected_symlinks u:object_r:proc_security:s0
+ genfscon proc /sys/fs/suid_dumpable u:object_r:proc_security:s0
+ genfscon proc /sys/fs/verity/require_signatures u:object_r:proc_fs_verity:s0

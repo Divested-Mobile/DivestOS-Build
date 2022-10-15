@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: flawedworld <flawedworld@flawed.world>
+Date: Mon, 11 Oct 2021 02:35:13 +0100
+Subject: [PATCH] allow system to use persist.native_debug
+
+---
+ prebuilts/api/33.0/private/property_contexts | 1 +
+ private/property_contexts                    | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/prebuilts/api/33.0/private/property_contexts b/prebuilts/api/33.0/private/property_contexts
+index 1b2360d18..061f7fb59 100644
+--- a/prebuilts/api/33.0/private/property_contexts
++++ b/prebuilts/api/33.0/private/property_contexts
+@@ -58,6 +58,7 @@ persist.nfc.            u:object_r:nfc_prop:s0
+ persist.nfc_cfg.        u:object_r:nfc_prop:s0
+ persist.debug.          u:object_r:persist_debug_prop:s0
+ persist.debug.user_mode_emulation u:object_r:system_user_mode_emulation_prop:s0
++persist.native_debug    u:object_r:system_prop:s0
+ logd.                   u:object_r:logd_prop:s0
+ persist.logd.           u:object_r:logd_prop:s0
+ ro.logd.                u:object_r:logd_prop:s0
+diff --git a/private/property_contexts b/private/property_contexts
+index 1b2360d18..061f7fb59 100644
+--- a/private/property_contexts
++++ b/private/property_contexts
+@@ -58,6 +58,7 @@ persist.nfc.            u:object_r:nfc_prop:s0
+ persist.nfc_cfg.        u:object_r:nfc_prop:s0
+ persist.debug.          u:object_r:persist_debug_prop:s0
+ persist.debug.user_mode_emulation u:object_r:system_user_mode_emulation_prop:s0
++persist.native_debug    u:object_r:system_prop:s0
+ logd.                   u:object_r:logd_prop:s0
+ persist.logd.           u:object_r:logd_prop:s0
+ ro.logd.                u:object_r:logd_prop:s0

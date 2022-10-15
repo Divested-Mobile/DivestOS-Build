@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 16 Jul 2016 23:55:16 -0400
+Subject: [PATCH] replace VLA formatting with dprintf-like function
+
+Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
+---
+ libc/bionic/bionic_systrace.cpp | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
+
+diff --git a/libc/bionic/bionic_systrace.cpp b/libc/bionic/bionic_systrace.cpp
+index 227cb84c3..25ae76a89 100644
+--- a/libc/bionic/bionic_systrace.cpp
++++ b/libc/bionic/bionic_systrace.cpp
+@@ -29,8 +29,6 @@
+ #include <async_safe/log.h>
+ #include <cutils/trace.h> // For ATRACE_TAG_BIONIC.
+ 
+-#define WRITE_OFFSET   32
+-
+ static Lock g_lock;
+ static CachedProperty g_debug_atrace_tags_enableflags("debug.atrace.tags.enableflags");
+ static uint64_t g_tags;
+@@ -67,15 +65,9 @@ static void trace_begin_internal(const char* message) {
+     return;
+   }
+ 
+-  // If bionic tracing has been enabled, then write the message to the
+-  // kernel trace_marker.
+-  int length = strlen(message);
+-  char buf[length + WRITE_OFFSET];
+-  size_t len = async_safe_format_buffer(buf, length + WRITE_OFFSET, "B|%d|%s", getpid(), message);
+-
+   // Tracing may stop just after checking property and before writing the message.
+   // So the write is acceptable to fail. See b/20666100.
+-  TEMP_FAILURE_RETRY(write(trace_marker_fd, buf, len));
++  async_safe_format_fd(trace_marker_fd, "B|%d|%s", getpid(), message);
+ }
+ 
+ void bionic_trace_begin(const char* message) {

@@ -34,7 +34,7 @@ sed -i 's/DurationnScale = 1.0f;/DurationScale = 0.5f;/' services/core/java/com/
 fi;
 
 if enter "kernel"; then
-sed -i "s/#define VM_MAX_READAHEAD\t128/#define VM_MAX_READAHEAD\t512/" ./*/*/include/linux/mm.h; #Lee Susman <lsusman@codeaurora.org>: Change the VM_MAX_READAHEAD value from the default 128KB to 512KB. This will allow the readahead window to grow to a maximum size of 512KB, which greatly benefits to sequential read throughput.
+sed -i "s/#define VM_MAX_READAHEAD\t128/#define VM_MAX_READAHEAD\t512/" ./*/*/include/linux/mm.h &>/dev/null || true; #Lee Susman <lsusman@codeaurora.org>: Change the VM_MAX_READAHEAD value from the default 128KB to 512KB. This will allow the readahead window to grow to a maximum size of 512KB, which greatly benefits to sequential read throughput.
 fi;
 
 echo "Starting zram tweaks";
