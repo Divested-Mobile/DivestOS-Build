@@ -54,8 +54,8 @@ buildAll() {
 	buildDevice discovery;
 	#SD835
 	buildDevice cheryl verity;
-	buildDevice cheeseburger verity;
-	buildDevice dumpling verity;
+	buildDevice cheeseburger verity; #superseded
+	buildDevice dumpling verity; #superseded
 	buildDevice mata verity;
 	buildDevice taimen avb;
 	buildDevice walleye avb;
@@ -65,38 +65,38 @@ buildAll() {
 	buildDevice pro1 avb;
 	buildDevice crosshatch avb;
 	buildDevice blueline avb;
-	buildDevice enchilada avb;
-	buildDevice fajita avb;
+	buildDevice enchilada avb; #superseded
+	buildDevice fajita avb; #superseded
 	buildDevice akari avb;
 	buildDevice aurora avb;
 	buildDevice xz2c avb;
 	#SD730
-	buildDevice sunfish avb;
+	buildDevice sunfish avb; #superseded
 	#SD632
 	buildDevice FP3 avb;
 	#SD750
-	buildDevice FP4 avb; #unb
+	buildDevice FP4 avb; #unb #superseded
 	#SD855
-	buildDevice guacamole avb; #unb
-	buildDevice guacamoleb avb; #unb
-	buildDevice hotdog avb; #unb
-	buildDevice hotdogb avb; #unb
-	buildDevice coral avb;
-	buildDevice flame avb;
+	buildDevice guacamole avb; #unb #superseded
+	buildDevice guacamoleb avb; #unb #superseded
+	buildDevice hotdog avb; #unb #superseded
+	buildDevice hotdogb avb; #unb #superseded
+	buildDevice coral avb; #superseded
+	buildDevice flame avb; #superseded
 	buildDevice vayu avb;
 	#SD865
-	buildDevice instantnoodle avb;
-	buildDevice instantnoodlep avb;
-	buildDevice kebab avb;
+	buildDevice instantnoodle avb; #superseded
+	buildDevice instantnoodlep avb; #superseded
+	buildDevice kebab avb; #superseded
 	buildDevice lmi avb;
 	#SD870
 	buildDevice alioth avb;
 	#SD888
-	buildDevice lemonade avb;
-	buildDevice lemonadep avb;
+	buildDevice lemonade avb; #superseded
+	buildDevice lemonadep avb; #superseded
 	#SD765
-	buildDevice bramble avb;
-	buildDevice redfin avb;
+	buildDevice bramble avb; #superseded
+	buildDevice redfin avb; #superseded
 	#TODO: barbet
 	#SD670
 	buildDevice bonito avb;

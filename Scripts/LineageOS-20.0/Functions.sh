@@ -58,12 +58,12 @@ buildAll() {
 	#SD730
 	buildDevice sunfish avb;
 	#SD750
-	buildDevice FP4 avb; #unb
+	buildDevice FP4 avb;
 	#SD855
-	buildDevice guacamole avb; #unb
-	buildDevice guacamoleb avb; #unb
-	buildDevice hotdog avb; #unb
-	buildDevice hotdogb avb; #unb
+	buildDevice guacamole avb;
+	buildDevice guacamoleb avb;
+	buildDevice hotdog avb;
+	buildDevice hotdogb avb;
 	buildDevice coral avb;
 	buildDevice flame avb;
 	#SD865

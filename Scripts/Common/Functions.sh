@@ -224,8 +224,19 @@ processRelease() {
 		echo -e "\e[0;32m\t+ Verified Boot 2.0 with VBMETA and NOCHAIN\e[0m";
 	fi;
 	if [[ "$DOS_VERSION" == "LineageOS-17.1" ]] || [[ "$DOS_VERSION" == "LineageOS-18.1" ]] || [[ "$DOS_VERSION" == "LineageOS-19.1" ]]; then
-		local APEX_SWITCHES=(--extra_apks com.android.adbd.apex="$KEY_DIR/releasekey" \
+		local APEX_SWITCHES=(--extra_apks AdServicesApk.apk="$KEY_DIR/releasekey" \
+			--extra_apks Bluetooth.apk="$KEY_DIR/bluetooth" \
+			--extra_apks HalfSheetUX.apk="$KEY_DIR/releasekey" \
+			--extra_apks OsuLogin.apk="$KEY_DIR/releasekey" \
+			--extra_apks SafetyCenterResources.apk="$KEY_DIR/releasekey" \
+			--extra_apks ServiceConnectivityResources.apk="$KEY_DIR/releasekey" \
+			--extra_apks ServiceUwbResources.apk="$KEY_DIR/releasekey" \
+			--extra_apks ServiceWifiResources.apk="$KEY_DIR/releasekey" \
+			--extra_apks WifiDialog.apk="$KEY_DIR/releasekey" \
+			--extra_apks com.android.adbd.apex="$KEY_DIR/releasekey" \
 			--extra_apex_payload_key com.android.adbd.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.adservices.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.adservices.apex="$KEY_DIR/avb.pem" \
 			--extra_apks com.android.apex.cts.shim.apex="$KEY_DIR/releasekey" \
 			--extra_apex_payload_key com.android.apex.cts.shim.apex="$KEY_DIR/avb.pem" \
 			--extra_apks com.android.appsearch.apex="$KEY_DIR/releasekey" \
@@ -234,8 +245,12 @@ processRelease() {
 			--extra_apex_payload_key com.android.art.apex="$KEY_DIR/avb.pem" \
 			--extra_apks com.android.art.debug.apex="$KEY_DIR/releasekey" \
 			--extra_apex_payload_key com.android.art.debug.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.btservices.apex="$KEY_DIR/bluetooth" \
+			--extra_apex_payload_key com.android.btservices.apex="$KEY_DIR/avb.pem" \
 			--extra_apks com.android.cellbroadcast.apex="$KEY_DIR/releasekey" \
 			--extra_apex_payload_key com.android.cellbroadcast.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.compos.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.compos.apex="$KEY_DIR/avb.pem" \
 			--extra_apks com.android.conscrypt.apex="$KEY_DIR/releasekey" \
 			--extra_apex_payload_key com.android.conscrypt.apex="$KEY_DIR/avb.pem" \
 			--extra_apks com.android.extservices.apex="$KEY_DIR/releasekey" \
@@ -252,6 +267,8 @@ processRelease() {
 			--extra_apex_payload_key com.android.mediaprovider.apex="$KEY_DIR/avb.pem" \
 			--extra_apks com.android.neuralnetworks.apex="$KEY_DIR/releasekey" \
 			--extra_apex_payload_key com.android.neuralnetworks.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.ondevicepersonalization.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.ondevicepersonalization.apex="$KEY_DIR/avb.pem" \
 			--extra_apks com.android.os.statsd.apex="$KEY_DIR/releasekey" \
 			--extra_apex_payload_key com.android.os.statsd.apex="$KEY_DIR/avb.pem" \
 			--extra_apks com.android.permission.apex="$KEY_DIR/releasekey" \
@@ -268,6 +285,10 @@ processRelease() {
 			--extra_apex_payload_key com.android.tethering.apex="$KEY_DIR/avb.pem" \
 			--extra_apks com.android.tzdata.apex="$KEY_DIR/releasekey" \
 			--extra_apex_payload_key com.android.tzdata.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.uwb.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.uwb.apex="$KEY_DIR/avb.pem" \
+			--extra_apks com.android.virt.apex="$KEY_DIR/releasekey" \
+			--extra_apex_payload_key com.android.virt.apex="$KEY_DIR/avb.pem" \
 			--extra_apks com.android.vndk.current.apex="$KEY_DIR/releasekey" \
 			--extra_apex_payload_key com.android.vndk.current.apex="$KEY_DIR/avb.pem" \
 			--extra_apks com.android.wifi.apex="$KEY_DIR/releasekey" \

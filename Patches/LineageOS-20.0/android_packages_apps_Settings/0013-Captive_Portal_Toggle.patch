@@ -14,11 +14,14 @@ Co-authored-by: Renlord <me@renlord.com>
 Co-authored-by: Danny Lin <danny@kdrag0n.dev>
 Co-authored-by: anupritaisno1 <www.anuprita804@gmail.com>
 Signed-off-by: empratyush <codelab@pratyush.dev>
+[tad@spotco.us]: removed the option for GrapheneOS servers
+Change-Id: I8a762d0f29ac42fce3dcfc7189e8ff216a8f8d1a
 ---
  res/values/arrays.xml                         |  10 +
+ res/values/strings.xml                        |   3 +
  ...ConnectivityCheckPreferenceController.java | 176 ++++++++++++++++++
  .../network/NetworkDashboardFragment.java     |   3 +
- 3 files changed, 189 insertions(+)
+ 4 files changed, 192 insertions(+)
  create mode 100644 src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
@@ -42,6 +45,18 @@ index cfc7671652..7fac175770 100644
      <!-- Security settings.  The delay after screen is turned off until device locks.
           These are shown in a list dialog. -->
      <string-array name="lock_after_timeout_entries">
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index baed6e68f5..f692139c80 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -14233,4 +14233,7 @@
+     <!-- [CHAR LIMIT=NONE] Hint for QR code process failure -->
+     <string name="bt_le_audio_qr_code_is_not_valid_format">QR code isn\u0027t a valid format</string>
+ 
++    <string name="connectivity_check_title">Internet connectivity check</string>
++    <string name="connectivity_check_summary">HTTP endpoints to use for performing internet connectivity checks.</string>
++
+ </resources>
 diff --git a/src/com/android/settings/network/ConnectivityCheckPreferenceController.java b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 new file mode 100644
 index 0000000000..bf16eb825a

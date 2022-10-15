@@ -7,8 +7,7 @@ Change-Id: Ib2a00de63b0c7a8790640462d13a84daf2076fa7
 ---
  core/product_config.mk             |  5 +++++
  target/product/security/Android.mk | 21 +++++++++++++++++----
- tools/buildinfo.sh                 |  4 ++--
- 3 files changed, 24 insertions(+), 6 deletions(-)
+ 2 files changed, 22 insertions(+), 4 deletions(-)
 
 diff --git a/core/product_config.mk b/core/product_config.mk
 index 37146d3a9..7dc8113f5 100644
@@ -71,18 +70,3 @@ index ad25a9261..c2dca4dc4 100644
  	    $(extra_recovery_keys)
  	$(SOONG_ZIP) -o $@ -j -symlinks=false \
  	    $(addprefix -f ,$(PRIVATE_CERT) $(PRIVATE_EXTRA_RECOVERY_KEYS))
-diff --git a/tools/buildinfo.sh b/tools/buildinfo.sh
-index c00e1e98b..8145794e1 100755
---- a/tools/buildinfo.sh
-+++ b/tools/buildinfo.sh
-@@ -26,8 +26,8 @@ echo "ro.build.version.min_supported_target_sdk=$PLATFORM_MIN_SUPPORTED_TARGET_S
- echo "ro.build.date=`$DATE`"
- echo "ro.build.date.utc=`$DATE +%s`"
- echo "ro.build.type=$TARGET_BUILD_TYPE"
--echo "ro.build.user=$BUILD_USERNAME"
--echo "ro.build.host=$BUILD_HOSTNAME"
-+echo "ro.build.user=emy"
-+echo "ro.build.host=dosbm"
- echo "ro.build.tags=$BUILD_VERSION_TAGS"
- echo "ro.build.flavor=$TARGET_BUILD_FLAVOR"
- if [ -n "$BOARD_BUILD_SYSTEM_ROOT_IMAGE" ] ; then
