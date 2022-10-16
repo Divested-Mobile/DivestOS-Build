@@ -32,7 +32,7 @@ export -f scanWorkspaceForMalware;
 
 buildDevice() {
 	cd "$DOS_BUILD_BASE";
-	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
+	#export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
 	breakfast "lineage_$1-user" && mka target-files-package otatools && processRelease $1 true $2;
 }
 export -f buildDevice;

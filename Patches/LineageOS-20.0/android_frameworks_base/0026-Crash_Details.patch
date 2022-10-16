@@ -135,10 +135,10 @@ index 6bb35facca7b..c4241414164f 100644
    <java-symbol type="dimen" name="status_bar_height_default" />
  </resources>
 diff --git a/packages/SystemUI/AndroidManifest.xml b/packages/SystemUI/AndroidManifest.xml
-index 58945cba9997..b39415febb4b 100644
+index b89bdf3991d8..0803cfae3ad5 100644
 --- a/packages/SystemUI/AndroidManifest.xml
 +++ b/packages/SystemUI/AndroidManifest.xml
-@@ -943,5 +943,17 @@
+@@ -941,5 +941,17 @@
              </intent-filter>
          </receiver>
  
