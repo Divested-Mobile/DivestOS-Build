@@ -58,7 +58,7 @@ index 6755e6bee975..b89bdf3991d8 100644
      <protected-broadcast android:name="com.android.settingslib.action.UNREGISTER_SLICE_RECEIVER" />
      <protected-broadcast android:name="com.android.settings.flashlight.action.FLASHLIGHT_CHANGED" />
 diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
-index 38970f21f325..61d758b0e0fd 100644
+index 368d6f5df584..a5f89bcb7482 100644
 --- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 +++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 @@ -194,6 +194,8 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,

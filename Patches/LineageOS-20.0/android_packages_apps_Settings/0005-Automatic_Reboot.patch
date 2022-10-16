@@ -55,10 +55,10 @@ index 0632f72eb0..35e3247663 100644
          <item msgid="6490061470416867723">Small</item>
          <item msgid="3579015730662088893">Default</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 02a145b188..b8cfb4a71b 100644
+index 04b2de208b..5d4879d123 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -696,6 +696,9 @@
+@@ -701,6 +701,9 @@
      <!-- Summary for settings checkbox to disable widgets when the setting has been disabled by an installed device admin [CHAR LIMIT=50] -->
      <string name="security_enable_widgets_disabled_summary">Disabled by admin</string>
  

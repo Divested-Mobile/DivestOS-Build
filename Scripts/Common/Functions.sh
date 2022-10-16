@@ -999,7 +999,7 @@ hardenDefconfig() {
 	optionsNo+=("HARDENED_USERCOPY_FALLBACK");
 	optionsNo+=("SECURITY_SELINUX_DISABLE" "SECURITY_WRITABLE_HOOKS");
 	optionsNo+=("SLAB_MERGE_DEFAULT");
-	optionsNo+=("USERFAULTFD");
+	if [[ "$DOS_VERSION" != "LineageOS-20.0" ]]; then optionsNo+=("USERFAULTFD"); fi;
 	#optionsNo+=("CFI_PERMISSIVE");
 	#???
 	optionsNo+=("FB_MSM_MDSS_XLOG_DEBUG" "MSM_BUSPM_DEV" "MSMB_CAMERA_DEBUG" "MSM_CAMERA_DEBUG" "MSM_SMD_DEBUG");

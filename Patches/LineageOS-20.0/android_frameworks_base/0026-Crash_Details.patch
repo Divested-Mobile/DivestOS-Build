@@ -110,10 +110,10 @@ index c3b149a1e295..a47b82018377 100644
  
      <Button
 diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
-index e5d90f00f327..055ba19fb30f 100644
+index c6b60f586047..9b5916a91280 100644
 --- a/core/res/res/values/strings.xml
 +++ b/core/res/res/values/strings.xml
-@@ -6314,4 +6314,7 @@ ul.</string>
+@@ -6326,4 +6326,7 @@ ul.</string>
  
      <!-- Title for preference of the system default locale. [CHAR LIMIT=50]-->
      <string name="system_locale_title">System default</string>
@@ -122,10 +122,10 @@ index e5d90f00f327..055ba19fb30f 100644
 +    <string name="aerr_show_details">Show details</string>
  </resources>
 diff --git a/core/res/res/values/symbols.xml b/core/res/res/values/symbols.xml
-index 6bb35facca7b..c4241414164f 100644
+index 5aecc53bac78..37358f38aaef 100644
 --- a/core/res/res/values/symbols.xml
 +++ b/core/res/res/values/symbols.xml
-@@ -4798,5 +4798,8 @@
+@@ -4803,6 +4803,9 @@
    <java-symbol type="id" name="language_picker_item" />
    <java-symbol type="id" name="language_picker_header" />
  
@@ -133,7 +133,8 @@ index 6bb35facca7b..c4241414164f 100644
 +  <java-symbol type="string" name="aerr_show_details" />
 +
    <java-symbol type="dimen" name="status_bar_height_default" />
- </resources>
+ 
+   <java-symbol type="bool" name="system_server_plays_face_haptics" />
 diff --git a/packages/SystemUI/AndroidManifest.xml b/packages/SystemUI/AndroidManifest.xml
 index b89bdf3991d8..0803cfae3ad5 100644
 --- a/packages/SystemUI/AndroidManifest.xml
@@ -157,10 +158,10 @@ index b89bdf3991d8..0803cfae3ad5 100644
      </application>
  </manifest>
 diff --git a/packages/SystemUI/res/values/strings.xml b/packages/SystemUI/res/values/strings.xml
-index af8d7ed22ed3..ea4409b20f2b 100644
+index e144b43294c6..2ac23ad4e433 100644
 --- a/packages/SystemUI/res/values/strings.xml
 +++ b/packages/SystemUI/res/values/strings.xml
-@@ -2539,4 +2539,9 @@
+@@ -2552,4 +2552,9 @@
      =1 {# notification}
      other {# notifications}
      }</string>

@@ -97,7 +97,6 @@ buildAll() {
 	#SD765
 	buildDevice bramble avb; #superseded
 	buildDevice redfin avb; #superseded
-	#TODO: barbet
 	#SD670
 	buildDevice bonito avb;
 	buildDevice sargo avb;

@@ -9,10 +9,10 @@ Change-Id: I5ccc4d61e52ac11ef33f44618d0e610089885b87
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java b/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
-index f5c2bbc8d5a2..8fddc9168eed 100644
+index a6a3db11b729..6ddd57c1ff11 100644
 --- a/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
 +++ b/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
-@@ -1694,6 +1694,11 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
+@@ -1721,6 +1721,11 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
          int type = AGPS_SETID_TYPE_NONE;
          String setId = null;
  
@@ -21,10 +21,10 @@ index f5c2bbc8d5a2..8fddc9168eed 100644
 +         * As devices w/o SIM card also have working GPS, providing this data does
 +         * not seem to add a lot of value, at least not for the device holder
 +         *
-         int ddSubId = SubscriptionManager.getDefaultDataSubscriptionId();
-         if (SubscriptionManager.isValidSubscriptionId(ddSubId)) {
-             phone = phone.createForSubscriptionId(ddSubId);
-@@ -1710,7 +1715,7 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
+         int subId = SubscriptionManager.getDefaultDataSubscriptionId();
+         if (mNIHandler.getInEmergency() && mNetworkConnectivityHandler.getActiveSubId() >= 0) {
+             subId = mNetworkConnectivityHandler.getActiveSubId();
+@@ -1740,7 +1745,7 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
                  // This means the framework has the SIM card.
                  type = AGPS_SETID_TYPE_MSISDN;
              }

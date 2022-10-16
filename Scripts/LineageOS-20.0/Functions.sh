@@ -55,21 +55,21 @@ buildAll() {
 	#buildDevice beryllium avb; #pending vendor
 	buildDevice enchilada avb;
 	buildDevice fajita avb;
-	#SD730
-	buildDevice sunfish avb;
 	#SD750
 	buildDevice FP4 avb;
 	#SD855
-	buildDevice guacamole avb;
-	buildDevice guacamoleb avb;
-	buildDevice hotdog avb;
-	buildDevice hotdogb avb;
+	buildDevice guacamole avb; #FIXME
+	buildDevice guacamoleb avb; #FIXME
+	buildDevice hotdog avb; #FIXME
+	buildDevice hotdogb avb; #FIXME
 	buildDevice coral avb;
 	buildDevice flame avb;
+	#SD730
+	buildDevice sunfish avb;
 	#SD865
-	buildDevice instantnoodle avb;
-	buildDevice instantnoodlep avb;
-	buildDevice kebab avb;
+	buildDevice instantnoodle avb; #FIXME
+	buildDevice instantnoodlep avb; #FIXME
+	buildDevice kebab avb; #FIXME
 	#SD888
 	buildDevice lemonade avb;
 	buildDevice lemonadep avb;
