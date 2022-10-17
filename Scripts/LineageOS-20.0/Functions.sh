@@ -76,7 +76,7 @@ buildAll() {
 	#SD765
 	buildDevice bramble avb;
 	buildDevice redfin avb;
-	#TODO: barbet
+	buildDevice barbet avb;
 	#Tensor
 	#TODO: oriole, raven, bluejay
 }

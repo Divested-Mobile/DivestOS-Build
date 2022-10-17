@@ -93,6 +93,7 @@ enableVerity "device/zuk/z2_plus";
 enableAVB "device/fairphone/FP3";
 enableAVB "device/fairphone/FP4";
 enableAVB "device/fxtec/pro1";
+enableAVB "device/google/barbet";
 enableAVB "device/google/blueline";
 enableAVB "device/google/bonito";
 enableAVB "device/google/bramble";
