@@ -67,9 +67,9 @@ buildAll() {
 	#SD730
 	buildDevice sunfish avb;
 	#SD865
-	buildDevice instantnoodle avb; #FIXME
-	buildDevice instantnoodlep avb; #FIXME
-	buildDevice kebab avb; #FIXME
+	buildDevice instantnoodle avb;
+	buildDevice instantnoodlep avb;
+	buildDevice kebab avb;
 	#SD888
 	buildDevice lemonade avb;
 	buildDevice lemonadep avb;
