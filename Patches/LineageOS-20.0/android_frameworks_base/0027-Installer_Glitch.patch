@@ -1,0 +1,89 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Thu, 2 Jun 2022 09:18:26 +0300
+Subject: [PATCH] make sure PackageInstaller UI returns a result
+
+---
+ .../PackageInstallerActivity.java             | 27 +++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
+index 9c6113ce4b47..10eefebadeff 100644
+--- a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
++++ b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
+@@ -129,6 +129,8 @@ public class PackageInstallerActivity extends AlertActivity {
+ 
+     // Would the mOk button be enabled if this activity would be resumed
+     private boolean mEnableOk = false;
++    private boolean mPermissionResultWasSet;
++    private boolean mAllowNextOnPause;
+ 
+     private void startInstallConfirm() {
+         View viewToEnable;
+@@ -298,6 +300,7 @@ public class PackageInstallerActivity extends AlertActivity {
+     protected void onCreate(Bundle icicle) {
+         if (mLocalLOGV) Log.i(TAG, "creating for user " + getUserId());
+         getWindow().addSystemFlags(SYSTEM_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);
++        getWindow().setCloseOnTouchOutside(false);
+ 
+         super.onCreate(null);
+ 
+@@ -390,6 +393,24 @@ public class PackageInstallerActivity extends AlertActivity {
+             // Don't allow the install button to be clicked as there might be overlays
+             mOk.setEnabled(false);
+         }
++        // sometimes this activity becomes hidden after onPause(),
++        // and the user is unable to bring it back
++        if (!mPermissionResultWasSet && mSessionId != -1) {
++            if (mAllowNextOnPause) {
++                mAllowNextOnPause = false;
++            } else {
++                if (!isFinishing()) {
++                    finish();
++                }
++            }
++        }
++    }
++
++    // handles startActivity() calls too
++    @Override
++    public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
++        mAllowNextOnPause = true;
++        super.startActivityForResult(intent, requestCode, options);
+     }
+ 
+     @Override
+@@ -405,6 +426,9 @@ public class PackageInstallerActivity extends AlertActivity {
+         while (!mActiveUnknownSourcesListeners.isEmpty()) {
+             unregister(mActiveUnknownSourcesListeners.get(0));
+         }
++        if (!mPermissionResultWasSet) {
++            mInstaller.setPermissionsResult(mSessionId, false);
++        }
+     }
+ 
+     private void bindUi() {
+@@ -416,6 +440,7 @@ public class PackageInstallerActivity extends AlertActivity {
+                     if (mOk.isEnabled()) {
+                         if (mSessionId != -1) {
+                             mInstaller.setPermissionsResult(mSessionId, true);
++                            mPermissionResultWasSet = true;
+                             finish();
+                         } else {
+                             startInstall();
+@@ -428,6 +453,7 @@ public class PackageInstallerActivity extends AlertActivity {
+                     setResult(RESULT_CANCELED);
+                     if (mSessionId != -1) {
+                         mInstaller.setPermissionsResult(mSessionId, false);
++                        mPermissionResultWasSet = true;
+                     }
+                     finish();
+                 }, null);
+@@ -599,6 +625,7 @@ public class PackageInstallerActivity extends AlertActivity {
+     public void onBackPressed() {
+         if (mSessionId != -1) {
+             mInstaller.setPermissionsResult(mSessionId, false);
++            mPermissionResultWasSet = true;
+         }
+         super.onBackPressed();
+     }

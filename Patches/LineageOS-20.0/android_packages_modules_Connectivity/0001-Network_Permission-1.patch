@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Tue, 14 Dec 2021 18:17:11 +0200
+Subject: [PATCH] skip reportNetworkConnectivity() when permission is revoked
+
+---
+ framework/src/android/net/ConnectivityManager.java | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/framework/src/android/net/ConnectivityManager.java b/framework/src/android/net/ConnectivityManager.java
+index f741c2bb3..f5bac0613 100644
+--- a/framework/src/android/net/ConnectivityManager.java
++++ b/framework/src/android/net/ConnectivityManager.java
+@@ -41,6 +41,7 @@ import android.compat.annotation.UnsupportedAppUsage;
+ import android.content.ComponentName;
+ import android.content.Context;
+ import android.content.Intent;
++import android.content.pm.SpecialRuntimePermAppUtils;
+ import android.net.ConnectivityDiagnosticsManager.DataStallReport.DetectionMethod;
+ import android.net.IpSecManager.UdpEncapsulationSocket;
+ import android.net.SocketKeepalive.Callback;
+@@ -3358,6 +3359,12 @@ public class ConnectivityManager {
+      */
+     public void reportNetworkConnectivity(@Nullable Network network, boolean hasConnectivity) {
+         printStackTrace();
++
++        if (SpecialRuntimePermAppUtils.isInternetCompatEnabled()) {
++            // caller doesn't have INTERNET, but expects to always have it
++            return;
++        }
++
+         try {
+             mService.reportNetworkConnectivity(network, hasConnectivity);
+         } catch (RemoteException e) {

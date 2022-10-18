@@ -321,7 +321,6 @@ if enterAndClear "packages/modules/Connectivity"; then
 applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-1.patch"; #Add callback for enforcing INTERNET permission changes (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-2.patch"; #Use uid instead of app id (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-3.patch"; #Skip reportNetworkConnectivity() when permission is revoked (GrapheneOS)
-#applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0001-Network_Permission-4.patch"; #bugfix: reportNetworkConnectivity() wasn't switched to isInternetCompatEnabled() (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0002-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch)
 fi;
 

@@ -1,0 +1,54 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Mon, 18 Oct 2021 10:23:42 +0300
+Subject: [PATCH] fix usage UI summary for Network/Sensors
+
+---
+ PermissionController/res/values/strings.xml       |  3 +++
+ .../v31/PermissionUsageControlPreferenceUtils.kt  | 15 +++++++++++----
+ 2 files changed, 14 insertions(+), 4 deletions(-)
+
+diff --git a/PermissionController/res/values/strings.xml b/PermissionController/res/values/strings.xml
+index 882fc4181..210f5fb99 100644
+--- a/PermissionController/res/values/strings.xml
++++ b/PermissionController/res/values/strings.xml
+@@ -1583,4 +1583,7 @@ Allow <xliff:g id="app_name" example="Gmail">%4$s</xliff:g> to upload a bug repo
+     <string name="media_confirm_dialog_message_q_to_s_visual_allow">This app doesn\u2019t support the latest version of Android. If this app can access photos and videos, it will also be allowed to access music and audio files.</string>
+     <!-- Message for media confirm dialog (when user denies visual group of q_to_s app) [CHAR LIMIT=NONE] -->
+     <string name="media_confirm_dialog_message_q_to_s_visual_deny">This app doesn\u2019t support the latest version of Android. If this app can\u2019t access music and audio files, it also won\u2019t be allowed to access photos and videos.</string>
++
++    <!-- Summary text if tracking permission usage is not supported [CHAR LIMIT=60] -->
++    <string name="permission_usage_preference_summary_not_supported">Tracking usage not yet supported</string>
+ </resources>
+diff --git a/PermissionController/src/com/android/permissioncontroller/permission/ui/model/v31/PermissionUsageControlPreferenceUtils.kt b/PermissionController/src/com/android/permissioncontroller/permission/ui/model/v31/PermissionUsageControlPreferenceUtils.kt
+index 302e4432c..429a219b3 100644
+--- a/PermissionController/src/com/android/permissioncontroller/permission/ui/model/v31/PermissionUsageControlPreferenceUtils.kt
++++ b/PermissionController/src/com/android/permissioncontroller/permission/ui/model/v31/PermissionUsageControlPreferenceUtils.kt
+@@ -69,10 +69,17 @@ object PermissionUsageControlPreferenceUtils {
+                 R.string.permission_usage_preference_label, count)
+             if (count == 0) {
+                 isEnabled = false
+-                val permissionUsageSummaryNotUsed = if (show7Days) {
+-                    R.string.permission_usage_preference_summary_not_used_7d
++                val permissionUsageSummaryNotUsed = if (
++                        groupName == Manifest.permission_group.NETWORK
++                        || groupName == Manifest.permission_group.OTHER_SENSORS)
++                {
++                    R.string.permission_usage_preference_summary_not_supported
+                 } else {
+-                    R.string.permission_usage_preference_summary_not_used_24h
++                    if (show7Days) {
++                        R.string.permission_usage_preference_summary_not_used_7d
++                    } else {
++                        R.string.permission_usage_preference_summary_not_used_24h
++                    }
+                 }
+                 setSummary(permissionUsageSummaryNotUsed)
+             } else if (SENSOR_DATA_PERMISSIONS.contains(groupName)) {
+@@ -112,4 +119,4 @@ object PermissionUsageControlPreferenceUtils {
+         if (act == 0) return
+         PermissionControllerStatsLog.write(PERMISSION_USAGE_FRAGMENT_INTERACTION, sessionId, act)
+     }
+-}
+\ No newline at end of file
++}

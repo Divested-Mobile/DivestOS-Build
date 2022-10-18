@@ -3,7 +3,6 @@ RQ3A.211001.001.2021100606
 QQ3A.200805.001.2020.09.11.14
 PQ3B.190801.002.2019.08.25.15
 
-
 https time
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/1d4e3f495b7b544f6314f04243e9d47b3f8e7102
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/2c04a077ec9f3ac6857885199f49f4845b70ec2e
@@ -35,9 +34,6 @@ power animation
 preferred network mode
 11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/286910c6cbc8c77153e7e230a4d02bea745ea571
 
-auto-var-init
-10 https://github.com/GrapheneOS/platform_build_soong/commit/e1b0c965952c47663d4266293b5d0e3f95121260
-
 nojit
 11 https://github.com/GrapheneOS/platform_build/commit/8c9183f29406a93cb596ebd76ca27eb8c5f8bbe8
 11 https://github.com/GrapheneOS/platform_build/commit/904c1e837a2dd9b251d57c2e064186d5af047df0
@@ -63,6 +59,10 @@ nojit
 9  https://github.com/GrapheneOS/platform_build/commit/5b9927197e63593b9220d1a9280021252ef205e9
 9  https://github.com/GrapheneOS/platform_build/commit/e36c7aefaa78a1ed5b94c7f51d29277008eea232
 
+[implemented] auto-var-init
+10 https://github.com/GrapheneOS/platform_build_soong/commit/e1b0c965952c47663d4266293b5d0e3f95121260
+10 https://github.com/GrapheneOS-Archive/platform_prebuilts_abi-dumps_vndk/commit/f2bd5eaae6a72a07c6be92cbaf2f9defa30fcf38
+
 [implemented] captive portal toggle
 13 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/d700613896eb60972f8fd9df466218a06be36f1f
 12 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/2a0b0b9193195c360260a3ef7094e45c44b79a24
@@ -72,13 +72,14 @@ nojit
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/e740f4b78344c5671d022dfe90bed9e2dacd3db6
 
 [implemented] monet toggle
-13 https://github.com/GrapheneOS/platform_frameworks_base/commit/42d81724ba40b7ea91331f2695e4e07be21f5333
+13xhttps://github.com/GrapheneOS/platform_frameworks_base/commit/42d81724ba40b7ea91331f2695e4e07be21f5333
 13xhttps://github.com/GrapheneOS/platform_packages_apps_ThemePicker/commit/5ac22ffc1ac27c7bad6995a9b1d1cc63404f2470
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/e77f8f544c8c6e826d8497be6ebbc69d72d2f1a5
 12 https://github.com/GrapheneOS/platform_packages_apps_ThemePicker/commit/a287544b550887ea646277d78cde80b19e1ca9af
 
 [implemented] user logout
 13 https://github.com/GrapheneOS/platform_frameworks_base/commit/ff39e8de7f61b75f9221ad342e7f18d9f904c079
+13 https://github.com/GrapheneOS/platform_frameworks_base/commit/70d2092894b14725d1d7bd0aa884e5ac17438d47
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/93838b55c9b6460249a22be42f04026d8780fefc
 
 [implemented] recovery serial number
@@ -86,10 +87,13 @@ nojit
 12 https://github.com/GrapheneOS/platform_bootable_recovery/commit/bf7fe6fb6bf8211b0c5e1259fe5f6eee644fbf3a
 
 [implemented] google contacts
+13 https://github.com/GrapheneOS/platform_packages_apps_Contacts/commit/99f7ebccadffc4e389a027d0cb030c5e954ab06a
+13 https://github.com/GrapheneOS/platform_packages_apps_Contacts/commit/d1ef72f117a5838897b4d0aa948e9692eb40aa14
 12 https://github.com/GrapheneOS/platform_packages_apps_Contacts/commit/0911fca3386016a506308e0b1e1ecc527153194b
 12 https://github.com/GrapheneOS/platform_packages_apps_Contacts/commit/2e86c9a6e73bbaa26354ac04340c14643774e662
 
 [implemented] keyboard personalization
+13 https://github.com/GrapheneOS/platform_packages_inputmethods_LatinIME/commit/1def84d1d9e7ab01060407513d4d2d298a23be1f
 12 https://github.com/GrapheneOS/platform_packages_inputmethods_LatinIME/commit/37abf03503ec25d62f3e38d24b5ef4ba31e94ae3
 
 [implemented] location indicators
@@ -108,6 +112,34 @@ nojit
 13 https://github.com/GrapheneOS/platform_system_extras/commit/9adf4750630c15a1975ef8667e3e4ca50c84d1c0
 12 https://github.com/GrapheneOS/platform_system_extras/commit/144930183585cec74882a5c0ffa321354ad9eb7e
 
+hidden package installer ui glitch
+13 https://github.com/GrapheneOS/platform_frameworks_base/commit/a0704cece37e347c6cb7562c8c9ea0382b2a6c01
+
+[implemented] special/network/sensors permission 13
+https://github.com/GrapheneOS/platform_packages_providers_DownloadProvider/commit/203758368528fab3ded8dfd3d69cb940046fa5fc
+https://github.com/GrapheneOS/platform_packages_modules_Permission/commit/17ae52ff3e9d78e6123b47a583d80f5c88e618a3
+https://github.com/GrapheneOS/platform_packages_modules_Permission/commit/bb3c25ab5088aa61e27d8091072ce4da972caaaf
+https://github.com/GrapheneOS/platform_packages_modules_Permission/commit/cad030b9209013e85ffd824396d5fb31fdb7a293
+https://github.com/GrapheneOS/platform_packages_modules_Connectivity/commit/971c2f626eb46091e2ccb7c4cd99528c5de9f52e
+https://github.com/GrapheneOS/platform_packages_modules_Connectivity/commit/b4dd65754ec11015006f2e692ae60bc257dafc8c
+https://github.com/GrapheneOS/platform_packages_modules_Connectivity/commit/bc9fdc9c5b9dd4da42ce04280a9386011d721e8c
+https://github.com/GrapheneOS/platform_frameworks_native/commit/e68b533c4fb6708dc06a3d021a1e5290a0c6ed7e
+https://github.com/GrapheneOS/platform_frameworks_native/commit/d7dad9cf45d469629dae690450b902c017b48e1d
+https://github.com/GrapheneOS/platform_libcore/commit/f22344e73dc8d1999246d53324e298116ec892d5
+https://github.com/GrapheneOS/platform_frameworks_base/commit/2bea9ac7ded28ad2cc08ac0d4794a5cbe54e142a
+https://github.com/GrapheneOS/platform_frameworks_base/commit/51f155c1e9113c5b87734d53f808acc2873c4580
+https://github.com/GrapheneOS/platform_frameworks_base/commit/64e32600a9e4a6d595cfd027ba8144dbae360580
+https://github.com/GrapheneOS/platform_frameworks_base/commit/141f5fca9fc0dcb6588c53b72d0da4aa177de374
+https://github.com/GrapheneOS/platform_frameworks_base/commit/900ab583992814d54143d238e3379188dc9a33f5
+https://github.com/GrapheneOS/platform_frameworks_base/commit/5ccaaabc906aa15222317d3935637d7dad2944b5
+https://github.com/GrapheneOS/platform_frameworks_base/commit/54c07c79905dbaf2b81a1f6ebffc74f1501556b9
+https://github.com/GrapheneOS/platform_frameworks_base/commit/0f7cd0e2288a76f49154e8342036cea3e536e94c
+https://github.com/GrapheneOS/platform_frameworks_base/commit/e41b3e0da93dfda0e16c82767863b0610a8576cc
+https://github.com/GrapheneOS/platform_frameworks_base/commit/7208688690f8f4a4b904f1498123c8302cb74b69
+https://github.com/GrapheneOS/platform_frameworks_base/commit/35d517569aed194010fda7f19182acd5bf265024
+https://github.com/GrapheneOS/platform_frameworks_base/commit/44bece55f469254587d74b4327c9746e393d91fa
+https://github.com/GrapheneOS/platform_frameworks_base/commit/de207d6020c459bc07b3c0c7ffc00e7c9cc90c95
+
 [implemented] special permissions
 13xhttps://github.com/GrapheneOS/platform_frameworks_base/commit/2bea9ac7ded28ad2cc08ac0d4794a5cbe54e142a
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/5bbbffa0d89d19a87a8de83b185cd8d58db31915
@@ -123,7 +155,6 @@ nojit
 9 https://github.com/GrapheneOS/platform_frameworks_base/commit/09632b10185b9133949a431e27089f72b5cfeefa
 
 [implemented] sensors permission
-13xhttps://github.com/GrapheneOS/platform_frameworks_base/commit/64e32600a9e4a6d595cfd027ba8144dbae360580
 12 https://github.com/GrapheneOS/platform_packages_modules_Permission/commit/452c474dfae9a312f6e01db5b28de308dbb14cc2
 12 https://github.com/GrapheneOS/platform_packages_modules_Permission/commit/daed8c4e3ff8bf94a2a9aa319d32ec2ff5653c8f
 12 https://github.com/GrapheneOS/platform_frameworks_native/commit/dcef490d7cab7bb9f96f8bfe19a8779ac140b26d
@@ -143,7 +174,6 @@ nojit
 9 https://github.com/GrapheneOS/platform_frameworks_base/commit/899441075ddbfc945cff97e433c9e1c9d6bde7af
 
 [implemented] network permission
-13xhttps://github.com/GrapheneOS/platform_frameworks_base/commit/51f155c1e9113c5b87734d53f808acc2873c4580
 12xhttps://github.com/GrapheneOS/platform_frameworks_base/commit/30370e36ac6945d4c837fb217ea747f66a6a7361
 12xhttps://github.com/GrapheneOS/platform_frameworks_base/commit/3dbe45681a043d44080e8c579e36a3a4562e75a1
 12xhttps://github.com/GrapheneOS/platform_frameworks_base/commit/fdf369f81209a9dea42ad0f4eff8e3912d48b8af
@@ -181,6 +211,8 @@ nojit
 
 [implemented] protected fifo/regular
 13 https://github.com/GrapheneOS/platform_system_sepolicy/commit/d51e7878fbce05a0740de63edfee1dd41148f990
+13 https://github.com/GrapheneOS/platform_system_core/commit/9241d67e29e3436e72b94b4081a988d04deff58d
+13 https://github.com/GrapheneOS/platform_system_core/commit/5ee6b5f4ad5c29818bf917b61e897fde4bce0a94
 12 https://github.com/GrapheneOS/platform_system_core/commit/ddf48612c160b13552588af4d64bc7bb55571618
 12 https://github.com/GrapheneOS/platform_system_core/commit/fc8f654d4f905ee88c3cdd3494c6a65b2de6d5a1
 12 https://github.com/GrapheneOS/platform_system_sepolicy/commit/452bfdca38a4ffc3d3a2df9439694fcb8d0f9def
@@ -318,10 +350,13 @@ nojit
 [implemented] Wi-Fi auto turn off (partial CalyxOS)
 13 https://github.com/GrapheneOS/platform_frameworks_base/commit/edc426dd2fb8cc519bfbb934ee58d7e95eae0ebe
 13 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/1f9ca051a9960fa82e9e172d1a571d1596404c3d
+[ADD ME] 13 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/8b5186597593e48b4b8ec182d6c40c6edd6b3e42
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/b008fb6e05af55577bad6046af4a91af4fccaeca
 12 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/0f8a16323cfe431da8146e5ae58972c42b4d32d6
+[ADD ME] 12 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/2bdd6edb8a2c85d59aff681748c72d820c1d1057
 11 https://github.com/GrapheneOS/platform_frameworks_base/commit/423f3e151beae0c608881d4bf16b8dff22b5efc6
 11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/ff9e9e0abf72b4df05d21bb462a305c8c09a8ba0
+[BACKPORT ME] 11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/2bdd6edb8a2c85d59aff681748c72d820c1d1057
 
 [implemented] ptrace scope
 13 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/426ace8bd191266138b47929cea2c179550910c2

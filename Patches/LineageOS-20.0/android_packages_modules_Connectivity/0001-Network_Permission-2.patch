@@ -1,0 +1,208 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Wed, 6 Oct 2021 03:05:49 +0300
+Subject: [PATCH] enforce INTERNET permission per-uid instead of per-appId
+
+---
+ bpf_progs/netd.c                              | 10 +--
+ .../connectivity/PermissionMonitor.java       | 63 ++++++++++++++-----
+ 2 files changed, 48 insertions(+), 25 deletions(-)
+
+diff --git a/bpf_progs/netd.c b/bpf_progs/netd.c
+index 24b3fed58..065f41fd8 100644
+--- a/bpf_progs/netd.c
++++ b/bpf_progs/netd.c
+@@ -429,14 +429,8 @@ DEFINE_BPF_PROG_EXT("cgroupsock/inet/create", AID_ROOT, AID_ROOT, inet_socket_cr
+                     KVER(4, 14, 0), KVER_INF, false, "fs_bpf_netd_readonly", "")
+ (struct bpf_sock* sk) {
+     uint64_t gid_uid = bpf_get_current_uid_gid();
+-    /*
+-     * A given app is guaranteed to have the same app ID in all the profiles in
+-     * which it is installed, and install permission is granted to app for all
+-     * user at install time so we only check the appId part of a request uid at
+-     * run time. See UserHandle#isSameApp for detail.
+-     */
+-    uint32_t appId = (gid_uid & 0xffffffff) % AID_USER_OFFSET;  // == PER_USER_RANGE == 100000
+-    uint8_t* permissions = bpf_uid_permission_map_lookup_elem(&appId);
++    uint32_t uid = (gid_uid & 0xffffffff);
++    uint8_t* permissions = bpf_uid_permission_map_lookup_elem(&uid);
+     if (!permissions) {
+         // UID not in map. Default to just INTERNET permission.
+         return 1;
+diff --git a/service/src/com/android/server/connectivity/PermissionMonitor.java b/service/src/com/android/server/connectivity/PermissionMonitor.java
+index 0e265f9ef..4509d9f3f 100755
+--- a/service/src/com/android/server/connectivity/PermissionMonitor.java
++++ b/service/src/com/android/server/connectivity/PermissionMonitor.java
+@@ -392,6 +392,11 @@ public class PermissionMonitor {
+     public synchronized void startMonitoring() {
+         log("Monitoring");
+ 
++        mPackageManager.addOnPermissionsChangeListener(uid -> {
++            // traffic permissions are INTERNET and UPDATE_DEVICE_STATS
++            sendPackagePermissionsForUid(uid, getTrafficPermissionForUid(uid));
++        });
++
+         final Context userAllContext = mContext.createContextAsUser(UserHandle.ALL, 0 /* flags */);
+         final IntentFilter intentFilter = new IntentFilter();
+         intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
+@@ -566,7 +571,7 @@ public class PermissionMonitor {
+         mUsersTrafficPermissions.put(user, addedUserAppIds);
+         // Generate appIds from all users and send result to netd.
+         final SparseIntArray appIds = makeAppIdsTrafficPermForAllUsers();
+-        sendAppIdsTrafficPermission(appIds);
++        sendUidsTrafficPermission(user.getIdentifier(), appIds);
+ 
+         // Log user added
+         mPermissionUpdateLogs.log("New user(" + user.getIdentifier() + ") added: nPerm uids="
+@@ -614,7 +619,7 @@ public class PermissionMonitor {
+                 appIds.put(appId, PERMISSION_UNINSTALLED);
+             }
+         }
+-        sendAppIdsTrafficPermission(appIds);
++        sendUidsTrafficPermission(user.getIdentifier(), appIds);
+ 
+         // Log user removed
+         mPermissionUpdateLogs.log("User(" + user.getIdentifier() + ") removed: nPerm uids="
+@@ -734,16 +739,25 @@ public class PermissionMonitor {
+         }
+     }
+ 
+-    private synchronized int getAppIdTrafficPermission(int appId) {
++    private synchronized int getUidTrafficPermission(final int uid) {
++        final int userId = UserHandle.getUserId(uid);
++
+         int permission = PERMISSION_NONE;
+         boolean installed = false;
++
+         for (UserHandle user : mUsersTrafficPermissions.keySet()) {
++            if (user.getIdentifier() != userId) {
++                continue;
++            }
++
+             final SparseIntArray userApps = mUsersTrafficPermissions.get(user);
++            final int appId = UserHandle.getAppId(uid);
+             final int appIdx = userApps.indexOfKey(appId);
+             if (appIdx >= 0) {
+                 permission |= userApps.valueAt(appIdx);
+                 installed = true;
+             }
++            break;
+         }
+         return installed ? permission : PERMISSION_UNINSTALLED;
+     }
+@@ -761,8 +775,8 @@ public class PermissionMonitor {
+         updateAppIdTrafficPermission(uid);
+         // Get the appId permission from all users then send the latest permission to netd.
+         final int appId = UserHandle.getAppId(uid);
+-        final int appIdTrafficPerm = getAppIdTrafficPermission(appId);
+-        sendPackagePermissionsForAppId(appId, appIdTrafficPerm);
++        final int uidTrafficPerm = getUidTrafficPermission(uid);
++        sendPackagePermissionsForUid(uid, uidTrafficPerm);
+ 
+         final int currentPermission = mUidToNetworkPerm.get(uid, PERMISSION_NONE);
+         final int permission = highestPermissionForUid(uid, currentPermission, packageName);
+@@ -792,7 +806,7 @@ public class PermissionMonitor {
+         mPermissionUpdateLogs.log("Package add: name=" + packageName + ", uid=" + uid
+                 + ", nPerm=(" + permissionToString(permission) + "/"
+                 + permissionToString(currentPermission) + ")"
+-                + ", tPerm=" + permissionToString(appIdTrafficPerm));
++                + ", tPerm=" + permissionToString(uidTrafficPerm));
+     }
+ 
+     private int highestUidNetworkPermission(int uid) {
+@@ -824,8 +838,8 @@ public class PermissionMonitor {
+         updateAppIdTrafficPermission(uid);
+         // Get the appId permission from all users then send the latest permission to netd.
+         final int appId = UserHandle.getAppId(uid);
+-        final int appIdTrafficPerm = getAppIdTrafficPermission(appId);
+-        sendPackagePermissionsForAppId(appId, appIdTrafficPerm);
++        final int uidTrafficPerm = getUidTrafficPermission(uid);
++        sendPackagePermissionsForUid(uid, uidTrafficPerm);
+ 
+         // If the newly-removed package falls within some VPN's uid range, update Netd with it.
+         // This needs to happen before the mUidToNetworkPerm update below, since
+@@ -845,7 +859,7 @@ public class PermissionMonitor {
+         mPermissionUpdateLogs.log("Package remove: name=" + packageName + ", uid=" + uid
+                 + ", nPerm=(" + permissionToString(permission) + "/"
+                 + permissionToString(currentPermission) + ")"
+-                + ", tPerm=" + permissionToString(appIdTrafficPerm));
++                + ", tPerm=" + permissionToString(uidTrafficPerm));
+ 
+         if (permission != currentPermission) {
+             final SparseIntArray apps = new SparseIntArray();
+@@ -1097,14 +1111,17 @@ public class PermissionMonitor {
+      * @hide
+      */
+     @VisibleForTesting
+-    void sendPackagePermissionsForAppId(int appId, int permissions) {
++    void sendPackagePermissionsForUid(int uid, int permissions) {
++        int userId = UserHandle.getUserId(uid);
++        int appId = UserHandle.getAppId(uid);
++
+         SparseIntArray netdPermissionsAppIds = new SparseIntArray();
+         netdPermissionsAppIds.put(appId, permissions);
+         if (hasSdkSandbox(appId)) {
+             int sdkSandboxAppId = sProcessShim.toSdkSandboxUid(appId);
+             netdPermissionsAppIds.put(sdkSandboxAppId, permissions);
+         }
+-        sendAppIdsTrafficPermission(netdPermissionsAppIds);
++        sendUidsTrafficPermission(userId, netdPermissionsAppIds);
+     }
+ 
+     /**
+@@ -1116,7 +1133,7 @@ public class PermissionMonitor {
+      * @hide
+      */
+     @VisibleForTesting
+-    void sendAppIdsTrafficPermission(SparseIntArray netdPermissionsAppIds) {
++    void sendUidsTrafficPermission(final int userId, SparseIntArray netdPermissionsAppIds) {
+         final ArrayList<Integer> allPermissionAppIds = new ArrayList<>();
+         final ArrayList<Integer> internetPermissionAppIds = new ArrayList<>();
+         final ArrayList<Integer> updateStatsPermissionAppIds = new ArrayList<>();
+@@ -1150,29 +1167,41 @@ public class PermissionMonitor {
+             if (allPermissionAppIds.size() != 0) {
+                 mBpfNetMaps.setNetPermForUids(
+                         PERMISSION_INTERNET | PERMISSION_UPDATE_DEVICE_STATS,
+-                        toIntArray(allPermissionAppIds));
++                        appIdListToUidArray(userId, allPermissionAppIds));
+             }
+             if (internetPermissionAppIds.size() != 0) {
+                 mBpfNetMaps.setNetPermForUids(PERMISSION_INTERNET,
+-                        toIntArray(internetPermissionAppIds));
++                        appIdListToUidArray(userId, internetPermissionAppIds));
+             }
+             if (updateStatsPermissionAppIds.size() != 0) {
+                 mBpfNetMaps.setNetPermForUids(PERMISSION_UPDATE_DEVICE_STATS,
+-                        toIntArray(updateStatsPermissionAppIds));
++                        appIdListToUidArray(userId, updateStatsPermissionAppIds));
+             }
+             if (noPermissionAppIds.size() != 0) {
+                 mBpfNetMaps.setNetPermForUids(PERMISSION_NONE,
+-                        toIntArray(noPermissionAppIds));
++                        appIdListToUidArray(userId, noPermissionAppIds));
+             }
+             if (uninstalledAppIds.size() != 0) {
+                 mBpfNetMaps.setNetPermForUids(PERMISSION_UNINSTALLED,
+-                        toIntArray(uninstalledAppIds));
++                        appIdListToUidArray(userId, uninstalledAppIds));
+             }
+         } catch (RemoteException | ServiceSpecificException e) {
+             Log.e(TAG, "Pass appId list of special permission failed." + e);
+         }
+     }
+ 
++    private static int[] appIdListToUidArray(int userId, ArrayList<Integer> appIds) {
++        final int cnt = appIds.size();
++        int[] array = new int[cnt];
++
++        for (int i = 0; i < cnt; ++i) {
++            int appId = appIds.get(i).intValue();
++            array[i] = UserHandle.getUid(userId, appId);
++        }
++
++        return array;
++    }
++
+     /** Should only be used by unit tests */
+     @VisibleForTesting
+     public Set<UidRange> getVpnInterfaceUidRanges(String iface) {

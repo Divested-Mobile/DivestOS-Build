@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Tue, 14 Dec 2021 21:10:51 +0200
+Subject: [PATCH] don't throw SecurityException when INTERNET permission is
+ revoked
+
+---
+ ojluni/src/main/java/java/net/Inet6AddressImpl.java | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
+
+diff --git a/ojluni/src/main/java/java/net/Inet6AddressImpl.java b/ojluni/src/main/java/java/net/Inet6AddressImpl.java
+index 84bcf17edae..fda9674e08e 100644
+--- a/ojluni/src/main/java/java/net/Inet6AddressImpl.java
++++ b/ojluni/src/main/java/java/net/Inet6AddressImpl.java
+@@ -141,16 +141,7 @@ class Inet6AddressImpl implements InetAddressImpl {
+             addressCache.put(host, netId, addresses);
+             return addresses;
+         } catch (GaiException gaiException) {
+-            // If the failure appears to have been a lack of INTERNET permission, throw a clear
+-            // SecurityException to aid in debugging this common mistake.
+-            // http://code.google.com/p/android/issues/detail?id=15722
+-            if (gaiException.getCause() instanceof ErrnoException) {
+-                int errno = ((ErrnoException) gaiException.getCause()).errno;
+-                if (errno == EACCES || errno == EPERM) {
+-                    throw new SecurityException("Permission denied (missing INTERNET permission?)", gaiException);
+-                }
+-            }
+-            // Otherwise, throw an UnknownHostException.
++            // Throw an UnknownHostException.
+             String detailMessage = "Unable to resolve host \"" + host + "\": " + Libcore.os.gai_strerror(gaiException.error);
+             addressCache.putUnknownHost(host, netId, detailMessage);
+             throw gaiException.rethrowAsUnknownHostException(detailMessage);

@@ -110,10 +110,10 @@ index c3b149a1e295..a47b82018377 100644
  
      <Button
 diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
-index c6b60f586047..9b5916a91280 100644
+index b153a36f65db..3f03f5726b23 100644
 --- a/core/res/res/values/strings.xml
 +++ b/core/res/res/values/strings.xml
-@@ -6326,4 +6326,7 @@ ul.</string>
+@@ -6343,4 +6343,7 @@ ul.</string>
  
      <!-- Title for preference of the system default locale. [CHAR LIMIT=50]-->
      <string name="system_locale_title">System default</string>
