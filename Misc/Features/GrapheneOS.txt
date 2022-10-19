@@ -136,9 +136,6 @@ https://github.com/GrapheneOS/platform_frameworks_base/commit/54c07c79905dbaf2b8
 https://github.com/GrapheneOS/platform_frameworks_base/commit/0f7cd0e2288a76f49154e8342036cea3e536e94c
 https://github.com/GrapheneOS/platform_frameworks_base/commit/e41b3e0da93dfda0e16c82767863b0610a8576cc
 https://github.com/GrapheneOS/platform_frameworks_base/commit/7208688690f8f4a4b904f1498123c8302cb74b69
-https://github.com/GrapheneOS/platform_frameworks_base/commit/35d517569aed194010fda7f19182acd5bf265024
-https://github.com/GrapheneOS/platform_frameworks_base/commit/44bece55f469254587d74b4327c9746e393d91fa
-https://github.com/GrapheneOS/platform_frameworks_base/commit/de207d6020c459bc07b3c0c7ffc00e7c9cc90c95
 
 [implemented] special permissions
 13xhttps://github.com/GrapheneOS/platform_frameworks_base/commit/2bea9ac7ded28ad2cc08ac0d4794a5cbe54e142a

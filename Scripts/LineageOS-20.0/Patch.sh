@@ -145,10 +145,6 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-7.patc
 applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-8.patch"; #Improve compatibility with revoked INTERNET in DownloadManager (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-9.patch"; #Ignore pid when spoofing permission checks (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-10.patch"; #srt permissions: don't auto-grant denied ones when permissions are reset (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-11.patch"; #srt permissions: fix auto granting after package install (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-12.patch"; #srt permissions: don't auto-revoke from "hidden" packages (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_frameworks_base/0027-Installer_Glitch.patch"; #Make sure PackageInstaller UI returns a result (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-13.patch"; #PackageInstallerUI: an option to skip auto-grant of INTERNET permission (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0014-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0015-System_Server_Extensions.patch"; #Timeout for Bluetooth (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0015-WiFi_Timeout.patch"; #Timeout for Wi-Fi (GrapheneOS)
@@ -179,6 +175,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0023-Skip_Screen_Animation.patc
 #applyPatch "$DOS_PATCHES/android_frameworks_base/0024-Burnin_Protection.patch"; #SystemUI: add burnIn protection (arter97) #TODO: 20REBASE
 applyPatch "$DOS_PATCHES/android_frameworks_base/0025-Monet_Toggle.patch"; #Make monet based theming user configurable (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0026-Crash_Details.patch"; #Add an option to show the details of an application error to the user (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0027-Installer_Glitch.patch"; #Make sure PackageInstaller UI returns a result (GrapheneOS)
 hardenLocationConf services/core/java/com/android/server/location/gnss/gps_debug.conf; #Harden the default GPS config
 changeDefaultDNS; #Change the default DNS servers
 sed -i 's/DEFAULT_USE_COMPACTION = false;/DEFAULT_USE_COMPACTION = true;/' services/core/java/com/android/server/am/CachedAppOptimizer.java; #Enable app compaction by default (GrapheneOS)
