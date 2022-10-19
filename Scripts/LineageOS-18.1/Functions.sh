@@ -76,7 +76,7 @@ buildAll() {
 	buildDevice FP2;
 	buildDevice klte; #TODO: klteaio, kltechn, kltechnduo, klteduos, kltedv, kltekdi, kltekor
 	buildDevice m8; #unb
-	#buildDevice m8d; #unb #TODO
+	buildDevice m8d; #unb
 	buildDevice victara;
 	#SD805
 	buildDevice shamu verity;

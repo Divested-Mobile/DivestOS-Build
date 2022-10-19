@@ -60,18 +60,18 @@ buildAll() {
 	buildDevice taimen avb;
 	buildDevice walleye avb;
 	#SD845
-	buildDevice aura avb;
-	buildDevice beryllium avb;
-	buildDevice pro1 avb;
-	buildDevice crosshatch avb;
-	buildDevice blueline avb;
+	buildDevice aura avb; #superseded?
+	buildDevice beryllium avb; #superseded
+	buildDevice pro1 avb; #superseded?
+	buildDevice crosshatch avb; #superseded?
+	buildDevice blueline avb; #superseded?
 	buildDevice enchilada avb; #superseded
 	buildDevice fajita avb; #superseded
 	buildDevice akari avb;
 	buildDevice aurora avb;
 	buildDevice xz2c avb;
 	#SD730
-	buildDevice sunfish avb; #superseded
+	#buildDevice sunfish avb; #superseded
 	#SD632
 	buildDevice FP3 avb;
 	#SD750
@@ -81,8 +81,8 @@ buildAll() {
 	buildDevice guacamoleb avb; #unb #superseded
 	buildDevice hotdog avb; #unb #superseded
 	buildDevice hotdogb avb; #unb #superseded
-	buildDevice coral avb; #superseded
-	buildDevice flame avb; #superseded
+	#buildDevice coral avb; #superseded
+	#buildDevice flame avb; #superseded
 	buildDevice vayu avb;
 	#SD865
 	buildDevice instantnoodle avb; #superseded
@@ -95,11 +95,11 @@ buildAll() {
 	buildDevice lemonade avb; #superseded
 	buildDevice lemonadep avb; #superseded
 	#SD765
-	buildDevice bramble avb; #superseded
-	buildDevice redfin avb; #superseded
+	#buildDevice bramble avb; #superseded
+	#buildDevice redfin avb; #superseded
 	#SD670
-	buildDevice bonito avb;
-	buildDevice sargo avb;
+	buildDevice bonito avb; #superseded?
+	buildDevice sargo avb; #superseded?
 }
 export -f buildAll;
 

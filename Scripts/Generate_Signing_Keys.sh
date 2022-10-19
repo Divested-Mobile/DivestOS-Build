@@ -40,6 +40,8 @@ sed -i 's/2048/4096/' "$DOS_BUILD_BASE"/development/tools/make_key;
 "$DOS_BUILD_BASE"/development/tools/make_key sdk_sandbox "$desc" "$type";
 "$DOS_BUILD_BASE"/development/tools/make_key future-1 "$desc" "$type";
 "$DOS_BUILD_BASE"/development/tools/make_key future-2 "$desc" "$type";
+"$DOS_BUILD_BASE"/development/tools/make_key future-3 "$desc" "$type";
+"$DOS_BUILD_BASE"/development/tools/make_key future-4 "$desc" "$type";
 "$DOS_BUILD_BASE"/development/tools/make_key media "$desc" "$type";
 "$DOS_BUILD_BASE"/development/tools/make_key networkstack "$desc" "$type";
 "$DOS_BUILD_BASE"/development/tools/make_key platform "$desc" "$type";

@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2022-10-15
 
 patchAllKernels() {
-	startPatcher "kernel_fairphone_sm7225 kernel_google_msm-4.14 kernel_google_redbull kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_oneplus_sm8250 kernel_oneplus_sm8350"; #kernel_xiaomi_sdm845
+	startPatcher "kernel_fairphone_sm7225 kernel_fxtec_msm8998 kernel_google_msm-4.9 kernel_google_msm-4.14 kernel_google_redbull kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_oneplus_sm8250 kernel_oneplus_sm8350 kernel_razer_sdm845 kernel_xiaomi_sdm845";
 }
 export -f patchAllKernels;
 
@@ -52,16 +52,20 @@ buildAll() {
 	buildDevice cheeseburger verity;
 	buildDevice dumpling verity;
 	#SD845
-	#buildDevice beryllium avb; #pending vendor
+	buildDevice aura avb;
+	buildDevice beryllium avb;
+	buildDevice pro1 avb;
+	buildDevice crosshatch avb;
+	buildDevice blueline avb;
 	buildDevice enchilada avb;
 	buildDevice fajita avb;
 	#SD750
 	buildDevice FP4 avb;
 	#SD855
 	buildDevice guacamole avb; #FIXME
-	buildDevice guacamoleb avb; #FIXME
-	buildDevice hotdog avb; #FIXME
-	buildDevice hotdogb avb; #FIXME
+	#buildDevice guacamoleb avb; #FIXME
+	#buildDevice hotdog avb; #FIXME
+	#buildDevice hotdogb avb; #FIXME
 	buildDevice coral avb;
 	buildDevice flame avb;
 	#SD730
@@ -77,6 +81,9 @@ buildAll() {
 	buildDevice bramble avb;
 	buildDevice redfin avb;
 	buildDevice barbet avb;
+	#SD670
+	buildDevice bonito avb;
+	buildDevice sargo avb;
 	#Tensor
 	#TODO: oriole, raven, bluejay
 	#TODO: panther, cheetah
