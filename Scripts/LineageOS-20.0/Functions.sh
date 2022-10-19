@@ -79,6 +79,7 @@ buildAll() {
 	buildDevice barbet avb;
 	#Tensor
 	#TODO: oriole, raven, bluejay
+	#TODO: panther, cheetah
 }
 export -f buildAll;
 

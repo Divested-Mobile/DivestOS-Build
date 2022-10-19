@@ -25,7 +25,12 @@
 	<remove-project name="LineageOS/lineage_wiki" />
 	<remove-project name="LineageOS/mirror" />
 	<remove-project name="LineageOS/www" />
+	<remove-project name="platform/packages/apps/Browser2" />
+	<remove-project name="platform/packages/apps/Music" />
+	<remove-project name="platform/packages/apps/MusicFX" />
+	<remove-project name="platform/packages/apps/QuickSearchBox" />
 	<remove-project name="platform/packages/apps/SampleLocationAttribution" />
+	<!--<remove-project name="platform/packages/modules/AdServices" />-->
 	<remove-project name="platform/prebuilts/clang/host/darwin-x86" />
 	<remove-project name="platform/prebuilts/go/darwin-x86" />
 <!-- END OF UNNECESSARY REPO REMOVAL -->

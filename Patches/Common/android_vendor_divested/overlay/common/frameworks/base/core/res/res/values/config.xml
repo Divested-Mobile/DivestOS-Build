@@ -125,7 +125,7 @@
         <item>com.android.location.fused</item>
 	<!-- UnifiedNLP -->
         <item>org.microg.nlp</item>
-	<!-- microG (in this case) -->
+	<!-- Play/microG -->
         <item>com.google.android.gms</item>
     </string-array>
 
