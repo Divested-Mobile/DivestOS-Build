@@ -95,6 +95,10 @@ if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then DOS_WEBVIEW_CHERRYPI
 if [ "$DOS_WEBVIEW_LFS" = true ]; then git lfs pull; fi; #Ensure the objects are available
 fi;
 
+if enterAndClear "external/dtc"; then
+applyPatch "$DOS_PATCHES/android_external_dtc/342096.patch"; #P_asb_2022-10 libfdt: fdt_offset_ptr(): Fix comparison warnings
+fi;
+
 if enterAndClear "external/expat"; then
 applyPatch "$DOS_PATCHES/android_external_expat/337987.patch"; #Q_asb_2022-09 Prevent XML_GetBuffer signed integer overflow
 applyPatch "$DOS_PATCHES/android_external_expat/337988-backport.patch"; #n-asb-2022-09 Prevent integer overflow in function doProlog
@@ -314,6 +318,7 @@ applyPatch "$DOS_PATCHES/android_system_bt/335109.patch"; #P_asb_2022-08 Removin
 applyPatch "$DOS_PATCHES/android_system_bt/337995-backport.patch"; #Q_asb_2022-09 Fix OOB in bnep_is_packet_allowed
 applyPatch "$DOS_PATCHES/android_system_bt/337996.patch"; #Q_asb_2022-09 Fix OOB in BNEP_Write
 applyPatch "$DOS_PATCHES/android_system_bt/337997.patch"; #Q_asb_2022-09 Fix OOB in reassemble_and_dispatch
+applyPatch "$DOS_PATCHES/android_system_bt/342097.patch"; #P_asb_2022-10 Fix potential interger overflow when parsing vendor response
 fi;
 
 if enterAndClear "system/core"; then
