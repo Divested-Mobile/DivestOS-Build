@@ -71,7 +71,7 @@ buildAll() {
 	buildDevice aurora avb;
 	buildDevice xz2c avb;
 	#SD730
-	#buildDevice sunfish avb; #superseded
+	buildDevice sunfish avb; #superseded
 	#SD632
 	buildDevice FP3 avb;
 	#SD750

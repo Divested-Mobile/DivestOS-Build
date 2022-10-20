@@ -1,4 +1,4 @@
-From d8ff0456cbe3b32b5f71dd0740f9a6cca6de27b9 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Andre Przywara <andre.przywara@arm.com>
 Date: Mon, 21 Sep 2020 17:52:50 +0100
 Subject: [PATCH] FROMGIT: libfdt: fdt_offset_ptr(): Fix comparison warnings
