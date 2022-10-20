@@ -68,6 +68,7 @@ fi;
 
 if enter "packages/apps/SetupWizard"; then
 sed -i 's|https://lineageos.org/legal|'"$DOS_BRANDING_LINK_PRIVACY"'|' src/org/lineageos/setupwizard/LineageSettingsActivity.java;
+sed -i 's|https://lineageos.org/legal|'"$DOS_BRANDING_LINK_PRIVACY"'|' res/values*/strings.xml;
 sed -i '/.*intro_restore/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
 sed -i '/.*os_name/s/LineageOS/'"$DOS_BRANDING_NAME"'/' res/values*/strings.xml;
 sed -i '/.*services/s/LineageOS/'"$DOS_BRANDING_NAME"'/g' res/values*/strings.xml;

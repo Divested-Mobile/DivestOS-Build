@@ -254,10 +254,10 @@ if enterAndClear "lineage-sdk"; then
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi; #Remove AudioFX
 fi;
 
-if enterAndClear "packages/apps/CarrierConfig"; then
-rm -rf assets/*.xml;
-cp $DOS_PATCHES_COMMON/android_packages_apps_CarrierConfig/*.xml assets/;
-fi;
+#if enterAndClear "packages/apps/CarrierConfig"; then
+#rm -rf assets/*.xml;
+#cp $DOS_PATCHES_COMMON/android_packages_apps_CarrierConfig/*.xml assets/;
+#fi;
 
 if enterAndClear "packages/apps/Contacts"; then
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links (GrapheneOS)
@@ -350,9 +350,9 @@ if enterAndClear "packages/providers/DownloadProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
-if enterAndClear "packages/providers/TelephonyProvider"; then
-cp $DOS_PATCHES_COMMON/android_packages_providers_TelephonyProvider/carrier_list.* assets/latest_carrier_id/;
-fi;
+#if enterAndClear "packages/providers/TelephonyProvider"; then
+#cp $DOS_PATCHES_COMMON/android_packages_providers_TelephonyProvider/carrier_list.* assets/latest_carrier_id/;
+#fi;
 
 if enterAndClear "system/core"; then
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
