@@ -71,16 +71,16 @@ buildAll() {
 	buildDevice aurora avb;
 	buildDevice xz2c avb;
 	#SD730
-	buildDevice sunfish avb; #superseded
+	#buildDevice sunfish avb; #superseded
 	#SD632
 	buildDevice FP3 avb;
 	#SD750
 	buildDevice FP4 avb; #unb #superseded
 	#SD855
-	buildDevice guacamole avb; #unb #superseded
-	buildDevice guacamoleb avb; #unb #superseded
-	buildDevice hotdog avb; #unb #superseded
-	buildDevice hotdogb avb; #unb #superseded
+	buildDevice guacamole avb; #superseded
+	buildDevice guacamoleb avb; #superseded
+	buildDevice hotdog avb; #superseded
+	buildDevice hotdogb avb; #superseded
 	#buildDevice coral avb; #superseded
 	#buildDevice flame avb; #superseded
 	buildDevice vayu avb;
@@ -114,6 +114,7 @@ patchWorkspace() {
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
 	#source build/envsetup.sh;
+	#repopick -it twelve-colors;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

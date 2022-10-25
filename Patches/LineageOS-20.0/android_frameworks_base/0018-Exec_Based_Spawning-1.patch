@@ -145,7 +145,7 @@ index 6860759eea8a..a2eef62f80be 100644
                  OsConstants._LINUX_CAPABILITY_VERSION_3, 0);
          StructCapUserData[] data;
 diff --git a/core/java/com/android/internal/os/ZygoteConnection.java b/core/java/com/android/internal/os/ZygoteConnection.java
-index 993e4e7b4b3d..756547706f60 100644
+index 993e4e7b4b3d..c3e6e0453b50 100644
 --- a/core/java/com/android/internal/os/ZygoteConnection.java
 +++ b/core/java/com/android/internal/os/ZygoteConnection.java
 @@ -29,6 +29,7 @@ import android.net.Credentials;

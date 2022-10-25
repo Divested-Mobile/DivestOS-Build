@@ -44,7 +44,7 @@ index 61e2db495a..3a06288497 100644
              android:title="@string/native_debug_title"
 diff --git a/src/com/android/settings/security/ExecSpawnPreferenceController.java b/src/com/android/settings/security/ExecSpawnPreferenceController.java
 new file mode 100644
-index 0000000000..78f021210a
+index 0000000000..98cc3c29e1
 --- /dev/null
 +++ b/src/com/android/settings/security/ExecSpawnPreferenceController.java
 @@ -0,0 +1,106 @@
