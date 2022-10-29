@@ -57,8 +57,8 @@ buildAll() {
 	buildDevice cheeseburger verity; #superseded
 	buildDevice dumpling verity; #superseded
 	buildDevice mata verity;
-	buildDevice taimen avb;
-	buildDevice walleye avb;
+	buildDevice taimen avb; #superseded
+	buildDevice walleye avb; #superseded
 	#SD845
 	buildDevice aura avb; #superseded?
 	buildDevice beryllium avb; #superseded

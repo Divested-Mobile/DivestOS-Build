@@ -1,1 +1,1 @@
-tar "-I zstd -3 -T24 --long=29" -cf repo.tar.zst repo/
+tar "-I zstdmt -3 -T32 --long=29" -cf repo.tar.zst repo/

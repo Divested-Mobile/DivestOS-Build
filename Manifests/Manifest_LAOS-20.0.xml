@@ -67,6 +67,13 @@
 	<project path="device/fairphone/FP4" name="LineageOS/android_device_fairphone_FP4" remote="github" revision="lineage-20" />
 	<project path="kernel/fairphone/sm7225" name="LineageOS/android_kernel_fairphone_sm7225" remote="github" revision="lineage-20" />
 
+	<!-- Google Pixel 2 (taimen/walleye) -->
+	<project path="device/google/taimen" name="LineageOS/android_device_google_taimen" remote="github" revision="lineage-20" />
+	<project path="device/google/muskie" name="LineageOS/android_device_google_muskie" remote="github" revision="lineage-20" />
+	<project path="device/google/walleye" name="LineageOS/android_device_google_walleye" remote="github" revision="lineage-20" />
+	<project path="device/google/wahoo" name="LineageOS/android_device_google_wahoo" remote="github" revision="lineage-20" />
+	<project path="kernel/google/wahoo" name="LineageOS/android_kernel_google_wahoo" remote="github" revision="lineage-20" />
+
 	<!-- Google Pixel 3 (crosshatch/blueline) -->
 	<project path="device/google/crosshatch" name="LineageOS/android_device_google_crosshatch" remote="github" revision="lineage-20" />
 	<project path="device/google/blueline" name="LineageOS/android_device_google_blueline" remote="github" revision="lineage-20" />
