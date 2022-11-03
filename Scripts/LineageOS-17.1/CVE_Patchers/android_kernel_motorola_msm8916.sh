@@ -454,8 +454,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25720/prima/0002.patch --directory=dr
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33744/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-36123/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-43750/^6.0/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-4002/3.10/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
-editKernelLocalversion "-dos.p457"
+editKernelLocalversion "-dos.p458"
 cd "$DOS_BUILD_BASE"

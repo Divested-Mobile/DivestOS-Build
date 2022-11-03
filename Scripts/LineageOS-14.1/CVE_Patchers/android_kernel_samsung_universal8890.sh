@@ -709,8 +709,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2663/4.9/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3028/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3061/^5.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3542/3.8-^6.0/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3565/^6.0/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3594/^6.0/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3565/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3594/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3621/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3635/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20141/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-23039/4.9/0003.patch
@@ -726,6 +727,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-36123/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-36879/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-39188/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-39842/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-40768/4.9/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-43750/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0004-net-add-recursion-limit-to-GRO.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
@@ -734,5 +737,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.4/0006.patch
-editKernelLocalversion "-dos.p734"
+editKernelLocalversion "-dos.p737"
 cd "$DOS_BUILD_BASE"

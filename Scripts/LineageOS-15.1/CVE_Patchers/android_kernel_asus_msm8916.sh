@@ -393,6 +393,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2318/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2663/^6.0/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3028/^5.19/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3542/3.8-^6.0/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3621/^6.0/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3635/^5.19/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20421/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-22064/prima/0005.patch --directory=drivers/staging/prima
@@ -402,7 +403,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25720/prima/0002.patch --directory=dr
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33744/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-36123/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-43750/^6.0/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
-editKernelLocalversion "-dos.p404"
+editKernelLocalversion "-dos.p406"
 cd "$DOS_BUILD_BASE"
