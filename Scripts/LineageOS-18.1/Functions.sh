@@ -114,7 +114,6 @@ patchWorkspace() {
 	#repopick -it eleven-firewall;
 	#repopick -i 314453; #TaskViewTouchController: Null check current animation on drag
 	#repopick -i 325011; #lineage: Opt-in to shipping full recovery image by default
-	#repopick -i 339287; #Settings: Good news, `encryptable=footer` is broken
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
