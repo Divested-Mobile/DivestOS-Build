@@ -59,6 +59,9 @@ nojit
 9  https://github.com/GrapheneOS/platform_build/commit/5b9927197e63593b9220d1a9280021252ef205e9
 9  https://github.com/GrapheneOS/platform_build/commit/e36c7aefaa78a1ed5b94c7f51d29277008eea232
 
+[implemented] package leak
+13 https://github.com/GrapheneOS/platform_frameworks_base/commit/28761ffa183eb719dc991a3ce9afa422fb43c16e
+
 [implemented] auto-var-init
 10 https://github.com/GrapheneOS/platform_build_soong/commit/e1b0c965952c47663d4266293b5d0e3f95121260
 10 https://github.com/GrapheneOS-Archive/platform_prebuilts_abi-dumps_vndk/commit/f2bd5eaae6a72a07c6be92cbaf2f9defa30fcf38

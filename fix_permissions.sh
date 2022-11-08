@@ -31,3 +31,6 @@ chmod -v 700 Patches/Linux/*.sh;
 #PrebuiltApps has its own fix_permissions.sh
 #Patches/Wallpapers has its own fix_permissions.sh
 setStrict Scripts;
+setRelaxed Repos/firmware;
+setRelaxed Repos/firmware-empty;
+setRelaxed Repos/firmware-19.1;
