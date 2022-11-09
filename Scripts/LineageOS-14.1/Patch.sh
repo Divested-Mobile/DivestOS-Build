@@ -72,7 +72,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2022-10-05/' core/version_defaults.mk; #Bump Security String #n-asb-2022-10 #XXX
+sed -i 's/2021-06-05/2022-11-05/' core/version_defaults.mk; #Bump Security String #n-asb-2022-11 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -109,6 +109,7 @@ applyPatch "$DOS_PATCHES/android_external_libnfc-nci/332458.patch"; #n-asb-2022-
 applyPatch "$DOS_PATCHES/android_external_libnfc-nci/332459.patch"; #n-asb-2022-06 OOBR in nfc_ncif_proc_ee_discover_req()
 applyPatch "$DOS_PATCHES/android_external_libnfc-nci/332460.patch"; #n-asb-2022-06 Double Free in ce_t4t_data_cback
 applyPatch "$DOS_PATCHES/android_external_libnfc-nci/341071.patch"; #n-asb-2022-10 The length of a packet should be non-zero
+applyPatch "$DOS_PATCHES/android_external_libnfc-nci/343955.patch"; #n-asb-2022-11 OOBW in phNxpNciHal_write_unlocked()
 fi;
 
 if enterAndClear "external/sonivox"; then
@@ -157,6 +158,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/334871.patch"; #n-asb-2022-08 O
 applyPatch "$DOS_PATCHES/android_frameworks_base/334872.patch"; #n-asb-2022-08 Stop using invalid URL to prevent unexpected crash
 applyPatch "$DOS_PATCHES/android_frameworks_base/334873.patch"; #n-asb-2022-08 Only allow the system server to connect to sync adapters
 applyPatch "$DOS_PATCHES/android_frameworks_base/338003.patch"; #n-asb-2022-09 IMMS: Make IMMS PendingIntents immutable
+applyPatch "$DOS_PATCHES/android_frameworks_base/343956.patch"; #n-asb-2022-11 Switch TelecomManager List getters to ParceledListSlice
+applyPatch "$DOS_PATCHES/android_frameworks_base/343957.patch"; #n-asb-2022-11 Check permission for VoiceInteraction
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -350,6 +353,7 @@ fi;
 
 if enterAndClear "packages/services/Telecomm"; then
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/332456.patch"; #n-asb-2022-06 limit TelecomManager#registerPhoneAccount to 10
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/343953.patch"; #n-asb-2022-11 Switch TelecomManager List getters to ParceledListSlice
 fi;
 
 if enterAndClear "packages/services/Telephony"; then
@@ -363,6 +367,10 @@ fi;
 
 if enterAndClear "packages/providers/MediaProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/324248.patch"; #n-asb-2022-02 Open all files with O_NOFOLLOW.
+fi;
+
+if enterAndClear "packages/providers/TelephonyProvider"; then
+applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/343954.patch"; #n-asb-2022-11 Check dir path before updating permissions.
 fi;
 
 if enterAndClear "system/bt"; then
@@ -380,6 +388,8 @@ applyPatch "$DOS_PATCHES/android_system_bt/337998.patch"; #n-asb-2022-09 Fix OOB
 applyPatch "$DOS_PATCHES/android_system_bt/337999.patch"; #n-asb-2022-09 Fix OOB in bnep_is_packet_allowed
 applyPatch "$DOS_PATCHES/android_system_bt/338000.patch"; #n-asb-2022-09 Fix OOB in reassemble_and_dispatch
 applyPatch "$DOS_PATCHES/android_system_bt/341070.patch"; #n-asb-2022-10 Fix potential interger overflow when parsing vendor response
+applyPatch "$DOS_PATCHES/android_system_bt/343958.patch"; #n-asb-2022-11 Add buffer in pin_reply in bluetooth.cc
+applyPatch "$DOS_PATCHES/android_system_bt/343959.patch"; #n-asb-2022-11 Add negative length check in process_service_search_rsp
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)

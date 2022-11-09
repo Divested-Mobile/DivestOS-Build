@@ -1,0 +1,125 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Thomas Stuart <tjstuart@google.com>
+Date: Thu, 23 Jun 2022 14:27:43 -0700
+Subject: [PATCH] switch TelecomManager List getters to ParceledListSlice
+
+It was shown that given a large phoneAccountHandles that are
+over 1 mb, a TransactionTooLarge exception can be silently thrown
+causing an empty list to be returned.
+
+In order to prevent this behavior, all Lists that return a
+PhoneAccountHandle or PhoneAccount have been switched to
+ParceledListSlice.
+
+bug: 236263294
+Test: atest android.telecom.cts.PhoneAccountRegistrarTest
+             #testRegisterPhoneAccountHandleWithFieldOverLimit
+Change-Id: I025245b2a6f8cfaca86f268851a9d8f0817e07dd
+Merged-In: I025245b2a6f8cfaca86f268851a9d8f0817e07dd
+(cherry picked from commit 773cddde3d522606ff032fe8e432321c70edca09)
+Merged-In: I025245b2a6f8cfaca86f268851a9d8f0817e07dd
+---
+ telecomm/java/android/telecom/TelecomManager.java     | 11 ++++++-----
+ .../com/android/internal/telecom/ITelecomService.aidl | 11 ++++++-----
+ 2 files changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/telecomm/java/android/telecom/TelecomManager.java b/telecomm/java/android/telecom/TelecomManager.java
+index b05e0fc2752c..adfcc559d19f 100644
+--- a/telecomm/java/android/telecom/TelecomManager.java
++++ b/telecomm/java/android/telecom/TelecomManager.java
+@@ -703,7 +703,7 @@ public class TelecomManager {
+         try {
+             if (isServiceConnected()) {
+                 return getTelecomService().getPhoneAccountsSupportingScheme(uriScheme,
+-                        mContext.getOpPackageName());
++                        mContext.getOpPackageName()).getList();
+             }
+         } catch (RemoteException e) {
+             Log.e(TAG, "Error calling ITelecomService#getPhoneAccountsSupportingScheme", e);
+@@ -738,7 +738,7 @@ public class TelecomManager {
+         try {
+             if (isServiceConnected()) {
+                 return getTelecomService().getCallCapablePhoneAccounts(
+-                        includeDisabledAccounts, mContext.getOpPackageName());
++                        includeDisabledAccounts, mContext.getOpPackageName()).getList();
+             }
+         } catch (RemoteException e) {
+             Log.e(TAG, "Error calling ITelecomService#getCallCapablePhoneAccounts(" +
+@@ -757,7 +757,8 @@ public class TelecomManager {
+     public List<PhoneAccountHandle> getPhoneAccountsForPackage() {
+         try {
+             if (isServiceConnected()) {
+-                return getTelecomService().getPhoneAccountsForPackage(mContext.getPackageName());
++                return getTelecomService()
++                  .getPhoneAccountsForPackage(mContext.getPackageName()).getList();
+             }
+         } catch (RemoteException e) {
+             Log.e(TAG, "Error calling ITelecomService#getPhoneAccountsForPackage", e);
+@@ -811,7 +812,7 @@ public class TelecomManager {
+     public List<PhoneAccount> getAllPhoneAccounts() {
+         try {
+             if (isServiceConnected()) {
+-                return getTelecomService().getAllPhoneAccounts();
++                return getTelecomService().getAllPhoneAccounts().getList();
+             }
+         } catch (RemoteException e) {
+             Log.e(TAG, "Error calling ITelecomService#getAllPhoneAccounts", e);
+@@ -829,7 +830,7 @@ public class TelecomManager {
+     public List<PhoneAccountHandle> getAllPhoneAccountHandles() {
+         try {
+             if (isServiceConnected()) {
+-                return getTelecomService().getAllPhoneAccountHandles();
++                return getTelecomService().getAllPhoneAccountHandles().getList();
+             }
+         } catch (RemoteException e) {
+             Log.e(TAG, "Error calling ITelecomService#getAllPhoneAccountHandles", e);
+diff --git a/telecomm/java/com/android/internal/telecom/ITelecomService.aidl b/telecomm/java/com/android/internal/telecom/ITelecomService.aidl
+index 5c412e7afb0e..83eec3ad2ca7 100644
+--- a/telecomm/java/com/android/internal/telecom/ITelecomService.aidl
++++ b/telecomm/java/com/android/internal/telecom/ITelecomService.aidl
+@@ -23,6 +23,7 @@ import android.telecom.PhoneAccountHandle;
+ import android.net.Uri;
+ import android.os.Bundle;
+ import android.telecom.PhoneAccount;
++import android.content.pm.ParceledListSlice;
+ 
+ /**
+  * Interface used to interact with Telecom. Mostly this is used by TelephonyManager for passing
+@@ -55,19 +56,19 @@ interface ITelecomService {
+     /**
+      * @see TelecomServiceImpl#getCallCapablePhoneAccounts
+      */
+-    List<PhoneAccountHandle> getCallCapablePhoneAccounts(
++    ParceledListSlice getCallCapablePhoneAccounts(
+             boolean includeDisabledAccounts, String callingPackage);
+ 
+     /**
+      * @see TelecomManager#getPhoneAccountsSupportingScheme
+      */
+-    List<PhoneAccountHandle> getPhoneAccountsSupportingScheme(in String uriScheme,
++    ParceledListSlice getPhoneAccountsSupportingScheme(in String uriScheme,
+             String callingPackage);
+ 
+     /**
+      * @see TelecomManager#getPhoneAccountsForPackage
+      */
+-    List<PhoneAccountHandle> getPhoneAccountsForPackage(in String packageName);
++    ParceledListSlice getPhoneAccountsForPackage(in String packageName);
+ 
+     /**
+      * @see TelecomManager#getPhoneAccount
+@@ -82,12 +83,12 @@ interface ITelecomService {
+     /**
+      * @see TelecomManager#getAllPhoneAccounts
+      */
+-    List<PhoneAccount> getAllPhoneAccounts();
++    ParceledListSlice getAllPhoneAccounts();
+ 
+     /**
+      * @see TelecomManager#getAllPhoneAccountHandles
+      */
+-    List<PhoneAccountHandle> getAllPhoneAccountHandles();
++    ParceledListSlice getAllPhoneAccountHandles();
+ 
+     /**
+      * @see TelecomServiceImpl#getSimCallManager

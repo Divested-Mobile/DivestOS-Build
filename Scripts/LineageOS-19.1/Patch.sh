@@ -211,6 +211,10 @@ if enterAndClear "frameworks/opt/net/wifi"; then
 applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/0001-Random_MAC.patch"; #Add support for always generating new random MAC (GrapheneOS)
 fi;
 
+if enterAndClear "hardware/nxp/nfc"; then
+git fetch https://github.com/LineageOS/android_hardware_nxp_nfc refs/changes/21/343921/1 && git cherry-pick FETCH_HEAD; #S_asb_2022-11
+fi;
+
 if enterAndClear "hardware/qcom-caf/msm8953/audio"; then
 applyPatch "$DOS_PATCHES/android_hardware_qcom_audio/0001-Unused-8998.patch"; #audio_extn: Fix unused parameter warning in utils.c (codeworkx)
 fi;
