@@ -167,7 +167,7 @@ export KBUILD_BUILD_HOST="dosbm";
 export BUILD_USERNAME="emy";
 export BUILD_HOSTNAME="dosbm";
 
-export ANDROID_JACK_VM_ARGS="-Xmx12288m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation";
+export ANDROID_JACK_VM_ARGS="-Xmx8192m -Xms512m -Dfile.encoding=UTF-8 -XX:+TieredCompilation";
 export JACK_SERVER_VM_ARGUMENTS="${ANDROID_JACK_VM_ARGS}";
 export EXPERIMENTAL_USE_JAVA8=true;
 export GRADLE_OPTS="-Xmx2048m";
