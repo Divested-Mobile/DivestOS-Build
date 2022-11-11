@@ -23,7 +23,7 @@ index 9bb5aecdac8f..13c77bf16ef6 100644
      <!-- Allows applications to access information about networks.
           <p>Protection level: normal
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 26b959879084..9e6ecc739ffe 100644
+index f8d298a538e7..0ceb190c6068 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -2609,7 +2609,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {

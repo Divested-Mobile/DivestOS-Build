@@ -40,13 +40,13 @@ index 7a4c93403e..894115bed2 100644
 +    <string name="captive_portal_switch_warning">Nach dem Ausschalten der Captive-Portal-Erkennung empfangen Sie keine Verbindungs-Rückmeldung mehr. Wirklich fortfahren?</string>
  </resources>
 diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
-index ab38dec706..6c81254ce2 100644
+index d13d4d4fe8..5ddfe66ec0 100644
 --- a/res/values/cm_strings.xml
 +++ b/res/values/cm_strings.xml
-@@ -175,4 +175,9 @@
+@@ -178,4 +178,9 @@
  
-     <!-- Display settings screen, peak refresh rate settings summary [CHAR LIMIT=NONE] -->
-     <string name="peak_refresh_rate_summary_custom">Automatically raises the refresh rate from 60 to %1$d Hz for some content. Increases battery usage.</string>
+     <!-- Warning message for the sd card setup -->
+     <string name="storage_warning_internal">Warning: This option may not work properly or lead to data loss and is therefore not recommended!</string>
 +
 +    <!-- Captive Portal -->
 +    <string name="captive_portal_switch_title">Captive portal mode</string>

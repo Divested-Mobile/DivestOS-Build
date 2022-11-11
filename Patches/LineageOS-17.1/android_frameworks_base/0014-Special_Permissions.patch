@@ -11,7 +11,7 @@ need to be granted by default for all apps to maintain compatibility.
  2 files changed, 20 insertions(+), 6 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index 443687a650c8..69bf7c5f38b5 100644
+index 6cfb1989262f..dc9ad9e96699 100644
 --- a/services/core/java/com/android/server/pm/PackageManagerService.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerService.java
 @@ -20172,7 +20172,8 @@ public class PackageManagerService extends IPackageManager.Stub
@@ -25,7 +25,7 @@ index 443687a650c8..69bf7c5f38b5 100644
                          Process.SYSTEM_UID, userId, delayingPermCallback);
                  // Allow app op later as we are holding mPackages
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 82f963e1df2a..293bdc7ba197 100644
+index 42ed16268919..c0ae2274c38c 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -984,6 +984,10 @@ public class PermissionManagerService {
@@ -39,7 +39,7 @@ index 82f963e1df2a..293bdc7ba197 100644
      /**
       * Restore the permission state for a package.
       *
-@@ -1277,6 +1281,14 @@ public class PermissionManagerService {
+@@ -1283,6 +1287,14 @@ public class PermissionManagerService {
                                              }
                                          }
                                      }
@@ -54,7 +54,7 @@ index 82f963e1df2a..293bdc7ba197 100644
                                  } else {
                                      if (permState == null) {
                                          // New permission
-@@ -1410,7 +1422,7 @@ public class PermissionManagerService {
+@@ -1416,7 +1428,7 @@ public class PermissionManagerService {
                                               wasChanged = true;
                                          }
                                      }
@@ -63,7 +63,7 @@ index 82f963e1df2a..293bdc7ba197 100644
                                      if (!permissionsState.hasRuntimePermission(bp.name, userId)
                                              && permissionsState.grantRuntimePermission(bp,
                                                      userId) != PERMISSION_OPERATION_FAILURE) {
-@@ -2183,7 +2195,7 @@ public class PermissionManagerService {
+@@ -2189,7 +2201,7 @@ public class PermissionManagerService {
                      && (grantedPermissions == null
                             || ArrayUtils.contains(grantedPermissions, permission))) {
                  final int flags = permissionsState.getPermissionFlags(permission, userId);
@@ -72,7 +72,7 @@ index 82f963e1df2a..293bdc7ba197 100644
                      // Installer cannot change immutable permissions.
                      if ((flags & immutableFlags) == 0) {
                          grantRuntimePermission(permission, pkg.packageName, false, callingUid,
-@@ -2242,7 +2254,7 @@ public class PermissionManagerService {
+@@ -2248,7 +2260,7 @@ public class PermissionManagerService {
          // to keep the review required permission flag per user while an
          // install permission's state is shared across all users.
          if (pkg.applicationInfo.targetSdkVersion < Build.VERSION_CODES.M
@@ -81,7 +81,7 @@ index 82f963e1df2a..293bdc7ba197 100644
              return;
          }
  
-@@ -2294,7 +2306,8 @@ public class PermissionManagerService {
+@@ -2300,7 +2312,8 @@ public class PermissionManagerService {
                      + permName + " for package " + packageName);
          }
  
@@ -91,7 +91,7 @@ index 82f963e1df2a..293bdc7ba197 100644
              Slog.w(TAG, "Cannot grant runtime permission to a legacy app");
              return;
          }
-@@ -2381,7 +2394,7 @@ public class PermissionManagerService {
+@@ -2387,7 +2400,7 @@ public class PermissionManagerService {
          // to keep the review required permission flag per user while an
          // install permission's state is shared across all users.
          if (pkg.applicationInfo.targetSdkVersion < Build.VERSION_CODES.M

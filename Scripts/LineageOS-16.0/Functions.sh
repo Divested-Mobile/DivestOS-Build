@@ -77,12 +77,13 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	#repopick -it pie-firewall;
-	repopick -it P_asb_2022-05;
-	repopick -it P_asb_2022-06;
-	repopick -it P_asb_2022-07;
-	repopick -it P_asb_2022-08;
-	repopick -it P_asb_2022-09;
-	repopick -it P_asb_2022-10;
+	#repopick cannot handle empty commits
+	repopick -it P_asb_2022-05 -e 341484;
+	repopick -it P_asb_2022-06 -e 342112;
+	repopick -it P_asb_2022-07 -e 342113;
+	repopick -it P_asb_2022-08 -e 342114;
+	repopick -it P_asb_2022-09 -e 342116;
+	repopick -it P_asb_2022-10 -e 342119;
 	repopick -it P_tzdata_2022;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
