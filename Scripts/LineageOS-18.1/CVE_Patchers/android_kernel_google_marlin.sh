@@ -489,7 +489,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-39188/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-39842/4.9/0004.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-40768/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42703/4.9/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42895/^6.1/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42895/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-43750/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0002-ozwpan-Use-unsigned-ints-to-prevent-heap-overflow.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-01/ANY/0005-tcp-fix-zero-cwnd-in-tcp_cwnd_reduction.patch
