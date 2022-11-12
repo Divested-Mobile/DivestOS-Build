@@ -64,7 +64,7 @@ index 924cd3345..fa96b73c0 100644
      /**
       * Randomized MAC address to use with this particular network
 diff --git a/service/java/com/android/server/wifi/WifiConfigManager.java b/service/java/com/android/server/wifi/WifiConfigManager.java
-index 1c87eb2fa..9032bfb54 100644
+index b0212133a..5f40104ce 100644
 --- a/service/java/com/android/server/wifi/WifiConfigManager.java
 +++ b/service/java/com/android/server/wifi/WifiConfigManager.java
 @@ -431,6 +431,10 @@ public class WifiConfigManager {
