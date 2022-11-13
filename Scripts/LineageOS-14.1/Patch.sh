@@ -166,6 +166,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/343956.patch"; #n-asb-2022-11 S
 applyPatch "$DOS_PATCHES/android_frameworks_base/343957.patch"; #n-asb-2022-11 Check permission for VoiceInteraction
 applyPatch "$DOS_PATCHES/android_frameworks_base/344188.patch"; #n-asb-2022-11 Do not send new Intent to non-exported activity when navigateUpTo
 applyPatch "$DOS_PATCHES/android_frameworks_base/344189.patch"; #n-asb-2022-11 Move accountname and typeName length check from Account.java to AccountManagerService.
+applyPatch "$DOS_PATCHES/android_frameworks_base/344217.patch"; #n-asb-2022-11 Do not dismiss keyguard after SIM PUK unlock
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)

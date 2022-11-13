@@ -10,10 +10,10 @@ Change-Id: I80fabf3a64c55837db98ff316e7e5420129c001b
 (cherry picked from commit 3f218c9a5e1f7c3213ceb84c15afca0d3041057b)
 Merged-In: I80fabf3a64c55837db98ff316e7e5420129c001b
 ---
- core/java/android/accounts/Account.java           |  7 -------
- .../server/accounts/AccountManagerService.java    | 12 ++++++++++++
- .../accounts/AccountManagerServiceTest.java       | 15 +++++++++++++++
- 3 files changed, 27 insertions(+), 7 deletions(-)
+ core/java/android/accounts/Account.java       |  7 -------
+ .../accounts/AccountManagerService.java       | 12 ++++++++++++
+ .../accounts/AccountManagerServiceTest.java   | 19 +++++++++++++++++++
+ 3 files changed, 31 insertions(+), 7 deletions(-)
 
 diff --git a/core/java/android/accounts/Account.java b/core/java/android/accounts/Account.java
 index 1546ae14862d..3f90f36fb2a1 100644
@@ -41,10 +41,10 @@ index 1546ae14862d..3f90f36fb2a1 100644
          this.type = type;
          this.accessId = accessId;
 diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
-index 3aea365b7ced..239297cc420a 100644
+index 98280d52a622..dcc571d84314 100644
 --- a/services/core/java/com/android/server/accounts/AccountManagerService.java
 +++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
-@@ -1305,6 +1305,14 @@ public class AccountManagerService
+@@ -1764,6 +1764,14 @@ public class AccountManagerService
          if (account == null) {
              return false;
          }
@@ -59,7 +59,7 @@ index 3aea365b7ced..239297cc420a 100644
          if (!isLocalUnlockedUser(accounts.userId)) {
              Log.w(TAG, "Account " + account + " cannot be added - user " + accounts.userId
                      + " is locked. callingUid=" + callingUid);
-@@ -1501,6 +1509,10 @@ public class AccountManagerService
+@@ -1956,6 +1964,10 @@ public class AccountManagerService
                  + ", pid " + Binder.getCallingPid());
          }
          if (accountToRename == null) throw new IllegalArgumentException("account is null");
@@ -71,13 +71,14 @@ index 3aea365b7ced..239297cc420a 100644
          if (!isAccountManagedByCaller(accountToRename.type, callingUid, userId)) {
              String msg = String.format(
 diff --git a/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTest.java b/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTest.java
-index a3d0afab88eb..5467f2264efe 100644
+index 791d3e997f3b..68696344220b 100644
 --- a/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTest.java
 +++ b/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTest.java
-@@ -132,6 +132,21 @@ public class AccountManagerServiceTest extends AndroidTestCase {
+@@ -237,6 +237,25 @@ public class AccountManagerServiceTest extends AndroidTestCase {
          assertEquals(a31, accounts[1]);
      }
  
++    @SmallTest
 +    public void testCheckAddAccountLongName() throws Exception {
 +        unlockSystemUser();
 +        String longString = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -85,7 +86,9 @@ index a3d0afab88eb..5467f2264efe 100644
 +                + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 +                + "aaaaa";
 +        Account a11 = new Account(longString, AccountManagerServiceTestFixtures.ACCOUNT_TYPE_1);
++
 +        mAms.addAccountExplicitly(a11, /* password= */ "p11", /* extras= */ null);
++
 +        String[] list = new String[]{AccountManagerServiceTestFixtures.CALLER_PACKAGE};
 +        when(mMockPackageManager.getPackagesForUid(anyInt())).thenReturn(list);
 +        Account[] accounts = mAms.getAccountsAsUser(null,
@@ -93,6 +96,7 @@ index a3d0afab88eb..5467f2264efe 100644
 +        assertEquals(0, accounts.length);
 +    }
 +
++
+     @SmallTest
      public void testPasswords() throws Exception {
          unlockSystemUser();
-         Account a11 = new Account("account1", "type1");

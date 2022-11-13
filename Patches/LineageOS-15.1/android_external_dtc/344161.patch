@@ -1,0 +1,49 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Mike McTernan <mikemcternan@google.com>
+Date: Fri, 22 Jul 2022 11:44:33 +0100
+Subject: [PATCH] Fix integer wrap sanitisation.
+
+Test: make check
+Bug: 239630493
+Bug: 242096164
+Change-Id: I232155e7f7a54271a6a3e3a7cd91ed6bbabc051f
+Merged-In: I232155e7f7a54271a6a3e3a7cd91ed6bbabc051f
+(cherry picked from commit 05dec6d1827dc7016cad11c4ddfe8f965bceddb7)
+(cherry picked from commit 61e10c9c53b170ff8a5612ba4ec79e51d58e5eb3)
+Merged-In: I232155e7f7a54271a6a3e3a7cd91ed6bbabc051f
+---
+ libfdt/fdt.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/libfdt/fdt.c b/libfdt/fdt.c
+index 5baaed3..ed7e947 100644
+--- a/libfdt/fdt.c
++++ b/libfdt/fdt.c
+@@ -124,9 +124,15 @@ uint32_t fdt_next_tag(const void *fdt, int startoffset, int *nextoffset)
+ 		lenp = fdt_offset_ptr(fdt, offset, sizeof(*lenp));
+ 		if (!lenp)
+ 			return FDT_END; /* premature end */
+-		/* skip-name offset, length and value */
+-		offset += sizeof(struct fdt_property) - FDT_TAGSIZE
+-			+ fdt32_to_cpu(*lenp);
++
++		/* skip-name offset, length */
++		offset += sizeof(struct fdt_property) - FDT_TAGSIZE;
++
++		if (!fdt_offset_ptr(fdt, offset, fdt32_to_cpu(*lenp)))
++			return FDT_END; /* premature end */
++
++		/* skip value */
++		offset += fdt32_to_cpu(*lenp);
+ 		break;
+ 
+ 	case FDT_END:
+@@ -138,7 +144,7 @@ uint32_t fdt_next_tag(const void *fdt, int startoffset, int *nextoffset)
+ 		return FDT_END;
+ 	}
+ 
+-	if (!fdt_offset_ptr(fdt, startoffset, offset - startoffset))
++	if (offset <= startoffset || !fdt_offset_ptr(fdt, startoffset, offset - startoffset))
+ 		return FDT_END; /* premature end */
+ 
+ 	*nextoffset = FDT_TAGALIGN(offset);

@@ -10,22 +10,23 @@ Change-Id: I9f263b947853e14d081a73ce907917e9326b6ef7
 (cherry picked from commit 725244f010c9c5ed5b169c2ec00600864fce38ab)
 Merged-In: I9f263b947853e14d081a73ce907917e9326b6ef7
 ---
- .../permission/ui/ReviewPermissionsActivity.java              | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../permission/ui/ReviewPermissionsActivity.java             | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/src/com/android/packageinstaller/permission/ui/ReviewPermissionsActivity.java b/src/com/android/packageinstaller/permission/ui/ReviewPermissionsActivity.java
-index b6fd0c161..bb1e1dd9a 100644
+index 4caf4ce8a..81d9d7c4c 100644
 --- a/src/com/android/packageinstaller/permission/ui/ReviewPermissionsActivity.java
 +++ b/src/com/android/packageinstaller/permission/ui/ReviewPermissionsActivity.java
-@@ -39,6 +39,7 @@ import android.text.TextUtils;
- import android.text.style.ForegroundColorSpan;
- import android.util.TypedValue;
- import android.view.View;
+@@ -24,6 +24,8 @@ import android.content.pm.PackageInfo;
+ import android.content.pm.PackageManager;
+ import android.os.Bundle;
+ import android.text.TextUtils;
 +import android.view.WindowManager;
- import android.widget.Button;
- import android.widget.ImageView;
- import android.widget.TextView;
-@@ -58,6 +59,9 @@ public final class ReviewPermissionsActivity extends Activity
++
+ import com.android.packageinstaller.DeviceUtils;
+ import com.android.packageinstaller.R;
+ import com.android.packageinstaller.permission.ui.handheld.ReviewPermissionsFragment;
+@@ -37,6 +39,9 @@ public final class ReviewPermissionsActivity extends Activity
      protected void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
  
