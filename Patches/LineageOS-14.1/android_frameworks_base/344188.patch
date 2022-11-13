@@ -1,0 +1,87 @@
+From 623d9421f9f175283af8c562604af2385e7addb1 Mon Sep 17 00:00:00 2001
+From: Louis Chang <louischang@google.com>
+Date: Tue, 2 Aug 2022 03:33:39 +0000
+Subject: [PATCH] [BACKPORT] Do not send new Intent to non-exported activity
+ when navigateUpTo
+
+The new Intent was delivered to a non-exported activity while
+
+Bug: 238605611
+Test: atest StartActivityTests
+Change-Id: I854dd825bfd9a2c08851980d480d1f3a177af6cf
+Merged-In: I854dd825bfd9a2c08851980d480d1f3a177af6cf
+(cherry picked from commit b9a934064598aa655fab4ce75c8eab6165409670)
+Merged-In: I854dd825bfd9a2c08851980d480d1f3a177af6cf
+---
+ .../com/android/server/am/ActivityRecord.java |  4 ++++
+ .../com/android/server/am/ActivityStack.java  | 20 +++++++++++++++++--
+ .../com/android/server/am/ProcessRecord.java  |  4 ++++
+ 3 files changed, 26 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/am/ActivityRecord.java b/services/core/java/com/android/server/am/ActivityRecord.java
+index d6c53076614d..a3ace26df5f7 100755
+--- a/services/core/java/com/android/server/am/ActivityRecord.java
++++ b/services/core/java/com/android/server/am/ActivityRecord.java
+@@ -1535,6 +1535,10 @@ int getUid() {
+         return info.applicationInfo.uid;
+     }
+ 
++    int getPid() {
++        return app != null ? app.getPid() : 0;
++    }
++
+     @Override
+     public String toString() {
+         if (stringName != null) {
+diff --git a/services/core/java/com/android/server/am/ActivityStack.java b/services/core/java/com/android/server/am/ActivityStack.java
+index 7376fa869ab9..696079848995 100644
+--- a/services/core/java/com/android/server/am/ActivityStack.java
++++ b/services/core/java/com/android/server/am/ActivityStack.java
+@@ -3794,14 +3794,30 @@ final boolean navigateUpToLocked(ActivityRecord srec, Intent destIntent, int res
+         }
+ 
+         if (parent != null && foundParentInTask) {
++            final int callingUid = srec.info.applicationInfo.uid;
+             final int parentLaunchMode = parent.info.launchMode;
+             final int destIntentFlags = destIntent.getFlags();
+             if (parentLaunchMode == ActivityInfo.LAUNCH_SINGLE_INSTANCE ||
+                     parentLaunchMode == ActivityInfo.LAUNCH_SINGLE_TASK ||
+                     parentLaunchMode == ActivityInfo.LAUNCH_SINGLE_TOP ||
+                     (destIntentFlags & Intent.FLAG_ACTIVITY_CLEAR_TOP) != 0) {
+-                parent.deliverNewIntentLocked(srec.info.applicationInfo.uid, destIntent,
+-                        srec.packageName);
++                boolean abort;
++                try {
++                    final int callingPid = srec.app != null ? srec.app.getPid() : 0;
++                    abort = !mStackSupervisor.checkStartAnyActivityPermission(destIntent,
++                            parent.info, null /* resultWho */, -1 /* requestCode */, callingPid,
++                            callingUid, srec.info.packageName, false /* ignoreTargetSecurity */,
++                            srec.app, null /* resultRecord */, null /* resultStack */,
++                            null /* options */);
++                } catch (SecurityException e) {
++                    abort = true;
++                }
++                if (abort) {
++                    android.util.EventLog.writeEvent(0x534e4554, "238605611", callingUid, "");
++                    foundParentInTask = false;
++                } else {
++                    parent.deliverNewIntentLocked(callingUid, destIntent, srec.packageName);
++                }
+             } else {
+                 try {
+                     ActivityInfo aInfo = AppGlobals.getPackageManager().getActivityInfo(
+diff --git a/services/core/java/com/android/server/am/ProcessRecord.java b/services/core/java/com/android/server/am/ProcessRecord.java
+index 7746f1e3508d..d8fe39cf2162 100644
+--- a/services/core/java/com/android/server/am/ProcessRecord.java
++++ b/services/core/java/com/android/server/am/ProcessRecord.java
+@@ -465,6 +465,10 @@ public void setPid(int _pid) {
+         stringName = null;
+     }
+ 
++    public int getPid() {
++        return pid;
++    }
++
+     public void makeActive(IApplicationThread _thread, ProcessStatsService tracker) {
+         String seempStr = "app_uid=" + uid
+                             + ",app_pid=" + pid + ",oom_adj=" + curAdj

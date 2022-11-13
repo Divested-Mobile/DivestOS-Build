@@ -9,7 +9,7 @@ Ported from 12: b294a2ce1d0d185dbc438ac3c06c90386d5f5949
  1 file changed, 30 insertions(+), 9 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-index d34682df3413..1d974b980f6e 100644
+index 1e13333c1ce0..d6f41f9eda99 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 @@ -1409,7 +1409,8 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
@@ -91,7 +91,7 @@ index d34682df3413..1d974b980f6e 100644
                                  uidState.updatePermissionFlags(permission,
                                          PackageManager.FLAG_PERMISSION_REVIEW_REQUIRED
                                                  | PackageManager.FLAG_PERMISSION_REVOKED_COMPAT,
-@@ -2823,7 +2834,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
+@@ -2787,7 +2798,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
                          boolean restrictionApplied = (origState.getPermissionFlags(
                                  bp.getName()) & FLAG_PERMISSION_APPLY_RESTRICTION) != 0;
  
@@ -100,7 +100,7 @@ index d34682df3413..1d974b980f6e 100644
                              // If hard restricted we don't allow holding it
                              if (permissionPolicyInitialized && hardRestricted) {
                                  if (!restrictionExempt) {
-@@ -2877,6 +2888,16 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
+@@ -2840,6 +2851,16 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
                                      }
                                  }
                              }
@@ -117,7 +117,7 @@ index d34682df3413..1d974b980f6e 100644
                          } else {
                              if (origPermState == null) {
                                  // New permission
-@@ -2911,7 +2932,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
+@@ -2874,7 +2895,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
                                  if (restrictionApplied) {
                                      flags &= ~FLAG_PERMISSION_APPLY_RESTRICTION;
                                      // Dropping restriction on a legacy app implies a review
@@ -126,7 +126,7 @@ index d34682df3413..1d974b980f6e 100644
                                          flags |= FLAG_PERMISSION_REVIEW_REQUIRED;
                                      }
                                      wasChanged = true;
-@@ -3642,7 +3663,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
+@@ -3605,7 +3626,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
              if (shouldGrantPermission) {
                  final int flags = getPermissionFlagsInternal(pkg.getPackageName(), permission,
                          myUid, userId);

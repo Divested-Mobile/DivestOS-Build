@@ -164,6 +164,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/334873.patch"; #n-asb-2022-08 O
 applyPatch "$DOS_PATCHES/android_frameworks_base/338003.patch"; #n-asb-2022-09 IMMS: Make IMMS PendingIntents immutable
 applyPatch "$DOS_PATCHES/android_frameworks_base/343956.patch"; #n-asb-2022-11 Switch TelecomManager List getters to ParceledListSlice
 applyPatch "$DOS_PATCHES/android_frameworks_base/343957.patch"; #n-asb-2022-11 Check permission for VoiceInteraction
+applyPatch "$DOS_PATCHES/android_frameworks_base/344188.patch"; #n-asb-2022-11 Do not send new Intent to non-exported activity when navigateUpTo
+applyPatch "$DOS_PATCHES/android_frameworks_base/344189.patch"; #n-asb-2022-11 Move accountname and typeName length check from Account.java to AccountManagerService.
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -306,6 +308,7 @@ fi;
 
 if enterAndClear "packages/apps/PackageInstaller"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_PackageInstaller/64d8b44.patch"; #Fix an issue with Permission Review (AOSP/452540)
+applyPatch "$DOS_PATCHES/android_packages_apps_PackageInstaller/344187.patch"; #n-asb-2022-11 Hide overlays on ReviewPermissionsAtivity
 fi;
 
 if enterAndClear "packages/apps/Settings"; then

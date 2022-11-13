@@ -64,10 +64,10 @@ buildAll() {
 	#SD750
 	buildDevice FP4 avb;
 	#SD855
-	buildDevice guacamole avb; #FIXME
-	#buildDevice guacamoleb avb; #FIXME
-	#buildDevice hotdog avb; #FIXME
-	#buildDevice hotdogb avb; #FIXME
+	buildDevice guacamole avb;
+	buildDevice guacamoleb avb;
+	buildDevice hotdog avb;
+	buildDevice hotdogb avb;
 	buildDevice coral avb;
 	buildDevice flame avb;
 	#SD730

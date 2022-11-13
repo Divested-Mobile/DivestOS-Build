@@ -114,7 +114,6 @@ patchWorkspace() {
 	#repopick -it eleven-firewall;
 	#repopick -i 314453; #TaskViewTouchController: Null check current animation on drag
 	#repopick -i 325011; #lineage: Opt-in to shipping full recovery image by default
-	repopick -it R_asb_2022-11;
 	repopick -it R_tzdb2022f;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
