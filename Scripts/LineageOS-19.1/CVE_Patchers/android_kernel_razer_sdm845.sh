@@ -2,6 +2,7 @@
 cd "$DOS_BUILD_BASE""kernel/razer/sdm845"
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0318-0319.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0322-0323.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0332-0333.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0025.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0026.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0027.patch
@@ -73,6 +74,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2153/^5.17/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2153/^5.17/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2318/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2588/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2978/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3028/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3061/^5.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3521/^6.0/0001.patch
@@ -103,8 +105,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-36946/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-39188/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-39842/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-40768/4.9/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-41849/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-41850/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42703/4.9/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42895/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-43750/4.9/0004.patch
-editKernelLocalversion "-dos.p106"
+editKernelLocalversion "-dos.p109"
 cd "$DOS_BUILD_BASE"
