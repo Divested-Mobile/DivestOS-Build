@@ -102,9 +102,9 @@ patchWorkspace() {
 	gpgVerifyGitTag "$DOS_BUILD_BASE/external/SecureCamera";
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-	#source build/envsetup.sh;
-	#repopick -i 343790; #usb: have enableUsbDataSignal() call queryPortStatus() if successful
-	#repopick -i 343791; #UsbManager: enableUsbDataSignal: return early if HAL version is too old
+	source build/envsetup.sh;
+	repopick -i 343790; #usb: have enableUsbDataSignal() call queryPortStatus() if successful
+	repopick -i 343791; #UsbManager: enableUsbDataSignal: return early if HAL version is too old
 	#repopick -it T_tzdb2022f;
 
 	sh "$DOS_SCRIPTS/Patch.sh";

@@ -18,10 +18,10 @@ Change-Id: Ibfe080c3d801af34fb64fda1b6b8f4f39a2b1ccf
  10 files changed, 134 insertions(+), 5 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index 693ded4..91e85a3 100644
+index cc485f7..7cdfb93 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
-@@ -12,6 +12,10 @@
+@@ -13,6 +13,10 @@
      <uses-permission android:name="android.permission.START_ACTIVITIES_FROM_BACKGROUND" />
      <uses-permission android:name="android.permission.WAKE_LOCK" />
  

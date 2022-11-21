@@ -9,5 +9,5 @@
     <bool name="useCustomUserAgent">true</bool>
     <bool name="allowEditingSmscAddress">true</bool>
     <bool name="enableGroupMms">true</bool>
-    <bool name="groupChatDefaultsToMMS">true</bool>
+    <bool name="groupChatDefaultsToMMS">false</bool>
 </mms_config>

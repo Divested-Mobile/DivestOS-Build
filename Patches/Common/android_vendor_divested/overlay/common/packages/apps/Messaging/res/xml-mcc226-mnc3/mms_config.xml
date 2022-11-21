@@ -7,4 +7,5 @@
     <int name="maxImageWidth">1600</int>
     <bool name="useCustomUserAgent">true</bool>
     <bool name="allowEditingSmscAddress">true</bool>
+    <bool name="groupChatDefaultsToMMS">false</bool>
 </mms_config>

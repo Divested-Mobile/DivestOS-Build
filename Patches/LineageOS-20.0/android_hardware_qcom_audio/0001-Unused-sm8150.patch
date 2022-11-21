@@ -21,7 +21,7 @@ Change-Id: I694c683c9bfde60343f0f6ea8d806bc5e24437e6
  2 files changed, 6 insertions(+)
 
 diff --git a/hal/audio_extn/audio_extn.h b/hal/audio_extn/audio_extn.h
-index 75ef7f239a..58f7f72be9 100644
+index f35a9d60b0..b8abfd04a4 100644
 --- a/hal/audio_extn/audio_extn.h
 +++ b/hal/audio_extn/audio_extn.h
 @@ -868,7 +868,11 @@ bool audio_extn_utils_is_dolby_format(audio_format_t format);
@@ -37,10 +37,10 @@ index 75ef7f239a..58f7f72be9 100644
  int audio_extn_utils_get_vendor_enhanced_info();
  int audio_extn_utils_get_app_sample_rate_for_device(struct audio_device *adev,
 diff --git a/hal/audio_extn/utils.c b/hal/audio_extn/utils.c
-index 6c97447c9a..364250f2d8 100644
+index 174e43fa96..9b72e31a2c 100644
 --- a/hal/audio_extn/utils.c
 +++ b/hal/audio_extn/utils.c
-@@ -3303,6 +3303,7 @@ int audio_extn_utils_get_channels_from_string(const char *id_string)
+@@ -3312,6 +3312,7 @@ int audio_extn_utils_get_channels_from_string(const char *id_string)
      return -EINVAL;
  }
  
@@ -48,7 +48,7 @@ index 6c97447c9a..364250f2d8 100644
  void audio_extn_utils_release_snd_device(snd_device_t snd_device)
  {
      audio_extn_dev_arbi_release(snd_device);
-@@ -3311,6 +3312,7 @@ void audio_extn_utils_release_snd_device(snd_device_t snd_device)
+@@ -3320,6 +3321,7 @@ void audio_extn_utils_release_snd_device(snd_device_t snd_device)
      audio_extn_listen_update_device_status(snd_device,
              LISTEN_EVENT_SND_DEVICE_FREE);
  }
