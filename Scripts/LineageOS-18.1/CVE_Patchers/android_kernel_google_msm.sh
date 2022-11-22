@@ -400,5 +400,6 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-5d89eb01c93d8a
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-7be3e08d7a523207486701b2d34607137558066f.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
-editKernelLocalversion "-dos.p400"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
+editKernelLocalversion "-dos.p401"
 cd "$DOS_BUILD_BASE"

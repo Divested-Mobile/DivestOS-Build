@@ -440,5 +440,6 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-sy
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13167/3.4/0014.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
-editKernelLocalversion "-dos.p440"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
+editKernelLocalversion "-dos.p441"
 cd "$DOS_BUILD_BASE"

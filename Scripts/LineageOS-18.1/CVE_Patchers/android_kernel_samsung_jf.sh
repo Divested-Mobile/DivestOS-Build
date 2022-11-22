@@ -438,5 +438,6 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-ch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13167/3.4/0014.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
-editKernelLocalversion "-dos.p438"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
+editKernelLocalversion "-dos.p439"
 cd "$DOS_BUILD_BASE"
