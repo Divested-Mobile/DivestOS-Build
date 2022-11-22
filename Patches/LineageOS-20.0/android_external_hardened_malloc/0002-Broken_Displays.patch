@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Tue, 22 Nov 2022 07:23:10 -0500
+Subject: [PATCH] Add workaround for OnePlus 8 & 9 display driver crash
+
+Change-Id: Ie7a0ca79bb629814e57958d57546f85030b67048
+Signed-off-by: Tad <tad@spotco.us>
+---
+ h_malloc.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/h_malloc.c b/h_malloc.c
+index b8a858a..7bb1396 100644
+--- a/h_malloc.c
++++ b/h_malloc.c
+@@ -1088,6 +1088,15 @@ COLD static void handle_bugs(void) {
+         ro.purge_slabs = false;
+         ro.region_quarantine_protect = false;
+     }
++
++    // OnePlus 8 & 9 display composer
++    // https://gitlab.com/divested-mobile/divestos-build/-/issues/19
++    const char hwc[] = "/vendor/bin/hw/vendor.qti.hardware.display.composer-service";
++    if (strcmp(hwc, path) == 0) {
++        ro.zero_on_free = false;
++        ro.purge_slabs = false;
++        ro.region_quarantine_protect = false;
++    }
+ }
+ 
+ COLD static void init_slow_path(void) {
