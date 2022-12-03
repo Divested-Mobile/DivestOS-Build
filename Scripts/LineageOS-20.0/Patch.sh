@@ -415,7 +415,12 @@ if enterAndClear "device/google/redbull"; then
 awk -i inplace '!/sctp/' BoardConfig-common.mk modules.load; #fix compile after hardenDefconfig
 fi;
 
+if enterAndClear "device/google/wahoo"; then
+git revert --no-edit 4e9cf40ae5e8a334989b46405ab09dba575f61fa; #revert compressed ramdisk due to potential breakage
+fi;
+
 if enterAndClear "kernel/google/wahoo"; then
+git revert --no-edit 4fc7c2f4d9a187396cc6efb4a0cc003850f3f79d; #revert compressed ramdisk due to potential breakage
 sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
 fi;
 

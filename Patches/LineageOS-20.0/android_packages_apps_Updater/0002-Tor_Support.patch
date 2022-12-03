@@ -127,7 +127,7 @@ index 9c56f0b..766fb83 100644
                          boolean enableABPerfMode = abPerfMode.isChecked();
                          mUpdaterService.getUpdaterController().setPerformanceMode(enableABPerfMode);
 diff --git a/src/org/lineageos/updater/UpdatesCheckReceiver.java b/src/org/lineageos/updater/UpdatesCheckReceiver.java
-index 7fa9cd5..962fd00 100644
+index 9f45423..382fbd4 100644
 --- a/src/org/lineageos/updater/UpdatesCheckReceiver.java
 +++ b/src/org/lineageos/updater/UpdatesCheckReceiver.java
 @@ -110,10 +110,14 @@ public class UpdatesCheckReceiver extends BroadcastReceiver {
@@ -308,10 +308,10 @@ index 6144ed7..37e81d8 100644
      public static final String PREF_AB_PERF_MODE = "ab_perf_mode";
      public static final String PREF_MOBILE_DATA_WARNING = "pref_mobile_data_warning";
 diff --git a/src/org/lineageos/updater/misc/Utils.java b/src/org/lineageos/updater/misc/Utils.java
-index 69a5252..2b42726 100644
+index 914ae6a..3eee6a7 100644
 --- a/src/org/lineageos/updater/misc/Utils.java
 +++ b/src/org/lineageos/updater/misc/Utils.java
-@@ -44,6 +44,7 @@ import java.io.BufferedReader;
+@@ -45,6 +45,7 @@ import java.io.BufferedReader;
  import java.io.File;
  import java.io.FileReader;
  import java.io.IOException;
@@ -319,7 +319,7 @@ index 69a5252..2b42726 100644
  import java.util.ArrayList;
  import java.util.Enumeration;
  import java.util.HashSet;
-@@ -149,11 +150,75 @@ public class Utils {
+@@ -150,11 +151,75 @@ public class Utils {
          return updates;
      }
  
