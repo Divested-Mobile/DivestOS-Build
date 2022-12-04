@@ -1,0 +1,56 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Sat, 3 Dec 2022 23:00:52 -0500
+Subject: [PATCH] Don't crash system when adding SDK sandbox rules
+
+This is an ugly hack to prevent bailing and help debug.
+
+12-03 17:15:29.395  1406  1737 E AndroidRuntime: *** FATAL EXCEPTION IN SYSTEM PROCESS: NetworkPolicy.uid
+12-03 17:15:29.395  1406  1737 E AndroidRuntime: java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 103
+12-03 17:15:29.395  1406  1737 E AndroidRuntime: 	at android.util.SparseIntArray.keyAt(SparseIntArray.java:183)
+12-03 17:15:29.395  1406  1737 E AndroidRuntime: 	at com.android.server.net.NetworkPolicyManagerService.addSdkSandboxUidsIfNeeded(NetworkPolicyManagerService.java:5982)
+12-03 17:15:29.395  1406  1737 E AndroidRuntime: 	at com.android.server.net.NetworkPolicyManagerService.setUidFirewallRulesUL(NetworkPolicyManagerService.java:6002)
+12-03 17:15:29.395  1406  1737 E AndroidRuntime: 	at com.android.server.net.NetworkPolicyManagerService.updateRestrictedModeAllowlistUL(NetworkPolicyManagerService.java:4454)
+12-03 17:15:29.395  1406  1737 E AndroidRuntime: 	at com.android.server.net.NetworkPolicyManagerService$12.onAvailable(NetworkPolicyManagerService.java:1449)
+12-03 17:15:29.395  1406  1737 E AndroidRuntime: 	at android.net.ConnectivityManager$NetworkCallback.onAvailable(ConnectivityManager.java:3801)
+12-03 17:15:29.395  1406  1737 E AndroidRuntime: 	at android.net.ConnectivityManager$NetworkCallback.onAvailable(ConnectivityManager.java:3783)
+12-03 17:15:29.395  1406  1737 E AndroidRuntime: 	at android.net.ConnectivityManager$CallbackHandler.handleMessage(ConnectivityManager.java:4107)
+12-03 17:15:29.395  1406  1737 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:106)
+12-03 17:15:29.395  1406  1737 E AndroidRuntime: 	at android.os.Looper.loopOnce(Looper.java:201)
+12-03 17:15:29.395  1406  1737 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:288)
+12-03 17:15:29.395  1406  1737 E AndroidRuntime: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+12-03 17:15:29.395  1406  1737 E AndroidRuntime: 	at com.android.server.ServiceThread.run(ServiceThread.java:44)
+12-03 17:15:29.396  1406  1737 I am_crash: [1406,0,system_server,-1,java.lang.ArrayIndexOutOfBoundsException,Array index out of range: 103,SparseIntArray.java,183]
+
+Change-Id: I97fead6014ba47e107a90c57e12584b656a8e220
+Signed-off-by: Tad <tad@spotco.us>
+---
+ .../server/net/NetworkPolicyManagerService.java    | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/services/core/java/com/android/server/net/NetworkPolicyManagerService.java b/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
+index 44f8e76c4dd0..030d4f23b11d 100644
+--- a/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
++++ b/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
+@@ -5978,12 +5978,16 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
+     private void addSdkSandboxUidsIfNeeded(SparseIntArray uidRules) {
+         final int size = uidRules.size();
+         final SparseIntArray sdkSandboxUids = new SparseIntArray();
+-        for (int index = 0; index < size; index++) {
+-            final int uid = uidRules.keyAt(index);
+-            final int rule = uidRules.valueAt(index);
+-            if (Process.isApplicationUid(uid)) {
+-                sdkSandboxUids.put(Process.toSdkSandboxUid(uid), rule);
++        try {
++            for (int index = 0; index < size; index++) {
++                final int uid = uidRules.keyAt(index);
++                final int rule = uidRules.valueAt(index);
++                if (Process.isApplicationUid(uid)) {
++                    sdkSandboxUids.put(Process.toSdkSandboxUid(uid), rule);
++                }
+             }
++        } catch (Exception e) {
++            Log.e(TAG, "problem setting sandbox uid rules, size: " + size, e);
+         }
+ 
+         for (int index = 0; index < sdkSandboxUids.size(); index++) {
