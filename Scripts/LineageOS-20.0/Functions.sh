@@ -104,7 +104,8 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	repopick -i 344891; #fixup! Rewrite trust USB restriction handling
-	#repopick -it T_tzdb2022f;
+	repopick -it T_tzdb2022f;
+	#repopick -it T_asb_2022-12;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

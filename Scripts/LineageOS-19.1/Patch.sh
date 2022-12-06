@@ -196,6 +196,11 @@ if enterAndClear "frameworks/libs/systemui"; then
 applyPatch "$DOS_PATCHES/android_frameworks_libs_systemui/0001-Icon_Cache.patch"; #Invalidate icon cache between OS releases (GrapheneOS)
 fi;
 
+if enterAndClear "frameworks/minikin"; then
+git fetch https://github.com/LineageOS/android_frameworks_minikin refs/changes/57/345357/1 && git cherry-pick FETCH_HEAD; #S_asb_2022-12
+git fetch https://github.com/LineageOS/android_frameworks_minikin refs/changes/58/345358/1 && git cherry-pick FETCH_HEAD; #S_asb_2022-12
+fi;
+
 if enterAndClear "frameworks/native"; then
 applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors_Permission.patch"; #Require OTHER_SENSORS permission for sensors (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors_Permission-a1.patch"; #Protect step sensors with OTHER_SENSORS permission for targetSdk<29 apps (GrapheneOS)
