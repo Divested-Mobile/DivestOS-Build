@@ -128,6 +128,7 @@ sed -i '11iLOCAL_OVERRIDES_PACKAGES := Aperture Camera Camera2 LegacyCamera Snap
 fi;
 
 if enterAndClear "frameworks/base"; then
+git revert --no-edit 70cc90b9298ac0b18fe79a4f8f9251c01b8f96d3; #causes soft reboots due to race
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -177,7 +178,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0023-Skip_Screen_Animation.patc
 applyPatch "$DOS_PATCHES/android_frameworks_base/0026-Crash_Details.patch"; #Add an option to show the details of an application error to the user (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0027-Installer_Glitch.patch"; #Make sure PackageInstaller UI returns a result (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0028-Remove_Legacy_Package_Query.patch"; #Don't leak device-wide package list to apps when work profile is present (GrapheneOS)
-applyPatch "$DOS_PATCHES/android_frameworks_base/0029-NetSDKSandboxCrash.patch"; #Don't crash system when adding SDK sandbox rules (DivestOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0029-Split_Tunnel_Fixes.patch"; #Reland "Fix network leaks with split-tunnel VPNs" (CalyxOS)
 hardenLocationConf services/core/java/com/android/server/location/gnss/gps_debug.conf; #Harden the default GPS config
 changeDefaultDNS; #Change the default DNS servers
 sed -i 's/DEFAULT_USE_COMPACTION = false;/DEFAULT_USE_COMPACTION = true;/' services/core/java/com/android/server/am/CachedAppOptimizer.java; #Enable app compaction by default (GrapheneOS)
