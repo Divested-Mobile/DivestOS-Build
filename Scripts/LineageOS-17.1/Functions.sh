@@ -81,7 +81,7 @@ patchWorkspace() {
 	gpgVerifyGitTag "$DOS_BUILD_BASE/external/hardened_malloc";
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
 	#repopick -it ten-firewall;
 	repopick -it Q_tzdb2022f;
 	repopick -it Q_asb_2022-12;

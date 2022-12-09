@@ -62,9 +62,9 @@ buildAll() {
 	#SD845
 	buildDevice aura avb; #superseded
 	buildDevice beryllium avb; #superseded
-	buildDevice pro1 avb; #superseded
-	buildDevice crosshatch avb; #superseded
-	buildDevice blueline avb; #superseded
+	#buildDevice pro1 avb; #superseded
+	#buildDevice crosshatch avb; #superseded
+	#buildDevice blueline avb; #superseded
 	buildDevice enchilada avb; #superseded
 	buildDevice fajita avb; #superseded
 	buildDevice akari avb;
@@ -98,8 +98,8 @@ buildAll() {
 	#buildDevice bramble avb; #superseded
 	#buildDevice redfin avb; #superseded
 	#SD670
-	buildDevice bonito avb; #superseded
-	buildDevice sargo avb; #superseded
+	#buildDevice bonito avb; #superseded
+	#buildDevice sargo avb; #superseded
 }
 export -f buildAll;
 
