@@ -1,0 +1,60 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Milton Wu <mingjuwu@google.com>
+Date: Mon, 8 Aug 2022 09:05:00 +0000
+Subject: [PATCH] Add FLAG_SECURE for ChooseLockPassword and Pattern
+
+Prevent ChooseLockPassword and ChooseLockPatten being projected to
+remote views, add FLAG_SECURE for these screens.
+
+Bug: 179725730
+Test: Check these 2 screens not projected to chromecast
+Test: robo test for SetupChooseLockPatternTest ChooseLockPatternTest
+      SetupChooseLockPasswordTest ChooseLockPasswordTest
+Change-Id: I7449a24427c966c1aa4280a7b7e7e70b60997cca
+---
+ src/com/android/settings/ChooseLockPassword.java | 3 +++
+ src/com/android/settings/ChooseLockPattern.java  | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/src/com/android/settings/ChooseLockPassword.java b/src/com/android/settings/ChooseLockPassword.java
+index 86696bb280..db1fbb4966 100644
+--- a/src/com/android/settings/ChooseLockPassword.java
++++ b/src/com/android/settings/ChooseLockPassword.java
+@@ -40,6 +40,7 @@ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.View.OnClickListener;
+ import android.view.ViewGroup;
++import android.view.WindowManager;
+ import android.widget.Button;
+ import android.widget.EditText;
+ import android.widget.LinearLayout;
+@@ -149,6 +150,8 @@ public class ChooseLockPassword extends SettingsActivity {
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
++        getWindow().addPrivateFlags(
++                WindowManager.LayoutParams.PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);
+         CharSequence msg = getText(R.string.lockpassword_choose_your_password_header);
+         setTitle(msg);
+         LinearLayout layout = (LinearLayout) findViewById(R.id.content_parent);
+diff --git a/src/com/android/settings/ChooseLockPattern.java b/src/com/android/settings/ChooseLockPattern.java
+index b81a3edfef..76965d1750 100644
+--- a/src/com/android/settings/ChooseLockPattern.java
++++ b/src/com/android/settings/ChooseLockPattern.java
+@@ -26,6 +26,7 @@ import android.view.KeyEvent;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
++import android.view.WindowManager;
+ import android.widget.LinearLayout;
+ import android.widget.TextView;
+ 
+@@ -112,6 +113,8 @@ public class ChooseLockPattern extends SettingsActivity {
+     protected void onCreate(Bundle savedInstanceState) {
+         // requestWindowFeature(Window.FEATURE_NO_TITLE);
+         super.onCreate(savedInstanceState);
++        getWindow().addPrivateFlags(
++                WindowManager.LayoutParams.PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);
+         CharSequence msg = getText(R.string.lockpassword_choose_your_pattern_header);
+         setTitle(msg);
+         LinearLayout layout = (LinearLayout) findViewById(R.id.content_parent);

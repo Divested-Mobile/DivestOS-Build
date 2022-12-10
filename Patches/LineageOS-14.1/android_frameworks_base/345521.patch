@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Rhed Jao <rhedjao@google.com>
+Date: Mon, 26 Sep 2022 21:35:26 +0800
+Subject: [PATCH] Fix permanent denial of service via
+ setComponentEnabledSetting
+
+Do not update invalid component enabled settings to prevent the
+malicious apps from exhausting system server memory.
+
+Bug: 240936919
+Test: atest android.security.cts.PackageManagerTest
+Change-Id: I08165337895e89f13a2b9fcce1201cba9ad13d7d
+(cherry picked from commit 4d13148a3fa5f6bc1b7038fae7d1f1adda163a9f)
+Merged-In: I08165337895e89f13a2b9fcce1201cba9ad13d7d
+---
+ .../core/java/com/android/server/pm/PackageManagerService.java | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index e109337809cf..1e439c423a67 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -18339,6 +18339,9 @@ Slog.v(TAG, ":: stepped forward, applying functor at tag " + parser.getName());
+                     } else {
+                         Slog.w(TAG, "Failed setComponentEnabledSetting: component class "
+                                 + className + " does not exist in " + packageName);
++                        // Safetynet logging for b/240936919
++                        EventLog.writeEvent(0x534e4554, "240936919", uid);
++                        return;
+                     }
+                 }
+                 switch (newState) {

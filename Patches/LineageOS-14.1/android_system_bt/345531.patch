@@ -1,0 +1,58 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Keith Mok <keithmok@google.com>
+Date: Mon, 22 Aug 2022 19:44:10 +0000
+Subject: [PATCH] Fix integer overflow when parsing avrc response
+
+Convert min_len from 16 bits to 32 bits to avoid
+length checking overflow.
+Also, use calloc instead of malloc for list allocation
+since caller need to clean up string memory in the list items
+
+Bug: 242459126
+Test: fuzz_avrc
+Tag: #security
+Ignore-AOSP-First: Security
+Merged-In: I7250509f2b320774926a8b24fd28828c5217d8a4
+Change-Id: I7250509f2b320774926a8b24fd28828c5217d8a4
+(cherry picked from commit a593687d6ad3978f48e2aa7be57d8239acdfa501)
+Merged-In: I7250509f2b320774926a8b24fd28828c5217d8a4
+---
+ stack/avdt/avdt_scb_act.c | 2 +-
+ stack/avrc/avrc_pars_ct.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/stack/avdt/avdt_scb_act.c b/stack/avdt/avdt_scb_act.c
+index d7cf791cc..f61abd626 100644
+--- a/stack/avdt/avdt_scb_act.c
++++ b/stack/avdt/avdt_scb_act.c
+@@ -363,7 +363,7 @@ UINT8 * avdt_scb_hdl_report(tAVDT_SCB *p_scb, UINT8 *p, UINT16 len)
+     UINT8   *p_start = p;
+     UINT32  ssrc;
+     UINT8   o_v, o_p, o_cc;
+-    UINT16  min_len = 0;
++    UINT32  min_len = 0;
+     AVDT_REPORT_TYPE    pt;
+     tAVDT_REPORT_DATA   report, *p_rpt;
+ 
+diff --git a/stack/avrc/avrc_pars_ct.c b/stack/avrc/avrc_pars_ct.c
+index fc94424ba..b43fd5f55 100644
+--- a/stack/avrc/avrc_pars_ct.c
++++ b/stack/avrc/avrc_pars_ct.c
+@@ -148,7 +148,7 @@ static tAVRC_STS avrc_pars_vendor_rsp(tAVRC_MSG_VENDOR *p_msg, tAVRC_RESPONSE *p
+ 
+ tAVRC_STS avrc_parse_notification_rsp(UINT8* p_stream, UINT16 len,
+                                       tAVRC_REG_NOTIF_RSP* p_rsp) {
+-    UINT16 min_len = 1;
++    UINT32 min_len = 1;
+ 
+     if (len < min_len) goto length_error;
+     BE_STREAM_TO_UINT8(p_rsp->event_id, p_stream);
+@@ -241,7 +241,7 @@ static tAVRC_STS avrc_ctrl_pars_vendor_rsp(
+     p++; /* skip the reserved/packe_type byte */
+ 
+     UINT16  len;
+-    UINT16  min_len = 0;
++    UINT32  min_len = 0;
+     BE_STREAM_TO_UINT16 (len, p);
+     AVRC_TRACE_DEBUG("%s ctype:0x%x pdu:0x%x, len:%d  vendor_len=0x%x", __func__,
+                     p_msg->hdr.ctype, p_result->pdu, len, p_msg->vendor_len);

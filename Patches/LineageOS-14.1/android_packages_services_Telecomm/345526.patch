@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tyler Gunn <tgunn@google.com>
+Date: Tue, 27 Sep 2022 15:19:05 -0700
+Subject: [PATCH] Hide overlay windows when showing phone account
+ enable/disable screen.
+
+Hide any system alert window overlays when the screen that lets the user
+enable/disable phone accounts is shown.
+
+Test: Manual test with overlay shown from test app; verify that the overlay
+is hidden when the phone account selection screen is opened.
+Bug: 246933359
+
+Change-Id: Ia0209d57ee9a672cde4196076845d77941dc3f68
+(cherry picked from commit a7d57ace5819c4eef340aaf6744ad441d0369035)
+Merged-In: Ia0209d57ee9a672cde4196076845d77941dc3f68
+---
+ .../telecom/settings/EnableAccountPreferenceActivity.java     | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/com/android/server/telecom/settings/EnableAccountPreferenceActivity.java b/src/com/android/server/telecom/settings/EnableAccountPreferenceActivity.java
+index 2367825b3..b1d497abb 100644
+--- a/src/com/android/server/telecom/settings/EnableAccountPreferenceActivity.java
++++ b/src/com/android/server/telecom/settings/EnableAccountPreferenceActivity.java
+@@ -25,12 +25,16 @@ import android.telecom.Log;
+ import android.telecom.PhoneAccountHandle;
+ import android.telecom.TelecomManager;
+ import android.view.MenuItem;
++import android.view.WindowManager;
+ 
+ public class EnableAccountPreferenceActivity extends Activity {
+     @Override
+     public void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+ 
++	getWindow().addPrivateFlags(
++                WindowManager.LayoutParams.PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);
++
+         getFragmentManager().beginTransaction()
+                 .replace(android.R.id.content, new EnableAccountPreferenceFragment())
+                 .commit();

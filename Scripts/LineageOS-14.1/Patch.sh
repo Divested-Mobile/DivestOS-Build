@@ -76,7 +76,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2022-11-05/' core/version_defaults.mk; #Bump Security String #n-asb-2022-11 #XXX
+sed -i 's/2021-06-05/2022-12-05/' core/version_defaults.mk; #Bump Security String #n-asb-2022-12 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -167,6 +167,10 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/343957.patch"; #n-asb-2022-11 C
 applyPatch "$DOS_PATCHES/android_frameworks_base/344188.patch"; #n-asb-2022-11 Do not send new Intent to non-exported activity when navigateUpTo
 applyPatch "$DOS_PATCHES/android_frameworks_base/344189.patch"; #n-asb-2022-11 Move accountname and typeName length check from Account.java to AccountManagerService.
 applyPatch "$DOS_PATCHES/android_frameworks_base/344217.patch"; #n-asb-2022-11 Do not dismiss keyguard after SIM PUK unlock
+applyPatch "$DOS_PATCHES/android_frameworks_base/345519.patch"; #n-asb-2022-12 Validate package name passed to setApplicationRestrictions.
+applyPatch "$DOS_PATCHES/android_frameworks_base/345520.patch"; #n-asb-2022-12 Ignore malformed shortcuts
+applyPatch "$DOS_PATCHES/android_frameworks_base/345521.patch"; #n-asb-2022-12 Fix permanent denial of service via setComponentEnabledSetting
+applyPatch "$DOS_PATCHES/android_frameworks_base/345522.patch"; #n-asb-2022-12 Add safety checks on KEY_INTENT mismatch.
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -181,6 +185,11 @@ sed -i 's/return 16;/return 64;/' core/java/android/app/admin/DevicePolicyManage
 sed -i 's/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 72 \* 60 \* 60 \* 1000;/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 12 * 60 * 60 * 1000;/' core/java/android/app/admin/DevicePolicyManager.java; #Decrease the strong auth prompt timeout to occur more often
 rm -rf packages/Osu; #Automatic Wi-Fi connection non-sense
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
+fi;
+
+if enterAndClear "frameworks/minikin"; then
+applyPatch "$DOS_PATCHES/android_frameworks_minikin/345523.patch"; #n-asb-2022-12 Fix OOB read for registerLocaleList
+applyPatch "$DOS_PATCHES/android_frameworks_minikin/345524.patch"; #n-asb-2022-12 Fix OOB crash for registerLocaleList
 fi;
 
 if enterAndClear "frameworks/native"; then
@@ -276,6 +285,7 @@ fi;
 if enterAndClear "packages/apps/Bluetooth"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/332451.patch"; #n-asb-2022-06 Removes app access to BluetoothAdapter#setScanMode by requiring BLUETOOTH_PRIVILEGED permission.
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/332452.patch"; #n-asb-2022-06 Removes app access to BluetoothAdapter#setDiscoverableTimeout by requiring BLUETOOTH_PRIVILEGED permission.
+applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/345525.patch"; #n-asb-2022-12 Fix URI check in BluetoothOppUtility.java
 fi;
 
 if enterAndClear "packages/apps/Contacts"; then
@@ -323,6 +333,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/327099.patch"; #n-asb-20
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/334037.patch"; #n-asb-2022-07 Fix LaunchAnyWhere in AppRestrictionsFragment
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/334874.patch"; #n-asb-2022-08 Verify ringtone from ringtone picker is audio
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/334875.patch"; #n-asb-2022-08 Fix Settings crash when setting a null ringtone
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/345679.patch"; #n-asb-2022-12 Add FLAG_SECURE for ChooseLockPassword and Pattern
 git revert --no-edit 2ebe6058c546194a301c1fd22963d6be4adbf961; #Don't hide OEM unlock
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/201113.patch"; #wifi: Add world regulatory domain country code (syphyr)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
@@ -362,6 +373,7 @@ fi;
 if enterAndClear "packages/services/Telecomm"; then
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/332456.patch"; #n-asb-2022-06 limit TelecomManager#registerPhoneAccount to 10
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/343953.patch"; #n-asb-2022-11 Switch TelecomManager List getters to ParceledListSlice
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/345526.patch"; #n-asb-2022-12 Hide overlay windows when showing phone account enable/disable screen.
 fi;
 
 if enterAndClear "packages/services/Telephony"; then
@@ -398,6 +410,11 @@ applyPatch "$DOS_PATCHES/android_system_bt/338000.patch"; #n-asb-2022-09 Fix OOB
 applyPatch "$DOS_PATCHES/android_system_bt/341070.patch"; #n-asb-2022-10 Fix potential interger overflow when parsing vendor response
 applyPatch "$DOS_PATCHES/android_system_bt/343958.patch"; #n-asb-2022-11 Add buffer in pin_reply in bluetooth.cc
 applyPatch "$DOS_PATCHES/android_system_bt/343959.patch"; #n-asb-2022-11 Add negative length check in process_service_search_rsp
+applyPatch "$DOS_PATCHES/android_system_bt/345527.patch"; #n-asb-2022-12 Add length check when copy AVDTP packet
+applyPatch "$DOS_PATCHES/android_system_bt/345528.patch"; #n-asb-2022-12 Added max buffer length check
+applyPatch "$DOS_PATCHES/android_system_bt/345529.patch"; #n-asb-2022-12 Add missing increment in bnep_api.cc
+applyPatch "$DOS_PATCHES/android_system_bt/345530.patch"; #n-asb-2022-12 Add length check when copy AVDT and AVCT packet
+applyPatch "$DOS_PATCHES/android_system_bt/345531.patch"; #n-asb-2022-12 Fix integer overflow when parsing avrc response
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)

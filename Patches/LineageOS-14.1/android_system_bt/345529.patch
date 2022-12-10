@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Thu, 25 Aug 2022 20:39:08 +0000
+Subject: [PATCH] Add missing increment in bnep_api.cc
+
+Bug: 228450451
+Test: manual, pair BT and play audio
+Tag: #security
+Ignore-AOSP-First: Security
+Change-Id: I681878508feae3d0526ed3e928af7a415e7d5c36
+(cherry picked from commit 0fa54c7d8a2c061202e61d75b805661c1e89a76d)
+Merged-In: I681878508feae3d0526ed3e928af7a415e7d5c36
+---
+ stack/bnep/bnep_api.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/stack/bnep/bnep_api.c b/stack/bnep/bnep_api.c
+index e1c9f2e3d..d40c66c3c 100644
+--- a/stack/bnep/bnep_api.c
++++ b/stack/bnep/bnep_api.c
+@@ -283,6 +283,7 @@ tBNEP_RESULT BNEP_ConnectResp (UINT16 handle, tBNEP_RESULT resp)
+         while (extension_present && p && rem_len)
+         {
+             ext_type = *p++;
++            rem_len--;
+             extension_present = ext_type >> 7;
+             ext_type &= 0x7F;
+ 

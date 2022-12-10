@@ -1,0 +1,48 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Pinyao Ting <pinyaoting@google.com>
+Date: Wed, 21 Sep 2022 23:03:11 +0000
+Subject: [PATCH] Ignore malformed shortcuts
+
+After an app publishes a shortcut that contains malformed intent, the
+system can be stuck in boot-loop due to uncaught exception caused by
+parsing the malformed intent.
+
+This CL ignores that particular malformed entry. Since shortcuts are
+constantly writes back into the xml from system memory, the malformed
+entry will be removed from the xml the next time system persists
+shortcuts from memory to file system.
+
+Bug: 246540168
+Change-Id: Ie1e39005a5f9d8038bd703a5bc845779c2f46e94
+Test: manual
+(cherry picked from commit 9b0dd514d29bbf986f1d1a3c6cebc2ef2bcf782e)
+Merged-In: Ie1e39005a5f9d8038bd703a5bc845779c2f46e94
+---
+ .../com/android/server/pm/ShortcutPackage.java     | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/ShortcutPackage.java b/services/core/java/com/android/server/pm/ShortcutPackage.java
+index 38d69ed287e1..0a98002feb14 100644
+--- a/services/core/java/com/android/server/pm/ShortcutPackage.java
++++ b/services/core/java/com/android/server/pm/ShortcutPackage.java
+@@ -1363,11 +1363,15 @@ class ShortcutPackage extends ShortcutPackageItem {
+                         ret.getPackageInfo().loadFromXml(parser, fromBackup);
+                         continue;
+                     case TAG_SHORTCUT:
+-                        final ShortcutInfo si = parseShortcut(parser, packageName,
+-                                shortcutUser.getUserId());
+-
+-                        // Don't use addShortcut(), we don't need to save the icon.
+-                        ret.mShortcuts.put(si.getId(), si);
++                        try {
++                            final ShortcutInfo si = parseShortcut(parser, packageName,
++                                    shortcutUser.getUserId());
++                            // Don't use addShortcut(), we don't need to save the icon.
++                            ret.mShortcuts.put(si.getId(), si);
++                        } catch (Exception e) {
++                            // b/246540168 malformed shortcuts should be ignored
++                            Slog.e(TAG, "Failed parsing shortcut.", e);
++                        }
+                         continue;
+                 }
+             }

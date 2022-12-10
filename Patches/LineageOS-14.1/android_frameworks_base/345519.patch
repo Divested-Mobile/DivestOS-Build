@@ -1,0 +1,106 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Oli Lan <olilan@google.com>
+Date: Fri, 19 Aug 2022 17:08:13 +0100
+Subject: [PATCH] Validate package name passed to setApplicationRestrictions.
+
+This adds validation that the package name passed to
+setApplicationRestrictions is in the correct format. This will avoid
+an issue where a path could be entered resulting in a file being
+written to an unexpected place.
+
+Bug: 239701237
+Test: atest UserManagerServiceTest
+Change-Id: I1ab2b7228470f10ec26fe3a608ae540cfc9e9a96
+(cherry picked from commit 31a582490d6e8952d24f267df47d669e3861cf67)
+Merged-In: I1ab2b7228470f10ec26fe3a608ae540cfc9e9a96
+(cherry picked from commit cfcfe6ca8c545f78603c05e23687f8638fd4b51d)
+Merged-In: I1ab2b7228470f10ec26fe3a608ae540cfc9e9a96
+---
+ .../android/server/pm/UserManagerService.java | 41 +++++++++++++++++++
+ .../server/pm/UserManagerServiceTest.java     |  7 ++++
+ 2 files changed, 48 insertions(+)
+
+diff --git a/services/core/java/com/android/server/pm/UserManagerService.java b/services/core/java/com/android/server/pm/UserManagerService.java
+index a4ffc3938af9..cea22bbe46f4 100644
+--- a/services/core/java/com/android/server/pm/UserManagerService.java
++++ b/services/core/java/com/android/server/pm/UserManagerService.java
+@@ -73,6 +73,7 @@ import android.system.Os;
+ import android.system.OsConstants;
+ import android.text.TextUtils;
+ import android.util.AtomicFile;
++import android.util.EventLog;
+ import android.util.IntArray;
+ import android.util.Log;
+ import android.util.Slog;
+@@ -2638,6 +2639,13 @@ public class UserManagerService extends IUserManager.Stub {
+     public void setApplicationRestrictions(String packageName, Bundle restrictions,
+             int userId) {
+         checkSystemOrRoot("set application restrictions");
++        String validationResult = validateName(packageName);
++        if (validationResult != null) {
++            if (packageName.contains("../")) {
++                EventLog.writeEvent(0x534e4554, "239701237", -1, "");
++            }
++            throw new IllegalArgumentException("Invalid package name: " + validationResult);
++        }
+         if (restrictions != null) {
+             restrictions.setDefusable(true);
+         }
+@@ -2657,6 +2665,39 @@ public class UserManagerService extends IUserManager.Stub {
+         mContext.sendBroadcastAsUser(changeIntent, UserHandle.of(userId));
+     }
+ 
++    /**
++     * Check if the given name is valid.
++     *
++     * Note: the logic is taken from FrameworkParsingPackageUtils in master, edited to remove
++     * unnecessary parts. Copied here for a security fix.
++     *
++     * @param name The name to check.
++     * @return null if it's valid, error message if not
++     */
++    @VisibleForTesting
++    static String validateName(String name) {
++        final int n = name.length();
++        boolean front = true;
++        for (int i = 0; i < n; i++) {
++            final char c = name.charAt(i);
++            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
++                front = false;
++                continue;
++            }
++            if (!front) {
++                if ((c >= '0' && c <= '9') || c == '_') {
++                    continue;
++                }
++                if (c == '.') {
++                    front = true;
++                    continue;
++                }
++            }
++            return "bad character '" + c + "'";
++        }
++        return null;
++    }
++
+     private int getUidForPackage(String packageName) {
+         long ident = Binder.clearCallingIdentity();
+         try {
+diff --git a/services/tests/servicestests/src/com/android/server/pm/UserManagerServiceTest.java b/services/tests/servicestests/src/com/android/server/pm/UserManagerServiceTest.java
+index 9f77297b49dd..744be99e4bf7 100644
+--- a/services/tests/servicestests/src/com/android/server/pm/UserManagerServiceTest.java
++++ b/services/tests/servicestests/src/com/android/server/pm/UserManagerServiceTest.java
+@@ -74,6 +74,13 @@ public class UserManagerServiceTest extends AndroidTestCase {
+         assertEquals(accountName, um.getUserAccount(tempUserId));
+     }
+ 
++    public void testValidateName() {
++        assertNull(UserManagerService.validateName("android"));
++        assertNull(UserManagerService.validateName("com.company.myapp"));
++        assertNotNull(UserManagerService.validateName("/../../data"));
++        assertNotNull(UserManagerService.validateName("/dir"));
++    }
++
+     private Bundle createBundle() {
+         Bundle result = new Bundle();
+         // Tests for 6 allowed types: Integer, Boolean, String, String[], Bundle and Parcelable[]
