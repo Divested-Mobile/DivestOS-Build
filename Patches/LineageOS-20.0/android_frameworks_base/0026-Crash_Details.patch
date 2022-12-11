@@ -13,11 +13,11 @@ export them via the standard sharing UI.
  core/res/res/layout/app_error_dialog.xml      |   4 +-
  core/res/res/values/strings.xml               |   3 +
  core/res/res/values/symbols.xml               |   3 +
- packages/SystemUI/AndroidManifest.xml         |  12 ++
+ packages/SystemUI/AndroidManifest.xml         |  13 ++
  packages/SystemUI/res/values/strings.xml      |   5 +
  .../android/systemui/ErrorReportActivity.kt   | 159 ++++++++++++++++++
  .../java/com/android/server/am/AppErrors.java |   1 +
- 9 files changed, 199 insertions(+), 6 deletions(-)
+ 9 files changed, 200 insertions(+), 6 deletions(-)
  create mode 100644 packages/SystemUI/src/com/android/systemui/ErrorReportActivity.kt
 
 diff --git a/core/java/android/app/ApplicationErrorReport.java b/core/java/android/app/ApplicationErrorReport.java
@@ -110,10 +110,10 @@ index c3b149a1e295..a47b82018377 100644
  
      <Button
 diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
-index b153a36f65db..3f03f5726b23 100644
+index 2ea89de7d5cb..94e33f151798 100644
 --- a/core/res/res/values/strings.xml
 +++ b/core/res/res/values/strings.xml
-@@ -6343,4 +6343,7 @@ ul.</string>
+@@ -6360,4 +6360,7 @@ ul.</string>
  
      <!-- Title for preference of the system default locale. [CHAR LIMIT=50]-->
      <string name="system_locale_title">System default</string>
@@ -122,10 +122,10 @@ index b153a36f65db..3f03f5726b23 100644
 +    <string name="aerr_show_details">Show details</string>
  </resources>
 diff --git a/core/res/res/values/symbols.xml b/core/res/res/values/symbols.xml
-index 5aecc53bac78..37358f38aaef 100644
+index 888cd7a79bf6..c9733c9fa4f7 100644
 --- a/core/res/res/values/symbols.xml
 +++ b/core/res/res/values/symbols.xml
-@@ -4803,6 +4803,9 @@
+@@ -4852,6 +4852,9 @@
    <java-symbol type="id" name="language_picker_item" />
    <java-symbol type="id" name="language_picker_header" />
  
@@ -136,13 +136,14 @@ index 5aecc53bac78..37358f38aaef 100644
  
    <java-symbol type="bool" name="system_server_plays_face_haptics" />
 diff --git a/packages/SystemUI/AndroidManifest.xml b/packages/SystemUI/AndroidManifest.xml
-index b89bdf3991d8..0803cfae3ad5 100644
+index 2cc47823a109..b1ee372bd61a 100644
 --- a/packages/SystemUI/AndroidManifest.xml
 +++ b/packages/SystemUI/AndroidManifest.xml
-@@ -941,5 +941,17 @@
+@@ -969,5 +969,18 @@
+                 <action android:name="com.android.systemui.action.DISMISS_VOLUME_PANEL_DIALOG" />
              </intent-filter>
          </receiver>
- 
++
 +        <activity
 +            android:name=".ErrorReportActivity"
 +            android:exported="true"
@@ -158,13 +159,13 @@ index b89bdf3991d8..0803cfae3ad5 100644
      </application>
  </manifest>
 diff --git a/packages/SystemUI/res/values/strings.xml b/packages/SystemUI/res/values/strings.xml
-index e144b43294c6..2ac23ad4e433 100644
+index 53f1227383b7..6abeae8f9c35 100644
 --- a/packages/SystemUI/res/values/strings.xml
 +++ b/packages/SystemUI/res/values/strings.xml
-@@ -2552,4 +2552,9 @@
-     =1 {# notification}
-     other {# notifications}
-     }</string>
+@@ -2607,4 +2607,9 @@
+ 
+     <!-- Time format for the Dream Time Complication for 24-hour time format [CHAR LIMIT=NONE] -->
+     <string name="dream_time_complication_24_hr_time_format">kk:mm</string>
 +
 +    <string name="error_report_title">Error in %1$s</string>
 +    <string name="copy_to_clipboard">Copy to clipboard</string>
