@@ -8,10 +8,10 @@ Subject: [PATCH] invalidate icon cache between OS releases
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/iconloaderlib/src/com/android/launcher3/icons/cache/BaseIconCache.java b/iconloaderlib/src/com/android/launcher3/icons/cache/BaseIconCache.java
-index 057bdc2..23288f0 100644
+index 963e807..7d396c0 100644
 --- a/iconloaderlib/src/com/android/launcher3/icons/cache/BaseIconCache.java
 +++ b/iconloaderlib/src/com/android/launcher3/icons/cache/BaseIconCache.java
-@@ -237,7 +237,7 @@ public abstract class BaseIconCache {
+@@ -267,7 +267,7 @@ public abstract class BaseIconCache {
       */
      private void updateSystemState() {
          mLocaleList = mContext.getResources().getConfiguration().getLocales();
@@ -19,4 +19,4 @@ index 057bdc2..23288f0 100644
 +        mSystemState = mLocaleList.toLanguageTags() + "," + Build.VERSION.INCREMENTAL;
      }
  
-     protected String getIconSystemState(String packageName) {
+     @NonNull

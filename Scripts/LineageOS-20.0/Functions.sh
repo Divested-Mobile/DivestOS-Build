@@ -49,18 +49,18 @@ buildAll() {
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#SD835
-	buildDevice cheeseburger verity;
-	buildDevice dumpling verity;
 	buildDevice taimen avb;
 	buildDevice walleye avb;
+	buildDevice cheeseburger verity;
+	buildDevice dumpling verity;
 	#SD845
+	buildDevice fajita avb;
+	buildDevice enchilada avb;
 	buildDevice aura avb;
 	buildDevice beryllium avb;
 	buildDevice pro1 avb;
 	buildDevice crosshatch avb;
 	buildDevice blueline avb;
-	buildDevice enchilada avb;
-	buildDevice fajita avb;
 	#SD750
 	buildDevice FP4 avb;
 	#SD855

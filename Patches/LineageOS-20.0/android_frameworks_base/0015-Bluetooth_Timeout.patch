@@ -12,10 +12,10 @@ Co-authored-by: Pratyush <codelab@pratyush.dev>
  create mode 100644 services/core/java/com/android/server/ext/BluetoothAutoOff.java
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 253fec41e120..a60ec93697a6 100644
+index b0def536be93..4516c28f9c6a 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -17078,6 +17078,12 @@ public final class Settings {
+@@ -17234,6 +17234,12 @@ public final class Settings {
           */
          public static final String WIFI_OFF_TIMEOUT = "wifi_off_timeout";
  

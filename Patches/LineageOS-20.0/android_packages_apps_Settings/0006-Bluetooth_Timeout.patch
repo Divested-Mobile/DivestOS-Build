@@ -67,7 +67,7 @@ index 35e3247663..5adc98d256 100644
      <string-array name="screen_timeout_entries">
          <item>15 seconds</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 5d4879d123..6163398746 100644
+index c1aaf40f96..7ea1708b72 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -27,6 +27,25 @@

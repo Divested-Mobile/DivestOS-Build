@@ -10,10 +10,10 @@ Subject: [PATCH] UserManager app installation restrictions
  3 files changed, 44 insertions(+), 5 deletions(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 34cc6ff884..c1f4b6fcde 100644
+index 5318c00777..27364b13dd 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -7799,6 +7799,8 @@
+@@ -7979,6 +7979,8 @@
      <string name="user_enable_calling">Turn on phone calls</string>
      <!-- Title of preference to enable calling and SMS [CHAR LIMIT=45] -->
      <string name="user_enable_calling_sms">Turn on phone calls &amp; SMS</string>
@@ -38,7 +38,7 @@ index 2301bac1d4..d2766360a0 100644
              android:key="app_copying"
              android:icon="@drawable/ic_apps"
 diff --git a/src/com/android/settings/users/UserDetailsSettings.java b/src/com/android/settings/users/UserDetailsSettings.java
-index 99760401d2..5f9387f1f6 100644
+index 3f51b83b9d..b6f87dcc11 100644
 --- a/src/com/android/settings/users/UserDetailsSettings.java
 +++ b/src/com/android/settings/users/UserDetailsSettings.java
 @@ -64,6 +64,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
@@ -49,7 +49,7 @@ index 99760401d2..5f9387f1f6 100644
  
      /** Integer extra containing the userId to manage */
      static final String EXTRA_USER_ID = "user_id";
-@@ -92,6 +93,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
+@@ -93,6 +94,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
      Preference mAppCopyingPref;
      @VisibleForTesting
      Preference mRemoveUserPref;
@@ -57,7 +57,7 @@ index 99760401d2..5f9387f1f6 100644
  
      @VisibleForTesting
      /** The user being studied (not the user doing the studying). */
-@@ -159,12 +161,37 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
+@@ -165,12 +167,37 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
  
      @Override
      public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -100,7 +100,7 @@ index 99760401d2..5f9387f1f6 100644
          return true;
      }
  
-@@ -258,6 +285,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
+@@ -273,6 +300,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
          mRemoveUserPref = findPreference(KEY_REMOVE_USER);
          mAppAndContentAccessPref = findPreference(KEY_APP_AND_CONTENT_ACCESS);
          mAppCopyingPref = findPreference(KEY_APP_COPYING);
@@ -108,7 +108,7 @@ index 99760401d2..5f9387f1f6 100644
  
          mSwitchUserPref.setTitle(
                  context.getString(com.android.settingslib.R.string.user_switch_to_user,
-@@ -276,6 +304,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
+@@ -291,6 +319,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
              removePreference(KEY_REMOVE_USER);
              removePreference(KEY_APP_AND_CONTENT_ACCESS);
              removePreference(KEY_APP_COPYING);
@@ -116,7 +116,7 @@ index 99760401d2..5f9387f1f6 100644
          } else {
              if (!Utils.isVoiceCapable(context)) { // no telephony
                  removePreference(KEY_ENABLE_TELEPHONY);
-@@ -309,11 +338,14 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
+@@ -324,11 +353,14 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
                  if (!SHOW_APP_COPYING_PREF) {
                      removePreference(KEY_APP_COPYING);
                  }
@@ -131,7 +131,7 @@ index 99760401d2..5f9387f1f6 100644
              }
              if (RestrictedLockUtilsInternal.hasBaseUserRestriction(context,
                      UserManager.DISALLOW_REMOVE_USER, UserHandle.myUserId())) {
-@@ -324,6 +356,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
+@@ -339,6 +371,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
              mPhonePref.setOnPreferenceChangeListener(this);
              mAppAndContentAccessPref.setOnPreferenceClickListener(this);
              mAppCopyingPref.setOnPreferenceClickListener(this);

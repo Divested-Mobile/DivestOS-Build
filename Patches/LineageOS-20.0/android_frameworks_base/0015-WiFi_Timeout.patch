@@ -12,10 +12,10 @@ Co-authored-by: Pratyush <codelab@pratyush.dev>
  create mode 100644 services/core/java/com/android/server/ext/WifiAutoOff.java
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index c43917955d50..253fec41e120 100644
+index d9e423d3d9ce..b0def536be93 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -17072,6 +17072,12 @@ public final class Settings {
+@@ -17228,6 +17228,12 @@ public final class Settings {
           */
          public static final String SETTINGS_REBOOT_AFTER_TIMEOUT = "settings_reboot_after_timeout";
  

@@ -64,10 +64,10 @@ index eb9add14f6..2079ef1675 100644
  
      <Preference
 diff --git a/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java b/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
-index ba7628e8b9..5e8cf313aa 100644
+index f7fc07a90b..c967377727 100644
 --- a/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
 +++ b/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
-@@ -778,7 +778,7 @@ public class WifiDetailPreferenceController2 extends AbstractPreferenceControlle
+@@ -787,7 +787,7 @@ public class WifiDetailPreferenceController2 extends AbstractPreferenceControlle
      }
  
      private int getMacAddressTitle() {

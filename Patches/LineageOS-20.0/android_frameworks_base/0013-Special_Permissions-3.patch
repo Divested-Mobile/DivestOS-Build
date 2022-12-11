@@ -33,7 +33,7 @@ index f229b6e25126..773d77422d9f 100644
      field public static final String READ_MEDIA_AURAL = "android.permission-group.READ_MEDIA_AURAL";
      field public static final String READ_MEDIA_VISUAL = "android.permission-group.READ_MEDIA_VISUAL";
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 371a036e284a..eb64b68836f4 100644
+index 0372e915b4ab..3f52b57a0dd3 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
 @@ -1732,6 +1732,18 @@
@@ -56,7 +56,7 @@ index 371a036e284a..eb64b68836f4 100644
      <!-- REMOVED PERMISSIONS                                                    -->
      <!-- ====================================================================== -->
 diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
-index 42922a094cd7..b153a36f65db 100644
+index cfcc305988bc..2ea89de7d5cb 100644
 --- a/core/res/res/values/strings.xml
 +++ b/core/res/res/values/strings.xml
 @@ -931,6 +931,11 @@
@@ -86,10 +86,10 @@ index 42922a094cd7..b153a36f65db 100644
      <string name="permlab_readCalendar">Read calendar events and details</string>
      <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-index 1235eba1d0fb..70fcfb7702b4 100644
+index 746a5f06768d..57cab81a565c 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-@@ -2483,7 +2483,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
+@@ -2484,7 +2484,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
      }
  
      public static boolean isSpecialRuntimePermission(final String permission) {
@@ -99,10 +99,10 @@ index 1235eba1d0fb..70fcfb7702b4 100644
  
      /**
 diff --git a/services/core/java/com/android/server/pm/pkg/parsing/ParsingPackageUtils.java b/services/core/java/com/android/server/pm/pkg/parsing/ParsingPackageUtils.java
-index 9bfb40fe11f7..ca3b9e5bda95 100644
+index 7ce7f7ebf6cc..2c1eed855404 100644
 --- a/services/core/java/com/android/server/pm/pkg/parsing/ParsingPackageUtils.java
 +++ b/services/core/java/com/android/server/pm/pkg/parsing/ParsingPackageUtils.java
-@@ -2203,6 +2203,8 @@ public class ParsingPackageUtils {
+@@ -2213,6 +2213,8 @@ public class ParsingPackageUtils {
  
          pkg.setHasDomainUrls(hasDomainURLs(pkg));
  

@@ -46,10 +46,10 @@ index cfc7671652..7fac175770 100644
           These are shown in a list dialog. -->
      <string-array name="lock_after_timeout_entries">
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index d9f4a37f2d..bba0900122 100644
+index fa753aaa8e..858d5a6588 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -14254,4 +14254,7 @@
+@@ -14456,4 +14456,7 @@
      <!-- [CHAR LIMIT=NONE] Hint for QR code process failure -->
      <string name="bt_le_audio_qr_code_is_not_valid_format">QR code isn\u0027t a valid format</string>
  

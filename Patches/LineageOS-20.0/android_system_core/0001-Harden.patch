@@ -37,7 +37,7 @@ index d050ed783..e828916d6 100644
  
      CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 870a97b55..cf3b6de8c 100644
+index c56f86089..3ab24300f 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -330,6 +330,17 @@ on init

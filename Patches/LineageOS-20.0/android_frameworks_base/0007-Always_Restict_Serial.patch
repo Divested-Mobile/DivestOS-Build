@@ -10,10 +10,10 @@ requiring the READ_PHONE_STATE permission.
  1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index a78c64b6538d..aa0aeabc747e 100644
+index df5113b16f49..eeec22f2ae7f 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
-@@ -4824,12 +4824,7 @@ public class ActivityManagerService extends IActivityManager.Stub
+@@ -4816,12 +4816,7 @@ public class ActivityManagerService extends IActivityManager.Stub
  
              ProfilerInfo profilerInfo = mAppProfiler.setupProfilerInfoLocked(thread, app, instr);
  

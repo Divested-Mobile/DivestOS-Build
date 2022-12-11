@@ -55,10 +55,10 @@ index 0632f72eb0..35e3247663 100644
          <item msgid="6490061470416867723">Small</item>
          <item msgid="3579015730662088893">Default</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 04b2de208b..5d4879d123 100644
+index bbdefd1427..c1aaf40f96 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -701,6 +701,9 @@
+@@ -706,6 +706,9 @@
      <!-- Summary for settings checkbox to disable widgets when the setting has been disabled by an installed device admin [CHAR LIMIT=50] -->
      <string name="security_enable_widgets_disabled_summary">Disabled by admin</string>
  
@@ -183,7 +183,7 @@ index 0000000000..c7a75219a5
 +    }
 +}
 diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
-index 6aadee6aad..abc3dce662 100644
+index b30b54d4d4..46a4ff90bf 100644
 --- a/src/com/android/settings/security/SecuritySettings.java
 +++ b/src/com/android/settings/security/SecuritySettings.java
 @@ -105,6 +105,7 @@ public class SecuritySettings extends DashboardFragment {

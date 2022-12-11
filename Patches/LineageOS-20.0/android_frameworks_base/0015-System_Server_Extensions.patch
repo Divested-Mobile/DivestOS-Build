@@ -217,10 +217,10 @@ index 000000000000..83d895650473
 +    }
 +}
 diff --git a/services/java/com/android/server/SystemServer.java b/services/java/com/android/server/SystemServer.java
-index f1963c99f55e..966c166addef 100644
+index ba63d9b3b398..ff3b64bdac7d 100644
 --- a/services/java/com/android/server/SystemServer.java
 +++ b/services/java/com/android/server/SystemServer.java
-@@ -2230,7 +2230,7 @@ public final class SystemServer implements Dumpable {
+@@ -2222,7 +2222,7 @@ public final class SystemServer implements Dumpable {
                  Slog.e(TAG, "Failure starting HardwarePropertiesManagerService", e);
              }
              t.traceEnd();
@@ -229,7 +229,7 @@ index f1963c99f55e..966c166addef 100644
              if (!isWatch) {
                  t.traceBegin("StartTwilightService");
                  mSystemServiceManager.startService(TwilightService.class);
-@@ -3069,6 +3069,8 @@ public final class SystemServer implements Dumpable {
+@@ -3061,6 +3061,8 @@ public final class SystemServer implements Dumpable {
                  reportWtf("Triggering OdsignStatsLogger", e);
              }
              t.traceEnd();

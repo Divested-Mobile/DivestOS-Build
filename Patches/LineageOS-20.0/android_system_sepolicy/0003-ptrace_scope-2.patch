@@ -77,7 +77,7 @@ index f235b35b7..895b8f1df 100644
  persist.logd.           u:object_r:logd_prop:s0
  ro.logd.                u:object_r:logd_prop:s0
 diff --git a/prebuilts/api/33.0/private/property_contexts b/prebuilts/api/33.0/private/property_contexts
-index 1b2360d18..061f7fb59 100644
+index 4eda4a169..111f7890a 100644
 --- a/prebuilts/api/33.0/private/property_contexts
 +++ b/prebuilts/api/33.0/private/property_contexts
 @@ -58,6 +58,7 @@ persist.nfc.            u:object_r:nfc_prop:s0
@@ -89,7 +89,7 @@ index 1b2360d18..061f7fb59 100644
  persist.logd.           u:object_r:logd_prop:s0
  ro.logd.                u:object_r:logd_prop:s0
 diff --git a/private/property_contexts b/private/property_contexts
-index 1b2360d18..061f7fb59 100644
+index 4eda4a169..111f7890a 100644
 --- a/private/property_contexts
 +++ b/private/property_contexts
 @@ -58,6 +58,7 @@ persist.nfc.            u:object_r:nfc_prop:s0

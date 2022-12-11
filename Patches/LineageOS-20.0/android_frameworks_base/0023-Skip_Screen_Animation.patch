@@ -12,10 +12,10 @@ sensors.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java
-index 269944d78c5f..e95270b6e880 100644
+index f64c2f322b81..dca07386a440 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java
-@@ -4042,7 +4042,7 @@ public class CentralSurfacesImpl extends CoreStartable implements
+@@ -4049,7 +4049,7 @@ public class CentralSurfacesImpl extends CoreStartable implements
  
          boolean launchingAffordanceWithPreview =
                  mNotificationPanelViewController.isLaunchingAffordanceWithPreview();

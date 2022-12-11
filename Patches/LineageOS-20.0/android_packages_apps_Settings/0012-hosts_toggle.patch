@@ -16,10 +16,10 @@ Change-Id: Ic01a142722372d9d57f52947025cd9db23e58ef4
  create mode 100644 src/com/android/settings/security/HostsPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index c1f4b6fcde..d9f4a37f2d 100644
+index 27364b13dd..fa753aaa8e 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -748,6 +748,9 @@
+@@ -753,6 +753,9 @@
      <string name="native_debug_title">Enable native code debugging</string>
      <string name="native_debug_summary">Generate useful logs / bug reports from crashes and permit debugging native code.</string>
  
@@ -159,7 +159,7 @@ index 0000000000..d8af6d2649
 +    }
 +}
 diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
-index 315dcf818a..f353ea644b 100644
+index e48164ae62..643de279a4 100644
 --- a/src/com/android/settings/security/SecuritySettings.java
 +++ b/src/com/android/settings/security/SecuritySettings.java
 @@ -108,6 +108,7 @@ public class SecuritySettings extends DashboardFragment {

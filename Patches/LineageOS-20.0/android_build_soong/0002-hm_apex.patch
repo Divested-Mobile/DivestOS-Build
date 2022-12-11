@@ -8,10 +8,10 @@ Subject: [PATCH] make hardened malloc available to apexes
  1 file changed, 1 insertion(+)
 
 diff --git a/apex/apex.go b/apex/apex.go
-index 951157f17..2fb50e9a0 100644
+index f12c517e9..d45a6eaca 100644
 --- a/apex/apex.go
 +++ b/apex/apex.go
-@@ -2955,6 +2955,7 @@ func makeApexAvailableBaseline() map[string][]string {
+@@ -2907,6 +2907,7 @@ func makeApexAvailableBaseline() map[string][]string {
  		"libdebuggerd_handler_fallback",
  		"libdl_static",
  		"libjemalloc5",

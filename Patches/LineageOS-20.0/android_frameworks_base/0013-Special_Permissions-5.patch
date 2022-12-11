@@ -99,7 +99,7 @@ index 000000000000..efd48cb49aa3
 +    private SpecialRuntimePermAppUtils() {}
 +}
 diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index a638f8cfcb25..dc20b6ccaa3f 100644
+index 461e3ec5ef54..6cde1fee5d65 100644
 --- a/services/core/java/com/android/server/pm/PackageManagerService.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerService.java
 @@ -213,6 +213,7 @@ import com.android.server.pm.permission.LegacyPermissionManagerInternal;
@@ -110,7 +110,7 @@ index a638f8cfcb25..dc20b6ccaa3f 100644
  import com.android.server.pm.pkg.PackageStateInternal;
  import com.android.server.pm.pkg.PackageUserState;
  import com.android.server.pm.pkg.PackageUserStateInternal;
-@@ -6048,6 +6049,24 @@ public class PackageManagerService implements PackageSender, TestUtilityService
+@@ -6058,6 +6059,24 @@ public class PackageManagerService implements PackageSender, TestUtilityService
                      getPerUidReadTimeouts(snapshot)
              ).doDump(snapshot, fd, pw, args);
          }

@@ -95,10 +95,10 @@ index 607395d308..f3d84e57a8 100644
                  "()[Ljava/lang/String;"),
  };
 diff --git a/runtime/native/dalvik_system_DexFile.cc b/runtime/native/dalvik_system_DexFile.cc
-index d714206241..9a75010174 100644
+index ecb901044a..1ad2f67810 100644
 --- a/runtime/native/dalvik_system_DexFile.cc
 +++ b/runtime/native/dalvik_system_DexFile.cc
-@@ -922,7 +922,7 @@ static void DexFile_setTrusted(JNIEnv* env, jclass, jobject j_cookie) {
+@@ -923,7 +923,7 @@ static void DexFile_setTrusted(JNIEnv* env, jclass, jobject j_cookie) {
    }
  }
  

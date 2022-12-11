@@ -81,10 +81,10 @@ index 12e29e693b..b6745806b5 100644
                  android:id="@+id/private_dns_mode_opportunistic"
                  layout="@layout/preference_widget_dialog_radiobutton"/>
 diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
-index fb73b642c2..55442553f6 100644
+index 9f4cbeebc3..ee474b56b6 100644
 --- a/res/values/cm_strings.xml
 +++ b/res/values/cm_strings.xml
-@@ -156,6 +156,21 @@
+@@ -153,6 +153,21 @@
      <string name="data_usage_app_restrict_wifi">Wi\u2011Fi data</string>
      <string name="data_usage_app_restrict_wifi_summary">Enable usage of Wi\u2011Fi data</string>
  

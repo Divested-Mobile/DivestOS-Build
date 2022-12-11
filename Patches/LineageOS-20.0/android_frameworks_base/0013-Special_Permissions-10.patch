@@ -9,10 +9,10 @@ Subject: [PATCH] srt permissions: don't auto-grant denied ones when
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-index 70fcfb7702b4..beda67a67d20 100644
+index 57cab81a565c..621f5ccad5fc 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-@@ -1809,7 +1809,9 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
+@@ -1810,7 +1810,9 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
              // If this permission was granted by default or role, make sure it is.
              if ((oldFlags & FLAG_PERMISSION_GRANTED_BY_DEFAULT) != 0
                      || (oldFlags & FLAG_PERMISSION_GRANTED_BY_ROLE) != 0

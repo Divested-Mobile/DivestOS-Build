@@ -13,10 +13,10 @@ Change-Id: If891bfbcc144c9336ba013260bad2b7c7a59c054
  4 files changed, 47 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index aa40b9202c8a..c43917955d50 100644
+index 6e1ae8ac9fe1..d9e423d3d9ce 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -17064,6 +17064,14 @@ public final class Settings {
+@@ -17220,6 +17220,14 @@ public final class Settings {
          public static final String REVIEW_PERMISSIONS_NOTIFICATION_STATE =
                  "review_permissions_notification_state";
  
@@ -32,7 +32,7 @@ index aa40b9202c8a..c43917955d50 100644
           * Settings migrated from Wear OS settings provider.
           * @hide
 diff --git a/data/etc/com.android.systemui.xml b/data/etc/com.android.systemui.xml
-index f030d80a3533..f14ee3d45d8c 100644
+index e0e13f59b706..9c8c1834f728 100644
 --- a/data/etc/com.android.systemui.xml
 +++ b/data/etc/com.android.systemui.xml
 @@ -50,6 +50,7 @@
@@ -44,10 +44,10 @@ index f030d80a3533..f14ee3d45d8c 100644
          <permission name="android.permission.RECEIVE_MEDIA_RESOURCE_USAGE"/>
          <permission name="android.permission.SET_WALLPAPER_DIM_AMOUNT"/>
 diff --git a/packages/SystemUI/AndroidManifest.xml b/packages/SystemUI/AndroidManifest.xml
-index 6755e6bee975..b89bdf3991d8 100644
+index 6475b6713717..2cc47823a109 100644
 --- a/packages/SystemUI/AndroidManifest.xml
 +++ b/packages/SystemUI/AndroidManifest.xml
-@@ -325,6 +325,9 @@
+@@ -329,6 +329,9 @@
  
      <uses-permission android:name="android.permission.SET_UNRESTRICTED_KEEP_CLEAR_AREAS" />
  
@@ -58,10 +58,10 @@ index 6755e6bee975..b89bdf3991d8 100644
      <protected-broadcast android:name="com.android.settingslib.action.UNREGISTER_SLICE_RECEIVER" />
      <protected-broadcast android:name="com.android.settings.flashlight.action.FLASHLIGHT_CHANGED" />
 diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
-index 368d6f5df584..a5f89bcb7482 100644
+index 813fa7db6588..e0f8208fb131 100644
 --- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 +++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
-@@ -194,6 +194,8 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+@@ -196,6 +196,8 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
  
      private final static String TAG = "KeyguardViewMediator";
  
@@ -70,7 +70,7 @@ index 368d6f5df584..a5f89bcb7482 100644
      private static final String DELAYED_KEYGUARD_ACTION =
          "com.android.internal.policy.impl.PhoneWindowManager.DELAYED_KEYGUARD";
      private static final String DELAYED_LOCK_PROFILE_ACTION =
-@@ -332,6 +334,11 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+@@ -334,6 +336,11 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
       */
      private int mDelayedProfileShowingSequence;
  
@@ -82,7 +82,7 @@ index 368d6f5df584..a5f89bcb7482 100644
      /**
       * If the user has disabled the keyguard, then requests to exit, this is
       * how we'll ultimately let them know whether it was successful.  We use this
-@@ -1106,6 +1113,7 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+@@ -1194,6 +1201,7 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
          final IntentFilter delayedActionFilter = new IntentFilter();
          delayedActionFilter.addAction(DELAYED_KEYGUARD_ACTION);
          delayedActionFilter.addAction(DELAYED_LOCK_PROFILE_ACTION);
@@ -90,7 +90,7 @@ index 368d6f5df584..a5f89bcb7482 100644
          delayedActionFilter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
          mContext.registerReceiver(mDelayedLockBroadcastReceiver, delayedActionFilter,
                  SYSTEMUI_PERMISSION, null /* scheduler */,
-@@ -1451,6 +1459,18 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+@@ -1540,6 +1548,18 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
          }
      }
  
@@ -109,7 +109,7 @@ index 368d6f5df584..a5f89bcb7482 100644
      private void doKeyguardForChildProfilesLocked() {
          UserManager um = UserManager.get(mContext);
          for (int profileId : um.getEnabledProfileIds(UserHandle.myUserId())) {
-@@ -1468,6 +1488,10 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+@@ -1557,6 +1577,10 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
          mDelayedProfileShowingSequence++;
      }
  
@@ -120,7 +120,7 @@ index 368d6f5df584..a5f89bcb7482 100644
      /**
       * It will let us know when the device is waking up.
       */
-@@ -1824,6 +1848,10 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+@@ -1917,6 +1941,10 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
  
          if (DEBUG) Log.d(TAG, "doKeyguard: showing the lock screen");
          showLocked(options);
@@ -131,7 +131,7 @@ index 368d6f5df584..a5f89bcb7482 100644
      }
  
      private void lockProfile(int userId) {
-@@ -2008,6 +2036,12 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+@@ -2101,6 +2129,12 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
                          }
                      }
                  }
@@ -144,11 +144,11 @@ index 368d6f5df584..a5f89bcb7482 100644
              }
          }
      };
-@@ -2578,6 +2612,7 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+@@ -2688,6 +2722,7 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
          mHideAnimationRun = false;
          adjustStatusBarLocked();
          sendUserPresentBroadcast();
 +        cancelDoRebootForOwnerAfterTimeoutIfEnabled();
      }
  
-     private Configuration.Builder createInteractionJankMonitorConf(String tag) {
+     private Configuration.Builder createInteractionJankMonitorConf(int cuj) {
