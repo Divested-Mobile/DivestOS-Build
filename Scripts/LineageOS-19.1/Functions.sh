@@ -116,7 +116,6 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	#repopick -it twelve-colors;
 	repopick -it S_tzdb2022f;
-	repopick -it S_asb_2022-12;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
