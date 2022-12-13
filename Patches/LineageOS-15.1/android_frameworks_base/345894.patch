@@ -1,0 +1,46 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Oli Lan <olilan@google.com>
+Date: Mon, 8 Aug 2022 13:31:36 +0100
+Subject: [PATCH] RESTRICT AUTOMERGE Prevent non-admin users from deleting
+ system apps.
+
+This addresses a security issue where the guest user can remove updates
+for system apps.
+
+With this CL, attempts to uninstall/downgrade system apps will fail if
+attempted by a non-admin user, unless the DELETE_SYSTEM_APP flag is
+specified.
+
+This is a fixed version of ag/17400663, to address b/236578018.
+
+Bug: 170646036
+Test: manual, try uninstalling system app update as guest
+Change-Id: I5eab215cba6528aa4316ed7b20bee544915c1486
+(cherry picked from commit 7fdc96aef4e098d2271ac3a8557bd8e1ad6827f3)
+Merged-In: I5eab215cba6528aa4316ed7b20bee544915c1486
+---
+ .../com/android/server/pm/PackageManagerService.java  | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index c0845d07d753..2a11492b9402 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -19837,6 +19837,17 @@ public class PackageManagerService extends IPackageManager.Stub
+                 return PackageManager.DELETE_FAILED_INTERNAL_ERROR;
+             }
+ 
++            if (isSystemApp(uninstalledPs)
++                    && (deleteFlags & PackageManager.DELETE_SYSTEM_APP) == 0) {
++                UserInfo userInfo = sUserManager.getUserInfo(userId);
++                if (userInfo == null || !userInfo.isAdmin()) {
++                    Slog.w(TAG, "Not removing package " + packageName
++                            + " as only admin user may downgrade system apps");
++                    EventLog.writeEvent(0x534e4554, "170646036", -1, packageName);
++                    return PackageManager.DELETE_FAILED_USER_RESTRICTED;
++                }
++            }
++
+             // Static shared libs can be declared by any package, so let us not
+             // allow removing a package if it provides a lib others depend on.
+             pkg = mPackages.get(packageName);

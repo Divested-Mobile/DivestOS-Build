@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Norman <danielnorman@google.com>
+Date: Thu, 1 Sep 2022 10:14:24 -0700
+Subject: [PATCH] Include all enabled services when FEEDBACK_ALL_MASK.
+
+Bug: 243849844
+Test: m sts;
+      sts-tradefed run sts-dynamic-develop -m CtsAccessibilityTestCases
+Change-Id: I4f93e06d1066085bd64e8f09882de2f4a72a0633
+(cherry picked from commit 2bc4d49c2b0265f5de1c62d1342b1426cc5e1377)
+Merged-In: I4f93e06d1066085bd64e8f09882de2f4a72a0633
+---
+ .../server/accessibility/AccessibilityManagerService.java      | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
+index 8b4076af7759..4859ffea870b 100644
+--- a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
++++ b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
+@@ -592,7 +592,8 @@ public class AccessibilityManagerService extends IAccessibilityManager.Stub {
+                 final Service service = services.get(i);
+                 // Don't report the UIAutomation (fake service)
+                 if (!sFakeAccessibilityServiceComponentName.equals(service.mComponentName)
+-                        && (service.mFeedbackType & feedbackType) != 0) {
++                        && ((service.mFeedbackType & feedbackType) != 0
++                        || feedbackType == AccessibilityServiceInfo.FEEDBACK_ALL_MASK)) {
+                     result.add(service.mAccessibilityServiceInfo);
+                 }
+             }

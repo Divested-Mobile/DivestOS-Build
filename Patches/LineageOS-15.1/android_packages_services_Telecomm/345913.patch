@@ -1,0 +1,54 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tyler Gunn <tgunn@google.com>
+Date: Tue, 27 Sep 2022 15:19:05 -0700
+Subject: [PATCH] Hide overlay windows when showing phone account
+ enable/disable screen.
+
+Hide any system alert window overlays when the screen that lets the user
+enable/disable phone accounts is shown.
+
+Test: Manual test with overlay shown from test app; verify that the overlay
+is hidden when the phone account selection screen is opened.
+Bug: 246933359
+
+Change-Id: Ia0209d57ee9a672cde4196076845d77941dc3f68
+(cherry picked from commit a7d57ace5819c4eef340aaf6744ad441d0369035)
+Merged-In: Ia0209d57ee9a672cde4196076845d77941dc3f68
+---
+ AndroidManifest.xml                                           | 2 ++
+ .../telecom/settings/EnableAccountPreferenceActivity.java     | 4 ++++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 2e7ca2236..abed4d836 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -22,6 +22,8 @@
+ 
+     <protected-broadcast android:name="android.intent.action.SHOW_MISSED_CALLS_NOTIFICATION" />
+ 
++    <uses-permission android:name="android.permission.HIDE_NON_SYSTEM_OVERLAY_WINDOWS"/>
++
+     <!-- Prevents the activity manager from delaying any activity-start
+          requests by this package, including requests immediately after
+          the user presses "home". -->
+diff --git a/src/com/android/server/telecom/settings/EnableAccountPreferenceActivity.java b/src/com/android/server/telecom/settings/EnableAccountPreferenceActivity.java
+index 2367825b3..662e56f61 100644
+--- a/src/com/android/server/telecom/settings/EnableAccountPreferenceActivity.java
++++ b/src/com/android/server/telecom/settings/EnableAccountPreferenceActivity.java
+@@ -25,11 +25,15 @@ import android.telecom.Log;
+ import android.telecom.PhoneAccountHandle;
+ import android.telecom.TelecomManager;
+ import android.view.MenuItem;
++import android.view.WindowManager;
+ 
+ public class EnableAccountPreferenceActivity extends Activity {
+     @Override
+     public void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
++        getWindow().addPrivateFlags(
++                android.view.WindowManager.LayoutParams
++                        .PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);
+ 
+         getFragmentManager().beginTransaction()
+                 .replace(android.R.id.content, new EnableAccountPreferenceFragment())

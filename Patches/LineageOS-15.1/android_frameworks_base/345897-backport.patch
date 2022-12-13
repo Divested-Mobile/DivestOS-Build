@@ -1,0 +1,43 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Songchun Fan <schfan@google.com>
+Date: Fri, 9 Sep 2022 14:50:31 -0700
+Subject: [PATCH] forbid deletion of protected packages
+
+BUG: 242996180
+Test: adb shell pm uninstall --user 0 com.google.android.apps.work.oobconfig
+Test: Verified with the command above. Before this CL, the package can
+be deleted. After this CL, the deletion will fail.
+
+Change-Id: Iba408e536b340ea5d66ab499442c0c4f828fa36f
+(cherry picked from commit 15f85c7fa97fe9faa540e6ad9e850990f46a5cca)
+Merged-In: Iba408e536b340ea5d66ab499442c0c4f828fa36f
+(cherry picked from commit 2e42c393f2d5521d20acd9281d411a0fbc6196c3)
+Merged-In: Iba408e536b340ea5d66ab499442c0c4f828fa36f
+---
+ .../android/server/pm/PackageManagerService.java    | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index 2a11492b9402..aefbb8d25e49 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -19504,6 +19504,19 @@ public class PackageManagerService extends IPackageManager.Stub
+ 
+         final String packageName = versionedPackage.getPackageName();
+         final int versionCode = versionedPackage.getVersionCode();
++
++        if (mProtectedPackages.isPackageStateProtected(userId, packageName)) {
++            mHandler.post(() -> {
++                try {
++                    Slog.w(TAG, "Attempted to delete protected package: " + packageName);
++                    observer.onPackageDeleted(packageName,
++                            PackageManager.DELETE_FAILED_INTERNAL_ERROR, null);
++                } catch (RemoteException re) {
++                }
++            });
++            return;
++        }
++
+         final String internalPackageName;
+         synchronized (mPackages) {
+             // Normalize package name to handle renamed packages and static libs

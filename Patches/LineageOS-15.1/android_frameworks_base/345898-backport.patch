@@ -1,0 +1,93 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Julia Reynolds <juliacr@google.com>
+Date: Tue, 6 Sep 2022 10:19:06 -0400
+Subject: [PATCH] Fix NPE
+
+Test: NotificationChannelGroupTest
+Test: view notification settings for an app that doesn't use groups
+Fixes: 244574602
+Bug: 241764350
+Bug: 241764340
+Bug: 241764135
+Bug: 242702935
+Bug: 242703118
+Bug: 242703202
+Bug: 242702851
+Bug: 242703217
+Bug: 242703556
+Change-Id: I9c681106f6d645e62b0e44903d40aa523fee0e95
+(cherry picked from commit 6f02c07176d0fa4d6985c8f2200ccf49a1657d1c)
+(cherry picked from commit a37554289731f0d52923123697d55074b0f41748)
+Merged-In: I9c681106f6d645e62b0e44903d40aa523fee0e95
+---
+ .../android/app/NotificationChannelGroup.java    | 14 +++++++++++---
+ .../app/NotificationChannelGroupTest.java        | 16 ++++++++++++++++
+ 2 files changed, 27 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/android/app/NotificationChannelGroup.java b/core/java/android/app/NotificationChannelGroup.java
+index 5ca6fe853db8..0916cd5b584d 100644
+--- a/core/java/android/app/NotificationChannelGroup.java
++++ b/core/java/android/app/NotificationChannelGroup.java
+@@ -73,8 +73,11 @@ public final class NotificationChannelGroup implements Parcelable {
+         } else {
+             mId = null;
+         }
+-        mName = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
+-        mName = getTrimmedString(mName.toString());
++        if (in.readByte() != 0) {
++            mName = getTrimmedString(in.readString());
++        } else {
++            mName = "";
++        }
+         in.readParcelableList(mChannels, NotificationChannel.class.getClassLoader());
+     }
+ 
+@@ -93,7 +96,12 @@ public final class NotificationChannelGroup implements Parcelable {
+         } else {
+             dest.writeByte((byte) 0);
+         }
+-        TextUtils.writeToParcel(mName.toString(), dest, flags);
++        if (mName != null) {
++            dest.writeByte((byte) 1);
++            dest.writeString(mName.toString());
++        } else {
++            dest.writeByte((byte) 0);
++        }
+         dest.writeParcelableList(mChannels, flags);
+     }
+ 
+diff --git a/core/tests/coretests/src/android/app/NotificationChannelGroupTest.java b/core/tests/coretests/src/android/app/NotificationChannelGroupTest.java
+index 2a3da05eabb3..625c66a4c60e 100644
+--- a/core/tests/coretests/src/android/app/NotificationChannelGroupTest.java
++++ b/core/tests/coretests/src/android/app/NotificationChannelGroupTest.java
+@@ -17,9 +17,11 @@
+ package android.app;
+ 
+ import static junit.framework.TestCase.assertEquals;
++import static junit.framework.TestCase.assertTrue;
+ 
+ import android.os.Parcel;
+ import android.test.AndroidTestCase;
++import android.text.TextUtils;
+ 
+ import androidx.test.filters.SmallTest;
+ import androidx.test.runner.AndroidJUnit4;
+@@ -70,4 +72,18 @@ public class NotificationChannelGroupTest {
+         assertEquals(NotificationChannelGroup.MAX_TEXT_LENGTH,
+                 fromParcel.getDescription().length());
+     }
++
++    @Test
++    public void testNullableFields() {
++        NotificationChannelGroup group = new NotificationChannelGroup("my_group_01", null);
++
++        Parcel parcel = Parcel.obtain();
++        group.writeToParcel(parcel, 0);
++        parcel.setDataPosition(0);
++
++        NotificationChannelGroup fromParcel =
++                NotificationChannelGroup.CREATOR.createFromParcel(parcel);
++        assertEquals(group.getId(), fromParcel.getId());
++        assertTrue(TextUtils.isEmpty(fromParcel.getName()));
++    }
+ }

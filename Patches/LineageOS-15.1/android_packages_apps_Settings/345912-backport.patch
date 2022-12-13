@@ -1,0 +1,124 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Milton Wu <mingjuwu@google.com>
+Date: Mon, 8 Aug 2022 09:05:00 +0000
+Subject: [PATCH] Add FLAG_SECURE for ChooseLockPassword and Pattern
+
+Prevent ChooseLockPassword and ChooseLockPatten being projected to
+remote views, add FLAG_SECURE for these screens.
+
+Bug: 179725730
+Test: Check these 2 screens not projected to chromecast
+Test: robo test for SetupChooseLockPatternTest ChooseLockPatternTest
+      SetupChooseLockPasswordTest ChooseLockPasswordTest
+Change-Id: I7449a24427c966c1aa4280a7b7e7e70b60997cca
+---
+ .../settings/password/ChooseLockPassword.java  |  2 ++
+ .../settings/password/ChooseLockPattern.java   |  2 ++
+ .../password/ChooseLockPasswordTest.java       | 18 ++++++++++++++++++
+ .../password/ChooseLockPatternTest.java        | 10 ++++++++++
+ 4 files changed, 32 insertions(+)
+
+diff --git a/src/com/android/settings/password/ChooseLockPassword.java b/src/com/android/settings/password/ChooseLockPassword.java
+index 9f5192d044..c7e0673b8a 100644
+--- a/src/com/android/settings/password/ChooseLockPassword.java
++++ b/src/com/android/settings/password/ChooseLockPassword.java
+@@ -49,6 +49,7 @@ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.View.OnClickListener;
+ import android.view.ViewGroup;
++import android.view.WindowManager;
+ import android.view.inputmethod.EditorInfo;
+ import android.widget.Button;
+ import android.widget.LinearLayout;
+@@ -166,6 +167,7 @@ public class ChooseLockPassword extends SettingsActivity {
+         setTitle(msg);
+         LinearLayout layout = (LinearLayout) findViewById(R.id.content_parent);
+         layout.setFitsSystemWindows(false);
++        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+     }
+ 
+     public static class ChooseLockPasswordFragment extends InstrumentedPreferenceFragment
+diff --git a/src/com/android/settings/password/ChooseLockPattern.java b/src/com/android/settings/password/ChooseLockPattern.java
+index f65b4b3cf5..e4fa302f0a 100644
+--- a/src/com/android/settings/password/ChooseLockPattern.java
++++ b/src/com/android/settings/password/ChooseLockPattern.java
+@@ -29,6 +29,7 @@ import android.view.View;
+ import android.view.ViewGroup;
+ import android.widget.LinearLayout;
+ import android.widget.ScrollView;
++import android.view.WindowManager;
+ import android.widget.TextView;
+ 
+ import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
+@@ -144,6 +145,7 @@ public class ChooseLockPattern extends SettingsActivity {
+                 : R.string.lockpassword_choose_your_pattern_header);
+         LinearLayout layout = (LinearLayout) findViewById(R.id.content_parent);
+         layout.setFitsSystemWindows(false);
++        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+     }
+ 
+     @Override
+diff --git a/tests/robotests/src/com/android/settings/password/ChooseLockPasswordTest.java b/tests/robotests/src/com/android/settings/password/ChooseLockPasswordTest.java
+index b8f06793ac..0970e5f3bf 100644
+--- a/tests/robotests/src/com/android/settings/password/ChooseLockPasswordTest.java
++++ b/tests/robotests/src/com/android/settings/password/ChooseLockPasswordTest.java
+@@ -16,6 +16,8 @@
+ 
+ package com.android.settings.password;
+ 
++import static android.view.WindowManager.LayoutParams.FLAG_SECURE;
++
+ import static com.google.common.truth.Truth.assertThat;
+ 
+ import static org.robolectric.RuntimeEnvironment.application;
+@@ -126,6 +128,22 @@ public class ChooseLockPasswordTest {
+     }
+ 
+     @Test
++
++    @Test
++    public void activity_shouldHaveSecureFlag() {
++        PasswordPolicy policy = new PasswordPolicy();
++        policy.quality = PASSWORD_QUALITY_ALPHABETIC;
++        policy.length = 10;
++
++        Intent intent = createIntentForPasswordValidation(
++                /* minMetrics */ policy.getMinMetrics(),
++                /* minComplexity= */ PASSWORD_COMPLEXITY_NONE,
++                /* passwordType= */ PASSWORD_QUALITY_ALPHABETIC);
++        ChooseLockPassword activity = buildChooseLockPasswordActivity(intent);
++        final int flags = activity.getWindow().getAttributes().flags;
++        assertThat(flags & FLAG_SECURE).isEqualTo(FLAG_SECURE);
++    }
++
+     public void assertThat_chooseLockIconChanged_WhenFingerprintExtraSet() {
+         ShadowDrawable drawable = setActivityAndGetIconDrawable(true);
+         assertThat(drawable.getCreatedFromResId()).isEqualTo(R.drawable.ic_fingerprint_header);
+diff --git a/tests/robotests/src/com/android/settings/password/ChooseLockPatternTest.java b/tests/robotests/src/com/android/settings/password/ChooseLockPatternTest.java
+index c74448b5dd..7735e5db9f 100644
+--- a/tests/robotests/src/com/android/settings/password/ChooseLockPatternTest.java
++++ b/tests/robotests/src/com/android/settings/password/ChooseLockPatternTest.java
+@@ -16,6 +16,8 @@
+ 
+ package com.android.settings.password;
+ 
++import static android.view.WindowManager.LayoutParams.FLAG_SECURE;
++
+ import static com.google.common.truth.Truth.assertThat;
+ 
+ import static org.robolectric.RuntimeEnvironment.application;
+@@ -109,6 +111,14 @@ public class ChooseLockPatternTest {
+         assertThat(drawable.getCreatedFromResId()).isEqualTo(R.drawable.ic_fingerprint_header);
+     }
+ 
++    @Test
++    public void activity_shouldHaveSecureFlag() {
++        final ChooseLockPattern activity = Robolectric.buildActivity(
++                ChooseLockPattern.class, new IntentBuilder(application).build()).setup().get();
++        final int flags = activity.getWindow().getAttributes().flags;
++        assertThat(flags & FLAG_SECURE).isEqualTo(FLAG_SECURE);
++    }
++
+     private ChooseLockPattern createActivity(boolean addFingerprintExtra) {
+         return Robolectric.buildActivity(
+                 ChooseLockPattern.class,

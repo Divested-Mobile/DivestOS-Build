@@ -1,0 +1,43 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Keith Mok <keithmok@google.com>
+Date: Thu, 29 Sep 2022 22:34:05 +0000
+Subject: [PATCH] Fix OOB crash for registerLocaleList
+
+When the buffer size is equal to string size,
+the func in icu just return warning U_STRING_NOT_TERMINATED_WARNING
+which is a negative number, and U_FAILURE would fail if error number
+greater than zero only.
+
+This would cause non null terminated string passing into following funcs
+and causing different types of crash
+
+This fixes the previous partial fix.
+
+Bug: 248612953
+Bug: 239210579
+Bug: 249151446
+Bug: 239267173
+Test: locale_fuzzer
+Ignore-AOSP-First: security
+Merged-In: I651d1ff64d06b4c30e18ee69772f52a60aa5ff7a
+Change-Id: I651d1ff64d06b4c30e18ee69772f52a60aa5ff7a
+(cherry picked from commit 582927b0d6c6920ee6a04049eaa9e68608cfc888)
+(cherry picked from commit a8265407660edaa1006545a6401d6409c05acb5d)
+Merged-In: I651d1ff64d06b4c30e18ee69772f52a60aa5ff7a
+---
+ libs/minikin/FontLanguageListCache.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libs/minikin/FontLanguageListCache.cpp b/libs/minikin/FontLanguageListCache.cpp
+index e6302be..7b9bf9d 100644
+--- a/libs/minikin/FontLanguageListCache.cpp
++++ b/libs/minikin/FontLanguageListCache.cpp
+@@ -56,7 +56,7 @@ static size_t toLanguageTag(char* output, size_t outSize, const std::string& loc
+     char likelyChars[ULOC_FULLNAME_CAPACITY];
+     uErr = U_ZERO_ERROR;
+     uloc_addLikelySubtags(output, likelyChars, ULOC_FULLNAME_CAPACITY, &uErr);
+-    if (U_FAILURE(uErr)) {
++    if (U_FAILURE(uErr) || (uErr == U_STRING_NOT_TERMINATED_WARNING)) {
+         // unable to build a proper language identifier
+         ALOGD("uloc_addLikelySubtags(\"%s\") failed: %s", output, u_errorName(uErr));
+         output[0] = '\0';

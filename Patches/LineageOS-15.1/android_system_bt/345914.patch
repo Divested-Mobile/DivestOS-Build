@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ted Wang <tedwang@google.com>
+Date: Thu, 4 Aug 2022 09:41:24 +0800
+Subject: [PATCH] Add length check when copy AVDTP packet
+
+Bug: 232023771
+Test: make
+Tag: #security
+Ignore-AOSP-First: Security
+Change-Id: I68dd78c747eeafee5190dc56d7c71e9eeed08a5b
+Merged-In: I68dd78c747eeafee5190dc56d7c71e9eeed08a5b
+(cherry picked from commit 07cc1fe9b4523f95c13c247a795bdf0b36a1aa4f)
+Merged-In: I68dd78c747eeafee5190dc56d7c71e9eeed08a5b
+---
+ stack/avdt/avdt_msg.cc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/stack/avdt/avdt_msg.cc b/stack/avdt/avdt_msg.cc
+index 52ce2e8a6..5dbe79bc5 100644
+--- a/stack/avdt/avdt_msg.cc
++++ b/stack/avdt/avdt_msg.cc
+@@ -1223,6 +1223,10 @@ BT_HDR* avdt_msg_asmbl(tAVDT_CCB* p_ccb, BT_HDR* p_buf) {
+      * would have allocated smaller buffer.
+      */
+     p_ccb->p_rx_msg = (BT_HDR*)osi_malloc(BT_DEFAULT_BUFFER_SIZE);
++    if (sizeof(BT_HDR) + p_buf->offset + p_buf->len > BT_DEFAULT_BUFFER_SIZE) {
++      android_errorWriteLog(0x534e4554, "232023771");
++      return NULL;
++    }
+     memcpy(p_ccb->p_rx_msg, p_buf, sizeof(BT_HDR) + p_buf->offset + p_buf->len);
+ 
+     /* Free original buffer */

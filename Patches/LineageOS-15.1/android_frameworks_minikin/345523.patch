@@ -1,0 +1,48 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Keith Mok <keithmok@google.com>
+Date: Thu, 15 Sep 2022 22:51:42 +0000
+Subject: [PATCH] Fix OOB read for registerLocaleList
+
+When the buffer size is equal to string size,
+the func in icu just return warning U_STRING_NOT_TERMINATED_WARNING
+which is a negative number, and U_FAILURE would fail if error number
+greater than zero only.
+
+This would cause non null terminated string passing into following funcs
+and causing different types of crash
+
+Bug: 239210579
+Bug: 239328580
+Bug: 239267173
+Test: locale_fuzzer
+Ignore-AOSP-First: security
+Merged-In: Id9c98fc08876656e1f48d12823a24bb7a44bee45
+Change-Id: Id9c98fc08876656e1f48d12823a24bb7a44bee45
+(cherry picked from commit d8a427cc9c8a722b0911af5139b10b0a6aeb0e03)
+Merged-In: Id9c98fc08876656e1f48d12823a24bb7a44bee45
+---
+ libs/minikin/FontLanguageListCache.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libs/minikin/FontLanguageListCache.cpp b/libs/minikin/FontLanguageListCache.cpp
+index f1e14f0..e6302be 100644
+--- a/libs/minikin/FontLanguageListCache.cpp
++++ b/libs/minikin/FontLanguageListCache.cpp
+@@ -40,7 +40,7 @@ static size_t toLanguageTag(char* output, size_t outSize, const std::string& loc
+     size_t outLength = 0;
+     UErrorCode uErr = U_ZERO_ERROR;
+     outLength = uloc_canonicalize(locale.c_str(), output, outSize, &uErr);
+-    if (U_FAILURE(uErr)) {
++    if (U_FAILURE(uErr) || (uErr == U_STRING_NOT_TERMINATED_WARNING)) {
+         // unable to build a proper language identifier
+         ALOGD("uloc_canonicalize(\"%s\") failed: %s", locale.c_str(), u_errorName(uErr));
+         output[0] = '\0';
+@@ -65,7 +65,7 @@ static size_t toLanguageTag(char* output, size_t outSize, const std::string& loc
+ 
+     uErr = U_ZERO_ERROR;
+     outLength = uloc_toLanguageTag(likelyChars, output, outSize, FALSE, &uErr);
+-    if (U_FAILURE(uErr)) {
++    if (U_FAILURE(uErr) || (uErr == U_STRING_NOT_TERMINATED_WARNING)) {
+         // unable to build a proper language identifier
+         ALOGD("uloc_toLanguageTag(\"%s\") failed: %s", likelyChars, u_errorName(uErr));
+         output[0] = '\0';

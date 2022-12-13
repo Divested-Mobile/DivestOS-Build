@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Pierre-Cl=C3=A9ment=20Tosi?= <ptosi@google.com>
+Date: Tue, 13 Sep 2022 16:58:15 +0100
+Subject: [PATCH] libfdt: fdt_path_offset_namelen: Reject empty paths
+
+Make empty paths result in FDT_ERR_BADPATH.
+
+Per the specification (v0.4-rc4):
+
+> The convention for specifying a device path is:
+>     /node-name-1/node-name-2/node-name-N
+>
+> The path to the root node is /.
+>
+> A unit address may be omitted if the full path to the
+> node is unambiguous.
+
+Bug: 246465319
+Test: libfdt_fuzzer  # clusterfuzz/testcase-detail/4530863420604416
+Change-Id: I14ab0a074ab994c1f598243d2d5795d2cd9a853a
+(cherry picked from commit 3c28f3e3a1724c288d19f1b1a139cf57bfe1af33)
+(cherry picked from commit d10c84c4bc78e8ebd8c6ebf70126ad3cb0ba1c46)
+Merged-In: I14ab0a074ab994c1f598243d2d5795d2cd9a853a
+---
+ libfdt/fdt_ro.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/libfdt/fdt_ro.c b/libfdt/fdt_ro.c
+index 3d00d2e..be8fd82 100644
+--- a/libfdt/fdt_ro.c
++++ b/libfdt/fdt_ro.c
+@@ -188,6 +188,9 @@ int fdt_path_offset_namelen(const void *fdt, const char *path, int namelen)
+ 
+ 	FDT_CHECK_HEADER(fdt);
+ 
++	if (namelen < 1)
++		return -FDT_ERR_BADPATH;
++
+ 	/* see if we have an alias */
+ 	if (*path != '/') {
+ 		const char *q = memchr(path, '/', end - p);

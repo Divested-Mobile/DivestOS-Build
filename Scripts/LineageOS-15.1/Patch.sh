@@ -73,7 +73,7 @@ applyPatch "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys t
 applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2022-11-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2022-12-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -98,6 +98,7 @@ fi;
 if enterAndClear "external/dtc"; then
 applyPatch "$DOS_PATCHES/android_external_dtc/342096.patch"; #P_asb_2022-10 libfdt: fdt_offset_ptr(): Fix comparison warnings
 applyPatch "$DOS_PATCHES/android_external_dtc/344161.patch"; #P_asb_2022-11 Fix integer wrap sanitisation.
+applyPatch "$DOS_PATCHES/android_external_dtc/345891.patch"; #P_asb_2022-12 libfdt: fdt_path_offset_namelen: Reject empty paths
 fi;
 
 if enterAndClear "external/expat"; then
@@ -128,7 +129,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/332449.patch"; #n-asb-2022-06 A
 applyPatch "$DOS_PATCHES/android_frameworks_base/332757.patch"; #P_asb_2022-06 limit TelecomManager#registerPhoneAccount to 10; api doc update
 applyPatch "$DOS_PATCHES/android_frameworks_base/332776.patch"; #P_asb_2022-06 Update GeofenceHardwareRequestParcelable to match parcel/unparcel format.
 applyPatch "$DOS_PATCHES/android_frameworks_base/332778.patch"; #P_asb_2022-06 Fix security hole in GateKeeperResponse
-applyPatch "$DOS_PATCHES/android_frameworks_base/332779.patch"; #P_asb_2022-06 Prevent non-admin users from deleting system apps.
+#applyPatch "$DOS_PATCHES/android_frameworks_base/332779.patch"; #P_asb_2022-06 Prevent non-admin users from deleting system apps. REVERTED IN P_asb_2022-12
 #applyPatch "$DOS_PATCHES/android_frameworks_base/334257-backport.patch"; #P_asb_2022-07 UserDataPreparer: reboot to recovery if preparing user storage fails #XXX
 #applyPatch "$DOS_PATCHES/android_frameworks_base/334258-backport.patch"; #P_asb_2022-07 UserDataPreparer: reboot to recovery for system user only #XXX
 applyPatch "$DOS_PATCHES/android_frameworks_base/334262.patch"; #P_asb_2022-07 Crash invalid FGS notifications
@@ -147,6 +148,15 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/344171-backport.patch"; #P_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/344172.patch"; #P_asb_2022-11 Trim any long string inputs that come in to AutomaticZenRule
 applyPatch "$DOS_PATCHES/android_frameworks_base/344173.patch"; #P_asb_2022-11 Check permission for VoiceInteraction
 applyPatch "$DOS_PATCHES/android_frameworks_base/344174-backport.patch"; #P_asb_2022-11 Do not dismiss keyguard after SIM PUK unlock
+applyPatch "$DOS_PATCHES/android_frameworks_base/345893-backport.patch"; #P_asb_2022-12 Limit the size of NotificationChannel and NotificationChannelGroup
+applyPatch "$DOS_PATCHES/android_frameworks_base/345894.patch"; #P_asb_2022-12 Prevent non-admin users from deleting system apps.
+applyPatch "$DOS_PATCHES/android_frameworks_base/345895-backport.patch"; #P_asb_2022-12 Validate package name passed to setApplicationRestrictions.
+applyPatch "$DOS_PATCHES/android_frameworks_base/345896-backport.patch"; #P_asb_2022-12 Include all enabled services when FEEDBACK_ALL_MASK. #XXX: uncertain backport
+applyPatch "$DOS_PATCHES/android_frameworks_base/345897-backport.patch"; #P_asb_2022-12 [pm] forbid deletion of protected packages
+applyPatch "$DOS_PATCHES/android_frameworks_base/345898-backport.patch"; #P_asb_2022-12 Fix NPE
+applyPatch "$DOS_PATCHES/android_frameworks_base/345520.patch"; #n-asb-2022-12 Ignore malformed shortcuts
+applyPatch "$DOS_PATCHES/android_frameworks_base/345901.patch"; #P_asb_2022-12 Fix permanent denial of service via setComponentEnabledSetting
+applyPatch "$DOS_PATCHES/android_frameworks_base/345902-backport.patch"; #P_asb_2022-12 Add safety checks on KEY_INTENT mismatch.
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after three failed attempts (GrapheneOS)
@@ -163,6 +173,11 @@ changeDefaultDNS; #Change the default DNS servers
 rm -rf packages/CompanionDeviceManager; #Used to support Android Wear (which hard depends on GMS)
 rm -rf packages/Osu packages/Osu2; #Automatic Wi-Fi connection non-sense
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
+fi;
+
+if enterAndClear "frameworks/minikin"; then
+applyPatch "$DOS_PATCHES/android_frameworks_minikin/345523.patch"; #n-asb-2022-12 Fix OOB read for registerLocaleList
+applyPatch "$DOS_PATCHES/android_frameworks_minikin/345524.patch"; #n-asb-2022-12 Fix OOB crash for registerLocaleList
 fi;
 
 if enterAndClear "frameworks/native"; then
@@ -230,6 +245,7 @@ fi;
 if enterAndClear "packages/apps/Bluetooth"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/332758-backport.patch"; #P_asb_2022-06 Removes app access to BluetoothAdapter#setScanMode by requiring BLUETOOTH_PRIVILEGED permission.
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/332759-backport.patch"; #P_asb_2022-06 Removes app access to BluetoothAdapter#setDiscoverableTimeout by requiring BLUETOOTH_PRIVILEGED permission.
+applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/345907-backport.patch"; #P_asb_2022-12 Fix URI check in BluetoothOppUtility.java
 fi;
 
 if enterAndClear "packages/apps/Contacts"; then
@@ -266,12 +282,14 @@ if enterAndClear "packages/apps/Settings"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/326758.patch"; #P_asb_2022-03 Fix bypass CALL_PRIVILEGED permission in AppRestrictionsFragment
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/326759.patch"; #P_asb_2022-03 Add caller check to com.android.credentials.RESET
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/327099.patch"; #n-asb-2022-03 Add caller check to com.android.credentials.RESET
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/332763.patch"; #P_asb_2022-06 Prevent exfiltration of system files via user image settings.
+#applyPatch "$DOS_PATCHES/android_packages_apps_Settings/332763.patch"; #P_asb_2022-06 Prevent exfiltration of system files via user image settings. REVERTED IN P_asb_2022-12
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/334265.patch"; #P_asb_2022-07 Fix LaunchAnyWhere in AppRestrictionsFragment
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/335111.patch"; #P_asb_2022-08 Verify ringtone from ringtone picker is audio
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/335114.patch"; #P_asb_2022-08 Fix Settings crash when setting a null ringtone
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/335115.patch"; #P_asb_2022-08 Fix can't change notification sound for work profile.
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/335116.patch"; #P_asb_2022-08 Extract app label from component name in notification access confirmation UI #TODO: needs backport
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/345911.patch"; #P_asb_2022-12 Prevent exfiltration of system files via avatar picker.
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/345912-backport.patch"; #P_asb_2022-12 Add FLAG_SECURE for ChooseLockPassword and Pattern
 git revert --no-edit a96df110e84123fe1273bff54feca3b4ca484dcd; #Don't hide OEM unlock
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 if [ "$DOS_SENSORS_PERM" = true ]; then
@@ -319,6 +337,7 @@ fi;
 if enterAndClear "packages/services/Telecomm"; then
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/332764.patch"; #P_asb_2022-06 limit TelecomManager#registerPhoneAccount to 10
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/344183.patch"; #P_asb_2022-11 switch TelecomManager List getters to ParceledListSlice
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/345913.patch"; #P_asb_2022-12 Hide overlay windows when showing phone account enable/disable screen.
 fi;
 
 if enterAndClear "packages/services/Telephony"; then
@@ -338,6 +357,11 @@ applyPatch "$DOS_PATCHES/android_system_bt/337997.patch"; #Q_asb_2022-09 Fix OOB
 applyPatch "$DOS_PATCHES/android_system_bt/342097.patch"; #P_asb_2022-10 Fix potential interger overflow when parsing vendor response
 applyPatch "$DOS_PATCHES/android_system_bt/344184.patch"; #P_asb_2022-11 Add negative length check in process_service_search_rsp
 applyPatch "$DOS_PATCHES/android_system_bt/344185.patch"; #P_asb_2022-11 Add buffer in pin_reply in bluetooth.cc
+applyPatch "$DOS_PATCHES/android_system_bt/345914.patch"; #P_asb_2022-12 Add length check when copy AVDTP packet
+applyPatch "$DOS_PATCHES/android_system_bt/345915.patch"; #P_asb_2022-12 Added max buffer length check
+applyPatch "$DOS_PATCHES/android_system_bt/345916.patch"; #P_asb_2022-12 Add missing increment in bnep_api.cc
+applyPatch "$DOS_PATCHES/android_system_bt/345917.patch"; #P_asb_2022-12 Add length check when copy AVDT and AVCT packet
+applyPatch "$DOS_PATCHES/android_system_bt/345918.patch"; #P_asb_2022-12 Fix integer overflow when parsing avrc response
 fi;
 
 if enterAndClear "system/core"; then

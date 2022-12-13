@@ -1,0 +1,66 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Keith Mok <keithmok@google.com>
+Date: Tue, 16 Aug 2022 21:41:03 +0000
+Subject: [PATCH] Add length check when copy AVDT and AVCT packet
+
+Previous fix for AVDT causing memory leak.
+And missing similar fix for AVCT packet.
+
+Bug: 232023771
+Test: make
+Tag: #security
+Ignore-AOSP-First: Security
+Merged-In: Ifa8ed1cd9ea118acba78bdfdf6d5861fad254a90
+Change-Id: Ifa8ed1cd9ea118acba78bdfdf6d5861fad254a90
+(cherry picked from commit a4311b284639bbd2c6c2c72d35d8444d40fb2d12)
+Merged-In: Ifa8ed1cd9ea118acba78bdfdf6d5861fad254a90
+---
+ stack/avct/avct_lcb_act.cc | 8 +++++++-
+ stack/avdt/avdt_msg.cc     | 6 ++++--
+ 2 files changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/stack/avct/avct_lcb_act.cc b/stack/avct/avct_lcb_act.cc
+index 35f9bc60a..439f3e82e 100644
+--- a/stack/avct/avct_lcb_act.cc
++++ b/stack/avct/avct_lcb_act.cc
+@@ -85,13 +85,19 @@ static BT_HDR* avct_lcb_msg_asmbl(tAVCT_LCB* p_lcb, BT_HDR* p_buf) {
+     if (p_lcb->p_rx_msg != NULL)
+       AVCT_TRACE_WARNING("Got start during reassembly");
+ 
+-    osi_free(p_lcb->p_rx_msg);
++    osi_free_and_reset((void**)&p_lcb->p_rx_msg);
+ 
+     /*
+      * Allocate bigger buffer for reassembly. As lower layers are
+      * not aware of possible packet size after reassembly, they
+      * would have allocated smaller buffer.
+      */
++    if (sizeof(BT_HDR) + p_buf->offset + p_buf->len > BT_DEFAULT_BUFFER_SIZE) {
++      android_errorWriteLog(0x534e4554, "232023771");
++      osi_free(p_buf);
++      p_ret = NULL;
++      return p_ret;
++    }
+     p_lcb->p_rx_msg = (BT_HDR*)osi_malloc(BT_DEFAULT_BUFFER_SIZE);
+     memcpy(p_lcb->p_rx_msg, p_buf, sizeof(BT_HDR) + p_buf->offset + p_buf->len);
+ 
+diff --git a/stack/avdt/avdt_msg.cc b/stack/avdt/avdt_msg.cc
+index 5dbe79bc5..b6a952bcf 100644
+--- a/stack/avdt/avdt_msg.cc
++++ b/stack/avdt/avdt_msg.cc
+@@ -1222,11 +1222,13 @@ BT_HDR* avdt_msg_asmbl(tAVDT_CCB* p_ccb, BT_HDR* p_buf) {
+      * not aware of possible packet size after reassembly, they
+      * would have allocated smaller buffer.
+      */
+-    p_ccb->p_rx_msg = (BT_HDR*)osi_malloc(BT_DEFAULT_BUFFER_SIZE);
+     if (sizeof(BT_HDR) + p_buf->offset + p_buf->len > BT_DEFAULT_BUFFER_SIZE) {
+       android_errorWriteLog(0x534e4554, "232023771");
+-      return NULL;
++      osi_free(p_buf);
++      p_ret = NULL;
++      return p_ret;
+     }
++    p_ccb->p_rx_msg = (BT_HDR*)osi_malloc(BT_DEFAULT_BUFFER_SIZE);
+     memcpy(p_ccb->p_rx_msg, p_buf, sizeof(BT_HDR) + p_buf->offset + p_buf->len);
+ 
+     /* Free original buffer */

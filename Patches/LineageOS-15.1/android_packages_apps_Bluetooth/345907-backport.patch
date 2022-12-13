@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Wed, 28 Sep 2022 23:30:49 +0000
+Subject: [PATCH] Fix URI check in BluetoothOppUtility.java
+
+Bug: 225880741
+Test: BT unit tests, validated against researcher POC
+Tag: #security
+Ignore-AOSP-First: Security
+Change-Id: I65c1494023930aa23fede55936488f605c7cfe01
+(cherry picked from commit d0957cfdf1fc1b36620c1545643ffbc37f0ac24c)
+Merged-In: I65c1494023930aa23fede55936488f605c7cfe01
+---
+ src/com/android/bluetooth/opp/BluetoothOppUtility.java | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/bluetooth/opp/BluetoothOppUtility.java b/src/com/android/bluetooth/opp/BluetoothOppUtility.java
+index 0e3df0bf5..f366cca25 100644
+--- a/src/com/android/bluetooth/opp/BluetoothOppUtility.java
++++ b/src/com/android/bluetooth/opp/BluetoothOppUtility.java
+@@ -47,6 +47,7 @@ import android.content.pm.PackageManager;
+ import android.content.pm.ResolveInfo;
+ import android.database.Cursor;
+ import android.os.Environment;
++import android.util.EventLog;
+ import android.util.Log;
+ 
+ import java.io.File;
+@@ -67,7 +68,11 @@ public class BluetoothOppUtility {
+             = new ConcurrentHashMap<Uri, BluetoothOppSendFileInfo>();
+ 
+     public static boolean isBluetoothShareUri(Uri uri) {
+-        return uri.toString().startsWith(BluetoothShare.CONTENT_URI.toString());
++        if (uri.toString().startsWith(BluetoothShare.CONTENT_URI.toString())
++                && !uri.getAuthority().equals(BluetoothShare.CONTENT_URI.getAuthority())) {
++            EventLog.writeEvent(0x534e4554, "225880741", -1, "");
++        }
++        return uri.getAuthority().equals(BluetoothShare.CONTENT_URI.getAuthority());
+     }
+ 
+     public static BluetoothOppTransferInfo queryRecord(Context context, Uri uri) {

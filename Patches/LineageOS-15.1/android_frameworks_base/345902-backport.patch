@@ -1,0 +1,102 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hao Ke <haok@google.com>
+Date: Tue, 4 Oct 2022 19:43:58 +0000
+Subject: [PATCH] Add safety checks on KEY_INTENT mismatch.
+
+For many years, Parcel mismatch typed exploits has been using the
+AccoungManagerService's passing of KEY_INTENT workflow, as a foothold of
+launching arbitrary intents. We are adding an extra check on the service
+side to simulate the final deserialization of the KEY_INTENT value, to
+make sure the client side won't get a mismatched KEY_INTENT value.
+
+Bug: 250588548
+Bug: 240138294
+Test: atest CtsAccountManagerTestCases
+Test: local test, also see b/250588548
+Change-Id: I433e34f6e21ce15c89825044a15b1dec46bb25cc
+(cherry picked from commit eb9a0566a583fa13f8aff671c41f78a9e33eab82)
+Merged-In: I433e34f6e21ce15c89825044a15b1dec46bb25cc
+---
+ .../accounts/AccountManagerService.java       | 34 ++++++++++++++++---
+ 1 file changed, 30 insertions(+), 4 deletions(-)
+
+diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
+index dcc571d84314..7b7ef41d5b41 100644
+--- a/services/core/java/com/android/server/accounts/AccountManagerService.java
++++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
+@@ -83,6 +83,7 @@ import android.os.SystemClock;
+ import android.os.UserHandle;
+ import android.os.UserManager;
+ import android.text.TextUtils;
++import android.util.EventLog;
+ import android.util.Log;
+ import android.util.Pair;
+ import android.util.Slog;
+@@ -2989,7 +2990,7 @@ public class AccountManagerService
+                              */
+                             if (!checkKeyIntent(
+                                     Binder.getCallingUid(),
+-                                    intent)) {
++                                    result)) {
+                                 onError(AccountManager.ERROR_CODE_INVALID_RESPONSE,
+                                         "invalid intent in bundle returned");
+                                 return;
+@@ -3399,7 +3400,7 @@ public class AccountManagerService
+                     && (intent = result.getParcelable(AccountManager.KEY_INTENT)) != null) {
+                 if (!checkKeyIntent(
+                         Binder.getCallingUid(),
+-                        intent)) {
++                        result)) {
+                     onError(AccountManager.ERROR_CODE_INVALID_RESPONSE,
+                             "invalid intent in bundle returned");
+                     return;
+@@ -4751,7 +4752,13 @@ public class AccountManagerService
+          * into launching arbitrary intents on the device via by tricking to click authenticator
+          * supplied entries in the system Settings app.
+          */
+-        protected boolean checkKeyIntent(int authUid, Intent intent) {
++        protected boolean checkKeyIntent(int authUid, Bundle bundle) {
++            if (!checkKeyIntentParceledCorrectly(bundle)) {
++                EventLog.writeEvent(0x534e4554, "250588548", authUid, "");
++                return false;
++            }
++
++            Intent intent = bundle.getParcelable(AccountManager.KEY_INTENT);
+             // Explicitly set an empty ClipData to ensure that we don't offer to
+             // promote any Uris contained inside for granting purposes
+             if (intent.getClipData() == null) {
+@@ -4786,6 +4793,25 @@ public class AccountManagerService
+             }
+         }
+ 
++        /**
++         * Simulate the client side's deserialization of KEY_INTENT value, to make sure they don't
++         * violate our security policy.
++         *
++         * In particular we want to make sure the Authenticator doesn't trick users
++         * into launching arbitrary intents on the device via exploiting any other Parcel read/write
++         * mismatch problems.
++         */
++        private boolean checkKeyIntentParceledCorrectly(Bundle bundle) {
++            Parcel p = Parcel.obtain();
++            p.writeBundle(bundle);
++            p.setDataPosition(0);
++            Bundle simulateBundle = p.readBundle();
++            p.recycle();
++            Intent intent = bundle.getParcelable(AccountManager.KEY_INTENT);
++            Intent simulateIntent = simulateBundle.getParcelable(AccountManager.KEY_INTENT);
++            return (intent.filterEquals(simulateIntent));
++        }
++
+         private boolean isExportedSystemActivity(ActivityInfo activityInfo) {
+             String className = activityInfo.name;
+             return "android".equals(activityInfo.packageName) &&
+@@ -4932,7 +4958,7 @@ public class AccountManagerService
+                     && (intent = result.getParcelable(AccountManager.KEY_INTENT)) != null) {
+                 if (!checkKeyIntent(
+                         Binder.getCallingUid(),
+-                        intent)) {
++                        result)) {
+                     onError(AccountManager.ERROR_CODE_INVALID_RESPONSE,
+                             "invalid intent in bundle returned");
+                     return;

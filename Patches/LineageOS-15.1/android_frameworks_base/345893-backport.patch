@@ -1,0 +1,321 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Julia Reynolds <juliacr@google.com>
+Date: Fri, 19 Aug 2022 09:54:23 -0400
+Subject: [PATCH] Limit the size of NotificationChannel and
+ NotificationChannelGroup
+
+Test: android.app.NotificationChannelGroupTest
+Test: android.app.NotificationChannelTest
+Test: cts NotificationChannelTest
+Test: cts NotificationChannelGroupTest
+Bug: 241764350
+Bug: 241764340
+Bug: 241764135
+Bug: 242702935
+Bug: 242703118
+Bug: 242703202
+Bug: 242702851
+Bug: 242703217
+Bug: 242703556
+Change-Id: I0925583ab54d6c81c415859618f6b907ab7baada
+Merged-In: I0925583ab54d6c81c415859618f6b907ab7baada
+(cherry picked from commit 3850857cb0e7f26702d5bd601731d7290390fa3b)
+(cherry picked from commit c2d264989a2c18af9e3f210f62eba8d987fefb5b)
+Merged-In: I0925583ab54d6c81c415859618f6b907ab7baada
+---
+ .../java/android/app/NotificationChannel.java |  19 +++-
+ .../android/app/NotificationChannelGroup.java |   8 +-
+ .../app/NotificationChannelGroupTest.java     |  73 +++++++++++++
+ .../android/app/NotificationChannelTest.java  | 102 ++++++++++++++++++
+ 4 files changed, 194 insertions(+), 8 deletions(-)
+ create mode 100644 core/tests/coretests/src/android/app/NotificationChannelGroupTest.java
+ create mode 100644 core/tests/coretests/src/android/app/NotificationChannelTest.java
+
+diff --git a/core/java/android/app/NotificationChannel.java b/core/java/android/app/NotificationChannel.java
+index 556acdcfff81..877f80570017 100644
+--- a/core/java/android/app/NotificationChannel.java
++++ b/core/java/android/app/NotificationChannel.java
+@@ -54,8 +54,13 @@ public final class NotificationChannel implements Parcelable {
+     /**
+      * The maximum length for text fields in a NotificationChannel. Fields will be truncated at this
+      * limit.
++     * @hide
+      */
+-    private static final int MAX_TEXT_LENGTH = 1000;
++    public static final int MAX_TEXT_LENGTH = 1000;
++    /**
++     * @hide
++     */
++    public static final int MAX_VIBRATION_LENGTH = 1000;
+ 
+     private static final String TAG_CHANNEL = "channel";
+     private static final String ATT_NAME = "name";
+@@ -171,17 +176,17 @@ public final class NotificationChannel implements Parcelable {
+      */
+     protected NotificationChannel(Parcel in) {
+         if (in.readByte() != 0) {
+-            mId = in.readString();
++            mId = getTrimmedString(in.readString());
+         } else {
+             mId = null;
+         }
+         if (in.readByte() != 0) {
+-            mName = in.readString();
++            mName = getTrimmedString(in.readString());
+         } else {
+             mName = null;
+         }
+         if (in.readByte() != 0) {
+-            mDesc = in.readString();
++            mDesc = getTrimmedString(in.readString());
+         } else {
+             mDesc = null;
+         }
+@@ -190,17 +195,21 @@ public final class NotificationChannel implements Parcelable {
+         mLockscreenVisibility = in.readInt();
+         if (in.readByte() != 0) {
+             mSound = Uri.CREATOR.createFromParcel(in);
++            mSound = Uri.parse(getTrimmedString(mSound.toString()));
+         } else {
+             mSound = null;
+         }
+         mLights = in.readByte() != 0;
+         mVibration = in.createLongArray();
++        if (mVibration != null && mVibration.length > MAX_VIBRATION_LENGTH) {
++            mVibration = Arrays.copyOf(mVibration, MAX_VIBRATION_LENGTH);
++        }
+         mUserLockedFields = in.readInt();
+         mVibrationEnabled = in.readByte() != 0;
+         mShowBadge = in.readByte() != 0;
+         mDeleted = in.readByte() != 0;
+         if (in.readByte() != 0) {
+-            mGroup = in.readString();
++            mGroup = getTrimmedString(in.readString());
+         } else {
+             mGroup = null;
+         }
+diff --git a/core/java/android/app/NotificationChannelGroup.java b/core/java/android/app/NotificationChannelGroup.java
+index 18ad9cf3d8e3..5ca6fe853db8 100644
+--- a/core/java/android/app/NotificationChannelGroup.java
++++ b/core/java/android/app/NotificationChannelGroup.java
+@@ -37,8 +37,9 @@ public final class NotificationChannelGroup implements Parcelable {
+     /**
+      * The maximum length for text fields in a NotificationChannelGroup. Fields will be truncated at
+      * this limit.
++     * @hide
+      */
+-    private static final int MAX_TEXT_LENGTH = 1000;
++    public static final int MAX_TEXT_LENGTH = 1000;
+ 
+     private static final String TAG_GROUP = "channelGroup";
+     private static final String ATT_NAME = "name";
+@@ -68,11 +69,12 @@ public final class NotificationChannelGroup implements Parcelable {
+      */
+     protected NotificationChannelGroup(Parcel in) {
+         if (in.readByte() != 0) {
+-            mId = in.readString();
++            mId = getTrimmedString(in.readString());
+         } else {
+             mId = null;
+         }
+         mName = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
++        mName = getTrimmedString(mName.toString());
+         in.readParcelableList(mChannels, NotificationChannel.class.getClassLoader());
+     }
+ 
+@@ -91,7 +93,7 @@ public final class NotificationChannelGroup implements Parcelable {
+         } else {
+             dest.writeByte((byte) 0);
+         }
+-        TextUtils.writeToParcel(mName, dest, flags);
++        TextUtils.writeToParcel(mName.toString(), dest, flags);
+         dest.writeParcelableList(mChannels, flags);
+     }
+ 
+diff --git a/core/tests/coretests/src/android/app/NotificationChannelGroupTest.java b/core/tests/coretests/src/android/app/NotificationChannelGroupTest.java
+new file mode 100644
+index 000000000000..2a3da05eabb3
+--- /dev/null
++++ b/core/tests/coretests/src/android/app/NotificationChannelGroupTest.java
+@@ -0,0 +1,73 @@
++/*
++ * Copyright (C) 2022 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package android.app;
++
++import static junit.framework.TestCase.assertEquals;
++
++import android.os.Parcel;
++import android.test.AndroidTestCase;
++
++import androidx.test.filters.SmallTest;
++import androidx.test.runner.AndroidJUnit4;
++
++import com.google.common.base.Strings;
++
++import org.junit.Test;
++import org.junit.runner.RunWith;
++
++import java.lang.reflect.Field;
++
++@RunWith(AndroidJUnit4.class)
++@SmallTest
++public class NotificationChannelGroupTest {
++    private final String CLASS = "android.app.NotificationChannelGroup";
++
++    @Test
++    public void testLongStringFields() {
++        NotificationChannelGroup group = new NotificationChannelGroup("my_group_01", "groupName");
++
++        try {
++            String longString = Strings.repeat("A", 65536);
++            Field mName = Class.forName(CLASS).getDeclaredField("mName");
++            mName.setAccessible(true);
++            mName.set(group, longString);
++            Field mId = Class.forName(CLASS).getDeclaredField("mId");
++            mId.setAccessible(true);
++            mId.set(group, longString);
++            Field mDescription = Class.forName(CLASS).getDeclaredField("mDescription");
++            mDescription.setAccessible(true);
++            mDescription.set(group, longString);
++        } catch (NoSuchFieldException e) {
++            e.printStackTrace();
++        } catch (ClassNotFoundException e) {
++            e.printStackTrace();
++        } catch (IllegalAccessException e) {
++            e.printStackTrace();
++        }
++
++        Parcel parcel = Parcel.obtain();
++        group.writeToParcel(parcel, 0);
++        parcel.setDataPosition(0);
++
++        NotificationChannelGroup fromParcel =
++                NotificationChannelGroup.CREATOR.createFromParcel(parcel);
++        assertEquals(NotificationChannelGroup.MAX_TEXT_LENGTH, fromParcel.getId().length());
++        assertEquals(NotificationChannelGroup.MAX_TEXT_LENGTH, fromParcel.getName().length());
++        assertEquals(NotificationChannelGroup.MAX_TEXT_LENGTH,
++                fromParcel.getDescription().length());
++    }
++}
+diff --git a/core/tests/coretests/src/android/app/NotificationChannelTest.java b/core/tests/coretests/src/android/app/NotificationChannelTest.java
+new file mode 100644
+index 000000000000..d8be502e6db6
+--- /dev/null
++++ b/core/tests/coretests/src/android/app/NotificationChannelTest.java
+@@ -0,0 +1,102 @@
++/*
++ * Copyright (C) 2022 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package android.app;
++
++import static junit.framework.TestCase.assertEquals;
++
++import android.net.Uri;
++import android.os.Parcel;
++
++import androidx.test.filters.SmallTest;
++import androidx.test.runner.AndroidJUnit4;
++
++import com.google.common.base.Strings;
++
++import org.junit.Test;
++import org.junit.runner.RunWith;
++
++import java.lang.reflect.Field;
++
++@RunWith(AndroidJUnit4.class)
++@SmallTest
++public class NotificationChannelTest {
++    private final String CLASS = "android.app.NotificationChannel";
++
++    @Test
++    public void testLongStringFields() {
++        NotificationChannel channel = new NotificationChannel("id", "name", 3);
++
++        try {
++            String longString = Strings.repeat("A", 65536);
++            Field mName = Class.forName(CLASS).getDeclaredField("mName");
++            mName.setAccessible(true);
++            mName.set(channel, longString);
++            Field mId = Class.forName(CLASS).getDeclaredField("mId");
++            mId.setAccessible(true);
++            mId.set(channel, longString);
++            Field mDesc = Class.forName(CLASS).getDeclaredField("mDesc");
++            mDesc.setAccessible(true);
++            mDesc.set(channel, longString);
++            Field mParentId = Class.forName(CLASS).getDeclaredField("mParentId");
++            mParentId.setAccessible(true);
++            mParentId.set(channel, longString);
++            Field mGroup = Class.forName(CLASS).getDeclaredField("mGroup");
++            mGroup.setAccessible(true);
++            mGroup.set(channel, longString);
++            Field mConversationId = Class.forName(CLASS).getDeclaredField("mConversationId");
++            mConversationId.setAccessible(true);
++            mConversationId.set(channel, longString);
++        } catch (NoSuchFieldException e) {
++            e.printStackTrace();
++        } catch (ClassNotFoundException e) {
++            e.printStackTrace();
++        } catch (IllegalAccessException e) {
++            e.printStackTrace();
++        }
++
++        Parcel parcel = Parcel.obtain();
++        channel.writeToParcel(parcel, 0);
++        parcel.setDataPosition(0);
++
++        NotificationChannel fromParcel = NotificationChannel.CREATOR.createFromParcel(parcel);
++        assertEquals(NotificationChannel.MAX_TEXT_LENGTH, fromParcel.getId().length());
++        assertEquals(NotificationChannel.MAX_TEXT_LENGTH, fromParcel.getName().length());
++        assertEquals(NotificationChannel.MAX_TEXT_LENGTH,
++                fromParcel.getDescription().length());
++        assertEquals(NotificationChannel.MAX_TEXT_LENGTH,
++                fromParcel.getGroup().length());
++    }
++
++    @Test
++    public void testLongAlertFields() {
++        NotificationChannel channel = new NotificationChannel("id", "name", 3);
++
++        channel.setSound(Uri.parse("content://" + Strings.repeat("A",65536)),
++                Notification.AUDIO_ATTRIBUTES_DEFAULT);
++        channel.setVibrationPattern(new long[65550/2]);
++
++        Parcel parcel = Parcel.obtain();
++        channel.writeToParcel(parcel, 0);
++        parcel.setDataPosition(0);
++
++        NotificationChannel fromParcel = NotificationChannel.CREATOR.createFromParcel(parcel);
++        assertEquals(NotificationChannel.MAX_VIBRATION_LENGTH,
++                fromParcel.getVibrationPattern().length);
++        assertEquals(NotificationChannel.MAX_TEXT_LENGTH,
++                fromParcel.getSound().toString().length());
++    }
++}
