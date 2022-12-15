@@ -57,7 +57,11 @@ enableAVB() {
 		sed -i '/\/system_ext/{s|avb=vbmeta_system|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		sed -i '/\/system_ext/{s|avb=vbmeta|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		sed -i '/\/vendor/{s|avb=vbmeta_system|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
+		sed -i '/\/vendor/{s|avb=vbmeta_vendor|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		sed -i '/\/vendor/{s|avb=vbmeta|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
+		sed -i '/\/pvmfw/{s|avb=pvmfw|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
+		sed -i '/\/boot/{s|avb=boot|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
+		sed -i '/\/init_boot/{s|avb=init_boot|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		sed -i '/\/product/{s|avb=vbmeta_system|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		sed -i '/\/product/{s|avb=vbmeta|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		#TODO: remove avb_keys=.*?

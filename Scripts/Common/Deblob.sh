@@ -191,7 +191,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|smc_pa.ift|drmserver.samsung"; #Samsung
 	blobs=$blobs"|provision_device";
 	#blobs=$blobs"|libasfparser.so|libsavsff.so"; #Parsers
-	makes=$makes"|android.hardware.drm.*";
+	makes=$makes"|android.hardware.drm.*|liboemcrypto";
 	manifests=$manifests"|android.hardware.drm";
 	#makes=$makes"|libdrmframework.*"; #necessary to compile
 	#makes=$makes"|mediadrmserver|com.android.mediadrm.signer.*|drmserver"; #Works but causes long boot times
@@ -278,7 +278,7 @@ echo "Deblobbing...";
 
 	#EUICC (Virtual SIM) [Google]
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_EUICC" = true ]; then
-		blobs=$blobs"|EuiccGoogle.apk|EuiccSupportPixel.apk|EuiccSupportPixelPermissions.apk"; #EUICC is useless without GMS
+		blobs=$blobs"|EuiccGoogle.apk|EuiccSupportPixel.apk|EuiccSupportPixelPermissions.apk|EuiccGoogleOverlay.apk"; #EUICC is useless without GMS
 		blobs=$blobs"|esim0.img|esim-v1.img|esim-full-v0.img|esim-a1.img|esim-a2.img";
 		blobs=$blobs"|com.google.euiccpixel.xml|com.google.euiccpixel.permissions.xml";
 		makes=$makes"|android.hardware.telephony.euicc.*|GoogleParts";
@@ -373,6 +373,7 @@ echo "Deblobbing...";
 		blobs=$blobs"|rcsimssettings.jar|rcsservice.jar";
 		blobs=$blobs"|rcsimssettings.xml|rcsservice.xml";
 		blobs=$blobs"|RCSBootstraputil.apk|RcsImsBootstraputil.apk|uceShimService.apk";
+		blobs=$blobs"|ShannonRcs.apk";
 		#blobs=$blobs"|vendor.qti.ims.rcsconfig.*";
 		blobs=$blobs"|com.qualcomm.qti.uceservice.*";
 		manifests=$manifests"|uceservice";
