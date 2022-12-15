@@ -18,9 +18,9 @@ umask 0022;
 set -uo pipefail;
 
 #grep "verity\.mk" Build/*/device/*/*/*.mk -l
-VERITY_DEVICES=('Amber' 'angler' 'bullhead' 'cheeseburger' 'cheryl' 'dragon' 'dumpling' 'flounder' 'marlin' 'mata' 'oneplus3' 'sailfish' 'shamu' 'z2_plus');
+VERITY_DEVICES=('Amber' 'angler' 'bullhead' 'cheeseburger' 'cheryl' 'discover' 'dragon' 'dumpling' 'flounder' 'marlin' 'mata' 'oneplus3' 'pioneer' 'sailfish' 'shamu' 'voyager' 'z2_plus');
 #grep "AVB_ENABLE" Build/*/device/*/*/*.mk -l
-AVB_DEVICES=('akari' 'alioth' 'aura' 'aurora' 'avicii' 'barbet' 'beryllium' 'blueline' 'bonito' 'bramble' 'coral' 'crosshatch' 'davinci' 'enchilada' 'fajita' 'flame' 'FP3' 'FP4' 'guacamole' 'guacamoleb' 'hotdog' 'hotdogb' 'instantnoodle' 'instantnoodlep' 'kebab' 'lavender' 'lemonade' 'lemonadep' 'lmi' 'pro1' 'raphael' 'redfin' 'sargo' 'sunfish' 'taimen' 'vayu' 'walleye' 'xz2c');
+AVB_DEVICES=('akari' 'alioth' 'aura' 'aurora' 'avicii' 'barbet' 'beryllium' 'bluejay' 'blueline' 'bonito' 'bramble' 'cheetah' 'coral' 'crosshatch' 'davinci' 'enchilada' 'fajita' 'flame' 'FP3' 'FP4' 'guacamole' 'guacamoleb' 'hotdog' 'hotdogb' 'instantnoodle' 'instantnoodlep' 'kebab' 'lavender' 'lemonade' 'lemonadep' 'lmi' 'oriole' 'panther' 'pro1' 'raphael' 'raven' 'redfin' 'sargo' 'sunfish' 'taimen' 'vayu' 'walleye' 'xz2c' );
 
 #TODO: Make this a function?
 echo "================================================================================";

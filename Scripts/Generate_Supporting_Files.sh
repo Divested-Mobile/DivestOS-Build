@@ -21,7 +21,7 @@ set -uo pipefail;
 export repoDir="/mnt/backup-1/DOS/Builds/Supporting_Files/";
 mkdir -p $repoDir;
 
-devicesCopy=(akari alioth Amber aura aurora avicii barbet blueline bonito bramble cheryl coral crosshatch davinci discovery enchilada fajita flame FP3 FP4 guacamole guacamoleb hotdog hotdogb marlin mata pioneer pro1 redfin sailfish sargo sunfish taimen vayu voyager walleye xz2c instantnoodle instantnoodlep kebab lemonade lemonadep);
+devicesCopy=(akari alioth Amber aura aurora avicii barbet bluejay blueline bonito bramble cheetah cheryl coral crosshatch davinci discovery enchilada fajita flame FP3 FP4 guacamole guacamoleb hotdog hotdogb instantnoodle instantnoodlep kebab lemonade lemonadep marlin mata oriole panther pioneer pro1 raven redfin sailfish sargo sunfish taimen vayu voyager walleye xz2c);
 
 for device in "${devicesCopy[@]}"
 do
@@ -32,7 +32,7 @@ do
 	fi;
 done;
 
-devicesAVB=(akari alioth Amber aura aurora avicii barbet beryllium blueline bonito bramble coral crosshatch davinci enchilada fajita flame FP3 FP4 guacamole guacamoleb hotdog hotdogb lavender lmi pro1 raphael redfin sargo sunfish taimen vayu walleye xz2c instantnoodle instantnoodlep kebab lemonade lemonadep);
+devicesAVB=(akari alioth Amber aura aurora avicii barbet beryllium bluejay blueline bonito bramble cheetah coral crosshatch davinci enchilada fajita flame FP3 FP4 guacamole guacamoleb hotdog hotdogb instantnoodle instantnoodlep kebab lavender lemonade lemonadep lmi oriole panther pro1 raphael raven redfin sargo sunfish taimen vayu walleye xz2c);
 
 for device in "${devicesAVB[@]}"
 do

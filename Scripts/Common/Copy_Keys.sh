@@ -29,6 +29,8 @@ cat "$DOS_SIGNING_KEYS/aurora/verity.x509.pem" >> "kernel/sony/sdm845/certs/veri
 cat "$DOS_SIGNING_KEYS/avicii/verity.x509.pem" >> "kernel/oneplus/sm7250/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/barbet/verity.x509.pem" >> "kernel/google/redbull/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/beryllium/verity.x509.pem" >> "kernel/xiaomi/sdm845/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/bluejay/verity.x509.pem" >> "kernel/google/bluejay/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/bluejay/verity.x509.pem" >> "kernel/google/gs101/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/blueline/verity.x509.pem" >> "kernel/google/crosshatch/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/blueline/verity.x509.pem" >> "kernel/google/msm-4.9/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/bonito/verity.x509.pem" >> "kernel/google/bonito/certs/verity.x509.pem";
@@ -36,6 +38,7 @@ cat "$DOS_SIGNING_KEYS/bonito/verity.x509.pem" >> "kernel/google/msm-4.9/certs/v
 cat "$DOS_SIGNING_KEYS/bramble/verity.x509.pem" >> "kernel/google/redbull/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/bullhead/verity.x509.pem" >> "kernel/lge/bullhead/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/cheeseburger/verity.x509.pem" >> "kernel/oneplus/msm8998/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/cheetah/verity.x509.pem" >> "kernel/google/gs201/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/cheryl/verity.x509.pem" >> "kernel/razer/msm8998/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/coral/verity.x509.pem" >> "kernel/google/coral/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/crosshatch/verity.x509.pem" >> "kernel/google/crosshatch/certs/verity.x509.pem";
@@ -65,9 +68,14 @@ cat "$DOS_SIGNING_KEYS/lmi/verity.x509.pem" >> "kernel/xiaomi/sm8250/certs/verit
 cat "$DOS_SIGNING_KEYS/marlin/verity.x509.pem" >> "kernel/google/marlin/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/mata/verity.x509.pem" >> "kernel/essential/msm8998/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/oneplus3/verity.x509.pem" >> "kernel/oneplus3/msm8996/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/oriole/verity.x509.pem" >> "kernel/google/gs101/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/oriole/verity.x509.pem" >> "kernel/google/raviole/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/panther/verity.x509.pem" >> "kernel/google/gs201/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/pioneer/verity.x509.pem" >> "kernel/sony/sdm660/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/pro1/verity.x509.pem" >> "kernel/fxtec/msm8998/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/raphael/verity.x509.pem" >> "kernel/xiaomi/sm8150/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/raven/verity.x509.pem" >> "kernel/google/gs101/certs/verity.x509.pem";
+cat "$DOS_SIGNING_KEYS/raven/verity.x509.pem" >> "kernel/google/raviole/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/redfin/verity.x509.pem" >> "kernel/google/redbull/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/sailfish/verity.x509.pem" >> "kernel/google/marlin/certs/verity.x509.pem";
 cat "$DOS_SIGNING_KEYS/sargo/verity.x509.pem" >> "kernel/google/bonito/certs/verity.x509.pem";
@@ -93,6 +101,8 @@ cp -v "$DOS_SIGNING_KEYS/aurora/verifiedboot_relkeys.der.x509" "kernel/sony/sdm8
 cp -v "$DOS_SIGNING_KEYS/avicii/verifiedboot_relkeys.der.x509" "kernel/oneplus/sm7250/verifiedboot_avicii_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/barbet/verifiedboot_relkeys.der.x509" "kernel/google/redbull/verifiedboot_barbet_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/beryllium/verifiedboot_relkeys.der.x509" "kernel/xiaomi/sdm845/verifiedboot_beryllium_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/bluejay/verifiedboot_relkeys.der.x509" "kernel/google/bluejay/verifiedboot_bluejay_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/bluejay/verifiedboot_relkeys.der.x509" "kernel/google/gs101/verifiedboot_bluejay_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/blueline/verifiedboot_relkeys.der.x509" "kernel/google/crosshatch/verifiedboot_blueline_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/blueline/verifiedboot_relkeys.der.x509" "kernel/google/msm-4.9/verifiedboot_blueline_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/bonito/verifiedboot_relkeys.der.x509" "kernel/google/bonito/verifiedboot_bonito_dos_relkeys.der.x509";
@@ -100,6 +110,7 @@ cp -v "$DOS_SIGNING_KEYS/bonito/verifiedboot_relkeys.der.x509" "kernel/google/ms
 cp -v "$DOS_SIGNING_KEYS/bramble/verifiedboot_relkeys.der.x509" "kernel/google/redbull/verifiedboot_bramble_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/bullhead/verifiedboot_relkeys.der.x509" "kernel/lge/bullhead/verifiedboot_bullhead_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/cheeseburger/verifiedboot_relkeys.der.x509" "kernel/oneplus/msm8998/verifiedboot_cheeseburger_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/cheetah/verifiedboot_relkeys.der.x509" "kernel/google/gs201/verifiedboot_cheetah_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/cheryl/verifiedboot_relkeys.der.x509" "kernel/razer/msm8998/verifiedboot_cheryl_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/coral/verifiedboot_relkeys.der.x509" "kernel/google/coral/verifiedboot_coral_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/crosshatch/verifiedboot_relkeys.der.x509" "kernel/google/crosshatch/verifiedboot_crosshatch_dos_relkeys.der.x509";
@@ -129,9 +140,14 @@ cp -v "$DOS_SIGNING_KEYS/lmi/verifiedboot_relkeys.der.x509" "kernel/xiaomi/sm825
 cp -v "$DOS_SIGNING_KEYS/marlin/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_marlin_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/mata/verifiedboot_relkeys.der.x509" "kernel/essential/msm8998/verifiedboot_mata_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/oneplus3/verifiedboot_relkeys.der.x509" "kernel/oneplus/msm8996/verifiedboot_oneplus3_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/oriole/verifiedboot_relkeys.der.x509" "kernel/google/gs101/verifiedboot_oriole_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/oriole/verifiedboot_relkeys.der.x509" "kernel/google/raviole/verifiedboot_oriole_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/panther/verifiedboot_relkeys.der.x509" "kernel/google/gs201/verifiedboot_panther_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/pioneer/verifiedboot_relkeys.der.x509" "kernel/sony/sdm660/verifiedboot_pioneer_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/pro1/verifiedboot_relkeys.der.x509" "kernel/fxtec/msm8998/verifiedboot_pro1_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/raphael/verifiedboot_relkeys.der.x509" "kernel/xiaomi/sm8150/verifiedboot_raphael_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/raven/verifiedboot_relkeys.der.x509" "kernel/google/gs101/verifiedboot_raven_dos_relkeys.der.x509";
+cp -v "$DOS_SIGNING_KEYS/raven/verifiedboot_relkeys.der.x509" "kernel/google/raviole/verifiedboot_raven_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/redfin/verifiedboot_relkeys.der.x509" "kernel/google/redbull/verifiedboot_redfin_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/sailfish/verifiedboot_relkeys.der.x509" "kernel/google/marlin/verifiedboot_sailfish_dos_relkeys.der.x509";
 cp -v "$DOS_SIGNING_KEYS/sargo/verifiedboot_relkeys.der.x509" "kernel/google/bonito/verifiedboot_sargo_dos_relkeys.der.x509";

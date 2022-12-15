@@ -224,8 +224,8 @@ processRelease() {
 		echo -e "\e[0;32m\t+ Verified Boot 2.0 with VBMETA and NOCHAIN\e[0m";
 	fi;
 
+	#XXX:	--extra_apks Bluetooth.apk="$KEY_DIR/bluetooth" \
 	local APK_SWITCHES=(--extra_apks AdServicesApk.apk="$KEY_DIR/releasekey" \
-		--extra_apks Bluetooth.apk="$KEY_DIR/bluetooth" \
 		--extra_apks HalfSheetUX.apk="$KEY_DIR/releasekey" \
 		--extra_apks OsuLogin.apk="$KEY_DIR/releasekey" \
 		--extra_apks SafetyCenterResources.apk="$KEY_DIR/releasekey" \
@@ -344,7 +344,7 @@ processRelease() {
 
 	#Deltas
 	#grep update_engine Build/*/device/*/*/*.mk -l
-	local DOS_GENERATE_DELTAS_DEVICES=('akari' 'alioth' 'Amber' 'aura' 'aurora' 'avicii' 'barbet' 'blueline' 'bonito' 'bramble' 'cheryl' 'coral' 'crosshatch' 'davinci' 'discovery' 'enchilada' 'fajita' 'flame' 'FP3' 'FP4' 'guacamole' 'guacamoleb' 'hotdog' 'hotdogb' 'instantnoodle' 'instantnoodlep' 'kebab' 'lemonade' 'lemonadep' 'marlin' 'mata' 'pioneer' 'pro1' 'redfin' 'sailfish' 'sargo' 'sunfish' 'taimen' 'vayu' 'voyager' 'walleye' 'xz2c');
+	local DOS_GENERATE_DELTAS_DEVICES=('akari' 'alioth' 'Amber' 'aura' 'aurora' 'avicii' 'barbet' 'bluejay' 'blueline' 'bonito' 'bramble' 'cheetah' 'cheryl' 'coral' 'crosshatch' 'davinci' 'discovery' 'enchilada' 'fajita' 'flame' 'FP3' 'FP4' 'guacamole' 'guacamoleb' 'hotdog' 'hotdogb' 'instantnoodle' 'instantnoodlep' 'kebab' 'lemonade' 'lemonadep' 'marlin' 'mata' 'oriole' 'panther' 'pioneer' 'pro1' 'raven' 'redfin' 'sailfish' 'sargo' 'sunfish' 'taimen' 'vayu' 'voyager' 'walleye' 'xz2c'); #TODO: check lmi/alioth
 	if [ "$DOS_GENERATE_DELTAS" = true ]; then
 		if [[ " ${DOS_GENERATE_DELTAS_DEVICES[@]} " =~ " ${DEVICE} " ]]; then
 			for LAST_TARGET_FILES in $ARCHIVE/target_files/$DOS_BRANDING_ZIP_PREFIX-$VERSION-*-dos-$DEVICE-target_files.zip; do
@@ -570,7 +570,9 @@ export -f hardenUserdata;
 
 enableAutoVarInit() {
 	#grep TARGET_KERNEL_CLANG_COMPILE Build/*/device/*/*/*.mk -l
-	local DOS_AUTOVARINIT_KERNELS=('essential/msm8998' 'fairphone/sdm632' 'fxtec/msm8998' 'google/coral' 'google/msm-4.9' 'google/msm-4.14' 'google/sunfish' 'google/wahoo' 'oneplus/msm8996' 'oneplus/msm8998' 'oneplus/sdm845' 'oneplus/sm7250' 'oneplus/sm8150' 'oneplus/sm8250' 'razer/msm8998' 'razer/sdm845' 'samsung/universal9810' 'sony/sdm660' 'sony/sdm845' 'xiaomi/sdm660' 'xiaomi/sdm845' 'xiaomi/sm6150' 'xiaomi/sm8150' 'xiaomi/sm8250' 'zuk/msm8996'); #redbull/lemonade*/FP4 already supports init_stack_all_zero
+	#but exclude: grep INIT_STACK_ALL_ZERO Build/*/kernel/*/*/security/Kconfig.hardening -l
+	#already supported: fairphone/sm7225, google/bluejay, google/gs101, google/gs201, google/msm-4.14, google/raviole, google/redbull, oneplus/sm8250, oneplus/sm8350
+	local DOS_AUTOVARINIT_KERNELS=('essential/msm8998' 'fairphone/sdm632' 'fxtec/msm8998' 'google/coral' 'google/msm-4.9' 'google/sunfish' 'google/wahoo' 'oneplus/msm8996' 'oneplus/msm8998' 'oneplus/sdm845' 'oneplus/sm7250' 'oneplus/sm8150' 'razer/msm8998' 'razer/sdm845' 'samsung/universal9810' 'sony/sdm660' 'sony/sdm845' 'xiaomi/sdm660' 'xiaomi/sdm845' 'xiaomi/sm6150' 'xiaomi/sm8150' 'xiaomi/sm8250' 'zuk/msm8996');
 	cd "$DOS_BUILD_BASE";
 	echo "auto-var-init: Starting!";
 	for kernel in "${DOS_AUTOVARINIT_KERNELS[@]}"
@@ -932,13 +934,15 @@ hardenDefconfig() {
 	#Hardware enablement #XXX: This needs a better home
 	optionsYes+=("HID_GENERIC" "HID_STEAM" "HID_SONY" "HID_WIIMOTE" "INPUT_JOYSTICK" "JOYSTICK_XPAD" "USB_USBNET" "USB_NET_CDCETHER");
 
-	modernKernels=('fairphone/sm7225' 'google/coral' 'google/redbull' 'google/sunfish' 'oneplus/sm8150' 'oneplus/sm8250' 'oneplus/sm8350' 'xiaomi/sm8150' 'xiaomi/sm8250');
+	#grep INIT_ON_ALLOC_DEFAULT_ON Build/*/kernel/*/*/security/Kconfig.hardening -l
+	modernKernels=('fairphone/sm7225' 'google/barbet' 'google/bluejay' 'google/coral' 'google/gs101' 'google/gs201' 'google/msm-4.14' 'google/raviole' 'google/redbull' 'google/sunfish' 'oneplus/sm8150' 'oneplus/sm8250' 'oneplus/sm8350' 'xiaomi/sm8150' 'xiaomi/sm8250');
 	for kernelModern in "${modernKernels[@]}"; do
 		if [[ "$1" == *"/$kernelModern"* ]]; then
 			optionsYes+=("INIT_ON_ALLOC_DEFAULT_ON" "INIT_ON_FREE_DEFAULT_ON");
 		fi;
 	done;
 
+	#excluding above: grep PAGE_POISONING_ENABLE_DEFAULT Build/*/kernel/*/*/mm/Kconfig.debug -l
 	oldKernels=('essential/msm8998' 'fairphone/sdm632' 'fxtec/msm8998' 'google/msm-4.9' 'oneplus/msm8998' 'oneplus/sdm845' 'oneplus/sm7250' 'razer/msm8998' 'razer/sdm845' 'sony/sdm660' 'sony/sdm845' 'xiaomi/sdm660' 'xiaomi/sdm845' 'xiaomi/sm6150' 'yandex/sdm660' 'zuk/msm8996');
 	for kernelOld in "${oldKernels[@]}"; do
 		if [[ "$1" == *"/$kernelOld"* ]]; then

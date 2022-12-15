@@ -103,6 +103,25 @@
 	<project path="device/google/barbet" name="LineageOS/android_device_google_barbet" remote="github" revision="lineage-20" />
 	<!-- uses redbull commons -->
 
+	<!-- Google Pixel 6 (oriole/raven)
+	<project path="device/google/oriole" name="LineageOS/android_device_google_oriole" remote="github" revision="lineage-20" />
+	<project path="device/google/raven" name="LineageOS/android_device_google_raven" remote="github" revision="lineage-20" />
+	<project path="device/google/raviole" name="LineageOS/android_device_google_raviole" remote="github" revision="lineage-20" />
+	<project path="device/google/gs101" name="LineageOS/android_device_google_gs101" remote="github" revision="lineage-20" />
+	<project path="kernel/google/gs101/private/gs-google" name="LineageOS/android_kernel_google_gs101" remote="github" revision="lineage-20" /> -->
+
+	<!-- Google Pixel 6a (bluejay)
+	<project path="device/google/bluejay" name="LineageOS/android_device_google_bluejay" remote="github" revision="lineage-20" /> -->
+	<!-- uses gs101 commons -->
+
+	<!-- Google Pixel 7 (panther/cheetah)
+	<project path="device/google/panther" name="LineageOS/android_device_google_panther" remote="github" revision="lineage-20" />
+	<project path="device/google/cheetah" name="LineageOS/android_device_google_cheetah" remote="github" revision="lineage-20" />
+	<project path="device/google/pantah" name="LineageOS/android_device_google_pantah" remote="github" revision="lineage-20" />
+	<project path="device/google/gs201" name="LineageOS/android_device_google_gs201" remote="github" revision="lineage-20" />
+	<project path="kernel/google/gs201/private/gs-google" name="LineageOS/android_kernel_google_gs201" remote="github" revision="lineage-20" /> -->
+	<!-- uses gs101 commons -->
+
 	<!-- OnePlus 5 (cheeseburger) -->
 	<project path="device/oneplus/cheeseburger" name="LineageOS/android_device_oneplus_cheeseburger" remote="github" revision="lineage-20" />
 	<project path="device/oneplus/msm8998-common" name="LineageOS/android_device_oneplus_msm8998-common" remote="github" revision="lineage-20" />
