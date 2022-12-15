@@ -18,7 +18,7 @@ umask 0022;
 set -uo pipefail;
 
 #APN List
-wget "https://github.com/LineageOS/android_vendor_lineage/raw/lineage-19.1/prebuilt/common/etc/apns-conf.xml" -O ../Patches/Common/apns-conf.xml;
+wget "https://github.com/LineageOS/android_vendor_lineage/raw/lineage-20.0/prebuilt/common/etc/apns-conf.xml" -O ../Patches/Common/apns-conf.xml;
 
 #Visual VoiceMail Config
 #wget "https://raw.githubusercontent.com/LineageOS/android_vendor_lineage/lineage-19.1/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
@@ -29,11 +29,11 @@ wget "https://github.com/LineageOS/android_packages_apps_LineageParts/raw/lineag
 
 #TODO: wireless-regdb
 #https://mirrors.edge.kernel.org/pub/software/network/wireless-regdb/
-#Last: 2022/11/21
+#Last: 2022/12/15
 
 #TODO: MMS Configs
 #https://github.com/GrapheneOS/platform_packages_apps_Messaging
-#Last: 2022/11/21
+#Last: 2022/12/15
 
 #TODO: Carrier List
 #https://android.googlesource.com/platform/packages/providers/TelephonyProvider/
