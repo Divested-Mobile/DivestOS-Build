@@ -2,21 +2,30 @@ Below are the license mappings for all of the files found in this repository.
 All attempts have been made to ensure accuracy of the corresponding license files.
 If you've found an issue please file an issue or pull request.
 
-Manifests - GPL-3.0-or-later
-Misc - GPL-3.0-or-later
+Checklists/ - GPL-3.0-or-later
+Manifests/ - GPL-3.0-or-later
+Misc/
+	aosp-cves/ - Apache-2.0
+	pubring.kbx - non-copyrightable?
+	[Everything Else] - GPL-3.0-or-later
 Patches/
 	Common/
-		android_vendor_divested - GPL-3.0-or-later
-			default_wallpaper.png - Unsplash, Pawel Czerwinski
+		android_external_hardened_malloc - MIT
 		android_kernel_* - GPL-2.0-only
+		android_vendor_divested/
+			default_wallpaper.png - Unsplash, Pawel Czerwinski
+			mms_config.xml - Google
+			vvm_config.xml - Google
+			[Everything Else] - GPL-3.0-or-later
 		wireless-regdb - See LICENSE included (ISC)
 		[Everything Else] - Apache-2.0
 	LineageOS-*/
+		android_external_hardened_malloc - MIT
 		android_kernel_* - GPL-2.0-only
 		[Everything Else] - Apache-2.0
-	Linux - See COPYING included (GPL-2.0-only)
-	Wallpapers - See LICENSE included (Unsplash)
-PrebuiltApps - See LICENSE included
-Scripts - GPL-3.0-or-later
+	Linux/ - See COPYING included (GPL-2.0-only)
+	Wallpapers/ - See LICENSE included (Unsplash)
+PrebuiltApps/ - See LICENSE included
+Scripts/ - GPL-3.0-or-later
 
 Please see the included LICENSE.* files for the corresponding full license texts.
