@@ -49,19 +49,22 @@ enableAVB() {
 		fi;
 		#Disable chaining
 		awk -i inplace '!/BOARD_AVB_VBMETA_SYSTEM/' *.mk &>/dev/null || true;
+		awk -i inplace '!/BOARD_AVB_VBMETA_VENDOR/' *.mk &>/dev/null || true;
 		awk -i inplace '!/BOARD_AVB_BOOT/' *.mk &>/dev/null || true;
 		#awk -i inplace '!/BOARD_AVB_RECOVERY/' *.mk &>/dev/null || true; #Must be defined for if non-A/B is supported.
 		awk -i inplace '!/vbmeta_system \\/' *.mk &>/dev/null || true;
+		awk -i inplace '!/vbmeta_vendor \\/' *.mk &>/dev/null || true;
 		sed -i 's/vbmeta_system//' *.mk &>/dev/null || true;
+		sed -i 's/vbmeta_vendor//' *.mk &>/dev/null || true;
 		sed -i '/\/system /{s|avb=vbmeta_system|avb=vbmeta|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		sed -i '/\/system_ext/{s|avb=vbmeta_system|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		sed -i '/\/system_ext/{s|avb=vbmeta|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		sed -i '/\/vendor/{s|avb=vbmeta_system|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		sed -i '/\/vendor/{s|avb=vbmeta_vendor|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		sed -i '/\/vendor/{s|avb=vbmeta|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
-		sed -i '/\/pvmfw/{s|avb=pvmfw|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
-		sed -i '/\/boot/{s|avb=boot|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
-		sed -i '/\/init_boot/{s|avb=init_boot|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
+		#sed -i '/\/pvmfw/{s|avb=pvmfw|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
+		#sed -i '/\/boot/{s|avb=boot|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
+		#sed -i '/\/init_boot/{s|avb=init_boot|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		sed -i '/\/product/{s|avb=vbmeta_system|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		sed -i '/\/product/{s|avb=vbmeta|avb|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 		#TODO: remove avb_keys=.*?

@@ -410,6 +410,15 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
+if enterAndClear "device/google/gs101"; then
+sed -i '/Virtualization/,+7d' device.mk;
+fi;
+
+if enterAndClear "device/google/gs201"; then
+sed -i '/Virtualization/,+1d' device.mk;
+sed -i '/PRODUCT_BUILD_PVMFW_IMAGE/,+2d' device.mk;
+awk -i inplace '!/PRODUCT_PACKAGES/' widevine/device.mk;
+fi;
 
 if enterAndClear "device/google/redbull"; then
 awk -i inplace '!/sctp/' BoardConfig-common.mk modules.load; #fix compile after hardenDefconfig

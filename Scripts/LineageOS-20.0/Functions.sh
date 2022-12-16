@@ -87,11 +87,11 @@ buildAll() {
 	buildDevice bonito avb;
 	buildDevice sargo avb;
 	#Tensor
-	#buildDevice oriole avb;
-	#buildDevice raven avb;
-	#buildDevice bluejay avb;
-	#buildDevice panther avb;
-	#buildDevice cheetah avb;
+	buildDevice oriole avb;
+	buildDevice raven avb;
+	buildDevice bluejay avb;
+	buildDevice panther avb;
+	buildDevice cheetah avb;
 }
 export -f buildAll;
 
