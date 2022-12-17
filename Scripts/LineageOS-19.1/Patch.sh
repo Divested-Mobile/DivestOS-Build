@@ -428,10 +428,6 @@ if enterAndClear "device/essential/mata"; then
 echo "allow permissioncontroller_app tethering_service:service_manager find;" > sepolicy/private/permissioncontroller_app.te;
 fi;
 
-if enterAndClear "device/google/redbull"; then
-awk -i inplace '!/sctp/' BoardConfig-common.mk modules.load; #fix compile after hardenDefconfig
-fi;
-
 if enterAndClear "device/oneplus/msm8998-common"; then
 #awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
 sed -i '/PRODUCT_SYSTEM_VERITY_PARTITION/iPRODUCT_VENDOR_VERITY_PARTITION := /dev/block/bootdevice/by-name/vendor' common.mk; #Support verity on /vendor too
@@ -475,7 +471,6 @@ cd "$DOS_BUILD_BASE";
 
 #Fix broken options enabled by hardenDefconfig()
 sed -i "s/CONFIG_PREEMPT_TRACER=n/CONFIG_PREEMPT_TRACER=y/" kernel/fairphone/sdm632/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
-sed -i "s/CONFIG_DEBUG_NOTIFIERS=y/# CONFIG_DEBUG_NOTIFIERS is not set/" kernel/google/msm-4.9/arch/arm64/configs/*_defconfig; #Likely breaks boot
 echo -e "\nCONFIG_DEBUG_FS=y" >> kernel/oneplus/sm8150/arch/arm64/configs/vendor/sm8150-perf_defconfig;
 echo -e "\nCONFIG_DEBUG_FS=n" >> kernel/oneplus/sm8250/arch/arm64/configs/vendor/kona-perf_defconfig;
 
