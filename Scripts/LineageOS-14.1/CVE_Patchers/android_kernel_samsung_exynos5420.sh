@@ -218,7 +218,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1652/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1836/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2318/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3028/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3111/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3635/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4378/^6.1/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20141/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20368/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-24958/3.4/0017.patch
@@ -231,5 +233,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
-editKernelLocalversion "-dos.p231"
+editKernelLocalversion "-dos.p233"
 cd "$DOS_BUILD_BASE"
