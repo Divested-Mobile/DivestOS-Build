@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: ValdikSS <iam@valdikss.org.ru>
+Date: Mon, 17 Sep 2018 19:04:27 +0300
+Subject: [PATCH] Assume optional codecs are supported if were supported
+ previously
+
+This fix is required to properly follow codec reconfiguration for SBC HD
+(SBC Dual Channel) in case of incoming Bluetooth connection.
+
+Change-Id: Idb8fce75b4f628ae865fc1d3a787e34b6a29e31e
+---
+ src/com/android/bluetooth/a2dp/A2dpService.java | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/com/android/bluetooth/a2dp/A2dpService.java b/src/com/android/bluetooth/a2dp/A2dpService.java
+index 18a00646a..11b283d72 100644
+--- a/src/com/android/bluetooth/a2dp/A2dpService.java
++++ b/src/com/android/bluetooth/a2dp/A2dpService.java
+@@ -1059,11 +1059,11 @@ public class A2dpService extends ProfileService {
+         }
+ 
+         if (previousSupport == BluetoothA2dp.OPTIONAL_CODECS_SUPPORT_UNKNOWN
+-                || supportsOptional != (previousSupport
+-                                    == BluetoothA2dp.OPTIONAL_CODECS_SUPPORTED)) {
++                || previousSupport == BluetoothA2dp.OPTIONAL_CODECS_NOT_SUPPORTED) {
+             setSupportsOptionalCodecs(device, supportsOptional);
+         }
+-        if (supportsOptional) {
++        if (supportsOptional
++                || previousSupport == BluetoothA2dp.OPTIONAL_CODECS_SUPPORTED) {
+             int enabled = getOptionalCodecsEnabled(device);
+             switch (enabled) {
+                 case BluetoothA2dp.OPTIONAL_CODECS_PREF_UNKNOWN:

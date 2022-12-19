@@ -101,6 +101,7 @@ patchWorkspace() {
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
 	source build/envsetup.sh;
+	#repopick -ift twelve-bt-sbc-hd-dualchannel;
 	#repopick -it twelve-colors;
 	repopick -it S_tzdb2022f;
 

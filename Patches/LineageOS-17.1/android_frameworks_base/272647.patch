@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: ValdikSS <iam@valdikss.org.ru>
+Date: Mon, 10 Sep 2018 02:16:50 +0300
+Subject: [PATCH] Allow SBC as HD audio codec in Bluetooth device configuration
+
+Change-Id: I4d149e87e27e16d571f53d0521f12a8ab9d0fc94
+---
+ .../src/com/android/settingslib/bluetooth/A2dpProfile.java    | 2 +-
+ .../com/android/settingslib/bluetooth/A2dpProfileTest.java    | 4 +++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/packages/SettingsLib/src/com/android/settingslib/bluetooth/A2dpProfile.java b/packages/SettingsLib/src/com/android/settingslib/bluetooth/A2dpProfile.java
+index 31624a5cc95e..0d64c2bba991 100644
+--- a/packages/SettingsLib/src/com/android/settingslib/bluetooth/A2dpProfile.java
++++ b/packages/SettingsLib/src/com/android/settingslib/bluetooth/A2dpProfile.java
+@@ -288,7 +288,7 @@ public class A2dpProfile implements LocalBluetoothProfile {
+ 
+         final BluetoothCodecConfig codecConfig = (selectable == null || selectable.length < 1)
+                 ? null : selectable[0];
+-        final int codecType = (codecConfig == null || codecConfig.isMandatoryCodec())
++        final int codecType = (codecConfig == null)
+                 ? BluetoothCodecConfig.SOURCE_CODEC_TYPE_INVALID : codecConfig.getCodecType();
+ 
+         int index = -1;
+diff --git a/packages/SettingsLib/tests/robotests/src/com/android/settingslib/bluetooth/A2dpProfileTest.java b/packages/SettingsLib/tests/robotests/src/com/android/settingslib/bluetooth/A2dpProfileTest.java
+index 9fb11813f245..03d2fa86c42b 100644
+--- a/packages/SettingsLib/tests/robotests/src/com/android/settingslib/bluetooth/A2dpProfileTest.java
++++ b/packages/SettingsLib/tests/robotests/src/com/android/settingslib/bluetooth/A2dpProfileTest.java
+@@ -183,7 +183,9 @@ public class A2dpProfileTest {
+         when(status.getCodecsSelectableCapabilities()).thenReturn(configs);
+ 
+         when(config.isMandatoryCodec()).thenReturn(true);
+-        assertThat(mProfile.getHighQualityAudioOptionLabel(mDevice)).isEqualTo(UNKNOWN_CODEC_LABEL);
++        when(config.getCodecName()).thenReturn("SBC");
++        assertThat(mProfile.getHighQualityAudioOptionLabel(mDevice)).isEqualTo(
++                String.format(KNOWN_CODEC_LABEL, config.getCodecName()));
+     }
+ 
+     @Test

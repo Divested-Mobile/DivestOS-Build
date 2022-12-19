@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: ValdikSS <iam@valdikss.org.ru>
+Date: Mon, 10 Sep 2018 13:07:13 +0300
+Subject: [PATCH] Add CHANNEL_MODE_DUAL_CHANNEL constant
+
+Change-Id: Id8601789879f9ded097aebb883fa3456bf74988e
+---
+ core/java/android/bluetooth/BluetoothCodecConfig.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/core/java/android/bluetooth/BluetoothCodecConfig.java b/core/java/android/bluetooth/BluetoothCodecConfig.java
+index c449c32fe4be..859d1633af78 100644
+--- a/core/java/android/bluetooth/BluetoothCodecConfig.java
++++ b/core/java/android/bluetooth/BluetoothCodecConfig.java
+@@ -95,6 +95,7 @@ public final class BluetoothCodecConfig implements Parcelable {
+     public static final int CHANNEL_MODE_MONO = 0x1 << 0;
+     @UnsupportedAppUsage
+     public static final int CHANNEL_MODE_STEREO = 0x1 << 1;
++    public static final int CHANNEL_MODE_DUAL_CHANNEL = 0x1 << 2;
+ 
+     private final int mCodecType;
+     private int mCodecPriority;

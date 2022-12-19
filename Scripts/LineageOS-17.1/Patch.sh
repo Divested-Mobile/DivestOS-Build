@@ -131,6 +131,9 @@ awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.jav
 fi;
 
 if enterAndClear "frameworks/base"; then
+#applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
+#applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
+#applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -256,6 +259,8 @@ if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAud
 fi;
 
 if enterAndClear "packages/apps/Bluetooth"; then
+#applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/272652.patch"; #ten-bt-sbc-hd-dualchannel: SBC Dual Channel (SBC HD Audio) support (ValdikSS)
+#applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/272653.patch"; #ten-bt-sbc-hd-dualchannel: Assume optional codecs are supported if were supported previously (ValdikSS)
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
@@ -294,6 +299,7 @@ fi;
 
 if enterAndClear "packages/apps/Settings"; then
 git revert --no-edit 486980cfecce2ca64267f41462f9371486308e9d; #Don't hide OEM unlock
+#applyPatch "$DOS_PATCHES/android_packages_apps_Settings/272651.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0003-Remove_SensorsOff_Tile.patch"; #Remove the Sensors Off development tile (DivestOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch)
@@ -351,6 +357,9 @@ fi;
 
 if enterAndClear "system/bt"; then
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
+#applyPatch "$DOS_PATCHES/android_system_bt/272648.patch"; #ten-bt-sbc-hd-dualchannel: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
+#applyPatch "$DOS_PATCHES/android_system_bt/272649.patch"; #ten-bt-sbc-hd-dualchannel: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
+#applyPatch "$DOS_PATCHES/android_system_bt/272650.patch"; #ten-bt-sbc-hd-dualchannel: Allow using alternative (higher) SBC HD bitrates with a property (ValdikSS)
 fi;
 
 if enterAndClear "system/core"; then

@@ -415,8 +415,8 @@ applyPatch "$DOS_PATCHES/android_system_bt/345528.patch"; #n-asb-2022-12 Added m
 applyPatch "$DOS_PATCHES/android_system_bt/345529.patch"; #n-asb-2022-12 Add missing increment in bnep_api.cc
 applyPatch "$DOS_PATCHES/android_system_bt/345530.patch"; #n-asb-2022-12 Add length check when copy AVDT and AVCT packet
 applyPatch "$DOS_PATCHES/android_system_bt/345531.patch"; #n-asb-2022-12 Fix integer overflow when parsing avrc response
-applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
-applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
+applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #bt-sbc-hd-dualchannel-nougat: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
+applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #bt-sbc-hd-dualchannel-nougat: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)
 applyPatch "$DOS_PATCHES/android_system_bt/0001-NO_READENCRKEYSIZE.patch"; #Add an option to let devices opt-out of the HCI_READ_ENCR_KEY_SIZE_SUPPORTED assert (DivestOS)
 fi;
