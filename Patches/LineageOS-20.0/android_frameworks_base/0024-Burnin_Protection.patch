@@ -12,8 +12,9 @@ both horizontally and vertically workarounds this problem.
 
 jrizzoli: integrate with runtime cmsdk preference
 
-Linux4: removed toggle from settings - the burnIn protection is always
+Linux4: Removed toggle from settings - the burnIn protection is always
 enabled if the corresponding AOSP overlay is set to true
+Updated for T
 
 Change-Id: I35b04d1edff86a556adb3ad349569e5d82653f16
 Signed-off-by: Park Ju Hyung <qkrwngud825@gmail.com>
@@ -23,9 +24,10 @@ Signed-off-by: Joey Rizzoli <joey@lineageos.org>
 ---
  .../SystemUI/res/values/lineage_dimens.xml    |   3 +
  .../navigationbar/NavigationBarView.java      |  26 +++++
+ .../statusbar/phone/CentralSurfacesImpl.java  |  14 +++
  .../statusbar/phone/PhoneStatusBarView.java   |  27 +++++
  .../policy/BurnInProtectionController.java    | 105 ++++++++++++++++++
- 4 files changed, 161 insertions(+)
+ 5 files changed, 175 insertions(+)
  create mode 100644 packages/SystemUI/src/com/android/systemui/statusbar/policy/BurnInProtectionController.java
 
 diff --git a/packages/SystemUI/res/values/lineage_dimens.xml b/packages/SystemUI/res/values/lineage_dimens.xml
@@ -41,10 +43,10 @@ index e1998ce3d3ab..dc59ccd794f7 100644
 +    <dimen name="burnin_protection_vertical_shift">1dp</dimen>
  </resources>
 diff --git a/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java b/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java
-index 448639cc1fe5..2505301d4268 100644
+index 0e07d37483df..c523fb2ff7f0 100644
 --- a/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java
 +++ b/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java
-@@ -158,6 +158,13 @@ public class NavigationBarView extends FrameLayout implements TunerService.Tunab
+@@ -162,6 +162,13 @@ public class NavigationBarView extends FrameLayout implements TunerService.Tunab
      private FloatingRotationButton mFloatingRotationButton;
      private RotationButtonController mRotationButtonController;
  
@@ -58,7 +60,7 @@ index 448639cc1fe5..2505301d4268 100644
      /**
       * Helper that is responsible for showing the right toast when a disallowed activity operation
       * occurred. In pinned mode, we show instructions on how to break out of this mode, whilst in
-@@ -859,12 +866,31 @@ public class NavigationBarView extends FrameLayout implements TunerService.Tunab
+@@ -879,12 +886,31 @@ public class NavigationBarView extends FrameLayout implements TunerService.Tunab
          mContextualButtonGroup.setButtonVisibility(R.id.accessibility_button, visible);
      }
  
@@ -90,6 +92,59 @@ index 448639cc1fe5..2505301d4268 100644
          updateOrientationViews();
          reloadNavIcons();
      }
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java
+index dca07386a440..df02938f2718 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java
+@@ -229,6 +229,7 @@ import com.android.systemui.statusbar.phone.panelstate.PanelExpansionChangeEvent
+ import com.android.systemui.statusbar.phone.panelstate.PanelExpansionStateManager;
+ import com.android.systemui.statusbar.policy.BatteryController;
+ import com.android.systemui.statusbar.policy.BrightnessMirrorController;
++import com.android.systemui.statusbar.policy.BurnInProtectionController;
+ import com.android.systemui.statusbar.policy.ConfigurationController;
+ import com.android.systemui.statusbar.policy.ConfigurationController.ConfigurationListener;
+ import com.android.systemui.statusbar.policy.DeviceProvisionedController;
+@@ -469,6 +470,7 @@ public class CentralSurfacesImpl extends CoreStartable implements
+     @Nullable
+     protected LockscreenWallpaper mLockscreenWallpaper;
+     private final AutoHideController mAutoHideController;
++    private BurnInProtectionController mBurnInProtectionController;
+ 
+     private final Point mCurrentDisplaySize = new Point();
+ 
+@@ -1220,6 +1222,12 @@ public class CentralSurfacesImpl extends CoreStartable implements
+                     mNotificationPanelViewController.updatePanelExpansionAndVisibility();
+                     setBouncerShowingForStatusBarComponents(mBouncerShowing);
+                     checkBarModes();
++
++                    if (mContext.getResources().getBoolean(
++                            com.android.internal.R.bool.config_enableBurnInProtection)) {
++                        mBurnInProtectionController = new BurnInProtectionController(mContext,
++                                this, mStatusBarView);
++                    }
+                 });
+         initializer.initializeStatusBar(mCentralSurfacesComponent);
+ 
+@@ -3763,6 +3771,9 @@ public class CentralSurfacesImpl extends CoreStartable implements
+ 
+             updateNotificationPanelTouchState();
+             mNotificationShadeWindowViewController.cancelCurrentTouch();
++            if (mBurnInProtectionController != null) {
++                mBurnInProtectionController.stopShiftTimer(true);
++            }
+             if (mLaunchCameraOnFinishedGoingToSleep) {
+                 mLaunchCameraOnFinishedGoingToSleep = false;
+ 
+@@ -3867,6 +3878,9 @@ public class CentralSurfacesImpl extends CoreStartable implements
+                 }
+             }
+             updateScrimController();
++            if (mBurnInProtectionController != null) {
++                mBurnInProtectionController.startShiftTimer(true);
++            }
+         }
+     };
+ 
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarView.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarView.java
 index 3f37a352ed5f..b65cfe4fc4a1 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarView.java
@@ -151,7 +206,7 @@ index 3f37a352ed5f..b65cfe4fc4a1 100644
  
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/policy/BurnInProtectionController.java b/packages/SystemUI/src/com/android/systemui/statusbar/policy/BurnInProtectionController.java
 new file mode 100644
-index 000000000000..a7b7bd9e53dc
+index 000000000000..864d86ffd6a3
 --- /dev/null
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/policy/BurnInProtectionController.java
 @@ -0,0 +1,105 @@
@@ -183,7 +238,7 @@ index 000000000000..a7b7bd9e53dc
 +import com.android.systemui.R;
 +import com.android.systemui.navigationbar.NavigationBarView;
 +import com.android.systemui.statusbar.phone.PhoneStatusBarView;
-+import com.android.systemui.statusbar.phone.StatusBar;
++import com.android.systemui.statusbar.phone.CentralSurfacesImpl;
 +
 +public class BurnInProtectionController {
 +    private static final String TAG = "BurnInProtectionController";
@@ -207,11 +262,11 @@ index 000000000000..a7b7bd9e53dc
 +    };
 +
 +    private PhoneStatusBarView mPhoneStatusBarView;
-+    private StatusBar mStatusBar;
++    private CentralSurfacesImpl mStatusBar;
 +
 +    private Context mContext;
 +
-+    public BurnInProtectionController(Context context, StatusBar statusBar,
++    public BurnInProtectionController(Context context, CentralSurfacesImpl statusBar,
 +            PhoneStatusBarView phoneStatusBarView) {
 +        mContext = context;
 +

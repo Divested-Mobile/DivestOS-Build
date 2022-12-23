@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Oliver Scott <olivercscott@gmail.com>
+Date: Mon, 17 Oct 2022 15:36:18 +0200
+Subject: [PATCH] fixup! fw/b: Add support for allowing/disallowing apps on
+ cellular, vpn and wifi networks
+
+Do not set apps without INTERNET permission as blocked by restricted networking mode
+
+Issue: calyxos#1266
+Change-Id: I11e30bc0c1f8c722d2b5941c17d430dba942594d
+---
+ .../com/android/server/net/NetworkPolicyManagerService.java     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/net/NetworkPolicyManagerService.java b/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
+index 7d70b6d73497..d7fa56e56e0b 100644
+--- a/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
++++ b/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
+@@ -4300,7 +4300,7 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
+         } else {
+             uidBlockedState.blockedReasons &= ~BLOCKED_REASON_RESTRICTED_MODE;
+         }
+-        if (hasRestrictedModeAccess(uid)) {
++        if (hasRestrictedModeAccess(uid) || !hasInternetPermissionUL(uid)) {
+             uidBlockedState.allowedReasons |= ALLOWED_REASON_RESTRICTED_MODE_PERMISSIONS;
+         } else {
+             uidBlockedState.allowedReasons &= ~ALLOWED_REASON_RESTRICTED_MODE_PERMISSIONS;
