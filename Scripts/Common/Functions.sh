@@ -633,9 +633,13 @@ export -f disableEnforceRRO;
 
 disableAPEX() {
 	cd "$DOS_BUILD_BASE$1";
-	awk -i inplace '!/DEXPREOPT_GENERATE_APEX_IMAGE/' *.mk &>/dev/null || true;
-	awk -i inplace '!/updatable_apex.mk/' *.mk &>/dev/null || true;
-	echo "Disabled APEX for $1";
+	if [[ "$1" != *"device/google/gs101"* ]] && [[ "$1" != *"device/google/gs201"* ]] && [[ "$1" != *"device/google/oriole"* ]] && [[ "$1" != *"device/google/raven"* ]] && [[ "$1" != *"device/google/raviole"* ]] && [[ "$1" != *"device/google/bluejay"* ]] && [[ "$1" != *"device/google/panther"* ]] && [[ "$1" != *"device/google/cheetah"* ]] && [[ "$1" != *"device/google/pantah"* ]]; then
+		awk -i inplace '!/DEXPREOPT_GENERATE_APEX_IMAGE/' *.mk &>/dev/null || true;
+		awk -i inplace '!/updatable_apex.mk/' *.mk &>/dev/null || true;
+		echo "Disabled APEX for $1";
+	else
+		echo "Skipped disabling APEX for $1";
+	fi;
 	cd "$DOS_BUILD_BASE";
 }
 export -f disableAPEX;
@@ -966,25 +970,26 @@ hardenDefconfig() {
 	declare -a optionsNo=("ACPI_APEI_EINJ" "ACPI_CUSTOM_METHOD" "ACPI_TABLE_UPGRADE");
 	optionsNo+=("CHECKPOINT_RESTORE" "MEM_SOFT_DIRTY");
 	optionsNo+=("CP_ACCESS64" "WLAN_FEATURE_MEMDUMP");
-	optionsNo+=("DEBUG_ATOMIC_SLEEP" "DEBUG_BUS_VOTER" "DEBUG_MUTEXES" "DEBUG_KMEMLEAK" "DEBUG_PAGEALLOC" "DEBUG_STACK_USAGE" "DEBUG_SPINLOCK");
 	optionsNo+=("DEVKMEM" "DEVMEM" "DEVPORT" "EARJACK_DEBUGGER" "PROC_KCORE" "PROC_VMCORE" "X86_PTDUMP");
 	optionsNo+=("HWPOISON_INJECT" "NOTIFIER_ERROR_INJECTION");
 	optionsNo+=("INPUT_EVBUG");
-	optionsNo+=("IOMMU_DEBUG" "IOMMU_DEBUG_TRACKING" "IOMMU_NON_SECURE" "IOMMU_TESTS");
-	optionsNo+=("L2TP_DEBUGFS" "LOCKUP_DETECTOR" "LOG_BUF_MAGIC" "PREEMPT_TRACER");
-	optionsNo+=("MMIOTRACE" "MMIOTRACE_TEST");
+	optionsNo+=("LOG_BUF_MAGIC");
+	optionsNo+=("L2TP_DEBUGFS");
 	optionsNo+=("PAGE_OWNER");
-	optionsNo+=("SLUB_DEBUG" "SLUB_DEBUG_ON");
 	optionsNo+=("TIMER_STATS" "ZSMALLOC_STAT");
 	optionsNo+=("UPROBES");
+	#optionsNo+=("SLUB_DEBUG" "SLUB_DEBUG_ON");
 	#optionsNo+=("STACKLEAK_METRICS" "STACKLEAK_RUNTIME_DISABLE"); #GCC only
-	if [[ $kernelVersion == "4."* ]] || [[ $kernelVersion == "5."* ]]; then
-		#optionsNo+=("DEBUG_FS");
-		optionsNo+=("FTRACE" "KPROBE_EVENTS" "UPROBE_EVENTS" "GENERIC_TRACER" "FUNCTION_TRACER" "STACK_TRACER" "HIST_TRIGGERS" "BLK_DEV_IO_TRACE" "FAIL_FUTEX" "DYNAMIC_DEBUG");
-	fi;
-	if [[ "$1" != *"kernel/oneplus/sm8250"* ]]; then
-		optionsNo+=("CORESIGHT_CSR" "CORESIGHT_CTI_SAVE_DISABLE" "CORESIGHT_CTI" "CORESIGHT_DBGUI" "CORESIGHT_ETM" "CORESIGHT_ETMV4" "CORESIGHT_EVENT" "CORESIGHT_FUNNEL" "CORESIGHT_FUSE" "CORESIGHT_HWEVENT" "CORESIGHT_QPDI" "CORESIGHT_REMOTE_ETM" "CORESIGHT_REPLICATOR" "CORESIGHT_STM_DEFAULT_ENABLE" "CORESIGHT_STM" "CORESIGHT_TMC" "CORESIGHT_TPDA" "CORESIGHT_TPDM_DEFAULT_ENABLE" "CORESIGHT_TPDM" "CORESIGHT_TPIU" "CORESIGHT" "OF_CORESIGHT");
-	fi;
+	#optionsNo+=("MMIOTRACE" "MMIOTRACE_TEST");
+	#optionsNo+=("IOMMU_DEBUG" "IOMMU_DEBUG_TRACKING" "IOMMU_NON_SECURE" "IOMMU_TESTS");
+	#optionsNo+=("DEBUG_ATOMIC_SLEEP" "DEBUG_BUS_VOTER" "DEBUG_MUTEXES" "DEBUG_KMEMLEAK" "DEBUG_PAGEALLOC" "DEBUG_STACK_USAGE" "DEBUG_SPINLOCK");
+	#if [[ $kernelVersion == "4."* ]] || [[ $kernelVersion == "5."* ]]; then
+	#	#optionsNo+=("DEBUG_FS");
+	#	optionsNo+=("FTRACE" "KPROBE_EVENTS" "UPROBE_EVENTS" "GENERIC_TRACER" "FUNCTION_TRACER" "STACK_TRACER" "HIST_TRIGGERS" "BLK_DEV_IO_TRACE" "FAIL_FUTEX" "DYNAMIC_DEBUG" "PREEMPT_TRACER");
+	#fi;
+	#if [[ "$1" != *"kernel/oneplus/sm8250"* ]]; then
+	#	optionsNo+=("CORESIGHT_CSR" "CORESIGHT_CTI_SAVE_DISABLE" "CORESIGHT_CTI" "CORESIGHT_DBGUI" "CORESIGHT_ETM" "CORESIGHT_ETMV4" "CORESIGHT_EVENT" "CORESIGHT_FUNNEL" "CORESIGHT_FUSE" "CORESIGHT_HWEVENT" "CORESIGHT_QPDI" "CORESIGHT_REMOTE_ETM" "CORESIGHT_REPLICATOR" "CORESIGHT_STM_DEFAULT_ENABLE" "CORESIGHT_STM" "CORESIGHT_TMC" "CORESIGHT_TPDA" "CORESIGHT_TPDM_DEFAULT_ENABLE" "CORESIGHT_TPDM" "CORESIGHT_TPIU" "CORESIGHT" "OF_CORESIGHT");
+	#fi;
 	#legacy
 	optionsNo+=("BINFMT_AOUT" "BINFMT_MISC");
 	optionsNo+=("COMPAT_BRK" "COMPAT_VDSO");
@@ -1008,7 +1013,7 @@ hardenDefconfig() {
 	optionsNo+=("SLAB_MERGE_DEFAULT");
 	if [[ "$DOS_VERSION" != "LineageOS-20.0" ]]; then optionsNo+=("USERFAULTFD"); fi;
 	#optionsNo+=("CFI_PERMISSIVE");
-	#???
+	#misc
 	optionsNo+=("FB_MSM_MDSS_XLOG_DEBUG" "MSM_BUSPM_DEV" "MSMB_CAMERA_DEBUG" "MSM_CAMERA_DEBUG" "MSM_SMD_DEBUG");
 	optionsNo+=("NEEDS_SYSCALL_FOR_CMPXCHG");
 	optionsNo+=("TSC" "TSPP2");
@@ -1022,13 +1027,15 @@ hardenDefconfig() {
 	#optionsNo+=("PROC_PAGE_MONITOR"); #breaks memory stats
 	#optionsNo+=("SCHED_DEBUG"); #breaks compile
 
-	for option in "${optionsNo[@]}"
-	do
-		#If the option is enabled, disable it
-		sed -i 's/CONFIG_'"$option"'=y/CONFIG_'"$option"'=n/' $defconfigPath &>/dev/null || true;
-		#If the option isn't present, add it disabled
-		sed -zi '/CONFIG_'"$option"'=n/!s/$/\nCONFIG_'"$option"'=n/' $defconfigPath &>/dev/null || true;
-	done
+	if [ "$DOS_DEFCONFIG_DISABLER" = true ]; then
+		for option in "${optionsNo[@]}"
+		do
+			#If the option is enabled, disable it
+			sed -i 's/CONFIG_'"$option"'=y/CONFIG_'"$option"'=n/' $defconfigPath &>/dev/null || true;
+			#If the option isn't present, add it disabled
+			sed -zi '/CONFIG_'"$option"'=n/!s/$/\nCONFIG_'"$option"'=n/' $defconfigPath &>/dev/null || true;
+		done
+	fi;
 
 	#Extras
 	sed -i 's/CONFIG_ARCH_MMAP_RND_BITS=8/CONFIG_ARCH_MMAP_RND_BITS=16/' $defconfigPath &>/dev/null || true;

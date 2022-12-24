@@ -1,0 +1,171 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: inthewaves <inthewaves@pm.me>
+Date: Thu, 27 Feb 2020 19:34:56 -0800
+Subject: [PATCH] add LTE-only option
+
+This mostly follows the work done in
+https://github.com/AndroidHardeningArchive/platform_packages_services_Telephony/commit/7f1b1088ade90096d874e8e554f0d47b9040ed14
+
+Closes https://github.com/GrapheneOS/os_issue_tracker/issues/107
+---
+ res/values/arrays.xml                              | 14 +++++++++++++-
+ res/values/strings.xml                             |  6 ++++++
+ .../EnabledNetworkModePreferenceController.java    |  7 ++++++-
+ .../PreferredNetworkModePreferenceController.java  |  2 +-
+ 4 files changed, 26 insertions(+), 3 deletions(-)
+
+diff --git a/res/values/arrays.xml b/res/values/arrays.xml
+index 6d95bcc58b..072004e447 100644
+--- a/res/values/arrays.xml
++++ b/res/values/arrays.xml
+@@ -1301,16 +1301,19 @@
+     </string-array>
+ 
+     <string-array name="enabled_networks_choices" translatable="false">
++        <item>@string/network_lte_only</item>
+         <item>@string/network_lte</item>
+         <item>@string/network_3G</item>
+         <item>@string/network_2G</item>
+     </string-array>
+     <string-array name="enabled_networks_4g_choices" translatable="false">
++        <item>@string/network_4G_only</item>
+         <item>@string/network_4G</item>
+         <item>@string/network_3G</item>
+         <item>@string/network_2G</item>
+     </string-array>
+     <string-array name="enabled_networks_values" translatable="false">
++        <item>"11"</item>
+         <item>"9"</item>
+         <item>"0"</item>
+         <item>"1"</item>
+@@ -1346,7 +1349,7 @@
+         <item>CDMA + LTE/EvDo</item>
+         <item>GSM/WCDMA/LTE</item>
+         <item>LTE/CDMA/EvDo/GSM/WCDMA</item>
+-        <item>LTE</item>
++        <item>LTE only</item>
+         <item>LTE / WCDMA</item>
+         <item>TDSCDMA only</item>
+         <item>TDSCDMA/WCDMA</item>
+@@ -1421,14 +1424,17 @@
+     </string-array>
+ 
+     <string-array name="enabled_networks_except_gsm_choices" translatable="false">
++        <item>@string/network_lte_only</item>
+         <item>@string/network_lte</item>
+         <item>@string/network_3G</item>
+     </string-array>
+     <string-array name="enabled_networks_except_gsm_4g_choices" translatable="false">
++        <item>@string/network_4G_only</item>
+         <item>@string/network_4G</item>
+         <item>@string/network_3G</item>
+     </string-array>
+     <string-array name="enabled_networks_except_gsm_values" translatable="false">
++        <item>"11"</item>
+         <item>"9"</item>
+         <item>"0"</item>
+     </string-array>
+@@ -1450,12 +1456,14 @@
+     </string-array>
+ 
+     <string-array name="enabled_networks_cdma_choices" translatable="false">
++        <item>@string/network_lte_only</item>
+         <item>@string/network_lte</item>
+         <item>@string/network_3G</item>
+         <item>@string/network_1x</item>
+         <item>@string/network_global</item>
+     </string-array>
+     <string-array name="enabled_networks_cdma_values" translatable="false">
++        <item>"11"</item>
+         <item>"8"</item>
+         <item>"4"</item>
+         <item>"5"</item>
+@@ -1472,20 +1480,24 @@
+     </string-array>
+ 
+     <string-array name="enabled_networks_cdma_only_lte_choices" translatable="false">
++        <item>@string/network_lte_only</item>
+         <item>@string/network_lte</item>
+         <item>@string/network_global</item>
+     </string-array>
+     <string-array name="enabled_networks_cdma_only_lte_values" translatable="false">
++        <item>"11"</item>
+         <item>"8"</item>
+         <item>"10"</item>
+     </string-array>
+ 
+     <string-array name="enabled_networks_tdscdma_choices" translatable="false">
++        <item>@string/network_lte_only</item>
+         <item>@string/network_lte</item>
+         <item>@string/network_3G</item>
+         <item>@string/network_2G</item>
+     </string-array>
+     <string-array name="enabled_networks_tdscdma_values" translatable="false">
++        <item>"11"</item>
+         <item>"22"</item>
+         <item>"18"</item>
+         <item>"1"</item>
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 197882d66e..88bd100122 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -10942,6 +10942,8 @@
+     <string name="preferred_network_mode_cdma_evdo_gsm_wcdma_summary">Preferred network mode: CDMA/EvDo/GSM/WCDMA</string>
+     <!-- LTE [CHAR LIMIT=NONE] -->
+     <string name="preferred_network_mode_lte_summary">Preferred network mode: LTE </string>
++    <!-- LTE only [CHAR LIMIT=100] -->
++    <string name="preferred_network_mode_lte_only_summary">Preferred network mode: LTE only</string>
+     <!-- GSM/WCDMA/LTE [CHAR LIMIT=NONE] -->
+     <string name="preferred_network_mode_lte_gsm_wcdma_summary">Preferred network mode: GSM/WCDMA/LTE</string>
+     <!-- CDMA+LTE/EVDO [CHAR LIMIT=NONE] -->
+@@ -11009,8 +11011,12 @@
+     <string name="network_4G_pure" translatable="false">4G</string>
+     <!-- Text for Network lte [CHAR LIMIT=NONE] -->
+     <string name="network_lte">LTE (recommended)</string>
++    <!-- Text for Network lte only [CHAR LIMIT=NONE] -->
++    <string name="network_lte_only">LTE only</string>
+     <!-- Text for Network 4g [CHAR LIMIT=NONE] -->
+     <string name="network_4G">4G (recommended)</string>
++    <!-- Text for Network 4g only [CHAR LIMIT=NONE] -->
++    <string name="network_4G_only">4G only</string>
+     <!-- Text for Network 3g [CHAR LIMIT=NONE] -->
+     <string name="network_3G" translatable="false">3G</string>
+     <!-- Text for Network 2g [CHAR LIMIT=NONE] -->
+diff --git a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
+index b9be4c2f10..d577f9ac55 100644
+--- a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
++++ b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
+@@ -438,7 +438,6 @@ public class EnabledNetworkModePreferenceController extends
+                             R.string.preferred_network_mode_lte_gsm_umts_summary);
+                     break;
+                 }
+-            case TelephonyManager.NETWORK_MODE_LTE_ONLY:
+             case TelephonyManager.NETWORK_MODE_LTE_WCDMA:
+                 if (!mIsGlobalCdma) {
+                     preference.setValue(
+@@ -452,6 +451,12 @@ public class EnabledNetworkModePreferenceController extends
+                     preference.setSummary(R.string.network_global);
+                 }
+                 break;
++            case TelephonyManager.NETWORK_MODE_LTE_ONLY:
++                preference.setValue(
++                        Integer.toString(TelephonyManager.NETWORK_MODE_LTE_ONLY));
++                preference.setSummary(
++                        mShow4GForLTE ? R.string.network_4G_only : R.string.network_lte_only);
++                break;
+             case TelephonyManager.NETWORK_MODE_LTE_CDMA_EVDO:
+                 if (MobileNetworkUtils.isWorldMode(mContext, mSubId)) {
+                     preference.setSummary(
+diff --git a/src/com/android/settings/network/telephony/PreferredNetworkModePreferenceController.java b/src/com/android/settings/network/telephony/PreferredNetworkModePreferenceController.java
+index 965fc729d3..3a7261b5b8 100644
+--- a/src/com/android/settings/network/telephony/PreferredNetworkModePreferenceController.java
++++ b/src/com/android/settings/network/telephony/PreferredNetworkModePreferenceController.java
+@@ -143,7 +143,7 @@ public class PreferredNetworkModePreferenceController extends TelephonyBasePrefe
+             case TelephonyManager.NETWORK_MODE_LTE_TDSCDMA:
+                 return R.string.preferred_network_mode_lte_tdscdma_summary;
+             case TelephonyManager.NETWORK_MODE_LTE_ONLY:
+-                return R.string.preferred_network_mode_lte_summary;
++                return R.string.preferred_network_mode_lte_only_summary;
+             case TelephonyManager.NETWORK_MODE_LTE_TDSCDMA_GSM:
+                 return R.string.preferred_network_mode_lte_tdscdma_gsm_summary;
+             case TelephonyManager.NETWORK_MODE_LTE_TDSCDMA_GSM_WCDMA:

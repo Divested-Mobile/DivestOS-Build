@@ -107,7 +107,7 @@ echo "Deblobbing...";
 	#CMN (?) [?]
 	#blobs=$blobs"|cmnlib.*";
 
-	#CNE (Automatic Cell/Wi-Fi Switching) [Qualcomm]
+	#CNE (VoWiFi) [Qualcomm]
 	if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then
 		#blobs=$blobs"|libcneapiclient.so|libNimsWrap.so|com.quicinc.cne.*.so"; #XXX: Breaks radio
 		blobs=$blobs"|andsfCne.xml|ATT_profile.*.xml|cneapiclient.xml|com.quicinc.cne.xml|ConnectivityExt.xml|profile1.xml|profile2.xml|profile3.xml|profile4.xml|profile5.xml|ROW_profile.*.xml|SwimConfig.xml|VZW_profile.*.xml";
@@ -120,6 +120,9 @@ echo "Deblobbing...";
 		#makes=$makes"|libcnefeatureconfig"; XXX: breaks radio
 		sepolicy=$sepolicy" cnd.te qcneservice.te";
 		manifests=$manifests"|com.quicinc.cne|iwlan";
+		blobs=$blobs"|QualifiedNetworksService.apk"; #Google
+		blobs=$blobs"|qualifiednetworksservice.xml";
+		makes=$makes"|Iwlan";
 	fi;
 
 	#CPPF (DRM) [?]
@@ -268,17 +271,16 @@ echo "Deblobbing...";
 	#[Google]
 	blobs=$blobs"|TetheringEntitlement.apk|CarrierLocation.apk|CarrierWifi.apk";
 	blobs=$blobs"|CarrierSettings.apk|CarrierSetup.apk";
+	blobs=$blobs"|CarrierServices.apk";
 	blobs=$blobs"|HardwareInfo.apk";
 	blobs=$blobs"|SCONE.apk"; #???
 	blobs=$blobs"|DevicePersonalizationPrebuilt.*.apk|DeviceIntelligence.*.apk";
-	blobs=$blobs"|QualifiedNetworksService.apk";
-	blobs=$blobs"|qualifiednetworksservice.xml";
 	blobs=$blobs"|libhwinfo.jar|com.google.android.hardwareinfo.xml";
 	overlay=$overlay"|config_defaultAttentionService|config_defaultSystemCaptionsManagerService|config_defaultSystemCaptionsService|config_systemAmbientAudioIntelligence|config_systemAudioIntelligence|config_systemNotificationIntelligence|config_systemTextIntelligence|config_systemUiIntelligence|config_systemVisualIntelligence|config_defaultContentSuggestionsService";
 	overlay=$overlay"|config_defaultWellbeingPackage|config_defaultSupervisionProfileOwnerComponent";
 	overlay=$overlay"|platform_carrier_config_package";
 
-	#EUICC (Virtual SIM) [Google]
+	#eUICC (Virtual SIM) [Google]
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_EUICC" = true ]; then
 		blobs=$blobs"|EuiccGoogle.apk|EuiccSupportPixel.apk|EuiccSupportPixelPermissions.apk|EuiccGoogleOverlay.apk"; #EUICC is useless without GMS
 		blobs=$blobs"|esim0.img|esim-v1.img|esim-full-v0.img|esim-a1.img|esim-a2.img";
@@ -288,7 +290,9 @@ echo "Deblobbing...";
 	fi;
 
 	#Google Camera
-	blobs=$blobs"|com.google.android.camera.*|PixelCameraServices.*.apk";
+	if [ "$DOS_DEBLOBBER_REMOVE_CAMEXT" = true ]; then
+		blobs=$blobs"|com.google.android.camera.*|PixelCameraServices.*.apk";
+	fi;
 
 	#Google NFC
 	blobs=$blobs"|PixelNfc.apk";
@@ -297,6 +301,8 @@ echo "Deblobbing...";
 	blobs=$blobs"|grilservice.apk|RilConfigService.apk";
 	blobs=$blobs"|google-ril.jar|RadioConfigLib.jar";
 	blobs=$blobs"|google-ril.xml";
+	blobs=$blobs"|ConnectivityThermalPowerManager.apk";
+	overlay=$overlay"|config_show_adaptive_connectivity";
 
 	#Google Setup Wizard
 	blobs=$blobs"|DreamlinerPrebuilt.apk|DreamlinerUpdater.apk";
@@ -350,6 +356,7 @@ echo "Deblobbing...";
 		blobs=$blobs"|imscmservice|imsdatadaemon|imsqmidaemon";
 		blobs=$blobs"|imscm.xml|ims.xml|android.hardware.telephony.ims.xml";
 		blobs=$blobs"|qti_permissions.xml|qti-vzw-ims-internal.xml";
+		blobs=$blobs"|ShannonIms.apk";
 		blobs=$blobs"|imssettings.apk|ims.apk";
 		blobs=$blobs"|imscmlibrary.jar|qti-vzw-ims-internal.jar";
 		blobs=$blobs"|com.qualcomm.qti.imscmservice.*|vendor.qti.ims.*";
@@ -363,9 +370,6 @@ echo "Deblobbing...";
 		sepolicy=$sepolicy" ims.te imscm.te imswmsproxy.te";
 		ipcSec=$ipcSec"|32:4294967295:1001";
 		manifests=$manifests"|qti.ims|radio.ims";
-	fi;
-	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_EUICC" = true ]; then
-		blobs=$blobs"|CarrierServices.apk"; #XXX: must be removed along with euicc
 	fi;
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_RCS" = true ]; then
 		#RCS (Proprietary messaging protocol)
@@ -445,7 +449,7 @@ echo "Deblobbing...";
 
 	#Music Detection [Google]
 	blobs=$blobs"|AmbientSensePrebuilt.apk";
-	blobs=$blobs"|dnd.descriptor|dnd.sound_model|music_detector.descriptor|music_detector.sound_model";
+	blobs=$blobs"|dnd.descriptor|dnd.sound_model|music_detector.descriptor|music_detector.sound_model|matcher_tah.leveldb";
 
 	#[Motorola] #See: http://www.beneaththewaves.net/Projects/Motorola_Is_Listening.html
 	blobs=$blobs"|BuaContactAdapter.apk|com.motorola.DirectedSMSProxy.xml|com.motorola.msimsettings.xml";
@@ -720,7 +724,7 @@ deblobDevice() {
 	sed -i 's/bluetooth.emb_wp_mode=true/bluetooth.emb_wp_mode=false/' *.prop *.mk &>/dev/null || true; #Disable WiPower
 	sed -i 's/bluetooth.wipower=true/bluetooth.wipower=false/' *.prop *.mk &>/dev/null || true; #Disable WiPower
 	sed -i 's/wfd.enable=1/wfd.enable=0/' *.prop *.mk &>/dev/null || true; #Disable Wi-Fi display
-	awk -i inplace '!/vendor.camera.extensions/' *.prop *.mk &>/dev/null || true; #Disable camera extensions
+	if [ "$DOS_DEBLOBBER_REMOVE_CAMEXT" = true ]; then awk -i inplace '!/vendor.camera.extensions/' *.prop *.mk &>/dev/null || true; fi; #Disable camera extensions
 	if [ -f system.prop ]; then
 		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
 		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
@@ -730,7 +734,6 @@ deblobDevice() {
 			sed -i 's/opengles.version=.*/opengles.version=131072/' system.prop;
 		fi;
 	fi
-	#Disable IMS
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
 		sed -i 's/ims.volte=true/ims.volte=false/' *.prop *.mk &>/dev/null || true;
 		sed -i 's/ims.vt=true/ims.vt=false/' *.prop *.mk &>/dev/null || true;
@@ -746,10 +749,18 @@ deblobDevice() {
 		sed -i 's/dbg.ims_volte_enable=./dbg.ims_volte_enable=0/' *.prop *.mk &>/dev/null || true;
 		sed -i 's/dbg.volte_avail_ovr=1/dbg.volte_avail_ovr=0/' *.prop *.mk &>/dev/null || true;
 		sed -i 's/dbg.vt_avail_ovr=1/dbg.vt_avail_ovr=0/' *.prop *.mk &>/dev/null || true;
+		sed -i 's|<bool name="config_carrier_volte_available">true</bool>|<bool name="config_carrier_volte_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml &>/dev/null || true;
+		sed -i 's|<bool name="config_carrier_vt_available">true</bool>|<bool name="config_carrier_vt_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml &>/dev/null || true;
+		sed -i 's|<bool name="config_device_volte_available">true</bool>|<bool name="config_device_volte_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml &>/dev/null || true;
+		sed -i 's|<bool name="config_device_vt_available">true</bool>|<bool name="config_device_vt_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml &>/dev/null || true;
+		sed -i 's|<bool name="config_dynamic_bind_ims">true</bool>|<bool name="config_dynamic_bind_ims">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml &>/dev/null || true;
+		awk -i inplace '!/config_ims_package/' overlay*/frameworks/base/core/res/res/values/config.xml &>/dev/null || true;
 	fi;
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then
 		sed -i 's/data.iwlan.enable=true/data.iwlan.enable=false/' *.prop *.mk &>/dev/null || true;
 		sed -i 's/dbg.wfc_avail_ovr=1/dbg.wfc_avail_ovr=0/' *.prop *.mk &>/dev/null || true;
+		sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml &>/dev/null || true;
+		sed -i 's|<bool name="config_carrier_wfc_ims_available">true</bool>|<bool name="config_carrier_wfc_ims_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml &>/dev/null || true;
 	fi;
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_RCS" = true ]; then
 		sed -i 's/rcs.supported=./rcs.supported=0/' *.prop *.mk &>/dev/null || true; #Disable RCS
@@ -773,27 +784,11 @@ deblobDevice() {
 			sed -i 's/property_set("persist.rcs.supported", ".");/property_set("persist.rcs.supported", "0");/' init/init_*.cpp; #Disable RCS
 		fi;
 	fi;
-	if [ -f overlay/frameworks/base/core/res/res/values/config.xml ]; then
-		awk -i inplace '!/'$overlay'/' overlay*/frameworks/base/core/res/res/values/config.xml;
-		sed -i 's|<bool name="config_enableWifiDisplay">true</bool>|<bool name="config_enableWifiDisplay">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
-		sed -i 's|<bool name="config_uiBlurEnabled">true</bool>|<bool name="config_uiBlurEnabled">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml; #Disable UIBlur
-		#Disable IMS
-		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
-			sed -i 's|<bool name="config_carrier_volte_available">true</bool>|<bool name="config_carrier_volte_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
-			sed -i 's|<bool name="config_carrier_vt_available">true</bool>|<bool name="config_carrier_vt_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
-			sed -i 's|<bool name="config_device_volte_available">true</bool>|<bool name="config_device_volte_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
-			sed -i 's|<bool name="config_device_vt_available">true</bool>|<bool name="config_device_vt_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
-			sed -i 's|<bool name="config_dynamic_bind_ims">true</bool>|<bool name="config_dynamic_bind_ims">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
-			awk -i inplace '!/config_ims_package/' overlay*/frameworks/base/core/res/res/values/config.xml;
-		fi;
-		if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then
-			sed -i 's|<bool name="config_device_wfc_ims_available">true</bool>|<bool name="config_device_wfc_ims_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
-			sed -i 's|<bool name="config_carrier_wfc_ims_available">true</bool>|<bool name="config_carrier_wfc_ims_available">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml;
-		fi;
-	fi;
-	if [ -f overlay/packages/services/Telephony/res/values/config.xml ]; then
-		awk -i inplace '!/platform_carrier_config_package/' overlay*/packages/services/Telephony/res/values/config.xml;
-	fi;
+	awk -i inplace '!/'$overlay'/' overlay*/frameworks/base/core/res/res/values/config.xml &>/dev/null || true;
+	sed -i 's|<bool name="config_enableWifiDisplay">true</bool>|<bool name="config_enableWifiDisplay">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml &>/dev/null || true;
+	sed -i 's|<bool name="config_uiBlurEnabled">true</bool>|<bool name="config_uiBlurEnabled">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml &>/dev/null || true; #Disable UIBlur
+	awk -i inplace '!/platform_carrier_config_package/' overlay*/packages/services/Telephony/res/values/config.xml &>/dev/null || true;
+	awk -i inplace '!/config_show_adaptive_connectivity/' overlay*/packages/apps/Settings/res/values/config.xml &>/dev/null || true;
 	if [ -d sepolicy ]; then
 		if [ -z "$replaceTime" ]; then
 			numfiles=(*); numfiles=${#numfiles[@]};

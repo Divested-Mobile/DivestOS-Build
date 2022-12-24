@@ -10,7 +10,7 @@ Signed-off-by: Tad <tad@spotco.us>
  1 file changed, 9 insertions(+)
 
 diff --git a/h_malloc.c b/h_malloc.c
-index b8a858a..7bb1396 100644
+index 3382623..3b2856e 100644
 --- a/h_malloc.c
 +++ b/h_malloc.c
 @@ -1088,6 +1088,15 @@ COLD static void handle_bugs(void) {

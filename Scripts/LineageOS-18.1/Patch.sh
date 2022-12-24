@@ -318,6 +318,9 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0011-Random_MAC-1.patch"
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0011-Random_MAC-2.patch"; #Remove partial MAC randomization translations (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0009-Install_Restrictions.patch"; #UserManager app installation restrictions (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0012-hosts_toggle.patch"; #Add a toggle to disable /etc/hosts lookup (heavily based off of a GrapheneOS patch)
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0013-LTE_Only_Mode-1.patch"; #Add LTE only setting (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0013-LTE_Only_Mode-2.patch"; #Show preferred network options no matter the carrier configuration (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0013-LTE_Only_Mode-3.patch"; #Add LTE only entry when carrier enables world mode (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 fi;
 

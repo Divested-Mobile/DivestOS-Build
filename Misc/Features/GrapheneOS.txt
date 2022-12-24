@@ -31,9 +31,6 @@ power animation
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/ee97a8e97ac6feedb9acdec1945cc943b7477b2f
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/bd956da828fe5ffce6daf5b30fce7b942cfa6794
 
-preferred network mode
-11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/286910c6cbc8c77153e7e230a4d02bea745ea571
-
 nojit
 11 https://github.com/GrapheneOS/platform_build/commit/8c9183f29406a93cb596ebd76ca27eb8c5f8bbe8
 11 https://github.com/GrapheneOS/platform_build/commit/904c1e837a2dd9b251d57c2e064186d5af047df0
@@ -58,6 +55,15 @@ nojit
 9  https://github.com/GrapheneOS/platform_build/commit/aa5b687d56d5b079ffe05e71c92adfa92857cf80
 9  https://github.com/GrapheneOS/platform_build/commit/5b9927197e63593b9220d1a9280021252ef205e9
 9  https://github.com/GrapheneOS/platform_build/commit/e36c7aefaa78a1ed5b94c7f51d29277008eea232
+
+[implemented] lte only mode
+13 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/b215ac3cd5e5062113f7b6f98825c524ed01d63d
+13 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/039ea5640897b7a95999010c9e0f025f1c1e66e7
+12 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/0127308111212d1837c5c3ce3402fde414400c56
+11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/6f538c804a4c3052a7d9a7cc0a1a6a1378e36b19
+11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/286910c6cbc8c77153e7e230a4d02bea745ea571
+11 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/69c4f503dc2309786d5449fc30aaf5242b28c373
+10 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/e977bf319cf4b3af311499003d206c6527df45ab
 
 [implemented] package leak
 13 https://github.com/GrapheneOS/platform_frameworks_base/commit/28761ffa183eb719dc991a3ce9afa422fb43c16e

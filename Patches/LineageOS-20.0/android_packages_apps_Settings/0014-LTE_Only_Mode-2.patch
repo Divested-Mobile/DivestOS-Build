@@ -1,0 +1,21 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: flawedworld <flawedworld@flawed.world>
+Date: Tue, 23 Aug 2022 01:08:45 +0100
+Subject: [PATCH] Fix LTE Only mode on World Mode
+
+---
+ .../telephony/EnabledNetworkModePreferenceController.java        | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
+index bb0fc8d307..1be4e6f495 100644
+--- a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
++++ b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
+@@ -314,7 +314,6 @@ public class EnabledNetworkModePreferenceController extends
+                             .addFormat(UiOptions.PresentFormat.add2gEntry);
+                     break;
+                 case PREFERRED_NETWORK_MODE_CHOICES_WORLD_MODE:
+-                    lteOnlyUnsupported = true;
+                     uiOptions = uiOptions
+                             .setChoices(R.array.preferred_network_mode_values_world_mode)
+                             .addFormat(UiOptions.PresentFormat.addGlobalEntry)

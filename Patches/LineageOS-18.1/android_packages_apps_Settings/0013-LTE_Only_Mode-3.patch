@@ -1,0 +1,21 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: flawedworld <flawedworld@flawed.world>
+Date: Tue, 17 Aug 2021 22:41:26 +0000
+Subject: [PATCH 3/3] Add LTE only entry when carrier enables world mode.
+
+---
+ .../telephony/EnabledNetworkModePreferenceController.java        | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
+index 8cc81b84b0..8bad6daf2b 100644
+--- a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
++++ b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
+@@ -360,6 +360,7 @@ public class EnabledNetworkModePreferenceController extends
+                         throw new IllegalArgumentException(
+                                 "PREFERRED_NETWORK_MODE_CHOICES_WORLD_MODE index error.");
+                     }
++                    addLteOnlyEntry();
+                     addGlobalEntry(entryValuesInt[0]);
+                     addCustomEntry(mContext.getString(R.string.network_world_mode_cdma_lte),
+                             entryValuesInt[1]);

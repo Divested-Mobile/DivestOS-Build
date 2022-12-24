@@ -48,13 +48,15 @@ buildAll() {
 	umask 0022;
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
-	#SD835
+	#frontloaded for testing
+	buildDevice bluejay avb;
 	buildDevice taimen avb;
+	buildDevice fajita avb;
+	#SD835
 	buildDevice walleye avb;
 	buildDevice cheeseburger verity;
 	buildDevice dumpling verity;
 	#SD845
-	buildDevice fajita avb;
 	buildDevice enchilada avb;
 	buildDevice aura avb;
 	buildDevice beryllium avb;
@@ -89,7 +91,6 @@ buildAll() {
 	#Tensor
 	buildDevice oriole avb;
 	buildDevice raven avb;
-	buildDevice bluejay avb;
 	buildDevice panther avb;
 	buildDevice cheetah avb;
 }

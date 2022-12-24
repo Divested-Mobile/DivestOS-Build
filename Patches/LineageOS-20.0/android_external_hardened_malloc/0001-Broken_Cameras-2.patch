@@ -10,7 +10,7 @@ Change-Id: I23513ec0379bbb10829f989690334e9704fd20e2
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/h_malloc.c b/h_malloc.c
-index 32fb863..b8a858a 100644
+index 32fb863..3382623 100644
 --- a/h_malloc.c
 +++ b/h_malloc.c
 @@ -1082,7 +1082,8 @@ COLD static void handle_bugs(void) {
@@ -19,7 +19,7 @@ index 32fb863..b8a858a 100644
      const char camera_provider[] = "/vendor/bin/hw/android.hardware.camera.provider@2.4-service_64";
 -    if (strcmp(camera_provider, path) == 0) {
 +    // Any camera executable on system partition
-+    if (strcmp(camera_provider, path) == 0 || (strstr(path, "camera") != NULL && (strncmp("/system", path, 7) == 0 || strncmp("/vendor", path, 7) == 0))) {
++    if (strcmp(camera_provider, path) == 0 || (strstr(path, "camera") != NULL && (strncmp("/system", path, 7) == 0 || strncmp("/vendor", path, 7) == 0 || strncmp("/apex", path, 5) == 0))) {
          ro.zero_on_free = false;
          ro.purge_slabs = false;
          ro.region_quarantine_protect = false;
