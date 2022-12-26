@@ -89,7 +89,7 @@ buildAll() {
 	buildDevice bonito avb;
 	buildDevice sargo avb;
 	#Tensor
-	buildDevice oriole avb;
+	buildDevice oriole avb; #requires manual patching for stray iwlan include in device.mk
 	buildDevice raven avb;
 	buildDevice panther avb;
 	buildDevice cheetah avb;

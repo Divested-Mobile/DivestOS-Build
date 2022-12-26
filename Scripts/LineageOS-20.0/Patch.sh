@@ -434,6 +434,10 @@ if enterAndClear "hardware/oplus"; then
 echo "allow update_engine_common vendor_custom_ab_block_device:blk_file rw_file_perms;" >> sepolicy/qti/vendor/update_engine_common.te; #fix firmware flash
 fi;
 
+if enterAndClear "kernel/oneplus/sm8250"; then
+git revert --no-edit 6eede8c64f268991abe669a6123e929e295fac29;
+fi;
+
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
 find "hardware/qcom/gps" -name "gps\.conf" -type f -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenLocationConf "{}"';
