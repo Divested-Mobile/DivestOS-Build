@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_cyanogen_msm8916 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_sm7250 kernel_samsung_universal9810 kernel_xiaomi_sm6150 kernel_yandex_sdm660";
+	startPatcher "kernel_cyanogen_msm8916 kernel_htc_msm8974 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_motorola_msm8996 kernel_oneplus_msm8994 kernel_oneplus_sm7250 kernel_samsung_universal9810 kernel_xiaomi_sm6150 kernel_yandex_sdm660";
 }
 export -f patchAllKernels;
 
@@ -54,6 +54,9 @@ buildAll() {
 	buildDevice merlin;
 	buildDevice osprey;
 	buildDevice surnia;
+	#SD801
+	buildDevice m8;
+	buildDevice m8d;
 	#SD808
 	buildDevice clark;
 	#SD810
@@ -103,7 +106,7 @@ enableDexPreOpt() {
 	if [ -f BoardConfig.mk ]; then
 		echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 		echo "WITH_DEXPREOPT_DEBUG_INFO := false" >> BoardConfig.mk;
-		if [ "$1" != "device/htc/m8" ]; then
+		if [ "$1" != "device/htc/m8" ] && [ "$1" != "device/htc/m8d" ]; then
 			echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false" >> BoardConfig.mk;
 			echo "Enabled full dexpreopt for $1";
 		else

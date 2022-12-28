@@ -425,6 +425,14 @@ if enterAndClear "device/cyanogen/msm8916-common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
 fi;
 
+if enterAndClear "device/htc/m8-common"; then
+awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
+fi;
+
+if enterAndClear "device/htc/msm8974-common"; then
+applyPatch "$DOS_PATCHES/android_device_htc_msm8974-common/295147.patch"; #Re-enable ZRAM (bgcngm)
+fi;
+
 if enterAndClear "device/motorola/clark"; then
 echo "allow mm-qcamerad camera_prop:property_service set;" >> sepolicy/mm-qcamerad.te;
 echo "allow mm-qcamerad property_socket:sock_file write;" >> sepolicy/mm-qcamerad.te;
@@ -489,6 +497,10 @@ enableLowRam "device/motorola/osprey" "osprey";
 enableLowRam "device/motorola/surnia" "surnia";
 #Tweaks for <3GB RAM devices
 enableLowRam "device/cyanogen/msm8916-common" "msm8916-common";
+enableLowRam "device/htc/m8-common" "m8-common";
+enableLowRam "device/htc/m8" "m8";
+enableLowRam "device/htc/m8d" "m8d";
+enableLowRam "device/htc/msm8974-common" "msm8974-common";
 enableLowRam "device/wileyfox/crackling" "crackling";
 
 #Fix broken options enabled by hardenDefconfig()
