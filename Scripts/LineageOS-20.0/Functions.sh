@@ -49,11 +49,11 @@ buildAll() {
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#frontloaded for testing
-	buildDevice bluejay avb;
-	buildDevice taimen avb;
+	buildDevice bluejay avb; #unb
+	buildDevice taimen avb; #unb
 	buildDevice fajita avb;
 	#SD835
-	buildDevice walleye avb;
+	buildDevice walleye avb; #unb
 	buildDevice cheeseburger verity;
 	buildDevice dumpling verity;
 	#SD845
@@ -61,8 +61,8 @@ buildAll() {
 	buildDevice aura avb;
 	buildDevice beryllium avb;
 	buildDevice pro1 avb;
-	buildDevice crosshatch avb;
-	buildDevice blueline avb;
+	buildDevice crosshatch avb; #unb
+	buildDevice blueline avb; #unb
 	#SD750
 	buildDevice FP4 avb;
 	#SD855
@@ -86,13 +86,13 @@ buildAll() {
 	buildDevice redfin avb;
 	buildDevice barbet avb;
 	#SD670
-	buildDevice bonito avb;
-	buildDevice sargo avb;
+	buildDevice bonito avb; #unb
+	buildDevice sargo avb; #unb
 	#Tensor
-	buildDevice oriole avb; #requires manual patching for stray iwlan include in device.mk
-	buildDevice raven avb;
-	buildDevice panther avb;
-	buildDevice cheetah avb;
+	buildDevice oriole avb; #unb #requires manual patching for stray iwlan include in device.mk
+	buildDevice raven avb; #unb
+	buildDevice panther avb; #unb
+	buildDevice cheetah avb; #unb
 }
 export -f buildAll;
 

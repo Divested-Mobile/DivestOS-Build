@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2022-04-04
 
 patchAllKernels() {
-	startPatcher "kernel_essential_msm8998 kernel_fairphone_sdm632 kernel_fairphone_sm7225 kernel_google_wahoo kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm8150 kernel_oneplus_sm8250 kernel_oneplus_sm8350 kernel_razer_msm8998 kernel_razer_sdm845 kernel_sony_sdm660 kernel_sony_sdm845 kernel_xiaomi_sdm845 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250";
+	startPatcher "kernel_essential_msm8998 kernel_fairphone_sdm632 kernel_razer_msm8998 kernel_sony_sdm660 kernel_sony_sdm845 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250";
 }
 export -f patchAllKernels;
 
@@ -54,39 +54,19 @@ buildAll() {
 	buildDevice discovery;
 	#SD835
 	buildDevice cheryl verity;
-	buildDevice cheeseburger verity; #superseded
-	buildDevice dumpling verity; #superseded
 	buildDevice mata verity;
-	buildDevice taimen avb; #superseded
-	buildDevice walleye avb; #superseded
 	#SD845
-	buildDevice aura avb; #superseded
-	buildDevice beryllium avb; #superseded
-	buildDevice enchilada avb; #superseded
-	buildDevice fajita avb; #superseded
 	buildDevice akari avb;
 	buildDevice aurora avb;
 	buildDevice xz2c avb;
 	#SD632
 	buildDevice FP3 avb;
-	#SD750
-	buildDevice FP4 avb; #unb #superseded
 	#SD855
-	buildDevice guacamole avb; #superseded
-	buildDevice guacamoleb avb; #superseded
-	buildDevice hotdog avb; #superseded
-	buildDevice hotdogb avb; #superseded
 	buildDevice vayu avb;
 	#SD865
-	buildDevice instantnoodle avb; #superseded
-	buildDevice instantnoodlep avb; #superseded
-	buildDevice kebab avb; #superseded
 	buildDevice lmi avb;
 	#SD870
 	buildDevice alioth avb;
-	#SD888
-	buildDevice lemonade avb; #superseded
-	buildDevice lemonadep avb; #superseded
 }
 export -f buildAll;
 
