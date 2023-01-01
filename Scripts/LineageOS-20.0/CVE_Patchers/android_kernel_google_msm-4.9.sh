@@ -1,6 +1,5 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/google/msm-4.9"
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0332-0333.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0005-Graphene-Deny_USB/4.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0025.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening/4.9/0026.patch
@@ -71,18 +70,12 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2153/^5.17/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2153/^5.17/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3061/^5.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3424/^6.1/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3521/4.9/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3524/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3643/4.9/0006.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4378/4.9/0007.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4378/4.9/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20148/^5.15/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20371/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25664/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-36280/^6.1/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42896/4.9/0007.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42896-extra/^6.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-45934/^6.1/0001.patch
-editKernelLocalversion "-dos.p84"
+editKernelLocalversion "-dos.p77"
 cd "$DOS_BUILD_BASE"
