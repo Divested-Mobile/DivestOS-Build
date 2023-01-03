@@ -53,5 +53,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42895/5.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42896/5.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42896-extra/^6.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-45934/^6.1/0001.patch
-editKernelLocalversion "-dos.p53"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-OctWirelessASB/ANY/0009.patch
+editKernelLocalversion "-dos.p54"
 cd "$DOS_BUILD_BASE"
