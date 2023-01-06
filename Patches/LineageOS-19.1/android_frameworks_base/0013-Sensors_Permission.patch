@@ -99,10 +99,10 @@ index 27c9026c863a..4a8624222ae8 100644
      <string name="permlab_readCalendar">Read calendar events and details</string>
      <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index ba5572eb4383..f7a09f49aacb 100644
+index 41bb1878e0dc..897134430015 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-@@ -2592,7 +2592,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -2632,7 +2632,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
      }
  
      public static boolean isSpecialRuntimePermission(final String permission) {

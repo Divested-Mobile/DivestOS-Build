@@ -12,7 +12,7 @@ Change-Id: I74b0b8a5aa70f0794b4f3d72c70167dbe2aae88d
  1 file changed, 11 insertions(+)
 
 diff --git a/services/core/java/com/android/server/net/NetworkPolicyManagerService.java b/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
-index 7d70b6d73497..07918a9a903b 100644
+index d7fa56e56e0b..2092276d377f 100644
 --- a/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
 +++ b/services/core/java/com/android/server/net/NetworkPolicyManagerService.java
 @@ -185,6 +185,7 @@ import android.content.pm.IPackageManager;

@@ -17,7 +17,7 @@ As a result, PackageManagerService is no longer modified.
  1 file changed, 19 insertions(+), 5 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 663f6ebcd73a..f8d298a538e7 100644
+index 0a98b8b0df57..b30bd41d3059 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -1461,7 +1461,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
@@ -58,7 +58,7 @@ index 663f6ebcd73a..f8d298a538e7 100644
                  // PermissionPolicyService will handle the app op for runtime permissions later.
                  grantRuntimePermissionInternal(permName, packageName, false,
                          Process.SYSTEM_UID, userId, delayingPermCallback);
-@@ -2606,6 +2608,10 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -2646,6 +2648,10 @@ public class PermissionManagerService extends IPermissionManager.Stub {
          }
      }
  
@@ -69,7 +69,7 @@ index 663f6ebcd73a..f8d298a538e7 100644
      /**
       * Restore the permission state for a package.
       *
-@@ -2958,6 +2964,14 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -2998,6 +3004,14 @@ public class PermissionManagerService extends IPermissionManager.Stub {
                                              }
                                          }
                                      }
@@ -84,7 +84,7 @@ index 663f6ebcd73a..f8d298a538e7 100644
                                  } else {
                                      if (permState == null) {
                                          // New permission
-@@ -3913,7 +3927,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -3953,7 +3967,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
                      && (grantedPermissions == null
                             || ArrayUtils.contains(grantedPermissions, permission))) {
                  final int flags = permissionsState.getPermissionFlags(permission, userId);

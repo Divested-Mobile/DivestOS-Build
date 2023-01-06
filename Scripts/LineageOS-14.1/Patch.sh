@@ -76,7 +76,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2022-12-05/' core/version_defaults.mk; #Bump Security String #n-asb-2022-12 #XXX
+sed -i 's/2021-06-05/2023-01-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-01 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -171,6 +171,10 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/345519.patch"; #n-asb-2022-12 V
 applyPatch "$DOS_PATCHES/android_frameworks_base/345520.patch"; #n-asb-2022-12 Ignore malformed shortcuts
 applyPatch "$DOS_PATCHES/android_frameworks_base/345521.patch"; #n-asb-2022-12 Fix permanent denial of service via setComponentEnabledSetting
 applyPatch "$DOS_PATCHES/android_frameworks_base/345522.patch"; #n-asb-2022-12 Add safety checks on KEY_INTENT mismatch.
+applyPatch "$DOS_PATCHES/android_frameworks_base/346948.patch"; #n-asb-2023-01 Limit lengths of fields in Condition to a max length.
+applyPatch "$DOS_PATCHES/android_frameworks_base/346949.patch"; #n-asb-2023-01 Disable all A11yServices from an uninstalled package.
+applyPatch "$DOS_PATCHES/android_frameworks_base/346950.patch"; #n-asb-2023-01 Trim any long string inputs that come in to AutomaticZenRule
+applyPatch "$DOS_PATCHES/android_frameworks_base/346951.patch"; #n-asb-2023-01 Fix conditionId string trimming in AutomaticZenRule
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -315,6 +319,7 @@ if enterAndClear "packages/apps/Nfc"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/315715.patch"; #n-asb-2021-09 Add HIDE_NON_SYSTEM_OVERLAY_WINDOWS permission to Nfc
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/328308.patch"; #n-asb-2022-04 Do not set default contactless application without user interaction
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/332455.patch"; #n-asb-2022-06 OOB read in phNciNfc_RecvMfResp()
+applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/346953.patch"; #n-asb-2023-01 OOBW in Mfc_Transceive()
 fi;
 
 if enterAndClear "packages/apps/PackageInstaller"; then
@@ -377,6 +382,7 @@ applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/345526.patch"; #n-as
 fi;
 
 if enterAndClear "packages/services/Telephony"; then
+applyPatch "$DOS_PATCHES/android_packages_services_Telephony/346954.patch"; #n-asb-2023-01 Prevent overlays on the phone settings
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch"; #(DivestOS)
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
 fi;
@@ -415,6 +421,7 @@ applyPatch "$DOS_PATCHES/android_system_bt/345528.patch"; #n-asb-2022-12 Added m
 applyPatch "$DOS_PATCHES/android_system_bt/345529.patch"; #n-asb-2022-12 Add missing increment in bnep_api.cc
 applyPatch "$DOS_PATCHES/android_system_bt/345530.patch"; #n-asb-2022-12 Add length check when copy AVDT and AVCT packet
 applyPatch "$DOS_PATCHES/android_system_bt/345531.patch"; #n-asb-2022-12 Fix integer overflow when parsing avrc response
+applyPatch "$DOS_PATCHES/android_system_bt/346952.patch"; #n-asb-2023-01 Once AT command is retrieved, return from method.
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #bt-sbc-hd-dualchannel-nougat: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #bt-sbc-hd-dualchannel-nougat: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)

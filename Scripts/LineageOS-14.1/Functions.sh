@@ -104,7 +104,6 @@ patchWorkspace() {
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
 	source build/envsetup.sh;
-	#repopick -it bt-sbc-hd-dualchannel-nougat;
 	repopick -it tzdb_N;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
