@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: George Chang <georgekgchang@google.com>
+Date: Wed, 5 Jun 2019 15:57:56 +0800
+Subject: [PATCH] Prevent OOB write in Mfc_Transceive
+
+Bug: 132082342
+Test: Manual test/ Mifare Tag Read/Write
+Merged-In: I3e1977514ba924655d42be4782244c6ef1cf7619
+Change-Id: I3e1977514ba924655d42be4782244c6ef1cf7619
+(cherry picked from commit edda944f0d84216e57846ae9a6799a90b875b427)
+---
+ nci/jni/extns/pn54x/src/mifare/phNxpExtns_MifareStd.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/nci/jni/extns/pn54x/src/mifare/phNxpExtns_MifareStd.c b/nci/jni/extns/pn54x/src/mifare/phNxpExtns_MifareStd.c
+index 34caef21..282ffc1a 100644
+--- a/nci/jni/extns/pn54x/src/mifare/phNxpExtns_MifareStd.c
++++ b/nci/jni/extns/pn54x/src/mifare/phNxpExtns_MifareStd.c
+@@ -1094,6 +1094,12 @@ NFCSTATUS Mfc_Transceive(uint8_t *p_data, uint32_t len)
+     NFCSTATUS status = NFCSTATUS_FAILED;
+     uint8_t i = 0x00;
+ 
++    if( len == 0 )
++    {
++        android_errorWriteLog(0x534e4554, "132082342");
++        return status;
++    }
++
+     gphNxpExtns_Context.RawWriteCallBack = false;
+     gphNxpExtns_Context.CallBackMifare = NULL;
+     gphNxpExtns_Context.CallBackCtxt   = NdefMap;

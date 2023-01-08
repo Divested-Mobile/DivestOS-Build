@@ -73,7 +73,7 @@ applyPatch "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys t
 applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2022-12-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2023-01-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -157,6 +157,13 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/345898-backport.patch"; #P_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/345520.patch"; #n-asb-2022-12 Ignore malformed shortcuts
 applyPatch "$DOS_PATCHES/android_frameworks_base/345901.patch"; #P_asb_2022-12 Fix permanent denial of service via setComponentEnabledSetting
 applyPatch "$DOS_PATCHES/android_frameworks_base/345902-backport.patch"; #P_asb_2022-12 Add safety checks on KEY_INTENT mismatch.
+applyPatch "$DOS_PATCHES/android_frameworks_base/347044.patch"; #P_asb_2023-01 Limit lengths of fields in Condition to a max length.
+applyPatch "$DOS_PATCHES/android_frameworks_base/346949.patch"; #n-asb-2023-01 Disable all A11yServices from an uninstalled package.
+applyPatch "$DOS_PATCHES/android_frameworks_base/347046.patch"; #P_asb_2023-01 Fix conditionId string trimming in AutomaticZenRule
+applyPatch "$DOS_PATCHES/android_frameworks_base/347047-backport.patch"; #P_asb_2023-01 [SettingsProvider] mem limit should be checked before settings are updated
+#applyPatch "$DOS_PATCHES/android_frameworks_base/347048-backport.patch"; #P_asb_2023-01 Revert "Revert "RESTRICT AUTOMERGE Validate permission tree size..." #XXX: uncertain backport
+applyPatch "$DOS_PATCHES/android_frameworks_base/347049-backport.patch"; #P_asb_2023-01 [SettingsProvider] key size limit for mutating settings
+applyPatch "$DOS_PATCHES/android_frameworks_base/347051-backport.patch"; #P_asb_2023-01 Add protections agains use-after-free issues if cancel() or queue() is called after a device connection has been closed.
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after three failed attempts (GrapheneOS)
@@ -276,6 +283,7 @@ fi;
 if enterAndClear "packages/apps/Nfc"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/328346.patch"; #P_asb_2022-04 Do not set default contactless application without user interaction
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/332455-backport.patch"; #n-asb-2022-06 OOB read in phNciNfc_RecvMfResp()
+applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/346953-backport.patch"; #n-asb-2023-01 OOBW in Mfc_Transceive()
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
@@ -338,9 +346,11 @@ if enterAndClear "packages/services/Telecomm"; then
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/332764.patch"; #P_asb_2022-06 limit TelecomManager#registerPhoneAccount to 10
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/344183.patch"; #P_asb_2022-11 switch TelecomManager List getters to ParceledListSlice
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/345913.patch"; #P_asb_2022-12 Hide overlay windows when showing phone account enable/disable screen.
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/347042.patch"; #P_asb_2023-01 Fix security vulnerability when register phone accounts.
 fi;
 
 if enterAndClear "packages/services/Telephony"; then
+applyPatch "$DOS_PATCHES/android_packages_services_Telephony/347041-backport.patch"; #P_asb_2023-01 Prevent overlays on the phone settings
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch"; #(DivestOS)
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
 fi;
@@ -362,6 +372,8 @@ applyPatch "$DOS_PATCHES/android_system_bt/345915.patch"; #P_asb_2022-12 Added m
 applyPatch "$DOS_PATCHES/android_system_bt/345916.patch"; #P_asb_2022-12 Add missing increment in bnep_api.cc
 applyPatch "$DOS_PATCHES/android_system_bt/345917.patch"; #P_asb_2022-12 Add length check when copy AVDT and AVCT packet
 applyPatch "$DOS_PATCHES/android_system_bt/345918.patch"; #P_asb_2022-12 Fix integer overflow when parsing avrc response
+applyPatch "$DOS_PATCHES/android_system_bt/347127.patch"; #P_asb_2023-01 Once AT command is retrieved, return from method.
+applyPatch "$DOS_PATCHES/android_system_bt/347128.patch"; #P_asb_2023-01 AVRC: Validating msg size before accessing fields
 fi;
 
 if enterAndClear "system/core"; then
@@ -388,15 +400,17 @@ if enterAndClear "system/vold"; then
 applyPatch "$DOS_PATCHES/android_system_vold/0001-AES256.patch"; #Add a variable for enabling AES-256 bit encryption (DivestOS)
 fi;
 
-if enterAndClear "vendor/nxp/opensource/external/libnfc-nci"; then
+if enterAndClear "vendor/nxp/opensource/external/libnfc-nci"; then #keep in sync with system/nfc
 applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/332771.patch"; #P_asb_2022-06 Double Free in ce_t4t_data_cback
 applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/332458-backport.patch"; #n-asb-2022-06 Out of Bounds Read in nfa_dm_check_set_config
 applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/332459-backport.patch"; #n-asb-2022-06 OOBR in nfc_ncif_proc_ee_discover_req()
 applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/344190-backport.patch"; #P_asb_2022-11 OOBW in phNxpNciHal_write_unlocked()
 fi;
 
-if enterAndClear "vendor/nxp/opensource/packages/apps/Nfc"; then
+if enterAndClear "vendor/nxp/opensource/packages/apps/Nfc"; then #keep in sync with packages/apps/Nfc
+applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_packages_apps_Nfc/252808-backport.patch"; #n-asb-2019-08 Prevent OOB write in Mfc_Transceive
 applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_packages_apps_Nfc/328348-backport.patch"; #P_asb_2022-04 Do not set default contactless application without user interaction
+applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_packages_apps_Nfc/346953-backport.patch"; #n-asb-2023-01 OOBW in Mfc_Transceive()
 fi;
 
 if enterAndClear "vendor/lineage"; then
