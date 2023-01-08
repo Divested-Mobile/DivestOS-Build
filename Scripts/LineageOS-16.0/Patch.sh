@@ -120,6 +120,8 @@ fi;
 
 if enterAndClear "external/dtc"; then
 git fetch https://github.com/LineageOS/android_external_dtc refs/changes/96/342096/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-10
+git fetch https://github.com/LineageOS/android_external_dtc refs/changes/61/344161/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-11
+git fetch https://github.com/LineageOS/android_external_dtc refs/changes/91/345891/1 && git cherry-pick FETCH_HEAD; #P_asb_2022-12
 fi;
 
 if enterAndClear "external/expat"; then

@@ -22,10 +22,10 @@ index 586d9a819d1e..85e86237adf6 100644
      <!-- Allows applications to access information about networks.
           <p>Protection level: normal
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index c0ae2274c38c..d34d672b825e 100644
+index 011e19586ed2..245ea111996c 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-@@ -985,7 +985,7 @@ public class PermissionManagerService {
+@@ -1024,7 +1024,7 @@ public class PermissionManagerService {
      }
  
      public static boolean isSpecialRuntimePermission(final String permission) {
