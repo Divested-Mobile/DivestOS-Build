@@ -67,10 +67,10 @@ index 5763345aba4d..cfcc305988bc 100644
      <string name="capability_title_canRetrieveWindowContent">Retrieve window content</string>
      <!-- Description for the capability of an accessibility service to retrieve window content. -->
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-index c5694882f5cc..746a5f06768d 100644
+index 71b1b3ed0ca9..714bf540468c 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-@@ -2484,7 +2484,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
+@@ -2524,7 +2524,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
      }
  
      public static boolean isSpecialRuntimePermission(final String permission) {

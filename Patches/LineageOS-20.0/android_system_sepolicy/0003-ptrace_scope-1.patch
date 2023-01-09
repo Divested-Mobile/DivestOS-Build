@@ -221,10 +221,10 @@ index ea5a9793d..49b23ee61 100644
  allow init dev_type:blk_file r_file_perms;
  allowxperm init dev_type:blk_file ioctl BLKROSET;
 diff --git a/prebuilts/api/33.0/private/domain.te b/prebuilts/api/33.0/private/domain.te
-index 2ef688c39..2ff442563 100644
+index bcb9d52e3..cb2140740 100644
 --- a/prebuilts/api/33.0/private/domain.te
 +++ b/prebuilts/api/33.0/private/domain.te
-@@ -136,6 +136,7 @@ neverallow {
+@@ -139,6 +139,7 @@ neverallow {
  # with other UIDs to these allowlisted domains.
  neverallow {
    domain
@@ -259,10 +259,10 @@ index ce0d130fe..52cbf33e8 100644
  allow init dev_type:blk_file r_file_perms;
  allowxperm init dev_type:blk_file ioctl BLKROSET;
 diff --git a/private/domain.te b/private/domain.te
-index 2ef688c39..2ff442563 100644
+index bcb9d52e3..cb2140740 100644
 --- a/private/domain.te
 +++ b/private/domain.te
-@@ -136,6 +136,7 @@ neverallow {
+@@ -139,6 +139,7 @@ neverallow {
  # with other UIDs to these allowlisted domains.
  neverallow {
    domain

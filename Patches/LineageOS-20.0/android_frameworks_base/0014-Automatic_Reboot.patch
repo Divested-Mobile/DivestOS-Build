@@ -13,10 +13,10 @@ Change-Id: If891bfbcc144c9336ba013260bad2b7c7a59c054
  4 files changed, 47 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 6e1ae8ac9fe1..d9e423d3d9ce 100644
+index 801c7d28fec2..c7abb8901cad 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -17220,6 +17220,14 @@ public final class Settings {
+@@ -17237,6 +17237,14 @@ public final class Settings {
          public static final String REVIEW_PERMISSIONS_NOTIFICATION_STATE =
                  "review_permissions_notification_state";
  
