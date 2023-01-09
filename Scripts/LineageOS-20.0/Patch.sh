@@ -435,6 +435,10 @@ sed -i '/PRODUCT_SYSTEM_VERITY_PARTITION/iPRODUCT_VENDOR_VERITY_PARTITION := /de
 awk -i inplace '!/vendor_sensors_dbg_prop/' sepolicy/vendor/hal_camera_default.te; #fixup
 fi;
 
+if enterAndClear "device/xiaomi/sdm845-common"; then
+echo "persist.vendor.bt.aac_frm_ctl.enabled=true" >> vendor.prop; #Fixup stutters: https://review.lineageos.org/c/LineageOS/android_device_oneplus_sdm845-common/+/346925
+fi;
+
 if enterAndClear "hardware/oplus"; then
 echo "allow update_engine_common vendor_custom_ab_block_device:blk_file rw_file_perms;" >> sepolicy/qti/vendor/update_engine_common.te; #fix firmware flash
 fi;
