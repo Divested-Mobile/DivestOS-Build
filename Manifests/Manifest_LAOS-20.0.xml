@@ -54,6 +54,7 @@
 	<!-- Common -->
 	<project path="system/qcom" name="LineageOS/android_system_qcom" remote="github" revision="lineage-20" />
 	<project path="external/bson" name="LineageOS/android_external_bson" remote="github" revision="lineage-20" />
+	<project path="hardware/sony/SonyOpenTelephony" name="LineageOS/android_hardware_sony_SonyOpenTelephony" remote="github" revision="lineage-20" />
 	<project path="packages/apps/ElmyraService" name="LineageOS/android_packages_apps_ElmyraService" remote="github" />
 
 	<!-- F(x)tec Pro¹ (pro1) -->
@@ -176,6 +177,17 @@
 	<!-- Razer Phone 2 (aura) -->
 	<project path="device/razer/aura" name="LineageOS/android_device_razer_aura" remote="github" revision="lineage-20" />
 	<project path="kernel/razer/sdm845" name="LineageOS/android_kernel_razer_sdm845" remote="github" revision="lineage-20" />
+
+	<!-- Sony Xperia XZ2 (akari) -->
+	<project path="device/sony/akari" name="LineageOS/android_device_sony_akari" remote="github" revision="lineage-20" />
+	<project path="device/sony/tama-common" name="LineageOS/android_device_sony_tama-common" remote="github" revision="lineage-20" />
+	<project path="kernel/sony/sdm845" name="LineageOS/android_kernel_sony_sdm845" remote="github" revision="lineage-20" />
+
+	<!-- Sony Xperia XZ2 Premium (aurora) -->
+	<project path="device/sony/aurora" name="LineageOS/android_device_sony_aurora" remote="github" revision="lineage-20" />
+
+	<!-- Sony Xperia XZ2 Compact (xz2c) -->
+	<project path="device/sony/xz2c" name="LineageOS/android_device_sony_xz2c" remote="github" revision="lineage-20" />
 
 	<!-- Xiaomi Poco F1 (beryllium) -->
 	<project path="hardware/xiaomi" name="LineageOS/android_hardware_xiaomi" remote="github" revision="lineage-20" />
