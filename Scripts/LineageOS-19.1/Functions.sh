@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2022-04-04
 
 patchAllKernels() {
-	startPatcher "kernel_essential_msm8998 kernel_fairphone_sdm632 kernel_razer_msm8998 kernel_sony_sdm660 kernel_sony_sdm845 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250";
+	startPatcher "kernel_essential_msm8998 kernel_fairphone_sdm632 kernel_razer_msm8998 kernel_sony_sdm660 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250";
 }
 export -f patchAllKernels;
 
@@ -55,10 +55,6 @@ buildAll() {
 	#SD835
 	buildDevice cheryl verity;
 	buildDevice mata verity;
-	#SD845
-	buildDevice akari avb;
-	buildDevice aurora avb;
-	buildDevice xz2c avb;
 	#SD632
 	buildDevice FP3 avb;
 	#SD855
