@@ -56,6 +56,10 @@ nojit
 9  https://github.com/GrapheneOS/platform_build/commit/5b9927197e63593b9220d1a9280021252ef205e9
 9  https://github.com/GrapheneOS/platform_build/commit/e36c7aefaa78a1ed5b94c7f51d29277008eea232
 
+[implemented] reject system app updates of same versioncode
+13 https://github.com/GrapheneOS/platform_frameworks_base/commit/9a42266d62406e781148a720836962197157e71f
+13 https://github.com/GrapheneOS/platform_frameworks_base/commit/69dc926f33cec82434fe0d6aa78f83340298d6de
+
 [implemented] lte only mode
 13 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/b215ac3cd5e5062113f7b6f98825c524ed01d63d
 13 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/039ea5640897b7a95999010c9e0f025f1c1e66e7
