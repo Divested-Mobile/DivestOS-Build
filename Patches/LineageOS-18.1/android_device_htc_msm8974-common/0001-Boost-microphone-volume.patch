@@ -1,0 +1,115 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Kalimbo Mkalla <20503185+Ke1i@users.noreply.github.com>
+Date: Sat, 14 Jan 2023 13:55:29 -0500
+Subject: [PATCH] Boost microphone volume
+
+Change-Id: Idf5b1acf28af975e8546a20d93579b1330e01265
+---
+ audio/mixer_paths.xml | 34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
+
+diff --git a/audio/mixer_paths.xml b/audio/mixer_paths.xml
+index 29efc04..f4d3e34 100644
+--- a/audio/mixer_paths.xml
++++ b/audio/mixer_paths.xml
+@@ -579,83 +579,83 @@
+ 
+     <path name="secondmic">
+         <path name="2nd-mic" />
+-        <ctl name="ADC3 Volume" value="19" />
++        <ctl name="ADC3 Volume" value="29" />
+         <ctl name="DEC4 Volume" value="84" />
+         <ctl name="IIR1 INP1 MUX" value="DEC4" />
+     </path>
+ 
+     <path name="line">
+         <path name="main-mic" />
+-        <ctl name="ADC4 Volume" value="12" />
++        <ctl name="ADC4 Volume" value="29" />
+         <ctl name="DEC3 Volume" value="84" />
+     </path>
+ 
+     <path name="line-vr">
+         <path name="main-mic" />
+-        <ctl name="ADC4 Volume" value="13" />
++        <ctl name="ADC4 Volume" value="29" />
+         <ctl name="DEC3 Volume" value="88" />
+     </path>
+ 
+     <path name="line-car-voice">
+         <path name="2nd-mic" />
+-        <ctl name="ADC3 Volume" value="13" />
++        <ctl name="ADC3 Volume" value="23" />
+         <ctl name="DEC4 Volume" value="87" />
+     </path>
+ 
+     <path name="line-voice">
+         <path name="main-mic" />
+-        <ctl name="DEC3 Volume" value="72" />
++        <ctl name="DEC3 Volume" value="78" />
+     </path>
+ 
+     <path name="line-hw-voip">
+         <path name="2nd-mic" />
+-        <ctl name="ADC3 Volume" value="13" />
++        <ctl name="ADC3 Volume" value="29" />
+         <ctl name="DEC4 Volume" value="87" />
+     </path>
+ 
+     <path name="line-landscapecam">
+         <path name="dual-mic" />
+-        <ctl name="ADC4 Volume" value="6" />
+-        <ctl name="ADC3 Volume" value="8" />
++        <ctl name="ADC4 Volume" value="26" />
++        <ctl name="ADC3 Volume" value="28" />
+         <ctl name="DEC4 Volume" value="84" />
+         <ctl name="DEC3 Volume" value="84" />
+     </path>
+ 
+     <path name="line-invertlandscapecam">
+         <path name="dual-mic-inverse" />
+-        <ctl name="ADC4 Volume" value="6" />
+-        <ctl name="ADC3 Volume" value="8" />
++        <ctl name="ADC4 Volume" value="28" />
++        <ctl name="ADC3 Volume" value="28" />
+         <ctl name="DEC4 Volume" value="84" />
+         <ctl name="DEC3 Volume" value="84" />
+     </path>
+ 
+     <path name="line-portraitcam">
+         <path name="dual-mic" />
+-        <ctl name="ADC4 Volume" value="6" />
+-        <ctl name="ADC3 Volume" value="8" />
++        <ctl name="ADC4 Volume" value="28" />
++        <ctl name="ADC3 Volume" value="28" />
+         <ctl name="DEC4 Volume" value="84" />
+         <ctl name="DEC3 Volume" value="84" />
+     </path>
+ 
+     <path name="handset-hw-voip">
+         <path name="dual-mic-inverse" />
+-        <ctl name="ADC4 Volume" value="13" />
+-        <ctl name="ADC3 Volume" value="13" />
++        <ctl name="ADC4 Volume" value="28" />
++        <ctl name="ADC3 Volume" value="28" />
+         <ctl name="DEC4 Volume" value="84" />
+         <ctl name="DEC3 Volume" value="79" />
+     </path>
+ 
+     <path name="dmic-endfire">
+         <path name="dual-mic-inverse" />
+-        <ctl name="ADC4 Volume" value="13" />
+-        <ctl name="ADC3 Volume" value="13" />
++        <ctl name="ADC4 Volume" value="23" />
++        <ctl name="ADC3 Volume" value="23" />
+         <ctl name="DEC4 Volume" value="84" />
+         <ctl name="DEC3 Volume" value="79" />
+     </path>
+ 
+     <path name="speaker-dmic-endfire">
+         <path name="2nd-mic" />
+-        <ctl name="ADC3 Volume" value="13" />
++        <ctl name="ADC3 Volume" value="28" />
+         <ctl name="DEC4 Volume" value="87" />
+     </path>
+ 
