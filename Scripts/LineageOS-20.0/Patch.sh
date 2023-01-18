@@ -395,7 +395,7 @@ if [ "$DOS_HOSTS_BLOCKING" = true ]; then awk -i inplace '!/50-lineage.sh/' conf
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/*.mk; #Remove Lineage extra keys
 awk -i inplace '!/security\/lineage/' config/*.mk; #Remove Lineage extra keys
 awk -i inplace '!/def_backup_transport/' overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml; #Unset default backup provider
-if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then sed -i '20d' config/common_mobile.mk && awk -i inplace '!/AudioFX/' config/*.mk; fi; #Remove AudioFX
+if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then sed -i '/TARGET_EXCLUDES_AUDIOFX/,+3d' config/common_mobile.mk; fi; #Remove AudioFX
 sed -i 's/LINEAGE_BUILDTYPE := UNOFFICIAL/LINEAGE_BUILDTYPE := dos/' config/*.mk; #Change buildtype
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations
 #cp -f "$DOS_PATCHES_COMMON/apns-conf.xml" prebuilt/common/etc/apns-conf.xml; #Update APN list
@@ -419,7 +419,12 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
+#if enterAndClear "device/google/gs101"; then
+#if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i '/google iwlan/,+5d' device.mk; fi; #fix stray #FIXME
+#fi;
+
 if enterAndClear "device/google/gs201"; then
+#if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i '/google iwlan/,+5d' device.mk; fi; #fix stray #FIXME
 awk -i inplace '!/PRODUCT_PACKAGES/' widevine/device.mk;
 fi;
 
