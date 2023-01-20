@@ -15,21 +15,25 @@ Co-authored-by: Danny Lin <danny@kdrag0n.dev>
 Co-authored-by: anupritaisno1 <www.anuprita804@gmail.com>
 Signed-off-by: empratyush <codelab@pratyush.dev>
 [tad@spotco.us]: add multiple other server options
+[tad@spotco.us]: merge with the GrapheneOS patch from RQ3A.211001.001.2021100606
 Change-Id: I8a762d0f29ac42fce3dcfc7189e8ff216a8f8d1a
 ---
  res/values/arrays.xml                         |  24 ++
  res/values/strings.xml                        |   3 +
- ...ConnectivityCheckPreferenceController.java | 339 ++++++++++++++++++
+ res/xml/network_and_internet.xml              |   8 +
+ ...ConnectivityCheckPreferenceController.java | 328 ++++++++++++++++++
  .../network/NetworkDashboardFragment.java     |   3 +
- 4 files changed, 369 insertions(+)
+ .../network/NetworkDashboardFragment.java.rej |  11 +
+ 6 files changed, 377 insertions(+)
  create mode 100644 src/com/android/settings/network/ConnectivityCheckPreferenceController.java
+ create mode 100644 src/com/android/settings/network/NetworkDashboardFragment.java.rej
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index f50d130936..584550265c 100644
+index 617548cadc..87fd6e5df6 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
-@@ -229,6 +229,30 @@
-         <item>259200000</item>
+@@ -110,6 +110,30 @@
+         <item>@string/dark_ui_auto_mode_auto</item>
      </string-array>
  
 +    <string-array name="connectivity_check_entries">
@@ -60,10 +64,10 @@ index f50d130936..584550265c 100644
           These are shown in a list dialog. -->
      <string-array name="lock_after_timeout_entries">
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 67c47bc7b3..62f06201f1 100644
+index 0c6fe1a541..0173a8bf31 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -13697,4 +13697,7 @@
+@@ -12237,4 +12237,7 @@
      <string name="bluetooth_connect_access_dialog_negative">Don\u2019t connect</string>
      <!-- Strings for Dialog connect button -->
      <string name="bluetooth_connect_access_dialog_positive">Connect</string>
@@ -71,12 +75,29 @@ index 67c47bc7b3..62f06201f1 100644
 +    <string name="connectivity_check_title">Internet connectivity check</string>
 +    <string name="connectivity_check_summary">HTTP endpoints to use for performing internet connectivity checks.</string>
  </resources>
+diff --git a/res/xml/network_and_internet.xml b/res/xml/network_and_internet.xml
+index 6bf6dbaccf..8ee092aa04 100644
+--- a/res/xml/network_and_internet.xml
++++ b/res/xml/network_and_internet.xml
+@@ -125,4 +125,12 @@
+         android:summary="@string/summary_placeholder"
+         android:order="25"
+         settings:controller="com.android.settings.network.AdaptiveConnectivityPreferenceController"/>
++
++    <ListPreference
++        android:key="connectivity_check_settings"
++        android:title="@string/connectivity_check_title"
++        android:summary="@string/connectivity_check_summary"
++        android:entries="@array/connectivity_check_entries"
++        android:entryValues="@array/connectivity_check_values"
++        android:order="30"/>
+ </PreferenceScreen>
 diff --git a/src/com/android/settings/network/ConnectivityCheckPreferenceController.java b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 new file mode 100644
-index 0000000000..5328c3ee6a
+index 0000000000..3dc7520df3
 --- /dev/null
 +++ b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
-@@ -0,0 +1,339 @@
+@@ -0,0 +1,328 @@
 +/*
 + * Copyright (C) 2020 The Android Open Source Project
 + *
@@ -205,20 +226,9 @@ index 0000000000..5328c3ee6a
 +
 +    @Override
 +    public void displayPreference(PreferenceScreen screen) {
-+        ListPreference captiveList = new ListPreference(screen.getContext());
-+        captiveList.setKey(KEY_CONNECTIVITY_CHECK_SETTINGS);
-+        captiveList.setOrder(30);
-+        captiveList.setIcon(R.drawable.ic_settings_language);
-+        captiveList.setTitle(R.string.connectivity_check_title);
-+        captiveList.setSummary(R.string.connectivity_check_summary);
-+        captiveList.setEntries(R.array.connectivity_check_entries);
-+        captiveList.setEntryValues(R.array.connectivity_check_values);
-+
-+        if (mConnectivityPreference == null) {
-+            screen.addPreference(captiveList);
-+            mConnectivityPreference = captiveList;
-+        }
 +        super.displayPreference(screen);
++        mConnectivityPreference =
++                screen.findPreference(KEY_CONNECTIVITY_CHECK_SETTINGS);
 +        updatePreferenceState();
 +    }
 +
@@ -417,16 +427,40 @@ index 0000000000..5328c3ee6a
 +    private boolean isDisabledByAdmin() { return getEnforcedAdmin() != null; }
 +}
 diff --git a/src/com/android/settings/network/NetworkDashboardFragment.java b/src/com/android/settings/network/NetworkDashboardFragment.java
-index 286e4e36e5..2eb788fbd0 100644
+index db704ae850..c77b07821e 100644
 --- a/src/com/android/settings/network/NetworkDashboardFragment.java
 +++ b/src/com/android/settings/network/NetworkDashboardFragment.java
-@@ -119,6 +119,9 @@ public class NetworkDashboardFragment extends DashboardFragment implements
-         }
-         controllers.add(privateDnsPreferenceController);
-         controllers.add(new NetworkProviderCallsSmsController(context, lifecycle));
-+        ConnectivityCheckPreferenceController connectivityCheck =
+@@ -103,6 +103,8 @@ public class NetworkDashboardFragment extends DashboardFragment implements
+                 new VpnPreferenceController(context);
+         final PrivateDnsPreferenceController privateDnsPreferenceController =
+                 new PrivateDnsPreferenceController(context);
++        final ConnectivityCheckPreferenceController connectivityCheckPreferenceController =
 +                new ConnectivityCheckPreferenceController(context);
-+        controllers.add(connectivityCheck);
+ 
+         if (lifecycle != null) {
+             lifecycle.addObserver(mobilePlanPreferenceController);
+@@ -120,6 +122,7 @@ public class NetworkDashboardFragment extends DashboardFragment implements
+         controllers.add(mobilePlanPreferenceController);
+         controllers.add(wifiPreferenceController);
+         controllers.add(privateDnsPreferenceController);
++        controllers.add(connectivityCheckPreferenceController);
          return controllers;
      }
  
+diff --git a/src/com/android/settings/network/NetworkDashboardFragment.java.rej b/src/com/android/settings/network/NetworkDashboardFragment.java.rej
+new file mode 100644
+index 0000000000..491cf70863
+--- /dev/null
++++ b/src/com/android/settings/network/NetworkDashboardFragment.java.rej
+@@ -0,0 +1,11 @@
++diff a/src/com/android/settings/network/NetworkDashboardFragment.java b/src/com/android/settings/network/NetworkDashboardFragment.java	(rejected hunks)
++@@ -119,6 +119,9 @@ public class NetworkDashboardFragment extends DashboardFragment implements
++         }
++         controllers.add(privateDnsPreferenceController);
++         controllers.add(new NetworkProviderCallsSmsController(context, lifecycle));
+++        ConnectivityCheckPreferenceController connectivityCheck =
+++                new ConnectivityCheckPreferenceController(context);
+++        controllers.add(connectivityCheck);
++         return controllers;
++     }
++ 

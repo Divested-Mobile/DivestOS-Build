@@ -419,12 +419,12 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
-#if enterAndClear "device/google/gs101"; then
-#if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i '/google iwlan/,+5d' device.mk; fi; #fix stray #FIXME
-#fi;
+if enterAndClear "device/google/gs101"; then
+if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i '/google iwlan/,+8d' device.mk; fi; #fix stray
+fi;
 
 if enterAndClear "device/google/gs201"; then
-#if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i '/google iwlan/,+5d' device.mk; fi; #fix stray #FIXME
+if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i '/google iwlan/,+8d' device.mk; fi; #fix stray
 awk -i inplace '!/PRODUCT_PACKAGES/' widevine/device.mk;
 fi;
 

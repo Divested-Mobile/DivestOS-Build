@@ -21,7 +21,7 @@ set -uo pipefail;
 export repoDir="/mnt/backup-1/DOS/Builds/Supporting_Files/";
 mkdir -p $repoDir;
 
-devicesCopy=(akari alioth Amber aura aurora avicii barbet bluejay blueline bonito bramble cheetah cheryl coral crosshatch davinci discovery enchilada fajita flame FP3 FP4 guacamole guacamoleb hotdog hotdogb instantnoodle instantnoodlep kebab lemonade lemonadep marlin mata oriole panther pioneer pro1 raven redfin sailfish sargo sunfish taimen vayu voyager walleye xz2c);
+devicesCopy=(akari alioth Amber aura aurora avicii barbet bluejay blueline bonito bramble cheetah cheryl coral crosshatch davinci discovery enchilada fajita flame FP3 FP4 guacamole guacamoleb hotdog hotdogb instantnoodle instantnoodlep kebab lemonade lemonadep marlin mata oriole panther pioneer pro1 raven redfin sailfish sargo sunfish taimen voyager walleye xz2c);
 
 for device in "${devicesCopy[@]}"
 do

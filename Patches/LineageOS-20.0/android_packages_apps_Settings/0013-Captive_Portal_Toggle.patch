@@ -14,32 +14,46 @@ Co-authored-by: Renlord <me@renlord.com>
 Co-authored-by: Danny Lin <danny@kdrag0n.dev>
 Co-authored-by: anupritaisno1 <www.anuprita804@gmail.com>
 Signed-off-by: empratyush <codelab@pratyush.dev>
-[tad@spotco.us]: removed the option for GrapheneOS servers
+[tad@spotco.us]: add multiple other server options
 Change-Id: I8a762d0f29ac42fce3dcfc7189e8ff216a8f8d1a
 ---
- res/values/arrays.xml                         |  10 +
+ res/values/arrays.xml                         |  24 ++
  res/values/strings.xml                        |   3 +
- ...ConnectivityCheckPreferenceController.java | 176 ++++++++++++++++++
+ ...ConnectivityCheckPreferenceController.java | 339 ++++++++++++++++++
  .../network/NetworkDashboardFragment.java     |   3 +
- 4 files changed, 192 insertions(+)
+ 4 files changed, 369 insertions(+)
  create mode 100644 src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index cfc7671652..7fac175770 100644
+index cfc7671652..5f72bf702e 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
-@@ -210,6 +210,16 @@
+@@ -210,6 +210,30 @@
          <item>@string/dark_ui_auto_mode_custom_bedtime</item>
      </string-array>
  
 +    <string-array name="connectivity_check_entries">
-+        <item>Standard (Google)</item>
 +        <item>Disabled</item>
++        <item>Google (US) [default]</item>
++        <!--<item>GrapheneOS (CA)</item>-->
++        <item>DivestOS (US)</item>
++        <item>openSUSE (DE)</item>
++        <item>Ubuntu (UK)</item>
++        <item>Amazon Fire OS (US)</item>
++        <item>Microsoft Edge (US)</item>
++        <item>Kuketz (DE)</item>
 +    </string-array>
 +
 +    <string-array name="connectivity_check_values" translatable="false">
 +        <item>0</item>
 +        <item>1</item>
++        <!--<item>2</item>-->
++        <item>3</item>
++        <item>4</item>
++        <item>5</item>
++        <item>6</item>
++        <item>7</item>
++        <item>8</item>
 +    </string-array>
 +
      <!-- Security settings.  The delay after screen is turned off until device locks.
@@ -59,10 +73,10 @@ index fa753aaa8e..858d5a6588 100644
  </resources>
 diff --git a/src/com/android/settings/network/ConnectivityCheckPreferenceController.java b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 new file mode 100644
-index 0000000000..bf16eb825a
+index 0000000000..5328c3ee6a
 --- /dev/null
 +++ b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
-@@ -0,0 +1,176 @@
+@@ -0,0 +1,339 @@
 +/*
 + * Copyright (C) 2020 The Android Open Source Project
 + *
@@ -118,8 +132,59 @@ index 0000000000..bf16eb825a
 +    private static final String STANDARD_OTHER_FALLBACK_URLS =
 +            "http://play.googleapis.com/generate_204";
 +
-+    private static final int STANDARD_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 0;
-+    private static final int DISABLED_CAPTIVE_PORTAL_INTVAL = 1;
++    // GrapheneOS
++    private static final String GRAPHENEOS_CAPTIVE_PORTAL_HTTPS_URL =
++            "https://connectivitycheck.grapheneos.network/generate_204";
++    private static final String GRAPHENEOS_CAPTIVE_PORTAL_HTTP_URL =
++            "http://connectivitycheck.grapheneos.network/generate_204";
++    private static final String GRAPHENEOS_CAPTIVE_PORTAL_FALLBACK_URL =
++            "http://grapheneos.online/gen_204";
++    private static final String GRAPHENEOS_CAPTIVE_PORTAL_OTHER_FALLBACK_URL =
++            "http://grapheneos.online/generate_204";
++
++    // DivestOS
++    private static final String DIVESTOS_HTTPS_URL =
++            "https://divestos.org/generate_204";
++    private static final String DIVESTOS_HTTP_URL =
++            "http://divestos.org/generate_204";
++
++    // openSUSE
++    private static final String OPENSUSE_HTTPS_URL =
++            "https://conncheck.opensuse.org";
++    private static final String OPENSUSE_HTTP_URL =
++            "http://conncheck.opensuse.org";
++
++    // Ubuntu
++    private static final String UBUNTU_HTTPS_URL =
++            "https://connectivity-check.ubuntu.com";
++    private static final String UBUNTU_HTTP_URL =
++            "http://connectivity-check.ubuntu.com";
++
++    // Amazon Fire OS
++    private static final String AMAZON_HTTPS_URL =
++            "https://fireoscaptiveportal.com/generate_204";
++    private static final String AMAZON_HTTP_URL =
++            "http://fireoscaptiveportal.com/generate_204";
++
++    // Microsoft Edge
++    private static final String MICROSOFT_HTTP_URL =
++            "http://edge-http.microsoft.com/captiveportal/generate_204";
++
++    // Kuketz, https://www.kuketz-blog.de/android-captive-portal-check-204-http-antwort-von-captiveportal-kuketz-de/
++    private static final String KUKETZ_HTTPS_URL =
++            "https://captiveportal.kuketz.de";
++    private static final String KUKETZ_HTTP_URL =
++            "http://captiveportal.kuketz.de";
++
++    private static final int DISABLED_CAPTIVE_PORTAL_INTVAL = 0;
++    private static final int STANDARD_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 1;
++    private static final int GRAPHENEOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 2;
++    private static final int DIVESTOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 3;
++    private static final int OPENSUSE_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 4;
++    private static final int UBUNTU_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 5;
++    private static final int AMAZON_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 6;
++    private static final int MICROSOFT_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 7;
++    private static final int KUKETZ_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 8;
 +
 +    private static final String KEY_CONNECTIVITY_CHECK_SETTINGS =
 +            "connectivity_check_settings";
@@ -175,6 +240,27 @@ index 0000000000..bf16eb825a
 +        if (STANDARD_HTTP_URL.equals(pref)) {
 +            mConnectivityPreference.setValueIndex(
 +                    STANDARD_CAPTIVE_PORTAL_HTTP_URL_INTVAL);
++        } else if (GRAPHENEOS_CAPTIVE_PORTAL_HTTP_URL.equals(pref)) {
++            mConnectivityPreference.setValueIndex(
++                    GRAPHENEOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL);
++        } else if (DIVESTOS_HTTP_URL.equals(pref)) {
++            mConnectivityPreference.setValueIndex(
++                    DIVESTOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL);
++        } else if (OPENSUSE_HTTP_URL.equals(pref)) {
++            mConnectivityPreference.setValueIndex(
++                    OPENSUSE_CAPTIVE_PORTAL_HTTP_URL_INTVAL);
++        } else if (UBUNTU_HTTP_URL.equals(pref)) {
++            mConnectivityPreference.setValueIndex(
++                    UBUNTU_CAPTIVE_PORTAL_HTTP_URL_INTVAL);
++        } else if (AMAZON_HTTP_URL.equals(pref)) {
++            mConnectivityPreference.setValueIndex(
++                    AMAZON_CAPTIVE_PORTAL_HTTP_URL_INTVAL);
++        } else if (MICROSOFT_HTTP_URL.equals(pref)) {
++            mConnectivityPreference.setValueIndex(
++                    MICROSOFT_CAPTIVE_PORTAL_HTTP_URL_INTVAL);
++        } else if (KUKETZ_HTTP_URL.equals(pref)) {
++            mConnectivityPreference.setValueIndex(
++                    KUKETZ_CAPTIVE_PORTAL_HTTP_URL_INTVAL);
 +        }
 +    }
 +
@@ -200,6 +286,97 @@ index 0000000000..bf16eb825a
 +                Settings.Global.putString(
 +                        cr, Settings.Global.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS,
 +                        STANDARD_OTHER_FALLBACK_URLS);
++                Settings.Global.putInt(cr, Settings.Global.CAPTIVE_PORTAL_MODE,
++                        Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT);
++                break;
++            case GRAPHENEOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL:
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTP_URL,
++                        GRAPHENEOS_CAPTIVE_PORTAL_HTTP_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTPS_URL,
++                        GRAPHENEOS_CAPTIVE_PORTAL_HTTPS_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_FALLBACK_URL,
++                        GRAPHENEOS_CAPTIVE_PORTAL_FALLBACK_URL);
++                Settings.Global.putString(
++                        cr, Settings.Global.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS,
++                        GRAPHENEOS_CAPTIVE_PORTAL_OTHER_FALLBACK_URL);
++                Settings.Global.putInt(cr, Settings.Global.CAPTIVE_PORTAL_MODE,
++                        Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT);
++                break;
++            case DIVESTOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL:
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTP_URL,
++                        DIVESTOS_HTTP_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTPS_URL,
++                        DIVESTOS_HTTPS_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_FALLBACK_URL,
++                        DIVESTOS_HTTP_URL);
++                Settings.Global.putString(
++                        cr, Settings.Global.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS,
++                        DIVESTOS_HTTP_URL);
++                Settings.Global.putInt(cr, Settings.Global.CAPTIVE_PORTAL_MODE,
++                        Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT);
++                break;
++            case OPENSUSE_CAPTIVE_PORTAL_HTTP_URL_INTVAL:
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTP_URL,
++                        OPENSUSE_HTTP_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTPS_URL,
++                        OPENSUSE_HTTPS_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_FALLBACK_URL,
++                        OPENSUSE_HTTP_URL);
++                Settings.Global.putString(
++                        cr, Settings.Global.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS,
++                        OPENSUSE_HTTP_URL);
++                Settings.Global.putInt(cr, Settings.Global.CAPTIVE_PORTAL_MODE,
++                        Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT);
++                break;
++            case UBUNTU_CAPTIVE_PORTAL_HTTP_URL_INTVAL:
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTP_URL,
++                        UBUNTU_HTTP_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTPS_URL,
++                        UBUNTU_HTTPS_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_FALLBACK_URL,
++                        UBUNTU_HTTP_URL);
++                Settings.Global.putString(
++                        cr, Settings.Global.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS,
++                        UBUNTU_HTTP_URL);
++                Settings.Global.putInt(cr, Settings.Global.CAPTIVE_PORTAL_MODE,
++                        Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT);
++                break;
++            case AMAZON_CAPTIVE_PORTAL_HTTP_URL_INTVAL:
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTP_URL,
++                        AMAZON_HTTP_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTPS_URL,
++                        AMAZON_HTTPS_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_FALLBACK_URL,
++                        AMAZON_HTTP_URL);
++                Settings.Global.putString(
++                        cr, Settings.Global.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS,
++                        AMAZON_HTTP_URL);
++                Settings.Global.putInt(cr, Settings.Global.CAPTIVE_PORTAL_MODE,
++                        Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT);
++                break;
++            case MICROSOFT_CAPTIVE_PORTAL_HTTP_URL_INTVAL:
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTP_URL,
++                        MICROSOFT_HTTP_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTPS_URL,
++                        MICROSOFT_HTTP_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_FALLBACK_URL,
++                        MICROSOFT_HTTP_URL);
++                Settings.Global.putString(
++                        cr, Settings.Global.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS,
++                        MICROSOFT_HTTP_URL);
++                Settings.Global.putInt(cr, Settings.Global.CAPTIVE_PORTAL_MODE,
++                        Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT);
++                break;
++            case KUKETZ_CAPTIVE_PORTAL_HTTP_URL_INTVAL:
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTP_URL,
++                        KUKETZ_HTTP_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTPS_URL,
++                        KUKETZ_HTTPS_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_FALLBACK_URL,
++                        KUKETZ_HTTP_URL);
++                Settings.Global.putString(
++                        cr, Settings.Global.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS,
++                        KUKETZ_HTTP_URL);
 +                Settings.Global.putInt(cr, Settings.Global.CAPTIVE_PORTAL_MODE,
 +                        Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT);
 +                break;
