@@ -11,10 +11,10 @@ Subject: [PATCH] add LTE only setting
  4 files changed, 39 insertions(+), 3 deletions(-)
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index e93794e955..af140191ee 100644
+index 309cbc9e77..7d6ca66e85 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
-@@ -1393,6 +1393,9 @@
+@@ -1417,6 +1417,9 @@
          <item>4</item> <!-- AutofillManager.FLAG_ADD_CLIENT_VERBOSE -->
      </string-array>
  
@@ -24,7 +24,7 @@ index e93794e955..af140191ee 100644
      <string-array name="enabled_networks_choices" translatable="false">
          <item>@string/network_lte</item>
          <item>@string/network_3G</item>
-@@ -1482,7 +1485,7 @@
+@@ -1506,7 +1509,7 @@
          <item>CDMA + LTE/EvDo</item>
          <item>GSM/WCDMA/LTE</item>
          <item>LTE/CDMA/EvDo/GSM/WCDMA</item>
@@ -34,7 +34,7 @@ index e93794e955..af140191ee 100644
          <item>TDSCDMA only</item>
          <item>TDSCDMA/WCDMA</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index b04499511b..53834ef17a 100644
+index 087fd82ef9..060f94a48f 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -11593,6 +11593,8 @@

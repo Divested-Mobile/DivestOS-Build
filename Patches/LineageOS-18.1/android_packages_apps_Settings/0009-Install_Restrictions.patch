@@ -10,7 +10,7 @@ Subject: [PATCH] UserManager app installation restrictions
  3 files changed, 44 insertions(+), 5 deletions(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index e612651bfe..c8e830342b 100644
+index 4ea24ec62e..a2c18d6cea 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -7088,6 +7088,8 @@

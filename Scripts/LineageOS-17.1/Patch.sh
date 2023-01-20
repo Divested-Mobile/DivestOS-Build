@@ -85,6 +85,7 @@ applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-9.patch";
 #applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-16.patch"; #Move pthread_internal_t behind guard page (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_bionic/0003-Graphene_Bionic_Hardening-17.patch"; #Add secondary stack randomization (GrapheneOS)
 fi;
+applyPatch "$DOS_PATCHES/android_bionic/0004-hosts_toggle.patch"; #Add a toggle to disable /etc/hosts lookup (DivestOS)
 fi;
 
 if enterAndClear "build/make"; then
@@ -301,6 +302,7 @@ if enterAndClear "packages/apps/Settings"; then
 git revert --no-edit 486980cfecce2ca64267f41462f9371486308e9d; #Don't hide OEM unlock
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/272651.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
+#applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle-gos.patch"; #Add option to disable captive portal checks (GrapheneOS) #FIXME: needs work
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0003-Remove_SensorsOff_Tile.patch"; #Remove the Sensors Off development tile (DivestOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0005-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
@@ -311,6 +313,7 @@ if [ "$DOS_GRAPHENE_EXEC" = true ]; then applyPatch "$DOS_PATCHES/android_packag
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0010-Random_MAC-1.patch"; #Add option to always randomize MAC (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0010-Random_MAC-2.patch"; #Remove partial MAC randomization translations (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0011-LTE_Only_Mode.patch"; #Add LTE-only option (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0012-hosts_toggle.patch"; #Add a toggle to disable /etc/hosts lookup (heavily based off of a GrapheneOS patch)
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 64;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase default max password length to 64 (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 fi;
@@ -374,6 +377,7 @@ fi;
 
 if enterAndClear "system/netd"; then
 applyPatch "$DOS_PATCHES/android_system_netd/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_system_netd/0002-hosts_toggle.patch"; #Add a toggle to disable /etc/hosts lookup (DivestOS)
 fi;
 
 if enterAndClear "system/sepolicy"; then

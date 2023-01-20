@@ -27,10 +27,10 @@ Change-Id: I8a762d0f29ac42fce3dcfc7189e8ff216a8f8d1a
  create mode 100644 src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 617548cadc..87fd6e5df6 100644
+index b983f467df..d799348200 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
-@@ -110,6 +110,30 @@
+@@ -108,6 +108,30 @@
          <item>@string/dark_ui_auto_mode_auto</item>
      </string-array>
  
@@ -62,10 +62,10 @@ index 617548cadc..87fd6e5df6 100644
           These are shown in a list dialog. -->
      <string-array name="lock_after_timeout_entries">
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 0c6fe1a541..0173a8bf31 100644
+index 2180ea45f6..edd9a93761 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -12237,4 +12237,7 @@
+@@ -11462,4 +11462,7 @@
      <string name="bluetooth_connect_access_dialog_negative">Don\u2019t connect</string>
      <!-- Strings for Dialog connect button -->
      <string name="bluetooth_connect_access_dialog_positive">Connect</string>
@@ -74,14 +74,13 @@ index 0c6fe1a541..0173a8bf31 100644
 +    <string name="connectivity_check_summary">HTTP endpoints to use for performing internet connectivity checks.</string>
  </resources>
 diff --git a/res/xml/network_and_internet.xml b/res/xml/network_and_internet.xml
-index 6bf6dbaccf..8ee092aa04 100644
+index 32b51d48fc..ff1e5234cf 100644
 --- a/res/xml/network_and_internet.xml
 +++ b/res/xml/network_and_internet.xml
-@@ -125,4 +125,12 @@
-         android:summary="@string/summary_placeholder"
-         android:order="25"
-         settings:controller="com.android.settings.network.AdaptiveConnectivityPreferenceController"/>
-+
+@@ -97,4 +97,12 @@
+         android:positiveButtonText="@string/save"
+         android:negativeButtonText="@android:string/cancel" />
+ 
 +    <ListPreference
 +        android:key="connectivity_check_settings"
 +        android:title="@string/connectivity_check_title"
@@ -89,6 +88,7 @@ index 6bf6dbaccf..8ee092aa04 100644
 +        android:entries="@array/connectivity_check_entries"
 +        android:entryValues="@array/connectivity_check_values"
 +        android:order="30"/>
++
  </PreferenceScreen>
 diff --git a/src/com/android/settings/network/ConnectivityCheckPreferenceController.java b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 new file mode 100644
@@ -425,10 +425,10 @@ index 0000000000..942ae750bc
 +    private boolean isDisabledByAdmin() { return getEnforcedAdmin() != null; }
 +}
 diff --git a/src/com/android/settings/network/NetworkDashboardFragment.java b/src/com/android/settings/network/NetworkDashboardFragment.java
-index db704ae850..c77b07821e 100644
+index 8c686a54aa..19b3ae3ea6 100644
 --- a/src/com/android/settings/network/NetworkDashboardFragment.java
 +++ b/src/com/android/settings/network/NetworkDashboardFragment.java
-@@ -103,6 +103,8 @@ public class NetworkDashboardFragment extends DashboardFragment implements
+@@ -104,6 +104,8 @@ public class NetworkDashboardFragment extends DashboardFragment implements
                  new VpnPreferenceController(context);
          final PrivateDnsPreferenceController privateDnsPreferenceController =
                  new PrivateDnsPreferenceController(context);
@@ -437,7 +437,7 @@ index db704ae850..c77b07821e 100644
  
          if (lifecycle != null) {
              lifecycle.addObserver(mobilePlanPreferenceController);
-@@ -120,6 +122,7 @@ public class NetworkDashboardFragment extends DashboardFragment implements
+@@ -129,6 +131,7 @@ public class NetworkDashboardFragment extends DashboardFragment implements
          controllers.add(mobilePlanPreferenceController);
          controllers.add(wifiPreferenceController);
          controllers.add(privateDnsPreferenceController);
