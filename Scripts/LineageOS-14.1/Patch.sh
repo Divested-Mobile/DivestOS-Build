@@ -540,6 +540,7 @@ if enterAndClear "device/samsung/tuna"; then
 #git revert --no-edit e53eea6426da49dfb542929d5aa686667f4d416f; #restore releasetools #TODO
 rm setup-makefiles.sh; #broken, deblobber will still function
 sed -i 's|vendor/maguro/|vendor/|' libgps-shim/gps.c; #fix dlopen not found
+sed -i 's|http://gllto|https://gllto|' cmhw/org/cyanogenmod/hardware/LongTermOrbits.java; #Use HTTPS for PSDS
 #See: https://review.lineageos.org/q/topic:tuna-sepolicies
 applyPatch "$DOS_PATCHES/android_device_samsung_tuna/0001-fix_denial.patch"; #(nailyk)
 applyPatch "$DOS_PATCHES/android_device_samsung_tuna/0002-fix_denial.patch";

@@ -518,7 +518,7 @@ hardenLocationConf() {
 	sed -i 's|xtrapath3|xtrapath6|' "$gpsConfig" &>/dev/null || true;
 	#Enable HTTPS (IZatCloud supports HTTPS)
 	sed -i 's|http://xtrapath|https://xtrapath|' "$gpsConfig" &>/dev/null || true;
-	#sed -i 's|http://gllto|https://gllto|' "$gpsConfig" &>/dev/null || true; XXX: GLPals has an invaid certificate
+	sed -i 's|http://gllto|https://gllto|' "$gpsConfig" &>/dev/null || true;
 	echo "Enhanced location services for $gpsConfig";
 }
 export -f hardenLocationConf;
@@ -544,7 +544,7 @@ hardenLocationFWB() {
 	sed -i 's|xtrapath3|xtrapath6|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
 	#Enable HTTPS (IZatCloud supports HTTPS)
 	sed -i 's|http://xtrapath|https://xtrapath|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
-	#sed -i 's|http://gllto|https://gllto|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true; XXX: GLPals has an invaid certificate
+	sed -i 's|http://gllto|https://gllto|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
 	echo "Enhanced location services for $dir";
 }
 export -f hardenLocationFWB;
