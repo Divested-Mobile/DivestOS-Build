@@ -3,6 +3,10 @@ RQ3A.211001.001.2021100606
 QQ3A.200805.001.2020.09.11.14
 PQ3B.190801.002.2019.08.25.15
 
+appops reset fix
+13 https://github.com/GrapheneOS/platform_frameworks_base/commit/41446b749e0851572e280f88b37db05f6283e0c3
+13 https://github.com/GrapheneOS/platform_frameworks_base/commit/e7022b12acbc1b87c07f9c4ed7b22bae9588c7ea
+
 https time
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/1d4e3f495b7b544f6314f04243e9d47b3f8e7102
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/2c04a077ec9f3ac6857885199f49f4845b70ec2e

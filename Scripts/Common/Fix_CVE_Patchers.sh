@@ -61,7 +61,7 @@ commentPatches android_kernel_google_sunfish.sh "CVE-2021-30324";
 commentPatches android_kernel_google_wahoo.sh "0008-Graphene-Kernel_Hardening/4.4/0019.patch" "CVE-2019-14047/ANY/0002.patch" "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992" "CVE-2020-16166" "CVE-2021-30324";
 commentPatches android_kernel_google_yellowstone.sh "0001-LinuxIncrementals/3.10/3.10.0098-0099.patch" "CVE-2018-9514";
 commentPatches android_kernel_huawei_angler.sh "CVE-2014-8559";
-commentPatches android_kernel_htc_flounder.sh "CVE-2018-9514";
+commentPatches android_kernel_htc_flounder.sh "CVE-2018-9514" "CVE-2018-14614/3.4";
 commentPatches android_kernel_htc_msm8960.sh "CVE-2018-10876" "CVE-2021-0695" "CVE-2021-Misc2/3.4/0055.patch" "CVE-2021-Misc2/3.4/0056.patch";
 commentPatches android_kernel_htc_msm8974.sh "CVE-2016-8393" "CVE-2022-22058";
 commentPatches android_kernel_htc_msm8994.sh "CVE-2016-8394/ANY/0001.patch" "CVE-2017-13166" "CVE-2018-3585" "CVE-2018-9514";
@@ -71,7 +71,7 @@ commentPatches android_kernel_lge_msm8996.sh "CVE-2016-6198" "CVE-2017-13162/3.1
 commentPatches android_kernel_moto_shamu.sh "CVE-2014-8559";
 commentPatches android_kernel_motorola_msm8916.sh "0001-LinuxIncrementals/3.10/3.10.0050-0051.patch" "CVE-2014-8559" "CVE-2017-15817" "CVE-2018-9514";
 commentPatches android_kernel_motorola_msm8974.sh "CVE-2016-5696" "CVE-2017-7373" "CVE-2017-17770/3.4/0002.patch" "CVE-2019-11599" "CVE-2022-22058";
-commentPatches android_kernel_motorola_msm8992.sh "CVE-2017-5551/3.10/0002.patch" "CVE-2017-14880/3.10/0001.patch" "CVE-2018-3585/3.10/0001.patch" "CVE-2019-2297/qcacld-2.0/0001.patch";
+commentPatches android_kernel_motorola_msm8992.sh "CVE-2017-5551/3.10/0002.patch" "CVE-2017-14880/3.10/0001.patch" "CVE-2017-17770/3.4" "CVE-2018-3585/3.10/0001.patch" "CVE-2019-2297/qcacld-2.0/0001.patch";
 commentPatches android_kernel_motorola_msm8996.sh "0001-LinuxIncrementals/3.18/3.18.0098-0099.patch" "CVE-2017-8266" "CVE-2017-13162/3.18/0001.patch" "CVE-2017-15951" "CVE-2018-17972" "CVE-2019-2214" "CVE-2019-14070/ANY/0006.patch" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166" "CVE-2021-39715/ANY/0001.patch" "CVE-2022-42896/4.9";
 commentPatches android_kernel_nextbit_msm8992.sh "CVE-2018-3585/3.10/0001.patch" "CVE-2018-9514";
 commentPatches android_kernel_oneplus_msm8994.sh "CVE-2018-3585/3.10/0001.patch" "CVE-2018-9514";
