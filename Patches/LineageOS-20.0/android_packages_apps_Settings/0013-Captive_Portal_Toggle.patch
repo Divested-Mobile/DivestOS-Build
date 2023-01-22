@@ -25,7 +25,7 @@ Change-Id: I8a762d0f29ac42fce3dcfc7189e8ff216a8f8d1a
  create mode 100644 src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index cfc7671652..5f72bf702e 100644
+index cfc7671652..ed2b2a6b16 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -210,6 +210,30 @@
@@ -35,25 +35,25 @@ index cfc7671652..5f72bf702e 100644
 +    <string-array name="connectivity_check_entries">
 +        <item>Disabled</item>
 +        <item>Google (US) [default]</item>
-+        <!--<item>GrapheneOS (CA)</item>-->
 +        <item>DivestOS (US)</item>
 +        <item>openSUSE (DE)</item>
 +        <item>Ubuntu (UK)</item>
 +        <item>Amazon Fire OS (US)</item>
 +        <item>Microsoft Edge (US)</item>
 +        <item>Kuketz (DE)</item>
++        <!--<item>GrapheneOS (CA)</item>-->
 +    </string-array>
 +
 +    <string-array name="connectivity_check_values" translatable="false">
 +        <item>0</item>
 +        <item>1</item>
-+        <!--<item>2</item>-->
++        <item>2</item>
 +        <item>3</item>
 +        <item>4</item>
 +        <item>5</item>
 +        <item>6</item>
 +        <item>7</item>
-+        <item>8</item>
++        <!--<item>8</item>-->
 +    </string-array>
 +
      <!-- Security settings.  The delay after screen is turned off until device locks.
@@ -73,7 +73,7 @@ index fa753aaa8e..858d5a6588 100644
  </resources>
 diff --git a/src/com/android/settings/network/ConnectivityCheckPreferenceController.java b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 new file mode 100644
-index 0000000000..5328c3ee6a
+index 0000000000..6723f27cbe
 --- /dev/null
 +++ b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 @@ -0,0 +1,339 @@
@@ -178,13 +178,13 @@ index 0000000000..5328c3ee6a
 +
 +    private static final int DISABLED_CAPTIVE_PORTAL_INTVAL = 0;
 +    private static final int STANDARD_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 1;
-+    private static final int GRAPHENEOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 2;
-+    private static final int DIVESTOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 3;
-+    private static final int OPENSUSE_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 4;
-+    private static final int UBUNTU_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 5;
-+    private static final int AMAZON_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 6;
-+    private static final int MICROSOFT_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 7;
-+    private static final int KUKETZ_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 8;
++    private static final int DIVESTOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 2;
++    private static final int OPENSUSE_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 3;
++    private static final int UBUNTU_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 4;
++    private static final int AMAZON_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 5;
++    private static final int MICROSOFT_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 6;
++    private static final int KUKETZ_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 7;
++    private static final int GRAPHENEOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 8;
 +
 +    private static final String KEY_CONNECTIVITY_CHECK_SETTINGS =
 +            "connectivity_check_settings";

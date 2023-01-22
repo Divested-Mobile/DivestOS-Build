@@ -35,25 +35,25 @@ index f50d130936..584550265c 100644
 +    <string-array name="connectivity_check_entries">
 +        <item>Disabled</item>
 +        <item>Google (US) [default]</item>
-+        <!--<item>GrapheneOS (CA)</item>-->
 +        <item>DivestOS (US)</item>
 +        <item>openSUSE (DE)</item>
 +        <item>Ubuntu (UK)</item>
 +        <item>Amazon Fire OS (US)</item>
 +        <item>Microsoft Edge (US)</item>
 +        <item>Kuketz (DE)</item>
++        <!--<item>GrapheneOS (CA)</item>-->
 +    </string-array>
 +
 +    <string-array name="connectivity_check_values" translatable="false">
 +        <item>0</item>
 +        <item>1</item>
-+        <!--<item>2</item>-->
++        <item>2</item>
 +        <item>3</item>
 +        <item>4</item>
 +        <item>5</item>
 +        <item>6</item>
 +        <item>7</item>
-+        <item>8</item>
++        <!--<item>8</item>-->
 +    </string-array>
 +
      <!-- Security settings.  The delay after screen is turned off until device locks.
@@ -178,13 +178,13 @@ index 0000000000..5328c3ee6a
 +
 +    private static final int DISABLED_CAPTIVE_PORTAL_INTVAL = 0;
 +    private static final int STANDARD_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 1;
-+    private static final int GRAPHENEOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 2;
-+    private static final int DIVESTOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 3;
-+    private static final int OPENSUSE_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 4;
-+    private static final int UBUNTU_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 5;
-+    private static final int AMAZON_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 6;
-+    private static final int MICROSOFT_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 7;
-+    private static final int KUKETZ_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 8;
++    private static final int DIVESTOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 2;
++    private static final int OPENSUSE_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 3;
++    private static final int UBUNTU_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 4;
++    private static final int AMAZON_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 5;
++    private static final int MICROSOFT_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 6;
++    private static final int KUKETZ_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 7;
++    private static final int GRAPHENEOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 8;
 +
 +    private static final String KEY_CONNECTIVITY_CHECK_SETTINGS =
 +            "connectivity_check_settings";
