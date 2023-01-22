@@ -77,7 +77,7 @@ patchWorkspace() {
 	source build/envsetup.sh;
 	#repopick -ift twelve-bt-sbc-hd-dualchannel;
 	#repopick -it twelve-colors;
-	repopick -it S_tzdb2022f;
+	repopick -it S_tzdb2022g;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

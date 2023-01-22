@@ -108,7 +108,7 @@ patchWorkspace() {
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
 	source build/envsetup.sh;
-	repopick -it T_tzdb2022f;
+	repopick -it T_tzdb2022g;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

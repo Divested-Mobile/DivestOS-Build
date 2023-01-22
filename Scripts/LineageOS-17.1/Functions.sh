@@ -82,7 +82,7 @@ patchWorkspace() {
 
 	source build/envsetup.sh;
 	#repopick -it ten-firewall;
-	repopick -it Q_tzdb2022f;
+	repopick -it Q_tzdb2022g;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
