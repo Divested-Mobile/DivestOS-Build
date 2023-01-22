@@ -11,7 +11,7 @@ Subject: [PATCH] add LTE only setting
  4 files changed, 39 insertions(+), 3 deletions(-)
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 309cbc9e77..7d6ca66e85 100644
+index 710459c40e..3611b883c3 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -1417,6 +1417,9 @@

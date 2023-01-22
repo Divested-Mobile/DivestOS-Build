@@ -12,10 +12,10 @@ Unlike 11, enable LTE only when World mode is enabled also and ignore CarrierCon
  4 files changed, 41 insertions(+), 4 deletions(-)
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index bb95662047..7610a6d4cc 100644
+index a08ac6d939..8077b9e8c8 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
-@@ -1474,6 +1474,9 @@
+@@ -1488,6 +1488,9 @@
          <item>4</item> <!-- AutofillManager.FLAG_ADD_CLIENT_VERBOSE -->
      </string-array>
  
@@ -25,7 +25,7 @@ index bb95662047..7610a6d4cc 100644
      <string-array name="enabled_networks_choices" translatable="false">
          <item>@string/network_lte</item>
          <item>@string/network_3G</item>
-@@ -1563,7 +1566,7 @@
+@@ -1577,7 +1580,7 @@
          <item>CDMA + LTE/EvDo</item>
          <item>GSM/WCDMA/LTE</item>
          <item>LTE/CDMA/EvDo/GSM/WCDMA</item>
@@ -35,10 +35,10 @@ index bb95662047..7610a6d4cc 100644
          <item>TDSCDMA only</item>
          <item>TDSCDMA/WCDMA</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 58b17eeccf..98f4d1f6f4 100644
+index 62f06201f1..3d44ae6ca6 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -12631,6 +12631,8 @@
+@@ -12628,6 +12628,8 @@
      <string name="preferred_network_mode_cdma_evdo_gsm_wcdma_summary">Preferred network mode: CDMA/EvDo/GSM/WCDMA</string>
      <!-- LTE [CHAR LIMIT=NONE] -->
      <string name="preferred_network_mode_lte_summary">Preferred network mode: LTE </string>
@@ -47,7 +47,7 @@ index 58b17eeccf..98f4d1f6f4 100644
      <!-- GSM/WCDMA/LTE [CHAR LIMIT=NONE] -->
      <string name="preferred_network_mode_lte_gsm_wcdma_summary">Preferred network mode: GSM/WCDMA/LTE</string>
      <!-- CDMA+LTE/EVDO [CHAR LIMIT=NONE] -->
-@@ -12696,8 +12698,12 @@
+@@ -12693,8 +12695,12 @@
      <string name="network_4G_pure" translatable="false">4G</string>
      <!-- Text for Network lte [CHAR LIMIT=NONE] -->
      <string name="network_lte">LTE (recommended)</string>

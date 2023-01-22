@@ -10,7 +10,7 @@ Change-Id: Iea165003474e1107dc77980985bf9928c369dbb5
  1 file changed, 4 insertions(+)
 
 diff --git a/getaddrinfo.cpp b/getaddrinfo.cpp
-index f0c0ba8..8548b1a 100644
+index f0c0ba8..59e1b67 100644
 --- a/getaddrinfo.cpp
 +++ b/getaddrinfo.cpp
 @@ -57,6 +57,7 @@

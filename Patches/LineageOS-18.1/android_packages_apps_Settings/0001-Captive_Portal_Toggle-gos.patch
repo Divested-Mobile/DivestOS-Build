@@ -27,7 +27,7 @@ Change-Id: I8a762d0f29ac42fce3dcfc7189e8ff216a8f8d1a
  create mode 100644 src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 617548cadc..87fd6e5df6 100644
+index 617548cadc..c2a7e7dacd 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -110,6 +110,30 @@
@@ -92,7 +92,7 @@ index 6bf6dbaccf..8ee092aa04 100644
  </PreferenceScreen>
 diff --git a/src/com/android/settings/network/ConnectivityCheckPreferenceController.java b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 new file mode 100644
-index 0000000000..942ae750bc
+index 0000000000..b08f661476
 --- /dev/null
 +++ b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 @@ -0,0 +1,328 @@

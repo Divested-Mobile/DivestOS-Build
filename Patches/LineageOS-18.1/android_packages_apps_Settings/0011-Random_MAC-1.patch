@@ -13,7 +13,7 @@ RANDOMIZATION_ALWAYS is set as the default option
  5 files changed, 56 insertions(+), 17 deletions(-)
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 2013c789cd..309cbc9e77 100644
+index 32acf323d3..710459c40e 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -1356,7 +1356,8 @@
