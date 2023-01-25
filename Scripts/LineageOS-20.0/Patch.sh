@@ -428,11 +428,11 @@ if enterAndClear "device/google/redbull"; then
 if [ "$DOS_DEFCONFIG_DISABLER" = true ]; then awk -i inplace '!/sctp/' BoardConfig-common.mk modules.load; fi; #fix compile after hardenDefconfig
 fi;
 
-if enterAndClear "kernel/google/muskie"; then
+if enterAndClear "device/google/muskie"; then
 git revert --no-edit 19c8b61e1ae4b6598f5b6a4d328f4f6b7cd11244; #compile fix: out of space
 fi;
 
-if enterAndClear "kernel/google/taimen"; then
+if enterAndClear "device/google/taimen"; then
 git revert --no-edit 0ba4518422b3c398590a3ffea77f3e65eaebe309; #compile fix: out of space
 fi;
 
@@ -487,6 +487,7 @@ echo -e "\nCONFIG_DEBUG_FS=n" >> kernel/oneplus/sm8250/arch/arm64/configs/vendor
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l* || true; #Fix builds with GCC 10
 rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk || true;
+rm -v kernel/*/*/*/*/drivers/staging/greybus/tools/Android.mk || true;
 rm -v device/*/*/overlay/frameworks/base/packages/overlays/NoCutoutOverlay/res/values/config.xml || true;
 awk -i inplace '!/BOARD_AVB_ENABLE := false/' device/*/*/*.mk; #revert Lineage's signing hack
 #
