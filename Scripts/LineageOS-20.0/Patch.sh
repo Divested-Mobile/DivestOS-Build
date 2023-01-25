@@ -177,6 +177,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0028-Remove_Legacy_Package_Quer
 applyPatch "$DOS_PATCHES/android_frameworks_base/0029-Strict_versionCode_Checks-1.patch"; #Don't allow updating system packages to the same versionCode (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0029-Strict_versionCode_Checks-2.patch"; #Prefer package from OS image over equal version of upgraded system package (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0030-agnss.goog_override.patch"; #Replace agnss.goog with the Broadcom PSDS server (heavily based off of a GrapheneOS patch)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0031-appops_reset_fix-1.patch"; #Revert "Null safe package name in AppOps writeState" (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0031-appops_reset_fix-2.patch"; #appops: skip ops for invalid null package during state serialization (GrapheneOS)
 hardenLocationConf services/core/java/com/android/server/location/gnss/gps_debug.conf; #Harden the default GPS config
 changeDefaultDNS; #Change the default DNS servers
 sed -i 's/DEFAULT_USE_COMPACTION = false;/DEFAULT_USE_COMPACTION = true;/' services/core/java/com/android/server/am/CachedAppOptimizer.java; #Enable app compaction by default (GrapheneOS)
