@@ -25,7 +25,7 @@ Change-Id: I8a762d0f29ac42fce3dcfc7189e8ff216a8f8d1a
  create mode 100644 src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index cfc7671652..43affddf47 100644
+index cfc7671652..fda8ff7f8c 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -210,6 +210,36 @@

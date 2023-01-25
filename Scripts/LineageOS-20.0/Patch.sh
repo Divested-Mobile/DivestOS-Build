@@ -428,6 +428,14 @@ if enterAndClear "device/google/redbull"; then
 if [ "$DOS_DEFCONFIG_DISABLER" = true ]; then awk -i inplace '!/sctp/' BoardConfig-common.mk modules.load; fi; #fix compile after hardenDefconfig
 fi;
 
+if enterAndClear "kernel/google/muskie"; then
+git revert --no-edit 19c8b61e1ae4b6598f5b6a4d328f4f6b7cd11244; #compile fix: out of space
+fi;
+
+if enterAndClear "kernel/google/taimen"; then
+git revert --no-edit 0ba4518422b3c398590a3ffea77f3e65eaebe309; #compile fix: out of space
+fi;
+
 if enterAndClear "kernel/google/wahoo"; then
 sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
 fi;
