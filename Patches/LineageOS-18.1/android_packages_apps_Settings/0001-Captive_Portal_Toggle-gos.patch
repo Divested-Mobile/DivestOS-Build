@@ -18,31 +18,34 @@ Signed-off-by: empratyush <codelab@pratyush.dev>
 [tad@spotco.us]: merge with the GrapheneOS patch from RQ3A.211001.001.2021100606
 Change-Id: I8a762d0f29ac42fce3dcfc7189e8ff216a8f8d1a
 ---
- res/values/arrays.xml                         |  24 ++
+ res/values/arrays.xml                         |  30 ++
  res/values/strings.xml                        |   3 +
  res/xml/network_and_internet.xml              |   8 +
- ...ConnectivityCheckPreferenceController.java | 328 ++++++++++++++++++
+ ...ConnectivityCheckPreferenceController.java | 399 ++++++++++++++++++
  .../network/NetworkDashboardFragment.java     |   3 +
- 5 files changed, 366 insertions(+)
+ 5 files changed, 443 insertions(+)
  create mode 100644 src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 617548cadc..c2a7e7dacd 100644
+index 617548cadc..e1976fb5cf 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
-@@ -110,6 +110,30 @@
+@@ -110,6 +110,36 @@
          <item>@string/dark_ui_auto_mode_auto</item>
      </string-array>
  
 +    <string-array name="connectivity_check_entries">
 +        <item>Disabled</item>
-+        <item>Google (US) [default]</item>
++        <item>Amazon Fire OS (US)</item>
++        <item>Cloudflare (US)</item>
 +        <item>DivestOS (US)</item>
++        <item>Google (US) [default]</item>
++        <item>Huawei (CN)</item>
++        <item>Kuketz (DE)</item>
++        <item>Microsoft Edge (US)</item>
 +        <item>openSUSE (DE)</item>
 +        <item>Ubuntu (UK)</item>
-+        <item>Amazon Fire OS (US)</item>
-+        <item>Microsoft Edge (US)</item>
-+        <item>Kuketz (DE)</item>
++        <!--<item>Xiaomi (CN)</item>-->
 +        <!--<item>GrapheneOS (CA)</item>-->
 +    </string-array>
 +
@@ -55,7 +58,10 @@ index 617548cadc..c2a7e7dacd 100644
 +        <item>5</item>
 +        <item>6</item>
 +        <item>7</item>
-+        <!--<item>8</item>-->
++        <item>8</item>
++        <item>9</item>
++        <!--<item>10</item>-->
++        <!--<item>11</item>-->
 +    </string-array>
 +
      <!-- Security settings.  The delay after screen is turned off until device locks.
@@ -92,10 +98,10 @@ index 6bf6dbaccf..8ee092aa04 100644
  </PreferenceScreen>
 diff --git a/src/com/android/settings/network/ConnectivityCheckPreferenceController.java b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 new file mode 100644
-index 0000000000..b08f661476
+index 0000000000..9b6e9bb93b
 --- /dev/null
 +++ b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
-@@ -0,0 +1,328 @@
+@@ -0,0 +1,399 @@
 +/*
 + * Copyright (C) 2020 The Android Open Source Project
 + *
@@ -195,15 +201,37 @@ index 0000000000..b08f661476
 +    private static final String KUKETZ_HTTP_URL =
 +            "http://captiveportal.kuketz.de";
 +
++    // Cloudflare
++    private static final String CLOUDFLARE_HTTPS_URL =
++            "https://cp.cloudflare.com";
++    private static final String CLOUDFLARE_HTTP_URL =
++            "http://cp.cloudflare.com";
++
++    // Huawei
++    private static final String HUAWEI_HTTPS_URL =
++            "https://connectivitycheck.platform.hicloud.com/generate_204";
++    private static final String HUAWEI_HTTP_URL =
++            "http://connectivitycheck.platform.hicloud.com/generate_204";
++
++    // Xiaomi
++    private static final String XIAOMI_HTTPS_URL =
++            "https://connect.rom.miui.com/generate_204";
++    private static final String XIAOMI_HTTP_URL =
++            "http://connect.rom.miui.com/generate_204";
++
++    // Keep this in sync! Commented options must be very last!
 +    private static final int DISABLED_CAPTIVE_PORTAL_INTVAL = 0;
-+    private static final int STANDARD_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 1;
-+    private static final int DIVESTOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 2;
-+    private static final int OPENSUSE_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 3;
-+    private static final int UBUNTU_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 4;
-+    private static final int AMAZON_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 5;
-+    private static final int MICROSOFT_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 6;
-+    private static final int KUKETZ_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 7;
-+    private static final int GRAPHENEOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 8;
++    private static final int AMAZON_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 1;
++    private static final int CLOUDFLARE_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 2;
++    private static final int DIVESTOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 3;
++    private static final int STANDARD_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 4;
++    private static final int HUAWEI_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 5;
++    private static final int KUKETZ_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 6;
++    private static final int MICROSOFT_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 7;
++    private static final int OPENSUSE_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 8;
++    private static final int UBUNTU_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 9;
++    private static final int XIAOMI_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 10;
++    private static final int GRAPHENEOS_CAPTIVE_PORTAL_HTTP_URL_INTVAL = 11;
 +
 +    private static final String KEY_CONNECTIVITY_CHECK_SETTINGS =
 +            "connectivity_check_settings";
@@ -269,7 +297,17 @@ index 0000000000..b08f661476
 +        } else if (KUKETZ_HTTP_URL.equals(pref)) {
 +            mConnectivityPreference.setValueIndex(
 +                    KUKETZ_CAPTIVE_PORTAL_HTTP_URL_INTVAL);
++        } else if (CLOUDFLARE_HTTP_URL.equals(pref)) {
++            mConnectivityPreference.setValueIndex(
++                    CLOUDFLARE_CAPTIVE_PORTAL_HTTP_URL_INTVAL);
++        } else if (HUAWEI_HTTP_URL.equals(pref)) {
++            mConnectivityPreference.setValueIndex(
++                    HUAWEI_CAPTIVE_PORTAL_HTTP_URL_INTVAL);
++        } else if (XIAOMI_HTTP_URL.equals(pref)) {
++            mConnectivityPreference.setValueIndex(
++                    XIAOMI_CAPTIVE_PORTAL_HTTP_URL_INTVAL);
 +        }
++
 +    }
 +
 +    @Override
@@ -385,6 +423,45 @@ index 0000000000..b08f661476
 +                Settings.Global.putString(
 +                        cr, Settings.Global.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS,
 +                        KUKETZ_HTTP_URL);
++                Settings.Global.putInt(cr, Settings.Global.CAPTIVE_PORTAL_MODE,
++                        Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT);
++                break;
++            case CLOUDFLARE_CAPTIVE_PORTAL_HTTP_URL_INTVAL:
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTP_URL,
++                        CLOUDFLARE_HTTP_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTPS_URL,
++                        CLOUDFLARE_HTTPS_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_FALLBACK_URL,
++                        CLOUDFLARE_HTTP_URL);
++                Settings.Global.putString(
++                        cr, Settings.Global.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS,
++                        CLOUDFLARE_HTTP_URL);
++                Settings.Global.putInt(cr, Settings.Global.CAPTIVE_PORTAL_MODE,
++                        Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT);
++                break;
++            case HUAWEI_CAPTIVE_PORTAL_HTTP_URL_INTVAL:
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTP_URL,
++                        HUAWEI_HTTP_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTPS_URL,
++                        HUAWEI_HTTPS_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_FALLBACK_URL,
++                        HUAWEI_HTTP_URL);
++                Settings.Global.putString(
++                        cr, Settings.Global.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS,
++                        HUAWEI_HTTP_URL);
++                Settings.Global.putInt(cr, Settings.Global.CAPTIVE_PORTAL_MODE,
++                        Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT);
++                break;
++            case XIAOMI_CAPTIVE_PORTAL_HTTP_URL_INTVAL:
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTP_URL,
++                        XIAOMI_HTTP_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_HTTPS_URL,
++                        XIAOMI_HTTPS_URL);
++                Settings.Global.putString(cr, Settings.Global.CAPTIVE_PORTAL_FALLBACK_URL,
++                        XIAOMI_HTTP_URL);
++                Settings.Global.putString(
++                        cr, Settings.Global.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS,
++                        XIAOMI_HTTP_URL);
 +                Settings.Global.putInt(cr, Settings.Global.CAPTIVE_PORTAL_MODE,
 +                        Settings.Global.CAPTIVE_PORTAL_MODE_PROMPT);
 +                break;

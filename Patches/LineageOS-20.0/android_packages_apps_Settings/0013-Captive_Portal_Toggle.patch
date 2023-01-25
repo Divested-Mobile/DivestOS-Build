@@ -43,7 +43,7 @@ index cfc7671652..43affddf47 100644
 +        <item>Microsoft Edge (US)</item>
 +        <item>openSUSE (DE)</item>
 +        <item>Ubuntu (UK)</item>
-+        <item>Xiaomi (CN)</item>
++        <!--<item>Xiaomi (CN)</item>-->
 +        <!--<item>GrapheneOS (CA)</item>-->
 +    </string-array>
 +
@@ -58,7 +58,7 @@ index cfc7671652..43affddf47 100644
 +        <item>7</item>
 +        <item>8</item>
 +        <item>9</item>
-+        <item>10</item>
++        <!--<item>10</item>-->
 +        <!--<item>11</item>-->
 +    </string-array>
 +
