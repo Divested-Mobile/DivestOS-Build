@@ -24,7 +24,7 @@
 export ANDROID_HOME="/home/$USER/Android/Sdk";
 export DOS_WORKSPACE_ROOT="/mnt/dos/"; #XXX: THIS MUST BE CORRECT TO BUILD!
 #export DOS_BUILDS=$DOS_WORKSPACE_ROOT"Builds/";
-export DOS_BUILDS="/mnt/backup-1/DOS/Builds/";
+export DOS_BUILDS="/mnt/Drive-4/DOS/Builds/";
 export DOS_SIGNING_KEYS=$DOS_WORKSPACE_ROOT"Signing_Keys/4096pro";
 export DOS_SIGNING_GPG=$DOS_WORKSPACE_ROOT"Signing_Keys/gnupg";
 #export USE_CCACHE=1;

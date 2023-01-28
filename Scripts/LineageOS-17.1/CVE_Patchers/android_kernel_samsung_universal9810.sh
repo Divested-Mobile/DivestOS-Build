@@ -413,11 +413,13 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42896/4.9/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42896-extra/^6.1/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-43750/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-45934/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0394/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/^6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/4.9/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.9/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.9/0007.patch
-editKernelLocalversion "-dos.p419"
+editKernelLocalversion "-dos.p421"
 cd "$DOS_BUILD_BASE"
