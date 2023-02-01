@@ -182,7 +182,6 @@ sed -i 's/!Build.isBuildConsistent()/false/' services/core/java/com/android/serv
 sed -i 's/return 16;/return 64;/' core/java/android/app/admin/DevicePolicyManager.java; #Increase default max password length to 64 (GrapheneOS)
 sed -i 's/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 72 \* 60 \* 60 \* 1000;/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 12 * 60 * 60 * 1000;/' core/java/android/app/admin/DevicePolicyManager.java; #Decrease the strong auth prompt timeout to occur more often
 hardenLocationConf services/core/java/com/android/server/location/gps_debug.conf; #Harden the default GPS config
-changeDefaultDNS; #Change the default DNS servers
 rm -rf packages/CompanionDeviceManager; #Used to support Android Wear (which hard depends on GMS)
 #sed -i '295i\        if(packageList != null && packageList.size() > 0) { packageList.add("net.sourceforge.opencamera"); }' core/java/android/hardware/Camera.java; #Add Open Camera to aux camera allowlist XXX: needs testing, broke boot last time
 rm -rf packages/OsuLogin; #Automatic Wi-Fi connection non-sense
@@ -482,6 +481,7 @@ cd "$DOS_BUILD_BASE";
 deblobAudio || true;
 removeBuildFingerprints || true;
 enableAutoVarInit || true;
+changeDefaultDNS || true; #Change the default DNS servers
 cd "$DOS_BUILD_BASE";
 #rm -rfv device/*/*/overlay/CarrierConfigResCommon device/*/*/rro_overlays/CarrierConfigOverlay device/*/*/overlay/packages/apps/CarrierConfig/res/xml/vendor.xml;
 

@@ -178,7 +178,6 @@ sed -i 's/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 72 \* 60 \* 60 \* 1000;/DEFAULT_STRON
 sed -i 's/entry == null/entry == null || true/' core/java/android/os/RecoverySystem.java; #Skip strict update compatibiltity checks XXX: TEMPORARY FIX
 sed -i 's/!Build.isBuildConsistent()/false/' services/core/java/com/android/server/am/ActivityManagerService.java; #Disable partition fingerprint mismatch warnings XXX: TEMPORARY FIX
 hardenLocationFWB "$DOS_BUILD_BASE"; #Harden the default GPS config
-changeDefaultDNS; #Change the default DNS servers
 rm -rf packages/CompanionDeviceManager; #Used to support Android Wear (which hard depends on GMS)
 rm -rf packages/Osu packages/Osu2; #Automatic Wi-Fi connection non-sense
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
@@ -477,6 +476,7 @@ find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {}
 cd "$DOS_BUILD_BASE";
 deblobAudio || true;
 removeBuildFingerprints || true;
+changeDefaultDNS || true; #Change the default DNS servers
 
 #Tweaks for <2GB RAM devices
 enableLowRam "device/asus/fugu";

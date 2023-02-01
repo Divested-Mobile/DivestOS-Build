@@ -29,7 +29,7 @@ echo "Changing default settings...";
 
 if enter "frameworks/base"; then
 sed -i 's/KEY_SHOW_APN_SETTING_CDMA_BOOL, false);/KEY_SHOW_APN_SETTING_CDMA_BOOL, true);/' telephony/java/android/telephony/CarrierConfigManager.java &>/dev/null || true; #Always show APN settings on CDMA carriers (GrapheneOS)
-sed -i 's/KEY_READ_ONLY_APN_TYPES_STRING_ARRAY, new String[] {"dun"})/KEY_READ_ONLY_APN_TYPES_STRING_ARRAY, new String[] {""});/' telephony/java/android/telephony/CarrierConfigManager.java &>/dev/null || true; #Do not mark dun APN types as read only (GrapheneOS)
+sed -i 's/KEY_READ_ONLY_APN_TYPES_STRING_ARRAY, new String\[\] {"dun"})/KEY_READ_ONLY_APN_TYPES_STRING_ARRAY, new String\[\] {""});/' telephony/java/android/telephony/CarrierConfigManager.java &>/dev/null || true; #Do not mark dun APN types as read only (GrapheneOS)
 sed -i 's/KEY_SHOW_ICCID_IN_SIM_STATUS_BOOL, false);/KEY_SHOW_ICCID_IN_SIM_STATUS_BOOL, true);/' telephony/java/android/telephony/CarrierConfigManager.java &>/dev/null || true; #Always show ICCID (GrapheneOS)
 #14.1
 #sed -i 's/CMPRIVACY_GUARD_NOTIFICATION, 1/CMPRIVACY_GUARD_NOTIFICATION, 0/' services/core/java/com/android/server/am/ActivityStack.java &>/dev/null || true;

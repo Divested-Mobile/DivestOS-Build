@@ -184,7 +184,6 @@ sed -i 's/!Build.isBuildConsistent()/false/' services/core/java/com/android/serv
 sed -i 's/return 16;/return 64;/' core/java/android/app/admin/DevicePolicyManager.java; #Increase default max password length to 64 (GrapheneOS)
 sed -i 's/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 72 \* 60 \* 60 \* 1000;/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 12 * 60 * 60 * 1000;/' core/java/android/app/admin/DevicePolicyManager.java; #Decrease the strong auth prompt timeout to occur more often
 hardenLocationFWB "$DOS_BUILD_BASE"; #Harden the default GPS config
-changeDefaultDNS; #Change the default DNS servers
 sed -i '301i\        if(packageList != null && packageList.length() > 0) { packageList += ","; } packageList += "net.sourceforge.opencamera";' core/java/android/hardware/Camera.java; #Add Open Camera to aux camera allowlist
 rm -rf packages/CompanionDeviceManager; #Used to support Android Wear (which hard depends on GMS)
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
@@ -405,6 +404,7 @@ if [ "$DOS_GRAPHENE_EXEC" = true ]; then find "device" -maxdepth 2 -mindepth 2 -
 cd "$DOS_BUILD_BASE";
 deblobAudio || true;
 removeBuildFingerprints || true;
+changeDefaultDNS || true; #Change the default DNS servers
 
 #Tweaks for <2GB RAM devices
 #none yet

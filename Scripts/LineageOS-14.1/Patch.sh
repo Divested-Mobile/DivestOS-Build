@@ -182,7 +182,6 @@ applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 if [ "$DOS_SENSORS_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0009-Sensors-P1.patch"; fi; #Permission for sensors access (MSe1969)
 hardenLocationFWB "$DOS_BUILD_BASE"; #Harden the default GPS config
-changeDefaultDNS; #Change the default DNS servers
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox internal logging service
 sed -i 's/(notif.needNotify)/(true)/' location/java/com/android/internal/location/GpsNetInitiatedHandler.java; #Notify the user if their location is requested via SUPL
 sed -i 's/return 16;/return 64;/' core/java/android/app/admin/DevicePolicyManager.java; #Increase default max password length to 64 (GrapheneOS)
@@ -570,6 +569,7 @@ find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {}
 cd "$DOS_BUILD_BASE";
 deblobAudio || true;
 removeBuildFingerprints || true;
+changeDefaultDNS || true; #Change the default DNS servers
 
 #Tweaks for <2GB RAM devices
 enableLowRam "device/asus/grouper";
