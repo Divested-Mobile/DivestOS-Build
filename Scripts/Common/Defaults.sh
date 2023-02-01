@@ -84,18 +84,20 @@ if enter "packages/apps/Updater"; then
 sed -i 's/Constants.UPDATE_RECOVERY_PROPERTY, false)/Constants.UPDATE_RECOVERY_PROPERTY, true)/' src/org/lineageos/updater/UpdatesActivity.java &>/dev/null || true; #Always update recovery by default 18.1+
 fi;
 
-fi [[ "$DOS_VERSION" == "LineageOS-14.1" ]]; then
+if [[ "$DOS_VERSION" == "LineageOS-14.1" ]]; then
+
 if enter "vendor/cm"; then #14.1
 sed -i 's/ro.config.notification_sound=Argon.ogg/ro.config.notification_sound=Pong.ogg/' config/common*.mk &>/dev/null || true;
 sed -i 's/ro.config.alarm_alert=Hassium.ogg/ro.config.alarm_alert=Alarm_Buzzer.ogg/' config/common*.mk &>/dev/null || true;
 fi;
-fi;
 
-fi [[ "$DOS_VERSION" != "LineageOS-14.1" ]]; then
+else
+
 if enter "vendor/lineage"; then #15.1+
 sed -i 's/ro.config.notification_sound=Argon.ogg/ro.config.notification_sound=Pong.ogg/' config/common*.mk &>/dev/null || true;
 sed -i 's/ro.config.alarm_alert=Hassium.ogg/ro.config.alarm_alert=Alarm_Buzzer.ogg/' config/common*.mk &>/dev/null || true;
 fi;
+
 fi;
 
 cd "$DOS_BUILD_BASE";

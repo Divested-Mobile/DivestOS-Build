@@ -57,6 +57,10 @@
 	<project path="hardware/sony/SonyOpenTelephony" name="LineageOS/android_hardware_sony_SonyOpenTelephony" remote="github" revision="lineage-20" />
 	<project path="packages/apps/ElmyraService" name="LineageOS/android_packages_apps_ElmyraService" remote="github" />
 
+	<!-- Essential PH-1 (mata) -->
+	<project path="device/essential/mata" name="LineageOS/android_device_essential_mata" remote="github" revision="lineage-20" />
+	<project path="kernel/essential/msm8998" name="LineageOS/android_kernel_essential_msm8998" remote="github" revision="lineage-20" />
+
 	<!-- F(x)tec Pro¹ (pro1) -->
 	<project path="device/fxtec/pro1" name="LineageOS/android_device_fxtec_pro1" remote="github" revision="lineage-20" />
 	<project path="kernel/fxtec/msm8998" name="LineageOS/android_kernel_fxtec_msm8998" remote="github" revision="lineage-20" />

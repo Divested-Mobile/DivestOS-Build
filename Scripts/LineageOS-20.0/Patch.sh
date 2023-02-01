@@ -415,6 +415,10 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
+if enterAndClear "device/essential/mata"; then
+echo "allow permissioncontroller_app tethering_service:service_manager find;" > sepolicy/private/permissioncontroller_app.te;
+fi;
+
 if enterAndClear "device/google/gs101"; then
 if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i '/google iwlan/,+8d' device.mk; fi; #fix stray
 fi;
