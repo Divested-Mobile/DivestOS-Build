@@ -112,7 +112,7 @@ patchWorkspace() {
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
 	sh "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
-	sh "$DOS_SCRIPTS/Defaults.sh";
+	sh "$DOS_SCRIPTS_COMMON/Defaults.sh";
 	sh "$DOS_SCRIPTS/Rebrand.sh";
 	sh "$DOS_SCRIPTS_COMMON/Optimize.sh";
 	sh "$DOS_SCRIPTS_COMMON/Deblob.sh";
