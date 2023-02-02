@@ -12,10 +12,10 @@ Unlike 11, enable LTE only when World mode is enabled also and ignore CarrierCon
  4 files changed, 41 insertions(+), 4 deletions(-)
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index a08ac6d939..8077b9e8c8 100644
+index b7b7c99c1f..ad7e2984a3 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
-@@ -1488,6 +1488,9 @@
+@@ -1494,6 +1494,9 @@
          <item>4</item> <!-- AutofillManager.FLAG_ADD_CLIENT_VERBOSE -->
      </string-array>
  
@@ -25,7 +25,7 @@ index a08ac6d939..8077b9e8c8 100644
      <string-array name="enabled_networks_choices" translatable="false">
          <item>@string/network_lte</item>
          <item>@string/network_3G</item>
-@@ -1577,7 +1580,7 @@
+@@ -1583,7 +1586,7 @@
          <item>CDMA + LTE/EvDo</item>
          <item>GSM/WCDMA/LTE</item>
          <item>LTE/CDMA/EvDo/GSM/WCDMA</item>
