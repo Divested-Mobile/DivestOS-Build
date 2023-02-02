@@ -424,6 +424,7 @@ cp -f "$DOS_PATCHES_COMMON/apns-conf.xml" prebuilt/common/etc/apns-conf.xml; #Up
 awk -i inplace '!/Eleven/' config/common_mobile.mk; #Remove Music Player
 awk -i inplace '!/Email/' config/common_mobile.mk; #Remove Email
 awk -i inplace '!/Exchange2/' config/common_mobile.mk;
+cp -f "$DOS_PATCHES_COMMON/config_webview_packages.xml" overlay/common/frameworks/base/core/res/res/xml/config_webview_packages.xml; #Change allowed WebView providers
 fi;
 
 if enter "vendor/divested"; then

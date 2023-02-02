@@ -396,6 +396,7 @@ echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our cus
 #cp -f "$DOS_PATCHES_COMMON/apns-conf.xml" prebuilt/common/etc/apns-conf.xml; #Update APN list
 awk -i inplace '!/Eleven/' config/common_mobile.mk; #Remove Music Player
 awk -i inplace '!/enforce-product-packages-exist-internal/' config/common.mk; #Ignore missing packages
+cp -f "$DOS_PATCHES_COMMON/config_webview_packages.xml" overlay/common/frameworks/base/core/res/res/xml/config_webview_packages.xml; #Change allowed WebView providers
 fi;
 
 if enter "vendor/divested"; then
