@@ -429,6 +429,7 @@ fi;
 #
 if enterAndClear "device/essential/mata"; then
 echo "allow permissioncontroller_app tethering_service:service_manager find;" > sepolicy/private/permissioncontroller_app.te;
+echo "lineage.updater.allow_major_update=true" >> system.prop; #mata has semi-broken recovery, allow major updates via Updater
 fi;
 
 if enterAndClear "kernel/fairphone/sdm632"; then

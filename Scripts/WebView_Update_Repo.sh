@@ -16,7 +16,7 @@
 umask 0022;
 set -uo pipefail;
 
-export version="109.0.5414.118-1";
+export version="110.0.5481.61-1";
 export PATH=$PATH:$HOME/Android/Sdk/build-tools/33.0.0;
 export webviewARM32="/mnt/dos/Repos/DivestOS_WebView/prebuilt/arm/webview.apk";
 export webviewARM64="/mnt/dos/Repos/DivestOS_WebView/prebuilt/arm64/webview.apk";
