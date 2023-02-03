@@ -34,3 +34,4 @@ setStrict Scripts;
 setRelaxed Repos/firmware;
 setRelaxed Repos/firmware-empty;
 setRelaxed Repos/firmware-19.1;
+setRelaxed Repos/DivestOS_WebView/prebuilt;
