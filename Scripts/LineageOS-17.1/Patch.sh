@@ -483,6 +483,7 @@ deblobAudio || true;
 removeBuildFingerprints || true;
 enableAutoVarInit || true;
 changeDefaultDNS || true; #Change the default DNS servers
+fixupCarrierConfigs || true; #Remove silly carrier restrictions
 cd "$DOS_BUILD_BASE";
 #rm -rfv device/*/*/overlay/CarrierConfigResCommon device/*/*/rro_overlays/CarrierConfigOverlay device/*/*/overlay/packages/apps/CarrierConfig/res/xml/vendor.xml;
 

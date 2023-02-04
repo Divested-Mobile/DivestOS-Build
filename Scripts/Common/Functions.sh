@@ -621,6 +621,23 @@ updateRegDb() {
 }
 export -f updateRegDb;
 
+fixupCarrierConfigs() {
+	cd "$DOS_BUILD_BASE";
+	local pathsToFixup="packages/apps/CarrierConfig/assets/*.xml device/*/*/overlay/packages/apps/CarrierConfig/res/xml/vendor.xml device/*/*/overlay/CarrierConfigResCommon/res/xml/vendor.xml device/*/*/rro_overlays/CarrierConfigOverlay/res/xml/vendor.xml";
+	#Things we don't want
+	#Reference (BSD-3-Clause): https://github.com/GrapheneOS/carriersettings-extractor/blob/13/carriersettings_extractor.py
+	local ccLines="allow_adding_apns_bool|apn_expand_bool|hide_ims_apn_bool|hide_preset_apn_details_bool|hide_enable_2g_bool";
+	sed -i -E "/($ccLines)/d" $pathsToFixup;
+	local ccArrays="read_only_apn_fields_string_array|read_only_apn_types_string_array";
+	sed -i -E "/("$ccArrays").*num=\"0\"/d" $pathsToFixup; #ugly hack because next line is very greedy
+	perl -0777 -pe 's,(<string-array.*?>.*?</string-array>),$1 =~ /'$ccArrays'/?"":$1,gse' -i $pathsToFixup; #Credit: https://unix.stackexchange.com/a/72160
+	sed -i "/^    $/d" $pathsToFixup;
+	sed -i "/^        $/d" $pathsToFixup;
+	#sed -i '/^[[:space:]]*$/d' *.xml;
+	cd "$DOS_BUILD_BASE";
+}
+export -f fixupCarrierConfigs;
+
 disableEnforceRRO() {
 	cd "$DOS_BUILD_BASE$1";
 	awk -i inplace '!/PRODUCT_ENFORCE_RRO_TARGETS .= framework-res/' *.mk &>/dev/null || true;

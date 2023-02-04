@@ -406,6 +406,8 @@ cd "$DOS_BUILD_BASE";
 deblobAudio || true;
 removeBuildFingerprints || true;
 changeDefaultDNS || true; #Change the default DNS servers
+fixupCarrierConfigs || true; #Remove silly carrier restrictions
+cd "$DOS_BUILD_BASE";
 
 #Tweaks for <2GB RAM devices
 #none yet
