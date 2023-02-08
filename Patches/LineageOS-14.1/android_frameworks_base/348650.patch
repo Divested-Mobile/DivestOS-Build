@@ -1,0 +1,44 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jackal Guo <jackalguo@google.com>
+Date: Tue, 25 Oct 2022 15:03:55 +0800
+Subject: [PATCH] Correct the behavior of ACTION_PACKAGE_DATA_CLEARED
+
+This action should be only broadcasted when the user data is cleared
+successfully. Broadcasting this action when failed case may result in
+unexpected result.
+
+Bug: 240267890
+Test: manually using the PoC in the buganizer to ensure the symptom
+      no longer exists.
+Change-Id: I0bb612627c81a2f2d7e3dbf53ea891ee49cf734b
+(cherry picked from commit 8b2e092146c7ab5c2952818dab6dcb6af9c417ce)
+Merged-In: I0bb612627c81a2f2d7e3dbf53ea891ee49cf734b
+---
+ .../android/server/am/ActivityManagerService.java  | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
+index 4e48f422a2fe..4b7cb9bac5af 100644
+--- a/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -5746,12 +5746,14 @@ public final class ActivityManagerService extends ActivityManagerNative
+                         finishForceStopPackageLocked(packageName, pkgUidF);
+                     }
+ 
+-                    final Intent intent = new Intent(Intent.ACTION_PACKAGE_DATA_CLEARED,
+-                            Uri.fromParts("package", packageName, null));
+-                    intent.putExtra(Intent.EXTRA_UID, pkgUidF);
+-                    intent.putExtra(Intent.EXTRA_USER_HANDLE, UserHandle.getUserId(pkgUidF));
+-                    broadcastIntentInPackage("android", Process.SYSTEM_UID, intent,
+-                            null, null, 0, null, null, null, null, false, false, userIdF);
++                    if (succeeded) {
++                        final Intent intent = new Intent(Intent.ACTION_PACKAGE_DATA_CLEARED,
++                                Uri.fromParts("package", packageName, null));
++                        intent.putExtra(Intent.EXTRA_UID, pkgUidF);
++                        intent.putExtra(Intent.EXTRA_USER_HANDLE, UserHandle.getUserId(pkgUidF));
++                        broadcastIntentInPackage("android", Process.SYSTEM_UID, intent,
++                                null, null, 0, null, null, null, null, false, false, userIdF);
++                    }
+ 
+                     if (observer != null) {
+                         observer.onRemoveCompleted(packageName, succeeded);

@@ -76,7 +76,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2023-01-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-01 #XXX
+sed -i 's/2021-06-05/2023-02-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-02 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -93,6 +93,7 @@ if enterAndClear "external/expat"; then
 applyPatch "$DOS_PATCHES/android_external_expat/337987-backport.patch"; #n-asb-2022-09 Prevent XML_GetBuffer signed integer overflow
 applyPatch "$DOS_PATCHES/android_external_expat/337988-backport.patch"; #n-asb-2022-09 Prevent integer overflow in function doProlog
 applyPatch "$DOS_PATCHES/android_external_expat/337989-backport.patch"; #n-asb-2022-09 Prevent more integer overflows
+applyPatch "$DOS_PATCHES/android_external_expat/348649.patch"; #n-asb-2023-02 Fix overeager DTD destruction (fixes #649)
 fi;
 
 if enterAndClear "external/libavc"; then
@@ -175,6 +176,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/346948.patch"; #n-asb-2023-01 L
 applyPatch "$DOS_PATCHES/android_frameworks_base/346949.patch"; #n-asb-2023-01 Disable all A11yServices from an uninstalled package.
 applyPatch "$DOS_PATCHES/android_frameworks_base/346950.patch"; #n-asb-2023-01 Trim any long string inputs that come in to AutomaticZenRule
 applyPatch "$DOS_PATCHES/android_frameworks_base/346951.patch"; #n-asb-2023-01 Fix conditionId string trimming in AutomaticZenRule
+applyPatch "$DOS_PATCHES/android_frameworks_base/348650.patch"; #n-asb-2023-02 Correct the behavior of ACTION_PACKAGE_DATA_CLEARED
+applyPatch "$DOS_PATCHES/android_frameworks_base/348651.patch"; #n-asb-2023-02 Convert argument to intent in ChooseTypeAndAccountActivity
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -289,6 +292,7 @@ if enterAndClear "packages/apps/Bluetooth"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/332451.patch"; #n-asb-2022-06 Removes app access to BluetoothAdapter#setScanMode by requiring BLUETOOTH_PRIVILEGED permission.
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/332452.patch"; #n-asb-2022-06 Removes app access to BluetoothAdapter#setDiscoverableTimeout by requiring BLUETOOTH_PRIVILEGED permission.
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/345525.patch"; #n-asb-2022-12 Fix URI check in BluetoothOppUtility.java
+applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/348652.patch"; #n-asb-2023-02 Fix OPP comparison
 fi;
 
 if enterAndClear "packages/apps/Contacts"; then
@@ -319,6 +323,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/315715.patch"; #n-asb-2021-09
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/328308.patch"; #n-asb-2022-04 Do not set default contactless application without user interaction
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/332455.patch"; #n-asb-2022-06 OOB read in phNciNfc_RecvMfResp()
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/346953.patch"; #n-asb-2023-01 OOBW in Mfc_Transceive()
+applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/348653.patch"; #n-asb-2023-02 DO NOT MERGE OOBW in phNciNfc_MfCreateXchgDataHdr
 fi;
 
 if enterAndClear "packages/apps/PackageInstaller"; then
@@ -421,6 +426,7 @@ applyPatch "$DOS_PATCHES/android_system_bt/345529.patch"; #n-asb-2022-12 Add mis
 applyPatch "$DOS_PATCHES/android_system_bt/345530.patch"; #n-asb-2022-12 Add length check when copy AVDT and AVCT packet
 applyPatch "$DOS_PATCHES/android_system_bt/345531.patch"; #n-asb-2022-12 Fix integer overflow when parsing avrc response
 applyPatch "$DOS_PATCHES/android_system_bt/346952.patch"; #n-asb-2023-01 Once AT command is retrieved, return from method.
+applyPatch "$DOS_PATCHES/android_system_bt/348654.patch"; #n-asb-2023-02 Add bounds check in avdt_scb_act.cc
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #bt-sbc-hd-dualchannel-nougat: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #bt-sbc-hd-dualchannel-nougat: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)
