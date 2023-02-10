@@ -171,6 +171,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0025-Monet_Toggle.patch"; #Make
 applyPatch "$DOS_PATCHES/android_frameworks_base/0026-Crash_Details.patch"; #Add an option to show the details of an application error to the user (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0027-appops_reset_fix-1.patch"; #Revert "Null safe package name in AppOps writeState" (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0027-appops_reset_fix-2.patch"; #appops: skip ops for invalid null package during state serialization (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0028-SUPL_Toggle.patch"; #Add a setting for forcibly disabling SUPL (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0007-ABI_Warning.patch"; #Warn when running activity from 32 bit app on ARM64 devices. (AOSP)
 hardenLocationConf services/core/java/com/android/server/location/gnss/gps_debug.conf; #Harden the default GPS config
 sed -i 's/DEFAULT_USE_COMPACTION = false;/DEFAULT_USE_COMPACTION = true;/' services/core/java/com/android/server/am/CachedAppOptimizer.java; #Enable app compaction by default (GrapheneOS)
@@ -293,6 +294,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0009-Install_Restriction
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0012-hosts_toggle.patch"; #Add a toggle to disable /etc/hosts lookup (heavily based off of a GrapheneOS patch)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0013-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0014-LTE_Only_Mode.patch"; #Add LTE only setting (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0015-SUPL_Toggle.patch"; #Add a toggle for forcibly disabling SUPL (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 fi;
 

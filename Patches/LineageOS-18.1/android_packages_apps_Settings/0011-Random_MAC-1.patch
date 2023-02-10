@@ -13,10 +13,10 @@ RANDOMIZATION_ALWAYS is set as the default option
  5 files changed, 56 insertions(+), 17 deletions(-)
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 32acf323d3..710459c40e 100644
+index 83345cbceb..79e036a04c 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
-@@ -1356,7 +1356,8 @@
+@@ -1362,7 +1362,8 @@
      </string-array>
  
      <string-array name="wifi_privacy_entries">
@@ -26,7 +26,7 @@ index 32acf323d3..710459c40e 100644
          <item>Use device MAC</item>
      </string-array>
  
-@@ -1372,6 +1373,7 @@
+@@ -1378,6 +1379,7 @@
      </string-array>
  
      <string-array name="wifi_privacy_values" translatable="false">

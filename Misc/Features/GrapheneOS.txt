@@ -56,6 +56,15 @@ nojit
 9  https://github.com/GrapheneOS/platform_build/commit/5b9927197e63593b9220d1a9280021252ef205e9
 9  https://github.com/GrapheneOS/platform_build/commit/e36c7aefaa78a1ed5b94c7f51d29277008eea232
 
+[implemented] strict package verification
+13 https://github.com/GrapheneOS/platform_frameworks_base/commit/6cd9eb28a755c520a398f6ed7b0f2e58ff4ccff2
+13 https://github.com/GrapheneOS/platform_frameworks_base/commit/48f947b0466ce9646d590d5078802cac809460dd
+13 https://github.com/GrapheneOS/platform_frameworks_base/commit/3c5c8b61a114d89cb0bdb1b9e36f15e9b27c0f27
+
+[implemented] supl toggle
+13 https://github.com/GrapheneOS/platform_frameworks_base/commit/3aeafd9e58435932fa81a9b71fea5f1dd4a73c6d
+13 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/7727734599ea166eca246094d859fe1ddc094139
+
 [implemented] appops reset fix
 13 https://github.com/GrapheneOS/platform_frameworks_base/commit/41446b749e0851572e280f88b37db05f6283e0c3
 13 https://github.com/GrapheneOS/platform_frameworks_base/commit/e7022b12acbc1b87c07f9c4ed7b22bae9588c7ea

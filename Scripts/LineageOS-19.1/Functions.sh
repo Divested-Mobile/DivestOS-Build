@@ -78,6 +78,7 @@ patchWorkspace() {
 	#repopick -ift twelve-bt-sbc-hd-dualchannel;
 	#repopick -it twelve-colors;
 	repopick -if 330099; #Updater: Add prop for allowing major updates
+	#repopick -it S_asb_2023-02;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
