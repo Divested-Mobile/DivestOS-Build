@@ -67,8 +67,8 @@ buildAll() {
 	#SD765
 	buildDevice avicii avb;
 	#Exynos
-	#buildDevice starlte; #broken - error: memremap.c:(.text+0xd248): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `sl_softirq_entry'
-	#buildDevice star2lte;
+	buildDevice starlte;
+	buildDevice star2lte;
 }
 export -f buildAll;
 

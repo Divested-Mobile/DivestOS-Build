@@ -390,6 +390,10 @@ git am $DOS_PATCHES/android_device_lge_hammerhead/*.patch; #hh-p-sepolicy
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> BoardConfig.mk; #qcom-legacy sepolicy
 fi;
 
+if enterAndClear "device/wileyfox/kipper"; then
+compressRamdisks;
+fi;
+
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
 find "hardware/qcom/gps" -name "gps\.conf" -type f -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenLocationConf "{}"';

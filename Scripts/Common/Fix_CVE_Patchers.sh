@@ -135,7 +135,7 @@ declare -a fourDotFour=("${threeDotEighteen[@]}" "android_kernel_essential_msm89
 #	commentPatches $script ""; #handle 4.9
 #done
 #4.9
-declare -a fourDotNine=("${fourDotFour[@]}" "android_kernel_fairphone_sdm632.sh" "android_kernel_google_msm-4.9.sh" "android_kernel_oneplus_sdm845.sh" "android_kernel_razer_sdm845.sh" "android_kernel_sony_sdm845.sh" "android_kernel_xiaomi_sdm845.sh");
+declare -a fourDotNine=("${fourDotFour[@]}" "android_kernel_fairphone_sdm632.sh" "android_kernel_google_msm-4.9.sh" "android_kernel_oneplus_sdm845.sh" "android_kernel_razer_sdm845.sh" "android_kernel_samsung_universal9810.sh" "android_kernel_sony_sdm845.sh" "android_kernel_xiaomi_sdm845.sh");
 for script in "${fourDotNine[@]}"
 do
 	commentPatches $script "CVE-2018-11412/4.14" "CVE-2020-0067/4.14" "CVE-2022-1204/4.14"; #handle 4.14
