@@ -172,6 +172,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0016-Bluetooth_Timeout.patch"; 
 applyPatch "$DOS_PATCHES/android_frameworks_base/0017-WiFi_Timeout.patch"; #Timeout for Wi-Fi (GrapheneOS)
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0018-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0019-Random_MAC.patch"; #Add option of always randomizing MAC addresses (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0020-SUPL_Toggle.patch"; #Add a setting for forcibly disabling SUPL (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0006-Do-not-throw-in-setAppOnInterfaceLocked.patch"; #Fix random reboots on broken kernels when an app has data restricted XXX: ugly (DivestOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0007-ABI_Warning.patch"; #Warn when running activity from 32 bit app on ARM64 devices. (AOSP)
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox internal logging service
@@ -186,6 +187,10 @@ rm -rf packages/CompanionDeviceManager; #Used to support Android Wear (which har
 #sed -i '295i\        if(packageList != null && packageList.size() > 0) { packageList.add("net.sourceforge.opencamera"); }' core/java/android/hardware/Camera.java; #Add Open Camera to aux camera allowlist XXX: needs testing, broke boot last time
 rm -rf packages/OsuLogin; #Automatic Wi-Fi connection non-sense
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
+fi;
+
+if enterAndClear "frameworks/ml"; then
+git fetch https://github.com/LineageOS/android_frameworks_ml refs/changes/94/348894/1 && git cherry-pick FETCH_HEAD; #Q_asb_2023-02
 fi;
 
 if enterAndClear "frameworks/native"; then
@@ -313,6 +318,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0010-Random_MAC-1.patch"
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0010-Random_MAC-2.patch"; #Remove partial MAC randomization translations (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0011-LTE_Only_Mode.patch"; #Add LTE-only option (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0012-hosts_toggle.patch"; #Add a toggle to disable /etc/hosts lookup (heavily based off of a GrapheneOS patch)
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0013-SUPL_Toggle.patch"; #Add a toggle for forcibly disabling SUPL (GrapheneOS)
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 64;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase default max password length to 64 (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 fi;

@@ -1,0 +1,107 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Fri, 10 Feb 2023 12:54:21 +0200
+Subject: [PATCH] add a setting for forcibly disabling SUPL
+
+Change-Id: I5c31c319d198f09ace493e601278f8224a259f05
+---
+ core/java/android/provider/Settings.java          |  9 +++++++++
+ .../server/location/GnssConfiguration.java        | 15 +++++++++++++++
+ .../server/location/GnssLocationProvider.java     | 15 +++++++++++++++
+ 3 files changed, 39 insertions(+)
+
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index 9afbe9750e94..fd0d0e4abbaa 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -15139,6 +15139,15 @@ public final class Settings {
+          * @hide
+          */
+         public static final String SETTINGS_REBOOT_AFTER_TIMEOUT = "settings_reboot_after_timeout";
++
++        /**
++         * Force disable Secure User Plane Location (SUPL), 0 or 1.
++         * @hide
++         */
++        public static final String FORCE_DISABLE_SUPL = "force_disable_supl";
++
++        /** @hide */
++        public static final int FORCE_DISABLE_SUPL_DEFAULT = 0;
+     }
+ 
+     /**
+diff --git a/services/core/java/com/android/server/location/GnssConfiguration.java b/services/core/java/com/android/server/location/GnssConfiguration.java
+index 18d9f69c9735..04c8c8e6d340 100644
+--- a/services/core/java/com/android/server/location/GnssConfiguration.java
++++ b/services/core/java/com/android/server/location/GnssConfiguration.java
+@@ -19,10 +19,12 @@ package com.android.server.location;
+ import android.content.Context;
+ import android.os.PersistableBundle;
+ import android.os.SystemProperties;
++import android.provider.Settings;
+ import android.telephony.CarrierConfigManager;
+ import android.telephony.SubscriptionManager;
+ import android.text.TextUtils;
+ import android.util.Log;
++import android.util.Slog;
+ import android.util.StatsLog;
+ 
+ import libcore.io.IoUtils;
+@@ -231,6 +233,8 @@ class GnssConfiguration {
+          */
+         loadPropertiesFromGpsDebugConfig(mProperties);
+ 
++        applyConfigOverrides(mContext, mProperties);
++
+         mEsExtensionSec = getRangeCheckedConfigEsExtensionSec();
+ 
+         logConfigurations();
+@@ -416,4 +420,15 @@ class GnssConfiguration {
+     private static native boolean native_set_satellite_blacklist(int[] constellations, int[] svIds);
+ 
+     private static native boolean native_set_es_extension_sec(int emergencyExtensionSeconds);
++
++    private static void applyConfigOverrides(Context ctx, Properties props) {
++        String key = Settings.Global.FORCE_DISABLE_SUPL;
++        int def = Settings.Global.FORCE_DISABLE_SUPL_DEFAULT;
++        if (Settings.Global.getInt(ctx.getContentResolver(), key, def) == 1) {
++            props.setProperty(CONFIG_SUPL_MODE, "0");
++            Slog.d(TAG, "SUPL is force disabled");
++        } else {
++            Slog.d(TAG, "SUPL is not force disabled");
++        }
++    }
+ }
+diff --git a/services/core/java/com/android/server/location/GnssLocationProvider.java b/services/core/java/com/android/server/location/GnssLocationProvider.java
+index 71fb465e8806..928e129f98d3 100644
+--- a/services/core/java/com/android/server/location/GnssLocationProvider.java
++++ b/services/core/java/com/android/server/location/GnssLocationProvider.java
+@@ -64,6 +64,7 @@ import android.telephony.TelephonyManager;
+ import android.telephony.gsm.GsmCellLocation;
+ import android.text.TextUtils;
+ import android.util.Log;
++import android.util.Slog;
+ import android.util.StatsLog;
+ import android.util.TimeUtils;
+ 
+@@ -688,6 +689,20 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
+         mGnssBatchingProvider = new GnssBatchingProvider();
+         mGnssGeofenceProvider = new GnssGeofenceProvider();
+ 
++        mContext.getContentResolver().registerContentObserver(
++                Settings.Global.getUriFor(Settings.Global.FORCE_DISABLE_SUPL),
++                false, new ContentObserver(mHandler) {
++            @Override
++            public void onChange(boolean selfChange) {
++                ContentResolver cr = mContext.getContentResolver();
++                String key = Settings.Global.FORCE_DISABLE_SUPL;
++                int def = Settings.Global.FORCE_DISABLE_SUPL_DEFAULT;
++
++                Slog.d(TAG, "FORCE_DISABLE_SUPL changed, value: " + Settings.Global.getInt(cr, key, def));
++                mGnssConfiguration.reloadGpsProperties();
++            }
++        });
++
+         mContext.registerReceiverAsUser(new BroadcastReceiver() {
+             @Override
+             public void onReceive(Context context, Intent intent) {

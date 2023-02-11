@@ -161,6 +161,7 @@ sed -i 's/sys.spawn.exec/persist.security.exec_spawn_new/' core/java/com/android
 fi;
 applyPatch "$DOS_PATCHES/android_frameworks_base/0019-Random_MAC.patch"; #Add option of always randomizing MAC addresses (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0020-Burnin_Protection.patch"; #SystemUI: add burnIn protection (arter97)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0021-SUPL_Toggle.patch"; #Add a setting for forcibly disabling SUPL (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0006-Do-not-throw-in-setAppOnInterfaceLocked.patch"; #Fix random reboots on broken kernels when an app has data restricted XXX: ugly (DivestOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0007-ABI_Warning.patch"; #Warn when running activity from 32 bit app on ARM64 devices. (AOSP)
 hardenLocationConf services/core/java/com/android/server/location/gps_debug.conf; #Harden the default GPS config
@@ -180,6 +181,10 @@ fi;
 
 if enterAndClear "frameworks/ex"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_ex/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
+fi;
+
+if enterAndClear "frameworks/ml"; then
+git fetch https://github.com/LineageOS/android_frameworks_ml refs/changes/79/348879/1 && git cherry-pick FETCH_HEAD; #R_asb_2023-02
 fi;
 
 if enterAndClear "frameworks/native"; then
@@ -321,6 +326,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0012-hosts_toggle.patch"
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0013-LTE_Only_Mode-1.patch"; #Add LTE only setting (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0013-LTE_Only_Mode-2.patch"; #Show preferred network options no matter the carrier configuration (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0013-LTE_Only_Mode-3.patch"; #Add LTE only entry when carrier enables world mode (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0014-SUPL_Toggle.patch"; #Add a toggle for forcibly disabling SUPL (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 fi;
 
