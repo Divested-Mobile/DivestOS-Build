@@ -12,6 +12,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.18/00
 git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.18/0050.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/ANY/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slub/4.4/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/0009-rfc4941bis/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0090-Unknown/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6544/3.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-6544/3.4/0008.patch
@@ -426,5 +427,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/^6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
-editKernelLocalversion "-dos.p426"
+editKernelLocalversion "-dos.p427"
 cd "$DOS_BUILD_BASE"

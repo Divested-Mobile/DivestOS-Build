@@ -23,6 +23,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slub/4.4/0002.p
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slub/4.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slub/4.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slub/4.4/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/0009-rfc4941bis/ANY/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-7837/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-1583/^4.6/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-6187/^4.7/0001.patch
@@ -190,5 +191,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/^6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.4/0004.patch
-editKernelLocalversion "-dos.p190"
+editKernelLocalversion "-dos.p191"
 cd "$DOS_BUILD_BASE"
