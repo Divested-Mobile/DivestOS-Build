@@ -1,6 +1,7 @@
 #!/bin/bash
 cd "$DOS_BUILD_BASE""kernel/oneplus/msm8994"
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes-uid/3.10/0002-alt1.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.10/0004-No_dir-relax.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.10/0005.patch
@@ -78,6 +79,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16645/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16650/3.18/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16994/3.18/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-17450/3.18/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-17712/3.10/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-17741/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-17805/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-18079/3.18/0003.patch
@@ -414,5 +416,5 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
-editKernelLocalversion "-dos.p414"
+editKernelLocalversion "-dos.p416"
 cd "$DOS_BUILD_BASE"
