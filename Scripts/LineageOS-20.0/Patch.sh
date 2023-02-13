@@ -461,6 +461,10 @@ if enterAndClear "hardware/oplus"; then
 echo "allow update_engine_common vendor_custom_ab_block_device:blk_file rw_file_perms;" >> sepolicy/qti/vendor/update_engine_common.te; #fix firmware flash
 fi;
 
+if enterAndClear "kernel/fairphone/sdm632"; then
+sed -i 's|/../../prebuilts/tools-lineage|/../../../prebuilts/tools-lineage|' lib/Makefile; #fixup typo
+fi;
+
 if enterAndClear "kernel/oneplus/sm8250"; then
 git revert --no-edit 6eede8c64f268991abe669a6123e929e295fac29;
 fi;
@@ -488,6 +492,7 @@ cd "$DOS_BUILD_BASE";
 #rm -rfv device/*/*/overlay/CarrierConfigResCommon device/*/*/rro_overlays/CarrierConfigOverlay device/*/*/overlay/packages/apps/CarrierConfig/res/xml/vendor.xml;
 
 #Fix broken options enabled by hardenDefconfig()
+sed -i "s/CONFIG_PREEMPT_TRACER=n/CONFIG_PREEMPT_TRACER=y/" kernel/fairphone/sdm632/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
 sed -i "s/CONFIG_DEBUG_NOTIFIERS=y/# CONFIG_DEBUG_NOTIFIERS is not set/" kernel/google/msm-4.9/arch/arm64/configs/*_defconfig; #Likely breaks boot
 sed -i "s/CONFIG_FORTIFY_SOURCE=y/# CONFIG_FORTIFY_SOURCE is not set/" kernel/google/msm-4.14/arch/arm64/configs/*_defconfig; #breaks compile
 sed -i "s/CONFIG_MITIGATE_SPECTRE_BRANCH_HISTORY=y/# CONFIG_MITIGATE_SPECTRE_BRANCH_HISTORY is not set/" kernel/google/msm-4.14/arch/arm64/configs/*_defconfig; #impartial backport
