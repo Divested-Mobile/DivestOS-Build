@@ -6,12 +6,12 @@ Subject: [PATCH] add a toggle for forcibly disabling SUPL
 ---
  res/values/strings.xml                        |  3 ++
  res/xml/location_settings.xml                 |  7 +++
- .../ForceDisableSuplPrefController.java       | 45 +++++++++++++++++++
- 3 files changed, 55 insertions(+)
+ .../ForceDisableSuplPrefController.java       | 46 +++++++++++++++++++
+ 3 files changed, 56 insertions(+)
  create mode 100644 src/com/android/settings/location/ForceDisableSuplPrefController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 3d44ae6ca6..d2ffb91417 100644
+index 3d44ae6ca6..b970538e6e 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -13706,4 +13706,7 @@
@@ -42,12 +42,13 @@ index fe87efd73d..74502a7d58 100644
      <com.android.settingslib.widget.FooterPreference
 diff --git a/src/com/android/settings/location/ForceDisableSuplPrefController.java b/src/com/android/settings/location/ForceDisableSuplPrefController.java
 new file mode 100644
-index 0000000000..3a44261cc5
+index 0000000000..879174f3c8
 --- /dev/null
 +++ b/src/com/android/settings/location/ForceDisableSuplPrefController.java
-@@ -0,0 +1,45 @@
+@@ -0,0 +1,46 @@
 +package com.android.settings.location;
 +
++import android.content.ContentResolver;
 +import android.content.Context;
 +import android.os.Process;
 +import android.provider.Settings;
@@ -71,7 +72,7 @@ index 0000000000..3a44261cc5
 +
 +    @Override
 +    public boolean isChecked() {
-+        var cr = mContext.getContentResolver();
++        ContentResolver cr = mContext.getContentResolver();
 +        String key = Settings.Global.FORCE_DISABLE_SUPL;
 +        int def = Settings.Global.FORCE_DISABLE_SUPL_DEFAULT;
 +
@@ -80,7 +81,7 @@ index 0000000000..3a44261cc5
 +
 +    @Override
 +    public boolean setChecked(boolean isChecked) {
-+        var cr = mContext.getContentResolver();
++        ContentResolver cr = mContext.getContentResolver();
 +        String key = Settings.Global.FORCE_DISABLE_SUPL;
 +
 +        return Settings.Global.putInt(cr, key, isChecked ? 1 : 0);

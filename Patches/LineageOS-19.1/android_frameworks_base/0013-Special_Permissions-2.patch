@@ -8,7 +8,7 @@ Subject: [PATCH] extend special runtime permission implementation
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 5be5d735598c..e7c141d3e5fd 100644
+index 41128e4c617e..93cd3a988e62 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -1881,7 +1881,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {

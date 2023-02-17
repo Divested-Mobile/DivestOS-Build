@@ -183,10 +183,6 @@ if enterAndClear "frameworks/ex"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_ex/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
-if enterAndClear "frameworks/ml"; then
-git fetch https://github.com/LineageOS/android_frameworks_ml refs/changes/79/348879/1 && git cherry-pick FETCH_HEAD; #R_asb_2023-02
-fi;
-
 if enterAndClear "frameworks/native"; then
 applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors.patch"; #Require OTHER_SENSORS permission for sensors (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_native/0002-fix-uaf.patch"; #Fix use-after-free in adbd_auth (GrapheneOS)

@@ -258,10 +258,6 @@ if enterAndClear "lineage-sdk"; then
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi; #Remove AudioFX
 fi;
 
-if enterAndClear "packages/apps/Aperture"; then
-applyPatch "$DOS_PATCHES/android_packages_apps_Aperture/0001-IS.patch"; #Enable stabilization by default (DivestOS)
-fi;
-
 #if enterAndClear "packages/apps/CarrierConfig"; then
 #rm -rf assets/*.xml;
 #cp $DOS_PATCHES_COMMON/android_packages_apps_CarrierConfig/*.xml assets/;

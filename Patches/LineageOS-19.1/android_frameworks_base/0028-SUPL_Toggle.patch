@@ -74,7 +74,7 @@ index 7db234a29942..1bf84aed7803 100644
 +    }
  }
 diff --git a/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java b/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
-index 65f5b836bfcf..4a3f25eae6af 100644
+index 65f5b836bfcf..3c8c9b6efb9e 100644
 --- a/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
 +++ b/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
 @@ -90,6 +90,7 @@ import android.telephony.gsm.GsmCellLocation;
@@ -95,7 +95,7 @@ index 65f5b836bfcf..4a3f25eae6af 100644
 +                false, new ContentObserver(mHandler) {
 +            @Override
 +            public void onChange(boolean selfChange) {
-+                var cr = mContext.getContentResolver();
++                ContentResolver cr = mContext.getContentResolver();
 +                String key = Settings.Global.FORCE_DISABLE_SUPL;
 +                int def = Settings.Global.FORCE_DISABLE_SUPL_DEFAULT;
 +

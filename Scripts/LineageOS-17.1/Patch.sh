@@ -189,10 +189,6 @@ rm -rf packages/OsuLogin; #Automatic Wi-Fi connection non-sense
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
 fi;
 
-if enterAndClear "frameworks/ml"; then
-git fetch https://github.com/LineageOS/android_frameworks_ml refs/changes/94/348894/1 && git cherry-pick FETCH_HEAD; #Q_asb_2023-02
-fi;
-
 if enterAndClear "frameworks/native"; then
 applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors.patch"; #Require OTHER_SENSORS permission for sensors (GrapheneOS)
 fi;
