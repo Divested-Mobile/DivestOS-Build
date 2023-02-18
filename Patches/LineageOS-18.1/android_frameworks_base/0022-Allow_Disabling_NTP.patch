@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Renlord <me@renlord.com>
+Date: Tue, 30 Jun 2020 11:52:43 +1000
+Subject: [PATCH] dont ping server when nitz time update is toggled off
+
+---
+ core/java/android/util/NtpTrustedTime.java | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/core/java/android/util/NtpTrustedTime.java b/core/java/android/util/NtpTrustedTime.java
+index 0892c94d5bec..17162d65159f 100644
+--- a/core/java/android/util/NtpTrustedTime.java
++++ b/core/java/android/util/NtpTrustedTime.java
+@@ -141,6 +141,15 @@ public class NtpTrustedTime implements TrustedTime {
+     @UnsupportedAppUsage
+     public boolean forceRefresh() {
+         synchronized (this) {
++            final ContentResolver resolver = mContext.getContentResolver();
++
++            final boolean networkPollTime = Settings.Global.getInt(resolver,
++                    Settings.Global.AUTO_TIME, 1) != 0;
++            if (!networkPollTime) {
++                Log.d(TAG, "forceRefresh: nitzTimeUpdate disabled bailing early");
++                return false;
++            }
++
+             NtpConnectionInfo connectionInfo = getNtpConnectionInfo();
+             if (connectionInfo == null) {
+                 // missing server config, so no trusted time available

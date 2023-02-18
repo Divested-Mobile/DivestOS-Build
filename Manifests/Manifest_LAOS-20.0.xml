@@ -46,7 +46,7 @@
 
 <!-- START OF ADDITIONAL REPOS -->
 	<!-- GrapheneOS -->
-	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="13" />
+	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="2250130c537fda373a4362cf7727562287eb1168" />
 	<project path="external/SecureCamera" name="GrapheneOS/platform_external_Camera" remote="github" revision="13" />
 <!-- END OF ADDITIONAL REPOS -->
 
