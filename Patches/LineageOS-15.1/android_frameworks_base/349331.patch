@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Dementyev <dementyev@google.com>
+Date: Tue, 22 Nov 2022 22:54:01 +0000
+Subject: [PATCH] Convert argument to intent in ChooseTypeAndAccountActivity
+
+Bug: 244154558
+Test: manual
+Change-Id: I5a86639cd571e14e9a9f5d5ded631b5a7c08db7e
+(cherry picked from commit ede0a767c26f144e38b4a0c1c2f530b05ffd29a8)
+Merged-In: I5a86639cd571e14e9a9f5d5ded631b5a7c08db7e
+---
+ core/java/android/accounts/ChooseTypeAndAccountActivity.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/java/android/accounts/ChooseTypeAndAccountActivity.java b/core/java/android/accounts/ChooseTypeAndAccountActivity.java
+index 887ba18822f8..96f23a314e7b 100644
+--- a/core/java/android/accounts/ChooseTypeAndAccountActivity.java
++++ b/core/java/android/accounts/ChooseTypeAndAccountActivity.java
+@@ -407,7 +407,7 @@ public class ChooseTypeAndAccountActivity extends Activity
+                 mExistingAccounts = AccountManager.get(this).getAccountsForPackage(mCallingPackage,
+                         mCallingUid);
+                 intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+-                startActivityForResult(intent, REQUEST_ADD_ACCOUNT);
++                startActivityForResult(new Intent(intent), REQUEST_ADD_ACCOUNT);
+                 return;
+             }
+         } catch (OperationCanceledException e) {
