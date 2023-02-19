@@ -129,6 +129,7 @@ git fetch https://github.com/LineageOS/android_external_expat refs/changes/53/33
 git fetch https://github.com/LineageOS/android_external_expat refs/changes/54/338354/1 && git cherry-pick FETCH_HEAD;
 git fetch https://github.com/LineageOS/android_external_expat refs/changes/55/338355/1 && git cherry-pick FETCH_HEAD;
 git fetch https://github.com/LineageOS/android_external_expat refs/changes/56/338356/1 && git cherry-pick FETCH_HEAD;
+git fetch https://github.com/LineageOS/android_external_expat refs/changes/28/349328/1 && git cherry-pick FETCH_HEAD; #P_asb_2023-02
 fi;
 
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
