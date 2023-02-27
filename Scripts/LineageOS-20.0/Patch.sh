@@ -425,6 +425,7 @@ echo "allow permissioncontroller_app tethering_service:service_manager find;" > 
 fi;
 
 if enterAndClear "device/google/gs101"; then
+git revert --no-edit 371473c97a3769f9b0629b33ae7014e78e1e31bb; #potential breakage
 if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i '/google iwlan/,+8d' device.mk; fi; #fix stray
 fi;
 
