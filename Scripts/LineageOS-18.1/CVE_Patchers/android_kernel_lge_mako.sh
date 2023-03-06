@@ -55,6 +55,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0394/^6.2/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1073/^6.1/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1074/^6.2/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1118/^6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/^6.2/0001.patch
-editKernelLocalversion "-dos.p56"
+editKernelLocalversion "-dos.p59"
 cd "$DOS_BUILD_BASE"
