@@ -43,7 +43,7 @@ index e1998ce3d3ab..dc59ccd794f7 100644
 +    <dimen name="burnin_protection_vertical_shift">1dp</dimen>
  </resources>
 diff --git a/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java b/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java
-index 0e07d37483df..c523fb2ff7f0 100644
+index da5c78be3c01..bd0dd34cec60 100644
 --- a/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java
 +++ b/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java
 @@ -162,6 +162,13 @@ public class NavigationBarView extends FrameLayout implements TunerService.Tunab
