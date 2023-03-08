@@ -610,18 +610,18 @@ enableLowRam "device/samsung/tuna";
 
 #Fixes
 #Fix broken options enabled by hardenDefconfig()
-sed -i "s/# CONFIG_KPROBES is not set/CONFIG_KPROBES=y/" kernel/amazon/hdx-common/arch/arm/configs/*defconfig; #Breaks on compile
-sed -i "s/CONFIG_X509_CERTIFICATE_PARSER=y/# CONFIG_X509_CERTIFICATE_PARSER is not set/" kernel/amazon/hdx-common/arch/arm/configs/*defconfig; #Breaks on compile
-sed -i "s/CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE=y/# CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE is not set/" kernel/amazon/hdx-common/arch/arm/configs/*defconfig; #Breaks on compile
-sed -i "s/CONFIG_SYSTEM_TRUSTED_KEYRING=y/# CONFIG_SYSTEM_TRUSTED_KEYRING is not set/" kernel/amazon/hdx-common/arch/arm/configs/*defconfig; #Breaks on compile
-sed -i "s/CONFIG_ASYMMETRIC_KEY_TYPE=y/# CONFIG_ASYMMETRIC_KEY_TYPE is not set/" kernel/amazon/hdx-common/arch/arm/configs/*defconfig; #Breaks on compile
-sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/asus/grouper/arch/arm/configs/grouper_defconfig; #Breaks on compile
-awk -i inplace '!/STACKPROTECTOR/' kernel/lge/msm8992/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
-sed -i "s/CONFIG_ARM_SMMU=y/# CONFIG_ARM_SMMU is not set/" kernel/motorola/msm8992/arch/arm64/configs/*defconfig; #Breaks on compile
+sed -i "s/# CONFIG_KPROBES is not set/CONFIG_KPROBES=y/" kernel/amazon/hdx-common/arch/arm/configs/*defconfig || true; #Breaks on compile
+sed -i "s/CONFIG_X509_CERTIFICATE_PARSER=y/# CONFIG_X509_CERTIFICATE_PARSER is not set/" kernel/amazon/hdx-common/arch/arm/configs/*defconfig || true; #Breaks on compile
+sed -i "s/CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE=y/# CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE is not set/" kernel/amazon/hdx-common/arch/arm/configs/*defconfig || true; #Breaks on compile
+sed -i "s/CONFIG_SYSTEM_TRUSTED_KEYRING=y/# CONFIG_SYSTEM_TRUSTED_KEYRING is not set/" kernel/amazon/hdx-common/arch/arm/configs/*defconfig || true; #Breaks on compile
+sed -i "s/CONFIG_ASYMMETRIC_KEY_TYPE=y/# CONFIG_ASYMMETRIC_KEY_TYPE is not set/" kernel/amazon/hdx-common/arch/arm/configs/*defconfig || true; #Breaks on compile
+sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/asus/grouper/arch/arm/configs/grouper_defconfig || true; #Breaks on compile
+awk -i inplace '!/STACKPROTECTOR/' kernel/lge/msm8992/arch/arm64/configs/lineageos_*_defconfig || true; #Breaks on compile
+sed -i "s/CONFIG_ARM_SMMU=y/# CONFIG_ARM_SMMU is not set/" kernel/motorola/msm8992/arch/arm64/configs/*defconfig || true; #Breaks on compile
 #tuna fixes
-awk -i inplace '!/nfc_enhanced.mk/' device/samsung/toro*/lineage.mk;
-awk -i inplace '!/TARGET_RECOVERY_UPDATER_LIBS/' device/samsung/toro*/BoardConfig.mk;
-awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' device/samsung/toro*/BoardConfig.mk;
+awk -i inplace '!/nfc_enhanced.mk/' device/samsung/toro*/lineage.mk || true;
+awk -i inplace '!/TARGET_RECOVERY_UPDATER_LIBS/' device/samsung/toro*/BoardConfig.mk || true;
+awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' device/samsung/toro*/BoardConfig.mk || true;
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l* || true; #Fix builds with GCC 10
 rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk || true;

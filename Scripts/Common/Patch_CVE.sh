@@ -36,7 +36,7 @@ echo "Patching CVEs...";
 cd "$DOS_BUILD_BASE";
 for patcher in "$DOS_SCRIPTS_CVES"/*.sh; do
 	echo "Running $patcher";
-	source "$patcher";
+	source "$patcher" || true;
 done;
 
 cd "$DOS_BUILD_BASE";
