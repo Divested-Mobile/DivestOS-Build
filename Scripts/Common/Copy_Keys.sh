@@ -19,24 +19,24 @@ set -uo pipefail;
 source "$DOS_SCRIPTS_COMMON/Shell.sh";
 
 copyKey() {
-	if [[ -f "$DOS_SIGNING_KEYS/$1/verifiedboot_relkeys.der.x509" ]] && [[ -d "$DOS_BUILD_BASE/$2" ]]; then
-		if cp "$DOS_SIGNING_KEYS/$1/verifiedboot_relkeys.der.x509" "$DOS_BUILD_BASE/$2/verifiedboot_$1_dos_relkeys.der.x509"; then
-			echo -e "\e[0;32mCopied verifiedboot keys for $1 to $2\e[0m";
-		else
-			echo -e "\e[0;33mCould not copy verifiedboot keys for $1\e[0m";
+	if [[ -d "$DOS_SIGNING_KEYS/$1" ]] && [[ -d "$DOS_BUILD_BASE/$2" ]]; then
+		if [[ -f "$DOS_SIGNING_KEYS/$1/verifiedboot_relkeys.der.x509" ]] && [[ -d "$DOS_BUILD_BASE/$2" ]]; then
+			if cp "$DOS_SIGNING_KEYS/$1/verifiedboot_relkeys.der.x509" "$DOS_BUILD_BASE/$2/verifiedboot_$1_dos_relkeys.der.x509"; then
+				echo -e "\e[0;32mCopied verifiedboot keys for $1 to $2\e[0m";
+			else
+				echo -e "\e[0;31mCould not copy verifiedboot keys for $1\e[0m";
+			fi;
 		fi;
-	else
-		echo -e "\e[0;33mCould not copy verifiedboot keys for $1\e[0m";
-	fi;
 
-	if [[ -f "$DOS_SIGNING_KEYS/$1/verity.x509.pem" ]] && [[ -d "$DOS_BUILD_BASE/$2/certs" ]]; then
-		if cat "$DOS_SIGNING_KEYS/$1/verity.x509.pem" >> "$DOS_BUILD_BASE/$2/certs/verity.x509.pem"; then
-			echo -e "\e[0;32mAppended verity keys for $1 to $2\e[0m";
-		else
-			echo -e "\e[0;33mCould not append verity keys for $1\e[0m";
+		if [[ -f "$DOS_SIGNING_KEYS/$1/verity.x509.pem" ]] && [[ -d "$DOS_BUILD_BASE/$2/certs" ]]; then
+			if cat "$DOS_SIGNING_KEYS/$1/verity.x509.pem" >> "$DOS_BUILD_BASE/$2/certs/verity.x509.pem"; then
+				echo -e "\e[0;32mAppended verity keys for $1 to $2\e[0m";
+			else
+				echo -e "\e[0;31mCould not append verity keys for $1\e[0m";
+			fi;
 		fi;
-	else
-		echo -e "\e[0;33mCould not append verity keys for $1\e[0m";
+	elif [[ ! -d "$DOS_SIGNING_KEYS/$1" ]] && [[ -d "$DOS_BUILD_BASE/$2" ]]; then
+		echo -e "\e[0;31mNo keys available for $1 but kernel $2 exists!\e[0m";
 	fi;
 }
 

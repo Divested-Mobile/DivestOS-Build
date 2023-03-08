@@ -41,8 +41,12 @@ export -f buildDevice;
 
 buildDeviceUserDebug() {
 	cd "$DOS_BUILD_BASE";
-	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
-	breakfast "lineage_$1-userdebug" && mka target-files-package otatools && processRelease $1 true $2;
+	if [[ -d "$DOS_SIGNING_KEYS/$1" ]]; then
+		export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
+		breakfast "lineage_$1-userdebug" && mka target-files-package otatools && processRelease $1 true $2;
+	else
+		echo -e "\e[0;31mNo signing keys available for $1\e[0m";
+	fi;
 }
 export -f buildDeviceUserDebug;
 
