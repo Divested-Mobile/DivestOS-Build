@@ -97,7 +97,7 @@ export -f buildAll;
 
 patchWorkspace() {
 	umask 0022;
-	cd "$DOS_BUILD_BASE$1";
+	cd "$DOS_BUILD_BASE/$1";
 	touch DOS_PATCHED_FLAG;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/cm"; fi;
 	verifyAllPlatformTags;
@@ -121,7 +121,7 @@ patchWorkspace() {
 export -f patchWorkspace;
 
 enableDexPreOpt() {
-	cd "$DOS_BUILD_BASE$1";
+	cd "$DOS_BUILD_BASE/$1";
 	#Some devices won't compile, or have too small of a /system partition, or Wi-Fi breaks
 	if [ "$1" != "device/amazon/thor" ] && [ "$1" != "device/amazon/apollo" ] && [ "$1" != "device/asus/grouper" ] && [ "$1" != "device/samsung/i9100" ] && [ "$1" != "device/samsung/maguro" ] && [ "$1" != "device/samsung/manta" ] && [ "$1" != "device/samsung/toro" ] && [ "$1" != "device/samsung/toroplus" ] && [ "$1" != "device/samsung/tuna" ]; then
 		if [ -f BoardConfig.mk ]; then
@@ -137,7 +137,7 @@ enableDexPreOpt() {
 export -f enableDexPreOpt;
 
 enableDexPreOptFull() {
-	cd "$DOS_BUILD_BASE$1";
+	cd "$DOS_BUILD_BASE/$1";
 	if [ -f BoardConfig.mk ]; then
 		sed -i "s/WITH_DEXPREOPT_BOOT_IMG_ONLY := true/WITH_DEXPREOPT_BOOT_IMG_ONLY := false/" BoardConfig.mk;
 		echo "Enabled full dexpreopt for $1";
@@ -147,8 +147,8 @@ enableDexPreOptFull() {
 export -f enableDexPreOptFull;
 
 enableLowRam() {
-	if [ -d "$DOS_BUILD_BASE$1" ]; then
-		cd "$DOS_BUILD_BASE$1";
+	if [ -d "$DOS_BUILD_BASE/$1" ]; then
+		cd "$DOS_BUILD_BASE/$1";
 		if [ -f lineage.mk ]; then echo -e '\n$(call inherit-product, vendor/divested/build/target/product/lowram.mk)' >> lineage.mk; fi;
 		if [ -f BoardConfig.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfig.mk; fi;
 		if [ -f BoardConfigCommon.mk ]; then echo 'MALLOC_SVELTE := true' >> BoardConfigCommon.mk; fi;

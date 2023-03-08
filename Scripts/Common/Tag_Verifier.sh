@@ -40,7 +40,7 @@ export -f gpgVerifyGitHead;
 
 verifyTagIfPlatform() {
 	if [[ "$1" == "platform/"* ]]; then
-		gpgVerifyGitTag "$DOS_BUILD_BASE$2";
+		gpgVerifyGitTag "$DOS_BUILD_BASE/$2";
 	fi;
 }
 export -f verifyTagIfPlatform;

@@ -654,7 +654,7 @@ echo "Deblobbing...";
 #
 deblobDevice() {
 	local devicePath="$1";
-	cd "$DOS_BUILD_BASE$devicePath";
+	cd "$DOS_BUILD_BASE/$devicePath";
 	if [ "$DOS_DEBLOBBER_REPLACE_TIME" = false ]; then local replaceTime="false"; fi; #Disable Time replacement
 	if ! grep -qi "qcom" BoardConfig*.mk; then local replaceTime="false"; fi; #Disable Time Replacement
 	if [ -f Android.mk ]; then
@@ -823,7 +823,7 @@ deblobDevice() {
 	awk -i inplace '!/'$blobs'/' ./*proprietary*.txt &>/dev/null || true; #Remove all blob references from blob manifest
 	awk -i inplace '!/'$blobs'/' ./*/*proprietary*.txt &>/dev/null || true; #Remove all blob references from blob manifest location in subdirectory
 	if [ -f setup-makefiles.sh ]; then
-		bash -c "cd $DOS_BUILD_BASE$devicePath && ./setup-makefiles.sh" || true; #Update the makefiles
+		bash -c "cd $DOS_BUILD_BASE/$devicePath && ./setup-makefiles.sh" || true; #Update the makefiles
 	fi;
 	cd "$DOS_BUILD_BASE";
 }
@@ -831,7 +831,7 @@ export -f deblobDevice;
 
 deblobKernel() {
 	local kernelPath="$1";
-	cd "$DOS_BUILD_BASE$kernelPath";
+	cd "$DOS_BUILD_BASE/$kernelPath";
 	rm -rf $kernels;
 	cd "$DOS_BUILD_BASE";
 }
@@ -839,7 +839,7 @@ export -f deblobKernel;
 
 deblobSepolicy() {
 	local sepolicyPath="$1";
-	cd "$DOS_BUILD_BASE$sepolicyPath";
+	cd "$DOS_BUILD_BASE/$sepolicyPath";
 	if [ -d sepolicy ]; then
 		cd sepolicy;
 		rm -f $sepolicy;
@@ -900,7 +900,7 @@ fi;
 deblobVendors; #Deblob entire vendor directory
 rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove ClearKey
 #rm -rf frameworks/av/drm/mediacas/plugins/clearkey; #XXX: breaks protobuf inclusion
-rm -rf vendor/samsung/nodevice;
+[[ -d vendor/samsung/nodevice ]] && rm -rf vendor/samsung/nodevice;
 #
 #END OF DEBLOBBING
 #

@@ -35,7 +35,7 @@ sed -i 's/static bool slab_nomerge __ro_after_init = !IS_ENABLED(CONFIG_SLAB_MER
 #sed -i 's/= IS_ENABLED(CONFIG_PAGE_POISONING_ENABLE_DEFAULT);/= true;/' kernel/*/*/mm/page_poison.c &>/dev/null || true; #4.4+ #XXX: shouldn't be enabled past 5.3
 
 #Build speedup
-sed -i 's/flags.Tidy = true/flags.Tidy = false/' build/soong/cc/tidy.go &>/dev/null || true; #Disable clang-tidy (kdrag0n)
+[[ -f build/soong/cc/tidy.go ]] && sed -i 's/flags.Tidy = true/flags.Tidy = false/' build/soong/cc/tidy.go; #Disable clang-tidy (kdrag0n)
 
 #Reduce memory usage
 awk -i inplace '!/persist.device_config.runtime_native.usap_pool_enabled=true/' device/*/*/*.prop &>/dev/null || true;

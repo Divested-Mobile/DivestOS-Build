@@ -35,7 +35,7 @@ export -f verifyAllPlatformTags;
 enter() {
 	echo "================================================================================================"
 	local dir="$1";
-	local dirReal="$DOS_BUILD_BASE$dir";
+	local dirReal="$DOS_BUILD_BASE/$dir";
 	umask 0022;
 	if [ -d "$dirReal" ]; then
 		cd "$dirReal";
@@ -176,7 +176,7 @@ generateBootAnimationShine() {
 export -f generateBootAnimationShine;
 
 audit2allowCurrent() {
-	adb logcat -b all -d | audit2allow -p "$OUT"/root/sepolicy;
+	adb logcat -b all -d | audit2allow -p "$OUT/root/sepolicy";
 }
 export -f audit2allowCurrent;
 
@@ -421,6 +421,7 @@ processRelease() {
 export -f processRelease;
 
 pushToServer() {
+	#Examples
 	rsync -Pau --no-perms --no-owner --no-group incrementals/divested-*-dos-$1-*.zip* root@divestos.org:/var/www/divestos.org/builds/LineageOS/$1/incrementals/ || true;
 	rsync -Pau --no-perms --no-owner --no-group divested-*-dos-$1.zip* root@divestos.org:/var/www/divestos.org/builds/LineageOS/$1/ || true;
 	rsync -Pau --no-perms --no-owner --no-group divested-*-dos-$1-recovery.img root@divestos.org:/var/www/divestos.org/builds/LineageOS/$1/ || true;
@@ -467,7 +468,7 @@ deblobAudio() {
 export -f deblobAudio;
 
 volteOverride() {
-	cd "$DOS_BUILD_BASE$1";
+	cd "$DOS_BUILD_BASE/$1";
 	if grep -sq "config_device_volte_available" "overlay/frameworks/base/core/res/res/values/config.xml"; then
 		if [ -f vendor.prop ] && ! grep -sq "volte_avail_ovr" "vendor.prop"; then
 			echo -e 'persist.dbg.volte_avail_ovr=1\npersist.dbg.vt_avail_ovr=1' >> vendor.prop;
@@ -550,7 +551,7 @@ hardenLocationFWB() {
 export -f hardenLocationFWB;
 
 hardenUserdata() {
-	cd "$DOS_BUILD_BASE$1";
+	cd "$DOS_BUILD_BASE/$1";
 
 	#awk -i inplace '!/f2fs/' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 
@@ -610,7 +611,7 @@ enableAutoVarInit() {
 export -f enableAutoVarInit;
 
 updateRegDb() {
-	cd "$DOS_BUILD_BASE$1";
+	cd "$DOS_BUILD_BASE/$1";
 	#Latest database cannot be used due to differing flags, only update supported kernels
 	#md5sum Build/*/kernel/*/*/net/wireless/genregdb.awk | sort
 	if echo "d9ef5910b573c634fa7845bb6511ba89  net/wireless/genregdb.awk" | md5sum --check --quiet &>/dev/null; then
@@ -639,7 +640,7 @@ fixupCarrierConfigs() {
 export -f fixupCarrierConfigs;
 
 disableEnforceRRO() {
-	cd "$DOS_BUILD_BASE$1";
+	cd "$DOS_BUILD_BASE/$1";
 	awk -i inplace '!/PRODUCT_ENFORCE_RRO_TARGETS .= framework-res/' *.mk &>/dev/null || true;
 	awk -i inplace '!/PRODUCT_ENFORCE_RRO_TARGETS .= \*/' *.mk &>/dev/null || true;
 	sed -i '/PRODUCT_ENFORCE_RRO_TARGETS .= \\/,+1 d' *.mk &>/dev/null || true;
@@ -649,7 +650,7 @@ disableEnforceRRO() {
 export -f disableEnforceRRO;
 
 disableAPEX() {
-	cd "$DOS_BUILD_BASE$1";
+	cd "$DOS_BUILD_BASE/$1";
 	if [[ "$1" != *"device/google/gs101"* ]] && [[ "$1" != *"device/google/gs201"* ]] && [[ "$1" != *"device/google/oriole"* ]] && [[ "$1" != *"device/google/raven"* ]] && [[ "$1" != *"device/google/raviole"* ]] && [[ "$1" != *"device/google/bluejay"* ]] && [[ "$1" != *"device/google/panther"* ]] && [[ "$1" != *"device/google/cheetah"* ]] && [[ "$1" != *"device/google/pantah"* ]]; then
 		awk -i inplace '!/DEXPREOPT_GENERATE_APEX_IMAGE/' *.mk &>/dev/null || true;
 		awk -i inplace '!/updatable_apex.mk/' *.mk &>/dev/null || true;
@@ -662,7 +663,7 @@ disableAPEX() {
 export -f disableAPEX;
 
 enableStrongEncryption() {
-	cd "$DOS_BUILD_BASE$1";
+	cd "$DOS_BUILD_BASE/$1";
 	if [ -f BoardConfig.mk ]; then
 		echo "TARGET_WANTS_STRONG_ENCRYPTION := true" >> BoardConfig.mk;
 		echo "Enabled AES-256 encryption for $1";
@@ -821,7 +822,7 @@ getDefconfig() {
 export -f getDefconfig;
 
 hardenDefconfig() {
-	cd "$DOS_BUILD_BASE$1";
+	cd "$DOS_BUILD_BASE/$1";
 
 	#Attempts to enable/disable supported options to increase security
 	#See https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings

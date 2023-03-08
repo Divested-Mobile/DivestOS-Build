@@ -68,7 +68,7 @@ export -f buildAll;
 
 patchWorkspace() {
 	umask 0022;
-	cd "$DOS_BUILD_BASE$1";
+	cd "$DOS_BUILD_BASE/$1";
 	touch DOS_PATCHED_FLAG;
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
 	verifyAllPlatformTags;
@@ -97,7 +97,7 @@ patchWorkspace() {
 export -f patchWorkspace;
 
 enableDexPreOpt() {
-	cd "$DOS_BUILD_BASE$1";
+	cd "$DOS_BUILD_BASE/$1";
 	if [ -f BoardConfig.mk ]; then
 		echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 		echo "WITH_DEXPREOPT_DEBUG_INFO := false" >> BoardConfig.mk;
@@ -114,8 +114,8 @@ enableDexPreOpt() {
 export -f enableDexPreOpt;
 
 enableLowRam() {
-	if [ -d "$DOS_BUILD_BASE$1" ]; then
-		cd "$DOS_BUILD_BASE$1";
+	if [ -d "$DOS_BUILD_BASE/$1" ]; then
+		cd "$DOS_BUILD_BASE/$1";
 		if [ -f lineage_$2.mk ]; then echo -e '\n$(call inherit-product, vendor/divested/build/target/product/lowram.mk)' >> lineage_$2.mk; fi;
 		echo "Enabled lowram for $1";
 		cd "$DOS_BUILD_BASE";

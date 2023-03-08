@@ -18,6 +18,8 @@
 umask 0022;
 set -uo pipefail;
 
+export copyPartsZip="/mnt/backup-1/DOS/Builds/Extras/copy-partitions-20210323_1922-cleaned.zip"; #XXX: ADJUST ME
+
 export repoDir="/mnt/backup-1/DOS/Builds/Supporting_Files/";
 mkdir -p $repoDir;
 
@@ -25,10 +27,10 @@ devicesCopy=(akari alioth Amber aura aurora avicii barbet bluejay blueline bonit
 
 for device in "${devicesCopy[@]}"
 do
-	if [ -d "/mnt/dos/Signing_Keys/4096pro/$device/" ]; then
+	if [ -d "$DOS_SIGNING_KEYS/$device/" ]; then
 		mkdir -p "$repoDir/$device";
-		./build/tools/releasetools/sign_zip.py -k "/mnt/dos/Signing_Keys/4096pro/$device/releasekey" "/mnt/backup-1/DOS/Builds/Extras/copy-partitions-20210323_1922-cleaned.zip" "$repoDir/$device/copy-partitions-$device-release.zip";
-		./build/tools/releasetools/sign_zip.py -k "/mnt/dos/Signing_Keys/4096pro/$device/extra" "/mnt/backup-1/DOS/Builds/Extras/copy-partitions-20210323_1922-cleaned.zip" "$repoDir/$device/copy-partitions-$device-extra.zip";
+		./build/tools/releasetools/sign_zip.py -k "$DOS_SIGNING_KEYS/$device/releasekey" "$copyPartsZip" "$repoDir/$device/copy-partitions-$device-release.zip";
+		./build/tools/releasetools/sign_zip.py -k "$DOS_SIGNING_KEYS/$device/extra" "$copyPartsZip" "$repoDir/$device/copy-partitions-$device-extra.zip";
 	fi;
 done;
 
@@ -36,8 +38,8 @@ devicesAVB=(akari alioth Amber aura aurora avicii barbet beryllium bluejay bluel
 
 for device in "${devicesAVB[@]}"
 do
-	if [ -d "/mnt/dos/Signing_Keys/4096pro/$device/" ]; then
+	if [ -d "$DOS_SIGNING_KEYS/$device/" ]; then
 		mkdir -p "$repoDir/$device";
-		cp "/mnt/dos/Signing_Keys/4096pro/$device/avb_pkmd.bin" "$repoDir/$device/avb_pkmd-$device.bin";
+		cp "$DOS_SIGNING_KEYS/$device/avb_pkmd.bin" "$repoDir/$device/avb_pkmd-$device.bin";
 	fi;
 done;

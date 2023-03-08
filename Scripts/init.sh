@@ -21,12 +21,11 @@
 #START OF USER CONFIGURABLE OPTIONS
 #
 #General
-export ANDROID_HOME="/home/$USER/Android/Sdk";
 export DOS_WORKSPACE_ROOT="/mnt/dos/"; #XXX: THIS MUST BE CORRECT TO BUILD!
 #export DOS_BUILDS=$DOS_WORKSPACE_ROOT"Builds/";
-export DOS_BUILDS="/mnt/Drive-4/DOS/Builds/";
-export DOS_SIGNING_KEYS=$DOS_WORKSPACE_ROOT"Signing_Keys/4096pro";
-export DOS_SIGNING_GPG=$DOS_WORKSPACE_ROOT"Signing_Keys/gnupg";
+export DOS_BUILDS="/mnt/Drive-4/DOS/Builds/"; #XXX: THIS MUST BE CORRECT TO BUILD!
+export DOS_SIGNING_KEYS="$DOS_WORKSPACE_ROOT/Signing_Keys/4096pro";
+export DOS_SIGNING_GPG="$DOS_WORKSPACE_ROOT/Signing_Keys/gnupg";
 #export USE_CCACHE=1;
 #export CCACHE_DIR="";
 export CCACHE_COMPRESS=1;
@@ -95,7 +94,7 @@ export DOS_BRANDING_BOOTANIMATION_COLOR="#FF5722-#03A9F4"; #plasma
 export DOS_BRANDING_LINK_ABOUT="https://divestos.org/index.php?page=about";
 export DOS_BRANDING_LINK_PRIVACY="https://divestos.org/index.php?page=privacy_policy";
 export DOS_BRANDING_SERVER_OTA="https://divestos.org/updater.php";
-export DOS_BRANDING_SERVER_OTA_ONION=$DOS_BRANDING_SERVER_OTA; #TODO: need to handle allow cleartext
+export DOS_BRANDING_SERVER_OTA_ONION="$DOS_BRANDING_SERVER_OTA"; #TODO: need to handle allow cleartext
 
 #Theme
 export DOS_THEME_50="FFCA28"; #Amber 400
@@ -126,7 +125,7 @@ gpgVerifyGitHead() {
 export -f gpgVerifyGitHead;
 
 BUILD_WORKING_DIR=${PWD##*/};
-export DOS_VERSION=$BUILD_WORKING_DIR;
+export DOS_VERSION="$BUILD_WORKING_DIR";
 if [ -d ".repo" ]; then
 	echo "Detected $BUILD_WORKING_DIR";
 else
@@ -134,7 +133,7 @@ else
 	return 1;
 fi;
 
-export DOS_BUILD_BASE=$DOS_WORKSPACE_ROOT"Build/$BUILD_WORKING_DIR/";
+export DOS_BUILD_BASE="$DOS_WORKSPACE_ROOT/Build/$BUILD_WORKING_DIR/";
 if [ ! -d "$DOS_BUILD_BASE" ]; then
 	echo "Path mismatch! Please update init.sh!";
 	return 1;
@@ -147,22 +146,22 @@ export DOS_TMP_GNUPG="$DOS_TMP_DIR/gnupg-$RANDOM";
 mkdir -p "$DOS_TMP_GNUPG";
 export GNUPGHOME="$DOS_TMP_GNUPG";
 chmod 700 "$DOS_TMP_GNUPG";
-export DOS_VERIFICATION_KEYRING=$DOS_WORKSPACE_ROOT"Misc/pubring.kbx";
+export DOS_VERIFICATION_KEYRING="$DOS_WORKSPACE_ROOT/Misc/pubring.kbx";
 cp "$DOS_VERIFICATION_KEYRING" "$DOS_TMP_GNUPG/";
 
-export DOS_PREBUILT_APPS=$DOS_WORKSPACE_ROOT"PrebuiltApps/";
-export DOS_PATCHES_COMMON=$DOS_WORKSPACE_ROOT"Patches/Common/";
-export DOS_PATCHES=$DOS_WORKSPACE_ROOT"Patches/$BUILD_WORKING_DIR/";
-export DOS_PATCHES_LINUX_CVES=$DOS_WORKSPACE_ROOT"Patches/Linux/";
-export DOS_WALLPAPERS=$DOS_WORKSPACE_ROOT"Patches/Wallpapers/";
+export DOS_PREBUILT_APPS="$DOS_WORKSPACE_ROOT/PrebuiltApps/";
+export DOS_PATCHES_COMMON="$DOS_WORKSPACE_ROOT/Patches/Common/";
+export DOS_PATCHES="$DOS_WORKSPACE_ROOT/Patches/$BUILD_WORKING_DIR/";
+export DOS_PATCHES_LINUX_CVES="$DOS_WORKSPACE_ROOT/Patches/Linux/";
+export DOS_WALLPAPERS="$DOS_WORKSPACE_ROOT/Patches/Wallpapers/";
 
-export DOS_SCRIPTS_COMMON=$DOS_WORKSPACE_ROOT"Scripts/Common/";
-export DOS_SCRIPTS=$DOS_WORKSPACE_ROOT"Scripts/$BUILD_WORKING_DIR/";
+export DOS_SCRIPTS_COMMON="$DOS_WORKSPACE_ROOT/Scripts/Common/";
+export DOS_SCRIPTS="$DOS_WORKSPACE_ROOT/Scripts/$BUILD_WORKING_DIR/";
 if [ ! -d "$DOS_SCRIPTS" ]; then
 	echo "$BUILD_WORKING_DIR is not supported!";
 	return 1;
 fi;
-export DOS_SCRIPTS_CVES=$DOS_SCRIPTS"CVE_Patchers/";
+export DOS_SCRIPTS_CVES="$DOS_SCRIPTS/CVE_Patchers/";
 
 export KBUILD_BUILD_USER="emy";
 export KBUILD_BUILD_HOST="dosbm";
@@ -175,13 +174,13 @@ export EXPERIMENTAL_USE_JAVA8=true;
 export GRADLE_OPTS="-Xmx2048m";
 export TZ=:/etc/localtime;
 export LC_ALL=C;
-export LANG=en_US.UTF-8;
+export LANG=C.UTF-8;
 
 #START OF VERIFICATION
-gpgVerifyGitHead $DOS_WORKSPACE_ROOT;
-gpgVerifyGitHead $DOS_PREBUILT_APPS;
-gpgVerifyGitHead $DOS_PATCHES_LINUX_CVES;
-gpgVerifyGitHead $DOS_WALLPAPERS;
+gpgVerifyGitHead "$DOS_WORKSPACE_ROOT";
+gpgVerifyGitHead "$DOS_PREBUILT_APPS";
+gpgVerifyGitHead "$DOS_PATCHES_LINUX_CVES";
+gpgVerifyGitHead "$DOS_WALLPAPERS";
 #END OF VERIFICATION
 
 source "$DOS_SCRIPTS_COMMON/Shell.sh";
