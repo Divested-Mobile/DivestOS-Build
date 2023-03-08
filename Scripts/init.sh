@@ -34,7 +34,7 @@ export CCACHE_COMPRESSLEVEL=1;
 #export DOS_BINARY_PATCHER="";
 export DOS_TOR_WRAPPER="";
 #export DOS_TOR_WRAPPER="torsocks"; #Uncomment to perform select build operations over Tor
-export DOS_MALWARE_SCAN_ENABLED=true; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
+export DOS_MALWARE_SCAN_ENABLED=false; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
 export DOS_MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
 export DOS_REFRESH_PATCHES=true; #Set true to refresh branch-specific patches on apply
 

@@ -147,9 +147,13 @@ enableDexPreOpt() {
 export -f enableDexPreOpt;
 
 enableLowRam() {
-	cd "$DOS_BUILD_BASE$1";
-	if [ -f lineage_$2.mk ]; then echo -e '\n$(call inherit-product, vendor/divested/build/target/product/lowram.mk)' >> lineage_$2.mk; fi;
-	echo "Enabled lowram for $1";
-	cd "$DOS_BUILD_BASE";
+	if [ -d "$DOS_BUILD_BASE$1" ]; then
+		cd "$DOS_BUILD_BASE$1";
+		if [ -f lineage_$2.mk ]; then echo -e '\n$(call inherit-product, vendor/divested/build/target/product/lowram.mk)' >> lineage_$2.mk; fi;
+		echo "Enabled lowram for $1";
+		cd "$DOS_BUILD_BASE";
+	else
+		echo "Not enabling lowram for $1, not available";
+	fi;
 }
 export -f enableLowRam;
