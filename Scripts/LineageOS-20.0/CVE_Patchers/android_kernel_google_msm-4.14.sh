@@ -1,5 +1,5 @@
 #!/bin/bash
-cd "$DOS_BUILD_BASE""kernel/google/msm-4.14"
+if cd "$DOS_BUILD_BASE""kernel/google/msm-4.14"; then
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0289-0290.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0306-0307.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
@@ -131,4 +131,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23455/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-26545/4.14/0002.patch
 editKernelLocalversion "-dos.p130"
+else echo "kernel_google_msm-4.14 is unavailable, not patching.";
+fi;
 cd "$DOS_BUILD_BASE"

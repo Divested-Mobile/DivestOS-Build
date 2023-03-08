@@ -1,5 +1,5 @@
 #!/bin/bash
-cd "$DOS_BUILD_BASE""kernel/zte/msm8996"
+if cd "$DOS_BUILD_BASE""kernel/zte/msm8996"; then
 #git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0098-0099.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.18/3.18.0103-0104.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.18/0019.patch
@@ -704,4 +704,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26145/qcacld-2.0/0008.patch --directo
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.4/0006.patch
 editKernelLocalversion "-dos.p703"
+else echo "kernel_zte_msm8996 is unavailable, not patching.";
+fi;
 cd "$DOS_BUILD_BASE"

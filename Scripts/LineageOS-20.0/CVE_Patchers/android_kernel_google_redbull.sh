@@ -1,5 +1,5 @@
 #!/bin/bash
-cd "$DOS_BUILD_BASE""kernel/google/redbull"
+if cd "$DOS_BUILD_BASE""kernel/google/redbull"; then
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0253-0254.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
@@ -143,4 +143,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23455/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-26545/4.19/0003.patch
 editKernelLocalversion "-dos.p142"
+else echo "kernel_google_redbull is unavailable, not patching.";
+fi;
 cd "$DOS_BUILD_BASE"

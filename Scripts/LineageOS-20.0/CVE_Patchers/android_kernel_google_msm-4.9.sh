@@ -1,5 +1,5 @@
 #!/bin/bash
-cd "$DOS_BUILD_BASE""kernel/google/msm-4.9"
+if cd "$DOS_BUILD_BASE""kernel/google/msm-4.9"; then
 git apply $DOS_PATCHES_LINUX_CVES/0005-Graphene-Deny_USB/4.9/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0006.patch
@@ -78,13 +78,14 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4382/^6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20148/^5.15/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20369/4.14/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20371/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-22075/ANY/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-22075/ANY/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25664/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25715/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25722/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28388/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33225/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33243/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-36280/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-45934/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0045/4.14/0002.patch
@@ -99,5 +100,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-fortify/4.9/000
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0005.patch
-editKernelLocalversion "-dos.p99"
+editKernelLocalversion "-dos.p100"
+else echo "kernel_google_msm-4.9 is unavailable, not patching.";
+fi;
 cd "$DOS_BUILD_BASE"

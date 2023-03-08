@@ -1,5 +1,5 @@
 #!/bin/bash
-cd "$DOS_BUILD_BASE""kernel/google/gs101/private/gs-google"
+if cd "$DOS_BUILD_BASE""kernel/google/gs101/private/gs-google"; then
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/5.10/5.10.0115-0116.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/5.10/5.10.0122-0123.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/5.10/5.10.0125-0126.patch --exclude=Makefile
@@ -203,4 +203,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23455/5.10/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/5.10/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-26545/5.10/0004.patch
 editKernelLocalversion "-dos.p202"
+else echo "kernel_google_gs101_private_gs-google is unavailable, not patching.";
+fi;
 cd "$DOS_BUILD_BASE"

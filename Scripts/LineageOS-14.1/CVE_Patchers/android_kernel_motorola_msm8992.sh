@@ -1,5 +1,5 @@
 #!/bin/bash
-cd "$DOS_BUILD_BASE""kernel/motorola/msm8992"
+if cd "$DOS_BUILD_BASE""kernel/motorola/msm8992"; then
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0007.patch
@@ -686,4 +686,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 editKernelLocalversion "-dos.p685"
+else echo "kernel_motorola_msm8992 is unavailable, not patching.";
+fi;
 cd "$DOS_BUILD_BASE"

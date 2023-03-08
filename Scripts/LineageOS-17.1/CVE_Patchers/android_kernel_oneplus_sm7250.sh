@@ -1,5 +1,5 @@
 #!/bin/bash
-cd "$DOS_BUILD_BASE""kernel/oneplus/sm7250"
+if cd "$DOS_BUILD_BASE""kernel/oneplus/sm7250"; then
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0082-0083.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0137-0138.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0144-0145.patch --exclude=Makefile
@@ -588,4 +588,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3428/4.19/0011.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3444/^5.11/0001.patch
 editKernelLocalversion "-dos.p587"
+else echo "kernel_oneplus_sm7250 is unavailable, not patching.";
+fi;
 cd "$DOS_BUILD_BASE"

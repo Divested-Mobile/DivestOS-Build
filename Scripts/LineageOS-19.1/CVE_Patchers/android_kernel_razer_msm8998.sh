@@ -1,5 +1,5 @@
 #!/bin/bash
-cd "$DOS_BUILD_BASE""kernel/razer/msm8998"
+if cd "$DOS_BUILD_BASE""kernel/razer/msm8998"; then
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0015.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-bugon/4.4/0003.patch
@@ -158,4 +158,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1095/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1118/^6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/^6.2/0001.patch
 editKernelLocalversion "-dos.p157"
+else echo "kernel_razer_msm8998 is unavailable, not patching.";
+fi;
 cd "$DOS_BUILD_BASE"

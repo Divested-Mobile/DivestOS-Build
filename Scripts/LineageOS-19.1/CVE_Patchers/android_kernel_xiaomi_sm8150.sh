@@ -1,5 +1,5 @@
 #!/bin/bash
-cd "$DOS_BUILD_BASE""kernel/xiaomi/sm8150"
+if cd "$DOS_BUILD_BASE""kernel/xiaomi/sm8150"; then
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0181-0182.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0201-0202.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0205-0206.patch --exclude=Makefile
@@ -428,7 +428,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/4.14/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-29581/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-30594/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-32981/4.14/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33243/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33740/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33744/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-36123/4.14/0002.patch
@@ -466,5 +465,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27830/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.14/0002.patch
-editKernelLocalversion "-dos.p466"
+editKernelLocalversion "-dos.p465"
+else echo "kernel_xiaomi_sm8150 is unavailable, not patching.";
+fi;
 cd "$DOS_BUILD_BASE"

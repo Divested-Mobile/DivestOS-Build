@@ -1,5 +1,5 @@
 #!/bin/bash
-cd "$DOS_BUILD_BASE""kernel/xiaomi/sm8250"
+if cd "$DOS_BUILD_BASE""kernel/xiaomi/sm8250"; then
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0137-0138.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0144-0145.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0151-0152.patch --exclude=Makefile
@@ -530,4 +530,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3428/4.19/0011.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3444/^5.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-22095/ANY/0001.patch
 editKernelLocalversion "-dos.p529"
+else echo "kernel_xiaomi_sm8250 is unavailable, not patching.";
+fi;
 cd "$DOS_BUILD_BASE"
