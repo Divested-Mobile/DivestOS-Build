@@ -469,6 +469,10 @@ if enterAndClear "kernel/fairphone/sdm632"; then
 sed -i 's|/../../prebuilts/tools-lineage|/../../../prebuilts/tools-lineage|' lib/Makefile; #fixup typo
 fi;
 
+if enterAndClear "kernel/oneplus/sm7250"; then
+git revert --no-edit 6eede8c64f268991abe669a6123e929e295fac29;
+fi;
+
 if enterAndClear "kernel/oneplus/sm8250"; then
 git revert --no-edit 6eede8c64f268991abe669a6123e929e295fac29;
 fi;
@@ -501,7 +505,7 @@ cd "$DOS_BUILD_BASE";
 [[ -d kernel/google/msm-4.14 ]] && sed -i "s/CONFIG_FORTIFY_SOURCE=y/# CONFIG_FORTIFY_SOURCE is not set/" kernel/google/msm-4.14/arch/arm64/configs/*_defconfig; #breaks compile
 [[ -d kernel/google/msm-4.14 ]] && sed -i "s/CONFIG_MITIGATE_SPECTRE_BRANCH_HISTORY=y/# CONFIG_MITIGATE_SPECTRE_BRANCH_HISTORY is not set/" kernel/google/msm-4.14/arch/arm64/configs/*_defconfig; #impartial backport
 [[ -d kernel/oneplus/sm8150 ]] && echo -e "\nCONFIG_DEBUG_FS=y" >> kernel/oneplus/sm8150/arch/arm64/configs/vendor/sm8150-perf_defconfig; #compile failure
-[[ -d kernel/oneplus/sm7250 ]] && echo -e "\nCONFIG_DEBUG_FS=y" >> kernel/oneplus/sm7250/arch/arm64/configs/vendor/lito-perf_defconfig; #compile failure
+[[ -d kernel/oneplus/sm7250 ]] && echo -e "\nCONFIG_DEBUG_FS=n" >> kernel/oneplus/sm7250/arch/arm64/configs/vendor/lito-perf_defconfig; #compile failure
 [[ -d kernel/oneplus/sm8250 ]] && echo -e "\nCONFIG_DEBUG_FS=n" >> kernel/oneplus/sm8250/arch/arm64/configs/vendor/kona-perf_defconfig; #vintf failure
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l* || true; #Fix builds with GCC 10
