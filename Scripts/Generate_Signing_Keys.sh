@@ -25,8 +25,8 @@ type='rsa'; #Options: rsa, ec
 #source build/envsetup.sh && breakfast lineage_sailfish-user && make -j20 generate_verity_key otatools;
 #source ../../Scripts/Generate_Signing_Keys.sh $device;
 
+mkdir -p "$DOS_SIGNING_KEYS/NEW";
 if [[ -d "$DOS_SIGNING_KEYS" ]]; then
-	mkdir -p "$DOS_SIGNING_KEYS/NEW";
 	cd "$DOS_SIGNING_KEYS/NEW";
 	mkdir $1; cd $1;
 
