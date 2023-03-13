@@ -77,7 +77,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20571/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42703/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0030/^4.20/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1118/^6.2/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1118/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 editKernelLocalversion "-dos.p79"
 else echo "kernel_oneplus_sm7250 is unavailable, not patching.";
