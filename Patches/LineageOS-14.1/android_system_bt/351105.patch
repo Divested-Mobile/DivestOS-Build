@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hui Peng <phui@google.com>
+Date: Sat, 10 Dec 2022 10:32:45 +0000
+Subject: [PATCH] Fix an OOB Write bug in gatt_check_write_long_terminate
+
+Bug: 258652631
+Test: manual
+Ignore-AOSP-First: security
+Merged-In: Ifffa2c7f679c4ef72dbdb6b1f3378ca506680084
+Change-Id: Ifffa2c7f679c4ef72dbdb6b1f3378ca506680084
+(cherry picked from commit d4e34d862bb1b00fd06272e34f7160b5794c73ee)
+Merged-In: Ifffa2c7f679c4ef72dbdb6b1f3378ca506680084
+---
+ stack/gatt/gatt_cl.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/stack/gatt/gatt_cl.c b/stack/gatt/gatt_cl.c
+index 04a027fef..1e8ff1f50 100644
+--- a/stack/gatt/gatt_cl.c
++++ b/stack/gatt/gatt_cl.c
+@@ -639,7 +639,8 @@ void gatt_process_prep_write_rsp (tGATT_TCB *p_tcb, tGATT_CLCB *p_clcb, UINT8 op
+ 
+     GATT_TRACE_ERROR("value resp op_code = %s len = %d", gatt_dbg_op_name(op_code), len);
+ 
+-    if (len < GATT_PREP_WRITE_RSP_MIN_LEN)
++    if (len < GATT_PREP_WRITE_RSP_MIN_LEN ||
++        len > GATT_PREP_WRITE_RSP_MIN_LEN + sizeof(value.value))
+     {
+         GATT_TRACE_ERROR("illegal prepare write response length, discard");
+         gatt_end_operation(p_clcb, GATT_INVALID_PDU, &value);
+@@ -649,7 +650,7 @@ void gatt_process_prep_write_rsp (tGATT_TCB *p_tcb, tGATT_CLCB *p_clcb, UINT8 op
+     STREAM_TO_UINT16 (value.handle, p);
+     STREAM_TO_UINT16 (value.offset, p);
+ 
+-    value.len = len - 4;
++    value.len = len - GATT_PREP_WRITE_RSP_MIN_LEN;
+ 
+     memcpy (value.value, p, value.len);
+ 

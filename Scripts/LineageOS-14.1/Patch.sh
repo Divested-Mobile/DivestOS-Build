@@ -76,7 +76,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2023-02-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-02 #XXX
+sed -i 's/2021-06-05/2023-03-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-03 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -127,6 +127,10 @@ fi;
 
 if enterAndClear "external/tremolo"; then
 applyPatch "$DOS_PATCHES/android_external_tremolo/319986.patch"; #n-asb-2021-12 handle cases where order isn't a multiple of dimension
+fi;
+
+if enterAndClear "external/zlib"; then
+applyPatch "$DOS_PATCHES/android_external_zlib/351107.patch"; #n-asb-2023-03 Fix a bug when getting a gzip header extra field with inflate().
 fi;
 
 if enterAndClear "frameworks/av"; then
@@ -427,6 +431,9 @@ applyPatch "$DOS_PATCHES/android_system_bt/345530.patch"; #n-asb-2022-12 Add len
 applyPatch "$DOS_PATCHES/android_system_bt/345531.patch"; #n-asb-2022-12 Fix integer overflow when parsing avrc response
 applyPatch "$DOS_PATCHES/android_system_bt/346952.patch"; #n-asb-2023-01 Once AT command is retrieved, return from method.
 applyPatch "$DOS_PATCHES/android_system_bt/348654.patch"; #n-asb-2023-02 Add bounds check in avdt_scb_act.cc
+applyPatch "$DOS_PATCHES/android_system_bt/351105.patch"; #n-asb-2023-03 Fix an OOB Write bug in gatt_check_write_long_terminate
+applyPatch "$DOS_PATCHES/android_system_bt/351106.patch"; #n-asb-2023-03 Fix an OOB write in SDP_AddAttribute
+applyPatch "$DOS_PATCHES/android_system_bt/351109.patch"; #n-asb-2023-03 AVRCP: Fix potential buffer overflow
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #bt-sbc-hd-dualchannel-nougat: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #bt-sbc-hd-dualchannel-nougat: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)
