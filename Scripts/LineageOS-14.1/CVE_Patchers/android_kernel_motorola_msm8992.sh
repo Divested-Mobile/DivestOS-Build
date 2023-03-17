@@ -681,12 +681,13 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1073/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1074/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1118/^6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.4/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28328/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
-editKernelLocalversion "-dos.p686"
+editKernelLocalversion "-dos.p687"
 else echo "kernel_motorola_msm8992 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

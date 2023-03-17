@@ -130,7 +130,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23455/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-26545/4.14/0002.patch
-editKernelLocalversion "-dos.p130"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28328/4.14/0003.patch
+editKernelLocalversion "-dos.p131"
 else echo "kernel_google_msm-4.14 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

@@ -422,14 +422,16 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1073/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1074/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1095/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1118/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1390/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28328/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/4.9/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.9/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.9/0007.patch
-editKernelLocalversion "-dos.p429"
+editKernelLocalversion "-dos.p431"
 else echo "kernel_samsung_universal9810 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
