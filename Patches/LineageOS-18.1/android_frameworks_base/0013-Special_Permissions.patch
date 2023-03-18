@@ -17,7 +17,7 @@ As a result, PackageManagerService is no longer modified.
  1 file changed, 19 insertions(+), 5 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 0a98b8b0df57..b30bd41d3059 100644
+index f83c3d5145cc..e827b7616a10 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -1461,7 +1461,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
@@ -84,7 +84,7 @@ index 0a98b8b0df57..b30bd41d3059 100644
                                  } else {
                                      if (permState == null) {
                                          // New permission
-@@ -3953,7 +3967,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -3960,7 +3974,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
                      && (grantedPermissions == null
                             || ArrayUtils.contains(grantedPermissions, permission))) {
                  final int flags = permissionsState.getPermissionFlags(permission, userId);

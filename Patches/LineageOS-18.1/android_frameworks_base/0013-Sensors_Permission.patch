@@ -128,7 +128,7 @@ index 189544f98594..9badc8c4d9c0 100644
      field public static final String SENSORS = "android.permission-group.SENSORS";
      field public static final String SMS = "android.permission-group.SMS";
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index fbe33065e0f9..80576d7b3d75 100644
+index 92de1b844efa..499e5b199554 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -2649,7 +2649,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
