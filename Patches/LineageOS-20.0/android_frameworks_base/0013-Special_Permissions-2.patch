@@ -12,7 +12,7 @@ Ported from 12: a980a4c3d6b6906eb0ee5fb07ca4cf0bae052d00
  4 files changed, 16 insertions(+), 2 deletions(-)
 
 diff --git a/core/api/current.txt b/core/api/current.txt
-index c8a43db2f9c2..f229b6e25126 100644
+index 487e57d114c9..306a105bd169 100644
 --- a/core/api/current.txt
 +++ b/core/api/current.txt
 @@ -225,6 +225,7 @@ package android {
@@ -24,10 +24,10 @@ index c8a43db2f9c2..f229b6e25126 100644
      field public static final String PHONE = "android.permission-group.PHONE";
      field public static final String READ_MEDIA_AURAL = "android.permission-group.READ_MEDIA_AURAL";
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 1b90803404f7..0372e915b4ab 100644
+index bbe31240f5f3..4bac265e5834 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
-@@ -1971,13 +1971,21 @@
+@@ -2001,13 +2001,21 @@
      <!-- ======================================= -->
      <eat-comment />
  
@@ -51,10 +51,10 @@ index 1b90803404f7..0372e915b4ab 100644
      <!-- Allows applications to access information about networks.
           <p>Protection level: normal
 diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
-index 5763345aba4d..cfcc305988bc 100644
+index 9410e0682106..2eb74e9f98a8 100644
 --- a/core/res/res/values/strings.xml
 +++ b/core/res/res/values/strings.xml
-@@ -931,6 +931,11 @@
+@@ -934,6 +934,11 @@
      <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. [CHAR LIMIT=NONE]-->
      <string name="permgroupdesc_notifications">show notifications</string>
  

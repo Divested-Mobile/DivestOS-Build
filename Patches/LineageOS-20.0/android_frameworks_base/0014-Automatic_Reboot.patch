@@ -13,10 +13,10 @@ Change-Id: If891bfbcc144c9336ba013260bad2b7c7a59c054
  4 files changed, 47 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 801c7d28fec2..c7abb8901cad 100644
+index ab49bd6828a9..ee42bf704cfd 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -17237,6 +17237,14 @@ public final class Settings {
+@@ -17271,6 +17271,14 @@ public final class Settings {
          public static final String REVIEW_PERMISSIONS_NOTIFICATION_STATE =
                  "review_permissions_notification_state";
  
@@ -44,10 +44,10 @@ index e0e13f59b706..9c8c1834f728 100644
          <permission name="android.permission.RECEIVE_MEDIA_RESOURCE_USAGE"/>
          <permission name="android.permission.SET_WALLPAPER_DIM_AMOUNT"/>
 diff --git a/packages/SystemUI/AndroidManifest.xml b/packages/SystemUI/AndroidManifest.xml
-index 6475b6713717..2cc47823a109 100644
+index 44c06be67e10..1d35548c0a25 100644
 --- a/packages/SystemUI/AndroidManifest.xml
 +++ b/packages/SystemUI/AndroidManifest.xml
-@@ -329,6 +329,9 @@
+@@ -336,6 +336,9 @@
  
      <uses-permission android:name="android.permission.SET_UNRESTRICTED_KEEP_CLEAR_AREAS" />
  
@@ -58,10 +58,10 @@ index 6475b6713717..2cc47823a109 100644
      <protected-broadcast android:name="com.android.settingslib.action.UNREGISTER_SLICE_RECEIVER" />
      <protected-broadcast android:name="com.android.settings.flashlight.action.FLASHLIGHT_CHANGED" />
 diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
-index 813fa7db6588..e0f8208fb131 100644
+index 3088e64a68ce..58d8957fdb31 100644
 --- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 +++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
-@@ -196,6 +196,8 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+@@ -201,6 +201,8 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
  
      private final static String TAG = "KeyguardViewMediator";
  
@@ -70,7 +70,7 @@ index 813fa7db6588..e0f8208fb131 100644
      private static final String DELAYED_KEYGUARD_ACTION =
          "com.android.internal.policy.impl.PhoneWindowManager.DELAYED_KEYGUARD";
      private static final String DELAYED_LOCK_PROFILE_ACTION =
-@@ -334,6 +336,11 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+@@ -348,6 +350,11 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
       */
      private int mDelayedProfileShowingSequence;
  
@@ -79,10 +79,10 @@ index 813fa7db6588..e0f8208fb131 100644
 +     */
 +    private int mDelayedRebootSequence;
 +
-     /**
-      * If the user has disabled the keyguard, then requests to exit, this is
-      * how we'll ultimately let them know whether it was successful.  We use this
-@@ -1194,6 +1201,7 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+     private final DismissCallbackRegistry mDismissCallbackRegistry;
+ 
+     // the properties of the keyguard
+@@ -1255,6 +1262,7 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
          final IntentFilter delayedActionFilter = new IntentFilter();
          delayedActionFilter.addAction(DELAYED_KEYGUARD_ACTION);
          delayedActionFilter.addAction(DELAYED_LOCK_PROFILE_ACTION);
@@ -90,7 +90,7 @@ index 813fa7db6588..e0f8208fb131 100644
          delayedActionFilter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
          mContext.registerReceiver(mDelayedLockBroadcastReceiver, delayedActionFilter,
                  SYSTEMUI_PERMISSION, null /* scheduler */,
-@@ -1540,6 +1548,18 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+@@ -1590,6 +1598,18 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
          }
      }
  
@@ -109,7 +109,7 @@ index 813fa7db6588..e0f8208fb131 100644
      private void doKeyguardForChildProfilesLocked() {
          UserManager um = UserManager.get(mContext);
          for (int profileId : um.getEnabledProfileIds(UserHandle.myUserId())) {
-@@ -1557,6 +1577,10 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+@@ -1607,6 +1627,10 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
          mDelayedProfileShowingSequence++;
      }
  
@@ -120,7 +120,7 @@ index 813fa7db6588..e0f8208fb131 100644
      /**
       * It will let us know when the device is waking up.
       */
-@@ -1917,6 +1941,10 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+@@ -1947,6 +1971,10 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
  
          if (DEBUG) Log.d(TAG, "doKeyguard: showing the lock screen");
          showLocked(options);
@@ -131,7 +131,7 @@ index 813fa7db6588..e0f8208fb131 100644
      }
  
      private void lockProfile(int userId) {
-@@ -2101,6 +2129,12 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+@@ -2131,6 +2159,12 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
                          }
                      }
                  }
@@ -144,7 +144,7 @@ index 813fa7db6588..e0f8208fb131 100644
              }
          }
      };
-@@ -2688,6 +2722,7 @@ public class KeyguardViewMediator extends CoreStartable implements Dumpable,
+@@ -2706,6 +2740,7 @@ public class KeyguardViewMediator implements CoreStartable, Dumpable,
          mHideAnimationRun = false;
          adjustStatusBarLocked();
          sendUserPresentBroadcast();

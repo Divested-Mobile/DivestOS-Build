@@ -12,7 +12,7 @@ Subject: [PATCH] add bluetooth auto-turn-off setting
  create mode 100644 src/com/android/settings/bluetooth/BluetoothTimeoutPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 35e3247663..5adc98d256 100644
+index a6a6e62166..d33c0dd9c5 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -39,6 +39,50 @@
@@ -67,7 +67,7 @@ index 35e3247663..5adc98d256 100644
      <string-array name="screen_timeout_entries">
          <item>15 seconds</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index c1aaf40f96..7ea1708b72 100644
+index 666d84a266..90244134e5 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -27,6 +27,25 @@

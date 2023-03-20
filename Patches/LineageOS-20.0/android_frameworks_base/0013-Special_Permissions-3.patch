@@ -13,7 +13,7 @@ Ported from 12: 9d5a62ed573bc3c7be8b19445b372fed13533d0e
  5 files changed, 29 insertions(+), 1 deletion(-)
 
 diff --git a/core/api/current.txt b/core/api/current.txt
-index f229b6e25126..773d77422d9f 100644
+index 306a105bd169..7297e731af40 100644
 --- a/core/api/current.txt
 +++ b/core/api/current.txt
 @@ -122,6 +122,7 @@ package android {
@@ -33,10 +33,10 @@ index f229b6e25126..773d77422d9f 100644
      field public static final String READ_MEDIA_AURAL = "android.permission-group.READ_MEDIA_AURAL";
      field public static final String READ_MEDIA_VISUAL = "android.permission-group.READ_MEDIA_VISUAL";
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 0372e915b4ab..3f52b57a0dd3 100644
+index 4bac265e5834..ab3a610cec14 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
-@@ -1732,6 +1732,18 @@
+@@ -1762,6 +1762,18 @@
                  android:protectionLevel="dangerous|instant" />
      <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
  
@@ -56,10 +56,10 @@ index 0372e915b4ab..3f52b57a0dd3 100644
      <!-- REMOVED PERMISSIONS                                                    -->
      <!-- ====================================================================== -->
 diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
-index cfcc305988bc..2ea89de7d5cb 100644
+index 2eb74e9f98a8..0e5b6a9d2596 100644
 --- a/core/res/res/values/strings.xml
 +++ b/core/res/res/values/strings.xml
-@@ -931,6 +931,11 @@
+@@ -934,6 +934,11 @@
      <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. [CHAR LIMIT=NONE]-->
      <string name="permgroupdesc_notifications">show notifications</string>
  
@@ -71,7 +71,7 @@ index cfcc305988bc..2ea89de7d5cb 100644
      <!-- Title of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
      <string name="permgrouplab_network">Network</string>
      <!-- Description of a category of application permissions, listed so the user can choose whether they want to allow the application to do this. -->
-@@ -1261,6 +1266,13 @@
+@@ -1264,6 +1269,13 @@
      <!-- Description of the background body sensors permission, listed so the user can decide whether to allow the application to access data from body sensors in the background. [CHAR LIMIT=NONE] -->
      <string name="permdesc_bodySensors_background" product="default">Allows the app to access body sensor data, such as heart rate, temperature, and blood oxygen percentage, while the app is in the background.</string>
  

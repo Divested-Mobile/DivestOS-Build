@@ -63,7 +63,7 @@ index e988679fac..b7f4692198 100644
      /**
       * Set the MAC randomization setting for this network.
 diff --git a/service/java/com/android/server/wifi/WifiConfigManager.java b/service/java/com/android/server/wifi/WifiConfigManager.java
-index 2079cb82d0..335688e266 100644
+index d3e20bef27..1c7d700268 100644
 --- a/service/java/com/android/server/wifi/WifiConfigManager.java
 +++ b/service/java/com/android/server/wifi/WifiConfigManager.java
 @@ -466,6 +466,9 @@ public class WifiConfigManager {

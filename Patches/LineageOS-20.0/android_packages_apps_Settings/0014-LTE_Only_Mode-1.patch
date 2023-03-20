@@ -11,10 +11,10 @@ Co-authored-by: inthewaves <inthewaves@pm.me>
  3 files changed, 31 insertions(+), 2 deletions(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 858d5a6588..3ca2c3f273 100644
+index ec42a3637e..e68a5595ab 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -13032,6 +13032,8 @@
+@@ -13078,6 +13078,8 @@
      <string name="preferred_network_mode_cdma_evdo_gsm_wcdma_summary">Preferred network mode: CDMA/EvDo/GSM/WCDMA</string>
      <!-- LTE [CHAR LIMIT=NONE] -->
      <string name="preferred_network_mode_lte_summary">Preferred network mode: LTE </string>
@@ -23,7 +23,7 @@ index 858d5a6588..3ca2c3f273 100644
      <!-- GSM/WCDMA/LTE [CHAR LIMIT=NONE] -->
      <string name="preferred_network_mode_lte_gsm_wcdma_summary">Preferred network mode: GSM/WCDMA/LTE</string>
      <!-- CDMA+LTE/EVDO [CHAR LIMIT=NONE] -->
-@@ -13097,8 +13099,12 @@
+@@ -13143,8 +13145,12 @@
      <string name="network_4G_pure" translatable="false">4G</string>
      <!-- Text for Network lte [CHAR LIMIT=NONE] -->
      <string name="network_lte">LTE (recommended)</string>

@@ -13,7 +13,7 @@ Subject: [PATCH] add auto-reboot setting
  create mode 100644 src/com/android/settings/security/AutoRebootPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 0632f72eb0..35e3247663 100644
+index 42d60eee98..a6a6e62166 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -158,6 +158,37 @@
@@ -55,7 +55,7 @@ index 0632f72eb0..35e3247663 100644
          <item msgid="6490061470416867723">Small</item>
          <item msgid="3579015730662088893">Default</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index bbdefd1427..c1aaf40f96 100644
+index d8a2c3b41c..666d84a266 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -706,6 +706,9 @@

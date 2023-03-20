@@ -9,10 +9,10 @@ This is needed for properly verifying updates of system packages.
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/pm/PackageManagerServiceUtils.java b/services/core/java/com/android/server/pm/PackageManagerServiceUtils.java
-index 302d845e7f15..a45a42aafcf8 100644
+index 2210f7362d5c..b5f6a2e99062 100644
 --- a/services/core/java/com/android/server/pm/PackageManagerServiceUtils.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerServiceUtils.java
-@@ -155,7 +155,7 @@ public class PackageManagerServiceUtils {
+@@ -161,7 +161,7 @@ public class PackageManagerServiceUtils {
      /**
       * The initial enabled state of the cache before other checks are done.
       */
@@ -21,7 +21,7 @@ index 302d845e7f15..a45a42aafcf8 100644
  
      /**
       * Whether to skip all other checks and force the cache to be enabled.
-@@ -1297,6 +1297,7 @@ public class PackageManagerServiceUtils {
+@@ -1310,6 +1310,7 @@ public class PackageManagerServiceUtils {
              boolean isUserDebugBuild, String incrementalVersion) {
          if (!FORCE_PACKAGE_PARSED_CACHE_ENABLED) {
              if (!DEFAULT_PACKAGE_PARSER_CACHE_ENABLED) {

@@ -14,10 +14,10 @@ based on https://github.com/GrapheneOS/platform_frameworks_opt_net_wifi/commit/a
  2 files changed, 25 insertions(+), 8 deletions(-)
 
 diff --git a/libs/WifiTrackerLib/src/com/android/wifitrackerlib/StandardWifiEntry.java b/libs/WifiTrackerLib/src/com/android/wifitrackerlib/StandardWifiEntry.java
-index bdb051094..7eaade10c 100644
+index f3ce32606..0b1f3411f 100644
 --- a/libs/WifiTrackerLib/src/com/android/wifitrackerlib/StandardWifiEntry.java
 +++ b/libs/WifiTrackerLib/src/com/android/wifitrackerlib/StandardWifiEntry.java
-@@ -268,7 +268,7 @@ public class StandardWifiEntry extends WifiEntry {
+@@ -269,7 +269,7 @@ public class StandardWifiEntry extends WifiEntry {
                  return wifiInfoMac;
              }
          }
@@ -26,7 +26,7 @@ index bdb051094..7eaade10c 100644
              final String[] factoryMacs = mWifiManager.getFactoryMacAddresses();
              if (factoryMacs.length > 0) {
                  return factoryMacs[0];
-@@ -552,12 +552,18 @@ public class StandardWifiEntry extends WifiEntry {
+@@ -553,12 +553,18 @@ public class StandardWifiEntry extends WifiEntry {
      @Override
      @Privacy
      public synchronized int getPrivacy() {
@@ -50,7 +50,7 @@ index bdb051094..7eaade10c 100644
          }
      }
  
-@@ -567,11 +573,21 @@ public class StandardWifiEntry extends WifiEntry {
+@@ -568,11 +574,21 @@ public class StandardWifiEntry extends WifiEntry {
              return;
          }
  
@@ -75,10 +75,10 @@ index bdb051094..7eaade10c 100644
      public synchronized boolean isAutoJoinEnabled() {
          if (mTargetWifiConfig == null) {
 diff --git a/libs/WifiTrackerLib/src/com/android/wifitrackerlib/WifiEntry.java b/libs/WifiTrackerLib/src/com/android/wifitrackerlib/WifiEntry.java
-index f346c6179..a33f6328f 100644
+index d7120988c..d341046c0 100644
 --- a/libs/WifiTrackerLib/src/com/android/wifitrackerlib/WifiEntry.java
 +++ b/libs/WifiTrackerLib/src/com/android/wifitrackerlib/WifiEntry.java
-@@ -137,6 +137,7 @@ public class WifiEntry {
+@@ -138,6 +138,7 @@ public class WifiEntry {
      public static final int PRIVACY_DEVICE_MAC = 0;
      public static final int PRIVACY_RANDOMIZED_MAC = 1;
      public static final int PRIVACY_UNKNOWN = 2;

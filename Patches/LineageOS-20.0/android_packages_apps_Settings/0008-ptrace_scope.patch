@@ -12,7 +12,7 @@ Subject: [PATCH] add native debugging setting
  create mode 100644 src/com/android/settings/security/NativeDebugPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 59afb3e23a..22ac15ca31 100644
+index bb655e02de..28d546132c 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -747,6 +747,9 @@

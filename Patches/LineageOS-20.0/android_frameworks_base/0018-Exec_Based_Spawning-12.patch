@@ -91,10 +91,10 @@ index 4573cb2c0b59..9cc90f3ac142 100644
                      // Should not get here.
                      throw new IllegalStateException("ExecInit.execApplication unexpectedly returned");
 diff --git a/core/jni/com_android_internal_os_Zygote.cpp b/core/jni/com_android_internal_os_Zygote.cpp
-index 21bbac0b0a7d..a7e4ea1624e6 100644
+index c8b85c314aca..9800b24cdff5 100644
 --- a/core/jni/com_android_internal_os_Zygote.cpp
 +++ b/core/jni/com_android_internal_os_Zygote.cpp
-@@ -1540,6 +1540,80 @@ static void BindMountStorageDirs(JNIEnv* env, jobjectArray pkg_data_info_list,
+@@ -1721,6 +1721,80 @@ static void BindMountStorageDirs(JNIEnv* env, jobjectArray pkg_data_info_list,
    }
  }
  
@@ -175,7 +175,7 @@ index 21bbac0b0a7d..a7e4ea1624e6 100644
  // Utility routine to specialize a zygote child process.
  static void SpecializeCommon(JNIEnv* env, uid_t uid, gid_t gid, jintArray gids, jint runtime_flags,
                               jobjectArray rlimits, jlong permitted_capabilities,
-@@ -1673,74 +1747,9 @@ static void SpecializeCommon(JNIEnv* env, uid_t uid, gid_t gid, jintArray gids,
+@@ -1860,74 +1934,9 @@ static void SpecializeCommon(JNIEnv* env, uid_t uid, gid_t gid, jintArray gids,
          }
      }
  
@@ -252,7 +252,7 @@ index 21bbac0b0a7d..a7e4ea1624e6 100644
  
      SetCapabilities(permitted_capabilities, effective_capabilities, permitted_capabilities,
                      fail_fn);
-@@ -2634,6 +2643,10 @@ static void com_android_internal_os_Zygote_nativeAllowFilesOpenedByPreload(JNIEn
+@@ -2821,6 +2830,10 @@ static void com_android_internal_os_Zygote_nativeAllowFilesOpenedByPreload(JNIEn
      gPreloadFdsExtracted = true;
  }
  
@@ -263,7 +263,7 @@ index 21bbac0b0a7d..a7e4ea1624e6 100644
  static const JNINativeMethod gMethods[] = {
          {"nativeForkAndSpecialize",
           "(II[II[[IILjava/lang/String;Ljava/lang/String;[I[IZLjava/lang/String;Ljava/lang/"
-@@ -2686,6 +2699,7 @@ static const JNINativeMethod gMethods[] = {
+@@ -2873,6 +2886,7 @@ static const JNINativeMethod gMethods[] = {
           (void*)com_android_internal_os_Zygote_nativeMarkOpenedFilesBeforePreload},
          {"nativeAllowFilesOpenedByPreload", "()V",
           (void*)com_android_internal_os_Zygote_nativeAllowFilesOpenedByPreload},
