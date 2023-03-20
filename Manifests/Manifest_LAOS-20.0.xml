@@ -208,6 +208,7 @@
 	<project path="device/xiaomi/sdm845-common" name="LineageOS/android_device_xiaomi_sdm845-common" remote="github" revision="lineage-20" />
 	<project path="kernel/xiaomi/sdm845" name="LineageOS/android_kernel_xiaomi_sdm845" remote="github" revision="lineage-20" />
 
+        <!-- Proprietary Blobs -->
 	<project path="vendor/fairphone/FP3" name="[COLOUR IN THE LINES]/proprietary_vendor_fairphone_FP3" remote="github" revision="lineage-20" />
 	<project path="vendor/fairphone/FP4" name="[COLOUR IN THE LINES]/proprietary_vendor_fairphone_FP4" remote="github" revision="lineage-20" />
 	<project path="vendor/fxtec/pro1" name="[COLOUR IN THE LINES]/proprietary_vendor_fxtec_pro1" remote="github" revision="lineage-20" />
@@ -255,4 +256,5 @@
 	<project path="vendor/sony/aurora" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_aurora" remote="github" revision="lineage-20" />
 	<project path="vendor/sony/xz2c" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_xz2c" remote="github" revision="lineage-20" />
 	<project path="vendor/essential/mata" name="[COLOUR IN THE LINES]/proprietary_vendor_essential_mata" remote="github" revision="lineage-20" />
+
 </manifest>

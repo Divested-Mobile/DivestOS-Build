@@ -115,7 +115,8 @@ patchWorkspace() {
 	verifyAllPlatformTags;
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
+	repopick -i 350952; #SystemUI: Follow light/dark theme in SplitShade Header
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

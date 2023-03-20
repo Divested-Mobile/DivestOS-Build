@@ -102,7 +102,7 @@
 
          If this string is empty or the specified package does not exist, then
          the platform will search for an SMS app and use that (if there is one)-->
-    <string name="default_sms_application" translatable="false">org.smssecure.smssecure</string>
+    <string name="default_sms_application" translatable="false">com.android.messaging</string>
 
     <!-- Component name of the combo network location provider. -->
     <string name="config_comboNetworkLocationProvider" translatable="false">@null</string>
@@ -194,8 +194,8 @@
          in certain places to reduce RAM footprint.  This is ignored if ro.config.low_ram
          is true (in that case this is assumed true as well).  It can allow you to tune down
          your device's memory use without going to the point of causing applications to turn
-         off features. -->
-    <bool name="config_avoidGfxAccel">false</bool>
+         off features.
+    <bool name="config_avoidGfxAccel">false</bool> -->
 
     <!-- Enables or disables fading edges when marquee is enabled in TextView.
          Off by default, since the framebuffer readback used to implement the

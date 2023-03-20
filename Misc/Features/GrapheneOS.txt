@@ -57,6 +57,10 @@ nojit
 9  https://github.com/GrapheneOS/platform_build/commit/5b9927197e63593b9220d1a9280021252ef205e9
 9  https://github.com/GrapheneOS/platform_build/commit/e36c7aefaa78a1ed5b94c7f51d29277008eea232
 
+[implemented] doze jobscheduler fix
+13 https://github.com/GrapheneOS/platform_frameworks_base/commit/e6aebb654559376b4af70006b0098af53d90187
+12 https://github.com/GrapheneOS/platform_frameworks_base/commit/4f12bdfdda5cd0d538790c05ee784e5fb5e1e2fb
+
 [partially implemented] disable forced ntp checks
 13 https://github.com/GrapheneOS/platform_frameworks_base/commit/4c8a4469a56fad03de58996ccf719b098436f987
 12 https://github.com/GrapheneOS/platform_frameworks_base/commit/723fb336f7246585ee1595dd1bf1633528265a8b
