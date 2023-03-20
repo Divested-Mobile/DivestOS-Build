@@ -181,4 +181,14 @@
 	<project path="vendor/nxp-nfc/opensource/Nfc" name="LineageOS/android_vendor_nxp-nfc_opensource_Nfc" remote="github" />
 <!-- END OF DEVICE REPOS -->
 
+        <!-- Proprietary Blobs -->
+	<project path="vendor/asus" name="[COLOUR IN THE LINES]/proprietary_vendor_asus" remote="github" />
+	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" />
+	<project path="vendor/htc" name="[COLOUR IN THE LINES]/proprietary_vendor_htc" remote="github" />
+	<project path="vendor/lge" name="[COLOUR IN THE LINES]/proprietary_vendor_lge" remote="github" />
+	<project path="vendor/motorola" name="[COLOUR IN THE LINES]/proprietary_vendor_motorola" remote="github" />
+	<project path="vendor/samsung" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung" remote="github" />
+	<project path="vendor/ti" name="[COLOUR IN THE LINES]/proprietary_vendor_ti" remote="github" revision="master" />
+	<project path="vendor/amazon" name="[COLOUR IN THE LINES]/proprietary_vendor_amazon" remote="github" />
+
 </manifest>

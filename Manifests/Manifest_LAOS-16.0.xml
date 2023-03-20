@@ -124,4 +124,12 @@
 	<project path="kernel/cyanogen/msm8974" name="LineageOS/android_kernel_cyanogen_msm8974" remote="github" />
 <!-- END OF DEVICE REPOS -->
 
+        <!-- Proprietary Blobs -->
+	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" />
+	<project path="vendor/lge" name="[COLOUR IN THE LINES]/proprietary_vendor_lge" remote="github" />
+	<project path="vendor/samsung" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung" remote="github" />
+	<project path="vendor/wileyfox" name="[COLOUR IN THE LINES]/proprietary_vendor_wileyfox" remote="github" />
+	<project path="vendor/xiaomi" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi" remote="gitlab" revision="lineage-16.0" />
+	<project path="vendor/zuk" name="[COLOUR IN THE LINES]/proprietary_vendor_zuk" remote="github" />
+
 </manifest>

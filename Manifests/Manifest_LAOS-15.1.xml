@@ -145,4 +145,14 @@
 	<project path="kernel/zte/msm8996" name="LineageOS/android_kernel_zte_msm8996" remote="github" />
 <!-- END OF DEVICE REPOS -->
 
+        <!-- Proprietary Blobs -->
+	<project path="vendor/asus" name="[COLOUR IN THE LINES]/proprietary_vendor_asus" remote="github" />
+	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" />
+	<project path="vendor/htc" name="[COLOUR IN THE LINES]/proprietary_vendor_htc" remote="github" />
+	<project path="vendor/huawei" name="[COLOUR IN THE LINES]/proprietary_vendor_huawei" remote="github" />
+	<project path="vendor/lge" name="[COLOUR IN THE LINES]/proprietary_vendor_lge" remote="github" />
+	<project path="vendor/motorola" name="[COLOUR IN THE LINES]/proprietary_vendor_motorola" remote="github" />
+	<project path="vendor/nextbit" name="[COLOUR IN THE LINES]/proprietary_vendor_nextbit" remote="github" />
+	<project path="vendor/zte" name="[COLOUR IN THE LINES]/proprietary_vendor_zte" remote="github" />
+
 </manifest>

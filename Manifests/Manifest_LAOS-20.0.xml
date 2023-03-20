@@ -208,4 +208,51 @@
 	<project path="device/xiaomi/sdm845-common" name="LineageOS/android_device_xiaomi_sdm845-common" remote="github" revision="lineage-20" />
 	<project path="kernel/xiaomi/sdm845" name="LineageOS/android_kernel_xiaomi_sdm845" remote="github" revision="lineage-20" />
 
+	<project path="vendor/fairphone/FP3" name="[COLOUR IN THE LINES]/proprietary_vendor_fairphone_FP3" remote="github" revision="lineage-20" />
+	<project path="vendor/fairphone/FP4" name="[COLOUR IN THE LINES]/proprietary_vendor_fairphone_FP4" remote="github" revision="lineage-20" />
+	<project path="vendor/fxtec/pro1" name="[COLOUR IN THE LINES]/proprietary_vendor_fxtec_pro1" remote="github" revision="lineage-20" />
+	<project path="vendor/google/barbet" name="[COLOUR IN THE LINES]/proprietary_vendor_google_barbet" remote="github" revision="lineage-20" />
+	<project path="vendor/google/blueline" name="[COLOUR IN THE LINES]/proprietary_vendor_google_blueline" remote="github" revision="lineage-20" />
+	<project path="vendor/google/bonito" name="[COLOUR IN THE LINES]/proprietary_vendor_google_bonito" remote="github" revision="lineage-20" />
+	<project path="vendor/google/bramble" name="[COLOUR IN THE LINES]/proprietary_vendor_google_bramble" remote="github" revision="lineage-20" />
+	<project path="vendor/google/coral" name="[COLOUR IN THE LINES]/proprietary_vendor_google_coral" remote="github" revision="lineage-20" />
+	<project path="vendor/google/crosshatch" name="[COLOUR IN THE LINES]/proprietary_vendor_google_crosshatch" remote="github" revision="lineage-20" />
+	<project path="vendor/google/flame" name="[COLOUR IN THE LINES]/proprietary_vendor_google_flame" remote="github" revision="lineage-20" />
+	<project path="vendor/google/redfin" name="[COLOUR IN THE LINES]/proprietary_vendor_google_redfin" remote="github" revision="lineage-20" />
+	<project path="vendor/google/sargo" name="[COLOUR IN THE LINES]/proprietary_vendor_google_sargo" remote="github" revision="lineage-20" />
+	<project path="vendor/google/sunfish" name="[COLOUR IN THE LINES]/proprietary_vendor_google_sunfish" remote="github" revision="lineage-20" />
+	<project path="vendor/google/taimen" name="[COLOUR IN THE LINES]/proprietary_vendor_google_taimen" remote="github" revision="lineage-20" />
+	<project path="vendor/google/walleye" name="[COLOUR IN THE LINES]/proprietary_vendor_google_walleye" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/avicii" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_avicii" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/cheeseburger" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_cheeseburger" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/dumpling" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_dumpling" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/enchilada" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_enchilada" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/fajita" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_fajita" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/guacamoleb" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_guacamoleb" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/guacamole" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_guacamole" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/hotdogb" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_hotdogb" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/hotdog" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_hotdog" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/instantnoodle" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_instantnoodle" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/instantnoodlep" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_instantnoodlep" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/kebab" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_kebab" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/lemonade" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_lemonade" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/lemonadep" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_lemonadep" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/msm8998-common" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_msm8998-common" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/sdm845-common" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_sdm845-common" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/sm8150-common" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_sm8150-common" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/sm8250-common" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_sm8250-common" remote="github" revision="lineage-20" />
+	<project path="vendor/oneplus/sm8350-common" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_sm8350-common" remote="github" revision="lineage-20" />
+	<project path="vendor/razer/aura" name="[COLOUR IN THE LINES]/proprietary_vendor_razer_aura" remote="github" revision="lineage-20" />
+	<project path="vendor/xiaomi/beryllium" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_beryllium" remote="github" revision="lineage-20" />
+	<project path="vendor/xiaomi/sdm845-common" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_sdm845-common" remote="github" revision="lineage-20" />
+	<project path="vendor/google/bluejay" name="[COLOUR IN THE LINES]/proprietary_vendor_google_bluejay" remote="gitlab" revision="lineage-20" />
+	<project path="vendor/google/cheetah" name="[COLOUR IN THE LINES]/proprietary_vendor_google_cheetah" remote="gitlab" revision="lineage-20" />
+	<project path="vendor/google/oriole" name="[COLOUR IN THE LINES]/proprietary_vendor_google_oriole" remote="gitlab" revision="lineage-20" />
+	<project path="vendor/google/panther" name="[COLOUR IN THE LINES]/proprietary_vendor_google_panther" remote="gitlab" revision="lineage-20" />
+	<project path="vendor/google/raven" name="[COLOUR IN THE LINES]/proprietary_vendor_google_raven" remote="gitlab" revision="lineage-20" />
+	<project path="vendor/sony/tama-common" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_tama-common" remote="github" revision="lineage-20" />
+	<project path="vendor/sony/akari" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_akari" remote="github" revision="lineage-20" />
+	<project path="vendor/sony/aurora" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_aurora" remote="github" revision="lineage-20" />
+	<project path="vendor/sony/xz2c" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_xz2c" remote="github" revision="lineage-20" />
+	<project path="vendor/essential/mata" name="[COLOUR IN THE LINES]/proprietary_vendor_essential_mata" remote="github" revision="lineage-20" />
 </manifest>

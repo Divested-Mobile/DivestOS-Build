@@ -99,4 +99,12 @@
 	<project path="device/xiaomi/sm8150-common" name="LineageOS/android_device_xiaomi_sm8150-common" remote="github" />
 	<project path="kernel/xiaomi/sm8150" name="LineageOS/android_kernel_xiaomi_sm8150" remote="github" />
 
+        <!-- Proprietary Blobs -->
+	<project path="vendor/essential" name="[COLOUR IN THE LINES]/proprietary_vendor_essential" remote="github" />
+	<project path="vendor/fairphone" name="[COLOUR IN THE LINES]/proprietary_vendor_fairphone" remote="github" />
+	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" />
+	<project path="vendor/razer" name="[COLOUR IN THE LINES]/proprietary_vendor_razer" remote="github" />
+	<project path="vendor/sony" name="[COLOUR IN THE LINES]/proprietary_vendor_sony" remote="github" />
+	<project path="vendor/xiaomi" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi" remote="gitlab" revision="lineage-19.1" />
+
 </manifest>
