@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Michael Wright <michaelwr@google.com>
+Date: Mon, 26 Sep 2022 20:37:33 +0100
+Subject: [PATCH] Reconcile WorkSource parcel and unparcel code.
+
+Prior to this CL, WorkSources would Parcel their list of WorkChains as
+-1 if null, or the size of the list followed by the list itself if
+non-null. When reading it back in, on the other hand, they would check
+if the size was positive, and only then read the list from the Parcel.
+This works for all cases except when the WorkSource has an empty but
+non-null list of WorkChains as the list would get written to the parcel,
+but then never read on the other side.
+
+If parceling a list was a no-op when empty this wouldn't be an issue,
+but it must write at least its size into the parcel to know how many
+elements to extract. In the empty list case, this single element is left
+unread as the size is not positive which essentially corrupts any future
+items read from that same parcelable.
+
+Bug: 220302519
+Test: atest android.security.cts.WorkSourceTest#testWorkChainParceling
+Change-Id: I2fec40dfced420ca38e717059b0e95ee8ef9946a
+(cherry picked from commit 266b3bddcf14d448c0972db64b42950f76c759e3)
+Merged-In: I2fec40dfced420ca38e717059b0e95ee8ef9946a
+---
+ core/java/android/os/WorkSource.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/java/android/os/WorkSource.java b/core/java/android/os/WorkSource.java
+index 0b4a56121038..4e7a280aa2c1 100644
+--- a/core/java/android/os/WorkSource.java
++++ b/core/java/android/os/WorkSource.java
+@@ -114,7 +114,7 @@ public class WorkSource implements Parcelable {
+         mNames = in.createStringArray();
+ 
+         int numChains = in.readInt();
+-        if (numChains > 0) {
++        if (numChains >= 0) {
+             mChains = new ArrayList<>(numChains);
+             in.readParcelableList(mChains, WorkChain.class.getClassLoader());
+         } else {

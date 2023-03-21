@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alex Johnston <acjohnston@google.com>
+Date: Tue, 5 Oct 2021 11:44:37 +0000
+Subject: [PATCH] Stop managed profile owner granting READ_SMS
+
+Reason: There is only one telephony stack shared
+between the personal and work profile.
+
+Bug: 194382185
+Bug: 189942529
+Test: build
+Change-Id: If0d27a317a7c0ee46af371b30208327e5636c7cf
+(cherry picked from commit 87f37319bf7ee22c6e7c29432b6c9bbce0fdb591)
+Merged-In: If0d27a317a7c0ee46af371b30208327e5636c7cf
+---
+ core/java/android/app/admin/DevicePolicyManager.java | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/core/java/android/app/admin/DevicePolicyManager.java b/core/java/android/app/admin/DevicePolicyManager.java
+index 08e6ff318fbc..5e263b0d05b6 100644
+--- a/core/java/android/app/admin/DevicePolicyManager.java
++++ b/core/java/android/app/admin/DevicePolicyManager.java
+@@ -8836,6 +8836,15 @@ public class DevicePolicyManager {
+      * {@link android.os.Build.VERSION_CODES#M} the app-op matching the permission is set to
+      * {@link android.app.AppOpsManager#MODE_IGNORED}, but the permission stays granted.
+      *
++     * Control over the following permissions are restricted for managed profile owners:
++     * <ul>
++     *  <li>Manifest.permission.READ_SMS</li>
++     * </ul>
++     * <p>
++     * A managed profile owner may not grant these permissions (i.e. call this method with any of
++     * the permissions listed above and {@code grantState} of
++     * {@code #PERMISSION_GRANT_STATE_GRANTED}), but may deny them.
++     *
+      * @param admin Which profile or device owner this request is associated with.
+      * @param packageName The application to grant or revoke a permission to.
+      * @param permission The permission to grant or revoke.

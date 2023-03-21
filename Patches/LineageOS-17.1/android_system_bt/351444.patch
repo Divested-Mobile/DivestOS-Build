@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hui Peng <phui@google.com>
+Date: Mon, 2 Jan 2023 22:05:45 +0000
+Subject: [PATCH] Fix an OOB access bug in A2DP_BuildMediaPayloadHeaderSbc
+
+In  A2DP_BuildCodecHeaderSbc when p_buf->offset is 0, the
+`-=` operation on it may result in integer underflow and
+OOB write with the computed pointer passed to
+A2DP_BuildMediaPayloadHeaderSbc.
+
+This is a backport of I45320085b1e458d3b0e0d86162a35aaaae7b34cb
+Test: atest net_test_stack_a2dp_codecs_native
+Ignore-AOSP-First: security
+Tag:#security
+
+Bug: 186803518
+Change-Id: I4ff1a1de71884b8de23008b2569fdea3650e85ec
+(cherry picked from commit a710300216be4a86373a65c6a685aeef8509cfa7)
+Merged-In: I4ff1a1de71884b8de23008b2569fdea3650e85ec
+---
+ stack/a2dp/a2dp_sbc.cc | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/stack/a2dp/a2dp_sbc.cc b/stack/a2dp/a2dp_sbc.cc
+index 4c48993c4..5036eec2e 100644
+--- a/stack/a2dp/a2dp_sbc.cc
++++ b/stack/a2dp/a2dp_sbc.cc
+@@ -704,6 +704,11 @@ bool A2DP_BuildCodecHeaderSbc(UNUSED_ATTR const uint8_t* p_codec_info,
+                               BT_HDR* p_buf, uint16_t frames_per_packet) {
+   uint8_t* p;
+ 
++  // there is a timestamp right following p_buf
++  if (p_buf->offset < 4 + A2DP_SBC_MPL_HDR_LEN) {
++    return false;
++  }
++
+   p_buf->offset -= A2DP_SBC_MPL_HDR_LEN;
+   p = (uint8_t*)(p_buf + 1) + p_buf->offset;
+   p_buf->len += A2DP_SBC_MPL_HDR_LEN;

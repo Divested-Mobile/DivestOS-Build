@@ -1,0 +1,100 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Rocky Liao <quic_rjliao@quicinc.com>
+Date: Mon, 19 Sep 2022 17:39:42 +0800
+Subject: [PATCH] AVRCP: Fix potential buffer overflow
+
+There will be buffer overflow if remote response exceeds
+AVRC_MAX_APP_ATTR_SIZE, add array index check to avoid
+buffer overflow issue.
+
+CRs-fixed: 3278869
+Change-Id: Ia93690e0dc4b28fd01af3a406678d43d426d3be8
+---
+ btif/src/btif_rc.cc | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
+
+diff --git a/btif/src/btif_rc.cc b/btif/src/btif_rc.cc
+index 0b34f7c36..a0e38998f 100644
+--- a/btif/src/btif_rc.cc
++++ b/btif/src/btif_rc.cc
+@@ -5067,13 +5067,13 @@ static void handle_app_attr_txt_response(tBTA_AV_META_MSG* pmeta_msg,
+      * for standard attributes.
+      */
+     p_app_settings->num_ext_attrs = 0;
+-    for (xx = 0; xx < p_app_settings->ext_attr_index; xx++) {
++    for (xx = 0; xx < p_app_settings->ext_attr_index && xx < AVRC_MAX_APP_ATTR_SIZE; xx++) {
+       osi_free_and_reset((void**)&p_app_settings->ext_attrs[xx].p_str);
+     }
+     p_app_settings->ext_attr_index = 0;
+ 
+     if (p_dev) {
+-      for (xx = 0; xx < p_app_settings->num_attrs; xx++) {
++      for (xx = 0; xx < p_app_settings->num_attrs && xx < AVRC_MAX_APP_ATTR_SIZE; xx++) {
+         attrs[xx] = p_app_settings->attrs[xx].attr_id;
+       }
+ 
+@@ -5086,7 +5086,7 @@ static void handle_app_attr_txt_response(tBTA_AV_META_MSG* pmeta_msg,
+ 
+   for (xx = 0; xx < p_rsp->num_attr; xx++) {
+     uint8_t x;
+-    for (x = 0; x < p_app_settings->num_ext_attrs; x++) {
++    for (x = 0; x < p_app_settings->num_ext_attrs && x < AVRC_MAX_APP_ATTR_SIZE; x++) {
+       if (p_app_settings->ext_attrs[x].attr_id == p_rsp->p_attrs[xx].attr_id) {
+         p_app_settings->ext_attrs[x].charset_id = p_rsp->p_attrs[xx].charset_id;
+         p_app_settings->ext_attrs[x].str_len = p_rsp->p_attrs[xx].str_len;
+@@ -5096,7 +5096,7 @@ static void handle_app_attr_txt_response(tBTA_AV_META_MSG* pmeta_msg,
+     }
+   }
+ 
+-  for (xx = 0; xx < p_app_settings->ext_attrs[0].num_val; xx++) {
++  for (xx = 0; xx < p_app_settings->ext_attrs[0].num_val && xx < BTRC_MAX_APP_ATTR_SIZE; xx++) {
+     vals[xx] = p_app_settings->ext_attrs[0].ext_attr_val[xx].val;
+   }
+   get_player_app_setting_value_text_cmd(vals, xx, p_dev);
+@@ -5141,11 +5141,11 @@ static void handle_app_attr_val_txt_response(
+      * for standard attributes.
+      */
+     p_app_settings->num_ext_attrs = 0;
+-    for (xx = 0; xx < p_app_settings->ext_attr_index; xx++) {
++    for (xx = 0; xx < p_app_settings->ext_attr_index && xx < AVRC_MAX_APP_ATTR_SIZE; xx++) {
+       int x;
+       btrc_player_app_ext_attr_t* p_ext_attr = &p_app_settings->ext_attrs[xx];
+ 
+-      for (x = 0; x < p_ext_attr->num_val; x++)
++      for (x = 0; x < p_ext_attr->num_val && x < BTRC_MAX_APP_ATTR_SIZE; x++)
+         osi_free_and_reset((void**)&p_ext_attr->ext_attr_val[x].p_str);
+       p_ext_attr->num_val = 0;
+       osi_free_and_reset((void**)&p_app_settings->ext_attrs[xx].p_str);
+@@ -5162,11 +5162,17 @@ static void handle_app_attr_val_txt_response(
+     return;
+   }
+ 
++  if (p_app_settings->ext_val_index >= AVRC_MAX_APP_ATTR_SIZE) {
++    BTIF_TRACE_ERROR("%s: ext_val_index is 0x%02x, overflow!",
++                     __func__, p_app_settings->ext_val_index);
++    return;
++  }
++
+   for (xx = 0; xx < p_rsp->num_attr; xx++) {
+     uint8_t x;
+     btrc_player_app_ext_attr_t* p_ext_attr;
+     p_ext_attr = &p_app_settings->ext_attrs[p_app_settings->ext_val_index];
+-    for (x = 0; x < p_rsp->num_attr; x++) {
++    for (x = 0; x < p_rsp->num_attr && x < BTRC_MAX_APP_ATTR_SIZE; x++) {
+       if (p_ext_attr->ext_attr_val[x].val == p_rsp->p_attrs[xx].attr_id) {
+         p_ext_attr->ext_attr_val[x].charset_id = p_rsp->p_attrs[xx].charset_id;
+         p_ext_attr->ext_attr_val[x].str_len = p_rsp->p_attrs[xx].str_len;
+@@ -5204,11 +5210,11 @@ static void handle_app_attr_val_txt_response(
+     /* Free the application settings information after sending to
+      * application.
+      */
+-    for (xx = 0; xx < p_app_settings->ext_attr_index; xx++) {
++    for (xx = 0; xx < p_app_settings->ext_attr_index && xx < AVRC_MAX_APP_ATTR_SIZE; xx++) {
+       int x;
+       btrc_player_app_ext_attr_t* p_ext_attr = &p_app_settings->ext_attrs[xx];
+ 
+-      for (x = 0; x < p_ext_attr->num_val; x++)
++      for (x = 0; x < p_ext_attr->num_val && x < BTRC_MAX_APP_ATTR_SIZE; x++)
+         osi_free_and_reset((void**)&p_ext_attr->ext_attr_val[x].p_str);
+       p_ext_attr->num_val = 0;
+       osi_free_and_reset((void**)&p_app_settings->ext_attrs[xx].p_str);
