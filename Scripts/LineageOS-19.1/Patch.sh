@@ -125,10 +125,6 @@ sed -i '/LOCAL_MODULE/s/Camera/SecureCamera/' Android.mk; #Change module name
 sed -i '11iLOCAL_OVERRIDES_PACKAGES := Camera Camera2 LegacyCamera Snap OpenCamera' Android.mk; #Replace the others
 fi;
 
-if enterAndClear "external/zlib"; then
-git fetch https://github.com/LineageOS/android_external_zlib refs/changes/79/351379/1 && git cherry-pick FETCH_HEAD; #S_asb_2023-03
-fi;
-
 if enterAndClear "frameworks/base"; then
 applyPatch "$DOS_PATCHES/android_frameworks_base/344888-backport.patch"; #fixup! fw/b: Add support for allowing/disallowing apps on cellular, vpn and wifi networks (CalyxOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)

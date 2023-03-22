@@ -276,7 +276,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|SCONE.apk"; #???
 	blobs=$blobs"|DevicePersonalizationPrebuilt.*.apk|DeviceIntelligence.*.apk";
 	blobs=$blobs"|libhwinfo.jar|com.google.android.hardwareinfo.xml";
-	overlay=$overlay"|config_defaultAttentionService|config_defaultSystemCaptionsManagerService|config_defaultSystemCaptionsService|config_systemAmbientAudioIntelligence|config_systemAudioIntelligence|config_systemNotificationIntelligence|config_systemTextIntelligence|config_systemUiIntelligence|config_systemVisualIntelligence|config_defaultContentSuggestionsService";
+	overlay=$overlay"|config_defaultAttentionService|config_defaultSystemCaptionsManagerService|config_defaultSystemCaptionsService|config_systemAmbientAudioIntelligence|config_systemAudioIntelligence|config_systemNotificationIntelligence|config_systemTextIntelligence|config_systemUiIntelligence|config_systemVisualIntelligence|config_defaultContentSuggestionsService|config_defaultAppPredictionService";
 	overlay=$overlay"|config_defaultWellbeingPackage|config_defaultSupervisionProfileOwnerComponent";
 	overlay=$overlay"|platform_carrier_config_package";
 

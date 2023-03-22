@@ -53,10 +53,10 @@ buildAll() {
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#frontloaded for testing
-	buildDevice bluejay avb; #unb
+	buildDevice bluejay avb;
 	#SD835
-	buildDevice taimen avb; #unb
-	buildDevice walleye avb; #unb
+	buildDevice taimen avb;
+	buildDevice walleye avb;
 	buildDevice cheeseburger verity;
 	buildDevice dumpling verity;
 	buildDevice mata verity; #unb
@@ -100,10 +100,10 @@ buildAll() {
 	buildDevice bonito avb; #unb
 	buildDevice sargo avb; #unb
 	#Tensor
-	buildDevice oriole avb; #unb
-	buildDevice raven avb; #unb
-	buildDevice panther avb; #unb
-	buildDevice cheetah avb; #unb
+	buildDevice oriole avb;
+	buildDevice raven avb;
+	buildDevice panther avb;
+	buildDevice cheetah avb;
 }
 export -f buildAll;
 
