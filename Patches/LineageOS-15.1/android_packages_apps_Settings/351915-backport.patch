@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Yanting Yang <yantingyang@google.com>
+Date: Wed, 4 Jan 2023 09:40:38 +0000
+Subject: [PATCH] Add DISALLOW_APPS_CONTROL check into uninstall app for all
+ users
+
+Settings App info page supports a "Uninstall for all users" function
+when multiple users are enabled. It bypasses the restriction of
+DISALLOW_APPS_CONTROL which breaks the user isolation guideline.
+
+To fix this vulnerability, we should check the DISALLOW_APPS_CONTROL
+restriction to provide the "Uninstall for all users" function.
+
+Bug: 258653813
+Test: manual & robotests
+Change-Id: I5d3bbcbaac439c4f7a1e6a9ade7775ff4f2f2ec6
+Merged-In: I5d3bbcbaac439c4f7a1e6a9ade7775ff4f2f2ec6
+(cherry picked from commit 86914bedc84474c152e4536fb3cfa2fb488030b8)
+Merged-In: I5d3bbcbaac439c4f7a1e6a9ade7775ff4f2f2ec6
+---
+ .../settings/applications/InstalledAppDetails.java        | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/settings/applications/InstalledAppDetails.java b/src/com/android/settings/applications/InstalledAppDetails.java
+index 8bdbffca9b..9ffbc25ce2 100755
+--- a/src/com/android/settings/applications/InstalledAppDetails.java
++++ b/src/com/android/settings/applications/InstalledAppDetails.java
+@@ -522,7 +522,13 @@ public class InstalledAppDetails extends AppInfoBase
+         if (mFinishing) {
+             return;
+         }
+-        menu.findItem(UNINSTALL_ALL_USERS_MENU).setVisible(shouldShowUninstallForAll(mAppEntry));
++        final MenuItem uninstallAllUsersItem = menu.findItem(UNINSTALL_ALL_USERS_MENU);
++        uninstallAllUsersItem.setVisible(
++                shouldShowUninstallForAll(mAppEntry) && !mAppsControlDisallowedBySystem);
++        if (uninstallAllUsersItem.isVisible()) {
++            RestrictedLockUtils.setMenuItemAsDisabledByAdmin(getActivity(),
++                    uninstallAllUsersItem, mAppsControlDisallowedAdmin);
++        }
+         mUpdatedSysApp = (mAppEntry.info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0;
+         MenuItem uninstallUpdatesItem = menu.findItem(UNINSTALL_UPDATES);
+         uninstallUpdatesItem.setVisible(mUpdatedSysApp && !mAppsControlDisallowedBySystem);
