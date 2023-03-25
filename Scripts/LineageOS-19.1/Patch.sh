@@ -432,15 +432,6 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
-if enterAndClear "device/essential/mata"; then
-echo "allow permissioncontroller_app tethering_service:service_manager find;" > sepolicy/private/permissioncontroller_app.te;
-echo "lineage.updater.allow_major_update=true" >> system.prop; #mata has semi-broken recovery, allow major updates via Updater
-fi;
-
-if enterAndClear "kernel/fairphone/sdm632"; then
-sed -i 's|/../../prebuilts/tools-lineage|/../../../prebuilts/tools-lineage|' lib/Makefile; #fixup typo
-fi;
-
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
 find "hardware/qcom/gps" -name "gps\.conf" -type f -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenLocationConf "{}"';
@@ -467,7 +458,7 @@ cd "$DOS_BUILD_BASE";
 #enableLowRam "device/sony/pioneer" "pioneer";
 
 #Fix broken options enabled by hardenDefconfig()
-[[ -d kernel/fairphone/sdm632 ]] && sed -i "s/CONFIG_PREEMPT_TRACER=n/CONFIG_PREEMPT_TRACER=y/" kernel/fairphone/sdm632/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
+#none yet
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l* || true; #Fix builds with GCC 10
 rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk || true;

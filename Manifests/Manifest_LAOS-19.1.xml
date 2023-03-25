@@ -61,14 +61,6 @@
 	<project path="hardware/sony/SonyOpenTelephony" name="LineageOS/android_hardware_sony_SonyOpenTelephony" remote="github" />
 	<project path="packages/apps/ElmyraService" name="LineageOS/android_packages_apps_ElmyraService" remote="github" />
 
-	<!-- Essential PH-1 (mata) -->
-	<project path="device/essential/mata" name="LineageOS/android_device_essential_mata" remote="github" />
-	<project path="kernel/essential/msm8998" name="LineageOS/android_kernel_essential_msm8998" remote="github" />
-
-	<!-- Fairphone 3 (FP3) -->
-	<project path="device/fairphone/FP3" name="LineageOS/android_device_fairphone_FP3" remote="github" />
-	<project path="kernel/fairphone/sdm632" name="LineageOS/android_kernel_fairphone_sdm632" remote="github" />
-
 	<!-- Razer Phone (cheryl) -->
 	<project path="device/razer/cheryl" name="LineageOS/android_device_razer_cheryl" remote="github" />
 	<project path="kernel/razer/msm8998" name="LineageOS/android_kernel_razer_msm8998" remote="github" />
@@ -100,8 +92,6 @@
 	<project path="kernel/xiaomi/sm8150" name="LineageOS/android_kernel_xiaomi_sm8150" remote="github" />
 
         <!-- Proprietary Blobs -->
-	<project path="vendor/essential" name="[COLOUR IN THE LINES]/proprietary_vendor_essential" remote="github" />
-	<project path="vendor/fairphone" name="[COLOUR IN THE LINES]/proprietary_vendor_fairphone" remote="github" />
 	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" />
 	<project path="vendor/razer" name="[COLOUR IN THE LINES]/proprietary_vendor_razer" remote="github" />
 	<project path="vendor/sony" name="[COLOUR IN THE LINES]/proprietary_vendor_sony" remote="github" />

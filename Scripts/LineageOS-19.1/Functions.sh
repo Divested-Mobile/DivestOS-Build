@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2022-04-04
 
 patchAllKernels() {
-	startPatcher "kernel_essential_msm8998 kernel_fairphone_sdm632 kernel_razer_msm8998 kernel_sony_sdm660 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250";
+	startPatcher "kernel_razer_msm8998 kernel_sony_sdm660 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250";
 }
 export -f patchAllKernels;
 
@@ -58,9 +58,6 @@ buildAll() {
 	buildDevice discovery;
 	#SD835
 	buildDevice cheryl verity;
-	#buildDevice mata verity; #superseded
-	#SD632
-	buildDevice FP3 avb;
 	#SD855
 	buildDevice vayu avb;
 	#SD865
@@ -78,10 +75,9 @@ patchWorkspace() {
 	verifyAllPlatformTags;
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-	source build/envsetup.sh;
+	#source build/envsetup.sh;
 	#repopick -ift twelve-bt-sbc-hd-dualchannel;
 	#repopick -it twelve-colors;
-	repopick -if 330099; #Updater: Add prop for allowing major updates
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

@@ -104,13 +104,9 @@
 
 	<!-- OnePlus 2 (oneplus2) -->
 	<project path="device/oppo/common" name="LineageOS/android_device_oppo_common" remote="github" />
+	<project path="device/oneplus/common" name="LineageOS/android_device_oneplus_common" remote="github" />
 	<project path="device/oneplus/oneplus2" name="LineageOS/android_device_oneplus_oneplus2" remote="github" />
 	<project path="kernel/oneplus/msm8994" name="LineageOS/android_kernel_oneplus_msm8994" remote="github" />
-
-	<!-- OnePlus Nord (avicii) -->
-	<project path="device/oneplus/common" name="LineageOS/android_device_oneplus_common" remote="github" />
-	<project path="device/oneplus/avicii" name="LineageOS/android_device_oneplus_avicii" remote="github" />
-	<project path="kernel/oneplus/sm7250" name="LineageOS/android_kernel_oneplus_sm7250" remote="github" />
 
 	<!-- Samsung Galaxy S9 (starlte) -->
 	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
