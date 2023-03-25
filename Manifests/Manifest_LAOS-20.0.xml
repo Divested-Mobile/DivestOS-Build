@@ -187,6 +187,10 @@
 	<!-- OnePlus 9 (lemonade) -->
 	<project path="device/oneplus/lemonade" name="LineageOS/android_device_oneplus_lemonade" remote="github" revision="lineage-20" />
 
+	<!-- Razer Phone (cheryl) -->
+	<project path="device/razer/cheryl" name="LineageOS/android_device_razer_cheryl" remote="github" revision="lineage-20" />
+	<project path="kernel/razer/msm8998" name="LineageOS/android_kernel_razer_msm8998" remote="github" revision="lineage-20" />
+
 	<!-- Razer Phone 2 (aura) -->
 	<project path="device/razer/aura" name="LineageOS/android_device_razer_aura" remote="github" revision="lineage-20" />
 	<project path="kernel/razer/sdm845" name="LineageOS/android_kernel_razer_sdm845" remote="github" revision="lineage-20" />
@@ -244,6 +248,7 @@
 	<project path="vendor/oneplus/sm8250-common" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_sm8250-common" remote="github" revision="lineage-20" />
 	<project path="vendor/oneplus/sm8350-common" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_sm8350-common" remote="github" revision="lineage-20" />
 	<project path="vendor/razer/aura" name="[COLOUR IN THE LINES]/proprietary_vendor_razer_aura" remote="github" revision="lineage-20" />
+	<project path="vendor/razer/cheryl" name="[COLOUR IN THE LINES]/proprietary_vendor_razer_cheryl" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/beryllium" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_beryllium" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/sdm845-common" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_sdm845-common" remote="github" revision="lineage-20" />
 	<project path="vendor/google/bluejay" name="[COLOUR IN THE LINES]/proprietary_vendor_google_bluejay" remote="gitlab" revision="lineage-20" />
