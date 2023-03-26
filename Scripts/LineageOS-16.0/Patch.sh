@@ -186,7 +186,7 @@ sed -i 's/return 16;/return 64;/' core/java/android/app/admin/DevicePolicyManage
 sed -i 's/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 72 \* 60 \* 60 \* 1000;/DEFAULT_STRONG_AUTH_TIMEOUT_MS = 12 * 60 * 60 * 1000;/' core/java/android/app/admin/DevicePolicyManager.java; #Decrease the strong auth prompt timeout to occur more often
 hardenLocationFWB "$DOS_BUILD_BASE"; #Harden the default GPS config
 sed -i '301i\        if(packageList != null && packageList.length() > 0) { packageList += ","; } packageList += "net.sourceforge.opencamera";' core/java/android/hardware/Camera.java; #Add Open Camera to aux camera allowlist
-rm -rf packages/CompanionDeviceManager; #Used to support Android Wear (which hard depends on GMS)
+#rm -rf packages/CompanionDeviceManager; #Used to support Android Wear (which hard depends on GMS)
 rm -rf packages/PrintRecommendationService; #Creates popups to install proprietary print apps
 fi;
 
