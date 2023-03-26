@@ -61,10 +61,6 @@
 	<project path="hardware/sony/SonyOpenTelephony" name="LineageOS/android_hardware_sony_SonyOpenTelephony" remote="github" />
 	<project path="packages/apps/ElmyraService" name="LineageOS/android_packages_apps_ElmyraService" remote="github" />
 
-	<!-- Razer Phone (cheryl) -->
-	<project path="device/razer/cheryl" name="LineageOS/android_device_razer_cheryl" remote="github" />
-	<project path="kernel/razer/msm8998" name="LineageOS/android_kernel_razer_msm8998" remote="github" />
-
 	<!-- Sony Xperia XA2 (pioneer) -->
 	<project path="device/sony/pioneer" name="LineageOS/android_device_sony_pioneer" remote="github" />
 	<project path="device/sony/nile-common" name="LineageOS/android_device_sony_nile-common" remote="github" />
@@ -93,7 +89,6 @@
 
         <!-- Proprietary Blobs -->
 	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" />
-	<project path="vendor/razer" name="[COLOUR IN THE LINES]/proprietary_vendor_razer" remote="github" />
 	<project path="vendor/sony" name="[COLOUR IN THE LINES]/proprietary_vendor_sony" remote="github" />
 	<project path="vendor/xiaomi" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi" remote="gitlab" revision="lineage-19.1" />
 

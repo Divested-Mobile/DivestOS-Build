@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2022-04-04
 
 patchAllKernels() {
-	startPatcher "kernel_razer_msm8998 kernel_sony_sdm660 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250";
+	startPatcher "kernel_sony_sdm660 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250";
 }
 export -f patchAllKernels;
 
@@ -56,8 +56,6 @@ buildAll() {
 	buildDevice pioneer;
 	buildDevice voyager;
 	buildDevice discovery;
-	#SD835
-	buildDevice cheryl verity;
 	#SD855
 	buildDevice vayu avb;
 	#SD865
