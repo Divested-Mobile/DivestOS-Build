@@ -182,6 +182,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/346950.patch"; #n-asb-2023-01 T
 applyPatch "$DOS_PATCHES/android_frameworks_base/346951.patch"; #n-asb-2023-01 Fix conditionId string trimming in AutomaticZenRule
 applyPatch "$DOS_PATCHES/android_frameworks_base/348650.patch"; #n-asb-2023-02 Correct the behavior of ACTION_PACKAGE_DATA_CLEARED
 applyPatch "$DOS_PATCHES/android_frameworks_base/348651.patch"; #n-asb-2023-02 Convert argument to intent in ChooseTypeAndAccountActivity
+applyPatch "$DOS_PATCHES/android_frameworks_base/352086.patch"; #n-asb-2023-03 Revoke dev perm if app is upgrading to post 23 and perm has pre23 flag
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)

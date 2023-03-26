@@ -173,6 +173,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/347049-backport.patch"; #P_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/347051-backport.patch"; #P_asb_2023-01 Add protections agains use-after-free issues if cancel() or queue() is called after a device connection has been closed.
 applyPatch "$DOS_PATCHES/android_frameworks_base/349330.patch"; #P_asb_2023-02 Correct the behavior of ACTION_PACKAGE_DATA_CLEARED
 applyPatch "$DOS_PATCHES/android_frameworks_base/349331.patch"; #P_asb_2023-02 Convert argument to intent in ChooseTypeAndAccountActivity
+applyPatch "$DOS_PATCHES/android_frameworks_base/352086.patch"; #n-asb-2023-03 Revoke dev perm if app is upgrading to post 23 and perm has pre23 flag
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after three failed attempts (GrapheneOS)

@@ -1,0 +1,34 @@
+From 5d17459a966adff163bad35c2bd07168767110dc Mon Sep 17 00:00:00 2001
+From: Nate Myren <ntmyren@google.com>
+Date: Fri, 2 Dec 2022 09:44:31 -0800
+Subject: [PATCH] RESTRICT AUTOMERGE Revoke dev perm if app is upgrading to
+ post 23 and perm has pre23 flag
+
+If a permission has the "pre23" flag, and an app is upgrading past api
+23, then we should not assume that a "development" permission remains
+granted
+
+Fixes: 259458532
+Test: atest RevokeSawPermissionTest
+Change-Id: I214396f455c5ed9e8bac2e50b1525b86475c81c7
+(cherry picked from commit 2f30a63b11e59f9daf42f51eb85aa91c86f4baf4)
+Merged-In: I214396f455c5ed9e8bac2e50b1525b86475c81c7
+---
+ .../java/com/android/server/pm/PackageManagerService.java     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index 915c40e5400e8..ebacb3c2c8950 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -10573,8 +10573,8 @@ && isSystemApp(pkg)) {
+                 // Any pre-installed system app is allowed to get this permission.
+                 allowed = true;
+             }
+-            if (!allowed && (bp.protectionLevel
+-                    & PermissionInfo.PROTECTION_FLAG_DEVELOPMENT) != 0) {
++            if (!allowed && (bp.protectionLevel & PermissionInfo.PROTECTION_FLAG_DEVELOPMENT) != 0
++                && (bp.protectionLevel & PermissionInfo.PROTECTION_FLAG_PRE23) == 0) {
+                 // For development permissions, a development permission
+                 // is granted only if it was already granted.
+                 allowed = origPermissions.hasInstallPermission(perm);
