@@ -143,6 +143,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/351413-backport.patch"; #R_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/351414-backport.patch"; #R_asb_2023-03 Revoke dev perm if app is upgrading to post 23 and perm has pre23 flag #XXX
 applyPatch "$DOS_PATCHES/android_frameworks_base/351415.patch"; #R_asb_2023-03 Reconcile WorkSource parcel and unparcel code.
 applyPatch "$DOS_PATCHES/android_frameworks_base/351436.patch"; #R_asb_2023-03 Revert "Ensure that only SysUI can override pending intent launch flags"
+applyPatch "$DOS_PATCHES/android_frameworks_base/352555.patch"; #Q_asb_2023-03 Revert "[RESTRICT AUTOMERGE] Trim the activity info of another uid if no privilege"
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
