@@ -1,0 +1,29 @@
+From 38a5ca05e940687863d014518fa2cc87ed49aff6 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Sun, 26 Mar 2023 20:42:17 +0300
+Subject: [PATCH] don't crash apps that depend on missing Gservices provider
+
+This allows apps that have minor dependency on GSF/GmsCore (EuiccSupportPixel, Google Camera etc)
+to work without having any of GSF, GmsCore, Play Store installed.
+
+Gservices provider is currently hosted by GSF, soon to be hosted by GmsCore.
+---
+ core/java/android/content/ContentResolver.java | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/core/java/android/content/ContentResolver.java b/core/java/android/content/ContentResolver.java
+index c3fecd347fea..20797f32ffe5 100644
+--- a/core/java/android/content/ContentResolver.java
++++ b/core/java/android/content/ContentResolver.java
+@@ -2755,6 +2755,11 @@ public final void registerContentObserver(Uri uri, boolean notifyForDescendents,
+                     observer.getContentObserver(), userHandle, mTargetSdkVersion);
+         } catch (RemoteException e) {
+             throw e.rethrowFromSystemServer();
++        } catch (SecurityException se) {
++            if ("com.google.android.gsf.gservices".equals(uri.getAuthority())) {
++                return;
++            }
++            throw se;
+         }
+     }
+ 
