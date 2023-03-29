@@ -354,6 +354,7 @@ applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0006-Location_Indic
 fi;
 
 if enterAndClear "packages/modules/Wifi"; then
+applyPatch "$DOS_PATCHES/android_packages_modules_Wifi/344228.patch"; #wifi: resurrect mWifiLinkLayerStatsSupported counter (sassmann)
 applyPatch "$DOS_PATCHES/android_packages_modules_Wifi/0001-Random_MAC.patch"; #Add support for always generating new random MAC (GrapheneOS)
 fi;
 
