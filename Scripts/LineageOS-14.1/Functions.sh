@@ -34,7 +34,7 @@ buildDevice() {
 	cd "$DOS_BUILD_BASE";
 	export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
 	pkill java && sleep 10; #XXX: ugly hack
-	breakfast "lineage_$1-user" && mka target-files-package otatools && processRelease $1 true $2;
+	breakfast "lineage_$1-user" && mka -j${DOS_MAX_THREADS_BUILD} target-files-package otatools && processRelease $1 true $2;
 	pkill java && sleep 10; #XXX: ugly hack
 }
 export -f buildDevice;
@@ -43,7 +43,7 @@ buildDeviceUserDebug() {
 	cd "$DOS_BUILD_BASE";
 	if [[ -d "$DOS_SIGNING_KEYS/$1" ]]; then
 		export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
-		breakfast "lineage_$1-userdebug" && mka target-files-package otatools && processRelease $1 true $2;
+		breakfast "lineage_$1-userdebug" && mka -j${DOS_MAX_THREADS_BUILD} target-files-package otatools && processRelease $1 true $2;
 	else
 		echo -e "\e[0;31mNo signing keys available for $1\e[0m";
 	fi;

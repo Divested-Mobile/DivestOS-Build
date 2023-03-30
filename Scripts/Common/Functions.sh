@@ -23,7 +23,7 @@ export -f startPatcher;
 
 resetWorkspace() {
 	umask 0022;
-	repo forall -c 'git add -A && git reset --hard' && rm -rf out DOS_PATCHED_FLAG && repo sync -j8 --force-sync --detach;
+	repo forall -j${DOS_MAX_THREADS_REPO} -c 'git add -A && git reset --hard' && rm -rf out DOS_PATCHED_FLAG && repo sync -j${DOS_MAX_THREADS_REPO} --force-sync --detach;
 }
 export -f resetWorkspace;
 
@@ -33,7 +33,7 @@ patchWorkspace() {
 export -f patchWorkspace;
 
 verifyAllPlatformTags() {
-	repo forall -v -c 'sh -c "source $DOS_WORKSPACE_ROOT/Scripts/Common/Tag_Verifier.sh && verifyTagIfPlatform $REPO_PROJECT $REPO_PATH"';
+	repo forall -j${DOS_MAX_THREADS_REPO} -v -c 'sh -c "source $DOS_WORKSPACE_ROOT/Scripts/Common/Tag_Verifier.sh && verifyTagIfPlatform $REPO_PROJECT $REPO_PATH"';
 }
 export -f verifyAllPlatformTags;
 

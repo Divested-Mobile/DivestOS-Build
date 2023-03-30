@@ -21,6 +21,8 @@
 #START OF USER CONFIGURABLE OPTIONS
 #
 #General
+#export DOS_MAX_THREADS_REPO=8; #Max amount of threads used for sync, e.g. used by repo (shouldn't exceed your CPU cores count, due to rate limit restrictions this cannot be set higher then 8)
+#export DOS_MAX_THREADS_BUILD="nolimit"; #Max amount of threads used for build, e.g. used by make (shouldn't exceed your CPU cores count)
 export DOS_WORKSPACE_ROOT="/mnt/dos/"; #XXX: THIS MUST BE CORRECT TO BUILD!
 #export DOS_BUILDS=$DOS_WORKSPACE_ROOT"Builds/";
 export DOS_BUILDS="/mnt/Drive-4/DOS/Builds/"; #XXX: THIS MUST BE CORRECT TO BUILD!
@@ -108,6 +110,45 @@ export DOS_THEME_700="E64A19"; #Deep Orange 700
 #
 
 umask 0022;
+
+# by default we will calculate the max CPU count automatically (used by e.g. repo commands)
+# if the required tool "nproc" is not found a default is used.
+export FALLBACK_MAX_THREADS_REPO=4;
+export MAX_THREADS_REPO_RATE=8; #to avoid being rate limited we never go above this for syncing
+export FALLBACK_MAX_THREADS_BUILD="nolimit"; #if nothing specified we will use all CPU power available
+
+calcThreads(){
+    unset _MAX_THREADS
+    DEFAULT_COUNT=$1
+    nproc --version > /dev/null 2>&1
+    if [ $? -eq 10 ];then
+	_MAX_THREADS_ALL=$(nproc --all)
+	_MAX_THREADS=$(( _MAX_THREADS_ALL - 1))
+    fi
+    if [ -z "$_MAX_THREADS" ];then
+	echo $DEFAULT_COUNT
+	return 9
+    else
+	echo $_MAX_THREADS
+    fi
+}
+export -f calcThreads;
+
+if [ -z "$DOS_MAX_THREADS_REPO" ];then
+    export DOS_MAX_THREADS_REPO=$(calcThreads $FALLBACK_MAX_THREADS_REPO) \
+	|| echo -e "\e[0;33mWARNING: could not calculate thread count and no user defined amount specified. This could slow down the SYNC processes.\e[0m"
+fi
+if [ "$DOS_MAX_THREADS_REPO" -gt "$MAX_THREADS_REPO_RATE" ];then
+    echo -e "\e[0;33mWARNING: Your specified DOS_MAX_THREADS_REPO value ($DOS_MAX_THREADS_REPO) could raise rate limits so has been decreased to >$MAX_THREADS_REPO_RATE<.\e[0m"
+    export DOS_MAX_THREADS_REPO=$MAX_THREADS_REPO_RATE
+fi
+if [ -z "$DOS_MAX_THREADS_BUILD" ];then
+    export DOS_MAX_THREADS_BUILD=$(calcThreads $FALLBACK_MAX_THREADS_BUILD)\
+	|| echo -e "\e[0;33mWARNING: could not calculate thread count and no user defined amount specified. This could slow down the BUILD processes.\e[0m"
+fi
+echo "Activated CPU count (sync):  $DOS_MAX_THREADS_REPO"
+echo "Activated CPU count (build): $DOS_MAX_THREADS_BUILD"
+[ "$DOS_MAX_THREADS_BUILD" == "nolimit" ] && export DOS_MAX_THREADS_BUILD="" #actually means "all" when empty
 
 gpgVerifyGitHead() {
 	if [ -r "$DOS_TMP_GNUPG/pubring.kbx" ]; then
