@@ -38,7 +38,7 @@ source "$DOS_SCRIPTS_COMMON/Shell.sh";
 #
 #Download some (non-executable) out-of-tree files for use later on
 cd "$DOS_TMP_DIR";
-if [ "$DOS_HOSTS_BLOCKING" = true ]; then $DOS_TOR_WRAPPER wget "$DOS_HOSTS_BLOCKING_LIST" -N -O "$DOS_HOSTS_FILE"; fi;
+if [ "$DOS_HOSTS_BLOCKING" = true ]; then $DOS_TOR_WRAPPER wget --no-verbose "$DOS_HOSTS_BLOCKING_LIST" -N -O "$DOS_HOSTS_FILE"; fi;
 cd "$DOS_BUILD_BASE";
 #
 #END OF PREPRATION
@@ -144,6 +144,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/351414-backport.patch"; #R_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/351415.patch"; #R_asb_2023-03 Reconcile WorkSource parcel and unparcel code.
 applyPatch "$DOS_PATCHES/android_frameworks_base/351436.patch"; #R_asb_2023-03 Revert "Ensure that only SysUI can override pending intent launch flags"
 applyPatch "$DOS_PATCHES/android_frameworks_base/352555.patch"; #Q_asb_2023-03 Revert "[RESTRICT AUTOMERGE] Trim the activity info of another uid if no privilege"
+applyPatch "$DOS_PATCHES/android_frameworks_base/353117.patch"; #Q_asb_2023-03 Fix sharing to another profile where an app has multiple targets
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -187,7 +188,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0019-Random_MAC.patch"; #Add op
 applyPatch "$DOS_PATCHES/android_frameworks_base/0020-SUPL_Toggle.patch"; #Add a setting for forcibly disabling SUPL (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0006-Do-not-throw-in-setAppOnInterfaceLocked.patch"; #Fix random reboots on broken kernels when an app has data restricted XXX: ugly (DivestOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0007-ABI_Warning.patch"; #Warn when running activity from 32 bit app on ARM64 devices. (AOSP)
-applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0008-No_Crash_GSF.patch"; #Don't crash apps that depend on missing Gservices provider  (GrapheneOS)
+applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0008-No_Crash_GSF.patch"; #Don't crash apps that depend on missing Gservices provider (GrapheneOS)
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox internal logging service
 sed -i 's/DEFAULT_MAX_FILES_LOWRAM = 300;/DEFAULT_MAX_FILES_LOWRAM = 0;/' services/core/java/com/android/server/DropBoxManagerService.java;
 sed -i 's/(notif.needNotify)/(true)/' location/java/com/android/internal/location/GpsNetInitiatedHandler.java; #Notify the user if their location is requested via SUPL

@@ -78,7 +78,7 @@ buildAll() {
 }
 export -f buildAll;
 
-patchWorkspace() {
+patchWorkspaceReal() {
 	umask 0022;
 	cd "$DOS_BUILD_BASE/$1";
 	touch DOS_PATCHED_FLAG;
@@ -99,7 +99,7 @@ patchWorkspace() {
 	sh "$DOS_SCRIPTS_COMMON/Post.sh";
 	source build/envsetup.sh;
 }
-export -f patchWorkspace;
+export -f patchWorkspaceReal;
 
 enableDexPreOpt() {
 	cd "$DOS_BUILD_BASE/$1";

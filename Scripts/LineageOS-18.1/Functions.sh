@@ -105,7 +105,7 @@ buildAll() {
 }
 export -f buildAll;
 
-patchWorkspace() {
+patchWorkspaceReal() {
 	umask 0022;
 	cd "$DOS_BUILD_BASE/$1";
 	touch DOS_PATCHED_FLAG;
@@ -134,7 +134,7 @@ patchWorkspace() {
 	cd device/google/marlin/marlin && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
 	cd device/google/marlin/sailfish && ./setup-makefiles.sh && cd "$DOS_BUILD_BASE";
 }
-export -f patchWorkspace;
+export -f patchWorkspaceReal;
 
 enableDexPreOpt() {
 	cd "$DOS_BUILD_BASE/$1";

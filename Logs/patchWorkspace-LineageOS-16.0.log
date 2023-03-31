@@ -1,0 +1,2888 @@
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-16.0/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//build/blueprint[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//compatibility/cdd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//cts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//developers/build[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/Microsoft-GSL[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/abi-compliance-checker[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/abi-dumper[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/adhd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/android-clat[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/androidplot[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/annotation-tools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/ant-glob[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/antlr[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/apache-commons-math[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/apache-harmony[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/apache-http[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/apache-xml[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/archive-patcher[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/arm-neon-tests[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/autotest[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/avb[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/bart[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/blktrace[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/boringssl[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/bouncycastle[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/brotli[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/bsdiff[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/bzip2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/caliper[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/capstone[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/cblas[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/chromium-trace[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/clang[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/cmockery[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/cn-cbor[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/compiler-rt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/conscrypt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/crcalc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/cros/system_api[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/dagger2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/deqp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/desugar[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/devlib[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/dexmaker[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/dhcpcd-6.8.2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/dlmalloc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/doclava[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/drm_gralloc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/drm_hwcomposer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/droiddriver[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/drrickorang[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/dtc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/easymock[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/eigen[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/emma[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/error_prone[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/esd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/expat[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/eyes-free[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/fdlibm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/fec[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/fio[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/flac[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/flatbuffers[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/fonttools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/gemmlowp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/gflags[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/giflib[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/glide[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/golang-protobuf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/google-benchmark[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/google-breakpad[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/google-fonts/carrois-gothic-sc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/google-fonts/coming-soon[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/google-fonts/cutive-mono[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/google-fonts/dancing-script[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/google-styleguide[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/google-tv-pairing-protocol[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/googletest[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/guava[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/guice[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/hamcrest[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/harfbuzz_ng[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/honggfuzz[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/hyphenation-patterns[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/ims[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/iproute2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/ipsec-tools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/iptables[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/iputils[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/iw[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/jacoco[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/jarjar[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/javaparser[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/javasqlite[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/javassist[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/jcommander[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/jdiff[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/jemalloc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/jline[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/jmdns[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/jsilver[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/jsmn[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/jsoncpp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/jsr305[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/jsr330[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/junit[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/junit-params[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/kernel-headers[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/kmod[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/kotlinc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/ksoap2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libbackup[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libcap[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libcap-ng[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libconstrainedcrypto[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libcxxabi[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libdaemon[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libdivsufsort[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libdrm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libedit[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libese[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libevent[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libffi[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libgsm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libldac[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libmicrohttpd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libmojo[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libmpeg2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libmtp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libnetfilter_conntrack[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libnfnetlink[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libnl[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libogg[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libopus[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libpcap[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libphonenumber[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libunwind[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libunwind_llvm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libusb[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libusb-compat[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libvncserver[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libvpx[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libvterm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libxaac[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libxcam[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libxkbcommon[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libxml2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/libyuv[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/linux-kselftest[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/lisa[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/llvm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/lmfit[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/ltp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/lz4[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/lzma[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/markdown[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/mdnsresponder[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/mesa3d[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/minijail[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/mmc-utils[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/mockftpserver[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/mockito[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/mockwebserver[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/modp_b64[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/mp4parser[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/mtpd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/nanohttpd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/nanopb-c[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/naver-fonts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/netcat[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/neven[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/nfacct[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/nist-pkits[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/nist-sip[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/nos/host/android[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/nos/host/generic[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/nos/test/system-test-harness[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/noto-fonts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/oauth[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/objenesis[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/oj-libjdwp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/owasp/sanitizer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/parameter-framework[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/pcre[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/pdfium[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/perf_data_converter[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/piex[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/ply[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/protobuf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/python/cpython2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/python/cpython3[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/python/futures[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/rappor[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/replicaisland[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/rmi4utils[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/robolectric[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/robolectric-shadows[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/roboto-fonts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/rootdev[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/safe-iop[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/scapy[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/scrypt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/seccomp-tests[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/sfntly[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/shaderc/spirv-headers[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/shflags[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/skqp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/sl4a[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/slf4j[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/smali[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/snakeyaml[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/sonic[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/speex[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/spirv-llvm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/squashfs-tools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/strace[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/stressapptest[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/subsampling-scale-image-view[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/svox[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/swiftshader[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/syslinux[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/tagsoup[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/tensorflow[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/testng[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/timezonepicker-support[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/tinyalsa[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/tinyxml[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/tinyxml2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/toolchain-utils[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/tpm2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/trappy[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/turbine[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/unicode[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/universal-tween-engine[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/v4l2_codec2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/valgrind[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/vboot_reference[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/vixl[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/vogar[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/volley[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/vulkan-validation-layers[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/walt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/webp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/webrtc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/webview_support_interfaces[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/wycheproof[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/x264[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/xmlrpcpp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/xmp_toolkit[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/xz-embedded[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/zopfli[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//external/zxing[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/compile/libbcc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/compile/mclinker[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/compile/slang[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/data-binding[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/ex[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/layoutlib[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/ml[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/multidex[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/opt/bitmap[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/opt/calendar[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/opt/car/services[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/opt/chips[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/opt/colorpicker[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/opt/inputconnectioncommon[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/opt/inputmethodcommon[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/opt/net/ethernet[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/opt/net/ims[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/opt/net/lowpan[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/opt/photoviewer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/opt/setupwizard[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/opt/timezonepicker[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/opt/vcard[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/rs[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/support[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//frameworks/wilhelm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/akm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/google/apf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/google/easel[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/google/interfaces[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/google/pixel[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/intel/audio_media[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/intel/common/bd_prov[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/intel/common/libstagefrighthw[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/intel/common/libva[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/intel/common/libwsbm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/intel/common/omx-components[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/intel/common/wrs_omxil_core[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/intel/img/psb_headers[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/intel/img/psb_video[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/invensense[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/marvell/bt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/nxp/secure_element[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/qcom/neuralnetworks/hvxservice[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/qcom/sdm710/data/ipacfg-mgr[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/qcom/sdm710/gps[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/qcom/sdm710/media[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/qcom/sdm710/thermal[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//hardware/qcom/sdm710/vr[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//libnativehelper[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Car/Dialer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Car/Hvac[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Car/LatinIME[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Car/Launcher[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Car/LensPicker[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Car/LocalMediaPlayer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Car/Media[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Car/Messenger[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Car/Overview[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Car/Radio[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Car/Settings[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Car/Stream[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Car/SystemUpdater[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Car/libs[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/OneTimeInitializer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Provision[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/TV[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/apps/Test/connectivity[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/experimental[0m
+[0;33mWARNING: No tag match for /mnt/dos//Build/LineageOS-16.0//packages/inputmethods/LeanbackIME [0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/services/Car[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//packages/services/NetworkRecommendation[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//pdk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//platform_testing[0m
+[0;33mWARNING: No tag match for /mnt/dos//Build/LineageOS-16.0//prebuilts/abi-dumps/ndk [0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/android-emulator[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/checkcolor[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/checkstyle[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/clang-tools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/clang/host/linux-x86[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/deqp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/devtools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.15-4.8[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/gcc/linux-x86/host/x86_64-w64-mingw32-4.8[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/gcc/linux-x86/x86/x86_64-linux-android-4.9[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/gdb/linux-x86[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/go/linux-x86[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/gradle-plugin[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/jdk/jdk8[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/jdk/jdk9[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/ktlint[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/libs/libedit[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/maven_repo/android[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/maven_repo/bumptech[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/misc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/ndk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/python/linux-x86/2.7.5[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/r8[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/sdk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/tools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//prebuilts/vndk/v27[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//sdk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//system/ca-certificates[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//system/chre[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//system/connectivity/wifilogd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//system/gatekeeper[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//system/hardware/interfaces[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//system/hwservicemanager[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//system/iot/attestation[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//system/libhidl[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//system/libufdt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//system/libvintf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//system/nvram[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//system/tpm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//test/framework[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//test/suite_harness[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//test/vti/dashboard[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//test/vti/fuzz_test_serving[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//test/vti/test_serving[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//test/vts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//test/vts-testcase/fuzz[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//test/vts-testcase/hal[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//test/vts-testcase/hal-trace[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//test/vts-testcase/kernel[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//test/vts-testcase/nbu[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//test/vts-testcase/performance[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//test/vts-testcase/security[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//tools/acloud[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//tools/apksig[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//tools/apkzlib[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//tools/appbundle[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//tools/dexter[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//tools/external/fat32lib[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//tools/external/gradle[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//tools/loganalysis[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//tools/metalava[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//tools/repohooks[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//tools/test/connectivity[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//tools/tradefederation/contrib[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-16.0//tools/tradefederation/core[0m
+[0;32mGPG Verified Git HEAD Successfully: /mnt/dos//Build/LineageOS-16.0//external/chromium-webview[0m
+including device/generic/car/vendorsetup.sh
+including device/generic/uml/vendorsetup.sh
+including device/google/yellowstone/vendorsetup.sh
+including device/lge/hammerhead/vendorsetup.sh
+including device/samsung/kccat6/vendorsetup.sh
+including device/samsung/lentislte/vendorsetup.sh
+including vendor/lineage/vendorsetup.sh
+including sdk/bash_completion/adb.bash
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-16.0/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+From https://github.com/LineageOS/android_packages_services_Telecomm
+ * branch                refs/changes/59/330959/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Settings
+ * branch                  refs/changes/60/330960/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/61/330961/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/62/330962/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/63/330963/1 -> FETCH_HEAD
+Applying change number 330959...
+--> Subject:       "Handle null bindings returned from ConnectionService."
+--> Project path:  packages/services/Telecomm
+--> Change number: 330959 (Patch Set 1)
+['git fetch github', u'refs/changes/59/330959/1']
+
+Applying change number 330960...
+--> Subject:       "Hide private DNS settings UI in Guest mode"
+--> Project path:  packages/apps/Settings
+--> Change number: 330960 (Patch Set 1)
+['git fetch github', u'refs/changes/60/330960/1']
+
+Applying change number 330961...
+--> Subject:       "Keyguard - Treat messsages to lock with priority"
+--> Project path:  frameworks/base
+--> Change number: 330961 (Patch Set 1)
+['git fetch github', u'refs/changes/61/330961/1']
+
+Applying change number 330962...
+--> Subject:       "Verify caller before auto granting slice permission"
+--> Project path:  frameworks/base
+--> Change number: 330962 (Patch Set 1)
+['git fetch github', u'refs/changes/62/330962/1']
+
+Applying change number 330963...
+--> Subject:       "Always restart apps if base.apk gets updated."
+--> Project path:  frameworks/base
+--> Change number: 330963 (Patch Set 1)
+['git fetch github', u'refs/changes/63/330963/1']
+
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-16.0/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/56/332756/2 -> FETCH_HEAD
+[detached HEAD 191f76d38d8c] RESTRICT AUTOMERGE Add finalizeWorkProfileProvisioning.
+ Author: Jonathan Scott <scottjonathan@google.com>
+ Date: Tue Apr 5 18:47:56 2022 +0000
+ 5 files changed, 64 insertions(+)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/57/332757/2 -> FETCH_HEAD
+[detached HEAD 0dedb1436b11] limit TelecomManager#registerPhoneAccount to 10; api doc update
+ Author: Thomas Stuart <tjstuart@google.com>
+ Date: Mon Jan 31 20:31:42 2022 +0000
+ 1 file changed, 5 insertions(+)
+From https://github.com/LineageOS/android_packages_apps_Bluetooth
+ * branch                refs/changes/58/332758/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Bluetooth
+ * branch                refs/changes/59/332759/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Contacts
+ * branch                refs/changes/60/332760/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Dialer
+ * branch                refs/changes/61/332761/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Nfc
+ * branch              refs/changes/62/332762/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Settings
+ * branch                  refs/changes/63/332763/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_services_Telecomm
+ * branch                refs/changes/64/332764/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_core
+ * branch                refs/changes/65/332765/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_nfc
+ * branch            refs/changes/66/332766/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_nfc
+ * branch            refs/changes/67/332767/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_nfc
+ * branch            refs/changes/68/332768/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_vendor_nxp_opensource_external_libnfc-nci
+ * branch              refs/changes/69/332769/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_vendor_nxp_opensource_external_libnfc-nci
+ * branch              refs/changes/70/332770/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_vendor_nxp_opensource_external_libnfc-nci
+ * branch              refs/changes/71/332771/1 -> FETCH_HEAD
+Applying change number 332756...
+--> Subject:       "RESTRICT AUTOMERGE Add finalizeWorkProfileProvisioning."
+--> Project path:  frameworks/base
+--> Change number: 332756 (Patch Set 2)
+['git fetch github', u'refs/changes/56/332756/2']
+
+Applying change number 332757...
+--> Subject:       "limit TelecomManager#registerPhoneAccount to 10; api doc update"
+--> Project path:  frameworks/base
+--> Change number: 332757 (Patch Set 2)
+['git fetch github', u'refs/changes/57/332757/2']
+
+Applying change number 332758...
+--> Subject:       "Removes app access to BluetoothAdapter#setScanMode by requiring BLUETOOTH_PRIVILEGED permission."
+--> Project path:  packages/apps/Bluetooth
+--> Change number: 332758 (Patch Set 1)
+['git fetch github', u'refs/changes/58/332758/1']
+
+Applying change number 332759...
+--> Subject:       "Removes app access to BluetoothAdapter#setDiscoverableTimeout by requiring BLUETOOTH_PRIVILEGED permission."
+--> Project path:  packages/apps/Bluetooth
+--> Change number: 332759 (Patch Set 1)
+['git fetch github', u'refs/changes/59/332759/1']
+
+Applying change number 332760...
+--> Subject:       "No longer export CallSubjectDialog"
+--> Project path:  packages/apps/Contacts
+--> Change number: 332760 (Patch Set 1)
+['git fetch github', u'refs/changes/60/332760/1']
+
+Applying change number 332761...
+--> Subject:       "No longer export CallSubjectDialog"
+--> Project path:  packages/apps/Dialer
+--> Change number: 332761 (Patch Set 1)
+['git fetch github', u'refs/changes/61/332761/1']
+
+Applying change number 332762...
+--> Subject:       "OOB read in phNciNfc_RecvMfResp()"
+--> Project path:  packages/apps/Nfc
+--> Change number: 332762 (Patch Set 1)
+['git fetch github', u'refs/changes/62/332762/1']
+
+Applying change number 332763...
+--> Subject:       "Prevent exfiltration of system files via user image settings."
+--> Project path:  packages/apps/Settings
+--> Change number: 332763 (Patch Set 1)
+['git fetch github', u'refs/changes/63/332763/1']
+
+Applying change number 332764...
+--> Subject:       "limit TelecomManager#registerPhoneAccount to 10"
+--> Project path:  packages/services/Telecomm
+--> Change number: 332764 (Patch Set 1)
+['git fetch github', u'refs/changes/64/332764/1']
+
+Applying change number 332765...
+--> Subject:       "Backport of Win-specific suppression of potentially rogue construct that can engage in directory traversal on the host."
+--> Project path:  system/core
+--> Change number: 332765 (Patch Set 1)
+['git fetch github', u'refs/changes/65/332765/1']
+
+Applying change number 332766...
+--> Subject:       "Out of Bounds Read in nfa_dm_check_set_config"
+--> Project path:  system/nfc
+--> Change number: 332766 (Patch Set 1)
+['git fetch github', u'refs/changes/66/332766/1']
+
+Applying change number 332767...
+--> Subject:       "Double Free in ce_t4t_data_cback"
+--> Project path:  system/nfc
+--> Change number: 332767 (Patch Set 1)
+['git fetch github', u'refs/changes/67/332767/1']
+
+Applying change number 332768...
+--> Subject:       "OOBR in nfc_ncif_proc_ee_discover_req()"
+--> Project path:  system/nfc
+--> Change number: 332768 (Patch Set 1)
+['git fetch github', u'refs/changes/68/332768/1']
+
+Applying change number 332769...
+--> Subject:       "{android10_r2}: Prevent OOB write in nfc_ncif_proc_ee_discover_req"
+--> Project path:  vendor/nxp/opensource/commonsys/external/libnfc-nci
+--> Change number: 332769 (Patch Set 1)
+['git fetch github', u'refs/changes/69/332769/1']
+
+Applying change number 332770...
+--> Subject:       "Out of Bounds Read in nfa_dm_check_set_config"
+--> Project path:  vendor/nxp/opensource/commonsys/external/libnfc-nci
+--> Change number: 332770 (Patch Set 1)
+['git fetch github', u'refs/changes/70/332770/1']
+
+Applying change number 332771...
+--> Subject:       "Double Free in ce_t4t_data_cback"
+--> Project path:  vendor/nxp/opensource/commonsys/external/libnfc-nci
+--> Change number: 332771 (Patch Set 1)
+['git fetch github', u'refs/changes/71/332771/1']
+
+Applying change number 332772...
+--> Subject:       "OOBR in nfc_ncif_proc_ee_discover_req()"
+--> Project path:  vendor/nxp/opensource/commonsys/external/lFrom https://github.com/LineageOS/android_vendor_nxp_opensource_external_libnfc-nci
+ * branch              refs/changes/72/332772/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_vendor_nxp_opensource_packages_apps_Nfc
+ * branch              refs/changes/73/332773/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_aac
+ * branch            refs/changes/75/332775/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/76/332776/1 -> FETCH_HEAD
+[detached HEAD 3d640f12be5a] Update GeofenceHardwareRequestParcelable to match parcel/unparcel format.
+ Author: David Christie <dnchrist@google.com>
+ Date: Fri Mar 11 01:13:31 2022 +0000
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/77/332777/1 -> FETCH_HEAD
+[detached HEAD e5e480d6f59c] DO NOT MERGE Add an OEM configurable limit for zen rules
+ Author: Julia Reynolds <juliacr@google.com>
+ Date: Tue Mar 1 10:30:27 2022 -0500
+ 2 files changed, 55 insertions(+), 3 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/78/332778/1 -> FETCH_HEAD
+[detached HEAD 69268ce422bc] Fix security hole in GateKeeperResponse
+ Author: Ayush Sharma <ayushsha@google.com>
+ Date: Wed Mar 16 10:32:23 2022 +0000
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/79/332779/1 -> FETCH_HEAD
+[detached HEAD a986e9eb4519] RESTRICT AUTOMERGE Prevent non-admin users from deleting system apps.
+ Author: Oli Lan <olilan@google.com>
+ Date: Fri Mar 25 10:02:41 2022 +0000
+ 1 file changed, 10 insertions(+)
+From https://github.com/LineageOS/android_packages_apps_EmergencyInfo
+ * branch            refs/changes/01/342101/1 -> FETCH_HEAD
+ibnfc-nci
+--> Change number: 332772 (Patch Set 1)
+['git fetch github', u'refs/changes/72/332772/1']
+
+Applying change number 332773...
+--> Subject:       "OOB read in phNciNfc_RecvMfResp()"
+--> Project path:  vendor/nxp/opensource/commonsys/packages/apps/Nfc
+--> Change number: 332773 (Patch Set 1)
+['git fetch github', u'refs/changes/73/332773/1']
+
+Applying change number 332775...
+--> Subject:       "Reject invalid out of band config in transportDec_OutOfBandConfig() and skip re-allocation."
+--> Project path:  external/aac
+--> Change number: 332775 (Patch Set 1)
+['git fetch github', u'refs/changes/75/332775/1']
+
+Applying change number 332776...
+--> Subject:       "Update GeofenceHardwareRequestParcelable to match parcel/unparcel format."
+--> Project path:  frameworks/base
+--> Change number: 332776 (Patch Set 1)
+['git fetch github', u'refs/changes/76/332776/1']
+
+Applying change number 332777...
+--> Subject:       "DO NOT MERGE Add an OEM configurable limit for zen rules"
+--> Project path:  frameworks/base
+--> Change number: 332777 (Patch Set 1)
+['git fetch github', u'refs/changes/77/332777/1']
+
+Applying change number 332778...
+--> Subject:       "Fix security hole in GateKeeperResponse"
+--> Project path:  frameworks/base
+--> Change number: 332778 (Patch Set 1)
+['git fetch github', u'refs/changes/78/332778/1']
+
+Applying change number 332779...
+--> Subject:       "RESTRICT AUTOMERGE Prevent non-admin users from deleting system apps."
+--> Project path:  frameworks/base
+--> Change number: 332779 (Patch Set 1)
+['git fetch github', u'refs/changes/79/332779/1']
+
+Applying change number 342101...
+--> Subject:       "Prevent exfiltration of system files via user image settings."
+--> Project path:  packages/apps/EmergencyInfo
+--> Change number: 342101 (Patch Set 1)
+['git fetch github', u'refs/changes/01/342101/1']
+
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-16.0/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/56/334256/1 -> FETCH_HEAD
+[detached HEAD d017b9077dde] [RESTRICT AUTOMERGE] StorageManagerService: don't ignore failures to prepare user storage
+ Author: Eric Biggers <ebiggers@google.com>
+ Date: Fri Aug 13 13:37:55 2021 -0700
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/57/334257/1 -> FETCH_HEAD
+[detached HEAD cdd2dbcdf584] [RESTRICT AUTOMERGE] UserDataPreparer: reboot to recovery if preparing user storage fails
+ Author: Eric Biggers <ebiggers@google.com>
+ Date: Mon Jan 24 20:33:11 2022 +0000
+ 1 file changed, 8 insertions(+)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/58/334258/1 -> FETCH_HEAD
+[detached HEAD 2d4fa888cf92] [RESTRICT AUTOMERGE] UserDataPreparer: reboot to recovery for system user only
+ Author: Eric Biggers <ebiggers@google.com>
+ Date: Fri Mar 4 00:07:29 2022 +0000
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/59/334259/2 -> FETCH_HEAD
+[detached HEAD b4e875297f97] Ignore errors preparing user storage for existing users
+ Author: Eric Biggers <ebiggers@google.com>
+ Date: Fri Mar 4 00:07:43 2022 +0000
+ 3 files changed, 61 insertions(+), 1 deletion(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/60/334260/2 -> FETCH_HEAD
+[detached HEAD e982fe231985] Log to EventLog on prepareUserStorage failure
+ Author: Eric Biggers <ebiggers@google.com>
+ Date: Sat Mar 26 01:08:07 2022 +0000
+ 1 file changed, 2 insertions(+)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/62/334262/1 -> FETCH_HEAD
+[detached HEAD c2b23f5666c1] DO NOT MERGE Crash invalid FGS notifications
+ Author: Julia Reynolds <juliacr@google.com>
+ Date: Wed Jul 7 16:19:44 2021 -0400
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+From https://github.com/LineageOS/android_frameworks_opt_telephony
+ * branch                  refs/changes/63/334263/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_KeyChain
+ * branch            refs/changes/64/334264/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Settings
+ * branch                  refs/changes/65/334265/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/66/334266/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/67/334267/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/68/334268/1 -> FETCH_HEAD
+Applying change number 334256...
+--> Subject:       "[RESTRICT AUTOMERGE] StorageManagerService: don't ignore failures to prepare user storage"
+--> Project path:  frameworks/base
+--> Change number: 334256 (Patch Set 1)
+['git fetch github', u'refs/changes/56/334256/1']
+
+Applying change number 334257...
+--> Subject:       "[RESTRICT AUTOMERGE] UserDataPreparer: reboot to recovery if preparing user storage fails"
+--> Project path:  frameworks/base
+--> Change number: 334257 (Patch Set 1)
+['git fetch github', u'refs/changes/57/334257/1']
+
+Applying change number 334258...
+--> Subject:       "[RESTRICT AUTOMERGE] UserDataPreparer: reboot to recovery for system user only"
+--> Project path:  frameworks/base
+--> Change number: 334258 (Patch Set 1)
+['git fetch github', u'refs/changes/58/334258/1']
+
+Applying change number 334259...
+--> Subject:       "Ignore errors preparing user storage for existing users"
+--> Project path:  frameworks/base
+--> Change number: 334259 (Patch Set 2)
+['git fetch github', u'refs/changes/59/334259/2']
+
+Applying change number 334260...
+--> Subject:       "Log to EventLog on prepareUserStorage failure"
+--> Project path:  frameworks/base
+--> Change number: 334260 (Patch Set 2)
+['git fetch github', u'refs/changes/60/334260/2']
+
+Applying change number 334262...
+--> Subject:       "DO NOT MERGE Crash invalid FGS notifications"
+--> Project path:  frameworks/base
+--> Change number: 334262 (Patch Set 1)
+['git fetch github', u'refs/changes/62/334262/1']
+
+Applying change number 334263...
+--> Subject:       "Enforce privileged phone state for getSubscriptionProperty(GROUP_UUID)"
+--> Project path:  frameworks/opt/telephony
+--> Change number: 334263 (Patch Set 1)
+['git fetch github', u'refs/changes/63/334263/1']
+
+Applying change number 334264...
+--> Subject:       "Encode authority part of uri before showing in UI"
+--> Project path:  packages/apps/KeyChain
+--> Change number: 334264 (Patch Set 1)
+['git fetch github', u'refs/changes/64/334264/1']
+
+Applying change number 334265...
+--> Subject:       "Fix LaunchAnyWhere in AppRestrictionsFragment"
+--> Project path:  packages/apps/Settings
+--> Change number: 334265 (Patch Set 1)
+['git fetch github', u'refs/changes/65/334265/1']
+
+Applying change number 334266...
+--> Subject:       "Security: Fix out of bound write in HFP client"
+--> Project path:  system/bt
+--> Change number: 334266 (Patch Set 1)
+['git fetch github', u'refs/changes/66/334266/1']
+
+Applying change number 334267...
+--> Subject:       "Check Avrcp packet vendor length before extracting length"
+--> Project path:  system/bt
+--> Change number: 334267 (Patch Set 1)
+['git fetch github', u'refs/changes/67/334267/1']
+
+Applying change number 334268...
+--> Subject:       "Security: Fix out of bound read in AT_SKIP_REST"
+--> Project path:  system/bt
+--> Change number: 334268 (Patch Set 1)
+['git fetch github', u'refs/changes/68/334268/1']
+
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-16.0/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/09/335109/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_providers_ContactsProvider
+ * branch              refs/changes/10/335110/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Settings
+ * branch                  refs/changes/11/335111/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Settings
+ * branch                  refs/changes/12/335112/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Settings
+ * branch                  refs/changes/13/335113/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Settings
+ * branch                  refs/changes/14/335114/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Settings
+ * branch                  refs/changes/15/335115/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Settings
+ * branch                  refs/changes/16/335116/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/17/335117/1 -> FETCH_HEAD
+[detached HEAD 020ab641bae2] Only allow system and same app to apply relinquishTaskIdentity
+ Author: Jeff Chang <chengjeff@google.com>
+ Date: Wed Sep 29 16:49:00 2021 +0800
+ 1 file changed, 39 insertions(+), 12 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/18/335118/1 -> FETCH_HEAD
+[detached HEAD 7e05b5567896] DO NOT MERGE Suppress notifications when device enter lockdown
+ Author: Wenhao Wang <wenhaowang@google.com>
+ Date: Wed Feb 2 10:56:44 2022 -0800
+ 4 files changed, 305 insertions(+), 6 deletions(-)
+ create mode 100644 services/tests/uiservicestests/src/com/android/server/notification/NotificationListenersTest.java
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/19/335119/1 -> FETCH_HEAD
+[detached HEAD 0cce9448876a] Remove package title from notification access confirmation intent
+ Author: Raphael Kim <raphk@google.com>
+ Date: Fri Apr 22 00:32:08 2022 +0000
+ 2 files changed, 8 insertions(+), 11 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/20/335120/1 -> FETCH_HEAD
+[detached HEAD 869a77d87f9a] Stop using invalid URL to prevent unexpected crash
+ Author: chiachangwang <chiachangwang@google.com>
+ Date: Thu Jun 2 10:22:20 2022 +0000
+ 1 file changed, 17 insertions(+), 2 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/21/335121/1 -> FETCH_HEAD
+[detached HEAD c36ae039b960] Only allow the system server to connect to sync adapters
+ Author: Makoto Onuki <omakoto@google.com>
+ Date: Tue Apr 19 10:54:18 2022 -0700
+ 1 file changed, 20 insertions(+)
+Applying change number 335109...
+--> Subject:       "Removing bonded device when auth fails due to missing keys"
+--> Project path:  system/bt
+--> Change number: 335109 (Patch Set 1)
+['git fetch github', u'refs/changes/09/335109/1']
+
+Applying change number 335110...
+--> Subject:       "enforce stricter CallLogProvider query"
+--> Project path:  packages/providers/ContactsProvider
+--> Change number: 335110 (Patch Set 1)
+['git fetch github', u'refs/changes/10/335110/1']
+
+Applying change number 335111...
+--> Subject:       "Verify ringtone from ringtone picker is audio"
+--> Project path:  packages/apps/Settings
+--> Change number: 335111 (Patch Set 1)
+['git fetch github', u'refs/changes/11/335111/1']
+
+Applying change number 335112...
+--> Subject:       "RESTRICT AUTOMERGE Make bluetooth not discoverable via SliceDeepLinkTrampoline"
+--> Project path:  packages/apps/Settings
+--> Change number: 335112 (Patch Set 1)
+['git fetch github', u'refs/changes/12/335112/1']
+
+Applying change number 335113...
+--> Subject:       "RESTRICT AUTOMERGE Fix: policy enforcement for location wifi scanning"
+--> Project path:  packages/apps/Settings
+--> Change number: 335113 (Patch Set 1)
+['git fetch github', u'refs/changes/13/335113/1']
+
+Applying change number 335114...
+--> Subject:       "Fix Settings crash when setting a null ringtone"
+--> Project path:  packages/apps/Settings
+--> Change number: 335114 (Patch Set 1)
+['git fetch github', u'refs/changes/14/335114/1']
+
+Applying change number 335115...
+--> Subject:       "Fix can't change notification sound for work profile."
+--> Project path:  packages/apps/Settings
+--> Change number: 335115 (Patch Set 1)
+['git fetch github', u'refs/changes/15/335115/1']
+
+Applying change number 335116...
+--> Subject:       "Extract app label from component name in notification access confirmation UI"
+--> Project path:  packages/apps/Settings
+--> Change number: 335116 (Patch Set 1)
+['git fetch github', u'refs/changes/16/335116/1']
+
+Applying change number 335117...
+--> Subject:       "Only allow system and same app to apply relinquishTaskIdentity"
+--> Project path:  frameworks/base
+--> Change number: 335117 (Patch Set 1)
+['git fetch github', u'refs/changes/17/335117/1']
+
+Applying change number 335118...
+--> Subject:       "DO NOT MERGE Suppress notifications when device enter lockdown"
+--> Project path:  frameworks/base
+--> Change number: 335118 (Patch Set 1)
+['git fetch github', u'refs/changes/18/335118/1']
+
+Applying change number 335119...
+--> Subject:       "Remove package title from notification access confirmation intent"
+--> Project path:  frameworks/base
+--> Change number: 335119 (Patch Set 1)
+['git fetch github', u'refs/changes/19/335119/1']
+
+Applying change number 335120...
+--> Subject:       "Stop using invalid URL to prevent unexpected crash"
+--> Project path:  frameworks/base
+--> Change number: 335120 (Patch Set 1)
+['git fetch github', u'refs/changes/20/335120/1']
+
+Applying change number 335121...
+--> Subject:       "Only allow the system server to connect to sync adapters"
+--> Project path:  frameworks/base
+--> Change number: 335121 (Patch Set 1)
+['git fetch github', u'refs/changes/21/335121/1']
+
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-16.0/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/46/338346/1 -> FETCH_HEAD
+[detached HEAD b8c05718a4fb] Fix duplicate permission privilege escalation
+ Author: Manjeet Rulhania <mrulhania@google.com>
+ Date: Thu Apr 28 20:23:58 2022 +0000
+ 1 file changed, 53 insertions(+)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/47/338347/1 -> FETCH_HEAD
+[detached HEAD 63610bd17f26] Parcel: recycle recycles
+ Author: Steven Moreland <smoreland@google.com>
+ Date: Wed Mar 30 21:46:29 2022 +0000
+ 1 file changed, 1 insertion(+)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/48/338348/1 -> FETCH_HEAD
+[detached HEAD 7235d21a14e6] IMMS: Make IMMS PendingIntents immutable
+ Author: Adrian Roos <roosa@google.com>
+ Date: Thu Sep 24 15:30:46 2020 +0200
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/49/338349/1 -> FETCH_HEAD
+[detached HEAD 55e6283cbe99] Remove package name from SafetyNet logs
+ Author: Manjeet Rulhania <mrulhania@google.com>
+ Date: Thu Jun 30 18:52:50 2022 +0000
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/50/338350/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/51/338351/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/52/338352/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android
+ * branch            refs/changes/57/338357/1 -> FETCH_HEAD
+Applying change number 338346...
+--> Subject:       "Fix duplicate permission privilege escalation"
+--> Project path:  frameworks/base
+--> Change number: 338346 (Patch Set 1)
+['git fetch github', u'refs/changes/46/338346/1']
+
+Applying change number 338347...
+--> Subject:       "Parcel: recycle recycles"
+--> Project path:  frameworks/base
+--> Change number: 338347 (Patch Set 1)
+['git fetch github', u'refs/changes/47/338347/1']
+
+Applying change number 338348...
+--> Subject:       "IMMS: Make IMMS PendingIntents immutable"
+--> Project path:  frameworks/base
+--> Change number: 338348 (Patch Set 1)
+['git fetch github', u'refs/changes/48/338348/1']
+
+Applying change number 338349...
+--> Subject:       "Remove package name from SafetyNet logs"
+--> Project path:  frameworks/base
+--> Change number: 338349 (Patch Set 1)
+['git fetch github', u'refs/changes/49/338349/1']
+
+Applying change number 338350...
+--> Subject:       "Fix OOB in bnep_is_packet_allowed"
+--> Project path:  system/bt
+--> Change number: 338350 (Patch Set 1)
+['git fetch github', u'refs/changes/50/338350/1']
+
+Applying change number 338351...
+--> Subject:       "Fix OOB in BNEP_Write"
+--> Project path:  system/bt
+--> Change number: 338351 (Patch Set 1)
+['git fetch github', u'refs/changes/51/338351/1']
+
+Applying change number 338352...
+--> Subject:       "Fix OOB in reassemble_and_dispatch"
+--> Project path:  system/bt
+--> Change number: 338352 (Patch Set 1)
+['git fetch github', u'refs/changes/52/338352/1']
+
+Applying change number 338353...
+WARNING: Skipping 338353 since there is no project directory for: LineageOS/android_external_expat
+
+Applying change number 338354...
+WARNING: Skipping 338354 since there is no project directory for: LineageOS/android_external_expat
+
+Applying change number 338355...
+WARNING: Skipping 338355 since there is no project directory for: LineageOS/android_external_expat
+
+Applying change number 338356...
+WARNING: Skipping 338356 since there is no project directory for: LineageOS/android_external_expat
+
+Applying change number 338357...
+--> Subject:       "Track our own fork(s) for ASB 2022.09 patching"
+--> Project path:  android
+--> Change number: 338357 (Patch Set 1)
+['git fetch github', u'refs/changes/57/338357/1']
+
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-16.0/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+From https://github.com/LineageOS/android
+ * branch            refs/changes/95/342095/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/97/342097/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_nfc
+ * branch            refs/changes/98/342098/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_vendor_nxp_opensource_external_libnfc-nci
+ * branch              refs/changes/99/342099/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/00/342100/1 -> FETCH_HEAD
+[detached HEAD 038aa868eaf2] DO NOT MERGE Limit the number of concurrently snoozed notifications
+ Author: Julia Reynolds <juliacr@google.com>
+ Date: Fri Jul 1 09:49:12 2022 -0400
+ 4 files changed, 116 insertions(+), 4 deletions(-)
+Applying change number 342095...
+--> Subject:       "Track our own fork(s) for 2022-10 ASB patching"
+--> Project path:  android
+--> Change number: 342095 (Patch Set 1)
+['git fetch github', u'refs/changes/95/342095/1']
+
+Applying change number 342096...
+WARNING: Skipping 342096 since there is no project directory for: LineageOS/android_external_dtc
+
+Applying change number 342097...
+--> Subject:       "Fix potential interger overflow when parsing vendor response"
+--> Project path:  system/bt
+--> Change number: 342097 (Patch Set 1)
+['git fetch github', u'refs/changes/97/342097/1']
+
+Applying change number 342098...
+--> Subject:       "The length of a packet should be non-zero"
+--> Project path:  system/nfc
+--> Change number: 342098 (Patch Set 1)
+['git fetch github', u'refs/changes/98/342098/1']
+
+Applying change number 342099...
+--> Subject:       "The length of a packet should be non-zero"
+--> Project path:  vendor/nxp/opensource/commonsys/external/libnfc-nci
+--> Change number: 342099 (Patch Set 1)
+['git fetch github', u'refs/changes/99/342099/1']
+
+Applying change number 342100...
+--> Subject:       "DO NOT MERGE Limit the number of concurrently snoozed notifications"
+--> Project path:  frameworks/base
+--> Change number: 342100 (Patch Set 1)
+['git fetch github', u'refs/changes/00/342100/1']
+
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-16.0/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+From https://github.com/LineageOS/android_system_timezone
+ * branch            refs/changes/79/342179/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_timezone
+ * branch            refs/changes/80/342180/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_timezone
+ * branch            refs/changes/81/342181/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_timezone
+ * branch            refs/changes/82/342182/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_libcore
+ * branch                    refs/changes/83/342183/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/84/342184/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/85/342185/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/86/342186/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/87/342187/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/06/344206/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_timezone
+ * branch            refs/changes/13/344213/1 -> FETCH_HEAD
+Applying change number 342179...
+--> Subject:       "DO NOT MERGE Update Android TZDB from 2021a3 to 2022a [P]."
+--> Project path:  system/timezone
+--> Change number: 342179 (Patch Set 1)
+['git fetch github', u'refs/changes/79/342179/1']
+
+Applying change number 342180...
+--> Subject:       "DO NOT MERGE Update Android TZDB from 2022a to 2022a rev. 2. [P]"
+--> Project path:  system/timezone
+--> Change number: 342180 (Patch Set 1)
+['git fetch github', u'refs/changes/80/342180/1']
+
+Applying change number 342181...
+--> Subject:       "DO NOT MERGE Update Android TZDB from 2022a2 to 2022d. [P]"
+--> Project path:  system/timezone
+--> Change number: 342181 (Patch Set 1)
+['git fetch github', u'refs/changes/81/342181/1']
+
+Applying change number 342182...
+--> Subject:       "DO NOT MERGE Update Android TZDB from 2022d to 2022e. [P]"
+--> Project path:  system/timezone
+--> Change number: 342182 (Patch Set 1)
+['git fetch github', u'refs/changes/82/342182/1']
+
+Applying change number 342183...
+--> Subject:       "DO NOT MERGE Track TZDB 2022a rev. 2 changes. [P]"
+--> Project path:  libcore
+--> Change number: 342183 (Patch Set 1)
+['git fetch github', u'refs/changes/83/342183/1']
+
+Applying change number 342184...
+--> Subject:       "DO NOT MERGE Update Android ICU data from 2021a3 to 2022a [P]."
+--> Project path:  external/icu
+--> Change number: 342184 (Patch Set 1)
+['git fetch github', u'refs/changes/84/342184/1']
+
+Applying change number 342185...
+--> Subject:       "DO NOT MERGE Update Android ICU data from 2022a to 2022a rev. 2. [P]"
+--> Project path:  external/icu
+--> Change number: 342185 (Patch Set 1)
+['git fetch github', u'refs/changes/85/342185/1']
+
+Applying change number 342186...
+--> Subject:       "DO NOT MERGE Update Android data from 2022a2 to 2022d. [P]"
+--> Project path:  external/icu
+--> Change number: 342186 (Patch Set 1)
+['git fetch github', u'refs/changes/86/342186/1']
+
+Applying change number 342187...
+--> Subject:       "DO NOT MERGE Update Android ICU data from 2022d to 2022e. [P]"
+--> Project path:  external/icu
+--> Change number: 342187 (Patch Set 1)
+['git fetch github', u'refs/changes/87/342187/1']
+
+Applying change number 344206...
+--> Subject:       "DO NOT MERGE Update Android ICU data from 2022e to 2022f. [P]"
+--> Project path:  external/icu
+--> Change number: 344206 (Patch Set 1)
+['git fetch github', u'refs/changes/06/344206/1']
+
+Applying change number 344213...
+--> Subject:       "DO NOT MERGE Update Android TZDB from 2022e to 2022f. [P]"
+--> Project path:  system/timezone
+--> Change number: 344213 (Patch Set 1)
+['git fetch github', u'refs/changes/13/344213/1']
+
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-16.0/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+From https://github.com/LineageOS/android_frameworks_av
+ * branch                  refs/changes/67/344167/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/68/344168/1 -> FETCH_HEAD
+[detached HEAD df32d9559ad3] DO NOT MERGE Move accountname and typeName length check from Account.java to AccountManagerService.
+ Author: Aseem Kumar <aseemk@google.com>
+ Date: Mon Mar 21 20:35:20 2022 -0700
+ 3 files changed, 31 insertions(+), 7 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/69/344169/1 -> FETCH_HEAD
+[detached HEAD 52847d9449f6] switch TelecomManager List getters to ParceledListSlice
+ Author: Thomas Stuart <tjstuart@google.com>
+ Date: Thu Jun 23 14:27:43 2022 -0700
+ 2 files changed, 15 insertions(+), 12 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/70/344170/1 -> FETCH_HEAD
+[detached HEAD af1b66575cd7] [BACKPORT] Do not send new Intent to non-exported activity when navigateUpTo
+ Author: Louis Chang <louischang@google.com>
+ Date: Tue Aug 2 03:33:39 2022 +0000
+ 3 files changed, 25 insertions(+), 1 deletion(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/71/344171/1 -> FETCH_HEAD
+[detached HEAD 88bb803f655e] Do not send AccessibilityEvent if notification is for different user.
+ Author: Daniel Norman <danielnorman@google.com>
+ Date: Fri Aug 12 11:40:41 2022 -0700
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/72/344172/1 -> FETCH_HEAD
+[detached HEAD 7fd4769ceb3c] Trim any long string inputs that come in to AutomaticZenRule
+ Author: Yuri Lin <yurilin@google.com>
+ Date: Mon Aug 29 17:40:14 2022 -0400
+ 1 file changed, 43 insertions(+), 7 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/73/344173/1 -> FETCH_HEAD
+[detached HEAD 41bacdc47869] Check permission for VoiceInteraction
+ Author: Ivan Chiang <chiangi@google.com>
+ Date: Mon Aug 15 15:09:33 2022 +0800
+ 3 files changed, 53 insertions(+), 3 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/74/344174/1 -> FETCH_HEAD
+[detached HEAD 0393d11fa872] Do not dismiss keyguard after SIM PUK unlock
+ Author: Matt Pietal <mpietal@google.com>
+ Date: Thu Aug 18 12:04:43 2022 +0000
+ 9 files changed, 73 insertions(+), 18 deletions(-)
+From https://github.com/LineageOS/android_hardware_nxp_nfc
+ * branch            refs/changes/80/344180/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_PackageInstaller
+ * branch                refs/changes/81/344181/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_providers_TelephonyProvider
+ * branch              refs/changes/82/344182/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_services_Telecomm
+ * branch                refs/changes/83/344183/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/84/344184/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/85/344185/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_vendor_nxp_opensource_halimpl
+ * branch            refs/changes/90/344190/1 -> FETCH_HEAD
+Applying change number 344161...
+WARNING: Skipping 344161 since there is no project directory for: LineageOS/android_external_dtc
+
+Applying change number 344167...
+--> Subject:       "RESTRICT AUTOMERGE - [Fix vulnerability] setSecurityLevel in clearkey"
+--> Project path:  frameworks/av
+--> Change number: 344167 (Patch Set 1)
+['git fetch github', u'refs/changes/67/344167/1']
+
+Applying change number 344168...
+--> Subject:       "DO NOT MERGE Move accountname and typeName length check from Account.java to AccountManagerService."
+--> Project path:  frameworks/base
+--> Change number: 344168 (Patch Set 1)
+['git fetch github', u'refs/changes/68/344168/1']
+
+Applying change number 344169...
+--> Subject:       "switch TelecomManager List getters to ParceledListSlice"
+--> Project path:  frameworks/base
+--> Change number: 344169 (Patch Set 1)
+['git fetch github', u'refs/changes/69/344169/1']
+
+Applying change number 344170...
+--> Subject:       "[BACKPORT] Do not send new Intent to non-exported activity when navigateUpTo"
+--> Project path:  frameworks/base
+--> Change number: 344170 (Patch Set 1)
+['git fetch github', u'refs/changes/70/344170/1']
+
+Applying change number 344171...
+--> Subject:       "Do not send AccessibilityEvent if notification is for different user."
+--> Project path:  frameworks/base
+--> Change number: 344171 (Patch Set 1)
+['git fetch github', u'refs/changes/71/344171/1']
+
+Applying change number 344172...
+--> Subject:       "Trim any long string inputs that come in to AutomaticZenRule"
+--> Project path:  frameworks/base
+--> Change number: 344172 (Patch Set 1)
+['git fetch github', u'refs/changes/72/344172/1']
+
+Applying change number 344173...
+--> Subject:       "Check permission for VoiceInteraction"
+--> Project path:  frameworks/base
+--> Change number: 344173 (Patch Set 1)
+['git fetch github', u'refs/changes/73/344173/1']
+
+Applying change number 344174...
+--> Subject:       "Do not dismiss keyguard after SIM PUK unlock"
+--> Project path:  frameworks/base
+--> Change number: 344174 (Patch Set 1)
+['git fetch github', u'refs/changes/74/344174/1']
+
+Applying change number 344180...
+--> Subject:       "OOBW in phNxpNciHal_write_unlocked()"
+--> Project path:  hardware/nxp/nfc
+--> Change number: 344180 (Patch Set 1)
+['git fetch github', u'refs/changes/80/344180/1']
+
+Applying change number 344181...
+--> Subject:       "Hide overlays on ReviewPermissionsAtivity"
+--> Project path:  packages/apps/PackageInstaller
+--> Change number: 344181 (Patch Set 1)
+['git fetch github', u'refs/changes/81/344181/1']
+
+Applying change number 344182...
+--> Subject:       "Check dir path before updating permissions."
+--> Project path:  packages/providers/TelephonyProvider
+--> Change number: 344182 (Patch Set 1)
+['git fetch github', u'refs/changes/82/344182/1']
+
+Applying change number 344183...
+--> Subject:       "switch TelecomManager List getters to ParceledListSlice"
+--> Project path:  packages/services/Telecomm
+--> Change number: 344183 (Patch Set 1)
+['git fetch github', u'refs/changes/83/344183/1']
+
+Applying change number 344184...
+--> Subject:       "Add negative length check in process_service_search_rsp"
+--> Project path:  system/bt
+--> Change number: 344184 (Patch Set 1)
+['git fetch github', u'refs/changes/84/344184/1']
+
+Applying change number 344185...
+--> Subject:       "Add buffer in pin_reply in bluetooth.cc"
+--> Project path:  system/bt
+--> Change number: 344185 (Patch Set 1)
+['git fetch github', u'refs/changes/85/344185/1']
+
+Applying change number 344190...
+--> Subject:       "OOBW in phNxpNciHal_write_unlocked()"
+--> Project path:  vendor/nxp/opensource/halimpl
+--> Change number: 344190 (Patch Set 1)
+['git fetch github', u'refs/changes/90/344190/1']
+
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-16.0/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/92/345892/1 -> FETCH_HEAD
+[detached HEAD c165f751800f] Revert "RESTRICT AUTOMERGE Prevent non-admin users from deleting system apps."
+ Author: Oli Lan <olilan@google.com>
+ Date: Tue Jul 19 10:45:22 2022 +0000
+ 1 file changed, 10 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/93/345893/1 -> FETCH_HEAD
+[detached HEAD 595f61c8eb70] Limit the size of NotificationChannel and NotificationChannelGroup
+ Author: Julia Reynolds <juliacr@google.com>
+ Date: Fri Aug 19 09:54:23 2022 -0400
+ 4 files changed, 195 insertions(+), 9 deletions(-)
+ create mode 100644 core/tests/coretests/src/android/app/NotificationChannelGroupTest.java
+ create mode 100644 core/tests/coretests/src/android/app/NotificationChannelTest.java
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/94/345894/1 -> FETCH_HEAD
+[detached HEAD 4d47eec28b8d] RESTRICT AUTOMERGE Prevent non-admin users from deleting system apps.
+ Author: Oli Lan <olilan@google.com>
+ Date: Mon Aug 8 13:31:36 2022 +0100
+ 1 file changed, 11 insertions(+)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/95/345895/1 -> FETCH_HEAD
+[detached HEAD 158f3436d5fc] Validate package name passed to setApplicationRestrictions.
+ Author: Oli Lan <olilan@google.com>
+ Date: Fri Aug 19 17:08:13 2022 +0100
+ 2 files changed, 48 insertions(+)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/96/345896/1 -> FETCH_HEAD
+[detached HEAD 855a99ecf4be] Include all enabled services when FEEDBACK_ALL_MASK.
+ Author: Daniel Norman <danielnorman@google.com>
+ Date: Thu Sep 1 10:14:24 2022 -0700
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/97/345897/1 -> FETCH_HEAD
+[detached HEAD db765ce30fa9] [pm] forbid deletion of protected packages
+ Author: Songchun Fan <schfan@google.com>
+ Date: Fri Sep 9 14:50:31 2022 -0700
+ 1 file changed, 14 insertions(+)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/98/345898/1 -> FETCH_HEAD
+[detached HEAD 1de8ab4dc763] Fix NPE
+ Author: Julia Reynolds <juliacr@google.com>
+ Date: Tue Sep 6 10:19:06 2022 -0400
+ 2 files changed, 27 insertions(+), 3 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/99/345899/1 -> FETCH_HEAD
+[detached HEAD 14b2cc14c2e3] Fix a security issue in app widget service.
+ Author: Pinyao Ting <pinyaoting@google.com>
+ Date: Thu Jul 14 11:25:54 2022 -0700
+ 2 files changed, 7 insertions(+), 4 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/00/345900/1 -> FETCH_HEAD
+[detached HEAD 4f17bdbd2fdd] [Do Not Merge] Ignore malformed shortcuts
+ Author: Pinyao Ting <pinyaoting@google.com>
+ Date: Wed Sep 21 23:03:11 2022 +0000
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/01/345901/1 -> FETCH_HEAD
+[detached HEAD 9d28495740d0] [DO NOT MERGE] Fix permanent denial of service via setComponentEnabledSetting
+ Author: Rhed Jao <rhedjao@google.com>
+ Date: Mon Sep 26 21:35:26 2022 +0800
+ 1 file changed, 3 insertions(+)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/02/345902/1 -> FETCH_HEAD
+[detached HEAD 683070765493] Add safety checks on KEY_INTENT mismatch.
+ Author: Hao Ke <haok@google.com>
+ Date: Tue Oct 4 19:43:58 2022 +0000
+ 1 file changed, 30 insertions(+), 4 deletions(-)
+From https://github.com/LineageOS/android_frameworks_minikin
+ * branch            refs/changes/03/345903/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_frameworks_minikin
+ * branch            refs/changes/04/345904/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Bluetooth
+ * branch                refs/changes/07/345907/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_EmergencyInfo
+ * branch            refs/changes/08/345908/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_EmergencyInfo
+ * branch            refs/changes/09/345909/1 -> FETCH_HEAD
+Applying change number 345891...
+WARNING: Skipping 345891 since there is no project directory for: LineageOS/android_external_dtc
+
+Applying change number 345892...
+--> Subject:       "Revert "RESTRICT AUTOMERGE Prevent non-admin users from deleting system apps.""
+--> Project path:  frameworks/base
+--> Change number: 345892 (Patch Set 1)
+['git fetch github', u'refs/changes/92/345892/1']
+
+Applying change number 345893...
+--> Subject:       "Limit the size of NotificationChannel and NotificationChannelGroup"
+--> Project path:  frameworks/base
+--> Change number: 345893 (Patch Set 1)
+['git fetch github', u'refs/changes/93/345893/1']
+
+Applying change number 345894...
+--> Subject:       "RESTRICT AUTOMERGE Prevent non-admin users from deleting system apps."
+--> Project path:  frameworks/base
+--> Change number: 345894 (Patch Set 1)
+['git fetch github', u'refs/changes/94/345894/1']
+
+Applying change number 345895...
+--> Subject:       "Validate package name passed to setApplicationRestrictions."
+--> Project path:  frameworks/base
+--> Change number: 345895 (Patch Set 1)
+['git fetch github', u'refs/changes/95/345895/1']
+
+Applying change number 345896...
+--> Subject:       "Include all enabled services when FEEDBACK_ALL_MASK."
+--> Project path:  frameworks/base
+--> Change number: 345896 (Patch Set 1)
+['git fetch github', u'refs/changes/96/345896/1']
+
+Applying change number 345897...
+--> Subject:       "[pm] forbid deletion of protected packages"
+--> Project path:  frameworks/base
+--> Change number: 345897 (Patch Set 1)
+['git fetch github', u'refs/changes/97/345897/1']
+
+Applying change number 345898...
+--> Subject:       "Fix NPE"
+--> Project path:  frameworks/base
+--> Change number: 345898 (Patch Set 1)
+['git fetch github', u'refs/changes/98/345898/1']
+
+Applying change number 345899...
+--> Subject:       "Fix a security issue in app widget service."
+--> Project path:  frameworks/base
+--> Change number: 345899 (Patch Set 1)
+['git fetch github', u'refs/changes/99/345899/1']
+
+Applying change number 345900...
+--> Subject:       "[Do Not Merge] Ignore malformed shortcuts"
+--> Project path:  frameworks/base
+--> Change number: 345900 (Patch Set 1)
+['git fetch github', u'refs/changes/00/345900/1']
+
+Applying change number 345901...
+--> Subject:       "[DO NOT MERGE] Fix permanent denial of service via setComponentEnabledSetting"
+--> Project path:  frameworks/base
+--> Change number: 345901 (Patch Set 1)
+['git fetch github', u'refs/changes/01/345901/1']
+
+Applying change number 345902...
+--> Subject:       "Add safety checks on KEY_INTENT mismatch."
+--> Project path:  frameworks/base
+--> Change number: 345902 (Patch Set 1)
+['git fetch github', u'refs/changes/02/345902/1']
+
+Applying change number 345903...
+--> Subject:       "Fix OOB read for registerLocaleList"
+--> Project path:  frameworks/minikin
+--> Change number: 345903 (Patch Set 1)
+['git fetch github', u'refs/changes/03/345903/1']
+
+Applying change number 345904...
+--> Subject:       "Fix OOB crash for registerLocaleList"
+--> Project path:  frameworks/minikin
+--> Change number: 345904 (Patch Set 1)
+['git fetch github', u'refs/changes/04/345904/1']
+
+Applying change number 345907...
+--> Subject:       "Fix URI check in BluetoothOppUtility.java"
+--> Project path:  packages/apps/Bluetooth
+--> Change number: 345907 (Patch Set 1)
+['git fetch github', u'refs/changes/07/345907/1']
+
+Applying change number 345908...
+--> Subject:       "Revert "Prevent exfiltration of system files via user image settings.""
+--> Project path:  packages/apps/EmergencyInfo
+--> Change number: 345908 (Patch Set 1)
+['git fetch github', u'refs/changes/08/345908/1']
+
+Applying change number 345909...
+--> Subject:       "Prevent exfiltration of system files via avatar picker."
+--> Project path:  packages/apps/EmergencyInfo
+--> Change number: 345909 (Patch Set 1)
+['git fetch github', u'refs/changes/09/345909/1']
+
+Applying change number 345910...
+--> Subject:       "Revert "Prevent exfiltration of system files via user image settings.""
+--> Project path:  packages/apps/Settings
+--> Change number: 345910 (Patch Set 1)
+['git fetch From https://github.com/LineageOS/android_packages_apps_Settings
+ * branch                  refs/changes/10/345910/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Settings
+ * branch                  refs/changes/11/345911/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Settings
+ * branch                  refs/changes/12/345912/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_services_Telecomm
+ * branch                refs/changes/13/345913/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/14/345914/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/15/345915/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/16/345916/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/17/345917/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/18/345918/1 -> FETCH_HEAD
+github', u'refs/changes/10/345910/1']
+
+Applying change number 345911...
+--> Subject:       "Prevent exfiltration of system files via avatar picker."
+--> Project path:  packages/apps/Settings
+--> Change number: 345911 (Patch Set 1)
+['git fetch github', u'refs/changes/11/345911/1']
+
+Applying change number 345912...
+--> Subject:       "Add FLAG_SECURE for ChooseLockPassword and Pattern"
+--> Project path:  packages/apps/Settings
+--> Change number: 345912 (Patch Set 1)
+['git fetch github', u'refs/changes/12/345912/1']
+
+Applying change number 345913...
+--> Subject:       "Hide overlay windows when showing phone account enable/disable screen."
+--> Project path:  packages/services/Telecomm
+--> Change number: 345913 (Patch Set 1)
+['git fetch github', u'refs/changes/13/345913/1']
+
+Applying change number 345914...
+--> Subject:       "Add length check when copy AVDTP packet"
+--> Project path:  system/bt
+--> Change number: 345914 (Patch Set 1)
+['git fetch github', u'refs/changes/14/345914/1']
+
+Applying change number 345915...
+--> Subject:       "RESTRICT AUTOMERGE Added max buffer length check"
+--> Project path:  system/bt
+--> Change number: 345915 (Patch Set 1)
+['git fetch github', u'refs/changes/15/345915/1']
+
+Applying change number 345916...
+--> Subject:       "Add missing increment in bnep_api.cc"
+--> Project path:  system/bt
+--> Change number: 345916 (Patch Set 1)
+['git fetch github', u'refs/changes/16/345916/1']
+
+Applying change number 345917...
+--> Subject:       "Add length check when copy AVDT and AVCT packet"
+--> Project path:  system/bt
+--> Change number: 345917 (Patch Set 1)
+['git fetch github', u'refs/changes/17/345917/1']
+
+Applying change number 345918...
+--> Subject:       "Fix integer overflow when parsing avrc response"
+--> Project path:  system/bt
+--> Change number: 345918 (Patch Set 1)
+['git fetch github', u'refs/changes/18/345918/1']
+
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-16.0/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+From https://github.com/LineageOS/android_packages_services_Telephony
+ * branch                refs/changes/41/347041/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_services_Telecomm
+ * branch                refs/changes/42/347042/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Nfc
+ * branch              refs/changes/43/347043/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/44/347044/1 -> FETCH_HEAD
+[detached HEAD 91cb29335778] Limit lengths of fields in Condition to a max length.
+ Author: Yuri Lin <yurilin@google.com>
+ Date: Tue Sep 13 12:53:19 2022 -0400
+ 1 file changed, 34 insertions(+), 4 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/45/347045/1 -> FETCH_HEAD
+[detached HEAD 1d6872285983] RESTRICT AUTOMERGE Disable all A11yServices from an uninstalled package.
+ Author: Daniel Norman <danielnorman@google.com>
+ Date: Wed Oct 5 16:28:20 2022 -0700
+ 1 file changed, 13 insertions(+), 11 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/46/347046/1 -> FETCH_HEAD
+[detached HEAD cf1c6fa71019] [DO NOT MERGE] Fix conditionId string trimming in AutomaticZenRule
+ Author: Yuri Lin <yurilin@google.com>
+ Date: Wed Oct 12 14:27:46 2022 +0000
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/47/347047/1 -> FETCH_HEAD
+[detached HEAD b9b9a27303f0] [SettingsProvider] mem limit should be checked before settings are updated
+ Author: Songchun Fan <schfan@google.com>
+ Date: Wed Aug 17 09:37:18 2022 -0700
+ 2 files changed, 90 insertions(+), 28 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/48/347048/1 -> FETCH_HEAD
+[detached HEAD d1f3163a15ae] RESTRICT AUTOMERGE Revert "Revert "RESTRICT AUTOMERGE Validate permission tree size..."
+ Author: Nate Myren <ntmyren@google.com>
+ Date: Wed Oct 26 17:37:26 2022 +0000
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/49/347049/1 -> FETCH_HEAD
+[detached HEAD da09b6a7c004] [RESTRICT AUTOMERGE][SettingsProvider] key size limit for mutating settings
+ Author: Songchun Fan <schfan@google.com>
+ Date: Tue Oct 11 18:08:11 2022 -0700
+ 2 files changed, 126 insertions(+), 16 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/50/347050/1 -> FETCH_HEAD
+[detached HEAD 4bc1bb5bc2d0] RESTRICT AUTOMERGE Revoke SYSTEM_ALERT_WINDOW on upgrade past api 23
+ Author: Nate Myren <ntmyren@google.com>
+ Date: Fri Sep 23 12:04:57 2022 -0700
+ 3 files changed, 54 insertions(+), 14 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/51/347051/1 -> FETCH_HEAD
+[detached HEAD a159f0237af1] Add protections agains use-after-free issues if cancel() or queue() is called after a device connection has been closed.
+ Author: Khoa Hong <khoahong@google.com>
+ Date: Wed Oct 19 16:29:18 2022 +0800
+ 2 files changed, 143 insertions(+), 14 deletions(-)
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/27/347127/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/28/347128/1 -> FETCH_HEAD
+Applying change number 347041...
+--> Subject:       "prevent overlays on the phone settings"
+--> Project path:  packages/services/Telephony
+--> Change number: 347041 (Patch Set 1)
+['git fetch github', u'refs/changes/41/347041/1']
+
+Applying change number 347042...
+--> Subject:       "Fix security vulnerability when register phone accounts."
+--> Project path:  packages/services/Telecomm
+--> Change number: 347042 (Patch Set 1)
+['git fetch github', u'refs/changes/42/347042/1']
+
+Applying change number 347043...
+--> Subject:       "DO NOT MERGE OOBW in Mfc_Transceive()"
+--> Project path:  packages/apps/Nfc
+--> Change number: 347043 (Patch Set 1)
+['git fetch github', u'refs/changes/43/347043/1']
+
+Applying change number 347044...
+--> Subject:       "Limit lengths of fields in Condition to a max length."
+--> Project path:  frameworks/base
+--> Change number: 347044 (Patch Set 1)
+['git fetch github', u'refs/changes/44/347044/1']
+
+Applying change number 347045...
+--> Subject:       "RESTRICT AUTOMERGE Disable all A11yServices from an uninstalled package."
+--> Project path:  frameworks/base
+--> Change number: 347045 (Patch Set 1)
+['git fetch github', u'refs/changes/45/347045/1']
+
+Applying change number 347046...
+--> Subject:       "[DO NOT MERGE] Fix conditionId string trimming in AutomaticZenRule"
+--> Project path:  frameworks/base
+--> Change number: 347046 (Patch Set 1)
+['git fetch github', u'refs/changes/46/347046/1']
+
+Applying change number 347047...
+--> Subject:       "[SettingsProvider] mem limit should be checked before settings are updated"
+--> Project path:  frameworks/base
+--> Change number: 347047 (Patch Set 1)
+['git fetch github', u'refs/changes/47/347047/1']
+
+Applying change number 347048...
+--> Subject:       "RESTRICT AUTOMERGE Revert "Revert "RESTRICT AUTOMERGE Validate permission tree size...""
+--> Project path:  frameworks/base
+--> Change number: 347048 (Patch Set 1)
+['git fetch github', u'refs/changes/48/347048/1']
+
+Applying change number 347049...
+--> Subject:       "[RESTRICT AUTOMERGE][SettingsProvider] key size limit for mutating settings"
+--> Project path:  frameworks/base
+--> Change number: 347049 (Patch Set 1)
+['git fetch github', u'refs/changes/49/347049/1']
+
+Applying change number 347050...
+--> Subject:       "RESTRICT AUTOMERGE Revoke SYSTEM_ALERT_WINDOW on upgrade past api 23"
+--> Project path:  frameworks/base
+--> Change number: 347050 (Patch Set 1)
+['git fetch github', u'refs/changes/50/347050/1']
+
+Applying change number 347051...
+--> Subject:       "Add protections agains use-after-free issues if cancel() or queue() is called after a device connection has been closed."
+--> Project path:  frameworks/base
+--> Change number: 347051 (Patch Set 1)
+['git fetch github', u'refs/changes/51/347051/1']
+
+Applying change number 347127...
+--> Subject:       "BT: Once AT command is retrieved, return from method."
+--> Project path:  system/bt
+--> Change number: 347127 (Patch Set 1)
+['git fetch github', u'refs/changes/27/347127/1']
+
+Applying change number 347128...
+--> Subject:       "AVRC: Validating msg size before accessing fields"
+--> Project path:  system/bt
+--> Change number: 347128 (Patch Set 1)
+['git fetch github', u'refs/changes/28/347128/1']
+
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-16.0/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+From https://github.com/LineageOS/android_frameworks_av
+ * branch                  refs/changes/29/349329/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/30/349330/1 -> FETCH_HEAD
+[detached HEAD ba46cf8bab30] [RESTRICT AUTOMERGE] Correct the behavior of ACTION_PACKAGE_DATA_CLEARED
+ Author: Jackal Guo <jackalguo@google.com>
+ Date: Tue Oct 25 15:03:55 2022 +0800
+ 1 file changed, 14 insertions(+), 12 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/31/349331/1 -> FETCH_HEAD
+[detached HEAD 5edff4876093] Convert argument to intent in ChooseTypeAndAccountActivity
+ Author: Dmitry Dementyev <dementyev@google.com>
+ Date: Tue Nov 22 22:54:01 2022 +0000
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+From https://github.com/LineageOS/android_packages_apps_Bluetooth
+ * branch                refs/changes/32/349332/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_EmergencyInfo
+ * branch            refs/changes/33/349333/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/34/349334/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/35/349335/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_vendor_nxp_opensource_packages_apps_Nfc
+ * branch              refs/changes/36/349336/1 -> FETCH_HEAD
+Applying change number 349328...
+WARNING: Skipping 349328 since there is no project directory for: LineageOS/android_external_expat
+
+Applying change number 349329...
+--> Subject:       "move MediaCodec metrics processing to looper thread"
+--> Project path:  frameworks/av
+--> Change number: 349329 (Patch Set 1)
+['git fetch github', u'refs/changes/29/349329/1']
+
+Applying change number 349330...
+--> Subject:       "[RESTRICT AUTOMERGE] Correct the behavior of ACTION_PACKAGE_DATA_CLEARED"
+--> Project path:  frameworks/base
+--> Change number: 349330 (Patch Set 1)
+['git fetch github', u'refs/changes/30/349330/1']
+
+Applying change number 349331...
+--> Subject:       "Convert argument to intent in ChooseTypeAndAccountActivity"
+--> Project path:  frameworks/base
+--> Change number: 349331 (Patch Set 1)
+['git fetch github', u'refs/changes/31/349331/1']
+
+Applying change number 349332...
+--> Subject:       "Fix OPP comparison"
+--> Project path:  packages/apps/Bluetooth
+--> Change number: 349332 (Patch Set 1)
+['git fetch github', u'refs/changes/32/349332/1']
+
+Applying change number 349333...
+--> Subject:       "Removes unnecessary permission from the EmergencyInfo app."
+--> Project path:  packages/apps/EmergencyInfo
+--> Change number: 349333 (Patch Set 1)
+['git fetch github', u'refs/changes/33/349333/1']
+
+Applying change number 349334...
+--> Subject:       "Report failure when not able to connect to AVRCP"
+--> Project path:  system/bt
+--> Change number: 349334 (Patch Set 1)
+['git fetch github', u'refs/changes/34/349334/1']
+
+Applying change number 349335...
+--> Subject:       "Add bounds check in avdt_scb_act.cc"
+--> Project path:  system/bt
+--> Change number: 349335 (Patch Set 1)
+['git fetch github', u'refs/changes/35/349335/1']
+
+Applying change number 349336...
+--> Subject:       "DO NOT MERGE OOBW in phNciNfc_MfCreateXchgDataHdr"
+--> Project path:  vendor/nxp/opensource/commonsys/packages/apps/Nfc
+--> Change number: 349336 (Patch Set 1)
+['git fetch github', u'refs/changes/36/349336/1']
+
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-16.0/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+From https://github.com/LineageOS/android_external_zlib
+ * branch            refs/changes/09/351909/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/10/351910/1 -> FETCH_HEAD
+[detached HEAD 3e317fec7f34] Move service initialization
+ Author: Julia Reynolds <juliacr@google.com>
+ Date: Mon May 16 15:28:24 2022 -0400
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/11/351911/1 -> FETCH_HEAD
+[detached HEAD 1e7c41747abe] Enable user graularity for lockdown mode
+ Author: Wenhao Wang <wenhaowang@google.com>
+ Date: Tue Aug 30 11:09:46 2022 -0700
+ 1 file changed, 46 insertions(+), 29 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/12/351912/1 -> FETCH_HEAD
+[detached HEAD dcc7956955f6] RESTRICT AUTOMERGE Revoke dev perm if app is upgrading to post 23 and perm has pre23 flag
+ Author: Nate Myren <ntmyren@google.com>
+ Date: Fri Dec 2 09:44:31 2022 -0800
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+From https://github.com/LineageOS/android_frameworks_base
+ * branch                      refs/changes/13/351913/1 -> FETCH_HEAD
+[detached HEAD fb505cf2a58e] Reconcile WorkSource parcel and unparcel code.
+ Author: Michael Wright <michaelwr@google.com>
+ Date: Mon Sep 26 20:37:33 2022 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+From https://github.com/LineageOS/android_packages_apps_Settings
+ * branch                  refs/changes/14/351914/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_packages_apps_Settings
+ * branch                  refs/changes/15/351915/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/16/351916/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/17/351917/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_system_bt
+ * branch                refs/changes/18/351918/1 -> FETCH_HEAD
+Applying change number 351909...
+--> Subject:       "Fix a bug when getting a gzip header extra field with inflate()."
+--> Project path:  external/zlib
+--> Change number: 351909 (Patch Set 1)
+['git fetch github', u'refs/changes/09/351909/1']
+
+Applying change number 351910...
+--> Subject:       "Move service initialization"
+--> Project path:  frameworks/base
+--> Change number: 351910 (Patch Set 1)
+['git fetch github', u'refs/changes/10/351910/1']
+
+Applying change number 351911...
+--> Subject:       "Enable user graularity for lockdown mode"
+--> Project path:  frameworks/base
+--> Change number: 351911 (Patch Set 1)
+['git fetch github', u'refs/changes/11/351911/1']
+
+Applying change number 351912...
+--> Subject:       "RESTRICT AUTOMERGE Revoke dev perm if app is upgrading to post 23 and perm has pre23 flag"
+--> Project path:  frameworks/base
+--> Change number: 351912 (Patch Set 1)
+['git fetch github', u'refs/changes/12/351912/1']
+
+Applying change number 351913...
+--> Subject:       "Reconcile WorkSource parcel and unparcel code."
+--> Project path:  frameworks/base
+--> Change number: 351913 (Patch Set 1)
+['git fetch github', u'refs/changes/13/351913/1']
+
+Applying change number 351914...
+--> Subject:       "[DO NOT MERGE] FRP bypass defense in the settings app"
+--> Project path:  packages/apps/Settings
+--> Change number: 351914 (Patch Set 1)
+['git fetch github', u'refs/changes/14/351914/1']
+
+Applying change number 351915...
+--> Subject:       "Add DISALLOW_APPS_CONTROL check into uninstall app for all users"
+--> Project path:  packages/apps/Settings
+--> Change number: 351915 (Patch Set 1)
+['git fetch github', u'refs/changes/15/351915/1']
+
+Applying change number 351916...
+--> Subject:       "Fix an OOB Write bug in gatt_check_write_long_terminate"
+--> Project path:  system/bt
+--> Change number: 351916 (Patch Set 1)
+['git fetch github', u'refs/changes/16/351916/1']
+
+Applying change number 351917...
+--> Subject:       "Fix an OOB access bug in A2DP_BuildMediaPayloadHeaderSbc"
+--> Project path:  system/bt
+--> Change number: 351917 (Patch Set 1)
+['git fetch github', u'refs/changes/17/351917/1']
+
+Applying change number 351918...
+--> Subject:       "Fix an OOB write in SDP_AddAttribute"
+--> Project path:  system/bt
+--> Change number: 351918 (Patch Set 1)
+['git fetch github', u'refs/changes/18/351918/1']
+
+Warning: an existing sandbox was detected. /usr/bin/wget will run without any additional sandboxing features
+WARNING: timestamping does nothing in combination with -O. See the manual
+for details.
+
+2023-03-31 11:46:59 URL:https://divested.dev/hosts-wildcards [18684602/18684602] -> "/tmp/dos_tmp/hosts" [1]
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/EtarPrebuilt.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/F-DroidOfficial.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/OpenCamera.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/SimpleGallery.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/TalkBack.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/TalkBackLegacy.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/eSpeakNG.apk.asc[0m
+================================================================================================
+[0;32m[ENTERING] art[0m
+HEAD is now at bd18ab6753 DO NOT MERGE: Workaround for mmap error when building
+Applying: constify JNINativeMethod tables
+================================================================================================
+[0;32m[ENTERING] bionic[0m
+HEAD is now at b91dfc8b9 Merge tag 'android-security-9.0.0_r62' into staging/lineage-16.0_merge-android-security-9.0.0_r62
+Applying: add hardened_malloc library
+Applying: add a real explicit_bzero implementation
+Applying: fix undefined out-of-bounds accesses in sched.h
+Applying: stop implicitly marking mappings as mergeable
+Applying: replace VLA formatting buffer with dprintf
+Applying: increase default pthread stack to 8MiB on 64-bit
+Applying: make __stack_chk_guard read-only at runtime
+Applying: on 64-bit, zero the leading stack canary byte
+================================================================================================
+[0;32m[ENTERING] bootable/recovery[0m
+HEAD is now at 3492c6b5 Add controller support
+Auto-merging recovery.cpp
+[detached HEAD ff184dc2] Revert "recovery: Set SELinux to permissive for non-release builds"
+ Date: Fri Mar 31 11:47:00 2023 -0400
+ 1 file changed, 5 deletions(-)
+[detached HEAD 3f966426] Revert "recovery: increase free memory for sideload cache"
+ Date: Fri Mar 31 11:47:00 2023 -0400
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+[detached HEAD 7739e9be] Revert "recovery: Provide caching for sideload files"
+ Date: Fri Mar 31 11:47:00 2023 -0400
+ 1 file changed, 1 insertion(+), 105 deletions(-)
+Auto-merging recovery.cpp
+[detached HEAD 55691876] Revert "recovery: Support configfs usb configuration"
+ Date: Fri Mar 31 11:47:00 2023 -0400
+ 2 files changed, 15 insertions(+), 47 deletions(-)
+[detached HEAD 4fd7322d] Revert "update_verifier: skip verity to determine successful on lineage builds"
+ Date: Fri Mar 31 11:47:00 2023 -0400
+ 1 file changed, 2 deletions(-)
+Applying: reject updates with serialno constraints
+================================================================================================
+[0;32m[ENTERING] build/make[0m
+HEAD is now at 1bfc37a325 Bump Security String to 2022-01-05
+Auto-merging tools/releasetools/ota_from_target_files.py
+[detached HEAD 92fd438abd] Revert "ota: Disable downgrade check"
+ Date: Fri Mar 31 11:47:00 2023 -0400
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+Auto-merging target/product/full_base.mk
+Auto-merging target/product/sdk_base.mk
+[detached HEAD 6c65f4886f] Revert "external/svox is going away."
+ Date: Fri Mar 31 11:47:00 2023 -0400
+ 2 files changed, 11 insertions(+)
+Auto-merging target/product/core.mk
+[detached HEAD 99cee156a7] Revert "Remove PicoTTS from the base."
+ Date: Fri Mar 31 11:47:00 2023 -0400
+ 1 file changed, 1 insertion(+)
+Applying: Allow setting OTA public keys from environment variable
+Applying: use -fwrapv when signed overflow checking is off
+================================================================================================
+[0;32m[ENTERING] build/soong[0m
+HEAD is now at c27467148 soong: allow overriding header files
+Applying: use -fwrapv when signed overflow checking is off
+================================================================================================
+[0;32m[ENTERING] device/qcom/sepolicy-legacy[0m
+HEAD is now at 2f39c9e common: permit libqdutils operation (linked by mediaserver) during WFD
+Applying: TEMPORARY fix camera not working on user builds
+================================================================================================
+[0;32m[ENTERING] external/chromium-webview[0m
+HEAD is now at 4fcb97f Make it Mulch, 2023/03/30
+================================================================================================
+[0;32m[ENTERING] external/conscrypt[0m
+HEAD is now at 488471ab Filter out ConscryptJava6Suite.java. (#496)
+Applying: constify JNINativeMethod table
+================================================================================================
+[0;32m[ENTERING] external/dtc[0m
+HEAD is now at 6c6634a Add metadata am: f0b88bfe14 am: bde5afd27d am: eaac31b636
+From https://github.com/LineageOS/android_external_dtc
+ * branch            refs/changes/96/342096/1 -> FETCH_HEAD
+[detached HEAD 80c2efe] FROMGIT: libfdt: fdt_offset_ptr(): Fix comparison warnings
+ Author: Andre Przywara <andre.przywara@arm.com>
+ Date: Mon Sep 21 17:52:50 2020 +0100
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+From https://github.com/LineageOS/android_external_dtc
+ * branch            refs/changes/61/344161/1 -> FETCH_HEAD
+[detached HEAD 7ace7b5] Fix integer wrap sanitisation.
+ Author: Mike McTernan <mikemcternan@google.com>
+ Date: Fri Jul 22 11:44:33 2022 +0100
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+From https://github.com/LineageOS/android_external_dtc
+ * branch            refs/changes/91/345891/1 -> FETCH_HEAD
+[detached HEAD 8c3c3d4] libfdt: fdt_path_offset_namelen: Reject empty paths
+ Author: Pierre-Clément Tosi <ptosi@google.com>
+ Date: Tue Sep 13 16:58:15 2022 +0100
+ 1 file changed, 3 insertions(+)
+================================================================================================
+[0;32m[ENTERING] external/expat[0m
+HEAD is now at 9a9c9b09 Merge "Upgrade to expat 2.2.5." am: 9204094d45 am: 61b40d53d7 am: 922ad2ac06
+From https://github.com/LineageOS/android_external_expat
+ * branch              refs/changes/53/338353/1 -> FETCH_HEAD
+[detached HEAD 640b3ff2] Prevent integer overflow in copyString
+ Author: Sadaf Ebrahimi <sadafebrahimi@google.com>
+ Date: Mon May 23 22:34:43 2022 +0000
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+From https://github.com/LineageOS/android_external_expat
+ * branch              refs/changes/54/338354/1 -> FETCH_HEAD
+[detached HEAD 92ee0390] Prevent XML_GetBuffer signed integer overflow
+ Author: Sadaf Ebrahimi <sadafebrahimi@google.com>
+ Date: Thu Jun 2 19:32:22 2022 +0000
+ 1 file changed, 5 insertions(+)
+From https://github.com/LineageOS/android_external_expat
+ * branch              refs/changes/55/338355/1 -> FETCH_HEAD
+[detached HEAD a0fb80df] Prevent integer overflow in function doProlog
+ Author: Sadaf Ebrahimi <sadafebrahimi@google.com>
+ Date: Fri Jun 3 03:40:21 2022 +0000
+ 1 file changed, 13 insertions(+), 7 deletions(-)
+From https://github.com/LineageOS/android_external_expat
+ * branch              refs/changes/56/338356/1 -> FETCH_HEAD
+[detached HEAD c5f65e66] Prevent more integer overflows
+ Author: Sadaf Ebrahimi <sadafebrahimi@google.com>
+ Date: Wed Jun 15 04:14:33 2022 +0000
+ 1 file changed, 150 insertions(+), 2 deletions(-)
+From https://github.com/LineageOS/android_external_expat
+ * branch              refs/changes/28/349328/1 -> FETCH_HEAD
+[detached HEAD 55dd54d5] [CVE-2022-43680] Fix overeager DTD destruction (fixes #649)
+ Author: Sadaf Ebrahimi <sadafebrahimi@google.com>
+ Date: Wed Nov 16 16:31:05 2022 +0000
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+================================================================================================
+[0;32m[ENTERING] external/hardened_malloc[0m
+HEAD is now at 464bfd4 temporary workarounds for Pixel 3
+Applying: workaround for audio service sorting bug
+Applying: Expand workaround to all camera executables
+================================================================================================
+[0;32m[ENTERING] external/svox[0m
+HEAD is now at c5a33e4 Merge "CTS cases fail due to NE in SVOX TTS library"
+[detached HEAD f5f0a61] Revert "Disable external/svox."
+ Date: Fri Mar 31 11:47:12 2023 -0400
+ 21 files changed, 388 insertions(+)
+ create mode 100755 Android.mk
+ create mode 100644 CleanSpec.mk
+ create mode 100755 PicoLangInstallerDeuDeu/Android.mk
+ create mode 100755 PicoLangInstallerEngGbr/Android.mk
+ create mode 100755 PicoLangInstallerEngUsa/Android.mk
+ create mode 100755 PicoLangInstallerFraFra/Android.mk
+ create mode 100755 PicoLangInstallerItaIta/Android.mk
+ create mode 100755 PicoLangInstallerSpaEsp/Android.mk
+ create mode 100755 pico/Android.mk
+ create mode 100755 pico/compat/jni/Android.mk
+ create mode 100644 pico/lang/PicoLangDeDeInSystem.mk
+ create mode 100644 pico/lang/PicoLangDefaultInSystem.mk
+ create mode 100644 pico/lang/PicoLangEnGBInSystem.mk
+ create mode 100644 pico/lang/PicoLangEnUsInSystem.mk
+ create mode 100644 pico/lang/PicoLangEsEsInSystem.mk
+ create mode 100644 pico/lang/PicoLangFrFrInSystem.mk
+ create mode 100644 pico/lang/PicoLangItItInSystem.mk
+ create mode 100644 pico/lang/all_pico_languages.mk
+ create mode 100644 pico/lib/Android.mk
+ create mode 100644 pico/tts/Android.mk
+ create mode 100644 picolanginstaller/Android.mk
+================================================================================================
+[0;32m[ENTERING] frameworks/av[0m
+HEAD is now at 994d955019 move MediaCodec metrics processing to looper thread
+Applying: avoid setting RLIMIT_AS with hardened malloc
+================================================================================================
+[0;32m[ENTERING] frameworks/base[0m
+HEAD is now at fb505cf2a58e Reconcile WorkSource parcel and unparcel code.
+Applying: always set deprecated Build.SERIAL to UNKNOWN
+Applying: stop auto-granting location to system browsers
+Applying: allow SystemUI to directly manage Bluetooth/WiFi
+Applying: add exec-based spawning support
+Applying: add parameter for avoiding full preload with exec
+Applying: disable OpenGL preloading for exec spawning
+Applying: disable resource preloading for exec spawning
+Applying: disable ICU cache pinning for exec spawning
+Applying: disable class preloading for exec spawning
+Applying: disable WebView reservation for exec spawning
+Applying: disable JCA provider warm up for exec spawning
+Applying: avoid AssetManager errors with exec spawning
+Applying: disable exec spawning when using debugging options
+Applying: exec spawning: don't close the binder connection when the app crashes
+Applying: SUPL: Don't send IMSI / Phone number to SUPL server
+Applying: use permanent fingerprint lockout immediately
+Applying: enable secondary user logout support by default
+Applying: support new special runtime permissions
+Applying: make INTERNET into a special runtime permission
+Applying: add a NETWORK permission group for INTERNET
+Applying: add special runtime permission for other sensors
+Applying: constify JNINativeMethod tables
+Applying: don't crash apps that depend on missing Gservices provider
+Enhanced location services for /mnt/dos//Build/LineageOS-16.0/
+================================================================================================
+[0;32m[ENTERING] frameworks/native[0m
+HEAD is now at af9b25edb0 Check if the window is partially obscured for slippery enters
+Applying: require OTHER_SENSORS permission for sensors
+================================================================================================
+[0;32m[ENTERING] frameworks/opt/net/wifi[0m
+HEAD is now at 7752ca6d0 Merge tag 'android-security-9.0.0_r66' into staging/lineage-16.0_merge_android-security-9.0.0_r66
+Applying: constify JNINativeMethod table
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display[0m
+HEAD is now at 4ddd15141 Revert "sdm: core: Use upstream DRM_MODE_REFLECT_ defines"
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/apq8084[0m
+HEAD is now at dfd2336ce hwc: Handle validateAndSet failures in AD prepare call
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/msm8916[0m
+HEAD is now at 197a40e18 hwc: Remove _vendor from libbfqio
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/msm8952[0m
+HEAD is now at f38874231 hwc: Remove _vendor from libbfqio
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/msm8960[0m
+HEAD is now at b90f1719c Revert "Don't force GPU composite for older devices"
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/msm8974[0m
+HEAD is now at 0cc9709b8 hwc: Remove _vendor from libbfqio
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/msm8994[0m
+HEAD is now at 4523303d9 hwc: Remove _vendor from libbfqio
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/msm8996[0m
+HEAD is now at 44a0b38f9 hwc: Remove _vendor from libbfqio
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/msm8998[0m
+HEAD is now at 7e778780e gralloc: Add option for YCrCb venus camera preview
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] libcore[0m
+HEAD is now at b15391565d3 DO NOT MERGE Track TZDB 2022a rev. 2 changes. [P]
+Applying: don't throw SecurityException when INTERNET permission is revoked
+Applying: constify JNINativeMethod tables
+================================================================================================
+[0;32m[ENTERING] lineage-sdk[0m
+HEAD is now at 087e056d Automatic translation import
+================================================================================================
+[0;32m[ENTERING] packages/apps/Bluetooth[0m
+HEAD is now at 90e0fb025 Fix OPP comparison
+Applying: constify JNINativeMethod tables
+================================================================================================
+[0;32m[ENTERING] packages/apps/Contacts[0m
+HEAD is now at 5055718d9 No longer export CallSubjectDialog
+Applying: remove useless no-op privacy policy / terms of use
+Applying: Don't prompt to add account when creating a contact
+Applying: Use common intent for directions instead of Google Maps URL
+================================================================================================
+[0;32m[ENTERING] packages/apps/Dialer[0m
+HEAD is now at 71701cfc7 No longer export CallSubjectDialog
+Applying: Show privacy warning on in-call screen
+================================================================================================
+[0;32m[ENTERING] packages/apps/LineageParts[0m
+HEAD is now at 3890464 Automatic translation import
+Applying: Remove analytics
+================================================================================================
+[0;32m[ENTERING] packages/apps/Nfc[0m
+HEAD is now at 48b3f345 DO NOT MERGE OOBW in Mfc_Transceive()
+Applying: constify JNINativeMethod tables
+================================================================================================
+[0;32m[ENTERING] packages/apps/PackageInstaller[0m
+HEAD is now at 79fbc97fa Hide overlays on ReviewPermissionsAtivity
+Applying: always treat INTERNET as a runtime permission
+Applying: add NETWORK permission group
+Applying: add OTHER_SENSORS permission group
+Applying: always treat OTHER_SENSORS as a runtime permission
+================================================================================================
+[0;32m[ENTERING] packages/apps/Settings[0m
+HEAD is now at 718126925d Add DISALLOW_APPS_CONTROL check into uninstall app for all users
+[detached HEAD a9cead4d94] Revert "DevelopmentSettings: Hide OEM unlock by default"
+ Date: Fri Mar 31 11:47:19 2023 -0400
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+Applying: Network & Internet Settings: Add option to switch off Captive portal check
+================================================================================================
+[0;32m[ENTERING] packages/apps/SetupWizard[0m
+HEAD is now at 9669948 Automatic translation import
+Applying: Remove analytics
+================================================================================================
+[0;32m[ENTERING] packages/apps/Trebuchet[0m
+HEAD is now at a9b9417d82 Automatic translation import
+================================================================================================
+[0;32m[ENTERING] packages/apps/Updater[0m
+HEAD is now at 27c0ffe Automatic translation import
+Applying: Switch to our update server
+Applying: Add support for routing over Tor
+================================================================================================
+[0;32m[ENTERING] packages/inputmethods/LatinIME[0m
+HEAD is now at 28aa82a0a Automatic translation import
+Applying: Remove voice input key
+Applying: disable personalized dicts by default
+================================================================================================
+[0;32m[ENTERING] packages/providers/DownloadProvider[0m
+HEAD is now at 6a33c2d8 Automatic translation import
+Applying: remove legacy NETWORK permission group reference
+================================================================================================
+[0;32m[ENTERING] packages/services/Telephony[0m
+HEAD is now at d596467cc prevent overlays on the phone settings
+Auto-merging res/values/strings.xml
+[detached HEAD de73ff3bd] Revert "DO NOT MERGE ANYWHERE 1x options be removed from specific preferred network list."
+ Date: Fri Mar 31 11:47:20 2023 -0400
+ 6 files changed, 4 insertions(+), 114 deletions(-)
+ delete mode 100644 res/values-mcc311-mnc220/strings.xml
+ delete mode 100644 res/values-mcc311-mnc225/strings.xml
+ delete mode 100644 res/values-mcc311-mnc580/strings.xml
+Applying: Change UpdateEnabledNetworksValueAndSummary to handle all modes
+Applying: More preferred network modes
+================================================================================================
+[0;32m[ENTERING] system/core[0m
+HEAD is now at 976019d07 Backport of Win-specific suppression of potentially rogue construct that can engage in directory traversal on the host.
+Auto-merging rootdir/init.rc
+[detached HEAD 7067a35cf] Revert "init: update recovery when enabled in settings"
+ Date: Fri Mar 31 11:47:20 2023 -0400
+ 1 file changed, 6 deletions(-)
+Applying: Harden
+Applying: increase max_map_count for hardened malloc
+Applying: zero sensitive information with explicit_bzero
+================================================================================================
+[0;32m[ENTERING] system/extras[0m
+HEAD is now at 3b4b5a8d Merge remote-tracking branch 'aosp/pie-gsi' into lineage-16.0-pie-gsi
+Applying: ext4_crypt: pad filenames to 32 bytes, not 16 or 4
+================================================================================================
+[0;32m[ENTERING] system/sepolicy[0m
+HEAD is now at 04e2cd1b1 neverallows: Adjust check neverallow rules to use actual TARGET_BUILD_VARIANT
+Applying: label protected_{fifos,regular} as proc_security
+Applying: Fix -user builds for many LGE devices
+Warning: an existing sandbox was detected. /usr/bin/patch will run without any additional sandboxing features
+patching file public/domain.te
+Warning: an existing sandbox was detected. /usr/bin/patch will run without any additional sandboxing features
+patching file public/domain.te
+Hunk #1 succeeded at 486 with fuzz 2 (offset -111 lines).
+Hunk #2 succeeded at 503 (offset -112 lines).
+Warning: an existing sandbox was detected. /usr/bin/patch will run without any additional sandboxing features
+patching file public/domain.te
+Hunk #1 succeeded at 482 with fuzz 2 (offset -115 lines).
+Hunk #2 succeeded at 499 with fuzz 2 (offset -116 lines).
+================================================================================================
+[0;32m[ENTERING] vendor/lineage[0m
+HEAD is now at cae3647d repopick: Use project revision if available
+================================================================================================
+[0;32m[ENTERING] vendor/divested[0m
+================================================================================================
+[0;32m[ENTERING] device/lge/hammerhead[0m
+HEAD is now at 512a72b hammerhead: Add privapp permissions
+Applying: sepolicy: Resolve surfaceflinger access to qdisplay service
+Applying: sepolicy: Resolve healthd denials
+Applying: sepolicy: Resolve storaged denials
+Applying: sepolicy: Label sysfs_net
+Applying: sepolicy: Resolve init denials
+Applying: sepolicy: Resolve surfaceflinger denials
+Applying: sepolicy: Resolve nfc denial
+================================================================================================
+[0;32m[ENTERING] device/wileyfox/kipper[0m
+HEAD is now at 675a3ae Revert "kipper: Update gps configs from TOS125B"
+Enabled ramdisk compression
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Enhanced location services for hardware/qcom/gps/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8084/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8909/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8909w_3100/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8960/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8974/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8994/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8996/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8998/etc/gps.conf
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Enhanced location services for device/common/gps/gps.conf_AS
+Enhanced location services for device/common/gps/gps.conf_EU
+Enhanced location services for device/common/gps/gps.conf_AS_SUPL
+Enhanced location services for device/common/gps/gps.conf_EU_SUPL
+Enhanced location services for device/common/gps/gps.conf_US
+Enhanced location services for device/common/gps/gps.conf_US_SUPL
+Enhanced location services for device/google/yellowstone/gps/gps.conf
+Enhanced location services for device/lge/hammerhead/gps.conf
+Enhanced location services for device/wileyfox/kipper/gps/gps.conf
+Enhanced location services for device/samsung/apq8084-common/configs/gps.conf
+Enhanced location services for device/xiaomi/msm8937-common/gps/etc/gps.conf
+Enhanced location services for device/zuk/ham/gps/gps.conf
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Enhanced location services for vendor/samsung/apexqtmo/proprietary/etc/gps.conf
+Enhanced location services for vendor/samsung/captivatemtd/proprietary/gps.conf
+Enhanced location services for vendor/samsung/celox/proprietary/etc/gps.conf
+Enhanced location services for vendor/samsung/epicmtd/proprietary/etc/gps.conf
+Enhanced location services for vendor/samsung/espressovzw/proprietary/etc/gps.conf
+Enhanced location services for vendor/samsung/fascinatemtd/proprietary/gps.conf
+Enhanced location services for vendor/samsung/galaxysbmtd/proprietary/gps.conf
+Enhanced location services for vendor/samsung/galaxysmtd/proprietary/gps.conf
+Enhanced location services for vendor/samsung/gts4lv-common/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/samsung/picassowifi/proprietary/etc/gps.conf
+Enhanced location services for vendor/samsung/p1-common/proprietary/gps.conf
+Enhanced location services for vendor/samsung/vibrantmtd/proprietary/gps.conf
+Enhanced location services for vendor/samsung/ypg1/proprietary/etc/gps.conf
+Enhanced location services for vendor/xiaomi/armani/proprietary/etc/gps.conf
+Enhanced location services for vendor/xiaomi/beryllium/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/xiaomi/dipper/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/xiaomi/equuleus/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/xiaomi/polaris/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/xiaomi/ursa/proprietary/vendor/etc/gps.conf
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Enhanced location services for device/generic/car/emulator/audio/overlay
+Enhanced location services for device/generic/x86/overlay
+Enhanced location services for device/generic/armv7-a-neon/overlay
+Enhanced location services for device/cyanogen/msm8916-common/overlay
+Enhanced location services for device/google/yellowstone/overlay
+Enhanced location services for device/samsung/kccat6/overlay
+Enhanced location services for device/samsung/lentislte/overlay
+Enhanced location services for device/samsung/apq8084-common/overlay
+Enhanced location services for device/lge/hammerhead/overlay
+Enhanced location services for device/wileyfox/kipper/overlay
+Enhanced location services for device/google/atv/overlay
+Enhanced location services for device/samsung/qcom-common/overlay
+Enhanced location services for device/zuk/ham/overlay
+Enhanced location services for device/xiaomi/msm8937-common/overlay
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Set VoLTE override in system.prop for device/samsung/apq8084-common
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Enabled full dexpreopt for device/generic/arm64
+Enabled full dexpreopt for device/generic/armv7-a-neon
+Enabled full dexpreopt for device/generic/uml
+Enabled full dexpreopt for device/generic/x86
+Enabled full dexpreopt for device/generic/x86_64
+Enabled full dexpreopt for device/google/yellowstone
+Enabled full dexpreopt for device/lge/hammerhead
+Enabled full dexpreopt for device/samsung/kccat6
+Enabled full dexpreopt for device/samsung/lentislte
+Enabled full dexpreopt for device/wileyfox/kipper
+Enabled full dexpreopt for device/xiaomi/land
+Enabled full dexpreopt for device/xiaomi/santoni
+Enabled full dexpreopt for device/zuk/ham
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Hardened /data for device/common/gps
+Hardened /data for device/cyanogen/msm8916-common
+Hardened /data for device/generic/arm64
+Hardened /data for device/generic/armv7-a-neon
+Hardened /data for device/generic/car
+Hardened /data for device/generic/common
+Hardened /data for device/generic/uml
+Hardened /data for device/generic/x86
+Hardened /data for device/generic/x86_64
+Hardened /data for device/google/atv
+Hardened /data for device/google/contexthub
+Hardened /data for device/google/yellowstone
+Hardened /data for device/lineage/atv
+Hardened /data for device/lge/hammerhead
+Hardened /data for device/lineage/sepolicy
+Hardened /data for device/qcom/sepolicy-legacy
+Hardened /data for device/qcom/sepolicy
+Hardened /data for device/sample/apps
+Hardened /data for device/sample/etc
+Hardened /data for device/sample/frameworks
+Hardened /data for device/sample/overlays
+Hardened /data for device/sample/products
+Hardened /data for device/sample/sdk_addon
+Hardened /data for device/sample/skins
+Hardened /data for device/samsung/kccat6
+Hardened /data for device/samsung/lentislte
+Hardened /data for device/samsung/apq8084-common
+Hardened /data for device/samsung/qcom-common
+Hardened /data for device/wileyfox/kipper
+Hardened /data for device/xiaomi/land
+Hardened /data for device/xiaomi/msm8937-common
+Hardened /data for device/xiaomi/santoni
+Hardened /data for device/zuk/ham
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Hardened defconfig for kernel/configs/p
+Hardened defconfig for kernel/configs/o-mr1
+Hardened defconfig for kernel/configs/o
+Hardened defconfig for kernel/cyanogen/msm8916
+Hardened defconfig for kernel/cyanogen/msm8974
+Hardened defconfig for kernel/lge/hammerhead
+Hardened defconfig for kernel/tests/devicetree
+Hardened defconfig for kernel/tests/net
+Hardened defconfig for kernel/samsung/apq8084
+Hardened defconfig for kernel/google/yellowstone
+Hardened defconfig for kernel/xiaomi/msm8937
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+regdb: updated for kernel/xiaomi/msm8937
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Disabled enforced RRO for device/common/gps
+Disabled enforced RRO for device/generic/arm64
+Disabled enforced RRO for device/cyanogen/msm8916-common
+Disabled enforced RRO for device/generic/armv7-a-neon
+Disabled enforced RRO for device/generic/car
+Disabled enforced RRO for device/generic/common
+Disabled enforced RRO for device/generic/uml
+Disabled enforced RRO for device/generic/x86
+Disabled enforced RRO for device/generic/x86_64
+Disabled enforced RRO for device/google/atv
+Disabled enforced RRO for device/lineage/sepolicy
+Disabled enforced RRO for device/sample/etc
+Disabled enforced RRO for device/google/contexthub
+Disabled enforced RRO for device/google/yellowstone
+Disabled enforced RRO for device/sample/apps
+Disabled enforced RRO for device/sample/frameworks
+Disabled enforced RRO for device/qcom/sepolicy-legacy
+Disabled enforced RRO for device/qcom/sepolicy
+Disabled enforced RRO for device/lineage/atv
+Disabled enforced RRO for device/lge/hammerhead
+Disabled enforced RRO for device/sample/overlays
+Disabled enforced RRO for device/sample/sdk_addon
+Disabled enforced RRO for device/sample/skins
+Disabled enforced RRO for device/sample/products
+Disabled enforced RRO for device/samsung/apq8084-common
+Disabled enforced RRO for device/samsung/kccat6
+Disabled enforced RRO for device/samsung/qcom-common
+Disabled enforced RRO for device/samsung/lentislte
+Disabled enforced RRO for device/wileyfox/kipper
+Disabled enforced RRO for device/xiaomi/land
+Disabled enforced RRO for device/xiaomi/santoni
+Disabled enforced RRO for device/xiaomi/msm8937-common
+Disabled enforced RRO for device/zuk/ham
+Deblobbed audio!
+Removed stock build fingerprints
+sed: can't read device/*/*/overlay/CarrierConfigResCommon/res/xml/vendor.xml: No such file or directory
+sed: can't read device/*/*/rro_overlays/CarrierConfigOverlay/res/xml/vendor.xml: No such file or directory
+sed: can't read device/*/*/overlay/CarrierConfigResCommon/res/xml/vendor.xml: No such file or directory
+sed: can't read device/*/*/rro_overlays/CarrierConfigOverlay/res/xml/vendor.xml: No such file or directory
+Can't open device/*/*/overlay/CarrierConfigResCommon/res/xml/vendor.xml: No such file or directory, <> chunk 520.
+Can't open device/*/*/rro_overlays/CarrierConfigOverlay/res/xml/vendor.xml: No such file or directory, <> chunk 520.
+sed: can't read device/*/*/overlay/CarrierConfigResCommon/res/xml/vendor.xml: No such file or directory
+sed: can't read device/*/*/rro_overlays/CarrierConfigOverlay/res/xml/vendor.xml: No such file or directory
+sed: can't read device/*/*/overlay/CarrierConfigResCommon/res/xml/vendor.xml: No such file or directory
+sed: can't read device/*/*/rro_overlays/CarrierConfigOverlay/res/xml/vendor.xml: No such file or directory
+rm: cannot remove 'kernel/*/*/drivers/staging/greybus/tools/Android.mk': No such file or directory
+[0;32m[SCRIPT COMPLETE] Primary patching finished[0m
+Enabling verity...
+[0;32m[SCRIPT COMPLETE] Verity enablement complete[0m
+Copying verity/avb public keys to kernels...
+[0;32m[SCRIPT COMPLETE] Copied keys to kernels[0m
+Changing default settings...
+================================================================================================
+[0;32m[ENTERING] frameworks/base[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Dialer[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Nfc[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Settings[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/SetupWizard[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Trebuchet[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Updater[0m
+================================================================================================
+[0;32m[ENTERING] vendor/lineage[0m
+[0;32m[SCRIPT COMPLETE] Default settings changed[0m
+Rebranding...
+================================================================================================
+[0;32m[ENTERING] bootable/recovery[0m
+Auto-merging screen_ui.cpp
+[detached HEAD db3d4386] Revert "recovery: Scale logo image if necessary"
+ Date: Fri Mar 31 11:47:24 2023 -0400
+ 1 file changed, 1 insertion(+), 15 deletions(-)
+[detached HEAD 5803af04] Revert "recovery: New install/progress animation"
+ Date: Fri Mar 31 11:47:24 2023 -0400
+ 455 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 res-hdpi/images/loop00030.png
+ create mode 100644 res-hdpi/images/loop00031.png
+ create mode 100644 res-hdpi/images/loop00032.png
+ create mode 100644 res-hdpi/images/loop00033.png
+ create mode 100644 res-hdpi/images/loop00034.png
+ create mode 100644 res-hdpi/images/loop00035.png
+ create mode 100644 res-hdpi/images/loop00036.png
+ create mode 100644 res-hdpi/images/loop00037.png
+ create mode 100644 res-hdpi/images/loop00038.png
+ create mode 100644 res-hdpi/images/loop00039.png
+ create mode 100644 res-hdpi/images/loop00040.png
+ create mode 100644 res-hdpi/images/loop00041.png
+ create mode 100644 res-hdpi/images/loop00042.png
+ create mode 100644 res-hdpi/images/loop00043.png
+ create mode 100644 res-hdpi/images/loop00044.png
+ create mode 100644 res-hdpi/images/loop00045.png
+ create mode 100644 res-hdpi/images/loop00046.png
+ create mode 100644 res-hdpi/images/loop00047.png
+ create mode 100644 res-hdpi/images/loop00048.png
+ create mode 100644 res-hdpi/images/loop00049.png
+ create mode 100644 res-hdpi/images/loop00050.png
+ create mode 100644 res-hdpi/images/loop00051.png
+ create mode 100644 res-hdpi/images/loop00052.png
+ create mode 100644 res-hdpi/images/loop00053.png
+ create mode 100644 res-hdpi/images/loop00054.png
+ create mode 100644 res-hdpi/images/loop00055.png
+ create mode 100644 res-hdpi/images/loop00056.png
+ create mode 100644 res-hdpi/images/loop00057.png
+ create mode 100644 res-hdpi/images/loop00058.png
+ create mode 100644 res-hdpi/images/loop00059.png
+ create mode 100644 res-hdpi/images/loop00060.png
+ create mode 100644 res-hdpi/images/loop00061.png
+ create mode 100644 res-hdpi/images/loop00062.png
+ create mode 100644 res-hdpi/images/loop00063.png
+ create mode 100644 res-hdpi/images/loop00064.png
+ create mode 100644 res-hdpi/images/loop00065.png
+ create mode 100644 res-hdpi/images/loop00066.png
+ create mode 100644 res-hdpi/images/loop00067.png
+ create mode 100644 res-hdpi/images/loop00068.png
+ create mode 100644 res-hdpi/images/loop00069.png
+ create mode 100644 res-hdpi/images/loop00070.png
+ create mode 100644 res-hdpi/images/loop00071.png
+ create mode 100644 res-hdpi/images/loop00072.png
+ create mode 100644 res-hdpi/images/loop00073.png
+ create mode 100644 res-hdpi/images/loop00074.png
+ create mode 100644 res-hdpi/images/loop00075.png
+ create mode 100644 res-hdpi/images/loop00076.png
+ create mode 100644 res-hdpi/images/loop00077.png
+ create mode 100644 res-hdpi/images/loop00078.png
+ create mode 100644 res-hdpi/images/loop00079.png
+ create mode 100644 res-hdpi/images/loop00080.png
+ create mode 100644 res-hdpi/images/loop00081.png
+ create mode 100644 res-hdpi/images/loop00082.png
+ create mode 100644 res-hdpi/images/loop00083.png
+ create mode 100644 res-hdpi/images/loop00084.png
+ create mode 100644 res-hdpi/images/loop00085.png
+ create mode 100644 res-hdpi/images/loop00086.png
+ create mode 100644 res-hdpi/images/loop00087.png
+ create mode 100644 res-hdpi/images/loop00088.png
+ create mode 100644 res-hdpi/images/loop00089.png
+ create mode 100644 res-hdpi/images/loop00090.png
+ create mode 100644 res-mdpi/images/loop00030.png
+ create mode 100644 res-mdpi/images/loop00031.png
+ create mode 100644 res-mdpi/images/loop00032.png
+ create mode 100644 res-mdpi/images/loop00033.png
+ create mode 100644 res-mdpi/images/loop00034.png
+ create mode 100644 res-mdpi/images/loop00035.png
+ create mode 100644 res-mdpi/images/loop00036.png
+ create mode 100644 res-mdpi/images/loop00037.png
+ create mode 100644 res-mdpi/images/loop00038.png
+ create mode 100644 res-mdpi/images/loop00039.png
+ create mode 100644 res-mdpi/images/loop00040.png
+ create mode 100644 res-mdpi/images/loop00041.png
+ create mode 100644 res-mdpi/images/loop00042.png
+ create mode 100644 res-mdpi/images/loop00043.png
+ create mode 100644 res-mdpi/images/loop00044.png
+ create mode 100644 res-mdpi/images/loop00045.png
+ create mode 100644 res-mdpi/images/loop00046.png
+ create mode 100644 res-mdpi/images/loop00047.png
+ create mode 100644 res-mdpi/images/loop00048.png
+ create mode 100644 res-mdpi/images/loop00049.png
+ create mode 100644 res-mdpi/images/loop00050.png
+ create mode 100644 res-mdpi/images/loop00051.png
+ create mode 100644 res-mdpi/images/loop00052.png
+ create mode 100644 res-mdpi/images/loop00053.png
+ create mode 100644 res-mdpi/images/loop00054.png
+ create mode 100644 res-mdpi/images/loop00055.png
+ create mode 100644 res-mdpi/images/loop00056.png
+ create mode 100644 res-mdpi/images/loop00057.png
+ create mode 100644 res-mdpi/images/loop00058.png
+ create mode 100644 res-mdpi/images/loop00059.png
+ create mode 100644 res-mdpi/images/loop00060.png
+ create mode 100644 res-mdpi/images/loop00061.png
+ create mode 100644 res-mdpi/images/loop00062.png
+ create mode 100644 res-mdpi/images/loop00063.png
+ create mode 100644 res-mdpi/images/loop00064.png
+ create mode 100644 res-mdpi/images/loop00065.png
+ create mode 100644 res-mdpi/images/loop00066.png
+ create mode 100644 res-mdpi/images/loop00067.png
+ create mode 100644 res-mdpi/images/loop00068.png
+ create mode 100644 res-mdpi/images/loop00069.png
+ create mode 100644 res-mdpi/images/loop00070.png
+ create mode 100644 res-mdpi/images/loop00071.png
+ create mode 100644 res-mdpi/images/loop00072.png
+ create mode 100644 res-mdpi/images/loop00073.png
+ create mode 100644 res-mdpi/images/loop00074.png
+ create mode 100644 res-mdpi/images/loop00075.png
+ create mode 100644 res-mdpi/images/loop00076.png
+ create mode 100644 res-mdpi/images/loop00077.png
+ create mode 100644 res-mdpi/images/loop00078.png
+ create mode 100644 res-mdpi/images/loop00079.png
+ create mode 100644 res-mdpi/images/loop00080.png
+ create mode 100644 res-mdpi/images/loop00081.png
+ create mode 100644 res-mdpi/images/loop00082.png
+ create mode 100644 res-mdpi/images/loop00083.png
+ create mode 100644 res-mdpi/images/loop00084.png
+ create mode 100644 res-mdpi/images/loop00085.png
+ create mode 100644 res-mdpi/images/loop00086.png
+ create mode 100644 res-mdpi/images/loop00087.png
+ create mode 100644 res-mdpi/images/loop00088.png
+ create mode 100644 res-mdpi/images/loop00089.png
+ create mode 100644 res-mdpi/images/loop00090.png
+ create mode 100644 res-xhdpi/images/loop00030.png
+ create mode 100644 res-xhdpi/images/loop00031.png
+ create mode 100644 res-xhdpi/images/loop00032.png
+ create mode 100644 res-xhdpi/images/loop00033.png
+ create mode 100644 res-xhdpi/images/loop00034.png
+ create mode 100644 res-xhdpi/images/loop00035.png
+ create mode 100644 res-xhdpi/images/loop00036.png
+ create mode 100644 res-xhdpi/images/loop00037.png
+ create mode 100644 res-xhdpi/images/loop00038.png
+ create mode 100644 res-xhdpi/images/loop00039.png
+ create mode 100644 res-xhdpi/images/loop00040.png
+ create mode 100644 res-xhdpi/images/loop00041.png
+ create mode 100644 res-xhdpi/images/loop00042.png
+ create mode 100644 res-xhdpi/images/loop00043.png
+ create mode 100644 res-xhdpi/images/loop00044.png
+ create mode 100644 res-xhdpi/images/loop00045.png
+ create mode 100644 res-xhdpi/images/loop00046.png
+ create mode 100644 res-xhdpi/images/loop00047.png
+ create mode 100644 res-xhdpi/images/loop00048.png
+ create mode 100644 res-xhdpi/images/loop00049.png
+ create mode 100644 res-xhdpi/images/loop00050.png
+ create mode 100644 res-xhdpi/images/loop00051.png
+ create mode 100644 res-xhdpi/images/loop00052.png
+ create mode 100644 res-xhdpi/images/loop00053.png
+ create mode 100644 res-xhdpi/images/loop00054.png
+ create mode 100644 res-xhdpi/images/loop00055.png
+ create mode 100644 res-xhdpi/images/loop00056.png
+ create mode 100644 res-xhdpi/images/loop00057.png
+ create mode 100644 res-xhdpi/images/loop00058.png
+ create mode 100644 res-xhdpi/images/loop00059.png
+ create mode 100644 res-xhdpi/images/loop00060.png
+ create mode 100644 res-xhdpi/images/loop00061.png
+ create mode 100644 res-xhdpi/images/loop00062.png
+ create mode 100644 res-xhdpi/images/loop00063.png
+ create mode 100644 res-xhdpi/images/loop00064.png
+ create mode 100644 res-xhdpi/images/loop00065.png
+ create mode 100644 res-xhdpi/images/loop00066.png
+ create mode 100644 res-xhdpi/images/loop00067.png
+ create mode 100644 res-xhdpi/images/loop00068.png
+ create mode 100644 res-xhdpi/images/loop00069.png
+ create mode 100644 res-xhdpi/images/loop00070.png
+ create mode 100644 res-xhdpi/images/loop00071.png
+ create mode 100644 res-xhdpi/images/loop00072.png
+ create mode 100644 res-xhdpi/images/loop00073.png
+ create mode 100644 res-xhdpi/images/loop00074.png
+ create mode 100644 res-xhdpi/images/loop00075.png
+ create mode 100644 res-xhdpi/images/loop00076.png
+ create mode 100644 res-xhdpi/images/loop00077.png
+ create mode 100644 res-xhdpi/images/loop00078.png
+ create mode 100644 res-xhdpi/images/loop00079.png
+ create mode 100644 res-xhdpi/images/loop00080.png
+ create mode 100644 res-xhdpi/images/loop00081.png
+ create mode 100644 res-xhdpi/images/loop00082.png
+ create mode 100644 res-xhdpi/images/loop00083.png
+ create mode 100644 res-xhdpi/images/loop00084.png
+ create mode 100644 res-xhdpi/images/loop00085.png
+ create mode 100644 res-xhdpi/images/loop00086.png
+ create mode 100644 res-xhdpi/images/loop00087.png
+ create mode 100644 res-xhdpi/images/loop00088.png
+ create mode 100644 res-xhdpi/images/loop00089.png
+ create mode 100644 res-xhdpi/images/loop00090.png
+ create mode 100644 res-xxhdpi/images/loop00030.png
+ create mode 100644 res-xxhdpi/images/loop00031.png
+ create mode 100644 res-xxhdpi/images/loop00032.png
+ create mode 100644 res-xxhdpi/images/loop00033.png
+ create mode 100644 res-xxhdpi/images/loop00034.png
+ create mode 100644 res-xxhdpi/images/loop00035.png
+ create mode 100644 res-xxhdpi/images/loop00036.png
+ create mode 100644 res-xxhdpi/images/loop00037.png
+ create mode 100644 res-xxhdpi/images/loop00038.png
+ create mode 100644 res-xxhdpi/images/loop00039.png
+ create mode 100644 res-xxhdpi/images/loop00040.png
+ create mode 100644 res-xxhdpi/images/loop00041.png
+ create mode 100644 res-xxhdpi/images/loop00042.png
+ create mode 100644 res-xxhdpi/images/loop00043.png
+ create mode 100644 res-xxhdpi/images/loop00044.png
+ create mode 100644 res-xxhdpi/images/loop00045.png
+ create mode 100644 res-xxhdpi/images/loop00046.png
+ create mode 100644 res-xxhdpi/images/loop00047.png
+ create mode 100644 res-xxhdpi/images/loop00048.png
+ create mode 100644 res-xxhdpi/images/loop00049.png
+ create mode 100644 res-xxhdpi/images/loop00050.png
+ create mode 100644 res-xxhdpi/images/loop00051.png
+ create mode 100644 res-xxhdpi/images/loop00052.png
+ create mode 100644 res-xxhdpi/images/loop00053.png
+ create mode 100644 res-xxhdpi/images/loop00054.png
+ create mode 100644 res-xxhdpi/images/loop00055.png
+ create mode 100644 res-xxhdpi/images/loop00056.png
+ create mode 100644 res-xxhdpi/images/loop00057.png
+ create mode 100644 res-xxhdpi/images/loop00058.png
+ create mode 100644 res-xxhdpi/images/loop00059.png
+ create mode 100644 res-xxhdpi/images/loop00060.png
+ create mode 100644 res-xxhdpi/images/loop00061.png
+ create mode 100644 res-xxhdpi/images/loop00062.png
+ create mode 100644 res-xxhdpi/images/loop00063.png
+ create mode 100644 res-xxhdpi/images/loop00064.png
+ create mode 100644 res-xxhdpi/images/loop00065.png
+ create mode 100644 res-xxhdpi/images/loop00066.png
+ create mode 100644 res-xxhdpi/images/loop00067.png
+ create mode 100644 res-xxhdpi/images/loop00068.png
+ create mode 100644 res-xxhdpi/images/loop00069.png
+ create mode 100644 res-xxhdpi/images/loop00070.png
+ create mode 100644 res-xxhdpi/images/loop00071.png
+ create mode 100644 res-xxhdpi/images/loop00072.png
+ create mode 100644 res-xxhdpi/images/loop00073.png
+ create mode 100644 res-xxhdpi/images/loop00074.png
+ create mode 100644 res-xxhdpi/images/loop00075.png
+ create mode 100644 res-xxhdpi/images/loop00076.png
+ create mode 100644 res-xxhdpi/images/loop00077.png
+ create mode 100644 res-xxhdpi/images/loop00078.png
+ create mode 100644 res-xxhdpi/images/loop00079.png
+ create mode 100644 res-xxhdpi/images/loop00080.png
+ create mode 100644 res-xxhdpi/images/loop00081.png
+ create mode 100644 res-xxhdpi/images/loop00082.png
+ create mode 100644 res-xxhdpi/images/loop00083.png
+ create mode 100644 res-xxhdpi/images/loop00084.png
+ create mode 100644 res-xxhdpi/images/loop00085.png
+ create mode 100644 res-xxhdpi/images/loop00086.png
+ create mode 100644 res-xxhdpi/images/loop00087.png
+ create mode 100644 res-xxhdpi/images/loop00088.png
+ create mode 100644 res-xxhdpi/images/loop00089.png
+ create mode 100644 res-xxhdpi/images/loop00090.png
+ create mode 100644 res-xxxhdpi/images/loop00030.png
+ create mode 100644 res-xxxhdpi/images/loop00031.png
+ create mode 100644 res-xxxhdpi/images/loop00032.png
+ create mode 100644 res-xxxhdpi/images/loop00033.png
+ create mode 100644 res-xxxhdpi/images/loop00034.png
+ create mode 100644 res-xxxhdpi/images/loop00035.png
+ create mode 100644 res-xxxhdpi/images/loop00036.png
+ create mode 100644 res-xxxhdpi/images/loop00037.png
+ create mode 100644 res-xxxhdpi/images/loop00038.png
+ create mode 100644 res-xxxhdpi/images/loop00039.png
+ create mode 100644 res-xxxhdpi/images/loop00040.png
+ create mode 100644 res-xxxhdpi/images/loop00041.png
+ create mode 100644 res-xxxhdpi/images/loop00042.png
+ create mode 100644 res-xxxhdpi/images/loop00043.png
+ create mode 100644 res-xxxhdpi/images/loop00044.png
+ create mode 100644 res-xxxhdpi/images/loop00045.png
+ create mode 100644 res-xxxhdpi/images/loop00046.png
+ create mode 100644 res-xxxhdpi/images/loop00047.png
+ create mode 100644 res-xxxhdpi/images/loop00048.png
+ create mode 100644 res-xxxhdpi/images/loop00049.png
+ create mode 100644 res-xxxhdpi/images/loop00050.png
+ create mode 100644 res-xxxhdpi/images/loop00051.png
+ create mode 100644 res-xxxhdpi/images/loop00052.png
+ create mode 100644 res-xxxhdpi/images/loop00053.png
+ create mode 100644 res-xxxhdpi/images/loop00054.png
+ create mode 100644 res-xxxhdpi/images/loop00055.png
+ create mode 100644 res-xxxhdpi/images/loop00056.png
+ create mode 100644 res-xxxhdpi/images/loop00057.png
+ create mode 100644 res-xxxhdpi/images/loop00058.png
+ create mode 100644 res-xxxhdpi/images/loop00059.png
+ create mode 100644 res-xxxhdpi/images/loop00060.png
+ create mode 100644 res-xxxhdpi/images/loop00061.png
+ create mode 100644 res-xxxhdpi/images/loop00062.png
+ create mode 100644 res-xxxhdpi/images/loop00063.png
+ create mode 100644 res-xxxhdpi/images/loop00064.png
+ create mode 100644 res-xxxhdpi/images/loop00065.png
+ create mode 100644 res-xxxhdpi/images/loop00066.png
+ create mode 100644 res-xxxhdpi/images/loop00067.png
+ create mode 100644 res-xxxhdpi/images/loop00068.png
+ create mode 100644 res-xxxhdpi/images/loop00069.png
+ create mode 100644 res-xxxhdpi/images/loop00070.png
+ create mode 100644 res-xxxhdpi/images/loop00071.png
+ create mode 100644 res-xxxhdpi/images/loop00072.png
+ create mode 100644 res-xxxhdpi/images/loop00073.png
+ create mode 100644 res-xxxhdpi/images/loop00074.png
+ create mode 100644 res-xxxhdpi/images/loop00075.png
+ create mode 100644 res-xxxhdpi/images/loop00076.png
+ create mode 100644 res-xxxhdpi/images/loop00077.png
+ create mode 100644 res-xxxhdpi/images/loop00078.png
+ create mode 100644 res-xxxhdpi/images/loop00079.png
+ create mode 100644 res-xxxhdpi/images/loop00080.png
+ create mode 100644 res-xxxhdpi/images/loop00081.png
+ create mode 100644 res-xxxhdpi/images/loop00082.png
+ create mode 100644 res-xxxhdpi/images/loop00083.png
+ create mode 100644 res-xxxhdpi/images/loop00084.png
+ create mode 100644 res-xxxhdpi/images/loop00085.png
+ create mode 100644 res-xxxhdpi/images/loop00086.png
+ create mode 100644 res-xxxhdpi/images/loop00087.png
+ create mode 100644 res-xxxhdpi/images/loop00088.png
+ create mode 100644 res-xxxhdpi/images/loop00089.png
+ create mode 100644 res-xxxhdpi/images/loop00090.png
+Applying: Remove logo
+rm: cannot remove 'res-xxxhdpi/images/logo_image.png': No such file or directory
+================================================================================================
+[0;32m[ENTERING] build/make[0m
+================================================================================================
+[0;32m[ENTERING] frameworks/base[0m
+================================================================================================
+[0;32m[ENTERING] lineage-sdk[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/LineageParts[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Settings[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/SetupWizard[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Updater[0m
+================================================================================================
+[0;32m[ENTERING] system/core[0m
+================================================================================================
+[0;32m[ENTERING] vendor/lineage[0m
+[0;32m[SCRIPT COMPLETE] Rebranding complete[0m
+Optimizing...
+================================================================================================
+[0;32m[ENTERING] frameworks/base[0m
+================================================================================================
+[0;32m[ENTERING] kernel[0m
+Starting zram tweaks
+Finished zram tweaks
+[0;32m[SCRIPT COMPLETE] Optimizing complete[0m
+Deblobbing...
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+$DEVICE must be set before including this script!
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+[0;32m[SCRIPT COMPLETE] Deblobbing complete[0m
+Patching CVEs...
+Running /mnt/dos//Scripts/LineageOS-16.0//CVE_Patchers//android_kernel_cyanogen_msm8916.sh
+Running /mnt/dos//Scripts/LineageOS-16.0//CVE_Patchers//android_kernel_cyanogen_msm8974.sh
+warning: sound/soc/msm/qdsp6v2/q6asm.c has type 100644, expected 100755
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0032.patch:30: trailing whitespace.
+					
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_cfg80211.c has type 100644, expected 100755
+warning: 1 line adds whitespace errors.
+Running /mnt/dos//Scripts/LineageOS-16.0//CVE_Patchers//android_kernel_google_yellowstone.sh
+error: patch failed: net/rds/connection.c:177
+error: net/rds/connection.c: patch does not apply
+warning: drivers/staging/android/ion/ion.c has type 100755, expected 100644
+Running /mnt/dos//Scripts/LineageOS-16.0//CVE_Patchers//android_kernel_lge_hammerhead.sh
+warning: sound/soc/msm/qdsp6v2/q6asm.c has type 100644, expected 100755
+warning: drivers/media/platform/msm/camera_v2/sensor/actuator/msm_actuator.c has type 100755, expected 100644
+Running /mnt/dos//Scripts/LineageOS-16.0//CVE_Patchers//android_kernel_samsung_apq8084.sh
+Running /mnt/dos//Scripts/LineageOS-16.0//CVE_Patchers//android_kernel_xiaomi_msm8937.sh
+warning: drivers/staging/qcacld-2.0/CORE/SYS/legacy/src/utils/src/dot11f.c has type 100644, expected 100755
+[0;32m[SCRIPT COMPLETE] Patched CVEs[0m
+Post tweaks...
+[0;32m[SCRIPT COMPLETE] Post tweaks complete[0m
+including device/generic/car/vendorsetup.sh
+including device/generic/uml/vendorsetup.sh
+including device/google/yellowstone/vendorsetup.sh
+including device/lge/hammerhead/vendorsetup.sh
+including device/samsung/kccat6/vendorsetup.sh
+including device/samsung/lentislte/vendorsetup.sh
+including vendor/lineage/vendorsetup.sh
+including sdk/bash_completion/adb.bash

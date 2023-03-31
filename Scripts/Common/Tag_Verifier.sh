@@ -36,7 +36,7 @@ gpgVerifyGitTag() {
 		echo -e "\e[0;33mWARNING: keyring is unavailable, GPG verification of $1 will not be performed!\e[0m";
 	fi;
 }
-export -f gpgVerifyGitHead;
+export -f gpgVerifyGitTag;
 
 verifyTagIfPlatform() {
 	if [[ "$1" == "platform/"* ]]; then

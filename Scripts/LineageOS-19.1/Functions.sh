@@ -65,7 +65,7 @@ buildAll() {
 }
 export -f buildAll;
 
-patchWorkspace() {
+patchWorkspaceReal() {
 	umask 0022;
 	cd "$DOS_BUILD_BASE/$1";
 	touch DOS_PATCHED_FLAG;
@@ -92,7 +92,7 @@ patchWorkspace() {
 	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
 	#none yet
 }
-export -f patchWorkspace;
+export -f patchWorkspaceReal;
 
 enableDexPreOpt() {
 	cd "$DOS_BUILD_BASE/$1";

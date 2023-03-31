@@ -1,0 +1,82 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Liahav Eitan <liahav@google.com>
+Date: Tue, 11 Oct 2022 13:20:52 +0000
+Subject: [PATCH] Fix sharing to another profile where an app has multiple
+ targets
+
+Moves the fixUris call from onTargetSelected directly to the intent
+launch to ensure the intent which is actually started is updated with
+userId specific URIs.
+
+This is a backport of ag/19657256 and ag/20063949.
+
+Bug:242165528
+Bug:244876518
+Bug:242605257
+Test: manually share image from personal profile to work gmail,
+first with chat target then backing up and selecting the main target
+Test: manually share image from work Photos app to personal WhatsApp's
+frequent contact target.
+
+Change-Id: Id815984e691bf962e19e30a54f7247d16060b3b8
+Merged-In: Id815984e691bf962e19e30a54f7247d16060b3b8
+Merged-In: Ib41c8a3c46afcc2d62a4c1a924212bcd98bcfbe4
+Merged-In: Iabf5dcf2612fe718f2f0886e2e5e9b76f37af1e1
+(cherry picked from commit f50ced5f1e619d7fa7858748d6a9dbe861354f04)
+Merged-In: Id815984e691bf962e19e30a54f7247d16060b3b8
+(cherry picked from commit 0b4cfaca78dfadd546adc47cbcbcdde5425cf17a)
+---
+ .../com/android/internal/app/ChooserActivity.java   |  1 +
+ .../com/android/internal/app/ResolverActivity.java  | 13 +++++++++++++
+ 2 files changed, 14 insertions(+)
+
+diff --git a/core/java/com/android/internal/app/ChooserActivity.java b/core/java/com/android/internal/app/ChooserActivity.java
+index 4d71911921a8..f43ff17ed7d0 100644
+--- a/core/java/com/android/internal/app/ChooserActivity.java
++++ b/core/java/com/android/internal/app/ChooserActivity.java
+@@ -2455,6 +2455,7 @@ public class ChooserActivity extends ResolverActivity {
+             }
+             intent.setComponent(mChooserTarget.getComponentName());
+             intent.putExtras(mChooserTarget.getIntentExtras());
++            TargetInfo.prepareIntentForCrossProfileLaunch(intent, userId);
+ 
+             // Important: we will ignore the target security checks in ActivityManager
+             // if and only if the ChooserTarget's target package is the same package
+diff --git a/core/java/com/android/internal/app/ResolverActivity.java b/core/java/com/android/internal/app/ResolverActivity.java
+index 070e3c101c8e..3de79838eaff 100644
+--- a/core/java/com/android/internal/app/ResolverActivity.java
++++ b/core/java/com/android/internal/app/ResolverActivity.java
+@@ -1514,6 +1514,7 @@ public class ResolverActivity extends Activity {
+             if (mEnableChooserDelegate) {
+                 return activity.startAsCallerImpl(mResolvedIntent, options, false, userId);
+             } else {
++                TargetInfo.prepareIntentForCrossProfileLaunch(mResolvedIntent, userId);
+                 activity.startActivityAsCaller(mResolvedIntent, options, null, false, userId);
+                 return true;
+             }
+@@ -1521,6 +1522,7 @@ public class ResolverActivity extends Activity {
+ 
+         @Override
+         public boolean startAsUser(Activity activity, Bundle options, UserHandle user) {
++            TargetInfo.prepareIntentForCrossProfileLaunch(mResolvedIntent, user.getIdentifier());
+             activity.startActivityAsUser(mResolvedIntent, options, user);
+             return false;
+         }
+@@ -1642,6 +1644,17 @@ public class ResolverActivity extends Activity {
+          * @return true if this target should be pinned to the front by the request of the user
+          */
+         boolean isPinned();
++
++        /**
++         * Fix the URIs in {@code intent} if cross-profile sharing is required. This should be called
++         * before launching the intent as another user.
++         */
++        static void prepareIntentForCrossProfileLaunch(Intent intent, int targetUserId) {
++            final int currentUserId = UserHandle.myUserId();
++            if (targetUserId != currentUserId) {
++                intent.fixUris(currentUserId);
++            }
++        }
+     }
+ 
+     public class ResolveListAdapter extends BaseAdapter {

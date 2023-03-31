@@ -27,6 +27,11 @@ resetWorkspace() {
 }
 export -f resetWorkspace;
 
+patchWorkspace() {
+	patchWorkspaceReal |& tee "$DOS_WORKSPACE_ROOT/Logs/patchWorkspace-$DOS_VERSION.log";
+}
+export -f patchWorkspace;
+
 verifyAllPlatformTags() {
 	repo forall -c 'source $DOS_WORKSPACE_ROOT/Scripts/Common/Tag_Verifier.sh && verifyTagIfPlatform $REPO_PROJECT $REPO_PATH';
 }

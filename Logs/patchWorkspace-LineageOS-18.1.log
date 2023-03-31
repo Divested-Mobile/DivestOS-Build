@@ -1,0 +1,2029 @@
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-18.1/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//compatibility/cdd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//cts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//dalvik[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//developers/build[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/FP16[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/FXdiv[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/ImageMagick[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/OpenCL-CTS[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/OpenCSD[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/Reactive-Extensions/RxCpp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/XNNPACK[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/adeb[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/android-clat[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/androidplot[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/angle[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/ant-glob[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/antlr[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/apache-commons-bcel[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/apache-commons-compress[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/apache-commons-math[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/apache-harmony[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/apache-http[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/apache-xml[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/arm-neon-tests[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/arm-optimized-routines[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/arm-trusted-firmware[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/autotest[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/avb[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/bc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/bcc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/blktrace[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/bouncycastle[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/brotli[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/bsdiff[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/bzip2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/caliper[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/capstone[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/catch2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/cblas[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/cbor-java[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/chromium-libpac[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/chromium-trace[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/clang[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/cn-cbor[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/compiler-rt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/conscrypt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/cpu_features[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/cpuinfo[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/crcalc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/cros/system_api[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/curl[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/dagger2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/deqp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/deqp-deps/SPIRV-Headers[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/deqp-deps/SPIRV-Tools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/deqp-deps/amber[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/deqp-deps/glslang[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/desugar[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/dexmaker[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/dlmalloc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/dng_sdk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/dnsmasq[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/doclava[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/dokka[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/drm_hwcomposer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/drrickorang[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/dynamic_depth[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/easymock[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/eigen[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/elfutils[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/emma[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/error_prone[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/ethtool[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/exoplayer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/f2fs-tools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/fastrpc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/fdlibm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/fec[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/flac[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/flatbuffers[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/fmtlib[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/fonttools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/freetype[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/fsck_msdos[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/fsverity-utils[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/gemmlowp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/gflags[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/giflib[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/glide[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/golang-protobuf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-benchmark[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-breakpad[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fonts/arbutus-slab[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fonts/arvo[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fonts/barlow[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fonts/big-shoulders-text[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fonts/carrois-gothic-sc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fonts/coming-soon[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fonts/cutive-mono[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fonts/dancing-script[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fonts/fraunces[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fonts/karla[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fonts/lato[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fonts/lustria[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fonts/rubik[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fonts/source-sans-pro[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fonts/zilla-slab[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-fruit[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/google-styleguide[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/googletest[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/grpc-grpc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/grpc-grpc-java[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/guava[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/gwp_asan[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/hamcrest[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/harfbuzz_ng[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/honggfuzz[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/hyphenation-patterns[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/igt-gpu-tools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/image_io[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/ims[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/iproute2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/ipsec-tools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/iptables[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/iputils[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/iw[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/jacoco[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/jarjar[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/javaparser[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/javapoet[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/javasqlite[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/jcommander[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/jdiff[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/jemalloc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/jemalloc_new[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/jline[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/jsilver[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/jsmn[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/jsoncpp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/jsr305[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/jsr330[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/junit[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/junit-params[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/kernel-headers[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/kmod[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/kotlinc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/kotlinx.coroutines[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/ksoap2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libaom[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libbackup[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libbrillo[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libcap[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libcap-ng[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libchrome[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libcups[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libcxxabi[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libdaemon[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libdivsufsort[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libdrm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libepoxy[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libese[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libevent[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libffi[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libfuse[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libgav1[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libgsm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libhevc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libiio[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libjpeg-turbo[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libkmsxx[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libldac[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libmpeg2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libnetfilter_conntrack[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libnfnetlink[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libnl[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libogg[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libopus[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libpcap[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libphonenumber[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libpng[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libprotobuf-mutator[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libsrtp2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libtextclassifier[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libunwind[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libunwind_llvm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libusb[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libutf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libvpx[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libxaac[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libxkbcommon[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libxml2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/libyuv[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/linux-kselftest[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/llvm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/lmfit[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/ltp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/lua[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/lz4[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/lzma[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/markdown[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/mdnsresponder[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/mesa3d[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/mime-support[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/minigbm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/minijail[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/mockftpserver[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/mockito[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/mockwebserver[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/modp_b64[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/mp4parser[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/mtpd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/nanohttpd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/nanopb-c[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/naver-fonts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/neon_2_sse[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/neven[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/newfs_msdos[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/nfacct[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/nist-pkits[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/nist-sip[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/nos/host/generic[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/noto-fonts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/oauth[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/objenesis[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/oj-libjdwp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/okhttp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/one-true-awk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/opencensus-java[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/oss-fuzz[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/owasp/sanitizer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/parameter-framework[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/pcre[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/pdfium[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/piex[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/ply[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/ppp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/proguard[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/protobuf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/psimd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/pthreadpool[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/puffin[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/apitools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/asn1crypto[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/cffi[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/cpython2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/cpython3[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/cryptography[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/dateutil[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/enum34[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/funcsigs[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/futures[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/google-api-python-client[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/httplib2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/ipaddress[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/mock[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/oauth2client[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/parse_type[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/pyasn1[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/pyasn1-modules[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/pybind11[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/pycparser[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/pyopenssl[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/rsa[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/setuptools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/six[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/python/uritemplates[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/rappor[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/replicaisland[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/rmi4utils[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/roboto-fonts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/rootdev[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/rust/crates/byteorder[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/rust/crates/libc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/rust/crates/proc-macro2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/rust/crates/quote[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/rust/crates/remain[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/rust/crates/syn[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/rust/crates/unicode-xid[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/scapy[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/scrypt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/scudo[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/seccomp-tests[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/selinux[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/setupcompat[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/setupdesign[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/sfntly[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/shaderc/spirv-headers[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/shflags[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/skia[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/skqp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/sl4a[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/slf4j[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/smali[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/snakeyaml[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/sonic[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/sonivox[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/speex[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/sqlite[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/squashfs-tools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/strace[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/stressapptest[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/subsampling-scale-image-view[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/swiftshader[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/tagsoup[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/tensorflow[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/testng[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/tinyxml[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/tinyxml2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/toolchain-utils[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/turbine[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/u-boot[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/ukey2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/unicode[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/universal-tween-engine[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/v4l2_codec2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/v8[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/vboot_reference[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/vixl[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/vogar[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/volley[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/vulkan-headers[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/vulkan-validation-layers[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/walt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/webp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/webrtc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/wycheproof[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/xmp_toolkit[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/xz-embedded[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/xz-java[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/yapf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/zopfli[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//external/zxing[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/compile/libbcc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/compile/mclinker[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/compile/slang[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/ex[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/hardware/interfaces[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/layoutlib[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/libs/modules-utils[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/libs/native_bridge_support[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/libs/net[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/libs/systemui[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/multidex[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/opt/bitmap[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/opt/calendar[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/opt/car/services[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/opt/car/setupwizard[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/opt/chips[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/opt/colorpicker[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/opt/localepicker[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/opt/net/ethernet[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/opt/net/ims[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/opt/net/voip[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/opt/photoviewer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/opt/setupwizard[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/opt/tv/tvsystem[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/opt/vcard[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/rs[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//frameworks/wilhelm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/broadcom/wlan[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/google/apf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/google/av[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/google/camera[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/google/easel[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/google/interfaces[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/google/pixel-sepolicy[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/invensense[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/libhardware_legacy[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/nxp/secure_element[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/bootctrl[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/bt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/camera[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/neuralnetworks/hvxservice[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/sdm845/bt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/sdm845/data/ipacfg-mgr[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/sdm845/gps[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/sdm845/media[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/sdm845/thermal[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/sdm845/vr[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/sm7150/gps[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/sm8150/gps[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/sm8150/thermal[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/sm8150/vr[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/sm8150p/gps[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/qcom/wlan[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/st/nfc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/st/secure_element[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//hardware/ti/am57x[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//libnativehelper[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/Calendar[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/Cluster[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/Dialer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/Hvac[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/LatinIME[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/Launcher[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/LinkViewer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/LocalMediaPlayer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/Media[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/Messenger[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/Notification[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/Radio[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/RotaryController[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/SystemUpdater[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/libs[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Car/tests[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/OnDeviceAppPrediction[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/OneTimeInitializer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Provision[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/QuickAccessWallet[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/TV[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/Test/connectivity[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/apps/UniversalMediaPlayer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/inputmethods/LeanbackIME[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/modules/ArtPrebuilt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/modules/CellBroadcastService[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/modules/Cronet[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/modules/ExtServices[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/modules/IPsec[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/modules/ModuleMetadata[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/modules/NetworkPermissionConfig[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/modules/NetworkStack[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/modules/SdkExtensions[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/modules/TestModule[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/modules/vndk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/providers/TvProvider[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/services/AlternativeNetworkAccess[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/services/Mtp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//packages/wallpapers/ImageWallpaper[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//pdk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//platform_testing[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/abi-dumps/ndk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/abi-dumps/platform[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/abi-dumps/vndk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/android-emulator[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/asuite[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/bundletool[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/checkcolor[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/checkstyle[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/clang-tools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/clang/host/linux-x86[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/cmdline-tools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/devtools[0m
+[0;33mWARNING: No tag match for /mnt/dos//Build/LineageOS-18.1//prebuilts/gas/linux-x86 [0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/gcc/linux-x86/host/x86_64-w64-mingw32-4.8[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/gdb/linux-x86[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/go/linux-x86[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/gradle-plugin[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/jdk/jdk11[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/jdk/jdk8[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/jdk/jdk9[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/ktlint[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/manifest-merger[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/maven_repo/android[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/maven_repo/bumptech[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/misc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/module_sdk/art[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/ndk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/python/linux-x86/2.7.5[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/r8[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/remoteexecution-client[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/runtime[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/rust[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/sdk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/tools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/vndk/v27[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/vndk/v28[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//prebuilts/vndk/v29[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//sdk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/apex[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/bpf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/bpfprogs[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/ca-certificates[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/chre[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/connectivity/wificond[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/connectivity/wifilogd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/gatekeeper[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/gsid[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/hardware/interfaces[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/hwservicemanager[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/iorap[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/keymaster[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/libartpalette[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/libfmq[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/libhwbinder[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/libsysprop[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/libvintf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/linkerconfig[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/memory/libion[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/memory/libmeminfo[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/memory/libmemtrack[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/memory/libmemunreachable[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/memory/lmkd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/nvram[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/security[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/server_configurable_flags[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/teeui[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/testing/gtest_extras[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/tools/sysprop[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//system/tools/xsdc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/app_compat/csuite[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/framework[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/mlts/benchmark[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/mlts/models[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/mts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/suite_harness[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/vti/dashboard[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/vti/fuzz_test_serving[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/vti/test_serving[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/vts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/vts-testcase/fuzz[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/vts-testcase/hal[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/vts-testcase/hal-trace[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/vts-testcase/kernel[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/vts-testcase/nbu[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/vts-testcase/performance[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/vts-testcase/security[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//test/vts-testcase/vndk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/acloud[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/apifinder[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/apksig[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/apkzlib[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/asuite[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/carrier_settings[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/currysrc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/dexter[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/doc_generation[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/external/fat32lib[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/external_updater[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/loganalysis[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/ndkports[0m
+[0;33mWARNING: No tag match for /mnt/dos//Build/LineageOS-18.1//tools/repohooks [0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/security[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/test/connectivity[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/test/graphicsbenchmark[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/tradefederation/contrib[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/tradefederation/core[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/treble[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-18.1//tools/trebuchet[0m
+[0;32mGPG Verified Git HEAD Successfully: /mnt/dos//Build/LineageOS-18.1//external/chromium-webview[0m
+Warning: an existing sandbox was detected. /usr/bin/wget will run without any additional sandboxing features
+WARNING: timestamping does nothing in combination with -O. See the manual
+for details.
+
+2023-03-31 12:22:05 URL:https://divested.dev/hosts-wildcards [18684602/18684602] -> "/tmp/dos_tmp/hosts" [1]
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/EtarPrebuilt.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/F-DroidOfficial.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/OpenCamera.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/SimpleGallery.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/TalkBack.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/TalkBackLegacy.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/eSpeakNG.apk.asc[0m
+================================================================================================
+[0;32m[ENTERING] art[0m
+HEAD is now at 7f2b48980e Merge tag 'android-security-11.0.0_r49' into staging/lineage-18.1_merge-android-security-11.0.0_r49
+Applying: constify JNINativeMethod tables
+================================================================================================
+[0;32m[ENTERING] bionic[0m
+HEAD is now at 3a003876a Merge tag 'android-11.0.0_r32' into staging/lineage-18.1_merge-android-11.0.0_r32
+Applying: use Scudo on 32-bit and hardened_malloc on 64-bit
+Applying: add a real explicit_bzero implementation
+Applying: fix undefined out-of-bounds accesses in sched.h
+Applying: stop implicitly marking mappings as mergeable
+Applying: replace VLA formatting with dprintf-like function
+Applying: increase default pthread stack to 8MiB on 64-bit
+Applying: make __stack_chk_guard read-only at runtime
+Applying: on 64-bit, zero the leading stack canary byte
+Applying: Add a toggle to disable /etc/hosts lookup
+================================================================================================
+[0;32m[ENTERING] bootable/recovery[0m
+HEAD is now at ac8c9e96 recovery: init: Add console service
+Applying: reject updates with serialno constraints
+================================================================================================
+[0;32m[ENTERING] build/make[0m
+HEAD is now at d572c7081e Bump Security String to 2023-03-05
+Auto-merging tools/releasetools/ota_from_target_files.py
+[detached HEAD 45844a9315] Revert "ota: Disable downgrade check"
+ Date: Fri Mar 31 12:22:06 2023 -0400
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+Applying: use -fwrapv when signed overflow checking is off
+Applying: Allow setting OTA public keys from environment variable
+Applying: disable enforce RRO for mainline devices
+================================================================================================
+[0;32m[ENTERING] build/soong[0m
+HEAD is now at 570eaae5c soong: dumpvar additional GMS variables
+Applying: use -fwrapv when signed overflow checking is off
+Applying: make hardened malloc available to apexes
+================================================================================================
+[0;32m[ENTERING] device/qcom/sepolicy-legacy[0m
+HEAD is now at a3e57974 sepolicy-legacy: Restore fm radio permissions for system_app
+Applying: TEMPORARY fix camera not working on user builds
+================================================================================================
+[0;32m[ENTERING] external/chromium-webview[0m
+HEAD is now at 4fcb97f Make it Mulch, 2023/03/30
+================================================================================================
+[0;32m[ENTERING] external/conscrypt[0m
+HEAD is now at 07bcb013 [automerger skipped] Add Unsupported App Usage annotations to ConscryptEngineSocket. am: 8ab56ceb66 -s ours am: 001a17cdf8 -s ours am: c7b52c5968 -s ours
+Applying: constify JNINativeMethod table
+================================================================================================
+[0;32m[ENTERING] external/hardened_malloc[0m
+HEAD is now at 9823dca workarounds for Pixel 3 SoC era camera driver bugs
+Applying: Expand workaround to all camera executables
+================================================================================================
+[0;32m[ENTERING] frameworks/base[0m
+HEAD is now at 98f04721f78a Merge tag 'android-security-11.0.0_r65' of https://android.googlesource.com/platform/frameworks/base into staging/lineage-18.1_merge_android-security-11.0.0_r65
+Applying: always set deprecated Build.SERIAL to UNKNOWN
+Applying: stop auto-granting location to system browsers
+Applying: allow SystemUI to directly manage Bluetooth/WiFi
+Applying: SUPL: Don't send IMSI / Phone number to SUPL server
+Applying: use permanent fingerprint lockout immediately
+Applying: enable secondary user logout support by default
+.git/rebase-apply/patch:55: new blank line at EOF.
++
+warning: 1 line adds whitespace errors.
+Applying: Restore Sensors Off tile
+Applying: Add more 'Private DNS' options
+Applying: support new special runtime permissions
+Applying: make INTERNET into a special runtime permission
+Applying: add a NETWORK permission group for INTERNET
+Applying: Enforce INTERNET as a runtime permission.
+Applying: fix INTERNET enforcement for secondary users
+Applying: send uid for each user instead of just owner/admin user
+Applying: skip reportNetworkConnectivity() when permission is revoked
+Applying: add special runtime permission for other sensors
+Applying: automatically reboot device after timeout if set
+Applying: Bluetooth auto turn off
+Applying: Wi-Fi auto turn off
+Applying: constify JNINativeMethod tables
+Applying: add exec-based spawning support
+Applying: disable exec spawning when using debugging options
+Applying: add parameter for avoiding full preload with exec
+Applying: pass through fullPreload to libcore
+Applying: disable OpenGL preloading for exec spawning
+Applying: disable resource preloading for exec spawning
+Applying: disable class preloading for exec spawning
+Applying: disable WebView reservation for exec spawning
+Applying: disable JCA provider warm up for exec spawning
+Applying: disable preloading classloaders for exec spawning
+Applying: disable preloading HALs for exec spawning
+Applying: pass through runtime flags for exec spawning and implement them in the child
+Applying: exec spawning: don't close the binder connection when the app crashes
+Applying: add option of always randomizing MAC addresses
+Applying: SystemUI: add burnIn protection
+Applying: add a setting for forcibly disabling SUPL
+Applying: dont ping server when nitz time update is toggled off
+Applying: DeviceIdleJobsController: don't ignore whitelisted system apps
+Applying: Do not throw in setAppOnInterfaceLocked
+Applying: Warn when running activity from 32 bit app on ARM devices.
+Applying: Make 32 bit deprecation dialogue more user friendly
+Applying: don't crash apps that depend on missing Gservices provider
+Enhanced location services for services/core/java/com/android/server/location/gps_debug.conf
+================================================================================================
+[0;32m[ENTERING] frameworks/ex[0m
+HEAD is now at 5050934 Camera2: Add support for offline session callbacks
+Applying: constify JNINativeMethod table
+================================================================================================
+[0;32m[ENTERING] frameworks/native[0m
+HEAD is now at b42d864688 inputflinger: allow disabling input devices via idc
+Applying: require OTHER_SENSORS permission for sensors
+Applying: fix use-after-free in adbd_auth
+================================================================================================
+[0;32m[ENTERING] frameworks/opt/net/wifi[0m
+HEAD is now at a9131e4fc Merge tag 'android-security-11.0.0_r65' of https://android.googlesource.com/platform/frameworks/opt/net/wifi into staging/lineage-18.1_merge_android-security-11.0.0_r65
+Applying: add support for always generating new random MAC
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display[0m
+HEAD is now at 818ef1566 msm8084: hwcomposer: fix some build  warnings
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom-caf/apq8084/display[0m
+HEAD is now at 26a54aa24 apq8084: Add additional build flags to avoid errors
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom-caf/msm8952/display[0m
+HEAD is now at a5643f0d5 msm8952: libmemtrack: Add open method for msm8952.memtrack
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom-caf/msm8960/display[0m
+HEAD is now at 51325414d display: Add display headers lib
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom-caf/msm8974/display[0m
+HEAD is now at 05538f83e display: Add display headers lib
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom-caf/msm8994/display[0m
+HEAD is now at 3bf44d6f5 display: Add display headers lib
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom-caf/msm8953/audio[0m
+HEAD is now at b6b4b9517 hal: msm8953: Correct interfaces to use proper receiver
+Applying: audio_extn: Fix unused parameter warning in utils.c
+================================================================================================
+[0;32m[ENTERING] hardware/qcom-caf/msm8996/audio[0m
+HEAD is now at 0fc4528a2 hal: Fix CFI errors
+Applying: audio_extn: Fix unused parameter warning in utils.c
+================================================================================================
+[0;32m[ENTERING] hardware/qcom-caf/msm8998/audio[0m
+HEAD is now at 916aee116 hal: Fix CFI errors
+Applying: audio_extn: Fix unused parameter warning in utils.c
+================================================================================================
+[0;32m[ENTERING] hardware/qcom-caf/sdm845/audio[0m
+HEAD is now at bd63d5c75 hal: Fix CFI errors
+Applying: audio_extn: Fix unused parameter warning in utils.c
+================================================================================================
+[0;32m[ENTERING] hardware/qcom-caf/sm8150/audio[0m
+HEAD is now at 948a7ef42 hal: Fix CFI errors
+Applying: audio_extn: Fix unused parameter warning in utils.c
+================================================================================================
+[0;32m[ENTERING] hardware/qcom-caf/sm8250/audio[0m
+HEAD is now at bed4ccce7 hal: Fix CFI errors
+Applying: audio_extn: Fix unused parameter warning in utils.c
+================================================================================================
+[0;32m[ENTERING] libcore[0m
+HEAD is now at 01964ae186f DO NOT MERGE Track TZDB 2022a rev. 2 changes. [R]
+Applying: don't throw SecurityException when INTERNET permission is revoked
+Applying: constify JNINativeMethod tables
+Applying: add parameter for avoiding full preload with exec
+Applying: disable ICU cache pinning for exec spawning
+================================================================================================
+[0;32m[ENTERING] lineage-sdk[0m
+HEAD is now at b42391be TrustInterfaceService: Extend onboarding notification to ATV
+================================================================================================
+[0;32m[ENTERING] packages/apps/Bluetooth[0m
+HEAD is now at 5b8b39ad6 Merge tag 'android-security-11.0.0_r62' of https://android.googlesource.com/platform/packages/apps/Bluetooth into staging/lineage-18.1_merge_android-security-11.0.0_r62
+Applying: constify JNINativeMethod tables
+================================================================================================
+[0;32m[ENTERING] packages/apps/Contacts[0m
+HEAD is now at 3e21f36be Merge tag 'android-security-11.0.0_r56' of https://android.googlesource.com/platform/packages/apps/Contacts into staging/lineage-18.1_merge_android-security-11.0.0_r56
+Applying: remove useless no-op privacy policy / terms of use
+Applying: remove 'to Google' from Contacts backup notice
+Applying: Don't prompt to add account when creating a contact
+Applying: Use common intent for directions instead of Google Maps URL
+================================================================================================
+[0;32m[ENTERING] packages/apps/Dialer[0m
+HEAD is now at 00a6f0411 Merge tag 'android-security-11.0.0_r56' of https://android.googlesource.com/platform/packages/apps/Dialer into staging/lineage-18.1_merge_android-security-11.0.0_r56
+Applying: Show privacy warning on in-call screen
+================================================================================================
+[0;32m[ENTERING] packages/apps/LineageParts[0m
+HEAD is now at 9b4ec89 Regenerate contributors cloud (2023-01-03)
+Applying: Remove analytics
+================================================================================================
+[0;32m[ENTERING] packages/apps/Nfc[0m
+HEAD is now at 8c63e221 Merge tag 'android-security-11.0.0_r56' of https://android.googlesource.com/platform/packages/apps/Nfc into staging/lineage-18.1_merge_android-security-11.0.0_r56
+Applying: constify JNINativeMethod tables
+================================================================================================
+[0;32m[ENTERING] packages/apps/PermissionController[0m
+HEAD is now at 9cb9a4895 Merge tag 'android-security-11.0.0_r65' of https://android.googlesource.com/platform/packages/apps/PackageInstaller into staging/lineage-18.1_merge_android-security-11.0.0_r65
+Applying: always treat INTERNET as a runtime permission
+Applying: add INTERNET permission toggle
+Applying: always treat OTHER_SENSORS as a runtime permission
+Applying: add OTHER_SENSORS permission group
+Applying: refactor handling of special runtime permissions
+Applying: don't auto revoke Network and Sensors
+Applying: ui fix for special runtime permission
+================================================================================================
+[0;32m[ENTERING] packages/apps/Settings[0m
+HEAD is now at 855121cdfc Merge tag 'android-security-11.0.0_r65' of https://android.googlesource.com/platform/packages/apps/Settings into staging/lineage-18.1_merge_android-security-11.0.0_r65
+Applying: add toggle to set captiveportal settings
+Applying: Remove the Sensors Off tile
+Applying: Add more 'Private DNS' options
+Applying: add auto-reboot setting
+Applying: add bluetooth auto-turn-off setting
+Applying: add Wi-Fi timeout feature
+Applying: add native debugging setting
+Applying: add exec spawning toggle
+Applying: add option to always randomize MAC
+Applying: remove partial MAC randomization translations
+Applying: UserManager app installation restrictions
+Applying: Add a toggle to disable /etc/hosts lookup
+Applying: add LTE only setting
+Applying: Show preferred network options no matter the carrier configuration
+Applying: Add LTE only entry when carrier enables world mode.
+Applying: add a toggle for forcibly disabling SUPL
+================================================================================================
+[0;32m[ENTERING] packages/apps/SetupWizard[0m
+HEAD is now at d8caecf Use -television instead of -large-notouch for atv resources
+Applying: Remove analytics
+================================================================================================
+[0;32m[ENTERING] packages/apps/Trebuchet[0m
+HEAD is now at b9833cb7d8 Trebuchet: Don't hide home screen rotation setting
+================================================================================================
+[0;32m[ENTERING] packages/apps/Updater[0m
+HEAD is now at a44034f Use -television instead of -large-notouch for atv resources
+Applying: Switch to our update server
+Applying: Add support for routing over Tor
+Applying: Updater: Add prop for allowing major updates
+================================================================================================
+[0;32m[ENTERING] packages/inputmethods/LatinIME[0m
+HEAD is now at c6baabc17 Automatic translation import
+Applying: Remove voice input key
+Applying: disable personalized dicts by default
+================================================================================================
+[0;32m[ENTERING] packages/modules/DnsResolver[0m
+HEAD is now at 64535d0 Merge tag 'android-security-11.0.0_r49' into staging/lineage-18.1_merge-android-security-11.0.0_r49
+Applying: Add a toggle to disable /etc/hosts lookup
+================================================================================================
+[0;32m[ENTERING] packages/modules/NetworkStack[0m
+HEAD is now at 88d4fd9c Merge cherrypicks of [14651914, 14651880, 14651759, 14652210, 14651594, 14651881, 14651915, 14651882, 14651883, 14651799, 14652154, 14651595, 14651760, 14652271, 14652272, 14652273, 14652056, 14651800, 14651801, 14651802, 14651884, 14651885, 14651886, 14652274, 14652275, 14652276, 14652277, 14652278, 14651894, 14651723, 14652211, 14651895, 14651916, 14651887, 14651888, 14651596, 14651889, 14652212, 14651761, 14652310, 14652311, 14651973, 14651974, 14652312, 14652313, 14651896, 14651803] into rvc-qpr3-release
+Applying: avoid reusing DHCP state for full MAC randomization
+================================================================================================
+[0;32m[ENTERING] packages/providers/DownloadProvider[0m
+HEAD is now at d5506ad6 Merge tag 'android-security-11.0.0_r53' into staging/lineage-18.1_merge-android-security-11.0.0_r53
+Applying: remove legacy NETWORK permission group reference
+================================================================================================
+[0;32m[ENTERING] packages/providers/TelephonyProvider[0m
+HEAD is now at a8fe3507 Merge tag 'android-security-11.0.0_r61' of https://android.googlesource.com/platform/packages/providers/TelephonyProvider into staging/lineage-18.1_merge_android-security-11.0.0_r61
+Applying: Mcc and mnc from xml in RRO may be integers
+Applying: MNCs not in carrier_list can get the wrong MNC value
+================================================================================================
+[0;32m[ENTERING] system/bt[0m
+HEAD is now at 3196777d4 Merge tag 'android-security-11.0.0_r65' of https://android.googlesource.com/platform/system/bt into staging/lineage-18.1_merge_android-security-11.0.0_r65
+Applying: Fix for Multiplication overflow will be crash btstack
+Applying: Fix A2dp encoder counter deviation.
+Applying: BluetoothAudioHAL: MTU not exceed an AVDTP packet
+Applying: A2DP: AAC encoder uses same value in tick interval and feeding data
+Applying: A2DP: Restrict MTU while using SBC middle quality
+Applying: add alloc_size attributes to the allocator
+================================================================================================
+[0;32m[ENTERING] system/core[0m
+HEAD is now at 87c49e5ee Merge tag 'android-security-11.0.0_r56' of https://android.googlesource.com/platform/system/core into staging/lineage-18.1_merge_android-security-11.0.0_r56
+[detached HEAD 255fe3bc0] Revert "fs_mgr: Allow remounts with Magisk installed"
+ Date: Fri Mar 31 12:22:29 2023 -0400
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+[detached HEAD fff8e6dac] Revert "liblog: Always report as debuggable when building userdebug/eng"
+ Date: Fri Mar 31 12:22:29 2023 -0400
+ 2 files changed, 9 deletions(-)
+Applying: Harden
+Applying: add a property for controlling ptrace_scope
+Applying: increase max_map_count for hardened malloc
+Applying: zero sensitive information with explicit_bzero
+================================================================================================
+[0;32m[ENTERING] system/extras[0m
+HEAD is now at 54a53b6e bootsignature: includes dt image size for signed boot image
+Applying: pad filenames to 32 bytes instead of 16 or 4 bytes
+================================================================================================
+[0;32m[ENTERING] system/netd[0m
+HEAD is now at 3e15420d Merge tag 'android-11.0.0_r38' into staging/lineage-18.1_merge-android-11.0.0_r38
+Applying: use uid instead of app id for tracking INTERNET permission
+================================================================================================
+[0;32m[ENTERING] system/sepolicy[0m
+HEAD is now at c590512ec Give mediaprovider_app mlstrustedsubject
+Applying: label protected_{fifos,regular} as proc_security
+Applying: allow init to control kernel.yama.ptrace_scope
+Applying: allow system to use persist.native_debug
+Applying: Fix -user builds for many LGE devices
+Warning: an existing sandbox was detected. /usr/bin/patch will run without any additional sandboxing features
+patching file public/domain.te
+Hunk #1 succeeded at 603 (offset 6 lines).
+Hunk #2 succeeded at 623 (offset 6 lines).
+Warning: an existing sandbox was detected. /usr/bin/patch will run without any additional sandboxing features
+patching file public/domain.te
+Hunk #1 succeeded at 596 (offset -1 lines).
+Hunk #2 succeeded at 616 (offset -1 lines).
+Warning: an existing sandbox was detected. /usr/bin/patch will run without any additional sandboxing features
+patching file public/domain.te
+Hunk #1 succeeded at 597 with fuzz 2.
+Hunk #2 succeeded at 615 (offset -2 lines).
+Warning: an existing sandbox was detected. /usr/bin/patch will run without any additional sandboxing features
+patching file public/domain.te
+Hunk #1 succeeded at 486 with fuzz 2 (offset -111 lines).
+Hunk #2 succeeded at 503 (offset -114 lines).
+Warning: an existing sandbox was detected. /usr/bin/patch will run without any additional sandboxing features
+patching file public/domain.te
+Hunk #1 succeeded at 482 with fuzz 2 (offset -115 lines).
+Hunk #2 succeeded at 499 with fuzz 2 (offset -118 lines).
+================================================================================================
+[0;32m[ENTERING] system/update_engine[0m
+HEAD is now at 4ea79603 Check allocatable space correctly when sideloading on VAB
+Auto-merging payload_consumer/delta_performer.cc
+[detached HEAD 8f2b670e] Revert "Don't verify payload signatures in recovery"
+ Date: Fri Mar 31 12:22:30 2023 -0400
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+================================================================================================
+[0;32m[ENTERING] system/vold[0m
+HEAD is now at 981e9b4 vold: Accept Linux GPT partitions on external SD cards
+Auto-merging cryptfs.cpp
+[detached HEAD 5c16e48] Revert "cryptfs: kill processes more quickly in wait_and_unmount()"
+ Date: Fri Mar 31 12:22:30 2023 -0400
+ 1 file changed, 15 insertions(+), 17 deletions(-)
+================================================================================================
+[0;32m[ENTERING] vendor/lineage[0m
+HEAD is now at 59969b6f apn: fix AMC APN
+================================================================================================
+[0;32m[ENTERING] vendor/divested[0m
+================================================================================================
+[0;32m[ENTERING] device/asus/flox[0m
+HEAD is now at 325924b flox: use COMMON_PATH instead of DEVICE_PATH in BoardConfigCommon
+Enabled ramdisk compression
+================================================================================================
+[0;32m[ENTERING] device/google/marlin[0m
+HEAD is now at 4c3f1b83 m1s1: sepolicy: Allow system_app to access zram sysfs nodes
+================================================================================================
+[0;32m[ENTERING] device/htc/m8-common[0m
+HEAD is now at cfb8b98 m8-common: releasetools: Remove usage of e2fsck_static
+================================================================================================
+[0;32m[ENTERING] device/htc/msm8974-common[0m
+HEAD is now at b32d3bd msm8974-common: Don't sign Wifi RROs with platform cert
+Applying: Boost microphone volume
+================================================================================================
+[0;32m[ENTERING] device/lge/g2-common[0m
+HEAD is now at 5e4b5a5 Revert "g2-common: overlay: Remove Wifi Display config"
+================================================================================================
+[0;32m[ENTERING] device/lge/g3-common[0m
+HEAD is now at 54f17e3 Revert "g3-common: Remove Wifi Display options"
+================================================================================================
+[0;32m[ENTERING] device/lge/mako[0m
+HEAD is now at b11055e mako: Reenable diag driver
+[detached HEAD e1ebb34] Revert "mako: bring lte option back"
+ Date: Fri Mar 31 12:22:30 2023 -0400
+ 1 file changed, 32 insertions(+)
+ create mode 100644 overlay/packages/apps/CarrierConfig/res/xml/vendor.xml
+Applying: LTE Enablement
+================================================================================================
+[0;32m[ENTERING] device/lge/msm8996-common[0m
+HEAD is now at 735521bb msm8996-common: Signal perfd that boot has completed
+================================================================================================
+[0;32m[ENTERING] device/moto/shamu[0m
+HEAD is now at 80fa688a shamu: Kang DRM from angler
+[detached HEAD c5ca07b8] Revert "shamu: Build the new AIDL power HAL"
+ Date: Fri Mar 31 12:22:30 2023 -0400
+ 3 files changed, 20 insertions(+), 2 deletions(-)
+[detached HEAD 427c6122] Revert "shamu: Import QTI AIDL Power HAL"
+ Date: Fri Mar 31 12:22:30 2023 -0400
+ 15 files changed, 275 insertions(+), 296 deletions(-)
+ delete mode 100644 hidl/power/LineagePower.cpp
+ delete mode 100644 hidl/power/android.hardware.power-service.shamu.rc
+ create mode 100644 hidl/power/android.hardware.power@1.2-service.shamu.rc
+ rename hidl/power/{LineagePower.h => power-feature.h} (53%)
+ delete mode 100644 hidl/power/power.xml
+ rename hidl/power/{main.cpp => service.cpp} (51%)
+[detached HEAD 4dd4e921] Revert "shamu: camera: QCamera2: HAL3: Fix fdleak issue"
+ Date: Fri Mar 31 12:22:30 2023 -0400
+ 1 file changed, 3 deletions(-)
+================================================================================================
+[0;32m[ENTERING] device/oppo/common[0m
+HEAD is now at 6ff6662 Automatic translation import
+================================================================================================
+[0;32m[ENTERING] device/oppo/msm8974-common[0m
+HEAD is now at bed730b msm8974-common: Enable fluence in speaker mode
+================================================================================================
+[0;32m[ENTERING] device/samsung/jfltexx[0m
+HEAD is now at 221635b jfltexx: Use non-GPE i9505 system partition size
+Set smaller system args for /mnt/dos/Build/LineageOS-18.1/device/samsung/jfltexx
+================================================================================================
+[0;32m[ENTERING] device/samsung/jflteatt[0m
+HEAD is now at 7690d06 jflteatt: Don't let builds complete without vendor tree
+Set smaller system args for /mnt/dos/Build/LineageOS-18.1/device/samsung/jflteatt
+================================================================================================
+[0;32m[ENTERING] device/samsung/jfltespr[0m
+HEAD is now at 9c846cf jfltespr: Don't let builds complete without vendor tree
+Set smaller system args for /mnt/dos/Build/LineageOS-18.1/device/samsung/jfltespr
+================================================================================================
+[0;32m[ENTERING] device/samsung/jfltevzw[0m
+HEAD is now at 3f3aca9 jfltevzw: Don't let builds complete without vendor tree
+Set smaller system args for /mnt/dos/Build/LineageOS-18.1/device/samsung/jfltevzw
+================================================================================================
+[0;32m[ENTERING] device/samsung/msm8974-common[0m
+HEAD is now at 7258b0b msm8974-common: Stop opting out of Lineage charger
+================================================================================================
+[0;32m[ENTERING] device/zuk/msm8996-common[0m
+HEAD is now at 199ad67 msm8996-common: lineage-sdk: Remove back key from deviceHardwareKeys
+================================================================================================
+[0;32m[ENTERING] kernel/google/marlin[0m
+HEAD is now at 52bcca9b8e2 arch: arm64: configs: Rename marlin_defconfig -> m1s1_defconfig
+[detached HEAD eb6234e809d] Revert "ARM: dts: marlin: Disable verity on /vendor"
+ Date: Fri Mar 31 12:22:31 2023 -0400
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Enhanced location services for hardware/qcom/gps/msm8084/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8909/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8909w_3100/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8960/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8994/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8974/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8996/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8998/etc/gps.conf
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Enhanced location services for device/asus/flox/gps/etc/gps.conf
+Enhanced location services for device/common/gps/gps.conf_AS
+Enhanced location services for device/common/gps/gps.conf_AS_SUPL
+Enhanced location services for device/common/gps/gps.conf_EU
+Enhanced location services for device/common/gps/gps.conf_EU_SUPL
+Enhanced location services for device/common/gps/gps.conf_US_SUPL
+Enhanced location services for device/common/gps/gps.conf_US
+Enhanced location services for device/fairphone/FP2/gps/gps.conf
+Enhanced location services for device/google/marlin/gps.conf
+Enhanced location services for device/lge/g2-common/gps/etc/gps.conf
+Enhanced location services for device/htc/msm8974-common/gps/etc/gps.conf
+Enhanced location services for device/lge/g3-common/gps/etc/gps.conf
+Enhanced location services for device/lge/mako/gps/etc/gps.conf
+Enhanced location services for device/lge/msm8996-common/gps/etc/gps.conf
+Enhanced location services for device/motorola/victara/gps/gps.conf
+Enhanced location services for device/moto/shamu/configs/gps.conf
+Enhanced location services for device/nextbit/ether/gps/gps.conf
+Enhanced location services for device/oneplus/oneplus3/gps/etc/gps.conf
+Enhanced location services for device/oppo/msm8974-common/gps/gps.conf
+Enhanced location services for device/samsung/jf-common/gps/etc/gps.conf
+Enhanced location services for device/samsung/msm8974-common/gps/etc/gps.conf
+Enhanced location services for device/samsung/serrano-common/gps/etc/gps.conf
+Enhanced location services for device/xiaomi/sdm660-common/gps/etc/gps.conf
+Enhanced location services for device/zuk/msm8996-common/configs/gps/gps.conf
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Enhanced location services for vendor/asus/msm8937-common/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/asus/obiwan/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/samsung/gts4lv-common/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/asus/sake/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/xiaomi/dipper/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/xiaomi/equuleus/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/xiaomi/perseus/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/xiaomi/sm6250-common/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/xiaomi/sm7250-common/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/xiaomi/sm8150-common/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/xiaomi/ursa/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/xiaomi/sm8250-common/proprietary/vendor/etc/gps.conf
+Enhanced location services for vendor/xiaomi/msm8953-common/proprietary/vendor/etc/gps.conf
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Enhanced location services for device/generic/car/car_x86_64/overlay
+Enhanced location services for device/fairphone/FP2/overlay
+Enhanced location services for device/generic/armv7-a-neon/overlay
+Enhanced location services for device/asus/flox/overlay
+Enhanced location services for device/generic/car/car_x86_64/overlay/overlay
+Enhanced location services for device/generic/car/emulator/audio/overlay
+Enhanced location services for device/generic/car/common/overlay
+Enhanced location services for device/generic/car/emulator/rotary/overlay
+Enhanced location services for device/generic/common/mgsi/overlay
+Enhanced location services for device/generic/x86/overlay
+Enhanced location services for device/google/vrservices/xr/overlay
+Enhanced location services for device/google/marlin/marlin/overlay
+Enhanced location services for device/google/marlin/sailfish/overlay
+Enhanced location services for device/htc/m8-common/overlay
+Enhanced location services for device/htc/m8/overlay
+Enhanced location services for device/htc/msm8974-common/overlay
+Enhanced location services for device/google/atv/overlay
+Enhanced location services for device/htc/m8d/overlay
+Enhanced location services for device/lge/d802/overlay
+Enhanced location services for device/lge/d852/overlay
+Enhanced location services for device/google/marlin/overlay
+Enhanced location services for device/lge/g2-common/overlay
+Enhanced location services for device/lge/g3-common/overlay
+Enhanced location services for device/lge/mako/overlay
+Enhanced location services for device/lge/g5-common/overlay
+Enhanced location services for device/lge/v20-common/overlay
+Enhanced location services for device/lge/vs985/overlay
+Enhanced location services for device/lge/ls990/overlay
+Enhanced location services for device/lge/d800/overlay
+Enhanced location services for device/lge/d801/overlay
+Enhanced location services for device/lge/d803/overlay
+Enhanced location services for device/lineage/atv/overlay
+Enhanced location services for device/lge/d850/overlay
+Enhanced location services for device/lineage/car/overlay
+Enhanced location services for device/motorola/victara/overlay
+Enhanced location services for device/nextbit/ether/overlay
+Enhanced location services for device/lge/msm8996-common/overlay
+Enhanced location services for device/oneplus/bacon/overlay
+Enhanced location services for device/oppo/common/overlay
+Enhanced location services for device/oneplus/oneplus3/overlay
+Enhanced location services for device/samsung/jf-common/overlay
+Enhanced location services for device/oppo/msm8974-common/overlay
+Enhanced location services for device/moto/shamu/overlay
+Enhanced location services for device/samsung/jfltexx/overlay
+Enhanced location services for device/samsung/klte-common/overlay
+Enhanced location services for device/samsung/klte/overlay
+Enhanced location services for device/samsung/msm8930-common/overlay
+Enhanced location services for device/samsung/msm8974-common/overlay
+Enhanced location services for device/samsung/serrano-common/overlay
+Enhanced location services for device/samsung/serrano3gxx/overlay
+Enhanced location services for device/samsung/qcom-common/overlay
+Enhanced location services for device/samsung/serranoltexx/overlay
+Enhanced location services for device/samsung/jfltespr/overlay
+Enhanced location services for device/samsung/jflteatt/overlay
+Enhanced location services for device/samsung/jfltevzw/overlay
+Enhanced location services for device/xiaomi/lavender/overlay
+Enhanced location services for device/zuk/msm8996-common/overlay
+Enhanced location services for device/zuk/z2_plus/overlay
+Enhanced location services for device/xiaomi/sdm660-common/overlay
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Set VoLTE override in system.prop for device/google/marlin
+Set VoLTE override in system.prop for device/lge/d800
+Set VoLTE override in system.prop for device/lge/d801
+Set VoLTE override in system.prop for device/oneplus/oneplus3
+Set VoLTE override in system.prop for device/xiaomi/sdm660-common
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Enabled full dexpreopt for device/asus/flox
+Enabled full dexpreopt for device/fairphone/FP2
+Enabled full dexpreopt for device/generic/arm64
+Enabled full dexpreopt for device/generic/armv7-a-neon
+Enabled full dexpreopt for device/generic/trusty
+Enabled full dexpreopt for device/generic/uml
+Enabled full dexpreopt for device/generic/x86
+Enabled full dexpreopt for device/generic/x86_64
+Enabled core dexpreopt for device/htc/m8
+Enabled core dexpreopt for device/htc/m8d
+Enabled full dexpreopt for device/lge/d802
+Enabled full dexpreopt for device/lge/d852
+Enabled full dexpreopt for device/lge/d855
+Enabled full dexpreopt for device/lge/h850
+Enabled full dexpreopt for device/lge/h910
+Enabled full dexpreopt for device/lge/h990
+Enabled full dexpreopt for device/lge/mako
+Enabled full dexpreopt for device/lge/rs988
+Enabled full dexpreopt for device/lge/us996
+Enabled full dexpreopt for device/lge/h918
+Enabled full dexpreopt for device/lge/ls990
+Enabled full dexpreopt for device/lge/ls997
+Enabled full dexpreopt for device/lge/vs985
+Enabled full dexpreopt for device/lge/vs995
+Enabled full dexpreopt for device/lge/d800
+Enabled full dexpreopt for device/lge/d801
+Enabled full dexpreopt for device/lge/d803
+Enabled full dexpreopt for device/lge/d850
+Enabled full dexpreopt for device/lge/d851
+Enabled full dexpreopt for device/lge/f400
+Enabled full dexpreopt for device/lge/h830
+Enabled full dexpreopt for device/moto/shamu
+Enabled full dexpreopt for device/motorola/victara
+Enabled full dexpreopt for device/nextbit/ether
+Enabled full dexpreopt for device/oneplus/bacon
+Enabled full dexpreopt for device/oneplus/oneplus3
+Enabled core dexpreopt for device/samsung/jfltexx
+Enabled full dexpreopt for device/samsung/klte
+Enabled full dexpreopt for device/samsung/serrano3gxx
+Enabled full dexpreopt for device/samsung/serranoltexx
+Enabled core dexpreopt for device/samsung/jflteatt
+Enabled core dexpreopt for device/samsung/jfltespr
+Enabled core dexpreopt for device/samsung/jfltevzw
+Enabled full dexpreopt for device/xiaomi/lavender
+Enabled full dexpreopt for device/zuk/z2_plus
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Hardened /data for device/common/gps
+Hardened /data for device/asus/flox
+Hardened /data for device/generic/arm64
+Hardened /data for device/fairphone/FP2
+Hardened /data for device/generic/armv7-a-neon
+Hardened /data for device/generic/art
+Hardened /data for device/generic/car
+Hardened /data for device/generic/common
+Hardened /data for device/generic/trusty
+Hardened /data for device/generic/uml
+Hardened /data for device/generic/x86
+Hardened /data for device/generic/x86_64
+Hardened /data for device/google/atv
+Hardened /data for device/google/vrservices
+Hardened /data for device/google/contexthub
+Hardened /data for device/google/sailfish
+Hardened /data for device/google/marlin
+Hardened /data for device/htc/m8-common
+Hardened /data for device/htc/m8
+Hardened /data for device/htc/m8d
+Hardened /data for device/htc/msm8974-common
+Hardened /data for device/lge/common
+Hardened /data for device/lge/d802
+Hardened /data for device/lge/d852
+Hardened /data for device/lge/d855
+Hardened /data for device/lge/g2-common
+Hardened /data for device/lge/g3-common
+Hardened /data for device/lge/g5-common
+Hardened /data for device/lge/h850
+Hardened /data for device/lge/h910
+Hardened /data for device/lge/h990
+Hardened /data for device/lge/mako
+Hardened /data for device/lge/rs988
+Hardened /data for device/lge/us996
+Hardened /data for device/lge/msm8996-common
+Hardened /data for device/lge/v20-common
+Hardened /data for device/lge/h918
+Hardened /data for device/lge/ls990
+Hardened /data for device/lge/ls997
+Hardened /data for device/lge/vs985
+Hardened /data for device/lge/vs995
+Hardened /data for device/lge/d800
+Hardened /data for device/lge/d801
+Hardened /data for device/lge/d803
+Hardened /data for device/lge/d850
+Hardened /data for device/lge/d851
+Hardened /data for device/lge/f400
+Hardened /data for device/lge/h830
+Hardened /data for device/lineage/atv
+Hardened /data for device/lineage/car
+Hardened /data for device/lineage/sepolicy
+Hardened /data for device/moto/shamu
+Hardened /data for device/nextbit/ether
+Hardened /data for device/motorola/victara
+Hardened /data for device/oneplus/common
+Hardened /data for device/oneplus/bacon
+Hardened /data for device/oppo/common
+Hardened /data for device/oneplus/oneplus3
+Hardened /data for device/oppo/msm8974-common
+Hardened /data for device/qcom/sepolicy-legacy-um
+Hardened /data for device/qcom/sepolicy
+Hardened /data for device/qcom/sepolicy_vndr
+Hardened /data for device/sample/apps
+Hardened /data for device/qcom/sepolicy-legacy
+Hardened /data for device/sample/etc
+Hardened /data for device/sample/frameworks
+Hardened /data for device/sample/overlays
+Hardened /data for device/sample/products
+Hardened /data for device/sample/sdk_addon
+Hardened /data for device/sample/skins
+Hardened /data for device/samsung/jfltexx
+Hardened /data for device/samsung/jf-common
+Hardened /data for device/samsung/klte
+Hardened /data for device/samsung/klte-common
+Hardened /data for device/samsung/msm8930-common
+Hardened /data for device/samsung/qcom-common
+Hardened /data for device/samsung/msm8974-common
+Hardened /data for device/samsung/serrano3gxx
+Hardened /data for device/samsung/serrano-common
+Hardened /data for device/samsung/serranoltexx
+Hardened /data for device/samsung/jflteatt
+Hardened /data for device/samsung/jfltespr
+Hardened /data for device/samsung/jfltevzw
+Hardened /data for device/xiaomi/lavender
+Hardened /data for device/xiaomi/sdm660-common
+Hardened /data for device/zuk/z2_plus
+Hardened /data for device/zuk/msm8996-common
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Hardened defconfig for kernel/configs/build
+Hardened defconfig for kernel/configs/p
+Hardened defconfig for kernel/configs/o-mr1
+Hardened defconfig for kernel/configs/o
+Hardened defconfig for kernel/configs/q
+Hardened defconfig for kernel/configs/r
+Hardened defconfig for kernel/configs/tools
+Hardened defconfig for kernel/fairphone/msm8974
+Hardened defconfig for kernel/google/msm
+Hardened defconfig for kernel/google/marlin
+Hardened defconfig for kernel/htc/msm8974
+Hardened defconfig for kernel/lge/mako
+Hardened defconfig for kernel/lge/msm8996
+Hardened defconfig for kernel/lge/g3
+Hardened defconfig for kernel/moto/shamu
+Hardened defconfig for kernel/motorola/msm8974
+Hardened defconfig for kernel/oneplus/msm8996
+Hardened defconfig for kernel/nextbit/msm8992
+Hardened defconfig for kernel/oppo/msm8974
+Hardened defconfig for kernel/prebuilts/4.19
+Hardened defconfig for kernel/lge/msm8974
+Hardened defconfig for kernel/samsung/jf
+Hardened defconfig for kernel/tests/devicetree
+Hardened defconfig for kernel/tests/net
+Hardened defconfig for kernel/samsung/msm8930-common
+Hardened defconfig for kernel/xiaomi/sdm660
+Hardened defconfig for kernel/zuk/msm8996
+Hardened defconfig for kernel/samsung/msm8974
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+regdb: updated for kernel/google/marlin
+regdb: updated for kernel/lge/msm8996
+regdb: updated for kernel/oneplus/msm8996
+regdb: updated for kernel/xiaomi/sdm660
+regdb: updated for kernel/zuk/msm8996
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Disabled APEX for device/asus/flox
+Disabled APEX for device/common/gps
+Disabled APEX for device/generic/arm64
+Disabled APEX for device/fairphone/FP2
+Disabled APEX for device/generic/art
+Disabled APEX for device/generic/armv7-a-neon
+Disabled APEX for device/generic/common
+Disabled APEX for device/generic/car
+Disabled APEX for device/generic/trusty
+Disabled APEX for device/generic/uml
+Disabled APEX for device/generic/x86
+Disabled APEX for device/generic/x86_64
+Disabled APEX for device/google/atv
+Disabled APEX for device/google/vrservices
+Disabled APEX for device/google/contexthub
+Disabled APEX for device/google/sailfish
+Disabled APEX for device/google/marlin
+Disabled APEX for device/htc/m8-common
+Disabled APEX for device/htc/m8
+Disabled APEX for device/htc/msm8974-common
+Disabled APEX for device/lge/common
+Disabled APEX for device/htc/m8d
+Disabled APEX for device/lge/d802
+Disabled APEX for device/lge/d852
+Disabled APEX for device/lge/d855
+Disabled APEX for device/lge/g2-common
+Disabled APEX for device/lge/g3-common
+Disabled APEX for device/lge/g5-common
+Disabled APEX for device/lge/h850
+Disabled APEX for device/lge/h910
+Disabled APEX for device/lge/h990
+Disabled APEX for device/lge/mako
+Disabled APEX for device/lge/msm8996-common
+Disabled APEX for device/lge/rs988
+Disabled APEX for device/lge/us996
+Disabled APEX for device/lge/h918
+Disabled APEX for device/lge/v20-common
+Disabled APEX for device/lge/ls990
+Disabled APEX for device/lge/ls997
+Disabled APEX for device/lge/vs985
+Disabled APEX for device/lge/vs995
+Disabled APEX for device/lge/d800
+Disabled APEX for device/lge/d801
+Disabled APEX for device/lge/d803
+Disabled APEX for device/lge/d850
+Disabled APEX for device/lge/d851
+Disabled APEX for device/lge/f400
+Disabled APEX for device/lge/h830
+Disabled APEX for device/lineage/atv
+Disabled APEX for device/lineage/car
+Disabled APEX for device/lineage/sepolicy
+Disabled APEX for device/moto/shamu
+Disabled APEX for device/oneplus/common
+Disabled APEX for device/oneplus/bacon
+Disabled APEX for device/motorola/victara
+Disabled APEX for device/nextbit/ether
+Disabled APEX for device/oppo/common
+Disabled APEX for device/oneplus/oneplus3
+Disabled APEX for device/oppo/msm8974-common
+Disabled APEX for device/qcom/sepolicy-legacy-um
+Disabled APEX for device/qcom/sepolicy-legacy
+Disabled APEX for device/qcom/sepolicy
+Disabled APEX for device/qcom/sepolicy_vndr
+Disabled APEX for device/sample/apps
+Disabled APEX for device/sample/etc
+Disabled APEX for device/sample/frameworks
+Disabled APEX for device/sample/overlays
+Disabled APEX for device/sample/products
+Disabled APEX for device/sample/sdk_addon
+Disabled APEX for device/sample/skins
+Disabled APEX for device/samsung/jf-common
+Disabled APEX for device/samsung/jfltexx
+Disabled APEX for device/samsung/klte-common
+Disabled APEX for device/samsung/klte
+Disabled APEX for device/samsung/msm8930-common
+Disabled APEX for device/samsung/qcom-common
+Disabled APEX for device/samsung/msm8974-common
+Disabled APEX for device/samsung/serrano-common
+Disabled APEX for device/samsung/serrano3gxx
+Disabled APEX for device/samsung/serranoltexx
+Disabled APEX for device/samsung/jflteatt
+Disabled APEX for device/samsung/jfltespr
+Disabled APEX for device/samsung/jfltevzw
+Disabled APEX for device/xiaomi/lavender
+Disabled APEX for device/xiaomi/sdm660-common
+Disabled APEX for device/zuk/z2_plus
+Disabled APEX for device/zuk/msm8996-common
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Disabled enforced RRO for device/common/gps
+Disabled enforced RRO for device/asus/flox
+Disabled enforced RRO for device/generic/arm64
+Disabled enforced RRO for device/fairphone/FP2
+Disabled enforced RRO for device/generic/armv7-a-neon
+Disabled enforced RRO for device/generic/art
+Disabled enforced RRO for device/generic/common
+Disabled enforced RRO for device/generic/car
+Disabled enforced RRO for device/generic/trusty
+Disabled enforced RRO for device/generic/uml
+Disabled enforced RRO for device/generic/x86
+Disabled enforced RRO for device/google/atv
+Disabled enforced RRO for device/generic/x86_64
+Disabled enforced RRO for device/google/contexthub
+Disabled enforced RRO for device/google/vrservices
+Disabled enforced RRO for device/google/marlin
+Disabled enforced RRO for device/google/sailfish
+Disabled enforced RRO for device/htc/m8-common
+Disabled enforced RRO for device/htc/m8
+Disabled enforced RRO for device/htc/msm8974-common
+Disabled enforced RRO for device/htc/m8d
+Disabled enforced RRO for device/lge/common
+Disabled enforced RRO for device/lge/d802
+Disabled enforced RRO for device/lge/d852
+Disabled enforced RRO for device/lge/d855
+Disabled enforced RRO for device/lge/g2-common
+Disabled enforced RRO for device/lge/g3-common
+Disabled enforced RRO for device/lge/g5-common
+Disabled enforced RRO for device/lge/h850
+Disabled enforced RRO for device/lge/h910
+Disabled enforced RRO for device/lge/h990
+Disabled enforced RRO for device/lge/mako
+Disabled enforced RRO for device/lge/msm8996-common
+Disabled enforced RRO for device/lge/rs988
+Disabled enforced RRO for device/lge/us996
+Disabled enforced RRO for device/lge/v20-common
+Disabled enforced RRO for device/lge/h918
+Disabled enforced RRO for device/lge/ls990
+Disabled enforced RRO for device/lge/ls997
+Disabled enforced RRO for device/lge/vs985
+Disabled enforced RRO for device/lge/vs995
+Disabled enforced RRO for device/lge/d800
+Disabled enforced RRO for device/lge/d801
+Disabled enforced RRO for device/lge/d803
+Disabled enforced RRO for device/lge/d850
+Disabled enforced RRO for device/lge/d851
+Disabled enforced RRO for device/lge/f400
+Disabled enforced RRO for device/lge/h830
+Disabled enforced RRO for device/lineage/atv
+Disabled enforced RRO for device/lineage/car
+Disabled enforced RRO for device/lineage/sepolicy
+Disabled enforced RRO for device/moto/shamu
+Disabled enforced RRO for device/motorola/victara
+Disabled enforced RRO for device/nextbit/ether
+Disabled enforced RRO for device/oneplus/bacon
+Disabled enforced RRO for device/oneplus/common
+Disabled enforced RRO for device/oppo/common
+Disabled enforced RRO for device/oneplus/oneplus3
+Disabled enforced RRO for device/oppo/msm8974-common
+Disabled enforced RRO for device/qcom/sepolicy-legacy-um
+Disabled enforced RRO for device/qcom/sepolicy-legacy
+Disabled enforced RRO for device/qcom/sepolicy
+Disabled enforced RRO for device/qcom/sepolicy_vndr
+Disabled enforced RRO for device/sample/apps
+Disabled enforced RRO for device/sample/etc
+Disabled enforced RRO for device/sample/frameworks
+Disabled enforced RRO for device/sample/overlays
+Disabled enforced RRO for device/sample/products
+Disabled enforced RRO for device/sample/sdk_addon
+Disabled enforced RRO for device/sample/skins
+Disabled enforced RRO for device/samsung/jf-common
+Disabled enforced RRO for device/samsung/jfltexx
+Disabled enforced RRO for device/samsung/klte-common
+Disabled enforced RRO for device/samsung/klte
+Disabled enforced RRO for device/samsung/msm8930-common
+Disabled enforced RRO for device/samsung/msm8974-common
+Disabled enforced RRO for device/samsung/qcom-common
+Disabled enforced RRO for device/samsung/serrano-common
+Disabled enforced RRO for device/samsung/serrano3gxx
+Disabled enforced RRO for device/samsung/serranoltexx
+Disabled enforced RRO for device/samsung/jflteatt
+Disabled enforced RRO for device/samsung/jfltespr
+Disabled enforced RRO for device/samsung/jfltevzw
+Disabled enforced RRO for device/xiaomi/lavender
+Disabled enforced RRO for device/xiaomi/sdm660-common
+Disabled enforced RRO for device/zuk/z2_plus
+Disabled enforced RRO for device/zuk/msm8996-common
+Deblobbed audio!
+Removed stock build fingerprints
+auto-var-init: Starting!
+auto-var-init: Enabled for oneplus/msm8996
+auto-var-init: Enabled for xiaomi/sdm660
+auto-var-init: Enabled for zuk/msm8996
+auto-var-init: Finished!
+sed: can't read device/*/*/overlay/CarrierConfigResCommon/res/xml/vendor.xml: No such file or directory
+sed: can't read device/*/*/overlay/CarrierConfigResCommon/res/xml/vendor.xml: No such file or directory
+Can't open device/*/*/overlay/CarrierConfigResCommon/res/xml/vendor.xml: No such file or directory, <> chunk 313.
+sed: can't read device/*/*/overlay/CarrierConfigResCommon/res/xml/vendor.xml: No such file or directory
+sed: can't read device/*/*/overlay/CarrierConfigResCommon/res/xml/vendor.xml: No such file or directory
+Enabled lowram for device/samsung/msm8930-common
+Enabled lowram for device/samsung/serrano3gxx
+Enabled lowram for device/samsung/serrano-common
+Enabled lowram for device/samsung/serranoltexx
+Enabled lowram for device/asus/flox
+Enabled lowram for device/fairphone/FP2
+Enabled lowram for device/htc/m8-common
+Enabled lowram for device/htc/m8
+Enabled lowram for device/htc/m8d
+Enabled lowram for device/htc/msm8974-common
+Enabled lowram for device/lge/d800
+Enabled lowram for device/lge/d801
+Enabled lowram for device/lge/d802
+Enabled lowram for device/lge/d803
+Enabled lowram for device/lge/g2-common
+Enabled lowram for device/lge/mako
+Enabled lowram for device/motorola/victara
+Enabled lowram for device/samsung/jf-common
+Enabled lowram for device/samsung/jflteatt
+Enabled lowram for device/samsung/jfltespr
+Enabled lowram for device/samsung/jfltevzw
+Enabled lowram for device/samsung/jfltexx
+Enabled lowram for device/samsung/klte-common
+Enabled lowram for device/samsung/klte
+Enabled lowram for device/samsung/msm8974-common
+rm: cannot remove 'kernel/*/*/drivers/staging/greybus/tools/Android.mk': No such file or directory
+[0;32m[SCRIPT COMPLETE] Primary patching finished[0m
+Enabling verity...
+Enabled verity for device/google/marlin
+Enabled verity for device/google/sailfish
+Enabled verity for device/moto/shamu
+Enabled verity for device/oneplus/oneplus3
+Enabled verity for device/zuk/msm8996-common
+Enabled verity for device/zuk/z2_plus
+Setting PERMISSIVE AVB for device/xiaomi/lavender
+Enabled AVB for device/xiaomi/lavender
+Setting PERMISSIVE AVB for device/xiaomi/sdm660-common
+Enabled AVB for device/xiaomi/sdm660-common
+[0;32m[SCRIPT COMPLETE] Verity enablement complete[0m
+Copying verity/avb public keys to kernels...
+[0;32mCopied verifiedboot keys for lavender to kernel/xiaomi/sdm660[0m
+[0;32mAppended verity keys for lavender to kernel/xiaomi/sdm660[0m
+[0;32mCopied verifiedboot keys for marlin to kernel/google/marlin[0m
+[0;32mCopied verifiedboot keys for oneplus3 to kernel/oneplus/msm8996[0m
+[0;32mCopied verifiedboot keys for sailfish to kernel/google/marlin[0m
+[0;32mCopied verifiedboot keys for shamu to kernel/moto/shamu[0m
+[0;32mCopied verifiedboot keys for z2_plus to kernel/zuk/msm8996[0m
+[0;32mAppended verity keys for z2_plus to kernel/zuk/msm8996[0m
+[0;32m[SCRIPT COMPLETE] Copied keys to kernels[0m
+Changing default settings...
+================================================================================================
+[0;32m[ENTERING] frameworks/base[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Dialer[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Nfc[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Settings[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/SetupWizard[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Trebuchet[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Updater[0m
+================================================================================================
+[0;32m[ENTERING] vendor/lineage[0m
+[0;32m[SCRIPT COMPLETE] Default settings changed[0m
+Rebranding...
+================================================================================================
+[0;32m[ENTERING] bootable/recovery[0m
+[detached HEAD 0083c78d] Revert "recovery: New install/progress animation"
+ Date: Fri Mar 31 12:22:45 2023 -0400
+ 455 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 res-hdpi/images/loop00030.png
+ create mode 100644 res-hdpi/images/loop00031.png
+ create mode 100644 res-hdpi/images/loop00032.png
+ create mode 100644 res-hdpi/images/loop00033.png
+ create mode 100644 res-hdpi/images/loop00034.png
+ create mode 100644 res-hdpi/images/loop00035.png
+ create mode 100644 res-hdpi/images/loop00036.png
+ create mode 100644 res-hdpi/images/loop00037.png
+ create mode 100644 res-hdpi/images/loop00038.png
+ create mode 100644 res-hdpi/images/loop00039.png
+ create mode 100644 res-hdpi/images/loop00040.png
+ create mode 100644 res-hdpi/images/loop00041.png
+ create mode 100644 res-hdpi/images/loop00042.png
+ create mode 100644 res-hdpi/images/loop00043.png
+ create mode 100644 res-hdpi/images/loop00044.png
+ create mode 100644 res-hdpi/images/loop00045.png
+ create mode 100644 res-hdpi/images/loop00046.png
+ create mode 100644 res-hdpi/images/loop00047.png
+ create mode 100644 res-hdpi/images/loop00048.png
+ create mode 100644 res-hdpi/images/loop00049.png
+ create mode 100644 res-hdpi/images/loop00050.png
+ create mode 100644 res-hdpi/images/loop00051.png
+ create mode 100644 res-hdpi/images/loop00052.png
+ create mode 100644 res-hdpi/images/loop00053.png
+ create mode 100644 res-hdpi/images/loop00054.png
+ create mode 100644 res-hdpi/images/loop00055.png
+ create mode 100644 res-hdpi/images/loop00056.png
+ create mode 100644 res-hdpi/images/loop00057.png
+ create mode 100644 res-hdpi/images/loop00058.png
+ create mode 100644 res-hdpi/images/loop00059.png
+ create mode 100644 res-hdpi/images/loop00060.png
+ create mode 100644 res-hdpi/images/loop00061.png
+ create mode 100644 res-hdpi/images/loop00062.png
+ create mode 100644 res-hdpi/images/loop00063.png
+ create mode 100644 res-hdpi/images/loop00064.png
+ create mode 100644 res-hdpi/images/loop00065.png
+ create mode 100644 res-hdpi/images/loop00066.png
+ create mode 100644 res-hdpi/images/loop00067.png
+ create mode 100644 res-hdpi/images/loop00068.png
+ create mode 100644 res-hdpi/images/loop00069.png
+ create mode 100644 res-hdpi/images/loop00070.png
+ create mode 100644 res-hdpi/images/loop00071.png
+ create mode 100644 res-hdpi/images/loop00072.png
+ create mode 100644 res-hdpi/images/loop00073.png
+ create mode 100644 res-hdpi/images/loop00074.png
+ create mode 100644 res-hdpi/images/loop00075.png
+ create mode 100644 res-hdpi/images/loop00076.png
+ create mode 100644 res-hdpi/images/loop00077.png
+ create mode 100644 res-hdpi/images/loop00078.png
+ create mode 100644 res-hdpi/images/loop00079.png
+ create mode 100644 res-hdpi/images/loop00080.png
+ create mode 100644 res-hdpi/images/loop00081.png
+ create mode 100644 res-hdpi/images/loop00082.png
+ create mode 100644 res-hdpi/images/loop00083.png
+ create mode 100644 res-hdpi/images/loop00084.png
+ create mode 100644 res-hdpi/images/loop00085.png
+ create mode 100644 res-hdpi/images/loop00086.png
+ create mode 100644 res-hdpi/images/loop00087.png
+ create mode 100644 res-hdpi/images/loop00088.png
+ create mode 100644 res-hdpi/images/loop00089.png
+ create mode 100644 res-hdpi/images/loop00090.png
+ create mode 100644 res-mdpi/images/loop00030.png
+ create mode 100644 res-mdpi/images/loop00031.png
+ create mode 100644 res-mdpi/images/loop00032.png
+ create mode 100644 res-mdpi/images/loop00033.png
+ create mode 100644 res-mdpi/images/loop00034.png
+ create mode 100644 res-mdpi/images/loop00035.png
+ create mode 100644 res-mdpi/images/loop00036.png
+ create mode 100644 res-mdpi/images/loop00037.png
+ create mode 100644 res-mdpi/images/loop00038.png
+ create mode 100644 res-mdpi/images/loop00039.png
+ create mode 100644 res-mdpi/images/loop00040.png
+ create mode 100644 res-mdpi/images/loop00041.png
+ create mode 100644 res-mdpi/images/loop00042.png
+ create mode 100644 res-mdpi/images/loop00043.png
+ create mode 100644 res-mdpi/images/loop00044.png
+ create mode 100644 res-mdpi/images/loop00045.png
+ create mode 100644 res-mdpi/images/loop00046.png
+ create mode 100644 res-mdpi/images/loop00047.png
+ create mode 100644 res-mdpi/images/loop00048.png
+ create mode 100644 res-mdpi/images/loop00049.png
+ create mode 100644 res-mdpi/images/loop00050.png
+ create mode 100644 res-mdpi/images/loop00051.png
+ create mode 100644 res-mdpi/images/loop00052.png
+ create mode 100644 res-mdpi/images/loop00053.png
+ create mode 100644 res-mdpi/images/loop00054.png
+ create mode 100644 res-mdpi/images/loop00055.png
+ create mode 100644 res-mdpi/images/loop00056.png
+ create mode 100644 res-mdpi/images/loop00057.png
+ create mode 100644 res-mdpi/images/loop00058.png
+ create mode 100644 res-mdpi/images/loop00059.png
+ create mode 100644 res-mdpi/images/loop00060.png
+ create mode 100644 res-mdpi/images/loop00061.png
+ create mode 100644 res-mdpi/images/loop00062.png
+ create mode 100644 res-mdpi/images/loop00063.png
+ create mode 100644 res-mdpi/images/loop00064.png
+ create mode 100644 res-mdpi/images/loop00065.png
+ create mode 100644 res-mdpi/images/loop00066.png
+ create mode 100644 res-mdpi/images/loop00067.png
+ create mode 100644 res-mdpi/images/loop00068.png
+ create mode 100644 res-mdpi/images/loop00069.png
+ create mode 100644 res-mdpi/images/loop00070.png
+ create mode 100644 res-mdpi/images/loop00071.png
+ create mode 100644 res-mdpi/images/loop00072.png
+ create mode 100644 res-mdpi/images/loop00073.png
+ create mode 100644 res-mdpi/images/loop00074.png
+ create mode 100644 res-mdpi/images/loop00075.png
+ create mode 100644 res-mdpi/images/loop00076.png
+ create mode 100644 res-mdpi/images/loop00077.png
+ create mode 100644 res-mdpi/images/loop00078.png
+ create mode 100644 res-mdpi/images/loop00079.png
+ create mode 100644 res-mdpi/images/loop00080.png
+ create mode 100644 res-mdpi/images/loop00081.png
+ create mode 100644 res-mdpi/images/loop00082.png
+ create mode 100644 res-mdpi/images/loop00083.png
+ create mode 100644 res-mdpi/images/loop00084.png
+ create mode 100644 res-mdpi/images/loop00085.png
+ create mode 100644 res-mdpi/images/loop00086.png
+ create mode 100644 res-mdpi/images/loop00087.png
+ create mode 100644 res-mdpi/images/loop00088.png
+ create mode 100644 res-mdpi/images/loop00089.png
+ create mode 100644 res-mdpi/images/loop00090.png
+ create mode 100644 res-xhdpi/images/loop00030.png
+ create mode 100644 res-xhdpi/images/loop00031.png
+ create mode 100644 res-xhdpi/images/loop00032.png
+ create mode 100644 res-xhdpi/images/loop00033.png
+ create mode 100644 res-xhdpi/images/loop00034.png
+ create mode 100644 res-xhdpi/images/loop00035.png
+ create mode 100644 res-xhdpi/images/loop00036.png
+ create mode 100644 res-xhdpi/images/loop00037.png
+ create mode 100644 res-xhdpi/images/loop00038.png
+ create mode 100644 res-xhdpi/images/loop00039.png
+ create mode 100644 res-xhdpi/images/loop00040.png
+ create mode 100644 res-xhdpi/images/loop00041.png
+ create mode 100644 res-xhdpi/images/loop00042.png
+ create mode 100644 res-xhdpi/images/loop00043.png
+ create mode 100644 res-xhdpi/images/loop00044.png
+ create mode 100644 res-xhdpi/images/loop00045.png
+ create mode 100644 res-xhdpi/images/loop00046.png
+ create mode 100644 res-xhdpi/images/loop00047.png
+ create mode 100644 res-xhdpi/images/loop00048.png
+ create mode 100644 res-xhdpi/images/loop00049.png
+ create mode 100644 res-xhdpi/images/loop00050.png
+ create mode 100644 res-xhdpi/images/loop00051.png
+ create mode 100644 res-xhdpi/images/loop00052.png
+ create mode 100644 res-xhdpi/images/loop00053.png
+ create mode 100644 res-xhdpi/images/loop00054.png
+ create mode 100644 res-xhdpi/images/loop00055.png
+ create mode 100644 res-xhdpi/images/loop00056.png
+ create mode 100644 res-xhdpi/images/loop00057.png
+ create mode 100644 res-xhdpi/images/loop00058.png
+ create mode 100644 res-xhdpi/images/loop00059.png
+ create mode 100644 res-xhdpi/images/loop00060.png
+ create mode 100644 res-xhdpi/images/loop00061.png
+ create mode 100644 res-xhdpi/images/loop00062.png
+ create mode 100644 res-xhdpi/images/loop00063.png
+ create mode 100644 res-xhdpi/images/loop00064.png
+ create mode 100644 res-xhdpi/images/loop00065.png
+ create mode 100644 res-xhdpi/images/loop00066.png
+ create mode 100644 res-xhdpi/images/loop00067.png
+ create mode 100644 res-xhdpi/images/loop00068.png
+ create mode 100644 res-xhdpi/images/loop00069.png
+ create mode 100644 res-xhdpi/images/loop00070.png
+ create mode 100644 res-xhdpi/images/loop00071.png
+ create mode 100644 res-xhdpi/images/loop00072.png
+ create mode 100644 res-xhdpi/images/loop00073.png
+ create mode 100644 res-xhdpi/images/loop00074.png
+ create mode 100644 res-xhdpi/images/loop00075.png
+ create mode 100644 res-xhdpi/images/loop00076.png
+ create mode 100644 res-xhdpi/images/loop00077.png
+ create mode 100644 res-xhdpi/images/loop00078.png
+ create mode 100644 res-xhdpi/images/loop00079.png
+ create mode 100644 res-xhdpi/images/loop00080.png
+ create mode 100644 res-xhdpi/images/loop00081.png
+ create mode 100644 res-xhdpi/images/loop00082.png
+ create mode 100644 res-xhdpi/images/loop00083.png
+ create mode 100644 res-xhdpi/images/loop00084.png
+ create mode 100644 res-xhdpi/images/loop00085.png
+ create mode 100644 res-xhdpi/images/loop00086.png
+ create mode 100644 res-xhdpi/images/loop00087.png
+ create mode 100644 res-xhdpi/images/loop00088.png
+ create mode 100644 res-xhdpi/images/loop00089.png
+ create mode 100644 res-xhdpi/images/loop00090.png
+ create mode 100644 res-xxhdpi/images/loop00030.png
+ create mode 100644 res-xxhdpi/images/loop00031.png
+ create mode 100644 res-xxhdpi/images/loop00032.png
+ create mode 100644 res-xxhdpi/images/loop00033.png
+ create mode 100644 res-xxhdpi/images/loop00034.png
+ create mode 100644 res-xxhdpi/images/loop00035.png
+ create mode 100644 res-xxhdpi/images/loop00036.png
+ create mode 100644 res-xxhdpi/images/loop00037.png
+ create mode 100644 res-xxhdpi/images/loop00038.png
+ create mode 100644 res-xxhdpi/images/loop00039.png
+ create mode 100644 res-xxhdpi/images/loop00040.png
+ create mode 100644 res-xxhdpi/images/loop00041.png
+ create mode 100644 res-xxhdpi/images/loop00042.png
+ create mode 100644 res-xxhdpi/images/loop00043.png
+ create mode 100644 res-xxhdpi/images/loop00044.png
+ create mode 100644 res-xxhdpi/images/loop00045.png
+ create mode 100644 res-xxhdpi/images/loop00046.png
+ create mode 100644 res-xxhdpi/images/loop00047.png
+ create mode 100644 res-xxhdpi/images/loop00048.png
+ create mode 100644 res-xxhdpi/images/loop00049.png
+ create mode 100644 res-xxhdpi/images/loop00050.png
+ create mode 100644 res-xxhdpi/images/loop00051.png
+ create mode 100644 res-xxhdpi/images/loop00052.png
+ create mode 100644 res-xxhdpi/images/loop00053.png
+ create mode 100644 res-xxhdpi/images/loop00054.png
+ create mode 100644 res-xxhdpi/images/loop00055.png
+ create mode 100644 res-xxhdpi/images/loop00056.png
+ create mode 100644 res-xxhdpi/images/loop00057.png
+ create mode 100644 res-xxhdpi/images/loop00058.png
+ create mode 100644 res-xxhdpi/images/loop00059.png
+ create mode 100644 res-xxhdpi/images/loop00060.png
+ create mode 100644 res-xxhdpi/images/loop00061.png
+ create mode 100644 res-xxhdpi/images/loop00062.png
+ create mode 100644 res-xxhdpi/images/loop00063.png
+ create mode 100644 res-xxhdpi/images/loop00064.png
+ create mode 100644 res-xxhdpi/images/loop00065.png
+ create mode 100644 res-xxhdpi/images/loop00066.png
+ create mode 100644 res-xxhdpi/images/loop00067.png
+ create mode 100644 res-xxhdpi/images/loop00068.png
+ create mode 100644 res-xxhdpi/images/loop00069.png
+ create mode 100644 res-xxhdpi/images/loop00070.png
+ create mode 100644 res-xxhdpi/images/loop00071.png
+ create mode 100644 res-xxhdpi/images/loop00072.png
+ create mode 100644 res-xxhdpi/images/loop00073.png
+ create mode 100644 res-xxhdpi/images/loop00074.png
+ create mode 100644 res-xxhdpi/images/loop00075.png
+ create mode 100644 res-xxhdpi/images/loop00076.png
+ create mode 100644 res-xxhdpi/images/loop00077.png
+ create mode 100644 res-xxhdpi/images/loop00078.png
+ create mode 100644 res-xxhdpi/images/loop00079.png
+ create mode 100644 res-xxhdpi/images/loop00080.png
+ create mode 100644 res-xxhdpi/images/loop00081.png
+ create mode 100644 res-xxhdpi/images/loop00082.png
+ create mode 100644 res-xxhdpi/images/loop00083.png
+ create mode 100644 res-xxhdpi/images/loop00084.png
+ create mode 100644 res-xxhdpi/images/loop00085.png
+ create mode 100644 res-xxhdpi/images/loop00086.png
+ create mode 100644 res-xxhdpi/images/loop00087.png
+ create mode 100644 res-xxhdpi/images/loop00088.png
+ create mode 100644 res-xxhdpi/images/loop00089.png
+ create mode 100644 res-xxhdpi/images/loop00090.png
+ create mode 100644 res-xxxhdpi/images/loop00030.png
+ create mode 100644 res-xxxhdpi/images/loop00031.png
+ create mode 100644 res-xxxhdpi/images/loop00032.png
+ create mode 100644 res-xxxhdpi/images/loop00033.png
+ create mode 100644 res-xxxhdpi/images/loop00034.png
+ create mode 100644 res-xxxhdpi/images/loop00035.png
+ create mode 100644 res-xxxhdpi/images/loop00036.png
+ create mode 100644 res-xxxhdpi/images/loop00037.png
+ create mode 100644 res-xxxhdpi/images/loop00038.png
+ create mode 100644 res-xxxhdpi/images/loop00039.png
+ create mode 100644 res-xxxhdpi/images/loop00040.png
+ create mode 100644 res-xxxhdpi/images/loop00041.png
+ create mode 100644 res-xxxhdpi/images/loop00042.png
+ create mode 100644 res-xxxhdpi/images/loop00043.png
+ create mode 100644 res-xxxhdpi/images/loop00044.png
+ create mode 100644 res-xxxhdpi/images/loop00045.png
+ create mode 100644 res-xxxhdpi/images/loop00046.png
+ create mode 100644 res-xxxhdpi/images/loop00047.png
+ create mode 100644 res-xxxhdpi/images/loop00048.png
+ create mode 100644 res-xxxhdpi/images/loop00049.png
+ create mode 100644 res-xxxhdpi/images/loop00050.png
+ create mode 100644 res-xxxhdpi/images/loop00051.png
+ create mode 100644 res-xxxhdpi/images/loop00052.png
+ create mode 100644 res-xxxhdpi/images/loop00053.png
+ create mode 100644 res-xxxhdpi/images/loop00054.png
+ create mode 100644 res-xxxhdpi/images/loop00055.png
+ create mode 100644 res-xxxhdpi/images/loop00056.png
+ create mode 100644 res-xxxhdpi/images/loop00057.png
+ create mode 100644 res-xxxhdpi/images/loop00058.png
+ create mode 100644 res-xxxhdpi/images/loop00059.png
+ create mode 100644 res-xxxhdpi/images/loop00060.png
+ create mode 100644 res-xxxhdpi/images/loop00061.png
+ create mode 100644 res-xxxhdpi/images/loop00062.png
+ create mode 100644 res-xxxhdpi/images/loop00063.png
+ create mode 100644 res-xxxhdpi/images/loop00064.png
+ create mode 100644 res-xxxhdpi/images/loop00065.png
+ create mode 100644 res-xxxhdpi/images/loop00066.png
+ create mode 100644 res-xxxhdpi/images/loop00067.png
+ create mode 100644 res-xxxhdpi/images/loop00068.png
+ create mode 100644 res-xxxhdpi/images/loop00069.png
+ create mode 100644 res-xxxhdpi/images/loop00070.png
+ create mode 100644 res-xxxhdpi/images/loop00071.png
+ create mode 100644 res-xxxhdpi/images/loop00072.png
+ create mode 100644 res-xxxhdpi/images/loop00073.png
+ create mode 100644 res-xxxhdpi/images/loop00074.png
+ create mode 100644 res-xxxhdpi/images/loop00075.png
+ create mode 100644 res-xxxhdpi/images/loop00076.png
+ create mode 100644 res-xxxhdpi/images/loop00077.png
+ create mode 100644 res-xxxhdpi/images/loop00078.png
+ create mode 100644 res-xxxhdpi/images/loop00079.png
+ create mode 100644 res-xxxhdpi/images/loop00080.png
+ create mode 100644 res-xxxhdpi/images/loop00081.png
+ create mode 100644 res-xxxhdpi/images/loop00082.png
+ create mode 100644 res-xxxhdpi/images/loop00083.png
+ create mode 100644 res-xxxhdpi/images/loop00084.png
+ create mode 100644 res-xxxhdpi/images/loop00085.png
+ create mode 100644 res-xxxhdpi/images/loop00086.png
+ create mode 100644 res-xxxhdpi/images/loop00087.png
+ create mode 100644 res-xxxhdpi/images/loop00088.png
+ create mode 100644 res-xxxhdpi/images/loop00089.png
+ create mode 100644 res-xxxhdpi/images/loop00090.png
+================================================================================================
+[0;32m[ENTERING] build/make[0m
+================================================================================================
+[0;32m[ENTERING] frameworks/base[0m
+================================================================================================
+[0;32m[ENTERING] lineage-sdk[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/LineageParts[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Settings[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/SetupWizard[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Updater[0m
+================================================================================================
+[0;32m[ENTERING] system/core[0m
+================================================================================================
+[0;32m[ENTERING] vendor/lineage[0m
+[0;32m[SCRIPT COMPLETE] Rebranding complete[0m
+Optimizing...
+================================================================================================
+[0;32m[ENTERING] frameworks/base[0m
+================================================================================================
+[0;32m[ENTERING] kernel[0m
+Starting zram tweaks
+Finished zram tweaks
+[0;32m[SCRIPT COMPLETE] Optimizing complete[0m
+Deblobbing...
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+./setup-makefiles.sh: line 14: ./../..//msm8974-common/setup-makefiles.sh: No such file or directory
+$DEVICE must be set before including this script!
+$DEVICE must be set before including this script!
+$DEVICE must be set before including this script!
+$DEVICE must be set before including this script!
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+comm: file 1 is not in sorted order
+comm: input is not in sorted order
+comm: file 1 is not in sorted order
+comm: input is not in sorted order
+grep: BoardConfig*.mk: No such file or directory
+$DEVICE must be set before including this script!
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+$DEVICE must be set before including this script!
+
+error: This is a script in a common tree. Please execute setup-makefiles.sh from a device tree.
+
+
+error: This is a script in a common tree. Please execute setup-makefiles.sh from a device tree.
+
+$DEVICE must be set before including this script!
+$DEVICE must be set before including this script!
+$DEVICE must be set before including this script!
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+[0;32m[SCRIPT COMPLETE] Deblobbing complete[0m
+Patching CVEs...
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_fairphone_msm8974.sh
+warning: sound/soc/msm/qdsp6v2/q6voice.c has type 100755, expected 100644
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_google_marlin.sh
+warning: drivers/staging/android/ion/ion.c has type 100755, expected 100644
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_google_msm.sh
+warning: sound/soc/msm/qdsp6v2/q6asm.c has type 100644, expected 100755
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_htc_msm8974.sh
+/mnt/dos//Patches/Linux//CVE-2017-9684/3.4/0006.patch:106: trailing whitespace.
+	
+warning: 1 line adds whitespace errors.
+warning: sound/soc/msm/qdsp6v2/q6asm.c has type 100644, expected 100755
+warning: arch/arm/mach-msm/qdsp6v2/voice_svc.c has type 100644, expected 100755
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0032.patch:30: trailing whitespace.
+					
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_cfg80211.c has type 100644, expected 100755
+warning: 1 line adds whitespace errors.
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_lge_g3.sh
+warning: drivers/char/diag/diag_dci.c has type 100755, expected 100644
+warning: sound/soc/msm/qdsp6v2/q6asm.c has type 100644, expected 100755
+warning: drivers/char/diag/diag_dci.c has type 100755, expected 100644
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0032.patch:30: trailing whitespace.
+					
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_cfg80211.c has type 100644, expected 100755
+warning: 1 line adds whitespace errors.
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_lge_mako.sh
+warning: sound/soc/msm/qdsp6v2/q6asm.c has type 100644, expected 100755
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_lge_msm8974.sh
+/mnt/dos//Patches/Linux//CVE-2016-0806/prima/0006.patch:31: trailing whitespace.
+   
+warning: 1 line adds whitespace errors.
+warning: drivers/char/diag/diag_dci.c has type 100755, expected 100644
+warning: sound/soc/msm/qdsp6v2/q6asm.c has type 100644, expected 100755
+warning: include/net/tcp.h has type 100755, expected 100644
+warning: include/net/tcp.h has type 100755, expected 100644
+warning: drivers/char/diag/diag_dci.c has type 100755, expected 100644
+warning: fs/ext4/super.c has type 100755, expected 100644
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0032.patch:30: trailing whitespace.
+					
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_cfg80211.c has type 100644, expected 100755
+warning: 1 line adds whitespace errors.
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_lge_msm8996.sh
+warning: fs/sdcardfs/inode.c has type 100644, expected 100755
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_moto_shamu.sh
+warning: drivers/input/touchscreen/synaptics_dsx/synaptics_dsx_rmi_dev.c has type 100755, expected 100644
+warning: drivers/staging/android/ion/ion.c has type 100755, expected 100644
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_motorola_msm8974.sh
+/mnt/dos//Patches/Linux//CVE-2017-9684/3.4/0006.patch:106: trailing whitespace.
+	
+warning: 1 line adds whitespace errors.
+warning: sound/soc/msm/qdsp6v2/q6asm.c has type 100644, expected 100755
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0032.patch:30: trailing whitespace.
+					
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_cfg80211.c has type 100644, expected 100755
+warning: 1 line adds whitespace errors.
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_nextbit_msm8992.sh
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_oneplus_msm8996.sh
+warning: drivers/staging/qcacld-2.0/CORE/SYS/legacy/src/utils/src/dot11f.c has type 100644, expected 100755
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_oppo_msm8974.sh
+/mnt/dos//Patches/Linux//CVE-2017-9684/3.4/0006.patch:106: trailing whitespace.
+	
+warning: 1 line adds whitespace errors.
+warning: sound/soc/msm/qdsp6v2/q6asm.c has type 100644, expected 100755
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0032.patch:30: trailing whitespace.
+					
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_cfg80211.c has type 100644, expected 100755
+warning: 1 line adds whitespace errors.
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_samsung_jf.sh
+warning: drivers/net/wireless/bcmdhd/wl_android.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/dhd_pno.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/wl_cfg80211.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/wl_cfg80211.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/dhd_wlfc.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/wl_android.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/dhd_linux.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/wl_cfg80211.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/wl_cfg80211.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/wl_cfg80211.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/bcmsdh_sdmmc.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/wl_cfg80211.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/wl_cfg80211.h has type 100755, expected 100644
+warning: sound/soc/msm/qdsp6v2/q6asm.c has type 100644, expected 100755
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0026.patch:898: trailing whitespace.
+    
+warning: 1 line adds whitespace errors.
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0029.patch:27: trailing whitespace.
+        
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_cfg80211.c has type 100644, expected 100755
+warning: 1 line adds whitespace errors.
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0030.patch:139: trailing whitespace.
+                                
+warning: 1 line adds whitespace errors.
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0032.patch:30: trailing whitespace.
+					
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_cfg80211.c has type 100644, expected 100755
+warning: 1 line adds whitespace errors.
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_assoc.c has type 100644, expected 100755
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_samsung_msm8930-common.sh
+warning: sound/soc/msm/qdsp6v2/q6asm.c has type 100644, expected 100755
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0026.patch:898: trailing whitespace.
+    
+warning: 1 line adds whitespace errors.
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0029.patch:27: trailing whitespace.
+        
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_cfg80211.c has type 100644, expected 100755
+warning: 1 line adds whitespace errors.
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0030.patch:139: trailing whitespace.
+                                
+error: patch failed: drivers/staging/prima/CORE/MAC/inc/sirMacProtDef.h:582
+error: drivers/staging/prima/CORE/MAC/inc/sirMacProtDef.h: patch does not apply
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0032.patch:30: trailing whitespace.
+					
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_cfg80211.c has type 100644, expected 100755
+warning: 1 line adds whitespace errors.
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_assoc.c has type 100644, expected 100755
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_samsung_msm8974.sh
+warning: sound/soc/msm/qdsp6v2/q6asm.c has type 100644, expected 100755
+warning: sound/soc/msm/qdsp6v2/msm-pcm-q6-v2.c has type 100644, expected 100755
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_xiaomi_sdm660.sh
+Running /mnt/dos//Scripts/LineageOS-18.1//CVE_Patchers//android_kernel_zuk_msm8996.sh
+warning: drivers/staging/qcacld-2.0/CORE/SYS/legacy/src/utils/src/dot11f.c has type 100644, expected 100755
+[0;32m[SCRIPT COMPLETE] Patched CVEs[0m
+Post tweaks...
+[0;32m[SCRIPT COMPLETE] Post tweaks complete[0m

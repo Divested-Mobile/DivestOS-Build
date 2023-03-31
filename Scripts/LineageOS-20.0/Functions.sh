@@ -108,7 +108,7 @@ buildAll() {
 }
 export -f buildAll;
 
-patchWorkspace() {
+patchWorkspaceReal() {
 	umask 0022;
 	cd "$DOS_BUILD_BASE/$1";
 	touch DOS_PATCHED_FLAG;
@@ -116,8 +116,7 @@ patchWorkspace() {
 	verifyAllPlatformTags;
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-	source build/envsetup.sh;
-	repopick -i 350952; #SystemUI: Follow light/dark theme in SplitShade Header
+	#source build/envsetup.sh;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
@@ -134,7 +133,7 @@ patchWorkspace() {
 	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
 	#none yet
 }
-export -f patchWorkspace;
+export -f patchWorkspaceReal;
 
 enableDexPreOpt() {
 	cd "$DOS_BUILD_BASE/$1";

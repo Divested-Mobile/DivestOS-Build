@@ -17,6 +17,7 @@ setRelaxed() {
 }
 
 chmod -v 600 LICENSE* pending_commit.txt TODO;
+setStrict Logs;
 setStrict Manifests;
 setStrict Misc;
 setStrict Patches/Common;

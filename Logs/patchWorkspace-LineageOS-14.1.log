@@ -1,0 +1,1347 @@
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-14.1/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//abi/cpp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//build/blueprint[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//build/soong[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//cts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//developers/build[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/android-mock[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/androidplot[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/ant-glob[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/antlr[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/apache-commons-math[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/apache-harmony[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/apache-http[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/apache-xml[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/archive-patcher[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/autotest[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/avahi[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/blktrace[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/bsdiff[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/c-ares[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/caliper[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/cblas[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/ceres-solver[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/chromium-trace[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/clang[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/cmockery[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/compiler-rt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/conscrypt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/crcalc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/cros/system_api[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/dagger2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/dbus[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/dbus-binding-generator[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/dexmaker[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/dhcpcd-6.8.2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/dlmalloc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/doclava[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/donuts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/drm_gralloc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/drm_hwcomposer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/droiddriver[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/easymock[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/eclipse-basebuilder[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/eclipse-windowbuilder[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/eigen[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/embunit[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/emma[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/esd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/expat[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/eyes-free[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/fdlibm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/fec[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/fio[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/fonttools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/gemmlowp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/giflib[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/glide[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/gmock[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/google-benchmark[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/google-breakpad[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/google-fonts/carrois-gothic-sc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/google-fonts/coming-soon[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/google-fonts/cutive-mono[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/google-fonts/dancing-script[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/google-tv-pairing-protocol[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/gtest[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/guava[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/guice[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/hamcrest[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/harfbuzz_ng[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/hyphenation-patterns[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/ims[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/iproute2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/iputils[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/iw[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/jacoco[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/jarjar[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/javasqlite[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/javassist[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/jcommander[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/jdiff[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/jetty[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/jmdns[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/jmonkeyengine[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/jsilver[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/jsmn[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/jsoncpp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/jsr305[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/jsr330[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/junit[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/kernel-headers[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/ksoap2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libbrillo[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libcap[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libcap-ng[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libcxxabi[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libdaemon[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libdivsufsort[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libdrm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libedit[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libevent[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libgsm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/liblzf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libmicrohttpd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libmtp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libnl[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libogg[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libopus[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libpcap[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libphonenumber[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libunwind[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libunwind_llvm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libusb[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libusb-compat[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libutf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libvncserver[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libvterm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libweave[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/libyuv[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/littlemock[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/lld[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/lldb[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/llvm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/ltrace[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/lz4[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/marisa-trie[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/markdown[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/mdnsresponder[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/mesa3d[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/messageformat[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/minijail[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/mmc-utils[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/mockftpserver[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/mockito[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/mockwebserver[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/modp_b64[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/mp4parser[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/mtpd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/nanohttpd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/nanopb-c[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/naver-fonts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/netcat[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/netperf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/nfacct[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/nist-pkits[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/nist-sip[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/noto-fonts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/oauth[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/objenesis[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/openfst[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/owasp/sanitizer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/parameter-framework[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/pcre[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/piex[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/proguard[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/protobuf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/regex-re2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/replicaisland[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/rmi4utils[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/robolectric[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/roboto-fonts[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/rootdev[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/safe-iop[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/scrypt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/selinux[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/shflags[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/sl4a[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/slf4j[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/smali[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/snakeyaml[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/sonic[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/squashfs-tools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/srtp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/strace[0m
+[0;33mWARNING: No tag match for /mnt/dos//Build/LineageOS-14.1//external/svox [0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/tagsoup[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/tcpdump[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/testng[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/timezonepicker-support[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/tinyxml[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/tlsdate[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/tpm2[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/unicode[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/universal-tween-engine[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/valgrind[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/vboot_reference[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/vixl[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/vogar[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/vulkan-validation-layers[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/webp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/webrtc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/xmlrpcpp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/xmlwriter[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/xmp_toolkit[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/zopfli[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//external/zxing[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/compile/libbcc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/compile/mclinker[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/compile/slang[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/data-binding[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/ml[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/multidex[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/opt/bitmap[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/opt/bluetooth[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/opt/calendar[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/opt/colorpicker[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/opt/emoji[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/opt/inputconnectioncommon[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/opt/inputmethodcommon[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/opt/net/ethernet[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/opt/photoviewer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/opt/timezonepicker[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/rs[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/volley[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/webview[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//frameworks/wilhelm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//hardware/akm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//hardware/google/apf[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//hardware/intel/audio_media[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//hardware/intel/bootstub[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//hardware/intel/common/bd_prov[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//hardware/intel/common/libstagefrighthw[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//hardware/intel/common/wrs_omxil_core[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//hardware/marvell/bt[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//hardware/ti/omap3[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//hardware/ti/omap4-aah[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//libnativehelper[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//ndk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//packages/apps/BasicSmsReceiver[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//packages/apps/OneTimeInitializer[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//packages/apps/Provision[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//packages/apps/Test/connectivity[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//packages/experimental[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//pdk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//platform_testing[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/android-emulator[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/clang/host/linux-x86[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/clang/linux-x86/host/3.6[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/deqp[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/devtools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/eclipse[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/gcc/linux-x86/arm/arm-eabi-4.7[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/gcc/linux-x86/arm/arm-eabi-4.8[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.11-4.8[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.15-4.8[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/gcc/linux-x86/host/x86_64-w64-mingw32-4.8[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/gdb/linux-x86[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/go/linux-x86[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/gradle-plugin[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/libs/libedit[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/maven_repo/android[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/misc[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/ndk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/ninja/linux-x86[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/python/linux-x86/2.7.5[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/sdk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//prebuilts/tools[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//sdk[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//system/ca-certificates[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//system/connectivity/apmanager[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//system/connectivity/dhcp_client[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//system/connectivity/shill[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//system/firewalld[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//system/nativepower[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//system/nvram[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//system/tpm[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//system/weaved[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//system/webservd[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//tools/external/fat32lib[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//tools/external/gradle[0m
+[0;32mGPG Verified Git Tag Successfully: /mnt/dos//Build/LineageOS-14.1//tools/test/connectivity[0m
+[0;32mGPG Verified Git HEAD Successfully: /mnt/dos//Build/LineageOS-14.1//external/chromium-webview[0m
+including device/amazon/apollo/vendorsetup.sh
+including device/amazon/thor/vendorsetup.sh
+including device/asus/grouper/vendorsetup.sh
+including device/lge/h811/vendorsetup.sh
+including device/lge/h815/vendorsetup.sh
+including device/samsung/hero2lte/vendorsetup.sh
+including device/samsung/herolte/vendorsetup.sh
+including device/samsung/maguro/vendorsetup.sh
+including device/samsung/manta/vendorsetup.sh
+including device/samsung/toro/vendorsetup.sh
+including device/samsung/toroplus/vendorsetup.sh
+including device/samsung/v1awifi/vendorsetup.sh
+including vendor/cm/vendorsetup.sh
+including sdk/bash_completion/adb.bash
+including vendor/cm/bash_completion/git.bash
+including vendor/cm/bash_completion/repo.bash
+
+... A new version of repo (2.21) is available.
+... New version is available at: /mnt/dos/Build/LineageOS-14.1/.repo/repo/repo
+... The launcher is run from: /home/tad/bin/repo
+!!! The launcher is not writable.  Please talk to your sysadmin or distro
+!!! to get an update installed.
+
+From https://github.com/LineageOS/android_bionic
+ * branch                refs/changes/73/317173/4 -> FETCH_HEAD
+From https://github.com/LineageOS/android_bionic
+ * branch                refs/changes/74/317174/4 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/75/317175/4 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/76/317176/4 -> FETCH_HEAD
+From https://github.com/LineageOS/android_bionic
+ * branch                refs/changes/20/318520/4 -> FETCH_HEAD
+From https://github.com/LineageOS/android_bionic
+ * branch                refs/changes/21/318521/4 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/22/318522/4 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/23/318523/4 -> FETCH_HEAD
+From https://github.com/LineageOS/android_bionic
+ * branch                refs/changes/18/330718/3 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/19/330719/3 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/20/330720/3 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/21/330721/3 -> FETCH_HEAD
+From https://github.com/LineageOS/android_bionic
+ * branch                refs/changes/62/344162/2 -> FETCH_HEAD
+From https://github.com/LineageOS/android_bionic
+ * branch                refs/changes/63/344163/2 -> FETCH_HEAD
+From https://github.com/LineageOS/android_bionic
+ * branch                refs/changes/64/344164/2 -> FETCH_HEAD
+From https://github.com/LineageOS/android_bionic
+ * branch                refs/changes/65/344165/2 -> FETCH_HEAD
+From https://github.com/LineageOS/android_bionic
+ * branch                refs/changes/66/344166/2 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/75/344175/2 -> FETCH_HEAD
+Applying change number 317173...
+--> Subject:       "Update Android TZDB from 2021a to 2021b. [N-MR2]"
+--> Project path:  bionic
+--> Change number: 317173 (Patch Set 4)
+['git fetch github', u'refs/changes/73/317173/4']
+
+Applying change number 317174...
+--> Subject:       "Update Android TZDB from 2021b to 2021c. [N-MR2]"
+--> Project path:  bionic
+--> Change number: 317174 (Patch Set 4)
+['git fetch github', u'refs/changes/74/317174/4']
+
+Applying change number 317175...
+--> Subject:       "Update Android TZDB from 2021a to 2021b. [N-MR2]"
+--> Project path:  external/icu
+--> Change number: 317175 (Patch Set 4)
+['git fetch github', u'refs/changes/75/317175/4']
+
+Applying change number 317176...
+--> Subject:       "Update Android TZDB from 2021b to 2021c. [N-MR2]"
+--> Project path:  external/icu
+--> Change number: 317176 (Patch Set 4)
+['git fetch github', u'refs/changes/76/317176/4']
+
+Applying change number 318520...
+--> Subject:       "Update Android TZDB from 2021c to 2021d. [N-MR2]"
+--> Project path:  bionic
+--> Change number: 318520 (Patch Set 4)
+['git fetch github', u'refs/changes/20/318520/4']
+
+Applying change number 318521...
+--> Subject:       "Update Android TZDB from 2021d to 2021e. [N-MR2]"
+--> Project path:  bionic
+--> Change number: 318521 (Patch Set 4)
+['git fetch github', u'refs/changes/21/318521/4']
+
+Applying change number 318522...
+--> Subject:       "Update Android TZDB from 2021c to 2021d. [N-MR2]"
+--> Project path:  external/icu
+--> Change number: 318522 (Patch Set 4)
+['git fetch github', u'refs/changes/22/318522/4']
+
+Applying change number 318523...
+--> Subject:       "Update Android TZDB from 2021d to 2021e. [N-MR2]"
+--> Project path:  external/icu
+--> Change number: 318523 (Patch Set 4)
+['git fetch github', u'refs/changes/23/318523/4']
+
+Applying change number 330718...
+--> Subject:       "Update Android TZDB from 2021e to 2022a. [N-MR2]"
+--> Project path:  bionic
+--> Change number: 330718 (Patch Set 3)
+['git fetch github', u'refs/changes/18/330718/3']
+
+Applying change number 330719...
+--> Subject:       "ICU-21811 Adding local region mapping for Coral Harbour and  integrating revised tz 2021a3 (2021e) data."
+--> Project path:  external/icu
+--> Change number: 330719 (Patch Set 3)
+['git fetch github', u'refs/changes/19/330719/3']
+
+Applying change number 330720...
+--> Subject:       "ICU-21949 tzdata2022a update in ICU"
+--> Project path:  external/icu
+--> Change number: 330720 (Patch Set 3)
+['git fetch github', u'refs/changes/20/330720/3']
+
+Applying change number 330721...
+--> Subject:       "Update Android TZDB from 2021e to 2022a. [N-MR2]"
+--> Project path:  external/icu
+--> Change number: 330721 (Patch Set 3)
+['git fetch github', u'refs/changes/21/330721/3']
+
+Applying change number 344162...
+--> Subject:       "Update Android TZDB from 2022a to 2022b. [N-MR2]"
+--> Project path:  bionic
+--> Change number: 344162 (Patch Set 2)
+['git fetch github', u'refs/changes/62/344162/2']
+
+Applying change number 344163...
+--> Subject:       "Update Android TZDB from 2022b to 2022c. [N-MR2]"
+--> Project path:  bionic
+--> Change number: 344163 (Patch Set 2)
+['git fetch github', u'refs/changes/63/344163/2']
+
+Applying change number 344164...
+--> Subject:       "Update Android TZDB from 2022c to 2022d. [N-MR2]"
+--> Project path:  bionic
+--> Change number: 344164 (Patch Set 2)
+['git fetch github', u'refs/changes/64/344164/2']
+
+Applying change number 344165...
+--> Subject:       "Update Android TZDB from 2022d to 2022e. [N-MR2]"
+--> Project path:  bionic
+--> Change number: 344165 (Patch Set 2)
+['git fetch github', u'refs/changes/65/344165/2']
+
+Applying change number 344166...
+--> Subject:       "Update Android TZDB from 2022e to 2022f. [N-MR2]"
+--> Project path:  bionic
+--> Change number: 344166 (Patch Set 2)
+['git fetch github', u'refs/changes/66/344166/2']
+
+Applying change number 344175...
+--> Subject:       "Update Android TZDB from 2022a to 2022b. [N-MR2]"
+--> Project path:  external/icu
+--> Change number: 344175 (Patch Set 2)
+['git fetch github', u'refs/changes/75/344175/2']
+
+Applying change number 344176...
+--> Subject:From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/76/344176/2 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/77/344177/2 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/78/344178/2 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/79/344179/2 -> FETCH_HEAD
+From https://github.com/LineageOS/android_external_icu
+ * branch                refs/changes/66/346566/1 -> FETCH_HEAD
+From https://github.com/LineageOS/android_bionic
+ * branch                refs/changes/67/346567/1 -> FETCH_HEAD
+       "Update Android TZDB from 2022b to 2022c. [N-MR2]"
+--> Project path:  external/icu
+--> Change number: 344176 (Patch Set 2)
+['git fetch github', u'refs/changes/76/344176/2']
+
+Applying change number 344177...
+--> Subject:       "Update Android TZDB from 2022c to 2022d. [N-MR2]"
+--> Project path:  external/icu
+--> Change number: 344177 (Patch Set 2)
+['git fetch github', u'refs/changes/77/344177/2']
+
+Applying change number 344178...
+--> Subject:       "Update Android TZDB from 2022d to 2022e. [N-MR2]"
+--> Project path:  external/icu
+--> Change number: 344178 (Patch Set 2)
+['git fetch github', u'refs/changes/78/344178/2']
+
+Applying change number 344179...
+--> Subject:       "Update Android TZDB from 2022e to 2022f. [N-MR2]"
+--> Project path:  external/icu
+--> Change number: 344179 (Patch Set 2)
+['git fetch github', u'refs/changes/79/344179/2']
+
+Applying change number 346566...
+--> Subject:       "Update Android TZDB from 2022f to 2022g. [N-MR2]"
+--> Project path:  external/icu
+--> Change number: 346566 (Patch Set 1)
+['git fetch github', u'refs/changes/66/346566/1']
+
+Applying change number 346567...
+--> Subject:       "Update Android TZDB from 2022f to 2022g. [N-MR2]"
+--> Project path:  bionic
+--> Change number: 346567 (Patch Set 1)
+['git fetch github', u'refs/changes/67/346567/1']
+
+Warning: an existing sandbox was detected. /usr/bin/wget will run without any additional sandboxing features
+WARNING: timestamping does nothing in combination with -O. See the manual
+for details.
+
+2023-03-31 11:30:46 URL:https://divested.dev/hosts-wildcards [18684602/18684602] -> "/tmp/dos_tmp/hosts" [1]
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/EtarPrebuilt.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/F-DroidOfficial.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/OpenCamera.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/SimpleGallery.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/TalkBack.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/TalkBackLegacy.apk.asc[0m
+[0;32mGPG Verified Successfully: /mnt/dos//PrebuiltApps//android_vendor_FDroid_PrebuiltApps/packages/eSpeakNG.apk.asc[0m
+================================================================================================
+[0;32m[ENTERING] art[0m
+HEAD is now at c9c158c03f Add SafetyNet logging to JNI::NewStringUTF.
+Applying: DO NOT MERGE: Workaround for mmap error when building
+================================================================================================
+[0;32m[ENTERING] bionic[0m
+HEAD is now at bc03c75fb Update Android TZDB from 2022f to 2022g. [N-MR2]
+Applying: bionic: Support wildcards in cached hosts file
+================================================================================================
+[0;32m[ENTERING] bootable/recovery[0m
+HEAD is now at d488704f DO NOT MERGE: Initialize the ZipArchive to zero before parsing
+[detached HEAD 7e558772] Revert "recovery: Provide caching for sideload files"
+ Date: Fri Mar 31 11:30:46 2023 -0400
+ 1 file changed, 1 insertion(+), 107 deletions(-)
+Applying: Squash menus
+================================================================================================
+[0;32m[ENTERING] build[0m
+HEAD is now at 241283b216 Bump Security String to 2021-06-05
+Auto-merging tools/releasetools/ota_from_target_files.py
+[detached HEAD 9c92a1ba91] Revert "Revert "Revert "ota: Remove cruft we don't care about"""
+ Date: Fri Mar 31 11:30:46 2023 -0400
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+Applying: Allow setting OTA public keys from environment variable
+================================================================================================
+[0;32m[ENTERING] device/qcom/sepolicy[0m
+HEAD is now at fb88e713 Merge tag 'LA.UM.5.6.r1-06200-89xx.0' of https://source.codeaurora.org/quic/la/device/qcom/sepolicy into cm-14.1
+Applying: sepolicy: msm_irqbalance: Allow read for stats and interrupts
+Applying: TEMPORARY fix camera not working on user builds
+================================================================================================
+[0;32m[ENTERING] external/chromium-webview[0m
+HEAD is now at 4fcb97f Make it Mulch, 2023/03/30
+================================================================================================
+[0;32m[ENTERING] external/expat[0m
+HEAD is now at 7f23da12 Fix cast from pointer to integer of different size am: b743e03c9b am: 911f176567 am: 452cd40d64
+Applying: Prevent XML_GetBuffer signed integer overflow
+Applying: Prevent integer overflow in function doProlog
+Applying: Prevent more integer overflows
+Applying: Fix overeager DTD destruction (fixes #649)
+================================================================================================
+[0;32m[ENTERING] external/libavc[0m
+HEAD is now at 24a83f0 encoder: fix invalid free of raw buffers
+Applying: Decoder: Update check for increment u2_cur_slice_num
+Applying: Move slice increments after completing header parsing
+================================================================================================
+[0;32m[ENTERING] external/libexif[0m
+HEAD is now at 056a02d fixes some (not all) buffer overreads during decoding pentax makernote entries.
+Applying: Fix MakerNote tag size overflow issues at read time.
+Applying: Ensure MakeNote data pointers are initialized with NULL.
+Applying: Zero initialize ExifMnoteData<vendor> during construction with exif_mnote_data_<vendor>_new.
+================================================================================================
+[0;32m[ENTERING] external/libnfc-nci[0m
+HEAD is now at d863c24 Memory Disclosure, OOB Write Double Free in NFC T3T tag
+Applying: Type confusion due to race condition on tag type change
+Applying: OOBW in phNxpNciHal_process_ext_rsp
+Applying: Out of Bounds Read in nfa_dm_check_set_config
+Applying: OOBR in nfc_ncif_proc_ee_discover_req()
+Applying: Double Free in ce_t4t_data_cback
+Applying: The length of a packet should be non-zero
+Applying: OOBW in phNxpNciHal_write_unlocked()
+================================================================================================
+[0;32m[ENTERING] external/sonivox[0m
+HEAD is now at 5461e59 Check data consistency in mdls parsing
+Applying: sonivox: Fix global buffer overflow in WT_InterpolateNoLoop
+================================================================================================
+[0;32m[ENTERING] external/sqlite[0m
+HEAD is now at 3bd9b22 DO NOT MERGE Fix floating point to text conversion overflow
+Applying: Enable secure_delete by default
+================================================================================================
+[0;32m[ENTERING] external/tremolo[0m
+HEAD is now at 474c4d4 Add some error/overflow checks in codebook handling
+Applying: handle cases where order isn't a multiple of dimension
+================================================================================================
+[0;32m[ENTERING] external/zlib[0m
+HEAD is now at db8bc99 zlib: Inherit sys/stat.h from libc
+Applying: Fix a bug when getting a gzip header extra field with inflate().
+================================================================================================
+[0;32m[ENTERING] frameworks/av[0m
+HEAD is now at bab266951d Fix potential overflow in WAV extractor
+Applying: FLACExtractor: copy protect mWriteBuffer
+Applying: Fix heap-buffer-overflow in MPEG4Extractor
+Applying: SimpleDecodingSource:Prevent OOB write in heap mem
+================================================================================================
+[0;32m[ENTERING] frameworks/base[0m
+HEAD is now at 6fad2e69cfdd Automatic translation import
+Applying: Fix race condition between lockNow() and updateLockscreenTimeout
+Applying: Improve ellipsize performance
+Applying: Fix side effects of trace-ipc and dumpheap commands
+Applying: Don't attach private Notification to A11yEvent when user locked
+Applying: Fix a potential thread safety issue in VectorDrawable
+Applying: DO NOT MERGE Apply a maximum char count to the load label api
+Applying: Change ownership of the account request notification.
+Applying: Send targeted broadcasts to prevent other apps from receiving them.
+Applying: camera2: Fix exception swallowing in params classes createFromParcel
+Applying: DO NOT MERGE Bluetooth: Fix formatting in getAlias()
+Applying: Fix serialization bug in GpsNavigationMessage
+Applying: Fix another AddAccountSettings memory leak
+Applying: Force-set a ClipData to prevent later migration.
+Applying: Prevent apps from spamming addAccountExplicitly.
+Applying: Always restart apps if base.apk gets updated.
+Applying: Fixed a concurrent modification crash
+Applying: Fix security hole in GateKeeperResponse
+Applying: Update GeofenceHardwareRequestParcelable to match parcel/unparcel format.
+Applying: RESTRICT AUTOMERGE Prevent non-admin users from deleting system apps.
+Applying: Modify conditions for preventing updated system apps from being downgraded
+Applying: limit TelecomManager#registerPhoneAccount to 10; api doc update
+Applying: DO NOT MERGE Add an OEM configurable limit for zen rules
+Applying: DO NOT MERGE Crash invalid FGS notifications
+Applying: Only allow system and same app to apply relinquishTaskIdentity
+Applying: Stop using invalid URL to prevent unexpected crash
+Applying: Only allow the system server to connect to sync adapters
+Applying: IMMS: Make IMMS PendingIntents immutable
+Applying: switch TelecomManager List getters to ParceledListSlice
+Applying: Check permission for VoiceInteraction
+Applying: Do not send new Intent to non-exported activity when navigateUpTo
+Applying: DO NOT MERGE Move accountname and typeName length check from Account.java to AccountManagerService.
+Applying: Do not dismiss keyguard after SIM PUK unlock
+Applying: Validate package name passed to setApplicationRestrictions.
+Applying: Ignore malformed shortcuts
+Applying: Fix permanent denial of service via setComponentEnabledSetting
+Applying: Add safety checks on KEY_INTENT mismatch.
+Applying: Limit lengths of fields in Condition to a max length.
+Applying: RESTRICT AUTOMERGE Disable all A11yServices from an uninstalled package.
+Applying: Trim any long string inputs that come in to AutomaticZenRule
+Applying: Fix conditionId string trimming in AutomaticZenRule
+Applying: Correct the behavior of ACTION_PACKAGE_DATA_CLEARED
+Applying: Convert argument to intent in ChooseTypeAndAccountActivity
+Applying: RESTRICT AUTOMERGE Revoke dev perm if app is upgrading to post 23 and perm has pre23 flag
+Auto-merging services/core/java/com/android/server/DeviceIdleController.java
+[detached HEAD a281104febca] Revert "services: Doze only if GMS is installed"
+ Date: Fri Mar 31 11:30:50 2023 -0400
+ 3 files changed, 2 insertions(+), 10 deletions(-)
+Applying: Make SET_TIME_ZONE permission match SET_TIME
+Applying: Reduced Resolution Feature 2/2
+Applying: stop granting location to Browser app by default
+Applying: SUPL: Don't send IMSI / Phone number to SUPL server
+Enhanced location services for /mnt/dos//Build/LineageOS-14.1/
+================================================================================================
+[0;32m[ENTERING] frameworks/minikin[0m
+HEAD is now at f95e057 Break layout context before and after bidi control character
+Applying: Fix OOB read for registerLocaleList
+Applying: Fix OOB crash for registerLocaleList
+================================================================================================
+[0;32m[ENTERING] frameworks/native[0m
+HEAD is now at 1c922d03a3 libbinder: readString*Inplace SafetyNet (II)
+Applying: Do not modify vector after getting references
+Applying: Check if the window is partially obscured for slippery enters
+================================================================================================
+[0;32m[ENTERING] frameworks/opt/net/wifi[0m
+HEAD is now at 1f8fc743c Merge tag 'android-7.1.2_r29' into cm-14.1
+================================================================================================
+[0;32m[ENTERING] hardware/ti/omap4[0m
+HEAD is now at d8470c0 libpower: update interactive governor params for performance
+Applying: camera: Move tuna DCC path to /data/misc/cameraserver/ on N.
+================================================================================================
+[0;32m[ENTERING] hardware/ti/wlan[0m
+HEAD is now at f75d24a wl18xx: fix logical error (single bracket --> double bracket) in scripts file
+Applying: wl12xx: Update SR and MR firmwares versions
+Applying: wl12xx: Update SR PLT firmwares
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display[0m
+HEAD is now at f3072db9f hwcomposer: Fix regression in hwc_sync
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+Applying: Fix Buffer Overflow in Vendor Service display.qservice
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/apq8084[0m
+HEAD is now at 901b7974c libgralloc: Fix adding offset to the mapped base address
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/msm8916[0m
+HEAD is now at b9fc74377 Merge remote-tracking branch 'caf/LA.BR.1.2.9_rb1.26' into cm-14.1-caf-8916
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/msm8952[0m
+HEAD is now at 7b73a212e Merge remote-tracking branch 'caf/LA.BR.1.3.6_rb1.14' into HEAD
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/msm8960[0m
+HEAD is now at afe13f3f8 libgralloc: Fix adding offset to the mapped base address
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/msm8974[0m
+HEAD is now at 966a222f0 libgralloc: Fix adding offset to the mapped base address
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/msm8994[0m
+HEAD is now at 39bc982df Merge remote-tracking branch 'caf/LA.BF64.1.2.3_rb1.16' into cm-14.1-caf-8994
+Applying: Gralloc: Validate buffer parameters during importBuffer call
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/msm8996[0m
+HEAD is now at 3a068b86d Merge tag 'LA.UM.5.6.r1-07500-89xx.0' of https://source.codeaurora.org/quic/la/platform/hardware/qcom/display into cm-14.1-caf-8996
+Applying: Fix Buffer Overflow in Vendor Service display.qservice
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/display-caf/msm8998[0m
+HEAD is now at 3f485baa3 Fix duplicate copy file rules
+Applying: Fix Buffer Overflow in Vendor Service display.qservice
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/gps[0m
+HEAD is now at 05f4309 Merge tag 'android-7.1.2_r2' into cm-14.1
+Applying: gps: Correct week rollover timestamps
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/media[0m
+HEAD is now at f30298770 mm-video-v4l2: Protect buffer access and increase input buffer size
+Applying: mm-video-v4l2: Protect buffer access and increase input buffer size
+Applying: mm-video-v4l2: Squash below changes
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/media-caf/apq8084[0m
+HEAD is now at 566e8db8b mm-video-v4l2: vdec: Disallow changing buffer modes/counts on allocated ports
+Applying: mm-video-v4l2: Protect buffer access and increase input buffer size
+================================================================================================
+[0;32m[ENTERING] hardware/qcom/media-caf/msm8994[0m
+HEAD is now at 1633dd56a Merge remote-tracking branch 'caf/LA.BF64.1.2.3_rb1.18' into cm-14.1-caf-8994
+Applying: mm-video-v4l2: Protect buffer access and increase input buffer size
+================================================================================================
+[0;32m[ENTERING] packages/apps/Bluetooth[0m
+HEAD is now at 149358f20 Automatic translation import
+Applying: Removes app access to BluetoothAdapter#setScanMode by requiring BLUETOOTH_PRIVILEGED permission.
+Applying: Removes app access to BluetoothAdapter#setDiscoverableTimeout by requiring BLUETOOTH_PRIVILEGED permission.
+Applying: Fix URI check in BluetoothOppUtility.java
+Applying: Fix OPP comparison
+================================================================================================
+[0;32m[ENTERING] packages/apps/Contacts[0m
+HEAD is now at 12d35dd32 Automatic translation import
+Applying: Add permission to start NFC activity to ensure it is from NFC stack
+Applying: Address photo editing security bug
+Applying: No longer export CallSubjectDialog
+Applying: Use common intent for directions instead of Google Maps URL
+================================================================================================
+[0;32m[ENTERING] packages/apps/CMParts[0m
+HEAD is now at e226f6c Automatic translation import
+Applying: Remove analytics
+Applying: Reduced Resolution Feature 1/2
+================================================================================================
+[0;32m[ENTERING] packages/apps/Dialer[0m
+HEAD is now at 94469c43c Automatic translation import
+Applying: No longer export CallSubjectDialog
+================================================================================================
+[0;32m[ENTERING] packages/apps/KeyChain[0m
+HEAD is now at 4265847 Automatic translation import
+Applying: DO NOT MERGE Hide overlay on KeyChainActivity
+Applying: Encode authority part of uri before showing in UI
+================================================================================================
+[0;32m[ENTERING] packages/apps/Nfc[0m
+HEAD is now at 5b89c771 Automatic translation import
+Applying: Add HIDE_NON_SYSTEM_OVERLAY_WINDOWS permission to Nfc
+Applying: Do not set default contactless application without user interaction
+Applying: OOB read in phNciNfc_RecvMfResp()
+Applying: DO NOT MERGE OOBW in Mfc_Transceive()
+Applying: DO NOT MERGE OOBW in phNciNfc_MfCreateXchgDataHdr
+================================================================================================
+[0;32m[ENTERING] packages/apps/PackageInstaller[0m
+HEAD is now at 3551ff626 Automatic translation import
+Applying: fix toggling off current permissions in review
+Applying: Hide overlays on ReviewPermissionsAtivity
+================================================================================================
+[0;32m[ENTERING] packages/apps/Settings[0m
+HEAD is now at 1750180a51 Automatic translation import
+Applying: RESTRICT AUTOMERGE Update string
+Applying: RESTRICT AUTOMERGE Fix phishing attacks over Bluetooth due to unclear warning message
+Applying: Import translations. DO NOT MERGE ANYWHERE
+Applying: BluetoothSecurity: Add BLUETOOTH_PRIVILEGED permission for pairing dialog
+Applying: Rephrase dialog message of clear storage dialog for security concern
+Applying: Fix bypass CALL_PRIVILEGED permission in AppRestrictionsFragment
+Applying: Add caller check to com.android.credentials.RESET [Backport]
+Applying: Fix LaunchAnyWhere in AppRestrictionsFragment
+Applying: Verify ringtone from ringtone picker is audio
+Applying: Fix Settings crash when setting a null ringtone
+Applying: Add FLAG_SECURE for ChooseLockPassword and Pattern
+Auto-merging src/com/android/settings/DevelopmentSettings.java
+[detached HEAD 04bbf303fc] Revert "DevelopmentSettings: Hide OEM unlock by default"
+ Date: Fri Mar 31 11:30:55 2023 -0400
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+Applying: wifi: Add world regulatory domain country code
+Applying: Settings / Data usage: Add menu option to switch off captive portal
+================================================================================================
+[0;32m[ENTERING] packages/apps/SetupWizard[0m
+HEAD is now at e9bc05d Automatic translation import
+Applying: Remove analytics
+================================================================================================
+[0;32m[ENTERING] packages/apps/Updater[0m
+HEAD is now at bcee453 Automatic translation import
+Applying: Switch to our update server
+Applying: Add support for routing over Tor
+================================================================================================
+[0;32m[ENTERING] packages/apps/WallpaperPicker[0m
+HEAD is now at b4da5d3 Automatic translation import
+================================================================================================
+[0;32m[ENTERING] packages/inputmethods/LatinIME[0m
+HEAD is now at b745009a5 Automatic translation import
+Applying: Remove voice input key
+Applying: disable personalized dicts by default
+================================================================================================
+[0;32m[ENTERING] packages/services/Telecomm[0m
+HEAD is now at 41ba7a23e Automatic translation import
+Applying: limit TelecomManager#registerPhoneAccount to 10
+Applying: switch TelecomManager List getters to ParceledListSlice
+Applying: Hide overlay windows when showing phone account enable/disable screen.
+================================================================================================
+[0;32m[ENTERING] packages/services/Telephony[0m
+HEAD is now at a45d24d6d Automatic translation import
+Applying: prevent overlays on the phone settings
+Applying: Change UpdateEnabledNetworksValueAndSummary to handle all modes
+Applying: More preferred network modes
+================================================================================================
+[0;32m[ENTERING] packages/providers/ContactsProvider[0m
+HEAD is now at 96b79350 Automatic translation import
+Applying: enforce stricter CallLogProvider query
+================================================================================================
+[0;32m[ENTERING] packages/providers/MediaProvider[0m
+HEAD is now at 651464007 Automatic translation import
+Applying: Open all files with O_NOFOLLOW.
+================================================================================================
+[0;32m[ENTERING] packages/providers/TelephonyProvider[0m
+HEAD is now at ee69d54d Automatic translation import
+Applying: Check dir path before updating permissions.
+================================================================================================
+[0;32m[ENTERING] system/bt[0m
+HEAD is now at 97b8872a4 RESTRICT AUTOMERGE Contain avrc_ctrl_pars_vendor_cmd OOB write
+Applying: BLE: [IOT] Initiate disconnection when encryption fails during pairing
+Applying: SMP: Reject pairing if public_key.x match
+Applying: osi: Prevent memory allocations with MSB set
+Applying: security: Use-After-Free in btm_sec_[dis]connected
+Applying: Reset the IRK after all devices are unpaired
+Applying: Security fix OOB read due to invalid count in stack/avrc/avrc_pars_ct
+Applying: Security: Fix out of bound write in HFP client
+Applying: Check Avrcp packet vendor length before extracting length
+Applying: Security: Fix out of bound read in AT_SKIP_REST
+Applying: Removing bonded device when auth fails due to missing keys
+Applying: Fix OOB in BNEP_Write
+Applying: Fix OOB in bnep_is_packet_allowed
+Applying: Fix OOB in reassemble_and_dispatch
+Applying: Fix potential interger overflow when parsing vendor response
+Applying: Add buffer in pin_reply in bluetooth.cc
+Applying: Add negative length check in process_service_search_rsp
+Applying: Add length check when copy AVDTP packet
+Applying: RESTRICT AUTOMERGE Added max buffer length check
+Applying: Add missing increment in bnep_api.cc
+Applying: Add length check when copy AVDT and AVCT packet
+Applying: Fix integer overflow when parsing avrc response
+Applying: BT: Once AT command is retrieved, return from method.
+Applying: Add bounds check in avdt_scb_act.cc
+Applying: Fix an OOB Write bug in gatt_check_write_long_terminate
+Applying: Fix an OOB write in SDP_AddAttribute
+Applying: AVRCP: Fix potential buffer overflow
+Applying: Increase maximum Bluetooth SBC codec bitrate for SBC HD
+Applying: Explicit SBC Dual Channel (SBC HD) support
+Applying: avrc_bld_get_attrs_rsp - fix attribute length position off by one
+Applying: Add an option to disable the assert added in fc2ca9ee
+================================================================================================
+[0;32m[ENTERING] system/core[0m
+HEAD is now at b149ecb4a FileMap::create: remove duplicate addition.
+Applying: Backport of Win-specific suppression of potentially rogue construct that can engage
+Auto-merging rootdir/init.rc
+[detached HEAD 9d945f02f] Revert "init: Don't update recovery on boot"
+ Date: Fri Mar 31 11:30:56 2023 -0400
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+Auto-merging rootdir/init.rc
+[detached HEAD 9f09c8053] Revert "init: update recovery when enabled in settings"
+ Date: Fri Mar 31 11:30:56 2023 -0400
+ 1 file changed, 6 deletions(-)
+Applying: Harden
+================================================================================================
+[0;32m[ENTERING] system/sepolicy[0m
+HEAD is now at 83840c7f8 sepolicy: Allow exfat and ntfs access for sdcard
+Applying: label protected_{fifos,regular} as proc_security
+Applying: restrict access to timing information in /proc
+Applying: Fix -user builds for many LGE devices
+================================================================================================
+[0;32m[ENTERING] system/vold[0m
+HEAD is now at 2fc737b Fix signedness mismatch and integer underflow
+Applying: Build time variable for AES-256 encryption
+================================================================================================
+[0;32m[ENTERING] vendor/cm[0m
+HEAD is now at 95af0109 roomservice: support new manifest formats.
+================================================================================================
+[0;32m[ENTERING] vendor/cmsdk[0m
+HEAD is now at fe8244af Automatic translation import
+================================================================================================
+[0;32m[ENTERING] vendor/divested[0m
+================================================================================================
+[0;32m[ENTERING] device/amazon/hdx-common[0m
+HEAD is now at ee0590e lineage: add Snap as default camera
+================================================================================================
+[0;32m[ENTERING] device/asus/grouper[0m
+HEAD is now at da9a628 grouper: Add grouper to lunch combo
+.git/rebase-apply/patch:188: new blank line at EOF.
++
+warning: 1 line adds whitespace errors.
+Applying: grouper: Initial 14.1 blob list
+Applying: Performance tweaks from @AndDiSa
+================================================================================================
+[0;32m[ENTERING] device/htc/m7-common[0m
+HEAD is now at 530db5d m7-common: Add KeyDisabler class
+================================================================================================
+[0;32m[ENTERING] device/lge/g4-common[0m
+HEAD is now at 3c6c0be g4-common: add more models to the build guards
+================================================================================================
+[0;32m[ENTERING] device/motorola/clark[0m
+HEAD is now at 0cab5d7 clark: allow installing on the 0xA042 but not the 0xA050 bootloader
+================================================================================================
+[0;32m[ENTERING] device/samsung/exynos5420-common[0m
+HEAD is now at 771624a sepolicy: Allow system server to query pm
+================================================================================================
+[0;32m[ENTERING] device/samsung/i9100[0m
+HEAD is now at 607de6f i9100: BLN: Enable LED-blink support
+Set smaller system args for /mnt/dos/Build/LineageOS-14.1/device/samsung/i9100
+================================================================================================
+[0;32m[ENTERING] device/samsung/manta[0m
+HEAD is now at 4f2199d manta: use gts2-common widevine blob
+================================================================================================
+[0;32m[ENTERING] device/samsung/toroplus[0m
+HEAD is now at c2abcdf toroplus: move common dependencies into tuna repo
+================================================================================================
+[0;32m[ENTERING] device/samsung/tuna[0m
+HEAD is now at fcd0a8e tuna: use tuna_defconfig
+Applying: tuna: twrp: Add necessary policy for twrp decrypt
+Applying: Tuna: Sepolicy: Add tee-fs permissions
+Applying: Tuna: Sepolicy: Label metadata partition
+Applying: Tuna: Sepolicy: Solve mediacodec denial
+Applying: audit2allow sepolicies
+================================================================================================
+[0;32m[ENTERING] vendor/google[0m
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Enhanced location services for hardware/qcom/gps/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8909/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8084/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8960/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8974/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8994/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8996/etc/gps.conf
+Enhanced location services for hardware/qcom/gps/msm8998/etc/gps.conf
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Enhanced location services for device/lge/h811/configs/gps.conf
+Enhanced location services for device/lge/h815/configs/gps.conf
+Enhanced location services for device/lge/g4-common/gps/etc/gps.conf
+Enhanced location services for device/samsung/v1awifi/configs/gps/gps.conf
+Enhanced location services for device/samsung/d2-common/gps/etc/gps.conf
+Enhanced location services for device/samsung/galaxys2-common/configs/gps.conf
+Enhanced location services for device/samsung/hero-common/configs/gps/gps.conf
+Enhanced location services for device/samsung/manta/gps/gps.conf
+Enhanced location services for device/samsung/smdk4412-qcom-common/gps/etc/gps.conf
+Enhanced location services for device/motorola/clark/configs/gps.conf
+Enhanced location services for device/samsung/smdk4412-common/configs/gps.conf
+Enhanced location services for device/amazon/hdx-common/configs/etc/gps.conf
+Enhanced location services for device/asus/grouper/gps/gps.conf
+Enhanced location services for device/common/gps/gps.conf_AS
+Enhanced location services for device/common/gps/gps.conf_AS_SUPL
+Enhanced location services for device/common/gps/gps.conf_EU
+Enhanced location services for device/common/gps/gps.conf_EU_SUPL
+Enhanced location services for device/common/gps/gps.conf_US
+Enhanced location services for device/common/gps/gps.conf_US_SUPL
+Enhanced location services for device/htc/hima-common/configs/gps/gps.conf
+Enhanced location services for device/htc/m7-common/gps/gps.conf
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Enhanced location services for vendor/motorola/addison/proprietary/etc/gps.conf
+Enhanced location services for vendor/motorola/athene/proprietary/etc/gps.conf
+Enhanced location services for vendor/motorola/msm8226-common/proprietary/etc/gps.conf
+Enhanced location services for vendor/motorola/msm8610-common/proprietary/etc/gps.conf
+Enhanced location services for vendor/motorola/quark/proprietary/etc/gps.conf
+Enhanced location services for vendor/motorola/msm8960dt-common/proprietary/etc/gps.conf
+Enhanced location services for vendor/motorola/victara/proprietary/etc/gps.conf
+Enhanced location services for vendor/samsung/apexqtmo/proprietary/etc/gps.conf
+Enhanced location services for vendor/samsung/apq8084-common/proprietary/etc/gps.conf
+Enhanced location services for vendor/samsung/captivatemtd/proprietary/gps.conf
+Enhanced location services for vendor/samsung/celox/proprietary/etc/gps.conf
+Enhanced location services for vendor/samsung/chagalllte/proprietary/etc/gps.conf
+Enhanced location services for vendor/samsung/epicmtd/proprietary/etc/gps.conf
+Enhanced location services for vendor/samsung/espressovzw/proprietary/etc/gps.conf
+Enhanced location services for vendor/samsung/fascinatemtd/proprietary/gps.conf
+Enhanced location services for vendor/samsung/galaxysbmtd/proprietary/gps.conf
+Enhanced location services for vendor/samsung/galaxysmtd/proprietary/gps.conf
+Enhanced location services for vendor/samsung/p1-common/proprietary/gps.conf
+Enhanced location services for vendor/samsung/picassowifi/proprietary/etc/gps.conf
+Enhanced location services for vendor/samsung/vibrantmtd/proprietary/gps.conf
+Enhanced location services for vendor/samsung/ypg1/proprietary/etc/gps.conf
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Enhanced location services for device/lge/h811/overlay
+Enhanced location services for device/lge/h815/overlay
+Enhanced location services for device/lge/g4-common/overlay
+Enhanced location services for device/samsung/v1awifi/overlay
+Enhanced location services for device/samsung/d2-common/overlay
+Enhanced location services for device/samsung/d2att/overlay
+Enhanced location services for device/samsung/d2spr/overlay
+Enhanced location services for device/samsung/d2tmo/overlay
+Enhanced location services for device/samsung/d2vzw/overlay
+Enhanced location services for device/samsung/exynos5420-common/overlay
+Enhanced location services for device/samsung/galaxys2-common/overlay
+Enhanced location services for device/samsung/hero-common/overlay
+Enhanced location services for device/samsung/hero2lte/overlay
+Enhanced location services for device/samsung/herolte/overlay
+Enhanced location services for device/samsung/i9100/overlay
+Enhanced location services for device/samsung/i9300/overlay
+Enhanced location services for device/samsung/i9305/overlay
+Enhanced location services for device/samsung/kona-common/overlay
+Enhanced location services for device/samsung/maguro/overlay
+Enhanced location services for device/samsung/manta/overlay
+Enhanced location services for device/samsung/msm8960-common/overlay
+Enhanced location services for device/samsung/n5100/overlay
+Enhanced location services for device/samsung/n5110/overlay
+Enhanced location services for device/samsung/n5120/overlay
+Enhanced location services for device/samsung/smdk4412-common/overlay
+Enhanced location services for device/samsung/toroplus/overlay
+Enhanced location services for device/samsung/qcom-common/overlay
+Enhanced location services for device/samsung/tuna/overlay
+Enhanced location services for device/amazon/apollo/overlay
+Enhanced location services for device/amazon/thor/overlay
+Enhanced location services for device/motorola/clark/overlay
+Enhanced location services for device/asus/grouper/overlay
+Enhanced location services for device/samsung/toro/overlay
+Enhanced location services for device/generic/armv7-a-neon/overlay
+Enhanced location services for device/generic/x86/overlay
+Enhanced location services for device/google/atv/overlay
+Enhanced location services for device/htc/hima-common/overlay
+Enhanced location services for device/htc/himawl/overlay
+Enhanced location services for device/htc/m7/overlay
+Enhanced location services for device/htc/m7-common/overlay
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Set VoLTE override in system.prop for device/motorola/clark
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Enabled dexpreopt for device/lge/h811
+Enabled dexpreopt for device/lge/h815
+Enabled dexpreopt for device/samsung/v1awifi
+Enabled dexpreopt for device/samsung/d2att
+Enabled dexpreopt for device/samsung/d2spr
+Enabled dexpreopt for device/samsung/d2tmo
+Enabled dexpreopt for device/samsung/d2vzw
+Enabled dexpreopt for device/samsung/hero2lte
+Enabled dexpreopt for device/samsung/herolte
+Enabled dexpreopt for device/samsung/i9300
+Enabled dexpreopt for device/samsung/i9305
+Enabled dexpreopt for device/samsung/n5100
+Enabled dexpreopt for device/samsung/n5110
+Enabled dexpreopt for device/samsung/n5120
+Enabled dexpreopt for device/motorola/clark
+Enabled dexpreopt for device/generic/arm64
+Enabled dexpreopt for device/generic/armv7-a-neon
+Enabled dexpreopt for device/generic/x86
+Enabled dexpreopt for device/generic/x86_64
+Enabled dexpreopt for device/htc/himaul
+Enabled dexpreopt for device/htc/himawl
+Enabled dexpreopt for device/htc/m7
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Hardened /data for device/lge/h811
+Hardened /data for device/lge/h815
+Hardened /data for device/lge/g4-common
+Hardened /data for device/samsung/v1awifi
+Hardened /data for device/samsung/d2-common
+Hardened /data for device/samsung/d2att
+Hardened /data for device/samsung/d2spr
+Hardened /data for device/samsung/d2tmo
+Hardened /data for device/samsung/d2vzw
+Hardened /data for device/samsung/exynos5420-common
+Hardened /data for device/samsung/galaxys2-common
+Hardened /data for device/samsung/hero2lte
+Hardened /data for device/samsung/herolte
+Hardened /data for device/samsung/hero-common
+Hardened /data for device/samsung/i9100
+Hardened /data for device/samsung/i9300
+Hardened /data for device/samsung/i9305
+Hardened /data for device/samsung/kona-common
+Hardened /data for device/samsung/maguro
+Hardened /data for device/samsung/manta
+Hardened /data for device/samsung/msm8960-common
+Hardened /data for device/samsung/n5100
+Hardened /data for device/samsung/n5110
+Hardened /data for device/samsung/n5120
+Hardened /data for device/samsung/qcom-common
+Hardened /data for device/samsung/smdk4412-common
+Hardened /data for device/samsung/smdk4412-qcom-common
+Hardened /data for device/samsung/toro
+Hardened /data for device/samsung/toroplus
+Hardened /data for device/samsung/tuna
+Hardened /data for device/qcom/common
+Hardened /data for device/motorola/clark
+Hardened /data for device/qcom/sepolicy
+Hardened /data for device/sample/apps
+Hardened /data for device/sample/etc
+Hardened /data for device/sample/frameworks
+Hardened /data for device/sample/overlays
+Hardened /data for device/sample/products
+Hardened /data for device/sample/sdk_addon
+Hardened /data for device/sample/skins
+Hardened /data for device/amazon/apollo
+Hardened /data for device/amazon/hdx-common
+Hardened /data for device/amazon/thor
+Hardened /data for device/common/gps
+Hardened /data for device/asus/grouper
+Hardened /data for device/generic/arm64
+Hardened /data for device/generic/armv7-a-neon
+Hardened /data for device/generic/common
+Hardened /data for device/generic/x86
+Hardened /data for device/generic/x86_64
+Hardened /data for device/google/atv
+Hardened /data for device/google/contexthub
+Hardened /data for device/htc/himaul
+Hardened /data for device/htc/hima-common
+Hardened /data for device/htc/himawl
+Hardened /data for device/htc/m7
+Hardened /data for device/htc/msm8960-common
+Hardened /data for device/htc/m7-common
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Hardened defconfig for kernel/htc/msm8994
+Hardened defconfig for kernel/asus/grouper
+Hardened defconfig for kernel/amazon/hdx-common
+Hardened defconfig for kernel/htc/msm8960
+Hardened defconfig for kernel/samsung/manta
+Hardened defconfig for kernel/motorola/msm8992
+Hardened defconfig for kernel/lge/msm8992
+Hardened defconfig for kernel/samsung/tuna
+Hardened defconfig for kernel/samsung/universal8890
+Hardened defconfig for kernel/samsung/exynos5420
+Hardened defconfig for kernel/samsung/d2
+Hardened defconfig for kernel/samsung/smdk4412
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+regdb: updated for kernel/samsung/universal8890
+Deblobbed audio!
+Removed stock build fingerprints
+Enabled lowram for device/asus/grouper
+Enabled lowram for device/samsung/galaxys2-common
+Enabled lowram for device/samsung/i9100
+Enabled lowram for device/samsung/i9300
+Enabled lowram for device/samsung/maguro
+Enabled lowram for device/samsung/manta
+Enabled lowram for device/samsung/smdk4412-common
+Enabled lowram for device/samsung/toro
+Enabled lowram for device/samsung/toroplus
+Enabled lowram for device/samsung/tuna
+rm: cannot remove 'kernel/*/*/drivers/staging/greybus/tools/Android.mk': No such file or directory
+[0;32m[SCRIPT COMPLETE] Primary patching finished[0m
+Enabling verity...
+[0;32m[SCRIPT COMPLETE] Verity enablement complete[0m
+Copying verity/avb public keys to kernels...
+[0;32m[SCRIPT COMPLETE] Copied keys to kernels[0m
+Changing default settings...
+================================================================================================
+[0;32m[ENTERING] frameworks/base[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Dialer[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Nfc[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Settings[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/SetupWizard[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Trebuchet[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Updater[0m
+================================================================================================
+[0;32m[ENTERING] vendor/cm[0m
+[0;32m[SCRIPT COMPLETE] Default settings changed[0m
+Rebranding...
+================================================================================================
+[0;32m[ENTERING] bootable/recovery[0m
+================================================================================================
+[0;32m[ENTERING] build[0m
+================================================================================================
+[0;32m[ENTERING] frameworks/base[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/CMParts[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Settings[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/SetupWizard[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Updater[0m
+================================================================================================
+[0;32m[ENTERING] system/core[0m
+================================================================================================
+[0;32m[ENTERING] vendor/cm[0m
+[0;32m[SCRIPT COMPLETE] Rebranding complete[0m
+Applying theme...
+================================================================================================
+[0;32m[ENTERING] frameworks/base[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/CMParts[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Settings[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Trebuchet[0m
+================================================================================================
+[0;32m[ENTERING] packages/apps/Updater[0m
+================================================================================================
+[0;32m[ENTERING] packages/inputmethods/LatinIME[0m
+[0;32m[SCRIPT COMPLETE] Applied theme[0m
+Optimizing...
+================================================================================================
+[0;32m[ENTERING] frameworks/base[0m
+================================================================================================
+[0;32m[ENTERING] kernel[0m
+Starting zram tweaks
+Finished zram tweaks
+[0;32m[SCRIPT COMPLETE] Optimizing complete[0m
+Deblobbing...
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+$DEVICE must be set before including this script!
+$DEVICE must be set before including this script!
+grep: BoardConfig*.mk: No such file or directory
+bash: line 1: ./setup-makefiles.sh: Permission denied
+bash: line 1: ./setup-makefiles.sh: Permission denied
+Input file ./../nodevice/proprietary-files.txt does not exist!
+$DEVICE must be set before including this script!
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+grep: BoardConfig*.mk: No such file or directory
+$DEVICE must be set before including this script!
+$DEVICE must be set before including this script!
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+xargs: warning: options --max-args and --replace/-I/-i are mutually exclusive, ignoring previous --max-args value
+Skipping manifest deblobbing
+[0;32m[SCRIPT COMPLETE] Deblobbing complete[0m
+Patching CVEs...
+Running /mnt/dos//Scripts/LineageOS-14.1//CVE_Patchers//android_kernel_amazon_hdx-common.sh
+warning: net/x25/af_x25.c has type 100755, expected 100644
+warning: drivers/media/platform/msm/camera_v2/ispif/msm_ispif.c has type 100755, expected 100644
+/mnt/dos//Patches/Linux//CVE-2016-3931/3.4/0002.patch:65: space before tab in indent.
+ 		return -EINVAL;
+/mnt/dos//Patches/Linux//CVE-2016-3931/3.4/0002.patch:66: space before tab in indent.
+ 	}
+warning: 2 lines add whitespace errors.
+/mnt/dos//Patches/Linux//CVE-2016-5343/3.4/0002.patch:66: space before tab in indent.
+ 	}
+/mnt/dos//Patches/Linux//CVE-2016-5343/3.4/0002.patch:91: space before tab in indent.
+ 			goto done;
+warning: 2 lines add whitespace errors.
+warning: drivers/media/platform/msm/camera_v2/ispif/msm_ispif.c has type 100755, expected 100644
+/mnt/dos//Patches/Linux//CVE-2017-9684/3.4/0006.patch:106: trailing whitespace.
+	
+warning: 1 line adds whitespace errors.
+warning: sound/soc/msm/qdsp6v2/q6asm.c has type 100644, expected 100755
+Running /mnt/dos//Scripts/LineageOS-14.1//CVE_Patchers//android_kernel_asus_grouper.sh
+Running /mnt/dos//Scripts/LineageOS-14.1//CVE_Patchers//android_kernel_htc_msm8960.sh
+/mnt/dos//Patches/Linux//CVE-2016-0806/prima/0006.patch:31: trailing whitespace.
+   
+warning: 1 line adds whitespace errors.
+warning: sound/soc/msm/qdsp6v2/q6asm.c has type 100644, expected 100755
+warning: drivers/gpu/msm/kgsl.c has type 100755, expected 100644
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0026.patch:898: trailing whitespace.
+    
+warning: 1 line adds whitespace errors.
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0029.patch:27: trailing whitespace.
+        
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_cfg80211.c has type 100644, expected 100755
+warning: 1 line adds whitespace errors.
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0030.patch:139: trailing whitespace.
+                                
+warning: 1 line adds whitespace errors.
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0032.patch:30: trailing whitespace.
+					
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_cfg80211.c has type 100644, expected 100755
+warning: 1 line adds whitespace errors.
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_assoc.c has type 100644, expected 100755
+Running /mnt/dos//Scripts/LineageOS-14.1//CVE_Patchers//android_kernel_htc_msm8994.sh
+Running /mnt/dos//Scripts/LineageOS-14.1//CVE_Patchers//android_kernel_lge_msm8992.sh
+warning: fs/open.c has type 100755, expected 100644
+warning: kernel/workqueue.c has type 100644, expected 100755
+warning: lib/Kconfig.debug has type 100644, expected 100755
+warning: sound/soc/msm/qdsp6v2/q6adm.c has type 100755, expected 100644
+warning: sound/soc/msm/qdsp6v2/q6adm.c has type 100755, expected 100644
+error: patch failed: drivers/char/diag/diag_dci.c:1
+error: drivers/char/diag/diag_dci.c: patch does not apply
+error: patch failed: drivers/char/diag/diag_dci.c:1
+error: drivers/char/diag/diag_dci.c: patch does not apply
+warning: drivers/staging/android/ion/ion.c has type 100755, expected 100644
+Running /mnt/dos//Scripts/LineageOS-14.1//CVE_Patchers//android_kernel_motorola_msm8992.sh
+warning: drivers/staging/qcacld-2.0/CORE/HDD/src/wlan_hdd_main.c has type 100755, expected 100644
+Running /mnt/dos//Scripts/LineageOS-14.1//CVE_Patchers//android_kernel_samsung_d2.sh
+/mnt/dos//Patches/Linux//CVE-2016-0806/prima/0006.patch:31: trailing whitespace.
+   
+warning: 1 line adds whitespace errors.
+warning: drivers/staging/android/binder.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/dhd_pno.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/wl_cfg80211.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/wl_cfg80211.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/dhd_wlfc.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/wl_android.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/dhd_linux.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/wl_cfg80211.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/wl_cfg80211.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/bcmsdh_sdmmc.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/wl_cfg80211.c has type 100755, expected 100644
+warning: drivers/net/wireless/bcmdhd/wl_cfg80211.h has type 100755, expected 100644
+warning: drivers/staging/android/binder.c has type 100755, expected 100644
+warning: sound/soc/msm/qdsp6v2/q6asm.c has type 100644, expected 100755
+warning: drivers/staging/android/binder.c has type 100755, expected 100644
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0026.patch:898: trailing whitespace.
+    
+warning: 1 line adds whitespace errors.
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0029.patch:27: trailing whitespace.
+        
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_cfg80211.c has type 100644, expected 100755
+warning: 1 line adds whitespace errors.
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0030.patch:139: trailing whitespace.
+                                
+warning: 1 line adds whitespace errors.
+/mnt/dos//Patches/Linux//CVE-2021-Misc2/ANY/0032.patch:30: trailing whitespace.
+					
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_cfg80211.c has type 100644, expected 100755
+warning: 1 line adds whitespace errors.
+warning: drivers/staging/prima/CORE/HDD/src/wlan_hdd_assoc.c has type 100644, expected 100755
+Running /mnt/dos//Scripts/LineageOS-14.1//CVE_Patchers//android_kernel_samsung_exynos5420.sh
+Running /mnt/dos//Scripts/LineageOS-14.1//CVE_Patchers//android_kernel_samsung_manta.sh
+Running /mnt/dos//Scripts/LineageOS-14.1//CVE_Patchers//android_kernel_samsung_smdk4412.sh
+warning: drivers/net/wireless/ath/ath6kl/wmi.c has type 100755, expected 100644
+Running /mnt/dos//Scripts/LineageOS-14.1//CVE_Patchers//android_kernel_samsung_tuna.sh
+Running /mnt/dos//Scripts/LineageOS-14.1//CVE_Patchers//android_kernel_samsung_universal8890.sh
+warning: fs/sdcardfs/inode.c has type 100644, expected 100755
+[0;32m[SCRIPT COMPLETE] Patched CVEs[0m
+Post tweaks...
+[0;32m[SCRIPT COMPLETE] Post tweaks complete[0m
+including device/amazon/apollo/vendorsetup.sh
+including device/amazon/thor/vendorsetup.sh
+including device/asus/grouper/vendorsetup.sh
+including device/lge/h811/vendorsetup.sh
+including device/lge/h815/vendorsetup.sh
+including device/samsung/hero2lte/vendorsetup.sh
+including device/samsung/herolte/vendorsetup.sh
+including device/samsung/maguro/vendorsetup.sh
+including device/samsung/manta/vendorsetup.sh
+including device/samsung/toro/vendorsetup.sh
+including device/samsung/toroplus/vendorsetup.sh
+including device/samsung/v1awifi/vendorsetup.sh
+including vendor/cm/vendorsetup.sh
+including sdk/bash_completion/adb.bash
+including vendor/cm/bash_completion/git.bash
+including vendor/cm/bash_completion/repo.bash
