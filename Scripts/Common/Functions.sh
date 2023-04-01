@@ -28,7 +28,7 @@ resetWorkspace() {
 export -f resetWorkspace;
 
 patchWorkspace() {
-	patchWorkspaceReal |& tee "$DOS_WORKSPACE_ROOT/Logs/patchWorkspace-$DOS_VERSION.log";
+	patchWorkspaceReal; #|& tee "$DOS_WORKSPACE_ROOT/Logs/patchWorkspace-$DOS_VERSION.log";
 }
 export -f patchWorkspace;
 
