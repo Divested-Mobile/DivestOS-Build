@@ -492,4 +492,14 @@
         <boolean name="vvm_ignore_transcription" value="true" />
         <boolean name="vvm_change_greeting_enabled_bool" value="true" />
     </pbundle_as_map>
+    <pbundle_as_map>
+        <string name="feature_flag_name">enable_vvm_carrier_flag_claro_pr</string>
+        <string-array name="mccmnc">
+            <item value="330110" />
+            <item value="33011" />
+        </string-array>
+        <int name="vvm_port_number_int" value="148" />
+        <string name="vvm_destination_number_string">8860</string>
+        <string name="vvm_type_string">vvm_type_omtp</string>
+    </pbundle_as_map>
 </list>
