@@ -133,7 +133,7 @@ git revert --no-edit 90d6826548189ca850d91692e71fcc1be426f453; #Reverts "Remove 
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
-applyPatch "$DOS_PATCHES/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after three failed attempts (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0005-User_Logout.patch"; #Enable secondary user logout support by default (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0005-User_Logout-a1.patch"; #Fix DevicePolicyManager#logoutUser() never succeeding (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Special_Permissions-1.patch"; #Support new special runtime permissions (GrapheneOS)
