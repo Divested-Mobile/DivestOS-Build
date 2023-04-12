@@ -1,0 +1,53 @@
+From cb6a14a070dbaf85a8fb0db89531aef3e091711b Mon Sep 17 00:00:00 2001
+From: Cheney Ni <cheneyni@google.com>
+Date: Fri, 1 Oct 2021 20:44:20 +0800
+Subject: [PATCH] AVDTP: Fix a potential overflow about the media payload
+ offset
+
+This variable is uint16, and is possible to overflow when the length of
+header extension is larger. Here we compare with the data length to
+prevent any exceptions.
+
+Bug: 142546355
+Tag: #security
+Test: A2DP sink playback
+Ignore-AOSP-First: security vulnerabilities
+Change-Id: Id13b1ebde8f603123c8b7a49922b2f1378ab788f
+---
+ stack/avdt/avdt_scb_act.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/stack/avdt/avdt_scb_act.c b/stack/avdt/avdt_scb_act.c
+index d7cf791ccf..6b6d708f77 100644
+--- a/stack/avdt/avdt_scb_act.c
++++ b/stack/avdt/avdt_scb_act.c
+@@ -291,19 +291,26 @@ void avdt_scb_hdl_pkt_no_frag(tAVDT_SCB *p_scb, tAVDT_SCB_EVT *p_data)
+         if (offset > len) goto length_error;
+         p += 2;
+         BE_STREAM_TO_UINT16(ex_len, p);
+-        offset += ex_len * 4;
+         p += ex_len * 4;
+     }
+ 
++    if ((p - p_start) > len)
++    {
++        android_errorWriteLog(0x534e4554, "142546355");
++        osi_free_and_reset((void **)&p_data->p_pkt);
++        return;
++    }
++    offset = p - p_start;
++
+     /* adjust length for any padding at end of packet */
+     if (o_p)
+     {
+         /* padding length in last byte of packet */
+-        pad_len =  *(p_start + p_data->p_pkt->len);
++        pad_len = *(p_start + len);
+     }
+ 
+     /* do sanity check */
+-    if ((offset > p_data->p_pkt->len) || ((pad_len + offset) > p_data->p_pkt->len))
++    if (pad_len > (len - offset))
+     {
+         AVDT_TRACE_WARNING("Got bad media packet");
+         osi_free_and_reset((void **)&p_data->p_pkt);

@@ -1,0 +1,71 @@
+From c7267fd43b5a9aa80f218fb5c09385269925b073 Mon Sep 17 00:00:00 2001
+From: Hao Ke <haok@google.com>
+Date: Mon, 12 Dec 2022 15:49:16 +0000
+Subject: [PATCH] Fix checkKeyIntentParceledCorrectly's bypass
+
+The checkKeyIntentParceledCorrectly method was added in checkKeyIntent, which was originaly  only invoked when AccountManagerService deserializes the KEY_INTENT value as not NULL. However, due to the self-changing bundle technique in Parcel mismatch problems, the Intent value can change after reparceling; hence would bypass the added checkKeyIntentParceledCorrectly call.
+
+This CL did the following:
+
+- Ensure the checkKeyIntent method is also called when result.getParcelable(AccountManager.KEY_INTENT) == null.
+
+Bug: 260567867
+Bug: 262230405
+Test: local test, see b/262230405
+Test: atest CtsAccountManagerTestCases
+Merged-In: I7b528f52c41767ae12731838fdd36aa26a8f3477
+Change-Id: I7b528f52c41767ae12731838fdd36aa26a8f3477
+(cherry picked from commit 9f623983a8d4ec48d58b0eda56fa461fc6748981)
+Merged-In: I7b528f52c41767ae12731838fdd36aa26a8f3477
+---
+ .../server/accounts/AccountManagerService.java    | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
+index 1692367c70a1..9aef2cc347d2 100644
+--- a/services/core/java/com/android/server/accounts/AccountManagerService.java
++++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
+@@ -2936,8 +2936,7 @@ public void onResult(Bundle result) {
+             Bundle.setDefusable(result, true);
+             mNumResults++;
+             Intent intent = null;
+-            if (result != null
+-                    && (intent = result.getParcelable(AccountManager.KEY_INTENT)) != null) {
++            if (result != null) {
+                 if (!checkKeyIntent(
+                         Binder.getCallingUid(),
+                         result)) {
+@@ -4215,8 +4214,10 @@ protected boolean checkKeyIntent(int authUid, Bundle bundle) {
+                 EventLog.writeEvent(0x534e4554, "250588548", authUid, "");
+                 return false;
+             }
+-
+             Intent intent = bundle.getParcelable(AccountManager.KEY_INTENT);
++            if (intent == null) {
++                return true;
++            }
+             // Explicitly set an empty ClipData to ensure that we don't offer to
+             // promote any Uris contained inside for granting purposes
+             if (intent.getClipData() == null) {
+@@ -4265,7 +4266,10 @@ private boolean checkKeyIntentParceledCorrectly(Bundle bundle) {
+             p.recycle();
+             Intent intent = bundle.getParcelable(AccountManager.KEY_INTENT);
+             Intent simulateIntent = simulateBundle.getParcelable(AccountManager.KEY_INTENT);
+-            return (intent.filterEquals(simulateIntent));
++            if (intent == null) {
++                return (simulateIntent == null);
++            }
++            return intent.filterEquals(simulateIntent);
+         }
+ 
+         private void close() {
+@@ -4409,8 +4413,7 @@ public void onResult(Bundle result) {
+                     }
+                 }
+             }
+-            if (result != null
+-                    && (intent = result.getParcelable(AccountManager.KEY_INTENT)) != null) {
++            if (result != null) {
+                 if (!checkKeyIntent(
+                         Binder.getCallingUid(),
+                         result)) {

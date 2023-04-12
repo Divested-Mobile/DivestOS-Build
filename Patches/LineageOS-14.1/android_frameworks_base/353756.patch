@@ -1,0 +1,97 @@
+From 6dbd9ee40a5c13e8e4a5b1aca039bb6c00031501 Mon Sep 17 00:00:00 2001
+From: Jing Ji <jji@google.com>
+Date: Thu, 4 Aug 2022 11:36:26 -0700
+Subject: [PATCH] DO NOT MERGE: Context#startInstrumentation could be started
+ from SHELL only now.
+
+Or, if an instrumentation starts another instrumentation and so on,
+and the original instrumentation is started from SHELL, allow all
+Context#startInstrumentation calls in this chain.
+
+Otherwise, it'll throw a SecurityException.
+
+Bug: 237766679
+Test: atest CtsAppTestCases:InstrumentationTest
+Merged-In: Ia08f225c21a3933067d066a578ea4af9c23e7d4c
+Merged-In: I1b76f61c5fd6c9f7e738978592260945a606f40c
+Merged-In: I3ea7aa27bd776fec546908a37f667f680da9c892
+Change-Id: I7ca7345b064e8e74f7037b8fa3ed45bb6423e406
+(cherry picked from commit 8c90891a38ecb5047e115e13baf700a8b486a5d1)
+Merged-In: I7ca7345b064e8e74f7037b8fa3ed45bb6423e406
+---
+ .../server/am/ActivityManagerService.java     | 41 ++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
+index 4e48f422a2fe3..73ecd14090c99 100644
+--- a/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -4306,6 +4306,29 @@ public int getPackageProcessState(String packageName, String callingPackage) {
+         return procState;
+     }
+ 
++    @GuardedBy("this")
++    private boolean hasActiveInstrumentationLocked(int pid) {
++        if (pid == 0) {
++            return false;
++        }
++        synchronized (mPidsSelfLocked) {
++            ProcessRecord process = mPidsSelfLocked.get(pid);
++            return process != null && process.instrumentationClass != null;
++        }
++    }
++
++    private String getPackageNameByPid(int pid) {
++        synchronized (mPidsSelfLocked) {
++            final ProcessRecord app = mPidsSelfLocked.get(pid);
++
++            if (app != null && app.info != null) {
++                return app.info.packageName;
++            }
++
++            return null;
++        }
++    }
++
+     private boolean isCallerShell() {
+         final int callingUid = Binder.getCallingUid();
+         return callingUid == Process.SHELL_UID || callingUid == Process.ROOT_UID;
+@@ -18947,7 +18970,9 @@ public boolean startInstrumentation(ComponentName className,
+             IInstrumentationWatcher watcher, IUiAutomationConnection uiAutomationConnection,
+             int userId, String abiOverride) {
+         enforceNotIsolatedCaller("startInstrumentation");
+-        userId = mUserController.handleIncomingUser(Binder.getCallingPid(), Binder.getCallingUid(),
++        final int callingUid = Binder.getCallingUid();
++        final int callingPid = Binder.getCallingPid();
++        userId = mUserController.handleIncomingUser(callingPid, callingUid,
+                 userId, false, ALLOW_FULL_ONLY, "startInstrumentation", null);
+         // Refuse possible leaked file descriptors
+         if (arguments != null && arguments.hasFileDescriptors()) {
+@@ -18987,7 +19012,7 @@ public boolean startInstrumentation(ComponentName className,
+                 String msg = "Permission Denial: starting instrumentation "
+                         + className + " from pid="
+                         + Binder.getCallingPid()
+-                        + ", uid=" + Binder.getCallingPid()
++                        + ", uid=" + Binder.getCallingUid()
+                         + " not allowed because package " + ii.packageName
+                         + " does not have a signature matching the target "
+                         + ii.targetPackage;
+@@ -18995,6 +19020,18 @@ public boolean startInstrumentation(ComponentName className,
+                 throw new SecurityException(msg);
+             }
+ 
++            if (!Build.IS_DEBUGGABLE && callingUid != Process.ROOT_UID && callingUid != Process.SHELL_UID
++                    && callingUid != Process.SYSTEM_UID && !hasActiveInstrumentationLocked(callingPid)) {
++                // If it's not debug build and not called from root/shell/system uid, reject it.
++                final String msg = "Permission Denial: instrumentation test "
++                        + className + " from pid=" + callingPid + ", uid=" + callingUid
++                        + ", pkgName=" + getPackageNameByPid(callingPid)
++                        + " not allowed because it's not started from SHELL";
++                Slog.wtfQuiet(TAG, msg);
++                reportStartInstrumentationFailureLocked(watcher, className, msg);
++                throw new SecurityException(msg);
++            }
++
+             final long origId = Binder.clearCallingIdentity();
+             // Instrumentation can kill and relaunch even persistent processes
+             forceStopPackageLocked(ii.targetPackage, -1, true, false, true, true, false, userId,
