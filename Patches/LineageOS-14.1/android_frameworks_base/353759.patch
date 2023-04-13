@@ -1,4 +1,4 @@
-From ff21c932b70b820c32a3a5331128a85e382f9885 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Winson Chiu <chiuwinson@google.com>
 Date: Fri, 6 Jan 2023 21:26:24 +0000
 Subject: [PATCH] Encode Intent scheme when serializing to URI string RESTRICT
@@ -20,10 +20,10 @@ Merged-In: Ic34b3f796b762763db5aa7b5d7c109ae70607470
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/core/java/android/content/Intent.java b/core/java/android/content/Intent.java
-index 2142aae2ec74a..0059f9edb6e15 100644
+index 2142aae2ec74..0059f9edb6e1 100644
 --- a/core/java/android/content/Intent.java
 +++ b/core/java/android/content/Intent.java
-@@ -8602,7 +8602,7 @@ private void toUriFragment(StringBuilder uri, String scheme, String defAction,
+@@ -8602,7 +8602,7 @@ public class Intent implements Parcelable, Cloneable {
      private void toUriInner(StringBuilder uri, String scheme, String defAction,
              String defPackage, int flags) {
          if (scheme != null) {

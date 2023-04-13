@@ -1,4 +1,4 @@
-From 86e2cbf8227fff2b020ba5ff858d054318044916 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Alisher Alikhodjaev <alisher@google.com>
 Date: Tue, 31 Jan 2023 19:04:09 -0800
 Subject: [PATCH] OOBW in nci_snd_set_routing_cmd()

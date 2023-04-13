@@ -1,4 +1,4 @@
-From c7267fd43b5a9aa80f218fb5c09385269925b073 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hao Ke <haok@google.com>
 Date: Mon, 12 Dec 2022 15:49:16 +0000
 Subject: [PATCH] Fix checkKeyIntentParceledCorrectly's bypass
@@ -22,10 +22,10 @@ Merged-In: I7b528f52c41767ae12731838fdd36aa26a8f3477
  1 file changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
-index 1692367c70a1..9aef2cc347d2 100644
+index 7273e3ea5ffc..b27f9b08c05e 100644
 --- a/services/core/java/com/android/server/accounts/AccountManagerService.java
 +++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
-@@ -2936,8 +2936,7 @@ public void onResult(Bundle result) {
+@@ -2957,8 +2957,7 @@ public class AccountManagerService
              Bundle.setDefusable(result, true);
              mNumResults++;
              Intent intent = null;
@@ -35,7 +35,7 @@ index 1692367c70a1..9aef2cc347d2 100644
                  if (!checkKeyIntent(
                          Binder.getCallingUid(),
                          result)) {
-@@ -4215,8 +4214,10 @@ protected boolean checkKeyIntent(int authUid, Bundle bundle) {
+@@ -4236,8 +4235,10 @@ public class AccountManagerService
                  EventLog.writeEvent(0x534e4554, "250588548", authUid, "");
                  return false;
              }
@@ -47,7 +47,7 @@ index 1692367c70a1..9aef2cc347d2 100644
              // Explicitly set an empty ClipData to ensure that we don't offer to
              // promote any Uris contained inside for granting purposes
              if (intent.getClipData() == null) {
-@@ -4265,7 +4266,10 @@ private boolean checkKeyIntentParceledCorrectly(Bundle bundle) {
+@@ -4286,7 +4287,10 @@ public class AccountManagerService
              p.recycle();
              Intent intent = bundle.getParcelable(AccountManager.KEY_INTENT);
              Intent simulateIntent = simulateBundle.getParcelable(AccountManager.KEY_INTENT);
@@ -59,7 +59,7 @@ index 1692367c70a1..9aef2cc347d2 100644
          }
  
          private void close() {
-@@ -4409,8 +4413,7 @@ public void onResult(Bundle result) {
+@@ -4430,8 +4434,7 @@ public class AccountManagerService
                      }
                  }
              }

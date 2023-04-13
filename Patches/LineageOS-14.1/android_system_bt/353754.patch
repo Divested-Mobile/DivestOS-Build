@@ -1,4 +1,4 @@
-From cb6a14a070dbaf85a8fb0db89531aef3e091711b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Cheney Ni <cheneyni@google.com>
 Date: Fri, 1 Oct 2021 20:44:20 +0800
 Subject: [PATCH] AVDTP: Fix a potential overflow about the media payload
@@ -18,7 +18,7 @@ Change-Id: Id13b1ebde8f603123c8b7a49922b2f1378ab788f
  1 file changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/stack/avdt/avdt_scb_act.c b/stack/avdt/avdt_scb_act.c
-index d7cf791ccf..6b6d708f77 100644
+index 5537c3d1d..011bff1c5 100644
 --- a/stack/avdt/avdt_scb_act.c
 +++ b/stack/avdt/avdt_scb_act.c
 @@ -291,19 +291,26 @@ void avdt_scb_hdl_pkt_no_frag(tAVDT_SCB *p_scb, tAVDT_SCB_EVT *p_data)

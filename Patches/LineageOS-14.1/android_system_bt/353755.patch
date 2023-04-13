@@ -1,4 +1,4 @@
-From 1f57f8785858f189bf3aa005f4e0cb92388d5d2c Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hui Peng <phui@google.com>
 Date: Fri, 20 Jan 2023 19:39:30 +0000
 Subject: [PATCH] Fix an OOB bug in register_notification_rsp
@@ -17,10 +17,10 @@ Merged-In: I37a9f45e707702b2ec52b5a2d572f177f2911765
  1 file changed, 7 insertions(+)
 
 diff --git a/btif/src/btif_rc.c b/btif/src/btif_rc.c
-index 632ec9c33d..b42df67b11 100644
+index 7f17a5191..af752d8dc 100644
 --- a/btif/src/btif_rc.c
 +++ b/btif/src/btif_rc.c
-@@ -3170,6 +3170,13 @@ static bt_status_t register_notification_rsp(btrc_event_id_t event_id,
+@@ -3171,6 +3171,13 @@ static bt_status_t register_notification_rsp(btrc_event_id_t event_id,
          BTIF_TRACE_ERROR("Avrcp Event id not registered: event_id = %x", event_id);
          return BT_STATUS_NOT_READY;
      }

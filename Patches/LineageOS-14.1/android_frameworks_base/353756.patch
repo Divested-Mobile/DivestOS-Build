@@ -1,4 +1,4 @@
-From 6dbd9ee40a5c13e8e4a5b1aca039bb6c00031501 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Jing Ji <jji@google.com>
 Date: Thu, 4 Aug 2022 11:36:26 -0700
 Subject: [PATCH] DO NOT MERGE: Context#startInstrumentation could be started
@@ -23,10 +23,10 @@ Merged-In: I7ca7345b064e8e74f7037b8fa3ed45bb6423e406
  1 file changed, 39 insertions(+), 2 deletions(-)
 
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index 4e48f422a2fe3..73ecd14090c99 100644
+index 4b7cb9bac5af..8f26804d51bd 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
-@@ -4306,6 +4306,29 @@ public int getPackageProcessState(String packageName, String callingPackage) {
+@@ -4306,6 +4306,29 @@ public final class ActivityManagerService extends ActivityManagerNative
          return procState;
      }
  
@@ -56,7 +56,7 @@ index 4e48f422a2fe3..73ecd14090c99 100644
      private boolean isCallerShell() {
          final int callingUid = Binder.getCallingUid();
          return callingUid == Process.SHELL_UID || callingUid == Process.ROOT_UID;
-@@ -18947,7 +18970,9 @@ public boolean startInstrumentation(ComponentName className,
+@@ -18949,7 +18972,9 @@ public final class ActivityManagerService extends ActivityManagerNative
              IInstrumentationWatcher watcher, IUiAutomationConnection uiAutomationConnection,
              int userId, String abiOverride) {
          enforceNotIsolatedCaller("startInstrumentation");
@@ -67,7 +67,7 @@ index 4e48f422a2fe3..73ecd14090c99 100644
                  userId, false, ALLOW_FULL_ONLY, "startInstrumentation", null);
          // Refuse possible leaked file descriptors
          if (arguments != null && arguments.hasFileDescriptors()) {
-@@ -18987,7 +19012,7 @@ public boolean startInstrumentation(ComponentName className,
+@@ -18989,7 +19014,7 @@ public final class ActivityManagerService extends ActivityManagerNative
                  String msg = "Permission Denial: starting instrumentation "
                          + className + " from pid="
                          + Binder.getCallingPid()
@@ -76,7 +76,7 @@ index 4e48f422a2fe3..73ecd14090c99 100644
                          + " not allowed because package " + ii.packageName
                          + " does not have a signature matching the target "
                          + ii.targetPackage;
-@@ -18995,6 +19020,18 @@ public boolean startInstrumentation(ComponentName className,
+@@ -18997,6 +19022,18 @@ public final class ActivityManagerService extends ActivityManagerNative
                  throw new SecurityException(msg);
              }
  
