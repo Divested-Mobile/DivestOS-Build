@@ -43,3 +43,5 @@ awk -i inplace '!/config_pinnerCameraApp/' device/*/*/overlay/frameworks/base/co
 
 cd "$DOS_BUILD_BASE";
 echo -e "\e[0;32m[SCRIPT COMPLETE] Post tweaks complete\e[0m";
+
+kill -USR2 $TR_PID
