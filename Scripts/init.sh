@@ -117,6 +117,38 @@ export DOS_THEME_700="E64A19"; #Deep Orange 700
 
 umask 0022;
 
+export TR_ERR=0
+export TR_PID=$$
+
+set -E;	#required for resetEnv()
+resetEnv(){
+    trap - ERR EXIT USR2 SIGINT SIGHUP TERM
+    echo -e "\n\e[0;32mThe environment has been reset.\e[0m\nRemember to always '\e[0;31msource ../../Scripts/init.sh\e[0m' before building.\n"
+    set +E +f
+}
+export -f resetEnv
+
+# print result
+# will also ensure the corresponding status code gets returned properly
+_errorReport(){
+    if [ "$TR_ERR" -ne 0 ];then
+	echo -e "\n\e[0;31m[FINAL RESULT] Serious error(s) found!!!\nSummary error code was: $TR_ERR. Check & fix all error lines above\e[0m"
+    else
+	echo -e "\n\e[0;32m[FINAL RESULT] No error detected (please check the above output nevertheless!)\e[0m"
+    fi
+    return $TR_ERR
+}
+export -f _errorReport
+
+# trap and print errors
+# ERR: needed to fetch aborts when set -e is set
+trap 'E=$?; \
+      [ $E -ne 0 ] && _fetchError $E $LINENO $FUNCNAME $BASH_SOURCE \
+      && export TR_ERR=$((TR_ERR + $E))' EXIT ERR
+
+trap _errorReport USR2
+trap resetEnv SIGINT SIGHUP TERM
+
 gpgVerifyGitHead() {
 	if [ -r "$DOS_TMP_GNUPG/pubring.kbx" ]; then
 		if git -C "$1" verify-commit HEAD &>/dev/null; then
@@ -203,5 +235,5 @@ source "$DOS_SCRIPTS_COMMON/Functions.sh";
 source "$DOS_SCRIPTS_COMMON/Tag_Verifier.sh";
 source "$DOS_SCRIPTS/Functions.sh";
 
-[[ -f "$DOS_BUILD_BASE/.repo/local_manifests/roomservice.xml" ]] && echo "roomservice manifest found! Please fix your manifests before continuing!";
-[[ -f "$DOS_BUILD_BASE/DOS_PATCHED_FLAG" ]] && echo "NOTE: THIS WORKSPACE IS ALREADY PATCHED, PLEASE RESET BEFORE PATCHING AGAIN!";
+[[ -f "$DOS_BUILD_BASE/.repo/local_manifests/roomservice.xml" ]] && echo "roomservice manifest found! Please fix your manifests before continuing!" || true;
+[[ -f "$DOS_BUILD_BASE/DOS_PATCHED_FLAG" ]] && echo "NOTE: THIS WORKSPACE IS ALREADY PATCHED, PLEASE RESET BEFORE PATCHING AGAIN!" || true;

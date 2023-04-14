@@ -16,6 +16,19 @@
 #along with this program.  If not, see <https://www.gnu.org/licenses/>.
 umask 0022;
 
+_fetchError(){
+    local last_status="$1";
+    local error_line_number="$2";
+    local last_func="$3";
+    local file=$(echo "$4" | sed "s#$DOS_WORKSPACE_ROOT#\$DOS_WORKSPACE_ROOT#g");
+    if [ ! -z "$last_func" ] && [ ! -z "$file" ];then
+	echo -e "\e[0;31mERROR: $file -> ${last_func}() ended with status >${last_status}< at line >$((error_line_number -1))<\e[0m";
+    else
+	echo -e "\e[0;31mERROR: last command ended with status >${last_status}< at line >$((error_line_number -1))<\e[0m";
+    fi
+}
+export -f _fetchError;
+
 startPatcher() {
 	java -jar "$DOS_BINARY_PATCHER" patch workspace "$DOS_BUILD_BASE" "$DOS_WORKSPACE_ROOT""Patches/Linux/" "$DOS_SCRIPTS_CVES" $1;
 }
