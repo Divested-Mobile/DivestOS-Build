@@ -106,6 +106,7 @@ export DOS_THEME_700="E64A19"; #Deep Orange 700
 #
 #END OF USER CONFIGURABLE OPTIONS
 #
+[ -f "$HOME/.divested.vars.${BDEVICE}" ] && source $HOME/.divested.vars.${BDEVICE} && echo "included $HOME/.divested.vars.${BDEVICE} config"
 
 umask 0022;
 
