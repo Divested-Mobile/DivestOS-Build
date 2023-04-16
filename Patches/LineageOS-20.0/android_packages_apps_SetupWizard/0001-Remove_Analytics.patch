@@ -52,7 +52,7 @@ index 5d206e4..db3594a 100644
                      <LinearLayout
                          android:id="@+id/nav_keys"
 diff --git a/src/org/lineageos/setupwizard/FinishActivity.java b/src/org/lineageos/setupwizard/FinishActivity.java
-index 95e3166..0a07369 100644
+index 34f5c1e..ea15c86 100644
 --- a/src/org/lineageos/setupwizard/FinishActivity.java
 +++ b/src/org/lineageos/setupwizard/FinishActivity.java
 @@ -26,7 +26,6 @@ import static org.lineageos.setupwizard.Manifest.permission.FINISH_SETUP;
@@ -63,7 +63,7 @@ index 95e3166..0a07369 100644
  import static org.lineageos.setupwizard.SetupWizardApp.LOGV;
  import static org.lineageos.setupwizard.SetupWizardApp.NAVIGATION_OPTION_KEY;
  import static org.lineageos.setupwizard.SetupWizardApp.UPDATE_RECOVERY_PROP;
-@@ -175,7 +174,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
+@@ -174,7 +173,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
      }
  
      private void completeSetup() {
@@ -71,7 +71,7 @@ index 95e3166..0a07369 100644
          handleNavKeys(mSetupWizardApp);
          handleRecoveryUpdate(mSetupWizardApp);
          handleNavigationOption(mSetupWizardApp);
-@@ -189,17 +187,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
+@@ -188,17 +186,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
          startActivityForResult(intent, NEXT_REQUEST);
      }
  

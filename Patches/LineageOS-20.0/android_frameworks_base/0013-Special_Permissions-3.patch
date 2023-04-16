@@ -99,10 +99,10 @@ index 714bf540468c..17d35cee6e53 100644
  
      /**
 diff --git a/services/core/java/com/android/server/pm/pkg/parsing/ParsingPackageUtils.java b/services/core/java/com/android/server/pm/pkg/parsing/ParsingPackageUtils.java
-index 7ce7f7ebf6cc..2c1eed855404 100644
+index 810fa5f1e4b3..17ac255e60f6 100644
 --- a/services/core/java/com/android/server/pm/pkg/parsing/ParsingPackageUtils.java
 +++ b/services/core/java/com/android/server/pm/pkg/parsing/ParsingPackageUtils.java
-@@ -2213,6 +2213,8 @@ public class ParsingPackageUtils {
+@@ -2221,6 +2221,8 @@ public class ParsingPackageUtils {
  
          pkg.setHasDomainUrls(hasDomainURLs(pkg));
  

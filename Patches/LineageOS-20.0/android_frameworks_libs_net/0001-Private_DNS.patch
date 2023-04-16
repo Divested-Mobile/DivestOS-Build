@@ -16,7 +16,7 @@ Change-Id: Ide577115925a2a4991332524f670899f4d33f2a3
  1 file changed, 91 insertions(+)
 
 diff --git a/common/framework/com/android/net/module/util/ConnectivitySettingsUtils.java b/common/framework/com/android/net/module/util/ConnectivitySettingsUtils.java
-index b7eb70b..3e8dd2e 100644
+index b7eb70b0..3e8dd2e2 100644
 --- a/common/framework/com/android/net/module/util/ConnectivitySettingsUtils.java
 +++ b/common/framework/com/android/net/module/util/ConnectivitySettingsUtils.java
 @@ -32,10 +32,36 @@ public class ConnectivitySettingsUtils {
