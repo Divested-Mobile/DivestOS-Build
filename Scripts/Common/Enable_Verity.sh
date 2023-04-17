@@ -100,6 +100,7 @@ enableVerity "device/zuk/z2_plus";
 enableAVB "device/fairphone/FP3";
 enableAVB "device/fairphone/FP4";
 enableAVB "device/fxtec/pro1";
+enableAVB "device/fxtec/pro1x";
 enableAVB "device/google/barbet";
 enableAVB "device/google/bluejay";
 enableAVB "device/google/blueline";
@@ -196,6 +197,7 @@ sed -i 's/^\treturn VERITY_STATE_DISABLE;//' kernel/*/*/drivers/md/dm-android-ve
 [[ -d device/fairphone/FP3 ]] && sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/fairphone/FP3/system.prop &>/dev/null || true;
 [[ -d device/fairphone/FP4 ]] && sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/fairphone/FP4/system.prop &>/dev/null || true;
 [[ -d device/fxtec/pro1 ]] && sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/fxtec/pro1/system.prop &>/dev/null || true;
+[[ -d device/fxtec/pro1x ]] && sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/fxtec/pro1x/system.prop &>/dev/null || true;
 [[ -d device/google/bluejay ]] && sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/google/bluejay/vendor.prop &>/dev/null || true;
 [[ -d device/google/bonito ]] && sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/google/bonito/vendor.prop &>/dev/null || true;
 [[ -d device/google/coral ]] && sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/google/coral/vendor.prop &>/dev/null || true;

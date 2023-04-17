@@ -96,6 +96,7 @@ if [ -d "$DOS_SIGNING_KEYS" ]; then
 	copyKey "panther" "kernel/google/gs201/private/gs-google";
 	copyKey "pioneer" "kernel/sony/sdm660";
 	copyKey "pro1" "kernel/fxtec/msm8998";
+	copyKey "pro1x" "kernel/fxtec/sm6115";
 	copyKey "raphael" "kernel/xiaomi/sm8150";
 	copyKey "raven" "kernel/google/gs101/private/gs-google";
 	copyKey "raven" "kernel/google/raviole";

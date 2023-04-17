@@ -111,14 +111,6 @@
 	<project path="device/cyanogen/msm8916-common" name="LineageOS/android_device_cyanogen_msm8916-common" remote="github" />
 	<project path="kernel/cyanogen/msm8916" name="LineageOS/android_kernel_cyanogen_msm8916" remote="github" />
 
-	<!-- Xiaomi Redmi 3S/3X (land) -->
-	<project path="device/xiaomi/land" name="LineageOS/android_device_xiaomi_land" remote="github" />
-	<project path="device/xiaomi/msm8937-common" name="LineageOS/android_device_xiaomi_msm8937-common" remote="github" />
-	<project path="kernel/xiaomi/msm8937" name="LineageOS/android_kernel_xiaomi_msm8937" remote="github" />
-
-	<!-- Xiaomi Redmi 4/4X (santoni) -->
-	<project path="device/xiaomi/santoni" name="LineageOS/android_device_xiaomi_santoni" remote="github" />
-
 	<!-- Zuk Z1 (ham) -->
 	<project path="device/zuk/ham" name="LineageOS/android_device_zuk_ham" remote="github" />
 	<project path="kernel/cyanogen/msm8974" name="LineageOS/android_kernel_cyanogen_msm8974" remote="github" />
@@ -129,7 +121,6 @@
 	<project path="vendor/lge" name="[COLOUR IN THE LINES]/proprietary_vendor_lge" remote="github" />
 	<project path="vendor/samsung" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung" remote="github" />
 	<project path="vendor/wileyfox" name="[COLOUR IN THE LINES]/proprietary_vendor_wileyfox" remote="github" />
-	<project path="vendor/xiaomi" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi" remote="gitlab" revision="lineage-16.0" />
 	<project path="vendor/zuk" name="[COLOUR IN THE LINES]/proprietary_vendor_zuk" remote="github" />
 
 </manifest>

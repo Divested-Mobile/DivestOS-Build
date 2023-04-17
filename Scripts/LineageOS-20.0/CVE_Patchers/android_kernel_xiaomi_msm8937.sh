@@ -1,0 +1,97 @@
+#!/bin/bash
+if cd "$DOS_BUILD_BASE""kernel/xiaomi/msm8937"; then
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0015.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0020.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-bugon/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-bugon/4.9/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-misc/4.9/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-misc/4.9/0017.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-misc/4.9/0020.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-random/4.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-random/4.9/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-random/4.9/0011.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-random/4.9/0016.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0011.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0027.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0031.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-sanitize/4.9/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-sanitize/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0013.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0017.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slub/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slub/4.9/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slub/4.9/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-7837/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-3695/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-7477/4.9/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13693/^4.12.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13694/^4.12.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-1000252/^4.13/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5897/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-9415/ANY/0005.patch
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-11412/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-20855/^4.18/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-25020/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12378/^5.1.5/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12455/^5.1.5/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-12456/^5.1.5/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-15291/4.9/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-16921/^4.16/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-16994/4.9/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19051/4.9/0013.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-19068/4.9/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20908/^5.2/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-3674/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-16119/^5.10/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24394/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29374/4.9/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3656/4.14/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33098/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35084/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35119/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39792/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45469/4.9-^5.16/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0011.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/ANY/0012.patch
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1204/4.14/0006.patch
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1204/4.14/0007.patch
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1204/4.14/0008.patch
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1204/4.14/0009.patch
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1204/4.14/0010.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1679/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2153/^5.17/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-2153/^5.17/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3061/^5.18/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4382/^6.2/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20148/^5.15/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20369/4.14/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20371/ANY/0001.patch
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25715/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25722/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28388/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-33225/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0045/4.14/0002.patch
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0461/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1073/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1074/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1118/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1513/4.14/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1670/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-fortify/4.9/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
+git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0005.patch
+editKernelLocalversion "-dos.p91"
+else echo "kernel_xiaomi_msm8937 is unavailable, not patching.";
+fi;
+cd "$DOS_BUILD_BASE"

@@ -8,7 +8,7 @@ Subject: [PATCH] use permanent fingerprint lockout immediately
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/biometrics/fingerprint/FingerprintService.java b/services/core/java/com/android/server/biometrics/fingerprint/FingerprintService.java
-index 2159f6f2f861..4e06c591a896 100644
+index 2159f6f2f861..2adf316bb8a9 100644
 --- a/services/core/java/com/android/server/biometrics/fingerprint/FingerprintService.java
 +++ b/services/core/java/com/android/server/biometrics/fingerprint/FingerprintService.java
 @@ -103,7 +103,7 @@ public class FingerprintService extends BiometricServiceBase {

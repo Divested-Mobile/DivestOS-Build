@@ -66,6 +66,10 @@
 	<project path="device/fxtec/pro1" name="LineageOS/android_device_fxtec_pro1" remote="github" revision="lineage-20" />
 	<project path="kernel/fxtec/msm8998" name="LineageOS/android_kernel_fxtec_msm8998" remote="github" revision="lineage-20" />
 
+	<!-- F(x)tec Pro¹ X (pro1x) -->
+	<project path="device/fxtec/pro1x" name="LineageOS/android_device_fxtec_pro1x" remote="github" revision="lineage-20" />
+	<project path="kernel/fxtec/sm6115" name="LineageOS/android_kernel_fxtec_sm6115" remote="github" revision="lineage-20" />
+
 	<!-- Fairphone 3 (FP3) -->
 	<project path="device/fairphone/FP3" name="LineageOS/android_device_fairphone_FP3" remote="github" revision="lineage-20" />
 	<project path="kernel/fairphone/sdm632" name="LineageOS/android_kernel_fairphone_sdm632" remote="github" revision="lineage-20" />
@@ -195,6 +199,19 @@
 	<project path="device/razer/aura" name="LineageOS/android_device_razer_aura" remote="github" revision="lineage-20" />
 	<project path="kernel/razer/sdm845" name="LineageOS/android_kernel_razer_sdm845" remote="github" revision="lineage-20" />
 
+	<!-- Samsung Galaxy S9 (starlte) -->
+	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" revision="lineage-20" />
+	<project path="device/samsung_slsi/sepolicy" name="LineageOS/android_device_samsung_slsi_sepolicy" remote="github" revision="lineage-20" />
+	<project path="device/samsung/starlte" name="LineageOS/android_device_samsung_starlte" remote="github" revision="lineage-20" />
+	<project path="device/samsung/exynos9810-common" name="LineageOS/android_device_samsung_exynos9810-common" remote="github" revision="lineage-20" />
+	<project path="kernel/samsung/exynos9810" name="LineageOS/android_kernel_samsung_exynos9810" remote="github" revision="lineage-20" />
+
+	<!-- Samsung Galaxy S9+ (star2lte) -->
+	<project path="device/samsung/star2lte" name="LineageOS/android_device_samsung_star2lte" remote="github" revision="lineage-20" />
+
+	<!-- Samsung Galaxy Note 9 (crownlte) -->
+	<project path="device/samsung/crownlte" name="LineageOS/android_device_samsung_crownlte" remote="github" revision="lineage-20" />
+
 	<!-- Sony Xperia XZ2 (akari) -->
 	<project path="device/sony/akari" name="LineageOS/android_device_sony_akari" remote="github" revision="lineage-20" />
 	<project path="device/sony/tama-common" name="LineageOS/android_device_sony_tama-common" remote="github" revision="lineage-20" />
@@ -206,6 +223,11 @@
 	<!-- Sony Xperia XZ2 Compact (xz2c) -->
 	<project path="device/sony/xz2c" name="LineageOS/android_device_sony_xz2c" remote="github" revision="lineage-20" />
 
+	<!-- Xiaomi 8937 Unified (Mi8937) -->
+	<project path="device/xiaomi/Mi8937" name="LineageOS/android_device_xiaomi_Mi8937" remote="github" revision="lineage-20" />
+	<project path="device/xiaomi/mithorium-common" name="LineageOS/android_device_xiaomi_mithorium-common" remote="github" revision="lineage-20" />
+	<project path="kernel/xiaomi/msm8937" name="LineageOS/android_kernel_xiaomi_msm8937" remote="github" revision="lineage-20" />
+
 	<!-- Xiaomi Poco F1 (beryllium) -->
 	<project path="hardware/xiaomi" name="LineageOS/android_hardware_xiaomi" remote="github" revision="lineage-20" />
 	<project path="device/xiaomi/beryllium" name="LineageOS/android_device_xiaomi_beryllium" remote="github" revision="lineage-20" />
@@ -216,6 +238,7 @@
 	<project path="vendor/fairphone/FP3" name="[COLOUR IN THE LINES]/proprietary_vendor_fairphone_FP3" remote="github" revision="lineage-20" />
 	<project path="vendor/fairphone/FP4" name="[COLOUR IN THE LINES]/proprietary_vendor_fairphone_FP4" remote="github" revision="lineage-20" />
 	<project path="vendor/fxtec/pro1" name="[COLOUR IN THE LINES]/proprietary_vendor_fxtec_pro1" remote="github" revision="lineage-20" />
+	<project path="vendor/fxtec/pro1x" name="[COLOUR IN THE LINES]/proprietary_vendor_fxtec_pro1x" remote="github" revision="lineage-20" />
 	<project path="vendor/google/barbet" name="[COLOUR IN THE LINES]/proprietary_vendor_google_barbet" remote="github" revision="lineage-20" />
 	<project path="vendor/google/blueline" name="[COLOUR IN THE LINES]/proprietary_vendor_google_blueline" remote="github" revision="lineage-20" />
 	<project path="vendor/google/bonito" name="[COLOUR IN THE LINES]/proprietary_vendor_google_bonito" remote="github" revision="lineage-20" />
@@ -249,8 +272,14 @@
 	<project path="vendor/oneplus/sm8350-common" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_sm8350-common" remote="github" revision="lineage-20" />
 	<project path="vendor/razer/aura" name="[COLOUR IN THE LINES]/proprietary_vendor_razer_aura" remote="github" revision="lineage-20" />
 	<project path="vendor/razer/cheryl" name="[COLOUR IN THE LINES]/proprietary_vendor_razer_cheryl" remote="github" revision="lineage-20" />
+	<project path="vendor/samsung/exynos9810-common" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung_exynos9810-common" remote="github" revision="lineage-20" />
+	<project path="vendor/samsung/crownlte" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung_crownlte" remote="github" revision="lineage-20" />
+	<project path="vendor/samsung/starlte" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung_starlte" remote="github" revision="lineage-20" />
+	<project path="vendor/samsung/star2lte" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung_star2lte" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/beryllium" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_beryllium" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/sdm845-common" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_sdm845-common" remote="github" revision="lineage-20" />
+	<project path="vendor/xiaomi/Mi8937" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_Mi8937" remote="github" revision="lineage-20" />
+	<project path="vendor/xiaomi/mithorium-common" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_mithorium-common" remote="github" revision="lineage-20" />
 	<project path="vendor/google/bluejay" name="[COLOUR IN THE LINES]/proprietary_vendor_google_bluejay" remote="gitlab" revision="lineage-20" />
 	<project path="vendor/google/cheetah" name="[COLOUR IN THE LINES]/proprietary_vendor_google_cheetah" remote="gitlab" revision="lineage-20" />
 	<project path="vendor/google/oriole" name="[COLOUR IN THE LINES]/proprietary_vendor_google_oriole" remote="gitlab" revision="lineage-20" />

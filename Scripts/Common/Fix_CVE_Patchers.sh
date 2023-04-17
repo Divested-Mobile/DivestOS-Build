@@ -47,6 +47,7 @@ commentPatches android_kernel_fairphone_msm8974.sh "CVE-2018-20169";
 commentPatches android_kernel_fairphone_sdm632.sh "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992" "CVE-2021-3347" "CVE-2021-20322";
 commentPatches android_kernel_fairphone_sm7225.sh "CVE-2018-5873" "CVE-2021-3444" "CVE-2022-1184/^5.18/0001.patch" "CVE-2021-3600";
 commentPatches android_kernel_fxtec_msm8998.sh "0008-Graphene-Kernel_Hardening-slab" "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch" "CVE-2019-11599" "CVE-2019-16746" "CVE-2019-18282" "CVE-2019-19319" "CVE-2019-ctnl-addr-leak" "CVE-2020-0429" "CVE-2020-1749" "CVE-2020-8992" "CVE-2020-16166";
+commentPatches android_kernel_fxtec_sm6115.sh "CVE-2018-5873" "CVE-2021-3444" "CVE-2021-3600";
 commentPatches android_kernel_google_bonito.sh "CVE-2020-0067";
 commentPatches android_kernel_google_coral.sh "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992" "CVE-2021-30324";
 commentPatches android_kernel_google_dragon.sh "0006-AndroidHardening-Kernel_Hardening/3.18/0026.patch" "0008-Graphene-Kernel_Hardening-ro" "CVE-2015-4167" "CVE-2017-15951" "CVE-2016-1237" "CVE-2016-6198" "CVE-2017-7374" "CVE-2018-17972" "CVE-2019-2214" "CVE-2021-39715/ANY/0001.patch";
@@ -91,10 +92,11 @@ commentPatches android_kernel_samsung_msm8930-common.sh "CVE-2017-11015/prima" "
 commentPatches android_kernel_samsung_smdk4412.sh "CVE-2012-2127" "CVE-2016-8463/ANY/0001.patch";
 commentPatches android_kernel_samsung_tuna.sh "CVE-2012-2127";
 commentPatches android_kernel_samsung_universal8890.sh "0008-Graphene-Kernel_Hardening-ro" "CVE-2016-7917" "CVE-2018-1092" "CVE-2018-17972" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166" "CVE-2022-42896/4.9";
+commentPatches android_kernel_samsung_exynos9810.sh "CVE-2020-1749" "CVE-2019-ctnl-addr-leak" "CVE-2019-18282" "CVE-2019-11599" "CVE-2022-20566" "CVE-2019-16746" "CVE-2021-45469" "CVE-2020-0305";
 commentPatches android_kernel_samsung_universal9810.sh "CVE-2020-1749";
 commentPatches android_kernel_sony_sdm660.sh "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch" "CVE-2019-19319" "CVE-2020-0305" "CVE-2020-8992" "CVE-2020-16166";
 commentPatches android_kernel_sony_sdm845.sh "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992";
-commentPatches android_kernel_xiaomi_msm8937.sh "CVE-2017-13162" "CVE-2019-14070" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-16166" "CVE-2021-39715/ANY/0001.patch" "CVE-2022-42896/4.9";
+commentPatches android_kernel_xiaomi_msm8937.sh "CVE-2017-13162" "CVE-2019-14070" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-16166" "CVE-2021-39715/ANY/0001.patch" "CVE-2022-25715";
 commentPatches android_kernel_xiaomi_sdm660.sh "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch";
 commentPatches android_kernel_xiaomi_sm8150.sh "CVE-2020-24588/4.14/0018.patch";
 commentPatches android_kernel_xiaomi_sm8250.sh "CVE-2018-5873" "CVE-2020-1749" "CVE-2021-3444" "CVE-2021-3600" "CVE-2022-22075";
@@ -123,7 +125,7 @@ do
 	commentPatches $script "CVE-2016-1583/3.18" "CVE-2018-17972/3.18" "CVE-2018-20169/3.18" "CVE-2019-2214/3.18" "CVE-2020-0427/3.18" "CVE-2021-21781/3.18" "CVE-2022-40768/4.4";
 done
 #3.18
-declare -a threeDotEighteen=("${threeDotTen[@]}" "android_kernel_samsung_universal8890.sh" "android_kernel_google_dragon.sh" "android_kernel_lge_msm8996.sh" "android_kernel_zte_msm8996.sh" "android_kernel_asus_msm8953.sh" "android_kernel_xiaomi_msm8937.sh" "android_kernel_google_marlin.sh" "android_kernel_motorola_msm8996.sh" "android_kernel_oneplus_msm8996.sh");
+declare -a threeDotEighteen=("${threeDotTen[@]}" "android_kernel_samsung_universal8890.sh" "android_kernel_google_dragon.sh" "android_kernel_lge_msm8996.sh" "android_kernel_zte_msm8996.sh" "android_kernel_asus_msm8953.sh" "android_kernel_google_marlin.sh" "android_kernel_motorola_msm8996.sh" "android_kernel_oneplus_msm8996.sh");
 for script in "${threeDotEighteen[@]}"
 do
 	commentPatches $script "0008-Graphene-Kernel_Hardening-slub/4.4/0002.patch" "CVE-2018-16597/4.4" "CVE-2019-19319/4.4" "CVE-2020-0305/4.4" "CVE-2020-0429/4.4" "CVE-2020-8992/4.4" "CVE-2021-1048/4.4" "CVE-2021-3428/4.4" "CVE-2021-20265/4.4" "CVE-2022-1184/4.9/0007.patch" "CVE-2022-40768/4.9/0007.patch" "CVE-2022-40768/4.4/0008.patch" "CVE-2022-47929/4.4";
@@ -135,7 +137,7 @@ declare -a fourDotFour=("${threeDotEighteen[@]}" "android_kernel_essential_msm89
 #	commentPatches $script ""; #handle 4.9
 #done
 #4.9
-declare -a fourDotNine=("${fourDotFour[@]}" "android_kernel_fairphone_sdm632.sh" "android_kernel_google_msm-4.9.sh" "android_kernel_oneplus_sdm845.sh" "android_kernel_razer_sdm845.sh" "android_kernel_samsung_universal9810.sh" "android_kernel_sony_sdm845.sh" "android_kernel_xiaomi_sdm845.sh");
+declare -a fourDotNine=("${fourDotFour[@]}" "android_kernel_fairphone_sdm632.sh" "android_kernel_google_msm-4.9.sh" "android_kernel_oneplus_sdm845.sh" "android_kernel_razer_sdm845.sh" "android_kernel_samsung_exynos9810.sh" "android_kernel_samsung_universal9810.sh" "android_kernel_sony_sdm845.sh" "android_kernel_xiaomi_msm8937.sh" "android_kernel_xiaomi_sdm845.sh");
 for script in "${fourDotNine[@]}"
 do
 	commentPatches $script "CVE-2018-11412/4.14" "CVE-2020-0067/4.14" "CVE-2022-1204/4.14" "CVE-2023-0461/4.14"; #handle 4.14
