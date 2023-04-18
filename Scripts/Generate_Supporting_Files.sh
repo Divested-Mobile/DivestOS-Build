@@ -18,9 +18,9 @@
 umask 0022;
 set -uo pipefail;
 
-export copyPartsZip="/mnt/backup-1/DOS/Builds/Extras/copy-partitions-20210323_1922-cleaned.zip"; #XXX: ADJUST ME
+export copyPartsZip="/mnt/Drive-4/DOS/Builds/Extras/copy-partitions-20210323_1922-cleaned.zip"; #XXX: ADJUST ME
 
-export repoDir="/mnt/backup-1/DOS/Builds/Supporting_Files/";
+export repoDir="/mnt/Drive-4/DOS/Builds/Supporting_Files/";
 mkdir -p $repoDir;
 
 devicesCopy=(akari alioth Amber aura aurora avicii barbet bluejay blueline bonito bramble cheetah cheryl coral crosshatch davinci discovery enchilada fajita flame FP3 FP4 guacamole guacamoleb hotdog hotdogb instantnoodle instantnoodlep kebab lemonade lemonadep marlin mata oriole panther pioneer pro1 pro1x raven redfin sailfish sargo sunfish taimen voyager walleye xz2c);
@@ -31,6 +31,8 @@ do
 		mkdir -p "$repoDir/$device";
 		./build/tools/releasetools/sign_zip.py -k "$DOS_SIGNING_KEYS/$device/releasekey" "$copyPartsZip" "$repoDir/$device/copy-partitions-$device-release.zip";
 		./build/tools/releasetools/sign_zip.py -k "$DOS_SIGNING_KEYS/$device/extra" "$copyPartsZip" "$repoDir/$device/copy-partitions-$device-extra.zip";
+		gpg --homedir "$DOS_SIGNING_GPG" --sign --local-user "$DOS_GPG_SIGNING_KEY" --detach-sign --armor "$repoDir/$device/copy-partitions-$device-release.zip";
+		gpg --homedir "$DOS_SIGNING_GPG" --sign --local-user "$DOS_GPG_SIGNING_KEY" --detach-sign --armor "$repoDir/$device/copy-partitions-$device-extra.zip";
 	fi;
 done;
 
@@ -41,5 +43,6 @@ do
 	if [ -d "$DOS_SIGNING_KEYS/$device/" ]; then
 		mkdir -p "$repoDir/$device";
 		cp "$DOS_SIGNING_KEYS/$device/avb_pkmd.bin" "$repoDir/$device/avb_pkmd-$device.bin";
+		gpg --homedir "$DOS_SIGNING_GPG" --sign --local-user "$DOS_GPG_SIGNING_KEY" --detach-sign --armor "$repoDir/$device/avb_pkmd-$device.bin";
 	fi;
 done;
