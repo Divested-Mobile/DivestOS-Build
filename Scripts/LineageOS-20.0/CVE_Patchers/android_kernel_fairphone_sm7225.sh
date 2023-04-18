@@ -79,9 +79,12 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42703/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0030/^4.20/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0386/^6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1670/4.19/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1859/^6.3/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1989/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23454/4.19/0003.patch
-editKernelLocalversion "-dos.p81"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-30772/4.19/0003.patch
+editKernelLocalversion "-dos.p84"
 else echo "kernel_fairphone_sm7225 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
