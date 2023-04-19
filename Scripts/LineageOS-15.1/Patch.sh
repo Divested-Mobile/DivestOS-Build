@@ -73,7 +73,7 @@ applyPatch "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys t
 applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2023-03-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2023-04-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -174,6 +174,10 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/347051-backport.patch"; #P_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/349330.patch"; #P_asb_2023-02 Correct the behavior of ACTION_PACKAGE_DATA_CLEARED
 applyPatch "$DOS_PATCHES/android_frameworks_base/349331.patch"; #P_asb_2023-02 Convert argument to intent in ChooseTypeAndAccountActivity
 applyPatch "$DOS_PATCHES/android_frameworks_base/352086.patch"; #n-asb-2023-03 Revoke dev perm if app is upgrading to post 23 and perm has pre23 flag
+applyPatch "$DOS_PATCHES/android_frameworks_base/354242-backport.patch"; #P_asb_2023-04 Context#startInstrumentation could be started from SHELL only now.
+applyPatch "$DOS_PATCHES/android_frameworks_base/354243.patch"; #P_asb_2023-04 Checking if package belongs to UID before registering broadcast receiver
+applyPatch "$DOS_PATCHES/android_frameworks_base/354244-backport.patch"; #P_asb_2023-04 Fix checkKeyIntentParceledCorrectly's bypass
+applyPatch "$DOS_PATCHES/android_frameworks_base/354245.patch"; #P_asb_2023-04 Encode Intent scheme when serializing to URI string
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
@@ -391,6 +395,8 @@ applyPatch "$DOS_PATCHES/android_system_bt/349335.patch"; #P_asb_2023-02 Add bou
 applyPatch "$DOS_PATCHES/android_system_bt/351916.patch"; #P_asb_2023-03 Fix an OOB Write bug in gatt_check_write_long_terminate
 applyPatch "$DOS_PATCHES/android_system_bt/351917.patch"; #P_asb_2023-03 Fix an OOB access bug in A2DP_BuildMediaPayloadHeaderSbc
 applyPatch "$DOS_PATCHES/android_system_bt/351918.patch"; #P_asb_2023-03 Fix an OOB write in SDP_AddAttribute
+applyPatch "$DOS_PATCHES/android_system_bt/354246.patch"; #P_asb_2023-04 Fix OOB access in avdt_scb_hdl_pkt_no_frag
+applyPatch "$DOS_PATCHES/android_system_bt/354247.patch"; #P_asb_2023-04 Fix an OOB bug in register_notification_rsp
 fi;
 
 if enterAndClear "system/core"; then
@@ -405,6 +411,7 @@ if enterAndClear "system/nfc"; then
 applyPatch "$DOS_PATCHES/android_system_nfc/332767.patch"; #P_asb_2022-06 Double Free in ce_t4t_data_cback
 applyPatch "$DOS_PATCHES/android_system_nfc/332458-backport.patch"; #n-asb-2022-06 Out of Bounds Read in nfa_dm_check_set_config
 applyPatch "$DOS_PATCHES/android_system_nfc/344180-backport.patch"; #P_asb_2022-11 OOBW in phNxpNciHal_write_unlocked()
+applyPatch "$DOS_PATCHES/android_system_nfc/353760-backport.patch"; #n-asb-2023-04 OOBW in nci_snd_set_routing_cmd()
 fi;
 
 if enterAndClear "system/sepolicy"; then
@@ -422,6 +429,7 @@ applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/33277
 applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/332458-backport.patch"; #n-asb-2022-06 Out of Bounds Read in nfa_dm_check_set_config
 applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/332459-backport.patch"; #n-asb-2022-06 OOBR in nfc_ncif_proc_ee_discover_req()
 applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/344190-backport.patch"; #P_asb_2022-11 OOBW in phNxpNciHal_write_unlocked()
+applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/353760-backport.patch"; #n-asb-2023-04 OOBW in nci_snd_set_routing_cmd()
 fi;
 
 if enterAndClear "vendor/nxp/opensource/packages/apps/Nfc"; then #keep in sync with packages/apps/Nfc
