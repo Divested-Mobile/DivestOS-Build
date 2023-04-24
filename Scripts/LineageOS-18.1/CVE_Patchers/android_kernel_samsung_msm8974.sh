@@ -253,13 +253,14 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0394/4.4/0007.patch
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0458/4.4/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1073/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1074/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1118/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1670/^6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1989/^6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.4/0007.patch
-editKernelLocalversion "-dos.p259"
+editKernelLocalversion "-dos.p260"
 else echo "kernel_samsung_msm8974 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
