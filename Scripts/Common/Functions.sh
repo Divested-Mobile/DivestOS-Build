@@ -984,7 +984,7 @@ hardenDefconfig() {
 	do
 		#If the option is disabled, enable it
 		sed -i 's/# CONFIG_'"$option"' is not set/CONFIG_'"$option"'=y/' $defconfigPath &>/dev/null || true;
-		if [[ "$1" != *"kernel/oneplus/msm8996"* ]]; then
+		if [[ "$1" != *"kernel/oneplus/msm8996"* ]] && [[ "$1" != *"kernel/xiaomi/msm8937"* ]]; then
 			#If the option isn't present, add it enabled
 			sed -zi '/CONFIG_'"$option"'=y/!s/$/\nCONFIG_'"$option"'=y/' $defconfigPath &>/dev/null || true;
 		fi;
