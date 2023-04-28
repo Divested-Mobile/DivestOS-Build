@@ -1,0 +1,49 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Mayank Madhukar <quic_mmadhuka@quicinc.com>
+Date: Thu, 14 Jul 2022 15:33:53 +0530
+Subject: [PATCH] AVDTP: Fix a potential overflow about the media payload
+ offset
+
+This variable is uint16, and is possible to overflow when the length of
+header extension is larger. Here we compare with the data length to
+prevent any exceptions.
+
+Change-Id: If55d77132e893d6856c9f4ccc42d24a6e7cafe29
+CRs-Fixed: 3237187
+---
+ stack/avdt/avdt_scb_act.cc | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/stack/avdt/avdt_scb_act.cc b/stack/avdt/avdt_scb_act.cc
+index 130f44ab1..568575458 100644
+--- a/stack/avdt/avdt_scb_act.cc
++++ b/stack/avdt/avdt_scb_act.cc
+@@ -277,19 +277,24 @@ void avdt_scb_hdl_pkt_no_frag(tAVDT_SCB* p_scb, tAVDT_SCB_EVT* p_data) {
+     if (offset > len) goto length_error;
+     p += 2;
+     BE_STREAM_TO_UINT16(ex_len, p);
+-    offset += ex_len * 4;
+     p += ex_len * 4;
+   }
+ 
++  if ((p - p_start) > len) {
++    android_errorWriteLog(0x534e4554, "142546355");
++    osi_free_and_reset((void**)&p_data->p_pkt);
++    return;
++  }
++  offset = p - p_start;
++
+   /* adjust length for any padding at end of packet */
+   if (o_p) {
+     /* padding length in last byte of packet */
+-    pad_len = *(p_start + p_data->p_pkt->len);
++    pad_len = *(p_start + len);
+   }
+ 
+   /* do sanity check */
+-  if ((offset > p_data->p_pkt->len) ||
+-      ((pad_len + offset) > p_data->p_pkt->len)) {
++  if (pad_len > (len - offset)) {
+     AVDT_TRACE_WARNING("Got bad media packet");
+     osi_free_and_reset((void**)&p_data->p_pkt);
+   }

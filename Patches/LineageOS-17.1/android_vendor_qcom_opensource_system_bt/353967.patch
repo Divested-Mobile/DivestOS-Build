@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hui Peng <phui@google.com>
+Date: Fri, 20 Jan 2023 19:39:30 +0000
+Subject: [PATCH] Fix an OOB bug in register_notification_rsp
+
+This is a backport of I901d973a736678d7f3cc816ddf0cbbcbbd1fe93f
+to rvc-dev.
+
+Bug: 245916076
+Test: manual
+Ignore-AOSP-First: security
+Change-Id: I37a9f45e707702b2ec52b5a2d572f177f2911765
+(cherry picked from commit 901e34203c6280d414cbfa3978de04fd6515ffdf)
+Merged-In: I37a9f45e707702b2ec52b5a2d572f177f2911765
+---
+ btif/src/btif_rc.cc | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/btif/src/btif_rc.cc b/btif/src/btif_rc.cc
+index a0e38998f..41fd73485 100644
+--- a/btif/src/btif_rc.cc
++++ b/btif/src/btif_rc.cc
+@@ -3137,6 +3137,11 @@ static bt_status_t register_notification_rsp(
+                    dump_rc_notification_event_id(event_id));
+   std::unique_lock<std::mutex> lock(btif_rc_cb.lock);
+ 
++  if (event_id > MAX_RC_NOTIFICATIONS) {
++    BTIF_TRACE_ERROR("Invalid event id");
++    return BT_STATUS_PARM_INVALID;
++  }
++
+   memset(&(avrc_rsp.reg_notif), 0, sizeof(tAVRC_REG_NOTIF_RSP));
+ 
+   avrc_rsp.reg_notif.event_id = event_id;

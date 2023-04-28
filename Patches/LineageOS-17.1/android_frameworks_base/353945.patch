@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Kunal Malhotra <malhk@google.com>
+Date: Mon, 7 Nov 2022 23:33:55 +0000
+Subject: [PATCH] Checking if package belongs to UID before registering
+ broadcast receiver
+
+Test: manual testing done on device by installing test APK and checking if receiver can register
+Bug: 242040055
+Change-Id: Ia525f218a46f8bf7fff660cec0d6432f09fdf24d
+Merged-In: Ia525f218a46f8bf7fff660cec0d6432f09fdf24d
+(cherry picked from commit 790a8d0dd329460bc60456681cb446accf2a27e0)
+(cherry picked from commit 4f0dc37b896e06086391e71ce471e413215e1130)
+Merged-In: Ia525f218a46f8bf7fff660cec0d6432f09fdf24d
+---
+ services/core/java/com/android/server/am/ActiveServices.java | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/services/core/java/com/android/server/am/ActiveServices.java b/services/core/java/com/android/server/am/ActiveServices.java
+index 84702ddfe231..c6d94eb3b408 100644
+--- a/services/core/java/com/android/server/am/ActiveServices.java
++++ b/services/core/java/com/android/server/am/ActiveServices.java
+@@ -2186,6 +2186,11 @@ public final class ActiveServices {
+                             throw new SecurityException("BIND_EXTERNAL_SERVICE failed, "
+                                     + className + " is not an isolatedProcess");
+                         }
++                        if (AppGlobals.getPackageManager().getPackageUid(callingPackage,
++                                0, userId) != callingUid) {
++                            throw new SecurityException("BIND_EXTERNAL_SERVICE failed, "
++                                    + "calling package not owned by calling UID ");
++                        }
+                         // Run the service under the calling package's application.
+                         ApplicationInfo aInfo = AppGlobals.getPackageManager().getApplicationInfo(
+                                 callingPackage, ActivityManagerService.STOCK_PM_FLAGS, userId);

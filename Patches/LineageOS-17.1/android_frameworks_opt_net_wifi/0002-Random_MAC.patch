@@ -41,7 +41,7 @@ index d91b7f8b8..befc92fb4 100644
                          configureRandomizedMacAddress(config);
                      } else {
 diff --git a/service/java/com/android/server/wifi/WifiConfigManager.java b/service/java/com/android/server/wifi/WifiConfigManager.java
-index 393a5c395..cb44fb4ab 100644
+index fce5758e1..817fb2958 100644
 --- a/service/java/com/android/server/wifi/WifiConfigManager.java
 +++ b/service/java/com/android/server/wifi/WifiConfigManager.java
 @@ -1113,7 +1113,13 @@ public class WifiConfigManager {

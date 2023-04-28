@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Winson Chiu <chiuwinson@google.com>
+Date: Fri, 6 Jan 2023 21:26:24 +0000
+Subject: [PATCH] Encode Intent scheme when serializing to URI string RESTRICT
+ AUTOMERGE
+
+Avoids deserialization error when the scheme contains a
+reserved character.
+
+Bug: 261858325
+
+Test: atest android.content.cts.IntentTest#testEncoding
+
+Merged-In: Ic34b3f796b762763db5aa7b5d7c109ae70607470
+Change-Id: Ic34b3f796b762763db5aa7b5d7c109ae70607470
+(cherry picked from commit 43437b4ee6424933d4e403f0375ef8c1f07986f4)
+Merged-In: Ic34b3f796b762763db5aa7b5d7c109ae70607470
+---
+ core/java/android/content/Intent.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/java/android/content/Intent.java b/core/java/android/content/Intent.java
+index d7898776965e..72e0fa615b09 100644
+--- a/core/java/android/content/Intent.java
++++ b/core/java/android/content/Intent.java
+@@ -10393,7 +10393,7 @@ public class Intent implements Parcelable, Cloneable {
+     private void toUriInner(StringBuilder uri, String scheme, String defAction,
+             String defPackage, int flags) {
+         if (scheme != null) {
+-            uri.append("scheme=").append(scheme).append(';');
++            uri.append("scheme=").append(Uri.encode(scheme)).append(';');
+         }
+         if (mAction != null && !mAction.equals(defAction)) {
+             uri.append("action=").append(Uri.encode(mAction)).append(';');
