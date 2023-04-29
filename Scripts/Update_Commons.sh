@@ -27,13 +27,17 @@ wget "https://raw.githubusercontent.com/GrapheneOS/platform_packages_apps_Dialer
 #LineageOS Contributors Cloud
 wget "https://github.com/LineageOS/android_packages_apps_LineageParts/raw/lineage-19.1/assets/contributors.db" -O ../Patches/Common/contributors.db;
 
+#TODO: Noto Fonts for Emoji
+#hhttps://github.com/googlefonts/noto-emoji
+#Last: 2023/04/29
+
 #TODO: wireless-regdb
 #https://mirrors.edge.kernel.org/pub/software/network/wireless-regdb/
-#Last: 2023/04/04
+#Last: 2023/04/29
 
 #TODO: MMS Configs
 #https://github.com/GrapheneOS/platform_packages_apps_Messaging
-#Last: 2023/04/04
+#Last: 2023/04/29
 
 #TODO: Carrier List, unused
 #https://android.googlesource.com/platform/packages/providers/TelephonyProvider/

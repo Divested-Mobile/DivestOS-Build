@@ -125,6 +125,10 @@ applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras.pa
 fi;
 fi;
 
+if enterAndClear "external/noto-fonts"; then
+cp -f "$DOS_PATCHES_COMMON/android_external_noto-fonts/NotoColorEmoji-noflags.ttf" emoji-compat/font/NotoColorEmojiCompat.ttf;
+fi;
+
 if enterAndClear "external/svox"; then
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 sed -i '12iLOCAL_SDK_VERSION := current' pico/Android.mk; #Fix build under Pie

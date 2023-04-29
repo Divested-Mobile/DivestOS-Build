@@ -118,6 +118,10 @@ applyPatch "$DOS_PATCHES/android_external_libnfc-nci/343955.patch"; #n-asb-2022-
 applyPatch "$DOS_PATCHES/android_external_libnfc-nci/353760.patch"; #n-asb-2023-04 OOBW in nci_snd_set_routing_cmd()
 fi;
 
+if enterAndClear "external/noto-fonts"; then
+cp -f "$DOS_PATCHES_COMMON/android_external_noto-fonts/NotoColorEmoji-noflags.ttf" emoji-compat/other/NotoColorEmoji.ttf;
+fi;
+
 if enterAndClear "external/sonivox"; then
 applyPatch "$DOS_PATCHES/android_external_sonivox/317038.patch"; #n-asb-2021-10 Fix global buffer overflow in WT_InterpolateNoLoop
 fi;

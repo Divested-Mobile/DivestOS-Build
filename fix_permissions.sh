@@ -21,6 +21,7 @@ setStrict Logs;
 setStrict Manifests;
 setStrict Misc;
 setStrict Patches/Common;
+setRelaxed Patches/Common/android_external_noto-fonts;
 setRelaxed Patches/Common/android_timekeep_sepolicy;
 setRelaxed Patches/Common/android_vendor_divested;
 setStrict Patches/LineageOS-14.1;
