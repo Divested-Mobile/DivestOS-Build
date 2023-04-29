@@ -1,0 +1,60 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Pranav Madapurmath <pmadapurmath@google.com>
+Date: Wed, 1 Feb 2023 21:33:16 +0000
+Subject: [PATCH] Ensure service unbind when receiving a null call screening
+ service in onBind.
+
+Currently, we do not unbind the call screening service when a null
+service is returned from onBind when placing MO calls.
+CallScreeningServiceHelper (MO) now overrides onNullBinding to ensure
+future completion and that we unbind the service after. Similarly, we
+need to unbind the service in onServiceDisconnected.
+CallScreeningServiceFilter (MT) has also been updated to ensure we
+unbind in places when we know that the connection should not exist.
+
+Also, there is a timeout in CallScreeningServiceHelper. This does not
+require a call to unbind the service because CallScreeningAdapter also
+places a call to unbind the service in onScreeningResponse. We would
+risk having duplicate calls to unbind the service, which would cause a
+fatal exception. This is demonstrated by the existing CTS tests, namely,
+ThirdPartyCallScreeningServiceTest.java.
+
+Bug: 252762941
+Test: Manual (no breakage in existing flow), CTS for MO/MT cases
+Change-Id: Ia5b62bb93dc666b6b8b8daccb8ef41eb55dde7ea
+Merged-In: Ia5b62bb93dc666b6b8b8daccb8ef41eb55dde7ea
+(cherry picked from commit 14927c6f0b4154ee31dc4e339ea4a692f73ad2e0)
+(cherry picked from commit 60f4ee794adbac4950ab22b44c4630edf7239e12)
+Merged-In: Ia5b62bb93dc666b6b8b8daccb8ef41eb55dde7ea
+---
+ .../telecom/CallScreeningServiceHelper.java     | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/src/com/android/server/telecom/CallScreeningServiceHelper.java b/src/com/android/server/telecom/CallScreeningServiceHelper.java
+index a9341ab82..89778e43a 100644
+--- a/src/com/android/server/telecom/CallScreeningServiceHelper.java
++++ b/src/com/android/server/telecom/CallScreeningServiceHelper.java
+@@ -146,6 +146,23 @@ public class CallScreeningServiceHelper {
+                                 "Cancelling outgoing call screen due to service disconnect.");
+                     }
+                     mFuture.complete(null);
++                    mContext.unbindService(this);
++                } finally {
++                    Log.endSession();
++                }
++            }
++
++            @Override
++            public void onNullBinding(ComponentName name) {
++                // No locking needed -- CompletableFuture only lets one thread call complete.
++                Log.continueSession(mLoggingSession, "CSSH.oNB");
++                try {
++                    if (!mFuture.isDone()) {
++                        Log.w(CallScreeningServiceHelper.this,
++                                "Cancelling outgoing call screen due to null binding.");
++                    }
++                    mFuture.complete(null);
++                    mContext.unbindService(this);
+                 } finally {
+                     Log.endSession();
+                 }

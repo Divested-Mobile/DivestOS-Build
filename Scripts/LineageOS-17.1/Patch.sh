@@ -150,6 +150,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/353945.patch"; #R_asb_2023-04 C
 applyPatch "$DOS_PATCHES/android_frameworks_base/353946.patch"; #R_asb_2023-04 Fix checkKeyIntentParceledCorrectly's bypass
 applyPatch "$DOS_PATCHES/android_frameworks_base/353947.patch"; #R_asb_2023-04 Encode Intent scheme when serializing to URI string
 applyPatch "$DOS_PATCHES/android_frameworks_base/353948-backport.patch"; #R_asb_2023-04 Backport BAL restrictions from S to R, this blocks apps from using AlarmManager to bypass BAL restrictions.
+applyPatch "$DOS_PATCHES/android_frameworks_base/353949-backport.patch"; #R_asb_2023-04 Strip part of the activity info of another uid if no privilege
 applyPatch "$DOS_PATCHES/android_frameworks_base/353950-backport.patch"; #R_asb_2023-04 Add a limit on channel group creation
 applyPatch "$DOS_PATCHES/android_frameworks_base/353951-backport.patch"; #R_asb_2023-04 Fix bypass BG-FGS and BAL via package manager APIs #XXX
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
@@ -384,6 +385,7 @@ fi;
 #fi;
 
 if enterAndClear "packages/services/Telecomm"; then
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/353958-backport.patch"; #R_asb_2023-04 Ensure service unbind when receiving a null call screening service in onBind.
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/353959.patch"; #R_asb_2023-04 Do not process content uri in call Intents
 fi;
 
