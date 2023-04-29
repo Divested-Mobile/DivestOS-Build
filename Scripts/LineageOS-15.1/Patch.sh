@@ -117,9 +117,9 @@ fi;
 #fi;
 #fi;
 
-if enterAndClear "external/noto-fonts"; then
-cp -f "$DOS_PATCHES_COMMON/android_external_noto-fonts/NotoColorEmoji-noflags.ttf" emoji-compat/font/NotoColorEmojiCompat.ttf;
-fi;
+#if enterAndClear "external/noto-fonts"; then
+#cp -f "$DOS_PATCHES_COMMON/android_external_noto-fonts/NotoColorEmoji-noflags.ttf" emoji-compat/font/NotoColorEmojiCompat.ttf;
+#fi;
 
 if enterAndClear "external/svox"; then
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
@@ -348,6 +348,7 @@ fi;
 if enterAndClear "packages/inputmethods/LatinIME"; then
 applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key (DivestOS)
 applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
+#cp -f "$DOS_PATCHES_COMMON/emoji-categories.xml" java/res/values-v19/emoji-categories.xml;
 fi;
 
 if enterAndClear "packages/providers/ContactsProvider"; then

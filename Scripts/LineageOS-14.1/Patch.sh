@@ -118,9 +118,9 @@ applyPatch "$DOS_PATCHES/android_external_libnfc-nci/343955.patch"; #n-asb-2022-
 applyPatch "$DOS_PATCHES/android_external_libnfc-nci/353760.patch"; #n-asb-2023-04 OOBW in nci_snd_set_routing_cmd()
 fi;
 
-if enterAndClear "external/noto-fonts"; then
-cp -f "$DOS_PATCHES_COMMON/android_external_noto-fonts/NotoColorEmoji-noflags.ttf" emoji-compat/other/NotoColorEmoji.ttf;
-fi;
+#if enterAndClear "external/noto-fonts"; then
+#cp -f "$DOS_PATCHES_COMMON/android_external_noto-fonts/NotoColorEmoji-noflags.ttf" emoji-compat/other/NotoColorEmoji.ttf;
+#fi;
 
 if enterAndClear "external/sonivox"; then
 applyPatch "$DOS_PATCHES/android_external_sonivox/317038.patch"; #n-asb-2021-10 Fix global buffer overflow in WT_InterpolateNoLoop
@@ -391,6 +391,7 @@ fi;
 if enterAndClear "packages/inputmethods/LatinIME"; then
 applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key (DivestOS)
 applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
+#cp -f "$DOS_PATCHES_COMMON/emoji-categories.xml" java/res/values-v19/emoji-categories.xml;
 fi;
 
 if enterAndClear "packages/services/Telecomm"; then

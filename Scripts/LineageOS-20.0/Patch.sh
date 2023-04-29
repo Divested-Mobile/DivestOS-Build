@@ -122,10 +122,10 @@ sed -i 's/34359738368/2147483648/' Android.bp; #revert 48-bit address space requ
 fi;
 fi;
 
-if enterAndClear "external/noto-fonts"; then
-cp -f "$DOS_PATCHES_COMMON/android_external_noto-fonts/NotoColorEmoji-noflags.ttf" emoji-compat/font/NotoColorEmojiCompatLegacy.ttf;
-cp -f "$DOS_PATCHES_COMMON/android_external_noto-fonts/Noto-COLRv1-noflags.ttf" emoji-compat/font/NotoColorEmojiCompat.ttf;
-fi;
+#if enterAndClear "external/noto-fonts"; then
+#cp -f "$DOS_PATCHES_COMMON/android_external_noto-fonts/NotoColorEmoji-noflags.ttf" emoji-compat/font/NotoColorEmojiCompatLegacy.ttf;
+#cp -f "$DOS_PATCHES_COMMON/android_external_noto-fonts/Noto-COLRv1-noflags.ttf" emoji-compat/font/NotoColorEmojiCompat.ttf;
+#fi;
 
 if enterAndClear "external/SecureCamera"; then
 sed -i '/LOCAL_MODULE/s/Camera/SecureCamera/' Android.mk; #Change module name
@@ -335,6 +335,7 @@ fi;
 if enterAndClear "packages/inputmethods/LatinIME"; then
 applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key (DivestOS)
 applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
+#cp -f "$DOS_PATCHES_COMMON/emoji-categories.xml" java/res/values-v19/emoji-categories.xml;
 fi;
 
 if enterAndClear "packages/modules/Connectivity"; then

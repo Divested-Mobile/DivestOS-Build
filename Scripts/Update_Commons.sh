@@ -20,6 +20,9 @@ set -uo pipefail;
 #APN List
 wget "https://github.com/LineageOS/android_vendor_lineage/raw/lineage-20.0/prebuilt/common/etc/apns-conf.xml" -O ../Patches/Common/apns-conf.xml;
 
+#Emoji List
+wget "https://github.com/LineageOS/android_packages_inputmethods_LatinIME/raw/lineage-20.0/java/res/values-v19/emoji-categories.xml" -O ../Patches/Common/emoji-categories.xml;
+
 #Visual VoiceMail Config
 #wget "https://raw.githubusercontent.com/LineageOS/android_vendor_lineage/lineage-19.1/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
 wget "https://raw.githubusercontent.com/GrapheneOS/platform_packages_apps_Dialer/13/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
