@@ -448,6 +448,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1074/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1118/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1670/^6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1989/^6.3/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2248/^6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28328/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
@@ -456,7 +457,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
-editKernelLocalversion "-dos.p456"
+editKernelLocalversion "-dos.p457"
 else echo "kernel_asus_msm8916 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
