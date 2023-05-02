@@ -23,7 +23,7 @@
 #General
 export DOS_WORKSPACE_ROOT="/mnt/dos/"; #XXX: THIS MUST BE CORRECT TO BUILD!
 #export DOS_BUILDS=$DOS_WORKSPACE_ROOT"Builds/";
-export DOS_BUILDS="/mnt/Drive-4/DOS/Builds/"; #XXX: THIS MUST BE CORRECT TO BUILD!
+export DOS_BUILDS="/mnt/lanstor/DivestOS/Builds/"; #XXX: THIS MUST BE CORRECT TO BUILD!
 export DOS_SIGNING_KEYS="$DOS_WORKSPACE_ROOT/Signing_Keys/4096pro";
 export DOS_SIGNING_GPG="$DOS_WORKSPACE_ROOT/Signing_Keys/gnupg";
 #export USE_CCACHE=1;

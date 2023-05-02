@@ -120,10 +120,6 @@ applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras-2.
 fi;
 fi;
 
-#if enterAndClear "external/noto-fonts"; then
-#cp -f "$DOS_PATCHES_COMMON/android_external_noto-fonts/NotoColorEmoji-noflags.ttf" emoji-compat/font/NotoColorEmojiCompat.ttf;
-#fi;
-
 if enterAndClear "external/SecureCamera"; then
 sed -i '/LOCAL_MODULE/s/Camera/SecureCamera/' Android.mk; #Change module name
 sed -i '11iLOCAL_OVERRIDES_PACKAGES := Camera Camera2 LegacyCamera Snap OpenCamera' Android.mk; #Replace the others
@@ -328,7 +324,6 @@ fi;
 if enterAndClear "packages/inputmethods/LatinIME"; then
 applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key (DivestOS)
 applyPatch "$DOS_PATCHES_COMMON/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
-#cp -f "$DOS_PATCHES_COMMON/emoji-categories.xml" java/res/values-v19/emoji-categories.xml;
 fi;
 
 if enterAndClear "packages/modules/Connectivity"; then
