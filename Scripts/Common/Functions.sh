@@ -492,6 +492,14 @@ volteOverride() {
 }
 export -f volteOverride;
 
+hardenLocationSepolicy() {
+	#Prevent Qualcomm location stack from reading chipset serial number
+	find device -name "hal_gnss*.te" -type f -exec sh -c "awk -i inplace '!/sysfs_soc/' {}" \;
+	find device -name "location.te" -type f -exec sh -c "awk -i inplace '!/sysfs_soc/' {}" \;
+	echo "Removed serial number access to Qualcomm location stacks";
+}
+export -f hardenLocationSepolicy;
+
 hardenLocationConf() {
 	local gpsConfig=$1;
 	#Debugging: adb logcat -b all | grep -i -e locsvc -e izat -e gps -e gnss -e location -e xtra

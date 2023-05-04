@@ -14,10 +14,10 @@ Change-Id: Ic01c97d6ceac8d324609763973639b41b4581a76
  6 files changed, 59 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index 19bbbb8..042d969 100644
+index 5762dc3..e4e1608 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
-@@ -225,31 +225,6 @@
+@@ -240,31 +240,6 @@
                  android:resource="@string/summary_empty" />
          </activity-alias>
  

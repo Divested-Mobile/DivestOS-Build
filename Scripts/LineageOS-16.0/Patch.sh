@@ -412,6 +412,7 @@ if [ "$DOS_GRAPHENE_EXEC" = true ]; then find "device" -maxdepth 2 -mindepth 2 -
 cd "$DOS_BUILD_BASE";
 deblobAudio;
 removeBuildFingerprints;
+hardenLocationSepolicy || true;
 changeDefaultDNS; #Change the default DNS servers
 fixupCarrierConfigs || true; #Remove silly carrier restrictions
 cd "$DOS_BUILD_BASE";
