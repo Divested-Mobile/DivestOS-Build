@@ -114,10 +114,11 @@ patchWorkspaceReal() {
 	verifyAllPlatformTags;
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
 	#repopick -it eleven-firewall;
 	#repopick -i 314453; #TaskViewTouchController: Null check current animation on drag
 	#repopick -i 325011; #lineage: Opt-in to shipping full recovery image by default
+	repopick -it R_asb_2023-05;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ivan Lozano <ivanlozano@google.com>
+Date: Tue, 7 Nov 2017 12:23:26 -0800
+Subject: [PATCH] Fix sanitizer in ISensorService list functions.
+
+The integer overflow sanitizer is throwing unsigned integer overflow
+errors in the list functions in ISensorService. This refactors the loops
+to prevent the overflow on the last iteration.
+
+Test: Compiles and device boots without sanitizer errors.
+Bug: 30969751
+Change-Id: I6a7993024fdc71702e8e4e8ae535cfaf999e9dab
+---
+ libs/gui/ISensorServer.cpp | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/libs/gui/ISensorServer.cpp b/libs/gui/ISensorServer.cpp
+index 3a4c7e4edc..23682e33d8 100644
+--- a/libs/gui/ISensorServer.cpp
++++ b/libs/gui/ISensorServer.cpp
+@@ -59,7 +59,8 @@ public:
+         Vector<Sensor> v;
+         uint32_t n = reply.readUint32();
+         v.setCapacity(n);
+-        while (n--) {
++        while (n) {
++            n--;
+             reply.read(s);
+             v.add(s);
+         }
+@@ -76,7 +77,8 @@ public:
+         Vector<Sensor> v;
+         uint32_t n = reply.readUint32();
+         v.setCapacity(n);
+-        while (n--) {
++        while (n) {
++            n--;
+             reply.read(s);
+             v.add(s);
+         }

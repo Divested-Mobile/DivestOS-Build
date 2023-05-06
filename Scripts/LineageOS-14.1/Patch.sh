@@ -76,7 +76,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2023-04-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-04 #XXX
+sed -i 's/2021-06-05/2023-05-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-05 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -188,6 +188,9 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/353756.patch"; #n-asb-2023-04 C
 applyPatch "$DOS_PATCHES/android_frameworks_base/353757.patch"; #n-asb-2023-04 Checking if package belongs to UID before registering broadcast receiver
 applyPatch "$DOS_PATCHES/android_frameworks_base/353758.patch"; #n-asb-2023-04 Fix checkKeyIntentParceledCorrectly's bypass
 applyPatch "$DOS_PATCHES/android_frameworks_base/353759.patch"; #n-asb-2023-04 Encode Intent scheme when serializing to URI string
+applyPatch "$DOS_PATCHES/android_frameworks_base/355865.patch"; #n-asb-2023-05 Uri: check authority and scheme as part of determining URI path
+applyPatch "$DOS_PATCHES/android_frameworks_base/355866.patch"; #n-asb-2023-05 Checks if AccessibilityServiceInfo is within parcelable size.
+applyPatch "$DOS_PATCHES/android_frameworks_base/355867.patch"; #n-asb-2023-05 Stop managed profile owner granting READ_SMS
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -211,6 +214,9 @@ fi;
 if enterAndClear "frameworks/native"; then
 applyPatch "$DOS_PATCHES/android_frameworks_native/315714.patch"; #n-asb-2021-09 Do not modify vector after getting references
 applyPatch "$DOS_PATCHES/android_frameworks_native/325993.patch"; #n-asb-2022-03 Check if the window is partially obscured for slippery enters
+applyPatch "$DOS_PATCHES/android_frameworks_native/355868.patch"; #n-asb-2023-05 Check for malformed Sensor Flattenable
+applyPatch "$DOS_PATCHES/android_frameworks_native/355869.patch"; #n-asb-2023-05 Fix sanitizer in ISensorService list functions.
+applyPatch "$DOS_PATCHES/android_frameworks_native/355870.patch"; #n-asb-2023-05 Remove some new memory leaks from SensorManager
 if [ "$DOS_SENSORS_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors.patch"; fi; #Permission for sensors access (MSe1969)
 fi;
 
