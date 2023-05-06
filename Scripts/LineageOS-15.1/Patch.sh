@@ -502,7 +502,7 @@ find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {}
 cd "$DOS_BUILD_BASE";
 deblobAudio;
 removeBuildFingerprints;
-hardenLocationSepolicy || true;
+hardenLocationSerials || true;
 changeDefaultDNS; #Change the default DNS servers
 
 #Tweaks for <2GB RAM devices

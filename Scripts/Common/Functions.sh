@@ -492,13 +492,24 @@ volteOverride() {
 }
 export -f volteOverride;
 
-hardenLocationSepolicy() {
-	#Prevent Qualcomm location stack from reading chipset serial number
+hardenLocationSerials() {
+	#Prevent Qualcomm location stack from sending chipset serial number
+
+	#Devices using blob xtra-daemon (which Deblob.sh removes)
 	find device -name "hal_gnss*.te" -type f -exec sh -c "awk -i inplace '!/sysfs_soc/' {}" \;
 	find device -name "location.te" -type f -exec sh -c "awk -i inplace '!/sysfs_soc/' {}" \;
+
+	#Devices using source built libloc, these ones typically have broad /sys access
+	## Null out the User-Agent header
+	find device -name "LocEngAdapter.cpp" -type f -exec sh -c "sed -i 's/userAgent, strlen(userAgent)/\"-\", 1/' {}" \;
+	find hardware -name "LocEngAdapter.cpp" -type f -exec sh -c "sed -i 's/userAgent, strlen(userAgent)/\"-\", 1/' {}" \;
+	## Prevent reading the serial number
+	find device -name "LocEngAdapter.cpp" -type f -exec sh -c "sed -i 's|soc0/serial_number|soc0/invalid|' {}" \;
+	find hardware -name "LocEngAdapter.cpp" -type f -exec sh -c "sed -i 's|soc0/serial_number|soc0/invalid|' {}" \;
+
 	echo "Removed serial number access to Qualcomm location stacks";
 }
-export -f hardenLocationSepolicy;
+export -f hardenLocationSerials;
 
 hardenLocationConf() {
 	local gpsConfig=$1;
