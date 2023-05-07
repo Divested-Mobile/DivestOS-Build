@@ -97,7 +97,7 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
-sed -i 's/2023-02-05/2023-04-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2023-04 #XXX
+sed -i 's/2023-02-05/2023-05-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2023-05 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -153,6 +153,11 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/353948-backport.patch"; #R_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/353949-backport.patch"; #R_asb_2023-04 Strip part of the activity info of another uid if no privilege
 applyPatch "$DOS_PATCHES/android_frameworks_base/353950-backport.patch"; #R_asb_2023-04 Add a limit on channel group creation
 applyPatch "$DOS_PATCHES/android_frameworks_base/353951-backport.patch"; #R_asb_2023-04 Fix bypass BG-FGS and BAL via package manager APIs #XXX
+applyPatch "$DOS_PATCHES/android_frameworks_base/355763-backport.patch"; #R_asb_2023-05 [pm] Prevent system app downgrades of versions lower than preload #XXX: really should have next patch
+#applyPatch "$DOS_PATCHES/android_frameworks_base/355764.patch"; #R_asb_2023-05 [pm] Still allow debuggable for system app downgrades #TODO: needs backport of isDebuggable #XXX: should be safe to ignore for -user builds
+applyPatch "$DOS_PATCHES/android_frameworks_base/355765-backport.patch"; #R_asb_2023-05 Checks if AccessibilityServiceInfo is within parcelable size.
+applyPatch "$DOS_PATCHES/android_frameworks_base/355766-backport.patch"; #R_asb_2023-05 Uri: check authority and scheme as part of determining URI path
+applyPatch "$DOS_PATCHES/android_frameworks_base/355767.patch"; #R_asb_2023-05 Enforce stricter rules when registering phoneAccounts
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -213,6 +218,9 @@ fi;
 
 if enterAndClear "frameworks/native"; then
 applyPatch "$DOS_PATCHES/android_frameworks_native/353953-backport.patch"; #R_asb_2023-04 Mitigate the security vulnerability by sanitizing the transaction flags.
+applyPatch "$DOS_PATCHES/android_frameworks_native/355772.patch"; #R_asb_2023-05 Check for malformed Sensor Flattenable
+applyPatch "$DOS_PATCHES/android_frameworks_native/355773.patch"; #R_asb_2023-05 Remove some new memory leaks from SensorManager
+applyPatch "$DOS_PATCHES/android_frameworks_native/355774.patch"; #R_asb_2023-05 Add removeInstanceForPackageMethod to SensorManager
 applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors.patch"; #Require OTHER_SENSORS permission for sensors (GrapheneOS)
 fi;
 
@@ -387,6 +395,7 @@ fi;
 if enterAndClear "packages/services/Telecomm"; then
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/353958-backport.patch"; #R_asb_2023-04 Ensure service unbind when receiving a null call screening service in onBind.
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/353959.patch"; #R_asb_2023-04 Do not process content uri in call Intents
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/355777-backport.patch"; #R_asb_2023-05 enforce stricter rules when registering phoneAccounts
 fi;
 
 if enterAndClear "prebuilts/abi-dumps/vndk"; then
