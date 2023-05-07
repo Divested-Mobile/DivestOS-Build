@@ -9,7 +9,7 @@ Ported from 10: ff005a6b6a38baef95c4a01d7e1fc75aac651a58
  1 file changed, 1 insertion(+)
 
 diff --git a/libs/sensor/Sensor.cpp b/libs/sensor/Sensor.cpp
-index 0a49008584..94bac9177c 100644
+index efb18c0e31..06ddf9b3e7 100644
 --- a/libs/sensor/Sensor.cpp
 +++ b/libs/sensor/Sensor.cpp
 @@ -59,6 +59,7 @@ Sensor::Sensor(struct sensor_t const& hwSensor, const uuid_t& uuid, int halVersi
