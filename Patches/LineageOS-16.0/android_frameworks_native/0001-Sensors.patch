@@ -8,7 +8,7 @@ Subject: [PATCH] require OTHER_SENSORS permission for sensors
  1 file changed, 1 insertion(+)
 
 diff --git a/libs/sensor/Sensor.cpp b/libs/sensor/Sensor.cpp
-index 2383516c95..054596b83a 100644
+index f4421c8c65..24eae47955 100644
 --- a/libs/sensor/Sensor.cpp
 +++ b/libs/sensor/Sensor.cpp
 @@ -52,6 +52,7 @@ Sensor::Sensor(struct sensor_t const& hwSensor, const uuid_t& uuid, int halVersi

@@ -22,7 +22,7 @@ Merged-In: I06981d1c6e387b16df792494523994518848db37
  2 files changed, 69 insertions(+), 7 deletions(-)
 
 diff --git a/core/java/android/net/Uri.java b/core/java/android/net/Uri.java
-index 8cf182b41566..06136a5e92bc 100644
+index 8cf182b41566..33acef7f9506 100644
 --- a/core/java/android/net/Uri.java
 +++ b/core/java/android/net/Uri.java
 @@ -1194,13 +1194,16 @@ public abstract class Uri implements Parcelable, Comparable<Uri> {
@@ -62,7 +62,7 @@ index 8cf182b41566..06136a5e92bc 100644
           * Creates a path from the encoded string.
           *
 diff --git a/core/tests/coretests/src/android/net/UriTest.java b/core/tests/coretests/src/android/net/UriTest.java
-index f20220c4ab9b..670aefd21d36 100644
+index f20220c4ab9b..73cfdc6d1e0f 100644
 --- a/core/tests/coretests/src/android/net/UriTest.java
 +++ b/core/tests/coretests/src/android/net/UriTest.java
 @@ -48,6 +48,7 @@ public class UriTest extends TestCase {

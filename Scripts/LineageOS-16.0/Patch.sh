@@ -97,7 +97,7 @@ applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv a
 sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 17/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2022-01-05/2023-04-05/' core/version_defaults.mk; #Bump Security String #P_asb_2023-04 #XXX
+sed -i 's/2022-01-05/2023-05-05/' core/version_defaults.mk; #Bump Security String #P_asb_2023-05 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -151,6 +151,9 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_fram
 fi;
 
 if enterAndClear "frameworks/base"; then
+applyPatch "$DOS_PATCHES/android_frameworks_base/355765-backport.patch"; #R_asb_2023-05 Checks if AccessibilityServiceInfo is within parcelable size.
+applyPatch "$DOS_PATCHES/android_frameworks_base/355865.patch"; #n-asb-2023-05 Uri: check authority and scheme as part of determining URI path
+applyPatch "$DOS_PATCHES/android_frameworks_base/355767.patch"; #R_asb_2023-05 Enforce stricter rules when registering phoneAccounts
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -192,6 +195,9 @@ rm -rf packages/PrintRecommendationService; #Creates popups to install proprieta
 fi;
 
 if enterAndClear "frameworks/native"; then
+applyPatch "$DOS_PATCHES/android_frameworks_native/355772.patch"; #R_asb_2023-05 Check for malformed Sensor Flattenable
+applyPatch "$DOS_PATCHES/android_frameworks_native/355773-backport.patch"; #R_asb_2023-05 Remove some new memory leaks from SensorManager
+applyPatch "$DOS_PATCHES/android_frameworks_native/355774-backport.patch"; #R_asb_2023-05 Add removeInstanceForPackageMethod to SensorManager
 applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors.patch"; #Require OTHER_SENSORS permission for sensors (GrapheneOS)
 fi;
 
@@ -323,6 +329,10 @@ fi;
 #if enterAndClear "packages/providers/TelephonyProvider"; then
 #cp $DOS_PATCHES_COMMON/android_packages_providers_TelephonyProvider/carrier_list.* assets/;
 #fi;
+
+if enterAndClear "packages/services/Telecomm"; then
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/355777-backport.patch"; #R_asb_2023-05 enforce stricter rules when registering phoneAccount
+fi;
 
 if enterAndClear "packages/services/Telephony"; then
 git revert --no-edit 99564aaf0417c9ddf7d6aeb10d326e5b24fa8f55;

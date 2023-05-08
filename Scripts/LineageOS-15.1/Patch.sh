@@ -73,7 +73,7 @@ applyPatch "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys t
 applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2023-04-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2023-05-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -178,6 +178,9 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/354242-backport.patch"; #P_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/354243.patch"; #P_asb_2023-04 Checking if package belongs to UID before registering broadcast receiver
 applyPatch "$DOS_PATCHES/android_frameworks_base/354244-backport.patch"; #P_asb_2023-04 Fix checkKeyIntentParceledCorrectly's bypass
 applyPatch "$DOS_PATCHES/android_frameworks_base/354245.patch"; #P_asb_2023-04 Encode Intent scheme when serializing to URI string
+applyPatch "$DOS_PATCHES/android_frameworks_base/355765-backport.patch"; #R_asb_2023-05 Checks if AccessibilityServiceInfo is within parcelable size.
+applyPatch "$DOS_PATCHES/android_frameworks_base/355865.patch"; #n-asb-2023-05 Uri: check authority and scheme as part of determining URI path
+applyPatch "$DOS_PATCHES/android_frameworks_base/355767.patch"; #R_asb_2023-05 Enforce stricter rules when registering phoneAccounts
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
@@ -202,6 +205,9 @@ fi;
 
 if enterAndClear "frameworks/native"; then
 applyPatch "$DOS_PATCHES/android_frameworks_native/326752.patch"; #P_asb_2022-03 Check if the window is partially obscured for slippery enters
+applyPatch "$DOS_PATCHES/android_frameworks_native/355772.patch"; #R_asb_2023-05 Check for malformed Sensor Flattenable
+applyPatch "$DOS_PATCHES/android_frameworks_native/355773-backport.patch"; #R_asb_2023-05 Remove some new memory leaks from SensorManager
+applyPatch "$DOS_PATCHES/android_frameworks_native/355774-backport.patch"; #R_asb_2023-05 Add removeInstanceForPackageMethod to SensorManager
 if [ "$DOS_SENSORS_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors.patch"; fi; #Permission for sensors access (MSe1969)
 fi;
 
@@ -363,6 +369,7 @@ applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/332764.patch"; #P_as
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/344183.patch"; #P_asb_2022-11 switch TelecomManager List getters to ParceledListSlice
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/345913.patch"; #P_asb_2022-12 Hide overlay windows when showing phone account enable/disable screen.
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/347042.patch"; #P_asb_2023-01 Fix security vulnerability when register phone accounts.
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/355777-backport.patch"; #R_asb_2023-05 enforce stricter rules when registering phoneAccount
 fi;
 
 if enterAndClear "packages/services/Telephony"; then
