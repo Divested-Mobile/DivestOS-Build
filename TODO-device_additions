@@ -1,0 +1,204 @@
+Last updated: 2023-05-08
+
+20.0
+	android_kernel_bq_msm8953
+		bardock
+		bardockpro
+	android_kernel_lenovo_sm8150
+		heart
+		zippo
+	android_kernel_motorola_msm8998
+		beckham
+		chef
+		evert
+		lake
+		payton
+	android_kernel_motorola_sdm632
+		channel
+		ocean
+		river
+	android_kernel_motorola_sm7250
+		kiev
+		nairo
+		racer
+	android_kernel_oneplus_sm4350
+		dre
+	android_kernel_oneplus_sm8250 - already supported
+		lemonades
+	android_kernel_shift_sdm845
+		axolotl
+	android_kernel_samsung_exynos9820
+		beyond0lte
+		beyond1lte
+		beyond2lte
+		beyondx
+		d1
+		d2s
+		d2x
+	android_kernel_samsung_sdm670
+		gts4lv
+		gts4lvwifi
+	android_kernel_sony_sdm845 - already supported
+		akatsuki
+	android_kernel_xiaomi_msm8937 - already supported
+		mi8917
+	android_kernel_xiaomi_sdm439
+		mi439
+	android_kernel_xiaomi_sdm845 - already supported
+		dipper
+		equuleus
+		polaris
+		ursa
+	android_kernel_xiaomi_sm8350
+		haydn
+		lisa
+		renoir
+	android_kernel_xiaomi_surya
+		surya
+
+
+19.1
+	android_kernel_motorola_msm8998
+		nash
+	android_kernel_motorola_sm8250
+		nio
+		pstar
+	android_kernel_samsung_gta4xl
+		gta4xl
+		gta4xlwifi
+	android_kernel_sony_sdm660 - already supported
+		kirin
+		mermaid
+	android_kernel_xiaomi_gauguin
+		gauguin
+	android_kernel_xiaomi_sm6250
+		miatoll
+	android_kernel_xiaomi_sm8250 - already supported
+		apollon
+
+
+18.1
+	android_kernel_lenovo_msm8953
+		kuntao
+	android_kernel_lge_msm8996 - already supported
+		h872
+		us996d
+	android_kernel_motorola_msm8953
+		addison
+		ahannah
+		albus
+		cedric
+		hannah
+		montana
+		rhannah
+	android_kernel_samsung_jf
+		jactivelte
+		jfvelte
+	android_kernel_samsung_msm8930-common - already supported
+		lt02ltespr
+		serranodsdd
+	android_kernel_samsung_msm8974 - already supported
+		hlte
+		hltechn
+		hltekor
+		hltetmo
+		klteactivexx
+		klteaio
+		kltechn
+		kltechnduo
+		klteduos
+		kltedv
+		kltekdi
+		kltekor
+		kltesprsports
+	android_kernel_samsung_universal7880
+		a5y17lte
+		a7y17lte
+	android_kernel_sony_msm8956
+		kugo
+		suzu
+	android_kernel_sony_msm8974
+		castor
+		castor_windy
+		sirius
+		z3
+		z3c
+	android_kernel_xiaomi_sdm660 - already supported
+		jasmine_sprout
+		platina
+		twolip
+		wayne
+		whyred
+	android_kernel_xiaomi_sm6125
+		ginkgo
+
+
+17.1
+	android_kernel_motorola_msm8916 - already supported
+		lux
+
+
+16.0
+	android_kernel_cyanogen_msm8916 - already supported
+		lettuce
+	android_kernel_oppo_msm8974 - already supported
+		find7
+
+
+15.1
+	android_kernel_asus_msm8916 - already supported
+		Z00L
+	android_kernel_htc_msm8952
+		hiae
+	android_kernel_sony_apq8064
+		dogo
+		odin
+		pollux
+		pollux_windy
+		yuga
+	android_kernel_sony_msm8960t
+		huashan
+
+
+14.1
+	android_kernel_ark_msm8916
+		peach
+	android_kernel_cyanogen_msm8916 - already supported
+		jalebi
+		tomato
+	android_kernel_htc_msm8960 - already supported
+		m7vzw
+		t6
+		t6vzw
+	android_kernel_htc_msm8996
+		pme
+	android_kernel_motorola_msm8226
+		falcon
+		peregrine
+		thea
+		titan
+	android_kernel_motorola_msm8952
+		athene
+	android_kernel_oppo_msm8974 - already supported
+		n3
+	android_kernel_samsung_exynos5420 - already supported
+		chagalllte
+		chagallwifi
+		ha3g
+		klimtwifi
+		n1awifi
+		n2awifi
+	android_kernel_samsung_smdk4412 - already supported
+		t0lte
+	android_kernel_sony_msm8994
+		ivy
+		karin
+		karin_windy
+		sumire
+		suzuran
+
+
+13.0 - not supported
+	android_kernel_samsung_espresso10
+		espresso3g
+		espressowifi
