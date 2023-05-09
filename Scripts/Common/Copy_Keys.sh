@@ -44,9 +44,11 @@ if [ -d "$DOS_SIGNING_KEYS" ]; then
 	echo "Copying verity/avb public keys to kernels...";
 
 	copyKey "akari" "kernel/sony/sdm845";
+	copyKey "akatsuki" "kernel/sony/sdm845";
 	copyKey "alioth" "kernel/xiaomi/sm8250";
 	copyKey "Amber" "kernel/yandex/sdm660";
 	copyKey "angler" "kernel/huawei/angler";
+	copyKey "apollon" "kernel/xiaomi/sm8250";
 	copyKey "aura" "kernel/razer/sdm845";
 	copyKey "aurora" "kernel/sony/sdm845";
 	copyKey "avicii" "kernel/oneplus/sm7250";
@@ -67,10 +69,12 @@ if [ -d "$DOS_SIGNING_KEYS" ]; then
 	copyKey "crosshatch" "kernel/google/crosshatch";
 	copyKey "crosshatch" "kernel/google/msm-4.9";
 	copyKey "davinci" "kernel/xiaomi/sm6150";
+	copyKey "dipper" "kernel/xiaomi/sdm845";
 	copyKey "discovery" "kernel/sony/sdm660";
 	copyKey "dragon" "kernel/google/dragon";
 	copyKey "dumpling" "kernel/oneplus/msm8998";
 	copyKey "enchilada" "kernel/oneplus/sdm845";
+	copyKey "equuleus" "kernel/xiaomi/sdm845";
 	copyKey "fajita" "kernel/oneplus/sdm845";
 	copyKey "flame" "kernel/google/coral";
 	copyKey "flounder" "kernel/htc/flounder";
@@ -87,6 +91,7 @@ if [ -d "$DOS_SIGNING_KEYS" ]; then
 	copyKey "lavender" "kernel/xiaomi/sdm660";
 	copyKey "lemonade" "kernel/oneplus/sm8350";
 	copyKey "lemonadep" "kernel/oneplus/sm8350";
+	copyKey "lemonades" "kernel/oneplus/sm8250";
 	copyKey "lmi" "kernel/xiaomi/sm8250";
 	copyKey "marlin" "kernel/google/marlin";
 	copyKey "mata" "kernel/essential/msm8998";
@@ -95,6 +100,7 @@ if [ -d "$DOS_SIGNING_KEYS" ]; then
 	copyKey "oriole" "kernel/google/raviole";
 	copyKey "panther" "kernel/google/gs201/private/gs-google";
 	copyKey "pioneer" "kernel/sony/sdm660";
+	copyKey "polaris" "kernel/xiaomi/sdm845";
 	copyKey "pro1" "kernel/fxtec/msm8998";
 	copyKey "pro1x" "kernel/fxtec/sm6115";
 	copyKey "raphael" "kernel/xiaomi/sm8150";
@@ -109,8 +115,11 @@ if [ -d "$DOS_SIGNING_KEYS" ]; then
 	copyKey "starlte" "kernel/samsung/universal9810";
 	copyKey "sunfish" "kernel/google/sunfish";
 	copyKey "taimen" "kernel/google/wahoo";
+	copyKey "ursa" "kernel/xiaomi/sdm845";
 	copyKey "vayu" "kernel/xiaomi/sm8150";
 	copyKey "voyager" "kernel/sony/sdm660";
+	copyKey "kirin" "kernel/sony/sdm660";
+	copyKey "mermaid" "kernel/sony/sdm660";
 	copyKey "walleye" "kernel/google/wahoo";
 	copyKey "xz2c" "kernel/sony/sdm845";
 	copyKey "z2_plus" "kernel/zuk/msm8996";

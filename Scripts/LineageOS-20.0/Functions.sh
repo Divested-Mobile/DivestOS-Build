@@ -68,12 +68,17 @@ buildAll() {
 	buildDevice enchilada avb;
 	buildDevice aura avb;
 	buildDevice beryllium avb;
+	buildDevice dipper avb;
+	buildDevice equuleus avb;
+	buildDevice polaris avb;
+	buildDevice ursa avb;
 	buildDevice pro1 avb;
 	buildDevice crosshatch avb; #unb
 	buildDevice blueline avb; #unb
 	buildDevice akari avb;
 	buildDevice aurora avb;
 	buildDevice xz2c avb;
+	buildDevice akatsuki avb;
 	#SD750
 	buildDevice FP4 avb;
 	#SD855
@@ -90,7 +95,8 @@ buildAll() {
 	#SD865
 	buildDevice instantnoodle avb;
 	buildDevice instantnoodlep avb;
-	buildDevice kebab avb;
+	buildDevice kebab avb; #failing
+	buildDevice lemonades avb; #failing
 	#SD888
 	buildDevice lemonade avb;
 	buildDevice lemonadep avb;

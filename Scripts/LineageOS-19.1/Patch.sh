@@ -458,6 +458,7 @@ cd "$DOS_BUILD_BASE";
 #rm -rfv device/*/*/overlay/CarrierConfigResCommon device/*/*/rro_overlays/CarrierConfigOverlay device/*/*/overlay/packages/apps/CarrierConfig/res/xml/vendor.xml;
 
 #Tweaks for <4GB RAM devices
+#enableLowRam "device/sony/kirin" "kirin";
 #enableLowRam "device/sony/pioneer" "pioneer";
 
 #Fix broken options enabled by hardenDefconfig()

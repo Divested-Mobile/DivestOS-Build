@@ -72,11 +72,21 @@
 	<!-- Sony Xperia XA2 Ultra (discovery) -->
 	<project path="device/sony/discovery" name="LineageOS/android_device_sony_discovery" remote="github" />
 
+	<!-- Sony Xperia 10 (kirin) -->
+	<project path="device/sony/kirin" name="LineageOS/android_device_sony_kirin" remote="github" />
+
+	<!-- Sony Xperia 10 Plus (mermaid) -->
+	<project path="device/sony/mermaid" name="LineageOS/android_device_sony_mermaid" remote="github" />
+
 	<!-- Xiaomi POCO F2 Pro / Redmi K30 Pro / Redmi K30 Pro Zoom Edition (lmi) -->
 	<project path="hardware/xiaomi" name="LineageOS/android_hardware_xiaomi" remote="github" />
 	<project path="device/xiaomi/lmi" name="LineageOS/android_device_xiaomi_lmi" remote="github" />
 	<project path="device/xiaomi/sm8250-common" name="LineageOS/android_device_xiaomi_sm8250-common" remote="github" />
 	<project path="kernel/xiaomi/sm8250" name="LineageOS/android_kernel_xiaomi_sm8250" remote="github" />
+
+	<!-- Xiaomi Mi 10T / Mi 10T Pro / Redmi K30S Ultra (apollon) -->
+	<project path="device/xiaomi/apollon" name="LineageOS/android_device_xiaomi_apollon" remote="github" />
+	<!-- uses xiaomi sm8250 commons -->
 
 	<!-- Xiaomi POCO F3 / Redmi K40 / Mi 11X (alioth) -->
 	<project path="device/xiaomi/alioth" name="LineageOS/android_device_xiaomi_alioth" remote="github" />

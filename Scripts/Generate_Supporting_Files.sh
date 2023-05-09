@@ -23,7 +23,7 @@ export copyPartsZip="/mnt/Drive-4/DOS/Builds/Extras/copy-partitions-20210323_192
 export repoDir="/mnt/Drive-4/DOS/Builds/Supporting_Files/";
 mkdir -p $repoDir;
 
-devicesCopy=(akari alioth Amber aura aurora avicii barbet bluejay blueline bonito bramble cheetah cheryl coral crosshatch davinci discovery enchilada fajita flame FP3 FP4 guacamole guacamoleb hotdog hotdogb instantnoodle instantnoodlep kebab lemonade lemonadep marlin mata oriole panther pioneer pro1 pro1x raven redfin sailfish sargo sunfish taimen voyager walleye xz2c);
+devicesCopy=(akari akatsuki alioth Amber aura aurora avicii barbet bluejay blueline bonito bramble cheetah cheryl coral crosshatch davinci discovery enchilada fajita flame FP3 FP4 guacamole guacamoleb hotdog hotdogb instantnoodle instantnoodlep kebab kirin lemonade lemonadep lemonades marlin mata mermaid oriole panther pioneer pro1 pro1x raven redfin sailfish sargo sunfish taimen voyager walleye xz2c);
 
 for device in "${devicesCopy[@]}"
 do
@@ -36,7 +36,7 @@ do
 	fi;
 done;
 
-devicesAVB=(akari alioth Amber aura aurora avicii barbet beryllium bluejay blueline bonito bramble cheetah coral crosshatch davinci enchilada fajita flame FP3 FP4 guacamole guacamoleb hotdog hotdogb instantnoodle instantnoodlep kebab lavender lemonade lemonadep lmi oriole panther pro1 pro1x raphael raven redfin sargo sunfish taimen vayu walleye xz2c);
+devicesAVB=(akari akatsuki alioth Amber apollon aura aurora avicii barbet beryllium bluejay blueline bonito bramble cheetah coral crosshatch davinci dipper enchilada equuleus fajita flame FP3 FP4 guacamole guacamoleb hotdog hotdogb instantnoodle instantnoodlep kebab lavender lemonade lemonadep lemonades lmi oriole panther polaris pro1 pro1x raphael raven redfin sargo sunfish taimen ursa vayu walleye xz2c);
 
 for device in "${devicesAVB[@]}"
 do

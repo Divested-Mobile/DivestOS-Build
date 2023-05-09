@@ -56,10 +56,13 @@ buildAll() {
 	buildDevice pioneer;
 	buildDevice voyager;
 	buildDevice discovery;
+	buildDevice kirin;
+	buildDevice mermaid;
 	#SD855
 	buildDevice vayu avb;
 	#SD865
 	buildDevice lmi avb;
+	buildDevice apollon avb;
 	#SD870
 	buildDevice alioth avb;
 }
@@ -73,10 +76,9 @@ patchWorkspaceReal() {
 	verifyAllPlatformTags;
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-	source build/envsetup.sh;
+	#source build/envsetup.sh;
 	#repopick -ift twelve-bt-sbc-hd-dualchannel;
 	#repopick -it twelve-colors;
-	repopick -it S_asb_2023-05;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

@@ -220,6 +220,7 @@ land
 lavender
 lemonade
 lemonadep
+lemonades
 lentislte
 lettuce
 libra
