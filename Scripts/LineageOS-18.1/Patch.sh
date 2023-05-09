@@ -594,6 +594,8 @@ enableLowRam "device/samsung/jfltevzw" "jfltevzw";
 enableLowRam "device/samsung/jfltexx" "jfltexx";
 enableLowRam "device/samsung/klte-common" "klte-common";
 enableLowRam "device/samsung/klte" "klte";
+enableLowRam "device/samsung/hlte-common" "hlte-common";
+enableLowRam "device/samsung/hlte" "hlte";
 enableLowRam "device/samsung/msm8974-common" "msm8974-common";
 
 #Fix broken options enabled by hardenDefconfig()
