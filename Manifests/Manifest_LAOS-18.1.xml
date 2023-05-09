@@ -204,6 +204,10 @@
 	<project path="device/samsung/msm8974-common" name="LineageOS/android_device_samsung_msm8974-common" remote="github" />
 	<project path="kernel/samsung/msm8974" name="LineageOS/android_kernel_samsung_msm8974" remote="github" />
 
+	<!-- Samsung Galaxy Note 3 (hlte) -->
+	<project path="device/samsung/hlte" name="LineageOS/android_device_samsung_hlte" remote="github" />
+	<project path="device/samsung/hlte-common" name="LineageOS/android_device_samsung_hlte-common" remote="github" />
+
 	<!-- Xiaomi Redmi Note 7 (lavender) -->
 	<project path="hardware/xiaomi" name="LineageOS/android_hardware_xiaomi" remote="github" />
 	<project path="device/xiaomi/lavender" name="LineageOS/android_device_xiaomi_lavender" remote="github" />
