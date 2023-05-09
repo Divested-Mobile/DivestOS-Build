@@ -84,9 +84,9 @@ buildAll() {
 	buildDeviceUserDebug i9100;
 	buildDeviceUserDebug i9300;
 	buildDeviceUserDebug i9305;
-	buildDevice n5100;
-	buildDevice n5110;
-	buildDevice n5120;
+	buildDeviceUserDebug n5100;
+	buildDeviceUserDebug n5110;
+	buildDeviceUserDebug n5120;
 	buildDevice v1awifi;
 	buildDevice herolte;
 	buildDevice hero2lte;
