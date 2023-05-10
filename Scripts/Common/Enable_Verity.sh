@@ -171,6 +171,7 @@ enableAVB "device/xiaomi/twolip";
 enableAVB "device/xiaomi/ursa";
 enableAVB "device/xiaomi/vayu";
 enableAVB "device/xiaomi/wayne";
+enableAVB "device/xiaomi/wayne-common";
 enableAVB "device/xiaomi/whyred";
 
 #Kernel Changes
