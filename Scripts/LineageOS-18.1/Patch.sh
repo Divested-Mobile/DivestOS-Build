@@ -516,6 +516,10 @@ sed -i 's/libinit_msm8974/libinit_msm8974-oppo/' BoardConfigCommon.mk init/Andro
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 fi;
 
+if enterAndClear "device/samsung/jactivelte"; then
+smallerSystem;
+fi;
+
 if enterAndClear "device/samsung/jfltexx"; then
 smallerSystem;
 fi;
@@ -529,6 +533,10 @@ smallerSystem;
 fi;
 
 if enterAndClear "device/samsung/jfltevzw"; then
+smallerSystem;
+fi;
+
+if enterAndClear "device/samsung/jfvelte"; then
 smallerSystem;
 fi;
 
@@ -573,6 +581,7 @@ enableLowRam "device/samsung/msm8930-common" "msm8930-common";
 enableLowRam "device/samsung/serrano3gxx" "serrano3gxx";
 enableLowRam "device/samsung/serrano-common" "serrano-common";
 enableLowRam "device/samsung/serranoltexx" "serranoltexx";
+enableLowRam "device/samsung/serranodsdd" "serranodsdd";
 #Tweaks for <3GB RAM devices
 enableLowRam "device/asus/flox" "flox";
 enableLowRam "device/fairphone/FP2" "FP2";
@@ -588,10 +597,12 @@ enableLowRam "device/lge/g2-common" "g2-common";
 enableLowRam "device/lge/mako" "mako";
 enableLowRam "device/motorola/victara" "victara";
 enableLowRam "device/samsung/jf-common" "jf-common";
+enableLowRam "device/samsung/jactivelte" "jactivelte";
 enableLowRam "device/samsung/jflteatt" "jflteatt";
 enableLowRam "device/samsung/jfltespr" "jfltespr";
 enableLowRam "device/samsung/jfltevzw" "jfltevzw";
 enableLowRam "device/samsung/jfltexx" "jfltexx";
+enableLowRam "device/samsung/jfvelte" "jfvelte";
 enableLowRam "device/samsung/klte-common" "klte-common";
 enableLowRam "device/samsung/klte" "klte";
 enableLowRam "device/samsung/hlte-common" "hlte-common";

@@ -134,6 +134,7 @@
 	<project path="kernel/lge/msm8996" name="LineageOS/android_kernel_lge_msm8996" remote="github" />
 
 	<!-- LG V20 (h990:intl, us996:us, h910:att) -->
+	<project path="hardware/lge" name="LineageOS/android_hardware_lge" remote="github" />
 	<project path="device/lge/v20-common" name="LineageOS/android_device_lge_v20-common" remote="github" />
 	<project path="device/lge/h990" name="LineageOS/android_device_lge_h990" remote="github" />
 	<project path="device/lge/us996" name="LineageOS/android_device_lge_us996" remote="github" />
@@ -183,17 +184,20 @@
 	<project path="device/samsung/qcom-common" name="LineageOS/android_device_samsung_qcom-common" remote="github" />
 	<project path="hardware/samsung" name="LineageOS/android_hardware_samsung" remote="github" />
 
-	<!-- Samsung Galaxy S4 (jfltexx/jflteatt/jfltespr/jfltevzw) -->
+	<!-- Samsung Galaxy S4 (jfltexx/jflteatt/jfltespr/jfltevzw/jactivelte/jfvelte) -->
 	<project path="device/samsung/jfltexx" name="LineageOS/android_device_samsung_jfltexx" remote="github" />
 	<project path="device/samsung/jflteatt" name="LineageOS/android_device_samsung_jflteatt" remote="github" />
 	<project path="device/samsung/jfltespr" name="LineageOS/android_device_samsung_jfltespr" remote="github" />
 	<project path="device/samsung/jfltevzw" name="LineageOS/android_device_samsung_jfltevzw" remote="github" />
+	<project path="device/samsung/jactivelte" name="LineageOS/android_device_samsung_jactivelte" remote="github" />
+	<project path="device/samsung/jfvelte" name="LineageOS/android_device_samsung_jfvelte" remote="github" />
 	<project path="device/samsung/jf-common" name="LineageOS/android_device_samsung_jf-common" remote="github" />
 	<project path="kernel/samsung/jf" name="LineageOS/android_kernel_samsung_jf" remote="github" />
 
-	<!-- Samsung Galaxy S4 Mini (serrano3gxx/serranoltexx) -->
+	<!-- Samsung Galaxy S4 Mini (serrano3gxx/serranoltexx/serranodsdd) -->
 	<project path="device/samsung/serrano3gxx" name="LineageOS/android_device_samsung_serrano3gxx" remote="github" />
 	<project path="device/samsung/serranoltexx" name="LineageOS/android_device_samsung_serranoltexx" remote="github" />
+	<project path="device/samsung/serranodsdd" name="LineageOS/android_device_samsung_serranodsdd" remote="github" />
 	<project path="device/samsung/serrano-common" name="LineageOS/android_device_samsung_serrano-common" remote="github" />
 	<project path="device/samsung/msm8930-common" name="LineageOS/android_device_samsung_msm8930-common" remote="github" />
 	<project path="kernel/samsung/msm8930-common" name="LineageOS/android_kernel_samsung_msm8930-common" remote="github" />
@@ -213,6 +217,22 @@
 	<project path="device/xiaomi/lavender" name="LineageOS/android_device_xiaomi_lavender" remote="github" />
 	<project path="device/xiaomi/sdm660-common" name="LineageOS/android_device_xiaomi_sdm660-common" remote="github" />
 	<project path="kernel/xiaomi/sdm660" name="LineageOS/android_kernel_xiaomi_sdm660" remote="github" />
+
+	<!-- Xiaomi Mi A2 (jasmine_sprout) -->
+	<project path="device/xiaomi/jasmine_sprout" name="LineageOS/android_device_xiaomi_jasmine_sprout" remote="github" />
+
+	<!-- Xiaomi Mi 8 Lite (platina) -->
+	<project path="device/xiaomi/platina" name="LineageOS/android_device_xiaomi_platina" remote="github" />
+
+	<!-- Xiaomi Redmi Note 6 Pro (twolip) -->
+	<project path="device/xiaomi/twolip" name="LineageOS/android_device_xiaomi_twolip" remote="github" />
+
+	<!-- Xiaomi Mi 6X (wayne) -->
+	<project path="device/xiaomi/wayne" name="LineageOS/android_device_xiaomi_wayne" remote="github" />
+	<project path="device/xiaomi/wayne-common" name="LineageOS/android_device_xiaomi_wayne-common" remote="github" />
+
+	<!-- Xiaomi Redmi Note 5 Pro (whyred) -->
+	<project path="device/xiaomi/whyred" name="LineageOS/android_device_xiaomi_whyred" remote="github" />
 
 	<!-- Zuk Z2 Plus (z2_plus) -->
 	<project path="device/zuk/z2_plus" name="LineageOS/android_device_zuk_z2_plus" remote="github" />

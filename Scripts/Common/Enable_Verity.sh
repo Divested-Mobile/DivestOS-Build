@@ -153,20 +153,25 @@ enableAVB "device/sony/xz2c";
 enableAVB "device/xiaomi/alioth";
 enableAVB "device/xiaomi/apollon";
 enableAVB "device/xiaomi/beryllium";
+enableAVB "device/xiaomi/davinci";
 enableAVB "device/xiaomi/dipper";
 enableAVB "device/xiaomi/equuleus";
-enableAVB "device/xiaomi/polaris";
-enableAVB "device/xiaomi/ursa";
-enableAVB "device/xiaomi/davinci";
+enableAVB "device/xiaomi/jasmine_sprout";
 enableAVB "device/xiaomi/lavender";
 enableAVB "device/xiaomi/lmi";
+enableAVB "device/xiaomi/platina";
+enableAVB "device/xiaomi/polaris";
 enableAVB "device/xiaomi/raphael";
 enableAVB "device/xiaomi/sdm660-common";
 enableAVB "device/xiaomi/sdm845-common";
 enableAVB "device/xiaomi/sm6150-common";
 enableAVB "device/xiaomi/sm8150-common";
 enableAVB "device/xiaomi/sm8250-common";
+enableAVB "device/xiaomi/twolip";
+enableAVB "device/xiaomi/ursa";
 enableAVB "device/xiaomi/vayu";
+enableAVB "device/xiaomi/wayne";
+enableAVB "device/xiaomi/whyred";
 
 #Kernel Changes
 [[ -d kernel/essential/msm8998 ]] && sed -i 's/slotselect/slotselect,verify/' kernel/essential/msm8998/arch/arm64/boot/dts/essential/msm8998-mata-lineage.dtsi &>/dev/null; #/vendor

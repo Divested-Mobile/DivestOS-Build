@@ -49,6 +49,9 @@ Last updated: 2023-05-08
 
 
 19.1
+	android_kernel_lge_msm8996 - already supported
+		h872
+		us996d
 	android_kernel_motorola_msm8998
 		nash
 	android_kernel_motorola_sm8250
@@ -66,9 +69,6 @@ Last updated: 2023-05-08
 18.1
 	android_kernel_lenovo_msm8953
 		kuntao
-	android_kernel_lge_msm8996 - already supported
-		h872
-		us996d
 	android_kernel_motorola_msm8953
 		addison
 		ahannah
@@ -77,14 +77,7 @@ Last updated: 2023-05-08
 		hannah
 		montana
 		rhannah
-	android_kernel_samsung_jf
-		jactivelte
-		jfvelte
-	android_kernel_samsung_msm8930-common - already supported
-		lt02ltespr
-		serranodsdd
 	android_kernel_samsung_msm8974 - already supported
-		hlte
 		hltechn
 		hltekor
 		hltetmo
@@ -109,12 +102,6 @@ Last updated: 2023-05-08
 		sirius
 		z3
 		z3c
-	android_kernel_xiaomi_sdm660 - already supported
-		jasmine_sprout
-		platina
-		twolip
-		wayne
-		whyred
 	android_kernel_xiaomi_sm6125
 		ginkgo
 
@@ -174,6 +161,8 @@ Last updated: 2023-05-08
 		klimtwifi
 		n1awifi
 		n2awifi
+	android_kernel_samsung_msm8930-common - already supported
+		lt02ltespr
 	android_kernel_samsung_smdk4412 - already supported
 		t0lte
 	android_kernel_sony_msm8994

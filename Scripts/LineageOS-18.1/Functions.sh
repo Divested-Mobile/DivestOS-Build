@@ -58,11 +58,14 @@ buildAll() {
 	#SD400
 	buildDevice serrano3gxx; #unb
 	buildDevice serranoltexx; #unb
+	buildDevice serranodsdd; #unb
 	#SD600
-	buildDevice jfltexx; #TODO: jactivelte, jfvelte
+	buildDevice jactivelte;
+	buildDevice jfltexx;
 	buildDevice jflteatt;
 	buildDevice jfltespr;
 	buildDevice jfltevzw;
+	buildDevice jfvelte;
 	#SD800
 	buildDevice d800;
 	buildDevice d801;
@@ -78,8 +81,8 @@ buildAll() {
 	buildDevice ls990;
 	buildDevice vs985;
 	buildDevice FP2;
-	buildDevice klte; #TODO: klteaio, kltechn, kltechnduo, klteduos, kltedv, kltekdi, kltekor
-	buildDevice hlte; #TODO: hltechn, hltekor, hltetmo
+	buildDevice klte;
+	buildDevice hlte;
 	buildDevice m8; #unb
 	buildDevice m8d; #unb
 	buildDevice victara;
@@ -104,6 +107,11 @@ buildAll() {
 	buildDevice marlin verity;
 	buildDevice sailfish verity;
 	buildDevice lavender avb;
+	buildDevice jasmine_sprout avb;
+	buildDevice platina avb;
+	buildDevice twolip avb;
+	buildDevice wayne avb;
+	buildDevice whyred avb;
 }
 export -f buildAll;
 
@@ -115,11 +123,10 @@ patchWorkspaceReal() {
 	verifyAllPlatformTags;
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-	source build/envsetup.sh;
+	#source build/envsetup.sh;
 	#repopick -it eleven-firewall;
 	#repopick -i 314453; #TaskViewTouchController: Null check current animation on drag
 	#repopick -i 325011; #lineage: Opt-in to shipping full recovery image by default
-	repopick -it R_asb_2023-05;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
@@ -145,7 +152,7 @@ enableDexPreOpt() {
 		echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 		echo "WITH_DEXPREOPT_DEBUG_INFO := false" >> BoardConfig.mk;
 		#m8*, jflte*: /system partition too small
-		if [ "$1" != "device/htc/m8" ] && [ "$1" != "device/htc/m8d" ] && [ "$1" != "device/samsung/jfltexx" ] && [ "$1" != "device/samsung/jflteatt" ] && [ "$1" != "device/samsung/jfltespr" ] && [ "$1" != "device/samsung/jfltevzw" ]; then
+		if [ "$1" != "device/htc/m8" ] && [ "$1" != "device/htc/m8d" ] && [ "$1" != "device/samsung/jactivelte" ] &&  [ "$1" != "device/samsung/jfltexx" ] && [ "$1" != "device/samsung/jflteatt" ] && [ "$1" != "device/samsung/jfltespr" ] && [ "$1" != "device/samsung/jfltevzw" ] && [ "$1" != "device/samsung/jfvelte" ]; then
 			echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false" >> BoardConfig.mk;
 			echo "Enabled full dexpreopt for $1";
 		else

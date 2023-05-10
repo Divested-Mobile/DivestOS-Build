@@ -36,7 +36,7 @@ do
 	fi;
 done;
 
-devicesAVB=(akari akatsuki alioth Amber apollon aura aurora avicii barbet beryllium bluejay blueline bonito bramble cheetah coral crosshatch davinci dipper enchilada equuleus fajita flame FP3 FP4 guacamole guacamoleb hotdog hotdogb instantnoodle instantnoodlep kebab lavender lemonade lemonadep lemonades lmi oriole panther polaris pro1 pro1x raphael raven redfin sargo sunfish taimen ursa vayu walleye xz2c);
+devicesAVB=(akari akatsuki alioth Amber apollon aura aurora avicii barbet beryllium bluejay blueline bonito bramble cheetah coral crosshatch davinci dipper enchilada equuleus fajita flame FP3 FP4 guacamole guacamoleb hotdog hotdogb instantnoodle instantnoodlep jasmine_sprout kebab lavender lemonade lemonadep lemonades lmi oriole panther platina polaris pro1 pro1x raphael raven redfin sargo sunfish taimen twolip ursa vayu walleye wayne whyred xz2c);
 
 for device in "${devicesAVB[@]}"
 do
