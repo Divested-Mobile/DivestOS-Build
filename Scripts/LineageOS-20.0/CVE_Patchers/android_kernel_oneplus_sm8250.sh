@@ -1,6 +1,5 @@
 #!/bin/bash
 if cd "$DOS_BUILD_BASE""kernel/oneplus/sm8250"; then
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0280-0281.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.19/0008.patch
@@ -69,7 +68,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3625/^5.19/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3903/^6.0/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4382/^6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4662/4.19/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4744/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20148/^5.15/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20571/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
@@ -77,15 +75,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0030/^4.20/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0386/^6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1380/^6.3/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1670/4.19/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1989/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2002/3.10-^6.3/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2194/4.19/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2248/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23454/4.19/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-30772/4.19/0003.patch
-editKernelLocalversion "-dos.p85"
+editKernelLocalversion "-dos.p77"
 else echo "kernel_oneplus_sm8250 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

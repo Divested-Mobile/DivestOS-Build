@@ -1,7 +1,7 @@
 #!/bin/bash
 if cd "$DOS_BUILD_BASE""kernel/fxtec/sm6115"; then
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0280-0281.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
-git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-Graphene-Deny_USB/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.19/0008.patch
@@ -78,25 +78,17 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-42703/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0030/^4.20/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0386/^6.2/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1118/4.19/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1281/4.19/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1380/^6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1670/4.19/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1855/4.19/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1859/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1989/4.19/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1990/4.19/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1998/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2002/3.10-^6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2194/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2248/4.19/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-21665/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-21666/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2483/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23454/4.19/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-30456/4.19/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-30772/4.19/0003.patch
-editKernelLocalversion "-dos.p96"
+editKernelLocalversion "-dos.p88"
 else echo "kernel_fxtec_sm6115 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
