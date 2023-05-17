@@ -114,6 +114,8 @@
 	<project path="kernel/lge/msm8974" name="LineageOS/android_kernel_lge_msm8974" remote="github" />
 
 	<!-- LG G3 (d850/d851/d852/d855/vs985) -->
+	<project path="hardware/lge" name="LineageOS/android_hardware_lge" remote="github" />
+	<project path="device/lge/common" name="LineageOS/android_device_lge_common" remote="github" />
 	<project path="device/lge/g3-common" name="LineageOS/android_device_lge_g3-common" remote="github" />
 	<project path="device/lge/d850" name="LineageOS/android_device_lge_d850" remote="github" />
 	<project path="device/lge/d851" name="LineageOS/android_device_lge_d851" remote="github" />
@@ -123,26 +125,6 @@
 	<project path="device/lge/ls990" name="LineageOS/android_device_lge_ls990" remote="github" />
 	<project path="device/lge/vs985" name="LineageOS/android_device_lge_vs985" remote="github" />
 	<project path="kernel/lge/g3" name="LineageOS/android_kernel_lge_g3" remote="github" />
-
-	<!-- LG G5 (h850:intl, rs988:us) -->
-	<project path="device/lge/common" name="LineageOS/android_device_lge_common" remote="github" />
-	<project path="device/lge/g5-common" name="LineageOS/android_device_lge_g5-common" remote="github" />
-	<project path="device/lge/h830" name="LineageOS/android_device_lge_h830" remote="github" />
-	<project path="device/lge/h850" name="LineageOS/android_device_lge_h850" remote="github" />
-	<project path="device/lge/rs988" name="LineageOS/android_device_lge_rs988" remote="github" />
-	<project path="device/lge/msm8996-common" name="LineageOS/android_device_lge_msm8996-common" remote="github" />
-	<project path="kernel/lge/msm8996" name="LineageOS/android_kernel_lge_msm8996" remote="github" />
-
-	<!-- LG V20 (h990:intl, us996:us, h910:att) -->
-	<project path="hardware/lge" name="LineageOS/android_hardware_lge" remote="github" />
-	<project path="device/lge/v20-common" name="LineageOS/android_device_lge_v20-common" remote="github" />
-	<project path="device/lge/h990" name="LineageOS/android_device_lge_h990" remote="github" />
-	<project path="device/lge/us996" name="LineageOS/android_device_lge_us996" remote="github" />
-	<project path="device/lge/h910" name="LineageOS/android_device_lge_h910" remote="github" />
-	<project path="device/lge/h918" name="LineageOS/android_device_lge_h918" remote="github" />
-	<project path="device/lge/ls997" name="LineageOS/android_device_lge_ls997" remote="github" />
-	<project path="device/lge/vs995" name="LineageOS/android_device_lge_vs995" remote="github" />
-	<!-- uses lge msm8996 commons -->
 
 	<!-- Moto X 2014 (victara) -->
 	<project path="device/motorola/victara" name="LineageOS/android_device_motorola_victara" remote="github" />

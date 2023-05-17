@@ -486,10 +486,6 @@ if enterAndClear "device/asus/msm8916-common"; then
 rm -rf Android.bp sensors; #exact duplicate in asus/flo #XXX be careful with this
 fi;
 
-if enterAndClear "device/lge/msm8996-common"; then
-sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
-fi;
-
 #if enterAndClear "device/moto/shamu"; then
 #git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
 #fi;
@@ -524,7 +520,6 @@ enableLowRam "device/asus/fugu";
 
 #Fix broken options enabled by hardenDefconfig()
 [[ -d kernel/google/msm ]] && sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
-[[ -d kernel/lge/msm8996 ]] && sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/lge/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
 [[ -d kernel/zte/msm8996 ]] && sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/zte/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l* || true; #Fix builds with GCC 10

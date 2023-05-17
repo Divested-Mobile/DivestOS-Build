@@ -11,6 +11,8 @@
 	<remove-project name="LineageOS/android_external_libncurses" />
 	<remove-project name="LineageOS/android_external_nano" />
 	<remove-project name="LineageOS/android_external_openssh" />
+	<remove-project name="LineageOS/android_external_rsync" />
+	<remove-project name="LineageOS/android_external_unrar" />
 	<remove-project name="LineageOS/android_external_vim" />
 	<remove-project name="LineageOS/android_packages_apps_Eleven" />
 	<remove-project name="LineageOS/android_packages_apps_Jelly" />

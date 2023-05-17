@@ -98,14 +98,6 @@
 	<project path="device/google/dragon" name="LineageOS/android_device_google_dragon" remote="github" />
 	<project path="kernel/google/dragon" name="LineageOS/android_kernel_google_dragon" remote="github" />
 
-	<!-- LG G6 (h870:intl, us997:us) -->
-	<project path="device/lge/common" name="LineageOS/android_device_lge_common" remote="github" />
-	<project path="device/lge/msm8996-common" name="LineageOS/android_device_lge_msm8996-common" remote="github" />
-	<project path="kernel/lge/msm8996" name="LineageOS/android_kernel_lge_msm8996" remote="github" />
-	<project path="device/lge/g6-common" name="LineageOS/android_device_lge_g6-common" remote="github" />
-	<project path="device/lge/h870" name="LineageOS/android_device_lge_h870" remote="github" />
-	<project path="device/lge/us997" name="LineageOS/android_device_lge_us997" remote="github" />
-
 	<!-- Nextbit Robin (ether) -->
 	<project path="device/nextbit/ether" name="LineageOS/android_device_nextbit_ether" remote="github" />
 	<project path="kernel/nextbit/msm8992" name="LineageOS/android_kernel_nextbit_msm8992" remote="github" />
@@ -116,6 +108,7 @@
 	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 
 	<!-- Nexus 5 (hammerhead) -->
+	<project path="device/lge/common" name="LineageOS/android_device_lge_common" remote="github" />
 	<project path="device/lge/hammerhead" name="LineageOS/android_device_lge_hammerhead" remote="github" />
 	<project path="kernel/lge/hammerhead" name="LineageOS/android_kernel_lge_hammerhead" remote="github" />
 

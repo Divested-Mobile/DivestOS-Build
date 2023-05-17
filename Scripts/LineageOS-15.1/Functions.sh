@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_asus_msm8916 kernel_google_dragon kernel_google_msm kernel_htc_flounder kernel_huawei_angler kernel_lge_bullhead kernel_lge_hammerhead kernel_lge_msm8996 kernel_moto_shamu kernel_nextbit_msm8992 kernel_zte_msm8996";
+	startPatcher "kernel_asus_fugu kernel_asus_msm8916 kernel_google_dragon kernel_google_msm kernel_htc_flounder kernel_huawei_angler kernel_lge_bullhead kernel_lge_hammerhead kernel_moto_shamu kernel_nextbit_msm8992 kernel_zte_msm8996";
 }
 export -f patchAllKernels;
 
@@ -67,8 +67,6 @@ buildAll() {
 	buildDevice Z00T;
 	#SD820
 	buildDevice axon7;
-	buildDevice h870;
-	buildDevice us997;
 	#Intel
 	buildDevice fugu;
 	#Tegra

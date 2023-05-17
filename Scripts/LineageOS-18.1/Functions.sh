@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_lge_msm8996 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oppo_msm8974 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_xiaomi_sdm660 kernel_xiaomi_sdm845 kernel_zuk_msm8996";
+	startPatcher "kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oppo_msm8974 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_xiaomi_sdm660 kernel_xiaomi_sdm845 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -92,15 +92,6 @@ buildAll() {
 	buildDevice ether;
 	#SD820
 	buildDevice griffin;
-	buildDevice h830;
-	buildDevice h850;
-	buildDevice rs988;
-	buildDevice h910;
-	buildDevice h918;
-	buildDevice h990;
-	buildDevice ls997;
-	buildDevice us996;
-	buildDevice vs995;
 	buildDevice oneplus3 verity; #needs manual patching - broken yyloc
 	buildDevice z2_plus verity; #broken
 	#SD821

@@ -514,7 +514,8 @@ export -f hardenLocationSerials;
 hardenLocationConf() {
 	local gpsConfig=$1;
 	#Debugging: adb logcat -b all | grep -i -e locsvc -e izat -e gps -e gnss -e location -e xtra
-	#sed -i 's|DEBUG_LEVEL = .|DEBUG_LEVEL = 4|' "$gpsConfig" &> /dev/null || true;
+	#sed -i 's|DEBUG_LEVEL = .|DEBUG_LEVEL = 4|' "$gpsConfig" &> /dev/null || true; #Debug
+	#sed -i 's|DEBUG_LEVEL = .|DEBUG_LEVEL = 2|' "$gpsConfig" &> /dev/null || true; #Warning
 	#Enable GLONASS
 	if [ "$DOS_GPS_GLONASS_FORCED" = true ]; then
 	sed -i 's/#A_GLONASS_POS_PROTOCOL_SELECT =/A_GLONASS_POS_PROTOCOL_SELECT =/' "$gpsConfig" &>/dev/null || true;
