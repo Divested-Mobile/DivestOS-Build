@@ -476,14 +476,14 @@ volteOverride() {
 	cd "$DOS_BUILD_BASE/$1";
 	if grep -sq "config_device_volte_available" "overlay/frameworks/base/core/res/res/values/config.xml"; then
 		if [ -f vendor.prop ] && ! grep -sq "volte_avail_ovr" "vendor.prop"; then
-			echo -e 'persist.dbg.volte_avail_ovr=1\npersist.dbg.vt_avail_ovr=1' >> vendor.prop;
+			echo -e 'persist.dbg.volte_avail_ovr=1' >> vendor.prop;
 			echo "Set VoLTE override in vendor.prop for $1";
 		elif [ -f system.prop ] && ! grep -sq "volte_avail_ovr" "system.prop"; then
-			echo -e 'persist.dbg.volte_avail_ovr=1\npersist.dbg.vt_avail_ovr=1' >> system.prop;
+			echo -e 'persist.dbg.volte_avail_ovr=1' >> system.prop;
 			echo "Set VoLTE override in system.prop for $1";
 		fi;
 		if [ -f vendor_prop.mk ] && ! grep -sq "volte_avail_ovr" "vendor_prop.mk"; then
-			echo -e '\nPRODUCT_PROPERTY_OVERRIDES += \\\n    persist.dbg.volte_avail_ovr=1 \\\n    persist.dbg.vt_avail_ovr=1' >> vendor_prop.mk;
+			echo -e '\nPRODUCT_PROPERTY_OVERRIDES += \\\n    persist.dbg.volte_avail_ovr=1' >> vendor_prop.mk;
 			echo "Set VoLTE override in vendor_prop.mk for $1";
 		fi;
 		#TODO: init/init*.cpp, device*.mk
