@@ -1,4 +1,4 @@
-Last updated: 2023-05-08
+Last updated: 2023-05-19
 
 20.0
 	android_kernel_bq_msm8953
@@ -107,6 +107,8 @@ Last updated: 2023-05-08
 
 
 17.1
+	android_kernel_huawei_kiwi
+		kiwi
 	android_kernel_motorola_msm8916 - already supported
 		lux
 
