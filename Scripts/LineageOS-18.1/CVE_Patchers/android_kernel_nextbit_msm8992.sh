@@ -235,6 +235,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-7222/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-8912/3.10/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-9213/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10142/3.18/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10220/3.18/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10220/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10491/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10505/qcacld-2.0/0003.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10507/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
@@ -475,7 +477,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
-editKernelLocalversion "-dos.p475"
+editKernelLocalversion "-dos.p477"
 else echo "kernel_nextbit_msm8992 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

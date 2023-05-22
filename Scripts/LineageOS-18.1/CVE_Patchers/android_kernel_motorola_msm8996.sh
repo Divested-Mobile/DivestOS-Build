@@ -181,6 +181,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-9506/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-9506/3.18/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-9506/3.18/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10142/3.18/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10220/3.18/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10220/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10480/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10507/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-10536/qcacld-2.0/0001.patch --directory=drivers/staging/qcacld-2.0
@@ -421,6 +423,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3772/4.4/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3772/4.4/0021.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3896/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4002/4.4/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-4034/4.4/0008.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20265/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20292/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-20321/3.18/0008.patch
@@ -531,6 +534,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2248/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-20941/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28328/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31084/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0610/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15815/qcacld-2.0/0002.patch --directory=drivers/staging/qcacld-2.0
@@ -538,7 +542,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.4/0006.patch
-editKernelLocalversion "-dos.p538"
+editKernelLocalversion "-dos.p542"
 else echo "kernel_motorola_msm8996 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
