@@ -251,6 +251,7 @@
         <!-- MozillaNlpBackend -->
         <item>org.microg.nlp.backend.ichnaea</item>
         <!-- Printing -->
+        <item>com.android.bips</item>
         <item>com.android.printspooler</item>
     </string-array>
 

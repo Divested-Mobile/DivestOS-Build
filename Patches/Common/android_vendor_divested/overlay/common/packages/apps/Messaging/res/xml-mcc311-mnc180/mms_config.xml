@@ -6,4 +6,5 @@
     <int name="recipientLimit">20</int>
     <bool name="enableGroupMms">true</bool>
     <bool name="groupChatDefaultsToMMS">true</bool>
+    <bool name="useCustomUserAgent">true</bool>
 </mms_config>

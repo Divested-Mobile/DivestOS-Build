@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mms_config version="6">
+<mms_config version="7">
     <bool name="smsUsesSimpleCharactersOnly">false</bool>
     <bool name="allowEnablingWapPushSI">false</bool>
     <bool name="enableWapPushSI">true</bool>
@@ -10,4 +10,5 @@
     <bool name="allowEditingSmscAddress">true</bool>
     <bool name="enableGroupMms">true</bool>
     <bool name="groupChatDefaultsToMMS">false</bool>
+    <int name="smsToMmsTextThreshold">-1</int>
 </mms_config>

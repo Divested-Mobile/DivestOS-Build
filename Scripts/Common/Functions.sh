@@ -193,7 +193,7 @@ export -f audit2allowADB;
 
 processRelease() {
 	#Reference (MIT): GrapheneOS
-	#https://github.com/GrapheneOS/script/blob/12.1/release.sh
+	#https://github.com/GrapheneOS/script/blob/13/release.sh
 	local DEVICE="$1";
 	local BLOCK="$2";
 	local VERITY="$3";

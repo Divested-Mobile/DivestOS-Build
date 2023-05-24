@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mms_config version="5">
+<mms_config version="6">
     <bool name="allowEnablingWapPushSI">false</bool>
     <bool name="enableWapPushSI">true</bool>
     <int name="maxMessageSize">307200</int>
@@ -7,4 +7,5 @@
     <int name="maxImageWidth">1600</int>
     <bool name="useCustomUserAgent">true</bool>
     <bool name="allowEditingSmscAddress">true</bool>
+    <int name="smsToMmsTextThreshold">-1</int>
 </mms_config>

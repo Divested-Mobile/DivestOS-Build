@@ -748,12 +748,16 @@ country GY:
 	(5490 - 5730 @ 160), (23), DFS
 	(5735 - 5835 @ 80), (30)
 
+# Source:
+# https://www.ofca.gov.hk/filemanager/ofca/en/content_401/hkca1039.pdf (2.4 GHz and 5 GHz)
+# https://www.ofca.gov.hk/filemanager/ofca/en/content_401/hkca1081.pdf (6 GHz)
 country HK: DFS-ETSI
-	(2402 - 2482 @ 40), (20)
-	(5170 - 5250 @ 80), (17), AUTO-BW
-	(5250 - 5330 @ 80), (24), DFS, AUTO-BW
-	(5490 - 5710 @ 160), (24), DFS
-	(5735 - 5835 @ 80), (30)
+	(2400 - 2483.5 @ 40), (36)
+	(5150 - 5250 @ 80), (23), AUTO-BW, NO-OUTDOOR
+	(5250 - 5350 @ 80), (23), DFS, AUTO-BW, NO-OUTDOOR
+	(5470 - 5730 @ 160), (27), DFS
+	(5730 - 5850 @ 80), (36)
+	(5925 - 6425 @ 160), (14)
 
 country HN: DFS-FCC
 	(2402 - 2482 @ 40), (20)
@@ -850,11 +854,14 @@ country IL: DFS-ETSI
 	# Table B List of conditions, row 68, wireless device using 802.11a/n/ac protocol
 	(5725 - 5875 @ 80), (200 mW), AUTO-BW
 
+# Source:
+# https://dot.gov.in/spectrummanagement/delicensing-24-24835-ghz-band-gsr-45-e-5150-5350-ghz-gsr-46-e-and-5725-5875-ghz
+# https://dot.gov.in/spectrummanagement/license-exemption-5-ghz-gsr-1048e-dated-22102018
 country IN:
-	(2402 - 2482 @ 40), (20)
+	(2402 - 2482 @ 40), (30)
 	(5150 - 5250 @ 80), (30)
-	(5250 - 5350 @ 80), (24)
-	(5470 - 5725 @ 160), (24)
+	(5250 - 5350 @ 80), (24), DFS
+	(5470 - 5725 @ 160), (24), DFS
 	(5725 - 5875 @ 80), (30)
 
 country IR: DFS-JP
@@ -1500,11 +1507,12 @@ country RS: DFS-ETSI
 	# 60 GHz band channels 1-4, ref: Etsi En 302 567
 	(57000 - 66000 @ 2160), (40)
 
-# Source: https://docs.cntd.ru/document/902048009?section=text
-country RU: DFS-ETSI
-	(2400 - 2483.5 @ 40), (20)
-	(5150 - 5350 @ 160), (100 mW), NO-OUTDOOR, DFS
-	(5650 - 5850 @ 160), (100 mW), NO-OUTDOOR, DFS
+# Source: https://docs.cntd.ru/document/1300597464?section=text
+country RU:
+	(2400 - 2483.5 @ 40), (100mW)
+	(5150 - 5350 @ 160), (100 mW), NO-OUTDOOR
+	(5650 - 5850 @ 160), (100 mW), NO-OUTDOOR
+	(5925 - 6425 @ 160), (100 mW), NO-OUTDOOR
 	# 60 GHz band channels 1-4, ref: Changes to NLA 124_Order №129_22042015.pdf
 	(57000 - 66000 @ 2160), (40), NO-OUTDOOR
 

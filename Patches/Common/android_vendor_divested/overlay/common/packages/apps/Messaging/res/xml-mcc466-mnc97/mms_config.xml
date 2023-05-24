@@ -2,5 +2,7 @@
 <mms_config version="1">
     <bool name="enableGroupMms">true</bool>
     <bool name="groupChatDefaultsToMMS">true</bool>
-    <bool name="useCustomUserAgent">true</bool>
+    <int name="maxMessageSize">1048576</int>
+    <int name="maxImageHeight">2432</int>
+    <int name="maxImageWidth">4320</int>
 </mms_config>
