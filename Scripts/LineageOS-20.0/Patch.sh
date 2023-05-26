@@ -122,11 +122,6 @@ sed -i 's/34359738368/2147483648/' Android.bp; #revert 48-bit address space requ
 fi;
 fi;
 
-if enterAndClear "external/SecureCamera"; then
-sed -i '/LOCAL_MODULE/s/Camera/SecureCamera/' Android.mk; #Change module name
-sed -i '11iLOCAL_OVERRIDES_PACKAGES := Aperture Camera Camera2 LegacyCamera Snap OpenCamera' Android.mk; #Replace the others
-fi;
-
 if enterAndClear "frameworks/base"; then
 git revert --no-edit d36faad3267522c6d3ff91ba9dcca8f6274bccd1; #Reverts "JobScheduler: Respect allow-in-power-save perm" in favor of below patch
 git revert --no-edit 90d6826548189ca850d91692e71fcc1be426f453; #Reverts "Remove sensitive info from SUPL requests" in favor of below patch
@@ -414,7 +409,6 @@ fi;
 if enter "vendor/divested"; then
 awk -i inplace '!/_lookup/' overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove all lookup provider overrides
 echo "PRODUCT_PACKAGES += eSpeakNG" >> packages.mk; #PicoTTS needs work to compile on 18.1, use eSpeak-NG instead
-#sed -i 's/OpenCamera/SecureCamera/' packages.mk; #Use the GrapheneOS camera app
 sed -i 's/OpenCamera/Aperture/' packages.mk; #Use the LineageOS camera app
 awk -i inplace '!/speed-profile/' build/target/product/lowram.mk; #breaks compile on some dexpreopt devices
 sed -i 's/wifi,cell/internet/' overlay/common/frameworks/base/packages/SystemUI/res/values/config.xml; #Use the modern quick tile
