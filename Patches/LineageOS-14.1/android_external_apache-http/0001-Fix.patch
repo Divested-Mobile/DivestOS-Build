@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ian Rogers <irogers@google.com>
+Date: Fri, 29 Apr 2016 16:21:35 -0700
+Subject: [PATCH] Add depedencies that allow error prone to compile source.
+
+Bug: 27723540
+Change-Id: Ibd6faa03d9d3e52a0372be8192b756fe3940588e
+---
+ Android.mk | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Android.mk b/Android.mk
+index f44b4d4..c348fdc 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -93,9 +93,9 @@ LOCAL_SRC_FILES += \
+     ../../frameworks/base/core/java/android/net/http/HttpResponseCache.java \
+     ../../frameworks/base/core/java/android/net/http/SslCertificate.java \
+     ../../frameworks/base/core/java/android/net/http/SslError.java \
++    ../../frameworks/base/core/java/com/android/internal/util/HexDump.java \
+ 
+-
+-LOCAL_JAVA_LIBRARIES := $(apache_http_java_libs)
++LOCAL_JAVA_LIBRARIES := bouncycastle okhttp $(apache_http_java_libs)
+ LOCAL_MODULE_CLASS := JAVA_LIBRARIES
+ LOCAL_DROIDDOC_SOURCE_PATH := $(LOCAL_PATH)/src \
+   $(LOCAL_PATH)/android \

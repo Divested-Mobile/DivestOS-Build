@@ -84,6 +84,10 @@ applyPatch "$DOS_PATCHES/android_device_qcom_sepolicy/248649.patch"; #msm_irqbal
 applyPatch "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on user builds XXX: REMOVE THIS TRASH (DivestOS)
 fi;
 
+if enterAndClear "external/apache-http"; then
+applyPatch "$DOS_PATCHES/android_external_apache-http/0001-Fix.patch"; #Fix compile failure (AOSP)
+fi;
+
 if enterAndClear "external/chromium-webview"; then
 if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then DOS_WEBVIEW_CHERRYPICK; fi; #Update the WebView to latest if available
 if [ "$DOS_WEBVIEW_LFS" = true ]; then git lfs pull; fi; #Ensure the objects are available
@@ -190,7 +194,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/353758.patch"; #n-asb-2023-04 F
 applyPatch "$DOS_PATCHES/android_frameworks_base/353759.patch"; #n-asb-2023-04 Encode Intent scheme when serializing to URI string
 applyPatch "$DOS_PATCHES/android_frameworks_base/355865.patch"; #n-asb-2023-05 Uri: check authority and scheme as part of determining URI path
 applyPatch "$DOS_PATCHES/android_frameworks_base/355866.patch"; #n-asb-2023-05 Checks if AccessibilityServiceInfo is within parcelable size.
-applyPatch "$DOS_PATCHES/android_frameworks_base/355867.patch"; #n-asb-2023-05 Stop managed profile owner granting READ_SMS
+#applyPatch "$DOS_PATCHES/android_frameworks_base/355867.patch"; #n-asb-2023-05 Stop managed profile owner granting READ_SMS #XXX: no-op
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
