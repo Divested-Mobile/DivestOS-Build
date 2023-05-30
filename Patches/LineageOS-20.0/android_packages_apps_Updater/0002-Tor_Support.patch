@@ -33,7 +33,7 @@ index cc485f7..7cdfb93 100644
          android:allowBackup="false"
          android:icon="@mipmap/ic_launcher"
 diff --git a/res/layout/preferences_dialog.xml b/res/layout/preferences_dialog.xml
-index c586f44..b1536ea 100644
+index c1b4356..93f1bfc 100644
 --- a/res/layout/preferences_dialog.xml
 +++ b/res/layout/preferences_dialog.xml
 @@ -29,6 +29,14 @@
@@ -52,7 +52,7 @@ index c586f44..b1536ea 100644
          android:id="@+id/preferences_auto_delete_updates"
          android:layout_width="match_parent"
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index bfb2627..916e1e6 100644
+index 18e3ede..e92eb1d 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -70,6 +70,7 @@
@@ -72,7 +72,7 @@ index bfb2627..916e1e6 100644
      <string name="snack_update_not_installable">This update can\'t be installed on top of the current build.</string>
  
 diff --git a/src/org/lineageos/updater/UpdatesActivity.java b/src/org/lineageos/updater/UpdatesActivity.java
-index 9c56f0b..766fb83 100644
+index b1365cc..de386c3 100644
 --- a/src/org/lineageos/updater/UpdatesActivity.java
 +++ b/src/org/lineageos/updater/UpdatesActivity.java
 @@ -377,10 +377,14 @@ public class UpdatesActivity extends UpdatesListActivity {
@@ -96,26 +96,26 @@ index 9c56f0b..766fb83 100644
          Spinner autoCheckInterval = view.findViewById(R.id.preferences_auto_updates_check_interval);
 +        SwitchCompat onionRouting = view.findViewById(R.id.preferences_onion_routing);
          SwitchCompat autoDelete = view.findViewById(R.id.preferences_auto_delete_updates);
-         SwitchCompat dataWarning = view.findViewById(R.id.preferences_mobile_data_warning);
-         SwitchCompat abPerfMode = view.findViewById(R.id.preferences_ab_perf_mode);
-@@ -491,6 +496,7 @@ public class UpdatesActivity extends UpdatesListActivity {
+         SwitchCompat meteredNetworkWarning = view.findViewById(
+                 R.id.preferences_metered_network_warning);
+@@ -492,6 +497,7 @@ public class UpdatesActivity extends UpdatesListActivity {
  
          SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
          autoCheckInterval.setSelection(Utils.getUpdateCheckSetting(this));
 +        onionRouting.setChecked(prefs.getBoolean(Constants.PREF_ONION_ROUTING, false));
          autoDelete.setChecked(prefs.getBoolean(Constants.PREF_AUTO_DELETE_UPDATES, false));
-         dataWarning.setChecked(prefs.getBoolean(Constants.PREF_MOBILE_DATA_WARNING, true));
-         abPerfMode.setChecked(prefs.getBoolean(Constants.PREF_AB_PERF_MODE, false));
-@@ -530,6 +536,8 @@ public class UpdatesActivity extends UpdatesListActivity {
+         meteredNetworkWarning.setChecked(prefs.getBoolean(Constants.PREF_METERED_NETWORK_WARNING,
+                 prefs.getBoolean(Constants.PREF_MOBILE_DATA_WARNING, true)));
+@@ -532,6 +538,8 @@ public class UpdatesActivity extends UpdatesListActivity {
                      prefs.edit()
                              .putInt(Constants.PREF_AUTO_UPDATES_CHECK_INTERVAL,
                                      autoCheckInterval.getSelectedItemPosition())
 +                            .putBoolean(Constants.PREF_ONION_ROUTING,
 +                                    onionRouting.isChecked() && Utils.isOrbotInstalled(getApplicationContext()))
                              .putBoolean(Constants.PREF_AUTO_DELETE_UPDATES, autoDelete.isChecked())
-                             .putBoolean(Constants.PREF_MOBILE_DATA_WARNING, dataWarning.isChecked())
-                             .putBoolean(Constants.PREF_AB_PERF_MODE, abPerfMode.isChecked())
-@@ -542,6 +550,10 @@ public class UpdatesActivity extends UpdatesListActivity {
+                             .putBoolean(Constants.PREF_METERED_NETWORK_WARNING,
+                                     meteredNetworkWarning.isChecked())
+@@ -545,6 +553,10 @@ public class UpdatesActivity extends UpdatesListActivity {
                          UpdatesCheckReceiver.cancelUpdatesCheck(this);
                      }
  
@@ -296,7 +296,7 @@ index b9c4b5d..b94fff0 100644
                  mClient.connect();
                  int responseCode = mClient.getResponseCode();
 diff --git a/src/org/lineageos/updater/misc/Constants.java b/src/org/lineageos/updater/misc/Constants.java
-index 6144ed7..37e81d8 100644
+index beb9423..a51ab15 100644
 --- a/src/org/lineageos/updater/misc/Constants.java
 +++ b/src/org/lineageos/updater/misc/Constants.java
 @@ -30,6 +30,7 @@ public final class Constants {
@@ -306,12 +306,12 @@ index 6144ed7..37e81d8 100644
 +    public static final String PREF_ONION_ROUTING = "onion_routing";
      public static final String PREF_AUTO_DELETE_UPDATES = "auto_delete_updates";
      public static final String PREF_AB_PERF_MODE = "ab_perf_mode";
-     public static final String PREF_MOBILE_DATA_WARNING = "pref_mobile_data_warning";
+     public static final String PREF_METERED_NETWORK_WARNING = "pref_metered_network_warning";
 diff --git a/src/org/lineageos/updater/misc/Utils.java b/src/org/lineageos/updater/misc/Utils.java
-index 914ae6a..3eee6a7 100644
+index 77e7af6..79e5dce 100644
 --- a/src/org/lineageos/updater/misc/Utils.java
 +++ b/src/org/lineageos/updater/misc/Utils.java
-@@ -45,6 +45,7 @@ import java.io.BufferedReader;
+@@ -46,6 +46,7 @@ import java.io.BufferedReader;
  import java.io.File;
  import java.io.FileReader;
  import java.io.IOException;
@@ -319,7 +319,7 @@ index 914ae6a..3eee6a7 100644
  import java.util.ArrayList;
  import java.util.Enumeration;
  import java.util.HashSet;
-@@ -150,11 +151,75 @@ public class Utils {
+@@ -151,11 +152,75 @@ public class Utils {
          return updates;
      }
  

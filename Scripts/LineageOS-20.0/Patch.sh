@@ -478,9 +478,9 @@ if enterAndClear "kernel/oneplus/sm7250"; then
 git revert --no-edit 6eede8c64f268991abe669a6123e929e295fac29;
 fi;
 
-if enterAndClear "kernel/oneplus/sm8250"; then
-git revert --no-edit 6eede8c64f268991abe669a6123e929e295fac29;
-fi;
+#if enterAndClear "kernel/oneplus/sm8250"; then
+#git revert --no-edit 6eede8c64f268991abe669a6123e929e295fac29;
+#fi;
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
