@@ -1,0 +1,111 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Wed, 31 May 2023 18:16:06 -0400
+Subject: [PATCH] Add more DoH endpoints
+
+Change-Id: I72884caa00d7de91a940a1b2683713d73824e1db
+Signed-off-by: Tad <tad@spotco.us>
+---
+ PrivateDnsConfiguration.h | 82 ++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 81 insertions(+), 1 deletion(-)
+
+diff --git a/PrivateDnsConfiguration.h b/PrivateDnsConfiguration.h
+index 0f3c09dc..3c593369 100644
+--- a/PrivateDnsConfiguration.h
++++ b/PrivateDnsConfiguration.h
+@@ -237,7 +237,7 @@ class PrivateDnsConfiguration {
+ 
+     // TODO: Move below DoH relevant stuff into Rust implementation.
+     std::map<unsigned, DohIdentity> mDohTracker GUARDED_BY(mPrivateDnsLock);
+-    std::array<DohProviderEntry, 4> mAvailableDoHProviders = {{
++    std::array<DohProviderEntry, 8> mAvailableDoHProviders = {{
+             {"Google",
+              {"2001:4860:4860::8888", "2001:4860:4860::8844", "8.8.8.8", "8.8.4.4"},
+              "dns.google",
+@@ -248,6 +248,86 @@ class PrivateDnsConfiguration {
+              "cloudflare-dns.com",
+              "https://cloudflare-dns.com/dns-query",
+              false},
++            {"Cloudflare-Security",
++             {"2606:4700:4700::1112", "2606:4700:4700::1002", "1.0.0.2", "1.1.1.2"},
++             "security.cloudflare-dns.com",
++             "https://security.cloudflare-dns.com/dns-query",
++             false},
++            {"AdGuard",
++             {"2a10:50c0::ad1:ff", "2a10:50c0::ad2:ff", "94.140.14.14", "94.140.15.15"},
++             "dns.adguard-dns.com",
++             "https://dns.adguard-dns.com/dns-query",
++             false},
++            /*{"AppliedPrivacy",
++             {"2a02:1b8:10:234::2", "146.255.56.98"},
++             "dot1.applied-privacy.net",
++             "https://doh.applied-privacy.net/query",
++             false},
++            {"CIRA",
++             {"2620:10a:80bb::20", "2620:10a:80bc::20", "149.112.121.20", "149.112.122.20"},
++             "protected.canadianshield.cira.ca",
++             "https://protected.canadianshield.cira.ca/dns-query",
++             false},
++            {"CleanBrowsing-Security",
++             {"185.228.168.9"},
++             "security-filter-dns.cleanbrowsing.org",
++             "https://doh.cleanbrowsing.org/doh/security-filter",
++             false},
++            {"ControlD-P2",
++             {"2606:1a40::11", "76.76.2.11"},
++             "p2.freedns.controld.com",
++             "https://freedns.controld.com/p2",
++             false},
++            {"CZNIC",
++             {"2001:148f:ffff::1", "2001:148f:fffe::1", "193.17.47.1", "185.43.135.1"},
++             "odvr.nic.cz",
++             "https://odvr.nic.cz/doh",
++             false},*/
++            {"DNSZERO",
++             {"2a0f:fc80::", "2a0f:fc81::", "193.110.81.0", "185.253.5.0"},
++             "dns0.eu",
++             "https://dns0.eu",
++             false},
++            {"DNSZERO-ZERO",
++             {"2a0f:fc80::9", "2a0f:fc81::9", "185.253.5.9", "193.110.81.9"},
++             "zero.dns0.eu",
++             "https://zero.dns0.eu",
++             false},
++            /*{"Mullvad",
++             {"2a07:e340::2", "194.242.2.2"},
++             "dns.mullvad.net",
++             "https://dns.mullvad.net/dns-query",
++             false},
++            {"Mullvad-AdBlock",
++             {"2a07:e340::3", "194.242.2.3"},
++             "adblock.dns.mullvad.net",
++             "https://adblock.dns.mullvad.net/dns-query",
++             false},
++            {"QuadNine",
++             {"2620:fe::9", "2620:fe::fe", "9.9.9.9", "149.112.112.112"},
++             "dns.quad9.net",
++             "https://dns.quad9.net/dns-query",
++             false},
++            {"Restena",
++             {"2001:a18:1::29", "158.64.1.29"},
++             "kaitain.restena.lu",
++             "https://kaitain.restena.lu/dns-query",
++             false},
++            {"SWITCH",
++             {"2001:620:0:ff::3", "2001:620:0:ff::2", "130.59.31.251", "130.59.31.248"},
++             "dns.switch.ch",
++             "https://dns.switch.ch/dns-query",
++             false},
++            {"UncensoredDNS-Anycast",
++             {"2001:67c:28a4::", "91.239.100.100"},
++             "anycast.uncensoreddns.org",
++             "https://anycast.uncensoreddns.org/dns-query",
++             false},
++            {"UncensoredDNS-Unicast",
++             {"2a01:3a0:53:53::", "89.233.43.71"},
++             "unicast.uncensoreddns.org",
++             "https://unicast.uncensoreddns.org/dns-query",
++             false},*/
+ 
+             // The DoH providers for testing only.
+             // Using ResolverTestProvider requires that the DnsResolver is configured by someone
