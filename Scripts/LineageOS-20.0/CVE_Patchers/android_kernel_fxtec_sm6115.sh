@@ -82,7 +82,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2269/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31084/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32233/4.19/0002.patch
-editKernelLocalversion "-dos.p82"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-34256/4.19/0003.patch
+editKernelLocalversion "-dos.p83"
 else echo "kernel_fxtec_sm6115 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
