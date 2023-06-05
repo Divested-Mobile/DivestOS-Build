@@ -138,7 +138,7 @@ index ed03f5198d6f..7df32c10b16b 100644
 +    /**
 +     * @hide
 +     */
-+    public static final String PRIVATE_DNS_SPECIFIER_UNCENSOREDDNS = "unicast.censurfridns.dk";
++    public static final String PRIVATE_DNS_SPECIFIER_UNCENSOREDDNS = "anycast.censurfridns.dk";
      /**
       * The default Private DNS mode.
       *

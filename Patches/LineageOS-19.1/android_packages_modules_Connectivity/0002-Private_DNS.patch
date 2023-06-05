@@ -171,7 +171,7 @@ index 9c8d08fb1..00da8bf9d 100644
 +    /**
 +     * @hide
 +     */
-+    public static final String PRIVATE_DNS_SPECIFIER_UNCENSOREDDNS = "unicast.censurfridns.dk";
++    public static final String PRIVATE_DNS_SPECIFIER_UNCENSOREDDNS = "anycast.censurfridns.dk";
 +
 +
      /** @hide */

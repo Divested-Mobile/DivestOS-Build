@@ -75,7 +75,7 @@ index 6bde4192..f0ece387 100644
 +                ConnectivitySettingsManager.setPrivateDnsMode(mContext,
 +                            ConnectivitySettingsManager.PRIVATE_DNS_MODE_PROVIDER_HOSTNAME);
 +            } else if ("uncensoreddns".equals(currentPrivateDnsMode)) {
-+                ConnectivitySettingsManager.setPrivateDnsHostname(mContext, "unicast.censurfridns.dk");
++                ConnectivitySettingsManager.setPrivateDnsHostname(mContext, "anycast.censurfridns.dk");
 +                ConnectivitySettingsManager.setPrivateDnsMode(mContext,
 +                            ConnectivitySettingsManager.PRIVATE_DNS_MODE_PROVIDER_HOSTNAME);
 +            }

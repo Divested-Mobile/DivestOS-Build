@@ -133,7 +133,7 @@ index e78fa63658..809b07744a 100644
 +    <string name="private_dns_hostname_switch" translatable="false">dns.switch.ch</string>
 +
 +    <string name="private_dns_mode_uncensoreddns" translatable="false">UncensoredDNS (DK)</string>
-+    <string name="private_dns_hostname_uncensoreddns" translatable="false">unicast.censurfridns.dk</string>
++    <string name="private_dns_hostname_uncensoreddns" translatable="false">anycast.censurfridns.dk</string>
 +
      <!-- Advanced keyboard settings -->
      <string name="keyboard_extras_title">Extras</string>
