@@ -165,7 +165,7 @@ index 9d1055c..d0c3aca 100644
          if (mSupportsKeyDisabler) {
              final Bundle myPageBundle = mSetupWizardApp.getSettingsBundle();
 diff --git a/src/org/lineageos/setupwizard/SetupWizardApp.java b/src/org/lineageos/setupwizard/SetupWizardApp.java
-index dcfe3bc..9466815 100644
+index 51d65af..577a3e0 100644
 --- a/src/org/lineageos/setupwizard/SetupWizardApp.java
 +++ b/src/org/lineageos/setupwizard/SetupWizardApp.java
 @@ -60,7 +60,6 @@ public class SetupWizardApp extends Application {

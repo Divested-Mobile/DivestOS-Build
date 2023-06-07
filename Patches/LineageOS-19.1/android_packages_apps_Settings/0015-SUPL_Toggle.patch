@@ -20,7 +20,7 @@ index 3d44ae6ca6..b970538e6e 100644
      <string name="connectivity_check_summary">HTTP endpoints to use for performing internet connectivity checks.</string>
 +
 +    <string name="force_disable_supl_title">Force disable Secure User Plane Location (SUPL)</string>
-+    <string name="force_disable_supl_summary">Always disable SUPL assisted location support regardless of carrier configuration (does not disable control plane A-GNSS and DivestOS does not send IMSI to the SUPL)</string>
++    <string name="force_disable_supl_summary">Always disable SUPL assisted location support regardless of carrier configuration or emergency call status (does not disable control plane A-GNSS and DivestOS does not send IMSI to the SUPL)</string>
  </resources>
 diff --git a/res/xml/location_settings.xml b/res/xml/location_settings.xml
 index fe87efd73d..74502a7d58 100644

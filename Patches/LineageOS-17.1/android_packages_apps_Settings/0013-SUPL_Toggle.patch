@@ -20,7 +20,7 @@ index a64940d793..f1ea003e3b 100644
      <string name="bluetooth_connect_access_dialog_positive">Connect</string>
 +
 +    <string name="force_disable_supl_title">Force disable Secure User Plane Location (SUPL)</string>
-+    <string name="force_disable_supl_summary">Always disable SUPL assisted location support regardless of carrier configuration (does not disable control plane A-GNSS and DivestOS does not send IMSI to the SUPL)</string>
++    <string name="force_disable_supl_summary">Always disable SUPL assisted location support regardless of carrier configuration or emergency call status (does not disable control plane A-GNSS and DivestOS does not send IMSI to the SUPL)</string>
  </resources>
 diff --git a/res/xml/location_settings.xml b/res/xml/location_settings.xml
 index 136e6ab619..ae1a0e0f3e 100644
