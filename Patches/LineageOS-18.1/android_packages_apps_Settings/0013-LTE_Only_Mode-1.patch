@@ -34,7 +34,7 @@ index 79e036a04c..5907f3a52e 100644
          <item>TDSCDMA only</item>
          <item>TDSCDMA/WCDMA</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 087fd82ef9..060f94a48f 100644
+index 5af3638555..50803304ac 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -11593,6 +11593,8 @@

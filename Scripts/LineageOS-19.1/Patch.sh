@@ -97,6 +97,7 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/generic_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
+sed -i 's/2023-05-05/2023-06-05/' core/version_defaults.mk; #Bump Security String #S_asb_2023-06 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -312,6 +313,11 @@ fi;
 
 if enterAndClear "packages/apps/ThemePicker"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_ThemePicker/0001-Monet_Toggle.patch"; #Add a UI for enabling Material You (GrapheneOS)
+fi;
+
+if enterAndClear "packages/apps/Traceur"; then
+git fetch https://github.com/LineageOS/android_packages_apps_Traceur refs/changes/65/358265/1 && git cherry-pick FETCH_HEAD; #S_asb_2023-06
+git fetch https://github.com/LineageOS/android_packages_apps_Traceur refs/changes/66/358266/1 && git cherry-pick FETCH_HEAD;
 fi;
 
 if enterAndClear "packages/apps/Trebuchet"; then

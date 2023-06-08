@@ -68,7 +68,7 @@ index 617548cadc..e1976fb5cf 100644
           These are shown in a list dialog. -->
      <string-array name="lock_after_timeout_entries">
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 0c6fe1a541..0173a8bf31 100644
+index a7a338ed7a..8d8e7aaccd 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -12237,4 +12237,7 @@
