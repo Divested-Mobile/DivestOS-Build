@@ -76,7 +76,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2023-05-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-05 #XXX
+sed -i 's/2021-06-05/2023-06-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-06 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -142,6 +142,7 @@ if enterAndClear "frameworks/av"; then
 applyPatch "$DOS_PATCHES/android_frameworks_av/212799.patch"; #FLAC extractor CVE-2017-0592. alt: 212827/174106 (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_av/319987.patch"; #n-asb-2021-12 Fix heap-buffer-overflow in MPEG4Extractor
 applyPatch "$DOS_PATCHES/android_frameworks_av/321222.patch"; #n-asb-2022-01 SimpleDecodingSource:Prevent OOB write in heap mem
+applyPatch "$DOS_PATCHES/android_frameworks_av/358729.patch"; #n-asb-2023-06 Fix NuMediaExtractor::readSampleData buffer Handling
 fi;
 
 if enterAndClear "frameworks/base"; then
@@ -195,6 +196,9 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/353759.patch"; #n-asb-2023-04 E
 applyPatch "$DOS_PATCHES/android_frameworks_base/355865.patch"; #n-asb-2023-05 Uri: check authority and scheme as part of determining URI path
 applyPatch "$DOS_PATCHES/android_frameworks_base/355866.patch"; #n-asb-2023-05 Checks if AccessibilityServiceInfo is within parcelable size.
 #applyPatch "$DOS_PATCHES/android_frameworks_base/355867.patch"; #n-asb-2023-05 Stop managed profile owner granting READ_SMS #XXX: no-op
+applyPatch "$DOS_PATCHES/android_frameworks_base/358732.patch"; #n-asb-2023-06 Prevent RemoteViews crashing SystemUi
+applyPatch "$DOS_PATCHES/android_frameworks_base/358733.patch"; #n-asb-2023-06 Check key intent for selectors and prohibited flags
+applyPatch "$DOS_PATCHES/android_frameworks_base/358734.patch"; #n-asb-2023-06 Handle invalid data during job loading.
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -363,6 +367,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/334037.patch"; #n-asb-20
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/334874.patch"; #n-asb-2022-08 Verify ringtone from ringtone picker is audio
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/334875.patch"; #n-asb-2022-08 Fix Settings crash when setting a null ringtone
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/345679.patch"; #n-asb-2022-12 Add FLAG_SECURE for ChooseLockPassword and Pattern
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/358738.patch"; #n-asb-2023-06 Convert argument to intent in AddAccountSettings.
 git revert --no-edit 2ebe6058c546194a301c1fd22963d6be4adbf961; #Don't hide OEM unlock
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/201113.patch"; #wifi: Add world regulatory domain country code (syphyr)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
@@ -376,6 +381,10 @@ fi;
 
 if enterAndClear "packages/apps/SetupWizard"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove the rest of CMStats (DivestOS)
+fi;
+
+if enterAndClear "packages/apps/TvSettings"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_TvSettings/358739.patch"; #n-asb-2023-06 Convert argument to intent in addAccount TvSettings.
 fi;
 
 if enterAndClear "packages/apps/Updater"; then
@@ -452,6 +461,9 @@ applyPatch "$DOS_PATCHES/android_system_bt/351106.patch"; #n-asb-2023-03 Fix an 
 applyPatch "$DOS_PATCHES/android_system_bt/351109.patch"; #n-asb-2023-03 AVRCP: Fix potential buffer overflow
 applyPatch "$DOS_PATCHES/android_system_bt/353754.patch"; #n-asb-2023-04 AVDTP: Fix a potential overflow about the media payload offset
 applyPatch "$DOS_PATCHES/android_system_bt/353755.patch"; #n-asb-2023-04 Fix an OOB bug in register_notification_rsp
+applyPatch "$DOS_PATCHES/android_system_bt/358735.patch"; #n-asb-2023-06 Prevent use-after-free of HID reports
+applyPatch "$DOS_PATCHES/android_system_bt/358736.patch"; #n-asb-2023-06 Revert "Revert "[RESTRICT AUTOMERGE] Validate buffer length in sdpu_build_uuid_seq""
+applyPatch "$DOS_PATCHES/android_system_bt/358737.patch"; #n-asb-2023-06 Revert "Revert "Fix wrong BR/EDR link key downgrades (P_256->P_192)""
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #bt-sbc-hd-dualchannel-nougat: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #bt-sbc-hd-dualchannel-nougat: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)

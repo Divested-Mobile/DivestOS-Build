@@ -1,0 +1,52 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Lee <brnlee@google.com>
+Date: Fri, 17 Feb 2023 16:05:17 -0800
+Subject: [PATCH] Check key intent for selectors and prohibited flags
+
+Bug: 265015796
+Test: atest
+FrameworksServicesTests: com.android.server.accounts.AccountManagerServiceTest
+(cherry picked from commit e53a96304352e2965176c8d32ac1b504e52ef185)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:92114886bdce8467c52c655c186f3e7ab1e134d8)
+Merged-In: Ie16f8654337bd75eaad3156817470674b4f0cee3
+Change-Id: Ie16f8654337bd75eaad3156817470674b4f0cee3
+---
+ .../server/accounts/AccountManagerService.java | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
+
+diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
+index b27f9b08c05e..bdbf03eda2f5 100644
+--- a/services/core/java/com/android/server/accounts/AccountManagerService.java
++++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
+@@ -4244,10 +4244,6 @@ public class AccountManagerService
+             if (intent.getClipData() == null) {
+                 intent.setClipData(ClipData.newPlainText(null, null));
+             }
+-            intent.setFlags(intent.getFlags() & ~(Intent.FLAG_GRANT_READ_URI_PERMISSION
+-                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+-                    | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+-                    | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION));
+             long bid = Binder.clearCallingIdentity();
+             try {
+                 PackageManager pm = mContext.getPackageManager();
+@@ -4290,7 +4286,19 @@ public class AccountManagerService
+             if (intent == null) {
+                 return (simulateIntent == null);
+             }
+-            return intent.filterEquals(simulateIntent);
++            if (!intent.filterEquals(simulateIntent)) {
++                return false;
++            }
++
++            if (intent.getSelector() != simulateIntent.getSelector()) {
++                return false;
++            }
++
++            int prohibitedFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
++                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
++                    | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
++                    | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION;
++            return (simulateIntent.getFlags() & prohibitedFlags) == 0;
+         }
+ 
+         private void close() {
