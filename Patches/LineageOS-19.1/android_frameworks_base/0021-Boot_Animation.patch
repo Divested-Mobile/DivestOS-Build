@@ -10,10 +10,10 @@ Change-Id: I0c87ddd9aec21fc610f3d17701192c04150308d7
  1 file changed, 2 insertions(+), 8 deletions(-)
 
 diff --git a/cmds/bootanimation/BootAnimation.cpp b/cmds/bootanimation/BootAnimation.cpp
-index f7cd1c6d78eb..429c852b4ee7 100644
+index 217c7ce47e79..22b4d8ef4632 100644
 --- a/cmds/bootanimation/BootAnimation.cpp
 +++ b/cmds/bootanimation/BootAnimation.cpp
-@@ -742,7 +742,7 @@ GLuint linkShader(GLuint vertexShader, GLuint fragmentShader) {
+@@ -743,7 +743,7 @@ GLuint linkShader(GLuint vertexShader, GLuint fragmentShader) {
  }
  
  void BootAnimation::initShaders() {
@@ -22,7 +22,7 @@ index f7cd1c6d78eb..429c852b4ee7 100644
      GLuint vertexShader = compileShader(GL_VERTEX_SHADER, (const GLchar *)VERTEX_SHADER_SOURCE);
      GLuint imageFragmentShader =
          compileShader(GL_FRAGMENT_SHADER, dynamicColoringEnabled
-@@ -778,13 +778,7 @@ bool BootAnimation::threadLoop() {
+@@ -779,13 +779,7 @@ bool BootAnimation::threadLoop() {
      bool result;
      initShaders();
  
