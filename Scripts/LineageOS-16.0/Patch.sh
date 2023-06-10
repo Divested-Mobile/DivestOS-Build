@@ -151,9 +151,6 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_fram
 fi;
 
 if enterAndClear "frameworks/base"; then
-applyPatch "$DOS_PATCHES/android_frameworks_base/355765-backport.patch"; #R_asb_2023-05 Checks if AccessibilityServiceInfo is within parcelable size.
-applyPatch "$DOS_PATCHES/android_frameworks_base/355865.patch"; #n-asb-2023-05 Uri: check authority and scheme as part of determining URI path
-applyPatch "$DOS_PATCHES/android_frameworks_base/355767.patch"; #R_asb_2023-05 Enforce stricter rules when registering phoneAccounts
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -195,9 +192,6 @@ rm -rf packages/PrintRecommendationService; #Creates popups to install proprieta
 fi;
 
 if enterAndClear "frameworks/native"; then
-applyPatch "$DOS_PATCHES/android_frameworks_native/355772.patch"; #R_asb_2023-05 Check for malformed Sensor Flattenable
-applyPatch "$DOS_PATCHES/android_frameworks_native/355773-backport.patch"; #R_asb_2023-05 Remove some new memory leaks from SensorManager
-applyPatch "$DOS_PATCHES/android_frameworks_native/355774-backport.patch"; #R_asb_2023-05 Add removeInstanceForPackageMethod to SensorManager
 applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors.patch"; #Require OTHER_SENSORS permission for sensors (GrapheneOS)
 fi;
 
@@ -331,7 +325,6 @@ fi;
 #fi;
 
 if enterAndClear "packages/services/Telecomm"; then
-applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/355777-backport.patch"; #R_asb_2023-05 enforce stricter rules when registering phoneAccount
 fi;
 
 if enterAndClear "packages/services/Telephony"; then
