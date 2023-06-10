@@ -73,7 +73,7 @@ applyPatch "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys t
 applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2023-05-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2023-06-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -125,9 +125,10 @@ if enterAndClear "external/zlib"; then
 applyPatch "$DOS_PATCHES/android_external_zlib/351909.patch"; #P_asb_2023-03 Fix a bug when getting a gzip header extra field with inflate().
 fi;
 
-#if enterAndClear "frameworks/av"; then
+if enterAndClear "frameworks/av"; then
 #if [ "$DOS_GRAPHENE_MALLOC_BROKEN" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; fi; #(GrapheneOS)
-#fi;
+applyPatch "$DOS_PATCHES/android_frameworks_av/358729.patch"; #n-asb-2023-06 Fix NuMediaExtractor::readSampleData buffer Handling
+fi;
 
 if enterAndClear "frameworks/base"; then
 applyPatch "$DOS_PATCHES/android_frameworks_base/330961-backport.patch"; #P_asb_2022-05 Keyguard - Treat messsages to lock with priority
@@ -181,6 +182,9 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/354245.patch"; #P_asb_2023-04 E
 applyPatch "$DOS_PATCHES/android_frameworks_base/355765-backport.patch"; #R_asb_2023-05 Checks if AccessibilityServiceInfo is within parcelable size.
 applyPatch "$DOS_PATCHES/android_frameworks_base/355865.patch"; #n-asb-2023-05 Uri: check authority and scheme as part of determining URI path
 applyPatch "$DOS_PATCHES/android_frameworks_base/355767.patch"; #R_asb_2023-05 Enforce stricter rules when registering phoneAccounts
+applyPatch "$DOS_PATCHES/android_frameworks_base/358560-backport.patch"; #R_asb_2023-06 Check key intent for selectors and prohibited flags
+applyPatch "$DOS_PATCHES/android_frameworks_base/358561-backport.patch"; #R_asb_2023-06 Handle invalid data during job loading.
+applyPatch "$DOS_PATCHES/android_frameworks_base/358732-backport.patch"; #n-asb-2023-06 Prevent RemoteViews crashing SystemUi
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
@@ -320,6 +324,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/335115.patch"; #P_asb_20
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/345911.patch"; #P_asb_2022-12 Prevent exfiltration of system files via avatar picker.
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/345912-backport.patch"; #P_asb_2022-12 Add FLAG_SECURE for ChooseLockPassword and Pattern
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/351914-backport.patch"; #P_asb_2023-03 FRP bypass defense in the settings app
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/358568-backport.patch"; #R_asb_2023-06 Convert argument to intent in AddAccountSettings.
 git revert --no-edit a96df110e84123fe1273bff54feca3b4ca484dcd; #Don't hide OEM unlock
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 if [ "$DOS_SENSORS_PERM" = true ]; then
@@ -332,6 +337,10 @@ fi;
 
 if enterAndClear "packages/apps/SetupWizard"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics.patch"; #Remove analytics (DivestOS)
+fi;
+
+if enterAndClear "packages/apps/TvSettings"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_TvSettings/358578.patch"; #R_asb_2023-06 Convert argument to intent in addAccount TvSettings.
 fi;
 
 if enterAndClear "packages/apps/Updater"; then
@@ -404,6 +413,9 @@ applyPatch "$DOS_PATCHES/android_system_bt/351917.patch"; #P_asb_2023-03 Fix an 
 applyPatch "$DOS_PATCHES/android_system_bt/351918.patch"; #P_asb_2023-03 Fix an OOB write in SDP_AddAttribute
 applyPatch "$DOS_PATCHES/android_system_bt/354246.patch"; #P_asb_2023-04 Fix OOB access in avdt_scb_hdl_pkt_no_frag
 applyPatch "$DOS_PATCHES/android_system_bt/354247.patch"; #P_asb_2023-04 Fix an OOB bug in register_notification_rsp
+applyPatch "$DOS_PATCHES/android_system_bt/358580.patch"; #R_asb_2023-06 Prevent use-after-free of HID reports
+applyPatch "$DOS_PATCHES/android_system_bt/358581-backport.patch"; #R_asb_2023-06 Revert "Revert "[RESTRICT AUTOMERGE] Validate buffer length in sdpu_build_uuid_seq""
+applyPatch "$DOS_PATCHES/android_system_bt/358582.patch"; #R_asb_2023-06 Revert "Revert "Fix wrong BR/EDR link key downgrades (P_256->P_192)""
 fi;
 
 if enterAndClear "system/core"; then

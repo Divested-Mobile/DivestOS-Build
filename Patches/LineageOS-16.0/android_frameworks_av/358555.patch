@@ -1,0 +1,75 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ray Essick <essick@google.com>
+Date: Mon, 27 Mar 2023 18:16:46 -0500
+Subject: [PATCH] Fix NuMediaExtractor::readSampleData buffer Handling
+
+readSampleData() did not initialize buffer before filling it,
+leading to OOB memory references. Correct and clarify the book
+keeping around output buffer management.
+
+Bug: 275418191
+Test: CtsMediaExtractorTestCases w/debug messages
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:943fc12219b21d2a98f0ddc070b9b316a6f5d412)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:84c69bca81175feb2fd97ebb22e432ee41572786)
+Merged-In: Ie744f118526f100d82a312c64f7c6fcf20773b6d
+Change-Id: Ie744f118526f100d82a312c64f7c6fcf20773b6d
+---
+ media/libstagefright/NuMediaExtractor.cpp | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/media/libstagefright/NuMediaExtractor.cpp b/media/libstagefright/NuMediaExtractor.cpp
+index 4a7d6ca7ad..90ddcb81c3 100644
+--- a/media/libstagefright/NuMediaExtractor.cpp
++++ b/media/libstagefright/NuMediaExtractor.cpp
+@@ -607,9 +607,11 @@ status_t NuMediaExtractor::appendVorbisNumPageSamples(
+         numPageSamples = -1;
+     }
+ 
++    // insert, including accounting for the space used.
+     memcpy((uint8_t *)buffer->data() + mbuf->range_length(),
+            &numPageSamples,
+            sizeof(numPageSamples));
++    buffer->setRange(buffer->offset(), buffer->size() + sizeof(numPageSamples));
+ 
+     uint32_t type;
+     const void *data;
+@@ -658,6 +660,8 @@ status_t NuMediaExtractor::readSampleData(const sp<ABuffer> &buffer) {
+ 
+     ssize_t minIndex = fetchAllTrackSamples();
+ 
++    buffer->setRange(0, 0);     // start with an empty buffer
++
+     if (minIndex < 0) {
+         return ERROR_END_OF_STREAM;
+     }
+@@ -673,25 +677,25 @@ status_t NuMediaExtractor::readSampleData(const sp<ABuffer> &buffer) {
+         sampleSize += sizeof(int32_t);
+     }
+ 
++    // capacity() is ok since we cleared out the buffer
+     if (buffer->capacity() < sampleSize) {
+         return -ENOMEM;
+     }
+ 
++    const size_t srclen = it->mBuffer->range_length();
+     const uint8_t *src =
+         (const uint8_t *)it->mBuffer->data()
+             + it->mBuffer->range_offset();
+ 
+-    memcpy((uint8_t *)buffer->data(), src, it->mBuffer->range_length());
++    memcpy((uint8_t *)buffer->data(), src, srclen);
++    buffer->setRange(0, srclen);
+ 
+     status_t err = OK;
+     if (info->mTrackFlags & kIsVorbis) {
++        // adjusts range when it inserts the extra bits
+         err = appendVorbisNumPageSamples(it->mBuffer, buffer);
+     }
+ 
+-    if (err == OK) {
+-        buffer->setRange(0, sampleSize);
+-    }
+-
+     return err;
+ }
+ 

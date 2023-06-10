@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Dementyev <dementyev@google.com>
+Date: Tue, 7 Mar 2023 10:55:07 -0800
+Subject: [PATCH] Convert argument to intent in addAccount TvSettings.
+
+Bug: 265798353
+Test: manual
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:706edcb7532d74788f899968016b7a6273bfbcac)
+Merged-In: I06a63078f55ee8169123b1dfcf1811e682e0776e
+Change-Id: I06a63078f55ee8169123b1dfcf1811e682e0776e
+---
+ .../tv/settings/accounts/AddAccountWithTypeActivity.java        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Settings/src/com/android/tv/settings/accounts/AddAccountWithTypeActivity.java b/Settings/src/com/android/tv/settings/accounts/AddAccountWithTypeActivity.java
+index a608bc4fa..ff71ac93b 100644
+--- a/Settings/src/com/android/tv/settings/accounts/AddAccountWithTypeActivity.java
++++ b/Settings/src/com/android/tv/settings/accounts/AddAccountWithTypeActivity.java
+@@ -52,7 +52,7 @@ public class AddAccountWithTypeActivity extends Activity {
+                     Log.e(TAG, "Failed to retrieve add account intent from authenticator");
+                     setResultAndFinish(Activity.RESULT_CANCELED);
+                 } else {
+-                    startActivityForResult(addAccountIntent, REQUEST_ADD_ACCOUNT);
++                    startActivityForResult(new Intent(addAccountIntent), REQUEST_ADD_ACCOUNT);
+                 }
+             } catch (IOException|AuthenticatorException|OperationCanceledException e) {
+                 Log.e(TAG, "Failed to get add account intent: ", e);

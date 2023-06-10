@@ -1,0 +1,85 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Valentin Iftime <valiiftime@google.com>
+Date: Wed, 22 Feb 2023 09:38:55 +0100
+Subject: [PATCH] Prevent RemoteViews crashing SystemUi
+
+  Catch canvas drawing exceptions caused  by unsuported image sizes.
+
+Test: 1. Post a custom view notification with a layout
+	containing an ImageView that references a 5k x 5k image
+2. Add an App Widget to the home screen with that has the
+	layout mentioned above as preview/initial layout.
+
+Bug: 268193777
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:cfc0b34432ab54e3fa472db5c43e620293f64a5d)
+Merged-In: Ib3bda769c499b4069b49c566b1b227f98f707a8a
+Change-Id: Ib3bda769c499b4069b49c566b1b227f98f707a8a
+---
+ .../android/appwidget/AppWidgetHostView.java  | 39 ++++++++++++++-----
+ 1 file changed, 29 insertions(+), 10 deletions(-)
+
+diff --git a/core/java/android/appwidget/AppWidgetHostView.java b/core/java/android/appwidget/AppWidgetHostView.java
+index ab0eb92e1726..02b244bdd9a6 100644
+--- a/core/java/android/appwidget/AppWidgetHostView.java
++++ b/core/java/android/appwidget/AppWidgetHostView.java
+@@ -21,6 +21,7 @@ import android.content.Context;
+ import android.content.pm.ApplicationInfo;
+ import android.content.pm.PackageManager.NameNotFoundException;
+ import android.content.res.Resources;
++import android.graphics.Canvas;
+ import android.graphics.Color;
+ import android.graphics.Rect;
+ import android.os.Build;
+@@ -248,19 +249,26 @@ public class AppWidgetHostView extends FrameLayout {
+             super.onLayout(changed, left, top, right, bottom);
+         } catch (final RuntimeException e) {
+             Log.e(TAG, "Remote provider threw runtime exception, using error view instead.", e);
+-            removeViewInLayout(mView);
+-            View child = getErrorView();
+-            prepareView(child);
+-            addViewInLayout(child, 0, child.getLayoutParams());
+-            measureChild(child, MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.EXACTLY),
+-                    MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.EXACTLY));
+-            child.layout(0, 0, child.getMeasuredWidth() + mPaddingLeft + mPaddingRight,
+-                    child.getMeasuredHeight() + mPaddingTop + mPaddingBottom);
+-            mView = child;
+-            mViewMode = VIEW_MODE_ERROR;
++            handleViewError();
+         }
+     }
+ 
++    /**
++     * Remove bad view and replace with error message view
++     */
++    private void handleViewError() {
++        removeViewInLayout(mView);
++        View child = getErrorView();
++        prepareView(child);
++        addViewInLayout(child, 0, child.getLayoutParams());
++        measureChild(child, MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.EXACTLY),
++                MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.EXACTLY));
++        child.layout(0, 0, child.getMeasuredWidth() + mPaddingLeft + mPaddingRight,
++                child.getMeasuredHeight() + mPaddingTop + mPaddingBottom);
++        mView = child;
++        mViewMode = VIEW_MODE_ERROR;
++    }
++
+     /**
+      * Provide guidance about the size of this widget to the AppWidgetManager. The widths and
+      * heights should correspond to the full area the AppWidgetHostView is given. Padding added by
+@@ -646,4 +654,15 @@ public class AppWidgetHostView extends FrameLayout {
+         super.onInitializeAccessibilityNodeInfoInternal(info);
+         info.setClassName(AppWidgetHostView.class.getName());
+     }
++
++    @Override
++    protected void dispatchDraw(Canvas canvas) {
++        try {
++            super.dispatchDraw(canvas);
++        } catch (Exception e) {
++            // Catch draw exceptions that may be caused by RemoteViews
++            Log.e(TAG, "Drawing view failed: " + e);
++            post(this::handleViewError);
++        }
++    }
+ }

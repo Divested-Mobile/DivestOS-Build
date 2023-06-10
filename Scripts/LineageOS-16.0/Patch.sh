@@ -97,7 +97,7 @@ applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv a
 sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 17/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2022-01-05/2023-05-05/' core/version_defaults.mk; #Bump Security String #P_asb_2023-05 #XXX
+sed -i 's/2022-01-05/2023-06-05/' core/version_defaults.mk; #Bump Security String #P_asb_2023-06 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -148,9 +148,14 @@ fi;
 
 if enterAndClear "frameworks/av"; then
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; fi; #(GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_av/358555.patch"; #R_asb_2023-06 Fix NuMediaExtractor::readSampleData buffer Handling
 fi;
 
 if enterAndClear "frameworks/base"; then
+applyPatch "$DOS_PATCHES/android_frameworks_base/358560-backport.patch"; #R_asb_2023-06 Check key intent for selectors and prohibited flags
+applyPatch "$DOS_PATCHES/android_frameworks_base/358561-backport.patch"; #R_asb_2023-06 Handle invalid data during job loading.
+applyPatch "$DOS_PATCHES/android_frameworks_base/358562-backport.patch"; #R_asb_2023-06 Allow filtering of services
+applyPatch "$DOS_PATCHES/android_frameworks_base/358732-backport.patch"; #n-asb-2023-06 Prevent RemoteViews crashing SystemUi
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -260,6 +265,10 @@ if enterAndClear "packages/apps/Bluetooth"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
+if enterAndClear "packages/apps/Car/Settings"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Car_Settings/358565-backport.patch"; #R_asb_2023-06 Convert argument to Intent in car settings AddAccountActivity.
+fi;
+
 if enterAndClear "packages/apps/Contacts"; then
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0003-Skip_Accounts.patch"; #Don't prompt to add account when creating a contact (CalyxOS)
@@ -290,6 +299,7 @@ fi;
 
 if enterAndClear "packages/apps/Settings"; then
 git revert --no-edit c240992b4c86c7f226290807a2f41f2619e7e5e8; #Don't hide OEM unlock
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/358568-backport.patch"; #R_asb_2023-06 Convert argument to intent in AddAccountSettings.
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch) #TODO: Needs work
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 64;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase default max password length to 64 (GrapheneOS)
@@ -302,6 +312,10 @@ fi;
 
 if enterAndClear "packages/apps/Trebuchet"; then
 cp $DOS_BUILD_BASE/vendor/divested/overlay/common/packages/apps/Trebuchet/res/xml/default_workspace_*.xml res/xml/; #XXX: Likely no longer needed
+fi;
+
+if enterAndClear "packages/apps/TvSettings"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_TvSettings/358578.patch"; #R_asb_2023-06 Convert argument to intent in addAccount TvSettings.
 fi;
 
 if enterAndClear "packages/apps/Updater"; then
@@ -324,18 +338,18 @@ fi;
 #cp $DOS_PATCHES_COMMON/android_packages_providers_TelephonyProvider/carrier_list.* assets/;
 #fi;
 
-if enterAndClear "packages/services/Telecomm"; then
-fi;
-
 if enterAndClear "packages/services/Telephony"; then
 git revert --no-edit 99564aaf0417c9ddf7d6aeb10d326e5b24fa8f55;
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch"; #(DivestOS)
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
 fi;
 
-#if enterAndClear "system/bt"; then
+if enterAndClear "system/bt"; then
+applyPatch "$DOS_PATCHES/android_system_bt/358580.patch"; #R_asb_2023-06 Prevent use-after-free of HID reports
+applyPatch "$DOS_PATCHES/android_system_bt/358581.patch"; #R_asb_2023-06 Revert "Revert "[RESTRICT AUTOMERGE] Validate buffer length in sdpu_build_uuid_seq""
+applyPatch "$DOS_PATCHES/android_system_bt/358582.patch"; #R_asb_2023-06 Revert "Revert "Fix wrong BR/EDR link key downgrades (P_256->P_192)""
 #applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
-#fi;
+fi;
 
 if enterAndClear "system/core"; then
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file

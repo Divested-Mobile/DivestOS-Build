@@ -1,0 +1,141 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Tue, 21 Mar 2023 22:35:35 +0000
+Subject: [PATCH] Revert "Revert "[RESTRICT AUTOMERGE] Validate buffer length
+ in sdpu_build_uuid_seq""
+
+This reverts commit 487a1079078f3717fdc4665c19a45eca5b3ec5e6.
+
+Reason for revert: Reinstate original change for QPR
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:a681067af2ea4565543238db3025d749923f63ec)
+Merged-In: If0528519a29dc73ff99163098da2a05592ab15d8
+Change-Id: If0528519a29dc73ff99163098da2a05592ab15d8
+---
+ stack/sdp/sdp_discovery.cc | 65 ++++++++++++++++++++++++++++++++++----
+ 1 file changed, 58 insertions(+), 7 deletions(-)
+
+diff --git a/stack/sdp/sdp_discovery.cc b/stack/sdp/sdp_discovery.cc
+index 420259800..ffc9586cd 100644
+--- a/stack/sdp/sdp_discovery.cc
++++ b/stack/sdp/sdp_discovery.cc
+@@ -74,10 +74,15 @@ static uint8_t* add_attr(uint8_t* p, uint8_t* p_end, tSDP_DISCOVERY_DB* p_db,
+  *
+  ******************************************************************************/
+ static uint8_t* sdpu_build_uuid_seq(uint8_t* p_out, uint16_t num_uuids,
+-                                    Uuid* p_uuid_list) {
++                                    Uuid* p_uuid_list, uint16_t& bytes_left) {
+   uint16_t xx;
+   uint8_t* p_len;
+ 
++  if (bytes_left < 2) {
++    DCHECK(0) << "SDP: No space for data element header";
++    return (p_out);
++  }
++
+   /* First thing is the data element header */
+   UINT8_TO_BE_STREAM(p_out, (DATA_ELE_SEQ_DESC_TYPE << 3) | SIZE_IN_NEXT_BYTE);
+ 
+@@ -85,9 +90,20 @@ static uint8_t* sdpu_build_uuid_seq(uint8_t* p_out, uint16_t num_uuids,
+   p_len = p_out;
+   p_out += 1;
+ 
++  /* Account for data element header and length */
++  bytes_left -= 2;
++
+   /* Now, loop through and put in all the UUID(s) */
+   for (xx = 0; xx < num_uuids; xx++, p_uuid_list++) {
+     int len = p_uuid_list->GetShortestRepresentationSize();
++
++    if (len + 1 > bytes_left) {
++      DCHECK(0) << "SDP: Too many UUIDs for internal buffer";
++      break;
++    } else {
++      bytes_left -= (len + 1);
++    }
++
+     if (len == Uuid::kNumBytes16) {
+       UINT8_TO_BE_STREAM(p_out, (UUID_DESC_TYPE << 3) | SIZE_TWO_BYTES);
+       UINT16_TO_BE_STREAM(p_out, p_uuid_list->As16Bit());
+@@ -124,6 +140,7 @@ static void sdp_snd_service_search_req(tCONN_CB* p_ccb, uint8_t cont_len,
+   uint8_t *p, *p_start, *p_param_len;
+   BT_HDR* p_cmd = (BT_HDR*)osi_malloc(SDP_DATA_BUF_SIZE);
+   uint16_t param_len;
++  uint16_t bytes_left = SDP_DATA_BUF_SIZE;
+ 
+   /* Prepare the buffer for sending the packet to L2CAP */
+   p_cmd->offset = L2CAP_MIN_OFFSET;
+@@ -138,13 +155,30 @@ static void sdp_snd_service_search_req(tCONN_CB* p_ccb, uint8_t cont_len,
+   p_param_len = p;
+   p += 2;
+ 
+-/* Build the UID sequence. */
++  /* Account for header size, max service record count and
++   * continuation state */
++  const uint16_t base_bytes = (sizeof(BT_HDR) + L2CAP_MIN_OFFSET +
++                               3u + /* service search request header */
++                               2u + /* param len */
++                               3u + ((p_cont) ? cont_len : 0));
++
++  if (base_bytes > bytes_left) {
++    DCHECK(0) << "SDP: Overran SDP data buffer";
++    osi_free(p_cmd);
++    return;
++  }
++
++  bytes_left -= base_bytes;
++
++  /* Build the UID sequence. */
+ #if (SDP_BROWSE_PLUS == TRUE)
+   p = sdpu_build_uuid_seq(p, 1,
+-                          &p_ccb->p_db->uuid_filters[p_ccb->cur_uuid_idx]);
++                          &p_ccb->p_db->uuid_filters[p_ccb->cur_uuid_idx],
++                          bytes_left);
+ #else
++  /* Build the UID sequence. */
+   p = sdpu_build_uuid_seq(p, p_ccb->p_db->num_uuid_filters,
+-                          p_ccb->p_db->uuid_filters);
++                          p_ccb->p_db->uuid_filters, bytes_left);
+ #endif
+ 
+   /* Set max service record count */
+@@ -636,6 +670,7 @@ static void process_service_search_attr_rsp(tCONN_CB* p_ccb, uint8_t* p_reply,
+   if ((cont_request_needed) || (!p_reply)) {
+     BT_HDR* p_msg = (BT_HDR*)osi_malloc(SDP_DATA_BUF_SIZE);
+     uint8_t* p;
++    uint16_t bytes_left = SDP_DATA_BUF_SIZE;
+ 
+     p_msg->offset = L2CAP_MIN_OFFSET;
+     p = p_start = (uint8_t*)(p_msg + 1) + L2CAP_MIN_OFFSET;
+@@ -649,13 +684,29 @@ static void process_service_search_attr_rsp(tCONN_CB* p_ccb, uint8_t* p_reply,
+     p_param_len = p;
+     p += 2;
+ 
+-/* Build the UID sequence. */
++    /* Account for header size, max service record count and
++     * continuation state */
++    const uint16_t base_bytes = (sizeof(BT_HDR) + L2CAP_MIN_OFFSET +
++                                 3u + /* service search request header */
++                                 2u + /* param len */
++                                 3u + /* max service record count */
++                                 ((p_reply) ? (*p_reply) : 0));
++
++    if (base_bytes > bytes_left) {
++      sdp_disconnect(p_ccb, SDP_INVALID_CONT_STATE);
++      return;
++    }
++
++    bytes_left -= base_bytes;
++
++    /* Build the UID sequence. */
+ #if (SDP_BROWSE_PLUS == TRUE)
+     p = sdpu_build_uuid_seq(p, 1,
+-                            &p_ccb->p_db->uuid_filters[p_ccb->cur_uuid_idx]);
++                            &p_ccb->p_db->uuid_filters[p_ccb->cur_uuid_idx],
++                            bytes_left);
+ #else
+     p = sdpu_build_uuid_seq(p, p_ccb->p_db->num_uuid_filters,
+-                            p_ccb->p_db->uuid_filters);
++                            p_ccb->p_db->uuid_filters, bytes_left);
+ #endif
+ 
+     /* Max attribute byte count */

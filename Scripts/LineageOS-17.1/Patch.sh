@@ -158,7 +158,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/353949-backport.patch"; #R_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/353950-backport.patch"; #R_asb_2023-04 Add a limit on channel group creation
 applyPatch "$DOS_PATCHES/android_frameworks_base/353951-backport.patch"; #R_asb_2023-04 Fix bypass BG-FGS and BAL via package manager APIs #XXX
 applyPatch "$DOS_PATCHES/android_frameworks_base/355763-backport.patch"; #R_asb_2023-05 [pm] Prevent system app downgrades of versions lower than preload #XXX: really should have next patch
-#applyPatch "$DOS_PATCHES/android_frameworks_base/355764.patch"; #R_asb_2023-05 [pm] Still allow debuggable for system app downgrades #TODO: needs backport of isDebuggable #XXX: should be safe to ignore for -user builds
+applyPatch "$DOS_PATCHES/android_frameworks_base/355764.patch"; #R_asb_2023-05 [pm] Still allow debuggable for system app downgrades
 applyPatch "$DOS_PATCHES/android_frameworks_base/355765-backport.patch"; #R_asb_2023-05 Checks if AccessibilityServiceInfo is within parcelable size.
 applyPatch "$DOS_PATCHES/android_frameworks_base/355766-backport.patch"; #R_asb_2023-05 Uri: check authority and scheme as part of determining URI path
 applyPatch "$DOS_PATCHES/android_frameworks_base/355767.patch"; #R_asb_2023-05 Enforce stricter rules when registering phoneAccounts
