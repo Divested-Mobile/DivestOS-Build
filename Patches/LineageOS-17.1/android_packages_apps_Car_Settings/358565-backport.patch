@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Dementyev <dementyev@google.com>
+Date: Tue, 7 Mar 2023 10:59:38 -0800
+Subject: [PATCH] Convert argument to Intent in car settings
+ AddAccountActivity.
+
+Bug: 265798353
+Test: manual
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:3195c559667939b458445b7e133fb4a7c76aaead)
+Merged-In: I4b035fd370197b7f4838af5fb6e4d0ce27a5f3e7
+Change-Id: I4b035fd370197b7f4838af5fb6e4d0ce27a5f3e7
+---
+ src/com/android/car/settings/accounts/AddAccountActivity.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/com/android/car/settings/accounts/AddAccountActivity.java b/src/com/android/car/settings/accounts/AddAccountActivity.java
+index d5ce57142..69ada037f 100644
+--- a/src/com/android/car/settings/accounts/AddAccountActivity.java
++++ b/src/com/android/car/settings/accounts/AddAccountActivity.java
+@@ -94,7 +94,7 @@ public class AddAccountActivity extends Activity {
+                 intent.putExtras(addAccountOptions);
+                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                 startActivityForResultAsUser(
+-                        intent, ADD_ACCOUNT_REQUEST, mUserHandle);
++                        new Intent(intent), ADD_ACCOUNT_REQUEST, mUserHandle);
+                 LOG.v("account added: " + result);
+             } catch (OperationCanceledException | IOException | AuthenticatorException e) {
+                 LOG.v("addAccount error: " + e);

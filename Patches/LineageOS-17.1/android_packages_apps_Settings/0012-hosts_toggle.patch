@@ -16,7 +16,7 @@ Change-Id: Ic01a142722372d9d57f52947025cd9db23e58ef4
  create mode 100644 src/com/android/settings/security/HostsPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 88bd100122..a64940d793 100644
+index fedb9f3fde..b5dbdc7d81 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -11327,6 +11327,9 @@

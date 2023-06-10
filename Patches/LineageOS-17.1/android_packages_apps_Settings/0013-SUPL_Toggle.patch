@@ -11,7 +11,7 @@ Subject: [PATCH] add a toggle for forcibly disabling SUPL
  create mode 100644 src/com/android/settings/location/ForceDisableSuplPrefController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index a64940d793..f1ea003e3b 100644
+index b5dbdc7d81..a5aab8e5d0 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -11517,4 +11517,7 @@

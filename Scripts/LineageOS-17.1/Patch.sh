@@ -97,7 +97,7 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
-sed -i 's/2023-02-05/2023-05-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2023-05 #XXX
+sed -i 's/2023-02-05/2023-06-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2023-06 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -136,6 +136,10 @@ if enterAndClear "external/zlib"; then
 applyPatch "$DOS_PATCHES/android_external_zlib/351107.patch"; #n-asb-2023-03 Fix a bug when getting a gzip header extra field with inflate().
 fi;
 
+if enterAndClear "frameworks/av"; then
+applyPatch "$DOS_PATCHES/android_frameworks_av/358555.patch"; #R_asb_2023-06 Fix NuMediaExtractor::readSampleData buffer Handling
+fi;
+
 if enterAndClear "frameworks/base"; then
 applyPatch "$DOS_PATCHES/android_frameworks_base/351411-backport.patch"; #R_asb_2023-03 Move service initialization
 applyPatch "$DOS_PATCHES/android_frameworks_base/351412.patch"; #R_asb_2023-03 Stop managed profile owner granting READ_SMS
@@ -158,6 +162,13 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/355763-backport.patch"; #R_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/355765-backport.patch"; #R_asb_2023-05 Checks if AccessibilityServiceInfo is within parcelable size.
 applyPatch "$DOS_PATCHES/android_frameworks_base/355766-backport.patch"; #R_asb_2023-05 Uri: check authority and scheme as part of determining URI path
 applyPatch "$DOS_PATCHES/android_frameworks_base/355767.patch"; #R_asb_2023-05 Enforce stricter rules when registering phoneAccounts
+#applyPatch "$DOS_PATCHES/android_frameworks_base/358556.patch"; #R_asb_2023-06 Remove Activity if it enters PiP without window #TODO: needs backport of findMainWindow
+applyPatch "$DOS_PATCHES/android_frameworks_base/358557.patch"; #R_asb_2023-06 Prevent sharesheet from previewing unowned URIs
+applyPatch "$DOS_PATCHES/android_frameworks_base/358560.patch"; #R_asb_2023-06 Check key intent for selectors and prohibited flags
+applyPatch "$DOS_PATCHES/android_frameworks_base/358561-backport.patch"; #R_asb_2023-06 Handle invalid data during job loading.
+applyPatch "$DOS_PATCHES/android_frameworks_base/358562-backport.patch"; #R_asb_2023-06 Allow filtering of services
+#applyPatch "$DOS_PATCHES/android_frameworks_base/358564-backport.patch"; #R_asb_2023-06 Add BubbleMetadata detection to block FSI #TODO: needs backport of getSbn
+applyPatch "$DOS_PATCHES/android_frameworks_base/358732-backport.patch"; #n-asb-2023-06 Prevent RemoteViews crashing SystemUi
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -297,6 +308,10 @@ if enterAndClear "packages/apps/Bluetooth"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
+if enterAndClear "packages/apps/Car/Settings"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Car_Settings/358565-backport.patch"; #R_asb_2023-06 Convert argument to Intent in car settings AddAccountActivity.
+fi;
+
 #if enterAndClear "packages/apps/CarrierConfig"; then
 #rm -rf assets/*.xml;
 #cp $DOS_PATCHES_COMMON/android_packages_apps_CarrierConfig/*.xml assets/;
@@ -337,6 +352,9 @@ git revert --no-edit 486980cfecce2ca64267f41462f9371486308e9d; #Don't hide OEM u
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/351440-backport.patch"; #R_asb_2023-03 FRP bypass defense in the settings app
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/351441.patch"; #R_asb_2023-03 Add DISALLOW_APPS_CONTROL check into uninstall app for all users
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/353956.patch"; #R_asb_2023-04 Only primary user is allowed to control secure nfc
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/358566.patch"; #R_asb_2023-06 Move display of VPN version into summary text
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/358567-backport.patch"; #R_asb_2023-06 Import translations.
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/358568-backport.patch"; #R_asb_2023-06 Convert argument to intent in AddAccountSettings.
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/272651.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle-gos.patch"; #Add option to disable captive portal checks (GrapheneOS) #FIXME: needs work
@@ -362,6 +380,10 @@ fi;
 
 if enterAndClear "packages/apps/Trebuchet"; then
 cp $DOS_BUILD_BASE/vendor/divested/overlay/common/packages/apps/Trebuchet/res/xml/default_workspace_*.xml res/xml/; #XXX: Likely no longer needed
+fi;
+
+if enterAndClear "packages/apps/TvSettings"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_TvSettings/358578.patch"; #R_asb_2023-06 Convert argument to intent in addAccount TvSettings.
 fi;
 
 if enterAndClear "packages/apps/Updater"; then
@@ -396,6 +418,7 @@ if enterAndClear "packages/services/Telecomm"; then
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/353958-backport.patch"; #R_asb_2023-04 Ensure service unbind when receiving a null call screening service in onBind.
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/353959.patch"; #R_asb_2023-04 Do not process content uri in call Intents
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/355777-backport.patch"; #R_asb_2023-05 enforce stricter rules when registering phoneAccounts
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/358579-backport.patch"; #R_asb_2023-06 Call Redirection: unbind service when onBind returns null
 fi;
 
 if enterAndClear "prebuilts/abi-dumps/vndk"; then
@@ -408,6 +431,9 @@ applyPatch "$DOS_PATCHES/android_system_bt/351444.patch"; #R_asb_2023-03 Fix an 
 applyPatch "$DOS_PATCHES/android_system_bt/351445.patch"; #R_asb_2023-03 Fix an OOB write in SDP_AddAttribute
 applyPatch "$DOS_PATCHES/android_system_bt/353960.patch"; #R_asb_2023-04 Fix OOB access in avdt_scb_hdl_pkt_no_frag
 applyPatch "$DOS_PATCHES/android_system_bt/353961.patch"; #R_asb_2023-04 Fix an OOB bug in register_notification_rsp
+applyPatch "$DOS_PATCHES/android_system_bt/358580.patch"; #R_asb_2023-06 Prevent use-after-free of HID reports
+applyPatch "$DOS_PATCHES/android_system_bt/358581.patch"; #R_asb_2023-06 Revert "Revert "[RESTRICT AUTOMERGE] Validate buffer length in sdpu_build_uuid_seq""
+applyPatch "$DOS_PATCHES/android_system_bt/358582.patch"; #R_asb_2023-06 Revert "Revert "Fix wrong BR/EDR link key downgrades (P_256->P_192)""
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272648.patch"; #ten-bt-sbc-hd-dualchannel: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272649.patch"; #ten-bt-sbc-hd-dualchannel: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
@@ -492,6 +518,9 @@ applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/351450.patch";
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/351451.patch"; #R_asb_2023-03 AVRCP: Fix potential buffer overflow
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/353967.patch"; #R_asb_2023-04 Fix an OOB bug in register_notification_rsp
 applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/353968.patch"; #R_asb_2023-04 AVDTP: Fix a potential overflow about the media payload offset
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/358583.patch"; #R_asb_2023-06 Prevent use-after-free of HID reports
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/358584.patch"; #R_asb_2023-06 Revert^2 "Validate buffer length in sdpu_build_uuid_seq"
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/358585.patch"; #R_asb_2023-06 Revert "Revert "Fix wrong BR/EDR link key downgrades (P_256->P_192)""
 fi;
 #
 #END OF ROM CHANGES

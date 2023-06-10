@@ -1,0 +1,79 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Kweku Adams <kwekua@google.com>
+Date: Wed, 21 Sep 2022 22:13:01 +0000
+Subject: [PATCH] Handle invalid data during job loading.
+
+Catch exceptions that may be thrown if invalid data ended up in the
+persisted job file.
+
+Bug: 246541702
+Bug: 246542132
+Bug: 246542285
+Bug: 246542330
+Test: install test app with invalid job config, start app to schedule job, then reboot device
+(cherry picked from commit c98fb42b480b3beedc2d94de6110f50212c4aa0b)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:df1ba00dd9f64a3ae9a9e05979dfae6a15c7e203)
+Merged-In: Id0ceba345942baf21177f687b8dd85ef001c0a9e
+Change-Id: Id0ceba345942baf21177f687b8dd85ef001c0a9e
+---
+ .../java/com/android/server/job/JobStore.java | 26 ++++++++++++++++---
+ 1 file changed, 23 insertions(+), 3 deletions(-)
+
+diff --git a/services/core/java/com/android/server/job/JobStore.java b/services/core/java/com/android/server/job/JobStore.java
+index 4ef37a2e484d..1f2772571e71 100644
+--- a/services/core/java/com/android/server/job/JobStore.java
++++ b/services/core/java/com/android/server/job/JobStore.java
+@@ -677,6 +677,10 @@ public final class JobStore {
+                 }
+             } catch (XmlPullParserException | IOException e) {
+                 Slog.wtf(TAG, "Error jobstore xml.", e);
++            } catch (Exception e) {
++                // Crashing at this point would result in a boot loop, so live with a general
++                // Exception for system stability's sake.
++                Slog.wtf(TAG, "Unexpected exception", e);
+             } finally {
+                 if (mPersistInfo.countAllJobsLoaded < 0) { // Only set them once.
+                     mPersistInfo.countAllJobsLoaded = numJobs;
+@@ -807,6 +811,15 @@ public final class JobStore {
+             } catch (NumberFormatException e) {
+                 Slog.d(TAG, "Error reading constraints, skipping.");
+                 return null;
++            } catch (XmlPullParserException e) {
++                Slog.d(TAG, "Error Parser Exception.", e);
++                return null;
++            } catch (IOException e) {
++                Slog.d(TAG, "Error I/O Exception.", e);
++                return null;
++            } catch (IllegalArgumentException e) {
++                Slog.e(TAG, "Constraints contained invalid data", e);
++                return null;
+             }
+             parser.next(); // Consume </constraints>
+ 
+@@ -902,8 +915,14 @@ public final class JobStore {
+                 return null;
+             }
+ 
+-            PersistableBundle extras = PersistableBundle.restoreFromXml(parser);
+-            jobBuilder.setExtras(extras);
++            final PersistableBundle extras;
++            try {
++                extras = PersistableBundle.restoreFromXml(parser);
++                jobBuilder.setExtras(extras);
++            } catch (IllegalArgumentException e) {
++                Slog.e(TAG, "Persisted extras contained invalid data", e);
++                return null;
++            }
+             parser.nextTag(); // Consume </extras>
+ 
+             final JobInfo builtJob;
+@@ -950,7 +969,8 @@ public final class JobStore {
+             return new JobInfo.Builder(jobId, cname);
+         }
+ 
+-        private void buildConstraintsFromXml(JobInfo.Builder jobBuilder, XmlPullParser parser) {
++        private void buildConstraintsFromXml(JobInfo.Builder jobBuilder, XmlPullParser parser)
++                throws XmlPullParserException, IOException {
+             String val;
+ 
+             final String netCapabilities = parser.getAttributeValue(null, "net-capabilities");
