@@ -19,7 +19,7 @@ Signed-off-by: penglezos <panagiotisegl@gmail.com>
  1 file changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/service/java/com/android/server/wifi/ClientModeImpl.java b/service/java/com/android/server/wifi/ClientModeImpl.java
-index 931374bccb..f1bf970ef4 100644
+index bd87041319..29855575e1 100644
 --- a/service/java/com/android/server/wifi/ClientModeImpl.java
 +++ b/service/java/com/android/server/wifi/ClientModeImpl.java
 @@ -345,6 +345,8 @@ public class ClientModeImpl extends StateMachine implements ClientMode {

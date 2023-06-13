@@ -368,7 +368,7 @@ index 5c7c54eda3..c321b6cbaf 100644
              mMode = PRIVATE_DNS_MODE_OPPORTUNISTIC;
          } else if (checkedId == R.id.private_dns_mode_provider) {
 diff --git a/src/com/android/settings/network/PrivateDnsPreferenceController.java b/src/com/android/settings/network/PrivateDnsPreferenceController.java
-index ed6f9ed955..4258e6c039 100644
+index 42974be8e0..8ff447f05f 100644
 --- a/src/com/android/settings/network/PrivateDnsPreferenceController.java
 +++ b/src/com/android/settings/network/PrivateDnsPreferenceController.java
 @@ -133,9 +133,41 @@ public class PrivateDnsPreferenceController extends BasePreferenceController

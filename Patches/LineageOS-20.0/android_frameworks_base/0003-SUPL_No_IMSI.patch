@@ -9,10 +9,10 @@ Change-Id: I5ccc4d61e52ac11ef33f44618d0e610089885b87
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java b/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
-index 389cbe20dbd3..b3a81f597db1 100644
+index 842e6d914f4f..3a3504528b97 100644
 --- a/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
 +++ b/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
-@@ -1722,6 +1722,11 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
+@@ -1733,6 +1733,11 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
          int type = AGPS_SETID_TYPE_NONE;
          String setId = null;
  
@@ -24,7 +24,7 @@ index 389cbe20dbd3..b3a81f597db1 100644
          int subId = SubscriptionManager.getDefaultDataSubscriptionId();
          if (mNIHandler.getInEmergency() && mNetworkConnectivityHandler.getActiveSubId() >= 0) {
              subId = mNetworkConnectivityHandler.getActiveSubId();
-@@ -1741,7 +1746,7 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
+@@ -1752,7 +1757,7 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
                  // This means the framework has the SIM card.
                  type = AGPS_SETID_TYPE_MSISDN;
              }

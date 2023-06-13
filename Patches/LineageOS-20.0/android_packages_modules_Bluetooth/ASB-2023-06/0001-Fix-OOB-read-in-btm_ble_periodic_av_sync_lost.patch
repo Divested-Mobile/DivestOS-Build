@@ -1,0 +1,44 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Wed, 29 Mar 2023 22:52:06 +0000
+Subject: [PATCH 1/2] Fix OOB read in btm_ble_periodic_av_sync_lost
+
+btm_ble_periodic_av_sync_lost internally calls the function
+btm_ble_get_psync_index_from_handle, which polls the internal periodic
+sync buffer and returns a matching index if one exists.  If no matching
+handle is found, it returns MAX_SYNC_TRANSACTION.
+
+However, here the calling function lacks the check for this case present
+in similar functions.  If no handle is matched, it will attempt to index
+the buffer with MAX_SYNC_TRANSACTION, which will overrun it by a single
+width and lead to OOB access.
+
+Add handling for this case.
+
+Bug: 273502002
+Test: atest bluetooth_test_gd_unit, atest net_test_stack_btm, validated
+against researcher POC
+Tag: #security
+Ignore-AOSP-First: Security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:c077ffbe609c33adc212b73cd3018b174f0c8f89)
+Merged-In: I2e1e95b277f81b2668f721a7693df50841968ec5
+Change-Id: I2e1e95b277f81b2668f721a7693df50841968ec5
+---
+ system/stack/btm/btm_ble_gap.cc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/system/stack/btm/btm_ble_gap.cc b/system/stack/btm/btm_ble_gap.cc
+index f8a8940d98..af7da7f70c 100644
+--- a/system/stack/btm/btm_ble_gap.cc
++++ b/system/stack/btm/btm_ble_gap.cc
+@@ -1180,6 +1180,10 @@ void btm_ble_periodic_adv_sync_lost(uint16_t sync_handle) {
+   LOG_DEBUG("[PSync]: sync_handle = %d", sync_handle);
+ 
+   int index = btm_ble_get_psync_index_from_handle(sync_handle);
++  if (index == MAX_SYNC_TRANSACTION) {
++    LOG_ERROR("[PSync]: index not found for handle %u", sync_handle);
++    return;
++  }
+   tBTM_BLE_PERIODIC_SYNC* ps = &btm_ble_pa_sync_cb.p_sync[index];
+   ps->sync_lost_cb.Run(sync_handle);
+ 

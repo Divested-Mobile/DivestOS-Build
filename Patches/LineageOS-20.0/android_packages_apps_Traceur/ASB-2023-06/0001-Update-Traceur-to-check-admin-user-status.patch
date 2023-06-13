@@ -1,0 +1,290 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Kevin Jeon <kevinjeon@google.com>
+Date: Fri, 17 Feb 2023 20:17:54 +0000
+Subject: [PATCH 1/2] Update Traceur to check admin user status
+
+This change updates Traceur to check for admin user privileges wherever
+a developer options check occurs. This is intended to address the case
+in which developer options (a global setting not differentiated on
+current user privileges) being enabled would allow guest users to open
+Traceur through a 3P app and view its trace files. This would previously
+be possible even when ADB debugging was disabled by the admin user.
+
+Traceur now listens for user changes so that its document root
+(containing traces) is enabled/disabled based on the new user's admin
+status.
+
+Test: Using ABTD, apply this on tm-dev+tm-qpr-dev, then check that:
+      - There are no merge conflicts
+      - CtsIntentSignatureTestCases passes (b/270791503)
+      - TraceurUiTests passes
+      Build+flash a local device on tm-dev+tm-qpr-dev and check that:
+      - Traceur cannot be opened through 'am start' on a guest account
+      - Opening Files on a guest account no longer shows a System Traces
+        folder (even if Traceur's onCreate is somehow called)
+      - System tracing no longer appears in settings for guests
+Bug: 262243665
+Bug: 262244249
+Ignore-AOSP-First: Internal-first security fix
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:35b3591dc4e50d51d0d7b54eef6cc0c5c6260898)
+Merged-In: I1c0c8c9588554378ae39a1a69a35ff44052b93e0
+Change-Id: I1c0c8c9588554378ae39a1a69a35ff44052b93e0
+---
+ AndroidManifest.xml                           |  4 +++
+ src/com/android/traceur/MainActivity.java     |  5 +++-
+ src/com/android/traceur/MainTvActivity.java   |  5 +++-
+ src/com/android/traceur/Receiver.java         | 29 ++++++++++++++-----
+ src/com/android/traceur/SearchProvider.java   |  7 +++--
+ src/com/android/traceur/StopTraceService.java |  7 ++++-
+ src/com/android/traceur/StorageProvider.java  |  8 +++--
+ src/com/android/traceur/TraceService.java     |  7 ++++-
+ 8 files changed, 55 insertions(+), 17 deletions(-)
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 6a2544e..f38a71d 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -47,6 +47,9 @@
+     <!-- Used to post file-sending notification. -->
+     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+ 
++    <!-- Used to check that the current user is an admin user. -->
++    <uses-permission android:name="android.permission.QUERY_USERS" />
++
+     <!-- Declare Android TV support. -->
+     <uses-feature android:name="android.software.leanback"
+          android:required="false"/>
+@@ -113,6 +116,7 @@
+              android:exported="true">
+             <intent-filter android:priority="2147483647">
+                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
++                <action android:name="android.intent.action.USER_FOREGROUND"/>
+                 <action android:name="com.android.internal.intent.action.BUGREPORT_STARTED"/>
+             </intent-filter>
+           </receiver>
+diff --git a/src/com/android/traceur/MainActivity.java b/src/com/android/traceur/MainActivity.java
+index 0380dcd..3342652 100644
+--- a/src/com/android/traceur/MainActivity.java
++++ b/src/com/android/traceur/MainActivity.java
+@@ -17,6 +17,7 @@ package com.android.traceur;
+ 
+ import android.app.Activity;
+ import android.os.Bundle;
++import android.os.UserManager;
+ import android.provider.Settings;
+ 
+ import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
+@@ -34,8 +35,10 @@ public class MainActivity extends CollapsingToolbarBaseActivity {
+         boolean developerOptionsIsEnabled =
+             Settings.Global.getInt(getApplicationContext().getContentResolver(),
+                 Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
++        boolean isAdminUser = getApplicationContext()
++                .getSystemService(UserManager.class).isAdminUser();
+ 
+-        if (!developerOptionsIsEnabled) {
++        if (!developerOptionsIsEnabled || !isAdminUser) {
+             finish();
+         }
+     }
+diff --git a/src/com/android/traceur/MainTvActivity.java b/src/com/android/traceur/MainTvActivity.java
+index 91f67c4..7459b7a 100644
+--- a/src/com/android/traceur/MainTvActivity.java
++++ b/src/com/android/traceur/MainTvActivity.java
+@@ -17,6 +17,7 @@ package com.android.traceur;
+ 
+ import android.app.Activity;
+ import android.os.Bundle;
++import android.os.UserManager;
+ import android.provider.Settings;
+ 
+ public class MainTvActivity extends Activity {
+@@ -32,8 +33,10 @@ public class MainTvActivity extends Activity {
+         boolean developerOptionsIsEnabled =
+             Settings.Global.getInt(getApplicationContext().getContentResolver(),
+                 Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
++        boolean isAdminUser = getApplicationContext()
++                .getSystemService(UserManager.class).isAdminUser();
+ 
+-        if (!developerOptionsIsEnabled) {
++        if (!developerOptionsIsEnabled || !isAdminUser) {
+             finish();
+         }
+     }
+diff --git a/src/com/android/traceur/Receiver.java b/src/com/android/traceur/Receiver.java
+index 0ed5d5d..acadb9a 100644
+--- a/src/com/android/traceur/Receiver.java
++++ b/src/com/android/traceur/Receiver.java
+@@ -32,6 +32,7 @@ import android.os.Build;
+ import android.os.Handler;
+ import android.os.RemoteException;
+ import android.os.ServiceManager;
++import android.os.UserManager;
+ import android.preference.PreferenceManager;
+ import android.provider.Settings;
+ import android.text.TextUtils;
+@@ -85,6 +86,12 @@ public class Receiver extends BroadcastReceiver {
+             // We know that Perfetto won't be tracing already at boot, so pass the
+             // tracingIsOff argument to avoid the Perfetto check.
+             updateTracing(context, /* assumeTracingIsOff= */ true);
++        } else if (Intent.ACTION_USER_FOREGROUND.equals(intent.getAction())) {
++            boolean developerOptionsEnabled = (1 ==
++                Settings.Global.getInt(context.getContentResolver(),
++                    Settings.Global.DEVELOPMENT_SETTINGS_ENABLED , 0));
++            boolean isAdminUser = context.getSystemService(UserManager.class).isAdminUser();
++            updateStorageProvider(context, developerOptionsEnabled && isAdminUser);
+         } else if (STOP_ACTION.equals(intent.getAction())) {
+             prefs.edit().putBoolean(
+                     context.getString(R.string.pref_key_tracing_on), false).commit();
+@@ -213,14 +220,9 @@ public class Receiver extends BroadcastReceiver {
+                         boolean developerOptionsEnabled = (1 ==
+                             Settings.Global.getInt(context.getContentResolver(),
+                                 Settings.Global.DEVELOPMENT_SETTINGS_ENABLED , 0));
+-
+-                        ComponentName name = new ComponentName(context,
+-                            StorageProvider.class);
+-                        context.getPackageManager().setComponentEnabledSetting(name,
+-                           developerOptionsEnabled
+-                                ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+-                                : PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+-                            PackageManager.DONT_KILL_APP);
++                        boolean isAdminUser = context.getSystemService(UserManager.class)
++                                .isAdminUser();
++                        updateStorageProvider(context, developerOptionsEnabled && isAdminUser);
+ 
+                         if (!developerOptionsEnabled) {
+                             SharedPreferences prefs =
+@@ -243,6 +245,17 @@ public class Receiver extends BroadcastReceiver {
+         }
+     }
+ 
++    // Enables/disables the System Traces storage component. enableProvider should be true iff
++    // developer options are enabled and the current user is an admin user.
++    static void updateStorageProvider(Context context, boolean enableProvider) {
++        ComponentName name = new ComponentName(context, StorageProvider.class);
++        context.getPackageManager().setComponentEnabledSetting(name,
++                enableProvider
++                        ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
++                        : PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
++                PackageManager.DONT_KILL_APP);
++    }
++
+     private static void postCategoryNotification(Context context, SharedPreferences prefs) {
+         Intent sendIntent = new Intent(context, MainActivity.class);
+ 
+diff --git a/src/com/android/traceur/SearchProvider.java b/src/com/android/traceur/SearchProvider.java
+index 9586bdb..0d76e9f 100644
+--- a/src/com/android/traceur/SearchProvider.java
++++ b/src/com/android/traceur/SearchProvider.java
+@@ -30,6 +30,7 @@ import android.content.Context;
+ import android.content.Intent;
+ import android.database.Cursor;
+ import android.database.MatrixCursor;
++import android.os.UserManager;
+ import android.provider.SearchIndexablesProvider;
+ import android.provider.Settings;
+ 
+@@ -68,9 +69,11 @@ public class SearchProvider extends SearchIndexablesProvider {
+         boolean developerOptionsIsEnabled =
+             Settings.Global.getInt(getContext().getContentResolver(),
+                 Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
++        boolean isAdminUser = getContext().getSystemService(UserManager.class).isAdminUser();
+ 
+-        // If developer options is not enabled, System Tracing shouldn't be searchable.
+-        if (!developerOptionsIsEnabled) {
++        // System Tracing shouldn't be searchable if developer options are not enabled or if the
++        // user is not an admin.
++        if (!developerOptionsIsEnabled || !isAdminUser) {
+             MatrixCursor cursor = new MatrixCursor(NON_INDEXABLES_KEYS_COLUMNS);
+             Object[] row = new Object[] {getContext().getString(R.string.system_tracing)};
+             cursor.addRow(row);
+diff --git a/src/com/android/traceur/StopTraceService.java b/src/com/android/traceur/StopTraceService.java
+index 20c5f6e..b0c941b 100644
+--- a/src/com/android/traceur/StopTraceService.java
++++ b/src/com/android/traceur/StopTraceService.java
+@@ -20,6 +20,7 @@ package com.android.traceur;
+ import android.content.Context;
+ import android.content.Intent;
+ import android.content.SharedPreferences;
++import android.os.UserManager;
+ import android.preference.PreferenceManager;
+ import android.provider.Settings;
+ import android.util.EventLog;
+@@ -40,7 +41,7 @@ public class StopTraceService extends TraceService {
+     @Override
+     public void onHandleIntent(Intent intent) {
+         Context context = getApplicationContext();
+-        // Checks that developer options are enabled before continuing.
++        // Checks that developer options are enabled and the user is an admin before continuing.
+         boolean developerOptionsEnabled =
+                 Settings.Global.getInt(context.getContentResolver(),
+                         Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
+@@ -49,6 +50,10 @@ public class StopTraceService extends TraceService {
+             EventLog.writeEvent(0x534e4554, "204992293", -1, "");
+             return;
+         }
++        boolean isAdminUser = context.getSystemService(UserManager.class).isAdminUser();
++        if (!isAdminUser) {
++            return;
++        }
+         // Ensures that only intents that pertain to stopping a trace and need to be accessed from
+         // outside Traceur are passed to TraceService through StopTraceService.
+         String intentAction = intent.getAction();
+diff --git a/src/com/android/traceur/StorageProvider.java b/src/com/android/traceur/StorageProvider.java
+index 3df07d5..a2a6c3a 100644
+--- a/src/com/android/traceur/StorageProvider.java
++++ b/src/com/android/traceur/StorageProvider.java
+@@ -22,6 +22,7 @@ import android.os.Bundle;
+ import android.os.FileUtils;
+ import android.os.CancellationSignal;
+ import android.os.ParcelFileDescriptor;
++import android.os.UserManager;
+ import android.provider.DocumentsContract;
+ import android.provider.DocumentsContract.Document;
+ import android.provider.DocumentsContract.Root;
+@@ -75,10 +76,11 @@ public class StorageProvider extends FileSystemProvider{
+         boolean developerOptionsIsEnabled =
+             Settings.Global.getInt(getContext().getContentResolver(),
+                 Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
++        boolean isAdminUser = getContext().getSystemService(UserManager.class).isAdminUser();
+ 
+-        // If developer options is not enabled, return an empty root cursor.
+-        // This removes the provider from the list entirely.
+-        if (!developerOptionsIsEnabled) {
++        // If developer options is not enabled or the user is not an admin, return an empty root
++        // cursor. This removes the provider from the list entirely.
++        if (!developerOptionsIsEnabled || !isAdminUser) {
+             return null;
+         }
+ 
+diff --git a/src/com/android/traceur/TraceService.java b/src/com/android/traceur/TraceService.java
+index 96e76a8..0039f6f 100644
+--- a/src/com/android/traceur/TraceService.java
++++ b/src/com/android/traceur/TraceService.java
+@@ -26,6 +26,7 @@ import android.content.Context;
+ import android.content.Intent;
+ import android.content.SharedPreferences;
+ import android.content.pm.PackageManager;
++import android.os.UserManager;
+ import android.preference.PreferenceManager;
+ import android.provider.Settings;
+ import android.text.format.DateUtils;
+@@ -108,7 +109,7 @@ public class TraceService extends IntentService {
+     @Override
+     public void onHandleIntent(Intent intent) {
+         Context context = getApplicationContext();
+-        // Checks that developer options are enabled before continuing.
++        // Checks that developer options are enabled and the user is an admin before continuing.
+         boolean developerOptionsEnabled =
+                 Settings.Global.getInt(context.getContentResolver(),
+                         Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
+@@ -117,6 +118,10 @@ public class TraceService extends IntentService {
+             EventLog.writeEvent(0x534e4554, "204992293", -1, "");
+             return;
+         }
++        boolean isAdminUser = context.getSystemService(UserManager.class).isAdminUser();
++        if (!isAdminUser) {
++            return;
++        }
+ 
+         if (intent.getAction().equals(INTENT_ACTION_START_TRACING)) {
+             startTracingInternal(intent.getStringArrayListExtra(INTENT_EXTRA_TAGS),

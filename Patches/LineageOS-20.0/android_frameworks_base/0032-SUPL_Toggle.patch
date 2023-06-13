@@ -75,7 +75,7 @@ index 1435016fc55a..db8131729555 100644
 +    }
  }
 diff --git a/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java b/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
-index b3a81f597db1..97dda44b1c97 100644
+index 3a3504528b97..ed737760779b 100644
 --- a/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
 +++ b/services/core/java/com/android/server/location/gnss/GnssLocationProvider.java
 @@ -100,6 +100,7 @@ import android.telephony.TelephonyManager;
@@ -86,7 +86,7 @@ index b3a81f597db1..97dda44b1c97 100644
  import android.util.TimeUtils;
  
  import com.android.internal.annotations.GuardedBy;
-@@ -481,6 +482,20 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
+@@ -482,6 +483,20 @@ public class GnssLocationProvider extends AbstractLocationProvider implements
          mGnssNative.setNotificationCallbacks(this);
          mGnssNative.setLocationRequestCallbacks(this);
          mGnssNative.setTimeCallbacks(this);

@@ -1,0 +1,72 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jeff DeCew <jeffdq@google.com>
+Date: Fri, 24 Mar 2023 16:15:24 +0000
+Subject: [PATCH 09/10] Add BubbleMetadata detection to block FSI
+
+Bug: 274759612
+Test: atest NotificationInterruptStateProviderImplTest
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:e65f0c9643b52e2656ac2da21dfd0fb7395de04c)
+Merged-In: I40e1aa6377b8a60d91cb2f4189df1e9a4a4578a2
+Change-Id: I40e1aa6377b8a60d91cb2f4189df1e9a4a4578a2
+---
+ ...otificationInterruptStateProviderImpl.java | 11 ++++++++++
+ ...icationInterruptStateProviderImplTest.java | 21 +++++++++++++++++++
+ 2 files changed, 32 insertions(+)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/interruption/NotificationInterruptStateProviderImpl.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/interruption/NotificationInterruptStateProviderImpl.java
+index d9dacfd0e27c..5956c5473843 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/interruption/NotificationInterruptStateProviderImpl.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/interruption/NotificationInterruptStateProviderImpl.java
+@@ -266,6 +266,17 @@ public class NotificationInterruptStateProviderImpl implements NotificationInter
+                     suppressedByDND);
+         }
+ 
++        // If the notification has suppressive BubbleMetadata, block FSI and warn.
++        Notification.BubbleMetadata bubbleMetadata = sbn.getNotification().getBubbleMetadata();
++        if (bubbleMetadata != null && bubbleMetadata.isNotificationSuppressed()) {
++            // b/274759612: Detect and report an event when a notification has both an FSI and a
++            // suppressive BubbleMetadata, and now correctly block the FSI from firing.
++            final int uid = entry.getSbn().getUid();
++            android.util.EventLog.writeEvent(0x534e4554, "274759612", uid, "bubbleMetadata");
++            mLogger.logNoFullscreenWarning(entry, "BubbleMetadata may prevent HUN");
++            return FullScreenIntentDecision.NO_FULL_SCREEN_INTENT;
++        }
++
+         // If the screen is off, then launch the FullScreenIntent
+         if (!mPowerManager.isInteractive()) {
+             return getDecisionGivenSuppression(FullScreenIntentDecision.FSI_DEVICE_NOT_INTERACTIVE,
+diff --git a/packages/SystemUI/tests/src/com/android/systemui/statusbar/notification/interruption/NotificationInterruptStateProviderImplTest.java b/packages/SystemUI/tests/src/com/android/systemui/statusbar/notification/interruption/NotificationInterruptStateProviderImplTest.java
+index 601771d64046..d2a27b30f36f 100644
+--- a/packages/SystemUI/tests/src/com/android/systemui/statusbar/notification/interruption/NotificationInterruptStateProviderImplTest.java
++++ b/packages/SystemUI/tests/src/com/android/systemui/statusbar/notification/interruption/NotificationInterruptStateProviderImplTest.java
+@@ -633,9 +633,30 @@ public class NotificationInterruptStateProviderImplTest extends SysuiTestCase {
+         testShouldFullScreen_notInteractive();
+     }
+ 
++
++    @Test
++    public void testShouldNotFullScreen_isSuppressedByBubbleMetadata() throws RemoteException {
++        NotificationEntry entry = createFsiNotification(IMPORTANCE_HIGH, /* silenced */ false);
++        Notification.BubbleMetadata bubbleMetadata = new Notification.BubbleMetadata.Builder("foo")
++                .setSuppressNotification(true).build();
++        entry.getSbn().getNotification().setBubbleMetadata(bubbleMetadata);
++        when(mPowerManager.isInteractive()).thenReturn(false);
++        when(mDreamManager.isDreaming()).thenReturn(true);
++        when(mStatusBarStateController.getState()).thenReturn(KEYGUARD);
++
++        assertThat(mNotifInterruptionStateProvider.shouldLaunchFullScreenIntentWhenAdded(entry))
++                .isFalse();
++        verify(mLogger, never()).logNoFullscreen(any(), any());
++        verify(mLogger).logNoFullscreenWarning(entry, "GroupAlertBehavior will prevent HUN");
++        verify(mLogger, never()).logFullscreen(any(), any());
++    }
++
+     @Test
+     public void testShouldFullScreen_notInteractive() throws RemoteException {
+         NotificationEntry entry = createFsiNotification(IMPORTANCE_HIGH, /* silenced */ false);
++        Notification.BubbleMetadata bubbleMetadata = new Notification.BubbleMetadata.Builder("foo")
++                .setSuppressNotification(false).build();
++        entry.getSbn().getNotification().setBubbleMetadata(bubbleMetadata);
+         when(mPowerManager.isInteractive()).thenReturn(false);
+         when(mDreamManager.isDreaming()).thenReturn(false);
+         when(mStatusBarStateController.getState()).thenReturn(SHADE);

@@ -10,10 +10,10 @@ in both callers of this method (both of which are "End session" buttons), making
  1 file changed, 6 insertions(+)
 
 diff --git a/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java b/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
-index ba084057c721..b870c54b2768 100644
+index f3fb5d90a166..87e826e946b5 100644
 --- a/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
 +++ b/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
-@@ -11162,6 +11162,12 @@ public class DevicePolicyManagerService extends BaseIDevicePolicyManager {
+@@ -11164,6 +11164,12 @@ public class DevicePolicyManagerService extends BaseIDevicePolicyManager {
          Preconditions.checkCallAuthorization(canManageUsers(caller)
                  || hasCallingOrSelfPermission(permission.INTERACT_ACROSS_USERS));
  
