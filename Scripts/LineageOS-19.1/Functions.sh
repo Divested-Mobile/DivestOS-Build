@@ -73,10 +73,10 @@ buildAll() {
 	#SD855
 	buildDevice vayu avb;
 	#SD865
-	buildDevice lmi avb;
+	buildDevice lmi avb; #camera doesn't work for lmipro on 20.0
 	buildDevice apollon avb;
 	#SD870
-	buildDevice alioth avb;
+	#buildDevice alioth avb;
 }
 export -f buildAll;
 
