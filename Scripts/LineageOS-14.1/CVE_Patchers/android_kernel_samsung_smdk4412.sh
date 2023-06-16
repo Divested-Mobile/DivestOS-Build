@@ -416,6 +416,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1074/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1118/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1989/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3141/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3159/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3161/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-after-free-for-hub-usb-device.patch
@@ -423,7 +426,7 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-sy
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
-editKernelLocalversion "-dos.p423"
+editKernelLocalversion "-dos.p426"
 else echo "kernel_samsung_smdk4412 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

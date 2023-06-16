@@ -32,10 +32,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1380/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2002/3.10-^6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2166/5.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2269/5.4/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3141/5.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31084/^6.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31084/5.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32233/5.4/0005.patch
-editKernelLocalversion "-dos.p35"
+editKernelLocalversion "-dos.p36"
 else echo "kernel_oneplus_sm8350 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
