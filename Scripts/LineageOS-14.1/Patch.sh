@@ -470,6 +470,11 @@ applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rs
 applyPatch "$DOS_PATCHES/android_system_bt/0001-NO_READENCRKEYSIZE.patch"; #Add an option to let devices opt-out of the HCI_READ_ENCR_KEY_SIZE_SUPPORTED assert (DivestOS)
 fi;
 
+if enterAndClear "system/ca-certificates"; then
+rm -rf files; #Remove old certs
+cp -r "$DOS_PATCHES_COMMON/android_system_ca-certificates/files" .; #Copy the new ones into place
+fi;
+
 if enterAndClear "system/core"; then
 applyPatch "$DOS_PATCHES/android_system_core/332457.patch"; #n-asb-2022-06 Backport of Win-specific suppression of potentially rogue construct that can engage
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
@@ -615,6 +620,7 @@ deblobAudio;
 removeBuildFingerprints;
 hardenLocationSerials || true;
 changeDefaultDNS; #Change the default DNS servers
+removeUntrustedCerts || true;
 
 #Tweaks for <2GB RAM devices
 enableLowRam "device/asus/grouper";

@@ -442,6 +442,15 @@ removeBuildFingerprints() {
 }
 export -f removeBuildFingerprints;
 
+removeUntrustedCerts() {
+	cd "$DOS_BUILD_BASE/system/ca-certificates/files";
+	rm -fv 7c302982.0 c2c1704e.0 d0cddf45.0; #TrustCor
+	rm -fv cb156124.0; #E-Turga
+	cd "$DOS_BUILD_BASE";
+	echo "Removed untrusted certificate authorities";
+}
+export -f removeUntrustedCerts;
+
 compressRamdisks() {
 	if [ -f BoardConfig.mk ]; then
 		echo "LZMA_RAMDISK_TARGETS := boot,recovery" >> BoardConfig.mk;

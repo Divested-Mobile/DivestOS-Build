@@ -12,6 +12,7 @@ Patches/
 	Common/
 		android_external_hardened_malloc/ - MIT
 		android_kernel_*/ - GPL-2.0-only
+		android_system_ca-certificates/ - See special METADATA file
 		android_vendor_divested/
 			default_wallpaper.png - Unsplash, Pawel Czerwinski
 			mms_config.xml - Google

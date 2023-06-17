@@ -368,6 +368,11 @@ applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add a
 #applyPatch "$DOS_PATCHES/android_system_bt/272650.patch"; #ten-bt-sbc-hd-dualchannel: Allow using alternative (higher) SBC HD bitrates with a property (ValdikSS)
 fi;
 
+if enterAndClear "system/ca-certificates"; then
+rm -rf files; #Remove old certs
+cp -r "$DOS_PATCHES_COMMON/android_system_ca-certificates/files" .; #Copy the new ones into place
+fi;
+
 if enterAndClear "system/core"; then
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert --no-edit 3032c7aa5ce90c0ae9c08fe271052c6e0304a1e7 01266f589e6deaef30b782531ae14435cdd2f18e; #insanity
@@ -501,6 +506,7 @@ hardenLocationSerials || true;
 enableAutoVarInit || true;
 changeDefaultDNS; #Change the default DNS servers
 fixupCarrierConfigs || true; #Remove silly carrier restrictions
+removeUntrustedCerts || true;
 cd "$DOS_BUILD_BASE";
 #rm -rfv device/*/*/overlay/CarrierConfigResCommon device/*/*/rro_overlays/CarrierConfigOverlay device/*/*/overlay/packages/apps/CarrierConfig/res/xml/vendor.xml;
 

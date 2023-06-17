@@ -351,6 +351,11 @@ applyPatch "$DOS_PATCHES/android_system_bt/358582.patch"; #R_asb_2023-06 Revert 
 #applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
 
+if enterAndClear "system/ca-certificates"; then
+rm -rf files; #Remove old certs
+cp -r "$DOS_PATCHES_COMMON/android_system_ca-certificates/files" .; #Copy the new ones into place
+fi;
+
 if enterAndClear "system/core"; then
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert --no-edit b3609d82999d23634c5e6db706a3ecbc5348309a; #Always update recovery
@@ -432,6 +437,7 @@ removeBuildFingerprints;
 hardenLocationSerials || true;
 changeDefaultDNS; #Change the default DNS servers
 fixupCarrierConfigs || true; #Remove silly carrier restrictions
+removeUntrustedCerts || true;
 cd "$DOS_BUILD_BASE";
 
 #Tweaks for <2GB RAM devices

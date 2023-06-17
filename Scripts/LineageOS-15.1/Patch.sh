@@ -418,6 +418,11 @@ applyPatch "$DOS_PATCHES/android_system_bt/358581-backport.patch"; #R_asb_2023-0
 applyPatch "$DOS_PATCHES/android_system_bt/358582.patch"; #R_asb_2023-06 Revert "Revert "Fix wrong BR/EDR link key downgrades (P_256->P_192)""
 fi;
 
+if enterAndClear "system/ca-certificates"; then
+rm -rf files; #Remove old certs
+cp -r "$DOS_PATCHES_COMMON/android_system_ca-certificates/files" .; #Copy the new ones into place
+fi;
+
 if enterAndClear "system/core"; then
 applyPatch "$DOS_PATCHES/android_system_core/332765.patch"; #P_asb_2022-06 Backport of Win-specific suppression of potentially rogue construct that can engage in directory traversal on the host.
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
@@ -519,6 +524,7 @@ deblobAudio;
 removeBuildFingerprints;
 hardenLocationSerials || true;
 changeDefaultDNS; #Change the default DNS servers
+removeUntrustedCerts || true;
 
 #Tweaks for <2GB RAM devices
 enableLowRam "device/asus/fugu";
