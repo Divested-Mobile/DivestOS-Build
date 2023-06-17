@@ -77,8 +77,12 @@ patchWorkspaceReal() {
 	verifyAllPlatformTags;
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
 	#repopick -it ten-firewall;
+	repopick -fit Q_asb_2023-03;
+	repopick -fit Q_asb_2023-04;
+	repopick -fit Q_asb_2023-05;
+	repopick -fit Q_asb_2023-06;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

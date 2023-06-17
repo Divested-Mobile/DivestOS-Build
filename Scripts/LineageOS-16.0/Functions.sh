@@ -77,20 +77,20 @@ patchWorkspaceReal() {
 	source build/envsetup.sh;
 	#repopick -it pie-firewall;
 	#repopick cannot handle empty commits
-	repopick -it P_asb_2022-05 -e 341484;
-	repopick -it P_asb_2022-06 -e 342112;
-	repopick -it P_asb_2022-07 -e 342113;
-	repopick -it P_asb_2022-08 -e 342114;
-	repopick -it P_asb_2022-09 -e 342116;
-	repopick -it P_asb_2022-10 -e 342119;
-	repopick -it P_tzdata_2022;
-	repopick -it P_asb_2022-11 -e 344200;
-	repopick -it P_asb_2022-12 -e 345931;
-	repopick -it P_asb_2023-01 -e 347129;
-	repopick -it P_asb_2023-02 -e 349337;
-	repopick -it P_asb_2023-03;
-	repopick -it P_asb_2023-04;
-	repopick -it P_asb_2023-05;
+	repopick -fit P_asb_2022-05 -e 341484;
+	repopick -fit P_asb_2022-06 -e 342112;
+	repopick -fit P_asb_2022-07 -e 342113;
+	repopick -fit P_asb_2022-08 -e 342114;
+	repopick -fit P_asb_2022-09 -e 342116;
+	repopick -fit P_asb_2022-10 -e 342119;
+	repopick -fit P_tzdata_2022;
+	repopick -fit P_asb_2022-11 -e 344200;
+	repopick -fit P_asb_2022-12 -e 345931;
+	repopick -fit P_asb_2023-01 -e 347129;
+	repopick -fit P_asb_2023-02 -e 349337;
+	repopick -fit P_asb_2023-03;
+	repopick -fit P_asb_2023-04;
+	repopick -fit P_asb_2023-05;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
