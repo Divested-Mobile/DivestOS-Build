@@ -466,8 +466,6 @@ fi;
 
 if enterAndClear "device/htc/m8-common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #broken releasetools
-echo "PRODUCT_PROPERTY_OVERRIDES += debug.sf.hw=0" >> system_prop.mk; #disable hw overlays to workaround artifacting
-echo "PRODUCT_PROPERTY_OVERRIDES += debug.egl.hw=0" >> system_prop.mk;
 fi;
 
 if enterAndClear "device/htc/msm8974-common"; then
