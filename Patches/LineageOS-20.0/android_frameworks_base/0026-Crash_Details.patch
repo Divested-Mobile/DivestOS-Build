@@ -110,10 +110,10 @@ index c3b149a1e295..a47b82018377 100644
  
      <Button
 diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
-index 0e5b6a9d2596..b1062c60cb58 100644
+index e0ca922bf686..2ff3933a5cd8 100644
 --- a/core/res/res/values/strings.xml
 +++ b/core/res/res/values/strings.xml
-@@ -6363,4 +6363,7 @@ ul.</string>
+@@ -6376,4 +6376,7 @@ ul.</string>
  
      <!-- Title for preference of the system default locale. [CHAR LIMIT=50]-->
      <string name="system_locale_title">System default</string>
@@ -122,10 +122,10 @@ index 0e5b6a9d2596..b1062c60cb58 100644
 +    <string name="aerr_show_details">Show details</string>
  </resources>
 diff --git a/core/res/res/values/symbols.xml b/core/res/res/values/symbols.xml
-index 7e3334874f98..96224c66399e 100644
+index c767df56860c..a90c66763fbc 100644
 --- a/core/res/res/values/symbols.xml
 +++ b/core/res/res/values/symbols.xml
-@@ -4881,5 +4881,8 @@
+@@ -4911,6 +4911,9 @@
    <java-symbol type="id" name="language_picker_item" />
    <java-symbol type="id" name="language_picker_header" />
  
@@ -133,12 +133,13 @@ index 7e3334874f98..96224c66399e 100644
 +  <java-symbol type="string" name="aerr_show_details" />
 +
    <java-symbol type="dimen" name="status_bar_height_default" />
- </resources>
+ 
+   <!-- Whether to show weather on the lockscreen by default. -->
 diff --git a/packages/SystemUI/AndroidManifest.xml b/packages/SystemUI/AndroidManifest.xml
-index 428b0cee13b0..38dabf51267b 100644
+index b7fb28930a58..025e7708ede9 100644
 --- a/packages/SystemUI/AndroidManifest.xml
 +++ b/packages/SystemUI/AndroidManifest.xml
-@@ -1004,6 +1004,18 @@
+@@ -1007,6 +1007,18 @@
              </intent-filter>
          </receiver>
  
@@ -158,10 +159,10 @@ index 428b0cee13b0..38dabf51267b 100644
              android:authorities="com.android.systemui.customization"
              android:name="com.android.systemui.keyguard.CustomizationProvider"
 diff --git a/packages/SystemUI/res/values/strings.xml b/packages/SystemUI/res/values/strings.xml
-index 977adde635aa..52bbd06a9776 100644
+index 81241c91d1c6..0cd044e39fef 100644
 --- a/packages/SystemUI/res/values/strings.xml
 +++ b/packages/SystemUI/res/values/strings.xml
-@@ -2703,6 +2703,11 @@
+@@ -2752,6 +2752,11 @@
      <!-- Time format for the Dream Time Complication for 24-hour time format [CHAR LIMIT=NONE] -->
      <string name="dream_time_complication_24_hr_time_format">kk:mm</string>
  

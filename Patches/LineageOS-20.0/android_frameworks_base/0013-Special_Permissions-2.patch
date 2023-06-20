@@ -24,10 +24,10 @@ index 487e57d114c9..306a105bd169 100644
      field public static final String PHONE = "android.permission-group.PHONE";
      field public static final String READ_MEDIA_AURAL = "android.permission-group.READ_MEDIA_AURAL";
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index bbe31240f5f3..4bac265e5834 100644
+index bbc3a7369423..88d6863fe968 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
-@@ -2001,13 +2001,21 @@
+@@ -2002,13 +2002,21 @@
      <!-- ======================================= -->
      <eat-comment />
  
@@ -51,7 +51,7 @@ index bbe31240f5f3..4bac265e5834 100644
      <!-- Allows applications to access information about networks.
           <p>Protection level: normal
 diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
-index 9410e0682106..2eb74e9f98a8 100644
+index 2091c0502b6f..4c45fdc4de44 100644
 --- a/core/res/res/values/strings.xml
 +++ b/core/res/res/values/strings.xml
 @@ -934,6 +934,11 @@
@@ -67,7 +67,7 @@ index 9410e0682106..2eb74e9f98a8 100644
      <string name="capability_title_canRetrieveWindowContent">Retrieve window content</string>
      <!-- Description for the capability of an accessibility service to retrieve window content. -->
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-index 71b1b3ed0ca9..714bf540468c 100644
+index 79980a274dec..4918f3bf3e11 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 @@ -2524,7 +2524,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt

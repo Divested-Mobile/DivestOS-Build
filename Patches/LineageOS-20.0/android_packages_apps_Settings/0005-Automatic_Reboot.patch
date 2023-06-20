@@ -13,7 +13,7 @@ Subject: [PATCH] add auto-reboot setting
  create mode 100644 src/com/android/settings/security/AutoRebootPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 42d60eee98..a6a6e62166 100644
+index 9bc29560c9..46a888f45d 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -158,6 +158,37 @@
@@ -51,11 +51,11 @@ index 42d60eee98..a6a6e62166 100644
 +        <item>259200000</item>
 +    </string-array>
 +
-     <string-array name="entries_font_size">
-         <item msgid="6490061470416867723">Small</item>
-         <item msgid="3579015730662088893">Default</item>
+     <!-- Wi-Fi settings -->
+ 
+     <!-- Match this with the order of NetworkInfo.DetailedState. --> <skip />
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index d8a2c3b41c..666d84a266 100644
+index 044d70e429..3f7b4e3984 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -706,6 +706,9 @@

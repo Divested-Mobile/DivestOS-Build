@@ -8,10 +8,10 @@ Subject: [PATCH] Fix LTE Only mode on World Mode
  1 file changed, 1 deletion(-)
 
 diff --git a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
-index bb0fc8d307..1be4e6f495 100644
+index 0752ff4b2c..112e8ceb52 100644
 --- a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
 +++ b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
-@@ -314,7 +314,6 @@ public class EnabledNetworkModePreferenceController extends
+@@ -346,7 +346,6 @@ public class EnabledNetworkModePreferenceController extends
                              .addFormat(UiOptions.PresentFormat.add2gEntry);
                      break;
                  case PREFERRED_NETWORK_MODE_CHOICES_WORLD_MODE:

@@ -37,10 +37,10 @@ index d050ed783..e828916d6 100644
  
      CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 02e51d2c4..5afdb6904 100644
+index 2b53d883e..fa91825d7 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -330,6 +330,17 @@ on init
+@@ -304,6 +304,17 @@ on init
      write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
      write /proc/sys/kernel/sched_child_runs_first 0
  

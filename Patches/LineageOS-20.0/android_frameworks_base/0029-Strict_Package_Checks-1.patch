@@ -9,7 +9,7 @@ This is needed for properly verifying updates of system packages.
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/pm/PackageManagerServiceUtils.java b/services/core/java/com/android/server/pm/PackageManagerServiceUtils.java
-index 2210f7362d5c..b5f6a2e99062 100644
+index 6a7dd8aab06e..3c9e2de19fcf 100644
 --- a/services/core/java/com/android/server/pm/PackageManagerServiceUtils.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerServiceUtils.java
 @@ -161,7 +161,7 @@ public class PackageManagerServiceUtils {

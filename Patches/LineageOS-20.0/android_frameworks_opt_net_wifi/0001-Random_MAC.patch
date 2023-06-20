@@ -14,10 +14,10 @@ based on https://github.com/GrapheneOS/platform_frameworks_opt_net_wifi/commit/a
  2 files changed, 25 insertions(+), 8 deletions(-)
 
 diff --git a/libs/WifiTrackerLib/src/com/android/wifitrackerlib/StandardWifiEntry.java b/libs/WifiTrackerLib/src/com/android/wifitrackerlib/StandardWifiEntry.java
-index f3ce32606..0b1f3411f 100644
+index d32f80240..809780e75 100644
 --- a/libs/WifiTrackerLib/src/com/android/wifitrackerlib/StandardWifiEntry.java
 +++ b/libs/WifiTrackerLib/src/com/android/wifitrackerlib/StandardWifiEntry.java
-@@ -269,7 +269,7 @@ public class StandardWifiEntry extends WifiEntry {
+@@ -262,7 +262,7 @@ public class StandardWifiEntry extends WifiEntry {
                  return wifiInfoMac;
              }
          }
@@ -26,7 +26,7 @@ index f3ce32606..0b1f3411f 100644
              final String[] factoryMacs = mWifiManager.getFactoryMacAddresses();
              if (factoryMacs.length > 0) {
                  return factoryMacs[0];
-@@ -553,12 +553,18 @@ public class StandardWifiEntry extends WifiEntry {
+@@ -546,12 +546,18 @@ public class StandardWifiEntry extends WifiEntry {
      @Override
      @Privacy
      public synchronized int getPrivacy() {
@@ -50,7 +50,7 @@ index f3ce32606..0b1f3411f 100644
          }
      }
  
-@@ -568,11 +574,21 @@ public class StandardWifiEntry extends WifiEntry {
+@@ -561,11 +567,21 @@ public class StandardWifiEntry extends WifiEntry {
              return;
          }
  

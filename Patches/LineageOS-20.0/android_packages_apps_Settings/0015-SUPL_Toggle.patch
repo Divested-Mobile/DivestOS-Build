@@ -11,10 +11,10 @@ Subject: [PATCH] add a toggle for forcibly disabling SUPL
  create mode 100644 src/com/android/settings/location/ForceDisableSuplPrefController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index e68a5595ab..047a675bdf 100644
+index 60013f0d2f..6e619cc2c4 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -14518,4 +14518,6 @@
+@@ -14606,4 +14606,6 @@
      <string name="connectivity_check_title">Internet connectivity check</string>
      <string name="connectivity_check_summary">HTTP endpoints to use for performing internet connectivity checks.</string>
  

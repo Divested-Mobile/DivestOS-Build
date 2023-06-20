@@ -9,10 +9,10 @@ Signed-off-by: anupritaisno1 <www.anuprita804@gmail.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index a9eb83f76..ffad28d97 100644
+index 3abeee216..79700c3fb 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1107,6 +1107,8 @@ on boot
+@@ -1108,6 +1108,8 @@ on boot
      symlink /sys/class/block/${dev.mnt.dev.data} /dev/sys/block/by-name/userdata
      symlink /sys/class/block/${dev.mnt.rootdisk.data} /dev/sys/block/by-name/rootdisk
  

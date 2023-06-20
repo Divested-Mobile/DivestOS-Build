@@ -9,7 +9,7 @@ Ported from 12: b294a2ce1d0d185dbc438ac3c06c90386d5f5949
  1 file changed, 30 insertions(+), 9 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-index 554e2690b878..71b1b3ed0ca9 100644
+index 9ed5aa7158ab..79980a274dec 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 @@ -1409,7 +1409,8 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt

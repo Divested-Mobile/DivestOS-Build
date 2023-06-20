@@ -26,10 +26,10 @@ index f91f7385c1..c0907b19ee 100644
  
          <LinearLayout
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index bb5fdd8762..b061e1c3d4 100644
+index a22c8e0c3a..f2878fb925 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
-@@ -1412,6 +1412,12 @@
+@@ -1398,6 +1398,12 @@
          <item>Treat as unmetered</item>
      </string-array>
  
@@ -42,7 +42,7 @@ index bb5fdd8762..b061e1c3d4 100644
      <string-array name="wifi_privacy_entries">
          <item>Use randomized MAC (default)</item>
          <item>Use device MAC</item>
-@@ -1429,6 +1435,7 @@
+@@ -1415,6 +1421,7 @@
      </string-array>
  
      <string-array name="wifi_privacy_values" translatable="false">

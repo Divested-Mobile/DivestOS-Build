@@ -10,10 +10,10 @@ Subject: [PATCH] UserManager app installation restrictions
  3 files changed, 44 insertions(+), 5 deletions(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 77aafa7622..f301adc9e4 100644
+index e090ad8a05..1a159aebe9 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -8017,6 +8017,8 @@
+@@ -8090,6 +8090,8 @@
      <string name="user_enable_calling">Turn on phone calls</string>
      <!-- Title of preference to enable calling and SMS [CHAR LIMIT=45] -->
      <string name="user_enable_calling_sms">Turn on phone calls &amp; SMS</string>
