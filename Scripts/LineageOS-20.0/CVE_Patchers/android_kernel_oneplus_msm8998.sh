@@ -1,5 +1,6 @@
 #!/bin/bash
 if cd "$DOS_BUILD_BASE""kernel/oneplus/msm8998"; then
+git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes-Steam/^6.0/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0015.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-bugon/4.4/0003.patch
@@ -173,7 +174,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-30772/4.4/0008.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31084/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-34256/4.4/0008.patch
-editKernelLocalversion "-dos.p173"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35824/4.4/0001.patch
+editKernelLocalversion "-dos.p175"
 else echo "kernel_oneplus_msm8998 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

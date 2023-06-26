@@ -6,6 +6,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0286-0287.patch
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0300-0301.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.9/4.9.0313-0314.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/4.9/0010.patch
+git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes-Steam/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0015.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0020.patch
@@ -409,6 +410,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2269/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2985/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3141/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3159/4.9/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3358/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-21656/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-21657/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.14/0002.patch
@@ -418,13 +420,14 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-30772/4.14/0002.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31084/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-34256/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35824/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-fortify/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.9/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.9/0007.patch
-editKernelLocalversion "-dos.p424"
+editKernelLocalversion "-dos.p427"
 else echo "kernel_sony_sdm845 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
