@@ -332,7 +332,9 @@ processRelease() {
 	#Image
 	unzip -l $OUT_DIR/$PREFIX-target_files.zip | grep -q recovery.img;
 	local hasRecoveryImg="$?";
-	if [ "$hasRecoveryImg" == "1" ]; then
+	unzip -l $OUT_DIR/$PREFIX-target_files.zip | grep -q dtbo.img;
+	local hasDtboImg="$?";
+	if [ "$hasRecoveryImg" == "1" ] || [ "$hasDtboImg" == "0" ]; then
 		echo -e "\e[0;32mCreating fastboot image\e[0m";
 		"$RELEASETOOLS_PREFIX"img_from_target_files "$OUT_DIR/$PREFIX-target_files.zip" \
 			"$OUT_DIR/$PREFIX-fastboot.zip";
@@ -368,7 +370,7 @@ processRelease() {
 	fi;
 
 	#Extract signed recovery
-	if [ "$hasRecoveryImg" == "0" ]; then
+	if [ "$hasRecoveryImg" == "0" ] && [ "$hasDtboImg" == "1" ]; then
 		echo -e "\e[0;32mExtracting signed recovery.img\e[0m";
 		mkdir "$OUT_DIR/rec_tmp";
 		unzip "$OUT_DIR/$PREFIX-target_files.zip" "IMAGES/recovery.img" -d "$OUT_DIR/rec_tmp";
