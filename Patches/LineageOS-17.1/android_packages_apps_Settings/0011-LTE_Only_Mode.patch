@@ -106,7 +106,7 @@ index 6d95bcc58b..072004e447 100644
          <item>"18"</item>
          <item>"1"</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 197882d66e..88bd100122 100644
+index e7dcf62ddc..fedb9f3fde 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -10942,6 +10942,8 @@
