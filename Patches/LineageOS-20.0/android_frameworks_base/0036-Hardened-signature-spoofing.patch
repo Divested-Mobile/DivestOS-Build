@@ -85,8 +85,8 @@ index a01ec67630de..0b9ab8c1166c 100644
      <string-array name="config_locationProviderPackageNames" translatable="false">
          <!-- The standard AOSP fused location provider -->
          <item>com.android.location.fused</item>
-+        <!-- The (faked) microg fused location provider (a free reimplementation) -->
-+        <item>com.google.android.gms</item>
++        <!-- The (faked) microg fused location provider (a free reimplementation)
++        <item>com.google.android.gms</item> -->
      </string-array>
  
      <!-- Package name(s) of Advanced Driver Assistance applications. These packages have additional

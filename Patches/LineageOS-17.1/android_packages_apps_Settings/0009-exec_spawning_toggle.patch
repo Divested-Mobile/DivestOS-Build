@@ -12,7 +12,7 @@ Subject: [PATCH] add exec spawning toggle
  create mode 100644 src/com/android/settings/security/ExecSpawnPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index d965a63b0d..e7dcf62ddc 100644
+index fcac812417..197882d66e 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -11316,6 +11316,8 @@

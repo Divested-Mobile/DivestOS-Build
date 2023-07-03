@@ -123,10 +123,10 @@
     <string-array name="config_locationProviderPackageNames" translatable="false">
         <!-- The standard AOSP fused location provider -->
         <item>com.android.location.fused</item>
-	<!-- UnifiedNLP -->
-        <item>org.microg.nlp</item>
-	<!-- Play/microG -->
-        <item>com.google.android.gms</item>
+	<!-- UnifiedNLP
+        <item>org.microg.nlp</item> -->
+	<!-- Play/microG
+        <item>com.google.android.gms</item> -->
     </string-array>
 
     <!-- Package name providing Hardware Activity-Recognition API support. Used only when
