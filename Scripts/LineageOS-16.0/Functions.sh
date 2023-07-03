@@ -91,6 +91,7 @@ patchWorkspaceReal() {
 	repopick -fit P_asb_2023-03;
 	repopick -fit P_asb_2023-04;
 	repopick -fit P_asb_2023-05;
+	repopick -fit P_asb_2023-06;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
