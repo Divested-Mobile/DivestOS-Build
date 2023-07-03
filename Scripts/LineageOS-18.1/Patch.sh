@@ -95,7 +95,6 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
-sed -i 's/2023-05-05/2023-06-05/' core/version_defaults.mk; #Bump Security String #R_asb_2023-06 #XXX
 fi;
 
 if enterAndClear "build/soong"; then

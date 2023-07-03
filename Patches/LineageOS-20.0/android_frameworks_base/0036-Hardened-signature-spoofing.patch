@@ -92,7 +92,7 @@ index a01ec67630de..20ab9e79ae79 100644
  
      <!-- Package name(s) of Advanced Driver Assistance applications. These packages have additional
 diff --git a/services/core/java/com/android/server/pm/ComputerEngine.java b/services/core/java/com/android/server/pm/ComputerEngine.java
-index 58448bfefdaf..a01995c536a9 100644
+index 58448bfefdaf..50678f515dde 100644
 --- a/services/core/java/com/android/server/pm/ComputerEngine.java
 +++ b/services/core/java/com/android/server/pm/ComputerEngine.java
 @@ -99,6 +99,7 @@ import android.os.IBinder;
@@ -112,8 +112,8 @@ index 58448bfefdaf..a01995c536a9 100644
 -                    ps);
 +
 +            // Allow microG GmsCore and FakeStore to spoof signature
-+            final boolean isValidGmsCore = p.getPackageName().equals("com.google.android.gms") && p.getTargetSdkVersion() >= 29 && p.getVersionCode() >= 231657056;
-+            final boolean isValidFakeStore = p.getPackageName().equals("com.android.vending") && p.getTargetSdkVersion() >= 24 && p.getVersionCode() >= 30;
++            final boolean isValidGmsCore = p.getPackageName().equals("com.google.android.gms") && p.getTargetSdkVersion() >= 29 && ps.getVersionCode() >= 231657056;
++            final boolean isValidFakeStore = p.getPackageName().equals("com.android.vending") && p.getTargetSdkVersion() >= 24 && ps.getVersionCode() >= 30;
 +            final boolean isMicroG = isValidGmsCore || isValidFakeStore;
 +            PackageInfo packageInfo;
 +            if (isMicroG && SystemProperties.getBoolean(SPOOF_CONTROL, false)) {

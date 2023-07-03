@@ -89,8 +89,8 @@ index 9483f266b1fa..7e5a46cfd72f 100644
 -            PackageInfo packageInfo = PackageParser.generatePackageInfo(p, gids, flags,
 -                    ps.firstInstallTime, ps.lastUpdateTime, permissions, state, userId);
 +            // Allow microG GmsCore and FakeStore to spoof signature
-+            final boolean isValidGmsCore = p.packageName.equals("com.google.android.gms") && p.applicationInfo.targetSdkVersion >= 29 && p.versionCode >= 231657056;
-+            final boolean isValidFakeStore = p.packageName.equals("com.android.vending") && p.applicationInfo.targetSdkVersion >= 24 && p.versionCode >= 30;
++            final boolean isValidGmsCore = p.packageName.equals("com.google.android.gms") && p.applicationInfo.targetSdkVersion >= 29 && p.applicationInfo.versionCode >= 231657056;
++            final boolean isValidFakeStore = p.packageName.equals("com.android.vending") && p.applicationInfo.targetSdkVersion >= 24 && p.applicationInfo.versionCode >= 30;
 +            final boolean isMicroG = isValidGmsCore || isValidFakeStore;
 +            PackageInfo packageInfo;
 +            if (isMicroG && SystemProperties.getBoolean(SPOOF_CONTROL, false)) {

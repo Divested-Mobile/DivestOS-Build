@@ -23,10 +23,10 @@ Change-Id: I64a252aac9bb196a11ed7b4b5d8c7e59a3413bd4
  3 files changed, 71 insertions(+), 2 deletions(-)
 
 diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android/content/pm/PackageParser.java
-index f92c2951fdef..052d7db60379 100644
+index 8f5df4672dc0..c326ed2eb09c 100644
 --- a/core/java/android/content/pm/PackageParser.java
 +++ b/core/java/android/content/pm/PackageParser.java
-@@ -6567,6 +6567,38 @@ public class PackageParser {
+@@ -6569,6 +6569,38 @@ public class PackageParser {
              return false;
          }
  
@@ -66,7 +66,7 @@ index f92c2951fdef..052d7db60379 100644
          public boolean signaturesMatchExactly(SigningDetails other) {
              return Signature.areExactMatch(this.signatures, other.signatures);
 diff --git a/core/res/res/values/config.xml b/core/res/res/values/config.xml
-index a7d55479d2c3..d295fc5df234 100644
+index 35af82fb39a2..403680089a8d 100644
 --- a/core/res/res/values/config.xml
 +++ b/core/res/res/values/config.xml
 @@ -1804,6 +1804,8 @@

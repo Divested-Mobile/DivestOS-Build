@@ -23,10 +23,10 @@ Change-Id: I64a252aac9bb196a11ed7b4b5d8c7e59a3413bd4
  3 files changed, 71 insertions(+), 2 deletions(-)
 
 diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android/content/pm/PackageParser.java
-index 57f8a713ec13..ec2cf1ace99f 100644
+index c63fea6e3e0e..a9e49921efba 100644
 --- a/core/java/android/content/pm/PackageParser.java
 +++ b/core/java/android/content/pm/PackageParser.java
-@@ -6457,6 +6457,38 @@ public class PackageParser {
+@@ -6459,6 +6459,38 @@ public class PackageParser {
              return false;
          }
  

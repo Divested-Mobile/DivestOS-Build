@@ -16,10 +16,10 @@ Signed-off-by: Tad <tad@spotco.us>
  create mode 100644 src/com/android/settings/security/SigSpoofPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 67c47bc7b3..efab810360 100644
+index 1be8ea0677..24b8cbe581 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -13127,6 +13127,9 @@
+@@ -13133,6 +13133,9 @@
      <string name="hosts_disable_title">Disable DNS content blocker</string>
      <string name="hosts_disable_summary">Disables use of the included /etc/hosts database for data collection and malware blocking.</string>
  
