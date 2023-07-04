@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+	<!-- Default disable 'Google device registration > Register device' -->
+	<boolean name="checkin_enable_service" value="false" />
+
+	<!-- Default disable 'Cloud Messaging > Receive push notifications' -->
+	<boolean name="gcm_enable_mcs_service" value="false" />
+
+	<!-- Default disable 'Google SafetyNet > Allow device attestation' -->
+	<boolean name="safetynet_enabled" value="false" />
+	<boolean name="droidguard_enabled" value="false" />
+
+	<!-- Default disable 'Location > Wi-Fi location > Request from Mozilla' -->
+	<boolean name="location_wifi_mls" value="false" />
+
+	<!-- Default disable 'Location > Wi-Fi location > Request from Hotspot' -->
+	<boolean name="location_wifi_moving" value="false" />
+
+	<!-- Default disable 'Location > Wi-Fi location > Remember from GPS' -->
+	<boolean name="location_wifi_learning" value="false" />
+
+	<!-- Default disable 'Location > Mobile network location > Request from Mozilla' -->
+	<boolean name="location_cell_mls" value="false" />
+
+	<!-- Default disable 'Location > Mobile network location > Remember from GPS' -->
+	<boolean name="location_cell_learning" value="false" />
+
+	<!-- Default disable 'Exposure Notifications > Use Exposure Notifications' -->
+	<boolean name="exposure_scanner_enabled" value="false" />
+</map>
+
