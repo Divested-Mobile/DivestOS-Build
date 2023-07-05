@@ -93,8 +93,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2194/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2248/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2269/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2985/4.14/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3090/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3141/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3358/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-22387/ANY/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-30772/4.14/0002.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31084/4.14/0002.patch
@@ -105,7 +107,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-fortify/4.9/000
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0005.patch
-editKernelLocalversion "-dos.p105"
+editKernelLocalversion "-dos.p107"
 else echo "kernel_xiaomi_msm8937 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

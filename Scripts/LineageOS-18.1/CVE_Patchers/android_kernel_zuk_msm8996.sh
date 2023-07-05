@@ -427,6 +427,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2194/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2248/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2269/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2985/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3090/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3141/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3159/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3161/4.4/0001.patch
@@ -448,7 +449,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26145/qcacld-2.0/0008.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.4/0006.patch
-editKernelLocalversion "-dos.p448"
+editKernelLocalversion "-dos.p449"
 else echo "kernel_zuk_msm8996 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
