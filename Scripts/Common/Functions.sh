@@ -507,8 +507,10 @@ hardenLocationSerials() {
 	#Prevent Qualcomm location stack from sending chipset serial number
 
 	#Devices using blob xtra-daemon (which Deblob.sh removes)
-	find device -name "hal_gnss*.te" -type f -exec sh -c "awk -i inplace '!/sysfs_soc/' {}" \;
-	find device -name "location.te" -type f -exec sh -c "awk -i inplace '!/sysfs_soc/' {}" \;
+	if [[ "$DOS_VERSION" != "LineageOS-20.0" ]]; then #20.0 has sysfs_soc_sensitive label
+		find device -name "hal_gnss*.te" -type f -exec sh -c "awk -i inplace '!/sysfs_soc/' {}" \;
+		find device -name "location.te" -type f -exec sh -c "awk -i inplace '!/sysfs_soc/' {}" \;
+	fi;
 
 	#Devices using source built libloc, these ones typically have broad /sys access
 	## Null out the User-Agent header

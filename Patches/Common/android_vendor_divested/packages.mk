@@ -16,7 +16,8 @@ endif
 # Extras
 PRODUCT_PACKAGES += \
     TalkBack \
-    SupportDivestOS
+    SupportDivestOS \
+    microg.xml
 
 # Notes
 # - Available (via PrebuiltApps submodule): eSpeakNG
