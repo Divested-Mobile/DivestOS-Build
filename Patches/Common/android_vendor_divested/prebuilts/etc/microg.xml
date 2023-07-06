@@ -10,6 +10,9 @@
 	<boolean name="safetynet_enabled" value="false" />
 	<boolean name="droidguard_enabled" value="false" />
 
+	<!-- Block 'Google SafetyNet > Advanced > DroidGuard operation mode > Embedded' -->
+	<boolean name="droidguard_force_local_disabled" value="true" />
+
 	<!-- Default disable 'Location > Wi-Fi location > Request from Mozilla' -->
 	<boolean name="location_wifi_mls" value="false" />
 
@@ -24,6 +27,9 @@
 
 	<!-- Default disable 'Location > Mobile network location > Remember from GPS' -->
 	<boolean name="location_cell_learning" value="false" />
+
+	<!-- Default disable 'Location > Address resolver > Use Nominatim' -->
+	<boolean name="location_geocoder_nominatim" value="false" />
 
 	<!-- Default disable 'Exposure Notifications > Use Exposure Notifications' -->
 	<boolean name="exposure_scanner_enabled" value="false" />
