@@ -504,6 +504,7 @@ if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then
 	awk -i inplace '!/AudioFX/' config/common.mk; #Remove AudioFX
 	awk -i inplace '!/AudioService/' config/common.mk;
 fi;
+awk -i inplace '!/config_multiuserMaximumUsers/' overlay/common/frameworks/base/core/res/res/values/config.xml; #Conflict
 awk -i inplace '!/def_backup_transport/' overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml; #Unset default backup provider
 sed -i 's/CM_BUILDTYPE := UNOFFICIAL/CM_BUILDTYPE := dos/' config/common.mk; #Change buildtype
 echo 'include vendor/divested/divestos.mk' >> config/common.mk; #Include our customizations

@@ -429,6 +429,8 @@ rm -rf overlay/rro_packages/NetworkStackOverlay; #Do not set device model as DHC
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then awk -i inplace '!/50-lineage.sh/' config/*.mk; fi; #Make sure our hosts is always used
 awk -i inplace '!/PRODUCT_EXTRA_RECOVERY_KEYS/' config/*.mk; #Remove Lineage extra keys
 awk -i inplace '!/security\/lineage/' config/*.mk; #Remove Lineage extra keys
+awk -i inplace '!/config_multiuserMaximumUsers/' overlay/common/frameworks/base/core/res/res/values/config.xml; #Conflict
+sed -i '/config_locationExtraPackageNames/,+9d' overlay/common/frameworks/base/core/res/res/values/config.xml; #Conflict
 awk -i inplace '!/def_backup_transport/' overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml; #Unset default backup provider
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then sed -i '/TARGET_EXCLUDES_AUDIOFX/,+3d' config/common_mobile.mk; fi; #Remove AudioFX
 sed -i 's/LINEAGE_BUILDTYPE := UNOFFICIAL/LINEAGE_BUILDTYPE := dos/' config/*.mk; #Change buildtype
