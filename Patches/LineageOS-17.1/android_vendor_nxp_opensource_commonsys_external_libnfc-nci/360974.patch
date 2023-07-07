@@ -1,4 +1,4 @@
-From 17cb7edf8ad3aa239f39e4b823e881284f789343 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Alisher Alikhodjaev <alisher@google.com>
 Date: Tue, 2 May 2023 14:20:57 -0700
 Subject: [PATCH] OOBW in rw_i93_send_to_upper()
@@ -16,10 +16,10 @@ Change-Id: Ia10491e388a495a164462c73ced7ea1965808860
  2 files changed, 18 insertions(+)
 
 diff --git a/SN100x/src/nfc/tags/rw_i93.cc b/SN100x/src/nfc/tags/rw_i93.cc
-index f57ee763..062cc7e8 100755
+index 9eb4458f..5bf497ad 100755
 --- a/SN100x/src/nfc/tags/rw_i93.cc
 +++ b/SN100x/src/nfc/tags/rw_i93.cc
-@@ -598,6 +598,15 @@ void rw_i93_send_to_upper(NFC_HDR* p_resp) {
+@@ -467,6 +467,15 @@ void rw_i93_send_to_upper(NFC_HDR* p_resp) {
      case I93_CMD_GET_MULTI_BLK_SEC:
      case I93_CMD_EXT_GET_MULTI_BLK_SEC:
  
@@ -36,10 +36,10 @@ index f57ee763..062cc7e8 100755
        p_buff = (NFC_HDR*)GKI_getbuf((uint16_t)(length + NFC_HDR_SIZE));
  
 diff --git a/src/nfc/tags/rw_i93.cc b/src/nfc/tags/rw_i93.cc
-index f47fc30c..f58d7f58 100644
+index a648bb9a..a9c220d6 100644
 --- a/src/nfc/tags/rw_i93.cc
 +++ b/src/nfc/tags/rw_i93.cc
-@@ -598,6 +598,15 @@ void rw_i93_send_to_upper(NFC_HDR* p_resp) {
+@@ -528,6 +528,15 @@ void rw_i93_send_to_upper(NFC_HDR* p_resp) {
      case I93_CMD_GET_MULTI_BLK_SEC:
      case I93_CMD_EXT_GET_MULTI_BLK_SEC:
  

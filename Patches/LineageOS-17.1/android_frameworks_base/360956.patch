@@ -1,4 +1,4 @@
-From fcbc4bc0d51ae2f9180ddea578d0a0defb742662 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: "Nate(Qiang) Jiang" <qiangjiang@google.com>
 Date: Thu, 13 Apr 2023 21:20:37 +0000
 Subject: [PATCH] DO NOT MERGE: Add size check on PPS#policy
@@ -13,7 +13,7 @@ Change-Id: I6e6128b7ed5327da8dbc9186a82bef0f2e4197bb
  1 file changed, 24 insertions(+), 4 deletions(-)
 
 diff --git a/wifi/java/android/net/wifi/hotspot2/pps/Policy.java b/wifi/java/android/net/wifi/hotspot2/pps/Policy.java
-index b0a2cc397c53b..4bdacebda0606 100644
+index b0a2cc397c53..4bdacebda060 100644
 --- a/wifi/java/android/net/wifi/hotspot2/pps/Policy.java
 +++ b/wifi/java/android/net/wifi/hotspot2/pps/Policy.java
 @@ -16,6 +16,9 @@
@@ -26,7 +26,7 @@ index b0a2cc397c53b..4bdacebda0606 100644
  import android.os.Parcel;
  import android.os.Parcelable;
  import android.text.TextUtils;
-@@ -269,11 +272,19 @@ public String toString() {
+@@ -269,11 +272,19 @@ public final class Policy implements Parcelable {
           */
          public boolean validate() {
              if (TextUtils.isEmpty(mFqdn)) {
@@ -48,7 +48,7 @@ index b0a2cc397c53b..4bdacebda0606 100644
                  return false;
              }
              return true;
-@@ -449,7 +460,7 @@ public boolean validate() {
+@@ -449,7 +460,7 @@ public final class Policy implements Parcelable {
              }
              for (String ssid : mExcludedSsidList) {
                  if (ssid.getBytes(StandardCharsets.UTF_8).length > MAX_SSID_BYTES) {
@@ -57,7 +57,7 @@ index b0a2cc397c53b..4bdacebda0606 100644
                      return false;
                  }
              }
-@@ -457,15 +468,24 @@ public boolean validate() {
+@@ -457,15 +468,24 @@ public final class Policy implements Parcelable {
          // Validate required protocol to port map.
          if (mRequiredProtoPortMap != null) {
              for (Map.Entry<Integer, String> entry : mRequiredProtoPortMap.entrySet()) {

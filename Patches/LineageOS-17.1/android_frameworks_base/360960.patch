@@ -1,4 +1,4 @@
-From 67b68368ef609a22b83b48d355cbef2e01480a88 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ioana Alexandru <aioana@google.com>
 Date: Fri, 28 Apr 2023 14:11:04 +0000
 Subject: [PATCH] DO NOT MERGE Increase notification channel limit.
@@ -16,10 +16,10 @@ Change-Id: Id8da382f812d4abb8db723c40a61366a7402da4f
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/notification/PreferencesHelper.java b/services/core/java/com/android/server/notification/PreferencesHelper.java
-index 8f969dc83a09c..282816079a262 100644
+index 1a3779f7c607..32d1e7e53b6b 100644
 --- a/services/core/java/com/android/server/notification/PreferencesHelper.java
 +++ b/services/core/java/com/android/server/notification/PreferencesHelper.java
-@@ -92,7 +92,7 @@ public class PreferencesHelper implements RankingConfig {
+@@ -73,7 +73,7 @@ public class PreferencesHelper implements RankingConfig {
      private static final String NON_BLOCKABLE_CHANNEL_DELIM = ":";
  
      @VisibleForTesting

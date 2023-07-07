@@ -141,16 +141,16 @@ git fetch https://github.com/LineageOS/android_external_zlib refs/changes/70/352
 fi;
 
 if enterAndClear "frameworks/base"; then
-applyPatch "$DOS_PATCHES/android_frameworks_base/360952-backport.patch"; #R_asb_2023-07 Passpoint Add more check to limit the config size
+#applyPatch "$DOS_PATCHES/android_frameworks_base/360952-backport.patch"; #R_asb_2023-07 Passpoint Add more check to limit the config size #XXX: Passpoint 2.0 is API30+
 applyPatch "$DOS_PATCHES/android_frameworks_base/360953-backport.patch"; #R_asb_2023-07 Sanitize VPN label to prevent HTML injection
 applyPatch "$DOS_PATCHES/android_frameworks_base/360954.patch"; #R_asb_2023-07 Limit the number of supported v1 and v2 signers
 applyPatch "$DOS_PATCHES/android_frameworks_base/360955.patch"; #R_asb_2023-07 Import translations.
-applyPatch "$DOS_PATCHES/android_frameworks_base/360956.patch"; #R_asb_2023-07 Add size check on PPS#policy
-applyPatch "$DOS_PATCHES/android_frameworks_base/360957.patch"; #R_asb_2023-07 Limit the ServiceFriendlyNames
+#applyPatch "$DOS_PATCHES/android_frameworks_base/360956.patch"; #R_asb_2023-07 Add size check on PPS#policy #XXX: depends on 360952
+#applyPatch "$DOS_PATCHES/android_frameworks_base/360957.patch"; #R_asb_2023-07 Limit the ServiceFriendlyNames #XXX: depends on 360952
 applyPatch "$DOS_PATCHES/android_frameworks_base/360958-backport.patch"; #R_asb_2023-07 Only allow NEW_TASK flag when adjusting pending intents
 applyPatch "$DOS_PATCHES/android_frameworks_base/360959.patch"; #R_asb_2023-07 Dismiss keyguard when simpin auth'd and security method is none.
 applyPatch "$DOS_PATCHES/android_frameworks_base/360960.patch"; #R_asb_2023-07 Increase notification channel limit.
-applyPatch "$DOS_PATCHES/android_frameworks_base/360961-backport.patch"; #R_asb_2023-07 Verify URI permissions for EXTRA_REMOTE_INPUT_HISTORY_ITEMS.
+#applyPatch "$DOS_PATCHES/android_frameworks_base/360961-backport.patch"; #R_asb_2023-07 Verify URI permissions for EXTRA_REMOTE_INPUT_HISTORY_ITEMS. #XXX: RemoteInputHistoryItem doesn't exist
 applyPatch "$DOS_PATCHES/android_frameworks_base/360962-backport.patch"; #R_asb_2023-07 Truncate ShortcutInfo Id
 applyPatch "$DOS_PATCHES/android_frameworks_base/360963.patch"; #R_asb_2023-07 Visit URIs in landscape/portrait custom remote views.
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
@@ -223,7 +223,7 @@ fi;
 fi;
 
 if enterAndClear "frameworks/opt/net/wifi"; then
-#applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/360964-backport.patch"; #R_asb_2023-07 Add pre-share key check for wapi #XXX
+#applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/360964-backport.patch"; #R_asb_2023-07 Add pre-share key check for wapi #XXX: WAPI is API30+
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/0002-Random_MAC.patch"; #Add support for always generating new random MAC (GrapheneOS)
 fi;
@@ -441,9 +441,9 @@ if enterAndClear "system/update_engine"; then
 git revert --no-edit c68499e3ff10f2a31f913e14f66aafb4ed94d42d; #Do not skip payload signature verification
 fi;
 
-if enterAndClear "tools/apksig"; then
-applyPatch "$DOS_PATCHES/android_tools_apksig/360973-backport.patch"; #R_asb_2023-07 Limit the number of supported v1 and v2 signers
-fi;
+#if enterAndClear "tools/apksig"; then
+#applyPatch "$DOS_PATCHES/android_tools_apksig/360973-backport.patch"; #R_asb_2023-07 Limit the number of supported v1 and v2 signers #TODO backport containsWarnings for SignerInfo
+#fi;
 
 if enterAndClear "vendor/lineage"; then
 rm build/target/product/security/lineage.x509.pem; #Remove Lineage keys

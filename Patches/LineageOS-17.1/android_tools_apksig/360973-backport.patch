@@ -95,7 +95,7 @@ index f900211..6422af0 100644
  
  package com.android.apksig.internal.apk.v1;
  
-+import static com.android.apksig.Constants.MAX_APK_SIGNERS;
++//import static com.android.apksig.Constants.MAX_APK_SIGNERS;
 +
  import com.android.apksig.apk.ApkFormatException;
  import com.android.apksig.internal.asn1.Asn1DerEncoder;
@@ -104,9 +104,9 @@ index f900211..6422af0 100644
          if (signerConfigs.isEmpty()) {
              throw new IllegalArgumentException("At least one signer config must be provided");
          }
-+        if (signerConfigs.size() > MAX_APK_SIGNERS) {
++        if (signerConfigs.size() > 10) {
 +            throw new IllegalArgumentException(
-+                    "APK Signature Scheme v1 only supports a maximum of " + MAX_APK_SIGNERS + ", "
++                    "APK Signature Scheme v1 only supports a maximum of " + 10 + ", "
 +                            + signerConfigs.size() + " provided");
 +        }
          OutputManifestFile manifest =
@@ -120,7 +120,7 @@ index 47d5b01..615215c 100644
  
  package com.android.apksig.internal.apk.v1;
  
-+import static com.android.apksig.Constants.MAX_APK_SIGNERS;
++//import static com.android.apksig.Constants.MAX_APK_SIGNERS;
 +
  import com.android.apksig.ApkVerifier.Issue;
  import com.android.apksig.ApkVerifier.IssueWithParams;
@@ -129,8 +129,8 @@ index 47d5b01..615215c 100644
                  result.addError(Issue.JAR_SIG_NO_SIGNATURES);
                  return;
              }
-+            if (signers.size() > MAX_APK_SIGNERS) {
-+                result.addError(Issue.JAR_SIG_MAX_SIGNATURES_EXCEEDED, MAX_APK_SIGNERS,
++            if (signers.size() > 10) {
++                result.addError(Issue.JAR_SIG_MAX_SIGNATURES_EXCEEDED, 10,
 +                        signers.size());
 +                return;
 +            }
@@ -145,7 +145,7 @@ index d8e4723..03a0311 100644
  
  package com.android.apksig.internal.apk.v2;
  
-+import static com.android.apksig.Constants.MAX_APK_SIGNERS;
++//import static com.android.apksig.Constants.MAX_APK_SIGNERS;
  import static com.android.apksig.internal.apk.ApkSigningBlockUtils.encodeAsSequenceOfLengthPrefixedElements;
  import static com.android.apksig.internal.apk.ApkSigningBlockUtils.encodeAsSequenceOfLengthPrefixedPairsOfIntAndLengthPrefixedBytes;
  import static com.android.apksig.internal.apk.ApkSigningBlockUtils.encodeCertificates;
@@ -161,9 +161,9 @@ index d8e4723..03a0311 100644
          // FORMAT:
          // * length-prefixed sequence of length-prefixed signer blocks.
  
-+        if (signerConfigs.size() > MAX_APK_SIGNERS) {
++        if (signerConfigs.size() > 10) {
 +            throw new IllegalArgumentException(
-+                    "APK Signature Scheme v2 only supports a maximum of " + MAX_APK_SIGNERS + ", "
++                    "APK Signature Scheme v2 only supports a maximum of " + 10 + ", "
 +                            + signerConfigs.size() + " provided");
 +        }
 +
@@ -178,7 +178,7 @@ index 51c40bd..651ed5d 100644
  
  package com.android.apksig.internal.apk.v2;
  
-+import static com.android.apksig.Constants.MAX_APK_SIGNERS;
++//import static com.android.apksig.Constants.MAX_APK_SIGNERS;
 +
  import com.android.apksig.ApkVerifier.Issue;
  import com.android.apksig.apk.ApkFormatException;
@@ -187,8 +187,8 @@ index 51c40bd..651ed5d 100644
                  return;
              }
          }
-+        if (signerCount > MAX_APK_SIGNERS) {
-+            result.addError(Issue.V2_SIG_MAX_SIGNATURES_EXCEEDED, MAX_APK_SIGNERS, signerCount);
++        if (signerCount > 10) {
++            result.addError(Issue.V2_SIG_MAX_SIGNATURES_EXCEEDED, 10, signerCount);
 +        }
      }
  

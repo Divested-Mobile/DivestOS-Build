@@ -64,7 +64,7 @@ index 58aacc2c36c7..4bd28aefc0a9 100644
  
          mUserId = source.readInt();
 -        mId = source.readString();
-+        mId = getSafeId(Preconditions.checkStringNotEmpty(source.readString8(),
++        mId = getSafeId(Preconditions.checkStringNotEmpty(source.readString(),
 +                "Shortcut ID must be provided"));
          mPackageName = source.readString();
          mActivity = source.readParcelable(cl);

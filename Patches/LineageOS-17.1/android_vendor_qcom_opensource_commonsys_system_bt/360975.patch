@@ -1,4 +1,4 @@
-From 35912b629815d6481deabe9fcbebac83722367a6 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: tyiu <tyiu@google.com>
 Date: Tue, 28 Mar 2023 18:40:51 +0000
 Subject: [PATCH] Fix gatt_end_operation buffer overflow
