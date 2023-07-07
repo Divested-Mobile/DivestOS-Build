@@ -18,7 +18,7 @@ Change-Id: I2617de6f9e8a7dbfd8fbeff589a7d592f00d87c5
  2 files changed, 27 insertions(+), 3 deletions(-)
 
 diff --git a/core/java/android/content/pm/ShortcutInfo.java b/core/java/android/content/pm/ShortcutInfo.java
-index 58aacc2c36c7..4bd28aefc0a9 100644
+index 58aacc2c36c7..a50b321f6827 100644
 --- a/core/java/android/content/pm/ShortcutInfo.java
 +++ b/core/java/android/content/pm/ShortcutInfo.java
 @@ -236,6 +236,12 @@ public final class ShortcutInfo implements Parcelable {

@@ -117,6 +117,10 @@ if enterAndClear "external/conscrypt"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_external_conscrypt/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
+if enterAndClear "external/freetype"; then
+git fetch https://github.com/LineageOS/android_external_freetype refs/changes/51/360951/1 && git cherry-pick FETCH_HEAD; #R_asb_2023-07
+fi;
+
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
 if enterAndClear "external/hardened_malloc"; then
 applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras.patch"; #Expand workaround to all camera executables (DivestOS)
@@ -419,6 +423,10 @@ fi;
 
 if enterAndClear "system/vold"; then
 git revert --no-edit 3461ff5c9ad334c96780f3da14f1d23fcbee63ad; #breaks mako first boot
+fi;
+
+if enterAndClear "tools/apksig"; then
+git fetch https://github.com/LineageOS/android_tools_apksig refs/changes/73/360973/1 && git cherry-pick FETCH_HEAD; #R_asb_2023-07
 fi;
 
 if enterAndClear "vendor/lineage"; then

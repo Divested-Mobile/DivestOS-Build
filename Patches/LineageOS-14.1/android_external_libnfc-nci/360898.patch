@@ -1,4 +1,4 @@
-From f73e2d95da050a0b08e3ed5ae8c04968e8297230 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Alisher Alikhodjaev <alisher@google.com>
 Date: Tue, 2 May 2023 14:20:57 -0700
 Subject: [PATCH] OOBW in rw_i93_send_to_upper()

@@ -1,4 +1,4 @@
-From 2f780d815579ec2500046fadd4a3c7b09aa0bf62 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Lucas Lin <lucaslin@google.com>
 Date: Fri, 3 Mar 2023 08:13:50 +0000
 Subject: [PATCH] Sanitize VPN label to prevent HTML injection
@@ -30,7 +30,7 @@ Change-Id: Ieb148594d8e9a6505567f80d78810f687bb6e489
  2 files changed, 77 insertions(+), 5 deletions(-)
 
 diff --git a/packages/VpnDialogs/res/values/strings.xml b/packages/VpnDialogs/res/values/strings.xml
-index 406bcc34a1015..7389f765c717d 100644
+index 406bcc34a101..7389f765c717 100644
 --- a/packages/VpnDialogs/res/values/strings.xml
 +++ b/packages/VpnDialogs/res/values/strings.xml
 @@ -50,4 +50,33 @@
@@ -68,7 +68,7 @@ index 406bcc34a1015..7389f765c717d 100644
 +    </string>
  </resources>
 diff --git a/packages/VpnDialogs/src/com/android/vpndialogs/ConfirmDialog.java b/packages/VpnDialogs/src/com/android/vpndialogs/ConfirmDialog.java
-index 09339743db5c5..43d18df3a10dd 100644
+index 09339743db5c..43d18df3a10d 100644
 --- a/packages/VpnDialogs/src/com/android/vpndialogs/ConfirmDialog.java
 +++ b/packages/VpnDialogs/src/com/android/vpndialogs/ConfirmDialog.java
 @@ -42,10 +42,52 @@ public class ConfirmDialog extends AlertActivity
@@ -124,7 +124,7 @@ index 09339743db5c5..43d18df3a10dd 100644
      @Override
      protected void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
-@@ -68,15 +110,16 @@ protected void onCreate(Bundle savedInstanceState) {
+@@ -68,15 +110,16 @@ public class ConfirmDialog extends AlertActivity
              finish();
              return;
          }

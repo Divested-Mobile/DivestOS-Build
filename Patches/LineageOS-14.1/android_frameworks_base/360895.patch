@@ -1,4 +1,4 @@
-From 303a97a99b75bae716c109b810e6bccb732483df Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Andr=C3=A1s=20Kurucz?= <kurucz@google.com>
 Date: Fri, 21 Apr 2023 09:45:07 +0000
 Subject: [PATCH] Truncate ShortcutInfo Id
@@ -18,7 +18,7 @@ Change-Id: I2617de6f9e8a7dbfd8fbeff589a7d592f00d87c5
  2 files changed, 27 insertions(+), 3 deletions(-)
 
 diff --git a/core/java/android/content/pm/ShortcutInfo.java b/core/java/android/content/pm/ShortcutInfo.java
-index a854b899a82af..3ac20ff39327b 100644
+index a854b899a82a..3ac20ff39327 100644
 --- a/core/java/android/content/pm/ShortcutInfo.java
 +++ b/core/java/android/content/pm/ShortcutInfo.java
 @@ -128,6 +128,12 @@ public final class ShortcutInfo implements Parcelable {
@@ -44,7 +44,7 @@ index a854b899a82af..3ac20ff39327b 100644
  
          // Note we can't do other null checks here because SM.updateShortcuts() takes partial
          // information.
-@@ -309,6 +314,14 @@ private static PersistableBundle[] clonePersistableBundle(PersistableBundle[] bu
+@@ -309,6 +314,14 @@ public final class ShortcutInfo implements Parcelable {
          return ret;
      }
  
@@ -59,7 +59,7 @@ index a854b899a82af..3ac20ff39327b 100644
      /**
       * Throws if any of the mandatory fields is not set.
       *
-@@ -1602,7 +1615,8 @@ private ShortcutInfo(Parcel source) {
+@@ -1602,7 +1615,8 @@ public final class ShortcutInfo implements Parcelable {
          final ClassLoader cl = getClass().getClassLoader();
  
          mUserId = source.readInt();
@@ -70,10 +70,10 @@ index a854b899a82af..3ac20ff39327b 100644
          mActivity = source.readParcelable(cl);
          mFlags = source.readInt();
 diff --git a/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java b/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java
-index d25923c019cac..6b86ef0e0704c 100644
+index d25923c019ca..6b86ef0e0704 100644
 --- a/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java
 +++ b/services/tests/servicestests/src/com/android/server/pm/ShortcutManagerTest2.java
-@@ -53,6 +53,7 @@
+@@ -53,6 +53,7 @@ import java.io.IOException;
  import java.io.PrintWriter;
  import java.io.StringWriter;
  import java.io.Writer;
@@ -81,7 +81,7 @@ index d25923c019cac..6b86ef0e0704c 100644
  import java.util.Locale;
  
  /**
-@@ -223,6 +224,15 @@ public void testShortcutInfoMissingMandatoryFields() {
+@@ -223,6 +224,15 @@ public class ShortcutManagerTest2 extends BaseShortcutManagerTest {
                  });
      }
  

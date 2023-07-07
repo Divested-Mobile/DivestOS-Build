@@ -1,4 +1,4 @@
-From 82159c4fb4f274c5f0b21c987f44cb48cf3b28a3 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Werner Lemberg <wl@gnu.org>
 Date: Sat, 19 Mar 2022 06:40:17 +0100
 Subject: [PATCH] DO NOT MERGE - Cherry-pick two upstream changes

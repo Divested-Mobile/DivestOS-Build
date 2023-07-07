@@ -1,4 +1,4 @@
-From 0459c2c0db0c0187a8d9a3074534a34c1cbf2ccc Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Michael Groover <mpgroover@google.com>
 Date: Fri, 31 Mar 2023 21:31:22 +0000
 Subject: [PATCH] Limit the number of supported v1 and v2 signers
@@ -22,7 +22,7 @@ Change-Id: I6aa86b615b203cdc69d58a593ccf8f18474ca091
  2 files changed, 21 insertions(+)
 
 diff --git a/core/java/android/util/apk/ApkSignatureSchemeV2Verifier.java b/core/java/android/util/apk/ApkSignatureSchemeV2Verifier.java
-index 78d3b7bf81d28..f4631c68832b2 100644
+index 78d3b7bf81d2..f4631c68832b 100644
 --- a/core/java/android/util/apk/ApkSignatureSchemeV2Verifier.java
 +++ b/core/java/android/util/apk/ApkSignatureSchemeV2Verifier.java
 @@ -79,6 +79,11 @@ public class ApkSignatureSchemeV2Verifier {
@@ -37,7 +37,7 @@ index 78d3b7bf81d28..f4631c68832b2 100644
      /**
       * Returns {@code true} if the provided APK contains an APK Signature Scheme V2 signature.
       *
-@@ -219,6 +224,11 @@ private static X509Certificate[][] verify(
+@@ -219,6 +224,11 @@ public class ApkSignatureSchemeV2Verifier {
          }
          while (signers.hasRemaining()) {
              signerCount++;
@@ -50,7 +50,7 @@ index 78d3b7bf81d28..f4631c68832b2 100644
                  ByteBuffer signer = getLengthPrefixedSlice(signers);
                  X509Certificate[] certs = verifySigner(signer, contentDigests, certFactory);
 diff --git a/core/java/android/util/jar/StrictJarVerifier.java b/core/java/android/util/jar/StrictJarVerifier.java
-index cb71ecc1da8b3..1ce078704be32 100644
+index cb71ecc1da8b..1ce078704be3 100644
 --- a/core/java/android/util/jar/StrictJarVerifier.java
 +++ b/core/java/android/util/jar/StrictJarVerifier.java
 @@ -70,6 +70,11 @@ class StrictJarVerifier {
@@ -65,7 +65,7 @@ index cb71ecc1da8b3..1ce078704be32 100644
      private final String jarName;
      private final StrictJarManifest manifest;
      private final HashMap<String, byte[]> metaEntries;
-@@ -285,10 +290,16 @@ synchronized boolean readCertificates() {
+@@ -285,10 +290,16 @@ class StrictJarVerifier {
              return false;
          }
  

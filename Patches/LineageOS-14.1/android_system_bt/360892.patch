@@ -1,4 +1,4 @@
-From fa5c4429ae75e687b87313b79512c4a90f90ee3b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: tyiu <tyiu@google.com>
 Date: Tue, 28 Mar 2023 18:40:51 +0000
 Subject: [PATCH] Fix gatt_end_operation buffer overflow
@@ -26,7 +26,7 @@ Change-Id: I49e2797cd9300ee4cd69f2c7fa5f0073db78b873
  1 file changed, 8 insertions(+)
 
 diff --git a/stack/gatt/gatt_utils.c b/stack/gatt/gatt_utils.c
-index 4582b5ae477..e56c1a4e793 100644
+index 4582b5ae4..e56c1a4e7 100644
 --- a/stack/gatt/gatt_utils.c
 +++ b/stack/gatt/gatt_utils.c
 @@ -2190,6 +2190,14 @@ void gatt_end_operation(tGATT_CLCB *p_clcb, tGATT_STATUS status, void *p_data)
