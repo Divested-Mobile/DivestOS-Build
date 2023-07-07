@@ -97,6 +97,7 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
+sed -i 's/2023-06-05/2023-07-05/' core/version_defaults.mk; #Bump Security String #R_asb_2023-07 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -118,6 +119,10 @@ if enterAndClear "external/conscrypt"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_external_conscrypt/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
+if enterAndClear "external/freetype"; then
+applyPatch "$DOS_PATCHES/android_external_freetype/360951.patch"; #R_asb_2023-07 Cherry-pick two upstream changes
+fi;
+
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
 if enterAndClear "external/hardened_malloc"; then
 applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras.patch"; #Expand workaround to all camera executables (DivestOS)
@@ -136,6 +141,18 @@ git fetch https://github.com/LineageOS/android_external_zlib refs/changes/70/352
 fi;
 
 if enterAndClear "frameworks/base"; then
+applyPatch "$DOS_PATCHES/android_frameworks_base/360952-backport.patch"; #R_asb_2023-07 Passpoint Add more check to limit the config size
+applyPatch "$DOS_PATCHES/android_frameworks_base/360953-backport.patch"; #R_asb_2023-07 Sanitize VPN label to prevent HTML injection
+applyPatch "$DOS_PATCHES/android_frameworks_base/360954.patch"; #R_asb_2023-07 Limit the number of supported v1 and v2 signers
+applyPatch "$DOS_PATCHES/android_frameworks_base/360955.patch"; #R_asb_2023-07 Import translations.
+applyPatch "$DOS_PATCHES/android_frameworks_base/360956.patch"; #R_asb_2023-07 Add size check on PPS#policy
+applyPatch "$DOS_PATCHES/android_frameworks_base/360957.patch"; #R_asb_2023-07 Limit the ServiceFriendlyNames
+applyPatch "$DOS_PATCHES/android_frameworks_base/360958-backport.patch"; #R_asb_2023-07 Only allow NEW_TASK flag when adjusting pending intents
+applyPatch "$DOS_PATCHES/android_frameworks_base/360959.patch"; #R_asb_2023-07 Dismiss keyguard when simpin auth'd and security method is none.
+applyPatch "$DOS_PATCHES/android_frameworks_base/360960.patch"; #R_asb_2023-07 Increase notification channel limit.
+applyPatch "$DOS_PATCHES/android_frameworks_base/360961-backport.patch"; #R_asb_2023-07 Verify URI permissions for EXTRA_REMOTE_INPUT_HISTORY_ITEMS.
+applyPatch "$DOS_PATCHES/android_frameworks_base/360962-backport.patch"; #R_asb_2023-07 Truncate ShortcutInfo Id
+applyPatch "$DOS_PATCHES/android_frameworks_base/360963.patch"; #R_asb_2023-07 Visit URIs in landscape/portrait custom remote views.
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -206,6 +223,7 @@ fi;
 fi;
 
 if enterAndClear "frameworks/opt/net/wifi"; then
+#applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/360964-backport.patch"; #R_asb_2023-07 Add pre-share key check for wapi #XXX
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/0002-Random_MAC.patch"; #Add support for always generating new random MAC (GrapheneOS)
 fi;
@@ -364,10 +382,15 @@ applyPatch "$DOS_PATCHES/android_prebuilts_abi-dumps_vndk/0001-protobuf-avi.patc
 fi;
 
 if enterAndClear "system/bt"; then
+applyPatch "$DOS_PATCHES/android_system_bt/360969.patch"; #R_asb_2023-07 Fix gatt_end_operation buffer overflow
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272648.patch"; #ten-bt-sbc-hd-dualchannel: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272649.patch"; #ten-bt-sbc-hd-dualchannel: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272650.patch"; #ten-bt-sbc-hd-dualchannel: Allow using alternative (higher) SBC HD bitrates with a property (ValdikSS)
+fi;
+
+if enterAndClear "vendor/qcom/opensource/commonsys/system/bt"; then
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_commonsys_system_bt/360975.patch"; #R_asb_2023-07 Fix gatt_end_operation buffer overflow
 fi;
 
 if enterAndClear "system/ca-certificates"; then
@@ -394,6 +417,14 @@ applyPatch "$DOS_PATCHES/android_system_netd/0001-Network_Permission.patch"; #Ex
 applyPatch "$DOS_PATCHES/android_system_netd/0002-hosts_toggle.patch"; #Add a toggle to disable /etc/hosts lookup (DivestOS)
 fi;
 
+if enterAndClear "system/nfc"; then
+applyPatch "$DOS_PATCHES/android_system_nfc/360972.patch"; #R_asb_2023-07 OOBW in rw_i93_send_to_upper()
+fi;
+
+if enterAndClear "vendor/nxp/opensource/commonsys/external/libnfc-nci"; then
+applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_commonsys_external_libnfc-nci/360974.patch"; #R_asb_2023-07 OOBW in rw_i93_send_to_upper()
+fi;
+
 if enterAndClear "system/sepolicy"; then
 applyPatch "$DOS_PATCHES/android_system_sepolicy/0002-protected_files.patch"; #label protected_{fifos,regular} as proc_security (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_system_sepolicy/0003-ptrace_scope-1.patch"; #Allow init to control kernel.yama.ptrace_scope (GrapheneOS)
@@ -408,6 +439,10 @@ fi;
 
 if enterAndClear "system/update_engine"; then
 git revert --no-edit c68499e3ff10f2a31f913e14f66aafb4ed94d42d; #Do not skip payload signature verification
+fi;
+
+if enterAndClear "tools/apksig"; then
+applyPatch "$DOS_PATCHES/android_tools_apksig/360973-backport.patch"; #R_asb_2023-07 Limit the number of supported v1 and v2 signers
 fi;
 
 if enterAndClear "vendor/lineage"; then
