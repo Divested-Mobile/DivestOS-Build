@@ -76,7 +76,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2023-06-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-06 #XXX
+sed -i 's/2021-06-05/2023-07-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-07 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -100,6 +100,10 @@ applyPatch "$DOS_PATCHES/android_external_expat/337989-backport.patch"; #n-asb-2
 applyPatch "$DOS_PATCHES/android_external_expat/348649.patch"; #n-asb-2023-02 Fix overeager DTD destruction (fixes #649)
 fi;
 
+if enterAndClear "external/freetype"; then
+applyPatch "$DOS_PATCHES/android_external_freetype/360899.patch"; #n-asb-2023-07 Cherry-pick two upstream changes
+fi;
+
 if enterAndClear "external/libavc"; then
 applyPatch "$DOS_PATCHES/android_external_libavc/315711.patch"; #n-asb-2021-09 Decoder: Update check for increment u2_cur_slice_num
 applyPatch "$DOS_PATCHES/android_external_libavc/323462.patch"; #n-asb-2022-02 Move slice increments after completing header parsing
@@ -120,6 +124,7 @@ applyPatch "$DOS_PATCHES/android_external_libnfc-nci/332460.patch"; #n-asb-2022-
 applyPatch "$DOS_PATCHES/android_external_libnfc-nci/341071.patch"; #n-asb-2022-10 The length of a packet should be non-zero
 applyPatch "$DOS_PATCHES/android_external_libnfc-nci/343955.patch"; #n-asb-2022-11 OOBW in phNxpNciHal_write_unlocked()
 applyPatch "$DOS_PATCHES/android_external_libnfc-nci/353760.patch"; #n-asb-2023-04 OOBW in nci_snd_set_routing_cmd()
+applyPatch "$DOS_PATCHES/android_external_libnfc-nci/360898.patch"; #n-asb-2023-07 OOBW in rw_i93_send_to_upper()
 fi;
 
 if enterAndClear "external/sonivox"; then
@@ -199,6 +204,9 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/355866.patch"; #n-asb-2023-05 C
 applyPatch "$DOS_PATCHES/android_frameworks_base/358732.patch"; #n-asb-2023-06 Prevent RemoteViews crashing SystemUi
 applyPatch "$DOS_PATCHES/android_frameworks_base/358733.patch"; #n-asb-2023-06 Check key intent for selectors and prohibited flags
 applyPatch "$DOS_PATCHES/android_frameworks_base/358734.patch"; #n-asb-2023-06 Handle invalid data during job loading.
+applyPatch "$DOS_PATCHES/android_frameworks_base/360893.patch"; #n-asb-2023-07 Sanitize VPN label to prevent HTML injection
+applyPatch "$DOS_PATCHES/android_frameworks_base/360894.patch"; #n-asb-2023-07 Limit the number of supported v1 and v2 signers
+applyPatch "$DOS_PATCHES/android_frameworks_base/360895.patch"; #n-asb-2023-07 Truncate ShortcutInfo Id
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -464,6 +472,7 @@ applyPatch "$DOS_PATCHES/android_system_bt/353755.patch"; #n-asb-2023-04 Fix an 
 applyPatch "$DOS_PATCHES/android_system_bt/358735.patch"; #n-asb-2023-06 Prevent use-after-free of HID reports
 applyPatch "$DOS_PATCHES/android_system_bt/358736.patch"; #n-asb-2023-06 Revert "Revert "[RESTRICT AUTOMERGE] Validate buffer length in sdpu_build_uuid_seq""
 applyPatch "$DOS_PATCHES/android_system_bt/358737.patch"; #n-asb-2023-06 Revert "Revert "Fix wrong BR/EDR link key downgrades (P_256->P_192)""
+applyPatch "$DOS_PATCHES/android_system_bt/360892.patch"; #n-asb-2023-07 Fix gatt_end_operation buffer overflow
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #bt-sbc-hd-dualchannel-nougat: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #bt-sbc-hd-dualchannel-nougat: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)

@@ -1,0 +1,37 @@
+From f73e2d95da050a0b08e3ed5ae8c04968e8297230 Mon Sep 17 00:00:00 2001
+From: Alisher Alikhodjaev <alisher@google.com>
+Date: Tue, 2 May 2023 14:20:57 -0700
+Subject: [PATCH] OOBW in rw_i93_send_to_upper()
+
+Bug: 271849189
+Test: tag r/w
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:dc9d09e1698725712628d394bf9be4c9003579e8)
+Merged-In: I1d55954e56a3f995f8dd48bf484fe9fce02b2ed1
+Change-Id: I1d55954e56a3f995f8dd48bf484fe9fce02b2ed1
+
+Change-Id: I9cd9658bf50144092c1cf196fd9272ffbac2fc55
+---
+ src/nfc/tags/rw_i93.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/src/nfc/tags/rw_i93.c b/src/nfc/tags/rw_i93.c
+index 3773324..ecf7c37 100644
+--- a/src/nfc/tags/rw_i93.c
++++ b/src/nfc/tags/rw_i93.c
+@@ -437,6 +437,16 @@ void rw_i93_send_to_upper (BT_HDR *p_resp)
+     case I93_CMD_READ_MULTI_BLOCK:
+     case I93_CMD_GET_MULTI_BLK_SEC:
+ 
++        if (UINT16_MAX - length < BT_HDR_SIZE)
++        {
++          rw_data.i93_cmd_cmpl.status = NFC_STATUS_FAILED;
++          rw_data.i93_cmd_cmpl.command = p_i93->sent_cmd;
++          rw_cb.tcb.i93.sent_cmd = 0;
++
++          event = RW_I93_CMD_CMPL_EVT;
++          break;
++        }
++
+         /* forward tag data or security status */
+         p_buff = (BT_HDR*) GKI_getbuf ((UINT16) (length + BT_HDR_SIZE));
+ 
