@@ -73,7 +73,7 @@ applyPatch "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys t
 applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2023-06-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2023-07-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -106,6 +106,10 @@ applyPatch "$DOS_PATCHES/android_external_expat/337987.patch"; #Q_asb_2022-09 Pr
 applyPatch "$DOS_PATCHES/android_external_expat/337988-backport.patch"; #n-asb-2022-09 Prevent integer overflow in function doProlog
 applyPatch "$DOS_PATCHES/android_external_expat/337989-backport.patch"; #n-asb-2022-09 Prevent more integer overflows
 applyPatch "$DOS_PATCHES/android_external_expat/348649.patch"; #n-asb-2023-02 Fix overeager DTD destruction (fixes #649)
+fi;
+
+if enterAndClear "external/freetype"; then
+applyPatch "$DOS_PATCHES/android_external_freetype/360951.patch"; #R_asb_2023-07 Cherry-pick two upstream changes
 fi;
 
 #if [ "$DOS_GRAPHENE_MALLOC_BROKEN" = true ]; then
@@ -185,6 +189,9 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/355767.patch"; #R_asb_2023-05 E
 applyPatch "$DOS_PATCHES/android_frameworks_base/358560-backport.patch"; #R_asb_2023-06 Check key intent for selectors and prohibited flags
 applyPatch "$DOS_PATCHES/android_frameworks_base/358561-backport.patch"; #R_asb_2023-06 Handle invalid data during job loading.
 applyPatch "$DOS_PATCHES/android_frameworks_base/358732-backport.patch"; #n-asb-2023-06 Prevent RemoteViews crashing SystemUi
+applyPatch "$DOS_PATCHES/android_frameworks_base/360953-backport.patch"; #R_asb_2023-07 Sanitize VPN label to prevent HTML injection
+applyPatch "$DOS_PATCHES/android_frameworks_base/360954-backport.patch"; #R_asb_2023-07 Limit the number of supported v1 and v2 signers
+applyPatch "$DOS_PATCHES/android_frameworks_base/360962-backport.patch"; #R_asb_2023-07 Truncate ShortcutInfo Id
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
@@ -416,6 +423,7 @@ applyPatch "$DOS_PATCHES/android_system_bt/354247.patch"; #P_asb_2023-04 Fix an 
 applyPatch "$DOS_PATCHES/android_system_bt/358580.patch"; #R_asb_2023-06 Prevent use-after-free of HID reports
 applyPatch "$DOS_PATCHES/android_system_bt/358581-backport.patch"; #R_asb_2023-06 Revert "Revert "[RESTRICT AUTOMERGE] Validate buffer length in sdpu_build_uuid_seq""
 applyPatch "$DOS_PATCHES/android_system_bt/358582.patch"; #R_asb_2023-06 Revert "Revert "Fix wrong BR/EDR link key downgrades (P_256->P_192)""
+applyPatch "$DOS_PATCHES/android_system_bt/360969.patch"; #R_asb_2023-07 Fix gatt_end_operation buffer overflow
 fi;
 
 if enterAndClear "system/ca-certificates"; then
@@ -454,6 +462,7 @@ applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/33245
 applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/332459-backport.patch"; #n-asb-2022-06 OOBR in nfc_ncif_proc_ee_discover_req()
 applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/344190-backport.patch"; #P_asb_2022-11 OOBW in phNxpNciHal_write_unlocked()
 applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/353760-backport.patch"; #n-asb-2023-04 OOBW in nci_snd_set_routing_cmd()
+applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_external_libnfc-nci/360898-backport.patch"; #n-asb-2023-07 OOBW in rw_i93_send_to_upper()
 fi;
 
 if enterAndClear "vendor/nxp/opensource/packages/apps/Nfc"; then #keep in sync with packages/apps/Nfc
