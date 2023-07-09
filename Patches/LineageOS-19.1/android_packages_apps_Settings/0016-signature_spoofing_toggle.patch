@@ -16,7 +16,7 @@ Signed-off-by: Tad <tad@spotco.us>
  create mode 100644 src/com/android/settings/security/SigSpoofPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 1be8ea0677..24b8cbe581 100644
+index 1be8ea0677..bab35fbe60 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -13133,6 +13133,9 @@
