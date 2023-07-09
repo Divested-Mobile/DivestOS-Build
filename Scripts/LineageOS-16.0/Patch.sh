@@ -371,6 +371,11 @@ if enterAndClear "system/nfc"; then
 applyPatch "$DOS_PATCHES/android_system_nfc/360972.patch"; #R_asb_2023-07 OOBW in rw_i93_send_to_upper()
 fi;
 
+if enterAndClear "tools/apksig"; then
+applyPatch "$DOS_PATCHES/android_tools_apksig/360973-backport-prereq.patch"; #R_asb_2023-07 Create source stamp verifier
+applyPatch "$DOS_PATCHES/android_tools_apksig/360973-backport.patch"; #R_asb_2023-07 Limit the number of supported v1 and v2 signers
+fi;
+
 if enterAndClear "vendor/nxp/opensource/commonsys/external/libnfc-nci"; then
 applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_commonsys_external_libnfc-nci/360974-backport.patch"; #R_asb_2023-07 OOBW in rw_i93_send_to_upper()
 fi;
