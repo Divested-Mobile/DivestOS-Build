@@ -536,18 +536,33 @@ hardenLocationConf() {
 	fi;
 	#Change capabilities
 	sed -i 's|CAPABILITIES=.*|CAPABILITIES=0x13|' "$gpsConfig" &> /dev/null || true; #Disable MSA (privacy) and geofencing/ULP (both broken by deblobber)
-	sed -i 's/#SUPL_MODE=/SUPL_MODE=/' "$gpsConfig" &>/dev/null || true;
+	sed -i 's|CAPABILITIES = .*|CAPABILITIES = 0x13|' "$gpsConfig" &> /dev/null || true;
+	sed -i 's/#SUPL_MODE=/SUPL_MODE=/' "$gpsConfig" &>/dev/null || true; #Uncomment
+	sed -i 's/#SUPL_MODE = /SUPL_MODE = /' "$gpsConfig" &>/dev/null || true;
 	sed -i 's/SUPL_MODE=$/SUPL_MODE=1/' "$gpsConfig" &>/dev/null || true; #Set to MSB if blank (to prevent MSA+MSB default)
+	sed -i 's/SUPL_MODE = $/SUPL_MODE = 1/' "$gpsConfig" &>/dev/null || true;
 	sed -i "s|SUPL_MODE=3|SUPL_MODE=1|" "$gpsConfig" &> /dev/null || true; #Disable MSA (privacy)
+	sed -i "s|SUPL_MODE = 3|SUPL_MODE = 1|" "$gpsConfig" &> /dev/null || true;
+	sed -i 's/#LPP_PROFILE=/LPP_PROFILE=/' "$gpsConfig" &>/dev/null || true; #Uncomment
+	sed -i 's/#LPP_PROFILE = /LPP_PROFILE = /' "$gpsConfig" &>/dev/null || true;
+	sed -i "s|LPP_PROFILE=.*|LPP_PROFILE=0|" "$gpsConfig" &> /dev/null || true; #Disable LPP (privacy)
+	sed -i "s|LPP_PROFILE = .*|LPP_PROFILE = 0|" "$gpsConfig" &> /dev/null || true;
+	sed -i "s|LPPE_CP_TECHNOLOGY=.*|LPPE_CP_TECHNOLOGY=0|" "$gpsConfig" &> /dev/null || true;
+	sed -i "s|LPPE_CP_TECHNOLOGY = .*|LPPE_CP_TECHNOLOGY = 0|" "$gpsConfig" &> /dev/null || true;
+	sed -i "s|LPPE_UP_TECHNOLOGY=.*|LPPE_UP_TECHNOLOGY=0|" "$gpsConfig" &> /dev/null || true;
+	sed -i "s|LPPE_UP_TECHNOLOGY = .*|LPPE_UP_TECHNOLOGY = 0|" "$gpsConfig" &> /dev/null || true;
 	#CVE-2018-9526 - See: https://android.googlesource.com/device/google/marlin/+/fa7f7382e8b39f7ca209824f97788ab25c44f6a3
 	sed -i 's/#SUPL_ES=/SUPL_ES=/' "$gpsConfig" &>/dev/null || true;
 	sed -i "s|SUPL_ES=0|SUPL_ES=1|" "$gpsConfig" &> /dev/null || true;
 	#Change servers
 	sed -i "s|SUPL_HOST=.*|SUPL_HOST=$DOS_GPS_SUPL_HOST|" "$gpsConfig" &> /dev/null || true;
+	sed -i "s|SUPL_HOST = .*|SUPL_HOST = $DOS_GPS_SUPL_HOST|" "$gpsConfig" &> /dev/null || true;
 	sed -i "s|NTP_SERVER=.*|NTP_SERVER=$DOS_GPS_NTP_SERVER|" "$gpsConfig" &> /dev/null || true;
+	sed -i "s|NTP_SERVER = .*|NTP_SERVER = $DOS_GPS_NTP_SERVER|" "$gpsConfig" &> /dev/null || true;
 	#CVE-2016-5341 - See: https://wwws.nightwatchcybersecurity.com/2016/12/05/cve-2016-5341/
 	#XTRA: Only use specified URLs
 	sed -i 's|XTRA_SERVER_QUERY=1|XTRA_SERVER_QUERY=0|' "$gpsConfig" &>/dev/null || true;
+	sed -i 's|XTRA_SERVER_QUERY = 1|XTRA_SERVER_QUERY = 0|' "$gpsConfig" &>/dev/null || true;
 	sed -i 's|#XTRA_SERVER|XTRA_SERVER|' "$gpsConfig" &>/dev/null || true;
 	#Switch gpsOneXtra to IZatCloud (invalid certificate)
 	sed -i '/xtrapath/!s|://xtra|://xtrapath|' "$gpsConfig" &>/dev/null || true;
@@ -570,6 +585,9 @@ hardenLocationFWB() {
 	fi;
 	#Change capabilities
 	sed -i "s|SUPL_MODE=3|SUPL_MODE=1|" "$dir"/frameworks/base/core/res/res/values*/*.xml &> /dev/null || true; #Disable MSA (privacy)
+	sed -i "s|LPP_PROFILE=.*</item>|LPP_PROFILE=0</item>|" "$dir"/frameworks/base/core/res/res/values*/*.xml &> /dev/null || true; #Disable LPP (privacy)
+	sed -i "s|LPPE_CP_TECHNOLOGY=.*</item>|LPPE_CP_TECHNOLOGY=0</item>|" "$dir"/frameworks/base/core/res/res/values*/*.xml &> /dev/null || true
+	sed -i "s|LPPE_UP_TECHNOLOGY=.*</item>|LPPE_UP_TECHNOLOGY=0</item>|" "$dir"/frameworks/base/core/res/res/values*/*.xml &> /dev/null || true;
 	#CVE-2018-9526 - See: https://android.googlesource.com/device/google/marlin/+/fa7f7382e8b39f7ca209824f97788ab25c44f6a3
 	sed -i "s|SUPL_ES=0|SUPL_ES=1|" "$dir"/frameworks/base/core/res/res/values*/*.xml &> /dev/null || true;
 	#Change servers
