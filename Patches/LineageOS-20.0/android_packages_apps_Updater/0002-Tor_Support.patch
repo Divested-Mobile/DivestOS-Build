@@ -5,22 +5,22 @@ Subject: [PATCH] Add support for routing over Tor
 
 Change-Id: Ibfe080c3d801af34fb64fda1b6b8f4f39a2b1ccf
 ---
- AndroidManifest.xml                           |  4 ++
- res/layout/preferences_dialog.xml             |  8 +++
- res/values/strings.xml                        |  2 +
+ app/src/main/AndroidManifest.xml              |  4 ++
  .../lineageos/updater/UpdatesActivity.java    | 12 ++++
  .../updater/UpdatesCheckReceiver.java         |  4 ++
  .../updater/controller/UpdaterController.java |  8 +++
  .../updater/download/DownloadClient.java      |  8 ++-
  .../download/HttpURLConnectionClient.java     | 27 ++++++--
- src/org/lineageos/updater/misc/Constants.java |  1 +
- src/org/lineageos/updater/misc/Utils.java     | 65 +++++++++++++++++++
+ .../org/lineageos/updater/misc/Constants.java |  1 +
+ .../org/lineageos/updater/misc/Utils.java     | 65 +++++++++++++++++++
+ .../main/res/layout/preferences_dialog.xml    |  8 +++
+ app/src/main/res/values/strings.xml           |  2 +
  10 files changed, 134 insertions(+), 5 deletions(-)
 
-diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
 index cc485f7..7cdfb93 100644
---- a/AndroidManifest.xml
-+++ b/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml
++++ b/app/src/main/AndroidManifest.xml
 @@ -13,6 +13,10 @@
      <uses-permission android:name="android.permission.START_ACTIVITIES_FROM_BACKGROUND" />
      <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -32,50 +32,11 @@ index cc485f7..7cdfb93 100644
      <application
          android:allowBackup="false"
          android:icon="@mipmap/ic_launcher"
-diff --git a/res/layout/preferences_dialog.xml b/res/layout/preferences_dialog.xml
-index c1b4356..93f1bfc 100644
---- a/res/layout/preferences_dialog.xml
-+++ b/res/layout/preferences_dialog.xml
-@@ -29,6 +29,14 @@
-             android:entries="@array/menu_auto_updates_check_interval_entries" />
-     </LinearLayout>
- 
-+    <androidx.appcompat.widget.SwitchCompat
-+        android:id="@+id/preferences_onion_routing"
-+        android:layout_width="match_parent"
-+        android:layout_height="wrap_content"
-+        android:layout_marginBottom="16dp"
-+        android:text="@string/menu_onion_routing"
-+        android:textSize="16sp" />
-+
-     <androidx.appcompat.widget.SwitchCompat
-         android:id="@+id/preferences_auto_delete_updates"
-         android:layout_width="match_parent"
-diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 18e3ede..e92eb1d 100644
---- a/res/values/strings.xml
-+++ b/res/values/strings.xml
-@@ -70,6 +70,7 @@
-     <string name="menu_auto_updates_check_interval_weekly">Once a week</string>
-     <string name="menu_auto_updates_check_interval_monthly">Once a month</string>
-     <string name="menu_auto_updates_check_interval_never">Never</string>
-+    <string name="menu_onion_routing">Perform requests over Tor</string>
-     <string name="menu_auto_delete_updates">Delete updates when installed</string>
-     <string name="menu_delete_update">Delete</string>
-     <string name="menu_copy_url">Copy URL</string>
-@@ -87,6 +88,7 @@
-     <string name="snack_download_failed">The download failed. Please check your internet connection and try again later.</string>
-     <string name="snack_download_verification_failed">The update verification failed.</string>
-     <string name="snack_download_verified">Download completed.</string>
-+    <string name="snack_orbot_not_available">Orbot is not installed, disabling Tor routing!</string>
- 
-     <string name="snack_update_not_installable">This update can\'t be installed on top of the current build.</string>
- 
-diff --git a/src/org/lineageos/updater/UpdatesActivity.java b/src/org/lineageos/updater/UpdatesActivity.java
-index 12254c7..5da1026 100644
---- a/src/org/lineageos/updater/UpdatesActivity.java
-+++ b/src/org/lineageos/updater/UpdatesActivity.java
-@@ -377,10 +377,14 @@ public class UpdatesActivity extends UpdatesListActivity {
+diff --git a/app/src/main/java/org/lineageos/updater/UpdatesActivity.java b/app/src/main/java/org/lineageos/updater/UpdatesActivity.java
+index c359575..a4f7e37 100644
+--- a/app/src/main/java/org/lineageos/updater/UpdatesActivity.java
++++ b/app/src/main/java/org/lineageos/updater/UpdatesActivity.java
+@@ -398,10 +398,14 @@ public class UpdatesActivity extends UpdatesListActivity {
  
          final DownloadClient downloadClient;
          try {
@@ -90,7 +51,7 @@ index 12254c7..5da1026 100644
                      .build();
          } catch (IOException exception) {
              Log.e(TAG, "Could not build download client");
-@@ -480,6 +484,7 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -501,6 +505,7 @@ public class UpdatesActivity extends UpdatesListActivity {
      private void showPreferencesDialog() {
          View view = LayoutInflater.from(this).inflate(R.layout.preferences_dialog, null);
          Spinner autoCheckInterval = view.findViewById(R.id.preferences_auto_updates_check_interval);
@@ -98,7 +59,7 @@ index 12254c7..5da1026 100644
          SwitchCompat autoDelete = view.findViewById(R.id.preferences_auto_delete_updates);
          SwitchCompat meteredNetworkWarning = view.findViewById(
                  R.id.preferences_metered_network_warning);
-@@ -492,6 +497,7 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -513,6 +518,7 @@ public class UpdatesActivity extends UpdatesListActivity {
  
          SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
          autoCheckInterval.setSelection(Utils.getUpdateCheckSetting(this));
@@ -106,7 +67,7 @@ index 12254c7..5da1026 100644
          autoDelete.setChecked(prefs.getBoolean(Constants.PREF_AUTO_DELETE_UPDATES, false));
          meteredNetworkWarning.setChecked(prefs.getBoolean(Constants.PREF_METERED_NETWORK_WARNING,
                  prefs.getBoolean(Constants.PREF_MOBILE_DATA_WARNING, true)));
-@@ -532,6 +538,8 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -553,6 +559,8 @@ public class UpdatesActivity extends UpdatesListActivity {
                      prefs.edit()
                              .putInt(Constants.PREF_AUTO_UPDATES_CHECK_INTERVAL,
                                      autoCheckInterval.getSelectedItemPosition())
@@ -115,7 +76,7 @@ index 12254c7..5da1026 100644
                              .putBoolean(Constants.PREF_AUTO_DELETE_UPDATES, autoDelete.isChecked())
                              .putBoolean(Constants.PREF_METERED_NETWORK_WARNING,
                                      meteredNetworkWarning.isChecked())
-@@ -545,6 +553,10 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -566,6 +574,10 @@ public class UpdatesActivity extends UpdatesListActivity {
                          UpdatesCheckReceiver.cancelUpdatesCheck(this);
                      }
  
@@ -126,10 +87,10 @@ index 12254c7..5da1026 100644
                      if (Utils.isABDevice()) {
                          boolean enableABPerfMode = abPerfMode.isChecked();
                          mUpdaterService.getUpdaterController().setPerformanceMode(enableABPerfMode);
-diff --git a/src/org/lineageos/updater/UpdatesCheckReceiver.java b/src/org/lineageos/updater/UpdatesCheckReceiver.java
+diff --git a/app/src/main/java/org/lineageos/updater/UpdatesCheckReceiver.java b/app/src/main/java/org/lineageos/updater/UpdatesCheckReceiver.java
 index 9f45423..382fbd4 100644
---- a/src/org/lineageos/updater/UpdatesCheckReceiver.java
-+++ b/src/org/lineageos/updater/UpdatesCheckReceiver.java
+--- a/app/src/main/java/org/lineageos/updater/UpdatesCheckReceiver.java
++++ b/app/src/main/java/org/lineageos/updater/UpdatesCheckReceiver.java
 @@ -110,10 +110,14 @@ public class UpdatesCheckReceiver extends BroadcastReceiver {
          };
  
@@ -145,10 +106,10 @@ index 9f45423..382fbd4 100644
                      .build();
              downloadClient.start();
          } catch (IOException e) {
-diff --git a/src/org/lineageos/updater/controller/UpdaterController.java b/src/org/lineageos/updater/controller/UpdaterController.java
+diff --git a/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java b/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java
 index 5d7d51a..7ac5f5b 100644
---- a/src/org/lineageos/updater/controller/UpdaterController.java
-+++ b/src/org/lineageos/updater/controller/UpdaterController.java
+--- a/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java
++++ b/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java
 @@ -374,12 +374,16 @@ public class UpdaterController {
          update.setFile(destination);
          DownloadClient downloadClient;
@@ -184,10 +145,10 @@ index 5d7d51a..7ac5f5b 100644
                          .build();
              } catch (IOException exception) {
                  Log.e(TAG, "Could not build download client");
-diff --git a/src/org/lineageos/updater/download/DownloadClient.java b/src/org/lineageos/updater/download/DownloadClient.java
+diff --git a/app/src/main/java/org/lineageos/updater/download/DownloadClient.java b/app/src/main/java/org/lineageos/updater/download/DownloadClient.java
 index 3494947..7a7f7cf 100644
---- a/src/org/lineageos/updater/download/DownloadClient.java
-+++ b/src/org/lineageos/updater/download/DownloadClient.java
+--- a/app/src/main/java/org/lineageos/updater/download/DownloadClient.java
++++ b/app/src/main/java/org/lineageos/updater/download/DownloadClient.java
 @@ -60,6 +60,7 @@ public interface DownloadClient {
          private DownloadClient.DownloadCallback mCallback;
          private DownloadClient.ProgressListener mProgressListener;
@@ -216,10 +177,10 @@ index 3494947..7a7f7cf 100644
 +        }
      }
  }
-diff --git a/src/org/lineageos/updater/download/HttpURLConnectionClient.java b/src/org/lineageos/updater/download/HttpURLConnectionClient.java
+diff --git a/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java b/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java
 index b9c4b5d..b94fff0 100644
---- a/src/org/lineageos/updater/download/HttpURLConnectionClient.java
-+++ b/src/org/lineageos/updater/download/HttpURLConnectionClient.java
+--- a/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java
++++ b/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java
 @@ -18,12 +18,16 @@ package org.lineageos.updater.download;
  import android.os.SystemClock;
  import android.util.Log;
@@ -295,10 +256,10 @@ index b9c4b5d..b94fff0 100644
                  mClient.setInstanceFollowRedirects(!mUseDuplicateLinks);
                  mClient.connect();
                  int responseCode = mClient.getResponseCode();
-diff --git a/src/org/lineageos/updater/misc/Constants.java b/src/org/lineageos/updater/misc/Constants.java
+diff --git a/app/src/main/java/org/lineageos/updater/misc/Constants.java b/app/src/main/java/org/lineageos/updater/misc/Constants.java
 index beb9423..a51ab15 100644
---- a/src/org/lineageos/updater/misc/Constants.java
-+++ b/src/org/lineageos/updater/misc/Constants.java
+--- a/app/src/main/java/org/lineageos/updater/misc/Constants.java
++++ b/app/src/main/java/org/lineageos/updater/misc/Constants.java
 @@ -30,6 +30,7 @@ public final class Constants {
  
      public static final String PREF_LAST_UPDATE_CHECK = "last_update_check";
@@ -307,10 +268,10 @@ index beb9423..a51ab15 100644
      public static final String PREF_AUTO_DELETE_UPDATES = "auto_delete_updates";
      public static final String PREF_AB_PERF_MODE = "ab_perf_mode";
      public static final String PREF_METERED_NETWORK_WARNING = "pref_metered_network_warning";
-diff --git a/src/org/lineageos/updater/misc/Utils.java b/src/org/lineageos/updater/misc/Utils.java
-index 4ab3a51..805285b 100644
---- a/src/org/lineageos/updater/misc/Utils.java
-+++ b/src/org/lineageos/updater/misc/Utils.java
+diff --git a/app/src/main/java/org/lineageos/updater/misc/Utils.java b/app/src/main/java/org/lineageos/updater/misc/Utils.java
+index f3d334b..67ad386 100644
+--- a/app/src/main/java/org/lineageos/updater/misc/Utils.java
++++ b/app/src/main/java/org/lineageos/updater/misc/Utils.java
 @@ -46,6 +46,7 @@ import java.io.BufferedReader;
  import java.io.File;
  import java.io.FileReader;
@@ -395,3 +356,42 @@ index 4ab3a51..805285b 100644
  
          return server + "?base=LineageOS&device=" + device + "&inc=" + incrementalVersion;
      }
+diff --git a/app/src/main/res/layout/preferences_dialog.xml b/app/src/main/res/layout/preferences_dialog.xml
+index c1b4356..93f1bfc 100644
+--- a/app/src/main/res/layout/preferences_dialog.xml
++++ b/app/src/main/res/layout/preferences_dialog.xml
+@@ -29,6 +29,14 @@
+             android:entries="@array/menu_auto_updates_check_interval_entries" />
+     </LinearLayout>
+ 
++    <androidx.appcompat.widget.SwitchCompat
++        android:id="@+id/preferences_onion_routing"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_marginBottom="16dp"
++        android:text="@string/menu_onion_routing"
++        android:textSize="16sp" />
++
+     <androidx.appcompat.widget.SwitchCompat
+         android:id="@+id/preferences_auto_delete_updates"
+         android:layout_width="match_parent"
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+index 18e3ede..e92eb1d 100644
+--- a/app/src/main/res/values/strings.xml
++++ b/app/src/main/res/values/strings.xml
+@@ -70,6 +70,7 @@
+     <string name="menu_auto_updates_check_interval_weekly">Once a week</string>
+     <string name="menu_auto_updates_check_interval_monthly">Once a month</string>
+     <string name="menu_auto_updates_check_interval_never">Never</string>
++    <string name="menu_onion_routing">Perform requests over Tor</string>
+     <string name="menu_auto_delete_updates">Delete updates when installed</string>
+     <string name="menu_delete_update">Delete</string>
+     <string name="menu_copy_url">Copy URL</string>
+@@ -87,6 +88,7 @@
+     <string name="snack_download_failed">The download failed. Please check your internet connection and try again later.</string>
+     <string name="snack_download_verification_failed">The update verification failed.</string>
+     <string name="snack_download_verified">Download completed.</string>
++    <string name="snack_orbot_not_available">Orbot is not installed, disabling Tor routing!</string>
+ 
+     <string name="snack_update_not_installable">This update can\'t be installed on top of the current build.</string>
+ 

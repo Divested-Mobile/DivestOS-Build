@@ -77,11 +77,11 @@ sed -i '/.*update_recovery/s/Lineage/'"$DOS_BRANDING_NAME"'/g' res/values*/strin
 fi;
 
 if enter "packages/apps/Updater"; then
-sed -i 's|0OTA_SERVER_CLEARNET0|'"$DOS_BRANDING_SERVER_OTA"'|' src/org/lineageos/updater/misc/Utils.java;
-sed -i 's|0OTA_SERVER_ONION0|'"$DOS_BRANDING_SERVER_OTA_ONION"'|' src/org/lineageos/updater/misc/Utils.java;
-sed -i 's|>LineageOS|>'"$DOS_BRANDING_NAME"'|' res/values*/strings.xml;
-sed -i '/.*toast_forced_update_recovery/s/Lineage/'"$DOS_BRANDING_NAME"'/g' res/values*/strings.xml;
-sed -i '/.*info_dialog_message/s/Lineage/'"$DOS_BRANDING_NAME"'/g' res/values*/strings.xml;
+sed -i 's|0OTA_SERVER_CLEARNET0|'"$DOS_BRANDING_SERVER_OTA"'|' app/src/main/java/org/lineageos/updater/misc/Utils.java;
+sed -i 's|0OTA_SERVER_ONION0|'"$DOS_BRANDING_SERVER_OTA_ONION"'|' app/src/main/java/org/lineageos/updater/misc/Utils.java;
+sed -i 's|>LineageOS|>'"$DOS_BRANDING_NAME"'|' app/src/main/res/values*/strings.xml;
+sed -i '/.*toast_forced_update_recovery/s/Lineage/'"$DOS_BRANDING_NAME"'/g' app/src/main/res/values*/strings.xml;
+sed -i '/.*info_dialog_message/s/Lineage/'"$DOS_BRANDING_NAME"'/g' app/src/main/res/values*/strings.xml;
 fi;
 
 if enter "system/core"; then
