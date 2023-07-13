@@ -301,6 +301,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0014-LTE_Only_Mode-1.pat
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0014-LTE_Only_Mode-2.patch"; #Fix LTE Only mode on World Mode (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0015-SUPL_Toggle.patch"; #Add a toggle for forcibly disabling SUPL (GrapheneOS)
 if [ "$DOS_MICROG_SUPPORT" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0016-signature_spoofing_toggle.patch"; fi; #Add a toggle to opt-in to restricted signature spoofing (heavily based off of a GrapheneOS patch)
+applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Settings/0001-disable_apps.patch"; #Add an ability to disable non-system apps from the "App info" screen (GrapheneOS)
 fi;
 
 if enterAndClear "packages/apps/SetupWizard"; then

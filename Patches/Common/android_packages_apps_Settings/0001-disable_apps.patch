@@ -1,0 +1,98 @@
+From 2c9112d7e9137d91694bf1478f2558fdb898cad8 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Sun, 17 Apr 2022 18:00:53 +0300
+Subject: [PATCH] add an ability to disable non-system apps from the "App info"
+ screen
+
+---
+ .../AppButtonsPreferenceController.java       | 41 ++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/settings/applications/appinfo/AppButtonsPreferenceController.java b/src/com/android/settings/applications/appinfo/AppButtonsPreferenceController.java
+index 1b270d63b4d..77d264772c5 100644
+--- a/src/com/android/settings/applications/appinfo/AppButtonsPreferenceController.java
++++ b/src/com/android/settings/applications/appinfo/AppButtonsPreferenceController.java
+@@ -208,6 +208,15 @@ public void onDestroy() {
+     }
+ 
+     private class UninstallAndDisableButtonListener implements View.OnClickListener {
++        private boolean mChangeEnabledStateOfUserApp;
++
++        UninstallAndDisableButtonListener() {
++            this(false);
++        }
++
++        UninstallAndDisableButtonListener(boolean changeEnabledStateOfUserApp) {
++            mChangeEnabledStateOfUserApp = changeEnabledStateOfUserApp;
++        }
+ 
+         @Override
+         public void onClick(View v) {
+@@ -239,8 +248,13 @@ public void onClick(View v) {
+                             mUserId);
+             if (admin != null && !uninstallBlockedBySystem) {
+                 RestrictedLockUtils.sendShowAdminSupportDetailsIntent(mActivity, admin);
+-            } else if ((mAppEntry.info.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
++            } else if ((mAppEntry.info.flags & ApplicationInfo.FLAG_SYSTEM) != 0 || mChangeEnabledStateOfUserApp) {
+                 if (mAppEntry.info.enabled && !isDisabledUntilUsed()) {
++                    if (mChangeEnabledStateOfUserApp) {
++                        handleDialogClick(ButtonActionDialogFragment.DialogType.DISABLE);
++                        return;
++                    }
++
+                     // If the system app has an update and this is the only user on the device,
+                     // then offer to downgrade the app, otherwise only offer to disable the
+                     // app for this user.
+@@ -488,6 +502,25 @@ void updateUninstallButton() {
+         }
+ 
+         mButtonsPref.setButton2Enabled(enabled);
++
++        if (enabled && !isBundled) {
++            // "enabled" means "show uninstall button" in this context
++            int text;
++            int icon;
++            if (mAppEntry.info.enabled) {
++                text = R.string.disable_text;
++                icon = R.drawable.ic_settings_disable;
++            } else {
++                text = R.string.enable_text;
++                icon = R.drawable.ic_settings_enable;
++            }
++            mButtonsPref
++                    .setButton4Text(text)
++                    .setButton4Icon(icon)
++                    .setButton4Visible(true)
++                    .setButton4OnClickListener(new UninstallAndDisableButtonListener(true))
++            ;
++        }
+     }
+ 
+     /**
+@@ -514,7 +547,9 @@ private void refreshAndFinishIfPossible(boolean removeTaskWhenFinishing) {
+ 
+     @VisibleForTesting
+     void updateForceStopButton() {
+-        if (mDpm.packageHasActiveAdmins(mPackageInfo.packageName)) {
++        if (!mPackageInfo.applicationInfo.enabled) {
++            mButtonsPref.setButton3Visible(false);
++        } else if (mDpm.packageHasActiveAdmins(mPackageInfo.packageName)) {
+             // User can't force stop device admin.
+             Log.w(TAG, "User can't force stop device admin");
+             updateForceStopButtonInner(false /* enabled */);
+@@ -538,6 +573,7 @@ void updateForceStopButton() {
+ 
+     @VisibleForTesting
+     void updateForceStopButtonInner(boolean enabled) {
++        mButtonsPref.setButton3Visible(true);
+         if (mAppsControlDisallowedBySystem) {
+             mButtonsPref.setButton3Enabled(false);
+         } else {
+@@ -552,6 +588,7 @@ void uninstallPkg(String packageName, boolean allUsers, boolean andDisable) {
+         Uri packageUri = Uri.parse("package:" + packageName);
+         Intent uninstallIntent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageUri);
+         uninstallIntent.putExtra(Intent.EXTRA_UNINSTALL_ALL_USERS, allUsers);
++        uninstallIntent.putExtra(Intent.EXTRA_UNINSTALL_SHOW_MORE_OPTIONS_BUTTON, false);
+ 
+         mMetricsFeatureProvider.action(
+                 mActivity, SettingsEnums.ACTION_SETTINGS_UNINSTALL_APP);

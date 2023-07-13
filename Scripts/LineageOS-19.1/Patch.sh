@@ -310,6 +310,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0013-Captive_Portal_Togg
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0014-LTE_Only_Mode.patch"; #Add LTE only setting (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0015-SUPL_Toggle.patch"; #Add a toggle for forcibly disabling SUPL (GrapheneOS)
 if [ "$DOS_MICROG_SUPPORT" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0016-signature_spoofing_toggle.patch"; fi; #Add a toggle to opt-in to restricted signature spoofing (heavily based off of a GrapheneOS patch)
+applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Settings/0001-disable_apps.patch"; #Add an ability to disable non-system apps from the "App info" screen (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 fi;
 

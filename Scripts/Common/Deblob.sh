@@ -273,7 +273,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|CarrierSettings.apk|CarrierSetup.apk";
 	blobs=$blobs"|CarrierServices.apk";
 	blobs=$blobs"|HardwareInfo.apk";
-	blobs=$blobs"|SCONE.apk"; #???
+	blobs=$blobs"|SCONE.apk"; #Adaptive Connectivity Services
 	blobs=$blobs"|DevicePersonalizationPrebuilt.*.apk|DeviceIntelligence.*.apk";
 	blobs=$blobs"|libhwinfo.jar|com.google.android.hardwareinfo.xml";
 	overlay=$overlay"|config_defaultAttentionService|config_defaultSystemCaptionsManagerService|config_defaultSystemCaptionsService|config_systemAmbientAudioIntelligence|config_systemAudioIntelligence|config_systemNotificationIntelligence|config_systemTextIntelligence|config_systemUiIntelligence|config_systemVisualIntelligence|config_defaultContentSuggestionsService|config_defaultAppPredictionService";
@@ -290,8 +290,9 @@ echo "Deblobbing...";
 	fi;
 
 	#Google Camera
+	blobs=$blobs"|PixelCameraServices.*.apk";
 	if [ "$DOS_DEBLOBBER_REMOVE_CAMEXT" = true ]; then
-		blobs=$blobs"|com.google.android.camera.*|PixelCameraServices.*.apk";
+		blobs=$blobs"|com.google.android.camera.*";
 	fi;
 
 	#Google NFC
