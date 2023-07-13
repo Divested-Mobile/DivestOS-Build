@@ -403,14 +403,16 @@ processRelease() {
 		mkdir -vp $ARCHIVE/fastboot;
 		mkdir -vp $ARCHIVE/incrementals;
 
-		if [[ " ${DOS_GENERATE_DELTAS_DEVICES[@]} " =~ " ${DEVICE} " ]]; then cp -v $OUT_DIR/$PREFIX-target_files.zip* $ARCHIVE/target_files/; fi;
+		if [[ " ${DOS_GENERATE_DELTAS_DEVICES[@]} " =~ " ${DEVICE} " ]]; then
+			cp -v $OUT_DIR/$PREFIX-target_files.zip* $ARCHIVE/target_files/;
+			cp -v $OUT_DIR/$PREFIX-incremental_*.zip* $ARCHIVE/incrementals/ || true;
+		fi;
 		cp -v $OUT_DIR/$PREFIX-fastboot.zip* $ARCHIVE/fastboot/ || true;
 		cp -v $OUT_DIR/$PREFIX-ota.zip* $ARCHIVE/;
-		if [[ " ${DOS_GENERATE_DELTAS} " == true ]]; then cp -v $OUT_DIR/$PREFIX-incremental_*.zip* $ARCHIVE/incrementals/ || true; fi
 		cp -v $OUT_DIR/$PREFIX-recovery.img* $ARCHIVE/ || true;
 
 		rename -- "-ota." "." $ARCHIVE/$PREFIX-ota.zip*;
-		[[ " ${DOS_GENERATE_DELTAS} " == true ]] && rename -- "-incremental_" "-" $ARCHIVE/incrementals/$PREFIX-incremental_*.zip*;
+		if [[ " ${DOS_GENERATE_DELTAS_DEVICES[@]} " =~ " ${DEVICE} " ]]; then rename -- "-incremental_" "-" $ARCHIVE/incrementals/$PREFIX-incremental_*.zip*; fi;
 		sync;
 
 		#Remove to make space for next build
@@ -419,6 +421,7 @@ processRelease() {
 			#TODO: add a sanity check
 			rm -rf --one-file-system "$OUT_DIR";
 			if [ "$DOS_REMOVE_AFTER_FULL" = true ]; then rm -rf --one-file-system "$DOS_BUILD_BASE/out"; fi; #clobber entire workspace
+			sync;
 		fi;
 	fi;
 
