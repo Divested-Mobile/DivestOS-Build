@@ -455,8 +455,12 @@ cd "$DOS_BUILD_BASE";
 #Tweaks for <2GB RAM devices
 #none yet
 #Tweaks for <3GB RAM devices
-#enableLowRam "device/lge/hammerhead" "hammerhead";
-#enableLowRam "device/samsung/kccat6" "kccat6";
+enableLowRam "device/lge/hammerhead" "hammerhead";
+enableLowRam "device/samsung/kccat6" "kccat6";
+#Tweaks for <4GB RAM devices
+#enableLowRam "device/samsung/lentislte" "lentislte";
+#enableLowRam "device/wileyfox/kipper" "kipper";
+#enableLowRam "device/zuk/ham" "ham";
 
 #Fix broken options enabled by hardenDefconfig()
 [[ -d kernel/google/yellowstone ]] && sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/yellowstone/arch/arm*/configs/*_defconfig; #Breaks on compile

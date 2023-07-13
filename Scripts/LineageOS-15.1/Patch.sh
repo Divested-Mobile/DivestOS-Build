@@ -539,12 +539,19 @@ removeUntrustedCerts || true;
 #Tweaks for <2GB RAM devices
 enableLowRam "device/asus/fugu";
 #Tweaks for <3GB RAM devices
-#enableLowRam "device/asus/deb";
-#enableLowRam "device/asus/flo";
-#enableLowRam "device/htc/flounder";
-#enableLowRam "device/htc/flounder_lte";
-#enableLowRam "device/lge/bullhead";
-#enableLowRam "device/lge/hammerhead";
+enableLowRam "device/asus/deb";
+enableLowRam "device/asus/flo";
+enableLowRam "device/htc/flounder";
+enableLowRam "device/htc/flounder_lte";
+enableLowRam "device/lge/bullhead";
+enableLowRam "device/lge/hammerhead";
+#Tweaks for 2GB/3GB RAM devices
+#enableLowRam "device/asus/Z00T";
+#Tweaks for <4GB RAM devices
+#enableLowRam "device/huawei/angler";
+#enableLowRam "device/google/dragon";
+#enableLowRam "device/moto/shamu";
+#enableLowRam "device/nextbit/ether";
 
 #Fix broken options enabled by hardenDefconfig()
 [[ -d kernel/google/msm ]] && sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile

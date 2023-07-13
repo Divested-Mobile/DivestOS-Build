@@ -610,6 +610,32 @@ enableLowRam "device/samsung/klte" "klte";
 enableLowRam "device/samsung/hlte-common" "hlte-common";
 enableLowRam "device/samsung/hlte" "hlte";
 enableLowRam "device/samsung/msm8974-common" "msm8974-common";
+#Tweaks for 2GB/3GB RAM devices
+enableLowRam "device/lge/d850" "d850";
+enableLowRam "device/lge/d851" "d851";
+enableLowRam "device/lge/d852" "d852";
+enableLowRam "device/lge/d855" "d855";
+#Tweaks for <4GB RAM devices
+enableLowRam "device/lge/f400" "f400";
+enableLowRam "device/lge/ls990" "ls990";
+enableLowRam "device/lge/vs985" "vs985";
+enableLowRam "device/moto/shamu" "shamu";
+enableLowRam "device/nextbit/ether" "ether";
+enableLowRam "device/oneplus/bacon" "bacon";
+#Tweaks for 3GB/4GB RAM devices
+#enableLowRam "device/zuk/z2_plus" "z2_plus";
+#Tweaks for 4GB RAM devices
+#enableLowRam "device/google/marlin" "marlin";
+#enableLowRam "device/google/marlin" "sailfish";
+#enableLowRam "device/motorola/griffin" "griffin";
+#Tweaks for 3GB/4GB/6GB RAM devices
+#enableLowRam "device/xiaomi/lavender" "lavender";
+#enableLowRam "device/xiaomi/twolip" "twolip";
+#enableLowRam "device/xiaomi/whyred" "whyred";
+#Tweaks for 4GB/6GB RAM devices
+#enableLowRam "device/xiaomi/jasmine_sprout" "jasmine_sprout";
+#enableLowRam "device/xiaomi/platina" "platina";
+#enableLowRam "device/xiaomi/wayne" "wayne";
 
 #Fix broken options enabled by hardenDefconfig()
 [[ -d kernel/google/msm ]] && sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
