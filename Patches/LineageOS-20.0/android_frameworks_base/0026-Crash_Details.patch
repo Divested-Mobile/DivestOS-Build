@@ -122,10 +122,10 @@ index e0ca922bf686..2ff3933a5cd8 100644
 +    <string name="aerr_show_details">Show details</string>
  </resources>
 diff --git a/core/res/res/values/symbols.xml b/core/res/res/values/symbols.xml
-index c767df56860c..a90c66763fbc 100644
+index 7d8e2f818ce9..6ffcf51936fc 100644
 --- a/core/res/res/values/symbols.xml
 +++ b/core/res/res/values/symbols.xml
-@@ -4911,6 +4911,9 @@
+@@ -4912,6 +4912,9 @@
    <java-symbol type="id" name="language_picker_item" />
    <java-symbol type="id" name="language_picker_header" />
  

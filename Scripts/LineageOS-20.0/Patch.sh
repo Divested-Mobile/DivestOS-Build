@@ -161,6 +161,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-10.pat
 applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-11.patch";
 applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-12.patch";
 applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-13.patch";
+applyPatch "$DOS_PATCHES/android_frameworks_base/0018-Exec_Based_Spawning-14.patch";
 sed -i 's/sys.spawn.exec/persist.security.exec_spawn_new/' core/java/com/android/internal/os/ZygoteConnection.java;
 fi;
 applyPatch "$DOS_PATCHES/android_frameworks_base/0020-Location_Indicators.patch"; #SystemUI: Use new privacy indicators for location (GrapheneOS)
@@ -513,6 +514,24 @@ fixupCarrierConfigs || true; #Remove silly carrier restrictions
 removeUntrustedCerts || true;
 cd "$DOS_BUILD_BASE";
 #rm -rfv device/*/*/overlay/CarrierConfigResCommon device/*/*/rro_overlays/CarrierConfigOverlay device/*/*/overlay/packages/apps/CarrierConfig/res/xml/vendor.xml;
+
+#Tweaks for <4GB RAM devices
+enableLowRam "device/xiaomi/Mi8937" "Mi8917";
+enableLowRam "device/xiaomi/Mi8937" "Mi8937";
+#Tweaks for 4GB RAM devices
+enableLowRam "device/essential/mata" "mata";
+enableLowRam "device/fairphone/FP3" "FP3";
+enableLowRam "device/google/bonito" "bonito";
+enableLowRam "device/google/bonito" "sargo";
+enableLowRam "device/google/crosshatch" "blueline";
+enableLowRam "device/google/crosshatch" "crosshatch";
+enableLowRam "device/google/muskie/walleye" "walleye";
+enableLowRam "device/google/taimen" "taimen";
+enableLowRam "device/samsung/starlte" "starlte";
+#Tweaks for 4GB/6GB RAM devices
+#enableLowRam "device/sony/akari" "akari";
+#enableLowRam "device/sony/akatsuki" "akatsuki";
+#enableLowRam "device/sony/xz2c" "xz2c";
 
 #Fix broken options enabled by hardenDefconfig()
 [[ -d kernel/fairphone/sdm632 ]] && sed -i "s/CONFIG_PREEMPT_TRACER=n/CONFIG_PREEMPT_TRACER=y/" kernel/fairphone/sdm632/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile

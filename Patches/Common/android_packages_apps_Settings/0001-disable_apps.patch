@@ -92,7 +92,7 @@ index 1b270d63b4d..77d264772c5 100644
          Uri packageUri = Uri.parse("package:" + packageName);
          Intent uninstallIntent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageUri);
          uninstallIntent.putExtra(Intent.EXTRA_UNINSTALL_ALL_USERS, allUsers);
-+        uninstallIntent.putExtra(Intent.EXTRA_UNINSTALL_SHOW_MORE_OPTIONS_BUTTON, false);
++        //uninstallIntent.putExtra(Intent.EXTRA_UNINSTALL_SHOW_MORE_OPTIONS_BUTTON, false);
  
          mMetricsFeatureProvider.action(
                  mActivity, SettingsEnums.ACTION_SETTINGS_UNINSTALL_APP);

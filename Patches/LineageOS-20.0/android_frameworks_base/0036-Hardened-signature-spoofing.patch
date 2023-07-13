@@ -79,10 +79,10 @@ index 1e659b74db77..00d669ab24e7 100644
      private void __metadata() {}
  
 diff --git a/core/res/res/values/config.xml b/core/res/res/values/config.xml
-index a01ec67630de..20ab9e79ae79 100644
+index a7eae9c60b46..dbd475b52f02 100644
 --- a/core/res/res/values/config.xml
 +++ b/core/res/res/values/config.xml
-@@ -2011,6 +2011,8 @@
+@@ -2014,6 +2014,8 @@
      <string-array name="config_locationProviderPackageNames" translatable="false">
          <!-- The standard AOSP fused location provider -->
          <item>com.android.location.fused</item>

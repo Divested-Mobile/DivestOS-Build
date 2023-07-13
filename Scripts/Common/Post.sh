@@ -30,6 +30,10 @@ sed -i 's/static int slab_nomerge;/static int slab_nomerge = 1;/' kernel/*/*/mm/
 sed -i 's/static bool slab_nomerge = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);/static bool slab_nomerge = true;/' kernel/*/*/mm/slab_common.c &>/dev/null || true; #4.13+
 sed -i 's/static bool slab_nomerge __ro_after_init = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);/static bool slab_nomerge __ro_after_init = true;/' kernel/*/*/mm/slab_common.c &>/dev/null || true; #4.13+
 
+#Enable KSM #XXX testing only
+#sed -i 's/unsigned int ksm_run = KSM_RUN_STOP;/unsigned int ksm_run = KSM_RUN_MERGE;/' kernel/*/*/mm/ksm.c &>/dev/null || true;
+#sed -i 's/unsigned long ksm_run = KSM_RUN_STOP;/unsigned long ksm_run = KSM_RUN_MERGE;/' kernel/*/*/mm/ksm.c &>/dev/null || true;
+
 #Enable page poisoning
 #Commented as set by defconfig
 #sed -i 's/= IS_ENABLED(CONFIG_PAGE_POISONING_ENABLE_DEFAULT);/= true;/' kernel/*/*/mm/page_poison.c &>/dev/null || true; #4.4+ #XXX: shouldn't be enabled past 5.3
@@ -40,6 +44,9 @@ sed -i 's/static bool slab_nomerge __ro_after_init = !IS_ENABLED(CONFIG_SLAB_MER
 #Reduce memory usage
 awk -i inplace '!/persist.device_config.runtime_native.usap_pool_enabled=true/' device/*/*/*.prop &>/dev/null || true;
 awk -i inplace '!/config_pinnerCameraApp/' device/*/*/overlay/frameworks/base/core/res/res/values/config.xml &>/dev/null || true;
+
+#Allow Work Profiles in low_ram mode
+sed -i '/android.software.managed_users/s/notLowRam="true"//' frameworks/native/data/etc/handheld_core_hardware.xml || true;
 
 cd "$DOS_BUILD_BASE";
 echo -e "\e[0;32m[SCRIPT COMPLETE] Post tweaks complete\e[0m";

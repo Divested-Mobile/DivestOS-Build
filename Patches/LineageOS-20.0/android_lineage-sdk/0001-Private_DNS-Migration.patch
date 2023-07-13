@@ -9,14 +9,14 @@ Credit: CalyxOS
 
 Change-Id: Ie3990a6e789be22da0c7771d85ad71034ed334eb
 ---
- .../LineageDatabaseHelper.java                | 61 +++++++++++++++++++
- 1 file changed, 61 insertions(+)
+ .../LineageDatabaseHelper.java                | 60 +++++++++++++++++++
+ 1 file changed, 60 insertions(+)
 
 diff --git a/packages/LineageSettingsProvider/src/org/lineageos/lineagesettings/LineageDatabaseHelper.java b/packages/LineageSettingsProvider/src/org/lineageos/lineagesettings/LineageDatabaseHelper.java
-index 3e468f2d..9ae6726d 100644
+index 4f1ee43b..fae437bd 100644
 --- a/packages/LineageSettingsProvider/src/org/lineageos/lineagesettings/LineageDatabaseHelper.java
 +++ b/packages/LineageSettingsProvider/src/org/lineageos/lineagesettings/LineageDatabaseHelper.java
-@@ -162,6 +162,66 @@ public class LineageDatabaseHelper extends SQLiteOpenHelper{
+@@ -163,6 +163,66 @@ public class LineageDatabaseHelper extends SQLiteOpenHelper{
          } catch (PackageManager.NameNotFoundException e) {
              e.printStackTrace();
          }
@@ -83,11 +83,3 @@ index 3e468f2d..9ae6726d 100644
      }
  
      /**
-@@ -459,6 +519,7 @@ public class LineageDatabaseHelper extends SQLiteOpenHelper{
-                     oldSetting);
-             upgradeVersion = 18;
-         }
-+
-         // *** Remember to update DATABASE_VERSION above!
-         if (upgradeVersion != newVersion) {
-             Log.wtf(TAG, "warning: upgrading settings database to version "

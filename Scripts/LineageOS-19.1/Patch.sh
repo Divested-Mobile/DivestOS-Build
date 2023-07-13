@@ -97,7 +97,6 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/generic_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
-sed -i 's/2023-06-05/2023-07-05/' core/version_defaults.mk; #Bump Security String #S_asb_2023-07 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -112,10 +111,6 @@ fi;
 
 if enterAndClear "external/conscrypt"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_external_conscrypt/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
-fi;
-
-if enterAndClear "external/freetype"; then
-git fetch https://github.com/LineageOS/android_external_freetype refs/changes/29/360929/1 && git cherry-pick FETCH_HEAD; #S_asb_2023-07
 fi;
 
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
@@ -427,10 +422,6 @@ if enterAndClear "system/update_engine"; then
 git revert --no-edit a5a18ac5e2a2377fe036fcae93548967a7b40470; #Do not skip payload signature verification
 fi;
 
-if enterAndClear "tools/apksig"; then
-git fetch https://github.com/LineageOS/android_tools_apksig refs/changes/46/360946/1 && git cherry-pick FETCH_HEAD; #S_asb_2023-07
-fi;
-
 if enterAndClear "vendor/lineage"; then
 rm build/target/product/security/lineage.x509.pem; #Remove Lineage keys
 rm -rf overlay/common/lineage-sdk/packages/LineageSettingsProvider/res/values/defaults.xml; #Remove analytics
@@ -500,9 +491,25 @@ removeUntrustedCerts || true;
 cd "$DOS_BUILD_BASE";
 #rm -rfv device/*/*/overlay/CarrierConfigResCommon device/*/*/rro_overlays/CarrierConfigOverlay device/*/*/overlay/packages/apps/CarrierConfig/res/xml/vendor.xml;
 
-#Tweaks for <4GB RAM devices
-#enableLowRam "device/sony/kirin" "kirin";
-#enableLowRam "device/sony/pioneer" "pioneer";
+#Tweaks for 3GB RAM devices
+enableLowRam "device/sony/kirin" "kirin";
+enableLowRam "device/sony/pioneer" "pioneer";
+#Tweaks for 4GB RAM devices
+enableLowRam "device/lge/h830" "h830";
+enableLowRam "device/lge/h850" "h850";
+enableLowRam "device/lge/h870" "h870";
+enableLowRam "device/lge/h910" "h910";
+enableLowRam "device/lge/h918" "h918";
+enableLowRam "device/lge/h990" "h990";
+enableLowRam "device/lge/ls997" "ls997";
+enableLowRam "device/lge/rs988" "rs988";
+enableLowRam "device/lge/us996" "us996";
+enableLowRam "device/lge/us997" "us997";
+enableLowRam "device/lge/vs995" "vs995";
+enableLowRam "device/sony/discovery" "discovery";
+#Tweaks for 4GB/6GB RAM devices
+#enableLowRam "device/sony/voyager" "voyager";
+#enableLowRam "device/sony/mermaid" "mermaid";
 
 #Fix broken options enabled by hardenDefconfig()
 #none yet
