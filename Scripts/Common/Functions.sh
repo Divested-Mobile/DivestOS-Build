@@ -406,11 +406,11 @@ processRelease() {
 		if [[ " ${DOS_GENERATE_DELTAS_DEVICES[@]} " =~ " ${DEVICE} " ]]; then cp -v $OUT_DIR/$PREFIX-target_files.zip* $ARCHIVE/target_files/; fi;
 		cp -v $OUT_DIR/$PREFIX-fastboot.zip* $ARCHIVE/fastboot/ || true;
 		cp -v $OUT_DIR/$PREFIX-ota.zip* $ARCHIVE/;
-		cp -v $OUT_DIR/$PREFIX-incremental_*.zip* $ARCHIVE/incrementals/ || true;
+		if [[ " ${DOS_GENERATE_DELTAS} " == true ]]; then cp -v $OUT_DIR/$PREFIX-incremental_*.zip* $ARCHIVE/incrementals/ || true; fi
 		cp -v $OUT_DIR/$PREFIX-recovery.img* $ARCHIVE/ || true;
 
 		rename -- "-ota." "." $ARCHIVE/$PREFIX-ota.zip*;
-		rename -- "-incremental_" "-" $ARCHIVE/incrementals/$PREFIX-incremental_*.zip*;
+		[[ " ${DOS_GENERATE_DELTAS} " == true ]] && rename -- "-incremental_" "-" $ARCHIVE/incrementals/$PREFIX-incremental_*.zip*;
 		sync;
 
 		#Remove to make space for next build
