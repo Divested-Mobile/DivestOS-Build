@@ -42,6 +42,8 @@
         <item>NTP_SERVER=2.android.pool.ntp.org</item>
         <item>SUPL_VER=0x20000</item>
         <item>SUPL_MODE=1</item>
+        <item>SUPL_ES=1</item>
+        <item>LPP_PROFILE=0</item>
     </string-array>
 
     <!-- Flag indicating whether the IMS service can be turned off. If false then

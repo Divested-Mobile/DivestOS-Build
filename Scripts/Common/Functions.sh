@@ -403,10 +403,10 @@ processRelease() {
 		mkdir -vp $ARCHIVE/fastboot;
 		mkdir -vp $ARCHIVE/incrementals;
 
-		cp -v $OUT_DIR/$PREFIX-fastboot.zip* $ARCHIVE/fastboot/ || true;
 		cp -v $OUT_DIR/$PREFIX-ota.zip* $ARCHIVE/ || true;
-		cp -v $OUT_DIR/$PREFIX-recovery.img* $ARCHIVE/ || true;
 		rename -- "-ota." "." $ARCHIVE/$PREFIX-ota.zip*;
+		if [ "$hasRecoveryImg" == "1" ] || [ "$hasDtboImg" == "0" ]; then cp -v $OUT_DIR/$PREFIX-fastboot.zip* $ARCHIVE/fastboot/ || true; fi;
+		if [ "$hasRecoveryImg" == "0" ] && [ "$hasDtboImg" == "1" ]; then cp -v $OUT_DIR/$PREFIX-recovery.img* $ARCHIVE/ || true; fi;
 		if [ "$DOS_GENERATE_DELTAS" = true ]; then
 			if [[ " ${DOS_GENERATE_DELTAS_DEVICES[@]} " =~ " ${DEVICE} " ]]; then
 				cp -v $OUT_DIR/$PREFIX-target_files.zip* $ARCHIVE/target_files/ || true;
@@ -901,6 +901,7 @@ hardenDefconfig() {
 	optionsYes+=("DEBUG_KERNEL" "DEBUG_CREDENTIALS" "DEBUG_LIST" "DEBUG_VIRTUAL");
 	optionsYes+=("DEBUG_RODATA" "DEBUG_SET_MODULE_RONX");
 	#optionsYes+=("DEBUG_SG"); #bootloops - https://patchwork.kernel.org/patch/8989981
+	if [ "$DOS_USE_KSM" = true ]; then optionsYes+=("KSM"); fi;
 
 	if [[ $kernelVersion == "3."* ]] || [[ $kernelVersion == "4.4"* ]] || [[ $kernelVersion == "4.9"* ]]; then
 		optionsYes+=("DEBUG_NOTIFIERS"); #(https://github.com/GrapheneOS/os-issue-tracker/issues/681)
@@ -1082,7 +1083,8 @@ hardenDefconfig() {
 	optionsNo+=("BLK_DEV_FD" "BT_HS" "IO_URING" "IP_DCCP" "IP_SCTP" "VIDEO_VIVID" "FB_VIRTUAL" "RDS" "RDS_TCP");
 	optionsNo+=("HIBERNATION");
 	optionsNo+=("KEXEC" "KEXEC_FILE");
-	optionsNo+=("KSM" "UKSM");
+	optionsNo+=("UKSM");
+	if [ "$DOS_USE_KSM" = false ]; then optionsNo+=("KSM"); fi;
 	optionsNo+=("LIVEPATCH");
 	optionsNo+=("WIREGUARD"); #Requires root access, which we do not provide
 	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then optionsNo+=("IPA" "RMNET_IPA"); fi;
@@ -1090,7 +1092,7 @@ hardenDefconfig() {
 	optionsNo+=("GCC_PLUGIN_RANDSTRUCT_PERFORMANCE");
 	optionsNo+=("HARDENED_USERCOPY_FALLBACK");
 	optionsNo+=("SECURITY_SELINUX_DISABLE" "SECURITY_WRITABLE_HOOKS");
-	optionsNo+=("SLAB_MERGE_DEFAULT");
+	if [ "$DOS_USE_KSM" = false ]; then optionsNo+=("SLAB_MERGE_DEFAULT"); fi;
 	if [[ "$DOS_VERSION" != "LineageOS-20.0" ]]; then optionsNo+=("USERFAULTFD"); fi;
 	#optionsNo+=("CFI_PERMISSIVE");
 	#misc
