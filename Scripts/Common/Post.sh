@@ -24,12 +24,12 @@ echo "Post tweaks...";
 #MSM_DLOAD_MODE can't be disabled as it breaks compile
 sed -i 's/set_dload_mode(in_panic)/set_dload_mode(0)/' kernel/*/*/arch/arm/mach-msm/restart.c &>/dev/null || true;
 
-if [ "$DOS_USE_KSM" = true ]; then
-	#Enable KSM #XXX testing only
-	sed -i 's/unsigned int ksm_run = KSM_RUN_STOP;/unsigned int ksm_run = KSM_RUN_MERGE;/' kernel/*/*/mm/ksm.c &>/dev/null || true;
-	sed -i 's/unsigned long ksm_run = KSM_RUN_STOP;/unsigned long ksm_run = KSM_RUN_MERGE;/' kernel/*/*/mm/ksm.c &>/dev/null || true;
+#Increase power efficiency of KSM
+sed -i 's/bool use_deferred_timer;/bool use_deferred_timer = true;/' kernel/*/*/mm/ksm.c &>/dev/null || true;
+sed -i 's/unsigned int ksm_thread_sleep_millisecs = 20;/unsigned int ksm_thread_sleep_millisecs = 500;/' kernel/*/*/mm/ksm.c &>/dev/null || true;
 
-	#Enable slub/slab merging #XXX testing only
+if [ "$DOS_USE_KSM" = true ]; then
+	#Enable slub/slab merging
 	sed -i 's/static int slub_nomerge;/static int slub_nomerge = 0;/' kernel/*/*/mm/slub.c &>/dev/null || true; #2.6.22-3.17
 	sed -i 's/static int slab_nomerge;/static int slab_nomerge = 0;/' kernel/*/*/mm/slab_common.c &>/dev/null || true; #3.18-4.12
 	sed -i 's/static bool slab_nomerge = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);/static bool slab_nomerge = false;/' kernel/*/*/mm/slab_common.c &>/dev/null || true; #4.13+

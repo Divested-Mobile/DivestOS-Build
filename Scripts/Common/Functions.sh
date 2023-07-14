@@ -901,7 +901,18 @@ hardenDefconfig() {
 	optionsYes+=("DEBUG_KERNEL" "DEBUG_CREDENTIALS" "DEBUG_LIST" "DEBUG_VIRTUAL");
 	optionsYes+=("DEBUG_RODATA" "DEBUG_SET_MODULE_RONX");
 	#optionsYes+=("DEBUG_SG"); #bootloops - https://patchwork.kernel.org/patch/8989981
-	if [ "$DOS_USE_KSM" = true ]; then optionsYes+=("KSM"); fi;
+
+	if [ "$DOS_USE_KSM" = true ] && [ -f "mm/ksm.c" ]; then
+		if [[ $kernelVersion == "3."* ]] || [[ $kernelVersion == "4.4"* ]] || [[ $kernelVersion == "4.9"* ]]; then
+			optionsYes+=("KSM");
+			sed -i 's/unsigned int ksm_run = KSM_RUN_STOP;/unsigned int ksm_run = KSM_RUN_MERGE;/' mm/ksm.c &>/dev/null || true;
+			sed -i 's/unsigned long ksm_run = KSM_RUN_STOP;/unsigned long ksm_run = KSM_RUN_MERGE;/' mm/ksm.c &>/dev/null || true;
+		else
+			local ksmNotNeeded=true;
+			sed -i 's/unsigned int ksm_run = KSM_RUN_MERGE;/unsigned int ksm_run = KSM_RUN_STOP;/' mm/ksm.c &>/dev/null || true;
+			sed -i 's/unsigned long ksm_run = KSM_RUN_MERGE;/unsigned long ksm_run = KSM_RUN_STOP;/' mm/ksm.c &>/dev/null || true;
+		fi;
+	fi;
 
 	if [[ $kernelVersion == "3."* ]] || [[ $kernelVersion == "4.4"* ]] || [[ $kernelVersion == "4.9"* ]]; then
 		optionsYes+=("DEBUG_NOTIFIERS"); #(https://github.com/GrapheneOS/os-issue-tracker/issues/681)
@@ -1084,7 +1095,7 @@ hardenDefconfig() {
 	optionsNo+=("HIBERNATION");
 	optionsNo+=("KEXEC" "KEXEC_FILE");
 	optionsNo+=("UKSM");
-	if [ "$DOS_USE_KSM" = false ]; then optionsNo+=("KSM"); fi;
+	if [ "$DOS_USE_KSM" = false ] || [ "$ksmNotNeeded" = true ]; then optionsNo+=("KSM"); fi;
 	optionsNo+=("LIVEPATCH");
 	optionsNo+=("WIREGUARD"); #Requires root access, which we do not provide
 	if [ "$DOS_DEBLOBBER_REMOVE_IPA" = true ]; then optionsNo+=("IPA" "RMNET_IPA"); fi;

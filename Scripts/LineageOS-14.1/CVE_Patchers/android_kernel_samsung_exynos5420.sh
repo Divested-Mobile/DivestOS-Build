@@ -12,6 +12,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.10/00
 #git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.18/0043.patch
 #git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slub/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0009-rfc4941bis/ANY/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/0010-ksm_deferred_timers/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-3076/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-3222/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-3225/3.4/0003.patch
@@ -252,7 +253,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3161/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
-editKernelLocalversion "-dos.p252"
+editKernelLocalversion "-dos.p253"
 else echo "kernel_samsung_exynos5420 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

@@ -16,6 +16,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.10/00
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-misc/4.4/0016.patch
 #git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slub/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0009-rfc4941bis/ANY/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/0010-ksm_deferred_timers/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0090-Unknown/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-2119/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2012-2136/3.4/0003.patch
@@ -653,7 +654,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-4002/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
-editKernelLocalversion "-dos.p653"
+editKernelLocalversion "-dos.p654"
 else echo "kernel_lge_hammerhead is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
