@@ -28,8 +28,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
      ro.lmk.kill_heaviest_task=false \
      config.disable_atlas=true \
      dalvik.vm.madvise-random=true \
-     ro.statsd.enable=false \
-     persist.traced.enable=0
+     persist.traced.enable=0 \
+     ro.statsd.enable=false
 
 # set threshold to filter unused apps
 PRODUCT_PROPERTY_OVERRIDES += pm.dexopt.downgrade_after_inactive_days=10
@@ -51,11 +51,6 @@ PRODUCT_ALWAYS_PREOPT_EXTRACTED_APK := true
 # b/65591595.
 PRODUCT_PROPERTY_OVERRIDES += \
      pm.dexopt.shared=quicken
-
-# Default heap sizes. Allow up to 256m for large heaps to make sure a single app
-# doesn't take all of the RAM.
-#PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.heapgrowthlimit=128m
-#PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.heapsize=256m
 
 # Do not generate libartd.
 PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false

@@ -1,12 +1,13 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Mon, 3 Jul 2023 12:00:12 -0400
-Subject: [PATCH] Hardened signature spoofing
+Subject: [PATCH] Unprivileged microG handling
 
 - Must be enabled by user
 - Must match microG package ID
 - Must meet minimum respective targetSdk and versionCode
 - Must match official microG build signing key
+
 - Only spoofs the Google package signature
 
 This is an effective merge + tweak of two existing patches, credits:
@@ -14,6 +15,7 @@ This is an effective merge + tweak of two existing patches, credits:
   https://github.com/dylangerdaly/platform_frameworks_base/commit/b58aa11631fadab3309a1d9268118bd9f2c2a79f
   Chirayu Desai of CalyxOS
   https://gitlab.com/CalyxOS/platform_frameworks_base/-/commit/76485abb36dc01b65506b010d0458e96e0116369
+  https://gitlab.com/CalyxOS/platform_frameworks_base/-/commit/97765782f942d0975c383c90fde9140ef3ccf01b
 
 Change-Id: I64a252aac9bb196a11ed7b4b5d8c7e59a3413bd4
 ---
@@ -120,7 +122,7 @@ index 9483f266b1fa..eb2b66d5ce03 100644
 +            Set<String> permissions) {
 +        String hash = p.mSigningDetails.getSha256Certificate();
 +        try {
-+            if (hash.equals(MICROG_HASH) && p.applicationInfo.targetSdkVersion >= 24) {
++            if (hash.equals(MICROG_HASH) && p.applicationInfo.targetSdkVersion >= 24 && pi != null) {
 +                    pi.signatures = new Signature[] {new Signature(GOOGLE_CERT)};
 +                    if (DEBUG_PACKAGE_INFO) {
 +                        Log.v(TAG, "Spoofing signature for microG");

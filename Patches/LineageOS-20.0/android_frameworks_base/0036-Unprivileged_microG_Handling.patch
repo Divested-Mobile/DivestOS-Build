@@ -1,26 +1,32 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Mon, 3 Jul 2023 12:00:12 -0400
-Subject: [PATCH] Hardened signature spoofing
+Subject: [PATCH] Unprivileged microG handling
 
 - Must be enabled by user
 - Must match microG package ID
 - Must meet minimum respective targetSdk and versionCode
 - Must match official microG build signing key
+
 - Only spoofs the Google package signature
+- Sets the packages forceQueryable
+- Spoofs apps installed via some sources as Play Store
 
 This is an effective merge + tweak of two existing patches, credits:
   Dylanger Daly
   https://github.com/dylangerdaly/platform_frameworks_base/commit/b58aa11631fadab3309a1d9268118bd9f2c2a79f
   Chirayu Desai of CalyxOS
   https://gitlab.com/CalyxOS/platform_frameworks_base/-/commit/76485abb36dc01b65506b010d0458e96e0116369
+  https://gitlab.com/CalyxOS/platform_frameworks_base/-/commit/97765782f942d0975c383c90fde9140ef3ccf01b
+  https://gitlab.com/CalyxOS/platform_frameworks_base/-/commit/d81763383588e81353e24ad0a56ae2478752319c
 
 Change-Id: I64a252aac9bb196a11ed7b4b5d8c7e59a3413bd4
 ---
- .../android/content/pm/SigningDetails.java    | 36 +++++++++++++++-
+ .../android/content/pm/SigningDetails.java    | 36 ++++++++++-
  core/res/res/values/config.xml                |  2 +
- .../com/android/server/pm/ComputerEngine.java | 42 +++++++++++++++++--
- 3 files changed, 75 insertions(+), 5 deletions(-)
+ .../com/android/server/pm/AppsFilterImpl.java | 18 ++++++
+ .../com/android/server/pm/ComputerEngine.java | 62 ++++++++++++++++++-
+ 4 files changed, 113 insertions(+), 5 deletions(-)
 
 diff --git a/core/java/android/content/pm/SigningDetails.java b/core/java/android/content/pm/SigningDetails.java
 index 1e659b74db77..00d669ab24e7 100644
@@ -91,11 +97,65 @@ index a7eae9c60b46..dbd475b52f02 100644
      </string-array>
  
      <!-- Package name(s) of Advanced Driver Assistance applications. These packages have additional
+diff --git a/services/core/java/com/android/server/pm/AppsFilterImpl.java b/services/core/java/com/android/server/pm/AppsFilterImpl.java
+index 181c39ee50b5..0f4ac178ea35 100644
+--- a/services/core/java/com/android/server/pm/AppsFilterImpl.java
++++ b/services/core/java/com/android/server/pm/AppsFilterImpl.java
+@@ -37,6 +37,7 @@ import android.content.pm.SigningDetails;
+ import android.content.pm.UserInfo;
+ import android.os.Handler;
+ import android.os.Trace;
++import android.os.SystemProperties;
+ import android.os.UserHandle;
+ import android.provider.DeviceConfig;
+ import android.util.ArrayMap;
+@@ -482,6 +483,15 @@ public final class AppsFilterImpl extends AppsFilterLocked implements Watchable,
+         }
+     }
+ 
++    // Package IDs of apps
++    private static final String PACKAGE_GMSCORE = "com.google.android.gms";
++    private static final String PACKAGE_PLAY_STORE = "com.android.vending";
++    private static final String PACKAGE_GSFPROXY = "com.google.android.gsf";
++    // The setting to control microG enablement.
++    private static final String MICROG_ENABLEMENT = "persist.security.sigspoof";
++    // The signing key hash of official microG builds.
++    private static final String MICROG_HASH = "9BD06727E62796C0130EB6DAB39B73157451582CBD138E86C468ACC395D14165";
++
+     /**
+      * @return Additional packages that may have had their viewing visibility changed and may need
+      * to be updated in the cache. Returns null if there are no additional packages.
+@@ -519,9 +529,17 @@ public final class AppsFilterImpl extends AppsFilterLocked implements Watchable,
+ 
+         final boolean newIsForceQueryable;
+         synchronized (mForceQueryableLock) {
++            boolean isMicroG = false;
++            if (SystemProperties.getBoolean(MICROG_ENABLEMENT, false)) {
++                final boolean isValidGmsCore = newPkg.getPackageName().equals(PACKAGE_GMSCORE) && newPkg.getTargetSdkVersion() >= 29 && newPkgSetting.getVersionCode() >= 231657056;
++                final boolean isValidFakeStore = newPkg.getPackageName().equals(PACKAGE_PLAY_STORE) && newPkg.getTargetSdkVersion() >= 24 && newPkgSetting.getVersionCode() >= 30;
++                final boolean isValidGsf = newPkg.getPackageName().equals(PACKAGE_GSFPROXY) && newPkg.getTargetSdkVersion() >= 24 && newPkgSetting.getVersionCode() >= 8;
++                isMicroG = (isValidGmsCore || isValidFakeStore || isValidGsf) && newPkg.getSigningDetails().getSha256Certificate().equals(MICROG_HASH);
++            }
+             newIsForceQueryable = mForceQueryable.contains(newPkgSetting.getAppId())
+                             /* shared user that is already force queryable */
+                             || newPkgSetting.isForceQueryableOverride() /* adb override */
++                            || isMicroG
+                             || (newPkgSetting.isSystem() && (mSystemAppsQueryable
+                             || newPkg.isForceQueryable()
+                             || ArrayUtils.contains(mForceQueryableByDevicePackageNames,
 diff --git a/services/core/java/com/android/server/pm/ComputerEngine.java b/services/core/java/com/android/server/pm/ComputerEngine.java
-index 58448bfefdaf..6047737af2ab 100644
+index 58448bfefdaf..c2c82d27cf92 100644
 --- a/services/core/java/com/android/server/pm/ComputerEngine.java
 +++ b/services/core/java/com/android/server/pm/ComputerEngine.java
-@@ -99,6 +99,7 @@ import android.os.IBinder;
+@@ -80,6 +80,7 @@ import android.content.pm.InstantAppResolveInfo;
+ import android.content.pm.InstrumentationInfo;
+ import android.content.pm.KeySet;
+ import android.content.pm.PackageInfo;
++import android.content.pm.PackageInstaller;
+ import android.content.pm.PackageManager;
+ import android.content.pm.PackageManagerInternal;
+ import android.content.pm.ParceledListSlice;
+@@ -99,6 +100,7 @@ import android.os.IBinder;
  import android.os.ParcelableException;
  import android.os.PatternMatcher;
  import android.os.Process;
@@ -103,7 +163,7 @@ index 58448bfefdaf..6047737af2ab 100644
  import android.os.Trace;
  import android.os.UserHandle;
  import android.os.UserManager;
-@@ -1636,9 +1637,21 @@ public class ComputerEngine implements Computer {
+@@ -1636,9 +1638,21 @@ public class ComputerEngine implements Computer {
                      || ArrayUtils.isEmpty(p.getRequestedPermissions())) ? Collections.emptySet()
                      : mPermissionManager.getGrantedPermissions(ps.getPackageName(), userId);
  
@@ -112,11 +172,11 @@ index 58448bfefdaf..6047737af2ab 100644
 -                    ps);
 +
 +            // Allow microG GmsCore and FakeStore to spoof signature
-+            final boolean isValidGmsCore = p.getPackageName().equals("com.google.android.gms") && p.getTargetSdkVersion() >= 29 && ps.getVersionCode() >= 231657056;
-+            final boolean isValidFakeStore = p.getPackageName().equals("com.android.vending") && p.getTargetSdkVersion() >= 24 && ps.getVersionCode() >= 30;
++            final boolean isValidGmsCore = p.getPackageName().equals(PACKAGE_GMSCORE) && p.getTargetSdkVersion() >= 29 && ps.getVersionCode() >= 231657056;
++            final boolean isValidFakeStore = p.getPackageName().equals(PACKAGE_PLAY_STORE) && p.getTargetSdkVersion() >= 24 && ps.getVersionCode() >= 30;
 +            final boolean isMicroG = isValidGmsCore || isValidFakeStore;
 +            PackageInfo packageInfo;
-+            if (isMicroG && SystemProperties.getBoolean(SPOOF_CONTROL, false)) {
++            if (isMicroG && SystemProperties.getBoolean(MICROG_ENABLEMENT, false)) {
 +                packageInfo = fakeSignature(p, PackageInfoUtils.generate(p, gids, flags,
 +                        state.getFirstInstallTime(), ps.getLastUpdateTime(), permissions, state,
 +                        userId, ps), permissions);
@@ -128,12 +188,17 @@ index 58448bfefdaf..6047737af2ab 100644
  
              if (packageInfo == null) {
                  return null;
-@@ -1679,6 +1692,29 @@ public class ComputerEngine implements Computer {
+@@ -1679,6 +1693,34 @@ public class ComputerEngine implements Computer {
          }
      }
  
-+    // The setting to control spoofing enablement.
-+    private static final String SPOOF_CONTROL = "persist.security.sigspoof";
++    // Package IDs of apps
++    private static final String PACKAGE_GMSCORE = "com.google.android.gms";
++    private static final String PACKAGE_PLAY_STORE = "com.android.vending";
++    private static final String[] PACKAGES_SPOOF_INSTALLSOURCE =
++            new String[] { "com.aurora.store", "dev.imranr.obtainium" };
++    // The setting to control microG enablement.
++    private static final String MICROG_ENABLEMENT = "persist.security.sigspoof";
 +    // The Google signature faked by microG.
 +    private static final String GOOGLE_CERT = "308204433082032ba003020102020900c2e08746644a308d300d06092a864886f70d01010405003074310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e205669657731143012060355040a130b476f6f676c6520496e632e3110300e060355040b1307416e64726f69643110300e06035504031307416e64726f6964301e170d3038303832313233313333345a170d3336303130373233313333345a3074310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e205669657731143012060355040a130b476f6f676c6520496e632e3110300e060355040b1307416e64726f69643110300e06035504031307416e64726f696430820120300d06092a864886f70d01010105000382010d00308201080282010100ab562e00d83ba208ae0a966f124e29da11f2ab56d08f58e2cca91303e9b754d372f640a71b1dcb130967624e4656a7776a92193db2e5bfb724a91e77188b0e6a47a43b33d9609b77183145ccdf7b2e586674c9e1565b1f4c6a5955bff251a63dabf9c55c27222252e875e4f8154a645f897168c0b1bfc612eabf785769bb34aa7984dc7e2ea2764cae8307d8c17154d7ee5f64a51a44a602c249054157dc02cd5f5c0e55fbef8519fbe327f0b1511692c5a06f19d18385f5c4dbc2d6b93f68cc2979c70e18ab93866b3bd5db8999552a0e3b4c99df58fb918bedc182ba35e003c1b4b10dd244a8ee24fffd333872ab5221985edab0fc0d0b145b6aa192858e79020103a381d93081d6301d0603551d0e04160414c77d8cc2211756259a7fd382df6be398e4d786a53081a60603551d2304819e30819b8014c77d8cc2211756259a7fd382df6be398e4d786a5a178a4763074310b3009060355040613025553311330110603550408130a43616c69666f726e6961311630140603550407130d4d6f756e7461696e205669657731143012060355040a130b476f6f676c6520496e632e3110300e060355040b1307416e64726f69643110300e06035504031307416e64726f6964820900c2e08746644a308d300c0603551d13040530030101ff300d06092a864886f70d010104050003820101006dd252ceef85302c360aaace939bcff2cca904bb5d7a1661f8ae46b2994204d0ff4a68c7ed1a531ec4595a623ce60763b167297a7ae35712c407f208f0cb109429124d7b106219c084ca3eb3f9ad5fb871ef92269a8be28bf16d44c8d9a08e6cb2f005bb3fe2cb96447e868e731076ad45b33f6009ea19c161e62641aa99271dfd5228c5c587875ddb7f452758d661f6cc0cccb7352e424cc4365c523532f7325137593c4ae341f4db41edda0d0b1071a7c440f0fe9ea01cb627ca674369d084bd2fd911ff06cdbf2cfa10dc0f893ae35762919048c7efc64c7144178342f70581c9de573af55b390dd7fdb9418631895d5f759f30112687ff621410c069308a";
 +    // The signing key hash of official microG builds.
@@ -143,7 +208,7 @@ index 58448bfefdaf..6047737af2ab 100644
 +            Set<String> permissions) {
 +        String hash = p.getSigningDetails().getSha256Certificate();
 +        try {
-+            if (hash.equals(MICROG_HASH) && p.getTargetSdkVersion() >= 24) {
++            if (hash.equals(MICROG_HASH) && p.getTargetSdkVersion() >= 24 && pi != null) {
 +                    pi.signatures = new Signature[] {new Signature(GOOGLE_CERT)};
 +                    if (DEBUG_PACKAGE_INFO) {
 +                        Log.v(TAG, "Spoofing signature for microG");
@@ -158,3 +223,24 @@ index 58448bfefdaf..6047737af2ab 100644
      public final PackageInfo getPackageInfo(String packageName,
              @PackageManager.PackageInfoFlagsBits long flags, int userId) {
          return getPackageInfoInternal(packageName, PackageManager.VERSION_CODE_HIGHEST,
+@@ -5094,6 +5136,20 @@ public class ComputerEngine implements Computer {
+             return null;
+         }
+ 
++        if (SystemProperties.getBoolean(MICROG_ENABLEMENT, false)) {
++            InstallSource installSource = ps.getInstallSource();
++            if (installSource != null && installSource.installerPackageName != null
++                    && mSettings.getPackage(PACKAGE_PLAY_STORE) != null
++                    && callingUid != Process.SYSTEM_UID
++                    && ArrayUtils.contains(PACKAGES_SPOOF_INSTALLSOURCE, installSource.installerPackageName)) {
++                return InstallSource.create(PACKAGE_PLAY_STORE, PACKAGE_PLAY_STORE, PACKAGE_PLAY_STORE, null,
++                                PackageInstaller.PACKAGE_SOURCE_STORE,
++                                ps.getInstallSource().isOrphaned, false)
++                        .setInitiatingPackageSignatures(new PackageSignatures(
++                                mSettings.getPackage(PACKAGE_PLAY_STORE).getSigningDetails()));
++            }
++        }
++
+         return ps.getInstallSource();
+     }
+ 

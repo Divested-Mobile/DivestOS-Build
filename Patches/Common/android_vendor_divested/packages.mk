@@ -8,10 +8,10 @@ PRODUCT_PACKAGES += \
     FennecDOS \
     SimpleGallery
 
-ifeq ($(findstring flox,$(TARGET_PRODUCT)),)
-PRODUCT_PACKAGES += \
-    OpenCamera
-endif
+#ifeq ($(findstring flox,$(TARGET_PRODUCT)),)
+#PRODUCT_PACKAGES += \
+#    OpenCamera
+#endif
 
 # Extras
 PRODUCT_PACKAGES += \

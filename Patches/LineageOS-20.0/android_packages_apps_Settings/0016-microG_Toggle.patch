@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Wed, 20 Apr 2022 01:04:27 -0400
-Subject: [PATCH] Add a toggle to opt-in to restricted signature spoofing
+Subject: [PATCH] Add a toggle for microG enablement
 
 Copy and pasted from the GrapheneOS exec spawning toggle patch
 
@@ -16,24 +16,24 @@ Signed-off-by: Tad <tad@spotco.us>
  create mode 100644 src/com/android/settings/security/SigSpoofPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index c597570f35..2fe1eda202 100644
+index 6e619cc2c4..15247c1c93 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -11978,6 +11978,9 @@
+@@ -756,6 +756,9 @@
      <string name="hosts_disable_title">Disable DNS content blocker</string>
      <string name="hosts_disable_summary">Disables use of the included /etc/hosts database for data collection and malware blocking.</string>
  
 +    <string name="sig_spoof_title">microG enablement</string>
 +    <string name="sig_spoof_summary">Allows official builds of microG apps to spoof the Google signature. Not supported, not recommended. May break apps and/or degrade their security model. Notes: 1) microG connects directly to Google, 2) apps talking to microG do so using proprietary Google libraries, 3) microG can download/execute proprietary code from Google.</string>
 +
-     <!-- Title for the top level Privacy Settings [CHAR LIMIT=30]-->
-     <string name="privacy_dashboard_title">Privacy</string>
-     <!-- Summary for the top level Privacy Settings [CHAR LIMIT=NONE]-->
+     <!-- Text shown for the title of the lock when trust lost option [CHAR LIMIT=40] -->
+     <string name="trust_lost_locks_screen_title">Lock screen when trust is lost</string>
+     <!-- Text shown for the description of the lock when trust lost option [CHAR LIMIT=NONE -->
 diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
-index 62d42246a3..21ce054889 100644
+index db158b7243..604e8720e6 100644
 --- a/res/xml/security_dashboard_settings.xml
 +++ b/res/xml/security_dashboard_settings.xml
-@@ -81,6 +81,12 @@
+@@ -86,6 +86,12 @@
              android:title="@string/hosts_disable_title"
              android:summary="@string/hosts_disable_summary"
              android:persistent="false" />
@@ -45,12 +45,12 @@ index 62d42246a3..21ce054889 100644
 +            android:persistent="false" />
      </PreferenceCategory>
  
-     <!-- work profile security section -->
+     <Preference
 diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
-index 0fbcd27104..5248d74c37 100644
+index 643de279a4..0076663587 100644
 --- a/src/com/android/settings/security/SecuritySettings.java
 +++ b/src/com/android/settings/security/SecuritySettings.java
-@@ -122,6 +122,7 @@ public class SecuritySettings extends DashboardFragment {
+@@ -109,6 +109,7 @@ public class SecuritySettings extends DashboardFragment {
          securityPreferenceControllers.add(new ExecSpawnPreferenceController(context));
          securityPreferenceControllers.add(new NativeDebugPreferenceController(context));
          securityPreferenceControllers.add(new HostsPreferenceController(context));

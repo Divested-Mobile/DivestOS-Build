@@ -290,9 +290,8 @@ echo "Deblobbing...";
 	fi;
 
 	#Google Camera
-	blobs=$blobs"|PixelCameraServices.*.apk";
 	if [ "$DOS_DEBLOBBER_REMOVE_CAMEXT" = true ]; then
-		blobs=$blobs"|com.google.android.camera.*";
+		blobs=$blobs"|com.google.android.camera.*|PixelCameraServices.*.apk";
 	fi;
 
 	#Google NFC

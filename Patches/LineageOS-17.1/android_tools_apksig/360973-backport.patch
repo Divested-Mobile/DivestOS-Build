@@ -1,7 +1,7 @@
-From 9a80527425030dae7f962ab95eda500a720cde47 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Michael Groover <mpgroover@google.com>
 Date: Fri, 31 Mar 2023 14:30:21 -0500
-Subject: [PATCH 2/2] Limit the number of supported v1 and v2 signers
+Subject: [PATCH] Limit the number of supported v1 and v2 signers
 
 The v1 and v2 APK Signature Schemes support multiple signers; this
 was intended to allow multiple entities to sign an APK. Previously,
@@ -36,10 +36,10 @@ Change-Id: I604ce656e6dcd750e664adcb814c5c66f7b80ce1
  create mode 100644 src/test/resources/com/android/apksig/v2-only-11-signers.apk
 
 diff --git a/src/main/java/com/android/apksig/ApkVerifier.java b/src/main/java/com/android/apksig/ApkVerifier.java
-index 5e458ef..62b132a 100644
+index 3e1e7da..cfbc8d2 100644
 --- a/src/main/java/com/android/apksig/ApkVerifier.java
 +++ b/src/main/java/com/android/apksig/ApkVerifier.java
-@@ -620,6 +620,15 @@ public class ApkVerifier {
+@@ -644,6 +644,15 @@ public class ApkVerifier {
          }
  
          private void mergeFrom(ApkSigningBlockUtils.Result source) {
@@ -55,7 +55,7 @@ index 5e458ef..62b132a 100644
              switch (source.signatureSchemeVersion) {
                  case ApkSigningBlockUtils.VERSION_APK_SIGNATURE_SCHEME_V2:
                      mVerifiedUsingV2Scheme = source.verified;
-@@ -897,6 +906,16 @@ public class ApkVerifier {
+@@ -921,6 +930,16 @@ public class ApkVerifier {
           */
          JAR_SIG_NO_SIGNATURES("No JAR signatures"),
  
@@ -72,7 +72,7 @@ index 5e458ef..62b132a 100644
          /**
           * APK does not contain any entries covered by JAR signatures.
           */
-@@ -1325,6 +1344,16 @@ public class ApkVerifier {
+@@ -1349,6 +1368,16 @@ public class ApkVerifier {
                  "APK Signature Scheme v2 signature %1$s indicates the APK is signed using %2$s but "
                          + "no such signature was found. Signature stripped?"),
  
@@ -111,7 +111,7 @@ index f900211..05721ed 100644
                  generateManifestFile(
                          jarEntryDigestAlgorithm, jarEntryDigests, sourceManifestBytes);
 diff --git a/src/main/java/com/android/apksig/internal/apk/v1/V1SchemeVerifier.java b/src/main/java/com/android/apksig/internal/apk/v1/V1SchemeVerifier.java
-index a828bcc..8e49dd3 100644
+index 47d5b01..d633514 100644
 --- a/src/main/java/com/android/apksig/internal/apk/v1/V1SchemeVerifier.java
 +++ b/src/main/java/com/android/apksig/internal/apk/v1/V1SchemeVerifier.java
 @@ -16,6 +16,7 @@
@@ -122,7 +122,7 @@ index a828bcc..8e49dd3 100644
  import com.android.apksig.ApkVerifier.Issue;
  import com.android.apksig.ApkVerifier.IssueWithParams;
  import com.android.apksig.apk.ApkFormatException;
-@@ -249,6 +250,7 @@ public abstract class V1SchemeVerifier {
+@@ -275,6 +276,7 @@ public abstract class V1SchemeVerifier {
              // * All JAR entries listed in JAR manifest are present in the APK.
  
              // Identify signers
@@ -130,7 +130,7 @@ index a828bcc..8e49dd3 100644
              List<Signer> signers = new ArrayList<>(sigBlockEntries.size());
              for (CentralDirectoryRecord sigBlockEntry : sigBlockEntries) {
                  String sigBlockEntryName = sigBlockEntry.getName();
-@@ -277,6 +279,11 @@ public abstract class V1SchemeVerifier {
+@@ -303,6 +305,11 @@ public abstract class V1SchemeVerifier {
                  result.addError(Issue.JAR_SIG_NO_SIGNATURES);
                  return;
              }
@@ -143,10 +143,10 @@ index a828bcc..8e49dd3 100644
              // Verify each signer's signature block file .(RSA|DSA|EC) against the corresponding
              // signature file .SF. Any error encountered for any signer terminates verification, to
 diff --git a/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeSigner.java b/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeSigner.java
-index 6d001e7..375ff91 100644
+index d8e4723..a423bdd 100644
 --- a/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeSigner.java
 +++ b/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeSigner.java
-@@ -161,6 +161,12 @@ public abstract class V2SchemeSigner {
+@@ -162,6 +162,12 @@ public abstract class V2SchemeSigner {
                      throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
          // FORMAT:
          // * length-prefixed sequence of length-prefixed signer blocks.
@@ -160,10 +160,10 @@ index 6d001e7..375ff91 100644
          List<byte[]> signerBlocks = new ArrayList<>(signerConfigs.size());
          int signerNumber = 0;
 diff --git a/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeVerifier.java b/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeVerifier.java
-index e1be06e..39b205b 100644
+index 51c40bd..e3e7e8d 100644
 --- a/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeVerifier.java
 +++ b/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeVerifier.java
-@@ -180,6 +180,7 @@ public abstract class V2SchemeVerifier {
+@@ -184,6 +184,7 @@ public abstract class V2SchemeVerifier {
              int maxSdkVersion,
              ApkSigningBlockUtils.Result result) throws NoSuchAlgorithmException {
          ByteBuffer signers;
@@ -171,7 +171,7 @@ index e1be06e..39b205b 100644
          try {
              signers = ApkSigningBlockUtils.getLengthPrefixedSlice(apkSignatureSchemeV2Block);
          } catch (ApkFormatException e) {
-@@ -221,6 +222,9 @@ public abstract class V2SchemeVerifier {
+@@ -225,6 +226,9 @@ public abstract class V2SchemeVerifier {
                  return;
              }
          }
@@ -182,10 +182,10 @@ index e1be06e..39b205b 100644
  
      /**
 diff --git a/src/test/java/com/android/apksig/ApkSignerTest.java b/src/test/java/com/android/apksig/ApkSignerTest.java
-index 80f35ba..ccdb02a 100644
+index 1434017..729d96f 100644
 --- a/src/test/java/com/android/apksig/ApkSignerTest.java
 +++ b/src/test/java/com/android/apksig/ApkSignerTest.java
-@@ -339,6 +339,106 @@ public class ApkSignerTest {
+@@ -635,6 +635,106 @@ public class ApkSignerTest {
          } catch (ApkFormatException expected) {}
      }
  
@@ -293,7 +293,7 @@ index 80f35ba..ccdb02a 100644
      public void testWeirdZipCompressionMethod() throws Exception {
          // Any ZIP compression method other than STORED is treated as DEFLATED by Android.
 diff --git a/src/test/java/com/android/apksig/ApkVerifierTest.java b/src/test/java/com/android/apksig/ApkVerifierTest.java
-index 6f6c04d..0546f0f 100644
+index 351d0a8..2392b88 100644
 --- a/src/test/java/com/android/apksig/ApkVerifierTest.java
 +++ b/src/test/java/com/android/apksig/ApkVerifierTest.java
 @@ -239,6 +239,20 @@ public class ApkVerifierTest {
@@ -317,7 +317,7 @@ index 6f6c04d..0546f0f 100644
      @Test
      public void testV2StrippedRejected() throws Exception {
          // APK signed with v1 and v2 schemes, but v2 signature was stripped from the file (by using
-@@ -471,6 +485,23 @@ public class ApkVerifierTest {
+@@ -630,6 +644,23 @@ public class ApkVerifierTest {
                  Issue.V2_SIG_NO_SUPPORTED_SIGNATURES);
      }
  
@@ -1441,7 +1441,4 @@ Tg9RFHk9CIzHQe49++O|{heuzh
 
 literal 0
 HcmV?d00001
-
--- 
-2.30.2
 

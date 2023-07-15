@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tad <tad@spotco.us>
 Date: Wed, 20 Apr 2022 01:04:27 -0400
-Subject: [PATCH] Add a toggle to opt-in to restricted signature spoofing
+Subject: [PATCH] Add a toggle for microG enablement
 
 Copy and pasted from the GrapheneOS exec spawning toggle patch
 
@@ -16,10 +16,10 @@ Signed-off-by: Tad <tad@spotco.us>
  create mode 100644 src/com/android/settings/security/SigSpoofPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 1be8ea0677..bab35fbe60 100644
+index a5aab8e5d0..59c4e0aa57 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -13133,6 +13133,9 @@
+@@ -11330,6 +11330,9 @@
      <string name="hosts_disable_title">Disable DNS content blocker</string>
      <string name="hosts_disable_summary">Disables use of the included /etc/hosts database for data collection and malware blocking.</string>
  
@@ -30,27 +30,27 @@ index 1be8ea0677..bab35fbe60 100644
      <string name="privacy_dashboard_title">Privacy</string>
      <!-- Summary for the top level Privacy Settings [CHAR LIMIT=NONE]-->
 diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
-index 011f6e1117..f5384fa104 100644
+index 23a39d3106..c5a6c8cada 100644
 --- a/res/xml/security_dashboard_settings.xml
 +++ b/res/xml/security_dashboard_settings.xml
 @@ -81,6 +81,12 @@
+             android:title="@string/hosts_disable_title"
              android:summary="@string/hosts_disable_summary"
              android:persistent="false" />
- 
++
 +        <SwitchPreference
 +            android:key="sig_spoof"
 +            android:title="@string/sig_spoof_title"
 +            android:summary="@string/sig_spoof_summary"
 +            android:persistent="false" />
-+
-         <com.android.settingslib.RestrictedPreference
-             android:key="biometric_settings"
-             android:title="@string/security_settings_biometric_preference_title"
+     </PreferenceCategory>
+ 
+     <!-- work profile security section -->
 diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
-index dbb9987f0c..0ac2ace282 100644
+index 88ba2ece3a..3ba3f518b0 100644
 --- a/src/com/android/settings/security/SecuritySettings.java
 +++ b/src/com/android/settings/security/SecuritySettings.java
-@@ -126,6 +126,7 @@ public class SecuritySettings extends DashboardFragment {
+@@ -124,6 +124,7 @@ public class SecuritySettings extends DashboardFragment {
          securityPreferenceControllers.add(new ExecSpawnPreferenceController(context));
          securityPreferenceControllers.add(new NativeDebugPreferenceController(context));
          securityPreferenceControllers.add(new HostsPreferenceController(context));
