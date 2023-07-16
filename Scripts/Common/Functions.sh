@@ -23,7 +23,8 @@ export -f startPatcher;
 
 resetWorkspace() {
 	umask 0022;
-	repo forall -c 'git add -A && git reset --hard' && rm -rf out DOS_PATCHED_FLAG && repo sync -j8 --force-sync --detach;
+	if [ "$1" == "local" ]; then local noNetwork="--local-only"; fi;
+	repo forall -c 'git add -A && git reset --hard' && rm -rf out DOS_PATCHED_FLAG && repo sync --jobs-network=6 --jobs-checkout=12 --force-sync --detach $noNetwork;
 }
 export -f resetWorkspace;
 
