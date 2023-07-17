@@ -539,12 +539,12 @@ removeUntrustedCerts || true;
 #Tweaks for <2GB RAM devices
 enableLowRam "device/asus/fugu";
 #Tweaks for <3GB RAM devices
-enableLowRam "device/asus/deb";
-enableLowRam "device/asus/flo";
-enableLowRam "device/htc/flounder";
-enableLowRam "device/htc/flounder_lte";
-enableLowRam "device/lge/bullhead";
-enableLowRam "device/lge/hammerhead";
+#enableLowRam "device/asus/deb";
+#enableLowRam "device/asus/flo";
+#enableLowRam "device/htc/flounder";
+#enableLowRam "device/htc/flounder_lte";
+#enableLowRam "device/lge/bullhead";
+#enableLowRam "device/lge/hammerhead";
 #Tweaks for 2GB/3GB RAM devices
 #enableLowRam "device/asus/Z00T";
 #Tweaks for <4GB RAM devices

@@ -558,7 +558,6 @@ enableLowRam "device/motorola/osprey" "osprey";
 enableLowRam "device/motorola/surnia" "surnia";
 #Tweaks for <3GB RAM devices
 enableLowRam "device/cyanogen/msm8916-common" "msm8916-common";
-enableLowRam "device/motorola/clark" "clark";
 enableLowRam "device/wileyfox/crackling" "crackling";
 #Tweaks for 3GB/4GB RAM devices
 #enableLowRam "device/oneplus/oneplus2" "oneplus2";

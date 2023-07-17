@@ -455,8 +455,8 @@ cd "$DOS_BUILD_BASE";
 #Tweaks for <2GB RAM devices
 #none yet
 #Tweaks for <3GB RAM devices
-enableLowRam "device/lge/hammerhead" "hammerhead";
-enableLowRam "device/samsung/kccat6" "kccat6";
+#enableLowRam "device/lge/hammerhead" "hammerhead";
+#enableLowRam "device/samsung/kccat6" "kccat6";
 #Tweaks for <4GB RAM devices
 #enableLowRam "device/samsung/lentislte" "lentislte";
 #enableLowRam "device/wileyfox/kipper" "kipper";

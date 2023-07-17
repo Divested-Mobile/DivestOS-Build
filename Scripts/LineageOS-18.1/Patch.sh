@@ -611,17 +611,17 @@ enableLowRam "device/samsung/hlte-common" "hlte-common";
 enableLowRam "device/samsung/hlte" "hlte";
 enableLowRam "device/samsung/msm8974-common" "msm8974-common";
 #Tweaks for 2GB/3GB RAM devices
-enableLowRam "device/lge/d850" "d850";
-enableLowRam "device/lge/d851" "d851";
-enableLowRam "device/lge/d852" "d852";
-enableLowRam "device/lge/d855" "d855";
+#enableLowRam "device/lge/d850" "d850";
+#enableLowRam "device/lge/d851" "d851";
+#enableLowRam "device/lge/d852" "d852";
+#enableLowRam "device/lge/d855" "d855";
 #Tweaks for <4GB RAM devices
-enableLowRam "device/lge/f400" "f400";
-enableLowRam "device/lge/ls990" "ls990";
-enableLowRam "device/lge/vs985" "vs985";
-enableLowRam "device/moto/shamu" "shamu";
-enableLowRam "device/nextbit/ether" "ether";
-enableLowRam "device/oneplus/bacon" "bacon";
+#enableLowRam "device/lge/f400" "f400";
+#enableLowRam "device/lge/ls990" "ls990";
+#enableLowRam "device/lge/vs985" "vs985";
+#enableLowRam "device/moto/shamu" "shamu";
+#enableLowRam "device/nextbit/ether" "ether";
+#enableLowRam "device/oneplus/bacon" "bacon";
 #Tweaks for 3GB/4GB RAM devices
 #enableLowRam "device/zuk/z2_plus" "z2_plus";
 #Tweaks for 4GB RAM devices

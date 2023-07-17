@@ -519,15 +519,15 @@ cd "$DOS_BUILD_BASE";
 enableLowRam "device/xiaomi/Mi8937" "Mi8917";
 enableLowRam "device/xiaomi/Mi8937" "Mi8937";
 #Tweaks for 4GB RAM devices
-enableLowRam "device/essential/mata" "mata";
-enableLowRam "device/fairphone/FP3" "FP3";
-enableLowRam "device/google/bonito" "bonito";
-enableLowRam "device/google/bonito" "sargo";
-enableLowRam "device/google/crosshatch" "blueline";
-enableLowRam "device/google/crosshatch" "crosshatch";
-enableLowRam "device/google/muskie/walleye" "walleye";
-enableLowRam "device/google/taimen" "taimen";
-enableLowRam "device/samsung/starlte" "starlte";
+#enableLowRam "device/essential/mata" "mata";
+#enableLowRam "device/fairphone/FP3" "FP3";
+#enableLowRam "device/google/bonito" "bonito";
+#enableLowRam "device/google/bonito" "sargo";
+#enableLowRam "device/google/crosshatch" "blueline";
+#enableLowRam "device/google/crosshatch" "crosshatch";
+#enableLowRam "device/google/muskie/walleye" "walleye";
+#enableLowRam "device/google/taimen" "taimen";
+#enableLowRam "device/samsung/starlte" "starlte";
 #Tweaks for 4GB/6GB RAM devices
 #enableLowRam "device/sony/akari" "akari";
 #enableLowRam "device/sony/akatsuki" "akatsuki";
