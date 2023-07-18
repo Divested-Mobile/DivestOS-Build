@@ -1,7 +1,7 @@
-From 9a80527425030dae7f962ab95eda500a720cde47 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Michael Groover <mpgroover@google.com>
 Date: Fri, 31 Mar 2023 14:30:21 -0500
-Subject: [PATCH 2/2] Limit the number of supported v1 and v2 signers
+Subject: [PATCH] Limit the number of supported v1 and v2 signers
 
 The v1 and v2 APK Signature Schemes support multiple signers; this
 was intended to allow multiple entities to sign an APK. Previously,
@@ -1441,7 +1441,4 @@ Tg9RFHk9CIzHQe49++O|{heuzh
 
 literal 0
 HcmV?d00001
-
--- 
-2.30.2
 

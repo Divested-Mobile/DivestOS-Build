@@ -1,7 +1,7 @@
-From 011adec1a494974102930bf65a8d2fdfa8b375b5 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Khaled Abdelmohsen <khelmy@google.com>
 Date: Mon, 24 Feb 2020 16:59:21 +0000
-Subject: [PATCH 1/2] Create source stamp verifier
+Subject: [PATCH] Create source stamp verifier
 
 Bug: 148005911
 Test: gradlew test
@@ -48,6 +48,3 @@ index 2330f6d..f15597b 100644
              public List<ApkVerifier.IssueWithParams> getErrors() {
                  return mErrors;
              }
--- 
-2.30.2
-

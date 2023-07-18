@@ -25,10 +25,10 @@ Change-Id: I64a252aac9bb196a11ed7b4b5d8c7e59a3413bd4
  3 files changed, 71 insertions(+), 2 deletions(-)
 
 diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android/content/pm/PackageParser.java
-index f9f3ead23fb8..1da73e46f81d 100644
+index 30f873d70400..6dce09499d3b 100644
 --- a/core/java/android/content/pm/PackageParser.java
 +++ b/core/java/android/content/pm/PackageParser.java
-@@ -6348,6 +6348,38 @@ public class PackageParser {
+@@ -6101,6 +6101,38 @@ public class PackageParser {
              return false;
          }
  
@@ -68,10 +68,10 @@ index f9f3ead23fb8..1da73e46f81d 100644
          public boolean signaturesMatchExactly(SigningDetails other) {
              return Signature.areExactMatch(this.signatures, other.signatures);
 diff --git a/core/res/res/values/config.xml b/core/res/res/values/config.xml
-index a84d23b624bf..1ab293758ee7 100644
+index bd84a6d720bf..8101f1a79a2c 100644
 --- a/core/res/res/values/config.xml
 +++ b/core/res/res/values/config.xml
-@@ -1875,6 +1875,8 @@
+@@ -1716,6 +1716,8 @@
      <string-array name="config_locationProviderPackageNames" translatable="false">
          <!-- The standard AOSP fused location provider -->
          <item>com.android.location.fused</item>
@@ -81,10 +81,10 @@ index a84d23b624bf..1ab293758ee7 100644
  
      <!-- This string array can be overriden to enable test location providers initially. -->
 diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index 9483f266b1fa..a167afd52942 100644
+index 443d9a1a2f91..fd031468b5ff 100644
 --- a/services/core/java/com/android/server/pm/PackageManagerService.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerService.java
-@@ -4203,8 +4203,20 @@ public class PackageManagerService extends IPackageManager.Stub
+@@ -4063,8 +4063,20 @@ public class PackageManagerService extends IPackageManager.Stub
                  });
              }
  
@@ -107,7 +107,7 @@ index 9483f266b1fa..a167afd52942 100644
  
              if (packageInfo == null) {
                  return null;
-@@ -4240,6 +4252,29 @@ public class PackageManagerService extends IPackageManager.Stub
+@@ -4100,6 +4112,29 @@ public class PackageManagerService extends IPackageManager.Stub
          }
      }
  

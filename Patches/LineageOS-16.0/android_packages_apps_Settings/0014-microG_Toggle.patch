@@ -9,35 +9,32 @@ Change-Id: Ibea6ea9bed1c2ae3491f403d9e5c17c1d1c403f1
 Signed-off-by: Tad <tad@spotco.us>
 ---
  res/values/strings.xml                        |   3 +
- res/xml/security_dashboard_settings.xml       |   6 +
+ res/xml/security_dashboard_settings.xml       |   7 +-
  .../settings/security/SecuritySettings.java   |   1 +
  .../SigSpoofPreferenceController.java         | 106 ++++++++++++++++++
- 4 files changed, 116 insertions(+)
+ 4 files changed, 116 insertions(+), 1 deletion(-)
  create mode 100644 src/com/android/settings/security/SigSpoofPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 6e619cc2c4..15247c1c93 100644
+index 9f78d9b654..c5d856095e 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -756,6 +756,9 @@
-     <string name="hosts_disable_title">Disable DNS content blocker</string>
-     <string name="hosts_disable_summary">Disables use of the included /etc/hosts database for data collection and malware blocking.</string>
- 
+@@ -10124,4 +10124,7 @@
+     <string name="bluetooth_connect_access_dialog_negative">Don\u2019t connect</string>
+     <!-- Strings for Dialog connect button -->
+     <string name="bluetooth_connect_access_dialog_positive">Connect</string>
++
 +    <string name="sig_spoof_title">Unprivileged microG enablement</string>
 +    <string name="sig_spoof_summary">Allows official builds of microG apps to function. Not supported, not recommended. May break apps and/or degrade their security model. Notes: 1) microG connects directly to Google, 2) apps talking to microG do so using proprietary Google libraries, 3) microG can download/execute proprietary code from Google.</string>
-+
-     <!-- Text shown for the title of the lock when trust lost option [CHAR LIMIT=40] -->
-     <string name="trust_lost_locks_screen_title">Lock screen when trust is lost</string>
-     <!-- Text shown for the description of the lock when trust lost option [CHAR LIMIT=NONE -->
+ </resources>
 diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
-index db158b7243..604e8720e6 100644
+index 591d8a7c21..0a861e9b90 100644
 --- a/res/xml/security_dashboard_settings.xml
 +++ b/res/xml/security_dashboard_settings.xml
-@@ -86,6 +86,12 @@
-             android:title="@string/hosts_disable_title"
-             android:summary="@string/hosts_disable_summary"
-             android:persistent="false" />
-+
+@@ -56,6 +56,11 @@
+             android:summary="@string/summary_placeholder"
+             settings:keywords="@string/keywords_fingerprint_settings"/>
+ 
 +        <SwitchPreference
 +            android:key="sig_spoof"
 +            android:title="@string/sig_spoof_title"
@@ -45,15 +42,22 @@ index db158b7243..604e8720e6 100644
 +            android:persistent="false" />
      </PreferenceCategory>
  
-     <Preference
+     <!-- work profile security section -->
+@@ -165,4 +170,4 @@
+         android:summary="@string/summary_placeholder"
+         android:fragment="com.android.settings.security.ScreenPinningSettings" />
+ 
+-</PreferenceScreen>
+\ No newline at end of file
++</PreferenceScreen>
 diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
-index 643de279a4..0076663587 100644
+index 0839450a93..34d248ccdf 100644
 --- a/src/com/android/settings/security/SecuritySettings.java
 +++ b/src/com/android/settings/security/SecuritySettings.java
-@@ -109,6 +109,7 @@ public class SecuritySettings extends DashboardFragment {
-         securityPreferenceControllers.add(new ExecSpawnPreferenceController(context));
-         securityPreferenceControllers.add(new NativeDebugPreferenceController(context));
-         securityPreferenceControllers.add(new HostsPreferenceController(context));
+@@ -128,6 +128,7 @@ public class SecuritySettings extends DashboardFragment {
+         securityPreferenceControllers.add(new FingerprintStatusPreferenceController(context));
+         securityPreferenceControllers.add(new LockScreenPreferenceController(context, lifecycle));
+         securityPreferenceControllers.add(new ChangeScreenLockPreferenceController(context, host));
 +        securityPreferenceControllers.add(new SigSpoofPreferenceController(context));
          controllers.add(new PreferenceCategoryController(context, SECURITY_CATEGORY)
                  .setChildren(securityPreferenceControllers));

@@ -16,15 +16,15 @@ Signed-off-by: Tad <tad@spotco.us>
  create mode 100644 src/com/android/settings/security/SigSpoofPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index a5aab8e5d0..59c4e0aa57 100644
+index a5aab8e5d0..85985433c4 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -11330,6 +11330,9 @@
      <string name="hosts_disable_title">Disable DNS content blocker</string>
      <string name="hosts_disable_summary">Disables use of the included /etc/hosts database for data collection and malware blocking.</string>
  
-+    <string name="sig_spoof_title">microG enablement</string>
-+    <string name="sig_spoof_summary">Allows official builds of microG apps to spoof the Google signature. Not supported, not recommended. May break apps and/or degrade their security model. Notes: 1) microG connects directly to Google, 2) apps talking to microG do so using proprietary Google libraries, 3) microG can download/execute proprietary code from Google.</string>
++    <string name="sig_spoof_title">Unprivileged microG enablement</string>
++    <string name="sig_spoof_summary">Allows official builds of microG apps to function. Not supported, not recommended. May break apps and/or degrade their security model. Notes: 1) microG connects directly to Google, 2) apps talking to microG do so using proprietary Google libraries, 3) microG can download/execute proprietary code from Google.</string>
 +
      <!-- Title for the top level Privacy Settings [CHAR LIMIT=30]-->
      <string name="privacy_dashboard_title">Privacy</string>
