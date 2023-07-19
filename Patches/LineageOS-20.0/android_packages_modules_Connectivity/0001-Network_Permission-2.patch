@@ -30,7 +30,7 @@ index 24b3fed58..065f41fd8 100644
          // UID not in map. Default to just INTERNET permission.
          return 1;
 diff --git a/service/src/com/android/server/connectivity/PermissionMonitor.java b/service/src/com/android/server/connectivity/PermissionMonitor.java
-index 0e265f9ef..4509d9f3f 100755
+index 3bf7fdcb5..520dc9e51 100755
 --- a/service/src/com/android/server/connectivity/PermissionMonitor.java
 +++ b/service/src/com/android/server/connectivity/PermissionMonitor.java
 @@ -392,6 +392,11 @@ public class PermissionMonitor {
@@ -130,7 +130,7 @@ index 0e265f9ef..4509d9f3f 100755
  
          if (permission != currentPermission) {
              final SparseIntArray apps = new SparseIntArray();
-@@ -1097,14 +1111,17 @@ public class PermissionMonitor {
+@@ -1134,14 +1148,17 @@ public class PermissionMonitor {
       * @hide
       */
      @VisibleForTesting
@@ -150,7 +150,7 @@ index 0e265f9ef..4509d9f3f 100755
      }
  
      /**
-@@ -1116,7 +1133,7 @@ public class PermissionMonitor {
+@@ -1153,7 +1170,7 @@ public class PermissionMonitor {
       * @hide
       */
      @VisibleForTesting
@@ -159,7 +159,7 @@ index 0e265f9ef..4509d9f3f 100755
          final ArrayList<Integer> allPermissionAppIds = new ArrayList<>();
          final ArrayList<Integer> internetPermissionAppIds = new ArrayList<>();
          final ArrayList<Integer> updateStatsPermissionAppIds = new ArrayList<>();
-@@ -1150,29 +1167,41 @@ public class PermissionMonitor {
+@@ -1187,29 +1204,41 @@ public class PermissionMonitor {
              if (allPermissionAppIds.size() != 0) {
                  mBpfNetMaps.setNetPermForUids(
                          PERMISSION_INTERNET | PERMISSION_UPDATE_DEVICE_STATS,

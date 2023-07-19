@@ -8,7 +8,7 @@ Subject: [PATCH] skip reportNetworkConnectivity() when permission is revoked
  1 file changed, 7 insertions(+)
 
 diff --git a/framework/src/android/net/ConnectivityManager.java b/framework/src/android/net/ConnectivityManager.java
-index f741c2bb3..f5bac0613 100644
+index 0a05d4308..26c05c8ec 100644
 --- a/framework/src/android/net/ConnectivityManager.java
 +++ b/framework/src/android/net/ConnectivityManager.java
 @@ -41,6 +41,7 @@ import android.compat.annotation.UnsupportedAppUsage;
@@ -19,7 +19,7 @@ index f741c2bb3..f5bac0613 100644
  import android.net.ConnectivityDiagnosticsManager.DataStallReport.DetectionMethod;
  import android.net.IpSecManager.UdpEncapsulationSocket;
  import android.net.SocketKeepalive.Callback;
-@@ -3358,6 +3359,12 @@ public class ConnectivityManager {
+@@ -3406,6 +3407,12 @@ public class ConnectivityManager {
       */
      public void reportNetworkConnectivity(@Nullable Network network, boolean hasConnectivity) {
          printStackTrace();
