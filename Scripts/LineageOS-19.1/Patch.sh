@@ -446,6 +446,7 @@ awk -i inplace '!/_lookup/' overlay/common/lineage-sdk/packages/LineageSettingsP
 echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #Add deny usb service, all of our kernels have the necessary patch
 echo "PRODUCT_PACKAGES += eSpeakNG" >> packages.mk; #PicoTTS needs work to compile on 18.1, use eSpeak-NG instead
 sed -i 's/OpenCamera/SecureCamera/' packages.mk #Use the GrapheneOS camera app
+echo "PRODUCT_PACKAGES += SecureCamera" >> packages.mk;
 awk -i inplace '!/speed-profile/' build/target/product/lowram.mk; #breaks compile on some dexpreopt devices
 awk -i inplace '!/persist.traced.enable/' build/target/product/lowram.mk; #breaks compile due to duplicate
 sed -i 's/wifi,cell/internet/' overlay/common/frameworks/base/packages/SystemUI/res/values/config.xml; #Use the modern quick tile
