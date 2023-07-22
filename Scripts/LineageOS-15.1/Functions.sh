@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_asus_msm8916 kernel_google_dragon kernel_google_msm kernel_htc_flounder kernel_huawei_angler kernel_lge_bullhead kernel_lge_hammerhead kernel_moto_shamu kernel_nextbit_msm8992 kernel_zte_msm8996";
+	startPatcher "kernel_asus_fugu kernel_asus_msm8916 kernel_google_dragon kernel_htc_flounder kernel_huawei_angler kernel_lge_bullhead kernel_zte_msm8996";
 }
 export -f patchAllKernels;
 
@@ -52,17 +52,9 @@ buildAll() {
 	umask 0022;
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
-	#SDS4P
-	buildDevice deb;
-	buildDevice flo; #Last version without repartitioning required + 18.1 has random power off issue
-	#SD801
-	buildDevice hammerhead; #Last version with working Bluetooth
-	#SD805
-	buildDevice shamu verity; #Last version with working IMS
 	#SD808
 	buildDevice angler verity;
 	buildDevice bullhead verity;
-	buildDevice ether; #Last version with working IMS
 	#SD615
 	buildDevice Z00T;
 	#SD820

@@ -107,10 +107,6 @@
 	<project path="device/lge/h815" name="LineageOS/android_device_lge_h815" remote="github" />
 	<project path="kernel/lge/msm8992" name="LineageOS/android_kernel_lge_msm8992" remote="github" />
 
-	<!-- Moto X Pure Edition (clark) -->
-	<project path="device/motorola/clark" name="LineageOS/android_device_motorola_clark" remote="github" />
-	<project path="kernel/motorola/msm8992" name="LineageOS/android_kernel_motorola_msm8992" remote="github" />
-
 	<!-- Nexus 7 [2012] (grouper) -->
 	<project path="device/asus/grouper" name="LineageOS/android_device_asus_grouper" remote="github" revision="staging/cm-14.1" />
 	<project path="kernel/asus/grouper" name="LineageOS/android_kernel_asus_grouper" remote="github" revision="staging/cm-14.1" />
@@ -186,7 +182,6 @@
 	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" />
 	<project path="vendor/htc" name="[COLOUR IN THE LINES]/proprietary_vendor_htc" remote="github" />
 	<project path="vendor/lge" name="[COLOUR IN THE LINES]/proprietary_vendor_lge" remote="github" />
-	<project path="vendor/motorola" name="[COLOUR IN THE LINES]/proprietary_vendor_motorola" remote="github" />
 	<project path="vendor/samsung" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung" remote="github" />
 	<project path="vendor/ti" name="[COLOUR IN THE LINES]/proprietary_vendor_ti" remote="github" revision="master" />
 	<project path="vendor/amazon" name="[COLOUR IN THE LINES]/proprietary_vendor_amazon" remote="github" />

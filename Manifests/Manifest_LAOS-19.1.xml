@@ -116,10 +116,6 @@
 	<project path="device/xiaomi/apollon" name="LineageOS/android_device_xiaomi_apollon" remote="github" />
 	<!-- uses xiaomi sm8250 commons -->
 
-	<!-- Xiaomi POCO F3 / Redmi K40 / Mi 11X (alioth) -->
-	<project path="device/xiaomi/alioth" name="LineageOS/android_device_xiaomi_alioth" remote="github" />
-	<!-- uses xiaomi sm8250 commons -->
-
 	<!-- Xiaomi POCO X3 Pro (vayu) -->
 	<project path="device/xiaomi/vayu" name="LineageOS/android_device_xiaomi_vayu" remote="github" />
 	<project path="device/xiaomi/sm8150-common" name="LineageOS/android_device_xiaomi_sm8150-common" remote="github" />

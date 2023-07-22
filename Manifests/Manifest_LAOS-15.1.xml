@@ -98,24 +98,6 @@
 	<project path="device/google/dragon" name="LineageOS/android_device_google_dragon" remote="github" />
 	<project path="kernel/google/dragon" name="LineageOS/android_kernel_google_dragon" remote="github" />
 
-	<!-- Nextbit Robin (ether) -->
-	<project path="device/nextbit/ether" name="LineageOS/android_device_nextbit_ether" remote="github" />
-	<project path="kernel/nextbit/msm8992" name="LineageOS/android_kernel_nextbit_msm8992" remote="github" />
-
-	<!-- Nexus 7 [2013] (flo/deb) -->
-	<project path="device/asus/flo" name="LineageOS/android_device_asus_flo" remote="github" />
-	<project path="device/asus/deb" name="LineageOS/android_device_asus_deb" remote="github" />
-	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
-
-	<!-- Nexus 5 (hammerhead) -->
-	<project path="device/lge/common" name="LineageOS/android_device_lge_common" remote="github" />
-	<project path="device/lge/hammerhead" name="LineageOS/android_device_lge_hammerhead" remote="github" />
-	<project path="kernel/lge/hammerhead" name="LineageOS/android_kernel_lge_hammerhead" remote="github" />
-
-	<!-- Nexus 6 (shamu) -->
-	<project path="device/moto/shamu" name="LineageOS/android_device_moto_shamu" remote="github" />
-	<project path="kernel/moto/shamu" name="LineageOS/android_kernel_moto_shamu" remote="github" />
-
 	<!-- Nexus 9 (flounder/flounder_lte) -->
 	<project path="device/htc/flounder" name="LineageOS/android_device_htc_flounder" remote="github" />
 	<project path="device/htc/flounder_lte" name="LineageOS/android_device_htc_flounder_lte" remote="github" />
@@ -144,8 +126,6 @@
 	<project path="vendor/htc" name="[COLOUR IN THE LINES]/proprietary_vendor_htc" remote="github" />
 	<project path="vendor/huawei" name="[COLOUR IN THE LINES]/proprietary_vendor_huawei" remote="github" />
 	<project path="vendor/lge" name="[COLOUR IN THE LINES]/proprietary_vendor_lge" remote="github" />
-	<project path="vendor/motorola" name="[COLOUR IN THE LINES]/proprietary_vendor_motorola" remote="github" />
-	<project path="vendor/nextbit" name="[COLOUR IN THE LINES]/proprietary_vendor_nextbit" remote="github" />
 	<project path="vendor/zte" name="[COLOUR IN THE LINES]/proprietary_vendor_zte" remote="github" />
 
 </manifest>

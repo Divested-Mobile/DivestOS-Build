@@ -422,11 +422,6 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
-if enterAndClear "device/lge/hammerhead"; then
-git am $DOS_PATCHES/android_device_lge_hammerhead/*.patch; #hh-p-sepolicy
-echo "SELINUX_IGNORE_NEVERALLOWS := true" >> BoardConfig.mk; #qcom-legacy sepolicy
-fi;
-
 if enterAndClear "device/wileyfox/kipper"; then
 compressRamdisks;
 fi;
@@ -455,7 +450,6 @@ cd "$DOS_BUILD_BASE";
 #Tweaks for <2GB RAM devices
 #none yet
 #Tweaks for <3GB RAM devices
-#enableLowRam "device/lge/hammerhead" "hammerhead";
 #enableLowRam "device/samsung/kccat6" "kccat6";
 #Tweaks for <4GB RAM devices
 #enableLowRam "device/samsung/lentislte" "lentislte";

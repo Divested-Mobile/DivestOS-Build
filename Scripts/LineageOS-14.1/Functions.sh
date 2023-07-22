@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_amazon_hdx-common kernel_asus_grouper kernel_htc_msm8960 kernel_htc_msm8994 kernel_lge_msm8992 kernel_motorola_msm8992 kernel_samsung_d2 kernel_samsung_exynos5420 kernel_samsung_manta kernel_samsung_smdk4412 kernel_samsung_tuna kernel_samsung_universal8890";
+	startPatcher "kernel_amazon_hdx-common kernel_asus_grouper kernel_htc_msm8960 kernel_htc_msm8994 kernel_lge_msm8992 kernel_samsung_d2 kernel_samsung_exynos5420 kernel_samsung_manta kernel_samsung_smdk4412 kernel_samsung_tuna kernel_samsung_universal8890";
 }
 export -f patchAllKernels;
 
@@ -73,7 +73,6 @@ buildAll() {
 	buildDeviceUserDebug thor; #broken encryption
 	buildDeviceUserDebug apollo;
 	#SD808
-	buildDevice clark; #Last version with working IMS
 	buildDevice h811;
 	buildDevice h815;
 	#SD810

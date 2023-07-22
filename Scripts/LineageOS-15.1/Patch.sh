@@ -498,24 +498,7 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
-if enterAndClear "device/asus/deb"; then
-compressRamdisks;
-sed -i 's|vendor/cm|vendor/lineage|' lineage.mk;
-awk -i inplace '!/ioctl/' sepolicy/audioserver.te; #neverallow
-fi;
-
-if enterAndClear "device/asus/flo"; then
-compressRamdisks;
-echo "/dev/block/platform/msm_sdcc\.1/by-name/misc u:object_r:misc_block_device:s0" >> sepolicy/file_contexts;
-fi;
-
-if enterAndClear "device/asus/msm8916-common"; then
-rm -rf Android.bp sensors; #exact duplicate in asus/flo #XXX be careful with this
-fi;
-
-#if enterAndClear "device/moto/shamu"; then
-#git revert --no-edit 05fb49518049440f90423341ff25d4f75f10bc0c; #restore releasetools #TODO
-#fi;
+#none yet
 
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
@@ -539,22 +522,16 @@ removeUntrustedCerts || true;
 #Tweaks for <2GB RAM devices
 enableLowRam "device/asus/fugu";
 #Tweaks for <3GB RAM devices
-#enableLowRam "device/asus/deb";
-#enableLowRam "device/asus/flo";
 #enableLowRam "device/htc/flounder";
 #enableLowRam "device/htc/flounder_lte";
 #enableLowRam "device/lge/bullhead";
-#enableLowRam "device/lge/hammerhead";
 #Tweaks for 2GB/3GB RAM devices
 #enableLowRam "device/asus/Z00T";
 #Tweaks for <4GB RAM devices
 #enableLowRam "device/huawei/angler";
 #enableLowRam "device/google/dragon";
-#enableLowRam "device/moto/shamu";
-#enableLowRam "device/nextbit/ether";
 
 #Fix broken options enabled by hardenDefconfig()
-[[ -d kernel/google/msm ]] && sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/google/msm/arch/arm/configs/lineageos_*_defconfig; #Breaks on compile
 [[ -d kernel/zte/msm8996 ]] && sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/zte/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l* || true; #Fix builds with GCC 10

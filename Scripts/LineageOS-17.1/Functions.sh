@@ -63,7 +63,7 @@ buildAll() {
 	#SD810
 	buildDevice oneplus2;
 	#SD730
-	buildDevice davinci avb; #broken - missing deps
+	buildDevice davinci avb;
 	#SD660
 	buildDevice Amber verity;
 }

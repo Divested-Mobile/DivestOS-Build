@@ -655,6 +655,7 @@ enableLowRam "device/samsung/msm8974-common" "msm8974-common";
 [[ -d kernel/oneplus/msm8996 ]] && sed -i "s/CONFIG_STRICT_MEMORY_RWX=y/# CONFIG_STRICT_MEMORY_RWX is not set/" kernel/oneplus/msm8996/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l* || true; #Fix builds with GCC 10
+sed -i 's/^extern YYLTYPE yylloc;/YYLTYPE yylloc;/' kernel/oneplus/msm8996/scripts/dtc/dtc-lexer.l* || true; #Unbreak
 rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk || true;
 awk -i inplace '!/config_wifi_batched_scan_supported/' device/*/*/overlay/frameworks/opt/net/wifi/service/res/values/config.xml &>/dev/null || true; #deprecated
 awk -i inplace '!/config_wifi_batched_scan_supported/' device/*/*/overlay/frameworks/base/core/res/res/values/config.xml &>/dev/null || true; #deprecated

@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_asus_fugu kernel_asus_msm8953 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_google_yellowstone kernel_lge_hammerhead kernel_samsung_apq8084";
+	startPatcher "kernel_asus_fugu kernel_asus_msm8953 kernel_cyanogen_msm8916 kernel_cyanogen_msm8974 kernel_google_yellowstone kernel_samsung_apq8084";
 }
 export -f patchAllKernels;
 
@@ -52,8 +52,6 @@ buildAll() {
 	umask 0022;
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
-	#SD800
-	buildDevice hammerhead; #broken Bluetooth + maybe broken sepolicy
 	#SD801
 	buildDevice ham;
 	#SD805

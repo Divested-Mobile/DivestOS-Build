@@ -56,9 +56,9 @@ buildAll() {
 	buildDevice flox && rm device/asus/flox/sensors/Android.bp;
 	buildDevice mako;
 	#SD400
-	buildDevice serrano3gxx; #unb
-	buildDevice serranoltexx; #unb
-	buildDevice serranodsdd; #unb
+	buildDevice serrano3gxx;
+	buildDevice serranoltexx;
+	buildDevice serranodsdd;
 	#SD600
 	buildDevice jactivelte;
 	buildDevice jfltexx;
@@ -84,8 +84,8 @@ buildAll() {
 	buildDevice FP2;
 	buildDevice klte;
 	buildDevice hlte;
-	buildDevice m8; #unb
-	buildDevice m8d; #unb
+	buildDevice m8;
+	buildDevice m8d;
 	buildDevice victara;
 	#SD805
 	buildDevice shamu verity;
@@ -93,8 +93,8 @@ buildAll() {
 	buildDevice ether;
 	#SD820
 	buildDevice griffin;
-	buildDevice oneplus3 verity; #needs manual patching - broken yyloc
-	buildDevice z2_plus verity; #broken
+	buildDevice oneplus3 verity;
+	buildDevice z2_plus verity;
 	#SD821
 	buildDevice marlin verity;
 	buildDevice sailfish verity;
