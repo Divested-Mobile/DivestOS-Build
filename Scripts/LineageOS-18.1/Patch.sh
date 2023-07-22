@@ -491,6 +491,13 @@ echo "allow hwaddrs misc_block_device:blk_file { open read };" >> sepolicy/hwadd
 sed -i '1itypeattribute wcnss_service misc_block_device_exception;' sepolicy/wcnss_service.te;
 fi;
 
+if enterAndClear "device/lge/hammerhead"; then
+awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfig.mk; #broken releasetools
+awk -i inplace '!/PRODUCT_DISABLE_SCUDO/' device.mk; #don't disable scudo
+rm setup-makefiles.sh; #index is broken
+rm -rfv timekeep;
+fi;
+
 if enterAndClear "device/lge/mako"; then
 git revert --no-edit 4d779eb8e653640f192878f3f666cb54ea65bf47;
 applyPatch "$DOS_PATCHES/android_device_lge_mako/0001-LTE.patch"; #Enable LTE support #TODO: rebase (DivestOS)
@@ -596,6 +603,7 @@ enableLowRam "device/lge/d801" "d801";
 enableLowRam "device/lge/d802" "d802";
 enableLowRam "device/lge/d803" "d803";
 enableLowRam "device/lge/g2-common" "g2-common";
+enableLowRam "device/lge/hammerhead" "hammerhead";
 enableLowRam "device/lge/mako" "mako";
 enableLowRam "device/motorola/victara" "victara";
 enableLowRam "device/samsung/jf-common" "jf-common";
@@ -650,6 +658,9 @@ sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-l
 rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk || true;
 awk -i inplace '!/config_wifi_batched_scan_supported/' device/*/*/overlay/frameworks/opt/net/wifi/service/res/values/config.xml &>/dev/null || true; #deprecated
 awk -i inplace '!/config_wifi_batched_scan_supported/' device/*/*/overlay/frameworks/base/core/res/res/values/config.xml &>/dev/null || true; #deprecated
+awk -i inplace '!/UpdateSetting/' vendor/lge/hammerhead/hammerhead-vendor.mk || true;
+awk -i inplace '!/SprintHiddenMenu/' vendor/lge/hammerhead/hammerhead-vendor.mk || true;
+awk -i inplace '!/OmaDmclient/' vendor/lge/hammerhead/hammerhead-vendor.mk || true;
 #
 #END OF DEVICE CHANGES
 #

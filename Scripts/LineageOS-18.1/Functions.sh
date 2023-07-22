@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_msm8974 kernel_lge_g3 kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oppo_msm8974 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_xiaomi_sdm660 kernel_xiaomi_sdm845 kernel_zuk_msm8996";
+	startPatcher "kernel_fairphone_msm8974 kernel_google_marlin kernel_google_msm kernel_htc_msm8974 kernel_lge_g3 kernel_lge_hammerhead kernel_lge_mako kernel_lge_msm8974 kernel_moto_shamu kernel_motorola_msm8974 kernel_motorola_msm8996 kernel_nextbit_msm8992 kernel_oneplus_msm8996 kernel_oppo_msm8974 kernel_samsung_jf kernel_samsung_msm8930-common kernel_samsung_msm8974 kernel_xiaomi_sdm660 kernel_xiaomi_sdm845 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -67,6 +67,7 @@ buildAll() {
 	buildDevice jfltevzw;
 	buildDevice jfvelte;
 	#SD800
+	buildDevice hammerhead;
 	buildDevice d800;
 	buildDevice d801;
 	buildDevice d802;
@@ -114,10 +115,14 @@ patchWorkspaceReal() {
 	verifyAllPlatformTags;
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-	#source build/envsetup.sh;
+	source build/envsetup.sh;
 	#repopick -it eleven-firewall;
 	#repopick -i 314453; #TaskViewTouchController: Null check current animation on drag
 	#repopick -i 325011; #lineage: Opt-in to shipping full recovery image by default
+	repopick -fit msm8974-display-r;
+	repopick -fit msm8974-gps-r;
+	repopick -fit hh-vsync;
+	repopick -fi 311299;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

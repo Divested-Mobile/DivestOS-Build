@@ -49,7 +49,7 @@ echo "Deblobbing...";
 	blobs=$blobs"ifaadaemon|ifaadaemonProxy";
 	blobs=$blobs"|IFAAService.apk";
 	blobs=$blobs"|vendor.oneplus.hardware.ifaa.*";
-	makes=$makes"org.ifaa.android.manager";
+	makes=$makes"org.ifaa.android.manager|IFAAService";
 	manifests=$manifests"hardware.ifaa";
 
 	#Alipay (Payment Platform) [Alibaba]
@@ -75,6 +75,7 @@ echo "Deblobbing...";
 	if [ "$DOS_DEBLOBBER_REMOVE_APTX" = true ]; then
 		blobs=$blobs"|.*aptX.*|libbt-aptx.*.so";
 		blobs=$blobs"|aptxui.apk";
+		#makes=$makes"|aptxui";
 	fi;
 
 	#AT Command Handling/Forwarding (See: https://atcommands.org)
@@ -84,6 +85,7 @@ echo "Deblobbing...";
 		blobs=$blobs"|ATFWD-daemon|atfwd_daemon";
 		blobs=$blobs"|vendor.qti.atcmdfwd.*|vendor.qti.hardware.radio.atcmdfwd.*";
 		blobs=$blobs"|atfwd.apk";
+		#makes=$makes"|atfwd";
 		sepolicy=$sepolicy" atfwd.te";
 		manifests=$manifests"|AtCmdFwd";
 	fi;
@@ -122,7 +124,7 @@ echo "Deblobbing...";
 		manifests=$manifests"|com.quicinc.cne|iwlan";
 		blobs=$blobs"|QualifiedNetworksService.apk"; #Google
 		blobs=$blobs"|qualifiednetworksservice.xml";
-		makes=$makes"|Iwlan";
+		makes=$makes"|Iwlan|CNEService|CneApp|IWlanService";
 	fi;
 
 	#CPPF (DRM) [?]
@@ -175,6 +177,7 @@ echo "Deblobbing...";
 		sepolicy=$sepolicy" dpmd.te";
 		ipcSec=$ipcSec"|47:4294967295:1001:3004|48:4294967295:1000:3004";
 		manifests=$manifests"|dpmQmiService";
+		makes=$makes"|dpmserviceapp";
 	fi;
 
 	#DRM
@@ -206,6 +209,7 @@ echo "Deblobbing...";
 	blobs=$blobs"|embms.xml";
 	blobs=$blobs"|embmslibrary.jar";
 	manifests=$manifests"|embms";
+	#makes=$makes"|embms";
 
 	#External Accessories
 	if [ "$DOS_DEBLOBBER_REMOVE_ACCESSORIES" = true ]; then
@@ -480,7 +484,8 @@ echo "Deblobbing...";
 	blobs=$blobs"|libdme_main.so|libwbxmlparser.so|libprovlib.so";
 	blobs=$blobs"|dm_agent|dm_agent_binder";
 	blobs=$blobs"|npsmobex"; #Samsung?
-	blobs=$blobs"|ConnMO.apk|OmaDmclient.apk|USCCDM.apk|com.android.omadm.service.xml|com.android.omadm.radioconfig.xml|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMConfigUpdateLight.apk|DMService.apk|libdmengine.so|libdmjavaplugin.so|SprintDM.apk|SDM.apk|whitelist_com.android.omadm.service.xml|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml|com.google.omadm.trigger.xml|com.android.sdm.plugins.diagmon.xml|com.android.sdm.plugins.dcmo.xml|com.android.sdm.plugins.usccdm.xml"; #Sprint
+	blobs=$blobs"|ConnMO.apk|OmaDmclient.apk|SprintHiddenMenu.apk|UpdateSetting.apk|USCCDM.apk|com.android.omadm.service.xml|com.android.omadm.radioconfig.xml|DCMO.apk|DiagMon.apk|DMConfigUpdate.apk|DMConfigUpdateLight.apk|DMService.apk|libdmengine.so|libdmjavaplugin.so|SprintDM.apk|SDM.apk|whitelist_com.android.omadm.service.xml|com.android.sdm.plugins.connmo.xml|com.android.sdm.plugins.sprintdm.xml|com.google.omadm.trigger.xml|com.android.sdm.plugins.diagmon.xml|com.android.sdm.plugins.dcmo.xml|com.android.sdm.plugins.usccdm.xml"; #Sprint
+	makes=$makes"|OmaDmclient|SprintHiddenMenu|UpdateSetting|SecPhone|HiddenMenu"; #SDM
 
 	#OpenMobileAPI [SIM Alliance]
 	#https://github.com/seek-for-android/platform_packages_apps_SmartCardService
