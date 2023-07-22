@@ -463,6 +463,10 @@ echo "allow cameraserver sysfs_soc:dir r_dir_perms;" >> sepolicy/vendor/camerase
 echo "allow cameraserver sysfs_soc:file r_file_perms;" >> sepolicy/vendor/cameraserver.te;
 fi;
 
+if enterAndClear "device/asus/debx"; then
+compressRamdisks;
+fi;
+
 if enterAndClear "device/google/marlin"; then
 sed -i 's/BTLogSave \\/BTLogSave/' common/base.mk; #deblobber fixup
 fi;
@@ -593,6 +597,7 @@ enableLowRam "device/samsung/serranoltexx" "serranoltexx";
 enableLowRam "device/samsung/serranodsdd" "serranodsdd";
 #Tweaks for <3GB RAM devices
 enableLowRam "device/asus/flox" "flox";
+enableLowRam "device/asus/debx" "debx";
 enableLowRam "device/fairphone/FP2" "FP2";
 enableLowRam "device/htc/m8-common" "m8-common";
 enableLowRam "device/htc/m8" "m8";

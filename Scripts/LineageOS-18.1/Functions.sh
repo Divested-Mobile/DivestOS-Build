@@ -53,7 +53,8 @@ buildAll() {
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#SDS4P
-	buildDevice flox && rm device/asus/flox/sensors/Android.bp;
+	buildDevice flox;
+	buildDevice debx && rm device/asus/flox/sensors/Android.bp;
 	buildDevice mako;
 	#SD400
 	buildDevice serrano3gxx;
