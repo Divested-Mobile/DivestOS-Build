@@ -276,6 +276,10 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Dialer/0001-Not_Private_Banner.pa
 sed -i 's/>true/>false/' java/com/android/incallui/res/values/lineage_config.xml; #XXX: temporary workaround for black screen on incoming calls https://gitlab.com/LineageOS/issues/android/-/issues/4632
 fi;
 
+if enterAndClear "packages/apps/ImsServiceEntitlement"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_ImsServiceEntitlement/0001-delay-fcm.patch"; #Delay FCM registration until it's actually required (CalyxOS)
+fi;
+
 if enterAndClear "packages/apps/LineageParts"; then
 rm -rf src/org/lineageos/lineageparts/lineagestats/ res/xml/anonymous_stats.xml res/xml/preview_data.xml; #Nuke part of the analytics
 applyPatch "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytics.patch"; #Remove analytics (DivestOS)
