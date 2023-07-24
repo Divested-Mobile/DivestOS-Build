@@ -347,7 +347,6 @@ processRelease() {
 	"$RELEASETOOLS_PREFIX"ota_from_target_files $BLOCK_SWITCHES -k "$KEY_DIR/releasekey" \
 		"$OUT_DIR/$PREFIX-target_files.zip" \
 		"$OUT_DIR/$PREFIX-ota.zip";
-	md5sum "$OUT_DIR/$PREFIX-ota.zip" > "$OUT_DIR/$PREFIX-ota.zip.md5sum";
 	sha512sum "$OUT_DIR/$PREFIX-ota.zip" > "$OUT_DIR/$PREFIX-ota.zip.sha512sum";
 
 	#Deltas
@@ -380,9 +379,9 @@ processRelease() {
 	fi;
 
 	#File name fixes
-	sed -i "s|$OUT_DIR/||" $OUT_DIR/*.md5sum $OUT_DIR/*.sha512sum;
-	sed -i 's/-ota\././' $OUT_DIR/*.md5sum $OUT_DIR/*.sha512sum;
-	sed -i 's/-incremental_/-/' $OUT_DIR/*.md5sum $OUT_DIR/*.sha512sum;
+	sed -i "s|$OUT_DIR/||" $OUT_DIR/*.sha512sum;
+	sed -i 's/-ota\././' $OUT_DIR/*.sha512sum;
+	sed -i 's/-incremental_/-/' $OUT_DIR/*.sha512sum;
 
 	#GPG signing
 	if [ "$DOS_GPG_SIGNING" = true ]; then
@@ -614,8 +613,6 @@ export -f hardenLocationFWB;
 
 hardenUserdata() {
 	cd "$DOS_BUILD_BASE/$1";
-
-	#awk -i inplace '!/f2fs/' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 
 	#Remove latemount to allow selinux contexts be restored upon /cache wipe
 	#Fixes broken OTA updater and broken /recovery updater

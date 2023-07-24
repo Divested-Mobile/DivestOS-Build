@@ -37,8 +37,8 @@ if enter "kernel"; then
 sed -i "s/#define VM_MAX_READAHEAD\t128/#define VM_MAX_READAHEAD\t512/" ./*/*/include/linux/mm.h &>/dev/null || true; #Lee Susman <lsusman@codeaurora.org>: Change the VM_MAX_READAHEAD value from the default 128KB to 512KB. This will allow the readahead window to grow to a maximum size of 512KB, which greatly benefits to sequential read throughput.
 fi;
 
+if enter "device"; then
 echo "Starting zram tweaks";
-cd "$DOS_BUILD_BASE/device";
 #Note: 14.1 uses zramstreams instead of max_comp_streams
 #1GB (768MB)
 sed -i 's/zramsize=.*/zramsize=75%,max_comp_streams=4/' asus/fugu/fstab.fugu &>/dev/null || true;
@@ -67,6 +67,7 @@ sed -i 's/zramsize=.*/zramsize=50%,max_comp_streams=8/' sony/tama-common/rootdir
 #4GB+ (2GB+)
 sed -i 's/zramsize=.*/zramsize=50%,max_comp_streams=8/' google/redbull/fstab.hardware google/sunfish/fstab.hardware oneplus/msm8998-common/rootdir/etc/fstab.qcom oneplus/sdm845-common/rootdir/etc/fstab.qcom xiaomi/sm6150-common/rootdir/etc/fstab*.qcom &>/dev/null || true;
 echo "Finished zram tweaks";
+fi;
 
 cd "$DOS_BUILD_BASE";
 echo -e "\e[0;32m[SCRIPT COMPLETE] Optimizing complete\e[0m";

@@ -43,7 +43,7 @@ fi;
 
 if enter "packages/apps/Dialer"; then
 #14.1
-sed -i 's/ENABLE_FORWARD_LOOKUP, 1)/ENABLE_FORWARD_LOOKUP, 0)/' src/com/android/dialer//LookupSettings*.java &>/dev/null || true; #Disable FLP
+sed -i 's/ENABLE_FORWARD_LOOKUP, 1)/ENABLE_FORWARD_LOOKUP, 0)/' src/com/android/dialer/*/LookupSettings*.java &>/dev/null || true; #Disable FLP
 sed -i 's/ENABLE_PEOPLE_LOOKUP, 1)/ENABLE_PEOPLE_LOOKUP, 0)/' src/com/android/dialer/*/LookupSettings*.java &>/dev/null || true; #Disable PLP
 sed -i 's/ENABLE_REVERSE_LOOKUP, 1)/ENABLE_REVERSE_LOOKUP, 0)/' src/com/android/dialer/*/LookupSettings*.java &>/dev/null || true; #Disable RLP
 #15.1+16.0+17.1

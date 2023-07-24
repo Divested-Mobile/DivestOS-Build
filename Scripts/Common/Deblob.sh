@@ -294,9 +294,7 @@ echo "Deblobbing...";
 	fi;
 
 	#Google Camera
-	if [ "$DOS_DEBLOBBER_REMOVE_CAMEXT" = true ]; then
-		blobs=$blobs"|com.google.android.camera.*|PixelCameraServices.*.apk";
-	fi;
+	blobs=$blobs"|com.google.android.camera.*|PixelCameraServices.*.apk";
 
 	#Google NFC
 	blobs=$blobs"|PixelNfc.apk";
@@ -716,7 +714,7 @@ deblobDevice() {
 		fi;
 	fi;
 
-	awk -i inplace '!/loc.nlp_name/' *.prop *.mk &>/dev/null || true; #Disable QC Location Provider
+	sed -i '/loc.nlp_name/d' *.prop *.mk &>/dev/null || true; #Disable QC Location Provider
 	sed -i 's/drm.service.enabled=true/drm.service.enabled=false/' *.prop *.mk &>/dev/null || true;
 	if [ "$DOS_DEBLOBBER_REMOVE_APTX" = true ]; then sed -i 's/bt.enableAptXHD=true/bt.enableAptXHD=false/' *.prop *.mk &>/dev/null || true; fi; #Disable aptX
 	if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i 's/cne.feature=./cne.feature=0/' *.prop *.mk &>/dev/null || true; fi; #Disable CNE
@@ -729,7 +727,7 @@ deblobDevice() {
 	sed -i 's/bluetooth.emb_wp_mode=true/bluetooth.emb_wp_mode=false/' *.prop *.mk &>/dev/null || true; #Disable WiPower
 	sed -i 's/bluetooth.wipower=true/bluetooth.wipower=false/' *.prop *.mk &>/dev/null || true; #Disable WiPower
 	sed -i 's/wfd.enable=1/wfd.enable=0/' *.prop *.mk &>/dev/null || true; #Disable Wi-Fi display
-	if [ "$DOS_DEBLOBBER_REMOVE_CAMEXT" = true ]; then awk -i inplace '!/vendor.camera.extensions/' *.prop *.mk &>/dev/null || true; fi; #Disable camera extensions
+	sed -i '/vendor.camera.extensions/d' *.prop *.mk &>/dev/null || true; fi; #Disable camera extensions
 	if [ -f system.prop ]; then
 		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
 		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then

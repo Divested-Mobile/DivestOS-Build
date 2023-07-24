@@ -255,6 +255,8 @@
         <!-- Printing -->
         <item>com.android.bips</item>
         <item>com.android.printspooler</item>
+        <!-- MediaTek ImsService -->
+        <item>com.mediatek.ims</item>
     </string-array>
 
     <!-- If true, the display will be shifted around. -->
