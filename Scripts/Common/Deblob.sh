@@ -904,6 +904,7 @@ fi;
 deblobVendors; #Deblob entire vendor directory
 rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove ClearKey
 #rm -rf frameworks/av/drm/mediacas/plugins/clearkey; #XXX: breaks protobuf inclusion
+rm -rf packages/apps/Car/DebuggingRestrictionController || true; #Remove package that depends on Play Services
 [[ -d vendor/samsung/nodevice ]] && rm -rf vendor/samsung/nodevice;
 #
 #END OF DEBLOBBING
