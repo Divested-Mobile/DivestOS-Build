@@ -1,5 +1,6 @@
 #!/bin/bash
 if cd "$DOS_BUILD_BASE""kernel/xiaomi/sm8250"; then
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0288-0289.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-Graphene-Deny_USB/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.19/0003.patch
@@ -81,6 +82,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2007/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2269/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3090/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3141/4.19/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3611/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31084/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32233/4.19/0002.patch
@@ -89,7 +91,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35788/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35823/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35824/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35828/4.19/0002.patch
-editKernelLocalversion "-dos.p89"
+editKernelLocalversion "-dos.p91"
 else echo "kernel_xiaomi_sm8250 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

@@ -549,6 +549,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3161/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3220/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3358/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3567/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3611/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-21656/4.19/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-22386/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-22387/ANY/0003.patch
@@ -577,7 +578,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3428/4.19/0011.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3444/^5.11/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-22095/ANY/0001.patch
-editKernelLocalversion "-dos.p577"
+editKernelLocalversion "-dos.p578"
 else echo "kernel_xiaomi_sm8250 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
