@@ -8,10 +8,10 @@ Subject: [PATCH] add a property for controlling ptrace_scope
  1 file changed, 6 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 4a8a60a96..e0bead37b 100644
+index eca5a9f9c..50576e056 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -724,6 +724,12 @@ on property:sys.sysctl.extra_free_kbytes=*
+@@ -737,6 +737,12 @@ on property:sys.sysctl.extra_free_kbytes=*
  on property:sys.sysctl.tcp_def_init_rwnd=*
      write /proc/sys/net/ipv4/tcp_default_init_rwnd ${sys.sysctl.tcp_def_init_rwnd}
  

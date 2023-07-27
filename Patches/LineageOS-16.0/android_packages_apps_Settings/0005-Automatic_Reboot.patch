@@ -1,0 +1,193 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: pratyush <codelab@pratyush.dev>
+Date: Mon, 7 Jun 2021 22:15:59 +0100
+Subject: [PATCH] add auto-reboot setting
+
+---
+ res/values/arrays.xml                         | 31 +++++++
+ res/values/strings.xml                        |  3 +
+ res/xml/security_dashboard_settings.xml       |  9 +-
+ .../AutoRebootPreferenceController.java       | 82 +++++++++++++++++++
+ .../settings/security/SecuritySettings.java   |  1 +
+ 5 files changed, 125 insertions(+), 1 deletion(-)
+ create mode 100644 src/com/android/settings/security/AutoRebootPreferenceController.java
+
+diff --git a/res/values/arrays.xml b/res/values/arrays.xml
+index be7a0ca50b..be42e5a339 100644
+--- a/res/values/arrays.xml
++++ b/res/values/arrays.xml
+@@ -136,6 +136,37 @@
+         <item>1800000</item>
+     </string-array>
+ 
++    <!-- Auto reboot settings -->
++    <string-array name="auto_reboot_entries">
++        <item>Off</item>
++        <item>10 minutes</item>
++        <item>30 minutes</item>
++        <item>1 hour</item>
++        <item>2 hours</item>
++        <item>4 hours</item>
++        <item>8 hours</item>
++        <item>12 hours</item>
++        <item>24 hours</item>
++        <item>36 hours</item>
++        <item>48 hours</item>
++        <item>72 hours</item>
++    </string-array>
++
++    <string-array name="auto_reboot_values" translatable="false">
++        <item>0</item>  <!-- Disabled -->
++        <item>600000</item>
++        <item>1800000</item>
++        <item>3600000</item>
++        <item>7200000</item>
++        <item>14400000</item>
++        <item>28800000</item>
++        <item>43200000</item>
++        <item>86400000</item>
++        <item>129600000</item>
++        <item>172800000</item>
++        <item>259200000</item>
++    </string-array>
++
+     <string-array name="entries_font_size">
+         <item msgid="6490061470416867723">Small</item>
+         <item msgid="3579015730662088893">Default</item>
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 9f78d9b654..705d08dae1 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -10124,4 +10124,7 @@
+     <string name="bluetooth_connect_access_dialog_negative">Don\u2019t connect</string>
+     <!-- Strings for Dialog connect button -->
+     <string name="bluetooth_connect_access_dialog_positive">Connect</string>
++
++    <string name="auto_reboot_title">Auto reboot</string>
++    <string name="auto_reboot_summary">Automatically reboot the device, if the phone hasn\'t been unlocked within the selected number of hours.</string>
+ </resources>
+diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
+index 591d8a7c21..5d13c434d4 100644
+--- a/res/xml/security_dashboard_settings.xml
++++ b/res/xml/security_dashboard_settings.xml
+@@ -56,6 +56,13 @@
+             android:summary="@string/summary_placeholder"
+             settings:keywords="@string/keywords_fingerprint_settings"/>
+ 
++        <ListPreference
++            android:key="auto_reboot"
++            android:title="@string/auto_reboot_title"
++            android:summary="@string/auto_reboot_summary"
++            android:persistent="false"
++            android:entries="@array/auto_reboot_entries"
++            android:entryValues="@array/auto_reboot_values" />
+     </PreferenceCategory>
+ 
+     <!-- work profile security section -->
+@@ -165,4 +172,4 @@
+         android:summary="@string/summary_placeholder"
+         android:fragment="com.android.settings.security.ScreenPinningSettings" />
+ 
+-</PreferenceScreen>
+\ No newline at end of file
++</PreferenceScreen>
+diff --git a/src/com/android/settings/security/AutoRebootPreferenceController.java b/src/com/android/settings/security/AutoRebootPreferenceController.java
+new file mode 100644
+index 0000000000..c7a75219a5
+--- /dev/null
++++ b/src/com/android/settings/security/AutoRebootPreferenceController.java
+@@ -0,0 +1,82 @@
++package com.android.settings.security;
++
++import android.content.Context;
++import android.os.UserManager;
++import android.provider.Settings;
++import android.util.Log;
++
++import androidx.preference.ListPreference;
++import androidx.preference.Preference;
++import androidx.preference.PreferenceCategory;
++import androidx.preference.PreferenceScreen;
++
++import com.android.settings.core.PreferenceControllerMixin;
++import com.android.settingslib.core.AbstractPreferenceController;
++import com.android.settingslib.core.lifecycle.events.OnResume;
++
++public class AutoRebootPreferenceController extends AbstractPreferenceController
++    implements PreferenceControllerMixin, OnResume,
++           Preference.OnPreferenceChangeListener {
++
++    private static final String KEY_AUTO_REBOOT = "auto_reboot";
++    private static final String PREF_KEY_SECURITY_CATEGORY = "security_category";
++
++    private PreferenceCategory mSecurityCategory;
++    private boolean mIsAdmin;
++    private final UserManager mUm;
++
++    public AutoRebootPreferenceController(Context context) {
++        super(context);
++        mUm = UserManager.get(context);
++    }
++
++    @Override
++    public void displayPreference(PreferenceScreen screen) {
++        super.displayPreference(screen);
++        mSecurityCategory = screen.findPreference(PREF_KEY_SECURITY_CATEGORY);
++        updatePreferenceState();
++    }
++
++    @Override
++    public boolean isAvailable() {
++        mIsAdmin = mUm.isAdminUser();
++        return mIsAdmin;
++    }
++
++    @Override
++    public String getPreferenceKey() {
++        return KEY_AUTO_REBOOT;
++    }
++
++    // TODO: should we use onCreatePreferences() instead?
++    private void updatePreferenceState() {
++        if (mSecurityCategory == null) {
++            return;
++        }
++
++        if (mIsAdmin) {
++            ListPreference autoReboot =
++                    (ListPreference) mSecurityCategory.findPreference(KEY_AUTO_REBOOT);
++            autoReboot.setValue(Long.toString(Settings.Global.getLong(
++                    mContext.getContentResolver(), Settings.Global.SETTINGS_REBOOT_AFTER_TIMEOUT, 0)));
++        } else {
++            mSecurityCategory.removePreference(
++                    mSecurityCategory.findPreference(KEY_AUTO_REBOOT));
++        }
++    }
++
++    @Override
++    public void onResume() {
++        updatePreferenceState();
++    }
++
++    @Override
++    public boolean onPreferenceChange(Preference preference, Object value) {
++        final String key = preference.getKey();
++        if (KEY_AUTO_REBOOT.equals(key) && mIsAdmin) {
++            long timeout = Long.parseLong((String) value);
++            Settings.Global.putLong(mContext.getContentResolver(), Settings.Global.SETTINGS_REBOOT_AFTER_TIMEOUT, timeout);
++        }
++        return true;
++    }
++}
+diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
+index 0839450a93..defbdc2e68 100644
+--- a/src/com/android/settings/security/SecuritySettings.java
++++ b/src/com/android/settings/security/SecuritySettings.java
+@@ -128,6 +128,7 @@ public class SecuritySettings extends DashboardFragment {
+         securityPreferenceControllers.add(new FingerprintStatusPreferenceController(context));
+         securityPreferenceControllers.add(new LockScreenPreferenceController(context, lifecycle));
+         securityPreferenceControllers.add(new ChangeScreenLockPreferenceController(context, host));
++        securityPreferenceControllers.add(new AutoRebootPreferenceController(context));
+         controllers.add(new PreferenceCategoryController(context, SECURITY_CATEGORY)
+                 .setChildren(securityPreferenceControllers));
+         controllers.addAll(securityPreferenceControllers);

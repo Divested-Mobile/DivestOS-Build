@@ -1,0 +1,166 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Sat, 26 Mar 2022 20:35:37 -0400
+Subject: [PATCH] add exec spawning toggle
+
+---
+ res/values/strings.xml                        |   3 +
+ res/xml/security_dashboard_settings.xml       |   6 +
+ .../ExecSpawnPreferenceController.java        | 106 ++++++++++++++++++
+ .../settings/security/SecuritySettings.java   |   1 +
+ 4 files changed, 116 insertions(+)
+ create mode 100644 src/com/android/settings/security/ExecSpawnPreferenceController.java
+
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 05a253e170..d87bce5878 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -10149,4 +10149,7 @@
+ 
+     <string name="native_debug_title">Enable native code debugging</string>
+     <string name="native_debug_summary">Generate useful logs / bug reports from crashes and permit debugging native code.</string>
++
++    <string name="exec_spawn_title">Enable secure app spawning</string>
++    <string name="exec_spawn_summary">Launch apps in a more secure way than Android which takes slightly longer and increases memory usage by app processes.</string>
+ </resources>
+diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
+index 0e8f0f511a..dc0ead6148 100644
+--- a/res/xml/security_dashboard_settings.xml
++++ b/res/xml/security_dashboard_settings.xml
+@@ -64,6 +64,12 @@
+             android:entries="@array/auto_reboot_entries"
+             android:entryValues="@array/auto_reboot_values" />
+ 
++        <SwitchPreference
++            android:key="exec_spawn"
++            android:title="@string/exec_spawn_title"
++            android:summary="@string/exec_spawn_summary"
++            android:persistent="false" />
++
+         <SwitchPreference
+             android:key="native_debug"
+             android:title="@string/native_debug_title"
+diff --git a/src/com/android/settings/security/ExecSpawnPreferenceController.java b/src/com/android/settings/security/ExecSpawnPreferenceController.java
+new file mode 100644
+index 0000000000..98cc3c29e1
+--- /dev/null
++++ b/src/com/android/settings/security/ExecSpawnPreferenceController.java
+@@ -0,0 +1,106 @@
++/*
++ * Copyright (C) 2022 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License
++ */
++
++package com.android.settings.security;
++
++import android.content.Context;
++
++import android.os.UserHandle;
++import android.os.UserManager;
++import android.os.SystemProperties;
++
++import android.provider.Settings;
++
++import androidx.preference.Preference;
++import androidx.preference.PreferenceCategory;
++import androidx.preference.PreferenceGroup;
++import androidx.preference.PreferenceScreen;
++import androidx.preference.TwoStatePreference;
++import androidx.preference.SwitchPreference;
++
++import com.android.internal.widget.LockPatternUtils;
++import com.android.settings.core.PreferenceControllerMixin;
++import com.android.settingslib.core.AbstractPreferenceController;
++import com.android.settingslib.core.lifecycle.events.OnResume;
++
++public class ExecSpawnPreferenceController extends AbstractPreferenceController
++        implements PreferenceControllerMixin, OnResume, Preference.OnPreferenceChangeListener {
++
++    private static final String SYS_KEY_EXEC_SPAWN = "persist.security.exec_spawn_new";
++    private static final String PREF_KEY_EXEC_SPAWN = "exec_spawn";
++    private static final String PREF_KEY_SECURITY_CATEGORY = "security_category";
++
++    private PreferenceCategory mSecurityCategory;
++    private SwitchPreference mExecSpawn;
++    private boolean mIsAdmin;
++    private UserManager mUm;
++
++    public ExecSpawnPreferenceController(Context context) {
++        super(context);
++        mUm = UserManager.get(context);
++    }
++
++    @Override
++    public void displayPreference(PreferenceScreen screen) {
++        super.displayPreference(screen);
++        mSecurityCategory = screen.findPreference(PREF_KEY_SECURITY_CATEGORY);
++        updatePreferenceState();
++    }
++
++    @Override
++    public boolean isAvailable() {
++        mIsAdmin = mUm.isAdminUser();
++        return mIsAdmin;
++    }
++
++    @Override
++    public String getPreferenceKey() {
++        return PREF_KEY_EXEC_SPAWN;
++    }
++
++    // TODO: should we use onCreatePreferences() instead?
++    private void updatePreferenceState() {
++        if (mSecurityCategory == null) {
++            return;
++        }
++
++        if (mIsAdmin) {
++            mExecSpawn = (SwitchPreference) mSecurityCategory.findPreference(PREF_KEY_EXEC_SPAWN);
++            mExecSpawn.setChecked(SystemProperties.getBoolean(SYS_KEY_EXEC_SPAWN, false));
++        } else {
++            mSecurityCategory.removePreference(mSecurityCategory.findPreference(PREF_KEY_EXEC_SPAWN));
++        }
++    }
++
++    @Override
++    public void onResume() {
++        updatePreferenceState();
++        if (mExecSpawn != null) {
++                boolean mode = mExecSpawn.isChecked();
++                SystemProperties.set(SYS_KEY_EXEC_SPAWN, Boolean.toString(mode));
++        }
++    }
++
++    @Override
++    public boolean onPreferenceChange(Preference preference, Object value) {
++        final String key = preference.getKey();
++        if (PREF_KEY_EXEC_SPAWN.equals(key)) {
++            final boolean mode = !mExecSpawn.isChecked();
++            SystemProperties.set(SYS_KEY_EXEC_SPAWN, Boolean.toString(mode));
++        }
++        return true;
++    }
++}
+diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
+index 89f5176121..b358dcb69e 100644
+--- a/src/com/android/settings/security/SecuritySettings.java
++++ b/src/com/android/settings/security/SecuritySettings.java
+@@ -129,6 +129,7 @@ public class SecuritySettings extends DashboardFragment {
+         securityPreferenceControllers.add(new LockScreenPreferenceController(context, lifecycle));
+         securityPreferenceControllers.add(new ChangeScreenLockPreferenceController(context, host));
+         securityPreferenceControllers.add(new AutoRebootPreferenceController(context));
++        securityPreferenceControllers.add(new ExecSpawnPreferenceController(context));
+         securityPreferenceControllers.add(new NativeDebugPreferenceController(context));
+         controllers.add(new PreferenceCategoryController(context, SECURITY_CATEGORY)
+                 .setChildren(securityPreferenceControllers));
