@@ -286,10 +286,12 @@ echo "Deblobbing...";
 
 	#eUICC (Virtual SIM) [Google]
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ] || [ "$DOS_DEBLOBBER_REMOVE_EUICC" = true ]; then
-		blobs=$blobs"|EuiccGoogle.apk|EuiccSupportPixel.apk|EuiccSupportPixelPermissions.apk|EuiccGoogleOverlay.apk"; #EUICC is useless without GMS
-		blobs=$blobs"|esim0.img|esim-v1.img|esim-full-v0.img|esim-a1.img|esim-a2.img";
-		blobs=$blobs"|com.google.euiccpixel.xml|com.google.euiccpixel.permissions.xml";
-		makes=$makes"|android.hardware.telephony.euicc.*|GoogleParts";
+		blobs=$blobs"|EuiccGoogle.apk|EuiccGoogleOverlay.apk"; #Google LPAD
+		blobs=$blobs"|EuiccSupportPixel.apk|EuiccSupportPixelPermissions.apk"; #Hardware support
+		blobs=$blobs"|esim0.img|esim-v1.img|esim-full-v0.img|esim-a1.img|esim-a2.img"; #Firmware
+		blobs=$blobs"|com.google.euiccpixel.xml|com.google.euiccpixel.permissions.xml"; #Permissions
+		makes=$makes"|android.hardware.telephony.euicc.*"; #Manifests
+		makes=$makes"|GoogleParts"; #Disables apps if GMS is not available
 		#overlay=$overlay"|config_telephonyEuiccDeviceCapabilities"; #TODO handle multiple lines
 	fi;
 
@@ -904,7 +906,7 @@ fi;
 deblobVendors; #Deblob entire vendor directory
 rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove ClearKey
 #rm -rf frameworks/av/drm/mediacas/plugins/clearkey; #XXX: breaks protobuf inclusion
-rm -rf packages/apps/Car/DebuggingRestrictionController || true; #Remove package that depends on Play Services
+#rm -rf packages/apps/Car/DebuggingRestrictionController || true; #Remove package that depends on Play Services #XXX: breaks compile
 [[ -d vendor/samsung/nodevice ]] && rm -rf vendor/samsung/nodevice;
 #
 #END OF DEBLOBBING
