@@ -1,0 +1,54 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Oliver Scott <olivercscott@gmail.com>
+Date: Wed, 17 May 2023 15:42:52 -0400
+Subject: [PATCH] Filter select package queries for GMS
+
+Bit of a hack to pretend that microG is not available,
+to make apps work
+
+[tad@spotco.us]: adjusted package list
+Change-Id: Ic5ddb78b1014ce567d1a5c57fc79f79edd1154c0
+
+Change-Id: I7969470baa125eef349e82808b0d6e643e344c8b
+---
+ .../java/com/android/server/pm/AppsFilterBase.java  | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/services/core/java/com/android/server/pm/AppsFilterBase.java b/services/core/java/com/android/server/pm/AppsFilterBase.java
+index 01252c48081e..07746236320e 100644
+--- a/services/core/java/com/android/server/pm/AppsFilterBase.java
++++ b/services/core/java/com/android/server/pm/AppsFilterBase.java
+@@ -37,6 +37,7 @@ import android.util.Slog;
+ import android.util.SparseArray;
+ 
+ import com.android.internal.annotations.VisibleForTesting;
++import com.android.internal.util.ArrayUtils;
+ import com.android.internal.util.function.QuadFunction;
+ import com.android.server.om.OverlayReferenceMapper;
+ import com.android.server.pm.parsing.pkg.AndroidPackage;
+@@ -64,6 +65,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
+ public abstract class AppsFilterBase implements AppsFilterSnapshot {
+     protected static final String TAG = "AppsFilter";
+ 
++    private static final String GMS = "com.google.android.gms";
++    private static final String[] GMS_HIDDEN_PACKAGES = { "com.google.euiccpixel" };
++
+     // Logs all filtering instead of enforcing
+     protected static final boolean DEBUG_ALLOW_ALL = false;
+     protected static final boolean DEBUG_LOGGING = false;
+@@ -496,6 +500,15 @@ public abstract class AppsFilterBase implements AppsFilterSnapshot {
+                     if (DEBUG_LOGGING) {
+                         log(callingSetting, targetPkgSetting, "force queryable");
+                     }
++                    if (GMS.equals(targetPkgSetting.getPackageName())
++                            && callingPkgSetting != null) {
++                        // HACK: Hide GMS from these packages
++                        // Breaks login but makes them work
++                        if (ArrayUtils.contains(GMS_HIDDEN_PACKAGES,
++                                callingPkgSetting.getPackageName())) {
++                            return true;
++                        }
++                    }
+                     return false;
+                 }
+             } finally {

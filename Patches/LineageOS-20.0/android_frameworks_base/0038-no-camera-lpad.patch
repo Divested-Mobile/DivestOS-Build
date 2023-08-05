@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Sun, 19 Mar 2023 17:57:26 +0200
+Subject: [PATCH] do not auto-grant Camera permission to the eUICC LPA UI app
+
+Google's LPA that is shipped on GrapheneOS handles requesting the Camera permission at runtime,
+which allows the user to give it a one-time grant.
+---
+ .../server/pm/permission/DefaultPermissionGrantPolicy.java      | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java b/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java
+index 0443d19ba1d4..39608dcc9ccb 100644
+--- a/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java
++++ b/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java
+@@ -1060,8 +1060,6 @@ final class DefaultPermissionGrantPolicy {
+ 
+     public void grantDefaultPermissionsToActiveLuiApp(String packageName, int userId) {
+         Log.i(TAG, "Granting permissions to active LUI app for user:" + userId);
+-        grantSystemFixedPermissionsToSystemPackage(NO_PM_CACHE, packageName, userId,
+-                CAMERA_PERMISSIONS);
+     }
+ 
+     public void revokeDefaultPermissionsFromLuiApps(String[] packageNames, int userId) {
