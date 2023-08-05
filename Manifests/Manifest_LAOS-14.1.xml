@@ -126,11 +126,11 @@
 
 	<!-- Samsung Galaxy Nexus (maguro/toro/toroplus) -->
 	<project path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.7" name="platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7" remote="aosp" revision="refs/tags/android-4.4.4_r2" />
-	<project path="device/samsung/maguro" name="Galaxy-Nexus/android_device_samsung_maguro" remote="github" />
+	<project path="device/samsung/maguro" name="Galaxy-Nexus/android_device_samsung_maguro" remote="github" revision="5fbd6c43e66edf954cc019f996157a88662ca39c" />
 	<project path="device/samsung/toro" name="LineageOS/android_device_samsung_toro" remote="github" revision="cm-13.0" />
 	<project path="device/samsung/toroplus" name="LineageOS/android_device_samsung_toroplus" remote="github" revision="cm-13.0" />
-	<project path="device/samsung/tuna" name="Galaxy-Nexus/android_device_samsung_tuna" remote="github" />
-	<project path="kernel/samsung/tuna" name="Galaxy-Nexus/android_kernel_samsung_tuna" remote="github" />
+	<project path="device/samsung/tuna" name="Galaxy-Nexus/android_device_samsung_tuna" remote="github" revision="fcd0a8e4d9704286c6c23a8a7e91b69fe98ec1ba" />
+	<project path="kernel/samsung/tuna" name="Galaxy-Nexus/android_kernel_samsung_tuna" remote="github" revision="b7e3152f477ff3dc97bf803fb6cc8bc437971cd9" />
 
 	<!-- Samsung Galaxy Note 8.0 Wi-Fi (n5100/n5110/n5120) -->
 	<project path="device/samsung/kona-common" name="LineageOS/android_device_samsung_kona-common" remote="github" />
@@ -178,12 +178,12 @@
 <!-- END OF DEVICE REPOS -->
 
         <!-- Proprietary Blobs -->
-	<project path="vendor/asus" name="[COLOUR IN THE LINES]/proprietary_vendor_asus" remote="github" />
-	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" />
-	<project path="vendor/htc" name="[COLOUR IN THE LINES]/proprietary_vendor_htc" remote="github" />
-	<project path="vendor/lge" name="[COLOUR IN THE LINES]/proprietary_vendor_lge" remote="github" />
-	<project path="vendor/samsung" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung" remote="github" />
-	<project path="vendor/ti" name="[COLOUR IN THE LINES]/proprietary_vendor_ti" remote="github" revision="master" />
-	<project path="vendor/amazon" name="[COLOUR IN THE LINES]/proprietary_vendor_amazon" remote="github" />
+	<project path="vendor/asus" name="[COLOUR IN THE LINES]/proprietary_vendor_asus" remote="github" revision="6f411e32f16434fbf892806e81a96e19096419bc" />
+	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" revision="3bb06d899b1da626be7da0eee442b121c9333fbd" />
+	<project path="vendor/htc" name="[COLOUR IN THE LINES]/proprietary_vendor_htc" remote="github" revision="2d427402bde8379e990c555abace4b14b7be2341" />
+	<project path="vendor/lge" name="[COLOUR IN THE LINES]/proprietary_vendor_lge" remote="github" revision="caee006f0b2ee9e1081b452f669f6b49bc7ec9a9" />
+	<project path="vendor/samsung" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung" remote="github" revision="a421a47fc343e0ee56a26fa5be996feb7b3f28a8" />
+	<project path="vendor/ti" name="[COLOUR IN THE LINES]/proprietary_vendor_ti" remote="github" revision="266127642e690ad7347230458368fb52b8c7dfd4" />
+	<project path="vendor/amazon" name="[COLOUR IN THE LINES]/proprietary_vendor_amazon" remote="github" revision="93ba59f4320d392a97bc22890d339f6693a1dfae" />
 
 </manifest>

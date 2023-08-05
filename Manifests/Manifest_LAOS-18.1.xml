@@ -144,12 +144,12 @@
 	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 
         <!-- Nexus 4 (mako) -->
-        <project path="device/lge/mako" name="voron00/android_device_lge_mako" remote="github" />
-        <project path="kernel/lge/mako" name="voron00/android_kernel_lge_mako" remote="github" />
+        <project path="device/lge/mako" name="voron00/android_device_lge_mako" remote="github" revision="8f885afaa63bfcc7986dc24b1f5c3aae5eaf0ef2" />
+        <project path="kernel/lge/mako" name="voron00/android_kernel_lge_mako" remote="github" revision="9c96bcde58e4d11b2c1283e2b418830e170a40b6" />
 
 	<!-- Nexus 5 (hammerhead) -->
-	<project path="device/lge/hammerhead" name="z3DD3r/android_device_lge_hammerhead" remote="github" />
-	<project path="kernel/lge/hammerhead" name="z3DD3r/android_kernel_lge_hammerhead" remote="github" />
+	<project path="device/lge/hammerhead" name="z3DD3r/android_device_lge_hammerhead" remote="github" revision="5a781a1d5058c882804d7ffc27f2cf4c04cb0c2e" />
+	<project path="kernel/lge/hammerhead" name="z3DD3r/android_kernel_lge_hammerhead" remote="github" revision="9ac1167882a455af908badd0449131dd860558ca" />
 
 	<!-- Nexus 6 (shamu) -->
 	<project path="device/moto/shamu" name="LineageOS/android_device_moto_shamu" remote="github" />
