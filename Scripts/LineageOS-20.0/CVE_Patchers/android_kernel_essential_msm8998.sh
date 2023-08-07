@@ -193,6 +193,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1073/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1074/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1095/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1118/4.4/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1206/^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1380/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1513/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1637/4.9/0004.patch
@@ -209,8 +210,6 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3141/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3159/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3161/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3611/^6.4/0001.patch
-#git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4132/^6.2/0001.patch
-#git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4132/^6.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-20941/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23454/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23455/4.4/0007.patch
@@ -225,7 +224,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35824/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.4/0004.patch
-editKernelLocalversion "-dos.p225"
+editKernelLocalversion "-dos.p224"
 else echo "kernel_essential_msm8998 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
