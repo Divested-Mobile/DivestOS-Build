@@ -97,7 +97,7 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
-sed -i 's/2023-06-05/2023-07-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2023-07 #XXX
+sed -i 's/2023-06-05/2023-08-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2023-08 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -108,6 +108,10 @@ fi;
 if enterAndClear "device/qcom/sepolicy-legacy"; then
 applyPatch "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH (DivestOS)
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #Ignore neverallow violations XXX: necessary for -user builds of legacy devices
+fi;
+
+if enterAndClear "external/aac"; then
+applyPatch "$DOS_PATCHES/android_external_aac/364027.patch"; #R_asb_2023-08 Increase patchParam array size by one and fix out-of-bounce write in resetLppTransposer().
 fi;
 
 if enterAndClear "external/chromium-webview"; then
@@ -121,6 +125,7 @@ fi;
 
 if enterAndClear "external/freetype"; then
 applyPatch "$DOS_PATCHES/android_external_freetype/360951.patch"; #R_asb_2023-07 Cherry-pick two upstream changes
+applyPatch "$DOS_PATCHES/android_external_freetype/364028-backport.patch"; #R_asb_2023-08 Cherrypick following three changes
 fi;
 
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
@@ -152,6 +157,16 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/360959.patch"; #R_asb_2023-07 D
 applyPatch "$DOS_PATCHES/android_frameworks_base/360960.patch"; #R_asb_2023-07 Increase notification channel limit.
 applyPatch "$DOS_PATCHES/android_frameworks_base/360962-backport.patch"; #R_asb_2023-07 Truncate ShortcutInfo Id
 applyPatch "$DOS_PATCHES/android_frameworks_base/360963.patch"; #R_asb_2023-07 Visit URIs in landscape/portrait custom remote views.
+applyPatch "$DOS_PATCHES/android_frameworks_base/364029.patch"; #R_asb_2023-08 ActivityManager#killBackgroundProcesses can kill caller's own app only
+#applyPatch "$DOS_PATCHES/android_frameworks_base/364030-backport.patch"; #R_asb_2023-08 ActivityManagerService: Allow openContentUri from vendor/system/product. #TODO: needs backport of ca1ea17a
+applyPatch "$DOS_PATCHES/android_frameworks_base/364031-backport.patch"; #R_asb_2023-08 Verify URI permissions for notification shortcutIcon.
+applyPatch "$DOS_PATCHES/android_frameworks_base/364032.patch"; #R_asb_2023-08 On device lockdown, always show the keyguard
+applyPatch "$DOS_PATCHES/android_frameworks_base/364033-backport.patch"; #R_asb_2023-08 Ensure policy has no absurdly long strings
+applyPatch "$DOS_PATCHES/android_frameworks_base/364034.patch"; #R_asb_2023-08 Implement visitUris for RemoteViews ViewGroupActionAdd.
+applyPatch "$DOS_PATCHES/android_frameworks_base/364035-backport.patch"; #R_asb_2023-08 Check URIs in notification public version.
+applyPatch "$DOS_PATCHES/android_frameworks_base/364036-backport.patch"; #R_asb_2023-08 Verify URI permissions in MediaMetadata
+applyPatch "$DOS_PATCHES/android_frameworks_base/364037.patch"; #R_asb_2023-08 Use Settings.System.getIntForUser instead of getInt to make sure user specific settings are used
+applyPatch "$DOS_PATCHES/android_frameworks_base/364038-backport.patch"; #R_asb_2023-08 Resolve StatusHints image exploit across user.
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -373,9 +388,14 @@ if enterAndClear "packages/providers/DownloadProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
-#if enterAndClear "packages/providers/TelephonyProvider"; then
+if enterAndClear "packages/providers/TelephonyProvider"; then
+applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/364040-backport.patch"; #R_asb_2023-08 Update file permissions using canonical path
 #cp $DOS_PATCHES_COMMON/android_packages_providers_TelephonyProvider/carrier_list.* assets/;
-#fi;
+fi;
+
+if enterAndClear "packages/services/Telecomm"; then
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/364041-backport.patch"; #R_asb_2023-08 Resolve StatusHints image exploit across user.
+fi;
 
 if enterAndClear "prebuilts/abi-dumps/vndk"; then
 applyPatch "$DOS_PATCHES/android_prebuilts_abi-dumps_vndk/0001-protobuf-avi.patch"; #Work around ABI changes from compiler hardening (GrapheneOS)

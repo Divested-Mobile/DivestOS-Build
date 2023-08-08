@@ -10,10 +10,10 @@ requiring the READ_PHONE_STATE permission.
  1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index efbccb3b8f94..8d0498c0ca7f 100644
+index 2953c71d5a26..919682207082 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
-@@ -4981,12 +4981,7 @@ public class ActivityManagerService extends IActivityManager.Stub
+@@ -5010,12 +5010,7 @@ public class ActivityManagerService extends IActivityManager.Stub
                  }
              }
  

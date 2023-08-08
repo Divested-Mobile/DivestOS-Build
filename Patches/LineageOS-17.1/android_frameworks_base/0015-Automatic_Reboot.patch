@@ -55,7 +55,7 @@ index 55104b4e0ee2..5ed2807922d9 100644
      <protected-broadcast android:name="com.android.settingslib.action.UNREGISTER_SLICE_RECEIVER" />
      <protected-broadcast android:name="com.android.settings.flashlight.action.FLASHLIGHT_CHANGED" />
 diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
-index f025575623ca..8b36241ea33a 100644
+index a7d5c64dd3a3..f0bb02d21c8a 100644
 --- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 +++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 @@ -152,6 +152,8 @@ public class KeyguardViewMediator extends SystemUI {
@@ -79,7 +79,7 @@ index f025575623ca..8b36241ea33a 100644
      /**
       * If the user has disabled the keyguard, then requests to exit, this is
       * how we'll ultimately let them know whether it was successful.  We use this
-@@ -703,6 +710,7 @@ public class KeyguardViewMediator extends SystemUI {
+@@ -710,6 +717,7 @@ public class KeyguardViewMediator extends SystemUI {
          final IntentFilter delayedActionFilter = new IntentFilter();
          delayedActionFilter.addAction(DELAYED_KEYGUARD_ACTION);
          delayedActionFilter.addAction(DELAYED_LOCK_PROFILE_ACTION);
@@ -87,7 +87,7 @@ index f025575623ca..8b36241ea33a 100644
          mContext.registerReceiver(mDelayedLockBroadcastReceiver, delayedActionFilter,
                  SYSTEMUI_PERMISSION, null /* scheduler */);
  
-@@ -976,6 +984,18 @@ public class KeyguardViewMediator extends SystemUI {
+@@ -983,6 +991,18 @@ public class KeyguardViewMediator extends SystemUI {
          }
      }
  
@@ -106,7 +106,7 @@ index f025575623ca..8b36241ea33a 100644
      private void doKeyguardForChildProfilesLocked() {
          UserManager um = UserManager.get(mContext);
          for (int profileId : um.getEnabledProfileIds(UserHandle.myUserId())) {
-@@ -993,6 +1013,10 @@ public class KeyguardViewMediator extends SystemUI {
+@@ -1000,6 +1020,10 @@ public class KeyguardViewMediator extends SystemUI {
          mDelayedProfileShowingSequence++;
      }
  
@@ -117,7 +117,7 @@ index f025575623ca..8b36241ea33a 100644
      /**
       * Let's us know when the device is waking up.
       */
-@@ -1372,6 +1396,10 @@ public class KeyguardViewMediator extends SystemUI {
+@@ -1380,6 +1404,10 @@ public class KeyguardViewMediator extends SystemUI {
  
          if (DEBUG) Log.d(TAG, "doKeyguard: showing the lock screen");
          showLocked(options);
@@ -128,7 +128,7 @@ index f025575623ca..8b36241ea33a 100644
      }
  
      private void lockProfile(int userId) {
-@@ -1535,6 +1563,12 @@ public class KeyguardViewMediator extends SystemUI {
+@@ -1543,6 +1571,12 @@ public class KeyguardViewMediator extends SystemUI {
                          }
                      }
                  }
@@ -141,7 +141,7 @@ index f025575623ca..8b36241ea33a 100644
              }
          }
      };
-@@ -1953,6 +1987,7 @@ public class KeyguardViewMediator extends SystemUI {
+@@ -1964,6 +1998,7 @@ public class KeyguardViewMediator extends SystemUI {
              mHideAnimationRun = false;
              adjustStatusBarLocked();
              sendUserPresentBroadcast();
