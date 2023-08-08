@@ -9,7 +9,7 @@ Subject: [PATCH] make INTERNET into a special runtime permission
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 0aafab66dabd..c66b55feff34 100644
+index d23501a86b79..b0c7b69215b3 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
 @@ -1362,7 +1362,7 @@
