@@ -61,7 +61,8 @@ index abaacddbb..2e8a2e6b3 100644
 @@ -114,6 +119,7 @@ FT_BEGIN_HEADER
      bsb_adjust_,                                                   \
      vorg_adjust_,                                                  \
-     metrics_adjust_                                                \
+-    metrics_adjust_                                                \
++    metrics_adjust_,                                                \
 +    size_reset_                                                    \
    };
  
@@ -87,8 +88,6 @@ index 10dd336a8..422a680de 100644
  #endif
  
      /* a typeless pointer to the PostScript Aux service */
-diff --git a/src/cff/cffdrivr.c b/src/cff/cffdrivr.c
-index df896848d..7f809bf88 100644
 --- a/src/cff/cffdrivr.c
 +++ b/src/cff/cffdrivr.c
 @@ -933,7 +933,8 @@
@@ -121,8 +120,6 @@ index df896848d..7f809bf88 100644
    )
  #endif
  
-diff --git a/src/cff/cffobjs.c b/src/cff/cffobjs.c
-index a2d7aec65..30e68a104 100644
 --- a/src/cff/cffobjs.c
 +++ b/src/cff/cffobjs.c
 @@ -710,8 +710,10 @@
@@ -138,8 +135,6 @@ index a2d7aec65..30e68a104 100644
  
          FT_UInt  instance_index = (FT_UInt)face_index >> 16;
  
-diff --git a/src/sfnt/sfobjs.c b/src/sfnt/sfobjs.c
-index 0c917030f..b0547ea70 100644
 --- a/src/sfnt/sfobjs.c
 +++ b/src/sfnt/sfobjs.c
 @@ -896,17 +896,23 @@
@@ -170,8 +165,6 @@ index 0c917030f..b0547ea70 100644
  #endif
  
      FT_TRACE2(( "SFNT driver\n" ));
-diff --git a/src/sfnt/ttmtx.c b/src/sfnt/ttmtx.c
-index 6ddda95b5..0215ac8b2 100644
 --- a/src/sfnt/ttmtx.c
 +++ b/src/sfnt/ttmtx.c
 @@ -229,7 +229,7 @@
@@ -183,8 +176,6 @@ index 6ddda95b5..0215ac8b2 100644
  #endif
  
  
-diff --git a/src/truetype/ttdriver.c b/src/truetype/ttdriver.c
-index 820cafbb8..757f3d205 100644
 --- a/src/truetype/ttdriver.c
 +++ b/src/truetype/ttdriver.c
 @@ -304,7 +304,7 @@
@@ -215,8 +206,6 @@ index 820cafbb8..757f3d205 100644
    )
  
  #endif /* TT_CONFIG_OPTION_GX_VAR_SUPPORT */
-diff --git a/src/truetype/ttgxvar.c b/src/truetype/ttgxvar.c
-index b3e9ec7d9..fc22229de 100644
 --- a/src/truetype/ttgxvar.c
 +++ b/src/truetype/ttgxvar.c
 @@ -1283,15 +1283,14 @@
@@ -267,8 +256,6 @@ index b3e9ec7d9..fc22229de 100644
      }
    }
  
-diff --git a/src/truetype/ttobjs.c b/src/truetype/ttobjs.c
-index bc8086f25..f7f9b2527 100644
 --- a/src/truetype/ttobjs.c
 +++ b/src/truetype/ttobjs.c
 @@ -1234,37 +1234,29 @@
@@ -363,8 +350,6 @@ index bc8086f25..f7f9b2527 100644
  
      if ( face->header.Flags & 8 )
      {
-diff --git a/src/truetype/ttobjs.h b/src/truetype/ttobjs.h
-index 38fa30e4e..703328167 100644
 --- a/src/truetype/ttobjs.h
 +++ b/src/truetype/ttobjs.h
 @@ -390,8 +390,10 @@ FT_BEGIN_HEADER

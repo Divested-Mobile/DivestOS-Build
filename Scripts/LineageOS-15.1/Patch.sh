@@ -73,7 +73,7 @@ applyPatch "$DOS_PATCHES/android_build/0001-OTA_Keys.patch"; #Add correct keys t
 applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2023-07-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2023-08-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -88,6 +88,10 @@ fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
 applyPatch "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH (DivestOS)
+fi;
+
+if enterAndClear "external/aac"; then
+applyPatch "$DOS_PATCHES/android_external_aac/364027-backport.patch"; #R_asb_2023-08 Increase patchParam array size by one and fix out-of-bounce write in resetLppTransposer().
 fi;
 
 if enterAndClear "external/chromium-webview"; then
@@ -192,6 +196,11 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/358732-backport.patch"; #n-asb-
 applyPatch "$DOS_PATCHES/android_frameworks_base/360953-backport.patch"; #R_asb_2023-07 Sanitize VPN label to prevent HTML injection
 applyPatch "$DOS_PATCHES/android_frameworks_base/360954-backport.patch"; #R_asb_2023-07 Limit the number of supported v1 and v2 signers
 applyPatch "$DOS_PATCHES/android_frameworks_base/360962-backport.patch"; #R_asb_2023-07 Truncate ShortcutInfo Id
+applyPatch "$DOS_PATCHES/android_frameworks_base/364029-backport.patch"; #R_asb_2023-08 ActivityManager#killBackgroundProcesses can kill caller's own app only
+applyPatch "$DOS_PATCHES/android_frameworks_base/364033-backport.patch"; #R_asb_2023-08 Ensure policy has no absurdly long strings
+applyPatch "$DOS_PATCHES/android_frameworks_base/364036-backport.patch"; #R_asb_2023-08 Verify URI permissions in MediaMetadata
+applyPatch "$DOS_PATCHES/android_frameworks_base/364037.patch"; #R_asb_2023-08 Use Settings.System.getIntForUser instead of getInt to make sure user specific settings are used
+applyPatch "$DOS_PATCHES/android_frameworks_base/364038-backport.patch"; #R_asb_2023-08 Resolve StatusHints image exploit across user.
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
@@ -378,6 +387,7 @@ fi;
 
 if enterAndClear "packages/providers/TelephonyProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/344182.patch"; #P_asb_2022-11 Check dir path before updating permissions.
+applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/364040-backport.patch"; #R_asb_2023-08 Update file permissions using canonical path
 fi;
 
 if enterAndClear "packages/services/Telecomm"; then
@@ -386,6 +396,7 @@ applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/344183.patch"; #P_as
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/345913.patch"; #P_asb_2022-12 Hide overlay windows when showing phone account enable/disable screen.
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/347042.patch"; #P_asb_2023-01 Fix security vulnerability when register phone accounts.
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/355777-backport.patch"; #R_asb_2023-05 enforce stricter rules when registering phoneAccount
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/364041-backport.patch"; #R_asb_2023-08 Resolve StatusHints image exploit across user.
 fi;
 
 if enterAndClear "packages/services/Telephony"; then

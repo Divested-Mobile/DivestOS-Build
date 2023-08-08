@@ -1,0 +1,109 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jing Ji <jji@google.com>
+Date: Tue, 25 Oct 2022 22:39:52 -0700
+Subject: [PATCH] DO NOT MERGE: ActivityManager#killBackgroundProcesses can
+ kill caller's own app only
+
+unless it's a system app.
+
+Bug: 239423414
+Bug: 223376078
+Test: atest CtsAppTestCases:ActivityManagerTest
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:8b382775b258220466a977453905797521e159de)
+Merged-In: Iac6baa889965b8ffecd9a43179a4c96632ad1d02
+Change-Id: Iac6baa889965b8ffecd9a43179a4c96632ad1d02
+---
+ core/java/android/app/ActivityManager.java    |  3 ++
+ core/res/AndroidManifest.xml                  |  6 +++-
+ .../server/am/ActivityManagerService.java     | 32 +++++++++++++++++--
+ 3 files changed, 38 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/android/app/ActivityManager.java b/core/java/android/app/ActivityManager.java
+index ff68e2348b4a..021e0c4397b6 100644
+--- a/core/java/android/app/ActivityManager.java
++++ b/core/java/android/app/ActivityManager.java
+@@ -3729,6 +3729,9 @@ public class ActivityManager {
+      * processes to reclaim memory; the system will take care of restarting
+      * these processes in the future as needed.
+      *
++     * <p class="note">Third party applications can only use this API to kill their own processes.
++     * </p>
++     *
+      * @param packageName The name of the package whose processes are to
+      * be killed.
+      */
+diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
+index 8f9df8332d6a..5f3dc3716e23 100644
+--- a/core/res/AndroidManifest.xml
++++ b/core/res/AndroidManifest.xml
+@@ -1889,7 +1889,11 @@
+         android:protectionLevel="normal" />
+ 
+     <!-- Allows an application to call
+-        {@link android.app.ActivityManager#killBackgroundProcesses}.
++         {@link android.app.ActivityManager#killBackgroundProcesses}.
++
++         <p class="note">Third party applications can only use this API to kill their own
++         processes.</p>
++
+          <p>Protection level: normal
+     -->
+     <permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"
+diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
+index 3feb040b9f47..276b3db9f095 100644
+--- a/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -6153,8 +6153,20 @@ public class ActivityManagerService extends IActivityManager.Stub
+             Slog.w(TAG, msg);
+             throw new SecurityException(msg);
+         }
++        final int callingUid = Binder.getCallingUid();
++        final int callingPid = Binder.getCallingPid();
++        final int callingAppId = UserHandle.getAppId(callingUid);
+ 
+-        userId = mUserController.handleIncomingUser(Binder.getCallingPid(), Binder.getCallingUid(),
++        ProcessRecord proc;
++        synchronized (mPidsSelfLocked) {
++            proc = mPidsSelfLocked.get(callingPid);
++        }
++        final boolean hasKillAllPermission = PERMISSION_GRANTED == checkPermission(
++                android.Manifest.permission.FORCE_STOP_PACKAGES, callingPid, callingUid)
++                || (UserHandle.getAppId(callingUid) > 0 && UserHandle.getAppId(callingUid) < Process.FIRST_APPLICATION_UID)
++                || (proc != null && proc.info.isSystemApp());
++
++        userId = mUserController.handleIncomingUser(callingPid, callingUid,
+                 userId, true, ALLOW_FULL_ONLY, "killBackgroundProcesses", null);
+         long callingId = Binder.clearCallingIdentity();
+         try {
+@@ -6166,7 +6178,7 @@ public class ActivityManagerService extends IActivityManager.Stub
+                             pm.getPackageUid(packageName, MATCH_DEBUG_TRIAGED_MISSING, userId));
+                 } catch (RemoteException e) {
+                 }
+-                if (appId == -1) {
++                if (appId == -1 || (!hasKillAllPermission && appId != callingAppId)) {
+                     Slog.w(TAG, "Invalid packageName: " + packageName);
+                     return;
+                 }
+@@ -6246,6 +6258,22 @@ public class ActivityManagerService extends IActivityManager.Stub
+             throw new SecurityException(msg);
+         }
+ 
++        final int callingUid = Binder.getCallingUid();
++        final int callingPid = Binder.getCallingPid();
++
++        ProcessRecord proc;
++        synchronized (mPidsSelfLocked) {
++            proc = mPidsSelfLocked.get(callingPid);
++        }
++        if (callingUid >= FIRST_APPLICATION_UID
++                && (proc == null || !proc.info.isSystemApp())) {
++            final String msg = "Permission Denial: killAllBackgroundProcesses() from pid="
++                    + callingPid + ", uid=" + callingUid + " is not allowed";
++            Slog.w(TAG, msg);
++            // Silently return to avoid existing apps from crashing.
++            return;
++        }
++
+         final long callingId = Binder.clearCallingIdentity();
+         try {
+             synchronized (this) {

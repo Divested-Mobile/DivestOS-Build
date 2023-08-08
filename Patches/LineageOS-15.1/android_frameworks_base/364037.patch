@@ -1,0 +1,55 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chandru S <chandruis@google.com>
+Date: Tue, 16 May 2023 10:41:07 -0700
+Subject: [PATCH] Use Settings.System.getIntForUser instead of getInt to make
+ sure user specific settings are used
+
+Bug: 265431505
+Test: atest KeyguardViewMediatorTest
+(cherry picked from commit 625e009fc195ba5d658ca2d78ebb23d2770cc6c4)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:ce6510deba06bcb72a0e468294b483fc4ac4be17)
+Merged-In: I66a660c091c90a957a0fd1e144c013840db3f47e
+Change-Id: I66a660c091c90a957a0fd1e144c013840db3f47e
+---
+ .../systemui/keyguard/KeyguardViewMediator.java     | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
+index 2632be697259..27e4699d9d3c 100644
+--- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
++++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
+@@ -876,9 +876,9 @@ public class KeyguardViewMediator extends SystemUI {
+         final ContentResolver cr = mContext.getContentResolver();
+ 
+         // From SecuritySettings
+-        final long lockAfterTimeout = Settings.Secure.getInt(cr,
++        final long lockAfterTimeout = Settings.Secure.getIntForUser(cr,
+                 Settings.Secure.LOCK_SCREEN_LOCK_AFTER_TIMEOUT,
+-                KEYGUARD_LOCK_AFTER_DELAY_DEFAULT);
++                KEYGUARD_LOCK_AFTER_DELAY_DEFAULT, userId);
+ 
+         // From DevicePolicyAdmin
+         final long policyTimeout = mLockPatternUtils.getDevicePolicyManager()
+@@ -890,8 +890,8 @@ public class KeyguardViewMediator extends SystemUI {
+             timeout = lockAfterTimeout;
+         } else {
+             // From DisplaySettings
+-            long displayTimeout = Settings.System.getInt(cr, SCREEN_OFF_TIMEOUT,
+-                    KEYGUARD_DISPLAY_TIMEOUT_DELAY_DEFAULT);
++            long displayTimeout = Settings.System.getIntForUser(cr, SCREEN_OFF_TIMEOUT,
++                    KEYGUARD_DISPLAY_TIMEOUT_DELAY_DEFAULT, userId);
+ 
+             // policy in effect. Make sure we don't go beyond policy limit.
+             displayTimeout = Math.max(displayTimeout, 0); // ignore negative values
+@@ -1721,7 +1721,10 @@ public class KeyguardViewMediator extends SystemUI {
+     private void playSound(int soundId) {
+         if (soundId == 0) return;
+         final ContentResolver cr = mContext.getContentResolver();
+-        if (Settings.System.getInt(cr, Settings.System.LOCKSCREEN_SOUNDS_ENABLED, 1) == 1) {
++        int lockscreenSoundsEnabled = Settings.System.getIntForUser(cr,
++                Settings.System.LOCKSCREEN_SOUNDS_ENABLED, 1,
++                KeyguardUpdateMonitor.getCurrentUser());
++        if (lockscreenSoundsEnabled == 1) {
+ 
+             mLockSounds.stop(mLockSoundStreamId);
+             // Init mAudioManager
