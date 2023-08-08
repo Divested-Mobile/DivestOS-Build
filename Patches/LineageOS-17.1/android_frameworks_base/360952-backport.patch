@@ -1,8 +1,7 @@
-From 8bfab8e6a99bc7d61362e6ee803756a2fab08646 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: "Nate(Qiang) Jiang" <qiangjiang@google.com>
 Date: Wed, 26 Oct 2022 21:52:34 +0000
-Subject: [PATCH 01/11] [RESTRICT AUTOMERGE] Passpoint Add more check to limit
- the config size
+Subject: [PATCH] Passpoint Add more check to limit the config size
 
 Bug: 245299920
 Test: atest con.android.server.wifi
@@ -232,7 +231,3 @@ index fc03e7eb6176..6b4f7b0cc51e 100644
      private static final int CERTIFICATE_FINGERPRINT_BYTES = 32;
  
      /**
--- 
-2.40.1
-
-

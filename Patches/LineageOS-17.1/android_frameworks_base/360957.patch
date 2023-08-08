@@ -13,10 +13,10 @@ Change-Id: Id4e16007531ba1ce3e3f9fa3d3111b5af57751be
  1 file changed, 17 insertions(+)
 
 diff --git a/wifi/java/android/net/wifi/hotspot2/PasspointConfiguration.java b/wifi/java/android/net/wifi/hotspot2/PasspointConfiguration.java
-index 9095b5d927a2..dd23e504c467 100644
+index f88d6f6ca25a..1fe66c0163b1 100644
 --- a/wifi/java/android/net/wifi/hotspot2/PasspointConfiguration.java
 +++ b/wifi/java/android/net/wifi/hotspot2/PasspointConfiguration.java
-@@ -597,6 +597,23 @@ public final class PasspointConfiguration implements Parcelable {
+@@ -642,6 +642,23 @@ public final class PasspointConfiguration implements Parcelable {
                  }
              }
          }

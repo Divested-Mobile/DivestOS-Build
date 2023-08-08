@@ -29,11 +29,11 @@ wget "https://github.com/LineageOS/android_packages_apps_LineageParts/raw/lineag
 
 #TODO: wireless-regdb
 #https://mirrors.edge.kernel.org/pub/software/network/wireless-regdb/
-#Last: 2023/06/17
+#Last: 2023/08/08
 
 #TODO: MMS Configs
 #https://github.com/GrapheneOS/platform_packages_apps_Messaging
-#Last: 2023/06/17
+#Last: 2023/08/08
 
 #TODO: CA store
 #https://android.googlesource.com/platform/system/ca-certificates

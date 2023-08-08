@@ -1,4 +1,4 @@
-From 561ce2bb694a951fea597ad2e19844af2792186a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: "Nate(Qiang) Jiang" <qiangjiang@google.com>
 Date: Wed, 12 Apr 2023 18:38:15 +0000
 Subject: [PATCH] DO NOT MERGE: Limit the number of Passpoint per App
@@ -235,6 +235,3 @@ index 618f1c3d5..2b02ed508 100644
  
          verify(mAppOpsManager).startWatchingMode(eq(OPSTR_CHANGE_WIFI_STATE), eq(TEST_PACKAGE),
                  mAppOpChangedListenerCaptor.capture());
--- 
-2.40.1
-
