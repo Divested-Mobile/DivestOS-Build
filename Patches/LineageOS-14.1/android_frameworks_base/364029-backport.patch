@@ -33,7 +33,6 @@ index da7d711194de..9f6e25c74386 100644
       * {@link android.Manifest.permission#KILL_BACKGROUND_PROCESSES} to be able to
       * call this method.
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 0f224dae3337..ef6ce2503061 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
 @@ -1741,7 +1741,11 @@
@@ -50,18 +49,9 @@ index 0f224dae3337..ef6ce2503061 100644
      -->
      <permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index 8f26804d51bd..da42b976db9d 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
-@@ -277,6 +277,7 @@ import static android.content.pm.PackageManager.MATCH_SYSTEM_ONLY;
- import static android.content.pm.PackageManager.MATCH_UNINSTALLED_PACKAGES;
- import static android.content.pm.PackageManager.PERMISSION_GRANTED;
- import static android.content.res.Configuration.UI_MODE_TYPE_TELEVISION;
-+import static android.os.Process.FIRST_APPLICATION_UID;
- import static android.os.Process.PROC_CHAR;
- import static android.os.Process.PROC_OUT_LONG;
- import static android.os.Process.PROC_PARENS;
-@@ -5819,8 +5820,20 @@ public final class ActivityManagerService extends ActivityManagerNative
+@@ -5819,8 +5819,20 @@ public final class ActivityManagerService extends ActivityManagerNative
              Slog.w(TAG, msg);
              throw new SecurityException(msg);
          }
@@ -83,7 +73,7 @@ index 8f26804d51bd..da42b976db9d 100644
                  userId, true, ALLOW_FULL_ONLY, "killBackgroundProcesses", null);
          long callingId = Binder.clearCallingIdentity();
          try {
-@@ -5832,7 +5845,7 @@ public final class ActivityManagerService extends ActivityManagerNative
+@@ -5832,7 +5844,7 @@ public final class ActivityManagerService extends ActivityManagerNative
                              pm.getPackageUid(packageName, MATCH_DEBUG_TRIAGED_MISSING, userId));
                  } catch (RemoteException e) {
                  }
@@ -92,7 +82,7 @@ index 8f26804d51bd..da42b976db9d 100644
                      Slog.w(TAG, "Invalid packageName: " + packageName);
                      return;
                  }
-@@ -5912,6 +5925,22 @@ public final class ActivityManagerService extends ActivityManagerNative
+@@ -5912,6 +5924,22 @@ public final class ActivityManagerService extends ActivityManagerNative
              throw new SecurityException(msg);
          }
  
@@ -103,7 +93,7 @@ index 8f26804d51bd..da42b976db9d 100644
 +        synchronized (mPidsSelfLocked) {
 +            proc = mPidsSelfLocked.get(callingPid);
 +        }
-+        if (callingUid >= FIRST_APPLICATION_UID
++        if (callingUid >= Process.FIRST_APPLICATION_UID
 +                && (proc == null || !proc.info.isSystemApp())) {
 +            final String msg = "Permission Denial: killAllBackgroundProcesses() from pid="
 +                    + callingPid + ", uid=" + callingUid + " is not allowed";
