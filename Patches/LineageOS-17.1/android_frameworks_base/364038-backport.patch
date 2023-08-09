@@ -49,7 +49,7 @@ index ede05943772e..b2f8ac8cb0ec 100644
              new Parcelable.Creator<ParcelableConference> () {
          @Override
 diff --git a/telecomm/java/android/telecom/StatusHints.java b/telecomm/java/android/telecom/StatusHints.java
-index 762c93a49022..b7346331dc60 100644
+index 762c93a49022..761eab81eb62 100644
 --- a/telecomm/java/android/telecom/StatusHints.java
 +++ b/telecomm/java/android/telecom/StatusHints.java
 @@ -16,14 +16,19 @@

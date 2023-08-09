@@ -55,7 +55,7 @@ index 57f8a713ec13..c63fea6e3e0e 100644
                      android.os.Build.VERSION_CODES.DONUT, 0),
              new PackageParser.NewPermissionInfo(android.Manifest.permission.READ_PHONE_STATE,
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 504cb3732f49..e6d8b6cda74e 100644
+index ab7c75c937a6..6ba699e6d9ac 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
 @@ -1392,6 +1392,18 @@

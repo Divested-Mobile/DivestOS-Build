@@ -50,7 +50,7 @@ index 8f9df8332d6a..5f3dc3716e23 100644
      -->
      <permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index 3feb040b9f47..276b3db9f095 100644
+index 3feb040b9f47..6e1c913105aa 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
 @@ -6153,8 +6153,20 @@ public class ActivityManagerService extends IActivityManager.Stub

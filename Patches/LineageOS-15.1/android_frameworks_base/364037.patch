@@ -15,10 +15,10 @@ Change-Id: I66a660c091c90a957a0fd1e144c013840db3f47e
  1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
-index 2632be697259..27e4699d9d3c 100644
+index 55db01aca600..1b794962eadf 100644
 --- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 +++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
-@@ -876,9 +876,9 @@ public class KeyguardViewMediator extends SystemUI {
+@@ -869,9 +869,9 @@ public class KeyguardViewMediator extends SystemUI {
          final ContentResolver cr = mContext.getContentResolver();
  
          // From SecuritySettings
@@ -30,7 +30,7 @@ index 2632be697259..27e4699d9d3c 100644
  
          // From DevicePolicyAdmin
          final long policyTimeout = mLockPatternUtils.getDevicePolicyManager()
-@@ -890,8 +890,8 @@ public class KeyguardViewMediator extends SystemUI {
+@@ -883,8 +883,8 @@ public class KeyguardViewMediator extends SystemUI {
              timeout = lockAfterTimeout;
          } else {
              // From DisplaySettings
@@ -41,7 +41,7 @@ index 2632be697259..27e4699d9d3c 100644
  
              // policy in effect. Make sure we don't go beyond policy limit.
              displayTimeout = Math.max(displayTimeout, 0); // ignore negative values
-@@ -1721,7 +1721,10 @@ public class KeyguardViewMediator extends SystemUI {
+@@ -1713,7 +1713,10 @@ public class KeyguardViewMediator extends SystemUI {
      private void playSound(int soundId) {
          if (soundId == 0) return;
          final ContentResolver cr = mContext.getContentResolver();

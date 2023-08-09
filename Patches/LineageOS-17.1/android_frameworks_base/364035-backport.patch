@@ -14,10 +14,10 @@ Change-Id: I670198b213abb2cb29a9865eb9d1e897700508b4
  2 files changed, 24 insertions(+)
 
 diff --git a/core/java/android/app/Notification.java b/core/java/android/app/Notification.java
-index 107becdfbcff..b5e9a7839df0 100644
+index 8f0b36cf2a87..8da2611d3fe9 100644
 --- a/core/java/android/app/Notification.java
 +++ b/core/java/android/app/Notification.java
-@@ -2450,6 +2450,10 @@ public class Notification implements Parcelable
+@@ -2451,6 +2451,10 @@ public class Notification implements Parcelable
       * @hide
       */
      public void visitUris(@NonNull Consumer<Uri> visitor) {

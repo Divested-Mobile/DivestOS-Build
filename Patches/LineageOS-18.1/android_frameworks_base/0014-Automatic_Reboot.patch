@@ -55,7 +55,7 @@ index cf0607449054..7bf662b86a52 100644
      <protected-broadcast android:name="com.android.settingslib.action.REGISTER_SLICE_RECEIVER" />
      <protected-broadcast android:name="com.android.settingslib.action.UNREGISTER_SLICE_RECEIVER" />
 diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
-index 1d05a95075c0..3d86cd7ca244 100644
+index 55ce9c76c42a..0a1b8f4efdd5 100644
 --- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 +++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 @@ -163,6 +163,8 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
@@ -79,7 +79,7 @@ index 1d05a95075c0..3d86cd7ca244 100644
      /**
       * If the user has disabled the keyguard, then requests to exit, this is
       * how we'll ultimately let them know whether it was successful.  We use this
-@@ -783,6 +790,7 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
+@@ -790,6 +797,7 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
          final IntentFilter delayedActionFilter = new IntentFilter();
          delayedActionFilter.addAction(DELAYED_KEYGUARD_ACTION);
          delayedActionFilter.addAction(DELAYED_LOCK_PROFILE_ACTION);
@@ -87,7 +87,7 @@ index 1d05a95075c0..3d86cd7ca244 100644
          mContext.registerReceiver(mDelayedLockBroadcastReceiver, delayedActionFilter,
                  SYSTEMUI_PERMISSION, null /* scheduler */);
  
-@@ -1056,6 +1064,18 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
+@@ -1063,6 +1071,18 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
          }
      }
  
@@ -106,7 +106,7 @@ index 1d05a95075c0..3d86cd7ca244 100644
      private void doKeyguardForChildProfilesLocked() {
          UserManager um = UserManager.get(mContext);
          for (int profileId : um.getEnabledProfileIds(UserHandle.myUserId())) {
-@@ -1073,6 +1093,10 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
+@@ -1080,6 +1100,10 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
          mDelayedProfileShowingSequence++;
      }
  
@@ -117,7 +117,7 @@ index 1d05a95075c0..3d86cd7ca244 100644
      /**
       * Let's us know when the device is waking up.
       */
-@@ -1453,6 +1477,10 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
+@@ -1461,6 +1485,10 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
  
          if (DEBUG) Log.d(TAG, "doKeyguard: showing the lock screen");
          showLocked(options);
@@ -128,7 +128,7 @@ index 1d05a95075c0..3d86cd7ca244 100644
      }
  
      private void lockProfile(int userId) {
-@@ -1616,6 +1644,12 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
+@@ -1624,6 +1652,12 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
                          }
                      }
                  }
@@ -141,7 +141,7 @@ index 1d05a95075c0..3d86cd7ca244 100644
              }
          }
      };
-@@ -2047,6 +2081,7 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
+@@ -2058,6 +2092,7 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
              mHideAnimationRun = false;
              adjustStatusBarLocked();
              sendUserPresentBroadcast();
