@@ -14,10 +14,10 @@ Change-Id: Id0e16499a00e1f5cfb5bd4d9fb421f93bb283ee1
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 0f224dae3337..f6026a82ad72 100644
+index ef6ce2503061..ebf2a890152a 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
-@@ -1822,12 +1822,12 @@
+@@ -1826,12 +1826,12 @@
          android:protectionLevel="signature|privileged" />
  
      <!-- Allows applications to set the system time zone.
