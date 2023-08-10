@@ -8,7 +8,7 @@ Subject: [PATCH] extend special runtime permission implementation
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 41128e4c617e..93cd3a988e62 100644
+index e4653a899ddd..ff97a3b2e4a8 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -1881,7 +1881,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
@@ -38,7 +38,7 @@ index 41128e4c617e..93cd3a988e62 100644
                          if (DEBUG_PERMISSIONS) {
                              Log.i(TAG, "Denying runtime-only permission " + bp.getName()
                                      + " for package " + friendlyName);
-@@ -2934,7 +2934,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -2960,7 +2960,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
                          boolean restrictionApplied = (origState.getPermissionFlags(
                                  bp.getName()) & FLAG_PERMISSION_APPLY_RESTRICTION) != 0;
  
@@ -47,7 +47,7 @@ index 41128e4c617e..93cd3a988e62 100644
                              // If hard restricted we don't allow holding it
                              if (permissionPolicyInitialized && hardRestricted) {
                                  if (!restrictionExempt) {
-@@ -3018,7 +3018,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -3044,7 +3044,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
                                  if (restrictionApplied) {
                                      flags &= ~FLAG_PERMISSION_APPLY_RESTRICTION;
                                      // Dropping restriction on a legacy app implies a review

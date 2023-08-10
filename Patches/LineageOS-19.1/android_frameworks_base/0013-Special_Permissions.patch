@@ -20,7 +20,7 @@ Signed-off-by: Danny Lin <danny@kdrag0n.dev>
  1 file changed, 20 insertions(+), 5 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 9d0b2543e5ef..41128e4c617e 100644
+index dd8b96eab3d7..e4653a899ddd 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -1525,7 +1525,8 @@ public class PermissionManagerService extends IPermissionManager.Stub {
@@ -74,7 +74,7 @@ index 9d0b2543e5ef..41128e4c617e 100644
      /**
       * Restore the permission state for a package.
       *
-@@ -2969,6 +2977,13 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -2995,6 +3003,13 @@ public class PermissionManagerService extends IPermissionManager.Stub {
                                      }
                                  }
                              }
@@ -88,7 +88,7 @@ index 9d0b2543e5ef..41128e4c617e 100644
                          } else {
                              if (origPermState == null) {
                                  // New permission
-@@ -3806,7 +3821,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
+@@ -3818,7 +3833,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
              if (shouldGrantPermission) {
                  final int flags = getPermissionFlagsInternal(pkg.getPackageName(), permission,
                          myUid, userId);

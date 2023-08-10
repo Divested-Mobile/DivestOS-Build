@@ -10,7 +10,7 @@ Ported from 10: 5e2898e9d21dd6802bb0b0139e7e496c41e1cd80
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index cb6ef5a8f1ae..4692ddb26491 100644
+index c33437d946d8..0526ce1ef25d 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
 @@ -1736,7 +1736,7 @@
@@ -23,7 +23,7 @@ index cb6ef5a8f1ae..4692ddb26491 100644
      <!-- Allows applications to access information about networks.
           <p>Protection level: normal
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 93cd3a988e62..03545705ae65 100644
+index ff97a3b2e4a8..6686d3750b84 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -2632,7 +2632,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {

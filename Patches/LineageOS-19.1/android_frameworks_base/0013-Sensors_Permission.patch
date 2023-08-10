@@ -46,7 +46,7 @@ index f92c2951fdef..8f5df4672dc0 100644
                      android.os.Build.VERSION_CODES.DONUT, 0),
              new PackageParser.NewPermissionInfo(android.Manifest.permission.READ_PHONE_STATE,
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
-index 03bab921ca9a..b8971f77dd18 100644
+index f70c541c5162..956fd4d2427c 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
 @@ -1499,6 +1499,18 @@
@@ -99,7 +99,7 @@ index 27c9026c863a..4a8624222ae8 100644
      <string name="permlab_readCalendar">Read calendar events and details</string>
      <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 03545705ae65..5652a109f618 100644
+index 6686d3750b84..961d7f050e5d 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -2632,7 +2632,7 @@ public class PermissionManagerService extends IPermissionManager.Stub {
