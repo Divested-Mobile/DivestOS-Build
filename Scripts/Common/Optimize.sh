@@ -66,6 +66,7 @@ sed -i 's/zramsize=.*/zramsize=50%,max_comp_streams=4/' zte/axon7/rootdir/etc/fs
 sed -i 's/zramsize=.*/zramsize=50%,max_comp_streams=8/' sony/tama-common/rootdir/etc/fstab.qcom &>/dev/null || true;
 #4GB+ (2GB+)
 sed -i 's/zramsize=.*/zramsize=50%,max_comp_streams=8/' google/redbull/fstab.hardware google/sunfish/fstab.hardware oneplus/msm8998-common/rootdir/etc/fstab.qcom oneplus/sdm845-common/rootdir/etc/fstab.qcom xiaomi/sm6150-common/rootdir/etc/fstab*.qcom &>/dev/null || true;
+sed -i 's/zramsize=.*/zramsize=50%,max_comp_streams=8,zram_backingdev_size=512M/' xiaomi/sm6150-common/rootdir/etc/fstab.zram &>/dev/null || true;
 echo "Finished zram tweaks";
 fi;
 
