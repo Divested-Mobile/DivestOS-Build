@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Kelvin Zhang <zhangkelvin@google.com>
+Date: Thu, 22 Dec 2022 10:30:00 -0800
+Subject: [PATCH] Fix VB 1.0 failure due to openssl output format change
+
+Openssl changed output format, the 'keyid:' prefix is removed, hence old
+regex is unable to extract key id.
+
+Bug: 262902909
+Change-Id: Iea5b6fffed7c27855d87e35292f07a56686e4197
+Merged-In: I446a0b16e482c43542a1c0e41b24e80eb9fbc8e6
+---
+ tools/releasetools/sign_target_files_apks.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/releasetools/sign_target_files_apks.py b/tools/releasetools/sign_target_files_apks.py
+index 94ab84745c..9798985067 100755
+--- a/tools/releasetools/sign_target_files_apks.py
++++ b/tools/releasetools/sign_target_files_apks.py
+@@ -566,7 +566,7 @@ def ReplaceVerityKeyId(targetfile_input_zip, targetfile_output_zip, keypath):
+           stdout=subprocess.PIPE)
+       keyid, stderr = p.communicate()
+       keyid = re.search(
+-          r'keyid:([0-9a-fA-F:]*)', keyid).group(1).replace(':', '').lower()
++          r'Authority Key Identifier:\s*(?:keyid:)?([0-9a-fA-F:]*)', keyid).group(1).replace(':', '').lower()
+       print "Replacing verity keyid with %s error=%s" % (keyid, stderr)
+       out_cmdline.append("veritykeyid=id:%s" % (keyid,))
+     else:
