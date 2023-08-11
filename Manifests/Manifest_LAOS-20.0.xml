@@ -270,6 +270,11 @@
 	<!-- Xiaomi POCO F3 / Redmi K40 / Mi 11X (alioth) -->
 	<project path="device/xiaomi/alioth" name="LineageOS/android_device_xiaomi_alioth" remote="github" revision="lineage-20" />
 
+	<!-- Xiaomi Redmi K20 / Mi 9T (davinci) -->
+	<project path="device/xiaomi/davinci" name="LineageOS/android_device_xiaomi_davinci" remote="github" revision="lineage-20" />
+	<project path="device/xiaomi/sm6150-common" name="LineageOS/android_device_xiaomi_sm6150-common" remote="github" revision="lineage-20" />
+	<project path="kernel/xiaomi/sm6150" name="LineageOS/android_kernel_xiaomi_sm6150" remote="github" revision="lineage-20" />
+
 	<!-- Zuk Z2 Plus (z2_plus) -->
 	<project path="device/zuk/z2_plus" name="LineageOS/android_device_zuk_z2_plus" remote="github" revision="lineage-20" />
 	<project path="device/zuk/msm8996-common" name="LineageOS/android_device_zuk_msm8996-common" remote="github" revision="lineage-20" />
@@ -332,6 +337,7 @@
 	<project path="vendor/xiaomi/alioth" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_alioth" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/apollon" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_alioth" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/beryllium" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_beryllium" remote="github" revision="lineage-20" />
+	<project path="vendor/xiaomi/davinci" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_davinci" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/dipper" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_dipper" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/equuleus" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_equuleus" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/lmi" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_lmi" remote="github" revision="lineage-20" />
@@ -339,6 +345,7 @@
 	<project path="vendor/xiaomi/mithorium-common" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_mithorium-common" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/polaris" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_polaris" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/sdm845-common" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_sdm845-common" remote="github" revision="lineage-20" />
+	<project path="vendor/xiaomi/sm6150-common" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_sm6150-common" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/sm8250-common" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_sm8250-common" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/ursa" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_ursa" remote="github" revision="lineage-20" />
 	<project path="vendor/zuk/msm8996-common" name="[COLOUR IN THE LINES]/proprietary_vendor_zuk_msm8996-common" remote="github" revision="lineage-20" />
