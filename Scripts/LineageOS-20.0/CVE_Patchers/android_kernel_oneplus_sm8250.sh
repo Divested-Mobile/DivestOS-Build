@@ -81,7 +81,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4133/^6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4134/^6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35001/^6.4/0001.patch
-editKernelLocalversion "-dos.p82"
+editKernelLocalversion "-dos.p81"
 else echo "kernel_oneplus_sm8250 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

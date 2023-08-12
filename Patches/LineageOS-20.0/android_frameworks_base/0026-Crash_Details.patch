@@ -136,7 +136,7 @@ index 7d8e2f818ce9..6ffcf51936fc 100644
  
    <!-- Whether to show weather on the lockscreen by default. -->
 diff --git a/packages/SystemUI/AndroidManifest.xml b/packages/SystemUI/AndroidManifest.xml
-index b7fb28930a58..025e7708ede9 100644
+index 286155953bed..d47f9162328f 100644
 --- a/packages/SystemUI/AndroidManifest.xml
 +++ b/packages/SystemUI/AndroidManifest.xml
 @@ -1007,6 +1007,18 @@

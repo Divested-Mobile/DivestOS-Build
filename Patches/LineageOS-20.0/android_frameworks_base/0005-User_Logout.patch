@@ -23,10 +23,10 @@ index 0c69067ab131..ef3213b68bfe 100644
      // one notification after enabling + one more after reboots
      static final int DEF_MAXIMUM_NETWORK_LOGGING_NOTIFICATIONS_SHOWN = 2;
 diff --git a/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java b/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
-index 10ab3fb67f47..4998c2b695e7 100644
+index 7947078e261f..2b609d990737 100644
 --- a/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
 +++ b/services/devicepolicy/java/com/android/server/devicepolicy/DevicePolicyManagerService.java
-@@ -16096,11 +16096,11 @@ public class DevicePolicyManagerService extends BaseIDevicePolicyManager {
+@@ -16132,11 +16132,11 @@ public class DevicePolicyManagerService extends BaseIDevicePolicyManager {
      @Override
      public boolean isLogoutEnabled() {
          if (!mHasFeature) {

@@ -67,7 +67,7 @@ index 2091c0502b6f..4c45fdc4de44 100644
      <string name="capability_title_canRetrieveWindowContent">Retrieve window content</string>
      <!-- Description for the capability of an accessibility service to retrieve window content. -->
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
-index 79980a274dec..4918f3bf3e11 100644
+index b1de8d8a5830..6ea489ce05b6 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerServiceImpl.java
 @@ -2524,7 +2524,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
