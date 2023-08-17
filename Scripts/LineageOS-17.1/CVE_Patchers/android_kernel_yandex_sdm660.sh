@@ -437,6 +437,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3106/4.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3141/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3159/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3161/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4385/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4387/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-20941/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-21656/4.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23454/4.4/0008.patch
@@ -454,7 +456,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0429/4.4/0012.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.4/0006.patch
-editKernelLocalversion "-dos.p455"
+editKernelLocalversion "-dos.p457"
 else echo "kernel_yandex_sdm660 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
