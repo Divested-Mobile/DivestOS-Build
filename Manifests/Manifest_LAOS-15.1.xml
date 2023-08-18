@@ -70,6 +70,10 @@
 	<!-- Switch to the Mulch WebView -->
 	<remove-project name="LineageOS/android_external_chromium-webview" />
 	<project path="external/chromium-webview" name="divested-mobile/mulch" groups="pdk" clone-depth="1" remote="gitlab" revision="master" />
+
+	<!-- @syphyr's security backport branches -->
+	<remove-project name="LineageOS/android_external_freetype" />
+	<project path="external/freetype" name="syphyr/android_external_freetype-1" remote="github" revision="cae3047743733a3b39b03fbabb43a6350bf4b5bd" />
 <!-- END OF BRANCH SWITCHING -->
 
 <!-- START OF ADDITIONAL REPOS -->

@@ -104,9 +104,9 @@ applyPatch "$DOS_PATCHES/android_external_expat/337989-backport.patch"; #n-asb-2
 applyPatch "$DOS_PATCHES/android_external_expat/348649.patch"; #n-asb-2023-02 Fix overeager DTD destruction (fixes #649)
 fi;
 
-if enterAndClear "external/freetype"; then
-applyPatch "$DOS_PATCHES/android_external_freetype/360899.patch"; #n-asb-2023-07 Cherry-pick two upstream changes
-fi;
+#if enterAndClear "external/freetype"; then
+#applyPatch "$DOS_PATCHES/android_external_freetype/360899.patch"; #n-asb-2023-07 Cherry-pick two upstream changes
+#fi;
 
 if enterAndClear "external/libavc"; then
 applyPatch "$DOS_PATCHES/android_external_libavc/315711.patch"; #n-asb-2021-09 Decoder: Update check for increment u2_cur_slice_num
