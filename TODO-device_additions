@@ -1,4 +1,4 @@
-Last updated: 2023-07-05
+Last updated: 2023-08-18
 
 20.0
 	android_kernel_bq_msm8953
@@ -17,6 +17,11 @@ Last updated: 2023-07-05
 		channel
 		ocean
 		river
+	android_kernel_motorola_sm6225
+		caprip
+		devon
+		hawao
+		rhode
 	android_kernel_motorola_sm7250
 		kiev
 		nairo

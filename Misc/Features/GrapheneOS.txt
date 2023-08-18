@@ -57,6 +57,24 @@ nojit
 9  https://github.com/GrapheneOS/platform_build/commit/5b9927197e63593b9220d1a9280021252ef205e9
 9  https://github.com/GrapheneOS/platform_build/commit/e36c7aefaa78a1ed5b94c7f51d29277008eea232
 
+hmalloc toggle
+https://github.com/GrapheneOS/platform_bionic/commit/5c7490e0e26034ccc95c02eb7d853ce9b4b6bfa8
+https://github.com/GrapheneOS/platform_bionic/commit/6562b94dfc6dec13e1df79a1b029e6c78f4aa9ad
+https://github.com/GrapheneOS/platform_bionic/commit/298a897cfbccd3ad02b34b8c403e60e0a01d0278
+https://github.com/GrapheneOS/platform_bionic/commit/3ba81c4a59f14c1641f6e4d6e158397aa085ed65
+https://github.com/GrapheneOS/platform_bionic/commit/061e26ab6595ee8fa74658fdb7a7d15053577e11
+https://github.com/GrapheneOS/platform_bionic/commit/f1a8227f4b1ec7ebcd315af1247f8f4cbedbba77
+https://github.com/GrapheneOS/platform_frameworks_base/commit/7e3a33b0882bb61fbf932181eeaf2a10314488b3
+https://github.com/GrapheneOS/platform_frameworks_base/commit/6a8ce0bff2773a1c22b1a89fa6d7da9edcf74d8f
+https://github.com/GrapheneOS/platform_frameworks_base/commit/1ef35bfde29c97b9e48c249d338ad352ec3dbb3b
+
+usermanager restrictions
+https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/c5b2884da230f56b23084f11b104445d867f4ec8
+https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/c9c4a1ea09f8fedf2952207ba9329a10586ee0dc
+https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/993f35ba0d4e13a1b089035468401c4af0dc6adb
+https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/9312b4b33dc4e3bfbb2869321cdd9e965df6409a
+https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/10a3b946b97fe73daa342952f56ed7217ffd22cc
+
 [implemented] disable apps
 13 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/2c9112d7e9137d91694bf1478f2558fdb898cad8
 
