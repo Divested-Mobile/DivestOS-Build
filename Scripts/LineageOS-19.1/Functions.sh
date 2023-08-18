@@ -74,7 +74,6 @@ buildAll() {
 	buildDevice vayu avb;
 	#SD865
 	buildDevice lmi avb; #20.0 doesn't support lmipro
-	buildDevice apollon avb;
 }
 export -f buildAll;
 

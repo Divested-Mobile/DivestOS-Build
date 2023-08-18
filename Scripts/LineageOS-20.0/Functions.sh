@@ -112,6 +112,7 @@ buildAll() {
 	buildDevice sargo avb; #unb
 	#SD865
 	buildDevice lmi avb;
+	buildDevice apollon avb;
 	#SD870
 	buildDevice alioth avb;
 	#Tensor
