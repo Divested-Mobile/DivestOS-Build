@@ -565,10 +565,6 @@ if enterAndClear "device/zuk/msm8996-common"; then
 awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
 fi;
 
-if enterAndClear "kernel/google/marlin"; then
-git revert --no-edit a17f0cc9d8f16df52d3cf3ff64b37bf477f589e5; #enable verity on /vendor
-fi;
-
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
 find "hardware/qcom/gps" -name "gps\.conf" -type f -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenLocationConf "{}"';

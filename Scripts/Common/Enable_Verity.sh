@@ -176,6 +176,7 @@ enableAVB "device/xiaomi/whyred";
 
 #Kernel Changes
 [[ -d kernel/essential/msm8998 ]] && sed -i 's/slotselect/slotselect,verify/' kernel/essential/msm8998/arch/arm64/boot/dts/essential/msm8998-mata-lineage.dtsi &>/dev/null; #/vendor
+[[ -d kernel/google/marlin ]] && sed -i 's/wait,slotselect/wait,slotselect,verify/' kernel/google/marlin/arch/arm64/boot/dts/htc/msm8996-htc-common.dtsi &>/dev/null; #/vendor
 #[[ -d kernel/htc/flounder ]] && sed -i 's/wait/wait,verify/g' kernel/htc/flounder/arch/arm64/boot/dts/tegra132.dtsi &>/dev/null; #/system #XXX: no boot
 [[ -d  kernel/moto/shamu ]] && sed -i 's/wait/wait,verify/g' kernel/moto/shamu/arch/arm/boot/dts/qcom/apq8084.dtsi &>/dev/null; #/system
 [[ -d kernel/oneplus/msm8996 ]] && sed -i 's/wait/wait,verify/g' kernel/oneplus/msm8996/arch/arm/boot/dts/qcom/15801/msm8996-mtp.dtsi &>/dev/null; #/system
