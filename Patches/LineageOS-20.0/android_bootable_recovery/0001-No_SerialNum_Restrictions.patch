@@ -8,7 +8,7 @@ Subject: [PATCH] reject updates with serialno constraints
  1 file changed, 2 insertions(+), 14 deletions(-)
 
 diff --git a/install/install.cpp b/install/install.cpp
-index 11a6b3ff..8dd647be 100644
+index 979616dc..934a0314 100644
 --- a/install/install.cpp
 +++ b/install/install.cpp
 @@ -223,22 +223,10 @@ bool CheckPackageMetadata(const std::map<std::string, std::string>& metadata, Ot

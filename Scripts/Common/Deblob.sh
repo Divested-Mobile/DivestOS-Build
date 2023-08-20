@@ -908,8 +908,23 @@ fi;
 deblobVendors; #Deblob entire vendor directory
 rm -rf frameworks/av/drm/mediadrm/plugins/clearkey; #Remove ClearKey
 #rm -rf frameworks/av/drm/mediacas/plugins/clearkey; #XXX: breaks protobuf inclusion
-rm -rf packages/apps/Car/DebuggingRestrictionController/* || true; #Remove package that depends on Play Services
 [[ -d vendor/samsung/nodevice ]] && rm -rf vendor/samsung/nodevice;
+
+#Remove proprietary libraries
+rm -rf external/firebase-messaging/* || true;
+rm -rf prebuilts/tools/common/m2/repository/com/apple/AppleJavaExtensions || true;
+rm -rf prebuilts/tools/common/m2/repository/com/cenqua/clover/clover || true;
+rm -rf prebuilts/tools/common/m2/repository/com/crittercism || true;
+rm -rf prebuilts/tools/common/m2/repository/com/facebook/android/facebook-android-sdk || true;
+rm -rf prebuilts/tools/common/m2/repository/com/firebase/firebase-client-android || true;
+rm -rf prebuilts/tools/common/m2/repository/com/firebase/firebase-client-jvm || true;
+rm -rf prebuilts/tools/common/m2/repository/com/google/android/gms || true;
+rm -rf prebuilts/tools/common/m2/repository/com/google/android/play || true;
+rm -rf prebuilts/tools/common/m2/repository/com/helpshift || true;
+#rm -rf prebuilts/tools/common/m2/repository/org/python/jython || true;
+#Remove apps depending on proprietary libraries
+rm -rf packages/apps/Car/DebuggingRestrictionController/* || true;
+rm -rf packages/apps/ImsServiceEntitlement/* || true;
 #
 #END OF DEBLOBBING
 #
