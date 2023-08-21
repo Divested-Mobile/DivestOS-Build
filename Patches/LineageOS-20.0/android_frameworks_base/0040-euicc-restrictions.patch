@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
 Date: Mon, 27 Mar 2023 16:29:13 +0300
-Subject: [PATCH 2/2] integrate Google's EuiccSupportPixel package
+Subject: [PATCH] integrate Google's EuiccSupportPixel package
 
 Depends on commit: "don't crash apps that depend on missing Gservices provider"
 

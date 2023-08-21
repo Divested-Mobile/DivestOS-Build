@@ -13,11 +13,6 @@ PRODUCT_PACKAGES += \
 #    OpenCamera
 #endif
 
-ifeq (,$(filter crosshatch blueline bonito sargo coral flame sunfish barbet redfin bluejay oriole raven panther cheetah FP4,$(TARGET_PRODUCT))) #FIXME
-PRODUCT_PACKAGES += \
-    OpenEUICC
-endif
-
 # Extras
 PRODUCT_PACKAGES += \
     TalkBack \

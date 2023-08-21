@@ -721,6 +721,24 @@ disableAPEX() {
 }
 export -f disableAPEX;
 
+includeOE() {
+	cd "$DOS_BUILD_BASE/$1";
+	if [ -f device.mk ]; then
+		if grep -sq "euicc.xml" device.mk; then
+			echo -e "\nPRODUCT_PACKAGES += OpenEUICC" >> device.mk;
+			echo "Enabled OpenEUICC inclusion for $1";
+		fi;
+	fi;
+	if [ -f device-lineage.mk ]; then
+		if grep -sq "euicc.xml" device-lineage.mk; then
+			echo -e "\nPRODUCT_PACKAGES += OpenEUICC" >> device-lineage.mk;
+			echo "Enabled OpenEUICC inclusion for $1";
+		fi;
+	fi;
+	cd "$DOS_BUILD_BASE";
+}
+export -f includeOE;
+
 enableStrongEncryption() {
 	cd "$DOS_BUILD_BASE/$1";
 	if [ -f BoardConfig.mk ]; then

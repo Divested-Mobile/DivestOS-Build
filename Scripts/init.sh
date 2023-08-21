@@ -180,6 +180,8 @@ export TZ=:/etc/localtime;
 export LC_ALL=C;
 export LANG=C.UTF-8;
 
+if [[ "$DOS_VERSION" != "LineageOS-20.0" ]]; then export DOS_DEBLOBBER_REMOVE_EUICC_FULL=true; fi;
+
 #START OF VERIFICATION
 gpgVerifyGitHead "$DOS_WORKSPACE_ROOT";
 gpgVerifyGitHead "$DOS_PREBUILT_APPS";
