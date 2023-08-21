@@ -52,9 +52,9 @@
 	<!-- GrapheneOS -->
 	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="d3152b8e8ff5070f69e7c991d34f32a429e6a894" />
 
-	<!-- OpenEUICC
+	<!-- OpenEUICC -->
 	<project path="packages/apps/OpenEUICC" name="PeterCxy/OpenEUICC" remote="angry" revision="6add8c89ac141f177cd8d124a0a955232f4222f9" />
-	<project path="prebuilts/openeuicc-deps" name="PeterCxy/android_prebuilts_openeuicc-deps" remote="angry" revision="55f3e2c7ab26484f7478b26540fa14392d0c2cd7" /> -->
+	<project path="prebuilts/openeuicc-deps" name="PeterCxy/android_prebuilts_openeuicc-deps" remote="angry" revision="55f3e2c7ab26484f7478b26540fa14392d0c2cd7" />
 <!-- END OF ADDITIONAL REPOS -->
 
 <!-- START OF DEVICE REPOS -->

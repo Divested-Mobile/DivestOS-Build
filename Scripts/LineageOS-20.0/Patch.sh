@@ -293,6 +293,10 @@ if enterAndClear "packages/apps/Nfc"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
+if enterAndClear "packages/apps/OpenEUICC"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_OpenEUICC/0001-hacky-fix.patch"; #Hacky fix for misidentifying physical SIM (DivestOS)
+fi;
+
 if enterAndClear "packages/apps/Settings"; then
 git revert --no-edit 41b4ed345a91da1dd46c00ee11a151c2b5ff4f43;
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch)

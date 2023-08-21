@@ -1,0 +1,132 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Mon, 21 Aug 2023 08:07:40 -0400
+Subject: [PATCH] Hacky fix for misidentifying physical SIM
+
+Signed-off-by: Tad <tad@spotco.us>
+---
+ app/src/main/java/im/angry/openeuicc/core/EuiccChannel.kt  | 4 +++-
+ .../java/im/angry/openeuicc/core/EuiccChannelManager.kt    | 7 ++++---
+ .../java/im/angry/openeuicc/service/OpenEuiccService.kt    | 3 ++-
+ .../java/im/angry/openeuicc/ui/EuiccManagementFragment.kt  | 4 ++--
+ app/src/main/java/im/angry/openeuicc/ui/MainActivity.kt    | 6 ++++--
+ 5 files changed, 15 insertions(+), 9 deletions(-)
+
+diff --git a/app/src/main/java/im/angry/openeuicc/core/EuiccChannel.kt b/app/src/main/java/im/angry/openeuicc/core/EuiccChannel.kt
+index 53fd3c7..0067996 100644
+--- a/app/src/main/java/im/angry/openeuicc/core/EuiccChannel.kt
++++ b/app/src/main/java/im/angry/openeuicc/core/EuiccChannel.kt
+@@ -8,7 +8,8 @@ data class EuiccChannelInfo(
+     val cardId: Int,
+     val name: String,
+     val imei: String,
+-    val removable: Boolean
++    val removable: Boolean,
++    val ignore: Boolean
+ )
+ 
+ abstract class EuiccChannel(
+@@ -19,6 +20,7 @@ abstract class EuiccChannel(
+     val name = info.name
+     val imei = info.imei
+     val removable = info.removable
++    val ignore = info.ignore
+ 
+     abstract val lpa: LocalProfileAssistant
+     abstract val valid: Boolean
+diff --git a/app/src/main/java/im/angry/openeuicc/core/EuiccChannelManager.kt b/app/src/main/java/im/angry/openeuicc/core/EuiccChannelManager.kt
+index c710c9d..4e709ae 100644
+--- a/app/src/main/java/im/angry/openeuicc/core/EuiccChannelManager.kt
++++ b/app/src/main/java/im/angry/openeuicc/core/EuiccChannelManager.kt
+@@ -67,12 +67,13 @@ class EuiccChannelManager(private val context: Context) {
+                 uiccInfo.cardId,
+                 "SIM ${uiccInfo.slotIndex}",
+                 tm.getImei(uiccInfo.slotIndex) ?: return null,
+-                uiccInfo.isRemovable
++                uiccInfo.isRemovable,
++                (uiccInfo.getEid() == null || uiccInfo.getEid().matches("^[0]+$".toRegex()))
+             )
+ 
+             var euiccChannel: EuiccChannel? = null
+ 
+-            if (uiccInfo.isEuicc && !uiccInfo.isRemovable) {
++            if (uiccInfo.isEuicc && !uiccInfo.isRemovable && !channelInfo.ignore) {
+                 Log.d(TAG, "Using TelephonyManager for slot ${uiccInfo.slotIndex}")
+                 // TODO: On Tiramisu, we should also connect all available "ports" for MEP support
+                 euiccChannel = TelephonyManagerChannel.tryConnect(tm, channelInfo)
+@@ -141,4 +142,4 @@ class EuiccChannelManager(private val context: Context) {
+             }
+         }
+     }
+-}
+\ No newline at end of file
++}
+diff --git a/app/src/main/java/im/angry/openeuicc/service/OpenEuiccService.kt b/app/src/main/java/im/angry/openeuicc/service/OpenEuiccService.kt
+index eb41e7c..be94316 100644
+--- a/app/src/main/java/im/angry/openeuicc/service/OpenEuiccService.kt
++++ b/app/src/main/java/im/angry/openeuicc/service/OpenEuiccService.kt
+@@ -58,6 +58,7 @@ class OpenEuiccService : EuiccService() {
+ 
+     override fun onGetEuiccProfileInfoList(slotId: Int): GetEuiccProfileInfoListResult? {
+         val channel = findChannel(slotId) ?: return null
++        if(findChannel(slotId)!!.ignore) { return null }
+         val profiles = channel.lpa.profiles.operational.map {
+             EuiccProfileInfo.Builder(it.iccid).apply {
+                 setProfileName(it.name)
+@@ -179,4 +180,4 @@ class OpenEuiccService : EuiccService() {
+         // No-op -- we do not care
+         return RESULT_FIRST_USER
+     }
+-}
+\ No newline at end of file
++}
+diff --git a/app/src/main/java/im/angry/openeuicc/ui/EuiccManagementFragment.kt b/app/src/main/java/im/angry/openeuicc/ui/EuiccManagementFragment.kt
+index 6a3b253..e261cac 100644
+--- a/app/src/main/java/im/angry/openeuicc/ui/EuiccManagementFragment.kt
++++ b/app/src/main/java/im/angry/openeuicc/ui/EuiccManagementFragment.kt
+@@ -80,7 +80,7 @@ class EuiccManagementFragment : Fragment(), EuiccFragmentMarker, EuiccProfilesCh
+     @SuppressLint("NotifyDataSetChanged")
+     private fun refresh() {
+         swipeRefresh.isRefreshing = true
+-
++        if(channel!!.ignore) { return }
+         lifecycleScope.launch {
+             val profiles = withContext(Dispatchers.IO) {
+                 openEuiccApplication.subscriptionManager.tryRefreshCachedEuiccInfo(channel.cardId)
+@@ -221,4 +221,4 @@ class EuiccManagementFragment : Fragment(), EuiccFragmentMarker, EuiccProfilesCh
+ 
+         override fun getItemCount(): Int = profiles.size
+     }
+-}
+\ No newline at end of file
++}
+diff --git a/app/src/main/java/im/angry/openeuicc/ui/MainActivity.kt b/app/src/main/java/im/angry/openeuicc/ui/MainActivity.kt
+index d0f7465..b286cde 100644
+--- a/app/src/main/java/im/angry/openeuicc/ui/MainActivity.kt
++++ b/app/src/main/java/im/angry/openeuicc/ui/MainActivity.kt
+@@ -95,15 +95,17 @@ class MainActivity : AppCompatActivity() {
+             manager.enumerateEuiccChannels()
+             manager.knownChannels.forEach {
+                 Log.d(TAG, it.name)
+-                Log.d(TAG, it.lpa.eid)
++                //Log.d(TAG, it.lpa.eid)
+                 openEuiccApplication.subscriptionManager.tryRefreshCachedEuiccInfo(it.cardId)
+             }
+         }
+ 
+         withContext(Dispatchers.Main) {
+             manager.knownChannels.forEach { channel ->
++		if(!channel!!.ignore) {
+                 spinnerAdapter.add(channel.name)
+                 fragments.add(EuiccManagementFragment.newInstance(channel.slotId))
++                }
+             }
+ 
+             if (fragments.isNotEmpty()) {
+@@ -112,4 +114,4 @@ class MainActivity : AppCompatActivity() {
+             }
+         }
+     }
+-}
+\ No newline at end of file
++}
