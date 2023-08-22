@@ -1,0 +1,698 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: inthewaves <inthewaves@pm.me>
+Date: Thu, 10 Sep 2020 16:47:59 -0700
+Subject: [PATCH]  SystemUI: Require unlocking to use sensitive QS tiles
+
+- Airplane mode
+- Battery saver
+- Bluetooth
+- DataSaver
+- Hotspot
+- NFC
+- Rotation lock
+- Wi-Fi
+- Work mode
+---
+ .../systemui/qs/tiles/AirplaneModeTile.java   | 30 +++++++++++++--
+ .../systemui/qs/tiles/BatterySaverTile.java   | 25 ++++++++++++-
+ .../systemui/qs/tiles/BluetoothTile.java      | 37 +++++++++++++++++--
+ .../systemui/qs/tiles/DataSaverTile.java      | 34 +++++++++++++++--
+ .../systemui/qs/tiles/HotspotTile.java        | 33 +++++++++++++++--
+ .../android/systemui/qs/tiles/NfcTile.java    | 35 ++++++++++++++++--
+ .../systemui/qs/tiles/RotationLockTile.java   | 33 +++++++++++++++--
+ .../android/systemui/qs/tiles/WifiTile.java   | 36 ++++++++++++++++--
+ .../systemui/qs/tiles/WorkModeTile.java       | 25 ++++++++++++-
+ 9 files changed, 265 insertions(+), 23 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/AirplaneModeTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/AirplaneModeTile.java
+index b24fdbfc562f..2065800a4016 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/AirplaneModeTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/AirplaneModeTile.java
+@@ -38,6 +38,7 @@ import com.android.systemui.plugins.qs.QSTile.BooleanState;
+ import com.android.systemui.qs.GlobalSetting;
+ import com.android.systemui.qs.QSHost;
+ import com.android.systemui.qs.tileimpl.QSTileImpl;
++import com.android.systemui.statusbar.policy.KeyguardStateController;
+ 
+ import javax.inject.Inject;
+ 
+@@ -48,11 +49,14 @@ public class AirplaneModeTile extends QSTileImpl<BooleanState> {
+     private final ActivityStarter mActivityStarter;
+     private final BroadcastDispatcher mBroadcastDispatcher;
+ 
++    private final KeyguardStateController mKeyguard;
++
+     private boolean mListening;
+ 
+     @Inject
+     public AirplaneModeTile(QSHost host, ActivityStarter activityStarter,
+-            BroadcastDispatcher broadcastDispatcher) {
++            BroadcastDispatcher broadcastDispatcher,
++            KeyguardStateController keyguardStateController) {
+         super(host);
+         mActivityStarter = activityStarter;
+         mBroadcastDispatcher = broadcastDispatcher;
+@@ -63,6 +67,15 @@ public class AirplaneModeTile extends QSTileImpl<BooleanState> {
+                 handleRefreshState(value);
+             }
+         };
++
++        mKeyguard = keyguardStateController;
++        final KeyguardStateController.Callback callback = new KeyguardStateController.Callback() {
++            @Override
++            public void onKeyguardShowingChanged() {
++                refreshState();
++            }
++        };
++        mKeyguard.observe(this, callback);
+     }
+ 
+     @Override
+@@ -70,8 +83,7 @@ public class AirplaneModeTile extends QSTileImpl<BooleanState> {
+         return new BooleanState();
+     }
+ 
+-    @Override
+-    public void handleClick() {
++    private void handleClickInner() {
+         boolean airplaneModeEnabled = mState.value;
+         MetricsLogger.action(mContext, getMetricsCategory(), !airplaneModeEnabled);
+         if (!airplaneModeEnabled && TelephonyProperties.in_ecm_mode().orElse(false)) {
+@@ -82,6 +94,18 @@ public class AirplaneModeTile extends QSTileImpl<BooleanState> {
+         setEnabled(!airplaneModeEnabled);
+     }
+ 
++    @Override
++    public void handleClick() {
++        if (mKeyguard.isMethodSecure() && mKeyguard.isShowing()) {
++            mActivityStarter.postQSRunnableDismissingKeyguard(() -> {
++                mHost.openPanels();
++                handleClickInner();
++            });
++            return;
++        }
++        handleClickInner();
++    }
++
+     private void setEnabled(boolean enabled) {
+         final ConnectivityManager mgr =
+                 (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/BatterySaverTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/BatterySaverTile.java
+index 7150e4350304..2b11125360d3 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/BatterySaverTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/BatterySaverTile.java
+@@ -23,11 +23,13 @@ import android.widget.Switch;
+ import com.android.internal.annotations.VisibleForTesting;
+ import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
+ import com.android.systemui.R;
++import com.android.systemui.plugins.ActivityStarter;
+ import com.android.systemui.plugins.qs.QSTile.BooleanState;
+ import com.android.systemui.qs.QSHost;
+ import com.android.systemui.qs.SecureSetting;
+ import com.android.systemui.qs.tileimpl.QSTileImpl;
+ import com.android.systemui.statusbar.policy.BatteryController;
++import com.android.systemui.statusbar.policy.KeyguardStateController;
+ 
+ import javax.inject.Inject;
+ 
+@@ -38,6 +40,9 @@ public class BatterySaverTile extends QSTileImpl<BooleanState> implements
+     @VisibleForTesting
+     protected final SecureSetting mSetting;
+ 
++    private final ActivityStarter mActivityStarter;
++    private final KeyguardStateController mKeyguard;
++
+     private int mLevel;
+     private boolean mPowerSave;
+     private boolean mCharging;
+@@ -46,7 +51,8 @@ public class BatterySaverTile extends QSTileImpl<BooleanState> implements
+     private Icon mIcon = ResourceIcon.get(com.android.internal.R.drawable.ic_qs_battery_saver);
+ 
+     @Inject
+-    public BatterySaverTile(QSHost host, BatteryController batteryController) {
++    public BatterySaverTile(QSHost host, BatteryController batteryController,
++            ActivityStarter activityStarter, KeyguardStateController keyguardStateController) {
+         super(host);
+         mBatteryController = batteryController;
+         mBatteryController.observe(getLifecycle(), this);
+@@ -58,6 +64,16 @@ public class BatterySaverTile extends QSTileImpl<BooleanState> implements
+                 handleRefreshState(null);
+             }
+         };
++
++        mActivityStarter = activityStarter;
++        mKeyguard = keyguardStateController;
++        final KeyguardStateController.Callback callback = new KeyguardStateController.Callback() {
++            @Override
++            public void onKeyguardShowingChanged() {
++                refreshState();
++            }
++        };
++        mKeyguard.observe(this, callback);
+     }
+ 
+     @Override
+@@ -97,6 +113,13 @@ public class BatterySaverTile extends QSTileImpl<BooleanState> implements
+         if (getState().state == Tile.STATE_UNAVAILABLE) {
+             return;
+         }
++        if (mKeyguard.isMethodSecure() && mKeyguard.isShowing()) {
++            mActivityStarter.postQSRunnableDismissingKeyguard(() -> {
++                mHost.openPanels();
++                mBatteryController.setPowerSaveMode(!mPowerSave);
++            });
++            return;
++        }
+         mBatteryController.setPowerSaveMode(!mPowerSave);
+     }
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/BluetoothTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/BluetoothTile.java
+index 14061838fb1b..d7fb0b23add6 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/BluetoothTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/BluetoothTile.java
+@@ -45,6 +45,7 @@ import com.android.systemui.qs.QSDetailItems.Item;
+ import com.android.systemui.qs.QSHost;
+ import com.android.systemui.qs.tileimpl.QSTileImpl;
+ import com.android.systemui.statusbar.policy.BluetoothController;
++import com.android.systemui.statusbar.policy.KeyguardStateController;
+ 
+ import java.util.ArrayList;
+ import java.util.Collection;
+@@ -60,15 +61,27 @@ public class BluetoothTile extends QSTileImpl<BooleanState> {
+     private final BluetoothDetailAdapter mDetailAdapter;
+     private final ActivityStarter mActivityStarter;
+ 
++    private final KeyguardStateController mKeyguard;
++
+     @Inject
+     public BluetoothTile(QSHost host,
+             BluetoothController bluetoothController,
+-            ActivityStarter activityStarter) {
++            ActivityStarter activityStarter,
++            KeyguardStateController keyguardStateController) {
+         super(host);
+         mController = bluetoothController;
+         mActivityStarter = activityStarter;
+         mDetailAdapter = (BluetoothDetailAdapter) createDetailAdapter();
+         mController.observe(getLifecycle(), mCallback);
++
++        mKeyguard = keyguardStateController;
++        final KeyguardStateController.Callback callback = new KeyguardStateController.Callback() {
++            @Override
++            public void onKeyguardShowingChanged() {
++                refreshState();
++            }
++        };
++        mKeyguard.observe(this, callback);
+     }
+ 
+     @Override
+@@ -81,8 +94,7 @@ public class BluetoothTile extends QSTileImpl<BooleanState> {
+         return new BooleanState();
+     }
+ 
+-    @Override
+-    protected void handleClick() {
++    private void handleClickInner() {
+         // Secondary clicks are header clicks, just toggle.
+         final boolean isEnabled = mState.value;
+         // Immediately enter transient enabling state when turning bluetooth on.
+@@ -90,6 +102,18 @@ public class BluetoothTile extends QSTileImpl<BooleanState> {
+         mController.setBluetoothEnabled(!isEnabled);
+     }
+ 
++    @Override
++    protected void handleClick() {
++        if (mKeyguard.isMethodSecure() && mKeyguard.isShowing()) {
++            mActivityStarter.postQSRunnableDismissingKeyguard(() -> {
++                mHost.openPanels();
++                handleClickInner();
++            });
++            return;
++        }
++        handleClickInner();
++    }
++
+     @Override
+     public Intent getLongClickIntent() {
+         return new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+@@ -102,6 +126,13 @@ public class BluetoothTile extends QSTileImpl<BooleanState> {
+                     new Intent(Settings.ACTION_BLUETOOTH_SETTINGS), 0);
+             return;
+         }
++        if (mKeyguard.isMethodSecure() && mKeyguard.isShowing()) {
++            mActivityStarter.postQSRunnableDismissingKeyguard(() -> {
++                mHost.openPanels();
++                showDetail(true);
++            });
++            return;
++        }
+         showDetail(true);
+         if (!mState.value) {
+             mController.setBluetoothEnabled(true);
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/DataSaverTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/DataSaverTile.java
+index 8ba60840a666..94e4c05e1c0a 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/DataSaverTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/DataSaverTile.java
+@@ -23,11 +23,13 @@ import android.widget.Switch;
+ import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
+ import com.android.systemui.Prefs;
+ import com.android.systemui.R;
++import com.android.systemui.plugins.ActivityStarter;
+ import com.android.systemui.plugins.qs.QSTile.BooleanState;
+ import com.android.systemui.qs.QSHost;
+ import com.android.systemui.qs.tileimpl.QSTileImpl;
+ import com.android.systemui.statusbar.phone.SystemUIDialog;
+ import com.android.systemui.statusbar.policy.DataSaverController;
++import com.android.systemui.statusbar.policy.KeyguardStateController;
+ import com.android.systemui.statusbar.policy.NetworkController;
+ 
+ import javax.inject.Inject;
+@@ -37,11 +39,25 @@ public class DataSaverTile extends QSTileImpl<BooleanState> implements
+ 
+     private final DataSaverController mDataSaverController;
+ 
++    private final ActivityStarter mActivityStarter;
++    private final KeyguardStateController mKeyguard;
++
+     @Inject
+-    public DataSaverTile(QSHost host, NetworkController networkController) {
++    public DataSaverTile(QSHost host, NetworkController networkController,
++            ActivityStarter activityStarter, KeyguardStateController keyguardStateController) {
+         super(host);
+         mDataSaverController = networkController.getDataSaverController();
+         mDataSaverController.observe(getLifecycle(), this);
++
++        mActivityStarter = activityStarter;
++        mKeyguard = keyguardStateController;
++        final KeyguardStateController.Callback callback = new KeyguardStateController.Callback() {
++            @Override
++            public void onKeyguardShowingChanged() {
++                refreshState();
++            }
++        };
++        mKeyguard.observe(this, callback);
+     }
+ 
+     @Override
+@@ -53,8 +69,8 @@ public class DataSaverTile extends QSTileImpl<BooleanState> implements
+     public Intent getLongClickIntent() {
+         return new Intent(Settings.ACTION_DATA_SAVER_SETTINGS);
+     }
+-    @Override
+-    protected void handleClick() {
++
++    private void handleClickInner() {
+         if (mState.value
+                 || Prefs.getBoolean(mContext, Prefs.Key.QS_DATA_SAVER_DIALOG_SHOWN, false)) {
+             // Do it right away.
+@@ -73,6 +89,18 @@ public class DataSaverTile extends QSTileImpl<BooleanState> implements
+         Prefs.putBoolean(mContext, Prefs.Key.QS_DATA_SAVER_DIALOG_SHOWN, true);
+     }
+ 
++    @Override
++    protected void handleClick() {
++        if (mKeyguard.isMethodSecure() && mKeyguard.isShowing()) {
++            mActivityStarter.postQSRunnableDismissingKeyguard(() -> {
++                mHost.openPanels();
++                handleClickInner();
++            });
++            return;
++        }
++        handleClickInner();
++    }
++
+     private void toggleDataSaver() {
+         mState.value = !mDataSaverController.isDataSaverEnabled();
+         mDataSaverController.setDataSaverEnabled(mState.value);
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/HotspotTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/HotspotTile.java
+index 1ab77f3f7524..330caa07764b 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/HotspotTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/HotspotTile.java
+@@ -26,11 +26,13 @@ import android.widget.Switch;
+ 
+ import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
+ import com.android.systemui.R;
++import com.android.systemui.plugins.ActivityStarter;
+ import com.android.systemui.plugins.qs.QSTile.BooleanState;
+ import com.android.systemui.qs.QSHost;
+ import com.android.systemui.qs.tileimpl.QSTileImpl;
+ import com.android.systemui.statusbar.policy.DataSaverController;
+ import com.android.systemui.statusbar.policy.HotspotController;
++import com.android.systemui.statusbar.policy.KeyguardStateController;
+ 
+ import javax.inject.Inject;
+ 
+@@ -41,17 +43,31 @@ public class HotspotTile extends QSTileImpl<BooleanState> {
+     private final HotspotController mHotspotController;
+     private final DataSaverController mDataSaverController;
+ 
++    private final ActivityStarter mActivityStarter;
++    private final KeyguardStateController mKeyguard;
++
+     private final HotspotAndDataSaverCallbacks mCallbacks = new HotspotAndDataSaverCallbacks();
+     private boolean mListening;
+ 
+     @Inject
+     public HotspotTile(QSHost host, HotspotController hotspotController,
+-            DataSaverController dataSaverController) {
++            DataSaverController dataSaverController, ActivityStarter activityStarter,
++            KeyguardStateController keyguardStateController) {
+         super(host);
+         mHotspotController = hotspotController;
+         mDataSaverController = dataSaverController;
+         mHotspotController.observe(this, mCallbacks);
+         mDataSaverController.observe(this, mCallbacks);
++
++        mActivityStarter = activityStarter;
++        mKeyguard = keyguardStateController;
++        final KeyguardStateController.Callback callback = new KeyguardStateController.Callback() {
++            @Override
++            public void onKeyguardShowingChanged() {
++                refreshState();
++            }
++        };
++        mKeyguard.observe(this, callback);
+     }
+ 
+     @Override
+@@ -84,8 +100,7 @@ public class HotspotTile extends QSTileImpl<BooleanState> {
+         return new BooleanState();
+     }
+ 
+-    @Override
+-    protected void handleClick() {
++    private void handleClickInner() {
+         final boolean isEnabled = mState.value;
+         if (!isEnabled && mDataSaverController.isDataSaverEnabled()) {
+             return;
+@@ -95,6 +110,18 @@ public class HotspotTile extends QSTileImpl<BooleanState> {
+         mHotspotController.setHotspotEnabled(!isEnabled);
+     }
+ 
++    @Override
++    protected void handleClick() {
++        if (mKeyguard.isMethodSecure() && mKeyguard.isShowing()) {
++            mActivityStarter.postQSRunnableDismissingKeyguard(() -> {
++                mHost.openPanels();
++                handleClickInner();
++            });
++            return;
++        }
++        handleClickInner();
++    }
++
+     @Override
+     public CharSequence getTileLabel() {
+         return mContext.getString(R.string.quick_settings_hotspot_label);
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java
+index e56a2eb9892d..c7bdfd1e075f 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java
+@@ -30,9 +30,11 @@ import android.widget.Switch;
+ import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
+ import com.android.systemui.R;
+ import com.android.systemui.broadcast.BroadcastDispatcher;
++import com.android.systemui.plugins.ActivityStarter;
+ import com.android.systemui.plugins.qs.QSTile.BooleanState;
+ import com.android.systemui.qs.QSHost;
+ import com.android.systemui.qs.tileimpl.QSTileImpl;
++import com.android.systemui.statusbar.policy.KeyguardStateController;
+ 
+ import javax.inject.Inject;
+ 
+@@ -44,12 +46,27 @@ public class NfcTile extends QSTileImpl<BooleanState> {
+     private NfcAdapter mAdapter;
+     private BroadcastDispatcher mBroadcastDispatcher;
+ 
++    private final ActivityStarter mActivityStarter;
++    private final KeyguardStateController mKeyguard;
++
+     private boolean mListening;
+ 
++
+     @Inject
+-    public NfcTile(QSHost host, BroadcastDispatcher broadcastDispatcher) {
++    public NfcTile(QSHost host, BroadcastDispatcher broadcastDispatcher,
++            ActivityStarter activityStarter, KeyguardStateController keyguardStateController) {
+         super(host);
+         mBroadcastDispatcher = broadcastDispatcher;
++
++        mActivityStarter = activityStarter;
++        mKeyguard = keyguardStateController;
++        final KeyguardStateController.Callback callback = new KeyguardStateController.Callback() {
++            @Override
++            public void onKeyguardShowingChanged() {
++                refreshState();
++            }
++        };
++        mKeyguard.observe(this, callback);
+     }
+ 
+     @Override
+@@ -84,8 +101,7 @@ public class NfcTile extends QSTileImpl<BooleanState> {
+         return new Intent(Settings.ACTION_NFC_SETTINGS);
+     }
+ 
+-    @Override
+-    protected void handleClick() {
++    private void handleClickInner() {
+         if (getAdapter() == null) {
+             return;
+         }
+@@ -96,6 +112,18 @@ public class NfcTile extends QSTileImpl<BooleanState> {
+         }
+     }
+ 
++    @Override
++    protected void handleClick() {
++        if (mKeyguard.isMethodSecure() && mKeyguard.isShowing()) {
++            mActivityStarter.postQSRunnableDismissingKeyguard(() -> {
++                mHost.openPanels();
++                handleClickInner();
++            });
++            return;
++        }
++        handleClickInner();
++    }
++
+     @Override
+     protected void handleSecondaryClick() {
+         handleClick();
+@@ -149,4 +177,5 @@ public class NfcTile extends QSTileImpl<BooleanState> {
+             refreshState();
+         }
+     };
++
+ }
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/RotationLockTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/RotationLockTile.java
+index 5dcb4e3b1fb9..6bd153da0db7 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/RotationLockTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/RotationLockTile.java
+@@ -25,9 +25,11 @@ import android.widget.Switch;
+ 
+ import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
+ import com.android.systemui.R;
++import com.android.systemui.plugins.ActivityStarter;
+ import com.android.systemui.plugins.qs.QSTile.BooleanState;
+ import com.android.systemui.qs.QSHost;
+ import com.android.systemui.qs.tileimpl.QSTileImpl;
++import com.android.systemui.statusbar.policy.KeyguardStateController;
+ import com.android.systemui.statusbar.policy.RotationLockController;
+ import com.android.systemui.statusbar.policy.RotationLockController.RotationLockControllerCallback;
+ 
+@@ -39,11 +41,25 @@ public class RotationLockTile extends QSTileImpl<BooleanState> {
+     private final Icon mIcon = ResourceIcon.get(com.android.internal.R.drawable.ic_qs_auto_rotate);
+     private final RotationLockController mController;
+ 
++    private final ActivityStarter mActivityStarter;
++    private final KeyguardStateController mKeyguard;
++
+     @Inject
+-    public RotationLockTile(QSHost host, RotationLockController rotationLockController) {
++    public RotationLockTile(QSHost host, RotationLockController rotationLockController,
++            ActivityStarter activityStarter, KeyguardStateController keyguardStateController) {
+         super(host);
+         mController = rotationLockController;
+         mController.observe(this, mCallback);
++
++        mActivityStarter = activityStarter;
++        mKeyguard = keyguardStateController;
++        final KeyguardStateController.Callback callback = new KeyguardStateController.Callback() {
++            @Override
++            public void onKeyguardShowingChanged() {
++                refreshState();
++            }
++        };
++        mKeyguard.observe(this, callback);
+     }
+ 
+     @Override
+@@ -56,13 +72,24 @@ public class RotationLockTile extends QSTileImpl<BooleanState> {
+         return new Intent(Settings.ACTION_DISPLAY_SETTINGS);
+     }
+ 
+-    @Override
+-    protected void handleClick() {
++    private void handleClickInner() {
+         final boolean newState = !mState.value;
+         mController.setRotationLocked(!newState);
+         refreshState(newState);
+     }
+ 
++    @Override
++    protected void handleClick() {
++        if (mKeyguard.isMethodSecure() && mKeyguard.isShowing()) {
++            mActivityStarter.postQSRunnableDismissingKeyguard(() -> {
++                mHost.openPanels();
++                handleClickInner();
++            });
++            return;
++        }
++        handleClickInner();
++    }
++
+     @Override
+     public CharSequence getTileLabel() {
+         return getState().label;
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/WifiTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/WifiTile.java
+index 1279d42eb64d..9cede4ef92ef 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/WifiTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/WifiTile.java
+@@ -43,6 +43,7 @@ import com.android.systemui.qs.QSDetailItems.Item;
+ import com.android.systemui.qs.QSHost;
+ import com.android.systemui.qs.tileimpl.QSIconViewImpl;
+ import com.android.systemui.qs.tileimpl.QSTileImpl;
++import com.android.systemui.statusbar.policy.KeyguardStateController;
+ import com.android.systemui.statusbar.policy.NetworkController;
+ import com.android.systemui.statusbar.policy.NetworkController.AccessPointController;
+ import com.android.systemui.statusbar.policy.NetworkController.IconState;
+@@ -66,15 +67,26 @@ public class WifiTile extends QSTileImpl<SignalState> {
+     private final ActivityStarter mActivityStarter;
+     private boolean mExpectDisabled;
+ 
++    private final KeyguardStateController mKeyguard;
++
+     @Inject
+     public WifiTile(QSHost host, NetworkController networkController,
+-            ActivityStarter activityStarter) {
++            ActivityStarter activityStarter, KeyguardStateController keyguardStateController) {
+         super(host);
+         mController = networkController;
+         mWifiController = mController.getAccessPointController();
+         mDetailAdapter = (WifiDetailAdapter) createDetailAdapter();
+         mActivityStarter = activityStarter;
+         mController.observe(getLifecycle(), mSignalCallback);
++
++        mKeyguard = keyguardStateController;
++        final KeyguardStateController.Callback callback = new KeyguardStateController.Callback() {
++            @Override
++            public void onKeyguardShowingChanged() {
++                refreshState();
++            }
++        };
++        mKeyguard.observe(this, callback);
+     }
+ 
+     @Override
+@@ -111,8 +123,7 @@ public class WifiTile extends QSTileImpl<SignalState> {
+         return WIFI_SETTINGS;
+     }
+ 
+-    @Override
+-    protected void handleClick() {
++    private void handleClickInner() {
+         // Secondary clicks are header clicks, just toggle.
+         mState.copyTo(mStateBeforeClick);
+         boolean wifiEnabled = mState.value;
+@@ -130,6 +141,18 @@ public class WifiTile extends QSTileImpl<SignalState> {
+         }
+     }
+ 
++    @Override
++    protected void handleClick() {
++        if (mKeyguard.isMethodSecure() && mKeyguard.isShowing()) {
++            mActivityStarter.postQSRunnableDismissingKeyguard(() -> {
++                mHost.openPanels();
++                handleClickInner();
++            });
++            return;
++        }
++        handleClickInner();
++    }
++
+     @Override
+     protected void handleSecondaryClick() {
+         if (!mWifiController.canConfigWifi()) {
+@@ -137,6 +160,13 @@ public class WifiTile extends QSTileImpl<SignalState> {
+                     new Intent(Settings.ACTION_WIFI_SETTINGS), 0);
+             return;
+         }
++        if (mKeyguard.isMethodSecure() && mKeyguard.isShowing()) {
++            mActivityStarter.postQSRunnableDismissingKeyguard(() -> {
++                mHost.openPanels();
++                showDetail(true);
++            });
++            return;
++        }
+         showDetail(true);
+         if (!mState.value) {
+             mController.setWifiEnabled(true);
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/WorkModeTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/WorkModeTile.java
+index 318c0c4660cb..a8171878ecbd 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/WorkModeTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/WorkModeTile.java
+@@ -23,10 +23,12 @@ import android.widget.Switch;
+ 
+ import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
+ import com.android.systemui.R;
++import com.android.systemui.plugins.ActivityStarter;
+ import com.android.systemui.plugins.qs.QSTile.BooleanState;
+ import com.android.systemui.qs.QSHost;
+ import com.android.systemui.qs.tileimpl.QSTileImpl;
+ import com.android.systemui.statusbar.phone.ManagedProfileController;
++import com.android.systemui.statusbar.policy.KeyguardStateController;
+ 
+ import javax.inject.Inject;
+ 
+@@ -37,11 +39,25 @@ public class WorkModeTile extends QSTileImpl<BooleanState> implements
+ 
+     private final ManagedProfileController mProfileController;
+ 
++    private final ActivityStarter mActivityStarter;
++    private final KeyguardStateController mKeyguard;
++
+     @Inject
+-    public WorkModeTile(QSHost host, ManagedProfileController managedProfileController) {
++    public WorkModeTile(QSHost host, ManagedProfileController managedProfileController,
++            ActivityStarter activityStarter, KeyguardStateController keyguardStateController) {
+         super(host);
+         mProfileController = managedProfileController;
+         mProfileController.observe(getLifecycle(), this);
++
++        mActivityStarter = activityStarter;
++        mKeyguard = keyguardStateController;
++        final KeyguardStateController.Callback callback = new KeyguardStateController.Callback() {
++            @Override
++            public void onKeyguardShowingChanged() {
++                refreshState();
++            }
++        };
++        mKeyguard.observe(this, callback);
+     }
+ 
+     @Override
+@@ -56,6 +72,13 @@ public class WorkModeTile extends QSTileImpl<BooleanState> implements
+ 
+     @Override
+     public void handleClick() {
++        if (mKeyguard.isMethodSecure() && mKeyguard.isShowing()) {
++            mActivityStarter.postQSRunnableDismissingKeyguard(() -> {
++                mHost.openPanels();
++                mProfileController.setWorkModeEnabled(!mState.value);
++            });
++            return;
++        }
+         mProfileController.setWorkModeEnabled(!mState.value);
+     }
+ 

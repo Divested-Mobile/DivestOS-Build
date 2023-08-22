@@ -75,6 +75,10 @@ https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/993f35ba0d4
 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/9312b4b33dc4e3bfbb2869321cdd9e965df6409a
 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/10a3b946b97fe73daa342952f56ed7217ffd22cc
 
+[implemented] tile restrictions
+13 https://github.com/GrapheneOS/platform_frameworks_base/commit/6c3be72e795b4b2de830dd981787f197cc1aa7ee
+12 https://github.com/GrapheneOS/platform_frameworks_base/commit/6f7cde6351b1ba2fb0513d713ad20d42e7f18745
+
 [implemented] disable apps
 13 https://github.com/GrapheneOS/platform_packages_apps_Settings/commit/2c9112d7e9137d91694bf1478f2558fdb898cad8
 
