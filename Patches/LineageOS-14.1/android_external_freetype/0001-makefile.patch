@@ -1,0 +1,241 @@
+From 4cbccba5585d15b6763fe581e58ce953fbfd0a6a Mon Sep 17 00:00:00 2001
+From: syphyr <syphyr@gmail.com>
+Date: Tue, 8 Aug 2023 23:58:29 +0200
+Subject: [PATCH] Add Android.mk for legacy builds
+
+Change-Id: I1b8f729e1e98f333d27c7cb1364b6c0a4133b8e9
+---
+ Android.bp | 153 -----------------------------------------------------
+ Android.mk |  63 ++++++++++++++++++++++
+ 2 files changed, 63 insertions(+), 153 deletions(-)
+ delete mode 100644 Android.bp
+ create mode 100644 Android.mk
+
+diff --git a/Android.bp b/Android.bp
+deleted file mode 100644
+index 8b3d01d0a..000000000
+--- a/Android.bp
++++ /dev/null
+@@ -1,153 +0,0 @@
+-cc_library {
+-    name: "libft2",
+-    host_supported: true,
+-    // TODO(b/153609531): remove when no longer needed.
+-    native_bridge_supported: true,
+-
+-    // compile in ARM mode, since the glyph loader/renderer is a hotspot
+-    // when loading complex pages in the browser
+-    //
+-    arch: {
+-        arm: {
+-            instruction_set: "arm",
+-        },
+-    },
+-
+-    srcs: [
+-        "src/autofit/autofit.c",
+-        "src/base/ftbase.c",
+-        "src/base/ftbbox.c",
+-        "src/base/ftbitmap.c",
+-        "src/base/ftdebug.c",
+-        "src/base/ftfstype.c",
+-        "src/base/ftgasp.c",
+-        "src/base/ftglyph.c",
+-        "src/base/ftinit.c",
+-        "src/base/ftmm.c",
+-        "src/base/ftstroke.c",
+-        "src/base/fttype1.c",
+-        "src/base/ftsystem.c",
+-        "src/cid/type1cid.c",
+-        "src/cff/cff.c",
+-        "src/gzip/ftgzip.c",
+-        "src/psaux/psaux.c",
+-        "src/pshinter/pshinter.c",
+-        "src/psnames/psnames.c",
+-        "src/raster/raster.c",
+-        "src/sfnt/sfnt.c",
+-        "src/smooth/smooth.c",
+-        "src/truetype/truetype.c",
+-        "src/type1/type1.c",
+-    ],
+-
+-    export_include_dirs: ["include"],
+-
+-    cflags: [
+-        "-W",
+-        "-Wall",
+-        "-Werror",
+-
+-        "-DDARWIN_NO_CARBON",
+-        "-DFT2_BUILD_LIBRARY",
+-
+-        // Usually these are defined in include/freetype/config/ftoption.h
+-        // we have commented them and defined them here to allow for the
+-        // no dependency variant libft2.nodep below.
+-        "-DFT_CONFIG_OPTION_USE_PNG",
+-        "-DFT_CONFIG_OPTION_USE_ZLIB",
+-
+-        "-O2",
+-
+-        // Upstream ignores unused parameter warning
+-        "-Wno-unused-parameter",
+-        // Disabling some of modules results in warnings
+-        "-Wno-unused-variable",
+-        // the following is for testing only, and should not be used in final
+-        // builds of the product
+-        // "-DTT_CONFIG_OPTION_BYTECODE_INTERPRETER",
+-    ],
+-
+-    shared_libs: [
+-        "libpng",
+-        "libz",
+-    ],
+-
+-    target: {
+-        android: {
+-            cflags: [
+-                "-fPIC",
+-                "-DPIC",
+-            ],
+-        },
+-        not_windows: {
+-            cflags: [
+-                "-fPIC",
+-                "-DPIC",
+-            ],
+-        },
+-        windows: {
+-            enabled: true,
+-        },
+-    },
+-}
+-
+-llndk_library {
+-    name: "libft2",
+-    vendor_available: false,
+-    symbol_file: "libft2.map.txt",
+-    export_include_dirs: ["include"],
+-}
+-
+-// variant of libft2 without any library dependencies.
+-cc_library_static {
+-    name: "libft2.nodep",
+-    host_supported: true,
+-
+-    // compile in ARM mode, since the glyph loader/renderer is a hotspot
+-    // when loading complex pages in the browser
+-    arch: {
+-        arm: {
+-            instruction_set: "arm",
+-        },
+-    },
+-
+-    srcs: [
+-        "src/autofit/autofit.c",
+-        "src/base/ftbase.c",
+-        "src/base/ftbbox.c",
+-        "src/base/ftbitmap.c",
+-        "src/base/ftdebug.c",
+-        "src/base/ftfstype.c",
+-        "src/base/ftgasp.c",
+-        "src/base/ftglyph.c",
+-        "src/base/ftinit.c",
+-        "src/base/ftmm.c",
+-        "src/base/ftstroke.c",
+-        "src/base/fttype1.c",
+-        "src/base/ftsystem.c",
+-        "src/cid/type1cid.c",
+-        "src/cff/cff.c",
+-        "src/gzip/ftgzip.c",
+-        "src/psaux/psaux.c",
+-        "src/pshinter/pshinter.c",
+-        "src/psnames/psnames.c",
+-        "src/raster/raster.c",
+-        "src/sfnt/sfnt.c",
+-        "src/smooth/smooth.c",
+-        "src/truetype/truetype.c",
+-        "src/type1/type1.c",
+-    ],
+-
+-    export_include_dirs: ["include"],
+-
+-    cflags: [
+-        "-W",
+-        "-Wall",
+-        "-Werror",
+-
+-        "-DDARWIN_NO_CARBON",
+-        "-DFT2_BUILD_LIBRARY",
+-
+-        "-O2",
+-    ],
+-}
+diff --git a/Android.mk b/Android.mk
+new file mode 100644
+index 000000000..1661e506a
+--- /dev/null
++++ b/Android.mk
+@@ -0,0 +1,63 @@
++# this is now the default FreeType build for Android
++#
++ifndef USE_FREETYPE
++USE_FREETYPE := 2.7
++endif
++
++ifeq ($(USE_FREETYPE),2.7)
++LOCAL_PATH:= $(call my-dir)
++include $(CLEAR_VARS)
++
++# compile in ARM mode, since the glyph loader/renderer is a hotspot
++# when loading complex pages in the browser
++#
++LOCAL_ARM_MODE := arm
++
++LOCAL_SRC_FILES:= \
++    src/autofit/autofit.c \
++    src/base/ftbase.c \
++    src/base/ftbbox.c \
++    src/base/ftbitmap.c \
++    src/base/ftdebug.c \
++    src/base/ftfstype.c \
++    src/base/ftgasp.c \
++    src/base/ftglyph.c \
++    src/base/ftinit.c \
++    src/base/ftmm.c \
++    src/base/ftstroke.c \
++    src/base/fttype1.c \
++    src/base/ftsystem.c \
++    src/cid/type1cid.c \
++    src/cff/cff.c \
++    src/gzip/ftgzip.c \
++    src/psaux/psaux.c \
++    src/pshinter/pshinter.c \
++    src/psnames/psnames.c \
++    src/raster/raster.c \
++    src/sfnt/sfnt.c \
++    src/smooth/smooth.c \
++    src/truetype/truetype.c \
++    src/type1/type1.c
++
++LOCAL_C_INCLUDES += \
++    $(LOCAL_PATH)/include \
++    external/libpng \
++    external/zlib
++
++LOCAL_CFLAGS += -W -Wall
++LOCAL_CFLAGS += -fPIC -DPIC
++LOCAL_CFLAGS += "-DDARWIN_NO_CARBON"
++LOCAL_CFLAGS += "-DFT2_BUILD_LIBRARY"
++
++LOCAL_SHARED_LIBRARIES += libpng libz
++
++# the following is for testing only, and should not be used in final builds
++# of the product
++#LOCAL_CFLAGS += "-DTT_CONFIG_OPTION_BYTECODE_INTERPRETER"
++
++LOCAL_CFLAGS += -O2
++
++LOCAL_MODULE:= libft2
++
++include $(BUILD_SHARED_LIBRARY)
++endif

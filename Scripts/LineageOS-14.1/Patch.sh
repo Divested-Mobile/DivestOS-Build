@@ -85,7 +85,9 @@ applyPatch "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #F
 fi;
 
 if enterAndClear "external/aac"; then
-applyPatch "$DOS_PATCHES/android_external_aac/364027-backport.patch"; #R_asb_2023-08 Increase patchParam array size by one and fix out-of-bounce write in resetLppTransposer().
+#applyPatch "$DOS_PATCHES/android_external_aac/364027-backport.patch"; #R_asb_2023-08 Increase patchParam array size by one and fix out-of-bounce write in resetLppTransposer().
+applyPatch "$DOS_PATCHES/android_external_aac/364027.patch"; #R_asb_2023-08 Increase patchParam array size by one and fix out-of-bounce write in resetLppTransposer().
+applyPatch "$DOS_PATCHES/android_external_aac/0001-makefile.patch"; #Add Android.mk for legacy builds (syphyr)
 fi;
 
 if enterAndClear "external/apache-http"; then
@@ -104,9 +106,10 @@ applyPatch "$DOS_PATCHES/android_external_expat/337989-backport.patch"; #n-asb-2
 applyPatch "$DOS_PATCHES/android_external_expat/348649.patch"; #n-asb-2023-02 Fix overeager DTD destruction (fixes #649)
 fi;
 
-#if enterAndClear "external/freetype"; then
+if enterAndClear "external/freetype"; then
 #applyPatch "$DOS_PATCHES/android_external_freetype/360899.patch"; #n-asb-2023-07 Cherry-pick two upstream changes
-#fi;
+applyPatch "$DOS_PATCHES/android_external_freetype/0001-makefile.patch"; #Add Android.mk for legacy builds (syphyr)
+fi;
 
 if enterAndClear "external/libavc"; then
 applyPatch "$DOS_PATCHES/android_external_libavc/315711.patch"; #n-asb-2021-09 Decoder: Update check for increment u2_cur_slice_num
