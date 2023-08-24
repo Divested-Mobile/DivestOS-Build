@@ -562,10 +562,6 @@ echo "TARGET_RECOVERY_DENSITY := hdpi" >> BoardConfigCommon.mk;
 echo "allow hal_gnss_default ssr_device:chr_file { open read };" >> sepolicy/common/hal_gnss_default.te;
 fi;
 
-if enterAndClear "device/zuk/msm8996-common"; then
-awk -i inplace '!/WfdCommon/' msm8996.mk; #fix breakage
-fi;
-
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
 find "hardware/qcom/gps" -name "gps\.conf" -type f -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenLocationConf "{}"';
@@ -636,8 +632,6 @@ enableLowRam "device/samsung/msm8974-common" "msm8974-common";
 #enableLowRam "device/moto/shamu" "shamu";
 #enableLowRam "device/nextbit/ether" "ether";
 #enableLowRam "device/oneplus/bacon" "bacon";
-#Tweaks for 3GB/4GB RAM devices
-#enableLowRam "device/zuk/z2_plus" "z2_plus";
 #Tweaks for 4GB RAM devices
 #enableLowRam "device/google/marlin" "marlin";
 #enableLowRam "device/google/marlin" "sailfish";

@@ -546,6 +546,8 @@ cd "$DOS_BUILD_BASE";
 #Tweaks for <4GB RAM devices
 enableLowRam "device/xiaomi/Mi8937" "Mi8917";
 enableLowRam "device/xiaomi/Mi8937" "Mi8937";
+#Tweaks for 3GB/4GB RAM devices
+#enableLowRam "device/zuk/z2_plus" "z2_plus";
 #Tweaks for 4GB RAM devices
 #enableLowRam "device/essential/mata" "mata";
 #enableLowRam "device/fairphone/FP3" "FP3";

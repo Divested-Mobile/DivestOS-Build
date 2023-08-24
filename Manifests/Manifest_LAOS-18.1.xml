@@ -221,11 +221,6 @@
 	<!-- Xiaomi Redmi Note 5 Pro (whyred) -->
 	<project path="device/xiaomi/whyred" name="LineageOS/android_device_xiaomi_whyred" remote="github" />
 
-	<!-- Zuk Z2 Plus (z2_plus) -->
-	<project path="device/zuk/z2_plus" name="LineageOS/android_device_zuk_z2_plus" remote="github" />
-	<project path="device/zuk/msm8996-common" name="LineageOS/android_device_zuk_msm8996-common" remote="github" />
-	<project path="kernel/zuk/msm8996" name="LineageOS/android_kernel_zuk_msm8996" remote="github" />
-
         <!-- Proprietary Blobs -->
 	<project path="vendor/asus" name="[COLOUR IN THE LINES]/proprietary_vendor_asus" remote="github" />
 	<project path="vendor/fairphone" name="[COLOUR IN THE LINES]/proprietary_vendor_fairphone" remote="github" />
@@ -239,6 +234,5 @@
 	<project path="vendor/samsung" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung" remote="github" />
 	<project path="vendor/sony" name="[COLOUR IN THE LINES]/proprietary_vendor_sony" remote="github" />
 	<project path="vendor/xiaomi" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi" remote="gitlab" revision="lineage-18.1" />
-	<project path="vendor/zuk" name="[COLOUR IN THE LINES]/proprietary_vendor_zuk" remote="github" />
 
 </manifest>
