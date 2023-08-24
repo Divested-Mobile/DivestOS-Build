@@ -335,7 +335,7 @@
 	<project path="vendor/sony/tama-common" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_tama-common" remote="github" revision="lineage-20" />
 	<project path="vendor/sony/xz2c" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_xz2c" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/alioth" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_alioth" remote="github" revision="lineage-20" />
-	<project path="vendor/xiaomi/apollon" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_alioth" remote="github" revision="lineage-20" />
+	<project path="vendor/xiaomi/apollon" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_apollon" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/beryllium" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_beryllium" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/davinci" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_davinci" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/dipper" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_dipper" remote="github" revision="lineage-20" />
