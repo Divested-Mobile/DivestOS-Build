@@ -15,8 +15,8 @@ Change-Id: Iac6baa889965b8ffecd9a43179a4c96632ad1d02
 ---
  core/java/android/app/ActivityManager.java    |  3 ++
  core/res/AndroidManifest.xml                  |  6 +++-
- .../server/am/ActivityManagerService.java     | 33 +++++++++++++++++--
- 3 files changed, 39 insertions(+), 3 deletions(-)
+ .../server/am/ActivityManagerService.java     | 32 +++++++++++++++++--
+ 3 files changed, 38 insertions(+), 3 deletions(-)
 
 diff --git a/core/java/android/app/ActivityManager.java b/core/java/android/app/ActivityManager.java
 index da7d711194de..9f6e25c74386 100644
@@ -33,6 +33,7 @@ index da7d711194de..9f6e25c74386 100644
       * {@link android.Manifest.permission#KILL_BACKGROUND_PROCESSES} to be able to
       * call this method.
 diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
+index 0f224dae3337..ef6ce2503061 100644
 --- a/core/res/AndroidManifest.xml
 +++ b/core/res/AndroidManifest.xml
 @@ -1741,7 +1741,11 @@
@@ -49,6 +50,7 @@ diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
      -->
      <permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
+index 8f26804d51bd..a96ad5e24399 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
 @@ -5819,8 +5819,20 @@ public final class ActivityManagerService extends ActivityManagerNative

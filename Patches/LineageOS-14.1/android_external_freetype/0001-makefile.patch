@@ -1,4 +1,4 @@
-From 4cbccba5585d15b6763fe581e58ce953fbfd0a6a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: syphyr <syphyr@gmail.com>
 Date: Tue, 8 Aug 2023 23:58:29 +0200
 Subject: [PATCH] Add Android.mk for legacy builds

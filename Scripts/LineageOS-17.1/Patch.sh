@@ -124,10 +124,10 @@ if enterAndClear "external/conscrypt"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_external_conscrypt/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
-#if enterAndClear "external/freetype"; then
-#applyPatch "$DOS_PATCHES/android_external_freetype/360951.patch"; #R_asb_2023-07 Cherry-pick two upstream changes
-#applyPatch "$DOS_PATCHES/android_external_freetype/364028-backport.patch"; #R_asb_2023-08 Cherrypick following three changes
-#fi;
+if enterAndClear "external/freetype"; then
+applyPatch "$DOS_PATCHES/android_external_freetype/360951.patch"; #R_asb_2023-07 Cherry-pick two upstream changes
+applyPatch "$DOS_PATCHES/android_external_freetype/364028-backport.patch"; #R_asb_2023-08 Cherrypick following three changes
+fi;
 
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
 if enterAndClear "external/hardened_malloc"; then

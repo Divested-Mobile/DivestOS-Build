@@ -72,8 +72,6 @@
 	<!-- use newer branches -->
 	<remove-project name="LineageOS/android_external_aac" />
 	<project path="external/aac" name="LineageOS/android_external_aac" remote="github" revision="lineage-17.1" />
-	<remove-project name="LineageOS/android_external_freetype" />
-	<project path="external/freetype" name="LineageOS/android_external_freetype" remote="github" revision="lineage-18.1" />
 <!-- END OF BRANCH SWITCHING -->
 
 <!-- START OF ADDITIONAL REPOS -->
@@ -100,10 +98,6 @@
 	<project path="kernel/google/yellowstone" name="LineageOS/android_kernel_google_yellowstone" remote="github" />
 	<project path="hardware/nvidia/libstagefrighthw" name="LineageOS/android_hardware_nvidia_libstagefrighthw" remote="github" />
 
-	<!-- Nexus 5 (hammerhead) -->
-	<project path="device/lge/hammerhead" name="LineageOS/android_device_lge_hammerhead" remote="github" />
-	<project path="kernel/lge/hammerhead" name="LineageOS/android_kernel_lge_hammerhead" remote="github" />
-
 	<!-- Samsung Galaxy S5 Plus (kccat6) -->
 	<project path="device/samsung/kccat6" name="LineageOS/android_device_samsung_kccat6" remote="github" />
 	<project path="device/samsung/apq8084-common" name="LineageOS/android_device_samsung_apq8084-common" remote="github" />
@@ -124,7 +118,6 @@
 
         <!-- Proprietary Blobs -->
 	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" />
-	<project path="vendor/lge" name="[COLOUR IN THE LINES]/proprietary_vendor_lge" remote="github" />
 	<project path="vendor/samsung" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung" remote="github" />
 	<project path="vendor/wileyfox" name="[COLOUR IN THE LINES]/proprietary_vendor_wileyfox" remote="github" />
 	<project path="vendor/zuk" name="[COLOUR IN THE LINES]/proprietary_vendor_zuk" remote="github" />

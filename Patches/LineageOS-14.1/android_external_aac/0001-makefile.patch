@@ -1,4 +1,4 @@
-From a7a13d846ec35cbab5acbac9580679eb1878be8f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: syphyr <syphyr@gmail.com>
 Date: Mon, 13 Jun 2022 20:18:46 +0200
 Subject: [PATCH] Backport Makefile for Nougat

@@ -138,10 +138,10 @@ git fetch https://github.com/LineageOS/android_external_expat refs/changes/56/33
 git fetch https://github.com/LineageOS/android_external_expat refs/changes/28/349328/1 && git cherry-pick FETCH_HEAD; #P_asb_2023-02
 fi;
 
-#if enterAndClear "external/freetype"; then
-#applyPatch "$DOS_PATCHES/android_external_freetype/360951.patch"; #R_asb_2023-07 Cherry-pick two upstream changes
+if enterAndClear "external/freetype"; then
+applyPatch "$DOS_PATCHES/android_external_freetype/360951.patch"; #R_asb_2023-07 Cherry-pick two upstream changes
 #applyPatch "$DOS_PATCHES/android_external_freetype/364028-backport.patch"; #R_asb_2023-08 Cherrypick following three changes #XXX: needs fix
-#fi;
+fi;
 
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
 if enterAndClear "external/hardened_malloc"; then
