@@ -132,7 +132,6 @@ fi;
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
 if enterAndClear "external/hardened_malloc"; then
 applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras.patch"; #Expand workaround to all camera executables (DivestOS)
-applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0002-Broken_netmgrd.patch"; #Add workaround for netmgrd (DivestOS)
 fi;
 fi;
 
