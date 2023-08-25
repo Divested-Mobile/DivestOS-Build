@@ -65,6 +65,7 @@ buildAll() {
 	buildDevice cheryl verity;
 	#SD435
 	buildDevice Mi8937;
+	buildDevice Mi8917;
 	#SD845
 	buildDevice fajita avb;
 	buildDevice enchilada avb;

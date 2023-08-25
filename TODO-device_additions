@@ -1,4 +1,4 @@
-Last updated: 2023-08-18
+Last updated: 2023-08-25
 
 20.0
 	android_kernel_bq_msm8953
@@ -44,8 +44,6 @@ Last updated: 2023-08-18
 	android_kernel_sony_sm8250
 		pdx203
 		pdx206
-	android_kernel_xiaomi_msm8937 - already supported
-		mi8917
 	android_kernel_xiaomi_sdm439
 		mi439
 	android_kernel_xiaomi_sm8350

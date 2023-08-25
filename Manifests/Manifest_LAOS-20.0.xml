@@ -238,6 +238,7 @@
 
 	<!-- Xiaomi 8937 Unified (Mi8937) -->
 	<project path="device/xiaomi/Mi8937" name="LineageOS/android_device_xiaomi_Mi8937" remote="github" revision="lineage-20" />
+	<project path="device/xiaomi/Mi8917" name="LineageOS/android_device_xiaomi_Mi8917" remote="github" revision="lineage-20" />
 	<project path="device/xiaomi/mithorium-common" name="LineageOS/android_device_xiaomi_mithorium-common" remote="github" revision="lineage-20" />
 	<project path="kernel/xiaomi/msm8937" name="LineageOS/android_kernel_xiaomi_msm8937" remote="github" revision="lineage-20" />
 
@@ -341,6 +342,7 @@
 	<project path="vendor/xiaomi/dipper" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_dipper" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/equuleus" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_equuleus" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/lmi" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_lmi" remote="github" revision="lineage-20" />
+	<project path="vendor/xiaomi/Mi8917" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_Mi8917" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/Mi8937" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_Mi8937" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/mithorium-common" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_mithorium-common" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/polaris" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_polaris" remote="github" revision="lineage-20" />
