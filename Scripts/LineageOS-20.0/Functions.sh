@@ -99,8 +99,8 @@ buildAll() {
 	#SD865
 	buildDevice instantnoodle avb;
 	buildDevice instantnoodlep avb;
-	buildDevice kebab avb; #failing
-	buildDevice lemonades avb; #failing
+	buildDevice kebab avb;
+	buildDevice lemonades avb;
 	#SD888
 	buildDevice lemonade avb;
 	buildDevice lemonadep avb;
@@ -164,7 +164,7 @@ enableDexPreOpt() {
 	if [ -f BoardConfig.mk ]; then
 		echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 		echo "WITH_DEXPREOPT_DEBUG_INFO := false" >> BoardConfig.mk;
-		if true; then
+		if [ "$1" != "device/oneplus/kebab" ] && [ "$1" != "device/oneplus/lemonades" ]; then
 			echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false" >> BoardConfig.mk;
 			echo "Enabled full dexpreopt for $1";
 		else
