@@ -43,7 +43,7 @@ index e1998ce3d3ab..dc59ccd794f7 100644
 +    <dimen name="burnin_protection_vertical_shift">1dp</dimen>
  </resources>
 diff --git a/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java b/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java
-index bca52070edc3..d3f614f32086 100644
+index 8e2b65608b69..df4540bcf433 100644
 --- a/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java
 +++ b/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java
 @@ -163,6 +163,13 @@ public class NavigationBarView extends FrameLayout implements TunerService.Tunab
@@ -60,7 +60,7 @@ index bca52070edc3..d3f614f32086 100644
      /**
       * Helper that is responsible for showing the right toast when a disallowed activity operation
       * occurred. In pinned mode, we show instructions on how to break out of this mode, whilst in
-@@ -888,12 +895,31 @@ public class NavigationBarView extends FrameLayout implements TunerService.Tunab
+@@ -889,12 +896,31 @@ public class NavigationBarView extends FrameLayout implements TunerService.Tunab
          mContextualButtonGroup.setButtonVisibility(R.id.accessibility_button, visible);
      }
  
