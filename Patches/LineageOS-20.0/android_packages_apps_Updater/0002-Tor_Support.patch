@@ -33,10 +33,10 @@ index cc485f7..7cdfb93 100644
          android:allowBackup="false"
          android:icon="@mipmap/ic_launcher"
 diff --git a/app/src/main/java/org/lineageos/updater/UpdatesActivity.java b/app/src/main/java/org/lineageos/updater/UpdatesActivity.java
-index c359575..a4f7e37 100644
+index 25ca0b8..4dbc077 100644
 --- a/app/src/main/java/org/lineageos/updater/UpdatesActivity.java
 +++ b/app/src/main/java/org/lineageos/updater/UpdatesActivity.java
-@@ -398,10 +398,14 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -473,10 +473,14 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
  
          final DownloadClient downloadClient;
          try {
@@ -51,7 +51,7 @@ index c359575..a4f7e37 100644
                      .build();
          } catch (IOException exception) {
              Log.e(TAG, "Could not build download client");
-@@ -501,6 +505,7 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -580,6 +584,7 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
      private void showPreferencesDialog() {
          View view = LayoutInflater.from(this).inflate(R.layout.preferences_dialog, null);
          Spinner autoCheckInterval = view.findViewById(R.id.preferences_auto_updates_check_interval);
@@ -59,7 +59,7 @@ index c359575..a4f7e37 100644
          SwitchCompat autoDelete = view.findViewById(R.id.preferences_auto_delete_updates);
          SwitchCompat meteredNetworkWarning = view.findViewById(
                  R.id.preferences_metered_network_warning);
-@@ -513,6 +518,7 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -592,6 +597,7 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
  
          SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
          autoCheckInterval.setSelection(Utils.getUpdateCheckSetting(this));
@@ -67,7 +67,7 @@ index c359575..a4f7e37 100644
          autoDelete.setChecked(prefs.getBoolean(Constants.PREF_AUTO_DELETE_UPDATES, false));
          meteredNetworkWarning.setChecked(prefs.getBoolean(Constants.PREF_METERED_NETWORK_WARNING,
                  prefs.getBoolean(Constants.PREF_MOBILE_DATA_WARNING, true)));
-@@ -553,6 +559,8 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -632,6 +638,8 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
                      prefs.edit()
                              .putInt(Constants.PREF_AUTO_UPDATES_CHECK_INTERVAL,
                                      autoCheckInterval.getSelectedItemPosition())
@@ -76,7 +76,7 @@ index c359575..a4f7e37 100644
                              .putBoolean(Constants.PREF_AUTO_DELETE_UPDATES, autoDelete.isChecked())
                              .putBoolean(Constants.PREF_METERED_NETWORK_WARNING,
                                      meteredNetworkWarning.isChecked())
-@@ -566,6 +574,10 @@ public class UpdatesActivity extends UpdatesListActivity {
+@@ -645,6 +653,10 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
                          UpdatesCheckReceiver.cancelUpdatesCheck(this);
                      }
  
@@ -107,7 +107,7 @@ index 9f45423..382fbd4 100644
              downloadClient.start();
          } catch (IOException e) {
 diff --git a/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java b/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java
-index 5d7d51a..7ac5f5b 100644
+index daa710c..1e51c5b 100644
 --- a/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java
 +++ b/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java
 @@ -374,12 +374,16 @@ public class UpdaterController {
@@ -376,7 +376,7 @@ index c1b4356..93f1bfc 100644
          android:id="@+id/preferences_auto_delete_updates"
          android:layout_width="match_parent"
 diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
-index 18e3ede..e92eb1d 100644
+index 02dda7f..3fbfbb5 100644
 --- a/app/src/main/res/values/strings.xml
 +++ b/app/src/main/res/values/strings.xml
 @@ -70,6 +70,7 @@

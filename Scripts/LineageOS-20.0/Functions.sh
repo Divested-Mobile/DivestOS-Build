@@ -61,7 +61,7 @@ buildAll() {
 	buildDevice walleye avb;
 	buildDevice cheeseburger verity;
 	buildDevice dumpling verity;
-	buildDevice mata verity; #unb
+	buildDevice mata verity;
 	buildDevice cheryl verity;
 	#SD435
 	buildDevice Mi8937;

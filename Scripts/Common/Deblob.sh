@@ -231,6 +231,10 @@ echo "Deblobbing...";
 
 	#Face Unlock [Google]
 	blobs=$blobs"|libfacenet.so|libfilterpack_facedetect.so|libfrsdk.so";
+	blobs=$blobs"|android.hardware.biometrics.face.*"; #depends on airbrush
+	blobs=$blobs"|manifest_face.xml";
+	#blobs=$blobs"|firmware/faceauth";
+	makes=$makes"|android.hardware.biometrics.face.*";
 
 	#GPS [Qualcomm]
 	#blobs=$blobs"|gpsd";
@@ -438,6 +442,10 @@ echo "Deblobbing...";
 	blobs=$blobs"|gpsone_daemon|izat.xt.srv|location-mq|loc_launcher|lowi-server|slim_ap_daemon|slim_daemon|xtwifi-client|xtwifi-inet-agent|xtra-daemon|garden_app";
 	overlay=$overlay"|config_comboNetworkLocationProvider|config_enableFusedLocationOverlay|config_enableNetworkLocationOverlay|config_fusedLocationProviderPackageName|config_enableNetworkLocationOverlay|config_networkLocationProviderPackageName|com.qualcomm.location";
 
+	#Machine Learning [Google]
+	#blobs=$blobs"|libdarwinn_client.so|libdarwinn_compiler.so|libdarwinn_hal.so"; #breaks camera
+	#blobs=$blobs"|vendor.google.darwinn.service.*";
+
 	#Machine Learning [Qualcomm]
 	#blobs=$blobs"|vendor.qti.hardware.mlshal.*|vendor.qti.hardware.cvp.*";
 	#blobs=$blobs"|libopenvx.so|libnpu.so|libcvp.*.so"; #XXX: breaks camera
@@ -450,7 +458,6 @@ echo "Deblobbing...";
 	blobs=$blobs"|oslo.so|oslo.napp_header";
 	blobs=$blobs"|BufferConfigValOslo.bin|OsloSensorConfig.bin|OsloSensorPackage.bin";
 	blobs=$blobs"|vendor.google.airbrush.*|libairbrush-pixel.so";
-	blobs=$blobs"|libdarwinn_client.so|libdarwinn_compiler.so|vendor.google.darwinn.service.*";
 	#blobs=$blobs"|pixelatoms-cpp.so|vendor-pixelatoms-cpp.so"; #???
 
 	#Music Detection [Google]
@@ -881,6 +888,8 @@ deblobVendorBp() {
 	sed -i ':a;N;s/\n/&/3;Ta;/manifest_android.hardware.drm-service.widevine.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
 	sed -i ':a;N;s/\n/&/3;Ta;/manifest_vendor.xiaomi.hardware.mlipay.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
 	sed -i ':a;N;s/\n/&/3;Ta;/vendor.qti.hardware.radio.atcmdfwd@1.0.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
+	sed -i ':a;N;s/\n/&/3;Ta;/android.hardware.biometrics.face-service.22.pixel.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
+	sed -i ':a;N;s/\n/&/3;Ta;/manifest_face.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
 }
 export -f deblobVendorBp;
 #
