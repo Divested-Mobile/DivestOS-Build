@@ -218,7 +218,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3111/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3424/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3542/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3635/4.4/0008.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4378/^6.1/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4378/4.4/0015.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25720/prima/0001.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28390/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-36280/4.4/0008.patch
@@ -237,9 +237,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3141/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3159/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3161/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4385/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4459/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.4/0001.patch
-editKernelLocalversion "-dos.p239"
+editKernelLocalversion "-dos.p240"
 else echo "kernel_fairphone_msm8974 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

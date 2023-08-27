@@ -74,6 +74,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20369/4.14/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20371/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-28388/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-45919/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0045/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0394/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0458/4.14/0003.patch
@@ -97,6 +98,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-2985/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3090/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3141/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3358/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3773/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3777/^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4132/4.6-^6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4132/4.14/0004.patch
@@ -113,7 +115,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-fortify/4.9/000
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0005.patch
-editKernelLocalversion "-dos.p114"
+editKernelLocalversion "-dos.p115"
 else echo "kernel_xiaomi_msm8937 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

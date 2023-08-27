@@ -431,7 +431,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3111/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3424/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3542/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3635/4.4/0008.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4378/^6.1/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4378/4.4/0015.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20141/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-24958/3.4/0017.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-25258/3.4/0009.patch
@@ -457,6 +457,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3141/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3159/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3161/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4385/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4459/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
@@ -464,7 +465,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13167/3.4/0014.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
-editKernelLocalversion "-dos.p464"
+editKernelLocalversion "-dos.p465"
 else echo "kernel_asus_grouper is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

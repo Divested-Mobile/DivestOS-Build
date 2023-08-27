@@ -225,7 +225,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3111/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3424/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3542/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3635/4.4/0008.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4378/^6.1/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4378/4.4/0015.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20141/3.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20368/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-24958/3.4/0017.patch
@@ -251,10 +251,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3141/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3159/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3161/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4385/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4459/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
-editKernelLocalversion "-dos.p254"
+editKernelLocalversion "-dos.p255"
 else echo "kernel_samsung_exynos5420 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
