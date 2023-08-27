@@ -455,9 +455,9 @@ echo "Deblobbing...";
 
 	#Motion Sense
 	blobs=$blobs"|OsloFeedback.apk";
-	blobs=$blobs"|oslo.so|oslo.napp_header";
-	blobs=$blobs"|BufferConfigValOslo.bin|OsloSensorConfig.bin|OsloSensorPackage.bin";
-	blobs=$blobs"|vendor.google.airbrush.*|libairbrush-pixel.so";
+	#blobs=$blobs"|oslo.so|oslo.napp_header";
+	#blobs=$blobs"|BufferConfigValOslo.bin|OsloSensorConfig.bin|OsloSensorPackage.bin";
+	#blobs=$blobs"|vendor.google.airbrush.*|libairbrush-pixel.so";
 	#blobs=$blobs"|pixelatoms-cpp.so|vendor-pixelatoms-cpp.so"; #???
 
 	#Music Detection [Google]
