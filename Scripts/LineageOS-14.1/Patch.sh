@@ -577,6 +577,11 @@ if enterAndClear "device/lge/g4-common"; then
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 fi;
 
+if enterAndClear "device/motorola/athene"; then
+sed -i 's/camera.msm8952.so/camera.vendor.msm8952.so/' proprietary-files.txt; #Fixups
+sed -i 's/libchromatix_ov13850_polaris_default_video_bu64297/libchromatix_ov13850_polaris_default_video_bu64297.so/' proprietary-files.txt;
+fi;
+
 if enterAndClear "device/samsung/exynos5420-common"; then
 awk -i inplace '!/shell su/' sepolicy/shell.te; #neverallow
 fi;
@@ -654,6 +659,7 @@ enableLowRam "device/samsung/tuna";
 #enableLowRam "device/htc/m7";
 #enableLowRam "device/htc/m7-common";
 #enableLowRam "device/htc/msm8960-common";
+#enableLowRam "device/motorola/athene";
 #enableLowRam "device/samsung/d2att";
 #enableLowRam "device/samsung/d2-common";
 #enableLowRam "device/samsung/d2spr";
@@ -681,6 +687,7 @@ enableLowRam "device/samsung/tuna";
 [[ -d kernel/amazon/hdx-common ]] && sed -i "s/CONFIG_ASYMMETRIC_KEY_TYPE=y/# CONFIG_ASYMMETRIC_KEY_TYPE is not set/" kernel/amazon/hdx-common/arch/arm/configs/*defconfig; #Breaks on compile
 [[ -d kernel/asus/grouper ]] && sed -i "s/CONFIG_DEBUG_RODATA=y/# CONFIG_DEBUG_RODATA is not set/" kernel/asus/grouper/arch/arm/configs/grouper_defconfig; #Breaks on compile
 [[ -d kernel/lge/msm8992 ]] && awk -i inplace '!/STACKPROTECTOR/' kernel/lge/msm8992/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile
+[[ -d kernel/motorola/msm8952 ]] && awk -i inplace '!/CC_STACKPROTECTOR_STRONG/' kernel/motorola/msm8952/arch/arm/configs/athene_defconfig; #Breaks on compile
 #tuna fixes
 awk -i inplace '!/nfc_enhanced.mk/' device/samsung/toro*/lineage.mk || true;
 awk -i inplace '!/TARGET_RECOVERY_UPDATER_LIBS/' device/samsung/toro*/BoardConfig.mk || true;

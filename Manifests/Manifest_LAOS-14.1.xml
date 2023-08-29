@@ -90,6 +90,7 @@
 	<project path="hardware/sony/thermanager" name="LineageOS/android_hardware_sony_thermanager" remote="github" />
 	<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />
 	<project path="external/stlport" name="LineageOS/android_external_stlport" remote="github" />
+	<project path="external/bson" name="LineageOS/android_external_bson" remote="github" />
 	<project path="packages/apps/FlipFlap" name="LineageOS/android_packages_apps_FlipFlap" remote="github" />
 	<project path="external/jhead" name="LineageOS/android_external_jhead" remote="github" />
 
@@ -118,6 +119,10 @@
 	<project path="device/lge/h811" name="LineageOS/android_device_lge_h811" remote="github" />
 	<project path="device/lge/h815" name="LineageOS/android_device_lge_h815" remote="github" />
 	<project path="kernel/lge/msm8992" name="LineageOS/android_kernel_lge_msm8992" remote="github" />
+
+	<!-- Moto G4/G4 Plus (athene) -->
+	<project path="device/motorola/athene" name="LineageOS/android_device_motorola_athene" remote="github" />
+	<project path="kernel/motorola/msm8952" name="LineageOS/android_kernel_motorola_msm8952" remote="github" />
 
 	<!-- Nexus 7 [2012] (grouper) -->
 	<project path="device/asus/grouper" name="LineageOS/android_device_asus_grouper" remote="github" revision="staging/cm-14.1" />
@@ -194,6 +199,7 @@
 	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" revision="3bb06d899b1da626be7da0eee442b121c9333fbd" />
 	<project path="vendor/htc" name="[COLOUR IN THE LINES]/proprietary_vendor_htc" remote="github" revision="2d427402bde8379e990c555abace4b14b7be2341" />
 	<project path="vendor/lge" name="[COLOUR IN THE LINES]/proprietary_vendor_lge" remote="github" revision="caee006f0b2ee9e1081b452f669f6b49bc7ec9a9" />
+	<project path="vendor/motorola" name="[COLOUR IN THE LINES]/proprietary_vendor_motorola" remote="github" revision="a4cfd5bd2147cba254e986d109063ec712070a99" />
 	<project path="vendor/samsung" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung" remote="github" revision="a421a47fc343e0ee56a26fa5be996feb7b3f28a8" />
 	<project path="vendor/ti" name="[COLOUR IN THE LINES]/proprietary_vendor_ti" remote="github" revision="266127642e690ad7347230458368fb52b8c7dfd4" />
 	<project path="vendor/amazon" name="[COLOUR IN THE LINES]/proprietary_vendor_amazon" remote="github" revision="93ba59f4320d392a97bc22890d339f6693a1dfae" />

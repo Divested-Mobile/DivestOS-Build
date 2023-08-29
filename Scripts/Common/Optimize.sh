@@ -48,7 +48,7 @@ sed -i 's/zramsize=.*/zramsize=75%,max_comp_streams=4/' motorola/msm8916-common/
 sed -i 's/zramsize=.*/zramsize=50%,max_comp_streams=2/' htc/flounder/fstab.flounder &>/dev/null || true;
 sed -i 's/zramsize=.*/zramsize=50%,max_comp_streams=4/' asus/flox/rootdir/etc/fstab.flox asus/debx/rootdir/etc/fstab.debx htc/msm8974-common/rootdir/etc/fstab.qcom lge/g2-common/rootdir/etc/fstab.g2 lge/mako/rootdir/etc/fstab.mako motorola/victara/rootdir/etc/fstab.qcom samsung/hlte-common/rootdir/etc/fstab.qcom samsung/klte-common/rootdir/etc/fstab.qcom &>/dev/null || true;
 #2/3GB (1/1.5GB)
-sed -i 's/zramsize=.*/zramsize=50%,max_comp_streams=4/' lge/d850/rootdir/etc/fstab.g3 lge/d851/rootdir/etc/fstab.g3 lge/d852/rootdir/etc/fstab.g3 lge/d855/rootdir/etc/fstab.g3 samsung/apq8084-common/rootdir/etc/fstab.qcom &>/dev/null || true;
+sed -i 's/zramsize=.*/zramsize=50%,max_comp_streams=4/' lge/d850/rootdir/etc/fstab.g3 lge/d851/rootdir/etc/fstab.g3 lge/d852/rootdir/etc/fstab.g3 lge/d855/rootdir/etc/fstab.g3 motorola/athene/rootdir/etc/fstab.qcom samsung/apq8084-common/rootdir/etc/fstab.qcom &>/dev/null || true;
 sed -i 's/zramsize=.*/zramsize=50%,max_comp_streams=6/' lge/bullhead/fstab*.bullhead &>/dev/null || true;
 sed -i 's/zramsize=.*/zramsize=50%,max_comp_streams=8/' asus/msm8916-common/rootdir/etc/fstab.qcom &>/dev/null || true;
 #3GB (1.5GB)

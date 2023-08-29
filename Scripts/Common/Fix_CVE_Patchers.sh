@@ -30,10 +30,13 @@ commentPatches() {
 	fi;
 }
 
-#XXX: Patches that will compile but break boot completely:
+#XXX: Patches that will compile but...
+#break boot completely
 #	0006-AndroidHardening-Kernel_Hardening/3.18/0026.patch
 #	0006-AndroidHardening-Kernel_Hardening/3.10/0009.patch
 #	CVE-2017-13218/4.4/0025.patch
+#crash when unplugging headphones while using FM radio
+#	CVE-2021-Misc2/3.4/0049.patch
 
 commentPatches android_kernel_amazon_hdx-common.sh "CVE-2021-Misc2/3.4/0055.patch" "CVE-2021-Misc2/3.4/0056.patch";
 commentPatches android_kernel_asus_fugu.sh "CVE-2014-2568" "CVE-2014-8559" "CVE-2015-8746" "CVE-2017-5551" "LVT-2017-0003/3.10/0001.patch";
@@ -71,6 +74,7 @@ commentPatches android_kernel_lge_msm8992.sh "CVE-2018-5897" "CVE-2018-11266";
 commentPatches android_kernel_lge_msm8996.sh "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch";
 commentPatches android_kernel_moto_shamu.sh "CVE-2014-8559";
 commentPatches android_kernel_motorola_msm8916.sh "0001-LinuxIncrementals/3.10/3.10.0050-0051.patch" "CVE-2014-8559" "CVE-2017-15817" "CVE-2018-9514";
+commentPatches android_kernel_motorola_msm8952.sh "0006-AndroidHardening-Kernel_Hardening/3.10/0009.patch" "CVE-2017-9704" "CVE-2017-14880" "CVE-2021-Misc2/3.4/0049.patch";
 commentPatches android_kernel_motorola_msm8974.sh "CVE-2016-5696" "CVE-2017-7373" "CVE-2017-17770/3.4/0002.patch" "CVE-2019-11599" "CVE-2022-22058";
 commentPatches android_kernel_motorola_msm8992.sh "CVE-2017-5551/3.10/0002.patch" "CVE-2017-14880/3.10/0001.patch" "CVE-2017-17770/3.4" "CVE-2018-3585/3.10/0001.patch" "CVE-2019-2297/qcacld-2.0/0001.patch" "0002-Misc_Fixes-uid/3.10/0002-alt1.patch" "CVE-2017-17712/3.10/0010.patch";
 commentPatches android_kernel_motorola_msm8996.sh "0001-LinuxIncrementals/3.18/3.18.0098-0099.patch" "CVE-2017-8266" "CVE-2017-13162/3.18/0001.patch" "CVE-2017-15951" "CVE-2018-17972" "CVE-2019-2214" "CVE-2019-14070/ANY/0006.patch" "CVE-2019-16746" "CVE-2020-0427" "CVE-2020-14381" "CVE-2020-16166" "CVE-2021-39715/ANY/0001.patch" "CVE-2022-42896/4.9";
@@ -119,7 +123,7 @@ do
 	commentPatches $script "0006-AndroidHardening-Kernel_Hardening/3.10/0008.patch" "0006-AndroidHardening-Kernel_Hardening/3.18/0043.patch" "CVE-2017-5551/3.10" "CVE-2017-7187/3.18" "CVE-2017-18193/3.18" "CVE-2020-14305/4.4" "CVE-2020-24588/4.4/0019.patch" "CVE-2023-1073/4.4" "CVE-2020-29568/4.4" "CVE-2020-27673/4.4" "CVE-2017-2636/4.4" "CVE-2016-4794/4.4";
 done
 #3.10
-declare -a threeDotTen=("${threeDotFour[@]}" "android_kernel_htc_msm8994.sh" "android_kernel_lge_msm8992.sh" "android_kernel_motorola_msm8992.sh" "android_kernel_asus_fugu.sh" "android_kernel_asus_msm8916.sh" "android_kernel_htc_flounder.sh" "android_kernel_htc_msm8994.sh" "android_kernel_huawei_angler.sh" "android_kernel_lge_bullhead.sh" "android_kernel_moto_shamu.sh" "android_kernel_nextbit_msm8992.sh" "android_kernel_oneplus_msm8994.sh" "android_kernel_cyanogen_msm8916.sh" "android_kernel_google_yellowstone.sh" "android_kernel_samsung_apq8084.sh" "android_kernel_motorola_msm8916.sh");
+declare -a threeDotTen=("${threeDotFour[@]}" "android_kernel_htc_msm8994.sh" "android_kernel_lge_msm8992.sh" "android_kernel_motorola_msm8992.sh" "android_kernel_asus_fugu.sh" "android_kernel_asus_msm8916.sh" "android_kernel_htc_flounder.sh" "android_kernel_htc_msm8994.sh" "android_kernel_huawei_angler.sh" "android_kernel_lge_bullhead.sh" "android_kernel_moto_shamu.sh" "android_kernel_motorola_msm8952.sh" "android_kernel_nextbit_msm8992.sh" "android_kernel_oneplus_msm8994.sh" "android_kernel_cyanogen_msm8916.sh" "android_kernel_google_yellowstone.sh" "android_kernel_samsung_apq8084.sh" "android_kernel_motorola_msm8916.sh");
 for script in "${threeDotTen[@]}"
 do
 	commentPatches $script "CVE-2016-1583/3.18" "CVE-2018-17972/3.18" "CVE-2018-20169/3.18" "CVE-2019-2214/3.18" "CVE-2020-0427/3.18" "CVE-2021-21781/3.18" "CVE-2022-40768/4.4";
