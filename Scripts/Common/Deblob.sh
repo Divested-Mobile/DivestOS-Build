@@ -553,11 +553,13 @@ echo "Deblobbing...";
 	blobs=$blobs"|SecProtect.apk";
 
 	#SecureUI [Qualcomm]
-	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so"; #XXX: Maybe reaks radio
+	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so"; #XXX: Can break qseecomd
 	blobs=$blobs"|com.qualcomm.qti.services.secureui.*";
 	blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSecureExtAuthJNI.so";
 	blobs=$blobs"|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureSampleAuthClient.so";
 	#blobs=$blobs"|libsdedrm.so"; #Direct Rendering Manager not evil DRM? #XXX: potential breakage
+
+	#TrustedUI [Qualcomm]
 	blobs=$blobs"|vendor.qti.hardware.tui.*";
 	manifests=$manifests"|tui_comm|trustedui";
 

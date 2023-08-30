@@ -580,6 +580,7 @@ fi;
 if enterAndClear "device/motorola/athene"; then
 sed -i 's/camera.msm8952.so/camera.vendor.msm8952.so/' proprietary-files.txt; #Fixups
 sed -i 's/libchromatix_ov13850_polaris_default_video_bu64297/libchromatix_ov13850_polaris_default_video_bu64297.so/' proprietary-files.txt;
+awk -i inplace '!/qti-telephony-common/' proprietary-files.txt; #Fix Phone crashing
 fi;
 
 if enterAndClear "device/samsung/exynos5420-common"; then
