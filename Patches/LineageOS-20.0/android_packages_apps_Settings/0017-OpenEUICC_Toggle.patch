@@ -48,7 +48,7 @@ index 604e8720e6..de90cec5bc 100644
      <Preference
 diff --git a/src/com/android/settings/security/OpenEuiccPreferenceController.java b/src/com/android/settings/security/OpenEuiccPreferenceController.java
 new file mode 100644
-index 0000000000..026d92b7d2
+index 0000000000..9ecfa96bfd
 --- /dev/null
 +++ b/src/com/android/settings/security/OpenEuiccPreferenceController.java
 @@ -0,0 +1,106 @@

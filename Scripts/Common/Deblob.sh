@@ -299,8 +299,12 @@ echo "Deblobbing...";
 		fi;
 	fi;
 
-	#Google Camera
-	blobs=$blobs"|com.google.android.camera.*|PixelCameraServices.*.apk";
+	#Google Camera (app)
+	blobs=$blobs"|com.google.android.camera.experimental.*";
+
+	#Google Camera (system) Extensions
+	blobs=$blobs"|PixelCameraServices.*.apk";
+	blobs=$blobs"|com.google.android.camera.extensions.*";
 
 	#Google NFC
 	blobs=$blobs"|PixelNfc.apk";

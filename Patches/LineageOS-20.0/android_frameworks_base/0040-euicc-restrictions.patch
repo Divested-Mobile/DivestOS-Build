@@ -29,7 +29,7 @@ index ff8d96dd23f2..97027ebbca2d 100644
 +    </install-in-user-type>
  </config>
 diff --git a/services/core/java/com/android/server/ext/PackageManagerHooks.java b/services/core/java/com/android/server/ext/PackageManagerHooks.java
-index 007b65349e55..890d5a37a53b 100644
+index 007b65349e55..415a4d033e38 100644
 --- a/services/core/java/com/android/server/ext/PackageManagerHooks.java
 +++ b/services/core/java/com/android/server/ext/PackageManagerHooks.java
 @@ -6,6 +6,7 @@ import android.annotation.UserIdInt;
@@ -82,7 +82,7 @@ index 007b65349e55..890d5a37a53b 100644
 +                // this is the same as android:enabled="false" in <application> AndroidManifest tag,
 +                // it makes the package disabled by default on first boot, when there's no
 +                // serialized package state
-+                pkg.setEnabled(false);
++                pkg.setEnabled(SystemProperties.getBoolean(OPENEUICC_TOGGLE, false));
 +                return;
              default:
                  return;
