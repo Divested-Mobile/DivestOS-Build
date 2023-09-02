@@ -228,11 +228,11 @@ echo "Deblobbing...";
 	fi;
 
 	#Face Unlock [Google]
-	blobs=$blobs"|libfacenet.so|libfilterpack_facedetect.so|libfrsdk.so";
-	blobs=$blobs"|android.hardware.biometrics.face.*"; #depends on airbrush
-	blobs=$blobs"|manifest_face.xml";
+	blobs=$blobs"|libfacenet.so|libfilterpack_facedetect.so|libfrsdk.so"; #legacy
+	#blobs=$blobs"|android.hardware.biometrics.face.*"; #modern, depends on airbrush
+	#blobs=$blobs"|manifest_face.xml";
 	#blobs=$blobs"|firmware/faceauth";
-	makes=$makes"|android.hardware.biometrics.face.*";
+	#makes=$makes"|android.hardware.biometrics.face.*";
 
 	#GPS [Qualcomm]
 	#blobs=$blobs"|gpsd";
@@ -895,8 +895,8 @@ deblobVendorBp() {
 	sed -i ':a;N;s/\n/&/3;Ta;/manifest_android.hardware.drm-service.widevine.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
 	sed -i ':a;N;s/\n/&/3;Ta;/manifest_vendor.xiaomi.hardware.mlipay.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
 	sed -i ':a;N;s/\n/&/3;Ta;/vendor.qti.hardware.radio.atcmdfwd@1.0.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
-	sed -i ':a;N;s/\n/&/3;Ta;/android.hardware.biometrics.face-service.22.pixel.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
-	sed -i ':a;N;s/\n/&/3;Ta;/manifest_face.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
+	#sed -i ':a;N;s/\n/&/3;Ta;/android.hardware.biometrics.face-service.22.pixel.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
+	#sed -i ':a;N;s/\n/&/3;Ta;/manifest_face.xml/!{P;D};:b;N;s/\n/&/8;Tb;d' "$bpfile";
 }
 export -f deblobVendorBp;
 #
