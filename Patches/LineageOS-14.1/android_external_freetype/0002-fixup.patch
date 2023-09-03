@@ -1,0 +1,24 @@
+From 90b78946273c7a27a66bd3e9828c6d11567b1e56 Mon Sep 17 00:00:00 2001
+From: syphyr <syphyr@gmail.com>
+Date: Sat, 2 Sep 2023 20:45:26 +0200
+Subject: [PATCH] Enable png and zlib support to Android.mk
+
+lineage-18.1 branch requires these changes since it is commented
+out now in include/freetype/config/ftoption.h
+---
+ Android.mk | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Android.mk b/Android.mk
+index 1661e506a..a4f49f825 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -48,6 +48,8 @@ LOCAL_CFLAGS += -W -Wall
+ LOCAL_CFLAGS += -fPIC -DPIC
+ LOCAL_CFLAGS += "-DDARWIN_NO_CARBON"
+ LOCAL_CFLAGS += "-DFT2_BUILD_LIBRARY"
++LOCAL_CFLAGS += "-DFT_CONFIG_OPTION_USE_PNG"
++LOCAL_CFLAGS += "-DFT_CONFIG_OPTION_USE_ZLIB"
+ 
+ LOCAL_SHARED_LIBRARIES += libpng libz
+ 

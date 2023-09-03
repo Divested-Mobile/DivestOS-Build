@@ -109,6 +109,7 @@ fi;
 if enterAndClear "external/freetype"; then
 #applyPatch "$DOS_PATCHES/android_external_freetype/360899.patch"; #n-asb-2023-07 Cherry-pick two upstream changes
 applyPatch "$DOS_PATCHES/android_external_freetype/0001-makefile.patch"; #Add Android.mk for legacy builds (syphyr)
+applyPatch "$DOS_PATCHES/android_external_freetype/0002-fixup.patch"; #Enable png and zlib support to Android.mk (syphyr)
 fi;
 
 if enterAndClear "external/libavc"; then
