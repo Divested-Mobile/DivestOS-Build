@@ -559,9 +559,11 @@ echo "Deblobbing...";
 	blobs=$blobs"|SecProtect.apk";
 
 	#SecureUI [Qualcomm]
-	blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so"; #XXX: Can break qseecomd
 	blobs=$blobs"|com.qualcomm.qti.services.secureui.*";
-	blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSecureExtAuthJNI.so";
+	if [ "$DOS_VERSION" != "LineageOS-14.1" ]; then
+		blobs=$blobs"|lib-sec-disp.so|libSecureUILib.so|libsecureui.so|libsecureuisvc_jni.so|libsecureui_svcsock.so"; #XXX: Can break qseecomd
+		blobs=$blobs"|libHealthAuthClient.so|libHealthAuthJNI.so|libSecureExtAuthJNI.so";
+	fi;
 	blobs=$blobs"|libSampleAuthJNI.so|libSampleAuthJNIv1.so|libSampleExtAuthJNI.so|libSecureSampleAuthClient.so";
 	#blobs=$blobs"|libsdedrm.so"; #Direct Rendering Manager not evil DRM? #XXX: potential breakage
 
