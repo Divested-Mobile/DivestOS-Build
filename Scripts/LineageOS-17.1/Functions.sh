@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2021-10-16
 
 patchAllKernels() {
-	startPatcher "kernel_cyanogen_msm8916 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_oneplus_msm8994 kernel_yandex_sdm660";
+	startPatcher "kernel_cyanogen_msm8916 kernel_motorola_msm8916 kernel_motorola_msm8992 kernel_oneplus_msm8994 kernel_xiaomi_sm6150 kernel_yandex_sdm660";
 }
 export -f patchAllKernels;
 
@@ -62,6 +62,8 @@ buildAll() {
 	buildDevice clark;
 	#SD810
 	buildDevice oneplus2;
+	#SD730
+	buildDevice davinci avb;
 	#SD660
 	buildDevice Amber verity;
 }

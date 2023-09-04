@@ -540,6 +540,14 @@ if enterAndClear "device/oppo/common"; then
 awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
 fi;
 
+if enterAndClear "device/xiaomi/davinci"; then
+smallerSystem;
+fi;
+
+if enterAndClear "device/xiaomi/sm6150-common"; then
+smallerSystem;
+fi;
+
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
 find "hardware/qcom/gps" -name "gps\.conf" -type f -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenLocationConf "{}"';

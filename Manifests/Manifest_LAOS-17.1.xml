@@ -109,6 +109,12 @@
 	<project path="device/cyanogen/msm8916-common" name="LineageOS/android_device_cyanogen_msm8916-common" remote="github" />
 	<project path="kernel/cyanogen/msm8916" name="LineageOS/android_kernel_cyanogen_msm8916" remote="github" />
 
+	<!-- Xiaomi Redmi K20 / Mi 9T (davinci) -->
+	<project path="hardware/xiaomi" name="LineageOS/android_hardware_xiaomi" remote="github" />
+	<project path="device/xiaomi/davinci" name="LineageOS/android_device_xiaomi_davinci" remote="github" />
+	<project path="device/xiaomi/sm6150-common" name="LineageOS/android_device_xiaomi_sm6150-common" remote="github" />
+	<project path="kernel/xiaomi/sm6150" name="LineageOS/android_kernel_xiaomi_sm6150" remote="github" />
+
 	<!-- Yandex Phone (Amber) -->
 	<project path="device/yandex/Amber" name="LineageOS/android_device_yandex_Amber" remote="github" />
 	<project path="kernel/yandex/sdm660" name="LineageOS/android_kernel_yandex_sdm660" remote="github" />
@@ -118,6 +124,7 @@
 	<project path="vendor/oneplus" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus" remote="github" />
 	<project path="vendor/oppo" name="[COLOUR IN THE LINES]/proprietary_vendor_oppo" remote="github" />
 	<project path="vendor/wileyfox" name="[COLOUR IN THE LINES]/proprietary_vendor_wileyfox" remote="github" />
+	<project path="vendor/xiaomi" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi" remote="gitlab" revision="lineage-17.1" />
 	<project path="vendor/yandex" name="[COLOUR IN THE LINES]/proprietary_vendor_yandex" remote="github" />
 
 </manifest>
