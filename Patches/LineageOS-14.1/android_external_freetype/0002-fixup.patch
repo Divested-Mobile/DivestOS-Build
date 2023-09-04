@@ -1,4 +1,4 @@
-From 90b78946273c7a27a66bd3e9828c6d11567b1e56 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: syphyr <syphyr@gmail.com>
 Date: Sat, 2 Sep 2023 20:45:26 +0200
 Subject: [PATCH] Enable png and zlib support to Android.mk
