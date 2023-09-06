@@ -1,0 +1,88 @@
+From 6639c1e4ff7b39f7b9b7e5d924ff4c36cab556eb Mon Sep 17 00:00:00 2001
+From: Qiyu Hu <qiyuh@google.com>
+Date: Wed, 13 Jun 2018 08:08:17 -0700
+Subject: [PATCH] Fix reliable write.
+
+We cannot simply assume the write is terminated in reliable write. When
+the reliable write value is longer than MTU allows, the current
+implementation can only send whatever MTU allows and naively set the
+status to GATT_SUCCESS, in the name of "application should verify handle
+offset and value are matched or not". That's why MTU negotiation is a
+workaround as people mention in b/37031096, which just fits all the write
+value into a single request.
+
+This also blocks our test on CtsVerifier.
+
+Bug: 37031096
+Test: Manual test and confirm that we don't simply send partial value
+Change-Id: I907877608f4672f24c002e630e58bf9133937a5e
+---
+ stack/gatt/gatt_cl.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
+
+diff --git a/stack/gatt/gatt_cl.c b/stack/gatt/gatt_cl.c
+index 04a027fef55..1033b9324f0 100644
+--- a/stack/gatt/gatt_cl.c
++++ b/stack/gatt/gatt_cl.c
+@@ -321,7 +321,7 @@ void gatt_send_queue_write_cancel (tGATT_TCB *p_tcb, tGATT_CLCB *p_clcb, tGATT_E
+ BOOLEAN gatt_check_write_long_terminate(tGATT_TCB  *p_tcb, tGATT_CLCB *p_clcb, tGATT_VALUE *p_rsp_value)
+ {
+     tGATT_VALUE         *p_attr = (tGATT_VALUE *)p_clcb->p_attr_buf;
+-    BOOLEAN             exec = FALSE;
++    BOOLEAN             terminate = FALSE;
+     tGATT_EXEC_FLAG     flag = GATT_PREP_WRITE_EXEC;
+ 
+     GATT_TRACE_DEBUG("gatt_check_write_long_terminate ");
+@@ -335,22 +335,21 @@ BOOLEAN gatt_check_write_long_terminate(tGATT_TCB  *p_tcb, tGATT_CLCB *p_clcb, t
+             /* data does not match    */
+             p_clcb->status = GATT_ERROR;
+             flag = GATT_PREP_WRITE_CANCEL;
+-            exec = TRUE;
++            terminate = TRUE;
+         }
+         else /* response checking is good */
+         {
+             p_clcb->status = GATT_SUCCESS;
+             /* update write offset and check if end of attribute value */
+             if ((p_attr->offset += p_rsp_value->len) >= p_attr->len)
+-                exec = TRUE;
++                terminate = TRUE;
+         }
+     }
+-    if (exec)
++    if (terminate && p_clcb->op_subtype != GATT_WRITE_PREPARE)
+     {
+         gatt_send_queue_write_cancel (p_tcb, p_clcb, flag);
+-        return TRUE;
+     }
+-    return FALSE;
++    return terminate;
+ }
+ /*******************************************************************************
+ **
+@@ -653,19 +652,18 @@ void gatt_process_prep_write_rsp (tGATT_TCB *p_tcb, tGATT_CLCB *p_clcb, UINT8 op
+ 
+     memcpy (value.value, p, value.len);
+ 
++    if (!gatt_check_write_long_terminate(p_tcb, p_clcb, &value))
++    {
++        gatt_send_prepare_write(p_tcb, p_clcb);
++        return;
++    }
++
+     if (p_clcb->op_subtype == GATT_WRITE_PREPARE)
+     {
+-        p_clcb->status = GATT_SUCCESS;
+         /* application should verify handle offset
+            and value are matched or not */
+-
+         gatt_end_operation(p_clcb, p_clcb->status, &value);
+     }
+-    else if (p_clcb->op_subtype == GATT_WRITE )
+-    {
+-        if (!gatt_check_write_long_terminate(p_tcb, p_clcb, &value))
+-            gatt_send_prepare_write(p_tcb, p_clcb);
+-    }
+ 
+ }
+ /*******************************************************************************

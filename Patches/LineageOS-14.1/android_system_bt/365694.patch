@@ -1,0 +1,71 @@
+From 2ccddcaa7525966043121fcbe6b806246fdec327 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Tue, 18 Apr 2023 23:58:50 +0000
+Subject: [PATCH] Fix integer overflow in build_read_multi_rsp
+
+Local variables tracking structure size in build_read_multi_rsp are of
+uint16 type but accept a full uint16 range from function arguments while
+appending a fixed-length offset.  This can lead to an integer overflow
+and unexpected behavior.
+
+Change the locals to size_t, and add a check during reasssignment.
+
+Bug: 273966636
+Test: atest bluetooth_test_gd_unit, net_test_stack_btm
+Tag: #security
+Ignore-AOSP-First: Security
+(cherry picked from commit 70a4d628fa016a9487fae07f211644b95e1f0000)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:badb8ffce06b517cbcfdbfa68cb7b7e02d22494a)
+Merged-In: I3a74bdb0d003cb6bf4f282615be8c68836676715
+Change-Id: I3a74bdb0d003cb6bf4f282615be8c68836676715
+---
+ stack/gatt/gatt_sr.c | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
+
+diff --git a/stack/gatt/gatt_sr.c b/stack/gatt/gatt_sr.c
+index c2cdb885dcf..6457a37589f 100644
+--- a/stack/gatt/gatt_sr.c
++++ b/stack/gatt/gatt_sr.c
+@@ -122,7 +122,8 @@ void gatt_dequeue_sr_cmd (tGATT_TCB *p_tcb)
+ static BOOLEAN process_read_multi_rsp (tGATT_SR_CMD *p_cmd, tGATT_STATUS status,
+                                        tGATTS_RSP *p_msg, UINT16 mtu)
+ {
+-    UINT16          ii, total_len, len;
++    UINT16          ii;
++    size_t          total_len, len;
+     UINT8           *p;
+     BOOLEAN         is_overflow = FALSE;
+ 
+@@ -182,7 +183,7 @@ static BOOLEAN process_read_multi_rsp (tGATT_SR_CMD *p_cmd, tGATT_STATUS status,
+                         /* just send the partial response for the overflow case */
+                         len = p_rsp->attr_value.len - (total_len - mtu);
+                         is_overflow = TRUE;
+-                        GATT_TRACE_DEBUG ("multi read overflow available len=%d val_len=%d", len, p_rsp->attr_value.len );
++                        GATT_TRACE_DEBUG ("multi read overflow available len=%zu val_len=%d", len, p_rsp->attr_value.len );
+                     }
+                     else
+                     {
+@@ -191,10 +192,19 @@ static BOOLEAN process_read_multi_rsp (tGATT_SR_CMD *p_cmd, tGATT_STATUS status,
+ 
+                     if (p_rsp->attr_value.handle == p_cmd->multi_req.handles[ii])
+                     {
+-                        memcpy (p, p_rsp->attr_value.value, len);
+-                        if (!is_overflow)
+-                            p += len;
+-                        p_buf->len += len;
++                        // check for possible integer overflow
++                        if (p_buf->len + len <= UINT16_MAX)
++                        {
++                            memcpy(p, p_rsp->attr_value.value, len);
++                            if (!is_overflow)
++                                p += len;
++                            p_buf->len += len;
++                        }
++                        else
++                        {
++                            p_cmd->status = GATT_NOT_FOUND;
++                            break;
++                        }
+                     }
+                     else
+                     {

@@ -156,6 +156,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_av/212799.patch"; #FLAC extractor CV
 applyPatch "$DOS_PATCHES/android_frameworks_av/319987.patch"; #n-asb-2021-12 Fix heap-buffer-overflow in MPEG4Extractor
 applyPatch "$DOS_PATCHES/android_frameworks_av/321222.patch"; #n-asb-2022-01 SimpleDecodingSource:Prevent OOB write in heap mem
 applyPatch "$DOS_PATCHES/android_frameworks_av/358729.patch"; #n-asb-2023-06 Fix NuMediaExtractor::readSampleData buffer Handling
+applyPatch "$DOS_PATCHES/android_frameworks_av/365698.patch"; #n-asb-2023-09 Fix Segv on unknown address error flagged by fuzzer test.
 fi;
 
 if enterAndClear "frameworks/base"; then
@@ -438,6 +439,7 @@ fi;
 
 if enterAndClear "packages/services/Telephony"; then
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/346954.patch"; #n-asb-2023-01 Prevent overlays on the phone settings
+applyPatch "$DOS_PATCHES/android_packages_services_Telephony/365699.patch"; #n-asb-2023-09 Fixed leak of cross user data in multiple settings.
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch"; #(DivestOS)
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
 fi;
@@ -488,6 +490,10 @@ applyPatch "$DOS_PATCHES/android_system_bt/358735.patch"; #n-asb-2023-06 Prevent
 applyPatch "$DOS_PATCHES/android_system_bt/358736.patch"; #n-asb-2023-06 Revert "Revert "[RESTRICT AUTOMERGE] Validate buffer length in sdpu_build_uuid_seq""
 applyPatch "$DOS_PATCHES/android_system_bt/358737.patch"; #n-asb-2023-06 Revert "Revert "Fix wrong BR/EDR link key downgrades (P_256->P_192)""
 applyPatch "$DOS_PATCHES/android_system_bt/360892.patch"; #n-asb-2023-07 Fix gatt_end_operation buffer overflow
+applyPatch "$DOS_PATCHES/android_system_bt/365694.patch"; #n-asb-2023-09 Fix integer overflow in build_read_multi_rsp
+applyPatch "$DOS_PATCHES/android_system_bt/365695.patch"; #n-asb-2023-09 Fix reliable write.
+applyPatch "$DOS_PATCHES/android_system_bt/365696.patch"; #n-asb-2023-09 Fix UAF in gatt_cl.cc
+applyPatch "$DOS_PATCHES/android_system_bt/365697.patch"; #n-asb-2023-09 Fix an integer overflow bug in avdt_msg_asmbl
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #bt-sbc-hd-dualchannel-nougat: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #bt-sbc-hd-dualchannel-nougat: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)
