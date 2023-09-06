@@ -247,6 +247,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_native/325993.patch"; #n-asb-2022-03
 applyPatch "$DOS_PATCHES/android_frameworks_native/355868.patch"; #n-asb-2023-05 Check for malformed Sensor Flattenable
 applyPatch "$DOS_PATCHES/android_frameworks_native/355869.patch"; #n-asb-2023-05 Fix sanitizer in ISensorService list functions.
 applyPatch "$DOS_PATCHES/android_frameworks_native/355870.patch"; #n-asb-2023-05 Remove some new memory leaks from SensorManager
+applyPatch "$DOS_PATCHES/android_frameworks_native/365756.patch"; #n-asb-2023-09 Allow sensors list to be empty
 if [ "$DOS_SENSORS_PERM" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors.patch"; fi; #Permission for sensors access (MSe1969)
 fi;
 
@@ -370,6 +371,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/328308.patch"; #n-asb-2022-04
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/332455.patch"; #n-asb-2022-06 OOB read in phNciNfc_RecvMfResp()
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/346953.patch"; #n-asb-2023-01 OOBW in Mfc_Transceive()
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/348653.patch"; #n-asb-2023-02 DO NOT MERGE OOBW in phNciNfc_MfCreateXchgDataHdr
+applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/365757.patch"; #n-asb-2023-09 Ensure that SecureNFC setting cannot be bypassed
 fi;
 
 if enterAndClear "packages/apps/PackageInstaller"; then

@@ -1,0 +1,66 @@
+From c93ec045f59462f2fb64242da1a119a7b49c3d50 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Tue, 18 Apr 2023 23:58:50 +0000
+Subject: [PATCH] Fix integer overflow in build_read_multi_rsp
+
+Local variables tracking structure size in build_read_multi_rsp are of
+uint16 type but accept a full uint16 range from function arguments while
+appending a fixed-length offset.  This can lead to an integer overflow
+and unexpected behavior.
+
+Change the locals to size_t, and add a check during reasssignment.
+
+Bug: 273966636
+Test: atest bluetooth_test_gd_unit, net_test_stack_btm
+Tag: #security
+Ignore-AOSP-First: Security
+(cherry picked from commit 70a4d628fa016a9487fae07f211644b95e1f0000)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:badb8ffce06b517cbcfdbfa68cb7b7e02d22494a)
+Merged-In: I3a74bdb0d003cb6bf4f282615be8c68836676715
+Change-Id: I3a74bdb0d003cb6bf4f282615be8c68836676715
+---
+ system/stack/gatt/gatt_sr.cc | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/system/stack/gatt/gatt_sr.cc b/system/stack/gatt/gatt_sr.cc
+index 9f48d830d5..f2a3e22414 100644
+--- a/system/stack/gatt/gatt_sr.cc
++++ b/system/stack/gatt/gatt_sr.cc
+@@ -142,7 +142,8 @@ void gatt_dequeue_sr_cmd(tGATT_TCB& tcb, uint16_t cid) {
+ }
+ 
+ static void build_read_multi_rsp(tGATT_SR_CMD* p_cmd, uint16_t mtu) {
+-  uint16_t ii, total_len, len;
++  uint16_t ii;
++  size_t total_len, len;
+   uint8_t* p;
+   bool is_overflow = false;
+ 
+@@ -187,7 +188,7 @@ static void build_read_multi_rsp(tGATT_SR_CMD* p_cmd, uint16_t mtu) {
+         len = p_rsp->attr_value.len - (total_len - mtu);
+         is_overflow = true;
+         VLOG(1) << StringPrintf(
+-            "multi read overflow available len=%d val_len=%d", len,
++            "multi read overflow available len=%zu val_len=%d", len,
+             p_rsp->attr_value.len);
+       } else {
+         len = p_rsp->attr_value.len;
+@@ -199,9 +200,15 @@ static void build_read_multi_rsp(tGATT_SR_CMD* p_cmd, uint16_t mtu) {
+       }
+ 
+       if (p_rsp->attr_value.handle == p_cmd->multi_req.handles[ii]) {
+-        memcpy(p, p_rsp->attr_value.value, len);
+-        if (!is_overflow) p += len;
+-        p_buf->len += len;
++        // check for possible integer overflow
++        if (p_buf->len + len <= UINT16_MAX) {
++          memcpy(p, p_rsp->attr_value.value, len);
++          if (!is_overflow) p += len;
++          p_buf->len += len;
++        } else {
++          p_cmd->status = GATT_NOT_FOUND;
++          break;
++        }
+       } else {
+         p_cmd->status = GATT_NOT_FOUND;
+         break;

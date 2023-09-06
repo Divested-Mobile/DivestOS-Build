@@ -1,0 +1,216 @@
+From 8dc8dfe572ce5e4bcb64418275b6d8c4e05284ac Mon Sep 17 00:00:00 2001
+From: Beth Thibodeau <ethibodeau@google.com>
+Date: Thu, 22 Jun 2023 18:26:44 -0500
+Subject: [PATCH] Improve user handling when querying for resumable media
+
+- Before trying to query recent media from a saved component, check
+  whether the current user actually has that component installed
+- Track user when creating the MediaBrowser, in case the user changes
+  before the MBS returns a result
+
+Test: atest MediaResumeListenerTest
+Bug: 284297711
+(cherry picked from commit e566a250ad61e269119b475c7ebdae6ca962c4a7)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:d61741288b4d7614e4677428aac6418f6f1d79f0)
+Merged-In: I838ff0e125acadabc8436a00dbff707cc4be6249
+Change-Id: I838ff0e125acadabc8436a00dbff707cc4be6249
+---
+ .../controls/resume/MediaResumeListener.kt    | 54 ++++++++++++-------
+ .../controls/resume/ResumeMediaBrowser.java   | 15 +++++-
+ .../resume/ResumeMediaBrowserFactory.java     |  7 ++-
+ 3 files changed, 55 insertions(+), 21 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/media/controls/resume/MediaResumeListener.kt b/packages/SystemUI/src/com/android/systemui/media/controls/resume/MediaResumeListener.kt
+index b0389b50cd7d..813ca17422ec 100644
+--- a/packages/SystemUI/src/com/android/systemui/media/controls/resume/MediaResumeListener.kt
++++ b/packages/SystemUI/src/com/android/systemui/media/controls/resume/MediaResumeListener.kt
+@@ -122,18 +122,18 @@ constructor(
+                     Log.e(TAG, "Error getting package information", e)
+                 }
+ 
+-                Log.d(TAG, "Adding resume controls $desc")
+-                mediaDataManager.addResumptionControls(
+-                    currentUserId,
+-                    desc,
+-                    resumeAction,
+-                    token,
+-                    appName.toString(),
+-                    appIntent,
+-                    component.packageName
+-                )
+-            }
++            Log.d(TAG, "Adding resume controls for ${browser.userId}: $desc")
++            mediaDataManager.addResumptionControls(
++                browser.userId,
++                desc,
++                resumeAction,
++                token,
++                appName.toString(),
++                appIntent,
++                component.packageName
++            )
+         }
++    }
+ 
+     init {
+         if (useMediaResumption) {
+@@ -196,7 +196,11 @@ constructor(
+                 }
+             resumeComponents.add(component to lastPlayed)
+         }
+-        Log.d(TAG, "loaded resume components ${resumeComponents.toArray().contentToString()}")
++        Log.d(
++            TAG,
++            "loaded resume components for $currentUserId: " +
++                "${resumeComponents.toArray().contentToString()}"
++        )
+ 
+         if (needsUpdate) {
+             // Save any missing times that we had to fill in
+@@ -210,11 +214,21 @@ constructor(
+             return
+         }
+ 
++        val pm = context.packageManager
+         val now = systemClock.currentTimeMillis()
+         resumeComponents.forEach {
+             if (now.minus(it.second) <= RESUME_MEDIA_TIMEOUT) {
+-                val browser = mediaBrowserFactory.create(mediaBrowserCallback, it.first)
+-                browser.findRecentMedia()
++                // Verify that the service exists for this user
++                val intent = Intent(MediaBrowserService.SERVICE_INTERFACE)
++                intent.component = it.first
++                val inf = pm.resolveServiceAsUser(intent, 0, currentUserId)
++                if (inf != null) {
++                    val browser =
++                        mediaBrowserFactory.create(mediaBrowserCallback, it.first, currentUserId)
++                    browser.findRecentMedia()
++                } else {
++                    Log.d(TAG, "User $currentUserId does not have component ${it.first}")
++                }
+             }
+         }
+     }
+@@ -244,7 +258,7 @@ constructor(
+                 Log.d(TAG, "Checking for service component for " + data.packageName)
+                 val pm = context.packageManager
+                 val serviceIntent = Intent(MediaBrowserService.SERVICE_INTERFACE)
+-                val resumeInfo = pm.queryIntentServices(serviceIntent, 0)
++                val resumeInfo = pm.queryIntentServicesAsUser(serviceIntent, 0, currentUserId)
+ 
+                 val inf = resumeInfo?.filter { it.serviceInfo.packageName == data.packageName }
+                 if (inf != null && inf.size > 0) {
+@@ -280,13 +294,17 @@ constructor(
+                         browser: ResumeMediaBrowser
+                     ) {
+                         // Since this is a test, just save the component for later
+-                        Log.d(TAG, "Can get resumable media from $componentName")
++                        Log.d(
++                            TAG,
++                            "Can get resumable media for ${browser.userId} from $componentName"
++                        )
+                         mediaDataManager.setResumeAction(key, getResumeAction(componentName))
+                         updateResumptionList(componentName)
+                         mediaBrowser = null
+                     }
+                 },
+-                componentName
++                componentName,
++                currentUserId
+             )
+         mediaBrowser?.testConnection()
+     }
+@@ -326,7 +344,7 @@ constructor(
+     /** Get a runnable which will resume media playback */
+     private fun getResumeAction(componentName: ComponentName): Runnable {
+         return Runnable {
+-            mediaBrowser = mediaBrowserFactory.create(null, componentName)
++            mediaBrowser = mediaBrowserFactory.create(null, componentName, currentUserId)
+             mediaBrowser?.restart()
+         }
+     }
+diff --git a/packages/SystemUI/src/com/android/systemui/media/controls/resume/ResumeMediaBrowser.java b/packages/SystemUI/src/com/android/systemui/media/controls/resume/ResumeMediaBrowser.java
+index d460b5b5d782..ceaccafd8f40 100644
+--- a/packages/SystemUI/src/com/android/systemui/media/controls/resume/ResumeMediaBrowser.java
++++ b/packages/SystemUI/src/com/android/systemui/media/controls/resume/ResumeMediaBrowser.java
+@@ -17,6 +17,7 @@
+ package com.android.systemui.media.controls.resume;
+ 
+ import android.annotation.Nullable;
++import android.annotation.UserIdInt;
+ import android.app.PendingIntent;
+ import android.content.ComponentName;
+ import android.content.Context;
+@@ -53,6 +54,7 @@ public class ResumeMediaBrowser {
+     private final ResumeMediaBrowserLogger mLogger;
+     private final ComponentName mComponentName;
+     private final MediaController.Callback mMediaControllerCallback = new SessionDestroyCallback();
++    @UserIdInt private final int mUserId;
+ 
+     private MediaBrowser mMediaBrowser;
+     @Nullable private MediaController mMediaController;
+@@ -62,18 +64,21 @@ public class ResumeMediaBrowser {
+      * @param context the context
+      * @param callback used to report media items found
+      * @param componentName Component name of the MediaBrowserService this browser will connect to
++     * @param userId ID of the current user
+      */
+     public ResumeMediaBrowser(
+             Context context,
+             @Nullable Callback callback,
+             ComponentName componentName,
+             MediaBrowserFactory browserFactory,
+-            ResumeMediaBrowserLogger logger) {
++            ResumeMediaBrowserLogger logger,
++            @UserIdInt int userId) {
+         mContext = context;
+         mCallback = callback;
+         mComponentName = componentName;
+         mBrowserFactory = browserFactory;
+         mLogger = logger;
++        mUserId = userId;
+     }
+ 
+     /**
+@@ -284,6 +289,14 @@ protected MediaController createMediaController(MediaSession.Token token) {
+         return new MediaController(mContext, token);
+     }
+ 
++    /**
++     * Get the ID of the user associated with this broswer
++     * @return the user ID
++     */
++    public @UserIdInt int getUserId() {
++        return mUserId;
++    }
++
+     /**
+      * Get the media session token
+      * @return the token, or null if the MediaBrowser is null or disconnected
+diff --git a/packages/SystemUI/src/com/android/systemui/media/controls/resume/ResumeMediaBrowserFactory.java b/packages/SystemUI/src/com/android/systemui/media/controls/resume/ResumeMediaBrowserFactory.java
+index c558227df0b5..e37419127f5b 100644
+--- a/packages/SystemUI/src/com/android/systemui/media/controls/resume/ResumeMediaBrowserFactory.java
++++ b/packages/SystemUI/src/com/android/systemui/media/controls/resume/ResumeMediaBrowserFactory.java
+@@ -16,6 +16,7 @@
+ 
+ package com.android.systemui.media.controls.resume;
+ 
++import android.annotation.UserIdInt;
+ import android.content.ComponentName;
+ import android.content.Context;
+ 
+@@ -42,10 +43,12 @@ public ResumeMediaBrowserFactory(
+      *
+      * @param callback will be called on connection or error, and addTrack when media item found
+      * @param componentName component to browse
++     * @param userId ID of the current user
+      * @return
+      */
+     public ResumeMediaBrowser create(ResumeMediaBrowser.Callback callback,
+-            ComponentName componentName) {
+-        return new ResumeMediaBrowser(mContext, callback, componentName, mBrowserFactory, mLogger);
++            ComponentName componentName, @UserIdInt int userId) {
++        return new ResumeMediaBrowser(mContext, callback, componentName, mBrowserFactory, mLogger,
++            userId);
+     }
+ }

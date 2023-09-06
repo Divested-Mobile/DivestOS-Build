@@ -1,0 +1,40 @@
+From 89fb17d17249382f8bd5c4c9b0912447ea7ff676 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Wed, 1 Mar 2023 00:22:59 +0000
+Subject: [PATCH] Fix potential abort in btu_av_act.cc
+
+Partner analysis shows that bta_av_rc_msg does not respect handling
+established for a null browse packet, instead dispatching the null
+pointer to bta_av_rc_free_browse_msg.  Strictly speaking this does
+not cause a UAF, as osi_free_and_reset will find the null and abort,
+but it will lead to improper program termination.
+
+Handle the case instead.
+
+Bug: 269253349
+Test: atest bluetooth_test_gd_unit
+Tag: #security
+Ignore-AOSP-First: Security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:d3ee136851de30261e56c62fbb488541dc564b94)
+Merged-In: I14dc4910476c733b246bcf7ff292afe9b7c0cc3d
+Change-Id: I14dc4910476c733b246bcf7ff292afe9b7c0cc3d
+---
+ system/bta/av/bta_av_act.cc | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/system/bta/av/bta_av_act.cc b/system/bta/av/bta_av_act.cc
+index be199a4da3..357ca0ecf6 100644
+--- a/system/bta/av/bta_av_act.cc
++++ b/system/bta/av/bta_av_act.cc
+@@ -1001,7 +1001,10 @@ void bta_av_rc_msg(tBTA_AV_CB* p_cb, tBTA_AV_DATA* p_data) {
+     av.remote_cmd.rc_handle = p_data->rc_msg.handle;
+     (*p_cb->p_cback)(evt, &av);
+     /* If browsing message, then free the browse message buffer */
+-    bta_av_rc_free_browse_msg(p_cb, p_data);
++    if (p_data->rc_msg.opcode == AVRC_OP_BROWSE &&
++        p_data->rc_msg.msg.browse.p_browse_pkt != NULL) {
++      bta_av_rc_free_browse_msg(p_cb, p_data);
++    }
+   }
+ }
+ 

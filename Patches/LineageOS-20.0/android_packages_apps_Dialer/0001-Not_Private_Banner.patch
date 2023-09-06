@@ -41,19 +41,19 @@ index 000000000..c2baa9bdb
 +</vector>
 \ No newline at end of file
 diff --git a/java/com/android/dialer/theme/common/res/values/colors.xml b/java/com/android/dialer/theme/common/res/values/colors.xml
-index 1831862b1..6f6795cea 100644
+index 08255f32f..8995aa868 100644
 --- a/java/com/android/dialer/theme/common/res/values/colors.xml
 +++ b/java/com/android/dialer/theme/common/res/values/colors.xml
-@@ -21,6 +21,7 @@
-   <color name="dialer_divider_line_color">#D8D8D8</color>
+@@ -22,6 +22,7 @@
    <color name="dialer_link_color">#2A56C6</color>
-   <color name="dialer_snackbar_action_text_color">#4285F4</color>
+   <color name="dialer_snackbar_action_text_color">@*android:color/system_accent1_600</color>
+   <color name="dialer_call_icon_color">@android:color/white</color>
 +  <color name="incall_header_background">#f3b514</color>
  
    <!-- Colors for the notification actions -->
    <color name="notification_action_accept">#097138</color>
 diff --git a/java/com/android/incallui/answer/impl/res/layout/fragment_incoming_call.xml b/java/com/android/incallui/answer/impl/res/layout/fragment_incoming_call.xml
-index 1672bf984..63de75999 100644
+index 0927b4d89..99a742225 100644
 --- a/java/com/android/incallui/answer/impl/res/layout/fragment_incoming_call.xml
 +++ b/java/com/android/incallui/answer/impl/res/layout/fragment_incoming_call.xml
 @@ -78,18 +78,23 @@
@@ -127,7 +127,7 @@ index 000000000..7e8e90e5d
 +
 +</LinearLayout>
 diff --git a/java/com/android/incallui/incall/impl/res/layout/frag_incall_voice.xml b/java/com/android/incallui/incall/impl/res/layout/frag_incall_voice.xml
-index 9cc599dc7..fac420908 100644
+index 45870f307..b61f6be65 100644
 --- a/java/com/android/incallui/incall/impl/res/layout/frag_incall_voice.xml
 +++ b/java/com/android/incallui/incall/impl/res/layout/frag_incall_voice.xml
 @@ -29,11 +29,18 @@
@@ -150,10 +150,10 @@ index 9cc599dc7..fac420908 100644
          android:orientation="vertical">
  
 diff --git a/java/com/android/incallui/res/values/strings.xml b/java/com/android/incallui/res/values/strings.xml
-index c18ee495e..a5d08d3ec 100644
+index 687ae142b..c7e81b197 100644
 --- a/java/com/android/incallui/res/values/strings.xml
 +++ b/java/com/android/incallui/res/values/strings.xml
-@@ -212,4 +212,7 @@
+@@ -174,4 +174,7 @@
    <!-- Text for button to accept RTT request. [CHAR LIMIT=20] -->
    <string name="rtt_button_accept_request">Join RTT</string>
  
@@ -162,19 +162,10 @@ index c18ee495e..a5d08d3ec 100644
 +
  </resources>
 diff --git a/java/com/android/incallui/theme/res/values/styles.xml b/java/com/android/incallui/theme/res/values/styles.xml
-index 5b65cc3d9..19e7fdc4f 100644
+index a0d5caf10..e2f789cd4 100644
 --- a/java/com/android/incallui/theme/res/values/styles.xml
 +++ b/java/com/android/incallui/theme/res/values/styles.xml
-@@ -21,7 +21,7 @@
-        Theme.Black.NoTitleBar directly, since we want any popups or dialogs from the
-        InCallActivity to have the correct Material style. -->
-   <style name="Theme.InCallScreen.Light" parent="@style/Dialer.ThemeBase.NoActionBar">
--    <item name="android:statusBarColor">@android:color/transparent</item>
-+    <item name="android:statusBarColor">@color/incall_header_background</item>
-     <item name="android:navigationBarColor">@android:color/transparent</item>
-     <item name="android:windowDrawsSystemBarBackgrounds">true</item>
- 
-@@ -36,7 +36,7 @@
+@@ -19,7 +19,7 @@
    <style name="Theme.InCallScreen" parent="@style/Dialer.Dark.ThemeBase.NoActionBar">
      <item name="android:textColorPrimary">@android:color/white</item>
      <item name="android:textColorSecondary">#DDFFFFFF</item>
@@ -183,3 +174,12 @@ index 5b65cc3d9..19e7fdc4f 100644
      <item name="android:navigationBarColor">@android:color/transparent</item>
      <item name="android:windowDrawsSystemBarBackgrounds">true</item>
      <item name="android:colorPrimaryDark">@color/dialer_theme_color_dark</item>
+@@ -59,7 +59,7 @@
+     <item name="android:windowBackground">@android:color/transparent</item>
+     <item name="android:windowActivityTransitions">false</item>
+ 
+-    <item name="android:statusBarColor">@android:color/transparent</item>
++    <item name="android:statusBarColor">@color/incall_header_background</item>
+     <item name="android:navigationBarColor">@android:color/transparent</item>
+     <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+ 

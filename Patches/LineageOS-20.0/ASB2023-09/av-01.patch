@@ -1,0 +1,32 @@
+From 00a42241007a2c2a03b97656c958236091553b80 Mon Sep 17 00:00:00 2001
+From: Shruti Bihani <shrutibihani@google.com>
+Date: Thu, 6 Jul 2023 08:41:56 +0000
+Subject: [PATCH] Fix Segv on unknown address error flagged by fuzzer test.
+
+The error is thrown when the destructor tries to free pointer memory.
+This is happening for cases where the pointer was not initialized. Initializing it to a default value fixes the error.
+
+Bug: 245135112
+Test: Build mtp_host_property_fuzzer and run on the target device
+(cherry picked from commit 3afa6e80e8568fe63f893fa354bc79ef91d3dcc0)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:99d0823ca2b8275f000a437150fb8d1938b1b31a)
+Merged-In: I255cd68b7641e96ac47ab81479b9b46b78c15580
+Change-Id: I255cd68b7641e96ac47ab81479b9b46b78c15580
+---
+ media/mtp/MtpProperty.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/media/mtp/MtpProperty.h b/media/mtp/MtpProperty.h
+index 36d736065f..2bdbfd3262 100644
+--- a/media/mtp/MtpProperty.h
++++ b/media/mtp/MtpProperty.h
+@@ -26,6 +26,9 @@ namespace android {
+ class MtpDataPacket;
+ 
+ struct MtpPropertyValue {
++    // pointer str initialized to NULL so that free operation
++    // is not called for pre-assigned value
++    MtpPropertyValue() : str (NULL) {}
+     union {
+         int8_t          i8;
+         uint8_t         u8;
