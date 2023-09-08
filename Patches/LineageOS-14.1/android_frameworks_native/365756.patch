@@ -1,4 +1,4 @@
-From d9c5c1006ba8dfaef6f6cf0b264c64ace14f6f10 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Devin Moore <devinmoore@google.com>
 Date: Tue, 25 Apr 2023 00:17:13 +0000
 Subject: [PATCH] Allow sensors list to be empty
@@ -15,7 +15,7 @@ Change-Id: I091f57de9570b0ace3a8da76f16fe0e83f0aa624
  1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/libs/gui/SensorManager.cpp b/libs/gui/SensorManager.cpp
-index 5a94279ee82..236848a9bfc 100644
+index 5a94279ee8..236848a9bf 100644
 --- a/libs/gui/SensorManager.cpp
 +++ b/libs/gui/SensorManager.cpp
 @@ -149,11 +149,8 @@ status_t SensorManager::assertStateLocked() {

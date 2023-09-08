@@ -76,7 +76,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2023-08-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-08 #XXX
+sed -i 's/2021-06-05/2023-09-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-09 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -221,6 +221,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/364033-backport.patch"; #R_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/364036-backport.patch"; #R_asb_2023-08 Verify URI permissions in MediaMetadata
 applyPatch "$DOS_PATCHES/android_frameworks_base/364037.patch"; #R_asb_2023-08 Use Settings.System.getIntForUser instead of getInt to make sure user specific settings are used
 applyPatch "$DOS_PATCHES/android_frameworks_base/364038-backport.patch"; #R_asb_2023-08 Resolve StatusHints image exploit across user.
+applyPatch "$DOS_PATCHES/android_frameworks_base/365782.patch"; #n-asb-2023-09 Update AccountManagerService checkKeyIntentParceledCorrectly.
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -371,7 +372,6 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/328308.patch"; #n-asb-2022-04
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/332455.patch"; #n-asb-2022-06 OOB read in phNciNfc_RecvMfResp()
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/346953.patch"; #n-asb-2023-01 OOBW in Mfc_Transceive()
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/348653.patch"; #n-asb-2023-02 DO NOT MERGE OOBW in phNciNfc_MfCreateXchgDataHdr
-applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/365757.patch"; #n-asb-2023-09 Ensure that SecureNFC setting cannot be bypassed
 fi;
 
 if enterAndClear "packages/apps/PackageInstaller"; then

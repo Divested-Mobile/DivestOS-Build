@@ -1,4 +1,4 @@
-From 2ccddcaa7525966043121fcbe6b806246fdec327 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Tue, 18 Apr 2023 23:58:50 +0000
 Subject: [PATCH] Fix integer overflow in build_read_multi_rsp
@@ -23,7 +23,7 @@ Change-Id: I3a74bdb0d003cb6bf4f282615be8c68836676715
  1 file changed, 16 insertions(+), 6 deletions(-)
 
 diff --git a/stack/gatt/gatt_sr.c b/stack/gatt/gatt_sr.c
-index c2cdb885dcf..6457a37589f 100644
+index c2cdb885d..6457a3758 100644
 --- a/stack/gatt/gatt_sr.c
 +++ b/stack/gatt/gatt_sr.c
 @@ -122,7 +122,8 @@ void gatt_dequeue_sr_cmd (tGATT_TCB *p_tcb)

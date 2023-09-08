@@ -1,4 +1,4 @@
-From 6639c1e4ff7b39f7b9b7e5d924ff4c36cab556eb Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Qiyu Hu <qiyuh@google.com>
 Date: Wed, 13 Jun 2018 08:08:17 -0700
 Subject: [PATCH] Fix reliable write.
@@ -21,7 +21,7 @@ Change-Id: I907877608f4672f24c002e630e58bf9133937a5e
  1 file changed, 11 insertions(+), 13 deletions(-)
 
 diff --git a/stack/gatt/gatt_cl.c b/stack/gatt/gatt_cl.c
-index 04a027fef55..1033b9324f0 100644
+index 1e8ff1f50..3797d9684 100644
 --- a/stack/gatt/gatt_cl.c
 +++ b/stack/gatt/gatt_cl.c
 @@ -321,7 +321,7 @@ void gatt_send_queue_write_cancel (tGATT_TCB *p_tcb, tGATT_CLCB *p_clcb, tGATT_E
@@ -60,7 +60,7 @@ index 04a027fef55..1033b9324f0 100644
  }
  /*******************************************************************************
  **
-@@ -653,19 +652,18 @@ void gatt_process_prep_write_rsp (tGATT_TCB *p_tcb, tGATT_CLCB *p_clcb, UINT8 op
+@@ -654,19 +653,18 @@ void gatt_process_prep_write_rsp (tGATT_TCB *p_tcb, tGATT_CLCB *p_clcb, UINT8 op
  
      memcpy (value.value, p, value.len);
  

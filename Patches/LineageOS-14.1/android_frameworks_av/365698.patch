@@ -1,4 +1,4 @@
-From ef4c2b8495ff729d8f70d5f1cbceed6a36ff94a1 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Shruti Bihani <shrutibihani@google.com>
 Date: Thu, 6 Jul 2023 08:41:56 +0000
 Subject: [PATCH] Fix Segv on unknown address error flagged by fuzzer test.

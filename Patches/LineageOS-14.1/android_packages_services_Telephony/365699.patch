@@ -1,4 +1,4 @@
-From 4ee14083484520e5b8e38573e1da50e2b496167a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ashish Kumar <akgaurav@google.com>
 Date: Fri, 26 May 2023 14:18:46 +0000
 Subject: [PATCH] Fixed leak of cross user data in multiple settings.
@@ -25,10 +25,10 @@ Change-Id: I01cf83cc40bbf13497bc6c90f949f5bb62a833d7
  3 files changed, 36 insertions(+)
 
 diff --git a/src/com/android/phone/GsmUmtsCallForwardOptions.java b/src/com/android/phone/GsmUmtsCallForwardOptions.java
-index 99f3599742..f5e7ad295e 100644
+index 99f359974..f5e7ad295 100644
 --- a/src/com/android/phone/GsmUmtsCallForwardOptions.java
 +++ b/src/com/android/phone/GsmUmtsCallForwardOptions.java
-@@ -8,6 +8,7 @@
+@@ -8,6 +8,7 @@ import android.app.ActionBar;
  import android.app.AlertDialog;
  import android.app.Dialog;
  import android.content.Context;
@@ -36,7 +36,7 @@ index 99f3599742..f5e7ad295e 100644
  import android.content.DialogInterface;
  import android.content.Intent;
  import android.database.Cursor;
-@@ -15,6 +16,8 @@
+@@ -15,6 +16,8 @@ import android.net.ConnectivityManager;
  import android.net.NetworkInfo;
  import android.os.Bundle;
  import android.os.PersistableBundle;
@@ -45,7 +45,7 @@ index 99f3599742..f5e7ad295e 100644
  import android.preference.Preference;
  import android.preference.PreferenceScreen;
  import android.telephony.ServiceState;
-@@ -229,6 +232,15 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+@@ -229,6 +232,15 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity
          }
          Cursor cursor = null;
          try {
@@ -62,7 +62,7 @@ index 99f3599742..f5e7ad295e 100644
                  NUM_PROJECTION, null, null, null);
              if ((cursor == null) || (!cursor.moveToFirst())) {
 diff --git a/src/com/android/phone/settings/VoicemailSettingsActivity.java b/src/com/android/phone/settings/VoicemailSettingsActivity.java
-index fea702bf53..1a4b1eea45 100644
+index 1b3f31bb1..e44324cd0 100644
 --- a/src/com/android/phone/settings/VoicemailSettingsActivity.java
 +++ b/src/com/android/phone/settings/VoicemailSettingsActivity.java
 @@ -17,6 +17,7 @@
@@ -73,7 +73,7 @@ index fea702bf53..1a4b1eea45 100644
  import android.content.DialogInterface;
  import android.content.Intent;
  import android.database.Cursor;
-@@ -24,6 +25,7 @@
+@@ -24,6 +25,7 @@ import android.os.AsyncResult;
  import android.os.Bundle;
  import android.os.Handler;
  import android.os.Message;
@@ -81,7 +81,7 @@ index fea702bf53..1a4b1eea45 100644
  import android.os.UserHandle;
  import android.preference.CheckBoxPreference;
  import android.preference.Preference;
-@@ -544,6 +546,17 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+@@ -548,6 +550,17 @@ public class VoicemailSettingsActivity extends PreferenceActivity
  
              Cursor cursor = null;
              try {
@@ -100,10 +100,10 @@ index fea702bf53..1a4b1eea45 100644
                      new String[] { CommonDataKinds.Phone.NUMBER }, null, null, null);
                  if ((cursor == null) || (!cursor.moveToFirst())) {
 diff --git a/src/com/android/phone/settings/fdn/EditFdnContactScreen.java b/src/com/android/phone/settings/fdn/EditFdnContactScreen.java
-index 23ef0bb075..98dbd9480c 100644
+index 23ef0bb07..98dbd9480 100644
 --- a/src/com/android/phone/settings/fdn/EditFdnContactScreen.java
 +++ b/src/com/android/phone/settings/fdn/EditFdnContactScreen.java
-@@ -21,6 +21,7 @@
+@@ -21,6 +21,7 @@ import static android.view.Window.PROGRESS_VISIBILITY_ON;
  
  import android.app.Activity;
  import android.content.AsyncQueryHandler;
@@ -111,7 +111,7 @@ index 23ef0bb075..98dbd9480c 100644
  import android.content.ContentResolver;
  import android.content.ContentValues;
  import android.content.Intent;
-@@ -29,6 +30,8 @@
+@@ -29,6 +30,8 @@ import android.database.Cursor;
  import android.net.Uri;
  import android.os.Bundle;
  import android.os.Handler;
@@ -120,7 +120,7 @@ index 23ef0bb075..98dbd9480c 100644
  import android.provider.Contacts.PeopleColumns;
  import android.provider.Contacts.PhonesColumns;
  import android.provider.ContactsContract.CommonDataKinds;
-@@ -152,6 +155,14 @@ protected void onActivityResult(int requestCode, int resultCode, Intent intent)
+@@ -152,6 +155,14 @@ public class EditFdnContactScreen extends Activity {
                  }
                  Cursor cursor = null;
                  try {

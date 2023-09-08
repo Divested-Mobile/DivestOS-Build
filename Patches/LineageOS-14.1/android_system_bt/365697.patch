@@ -1,4 +1,4 @@
-From 49c2659fc32c183b135d49a88b93a7ebd1f664ed Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hui Peng <phui@google.com>
 Date: Wed, 10 May 2023 23:34:20 +0000
 Subject: [PATCH] Fix an integer overflow bug in avdt_msg_asmbl
@@ -15,10 +15,10 @@ Change-Id: Iaa4d603921fc4ffb8cfb5783f99ec0963affd6a2
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/stack/avdt/avdt_msg.c b/stack/avdt/avdt_msg.c
-index 91a58403e94..83902849b1e 100644
+index acda49858..ce2340d34 100644
 --- a/stack/avdt/avdt_msg.c
 +++ b/stack/avdt/avdt_msg.c
-@@ -1448,14 +1448,14 @@ BT_HDR *avdt_msg_asmbl(tAVDT_CCB *p_ccb, BT_HDR *p_buf)
+@@ -1455,14 +1455,14 @@ BT_HDR *avdt_msg_asmbl(tAVDT_CCB *p_ccb, BT_HDR *p_buf)
               * NOTE: The buffer is allocated above at the beginning of the
               * reassembly, and is always of size BT_DEFAULT_BUFFER_SIZE.
               */
