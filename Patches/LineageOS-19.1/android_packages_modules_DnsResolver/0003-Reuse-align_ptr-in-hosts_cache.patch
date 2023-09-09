@@ -9,7 +9,7 @@ Change-Id: I461718c38ca3c0e372e1cc0e0f0deb74ae5c68bb
  1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/hosts_cache.cpp b/hosts_cache.cpp
-index 258eac1b..be8a0ff4 100644
+index 258eac1..be8a0ff 100644
 --- a/hosts_cache.cpp
 +++ b/hosts_cache.cpp
 @@ -47,10 +47,6 @@ constexpr int MAXADDRS = 35;

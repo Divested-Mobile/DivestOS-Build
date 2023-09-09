@@ -1,4 +1,4 @@
-From 6f7cde6351b1ba2fb0513d713ad20d42e7f18745 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Danny Lin <danny@kdrag0n.dev>
 Date: Tue, 5 Oct 2021 21:01:09 -0700
 Subject: [PATCH] SystemUI: Require unlocking to use sensitive QS tiles
@@ -103,7 +103,7 @@ diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/AirplaneModeTil
 index 22cd6f86b165..f76966030528 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/AirplaneModeTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/AirplaneModeTile.java
-@@ -48,13 +48,14 @@
+@@ -48,13 +48,14 @@ import com.android.systemui.qs.GlobalSetting;
  import com.android.systemui.qs.QSHost;
  import com.android.systemui.qs.logging.QSLogger;
  import com.android.systemui.qs.tileimpl.QSTileImpl;
@@ -119,7 +119,7 @@ index 22cd6f86b165..f76966030528 100644
      private final Icon mIcon = ResourceIcon.get(com.android.internal.R.drawable.ic_qs_airplane);
      private final GlobalSetting mSetting;
      private final BroadcastDispatcher mBroadcastDispatcher;
-@@ -73,10 +74,11 @@ public AirplaneModeTile(
+@@ -73,10 +74,11 @@ public class AirplaneModeTile extends QSTileImpl<BooleanState> {
              ActivityStarter activityStarter,
              QSLogger qsLogger,
              BroadcastDispatcher broadcastDispatcher,
@@ -133,7 +133,7 @@ index 22cd6f86b165..f76966030528 100644
          mBroadcastDispatcher = broadcastDispatcher;
          mLazyConnectivityManager = lazyConnectivityManager;
  
-@@ -95,7 +97,11 @@ public BooleanState newTileState() {
+@@ -95,7 +97,11 @@ public class AirplaneModeTile extends QSTileImpl<BooleanState> {
      }
  
      @Override
@@ -150,7 +150,7 @@ diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/BatterySaverTil
 index e3024fa0eddc..f68572bc3e75 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/BatterySaverTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/BatterySaverTile.java
-@@ -40,11 +40,12 @@
+@@ -40,11 +40,12 @@ import com.android.systemui.qs.SecureSetting;
  import com.android.systemui.qs.logging.QSLogger;
  import com.android.systemui.qs.tileimpl.QSTileImpl;
  import com.android.systemui.statusbar.policy.BatteryController;
@@ -164,7 +164,7 @@ index e3024fa0eddc..f68572bc3e75 100644
          BatteryController.BatteryStateChangeCallback {
  
      private final BatteryController mBatteryController;
-@@ -69,10 +70,11 @@ public BatterySaverTile(
+@@ -69,10 +70,11 @@ public class BatterySaverTile extends QSTileImpl<BooleanState> implements
              ActivityStarter activityStarter,
              QSLogger qsLogger,
              BatteryController batteryController,
@@ -178,7 +178,7 @@ index e3024fa0eddc..f68572bc3e75 100644
          mBatteryController = batteryController;
          mBatteryController.observe(getLifecycle(), this);
          int currentUser = host.getUserContext().getUserId();
-@@ -123,7 +125,11 @@ public Intent getLongClickIntent() {
+@@ -123,7 +125,11 @@ public class BatterySaverTile extends QSTileImpl<BooleanState> implements
      }
  
      @Override
@@ -195,7 +195,7 @@ diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/BluetoothTile.j
 index 65b6617c5a25..7c24a8c9c10e 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/BluetoothTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/BluetoothTile.java
-@@ -53,6 +53,7 @@
+@@ -53,6 +53,7 @@ import com.android.systemui.qs.QSHost;
  import com.android.systemui.qs.logging.QSLogger;
  import com.android.systemui.qs.tileimpl.QSTileImpl;
  import com.android.systemui.statusbar.policy.BluetoothController;
@@ -203,7 +203,7 @@ index 65b6617c5a25..7c24a8c9c10e 100644
  
  import java.util.ArrayList;
  import java.util.Collection;
-@@ -61,7 +62,7 @@
+@@ -61,7 +62,7 @@ import java.util.List;
  import javax.inject.Inject;
  
  /** Quick settings tile: Bluetooth **/
@@ -212,7 +212,7 @@ index 65b6617c5a25..7c24a8c9c10e 100644
      private static final Intent BLUETOOTH_SETTINGS = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
  
      private final BluetoothController mController;
-@@ -77,10 +78,11 @@ public BluetoothTile(
+@@ -77,10 +78,11 @@ public class BluetoothTile extends QSTileImpl<BooleanState> {
              StatusBarStateController statusBarStateController,
              ActivityStarter activityStarter,
              QSLogger qsLogger,
@@ -226,7 +226,7 @@ index 65b6617c5a25..7c24a8c9c10e 100644
          mController = bluetoothController;
          mDetailAdapter = (BluetoothDetailAdapter) createDetailAdapter();
          mController.observe(getLifecycle(), mCallback);
-@@ -97,7 +99,11 @@ public BooleanState newTileState() {
+@@ -97,7 +99,11 @@ public class BluetoothTile extends QSTileImpl<BooleanState> {
      }
  
      @Override
@@ -243,7 +243,7 @@ diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.ja
 index e5601f29af0b..e7ed5575e302 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
-@@ -62,11 +62,12 @@
+@@ -62,11 +62,12 @@ import com.android.systemui.statusbar.connectivity.MobileDataIndicators;
  import com.android.systemui.statusbar.connectivity.NetworkController;
  import com.android.systemui.statusbar.connectivity.SignalCallback;
  import com.android.systemui.statusbar.phone.SystemUIDialog;
@@ -257,7 +257,7 @@ index e5601f29af0b..e7ed5575e302 100644
      private static final String ENABLE_SETTINGS_DATA_PLAN = "enable.settings.data.plan";
  
      private final NetworkController mController;
-@@ -85,10 +86,11 @@ public CellularTile(
+@@ -85,10 +86,11 @@ public class CellularTile extends QSTileImpl<SignalState> {
              StatusBarStateController statusBarStateController,
              ActivityStarter activityStarter,
              QSLogger qsLogger,
@@ -271,7 +271,7 @@ index e5601f29af0b..e7ed5575e302 100644
          mController = networkController;
          mDataController = mController.getMobileDataController();
          mDetailAdapter = new CellularDetailAdapter();
-@@ -119,7 +121,11 @@ public Intent getLongClickIntent() {
+@@ -119,7 +121,11 @@ public class CellularTile extends QSTileImpl<SignalState> {
      }
  
      @Override
@@ -288,7 +288,7 @@ diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/DataSaverTile.j
 index a2577d6e7f60..591d31889491 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/DataSaverTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/DataSaverTile.java
-@@ -40,10 +40,11 @@
+@@ -40,10 +40,11 @@ import com.android.systemui.qs.logging.QSLogger;
  import com.android.systemui.qs.tileimpl.QSTileImpl;
  import com.android.systemui.statusbar.phone.SystemUIDialog;
  import com.android.systemui.statusbar.policy.DataSaverController;
@@ -301,7 +301,7 @@ index a2577d6e7f60..591d31889491 100644
          DataSaverController.Listener{
  
      private final DataSaverController mDataSaverController;
-@@ -60,10 +61,11 @@ public DataSaverTile(
+@@ -60,10 +61,11 @@ public class DataSaverTile extends QSTileImpl<BooleanState> implements
              ActivityStarter activityStarter,
              QSLogger qsLogger,
              DataSaverController dataSaverController,
@@ -315,7 +315,7 @@ index a2577d6e7f60..591d31889491 100644
          mDataSaverController = dataSaverController;
          mDialogLaunchAnimator = dialogLaunchAnimator;
          mDataSaverController.observe(getLifecycle(), this);
-@@ -79,7 +81,11 @@ public Intent getLongClickIntent() {
+@@ -79,7 +81,11 @@ public class DataSaverTile extends QSTileImpl<BooleanState> implements
          return new Intent(Settings.ACTION_DATA_SAVER_SETTINGS);
      }
      @Override
@@ -332,7 +332,7 @@ diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/HotspotTile.jav
 index 87edc2cf8bac..04742b53321c 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/HotspotTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/HotspotTile.java
-@@ -42,11 +42,12 @@
+@@ -42,11 +42,12 @@ import com.android.systemui.qs.logging.QSLogger;
  import com.android.systemui.qs.tileimpl.QSTileImpl;
  import com.android.systemui.statusbar.policy.DataSaverController;
  import com.android.systemui.statusbar.policy.HotspotController;
@@ -346,7 +346,7 @@ index 87edc2cf8bac..04742b53321c 100644
  
      private final Icon mEnabledStatic = ResourceIcon.get(R.drawable.ic_hotspot);
  
-@@ -67,10 +68,11 @@ public HotspotTile(
+@@ -67,10 +68,11 @@ public class HotspotTile extends QSTileImpl<BooleanState> {
              ActivityStarter activityStarter,
              QSLogger qsLogger,
              HotspotController hotspotController,
@@ -360,7 +360,7 @@ index 87edc2cf8bac..04742b53321c 100644
          mHotspotController = hotspotController;
          mDataSaverController = dataSaverController;
          mHotspotController.observe(this, mCallbacks);
-@@ -108,7 +110,11 @@ public BooleanState newTileState() {
+@@ -108,7 +110,11 @@ public class HotspotTile extends QSTileImpl<BooleanState> {
      }
  
      @Override
@@ -374,10 +374,10 @@ index 87edc2cf8bac..04742b53321c 100644
          if (!isEnabled && mDataSaverController.isDataSaverEnabled()) {
              return;
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTile.java
-index cd81b4a11703..61be4e7ccd40 100644
+index 36fb7cd49ad0..41720a3d36f6 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTile.java
-@@ -53,6 +53,7 @@
+@@ -53,6 +53,7 @@ import com.android.systemui.qs.QSHost;
  import com.android.systemui.qs.logging.QSLogger;
  import com.android.systemui.qs.tileimpl.QSTileImpl;
  import com.android.systemui.qs.tiles.dialog.InternetDialogFactory;
@@ -385,7 +385,7 @@ index cd81b4a11703..61be4e7ccd40 100644
  import com.android.systemui.statusbar.connectivity.AccessPointController;
  import com.android.systemui.statusbar.connectivity.IconState;
  import com.android.systemui.statusbar.connectivity.MobileDataIndicators;
-@@ -67,7 +68,7 @@
+@@ -67,7 +68,7 @@ import java.io.PrintWriter;
  import javax.inject.Inject;
  
  /** Quick settings tile: Internet **/
@@ -394,7 +394,7 @@ index cd81b4a11703..61be4e7ccd40 100644
      private static final Intent WIFI_SETTINGS = new Intent(Settings.ACTION_WIFI_SETTINGS);
  
      protected final NetworkController mController;
-@@ -92,10 +93,11 @@ public InternetTile(
+@@ -92,10 +93,11 @@ public class InternetTile extends QSTileImpl<SignalState> {
              QSLogger qsLogger,
              NetworkController networkController,
              AccessPointController accessPointController,
@@ -408,7 +408,7 @@ index cd81b4a11703..61be4e7ccd40 100644
          mInternetDialogFactory = internetDialogFactory;
          mHandler = mainHandler;
          mController = networkController;
-@@ -122,7 +124,10 @@ public Intent getLongClickIntent() {
+@@ -122,7 +124,10 @@ public class InternetTile extends QSTileImpl<SignalState> {
      }
  
      @Override
@@ -421,10 +421,10 @@ index cd81b4a11703..61be4e7ccd40 100644
                  mAccessPointController.canConfigMobileData(),
                  mAccessPointController.canConfigWifi(), view));
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java
-index b9bc0e5ca814..1bd913ea9496 100644
+index 077432d32de8..c8b2ec48ceaa 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java
-@@ -45,11 +45,12 @@
+@@ -45,11 +45,12 @@ import com.android.systemui.plugins.statusbar.StatusBarStateController;
  import com.android.systemui.qs.QSHost;
  import com.android.systemui.qs.logging.QSLogger;
  import com.android.systemui.qs.tileimpl.QSTileImpl;
@@ -438,7 +438,7 @@ index b9bc0e5ca814..1bd913ea9496 100644
  
      private static final String NFC = "nfc";
      private final Icon mIcon = ResourceIcon.get(R.drawable.ic_qs_nfc);
-@@ -69,10 +70,11 @@ public NfcTile(
+@@ -69,10 +70,11 @@ public class NfcTile extends QSTileImpl<BooleanState> {
              StatusBarStateController statusBarStateController,
              ActivityStarter activityStarter,
              QSLogger qsLogger,
@@ -452,7 +452,7 @@ index b9bc0e5ca814..1bd913ea9496 100644
          mBroadcastDispatcher = broadcastDispatcher;
      }
  
-@@ -114,7 +116,11 @@ public Intent getLongClickIntent() {
+@@ -115,7 +117,11 @@ public class NfcTile extends QSTileImpl<BooleanState> {
      }
  
      @Override
@@ -469,7 +469,7 @@ diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/RotationLockTil
 index 0bbb5bdd851a..c28d09f80f74 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/RotationLockTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/RotationLockTile.java
-@@ -40,13 +40,14 @@
+@@ -40,13 +40,14 @@ import com.android.systemui.plugins.statusbar.StatusBarStateController;
  import com.android.systemui.qs.QSHost;
  import com.android.systemui.qs.logging.QSLogger;
  import com.android.systemui.qs.tileimpl.QSTileImpl;
@@ -485,7 +485,7 @@ index 0bbb5bdd851a..c28d09f80f74 100644
  
      private final Icon mIcon = ResourceIcon.get(com.android.internal.R.drawable.ic_qs_auto_rotate);
      private final RotationLockController mController;
-@@ -61,10 +62,11 @@ public RotationLockTile(
+@@ -61,10 +62,11 @@ public class RotationLockTile extends QSTileImpl<BooleanState> {
              StatusBarStateController statusBarStateController,
              ActivityStarter activityStarter,
              QSLogger qsLogger,
@@ -499,7 +499,7 @@ index 0bbb5bdd851a..c28d09f80f74 100644
          mController = rotationLockController;
          mController.observe(this, mCallback);
      }
-@@ -80,7 +82,11 @@ public Intent getLongClickIntent() {
+@@ -80,7 +82,11 @@ public class RotationLockTile extends QSTileImpl<BooleanState> {
      }
  
      @Override
@@ -580,7 +580,7 @@ diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/WifiTile.java b
 index e79ca0c93212..89cebab4fda4 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/WifiTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/WifiTile.java
-@@ -58,6 +58,7 @@
+@@ -58,6 +58,7 @@ import com.android.systemui.statusbar.connectivity.NetworkController;
  import com.android.systemui.statusbar.connectivity.SignalCallback;
  import com.android.systemui.statusbar.connectivity.WifiIcons;
  import com.android.systemui.statusbar.connectivity.WifiIndicators;
@@ -588,7 +588,7 @@ index e79ca0c93212..89cebab4fda4 100644
  import com.android.wifitrackerlib.WifiEntry;
  
  import java.util.List;
-@@ -65,7 +66,7 @@
+@@ -65,7 +66,7 @@ import java.util.List;
  import javax.inject.Inject;
  
  /** Quick settings tile: Wifi **/
@@ -597,7 +597,7 @@ index e79ca0c93212..89cebab4fda4 100644
      private static final Intent WIFI_SETTINGS = new Intent(Settings.ACTION_WIFI_SETTINGS);
  
      protected final NetworkController mController;
-@@ -87,10 +88,11 @@ public WifiTile(
+@@ -87,10 +88,11 @@ public class WifiTile extends QSTileImpl<SignalState> {
              ActivityStarter activityStarter,
              QSLogger qsLogger,
              NetworkController networkController,
@@ -611,7 +611,7 @@ index e79ca0c93212..89cebab4fda4 100644
          mController = networkController;
          mWifiController = accessPointController;
          mDetailAdapter = (WifiDetailAdapter) createDetailAdapter();
-@@ -133,7 +135,11 @@ public Intent getLongClickIntent() {
+@@ -133,7 +135,11 @@ public class WifiTile extends QSTileImpl<SignalState> {
      }
  
      @Override
@@ -628,7 +628,7 @@ diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/WorkModeTile.ja
 index 8df8c63702c3..7fc1726632ea 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/WorkModeTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/WorkModeTile.java
-@@ -39,11 +39,12 @@
+@@ -39,11 +39,12 @@ import com.android.systemui.qs.QSHost;
  import com.android.systemui.qs.logging.QSLogger;
  import com.android.systemui.qs.tileimpl.QSTileImpl;
  import com.android.systemui.statusbar.phone.ManagedProfileController;
@@ -642,7 +642,7 @@ index 8df8c63702c3..7fc1726632ea 100644
          ManagedProfileController.Callback {
      private final Icon mIcon = ResourceIcon.get(R.drawable.stat_sys_managed_profile_status);
  
-@@ -59,10 +60,11 @@ public WorkModeTile(
+@@ -59,10 +60,11 @@ public class WorkModeTile extends QSTileImpl<BooleanState> implements
              StatusBarStateController statusBarStateController,
              ActivityStarter activityStarter,
              QSLogger qsLogger,
@@ -656,7 +656,7 @@ index 8df8c63702c3..7fc1726632ea 100644
          mProfileController = managedProfileController;
          mProfileController.observe(getLifecycle(), this);
      }
-@@ -78,7 +80,11 @@ public Intent getLongClickIntent() {
+@@ -78,7 +80,11 @@ public class WorkModeTile extends QSTileImpl<BooleanState> implements
      }
  
      @Override
