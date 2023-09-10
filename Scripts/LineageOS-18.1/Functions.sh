@@ -123,6 +123,7 @@ patchWorkspaceReal() {
 	repopick -fit msm8974-gps-r;
 	repopick -fit hh-vsync;
 	repopick -fi 311299;
+	repopick -it R_asb_2023-09;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

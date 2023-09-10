@@ -144,8 +144,8 @@
 	<project path="kernel/google/msm" name="LineageOS/android_kernel_google_msm" remote="github" />
 
         <!-- Nexus 4 (mako) -->
-        <project path="device/lge/mako" name="voron00/android_device_lge_mako" remote="github" revision="8f885afaa63bfcc7986dc24b1f5c3aae5eaf0ef2" />
-        <project path="kernel/lge/mako" name="voron00/android_kernel_lge_mako" remote="github" revision="9c96bcde58e4d11b2c1283e2b418830e170a40b6" />
+        <project path="device/lge/mako" name="voron00/android_device_lge_mako" remote="github" revision="c90ee41b093e981ef57ff4b4ab4874240cc58f9a" />
+        <project path="kernel/lge/mako" name="voron00/android_kernel_lge_mako" remote="github" revision="cb09236a1236e77ccf446649466460adc3e5ac9e" />
 
 	<!-- Nexus 5 (hammerhead) -->
 	<project path="device/lge/hammerhead" name="z3DD3r/android_device_lge_hammerhead" remote="github" revision="5a781a1d5058c882804d7ffc27f2cf4c04cb0c2e" />
