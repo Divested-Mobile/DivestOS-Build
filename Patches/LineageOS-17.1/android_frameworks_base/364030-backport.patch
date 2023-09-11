@@ -18,7 +18,7 @@ Change-Id: I0335496d28fa5fc3bfe1fecd4be90040b0b3687f
  1 file changed, 58 insertions(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index b4e2e2b9cac9..2953c71d5a26 100644
+index b4e2e2b9cac9..4f3dd3449fae 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
 @@ -160,6 +160,7 @@ import android.app.AppOpsManager;
@@ -59,7 +59,7 @@ index b4e2e2b9cac9..2953c71d5a26 100644
 +                    packageName = null;
 +                }
 +
-+                final AndroidPackage androidPackage;
++                final PackageParser.Package androidPackage;
 +                if (packageName != null) {
 +                    androidPackage = mPackageManagerInt.getPackage(packageName);
 +                } else {
@@ -72,9 +72,9 @@ index b4e2e2b9cac9..2953c71d5a26 100644
 +                }
 +
 +                final ApplicationInfo appInfo = mPackageManagerInt.getApplicationInfo(
-+                        androidPackage.getPackageName(), /*flags*/0, Process.SYSTEM_UID,
++                        androidPackage.packageName, /*flags*/0, Process.SYSTEM_UID,
 +                        UserHandle.USER_SYSTEM);
-+                if (!appInfo.isVendor() && !appInfo.isSystemApp() && !appInfo.isSystemExt()
++                if (!appInfo.isVendor() && !appInfo.isSystemApp()
 +                        && !appInfo.isProduct()) {
 +                    Log.e(TAG, "openContentUri may only be used by vendor/system/product.");
 +                    handlingSecurityViolation = true;

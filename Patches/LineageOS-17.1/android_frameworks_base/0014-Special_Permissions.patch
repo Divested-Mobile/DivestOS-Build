@@ -11,7 +11,7 @@ need to be granted by default for all apps to maintain compatibility.
  2 files changed, 20 insertions(+), 6 deletions(-)
 
 diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
-index 27282c0a2dda..9483f266b1fa 100644
+index 5bd1b4ac0195..475ba5ddc8c0 100644
 --- a/services/core/java/com/android/server/pm/PackageManagerService.java
 +++ b/services/core/java/com/android/server/pm/PackageManagerService.java
 @@ -20215,7 +20215,8 @@ public class PackageManagerService extends IPackageManager.Stub

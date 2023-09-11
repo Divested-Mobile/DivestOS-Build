@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hui Peng <phui@google.com>
+Date: Tue, 16 May 2023 21:24:07 +0000
+Subject: [PATCH] Fix an integer overflow bug in avdt_msg_asmbl
+
+This is a backport of
+Iaa4d603921fc4ffb8cfb5783f99ec0963affd6a2
+to rvc-dev
+
+Bug: 280633699
+Test: manual
+Ignore-AOSP-First: security
+Tag: #security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:26347d4bdba646bbba4d27337d2888a04de42639)
+Merged-In: Iaa4d603921fc4ffb8cfb5783f99ec0963affd6a2
+Change-Id: Iaa4d603921fc4ffb8cfb5783f99ec0963affd6a2
+---
+ stack/avdt/avdt_msg.cc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/stack/avdt/avdt_msg.cc b/stack/avdt/avdt_msg.cc
+index af8d7014e..a98d59d4b 100644
+--- a/stack/avdt/avdt_msg.cc
++++ b/stack/avdt/avdt_msg.cc
+@@ -1293,14 +1293,14 @@ BT_HDR* avdt_msg_asmbl(tAVDT_CCB* p_ccb, BT_HDR* p_buf) {
+        * NOTE: The buffer is allocated above at the beginning of the
+        * reassembly, and is always of size BT_DEFAULT_BUFFER_SIZE.
+        */
+-      uint16_t buf_len = BT_DEFAULT_BUFFER_SIZE - sizeof(BT_HDR);
++      size_t buf_len = BT_DEFAULT_BUFFER_SIZE - sizeof(BT_HDR);
+ 
+       /* adjust offset and len of fragment for header byte */
+       p_buf->offset += AVDT_LEN_TYPE_CONT;
+       p_buf->len -= AVDT_LEN_TYPE_CONT;
+ 
+       /* verify length */
+-      if ((p_ccb->p_rx_msg->offset + p_buf->len) > buf_len) {
++      if (((size_t) p_ccb->p_rx_msg->offset + (size_t) p_buf->len) > buf_len) {
+         /* won't fit; free everything */
+         AVDT_TRACE_WARNING("%s: Fragmented message too big!", __func__);
+         osi_free_and_reset((void**)&p_ccb->p_rx_msg);
