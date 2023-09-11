@@ -315,7 +315,7 @@ cp -f "$DOS_PATCHES_COMMON/contributors.db" assets/contributors.db; #Update cont
 fi;
 
 if enterAndClear "packages/apps/Nfc"; then
-applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/365970.patch"; #R_asb_2023-09 Ensure that SecureNFC setting cannot be bypassed
+#applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/365970.patch"; #R_asb_2023-09 Ensure that SecureNFC setting cannot be bypassed
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
@@ -422,9 +422,9 @@ if enterAndClear "vendor/nxp/opensource/commonsys/external/libnfc-nci"; then
 applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_commonsys_external_libnfc-nci/360974-backport.patch"; #R_asb_2023-07 OOBW in rw_i93_send_to_upper()
 fi;
 
-if enterAndClear "vendor/nxp/opensource/commonsys/packages/apps/Nfc/"; then
-applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_commonsys_packages_apps_Nfc/365983-backport.patch"; #R_asb_2023-09 Ensure that SecureNFC setting cannot be bypassed
-fi;
+#if enterAndClear "vendor/nxp/opensource/commonsys/packages/apps/Nfc/"; then
+#applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_commonsys_packages_apps_Nfc/365983-backport.patch"; #R_asb_2023-09 Ensure that SecureNFC setting cannot be bypassed
+#fi;
 
 if enterAndClear "system/sepolicy"; then
 applyPatch "$DOS_PATCHES/android_system_sepolicy/0002-protected_files.patch"; #label protected_{fifos,regular} as proc_security (GrapheneOS)
