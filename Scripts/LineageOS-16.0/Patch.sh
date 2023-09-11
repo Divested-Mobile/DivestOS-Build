@@ -99,7 +99,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 17/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2022-01-05/2023-08-05/' core/version_defaults.mk; #Bump Security String #P_asb_2023-08 #XXX
+sed -i 's/2022-01-05/2023-09-05/' core/version_defaults.mk; #Bump Security String #P_asb_2023-09 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -158,6 +158,7 @@ awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.jav
 fi;
 
 if enterAndClear "frameworks/av"; then
+applyPatch "$DOS_PATCHES/android_frameworks_av/365962.patch"; #R_asb_2023-09 Fix Segv on unknown address error flagged by fuzzer test.
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; fi; #(GrapheneOS)
 fi;
 
@@ -177,6 +178,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/364035-backport.patch"; #R_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/364036-backport.patch"; #R_asb_2023-08 Verify URI permissions in MediaMetadata
 applyPatch "$DOS_PATCHES/android_frameworks_base/364037.patch"; #R_asb_2023-08 Use Settings.System.getIntForUser instead of getInt to make sure user specific settings are used
 applyPatch "$DOS_PATCHES/android_frameworks_base/364038-backport.patch"; #R_asb_2023-08 Resolve StatusHints image exploit across user.
+applyPatch "$DOS_PATCHES/android_frameworks_base/365966-backport.patch"; #R_asb_2023-09 Forbid granting access to NLSes with too-long component names
+applyPatch "$DOS_PATCHES/android_frameworks_base/365967.patch"; #R_asb_2023-09 Update AccountManagerService checkKeyIntentParceledCorrectly.
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -221,6 +224,7 @@ rm -rf packages/PrintRecommendationService; #Creates popups to install proprieta
 fi;
 
 if enterAndClear "frameworks/native"; then
+applyPatch "$DOS_PATCHES/android_frameworks_native/365969-backport.patch"; #R_asb_2023-09 Allow sensors list to be empty
 applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors.patch"; #Require OTHER_SENSORS permission for sensors (GrapheneOS)
 fi;
 
@@ -311,6 +315,7 @@ cp -f "$DOS_PATCHES_COMMON/contributors.db" assets/contributors.db; #Update cont
 fi;
 
 if enterAndClear "packages/apps/Nfc"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/365970.patch"; #R_asb_2023-09 Ensure that SecureNFC setting cannot be bypassed
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
@@ -322,6 +327,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_PackageInstaller/0001-Sensors_Per
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/365973-backport.patch"; #R_asb_2023-09 Prevent non-system IME from becoming device admin
 git revert --no-edit c240992b4c86c7f226290807a2f41f2619e7e5e8; #Don't hide OEM unlock
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch) #TODO: Needs work
@@ -340,6 +346,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics
 fi;
 
 if enterAndClear "packages/apps/Trebuchet"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Trebuchet/365974.patch"; #R_asb_2023-09 Fix permission issue in legacy shortcut
 cp $DOS_BUILD_BASE/vendor/divested/overlay/common/packages/apps/Trebuchet/res/xml/default_workspace_*.xml res/xml/; #XXX: Likely no longer needed
 fi;
 
@@ -369,6 +376,7 @@ applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/364041-backport.patc
 fi;
 
 if enterAndClear "packages/services/Telephony"; then
+applyPatch "$DOS_PATCHES/android_packages_services_Telephony/365978-backport.patch"; #R_asb_2023-09 Fixed leak of cross user data in multiple settings.
 git revert --no-edit 99564aaf0417c9ddf7d6aeb10d326e5b24fa8f55;
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_All_Modes.patch"; #(DivestOS)
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
@@ -376,6 +384,10 @@ fi;
 
 if enterAndClear "system/bt"; then
 applyPatch "$DOS_PATCHES/android_system_bt/360969.patch"; #R_asb_2023-07 Fix gatt_end_operation buffer overflow
+applyPatch "$DOS_PATCHES/android_system_bt/365979.patch"; #R_asb_2023-09 Fix an integer overflow bug in avdt_msg_asmbl
+applyPatch "$DOS_PATCHES/android_system_bt/365980.patch"; #R_asb_2023-09 Fix integer overflow in build_read_multi_rsp
+applyPatch "$DOS_PATCHES/android_system_bt/365981.patch"; #R_asb_2023-09 Fix potential abort in btu_av_act.cc
+applyPatch "$DOS_PATCHES/android_system_bt/365982-backport.patch"; #R_asb_2023-09 Fix UAF in gatt_cl.cc
 #applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
 
@@ -408,6 +420,10 @@ fi;
 
 if enterAndClear "vendor/nxp/opensource/commonsys/external/libnfc-nci"; then
 applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_commonsys_external_libnfc-nci/360974-backport.patch"; #R_asb_2023-07 OOBW in rw_i93_send_to_upper()
+fi;
+
+if enterAndClear "vendor/nxp/opensource/commonsys/packages/apps/Nfc/"; then
+applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_commonsys_packages_apps_Nfc/365983-backport.patch"; #R_asb_2023-09 Ensure that SecureNFC setting cannot be bypassed
 fi;
 
 if enterAndClear "system/sepolicy"; then

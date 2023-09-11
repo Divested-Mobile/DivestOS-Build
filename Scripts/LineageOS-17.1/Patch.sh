@@ -150,7 +150,6 @@ if enterAndClear "frameworks/av"; then
 applyPatch "$DOS_PATCHES/android_frameworks_av/365962.patch"; #R_asb_2023-09 Fix Segv on unknown address error flagged by fuzzer test.
 fi;
 
-
 if enterAndClear "frameworks/base"; then
 applyPatch "$DOS_PATCHES/android_frameworks_base/360952-backport.patch"; #R_asb_2023-07 Passpoint Add more check to limit the config size
 applyPatch "$DOS_PATCHES/android_frameworks_base/360953-backport.patch"; #R_asb_2023-07 Sanitize VPN label to prevent HTML injection
