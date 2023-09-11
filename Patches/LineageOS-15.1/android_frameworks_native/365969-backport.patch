@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Devin Moore <devinmoore@google.com>
+Date: Tue, 25 Apr 2023 00:17:13 +0000
+Subject: [PATCH] Allow sensors list to be empty
+
+Test: atest VtsHalSensorManagerV1_0TargetTest
+Bug: 278013275
+Bug: 269014004
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:49600b10aa5675d4e7e985203d69f252ead13e45)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:7057a9f08d98bfec8ffbabcf00f2885d3909c6c9)
+Merged-In: I091f57de9570b0ace3a8da76f16fe0e83f0aa624
+Change-Id: I091f57de9570b0ace3a8da76f16fe0e83f0aa624
+---
+ libs/sensor/SensorManager.cpp | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/libs/sensor/SensorManager.cpp b/libs/sensor/SensorManager.cpp
+index e5a0438fc5..e24c3bcecd 100644
+--- a/libs/sensor/SensorManager.cpp
++++ b/libs/sensor/SensorManager.cpp
+@@ -171,11 +171,8 @@ status_t SensorManager::assertStateLocked() {
+ 
+         mSensors = mSensorServer->getSensorList(mOpPackageName);
+         size_t count = mSensors.size();
+-        if (count == 0) {
+-            ALOGE("Failed to get Sensor list");
+-            mSensorServer.clear();
+-            return UNKNOWN_ERROR;
+-        }
++        // If count is 0, mSensorList will be non-null. This is old
++        // existing behavior and callers expect this.
+         mSensorList =
+                 static_cast<Sensor const**>(malloc(count * sizeof(Sensor*)));
+         LOG_ALWAYS_FATAL_IF(mSensorList == NULL, "mSensorList NULL");
