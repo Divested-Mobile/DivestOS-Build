@@ -387,7 +387,8 @@ applyPatch "$DOS_PATCHES/android_system_bt/360969.patch"; #R_asb_2023-07 Fix gat
 applyPatch "$DOS_PATCHES/android_system_bt/365979.patch"; #R_asb_2023-09 Fix an integer overflow bug in avdt_msg_asmbl
 applyPatch "$DOS_PATCHES/android_system_bt/365980.patch"; #R_asb_2023-09 Fix integer overflow in build_read_multi_rsp
 applyPatch "$DOS_PATCHES/android_system_bt/365981.patch"; #R_asb_2023-09 Fix potential abort in btu_av_act.cc
-applyPatch "$DOS_PATCHES/android_system_bt/365982-backport.patch"; #R_asb_2023-09 Fix UAF in gatt_cl.cc
+applyPatch "$DOS_PATCHES/android_system_bt/365982-prereq.patch"; #Fix reliable write
+applyPatch "$DOS_PATCHES/android_system_bt/365982.patch"; #R_asb_2023-09 Fix UAF in gatt_cl.cc
 #applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
 
