@@ -123,6 +123,10 @@ sed -i 's/34359738368/2147483648/' Android.bp; #revert 48-bit address space requ
 fi;
 fi;
 
+if enterAndClear "external/webp"; then
+applyPatch "$DOS_PATCHES/android_external_webp/CVE-2023-4863.patch"; #Fix OOB write in BuildHuffmanTable.
+fi;
+
 if enterAndClear "frameworks/av"; then
 git am $DOS_PATCHES/ASB2023-09/av-*.patch;
 fi;
