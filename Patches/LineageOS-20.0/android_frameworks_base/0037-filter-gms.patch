@@ -8,8 +8,6 @@ to make apps work
 
 [tad@spotco.us]: adjusted package list
 Change-Id: Ic5ddb78b1014ce567d1a5c57fc79f79edd1154c0
-
-Change-Id: I7969470baa125eef349e82808b0d6e643e344c8b
 ---
  .../java/com/android/server/pm/AppsFilterBase.java  | 13 +++++++++++++
  1 file changed, 13 insertions(+)
