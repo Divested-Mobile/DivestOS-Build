@@ -1,6 +1,5 @@
 #!/bin/bash
 if cd "$DOS_BUILD_BASE""kernel/fxtec/sm6115"; then
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0288-0289.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0289-0290.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-Graphene-Deny_USB/4.19/0004.patch
@@ -93,11 +92,14 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4133/^6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4134/^6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4194/^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4194/^6.5/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4622/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4623/^6.5/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4921/^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35001/4.19/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-40283/4.19/0003.patch
-editKernelLocalversion "-dos.p97"
+editKernelLocalversion "-dos.p99"
 else echo "kernel_fxtec_sm6115 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

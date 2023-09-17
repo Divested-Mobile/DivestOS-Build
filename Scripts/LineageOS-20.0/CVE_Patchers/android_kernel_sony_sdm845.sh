@@ -420,9 +420,12 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3772/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3777/^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4132/4.6-^6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4132/4.14/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4206/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4385/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4387/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4459/4.9/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4623/^6.5/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4921/^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-21656/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-21657/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-22387/ANY/0004.patch
@@ -444,7 +447,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.pat
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.9/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.9/0007.patch
-editKernelLocalversion "-dos.p444"
+editKernelLocalversion "-dos.p447"
 else echo "kernel_sony_sdm845 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
