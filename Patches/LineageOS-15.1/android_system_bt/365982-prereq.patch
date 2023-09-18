@@ -21,10 +21,10 @@ Change-Id: I907877608f4672f24c002e630e58bf9133937a5e
  1 file changed, 10 insertions(+), 11 deletions(-)
 
 diff --git a/stack/gatt/gatt_cl.cc b/stack/gatt/gatt_cl.cc
-index dca49738c..2650a307a 100644
+index 014240888..203808806 100644
 --- a/stack/gatt/gatt_cl.cc
 +++ b/stack/gatt/gatt_cl.cc
-@@ -297,7 +297,7 @@ void gatt_send_queue_write_cancel(tGATT_TCB& tcb, tGATT_CLCB* p_clcb,
+@@ -291,7 +291,7 @@ void gatt_send_queue_write_cancel(tGATT_TCB& tcb, tGATT_CLCB* p_clcb,
  bool gatt_check_write_long_terminate(tGATT_TCB& tcb, tGATT_CLCB* p_clcb,
                                       tGATT_VALUE* p_rsp_value) {
    tGATT_VALUE* p_attr = (tGATT_VALUE*)p_clcb->p_attr_buf;
@@ -33,7 +33,7 @@ index dca49738c..2650a307a 100644
    tGATT_EXEC_FLAG flag = GATT_PREP_WRITE_EXEC;
  
    VLOG(1) << __func__;
-@@ -310,19 +310,18 @@ bool gatt_check_write_long_terminate(tGATT_TCB& tcb, tGATT_CLCB* p_clcb,
+@@ -304,19 +304,18 @@ bool gatt_check_write_long_terminate(tGATT_TCB& tcb, tGATT_CLCB* p_clcb,
        /* data does not match    */
        p_clcb->status = GATT_ERROR;
        flag = GATT_PREP_WRITE_CANCEL;
@@ -57,7 +57,7 @@ index dca49738c..2650a307a 100644
  }
  
  /** Send prepare write */
-@@ -586,15 +585,15 @@ void gatt_process_prep_write_rsp(tGATT_TCB& tcb, tGATT_CLCB* p_clcb,
+@@ -583,15 +582,15 @@ void gatt_process_prep_write_rsp(tGATT_TCB& tcb, tGATT_CLCB* p_clcb,
  
    memcpy(value.value, p, value.len);
  

@@ -20,7 +20,7 @@ Change-Id: I085ecfa1a9ba098ecbfecbd3cb3e263ae13f9724
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/stack/gatt/gatt_cl.cc b/stack/gatt/gatt_cl.cc
-index db41c5f9f..f7f11b7a9 100644
+index 16a7171f6..5e4837020 100644
 --- a/stack/gatt/gatt_cl.cc
 +++ b/stack/gatt/gatt_cl.cc
 @@ -586,12 +586,17 @@ void gatt_process_prep_write_rsp(tGATT_TCB& tcb, tGATT_CLCB* p_clcb,
