@@ -513,10 +513,6 @@ if enterAndClear "kernel/fairphone/sdm632"; then
 sed -i 's|/../../prebuilts/tools-lineage|/../../../prebuilts/tools-lineage|' lib/Makefile; #fixup typo
 fi;
 
-if enterAndClear "kernel/oneplus/sm8150"; then
-rm Android.bp;
-fi;
-
 if enterAndClear "kernel/oneplus/sm7250"; then
 git revert --no-edit 6eede8c64f268991abe669a6123e929e295fac29;
 fi;

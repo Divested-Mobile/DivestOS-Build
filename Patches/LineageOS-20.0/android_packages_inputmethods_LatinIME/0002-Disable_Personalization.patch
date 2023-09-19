@@ -1,4 +1,4 @@
-From 8cfece6ef083e379eaa7b8d7b3f0db5cf9d1b110 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Daniel Micay <danielmicay@gmail.com>
 Date: Thu, 14 Sep 2017 00:03:16 -0400
 Subject: [PATCH] disable personalized dicts by default
