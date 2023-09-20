@@ -142,6 +142,10 @@ sed -i 's/about to delete/unable to delete/' pico/src/com/svox/pico/LangPackUnin
 awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.java;
 fi;
 
+if enterAndClear "external/webp"; then
+applyPatch "$DOS_PATCHES_COMMON/android_external_webp/CVE-2023-4863.patch"; #Fix OOB write in BuildHuffmanTable.
+fi;
+
 if enterAndClear "external/zlib"; then
 git fetch https://github.com/LineageOS/android_external_zlib refs/changes/70/352570/1 && git cherry-pick FETCH_HEAD; #Q_asb_2023-03
 fi;

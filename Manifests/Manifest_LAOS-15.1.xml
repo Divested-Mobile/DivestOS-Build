@@ -74,6 +74,8 @@
 	<!-- use newer branches -->
 	<remove-project name="LineageOS/android_external_aac" />
 	<project path="external/aac" name="LineageOS/android_external_aac" remote="github" revision="lineage-17.1" />
+	<remove-project name="platform/external/webp" />
+	<project path="external/webp" name="LineageOS/android_external_webp" remote="github" revision="lineage-18.1" />
 <!-- END OF BRANCH SWITCHING -->
 
 <!-- START OF ADDITIONAL REPOS -->

@@ -65,6 +65,10 @@
 	<!-- Switch to the Mulch WebView -->
 	<remove-project name="LineageOS/android_external_chromium-webview" />
 	<project path="external/chromium-webview" name="divested-mobile/mulch" groups="pdk" clone-depth="1" remote="gitlab" revision="master" />
+
+	<!-- use newer branches -->
+	<remove-project name="platform/external/webp" />
+	<project path="external/webp" name="LineageOS/android_external_webp" remote="github" revision="lineage-18.1" />
 <!-- END OF BRANCH SWITCHING -->
 
 <!-- START OF ADDITIONAL REPOS -->

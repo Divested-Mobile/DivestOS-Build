@@ -147,6 +147,11 @@ if enterAndClear "external/tremolo"; then
 applyPatch "$DOS_PATCHES/android_external_tremolo/319986.patch"; #n-asb-2021-12 handle cases where order isn't a multiple of dimension
 fi;
 
+if enterAndClear "external/webp"; then
+applyPatch "$DOS_PATCHES_COMMON/android_external_webp/CVE-2023-4863.patch"; #Fix OOB write in BuildHuffmanTable.
+applyPatch "$DOS_PATCHES/android_external_webp/0001-makefile.patch"; #Add Android.mk for legacy builds (syphyr)
+fi;
+
 if enterAndClear "external/zlib"; then
 applyPatch "$DOS_PATCHES/android_external_zlib/351107.patch"; #n-asb-2023-03 Fix a bug when getting a gzip header extra field with inflate().
 fi;

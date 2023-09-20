@@ -131,6 +131,11 @@ if enterAndClear "external/svox"; then
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 fi;
 
+if enterAndClear "external/webp"; then
+applyPatch "$DOS_PATCHES_COMMON/android_external_webp/CVE-2023-4863.patch"; #Fix OOB write in BuildHuffmanTable.
+sed -i '85i\ \ \ \ \ \ \ \ "src/utils/filters_utils.c",' Android.bp; #Fixup
+fi;
+
 if enterAndClear "external/zlib"; then
 applyPatch "$DOS_PATCHES/android_external_zlib/351909.patch"; #P_asb_2023-03 Fix a bug when getting a gzip header extra field with inflate().
 fi;

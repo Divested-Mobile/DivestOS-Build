@@ -124,7 +124,7 @@ fi;
 fi;
 
 if enterAndClear "external/webp"; then
-applyPatch "$DOS_PATCHES/android_external_webp/CVE-2023-4863.patch"; #Fix OOB write in BuildHuffmanTable.
+applyPatch "$DOS_PATCHES_COMMON/android_external_webp/CVE-2023-4863.patch"; #Fix OOB write in BuildHuffmanTable.
 fi;
 
 if enterAndClear "frameworks/base"; then
