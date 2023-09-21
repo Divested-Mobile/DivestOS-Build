@@ -123,10 +123,6 @@ sed -i 's/34359738368/2147483648/' Android.bp; #revert 48-bit address space requ
 fi;
 fi;
 
-if enterAndClear "external/webp"; then
-applyPatch "$DOS_PATCHES/android_external_webp/CVE-2023-4863.patch"; #Fix OOB write in BuildHuffmanTable.
-fi;
-
 if enterAndClear "frameworks/base"; then
 git revert --no-edit d36faad3267522c6d3ff91ba9dcca8f6274bccd1; #Reverts "JobScheduler: Respect allow-in-power-save perm" in favor of below patch
 git revert --no-edit 90d6826548189ca850d91692e71fcc1be426f453; #Reverts "Remove sensitive info from SUPL requests" in favor of below patch
