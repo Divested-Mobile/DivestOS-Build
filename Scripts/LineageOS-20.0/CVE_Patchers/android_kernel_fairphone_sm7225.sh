@@ -1,7 +1,5 @@
 #!/bin/bash
 if cd "$DOS_BUILD_BASE""kernel/fairphone/sm7225"; then
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0288-0289.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.19/4.19.0289-0290.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-Graphene-Deny_USB/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.19/0003.patch
@@ -32,7 +30,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.19/0007.
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.19/0011.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.19/0015.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.19/0019.patch
-git apply $DOS_PATCHES_LINUX_CVES/0009-rfc4941bis/4.19/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/0009-rfc4941bis/ANY/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-7837/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-3695/ANY/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2018-5873/ANY/0001.patch
@@ -76,31 +74,19 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20571/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0030/^4.20/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0386/^6.2/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1077/4.19/0006.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1206/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1989/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1989/^6.3/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3117/4.19/0006.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3212/4.19/0007.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3609/4.19/0007.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3772/4.19/0006.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3776/4.19/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3777/^6.5/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4128/4.19/0004.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4128/4.19/0005.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4132/4.19/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4133/^6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4134/^6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4194/^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4194/^6.5/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4622/4.19/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4623/^6.5/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4623/4.12-^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4921/^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/^6.5/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35001/4.19/0007.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-40283/4.19/0003.patch
-editKernelLocalversion "-dos.p100"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42752/^6.5/0002.patch
+editKernelLocalversion "-dos.p86"
 else echo "kernel_fairphone_sm7225 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
