@@ -122,7 +122,7 @@ patchWorkspaceReal() {
 	repopick -fit msm8974-display-r;
 	repopick -fit msm8974-gps-r;
 	repopick -fit hh-vsync;
-	repopick -fi 311299;
+	repopick -fi 311299; #ble: Workaround malformed HCI_BLE_VENDOR_CAP response
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
