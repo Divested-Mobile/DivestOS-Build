@@ -13,26 +13,26 @@ Change-Id: Ifb56c679d3a9b6c035fcdd4596ec0b3b5653bea8
  5 files changed, 6 insertions(+), 9 deletions(-)
 
 diff --git a/java/res/values-sw430dp/config-per-form-factor.xml b/java/res/values-sw430dp/config-per-form-factor.xml
-index 8868081c3..2199ab6b2 100644
+index 1a539c190..5f513b433 100644
 --- a/java/res/values-sw430dp/config-per-form-factor.xml
 +++ b/java/res/values-sw430dp/config-per-form-factor.xml
-@@ -24,7 +24,7 @@
-     <!-- Whether or not Popup on key press is enabled by default -->
+@@ -25,7 +25,7 @@
      <bool name="config_default_key_preview_popup">true</bool>
      <bool name="config_default_sound_enabled">false</bool>
+     <bool name="config_enable_show_emoji_key_option">true</bool>
 -    <bool name="config_enable_show_voice_key_option">true</bool>
 +    <bool name="config_enable_show_voice_key_option">false</bool>
      <bool name="config_key_selection_by_dragging_finger">true</bool>
      <!-- Showing more keys keyboard, just above the touched point if true, aligned to the key if
           false -->
 diff --git a/java/res/values/config-per-form-factor.xml b/java/res/values/config-per-form-factor.xml
-index 67fc75134..1bbf1640e 100644
+index a5259a6d8..499b25fb4 100644
 --- a/java/res/values/config-per-form-factor.xml
 +++ b/java/res/values/config-per-form-factor.xml
-@@ -24,7 +24,7 @@
-     <!-- Whether or not Popup on key press is enabled by default -->
+@@ -25,7 +25,7 @@
      <bool name="config_default_key_preview_popup">true</bool>
      <bool name="config_default_sound_enabled">false</bool>
+     <bool name="config_enable_show_emoji_key_option">true</bool>
 -    <bool name="config_enable_show_voice_key_option">true</bool>
 +    <bool name="config_enable_show_voice_key_option">false</bool>
      <bool name="config_key_selection_by_dragging_finger">true</bool>
@@ -51,13 +51,13 @@ index d2dc51e7f..c7f8b588b 100644
          android:persistent="true" />
  </PreferenceScreen>
 diff --git a/java/src/com/android/inputmethod/latin/settings/PreferencesSettingsFragment.java b/java/src/com/android/inputmethod/latin/settings/PreferencesSettingsFragment.java
-index d9858e61f..cd513a47e 100644
+index aba14ee7a..867259309 100644
 --- a/java/src/com/android/inputmethod/latin/settings/PreferencesSettingsFragment.java
 +++ b/java/src/com/android/inputmethod/latin/settings/PreferencesSettingsFragment.java
-@@ -56,8 +56,7 @@ public final class PreferencesSettingsFragment extends SubScreenFragment {
-         // initialization method of these classes here. See {@link LatinIME#onCreate()}.
-         RichInputMethodManager.init(context);
- 
+@@ -61,8 +61,7 @@ public final class PreferencesSettingsFragment extends SubScreenFragment {
+         if (!showEmojiKeyOption) {
+             removePreference(Settings.PREF_SHOW_EMOJI_KEY);
+         }
 -        final boolean showVoiceKeyOption = res.getBoolean(
 -                R.bool.config_enable_show_voice_key_option);
 +        final boolean showVoiceKeyOption = false;
@@ -88,3 +88,4 @@ index 6eb8e98b8..8eec5b0f3 100644
      }
  
      public String dump() {
+
