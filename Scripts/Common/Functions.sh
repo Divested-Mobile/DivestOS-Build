@@ -343,7 +343,7 @@ processRelease() {
 	echo "$INCREMENTAL_ID" > "$OUT_DIR/$PREFIX-target_files.zip.id";
 
 	#Image
-	unzip -l $OUT_DIR/$PREFIX-target_files.zip | grep -q recovery.img;
+	unzip -l $OUT_DIR/$PREFIX-target_files.zip | grep -q recovery.img || true;
 	local hasRecoveryImg="$?";
 	if [ "$hasRecoveryImg" == "1" ]; then
 		echo -e "\e[0;32mCreating fastboot image\e[0m";
