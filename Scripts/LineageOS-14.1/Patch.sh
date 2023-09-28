@@ -135,6 +135,10 @@ applyPatch "$DOS_PATCHES/android_external_libnfc-nci/353760.patch"; #n-asb-2023-
 applyPatch "$DOS_PATCHES/android_external_libnfc-nci/360898.patch"; #n-asb-2023-07 OOBW in rw_i93_send_to_upper()
 fi;
 
+if enterAndClear "external/libvpx"; then
+applyPatch "$DOS_PATCHES/android_external_libvpx/CVE-2023-5217-backport.patch"; #VP8: disallow thread count changes
+fi;
+
 if enterAndClear "external/sonivox"; then
 applyPatch "$DOS_PATCHES/android_external_sonivox/317038.patch"; #n-asb-2021-10 Fix global buffer overflow in WT_InterpolateNoLoop
 fi;

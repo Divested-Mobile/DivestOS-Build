@@ -121,6 +121,10 @@ applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras-2.
 fi;
 fi;
 
+if enterAndClear "external/libvpx"; then
+applyPatch "$DOS_PATCHES_COMMON/android_external_libvpx/CVE-2023-5217.patch"; #VP8: disallow thread count changes
+fi;
+
 if enterAndClear "external/SecureCamera"; then
 sed -i '/LOCAL_MODULE/s/Camera/SecureCamera/' Android.mk; #Change module name
 sed -i '11iLOCAL_OVERRIDES_PACKAGES := Camera Camera2 LegacyCamera Snap OpenCamera' Android.mk; #Replace the others

@@ -127,6 +127,10 @@ fi;
 #fi;
 #fi;
 
+if enterAndClear "external/libvpx"; then
+applyPatch "$DOS_PATCHES_COMMON/android_external_libvpx/CVE-2023-5217.patch"; #VP8: disallow thread count changes
+fi;
+
 if enterAndClear "external/svox"; then
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 fi;
