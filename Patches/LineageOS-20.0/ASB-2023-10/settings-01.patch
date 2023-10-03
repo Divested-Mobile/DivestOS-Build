@@ -1,0 +1,67 @@
+From 87a06448b96e1ccd2403ae5c90b15efdd8585444 Mon Sep 17 00:00:00 2001
+From: Weng Su <wengsu@google.com>
+Date: Fri, 7 Jul 2023 19:52:04 +0800
+Subject: [PATCH] [RESTRICT AUTOMERGE] Restrict ApnEditor settings
+
+- Finish ApnEditor settings if user is not an admin
+
+- Finish ApnEditor settings if user has DISALLOW_CONFIG_MOBILE_NETWORKS restriction
+
+Bug: 279902472
+Test: manual test
+atest -c ApnEditorTest
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:ef2fd5b7cd74426568e8e82fb0dcddbfdaa943bf)
+Merged-In: Iecdbbff7e21dfb11e3ba385858747a220cfd3e04
+Change-Id: Iecdbbff7e21dfb11e3ba385858747a220cfd3e04
+---
+ .../settings/network/apn/ApnEditor.java       | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+diff --git a/src/com/android/settings/network/apn/ApnEditor.java b/src/com/android/settings/network/apn/ApnEditor.java
+index bfb49434378..afaf9bc3f8b 100644
+--- a/src/com/android/settings/network/apn/ApnEditor.java
++++ b/src/com/android/settings/network/apn/ApnEditor.java
+@@ -25,6 +25,7 @@
+ import android.net.Uri;
+ import android.os.Bundle;
+ import android.os.PersistableBundle;
++import android.os.UserManager;
+ import android.provider.Telephony;
+ import android.telephony.CarrierConfigManager;
+ import android.telephony.SubscriptionInfo;
+@@ -281,6 +282,11 @@ public class ApnEditor extends SettingsPreferenceFragment
+     @Override
+     public void onCreate(Bundle icicle) {
+         super.onCreate(icicle);
++        if (isUserRestricted()) {
++            Log.e(TAG, "This setting isn't available due to user restriction.");
++            finish();
++            return;
++        }
+ 
+         setLifecycleForAllControllers();
+ 
+@@ -1453,6 +1459,23 @@ ApnData getApnDataFromUri(Uri uri) {
+         return apnData;
+     }
+ 
++    @VisibleForTesting
++    boolean isUserRestricted() {
++        UserManager userManager = getContext().getSystemService(UserManager.class);
++        if (userManager == null) {
++            return false;
++        }
++        if (!userManager.isAdminUser()) {
++            Log.e(TAG, "User is not an admin");
++            return true;
++        }
++        if (userManager.hasUserRestriction(UserManager.DISALLOW_CONFIG_MOBILE_NETWORKS)) {
++            Log.e(TAG, "User is not allowed to configure mobile network");
++            return true;
++        }
++        return false;
++    }
++
+     @VisibleForTesting
+     static class ApnData {
+         /**

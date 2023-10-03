@@ -1,0 +1,90 @@
+From 364a1d99624e8dca6501d98166efbb8061362970 Mon Sep 17 00:00:00 2001
+From: Hui Peng <phui@google.com>
+Date: Tue, 16 May 2023 02:09:38 +0000
+Subject: [PATCH] Fix an integer underflow in build_read_multi_rsp
+
+When p_buf->len is mtu - 1 and p_cmd->multi_req.variable_len
+evaluates to true, integer underflow is triggered
+in the following line, resulting OOB access.
+
+```
+ len = p_rsp->attr_value.len - (total_len - mtu);
+```
+
+Bug: 273874525
+Test: manual
+Ignore-AOSP-First: security
+Tag: #security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:85f4d53c7bf90b806639a3a302f0007ffb3b9f23)
+Merged-In: Ia60dd829ff9152c083de1f4c1265bb3ad595dcc4
+Change-Id: Ia60dd829ff9152c083de1f4c1265bb3ad595dcc4
+---
+ system/stack/gatt/gatt_sr.cc | 32 +++++++++++++++++---------------
+ 1 file changed, 17 insertions(+), 15 deletions(-)
+
+diff --git a/system/stack/gatt/gatt_sr.cc b/system/stack/gatt/gatt_sr.cc
+index f2a3e22414..ce00ef7428 100644
+--- a/system/stack/gatt/gatt_sr.cc
++++ b/system/stack/gatt/gatt_sr.cc
+@@ -21,6 +21,7 @@
+  *  this file contains the GATT server functions
+  *
+  ******************************************************************************/
++#include <algorithm>
+ #include <string.h>
+ 
+ #include "bt_target.h"
+@@ -178,37 +179,38 @@ static void build_read_multi_rsp(tGATT_SR_CMD* p_cmd, uint16_t mtu) {
+     }
+ 
+     if (p_rsp != NULL) {
+-      total_len = (p_buf->len + p_rsp->attr_value.len);
++      total_len = p_buf->len;
+       if (p_cmd->multi_req.variable_len) {
+         total_len += 2;
+       }
+ 
+       if (total_len > mtu) {
+-        /* just send the partial response for the overflow case */
+-        len = p_rsp->attr_value.len - (total_len - mtu);
++        VLOG(1) << "Buffer space not enough for this data item, skipping";
++        break;
++      }
++
++      len = std::min((size_t) p_rsp->attr_value.len, mtu - total_len);
++
++      if (len == 0) {
++        VLOG(1) << "Buffer space not enough for this data item, skipping";
++        break;
++      }
++
++      if (len < p_rsp->attr_value.len) {
+         is_overflow = true;
+         VLOG(1) << StringPrintf(
+             "multi read overflow available len=%zu val_len=%d", len,
+             p_rsp->attr_value.len);
+-      } else {
+-        len = p_rsp->attr_value.len;
+       }
+ 
+       if (p_cmd->multi_req.variable_len) {
+-        UINT16_TO_STREAM(p, len);
++        UINT16_TO_STREAM(p, (uint16_t) len);
+         p_buf->len += 2;
+       }
+ 
+       if (p_rsp->attr_value.handle == p_cmd->multi_req.handles[ii]) {
+-        // check for possible integer overflow
+-        if (p_buf->len + len <= UINT16_MAX) {
+-          memcpy(p, p_rsp->attr_value.value, len);
+-          if (!is_overflow) p += len;
+-          p_buf->len += len;
+-        } else {
+-          p_cmd->status = GATT_NOT_FOUND;
+-          break;
+-        }
++        ARRAY_TO_STREAM(p, p_rsp->attr_value.value, (uint16_t) len);
++        p_buf->len += (uint16_t) len;
+       } else {
+         p_cmd->status = GATT_NOT_FOUND;
+         break;

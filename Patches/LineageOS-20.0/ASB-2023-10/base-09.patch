@@ -1,0 +1,135 @@
+From c6fbe1330a77c479ea3e29b54523682d0f248420 Mon Sep 17 00:00:00 2001
+From: Eric Biggers <ebiggers@google.com>
+Date: Fri, 28 Jul 2023 22:03:03 +0000
+Subject: [PATCH] RESTRICT AUTOMERGE: SettingsProvider: exclude secure_frp_mode
+ from resets
+
+When RescueParty detects that a system process is crashing frequently,
+it tries to recover in various ways, such as by resetting all settings.
+Unfortunately, this included resetting the secure_frp_mode setting,
+which is the means by which the system keeps track of whether the
+Factory Reset Protection (FRP) challenge has been passed yet.  With this
+setting reset, some FRP restrictions went away and it became possible to
+bypass FRP by setting a new lockscreen credential.
+
+Fix this by excluding secure_frp_mode from resets.
+
+Note: currently this bug isn't reproducible on 'main' due to ag/23727749
+disabling much of RescueParty, but that is a temporary change.
+
+Bug: 253043065
+Test: With ag/23727749 reverted and with my fix to prevent
+      com.android.settings from crashing *not* applied, tried repeatedly
+      setting lockscreen credential while in FRP mode, using the
+      smartlock setup activity launched by intent via adb.  Verified
+      that although RescueParty is still triggered after 5 attempts,
+      secure_frp_mode is no longer reset (its value remains "1").
+Test: Verified that secure_frp_mode still gets changed from 1 to 0 when
+      FRP is passed legitimately.
+Test: atest com.android.providers.settings.SettingsProviderTest
+Test: atest android.provider.SettingsProviderTest
+(cherry picked from commit 9890dd7f15c091f7d1a09e4fddb9f85d32015955)
+(changed Global.SECURE_FRP_MODE to Secure.SECURE_FRP_MODE,
+ needed because this setting was moved in U)
+(removed static keyword from shouldExcludeSettingFromReset(),
+ needed for compatibility with Java 15 and earlier)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:8c2d2c6fc91c6b80809a91ac510667af24d2cf17)
+Merged-In: Id95ed43b9cc2208090064392bcd5dc012710af93
+Change-Id: Id95ed43b9cc2208090064392bcd5dc012710af93
+---
+ .../providers/settings/SettingsProvider.java  | 17 ++++++++++---
+ .../settings/SettingsProviderTest.java        | 25 +++++++++++++++++++
+ 2 files changed, 38 insertions(+), 4 deletions(-)
+
+diff --git a/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java b/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
+index c51f19510f40..31e64196d3b5 100644
+--- a/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
++++ b/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
+@@ -3102,6 +3102,15 @@ public Setting getSettingLocked(int type, int userId, String name) {
+             return settingsState.getSettingLocked(name);
+         }
+ 
++        private boolean shouldExcludeSettingFromReset(Setting setting, String prefix) {
++            // If a prefix was specified, exclude settings whose names don't start with it.
++            if (prefix != null && !setting.getName().startsWith(prefix)) {
++                return true;
++            }
++            // Never reset SECURE_FRP_MODE, as it could be abused to bypass FRP via RescueParty.
++            return Secure.SECURE_FRP_MODE.equals(setting.getName());
++        }
++
+         public void resetSettingsLocked(int type, int userId, String packageName, int mode,
+                 String tag) {
+             resetSettingsLocked(type, userId, packageName, mode, tag, /*prefix=*/
+@@ -3124,7 +3133,7 @@ public void resetSettingsLocked(int type, int userId, String packageName, int mo
+                         Setting setting = settingsState.getSettingLocked(name);
+                         if (packageName.equals(setting.getPackageName())) {
+                             if ((tag != null && !tag.equals(setting.getTag()))
+-                                    || (prefix != null && !setting.getName().startsWith(prefix))) {
++                                    || shouldExcludeSettingFromReset(setting, prefix)) {
+                                 continue;
+                             }
+                             if (settingsState.resetSettingLocked(name)) {
+@@ -3144,7 +3153,7 @@ public void resetSettingsLocked(int type, int userId, String packageName, int mo
+                         Setting setting = settingsState.getSettingLocked(name);
+                         if (!SettingsState.isSystemPackage(getContext(),
+                                 setting.getPackageName())) {
+-                            if (prefix != null && !setting.getName().startsWith(prefix)) {
++                            if (shouldExcludeSettingFromReset(setting, prefix)) {
+                                 continue;
+                             }
+                             if (settingsState.resetSettingLocked(name)) {
+@@ -3164,7 +3173,7 @@ public void resetSettingsLocked(int type, int userId, String packageName, int mo
+                         Setting setting = settingsState.getSettingLocked(name);
+                         if (!SettingsState.isSystemPackage(getContext(),
+                                 setting.getPackageName())) {
+-                            if (prefix != null && !setting.getName().startsWith(prefix)) {
++                            if (shouldExcludeSettingFromReset(setting, prefix)) {
+                                 continue;
+                             }
+                             if (setting.isDefaultFromSystem()) {
+@@ -3187,7 +3196,7 @@ public void resetSettingsLocked(int type, int userId, String packageName, int mo
+                     for (String name : settingsState.getSettingNamesLocked()) {
+                         Setting setting = settingsState.getSettingLocked(name);
+                         boolean someSettingChanged = false;
+-                        if (prefix != null && !setting.getName().startsWith(prefix)) {
++                        if (shouldExcludeSettingFromReset(setting, prefix)) {
+                             continue;
+                         }
+                         if (setting.isDefaultFromSystem()) {
+diff --git a/packages/SettingsProvider/test/src/com/android/providers/settings/SettingsProviderTest.java b/packages/SettingsProvider/test/src/com/android/providers/settings/SettingsProviderTest.java
+index eaf0dcb9b4e7..1c6d2b08136c 100644
+--- a/packages/SettingsProvider/test/src/com/android/providers/settings/SettingsProviderTest.java
++++ b/packages/SettingsProvider/test/src/com/android/providers/settings/SettingsProviderTest.java
+@@ -464,6 +464,31 @@ private void testResetModeTrustedDefaultsCommon(int type) throws Exception {
+         }
+     }
+ 
++    // To prevent FRP bypasses, the SECURE_FRP_MODE setting should not be reset when all other
++    // settings are reset.  But it should still be possible to explicitly set its value.
++    @Test
++    public void testSecureFrpModeSettingCannotBeReset() throws Exception {
++        final String name = Settings.Secure.SECURE_FRP_MODE;
++        final String origValue = getSetting(SETTING_TYPE_GLOBAL, name);
++        setSettingViaShell(SETTING_TYPE_GLOBAL, name, "1", false);
++        try {
++            assertEquals("1", getSetting(SETTING_TYPE_GLOBAL, name));
++            for (int type : new int[] { SETTING_TYPE_GLOBAL, SETTING_TYPE_SECURE }) {
++                resetSettingsViaShell(type, Settings.RESET_MODE_UNTRUSTED_DEFAULTS);
++                resetSettingsViaShell(type, Settings.RESET_MODE_UNTRUSTED_CHANGES);
++                resetSettingsViaShell(type, Settings.RESET_MODE_TRUSTED_DEFAULTS);
++            }
++            // The value should still be "1".  It should not have been reset to null.
++            assertEquals("1", getSetting(SETTING_TYPE_GLOBAL, name));
++            // It should still be possible to explicitly set the value to "0".
++            setSettingViaShell(SETTING_TYPE_GLOBAL, name, "0", false);
++            assertEquals("0", getSetting(SETTING_TYPE_GLOBAL, name));
++        } finally {
++            setSettingViaShell(SETTING_TYPE_GLOBAL, name, origValue, false);
++            assertEquals(origValue, getSetting(SETTING_TYPE_GLOBAL, name));
++        }
++    }
++
+     private void doTestQueryStringInBracketsViaProviderApiForType(int type) {
+         // Make sure we have a clean slate.
+         deleteStringViaProviderApi(type, FAKE_SETTING_NAME);

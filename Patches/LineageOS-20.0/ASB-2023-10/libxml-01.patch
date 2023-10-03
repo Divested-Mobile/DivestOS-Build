@@ -1,0 +1,123 @@
+From 4a27a7f162907facfbeddf2d4ae4c6ab7c6eb15a Mon Sep 17 00:00:00 2001
+From: Nick Wellnhofer <wellnhofer@aevum.de>
+Date: Fri, 17 Feb 2023 15:53:07 +0100
+Subject: [PATCH] malloc-fail: Fix OOB read after xmlRegGetCounter
+
+Found with libFuzzer, see #344.
+
+(cherry picked from commit 1743c4c3fc58cf38ecce68db9de51d0f3651e033)
+
+I also copied the error label from
+e64653c0e7975594e27d7de2ed4be062c1e4ad03 to fix the build failure.
+
+Bug: http://b/274231102
+Test: TreeHugger
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:0e6ed17dfe8e36e5618a592a600720bd61e015cc)
+Merged-In: I3bad3e03092e17a761cb6e299aff848ebd35b6f4
+Change-Id: I3bad3e03092e17a761cb6e299aff848ebd35b6f4
+---
+ xmlregexp.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/xmlregexp.c b/xmlregexp.c
+index 984c7ac6e..ce09b2216 100644
+--- a/xmlregexp.c
++++ b/xmlregexp.c
+@@ -1673,6 +1673,8 @@ xmlFAGenerateTransitions(xmlRegParserCtxtPtr ctxt, xmlRegStatePtr from,
+ 			return(-1);
+ 		    inter = ctxt->state;
+ 		    counter = xmlRegGetCounter(ctxt);
++                    if (counter < 0)
++                        return(-1);
+ 		    ctxt->counters[counter].min = atom->min - 1;
+ 		    ctxt->counters[counter].max = atom->max - 1;
+ 		    /* count the number of times we see it again */
+@@ -1691,6 +1693,8 @@ xmlFAGenerateTransitions(xmlRegParserCtxtPtr ctxt, xmlRegStatePtr from,
+ 		     * epsilon transition.
+ 		     */
+ 		    counter = xmlRegGetCounter(ctxt);
++                    if (counter < 0)
++                        return(-1);
+ 		    ctxt->counters[counter].min = atom->min - 1;
+ 		    ctxt->counters[counter].max = atom->max - 1;
+ 		    /* count the number of times we see it again */
+@@ -6015,6 +6019,8 @@ xmlAutomataNewCountTrans2(xmlAutomataPtr am, xmlAutomataStatePtr from,
+      * associate a counter to the transition.
+      */
+     counter = xmlRegGetCounter(am);
++    if (counter < 0)
++        goto error;
+     am->counters[counter].min = min;
+     am->counters[counter].max = max;
+ 
+@@ -6034,6 +6040,10 @@ xmlAutomataNewCountTrans2(xmlAutomataPtr am, xmlAutomataStatePtr from,
+     if (min == 0)
+ 	xmlFAGenerateEpsilonTransition(am, from, to);
+     return(to);
++
++error:
++    xmlRegFreeAtom(atom);
++    return(NULL);
+ }
+ 
+ /**
+@@ -6081,6 +6091,8 @@ xmlAutomataNewCountTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
+      * associate a counter to the transition.
+      */
+     counter = xmlRegGetCounter(am);
++    if (counter < 0)
++        goto error;
+     am->counters[counter].min = min;
+     am->counters[counter].max = max;
+ 
+@@ -6100,6 +6112,10 @@ xmlAutomataNewCountTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
+     if (min == 0)
+ 	xmlFAGenerateEpsilonTransition(am, from, to);
+     return(to);
++
++error:
++    xmlRegFreeAtom(atom);
++    return(NULL);
+ }
+ 
+ /**
+@@ -6167,6 +6183,8 @@ xmlAutomataNewOnceTrans2(xmlAutomataPtr am, xmlAutomataStatePtr from,
+      * associate a counter to the transition.
+      */
+     counter = xmlRegGetCounter(am);
++    if (counter < 0)
++        goto error;
+     am->counters[counter].min = 1;
+     am->counters[counter].max = 1;
+ 
+@@ -6179,6 +6197,10 @@ xmlAutomataNewOnceTrans2(xmlAutomataPtr am, xmlAutomataStatePtr from,
+     xmlRegAtomPush(am, atom);
+     am->state = to;
+     return(to);
++
++error:
++    xmlRegFreeAtom(atom);
++    return(NULL);
+ }
+ 
+ 
+@@ -6226,6 +6248,8 @@ xmlAutomataNewOnceTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
+      * associate a counter to the transition.
+      */
+     counter = xmlRegGetCounter(am);
++    if (counter < 0)
++        goto error;
+     am->counters[counter].min = 1;
+     am->counters[counter].max = 1;
+ 
+@@ -6238,6 +6262,10 @@ xmlAutomataNewOnceTrans(xmlAutomataPtr am, xmlAutomataStatePtr from,
+     xmlRegAtomPush(am, atom);
+     am->state = to;
+     return(to);
++
++error:
++    xmlRegFreeAtom(atom);
++    return(NULL);
+ }
+ 
+ /**

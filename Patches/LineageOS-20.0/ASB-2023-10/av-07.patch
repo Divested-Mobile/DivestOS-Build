@@ -1,0 +1,49 @@
+From f06d23d824f60e98299d03f21c0715477666936d Mon Sep 17 00:00:00 2001
+From: Jeffrey Kardatzke <jkardatzke@google.com>
+Date: Tue, 21 Mar 2023 11:38:33 -0700
+Subject: [PATCH] Fix incorrect buffer size in NuPlayer
+
+This was discovered from running GTS tests that were failing because the
+DRM implementation was receiving media packets of incorrect sizes for
+decryption. The problem is that it was copying content using the size of
+the underlying MediaBuffer object rather than the range that was set in
+it. That was leading to lots of trailing garbage in media packets.
+Generally this was fine and decoders would ignore them, but recent
+changes in decryption handling for AMD platforms exposed this problem.
+
+The fix is very straightforward in that we should be using the
+range_length rather than the size when copying them. This doesn't impact
+non-DRM content as those buffer sizes appear to be correct already based
+on testing.
+
+Bug: b:268158584
+Test: gts.MediaPlayerTest#testLLAMA_H264_BASELINE_240P_800_DOWNLOADED_V1_ASYNC
+      no longer shows corruption on guybrush and packet sizes now match
+      up as expected
+Change-Id: I14eda495fa76621436b212f2bd3ae9f7093137fe
+---
+ media/libmediaplayerservice/nuplayer/NuPlayerDecoder.cpp | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/media/libmediaplayerservice/nuplayer/NuPlayerDecoder.cpp b/media/libmediaplayerservice/nuplayer/NuPlayerDecoder.cpp
+index 52b2041ea8..8da09c434a 100644
+--- a/media/libmediaplayerservice/nuplayer/NuPlayerDecoder.cpp
++++ b/media/libmediaplayerservice/nuplayer/NuPlayerDecoder.cpp
+@@ -1104,14 +1104,14 @@ bool NuPlayer::Decoder::onInputBufferFetched(const sp<AMessage> &msg) {
+                         static_cast<MediaBufferHolder*>(holder.get())->mediaBuffer() : nullptr;
+                 }
+                 if (mediaBuf != NULL) {
+-                    if (mediaBuf->size() > codecBuffer->capacity()) {
++                    if (mediaBuf->range_length() > codecBuffer->capacity()) {
+                         handleError(ERROR_BUFFER_TOO_SMALL);
+                         mDequeuedInputBuffers.push_back(bufferIx);
+                         return false;
+                     }
+ 
+-                    codecBuffer->setRange(0, mediaBuf->size());
+-                    memcpy(codecBuffer->data(), mediaBuf->data(), mediaBuf->size());
++                    codecBuffer->setRange(0, mediaBuf->range_length());
++                    memcpy(codecBuffer->data(), mediaBuf->data(), mediaBuf->range_length());
+ 
+                     MetaDataBase &meta_data = mediaBuf->meta_data();
+                     cryptInfo = NuPlayerDrm::getSampleCryptoInfo(meta_data);

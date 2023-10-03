@@ -1,0 +1,53 @@
+From e7a1aa9ed0bc69853bc83d098e15b8fa3b1881b4 Mon Sep 17 00:00:00 2001
+From: Hongwei Wang <hwwang@google.com>
+Date: Thu, 25 May 2023 12:18:44 -0700
+Subject: [PATCH] Disallow loading icon from content URI to PipMenu
+
+Bug: 278246904
+Test: manually, with the PoC app attached to the bug
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:1aee65603e262affd815fa53dcc5416c605e4037)
+Merged-In: Ib3f5b8b6b9ce644fdf1173548d9078e4d969ae2e
+Change-Id: Ib3f5b8b6b9ce644fdf1173548d9078e4d969ae2e
+---
+ .../wm/shell/pip/phone/PipMenuView.java       | 21 ++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
+
+diff --git a/libs/WindowManager/Shell/src/com/android/wm/shell/pip/phone/PipMenuView.java b/libs/WindowManager/Shell/src/com/android/wm/shell/pip/phone/PipMenuView.java
+index 167c0321d3ad..779c539a2097 100644
+--- a/libs/WindowManager/Shell/src/com/android/wm/shell/pip/phone/PipMenuView.java
++++ b/libs/WindowManager/Shell/src/com/android/wm/shell/pip/phone/PipMenuView.java
+@@ -45,6 +45,7 @@
+ import android.graphics.Color;
+ import android.graphics.Rect;
+ import android.graphics.drawable.Drawable;
++import android.graphics.drawable.Icon;
+ import android.net.Uri;
+ import android.os.Bundle;
+ import android.os.Handler;
+@@ -513,13 +514,19 @@ private void updateActionViews(int menuState, Rect stackBounds) {
+                     final boolean isCloseAction = mCloseAction != null && Objects.equals(
+                             mCloseAction.getActionIntent(), action.getActionIntent());
+ 
+-                    // TODO: Check if the action drawable has changed before we reload it
+-                    action.getIcon().loadDrawableAsync(mContext, d -> {
+-                        if (d != null) {
+-                            d.setTint(Color.WHITE);
+-                            actionView.setImageDrawable(d);
+-                        }
+-                    }, mMainHandler);
++                    final int iconType = action.getIcon().getType();
++                    if (iconType == Icon.TYPE_URI || iconType == Icon.TYPE_URI_ADAPTIVE_BITMAP) {
++                        // Disallow loading icon from content URI
++                        actionView.setImageDrawable(null);
++                    } else {
++                        // TODO: Check if the action drawable has changed before we reload it
++                        action.getIcon().loadDrawableAsync(mContext, d -> {
++                            if (d != null) {
++                                d.setTint(Color.WHITE);
++                                actionView.setImageDrawable(d);
++                            }
++                        }, mMainHandler);
++                    }
+                     actionView.setCustomCloseBackgroundVisibility(
+                             isCloseAction ? View.VISIBLE : View.GONE);
+                     actionView.setContentDescription(action.getContentDescription());

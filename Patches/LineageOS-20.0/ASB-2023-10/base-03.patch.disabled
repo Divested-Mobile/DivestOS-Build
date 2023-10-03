@@ -1,0 +1,53 @@
+From cbb1a0ecd6b67735bdb735d76606bc03f6b955bf Mon Sep 17 00:00:00 2001
+From: Ioana Alexandru <aioana@google.com>
+Date: Mon, 8 May 2023 18:39:35 +0000
+Subject: [PATCH] Verify URI permissions for EXTRA_REMOTE_INPUT_HISTORY_ITEMS.
+
+Also added a step to serialize & deserialize the notification in the
+test, to prevent exceptions about not being able to cast e.g.
+Parcelable[] to RemoteInputHistoryItem[].
+
+Test: atest NotificationManagerServiceTest & tested with POC from bug
+Bug: 276729064
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:4e19431a60300c6ea6c7f7dd64299916e4eb09bc)
+Merged-In: I7053ca59f9c7f1df5226418594109cfb8b609b1e
+Change-Id: I7053ca59f9c7f1df5226418594109cfb8b609b1e
+---
+ core/java/android/app/Notification.java                    | 5 +++--
+ .../notification/NotificationManagerServiceTest.java       | 7 +++++++
+ 2 files changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/core/java/android/app/Notification.java b/core/java/android/app/Notification.java
+index 8a730fb0deaa..01528ae06cf5 100644
+--- a/core/java/android/app/Notification.java
++++ b/core/java/android/app/Notification.java
+@@ -2858,8 +2858,9 @@ public void visitUris(@NonNull Consumer<Uri> visitor) {
+                 visitor.accept(person.getIconUri());
+             }
+ 
+-            final RemoteInputHistoryItem[] history = (RemoteInputHistoryItem[])
+-                    extras.getParcelableArray(Notification.EXTRA_REMOTE_INPUT_HISTORY_ITEMS);
++            final RemoteInputHistoryItem[] history = extras.getParcelableArray(
++                    Notification.EXTRA_REMOTE_INPUT_HISTORY_ITEMS,
++                    RemoteInputHistoryItem.class);
+             if (history != null) {
+                 for (int i = 0; i < history.length; i++) {
+                     RemoteInputHistoryItem item = history[i];
+diff --git a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
+index dcaca51c176b..cf33eb5b3647 100755
+--- a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
++++ b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
+@@ -5439,6 +5439,13 @@ public void testVisitUris() throws Exception {
+                 .addExtras(extras)
+                 .build();
+ 
++        // Serialize and deserialize the notification to make sure nothing breaks in the process,
++        // since that's what will usually happen before we get to call visitUris.
++        Parcel parcel = Parcel.obtain();
++        n.writeToParcel(parcel, 0);
++        parcel.setDataPosition(0);
++        n = new Notification(parcel);
++
+         Consumer<Uri> visitor = (Consumer<Uri>) spy(Consumer.class);
+         n.visitUris(visitor);
+         verify(visitor, times(1)).accept(eq(audioContents));

@@ -50,7 +50,7 @@
 
 <!-- START OF ADDITIONAL REPOS -->
 	<!-- GrapheneOS -->
-	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="d3152b8e8ff5070f69e7c991d34f32a429e6a894" />
+	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="8d5c63122499169df5fd9ed6e91fb116512a4745" />
 
 	<!-- OpenEUICC -->
 	<project path="packages/apps/OpenEUICC" name="PeterCxy/OpenEUICC" remote="angry" revision="6add8c89ac141f177cd8d124a0a955232f4222f9" />

@@ -1,0 +1,33 @@
+From b023ec300f437494d6d6b23b03607e308dae43d2 Mon Sep 17 00:00:00 2001
+From: Jiajia Cong <jcong@codeaurora.org>
+Date: Wed, 2 Dec 2020 12:00:49 +0800
+Subject: [PATCH] codec2: fix issue in allocating too many 8k buffers
+
+default output delay is too large, in 8k use case, framework doesn't
+allow to use so much memory to allocate those 8k buffers.
+
+if exceeds max capacity and underlying buffer alloc fail. do not
+create MediaCodecBuffer holds a null underlying ABuffer. Otherwise,
+some MediaCodecBuffer APIs may access ABuffer (nullptr).
+
+Bug: b/208481412
+Change-Id: Ic8e33f6c27ee1c435bf0dc4bc09df87cb0ad3c3a
+---
+ media/codec2/sfplugin/Codec2Buffer.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/media/codec2/sfplugin/Codec2Buffer.cpp b/media/codec2/sfplugin/Codec2Buffer.cpp
+index 55e0c45fad..876c96d484 100644
+--- a/media/codec2/sfplugin/Codec2Buffer.cpp
++++ b/media/codec2/sfplugin/Codec2Buffer.cpp
+@@ -843,6 +843,10 @@ sp<ConstGraphicBlockBuffer> ConstGraphicBlockBuffer::AllocateEmpty(
+         }
+     }
+     sp<ABuffer> aBuffer(alloc(align(width, 16) * align(height, 16) * bpp / 8));
++    if (aBuffer == nullptr) {
++        ALOGD("%s: failed to allocate buffer", __func__);
++        return nullptr;
++    }
+     return new ConstGraphicBlockBuffer(
+             format,
+             aBuffer,

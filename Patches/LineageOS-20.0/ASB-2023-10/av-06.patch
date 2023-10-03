@@ -1,0 +1,29 @@
+From c8117d1539078bb3339b5d5fffe063a9135c2c21 Mon Sep 17 00:00:00 2001
+From: Arun Johnson <arunjohnson@google.com>
+Date: Mon, 18 Jul 2022 19:16:04 +0000
+Subject: [PATCH] Adding null check for IResourceManagerClient in dump()
+
+bug: 191613308
+Change-Id: I1694f2d1c13163a9b8162630377de71303bc517f
+---
+ services/mediaresourcemanager/ResourceManagerService.cpp | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/services/mediaresourcemanager/ResourceManagerService.cpp b/services/mediaresourcemanager/ResourceManagerService.cpp
+index b4610bc71e..4d18876bfc 100644
+--- a/services/mediaresourcemanager/ResourceManagerService.cpp
++++ b/services/mediaresourcemanager/ResourceManagerService.cpp
+@@ -271,10 +271,9 @@ binder_status_t ResourceManagerService::dump(int fd, const char** /*args*/, uint
+             snprintf(buffer, SIZE, "        Id: %lld\n", (long long)infos[j].clientId);
+             result.append(buffer);
+ 
+-            std::string clientName;
+-            Status status = infos[j].client->getName(&clientName);
+-            if (!status.isOk()) {
+-                clientName = "<unknown client>";
++            std::string clientName = "<unknown client>";
++            if (infos[j].client != nullptr) {
++                Status status = infos[j].client->getName(&clientName);
+             }
+             snprintf(buffer, SIZE, "        Name: %s\n", clientName.c_str());
+             result.append(buffer);

@@ -1,0 +1,30 @@
+From cfbfcefb3ce6bcd4d099cba4f45a8c6a0c02e6e6 Mon Sep 17 00:00:00 2001
+From: Shen Lin <shhenlin@gmail.com>
+Date: Tue, 20 Dec 2022 11:29:51 +0800
+Subject: [PATCH] Fix NPE in FallbackSwipeHandler when getRunningTask() returns
+ null
+
+mGestureState.getRunningTask() is probably null in this situation, we
+need to add a null check here refer to the usage in TaskAnimationManager.
+
+Bug: 263041039
+Test: manual
+Change-Id: I7707bf204190ff506f40640ff764f07cb98aab68
+---
+ quickstep/src/com/android/quickstep/FallbackSwipeHandler.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/quickstep/src/com/android/quickstep/FallbackSwipeHandler.java b/quickstep/src/com/android/quickstep/FallbackSwipeHandler.java
+index d4bebea55f..1913091695 100644
+--- a/quickstep/src/com/android/quickstep/FallbackSwipeHandler.java
++++ b/quickstep/src/com/android/quickstep/FallbackSwipeHandler.java
+@@ -108,7 +108,8 @@ public FallbackSwipeHandler(Context context, RecentsAnimationDeviceState deviceS
+         super(context, deviceState, taskAnimationManager, gestureState, touchTimeMs,
+                 continuingLastGesture, inputConsumer);
+ 
+-        mRunningOverHome = mGestureState.getRunningTask().isHomeTask();
++        mRunningOverHome = mGestureState.getRunningTask() != null
++                && mGestureState.getRunningTask().isHomeTask();
+         if (mRunningOverHome) {
+             runActionOnRemoteHandles(remoteTargetHandle ->
+                     remoteTargetHandle.getTransformParams().setHomeBuilderProxy(

@@ -1,0 +1,197 @@
+From 19747f69235d208e3d61099c76fa47aa792fe3a7 Mon Sep 17 00:00:00 2001
+From: Tim Yu <yunicorn@google.com>
+Date: Tue, 20 Jun 2023 21:24:36 +0000
+Subject: [PATCH] [DO NOT MERGE] Verify URI Permissions in Autofill RemoteViews
+
+Check permissions of URI inside of FillResponse's RemoteViews. If the
+current user does not have the required permissions to view the URI, the
+RemoteView is dropped from displaying.
+
+This fixes a security spill in which a user can view content of another
+user through a malicious Autofill provider.
+
+Bug: 283137865
+Fixes: b/283264674 b/281666022 b/281665050 b/281848557 b/281533566
+b/281534749 b/283101289
+Test: Verified by POC app attached in bugs
+Test: atest CtsAutoFillServiceTestCases (added new tests)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:93810ba1c0a4d31f49adbf9454731e2b7defdfc0)
+Merged-In: I6f4d2a35e89bbed7bd9e07bf5cd3e2d68b20af9a
+Change-Id: I6f4d2a35e89bbed7bd9e07bf5cd3e2d68b20af9a
+---
+ .../com/android/server/autofill/Helper.java   | 43 +++++++++++++++++++
+ .../server/autofill/ui/DialogFillUi.java      | 12 ++++--
+ .../android/server/autofill/ui/FillUi.java    | 11 +++--
+ .../android/server/autofill/ui/SaveUi.java    |  3 +-
+ 4 files changed, 60 insertions(+), 9 deletions(-)
+
+diff --git a/services/autofill/java/com/android/server/autofill/Helper.java b/services/autofill/java/com/android/server/autofill/Helper.java
+index bc5d6457c945..48113a81cca5 100644
+--- a/services/autofill/java/com/android/server/autofill/Helper.java
++++ b/services/autofill/java/com/android/server/autofill/Helper.java
+@@ -18,6 +18,8 @@
+ 
+ import android.annotation.NonNull;
+ import android.annotation.Nullable;
++import android.annotation.UserIdInt;
++import android.app.ActivityManager;
+ import android.app.assist.AssistStructure;
+ import android.app.assist.AssistStructure.ViewNode;
+ import android.app.assist.AssistStructure.WindowNode;
+@@ -34,6 +36,7 @@
+ import android.view.WindowManager;
+ import android.view.autofill.AutofillId;
+ import android.view.autofill.AutofillValue;
++import android.widget.RemoteViews;
+ 
+ import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
+ import com.android.internal.util.ArrayUtils;
+@@ -42,6 +45,8 @@
+ import java.util.ArrayDeque;
+ import java.util.ArrayList;
+ import java.util.Arrays;
++import java.util.concurrent.atomic.AtomicBoolean;
++
+ 
+ public final class Helper {
+ 
+@@ -75,6 +80,44 @@ private Helper() {
+         throw new UnsupportedOperationException("contains static members only");
+     }
+ 
++    private static boolean checkRemoteViewUriPermissions(
++            @UserIdInt int userId, @NonNull RemoteViews rView) {
++        final AtomicBoolean permissionsOk = new AtomicBoolean(true);
++
++        rView.visitUris(uri -> {
++            int uriOwnerId = android.content.ContentProvider.getUserIdFromUri(uri);
++            boolean allowed = uriOwnerId == userId;
++            permissionsOk.set(allowed && permissionsOk.get());
++        });
++
++        return permissionsOk.get();
++    }
++
++    /**
++     * Checks the URI permissions of the remote view,
++     * to see if the current userId is able to access it.
++     *
++     * Returns the RemoteView that is passed if user is able, null otherwise.
++     *
++     * TODO: instead of returning a null remoteview when
++     * the current userId cannot access an URI,
++     * return a new RemoteView with the URI removed.
++     */
++    public static @Nullable RemoteViews sanitizeRemoteView(RemoteViews rView) {
++        if (rView == null) return null;
++
++        int userId = ActivityManager.getCurrentUser();
++
++        boolean ok = checkRemoteViewUriPermissions(userId, rView);
++        if (!ok) {
++            Slog.w(TAG,
++                    "sanitizeRemoteView() user: " + userId
++                    + " tried accessing resource that does not belong to them");
++        }
++        return (ok ? rView : null);
++    }
++
++
+     @Nullable
+     static AutofillId[] toArray(@Nullable ArraySet<AutofillId> set) {
+         if (set == null) return null;
+diff --git a/services/autofill/java/com/android/server/autofill/ui/DialogFillUi.java b/services/autofill/java/com/android/server/autofill/ui/DialogFillUi.java
+index c2c630e01bee..59184e9ed288 100644
+--- a/services/autofill/java/com/android/server/autofill/ui/DialogFillUi.java
++++ b/services/autofill/java/com/android/server/autofill/ui/DialogFillUi.java
+@@ -52,6 +52,7 @@
+ 
+ import com.android.internal.R;
+ import com.android.server.autofill.AutofillManagerService;
++import com.android.server.autofill.Helper;
+ 
+ import java.io.PrintWriter;
+ import java.util.ArrayList;
+@@ -197,7 +198,8 @@ private void setServiceIcon(View decor, Drawable serviceIcon) {
+     }
+ 
+     private void setHeader(View decor, FillResponse response) {
+-        final RemoteViews presentation = response.getDialogHeader();
++        final RemoteViews presentation =
++                Helper.sanitizeRemoteView(response.getDialogHeader());
+         if (presentation == null) {
+             return;
+         }
+@@ -232,9 +234,10 @@ private void setContinueButton(View decor, View.OnClickListener listener) {
+     }
+ 
+     private void initialAuthenticationLayout(View decor, FillResponse response) {
+-        RemoteViews presentation = response.getDialogPresentation();
++        RemoteViews presentation = Helper.sanitizeRemoteView(
++                response.getDialogPresentation());
+         if (presentation == null) {
+-            presentation = response.getPresentation();
++            presentation = Helper.sanitizeRemoteView(response.getPresentation());
+         }
+         if (presentation == null) {
+             throw new RuntimeException("No presentation for fill dialog authentication");
+@@ -278,7 +281,8 @@ private ArrayList<ViewItem> createDatasetItems(FillResponse response,
+             final Dataset dataset = response.getDatasets().get(i);
+             final int index = dataset.getFieldIds().indexOf(focusedViewId);
+             if (index >= 0) {
+-                RemoteViews presentation = dataset.getFieldDialogPresentation(index);
++                RemoteViews presentation = Helper.sanitizeRemoteView(
++                        dataset.getFieldDialogPresentation(index));
+                 if (presentation == null) {
+                     if (sDebug) {
+                         Slog.w(TAG, "not displaying UI on field " + focusedViewId + " because "
+diff --git a/services/autofill/java/com/android/server/autofill/ui/FillUi.java b/services/autofill/java/com/android/server/autofill/ui/FillUi.java
+index 8fbdd81cc4cc..76fa258734cc 100644
+--- a/services/autofill/java/com/android/server/autofill/ui/FillUi.java
++++ b/services/autofill/java/com/android/server/autofill/ui/FillUi.java
+@@ -144,8 +144,9 @@ public static boolean isFullScreen(Context context) {
+ 
+         final LayoutInflater inflater = LayoutInflater.from(mContext);
+ 
+-        final RemoteViews headerPresentation = response.getHeader();
+-        final RemoteViews footerPresentation = response.getFooter();
++        final RemoteViews headerPresentation = Helper.sanitizeRemoteView(response.getHeader());
++        final RemoteViews footerPresentation = Helper.sanitizeRemoteView(response.getFooter());
++
+         final ViewGroup decor;
+         if (mFullScreen) {
+             decor = (ViewGroup) inflater.inflate(R.layout.autofill_dataset_picker_fullscreen, null);
+@@ -223,6 +224,9 @@ public static boolean isFullScreen(Context context) {
+             ViewGroup container = decor.findViewById(R.id.autofill_dataset_picker);
+             final View content;
+             try {
++                if (Helper.sanitizeRemoteView(response.getPresentation()) == null) {
++                    throw new RuntimeException("Permission error accessing RemoteView");
++                }
+                 content = response.getPresentation().applyWithTheme(
+                         mContext, decor, interceptionHandler, mThemeId);
+                 container.addView(content);
+@@ -302,7 +306,8 @@ public static boolean isFullScreen(Context context) {
+                 final Dataset dataset = response.getDatasets().get(i);
+                 final int index = dataset.getFieldIds().indexOf(focusedViewId);
+                 if (index >= 0) {
+-                    final RemoteViews presentation = dataset.getFieldPresentation(index);
++                    final RemoteViews presentation = Helper.sanitizeRemoteView(
++                            dataset.getFieldPresentation(index));
+                     if (presentation == null) {
+                         Slog.w(TAG, "not displaying UI on field " + focusedViewId + " because "
+                                 + "service didn't provide a presentation for it on " + dataset);
+diff --git a/services/autofill/java/com/android/server/autofill/ui/SaveUi.java b/services/autofill/java/com/android/server/autofill/ui/SaveUi.java
+index 677871f6c85f..533a7b69a650 100644
+--- a/services/autofill/java/com/android/server/autofill/ui/SaveUi.java
++++ b/services/autofill/java/com/android/server/autofill/ui/SaveUi.java
+@@ -368,8 +368,7 @@ private boolean applyCustomDescription(@NonNull Context context, @NonNull View s
+             return false;
+         }
+         writeLog(MetricsEvent.AUTOFILL_SAVE_CUSTOM_DESCRIPTION);
+-
+-        final RemoteViews template = customDescription.getPresentation();
++        final RemoteViews template = Helper.sanitizeRemoteView(customDescription.getPresentation());
+         if (template == null) {
+             Slog.w(TAG, "No remote view on custom description");
+             return false;

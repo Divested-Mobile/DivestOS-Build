@@ -1,0 +1,452 @@
+From 0fb5786dbf8b462eb106df912a7f65ab240f0d6a Mon Sep 17 00:00:00 2001
+From: Sergey Nikolaienkov <sergeynv@google.com>
+Date: Tue, 28 Mar 2023 12:22:31 +0200
+Subject: [PATCH] Fix path traversal vulnerabilities in MediaProvider
+
+Canonicalize filepath provided by the caller when hanling SCAN_FILE_CALL
+method call in MediaProvider.
+Additionally, make sure to check access permission in SCAN_FILE_CALL
+(using enforceCallingPermissionInternal()).
+
+Preemptively canonicalize Files provided as an arguments to the public
+API methods in ModernMediaScanner (scanFile(), scanDirectory() and
+onDirectoryDirty()) to prevent path traversal attacks.
+
+Bug: 262244882
+Test: atest MediaProviderTests
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:5bb32d7fba00b9e53c7e20ae8acaf6f84a8b2e8d)
+Merged-In: I61e77d69ae857984b819fa0ea27bec5c26a34842
+Change-Id: I61e77d69ae857984b819fa0ea27bec5c26a34842
+---
+ .../providers/media/MediaProvider.java        | 61 +++++++++++--------
+ .../media/scan/LegacyMediaScanner.java        |  7 ---
+ .../providers/media/scan/MediaScanner.java    | 25 ++++----
+ .../media/scan/ModernMediaScanner.java        | 56 +++++++++++------
+ .../media/scan/NullMediaScanner.java          |  6 --
+ .../providers/media/util/FileUtils.java       | 47 ++++++++++----
+ .../media/scan/LegacyMediaScannerTest.java    |  6 --
+ .../media/scan/ModernMediaScannerTest.java    | 18 ------
+ .../media/scan/NullMediaScannerTest.java      |  2 -
+ 9 files changed, 117 insertions(+), 111 deletions(-)
+
+diff --git a/src/com/android/providers/media/MediaProvider.java b/src/com/android/providers/media/MediaProvider.java
+index 21eeed7f3..8c1df561b 100644
+--- a/src/com/android/providers/media/MediaProvider.java
++++ b/src/com/android/providers/media/MediaProvider.java
+@@ -1692,11 +1692,7 @@ public void scanDirectory(File file, int reason) {
+     }
+ 
+     public Uri scanFile(File file, int reason) {
+-        return scanFile(file, reason, null);
+-    }
+-
+-    public Uri scanFile(File file, int reason, String ownerPackage) {
+-        return mMediaScanner.scanFile(file, reason, ownerPackage);
++        return mMediaScanner.scanFile(file, reason);
+     }
+ 
+     private Uri scanFileAsMediaProvider(File file, int reason) {
+@@ -6197,38 +6193,51 @@ private Bundle callInternal(String method, String arg, Bundle extras) {
+                 }
+                 return null;
+             }
+-            case MediaStore.SCAN_FILE_CALL:
++            case MediaStore.SCAN_FILE_CALL: {
++                final LocalCallingIdentity token = clearLocalCallingIdentity();
++                final CallingIdentity providerToken = clearCallingIdentity();
++
++                final String filePath = arg;
++                final Uri uri;
++                try {
++                    File file;
++                    try {
++                        file = FileUtils.getCanonicalFile(filePath);
++                    } catch (IOException e) {
++                        file = null;
++                    }
++
++                    uri = file != null ? scanFile(file, REASON_DEMAND) : null;
++                } finally {
++                    restoreCallingIdentity(providerToken);
++                    restoreLocalCallingIdentity(token);
++                }
++
++                // TODO(b/262244882): maybe enforceCallingPermissionInternal(uri, ...)
++
++                final Bundle res = new Bundle();
++                res.putParcelable(Intent.EXTRA_STREAM, uri);
++                return res;
++            }
+             case MediaStore.SCAN_VOLUME_CALL: {
+                 final int userId = uidToUserId(Binder.getCallingUid());
+                 final LocalCallingIdentity token = clearLocalCallingIdentity();
+                 final CallingIdentity providerToken = clearCallingIdentity();
++
++                final String volumeName = arg;
+                 try {
+-                    final Bundle res = new Bundle();
+-                    switch (method) {
+-                        case MediaStore.SCAN_FILE_CALL: {
+-                            final File file = new File(arg);
+-                            res.putParcelable(Intent.EXTRA_STREAM, scanFile(file, REASON_DEMAND));
+-                            break;
+-                        }
+-                        case MediaStore.SCAN_VOLUME_CALL: {
+-                            final String volumeName = arg;
+-                            try {
+-                                MediaVolume volume = mVolumeCache.findVolume(volumeName,
+-                                        UserHandle.of(userId));
+-                                MediaService.onScanVolume(getContext(), volume, REASON_DEMAND);
+-                            } catch (FileNotFoundException e) {
+-                                Log.w(TAG, "Failed to find volume " + volumeName, e);
+-                            }
+-                            break;
+-                        }
+-                    }
+-                    return res;
++                    final MediaVolume volume = mVolumeCache.findVolume(volumeName,
++                            UserHandle.of(userId));
++                    MediaService.onScanVolume(getContext(), volume, REASON_DEMAND);
++                } catch (FileNotFoundException e) {
++                    Log.w(TAG, "Failed to find volume " + volumeName, e);
+                 } catch (IOException e) {
+                     throw new RuntimeException(e);
+                 } finally {
+                     restoreCallingIdentity(providerToken);
+                     restoreLocalCallingIdentity(token);
+                 }
++                return Bundle.EMPTY;
+             }
+             case MediaStore.GET_VERSION_CALL: {
+                 final String volumeName = extras.getString(Intent.EXTRA_TEXT);
+diff --git a/src/com/android/providers/media/scan/LegacyMediaScanner.java b/src/com/android/providers/media/scan/LegacyMediaScanner.java
+index d8d3bed41..d73dda584 100644
+--- a/src/com/android/providers/media/scan/LegacyMediaScanner.java
++++ b/src/com/android/providers/media/scan/LegacyMediaScanner.java
+@@ -19,8 +19,6 @@
+ import android.content.Context;
+ import android.net.Uri;
+ 
+-import androidx.annotation.Nullable;
+-
+ import com.android.providers.media.MediaVolume;
+ 
+ import java.io.File;
+@@ -48,11 +46,6 @@ public Uri scanFile(File file, int reason) {
+         throw new UnsupportedOperationException();
+     }
+ 
+-    @Override
+-    public Uri scanFile(File file, int reason, @Nullable String ownerPackage) {
+-        throw new UnsupportedOperationException();
+-    }
+-
+     @Override
+     public void onDetachVolume(MediaVolume volume) {
+         throw new UnsupportedOperationException();
+diff --git a/src/com/android/providers/media/scan/MediaScanner.java b/src/com/android/providers/media/scan/MediaScanner.java
+index 45d2a2436..eb5e4d6c7 100644
+--- a/src/com/android/providers/media/scan/MediaScanner.java
++++ b/src/com/android/providers/media/scan/MediaScanner.java
+@@ -24,23 +24,20 @@
+ import android.content.Context;
+ import android.net.Uri;
+ 
+-import androidx.annotation.Nullable;
+-
+ import com.android.providers.media.MediaVolume;
+ 
+ import java.io.File;
+ 
+ public interface MediaScanner {
+-    public static final int REASON_UNKNOWN = MEDIA_PROVIDER_SCAN_OCCURRED__REASON__UNKNOWN;
+-    public static final int REASON_MOUNTED = MEDIA_PROVIDER_SCAN_OCCURRED__REASON__MOUNTED;
+-    public static final int REASON_DEMAND = MEDIA_PROVIDER_SCAN_OCCURRED__REASON__DEMAND;
+-    public static final int REASON_IDLE = MEDIA_PROVIDER_SCAN_OCCURRED__REASON__IDLE;
+-
+-    public Context getContext();
+-    public void scanDirectory(File file, int reason);
+-    public Uri scanFile(File file, int reason);
+-    public Uri scanFile(File file, int reason, @Nullable String ownerPackage);
+-    public void onDetachVolume(MediaVolume volume);
+-    public void onIdleScanStopped();
+-    public void onDirectoryDirty(File file);
++    int REASON_UNKNOWN = MEDIA_PROVIDER_SCAN_OCCURRED__REASON__UNKNOWN;
++    int REASON_MOUNTED = MEDIA_PROVIDER_SCAN_OCCURRED__REASON__MOUNTED;
++    int REASON_DEMAND = MEDIA_PROVIDER_SCAN_OCCURRED__REASON__DEMAND;
++    int REASON_IDLE = MEDIA_PROVIDER_SCAN_OCCURRED__REASON__IDLE;
++
++    Context getContext();
++    void scanDirectory(File file, int reason);
++    Uri scanFile(File file, int reason);
++    void onDetachVolume(MediaVolume volume);
++    void onIdleScanStopped();
++    void onDirectoryDirty(File file);
+ }
+diff --git a/src/com/android/providers/media/scan/ModernMediaScanner.java b/src/com/android/providers/media/scan/ModernMediaScanner.java
+index 41f53d57a..81133f7aa 100644
+--- a/src/com/android/providers/media/scan/ModernMediaScanner.java
++++ b/src/com/android/providers/media/scan/ModernMediaScanner.java
+@@ -50,6 +50,8 @@
+ 
+ import static com.android.providers.media.util.Metrics.translateReason;
+ 
++import static java.util.Objects.requireNonNull;
++
+ import android.content.ContentProviderClient;
+ import android.content.ContentProviderOperation;
+ import android.content.ContentProviderResult;
+@@ -236,23 +238,36 @@ public Context getContext() {
+     }
+ 
+     @Override
+-    public void scanDirectory(File file, int reason) {
+-        try (Scan scan = new Scan(file, reason, /*ownerPackage*/ null)) {
++    public void scanDirectory(@NonNull File file, int reason) {
++        requireNonNull(file);
++        try {
++            file = file.getCanonicalFile();
++        } catch (IOException e) {
++            Log.e(TAG, "Couldn't canonicalize directory to scan" + file, e);
++            return;
++        }
++
++        try (Scan scan = new Scan(file, reason)) {
+             scan.run();
+-        } catch (OperationCanceledException ignored) {
+         } catch (FileNotFoundException e) {
+-           Log.e(TAG, "Couldn't find directory to scan", e) ;
++            Log.e(TAG, "Couldn't find directory to scan", e);
++        } catch (OperationCanceledException ignored) {
++            // No-op.
+         }
+     }
+ 
+     @Override
+-    public Uri scanFile(File file, int reason) {
+-       return scanFile(file, reason, /*ownerPackage*/ null);
+-    }
++    @Nullable
++    public Uri scanFile(@NonNull File file, int reason) {
++        requireNonNull(file);
++        try {
++            file = file.getCanonicalFile();
++        } catch (IOException e) {
++            Log.e(TAG, "Couldn't canonicalize file to scan" + file, e);
++            return null;
++        }
+ 
+-    @Override
+-    public Uri scanFile(File file, int reason, @Nullable String ownerPackage) {
+-        try (Scan scan = new Scan(file, reason, ownerPackage)) {
++        try (Scan scan = new Scan(file, reason)) {
+             scan.run();
+             return scan.getFirstResult();
+         } catch (OperationCanceledException ignored) {
+@@ -286,10 +301,18 @@ public void onIdleScanStopped() {
+     }
+ 
+     @Override
+-    public void onDirectoryDirty(File dir) {
++    public void onDirectoryDirty(@NonNull File dir) {
++        requireNonNull(dir);
++        try {
++            dir = dir.getCanonicalFile();
++        } catch (IOException e) {
++            Log.e(TAG, "Couldn't canonicalize directory" + dir, e);
++            return;
++        }
++
+         synchronized (mPendingCleanDirectories) {
+             mPendingCleanDirectories.remove(dir.getPath());
+-            FileUtils.setDirectoryDirty(dir, /*isDirty*/ true);
++            FileUtils.setDirectoryDirty(dir, /* isDirty */ true);
+         }
+     }
+ 
+@@ -320,7 +343,6 @@ private class Scan implements Runnable, FileVisitor<Path>, AutoCloseable {
+         private final String mVolumeName;
+         private final Uri mFilesUri;
+         private final CancellationSignal mSignal;
+-        private final String mOwnerPackage;
+         private final List<String> mExcludeDirs;
+ 
+         private final long mStartGeneration;
+@@ -349,7 +371,7 @@ private class Scan implements Runnable, FileVisitor<Path>, AutoCloseable {
+          */
+         private boolean mIsDirectoryTreeDirty;
+ 
+-        public Scan(File root, int reason, @Nullable String ownerPackage)
++        public Scan(File root, int reason)
+                 throws FileNotFoundException {
+             Trace.beginSection("ctor");
+ 
+@@ -371,7 +393,6 @@ public Scan(File root, int reason, @Nullable String ownerPackage)
+ 
+             mStartGeneration = MediaStore.getGeneration(mResolver, mVolumeName);
+             mSingleFile = mRoot.isFile();
+-            mOwnerPackage = ownerPackage;
+             mExcludeDirs = new ArrayList<>();
+ 
+             Trace.endSection();
+@@ -800,10 +821,7 @@ public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+             }
+             if (op != null) {
+                 op.withValue(FileColumns._MODIFIER, FileColumns._MODIFIER_MEDIA_SCAN);
+-                // Add owner package name to new insertions when package name is provided.
+-                if (op.build().isInsert() && !attrs.isDirectory() && mOwnerPackage != null) {
+-                    op.withValue(MediaColumns.OWNER_PACKAGE_NAME, mOwnerPackage);
+-                }
++
+                 // Force DRM files to be marked as DRM, since the lower level
+                 // stack may not set this correctly
+                 if (isDrm) {
+diff --git a/src/com/android/providers/media/scan/NullMediaScanner.java b/src/com/android/providers/media/scan/NullMediaScanner.java
+index 7a1a39610..e53f96468 100644
+--- a/src/com/android/providers/media/scan/NullMediaScanner.java
++++ b/src/com/android/providers/media/scan/NullMediaScanner.java
+@@ -56,12 +56,6 @@ public Uri scanFile(File file, int reason) {
+         return null;
+     }
+ 
+-    @Override
+-    public Uri scanFile(File file, int reason, @Nullable String ownerPackage) {
+-        Log.w(TAG, "Ignoring scan request for " + file);
+-        return null;
+-    }
+-
+     @Override
+     public void onDetachVolume(MediaVolume volume) {
+         // Ignored
+diff --git a/src/com/android/providers/media/util/FileUtils.java b/src/com/android/providers/media/util/FileUtils.java
+index 097eca8c9..6c2695c78 100644
+--- a/src/com/android/providers/media/util/FileUtils.java
++++ b/src/com/android/providers/media/util/FileUtils.java
+@@ -1110,18 +1110,25 @@ public static int extractUserId(@Nullable String data) {
+     }
+ 
+     public static @Nullable String extractRelativePath(@Nullable String data) {
+-        data = getCanonicalPath(data);
+         if (data == null) return null;
+ 
+-        final Matcher matcher = PATTERN_RELATIVE_PATH.matcher(data);
++        final String path;
++        try {
++            path = getCanonicalPath(data);
++        } catch (IOException e) {
++            Log.d(TAG, "Unable to get canonical path from invalid data path: " + data, e);
++            return null;
++        }
++
++        final Matcher matcher = PATTERN_RELATIVE_PATH.matcher(path);
+         if (matcher.find()) {
+-            final int lastSlash = data.lastIndexOf('/');
++            final int lastSlash = path.lastIndexOf('/');
+             if (lastSlash == -1 || lastSlash < matcher.end()) {
+                 // This is a file in the top-level directory, so relative path is "/"
+                 // which is different than null, which means unknown path
+                 return "/";
+             } else {
+-                return data.substring(matcher.end(), lastSlash + 1);
++                return path.substring(matcher.end(), lastSlash + 1);
+             }
+         } else {
+             return null;
+@@ -1769,15 +1776,29 @@ public static File fromFuseFile(File file) {
+         return new File(file.getPath().replaceFirst(FUSE_FS_PREFIX, LOWER_FS_PREFIX));
+     }
+ 
+-    @Nullable
+-    private static String getCanonicalPath(@Nullable String path) {
+-        if (path == null) return null;
++    /**
++     * Returns the canonical {@link File} for the provided abstract pathname.
++     *
++     * @return The canonical pathname string denoting the same file or directory as this abstract
++     *         pathname
++     * @see File#getCanonicalFile()
++     */
++    @NonNull
++    public static File getCanonicalFile(@NonNull String path) throws IOException {
++        Objects.requireNonNull(path);
++        return new File(path).getCanonicalFile();
++    }
+ 
+-        try {
+-            return new File(path).getCanonicalPath();
+-        } catch (IOException e) {
+-            Log.d(TAG, "Unable to get canonical path from invalid data path: " + path, e);
+-            return null;
+-        }
++    /**
++     * Returns the canonical pathname string of the provided abstract pathname.
++     *
++     * @return The canonical pathname string denoting the same file or directory as this abstract
++     *         pathname.
++     * @see File#getCanonicalPath()
++     */
++    @NonNull
++    public static String getCanonicalPath(@NonNull String path) throws IOException {
++        Objects.requireNonNull(path);
++        return new File(path).getCanonicalPath();
+     }
+ }
+diff --git a/tests/src/com/android/providers/media/scan/LegacyMediaScannerTest.java b/tests/src/com/android/providers/media/scan/LegacyMediaScannerTest.java
+index cf9cb395d..2831e963e 100644
+--- a/tests/src/com/android/providers/media/scan/LegacyMediaScannerTest.java
++++ b/tests/src/com/android/providers/media/scan/LegacyMediaScannerTest.java
+@@ -47,12 +47,6 @@ public void testSimple() throws Exception {
+             fail();
+         } catch (UnsupportedOperationException expected) {
+         }
+-        try {
+-            scanner.scanFile(new File("/dev/null"), MediaScanner.REASON_UNKNOWN,
+-                    InstrumentationRegistry.getContext().getPackageName());
+-            fail();
+-        } catch (UnsupportedOperationException expected) {
+-        }
+         try {
+             scanner.onDetachVolume(null);
+             fail();
+diff --git a/tests/src/com/android/providers/media/scan/ModernMediaScannerTest.java b/tests/src/com/android/providers/media/scan/ModernMediaScannerTest.java
+index 0450c1cee..06f10ed21 100644
+--- a/tests/src/com/android/providers/media/scan/ModernMediaScannerTest.java
++++ b/tests/src/com/android/providers/media/scan/ModernMediaScannerTest.java
+@@ -779,24 +779,6 @@ public void testScan_missingFile() throws Exception {
+         assertThat(mModern.scanFile(image, REASON_UNKNOWN)).isNull();
+     }
+ 
+-    @Test
+-    public void testScanFileAndUpdateOwnerPackageName() throws Exception {
+-        final File image = new File(mDir, "image.jpg");
+-        final String thisPackageName = InstrumentationRegistry.getContext().getPackageName();
+-        stage(R.raw.test_image, image);
+-
+-        assertQueryCount(0, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+-        // scanning the image file inserts new database entry with OWNER_PACKAGE_NAME as
+-        // thisPackageName.
+-        assertNotNull(mModern.scanFile(image, REASON_UNKNOWN, thisPackageName));
+-        try (Cursor cursor = mIsolatedResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+-                new String[] {MediaColumns.OWNER_PACKAGE_NAME}, null, null, null)) {
+-            assertEquals(1, cursor.getCount());
+-            cursor.moveToNext();
+-            assertEquals(thisPackageName, cursor.getString(0));
+-        }
+-    }
+-
+     /**
+      * Verify fix for obscure bug which would cause us to delete files outside a
+      * directory that share a common prefix.
+diff --git a/tests/src/com/android/providers/media/scan/NullMediaScannerTest.java b/tests/src/com/android/providers/media/scan/NullMediaScannerTest.java
+index 063f1b7a3..265d1a97a 100644
+--- a/tests/src/com/android/providers/media/scan/NullMediaScannerTest.java
++++ b/tests/src/com/android/providers/media/scan/NullMediaScannerTest.java
+@@ -38,8 +38,6 @@ public void testSimple() throws Exception {
+ 
+         scanner.scanDirectory(new File("/dev/null"), MediaScanner.REASON_UNKNOWN);
+         scanner.scanFile(new File("/dev/null"), MediaScanner.REASON_UNKNOWN);
+-        scanner.scanFile(new File("/dev/null"), MediaScanner.REASON_UNKNOWN,
+-                    InstrumentationRegistry.getContext().getPackageName());
+ 
+         scanner.onDetachVolume(null);
+     }

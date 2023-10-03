@@ -1,0 +1,26 @@
+From a89f704701e6af4a4809f4bb4911af88a023226f Mon Sep 17 00:00:00 2001
+From: Kyle Zhang <kelzhan@google.com>
+Date: Wed, 22 Feb 2023 20:14:34 +0000
+Subject: [PATCH] Fix null pointer derefernce AMediaDrm_setPropertyByteArray
+
+Bug: 234798181
+Test: ndkDrmFuzzer
+Change-Id: I0d2d92ce7be108a904e811048f90a93571862ebc
+---
+ media/ndk/NdkMediaDrm.cpp | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/media/ndk/NdkMediaDrm.cpp b/media/ndk/NdkMediaDrm.cpp
+index f4674dea63..170506168f 100644
+--- a/media/ndk/NdkMediaDrm.cpp
++++ b/media/ndk/NdkMediaDrm.cpp
+@@ -758,6 +758,9 @@ media_status_t AMediaDrm_setPropertyString(AMediaDrm *mObj,
+ EXPORT
+ media_status_t AMediaDrm_setPropertyByteArray(AMediaDrm *mObj,
+         const char *propertyName, const uint8_t *value, size_t valueSize) {
++    if (!mObj || mObj->mDrm == NULL) {
++        return AMEDIA_ERROR_INVALID_OBJECT;
++    }
+ 
+     Vector<uint8_t> byteArray;
+     byteArray.appendArray(value, valueSize);

@@ -1,0 +1,214 @@
+From 507304e1f59236675bfd820290b329f5f7334ec0 Mon Sep 17 00:00:00 2001
+From: sergiuferentz <sergiuferentz@google.com>
+Date: Mon, 26 Jun 2023 18:01:47 +0000
+Subject: [PATCH] Fix for heap-use-after-free in GPUService.cpp
+
+This adds a unit test and fix for the bug reported by libfuzzer.
+Changes made:
+ * Expose GPUService as testable code.
+ * Update main_gpuservice.cpp to use the new GpuService now located at
+   gpuservice/GpuService.h
+ * Make initializer threads members of GpuService
+ * Join the threads in destructor to prevent heap-use-after-free.
+ * Add unit test that waits 3 seconds after deallocation to ensure no
+   wrong access is made.
+
+Bug: 282919145
+Test: Added unit test and ran on device with ASAN
+(cherry picked from commit 3c00cbc0f119c3f59325aa6d5061529feb58462b)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:7fb707802ee4c667d1ee6065ae2845d835b47aeb)
+Merged-In: I4d1d2d4658b575bf2c8f425f91f68f03114ad029
+Change-Id: I4d1d2d4658b575bf2c8f425f91f68f03114ad029
+---
+ services/gpuservice/Android.bp                |  1 +
+ services/gpuservice/GpuService.cpp            | 14 +++--
+ .../{ => include/gpuservice}/GpuService.h     |  4 ++
+ services/gpuservice/main_gpuservice.cpp       |  2 +-
+ .../gpuservice/tests/unittests/Android.bp     |  2 +
+ .../tests/unittests/GpuServiceTest.cpp        | 52 +++++++++++++++++++
+ 6 files changed, 69 insertions(+), 6 deletions(-)
+ rename services/gpuservice/{ => include/gpuservice}/GpuService.h (94%)
+ create mode 100644 services/gpuservice/tests/unittests/GpuServiceTest.cpp
+
+diff --git a/services/gpuservice/Android.bp b/services/gpuservice/Android.bp
+index 5b4ee21b42..020940f04e 100644
+--- a/services/gpuservice/Android.bp
++++ b/services/gpuservice/Android.bp
+@@ -71,6 +71,7 @@ filegroup {
+ cc_library_shared {
+     name: "libgpuservice",
+     defaults: ["libgpuservice_production_defaults"],
++    export_include_dirs: ["include"],
+     srcs: [
+         ":libgpuservice_sources",
+     ],
+diff --git a/services/gpuservice/GpuService.cpp b/services/gpuservice/GpuService.cpp
+index 7b9782f4e8..5643940a6e 100644
+--- a/services/gpuservice/GpuService.cpp
++++ b/services/gpuservice/GpuService.cpp
+@@ -16,7 +16,7 @@
+ 
+ #define ATRACE_TAG ATRACE_TAG_GRAPHICS
+ 
+-#include "GpuService.h"
++#include "gpuservice/GpuService.h"
+ 
+ #include <android-base/stringprintf.h>
+ #include <binder/IPCThreadState.h>
+@@ -34,6 +34,7 @@
+ #include <vkjson.h>
+ 
+ #include <thread>
++#include <memory>
+ 
+ namespace android {
+ 
+@@ -55,18 +56,21 @@ GpuService::GpuService()
+         mGpuStats(std::make_unique<GpuStats>()),
+         mGpuMemTracer(std::make_unique<GpuMemTracer>()) {
+ 
+-    std::thread gpuMemAsyncInitThread([this]() {
++    mGpuMemAsyncInitThread = std::make_unique<std::thread>([this] (){
+         mGpuMem->initialize();
+         mGpuMemTracer->initialize(mGpuMem);
+     });
+-    gpuMemAsyncInitThread.detach();
+ 
+-    std::thread gpuWorkAsyncInitThread([this]() {
++    mGpuWorkAsyncInitThread = std::make_unique<std::thread>([this]() {
+         mGpuWork->initialize();
+     });
+-    gpuWorkAsyncInitThread.detach();
+ };
+ 
++GpuService::~GpuService() {
++    mGpuWorkAsyncInitThread->join();
++    mGpuMemAsyncInitThread->join();
++}
++
+ void GpuService::setGpuStats(const std::string& driverPackageName,
+                              const std::string& driverVersionName, uint64_t driverVersionCode,
+                              int64_t driverBuildTime, const std::string& appPackageName,
+diff --git a/services/gpuservice/GpuService.h b/services/gpuservice/include/gpuservice/GpuService.h
+similarity index 94%
+rename from services/gpuservice/GpuService.h
+rename to services/gpuservice/include/gpuservice/GpuService.h
+index d7313d165e..3e0ae66f39 100644
+--- a/services/gpuservice/GpuService.h
++++ b/services/gpuservice/include/gpuservice/GpuService.h
+@@ -24,6 +24,7 @@
+ #include <serviceutils/PriorityDumper.h>
+ 
+ #include <mutex>
++#include <thread>
+ #include <vector>
+ 
+ namespace android {
+@@ -41,6 +42,7 @@ class GpuService : public BnGpuService, public PriorityDumper {
+     static const char* const SERVICE_NAME ANDROID_API;
+ 
+     GpuService() ANDROID_API;
++    ~GpuService();
+ 
+ protected:
+     status_t shellCommand(int in, int out, int err, std::vector<String16>& args) override;
+@@ -86,6 +88,8 @@ class GpuService : public BnGpuService, public PriorityDumper {
+     std::unique_ptr<GpuMemTracer> mGpuMemTracer;
+     std::mutex mLock;
+     std::string mDeveloperDriverPath;
++    std::unique_ptr<std::thread> mGpuMemAsyncInitThread;
++    std::unique_ptr<std::thread> mGpuWorkAsyncInitThread;
+ };
+ 
+ } // namespace android
+diff --git a/services/gpuservice/main_gpuservice.cpp b/services/gpuservice/main_gpuservice.cpp
+index 64aafcab6a..200237219e 100644
+--- a/services/gpuservice/main_gpuservice.cpp
++++ b/services/gpuservice/main_gpuservice.cpp
+@@ -18,7 +18,7 @@
+ #include <binder/IServiceManager.h>
+ #include <binder/ProcessState.h>
+ #include <sys/resource.h>
+-#include "GpuService.h"
++#include "gpuservice/GpuService.h"
+ 
+ using namespace android;
+ 
+diff --git a/services/gpuservice/tests/unittests/Android.bp b/services/gpuservice/tests/unittests/Android.bp
+index 4fb0d2e734..808c86bcae 100644
+--- a/services/gpuservice/tests/unittests/Android.bp
++++ b/services/gpuservice/tests/unittests/Android.bp
+@@ -31,6 +31,7 @@ cc_test {
+         "GpuMemTest.cpp",
+         "GpuMemTracerTest.cpp",
+         "GpuStatsTest.cpp",
++        "GpuServiceTest.cpp",
+     ],
+     header_libs: ["bpf_headers"],
+     shared_libs: [
+@@ -47,6 +48,7 @@ cc_test {
+         "libstatslog",
+         "libstatspull",
+         "libutils",
++        "libgpuservice",
+     ],
+     static_libs: [
+         "libgmock",
+diff --git a/services/gpuservice/tests/unittests/GpuServiceTest.cpp b/services/gpuservice/tests/unittests/GpuServiceTest.cpp
+new file mode 100644
+index 0000000000..62b3e53f53
+--- /dev/null
++++ b/services/gpuservice/tests/unittests/GpuServiceTest.cpp
+@@ -0,0 +1,52 @@
++#undef LOG_TAG
++#define LOG_TAG "gpuservice_unittest"
++
++#include "gpuservice/GpuService.h"
++
++#include <gtest/gtest.h>
++#include <log/log_main.h>
++
++#include <chrono>
++#include <thread>
++
++namespace android {
++namespace {
++
++class GpuServiceTest : public testing::Test {
++public:
++    GpuServiceTest() {
++        const ::testing::TestInfo* const test_info =
++                ::testing::UnitTest::GetInstance()->current_test_info();
++        ALOGD("**** Setting up for %s.%s\n", test_info->test_case_name(), test_info->name());
++    }
++
++    ~GpuServiceTest() {
++        const ::testing::TestInfo* const test_info =
++            ::testing::UnitTest::GetInstance()->current_test_info();
++        ALOGD("**** Tearing down after %s.%s\n", test_info->test_case_name(), test_info->name());
++    }
++
++};
++
++
++/*
++* The behaviour before this test + fixes was UB caused by threads accessing deallocated memory.
++*
++* This test creates the service (which initializes the culprit threads),
++* deallocates it immediately and sleeps.
++*
++* GpuService's destructor gets called and joins the threads.
++* If we haven't crashed by the time the sleep time has elapsed, we're good
++* Let the test pass.
++*/
++TEST_F(GpuServiceTest, onInitializeShouldNotCauseUseAfterFree) {
++    sp<GpuService> service = new GpuService();
++    service.clear();
++    std::this_thread::sleep_for(std::chrono::seconds(3));
++
++    // If we haven't crashed yet due to threads accessing freed up memory, let the test pass
++    EXPECT_TRUE(true);
++}
++
++} // namespace
++} // namespace android

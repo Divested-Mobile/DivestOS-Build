@@ -97,7 +97,7 @@ applyPatch "$DOS_PATCHES/android_build/0004-Selective_APEX.patch"; #Only enable 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_util.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
-sed -i 's/2023-08-05/2023-09-01/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2023-09-05/2023-10-01/' core/version_defaults.mk; #Bump Security String #XXX ASB-2023-10
 fi;
 
 if enterAndClear "build/soong"; then
@@ -127,7 +127,16 @@ if enterAndClear "external/libvpx"; then
 applyPatch "$DOS_PATCHES_COMMON/android_external_libvpx/CVE-2023-5217.patch"; #VP8: disallow thread count changes
 fi;
 
+if enterAndClear "external/libxml2"; then
+git am $DOS_PATCHES/ASB-2023-10/libxml-*.patch;
+fi;
+
+if enterAndClear "frameworks/av"; then
+git am $DOS_PATCHES/ASB-2023-10/av-*.patch;
+fi;
+
 if enterAndClear "frameworks/base"; then
+git am $DOS_PATCHES/ASB-2023-10/base-*.patch;
 git revert --no-edit d36faad3267522c6d3ff91ba9dcca8f6274bccd1; #Reverts "JobScheduler: Respect allow-in-power-save perm" in favor of below patch
 git revert --no-edit 90d6826548189ca850d91692e71fcc1be426f453; #Reverts "Remove sensitive info from SUPL requests" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
@@ -218,6 +227,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_libs_systemui/0001-Icon_Cache.patch"
 fi;
 
 if enterAndClear "frameworks/native"; then
+git am $DOS_PATCHES/ASB-2023-10/native-*.patch;
 applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors_Permission.patch"; #Require OTHER_SENSORS permission for sensors (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors_Permission-a1.patch"; #Protect step sensors with OTHER_SENSORS permission for targetSdk<29 apps (GrapheneOS)
 fi;
@@ -306,6 +316,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_OpenEUICC/0001-hacky-fix.patch"; 
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
+git am $DOS_PATCHES/ASB-2023-10/settings-*.patch;
 git revert --no-edit 41b4ed345a91da1dd46c00ee11a151c2b5ff4f43;
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0005-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
@@ -334,6 +345,7 @@ git revert --no-edit fcf658d2005dc557a95d5a7fb89cb90d06b31d33; #grant permission
 fi;
 
 if enterAndClear "packages/apps/Trebuchet"; then
+git am $DOS_PATCHES/ASB-2023-10/launcher-*.patch;
 cp $DOS_BUILD_BASE/vendor/divested/overlay/common/packages/apps/Trebuchet/res/xml/default_workspace_*.xml res/xml/; #XXX: Likely no longer needed
 fi;
 
@@ -347,6 +359,10 @@ fi;
 if enterAndClear "packages/inputmethods/LatinIME"; then
 applyPatch "$DOS_PATCHES/android_packages_inputmethods_LatinIME/0001-Voice.patch"; #Remove voice input key (DivestOS)
 applyPatch "$DOS_PATCHES/android_packages_inputmethods_LatinIME/0002-Disable_Personalization.patch"; #Disable personalization dictionary by default (GrapheneOS)
+fi;
+
+if enterAndClear "packages/modules/Bluetooth"; then
+git am $DOS_PATCHES/ASB-2023-10/bluetooth-*.patch;
 fi;
 
 if enterAndClear "packages/modules/Connectivity"; then
@@ -375,6 +391,7 @@ applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0006-Location_Indic
 fi;
 
 if enterAndClear "packages/modules/Wifi"; then
+git am $DOS_PATCHES/ASB-2023-10/wifi-*.patch;
 applyPatch "$DOS_PATCHES/android_packages_modules_Wifi/344228.patch"; #wifi: resurrect mWifiLinkLayerStatsSupported counter (sassmann)
 applyPatch "$DOS_PATCHES/android_packages_modules_Wifi/0001-Random_MAC.patch"; #Add support for always generating new random MAC (GrapheneOS)
 fi;
@@ -383,9 +400,18 @@ if enterAndClear "packages/providers/DownloadProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
+if enterAndClear "packages/providers/MediaProvider"; then
+git am $DOS_PATCHES/ASB-2023-10/mediaprovider-*.patch;
+fi;
+
+
 #if enterAndClear "packages/providers/TelephonyProvider"; then
 #cp $DOS_PATCHES_COMMON/android_packages_providers_TelephonyProvider/carrier_list.* assets/latest_carrier_id/;
 #fi;
+
+if enterAndClear "packages/services/Telecomm"; then
+git am $DOS_PATCHES/ASB-2023-10/telecomm-*.patch;
+fi;
 
 if enterAndClear "system/ca-certificates"; then
 rm -rf files; #Remove old certs
