@@ -25,15 +25,15 @@ wget "https://github.com/LineageOS/android_vendor_lineage/raw/lineage-20.0/prebu
 wget "https://raw.githubusercontent.com/GrapheneOS/platform_packages_apps_Dialer/13/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
 
 #LineageOS Contributors Cloud
-wget "https://github.com/LineageOS/android_packages_apps_LineageParts/raw/lineage-19.1/assets/contributors.db" -O ../Patches/Common/contributors.db;
+wget "https://github.com/LineageOS/android_packages_apps_LineageParts/raw/lineage-20.0/assets/contributors.db" -O ../Patches/Common/contributors.db;
 
 #TODO: wireless-regdb
 #https://mirrors.edge.kernel.org/pub/software/network/wireless-regdb/
-#Last: 2023/08/08
+#Last: 2023/10/03
 
 #TODO: MMS Configs
 #https://github.com/GrapheneOS/platform_packages_apps_Messaging
-#Last: 2023/08/08
+#Last: 2023/10/03
 
 #TODO: CA store
 #https://android.googlesource.com/platform/system/ca-certificates
