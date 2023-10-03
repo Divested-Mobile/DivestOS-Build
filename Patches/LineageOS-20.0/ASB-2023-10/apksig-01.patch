@@ -1,0 +1,50 @@
+From 039f815895f62c9f8af23df66622b66246f3f61e Mon Sep 17 00:00:00 2001
+From: Michael Groover <mpgroover@google.com>
+Date: Tue, 20 Jun 2023 11:51:03 -0500
+Subject: [PATCH] Add errors from signature verify result to returned result
+
+During APK signature verification, the apksig library will maintain
+an internal Result instance for the current signature version being
+verified; any errors / warnings from the specific version signer(s)
+verification will then be copied to a Result instance that is
+returned to the caller containing details for each of the signature
+versions that the library attempted to verify. The internal Result
+instance can also contain more general errors / warnings abut the
+verification; these are currently not merged with the Result to be
+returned to the caller, so some APKs may fail to verify without a
+valid error returned. This commit resolves this by merging all
+general errors / warnings with the Result to be returned to the
+caller.
+
+Bug: 266580022
+Test: gradlew test
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:0b086bdc130e1e6216fcbc5436fe8e3cdc9ec011)
+Merged-In: Id0f4ee47a964a3bb5d30916808a3108858e6a0cf
+Change-Id: Id0f4ee47a964a3bb5d30916808a3108858e6a0cf
+---
+ src/main/java/com/android/apksig/ApkVerifier.java | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/src/main/java/com/android/apksig/ApkVerifier.java b/src/main/java/com/android/apksig/ApkVerifier.java
+index 8ae5f78..0b04ef9 100644
+--- a/src/main/java/com/android/apksig/ApkVerifier.java
++++ b/src/main/java/com/android/apksig/ApkVerifier.java
+@@ -1276,6 +1276,15 @@ public class ApkVerifier {
+         }
+ 
+         private void mergeFrom(ApkSigningBlockUtils.Result source) {
++            if (source == null) {
++                return;
++            }
++            if (source.containsErrors()) {
++                mErrors.addAll(source.getErrors());
++            }
++            if (source.containsWarnings()) {
++                mWarnings.addAll(source.getWarnings());
++            }
+             switch (source.signatureSchemeVersion) {
+                 case ApkSigningBlockUtils.VERSION_APK_SIGNATURE_SCHEME_V2:
+                     mVerifiedUsingV2Scheme = source.verified;
+-- 
+GitLab
+

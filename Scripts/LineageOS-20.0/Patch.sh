@@ -307,6 +307,10 @@ applyPatch "$DOS_PATCHES/android_packages_apps_LineageParts/0001-Remove_Analytic
 cp -f "$DOS_PATCHES_COMMON/contributors.db" assets/contributors.db; #Update contributors cloud
 fi;
 
+if enterAndClear "packages/apps/Messaging"; then
+applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Messaging/0001-null-fix.patch"; #Handle null case (GrapheneOS)
+fi;
+
 if enterAndClear "packages/apps/Nfc"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
@@ -442,6 +446,11 @@ fi;
 if enterAndClear "system/update_engine"; then
 git revert --no-edit ac104e8990f3be3a3f111241e9328e7f98bfb912; #Do not skip payload signature verification
 fi;
+
+if enterAndClear "tools/apksig"; then
+git am $DOS_PATCHES/ASB-2023-10/apksig-*.patch;
+fi;
+
 
 if enterAndClear "vendor/lineage"; then
 rm build/target/product/security/lineage.x509.pem; #Remove Lineage keys

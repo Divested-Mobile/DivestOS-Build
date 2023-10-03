@@ -375,6 +375,10 @@ applyPatch "$DOS_PATCHES/android_packages_apps_KeyChain/319990.patch"; #n-asb-20
 applyPatch "$DOS_PATCHES/android_packages_apps_KeyChain/334036.patch"; #n-asb-2022-07 Encode authority part of uri before showing in UI
 fi;
 
+if enterAndClear "packages/apps/Messaging"; then
+applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Messaging/0001-null-fix.patch"; #Handle null case (GrapheneOS)
+fi;
+
 if enterAndClear "packages/apps/Nfc"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/315715.patch"; #n-asb-2021-09 Add HIDE_NON_SYSTEM_OVERLAY_WINDOWS permission to Nfc
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/328308.patch"; #n-asb-2022-04 Do not set default contactless application without user interaction

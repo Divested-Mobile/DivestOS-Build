@@ -1,0 +1,31 @@
+From fc22d2d5b977de8a148677ad5a15b20f97f1bd49 Mon Sep 17 00:00:00 2001
+From: Pratyush <codelab@pratyush.dev>
+Date: Fri, 22 Sep 2023 12:22:01 +0530
+Subject: [PATCH] [bugfixes] handle null case
+
+android docs doesn't state if SubscriptionInfo.getDisplayName() can return null, according to crash log it is returning null.
+---
+ src/com/android/messaging/datamodel/ParticipantRefresh.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/messaging/datamodel/ParticipantRefresh.java b/src/com/android/messaging/datamodel/ParticipantRefresh.java
+index 55d439bd..1726d69e 100644
+--- a/src/com/android/messaging/datamodel/ParticipantRefresh.java
++++ b/src/com/android/messaging/datamodel/ParticipantRefresh.java
+@@ -46,6 +46,7 @@
+ import java.util.HashSet;
+ import java.util.List;
+ import java.util.Locale;
++import java.util.Objects;
+ import java.util.Set;
+ import java.util.concurrent.atomic.AtomicBoolean;
+ 
+@@ -391,7 +392,7 @@ private static void refreshSelfParticipantList() {
+             for (final Integer subId : activeSubscriptionIdToRecordMap.keySet()) {
+                 final SubscriptionInfo record = activeSubscriptionIdToRecordMap.get(subId);
+                 final String displayName =
+-                        DatabaseUtils.sqlEscapeString(record.getDisplayName().toString());
++                        DatabaseUtils.sqlEscapeString(Objects.toString(record.getDisplayName(), ""));
+                 db.execSQL(getUpdateSelfParticipantSubscriptionInfoSql(record.getSimSlotIndex(),
+                         record.getIconTint(), displayName,
+                         ParticipantColumns.SUB_ID + " = " + subId));
