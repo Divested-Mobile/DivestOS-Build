@@ -141,7 +141,6 @@ patchWorkspaceReal() {
 
 	source build/envsetup.sh;
 	repopick -i 361248; #Launcher3: Allow toggling monochrome icons for all apps
-	repopick -i 366907; #Dialer: Fix SecurityException when receiving a call as secondary user
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

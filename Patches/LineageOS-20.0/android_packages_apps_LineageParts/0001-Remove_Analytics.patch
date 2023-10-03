@@ -5,19 +5,19 @@ Subject: [PATCH] Remove analytics
 
 Change-Id: Ic01c97d6ceac8d324609763973639b41b4581a76
 ---
- AndroidManifest.xml           | 25 -------------------------
+ AndroidManifest.xml           | 19 -------------------
  proguard.flags                |  1 -
  res/values/config.xml         |  3 ---
  res/values/strings.xml        | 22 ----------------------
  res/xml/parts_catalog.xml     |  5 -----
  res/xml/trust_preferences.xml |  3 ---
- 6 files changed, 59 deletions(-)
+ 6 files changed, 53 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index b42bdc3..06fe237 100644
+index 7f3dc72..06fe237 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
-@@ -251,31 +251,6 @@
+@@ -251,25 +251,6 @@
                  android:resource="@string/summary_empty" />
          </activity-alias>
  
@@ -31,12 +31,6 @@ index b42bdc3..06fe237 100644
 -                <action android:name="org.lineageos.lineageparts.action.TRIGGER_REPORT_METRICS" />
 -            </intent-filter>
 -        </receiver>
--
--        <service android:label="ReportingService"
--            android:enabled="true"
--            android:exported="false"
--            android:name=".lineagestats.ReportingService">
--        </service>
 -
 -        <service android:name=".lineagestats.StatsUploadJobService"
 -                 android:permission="android.permission.BIND_JOB_SERVICE" />

@@ -37,10 +37,10 @@ index 256382c07f..a4898cf860 100644
  int audio_extn_utils_get_vendor_enhanced_info();
  int audio_extn_utils_get_app_sample_rate_for_device(struct audio_device *adev,
 diff --git a/hal/audio_extn/utils.c b/hal/audio_extn/utils.c
-index 23ecf7a590..6ddfcaced7 100644
+index be20e12953..981cad8e1e 100644
 --- a/hal/audio_extn/utils.c
 +++ b/hal/audio_extn/utils.c
-@@ -3314,6 +3314,7 @@ int audio_extn_utils_get_channels_from_string(const char *id_string)
+@@ -3315,6 +3315,7 @@ int audio_extn_utils_get_channels_from_string(const char *id_string)
      return -EINVAL;
  }
  
@@ -48,7 +48,7 @@ index 23ecf7a590..6ddfcaced7 100644
  void audio_extn_utils_release_snd_device(snd_device_t snd_device)
  {
      audio_extn_dev_arbi_release(snd_device);
-@@ -3322,6 +3323,7 @@ void audio_extn_utils_release_snd_device(snd_device_t snd_device)
+@@ -3323,6 +3324,7 @@ void audio_extn_utils_release_snd_device(snd_device_t snd_device)
      audio_extn_listen_update_device_status(snd_device,
              LISTEN_EVENT_SND_DEVICE_FREE);
  }

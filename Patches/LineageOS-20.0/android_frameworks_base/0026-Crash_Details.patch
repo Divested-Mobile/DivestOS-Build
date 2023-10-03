@@ -159,10 +159,10 @@ index 286155953bed..d47f9162328f 100644
              android:authorities="com.android.systemui.customization"
              android:name="com.android.systemui.keyguard.CustomizationProvider"
 diff --git a/packages/SystemUI/res/values/strings.xml b/packages/SystemUI/res/values/strings.xml
-index 81241c91d1c6..0cd044e39fef 100644
+index ba806e591c1c..a5beed957cca 100644
 --- a/packages/SystemUI/res/values/strings.xml
 +++ b/packages/SystemUI/res/values/strings.xml
-@@ -2752,6 +2752,11 @@
+@@ -2754,6 +2754,11 @@
      <!-- Time format for the Dream Time Complication for 24-hour time format [CHAR LIMIT=NONE] -->
      <string name="dream_time_complication_24_hr_time_format">kk:mm</string>
  
