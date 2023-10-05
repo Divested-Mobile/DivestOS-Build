@@ -76,7 +76,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2023-09-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-09 #XXX
+sed -i 's/2021-06-05/2023-10-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-10 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -137,6 +137,10 @@ fi;
 
 if enterAndClear "external/libvpx"; then
 applyPatch "$DOS_PATCHES/android_external_libvpx/CVE-2023-5217-backport.patch"; #VP8: disallow thread count changes
+fi;
+
+if enterAndClear "external/libxml2"; then
+applyPatch "$DOS_PATCHES/android_external_libxml2/367634.patch"; #n-asb-2023-10 malloc-fail: Fix OOB read after xmlRegGetCounter
 fi;
 
 if enterAndClear "external/sonivox"; then
@@ -231,6 +235,10 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/364036-backport.patch"; #R_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/364037.patch"; #R_asb_2023-08 Use Settings.System.getIntForUser instead of getInt to make sure user specific settings are used
 applyPatch "$DOS_PATCHES/android_frameworks_base/364038-backport.patch"; #R_asb_2023-08 Resolve StatusHints image exploit across user.
 applyPatch "$DOS_PATCHES/android_frameworks_base/365782.patch"; #n-asb-2023-09 Update AccountManagerService checkKeyIntentParceledCorrectly.
+applyPatch "$DOS_PATCHES/android_frameworks_base/367635.patch"; #n-asb-2023-10 RingtoneManager: verify default ringtone is audio
+applyPatch "$DOS_PATCHES/android_frameworks_base/367636.patch"; #n-asb-2023-10 Fixing DatabaseUtils to detect malformed UTF-16 strings
+applyPatch "$DOS_PATCHES/android_frameworks_base/367637.patch"; #n-asb-2023-10 Do not share key mappings with JNI object
+applyPatch "$DOS_PATCHES/android_frameworks_base/367638.patch"; #n-asb-2023-10 Fix KCM key mapping cloning
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -405,6 +413,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/334874.patch"; #n-asb-20
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/334875.patch"; #n-asb-2022-08 Fix Settings crash when setting a null ringtone
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/345679.patch"; #n-asb-2022-12 Add FLAG_SECURE for ChooseLockPassword and Pattern
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/358738.patch"; #n-asb-2023-06 Convert argument to intent in AddAccountSettings.
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/367639.patch"; #n-asb-2023-10 Restrict ApnEditor settings
 git revert --no-edit 2ebe6058c546194a301c1fd22963d6be4adbf961; #Don't hide OEM unlock
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/201113.patch"; #wifi: Add world regulatory domain country code (syphyr)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
