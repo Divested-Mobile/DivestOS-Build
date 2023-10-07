@@ -156,10 +156,10 @@ index 3210af7bdebc..a89494c3ae25 100644
      </application>
  </manifest>
 diff --git a/packages/SystemUI/res/values/strings.xml b/packages/SystemUI/res/values/strings.xml
-index 4a7d7089d712..f0441de18929 100644
+index 48ff6d535874..90ac8317a40e 100644
 --- a/packages/SystemUI/res/values/strings.xml
 +++ b/packages/SystemUI/res/values/strings.xml
-@@ -2353,4 +2353,9 @@
+@@ -2355,4 +2355,9 @@
  
      <!-- Title for User Switch dialog. [CHAR LIMIT=20] -->
      <string name="qs_user_switch_dialog_title">Select user</string>

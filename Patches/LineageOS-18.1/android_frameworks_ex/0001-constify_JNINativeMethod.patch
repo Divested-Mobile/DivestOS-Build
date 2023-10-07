@@ -8,7 +8,7 @@ Subject: [PATCH] constify JNINativeMethod table
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/framesequence/jni/FrameSequenceJNI.cpp b/framesequence/jni/FrameSequenceJNI.cpp
-index c701f03..4041733 100644
+index c701f033..4041733d 100644
 --- a/framesequence/jni/FrameSequenceJNI.cpp
 +++ b/framesequence/jni/FrameSequenceJNI.cpp
 @@ -141,7 +141,7 @@ static jlong JNICALL nativeGetFrame(

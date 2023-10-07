@@ -156,7 +156,7 @@ index f40d65624..7276bfb44 100644
      }
  
 diff --git a/service/java/com/android/server/wifi/WifiConfigurationUtil.java b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
-index 7273da333..2ffe547b1 100644
+index ffa9facf5..cfd5ce98f 100644
 --- a/service/java/com/android/server/wifi/WifiConfigurationUtil.java
 +++ b/service/java/com/android/server/wifi/WifiConfigurationUtil.java
 @@ -203,7 +203,7 @@ public class WifiConfigurationUtil {

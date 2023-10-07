@@ -123,10 +123,6 @@ applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras.pa
 fi;
 fi;
 
-if enterAndClear "external/libvpx"; then
-applyPatch "$DOS_PATCHES_COMMON/android_external_libvpx/CVE-2023-5217.patch"; #VP8: disallow thread count changes
-fi;
-
 if enterAndClear "external/libxml2"; then
 git fetch https://github.com/LineageOS/android_external_libxml2 refs/changes/53/368053/1 && git cherry-pick FETCH_HEAD; #R_asb_2023-10
 fi;

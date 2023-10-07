@@ -123,10 +123,6 @@ sed -i 's/34359738368/2147483648/' Android.bp; #revert 48-bit address space requ
 fi;
 fi;
 
-if enterAndClear "external/libvpx"; then
-applyPatch "$DOS_PATCHES_COMMON/android_external_libvpx/CVE-2023-5217.patch"; #VP8: disallow thread count changes
-fi;
-
 if enterAndClear "external/libxml2"; then
 git am $DOS_PATCHES/ASB-2023-10/libxml-*.patch;
 fi;
