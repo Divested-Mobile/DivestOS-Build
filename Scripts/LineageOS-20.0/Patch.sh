@@ -122,10 +122,6 @@ sed -i 's/34359738368/2147483648/' Android.bp; #revert 48-bit address space requ
 fi;
 fi;
 
-if enterAndClear "external/libxml2"; then
-git fetch https://github.com/LineageOS/android_external_libxml2 refs/changes/46/367946/1 && git cherry-pick FETCH_HEAD; #T_asb_2023-10
-fi;
-
 if enterAndClear "frameworks/av"; then
 git am $DOS_PATCHES/ASB-2023-10/av-*.patch;
 fi;
@@ -423,10 +419,6 @@ fi;
 
 if enterAndClear "system/update_engine"; then
 git revert --no-edit ac104e8990f3be3a3f111241e9328e7f98bfb912; #Do not skip payload signature verification
-fi;
-
-if enterAndClear "tools/apksig"; then
-git fetch https://github.com/LineageOS/android_tools_apksig refs/changes/64/367964/1 && git cherry-pick FETCH_HEAD; #T_asb_2023-10
 fi;
 
 if enterAndClear "vendor/lineage"; then

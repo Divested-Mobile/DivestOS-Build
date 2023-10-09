@@ -123,10 +123,6 @@ applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras.pa
 fi;
 fi;
 
-if enterAndClear "external/libxml2"; then
-git fetch https://github.com/LineageOS/android_external_libxml2 refs/changes/53/368053/1 && git cherry-pick FETCH_HEAD; #R_asb_2023-10
-fi;
-
 if enterAndClear "frameworks/base"; then
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
