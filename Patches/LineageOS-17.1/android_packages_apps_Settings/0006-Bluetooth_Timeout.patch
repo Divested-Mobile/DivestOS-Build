@@ -12,7 +12,7 @@ Subject: [PATCH] add bluetooth auto-turn-off setting
  create mode 100644 src/com/android/settings/bluetooth/BluetoothTimeoutPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 5813bb18db..40d01907a4 100644
+index 5813bb18dbb..40d01907a43 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -39,6 +39,50 @@
@@ -67,7 +67,7 @@ index 5813bb18db..40d01907a4 100644
      <string-array name="screen_timeout_entries">
          <item>15 seconds</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 8f4a3c6115..ef517e8503 100644
+index 8f4a3c61157..ef517e8503c 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -25,6 +25,25 @@
@@ -97,7 +97,7 @@ index 8f4a3c6115..ef517e8503 100644
      <string name="device_info_default">Unknown</string>
      <!-- [CHAR LIMIT=NONE] Device Info screen. Countdown for user taps to enable development settings -->
 diff --git a/res/xml/connected_devices.xml b/res/xml/connected_devices.xml
-index da55fe33f4..d0f9dcc507 100644
+index da55fe33f4f..d0f9dcc507e 100644
 --- a/res/xml/connected_devices.xml
 +++ b/res/xml/connected_devices.xml
 @@ -52,6 +52,14 @@
@@ -117,7 +117,7 @@ index da55fe33f4..d0f9dcc507 100644
          android:title="@string/connected_device_previously_connected_title"
 diff --git a/src/com/android/settings/bluetooth/BluetoothTimeoutPreferenceController.java b/src/com/android/settings/bluetooth/BluetoothTimeoutPreferenceController.java
 new file mode 100644
-index 0000000000..244147948a
+index 00000000000..244147948aa
 --- /dev/null
 +++ b/src/com/android/settings/bluetooth/BluetoothTimeoutPreferenceController.java
 @@ -0,0 +1,115 @@

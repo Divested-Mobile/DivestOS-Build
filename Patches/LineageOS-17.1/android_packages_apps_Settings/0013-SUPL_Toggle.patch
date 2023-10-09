@@ -11,7 +11,7 @@ Subject: [PATCH] add a toggle for forcibly disabling SUPL
  create mode 100644 src/com/android/settings/location/ForceDisableSuplPrefController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index b5dbdc7d81..a5aab8e5d0 100644
+index b5dbdc7d81f..a5aab8e5d08 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -11517,4 +11517,7 @@
@@ -23,7 +23,7 @@ index b5dbdc7d81..a5aab8e5d0 100644
 +    <string name="force_disable_supl_summary">Always disable SUPL assisted location support regardless of carrier configuration or emergency call status (does not disable control plane A-GNSS and DivestOS does not send IMSI to the SUPL)</string>
  </resources>
 diff --git a/res/xml/location_settings.xml b/res/xml/location_settings.xml
-index 136e6ab619..ae1a0e0f3e 100644
+index 136e6ab6195..ae1a0e0f3e2 100644
 --- a/res/xml/location_settings.xml
 +++ b/res/xml/location_settings.xml
 @@ -68,6 +68,12 @@
@@ -41,7 +41,7 @@ index 136e6ab619..ae1a0e0f3e 100644
          <PreferenceCategory
 diff --git a/src/com/android/settings/location/ForceDisableSuplPrefController.java b/src/com/android/settings/location/ForceDisableSuplPrefController.java
 new file mode 100644
-index 0000000000..1cfae3f3a6
+index 00000000000..1cfae3f3a65
 --- /dev/null
 +++ b/src/com/android/settings/location/ForceDisableSuplPrefController.java
 @@ -0,0 +1,41 @@

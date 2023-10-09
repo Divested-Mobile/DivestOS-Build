@@ -13,7 +13,7 @@ Subject: [PATCH] add auto-reboot setting
  create mode 100644 src/com/android/settings/security/AutoRebootPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index b983f467df..5813bb18db 100644
+index b983f467df0..5813bb18dbb 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -144,6 +144,37 @@
@@ -55,7 +55,7 @@ index b983f467df..5813bb18db 100644
          <item msgid="6490061470416867723">Small</item>
          <item msgid="3579015730662088893">Default</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index f6e3b0f62d..8f4a3c6115 100644
+index f6e3b0f62df..8f4a3c61157 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -810,6 +810,9 @@
@@ -69,7 +69,7 @@ index f6e3b0f62d..8f4a3c6115 100644
      <string name="trust_agents_extend_unlock_title">Trust agents only extend unlock</string>
      <!-- Text shown for the description of the extend unlock mode option [CHAR LIMIT=NONE] -->
 diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
-index 6a896ced42..1667943ba4 100644
+index 6a896ced42c..1667943ba41 100644
 --- a/res/xml/security_dashboard_settings.xml
 +++ b/res/xml/security_dashboard_settings.xml
 @@ -55,6 +55,14 @@
@@ -89,7 +89,7 @@ index 6a896ced42..1667943ba4 100644
      <!-- work profile security section -->
 diff --git a/src/com/android/settings/security/AutoRebootPreferenceController.java b/src/com/android/settings/security/AutoRebootPreferenceController.java
 new file mode 100644
-index 0000000000..c7a75219a5
+index 00000000000..c7a75219a5e
 --- /dev/null
 +++ b/src/com/android/settings/security/AutoRebootPreferenceController.java
 @@ -0,0 +1,82 @@
@@ -176,7 +176,7 @@ index 0000000000..c7a75219a5
 +    }
 +}
 diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
-index ecf3359e20..b5d7814e4a 100644
+index ecf3359e200..b5d7814e4a9 100644
 --- a/src/com/android/settings/security/SecuritySettings.java
 +++ b/src/com/android/settings/security/SecuritySettings.java
 @@ -120,6 +120,7 @@ public class SecuritySettings extends DashboardFragment {

@@ -1,0 +1,52 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Josep del Rio <joseprio@google.com>
+Date: Mon, 26 Jun 2023 11:16:37 +0000
+Subject: [PATCH] Do not share key mappings with JNI object
+
+The key mapping information between the native key mappings and
+the KeyCharacterMap object available in Java is currently shared,
+which means that a read can be attempted while it's being modified.
+
+Because the code changed between R and S, this CL fixes it just
+for R; the patch for versions S+ is ag/23785419
+
+Bug: 274058082
+Test: Presubmit
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:4b3c4620166071561ec44961fb08a56676b4fd6c)
+Merged-In: I3be94534dcda365da473f82347ae2e3f57bb1b42
+Change-Id: I3be94534dcda365da473f82347ae2e3f57bb1b42
+---
+ core/jni/android_view_InputDevice.cpp | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/core/jni/android_view_InputDevice.cpp b/core/jni/android_view_InputDevice.cpp
+index 9f4e3e516ada..81ada6ad535c 100644
+--- a/core/jni/android_view_InputDevice.cpp
++++ b/core/jni/android_view_InputDevice.cpp
+@@ -14,6 +14,7 @@
+  * limitations under the License.
+  */
+ 
++#include <binder/Parcel.h>
+ #include <input/Input.h>
+ 
+ #include <android_runtime/AndroidRuntime.h>
+@@ -48,9 +49,16 @@ jobject android_view_InputDevice_create(JNIEnv* env, const InputDeviceInfo& devi
+         return NULL;
+     }
+ 
++    sp<KeyCharacterMap> map = deviceInfo.getKeyCharacterMap();
++    if (map != nullptr) {
++        Parcel parcel;
++        map->writeToParcel(&parcel);
++        map = map->readFromParcel(&parcel);
++    }
++
+     ScopedLocalRef<jobject> kcmObj(env,
+-            android_view_KeyCharacterMap_create(env, deviceInfo.getId(),
+-            deviceInfo.getKeyCharacterMap()));
++                                   android_view_KeyCharacterMap_create(env, deviceInfo.getId(),
++                                                                       map));
+     if (!kcmObj.get()) {
+         return NULL;
+     }

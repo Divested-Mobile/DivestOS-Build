@@ -1,0 +1,49 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hongwei Wang <hwwang@google.com>
+Date: Wed, 24 May 2023 19:35:44 -0700
+Subject: [PATCH] Disallow loading icon from content URI to PipMenu
+
+Bug: 278246904
+Test: manually, with the PoC app attached to the bug
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:5f5a87d8a0dc9190327ba0e6113d5b80ee96abae)
+Merged-In: Iecfc1fb962de611cbe3c51a44ba4fded53925a7d
+Change-Id: Iecfc1fb962de611cbe3c51a44ba4fded53925a7d
+---
+ .../systemui/pip/phone/PipMenuActivity.java     | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/pip/phone/PipMenuActivity.java b/packages/SystemUI/src/com/android/systemui/pip/phone/PipMenuActivity.java
+index ec6d7ffaedb0..08658694c5b8 100644
+--- a/packages/SystemUI/src/com/android/systemui/pip/phone/PipMenuActivity.java
++++ b/packages/SystemUI/src/com/android/systemui/pip/phone/PipMenuActivity.java
+@@ -51,6 +51,7 @@ import android.graphics.Color;
+ import android.graphics.Rect;
+ import android.graphics.drawable.ColorDrawable;
+ import android.graphics.drawable.Drawable;
++import android.graphics.drawable.Icon;
+ import android.net.Uri;
+ import android.os.Bundle;
+ import android.os.Handler;
+@@ -457,11 +458,17 @@ public class PipMenuActivity extends Activity {
+                     final RemoteAction action = mActions.get(i);
+                     final ImageView actionView = (ImageView) mActionsGroup.getChildAt(i);
+ 
+-                    // TODO: Check if the action drawable has changed before we reload it
+-                    action.getIcon().loadDrawableAsync(this, d -> {
+-                        d.setTint(Color.WHITE);
+-                        actionView.setImageDrawable(d);
+-                    }, mHandler);
++                    final int iconType = action.getIcon().getType();
++                    if (iconType == Icon.TYPE_URI /* || iconType == Icon.TYPE_URI_ADAPTIVE_BITMAP*/) {
++                        // Disallow loading icon from content URI
++                        actionView.setImageDrawable(null);
++                    } else {
++                        // TODO: Check if the action drawable has changed before we reload it
++                        action.getIcon().loadDrawableAsync(this, d -> {
++                              d.setTint(Color.WHITE);
++                              actionView.setImageDrawable(d);
++                        }, mHandler);
++                    }
+                     actionView.setContentDescription(action.getContentDescription());
+                     if (action.isEnabled()) {
+                         actionView.setOnClickListener(v -> {

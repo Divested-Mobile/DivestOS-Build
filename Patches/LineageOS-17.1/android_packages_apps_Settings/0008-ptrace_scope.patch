@@ -12,7 +12,7 @@ Subject: [PATCH] add native debugging setting
  create mode 100644 src/com/android/settings/security/NativeDebugPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 228d9570dd..d965a63b0d 100644
+index 228d9570dd7..d965a63b0d5 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -11316,6 +11316,9 @@
@@ -26,7 +26,7 @@ index 228d9570dd..d965a63b0d 100644
      <string name="privacy_dashboard_title">Privacy</string>
      <!-- Summary for the top level Privacy Settings [CHAR LIMIT=NONE]-->
 diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
-index 1667943ba4..2c7b006f8b 100644
+index 1667943ba41..2c7b006f8bb 100644
 --- a/res/xml/security_dashboard_settings.xml
 +++ b/res/xml/security_dashboard_settings.xml
 @@ -63,6 +63,12 @@
@@ -44,7 +44,7 @@ index 1667943ba4..2c7b006f8b 100644
      <!-- work profile security section -->
 diff --git a/src/com/android/settings/security/NativeDebugPreferenceController.java b/src/com/android/settings/security/NativeDebugPreferenceController.java
 new file mode 100644
-index 0000000000..9271e6e21c
+index 00000000000..9271e6e21cf
 --- /dev/null
 +++ b/src/com/android/settings/security/NativeDebugPreferenceController.java
 @@ -0,0 +1,106 @@
@@ -155,7 +155,7 @@ index 0000000000..9271e6e21c
 +    }
 +}
 diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
-index b5d7814e4a..7aa126b75c 100644
+index b5d7814e4a9..7aa126b75c7 100644
 --- a/src/com/android/settings/security/SecuritySettings.java
 +++ b/src/com/android/settings/security/SecuritySettings.java
 @@ -121,6 +121,7 @@ public class SecuritySettings extends DashboardFragment {

@@ -15,7 +15,7 @@ Closes https://github.com/GrapheneOS/os_issue_tracker/issues/107
  4 files changed, 26 insertions(+), 3 deletions(-)
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 6d95bcc58b..072004e447 100644
+index 6d95bcc58b0..072004e4474 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -1301,16 +1301,19 @@
@@ -106,7 +106,7 @@ index 6d95bcc58b..072004e447 100644
          <item>"18"</item>
          <item>"1"</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index e7dcf62ddc..fedb9f3fde 100644
+index e7dcf62ddc3..fedb9f3fdea 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -10942,6 +10942,8 @@
@@ -132,7 +132,7 @@ index e7dcf62ddc..fedb9f3fde 100644
      <string name="network_3G" translatable="false">3G</string>
      <!-- Text for Network 2g [CHAR LIMIT=NONE] -->
 diff --git a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
-index b9be4c2f10..d577f9ac55 100644
+index b9be4c2f107..d577f9ac559 100644
 --- a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
 +++ b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
 @@ -438,7 +438,6 @@ public class EnabledNetworkModePreferenceController extends
@@ -157,7 +157,7 @@ index b9be4c2f10..d577f9ac55 100644
                  if (MobileNetworkUtils.isWorldMode(mContext, mSubId)) {
                      preference.setSummary(
 diff --git a/src/com/android/settings/network/telephony/PreferredNetworkModePreferenceController.java b/src/com/android/settings/network/telephony/PreferredNetworkModePreferenceController.java
-index 965fc729d3..3a7261b5b8 100644
+index 965fc729d31..3a7261b5b8f 100644
 --- a/src/com/android/settings/network/telephony/PreferredNetworkModePreferenceController.java
 +++ b/src/com/android/settings/network/telephony/PreferredNetworkModePreferenceController.java
 @@ -143,7 +143,7 @@ public class PreferredNetworkModePreferenceController extends TelephonyBasePrefe

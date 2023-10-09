@@ -11,7 +11,7 @@ RANDOMIZATION_ALWAYS is set as the default option
  3 files changed, 29 insertions(+), 9 deletions(-)
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 0a9a9a31e8..6d95bcc58b 100644
+index 0a9a9a31e82..6d95bcc58b0 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -1239,7 +1239,8 @@
@@ -33,7 +33,7 @@ index 0a9a9a31e8..6d95bcc58b 100644
          <item>0</item>
      </string-array>
 diff --git a/src/com/android/settings/wifi/details/WifiDetailPreferenceController.java b/src/com/android/settings/wifi/details/WifiDetailPreferenceController.java
-index afcf883fb6..ce45108f22 100644
+index afcf883fb68..ce45108f22e 100644
 --- a/src/com/android/settings/wifi/details/WifiDetailPreferenceController.java
 +++ b/src/com/android/settings/wifi/details/WifiDetailPreferenceController.java
 @@ -700,7 +700,8 @@ public class WifiDetailPreferenceController extends AbstractPreferenceController
@@ -47,7 +47,7 @@ index afcf883fb6..ce45108f22 100644
          }
  
 diff --git a/src/com/android/settings/wifi/details/WifiPrivacyPreferenceController.java b/src/com/android/settings/wifi/details/WifiPrivacyPreferenceController.java
-index 950cc131f4..1ed9646a7f 100644
+index 950cc131f4a..1ed9646a7f3 100644
 --- a/src/com/android/settings/wifi/details/WifiPrivacyPreferenceController.java
 +++ b/src/com/android/settings/wifi/details/WifiPrivacyPreferenceController.java
 @@ -112,11 +112,12 @@ public class WifiPrivacyPreferenceController extends BasePreferenceController im

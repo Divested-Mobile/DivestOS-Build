@@ -92,7 +92,7 @@ Subject: [PATCH] removed all translations for wifi MAC privacy setting
  85 files changed, 340 deletions(-)
 
 diff --git a/res/values-af/arrays.xml b/res/values-af/arrays.xml
-index c8b0d47563..1ab2da3cc3 100644
+index c8b0d47563b..1ab2da3cc3b 100644
 --- a/res/values-af/arrays.xml
 +++ b/res/values-af/arrays.xml
 @@ -475,10 +475,6 @@
@@ -107,7 +107,7 @@ index c8b0d47563..1ab2da3cc3 100644
      <item msgid="342232116597649254">"Nee"</item>
      <item msgid="2163015208097377388">"Ja"</item>
 diff --git a/res/values-am/arrays.xml b/res/values-am/arrays.xml
-index 722b48c403..a89588e031 100644
+index 722b48c403b..a89588e0311 100644
 --- a/res/values-am/arrays.xml
 +++ b/res/values-am/arrays.xml
 @@ -475,10 +475,6 @@
@@ -122,7 +122,7 @@ index 722b48c403..a89588e031 100644
      <item msgid="342232116597649254">"አይ"</item>
      <item msgid="2163015208097377388">"አዎ"</item>
 diff --git a/res/values-ar/arrays.xml b/res/values-ar/arrays.xml
-index f6e693ff1c..97c0a846f2 100644
+index f6e693ff1cb..97c0a846f24 100644
 --- a/res/values-ar/arrays.xml
 +++ b/res/values-ar/arrays.xml
 @@ -475,10 +475,6 @@
@@ -137,7 +137,7 @@ index f6e693ff1c..97c0a846f2 100644
      <item msgid="342232116597649254">"لا"</item>
      <item msgid="2163015208097377388">"نعم"</item>
 diff --git a/res/values-as/arrays.xml b/res/values-as/arrays.xml
-index 07c7b3d6f6..7f17397335 100644
+index 07c7b3d6f6a..7f173973350 100644
 --- a/res/values-as/arrays.xml
 +++ b/res/values-as/arrays.xml
 @@ -475,10 +475,6 @@
@@ -152,7 +152,7 @@ index 07c7b3d6f6..7f17397335 100644
      <item msgid="342232116597649254">"নহয়"</item>
      <item msgid="2163015208097377388">"হয়"</item>
 diff --git a/res/values-az/arrays.xml b/res/values-az/arrays.xml
-index 1e8758f029..fb99ada256 100644
+index 1e8758f0292..fb99ada2567 100644
 --- a/res/values-az/arrays.xml
 +++ b/res/values-az/arrays.xml
 @@ -475,10 +475,6 @@
@@ -167,7 +167,7 @@ index 1e8758f029..fb99ada256 100644
      <item msgid="342232116597649254">"Xeyr"</item>
      <item msgid="2163015208097377388">"Bəli"</item>
 diff --git a/res/values-b+sr+Latn/arrays.xml b/res/values-b+sr+Latn/arrays.xml
-index b355390ac1..de326aec49 100644
+index b355390ac1e..de326aec49a 100644
 --- a/res/values-b+sr+Latn/arrays.xml
 +++ b/res/values-b+sr+Latn/arrays.xml
 @@ -475,10 +475,6 @@
@@ -182,7 +182,7 @@ index b355390ac1..de326aec49 100644
      <item msgid="342232116597649254">"Ne"</item>
      <item msgid="2163015208097377388">"Da"</item>
 diff --git a/res/values-be/arrays.xml b/res/values-be/arrays.xml
-index e1038b94fd..b455b0ea48 100644
+index e1038b94fd6..b455b0ea483 100644
 --- a/res/values-be/arrays.xml
 +++ b/res/values-be/arrays.xml
 @@ -475,10 +475,6 @@
@@ -197,7 +197,7 @@ index e1038b94fd..b455b0ea48 100644
      <item msgid="342232116597649254">"Не"</item>
      <item msgid="2163015208097377388">"Так"</item>
 diff --git a/res/values-bg/arrays.xml b/res/values-bg/arrays.xml
-index f37eceaf6d..c651876a73 100644
+index f37eceaf6d4..c651876a731 100644
 --- a/res/values-bg/arrays.xml
 +++ b/res/values-bg/arrays.xml
 @@ -475,10 +475,6 @@
@@ -212,7 +212,7 @@ index f37eceaf6d..c651876a73 100644
      <item msgid="342232116597649254">"Не"</item>
      <item msgid="2163015208097377388">"Да"</item>
 diff --git a/res/values-bn/arrays.xml b/res/values-bn/arrays.xml
-index f14398a328..d4a3e68637 100644
+index f14398a3284..d4a3e68637a 100644
 --- a/res/values-bn/arrays.xml
 +++ b/res/values-bn/arrays.xml
 @@ -475,10 +475,6 @@
@@ -227,7 +227,7 @@ index f14398a328..d4a3e68637 100644
      <item msgid="342232116597649254">"না"</item>
      <item msgid="2163015208097377388">"হ্যাঁ"</item>
 diff --git a/res/values-bs/arrays.xml b/res/values-bs/arrays.xml
-index 365473e269..52ecd63c5c 100644
+index 365473e2690..52ecd63c5c0 100644
 --- a/res/values-bs/arrays.xml
 +++ b/res/values-bs/arrays.xml
 @@ -475,10 +475,6 @@
@@ -242,7 +242,7 @@ index 365473e269..52ecd63c5c 100644
      <item msgid="342232116597649254">"Ne"</item>
      <item msgid="2163015208097377388">"Da"</item>
 diff --git a/res/values-ca/arrays.xml b/res/values-ca/arrays.xml
-index 81e9f83fef..24b886f213 100644
+index 81e9f83fef8..24b886f213b 100644
 --- a/res/values-ca/arrays.xml
 +++ b/res/values-ca/arrays.xml
 @@ -475,10 +475,6 @@
@@ -257,7 +257,7 @@ index 81e9f83fef..24b886f213 100644
      <item msgid="342232116597649254">"No"</item>
      <item msgid="2163015208097377388">"Sí"</item>
 diff --git a/res/values-cs/arrays.xml b/res/values-cs/arrays.xml
-index f44b947198..652f2bbf9c 100644
+index f44b947198e..652f2bbf9cb 100644
 --- a/res/values-cs/arrays.xml
 +++ b/res/values-cs/arrays.xml
 @@ -475,10 +475,6 @@
@@ -272,7 +272,7 @@ index f44b947198..652f2bbf9c 100644
      <item msgid="342232116597649254">"Ne"</item>
      <item msgid="2163015208097377388">"Ano"</item>
 diff --git a/res/values-da/arrays.xml b/res/values-da/arrays.xml
-index fd4e58d030..692ef9c8b4 100644
+index fd4e58d030b..692ef9c8b4d 100644
 --- a/res/values-da/arrays.xml
 +++ b/res/values-da/arrays.xml
 @@ -475,10 +475,6 @@
@@ -287,7 +287,7 @@ index fd4e58d030..692ef9c8b4 100644
      <item msgid="342232116597649254">"Nej"</item>
      <item msgid="2163015208097377388">"Ja"</item>
 diff --git a/res/values-de/arrays.xml b/res/values-de/arrays.xml
-index 886c9f68f4..3524eb9ccd 100644
+index 886c9f68f42..3524eb9ccd5 100644
 --- a/res/values-de/arrays.xml
 +++ b/res/values-de/arrays.xml
 @@ -475,10 +475,6 @@
@@ -302,7 +302,7 @@ index 886c9f68f4..3524eb9ccd 100644
      <item msgid="342232116597649254">"Nein"</item>
      <item msgid="2163015208097377388">"Ja"</item>
 diff --git a/res/values-el/arrays.xml b/res/values-el/arrays.xml
-index 6b4a697877..d7cbe3f017 100644
+index 6b4a6978773..d7cbe3f017e 100644
 --- a/res/values-el/arrays.xml
 +++ b/res/values-el/arrays.xml
 @@ -475,10 +475,6 @@
@@ -317,7 +317,7 @@ index 6b4a697877..d7cbe3f017 100644
      <item msgid="342232116597649254">"Όχι"</item>
      <item msgid="2163015208097377388">"Ναι"</item>
 diff --git a/res/values-en-rAU/arrays.xml b/res/values-en-rAU/arrays.xml
-index 62498e8cbf..3684d540c4 100644
+index 62498e8cbf7..3684d540c4a 100644
 --- a/res/values-en-rAU/arrays.xml
 +++ b/res/values-en-rAU/arrays.xml
 @@ -475,10 +475,6 @@
@@ -332,7 +332,7 @@ index 62498e8cbf..3684d540c4 100644
      <item msgid="342232116597649254">"No"</item>
      <item msgid="2163015208097377388">"Yes"</item>
 diff --git a/res/values-en-rCA/arrays.xml b/res/values-en-rCA/arrays.xml
-index 62498e8cbf..3684d540c4 100644
+index 62498e8cbf7..3684d540c4a 100644
 --- a/res/values-en-rCA/arrays.xml
 +++ b/res/values-en-rCA/arrays.xml
 @@ -475,10 +475,6 @@
@@ -347,7 +347,7 @@ index 62498e8cbf..3684d540c4 100644
      <item msgid="342232116597649254">"No"</item>
      <item msgid="2163015208097377388">"Yes"</item>
 diff --git a/res/values-en-rGB/arrays.xml b/res/values-en-rGB/arrays.xml
-index 62498e8cbf..3684d540c4 100644
+index 62498e8cbf7..3684d540c4a 100644
 --- a/res/values-en-rGB/arrays.xml
 +++ b/res/values-en-rGB/arrays.xml
 @@ -475,10 +475,6 @@
@@ -362,7 +362,7 @@ index 62498e8cbf..3684d540c4 100644
      <item msgid="342232116597649254">"No"</item>
      <item msgid="2163015208097377388">"Yes"</item>
 diff --git a/res/values-en-rIN/arrays.xml b/res/values-en-rIN/arrays.xml
-index 62498e8cbf..3684d540c4 100644
+index 62498e8cbf7..3684d540c4a 100644
 --- a/res/values-en-rIN/arrays.xml
 +++ b/res/values-en-rIN/arrays.xml
 @@ -475,10 +475,6 @@
@@ -377,7 +377,7 @@ index 62498e8cbf..3684d540c4 100644
      <item msgid="342232116597649254">"No"</item>
      <item msgid="2163015208097377388">"Yes"</item>
 diff --git a/res/values-en-rXC/arrays.xml b/res/values-en-rXC/arrays.xml
-index 1faec9168a..3762c105b5 100644
+index 1faec9168ad..3762c105b58 100644
 --- a/res/values-en-rXC/arrays.xml
 +++ b/res/values-en-rXC/arrays.xml
 @@ -475,10 +475,6 @@
@@ -392,7 +392,7 @@ index 1faec9168a..3762c105b5 100644
      <item msgid="342232116597649254">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‎‏‏‏‎‎‏‎‏‏‏‏‏‏‏‏‎‏‏‎‏‎‎‏‎‎‏‎‏‏‏‏‏‏‏‏‎‎‏‎‎‎‏‎‎‎‎‏‏‎‏‏‏‏‎‏‏‎‎‏‏‎‎No‎‏‎‎‏‎"</item>
      <item msgid="2163015208097377388">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‏‎‏‏‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‏‎‎‏‎‏‏‎‏‏‏‏‏‎‎‏‎‎‎‏‎‎‏‏‎‏‎‎‏‎‏‏‎‏‏‎‎‎‏‏‎‏‏‎‎‎Yes‎‏‎‎‏‎"</item>
 diff --git a/res/values-es-rUS/arrays.xml b/res/values-es-rUS/arrays.xml
-index b5cee26ce1..8052f71290 100644
+index b5cee26ce1d..8052f71290c 100644
 --- a/res/values-es-rUS/arrays.xml
 +++ b/res/values-es-rUS/arrays.xml
 @@ -475,10 +475,6 @@
@@ -407,7 +407,7 @@ index b5cee26ce1..8052f71290 100644
      <item msgid="342232116597649254">"No"</item>
      <item msgid="2163015208097377388">"Sí"</item>
 diff --git a/res/values-es/arrays.xml b/res/values-es/arrays.xml
-index d60f164a55..24021bc2f0 100644
+index d60f164a55f..24021bc2f04 100644
 --- a/res/values-es/arrays.xml
 +++ b/res/values-es/arrays.xml
 @@ -475,10 +475,6 @@
@@ -422,7 +422,7 @@ index d60f164a55..24021bc2f0 100644
      <item msgid="342232116597649254">"No"</item>
      <item msgid="2163015208097377388">"Sí"</item>
 diff --git a/res/values-et/arrays.xml b/res/values-et/arrays.xml
-index 0836f3a438..17e9768f60 100644
+index 0836f3a4380..17e9768f609 100644
 --- a/res/values-et/arrays.xml
 +++ b/res/values-et/arrays.xml
 @@ -475,10 +475,6 @@
@@ -437,7 +437,7 @@ index 0836f3a438..17e9768f60 100644
      <item msgid="342232116597649254">"Ei"</item>
      <item msgid="2163015208097377388">"Jah"</item>
 diff --git a/res/values-eu/arrays.xml b/res/values-eu/arrays.xml
-index 5924a7c5f7..628c00ffd8 100644
+index 5924a7c5f7c..628c00ffd86 100644
 --- a/res/values-eu/arrays.xml
 +++ b/res/values-eu/arrays.xml
 @@ -475,10 +475,6 @@
@@ -452,7 +452,7 @@ index 5924a7c5f7..628c00ffd8 100644
      <item msgid="342232116597649254">"Ez"</item>
      <item msgid="2163015208097377388">"Bai"</item>
 diff --git a/res/values-fa/arrays.xml b/res/values-fa/arrays.xml
-index a44cefd482..4e4e7f30c5 100644
+index a44cefd4822..4e4e7f30c57 100644
 --- a/res/values-fa/arrays.xml
 +++ b/res/values-fa/arrays.xml
 @@ -475,10 +475,6 @@
@@ -467,7 +467,7 @@ index a44cefd482..4e4e7f30c5 100644
      <item msgid="342232116597649254">"نه"</item>
      <item msgid="2163015208097377388">"بله"</item>
 diff --git a/res/values-fi/arrays.xml b/res/values-fi/arrays.xml
-index 98f0d4db0f..91728473d2 100644
+index 98f0d4db0f0..91728473d26 100644
 --- a/res/values-fi/arrays.xml
 +++ b/res/values-fi/arrays.xml
 @@ -475,10 +475,6 @@
@@ -482,7 +482,7 @@ index 98f0d4db0f..91728473d2 100644
      <item msgid="342232116597649254">"Ei"</item>
      <item msgid="2163015208097377388">"Kyllä"</item>
 diff --git a/res/values-fr-rCA/arrays.xml b/res/values-fr-rCA/arrays.xml
-index ea4cb2d274..36d8a77dfa 100644
+index ea4cb2d2749..36d8a77dfa0 100644
 --- a/res/values-fr-rCA/arrays.xml
 +++ b/res/values-fr-rCA/arrays.xml
 @@ -475,10 +475,6 @@
@@ -497,7 +497,7 @@ index ea4cb2d274..36d8a77dfa 100644
      <item msgid="342232116597649254">"Non"</item>
      <item msgid="2163015208097377388">"Oui"</item>
 diff --git a/res/values-fr/arrays.xml b/res/values-fr/arrays.xml
-index 2673a8f532..7bfea30840 100644
+index 2673a8f5329..7bfea30840d 100644
 --- a/res/values-fr/arrays.xml
 +++ b/res/values-fr/arrays.xml
 @@ -475,10 +475,6 @@
@@ -512,7 +512,7 @@ index 2673a8f532..7bfea30840 100644
      <item msgid="342232116597649254">"Non"</item>
      <item msgid="2163015208097377388">"Oui"</item>
 diff --git a/res/values-gl/arrays.xml b/res/values-gl/arrays.xml
-index eab6c49f03..5085226822 100644
+index eab6c49f03e..5085226822c 100644
 --- a/res/values-gl/arrays.xml
 +++ b/res/values-gl/arrays.xml
 @@ -475,10 +475,6 @@
@@ -527,7 +527,7 @@ index eab6c49f03..5085226822 100644
      <item msgid="342232116597649254">"Non"</item>
      <item msgid="2163015208097377388">"Si"</item>
 diff --git a/res/values-gu/arrays.xml b/res/values-gu/arrays.xml
-index ece9976bcf..51ea73284d 100644
+index ece9976bcfd..51ea73284d9 100644
 --- a/res/values-gu/arrays.xml
 +++ b/res/values-gu/arrays.xml
 @@ -475,10 +475,6 @@
@@ -542,7 +542,7 @@ index ece9976bcf..51ea73284d 100644
      <item msgid="342232116597649254">"ના"</item>
      <item msgid="2163015208097377388">"હા"</item>
 diff --git a/res/values-hi/arrays.xml b/res/values-hi/arrays.xml
-index b0b1aedaba..a3eb3167a9 100644
+index b0b1aedaba0..a3eb3167a9f 100644
 --- a/res/values-hi/arrays.xml
 +++ b/res/values-hi/arrays.xml
 @@ -475,10 +475,6 @@
@@ -557,7 +557,7 @@ index b0b1aedaba..a3eb3167a9 100644
      <item msgid="342232116597649254">"नहीं"</item>
      <item msgid="2163015208097377388">"हां"</item>
 diff --git a/res/values-hr/arrays.xml b/res/values-hr/arrays.xml
-index 2a865b6e30..1fd6bd79c8 100644
+index 2a865b6e306..1fd6bd79c8a 100644
 --- a/res/values-hr/arrays.xml
 +++ b/res/values-hr/arrays.xml
 @@ -475,10 +475,6 @@
@@ -572,7 +572,7 @@ index 2a865b6e30..1fd6bd79c8 100644
      <item msgid="342232116597649254">"Ne"</item>
      <item msgid="2163015208097377388">"Da"</item>
 diff --git a/res/values-hu/arrays.xml b/res/values-hu/arrays.xml
-index 1cee4db941..fb7893d70e 100644
+index 1cee4db9416..fb7893d70e2 100644
 --- a/res/values-hu/arrays.xml
 +++ b/res/values-hu/arrays.xml
 @@ -475,10 +475,6 @@
@@ -587,7 +587,7 @@ index 1cee4db941..fb7893d70e 100644
      <item msgid="342232116597649254">"Nem"</item>
      <item msgid="2163015208097377388">"Igen"</item>
 diff --git a/res/values-hy/arrays.xml b/res/values-hy/arrays.xml
-index a31975ca6b..8815456dec 100644
+index a31975ca6bc..8815456dec9 100644
 --- a/res/values-hy/arrays.xml
 +++ b/res/values-hy/arrays.xml
 @@ -475,10 +475,6 @@
@@ -602,7 +602,7 @@ index a31975ca6b..8815456dec 100644
      <item msgid="342232116597649254">"Ոչ"</item>
      <item msgid="2163015208097377388">"Այո"</item>
 diff --git a/res/values-in/arrays.xml b/res/values-in/arrays.xml
-index 5cad411615..a9a4803355 100644
+index 5cad4116156..a9a48033550 100644
 --- a/res/values-in/arrays.xml
 +++ b/res/values-in/arrays.xml
 @@ -475,10 +475,6 @@
@@ -617,7 +617,7 @@ index 5cad411615..a9a4803355 100644
      <item msgid="342232116597649254">"Tidak"</item>
      <item msgid="2163015208097377388">"Ya"</item>
 diff --git a/res/values-is/arrays.xml b/res/values-is/arrays.xml
-index 135aee5854..07f5265219 100644
+index 135aee58543..07f52652190 100644
 --- a/res/values-is/arrays.xml
 +++ b/res/values-is/arrays.xml
 @@ -475,10 +475,6 @@
@@ -632,7 +632,7 @@ index 135aee5854..07f5265219 100644
      <item msgid="342232116597649254">"Nei"</item>
      <item msgid="2163015208097377388">"Já"</item>
 diff --git a/res/values-it/arrays.xml b/res/values-it/arrays.xml
-index fa9f8a5c7e..43e0493159 100644
+index fa9f8a5c7e3..43e04931595 100644
 --- a/res/values-it/arrays.xml
 +++ b/res/values-it/arrays.xml
 @@ -475,10 +475,6 @@
@@ -647,7 +647,7 @@ index fa9f8a5c7e..43e0493159 100644
      <item msgid="342232116597649254">"No"</item>
      <item msgid="2163015208097377388">"Sì"</item>
 diff --git a/res/values-iw/arrays.xml b/res/values-iw/arrays.xml
-index 6e699a5943..d5b6c1bb18 100644
+index 6e699a59438..d5b6c1bb18c 100644
 --- a/res/values-iw/arrays.xml
 +++ b/res/values-iw/arrays.xml
 @@ -475,10 +475,6 @@
@@ -662,7 +662,7 @@ index 6e699a5943..d5b6c1bb18 100644
      <item msgid="342232116597649254">"לא"</item>
      <item msgid="2163015208097377388">"כן"</item>
 diff --git a/res/values-ja/arrays.xml b/res/values-ja/arrays.xml
-index ec6032a37b..0eed2ba98f 100644
+index ec6032a37be..0eed2ba98fb 100644
 --- a/res/values-ja/arrays.xml
 +++ b/res/values-ja/arrays.xml
 @@ -475,10 +475,6 @@
@@ -677,7 +677,7 @@ index ec6032a37b..0eed2ba98f 100644
      <item msgid="342232116597649254">"いいえ"</item>
      <item msgid="2163015208097377388">"はい"</item>
 diff --git a/res/values-ka/arrays.xml b/res/values-ka/arrays.xml
-index 5a5ddf40dc..26c952765c 100644
+index 5a5ddf40dca..26c952765cd 100644
 --- a/res/values-ka/arrays.xml
 +++ b/res/values-ka/arrays.xml
 @@ -475,10 +475,6 @@
@@ -692,7 +692,7 @@ index 5a5ddf40dc..26c952765c 100644
      <item msgid="342232116597649254">"არა"</item>
      <item msgid="2163015208097377388">"დიახ"</item>
 diff --git a/res/values-kk/arrays.xml b/res/values-kk/arrays.xml
-index 296f53f2c0..17eb66ed83 100644
+index 296f53f2c00..17eb66ed83f 100644
 --- a/res/values-kk/arrays.xml
 +++ b/res/values-kk/arrays.xml
 @@ -475,10 +475,6 @@
@@ -707,7 +707,7 @@ index 296f53f2c0..17eb66ed83 100644
      <item msgid="342232116597649254">"Жоқ"</item>
      <item msgid="2163015208097377388">"Иә"</item>
 diff --git a/res/values-km/arrays.xml b/res/values-km/arrays.xml
-index c8ccd75d46..0f3e9543e7 100644
+index c8ccd75d46f..0f3e9543e79 100644
 --- a/res/values-km/arrays.xml
 +++ b/res/values-km/arrays.xml
 @@ -475,10 +475,6 @@
@@ -722,7 +722,7 @@ index c8ccd75d46..0f3e9543e7 100644
      <item msgid="342232116597649254">"ទេ"</item>
      <item msgid="2163015208097377388">"បាទ/ចាស"</item>
 diff --git a/res/values-kn/arrays.xml b/res/values-kn/arrays.xml
-index 4cf184bc0e..84e36ff71f 100644
+index 4cf184bc0ec..84e36ff71f4 100644
 --- a/res/values-kn/arrays.xml
 +++ b/res/values-kn/arrays.xml
 @@ -475,10 +475,6 @@
@@ -737,7 +737,7 @@ index 4cf184bc0e..84e36ff71f 100644
      <item msgid="342232116597649254">"ಇಲ್ಲ"</item>
      <item msgid="2163015208097377388">"ಹೌದು"</item>
 diff --git a/res/values-ko/arrays.xml b/res/values-ko/arrays.xml
-index ebaf3c0ba3..c4156fe1a4 100644
+index ebaf3c0ba30..c4156fe1a4d 100644
 --- a/res/values-ko/arrays.xml
 +++ b/res/values-ko/arrays.xml
 @@ -475,10 +475,6 @@
@@ -752,7 +752,7 @@ index ebaf3c0ba3..c4156fe1a4 100644
      <item msgid="342232116597649254">"아니요"</item>
      <item msgid="2163015208097377388">"예"</item>
 diff --git a/res/values-ky/arrays.xml b/res/values-ky/arrays.xml
-index 165f2c6b33..17e8bae37e 100644
+index 165f2c6b338..17e8bae37e2 100644
 --- a/res/values-ky/arrays.xml
 +++ b/res/values-ky/arrays.xml
 @@ -475,10 +475,6 @@
@@ -767,7 +767,7 @@ index 165f2c6b33..17e8bae37e 100644
      <item msgid="342232116597649254">"Жок"</item>
      <item msgid="2163015208097377388">"Ооба"</item>
 diff --git a/res/values-lo/arrays.xml b/res/values-lo/arrays.xml
-index 48d3bd9b83..f1373922b6 100644
+index 48d3bd9b838..f1373922b68 100644
 --- a/res/values-lo/arrays.xml
 +++ b/res/values-lo/arrays.xml
 @@ -475,10 +475,6 @@
@@ -782,7 +782,7 @@ index 48d3bd9b83..f1373922b6 100644
      <item msgid="342232116597649254">"ບໍ່"</item>
      <item msgid="2163015208097377388">"ແມ່ນ"</item>
 diff --git a/res/values-lt/arrays.xml b/res/values-lt/arrays.xml
-index bf9dbe19a2..324451d99b 100644
+index bf9dbe19a22..324451d99b4 100644
 --- a/res/values-lt/arrays.xml
 +++ b/res/values-lt/arrays.xml
 @@ -475,10 +475,6 @@
@@ -797,7 +797,7 @@ index bf9dbe19a2..324451d99b 100644
      <item msgid="342232116597649254">"Ne"</item>
      <item msgid="2163015208097377388">"Taip"</item>
 diff --git a/res/values-lv/arrays.xml b/res/values-lv/arrays.xml
-index 0463c08d65..c3c2cdd6a2 100644
+index 0463c08d65d..c3c2cdd6a2e 100644
 --- a/res/values-lv/arrays.xml
 +++ b/res/values-lv/arrays.xml
 @@ -475,10 +475,6 @@
@@ -812,7 +812,7 @@ index 0463c08d65..c3c2cdd6a2 100644
      <item msgid="342232116597649254">"Nē"</item>
      <item msgid="2163015208097377388">"Jā"</item>
 diff --git a/res/values-mk/arrays.xml b/res/values-mk/arrays.xml
-index f4fb3d37d2..6614a5dd30 100644
+index f4fb3d37d2a..6614a5dd300 100644
 --- a/res/values-mk/arrays.xml
 +++ b/res/values-mk/arrays.xml
 @@ -475,10 +475,6 @@
@@ -827,7 +827,7 @@ index f4fb3d37d2..6614a5dd30 100644
      <item msgid="342232116597649254">"Не"</item>
      <item msgid="2163015208097377388">"Да"</item>
 diff --git a/res/values-ml/arrays.xml b/res/values-ml/arrays.xml
-index 90f5e2de07..48bef28038 100644
+index 90f5e2de07f..48bef28038c 100644
 --- a/res/values-ml/arrays.xml
 +++ b/res/values-ml/arrays.xml
 @@ -475,10 +475,6 @@
@@ -842,7 +842,7 @@ index 90f5e2de07..48bef28038 100644
      <item msgid="342232116597649254">"ഇല്ല"</item>
      <item msgid="2163015208097377388">"ഉവ്വ്"</item>
 diff --git a/res/values-mn/arrays.xml b/res/values-mn/arrays.xml
-index 0fc94feb47..29aa5258f9 100644
+index 0fc94feb47e..29aa5258f9d 100644
 --- a/res/values-mn/arrays.xml
 +++ b/res/values-mn/arrays.xml
 @@ -475,10 +475,6 @@
@@ -857,7 +857,7 @@ index 0fc94feb47..29aa5258f9 100644
      <item msgid="342232116597649254">"Үгүй"</item>
      <item msgid="2163015208097377388">"Тийм"</item>
 diff --git a/res/values-mr/arrays.xml b/res/values-mr/arrays.xml
-index 19eed5bd5b..dfd860952c 100644
+index 19eed5bd5be..dfd860952c7 100644
 --- a/res/values-mr/arrays.xml
 +++ b/res/values-mr/arrays.xml
 @@ -475,10 +475,6 @@
@@ -872,7 +872,7 @@ index 19eed5bd5b..dfd860952c 100644
      <item msgid="342232116597649254">"नाही"</item>
      <item msgid="2163015208097377388">"होय"</item>
 diff --git a/res/values-ms/arrays.xml b/res/values-ms/arrays.xml
-index 7a61cb0473..e9db095279 100644
+index 7a61cb0473d..e9db0952792 100644
 --- a/res/values-ms/arrays.xml
 +++ b/res/values-ms/arrays.xml
 @@ -475,10 +475,6 @@
@@ -887,7 +887,7 @@ index 7a61cb0473..e9db095279 100644
      <item msgid="342232116597649254">"Tidak"</item>
      <item msgid="2163015208097377388">"Ya"</item>
 diff --git a/res/values-my/arrays.xml b/res/values-my/arrays.xml
-index 60eb09db46..0a48a4fdcf 100644
+index 60eb09db465..0a48a4fdcf0 100644
 --- a/res/values-my/arrays.xml
 +++ b/res/values-my/arrays.xml
 @@ -475,10 +475,6 @@
@@ -902,7 +902,7 @@ index 60eb09db46..0a48a4fdcf 100644
      <item msgid="342232116597649254">"No"</item>
      <item msgid="2163015208097377388">"Yes"</item>
 diff --git a/res/values-nb/arrays.xml b/res/values-nb/arrays.xml
-index 73f2b60d75..0a848af8c2 100644
+index 73f2b60d75f..0a848af8c2b 100644
 --- a/res/values-nb/arrays.xml
 +++ b/res/values-nb/arrays.xml
 @@ -475,10 +475,6 @@
@@ -917,7 +917,7 @@ index 73f2b60d75..0a848af8c2 100644
      <item msgid="342232116597649254">"Nei"</item>
      <item msgid="2163015208097377388">"Ja"</item>
 diff --git a/res/values-ne/arrays.xml b/res/values-ne/arrays.xml
-index 3f4810694d..f7d966ac45 100644
+index 3f4810694d7..f7d966ac450 100644
 --- a/res/values-ne/arrays.xml
 +++ b/res/values-ne/arrays.xml
 @@ -475,10 +475,6 @@
@@ -932,7 +932,7 @@ index 3f4810694d..f7d966ac45 100644
      <item msgid="342232116597649254">"होइन"</item>
      <item msgid="2163015208097377388">"हो"</item>
 diff --git a/res/values-nl/arrays.xml b/res/values-nl/arrays.xml
-index ae3fbb3286..fc48746a6a 100644
+index ae3fbb32869..fc48746a6a3 100644
 --- a/res/values-nl/arrays.xml
 +++ b/res/values-nl/arrays.xml
 @@ -475,10 +475,6 @@
@@ -947,7 +947,7 @@ index ae3fbb3286..fc48746a6a 100644
      <item msgid="342232116597649254">"Nee"</item>
      <item msgid="2163015208097377388">"Ja"</item>
 diff --git a/res/values-or/arrays.xml b/res/values-or/arrays.xml
-index cb53759887..11469a960e 100644
+index cb53759887f..11469a960e5 100644
 --- a/res/values-or/arrays.xml
 +++ b/res/values-or/arrays.xml
 @@ -475,10 +475,6 @@
@@ -962,7 +962,7 @@ index cb53759887..11469a960e 100644
      <item msgid="342232116597649254">"ନା"</item>
      <item msgid="2163015208097377388">"ହଁ"</item>
 diff --git a/res/values-pa/arrays.xml b/res/values-pa/arrays.xml
-index 9ab1d808bc..19a251fb80 100644
+index 9ab1d808bc8..19a251fb80d 100644
 --- a/res/values-pa/arrays.xml
 +++ b/res/values-pa/arrays.xml
 @@ -475,10 +475,6 @@
@@ -977,7 +977,7 @@ index 9ab1d808bc..19a251fb80 100644
      <item msgid="342232116597649254">"ਨਹੀਂ"</item>
      <item msgid="2163015208097377388">"ਹਾਂ"</item>
 diff --git a/res/values-pl/arrays.xml b/res/values-pl/arrays.xml
-index 1b0f899fcb..ca2b43b031 100644
+index 1b0f899fcbd..ca2b43b0313 100644
 --- a/res/values-pl/arrays.xml
 +++ b/res/values-pl/arrays.xml
 @@ -475,10 +475,6 @@
@@ -992,7 +992,7 @@ index 1b0f899fcb..ca2b43b031 100644
      <item msgid="342232116597649254">"Nie"</item>
      <item msgid="2163015208097377388">"Tak"</item>
 diff --git a/res/values-pt-rBR/arrays.xml b/res/values-pt-rBR/arrays.xml
-index 0cb0d0c1ee..6bbd0c3d35 100644
+index 0cb0d0c1ee6..6bbd0c3d35c 100644
 --- a/res/values-pt-rBR/arrays.xml
 +++ b/res/values-pt-rBR/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1007,7 +1007,7 @@ index 0cb0d0c1ee..6bbd0c3d35 100644
      <item msgid="342232116597649254">"Não"</item>
      <item msgid="2163015208097377388">"Sim"</item>
 diff --git a/res/values-pt-rPT/arrays.xml b/res/values-pt-rPT/arrays.xml
-index aec6985e28..953ce83cb7 100644
+index aec6985e280..953ce83cb71 100644
 --- a/res/values-pt-rPT/arrays.xml
 +++ b/res/values-pt-rPT/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1022,7 +1022,7 @@ index aec6985e28..953ce83cb7 100644
      <item msgid="342232116597649254">"Não"</item>
      <item msgid="2163015208097377388">"Sim"</item>
 diff --git a/res/values-pt/arrays.xml b/res/values-pt/arrays.xml
-index 0cb0d0c1ee..6bbd0c3d35 100644
+index 0cb0d0c1ee6..6bbd0c3d35c 100644
 --- a/res/values-pt/arrays.xml
 +++ b/res/values-pt/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1037,7 +1037,7 @@ index 0cb0d0c1ee..6bbd0c3d35 100644
      <item msgid="342232116597649254">"Não"</item>
      <item msgid="2163015208097377388">"Sim"</item>
 diff --git a/res/values-ro/arrays.xml b/res/values-ro/arrays.xml
-index f12e145e4d..d31680423b 100644
+index f12e145e4dc..d31680423b6 100644
 --- a/res/values-ro/arrays.xml
 +++ b/res/values-ro/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1052,7 +1052,7 @@ index f12e145e4d..d31680423b 100644
      <item msgid="342232116597649254">"Nu"</item>
      <item msgid="2163015208097377388">"Da"</item>
 diff --git a/res/values-ru/arrays.xml b/res/values-ru/arrays.xml
-index ac5e085dc1..4f3f001d52 100644
+index ac5e085dc10..4f3f001d52f 100644
 --- a/res/values-ru/arrays.xml
 +++ b/res/values-ru/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1067,7 +1067,7 @@ index ac5e085dc1..4f3f001d52 100644
      <item msgid="342232116597649254">"Нет"</item>
      <item msgid="2163015208097377388">"Да"</item>
 diff --git a/res/values-si/arrays.xml b/res/values-si/arrays.xml
-index 67c9a97f09..967ab1847a 100644
+index 67c9a97f091..967ab1847ab 100644
 --- a/res/values-si/arrays.xml
 +++ b/res/values-si/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1082,7 +1082,7 @@ index 67c9a97f09..967ab1847a 100644
      <item msgid="342232116597649254">"නැත"</item>
      <item msgid="2163015208097377388">"ඔව්"</item>
 diff --git a/res/values-sk/arrays.xml b/res/values-sk/arrays.xml
-index 639e8faafa..b4bceee991 100644
+index 639e8faafa7..b4bceee9912 100644
 --- a/res/values-sk/arrays.xml
 +++ b/res/values-sk/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1097,7 +1097,7 @@ index 639e8faafa..b4bceee991 100644
      <item msgid="342232116597649254">"Nie"</item>
      <item msgid="2163015208097377388">"Áno"</item>
 diff --git a/res/values-sl/arrays.xml b/res/values-sl/arrays.xml
-index 31ff81fef9..4bc9cf638e 100644
+index 31ff81fef93..4bc9cf638e7 100644
 --- a/res/values-sl/arrays.xml
 +++ b/res/values-sl/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1112,7 +1112,7 @@ index 31ff81fef9..4bc9cf638e 100644
      <item msgid="342232116597649254">"Ne"</item>
      <item msgid="2163015208097377388">"Da"</item>
 diff --git a/res/values-sq/arrays.xml b/res/values-sq/arrays.xml
-index 5a9fde5c17..fe8b19cf2b 100644
+index 5a9fde5c178..fe8b19cf2bb 100644
 --- a/res/values-sq/arrays.xml
 +++ b/res/values-sq/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1127,7 +1127,7 @@ index 5a9fde5c17..fe8b19cf2b 100644
      <item msgid="342232116597649254">"Jo"</item>
      <item msgid="2163015208097377388">"Po"</item>
 diff --git a/res/values-sr/arrays.xml b/res/values-sr/arrays.xml
-index 1c975e04c8..8308828975 100644
+index 1c975e04c8e..83088289757 100644
 --- a/res/values-sr/arrays.xml
 +++ b/res/values-sr/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1142,7 +1142,7 @@ index 1c975e04c8..8308828975 100644
      <item msgid="342232116597649254">"Не"</item>
      <item msgid="2163015208097377388">"Да"</item>
 diff --git a/res/values-sv/arrays.xml b/res/values-sv/arrays.xml
-index 00c54a0cb6..95a2a40c9c 100644
+index 00c54a0cb6a..95a2a40c9ca 100644
 --- a/res/values-sv/arrays.xml
 +++ b/res/values-sv/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1157,7 +1157,7 @@ index 00c54a0cb6..95a2a40c9c 100644
      <item msgid="342232116597649254">"Nej"</item>
      <item msgid="2163015208097377388">"Ja"</item>
 diff --git a/res/values-sw/arrays.xml b/res/values-sw/arrays.xml
-index 6eed66078e..d9bffc9693 100644
+index 6eed66078e1..d9bffc96938 100644
 --- a/res/values-sw/arrays.xml
 +++ b/res/values-sw/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1172,7 +1172,7 @@ index 6eed66078e..d9bffc9693 100644
      <item msgid="342232116597649254">"Hapana"</item>
      <item msgid="2163015208097377388">"Ndiyo"</item>
 diff --git a/res/values-ta/arrays.xml b/res/values-ta/arrays.xml
-index 9135fffcfa..f894b9247d 100644
+index 9135fffcfad..f894b9247d0 100644
 --- a/res/values-ta/arrays.xml
 +++ b/res/values-ta/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1187,7 +1187,7 @@ index 9135fffcfa..f894b9247d 100644
      <item msgid="342232116597649254">"வேண்டாம்"</item>
      <item msgid="2163015208097377388">"ஆம்"</item>
 diff --git a/res/values-te/arrays.xml b/res/values-te/arrays.xml
-index 7c9270691b..fd2f4ce74f 100644
+index 7c9270691b3..fd2f4ce74f7 100644
 --- a/res/values-te/arrays.xml
 +++ b/res/values-te/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1202,7 +1202,7 @@ index 7c9270691b..fd2f4ce74f 100644
      <item msgid="342232116597649254">"లేదు"</item>
      <item msgid="2163015208097377388">"అవును"</item>
 diff --git a/res/values-th/arrays.xml b/res/values-th/arrays.xml
-index 33fbe3bb8c..723d88c59c 100644
+index 33fbe3bb8c1..723d88c59c7 100644
 --- a/res/values-th/arrays.xml
 +++ b/res/values-th/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1217,7 +1217,7 @@ index 33fbe3bb8c..723d88c59c 100644
      <item msgid="342232116597649254">"ไม่"</item>
      <item msgid="2163015208097377388">"ใช่"</item>
 diff --git a/res/values-tl/arrays.xml b/res/values-tl/arrays.xml
-index 3d439a67e6..62d500b96f 100644
+index 3d439a67e6e..62d500b96fb 100644
 --- a/res/values-tl/arrays.xml
 +++ b/res/values-tl/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1232,7 +1232,7 @@ index 3d439a67e6..62d500b96f 100644
      <item msgid="342232116597649254">"Hindi"</item>
      <item msgid="2163015208097377388">"Oo"</item>
 diff --git a/res/values-tr/arrays.xml b/res/values-tr/arrays.xml
-index 080847c4cb..e4f388e05c 100644
+index 080847c4cb8..e4f388e05c5 100644
 --- a/res/values-tr/arrays.xml
 +++ b/res/values-tr/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1247,7 +1247,7 @@ index 080847c4cb..e4f388e05c 100644
      <item msgid="342232116597649254">"Hayır"</item>
      <item msgid="2163015208097377388">"Evet"</item>
 diff --git a/res/values-uk/arrays.xml b/res/values-uk/arrays.xml
-index 850a400846..c001d9a2a3 100644
+index 850a4008464..c001d9a2a34 100644
 --- a/res/values-uk/arrays.xml
 +++ b/res/values-uk/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1262,7 +1262,7 @@ index 850a400846..c001d9a2a3 100644
      <item msgid="342232116597649254">"Ні"</item>
      <item msgid="2163015208097377388">"Так"</item>
 diff --git a/res/values-ur/arrays.xml b/res/values-ur/arrays.xml
-index 8b13cf953d..4b377bfc5a 100644
+index 8b13cf953da..4b377bfc5a6 100644
 --- a/res/values-ur/arrays.xml
 +++ b/res/values-ur/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1277,7 +1277,7 @@ index 8b13cf953d..4b377bfc5a 100644
      <item msgid="342232116597649254">"نہیں"</item>
      <item msgid="2163015208097377388">"ہاں"</item>
 diff --git a/res/values-uz/arrays.xml b/res/values-uz/arrays.xml
-index abe944c792..775149e27c 100644
+index abe944c792d..775149e27ce 100644
 --- a/res/values-uz/arrays.xml
 +++ b/res/values-uz/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1292,7 +1292,7 @@ index abe944c792..775149e27c 100644
      <item msgid="342232116597649254">"Yo‘q"</item>
      <item msgid="2163015208097377388">"Ha"</item>
 diff --git a/res/values-vi/arrays.xml b/res/values-vi/arrays.xml
-index e54b3bc05c..d988e368a5 100644
+index e54b3bc05ce..d988e368a5d 100644
 --- a/res/values-vi/arrays.xml
 +++ b/res/values-vi/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1307,7 +1307,7 @@ index e54b3bc05c..d988e368a5 100644
      <item msgid="342232116597649254">"Không"</item>
      <item msgid="2163015208097377388">"Có"</item>
 diff --git a/res/values-zh-rCN/arrays.xml b/res/values-zh-rCN/arrays.xml
-index fffcf47ae6..1b4a951c70 100644
+index fffcf47ae62..1b4a951c701 100644
 --- a/res/values-zh-rCN/arrays.xml
 +++ b/res/values-zh-rCN/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1322,7 +1322,7 @@ index fffcf47ae6..1b4a951c70 100644
      <item msgid="342232116597649254">"否"</item>
      <item msgid="2163015208097377388">"是"</item>
 diff --git a/res/values-zh-rHK/arrays.xml b/res/values-zh-rHK/arrays.xml
-index 7055620562..9de09cd360 100644
+index 7055620562f..9de09cd360e 100644
 --- a/res/values-zh-rHK/arrays.xml
 +++ b/res/values-zh-rHK/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1337,7 +1337,7 @@ index 7055620562..9de09cd360 100644
      <item msgid="342232116597649254">"否"</item>
      <item msgid="2163015208097377388">"是"</item>
 diff --git a/res/values-zh-rTW/arrays.xml b/res/values-zh-rTW/arrays.xml
-index 2dd50e6cc8..932faf2958 100644
+index 2dd50e6cc83..932faf2958b 100644
 --- a/res/values-zh-rTW/arrays.xml
 +++ b/res/values-zh-rTW/arrays.xml
 @@ -475,10 +475,6 @@
@@ -1352,7 +1352,7 @@ index 2dd50e6cc8..932faf2958 100644
      <item msgid="342232116597649254">"否"</item>
      <item msgid="2163015208097377388">"是"</item>
 diff --git a/res/values-zu/arrays.xml b/res/values-zu/arrays.xml
-index 9a31ab4a07..aa7ae71e02 100644
+index 9a31ab4a07b..aa7ae71e02b 100644
 --- a/res/values-zu/arrays.xml
 +++ b/res/values-zu/arrays.xml
 @@ -475,10 +475,6 @@

@@ -11,7 +11,7 @@ Change-Id: Ic1dce1c0fffc3c3f6459c4c85e0a64d480d3315a
  2 files changed, 53 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index c7c55d381e..fd6f4178bd 100644
+index c7c55d381e1..fd6f4178bd8 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
 @@ -3080,17 +3080,6 @@
@@ -33,7 +33,7 @@ index c7c55d381e..fd6f4178bd 100644
              android:name=".HelpTrampoline"
              android:exported="true"
 diff --git a/src/com/android/settings/development/qstile/DevelopmentTiles.java b/src/com/android/settings/development/qstile/DevelopmentTiles.java
-index bb791abef8..2fdb410150 100644
+index bb791abef81..2fdb410150e 100644
 --- a/src/com/android/settings/development/qstile/DevelopmentTiles.java
 +++ b/src/com/android/settings/development/qstile/DevelopmentTiles.java
 @@ -20,7 +20,6 @@ import android.app.settings.SettingsEnums;

@@ -29,7 +29,7 @@ Change-Id: Ibbffdb5f3930df74ca8b4ba93d451f7fad086989
  create mode 100644 src/com/android/settings/network/CaptivePortalWarningDialogHost.java
 
 diff --git a/res/values-de/cm_strings.xml b/res/values-de/cm_strings.xml
-index d1ed0c6863..7ab4de0561 100644
+index d1ed0c68631..7ab4de05610 100644
 --- a/res/values-de/cm_strings.xml
 +++ b/res/values-de/cm_strings.xml
 @@ -112,4 +112,7 @@
@@ -41,7 +41,7 @@ index d1ed0c6863..7ab4de0561 100644
 +    <string name="captive_portal_switch_warning">Nach dem Ausschalten der Captive-Portal-Erkennung empfangen Sie keine Verbindungs-Rückmeldung mehr. Wirklich fortfahren?</string>
  </resources>
 diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
-index 12ad48e683..44fad8e762 100644
+index 12ad48e6834..44fad8e762a 100644
 --- a/res/values/cm_strings.xml
 +++ b/res/values/cm_strings.xml
 @@ -197,4 +197,9 @@
@@ -55,7 +55,7 @@ index 12ad48e683..44fad8e762 100644
 +    <string name="captive_portal_switch_warning">If you switch off the captive portal, you will not receive connectivity informations any longer. Really switch off?</string>
  </resources>
 diff --git a/res/xml/network_and_internet.xml b/res/xml/network_and_internet.xml
-index 32b51d48fc..456f169e8f 100644
+index 32b51d48fca..456f169e8fa 100644
 --- a/res/xml/network_and_internet.xml
 +++ b/res/xml/network_and_internet.xml
 @@ -97,4 +97,10 @@
@@ -70,7 +70,7 @@ index 32b51d48fc..456f169e8f 100644
 +
  </PreferenceScreen>
 diff --git a/res/xml/network_and_internet_v2.xml b/res/xml/network_and_internet_v2.xml
-index 36044803d1..e2a271f63a 100644
+index 36044803d1f..e2a271f63a8 100644
 --- a/res/xml/network_and_internet_v2.xml
 +++ b/res/xml/network_and_internet_v2.xml
 @@ -107,4 +107,10 @@
@@ -85,7 +85,7 @@ index 36044803d1..e2a271f63a 100644
 +
  </PreferenceScreen>
 diff --git a/src/com/android/settings/ResetNetworkConfirm.java b/src/com/android/settings/ResetNetworkConfirm.java
-index beb0528f6a..e24cbfc424 100644
+index beb0528f6a9..e24cbfc424d 100644
 --- a/src/com/android/settings/ResetNetworkConfirm.java
 +++ b/src/com/android/settings/ResetNetworkConfirm.java
 @@ -35,6 +35,7 @@ import android.os.Bundle;
@@ -108,7 +108,7 @@ index beb0528f6a..e24cbfc424 100644
              restoreDefaultApn(mContext);
 diff --git a/src/com/android/settings/network/CaptivePortalModePreferenceController.java b/src/com/android/settings/network/CaptivePortalModePreferenceController.java
 new file mode 100644
-index 0000000000..ae21b29292
+index 00000000000..ae21b292922
 --- /dev/null
 +++ b/src/com/android/settings/network/CaptivePortalModePreferenceController.java
 @@ -0,0 +1,82 @@
@@ -196,7 +196,7 @@ index 0000000000..ae21b29292
 +}
 diff --git a/src/com/android/settings/network/CaptivePortalWarningDialog.java b/src/com/android/settings/network/CaptivePortalWarningDialog.java
 new file mode 100644
-index 0000000000..d27bd7d2f0
+index 00000000000..d27bd7d2f06
 --- /dev/null
 +++ b/src/com/android/settings/network/CaptivePortalWarningDialog.java
 @@ -0,0 +1,74 @@
@@ -276,7 +276,7 @@ index 0000000000..d27bd7d2f0
 +}
 diff --git a/src/com/android/settings/network/CaptivePortalWarningDialogHost.java b/src/com/android/settings/network/CaptivePortalWarningDialogHost.java
 new file mode 100644
-index 0000000000..7a04d1f831
+index 00000000000..7a04d1f8311
 --- /dev/null
 +++ b/src/com/android/settings/network/CaptivePortalWarningDialogHost.java
 @@ -0,0 +1,32 @@
@@ -313,7 +313,7 @@ index 0000000000..7a04d1f831
 +    void onCaptivePortalSwitchOffDialogDismissed();
 +}
 diff --git a/src/com/android/settings/network/NetworkDashboardFragment.java b/src/com/android/settings/network/NetworkDashboardFragment.java
-index 8c686a54aa..f16d489331 100644
+index 8c686a54aae..f16d4893317 100644
 --- a/src/com/android/settings/network/NetworkDashboardFragment.java
 +++ b/src/com/android/settings/network/NetworkDashboardFragment.java
 @@ -44,7 +44,7 @@ import java.util.List;
