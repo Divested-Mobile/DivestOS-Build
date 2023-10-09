@@ -92,7 +92,6 @@ applyPatch "$DOS_PATCHES/android_device_qcom_sepolicy/0001-Camera_Fix.patch"; #F
 fi;
 
 if enterAndClear "external/aac"; then
-#applyPatch "$DOS_PATCHES/android_external_aac/364027-backport.patch"; #R_asb_2023-08 Increase patchParam array size by one and fix out-of-bounce write in resetLppTransposer().
 applyPatch "$DOS_PATCHES/android_external_aac/364027.patch"; #R_asb_2023-08 Increase patchParam array size by one and fix out-of-bounce write in resetLppTransposer().
 fi;
 
@@ -136,7 +135,6 @@ git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefil
 fi;
 
 if enterAndClear "external/webp"; then
-applyPatch "$DOS_PATCHES_COMMON/android_external_webp/CVE-2023-4863.patch"; #Fix OOB write in BuildHuffmanTable.
 sed -i '85i\ \ \ \ \ \ \ \ "src/utils/filters_utils.c",' Android.bp; #Fixup
 fi;
 

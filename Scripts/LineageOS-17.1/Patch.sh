@@ -98,7 +98,6 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
-sed -i 's/2023-06-05/2023-09-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2023-09 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -111,10 +110,6 @@ applyPatch "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.pat
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #Ignore neverallow violations XXX: necessary for -user builds of legacy devices
 fi;
 
-if enterAndClear "external/aac"; then
-applyPatch "$DOS_PATCHES/android_external_aac/364027.patch"; #R_asb_2023-08 Increase patchParam array size by one and fix out-of-bounce write in resetLppTransposer().
-fi;
-
 if enterAndClear "external/chromium-webview"; then
 if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then DOS_WEBVIEW_CHERRYPICK; fi; #Update the WebView to latest if available
 if [ "$DOS_WEBVIEW_LFS" = true ]; then git lfs pull; fi; #Ensure the objects are available
@@ -122,11 +117,6 @@ fi;
 
 if enterAndClear "external/conscrypt"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_external_conscrypt/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
-fi;
-
-if enterAndClear "external/freetype"; then
-applyPatch "$DOS_PATCHES/android_external_freetype/360951.patch"; #R_asb_2023-07 Cherry-pick two upstream changes
-applyPatch "$DOS_PATCHES/android_external_freetype/364028-backport.patch"; #R_asb_2023-08 Cherrypick following three changes
 fi;
 
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
@@ -146,44 +136,11 @@ sed -i 's/about to delete/unable to delete/' pico/src/com/svox/pico/LangPackUnin
 awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.java;
 fi;
 
-if enterAndClear "external/webp"; then
-applyPatch "$DOS_PATCHES_COMMON/android_external_webp/CVE-2023-4863.patch"; #Fix OOB write in BuildHuffmanTable.
-fi;
-
 if enterAndClear "external/zlib"; then
 git fetch https://github.com/LineageOS/android_external_zlib refs/changes/70/352570/1 && git cherry-pick FETCH_HEAD; #Q_asb_2023-03
 fi;
 
-if enterAndClear "frameworks/av"; then
-applyPatch "$DOS_PATCHES/android_frameworks_av/365962.patch"; #R_asb_2023-09 Fix Segv on unknown address error flagged by fuzzer test.
-fi;
-
 if enterAndClear "frameworks/base"; then
-applyPatch "$DOS_PATCHES/android_frameworks_base/360952-backport.patch"; #R_asb_2023-07 Passpoint Add more check to limit the config size
-applyPatch "$DOS_PATCHES/android_frameworks_base/360953-backport.patch"; #R_asb_2023-07 Sanitize VPN label to prevent HTML injection
-applyPatch "$DOS_PATCHES/android_frameworks_base/360954.patch"; #R_asb_2023-07 Limit the number of supported v1 and v2 signers
-applyPatch "$DOS_PATCHES/android_frameworks_base/360955.patch"; #R_asb_2023-07 Import translations.
-applyPatch "$DOS_PATCHES/android_frameworks_base/360956.patch"; #R_asb_2023-07 Add size check on PPS#policy
-applyPatch "$DOS_PATCHES/android_frameworks_base/360957.patch"; #R_asb_2023-07 Limit the ServiceFriendlyNames
-applyPatch "$DOS_PATCHES/android_frameworks_base/360958-backport.patch"; #R_asb_2023-07 Only allow NEW_TASK flag when adjusting pending intents
-applyPatch "$DOS_PATCHES/android_frameworks_base/360959.patch"; #R_asb_2023-07 Dismiss keyguard when simpin auth'd and security method is none.
-applyPatch "$DOS_PATCHES/android_frameworks_base/360960.patch"; #R_asb_2023-07 Increase notification channel limit.
-applyPatch "$DOS_PATCHES/android_frameworks_base/360962-backport.patch"; #R_asb_2023-07 Truncate ShortcutInfo Id
-applyPatch "$DOS_PATCHES/android_frameworks_base/360963.patch"; #R_asb_2023-07 Visit URIs in landscape/portrait custom remote views.
-applyPatch "$DOS_PATCHES/android_frameworks_base/364029.patch"; #R_asb_2023-08 ActivityManager#killBackgroundProcesses can kill caller's own app only
-applyPatch "$DOS_PATCHES/android_frameworks_base/364030-backport-prereq.patch"; #Add `PackageParser.Package getPackage(int uid)` (flamefire)
-applyPatch "$DOS_PATCHES/android_frameworks_base/364030-backport.patch"; #R_asb_2023-08 ActivityManagerService: Allow openContentUri from vendor/system/product.
-applyPatch "$DOS_PATCHES/android_frameworks_base/364031-backport.patch"; #R_asb_2023-08 Verify URI permissions for notification shortcutIcon.
-applyPatch "$DOS_PATCHES/android_frameworks_base/364032.patch"; #R_asb_2023-08 On device lockdown, always show the keyguard
-applyPatch "$DOS_PATCHES/android_frameworks_base/364033-backport.patch"; #R_asb_2023-08 Ensure policy has no absurdly long strings
-applyPatch "$DOS_PATCHES/android_frameworks_base/364034.patch"; #R_asb_2023-08 Implement visitUris for RemoteViews ViewGroupActionAdd.
-applyPatch "$DOS_PATCHES/android_frameworks_base/364035-backport.patch"; #R_asb_2023-08 Check URIs in notification public version.
-applyPatch "$DOS_PATCHES/android_frameworks_base/364036-backport.patch"; #R_asb_2023-08 Verify URI permissions in MediaMetadata
-applyPatch "$DOS_PATCHES/android_frameworks_base/364037.patch"; #R_asb_2023-08 Use Settings.System.getIntForUser instead of getInt to make sure user specific settings are used
-applyPatch "$DOS_PATCHES/android_frameworks_base/364038-backport.patch"; #R_asb_2023-08 Resolve StatusHints image exploit across user.
-applyPatch "$DOS_PATCHES/android_frameworks_base/365964-backport.patch"; #R_asb_2023-09 Grant carrier privileges if package has carrier config access.
-applyPatch "$DOS_PATCHES/android_frameworks_base/365966-backport.patch"; #R_asb_2023-09 Forbid granting access to NLSes with too-long component names
-applyPatch "$DOS_PATCHES/android_frameworks_base/365967.patch"; #R_asb_2023-09 Update AccountManagerService checkKeyIntentParceledCorrectly.
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -244,7 +201,6 @@ rm -rf packages/PrintRecommendationService; #Creates popups to install proprieta
 fi;
 
 if enterAndClear "frameworks/native"; then
-applyPatch "$DOS_PATCHES/android_frameworks_native/365969.patch"; #R_asb_2023-09 Allow sensors list to be empty
 applyPatch "$DOS_PATCHES/android_frameworks_native/0001-Sensors.patch"; #Require OTHER_SENSORS permission for sensors (GrapheneOS)
 fi;
 
@@ -255,7 +211,6 @@ fi;
 fi;
 
 if enterAndClear "frameworks/opt/net/wifi"; then
-applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/360965-backport.patch"; #R_asb_2023-07 Limit the number of Passpoint per App
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/0002-Random_MAC.patch"; #Add support for always generating new random MAC (GrapheneOS)
 fi;
@@ -349,7 +304,6 @@ applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Messaging/0001-null-fix.pa
 fi;
 
 if enterAndClear "packages/apps/Nfc"; then
-applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/365970.patch"; #R_asb_2023-09 Ensure that SecureNFC setting cannot be bypassed
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
@@ -362,7 +316,6 @@ fi;
 
 if enterAndClear "packages/apps/Settings"; then
 git revert --no-edit 486980cfecce2ca64267f41462f9371486308e9d; #Don't hide OEM unlock
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/365973-backport.patch"; #R_asb_2023-09 Prevent non-system IME from becoming device admin
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/272651.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle-gos.patch"; #Add option to disable captive portal checks (GrapheneOS) #FIXME: needs work
@@ -389,7 +342,6 @@ applyPatch "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics
 fi;
 
 if enterAndClear "packages/apps/Trebuchet"; then
-applyPatch "$DOS_PATCHES/android_packages_apps_Trebuchet/365974.patch"; #R_asb_2023-09 Fix permission issue in legacy shortcut
 cp $DOS_BUILD_BASE/vendor/divested/overlay/common/packages/apps/Trebuchet/res/xml/default_workspace_*.xml res/xml/; #XXX: Likely no longer needed
 fi;
 
@@ -413,42 +365,19 @@ if enterAndClear "packages/providers/DownloadProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
-if enterAndClear "packages/providers/TelephonyProvider"; then
-applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/364040-backport.patch"; #R_asb_2023-08 Update file permissions using canonical path
+#if enterAndClear "packages/providers/TelephonyProvider"; then
 #cp $DOS_PATCHES_COMMON/android_packages_providers_TelephonyProvider/carrier_list.* assets/;
-fi;
-
-if enterAndClear "packages/services/Telecomm"; then
-applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/364041-backport.patch"; #R_asb_2023-08 Resolve StatusHints image exploit across user.
-fi;
-
-if enterAndClear "packages/services/Telephony"; then
-applyPatch "$DOS_PATCHES/android_packages_services_Telephony/365977-backport.patch"; #R_asb_2023-09 Grant carrier privileges if package has carrier config access.
-applyPatch "$DOS_PATCHES/android_packages_services_Telephony/365978-backport.patch"; #R_asb_2023-09 Fixed leak of cross user data in multiple settings.
-fi;
+#fi;
 
 if enterAndClear "prebuilts/abi-dumps/vndk"; then
 applyPatch "$DOS_PATCHES/android_prebuilts_abi-dumps_vndk/0001-protobuf-avi.patch"; #Work around ABI changes from compiler hardening (GrapheneOS)
 fi;
 
 if enterAndClear "system/bt"; then
-applyPatch "$DOS_PATCHES/android_system_bt/360969.patch"; #R_asb_2023-07 Fix gatt_end_operation buffer overflow
-applyPatch "$DOS_PATCHES/android_system_bt/365979.patch"; #R_asb_2023-09 Fix an integer overflow bug in avdt_msg_asmbl
-applyPatch "$DOS_PATCHES/android_system_bt/365980.patch"; #R_asb_2023-09 Fix integer overflow in build_read_multi_rsp
-applyPatch "$DOS_PATCHES/android_system_bt/365981.patch"; #R_asb_2023-09 Fix potential abort in btu_av_act.cc
-applyPatch "$DOS_PATCHES/android_system_bt/365982.patch"; #R_asb_2023-09 Fix UAF in gatt_cl.cc
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272648.patch"; #ten-bt-sbc-hd-dualchannel: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272649.patch"; #ten-bt-sbc-hd-dualchannel: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272650.patch"; #ten-bt-sbc-hd-dualchannel: Allow using alternative (higher) SBC HD bitrates with a property (ValdikSS)
-fi;
-
-if enterAndClear "vendor/qcom/opensource/commonsys/system/bt"; then
-applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_commonsys_system_bt/360975.patch"; #R_asb_2023-07 Fix gatt_end_operation buffer overflow
-applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_commonsys_system_bt/365984.patch"; #R_asb_2023-09 Fix an integer overflow bug in avdt_msg_asmbl
-applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_commonsys_system_bt/365985.patch"; #R_asb_2023-09 Fix integer overflow in build_read_multi_rsp
-applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_commonsys_system_bt/365986.patch"; #R_asb_2023-09 Fix potential abort in btu_av_act.cc
-applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_commonsys_system_bt/365987.patch"; #R_asb_2023-09 Fix UAF in gatt_cl.cc
 fi;
 
 if enterAndClear "system/ca-certificates"; then
@@ -473,18 +402,6 @@ fi;
 if enterAndClear "system/netd"; then
 applyPatch "$DOS_PATCHES/android_system_netd/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_system_netd/0002-hosts_toggle.patch"; #Add a toggle to disable /etc/hosts lookup (DivestOS)
-fi;
-
-if enterAndClear "system/nfc"; then
-applyPatch "$DOS_PATCHES/android_system_nfc/360972.patch"; #R_asb_2023-07 OOBW in rw_i93_send_to_upper()
-fi;
-
-if enterAndClear "vendor/nxp/opensource/commonsys/external/libnfc-nci"; then
-applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_commonsys_external_libnfc-nci/360974.patch"; #R_asb_2023-07 OOBW in rw_i93_send_to_upper()
-fi;
-
-if enterAndClear "vendor/nxp/opensource/commonsys/packages/apps/Nfc/"; then
-applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_commonsys_packages_apps_Nfc/365983.patch"; #R_asb_2023-09 Ensure that SecureNFC setting cannot be bypassed
 fi;
 
 if enterAndClear "system/sepolicy"; then
