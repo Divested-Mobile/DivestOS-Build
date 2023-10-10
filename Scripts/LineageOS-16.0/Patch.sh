@@ -99,7 +99,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 17/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2022-01-05/2023-09-05/' core/version_defaults.mk; #Bump Security String #P_asb_2023-09 #XXX
+sed -i 's/2022-01-05/2023-10-05/' core/version_defaults.mk; #Bump Security String #P_asb_2023-10 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -149,6 +149,10 @@ if enterAndClear "external/libvpx"; then
 applyPatch "$DOS_PATCHES_COMMON/android_external_libvpx/CVE-2023-5217.patch"; #VP8: disallow thread count changes
 fi;
 
+if enterAndClear "external/libxml2"; then
+applyPatch "$DOS_PATCHES/android_external_libxml2/368053.patch"; #R_asb_2023-10 malloc-fail: Fix OOB read after xmlRegGetCounter
+fi;
+
 if enterAndClear "external/svox"; then
 git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefiles
 sed -i '12iLOCAL_SDK_VERSION := current' pico/Android.mk; #Fix build under Pie
@@ -161,6 +165,13 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_fram
 fi;
 
 if enterAndClear "frameworks/base"; then
+applyPatch "$DOS_PATCHES/android_frameworks_base/368055.patch"; #R_asb_2023-10 RingtoneManager: verify default ringtone is audio
+applyPatch "$DOS_PATCHES/android_frameworks_base/368059.patch"; #R_asb_2023-10 Do not share key mappings with JNI object
+applyPatch "$DOS_PATCHES/android_frameworks_base/368060-backport.patch"; #R_asb_2023-10 Verify URI Permissions in Autofill RemoteViews
+applyPatch "$DOS_PATCHES/android_frameworks_base/368061.patch"; #R_asb_2023-10 Fix KCM key mapping cloning
+applyPatch "$DOS_PATCHES/android_frameworks_base/368062-backport.patch"; #R_asb_2023-10 Disallow loading icon from content URI to PipMenu
+applyPatch "$DOS_PATCHES/android_frameworks_base/368063.patch"; #R_asb_2023-10 Fixing DatabaseUtils to detect malformed UTF-16 strings
+applyPatch "$DOS_PATCHES/android_frameworks_base/368067-backport.patch"; #R_asb_2023-10 Revert "DO NOT MERGE Dismiss keyguard when simpin auth'd and..."
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -311,6 +322,7 @@ fi;
 
 if enterAndClear "packages/apps/Settings"; then
 git revert --no-edit c240992b4c86c7f226290807a2f41f2619e7e5e8; #Don't hide OEM unlock
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/368069-backport.patch"; #R_asb_2023-10 Restrict ApnEditor settings
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch) #TODO: Needs work
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0005-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
