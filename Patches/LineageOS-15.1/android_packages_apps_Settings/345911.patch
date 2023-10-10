@@ -27,7 +27,7 @@ Merged-In: I98eea867f926c508456ec9bc654e24eeeffa0e54
  1 file changed, 30 insertions(+), 13 deletions(-)
 
 diff --git a/src/com/android/settings/users/EditUserPhotoController.java b/src/com/android/settings/users/EditUserPhotoController.java
-index 0f67b181de..a874d6a0e5 100644
+index 0f67b181de3..a874d6a0e57 100644
 --- a/src/com/android/settings/users/EditUserPhotoController.java
 +++ b/src/com/android/settings/users/EditUserPhotoController.java
 @@ -22,7 +22,9 @@ import android.content.ClipData;

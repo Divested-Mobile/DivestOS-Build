@@ -21,7 +21,7 @@ Change-Id: I6470d1684d707f4b1e86f8b456be0b4e0af5f188
  1 file changed, 64 insertions(+), 56 deletions(-)
 
 diff --git a/src/com/android/settings/DeviceAdminAdd.java b/src/com/android/settings/DeviceAdminAdd.java
-index ebad411531..981930987a 100644
+index ebad4115318..981930987a6 100644
 --- a/src/com/android/settings/DeviceAdminAdd.java
 +++ b/src/com/android/settings/DeviceAdminAdd.java
 @@ -49,6 +49,8 @@ import android.text.TextUtils.TruncateAt;

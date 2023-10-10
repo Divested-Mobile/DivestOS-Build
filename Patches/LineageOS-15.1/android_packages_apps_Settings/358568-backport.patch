@@ -13,7 +13,7 @@ Change-Id: I0051e5d5fc9fd3691504cb5fbb959f701e0bce6a
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/src/com/android/settings/accounts/AddAccountSettings.java b/src/com/android/settings/accounts/AddAccountSettings.java
-index cca15c96d3..2e23e93124 100644
+index cca15c96d3c..2e23e931241 100644
 --- a/src/com/android/settings/accounts/AddAccountSettings.java
 +++ b/src/com/android/settings/accounts/AddAccountSettings.java
 @@ -102,7 +102,8 @@ public class AddAccountSettings extends Activity {

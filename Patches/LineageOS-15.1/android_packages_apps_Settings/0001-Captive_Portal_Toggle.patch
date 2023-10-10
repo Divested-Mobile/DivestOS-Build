@@ -24,7 +24,7 @@ Change-Id: Ibbffdb5f3930df74ca8b4ba93d451f7fad086989
  create mode 100644 src/com/android/settings/network/CaptivePortalWarningDialogHost.java
 
 diff --git a/res/menu/data_usage.xml b/res/menu/data_usage.xml
-index 9fe6b60118..b8be11adbf 100644
+index 9fe6b601182..b8be11adbf3 100644
 --- a/res/menu/data_usage.xml
 +++ b/res/menu/data_usage.xml
 @@ -18,4 +18,8 @@
@@ -37,7 +37,7 @@ index 9fe6b60118..b8be11adbf 100644
 +        android:checkable="true" />
  </menu>
 diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
-index 91238336d9..314074eff0 100644
+index 91238336d92..314074eff06 100644
 --- a/res/values/cm_strings.xml
 +++ b/res/values/cm_strings.xml
 @@ -374,4 +374,9 @@
@@ -51,7 +51,7 @@ index 91238336d9..314074eff0 100644
 +    <string name="captive_portal_warning_positive">Disable</string>
  </resources>
 diff --git a/src/com/android/settings/ResetNetworkConfirm.java b/src/com/android/settings/ResetNetworkConfirm.java
-index f70d3c27ef..37dae5aa6c 100644
+index f70d3c27efb..37dae5aa6cd 100644
 --- a/src/com/android/settings/ResetNetworkConfirm.java
 +++ b/src/com/android/settings/ResetNetworkConfirm.java
 @@ -27,6 +27,7 @@ import android.net.wifi.WifiManager;
@@ -73,7 +73,7 @@ index f70d3c27ef..37dae5aa6c 100644
                      .show();
          }
 diff --git a/src/com/android/settings/datausage/DataUsageSummary.java b/src/com/android/settings/datausage/DataUsageSummary.java
-index e37cc4a6c6..f5aba01b9c 100644
+index e37cc4a6c6a..f5aba01b9c3 100644
 --- a/src/com/android/settings/datausage/DataUsageSummary.java
 +++ b/src/com/android/settings/datausage/DataUsageSummary.java
 @@ -32,6 +32,7 @@ import android.os.RemoteException;
@@ -167,7 +167,7 @@ index e37cc4a6c6..f5aba01b9c 100644
      }
 diff --git a/src/com/android/settings/network/CaptivePortalWarningDialog.java b/src/com/android/settings/network/CaptivePortalWarningDialog.java
 new file mode 100644
-index 0000000000..b274d6b9f5
+index 00000000000..b274d6b9f5c
 --- /dev/null
 +++ b/src/com/android/settings/network/CaptivePortalWarningDialog.java
 @@ -0,0 +1,69 @@
@@ -242,7 +242,7 @@ index 0000000000..b274d6b9f5
 +}
 diff --git a/src/com/android/settings/network/CaptivePortalWarningDialogHost.java b/src/com/android/settings/network/CaptivePortalWarningDialogHost.java
 new file mode 100644
-index 0000000000..208042ad73
+index 00000000000..208042ad73c
 --- /dev/null
 +++ b/src/com/android/settings/network/CaptivePortalWarningDialogHost.java
 @@ -0,0 +1,28 @@

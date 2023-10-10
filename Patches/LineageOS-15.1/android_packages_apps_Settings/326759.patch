@@ -27,7 +27,7 @@ Merged-In: I9dfde586616d004befbee529f2ae842d22795065
  1 file changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/src/com/android/settings/CredentialStorage.java b/src/com/android/settings/CredentialStorage.java
-index e5d40b7add..c0726719e0 100644
+index e5d40b7add0..c0726719e0a 100644
 --- a/src/com/android/settings/CredentialStorage.java
 +++ b/src/com/android/settings/CredentialStorage.java
 @@ -131,7 +131,7 @@ public final class CredentialStorage extends Activity {

@@ -20,7 +20,7 @@ Merged-In: I7f8fb737a7c6f77a380f3f075a5c89a1970e39ad
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/com/android/settings/DefaultRingtonePreference.java b/src/com/android/settings/DefaultRingtonePreference.java
-index 226cde693b..f3eeff9df2 100644
+index 226cde693b1..f3eeff9df25 100644
 --- a/src/com/android/settings/DefaultRingtonePreference.java
 +++ b/src/com/android/settings/DefaultRingtonePreference.java
 @@ -49,7 +49,7 @@ public class DefaultRingtonePreference extends RingtonePreference {

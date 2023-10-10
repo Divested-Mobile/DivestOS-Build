@@ -10,7 +10,7 @@ Change-Id: Ib2d53a1d22e935ef0fa5f0f91e3bf5308d9c6459
  2 files changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/Android.mk b/Android.mk
-index 2beae28..25fd823 100644
+index 2beae282..25fd823e 100644
 --- a/Android.mk
 +++ b/Android.mk
 @@ -115,6 +115,10 @@ ifeq ($(TARGET_HW_DISK_ENCRYPTION),true)
@@ -25,7 +25,7 @@ index 2beae28..25fd823 100644
    vold_cflags += -DCONFIG_EXFAT_DRIVER=\"$(TARGET_EXFAT_DRIVER)\"
    mini_src_files += fs/Exfat.cpp
 diff --git a/cryptfs.cpp b/cryptfs.cpp
-index e33afdd..5102f12 100644
+index e33afddf..5102f126 100644
 --- a/cryptfs.cpp
 +++ b/cryptfs.cpp
 @@ -75,9 +75,17 @@ extern "C" {

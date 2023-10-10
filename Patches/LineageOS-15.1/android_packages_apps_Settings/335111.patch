@@ -17,7 +17,7 @@ Merged-In: I0a9ca163f5ae91b67c9f957fde4c6db326b8718d
  1 file changed, 18 insertions(+)
 
 diff --git a/src/com/android/settings/DefaultRingtonePreference.java b/src/com/android/settings/DefaultRingtonePreference.java
-index 9f9f832b10..751eb8c8e7 100644
+index 9f9f832b100..751eb8c8e7c 100644
 --- a/src/com/android/settings/DefaultRingtonePreference.java
 +++ b/src/com/android/settings/DefaultRingtonePreference.java
 @@ -22,6 +22,7 @@ import android.content.Intent;

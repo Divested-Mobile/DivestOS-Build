@@ -1,0 +1,66 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Weng Su <wengsu@google.com>
+Date: Fri, 7 Jul 2023 19:52:04 +0800
+Subject: [PATCH] Restrict ApnEditor settings
+
+- Finish ApnEditor settings if user is not an admin
+
+- Finish ApnEditor settings if user has DISALLOW_CONFIG_MOBILE_NETWORKS restriction
+
+Bug: 279902472
+Test: manual test
+make RunSettingsRoboTests ROBOTEST_FILTER=ApnEditorTest
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:5c2d727b8f9198bf758a4896eda7c9e5385435ff)
+Merged-In: Iecdbbff7e21dfb11e3ba385858747a220cfd3e04
+Change-Id: Iecdbbff7e21dfb11e3ba385858747a220cfd3e04
+---
+ src/com/android/settings/ApnEditor.java | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/src/com/android/settings/ApnEditor.java b/src/com/android/settings/ApnEditor.java
+index 50a7a77309a..c1b19153fb6 100644
+--- a/src/com/android/settings/ApnEditor.java
++++ b/src/com/android/settings/ApnEditor.java
+@@ -27,6 +27,7 @@ import android.database.Cursor;
+ import android.net.Uri;
+ import android.os.Bundle;
+ import android.os.PersistableBundle;
++import android.os.UserManager;
+ import android.provider.Telephony;
+ import android.support.v14.preference.MultiSelectListPreference;
+ import android.support.v14.preference.SwitchPreference;
+@@ -179,6 +180,11 @@ public class ApnEditor extends SettingsPreferenceFragment
+     @Override
+     public void onCreate(Bundle icicle) {
+         super.onCreate(icicle);
++        if (isUserRestricted()) {
++            Log.e(TAG, "This setting isn't available due to user restriction.");
++            finish();
++            return;
++        }
+ 
+         addPreferencesFromResource(R.xml.apn_editor);
+ 
+@@ -1118,6 +1124,22 @@ public class ApnEditor extends SettingsPreferenceFragment
+         }
+     }
+ 
++    boolean isUserRestricted() {
++        UserManager userManager = getContext().getSystemService(UserManager.class);
++        if (userManager == null) {
++            return false;
++        }
++        if (!userManager.isAdminUser()) {
++            Log.e(TAG, "User is not an admin");
++            return true;
++        }
++        if (userManager.hasUserRestriction(UserManager.DISALLOW_CONFIG_MOBILE_NETWORKS)) {
++            Log.e(TAG, "User is not allowed to configure mobile network");
++            return true;
++        }
++        return false;
++    }
++
+     private String checkNotSet(String value) {
+         if (value == null || value.equals(sNotSet)) {
+             return "";

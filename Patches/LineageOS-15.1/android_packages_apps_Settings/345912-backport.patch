@@ -19,7 +19,7 @@ Change-Id: I7449a24427c966c1aa4280a7b7e7e70b60997cca
  4 files changed, 32 insertions(+)
 
 diff --git a/src/com/android/settings/password/ChooseLockPassword.java b/src/com/android/settings/password/ChooseLockPassword.java
-index 9f5192d044..c7e0673b8a 100644
+index 9f5192d0441..c7e0673b8ae 100644
 --- a/src/com/android/settings/password/ChooseLockPassword.java
 +++ b/src/com/android/settings/password/ChooseLockPassword.java
 @@ -49,6 +49,7 @@ import android.view.LayoutInflater;
@@ -39,7 +39,7 @@ index 9f5192d044..c7e0673b8a 100644
  
      public static class ChooseLockPasswordFragment extends InstrumentedPreferenceFragment
 diff --git a/src/com/android/settings/password/ChooseLockPattern.java b/src/com/android/settings/password/ChooseLockPattern.java
-index f65b4b3cf5..e4fa302f0a 100644
+index f65b4b3cf5e..e4fa302f0af 100644
 --- a/src/com/android/settings/password/ChooseLockPattern.java
 +++ b/src/com/android/settings/password/ChooseLockPattern.java
 @@ -29,6 +29,7 @@ import android.view.View;
@@ -59,7 +59,7 @@ index f65b4b3cf5..e4fa302f0a 100644
  
      @Override
 diff --git a/tests/robotests/src/com/android/settings/password/ChooseLockPasswordTest.java b/tests/robotests/src/com/android/settings/password/ChooseLockPasswordTest.java
-index b8f06793ac..0970e5f3bf 100644
+index b8f06793ac3..0970e5f3bf1 100644
 --- a/tests/robotests/src/com/android/settings/password/ChooseLockPasswordTest.java
 +++ b/tests/robotests/src/com/android/settings/password/ChooseLockPasswordTest.java
 @@ -16,6 +16,8 @@
@@ -95,7 +95,7 @@ index b8f06793ac..0970e5f3bf 100644
          ShadowDrawable drawable = setActivityAndGetIconDrawable(true);
          assertThat(drawable.getCreatedFromResId()).isEqualTo(R.drawable.ic_fingerprint_header);
 diff --git a/tests/robotests/src/com/android/settings/password/ChooseLockPatternTest.java b/tests/robotests/src/com/android/settings/password/ChooseLockPatternTest.java
-index c74448b5dd..7735e5db9f 100644
+index c74448b5dd9..7735e5db9f4 100644
 --- a/tests/robotests/src/com/android/settings/password/ChooseLockPatternTest.java
 +++ b/tests/robotests/src/com/android/settings/password/ChooseLockPatternTest.java
 @@ -16,6 +16,8 @@

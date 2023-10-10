@@ -29,7 +29,7 @@ Merged-In: Ia18f367109df5af7da0a5acad7702898a459d32e
  2 files changed, 26 insertions(+), 1 deletion(-)
 
 diff --git a/src/com/android/settings/SettingsPreferenceFragment.java b/src/com/android/settings/SettingsPreferenceFragment.java
-index a3d26af8eb..6653dd0ba9 100644
+index a3d26af8eb7..6653dd0ba98 100644
 --- a/src/com/android/settings/SettingsPreferenceFragment.java
 +++ b/src/com/android/settings/SettingsPreferenceFragment.java
 @@ -49,6 +49,7 @@ import com.android.settings.applications.LayoutPreference;
@@ -83,7 +83,7 @@ index a3d26af8eb..6653dd0ba9 100644
          highlightPreferenceIfNeeded();
          updateEmptyView();
 diff --git a/src/com/android/settings/system/ResetDashboardFragment.java b/src/com/android/settings/system/ResetDashboardFragment.java
-index 48295a42e1..add340f230 100644
+index 48295a42e18..add340f2306 100644
 --- a/src/com/android/settings/system/ResetDashboardFragment.java
 +++ b/src/com/android/settings/system/ResetDashboardFragment.java
 @@ -56,6 +56,11 @@ public class ResetDashboardFragment extends DashboardFragment {
