@@ -674,8 +674,9 @@ updateRegDb() {
 	#Latest database cannot be used due to differing flags, only update supported kernels
 	#md5sum Build/*/kernel/*/*/net/wireless/genregdb.awk | sort
 	if echo "d9ef5910b573c634fa7845bb6511ba89  net/wireless/genregdb.awk" | md5sum --check --quiet &>/dev/null; then
-		cp "$DOS_PATCHES_COMMON/wireless-regdb/db.txt" "net/wireless/db.txt";
-		echo "regdb: updated for $1";
+		#cp "$DOS_PATCHES_COMMON/wireless-regdb/db.txt" "net/wireless/db.txt";
+		#echo "regdb: updated for $1";
+		echo "regdb: skipping regdb update for $1";
 	fi;
 	cd "$DOS_BUILD_BASE";
 }
