@@ -591,6 +591,10 @@ awk -i inplace '!/BOARD_AVB_ENABLE := false/' device/*/*/*.mk; #revert Lineage's
 #Remove broken? charge control feature
 awk -i inplace '!/hardware\/google\/pixel\/lineage_health\/device/' device/*/*/*.mk;
 awk -i inplace '!/vendor.lineage.health-service.default/' device/*/*/*.mk;
+
+#Don't trip rollback protection after October update
+sed -i 's/2023-09-05/2023-10-01/' google/redbull/device-common.mk google/sunfish/device-common.mk google/gs201/device.mk google/gs101/device.mk;
+
 #
 #END OF DEVICE CHANGES
 #
