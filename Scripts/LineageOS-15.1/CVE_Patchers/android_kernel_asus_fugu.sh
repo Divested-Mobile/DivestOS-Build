@@ -663,6 +663,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28328/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35824/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-39192/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-39193/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-after-free-for-hub-usb-device.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2013-3076/3.4/0003.patch
@@ -677,7 +679,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
-editKernelLocalversion "-dos.p677"
+editKernelLocalversion "-dos.p679"
 else echo "kernel_asus_fugu is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

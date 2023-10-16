@@ -588,6 +588,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28328/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-35824/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-39192/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-39193/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0003/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-4002/3.10/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2015-6937/3.10/0002.patch
@@ -596,7 +598,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
-editKernelLocalversion "-dos.p596"
+editKernelLocalversion "-dos.p598"
 else echo "kernel_huawei_angler is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

@@ -257,8 +257,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4385/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4459/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-32269/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-39192/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-39193/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
-editKernelLocalversion "-dos.p258"
+editKernelLocalversion "-dos.p260"
 else echo "kernel_samsung_exynos5420 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
