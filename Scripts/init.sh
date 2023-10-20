@@ -95,6 +95,7 @@ export DOS_BRANDING_BOOTANIMATION_STYLE="plasma"; #Options: gradient, plasma
 #export DOS_BRANDING_BOOTANIMATION_COLOR="#FF5722-#FF8A65"; #gradient
 export DOS_BRANDING_BOOTANIMATION_COLOR="#FF5722-#03A9F4"; #plasma
 export DOS_BRANDING_LINK_ABOUT="https://divestos.org/pages/about";
+export DOS_BRANDING_LINK_NEWS="https://divestos.org/pages/news";
 export DOS_BRANDING_LINK_PRIVACY="https://divestos.org/pages/privacy_policy";
 export DOS_BRANDING_SERVER_OTA="https://divestos.org/updater.php";
 export DOS_BRANDING_SERVER_OTA_ONION="$DOS_BRANDING_SERVER_OTA"; #TODO: need to handle allow cleartext

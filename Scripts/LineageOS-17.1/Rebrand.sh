@@ -79,6 +79,7 @@ if enter "packages/apps/Updater"; then
 sed -i 's|0OTA_SERVER_CLEARNET0|'"$DOS_BRANDING_SERVER_OTA"'|' src/org/lineageos/updater/misc/Utils.java;
 sed -i 's|0OTA_SERVER_ONION0|'"$DOS_BRANDING_SERVER_OTA_ONION"'|' src/org/lineageos/updater/misc/Utils.java;
 sed -i 's|>LineageOS|>'"$DOS_BRANDING_NAME"'|' res/values*/strings.xml;
+sed -i 's|https://download.lineageos.org/<xliff:g id="device_name">%1$s</xliff:g>/changes|'"$DOS_BRANDING_LINK_NEWS"'|g' res/values*/strings.xml;
 fi;
 
 if enter "system/core"; then
