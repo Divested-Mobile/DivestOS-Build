@@ -1,0 +1,40 @@
+From 546fd13c6f1d99cb36ca8db80da2d66b96329f47 Mon Sep 17 00:00:00 2001
+From: Chirayu Desai <chirayudesai1@gmail.com>
+Date: Tue, 26 Sep 2023 19:30:58 +0530
+Subject: [PATCH] Put bare minimum metadata in screenshots
+
+* Don't want OS info
+* Skip date, time, and more importantly, timezone
+
+Change-Id: I6f38c5cf04539e09b8bfe0102c646bd8faa50f5b
+---
+ .../android/systemui/screenshot/ImageExporter.java    | 11 -----------
+ 1 file changed, 11 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/screenshot/ImageExporter.java b/packages/SystemUI/src/com/android/systemui/screenshot/ImageExporter.java
+index 7cfe2327f992..b991fccf0e84 100644
+--- a/packages/SystemUI/src/com/android/systemui/screenshot/ImageExporter.java
++++ b/packages/SystemUI/src/com/android/systemui/screenshot/ImageExporter.java
+@@ -394,19 +394,8 @@ public class ImageExporter {
+ 
+     static void updateExifAttributes(ExifInterface exif, UUID uniqueId, int width, int height,
+             ZonedDateTime captureTime) {
+-        exif.setAttribute(ExifInterface.TAG_IMAGE_UNIQUE_ID, uniqueId.toString());
+-
+-        exif.setAttribute(ExifInterface.TAG_SOFTWARE, "Android " + Build.DISPLAY);
+         exif.setAttribute(ExifInterface.TAG_IMAGE_WIDTH, Integer.toString(width));
+         exif.setAttribute(ExifInterface.TAG_IMAGE_LENGTH, Integer.toString(height));
+-
+-        String dateTime = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss").format(captureTime);
+-        String subSec = DateTimeFormatter.ofPattern("SSS").format(captureTime);
+-        String timeZone = DateTimeFormatter.ofPattern("xxx").format(captureTime);
+-
+-        exif.setAttribute(ExifInterface.TAG_DATETIME_ORIGINAL, dateTime);
+-        exif.setAttribute(ExifInterface.TAG_SUBSEC_TIME_ORIGINAL, subSec);
+-        exif.setAttribute(ExifInterface.TAG_OFFSET_TIME_ORIGINAL, timeZone);
+     }
+ 
+     static String getMimeType(CompressFormat format) {
+-- 
+GitLab
+
