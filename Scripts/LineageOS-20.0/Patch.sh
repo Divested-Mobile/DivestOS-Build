@@ -275,6 +275,9 @@ fi;
 #cp $DOS_PATCHES_COMMON/android_packages_apps_CarrierConfig/*.xml assets/;
 #fi;
 
+if enterAndClear "packages/apps/CellBroadcastReceiver"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_CellBroadcastReceiver/0001-presidential_alert_toggle.patch"; #Allow toggling presidential alertss (GrapheneOS)
+
 if enterAndClear "packages/apps/Contacts"; then
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0002-No_Google_Backup.patch"; #Backups are not sent to Google (GrapheneOS)
