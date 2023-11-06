@@ -277,6 +277,7 @@ fi;
 
 if enterAndClear "packages/apps/CellBroadcastReceiver"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_CellBroadcastReceiver/0001-presidential_alert_toggle.patch"; #Allow toggling presidential alertss (GrapheneOS)
+fi;
 
 if enterAndClear "packages/apps/Contacts"; then
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Contacts/0001-No_Google_Links.patch"; #Remove Privacy Policy and Terms of Service links (GrapheneOS)
@@ -597,7 +598,7 @@ awk -i inplace '!/hardware\/google\/pixel\/lineage_health\/device/' device/*/*/*
 awk -i inplace '!/vendor.lineage.health-service.default/' device/*/*/*.mk;
 
 #Don't trip rollback protection after October update
-sed -i 's/2023-09-05/2023-10-01/' google/redbull/device-common.mk google/sunfish/device-common.mk google/gs201/device.mk google/gs101/device.mk;
+sed -i 's/2023-09-05/2023-10-01/' device/google/redbull/device-common.mk device/google/sunfish/device-common.mk device/google/gs201/device.mk device/google/gs101/device.mk;
 
 #
 #END OF DEVICE CHANGES

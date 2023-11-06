@@ -21,7 +21,7 @@ Change-Id: I694c683c9bfde60343f0f6ea8d806bc5e24437e6
  2 files changed, 6 insertions(+)
 
 diff --git a/hal/audio_extn/audio_extn.h b/hal/audio_extn/audio_extn.h
-index 256382c07f..a4898cf860 100644
+index 175715f1e3..b70e24f7e3 100644
 --- a/hal/audio_extn/audio_extn.h
 +++ b/hal/audio_extn/audio_extn.h
 @@ -873,7 +873,11 @@ bool audio_extn_utils_is_dolby_format(audio_format_t format);

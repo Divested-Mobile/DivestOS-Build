@@ -1,0 +1,88 @@
+From 9864ee18019b89342c979048cae1a20d3f3a09f4 Mon Sep 17 00:00:00 2001
+From: nift4 <nift4@protonmail.com>
+Date: Sun, 24 Sep 2023 13:06:57 +0200
+Subject: [PATCH] Messaging: Add notification channels where missing
+
+Change-Id: I1cb3177704542fc48c42dc18a9e1f4d3118d4193
+---
+ .../messaging/datamodel/MessageNotificationState.java      | 7 +++++--
+ src/com/android/messaging/receiver/SmsReceiver.java        | 4 +++-
+ src/com/android/messaging/sms/SmsStorageStatusManager.java | 4 +++-
+ 3 files changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/src/com/android/messaging/datamodel/MessageNotificationState.java b/src/com/android/messaging/datamodel/MessageNotificationState.java
+index 4a4bfd57b..fd82f745c 100644
+--- a/src/com/android/messaging/datamodel/MessageNotificationState.java
++++ b/src/com/android/messaging/datamodel/MessageNotificationState.java
+@@ -55,6 +55,7 @@
+ import com.android.messaging.util.ContentType;
+ import com.android.messaging.util.ConversationIdSet;
+ import com.android.messaging.util.LogUtil;
++import com.android.messaging.util.NotificationsUtil;
+ import com.android.messaging.util.PendingIntentConstants;
+ import com.android.messaging.util.UriUtil;
+ import com.google.common.collect.Lists;
+@@ -774,7 +775,8 @@ public static Notification buildConversationPageForWearable(final String convers
+             bigText.append("\n\n").append(statusText);
+         }
+ 
+-        final NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(context);
++        final NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(context,
++                NotificationsUtil.DEFAULT_CHANNEL_ID);
+         final NotificationCompat.Style notifStyle =
+                 new NotificationCompat.BigTextStyle(notifBuilder).bigText(bigText);
+         notifBuilder.setStyle(notifStyle);
+@@ -1196,7 +1198,8 @@ public static void checkFailedMessages() {
+                 }
+                 if (failedMessages.size() > 0) {
+                     final NotificationCompat.Builder builder =
+-                            new NotificationCompat.Builder(context);
++                            new NotificationCompat.Builder(context,
++                                    NotificationsUtil.DEFAULT_CHANNEL_ID);
+ 
+                     CharSequence line1;
+                     CharSequence line2;
+diff --git a/src/com/android/messaging/receiver/SmsReceiver.java b/src/com/android/messaging/receiver/SmsReceiver.java
+index c36e9ab12..89a3710a9 100644
+--- a/src/com/android/messaging/receiver/SmsReceiver.java
++++ b/src/com/android/messaging/receiver/SmsReceiver.java
+@@ -48,6 +48,7 @@
+ import com.android.messaging.util.BugleGservicesKeys;
+ import com.android.messaging.util.DebugUtils;
+ import com.android.messaging.util.LogUtil;
++import com.android.messaging.util.NotificationsUtil;
+ import com.android.messaging.util.OsUtil;
+ import com.android.messaging.util.PendingIntentConstants;
+ import com.android.messaging.util.PhoneUtils;
+@@ -260,7 +261,8 @@ public static void postNewMessageSecondaryUserNotification() {
+         final PendingIntent pendingIntent = UIIntents.get()
+                 .getPendingIntentForSecondaryUserNewMessageNotification(context);
+ 
+-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
++        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context,
++                NotificationsUtil.DEFAULT_CHANNEL_ID);
+         builder.setContentTitle(resources.getString(R.string.secondary_user_new_message_title))
+                 .setTicker(resources.getString(R.string.secondary_user_new_message_ticker))
+                 .setSmallIcon(R.drawable.ic_sms_light)
+diff --git a/src/com/android/messaging/sms/SmsStorageStatusManager.java b/src/com/android/messaging/sms/SmsStorageStatusManager.java
+index 4f03195c5..6bd68cb95 100644
+--- a/src/com/android/messaging/sms/SmsStorageStatusManager.java
++++ b/src/com/android/messaging/sms/SmsStorageStatusManager.java
+@@ -25,6 +25,7 @@
+ import com.android.messaging.Factory;
+ import com.android.messaging.R;
+ import com.android.messaging.ui.UIIntents;
++import com.android.messaging.util.NotificationsUtil;
+ import com.android.messaging.util.PendingIntentConstants;
+ import com.android.messaging.util.PhoneUtils;
+ 
+@@ -65,7 +66,8 @@ private static void postStorageLowNotification() {
+         final PendingIntent pendingIntent = UIIntents.get()
+                 .getPendingIntentForLowStorageNotifications(context);
+ 
+-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
++        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context,
++                NotificationsUtil.DEFAULT_CHANNEL_ID);
+         builder.setContentTitle(resources.getString(R.string.sms_storage_low_title))
+                 .setTicker(resources.getString(R.string.sms_storage_low_notification_ticker))
+                 .setSmallIcon(R.drawable.ic_failed_light)

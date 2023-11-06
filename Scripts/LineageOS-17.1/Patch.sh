@@ -314,6 +314,7 @@ fi;
 
 if enterAndClear "packages/apps/Messaging"; then
 applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Messaging/0001-null-fix.patch"; #Handle null case (GrapheneOS)
+applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Messaging/0002-missing-channels.patch"; #Add notification channels where missing (LineageOS)
 fi;
 
 if enterAndClear "packages/apps/Nfc"; then
