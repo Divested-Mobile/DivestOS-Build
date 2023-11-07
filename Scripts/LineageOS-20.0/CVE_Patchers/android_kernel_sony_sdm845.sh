@@ -434,6 +434,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-22387/ANY/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23559/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28328/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28541/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28553/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28584/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28772/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-30772/4.14/0002.patch
@@ -457,7 +458,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.pat
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.9/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.9/0007.patch
-editKernelLocalversion "-dos.p457"
+editKernelLocalversion "-dos.p458"
 else echo "kernel_sony_sdm845 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

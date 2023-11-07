@@ -73,8 +73,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1989/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3777/^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-21657/4.14/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28554/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/^6.5/0001.patch
-editKernelLocalversion "-dos.p74"
+editKernelLocalversion "-dos.p75"
 else echo "kernel_google_msm-4.14 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

@@ -106,6 +106,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4622/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4623/4.12-^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4921/4.19/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28553/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28584/4.19/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31084/4.19/0003.patch
@@ -126,7 +127,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42752/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42754/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42755/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45871/4.19/0003.patch
-editKernelLocalversion "-dos.p126"
+editKernelLocalversion "-dos.p127"
 else echo "kernel_xiaomi_sm8250 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
