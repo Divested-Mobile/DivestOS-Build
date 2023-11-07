@@ -418,6 +418,14 @@ if enterAndClear "system/sepolicy"; then
 applyPatch "$DOS_PATCHES/android_system_sepolicy/0002-protected_files.patch"; #Label protected_{fifos,regular} as proc_security (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_system_sepolicy/0003-ptrace_scope-1.patch"; #Allow init to control kernel.yama.ptrace_scope (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_system_sepolicy/0003-ptrace_scope-2.patch"; #Allow system to use persist.native_debug (GrapheneOS)
+git am "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices (DivestOS)
+patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/32.0";
+patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/31.0";
+patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/30.0";
+patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/29.0";
+patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/28.0";
+patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/27.0";
+patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/26.0";
 #awk -i inplace '!/true cannot be used in user builds/' Android.mk; #Allow ignoring neverallows under -user
 awk -i inplace '!/domain=gmscore_app/' private/seapp_contexts prebuilts/api/*/private/seapp_contexts; #Disable unused gmscore_app domain (GrapheneOS)
 fi;
@@ -499,6 +507,16 @@ if enterAndClear "kernel/google/wahoo"; then
 sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
 fi;
 
+if enterAndClear "device/lge/msm8996-common"; then
+sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
+echo "allow hwaddrs block_device:lnk_file { open };" >> sepolicy/hwaddrs.te;
+echo "type sensors_data_file, file_type, data_file_type, core_data_file_type;" >> sepolicy/file.te; #only included in -userdebug
+fi;
+
+if enterAndClear "device/lge/h830"; then
+sed -i 's|binvendor|bin:vendor|' proprietary-files.txt; #fix typo
+fi;
+
 if enterAndClear "device/oneplus/msm8998-common"; then
 #awk -i inplace '!/TARGET_RELEASETOOLS_EXTENSIONS/' BoardConfigCommon.mk; #disable releasetools to fix delta ota generation
 sed -i '/PRODUCT_SYSTEM_VERITY_PARTITION/iPRODUCT_VENDOR_VERITY_PARTITION := /dev/block/bootdevice/by-name/vendor' common.mk; #Support verity on /vendor too
@@ -555,6 +573,9 @@ removeUntrustedCerts || true;
 cd "$DOS_BUILD_BASE";
 #rm -rfv device/*/*/overlay/CarrierConfigResCommon device/*/*/rro_overlays/CarrierConfigOverlay device/*/*/overlay/packages/apps/CarrierConfig/res/xml/vendor.xml;
 
+#Tweaks for 3GB RAM devices
+enableLowRam "device/sony/kirin" "kirin";
+enableLowRam "device/sony/pioneer" "pioneer";
 #Tweaks for <4GB RAM devices
 enableLowRam "device/xiaomi/Mi8937" "Mi8917";
 enableLowRam "device/xiaomi/Mi8937" "Mi8937";
@@ -569,11 +590,25 @@ enableLowRam "device/xiaomi/Mi8937" "Mi8937";
 #enableLowRam "device/google/crosshatch" "crosshatch";
 #enableLowRam "device/google/muskie/walleye" "walleye";
 #enableLowRam "device/google/taimen" "taimen";
+#enableLowRam "device/lge/h830" "h830";
+#enableLowRam "device/lge/h850" "h850";
+#enableLowRam "device/lge/h870" "h870";
+#enableLowRam "device/lge/h910" "h910";
+#enableLowRam "device/lge/h918" "h918";
+#enableLowRam "device/lge/h990" "h990";
+#enableLowRam "device/lge/ls997" "ls997";
+#enableLowRam "device/lge/rs988" "rs988";
+#enableLowRam "device/lge/us996" "us996";
+#enableLowRam "device/lge/us997" "us997";
+#enableLowRam "device/lge/vs995" "vs995";
 #enableLowRam "device/samsung/starlte" "starlte";
+#enableLowRam "device/sony/discovery" "discovery";
 #Tweaks for 4GB/6GB RAM devices
 #enableLowRam "device/sony/akari" "akari";
 #enableLowRam "device/sony/akatsuki" "akatsuki";
 #enableLowRam "device/sony/xz2c" "xz2c";
+#enableLowRam "device/sony/voyager" "voyager";
+#enableLowRam "device/sony/mermaid" "mermaid";
 
 #Fix broken options enabled by hardenDefconfig()
 [[ -d kernel/fairphone/sdm632 ]] && sed -i "s/CONFIG_PREEMPT_TRACER=n/CONFIG_PREEMPT_TRACER=y/" kernel/fairphone/sdm632/arch/arm64/configs/lineageos_*_defconfig; #Breaks on compile

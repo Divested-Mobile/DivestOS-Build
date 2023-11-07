@@ -470,16 +470,6 @@ fi;
 #
 #START OF DEVICE CHANGES
 #
-if enterAndClear "device/lge/msm8996-common"; then
-sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
-echo "allow hwaddrs block_device:lnk_file { open };" >> sepolicy/hwaddrs.te;
-echo "type sensors_data_file, file_type, data_file_type, core_data_file_type;" >> sepolicy/file.te; #only included in -userdebug
-fi;
-
-if enterAndClear "device/lge/h830"; then
-sed -i 's|binvendor|bin:vendor|' proprietary-files.txt; #fix typo
-fi;
-
 #Make changes to all devices
 cd "$DOS_BUILD_BASE";
 find "hardware/qcom/gps" -name "gps\.conf" -type f -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenLocationConf "{}"';
@@ -504,25 +494,8 @@ removeUntrustedCerts || true;
 cd "$DOS_BUILD_BASE";
 #rm -rfv device/*/*/overlay/CarrierConfigResCommon device/*/*/rro_overlays/CarrierConfigOverlay device/*/*/overlay/packages/apps/CarrierConfig/res/xml/vendor.xml;
 
-#Tweaks for 3GB RAM devices
-enableLowRam "device/sony/kirin" "kirin";
-enableLowRam "device/sony/pioneer" "pioneer";
-#Tweaks for 4GB RAM devices
-#enableLowRam "device/lge/h830" "h830";
-#enableLowRam "device/lge/h850" "h850";
-#enableLowRam "device/lge/h870" "h870";
-#enableLowRam "device/lge/h910" "h910";
-#enableLowRam "device/lge/h918" "h918";
-#enableLowRam "device/lge/h990" "h990";
-#enableLowRam "device/lge/ls997" "ls997";
-#enableLowRam "device/lge/rs988" "rs988";
-#enableLowRam "device/lge/us996" "us996";
-#enableLowRam "device/lge/us997" "us997";
-#enableLowRam "device/lge/vs995" "vs995";
-#enableLowRam "device/sony/discovery" "discovery";
-#Tweaks for 4GB/6GB RAM devices
-#enableLowRam "device/sony/voyager" "voyager";
-#enableLowRam "device/sony/mermaid" "mermaid";
+#Tweaks for XGB RAM devices
+#none yet
 
 #Fix broken options enabled by hardenDefconfig()
 #none yet

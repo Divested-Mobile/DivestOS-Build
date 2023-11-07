@@ -10,3 +10,6 @@ https://nvd.nist.gov/vuln/detail/CVE-2017-18279
 
 https://source.android.com/security/bulletin/pixel/2019-09-01	- lots of missing links
 https://source.android.com/security/bulletin/pixel/2021-03-01
+
+https://bugs.chromium.org/p/project-zero/issues/detail?id=2483
+https://git.codelinaro.org/clo/la/platform/vendor/qcom/opensource/arpal-lx/-/commit/27631d759eb566d9500ca20ec7d8ebf6086241f0

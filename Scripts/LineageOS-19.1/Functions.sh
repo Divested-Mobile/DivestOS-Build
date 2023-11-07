@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2022-04-04
 
 patchAllKernels() {
-	startPatcher "kernel_lge_msm8996 kernel_sony_sdm660 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250";
+	startPatcher "";
 }
 export -f patchAllKernels;
 
@@ -52,28 +52,6 @@ buildAll() {
 	umask 0022;
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
-	#SD630
-	buildDevice pioneer;
-	buildDevice voyager;
-	buildDevice discovery;
-	buildDevice kirin;
-	buildDevice mermaid;
-	#SD820
-	buildDevice h830;
-	buildDevice h850;
-	buildDevice rs988;
-	buildDevice h870;
-	buildDevice us997;
-	buildDevice h910;
-	buildDevice h918;
-	buildDevice h990;
-	buildDevice ls997;
-	buildDevice us996;
-	buildDevice vs995;
-	#SD855
-	buildDevice vayu avb;
-	#SD865
-	buildDevice lmi avb; #20.0 doesn't support lmipro
 }
 export -f buildAll;
 

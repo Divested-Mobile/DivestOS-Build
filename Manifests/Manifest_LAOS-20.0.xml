@@ -61,6 +61,8 @@
 	<!-- Common -->
 	<project path="system/qcom" name="LineageOS/android_system_qcom" remote="github" revision="lineage-20" />
 	<project path="external/bson" name="LineageOS/android_external_bson" remote="github" revision="lineage-20" />
+	<project path="hardware/sony/macaddrsetup" name="LineageOS/android_hardware_sony_macaddrsetup" remote="github" revision="lineage-20" />
+	<project path="hardware/sony/simdetect" name="LineageOS/android_hardware_sony_simdetect" remote="github" revision="lineage-20" />
 	<project path="hardware/sony/SonyOpenTelephony" name="LineageOS/android_hardware_sony_SonyOpenTelephony" remote="github" revision="lineage-20" />
 	<project path="hardware/sony/timekeep" remote="github" name="LineageOS/android_hardware_sony_timekeep" revision="lineage-20" />
 	<project path="packages/apps/ElmyraService" name="LineageOS/android_packages_apps_ElmyraService" remote="github" />
@@ -143,6 +145,33 @@
 	<project path="kernel/google/gs201/private/gs-google" name="LineageOS/android_kernel_google_gs201" remote="github" revision="lineage-20" />
 	<!-- uses gs101 commons -->
 
+	<!-- LG G5 (h850:intl, rs988:us) -->
+	<project path="device/lge/g5-common" name="LineageOS/android_device_lge_g5-common" remote="github" revision="lineage-20" />
+	<project path="device/lge/msm8996-common" name="LineageOS/android_device_lge_msm8996-common" remote="github" revision="lineage-20" />
+	<project path="kernel/lge/msm8996" name="LineageOS/android_kernel_lge_msm8996" remote="github" revision="lineage-20" />
+	<project path="device/lge/h830" name="LineageOS/android_device_lge_h830" remote="github" revision="lineage-20" />
+	<project path="device/lge/h850" name="LineageOS/android_device_lge_h850" remote="github" revision="lineage-20" />
+	<project path="device/lge/rs988" name="LineageOS/android_device_lge_rs988" remote="github" revision="lineage-20" />
+
+	<!-- LG G6 (h870:intl, us997:us) -->
+	<project path="device/lge/g6-common" name="LineageOS/android_device_lge_g6-common" remote="github" revision="lineage-20" />
+	<project path="device/lge/h870" name="LineageOS/android_device_lge_h870" remote="github" revision="lineage-20" />
+	<project path="device/lge/h872" name="LineageOS/android_device_lge_h872" remote="github" revision="lineage-20" />
+	<project path="device/lge/us997" name="LineageOS/android_device_lge_us997" remote="github" revision="lineage-20" />
+	<!-- uses lge msm8996 commons -->
+
+	<!-- LG V20 (h990:intl, us996:us, h910:att) -->
+	<project path="hardware/lge" name="LineageOS/android_hardware_lge" remote="github" revision="lineage-20" />
+	<project path="device/lge/v20-common" name="LineageOS/android_device_lge_v20-common" remote="github" revision="lineage-20" />
+	<project path="device/lge/h910" name="LineageOS/android_device_lge_h910" remote="github" revision="lineage-20" />
+	<project path="device/lge/h918" name="LineageOS/android_device_lge_h918" remote="github" revision="lineage-20" />
+	<project path="device/lge/h990" name="LineageOS/android_device_lge_h990" remote="github" revision="lineage-20" />
+	<project path="device/lge/ls997" name="LineageOS/android_device_lge_ls997" remote="github" revision="lineage-20" />
+	<project path="device/lge/us996" name="LineageOS/android_device_lge_us996" remote="github" revision="lineage-20" />
+	<project path="device/lge/us996d" name="LineageOS/android_device_lge_us996d" remote="github" revision="lineage-20" />
+	<project path="device/lge/vs995" name="LineageOS/android_device_lge_vs995" remote="github" revision="lineage-20" />
+	<!-- uses lge msm8996 commons -->
+
 	<!-- OnePlus 5 (cheeseburger) -->
 	<project path="device/oneplus/cheeseburger" name="LineageOS/android_device_oneplus_cheeseburger" remote="github" revision="lineage-20" />
 	<project path="device/oneplus/msm8998-common" name="LineageOS/android_device_oneplus_msm8998-common" remote="github" revision="lineage-20" />
@@ -222,6 +251,23 @@
 	<!-- Samsung Galaxy Note 9 (crownlte) -->
 	<project path="device/samsung/crownlte" name="LineageOS/android_device_samsung_crownlte" remote="github" revision="lineage-20" />
 
+	<!-- Sony Xperia XA2 (pioneer) -->
+	<project path="device/sony/pioneer" name="LineageOS/android_device_sony_pioneer" remote="github" revision="lineage-20" />
+	<project path="device/sony/nile-common" name="LineageOS/android_device_sony_nile-common" remote="github" revision="lineage-20" />
+	<project path="kernel/sony/sdm660" name="LineageOS/android_kernel_sony_sdm660" remote="github" revision="lineage-20" />
+
+	<!-- Sony Xperia XA2 Plus (voyager) -->
+	<project path="device/sony/voyager" name="LineageOS/android_device_sony_voyager" remote="github" revision="lineage-20" />
+
+	<!-- Sony Xperia XA2 Ultra (discovery) -->
+	<project path="device/sony/discovery" name="LineageOS/android_device_sony_discovery" remote="github" revision="lineage-20" />
+
+	<!-- Sony Xperia 10 (kirin) -->
+	<project path="device/sony/kirin" name="LineageOS/android_device_sony_kirin" remote="github" revision="lineage-20" />
+
+	<!-- Sony Xperia 10 Plus (mermaid) -->
+	<project path="device/sony/mermaid" name="LineageOS/android_device_sony_mermaid" remote="github" revision="lineage-20" />
+
 	<!-- Sony Xperia XZ2 (akari) -->
 	<project path="device/sony/akari" name="LineageOS/android_device_sony_akari" remote="github" revision="lineage-20" />
 	<project path="device/sony/tama-common" name="LineageOS/android_device_sony_tama-common" remote="github" revision="lineage-20" />
@@ -259,6 +305,11 @@
 
 	<!-- Xiaomi Mi 8 Explorer Edition (ursa) -->
 	<project path="device/xiaomi/ursa" name="LineageOS/android_device_xiaomi_ursa" remote="github" revision="lineage-20" />
+
+	<!-- Xiaomi POCO X3 Pro (vayu) -->
+	<project path="device/xiaomi/vayu" name="LineageOS/android_device_xiaomi_vayu" remote="github" revision="lineage-20" />
+	<project path="device/xiaomi/sm8150-common" name="LineageOS/android_device_xiaomi_sm8150-common" remote="github" revision="lineage-20" />
+	<project path="kernel/xiaomi/vayu" name="LineageOS/android_kernel_xiaomi_vayu" remote="github" revision="lineage-20" />
 
 	<!-- Xiaomi POCO F2 Pro / Redmi K30 Pro / Redmi K30 Pro Zoom Edition (lmi) -->
 	<project path="device/xiaomi/lmi" name="LineageOS/android_device_xiaomi_lmi" remote="github" revision="lineage-20" />
@@ -304,6 +355,23 @@
 	<project path="vendor/google/sunfish" name="[COLOUR IN THE LINES]/proprietary_vendor_google_sunfish" remote="github" revision="lineage-20" />
 	<project path="vendor/google/taimen" name="[COLOUR IN THE LINES]/proprietary_vendor_google_taimen" remote="github" revision="lineage-20" />
 	<project path="vendor/google/walleye" name="[COLOUR IN THE LINES]/proprietary_vendor_google_walleye" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/g5-common" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_g5-common" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/g6-common" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_g6-common" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/h830" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_h830" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/h850" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_h850" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/h870" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_h870" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/h872" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_h872" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/h910" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_h910" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/h918" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_h918" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/h990" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_h990" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/ls997" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_ls997" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/msm8996-common" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_msm8996-common" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/rs988" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_rs988" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/us996" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_us996" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/us996d" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_us996d" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/us997" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_us997" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/v20-common" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_v20-common" remote="github" revision="lineage-20" />
+	<project path="vendor/lge/vs995" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_vs995" remote="github" revision="lineage-20" />
 	<project path="vendor/oneplus/avicii" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_avicii" remote="github" revision="lineage-20" />
 	<project path="vendor/oneplus/cheeseburger" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_cheeseburger" remote="github" revision="lineage-20" />
 	<project path="vendor/oneplus/dumpling" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus_dumpling" remote="github" revision="lineage-20" />
@@ -333,7 +401,13 @@
 	<project path="vendor/sony/akari" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_akari" remote="github" revision="lineage-20" />
 	<project path="vendor/sony/akatsuki" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_akatsuki" remote="github" revision="lineage-20" />
 	<project path="vendor/sony/aurora" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_aurora" remote="github" revision="lineage-20" />
+	<project path="vendor/sony/discovery" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_discovery" remote="github" revision="lineage-20" />
+	<project path="vendor/sony/kirin" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_kirin" remote="github" revision="lineage-20" />
+	<project path="vendor/sony/mermaid" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_mermaid" remote="github" revision="lineage-20" />
+	<project path="vendor/sony/nile-common" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_nile-common" remote="github" revision="lineage-20" />
+	<project path="vendor/sony/pioneer" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_pioneer" remote="github" revision="lineage-20" />
 	<project path="vendor/sony/tama-common" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_tama-common" remote="github" revision="lineage-20" />
+	<project path="vendor/sony/voyager" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_voyager" remote="github" revision="lineage-20" />
 	<project path="vendor/sony/xz2c" name="[COLOUR IN THE LINES]/proprietary_vendor_sony_xz2c" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/alioth" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_alioth" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/apollon" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_apollon" remote="github" revision="lineage-20" />
@@ -348,8 +422,10 @@
 	<project path="vendor/xiaomi/polaris" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_polaris" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/sdm845-common" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_sdm845-common" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/sm6150-common" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_sm6150-common" remote="github" revision="lineage-20" />
+	<project path="vendor/xiaomi/sm8150-common" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_sm8150-common" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/sm8250-common" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_sm8250-common" remote="github" revision="lineage-20" />
 	<project path="vendor/xiaomi/ursa" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_ursa" remote="github" revision="lineage-20" />
+	<project path="vendor/xiaomi/vayu" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi_vayu" remote="github" revision="lineage-20" />
 	<project path="vendor/zuk/msm8996-common" name="[COLOUR IN THE LINES]/proprietary_vendor_zuk_msm8996-common" remote="github" revision="lineage-20" />
 	<project path="vendor/zuk/z2_plus" name="[COLOUR IN THE LINES]/proprietary_vendor_zuk_z2_plus" remote="github" revision="lineage-20" />
 </manifest>

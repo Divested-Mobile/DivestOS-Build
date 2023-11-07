@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2022-10-15
 
 patchAllKernels() {
-	startPatcher "kernel_essential_msm8998 kernel_fairphone_sdm632 kernel_fairphone_sm7225 kernel_fxtec_msm8998 kernel_fxtec_sm6115 kernel_google_gs101_private_gs-google kernel_google_gs201_private_gs-google kernel_google_msm-4.9 kernel_google_msm-4.14 kernel_google_redbull kernel_google_wahoo kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_oneplus_sm8250 kernel_oneplus_sm8350 kernel_razer_msm8998 kernel_razer_sdm845 kernel_samsung_exynos9810 kernel_sony_sdm845 kernel_xiaomi_msm8937 kernel_xiaomi_sdm845 kernel_xiaomi_sm6150 kernel_xiaomi_sm8250 kernel_zuk_msm8996";
+	startPatcher "kernel_essential_msm8998 kernel_fairphone_sdm632 kernel_fairphone_sm7225 kernel_fxtec_msm8998 kernel_fxtec_sm6115 kernel_google_gs101_private_gs-google kernel_google_gs201_private_gs-google kernel_google_msm-4.9 kernel_google_msm-4.14 kernel_google_redbull kernel_google_wahoo kernel_lge_msm8996 kernel_oneplus_msm8998 kernel_oneplus_sdm845 kernel_oneplus_sm7250 kernel_oneplus_sm8150 kernel_oneplus_sm8250 kernel_oneplus_sm8350 kernel_razer_msm8998 kernel_razer_sdm845 kernel_samsung_exynos9810 kernel_sony_sdm660 kernel_sony_sdm845 kernel_xiaomi_msm8937 kernel_xiaomi_sdm845 kernel_xiaomi_sm6150 kernel_xiaomi_sm8150 kernel_xiaomi_sm8250 kernel_zuk_msm8996";
 }
 export -f patchAllKernels;
 
@@ -55,6 +55,19 @@ buildAll() {
 	#frontloaded for testing
 	buildDevice bluejay avb;
 	#SD820
+	buildDevice h830;
+	buildDevice h850;
+	buildDevice rs988;
+	buildDevice h870;
+	#buildDevice h872; #TODO: needs keys
+	buildDevice us997;
+	buildDevice h910;
+	buildDevice h918;
+	buildDevice h990;
+	buildDevice ls997;
+	buildDevice us996;
+	#buildDevice us996d; #TODO: needs keys
+	buildDevice vs995;
 	buildDevice z2_plus verity;
 	#SD835
 	buildDevice taimen avb;
@@ -66,6 +79,12 @@ buildAll() {
 	#SD435
 	buildDevice Mi8937;
 	buildDevice Mi8917;
+	#SD630
+	buildDevice pioneer;
+	buildDevice voyager;
+	buildDevice discovery;
+	buildDevice kirin;
+	buildDevice mermaid;
 	#SD845
 	buildDevice fajita avb;
 	buildDevice enchilada avb;
@@ -91,6 +110,7 @@ buildAll() {
 	buildDevice hotdogb avb;
 	buildDevice coral avb;
 	buildDevice flame avb;
+	buildDevice vayu avb;
 	#SD730
 	buildDevice sunfish avb;
 	buildDevice davinci avb;
