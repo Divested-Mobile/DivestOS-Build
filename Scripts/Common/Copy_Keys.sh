@@ -125,6 +125,7 @@ if [ -d "$DOS_SIGNING_KEYS" ]; then
 	copyKey "twolip" "kernel/xiaomi/sdm660";
 	copyKey "ursa" "kernel/xiaomi/sdm845";
 	copyKey "vayu" "kernel/xiaomi/sm8150";
+	copyKey "vayu" "kernel/xiaomi/vayu";
 	copyKey "voyager" "kernel/sony/sdm660";
 	copyKey "walleye" "kernel/google/wahoo";
 	copyKey "wayne" "kernel/xiaomi/sdm660";

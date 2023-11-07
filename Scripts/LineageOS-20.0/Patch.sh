@@ -418,14 +418,11 @@ if enterAndClear "system/sepolicy"; then
 applyPatch "$DOS_PATCHES/android_system_sepolicy/0002-protected_files.patch"; #Label protected_{fifos,regular} as proc_security (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_system_sepolicy/0003-ptrace_scope-1.patch"; #Allow init to control kernel.yama.ptrace_scope (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_system_sepolicy/0003-ptrace_scope-2.patch"; #Allow system to use persist.native_debug (GrapheneOS)
-git am "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices (DivestOS)
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/32.0";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/31.0";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/30.0";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/29.0";
 patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/28.0";
-patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/27.0";
-patch -p1 < "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch" --directory="prebuilts/api/26.0";
 #awk -i inplace '!/true cannot be used in user builds/' Android.mk; #Allow ignoring neverallows under -user
 awk -i inplace '!/domain=gmscore_app/' private/seapp_contexts prebuilts/api/*/private/seapp_contexts; #Disable unused gmscore_app domain (GrapheneOS)
 fi;
@@ -511,10 +508,6 @@ if enterAndClear "device/lge/msm8996-common"; then
 sed -i '3itypeattribute hwaddrs misc_block_device_exception;' sepolicy/hwaddrs.te;
 echo "allow hwaddrs block_device:lnk_file { open };" >> sepolicy/hwaddrs.te;
 echo "type sensors_data_file, file_type, data_file_type, core_data_file_type;" >> sepolicy/file.te; #only included in -userdebug
-fi;
-
-if enterAndClear "device/lge/h830"; then
-sed -i 's|binvendor|bin:vendor|' proprietary-files.txt; #fix typo
 fi;
 
 if enterAndClear "device/oneplus/msm8998-common"; then
@@ -620,6 +613,7 @@ enableLowRam "device/xiaomi/Mi8937" "Mi8937";
 [[ -d kernel/oneplus/sm8250 ]] && echo -e "\nCONFIG_DEBUG_FS=n" >> kernel/oneplus/sm8250/arch/arm64/configs/vendor/kona-perf_defconfig; #vintf failure
 [[ -d kernel/samsung/exynos9810 ]] && sed -i "s/CONFIG_RANDOMIZE_BASE=y/# CONFIG_RANDOMIZE_BASE is not set/" kernel/samsung/exynos9810/arch/arm64/configs/*_defconfig; #Breaks on compile
 [[ -d kernel/xiaomi/msm8937 ]] && sed -i "s/CONFIG_MITIGATE_SPECTRE_BRANCH_HISTORY=y/# CONFIG_MITIGATE_SPECTRE_BRANCH_HISTORY is not set/" kernel/xiaomi/msm8937/arch/arm64/configs/*_defconfig; #Breaks on compile
+[[ -d kernel/xiaomi/vayu ]] && echo -e "\nCONFIG_DEBUG_FS=y" >> kernel/xiaomi/vayu/arch/arm64/configs/vendor/sm8150-perf_defconfig; #compile failure
 
 if [ "$DOS_DEBLOBBER_REMOVE_EUICC_FULL" = false ]; then sed -i '/<privapp-permissions/a\ \ \ \ \ \ \ \ <deny-permission name="android.permission.INTERNET" \/>' vendor/*/*/proprietary/*/etc/permissions/com.google.euiccpixel.xml; fi; #Remove network permission
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l* || true; #Fix builds with GCC 10
