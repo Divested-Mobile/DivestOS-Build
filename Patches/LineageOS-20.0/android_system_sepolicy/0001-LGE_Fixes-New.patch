@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Tue, 14 Apr 2020 17:16:42 -0400
+Subject: [PATCH] Fix -user builds for many LGE devices
+
+Change-Id: I3649cf211a356c57e129fbda1f5184a4bebc85af
+---
+ private/domain.te | 1 +
+ public/domain.te  | 3 +++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/private/domain.te b/private/domain.te
+index cb2140740..1ccd4fb08 100644
+--- a/private/domain.te
++++ b/private/domain.te
+@@ -133,6 +133,7 @@ neverallow {
+   -recovery
+   -ueventd
+   -mtectrl
++  -misc_block_device_exception
+ } misc_block_device:blk_file { append link relabelfrom rename write open read ioctl lock };
+ 
+ # Limit ability to ptrace or read sensitive /proc/pid files of processes
+diff --git a/public/domain.te b/public/domain.te
+index 7bed5e7ef..cde3782f4 100644
+--- a/public/domain.te
++++ b/public/domain.te
+@@ -610,6 +610,9 @@ neverallow {
+   -fastbootd
+ } metadata_block_device:blk_file { append link rename write open read ioctl lock };
+ 
++# Select devices have policies prevented by the following neverallow
++attribute misc_block_device_exception;
++
+ # No domain other than recovery, update_engine and fastbootd can write to system partition(s).
+ neverallow {
+   domain
