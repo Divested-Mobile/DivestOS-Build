@@ -110,10 +110,10 @@ buildAll() {
 	buildDevice hotdogb avb;
 	buildDevice coral avb;
 	buildDevice flame avb;
-	buildDevice vayu avb;
+	#buildDevice vayu avb; #XXX: no Wi-Fi
 	#SD730
 	buildDevice sunfish avb;
-	buildDevice davinci avb;
+	#buildDevice davinci avb; #XXX: no Wi-Fi
 	#SD632
 	buildDevice FP3 avb;
 	#SD865
@@ -161,6 +161,7 @@ patchWorkspaceReal() {
 
 	source build/envsetup.sh;
 	repopick -i 361248; #Launcher3: Allow toggling monochrome icons for all apps
+	repopick -it T_asb_2023-11 -e 373323;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

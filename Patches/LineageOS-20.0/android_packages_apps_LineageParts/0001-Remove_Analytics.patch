@@ -14,10 +14,10 @@ Change-Id: Ic01c97d6ceac8d324609763973639b41b4581a76
  6 files changed, 56 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index a3b2e43..d43a437 100644
+index 44e8323..972ba36 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
-@@ -257,28 +257,6 @@
+@@ -258,28 +258,6 @@
                  android:resource="@string/summary_empty" />
          </activity-alias>
  
@@ -47,10 +47,10 @@ index a3b2e43..d43a437 100644
              android:name=".profiles.NFCProfile"
              android:exported="true">
 diff --git a/proguard.flags b/proguard.flags
-index 9de6495..911b751 100644
+index cfbdae3..8991f2b 100644
 --- a/proguard.flags
 +++ b/proguard.flags
-@@ -7,7 +7,6 @@
+@@ -11,7 +11,6 @@
  -keep class org.lineageos.lineageparts.gestures.*
  -keep class org.lineageos.lineageparts.hardware.*
  -keep class org.lineageos.lineageparts.input.*
@@ -59,11 +59,11 @@ index 9de6495..911b751 100644
  -keep class org.lineageos.lineageparts.notificationlight.*
  -keep class org.lineageos.lineageparts.power.*
 diff --git a/res/values/config.xml b/res/values/config.xml
-index a3ee437..c4532c5 100644
+index adfcaa4..4c575f2 100644
 --- a/res/values/config.xml
 +++ b/res/values/config.xml
-@@ -17,9 +17,6 @@
- 
+@@ -6,9 +6,6 @@
+ -->
  <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
  
 -    <!-- Metrics server endpoint -->
@@ -73,10 +73,10 @@ index a3ee437..c4532c5 100644
           The array should be sorted in the same order as the
           touchscreen gestures advertised by the device's LineageHW impl. -->
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 4c3a92d..9db0d06 100644
+index 0358a7e..f6c27fc 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -550,28 +550,6 @@
+@@ -543,28 +543,6 @@
                   <b>Total commits:</b> <xliff:g id="total_commits">%2$s</xliff:g><br/><br/>
                   <b>Last update:</b> <xliff:g id="date">%3$s</xliff:g>]]></string>
  
@@ -106,10 +106,10 @@ index 4c3a92d..9db0d06 100644
      <string name="accelerometer_title">Auto-rotate screen</string>
      <string name="display_rotation_title">Rotation settings</string>
 diff --git a/res/xml/parts_catalog.xml b/res/xml/parts_catalog.xml
-index 691ce47..ea2a07b 100644
+index d6b19c0..e356517 100644
 --- a/res/xml/parts_catalog.xml
 +++ b/res/xml/parts_catalog.xml
-@@ -75,11 +75,6 @@
+@@ -64,11 +64,6 @@
            android:fragment="org.lineageos.lineageparts.statusbar.StatusBarSettings"
            lineage:xmlRes="@xml/status_bar_settings" />
  
@@ -122,10 +122,10 @@ index 691ce47..ea2a07b 100644
            android:title="@string/power_menu_title"
            android:fragment="org.lineageos.lineageparts.input.PowerMenuActions"
 diff --git a/res/xml/trust_preferences.xml b/res/xml/trust_preferences.xml
-index 7cebff4..3b89030 100644
+index f28a305..5b62c73 100644
 --- a/res/xml/trust_preferences.xml
 +++ b/res/xml/trust_preferences.xml
-@@ -47,9 +47,6 @@
+@@ -36,9 +36,6 @@
              android:entryValues="@array/trust_restrict_usb_values"
              android:defaultValue="0" />
  

@@ -518,7 +518,7 @@
   <apn carrier="HoT Internet" mcc="232" mnc="07" apn="webaut" type="default,supl" />
   <apn carrier="HoT MMS" mcc="232" mnc="07" apn="mmsaut" mmsc="http://mmsaut.at/send" mmsproxy="212.95.31.50" mmsport="80" type="mms" />
   <apn carrier="3 AT" mcc="232" mnc="10" apn="drei.at" server="http://mobile.drei.at" mmsc="http://mmsc" mmsproxy="213.94.78.133" mmsport="8799" type="default,supl,mms" />
-  <apn carrier="Bob" mcc="232" mnc="11" apn="data.bob" user="data@bob.at" password="ppp" type="default,supl" />
+  <apn carrier="Bob" mcc="232" mnc="11" apn="bob.at" user="data@bob.at" password="ppp" protocol="IPV4V6" type="default,supl" />
   <apn carrier="Bob MMS" mcc="232" mnc="11" apn="mms.bob.at" user="data@bob.at" password="ppp" mmsc="http://mmsc.bob.at" mmsproxy="194.48.124.7" mmsport="8001" type="mms" />
   <apn carrier="Yesss" mcc="232" mnc="12" apn="webapn.at" protocol="IPV4V6" type="default,supl" />
   <apn carrier="T-Mobile A Internet" mcc="232" mnc="13" apn="internet.t-mobile.at" user="t-mobile" password="tm" authtype="1" type="default,supl" />
@@ -1320,7 +1320,7 @@
   <apn carrier="WCW Internet" mcc="310" mnc="180" apn="internet.wcc.net" user="3257630000" password="mmsc" type="default,supl" authtype="0" />
   <apn carrier="WCW-MMS" mcc="310" mnc="180" apn="mms.wcc.net" proxy="209.55.70.246" port="80" mmsc="http://mms.wcc.net" mmsproxy="209.55.70.246" mmsport="80" user="13257630000" password="mmsc" type="mms" authtype="3" />
   <apn carrier="WCW-MMS only" mcc="310" mnc="180" apn="mms.wcc.net" proxy="209.55.70.244" port="80" mmsc="http://mms.wcc.net" mmsproxy="209.55.70.246" mmsport="80" user="3257630000" password="mmsc" type="default,mms" authtype="3" />
-  <apn carrier="Ting Data" mcc="310" mnc="240" apn="wireless.dish.com" mmsc="http://wholesale.mmsmvno.com/mms/wapenc" protocol="IPV4V6" roaming_protocol="IPV4V6" type="default,admin,fota,mms,supl,hipri,internet,dun" />
+  <apn carrier="Ting Data" carrier_id="2523" mcc="310" mnc="240" apn="wireless.dish.com" mmsc="http://wholesale.mmsmvno.com/mms/wapenc" protocol="IPV4V6" roaming_protocol="IPV4V6" type="default,admin,fota,mms,supl,hipri,internet,dun" mvno_type="gid" mvno_match_data="6430" />
   <apn carrier="Mint" mcc="310" mnc="240" apn="Wholesale" type="default,supl,mms,ia" mmsc="http://wholesale.mmsmvno.com/mms/wapenc" mmsport="8080" protocol="IPV4V6" roaming_protocol="IPV4V6" mvno_type="gid" mvno_match_data="756D" />
   <apn carrier="T-Mobile US IMS" carrier_id="1" mcc="310" mnc="260" apn="ims" type="ims" protocol="IPV6" bearer_bitmask="14|20" mtu="1440" user_visible="false" />
   <apn carrier="T-Mobile US IMS" carrier_id="1" mcc="310" mnc="260" apn="ims" type="ims" protocol="IPV6" roaming_protocol="IPV6" bearer_bitmask="18" mtu="1440" user_visible="false" />

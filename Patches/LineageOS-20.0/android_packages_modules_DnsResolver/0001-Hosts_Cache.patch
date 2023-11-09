@@ -31,7 +31,7 @@ Change-Id: I5926493864d4b1291ae83f8b601bf5dcc54085cd
  create mode 100644 hosts_cache.h
 
 diff --git a/Android.bp b/Android.bp
-index 45425aa0..e843654c 100644
+index b0cfee0c..35c47020 100644
 --- a/Android.bp
 +++ b/Android.bp
 @@ -164,6 +164,7 @@ cc_library {
