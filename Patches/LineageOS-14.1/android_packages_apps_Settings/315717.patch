@@ -24,7 +24,7 @@ Change-Id: Iadec059b662fd91754ad573bbe688702cdd3c9af
  3 files changed, 44 insertions(+), 12 deletions(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 322baf1566..f98146b139 100644
+index 322baf15662..f98146b139b 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -7975,4 +7975,25 @@
@@ -54,7 +54,7 @@ index 322baf1566..f98146b139 100644
 +    <string name="bluetooth_connect_access_dialog_positive">Connect</string>
  </resources>
 diff --git a/src/com/android/settings/bluetooth/BluetoothPermissionActivity.java b/src/com/android/settings/bluetooth/BluetoothPermissionActivity.java
-index 92988dd97e..9444d49263 100644
+index 92988dd97ee..9444d49263f 100644
 --- a/src/com/android/settings/bluetooth/BluetoothPermissionActivity.java
 +++ b/src/com/android/settings/bluetooth/BluetoothPermissionActivity.java
 @@ -25,6 +25,7 @@ import android.content.DialogInterface;
@@ -124,7 +124,7 @@ index 92988dd97e..9444d49263 100644
      }
  
 diff --git a/src/com/android/settings/bluetooth/BluetoothPermissionRequest.java b/src/com/android/settings/bluetooth/BluetoothPermissionRequest.java
-index 3de10a5d10..d23dea93e5 100644
+index 3de10a5d10e..d23dea93e52 100644
 --- a/src/com/android/settings/bluetooth/BluetoothPermissionRequest.java
 +++ b/src/com/android/settings/bluetooth/BluetoothPermissionRequest.java
 @@ -144,13 +144,17 @@ public final class BluetoothPermissionRequest extends BroadcastReceiver {

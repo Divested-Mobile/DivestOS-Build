@@ -76,7 +76,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2023-10-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-10 #XXX
+sed -i 's/2021-06-05/2023-11-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-11 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -167,6 +167,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_av/319987.patch"; #n-asb-2021-12 Fix
 applyPatch "$DOS_PATCHES/android_frameworks_av/321222.patch"; #n-asb-2022-01 SimpleDecodingSource:Prevent OOB write in heap mem
 applyPatch "$DOS_PATCHES/android_frameworks_av/358729.patch"; #n-asb-2023-06 Fix NuMediaExtractor::readSampleData buffer Handling
 applyPatch "$DOS_PATCHES/android_frameworks_av/365698.patch"; #n-asb-2023-09 Fix Segv on unknown address error flagged by fuzzer test.
+applyPatch "$DOS_PATCHES/android_frameworks_av/373035.patch"; #n-asb-2023-11 Fix for heap buffer overflow issue flagged by fuzzer test.
 fi;
 
 if enterAndClear "frameworks/base"; then
@@ -236,6 +237,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/367635.patch"; #n-asb-2023-10 R
 applyPatch "$DOS_PATCHES/android_frameworks_base/367636.patch"; #n-asb-2023-10 Fixing DatabaseUtils to detect malformed UTF-16 strings
 applyPatch "$DOS_PATCHES/android_frameworks_base/367637.patch"; #n-asb-2023-10 Do not share key mappings with JNI object
 applyPatch "$DOS_PATCHES/android_frameworks_base/367638.patch"; #n-asb-2023-10 Fix KCM key mapping cloning
+applyPatch "$DOS_PATCHES/android_frameworks_base/373033.patch"; #n-asb-2023-11 [SettingsProvider] verify ringtone URI before setting
+applyPatch "$DOS_PATCHES/android_frameworks_base/373034.patch"; #n-asb-2023-11 Use type safe API of readParcelableArray
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)

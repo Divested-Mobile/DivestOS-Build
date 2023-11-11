@@ -15,7 +15,7 @@ Merged-In:I8f0b066de710169ee8b922c44b6519ca21b9c7ef
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index f98146b139..d63cbc6b60 100644
+index f98146b139b..d63cbc6b603 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -3508,7 +3508,7 @@

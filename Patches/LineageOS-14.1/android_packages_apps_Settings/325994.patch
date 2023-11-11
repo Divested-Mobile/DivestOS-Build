@@ -26,7 +26,7 @@ Merged-In:Iaa2d3a9497c3266babe0789961befc9776a4db7a
  1 file changed, 17 insertions(+), 7 deletions(-)
 
 diff --git a/src/com/android/settings/users/AppRestrictionsFragment.java b/src/com/android/settings/users/AppRestrictionsFragment.java
-index f72bf9e97b..ee2114219e 100644
+index f72bf9e97bf..ee2114219e7 100644
 --- a/src/com/android/settings/users/AppRestrictionsFragment.java
 +++ b/src/com/android/settings/users/AppRestrictionsFragment.java
 @@ -17,6 +17,7 @@

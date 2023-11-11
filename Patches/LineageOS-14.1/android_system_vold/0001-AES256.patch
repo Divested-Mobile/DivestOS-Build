@@ -10,7 +10,7 @@ Change-Id: Ib2d53a1d22e935ef0fa5f0f91e3bf5308d9c6459
  2 files changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/Android.mk b/Android.mk
-index e645574..7112dce 100644
+index e645574d..7112dcef 100644
 --- a/Android.mk
 +++ b/Android.mk
 @@ -115,6 +115,10 @@ LOCAL_C_INCLUDES += $(TARGET_CRYPTFS_HW_PATH)
@@ -25,7 +25,7 @@ index e645574..7112dce 100644
  
  include $(CLEAR_VARS)
 diff --git a/cryptfs.c b/cryptfs.c
-index 0ae9d9f..6141624 100644
+index 0ae9d9fe..61416241 100644
 --- a/cryptfs.c
 +++ b/cryptfs.c
 @@ -76,9 +76,17 @@

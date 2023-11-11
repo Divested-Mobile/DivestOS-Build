@@ -18,7 +18,7 @@ Change-Id: I2e519872954903575ac2fc47fa13d126bb5bac8e
  1 file changed, 2 insertions(+)
 
 diff --git a/res/values/cm_arrays.xml b/res/values/cm_arrays.xml
-index 38568e4baf..49e2a4f2d1 100644
+index 38568e4bafb..49e2a4f2d1e 100644
 --- a/res/values/cm_arrays.xml
 +++ b/res/values/cm_arrays.xml
 @@ -269,6 +269,7 @@

@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Songchun Fan <schfan@google.com>
+Date: Mon, 14 Aug 2023 15:24:11 -0700
+Subject: [PATCH] verify ringtone URI before setting
+
+Similar to ag/24422287, but the same URI verification should be done in
+SettingsProvider as well, which can be called by apps via
+Settings.System API or ContentProvider APIs without using
+RingtoneManager.
+
+BUG: 227201030
+Test: manual with a test app. Will add a CTS test.
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:1b234678ec122994ccbfc52ac48aafdad7fdb1ed)
+Merged-In: Ic0ffa1db14b5660d02880b632a7f2ad9e6e5d84b
+Change-Id: Ic0ffa1db14b5660d02880b632a7f2ad9e6e5d84b
+---
+ .../providers/settings/SettingsProvider.java  | 31 +++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+
+diff --git a/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java b/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
+index 1a5ef845c9c7..6b04584f6e69 100644
+--- a/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
++++ b/packages/SettingsProvider/src/com/android/providers/settings/SettingsProvider.java
+@@ -1106,6 +1106,9 @@ public class SettingsProvider extends ContentProvider {
+             cacheName = Settings.System.ALARM_ALERT_CACHE;
+         }
+         if (cacheName != null) {
++            if (!isValidAudioUri(name, value)) {
++                return false;
++            }
+             final File cacheFile = new File(
+                     getRingtoneCacheDir(UserHandle.getCallingUserId()), cacheName);
+             cacheFile.delete();
+@@ -1136,6 +1139,34 @@ public class SettingsProvider extends ContentProvider {
+         }
+     }
+ 
++    private boolean isValidAudioUri(String name, String uri) {
++        if (uri != null) {
++            Uri audioUri = Uri.parse(uri);
++            if (Settings.AUTHORITY.equals(
++                    ContentProvider.getAuthorityWithoutUserId(audioUri.getAuthority()))) {
++                // Don't accept setting the default uri to self-referential URIs like
++                // Settings.System.DEFAULT_RINGTONE_URI, which is an alias to the value of this
++                // setting.
++                return false;
++            }
++            final String mimeType = getContext().getContentResolver().getType(audioUri);
++            if (mimeType == null) {
++                Slog.e(LOG_TAG,
++                        "mutateSystemSetting for setting: " + name + " URI: " + audioUri
++                        + " ignored: failure to find mimeType (no access from this context?)");
++                return false;
++            }
++            if (!(mimeType.startsWith("audio/") || mimeType.equals("application/ogg")
++                    || mimeType.equals("application/x-flac"))) {
++                Slog.e(LOG_TAG,
++                        "mutateSystemSetting for setting: " + name + " URI: " + audioUri
++                        + " ignored: associated mimeType: " + mimeType + " is not an audio type");
++                return false;
++            }
++        }
++        return true;
++    }
++
+     private boolean hasWriteSecureSettingsPermission() {
+         // Write secure settings is a more protected permission. If caller has it we are good.
+         if (getContext().checkCallingOrSelfPermission(Manifest.permission.WRITE_SECURE_SETTINGS)

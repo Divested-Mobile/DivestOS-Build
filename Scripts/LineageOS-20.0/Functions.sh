@@ -54,6 +54,7 @@ buildAll() {
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
 	#frontloaded for testing
 	buildDevice bluejay avb;
+	buildDevice taimen avb;
 	#SD820
 	buildDevice h830;
 	buildDevice h850;
@@ -70,7 +71,6 @@ buildAll() {
 	buildDevice vs995;
 	buildDevice z2_plus verity;
 	#SD835
-	buildDevice taimen avb;
 	buildDevice walleye avb;
 	buildDevice cheeseburger verity;
 	buildDevice dumpling verity;

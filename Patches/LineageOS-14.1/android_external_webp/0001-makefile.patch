@@ -14,14 +14,14 @@ Signed-off-by: Vasyl Gello <vasek.gello@gmail.com>
 
 diff --git a/Android.mk b/Android.mk
 new file mode 100644
-index 0000000..5053e7d
+index 00000000..5053e7d6
 --- /dev/null
 +++ b/Android.mk
 @@ -0,0 +1 @@
 +include $(call all-subdir-makefiles)
 diff --git a/src/Android.mk b/src/Android.mk
 new file mode 100644
-index 0000000..4997695
+index 00000000..4997695b
 --- /dev/null
 +++ b/src/Android.mk
 @@ -0,0 +1,170 @@

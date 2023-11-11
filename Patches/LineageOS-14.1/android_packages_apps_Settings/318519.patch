@@ -110,7 +110,7 @@ Change-Id: Id5c579245cf72f10f4d15fcb69d24bcf58dd281a
  50 files changed, 850 insertions(+)
 
 diff --git a/res/values-af/strings.xml b/res/values-af/strings.xml
-index 7305defade..c89e846582 100644
+index 7305defade4..c89e8465820 100644
 --- a/res/values-af/strings.xml
 +++ b/res/values-af/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -136,7 +136,7 @@ index 7305defade..c89e846582 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Koppel"</string>
  </resources>
 diff --git a/res/values-am/strings.xml b/res/values-am/strings.xml
-index 7d70dc6cbe..d3f0c6cbca 100644
+index 7d70dc6cbef..d3f0c6cbcaa 100644
 --- a/res/values-am/strings.xml
 +++ b/res/values-am/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -162,7 +162,7 @@ index 7d70dc6cbe..d3f0c6cbca 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"አገናኝ"</string>
  </resources>
 diff --git a/res/values-ar/strings.xml b/res/values-ar/strings.xml
-index 0353c3bcf8..e64d14a5fd 100644
+index 0353c3bcf83..e64d14a5fdf 100644
 --- a/res/values-ar/strings.xml
 +++ b/res/values-ar/strings.xml
 @@ -3403,4 +3403,21 @@
@@ -188,7 +188,7 @@ index 0353c3bcf8..e64d14a5fd 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"الاتصال"</string>
  </resources>
 diff --git a/res/values-b+sr+Latn/strings.xml b/res/values-b+sr+Latn/strings.xml
-index 1306c1606e..dc22a54702 100644
+index 1306c1606ee..dc22a54702c 100644
 --- a/res/values-b+sr+Latn/strings.xml
 +++ b/res/values-b+sr+Latn/strings.xml
 @@ -3295,4 +3295,21 @@
@@ -214,7 +214,7 @@ index 1306c1606e..dc22a54702 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Poveži"</string>
  </resources>
 diff --git a/res/values-bg/strings.xml b/res/values-bg/strings.xml
-index 535a81604a..76b9df05eb 100644
+index 535a81604a6..76b9df05eb0 100644
 --- a/res/values-bg/strings.xml
 +++ b/res/values-bg/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -240,7 +240,7 @@ index 535a81604a..76b9df05eb 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Свързване"</string>
  </resources>
 diff --git a/res/values-ca/strings.xml b/res/values-ca/strings.xml
-index 50ec304b9f..65cfb3610e 100644
+index 50ec304b9fa..65cfb3610e9 100644
 --- a/res/values-ca/strings.xml
 +++ b/res/values-ca/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -266,7 +266,7 @@ index 50ec304b9f..65cfb3610e 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Connecta"</string>
  </resources>
 diff --git a/res/values-cs/strings.xml b/res/values-cs/strings.xml
-index d313f7a3c0..204ce67618 100644
+index d313f7a3c0b..204ce67618e 100644
 --- a/res/values-cs/strings.xml
 +++ b/res/values-cs/strings.xml
 @@ -3331,4 +3331,21 @@
@@ -292,7 +292,7 @@ index d313f7a3c0..204ce67618 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Připojit"</string>
  </resources>
 diff --git a/res/values-da/strings.xml b/res/values-da/strings.xml
-index 000cb2d99f..a1878e3638 100644
+index 000cb2d99f0..a1878e36386 100644
 --- a/res/values-da/strings.xml
 +++ b/res/values-da/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -318,7 +318,7 @@ index 000cb2d99f..a1878e3638 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Opret forbindelse"</string>
  </resources>
 diff --git a/res/values-de/strings.xml b/res/values-de/strings.xml
-index 4d1b5dedcf..19d05ebf0f 100644
+index 4d1b5dedcf2..19d05ebf0fd 100644
 --- a/res/values-de/strings.xml
 +++ b/res/values-de/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -344,7 +344,7 @@ index 4d1b5dedcf..19d05ebf0f 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Verbinden"</string>
  </resources>
 diff --git a/res/values-el/strings.xml b/res/values-el/strings.xml
-index 7934c502ec..47f753c94d 100644
+index 7934c502ece..47f753c94d7 100644
 --- a/res/values-el/strings.xml
 +++ b/res/values-el/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -370,7 +370,7 @@ index 7934c502ec..47f753c94d 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Σύνδεση"</string>
  </resources>
 diff --git a/res/values-en-rAU/strings.xml b/res/values-en-rAU/strings.xml
-index e57faea997..007f5b3231 100644
+index e57faea997b..007f5b32319 100644
 --- a/res/values-en-rAU/strings.xml
 +++ b/res/values-en-rAU/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -396,7 +396,7 @@ index e57faea997..007f5b3231 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Connect"</string>
  </resources>
 diff --git a/res/values-en-rGB/strings.xml b/res/values-en-rGB/strings.xml
-index 6a22132233..562d21263d 100644
+index 6a22132233b..562d21263df 100644
 --- a/res/values-en-rGB/strings.xml
 +++ b/res/values-en-rGB/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -422,7 +422,7 @@ index 6a22132233..562d21263d 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Connect"</string>
  </resources>
 diff --git a/res/values-en-rIN/strings.xml b/res/values-en-rIN/strings.xml
-index 6a22132233..562d21263d 100644
+index 6a22132233b..562d21263df 100644
 --- a/res/values-en-rIN/strings.xml
 +++ b/res/values-en-rIN/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -448,7 +448,7 @@ index 6a22132233..562d21263d 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Connect"</string>
  </resources>
 diff --git a/res/values-es-rUS/strings.xml b/res/values-es-rUS/strings.xml
-index 7a573307bd..38c1b222d6 100644
+index 7a573307bdd..38c1b222d69 100644
 --- a/res/values-es-rUS/strings.xml
 +++ b/res/values-es-rUS/strings.xml
 @@ -3257,4 +3257,21 @@
@@ -474,7 +474,7 @@ index 7a573307bd..38c1b222d6 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Conectar"</string>
  </resources>
 diff --git a/res/values-es/strings.xml b/res/values-es/strings.xml
-index 0d867de44f..389475ecb0 100644
+index 0d867de44f7..389475ecb0c 100644
 --- a/res/values-es/strings.xml
 +++ b/res/values-es/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -500,7 +500,7 @@ index 0d867de44f..389475ecb0 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Conectar"</string>
  </resources>
 diff --git a/res/values-fa/strings.xml b/res/values-fa/strings.xml
-index c15eaa826c..5e0c4f0825 100644
+index c15eaa826cb..5e0c4f08250 100644
 --- a/res/values-fa/strings.xml
 +++ b/res/values-fa/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -526,7 +526,7 @@ index c15eaa826c..5e0c4f0825 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"متصل شود"</string>
  </resources>
 diff --git a/res/values-fi/strings.xml b/res/values-fi/strings.xml
-index 14136bd2a7..b223c0ece1 100644
+index 14136bd2a74..b223c0ece11 100644
 --- a/res/values-fi/strings.xml
 +++ b/res/values-fi/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -552,7 +552,7 @@ index 14136bd2a7..b223c0ece1 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Yhdistä"</string>
  </resources>
 diff --git a/res/values-fr-rCA/strings.xml b/res/values-fr-rCA/strings.xml
-index 639fcd27f0..38c27094d6 100644
+index 639fcd27f0f..38c27094d6b 100644
 --- a/res/values-fr-rCA/strings.xml
 +++ b/res/values-fr-rCA/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -578,7 +578,7 @@ index 639fcd27f0..38c27094d6 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Se connecter"</string>
  </resources>
 diff --git a/res/values-fr/strings.xml b/res/values-fr/strings.xml
-index 434527e316..4aaf6a4b04 100644
+index 434527e3164..4aaf6a4b04e 100644
 --- a/res/values-fr/strings.xml
 +++ b/res/values-fr/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -604,7 +604,7 @@ index 434527e316..4aaf6a4b04 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Autoriser la connexion"</string>
  </resources>
 diff --git a/res/values-hi/strings.xml b/res/values-hi/strings.xml
-index 2901bb8ff8..6ac0c9d200 100644
+index 2901bb8ff81..6ac0c9d2007 100644
 --- a/res/values-hi/strings.xml
 +++ b/res/values-hi/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -630,7 +630,7 @@ index 2901bb8ff8..6ac0c9d200 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"कनेक्ट करें"</string>
  </resources>
 diff --git a/res/values-hr/strings.xml b/res/values-hr/strings.xml
-index df896b8db3..18f20b2f05 100644
+index df896b8db31..18f20b2f05f 100644
 --- a/res/values-hr/strings.xml
 +++ b/res/values-hr/strings.xml
 @@ -3295,4 +3295,21 @@
@@ -656,7 +656,7 @@ index df896b8db3..18f20b2f05 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Poveži"</string>
  </resources>
 diff --git a/res/values-hu/strings.xml b/res/values-hu/strings.xml
-index b6d1ba90db..9474b452ef 100644
+index b6d1ba90db1..9474b452efe 100644
 --- a/res/values-hu/strings.xml
 +++ b/res/values-hu/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -682,7 +682,7 @@ index b6d1ba90db..9474b452ef 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Csatlakozás"</string>
  </resources>
 diff --git a/res/values-in/strings.xml b/res/values-in/strings.xml
-index 1397cdb54d..0892d1def4 100644
+index 1397cdb54d4..0892d1def4e 100644
 --- a/res/values-in/strings.xml
 +++ b/res/values-in/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -708,7 +708,7 @@ index 1397cdb54d..0892d1def4 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Hubungkan"</string>
  </resources>
 diff --git a/res/values-it/strings.xml b/res/values-it/strings.xml
-index 5c8a8c0721..29c2410f4e 100644
+index 5c8a8c07216..29c2410f4ec 100644
 --- a/res/values-it/strings.xml
 +++ b/res/values-it/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -734,7 +734,7 @@ index 5c8a8c0721..29c2410f4e 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Connetti"</string>
  </resources>
 diff --git a/res/values-iw/strings.xml b/res/values-iw/strings.xml
-index 2afe97516f..b45f91ba31 100644
+index 2afe97516fa..b45f91ba31e 100644
 --- a/res/values-iw/strings.xml
 +++ b/res/values-iw/strings.xml
 @@ -3333,4 +3333,21 @@
@@ -760,7 +760,7 @@ index 2afe97516f..b45f91ba31 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"התחברות"</string>
  </resources>
 diff --git a/res/values-ja/strings.xml b/res/values-ja/strings.xml
-index a2279c4b4c..950c2bb781 100644
+index a2279c4b4cd..950c2bb7812 100644
 --- a/res/values-ja/strings.xml
 +++ b/res/values-ja/strings.xml
 @@ -3263,4 +3263,21 @@
@@ -786,7 +786,7 @@ index a2279c4b4c..950c2bb781 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"接続"</string>
  </resources>
 diff --git a/res/values-ko/strings.xml b/res/values-ko/strings.xml
-index 43b80927d5..a4691a22f2 100644
+index 43b80927d5e..a4691a22f20 100644
 --- a/res/values-ko/strings.xml
 +++ b/res/values-ko/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -812,7 +812,7 @@ index 43b80927d5..a4691a22f2 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"연결"</string>
  </resources>
 diff --git a/res/values-lt/strings.xml b/res/values-lt/strings.xml
-index 55b074a965..645145f258 100644
+index 55b074a965a..645145f258b 100644
 --- a/res/values-lt/strings.xml
 +++ b/res/values-lt/strings.xml
 @@ -3333,4 +3333,21 @@
@@ -838,7 +838,7 @@ index 55b074a965..645145f258 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Susieti"</string>
  </resources>
 diff --git a/res/values-lv/strings.xml b/res/values-lv/strings.xml
-index 7513656733..8ec0790107 100644
+index 75136567337..8ec0790107b 100644
 --- a/res/values-lv/strings.xml
 +++ b/res/values-lv/strings.xml
 @@ -3295,4 +3295,21 @@
@@ -864,7 +864,7 @@ index 7513656733..8ec0790107 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Izveidot savienojumu"</string>
  </resources>
 diff --git a/res/values-nb/strings.xml b/res/values-nb/strings.xml
-index 1564c3aebd..e7bb6a0f6b 100644
+index 1564c3aebd9..e7bb6a0f6be 100644
 --- a/res/values-nb/strings.xml
 +++ b/res/values-nb/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -890,7 +890,7 @@ index 1564c3aebd..e7bb6a0f6b 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Koble til"</string>
  </resources>
 diff --git a/res/values-nl/strings.xml b/res/values-nl/strings.xml
-index b5fd751567..b57e8e5810 100644
+index b5fd7515679..b57e8e5810f 100644
 --- a/res/values-nl/strings.xml
 +++ b/res/values-nl/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -916,7 +916,7 @@ index b5fd751567..b57e8e5810 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Verbinding maken"</string>
  </resources>
 diff --git a/res/values-pl/strings.xml b/res/values-pl/strings.xml
-index 889ab42063..0665c17ac5 100644
+index 889ab420632..0665c17ac57 100644
 --- a/res/values-pl/strings.xml
 +++ b/res/values-pl/strings.xml
 @@ -3331,4 +3331,21 @@
@@ -942,7 +942,7 @@ index 889ab42063..0665c17ac5 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Połącz"</string>
  </resources>
 diff --git a/res/values-pt-rBR/strings.xml b/res/values-pt-rBR/strings.xml
-index a4dc8b2d46..66c634ecfd 100644
+index a4dc8b2d461..66c634ecfd7 100644
 --- a/res/values-pt-rBR/strings.xml
 +++ b/res/values-pt-rBR/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -968,7 +968,7 @@ index a4dc8b2d46..66c634ecfd 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Conectar"</string>
  </resources>
 diff --git a/res/values-pt-rPT/strings.xml b/res/values-pt-rPT/strings.xml
-index 3ad51989fd..7c822f31ef 100644
+index 3ad51989fd1..7c822f31ef7 100644
 --- a/res/values-pt-rPT/strings.xml
 +++ b/res/values-pt-rPT/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -994,7 +994,7 @@ index 3ad51989fd..7c822f31ef 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Ligar"</string>
  </resources>
 diff --git a/res/values-pt/strings.xml b/res/values-pt/strings.xml
-index a4dc8b2d46..66c634ecfd 100644
+index a4dc8b2d461..66c634ecfd7 100644
 --- a/res/values-pt/strings.xml
 +++ b/res/values-pt/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -1020,7 +1020,7 @@ index a4dc8b2d46..66c634ecfd 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Conectar"</string>
  </resources>
 diff --git a/res/values-ro/strings.xml b/res/values-ro/strings.xml
-index 7538004a6a..0b90949114 100644
+index 7538004a6a7..0b90949114a 100644
 --- a/res/values-ro/strings.xml
 +++ b/res/values-ro/strings.xml
 @@ -3295,4 +3295,21 @@
@@ -1046,7 +1046,7 @@ index 7538004a6a..0b90949114 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Conectați-vă"</string>
  </resources>
 diff --git a/res/values-ru/strings.xml b/res/values-ru/strings.xml
-index c2346806e5..9af521ca7b 100644
+index c2346806e5d..9af521ca7b5 100644
 --- a/res/values-ru/strings.xml
 +++ b/res/values-ru/strings.xml
 @@ -3331,4 +3331,21 @@
@@ -1072,7 +1072,7 @@ index c2346806e5..9af521ca7b 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Подключиться"</string>
  </resources>
 diff --git a/res/values-sk/strings.xml b/res/values-sk/strings.xml
-index 3174c120b1..043d0e6d65 100644
+index 3174c120b1e..043d0e6d65f 100644
 --- a/res/values-sk/strings.xml
 +++ b/res/values-sk/strings.xml
 @@ -3331,4 +3331,21 @@
@@ -1098,7 +1098,7 @@ index 3174c120b1..043d0e6d65 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Pripojiť"</string>
  </resources>
 diff --git a/res/values-sl/strings.xml b/res/values-sl/strings.xml
-index afe3ce2c0a..f17fe239d7 100644
+index afe3ce2c0ae..f17fe239d78 100644
 --- a/res/values-sl/strings.xml
 +++ b/res/values-sl/strings.xml
 @@ -3331,4 +3331,21 @@
@@ -1124,7 +1124,7 @@ index afe3ce2c0a..f17fe239d7 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Poveži"</string>
  </resources>
 diff --git a/res/values-sr/strings.xml b/res/values-sr/strings.xml
-index fda00b5da1..cd40bed518 100644
+index fda00b5da11..cd40bed5181 100644
 --- a/res/values-sr/strings.xml
 +++ b/res/values-sr/strings.xml
 @@ -3295,4 +3295,21 @@
@@ -1150,7 +1150,7 @@ index fda00b5da1..cd40bed518 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Повежи"</string>
  </resources>
 diff --git a/res/values-sv/strings.xml b/res/values-sv/strings.xml
-index 96af86a45b..0619b36d2d 100644
+index 96af86a45b8..0619b36d2db 100644
 --- a/res/values-sv/strings.xml
 +++ b/res/values-sv/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -1176,7 +1176,7 @@ index 96af86a45b..0619b36d2d 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Anslut"</string>
  </resources>
 diff --git a/res/values-sw/strings.xml b/res/values-sw/strings.xml
-index 17b6f5aaf0..e1044f1170 100644
+index 17b6f5aaf0d..e1044f1170f 100644
 --- a/res/values-sw/strings.xml
 +++ b/res/values-sw/strings.xml
 @@ -3263,4 +3263,21 @@
@@ -1202,7 +1202,7 @@ index 17b6f5aaf0..e1044f1170 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Unganisha"</string>
  </resources>
 diff --git a/res/values-th/strings.xml b/res/values-th/strings.xml
-index cd68a81ac5..56925e2e2e 100644
+index cd68a81ac5a..56925e2e2ec 100644
 --- a/res/values-th/strings.xml
 +++ b/res/values-th/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -1228,7 +1228,7 @@ index cd68a81ac5..56925e2e2e 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"เชื่อมต่อ"</string>
  </resources>
 diff --git a/res/values-tl/strings.xml b/res/values-tl/strings.xml
-index 0c6308f8a8..2569417f29 100644
+index 0c6308f8a89..2569417f294 100644
 --- a/res/values-tl/strings.xml
 +++ b/res/values-tl/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -1254,7 +1254,7 @@ index 0c6308f8a8..2569417f29 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Kumonekta"</string>
  </resources>
 diff --git a/res/values-tr/strings.xml b/res/values-tr/strings.xml
-index 3a5e831685..c446b27b9d 100644
+index 3a5e8316853..c446b27b9d9 100644
 --- a/res/values-tr/strings.xml
 +++ b/res/values-tr/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -1280,7 +1280,7 @@ index 3a5e831685..c446b27b9d 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Bağlan"</string>
  </resources>
 diff --git a/res/values-uk/strings.xml b/res/values-uk/strings.xml
-index 5cbff65844..d37c4985dc 100644
+index 5cbff65844d..d37c4985dc6 100644
 --- a/res/values-uk/strings.xml
 +++ b/res/values-uk/strings.xml
 @@ -3331,4 +3331,21 @@
@@ -1306,7 +1306,7 @@ index 5cbff65844..d37c4985dc 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Підключитися"</string>
  </resources>
 diff --git a/res/values-vi/strings.xml b/res/values-vi/strings.xml
-index 8c93d7f4c6..dec7547003 100644
+index 8c93d7f4c68..dec75470030 100644
 --- a/res/values-vi/strings.xml
 +++ b/res/values-vi/strings.xml
 @@ -3259,4 +3259,21 @@
@@ -1332,7 +1332,7 @@ index 8c93d7f4c6..dec7547003 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"Kết nối"</string>
  </resources>
 diff --git a/res/values-zh-rCN/strings.xml b/res/values-zh-rCN/strings.xml
-index 74b54de365..b65a5cc646 100644
+index 74b54de365c..b65a5cc646a 100644
 --- a/res/values-zh-rCN/strings.xml
 +++ b/res/values-zh-rCN/strings.xml
 @@ -3298,4 +3298,21 @@
@@ -1358,7 +1358,7 @@ index 74b54de365..b65a5cc646 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"连接"</string>
  </resources>
 diff --git a/res/values-zh-rHK/strings.xml b/res/values-zh-rHK/strings.xml
-index 051663c4d6..23432b6bf6 100644
+index 051663c4d64..23432b6bf61 100644
 --- a/res/values-zh-rHK/strings.xml
 +++ b/res/values-zh-rHK/strings.xml
 @@ -3262,4 +3262,21 @@
@@ -1384,7 +1384,7 @@ index 051663c4d6..23432b6bf6 100644
 +    <string name="bluetooth_connect_access_dialog_positive" msgid="3630561675207269710">"連接"</string>
  </resources>
 diff --git a/res/values-zh-rTW/strings.xml b/res/values-zh-rTW/strings.xml
-index ddddb7dc72..312b62ad22 100644
+index ddddb7dc723..312b62ad228 100644
 --- a/res/values-zh-rTW/strings.xml
 +++ b/res/values-zh-rTW/strings.xml
 @@ -3263,4 +3263,21 @@

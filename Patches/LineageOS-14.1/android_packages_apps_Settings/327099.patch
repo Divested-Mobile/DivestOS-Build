@@ -28,7 +28,7 @@ Merged-In: I9dfde586616d004befbee529f2ae842d22795065
  1 file changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/src/com/android/settings/CredentialStorage.java b/src/com/android/settings/CredentialStorage.java
-index eed380bae4..1c82bff713 100644
+index eed380bae4f..1c82bff713f 100644
 --- a/src/com/android/settings/CredentialStorage.java
 +++ b/src/com/android/settings/CredentialStorage.java
 @@ -17,6 +17,7 @@

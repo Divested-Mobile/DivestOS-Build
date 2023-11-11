@@ -22,7 +22,7 @@ Merged-In: I40496105bae313fe5cff2a36dfe329c1e2b5bbe4
  1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/src/com/android/settings/users/AppRestrictionsFragment.java b/src/com/android/settings/users/AppRestrictionsFragment.java
-index ee2114219e..feb8b9ef01 100644
+index ee2114219e7..feb8b9ef01f 100644
 --- a/src/com/android/settings/users/AppRestrictionsFragment.java
 +++ b/src/com/android/settings/users/AppRestrictionsFragment.java
 @@ -654,10 +654,7 @@ public class AppRestrictionsFragment extends SettingsPreferenceFragment implemen

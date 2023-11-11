@@ -20,7 +20,7 @@ Change-Id: Ibbffdb5f3930df74ca8b4ba93d451f7fad086989
  4 files changed, 69 insertions(+), 1 deletion(-)
 
 diff --git a/res/menu/data_usage.xml b/res/menu/data_usage.xml
-index f4c207b767..e47c3b25fc 100644
+index f4c207b767d..e47c3b25fca 100644
 --- a/res/menu/data_usage.xml
 +++ b/res/menu/data_usage.xml
 @@ -21,4 +21,8 @@
@@ -33,7 +33,7 @@ index f4c207b767..e47c3b25fc 100644
 +        android:checkable="true" />
  </menu>
 diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
-index 0dd77d2439..d581b975fe 100644
+index 0dd77d24396..d581b975fee 100644
 --- a/res/values/cm_strings.xml
 +++ b/res/values/cm_strings.xml
 @@ -516,4 +516,9 @@
@@ -47,7 +47,7 @@ index 0dd77d2439..d581b975fe 100644
 +    <string name="captive_portal_warning_positive">Disable</string>
  </resources>
 diff --git a/src/com/android/settings/ResetNetworkConfirm.java b/src/com/android/settings/ResetNetworkConfirm.java
-index ece64b4310..cd4579a487 100644
+index ece64b43101..cd4579a4878 100644
 --- a/src/com/android/settings/ResetNetworkConfirm.java
 +++ b/src/com/android/settings/ResetNetworkConfirm.java
 @@ -25,6 +25,7 @@ import android.net.wifi.WifiManager;
@@ -69,7 +69,7 @@ index ece64b4310..cd4579a487 100644
                      .show();
          }
 diff --git a/src/com/android/settings/datausage/DataUsageSummary.java b/src/com/android/settings/datausage/DataUsageSummary.java
-index 702e6db0ae..98df2759b2 100644
+index 702e6db0ae1..98df2759b23 100644
 --- a/src/com/android/settings/datausage/DataUsageSummary.java
 +++ b/src/com/android/settings/datausage/DataUsageSummary.java
 @@ -15,8 +15,11 @@

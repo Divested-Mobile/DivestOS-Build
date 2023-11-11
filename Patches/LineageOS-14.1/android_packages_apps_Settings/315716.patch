@@ -21,7 +21,7 @@ Change-Id: I38da15d4b1fb08671f6352458cbf3f735b4083bc
  2 files changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index a4fdaf58c9..322baf1566 100644
+index a4fdaf58c9c..322baf15662 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -7961,15 +7961,18 @@
@@ -48,7 +48,7 @@ index a4fdaf58c9..322baf1566 100644
 +    <string name="request_manage_bluetooth_permission_dont_allow">Don\u2019t allow</string>
  </resources>
 diff --git a/src/com/android/settings/bluetooth/BluetoothPermissionActivity.java b/src/com/android/settings/bluetooth/BluetoothPermissionActivity.java
-index ffb4f398ab..92988dd97e 100644
+index ffb4f398ab3..92988dd97ee 100644
 --- a/src/com/android/settings/bluetooth/BluetoothPermissionActivity.java
 +++ b/src/com/android/settings/bluetooth/BluetoothPermissionActivity.java
 @@ -138,7 +138,7 @@ public class BluetoothPermissionActivity extends AlertActivity implements
