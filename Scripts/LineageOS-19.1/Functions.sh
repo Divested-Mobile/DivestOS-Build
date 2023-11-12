@@ -19,7 +19,7 @@ umask 0022;
 #Last verified: 2022-04-04
 
 patchAllKernels() {
-	startPatcher "";
+	startPatcher "kernel_xiaomi_sm8150";
 }
 export -f patchAllKernels;
 
@@ -52,6 +52,9 @@ buildAll() {
 	umask 0022;
 	cd "$DOS_BUILD_BASE";
 	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanWorkspaceForMalware; fi;
+
+	#SD855
+	buildDevice vayu avb;
 }
 export -f buildAll;
 

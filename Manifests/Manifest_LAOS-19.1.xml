@@ -63,5 +63,12 @@
 	<project path="hardware/sony/timekeep" name="LineageOS/android_hardware_sony_timekeep" remote="github" />
 	<project path="packages/apps/ElmyraService" name="LineageOS/android_packages_apps_ElmyraService" remote="github" />
 
+	<!-- Xiaomi POCO X3 Pro (vayu) -->
+	<project path="hardware/xiaomi" name="LineageOS/android_hardware_xiaomi" remote="github" />
+	<project path="device/xiaomi/vayu" name="LineageOS/android_device_xiaomi_vayu" remote="github" />
+	<project path="device/xiaomi/sm8150-common" name="LineageOS/android_device_xiaomi_sm8150-common" remote="github" />
+	<project path="kernel/xiaomi/sm8150" name="LineageOS/android_kernel_xiaomi_sm8150" remote="github" />
+
         <!-- Proprietary Blobs -->
+	<project path="vendor/xiaomi" name="COLOR_IN_THE_LINES/proprietary_vendor_xiaomi" remote="gitlab" revision="lineage-19.1" />
 </manifest>
