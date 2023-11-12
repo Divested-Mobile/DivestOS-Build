@@ -12,7 +12,7 @@ Subject: [PATCH] add native debugging setting
  create mode 100644 src/com/android/settings/security/NativeDebugPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index b3408ee49a..26ad0e54b2 100644
+index b3408ee49ac..26ad0e54b2c 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -11957,6 +11957,9 @@
@@ -26,7 +26,7 @@ index b3408ee49a..26ad0e54b2 100644
      <string name="enable_blurs_on_windows_title">Enable blurs</string>
      <!-- If blurs are supported on SurfaceFlinger, summary. [CHAR LIMIT=NONE] -->
 diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
-index dfb0db65e5..06b3511ceb 100644
+index dfb0db65e5f..06b3511cebf 100644
 --- a/res/xml/security_dashboard_settings.xml
 +++ b/res/xml/security_dashboard_settings.xml
 @@ -63,6 +63,12 @@
@@ -44,7 +44,7 @@ index dfb0db65e5..06b3511ceb 100644
      <!-- work profile security section -->
 diff --git a/src/com/android/settings/security/NativeDebugPreferenceController.java b/src/com/android/settings/security/NativeDebugPreferenceController.java
 new file mode 100644
-index 0000000000..9271e6e21c
+index 00000000000..9271e6e21cf
 --- /dev/null
 +++ b/src/com/android/settings/security/NativeDebugPreferenceController.java
 @@ -0,0 +1,106 @@
@@ -155,7 +155,7 @@ index 0000000000..9271e6e21c
 +    }
 +}
 diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
-index 953012f9e7..6f939d3165 100644
+index 953012f9e7b..6f939d31657 100644
 --- a/src/com/android/settings/security/SecuritySettings.java
 +++ b/src/com/android/settings/security/SecuritySettings.java
 @@ -119,6 +119,7 @@ public class SecuritySettings extends DashboardFragment {

@@ -16,7 +16,7 @@ Change-Id: Ic01a142722372d9d57f52947025cd9db23e58ef4
  create mode 100644 src/com/android/settings/security/HostsPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index d723977899..5af3638555 100644
+index d723977899f..5af3638555a 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -11969,6 +11969,9 @@
@@ -30,7 +30,7 @@ index d723977899..5af3638555 100644
      <string name="privacy_dashboard_title">Privacy</string>
      <!-- Summary for the top level Privacy Settings [CHAR LIMIT=NONE]-->
 diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
-index 75cc0b261d..62d42246a3 100644
+index 75cc0b261d3..62d42246a3d 100644
 --- a/res/xml/security_dashboard_settings.xml
 +++ b/res/xml/security_dashboard_settings.xml
 @@ -75,6 +75,12 @@
@@ -48,7 +48,7 @@ index 75cc0b261d..62d42246a3 100644
      <!-- work profile security section -->
 diff --git a/src/com/android/settings/security/HostsPreferenceController.java b/src/com/android/settings/security/HostsPreferenceController.java
 new file mode 100644
-index 0000000000..d8af6d2649
+index 00000000000..d8af6d26490
 --- /dev/null
 +++ b/src/com/android/settings/security/HostsPreferenceController.java
 @@ -0,0 +1,106 @@
@@ -159,7 +159,7 @@ index 0000000000..d8af6d2649
 +    }
 +}
 diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
-index 387814c406..0fbcd27104 100644
+index 387814c406b..0fbcd27104d 100644
 --- a/src/com/android/settings/security/SecuritySettings.java
 +++ b/src/com/android/settings/security/SecuritySettings.java
 @@ -121,6 +121,7 @@ public class SecuritySettings extends DashboardFragment {

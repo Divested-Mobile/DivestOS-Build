@@ -12,7 +12,7 @@ Subject: [PATCH] add exec spawning toggle
  create mode 100644 src/com/android/settings/security/ExecSpawnPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 26ad0e54b2..d7f32ee319 100644
+index 26ad0e54b2c..d7f32ee3194 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -11957,6 +11957,8 @@
@@ -25,7 +25,7 @@ index 26ad0e54b2..d7f32ee319 100644
      <string name="native_debug_summary">Generate useful logs / bug reports from crashes and permit debugging native code.</string>
  
 diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
-index 06b3511ceb..75cc0b261d 100644
+index 06b3511cebf..75cc0b261d3 100644
 --- a/res/xml/security_dashboard_settings.xml
 +++ b/res/xml/security_dashboard_settings.xml
 @@ -64,6 +64,12 @@
@@ -43,7 +43,7 @@ index 06b3511ceb..75cc0b261d 100644
              android:title="@string/native_debug_title"
 diff --git a/src/com/android/settings/security/ExecSpawnPreferenceController.java b/src/com/android/settings/security/ExecSpawnPreferenceController.java
 new file mode 100644
-index 0000000000..98cc3c29e1
+index 00000000000..98cc3c29e12
 --- /dev/null
 +++ b/src/com/android/settings/security/ExecSpawnPreferenceController.java
 @@ -0,0 +1,106 @@
@@ -154,7 +154,7 @@ index 0000000000..98cc3c29e1
 +    }
 +}
 diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
-index 6f939d3165..387814c406 100644
+index 6f939d31657..387814c406b 100644
 --- a/src/com/android/settings/security/SecuritySettings.java
 +++ b/src/com/android/settings/security/SecuritySettings.java
 @@ -119,6 +119,7 @@ public class SecuritySettings extends DashboardFragment {

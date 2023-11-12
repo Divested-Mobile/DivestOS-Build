@@ -13,7 +13,7 @@ Subject: [PATCH] add auto-reboot setting
  create mode 100644 src/com/android/settings/security/AutoRebootPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index e1976fb5cf..4c45ded7fa 100644
+index e1976fb5cf0..4c45ded7faa 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -176,6 +176,37 @@
@@ -55,7 +55,7 @@ index e1976fb5cf..4c45ded7fa 100644
          <item msgid="6490061470416867723">Small</item>
          <item msgid="3579015730662088893">Default</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 8d8e7aaccd..21e752e0e2 100644
+index 8d8e7aaccdd..21e752e0e23 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -647,6 +647,9 @@
@@ -69,7 +69,7 @@ index 8d8e7aaccd..21e752e0e2 100644
      <string name="trust_lost_locks_screen_title">Lock screen when trust is lost</string>
      <!-- Text shown for the description of the lock when trust lost option [CHAR LIMIT=NONE -->
 diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
-index b5dcebf6d9..dfb0db65e5 100644
+index b5dcebf6d99..dfb0db65e5f 100644
 --- a/res/xml/security_dashboard_settings.xml
 +++ b/res/xml/security_dashboard_settings.xml
 @@ -55,6 +55,14 @@
@@ -96,7 +96,7 @@ index b5dcebf6d9..dfb0db65e5 100644
 +</PreferenceScreen>
 diff --git a/src/com/android/settings/security/AutoRebootPreferenceController.java b/src/com/android/settings/security/AutoRebootPreferenceController.java
 new file mode 100644
-index 0000000000..c7a75219a5
+index 00000000000..c7a75219a5e
 --- /dev/null
 +++ b/src/com/android/settings/security/AutoRebootPreferenceController.java
 @@ -0,0 +1,82 @@
@@ -183,7 +183,7 @@ index 0000000000..c7a75219a5
 +    }
 +}
 diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
-index 2f2b349c72..953012f9e7 100644
+index 2f2b349c72a..953012f9e7b 100644
 --- a/src/com/android/settings/security/SecuritySettings.java
 +++ b/src/com/android/settings/security/SecuritySettings.java
 @@ -118,6 +118,7 @@ public class SecuritySettings extends DashboardFragment {

@@ -8,7 +8,7 @@ Subject: [PATCH] Add LTE only entry when carrier enables world mode.
  1 file changed, 1 insertion(+)
 
 diff --git a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
-index 8cc81b84b0..8bad6daf2b 100644
+index 8cc81b84b01..8bad6daf2b2 100644
 --- a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
 +++ b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
 @@ -360,6 +360,7 @@ public class EnabledNetworkModePreferenceController extends

@@ -11,7 +11,7 @@ Subject: [PATCH] add LTE only setting
  4 files changed, 39 insertions(+), 3 deletions(-)
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 79e036a04c..5907f3a52e 100644
+index 79e036a04cb..5907f3a52e5 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -1423,6 +1423,9 @@
@@ -34,7 +34,7 @@ index 79e036a04c..5907f3a52e 100644
          <item>TDSCDMA only</item>
          <item>TDSCDMA/WCDMA</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 5af3638555..50803304ac 100644
+index 5af3638555a..50803304ac2 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -11593,6 +11593,8 @@
@@ -60,7 +60,7 @@ index 5af3638555..50803304ac 100644
      <string name="network_3G" translatable="false">3G</string>
      <!-- Text for Network 2g [CHAR LIMIT=NONE] -->
 diff --git a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
-index fd585a151d..29111b89ec 100644
+index fd585a151d2..29111b89ec2 100644
 --- a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
 +++ b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
 @@ -235,6 +235,7 @@ public class EnabledNetworkModePreferenceController extends
@@ -163,7 +163,7 @@ index fd585a151d..29111b89ec 100644
           * Add LTE entry. If device supported 5G, show "LTE" instead of "LTE (recommended)".
           */
 diff --git a/src/com/android/settings/network/telephony/PreferredNetworkModePreferenceController.java b/src/com/android/settings/network/telephony/PreferredNetworkModePreferenceController.java
-index ff6ff596fe..2b9bc3e485 100644
+index ff6ff596fe9..2b9bc3e485c 100644
 --- a/src/com/android/settings/network/telephony/PreferredNetworkModePreferenceController.java
 +++ b/src/com/android/settings/network/telephony/PreferredNetworkModePreferenceController.java
 @@ -136,7 +136,7 @@ public class PreferredNetworkModePreferenceController extends TelephonyBasePrefe

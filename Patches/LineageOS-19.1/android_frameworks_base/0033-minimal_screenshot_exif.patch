@@ -1,4 +1,4 @@
-From 546fd13c6f1d99cb36ca8db80da2d66b96329f47 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chirayu Desai <chirayudesai1@gmail.com>
 Date: Tue, 26 Sep 2023 19:30:58 +0530
 Subject: [PATCH] Put bare minimum metadata in screenshots
@@ -12,10 +12,10 @@ Change-Id: I6f38c5cf04539e09b8bfe0102c646bd8faa50f5b
  1 file changed, 11 deletions(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/screenshot/ImageExporter.java b/packages/SystemUI/src/com/android/systemui/screenshot/ImageExporter.java
-index 7cfe2327f992..b991fccf0e84 100644
+index dcd22958c54a..3888c519f078 100644
 --- a/packages/SystemUI/src/com/android/systemui/screenshot/ImageExporter.java
 +++ b/packages/SystemUI/src/com/android/systemui/screenshot/ImageExporter.java
-@@ -394,19 +394,8 @@ public class ImageExporter {
+@@ -408,19 +408,8 @@ class ImageExporter {
  
      static void updateExifAttributes(ExifInterface exif, UUID uniqueId, int width, int height,
              ZonedDateTime captureTime) {
@@ -35,6 +35,3 @@ index 7cfe2327f992..b991fccf0e84 100644
      }
  
      static String getMimeType(CompressFormat format) {
--- 
-GitLab
-

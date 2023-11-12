@@ -13,7 +13,7 @@ RANDOMIZATION_ALWAYS is set as the default option
  5 files changed, 56 insertions(+), 17 deletions(-)
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 83345cbceb..79e036a04c 100644
+index 83345cbceba..79e036a04cb 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -1362,7 +1362,8 @@
@@ -35,7 +35,7 @@ index 83345cbceb..79e036a04c 100644
          <item>0</item>
      </string-array>
 diff --git a/src/com/android/settings/wifi/details/WifiDetailPreferenceController.java b/src/com/android/settings/wifi/details/WifiDetailPreferenceController.java
-index 8dd8d7ad6a..d900bc6a27 100644
+index 8dd8d7ad6a4..d900bc6a27c 100644
 --- a/src/com/android/settings/wifi/details/WifiDetailPreferenceController.java
 +++ b/src/com/android/settings/wifi/details/WifiDetailPreferenceController.java
 @@ -822,7 +822,8 @@ public class WifiDetailPreferenceController extends AbstractPreferenceController
@@ -58,7 +58,7 @@ index 8dd8d7ad6a..d900bc6a27 100644
                          : R.string.wifi_advanced_device_mac_address_title);
  
 diff --git a/src/com/android/settings/wifi/details/WifiPrivacyPreferenceController.java b/src/com/android/settings/wifi/details/WifiPrivacyPreferenceController.java
-index 6658411479..2266805808 100644
+index 6658411479d..22668058089 100644
 --- a/src/com/android/settings/wifi/details/WifiPrivacyPreferenceController.java
 +++ b/src/com/android/settings/wifi/details/WifiPrivacyPreferenceController.java
 @@ -115,11 +115,12 @@ public class WifiPrivacyPreferenceController extends BasePreferenceController im
@@ -116,7 +116,7 @@ index 6658411479..2266805808 100644
  
      private void updateSummary(DropDownPreference preference, int macRandomized) {
 diff --git a/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java b/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
-index 9b305777fd..f04bbcd38f 100644
+index 9b305777fd3..f04bbcd38f3 100644
 --- a/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
 +++ b/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
 @@ -749,7 +749,7 @@ public class WifiDetailPreferenceController2 extends AbstractPreferenceControlle
@@ -129,7 +129,7 @@ index 9b305777fd..f04bbcd38f 100644
                  : R.string.wifi_advanced_device_mac_address_title);
  
 diff --git a/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java b/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java
-index d6e1b6054d..ab51c59e1a 100644
+index d6e1b6054d3..ab51c59e1a6 100644
 --- a/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java
 +++ b/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java
 @@ -100,8 +100,9 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i

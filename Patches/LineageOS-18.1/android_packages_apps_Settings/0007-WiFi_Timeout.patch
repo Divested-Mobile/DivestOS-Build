@@ -12,7 +12,7 @@ Subject: [PATCH] add Wi-Fi timeout feature
  create mode 100644 src/com/android/settings/wifi/WifiTimeoutPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index a36f468bfc..83345cbceb 100644
+index a36f468bfcd..83345cbceba 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -83,6 +83,50 @@
@@ -67,7 +67,7 @@ index a36f468bfc..83345cbceb 100644
      <string-array name="screen_timeout_entries">
          <item>15 seconds</item>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 25121ea49f..b3408ee49a 100644
+index 25121ea49fc..b3408ee49ac 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -46,6 +46,25 @@
@@ -97,7 +97,7 @@ index 25121ea49f..b3408ee49a 100644
      <string name="device_info_default">Unknown</string>
      <!-- [CHAR LIMIT=NONE] Device Info screen. Countdown for user taps to enable development settings -->
 diff --git a/res/xml/wifi_configure_settings.xml b/res/xml/wifi_configure_settings.xml
-index cc281fa876..98d28f053b 100644
+index cc281fa8768..98d28f053b1 100644
 --- a/res/xml/wifi_configure_settings.xml
 +++ b/res/xml/wifi_configure_settings.xml
 @@ -26,6 +26,14 @@
@@ -117,7 +117,7 @@ index cc281fa876..98d28f053b 100644
          android:icon="@drawable/ic_open_wifi_autoconnect"
 diff --git a/src/com/android/settings/wifi/WifiTimeoutPreferenceController.java b/src/com/android/settings/wifi/WifiTimeoutPreferenceController.java
 new file mode 100644
-index 0000000000..7116c90519
+index 00000000000..7116c905190
 --- /dev/null
 +++ b/src/com/android/settings/wifi/WifiTimeoutPreferenceController.java
 @@ -0,0 +1,115 @@

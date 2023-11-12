@@ -16,7 +16,7 @@ Signed-off-by: Tad <tad@spotco.us>
  create mode 100644 src/com/android/settings/security/SigSpoofPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index c597570f35..3d2b61cc58 100644
+index c597570f35d..3d2b61cc580 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -11978,6 +11978,9 @@
@@ -30,7 +30,7 @@ index c597570f35..3d2b61cc58 100644
      <string name="privacy_dashboard_title">Privacy</string>
      <!-- Summary for the top level Privacy Settings [CHAR LIMIT=NONE]-->
 diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
-index 62d42246a3..21ce054889 100644
+index 62d42246a3d..21ce054889c 100644
 --- a/res/xml/security_dashboard_settings.xml
 +++ b/res/xml/security_dashboard_settings.xml
 @@ -81,6 +81,12 @@
@@ -47,7 +47,7 @@ index 62d42246a3..21ce054889 100644
  
      <!-- work profile security section -->
 diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
-index 0fbcd27104..5248d74c37 100644
+index 0fbcd27104d..5248d74c376 100644
 --- a/src/com/android/settings/security/SecuritySettings.java
 +++ b/src/com/android/settings/security/SecuritySettings.java
 @@ -122,6 +122,7 @@ public class SecuritySettings extends DashboardFragment {
@@ -60,7 +60,7 @@ index 0fbcd27104..5248d74c37 100644
          controllers.addAll(securityPreferenceControllers);
 diff --git a/src/com/android/settings/security/SigSpoofPreferenceController.java b/src/com/android/settings/security/SigSpoofPreferenceController.java
 new file mode 100644
-index 0000000000..258b59b0b0
+index 00000000000..258b59b0b07
 --- /dev/null
 +++ b/src/com/android/settings/security/SigSpoofPreferenceController.java
 @@ -0,0 +1,106 @@

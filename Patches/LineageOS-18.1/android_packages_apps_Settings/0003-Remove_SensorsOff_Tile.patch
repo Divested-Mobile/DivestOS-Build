@@ -11,7 +11,7 @@ Change-Id: Ic1dce1c0fffc3c3f6459c4c85e0a64d480d3315a
  2 files changed, 55 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index 35915381a1..f9c790839a 100644
+index 35915381a16..f9c790839a6 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
 @@ -3135,19 +3135,6 @@
@@ -35,7 +35,7 @@ index 35915381a1..f9c790839a 100644
              android:name=".development.qstile.DevelopmentTiles$WirelessDebugging"
              android:label="@string/enable_adb_wireless"
 diff --git a/src/com/android/settings/development/qstile/DevelopmentTiles.java b/src/com/android/settings/development/qstile/DevelopmentTiles.java
-index 916c6c9291..fd92d17a60 100644
+index 916c6c92918..fd92d17a600 100644
 --- a/src/com/android/settings/development/qstile/DevelopmentTiles.java
 +++ b/src/com/android/settings/development/qstile/DevelopmentTiles.java
 @@ -26,7 +26,6 @@ import android.content.Context;

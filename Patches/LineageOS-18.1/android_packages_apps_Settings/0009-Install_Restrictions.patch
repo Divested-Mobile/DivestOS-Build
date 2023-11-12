@@ -10,7 +10,7 @@ Subject: [PATCH] UserManager app installation restrictions
  3 files changed, 44 insertions(+), 5 deletions(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index d7f32ee319..d723977899 100644
+index d7f32ee3194..d723977899f 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -7088,6 +7088,8 @@
@@ -23,7 +23,7 @@ index d7f32ee319..d723977899 100644
      <string name="user_remove_user">Delete user</string>
      <!-- Title for confirmation of turning on calls [CHAR LIMIT=40] -->
 diff --git a/res/xml/user_details_settings.xml b/res/xml/user_details_settings.xml
-index 9280ff1163..d0a055fae2 100644
+index 9280ff11632..d0a055fae29 100644
 --- a/res/xml/user_details_settings.xml
 +++ b/res/xml/user_details_settings.xml
 @@ -29,6 +29,10 @@
@@ -38,7 +38,7 @@ index 9280ff1163..d0a055fae2 100644
              android:key="remove_user"
              android:icon="@drawable/ic_delete"
 diff --git a/src/com/android/settings/users/UserDetailsSettings.java b/src/com/android/settings/users/UserDetailsSettings.java
-index 897b3c7b83..dc5dfb1dcc 100644
+index 897b3c7b83a..dc5dfb1dcca 100644
 --- a/src/com/android/settings/users/UserDetailsSettings.java
 +++ b/src/com/android/settings/users/UserDetailsSettings.java
 @@ -59,6 +59,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment

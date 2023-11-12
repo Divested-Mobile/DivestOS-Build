@@ -12,7 +12,7 @@ https://developer.android.com/reference/android/telephony/CarrierConfigManager#K
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
-index 29111b89ec..8cc81b84b0 100644
+index 29111b89ec2..8cc81b84b01 100644
 --- a/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
 +++ b/src/com/android/settings/network/telephony/EnabledNetworkModePreferenceController.java
 @@ -76,7 +76,7 @@ public class EnabledNetworkModePreferenceController extends

@@ -27,7 +27,7 @@ Change-Id: I8a762d0f29ac42fce3dcfc7189e8ff216a8f8d1a
  create mode 100644 src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index 617548cadc..e1976fb5cf 100644
+index 617548cadcb..e1976fb5cf0 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
 @@ -110,6 +110,36 @@
@@ -68,7 +68,7 @@ index 617548cadc..e1976fb5cf 100644
           These are shown in a list dialog. -->
      <string-array name="lock_after_timeout_entries">
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index a7a338ed7a..8d8e7aaccd 100644
+index a7a338ed7a2..8d8e7aaccdd 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -12237,4 +12237,7 @@
@@ -80,7 +80,7 @@ index a7a338ed7a..8d8e7aaccd 100644
 +    <string name="connectivity_check_summary">HTTP endpoints to use for performing internet connectivity checks.</string>
  </resources>
 diff --git a/res/xml/network_and_internet.xml b/res/xml/network_and_internet.xml
-index 6bf6dbaccf..8ee092aa04 100644
+index 6bf6dbaccf7..8ee092aa044 100644
 --- a/res/xml/network_and_internet.xml
 +++ b/res/xml/network_and_internet.xml
 @@ -125,4 +125,12 @@
@@ -98,7 +98,7 @@ index 6bf6dbaccf..8ee092aa04 100644
  </PreferenceScreen>
 diff --git a/src/com/android/settings/network/ConnectivityCheckPreferenceController.java b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 new file mode 100644
-index 0000000000..9b6e9bb93b
+index 00000000000..9b6e9bb93b1
 --- /dev/null
 +++ b/src/com/android/settings/network/ConnectivityCheckPreferenceController.java
 @@ -0,0 +1,399 @@
@@ -502,7 +502,7 @@ index 0000000000..9b6e9bb93b
 +    private boolean isDisabledByAdmin() { return getEnforcedAdmin() != null; }
 +}
 diff --git a/src/com/android/settings/network/NetworkDashboardFragment.java b/src/com/android/settings/network/NetworkDashboardFragment.java
-index db704ae850..c77b07821e 100644
+index db704ae850d..c77b07821e1 100644
 --- a/src/com/android/settings/network/NetworkDashboardFragment.java
 +++ b/src/com/android/settings/network/NetworkDashboardFragment.java
 @@ -103,6 +103,8 @@ public class NetworkDashboardFragment extends DashboardFragment implements
