@@ -1,0 +1,52 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Nan Wu <wnan@google.com>
+Date: Fri, 16 Jun 2023 14:42:24 +0000
+Subject: [PATCH] DO NOT MERGE Fix BAL via notification.publicVersion
+
+We stripped the token that allows app to retrieve their own notification
+and fire their own PI to launch activities from background. But we
+forgot to strip the token from notification.publicVersion
+
+Bug: 278558814
+Test: NotificationManagerTest#testActivityStartFromRetrievedNotification_isBlocked
+(cherry picked from commit cf851d81a954f0a6dd0c2fd7defa93932539e7f9)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:1896c2e7068c9ec1ab8355d863d7e8107d5d5706)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:75fcbb37617246c43c2af34b12c9ae4b4043f9ac)
+Merged-In: I8f25d7a5e47890a0496af023149717e1df482f98
+Change-Id: I8f25d7a5e47890a0496af023149717e1df482f98
+---
+ core/java/android/app/Notification.java                    | 7 +++++--
+ .../server/notification/NotificationManagerService.java    | 2 +-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/android/app/Notification.java b/core/java/android/app/Notification.java
+index 7921a89ca96f..d8eefc3d3be4 100644
+--- a/core/java/android/app/Notification.java
++++ b/core/java/android/app/Notification.java
+@@ -2987,8 +2987,11 @@ public class Notification implements Parcelable
+      *
+      * @hide
+      */
+-    public void setAllowlistToken(@Nullable IBinder token) {
+-        mWhitelistToken = token;
++    public void clearAllowlistToken() {
++        mWhitelistToken = null;
++        if (publicVersion != null) {
++            publicVersion.clearAllowlistToken();
++        }
+     }
+ 
+     /**
+diff --git a/services/core/java/com/android/server/notification/NotificationManagerService.java b/services/core/java/com/android/server/notification/NotificationManagerService.java
+index d056eac37039..e09491867f91 100755
+--- a/services/core/java/com/android/server/notification/NotificationManagerService.java
++++ b/services/core/java/com/android/server/notification/NotificationManagerService.java
+@@ -3249,7 +3249,7 @@ public class NotificationManagerService extends SystemService {
+                     // Remove background token before returning notification to untrusted app, this
+                     // ensures the app isn't able to perform background operations that are
+                     // associated with notification interactions.
+-                    notification.setAllowlistToken(null);
++                    notification.clearAllowlistToken();
+                     return new StatusBarNotification(
+                             sbn.getPackageName(),
+                             sbn.getOpPkg(),

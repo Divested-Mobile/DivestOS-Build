@@ -98,7 +98,7 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
-sed -i 's/2023-09-05/2023-10-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2023-10 #XXX
+sed -i 's/2023-09-05/2023-11-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2023-11 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -126,8 +126,17 @@ applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras.pa
 fi;
 fi;
 
+if enterAndClear "external/libcups"; then
+git fetch https://github.com/LineageOS/android_external_libcups refs/changes/46/373946/1 && git cherry-pick FETCH_HEAD; #R_asb_2023-11 Upgrade libcups to v2.3.1
+git fetch https://github.com/LineageOS/android_external_libcups refs/changes/47/373947/1 && git cherry-pick FETCH_HEAD; #R_asb_2023-11 Upgrade libcups to v2.3.3
+fi;
+
 if enterAndClear "external/libvpx"; then
 applyPatch "$DOS_PATCHES_COMMON/android_external_libvpx/CVE-2023-5217.patch"; #VP8: disallow thread count changes
+fi;
+
+if enterAndClear "external/webp"; then
+applyPatch "$DOS_PATCHES_COMMON/android_external_webp/373948.patch"; #R_asb_2023-11 Update to v1.1.0-8-g50f60add
 fi;
 
 if enterAndClear "external/libxml2"; then
@@ -145,6 +154,11 @@ if enterAndClear "external/zlib"; then
 git fetch https://github.com/LineageOS/android_external_zlib refs/changes/70/352570/1 && git cherry-pick FETCH_HEAD; #Q_asb_2023-03
 fi;
 
+if enterAndClear "frameworks/av"; then
+applyPatch "$DOS_PATCHES/android_frameworks_av/373949.patch"; #R_asb_2023-11 Fix for heap buffer overflow issue flagged by fuzzer test.
+applyPatch "$DOS_PATCHES/android_frameworks_av/373950.patch"; #R_asb_2023-11 Fix heap-use-after-free issue flagged by fuzzer test.
+fi;
+
 if enterAndClear "frameworks/base"; then
 applyPatch "$DOS_PATCHES/android_frameworks_base/368055.patch"; #R_asb_2023-10 RingtoneManager: verify default ringtone is audio
 applyPatch "$DOS_PATCHES/android_frameworks_base/368059.patch"; #R_asb_2023-10 Do not share key mappings with JNI object
@@ -154,6 +168,11 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/368062-backport.patch"; #R_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/368063.patch"; #R_asb_2023-10 Fixing DatabaseUtils to detect malformed UTF-16 strings
 #applyPatch "$DOS_PATCHES/android_frameworks_base/368065-backport.patch"; #R_asb_2023-10 SettingsProvider: exclude secure_frp_mode from resets
 applyPatch "$DOS_PATCHES/android_frameworks_base/368067.patch"; #R_asb_2023-10 Revert "DO NOT MERGE Dismiss keyguard when simpin auth'd and..."
+applyPatch "$DOS_PATCHES/android_frameworks_base/373951.patch"; #R_asb_2023-11 Fix BAL via notification.publicVersion
+applyPatch "$DOS_PATCHES/android_frameworks_base/373952.patch"; #R_asb_2023-11 Check caller's uid in backupAgentCreated callback
+applyPatch "$DOS_PATCHES/android_frameworks_base/373953.patch"; #R_asb_2023-11 Use type safe API of readParcelableArray
+applyPatch "$DOS_PATCHES/android_frameworks_base/373954-backport.patch"; #R_asb_2023-11 Make log reader thread a class member
+applyPatch "$DOS_PATCHES/android_frameworks_base/373955.patch"; #R_asb_2023-11 [SettingsProvider] verify ringtone URI before setting
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -380,9 +399,18 @@ if enterAndClear "packages/providers/DownloadProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
-#if enterAndClear "packages/providers/TelephonyProvider"; then
+if enterAndClear "packages/providers/MediaProvider"; then
+applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/368071.patch"; #R_asb_2023-10 Fix path traversal vulnerabilities in MediaProvider
+fi;
+
+if enterAndClear "packages/providers/TelephonyProvider"; then
+applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/373957.patch"; #R_asb_2023-11 Block access to sms/mms db from work profile.
 #cp $DOS_PATCHES_COMMON/android_packages_providers_TelephonyProvider/carrier_list.* assets/;
-#fi;
+fi;
+
+if enterAndClear "packages/services/BuiltInPrintService"; then
+applyPatch "$DOS_PATCHES/android_packages_services_BuiltInPrintService/373958.patch"; #R_asb_2023-11 Adjust APIs for CUPS 2.3.3
+fi;
 
 if enterAndClear "packages/services/Telecomm"; then
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/368072.patch"; #R_asb_2023-10 Fix vulnerability in CallRedirectionService.
