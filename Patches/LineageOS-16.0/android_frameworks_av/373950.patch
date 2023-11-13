@@ -1,0 +1,72 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Shruti Bihani <shrutibihani@google.com>
+Date: Thu, 13 Jul 2023 09:19:08 +0000
+Subject: [PATCH] Fix heap-use-after-free issue flagged by fuzzer test.
+
+A data member of class MtpFfsHandle is being accessed after the class object has been freed in the fuzzer. The method accessing the data member is running in a separate thread that gets detached from its parent. Using a conditional variable with an atomic int predicate in the close() function to ensure the detached thread's execution has completed before freeing the object fixes the issue without blocking the processing mid-way.
+
+Bug: 243381410
+Test: Build mtp_handle_fuzzer and run on the target device
+(cherry picked from commit 50bf46a3f62136386548a9187a749936bda3ee8f)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:73d89318a658ece5f337c5f9c1ec1149c52eb722)
+Merged-In: I41dde165a5eba151c958b81417d9e1065af1b411
+Change-Id: I41dde165a5eba151c958b81417d9e1065af1b411
+---
+ media/mtp/MtpFfsHandle.cpp | 14 ++++++++++++++
+ media/mtp/MtpFfsHandle.h   |  4 ++++
+ 2 files changed, 18 insertions(+)
+
+diff --git a/media/mtp/MtpFfsHandle.cpp b/media/mtp/MtpFfsHandle.cpp
+index f25fc71752..60af36457b 100644
+--- a/media/mtp/MtpFfsHandle.cpp
++++ b/media/mtp/MtpFfsHandle.cpp
+@@ -294,6 +294,10 @@ int MtpFfsHandle::start(bool ptp) {
+ }
+ 
+ void MtpFfsHandle::close() {
++    auto timeout = std::chrono::seconds(2);
++    std::unique_lock lk(m);
++    cv.wait_for(lk, timeout ,[this]{return child_threads==0;});
++
+     io_destroy(mCtx);
+     closeEndpoints();
+     closeConfig();
+@@ -660,6 +664,11 @@ int MtpFfsHandle::sendEvent(mtp_event me) {
+     char *temp = new char[me.length];
+     memcpy(temp, me.data, me.length);
+     me.data = temp;
++
++    std::unique_lock lk(m);
++    child_threads++;
++    lk.unlock();
++
+     std::thread t([this, me]() { return this->doSendEvent(me); });
+     t.detach();
+     return 0;
+@@ -671,6 +680,11 @@ void MtpFfsHandle::doSendEvent(mtp_event me) {
+     if (static_cast<unsigned>(ret) != length)
+         PLOG(ERROR) << "Mtp error sending event thread!";
+     delete[] reinterpret_cast<char*>(me.data);
++
++    std::unique_lock lk(m);
++    child_threads--;
++    lk.unlock();
++    cv.notify_one();
+ }
+ 
+ } // namespace android
+diff --git a/media/mtp/MtpFfsHandle.h b/media/mtp/MtpFfsHandle.h
+index fe343f74f6..ae78db2877 100644
+--- a/media/mtp/MtpFfsHandle.h
++++ b/media/mtp/MtpFfsHandle.h
+@@ -58,6 +58,10 @@ protected:
+ 
+     bool mCanceled;
+ 
++    std::mutex m;
++    std::condition_variable cv;
++    std::atomic<int> child_threads{0};
++
+     android::base::unique_fd mControl;
+     // "in" from the host's perspective => sink for mtp server
+     android::base::unique_fd mBulkIn;

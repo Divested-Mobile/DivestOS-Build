@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: kumarashishg <kumarashishg@google.com>
+Date: Thu, 3 Aug 2023 12:01:29 +0000
+Subject: [PATCH] Use type safe API of readParcelableArray
+
+Bug: 291299076
+Test: Build and flash the device and check if it throws exception for
+non UsbInterface object
+Test: atest CtsUsbManagerTestCases
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:85d7e6712a9eeeed3bdd68ea3c3862c7e88bfe70)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:60bfbde79f2ffb012abced55d358fdf6380c0bae)
+Merged-In: I2917c8331b6d56caaa9a6479bcd9a2d089f5f503
+Change-Id: I2917c8331b6d56caaa9a6479bcd9a2d089f5f503
+---
+ core/java/android/hardware/usb/UsbConfiguration.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/core/java/android/hardware/usb/UsbConfiguration.java b/core/java/android/hardware/usb/UsbConfiguration.java
+index 6ce420191ed3..34f5c9d0602f 100644
+--- a/core/java/android/hardware/usb/UsbConfiguration.java
++++ b/core/java/android/hardware/usb/UsbConfiguration.java
+@@ -172,7 +172,8 @@ public class UsbConfiguration implements Parcelable {
+             String name = in.readString();
+             int attributes = in.readInt();
+             int maxPower = in.readInt();
+-            Parcelable[] interfaces = in.readParcelableArray(UsbInterface.class.getClassLoader());
++            Parcelable[] interfaces = in.readParcelableArray(
++                    UsbInterface.class.getClassLoader(), UsbInterface.class);
+             UsbConfiguration configuration = new UsbConfiguration(id, name, attributes, maxPower);
+             configuration.setInterfaces(interfaces);
+             return configuration;
