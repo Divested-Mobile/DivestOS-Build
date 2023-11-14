@@ -1,0 +1,816 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Aishwarya Mallampati <amallampati@google.com>
+Date: Wed, 23 Aug 2023 18:30:46 +0000
+Subject: [PATCH] DO NOT MERGE Block access to sms/mms db from work profile.
+
+Bug: 289242655
+Test: Manually verified work profile cannot access personal sms by
+following steps mentioned in b/289242655#comment26
+- atest SmsProviderTest
+- atest MmsProviderTest
+- atest SmsBackupRestoreTest
+- QA performed regression testing and confirmed fix is working as intended here: b/294459052#comment30
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:950a7e5a4bf1b38e846fe00642105479efded57d)
+Merged-In: Ib1c9ec75f77e8412b53df50f5414caa0e5aaa277
+Change-Id: Ib1c9ec75f77e8412b53df50f5414caa0e5aaa277
+---
+ .../providers/telephony/MmsProvider.java      |  41 ++++-
+ .../telephony/MmsSmsDatabaseHelper.java       | 156 +++++++++-------
+ .../providers/telephony/MmsSmsProvider.java   |  36 ++++
+ .../providers/telephony/SmsProvider.java      |  35 ++++
+ .../providers/telephony/MmsProviderTest.java  | 173 ++++++++++++++++++
+ .../telephony/MmsProviderTestable.java        |  77 ++++++++
+ .../providers/telephony/SmsProviderTest.java  |  56 +++++-
+ 7 files changed, 503 insertions(+), 71 deletions(-)
+ create mode 100644 tests/src/com/android/providers/telephony/MmsProviderTest.java
+ create mode 100644 tests/src/com/android/providers/telephony/MmsProviderTestable.java
+
+diff --git a/src/com/android/providers/telephony/MmsProvider.java b/src/com/android/providers/telephony/MmsProvider.java
+index aab61b80..f00fe508 100644
+--- a/src/com/android/providers/telephony/MmsProvider.java
++++ b/src/com/android/providers/telephony/MmsProvider.java
+@@ -24,6 +24,7 @@ import android.content.Context;
+ import android.content.Intent;
+ import android.content.UriMatcher;
+ import android.database.Cursor;
++import android.database.MatrixCursor;
+ import android.database.sqlite.SQLiteDatabase;
+ import android.database.sqlite.SQLiteException;
+ import android.database.sqlite.SQLiteOpenHelper;
+@@ -33,6 +34,7 @@ import android.os.Binder;
+ import android.os.FileUtils;
+ import android.os.ParcelFileDescriptor;
+ import android.os.UserHandle;
++import android.os.UserManager;
+ import android.provider.BaseColumns;
+ import android.provider.Telephony;
+ import android.provider.Telephony.CanonicalAddressesColumns;
+@@ -48,6 +50,8 @@ import android.text.TextUtils;
+ import android.util.EventLog;
+ import android.util.Log;
+ 
++import com.android.internal.annotations.VisibleForTesting;
++
+ import com.google.android.mms.pdu.PduHeaders;
+ import com.google.android.mms.util.DownloadDrmHelper;
+ 
+@@ -92,6 +96,16 @@ public class MmsProvider extends ContentProvider {
+     @Override
+     public Cursor query(Uri uri, String[] projection,
+             String selection, String[] selectionArgs, String sortOrder) {
++        Cursor emptyCursor = new MatrixCursor((projection == null) ?
++                (new String[] {}) : projection);
++        UserManager userManager = (UserManager) getContext().getSystemService(Context.USER_SERVICE);
++        if ((userManager != null) && (userManager.isManagedProfile(
++                Binder.getCallingUserHandle().getIdentifier()))) {
++            // If work profile is trying to query mms, return empty cursor.
++            Log.e(TAG, "Managed profile is not allowed to query MMS.");
++            return emptyCursor;
++        }
++
+         // First check if a restricted view of the "pdu" table should be used based on the
+         // caller's identity. Only system, phone or the default sms app can have full access
+         // of mms data. For other apps, we present a restricted view which only contains sent
+@@ -305,6 +319,14 @@ public class MmsProvider extends ContentProvider {
+ 
+     @Override
+     public Uri insert(Uri uri, ContentValues values) {
++        UserManager userManager = (UserManager) getContext().getSystemService(Context.USER_SERVICE);
++        if ((userManager != null) && (userManager.isManagedProfile(
++                Binder.getCallingUserHandle().getIdentifier()))) {
++            // If work profile is trying to insert mms, return null.
++            Log.e(TAG, "Managed profile is not allowed to insert MMS.");
++            return null;
++        }
++
+         final int callerUid = Binder.getCallingUid();
+         final String callerPkg = getCallingPackage();
+         int msgBox = Mms.MESSAGE_BOX_ALL;
+@@ -614,6 +636,14 @@ public class MmsProvider extends ContentProvider {
+     @Override
+     public int delete(Uri uri, String selection,
+             String[] selectionArgs) {
++        UserManager userManager = (UserManager) getContext().getSystemService(Context.USER_SERVICE);
++        if ((userManager != null) && (userManager.isManagedProfile(
++                Binder.getCallingUserHandle().getIdentifier()))) {
++            // If work profile is trying to delete mms, return 0.
++            Log.e(TAG, "Managed profile is not allowed to delete MMS.");
++            return 0;
++        }
++
+         int match = sURLMatcher.match(uri);
+         if (LOCAL_LOGV) {
+             Log.v(TAG, "Delete uri=" + uri + ", match=" + match);
+@@ -766,6 +796,14 @@ public class MmsProvider extends ContentProvider {
+ 
+     @Override
+     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
++        UserManager userManager = (UserManager) getContext().getSystemService(Context.USER_SERVICE);
++        if ((userManager != null) && (userManager.isManagedProfile(
++                Binder.getCallingUserHandle().getIdentifier()))) {
++            // If work profile is trying to update mms, return 0.
++            Log.e(TAG, "Managed profile is not allowed to update MMS.");
++            return 0;
++        }
++
+         // The _data column is filled internally in MmsProvider, so this check is just to avoid
+         // it from being inadvertently set. This is not supposed to be a protection against
+         // malicious attack, since sql injection could still be attempted to bypass the check. On
+@@ -1049,7 +1087,8 @@ public class MmsProvider extends ContentProvider {
+         sURLMatcher.addURI("mms", "resetFilePerm/*",    MMS_PART_RESET_FILE_PERMISSION);
+     }
+ 
+-    private SQLiteOpenHelper mOpenHelper;
++    @VisibleForTesting
++    public SQLiteOpenHelper mOpenHelper;
+ 
+     private static String concatSelections(String selection1, String selection2) {
+         if (TextUtils.isEmpty(selection1)) {
+diff --git a/src/com/android/providers/telephony/MmsSmsDatabaseHelper.java b/src/com/android/providers/telephony/MmsSmsDatabaseHelper.java
+index 8b2c8397..9b7693fb 100644
+--- a/src/com/android/providers/telephony/MmsSmsDatabaseHelper.java
++++ b/src/com/android/providers/telephony/MmsSmsDatabaseHelper.java
+@@ -587,78 +587,96 @@ public class MmsSmsDatabaseHelper extends SQLiteOpenHelper {
+         }
+     }
+ 
++    @VisibleForTesting
++    public static String CREATE_ADDR_TABLE_STR =
++            "CREATE TABLE " + MmsProvider.TABLE_ADDR + " (" +
++                    Addr._ID + " INTEGER PRIMARY KEY," +
++                    Addr.MSG_ID + " INTEGER," +
++                    Addr.CONTACT_ID + " INTEGER," +
++                    Addr.ADDRESS + " TEXT," +
++                    Addr.TYPE + " INTEGER," +
++                    Addr.CHARSET + " INTEGER);";
++
++    @VisibleForTesting
++    public static String CREATE_PART_TABLE_STR =
++            "CREATE TABLE " + MmsProvider.TABLE_PART + " (" +
++                    Part._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
++                    Part.MSG_ID + " INTEGER," +
++                    Part.SEQ + " INTEGER DEFAULT 0," +
++                    Part.CONTENT_TYPE + " TEXT," +
++                    Part.NAME + " TEXT," +
++                    Part.CHARSET + " INTEGER," +
++                    Part.CONTENT_DISPOSITION + " TEXT," +
++                    Part.FILENAME + " TEXT," +
++                    Part.CONTENT_ID + " TEXT," +
++                    Part.CONTENT_LOCATION + " TEXT," +
++                    Part.CT_START + " INTEGER," +
++                    Part.CT_TYPE + " TEXT," +
++                    Part._DATA + " TEXT," +
++                    Part.TEXT + " TEXT);";
++
++    public static String CREATE_PDU_TABLE_STR =
++            "CREATE TABLE " + MmsProvider.TABLE_PDU + " (" +
++                    Mms._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
++                    Mms.THREAD_ID + " INTEGER," +
++                    Mms.DATE + " INTEGER," +
++                    Mms.DATE_SENT + " INTEGER DEFAULT 0," +
++                    Mms.MESSAGE_BOX + " INTEGER," +
++                    Mms.READ + " INTEGER DEFAULT 0," +
++                    Mms.MESSAGE_ID + " TEXT," +
++                    Mms.SUBJECT + " TEXT," +
++                    Mms.SUBJECT_CHARSET + " INTEGER," +
++                    Mms.CONTENT_TYPE + " TEXT," +
++                    Mms.CONTENT_LOCATION + " TEXT," +
++                    Mms.EXPIRY + " INTEGER," +
++                    Mms.MESSAGE_CLASS + " TEXT," +
++                    Mms.MESSAGE_TYPE + " INTEGER," +
++                    Mms.MMS_VERSION + " INTEGER," +
++                    Mms.MESSAGE_SIZE + " INTEGER," +
++                    Mms.PRIORITY + " INTEGER," +
++                    Mms.READ_REPORT + " INTEGER," +
++                    Mms.REPORT_ALLOWED + " INTEGER," +
++                    Mms.RESPONSE_STATUS + " INTEGER," +
++                    Mms.STATUS + " INTEGER," +
++                    Mms.TRANSACTION_ID + " TEXT," +
++                    Mms.RETRIEVE_STATUS + " INTEGER," +
++                    Mms.RETRIEVE_TEXT + " TEXT," +
++                    Mms.RETRIEVE_TEXT_CHARSET + " INTEGER," +
++                    Mms.READ_STATUS + " INTEGER," +
++                    Mms.CONTENT_CLASS + " INTEGER," +
++                    Mms.RESPONSE_TEXT + " TEXT," +
++                    Mms.DELIVERY_TIME + " INTEGER," +
++                    Mms.DELIVERY_REPORT + " INTEGER," +
++                    Mms.LOCKED + " INTEGER DEFAULT 0," +
++                    Mms.SUBSCRIPTION_ID + " INTEGER DEFAULT "
++                    + SubscriptionManager.INVALID_SUBSCRIPTION_ID + ", " +
++                    Mms.SEEN + " INTEGER DEFAULT 0," +
++                    Mms.CREATOR + " TEXT," +
++                    Mms.TEXT_ONLY + " INTEGER DEFAULT 0);";
++
++    @VisibleForTesting
++    public static String CREATE_RATE_TABLE_STR =
++            "CREATE TABLE " + MmsProvider.TABLE_RATE + " (" +
++                    Rate.SENT_TIME + " INTEGER);";
++
++    @VisibleForTesting
++    public static String CREATE_DRM_TABLE_STR =
++            "CREATE TABLE " + MmsProvider.TABLE_DRM + " (" +
++                    BaseColumns._ID + " INTEGER PRIMARY KEY," +
++                    "_data TEXT);";
++
+     private void createMmsTables(SQLiteDatabase db) {
+         // N.B.: Whenever the columns here are changed, the columns in
+         // {@ref MmsSmsProvider} must be changed to match.
+-        db.execSQL("CREATE TABLE " + MmsProvider.TABLE_PDU + " (" +
+-                   Mms._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+-                   Mms.THREAD_ID + " INTEGER," +
+-                   Mms.DATE + " INTEGER," +
+-                   Mms.DATE_SENT + " INTEGER DEFAULT 0," +
+-                   Mms.MESSAGE_BOX + " INTEGER," +
+-                   Mms.READ + " INTEGER DEFAULT 0," +
+-                   Mms.MESSAGE_ID + " TEXT," +
+-                   Mms.SUBJECT + " TEXT," +
+-                   Mms.SUBJECT_CHARSET + " INTEGER," +
+-                   Mms.CONTENT_TYPE + " TEXT," +
+-                   Mms.CONTENT_LOCATION + " TEXT," +
+-                   Mms.EXPIRY + " INTEGER," +
+-                   Mms.MESSAGE_CLASS + " TEXT," +
+-                   Mms.MESSAGE_TYPE + " INTEGER," +
+-                   Mms.MMS_VERSION + " INTEGER," +
+-                   Mms.MESSAGE_SIZE + " INTEGER," +
+-                   Mms.PRIORITY + " INTEGER," +
+-                   Mms.READ_REPORT + " INTEGER," +
+-                   Mms.REPORT_ALLOWED + " INTEGER," +
+-                   Mms.RESPONSE_STATUS + " INTEGER," +
+-                   Mms.STATUS + " INTEGER," +
+-                   Mms.TRANSACTION_ID + " TEXT," +
+-                   Mms.RETRIEVE_STATUS + " INTEGER," +
+-                   Mms.RETRIEVE_TEXT + " TEXT," +
+-                   Mms.RETRIEVE_TEXT_CHARSET + " INTEGER," +
+-                   Mms.READ_STATUS + " INTEGER," +
+-                   Mms.CONTENT_CLASS + " INTEGER," +
+-                   Mms.RESPONSE_TEXT + " TEXT," +
+-                   Mms.DELIVERY_TIME + " INTEGER," +
+-                   Mms.DELIVERY_REPORT + " INTEGER," +
+-                   Mms.LOCKED + " INTEGER DEFAULT 0," +
+-                   Mms.SUBSCRIPTION_ID + " INTEGER DEFAULT "
+-                           + SubscriptionManager.INVALID_SUBSCRIPTION_ID + ", " +
+-                   Mms.SEEN + " INTEGER DEFAULT 0," +
+-                   Mms.CREATOR + " TEXT," +
+-                   Mms.TEXT_ONLY + " INTEGER DEFAULT 0" +
+-                   ");");
+-
+-        db.execSQL("CREATE TABLE " + MmsProvider.TABLE_ADDR + " (" +
+-                   Addr._ID + " INTEGER PRIMARY KEY," +
+-                   Addr.MSG_ID + " INTEGER," +
+-                   Addr.CONTACT_ID + " INTEGER," +
+-                   Addr.ADDRESS + " TEXT," +
+-                   Addr.TYPE + " INTEGER," +
+-                   Addr.CHARSET + " INTEGER);");
+-
+-        db.execSQL("CREATE TABLE " + MmsProvider.TABLE_PART + " (" +
+-                   Part._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+-                   Part.MSG_ID + " INTEGER," +
+-                   Part.SEQ + " INTEGER DEFAULT 0," +
+-                   Part.CONTENT_TYPE + " TEXT," +
+-                   Part.NAME + " TEXT," +
+-                   Part.CHARSET + " INTEGER," +
+-                   Part.CONTENT_DISPOSITION + " TEXT," +
+-                   Part.FILENAME + " TEXT," +
+-                   Part.CONTENT_ID + " TEXT," +
+-                   Part.CONTENT_LOCATION + " TEXT," +
+-                   Part.CT_START + " INTEGER," +
+-                   Part.CT_TYPE + " TEXT," +
+-                   Part._DATA + " TEXT," +
+-                   Part.TEXT + " TEXT);");
+-
+-        db.execSQL("CREATE TABLE " + MmsProvider.TABLE_RATE + " (" +
+-                   Rate.SENT_TIME + " INTEGER);");
+-
+-        db.execSQL("CREATE TABLE " + MmsProvider.TABLE_DRM + " (" +
+-                   BaseColumns._ID + " INTEGER PRIMARY KEY," +
+-                   "_data TEXT);");
++        db.execSQL(CREATE_PDU_TABLE_STR);
++
++        db.execSQL(CREATE_ADDR_TABLE_STR);
++
++        db.execSQL(CREATE_PART_TABLE_STR);
++
++        db.execSQL(CREATE_RATE_TABLE_STR);
++
++        db.execSQL(CREATE_DRM_TABLE_STR);
+ 
+         // Restricted view of pdu table, only sent/received messages without wap pushes
+         db.execSQL("CREATE VIEW " + MmsProvider.VIEW_PDU_RESTRICTED + " AS " +
+diff --git a/src/com/android/providers/telephony/MmsSmsProvider.java b/src/com/android/providers/telephony/MmsSmsProvider.java
+index 1653cd98..ce83d679 100644
+--- a/src/com/android/providers/telephony/MmsSmsProvider.java
++++ b/src/com/android/providers/telephony/MmsSmsProvider.java
+@@ -23,6 +23,7 @@ import android.content.Context;
+ import android.content.UriMatcher;
+ import android.database.Cursor;
+ import android.database.DatabaseUtils;
++import android.database.MatrixCursor;
+ import android.database.sqlite.SQLiteDatabase;
+ import android.database.sqlite.SQLiteOpenHelper;
+ import android.database.sqlite.SQLiteQueryBuilder;
+@@ -30,6 +31,7 @@ import android.net.Uri;
+ import android.os.Binder;
+ import android.os.Bundle;
+ import android.os.UserHandle;
++import android.os.UserManager;
+ import android.provider.BaseColumns;
+ import android.provider.Telephony;
+ import android.provider.Telephony.CanonicalAddressesColumns;
+@@ -323,6 +325,16 @@ public class MmsSmsProvider extends ContentProvider {
+     @Override
+     public Cursor query(Uri uri, String[] projection,
+             String selection, String[] selectionArgs, String sortOrder) {
++        Cursor emptyCursor = new MatrixCursor((projection == null) ?
++                (new String[] {}) : projection);
++        UserManager userManager = (UserManager) getContext().getSystemService(Context.USER_SERVICE);
++        if ((userManager != null) && (userManager.isManagedProfile(
++                Binder.getCallingUserHandle().getIdentifier()))) {
++            // If work profile is trying to query mms/sms, return empty cursor.
++            Log.e(LOG_TAG, "Managed profile is not allowed to query MMS/SMS.");
++            return emptyCursor;
++        }
++
+         // First check if restricted views of the "sms" and "pdu" tables should be used based on the
+         // caller's identity. Only system, phone or the default sms app can have full access
+         // of sms/mms data. For other apps, we present a restricted view which only contains sent
+@@ -1216,6 +1228,14 @@ public class MmsSmsProvider extends ContentProvider {
+     @Override
+     public int delete(Uri uri, String selection,
+             String[] selectionArgs) {
++        UserManager userManager = (UserManager) getContext().getSystemService(Context.USER_SERVICE);
++        if ((userManager != null) && (userManager.isManagedProfile(
++                Binder.getCallingUserHandle().getIdentifier()))) {
++            // If work profile is trying to delete mms/sms, return 0.
++            Log.e(LOG_TAG, "Managed profile is not allowed to delete MMS/SMS.");
++            return 0;
++        }
++
+         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+         Context context = getContext();
+         int affectedRows = 0;
+@@ -1272,6 +1292,14 @@ public class MmsSmsProvider extends ContentProvider {
+ 
+     @Override
+     public Uri insert(Uri uri, ContentValues values) {
++        UserManager userManager = (UserManager) getContext().getSystemService(Context.USER_SERVICE);
++        if ((userManager != null) && (userManager.isManagedProfile(
++                Binder.getCallingUserHandle().getIdentifier()))) {
++            // If work profile is trying to insert mms/sms, return null.
++            Log.e(LOG_TAG, "Managed profile is not allowed to insert MMS/SMS.");
++            return null;
++        }
++
+         if (URI_MATCHER.match(uri) == URI_PENDING_MSG) {
+             SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+             long rowId = db.insert(TABLE_PENDING_MSG, null, values);
+@@ -1283,6 +1311,14 @@ public class MmsSmsProvider extends ContentProvider {
+     @Override
+     public int update(Uri uri, ContentValues values,
+             String selection, String[] selectionArgs) {
++        UserManager userManager = (UserManager) getContext().getSystemService(Context.USER_SERVICE);
++        if ((userManager != null) && (userManager.isManagedProfile(
++                Binder.getCallingUserHandle().getIdentifier()))) {
++            // If work profile is trying to update mms/sms, return 0.
++            Log.e(LOG_TAG, "Managed profile is not allowed to update MMS/SMS.");
++            return 0;
++        }
++
+         final int callerUid = Binder.getCallingUid();
+         final String callerPkg = getCallingPackage();
+         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+diff --git a/src/com/android/providers/telephony/SmsProvider.java b/src/com/android/providers/telephony/SmsProvider.java
+index 37a10448..d5f48536 100644
+--- a/src/com/android/providers/telephony/SmsProvider.java
++++ b/src/com/android/providers/telephony/SmsProvider.java
+@@ -32,6 +32,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
+ import android.net.Uri;
+ import android.os.Binder;
+ import android.os.UserHandle;
++import android.os.UserManager;
+ import android.provider.Contacts;
+ import android.provider.Telephony;
+ import android.provider.Telephony.MmsSms;
+@@ -109,6 +110,16 @@ public class SmsProvider extends ContentProvider {
+     @Override
+     public Cursor query(Uri url, String[] projectionIn, String selection,
+             String[] selectionArgs, String sort) {
++        Cursor emptyCursor = new MatrixCursor((projectionIn == null) ?
++                (new String[] {}) : projectionIn);
++        UserManager userManager = (UserManager) getContext().getSystemService(Context.USER_SERVICE);
++        if ((userManager != null) && (userManager.isManagedProfile(
++                Binder.getCallingUserHandle().getIdentifier()))) {
++            // If work profile is trying to query sms, return empty cursor.
++            Log.e(TAG, "Managed profile is not allowed to query SMS.");
++            return emptyCursor;
++        }
++
+         // First check if a restricted view of the "sms" table should be used based on the
+         // caller's identity. Only system, phone or the default sms app can have full access
+         // of sms data. For other apps, we present a restricted view which only contains sent
+@@ -453,6 +464,14 @@ public class SmsProvider extends ContentProvider {
+     }
+ 
+     private Uri insertInner(Uri url, ContentValues initialValues, int callerUid, String callerPkg) {
++        UserManager userManager = (UserManager) getContext().getSystemService(Context.USER_SERVICE);
++        if ((userManager != null) && (userManager.isManagedProfile(
++                Binder.getCallingUserHandle().getIdentifier()))) {
++            // If work profile is trying to insert sms, return null.
++            Log.e(TAG, "Managed profile is not allowed to insert SMS.");
++            return null;
++        }
++
+         ContentValues values;
+         long rowID;
+         int type = Sms.MESSAGE_TYPE_ALL;
+@@ -646,6 +665,14 @@ public class SmsProvider extends ContentProvider {
+ 
+     @Override
+     public int delete(Uri url, String where, String[] whereArgs) {
++        UserManager userManager = (UserManager) getContext().getSystemService(Context.USER_SERVICE);
++        if ((userManager != null) && (userManager.isManagedProfile(
++                Binder.getCallingUserHandle().getIdentifier()))) {
++            // If work profile is trying to delete sms, return 0.
++            Log.e(TAG, "Managed profile is not allowed to delete SMS.");
++            return 0;
++        }
++
+         int count;
+         int match = sURLMatcher.match(url);
+         SQLiteDatabase db = getWritableDatabase(match);
+@@ -748,6 +775,14 @@ public class SmsProvider extends ContentProvider {
+ 
+     @Override
+     public int update(Uri url, ContentValues values, String where, String[] whereArgs) {
++        UserManager userManager = (UserManager) getContext().getSystemService(Context.USER_SERVICE);
++        if ((userManager != null) && (userManager.isManagedProfile(
++                Binder.getCallingUserHandle().getIdentifier()))) {
++            // If work profile is trying to update sms, return 0.
++            Log.e(TAG, "Managed profile is not allowed to update SMS.");
++            return 0;
++        }
++
+         final int callerUid = Binder.getCallingUid();
+         final String callerPkg = getCallingPackage();
+         int count = 0;
+diff --git a/tests/src/com/android/providers/telephony/MmsProviderTest.java b/tests/src/com/android/providers/telephony/MmsProviderTest.java
+new file mode 100644
+index 00000000..e1010e01
+--- /dev/null
++++ b/tests/src/com/android/providers/telephony/MmsProviderTest.java
+@@ -0,0 +1,173 @@
++/*
++ * Copyright (C) 2023 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.providers.telephony;
++
++import static org.mockito.ArgumentMatchers.anyInt;
++import static org.mockito.ArgumentMatchers.anyString;
++import static org.mockito.ArgumentMatchers.eq;
++import static org.mockito.Mockito.mock;
++import static org.mockito.Mockito.when;
++
++import android.app.AppOpsManager;
++import android.content.ContentValues;
++import android.content.Context;
++import android.content.pm.PackageManager;
++import android.content.pm.ProviderInfo;
++import android.database.ContentObserver;
++import android.database.Cursor;
++import android.net.Uri;
++import android.os.UserManager;
++import android.provider.Telephony;
++import android.telephony.TelephonyManager;
++import android.test.mock.MockContentResolver;
++import android.util.Log;
++
++import junit.framework.TestCase;
++
++import org.junit.Test;
++import org.mockito.Mock;
++import org.mockito.MockitoAnnotations;
++
++public class MmsProviderTest extends TestCase {
++    private static final String TAG = "MmsProviderTest";
++
++    @Mock private Context mContext;
++    private MockContentResolver mContentResolver;
++    private MmsProviderTestable mMmsProviderTestable;
++    @Mock private PackageManager mPackageManager;
++
++    private int notifyChangeCount;
++    private UserManager mUserManager;
++
++    @Override
++    protected void setUp() throws Exception {
++        super.setUp();
++        MockitoAnnotations.initMocks(this);
++        mMmsProviderTestable = new MmsProviderTestable();
++        mUserManager = mock(UserManager.class);
++
++        // setup mocks
++        when(mContext.getSystemService(eq(Context.APP_OPS_SERVICE)))
++                .thenReturn(mock(AppOpsManager.class));
++        when(mContext.getSystemService(eq(Context.TELEPHONY_SERVICE)))
++                .thenReturn(mock(TelephonyManager.class));
++        when(mContext.getSystemService(eq(Context.USER_SERVICE)))
++                .thenReturn(mUserManager);
++
++        when(mContext.checkCallingOrSelfPermission(anyString()))
++                .thenReturn(PackageManager.PERMISSION_GRANTED);
++        when(mContext.getUserId()).thenReturn(0);
++        when(mContext.getPackageManager()).thenReturn(mPackageManager);
++
++        /**
++         * This is used to give the MmsProviderTest a mocked context which takes a
++         * SmsProvider and attaches it to the ContentResolver with telephony authority.
++         * The mocked context also gives WRITE_APN_SETTINGS permissions
++         */
++        mContentResolver = new MockContentResolver() {
++            @Override
++            public void notifyChange(Uri uri, ContentObserver observer, boolean syncToNetwork,
++                    int userHandle) {
++                notifyChangeCount++;
++            }
++        };
++        when(mContext.getContentResolver()).thenReturn(mContentResolver);
++
++        // Add authority="mms" to given mmsProvider
++        ProviderInfo providerInfo = new ProviderInfo();
++        providerInfo.authority = "mms";
++
++        // Add context to given mmsProvider
++        mMmsProviderTestable.attachInfoForTesting(mContext, providerInfo);
++        Log.d(TAG, "MockContextWithProvider: mmsProvider.getContext(): "
++                + mMmsProviderTestable.getContext());
++
++        // Add given MmsProvider to mResolver with authority="mms" so that
++        // mResolver can send queries to mMmsProvider
++        mContentResolver.addProvider("mms", mMmsProviderTestable);
++        Log.d(TAG, "MockContextWithProvider: Add MmsProvider to mResolver");
++        notifyChangeCount = 0;
++    }
++
++    @Override
++    protected void tearDown() throws Exception {
++        super.tearDown();
++        mMmsProviderTestable.closeDatabase();
++    }
++
++    @Test
++    public void testInsertMms() {
++        final ContentValues values = new ContentValues();
++        values.put(Telephony.Mms.READ, 1);
++        values.put(Telephony.Mms.SEEN, 1);
++        values.put(Telephony.Mms.SUBSCRIPTION_ID, 1);
++        values.put(Telephony.Mms.MESSAGE_BOX, Telephony.Mms.MESSAGE_BOX_ALL);
++        values.put(Telephony.Mms.TEXT_ONLY, 1);
++        values.put(Telephony.Mms.THREAD_ID, 1);
++
++        Uri expected = Uri.parse("content://mms/1");
++        Uri actual = mContentResolver.insert(Telephony.Mms.CONTENT_URI, values);
++
++        assertEquals(expected, actual);
++        assertEquals(1, notifyChangeCount);
++    }
++
++    @Test
++    public void testInsertUsingManagedProfile() {
++        when(mUserManager.isManagedProfile(anyInt())).thenReturn(true);
++
++        try {
++            assertNull(mContentResolver.insert(Telephony.Mms.CONTENT_URI, null));
++        } catch (Exception e) {
++            Log.d(TAG, "Error inserting mms: " + e);
++        }
++    }
++
++    @Test
++    public void testQueryUsingManagedProfile() {
++        when(mUserManager.isManagedProfile(anyInt())).thenReturn(true);
++
++        try (Cursor cursor = mContentResolver.query(Telephony.Mms.CONTENT_URI,
++                null, null, null, null)) {
++            assertEquals(0, cursor.getCount());
++        } catch (Exception e) {
++            Log.d(TAG, "Exception in getting count: " + e);
++        }
++    }
++
++    @Test
++    public void testUpdateUsingManagedProfile() {
++        when(mUserManager.isManagedProfile(anyInt())).thenReturn(true);
++
++        try {
++            assertEquals(0, mContentResolver.update(Telephony.Mms.CONTENT_URI, null, null, null));
++        } catch (Exception e) {
++            Log.d(TAG, "Exception in updating mms: " + e);
++        }
++    }
++
++    @Test
++    public void testDeleteUsingManagedProfile() {
++        when(mUserManager.isManagedProfile(anyInt())).thenReturn(true);
++
++        try {
++            assertEquals(0, mContentResolver.delete(Telephony.Mms.CONTENT_URI, null, null));
++        } catch (Exception e) {
++            Log.d(TAG, "Exception in deleting mms: " + e);
++        }
++    }
++}
+diff --git a/tests/src/com/android/providers/telephony/MmsProviderTestable.java b/tests/src/com/android/providers/telephony/MmsProviderTestable.java
+new file mode 100644
+index 00000000..cea411be
+--- /dev/null
++++ b/tests/src/com/android/providers/telephony/MmsProviderTestable.java
+@@ -0,0 +1,77 @@
++/*
++ * Copyright (C) 2023 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.providers.telephony;
++
++import static com.android.providers.telephony.MmsSmsDatabaseHelper.CREATE_ADDR_TABLE_STR;
++import static com.android.providers.telephony.MmsSmsDatabaseHelper.CREATE_DRM_TABLE_STR;
++import static com.android.providers.telephony.MmsSmsDatabaseHelper.CREATE_PART_TABLE_STR;
++import static com.android.providers.telephony.MmsSmsDatabaseHelper.CREATE_PDU_TABLE_STR;
++import static com.android.providers.telephony.MmsSmsDatabaseHelper.CREATE_RATE_TABLE_STR;
++
++import android.database.sqlite.SQLiteDatabase;
++import android.database.sqlite.SQLiteOpenHelper;
++import android.util.Log;
++
++/**
++ * A subclass of MmsProvider used for testing on an in-memory database
++ */
++public class MmsProviderTestable extends MmsProvider {
++    private static final String TAG = "MmsProviderTestable";
++
++    @Override
++    public boolean onCreate() {
++        Log.d(TAG, "onCreate called: mDbHelper = new InMemoryMmsProviderDbHelper()");
++        mOpenHelper = new InMemoryMmsProviderDbHelper();
++        return true;
++    }
++
++    // close mDbHelper database object
++    protected void closeDatabase() {
++        mOpenHelper.close();
++    }
++
++    /**
++     * An in memory DB for MmsProviderTestable to use
++     */
++    public static class InMemoryMmsProviderDbHelper extends SQLiteOpenHelper {
++
++
++        public InMemoryMmsProviderDbHelper() {
++            super(null,      // no context is needed for in-memory db
++                    null,      // db file name is null for in-memory db
++                    null,      // CursorFactory is null by default
++                    1);        // db version is no-op for tests
++            Log.d(TAG, "InMemoryMmsProviderDbHelper creating in-memory database");
++        }
++
++        @Override
++        public void onCreate(SQLiteDatabase db) {
++            // Set up the mms tables
++            Log.d(TAG, "InMemoryMmsProviderDbHelper onCreate creating the mms tables");
++            db.execSQL(CREATE_PDU_TABLE_STR);
++            db.execSQL(CREATE_ADDR_TABLE_STR);
++            db.execSQL(CREATE_PART_TABLE_STR);
++            db.execSQL(CREATE_RATE_TABLE_STR);
++            db.execSQL(CREATE_DRM_TABLE_STR);
++        }
++
++        @Override
++        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
++            Log.d(TAG, "InMemorySmsProviderDbHelper onUpgrade doing nothing");
++        }
++    }
++}
+diff --git a/tests/src/com/android/providers/telephony/SmsProviderTest.java b/tests/src/com/android/providers/telephony/SmsProviderTest.java
+index 8fba85b5..a3b88e32 100644
+--- a/tests/src/com/android/providers/telephony/SmsProviderTest.java
++++ b/tests/src/com/android/providers/telephony/SmsProviderTest.java
+@@ -16,6 +16,9 @@
+ 
+ package com.android.providers.telephony;
+ 
++import static org.mockito.ArgumentMatchers.anyInt;
++import static org.mockito.Mockito.when;
++
+ import android.app.AppOpsManager;
+ import android.content.ContentValues;
+ import android.content.Context;
+@@ -24,6 +27,7 @@ import android.content.pm.ProviderInfo;
+ import android.content.res.Resources;
+ import android.database.ContentObserver;
+ import android.net.Uri;
++import android.os.UserManager;
+ import android.provider.Telephony;
+ import android.telephony.TelephonyManager;
+ import android.test.mock.MockContentResolver;
+@@ -55,6 +59,7 @@ public class SmsProviderTest extends TestCase {
+     private MockContextWithProvider mContext;
+     private MockContentResolver mContentResolver;
+     private SmsProviderTestable mSmsProviderTestable;
++    private UserManager mUserManager;
+ 
+     private int notifyChangeCount;
+ 
+@@ -99,6 +104,8 @@ public class SmsProviderTest extends TestCase {
+                     return Mockito.mock(AppOpsManager.class);
+                 case Context.TELEPHONY_SERVICE:
+                     return Mockito.mock(TelephonyManager.class);
++                case Context.USER_SERVICE:
++                    return mUserManager;
+                 default:
+                     return null;
+             }
+@@ -132,6 +139,8 @@ public class SmsProviderTest extends TestCase {
+         mSmsProviderTestable = new SmsProviderTestable();
+         mContext = new MockContextWithProvider(mSmsProviderTestable);
+         mContentResolver = mContext.getContentResolver();
++        mUserManager = Mockito.mock(UserManager.class);
++
+         notifyChangeCount = 0;
+     }
+ 
+@@ -170,4 +179,49 @@ public class SmsProviderTest extends TestCase {
+         assertEquals(Uri.parse("content://sms/attachments/1"),
+                 mContentResolver.insert(Uri.parse("content://sms/attachments"), values));
+     }
+-}
+\ No newline at end of file
++
++    @Test
++    public void testInsertUsingManagedProfile() {
++        when(mUserManager.isManagedProfile(anyInt())).thenReturn(true);
++
++        try {
++            assertNull(mContentResolver.insert(Telephony.Sms.CONTENT_URI, null));
++        } catch (Exception e) {
++            Log.d(TAG, "Error inserting sms: " + e);
++        }
++    }
++
++    @Test
++    public void testQueryUsingManagedProfile() {
++        when(mUserManager.isManagedProfile(anyInt())).thenReturn(true);
++
++        try (Cursor cursor = mContentResolver.query(Telephony.Sms.CONTENT_URI,
++                null, null, null, null)) {
++            assertEquals(0, cursor.getCount());
++        } catch (Exception e) {
++            Log.d(TAG, "Exception in getting count: " + e);
++        }
++    }
++
++    @Test
++    public void testUpdateUsingManagedProfile() {
++        when(mUserManager.isManagedProfile(anyInt())).thenReturn(true);
++
++        try {
++            assertEquals(0, mContentResolver.update(Telephony.Sms.CONTENT_URI, null, null, null));
++        } catch (Exception e) {
++            Log.d(TAG, "Exception in updating sms: " + e);
++        }
++    }
++
++    @Test
++    public void testDeleteUsingManagedProfile() {
++        when(mUserManager.isManagedProfile(anyInt())).thenReturn(true);
++
++        try {
++            assertEquals(0, mContentResolver.delete(Telephony.Sms.CONTENT_URI, null, null));
++        } catch (Exception e) {
++            Log.d(TAG, "Exception in deleting sms: " + e);
++        }
++    }
++}
