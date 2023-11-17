@@ -349,7 +349,6 @@ applyPatch "$DOS_PATCHES/android_packages_modules_Connectivity/0002-Private_DNS.
 fi;
 
 if enterAndClear "packages/modules/DnsResolver"; then
-git fetch https://github.com/LineageOS/android_packages_modules_DnsResolver refs/changes/09/373909/1 && git cherry-pick FETCH_HEAD; #S_asb_2023-11
 applyPatch "$DOS_PATCHES/android_packages_modules_DnsResolver/0001-Hosts_Cache.patch"; #DnsResolver: Sort and cache hosts file data for fast lookup (tdm)
 applyPatch "$DOS_PATCHES/android_packages_modules_DnsResolver/0001-Hosts_Wildcards.patch"; #DnsResolver: Support wildcards in cached hosts file (tdm)
 applyPatch "$DOS_PATCHES/android_packages_modules_DnsResolver/0002-hosts_toggle.patch"; #Add a toggle to disable /etc/hosts lookup (DivestOS)
@@ -371,10 +370,6 @@ applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0004-Special_Permis
 applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0004-Special_Permission-4.patch"; #Fix usage UI summary for Network/Sensors (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0005-Browser_No_Location.patch"; #Stop auto-granting location to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_modules_Permission/0006-Location_Indicators.patch"; #SystemUI: Use new privacy indicators for location (GrapheneOS)
-fi;
-
-if enterAndClear "packages/modules/StatsD"; then
-git fetch https://github.com/LineageOS/android_packages_modules_StatsD refs/changes/10/373910/1 && git cherry-pick FETCH_HEAD; #S_asb_2023-11
 fi;
 
 if enterAndClear "packages/modules/Wifi"; then
