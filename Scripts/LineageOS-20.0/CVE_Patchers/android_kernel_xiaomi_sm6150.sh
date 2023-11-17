@@ -73,11 +73,13 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20158/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20371/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1989/4.14/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3567/4.14/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3777/^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28553/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/^6.5/0001.patch
-editKernelLocalversion "-dos.p77"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45863/4.14/0002.patch
+editKernelLocalversion "-dos.p79"
 else echo "kernel_xiaomi_sm6150 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
