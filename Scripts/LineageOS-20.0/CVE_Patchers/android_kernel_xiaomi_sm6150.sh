@@ -1,6 +1,5 @@
 #!/bin/bash
 if cd "$DOS_BUILD_BASE""kernel/xiaomi/sm6150"; then
-git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0326-0327.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes-Steam/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-Graphene-Deny_USB/4.14/0003.patch
@@ -72,6 +71,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20158/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20158/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20371/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0590/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1989/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3567/4.14/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3777/^6.5/0001.patch
