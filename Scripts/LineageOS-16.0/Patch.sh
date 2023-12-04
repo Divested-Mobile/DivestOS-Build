@@ -165,22 +165,10 @@ awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.jav
 fi;
 
 if enterAndClear "frameworks/av"; then
-applyPatch "$DOS_PATCHES/android_frameworks_av/373949.patch"; #R_asb_2023-11 Fix for heap buffer overflow issue flagged by fuzzer test.
-#applyPatch "$DOS_PATCHES/android_frameworks_av/373950.patch"; #R_asb_2023-11 Fix heap-use-after-free issue flagged by fuzzer test. #XXX: error: use of class template 'std::unique_lock' requires template arguments
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; fi; #(GrapheneOS)
 fi;
 
 if enterAndClear "frameworks/base"; then
-applyPatch "$DOS_PATCHES/android_frameworks_base/368055.patch"; #R_asb_2023-10 RingtoneManager: verify default ringtone is audio
-applyPatch "$DOS_PATCHES/android_frameworks_base/368059.patch"; #R_asb_2023-10 Do not share key mappings with JNI object
-applyPatch "$DOS_PATCHES/android_frameworks_base/368060-backport.patch"; #R_asb_2023-10 Verify URI Permissions in Autofill RemoteViews
-applyPatch "$DOS_PATCHES/android_frameworks_base/368061.patch"; #R_asb_2023-10 Fix KCM key mapping cloning
-applyPatch "$DOS_PATCHES/android_frameworks_base/368062-backport.patch"; #R_asb_2023-10 Disallow loading icon from content URI to PipMenu
-applyPatch "$DOS_PATCHES/android_frameworks_base/368063.patch"; #R_asb_2023-10 Fixing DatabaseUtils to detect malformed UTF-16 strings
-applyPatch "$DOS_PATCHES/android_frameworks_base/368067-backport.patch"; #R_asb_2023-10 Revert "DO NOT MERGE Dismiss keyguard when simpin auth'd and..."
-applyPatch "$DOS_PATCHES/android_frameworks_base/373951-backport.patch"; #R_asb_2023-11 Fix BAL via notification.publicVersion
-applyPatch "$DOS_PATCHES/android_frameworks_base/373953.patch"; #R_asb_2023-11 Use type safe API of readParcelableArray
-applyPatch "$DOS_PATCHES/android_frameworks_base/373955.patch"; #R_asb_2023-11 [SettingsProvider] verify ringtone URI before setting
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -332,7 +320,6 @@ fi;
 
 if enterAndClear "packages/apps/Settings"; then
 git revert --no-edit c240992b4c86c7f226290807a2f41f2619e7e5e8; #Don't hide OEM unlock
-applyPatch "$DOS_PATCHES/android_packages_apps_Settings/368069-backport.patch"; #R_asb_2023-10 Restrict ApnEditor settings
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch) #TODO: Needs work
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0005-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
@@ -370,7 +357,6 @@ applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Networ
 fi;
 
 if enterAndClear "packages/providers/TelephonyProvider"; then
-applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/373957-backport.patch"; #R_asb_2023-11 Block access to sms/mms db from work profile.
 #cp $DOS_PATCHES_COMMON/android_packages_providers_TelephonyProvider/carrier_list.* assets/;
 fi;
 
