@@ -31,7 +31,7 @@ Change-Id: I5926493864d4b1291ae83f8b601bf5dcc54085cd
  create mode 100644 hosts_cache.h
 
 diff --git a/Android.bp b/Android.bp
-index b0cfee0c..35c47020 100644
+index b0cfee0..35c4702 100644
 --- a/Android.bp
 +++ b/Android.bp
 @@ -164,6 +164,7 @@ cc_library {
@@ -43,7 +43,7 @@ index b0cfee0c..35c47020 100644
          "res_comp.cpp",
          "res_debug.cpp",
 diff --git a/getaddrinfo.cpp b/getaddrinfo.cpp
-index 6674f238..d8542939 100644
+index 6674f23..d854293 100644
 --- a/getaddrinfo.cpp
 +++ b/getaddrinfo.cpp
 @@ -66,6 +66,8 @@
@@ -71,7 +71,7 @@ index 6674f238..d8542939 100644
          cur->ai_next = p;
 diff --git a/hosts_cache.cpp b/hosts_cache.cpp
 new file mode 100644
-index 00000000..a40fb403
+index 0000000..a40fb40
 --- /dev/null
 +++ b/hosts_cache.cpp
 @@ -0,0 +1,523 @@
@@ -600,7 +600,7 @@ index 00000000..a40fb403
 +}
 diff --git a/hosts_cache.h b/hosts_cache.h
 new file mode 100644
-index 00000000..55138dcb
+index 0000000..55138dc
 --- /dev/null
 +++ b/hosts_cache.h
 @@ -0,0 +1,28 @@
@@ -633,7 +633,7 @@ index 00000000..55138dcb
 +
 +#endif
 diff --git a/sethostent.cpp b/sethostent.cpp
-index 7f9384c0..f1bf6572 100644
+index 7f9384c..f1bf657 100644
 --- a/sethostent.cpp
 +++ b/sethostent.cpp
 @@ -43,6 +43,8 @@

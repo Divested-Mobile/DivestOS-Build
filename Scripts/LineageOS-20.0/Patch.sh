@@ -104,6 +104,10 @@ applyPatch "$DOS_PATCHES/android_build_soong/0001-Enable_fwrapv.patch"; #Use -fw
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_build_soong/0002-hm_apex.patch"; fi; #(GrapheneOS)
 fi;
 
+if enterAndClear "cts"; then
+git fetch https://github.com/LineageOS/android_cts refs/changes/07/376307/1 && git cherry-pick FETCH_HEAD; #T_asb_2023-12
+fi;
+
 if enterAndClear "external/chromium-webview"; then
 if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then DOS_WEBVIEW_CHERRYPICK; fi; #Update the WebView to latest if available
 if [ "$DOS_WEBVIEW_LFS" = true ]; then git lfs pull; fi; #Ensure the objects are available
@@ -121,6 +125,11 @@ applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0002-Broken_Displays.p
 sed -i 's/34359738368/2147483648/' Android.bp; #revert 48-bit address space requirement
 fi;
 fi;
+
+if enterAndClear "external/pdfium"; then
+git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/50/376250/1 && git cherry-pick FETCH_HEAD; #T_asb_2023-12
+fi;
+
 
 if enterAndClear "frameworks/av"; then
 git am $DOS_PATCHES/ASB-2023-10/av-*.patch;
