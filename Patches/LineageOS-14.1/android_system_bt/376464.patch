@@ -1,4 +1,4 @@
-From 477c17c9d164ea056d9e32e215b8d54d757c9374 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hui Peng <phui@google.com>
 Date: Sat, 2 Sep 2023 04:27:29 +0000
 Subject: [PATCH] Reject access to secure services authenticated from temp
@@ -20,7 +20,7 @@ Change-Id: I10fcc2dcd78fc22ffbe3c425669fc9889b94a166
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/stack/btm/btm_sec.c b/stack/btm/btm_sec.c
-index 23b334ce27..21af82f8eb 100644
+index 44d510d3b..728861f2f 100644
 --- a/stack/btm/btm_sec.c
 +++ b/stack/btm/btm_sec.c
 @@ -2648,8 +2648,13 @@ tBTM_STATUS btm_sec_mx_access_request (BD_ADDR bd_addr, UINT16 psm, BOOLEAN is_o

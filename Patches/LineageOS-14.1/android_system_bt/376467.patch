@@ -1,4 +1,4 @@
-From eb5838d3c34231efb1ab700d91b596247f4a4898 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hui Peng <phui@google.com>
 Date: Wed, 13 Sep 2023 00:00:44 +0000
 Subject: [PATCH] Enforce authentication if encryption is required
@@ -21,10 +21,10 @@ Change-Id: I0370ed2e3166d56f708e1981c2126526e1db9eaa
  1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/stack/btm/btm_sec.c b/stack/btm/btm_sec.c
-index 39b9486f41..a43fdcafeb 100644
+index fa85bc28c..1a21bce09 100644
 --- a/stack/btm/btm_sec.c
 +++ b/stack/btm/btm_sec.c
-@@ -5528,17 +5528,19 @@ extern tBTM_STATUS btm_sec_execute_procedure (tBTM_SEC_DEV_REC *p_dev_rec)
+@@ -5510,17 +5510,19 @@ extern tBTM_STATUS btm_sec_execute_procedure (tBTM_SEC_DEV_REC *p_dev_rec)
          {
              if (p_dev_rec->is_originator)
              {

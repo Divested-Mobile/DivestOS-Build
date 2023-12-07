@@ -1,4 +1,4 @@
-From fd90a5342af9b9ead4026a70a694d3f31908d5ea Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Thu, 5 Oct 2023 00:01:03 +0000
 Subject: [PATCH] Fix UAF in ~CallbackEnv

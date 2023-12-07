@@ -1,4 +1,4 @@
-From 892310be92b62dc2bd3447546dd385534ce8a695 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Brian Delwiche <delwiche@google.com>
 Date: Tue, 3 Oct 2023 21:27:49 +0000
 Subject: [PATCH] Fix timing attack in BTM_BleVerifySignature
@@ -23,7 +23,7 @@ Change-Id: I41a9b586d663d2ad4694222ae451d2d30a428a3c
  3 files changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/main/Android.mk b/main/Android.mk
-index 2286997e8d3..985851add33 100644
+index 2286997e8..985851add 100644
 --- a/main/Android.mk
 +++ b/main/Android.mk
 @@ -52,12 +52,14 @@ LOCAL_C_INCLUDES+= . \
@@ -42,7 +42,7 @@ index 2286997e8d3..985851add33 100644
      liblog \
      libz \
 diff --git a/stack/Android.mk b/stack/Android.mk
-index 4c77e8dd7f4..49f43fbc5df 100644
+index 4c77e8dd7..49f43fbc5 100644
 --- a/stack/Android.mk
 +++ b/stack/Android.mk
 @@ -33,7 +33,8 @@ LOCAL_C_INCLUDES:= \
@@ -65,7 +65,7 @@ index 4c77e8dd7f4..49f43fbc5df 100644
  
  LOCAL_CFLAGS += $(bluetooth_CFLAGS)
 diff --git a/stack/btm/btm_ble.c b/stack/btm/btm_ble.c
-index 51fd748c074..9e248e96580 100644
+index 6bb85a4ce..c6e699d49 100644
 --- a/stack/btm/btm_ble.c
 +++ b/stack/btm/btm_ble.c
 @@ -41,6 +41,7 @@
@@ -76,7 +76,7 @@ index 51fd748c074..9e248e96580 100644
  #include "osi/include/log.h"
  #include "smp_api.h"
  
-@@ -2280,7 +2281,7 @@ BOOLEAN BTM_BleVerifySignature (BD_ADDR bd_addr, UINT8 *p_orig, UINT16 len, UINT
+@@ -2282,7 +2283,7 @@ BOOLEAN BTM_BleVerifySignature (BD_ADDR bd_addr, UINT8 *p_orig, UINT16 len, UINT
  
          if (aes_cipher_msg_auth_code(p_rec->ble.keys.pcsrk, p_orig, len, BTM_CMAC_TLEN_SIZE, p_mac))
          {

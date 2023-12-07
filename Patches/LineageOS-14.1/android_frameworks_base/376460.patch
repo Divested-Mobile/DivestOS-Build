@@ -1,4 +1,4 @@
-From cb95e01ba40c3b8c70f5810efb7abfd85bfd0b1f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Kunal Malhotra <malhk@google.com>
 Date: Thu, 2 Feb 2023 23:48:27 +0000
 Subject: [PATCH] Adding in verification of calling UID in onShellCommand
@@ -14,10 +14,10 @@ Change-Id: I68903ebd6d3d85f4bc820b745e3233a448b62273
  1 file changed, 7 insertions(+)
 
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index 4e48f422a2fe3..7cda7571df70d 100644
+index a96ad5e24399..c682ba2f7572 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
-@@ -14349,6 +14349,13 @@ public int getMemoryTrimLevel() {
+@@ -14402,6 +14402,13 @@ public final class ActivityManagerService extends ActivityManagerNative
      @Override
      public void onShellCommand(FileDescriptor in, FileDescriptor out,
              FileDescriptor err, String[] args, ResultReceiver resultReceiver) {

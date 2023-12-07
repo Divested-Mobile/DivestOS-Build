@@ -1,4 +1,4 @@
-From a341bc7b7ae161f4a87e996d8a5e8b1ad005fb6b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Pinyao Ting <pinyaoting@google.com>
 Date: Mon, 24 Jul 2023 14:58:56 -0700
 Subject: [PATCH] Validate userId when publishing shortcuts
@@ -13,10 +13,10 @@ Change-Id: Idbde676f871db83825155730e3714f3727e25762
  1 file changed, 4 insertions(+)
 
 diff --git a/services/core/java/com/android/server/pm/ShortcutService.java b/services/core/java/com/android/server/pm/ShortcutService.java
-index 944f75345df6f..2cfc3461c6977 100644
+index 944f75345df6..2cfc3461c697 100644
 --- a/services/core/java/com/android/server/pm/ShortcutService.java
 +++ b/services/core/java/com/android/server/pm/ShortcutService.java
-@@ -1528,6 +1528,10 @@ private void verifyShortcutInfoPackage(String callerPackage, ShortcutInfo si) {
+@@ -1528,6 +1528,10 @@ public class ShortcutService extends IShortcutService.Stub {
              android.util.EventLog.writeEvent(0x534e4554, "109824443", -1, "");
              throw new SecurityException("Shortcut package name mismatch");
          }

@@ -1,4 +1,4 @@
-From 277464e315d43f3d66e2444744dfa9e42977c64c Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hui Peng <phui@google.com>
 Date: Sat, 2 Sep 2023 04:20:10 +0000
 Subject: [PATCH] Reject access to secure service authenticated from a temp
@@ -20,7 +20,7 @@ Change-Id: Idef4ea28eb3d17b0807ab7dc6849433ddc5581b3
  1 file changed, 37 insertions(+), 4 deletions(-)
 
 diff --git a/stack/btm/btm_sec.c b/stack/btm/btm_sec.c
-index b27b7e071c7..23b334ce27f 100644
+index f8884b917..44d510d3b 100644
 --- a/stack/btm/btm_sec.c
 +++ b/stack/btm/btm_sec.c
 @@ -106,7 +106,7 @@ static BOOLEAN  btm_sec_set_security_level ( CONNECTION_TYPE conn_type, char *p_
@@ -86,7 +86,7 @@ index b27b7e071c7..23b334ce27f 100644
          }
      }
      else
-@@ -5587,6 +5612,14 @@ extern tBTM_STATUS btm_sec_execute_procedure (tBTM_SEC_DEV_REC *p_dev_rec)
+@@ -5569,6 +5594,14 @@ extern tBTM_STATUS btm_sec_execute_procedure (tBTM_SEC_DEV_REC *p_dev_rec)
          }
      }
  

@@ -1,4 +1,4 @@
-From 0d5107c9fa5780919b18cd15c1a4a073ac6ed7cd Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Kweku Adams <kwekua@google.com>
 Date: Fri, 23 Sep 2022 21:06:53 +0000
 Subject: [PATCH] RESTRICT AUTOMERGE: Drop invalid data.
@@ -20,10 +20,10 @@ Change-Id: Ie817aa0993e9046cb313a750d2323cadc8c1ef15
  1 file changed, 34 insertions(+), 8 deletions(-)
 
 diff --git a/core/java/android/os/PersistableBundle.java b/core/java/android/os/PersistableBundle.java
-index db9f4b14a345e..c3e4b759b103c 100644
+index db9f4b14a345..c3e4b759b103 100644
 --- a/core/java/android/os/PersistableBundle.java
 +++ b/core/java/android/os/PersistableBundle.java
-@@ -18,6 +18,7 @@
+@@ -18,6 +18,7 @@ package android.os;
  
  import android.annotation.Nullable;
  import android.util.ArrayMap;
@@ -31,7 +31,7 @@ index db9f4b14a345e..c3e4b759b103c 100644
  
  import com.android.internal.util.XmlUtils;
  
-@@ -36,6 +37,8 @@
+@@ -36,6 +37,8 @@ import java.io.IOException;
   */
  public final class PersistableBundle extends BaseBundle implements Cloneable, Parcelable,
          XmlUtils.WriteMapCallback {
@@ -40,7 +40,7 @@ index db9f4b14a345e..c3e4b759b103c 100644
      private static final String TAG_PERSISTABLEMAP = "pbundle_as_map";
      public static final PersistableBundle EMPTY;
  
-@@ -95,7 +98,11 @@ public PersistableBundle(PersistableBundle b) {
+@@ -95,7 +98,11 @@ public final class PersistableBundle extends BaseBundle implements Cloneable, Pa
       * @hide
       */
      public PersistableBundle(Bundle b) {
@@ -53,7 +53,7 @@ index db9f4b14a345e..c3e4b759b103c 100644
      }
  
      /**
-@@ -104,7 +111,7 @@ public PersistableBundle(Bundle b) {
+@@ -104,7 +111,7 @@ public final class PersistableBundle extends BaseBundle implements Cloneable, Pa
       * @param map a Map containing only those items that can be persisted.
       * @throws IllegalArgumentException if any element of #map cannot be persisted.
       */
@@ -62,7 +62,7 @@ index db9f4b14a345e..c3e4b759b103c 100644
          super();
          mFlags = FLAG_DEFUSABLE;
  
-@@ -113,16 +120,23 @@ private PersistableBundle(ArrayMap<String, Object> map) {
+@@ -113,16 +120,23 @@ public final class PersistableBundle extends BaseBundle implements Cloneable, Pa
  
          // Now verify each item throwing an exception if there is a violation.
          final int N = mMap.size();
@@ -91,7 +91,7 @@ index db9f4b14a345e..c3e4b759b103c 100644
              }
          }
      }
-@@ -217,6 +231,15 @@ public void writeUnknownObject(Object v, String name, XmlSerializer out)
+@@ -217,6 +231,15 @@ public final class PersistableBundle extends BaseBundle implements Cloneable, Pa
      /** @hide */
      public void saveToXml(XmlSerializer out) throws IOException, XmlPullParserException {
          unparcel();
@@ -107,7 +107,7 @@ index db9f4b14a345e..c3e4b759b103c 100644
          XmlUtils.writeMapXml(mMap, out, this);
      }
  
-@@ -265,9 +288,12 @@ public static PersistableBundle restoreFromXml(XmlPullParser in) throws IOExcept
+@@ -265,9 +288,12 @@ public final class PersistableBundle extends BaseBundle implements Cloneable, Pa
          while (((event = in.next()) != XmlPullParser.END_DOCUMENT) &&
                  (event != XmlPullParser.END_TAG || in.getDepth() < outerDepth)) {
              if (event == XmlPullParser.START_TAG) {

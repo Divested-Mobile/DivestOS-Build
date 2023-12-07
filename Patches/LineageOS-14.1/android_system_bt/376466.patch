@@ -1,4 +1,4 @@
-From bf351819da52628f46d4fe11d7e58d4460e7d546 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hui Peng <phui@google.com>
 Date: Tue, 12 Sep 2023 23:54:08 +0000
 Subject: [PATCH] Reorganize the code for checking auth requirement
@@ -20,10 +20,10 @@ Change-Id: I976a5a6d7bb819fd6accdc71eb1501b9606f3ae4
  1 file changed, 66 insertions(+), 33 deletions(-)
 
 diff --git a/stack/btm/btm_sec.c b/stack/btm/btm_sec.c
-index ab97de8564..39b9486f41 100644
+index c603156ff..fa85bc28c 100644
 --- a/stack/btm/btm_sec.c
 +++ b/stack/btm/btm_sec.c
-@@ -5519,53 +5519,86 @@ extern tBTM_STATUS btm_sec_execute_procedure (tBTM_SEC_DEV_REC *p_dev_rec)
+@@ -5501,53 +5501,86 @@ extern tBTM_STATUS btm_sec_execute_procedure (tBTM_SEC_DEV_REC *p_dev_rec)
  
      /* If connection is not authenticated and authentication is required */
      /* start authentication and return PENDING to the caller */
