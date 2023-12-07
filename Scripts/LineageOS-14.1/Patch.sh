@@ -76,7 +76,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2023-11-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-11 #XXX
+sed -i 's/2021-06-05/2023-12-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-12 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -239,6 +239,9 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/367637.patch"; #n-asb-2023-10 D
 applyPatch "$DOS_PATCHES/android_frameworks_base/367638.patch"; #n-asb-2023-10 Fix KCM key mapping cloning
 applyPatch "$DOS_PATCHES/android_frameworks_base/373033.patch"; #n-asb-2023-11 [SettingsProvider] verify ringtone URI before setting
 applyPatch "$DOS_PATCHES/android_frameworks_base/373034.patch"; #n-asb-2023-11 Use type safe API of readParcelableArray
+applyPatch "$DOS_PATCHES/android_frameworks_base/376458.patch"; #n-asb-2023-12 Drop invalid data.
+applyPatch "$DOS_PATCHES/android_frameworks_base/376459.patch"; #n-asb-2023-12 Validate userId when publishing shortcuts
+applyPatch "$DOS_PATCHES/android_frameworks_base/376460.patch"; #n-asb-2023-12 Adding in verification of calling UID in onShellCommand
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -358,6 +361,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/332451.patch"; #n-asb-2
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/332452.patch"; #n-asb-2022-06 Removes app access to BluetoothAdapter#setDiscoverableTimeout by requiring BLUETOOTH_PRIVILEGED permission.
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/345525.patch"; #n-asb-2022-12 Fix URI check in BluetoothOppUtility.java
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/348652.patch"; #n-asb-2023-02 Fix OPP comparison
+applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/376469.patch"; #n-asb-2023-12 Fix UAF in ~CallbackEnv
 fi;
 
 if enterAndClear "packages/apps/Contacts"; then
@@ -518,6 +522,14 @@ applyPatch "$DOS_PATCHES/android_system_bt/365694.patch"; #n-asb-2023-09 Fix int
 applyPatch "$DOS_PATCHES/android_system_bt/365695.patch"; #n-asb-2023-09 Fix reliable write.
 applyPatch "$DOS_PATCHES/android_system_bt/365696.patch"; #n-asb-2023-09 Fix UAF in gatt_cl.cc
 applyPatch "$DOS_PATCHES/android_system_bt/365697.patch"; #n-asb-2023-09 Fix an integer overflow bug in avdt_msg_asmbl
+applyPatch "$DOS_PATCHES/android_system_bt/376461.patch"; #n-asb-2023-12 BT: Fixing the rfc_slot_id overflow
+applyPatch "$DOS_PATCHES/android_system_bt/376462.patch"; #n-asb-2023-12 Fix OOB Write in pin_reply in bluetooth.cc
+applyPatch "$DOS_PATCHES/android_system_bt/376463.patch"; #n-asb-2023-12 Reject access to secure service authenticated from a temp bonding [1]
+applyPatch "$DOS_PATCHES/android_system_bt/376464.patch"; #n-asb-2023-12 Reject access to secure services authenticated from temp bonding [2]
+applyPatch "$DOS_PATCHES/android_system_bt/376465.patch"; #n-asb-2023-12 Reject access to secure service authenticated from a temp bonding [3]
+applyPatch "$DOS_PATCHES/android_system_bt/376466.patch"; #n-asb-2023-12 Reorganize the code for checking auth requirement
+applyPatch "$DOS_PATCHES/android_system_bt/376467.patch"; #n-asb-2023-12 Enforce authentication if encryption is required
+applyPatch "$DOS_PATCHES/android_system_bt/376468.patch"; #n-asb-2023-12 Fix timing attack in BTM_BleVerifySignature
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #bt-sbc-hd-dualchannel-nougat: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #bt-sbc-hd-dualchannel-nougat: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)

@@ -1,0 +1,87 @@
+From 892310be92b62dc2bd3447546dd385534ce8a695 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Tue, 3 Oct 2023 21:27:49 +0000
+Subject: [PATCH] Fix timing attack in BTM_BleVerifySignature
+
+BTM_BleVerifySignature uses a stock memcmp, allowing signature contents
+to be deduced through a side-channel attack.
+
+Change to CRYPTO_memcmp, which is hardened against this attack, to
+eliminate this attack.
+
+Bug: 274478807
+Test: atest bluetooth_test_gd_unit
+Tag: #security
+Ignore-AOSP-First: Security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:fcd1c44f7c4bf431dd6a6902d74c045174bd00ce)
+Merged-In: I41a9b586d663d2ad4694222ae451d2d30a428a3c
+Change-Id: I41a9b586d663d2ad4694222ae451d2d30a428a3c
+---
+ main/Android.mk     | 2 ++
+ stack/Android.mk    | 5 +++--
+ stack/btm/btm_ble.c | 3 ++-
+ 3 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/main/Android.mk b/main/Android.mk
+index 2286997e8d3..985851add33 100644
+--- a/main/Android.mk
++++ b/main/Android.mk
+@@ -52,12 +52,14 @@ LOCAL_C_INCLUDES+= . \
+ 	$(LOCAL_PATH)/../audio_a2dp_hw \
+ 	$(LOCAL_PATH)/../utils/include \
+ 	$(bluetooth_C_INCLUDES) \
++	external/boringssl \
+ 	external/tinyxml2 \
+     external/zlib \
+     $(call include-path-for, audio-utils)
+ 
+ LOCAL_SHARED_LIBRARIES := \
+     libcutils \
++    libcrypto \
+     libdl \
+     liblog \
+     libz \
+diff --git a/stack/Android.mk b/stack/Android.mk
+index 4c77e8dd7f4..49f43fbc5df 100644
+--- a/stack/Android.mk
++++ b/stack/Android.mk
+@@ -33,7 +33,8 @@ LOCAL_C_INCLUDES:= \
+                    $(LOCAL_PATH)/../bta/sys \
+                    $(LOCAL_PATH)/../utils/include \
+                    $(LOCAL_PATH)/../ \
+-                   $(bluetooth_C_INCLUDES)
++                   $(bluetooth_C_INCLUDES) \
++                   external/boringssl
+ 
+ LOCAL_SRC_FILES:= \
+     ./a2dp/a2d_api.c \
+@@ -154,7 +155,7 @@ LOCAL_SRC_FILES:= \
+ 
+ LOCAL_MODULE := libbt-stack
+ LOCAL_STATIC_LIBRARIES := libbt-hci
+-LOCAL_SHARED_LIBRARIES := libcutils
++LOCAL_SHARED_LIBRARIES := libcutils libcrypto
+ 
+ 
+ LOCAL_CFLAGS += $(bluetooth_CFLAGS)
+diff --git a/stack/btm/btm_ble.c b/stack/btm/btm_ble.c
+index 51fd748c074..9e248e96580 100644
+--- a/stack/btm/btm_ble.c
++++ b/stack/btm/btm_ble.c
+@@ -41,6 +41,7 @@
+ #include "hcimsgs.h"
+ #include "log/log.h"
+ #include "l2c_int.h"
++#include "openssl/mem.h"
+ #include "osi/include/log.h"
+ #include "smp_api.h"
+ 
+@@ -2280,7 +2281,7 @@ BOOLEAN BTM_BleVerifySignature (BD_ADDR bd_addr, UINT8 *p_orig, UINT16 len, UINT
+ 
+         if (aes_cipher_msg_auth_code(p_rec->ble.keys.pcsrk, p_orig, len, BTM_CMAC_TLEN_SIZE, p_mac))
+         {
+-            if (memcmp(p_mac, p_comp, BTM_CMAC_TLEN_SIZE) == 0)
++            if (CRYPTO_memcmp(p_mac, p_comp, BTM_CMAC_TLEN_SIZE) == 0)
+             {
+                 btm_ble_increment_sign_ctr(bd_addr, FALSE);
+                 verified = TRUE;

@@ -1,0 +1,145 @@
+From bf351819da52628f46d4fe11d7e58d4460e7d546 Mon Sep 17 00:00:00 2001
+From: Hui Peng <phui@google.com>
+Date: Tue, 12 Sep 2023 23:54:08 +0000
+Subject: [PATCH] Reorganize the code for checking auth requirement
+
+Original bug
+Bug: 294854926
+
+regressions:
+Bug: 299570702
+
+Test: Test: m com.android.btservices
+Test: QA validation
+Ignore-AOSP-First: security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:0c488b2420befe0f8038957861072a8e63702f91)
+Merged-In: I976a5a6d7bb819fd6accdc71eb1501b9606f3ae4
+Change-Id: I976a5a6d7bb819fd6accdc71eb1501b9606f3ae4
+---
+ stack/btm/btm_sec.c | 99 ++++++++++++++++++++++++++++++---------------
+ 1 file changed, 66 insertions(+), 33 deletions(-)
+
+diff --git a/stack/btm/btm_sec.c b/stack/btm/btm_sec.c
+index ab97de8564..39b9486f41 100644
+--- a/stack/btm/btm_sec.c
++++ b/stack/btm/btm_sec.c
+@@ -5519,53 +5519,86 @@ extern tBTM_STATUS btm_sec_execute_procedure (tBTM_SEC_DEV_REC *p_dev_rec)
+ 
+     /* If connection is not authenticated and authentication is required */
+     /* start authentication and return PENDING to the caller */
+-    if ((((!(p_dev_rec->sec_flags & BTM_SEC_AUTHENTICATED))
+-        && (( p_dev_rec->is_originator && (p_dev_rec->security_required & BTM_SEC_OUT_AUTHENTICATE))
+-            || (!p_dev_rec->is_originator && (p_dev_rec->security_required & BTM_SEC_IN_AUTHENTICATE))))
+-        || (!(p_dev_rec->sec_flags & BTM_SEC_16_DIGIT_PIN_AUTHED)
+-            && (!p_dev_rec->is_originator
+-                    && (p_dev_rec->security_required & BTM_SEC_IN_MIN_16_DIGIT_PIN))))
+-        && (p_dev_rec->hci_handle != BTM_SEC_INVALID_HANDLE))
++    if (p_dev_rec->hci_handle != HCI_INVALID_HANDLE)
+     {
++        bool start_auth = false;
++
++        // Check link status of BR/EDR
++        if (!(p_dev_rec->sec_flags & BTM_SEC_AUTHENTICATED))
++        {
++            if (p_dev_rec->is_originator)
++            {
++                if (p_dev_rec->security_required & BTM_SEC_OUT_AUTHENTICATE)
++                {
++                    LOG_DEBUG(LOG_TAG, "Outgoing authentication Required");
++                    start_auth = true;
++                }
++            }
++            else
++            {
++                if (p_dev_rec->security_required & BTM_SEC_IN_AUTHENTICATE)
++                {
++                    LOG_DEBUG(LOG_TAG, "Incoming authentication Required");
++                    start_auth = true;
++                }
++            }
++        }
++
++        if (!(p_dev_rec->sec_flags & BTM_SEC_16_DIGIT_PIN_AUTHED))
++        {
+         /*
+          * We rely on BTM_SEC_16_DIGIT_PIN_AUTHED being set if MITM is in use,
+          * as 16 DIGIT is only needed if MITM is not used. Unfortunately, the
+          * BTM_SEC_AUTHENTICATED is used for both MITM and non-MITM
+          * authenticated connections, hence we cannot distinguish here.
+          */
++            if (!p_dev_rec->is_originator)
++            {
++                if (p_dev_rec->security_required & BTM_SEC_IN_MIN_16_DIGIT_PIN)
++                {
++                    LOG_DEBUG(LOG_TAG, "BTM_SEC_IN_MIN_16_DIGIT_PIN Required");
++                    start_auth = true;
++                }
++            }
++        }
++
++        if (start_auth) {
+ 
+ #if (L2CAP_UCD_INCLUDED == TRUE)
+-        /* if incoming UCD packet, discard it */
+-        if ( !p_dev_rec->is_originator && (p_dev_rec->is_ucd == TRUE ))
+-            return(BTM_FAILED_ON_SECURITY);
++            /* if incoming UCD packet, discard it */
++            if ( !p_dev_rec->is_originator && (p_dev_rec->is_ucd == TRUE ))
++                return(BTM_FAILED_ON_SECURITY);
+ #endif
+ 
+-        BTM_TRACE_EVENT ("Security Manager: Start authentication");
++            LOG_DEBUG(LOG_TAG, "Security Manager: Start authentication");
+ 
+-        /*
+-         * If we do have a link-key, but we end up here because we need an
+-         * upgrade, then clear the link-key known and authenticated flag before
+-         * restarting authentication.
+-         * WARNING: If the controller has link-key, it is optional and
+-         * recommended for the controller to send a Link_Key_Request.
+-         * In case we need an upgrade, the only alternative would be to delete
+-         * the existing link-key. That could lead to very bad user experience
+-         * or even IOP issues, if a reconnect causes a new connection that
+-         * requires an upgrade.
+-         */
+-        if ((p_dev_rec->sec_flags & BTM_SEC_LINK_KEY_KNOWN)
+-                && (!(p_dev_rec->sec_flags & BTM_SEC_16_DIGIT_PIN_AUTHED)
+-                    && (!p_dev_rec->is_originator && (p_dev_rec->security_required
+-                            & BTM_SEC_IN_MIN_16_DIGIT_PIN)))) {
+-            p_dev_rec->sec_flags &= ~(BTM_SEC_LINK_KEY_KNOWN | BTM_SEC_LINK_KEY_AUTHED
+-                    | BTM_SEC_AUTHENTICATED);
+-        }
++            /*
++             * If we do have a link-key, but we end up here because we need an
++             * upgrade, then clear the link-key known and authenticated flag before
++             * restarting authentication.
++             * WARNING: If the controller has link-key, it is optional and
++             * recommended for the controller to send a Link_Key_Request.
++             * In case we need an upgrade, the only alternative would be to delete
++             * the existing link-key. That could lead to very bad user experience
++             * or even IOP issues, if a reconnect causes a new connection that
++             * requires an upgrade.
++             */
++            if ((p_dev_rec->sec_flags & BTM_SEC_LINK_KEY_KNOWN) &&
++                (!(p_dev_rec->sec_flags & BTM_SEC_16_DIGIT_PIN_AUTHED) &&
++                (!p_dev_rec->is_originator &&
++                  (p_dev_rec->security_required & BTM_SEC_IN_MIN_16_DIGIT_PIN))))
++            {
++                p_dev_rec->sec_flags &=
++                  ~(BTM_SEC_LINK_KEY_KNOWN | BTM_SEC_LINK_KEY_AUTHED |
++                    BTM_SEC_AUTHENTICATED);
++            }
+ 
+-        if (!btm_sec_start_authentication (p_dev_rec))
+-        {
+-            return(BTM_NO_RESOURCES);
++            if (!btm_sec_start_authentication (p_dev_rec))
++            {
++                return(BTM_NO_RESOURCES);
++            }
++            return(BTM_CMD_STARTED);
+         }
+-        return(BTM_CMD_STARTED);
+     }
+ 
+     /* If connection is not encrypted and encryption is required */

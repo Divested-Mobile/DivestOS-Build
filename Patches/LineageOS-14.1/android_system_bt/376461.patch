@@ -1,0 +1,35 @@
+From e54bad92576d31fc959342e4c35d73abaf29d926 Mon Sep 17 00:00:00 2001
+From: balakrishna <quic_kunthumu@quicinc.com>
+Date: Tue, 7 Mar 2023 16:53:46 +0530
+Subject: [PATCH] BT: Fixing the rfc_slot_id overflow
+
+Root cause:
+overflow causing leak in slot fds.
+As slot id 0 not valid, we are not able to release these fds later.
+
+Fix:
+Changes are made to avoid overflow while allocate rfc slots.
+
+CRs-Fixed: 3417458
+Change-Id: I5d7efa34bfb97a6dd8e9d68615d29120a0ae51f0
+---
+ btif/src/btif_sock_rfc.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/btif/src/btif_sock_rfc.c b/btif/src/btif_sock_rfc.c
+index d5522b739eb..d77c3f44253 100644
+--- a/btif/src/btif_sock_rfc.c
++++ b/btif/src/btif_sock_rfc.c
+@@ -225,8 +225,11 @@ static rfc_slot_t *alloc_rfc_slot(const bt_bdaddr_t *addr, const char *name, con
+   }
+ 
+   // Increment slot id and make sure we don't use id=0.
+-  if (++rfc_slot_id == 0)
++  if (UINT32_MAX == rfc_slot_id) {
+     rfc_slot_id = 1;
++  } else {
++    ++rfc_slot_id;
++  }
+ 
+   slot->fd = fds[0];
+   slot->app_fd = fds[1];
