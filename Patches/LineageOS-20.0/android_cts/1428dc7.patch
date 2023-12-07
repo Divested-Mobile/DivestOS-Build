@@ -1,0 +1,30 @@
+From 1428dc76adbbe06b8dc02af4f29422783388457e Mon Sep 17 00:00:00 2001
+From: kumarashishg <kumarashishg@google.com>
+Date: Wed, 28 Jun 2023 07:15:27 +0000
+Subject: [PATCH] Change open jpeg folder name
+
+Replace libopenjpeg20 to libopenjpeg as folder name got updated in the
+pdfium library
+
+Bug: 279055389
+Test: Build the code and flash the device and check Print functionality
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:4a4e992e9f3af9ea5dc71d725abb599dadbdd5e1)
+Merged-In: I5b3d5740128f6ecc23dd8f9446a4f40c8550fd88
+Change-Id: I5b3d5740128f6ecc23dd8f9446a4f40c8550fd88
+---
+
+diff --git a/hostsidetests/securitybulletin/securityPatch/CVE-2016-8332/Android.bp b/hostsidetests/securitybulletin/securityPatch/CVE-2016-8332/Android.bp
+index 382d629..aa676df 100644
+--- a/hostsidetests/securitybulletin/securityPatch/CVE-2016-8332/Android.bp
++++ b/hostsidetests/securitybulletin/securityPatch/CVE-2016-8332/Android.bp
+@@ -30,8 +30,9 @@
+     ],
+     static_libs: [
+         "libpdfium-libopenjpeg2",
++        "libpdfium-fxcrt",
+     ],
+     include_dirs: [
+-        "external/pdfium/third_party/libopenjpeg20",
++        "external/pdfium/third_party/libopenjpeg",
+     ],
+ }

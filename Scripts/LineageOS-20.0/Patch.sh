@@ -97,6 +97,7 @@ applyPatch "$DOS_PATCHES/android_build/0004-Selective_APEX.patch"; #Only enable 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_util.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
+sed -i 's/2023-11-05/2023-12-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2023-11 #XXX #T_asb_2023-12
 fi;
 
 if enterAndClear "build/soong"; then
@@ -105,7 +106,7 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_buil
 fi;
 
 if enterAndClear "cts"; then
-git fetch https://github.com/LineageOS/android_cts refs/changes/07/376307/1 && git cherry-pick FETCH_HEAD; #T_asb_2023-12
+applyPatch "$DOS_PATCHES/android_cts/1428dc7.patch"; #T_asb_2023-12
 fi;
 
 if enterAndClear "external/chromium-webview"; then
