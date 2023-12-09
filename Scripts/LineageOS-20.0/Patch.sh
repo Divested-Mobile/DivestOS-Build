@@ -516,6 +516,10 @@ if enterAndClear "device/google/taimen"; then
 git revert --no-edit 0ba4518422b3c398590a3ffea77f3e65eaebe309; #compile fix: out of space
 fi;
 
+if enterAndClear "device/oneplus/sm8150-common"; then
+git revert --no-edit 78d6af488816eaf0194b0c73726b7239bf3728a9; #unbreak hotdog* compile
+fi;
+
 if enterAndClear "kernel/google/wahoo"; then
 sed -i 's/asm(SET_PSTATE_UAO(1));/asm(SET_PSTATE_UAO(1)); return 0;/' arch/arm64/mm/fault.c; #fix build with CONFIG_ARM64_UAO
 fi;
