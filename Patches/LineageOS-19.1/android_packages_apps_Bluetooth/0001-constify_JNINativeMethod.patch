@@ -88,10 +88,10 @@ index 791e42a0e..cb0082244 100644
      {"initNative", "()V", (void*)initNative},
      {"cleanupNative", "()V", (void*)cleanupNative},
 diff --git a/jni/com_android_bluetooth_btservice_AdapterService.cpp b/jni/com_android_bluetooth_btservice_AdapterService.cpp
-index 62c7d522d..9fa89ded9 100644
+index e26171ef8..12467ff63 100644
 --- a/jni/com_android_bluetooth_btservice_AdapterService.cpp
 +++ b/jni/com_android_bluetooth_btservice_AdapterService.cpp
-@@ -1689,7 +1689,7 @@ static int getMetricIdNative(JNIEnv* env, jobject obj, jbyteArray address) {
+@@ -1690,7 +1690,7 @@ static int getMetricIdNative(JNIEnv* env, jobject obj, jbyteArray address) {
    return sBluetoothInterface->get_metric_id(addr_obj);
  }
  
