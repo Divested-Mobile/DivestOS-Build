@@ -103,6 +103,10 @@ applyPatch "$DOS_PATCHES/android_build_soong/0001-Enable_fwrapv.patch"; #Use -fw
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_build_soong/0002-hm_apex.patch"; fi; #(GrapheneOS)
 fi;
 
+if enterAndClear "cts"; then
+git fetch https://github.com/LineageOS/android_cts refs/changes/97/376997/1 && git cherry-pick FETCH_HEAD; #R_asb_2023-12
+fi;
+
 if enterAndClear "device/qcom/sepolicy-legacy"; then
 applyPatch "$DOS_PATCHES/android_device_qcom_sepolicy-legacy/0001-Camera_Fix.patch"; #Fix camera on -user builds XXX: REMOVE THIS TRASH (DivestOS)
 echo "SELINUX_IGNORE_NEVERALLOWS := true" >> sepolicy.mk; #Ignore neverallow violations XXX: necessary for -user builds of legacy devices
@@ -121,6 +125,10 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
 if enterAndClear "external/hardened_malloc"; then
 applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras.patch"; #Expand workaround to all camera executables (DivestOS)
 fi;
+fi;
+
+if enterAndClear "external/pdfium"; then
+git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/98/376998/1 && git cherry-pick FETCH_HEAD; #R_asb_2023-12
 fi;
 
 if enterAndClear "frameworks/base"; then

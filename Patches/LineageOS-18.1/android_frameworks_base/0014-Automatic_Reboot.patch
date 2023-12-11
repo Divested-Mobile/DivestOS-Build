@@ -55,7 +55,7 @@ index cf0607449054..7bf662b86a52 100644
      <protected-broadcast android:name="com.android.settingslib.action.REGISTER_SLICE_RECEIVER" />
      <protected-broadcast android:name="com.android.settingslib.action.UNREGISTER_SLICE_RECEIVER" />
 diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
-index 55ce9c76c42a..0a1b8f4efdd5 100644
+index d60721bfdf84..9b126ac72803 100644
 --- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 +++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 @@ -163,6 +163,8 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
@@ -117,7 +117,7 @@ index 55ce9c76c42a..0a1b8f4efdd5 100644
      /**
       * Let's us know when the device is waking up.
       */
-@@ -1461,6 +1485,10 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
+@@ -1465,6 +1489,10 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
  
          if (DEBUG) Log.d(TAG, "doKeyguard: showing the lock screen");
          showLocked(options);
@@ -128,7 +128,7 @@ index 55ce9c76c42a..0a1b8f4efdd5 100644
      }
  
      private void lockProfile(int userId) {
-@@ -1624,6 +1652,12 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
+@@ -1628,6 +1656,12 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
                          }
                      }
                  }
@@ -141,7 +141,7 @@ index 55ce9c76c42a..0a1b8f4efdd5 100644
              }
          }
      };
-@@ -2058,6 +2092,7 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
+@@ -2062,6 +2096,7 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable {
              mHideAnimationRun = false;
              adjustStatusBarLocked();
              sendUserPresentBroadcast();
