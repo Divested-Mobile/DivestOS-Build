@@ -161,7 +161,6 @@ patchWorkspaceReal() {
 
 	source build/envsetup.sh;
 	repopick -i 361248; #Launcher3: Allow toggling monochrome icons for all apps
-	repopick -it T_asb_2023-12 -e 376247;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

@@ -97,16 +97,11 @@ applyPatch "$DOS_PATCHES/android_build/0004-Selective_APEX.patch"; #Only enable 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_util.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
-sed -i 's/2023-11-05/2023-12-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2023-11 #XXX #T_asb_2023-12
 fi;
 
 if enterAndClear "build/soong"; then
 applyPatch "$DOS_PATCHES/android_build_soong/0001-Enable_fwrapv.patch"; #Use -fwrapv at a minimum (GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_build_soong/0002-hm_apex.patch"; fi; #(GrapheneOS)
-fi;
-
-if enterAndClear "cts"; then
-applyPatch "$DOS_PATCHES/android_cts/1428dc7.patch"; #T_asb_2023-12
 fi;
 
 if enterAndClear "external/chromium-webview"; then
@@ -125,10 +120,6 @@ applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras-2.
 applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0002-Broken_Displays.patch"; #Add workaround for OnePlus 8 & 9 display driver crash (DivestOS)
 sed -i 's/34359738368/2147483648/' Android.bp; #revert 48-bit address space requirement
 fi;
-fi;
-
-if enterAndClear "external/pdfium"; then
-git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/50/376250/1 && git cherry-pick FETCH_HEAD; #T_asb_2023-12
 fi;
 
 
