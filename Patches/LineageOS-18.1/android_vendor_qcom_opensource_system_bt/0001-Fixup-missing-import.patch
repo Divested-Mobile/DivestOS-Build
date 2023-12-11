@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tad <tad@spotco.us>
+Date: Mon, 11 Dec 2023 13:42:41 -0500
+Subject: [PATCH] Fixup missing import
+
+Signed-off-by: Tad <tad@spotco.us>
+Change-Id: I52177ea7c37da977a133afa791e7319c7fb4843b
+---
+ stack/Android.bp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/stack/Android.bp b/stack/Android.bp
+index b4a9d414c..be60b8ae7 100644
+--- a/stack/Android.bp
++++ b/stack/Android.bp
+@@ -187,6 +187,7 @@ cc_library_static {
+     shared_libs: [
+         "libcutils",
+          "liblog",
++         "libcrypto",
+     ],
+     required: [
+         "libldacBT_enc",
