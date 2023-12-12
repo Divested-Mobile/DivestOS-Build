@@ -87,10 +87,10 @@ index 8ac04e4f3..e55c13f50 100644
      {"initNative", "()V", (void*)initNative},
      {"sendMediaUpdateNative", "(ZZZ)V", (void*)sendMediaUpdateNative},
 diff --git a/jni/com_android_bluetooth_btservice_AdapterService.cpp b/jni/com_android_bluetooth_btservice_AdapterService.cpp
-index f88a675b7..1eec888a0 100644
+index 8faf670ce..b32868f5b 100644
 --- a/jni/com_android_bluetooth_btservice_AdapterService.cpp
 +++ b/jni/com_android_bluetooth_btservice_AdapterService.cpp
-@@ -1217,7 +1217,7 @@ static void interopDatabaseAddNative(JNIEnv* env, jobject obj, int feature,
+@@ -1218,7 +1218,7 @@ static void interopDatabaseAddNative(JNIEnv* env, jobject obj, int feature,
    env->ReleaseByteArrayElements(address, addr, 0);
  }
  

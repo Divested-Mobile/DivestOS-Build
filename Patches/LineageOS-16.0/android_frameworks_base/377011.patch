@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Kunal Malhotra <malhk@google.com>
+Date: Thu, 2 Feb 2023 23:48:27 +0000
+Subject: [PATCH] Adding in verification of calling UID in onShellCommand
+
+Test: manual testing on device
+Bug: b/261709193
+(cherry picked from commit b651d295b44eb82d664861b77f33dbde1bce9453)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:3ef3f18ba3094c4cc4f954ba23d1da421f9ca8b0)
+Merged-In: I68903ebd6d3d85f4bc820b745e3233a448b62273
+Change-Id: I68903ebd6d3d85f4bc820b745e3233a448b62273
+---
+ .../java/com/android/server/am/ActivityManagerService.java | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
+index 44761a523abb..0a8c45cb16cf 100644
+--- a/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -16250,6 +16250,13 @@ public class ActivityManagerService extends IActivityManager.Stub
+     public void onShellCommand(FileDescriptor in, FileDescriptor out,
+             FileDescriptor err, String[] args, ShellCallback callback,
+             ResultReceiver resultReceiver) {
++        final int callingUid = Binder.getCallingUid();
++        if (callingUid != ROOT_UID && callingUid != Process.SHELL_UID) {
++            if (resultReceiver != null) {
++                resultReceiver.send(-1, null);
++            }
++            throw new SecurityException("Shell commands are only callable by root or shell");
++        }
+         (new ActivityManagerShellCommand(this, false)).exec(
+                 this, in, out, err, args, callback, resultReceiver);
+     }

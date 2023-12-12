@@ -99,7 +99,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 17/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2022-01-05/2023-11-05/' core/version_defaults.mk; #Bump Security String #P_asb_2023-11 #XXX
+sed -i 's/2022-01-05/2023-12-05/' core/version_defaults.mk; #Bump Security String #P_asb_2023-12 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -165,6 +165,14 @@ if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_fram
 fi;
 
 if enterAndClear "frameworks/base"; then
+applyPatch "$DOS_PATCHES/android_frameworks_base/377001-backport.patch"; #R_asb_2023-12 Visit Uris added by WearableExtender
+applyPatch "$DOS_PATCHES/android_frameworks_base/377002.patch"; #R_asb_2023-12 Fix bypass BAL via `requestGeofence`
+applyPatch "$DOS_PATCHES/android_frameworks_base/377004-backport.patch"; #R_asb_2023-12 Drop invalid data.
+applyPatch "$DOS_PATCHES/android_frameworks_base/377008.patch"; #R_asb_2023-12 Use readUniqueFileDescriptor in incidentd service
+applyPatch "$DOS_PATCHES/android_frameworks_base/377009.patch"; #R_asb_2023-12 Validate userId when publishing shortcuts
+applyPatch "$DOS_PATCHES/android_frameworks_base/377010-backport.patch"; #R_asb_2023-12 Revert "On device lockdown, always show the keyguard"
+applyPatch "$DOS_PATCHES/android_frameworks_base/377011.patch"; #R_asb_2023-12 Adding in verification of calling UID in onShellCommand
+applyPatch "$DOS_PATCHES/android_frameworks_base/377012-backport.patch"; #R_asb_2023-12 Updated: always show the keyguard on device lockdown
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -274,6 +282,7 @@ if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAud
 fi;
 
 if enterAndClear "packages/apps/Bluetooth"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/377014-backport.patch"; #R_asb_2023-12 Fix UAF in ~CallbackEnv
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
@@ -333,6 +342,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics
 fi;
 
 if enterAndClear "packages/apps/Trebuchet"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Trebuchet/377015.patch"; #R_asb_2023-12 Fix permission bypass in legacy shortcut
 cp $DOS_BUILD_BASE/vendor/divested/overlay/common/packages/apps/Trebuchet/res/xml/default_workspace_*.xml res/xml/; #XXX: Likely no longer needed
 fi;
 
@@ -352,8 +362,12 @@ if enterAndClear "packages/providers/DownloadProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
-if enterAndClear "packages/providers/TelephonyProvider"; then
+#if enterAndClear "packages/providers/TelephonyProvider"; then
 #cp $DOS_PATCHES_COMMON/android_packages_providers_TelephonyProvider/carrier_list.* assets/;
+#fi;
+
+if enterAndClear "packages/services/Telecomm"; then
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/377016-backport.patch"; #R_asb_2023-12 Resolve account image icon profile boundary exploit.
 fi;
 
 if enterAndClear "packages/services/Telephony"; then
@@ -362,9 +376,15 @@ applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0001-PREREQ_Handle_
 applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred_Network_Modes.patch";
 fi;
 
-#if enterAndClear "system/bt"; then
+if enterAndClear "system/bt"; then
+applyPatch "$DOS_PATCHES/android_system_bt/377017.patch"; #R_asb_2023-12 Reject access to secure service authenticated from a temp bonding [1]
+applyPatch "$DOS_PATCHES/android_system_bt/377018.patch"; #R_asb_2023-12 Reject access to secure services authenticated from temp bonding [2]
+applyPatch "$DOS_PATCHES/android_system_bt/377019.patch"; #R_asb_2023-12 Reject access to  secure service authenticated from a temp bonding [3]
+applyPatch "$DOS_PATCHES/android_system_bt/377020.patch"; #R_asb_2023-12 Reorganize the code for checking auth requirement
+applyPatch "$DOS_PATCHES/android_system_bt/377021.patch"; #R_asb_2023-12 Enforce authentication if encryption is required
+applyPatch "$DOS_PATCHES/android_system_bt/377023-backport.patch"; #R_asb_2023-12 Fix timing attack in BTM_BleVerifySignature
 #applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
-#fi;
+fi;
 
 if enterAndClear "system/ca-certificates"; then
 rm -rf files; #Remove old certs
@@ -382,6 +402,10 @@ fi;
 
 if enterAndClear "system/extras"; then
 applyPatch "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #FBE: pad filenames more (GrapheneOS)
+fi;
+
+if enterAndClear "system/netd"; then
+applyPatch "$DOS_PATCHES/android_system_netd/377024-backport.patch"; #R_asb_2023-12 Fix Heap-use-after-free in MDnsSdListener::Monitor::run #XXX
 fi;
 
 if enterAndClear "system/sepolicy"; then
