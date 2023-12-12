@@ -383,6 +383,8 @@ applyPatch "$DOS_PATCHES/android_system_bt/377019.patch"; #R_asb_2023-12 Reject 
 applyPatch "$DOS_PATCHES/android_system_bt/377020.patch"; #R_asb_2023-12 Reorganize the code for checking auth requirement
 applyPatch "$DOS_PATCHES/android_system_bt/377021.patch"; #R_asb_2023-12 Enforce authentication if encryption is required
 applyPatch "$DOS_PATCHES/android_system_bt/377023-backport.patch"; #R_asb_2023-12 Fix timing attack in BTM_BleVerifySignature
+applyPatch "$DOS_PATCHES/android_system_bt/377030.patch"; #R_asb_2023-12 Fix OOB Write in pin_reply in bluetooth.cc
+applyPatch "$DOS_PATCHES/android_system_bt/377031-backport.patch"; #R_asb_2023-12 BT: Fixing the rfc_slot_id overflow
 #applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
 
