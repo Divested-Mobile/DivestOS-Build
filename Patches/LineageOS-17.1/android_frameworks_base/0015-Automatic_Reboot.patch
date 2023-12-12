@@ -55,7 +55,7 @@ index 55104b4e0ee2..5ed2807922d9 100644
      <protected-broadcast android:name="com.android.settingslib.action.UNREGISTER_SLICE_RECEIVER" />
      <protected-broadcast android:name="com.android.settings.flashlight.action.FLASHLIGHT_CHANGED" />
 diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
-index a7d5c64dd3a3..f0bb02d21c8a 100644
+index 5c343c941454..c838c5680829 100644
 --- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 +++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
 @@ -152,6 +152,8 @@ public class KeyguardViewMediator extends SystemUI {
@@ -117,7 +117,7 @@ index a7d5c64dd3a3..f0bb02d21c8a 100644
      /**
       * Let's us know when the device is waking up.
       */
-@@ -1380,6 +1404,10 @@ public class KeyguardViewMediator extends SystemUI {
+@@ -1384,6 +1408,10 @@ public class KeyguardViewMediator extends SystemUI {
  
          if (DEBUG) Log.d(TAG, "doKeyguard: showing the lock screen");
          showLocked(options);
@@ -128,7 +128,7 @@ index a7d5c64dd3a3..f0bb02d21c8a 100644
      }
  
      private void lockProfile(int userId) {
-@@ -1543,6 +1571,12 @@ public class KeyguardViewMediator extends SystemUI {
+@@ -1547,6 +1575,12 @@ public class KeyguardViewMediator extends SystemUI {
                          }
                      }
                  }
@@ -141,7 +141,7 @@ index a7d5c64dd3a3..f0bb02d21c8a 100644
              }
          }
      };
-@@ -1964,6 +1998,7 @@ public class KeyguardViewMediator extends SystemUI {
+@@ -1968,6 +2002,7 @@ public class KeyguardViewMediator extends SystemUI {
              mHideAnimationRun = false;
              adjustStatusBarLocked();
              sendUserPresentBroadcast();

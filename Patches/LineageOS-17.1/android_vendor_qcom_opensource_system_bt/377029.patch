@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Tue, 3 Oct 2023 21:27:49 +0000
+Subject: [PATCH] Fix timing attack in BTM_BleVerifySignature
+
+BTM_BleVerifySignature uses a stock memcmp, allowing signature contents
+to be deduced through a side-channel attack.
+
+Change to CRYPTO_memcmp, which is hardened against this attack, to
+eliminate this attack.
+
+Bug: 274478807
+Test: atest bluetooth_test_gd_unit
+Tag: #security
+Ignore-AOSP-First: Security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:fcd1c44f7c4bf431dd6a6902d74c045174bd00ce)
+Merged-In: I41a9b586d663d2ad4694222ae451d2d30a428a3c
+Change-Id: I41a9b586d663d2ad4694222ae451d2d30a428a3c
+
+Change-Id: Ib7f3fff9f40140978c4dfb2f20ca57127586a05a
+---
+ stack/btm/btm_ble.cc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/stack/btm/btm_ble.cc b/stack/btm/btm_ble.cc
+index 7fd154d2d..56f4fa1cd 100644
+--- a/stack/btm/btm_ble.cc
++++ b/stack/btm/btm_ble.cc
+@@ -41,6 +41,7 @@
+ #include "hcimsgs.h"
+ #include "log/log.h"
+ #include "l2c_int.h"
++#include "openssl/mem.h"
+ #include "osi/include/log.h"
+ #include "osi/include/osi.h"
+ #include "stack/crypto_toolbox/crypto_toolbox.h"
+@@ -2183,7 +2184,7 @@ bool BTM_BleVerifySignature(const RawAddress& bd_addr, uint8_t* p_orig,
+ 
+     crypto_toolbox::aes_cmac(p_rec->ble.keys.pcsrk, p_orig, len,
+                              BTM_CMAC_TLEN_SIZE, p_mac);
+-    if (memcmp(p_mac, p_comp, BTM_CMAC_TLEN_SIZE) == 0) {
++    if (CRYPTO_memcmp(p_mac, p_comp, BTM_CMAC_TLEN_SIZE) == 0) {
+       btm_ble_increment_sign_ctr(bd_addr, false);
+       verified = true;
+     }

@@ -72,10 +72,10 @@ index 214feebcb..9bd85aa13 100644
      {"initNative", "()V", (void*)initNative},
      {"sendMediaUpdateNative", "(ZZZ)V", (void*)sendMediaUpdateNative},
 diff --git a/jni/com_android_bluetooth_btservice_AdapterService.cpp b/jni/com_android_bluetooth_btservice_AdapterService.cpp
-index 55b391c56..ea1eeeb73 100644
+index aa0a13d46..997ac5a29 100644
 --- a/jni/com_android_bluetooth_btservice_AdapterService.cpp
 +++ b/jni/com_android_bluetooth_btservice_AdapterService.cpp
-@@ -1238,7 +1238,7 @@ static jbyteArray obfuscateAddressNative(JNIEnv* env, jobject obj,
+@@ -1239,7 +1239,7 @@ static jbyteArray obfuscateAddressNative(JNIEnv* env, jobject obj,
    return output_bytes;
  }
  

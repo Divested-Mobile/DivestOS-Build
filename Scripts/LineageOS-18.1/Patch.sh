@@ -468,7 +468,7 @@ awk -i inplace '!/speed-profile/' build/target/product/lowram.mk; #breaks compil
 fi;
 
 if enterAndClear "vendor/qcom/opensource/commonsys/system/bt"; then
-applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/0001-Fixup-missing-import.patch"; #R_asb_2023-12
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/377029-fix.patch"; #R_asb_2023-12 Fix missing import
 fi;
 #
 #END OF ROM CHANGES

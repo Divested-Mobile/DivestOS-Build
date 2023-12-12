@@ -1,0 +1,99 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Beth Thibodeau <ethibodeau@google.com>
+Date: Tue, 8 Aug 2023 16:19:48 -0500
+Subject: [PATCH] RESTRICT AUTOMERGE: Check URI permissions for resumable media
+ artwork
+
+When resumable media is added that has artwork set via URI, check the
+permissions for the URI before attempting to load it
+
+Test: atest MediaDataManagerTest UriGrantsManagerServiceTest
+Test: manual with test app
+Bug: 284297452
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:c13567e39cd906c8544011de537490b70ce29b2f)
+Merged-In: Ie79915d3d1712f08dc2e8dfbd5bc7fd32bb308a3
+Change-Id: Ie79915d3d1712f08dc2e8dfbd5bc7fd32bb308a3
+---
+ core/java/android/app/IUriGrantsManager.aidl  |  3 ++
+ .../server/uri/UriGrantsManagerService.java   | 42 +++++++++++++++++++
+ 2 files changed, 45 insertions(+)
+
+diff --git a/core/java/android/app/IUriGrantsManager.aidl b/core/java/android/app/IUriGrantsManager.aidl
+index 9e7f2fecfea0..b630d034dca9 100644
+--- a/core/java/android/app/IUriGrantsManager.aidl
++++ b/core/java/android/app/IUriGrantsManager.aidl
+@@ -39,4 +39,7 @@ interface IUriGrantsManager {
+     void clearGrantedUriPermissions(in String packageName, int userId);
+     ParceledListSlice getUriPermissions(in String packageName, boolean incoming,
+             boolean persistedOnly);
++
++    int checkGrantUriPermission_ignoreNonSystem(
++            int sourceUid, String targetPkg, in Uri uri, int modeFlags, int userId);
+ }
+diff --git a/services/core/java/com/android/server/uri/UriGrantsManagerService.java b/services/core/java/com/android/server/uri/UriGrantsManagerService.java
+index 55f062bca2d1..7cab7b28cfee 100644
+--- a/services/core/java/com/android/server/uri/UriGrantsManagerService.java
++++ b/services/core/java/com/android/server/uri/UriGrantsManagerService.java
+@@ -43,6 +43,7 @@ import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
+ import static org.xmlpull.v1.XmlPullParser.START_TAG;
+ 
+ import android.annotation.Nullable;
++import android.annotation.RequiresPermission;
+ import android.app.ActivityManager;
+ import android.app.ActivityManagerInternal;
+ import android.app.AppGlobals;
+@@ -65,6 +66,7 @@ import android.os.Handler;
+ import android.os.IBinder;
+ import android.os.Looper;
+ import android.os.Message;
++import android.os.Process;
+ import android.os.RemoteException;
+ import android.os.SystemClock;
+ import android.os.UserHandle;
+@@ -1225,6 +1227,46 @@ public class UriGrantsManagerService extends IUriGrantsManager.Stub {
+         return false;
+     }
+ 
++    /**
++     * Check if the targetPkg can be granted permission to access uri by
++     * the callingUid using the given modeFlags. See {@link #checkGrantUriPermissionUnlocked}.
++     *
++     * @param callingUid The uid of the grantor app that has permissions to the uri.
++     * @param targetPkg The package name of the granted app that needs permissions to the uri.
++     * @param uri The uri for which permissions should be granted.
++     * @param modeFlags The modes to grant. See {@link Intent#FLAG_GRANT_READ_URI_PERMISSION}, etc.
++     * @param userId The userId in which the uri is to be resolved.
++     * @return uid of the target or -1 if permission grant not required. Returns -1 if the caller
++     *  does not hold INTERACT_ACROSS_USERS_FULL
++     * @throws SecurityException if the grant is not allowed.
++     */
++    @Override
++    @RequiresPermission(android.Manifest.permission.INTERACT_ACROSS_USERS_FULL)
++    public int checkGrantUriPermission_ignoreNonSystem(int callingUid, String targetPkg, Uri uri,
++            int modeFlags, int userId) {
++        if (!isCallerIsSystemOrPrivileged()) {
++            return Process.INVALID_UID;
++        }
++        final long origId = Binder.clearCallingIdentity();
++        try {
++            return checkGrantUriPermissionUnlocked(callingUid, targetPkg, uri, modeFlags,
++                    userId);
++        } finally {
++            Binder.restoreCallingIdentity(origId);
++        }
++    }
++
++    private boolean isCallerIsSystemOrPrivileged() {
++        final int uid = Binder.getCallingUid();
++        if (uid == Process.SYSTEM_UID || uid == Process.ROOT_UID) {
++            return true;
++        }
++        return ActivityManager.checkComponentPermission(
++                android.Manifest.permission.INTERACT_ACROSS_USERS_FULL,
++                uid, /* owningUid = */-1, /* exported = */ true)
++                == PackageManager.PERMISSION_GRANTED;
++    }
++
+     private void writeGrantedUriPermissions() {
+         if (DEBUG) Slog.v(TAG, "writeGrantedUriPermissions()");
+ 

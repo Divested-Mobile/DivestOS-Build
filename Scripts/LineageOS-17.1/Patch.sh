@@ -98,6 +98,7 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
+sed -i 's/2023-11-05/2023-12-05/' core/version_defaults.mk; #Bump Security String #Q_asb_2023-12 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -149,7 +150,21 @@ if enterAndClear "external/zlib"; then
 git fetch https://github.com/LineageOS/android_external_zlib refs/changes/70/352570/1 && git cherry-pick FETCH_HEAD; #Q_asb_2023-03
 fi;
 
+if enterAndClear "frameworks/av"; then
+applyPatch "$DOS_PATCHES/android_frameworks_av/376999-backport.patch"; #R_asb_2023-12 httplive: fix use-after-free
+fi;
+
 if enterAndClear "frameworks/base"; then
+applyPatch "$DOS_PATCHES/android_frameworks_base/377001.patch"; #R_asb_2023-12 Visit Uris added by WearableExtender
+applyPatch "$DOS_PATCHES/android_frameworks_base/377002.patch"; #R_asb_2023-12 Fix bypass BAL via `requestGeofence`
+applyPatch "$DOS_PATCHES/android_frameworks_base/377004-backport.patch"; #R_asb_2023-12 Drop invalid data.
+applyPatch "$DOS_PATCHES/android_frameworks_base/377006.patch"; #R_asb_2023-12 Require permission to unlock keyguard
+applyPatch "$DOS_PATCHES/android_frameworks_base/377008.patch"; #R_asb_2023-12 Use readUniqueFileDescriptor in incidentd service
+applyPatch "$DOS_PATCHES/android_frameworks_base/377009.patch"; #R_asb_2023-12 Validate userId when publishing shortcuts
+applyPatch "$DOS_PATCHES/android_frameworks_base/377010.patch"; #R_asb_2023-12 Revert "On device lockdown, always show the keyguard"
+applyPatch "$DOS_PATCHES/android_frameworks_base/377011.patch"; #R_asb_2023-12 Adding in verification of calling UID in onShellCommand
+applyPatch "$DOS_PATCHES/android_frameworks_base/377012.patch"; #R_asb_2023-12 Updated: always show the keyguard on device lockdown
+#applyPatch "$DOS_PATCHES/android_frameworks_base/377013-backport.patch"; #R_asb_2023-12 Check URI permissions for resumable media artwork #XXX
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -280,6 +295,7 @@ if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAud
 fi;
 
 if enterAndClear "packages/apps/Bluetooth"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/377014-backport.patch"; #R_asb_2023-12 Fix UAF in ~CallbackEnv
 #applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/272652.patch"; #ten-bt-sbc-hd-dualchannel: SBC Dual Channel (SBC HD Audio) support (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/272653.patch"; #ten-bt-sbc-hd-dualchannel: Assume optional codecs are supported if were supported previously (ValdikSS)
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
@@ -352,6 +368,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_SetupWizard/0001-Remove_Analytics
 fi;
 
 if enterAndClear "packages/apps/Trebuchet"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Trebuchet/377015.patch"; #R_asb_2023-12 Fix permission bypass in legacy shortcut
 cp $DOS_BUILD_BASE/vendor/divested/overlay/common/packages/apps/Trebuchet/res/xml/default_workspace_*.xml res/xml/; #XXX: Likely no longer needed
 fi;
 
@@ -379,11 +396,21 @@ fi;
 #cp $DOS_PATCHES_COMMON/android_packages_providers_TelephonyProvider/carrier_list.* assets/;
 #fi;
 
+if enterAndClear "packages/services/Telecomm"; then
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/377016-backport.patch"; #R_asb_2023-12 Resolve account image icon profile boundary exploit.
+fi;
+
 if enterAndClear "prebuilts/abi-dumps/vndk"; then
 applyPatch "$DOS_PATCHES/android_prebuilts_abi-dumps_vndk/0001-protobuf-avi.patch"; #Work around ABI changes from compiler hardening (GrapheneOS)
 fi;
 
 if enterAndClear "system/bt"; then
+applyPatch "$DOS_PATCHES/android_system_bt/377017.patch"; #R_asb_2023-12 Reject access to secure service authenticated from a temp bonding [1]
+applyPatch "$DOS_PATCHES/android_system_bt/377018.patch"; #R_asb_2023-12 Reject access to secure services authenticated from temp bonding [2]
+applyPatch "$DOS_PATCHES/android_system_bt/377019.patch"; #R_asb_2023-12 Reject access to  secure service authenticated from a temp bonding [3]
+applyPatch "$DOS_PATCHES/android_system_bt/377020.patch"; #R_asb_2023-12 Reorganize the code for checking auth requirement
+applyPatch "$DOS_PATCHES/android_system_bt/377021.patch"; #R_asb_2023-12 Enforce authentication if encryption is required
+applyPatch "$DOS_PATCHES/android_system_bt/377023-backport.patch"; #R_asb_2023-12 Fix timing attack in BTM_BleVerifySignature
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272648.patch"; #ten-bt-sbc-hd-dualchannel: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272649.patch"; #ten-bt-sbc-hd-dualchannel: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
@@ -410,6 +437,7 @@ applyPatch "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #
 fi;
 
 if enterAndClear "system/netd"; then
+applyPatch "$DOS_PATCHES/android_system_netd/377024-backport.patch"; #R_asb_2023-12 Fix Heap-use-after-free in MDnsSdListener::Monitor::run
 applyPatch "$DOS_PATCHES/android_system_netd/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_system_netd/0002-hosts_toggle.patch"; #Add a toggle to disable /etc/hosts lookup (DivestOS)
 fi;
@@ -460,6 +488,20 @@ fi;
 if enter "vendor/divested"; then
 echo "PRODUCT_PACKAGES += vendor.lineage.trust@1.0-service" >> packages.mk; #Add deny usb service, all of our kernels have the necessary patch
 awk -i inplace '!/speed-profile/' build/target/product/lowram.mk; #breaks compile on some dexpreopt devices
+fi;
+
+if enterAndClear "vendor/qcom/opensource/commonsys/system/bt"; then
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/377026.patch"; #R_asb_2023-12 Reject access to secure service authenticated from a temp bonding [1]
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/377027.patch"; #R_asb_2023-12 Reject access to secure services authenticated from temp bonding [2]
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/377028.patch"; #R_asb_2023-12 Reject access to  secure service authenticated from a temp bonding [3]
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/377029.patch"; #R_asb_2023-12 Fix timing attack in BTM_BleVerifySignature
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/377029-fix.patch"; #R_asb_2023-12 Fix missing import
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/377030.patch"; #R_asb_2023-12 Fix OOB Write in pin_reply in bluetooth.cc
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/377031.patch"; #R_asb_2023-12 BT: Fixing the rfc_slot_id overflow
+fi;
+
+if enterAndClear "vendor/qcom/opensource/commonsys/packages/apps/Bluetooth"; then
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_packages_apps_Bluetooth/377025.patch"; #R_asb_2023-12 Fix UAF in ~CallbackEnv
 fi;
 #
 #END OF ROM CHANGES

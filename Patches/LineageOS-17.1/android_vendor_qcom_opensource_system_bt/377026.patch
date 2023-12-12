@@ -1,0 +1,101 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hui Peng <phui@google.com>
+Date: Sat, 2 Sep 2023 04:20:10 +0000
+Subject: [PATCH] Reject access to secure service authenticated from a temp
+ bonding [1]
+
+Rejecct access to services running on l2cap
+
+Backport of
+Idef4ea28eb3d17b0807ab7dc6849433ddc5581b3
+
+Bug: 294854926
+Test: m com.android.btservices
+Ignore-AOSP-First: security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:a36757e967ab6d956127cac298134f28ce8f0d6d)
+Merged-In: Idef4ea28eb3d17b0807ab7dc6849433ddc5581b3
+Change-Id: Idef4ea28eb3d17b0807ab7dc6849433ddc5581b3
+
+Change-Id: I0435b4ee14c40213f3dae8abc54143ef7e8f67e0
+---
+ stack/btm/btm_sec.cc | 38 ++++++++++++++++++++++++++++++++++----
+ 1 file changed, 34 insertions(+), 4 deletions(-)
+
+diff --git a/stack/btm/btm_sec.cc b/stack/btm/btm_sec.cc
+index 40f051c0d..4da0320c5 100644
+--- a/stack/btm/btm_sec.cc
++++ b/stack/btm/btm_sec.cc
+@@ -102,7 +102,7 @@ static bool btm_sec_set_security_level(CONNECTION_TYPE conn_type,
+                                        uint32_t mx_proto_id,
+                                        uint32_t mx_chan_id);
+ 
+-static bool btm_dev_authenticated(tBTM_SEC_DEV_REC* p_dev_rec);
++static bool btm_dev_authenticated(const tBTM_SEC_DEV_REC* p_dev_rec);
+ static bool btm_dev_encrypted(tBTM_SEC_DEV_REC* p_dev_rec);
+ static bool btm_dev_authorized(tBTM_SEC_DEV_REC* p_dev_rec);
+ static bool btm_serv_trusted(tBTM_SEC_DEV_REC* p_dev_rec,
+@@ -144,7 +144,7 @@ static const bool btm_sec_io_map[BTM_IO_CAP_MAX][BTM_IO_CAP_MAX] = {
+  * Returns          bool    true or false
+  *
+  ******************************************************************************/
+-static bool btm_dev_authenticated(tBTM_SEC_DEV_REC* p_dev_rec) {
++static bool btm_dev_authenticated(const tBTM_SEC_DEV_REC* p_dev_rec) {
+   if (p_dev_rec->sec_flags & BTM_SEC_AUTHENTICATED) {
+     return (true);
+   }
+@@ -220,6 +220,25 @@ static bool btm_serv_trusted(tBTM_SEC_DEV_REC* p_dev_rec,
+   return (false);
+ }
+ 
++/*******************************************************************************
++ *
++ * Function         access_secure_service_from_temp_bond
++ *
++ * Description      a utility function to test whether an access to
++ *                  secure service from temp bonding is happening
++ *
++ * Returns          true if the aforementioned condition holds,
++ *                  false otherwise
++ *
++ ******************************************************************************/
++static bool access_secure_service_from_temp_bond(const tBTM_SEC_DEV_REC* p_dev_rec,
++                                                 bool locally_initiated,
++                                                 uint16_t security_req) {
++  return !locally_initiated && (security_req & BTM_SEC_IN_AUTHENTICATE) &&
++    btm_dev_authenticated(p_dev_rec) &&
++    p_dev_rec->bond_type == BOND_TYPE_TEMPORARY;
++}
++
+ /*******************************************************************************
+  *
+  * Function         BTM_SecRegister
+@@ -2271,9 +2290,13 @@ tBTM_STATUS btm_sec_l2cap_access_req(const RawAddress& bd_addr, uint16_t psm,
+       }
+ 
+       if (rc == BTM_SUCCESS) {
++        if (access_secure_service_from_temp_bond(p_dev_rec, is_originator, security_required)) {
++          LOG_ERROR(LOG_TAG, "Trying to access a secure service from a temp bonding, rejecting");
++          rc = BTM_FAILED_ON_SECURITY;
++        }
+         if (p_callback)
+-          (*p_callback)(&bd_addr, transport, (void*)p_ref_data, BTM_SUCCESS);
+-        return (BTM_SUCCESS);
++          (*p_callback)(&bd_addr, transport, (void*)p_ref_data, rc);
++        return (rc);
+       }
+     }
+ 
+@@ -5486,6 +5509,13 @@ extern tBTM_STATUS btm_sec_execute_procedure(tBTM_SEC_DEV_REC* p_dev_rec) {
+      }
+   }
+ 
++  if (access_secure_service_from_temp_bond(p_dev_rec,
++                                           p_dev_rec->is_originator,
++                                           p_dev_rec->security_required)) {
++    LOG_ERROR(LOG_TAG, "Trying to access a secure service from a temp bonding, rejecting");
++    return (BTM_FAILED_ON_SECURITY);
++  }
++
+   /* All required  security procedures already established */
+   p_dev_rec->security_required &=
+       ~(BTM_SEC_OUT_AUTHORIZE | BTM_SEC_IN_AUTHORIZE |
