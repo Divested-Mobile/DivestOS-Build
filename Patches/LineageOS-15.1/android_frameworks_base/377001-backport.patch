@@ -1,0 +1,54 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mat=C3=ADas=20Hern=C3=A1ndez?= <matiashe@google.com>
+Date: Wed, 5 Jul 2023 13:52:21 +0200
+Subject: [PATCH] Visit Uris added by WearableExtender
+
+Bug: 283962802
+Test: atest + manual (POC app now crashes on notify() as expected)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:a6f44e911f2d7204cc28c710e54f97c96231abab)
+Merged-In: I0da18c631eb5e4844a48760c7aaedab715a0bfed
+Change-Id: I0da18c631eb5e4844a48760c7aaedab715a0bfed
+---
+ core/java/android/app/Notification.java | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/core/java/android/app/Notification.java b/core/java/android/app/Notification.java
+index b7d265c26f22..6513401f5bfa 100644
+--- a/core/java/android/app/Notification.java
++++ b/core/java/android/app/Notification.java
+@@ -1493,6 +1493,10 @@ public class Notification implements Parcelable
+             }
+         }
+ 
++        private void visitUris(@NonNull Consumer<Uri> visitor) {
++            visitIconUri(visitor, getIcon());
++        }
++
+         @Override
+         public Action clone() {
+             return new Action(
+@@ -2117,6 +2121,11 @@ public class Notification implements Parcelable
+                 }
+             }
+         }
++
++        if (extras != null && extras.containsKey(WearableExtender.EXTRA_WEARABLE_EXTENSIONS)) {
++            WearableExtender extender = new WearableExtender(this);
++            extender.visitUris(visitor);
++        }
+     }
+ 
+     /**
+@@ -7870,6 +7879,12 @@ public class Notification implements Parcelable
+                 mFlags &= ~mask;
+             }
+         }
++
++        private void visitUris(@NonNull Consumer<Uri> visitor) {
++            for (Action action : mActions) {
++                action.visitUris(visitor);
++            }
++        }
+     }
+ 
+     /**

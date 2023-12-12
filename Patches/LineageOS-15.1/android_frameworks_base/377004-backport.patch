@@ -1,0 +1,123 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Kweku Adams <kwekua@google.com>
+Date: Fri, 23 Sep 2022 21:06:53 +0000
+Subject: [PATCH] RESTRICT AUTOMERGE: Drop invalid data.
+
+Drop invalid data when writing or reading from XML. PersistableBundle
+does lazy unparcelling, so checking the values during unparcelling would
+remove the benefit of the lazy unparcelling. Checking the validity when
+writing to or reading from XML seems like the best alternative.
+
+Bug: 246542285
+Bug: 247513680
+Test: install test app with invalid job config, start app to schedule job, then check logcat and jobscheduler persisted file
+(cherry picked from commit 666e8ac60a31e2cc52b335b41004263f28a8db06)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:62b37ab21ce27746a79a2071deee98c61b23c8d9)
+Merged-In: Ie817aa0993e9046cb313a750d2323cadc8c1ef15
+Change-Id: Ie817aa0993e9046cb313a750d2323cadc8c1ef15
+---
+ core/java/android/os/PersistableBundle.java | 42 +++++++++++++++++----
+ 1 file changed, 34 insertions(+), 8 deletions(-)
+
+diff --git a/core/java/android/os/PersistableBundle.java b/core/java/android/os/PersistableBundle.java
+index 3ed5b1745245..975b0da06c84 100644
+--- a/core/java/android/os/PersistableBundle.java
++++ b/core/java/android/os/PersistableBundle.java
+@@ -18,6 +18,7 @@ package android.os;
+ 
+ import android.annotation.Nullable;
+ import android.util.ArrayMap;
++import android.util.Slog;
+ 
+ import com.android.internal.util.XmlUtils;
+ 
+@@ -37,6 +38,8 @@ import java.util.ArrayList;
+  */
+ public final class PersistableBundle extends BaseBundle implements Cloneable, Parcelable,
+         XmlUtils.WriteMapCallback {
++    private static final String TAG = "PersistableBundle";
++
+     private static final String TAG_PERSISTABLEMAP = "pbundle_as_map";
+     public static final PersistableBundle EMPTY;
+ 
+@@ -99,7 +102,11 @@ public final class PersistableBundle extends BaseBundle implements Cloneable, Pa
+      * @hide
+      */
+     public PersistableBundle(Bundle b) {
+-        this(b.getMap());
++        this(b, true);
++    }
++
++    private PersistableBundle(Bundle b, boolean throwException) {
++        this(b.getMap(), throwException);
+     }
+ 
+     /**
+@@ -108,7 +115,7 @@ public final class PersistableBundle extends BaseBundle implements Cloneable, Pa
+      * @param map a Map containing only those items that can be persisted.
+      * @throws IllegalArgumentException if any element of #map cannot be persisted.
+      */
+-    private PersistableBundle(ArrayMap<String, Object> map) {
++    private PersistableBundle(ArrayMap<String, Object> map, boolean throwException) {
+         super();
+         mFlags = FLAG_DEFUSABLE;
+ 
+@@ -117,16 +124,23 @@ public final class PersistableBundle extends BaseBundle implements Cloneable, Pa
+ 
+         // Now verify each item throwing an exception if there is a violation.
+         final int N = mMap.size();
+-        for (int i=0; i<N; i++) {
++        for (int i = N - 1; i >= 0; --i) {
+             Object value = mMap.valueAt(i);
+             if (value instanceof ArrayMap) {
+                 // Fix up any Maps by replacing them with PersistableBundles.
+-                mMap.setValueAt(i, new PersistableBundle((ArrayMap<String, Object>) value));
++                mMap.setValueAt(i,
++                        new PersistableBundle((ArrayMap<String, Object>) value, throwException));
+             } else if (value instanceof Bundle) {
+-                mMap.setValueAt(i, new PersistableBundle(((Bundle) value)));
++                mMap.setValueAt(i, new PersistableBundle((Bundle) value, throwException));
+             } else if (!isValidType(value)) {
+-                throw new IllegalArgumentException("Bad value in PersistableBundle key="
+-                        + mMap.keyAt(i) + " value=" + value);
++                final String errorMsg = "Bad value in PersistableBundle key="
++                        + mMap.keyAt(i) + " value=" + value;
++                if (throwException) {
++                    throw new IllegalArgumentException(errorMsg);
++                } else {
++                    Slog.wtfStack(TAG, errorMsg);
++                    mMap.removeAt(i);
++                }
+             }
+         }
+     }
+@@ -241,6 +255,15 @@ public final class PersistableBundle extends BaseBundle implements Cloneable, Pa
+     /** @hide */
+     public void saveToXml(XmlSerializer out) throws IOException, XmlPullParserException {
+         unparcel();
++        // Explicitly drop invalid types an attacker may have added before persisting.
++        for (int i = mMap.size() - 1; i >= 0; --i) {
++            final Object value = mMap.valueAt(i);
++            if (!isValidType(value)) {
++                Slog.e(TAG, "Dropping bad data before persisting: "
++                        + mMap.keyAt(i) + "=" + value);
++                mMap.removeAt(i);
++            }
++        }
+         XmlUtils.writeMapXml(mMap, out, this);
+     }
+ 
+@@ -289,9 +312,12 @@ public final class PersistableBundle extends BaseBundle implements Cloneable, Pa
+         while (((event = in.next()) != XmlPullParser.END_DOCUMENT) &&
+                 (event != XmlPullParser.END_TAG || in.getDepth() < outerDepth)) {
+             if (event == XmlPullParser.START_TAG) {
++                // Don't throw an exception when restoring from XML since an attacker could try to
++                // input invalid data in the persisted file.
+                 return new PersistableBundle((ArrayMap<String, Object>)
+                         XmlUtils.readThisArrayMapXml(in, startTag, tagName,
+-                        new MyReadMapCallback()));
++                        new MyReadMapCallback()),
++                        /* throwException */ false);
+             }
+         }
+         return EMPTY;

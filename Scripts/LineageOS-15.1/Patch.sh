@@ -74,7 +74,7 @@ applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv a
 applyPatch "$DOS_PATCHES/android_build/0003-verity-openssl3.patch"; #Fix VB 1.0 failure due to openssl output format change
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2023-11-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2023-12-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -224,6 +224,10 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/368062-backport.patch"; #R_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/368063.patch"; #R_asb_2023-10 Fixing DatabaseUtils to detect malformed UTF-16 strings
 applyPatch "$DOS_PATCHES/android_frameworks_base/373953.patch"; #R_asb_2023-11 Use type safe API of readParcelableArray
 applyPatch "$DOS_PATCHES/android_frameworks_base/373955.patch"; #R_asb_2023-11 [SettingsProvider] verify ringtone URI before setting
+#applyPatch "$DOS_PATCHES/android_frameworks_base/377001-backport.patch"; #R_asb_2023-12 Visit Uris added by WearableExtender
+applyPatch "$DOS_PATCHES/android_frameworks_base/377004-backport.patch"; #R_asb_2023-12 Drop invalid data.
+applyPatch "$DOS_PATCHES/android_frameworks_base/377009.patch"; #R_asb_2023-12 Validate userId when publishing shortcuts
+applyPatch "$DOS_PATCHES/android_frameworks_base/377011.patch"; #R_asb_2023-12 Adding in verification of calling UID in onShellCommand
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
@@ -317,6 +321,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/332758-backport.patch";
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/332759-backport.patch"; #P_asb_2022-06 Removes app access to BluetoothAdapter#setDiscoverableTimeout by requiring BLUETOOTH_PRIVILEGED permission.
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/345907-backport.patch"; #P_asb_2022-12 Fix URI check in BluetoothOppUtility.java
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/349332-backport.patch"; #P_asb_2023-02 Fix OPP comparison
+applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/377014-backport.patch"; #R_asb_2023-12 Fix UAF in ~CallbackEnv
 fi;
 
 if enterAndClear "packages/apps/Contacts"; then
@@ -388,6 +393,7 @@ fi;
 
 if enterAndClear "packages/apps/Trebuchet"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Trebuchet/365974.patch"; #R_asb_2023-09 Fix permission issue in legacy shortcut
+applyPatch "$DOS_PATCHES/android_packages_apps_Trebuchet/377015.patch"; #R_asb_2023-12 Fix permission bypass in legacy shortcut
 fi;
 
 if enterAndClear "packages/apps/TvSettings"; then
@@ -433,6 +439,7 @@ applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/345913.patch"; #P_as
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/347042.patch"; #P_asb_2023-01 Fix security vulnerability when register phone accounts.
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/355777-backport.patch"; #R_asb_2023-05 enforce stricter rules when registering phoneAccount
 applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/364041-backport.patch"; #R_asb_2023-08 Resolve StatusHints image exploit across user.
+applyPatch "$DOS_PATCHES/android_packages_services_Telecomm/377016-backport.patch"; #R_asb_2023-12 Resolve account image icon profile boundary exploit.
 fi;
 
 if enterAndClear "packages/services/Telephony"; then
@@ -477,6 +484,12 @@ applyPatch "$DOS_PATCHES/android_system_bt/365980.patch"; #R_asb_2023-09 Fix int
 applyPatch "$DOS_PATCHES/android_system_bt/365981.patch"; #R_asb_2023-09 Fix potential abort in btu_av_act.cc
 applyPatch "$DOS_PATCHES/android_system_bt/365982-prereq.patch"; #Fix reliable write
 applyPatch "$DOS_PATCHES/android_system_bt/365982.patch"; #R_asb_2023-09 Fix UAF in gatt_cl.cc
+applyPatch "$DOS_PATCHES/android_system_bt/377017.patch"; #R_asb_2023-12 Reject access to secure service authenticated from a temp bonding [1]
+applyPatch "$DOS_PATCHES/android_system_bt/377018.patch"; #R_asb_2023-12 Reject access to secure services authenticated from temp bonding [2]
+applyPatch "$DOS_PATCHES/android_system_bt/377019.patch"; #R_asb_2023-12 Reject access to  secure service authenticated from a temp bonding [3]
+applyPatch "$DOS_PATCHES/android_system_bt/377020-backport.patch"; #R_asb_2023-12 Reorganize the code for checking auth requirement
+applyPatch "$DOS_PATCHES/android_system_bt/377021.patch"; #R_asb_2023-12 Enforce authentication if encryption is required
+applyPatch "$DOS_PATCHES/android_system_bt/377023-backport.patch"; #R_asb_2023-12 Fix timing attack in BTM_BleVerifySignature
 fi;
 
 if enterAndClear "system/ca-certificates"; then
@@ -490,6 +503,10 @@ if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/h
 git revert --no-edit a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4; #Always update recovery
 applyPatch "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysctl changes (GrapheneOS)
 #if [ "$DOS_GRAPHENE_MALLOC_BROKEN" = true ]; then applyPatch "$DOS_PATCHES/android_system_core/0002-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
+fi;
+
+if enterAndClear "system/netd"; then
+applyPatch "$DOS_PATCHES/android_system_netd/377024-backport.patch"; #R_asb_2023-12 Fix Heap-use-after-free in MDnsSdListener::Monitor::run #XXX
 fi;
 
 if enterAndClear "system/nfc"; then

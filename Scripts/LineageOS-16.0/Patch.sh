@@ -166,9 +166,9 @@ fi;
 
 if enterAndClear "frameworks/base"; then
 applyPatch "$DOS_PATCHES/android_frameworks_base/377001-backport.patch"; #R_asb_2023-12 Visit Uris added by WearableExtender
-applyPatch "$DOS_PATCHES/android_frameworks_base/377002.patch"; #R_asb_2023-12 Fix bypass BAL via `requestGeofence`
+#applyPatch "$DOS_PATCHES/android_frameworks_base/377002.patch"; #R_asb_2023-12 Fix bypass BAL via `requestGeofence`
 applyPatch "$DOS_PATCHES/android_frameworks_base/377004-backport.patch"; #R_asb_2023-12 Drop invalid data.
-applyPatch "$DOS_PATCHES/android_frameworks_base/377008.patch"; #R_asb_2023-12 Use readUniqueFileDescriptor in incidentd service
+#applyPatch "$DOS_PATCHES/android_frameworks_base/377008.patch"; #R_asb_2023-12 Use readUniqueFileDescriptor in incidentd service #FIXME
 applyPatch "$DOS_PATCHES/android_frameworks_base/377009.patch"; #R_asb_2023-12 Validate userId when publishing shortcuts
 applyPatch "$DOS_PATCHES/android_frameworks_base/377010-backport.patch"; #R_asb_2023-12 Revert "On device lockdown, always show the keyguard"
 applyPatch "$DOS_PATCHES/android_frameworks_base/377011.patch"; #R_asb_2023-12 Adding in verification of calling UID in onShellCommand
