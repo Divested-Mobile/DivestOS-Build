@@ -119,11 +119,13 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4244/4.19/0025.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4622/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4623/4.12-^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4921/4.19/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-6932/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-21656/4.19/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-21665/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-21666/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23454/4.19/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-25775/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28553/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28584/4.19/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-30456/4.19/0006.patch
@@ -152,7 +154,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42755/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45862/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45863/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45871/4.19/0003.patch
-editKernelLocalversion "-dos.p152"
+editKernelLocalversion "-dos.p154"
 else echo "kernel_oneplus_sm7250 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

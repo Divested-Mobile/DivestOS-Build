@@ -1,5 +1,7 @@
 #!/bin/bash
 if cd "$DOS_BUILD_BASE""kernel/google/msm-4.14"; then
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0332-0333.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0333-0334.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-Graphene-Deny_USB/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.14/0002.patch
@@ -72,13 +74,15 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0590/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1989/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3567/4.14/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3777/^6.5/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-6932/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-21657/4.14/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-25775/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28554/ANY/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-33070/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45863/4.14/0002.patch
-editKernelLocalversion "-dos.p78"
+editKernelLocalversion "-dos.p82"
 else echo "kernel_google_msm-4.14 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
