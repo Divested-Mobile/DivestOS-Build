@@ -242,6 +242,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/373034.patch"; #n-asb-2023-11 U
 applyPatch "$DOS_PATCHES/android_frameworks_base/376458.patch"; #n-asb-2023-12 Drop invalid data.
 applyPatch "$DOS_PATCHES/android_frameworks_base/376459.patch"; #n-asb-2023-12 Validate userId when publishing shortcuts
 applyPatch "$DOS_PATCHES/android_frameworks_base/376460.patch"; #n-asb-2023-12 Adding in verification of calling UID in onShellCommand
+applyPatch "$DOS_PATCHES/android_frameworks_base/377939.patch"; #n-asb-2023-12 Require permission to unlock keyguard
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)

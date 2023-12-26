@@ -105,10 +105,6 @@ applyPatch "$DOS_PATCHES/android_build_soong/0001-Enable_fwrapv.patch"; #Use -fw
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_build_soong/0002-hm_apex.patch"; fi; #(GrapheneOS)
 fi;
 
-if enterAndClear "cts"; then
-git fetch https://github.com/LineageOS/android_cts refs/changes/75/376775/1 && git cherry-pick FETCH_HEAD; #S_asb_2023-12
-fi;
-
 if enterAndClear "external/chromium-webview"; then
 if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then DOS_WEBVIEW_CHERRYPICK; fi; #Update the WebView to latest if available
 if [ "$DOS_WEBVIEW_LFS" = true ]; then git lfs pull; fi; #Ensure the objects are available
@@ -123,10 +119,6 @@ if enterAndClear "external/hardened_malloc"; then
 applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras-1.patch"; #Workarounds for Pixel 3 SoC era camera driver bugs (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras-2.patch"; #Expand workaround to all camera executables (DivestOS)
 fi;
-fi;
-
-if enterAndClear "external/pdfium"; then
-git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/76/376776/1 && git cherry-pick FETCH_HEAD; #S_asb_2023-12
 fi;
 
 if enterAndClear "external/SecureCamera"; then
@@ -416,7 +408,6 @@ applyPatch "$DOS_PATCHES/android_system_extras/0001-ext4_pad_filenames.patch"; #
 fi;
 
 if enterAndClear "system/netd"; then
-git fetch https://github.com/LineageOS/android_system_netd refs/changes/09/376809/1 && git cherry-pick FETCH_HEAD; #S_asb_2023-12
 applyPatch "$DOS_PATCHES/android_system_netd/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
