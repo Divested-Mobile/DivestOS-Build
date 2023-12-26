@@ -79,16 +79,16 @@ patchWorkspaceReal() {
 
 	source build/envsetup.sh;
 	#repopick -it ten-firewall;
-	repopick -fit Q_asb_2023-03 -e 352333;
-	repopick -fit Q_asb_2023-04;
-	repopick -fit Q_asb_2023-05;
-	repopick -fit Q_asb_2023-06 -e 359414,359417,359416,359413,359412,359389,359386;
-	repopick -fit Q_asb_2023-07 -e 362202,365416,365408,365407,376558;
-	repopick -fit Q_asb_2023-08 -e 365443,365454,365451,365449,365459;
-	repopick -fit Q_asb_2023-09 -e 368011,368008,368006,368005;
-	repopick -fit Q_asb_2023-10 -e 376554,369701,369696;
-	repopick -fit Q_asb_2023-11 -e 376555,376568,376603;
-	repopick -fit Q_asb_2023-12 -e 377251,378052,378071;
+	repopick -it Q_asb_2023-03 -e 352333;
+	repopick -it Q_asb_2023-04;
+	repopick -it Q_asb_2023-05;
+	repopick -it Q_asb_2023-06;
+	repopick -it Q_asb_2023-07 -e 362202;
+	repopick -it Q_asb_2023-08 -e 365443;
+	repopick -it Q_asb_2023-09;
+	repopick -it Q_asb_2023-10 -e 376554;
+	repopick -it Q_asb_2023-11 -e 376555;
+	repopick -it Q_asb_2023-12 -e 377251;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

@@ -1,4 +1,4 @@
-From 52459a71e45159f7fd837a29c2455deebae61424 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Marzia Favaro <marziana@google.com>
 Date: Mon, 31 Jul 2023 15:10:34 +0000
 Subject: [PATCH] BACKPORT: Require permission to unlock keyguard
@@ -17,17 +17,15 @@ keyguardGoingAway successfully
 (cherry picked from https://googleplex-android-review.googlesource.com/q/commit:ad8e7e3b1db22684988a179e23639567a4096ca6)
 Merged-In: I7ba7e56f954c8e6f1f734311f735215918975bc6
 Change-Id: I7ba7e56f954c8e6f1f734311f735215918975bc6
-
-Change-Id: Id9a5ac676c7047c5c4d73b617a1cd628ba885ffe
 ---
  .../core/java/com/android/server/am/ActivityManagerService.java | 2 ++
  1 file changed, 2 insertions(+)
 
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index 4e48f422a2fe3..61563f40b825c 100644
+index c682ba2f7572..406e08009cb7 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
-@@ -254,6 +254,7 @@
+@@ -254,6 +254,7 @@ import cyanogenmod.power.PerformanceManagerInternal;
  import libcore.io.IoUtils;
  import libcore.util.EmptyArray;
  
@@ -35,7 +33,7 @@ index 4e48f422a2fe3..61563f40b825c 100644
  import static android.Manifest.permission.INTERACT_ACROSS_USERS;
  import static android.Manifest.permission.INTERACT_ACROSS_USERS_FULL;
  import static android.Manifest.permission.MANAGE_ACTIVITY_STACKS;
-@@ -6973,6 +6974,7 @@ public void keyguardWaitingForActivityDrawn() {
+@@ -7026,6 +7027,7 @@ public final class ActivityManagerService extends ActivityManagerNative
  
      @Override
      public void keyguardGoingAway(int flags) {

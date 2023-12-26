@@ -15,8 +15,6 @@ Test: gradlew test
 (cherry picked from https://googleplex-android-review.googlesource.com/q/commit:ea0632935646f2f6bf5822a5e9c97885269780bd)
 Merged-In: I77f4218599511ff4f9f3790e4942a329d5a18da4
 Change-Id: I77f4218599511ff4f9f3790e4942a329d5a18da4
-
-Change-Id: I604ce656e6dcd750e664adcb814c5c66f7b80ce1
 ---
  .../java/com/android/apksig/ApkVerifier.java  |  29 +++++
  .../internal/apk/v1/V1SchemeSigner.java       |   7 ++

@@ -1,4 +1,4 @@
-From 2b22ff4cc93a2824e14970d212493245362c78d1 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: balakrishna <quic_kunthumu@quicinc.com>
 Date: Wed, 24 May 2023 13:28:21 +0530
 Subject: [PATCH] Fix OOB Write in pin_reply in bluetooth.cc
@@ -17,10 +17,10 @@ Change-Id: I15a1eae59b17f633e29180a01676c260189b8353
  1 file changed, 1 insertion(+)
 
 diff --git a/btif/src/bluetooth.cc b/btif/src/bluetooth.cc
-index b01a4aa30..609ef7a98 100644
+index 1121a587d..f827fe9a7 100644
 --- a/btif/src/bluetooth.cc
 +++ b/btif/src/bluetooth.cc
-@@ -327,6 +327,7 @@ static int pin_reply(const RawAddress* bd_addr, uint8_t accept, uint8_t pin_len,
+@@ -288,6 +288,7 @@ static int pin_reply(const RawAddress* bd_addr, uint8_t accept, uint8_t pin_len,
    bt_pin_code_t tmp_pin_code;
    /* sanity check */
    if (interface_ready() == false) return BT_STATUS_NOT_READY;

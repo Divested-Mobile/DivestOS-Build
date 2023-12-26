@@ -363,8 +363,8 @@ applyPatch "$DOS_PATCHES/android_packages_services_Telephony/0002-More_Preferred
 fi;
 
 if enterAndClear "system/bt"; then
-applyPatch "$DOS_PATCHES/android_system_bt/377030.patch"; #R_asb_2023-12 Fix OOB Write in pin_reply in bluetooth.cc
-applyPatch "$DOS_PATCHES/android_system_bt/377031-backport.patch"; #R_asb_2023-12 BT: Fixing the rfc_slot_id overflow
+applyPatch "$DOS_PATCHES/android_system_bt/377030-backport.patch"; #R_asb_2023-12 Fix OOB Write in pin_reply in bluetooth.cc
+applyPatch "$DOS_PATCHES/android_system_bt/377031.patch"; #R_asb_2023-12 BT: Fixing the rfc_slot_id overflow
 #applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
 

@@ -1,4 +1,4 @@
-From 1b97ac8d26a07231e48bfa90ea653d8cd8104428 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: balakrishna <quic_kunthumu@quicinc.com>
 Date: Tue, 7 Mar 2023 16:53:46 +0530
 Subject: [PATCH] BT: Fixing the rfc_slot_id overflow
@@ -17,10 +17,10 @@ Change-Id: I5d7efa34bfb97a6dd8e9d68615d29120a0ae51f0
  1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/btif/src/btif_sock_rfc.cc b/btif/src/btif_sock_rfc.cc
-index 0403c588a..b56fbe12b 100644
+index 4b490a0e3..e0cc427e1 100644
 --- a/btif/src/btif_sock_rfc.cc
 +++ b/btif/src/btif_sock_rfc.cc
-@@ -215,7 +215,11 @@ static rfc_slot_t* alloc_rfc_slot(const RawAddress* addr, const char* name,
+@@ -209,7 +209,11 @@ static rfc_slot_t* alloc_rfc_slot(const RawAddress* addr, const char* name,
    }
  
    // Increment slot id and make sure we don't use id=0.

@@ -22,8 +22,6 @@ Test: N/A
 (cherry picked from https://googleplex-android-review.googlesource.com/q/commit:2178216b98bf9865edee198f45192f0b883624ab)
 Merged-In: I8eb890fd2e5797d8d6ab5b12f9c628bc9616081d
 Change-Id: I8eb890fd2e5797d8d6ab5b12f9c628bc9616081d
-
-Change-Id: Ieb148594d8e9a6505567f80d78810f687bb6e489
 ---
  packages/VpnDialogs/res/values/strings.xml    | 29 ++++++++++
  .../com/android/vpndialogs/ConfirmDialog.java | 53 +++++++++++++++++--

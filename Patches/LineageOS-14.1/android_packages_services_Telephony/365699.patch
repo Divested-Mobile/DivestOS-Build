@@ -16,8 +16,6 @@ Test2: Able to import contact from the primary user or uri with no user id
 (cherry picked from https://googleplex-android-review.googlesource.com/q/commit:ab593467e900d4a6d25a34024a06195ae863f6dc)
 Merged-In: I1e3a643f17948153aecc1d0df9ffd9619ad678c1
 Change-Id: I1e3a643f17948153aecc1d0df9ffd9619ad678c1
-
-Change-Id: I01cf83cc40bbf13497bc6c90f949f5bb62a833d7
 ---
  .../android/phone/GsmUmtsCallForwardOptions.java    | 12 ++++++++++++
  .../phone/settings/VoicemailSettingsActivity.java   | 13 +++++++++++++
