@@ -78,6 +78,7 @@ patchWorkspaceReal() {
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
 	source build/envsetup.sh;
+	repipick -i 378458; #repopick: Fix apply order of dependent commits
 	#repopick -it ten-firewall;
 	repopick -it Q_asb_2023-03 -e 352333;
 	repopick -it Q_asb_2023-04;
