@@ -6,7 +6,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     EtarPrebuilt \
     FennecDOS \
-    SimpleGallery
+    FossifyGallery
 
 #ifeq ($(findstring flox,$(TARGET_PRODUCT)),)
 #PRODUCT_PACKAGES += \
@@ -22,4 +22,4 @@ PRODUCT_PACKAGES += \
 # Notes
 # - Available (via PrebuiltApps submodule): eSpeakNG
 # - Camera Choices: None (Camera2/Snap), OpenCamera
-# - Gallery Choices: None (AOSP/Lineage), SimpleGallery
+# - Gallery Choices: None (AOSP/Lineage), FossifyGallery
