@@ -76,7 +76,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2023-12-05/' core/version_defaults.mk; #Bump Security String #n-asb-2023-12 #XXX
+sed -i 's/2021-06-05/2024-01-05/' core/version_defaults.mk; #Bump Security String #n-asb-2024-01 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -243,6 +243,9 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/376458.patch"; #n-asb-2023-12 D
 applyPatch "$DOS_PATCHES/android_frameworks_base/376459.patch"; #n-asb-2023-12 Validate userId when publishing shortcuts
 applyPatch "$DOS_PATCHES/android_frameworks_base/376460.patch"; #n-asb-2023-12 Adding in verification of calling UID in onShellCommand
 applyPatch "$DOS_PATCHES/android_frameworks_base/377939.patch"; #n-asb-2023-12 Require permission to unlock keyguard
+applyPatch "$DOS_PATCHES/android_frameworks_base/378954.patch"; #n-asb-2024-01 Truncate user data to a limit of 500 characters
+applyPatch "$DOS_PATCHES/android_frameworks_base/378955.patch"; #n-asb-2024-01 Fix vulnerability that allowed attackers to start arbitary activities
+applyPatch "$DOS_PATCHES/android_frameworks_base/378956.patch"; #n-asb-2024-01 Fix ActivityManager#killBackgroundProcesses permissions
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -531,6 +534,11 @@ applyPatch "$DOS_PATCHES/android_system_bt/376465.patch"; #n-asb-2023-12 Reject 
 applyPatch "$DOS_PATCHES/android_system_bt/376466.patch"; #n-asb-2023-12 Reorganize the code for checking auth requirement
 applyPatch "$DOS_PATCHES/android_system_bt/376467.patch"; #n-asb-2023-12 Enforce authentication if encryption is required
 applyPatch "$DOS_PATCHES/android_system_bt/376468.patch"; #n-asb-2023-12 Fix timing attack in BTM_BleVerifySignature
+applyPatch "$DOS_PATCHES/android_system_bt/378957.patch"; #n-asb-2024-01 Separate the definition of BTM layer types from control blocks
+applyPatch "$DOS_PATCHES/android_system_bt/378958.patch"; #n-asb-2024-01 Simplify btm_ble_resolve_random_addr
+applyPatch "$DOS_PATCHES/android_system_bt/378959.patch"; #n-asb-2024-01 Simplify LE Advertising Report Event processing
+applyPatch "$DOS_PATCHES/android_system_bt/378960.patch"; #n-asb-2024-01 LE Advertising Report parsing enhancements
+applyPatch "$DOS_PATCHES/android_system_bt/378961.patch"; #n-asb-2024-01 Fix some OOB errors in BTM parsing
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #bt-sbc-hd-dualchannel-nougat: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #bt-sbc-hd-dualchannel-nougat: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)

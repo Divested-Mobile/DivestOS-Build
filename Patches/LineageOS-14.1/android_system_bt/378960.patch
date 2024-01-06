@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jakub Pawlowski <jpawlowski@google.com>
+Date: Wed, 21 Mar 2018 17:13:36 -0700
+Subject: [PATCH] LE Advertising Report parsing enhancements
+
+Reject invalid data length for advertisement data.
+Also, don't attempt to resolve anonymous advertising addresses.
+
+Test: LE scanning tests
+Bug: 73193883
+Change-Id: I1cb330bc30fdcaebc86527cd2656c9dd7932b318
+---
+ stack/btm/btm_ble_gap.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/stack/btm/btm_ble_gap.c b/stack/btm/btm_ble_gap.c
+index d1fb6238a..a758f991f 100644
+--- a/stack/btm/btm_ble_gap.c
++++ b/stack/btm/btm_ble_gap.c
+@@ -2712,6 +2712,11 @@ void btm_ble_process_adv_pkt (UINT8 data_len, UINT8 *data)
+ 
+         UINT8 *pkt_data = p;
+         p += pkt_data_len; /* Advance to the the rssi byte */
++        if (p > data + data_len - sizeof(rssi))
++        {
++            BTM_TRACE_ERROR("Invalid pkt_data_len: %d", pkt_data_len);
++            return;
++        }
+ 
+         STREAM_TO_INT8(rssi, p);
+ 

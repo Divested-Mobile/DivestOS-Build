@@ -49,7 +49,7 @@ index 60820c2c0..89963dc30 100644
    readable = true;
    return future_new_immediate(FUTURE_SUCCESS);
 diff --git a/stack/btu/btu_hcif.c b/stack/btu/btu_hcif.c
-index eacf145bf..616d6d581 100644
+index 6a219b4c7..1d2ea45b3 100644
 --- a/stack/btu/btu_hcif.c
 +++ b/stack/btu/btu_hcif.c
 @@ -606,7 +606,7 @@ static void btu_hcif_rmt_name_request_comp_evt (UINT8 *p, UINT16 evt_len)
@@ -121,7 +121,7 @@ index eacf145bf..616d6d581 100644
 +#endif
  }
  
- static void btu_ble_process_adv_pkt (UINT8 *p)
+ static void btu_ble_ll_conn_complete_evt ( UINT8 *p, UINT16 evt_len)
 diff --git a/stack/hcic/hcicmds.c b/stack/hcic/hcicmds.c
 index ba1f6d4fe..233306759 100644
 --- a/stack/hcic/hcicmds.c
