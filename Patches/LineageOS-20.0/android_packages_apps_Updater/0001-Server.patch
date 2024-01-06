@@ -9,10 +9,10 @@ Change-Id: I26dc2942736cf0cfe4e7b92ddfdd04b9d74dbae5
  1 file changed, 2 insertions(+), 9 deletions(-)
 
 diff --git a/app/src/main/java/org/lineageos/updater/misc/Utils.java b/app/src/main/java/org/lineageos/updater/misc/Utils.java
-index b7ba720..f3d334b 100644
+index f2cab10..13179a1 100644
 --- a/app/src/main/java/org/lineageos/updater/misc/Utils.java
 +++ b/app/src/main/java/org/lineageos/updater/misc/Utils.java
-@@ -155,16 +155,9 @@ public class Utils {
+@@ -144,16 +144,9 @@ public class Utils {
          String incrementalVersion = SystemProperties.get(Constants.PROP_BUILD_VERSION_INCREMENTAL);
          String device = SystemProperties.get(Constants.PROP_NEXT_DEVICE,
                  SystemProperties.get(Constants.PROP_DEVICE));

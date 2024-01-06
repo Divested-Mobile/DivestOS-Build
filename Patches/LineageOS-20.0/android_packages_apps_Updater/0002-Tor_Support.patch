@@ -18,10 +18,10 @@ Change-Id: Ibfe080c3d801af34fb64fda1b6b8f4f39a2b1ccf
  10 files changed, 134 insertions(+), 5 deletions(-)
 
 diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
-index cc485f7..7cdfb93 100644
+index 2abb833..6041740 100644
 --- a/app/src/main/AndroidManifest.xml
 +++ b/app/src/main/AndroidManifest.xml
-@@ -13,6 +13,10 @@
+@@ -18,6 +18,10 @@
      <uses-permission android:name="android.permission.START_ACTIVITIES_FROM_BACKGROUND" />
      <uses-permission android:name="android.permission.WAKE_LOCK" />
  
@@ -33,10 +33,10 @@ index cc485f7..7cdfb93 100644
          android:allowBackup="false"
          android:icon="@mipmap/ic_launcher"
 diff --git a/app/src/main/java/org/lineageos/updater/UpdatesActivity.java b/app/src/main/java/org/lineageos/updater/UpdatesActivity.java
-index 25ca0b8..4dbc077 100644
+index a4eda73..387eea0 100644
 --- a/app/src/main/java/org/lineageos/updater/UpdatesActivity.java
 +++ b/app/src/main/java/org/lineageos/updater/UpdatesActivity.java
-@@ -473,10 +473,14 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
+@@ -462,10 +462,14 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
  
          final DownloadClient downloadClient;
          try {
@@ -51,7 +51,7 @@ index 25ca0b8..4dbc077 100644
                      .build();
          } catch (IOException exception) {
              Log.e(TAG, "Could not build download client");
-@@ -580,6 +584,7 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
+@@ -569,6 +573,7 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
      private void showPreferencesDialog() {
          View view = LayoutInflater.from(this).inflate(R.layout.preferences_dialog, null);
          Spinner autoCheckInterval = view.findViewById(R.id.preferences_auto_updates_check_interval);
@@ -59,7 +59,7 @@ index 25ca0b8..4dbc077 100644
          SwitchCompat autoDelete = view.findViewById(R.id.preferences_auto_delete_updates);
          SwitchCompat meteredNetworkWarning = view.findViewById(
                  R.id.preferences_metered_network_warning);
-@@ -592,6 +597,7 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
+@@ -581,6 +586,7 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
  
          SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
          autoCheckInterval.setSelection(Utils.getUpdateCheckSetting(this));
@@ -67,7 +67,7 @@ index 25ca0b8..4dbc077 100644
          autoDelete.setChecked(prefs.getBoolean(Constants.PREF_AUTO_DELETE_UPDATES, false));
          meteredNetworkWarning.setChecked(prefs.getBoolean(Constants.PREF_METERED_NETWORK_WARNING,
                  prefs.getBoolean(Constants.PREF_MOBILE_DATA_WARNING, true)));
-@@ -632,6 +638,8 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
+@@ -621,6 +627,8 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
                      prefs.edit()
                              .putInt(Constants.PREF_AUTO_UPDATES_CHECK_INTERVAL,
                                      autoCheckInterval.getSelectedItemPosition())
@@ -76,7 +76,7 @@ index 25ca0b8..4dbc077 100644
                              .putBoolean(Constants.PREF_AUTO_DELETE_UPDATES, autoDelete.isChecked())
                              .putBoolean(Constants.PREF_METERED_NETWORK_WARNING,
                                      meteredNetworkWarning.isChecked())
-@@ -645,6 +653,10 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
+@@ -634,6 +642,10 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
                          UpdatesCheckReceiver.cancelUpdatesCheck(this);
                      }
  
@@ -88,10 +88,10 @@ index 25ca0b8..4dbc077 100644
                          boolean enableABPerfMode = abPerfMode.isChecked();
                          mUpdaterService.getUpdaterController().setPerformanceMode(enableABPerfMode);
 diff --git a/app/src/main/java/org/lineageos/updater/UpdatesCheckReceiver.java b/app/src/main/java/org/lineageos/updater/UpdatesCheckReceiver.java
-index 9f45423..382fbd4 100644
+index b065ed0..5767bfb 100644
 --- a/app/src/main/java/org/lineageos/updater/UpdatesCheckReceiver.java
 +++ b/app/src/main/java/org/lineageos/updater/UpdatesCheckReceiver.java
-@@ -110,10 +110,14 @@ public class UpdatesCheckReceiver extends BroadcastReceiver {
+@@ -99,10 +99,14 @@ public class UpdatesCheckReceiver extends BroadcastReceiver {
          };
  
          try {
@@ -107,10 +107,10 @@ index 9f45423..382fbd4 100644
              downloadClient.start();
          } catch (IOException e) {
 diff --git a/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java b/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java
-index daa710c..1e51c5b 100644
+index 691012c..4dbab2c 100644
 --- a/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java
 +++ b/app/src/main/java/org/lineageos/updater/controller/UpdaterController.java
-@@ -374,12 +374,16 @@ public class UpdaterController {
+@@ -363,12 +363,16 @@ public class UpdaterController {
          update.setFile(destination);
          DownloadClient downloadClient;
          try {
@@ -127,7 +127,7 @@ index daa710c..1e51c5b 100644
                      .build();
          } catch (IOException exception) {
              Log.e(TAG, "Could not build download client");
-@@ -419,6 +423,9 @@ public class UpdaterController {
+@@ -408,6 +412,9 @@ public class UpdaterController {
              verifyUpdateAsync(downloadId);
              notifyUpdateChange(downloadId);
          } else {
@@ -137,7 +137,7 @@ index daa710c..1e51c5b 100644
              DownloadClient downloadClient;
              try {
                  downloadClient = new DownloadClient.Builder()
-@@ -427,6 +434,7 @@ public class UpdaterController {
+@@ -416,6 +423,7 @@ public class UpdaterController {
                          .setDownloadCallback(getDownloadCallback(downloadId))
                          .setProgressListener(getProgressListener(downloadId))
                          .setUseDuplicateLinks(true)
@@ -146,10 +146,10 @@ index daa710c..1e51c5b 100644
              } catch (IOException exception) {
                  Log.e(TAG, "Could not build download client");
 diff --git a/app/src/main/java/org/lineageos/updater/download/DownloadClient.java b/app/src/main/java/org/lineageos/updater/download/DownloadClient.java
-index 3494947..7a7f7cf 100644
+index 0623d4f..bfc037e 100644
 --- a/app/src/main/java/org/lineageos/updater/download/DownloadClient.java
 +++ b/app/src/main/java/org/lineageos/updater/download/DownloadClient.java
-@@ -60,6 +60,7 @@ public interface DownloadClient {
+@@ -49,6 +49,7 @@ public interface DownloadClient {
          private DownloadClient.DownloadCallback mCallback;
          private DownloadClient.ProgressListener mProgressListener;
          private boolean mUseDuplicateLinks;
@@ -157,7 +157,7 @@ index 3494947..7a7f7cf 100644
  
          public DownloadClient build() throws IOException {
              if (mUrl == null) {
-@@ -70,7 +71,7 @@ public interface DownloadClient {
+@@ -59,7 +60,7 @@ public interface DownloadClient {
                  throw new IllegalStateException("No download callback defined");
              }
              return new HttpURLConnectionClient(mUrl, mDestination, mProgressListener, mCallback,
@@ -166,7 +166,7 @@ index 3494947..7a7f7cf 100644
          }
  
          public Builder setUrl(String url) {
-@@ -97,5 +98,10 @@ public interface DownloadClient {
+@@ -86,5 +87,10 @@ public interface DownloadClient {
              mUseDuplicateLinks = useDuplicateLinks;
              return this;
          }
@@ -178,10 +178,10 @@ index 3494947..7a7f7cf 100644
      }
  }
 diff --git a/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java b/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java
-index b9c4b5d..b94fff0 100644
+index 4ce3dd0..d39de45 100644
 --- a/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java
 +++ b/app/src/main/java/org/lineageos/updater/download/HttpURLConnectionClient.java
-@@ -18,12 +18,16 @@ package org.lineageos.updater.download;
+@@ -7,12 +7,16 @@ package org.lineageos.updater.download;
  import android.os.SystemClock;
  import android.util.Log;
  
@@ -198,7 +198,7 @@ index b9c4b5d..b94fff0 100644
  import java.net.URL;
  import java.util.Comparator;
  import java.util.List;
-@@ -42,6 +46,7 @@ public class HttpURLConnectionClient implements DownloadClient {
+@@ -31,6 +35,7 @@ public class HttpURLConnectionClient implements DownloadClient {
      private final DownloadClient.ProgressListener mProgressListener;
      private final DownloadClient.DownloadCallback mCallback;
      private final boolean mUseDuplicateLinks;
@@ -206,7 +206,7 @@ index b9c4b5d..b94fff0 100644
  
      private DownloadThread mDownloadThread;
  
-@@ -56,8 +61,14 @@ public class HttpURLConnectionClient implements DownloadClient {
+@@ -45,8 +50,14 @@ public class HttpURLConnectionClient implements DownloadClient {
      HttpURLConnectionClient(String url, File destination,
              DownloadClient.ProgressListener progressListener,
              DownloadClient.DownloadCallback callback,
@@ -223,7 +223,7 @@ index b9c4b5d..b94fff0 100644
          mDestination = destination;
          mProgressListener = progressListener;
          mCallback = callback;
-@@ -177,7 +188,12 @@ public class HttpURLConnectionClient implements DownloadClient {
+@@ -166,7 +177,12 @@ public class HttpURLConnectionClient implements DownloadClient {
          private void changeClientUrl(URL newUrl) throws IOException {
              String range = mClient.getRequestProperty("Range");
              mClient.disconnect();
@@ -237,7 +237,7 @@ index b9c4b5d..b94fff0 100644
              if (range != null) {
                  mClient.setRequestProperty("Range", range);
              }
-@@ -232,7 +248,7 @@ public class HttpURLConnectionClient implements DownloadClient {
+@@ -221,7 +237,7 @@ public class HttpURLConnectionClient implements DownloadClient {
                      }
                      Log.d(TAG, "Downloading from " + newUrl);
                      changeClientUrl(url);
@@ -246,7 +246,7 @@ index b9c4b5d..b94fff0 100644
                      mClient.connect();
                      if (!isSuccessCode(mClient.getResponseCode())) {
                          throw new IOException("Server replied with " + mClient.getResponseCode());
-@@ -257,6 +273,9 @@ public class HttpURLConnectionClient implements DownloadClient {
+@@ -246,6 +262,9 @@ public class HttpURLConnectionClient implements DownloadClient {
          public void run() {
              boolean justResumed = false;
              try {
@@ -257,10 +257,10 @@ index b9c4b5d..b94fff0 100644
                  mClient.connect();
                  int responseCode = mClient.getResponseCode();
 diff --git a/app/src/main/java/org/lineageos/updater/misc/Constants.java b/app/src/main/java/org/lineageos/updater/misc/Constants.java
-index beb9423..a51ab15 100644
+index a00dce1..825e1a0 100644
 --- a/app/src/main/java/org/lineageos/updater/misc/Constants.java
 +++ b/app/src/main/java/org/lineageos/updater/misc/Constants.java
-@@ -30,6 +30,7 @@ public final class Constants {
+@@ -19,6 +19,7 @@ public final class Constants {
  
      public static final String PREF_LAST_UPDATE_CHECK = "last_update_check";
      public static final String PREF_AUTO_UPDATES_CHECK_INTERVAL = "auto_updates_check_interval";
@@ -269,10 +269,10 @@ index beb9423..a51ab15 100644
      public static final String PREF_AB_PERF_MODE = "ab_perf_mode";
      public static final String PREF_METERED_NETWORK_WARNING = "pref_metered_network_warning";
 diff --git a/app/src/main/java/org/lineageos/updater/misc/Utils.java b/app/src/main/java/org/lineageos/updater/misc/Utils.java
-index f3d334b..67ad386 100644
+index 13179a1..3d4aab9 100644
 --- a/app/src/main/java/org/lineageos/updater/misc/Utils.java
 +++ b/app/src/main/java/org/lineageos/updater/misc/Utils.java
-@@ -46,6 +46,7 @@ import java.io.BufferedReader;
+@@ -35,6 +35,7 @@ import java.io.BufferedReader;
  import java.io.File;
  import java.io.FileReader;
  import java.io.IOException;
@@ -280,7 +280,7 @@ index f3d334b..67ad386 100644
  import java.util.ArrayList;
  import java.util.Enumeration;
  import java.util.HashSet;
-@@ -151,11 +152,75 @@ public class Utils {
+@@ -140,11 +141,75 @@ public class Utils {
          return updates;
      }
  
@@ -357,10 +357,10 @@ index f3d334b..67ad386 100644
          return server + "?base=LineageOS&device=" + device + "&inc=" + incrementalVersion;
      }
 diff --git a/app/src/main/res/layout/preferences_dialog.xml b/app/src/main/res/layout/preferences_dialog.xml
-index c1b4356..93f1bfc 100644
+index 774d1be..8a01e3d 100644
 --- a/app/src/main/res/layout/preferences_dialog.xml
 +++ b/app/src/main/res/layout/preferences_dialog.xml
-@@ -29,6 +29,14 @@
+@@ -33,6 +33,14 @@
              android:entries="@array/menu_auto_updates_check_interval_entries" />
      </LinearLayout>
  
@@ -376,10 +376,10 @@ index c1b4356..93f1bfc 100644
          android:id="@+id/preferences_auto_delete_updates"
          android:layout_width="match_parent"
 diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
-index 02dda7f..3fbfbb5 100644
+index 0748b23..ac159a8 100644
 --- a/app/src/main/res/values/strings.xml
 +++ b/app/src/main/res/values/strings.xml
-@@ -70,6 +70,7 @@
+@@ -59,6 +59,7 @@
      <string name="menu_auto_updates_check_interval_weekly">Once a week</string>
      <string name="menu_auto_updates_check_interval_monthly">Once a month</string>
      <string name="menu_auto_updates_check_interval_never">Never</string>
@@ -387,7 +387,7 @@ index 02dda7f..3fbfbb5 100644
      <string name="menu_auto_delete_updates">Delete updates when installed</string>
      <string name="menu_delete_update">Delete</string>
      <string name="menu_copy_url">Copy URL</string>
-@@ -87,6 +88,7 @@
+@@ -76,6 +77,7 @@
      <string name="snack_download_failed">The download failed. Please check your internet connection and try again later.</string>
      <string name="snack_download_verification_failed">The update verification failed.</string>
      <string name="snack_download_verified">Download completed.</string>

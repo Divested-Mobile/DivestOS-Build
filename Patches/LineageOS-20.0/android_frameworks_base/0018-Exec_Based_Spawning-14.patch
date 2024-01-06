@@ -109,10 +109,10 @@ index 749c67abf389..39f08b6a0f15 100644
          // classpath. If found, create a PathClassLoader and use it for applicationInit.
          ClassLoader classLoader = null;
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index 035af8bde9d8..b31d139877dd 100644
+index 7605d05d6287..38d2b15520be 100644
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
-@@ -18633,4 +18633,10 @@ public class ActivityManagerService extends IActivityManager.Stub
+@@ -18646,4 +18646,10 @@ public class ActivityManagerService extends IActivityManager.Stub
              Trace.traceBegin(traceTag, methodName + subInfo);
          }
      }
