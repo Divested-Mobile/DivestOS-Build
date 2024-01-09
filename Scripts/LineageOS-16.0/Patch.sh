@@ -99,7 +99,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 17/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2022-01-05/2023-12-05/' core/version_defaults.mk; #Bump Security String #P_asb_2023-12 #XXX
+sed -i 's/2022-01-05/2024-01-05/' core/version_defaults.mk; #Bump Security String #P_asb_2024-01 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -161,10 +161,17 @@ awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.jav
 fi;
 
 if enterAndClear "frameworks/av"; then
+applyPatch "$DOS_PATCHES/android_frameworks_av/379144.patch"; #R_asb_2024-01 Fix convertYUV420Planar16ToY410 overflow issue for unsupported cropwidth.
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; fi; #(GrapheneOS)
 fi;
 
 if enterAndClear "frameworks/base"; then
+applyPatch "$DOS_PATCHES/android_frameworks_base/379145-backport.patch"; #R_asb_2024-01 Dismiss keyguard when simpin auth'd and...
+applyPatch "$DOS_PATCHES/android_frameworks_base/379146-backport.patch"; #R_asb_2024-01 Ensure finish lockscreen when usersetup incomplete
+applyPatch "$DOS_PATCHES/android_frameworks_base/379147-backport.patch"; #R_asb_2024-01 Truncate user data to a limit of 500 characters
+applyPatch "$DOS_PATCHES/android_frameworks_base/379148-backport.patch"; #R_asb_2024-01 [CDM] Validate component name length before requesting notification access.
+applyPatch "$DOS_PATCHES/android_frameworks_base/379149-backport.patch"; #R_asb_2024-01 Log to detect usage of whitelistToken when sending non-PI target
+applyPatch "$DOS_PATCHES/android_frameworks_base/379150.patch"; #R_asb_2024-01 Fix vulnerability that allowed attackers to start arbitary activities
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -365,6 +372,7 @@ fi;
 if enterAndClear "system/bt"; then
 applyPatch "$DOS_PATCHES/android_system_bt/377030-backport.patch"; #R_asb_2023-12 Fix OOB Write in pin_reply in bluetooth.cc
 applyPatch "$DOS_PATCHES/android_system_bt/377031.patch"; #R_asb_2023-12 BT: Fixing the rfc_slot_id overflow
+applyPatch "$DOS_PATCHES/android_system_bt/379154.patch"; #R_asb_2024-01 Fix some OOB errors in BTM parsing
 #applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
 
