@@ -1,0 +1,48 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jacky Cheung <jackyc@google.com>
+Date: Thu, 26 Oct 2017 16:07:36 -0700
+Subject: [PATCH] Fix addr_type overriding by btm_ble_process_adv_addr().
+
+Bug: 67042709
+Test: manual
+
+Change-Id: Iedffe2fa3dcb3f4e600626490b95c27d1535a737
+---
+ stack/btm/btm_ble_gap.cc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/stack/btm/btm_ble_gap.cc b/stack/btm/btm_ble_gap.cc
+index 341d85d4d..bf526b67f 100644
+--- a/stack/btm/btm_ble_gap.cc
++++ b/stack/btm/btm_ble_gap.cc
+@@ -1841,10 +1841,10 @@ void btm_clear_all_pending_le_entry(void) {
+   }
+ }
+ 
+-void btm_ble_process_adv_addr(RawAddress& bda, uint8_t addr_type) {
++void btm_ble_process_adv_addr(RawAddress& bda, uint8_t* addr_type) {
+ #if (BLE_PRIVACY_SPT == TRUE)
+   /* map address to security record */
+-  bool match = btm_identity_addr_to_random_pseudo(&bda, &addr_type, false);
++  bool match = btm_identity_addr_to_random_pseudo(&bda, addr_type, false);
+ 
+   VLOG(1) << __func__ << ": bda=" << bda;
+   /* always do RRA resolution on host */
+@@ -1915,7 +1915,7 @@ void btm_ble_process_ext_adv_pkt(uint8_t data_len, uint8_t* data) {
+                       pkt_data_len, rssi);
+     }
+ 
+-    btm_ble_process_adv_addr(bda, addr_type);
++    btm_ble_process_adv_addr(bda, &addr_type);
+     btm_ble_process_adv_pkt_cont(event_type, addr_type, bda, primary_phy,
+                                  secondary_phy, advertising_sid, tx_power, rssi,
+                                  periodic_adv_int, pkt_data_len, pkt_data);
+@@ -1962,7 +1962,7 @@ void btm_ble_process_adv_pkt(uint8_t data_len, uint8_t* data) {
+                       pkt_data_len, rssi);
+     }
+ 
+-    btm_ble_process_adv_addr(bda, addr_type);
++    btm_ble_process_adv_addr(bda, &addr_type);
+ 
+     uint16_t event_type;
+     if (legacy_evt_type == 0x00) {  // ADV_IND;

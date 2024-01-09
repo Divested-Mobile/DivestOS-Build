@@ -74,7 +74,7 @@ applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv a
 applyPatch "$DOS_PATCHES/android_build/0003-verity-openssl3.patch"; #Fix VB 1.0 failure due to openssl output format change
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2023-12-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2024-01-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -228,6 +228,11 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/373955.patch"; #R_asb_2023-11 [
 applyPatch "$DOS_PATCHES/android_frameworks_base/377004-backport.patch"; #R_asb_2023-12 Drop invalid data.
 applyPatch "$DOS_PATCHES/android_frameworks_base/377009.patch"; #R_asb_2023-12 Validate userId when publishing shortcuts
 applyPatch "$DOS_PATCHES/android_frameworks_base/377011.patch"; #R_asb_2023-12 Adding in verification of calling UID in onShellCommand
+applyPatch "$DOS_PATCHES/android_frameworks_base/379147-backport.patch"; #R_asb_2024-01 Truncate user data to a limit of 500 characters
+applyPatch "$DOS_PATCHES/android_frameworks_base/379148-backport.patch"; #R_asb_2024-01 [CDM] Validate component name length before requesting notification access.
+applyPatch "$DOS_PATCHES/android_frameworks_base/379149-backport.patch"; #R_asb_2024-01 Log to detect usage of whitelistToken when sending non-PI target
+applyPatch "$DOS_PATCHES/android_frameworks_base/379150.patch"; #R_asb_2024-01 Fix vulnerability that allowed attackers to start arbitary activities
+applyPatch "$DOS_PATCHES/android_frameworks_base/379136.patch"; #R_asb_2024-01 Fix ActivityManager#killBackgroundProcesses permissions
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
@@ -492,6 +497,9 @@ applyPatch "$DOS_PATCHES/android_system_bt/377021.patch"; #R_asb_2023-12 Enforce
 applyPatch "$DOS_PATCHES/android_system_bt/377023-backport.patch"; #R_asb_2023-12 Fix timing attack in BTM_BleVerifySignature
 applyPatch "$DOS_PATCHES/android_system_bt/377030.patch"; #R_asb_2023-12 Fix OOB Write in pin_reply in bluetooth.cc
 applyPatch "$DOS_PATCHES/android_system_bt/377031.patch"; #R_asb_2023-12 BT: Fixing the rfc_slot_id overflow
+applyPatch "$DOS_PATCHES/android_system_bt/379154-prereq-1.patch"; #R_asb_2024-01 Fix addr_type overriding by btm_ble_process_adv_addr().
+applyPatch "$DOS_PATCHES/android_system_bt/379154-prereq-2.patch"; #R_asb_2024-01 LE Advertising Report parsing enhancements
+applyPatch "$DOS_PATCHES/android_system_bt/379154.patch"; #R_asb_2024-01 Fix some OOB errors in BTM parsing
 fi;
 
 if enterAndClear "system/ca-certificates"; then

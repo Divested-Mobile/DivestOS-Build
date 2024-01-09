@@ -1,0 +1,94 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tetiana Meronyk <tetianameronyk@google.com>
+Date: Thu, 24 Aug 2023 16:27:30 +0000
+Subject: [PATCH] Truncate user data to a limit of 500 characters
+
+Fix vulnerability that allows creating users with no restrictions. This is done by creating an intent to create a user and putting extras that are too long to be serialized. It causes IOException and the restrictions are not written in the file.
+
+By truncating the string values when writing them to the file, we ensure that the exception does not happen and it can be recorded correctly.
+
+Bug: 293602317
+Test: install app provided in the bug, open app and click add. Check logcat to see there is no more IOException. Reboot the device by either opening User details page or running adb shell dumpsys user | grep -A12 heen and see that the restrictions are in place.
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:48d45b507df64708a214a800082b970c8b2bf827)
+Merged-In: I633dc10974a64ef2abd07e67ff2d209847129989
+Change-Id: I633dc10974a64ef2abd07e67ff2d209847129989
+---
+ .../android/server/pm/UserManagerService.java | 24 ++++++++++++++-----
+ 1 file changed, 18 insertions(+), 6 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/UserManagerService.java b/services/core/java/com/android/server/pm/UserManagerService.java
+index d8a42162e0af..957af0fbab68 100644
+--- a/services/core/java/com/android/server/pm/UserManagerService.java
++++ b/services/core/java/com/android/server/pm/UserManagerService.java
+@@ -212,6 +212,8 @@ public class UserManagerService extends IUserManager.Stub {
+ 
+     private static final int USER_VERSION = 7;
+ 
++    private static final int MAX_USER_STRING_LENGTH = 500;
++
+     private static final long EPOCH_PLUS_30_YEARS = 30L * 365 * 24 * 60 * 60 * 1000L; // ms
+ 
+     // Maximum number of managed profiles permitted per user is 1. This cannot be increased
+@@ -2058,15 +2060,17 @@ public class UserManagerService extends IUserManager.Stub {
+         // Write seed data
+         if (userData.persistSeedData) {
+             if (userData.seedAccountName != null) {
+-                serializer.attribute(null, ATTR_SEED_ACCOUNT_NAME, userData.seedAccountName);
++                serializer.attribute(null, ATTR_SEED_ACCOUNT_NAME,
++                        truncateString(userData.seedAccountName));
+             }
+             if (userData.seedAccountType != null) {
+-                serializer.attribute(null, ATTR_SEED_ACCOUNT_TYPE, userData.seedAccountType);
++                serializer.attribute(null, ATTR_SEED_ACCOUNT_TYPE,
++                        truncateString(userData.seedAccountType));
+             }
+         }
+         if (userInfo.name != null) {
+             serializer.startTag(null, TAG_NAME);
+-            serializer.text(userInfo.name);
++            serializer.text(truncateString(userInfo.name));
+             serializer.endTag(null, TAG_NAME);
+         }
+         synchronized (mRestrictionsLock) {
+@@ -2097,6 +2101,13 @@ public class UserManagerService extends IUserManager.Stub {
+         serializer.endDocument();
+     }
+ 
++    private String truncateString(String original) {
++        if (original == null || original.length() <= MAX_USER_STRING_LENGTH) {
++            return original;
++        }
++        return original.substring(0, MAX_USER_STRING_LENGTH);
++    }
++
+     /*
+      * Writes the user list file in this format:
+      *
+@@ -2385,6 +2396,7 @@ public class UserManagerService extends IUserManager.Stub {
+ 
+     private UserInfo createUserInternalUnchecked(String name, int flags, int parentId,
+             String[] disallowedPackages) {
++        String truncatedName = truncateString(name);
+         DeviceStorageMonitorInternal dsm = LocalServices
+                 .getService(DeviceStorageMonitorInternal.class);
+         if (dsm.isMemoryLow()) {
+@@ -2472,7 +2484,7 @@ public class UserManagerService extends IUserManager.Stub {
+                         flags |= UserInfo.FLAG_EPHEMERAL;
+                     }
+ 
+-                    userInfo = new UserInfo(userId, name, null, flags);
++                    userInfo = new UserInfo(userId, truncatedName, null, flags);
+                     userInfo.serialNumber = mNextSerialNumber++;
+                     long now = System.currentTimeMillis();
+                     userInfo.creationTime = (now > EPOCH_PLUS_30_YEARS) ? now : 0;
+@@ -3301,8 +3313,8 @@ public class UserManagerService extends IUserManager.Stub {
+                     Slog.e(LOG_TAG, "No such user for settings seed data u=" + userId);
+                     return;
+                 }
+-                userData.seedAccountName = accountName;
+-                userData.seedAccountType = accountType;
++                userData.seedAccountName = truncateString(accountName);
++                userData.seedAccountType = truncateString(accountType);
+                 userData.seedAccountOptions = accountOptions;
+                 userData.persistSeedData = persist;
+             }

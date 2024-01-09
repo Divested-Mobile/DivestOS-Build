@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jakub Pawlowski <jpawlowski@google.com>
+Date: Wed, 21 Mar 2018 17:13:36 -0700
+Subject: [PATCH] LE Advertising Report parsing enhancements
+
+Reject invalid data length for advertisement data.
+Also, don't attempt to resolve anonymous advertising addresses.
+
+Test: LE scanning tests
+Bug: 73193883
+Change-Id: I1cb330bc30fdcaebc86527cd2656c9dd7932b318
+(cherry picked from commit 47efa5b569e8dfa6c4397f0a9598d8137f71a05f)
+---
+ stack/btm/btm_ble_gap.cc | 17 ++++++++++++++---
+ stack/include/bt_types.h |  1 +
+ 2 files changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/stack/btm/btm_ble_gap.cc b/stack/btm/btm_ble_gap.cc
+index bf526b67f..4f09f270a 100644
+--- a/stack/btm/btm_ble_gap.cc
++++ b/stack/btm/btm_ble_gap.cc
+@@ -1909,13 +1909,20 @@ void btm_ble_process_ext_adv_pkt(uint8_t data_len, uint8_t* data) {
+ 
+     uint8_t* pkt_data = p;
+     p += pkt_data_len; /* Advance to the the next packet*/
++    if (p > data + data_len) {
++      LOG(ERROR) << "Invalid pkt_data_len: " << +pkt_data_len;
++      return;
++    }
+ 
+     if (rssi >= 21 && rssi <= 126) {
+-      BTM_TRACE_ERROR("%s: bad rssi value in advertising report: ", __func__,
+-                      pkt_data_len, rssi);
++      BTM_TRACE_ERROR("%s: bad rssi value in advertising report: %d", __func__,
++                      rssi);
++    }
++
++    if (addr_type != BLE_ADDR_ANONYMOUS) {
++      btm_ble_process_adv_addr(bda, &addr_type);
+     }
+ 
+-    btm_ble_process_adv_addr(bda, &addr_type);
+     btm_ble_process_adv_pkt_cont(event_type, addr_type, bda, primary_phy,
+                                  secondary_phy, advertising_sid, tx_power, rssi,
+                                  periodic_adv_int, pkt_data_len, pkt_data);
+@@ -1954,6 +1961,10 @@ void btm_ble_process_adv_pkt(uint8_t data_len, uint8_t* data) {
+ 
+     uint8_t* pkt_data = p;
+     p += pkt_data_len; /* Advance to the the rssi byte */
++    if (p > data + data_len - sizeof(rssi)) {
++      LOG(ERROR) << "Invalid pkt_data_len: " << +pkt_data_len;
++      return;
++    }
+ 
+     STREAM_TO_INT8(rssi, p);
+ 
+diff --git a/stack/include/bt_types.h b/stack/include/bt_types.h
+index 6acce0ffc..1c7e54ea2 100644
+--- a/stack/include/bt_types.h
++++ b/stack/include/bt_types.h
+@@ -729,6 +729,7 @@ typedef struct {
+ #define BLE_ADDR_RANDOM 0x01
+ #define BLE_ADDR_PUBLIC_ID 0x02
+ #define BLE_ADDR_RANDOM_ID 0x03
++#define BLE_ADDR_ANONYMOUS 0xFF
+ typedef uint8_t tBLE_ADDR_TYPE;
+ #define BLE_ADDR_TYPE_MASK (BLE_ADDR_RANDOM | BLE_ADDR_PUBLIC)
+ 

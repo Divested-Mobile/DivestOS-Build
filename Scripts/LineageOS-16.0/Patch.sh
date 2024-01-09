@@ -172,6 +172,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/379147-backport.patch"; #R_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/379148-backport.patch"; #R_asb_2024-01 [CDM] Validate component name length before requesting notification access.
 applyPatch "$DOS_PATCHES/android_frameworks_base/379149-backport.patch"; #R_asb_2024-01 Log to detect usage of whitelistToken when sending non-PI target
 applyPatch "$DOS_PATCHES/android_frameworks_base/379150.patch"; #R_asb_2024-01 Fix vulnerability that allowed attackers to start arbitary activities
+applyPatch "$DOS_PATCHES/android_frameworks_base/379136.patch"; #R_asb_2024-01 Fix ActivityManager#killBackgroundProcesses permissions
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
