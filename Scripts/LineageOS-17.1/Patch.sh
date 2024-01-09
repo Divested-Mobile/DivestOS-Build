@@ -145,6 +145,8 @@ git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/85/3
 git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/86/378086/1 && git cherry-pick FETCH_HEAD;
 git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/87/378087/1 && git cherry-pick FETCH_HEAD;
 git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/88/378088/1 && git cherry-pick FETCH_HEAD;
+git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/14/378314/1 && git cherry-pick FETCH_HEAD;
+git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/15/378315/1 && git cherry-pick FETCH_HEAD;
 fi;
 
 if enterAndClear "external/svox"; then
