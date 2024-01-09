@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Songyue Han <songyueh@google.com>
+Date: Tue, 3 Oct 2023 22:40:14 +0000
+Subject: [PATCH] Fix convertYUV420Planar16ToY410 overflow issue for
+ unsupported cropwidth.
+
+Bug: 300476626
+Test: color_conversion_fuzzer
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:de2ad0fad97d6d97d1e01f0e8d8309536eb268b4)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:745ab99f7343bc236b88b9d63cd7b06ab192f9e9)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:aa8298ec8eb903e1e3dd915fa24f32e1aea1f76c)
+Merged-In: I8631426188af3c5f9b6c1ff6a0039254c252f733
+Change-Id: I8631426188af3c5f9b6c1ff6a0039254c252f733
+---
+ media/libstagefright/colorconversion/ColorConverter.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/media/libstagefright/colorconversion/ColorConverter.cpp b/media/libstagefright/colorconversion/ColorConverter.cpp
+index d685321028..c491d8043b 100644
+--- a/media/libstagefright/colorconversion/ColorConverter.cpp
++++ b/media/libstagefright/colorconversion/ColorConverter.cpp
+@@ -648,7 +648,8 @@ status_t ColorConverter::convertYUV420Planar16ToY410(
+ 
+         uint32_t u01, v01, y01, y23, y45, y67, uv0, uv1;
+         size_t x = 0;
+-        for (; x < src.cropWidth() - 3; x += 4) {
++        // x % 4 is always 0 so x + 3 will never overflow.
++        for (; x + 3 < src.cropWidth(); x += 4) {
+             u01 = *((uint32_t*)ptr_u); ptr_u += 2;
+             v01 = *((uint32_t*)ptr_v); ptr_v += 2;
+ 

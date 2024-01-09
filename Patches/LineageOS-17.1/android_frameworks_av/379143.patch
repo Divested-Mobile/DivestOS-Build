@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Harish Mahendrakar <harish.mahendrakar@ittiam.com>
+Date: Mon, 28 Aug 2023 17:35:56 +0000
+Subject: [PATCH] Codec2BufferUtils: Use cropped dimensions in RGB to YUV
+ conversion
+
+Bug: 283099444
+Test: poc in the bug
+(cherry picked from https://partner-android-review.googlesource.com/q/commit:3875b858a347e25db94574e6362798a849bf9ebd)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:4eba80f6698cb2d7aa48ea4f7728dbdf11f29fd3)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:d83225b43057dd25deb5083772e6ebc2f5e5253b)
+Merged-In: I42c71616c9d50f61c92f461f6a91f5addb1d724a
+Change-Id: I42c71616c9d50f61c92f461f6a91f5addb1d724a
+---
+ media/codec2/sfplugin/utils/Codec2BufferUtils.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/media/codec2/sfplugin/utils/Codec2BufferUtils.cpp b/media/codec2/sfplugin/utils/Codec2BufferUtils.cpp
+index bf2a07ee52..9bc8eb9c4c 100644
+--- a/media/codec2/sfplugin/utils/Codec2BufferUtils.cpp
++++ b/media/codec2/sfplugin/utils/Codec2BufferUtils.cpp
+@@ -361,8 +361,8 @@ status_t ConvertRGBToPlanarYUV(
+     const uint8_t *pBlue  = src.data()[C2PlanarLayout::PLANE_B];
+ 
+ #define CLIP3(x,y,z) (((z) < (x)) ? (x) : (((z) > (y)) ? (y) : (z)))
+-    for (size_t y = 0; y < src.height(); ++y) {
+-        for (size_t x = 0; x < src.width(); ++x) {
++    for (size_t y = 0; y < src.crop().height; ++y) {
++        for (size_t x = 0; x < src.crop().width; ++x) {
+             uint8_t red = *pRed;
+             uint8_t green = *pGreen;
+             uint8_t blue = *pBlue;

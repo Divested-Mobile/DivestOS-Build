@@ -98,6 +98,7 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
+sed -i 's/2023-12-05/2024-01-05/' core/version_defaults.mk; #Bump Security String #R_asb_2024-01
 fi;
 
 if enterAndClear "build/soong"; then
@@ -160,7 +161,18 @@ if enterAndClear "external/zlib"; then
 git fetch https://github.com/LineageOS/android_external_zlib refs/changes/70/352570/1 && git cherry-pick FETCH_HEAD; #Q_asb_2023-03
 fi;
 
+if enterAndClear "frameworks/av"; then
+applyPatch "$DOS_PATCHES/android_frameworks_av/379143.patch"; #R_asb_2024-01 Codec2BufferUtils: Use cropped dimensions in RGB to YUV conversion
+applyPatch "$DOS_PATCHES/android_frameworks_av/379144.patch"; #R_asb_2024-01 Fix convertYUV420Planar16ToY410 overflow issue for unsupported cropwidth.
+fi;
+
 if enterAndClear "frameworks/base"; then
+applyPatch "$DOS_PATCHES/android_frameworks_base/379145.patch"; #R_asb_2024-01 Dismiss keyguard when simpin auth'd and...
+applyPatch "$DOS_PATCHES/android_frameworks_base/379146-backport.patch"; #R_asb_2024-01 Ensure finish lockscreen when usersetup incomplete
+applyPatch "$DOS_PATCHES/android_frameworks_base/379147-backport.patch"; #R_asb_2024-01 Truncate user data to a limit of 500 characters
+applyPatch "$DOS_PATCHES/android_frameworks_base/379148-backport.patch"; #R_asb_2024-01 [CDM] Validate component name length before requesting notification access.
+applyPatch "$DOS_PATCHES/android_frameworks_base/379149-backport.patch"; #R_asb_2024-01 Log to detect usage of whitelistToken when sending non-PI target
+applyPatch "$DOS_PATCHES/android_frameworks_base/379150.patch"; #R_asb_2024-01 Fix vulnerability that allowed attackers to start arbitary activities
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -296,6 +308,10 @@ if enterAndClear "packages/apps/Bluetooth"; then
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
+if enterAndClear "packages/apps/Camera2"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Camera2/379151.patch"; #R_asb_2024-01 Do not pass location info for startActivity case
+fi;
+
 #if enterAndClear "packages/apps/CarrierConfig"; then
 #rm -rf assets/*.xml;
 #cp $DOS_PATCHES_COMMON/android_packages_apps_CarrierConfig/*.xml assets/;
@@ -325,6 +341,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_packages_apps_Messaging/0002-missing-cha
 fi;
 
 if enterAndClear "packages/apps/Nfc"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/379152.patch"; #R_asb_2024-01 Possible deadlock on the NfcService object
 if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
@@ -337,6 +354,7 @@ fi;
 
 if enterAndClear "packages/apps/Settings"; then
 git revert --no-edit 486980cfecce2ca64267f41462f9371486308e9d; #Don't hide OEM unlock
+#applyPatch "$DOS_PATCHES/android_packages_apps_Settings/379153-backport.patch"; #R_asb_2024-01 Validate ringtone URIs before setting
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/272651.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle-gos.patch"; #Add option to disable captive portal checks (GrapheneOS) #FIXME: needs work
@@ -395,6 +413,7 @@ applyPatch "$DOS_PATCHES/android_prebuilts_abi-dumps_vndk/0001-protobuf-avi.patc
 fi;
 
 if enterAndClear "system/bt"; then
+applyPatch "$DOS_PATCHES/android_system_bt/379154.patch"; #R_asb_2024-01 Fix some OOB errors in BTM parsing
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272648.patch"; #ten-bt-sbc-hd-dualchannel: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272649.patch"; #ten-bt-sbc-hd-dualchannel: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
@@ -444,6 +463,14 @@ fi;
 if enterAndClear "tools/apksig"; then
 applyPatch "$DOS_PATCHES/android_tools_apksig/360973-backport-prereq.patch"; #R_asb_2023-07 Create source stamp verifier
 applyPatch "$DOS_PATCHES/android_tools_apksig/360973-backport.patch"; #R_asb_2023-07 Limit the number of supported v1 and v2 signers
+fi;
+
+if enterAndClear "vendor/nxp/opensource/commonsys/packages/apps/Nfc"; then
+applyPatch "$DOS_PATCHES/android_vendor_nxp_opensource_packages_apps_Nfc/379155.patch"; #R_asb_2024-01 Possible deadlock on the NfcService object
+fi;
+
+if enterAndClear "vendor/qcom/opensource/commonsys/system/bt/"; then
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/379156.patch"; #R_asb_2024-01 Fix some OOB errors in BTM parsing
 fi;
 
 if enterAndClear "vendor/lineage"; then
