@@ -462,6 +462,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-45887/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-45919/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-45934/4.4/0008.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-47929/4.4/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48619/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-Misc2/3.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0394/4.4/0007.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0458/4.4/0001.patch
@@ -500,7 +501,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
-editKernelLocalversion "-dos.p500"
+editKernelLocalversion "-dos.p501"
 else echo "kernel_nextbit_msm8992 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

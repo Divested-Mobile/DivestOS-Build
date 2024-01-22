@@ -70,6 +70,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3903/^6.0/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4382/^6.2/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-4662/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20148/^5.15/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20158/^5.15/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20571/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-27950/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0030/^4.20/0001.patch
@@ -81,15 +82,12 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4134/^6.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4194/^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4194/^6.5/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-4623/4.12-^6.5/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-6932/4.19/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-6040/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-25775/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28553/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/^6.5/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51780/4.19/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51781/4.19/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51782/4.19/0003.patch
-editKernelLocalversion "-dos.p89"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0340/^6.4/0001.patch
+editKernelLocalversion "-dos.p87"
 else echo "kernel_fairphone_sm7225 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
