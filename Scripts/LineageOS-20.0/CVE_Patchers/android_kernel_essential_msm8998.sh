@@ -255,13 +255,16 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42752/^6.5/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42754/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45862/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45863/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-46343/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51780/4.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51781/4.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51782/4.4/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0639/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0775/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.4/0004.patch
-editKernelLocalversion "-dos.p261"
+editKernelLocalversion "-dos.p264"
 else echo "kernel_essential_msm8998 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

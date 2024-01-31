@@ -59,6 +59,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-BleedingToothExtras/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-1963/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3493/^5.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-28039/^5.11/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33630/^5.3/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-35085/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-39633/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-3061/^5.18/0001.patch
@@ -84,8 +85,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-6040/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28553/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/^6.5/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-46838/4.19/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0340/^6.4/0001.patch
-editKernelLocalversion "-dos.p85"
+editKernelLocalversion "-dos.p87"
 else echo "kernel_oneplus_sm8250 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

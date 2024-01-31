@@ -3,6 +3,7 @@ if cd "$DOS_BUILD_BASE""kernel/xiaomi/vayu"; then
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0326-0327.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0332-0333.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0333-0334.patch --exclude=Makefile
+git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/4.14/4.14.0334-0335.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes-Steam/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-Graphene-Deny_USB/4.14/0003.patch
@@ -81,8 +82,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-25775/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-28553/qca-wifi-host-cmn/0001.patch --directory=drivers/staging/qca-wifi-host-cmn
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-31083/^6.5/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45863/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-46343/4.14/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-46838/^6.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0340/^6.4/0001.patch
-editKernelLocalversion "-dos.p82"
+editKernelLocalversion "-dos.p85"
 else echo "kernel_xiaomi_vayu is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
