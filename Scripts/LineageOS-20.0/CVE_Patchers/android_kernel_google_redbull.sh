@@ -202,6 +202,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-40283/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42752/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42754/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-42755/4.19/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-43513/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45862/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45863/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45871/4.19/0003.patch
@@ -214,7 +215,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51782/4.19/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0340/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0639/4.19/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0775/4.19/0004.patch
-editKernelLocalversion "-dos.p214"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-23849/^6.7/0001.patch
+editKernelLocalversion "-dos.p216"
 else echo "kernel_google_redbull is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
