@@ -9,10 +9,10 @@ Subject: [PATCH] Bluetooth auto turn off
  2 files changed, 82 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 1f606fefeb36..66f100ead954 100644
+index 5c7851d3fb41..8fb1272a5800 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -16402,6 +16402,12 @@ public final class Settings {
+@@ -16409,6 +16409,12 @@ public final class Settings {
           * @hide
           */
          public static final String SETTINGS_REBOOT_AFTER_TIMEOUT = "settings_reboot_after_timeout";

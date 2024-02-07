@@ -9,10 +9,10 @@ Subject: [PATCH] Wi-Fi auto turn off
  2 files changed, 75 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 66f100ead954..d7cc36ff4ae2 100644
+index 8fb1272a5800..8cb77c608f4a 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -16396,6 +16396,12 @@ public final class Settings {
+@@ -16403,6 +16403,12 @@ public final class Settings {
           */
          public static final String RESTRICTED_NETWORKING_MODE = "restricted_networking_mode";
  

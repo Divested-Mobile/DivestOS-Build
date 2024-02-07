@@ -9,7 +9,7 @@ Subject: [PATCH] make monet based theming user configurable
  2 files changed, 65 insertions(+), 32 deletions(-)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index d7cc36ff4ae2..72e6362c0a96 100644
+index 8cb77c608f4a..f4db96f153e4 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
 @@ -6341,6 +6341,27 @@ public final class Settings {

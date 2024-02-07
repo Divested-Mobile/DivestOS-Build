@@ -13,10 +13,10 @@ Change-Id: If891bfbcc144c9336ba013260bad2b7c7a59c054
  4 files changed, 46 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 1c5650b540f0..1f606fefeb36 100644
+index 62805ae63b43..5c7851d3fb41 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -16395,6 +16395,13 @@ public final class Settings {
+@@ -16402,6 +16402,13 @@ public final class Settings {
           * @hide
           */
          public static final String RESTRICTED_NETWORKING_MODE = "restricted_networking_mode";

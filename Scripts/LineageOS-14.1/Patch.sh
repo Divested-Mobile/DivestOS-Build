@@ -76,7 +76,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2024-01-05/' core/version_defaults.mk; #Bump Security String #n-asb-2024-01 #XXX
+sed -i 's/2021-06-05/2024-02-05/' core/version_defaults.mk; #Bump Security String #n-asb-2024-02 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -168,6 +168,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_av/321222.patch"; #n-asb-2022-01 Sim
 applyPatch "$DOS_PATCHES/android_frameworks_av/358729.patch"; #n-asb-2023-06 Fix NuMediaExtractor::readSampleData buffer Handling
 applyPatch "$DOS_PATCHES/android_frameworks_av/365698.patch"; #n-asb-2023-09 Fix Segv on unknown address error flagged by fuzzer test.
 applyPatch "$DOS_PATCHES/android_frameworks_av/373035.patch"; #n-asb-2023-11 Fix for heap buffer overflow issue flagged by fuzzer test.
+applyPatch "$DOS_PATCHES/android_frameworks_av/381852.patch"; #n-asb-2024-02 Update mtp packet buffer
 fi;
 
 if enterAndClear "frameworks/base"; then
@@ -539,6 +540,8 @@ applyPatch "$DOS_PATCHES/android_system_bt/378958.patch"; #n-asb-2024-01 Simplif
 applyPatch "$DOS_PATCHES/android_system_bt/378959.patch"; #n-asb-2024-01 Simplify LE Advertising Report Event processing
 applyPatch "$DOS_PATCHES/android_system_bt/378960.patch"; #n-asb-2024-01 LE Advertising Report parsing enhancements
 applyPatch "$DOS_PATCHES/android_system_bt/378961.patch"; #n-asb-2024-01 Fix some OOB errors in BTM parsing
+applyPatch "$DOS_PATCHES/android_system_bt/381850.patch"; #n-asb-2024-02 Fix an OOB bug in btif_to_bta_response and attp_build_value_cmd
+applyPatch "$DOS_PATCHES/android_system_bt/381851.patch"; #n-asb-2024-02 Fix an OOB write bug in attp_build_read_by_type_value_cmd
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #bt-sbc-hd-dualchannel-nougat: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #bt-sbc-hd-dualchannel-nougat: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)

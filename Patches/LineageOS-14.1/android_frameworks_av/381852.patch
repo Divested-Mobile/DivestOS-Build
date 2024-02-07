@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ashish Kumar Gupta <kumarashishg@google.com>
+Date: Tue, 21 Nov 2023 08:48:43 +0530
+Subject: [PATCH] Update mtp packet buffer
+
+Currently, the buffer size is not changed when the packet size is increased. Ideally, the buffer size should be larger than the packet size. In our case, when the packet size is increased, we must reallocate the buffer of MTP packet.
+
+Bug: 300007708
+Test: build and flash the device. Check MTP works
+Test: run fuzzer locally
+(cherry picked from commit e1494a2d8e7eee25d7ea5469be43740e97294c99)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:5c0f99beb6fa5ff920caf5b0d06aaebc8e9eab24)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:edf60c63243903b9f27f58f4954c599470d011fd)
+Merged-In: I98398a9e15962e6d5f08445ee7b17f5d61a3a528
+Change-Id: I98398a9e15962e6d5f08445ee7b17f5d61a3a528
+---
+ media/mtp/MtpPacket.cpp | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/media/mtp/MtpPacket.cpp b/media/mtp/MtpPacket.cpp
+index b7546c8437..d518ceb030 100644
+--- a/media/mtp/MtpPacket.cpp
++++ b/media/mtp/MtpPacket.cpp
+@@ -168,8 +168,10 @@ void MtpPacket::setParameter(int index, uint32_t value) {
+         return;
+     }
+     int offset = MTP_CONTAINER_PARAMETER_OFFSET + (index - 1) * sizeof(uint32_t);
+-    if (mPacketSize < offset + sizeof(uint32_t))
++    if (mPacketSize < offset + sizeof(uint32_t)) {
+         mPacketSize = offset + sizeof(uint32_t);
++        allocate(mPacketSize);
++    }
+     putUInt32(offset, value);
+ }
+ 
