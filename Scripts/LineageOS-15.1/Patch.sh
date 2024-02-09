@@ -74,7 +74,7 @@ applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv a
 applyPatch "$DOS_PATCHES/android_build/0003-verity-openssl3.patch"; #Fix VB 1.0 failure due to openssl output format change
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2024-01-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2024-02-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -151,6 +151,7 @@ if enterAndClear "frameworks/av"; then
 applyPatch "$DOS_PATCHES/android_frameworks_av/358729.patch"; #n-asb-2023-06 Fix NuMediaExtractor::readSampleData buffer Handling
 applyPatch "$DOS_PATCHES/android_frameworks_av/365962.patch"; #R_asb_2023-09 Fix Segv on unknown address error flagged by fuzzer test.
 applyPatch "$DOS_PATCHES/android_frameworks_av/373949.patch"; #R_asb_2023-11 Fix for heap buffer overflow issue flagged by fuzzer test.
+applyPatch "$DOS_PATCHES/android_frameworks_av/381886.patch"; #R_asb_2024-02 Update mtp packet buffer
 fi;
 
 if enterAndClear "frameworks/base"; then
@@ -233,6 +234,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/379148-backport.patch"; #R_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/379149-backport.patch"; #R_asb_2024-01 Log to detect usage of whitelistToken when sending non-PI target
 applyPatch "$DOS_PATCHES/android_frameworks_base/379150.patch"; #R_asb_2024-01 Fix vulnerability that allowed attackers to start arbitary activities
 applyPatch "$DOS_PATCHES/android_frameworks_base/379136.patch"; #R_asb_2024-01 Fix ActivityManager#killBackgroundProcesses permissions
+#applyPatch "$DOS_PATCHES/android_frameworks_base/381889-backport.patch"; #R_asb_2024-02 Unbind TileService onNullBinding #XXX: TileLifecycleManager.java:197.17: The method onNullBinding(ComponentName) of type TileLifecycleManager must override or implement a supertype method
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
@@ -500,6 +502,8 @@ applyPatch "$DOS_PATCHES/android_system_bt/377031.patch"; #R_asb_2023-12 BT: Fix
 applyPatch "$DOS_PATCHES/android_system_bt/379154-prereq-1.patch"; #R_asb_2024-01 Fix addr_type overriding by btm_ble_process_adv_addr().
 applyPatch "$DOS_PATCHES/android_system_bt/379154-prereq-2.patch"; #R_asb_2024-01 LE Advertising Report parsing enhancements
 applyPatch "$DOS_PATCHES/android_system_bt/379154.patch"; #R_asb_2024-01 Fix some OOB errors in BTM parsing
+applyPatch "$DOS_PATCHES/android_system_bt/381894-backport.patch"; #R_asb_2024-02 Fix an OOB bug in btif_to_bta_response and attp_build_value_cmd
+applyPatch "$DOS_PATCHES/android_system_bt/381895.patch"; #R_asb_2024-02 Fix an OOB write bug in attp_build_read_by_type_value_cmd
 fi;
 
 if enterAndClear "system/ca-certificates"; then

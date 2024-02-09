@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hui Peng <phui@google.com>
+Date: Wed, 29 Nov 2023 18:23:53 +0000
+Subject: [PATCH] Fix an OOB write bug in attp_build_read_by_type_value_cmd
+
+This is a backport of I2a95bbcce9a16ac84dd714eb4561428711a9872e
+
+Bug: 297524203
+Test: m com.android.btservices
+Ignore-AOSP-First: security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:9cdac321797cbe8214bc3f6294ca9a71a4be07a7)
+Merged-In: I8c5daedb1605307df697ea5d875153dfcf3f5181
+Change-Id: I8c5daedb1605307df697ea5d875153dfcf3f5181
+---
+ stack/gatt/att_protocol.cc | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/stack/gatt/att_protocol.cc b/stack/gatt/att_protocol.cc
+index ce809d04e..35be063ee 100644
+--- a/stack/gatt/att_protocol.cc
++++ b/stack/gatt/att_protocol.cc
+@@ -156,8 +156,14 @@ BT_HDR* attp_build_read_by_type_value_cmd(uint16_t payload_size,
+                                           tGATT_FIND_TYPE_VALUE* p_value_type) {
+   uint8_t* p;
+   uint16_t len = p_value_type->value_len;
+-  BT_HDR* p_buf =
+-      (BT_HDR*)osi_malloc(sizeof(BT_HDR) + payload_size + L2CAP_MIN_OFFSET);
++  BT_HDR* p_buf = nullptr;
++
++  if (payload_size < 5) {
++    return nullptr;
++  }
++
++  p_buf =
++  (BT_HDR*)osi_malloc(sizeof(BT_HDR) + payload_size + L2CAP_MIN_OFFSET);
+ 
+   p = (uint8_t*)(p_buf + 1) + L2CAP_MIN_OFFSET;
+   p_buf->offset = L2CAP_MIN_OFFSET;
