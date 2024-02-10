@@ -145,7 +145,7 @@ done
 declare -a fourDotNine=("${fourDotFour[@]}" "android_kernel_fairphone_sdm632.sh" "android_kernel_google_msm-4.9.sh" "android_kernel_oneplus_sdm845.sh" "android_kernel_razer_sdm845.sh" "android_kernel_samsung_exynos9810.sh" "android_kernel_samsung_universal9810.sh" "android_kernel_sony_sdm845.sh" "android_kernel_xiaomi_msm8937.sh" "android_kernel_xiaomi_sdm845.sh");
 for script in "${fourDotNine[@]}"
 do
-	commentPatches $script "CVE-2018-11412/4.14" "CVE-2020-0067/4.14" "CVE-2022-1204/4.14" "CVE-2023-0461/4.14" "CVE-2023-31084" "CVE-2023-4623/^6.5"; #handle 4.14
+	commentPatches $script "CVE-2018-11412/4.14" "CVE-2020-0067/4.14" "CVE-2022-1204/4.14" "CVE-2023-0461/4.14" "CVE-2023-31084" "CVE-2023-4623/^6.5" "CVE-2024-0775/4.14"; #handle 4.14
 done
 
 echo -e "\e[0;32m[SCRIPT COMPLETE] Fixed CVE patchers\e[0m";

@@ -11,10 +11,10 @@ Change-Id: I5c31c319d198f09ace493e601278f8224a259f05
  3 files changed, 40 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 6692d09c17c4..cff4ec23b844 100644
+index 2f8fc0d12099..3241e6e3f0cb 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -17369,6 +17369,15 @@ public final class Settings {
+@@ -17376,6 +17376,15 @@ public final class Settings {
           */
          public static final String SETTINGS_REBOOT_AFTER_TIMEOUT = "settings_reboot_after_timeout";
  

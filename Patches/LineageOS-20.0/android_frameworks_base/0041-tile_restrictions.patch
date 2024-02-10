@@ -419,7 +419,7 @@ index 92d3956ea303..6ca5073dfa85 100644
              return;
          }
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/RotationLockTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/RotationLockTile.java
-index 8888c733c3c1..3c9aef445efe 100644
+index 093aba6fd2c9..246c16e7901f 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/RotationLockTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/RotationLockTile.java
 @@ -48,6 +48,7 @@ import com.android.systemui.qs.SettingObserver;
@@ -439,7 +439,7 @@ index 8888c733c3c1..3c9aef445efe 100644
          BatteryController.BatteryStateChangeCallback {
  
      public static final String TILE_SPEC = "rotation";
-@@ -81,10 +82,11 @@ public class RotationLockTile extends QSTileImpl<BooleanState> implements
+@@ -84,10 +85,11 @@ public class RotationLockTile extends QSTileImpl<BooleanState> implements
              RotationLockController rotationLockController,
              SensorPrivacyManager privacyManager,
              BatteryController batteryController,
@@ -453,7 +453,7 @@ index 8888c733c3c1..3c9aef445efe 100644
          mController = rotationLockController;
          mController.observe(this, mCallback);
          mPrivacyManager = privacyManager;
-@@ -126,7 +128,11 @@ public class RotationLockTile extends QSTileImpl<BooleanState> implements
+@@ -129,7 +131,11 @@ public class RotationLockTile extends QSTileImpl<BooleanState> implements
      }
  
      @Override
