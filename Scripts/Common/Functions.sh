@@ -620,7 +620,7 @@ hardenUserdata() {
 
 	#TODO: Ensure: noatime,nosuid,nodev
 	sed -i '/\/data/{/discard/!s|nosuid|discard,nosuid|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
-	if [ "$1" != "device/samsung/tuna" ] && [ "$1" != "device/amazon/hdx-common" ] && [ "$1" != "device/motorola/athene" ]; then #tuna needs first boot to init, hdx-c has broken encryption
+	if [ "$1" != "device/samsung/tuna" ] && [ "$1" != "device/amazon/hdx-common" ] && [ "$1" != "device/motorola/athene" ] && [[ "$DOS_VERSION" != "LineageOS-20.0" ]]; then #tuna needs first boot to init, hdx-c has broken encryption
 		sed -i 's|encryptable=/|forceencrypt=/|' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 	fi;
 	echo "Hardened /data for $1";
