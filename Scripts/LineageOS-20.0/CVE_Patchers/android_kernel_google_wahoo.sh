@@ -225,10 +225,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51781/4.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51782/4.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0340/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0639/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.4/0004.patch
-editKernelLocalversion "-dos.p228"
+editKernelLocalversion "-dos.p229"
 else echo "kernel_google_wahoo is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
