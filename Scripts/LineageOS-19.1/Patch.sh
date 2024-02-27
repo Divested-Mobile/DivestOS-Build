@@ -128,6 +128,7 @@ sed -i '11iLOCAL_OVERRIDES_PACKAGES := Camera Camera2 LegacyCamera Snap OpenCame
 fi;
 
 if enterAndClear "frameworks/base"; then
+git revert --no-edit 83fe523914728a3674debba17a6019cb74803045; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/344888-backport.patch"; #fixup! fw/b: Add support for allowing/disallowing apps on cellular, vpn and wifi networks (CalyxOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)

@@ -125,6 +125,7 @@ fi;
 fi;
 
 if enterAndClear "frameworks/base"; then
+git revert --no-edit 438d9feacfcad73d3ee918541574132928a93644; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
