@@ -271,6 +271,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20054/3.18/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20096/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20636/^5.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20812/3.4/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-25160/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0009/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0040/3.4/0002.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0305/4.4/0005.patch
@@ -402,13 +403,14 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45862/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45863/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51780/4.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51782/4.4/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52436/^6.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
-editKernelLocalversion "-dos.p408"
+editKernelLocalversion "-dos.p410"
 else echo "kernel_lge_hammerhead is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

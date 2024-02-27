@@ -315,6 +315,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20054/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20054/3.18/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20096/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-20636/3.4/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-25160/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0009/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0040/3.4/0002.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0305/4.4/0005.patch
@@ -466,7 +467,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-39193/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45862/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51780/4.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51782/4.4/0009.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52436/^6.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26606/^6.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/LVT-2017-0003/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
@@ -474,7 +477,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13167/3.4/0014.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
-editKernelLocalversion "-dos.p474"
+editKernelLocalversion "-dos.p477"
 else echo "kernel_samsung_jf is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
