@@ -65,6 +65,11 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3656/4.14/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-33098/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-44879/^5.16/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-45469/4.9-^5.16/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-46909/4.14/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-46912/^5.12/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-46935/^5.16/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-46999/^5.12/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47058/^5.12/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1204/4.14/0006.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1204/4.14/0007.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1204/4.14/0008.patch
@@ -145,6 +150,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52436/^6.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52444/^6.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52445/^6.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52470/^6.7/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52475/4.14/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52477/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0340/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0639/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
@@ -152,7 +159,7 @@ git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-fortify/4.9/000
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0005.patch
-editKernelLocalversion "-dos.p152"
+editKernelLocalversion "-dos.p159"
 else echo "kernel_google_msm-4.9 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

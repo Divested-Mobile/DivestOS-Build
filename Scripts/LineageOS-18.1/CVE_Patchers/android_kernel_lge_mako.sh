@@ -26,6 +26,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-25160/3.18/0002.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24588/4.4/0019.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-3428/4.4/0013.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-44879/4.4/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-46932/4.4/0004.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-40768/4.4/0008.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-47929/4.4/0007.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0458/4.4/0001.patch
@@ -49,8 +50,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45862/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51780/4.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51782/4.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52436/^6.7/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52475/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
-editKernelLocalversion "-dos.p50"
+editKernelLocalversion "-dos.p52"
 else echo "kernel_lge_mako is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
