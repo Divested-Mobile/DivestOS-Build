@@ -334,6 +334,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51782/4.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52436/^6.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52445/^6.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52475/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52507/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52566/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
@@ -343,7 +345,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
-editKernelLocalversion "-dos.p343"
+editKernelLocalversion "-dos.p345"
 else echo "kernel_samsung_apq8084 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

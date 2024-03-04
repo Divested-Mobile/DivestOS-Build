@@ -213,11 +213,13 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52444/^6.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52445/^6.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52475/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52478/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52507/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52566/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0340/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0639/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0775/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
-editKernelLocalversion "-dos.p217"
+editKernelLocalversion "-dos.p219"
 else echo "kernel_lge_msm8996 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
