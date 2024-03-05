@@ -641,6 +641,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-46936/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-46939/3.18/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47006/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47058/^5.12/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47086/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-0330/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-0617/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-0617/4.4/0008.patch
@@ -763,7 +764,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26145/qcacld-2.0/0008.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.4/0006.patch
-editKernelLocalversion "-dos.p763"
+editKernelLocalversion "-dos.p764"
 else echo "kernel_zte_msm8996 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

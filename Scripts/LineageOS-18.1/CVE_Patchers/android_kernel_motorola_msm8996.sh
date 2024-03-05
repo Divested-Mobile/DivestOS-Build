@@ -472,6 +472,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-46939/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-46946/3.18/0001.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47006/4.9/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47058/^5.12/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47086/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-0330/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-0617/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-0617/4.4/0008.patch
@@ -595,7 +596,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.4/0006.patch
-editKernelLocalversion "-dos.p595"
+editKernelLocalversion "-dos.p596"
 else echo "kernel_motorola_msm8996 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
