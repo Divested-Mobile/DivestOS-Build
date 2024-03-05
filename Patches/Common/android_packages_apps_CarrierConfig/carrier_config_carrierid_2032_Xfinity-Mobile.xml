@@ -1,4 +1,165 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <carrier_config>
+    <boolean name="aliasEnabled" value="true"/>
+    <boolean name="allowAttachAudio" value="false"/>
+    <boolean name="allow_add_call_during_video_call" value="false"/>
+    <boolean name="allow_adding_apns_bool" value="false"/>
+    <boolean name="allow_hold_in_ims_call" value="false"/>
+    <boolean name="allow_merge_wifi_calls_when_vowifi_off_bool" value="false"/>
+    <boolean name="apn_expand_bool" value="false"/>
+    <boolean name="broadcast_emergency_call_state_changes_bool" value="true"/>
+    <boolean name="carrier_allow_turnoff_ims_bool" value="false"/>
+    <boolean name="carrier_name_override_bool" value="true"/>
+    <boolean name="carrier_promote_wfc_on_call_fail_bool" value="true"/>
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <boolean name="carrier_volte_provisioned_bool" value="true"/>
+    <boolean name="carrier_volte_provisioning_required_bool" value="true"/>
+    <boolean name="carrier_vt_available_bool" value="true"/>
+    <boolean name="carrier_wfc_ims_available_bool" value="true"/>
+    <boolean name="cdma_home_registered_plmn_name_override_bool" value="true"/>
+    <boolean name="disable_voice_barring_notification_bool" value="true"/>
+    <boolean name="drop_video_call_when_answering_audio_call_bool" value="true"/>
+    <boolean name="dtmf_type_enabled_bool" value="true"/>
+    <boolean name="editable_wfc_mode_bool" value="false"/>
+    <boolean name="editable_wfc_roaming_mode_bool" value="true"/>
+    <boolean name="enableMMSReadReports" value="false"/>
+    <boolean name="enableMultipartSMS" value="true"/>
+    <boolean name="enabledNotifyWapMMSC" value="true"/>
+    <boolean name="enabledTransID" value="true"/>
+    <boolean name="gps.persist_lpp_mode_bool" value="true"/>
     <boolean name="inflate_signal_strength_bool" value="true" />
+    <boolean name="is_ims_conference_size_enforced_bool" value="true"/>
+    <boolean name="mdn_is_additional_voicemail_number_bool" value="true"/>
+    <boolean name="mmsCloseConnection" value="true"/>
+    <boolean name="notify_handover_video_from_lte_to_wifi_bool" value="true"/>
+    <boolean name="notify_handover_video_from_wifi_to_lte_bool" value="true"/>
+    <boolean name="notify_vt_handover_to_wifi_failure_bool" value="true"/>
+    <boolean name="operator_selection_expand_bool" value="true"/>
+    <boolean name="prefer_2g_bool" value="false"/>
+    <boolean name="rtt_supported_bool" value="true"/>
+    <boolean name="show_apn_setting_cdma_bool" value="true"/>
+    <boolean name="sms_requires_destination_number_conversion_bool" value="true"/>
+    <boolean name="support_3gpp_call_forwarding_while_roaming_bool" value="false"/>
+    <boolean name="support_downgrade_vt_to_audio_bool" value="false"/>
+    <boolean name="support_pause_ims_video_calls_bool" value="true"/>
+    <boolean name="support_swap_after_merge_bool" value="false"/>
+    <boolean name="treat_downgraded_video_calls_as_video_calls_bool" value="true"/>
+    <boolean name="ims.enable_presence_publish_bool" value="true"/>
+    <boolean name="video_calls_can_be_hd_audio" value="false"/>
+    <boolean name="voicemail_notification_persistent_bool" value="true"/>
+    <boolean name="wifi_calls_can_be_hd_audio" value="false"/>
+    <boolean name="world_mode_enabled_bool" value="true"/>
+    <int name="aliasMaxChars" value="48"/>
+    <int name="aliasMinChars" value="2"/>
+    <int name="carrier_default_wfc_ims_mode_int" value="1"/>
+    <int name="ims_conference_size_limit_int" value="5"/>
+    <int name="lte_earfcns_rsrp_boost_int" value="6"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxImageWidth" value="2592"/>
+    <int name="maxMessageSize" value="1258291"/>
+    <int name="maxSubjectLength" value="80"/>
+    <int name="recipientLimit" value="20"/>
+    <int name="smsToMmsTextThreshold" value="7"/>
+    <int name="volte_replacement_rat_int" value="6"/>
+    <int name="wfc_spn_format_idx_int" value="1"/>
+    <string name="carrier_eri_file_name_string">eri_311480_BA01450000000000.xml</string>
+    <string name="carrier_name_string">Verizon</string>
+    <string name="cdma_home_registered_plmn_name_string">XFINITY Mobile</string>
+    <string name="default_vm_number_string">*86</string>
+    <string name="emailGatewayNumber">6245</string>
+    <string name="httpParams">x-up-calling-line-id: 1##LINE1NOCOUNTRYCODE##|X-VzW-MDN: 1##LINE1NOCOUNTRYCODE##</string>
+    <string name="sim_country_iso_override_string">us</string>
+    <string name="uaProfTagName">Profile</string>
+    <string-array name="boosted_lte_earfcns_string_array" num="2">
+        <item value="600-1199"/>
+        <item value="1950-2399"/>
+    </string-array>
+    <string-array name="call_forwarding_blocks_while_roaming_string_array" num="2">
+        <item value="*71"/>
+        <item value="*72"/>
+    </string-array>
+    <string-array name="telephony_data_setup_retry_rules_string_array" num="4">
+        <item value="capabilities=eims, retry_interval=1000, maximum_retries=20"/>
+        <!-- Defines permanent failures. Removed ACTIVATION_REJECT_GGSN and PROTOCOL_ERRORS from default. -->
+        <item value="permanent_fail_causes=8|27|28|29|32|33|35|50|51|-5|-6|65537|65538|-3|65543|65547|2252|2253|2254, retry_interval=2500"/>
+        <item value="capabilities=mms|supl|cbs, retry_interval=2000"/>
+        <item value="capabilities=internet|enterprise|dun|ims|fota, retry_interval=2500|3000|5000|10000|15000|20000|40000|60000|120000|240000|600000|1200000|1800000, maximum_retries=20"/>
+    </string-array>
+    <string-array name="carrier_metered_apn_types_strings" num="3">
+        <item value="default"/>
+        <item value="dun"/>
+        <item value="supl"/>
+    </string-array>
+    <string-array name="carrier_metered_roaming_apn_types_strings" num="4">
+        <item value="default"/>
+        <item value="dun"/>
+        <item value="mms"/>
+        <item value="supl"/>
+    </string-array>
+    <string-array name="dial_string_replace_string_array" num="2">
+        <item value="*611:+19085594899"/>
+        <item value="*86:+1MDN"/>
+    </string-array>
+    <string-array name="filtered_cnap_names_string_array" num="2">
+        <item value="WIRELESS CALLER"/>
+        <item value="UNKNOWN NAME"/>
+    </string-array>
+    <string-array name="ims_reasoninfo_mapping_string_array" num="10">
+        <item value="332|simultaneous call limit has already been reached|1403"/>
+        <item value="332|Forbidden: Simultaneous Call Limit Has Already Been Reached|1403"/>
+        <item value="338|another device sent all devices busy response|1404"/>
+        <item value="501|call completion elsewhere|1014"/>
+        <item value="501|call has been pulled by another device|1016"/>
+        <item value="510|call has been pulled by another device|1016"/>
+        <item value="501|another device sent all devices busy response|1404"/>
+        <item value="510|another device sent all devices busy response|1404"/>
+        <item value="1014|call has been pulled by another device|1016"/>
+        <item value="*|Call is dropped due to Wi-Fi signal is degraded|1407"/>
+    </string-array>
+    <string-array name="read_only_apn_fields_string_array" num="20">
+        <item value="name"/>
+        <item value="proxy"/>
+        <item value="port"/>
+        <item value="user"/>
+        <item value="password"/>
+        <item value="server"/>
+        <item value="mmsc"/>
+        <item value="mmsproxy"/>
+        <item value="mmsport"/>
+        <item value="mcc"/>
+        <item value="mnc"/>
+        <item value="authtype"/>
+        <item value="type"/>
+        <item value="protocol"/>
+        <item value="roaming_protocol"/>
+        <item value="bearer"/>
+        <item value="bearer_bitmask"/>
+        <item value="carrier_enabled"/>
+        <item value="mvno_type"/>
+        <item value="mvno_match_data"/>
+    </string-array>
+    <int-array name="lte_rsrp_thresholds_int_array" num="4">
+        <item value="-115"/>
+        <item value="-105"/>
+        <item value="-95"/>
+        <item value="-85"/>
+    </int-array>
+    <int-array name="cdma_enhanced_roaming_indicator_for_home_network_int_array" num="11">
+        <item value="64"/>
+        <item value="65"/>
+        <item value="66"/>
+        <item value="76"/>
+        <item value="77"/>
+        <item value="78"/>
+        <item value="79"/>
+        <item value="80"/>
+        <item value="81"/>
+        <item value="82"/>
+        <item value="83"/>
+    </int-array>    
+    <string-array name="carrier_certificate_string_array" num="3">
+        <item value="953F5A4C22E7FD16ADC3F12EB038682AAD377FEF9A18B9D12C1ABEA78911C749:com.xfinity.digitalhome"/>
+        <item value="06AADA946110E64414AEBE3AF34AE06BAF239EF75C947149FB67263D8A2547C3:com.xfinity.digitalhome.debug"/>
+        <item value="141E264EB08B576F6C32E49FD47A34300553A132EC5EB1DD58B354A0B15A5E40:com.xfinitymobile.cometcarrierservice"/>
+    </string-array>
 </carrier_config>

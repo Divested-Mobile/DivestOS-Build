@@ -23,4 +23,8 @@
     <string name="httpParams">x-vzw-mdn: 1##LINE1NOCOUNTRYCODE##</string>
     <string name="sim_country_iso_override_string">us</string>
     <string name="uaProfTagName">x-wap-profile</string>
+    <string-array name="carrier_certificate_string_array" num="2">
+        <item value="8C960CA3CBF4A9DA851774F2DE072E57B1289A9CF7D6BDA4A6B386A42BC4FFB3:com.trustonic.telecoms.standard.dlc,com.trustonic.telecoms.client.standard.dlc.playground,com.trustonic.telecoms.standard.dpc"/>
+        <item value="7413E2B365230E1BCB294D687C3B87EE5BC7E3F9:com.trustonic.telecoms.standard.dlc,com.trustonic.telecoms.client.standard.dlc.playground,com.trustonic.telecoms.standard.dpc"/>
+    </string-array>
 </carrier_config>

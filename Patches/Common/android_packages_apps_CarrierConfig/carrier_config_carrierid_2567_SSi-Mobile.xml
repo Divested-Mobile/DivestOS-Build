@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="carrier_name_override_bool" value="true"/>
+    <int name="default_mtu_int" value="1376"/>
+    <int name="maxImageHeight" value="1944"/>
+    <int name="maxSubjectLength" value="80"/>
+    <int name="maxMessageSize" value="1048576"/>
+    <int name="maxImageWidth" value="2592"/>
+    <string name="carrier_name_string">SSi Mobile</string>
+    <string-array name="non_roaming_operator_string_array" num="1">
+        <item value="302480"/>
+    </string-array>
+</carrier_config>

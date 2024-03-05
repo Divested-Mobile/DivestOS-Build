@@ -10,4 +10,10 @@
     <boolean name="carrier_name_override_bool" value="true"/>
     <int name="default_mtu_int" value="1420"/>
     <string name="carrier_name_string">au</string>
+    <string-array name="carrier_certificate_string_array" num="4">
+        <item value="108897103871B684844AA7C791E0C812AB3966576FB5D3713C2D11794C0600AD:com.kddi.cs.app001"/>
+        <item value="5EA3181DF228B4F8B0DECC10B21783F8C6C397F1290F2395FE3E6FDB2B52E991:jp.uqmobile.uqmobileportalapp"/>
+        <item value="891ABE3F0A0D794AD46200DC2374AFF61AFA82711C360EE0CB49C3E6BB2BA006:jp.auone.wallet"/>
+        <item value="1001568BB4A4E65F68C8B0F2E5C9EBC97FF719898F39E421DAF29A8DACEAAF1B:com.kddi.android.cmail"/>
+    </string-array>
 </carrier_config>

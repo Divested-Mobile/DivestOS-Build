@@ -40,6 +40,6 @@
         <item value="#9"/>
     </string-array>
     <string-array name="carrier_certificate_string_array" num="1">
-        <item value="05A54ED7D31A99557BF99D0E2F5E15A89D43E46387C22B30F2014F04432500FA"/>
+        <item value="05A54ED7D31A99557BF99D0E2F5E15A89D43E46387C22B30F2014F04432500FA:com.tango.mobile,com.tango.update,com.tango.entitlements"/>
     </string-array>
 </carrier_config>

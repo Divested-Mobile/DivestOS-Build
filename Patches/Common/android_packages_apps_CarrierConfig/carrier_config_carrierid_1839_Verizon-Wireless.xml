@@ -81,21 +81,12 @@
         <item value="*71"/>
         <item value="*72"/>
     </string-array>
-    <string-array name="carrier_data_call_permanent_failure_strings" num="14">
-        <item value="OPERATOR_BARRED"/>
-        <item value="MISSING_UNKNOWN_APN"/>
-        <item value="UNKNOWN_PDP_ADDRESS_TYPE"/>
-        <item value="USER_AUTHENTICATION"/>
-        <item value="SERVICE_OPTION_NOT_SUPPORTED"/>
-        <item value="SERVICE_OPTION_NOT_SUBSCRIBED"/>
-        <item value="NSAPI_IN_USE"/>
-        <item value="ONLY_IPV4_ALLOWED"/>
-        <item value="ONLY_IPV6_ALLOWED"/>
-        <item value="RADIO_POWER_OFF"/>
-        <item value="TETHERED_CALL_ACTIVE"/>
-        <item value="RADIO_NOT_AVAILABLE"/>
-        <item value="UNACCEPTABLE_NETWORK_PARAMETER"/>
-        <item value="SIGNAL_LOST"/>
+    <string-array name="telephony_data_setup_retry_rules_string_array" num="4">
+        <item value="capabilities=eims, retry_interval=1000, maximum_retries=20"/>
+        <!-- Defines permanent failures. Removed ACTIVATION_REJECT_GGSN and PROTOCOL_ERRORS from default. -->
+        <item value="permanent_fail_causes=8|27|28|29|32|33|35|50|51|-5|-6|65537|65538|-3|65543|65547|2252|2253|2254, retry_interval=2500"/>
+        <item value="capabilities=mms|supl|cbs, retry_interval=2000"/>
+        <item value="capabilities=internet|enterprise|dun|ims|fota, retry_interval=2500|3000|5000|10000|15000|20000|40000|60000|120000|240000|600000|1200000|1800000, maximum_retries=20"/>
     </string-array>
     <string-array name="carrier_metered_apn_types_strings" num="3">
         <item value="default"/>
@@ -151,8 +142,8 @@
         <item value="mvno_match_data"/>
     </string-array>
     <string-array name="carrier_certificate_string_array" num="2">
-        <item value="FF82050BF6BED1F152AC1A12DC83CACBAD401775161882872C6665FC5E15C8F2"/>
-        <item value="AE23A03436DF07B0CD70FE881CDA2EC1D21215D7B7B0CC68E67B67F5DF89526A"/>
+        <item value="FF82050BF6BED1F152AC1A12DC83CACBAD401775161882872C6665FC5E15C8F2:com.verizon.mips.services"/>
+        <item value="AE23A03436DF07B0CD70FE881CDA2EC1D21215D7B7B0CC68E67B67F5DF89526A:com.vzw.hss.myverizon"/>
     </string-array>
     <int-array name="lte_rsrp_thresholds_int_array" num="4">
         <item value="-115"/>
@@ -176,8 +167,6 @@
     <string name="5g_icon_configuration_string">connected_mmwave:5G_Plus,connected:5G,not_restricted_rrc_idle:5G,not_restricted_rrc_con:5G</string>
     <string name="5g_icon_display_grace_period_string">connected_mmwave,any,3;not_restricted_rrc_idle,not_restricted_rrc_con,2</string>
     <string name="5g_icon_display_secondary_grace_period_string">connected_mmwave,not_restricted_rrc_idle,60</string>
-    <boolean name="unmetered_nr_nsa_mmwave_bool" value="true" />
-    <boolean name="unmetered_nr_sa_mmwave_bool" value="true" />
     <boolean name="inflate_signal_strength_bool" value="true" />
     <int-array name="additional_nr_advanced_bands_int_array" num="1">
         <item value="77"/>
@@ -196,6 +185,4 @@
     <string-array name="boosted_nrarfcns_string_array" num="1">
         <item value="200000-866666"/>
     </string-array>
-
-    <int name="carrier_data_call_retry_network_requested_max_count_int" value="20"/>
 </carrier_config>

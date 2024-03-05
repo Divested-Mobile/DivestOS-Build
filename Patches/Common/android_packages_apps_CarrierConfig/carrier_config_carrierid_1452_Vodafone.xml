@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <carrier_config>
     <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <string-array name="carrier_certificate_string_array" num="1">
+      <item value="E4441B21B7374947FBA0CB34EEA9F600F05181056126FAC5FFEB9C34A2841C88:com.zentity.vodafone"/>
+    </string-array>
 </carrier_config>

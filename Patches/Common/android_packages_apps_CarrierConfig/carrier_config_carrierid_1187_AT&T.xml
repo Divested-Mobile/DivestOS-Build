@@ -17,16 +17,11 @@
     <int name="maxImageHeight" value="1944"/>
     <int name="maxImageWidth" value="2592"/>
     <int name="maxMessageSize" value="1048576"/>
-    <int name="recipientLimit" value="10"/>
+    <int name="recipientLimit" value="20"/>
     <int name="volte_replacement_rat_int" value="3"/>
     <int name="ims_dtmf_tone_delay_int" value="120"/>
     <int name="default_mtu_int" value="1430"/>
     <string name="carrier_name_string">AT&amp;T</string>
-    <string-array name="carrier_data_call_retry_config_strings" num="3">
-        <item value="default:default_randomization=2000,10000,18000:5000,720000:5000,2160000:5000"/>
-        <item value="mms:default_randomization=2000,10000,18000:5000,720000:5000,2160000:5000"/>
-        <item value="others:max_retries=3,5000,5000,5000"/>
-    </string-array>
     <string-array name="non_roaming_operator_string_array" num="7">
         <item value="310"/>
         <item value="311"/>
@@ -46,9 +41,6 @@
     <int-array name="radio_restart_failure_causes_int_array" num="1">
         <item value="36"/>
     </int-array>
-    <string-array name="carrier_wlan_disallowed_apn_types_string_array" num="1">
-        <item value="default"/>
-    </string-array>
     <string-array name="ims_reasoninfo_mapping_string_array" num="2">
         <item value="352|emergency calls over wifi not allowed in this location|1622"/>
         <item value="332|service not allowed in this location|1623"/>
@@ -81,4 +73,5 @@
     <boolean name="inflate_signal_strength_bool" value="true" />
     <string name="5g_icon_configuration_string">connected_mmwave:5G_Plus,connected:5G,not_restricted_rrc_idle:5G,not_restricted_rrc_con:5G</string>
     <int name="nr_advanced_threshold_bandwidth_khz_int" value="50000" />
+    <boolean name="include_lte_for_nr_advanced_threshold_bandwidth_bool" value="true"/>
 </carrier_config>

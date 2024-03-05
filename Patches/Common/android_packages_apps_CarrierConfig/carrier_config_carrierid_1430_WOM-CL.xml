@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="carrier_certificate_string_array" num="1">
+        <item value="9A038751D1788E0D28A19055030BCFA945BC2984F8EBBDFC16A980EFD82FF4C5:cl.wom.transformacion.appwommobile"/>
+    </string-array>
+</carrier_config>

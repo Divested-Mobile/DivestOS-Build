@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="carrier_certificate_string_array" num="3">
+        <item value="953F5A4C22E7FD16ADC3F12EB038682AAD377FEF9A18B9D12C1ABEA78911C749:com.xfinity.digitalhome"/>
+        <item value="06AADA946110E64414AEBE3AF34AE06BAF239EF75C947149FB67263D8A2547C3:com.xfinity.digitalhome.debug"/>
+        <item value="141E264EB08B576F6C32E49FD47A34300553A132EC5EB1DD58B354A0B15A5E40:com.xfinitymobile.cometcarrierservice"/>
+    </string-array>
+</carrier_config>

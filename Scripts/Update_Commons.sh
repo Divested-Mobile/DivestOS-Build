@@ -18,31 +18,31 @@ umask 0022;
 set -uo pipefail;
 
 #APN List
-wget "https://github.com/LineageOS/android_vendor_lineage/raw/lineage-20.0/prebuilt/common/etc/apns-conf.xml" -O ../Patches/Common/apns-conf.xml;
+wget "https://github.com/LineageOS/android_vendor_lineage/raw/lineage-21.0/prebuilt/common/etc/apns-conf.xml" -O ../Patches/Common/apns-conf.xml;
 
 #Visual VoiceMail Config
-#wget "https://raw.githubusercontent.com/LineageOS/android_vendor_lineage/lineage-19.1/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
-wget "https://raw.githubusercontent.com/GrapheneOS/platform_packages_apps_Dialer/13/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
+#wget "https://raw.githubusercontent.com/LineageOS/android_vendor_lineage/lineage-21.0/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
+wget "https://raw.githubusercontent.com/GrapheneOS/platform_packages_apps_Dialer/14/java/com/android/voicemail/impl/res/xml/vvm_config.xml" -O ../Patches/./Common/android_vendor_divested/overlay/common/packages/apps/Dialer/java/com/android/voicemail/impl/res/xml/vvm_config.xml;
 
 #LineageOS Contributors Cloud
-wget "https://github.com/LineageOS/android_packages_apps_LineageParts/raw/lineage-20.0/assets/contributors.db" -O ../Patches/Common/contributors.db;
+wget "https://github.com/LineageOS/android_packages_apps_LineageParts/raw/lineage-21.0/assets/contributors.db" -O ../Patches/Common/contributors.db;
 
 #TODO: wireless-regdb, unused
 #https://mirrors.edge.kernel.org/pub/software/network/wireless-regdb/
-#Last: 2023/12/05
+#Last: 2024/03/05
 
 #TODO: MMS Configs
 #https://github.com/GrapheneOS/platform_packages_apps_Messaging
-#Last: 2023/12/05
+#Last: 2024/03/05
 
 #TODO: CA store
 #https://android.googlesource.com/platform/system/ca-certificates
-#Last: 2023/06/17
+#Last: 2024/03/05
 
 #TODO: Carrier List, unused
 #https://android.googlesource.com/platform/packages/providers/TelephonyProvider/
-#Last: 2022/10/12
+#Last: 2024/03/05
 
 #TODO: Carrier Configs, unused
 #https://android.googlesource.com/platform/packages/apps/CarrierConfig/
-#Last: 2022/10/12
+#Last: 2024/03/05

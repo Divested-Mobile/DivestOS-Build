@@ -2,6 +2,7 @@
 <carrier_config>
     <boolean name="inflate_signal_strength_bool" value="true" />
     <string-array name="carrier_certificate_string_array" num="1">
-        <item value="D8EFE020E48AEC0A21E67EFC8FAFC2E674A05C74970381D99175E23C084B7BF0"/>
+        <item value="D8EFE020E48AEC0A21E67EFC8FAFC2E674A05C74970381D99175E23C084B7BF0:com.visiblemobile.flagship"/>
     </string-array>
+    <string name="emailGatewayNumber">6245</string>
 </carrier_config>

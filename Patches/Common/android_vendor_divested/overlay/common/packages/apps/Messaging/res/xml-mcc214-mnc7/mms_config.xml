@@ -8,5 +8,5 @@
     <bool name="enableWapPushSI">true</bool>
     <bool name="enableGroupMms">true</bool>
     <bool name="groupChatDefaultsToMMS">true</bool>
-    <bool name="useCustomUserAgent">true</bool>
+    <bool name="useCustomUserAgent">false</bool>
 </mms_config>

@@ -11,4 +11,7 @@
         <item value="45"/>
     </string-array>
     <string-array name="read_only_apn_types_string_array" num="0"/>
+    <string-array name="carrier_certificate_string_array" num="1">
+      <item value="2E26357C65C1F858CE0C798AA7EFB38922E8D334F12DAD4A3963007DFBBC5677:com.myvodafoneapp"/>
+    </string-array>
 </carrier_config>

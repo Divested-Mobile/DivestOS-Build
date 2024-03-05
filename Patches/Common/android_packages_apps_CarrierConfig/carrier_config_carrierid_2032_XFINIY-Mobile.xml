@@ -77,21 +77,12 @@
         <item value="*71"/>
         <item value="*72"/>
     </string-array>
-    <string-array name="carrier_data_call_permanent_failure_strings" num="14">
-        <item value="OPERATOR_BARRED"/>
-        <item value="MISSING_UNKNOWN_APN"/>
-        <item value="UNKNOWN_PDP_ADDRESS_TYPE"/>
-        <item value="USER_AUTHENTICATION"/>
-        <item value="SERVICE_OPTION_NOT_SUPPORTED"/>
-        <item value="SERVICE_OPTION_NOT_SUBSCRIBED"/>
-        <item value="NSAPI_IN_USE"/>
-        <item value="ONLY_IPV4_ALLOWED"/>
-        <item value="ONLY_IPV6_ALLOWED"/>
-        <item value="RADIO_POWER_OFF"/>
-        <item value="TETHERED_CALL_ACTIVE"/>
-        <item value="RADIO_NOT_AVAILABLE"/>
-        <item value="UNACCEPTABLE_NETWORK_PARAMETER"/>
-        <item value="SIGNAL_LOST"/>
+    <string-array name="telephony_data_setup_retry_rules_string_array" num="4">
+        <item value="capabilities=eims, retry_interval=1000, maximum_retries=20"/>
+        <!-- Defines permanent failures. Removed ACTIVATION_REJECT_GGSN and PROTOCOL_ERRORS from default. -->
+        <item value="permanent_fail_causes=8|27|28|29|32|33|35|50|51|-5|-6|65537|65538|-3|65543|65547|2252|2253|2254, retry_interval=2500"/>
+        <item value="capabilities=mms|supl|cbs, retry_interval=2000"/>
+        <item value="capabilities=internet|enterprise|dun|ims|fota, retry_interval=2500|3000|5000|10000|15000|20000|40000|60000|120000|240000|600000|1200000|1800000, maximum_retries=20"/>
     </string-array>
     <string-array name="carrier_metered_apn_types_strings" num="3">
         <item value="default"/>
@@ -165,4 +156,9 @@
         <item value="82"/>
         <item value="83"/>
     </int-array>
+    <string-array name="carrier_certificate_string_array" num="3">
+        <item value="953F5A4C22E7FD16ADC3F12EB038682AAD377FEF9A18B9D12C1ABEA78911C749:com.xfinity.digitalhome"/>
+        <item value="06AADA946110E64414AEBE3AF34AE06BAF239EF75C947149FB67263D8A2547C3:com.xfinity.digitalhome.debug"/>
+        <item value="141E264EB08B576F6C32E49FD47A34300553A132EC5EB1DD58B354A0B15A5E40:com.xfinitymobile.cometcarrierservice"/>
+    </string-array>
 </carrier_config>

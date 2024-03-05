@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <carrier_config>
     <string-array name="carrier_certificate_string_array" num="1">
-        <item value="E79D68A3BA64DF7381236B896372DBFD7B2BA55D046C5B3703549E653EBBADF7"/>
+        <item value="E79D68A3BA64DF7381236B896372DBFD7B2BA55D046C5B3703549E653EBBADF7:ar.com.personal"/>
     </string-array>
 </carrier_config>

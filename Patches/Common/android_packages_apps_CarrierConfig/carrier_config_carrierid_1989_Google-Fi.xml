@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <carrier_config>
     <boolean name="carrier_name_override_bool" value="true"/>
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <boolean name="force_home_network_bool" value="true"/>
     <string name="carrier_name_string">Google Fi</string>
     <string name="sim_country_iso_override_string">us</string>
 </carrier_config>

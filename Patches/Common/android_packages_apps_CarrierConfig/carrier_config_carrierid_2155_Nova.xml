@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="carrier_default_wfc_ims_roaming_enabled_bool" value="true" />
+    <boolean name="carrier_wfc_ims_available_bool" value="true" />
+    <int name="carrier_default_wfc_ims_mode_int" value="2"/>
+    <boolean name="show_wifi_calling_icon_in_status_bar_bool" value="true" />
+    <boolean name="show_ims_registration_status_bool" value="true" />
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <boolean name="carrier_supports_ss_over_ut_bool" value="true"/>
+    <boolean name="carrier_vt_available_bool" value="true"/>
+</carrier_config>
+

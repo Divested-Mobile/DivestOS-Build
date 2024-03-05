@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+  <string-array name="carrier_service_name_array" num="1">
+    <item value="Whatsapp Movistar Colombia"/>
+  </string-array>
+  <string-array name="carrier_service_number_array" num="1">
+    <item value="+573152333333"/>
+  </string-array>
+</carrier_config>

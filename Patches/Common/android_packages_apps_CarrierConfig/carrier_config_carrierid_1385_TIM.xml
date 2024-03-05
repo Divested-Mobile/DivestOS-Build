@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <carrier_config>
     <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <string-array name="carrier_certificate_string_array" num="2">
+        <item value="815641A2394999AA9AD4D499BFBD23CD073024D13A8A8639F834B5166C80B8DB:br.com.timbrasil.meutim"/>
+        <item value="5D4369640AD4D8972B75C831DC5C135B700BB1E793CEB7EC89FA6AA0469143CC:br.com.timbrasil.meutim"/>
+    </string-array>
 </carrier_config>

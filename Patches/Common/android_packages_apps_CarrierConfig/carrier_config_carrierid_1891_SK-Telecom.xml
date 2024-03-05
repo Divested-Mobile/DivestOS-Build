@@ -37,6 +37,6 @@
         <item value="NR_SA:563200,61440"/>
     </string-array>
     <string-array name="carrier_certificate_string_array" num="1">
-        <item value="59DFFFDDCCC1929A5C089E53B05A27A42F6517B1"/>
+        <item value="59DFFFDDCCC1929A5C089E53B05A27A42F6517B1:com.skt.prod.dialer,com.skt.thug.hazard,kr.co.safet.sk.guardian"/>
     </string-array>
 </carrier_config>

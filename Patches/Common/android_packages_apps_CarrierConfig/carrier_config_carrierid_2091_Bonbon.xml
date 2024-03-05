@@ -7,9 +7,11 @@
         <item value="95"/>
         <item value="96"/>
     </string-array>
-    <string-array name="carrier_certificate_string_array" num="3">
+    <string-array name="carrier_certificate_string_array" num="5">
         <item value="191A9C9711282CCD1133C9F9EFA7D1077BCAAFB99E379A438207EE0D86218917:de.telekom.tsc"/>
         <item value="EE403A97B076CDEA7A8E8E9BC8011C0A45CEC08905F400EBECE62C946614977D:de.telekom.appstarter"/>
         <item value="CC12A9016142DD2080D20F8075C5CC418F64423D3EA773AEC3C838A51508569C:com.hrvatskitelekom.m.mojT"/>
+        <item value="D2CB8644879FEC7DD2556673ADAF8F68899A4F2A93EEE14AD9482247B16AD02F:de.telekom.smartcredentials.entitlements"/>
+        <item value="FFEE87CCC88845E8918C7271318A9B3A9F4222F8D71F1D84D1B0C88789147F03:de.telekom.tsc,de.telekom.appstarter,de.telekom.smartcredentials.entitlements"/>
     </string-array>
 </carrier_config>

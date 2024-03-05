@@ -30,4 +30,23 @@
     <item value="e1b6e6cbfe0673164931be46d95fa7e43fb92dac49acc10a6c0909e5eada15fa"/>
   </string-array>
   <string name="call_redirection_service_component_name_string">com.movistar.android.mimovistar.es/com.tuenti.messenger.callinterceptor.CallInterceptorService</string>
+  <string-array name="carrier_service_name_array" num="7">
+    <item value="Atención al Cliente"/>
+    <item value="At. Cliente (extranjero)"/>
+    <item value="Inf. 11822"/>
+    <item value="Activar Buzón Movistar"/>
+    <item value="Emergencias"/>
+    <item value="Atención Negocios"/>
+    <item value="At. Ciberseguridad INCIBE"/>
+  </string-array>
+  <string-array name="carrier_service_number_array" num="7">
+    <item value="1004"/>
+    <item value="+34699991004"/>
+    <item value="11822"/>
+    <item value="22500"/>
+    <item value="112"/>
+    <item value="900101010"/>
+    <item value="017"/>
+  </string-array>
+  <boolean name="carrier_allow_transfer_ims_call_bool" value="true"/>
 </carrier_config>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="non_roaming_operator_string_array" num="1">
+        <item value="74000"/>
+    </string-array>
+    <boolean name="enabledMMS" value="false"/>
+    <boolean name="enableGroupMms" value="false"/>
+</carrier_config>

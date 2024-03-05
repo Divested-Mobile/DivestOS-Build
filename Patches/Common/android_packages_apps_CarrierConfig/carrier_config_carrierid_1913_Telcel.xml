@@ -4,28 +4,20 @@
     <int name="maxImageHeight" value="1944"/>
     <int name="maxMessageSize" value="1048576"/>
     <int name="maxImageWidth" value="2592"/>
-    <string-array name="carrier_certificate_string_array" num="4">
+    <string-array name="carrier_certificate_string_array" num="6">
       <item value="7D7226772D4F6D778FEF53A36BE15AD78D8D9D4BC4CE00C5F2E3216C19480FA0"/>
       <item value="2333f4065b9f054363ca63d1866cc168f45d641645b31131b14e173b9c922d15:co.sitic.pp"/>
       <item value="14d54c64599a3e9a3b766239b160de3935093e0a:co.sitic.pp"/>
       <item value="f54cac11d5af77a5f10c21d536ad5d1c40b00d63a92cab917aa84dc714d622d8:co.sitic.pp"/>
+      <item value="8C960CA3CBF4A9DA851774F2DE072E57B1289A9CF7D6BDA4A6B386A42BC4FFB3:com.trustonic.telecoms.standard.dlc"/>
+      <item value="7413E2B365230E1BCB294D687C3B87EE5BC7E3F9:com.trustonic.telecoms.standard.dlc"/>
     </string-array>
-
-    <string-array name="carrier_data_call_permanent_failure_strings" num="14">
-        <item value="OPERATOR_BARRED"/>
-        <item value="MISSING_UNKNOWN_APN"/>
-        <item value="UNKNOWN_PDP_ADDRESS_TYPE"/>
-        <item value="ACTIVATION_REJECT_GGSN"/>
-        <item value="SERVICE_OPTION_NOT_SUPPORTED"/>
-        <item value="NSAPI_IN_USE"/>
-        <item value="ONLY_IPV4_ALLOWED"/>
-        <item value="ONLY_IPV6_ALLOWED"/>
-        <item value="PROTOCOL_ERRORS"/>
-        <item value="RADIO_POWER_OFF"/>
-        <item value="TETHERED_CALL_ACTIVE"/>
-        <item value="RADIO_NOT_AVAILABLE"/>
-        <item value="UNACCEPTABLE_NETWORK_PARAMETER"/>
-        <item value="SIGNAL_LOST"/>
+    <string-array name="telephony_data_setup_retry_rules_string_array" num="4">
+        <item value="capabilities=eims, retry_interval=1000, maximum_retries=20"/>
+        <!-- Defines permanent failures. Removed USER_AUTHENTICATION and SERVICE_OPTION_NOT_SUBSCRIBED from default. -->
+        <item value="permanent_fail_causes=8|27|28|30|32|35|50|51|111|-5|-6|65537|65538|-3|65543|65547|2252|2253|2254, retry_interval=2500"/>
+        <item value="capabilities=mms|supl|cbs, retry_interval=2000"/>
+        <item value="capabilities=internet|enterprise|dun|ims|fota, retry_interval=2500|3000|5000|10000|15000|20000|40000|60000|120000|240000|600000|1200000|1800000, maximum_retries=20"/>
     </string-array>
     <boolean name="display_no_data_notification_on_permanent_failure_bool" value="true"/>
     <boolean name="unthrottle_data_retry_when_tac_changes_bool" value="true"/>

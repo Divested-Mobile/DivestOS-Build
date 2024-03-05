@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <carrier_config>
     <boolean name="show_4g_for_lte_data_icon_bool" value="true"/>
-    <string-array name="carrier_certificate_string_array" num="1">
+    <string-array name="carrier_certificate_string_array" num="2">
       <item value="7D7226772D4F6D778FEF53A36BE15AD78D8D9D4BC4CE00C5F2E3216C19480FA0"/>
+      <item value="65C25B1D82052E88BC0F1A1E3773746A44F2219C06272F4CA219C4D4928EB9A7:br.com.claro.flex,br.com.claro.flex.stg"/>
     </string-array>
 </carrier_config>

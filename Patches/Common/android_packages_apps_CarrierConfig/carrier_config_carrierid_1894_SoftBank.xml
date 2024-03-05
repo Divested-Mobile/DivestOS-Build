@@ -20,6 +20,6 @@
     <int name="default_mtu_int" value="1422"/>
     <string name="default_vm_number_string">1416</string>
     <string-array name="carrier_certificate_string_array" num="1">
-        <item value="8CD14DE82459630273B8D4C4F0C7C042FA0EF419C2B76A0AAD3D7A0646B015B9"/>
+        <item value="8CD14DE82459630273B8D4C4F0C7C042FA0EF419C2B76A0AAD3D7A0646B015B9:jp.linemo.app,jp.ymobile.app.esim,jp.co.softbank.wispr.froyo"/>
     </string-array>
 </carrier_config>

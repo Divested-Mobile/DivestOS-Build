@@ -8,6 +8,6 @@
     <int name="maxImageWidth" value="2592"/>
     <boolean name="nr_timers_reset_if_non_endc_and_rrc_idle_bool" value="true"/>
     <string-array name="carrier_certificate_string_array" num="1">
-        <item value="99F04B13AA9672BD6292921D88365D9C1953BD6078E4BFAD344D02CDCFACF17E"/>
+        <item value="99F04B13AA9672BD6292921D88365D9C1953BD6078E4BFAD344D02CDCFACF17E:jp.co.rakuten.mobile.ecare"/>
     </string-array>
 </carrier_config>

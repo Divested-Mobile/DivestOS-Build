@@ -9,4 +9,7 @@
     <int name="wfc_spn_format_idx_int" value="11"/>
     <int name="default_mtu_int" value="1358"/>
     <string name="default_vm_number_string">5500</string>
+    <string-array name="carrier_certificate_string_array" num="1">
+        <item value="0318ED2A8B33CE173C7ABE3F647D263810994CF489C8FCD27A8CAAFCF2822A88:com.appseleration.android.selfcare,com.appseleration.speedtest"/>
+    </string-array>
 </carrier_config>

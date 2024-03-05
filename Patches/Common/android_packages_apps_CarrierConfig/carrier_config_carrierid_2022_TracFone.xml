@@ -26,9 +26,9 @@
     </string-array>
     <boolean name="carrier_default_data_roaming_enabled_bool" value="true"/>
     <string-array name="carrier_certificate_string_array" num="3">
-        <item value="E751E163E91E041382839556D31302DB7058C44D9DF1B5B27FC43BD8F0EE2BBA"/>
-        <item value="4AD124DE517BC6BA915B88C17F0AADF764469842156325C26B7CD8B888C41C71"/>
-        <item value="55BB3B316919620008AA76A4891E90384BFF2A76AE95C395FE738C2AC609F13F"/>
+        <item value="E751E163E91E041382839556D31302DB7058C44D9DF1B5B27FC43BD8F0EE2BBA:com.tracfone.preload.accountservices,com.tracfone.preload.mobileservices"/>
+        <item value="4AD124DE517BC6BA915B88C17F0AADF764469842156325C26B7CD8B888C41C71:com.tracfone.esimapp"/>
+        <item value="55BB3B316919620008AA76A4891E90384BFF2A76AE95C395FE738C2AC609F13F:com.tracfone.tracfone.myaccount,com.tracfone.straighttalk.myaccount,com.tracfone.net10.myaccount,com.tracfone.simplemobile.myaccount,com.tracfone.total.myaccount,com.tracfone.wfm.myaccount"/>
     </string-array>
     <boolean name="inflate_signal_strength_bool" value="true" />
 </carrier_config>

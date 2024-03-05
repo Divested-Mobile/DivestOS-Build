@@ -2,6 +2,6 @@
 <carrier_config>
     <string name="sim_country_iso_override_string">re</string>
     <string-array name="carrier_certificate_string_array" num="1">
-        <item value="d543e9f245aa584a84c608069cffe1f507be61eb496d7585ac02a2fce05dcb28"/>
+        <item value="d543e9f245aa584a84c608069cffe1f507be61eb496d7585ac02a2fce05dcb28:fr.freemobile.android.mobileconf,fr.freemobile.android.freenetworkmonitor,it.iliad.android.mobileconf,it.iliad.android.iccid"/>
     </string-array>
 </carrier_config>

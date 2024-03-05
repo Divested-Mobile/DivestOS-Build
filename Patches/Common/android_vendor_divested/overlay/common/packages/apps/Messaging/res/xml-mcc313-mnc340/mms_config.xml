@@ -2,4 +2,5 @@
 <mms_config version="1">
     <bool name="enableWapPushSI">true</bool>
     <bool name="allowEnablingWapPushSI">true</bool>
+    <bool name="mmsRoamingAutoRetrieveByDefault">true</bool>
 </mms_config>

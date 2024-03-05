@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+  <string-array name="carrier_service_name_array" num="15">
+    <item value="At. Cliente"/>
+    <item value="Policía"/>
+    <item value="Buzón de Voz"/>
+    <item value="Saldo"/>
+    <item value="Telpago"/>
+    <item value="Club Movistar"/>
+    <item value="Chat de voz"/>
+    <item value="Entretonos"/>
+    <item value="Servicio 113"/>
+    <item value="Llamada Cobrar"/>
+    <item value="Transferencia"/>
+    <item value="Dilo"/>
+    <item value="Buzón Roaming"/>
+    <item value="*ROAM"/>
+    <item value="Saldo"/>
+  </string-array>
+  <string-array name="carrier_service_number_array" num="15">
+    <item value="811"/>
+    <item value="171"/>
+    <item value="133"/>
+    <item value="*88"/>
+    <item value="132"/>
+    <item value="*2582"/>
+    <item value="*2428"/>
+    <item value="*86667"/>
+    <item value="113"/>
+    <item value="*44"/>
+    <item value="7878"/>
+    <item value="*3456"/>
+    <item value="+584148352961"/>
+    <item value="*7626"/>
+    <item value="123"/>
+  </string-array>
+</carrier_config>

@@ -5,4 +5,7 @@
     <int name="volte_replacement_rat_int" value="3"/>
     <int name="default_mtu_int" value="1358"/>
     <string name="default_vm_number_string">42020</string>
+    <string-array name="carrier_certificate_string_array" num="1">
+      <item value="EEFD6F2D255BAE73FDEDB112CF60DEEBD82ABFD1846D7E8A4B4896EF6A1BAE4A:it.vodafone.my190"/>
+    </string-array>
 </carrier_config>
