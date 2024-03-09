@@ -14,10 +14,10 @@ Change-Id: Ic01c97d6ceac8d324609763973639b41b4581a76
  6 files changed, 59 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index f5221b2..05bdc54 100644
+index 989678c..6a99a1f 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
-@@ -241,31 +241,6 @@
+@@ -252,31 +252,6 @@
                  android:resource="@string/summary_empty" />
          </activity-alias>
  
@@ -76,10 +76,10 @@ index a3ee437..c4532c5 100644
           The array should be sorted in the same order as the
           touchscreen gestures advertised by the device's LineageHW impl. -->
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 02a5316..a806a7c 100644
+index a99b565..b89cd2b 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -533,28 +533,6 @@
+@@ -549,28 +549,6 @@
                   <b>Total commits:</b> <xliff:g id="total_commits">%2$s</xliff:g><br/><br/>
                   <b>Last update:</b> <xliff:g id="date">%3$s</xliff:g>]]></string>
  
@@ -109,10 +109,10 @@ index 02a5316..a806a7c 100644
      <string name="accelerometer_title">Auto-rotate screen</string>
      <string name="display_rotation_title">Rotation settings</string>
 diff --git a/res/xml/parts_catalog.xml b/res/xml/parts_catalog.xml
-index 803b214..371382c 100644
+index a5e22c3..879f248 100644
 --- a/res/xml/parts_catalog.xml
 +++ b/res/xml/parts_catalog.xml
-@@ -70,11 +70,6 @@
+@@ -75,11 +75,6 @@
            android:fragment="org.lineageos.lineageparts.statusbar.StatusBarSettings"
            lineage:xmlRes="@xml/status_bar_settings" />
  
