@@ -1,4 +1,4 @@
-From 63669b42bb2fbdf4b242944e88bb541d3a6fe465 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Haripriya Deshmukh <haripriya.deshmukh@ittiam.com>
 Date: Tue, 19 Sep 2023 20:42:45 +0000
 Subject: [PATCH] Validate OMX Params for VPx encoders
@@ -19,7 +19,7 @@ Change-Id: I9bb17112d9f0217b6af0343afecc9c943453b757
  1 file changed, 9 insertions(+)
 
 diff --git a/media/libstagefright/codecs/on2/enc/SoftVPXEncoder.cpp b/media/libstagefright/codecs/on2/enc/SoftVPXEncoder.cpp
-index 04d8dda075e..1be823c9755 100644
+index 04d8dda075..1be823c975 100644
 --- a/media/libstagefright/codecs/on2/enc/SoftVPXEncoder.cpp
 +++ b/media/libstagefright/codecs/on2/enc/SoftVPXEncoder.cpp
 @@ -532,6 +532,11 @@ OMX_ERRORTYPE SoftVPXEncoder::setConfig(

@@ -1,4 +1,4 @@
-From 87a4f4196ec70bb7365a1e206be63073e102544b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hui Peng <phui@google.com>
 Date: Tue, 9 Jan 2024 22:38:20 +0000
 Subject: [PATCH] Fix a security bypass issue in
@@ -18,7 +18,7 @@ Change-Id: Ib7cf66019b3d45a2a23d235ad5f9dc406394456f
  1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/stack/btm/btm_sec.c b/stack/btm/btm_sec.c
-index 23b334ce27..cf90725490 100644
+index 1a21bce09..9b447ea07 100644
 --- a/stack/btm/btm_sec.c
 +++ b/stack/btm/btm_sec.c
 @@ -245,8 +245,7 @@ static BOOLEAN access_secure_service_from_temp_bond(const tBTM_SEC_DEV_REC* p_de

@@ -1,4 +1,4 @@
-From a4e7043cca16478786da91619e312670f4f29015 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hui Peng <phui@google.com>
 Date: Fri, 15 Dec 2023 22:55:33 +0000
 Subject: [PATCH] Reland: Fix an OOB write bug in attp_build_value_cmd
@@ -18,10 +18,10 @@ Change-Id: Ieffac6db5c6359b071efc599f7a70de609b80b72
  1 file changed, 47 insertions(+), 11 deletions(-)
 
 diff --git a/stack/gatt/att_protocol.c b/stack/gatt/att_protocol.c
-index e0963622049..7981950a30e 100644
+index 1e9948185..b7b835452 100644
 --- a/stack/gatt/att_protocol.c
 +++ b/stack/gatt/att_protocol.c
-@@ -274,46 +274,82 @@ BT_HDR *attp_build_opcode_cmd(UINT8 op_code)
+@@ -281,46 +281,82 @@ BT_HDR *attp_build_opcode_cmd(UINT8 op_code)
  BT_HDR *attp_build_value_cmd (UINT16 payload_size, UINT8 op_code, UINT16 handle,
                                UINT16 offset, UINT16 len, UINT8 *p_data)
  {

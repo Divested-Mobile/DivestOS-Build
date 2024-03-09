@@ -1,4 +1,4 @@
-From b7bac88b9cfc050ee13fc620a19f1f78c8311f3d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ugo Yu <ugoyu@google.com>
 Date: Thu, 29 Nov 2018 17:55:40 +0800
 Subject: [PATCH] Fix OOB caused by invalid SMP packet length
@@ -16,7 +16,7 @@ Change-Id: I889d2de97b1aab706c850a950f668aba558f240f
  3 files changed, 64 insertions(+)
 
 diff --git a/stack/smp/smp_act.c b/stack/smp/smp_act.c
-index 8702e109578..c2dfc7205f8 100644
+index fffee6f75..675a99600 100644
 --- a/stack/smp/smp_act.c
 +++ b/stack/smp/smp_act.c
 @@ -579,6 +579,14 @@ void smp_proc_pair_cmd(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
@@ -34,7 +34,7 @@ index 8702e109578..c2dfc7205f8 100644
      STREAM_TO_UINT8(p_cb->peer_io_caps, p);
      STREAM_TO_UINT8(p_cb->peer_oob_flag, p);
      STREAM_TO_UINT8(p_cb->peer_auth_req, p);
-@@ -890,6 +898,14 @@ void smp_br_process_pairing_command(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
+@@ -889,6 +897,14 @@ void smp_br_process_pairing_command(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
  
      p_cb->flags |= SMP_PAIR_FLAG_ENC_AFTER_PAIR;
  
@@ -49,7 +49,7 @@ index 8702e109578..c2dfc7205f8 100644
      STREAM_TO_UINT8(p_cb->peer_io_caps, p);
      STREAM_TO_UINT8(p_cb->peer_oob_flag, p);
      STREAM_TO_UINT8(p_cb->peer_auth_req, p);
-@@ -1107,9 +1123,18 @@ void smp_proc_id_info(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
+@@ -1106,9 +1122,18 @@ void smp_proc_id_info(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
  void smp_proc_id_addr(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
  {
      UINT8   *p = (UINT8 *)p_data;
@@ -68,7 +68,7 @@ index 8702e109578..c2dfc7205f8 100644
      smp_update_key_mask (p_cb, SMP_SEC_KEY_TYPE_ID, TRUE);
  
      STREAM_TO_UINT8(pid_key.pid_key.addr_type, p);
-@@ -1134,8 +1159,17 @@ void smp_proc_id_addr(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
+@@ -1133,8 +1158,17 @@ void smp_proc_id_addr(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
  void smp_proc_srk_info(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
  {
      tBTM_LE_KEY_VALUE le_key;
@@ -87,7 +87,7 @@ index 8702e109578..c2dfc7205f8 100644
  
      /* save CSRK to security record */
 diff --git a/stack/smp/smp_int.h b/stack/smp/smp_int.h
-index aea85380edd..bfac772b9d5 100644
+index aea85380e..bfac772b9 100644
 --- a/stack/smp/smp_int.h
 +++ b/stack/smp/smp_int.h
 @@ -488,6 +488,7 @@ extern void smp_xor_128(BT_OCTET16 a, BT_OCTET16 b);
@@ -99,7 +99,7 @@ index aea85380edd..bfac772b9d5 100644
  extern void smp_reject_unexpected_pairing_command(BD_ADDR bd_addr);
  extern tSMP_ASSO_MODEL smp_select_association_model(tSMP_CB *p_cb);
 diff --git a/stack/smp/smp_utils.c b/stack/smp/smp_utils.c
-index 6ea98f4bac5..ec6f0307d87 100644
+index 6ea98f4ba..ec6f0307d 100644
 --- a/stack/smp/smp_utils.c
 +++ b/stack/smp/smp_utils.c
 @@ -962,6 +962,35 @@ void smp_proc_pairing_cmpl(tSMP_CB *p_cb)

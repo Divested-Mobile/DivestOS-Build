@@ -1,4 +1,4 @@
-From 5e888da782da37b0e2df2bc078e5e68dc87340e3 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Haripriya Deshmukh <haripriya.deshmukh@ittiam.com>
 Date: Tue, 5 Dec 2023 18:32:38 +0000
 Subject: [PATCH] Fix out of bounds read and write in onQueueFilled in outQueue
@@ -15,7 +15,7 @@ Change-Id: Ic230d10048193a785f185dc6a7de6f455f9318c1
  1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/media/libstagefright/codecs/m4v_h263/dec/SoftMPEG4.cpp b/media/libstagefright/codecs/m4v_h263/dec/SoftMPEG4.cpp
-index 411a251d150..b14890300e1 100644
+index 411a251d15..b14890300e 100644
 --- a/media/libstagefright/codecs/m4v_h263/dec/SoftMPEG4.cpp
 +++ b/media/libstagefright/codecs/m4v_h263/dec/SoftMPEG4.cpp
 @@ -316,8 +316,11 @@ void SoftMPEG4::onQueueFilled(OMX_U32 /* portIndex */) {

@@ -1,4 +1,4 @@
-From 6dec464a0690efa6f008779876ef90f2c45df691 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Hui Peng <phui@google.com>
 Date: Tue, 28 Nov 2023 19:57:20 +0000
 Subject: [PATCH] Fix an OOB bug in smp_proc_sec_req
@@ -16,7 +16,7 @@ Change-Id: Id4c65801ff8519aff18b24007e344934493cab55
  1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/stack/smp/smp_act.c b/stack/smp/smp_act.c
-index c2dfc7205f..dcbb54aee8 100644
+index 675a99600..7491d0972 100644
 --- a/stack/smp/smp_act.c
 +++ b/stack/smp/smp_act.c
 @@ -481,9 +481,17 @@ void smp_send_ltk_reply(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
