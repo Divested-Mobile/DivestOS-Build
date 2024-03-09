@@ -76,7 +76,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2024-02-05/' core/version_defaults.mk; #Bump Security String #n-asb-2024-02 #XXX
+sed -i 's/2021-06-05/2024-03-05/' core/version_defaults.mk; #Bump Security String #n-asb-2024-03 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -169,6 +169,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_av/358729.patch"; #n-asb-2023-06 Fix
 applyPatch "$DOS_PATCHES/android_frameworks_av/365698.patch"; #n-asb-2023-09 Fix Segv on unknown address error flagged by fuzzer test.
 applyPatch "$DOS_PATCHES/android_frameworks_av/373035.patch"; #n-asb-2023-11 Fix for heap buffer overflow issue flagged by fuzzer test.
 applyPatch "$DOS_PATCHES/android_frameworks_av/381852.patch"; #n-asb-2024-02 Update mtp packet buffer
+applyPatch "$DOS_PATCHES/android_frameworks_av/385240.patch"; #n-asb-2024-03 Fix out of bounds read and write in onQueueFilled in outQueue
+applyPatch "$DOS_PATCHES/android_frameworks_av/385243.patch"; #n-asb-2024-03 Validate OMX Params for VPx encoders
 fi;
 
 if enterAndClear "frameworks/base"; then
@@ -247,6 +249,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/377939.patch"; #n-asb-2023-12 R
 applyPatch "$DOS_PATCHES/android_frameworks_base/378954.patch"; #n-asb-2024-01 Truncate user data to a limit of 500 characters
 applyPatch "$DOS_PATCHES/android_frameworks_base/378955.patch"; #n-asb-2024-01 Fix vulnerability that allowed attackers to start arbitary activities
 applyPatch "$DOS_PATCHES/android_frameworks_base/378956.patch"; #n-asb-2024-01 Fix ActivityManager#killBackgroundProcesses permissions
+applyPatch "$DOS_PATCHES/android_frameworks_base/385241.patch"; #n-asb-2024-03 Resolve custom printer icon boundary exploit.
+applyPatch "$DOS_PATCHES/android_frameworks_base/385242.patch"; #n-asb-2024-03 Close AccountManagerService.session after timeout.
 git revert --no-edit 0326bb5e41219cf502727c3aa44ebf2daa19a5b3; #Re-enable doze on devices without gms
 applyPatch "$DOS_PATCHES/android_frameworks_base/248599.patch"; #Make SET_TIME_ZONE permission match SET_TIME (AOSP)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0001-Reduced_Resolution.patch"; #Allow reducing resolution to save power TODO: Add 800x480 (DivestOS)
@@ -542,6 +546,10 @@ applyPatch "$DOS_PATCHES/android_system_bt/378960.patch"; #n-asb-2024-01 LE Adve
 applyPatch "$DOS_PATCHES/android_system_bt/378961.patch"; #n-asb-2024-01 Fix some OOB errors in BTM parsing
 applyPatch "$DOS_PATCHES/android_system_bt/381850.patch"; #n-asb-2024-02 Fix an OOB bug in btif_to_bta_response and attp_build_value_cmd
 applyPatch "$DOS_PATCHES/android_system_bt/381851.patch"; #n-asb-2024-02 Fix an OOB write bug in attp_build_read_by_type_value_cmd
+applyPatch "$DOS_PATCHES/android_system_bt/385236.patch"; #n-asb-2024-03 Fix OOB caused by invalid SMP packet length
+applyPatch "$DOS_PATCHES/android_system_bt/385237.patch"; #n-asb-2024-03 Fix an OOB bug in smp_proc_sec_req
+applyPatch "$DOS_PATCHES/android_system_bt/385238.patch"; #n-asb-2024-03 Fix an OOB write bug in attp_build_value_cmd
+applyPatch "$DOS_PATCHES/android_system_bt/385239.patch"; #n-asb-2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 applyPatch "$DOS_PATCHES/android_system_bt/229574.patch"; #bt-sbc-hd-dualchannel-nougat: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/229575.patch"; #bt-sbc-hd-dualchannel-nougat: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
 applyPatch "$DOS_PATCHES/android_system_bt/242134.patch"; #avrc_bld_get_attrs_rsp - fix attribute length position off by one (cprhokie)

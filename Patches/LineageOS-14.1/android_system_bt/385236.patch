@@ -1,0 +1,140 @@
+From b7bac88b9cfc050ee13fc620a19f1f78c8311f3d Mon Sep 17 00:00:00 2001
+From: Ugo Yu <ugoyu@google.com>
+Date: Thu, 29 Nov 2018 17:55:40 +0800
+Subject: [PATCH] Fix OOB caused by invalid SMP packet length
+
+Bug: 111850706
+Bug: 111213909
+Bug: 111214770
+Bug: 111214470
+Test: PoC, Manully
+Change-Id: I889d2de97b1aab706c850a950f668aba558f240f
+---
+ stack/smp/smp_act.c   | 34 ++++++++++++++++++++++++++++++++++
+ stack/smp/smp_int.h   |  1 +
+ stack/smp/smp_utils.c | 29 +++++++++++++++++++++++++++++
+ 3 files changed, 64 insertions(+)
+
+diff --git a/stack/smp/smp_act.c b/stack/smp/smp_act.c
+index 8702e109578..c2dfc7205f8 100644
+--- a/stack/smp/smp_act.c
++++ b/stack/smp/smp_act.c
+@@ -579,6 +579,14 @@ void smp_proc_pair_cmd(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
+ 
+     p_cb->flags |= SMP_PAIR_FLAG_ENC_AFTER_PAIR;
+ 
++    if (smp_command_has_invalid_length(p_cb))
++    {
++        reason = SMP_INVALID_PARAMETERS;
++        android_errorWriteLog(0x534e4554, "111850706");
++        smp_sm_event(p_cb, SMP_AUTH_CMPL_EVT, &reason);
++        return;
++    }
++
+     STREAM_TO_UINT8(p_cb->peer_io_caps, p);
+     STREAM_TO_UINT8(p_cb->peer_oob_flag, p);
+     STREAM_TO_UINT8(p_cb->peer_auth_req, p);
+@@ -890,6 +898,14 @@ void smp_br_process_pairing_command(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
+ 
+     p_cb->flags |= SMP_PAIR_FLAG_ENC_AFTER_PAIR;
+ 
++    if (smp_command_has_invalid_length(p_cb))
++    {
++        reason = SMP_INVALID_PARAMETERS;
++        android_errorWriteLog(0x534e4554, "111213909");
++        smp_br_state_machine_event(p_cb, SMP_BR_AUTH_CMPL_EVT, &reason);
++        return;
++    }
++
+     STREAM_TO_UINT8(p_cb->peer_io_caps, p);
+     STREAM_TO_UINT8(p_cb->peer_oob_flag, p);
+     STREAM_TO_UINT8(p_cb->peer_auth_req, p);
+@@ -1107,9 +1123,18 @@ void smp_proc_id_info(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
+ void smp_proc_id_addr(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
+ {
+     UINT8   *p = (UINT8 *)p_data;
++    UINT8   reason = SMP_INVALID_PARAMETERS;
+     tBTM_LE_KEY_VALUE pid_key;
+ 
+     SMP_TRACE_DEBUG("%s", __func__);
++
++    if (smp_command_has_invalid_parameters(p_cb))
++    {
++        android_errorWriteLog(0x534e4554, "111214770");
++        smp_sm_event(p_cb, SMP_AUTH_CMPL_EVT, &reason);
++        return;
++    }
++
+     smp_update_key_mask (p_cb, SMP_SEC_KEY_TYPE_ID, TRUE);
+ 
+     STREAM_TO_UINT8(pid_key.pid_key.addr_type, p);
+@@ -1134,8 +1159,17 @@ void smp_proc_id_addr(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
+ void smp_proc_srk_info(tSMP_CB *p_cb, tSMP_INT_DATA *p_data)
+ {
+     tBTM_LE_KEY_VALUE le_key;
++    UINT8 reason = SMP_INVALID_PARAMETERS;
+ 
+     SMP_TRACE_DEBUG("%s", __func__);
++
++    if (smp_command_has_invalid_parameters(p_cb))
++    {
++        android_errorWriteLog(0x534e4554, "111214470");
++        smp_sm_event(p_cb, SMP_AUTH_CMPL_EVT, &reason);
++        return;
++    }
++
+     smp_update_key_mask (p_cb, SMP_SEC_KEY_TYPE_CSRK, TRUE);
+ 
+     /* save CSRK to security record */
+diff --git a/stack/smp/smp_int.h b/stack/smp/smp_int.h
+index aea85380edd..bfac772b9d5 100644
+--- a/stack/smp/smp_int.h
++++ b/stack/smp/smp_int.h
+@@ -488,6 +488,7 @@ extern void smp_xor_128(BT_OCTET16 a, BT_OCTET16 b);
+ extern BOOLEAN smp_encrypt_data (UINT8 *key, UINT8 key_len,
+                                  UINT8 *plain_text, UINT8 pt_len,
+                                  tSMP_ENC *p_out);
++extern BOOLEAN smp_command_has_invalid_length(tSMP_CB *p_cb);
+ extern BOOLEAN smp_command_has_invalid_parameters(tSMP_CB *p_cb);
+ extern void smp_reject_unexpected_pairing_command(BD_ADDR bd_addr);
+ extern tSMP_ASSO_MODEL smp_select_association_model(tSMP_CB *p_cb);
+diff --git a/stack/smp/smp_utils.c b/stack/smp/smp_utils.c
+index 6ea98f4bac5..ec6f0307d87 100644
+--- a/stack/smp/smp_utils.c
++++ b/stack/smp/smp_utils.c
+@@ -962,6 +962,35 @@ void smp_proc_pairing_cmpl(tSMP_CB *p_cb)
+         (*p_callback) (SMP_COMPLT_EVT, pairing_bda, &evt_data);
+ }
+ 
++/*******************************************************************************
++ *
++ * Function         smp_command_has_invalid_length
++ *
++ * Description      Checks if the received SMP command has invalid length
++ *                  It returns true if the command has invalid length.
++ *
++ * Returns          true if the command has invalid length, false otherwise.
++ *
++ ******************************************************************************/
++BOOLEAN smp_command_has_invalid_length(tSMP_CB* p_cb)
++{
++    UINT8 cmd_code = p_cb->rcvd_cmd_code;
++
++    if ((cmd_code > (SMP_OPCODE_MAX + 1 /* for SMP_OPCODE_PAIR_COMMITM */)) ||
++        (cmd_code < SMP_OPCODE_MIN))
++    {
++        SMP_TRACE_WARNING("%s: Received command with RESERVED code 0x%02x",
++                          __func__, cmd_code);
++        return TRUE;
++    }
++
++    if (!smp_command_has_valid_fixed_length(p_cb)) {
++        return TRUE;
++    }
++
++    return FALSE;
++}
++
+ /*******************************************************************************
+ **
+ ** Function         smp_command_has_invalid_parameters

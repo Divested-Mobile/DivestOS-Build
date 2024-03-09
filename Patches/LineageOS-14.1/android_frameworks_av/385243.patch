@@ -1,0 +1,47 @@
+From 63669b42bb2fbdf4b242944e88bb541d3a6fe465 Mon Sep 17 00:00:00 2001
+From: Haripriya Deshmukh <haripriya.deshmukh@ittiam.com>
+Date: Tue, 19 Sep 2023 20:42:45 +0000
+Subject: [PATCH] Validate OMX Params for VPx encoders
+
+Bug: 273936274
+Bug: 273937171
+Bug: 273937136
+Bug: 273936553
+Bug: 273936601
+Test: POC in bug descriptions
+(cherry picked from https://partner-android-review.googlesource.com/q/commit:022086b76536cd2e19a44053271190bdf6e181f7)
+(cherry picked from commit 0e4ca1cb5c16af8f1dfb0ae41941c16c104d38e8)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:90641b2799fd3940cdf0bf8a73b2f76839e651a6)
+Merged-In: I9bb17112d9f0217b6af0343afecc9c943453b757
+Change-Id: I9bb17112d9f0217b6af0343afecc9c943453b757
+---
+ media/libstagefright/codecs/on2/enc/SoftVPXEncoder.cpp | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/media/libstagefright/codecs/on2/enc/SoftVPXEncoder.cpp b/media/libstagefright/codecs/on2/enc/SoftVPXEncoder.cpp
+index 04d8dda075e..1be823c9755 100644
+--- a/media/libstagefright/codecs/on2/enc/SoftVPXEncoder.cpp
++++ b/media/libstagefright/codecs/on2/enc/SoftVPXEncoder.cpp
+@@ -532,6 +532,11 @@ OMX_ERRORTYPE SoftVPXEncoder::setConfig(
+ 
+ OMX_ERRORTYPE SoftVPXEncoder::internalSetVp8Params(
+         const OMX_VIDEO_PARAM_VP8TYPE* vp8Params) {
++    if (!isValidOMXParam(vp8Params)) {
++        android_errorWriteLog(0x534e4554, "273937171");
++        return OMX_ErrorBadParameter;
++    }
++
+     if (vp8Params->nPortIndex != kOutputPortIndex) {
+         return OMX_ErrorUnsupportedIndex;
+     }
+@@ -561,6 +566,10 @@ OMX_ERRORTYPE SoftVPXEncoder::internalSetVp8Params(
+ 
+ OMX_ERRORTYPE SoftVPXEncoder::internalSetAndroidVp8Params(
+         const OMX_VIDEO_PARAM_ANDROID_VP8ENCODERTYPE* vp8AndroidParams) {
++    if (!isValidOMXParam(vp8AndroidParams)) {
++        android_errorWriteLog(0x534e4554, "273937171");
++        return OMX_ErrorBadParameter;
++    }
+     if (vp8AndroidParams->nPortIndex != kOutputPortIndex) {
+         return OMX_ErrorUnsupportedIndex;
+     }
