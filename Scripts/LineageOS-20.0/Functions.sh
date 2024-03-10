@@ -76,6 +76,7 @@ buildAll() {
 	buildDevice dumpling verity;
 	buildDevice mata verity;
 	buildDevice cheryl verity;
+	buildDevice pro1 avb;
 	#SD435
 	buildDevice Mi8937;
 	buildDevice Mi8917;
@@ -94,7 +95,6 @@ buildAll() {
 	buildDevice equuleus avb;
 	buildDevice polaris avb;
 	buildDevice ursa avb;
-	buildDevice pro1 avb;
 	buildDevice crosshatch avb; #unb
 	buildDevice blueline avb; #unb
 	buildDevice akari avb;
