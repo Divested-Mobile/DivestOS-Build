@@ -433,15 +433,17 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-39193/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-45862/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51780/4.4/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-51782/4.4/0009.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52436/^6.7/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52436/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52449/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52475/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52566/4.4/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52594/^6.6/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52599/^6.7/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52602/^6.7/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52603/^6.7/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52604/^6.7/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52594/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52599/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52602/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52603/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52604/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26625/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-5d89eb01c93d8a62998e3bdccae28a7732e3bd51.patch
@@ -449,7 +451,8 @@ git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/kernel.msm.git-7be3e08d7a5232
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
-editKernelLocalversion "-dos.p449"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
+editKernelLocalversion "-dos.p452"
 else echo "kernel_google_msm is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

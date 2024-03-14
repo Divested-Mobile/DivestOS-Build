@@ -82,6 +82,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0590/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-1989/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3567/4.14/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-3777/^6.5/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-6270/^6.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-6932/4.14/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-23000/^5.16/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-25775/4.14/0003.patch
@@ -116,7 +117,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0340/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-23849/^6.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26600/^6.8/0001.patch
-editKernelLocalversion "-dos.p116"
+editKernelLocalversion "-dos.p117"
 else echo "kernel_xiaomi_vayu is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
