@@ -98,8 +98,6 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
-sed -i 's/2024-01-05/2024-02-05/' core/version_defaults.mk; #Bump Security String #R_asb_2024-02
-
 fi;
 
 if enterAndClear "build/soong"; then
@@ -162,17 +160,12 @@ if enterAndClear "external/zlib"; then
 git fetch https://github.com/LineageOS/android_external_zlib refs/changes/70/352570/1 && git cherry-pick FETCH_HEAD; #Q_asb_2023-03
 fi;
 
-if enterAndClear "frameworks/av"; then
-applyPatch "$DOS_PATCHES/android_frameworks_av/381886.patch"; #R_asb_2024-02 Update mtp packet buffer
-fi;
+#if enterAndClear "frameworks/av"; then
+#fi;
 
 if enterAndClear "frameworks/base"; then
 #applyPatch "$DOS_PATCHES/android_frameworks_base/379145.patch"; #R_asb_2024-01 Dismiss keyguard when simpin auth'd and...
 applyPatch "$DOS_PATCHES/android_frameworks_base/379136.patch"; #R_asb_2024-01 Fix ActivityManager#killBackgroundProcesses permissions
-applyPatch "$DOS_PATCHES/android_frameworks_base/381887-backport.patch"; #R_asb_2024-02 Disallow Wallpaper service to launch activity from background.
-applyPatch "$DOS_PATCHES/android_frameworks_base/381889-backport.patch"; #R_asb_2024-02 Unbind TileService onNullBinding
-applyPatch "$DOS_PATCHES/android_frameworks_base/381890-backport.patch"; #R_asb_2024-02 Restrict activity launch when caller is running in the background
-#applyPatch "$DOS_PATCHES/android_frameworks_base/381892-backport.patch"; #R_asb_2024-02 Enforce persisted snoozed notifications limits #XXX: error: cannot find symbol
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -395,7 +388,6 @@ fi;
 #fi;
 
 if enterAndClear "packages/providers/DownloadProvider"; then
-#applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/381893.patch"; #R_asb_2024-02 Consolidate queryChildDocumentsXxx() implementations #XXX: DownloadStorageProvider.java:306: error: method does not override or implement a method from a supertype
 applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
 fi;
 
@@ -408,8 +400,6 @@ applyPatch "$DOS_PATCHES/android_prebuilts_abi-dumps_vndk/0001-protobuf-avi.patc
 fi;
 
 if enterAndClear "system/bt"; then
-applyPatch "$DOS_PATCHES/android_system_bt/381894.patch"; #R_asb_2024-02 Fix an OOB bug in btif_to_bta_response and attp_build_value_cmd
-applyPatch "$DOS_PATCHES/android_system_bt/381895.patch"; #R_asb_2024-02 Fix an OOB write bug in attp_build_read_by_type_value_cmd
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272648.patch"; #ten-bt-sbc-hd-dualchannel: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272649.patch"; #ten-bt-sbc-hd-dualchannel: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
@@ -425,7 +415,6 @@ if enterAndClear "system/core"; then
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert --no-edit 3032c7aa5ce90c0ae9c08fe271052c6e0304a1e7 01266f589e6deaef30b782531ae14435cdd2f18e; #insanity
 git revert --no-edit bd4142eab8b3cead0c25a2e660b4b048d1315d3c; #Always update recovery
-applyPatch "$DOS_PATCHES/android_system_core/381896.patch"; #R_asb_2024-02 Add seal if ashmem-dev is backed by memfd
 applyPatch "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysctl changes (GrapheneOS)
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_system_core/0002-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
 if [ "$DOS_GRAPHENE_BIONIC" = true ]; then applyPatch "$DOS_PATCHES/android_system_core/0003-Zero_Sensitive_Info.patch"; fi; #Zero sensitive information with explicit_bzero (GrapheneOS)
@@ -462,10 +451,8 @@ applyPatch "$DOS_PATCHES/android_tools_apksig/360973-backport-prereq.patch"; #R_
 applyPatch "$DOS_PATCHES/android_tools_apksig/360973-backport.patch"; #R_asb_2023-07 Limit the number of supported v1 and v2 signers
 fi;
 
-if enterAndClear "vendor/qcom/opensource/commonsys/system/bt/"; then
-applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/381897.patch"; #R_asb_2024-02 Fix an OOB bug in btif_to_bta_response and attp_build_value_cmd
-applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/381898.patch"; #R_asb_2024-02 Fix an OOB write bug in attp_build_read_by_type_value_cmd
-fi;
+#if enterAndClear "vendor/qcom/opensource/commonsys/system/bt/"; then
+#fi;
 
 if enterAndClear "vendor/lineage"; then
 rm build/target/product/security/lineage.x509.pem; #Remove Lineage keys
