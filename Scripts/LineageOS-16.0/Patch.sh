@@ -99,7 +99,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 17/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2022-01-05/2024-02-05/' core/version_defaults.mk; #Bump Security String #P_asb_2024-02 #XXX
+sed -i 's/2022-01-05/2024-03-05/' core/version_defaults.mk; #Bump Security String #P_asb_2024-03 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -161,12 +161,10 @@ awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.jav
 fi;
 
 if enterAndClear "frameworks/av"; then
-applyPatch "$DOS_PATCHES/android_frameworks_av/381886.patch"; #R_asb_2024-02 Update mtp packet buffer
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; fi; #(GrapheneOS)
 fi;
 
 if enterAndClear "frameworks/base"; then
-applyPatch "$DOS_PATCHES/android_frameworks_base/381889-backport.patch"; #R_asb_2024-02 Unbind TileService onNullBinding
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
@@ -367,8 +365,6 @@ fi;
 if enterAndClear "system/bt"; then
 applyPatch "$DOS_PATCHES/android_system_bt/377030-backport.patch"; #R_asb_2023-12 Fix OOB Write in pin_reply in bluetooth.cc
 applyPatch "$DOS_PATCHES/android_system_bt/377031.patch"; #R_asb_2023-12 BT: Fixing the rfc_slot_id overflow
-applyPatch "$DOS_PATCHES/android_system_bt/381894.patch"; #R_asb_2024-02 Fix an OOB bug in btif_to_bta_response and attp_build_value_cmd
-applyPatch "$DOS_PATCHES/android_system_bt/381895.patch"; #R_asb_2024-02 Fix an OOB write bug in attp_build_read_by_type_value_cmd
 #applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
 
