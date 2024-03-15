@@ -74,7 +74,7 @@ applyPatch "$DOS_PATCHES/android_build/0002-Enable_fwrapv.patch"; #Use -fwrapv a
 applyPatch "$DOS_PATCHES/android_build/0003-verity-openssl3.patch"; #Fix VB 1.0 failure due to openssl output format change
 sed -i '57i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2021-10-05/2024-02-05/' core/version_defaults.mk; #Bump Security String #XXX
+sed -i 's/2021-10-05/2024-03-05/' core/version_defaults.mk; #Bump Security String #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -152,6 +152,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_av/358729.patch"; #n-asb-2023-06 Fix
 applyPatch "$DOS_PATCHES/android_frameworks_av/365962.patch"; #R_asb_2023-09 Fix Segv on unknown address error flagged by fuzzer test.
 applyPatch "$DOS_PATCHES/android_frameworks_av/373949.patch"; #R_asb_2023-11 Fix for heap buffer overflow issue flagged by fuzzer test.
 applyPatch "$DOS_PATCHES/android_frameworks_av/381886.patch"; #R_asb_2024-02 Update mtp packet buffer
+applyPatch "$DOS_PATCHES/android_frameworks_av/385670.patch"; #P_asb_2024-03 Validate OMX Params for VPx encoders
+applyPatch "$DOS_PATCHES/android_frameworks_av/385671.patch"; #P_asb_2024-03 Fix out of bounds read and write in onQueueFilled in outQueue
 fi;
 
 if enterAndClear "frameworks/base"; then
@@ -235,6 +237,9 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/379149-backport.patch"; #R_asb_
 applyPatch "$DOS_PATCHES/android_frameworks_base/379150.patch"; #R_asb_2024-01 Fix vulnerability that allowed attackers to start arbitary activities
 applyPatch "$DOS_PATCHES/android_frameworks_base/379136.patch"; #R_asb_2024-01 Fix ActivityManager#killBackgroundProcesses permissions
 #applyPatch "$DOS_PATCHES/android_frameworks_base/381889-backport.patch"; #R_asb_2024-02 Unbind TileService onNullBinding #XXX: TileLifecycleManager.java:197.17: The method onNullBinding(ComponentName) of type TileLifecycleManager must override or implement a supertype method
+applyPatch "$DOS_PATCHES/android_frameworks_base/385672.patch"; #P_asb_2024-03 Resolve custom printer icon boundary exploit.
+applyPatch "$DOS_PATCHES/android_frameworks_base/385673.patch"; #P_asb_2024-03 Disallow system apps to be installed/updated as instant.
+applyPatch "$DOS_PATCHES/android_frameworks_base/385674.patch"; #P_asb_2024-03 Close AccountManagerService.session after timeout.
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0001-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
@@ -508,6 +513,10 @@ applyPatch "$DOS_PATCHES/android_system_bt/379154-prereq-2.patch"; #R_asb_2024-0
 applyPatch "$DOS_PATCHES/android_system_bt/379154.patch"; #R_asb_2024-01 Fix some OOB errors in BTM parsing
 applyPatch "$DOS_PATCHES/android_system_bt/381894-backport.patch"; #R_asb_2024-02 Fix an OOB bug in btif_to_bta_response and attp_build_value_cmd
 applyPatch "$DOS_PATCHES/android_system_bt/381895.patch"; #R_asb_2024-02 Fix an OOB write bug in attp_build_read_by_type_value_cmd
+#applyPatch "$DOS_PATCHES/android_system_bt/385675.patch"; #P_asb_2024-03 Fix OOB caused by invalid SMP packet length #XXX: needs to switch to `reason =` or backport `smp_int_data.status`
+#applyPatch "$DOS_PATCHES/android_system_bt/385676-backport.patch"; #P_asb_2024-03 Fix an OOB bug in smp_proc_sec_req #XXX: alternatively forward-port 385236 & 385237
+applyPatch "$DOS_PATCHES/android_system_bt/385677.patch"; #P_asb_2024-03 Reland: Fix an OOB write bug in attp_build_value_cmd
+applyPatch "$DOS_PATCHES/android_system_bt/385678.patch"; #P_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 fi;
 
 if enterAndClear "system/ca-certificates"; then
