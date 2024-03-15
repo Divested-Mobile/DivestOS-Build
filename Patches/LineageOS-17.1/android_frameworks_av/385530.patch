@@ -1,0 +1,43 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Harish Mahendrakar <harish.mahendrakar@ittiam.com>
+Date: Mon, 30 Oct 2023 20:38:56 +0000
+Subject: [PATCH] SoftVideoDecodeOMXComponent: validate OMX params for dynamic
+ HDR
+
+Bug: 273935108
+Bug: 281065553
+(cherry picked from https://partner-android-review.googlesource.com/q/commit:b2c67bdcf57149a5e19a04466205266dc543fd86)
+(cherry picked from commit a542f2c50700ca6df93e966fe8d4c468e1a15d9a)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:80e0acc096d201e80a1b65af944b1e47c9dd6f7b)
+Merged-In: I707745594a9196d8d85d4c4bb498eba3c6198b42
+Change-Id: I707745594a9196d8d85d4c4bb498eba3c6198b42
+---
+ media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp b/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp
+index e853da9763..418302389d 100644
+--- a/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp
++++ b/media/libstagefright/omx/SoftVideoDecoderOMXComponent.cpp
+@@ -616,6 +616,10 @@ OMX_ERRORTYPE SoftVideoDecoderOMXComponent::getConfig(
+                 DescribeHDR10PlusInfoParams* outParams =
+                         (DescribeHDR10PlusInfoParams *)params;
+ 
++                if (!isValidOMXParam(outParams)) {
++                    return OMX_ErrorBadParameter;
++                }
++
+                 outParams->nParamSizeUsed = info->size();
+ 
+                 // If the buffer provided by the client does not have enough
+@@ -694,6 +698,10 @@ OMX_ERRORTYPE SoftVideoDecoderOMXComponent::internalSetConfig(
+             const DescribeHDR10PlusInfoParams* inParams =
+                     (DescribeHDR10PlusInfoParams *)params;
+ 
++            if (!isValidOMXParam(inParams)) {
++                return OMX_ErrorBadParameter;
++            }
++
+             if (*frameConfig) {
+                 // This is a request to append to the current frame config set.
+                 // For now, we only support kDescribeHdr10PlusInfoIndex, which

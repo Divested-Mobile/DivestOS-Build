@@ -98,6 +98,7 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
+sed -i 's/2024-02-05/2024-03-05/' core/version_defaults.mk; #Bump Security String #R_asb_2024-03
 fi;
 
 if enterAndClear "build/soong"; then
@@ -160,12 +161,18 @@ if enterAndClear "external/zlib"; then
 git fetch https://github.com/LineageOS/android_external_zlib refs/changes/70/352570/1 && git cherry-pick FETCH_HEAD; #Q_asb_2023-03
 fi;
 
-#if enterAndClear "frameworks/av"; then
-#fi;
+if enterAndClear "frameworks/av"; then
+applyPatch "$DOS_PATCHES/android_frameworks_av/385529.patch"; #R_asb_2024-03 Validate OMX Params for VPx encoders
+applyPatch "$DOS_PATCHES/android_frameworks_av/385530.patch"; #R_asb_2024-03 SoftVideoDecodeOMXComponent: validate OMX params for dynamic HDR
+applyPatch "$DOS_PATCHES/android_frameworks_av/385531.patch"; #R_asb_2024-03 Fix out of bounds read and write in onQueueFilled in outQueue
+fi;
 
 if enterAndClear "frameworks/base"; then
 #applyPatch "$DOS_PATCHES/android_frameworks_base/379145.patch"; #R_asb_2024-01 Dismiss keyguard when simpin auth'd and...
 applyPatch "$DOS_PATCHES/android_frameworks_base/379136.patch"; #R_asb_2024-01 Fix ActivityManager#killBackgroundProcesses permissions
+applyPatch "$DOS_PATCHES/android_frameworks_base/385672.patch"; #P_asb_2024-03 Resolve custom printer icon boundary exploit.
+applyPatch "$DOS_PATCHES/android_frameworks_base/385538.patch"; #R_asb_2024-03 Disallow system apps to be installed/updated as instant.
+applyPatch "$DOS_PATCHES/android_frameworks_base/385539.patch"; #R_asb_2024-03 Close AccountManagerService.session after timeout.
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
@@ -400,6 +407,9 @@ applyPatch "$DOS_PATCHES/android_prebuilts_abi-dumps_vndk/0001-protobuf-avi.patc
 fi;
 
 if enterAndClear "system/bt"; then
+applyPatch "$DOS_PATCHES/android_system_bt/385557.patch"; #R_asb_2024-03 Fix an OOB bug in smp_proc_sec_req
+applyPatch "$DOS_PATCHES/android_system_bt/385558.patch"; #R_asb_2024-03 Reland: Fix an OOB write bug in attp_build_value_cmd
+applyPatch "$DOS_PATCHES/android_system_bt/385559.patch"; #R_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272648.patch"; #ten-bt-sbc-hd-dualchannel: Increase maximum Bluetooth SBC codec bitrate for SBC HD (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_system_bt/272649.patch"; #ten-bt-sbc-hd-dualchannel: Explicit SBC Dual Channel (SBC HD) support (ValdikSS)
@@ -451,8 +461,11 @@ applyPatch "$DOS_PATCHES/android_tools_apksig/360973-backport-prereq.patch"; #R_
 applyPatch "$DOS_PATCHES/android_tools_apksig/360973-backport.patch"; #R_asb_2023-07 Limit the number of supported v1 and v2 signers
 fi;
 
-#if enterAndClear "vendor/qcom/opensource/commonsys/system/bt/"; then
-#fi;
+if enterAndClear "vendor/qcom/opensource/commonsys/system/bt/"; then
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/385591.patch"; #R_asb_2024-03 Fix an OOB bug in smp_proc_sec_req
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/385592.patch"; #R_asb_2024-03 Reland: Fix an OOB write bug in attp_build_value_cmd
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/385593.patch"; #R_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
+fi;
 
 if enterAndClear "vendor/lineage"; then
 rm build/target/product/security/lineage.x509.pem; #Remove Lineage keys

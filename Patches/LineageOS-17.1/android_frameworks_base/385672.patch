@@ -1,0 +1,67 @@
+From 0254ee96d60cd80a52ce583c90486d6ca1549fb6 Mon Sep 17 00:00:00 2001
+From: kumarashishg <kumarashishg@google.com>
+Date: Mon, 17 Jul 2023 12:01:18 +0000
+Subject: [PATCH] Resolve custom printer icon boundary exploit.
+
+Because Settings grants the INTERACT_ACROSS_USERS_FULL permission, an exploit is possible where the third party print plugin service can pass other's User Icon URI. This CL provides a lightweight solution for parsing the image URI to detect profile exploitation.
+
+Bug: 281525042
+Test: Build and flash the code. Try to reproduce the issue with
+mentioned steps in the bug
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:0e0693ca9cb408d0dc82f6c6b3feb453fc8ddd83)
+Merged-In: Iaaa6fe2a627a265c4d1d7b843a033a132e1fe2ce
+Change-Id: Iaaa6fe2a627a265c4d1d7b843a033a132e1fe2ce
+---
+ .../server/print/PrintManagerService.java     | 34 ++++++++++++++++++-
+ 1 file changed, 33 insertions(+), 1 deletion(-)
+
+diff --git a/services/print/java/com/android/server/print/PrintManagerService.java b/services/print/java/com/android/server/print/PrintManagerService.java
+index dc55179bdc9e8..101a2b41addbe 100644
+--- a/services/print/java/com/android/server/print/PrintManagerService.java
++++ b/services/print/java/com/android/server/print/PrintManagerService.java
+@@ -251,12 +251,44 @@ public Icon getCustomPrinterIcon(PrinterId printerId, int userId) {
+             }
+             final long identity = Binder.clearCallingIdentity();
+             try {
+-                return userState.getCustomPrinterIcon(printerId);
++                Icon icon = userState.getCustomPrinterIcon(printerId);
++                return validateIconUserBoundary(icon);
+             } finally {
+                 Binder.restoreCallingIdentity(identity);
+             }
+         }
+ 
++        /**
++         * Validates the custom printer icon to see if it's not in the calling user space.
++         * If the condition is not met, return null. Otherwise, return the original icon.
++         *
++         * @param icon
++         * @return icon (validated)
++         */
++        private Icon validateIconUserBoundary(Icon icon) {
++            // Refer to Icon#getUriString for context. The URI string is invalid for icons of
++            // incompatible types.
++            if (icon != null && (icon.getType() == Icon.TYPE_URI)) {
++                String encodedUser = icon.getUri().getEncodedUserInfo();
++
++                // If there is no encoded user, the URI is calling into the calling user space
++                if (encodedUser != null) {
++                    int userId = Integer.parseInt(encodedUser);
++                    // resolve encoded user
++                    final int resolvedUserId = resolveCallingUserEnforcingPermissions(userId);
++
++                    synchronized (mLock) {
++                        // Only the current group members can get the printer icons.
++                        if (resolveCallingProfileParentLocked(resolvedUserId)
++                                != getCurrentUserId()) {
++                            return null;
++                        }
++                    }
++                }
++            }
++            return icon;
++        }
++
+         @Override
+         public void cancelPrintJob(PrintJobId printJobId, int appId, int userId) {
+             if (printJobId == null) {

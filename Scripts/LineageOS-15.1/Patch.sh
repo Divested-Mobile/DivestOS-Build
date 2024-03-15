@@ -429,6 +429,10 @@ if enterAndClear "packages/providers/ContactsProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_ContactsProvider/335110.patch"; #P_asb_2022-08 enforce stricter CallLogProvider query
 fi;
 
+if enterAndClear "packages/providers/DownloadProvider"; then
+applyPatch "$DOS_PATCHES/android_packages_providers_DownloadProvider/383567.patch"; #P_asb_2024-02 Consolidate queryChildDocumentsXxx() implementations
+fi;
+
 if enterAndClear "packages/providers/MediaProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_MediaProvider/0001-External_Permission.patch"; #Fix permission denial (luca.stefani)
 fi;
