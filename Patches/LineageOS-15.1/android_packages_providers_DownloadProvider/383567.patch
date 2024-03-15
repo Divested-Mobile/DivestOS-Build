@@ -1,4 +1,4 @@
-From d1a6862647428e9c973f4c21adc83656c5ac98f9 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Sergey Nikolaienkov <sergeynv@google.com>
 Date: Mon, 3 Jul 2023 17:09:28 +0200
 Subject: [PATCH] DO NOT MERGE: Consolidate queryChildDocumentsXxx()
@@ -20,10 +20,10 @@ Change-Id: I4c00693e28f3d50d716350a65e9e6bfd7482b085
  1 file changed, 6 insertions(+), 19 deletions(-)
 
 diff --git a/src/com/android/providers/downloads/DownloadStorageProvider.java b/src/com/android/providers/downloads/DownloadStorageProvider.java
-index b8f47a85b..f7f8a21fd 100644
+index efeb272b..9fd6f899 100644
 --- a/src/com/android/providers/downloads/DownloadStorageProvider.java
 +++ b/src/com/android/providers/downloads/DownloadStorageProvider.java
-@@ -245,34 +245,21 @@ public Cursor queryDocument(String docId, String[] projection) throws FileNotFou
+@@ -243,34 +243,21 @@ public class DownloadStorageProvider extends FileSystemProvider {
          }
      }
  

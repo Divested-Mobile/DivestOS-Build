@@ -276,6 +276,10 @@ applyPatch "$DOS_PATCHES/android_lineage-sdk/0001-Private_DNS-Migration.patch"; 
 if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then awk -i inplace '!/LineageAudioService/' lineage/res/res/values/config.xml; fi; #Remove AudioFX
 fi;
 
+if enterAndClear "packages/apps/Aperture"; then
+git revert --no-edit 09577521a65e1cef0560a84085fca46b1cf53803; #Fix invisible buttons
+fi;
+
 #if enterAndClear "packages/apps/CarrierConfig"; then
 #rm -rf assets/*.xml;
 #cp $DOS_PATCHES_COMMON/android_packages_apps_CarrierConfig/*.xml assets/;
