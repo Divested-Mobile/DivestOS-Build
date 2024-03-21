@@ -292,6 +292,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-46909/^5.12/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-46932/4.4/0004.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-46939/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47086/4.4/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47114/4.4/0004.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47118/3.18/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47121/3.18/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-47122/3.18/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/3.4/0065.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-Misc2/3.4/0073.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-1353/4.4/0001.patch
@@ -377,9 +381,13 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52599/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52602/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52603/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52604/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-22099/^6.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24861/^6.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26606/^6.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26625/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26633/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26635/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
@@ -390,7 +398,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
-editKernelLocalversion "-dos.p390"
+editKernelLocalversion "-dos.p398"
 else echo "kernel_moto_shamu is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
