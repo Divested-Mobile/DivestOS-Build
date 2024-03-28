@@ -260,8 +260,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26625/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26633/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26635/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26636/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26651/^6.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
-editKernelLocalversion "-dos.p261"
+editKernelLocalversion "-dos.p262"
 else echo "kernel_sony_sdm660 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
