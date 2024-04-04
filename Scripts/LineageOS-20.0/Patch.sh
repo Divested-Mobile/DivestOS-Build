@@ -97,6 +97,7 @@ applyPatch "$DOS_PATCHES/android_build/0004-Selective_APEX.patch"; #Only enable 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_util.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
+sed -i 's/2024-03-05/2024-04-05/' core/version_defaults.mk; #Bump Security String #T_asb_2024-04
 fi;
 
 if enterAndClear "build/soong"; then
