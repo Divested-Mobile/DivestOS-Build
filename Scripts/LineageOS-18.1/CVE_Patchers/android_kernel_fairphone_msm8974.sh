@@ -273,8 +273,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52603/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52604/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26625/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26675/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26697/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
-editKernelLocalversion "-dos.p274"
+editKernelLocalversion "-dos.p276"
 else echo "kernel_fairphone_msm8974 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

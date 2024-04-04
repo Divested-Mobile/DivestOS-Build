@@ -510,6 +510,10 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24861/^6.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26625/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26633/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26635/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26675/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26696/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26697/4.4/0001.patch
+#git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26773/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
@@ -517,7 +521,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
-editKernelLocalversion "-dos.p517"
+editKernelLocalversion "-dos.p521"
 else echo "kernel_cyanogen_msm8916 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
