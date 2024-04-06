@@ -185,7 +185,7 @@ enableDexPreOpt() {
 	if [ -f BoardConfig.mk ]; then
 		echo "WITH_DEXPREOPT := true" >> BoardConfig.mk;
 		echo "WITH_DEXPREOPT_DEBUG_INFO := false" >> BoardConfig.mk;
-		if [ "$1" != "device/oneplus/kebab" ] && [ "$1" != "device/oneplus/lemonades" ]; then
+		if [ "$1" != "device/oneplus/kebab" ] && [ "$1" != "device/oneplus/lemonades" ] && [ "$1" != "device/oneplus/lemonade" ] && [ "$1" != "device/oneplus/lemonadep" ]; then
 			echo "WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := false" >> BoardConfig.mk;
 			echo "Enabled full dexpreopt for $1";
 		else
