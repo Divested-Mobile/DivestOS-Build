@@ -38,10 +38,10 @@ Such ops are being constructed due to another bug.
  1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/services/core/java/com/android/server/appop/AppOpsService.java b/services/core/java/com/android/server/appop/AppOpsService.java
-index 759099f89b76..e9d8437d84dc 100644
+index cb7b15e17133..ef7c53389cd9 100644
 --- a/services/core/java/com/android/server/appop/AppOpsService.java
 +++ b/services/core/java/com/android/server/appop/AppOpsService.java
-@@ -5122,15 +5122,13 @@ public class AppOpsService extends IAppOpsService.Stub {
+@@ -5160,15 +5160,13 @@ public class AppOpsService extends IAppOpsService.Stub {
                      String lastPkg = null;
                      for (int i=0; i<allOps.size(); i++) {
                          AppOpsManager.PackageOps pkg = allOps.get(i);
