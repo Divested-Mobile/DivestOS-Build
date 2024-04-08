@@ -542,6 +542,10 @@ sed -i 's/libinit_msm8974/libinit_msm8974-oppo/' BoardConfigCommon.mk init/Andro
 sed -i "s/TZ.BF.2.0-2.0.0134/TZ.BF.2.0-2.0.0134|TZ.BF.2.0-2.0.0137/" board-info.txt; #Suport new TZ firmware https://review.lineageos.org/#/c/178999/
 fi;
 
+if enterAndClear "device/samsung/jf-common"; then
+sed -i 's/TARGET_RECOVERY_DENSITY := xxhdpi/TARGET_RECOVERY_DENSITY := xhdpi/' BoardConfigCommon.mk; #no space
+fi;
+
 if enterAndClear "device/samsung/jactivelte"; then
 smallerSystem;
 fi;
