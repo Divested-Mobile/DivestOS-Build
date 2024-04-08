@@ -33,7 +33,7 @@ index d1e0ece59..3117dc6ea 100644
 +#define CHECK_SIZE()                       \
 +  do {                                     \
 +    if (size_now > payload_size) {         \
-+      LOG_ERROR("payload size too small"); \
++      LOG(ERROR) << "payload size too small"; \
 +      osi_free(p_buf);                     \
 +      return nullptr;                      \
 +    }                                      \
@@ -99,7 +99,7 @@ index d1e0ece59..3117dc6ea 100644
 +  // backfill pair len field
 +  if (op_code == GATT_RSP_READ_BY_TYPE) {
 +    if (pair_len > UINT8_MAX) {
-+      LOG_ERROR("pair_len greater than %d", UINT8_MAX);
++      LOG(ERROR) << StringPrintf("pair_len greater than %d", UINT8_MAX);
 +      osi_free(p_buf);
 +      return nullptr;
 +    }
