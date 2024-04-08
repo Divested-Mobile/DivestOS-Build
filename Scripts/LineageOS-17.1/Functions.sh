@@ -82,6 +82,7 @@ patchWorkspaceReal() {
 	repopick 378494; #repopick: Require --force for closed changes found via --query
 	repopick 378458; #repopick: Fix apply order of dependent commits
 	#repopick -it ten-firewall;
+	repopick 353117; #bonus for Q_asb_2023-01
 	repopick -t Q_asb_2023-03 -e 352333,352570;
 	repopick -t Q_asb_2023-04;
 	repopick -t Q_asb_2023-05;

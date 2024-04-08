@@ -18,7 +18,7 @@ Change-Id: Ieffac6db5c6359b071efc599f7a70de609b80b72
  1 file changed, 45 insertions(+), 11 deletions(-)
 
 diff --git a/stack/gatt/att_protocol.cc b/stack/gatt/att_protocol.cc
-index d1e0ece59..3117dc6ea 100644
+index d1e0ece59..41839b072 100644
 --- a/stack/gatt/att_protocol.cc
 +++ b/stack/gatt/att_protocol.cc
 @@ -278,46 +278,80 @@ BT_HDR* attp_build_opcode_cmd(uint8_t op_code) {

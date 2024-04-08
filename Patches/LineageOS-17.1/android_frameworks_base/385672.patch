@@ -1,4 +1,4 @@
-From 0254ee96d60cd80a52ce583c90486d6ca1549fb6 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: kumarashishg <kumarashishg@google.com>
 Date: Mon, 17 Jul 2023 12:01:18 +0000
 Subject: [PATCH] Resolve custom printer icon boundary exploit.
@@ -16,10 +16,10 @@ Change-Id: Iaaa6fe2a627a265c4d1d7b843a033a132e1fe2ce
  1 file changed, 33 insertions(+), 1 deletion(-)
 
 diff --git a/services/print/java/com/android/server/print/PrintManagerService.java b/services/print/java/com/android/server/print/PrintManagerService.java
-index dc55179bdc9e8..101a2b41addbe 100644
+index c9b9f3e6bd48..2bed4b5a81f5 100644
 --- a/services/print/java/com/android/server/print/PrintManagerService.java
 +++ b/services/print/java/com/android/server/print/PrintManagerService.java
-@@ -251,12 +251,44 @@ public Icon getCustomPrinterIcon(PrinterId printerId, int userId) {
+@@ -252,12 +252,44 @@ public final class PrintManagerService extends SystemService {
              }
              final long identity = Binder.clearCallingIdentity();
              try {
