@@ -63,7 +63,7 @@ commentPatches android_kernel_google_msm-4.9.sh "CVE-2019-19319" "CVE-2020-0067"
 commentPatches android_kernel_google_redbull.sh "CVE-2018-5873" "CVE-2021-3444" "CVE-2021-3600";
 commentPatches android_kernel_google_sunfish.sh "CVE-2021-30324";
 commentPatches android_kernel_google_wahoo.sh "0008-Graphene-Kernel_Hardening-canaries/4.4/0002.patch" "CVE-2019-14047/ANY/0002.patch" "CVE-2019-19319" "CVE-2020-1749" "CVE-2020-8992" "CVE-2020-16166" "CVE-2021-30324";
-commentPatches android_kernel_google_yellowstone.sh "0001-LinuxIncrementals/3.10/3.10.0098-0099.patch" "CVE-2018-9514";
+commentPatches android_kernel_google_yellowstone.sh "0001-LinuxIncrementals/3.10/3.10.0098-0099.patch" "CVE-2018-9514" "CVE-2021-47122";
 commentPatches android_kernel_huawei_angler.sh "CVE-2014-8559";
 commentPatches android_kernel_htc_flounder.sh "CVE-2018-9514" "CVE-2018-14614/3.4";
 commentPatches android_kernel_htc_msm8960.sh "CVE-2018-10876" "CVE-2021-0695" "CVE-2021-Misc2/3.4/0055.patch" "CVE-2021-Misc2/3.4/0056.patch";
