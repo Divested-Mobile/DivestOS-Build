@@ -124,6 +124,7 @@ patchWorkspaceReal() {
 	repopick -fit hh-vsync;
 	repopick -fi 311299; #ble: Workaround malformed HCI_BLE_VENDOR_CAP response
 	repopick -it R_asb_2024-03;
+	repopick -it R_asb_2024-04;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
