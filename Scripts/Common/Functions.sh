@@ -929,8 +929,10 @@ export -f changeDefaultDNS;
 
 editKernelLocalversion() {
 	local defconfigPath=$(getDefconfig)
-	sed -i 's/CONFIG_LOCALVERSION=".*"/CONFIG_LOCALVERSION="'"$1"'"/' $defconfigPath &>/dev/null || true;
-	sed -zi '/CONFIG_LOCALVERSION="'"$1"'"/!s/$/\nCONFIG_LOCALVERSION="'"$1"'"/' $defconfigPath &>/dev/null;
+	local replacement=$1;
+	if [ "$DOS_SNET" = true ]; then local replacement="-oink"; fi;
+	sed -i 's/CONFIG_LOCALVERSION=".*"/CONFIG_LOCALVERSION="'"$replacement"'"/' $defconfigPath &>/dev/null || true;
+	sed -zi '/CONFIG_LOCALVERSION="'"$replacement"'"/!s/$/\nCONFIG_LOCALVERSION="'"$replacement"'"/' $defconfigPath &>/dev/null;
 }
 export -f editKernelLocalversion;
 

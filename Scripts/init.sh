@@ -67,6 +67,8 @@ export DOS_GRAPHENE_EXEC=true; #Enables use of GrapheneOS' exec spawning feature
 export DOS_HOSTS_BLOCKING=true; #Set false to prevent inclusion of a HOSTS file
 export DOS_HOSTS_BLOCKING_LIST="https://divested.dev/hosts-wildcards"; #Must be in the format "127.0.0.1 bad.domain.tld"
 export DOS_MICROG_SUPPORT=true; #Opt-in unprivileged microG support on 17.1+18.1+19.1+20.0
+export DOS_SNET=false; #Selectively spoof select build properties
+export DOS_SNET_EXTRA=false; #Globally spoof select bootloader properties
 export DOS_SENSORS_PERM=false; #Set true to provide a per-app sensors permission for 14.1/15.1 #XXX: can break things like camera
 export DOS_STRONG_ENCRYPTION_ENABLED=false; #Set true to enable AES 256-bit FDE encryption on 14.1+15.1 #XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
 export DOS_USE_KSM=false; #Set true to use KSM for increased memory efficiency at the cost of easier side-channel attacks and increased CPU usage #XXX: testing only
@@ -143,6 +145,11 @@ export DOS_BUILD_BASE="$DOS_WORKSPACE_ROOT/Build/$BUILD_WORKING_DIR/";
 if [ ! -d "$DOS_BUILD_BASE" ]; then
 	echo "Path mismatch! Please update init.sh!";
 	return 1;
+fi;
+
+if [ "$DOS_MICROG_SUPPORT" = false ]; then
+	export DOS_SNET=false;
+	export DOS_SNET_EXTRA=false;
 fi;
 
 export DOS_TMP_DIR="/tmp/dos_tmp";
