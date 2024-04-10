@@ -154,29 +154,34 @@ export -f buildAll;
 patchWorkspaceReal() {
 	umask 0022;
 	cd "$DOS_BUILD_BASE/$1";
-	touch DOS_PATCHED_FLAG;
-	if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
-	verifyAllPlatformTags;
-	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
+	if grep -sq "android-13\.0\.0_r0\.127" ".repo/manifests/snippets/pixel.xml"; then
+		touch DOS_PATCHED_FLAG;
+		if [ "$DOS_MALWARE_SCAN_ENABLED" = true ]; then scanForMalware false "$DOS_PREBUILT_APPS $DOS_BUILD_BASE/build $DOS_BUILD_BASE/device $DOS_BUILD_BASE/vendor/lineage"; fi;
+		verifyAllPlatformTags;
+		gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-	source build/envsetup.sh;
-	repopick -i 361248; #Launcher3: Allow toggling monochrome icons for all apps
-	repopick -it T_asb_2024-04;
+		source build/envsetup.sh;
+		repopick -i 361248; #Launcher3: Allow toggling monochrome icons for all apps
+		repopick -it T_asb_2024-04;
 
-	sh "$DOS_SCRIPTS/Patch.sh";
-	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
-	sh "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
-	sh "$DOS_SCRIPTS_COMMON/Defaults.sh";
-	sh "$DOS_SCRIPTS/Rebrand.sh";
-	sh "$DOS_SCRIPTS_COMMON/Optimize.sh";
-	sh "$DOS_SCRIPTS_COMMON/Deblob.sh";
-	sh "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
-	sh "$DOS_SCRIPTS_COMMON/Post.sh";
-	source build/envsetup.sh;
+		sh "$DOS_SCRIPTS/Patch.sh";
+		sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
+		sh "$DOS_SCRIPTS_COMMON/Copy_Keys.sh";
+		sh "$DOS_SCRIPTS_COMMON/Defaults.sh";
+		sh "$DOS_SCRIPTS/Rebrand.sh";
+		sh "$DOS_SCRIPTS_COMMON/Optimize.sh";
+		sh "$DOS_SCRIPTS_COMMON/Deblob.sh";
+		sh "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
+		sh "$DOS_SCRIPTS_COMMON/Post.sh";
+		source build/envsetup.sh;
 
-	#Deblobbing fixes
-	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
-	#none yet
+		#Deblobbing fixes
+		##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
+		#none yet
+	else
+		echo -e "\e[0;33mWARNING: MANIFEST INCORRECT, NOT PATCHING!\e[0m";
+		echo "Please apply Patches/LineageOS-20.0/android/0001-tensor.patch to .repo/manifests and sync";
+	fi;
 }
 export -f patchWorkspaceReal;
 
