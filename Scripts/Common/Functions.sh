@@ -25,6 +25,7 @@ resetWorkspace() {
 	umask 0022;
 	if [ "$1" == "local" ]; then local noNetwork="--local-only"; fi;
 	repo forall -c 'git add -A && git reset --hard' && rm -rf out DOS_PATCHED_FLAG && repo sync --jobs-network=6 --jobs-checkout=12 --force-sync --detach $noNetwork;
+	repo forall -v -c 'echo "$REPO_PATH $(git rev-parse HEAD)"' | sort -u > "$DOS_WORKSPACE_ROOT/Logs/resetWorkspace-$DOS_VERSION.txt";
 }
 export -f resetWorkspace;
 
