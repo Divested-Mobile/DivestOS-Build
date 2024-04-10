@@ -2,9 +2,9 @@
 if cd "$DOS_BUILD_BASE""kernel/motorola/msm8916"; then
 #git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.10/3.10.0050-0051.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.10/3.10.0053-0054.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0007.patch
+git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/^3.17/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/3.10/0004-No_dir-relax.patch
@@ -154,9 +154,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10142/3.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10153/3.4/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10741/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-partial-SMAP-bypass/3.10/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0005.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/^4.10/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/^4.13/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/^4.14/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0453/prima/0003.patch --directory=drivers/staging/prima
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0627/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0861/3.10/0004.patch

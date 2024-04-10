@@ -2,7 +2,7 @@
 if cd "$DOS_BUILD_BASE""kernel/lge/bullhead"; then
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.10/3.10.0073-0074.patch --exclude=Makefile
 git apply $DOS_PATCHES_LINUX_CVES/0001-LinuxIncrementals/3.10/3.10.0093-0094.patch --exclude=Makefile
-git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/ANY/0003.patch
+git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes/^3.17/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc/ANY/0009.patch
 git apply $DOS_PATCHES_LINUX_CVES/0003-syzkaller-Misc2/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0005-AndroidHardening-Deny_USB/3.10/0001.patch
@@ -169,9 +169,9 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10235/qcacld-2.0/0001.patch --directo
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10318/3.18/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-10741/3.18/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2016-partial-SMAP-bypass/3.10/0002.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0005.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/ANY/0006.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/^4.10/0005.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/^4.13/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-16USB/^4.14/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0464/qcacld-2.0/0003.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0510/3.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-0516/ANY/0001.patch
@@ -229,7 +229,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-14489/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-14877/3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15102/3.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15115/3.10/0003.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15121/ANY/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15121/^3.10/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15274/3.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15299/3.10/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-15815/qcacld-2.0/0002.patch --directory=drivers/staging/qcacld-2.0
