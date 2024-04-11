@@ -21,11 +21,22 @@ _fetchError(){
     local error_line_number="$2";
     local last_func="$3";
     local file=$(echo "$4" | sed "s#$DOS_WORKSPACE_ROOT#\$DOS_WORKSPACE_ROOT#g");
+
+    # ignore when pressing TAB or sim.
+    if [[ "$file" =~ .*bash_completion ]];then return; fi
+    case $last_func in
+	command_not_found_handle|_filedir) return;;
+    esac
+
     if [ ! -z "$last_func" ] && [ ! -z "$file" ];then
 	echo -e "\e[0;31mERROR: $file -> ${last_func}() ended with status >${last_status}< at line >$((error_line_number -1))<\e[0m";
+    elif [ ! -z "$last_func" ];then
+	echo -e "\e[0;31mERROR: ${last_func}() ended with status >${last_status}< at line >$((error_line_number -1))<\e[0m";
     else
 	echo -e "\e[0;31mERROR: last command ended with status >${last_status}< at line >$((error_line_number -1))<\e[0m";
     fi
+    export TR_ERR=$last_status
+    _exit_report
 }
 export -f _fetchError;
 
@@ -74,7 +85,7 @@ enterAndClear() {
 export -f enterAndClear;
 
 gitReset() {
-	git add -A && git reset --hard;
+	(git add -A && git reset --hard) || true;
 }
 export -f gitReset;
 
@@ -88,16 +99,22 @@ applyPatchReal() {
 					git format-patch -1 HEAD --zero-commit --no-signature --output="$currentWorkingPatch";
 				fi;
 			fi;
+		else
+		    echo "Applying (git am): $currentWorkingPatch - FAILED"
+		    git am --abort || true
+		    echo "Applying (patch fallback): $currentWorkingPatch"
+		    patch -r - --no-backup-if-mismatch --forward --ignore-whitespace --verbose -p1 < $currentWorkingPatch
 		fi;
 	else
-		git apply "$@";
 		echo "Applying (as diff): $currentWorkingPatch";
+		git apply "$@";
 	fi;
 }
 export -f applyPatchReal;
 
 applyPatch() {
 	currentWorkingPatch=$1;
+	set -E
 	if [ -f "$currentWorkingPatch" ]; then
 		if git apply --check "$@" &> /dev/null; then
 			applyPatchReal "$@";
@@ -110,11 +127,13 @@ applyPatch() {
 					echo "Applied (as 3way): $currentWorkingPatch";
 				else
 					echo -e "\e[0;31mERROR: Cannot apply: $currentWorkingPatch\e[0m";
+					false
 				fi;
 			fi;
 		fi;
 	else
 		echo -e "\e[0;31mERROR: Patch doesn't exist: $currentWorkingPatch\e[0m";
+		false
 	fi;
 }
 export -f applyPatch;

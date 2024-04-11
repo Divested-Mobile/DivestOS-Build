@@ -119,14 +119,15 @@ umask 0022;
 
 export TR_ERR=0
 export TR_PID=$$
+unset nokill
+if [ -z "$UNATTENDED_PATCHING" ];then export UNATTENDED_PATCHING=1;fi
 
 set -E;	#required for resetEnv()
 resetEnv(){
     trap - ERR EXIT USR2 SIGINT SIGHUP TERM
     echo -e "\n\e[0;32mThe environment has been reset.\e[0m\nRemember to always '\e[0;31msource ../../Scripts/init.sh\e[0m' before building.\n"
     set +E +f
-}
-export -f resetEnv
+}; export -f resetEnv
 
 # print result
 # will also ensure the corresponding status code gets returned properly
@@ -137,8 +138,47 @@ _errorReport(){
 	echo -e "\n\e[0;32m[FINAL RESULT] No error detected (please check the above output nevertheless!)\e[0m"
     fi
     return $TR_ERR
-}
-export -f _errorReport
+}; export -f _errorReport
+
+# exit
+_exit(){
+    if [ "$1" == "noreset" ] || [ $TR_ERR -eq 0 ] ;then
+	echo -e "Ended with $TR_ERR.\nThe shell env has NOT been reset, type: resetEnv if needed.\n"
+    else
+	if [ -z "$nokill" ];then nokill=0;fi
+	resetEnv
+	echo -e "\nExecution has been STOPPED (TR_ERR=$TR_ERR)."
+	if [ "$UNATTENDED_PATCHING" -eq 1 ];then
+	    echo -e "\n\e[0;31mPressing any key or waiting 10s will close this shell (set UNATTENDED_PATCHING=0 to disable auto-close)!\e[0m"
+	    read -t 10 -p "- press any key to exit the shell NOW (auto closes after 10s) -" DUMMY || true
+	else
+	    read -p "- press any key to exit the shell NOW -" DUMMY || true
+	fi
+	_SPIDS=$(ps -s $TR_PID -o pid= | tr '\n' ' ')
+	if [ -z "$_SPIDS" ];then
+	    echo -e "... ok, no childs running (I am: $TR_PID)"
+	else
+	    echo -e "... killing childs: $_SPIDS"
+	    kill -9 $_SPIDS
+	fi
+	if [ $nokill -eq 0 ];then
+	    echo "... killing shell: $TR_PID"
+	    kill -9 $TR_PID
+	fi
+    fi
+}; export -f _exit
+
+# exit & reset & report
+_exit_report(){
+    _errorReport
+    _exit
+}; export -f _exit_report
+
+# exit without reset/kill
+_exit_sigint(){
+    echo -e "\n\nCTRL+C pressed or process has been terminated.."
+    _exit noreset
+}; export _exit_sigint
 
 # trap and print errors
 # ERR: needed to fetch aborts when set -e is set
@@ -146,8 +186,8 @@ trap 'E=$?; \
       [ $E -ne 0 ] && _fetchError $E $LINENO $FUNCNAME $BASH_SOURCE \
       && export TR_ERR=$((TR_ERR + $E))' EXIT ERR
 
-trap _errorReport USR2
-trap resetEnv SIGINT SIGHUP TERM
+trap _exit_report SIGUSR2 USR2
+trap _exit_sigint SIGINT SIGHUP TERM
 
 gpgVerifyGitHead() {
 	if [ -r "$DOS_TMP_GNUPG/pubring.kbx" ]; then
