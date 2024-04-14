@@ -174,6 +174,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/385672.patch"; #P_asb_2024-03 R
 applyPatch "$DOS_PATCHES/android_frameworks_base/385538.patch"; #R_asb_2024-03 Disallow system apps to be installed/updated as instant.
 applyPatch "$DOS_PATCHES/android_frameworks_base/385539.patch"; #R_asb_2024-03 Close AccountManagerService.session after timeout.
 applyPatch "$DOS_PATCHES/android_frameworks_base/389014-backport.patch"; #S_asb_2024-04 Fix security vulnerability that creates user with no restrictions when accountOptions are too long.
+#TODO: https://review.lineageos.org/c/LineageOS/android_frameworks_base/+/389269
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)
