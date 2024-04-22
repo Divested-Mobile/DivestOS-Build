@@ -1,5 +1,5 @@
 #!/bin/sh
-#DivestOS: A privacy focused mobile distribution
+#DivestOS: A mobile operating system divested from the norm.
 #Copyright (c) 2022 Divested Computing Group
 #
 #This program is free software: you can redistribute it and/or modify
