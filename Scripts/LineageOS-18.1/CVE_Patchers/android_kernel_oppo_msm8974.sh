@@ -420,9 +420,12 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-25739/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26625/4.4/0008.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26675/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26697/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26851/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26894/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26901/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13167/3.4/0014.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
-editKernelLocalversion "-dos.p422"
+editKernelLocalversion "-dos.p425"
 else echo "kernel_oppo_msm8974 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
