@@ -796,6 +796,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52602/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52603/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52604/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52605/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52646/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-22099/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24857/^6.9/0001.patch
@@ -831,7 +832,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
-editKernelLocalversion "-dos.p831"
+editKernelLocalversion "-dos.p832"
 else echo "kernel_google_dragon is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
