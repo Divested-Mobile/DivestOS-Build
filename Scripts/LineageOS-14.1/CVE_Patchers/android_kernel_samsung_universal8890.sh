@@ -779,6 +779,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-45919/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-45934/4.4/0008.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-47929/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48619/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-48659/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0394/4.4/0007.patch
 #git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0458/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-0615/4.4/0001.patch
@@ -868,7 +869,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/3.18/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2021-37159/4.4/0006.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
-editKernelLocalversion "-dos.p868"
+editKernelLocalversion "-dos.p869"
 else echo "kernel_samsung_universal8890 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
