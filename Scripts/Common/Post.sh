@@ -58,3 +58,5 @@ sed -i '/android.software.managed_users/s/notLowRam="true"//' frameworks/native/
 
 cd "$DOS_BUILD_BASE";
 echo -e "\e[0;32m[SCRIPT COMPLETE] Post tweaks complete\e[0m";
+
+kill -USR2 $TR_PID
