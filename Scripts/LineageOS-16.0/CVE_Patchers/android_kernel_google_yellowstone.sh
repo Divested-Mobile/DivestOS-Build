@@ -571,6 +571,12 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26851/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26875/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26894/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26901/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26955/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26956/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26973/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26981/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27009/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27059/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
@@ -578,7 +584,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
-editKernelLocalversion "-dos.p578"
+editKernelLocalversion "-dos.p584"
 else echo "kernel_google_yellowstone is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
