@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="carrier_certificate_string_array" num="1">
+      <item value="DD839AD437E56CDCE41B683F35777EA73DD2B5571FE6849B26176FC26F03CC40:com.VodafoneIreland.MyVodafone"/>
+    </string-array>
+</carrier_config>

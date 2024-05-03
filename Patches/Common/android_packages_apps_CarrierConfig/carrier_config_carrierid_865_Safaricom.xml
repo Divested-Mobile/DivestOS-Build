@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <carrier_config>
-    <string-array name="carrier_certificate_string_array" num="2">
-      <item value="F86A9F41A3616F82FAB02D4F23072FAFC7FF94B266C2E0A3558F097A95EA51D8"/>
-      <item value="F047BB9ED3FDFB7B32887F9DBAC1B933E58AE5857EC3455113C34DE26286FEC9"/>
+    <string-array name="carrier_certificate_string_array" num="1">
+      <item value="F86A9F41A3616F82FAB02D4F23072FAFC7FF94B266C2E0A3558F097A95EA51D8:com.safaricom.android.financing,com.safaricom.android.simupoa_android"/>
     </string-array>
 </carrier_config>

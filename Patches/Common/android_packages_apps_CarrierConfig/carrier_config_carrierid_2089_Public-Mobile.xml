@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!--
+  ~ Copyright (C) 2023 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
 <carrier_config>
-    <boolean name="carrier_supports_ss_over_ut_bool" value="true"/>
     <string name="5g_icon_configuration_string">connected_mmwave:5G_Plus,connected:5G,not_restricted_rrc_idle:5G,not_restricted_rrc_con:5G</string>
     <string name="5g_icon_display_grace_period_string">connected_mmwave,connected,30;connected_mmwave,not_restricted_rrc_idle,30;connected_mmwave,not_restricted_rrc_con,30</string>
     <int-array name="additional_nr_advanced_bands_int_array" num="1">

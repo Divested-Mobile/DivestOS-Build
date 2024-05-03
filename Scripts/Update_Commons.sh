@@ -29,20 +29,20 @@ wget "https://github.com/LineageOS/android_packages_apps_LineageParts/raw/lineag
 
 #TODO: wireless-regdb, unused
 #https://mirrors.edge.kernel.org/pub/software/network/wireless-regdb/
-#Last: 2024/03/05
+#Last: 2024/05/03
 
 #TODO: MMS Configs
 #https://github.com/GrapheneOS/platform_packages_apps_Messaging
-#Last: 2024/03/05
+#Last: 2024/05/03
 
 #TODO: CA store
 #https://android.googlesource.com/platform/system/ca-certificates
-#Last: 2024/03/05
+#Last: 2024/05/03
 
 #TODO: Carrier List, unused
 #https://android.googlesource.com/platform/packages/providers/TelephonyProvider/
-#Last: 2024/03/05
+#Last: 2024/05/03
 
 #TODO: Carrier Configs, unused
 #https://android.googlesource.com/platform/packages/apps/CarrierConfig/
-#Last: 2024/03/05
+#Last: 2024/05/03

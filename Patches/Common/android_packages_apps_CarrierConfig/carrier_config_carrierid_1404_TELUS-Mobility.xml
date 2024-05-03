@@ -15,4 +15,12 @@
     <string-array name="read_only_apn_types_string_array" num="1">
         <item value="*"/>
     </string-array>
+    <string name="5g_icon_configuration_string">connected_mmwave:5G_Plus,connected:5G,not_restricted_rrc_idle:5G,not_restricted_rrc_con:5G</string>
+    <string name="5g_icon_display_grace_period_string">connected_mmwave,connected,30;connected_mmwave,not_restricted_rrc_idle,30;connected_mmwave,not_restricted_rrc_con,30</string>
+    <int-array name="additional_nr_advanced_bands_int_array" num="1">
+        <item value="78"/>
+    </int-array>
+    <int name="nr_advanced_threshold_bandwidth_khz_int" value="60000"/>
+    <boolean name="enable_nr_advanced_for_roaming_bool" value="true"/>
+    <boolean name="include_lte_for_nr_advanced_threshold_bandwidth_bool" value="true"/>
 </carrier_config>

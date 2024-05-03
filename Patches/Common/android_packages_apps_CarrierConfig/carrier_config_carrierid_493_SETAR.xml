@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <boolean name="carrier_name_override_bool" value="true"/>
+    <string name="carrier_name_string">SETAR</string>
+    <int name="default_mtu_int" value="1500"/>
+    <string name="5g_icon_configuration_string">connected_mmwave:5G_Plus,connected:5G,not_restricted_rrc_idle:5G,not_restricted_rrc_con:5G</string>
+    <boolean name="hide_lte_plus_data_icon_bool" value="false"/>
+    <boolean name="enabledMMS" value="true"/>
+    <boolean name="enableMultipartSMS" value="true"/>
+    <boolean name="carrier_volte_available_bool" value="true"/>
+    <boolean name="carrier_supports_ss_over_ut_bool" value="false"/>
+    <boolean name="carrier_wfc_ims_available_bool" value="false" />
+    <boolean name="carrier_vt_available_bool" value="false" />
+    <boolean name="hide_ims_apn_bool" value="true"/>
+</carrier_config>

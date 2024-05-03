@@ -9,7 +9,7 @@
         <item value="405"/>
     </string-array>
     <string-array name="carrier_certificate_string_array" num="2">
-        <item value="7170F9C35AC5966C1687372089AF55713DACC17635BAD248370DA67DDF8472B6"/>
-        <item value="FB9FD5425AB63FA933CF8125B2F3EFC0DF11F0DE0C9C01EF2F2B71A3EBD135A3"/>
+        <item value="7170F9C35AC5966C1687372089AF55713DACC17635BAD248370DA67DDF8472B6:com.myairtelapp"/>
+        <item value="FB9FD5425AB63FA933CF8125B2F3EFC0DF11F0DE0C9C01EF2F2B71A3EBD135A3:com.airtelx.airtelkiosk"/>
     </string-array>
 </carrier_config>

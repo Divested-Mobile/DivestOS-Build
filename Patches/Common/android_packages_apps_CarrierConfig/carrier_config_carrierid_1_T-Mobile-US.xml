@@ -48,4 +48,27 @@
         <item value="41"/>
     </int-array>
     <boolean name="enable_nr_advanced_for_roaming_bool" value="false"/>
+    <boolean name="show_roaming_indicator_bool" value="false"/>
+    <string-array name="data_connected_roaming_notification_excluded_mccs_string_array" num="7">
+        <item value="310"/>
+        <item value="311"/>
+        <item value="312"/>
+        <item value="313"/>
+        <item value="314"/>
+        <item value="315"/>
+        <item value="316"/>
+    </string-array>
+    <string-array name="data_connected_roaming_notification_included_mcc_mncs_string_array" num="11">
+        <item value="310032"/>
+        <item value="310033"/>
+        <item value="310110"/>
+        <item value="310140"/>
+        <item value="310370"/>
+        <item value="310400"/>
+        <item value="310470"/>
+        <item value="310500"/>
+        <item value="310970"/>
+        <item value="311170"/>
+        <item value="311250"/>
+    </string-array>
 </carrier_config>

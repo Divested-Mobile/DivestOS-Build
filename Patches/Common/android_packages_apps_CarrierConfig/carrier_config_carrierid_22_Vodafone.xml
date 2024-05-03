@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<carrier_config>
+    <string-array name="carrier_certificate_string_array" num="1">
+      <item value="1EE6A3F2CBCADB2060075A9147F5336B8B9D68E0979FD097A65CD7DD70852389:com.vodafone.mCare"/>
+    </string-array>
+</carrier_config>
