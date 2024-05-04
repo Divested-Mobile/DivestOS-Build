@@ -20,7 +20,7 @@ set -uo pipefail;
 #grep "verity\.mk" Build/*/device/*/*/*.mk -l
 VERITY_DEVICES=('Amber' 'angler' 'bullhead' 'cheeseburger' 'cheryl' 'discovery' 'dragon' 'dumpling' 'flounder' 'kirin' 'marlin' 'mata' 'mermaid' 'oneplus3' 'pioneer' 'sailfish' 'shamu' 'voyager' 'z2_plus');
 #grep "AVB_ENABLE" Build/*/device/*/*/*.mk -l
-AVB_DEVICES=('akari' 'akatsuki' 'alioth' 'apollon' 'aura' 'aurora' 'avicii' 'barbet' 'beryllium' 'bluejay' 'blueline' 'bonito' 'bramble' 'cheetah' 'coral' 'crosshatch' 'davinci' 'dipper' 'enchilada' 'equuleus' 'fajita' 'flame' 'FP3' 'FP4' 'guacamole' 'guacamoleb' 'hotdog' 'hotdogb' 'instantnoodle' 'instantnoodlep' 'jasmine_sprout' 'kebab' 'lavender' 'lemonade' 'lemonadep' 'lemonades' 'lmi' 'oriole' 'panther' 'platina' 'polaris' 'pro1' 'pro1x' 'raphael' 'raven' 'redfin' 'sargo' 'sunfish' 'taimen' 'twolip' 'ursa' 'vayu' 'walleye' 'wayne' 'whyred' 'xz2c');
+AVB_DEVICES=('akari' 'akatsuki' 'alioth' 'apollon' 'aura' 'aurora' 'avicii' 'barbet' 'beryllium' 'bluejay' 'blueline' 'bonito' 'bramble' 'cheetah' 'coral' 'crosshatch' 'davinci' 'dipper' 'enchilada' 'equuleus' 'fajita' 'flame' 'FP3' 'FP4' 'guacamole' 'guacamoleb' 'hotdog' 'hotdogb' 'instantnoodle' 'instantnoodlep' 'jasmine_sprout' 'kebab' 'lavender' 'lemonade' 'lemonadep' 'lemonades' 'lmi' 'lynx' 'oriole' 'panther' 'platina' 'polaris' 'pro1' 'pro1x' 'raphael' 'raven' 'redfin' 'sargo' 'sunfish' 'taimen' 'tangorpro' 'twolip' 'ursa' 'vayu' 'walleye' 'wayne' 'whyred' 'xz2c');
 
 #TODO: Make this a function?
 echo "================================================================================";
@@ -31,8 +31,8 @@ do
 	device=$(dirname $f);
 	if [[ " ${VERITY_DEVICES[@]} " =~ " ${device} " ]]; then
 		echo "Device: $device";
-		sha1=$(cat $f | openssl dgst -sha1 -c | sed 's/(stdin)= //' | tr [a-z] [A-Z]);
-		sha256=$(cat $f | openssl dgst -sha256 | sed 's/(stdin)= //' | tr [a-z] [A-Z]);
+		sha1=$(cat $f | openssl dgst -sha1 -c | sed 's/SHA1(stdin)= //' | tr [a-z] [A-Z]);
+		sha256=$(cat $f | openssl dgst -sha256 | sed 's/SHA2-256(stdin)= //' | tr [a-z] [A-Z]);
 		#echo -e "\tSHA-1:"; #TODO: Figure out how this is actually calculated, perhaps lacks the actual certificate infomation due to mincrypt?
 		#echo -e "\t\t$sha1";
 		echo -e "\tSHA-256:";
@@ -50,7 +50,7 @@ do
 	device=$(dirname $f);
 	if [[ " ${AVB_DEVICES[@]} " =~ " ${device} " ]]; then
 		echo "Device: $device";
-		sha256=$(cat $f | openssl dgst -sha256 | sed 's/(stdin)= //' | tr [a-z] [A-Z]);
+		sha256=$(cat $f | openssl dgst -sha256 | sed 's/SHA2-256(stdin)= //' | tr [a-z] [A-Z]);
 		#echo -e "\tID:"; #Not really needed
 		#echo -e "\t\t${sha256:0:8}";
 		echo -e "\tSHA-256:";

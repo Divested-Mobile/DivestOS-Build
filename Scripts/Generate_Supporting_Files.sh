@@ -18,12 +18,12 @@
 umask 0022;
 set -uo pipefail;
 
-export copyPartsZip="/mnt/backup-1/DivestOS/Builds/Extras/copy-partitions-20210323_1922-cleaned.zip"; #XXX: ADJUST ME
+export copyPartsZip="/mnt/Storage-1/DivestOS/Builds/Extras/copy-partitions-20210323_1922-cleaned.zip"; #XXX: ADJUST ME
 
-export repoDir="/mnt/backup-1/DivestOS/Builds/Supporting_Files/";
+export repoDir="/mnt/Storage-1/DivestOS/Builds/Supporting_Files/";
 mkdir -p $repoDir;
 
-devicesCopy=(akari akatsuki alioth Amber aura aurora avicii barbet bluejay blueline bonito bramble cheetah cheryl coral crosshatch davinci discovery enchilada fajita flame FP3 FP4 guacamole guacamoleb hotdog hotdogb instantnoodle instantnoodlep kebab kirin lemonade lemonadep lemonades marlin mata mermaid oriole panther pioneer pro1 pro1x raven redfin sailfish sargo sunfish taimen voyager walleye xz2c);
+devicesCopy=(akari akatsuki alioth Amber aura aurora avicii barbet bluejay blueline bonito bramble cheetah cheryl coral crosshatch davinci discovery enchilada fajita flame FP3 FP4 guacamole guacamoleb hotdog hotdogb instantnoodle instantnoodlep kebab kirin lemonade lemonadep lemonades lynx marlin mata mermaid oriole panther pioneer pro1 pro1x raven redfin sailfish sargo sunfish taimen tangorpro voyager walleye xz2c);
 
 for device in "${devicesCopy[@]}"
 do

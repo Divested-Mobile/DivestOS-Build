@@ -145,6 +145,14 @@
 	<project path="kernel/google/gs201/private/gs-google" name="LineageOS/android_kernel_google_gs201" remote="github" revision="lineage-20" />
 	<!-- uses gs101 commons -->
 
+	<!-- Google Pixel 7a (lynx) -->
+	<project path="device/google/lynx" name="LineageOS/android_device_google_lynx" remote="github" revision="lineage-20" />
+	<!-- uses gs101 commons -->
+
+	<!-- Google Pixel Tablet (tangorpro) -->
+	<project path="device/google/tangorpro" name="LineageOS/android_device_google_tangorpro" remote="github" revision="lineage-20" />
+	<!-- uses gs101 commons -->
+
 	<!-- LG G5 (h850:intl, rs988:us) -->
 	<project path="device/lge/g5-common" name="LineageOS/android_device_lge_g5-common" remote="github" revision="lineage-20" />
 	<project path="device/lge/msm8996-common" name="LineageOS/android_device_lge_msm8996-common" remote="github" revision="lineage-20" />
@@ -347,12 +355,14 @@
 	<project path="vendor/google/coral" name="[COLOUR IN THE LINES]/proprietary_vendor_google_coral" remote="github" revision="lineage-20" />
 	<project path="vendor/google/crosshatch" name="[COLOUR IN THE LINES]/proprietary_vendor_google_crosshatch" remote="github" revision="lineage-20" />
 	<project path="vendor/google/flame" name="[COLOUR IN THE LINES]/proprietary_vendor_google_flame" remote="github" revision="lineage-20" />
+	<project path="vendor/google/lynx" name="[COLOUR IN THE LINES]/proprietary_vendor_google_lynx" remote="gitlab" revision="lineage-20" />
 	<project path="vendor/google/oriole" name="[COLOUR IN THE LINES]/proprietary_vendor_google_oriole" remote="gitlab" revision="lineage-20" />
 	<project path="vendor/google/panther" name="[COLOUR IN THE LINES]/proprietary_vendor_google_panther" remote="gitlab" revision="lineage-20" />
 	<project path="vendor/google/raven" name="[COLOUR IN THE LINES]/proprietary_vendor_google_raven" remote="gitlab" revision="lineage-20" />
 	<project path="vendor/google/redfin" name="[COLOUR IN THE LINES]/proprietary_vendor_google_redfin" remote="github" revision="lineage-20" />
 	<project path="vendor/google/sargo" name="[COLOUR IN THE LINES]/proprietary_vendor_google_sargo" remote="github" revision="lineage-20" />
 	<project path="vendor/google/sunfish" name="[COLOUR IN THE LINES]/proprietary_vendor_google_sunfish" remote="github" revision="lineage-20" />
+	<project path="vendor/google/tangorpro" name="[COLOUR IN THE LINES]/proprietary_vendor_google_tangorpro" remote="gitlab" revision="lineage-20" />
 	<project path="vendor/google/taimen" name="[COLOUR IN THE LINES]/proprietary_vendor_google_taimen" remote="github" revision="lineage-20" />
 	<project path="vendor/google/walleye" name="[COLOUR IN THE LINES]/proprietary_vendor_google_walleye" remote="github" revision="lineage-20" />
 	<project path="vendor/lge/g5-common" name="[COLOUR IN THE LINES]/proprietary_vendor_lge_g5-common" remote="github" revision="lineage-20" />

@@ -20,7 +20,7 @@ index 7f5f74f4b..93e689444 100644
 -# Enable updating of APEXes
 -$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 +# Enable updating of APEXes on 6th and 7th generation Pixel devices only
-+ifneq (,$(filter lineage_cheetah lineage_panther lineage_oriole lineage_raven lineage_bluejay, $(TARGET_PRODUCT)))
++ifneq (,$(filter lineage_cheetah lineage_panther lineage_oriole lineage_raven lineage_bluejay lineage_lynx lineage_tangorpro, $(TARGET_PRODUCT)))
 +    $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 +endif
  

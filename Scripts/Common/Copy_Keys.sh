@@ -96,6 +96,7 @@ if [ -d "$DOS_SIGNING_KEYS" ]; then
 	copyKey "lemonadep" "kernel/oneplus/sm8350";
 	copyKey "lemonades" "kernel/oneplus/sm8250";
 	copyKey "lmi" "kernel/xiaomi/sm8250";
+	copyKey "lynx" "kernel/google/gs201/private/gs-google";
 	copyKey "marlin" "kernel/google/marlin";
 	copyKey "mata" "kernel/essential/msm8998";
 	copyKey "mermaid" "kernel/sony/sdm660";
@@ -122,6 +123,7 @@ if [ -d "$DOS_SIGNING_KEYS" ]; then
 	copyKey "starlte" "kernel/samsung/universal9810";
 	copyKey "sunfish" "kernel/google/sunfish";
 	copyKey "taimen" "kernel/google/wahoo";
+	copyKey "tangorpro" "kernel/google/gs201/private/gs-google";
 	copyKey "twolip" "kernel/xiaomi/sdm660";
 	copyKey "ursa" "kernel/xiaomi/sdm845";
 	copyKey "vayu" "kernel/xiaomi/sm8150";

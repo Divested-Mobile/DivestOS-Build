@@ -60,14 +60,14 @@ buildAll() {
 	buildDevice h850;
 	buildDevice rs988;
 	buildDevice h870;
-	#buildDevice h872; #TODO: needs keys
+	buildDevice h872;
 	buildDevice us997;
 	buildDevice h910;
 	buildDevice h918;
 	buildDevice h990;
 	buildDevice ls997;
 	buildDevice us996;
-	#buildDevice us996d; #TODO: needs keys
+	buildDevice us996d;
 	buildDevice vs995;
 	buildDevice z2_plus verity;
 	#SD835
@@ -95,8 +95,8 @@ buildAll() {
 	buildDevice equuleus avb;
 	buildDevice polaris avb;
 	buildDevice ursa avb;
-	buildDevice crosshatch avb; #unb
-	buildDevice blueline avb; #unb
+	buildDevice crosshatch avb;
+	buildDevice blueline avb;
 	buildDevice akari avb;
 	buildDevice aurora avb;
 	buildDevice xz2c avb;
@@ -132,8 +132,8 @@ buildAll() {
 	buildDevice redfin avb;
 	buildDevice barbet avb;
 	#SD670
-	buildDevice bonito avb; #unb
-	buildDevice sargo avb; #unb
+	buildDevice bonito avb;
+	buildDevice sargo avb;
 	#SD865
 	buildDevice lmi avb;
 	buildDevice apollon avb;
@@ -144,6 +144,8 @@ buildAll() {
 	buildDevice raven avb;
 	buildDevice panther avb;
 	buildDevice cheetah avb;
+	buildDevice lynx avb;
+	buildDevice tangorpro avb;
 	#Exynos
 	buildDevice starlte;
 	buildDevice star2lte;

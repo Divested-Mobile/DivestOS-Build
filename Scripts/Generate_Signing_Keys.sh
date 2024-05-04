@@ -22,7 +22,7 @@ source "$DOS_SCRIPTS_COMMON/Shell.sh";
 
 type='rsa'; #Options: rsa, ec
 
-#source build/envsetup.sh && breakfast lineage_sailfish-user && make -j20 generate_verity_key otatools;
+#source build/envsetup.sh && breakfast lineage_clark-user && make -j20 generate_verity_key otatools;
 #source ../../Scripts/Generate_Signing_Keys.sh $device;
 
 mkdir -p "$DOS_SIGNING_KEYS/NEW";
