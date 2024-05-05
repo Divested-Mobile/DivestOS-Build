@@ -20,7 +20,7 @@ set -uo pipefail;
 #grep "verity\.mk" Build/*/device/*/*/*.mk -l
 VERITY_DEVICES=('Amber' 'angler' 'bullhead' 'cheeseburger' 'cheryl' 'discovery' 'dragon' 'dumpling' 'flounder' 'kirin' 'marlin' 'mata' 'mermaid' 'oneplus3' 'pioneer' 'sailfish' 'shamu' 'voyager' 'z2_plus');
 #grep "AVB_ENABLE" Build/*/device/*/*/*.mk -l
-AVB_DEVICES=('akari' 'akatsuki' 'alioth' 'apollon' 'aura' 'aurora' 'avicii' 'barbet' 'beryllium' 'bluejay' 'blueline' 'bonito' 'bramble' 'cheetah' 'coral' 'crosshatch' 'davinci' 'dipper' 'enchilada' 'equuleus' 'fajita' 'flame' 'FP3' 'FP4' 'guacamole' 'guacamoleb' 'hotdog' 'hotdogb' 'instantnoodle' 'instantnoodlep' 'jasmine_sprout' 'kebab' 'lavender' 'lemonade' 'lemonadep' 'lemonades' 'lmi' 'lynx' 'oriole' 'panther' 'platina' 'polaris' 'pro1' 'pro1x' 'raphael' 'raven' 'redfin' 'sargo' 'sunfish' 'taimen' 'tangorpro' 'twolip' 'ursa' 'vayu' 'walleye' 'wayne' 'whyred' 'xz2c');
+AVB_DEVICES=('akari' 'akatsuki' 'alioth' 'apollon' 'aura' 'aurora' 'avicii' 'barbet' 'beryllium' 'bluejay' 'blueline' 'bonito' 'bramble' 'cheetah' 'coral' 'crosshatch' 'davinci' 'dipper' 'enchilada' 'equuleus' 'fajita' 'felix' 'flame' 'FP3' 'FP4' 'guacamole' 'guacamoleb' 'hotdog' 'hotdogb' 'instantnoodle' 'instantnoodlep' 'jasmine_sprout' 'kebab' 'lavender' 'lemonade' 'lemonadep' 'lemonades' 'lmi' 'lynx' 'oriole' 'panther' 'platina' 'polaris' 'pro1' 'pro1x' 'raphael' 'raven' 'redfin' 'sargo' 'sunfish' 'taimen' 'tangorpro' 'twolip' 'ursa' 'vayu' 'walleye' 'wayne' 'whyred' 'xz2c');
 
 #TODO: Make this a function?
 echo "================================================================================";

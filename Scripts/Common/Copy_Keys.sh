@@ -77,6 +77,7 @@ if [ -d "$DOS_SIGNING_KEYS" ]; then
 	copyKey "enchilada" "kernel/oneplus/sdm845";
 	copyKey "equuleus" "kernel/xiaomi/sdm845";
 	copyKey "fajita" "kernel/oneplus/sdm845";
+	copyKey "felix" "kernel/google/gs201/private/gs-google";
 	copyKey "flame" "kernel/google/coral";
 	copyKey "flounder" "kernel/htc/flounder";
 	copyKey "FP3" "kernel/fairphone/sdm632";

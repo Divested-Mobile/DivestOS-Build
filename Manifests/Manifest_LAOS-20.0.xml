@@ -153,6 +153,10 @@
 	<project path="device/google/tangorpro" name="LineageOS/android_device_google_tangorpro" remote="github" revision="lineage-20" />
 	<!-- uses gs101 commons -->
 
+	<!-- Google Pixel Fold (felix) -->
+	<project path="device/google/felix" name="LineageOS/android_device_google_felix" remote="github" revision="lineage-20" />
+	<!-- uses gs101 commons -->
+
 	<!-- LG G5 (h850:intl, rs988:us) -->
 	<project path="device/lge/g5-common" name="LineageOS/android_device_lge_g5-common" remote="github" revision="lineage-20" />
 	<project path="device/lge/msm8996-common" name="LineageOS/android_device_lge_msm8996-common" remote="github" revision="lineage-20" />
@@ -354,6 +358,7 @@
 	<project path="vendor/google/cheetah" name="[COLOUR IN THE LINES]/proprietary_vendor_google_cheetah" remote="gitlab" revision="lineage-20" />
 	<project path="vendor/google/coral" name="[COLOUR IN THE LINES]/proprietary_vendor_google_coral" remote="github" revision="lineage-20" />
 	<project path="vendor/google/crosshatch" name="[COLOUR IN THE LINES]/proprietary_vendor_google_crosshatch" remote="github" revision="lineage-20" />
+	<project path="vendor/google/felix" name="[COLOUR IN THE LINES]/proprietary_vendor_google_felix" remote="gitlab" revision="lineage-20" />
 	<project path="vendor/google/flame" name="[COLOUR IN THE LINES]/proprietary_vendor_google_flame" remote="github" revision="lineage-20" />
 	<project path="vendor/google/lynx" name="[COLOUR IN THE LINES]/proprietary_vendor_google_lynx" remote="gitlab" revision="lineage-20" />
 	<project path="vendor/google/oriole" name="[COLOUR IN THE LINES]/proprietary_vendor_google_oriole" remote="gitlab" revision="lineage-20" />

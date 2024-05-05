@@ -41,7 +41,7 @@ index 243910dd9541..f90c5b04abca 100644
      private int mNextServerIndex;
  
 +    private static boolean shouldUseBroadcomServer() {
-+        boolean supportedDevice = Build.DEVICE.equals("cheetah") || Build.DEVICE.equals("panther") || Build.DEVICE.equals("raven") || Build.DEVICE.equals("oriole") || Build.DEVICE.equals("bluejay") || Build.DEVICE.equals("lynx") || Build.DEVICE.equals("tangorpro");
++        boolean supportedDevice = Build.DEVICE.equals("cheetah") || Build.DEVICE.equals("panther") || Build.DEVICE.equals("raven") || Build.DEVICE.equals("oriole") || Build.DEVICE.equals("bluejay") || Build.DEVICE.equals("lynx") || Build.DEVICE.equals("tangorpro") || Build.DEVICE.equals("felix");
 +        return supportedDevice;
 +    }
 +

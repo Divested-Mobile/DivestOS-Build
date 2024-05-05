@@ -146,6 +146,7 @@ buildAll() {
 	buildDevice cheetah avb;
 	buildDevice lynx avb;
 	buildDevice tangorpro avb;
+	#buildDevice felix avb; #needs keys
 	#Exynos
 	buildDevice starlte;
 	buildDevice star2lte;

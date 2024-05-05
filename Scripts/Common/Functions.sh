@@ -400,7 +400,7 @@ processRelease() {
 
 	#Deltas
 	#grep update_engine Build/*/device/*/*/*.mk -l
-	local DOS_GENERATE_DELTAS_DEVICES=('akari' 'akatsuki' 'alioth' 'Amber' 'aura' 'aurora' 'avicii' 'barbet' 'bluejay' 'blueline' 'bonito' 'bramble' 'cheetah' 'cheryl' 'coral' 'crosshatch' 'davinci' 'discovery' 'enchilada' 'fajita' 'flame' 'FP3' 'FP4' 'guacamole' 'guacamoleb' 'hotdog' 'hotdogb' 'instantnoodle' 'instantnoodlep' 'kebab' 'kirin' 'lemonade' 'lemonadep' 'lemonades' 'lynx' 'marlin' 'mata' 'mermaid' 'oriole' 'panther' 'pioneer' 'pro1' 'pro1x' 'raven' 'redfin' 'sailfish' 'sargo' 'sunfish' 'taimen' 'tangorpro' 'vayu' 'voyager' 'walleye' 'xz2c'); #TODO: check lmi/alioth/apollon
+	local DOS_GENERATE_DELTAS_DEVICES=('akari' 'akatsuki' 'alioth' 'Amber' 'aura' 'aurora' 'avicii' 'barbet' 'bluejay' 'blueline' 'bonito' 'bramble' 'cheetah' 'cheryl' 'coral' 'crosshatch' 'davinci' 'discovery' 'enchilada' 'fajita' 'felix' 'flame' 'FP3' 'FP4' 'guacamole' 'guacamoleb' 'hotdog' 'hotdogb' 'instantnoodle' 'instantnoodlep' 'kebab' 'kirin' 'lemonade' 'lemonadep' 'lemonades' 'lynx' 'marlin' 'mata' 'mermaid' 'oriole' 'panther' 'pioneer' 'pro1' 'pro1x' 'raven' 'redfin' 'sailfish' 'sargo' 'sunfish' 'taimen' 'tangorpro' 'vayu' 'voyager' 'walleye' 'xz2c'); #TODO: check lmi/alioth/apollon
 	if [ "$DOS_GENERATE_DELTAS" = true ]; then
 		if [[ " ${DOS_GENERATE_DELTAS_DEVICES[@]} " =~ " ${DEVICE} " ]]; then
 			for LAST_TARGET_FILES in $ARCHIVE/target_files/$DOS_BRANDING_ZIP_PREFIX-$VERSION-*-dos-$DEVICE-target_files.zip; do
@@ -760,7 +760,7 @@ export -f disableEnforceRRO;
 
 disableAPEX() {
 	cd "$DOS_BUILD_BASE/$1";
-	if [[ "$1" != *"device/google/gs101"* ]] && [[ "$1" != *"device/google/gs201"* ]] && [[ "$1" != *"device/google/oriole"* ]] && [[ "$1" != *"device/google/raven"* ]] && [[ "$1" != *"device/google/raviole"* ]] && [[ "$1" != *"device/google/bluejay"* ]] && [[ "$1" != *"device/google/panther"* ]] && [[ "$1" != *"device/google/cheetah"* ]] && [[ "$1" != *"device/google/pantah"* ]] && [[ "$1" != *"device/google/lynx"* ]] && [[ "$1" != *"device/google/tangorpro"* ]]; then
+	if [[ "$1" != *"device/google/gs101"* ]] && [[ "$1" != *"device/google/gs201"* ]] && [[ "$1" != *"device/google/oriole"* ]] && [[ "$1" != *"device/google/raven"* ]] && [[ "$1" != *"device/google/raviole"* ]] && [[ "$1" != *"device/google/bluejay"* ]] && [[ "$1" != *"device/google/panther"* ]] && [[ "$1" != *"device/google/cheetah"* ]] && [[ "$1" != *"device/google/pantah"* ]] && [[ "$1" != *"device/google/lynx"* ]] && [[ "$1" != *"device/google/tangorpro"* ]] && [[ "$1" != *"device/google/felix"* ]]; then
 		awk -i inplace '!/DEXPREOPT_GENERATE_APEX_IMAGE/' *.mk &>/dev/null || true;
 		awk -i inplace '!/updatable_apex.mk/' *.mk &>/dev/null || true;
 		echo "Disabled APEX for $1";

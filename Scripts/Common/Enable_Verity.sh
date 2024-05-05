@@ -111,6 +111,7 @@ enableAVB "device/google/bramble";
 enableAVB "device/google/cheetah";
 enableAVB "device/google/coral";
 enableAVB "device/google/crosshatch";
+enableAVB "device/google/felix";
 enableAVB "device/google/flame";
 enableAVB "device/google/gs101";
 enableAVB "device/google/gs201";
@@ -222,6 +223,7 @@ sed -i 's/^\treturn VERITY_STATE_DISABLE;//' kernel/*/*/drivers/md/dm-android-ve
 [[ -d device/google/crosshatch ]] && sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/google/crosshatch/product.prop &>/dev/null || true;
 [[ -d device/google/crosshatch ]] && sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/google/crosshatch/vendor.prop &>/dev/null || true;
 [[ -d device/google/dragon ]] && sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/google/dragon/system.prop &>/dev/null || true;
+[[ -d device/google/felix ]] && sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/google/felix/vendor.prop &>/dev/null || true;
 [[ -d device/google/lynx ]] && sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/google/lynx/vendor.prop &>/dev/null || true;
 [[ -d device/google/marlin ]] && sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/google/marlin/system.prop &>/dev/null || true;
 [[ -d device/google/pantah ]] && sed -zi '/ro.oem_unlock_supported=1/!s/$/\nro.oem_unlock_supported=1/' device/google/pantah/vendor.prop &>/dev/null || true;
