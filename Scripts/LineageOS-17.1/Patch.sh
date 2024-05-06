@@ -122,7 +122,19 @@ fi;
 
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
 if enterAndClear "external/hardened_malloc"; then
-applyPatch "$DOS_PATCHES/android_external_hardened_malloc/0001-Broken_Cameras.patch"; #Expand workaround to all camera executables (DivestOS)
+applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0001-Broken_Cameras-1.patch"; #Workarounds for Pixel 3 SoC era camera driver bugs (GrapheneOS)
+applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0001-Broken_Cameras-2.patch"; #Expand workaround to all camera executables (DivestOS)
+applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0002-Broken_Displays.patch"; #Add workaround for OnePlus 8 & 9 display driver crash (DivestOS)
+applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0003-Broken_Audio.patch"; #Workaround for audio service sorting bug (GrapheneOS)
+sed -i 's/34359738368/2147483648/' Android.bp; #revert 48-bit address space requirement
+sed -i -e '76,78d;' Android.bp; #fix compile under A13
+sed -i -e '22,24d;' androidtest/Android.bp; #fix compile under A12
+awk -i inplace '!/vendor_ramdisk_available/' Android.bp; #fix compile under A11
+rm -rfv androidtest;
+sed -i -e '76,78d;' Android.bp; #fix compile under A10
+awk -i inplace '!/ramdisk_available/' Android.bp;
+git revert --no-edit 8974af86d12f7e29b54b5090133ab3d7eea0e519;
+mv include/h_malloc.h  .
 fi;
 fi;
 
@@ -593,6 +605,7 @@ enableLowRam "device/wileyfox/crackling" "crackling";
 
 sed -i 's/^YYLTYPE yylloc;/extern YYLTYPE yylloc;/' kernel/*/*/scripts/dtc/dtc-lexer.l* || true; #Fix builds with GCC 10
 rm -v kernel/*/*/drivers/staging/greybus/tools/Android.mk || true;
+sed -i '117ioutputEntry.setCompressedSize(-1);' external/jarjar/src/main/com/tonicsystems/jarjar/util/IoUtil.java; #Fix compile error
 #
 #END OF DEVICE CHANGES
 #

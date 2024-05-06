@@ -1,0 +1,51 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Thu, 28 May 2020 20:19:14 -0400
+Subject: [PATCH] workaround for audio service sorting bug
+
+---
+ h_malloc.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/h_malloc.c b/h_malloc.c
+index 6c3b148..4090b0c 100644
+--- a/h_malloc.c
++++ b/h_malloc.c
+@@ -83,6 +83,7 @@ static union {
+         bool zero_on_free;
+         bool purge_slabs;
+         bool region_quarantine_protect;
++        bool slot_randomize;
+     };
+     char padding[PAGE_SIZE];
+ } ro __attribute__((aligned(PAGE_SIZE)));
+@@ -386,7 +387,7 @@ static u64 get_mask(size_t slots) {
+ }
+ 
+ static size_t get_free_slot(struct random_state *rng, size_t slots, const struct slab_metadata *metadata) {
+-    if (SLOT_RANDOMIZE) {
++    if (ro.slot_randomize) {
+         // randomize start location for linear search (uniform random choice is too slow)
+         size_t random_index = get_random_u16_uniform(rng, slots);
+         size_t first_bitmap = random_index / U64_WIDTH;
+@@ -1218,6 +1219,12 @@ COLD static void handle_bugs(void) {
+         ro.purge_slabs = false;
+         ro.region_quarantine_protect = false;
+     }
++
++    // DeviceDescriptor sorting wrongly relies on malloc addresses
++    const char audio_service[] = "/system/bin/audioserver";
++    if (strcmp(audio_service, path) == 0) {
++        ro.slot_randomize = false;
++    }
+ }
+ 
+ static struct mutex init_lock = MUTEX_INITIALIZER;
+@@ -1238,6 +1245,7 @@ COLD static void init_slow_path(void) {
+     ro.purge_slabs = true;
+     ro.zero_on_free = ZERO_ON_FREE;
+     ro.region_quarantine_protect = true;
++    ro.slot_randomize = SLOT_RANDOMIZE;
+     handle_bugs();
+ 
+     if (unlikely(sysconf(_SC_PAGESIZE) != PAGE_SIZE)) {
