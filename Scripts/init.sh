@@ -205,3 +205,5 @@ source "$DOS_SCRIPTS/Functions.sh";
 
 [[ -f "$DOS_BUILD_BASE/.repo/local_manifests/roomservice.xml" ]] && echo "roomservice manifest found! Please fix your manifests before continuing!";
 [[ -f "$DOS_BUILD_BASE/DOS_PATCHED_FLAG" ]] && echo "NOTE: THIS WORKSPACE IS ALREADY PATCHED, PLEASE RESET BEFORE PATCHING AGAIN!";
+
+if grep -sq "orphan_file" "/etc/mke2fs.conf"; then echo "NOTE: YOU MUST REMOVE orphan_file AND metadata_csum_seed FROM /etc/mke2fs.conf"; fi;

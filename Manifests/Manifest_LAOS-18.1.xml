@@ -74,7 +74,7 @@
 
 <!-- START OF ADDITIONAL REPOS -->
 	<!-- GrapheneOS -->
-	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="9823dcad79b5dc735720790d27770231ec90fee8" />
+	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="749640c274d54e084505a24fa758bcb5f96a25ef" />
 <!-- END OF ADDITIONAL REPOS -->
 
 <!-- START OF DEVICE REPOS -->
