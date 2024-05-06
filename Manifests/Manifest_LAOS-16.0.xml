@@ -119,9 +119,9 @@
 <!-- END OF DEVICE REPOS -->
 
         <!-- Proprietary Blobs -->
-	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" />
-	<project path="vendor/samsung" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung" remote="github" />
-	<project path="vendor/wileyfox" name="[COLOUR IN THE LINES]/proprietary_vendor_wileyfox" remote="github" />
-	<project path="vendor/zuk" name="[COLOUR IN THE LINES]/proprietary_vendor_zuk" remote="github" />
+	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" revision="d967c19cec8dcdd50dff88376c959bcec422f46d" />
+	<project path="vendor/samsung" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung" remote="github" revision="cfacdb92a7409c9e14de66171c13fd59703282e7" />
+	<project path="vendor/wileyfox" name="[COLOUR IN THE LINES]/proprietary_vendor_wileyfox" remote="github" revision="81fc88dff4b5928d8f4e32719506feb77269967f" />
+	<project path="vendor/zuk" name="[COLOUR IN THE LINES]/proprietary_vendor_zuk" remote="github" revision="e165298f3f4f32330267002ca0d23f3936db98e8" />
 
 </manifest>

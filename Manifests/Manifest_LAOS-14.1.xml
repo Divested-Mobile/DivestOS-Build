@@ -81,7 +81,7 @@
 	<remove-project name="LineageOS/android_external_boringssl" />
 	<project path="external/boringssl" name="syphyr/android_external_boringssl" remote="github" revision="f8397314565d6441b52f5aa313d06a98a03c31cd" />
 	<remove-project name="LineageOS/android_external_ffmpeg" />
-	<project path="external/ffmpeg" name="syphyr/android_external_ffmpeg" remote="github" revision="d78de94d18756b74b97509e581097014efbbbca8" />
+	<project path="external/ffmpeg" name="syphyr/android_external_ffmpeg" remote="github" revision="61190001372364379b095b4cd1de6787213def0e" />
 	<remove-project name="LineageOS/android_external_flac" />
 	<project path="external/flac" name="syphyr/android_external_flac" remote="github" revision="3c73deb884acf79764a769cac47a12d214929fa5" />
 <!-- END OF ADDITIONAL REPOS -->

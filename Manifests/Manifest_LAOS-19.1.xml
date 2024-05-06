@@ -50,7 +50,7 @@
 <!-- START OF ADDITIONAL REPOS -->
 	<!-- GrapheneOS -->
 	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="0d6d63cbe7cb6326bb06e1161b680cb3229f25a0" />
-	<project path="external/SecureCamera" name="GrapheneOS/platform_external_Camera" remote="github" revision="488f5c27410aefae5a433cd112f8a490724943b4" />
+	<project path="external/SecureCamera" name="GrapheneOS/platform_external_Camera" remote="github" revision="6b16f075e691d064379fe9d855f4c5c5a44c7f55" />
 <!-- END OF ADDITIONAL REPOS -->
 
 <!-- START OF DEVICE REPOS -->
@@ -70,5 +70,5 @@
 	<project path="kernel/xiaomi/sm8150" name="LineageOS/android_kernel_xiaomi_sm8150" remote="github" />
 
         <!-- Proprietary Blobs -->
-	<project path="vendor/xiaomi" name="COLOR_IN_THE_LINES/proprietary_vendor_xiaomi" remote="gitlab" revision="lineage-19.1" />
+	<project path="vendor/xiaomi" name="COLOR_IN_THE_LINES/proprietary_vendor_xiaomi" remote="gitlab" revision="bb09565e99c8a61758588053149a2fc783c811e2" />
 </manifest>

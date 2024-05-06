@@ -222,17 +222,17 @@
 	<project path="device/xiaomi/whyred" name="LineageOS/android_device_xiaomi_whyred" remote="github" />
 
         <!-- Proprietary Blobs -->
-	<project path="vendor/asus" name="[COLOUR IN THE LINES]/proprietary_vendor_asus" remote="github" />
-	<project path="vendor/fairphone" name="[COLOUR IN THE LINES]/proprietary_vendor_fairphone" remote="github" />
-	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" />
-	<project path="vendor/htc" name="[COLOUR IN THE LINES]/proprietary_vendor_htc" remote="github" />
-	<project path="vendor/lge" name="[COLOUR IN THE LINES]/proprietary_vendor_lge" remote="github" />
-	<project path="vendor/motorola" name="[COLOUR IN THE LINES]/proprietary_vendor_motorola" remote="github" />
-	<project path="vendor/nextbit" name="[COLOUR IN THE LINES]/proprietary_vendor_nextbit" remote="github" />
-	<project path="vendor/oneplus" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus" remote="github" />
-	<project path="vendor/oppo" name="[COLOUR IN THE LINES]/proprietary_vendor_oppo" remote="github" />
-	<project path="vendor/samsung" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung" remote="github" />
-	<project path="vendor/sony" name="[COLOUR IN THE LINES]/proprietary_vendor_sony" remote="github" />
-	<project path="vendor/xiaomi" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi" remote="gitlab" revision="lineage-18.1" />
+	<project path="vendor/asus" name="[COLOUR IN THE LINES]/proprietary_vendor_asus" remote="github" revision="4bc21a63da51641a1c088a3dd58abc5cb0da811c" />
+	<project path="vendor/fairphone" name="[COLOUR IN THE LINES]/proprietary_vendor_fairphone" remote="github" revision="d38d3f0ed30cafd5a8e747ce9d5428a61e9382a2" />
+	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" revision="032e2c8463fe15568c6c3e58be26f4fe19ee42ce" />
+	<project path="vendor/htc" name="[COLOUR IN THE LINES]/proprietary_vendor_htc" remote="github" revision="59a04d6b0de45e380ee226c763983efd6be49ade" />
+	<project path="vendor/lge" name="[COLOUR IN THE LINES]/proprietary_vendor_lge" remote="github" revision="baa802f19cd08e781937d048a259d030bca196c4" />
+	<project path="vendor/motorola" name="[COLOUR IN THE LINES]/proprietary_vendor_motorola" remote="github" revision="50a2e9ba4a6fb2888ca0a2c40cc97f6f5665c350" />
+	<project path="vendor/nextbit" name="[COLOUR IN THE LINES]/proprietary_vendor_nextbit" remote="github" revision="33086e3e9803bbcedce33f0fa3c40a24d7ec8bd1" />
+	<project path="vendor/oneplus" name="[COLOUR IN THE LINES]/proprietary_vendor_oneplus" remote="github" revision="f04ec90af2b626594d46d653b9fcd3c433e08258" />
+	<project path="vendor/oppo" name="[COLOUR IN THE LINES]/proprietary_vendor_oppo" remote="github" revision="dd9a32d6eff750c292fdddc0a3cfba272b7fbf9c" />
+	<project path="vendor/samsung" name="[COLOUR IN THE LINES]/proprietary_vendor_samsung" remote="github" revision="9508b39c6123853f50ceb15436818fc547b62034" />
+	<project path="vendor/sony" name="[COLOUR IN THE LINES]/proprietary_vendor_sony" remote="github" revision="d0e286bd6570044e805c952f5fe034fd77aa4f8d" />
+	<project path="vendor/xiaomi" name="[COLOUR IN THE LINES]/proprietary_vendor_xiaomi" remote="gitlab" revision="5ef13fcc9aad481069a58e5a1dc945ee0c31f270" />
 
 </manifest>

@@ -127,11 +127,11 @@
 <!-- END OF DEVICE REPOS -->
 
         <!-- Proprietary Blobs -->
-	<project path="vendor/asus" name="[COLOUR IN THE LINES]/proprietary_vendor_asus" remote="github" />
-	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" />
-	<project path="vendor/htc" name="[COLOUR IN THE LINES]/proprietary_vendor_htc" remote="github" />
-	<project path="vendor/huawei" name="[COLOUR IN THE LINES]/proprietary_vendor_huawei" remote="github" />
-	<project path="vendor/lge" name="[COLOUR IN THE LINES]/proprietary_vendor_lge" remote="github" />
-	<project path="vendor/zte" name="[COLOUR IN THE LINES]/proprietary_vendor_zte" remote="github" />
+	<project path="vendor/asus" name="[COLOUR IN THE LINES]/proprietary_vendor_asus" remote="github" revision="22555fc35b7c90651056091e04e0717de2e78364" />
+	<project path="vendor/google" name="[COLOUR IN THE LINES]/proprietary_vendor_google" remote="github" revision="23d0abe7cfe6cf1a6650c9a58ee2dd1188e6c86f" />
+	<project path="vendor/htc" name="[COLOUR IN THE LINES]/proprietary_vendor_htc" remote="github" revision="9651fb0945fcf332544d9a64e2cd5d9d52d949ec" />
+	<project path="vendor/huawei" name="[COLOUR IN THE LINES]/proprietary_vendor_huawei" remote="github" revision="5163da2ad42406b95d00adcf6c2f11eac9e756d9" />
+	<project path="vendor/lge" name="[COLOUR IN THE LINES]/proprietary_vendor_lge" remote="github" revision="dcd7e295e5337da76a24bb594ae82fec626baa23" />
+	<project path="vendor/zte" name="[COLOUR IN THE LINES]/proprietary_vendor_zte" remote="github" revision="d04996fc8bcd4e6ae409d1d30c5763a0b6ff818e" />
 
 </manifest>

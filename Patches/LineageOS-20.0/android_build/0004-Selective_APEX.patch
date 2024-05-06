@@ -10,7 +10,7 @@ Change-Id: Icffb72d8c3ed0e33e76538bb3427377c33c55ff9
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/target/product/generic_system.mk b/target/product/generic_system.mk
-index 7f5f74f4b..aa7c02cdd 100644
+index 7f5f74f4b..18c1aadc2 100644
 --- a/target/product/generic_system.mk
 +++ b/target/product/generic_system.mk
 @@ -21,8 +21,10 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_default.mk)
