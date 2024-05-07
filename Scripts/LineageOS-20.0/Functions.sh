@@ -164,8 +164,7 @@ patchWorkspaceReal() {
 			verifyAllPlatformTags;
 			gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-			source build/envsetup.sh;
-			repopick -i 361248; #Launcher3: Allow toggling monochrome icons for all apps
+			#source build/envsetup.sh;
 
 			sh "$DOS_SCRIPTS/Patch.sh";
 			sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

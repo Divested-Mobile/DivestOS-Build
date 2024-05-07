@@ -356,6 +356,7 @@ fi;
 
 if enterAndClear "packages/apps/Trebuchet"; then
 git am $DOS_PATCHES/ASB-2023-10/launcher-*.patch;
+applyPatch "$DOS_PATCHES/android_packages_apps_Trebuchet/361248.patch"; #Launcher3: Allow toggling monochrome icons for all apps
 cp $DOS_BUILD_BASE/vendor/divested/overlay/common/packages/apps/Trebuchet/res/xml/default_workspace_*.xml res/xml/; #XXX: Likely no longer needed
 fi;
 
