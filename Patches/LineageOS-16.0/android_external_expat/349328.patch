@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Sadaf Ebrahimi <sadafebrahimi@google.com>
+Date: Wed, 16 Nov 2022 16:31:05 +0000
+Subject: [PATCH] Fix overeager DTD destruction (fixes #649)
+
+Bug: http://b/255449293
+Test: TreeHugger
+Change-Id: I15ba529c07a6b868484bd5972be154c07cd97cc6
+(cherry picked from commit eb8f10fb1f4eb13c5a2ba1edbfd64b5f2a50ff4a)
+Merged-In: I15ba529c07a6b868484bd5972be154c07cd97cc6
+---
+ lib/xmlparse.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+index 121b63f7..90089ab7 100644
+--- a/lib/xmlparse.c
++++ b/lib/xmlparse.c
+@@ -1013,7 +1013,15 @@ parserCreate(const XML_Char *encodingName,
+   poolInit(&parser->m_temp2Pool, &(parser->m_mem));
+   parserInit(parser, encodingName);
+ 
+-  if (encodingName && !parser->m_protocolEncodingName) {
++  if (encodingName && ! parser->m_protocolEncodingName) {
++    if (dtd) {
++      // We need to stop the upcoming call to XML_ParserFree from happily
++      // destroying parser->m_dtd because the DTD is shared with the parent
++      // parser and the only guard that keeps XML_ParserFree from destroying
++      // parser->m_dtd is parser->m_isParamEntity but it will be set to
++      // XML_TRUE only later in XML_ExternalEntityParserCreate (or not at all).
++      parser->m_dtd = NULL;
++    }
+     XML_ParserFree(parser);
+     return NULL;
+   }

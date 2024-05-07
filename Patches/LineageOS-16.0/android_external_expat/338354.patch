@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Sadaf Ebrahimi <sadafebrahimi@google.com>
+Date: Thu, 2 Jun 2022 19:32:22 +0000
+Subject: [PATCH] Prevent XML_GetBuffer signed integer overflow
+
+Bug: http://b/221255869
+Change-Id: I38758fae8c71184f728f95e6073457cdb86bcc29
+(cherry picked from commit d6a09f1b7fb24dd03dc58e45062ad951a37ff8e3)
+Merged-In: I38758fae8c71184f728f95e6073457cdb86bcc29
+---
+ lib/xmlparse.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+index 67f661b5..1d6e722d 100644
+--- a/lib/xmlparse.c
++++ b/lib/xmlparse.c
+@@ -2040,6 +2040,11 @@ XML_GetBuffer(XML_Parser parser, int len)
+     keep = (int)(parser->m_bufferPtr - parser->m_buffer);
+     if (keep > XML_CONTEXT_BYTES)
+       keep = XML_CONTEXT_BYTES;
++    /* Detect and prevent integer overflow */
++    if (keep > INT_MAX - neededSize) {
++      parser->m_errorCode = XML_ERROR_NO_MEMORY;
++      return NULL;
++    }
+     neededSize += keep;
+ #endif  /* defined XML_CONTEXT_BYTES */
+     if (neededSize  <= parser->m_bufferLim - parser->m_buffer) {

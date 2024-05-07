@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alisher Alikhodjaev <alisher@google.com>
+Date: Tue, 8 Mar 2022 17:27:34 -0800
+Subject: [PATCH] Double Free in ce_t4t_data_cback
+
+Bug: 221862119
+Test: build ok
+Change-Id: If12f98033b8c1bc1b57b27d338fa33b6a3cce640
+(cherry picked from commit 2fcf7d677bcebae5a00db43938460bcce267149e)
+Merged-In: If12f98033b8c1bc1b57b27d338fa33b6a3cce640
+---
+ src/nfc/tags/ce_t4t.cc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/nfc/tags/ce_t4t.cc b/src/nfc/tags/ce_t4t.cc
+index 9b859e2..b3b9842 100644
+--- a/src/nfc/tags/ce_t4t.cc
++++ b/src/nfc/tags/ce_t4t.cc
+@@ -630,6 +630,7 @@ static void ce_t4t_data_cback(uint8_t conn_id, tNFC_CONN_EVT event,
+     } else {
+       GKI_freebuf(p_c_apdu);
+       ce_t4t_send_status(T4T_RSP_NOT_FOUND);
++      return;
+     }
+   } else if (ce_cb.mem.t4t.status & CE_T4T_STATUS_WILDCARD_AID_SELECTED) {
+     DLOG_IF(INFO, nfc_debug_enabled)

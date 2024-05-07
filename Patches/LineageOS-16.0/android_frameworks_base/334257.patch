@@ -1,0 +1,55 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Eric Biggers <ebiggers@google.com>
+Date: Mon, 24 Jan 2022 20:33:11 +0000
+Subject: [PATCH] UserDataPreparer: reboot to recovery if preparing user
+ storage fails
+
+StorageManager.prepareUserStorage() can throw an exception if a
+directory cannot be encrypted, for example due to already being
+nonempty.  In this case, usage of the directory must not be allowed to
+proceed.  UserDataPreparer currently handles this by deleting the user's
+directories, but the error is still ultimately suppressed and starting
+the user is still allowed to proceed.
+
+The correct behavior in this case is to reboot into recovery to ask the
+user to factory reset the device.  This is already what happens when
+'init' fails to encrypt a directory with the system DE policy.  However,
+this was overlooked for the user directories.  Start doing this.
+
+Bug: 164488924
+Bug: 224585613
+Change-Id: Ib5e91d2510b25780d7a161b91b5cee2f6f7a2e54
+(cherry picked from commit 5256365e65882b81509ec2f6b9dfe2dcf0025254)
+Merged-In: Ib5e91d2510b25780d7a161b91b5cee2f6f7a2e54
+(cherry picked from commit ea010f3dd213bb6b5f3ed28b89988754ed26aac6)
+Merged-In: Ib5e91d2510b25780d7a161b91b5cee2f6f7a2e54
+---
+ .../core/java/com/android/server/pm/UserDataPreparer.java | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/services/core/java/com/android/server/pm/UserDataPreparer.java b/services/core/java/com/android/server/pm/UserDataPreparer.java
+index 045a295da965..504769064808 100644
+--- a/services/core/java/com/android/server/pm/UserDataPreparer.java
++++ b/services/core/java/com/android/server/pm/UserDataPreparer.java
+@@ -22,6 +22,7 @@ import android.content.Context;
+ import android.content.pm.UserInfo;
+ import android.os.Environment;
+ import android.os.FileUtils;
++import android.os.RecoverySystem;
+ import android.os.storage.StorageManager;
+ import android.os.storage.VolumeInfo;
+ import android.os.SystemProperties;
+@@ -115,6 +116,13 @@ class UserDataPreparer {
+                 // Try one last time; if we fail again we're really in trouble
+                 prepareUserDataLI(volumeUuid, userId, userSerial,
+                     flags | StorageManager.FLAG_STORAGE_DE, false);
++            } else {
++                try {
++                    Log.e(TAG, "prepareUserData failed", e);
++                    RecoverySystem.rebootPromptAndWipeUserData(mContext, "prepareUserData failed");
++                } catch (IOException e2) {
++                    throw new RuntimeException("error rebooting into recovery", e2);
++                }
+             }
+         }
+     }

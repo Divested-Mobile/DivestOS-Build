@@ -1,0 +1,122 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Oli Lan <olilan@google.com>
+Date: Fri, 25 Feb 2022 15:48:29 +0000
+Subject: [PATCH] Prevent exfiltration of system files via user image settings.
+
+This adds mitigations to prevent system files being exfiltrated
+via the settings content provider when a content URI is provided
+as a chosen user image.
+
+The mitigations are:
+
+1) Copy the image to a new URI rather than the existing takePictureUri
+prior to cropping.
+
+2) Only allow a system handler to respond to the CROP intent.
+
+A similar change is made in ag/17003629 which uses the same
+mechanism.
+
+Bug: 187702830
+Test: builds
+Change-Id: Iba9e08b3cf9e31c162354f09aaf6b4f9afb6bd27
+(cherry picked from commit fac28abbe64a1c3e430414f35139988ef96edb7c)
+Merged-In: Iba9e08b3cf9e31c162354f09aaf6b4f9afb6bd27
+---
+ .../preferences/EditUserPhotoController.java  | 33 ++++++++++++++-----
+ 1 file changed, 24 insertions(+), 9 deletions(-)
+
+diff --git a/src/com/android/emergency/preferences/EditUserPhotoController.java b/src/com/android/emergency/preferences/EditUserPhotoController.java
+index 77bed01..8aeb8b0 100644
+--- a/src/com/android/emergency/preferences/EditUserPhotoController.java
++++ b/src/com/android/emergency/preferences/EditUserPhotoController.java
+@@ -22,6 +22,7 @@ import android.content.ClipData;
+ import android.content.ContentResolver;
+ import android.content.Context;
+ import android.content.Intent;
++import android.content.pm.ActivityInfo;
+ import android.content.pm.PackageManager;
+ import android.database.Cursor;
+ import android.graphics.Bitmap;
+@@ -73,6 +74,7 @@ public class EditUserPhotoController {
+     private static final int REQUEST_CODE_TAKE_PHOTO = 10002;
+     private static final int REQUEST_CODE_CROP_PHOTO = 10003;
+ 
++    private static final String PRE_CROP_PICTURE_FILE_NAME = "PreCropEditUserPhoto.jpg";
+     private static final String CROP_PICTURE_FILE_NAME = "CropEditUserPhoto.jpg";
+     private static final String TAKE_PICTURE_FILE_NAME = "TakeEditUserPhoto2.jpg";
+     private static final String NEW_USER_PHOTO_FILE_NAME = "NewUserPhoto.png";
+@@ -85,6 +87,7 @@ public class EditUserPhotoController {
+     private final Fragment mFragment;
+     private final ImageView mImageView;
+ 
++    private final Uri mPreCropPictureUri;
+     private final Uri mCropPictureUri;
+     private final Uri mTakePictureUri;
+ 
+@@ -96,6 +99,7 @@ public class EditUserPhotoController {
+         mContext = view.getContext();
+         mFragment = fragment;
+         mImageView = view;
++        mPreCropPictureUri = createTempImageUri(mContext, PRE_CROP_PICTURE_FILE_NAME, !waiting);
+         mCropPictureUri = createTempImageUri(mContext, CROP_PICTURE_FILE_NAME, !waiting);
+         mTakePictureUri = createTempImageUri(mContext, TAKE_PICTURE_FILE_NAME, !waiting);
+         mPhotoSize = getPhotoSize(mContext);
+@@ -122,7 +126,7 @@ public class EditUserPhotoController {
+             case REQUEST_CODE_TAKE_PHOTO:
+             case REQUEST_CODE_CHOOSE_PHOTO:
+                 if (mTakePictureUri.equals(pictureUri)) {
+-                    cropPhoto();
++                    cropPhoto(pictureUri);
+                 } else {
+                     copyAndCropPhoto(pictureUri);
+                 }
+@@ -231,7 +235,7 @@ public class EditUserPhotoController {
+             protected Void doInBackground(Void... params) {
+                 final ContentResolver cr = mContext.getContentResolver();
+                 try (InputStream in = cr.openInputStream(pictureUri);
+-                        OutputStream out = cr.openOutputStream(mTakePictureUri)) {
++                        OutputStream out = cr.openOutputStream(mPreCropPictureUri)) {
+                     Streams.copy(in, out);
+                 } catch (IOException e) {
+                     Log.w(TAG, "Failed to copy photo", e);
+@@ -242,21 +246,32 @@ public class EditUserPhotoController {
+             @Override
+             protected void onPostExecute(Void result) {
+                 if (!mFragment.isAdded()) return;
+-                cropPhoto();
++                cropPhoto(mPreCropPictureUri);
+             }
+         }.execute();
+     }
+ 
+-    private void cropPhoto() {
++    private void cropPhoto(final Uri pictureUri) {
+         Intent intent = new Intent(ACTION_CROP);
+-        intent.setDataAndType(mTakePictureUri, "image/*");
++        intent.setDataAndType(pictureUri, "image/*");
+         appendOutputExtra(intent, mCropPictureUri);
+         appendCropExtras(intent);
+-        if (intent.resolveActivity(mContext.getPackageManager()) != null) {
+-            mFragment.startActivityForResult(intent, REQUEST_CODE_CROP_PHOTO);
+-        } else {
+-            onPhotoCropped(mTakePictureUri, false);
++        if (startSystemActivityForResult(intent, REQUEST_CODE_CROP_PHOTO)) {
++            return;
++        }
++        onPhotoCropped(mTakePictureUri, false);
++    }
++
++    private boolean startSystemActivityForResult(Intent intent, int code) {
++        ActivityInfo info = intent.resolveActivityInfo(mContext.getPackageManager(),
++                PackageManager.MATCH_SYSTEM_ONLY);
++        if (info == null) {
++            Log.w(TAG, "No system package activity could be found for code " + code);
++            return false;
+         }
++        intent.setPackage(info.packageName);
++        mFragment.startActivityForResult(intent, code);
++        return true;
+     }
+ 
+     private void appendOutputExtra(Intent intent, Uri pictureUri) {

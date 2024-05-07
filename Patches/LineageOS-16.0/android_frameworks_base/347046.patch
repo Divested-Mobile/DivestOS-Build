@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Yuri Lin <yurilin@google.com>
+Date: Wed, 12 Oct 2022 14:27:46 +0000
+Subject: [PATCH] Fix conditionId string trimming in AutomaticZenRule
+
+This change only applies to S branches and earlier.
+
+Bug: 253085433
+Bug: 242703460
+Bug: 242703505
+Bug: 242703780
+Bug: 242704043
+Bug: 243794204
+Test: AutomaticZenRuleTest
+Change-Id: Iae423d93b777df8946ecf1c3baf640fcf74990ec
+Merged-In: Iae423d93b777df8946ecf1c3baf640fcf74990ec
+(cherry picked from commit 303f6bde896877793370c1697fa8c8331b808e56)
+Merged-In: Iae423d93b777df8946ecf1c3baf640fcf74990ec
+---
+ core/java/android/app/AutomaticZenRule.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/java/android/app/AutomaticZenRule.java b/core/java/android/app/AutomaticZenRule.java
+index 29dd91ec1ad6..5998ab6fdaf4 100644
+--- a/core/java/android/app/AutomaticZenRule.java
++++ b/core/java/android/app/AutomaticZenRule.java
+@@ -80,7 +80,7 @@ public final class AutomaticZenRule implements Parcelable {
+             name = getTrimmedString(source.readString());
+         }
+         interruptionFilter = source.readInt();
+-        conditionId = source.readParcelable(null);
++        conditionId = getTrimmedUri(source.readParcelable(null));
+         owner = getTrimmedComponentName(source.readParcelable(null));
+         creationTime = source.readLong();
+     }

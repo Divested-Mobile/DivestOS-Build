@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Shaju Mathew <shaju@google.com>
+Date: Tue, 5 Apr 2022 04:01:04 -0700
+Subject: [PATCH] Backport of Win-specific suppression of potentially rogue
+ construct that can engage in directory traversal on the host.
+
+Bug:209438553
+
+Ignore-AOSP-First: Resolution for potential security exploit.
+
+Test: Synced just system/core, therefore relying on presubmits for now.
+Will followup with a full-fledged sync and manual cursory test.
+
+Signed-off-by: Shaju Mathew <shaju@google.com>
+Change-Id: I993a00ce6130478b7becfdbea816c348824f319f
+Merged-In: Ie1f82db2fb14e1bdd183bf8d3d93d5e9f974be5d
+(cherry picked from commit a36a342ec9721240e5a48ca50e833b9a35bef256)
+Merged-In: I993a00ce6130478b7becfdbea816c348824f319f
+---
+ adb/file_sync_client.cpp | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/adb/file_sync_client.cpp b/adb/file_sync_client.cpp
+index 26f8d831c..57704c866 100644
+--- a/adb/file_sync_client.cpp
++++ b/adb/file_sync_client.cpp
+@@ -629,6 +629,18 @@ static bool sync_ls(SyncConnection& sc, const char* path,
+         if (!ReadFdExactly(sc.fd, buf, len)) return false;
+         buf[len] = 0;
+ 
++        // Address the unlikely scenario wherein a
++        // compromised device/service might be able to
++        // traverse across directories on the host. Let's
++        // shut that door!
++        if (strchr(buf, '/')
++#if defined(_WIN32)
++            || strchr(buf, '\\')
++#endif
++           ) {
++          return false;
++        }
++
+         func(msg.dent.mode, msg.dent.size, msg.dent.time, buf);
+     }
+ }

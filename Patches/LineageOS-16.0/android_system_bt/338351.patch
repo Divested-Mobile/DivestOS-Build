@@ -1,0 +1,50 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chienyuan <chienyuanhuang@google.com>
+Date: Wed, 30 Jan 2019 19:17:03 +0800
+Subject: [PATCH] Fix OOB in BNEP_Write
+
+Bug: 112050583
+Test: PoC
+Change-Id: I2ad3aceea38950b83f98819ede47538afb053ac0
+(cherry picked from commit b31554e2a31534888c0eb593d915f735ce4670c7)
+CRs-Fixed: 3155069
+---
+ stack/bnep/bnep_api.cc | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/stack/bnep/bnep_api.cc b/stack/bnep/bnep_api.cc
+index aaa97603f..56551d4e9 100644
+--- a/stack/bnep/bnep_api.cc
++++ b/stack/bnep/bnep_api.cc
+@@ -340,10 +340,15 @@ tBNEP_RESULT BNEP_WriteBuf(uint16_t handle, const RawAddress& p_dest_addr,
+   p_bcb = &(bnep_cb.bcb[handle - 1]);
+   /* Check MTU size */
+   if (p_buf->len > BNEP_MTU_SIZE) {
+-    BNEP_TRACE_ERROR("BNEP_Write() length %d exceeded MTU %d", p_buf->len,
++    BNEP_TRACE_ERROR("%s length %d exceeded MTU %d", __func__, p_buf->len,
+                      BNEP_MTU_SIZE);
+     osi_free(p_buf);
+     return (BNEP_MTU_EXCEDED);
++  } else if (p_buf->len < 2) {
++    BNEP_TRACE_ERROR("%s length %d too short, must be at least 2", __func__,
++                     p_buf->len);
++    osi_free(p_buf);
++    return BNEP_IGNORE_CMD;
+   }
+ 
+   /* Check if the packet should be filtered out */
+@@ -442,9 +447,13 @@ tBNEP_RESULT BNEP_Write(uint16_t handle, const RawAddress& p_dest_addr,
+ 
+   /* Check MTU size. Consider the possibility of having extension headers */
+   if (len > BNEP_MTU_SIZE) {
+-    BNEP_TRACE_ERROR("BNEP_Write() length %d exceeded MTU %d", len,
++    BNEP_TRACE_ERROR("%s length %d exceeded MTU %d", __func__, len,
+                      BNEP_MTU_SIZE);
+     return (BNEP_MTU_EXCEDED);
++  } else if (len < 2) {
++    BNEP_TRACE_ERROR("%s length %d too short, must be at least 2", __func__,
++                     len);
++    return BNEP_IGNORE_CMD;
+   }
+ 
+   if ((!handle) || (handle > BNEP_MAX_CONNECTIONS)) return (BNEP_WRONG_HANDLE);

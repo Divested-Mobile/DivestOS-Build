@@ -1,0 +1,248 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Thomas Stuart <tjstuart@google.com>
+Date: Thu, 23 Jun 2022 14:20:30 -0700
+Subject: [PATCH] switch TelecomManager List getters to ParceledListSlice
+
+It was shown that given a large phoneAccountHandles that are
+over 1 mb, a TransactionTooLarge exception can be silently thrown
+causing an empty list to be returned.
+
+In order to prevent this behavior, all Lists that return a
+PhoneAccountHandle or PhoneAccount have been switched to
+ParceledListSlice.
+
+bug: 236263294
+Test: atest android.telecom.cts.PhoneAccountRegistrarTest
+             #testRegisterPhoneAccountHandleWithFieldOverLimit
+Change-Id: Ibc3814dabd59cf9f0f9505b88f2146a4c3c5e015
+Merged-In: Ibc3814dabd59cf9f0f9505b88f2146a4c3c5e015
+(cherry picked from commit 960147d4bba558c87a26df6f0328df637a30479b)
+Merged-In: Ibc3814dabd59cf9f0f9505b88f2146a4c3c5e015
+---
+ .../server/telecom/TelecomServiceImpl.java    | 51 +++++++++++--------
+ .../telecom/tests/TelecomServiceImplTest.java | 21 +++++---
+ 2 files changed, 43 insertions(+), 29 deletions(-)
+
+diff --git a/src/com/android/server/telecom/TelecomServiceImpl.java b/src/com/android/server/telecom/TelecomServiceImpl.java
+index 0db17643b..8c28a7b6f 100644
+--- a/src/com/android/server/telecom/TelecomServiceImpl.java
++++ b/src/com/android/server/telecom/TelecomServiceImpl.java
+@@ -34,6 +34,8 @@ import android.content.Intent;
+ import android.content.pm.ApplicationInfo;
+ import android.content.pm.PackageManager;
+ import android.content.res.Resources;
++import android.content.pm.ParceledListSlice;
++import android.content.pm.ResolveInfo;
+ import android.net.Uri;
+ import android.os.Binder;
+ import android.os.Bundle;
+@@ -150,19 +152,20 @@ public class TelecomServiceImpl {
+         }
+ 
+         @Override
+-        public List<PhoneAccountHandle> getCallCapablePhoneAccounts(
++        public ParceledListSlice<PhoneAccountHandle> getCallCapablePhoneAccounts(
+                 boolean includeDisabledAccounts, String callingPackage) {
+             try {
+                 Log.startSession("TSI.gCCPA");
+                 if (!canReadPhoneState(callingPackage, "getDefaultOutgoingPhoneAccount")) {
+-                    return Collections.emptyList();
++                    return ParceledListSlice.emptyList();
+                 }
+                 synchronized (mLock) {
+                     final UserHandle callingUserHandle = Binder.getCallingUserHandle();
+                     long token = Binder.clearCallingIdentity();
+                     try {
+-                        return mPhoneAccountRegistrar.getCallCapablePhoneAccounts(null,
+-                                includeDisabledAccounts, callingUserHandle);
++                        return new ParceledListSlice<>(
++                                mPhoneAccountRegistrar.getCallCapablePhoneAccounts(null,
++                                includeDisabledAccounts, callingUserHandle));
+                     } catch (Exception e) {
+                         Log.e(this, e, "getCallCapablePhoneAccounts");
+                         throw e;
+@@ -176,7 +179,8 @@ public class TelecomServiceImpl {
+         }
+ 
+         @Override
+-        public List<PhoneAccountHandle> getSelfManagedPhoneAccounts(String callingPackage) {
++        public ParceledListSlice<PhoneAccountHandle> getSelfManagedPhoneAccounts(
++                String callingPackage) {
+             try {
+                 Log.startSession("TSI.gSMPA");
+                 if (!canReadPhoneState(callingPackage, "Requires READ_PHONE_STATE permission.")) {
+@@ -186,8 +190,8 @@ public class TelecomServiceImpl {
+                     final UserHandle callingUserHandle = Binder.getCallingUserHandle();
+                     long token = Binder.clearCallingIdentity();
+                     try {
+-                        return mPhoneAccountRegistrar.getSelfManagedPhoneAccounts(
+-                                callingUserHandle);
++                        return new ParceledListSlice<>(mPhoneAccountRegistrar
++                                .getSelfManagedPhoneAccounts(callingUserHandle));
+                     } catch (Exception e) {
+                         Log.e(this, e, "getSelfManagedPhoneAccounts");
+                         throw e;
+@@ -200,10 +204,11 @@ public class TelecomServiceImpl {
+             }
+         }
+ 
++
+         @Override
+-        public List<PhoneAccountHandle> getPhoneAccountsSupportingScheme(String uriScheme,
+-                String callingPackage) {
+-            try {
++        public ParceledListSlice<PhoneAccountHandle> getPhoneAccountsSupportingScheme(
++                String uriScheme, String callingPackage) {
++             try {
+                 Log.startSession("TSI.gPASS");
+                 try {
+                     enforceModifyPermission(
+@@ -211,15 +216,16 @@ public class TelecomServiceImpl {
+                 } catch (SecurityException e) {
+                     EventLog.writeEvent(0x534e4554, "62347125", Binder.getCallingUid(),
+                             "getPhoneAccountsSupportingScheme: " + callingPackage);
+-                    return Collections.emptyList();
++                    return ParceledListSlice.emptyList();
+                 }
+ 
+                 synchronized (mLock) {
+                     final UserHandle callingUserHandle = Binder.getCallingUserHandle();
+                     long token = Binder.clearCallingIdentity();
+                     try {
+-                        return mPhoneAccountRegistrar.getCallCapablePhoneAccounts(uriScheme, false,
+-                                callingUserHandle);
++                        return new ParceledListSlice<>(mPhoneAccountRegistrar
++                                .getCallCapablePhoneAccounts(uriScheme, false,
++                                callingUserHandle));
+                     } catch (Exception e) {
+                         Log.e(this, e, "getPhoneAccountsSupportingScheme %s", uriScheme);
+                         throw e;
+@@ -233,7 +239,8 @@ public class TelecomServiceImpl {
+         }
+ 
+         @Override
+-        public List<PhoneAccountHandle> getPhoneAccountsForPackage(String packageName) {
++        public ParceledListSlice<PhoneAccountHandle> getPhoneAccountsForPackage(
++                String packageName) {
+             //TODO: Deprecate this in S
+             try {
+                 enforceCallingPackage(packageName);
+@@ -256,8 +263,8 @@ public class TelecomServiceImpl {
+                 long token = Binder.clearCallingIdentity();
+                 try {
+                     Log.startSession("TSI.gPAFP");
+-                    return mPhoneAccountRegistrar.getPhoneAccountsForPackage(packageName,
+-                            callingUserHandle);
++                    return new ParceledListSlice<>(mPhoneAccountRegistrar
++                            .getPhoneAccountsForPackage(packageName, callingUserHandle));
+                 } catch (Exception e) {
+                     Log.e(this, e, "getPhoneAccountsForPackage %s", packageName);
+                     throw e;
+@@ -308,7 +315,7 @@ public class TelecomServiceImpl {
+                 synchronized (mLock) {
+                     try {
+                         // This list is pre-filtered for the calling user.
+-                        return getAllPhoneAccounts().size();
++                        return getAllPhoneAccounts().getList().size();
+                     } catch (Exception e) {
+                         Log.e(this, e, "getAllPhoneAccountsCount");
+                         throw e;
+@@ -321,7 +328,7 @@ public class TelecomServiceImpl {
+         }
+ 
+         @Override
+-        public List<PhoneAccount> getAllPhoneAccounts() {
++        public ParceledListSlice<PhoneAccount> getAllPhoneAccounts() {
+             synchronized (mLock) {
+                 try {
+                     Log.startSession("TSI.gAPA");
+@@ -337,7 +344,8 @@ public class TelecomServiceImpl {
+                     final UserHandle callingUserHandle = Binder.getCallingUserHandle();
+                     long token = Binder.clearCallingIdentity();
+                     try {
+-                        return mPhoneAccountRegistrar.getAllPhoneAccounts(callingUserHandle);
++                        return new ParceledListSlice<>(mPhoneAccountRegistrar
++                                .getAllPhoneAccounts(callingUserHandle));
+                     } catch (Exception e) {
+                         Log.e(this, e, "getAllPhoneAccounts");
+                         throw e;
+@@ -351,7 +359,7 @@ public class TelecomServiceImpl {
+         }
+ 
+         @Override
+-        public List<PhoneAccountHandle> getAllPhoneAccountHandles() {
++        public ParceledListSlice<PhoneAccountHandle> getAllPhoneAccountHandles() {
+             try {
+                 Log.startSession("TSI.gAPAH");
+                 try {
+@@ -367,7 +375,8 @@ public class TelecomServiceImpl {
+                     final UserHandle callingUserHandle = Binder.getCallingUserHandle();
+                     long token = Binder.clearCallingIdentity();
+                     try {
+-                        return mPhoneAccountRegistrar.getAllPhoneAccountHandles(callingUserHandle);
++                        return new ParceledListSlice<>(mPhoneAccountRegistrar
++                                .getAllPhoneAccountHandles(callingUserHandle));
+                     } catch (Exception e) {
+                         Log.e(this, e, "getAllPhoneAccounts");
+                         throw e;
+diff --git a/tests/src/com/android/server/telecom/tests/TelecomServiceImplTest.java b/tests/src/com/android/server/telecom/tests/TelecomServiceImplTest.java
+index cbca5e175..092227b47 100644
+--- a/tests/src/com/android/server/telecom/tests/TelecomServiceImplTest.java
++++ b/tests/src/com/android/server/telecom/tests/TelecomServiceImplTest.java
+@@ -299,9 +299,12 @@ public class TelecomServiceImplTest extends TelecomTestCase {
+         makeAccountsVisibleToAllUsers(TEL_PA_HANDLE_16, SIP_PA_HANDLE_17);
+ 
+         assertEquals(fullPHList,
+-                mTSIBinder.getCallCapablePhoneAccounts(true, DEFAULT_DIALER_PACKAGE));
+-        assertEquals(smallPHList,
+-                mTSIBinder.getCallCapablePhoneAccounts(false, DEFAULT_DIALER_PACKAGE));
++                mTSIBinder.getCallCapablePhoneAccounts(
++                        true, DEFAULT_DIALER_PACKAGE).getList());
++
++      assertEquals(smallPHList,
++                mTSIBinder.getCallCapablePhoneAccounts(
++                        false, DEFAULT_DIALER_PACKAGE).getList());
+     }
+ 
+     @SmallTest
+@@ -316,7 +319,7 @@ public class TelecomServiceImplTest extends TelecomTestCase {
+ 
+         List<PhoneAccountHandle> result = null;
+         try {
+-            result = mTSIBinder.getCallCapablePhoneAccounts(true, "");
++            result = mTSIBinder.getCallCapablePhoneAccounts(true, "").getList();
+         } catch (SecurityException e) {
+             // intended behavior
+         }
+@@ -344,9 +347,11 @@ public class TelecomServiceImplTest extends TelecomTestCase {
+         makeAccountsVisibleToAllUsers(TEL_PA_HANDLE_16, SIP_PA_HANDLE_17);
+ 
+         assertEquals(telPHList,
+-                mTSIBinder.getPhoneAccountsSupportingScheme("tel", DEFAULT_DIALER_PACKAGE));
++                mTSIBinder.getPhoneAccountsSupportingScheme(
++                        "tel", DEFAULT_DIALER_PACKAGE).getList());
+         assertEquals(sipPHList,
+-                mTSIBinder.getPhoneAccountsSupportingScheme("sip", DEFAULT_DIALER_PACKAGE));
++                mTSIBinder.getPhoneAccountsSupportingScheme(
++                        "sip", DEFAULT_DIALER_PACKAGE).getList());
+     }
+ 
+     @SmallTest
+@@ -362,7 +367,7 @@ public class TelecomServiceImplTest extends TelecomTestCase {
+         makeAccountsVisibleToAllUsers(TEL_PA_HANDLE_16, SIP_PA_HANDLE_17);
+         assertEquals(phoneAccountHandleList,
+                 mTSIBinder.getPhoneAccountsForPackage(
+-                        TEL_PA_HANDLE_16.getComponentName().getPackageName()));
++                        TEL_PA_HANDLE_16.getComponentName().getPackageName()).getList());
+     }
+ 
+     @SmallTest
+@@ -385,7 +390,7 @@ public class TelecomServiceImplTest extends TelecomTestCase {
+         when(mFakePhoneAccountRegistrar.getAllPhoneAccounts(any(UserHandle.class)))
+                 .thenReturn(phoneAccountList);
+ 
+-        assertEquals(2, mTSIBinder.getAllPhoneAccounts().size());
++        assertEquals(2, mTSIBinder.getAllPhoneAccounts().getList().size());
+     }
+ 
+     @SmallTest

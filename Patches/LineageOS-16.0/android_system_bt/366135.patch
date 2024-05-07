@@ -1,0 +1,44 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Thu, 1 Jun 2023 23:57:58 +0000
+Subject: [PATCH] Fix UAF in gatt_cl.cc
+
+gatt_cl.cc accesses a header field after the buffer holding it may have
+been freed.
+
+Track the relevant state as a local variable instead.
+
+Bug: 274617156
+Test: atest: bluetooth, validated against fuzzer
+Tag: #security
+Ignore-AOSP-First: Security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:d7a7f7f3311202065de4b2c17b49994053dd1244)
+Merged-In: I085ecfa1a9ba098ecbfecbd3cb3e263ae13f9724
+Change-Id: I085ecfa1a9ba098ecbfecbd3cb3e263ae13f9724
+---
+ stack/gatt/gatt_cl.cc | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/stack/gatt/gatt_cl.cc b/stack/gatt/gatt_cl.cc
+index 16a7171f6..5e4837020 100644
+--- a/stack/gatt/gatt_cl.cc
++++ b/stack/gatt/gatt_cl.cc
+@@ -586,12 +586,17 @@ void gatt_process_prep_write_rsp(tGATT_TCB& tcb, tGATT_CLCB* p_clcb,
+ 
+   memcpy(value.value, p, value.len);
+ 
++  bool subtype_is_write_prepare = (p_clcb->op_subtype == GATT_WRITE_PREPARE);
++
+   if (!gatt_check_write_long_terminate(tcb, p_clcb, &value)) {
+     gatt_send_prepare_write(tcb, p_clcb);
+     return;
+   }
+ 
+-  if (p_clcb->op_subtype == GATT_WRITE_PREPARE) {
++  // We now know that we have not terminated, or else we would have returned
++  // early.  We free the buffer only if the subtype is not equal to
++  // GATT_WRITE_PREPARE, so checking here is adequate to prevent UAF.
++  if (subtype_is_write_prepare) {
+     /* application should verify handle offset
+        and value are matched or not */
+     gatt_end_operation(p_clcb, p_clcb->status, &value);

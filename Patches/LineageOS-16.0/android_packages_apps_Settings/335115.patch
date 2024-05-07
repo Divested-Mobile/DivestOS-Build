@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tsung-Mao Fang <tmfang@google.com>
+Date: Fri, 27 May 2022 15:52:30 +0800
+Subject: [PATCH] Fix can't change notification sound for work profile.
+
+Use correct user id context to query the type,
+so we won't get empty result unexpectedly.
+
+If we get the null result, then we won't set sound sucessfully.
+
+Bug: 233580016
+Bug: 221041256
+Test: Manual test and set work profile sound works.
+Change-Id: I7f8fb737a7c6f77a380f3f075a5c89a1970e39ad
+Merged-In: I7f8fb737a7c6f77a380f3f075a5c89a1970e39ad
+(cherry picked from commit edf44161770a8d3aa5105b51d701c3abdae1776e)
+Merged-In: I7f8fb737a7c6f77a380f3f075a5c89a1970e39ad
+---
+ src/com/android/settings/DefaultRingtonePreference.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/com/android/settings/DefaultRingtonePreference.java b/src/com/android/settings/DefaultRingtonePreference.java
+index 226cde693b1..f3eeff9df25 100644
+--- a/src/com/android/settings/DefaultRingtonePreference.java
++++ b/src/com/android/settings/DefaultRingtonePreference.java
+@@ -49,7 +49,7 @@ public class DefaultRingtonePreference extends RingtonePreference {
+             return;
+         }
+ 
+-        String mimeType = getContext().getContentResolver().getType(ringtoneUri);
++        String mimeType = mUserContext.getContentResolver().getType(ringtoneUri);
+         if (mimeType == null) {
+             Log.e(TAG, "onSaveRingtone for URI:" + ringtoneUri
+                     + " ignored: failure to find mimeType (no access from this context?)");

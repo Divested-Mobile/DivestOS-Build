@@ -72,34 +72,8 @@ patchWorkspaceReal() {
 	verifyAllPlatformTags;
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-	source build/envsetup.sh;
+	#source build/envsetup.sh;
 	#repopick -it pie-firewall;
-	#repopick cannot handle empty commits
-	repopick -fit P_asb_2022-05 -e 341484;
-	repopick -fit P_asb_2022-06 -e 342112;
-	repopick -fit P_asb_2022-07 -e 342113;
-	repopick -fit P_asb_2022-08 -e 342114;
-	repopick -fit P_asb_2022-09 -e 342116;
-	repopick -fit P_asb_2022-10 -e 342119;
-	repopick -fit P_tzdata_2022;
-	repopick -fit P_asb_2022-11 -e 344200;
-	repopick -fit P_asb_2022-12 -e 345931;
-	repopick -fit P_asb_2023-01 -e 347129;
-	repopick -fit P_asb_2023-02 -e 349337;
-	repopick -fit P_asb_2023-03;
-	repopick -fit P_asb_2023-04;
-	repopick -fit P_asb_2023-05;
-	repopick -fit P_asb_2023-06;
-	repopick -fit P_asb_2023-07 -e 361282;
-	repopick -fit P_asb_2023-08 -e 365327,365328,364605;
-	repopick -fit P_asb_2023-09;
-	repopick -fit P_asb_2023-10 -e 370704;
-	repopick -fit P_asb_2023-11 -e 374916;
-	repopick -fit P_asb_2023-12;
-	repopick -fit P_asb_2024-01;
-	repopick -fit P_asb_2024-02;
-	repopick -fit P_asb_2024-03;
-	repopick -fit P_asb_2024-04;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

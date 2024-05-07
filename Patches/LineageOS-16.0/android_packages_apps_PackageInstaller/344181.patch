@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Evan Severson <evanseverson@google.com>
+Date: Tue, 30 Nov 2021 18:19:18 -0800
+Subject: [PATCH] Hide overlays on ReviewPermissionsAtivity
+
+Test: atest PermissionReviewTapjackingTest
+Bug: 176094367
+Merged-In: I9f263b947853e14d081a73ce907917e9326b6ef7
+Change-Id: I9f263b947853e14d081a73ce907917e9326b6ef7
+(cherry picked from commit 725244f010c9c5ed5b169c2ec00600864fce38ab)
+Merged-In: I9f263b947853e14d081a73ce907917e9326b6ef7
+---
+ .../permission/ui/ReviewPermissionsActivity.java             | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/com/android/packageinstaller/permission/ui/ReviewPermissionsActivity.java b/src/com/android/packageinstaller/permission/ui/ReviewPermissionsActivity.java
+index 4caf4ce8a..81d9d7c4c 100644
+--- a/src/com/android/packageinstaller/permission/ui/ReviewPermissionsActivity.java
++++ b/src/com/android/packageinstaller/permission/ui/ReviewPermissionsActivity.java
+@@ -24,6 +24,8 @@ import android.content.pm.PackageInfo;
+ import android.content.pm.PackageManager;
+ import android.os.Bundle;
+ import android.text.TextUtils;
++import android.view.WindowManager;
++
+ import com.android.packageinstaller.DeviceUtils;
+ import com.android.packageinstaller.R;
+ import com.android.packageinstaller.permission.ui.handheld.ReviewPermissionsFragment;
+@@ -37,6 +39,9 @@ public final class ReviewPermissionsActivity extends Activity
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+ 
++        getWindow().addPrivateFlags(
++                WindowManager.LayoutParams.PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);
++
+         PackageInfo packageInfo = getTargetPackageInfo();
+         if (packageInfo == null) {
+             finish();

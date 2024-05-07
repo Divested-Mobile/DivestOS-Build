@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alisher Alikhodjaev <alisher@google.com>
+Date: Tue, 2 Aug 2022 13:32:30 -0700
+Subject: [PATCH] The length of a packet should be non-zero
+
+Bug: 221856662
+Bug: 237079835
+Test: no functional changes, the build is ok
+Change-Id: I6defe4025c962ae7dde2e673e2bfcfc15785cc12
+(cherry picked from commit 396ac0e081ae67a1d743e0373257ec869692912c)
+Merged-In: I6defe4025c962ae7dde2e673e2bfcfc15785cc12
+---
+ src/nfc/nfc/nfc_ncif.cc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/nfc/nfc/nfc_ncif.cc b/src/nfc/nfc/nfc_ncif.cc
+index a0f0eff1..dbf5e3a7 100755
+--- a/src/nfc/nfc/nfc_ncif.cc
++++ b/src/nfc/nfc/nfc_ncif.cc
+@@ -2094,13 +2094,13 @@ void nfc_ncif_proc_ee_discover_req(uint8_t* p, uint16_t plen) {
+   tNFC_EE_DISCOVER_INFO* p_info;
+   uint8_t u8;
+ 
+-  DLOG_IF(INFO, nfc_debug_enabled) << StringPrintf("nfc_ncif_proc_ee_discover_req %d len:%d", *p, plen);
+-
+   if (!plen) {
+     android_errorWriteLog(0x534e4554, "221856662");
+     return;
+   }
+ 
++  DLOG_IF(INFO, nfc_debug_enabled) << StringPrintf("nfc_ncif_proc_ee_discover_req %d len:%d", *p, plen);
++
+   if (*p > NFC_MAX_EE_DISC_ENTRIES) {
+     android_errorWriteLog(0x534e4554, "122361874");
+     LOG(ERROR) << __func__ << "Exceed NFC_MAX_EE_DISC_ENTRIES";

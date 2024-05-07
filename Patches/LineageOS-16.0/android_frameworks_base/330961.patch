@@ -1,0 +1,146 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matt Pietal <mpietal@google.com>
+Date: Fri, 1 Oct 2021 11:03:16 -0400
+Subject: [PATCH] Keyguard - Treat messsages to lock with priority
+
+When switching users and attempting to lock the device, the sysui main
+thread becomes overwhelmed with events, creating a significant lag
+between the time a message is posted and processed on the main
+thread. This can be dangerous when these events are critical for
+security, such as calls coming from PhoneWindowManager#lockNow() that
+call KeyguardViewMediator#doKeyguardTimeout(). On older devices with
+slower CPUs and less memory, the delay in processing can be
+significant (15 - 30s).
+
+The result of not prioritizing these events leads to a window of time
+where a guest user can switch back to the owner, and gain access to
+the owner's homescreen without needing to unlock the device with the
+owner's credentials.
+
+As a mitigation, prioritize two events originating in two specific
+methods to make sure the device locks as soon as possible as well as
+have the system server preemptively update its local cache.
+
+Bug: 151095871
+Test: Very manual race condition - follow steps listed in bug
+Change-Id: I7585a0a5eeb308e0e32a4f77f581556d883b5cda
+Merged-In: I7585a0a5eeb308e0e32a4f77f581556d883b5cda
+(cherry picked from commit 28c53ab8bca26af58b45625c1ebba8b9051c107d)
+(cherry picked from commit 563fdf4259d0e28fd960acbb63431e146707d11b)
+Merged-In: I7585a0a5eeb308e0e32a4f77f581556d883b5cda
+---
+ .../internal/policy/IKeyguardStateCallback.aidl  |  2 +-
+ .../systemui/keyguard/KeyguardViewMediator.java  | 16 +++++++++++-----
+ .../policy/keyguard/KeyguardServiceWrapper.java  |  6 ++++++
+ .../policy/keyguard/KeyguardStateMonitor.java    |  8 +++++++-
+ 4 files changed, 25 insertions(+), 7 deletions(-)
+
+diff --git a/core/java/com/android/internal/policy/IKeyguardStateCallback.aidl b/core/java/com/android/internal/policy/IKeyguardStateCallback.aidl
+index 8e454db4cb04..a8003a1169e9 100644
+--- a/core/java/com/android/internal/policy/IKeyguardStateCallback.aidl
++++ b/core/java/com/android/internal/policy/IKeyguardStateCallback.aidl
+@@ -16,7 +16,7 @@
+ package com.android.internal.policy;
+ 
+ interface IKeyguardStateCallback {
+-    void onShowingStateChanged(boolean showing);
++    void onShowingStateChanged(boolean showing, int userId);
+     void onSimSecureStateChanged(boolean simSecure);
+     void onInputRestrictedStateChanged(boolean inputRestricted);
+     void onTrustedChanged(boolean trusted);
+diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
+index 305370d5964b..bac481c8e478 100644
+--- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
++++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
+@@ -1291,7 +1291,9 @@ public class KeyguardViewMediator extends SystemUI {
+     public void doKeyguardTimeout(Bundle options) {
+         mHandler.removeMessages(KEYGUARD_TIMEOUT);
+         Message msg = mHandler.obtainMessage(KEYGUARD_TIMEOUT, options);
+-        mHandler.sendMessage(msg);
++        // Treat these messages with priority - A call to timeout means the device should lock
++        // as soon as possible and not wait for other messages on the thread to process first.
++        mHandler.sendMessageAtFrontOfQueue(msg);
+     }
+ 
+     /**
+@@ -1488,12 +1490,15 @@ public class KeyguardViewMediator extends SystemUI {
+      * @see #handleShow
+      */
+     private void showLocked(Bundle options) {
+-        Trace.beginSection("KeyguardViewMediator#showLocked aqcuiring mShowKeyguardWakeLock");
++        Trace.beginSection("KeyguardViewMediator#showLocked acquiring mShowKeyguardWakeLock");
+         if (DEBUG) Log.d(TAG, "showLocked");
+         // ensure we stay awake until we are finished displaying the keyguard
+         mShowKeyguardWakeLock.acquire();
+         Message msg = mHandler.obtainMessage(SHOW, options);
+-        mHandler.sendMessage(msg);
++        // Treat these messages with priority - This call can originate from #doKeyguardTimeout,
++        // meaning the device should lock as soon as possible and not wait for other messages on
++        // the thread to process first.
++        mHandler.sendMessageAtFrontOfQueue(msg);
+         Trace.endSection();
+     }
+ 
+@@ -1652,6 +1657,7 @@ public class KeyguardViewMediator extends SystemUI {
+                 case KEYGUARD_TIMEOUT:
+                     synchronized (KeyguardViewMediator.this) {
+                         doKeyguardLocked((Bundle) msg.obj);
++                        notifyDefaultDisplayCallbacks(mShowing);
+                     }
+                     break;
+                 case DISMISS:
+@@ -2213,7 +2219,7 @@ public class KeyguardViewMediator extends SystemUI {
+         for (int i = size - 1; i >= 0; i--) {
+             IKeyguardStateCallback callback = mKeyguardStateCallbacks.get(i);
+             try {
+-                callback.onShowingStateChanged(showing);
++                callback.onShowingStateChanged(showing, KeyguardUpdateMonitor.getCurrentUser());
+             } catch (RemoteException e) {
+                 Slog.w(TAG, "Failed to call onShowingStateChanged", e);
+                 if (e instanceof DeadObjectException) {
+@@ -2261,7 +2267,7 @@ public class KeyguardViewMediator extends SystemUI {
+             mKeyguardStateCallbacks.add(callback);
+             try {
+                 callback.onSimSecureStateChanged(mUpdateMonitor.isSimPinSecure());
+-                callback.onShowingStateChanged(mShowing);
++                callback.onShowingStateChanged(mShowing, KeyguardUpdateMonitor.getCurrentUser());
+                 callback.onInputRestrictedStateChanged(mInputRestricted);
+                 callback.onTrustedChanged(mUpdateMonitor.getUserHasTrust(
+                         KeyguardUpdateMonitor.getCurrentUser()));
+diff --git a/services/core/java/com/android/server/policy/keyguard/KeyguardServiceWrapper.java b/services/core/java/com/android/server/policy/keyguard/KeyguardServiceWrapper.java
+index 4e848686254a..cf5c587e0494 100644
+--- a/services/core/java/com/android/server/policy/keyguard/KeyguardServiceWrapper.java
++++ b/services/core/java/com/android/server/policy/keyguard/KeyguardServiceWrapper.java
+@@ -192,6 +192,12 @@ public class KeyguardServiceWrapper implements IKeyguardService {
+ 
+     @Override // Binder interface
+     public void doKeyguardTimeout(Bundle options) {
++        int userId = mKeyguardStateMonitor.getCurrentUser();
++        if (mKeyguardStateMonitor.isSecure(userId)) {
++            // Preemptively inform the cache that the keyguard will soon be showing, as calls to
++            // doKeyguardTimeout are a signal to lock the device as soon as possible.
++            mKeyguardStateMonitor.onShowingStateChanged(true, userId);
++        }
+         try {
+             mService.doKeyguardTimeout(options);
+         } catch (RemoteException e) {
+diff --git a/services/core/java/com/android/server/policy/keyguard/KeyguardStateMonitor.java b/services/core/java/com/android/server/policy/keyguard/KeyguardStateMonitor.java
+index dbf96aa9eee6..c49c31d2ce07 100644
+--- a/services/core/java/com/android/server/policy/keyguard/KeyguardStateMonitor.java
++++ b/services/core/java/com/android/server/policy/keyguard/KeyguardStateMonitor.java
+@@ -92,8 +92,14 @@ public class KeyguardStateMonitor extends IKeyguardStateCallback.Stub {
+         return mHasLockscreenWallpaper;
+     }
+ 
++    public int getCurrentUser() {
++        return mCurrentUserId;
++    }
++
+     @Override // Binder interface
+-    public void onShowingStateChanged(boolean showing) {
++    public void onShowingStateChanged(boolean showing, int userId) {
++        if (userId != mCurrentUserId) return;
++
+         mIsShowing = showing;
+ 
+         mCallback.onShowingChanged();

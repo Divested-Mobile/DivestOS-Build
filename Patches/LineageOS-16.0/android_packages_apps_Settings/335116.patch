@@ -1,0 +1,94 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Raphael Kim <raphk@google.com>
+Date: Fri, 22 Apr 2022 00:40:06 +0000
+Subject: [PATCH] Extract app label from component name in notification access
+ confirmation UI
+
+Bug: 228178437
+Test: Manually tested on POC
+Change-Id: I8613d9b87a53d4641c0689bca9c961c66a2e9415
+Merged-In: I8613d9b87a53d4641c0689bca9c961c66a2e9415
+(cherry picked from commit 8d749c55f4efd6b2e514d90204667ffa804eb0f9)
+Merged-In: I8613d9b87a53d4641c0689bca9c961c66a2e9415
+---
+ ...otificationAccessConfirmationActivity.java | 36 ++++++++++++++++---
+ 1 file changed, 31 insertions(+), 5 deletions(-)
+
+diff --git a/src/com/android/settings/notification/NotificationAccessConfirmationActivity.java b/src/com/android/settings/notification/NotificationAccessConfirmationActivity.java
+index 8cef33e6fff..0465386f630 100644
+--- a/src/com/android/settings/notification/NotificationAccessConfirmationActivity.java
++++ b/src/com/android/settings/notification/NotificationAccessConfirmationActivity.java
+@@ -21,8 +21,6 @@ import static android.view.WindowManager.LayoutParams.PRIVATE_FLAG_HIDE_NON_SYST
+ 
+ import static com.android.internal.notification.NotificationAccessConfirmationActivityContract
+         .EXTRA_COMPONENT_NAME;
+-import static com.android.internal.notification.NotificationAccessConfirmationActivityContract
+-        .EXTRA_PACKAGE_TITLE;
+ import static com.android.internal.notification.NotificationAccessConfirmationActivityContract
+         .EXTRA_USER_ID;
+ 
+@@ -33,10 +31,13 @@ import android.app.NotificationManager;
+ import android.content.ComponentName;
+ import android.content.Context;
+ import android.content.DialogInterface;
++import android.content.pm.ApplicationInfo;
++import android.content.pm.PackageItemInfo;
+ import android.content.pm.PackageManager;
+ import android.content.pm.ServiceInfo;
+ import android.os.Bundle;
+ import android.os.UserHandle;
++import android.text.TextUtils;
+ import android.util.Slog;
+ import android.view.WindowManager;
+ import android.view.accessibility.AccessibilityEvent;
+@@ -52,6 +53,8 @@ public class NotificationAccessConfirmationActivity extends Activity
+     private static final boolean DEBUG = false;
+     private static final String LOG_TAG = "NotificationAccessConfirmationActivity";
+ 
++    private static final float DEFAULT_MAX_LABEL_SIZE_PX = 500f;
++
+     private int mUserId;
+     private ComponentName mComponentName;
+     private NotificationManager mNm;
+@@ -66,15 +69,38 @@ public class NotificationAccessConfirmationActivity extends Activity
+ 
+         mComponentName = getIntent().getParcelableExtra(EXTRA_COMPONENT_NAME);
+         mUserId = getIntent().getIntExtra(EXTRA_USER_ID, UserHandle.USER_NULL);
+-        String pkgTitle = getIntent().getStringExtra(EXTRA_PACKAGE_TITLE);
++        CharSequence mAppLabel;
++
++        if (mComponentName == null || mComponentName.getPackageName() == null) {
++            finish();
++            return;
++        }
++
++        try {
++            ApplicationInfo applicationInfo = getPackageManager().getApplicationInfo(
++                    mComponentName.getPackageName(), 0);
++            mAppLabel = applicationInfo.loadSafeLabel(getPackageManager(),
++                    DEFAULT_MAX_LABEL_SIZE_PX,
++                    PackageItemInfo.SAFE_LABEL_FLAG_TRIM
++                            | PackageItemInfo.SAFE_LABEL_FLAG_FIRST_LINE);
++        } catch (PackageManager.NameNotFoundException e) {
++            Slog.e(LOG_TAG, "Couldn't find app with package name for " + mComponentName, e);
++            finish();
++            return;
++        }
++
++        if (TextUtils.isEmpty(mAppLabel)) {
++            finish();
++            return;
++        }
+ 
+         AlertController.AlertParams p = new AlertController.AlertParams(this);
+         p.mTitle = getString(
+                 R.string.notification_listener_security_warning_title,
+-                pkgTitle);
++                mAppLabel);
+         p.mMessage = getString(
+                 R.string.notification_listener_security_warning_summary,
+-                pkgTitle);
++                mAppLabel);
+         p.mPositiveButtonText = getString(R.string.allow);
+         p.mPositiveButtonListener = (a, b) -> onAllow();
+         p.mNegativeButtonText = getString(R.string.deny);

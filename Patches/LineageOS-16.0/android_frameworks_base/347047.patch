@@ -1,0 +1,237 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Songchun Fan <schfan@google.com>
+Date: Wed, 17 Aug 2022 09:37:18 -0700
+Subject: [PATCH] mem limit should be checked before settings are updated
+
+Previously, a setting is updated before the memory usage limit
+check, which can be exploited by malicious apps and cause OoM DoS.
+
+This CL changes the logic to checkMemLimit -> update -> updateMemUsage.
+
+BUG: 239415861
+Test: atest com.android.providers.settings.SettingsStateTest
+
+(cherry picked from commit 8eeb92950f4a7012d4cf282106a1418fd211f475)
+Merged-In: I20551a2dba9aa79efa0c064824f349f551c2c2e4
+Change-Id: I20551a2dba9aa79efa0c064824f349f551c2c2e4
+(cherry picked from commit d85a42821075ad80b931d904bdc9c1d4c3129456)
+Merged-In: I20551a2dba9aa79efa0c064824f349f551c2c2e4
+---
+ .../providers/settings/SettingsState.java     | 75 ++++++++++++-------
+ .../providers/settings/SettingsStateTest.java | 43 ++++++++++-
+ 2 files changed, 90 insertions(+), 28 deletions(-)
+
+diff --git a/packages/SettingsProvider/src/com/android/providers/settings/SettingsState.java b/packages/SettingsProvider/src/com/android/providers/settings/SettingsState.java
+index 449946d7ab15..33b506468e11 100644
+--- a/packages/SettingsProvider/src/com/android/providers/settings/SettingsState.java
++++ b/packages/SettingsProvider/src/com/android/providers/settings/SettingsState.java
+@@ -358,9 +358,11 @@ final class SettingsState {
+             Setting newSetting = new Setting(name, oldSetting.getValue(), null,
+                     oldSetting.getPackageName(), oldSetting.getTag(), false,
+                     oldSetting.getId());
+-            mSettings.put(name, newSetting);
+-            updateMemoryUsagePerPackageLocked(newSetting.getPackageName(), oldValue,
++            int newSize = getNewMemoryUsagePerPackageLocked(newSetting.getPackageName(), oldValue,
+                     newSetting.getValue(), oldDefaultValue, newSetting.getDefaultValue());
++            checkNewMemoryUsagePerPackageLocked(newSetting.getPackageName(), newSize);
++            mSettings.put(name, newSetting);
++            updateMemoryUsagePerPackageLocked(newSetting.getPackageName(), newSize);
+             scheduleWriteIfNeededLocked();
+         }
+     }
+@@ -375,6 +377,12 @@ final class SettingsState {
+         Setting oldState = mSettings.get(name);
+         String oldValue = (oldState != null) ? oldState.value : null;
+         String oldDefaultValue = (oldState != null) ? oldState.defaultValue : null;
++        String newDefaultValue = makeDefault ? value : oldDefaultValue;
++
++        int newSize = getNewMemoryUsagePerPackageLocked(packageName, oldValue, value,
++                oldDefaultValue, newDefaultValue);
++        checkNewMemoryUsagePerPackageLocked(packageName, newSize);
++
+         Setting newState;
+ 
+         if (oldState != null) {
+@@ -392,8 +400,7 @@ final class SettingsState {
+ 
+         addHistoricalOperationLocked(HISTORICAL_OPERATION_UPDATE, newState);
+ 
+-        updateMemoryUsagePerPackageLocked(packageName, oldValue, value,
+-                oldDefaultValue, newState.getDefaultValue());
++        updateMemoryUsagePerPackageLocked(packageName, newSize);
+ 
+         scheduleWriteIfNeededLocked();
+ 
+@@ -413,13 +420,14 @@ final class SettingsState {
+         }
+ 
+         Setting oldState = mSettings.remove(name);
++        int newSize = getNewMemoryUsagePerPackageLocked(oldState.packageName, oldState.value,
++                null, oldState.defaultValue, null);
+ 
+         StatsLog.write(StatsLog.SETTING_CHANGED, name, /* value= */ "", /* newValue= */ "",
+             oldState.value, /* tag */ "", false, getUserIdFromKey(mKey),
+             StatsLog.SETTING_CHANGED__REASON__DELETED);
+ 
+-        updateMemoryUsagePerPackageLocked(oldState.packageName, oldState.value,
+-                null, oldState.defaultValue, null);
++        updateMemoryUsagePerPackageLocked(oldState.packageName, newSize);
+ 
+         addHistoricalOperationLocked(HISTORICAL_OPERATION_DELETE, oldState);
+ 
+@@ -439,16 +447,18 @@ final class SettingsState {
+         Setting oldSetting = new Setting(setting);
+         String oldValue = setting.getValue();
+         String oldDefaultValue = setting.getDefaultValue();
++        String newValue = oldDefaultValue;
++        String newDefaultValue = oldDefaultValue;
++
++        int newSize = getNewMemoryUsagePerPackageLocked(setting.packageName, oldValue,
++                newValue, oldDefaultValue, newDefaultValue);
++        checkNewMemoryUsagePerPackageLocked(setting.packageName, newSize);
+ 
+         if (!setting.reset()) {
+             return false;
+         }
+ 
+-        String newValue = setting.getValue();
+-        String newDefaultValue = setting.getDefaultValue();
+-
+-        updateMemoryUsagePerPackageLocked(setting.packageName, oldValue,
+-                newValue, oldDefaultValue, newDefaultValue);
++        updateMemoryUsagePerPackageLocked(setting.packageName, newSize);
+ 
+         addHistoricalOperationLocked(HISTORICAL_OPERATION_RESET, oldSetting);
+ 
+@@ -553,38 +563,49 @@ final class SettingsState {
+         }
+     }
+ 
+-    private void updateMemoryUsagePerPackageLocked(String packageName, String oldValue,
+-            String newValue, String oldDefaultValue, String newDefaultValue) {
+-        if (mMaxBytesPerAppPackage == MAX_BYTES_PER_APP_PACKAGE_UNLIMITED) {
+-            return;
+-        }
++    private boolean isExemptFromMemoryUsageCap(String packageName) {
++        return mMaxBytesPerAppPackage == MAX_BYTES_PER_APP_PACKAGE_UNLIMITED
++                || SYSTEM_PACKAGE_NAME.equals(packageName);
++    }
+ 
+-        if (SYSTEM_PACKAGE_NAME.equals(packageName)) {
++    @GuardedBy("mLock")
++    private void checkNewMemoryUsagePerPackageLocked(String packageName, int newSize)
++            throws IllegalStateException {
++        if (isExemptFromMemoryUsageCap(packageName)) {
+             return;
+         }
++        if (newSize > mMaxBytesPerAppPackage) {
++            throw new IllegalStateException("You are adding too many system settings. "
++                    + "You should stop using system settings for app specific data"
++                    + " package: " + packageName);
++        }
++    }
+ 
++    @GuardedBy("mLock")
++    private int getNewMemoryUsagePerPackageLocked(String packageName, String oldValue,
++            String newValue, String oldDefaultValue, String newDefaultValue) {
++        if (isExemptFromMemoryUsageCap(packageName)) {
++            return 0;
++        }
++        final Integer currentSize = mPackageToMemoryUsage.get(packageName);
+         final int oldValueSize = (oldValue != null) ? oldValue.length() : 0;
+         final int newValueSize = (newValue != null) ? newValue.length() : 0;
+         final int oldDefaultValueSize = (oldDefaultValue != null) ? oldDefaultValue.length() : 0;
+         final int newDefaultValueSize = (newDefaultValue != null) ? newDefaultValue.length() : 0;
+         final int deltaSize = newValueSize + newDefaultValueSize
+                 - oldValueSize - oldDefaultValueSize;
++        return Math.max((currentSize != null) ? currentSize + deltaSize : deltaSize, 0);
++    }
+ 
+-        Integer currentSize = mPackageToMemoryUsage.get(packageName);
+-        final int newSize = Math.max((currentSize != null)
+-                ? currentSize + deltaSize : deltaSize, 0);
+-
+-        if (newSize > mMaxBytesPerAppPackage) {
+-            throw new IllegalStateException("You are adding too many system settings. "
+-                    + "You should stop using system settings for app specific data"
+-                    + " package: " + packageName);
++    @GuardedBy("mLock")
++    private void updateMemoryUsagePerPackageLocked(String packageName, int newSize) {
++        if (isExemptFromMemoryUsageCap(packageName)) {
++            return;
+         }
+-
+         if (DEBUG) {
+             Slog.i(LOG_TAG, "Settings for package: " + packageName
+                     + " size: " + newSize + " bytes.");
+         }
+-
+         mPackageToMemoryUsage.put(packageName, newSize);
+     }
+ 
+diff --git a/packages/SettingsProvider/test/src/com/android/providers/settings/SettingsStateTest.java b/packages/SettingsProvider/test/src/com/android/providers/settings/SettingsStateTest.java
+index 3f68554ffe87..6f45adef91f7 100644
+--- a/packages/SettingsProvider/test/src/com/android/providers/settings/SettingsStateTest.java
++++ b/packages/SettingsProvider/test/src/com/android/providers/settings/SettingsStateTest.java
+@@ -21,6 +21,8 @@ import android.util.Xml;
+ 
+ import org.xmlpull.v1.XmlSerializer;
+ 
++import com.google.common.base.Strings;
++
+ import java.io.ByteArrayOutputStream;
+ import java.io.File;
+ import java.io.FileOutputStream;
+@@ -46,7 +48,6 @@ public class SettingsStateTest extends AndroidTestCase {
+             "\uD800ab\uDC00 " + // broken surrogate pairs
+             "日本語";
+ 
+-
+     public void testIsBinary() {
+         assertFalse(SettingsState.isBinary(" abc 日本語"));
+ 
+@@ -182,4 +183,44 @@ public class SettingsStateTest extends AndroidTestCase {
+             assertEquals("p2", s.getPackageName());
+         }
+     }
++
++    public void testInsertSetting_memoryUsage() {
++        final Object lock = new Object();
++	final File file = new File(getContext().getCacheDir(), "setting.xml");
++	final String settingName = "test_setting";
++
++        SettingsState settingsState = new SettingsState(getContext(), lock, file, 1,
++                SettingsState.MAX_BYTES_PER_APP_PACKAGE_UNLIMITED, Looper.getMainLooper());
++        // No exception should be thrown when there is no cap
++        settingsState.insertSettingLocked(settingName, Strings.repeat("A", 20001),
++                null, false, "p1");
++        settingsState.deleteSettingLocked(settingName);
++
++        settingsState = new SettingsState(getContext(), lock, file, 1,
++                SettingsState.MAX_BYTES_PER_APP_PACKAGE_LIMITED, Looper.getMainLooper());
++        // System package doesn't have memory usage limit
++        settingsState.insertSettingLocked(settingName, Strings.repeat("A", 20001),
++                null, false, "android");
++        settingsState.deleteSettingLocked(settingName);
++
++        // Should not throw if usage is under the cap
++        settingsState.insertSettingLocked(settingName, Strings.repeat("A", 19999),
++                null, false, "p1");
++        settingsState.deleteSettingLocked(settingName);
++        try {
++            settingsState.insertSettingLocked(settingName, Strings.repeat("A", 20001),
++                    null, false, "p1");
++            fail("Should throw because it exceeded per package memory usage");
++        } catch (IllegalStateException ex) {
++            assertTrue(ex.getMessage().contains("p1"));
++        }
++        try {
++            settingsState.insertSettingLocked(settingName, Strings.repeat("A", 20001),
++                    null, false, "p1");
++            fail("Should throw because it exceeded per package memory usage");
++        } catch (IllegalStateException ex) {
++            assertTrue(ex.getMessage().contains("p1"));
++        }
++        assertTrue(settingsState.getSettingLocked(settingName).isNull());
++    }
+ }

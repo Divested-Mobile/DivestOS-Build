@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Rahul Sabnis <rahulsabnis@google.com>
+Date: Wed, 6 Apr 2022 22:44:01 +0000
+Subject: [PATCH] Removes app access to BluetoothAdapter#setDiscoverableTimeout
+ by requiring BLUETOOTH_PRIVILEGED permission.
+
+Bug: 206807679
+Test: Manual
+Merged-In: I73288f495d35280a5724d070248db54e2fe537fd
+Change-Id: I73288f495d35280a5724d070248db54e2fe537fd
+(cherry picked from commit 528ea846133dc7dc4ce843e5b649abd50b58d527)
+Merged-In: I73288f495d35280a5724d070248db54e2fe537fd
+---
+ src/com/android/bluetooth/btservice/AdapterService.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/bluetooth/btservice/AdapterService.java b/src/com/android/bluetooth/btservice/AdapterService.java
+index 3b804db7a..a14f8d657 100644
+--- a/src/com/android/bluetooth/btservice/AdapterService.java
++++ b/src/com/android/bluetooth/btservice/AdapterService.java
+@@ -1717,7 +1717,8 @@ public class AdapterService extends Service {
+     }
+ 
+     boolean setDiscoverableTimeout(int timeout) {
+-        enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
++        enforceCallingOrSelfPermission(
++                BLUETOOTH_PRIVILEGED, "Need BLUETOOTH PRIVILEGED permission");
+ 
+         return mAdapterProperties.setDiscoverableTimeout(timeout);
+     }

@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Manjeet Rulhania <mrulhania@google.com>
+Date: Thu, 30 Jun 2022 18:52:50 +0000
+Subject: [PATCH] Remove package name from SafetyNet logs
+
+Bug: 213323615
+Test: AppSecurityTests
+Change-Id: Ia2be2b1e32dc0b75c352bc15219f4c4de9abb45a
+Merged-In: I993832e148636f1795ffe393c6dc74a08b9442f8
+Merged-In: I8f823487ca16861a35135cfc3383fa2ce8258017
+Merged-In: I4b61d13256ce0bfb8fc9d21db52ee78ce2097f14
+(cherry picked from commit 50d343c656921ba9c730c68b7a41de6b15f57f03)
+Merged-In: Ia2be2b1e32dc0b75c352bc15219f4c4de9abb45a
+---
+ core/java/android/content/pm/PackageParser.java | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android/content/pm/PackageParser.java
+index c56dfbe97895..d99302d6696f 100644
+--- a/core/java/android/content/pm/PackageParser.java
++++ b/core/java/android/content/pm/PackageParser.java
+@@ -2529,8 +2529,7 @@ public class PackageParser {
+                 final Permission perm = checkDuplicatePerm.get(name);
+                 if (isMalformedDuplicate(permissionDefinition, perm)) {
+                     // Fix for b/213323615
+-                    EventLog.writeEvent(0x534e4554, "213323615",
+-                            "The package " + pkg.packageName + " seems malicious");
++                    EventLog.writeEvent(0x534e4554, "213323615");
+                     return true;
+                 }
+                 checkDuplicatePerm.put(name, permissionDefinition);

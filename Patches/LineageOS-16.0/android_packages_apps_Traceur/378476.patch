@@ -1,0 +1,64 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Kevin Jeon <kevinjeon@google.com>
+Date: Wed, 29 Mar 2023 16:38:23 -0400
+Subject: [PATCH] Add DISALLOW_DEBUGGING_FEATURES check
+
+This change adds a check for the DISALLOW_DEBUGGING_FEATURES restriction
+wherever a developer options or admin-privileges check exists.
+
+Test: Apply this change to the relevant branches and verify that Traceur
+      cannot be opened through the researcher-provided APK.
+Bug: 270050064
+Bug: 270050191
+Ignore-AOSP-First: Internal-first security fix.
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:44480ce656dfa33a63bda978b4067bb4e67ee312)
+Merged-In: I95d308f6e73a19e489f5eb09558275ca6fb3c4aa
+Change-Id: I95d308f6e73a19e489f5eb09558275ca6fb3c4aa
+---
+ src/com/google/android/traceur/MainActivity.java   | 10 +++++++---
+ src/com/google/android/traceur/SearchProvider.java |  7 +++++--
+ 2 files changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/src/com/google/android/traceur/MainActivity.java b/src/com/google/android/traceur/MainActivity.java
+index ef1577e..b0d5297 100644
+--- a/src/com/google/android/traceur/MainActivity.java
++++ b/src/com/google/android/traceur/MainActivity.java
+@@ -33,10 +33,14 @@ public class MainActivity extends Activity {
+         boolean developerOptionsIsEnabled =
+             Settings.Global.getInt(getContentResolver(),
+                 Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
+-        boolean isAdminUser = getApplicationContext()
+-                .getSystemService(UserManager.class).isAdminUser();
+ 
+-        if (!developerOptionsIsEnabled || !isAdminUser) {
++        UserManager userManager = getApplicationContext()
++                .getSystemService(UserManager.class);
++        boolean isAdminUser = userManager.isAdminUser();
++        boolean debuggingDisallowed = userManager.hasUserRestriction(
++                UserManager.DISALLOW_DEBUGGING_FEATURES);
++
++        if (!developerOptionsIsEnabled || !isAdminUser || debuggingDisallowed) {
+             finish();
+         }
+     }
+diff --git a/src/com/google/android/traceur/SearchProvider.java b/src/com/google/android/traceur/SearchProvider.java
+index 9098e89..8e96dc6 100644
+--- a/src/com/google/android/traceur/SearchProvider.java
++++ b/src/com/google/android/traceur/SearchProvider.java
+@@ -70,11 +70,14 @@ public class SearchProvider extends SearchIndexablesProvider {
+         boolean developerOptionsIsEnabled =
+             Settings.Global.getInt(getContext().getContentResolver(),
+                 Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
+-        boolean isAdminUser = getContext().getSystemService(UserManager.class).isAdminUser();
++        UserManager userManager = getContext().getSystemService(UserManager.class);
++        boolean isAdminUser = userManager.isAdminUser();
++        boolean debuggingDisallowed = userManager.hasUserRestriction(
++                UserManager.DISALLOW_DEBUGGING_FEATURES);
+ 
+         // System Tracing shouldn't be searchable if developer options are not enabled or if the
+         // user is not an admin.
+-        if (!developerOptionsIsEnabled || !isAdminUser) {
++        if (!developerOptionsIsEnabled || !isAdminUser || debuggingDisallowed) {
+             MatrixCursor cursor = new MatrixCursor(NON_INDEXABLES_KEYS_COLUMNS);
+             Object[] row = new Object[] {getContext().getString(R.string.system_tracing)};
+             cursor.addRow(row);

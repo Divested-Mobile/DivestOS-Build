@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tatsuaki Machida <tmachida@google.com>
+Date: Mon, 28 Feb 2022 10:36:08 +0000
+Subject: [PATCH] No longer export CallSubjectDialog
+
+Bug: 221802256
+Change-Id: Ibfc10e706d204131c33071a5fd5b6596ba5c2d48
+Test: N/A
+(cherry picked from commit d96b98bbb21118356726588d0ff3707246369fdb)
+(cherry picked from commit 1ab4eeb65ed117745b9576769b069cf0b38eafb0)
+Merged-In: Ibfc10e706d204131c33071a5fd5b6596ba5c2d48
+---
+ java/com/android/contacts/common/AndroidManifest.xml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/java/com/android/contacts/common/AndroidManifest.xml b/java/com/android/contacts/common/AndroidManifest.xml
+index e97221549..84ac96fdb 100644
+--- a/java/com/android/contacts/common/AndroidManifest.xml
++++ b/java/com/android/contacts/common/AndroidManifest.xml
+@@ -21,6 +21,7 @@
+     <activity
+       android:name="com.android.contacts.common.dialog.CallSubjectDialog"
+       android:theme="@style/Theme.CallSubjectDialogTheme"
++      android:exported="false"
+       android:windowSoftInputMode="stateVisible|adjustResize">
+       <intent-filter>
+         <action android:name="android.intent.action.VIEW"/>

@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: James Smith <jpdsmith@google.com>
+Date: Tue, 29 Nov 2022 16:00:55 +0000
+Subject: [PATCH] Removes unnecessary permission from the EmergencyInfo app.
+
+Test: Manually tested EmergencyInfo with multiple users. Adding
+contacts, medical info, editing user name and photo and eSos all still
+work.
+
+Bug: 248251018
+Bug: 252995513
+Change-Id: If0da54507db7341c97ff67fedc14a44a67b92289
+Merged-In: I1cdef8dd9a1a0432bbafdfe9e98756dd11cfd092
+(cherry picked from commit 73120eb678baf8285cc69587fbc6da23bab4016a)
+Merged-In: If0da54507db7341c97ff67fedc14a44a67b92289
+---
+ AndroidManifest.xml | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index e5ce533..650cf73 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -21,7 +21,6 @@
+     <uses-permission android:name="android.permission.CALL_PRIVILEGED" />
+     <uses-permission android:name="android.permission.READ_CONTACTS" />
+     <uses-permission android:name="android.permission.MANAGE_USERS" />
+-    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+ 
+     <application
+         android:defaultToDeviceProtectedStorage="true"

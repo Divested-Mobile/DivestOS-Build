@@ -1,0 +1,36 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Thomas Stuart <tjstuart@google.com>
+Date: Mon, 31 Jan 2022 20:31:42 +0000
+Subject: [PATCH] limit TelecomManager#registerPhoneAccount to 10; api doc
+ update
+
+bug: 209814693
+Bug: 217934478
+Test: CTS
+Change-Id: I8e4425a4e7de716f86b1f1f56ea605d93f357a57
+Merged-In: I8e4425a4e7de716f86b1f1f56ea605d93f357a57
+(cherry picked from commit f0f67b5a319efedbf8693b436a641fa65bc2d8be)
+Merged-In: I8e4425a4e7de716f86b1f1f56ea605d93f357a57
+---
+ telecomm/java/android/telecom/TelecomManager.java | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/telecomm/java/android/telecom/TelecomManager.java b/telecomm/java/android/telecom/TelecomManager.java
+index 18c170a2e330..6b00a495668c 100644
+--- a/telecomm/java/android/telecom/TelecomManager.java
++++ b/telecomm/java/android/telecom/TelecomManager.java
+@@ -1000,9 +1000,14 @@ public class TelecomManager {
+      * when placing calls. The user may still need to enable the {@link PhoneAccount} within
+      * the phone app settings before the account is usable.
+      * <p>
++     * Note: Each package is limited to 10 {@link PhoneAccount} registrations.
++     * <p>
+      * A {@link SecurityException} will be thrown if an app tries to register a
+      * {@link PhoneAccountHandle} where the package name specified within
+      * {@link PhoneAccountHandle#getComponentName()} does not match the package name of the app.
++     * <p>
++     * A {@link IllegalArgumentException} will be thrown if an app tries to register a
++     * {@link PhoneAccount} when the upper bound limit, 10, has already been reached.
+      *
+      * @param account The complete {@link PhoneAccount}.
+      */

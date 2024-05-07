@@ -1,0 +1,64 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Thomas Stuart <tjstuart@google.com>
+Date: Sat, 15 Jan 2022 01:15:29 +0000
+Subject: [PATCH] limit TelecomManager#registerPhoneAccount to 10
+
+bug: 209814693
+Bug: 217934478
+Test: CTS
+Change-Id: I3042a3973dd0dcc8d2fdc96c23d6d41522dc00af
+Merged-In: I3042a3973dd0dcc8d2fdc96c23d6d41522dc00af
+(cherry picked from commit eb3394e3a8e21cd07c4f7a7ad43494ba14a8cbf4)
+Merged-In: I3042a3973dd0dcc8d2fdc96c23d6d41522dc00af
+---
+ .../server/telecom/PhoneAccountRegistrar.java | 23 +++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/server/telecom/PhoneAccountRegistrar.java b/src/com/android/server/telecom/PhoneAccountRegistrar.java
+index d84fca5f1..b94e5b85a 100644
+--- a/src/com/android/server/telecom/PhoneAccountRegistrar.java
++++ b/src/com/android/server/telecom/PhoneAccountRegistrar.java
+@@ -138,6 +138,7 @@ public class PhoneAccountRegistrar {
+     private static final String FILE_NAME = "phone-account-registrar-state.xml";
+     @VisibleForTesting
+     public static final int EXPECTED_STATE_VERSION = 9;
++    public static final int MAX_PHONE_ACCOUNT_REGISTRATIONS = 10;
+ 
+     /** Keep in sync with the same in SipSettings.java */
+     private static final String SIP_SHARED_PREFERENCES = "SIP_PREFERENCES";
+@@ -650,8 +651,13 @@ public class PhoneAccountRegistrar {
+         return getPhoneAccountHandles(0, null, packageName, false, userHandle);
+     }
+ 
+-    // TODO: Should we implement an artificial limit for # of accounts associated with a single
+-    // ComponentName?
++    /**
++     * Performs checks before calling addOrReplacePhoneAccount(PhoneAccount)
++     *
++     * @param account The {@code PhoneAccount} to add or replace.
++     * @throws SecurityException if package does not have BIND_TELECOM_CONNECTION_SERVICE permission
++     * @throws IllegalArgumentException if MAX_PHONE_ACCOUNT_REGISTRATIONS are reached
++     */
+     public void registerPhoneAccount(PhoneAccount account) {
+         // Enforce the requirement that a connection service for a phone account has the correct
+         // permission.
+@@ -662,6 +668,19 @@ public class PhoneAccountRegistrar {
+             throw new SecurityException("PhoneAccount connection service requires "
+                     + "BIND_TELECOM_CONNECTION_SERVICE permission.");
+         }
++        //Enforce an upper bound on the number of PhoneAccount's a package can register.
++        // Most apps should only require 1-2.
++        if (getPhoneAccountsForPackage(
++                account.getAccountHandle().getComponentName().getPackageName(),
++                account.getAccountHandle().getUserHandle()).size()
++                >= MAX_PHONE_ACCOUNT_REGISTRATIONS) {
++            Log.w(this, "Phone account %s reached max registration limit for package",
++                    account.getAccountHandle());
++            throw new IllegalArgumentException(
++                    "Error, cannot register phone account " + account.getAccountHandle()
++                            + " because the limit, " + MAX_PHONE_ACCOUNT_REGISTRATIONS
++                            + ", has been reached");
++        }
+ 
+         addOrReplacePhoneAccount(account);
+     }

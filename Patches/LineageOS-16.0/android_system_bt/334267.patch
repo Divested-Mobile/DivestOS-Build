@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: William Escande <wescande@google.com>
+Date: Mon, 2 May 2022 09:48:59 -0700
+Subject: [PATCH] Check Avrcp packet vendor length before extracting length
+
+Bug: 205571133
+Test: build + ag/18105403 for sts test
+Ignore-AOSP-First: Security vulnerability
+Change-Id: Ic9fa9400ab15785cfdb251af66b1867daf09570e
+(cherry picked from commit 003e42896493afb7a0cd7406720987725d4e9da3)
+Merged-In: Ic9fa9400ab15785cfdb251af66b1867daf09570e
+---
+ stack/avrc/avrc_pars_tg.cc | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/stack/avrc/avrc_pars_tg.cc b/stack/avrc/avrc_pars_tg.cc
+index 82f0269c8..ebeff219e 100644
+--- a/stack/avrc/avrc_pars_tg.cc
++++ b/stack/avrc/avrc_pars_tg.cc
+@@ -43,6 +43,12 @@ static tAVRC_STS avrc_ctrl_pars_vendor_cmd(tAVRC_MSG_VENDOR* p_msg,
+                                            tAVRC_COMMAND* p_result) {
+   tAVRC_STS status = AVRC_STS_NO_ERROR;
+ 
++  if (p_msg->vendor_len < 4) {  // 4 == pdu + reserved byte + len as uint16
++    AVRC_TRACE_WARNING("%s: message length %d too short: must be at least 4",
++                       __func__, p_msg->vendor_len);
++    android_errorWriteLog(0x534e4554, "205571133");
++    return AVRC_STS_INTERNAL_ERR;
++  }
+   uint8_t* p = p_msg->p_vendor_data;
+   p_result->pdu = *p++;
+   AVRC_TRACE_DEBUG("%s pdu:0x%x", __func__, p_result->pdu);

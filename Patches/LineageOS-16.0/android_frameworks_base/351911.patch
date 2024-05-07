@@ -1,0 +1,212 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Wenhao Wang <wenhaowang@google.com>
+Date: Tue, 30 Aug 2022 11:09:46 -0700
+Subject: [PATCH] Enable user graularity for lockdown mode
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The NotificationManagerService registers a LockPatternUtils.StrongAuthTracker
+to observe the StrongAuth changes of every user.
+More specifically, it’s the STRONG_AUTH_REQUIRED_AFTER_USER_LOCKDOWN flag.
+Via this flag, NotificationManagerService can perform the following operations
+when the user enter or exit lockdown mode:
+
+Enter lockdown:
+1. Remove all the notifications belonging to the user.
+2. Set the local flag to indicate the lockdown is on for the user.
+   The local flag will suppress the user's notifications on the
+   post, remove and update functions.
+
+Exit lockdown:
+1. Clear the local flag to indicate the lockdown is off for the user.
+2. Repost the user’s notifications (suppressed during lockdown mode).
+
+The CL also updates corresponding tests.
+
+Bug: 173721373
+Bug: 250743174
+Test: atest NotificationManagerServiceTest
+Test: atest NotificationListenersTest
+Ignore-AOSP-First: pending fix for a security issue.
+
+Change-Id: I4f30e56550729db7d673a92d2a1250509713f36d
+Merged-In: I4f30e56550729db7d673a92d2a1250509713f36d
+(cherry picked from commit de3b12fca23178d8c821058261572449b67d5967)
+(cherry picked from commit 5e40f39f5bd4ae769d79ce022a64f1345512b65d)
+Merged-In: I4f30e56550729db7d673a92d2a1250509713f36d
+---
+ .../NotificationManagerService.java           | 75 ++++++++++++-------
+ 1 file changed, 46 insertions(+), 29 deletions(-)
+
+diff --git a/services/core/java/com/android/server/notification/NotificationManagerService.java b/services/core/java/com/android/server/notification/NotificationManagerService.java
+index bcb657b5a8e2..0ac51524a648 100755
+--- a/services/core/java/com/android/server/notification/NotificationManagerService.java
++++ b/services/core/java/com/android/server/notification/NotificationManagerService.java
+@@ -1287,34 +1287,39 @@ public class NotificationManagerService extends SystemService {
+             return (haystack & needle) != 0;
+         }
+ 
+-        public boolean isInLockDownMode() {
+-            return mIsInLockDownMode;
++        // Return whether the user is in lockdown mode.
++        // If the flag is not set, we assume the user is not in lockdown.
++        public boolean isInLockDownMode(int userId) {
++            return mUserInLockDownMode.get(userId, false);
+         }
+ 
+         @Override
+         public synchronized void onStrongAuthRequiredChanged(int userId) {
+             boolean userInLockDownModeNext = containsFlag(getStrongAuthForUser(userId),
+                     STRONG_AUTH_REQUIRED_AFTER_USER_LOCKDOWN);
+-            mUserInLockDownMode.put(userId, userInLockDownModeNext);
+-            boolean isInLockDownModeNext = mUserInLockDownMode.indexOfValue(true) != -1;
+ 
+-            if (mIsInLockDownMode == isInLockDownModeNext) {
++            // Nothing happens if the lockdown mode of userId keeps the same.
++            if (userInLockDownModeNext == isInLockDownMode(userId)) {
+                 return;
+             }
+ 
+-            if (isInLockDownModeNext) {
+-                cancelNotificationsWhenEnterLockDownMode();
++            // When the lockdown mode is changed, we perform the following steps.
++            // If the userInLockDownModeNext is true, all the function calls to
++            // notifyPostedLocked and notifyRemovedLocked will not be executed.
++            // The cancelNotificationsWhenEnterLockDownMode calls notifyRemovedLocked
++            // and postNotificationsWhenExitLockDownMode calls notifyPostedLocked.
++            // So we shall call cancelNotificationsWhenEnterLockDownMode before
++            // we set mUserInLockDownMode as true.
++            // On the other hand, if the userInLockDownModeNext is false, we shall call
++            // postNotificationsWhenExitLockDownMode after we put false into mUserInLockDownMode
++            if (userInLockDownModeNext) {
++                cancelNotificationsWhenEnterLockDownMode(userId);
+             }
+ 
+-            // When the mIsInLockDownMode is true, both notifyPostedLocked and
+-            // notifyRemovedLocked will be dismissed. So we shall call
+-            // cancelNotificationsWhenEnterLockDownMode before we set mIsInLockDownMode
+-            // as true and call postNotificationsWhenExitLockDownMode after we set
+-            // mIsInLockDownMode as false.
+-            mIsInLockDownMode = isInLockDownModeNext;
++            mUserInLockDownMode.put(userId, userInLockDownModeNext);
+ 
+-            if (!isInLockDownModeNext) {
+-                postNotificationsWhenExitLockDownMode();
++            if (!userInLockDownModeNext) {
++                postNotificationsWhenExitLockDownMode(userId);
+             }
+         }
+     }
+@@ -6417,11 +6422,14 @@ public class NotificationManagerService extends SystemService {
+         }
+     }
+ 
+-    private void cancelNotificationsWhenEnterLockDownMode() {
++    private void cancelNotificationsWhenEnterLockDownMode(int userId) {
+         synchronized (mNotificationLock) {
+             int numNotifications = mNotificationList.size();
+             for (int i = 0; i < numNotifications; i++) {
+                 NotificationRecord rec = mNotificationList.get(i);
++                if (rec.getUser().getIdentifier() != userId) {
++                    continue;
++                }
+                 mListeners.notifyRemovedLocked(rec, REASON_CANCEL_ALL,
+                         rec.getStats());
+             }
+@@ -6429,14 +6437,23 @@ public class NotificationManagerService extends SystemService {
+         }
+     }
+ 
+-    private void postNotificationsWhenExitLockDownMode() {
++    private void postNotificationsWhenExitLockDownMode(int userId) {
+         synchronized (mNotificationLock) {
+             int numNotifications = mNotificationList.size();
++            // Set the delay to spread out the burst of notifications.
++            long delay = 0;
+             for (int i = 0; i < numNotifications; i++) {
+                 NotificationRecord rec = mNotificationList.get(i);
+-                mListeners.notifyPostedLocked(rec, rec);
++                if (rec.getUser().getIdentifier() != userId) {
++                    continue;
++                }
++                mHandler.postDelayed(() -> {
++                    synchronized (mNotificationLock) {
++                        mListeners.notifyPostedLocked(rec, rec);
++                    }
++                }, delay);
++                delay += 20;
+             }
+-
+         }
+     }
+ 
+@@ -6545,7 +6562,7 @@ public class NotificationManagerService extends SystemService {
+      * notifications visible to the given listener.
+      */
+     @GuardedBy("mNotificationLock")
+-    private NotificationRankingUpdate makeRankingUpdateLocked(ManagedServiceInfo info) {
++    NotificationRankingUpdate makeRankingUpdateLocked(ManagedServiceInfo info) {
+         final int N = mNotificationList.size();
+         ArrayList<String> keys = new ArrayList<String>(N);
+         ArrayList<String> interceptedKeys = new ArrayList<String>(N);
+@@ -6562,6 +6579,9 @@ public class NotificationManagerService extends SystemService {
+         Bundle hidden = new Bundle();
+         for (int i = 0; i < N; i++) {
+             NotificationRecord record = mNotificationList.get(i);
++            if (isInLockDownMode(record.getUser().getIdentifier())) {
++                continue;
++            }
+             if (!isVisibleToListener(record.sbn, info)) {
+                 continue;
+             }
+@@ -6600,8 +6620,8 @@ public class NotificationManagerService extends SystemService {
+                 channels, overridePeople, snoozeCriteria, showBadge, userSentiment, hidden);
+     }
+ 
+-    boolean isInLockDownMode() {
+-        return mStrongAuthTracker.isInLockDownMode();
++    boolean isInLockDownMode(int userId) {
++        return mStrongAuthTracker.isInLockDownMode(userId);
+     }
+ 
+     boolean hasCompanionDevice(ManagedServiceInfo info) {
+@@ -6636,7 +6656,8 @@ public class NotificationManagerService extends SystemService {
+                 ServiceManager.getService(Context.COMPANION_DEVICE_SERVICE));
+     }
+ 
+-    private boolean isVisibleToListener(StatusBarNotification sbn, ManagedServiceInfo listener) {
++    @VisibleForTesting
++    boolean isVisibleToListener(StatusBarNotification sbn, ManagedServiceInfo listener) {
+         if (!listener.enabledAndUserMatches(sbn.getUserId())) {
+             return false;
+         }
+@@ -6926,7 +6947,7 @@ public class NotificationManagerService extends SystemService {
+         @GuardedBy("mNotificationLock")
+         void notifyPostedLocked(NotificationRecord r, NotificationRecord old,
+                 boolean notifyAllListeners) {
+-            if (isInLockDownMode()) {
++            if (isInLockDownMode(r.getUser().getIdentifier())) {
+                 return;
+             }
+ 
+@@ -6992,7 +7013,7 @@ public class NotificationManagerService extends SystemService {
+         @GuardedBy("mNotificationLock")
+         public void notifyRemovedLocked(NotificationRecord r, int reason,
+                 NotificationStats notificationStats) {
+-            if (isInLockDownMode()) {
++            if (isInLockDownMode(r.getUser().getIdentifier())) {
+                 return;
+             }
+ 
+@@ -7047,10 +7068,6 @@ public class NotificationManagerService extends SystemService {
+          */
+         @GuardedBy("mNotificationLock")
+         public void notifyRankingUpdateLocked(List<NotificationRecord> changedHiddenNotifications) {
+-            if (isInLockDownMode()) {
+-                return;
+-            }
+-
+             boolean isHiddenRankingUpdate = changedHiddenNotifications != null
+                     && changedHiddenNotifications.size() > 0;
+ 

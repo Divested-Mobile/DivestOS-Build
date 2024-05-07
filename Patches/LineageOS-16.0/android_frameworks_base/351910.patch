@@ -1,0 +1,47 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Julia Reynolds <juliacr@google.com>
+Date: Mon, 16 May 2022 15:28:24 -0400
+Subject: [PATCH] Move service initialization
+
+Occasionally ILockSettings can fail to be initialized otherwise
+Fixes: 232714129
+Test: boot (and eventually bootstress/reboot-long)
+
+Change-Id: I2f9f9bdba37f4ebfaea56c1a6662f0474ae8a002
+Merged-In: I2f9f9bdba37f4ebfaea56c1a6662f0474ae8a002
+(cherry picked from commit 8e278543bd290d4b6c417758554d6dee93a4fe74)
+(cherry picked from commit caa5a22ea0c401c4eef548fb8161820beda3ff13)
+Merged-In: I2f9f9bdba37f4ebfaea56c1a6662f0474ae8a002
+---
+ .../server/notification/NotificationManagerService.java       | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/services/core/java/com/android/server/notification/NotificationManagerService.java b/services/core/java/com/android/server/notification/NotificationManagerService.java
+index a53f2aec436c..bcb657b5a8e2 100755
+--- a/services/core/java/com/android/server/notification/NotificationManagerService.java
++++ b/services/core/java/com/android/server/notification/NotificationManagerService.java
+@@ -1319,7 +1319,6 @@ public class NotificationManagerService extends SystemService {
+         }
+     }
+ 
+-    private LockPatternUtils mLockPatternUtils;
+     private StrongAuthTracker mStrongAuthTracker;
+ 
+     public NotificationManagerService(Context context) {
+@@ -1490,7 +1489,6 @@ public class NotificationManagerService extends SystemService {
+ 
+         mHandler = new WorkerHandler(looper);
+         mRankingThread.start();
+-        mLockPatternUtils = new LockPatternUtils(getContext());
+         mStrongAuthTracker = new StrongAuthTracker(getContext());
+         String[] extractorNames;
+         try {
+@@ -1737,7 +1735,7 @@ public class NotificationManagerService extends SystemService {
+             mWindowManagerInternal = LocalServices.getService(WindowManagerInternal.class);
+             mKeyguardManager = getContext().getSystemService(KeyguardManager.class);
+             mZenModeHelper.onSystemReady();
+-            mLockPatternUtils.registerStrongAuthTracker(mStrongAuthTracker);
++            new LockPatternUtils(getContext()).registerStrongAuthTracker(mStrongAuthTracker);
+         } else if (phase == SystemService.PHASE_THIRD_PARTY_APPS_CAN_START) {
+             // This observer will force an update when observe is called, causing us to
+             // bind to listener services.

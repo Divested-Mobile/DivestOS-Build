@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Venkata Jagadeesh Garaga <quic_vgaraga@quicinc.com>
+Date: Tue, 22 Mar 2022 13:35:43 +0530
+Subject: [PATCH] Fix OOB in reassemble_and_dispatch
+
+Fix OOB while reading L2cap length in HCI pkt
+
+Change-Id: I7f32b171e8c68b9724f95fcf2327959539e2d0d5
+CRs-Fixed: 3155132
+---
+ hci/src/packet_fragmenter.cc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/hci/src/packet_fragmenter.cc b/hci/src/packet_fragmenter.cc
+index 87d1df596..a945c24a3 100644
+--- a/hci/src/packet_fragmenter.cc
++++ b/hci/src/packet_fragmenter.cc
+@@ -125,12 +125,10 @@ static void reassemble_and_dispatch(UNUSED_ATTR BT_HDR* packet) {
+   if ((packet->event & MSG_EVT_MASK) == MSG_HC_TO_STACK_HCI_ACL) {
+     uint8_t* stream = packet->data;
+     uint16_t handle;
+-    uint16_t l2cap_length;
+     uint16_t acl_length;
+ 
+     STREAM_TO_UINT16(handle, stream);
+     STREAM_TO_UINT16(acl_length, stream);
+-    STREAM_TO_UINT16(l2cap_length, stream);
+ 
+     CHECK(acl_length == packet->len - HCI_ACL_PREAMBLE_SIZE);
+ 
+@@ -165,6 +163,9 @@ static void reassemble_and_dispatch(UNUSED_ATTR BT_HDR* packet) {
+         return;
+       }
+ 
++      uint16_t l2cap_length;
++      STREAM_TO_UINT16(l2cap_length, stream);
++
+       uint16_t full_length =
+           l2cap_length + L2CAP_HEADER_SIZE + HCI_ACL_PREAMBLE_SIZE;
+ 

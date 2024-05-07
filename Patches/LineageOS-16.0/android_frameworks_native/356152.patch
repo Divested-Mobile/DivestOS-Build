@@ -1,0 +1,67 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Devin Moore <devinmoore@google.com>
+Date: Fri, 17 Feb 2023 19:35:25 +0000
+Subject: [PATCH] Remove some new memory leaks from SensorManager
+
+After catching an error in Sensor::unflatten, there are memory leaks
+caught by the fuzzer in the same test case.
+
+Test: libsensorserviceaidl_fuzzer with testcase from bug
+Bug: 269014004
+Merged-In: I509cceb41f56ca117d9475f6f6674244560fe582
+Change-Id: I509cceb41f56ca117d9475f6f6674244560fe582
+(cherry picked from commit c95fa0f0e7c7b73746ff850b85a79fc5f92b784e)
+Merged-In: I509cceb41f56ca117d9475f6f6674244560fe582
+(cherry picked from commit on googleplex-android-review.googlesource.com host: ceb0d52273256c6a5c5622bf81b0ac4ba106faa1)
+Merged-In: I509cceb41f56ca117d9475f6f6674244560fe582
+---
+ libs/sensor/ISensorServer.cpp | 12 ++++++++++--
+ libs/sensor/SensorManager.cpp |  5 +++++
+ 2 files changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/libs/sensor/ISensorServer.cpp b/libs/sensor/ISensorServer.cpp
+index 5200545a53..b2f1ba2507 100644
+--- a/libs/sensor/ISensorServer.cpp
++++ b/libs/sensor/ISensorServer.cpp
+@@ -66,7 +66,11 @@ public:
+         v.setCapacity(n);
+         while (n) {
+             n--;
+-            reply.read(s);
++            if(reply.read(s) != OK) {
++                ALOGE("Failed to read reply from getSensorList");
++                v.clear();
++                break;
++            }
+             v.add(s);
+         }
+         return v;
+@@ -84,7 +88,11 @@ public:
+         v.setCapacity(n);
+         while (n) {
+             n--;
+-            reply.read(s);
++            if(reply.read(s) != OK) {
++                ALOGE("Failed to read reply from getDynamicSensorList");
++                v.clear();
++                break;
++            }
+             v.add(s);
+         }
+         return v;
+diff --git a/libs/sensor/SensorManager.cpp b/libs/sensor/SensorManager.cpp
+index c97e4da9b5..c9b857c60f 100644
+--- a/libs/sensor/SensorManager.cpp
++++ b/libs/sensor/SensorManager.cpp
+@@ -162,6 +162,11 @@ status_t SensorManager::assertStateLocked() {
+ 
+         mSensors = mSensorServer->getSensorList(mOpPackageName);
+         size_t count = mSensors.size();
++        if (count == 0) {
++            ALOGE("Failed to get Sensor list");
++            mSensorServer.clear();
++            return UNKNOWN_ERROR;
++        }
+         mSensorList =
+                 static_cast<Sensor const**>(malloc(count * sizeof(Sensor*)));
+         LOG_ALWAYS_FATAL_IF(mSensorList == NULL, "mSensorList NULL");

@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Sat, 13 Aug 2022 02:01:14 +0000
+Subject: [PATCH] Add buffer in pin_reply in bluetooth.cc
+
+Bug: 228602963
+Test: make
+Tag: #security
+Ignore-AOSP-First: Security
+Change-Id: I2a2c9a106a485c319841491f7acc2d667e4d0e75
+(cherry picked from commit 0dc1c1c34961822f2f3f0a1e8e0b4819c823951b)
+Merged-In: I2a2c9a106a485c319841491f7acc2d667e4d0e75
+---
+ btif/src/bluetooth.cc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/btif/src/bluetooth.cc b/btif/src/bluetooth.cc
+index 6fc418bdb..fa695e323 100644
+--- a/btif/src/bluetooth.cc
++++ b/btif/src/bluetooth.cc
+@@ -293,10 +293,12 @@ static int get_connection_state(const RawAddress* bd_addr) {
+ 
+ static int pin_reply(const RawAddress* bd_addr, uint8_t accept, uint8_t pin_len,
+                      bt_pin_code_t* pin_code) {
++  bt_pin_code_t tmp_pin_code;
+   /* sanity check */
+   if (!interface_ready()) return BT_STATUS_NOT_READY;
+ 
+-  return btif_dm_pin_reply(bd_addr, accept, pin_len, pin_code);
++  memcpy(&tmp_pin_code, pin_code, pin_len);
++  return btif_dm_pin_reply(bd_addr, accept, pin_len, &tmp_pin_code);
+ }
+ 
+ static int ssp_reply(const RawAddress* bd_addr, bt_ssp_variant_t variant,

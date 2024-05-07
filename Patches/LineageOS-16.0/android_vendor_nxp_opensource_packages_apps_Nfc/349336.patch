@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alisher Alikhodjaev <alisher@google.com>
+Date: Tue, 22 Nov 2022 15:49:11 -0800
+Subject: [PATCH] DO NOT MERGE OOBW in phNciNfc_MfCreateXchgDataHdr
+
+Bug: 246932269
+Test: Build ok
+Change-Id: I4dcd18da8b5145e218d070414da8997aff181364
+(cherry picked from commit 2e4dfa6c92de30907851914add6485f8b7920968)
+Merged-In: I4dcd18da8b5145e218d070414da8997aff181364
+---
+ nci/jni/extns/pn54x/src/mifare/phNxpExtns_MifareStd.cpp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/nci/jni/extns/pn54x/src/mifare/phNxpExtns_MifareStd.cpp b/nci/jni/extns/pn54x/src/mifare/phNxpExtns_MifareStd.cpp
+index 08940e29..03ad11f1 100644
+--- a/nci/jni/extns/pn54x/src/mifare/phNxpExtns_MifareStd.cpp
++++ b/nci/jni/extns/pn54x/src/mifare/phNxpExtns_MifareStd.cpp
+@@ -1404,6 +1404,11 @@ phNciNfc_MfCreateXchgDataHdr(phNciNfc_TransceiveInfo_t tTranscvInfo,
+   NFCSTATUS status = NFCSTATUS_SUCCESS;
+   uint8_t i = 0;
+ 
++  if (tTranscvInfo.tSendData.wLen > (MAX_BUFF_SIZE - 1)) {
++    android_errorWriteLog(0x534e4554, "246932269");
++    return NFCSTATUS_FAILED;
++  }
++
+   buff[i++] = phNciNfc_e_MfRawDataXchgHdr;
+   memcpy(&buff[i], tTranscvInfo.tSendData.pBuff, tTranscvInfo.tSendData.wLen);
+   *buffSz = i + tTranscvInfo.tSendData.wLen;

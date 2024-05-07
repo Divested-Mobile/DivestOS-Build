@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Haripriya Deshmukh <haripriya.deshmukh@ittiam.com>
+Date: Tue, 5 Dec 2023 18:32:38 +0000
+Subject: [PATCH] Fix out of bounds read and write in onQueueFilled in outQueue
+
+Bug: 276442130
+Test: POC in bug descriptions
+(cherry picked from https://partner-android-review.googlesource.com/q/commit:7aef41e59412e2f95bab5de7e33f5f04bb808643)
+(cherry picked from commit 8f4cfda9fc75f1e9ba3b6dee3fbffda4b6111d64)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:208e430bc6380fafafca8041b239f835263a9d47)
+Merged-In: Ic230d10048193a785f185dc6a7de6f455f9318c1
+Change-Id: Ic230d10048193a785f185dc6a7de6f455f9318c1
+---
+ media/libstagefright/codecs/m4v_h263/dec/SoftMPEG4.cpp | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/media/libstagefright/codecs/m4v_h263/dec/SoftMPEG4.cpp b/media/libstagefright/codecs/m4v_h263/dec/SoftMPEG4.cpp
+index fda70280a7..b78ac4325a 100644
+--- a/media/libstagefright/codecs/m4v_h263/dec/SoftMPEG4.cpp
++++ b/media/libstagefright/codecs/m4v_h263/dec/SoftMPEG4.cpp
+@@ -308,8 +308,11 @@ void SoftMPEG4::onQueueFilled(OMX_U32 /* portIndex */) {
+         outHeader->nFilledLen = frameSize;
+ 
+         List<BufferInfo *>::iterator it = outQueue.begin();
+-        while ((*it)->mHeader != outHeader) {
+-            ++it;
++        while (it != outQueue.end() && (*it)->mHeader != outHeader) {
++             ++it;
++        }
++        if (it == outQueue.end()) {
++            return;
+         }
+ 
+         BufferInfo *outInfo = *it;

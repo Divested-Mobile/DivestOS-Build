@@ -1,0 +1,57 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jackal Guo <jackalguo@google.com>
+Date: Tue, 25 Oct 2022 15:03:55 +0800
+Subject: [PATCH] Correct the behavior of ACTION_PACKAGE_DATA_CLEARED
+
+This action should be only broadcasted when the user data is cleared
+successfully. Broadcasting this action when failed case may result in
+unexpected result.
+
+Bug: 240267890
+Test: manually using the PoC in the buganizer to ensure the symptom
+      no longer exists.
+Change-Id: I0bb612627c81a2f2d7e3dbf53ea891ee49cf734b
+(cherry picked from commit 8b2e092146c7ab5c2952818dab6dcb6af9c417ce)
+Merged-In: I0bb612627c81a2f2d7e3dbf53ea891ee49cf734b
+---
+ .../server/am/ActivityManagerService.java     | 26 ++++++++++---------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
+
+diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
+index 8f1692a24d27..dd41196e62a4 100644
+--- a/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -6718,19 +6718,21 @@ public class ActivityManagerService extends IActivityManager.Stub
+                             finishForceStopPackageLocked(packageName, appInfo.uid);
+                         }
+                     }
+-                    final Intent intent = new Intent(Intent.ACTION_PACKAGE_DATA_CLEARED,
+-                            Uri.fromParts("package", packageName, null));
+-                    intent.addFlags(Intent.FLAG_RECEIVER_INCLUDE_BACKGROUND);
+-                    intent.putExtra(Intent.EXTRA_UID, (appInfo != null) ? appInfo.uid : -1);
+-                    intent.putExtra(Intent.EXTRA_USER_HANDLE, resolvedUserId);
+-                    if (isInstantApp) {
+-                        intent.putExtra(Intent.EXTRA_PACKAGE_NAME, packageName);
+-                        broadcastIntentInPackage("android", SYSTEM_UID, intent, null, null, 0,
+-                                null, null, permission.ACCESS_INSTANT_APPS, null, false, false,
++                    if (succeeded) {
++                        final Intent intent = new Intent(Intent.ACTION_PACKAGE_DATA_CLEARED,
++                                Uri.fromParts("package", packageName, null /* fragment */));
++                        intent.addFlags(Intent.FLAG_RECEIVER_INCLUDE_BACKGROUND);
++                        intent.putExtra(Intent.EXTRA_UID, (appInfo != null) ? appInfo.uid : -1);
++                        intent.putExtra(Intent.EXTRA_USER_HANDLE, resolvedUserId);
++                        if (isInstantApp) {
++                            intent.putExtra(Intent.EXTRA_PACKAGE_NAME, packageName);
++                        }
++                        broadcastIntentInPackage("android", SYSTEM_UID,
++                                intent, null /* resolvedType */, null /* resultTo */,
++                                0 /* resultCode */, null /* resultData */, null /* resultExtras */,
++                                isInstantApp ? permission.ACCESS_INSTANT_APPS : null,
++                                null /* bOptions */, false /* serialized */, false /* sticky */,
+                                 resolvedUserId);
+-                    } else {
+-                        broadcastIntentInPackage("android", SYSTEM_UID, intent, null, null, 0,
+-                                null, null, null, null, false, false, resolvedUserId);
+                     }
+ 
+                     if (observer != null) {

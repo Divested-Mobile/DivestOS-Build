@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alisher Alikhodjaev <alisher@google.com>
+Date: Wed, 26 Oct 2022 14:03:48 -0700
+Subject: [PATCH] DO NOT MERGE OOBW in Mfc_Transceive()
+
+Bug: 241387741
+Test: build ok
+Change-Id: Idf45b940ac21eeb4cf09c222988bfce22b0bef55
+(cherry picked from commit f5f24d0ea2bcc33f18915c4c7369f803c45e53b0)
+Merged-In: Idf45b940ac21eeb4cf09c222988bfce22b0bef55
+---
+ nci/jni/extns/pn54x/src/mifare/phNxpExtns_MifareStd.cpp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/nci/jni/extns/pn54x/src/mifare/phNxpExtns_MifareStd.cpp b/nci/jni/extns/pn54x/src/mifare/phNxpExtns_MifareStd.cpp
+index f5b94225..7c0a6777 100644
+--- a/nci/jni/extns/pn54x/src/mifare/phNxpExtns_MifareStd.cpp
++++ b/nci/jni/extns/pn54x/src/mifare/phNxpExtns_MifareStd.cpp
+@@ -999,6 +999,11 @@ NFCSTATUS Mfc_Transceive(uint8_t* p_data, uint32_t len) {
+     return status;
+   }
+ 
++  if (len > (MAX_BUFF_SIZE * 2)) {
++    android_errorWriteLog(0x534e4554, "241387741");
++    return status;
++  }
++
+   gphNxpExtns_Context.RawWriteCallBack = false;
+   gphNxpExtns_Context.CallBackMifare = NULL;
+   gphNxpExtns_Context.CallBackCtxt = NdefMap;

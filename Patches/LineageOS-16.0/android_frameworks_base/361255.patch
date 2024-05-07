@@ -1,0 +1,84 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Michael Groover <mpgroover@google.com>
+Date: Fri, 31 Mar 2023 21:31:22 +0000
+Subject: [PATCH] Limit the number of supported v1 and v2 signers
+
+The v1 and v2 APK Signature Schemes support multiple signers; this
+was intended to allow multiple entities to sign an APK. Previously,
+the platform had no limits placed on the number of signers supported
+in an APK, but this commit sets a hard limit of 10 supported signers
+for these signature schemes to ensure a large number of signers
+does not place undue burden on the platform.
+
+Bug: 266580022
+Test: Manually verified the platform only allowed an APK with the
+       maximum number of supported signers.
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:6f6ee8a55f37c2b8c0df041b2bd53ec928764597)
+Merged-In: I6aa86b615b203cdc69d58a593ccf8f18474ca091
+Change-Id: I6aa86b615b203cdc69d58a593ccf8f18474ca091
+---
+ .../util/apk/ApkSignatureSchemeV2Verifier.java        | 10 ++++++++++
+ core/java/android/util/jar/StrictJarVerifier.java     | 11 +++++++++++
+ 2 files changed, 21 insertions(+)
+
+diff --git a/core/java/android/util/apk/ApkSignatureSchemeV2Verifier.java b/core/java/android/util/apk/ApkSignatureSchemeV2Verifier.java
+index 533d72590f0a..d5f6ebe8c2e9 100644
+--- a/core/java/android/util/apk/ApkSignatureSchemeV2Verifier.java
++++ b/core/java/android/util/apk/ApkSignatureSchemeV2Verifier.java
+@@ -83,6 +83,11 @@ public class ApkSignatureSchemeV2Verifier {
+ 
+     private static final int APK_SIGNATURE_SCHEME_V2_BLOCK_ID = 0x7109871a;
+ 
++    /**
++     * The maximum number of signers supported by the v2 APK signature scheme.
++     */
++    private static final int MAX_V2_SIGNERS = 10;
++
+     /**
+      * Returns {@code true} if the provided APK contains an APK Signature Scheme V2 signature.
+      *
+@@ -188,6 +193,11 @@ public class ApkSignatureSchemeV2Verifier {
+         }
+         while (signers.hasRemaining()) {
+             signerCount++;
++            if (signerCount > MAX_V2_SIGNERS) {
++                throw new SecurityException(
++                        "APK Signature Scheme v2 only supports a maximum of " + MAX_V2_SIGNERS
++                                + " signers");
++            }
+             try {
+                 ByteBuffer signer = getLengthPrefixedSlice(signers);
+                 X509Certificate[] certs = verifySigner(signer, contentDigests, certFactory);
+diff --git a/core/java/android/util/jar/StrictJarVerifier.java b/core/java/android/util/jar/StrictJarVerifier.java
+index 45254908c5c9..a6aca330d323 100644
+--- a/core/java/android/util/jar/StrictJarVerifier.java
++++ b/core/java/android/util/jar/StrictJarVerifier.java
+@@ -78,6 +78,11 @@ class StrictJarVerifier {
+         "SHA1",
+     };
+ 
++    /**
++     * The maximum number of signers supported by the JAR signature scheme.
++     */
++    private static final int MAX_JAR_SIGNERS = 10;
++
+     private final String jarName;
+     private final StrictJarManifest manifest;
+     private final HashMap<String, byte[]> metaEntries;
+@@ -293,10 +298,16 @@ class StrictJarVerifier {
+             return false;
+         }
+ 
++        int signerCount = 0;
+         Iterator<String> it = metaEntries.keySet().iterator();
+         while (it.hasNext()) {
+             String key = it.next();
+             if (key.endsWith(".DSA") || key.endsWith(".RSA") || key.endsWith(".EC")) {
++                if (++signerCount > MAX_JAR_SIGNERS) {
++                    throw new SecurityException(
++                            "APK Signature Scheme v1 only supports a maximum of " + MAX_JAR_SIGNERS
++                                    + " signers");
++                }
+                 verifyCertificate(key);
+                 it.remove();
+             }

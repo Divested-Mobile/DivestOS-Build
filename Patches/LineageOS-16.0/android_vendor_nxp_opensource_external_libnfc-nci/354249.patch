@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alisher Alikhodjaev <alisher@google.com>
+Date: Tue, 31 Jan 2023 19:04:09 -0800
+Subject: [PATCH] OOBW in nci_snd_set_routing_cmd()
+
+Bug: 264879662
+Test: read a tag, nfc on/off
+Change-Id: I408cf611fb35e9467d7484165ce48759970b158a
+(cherry picked from commit 1dd4d2e1b481dd83ca2b222993fdb74ae5306c78)
+Merged-In: I408cf611fb35e9467d7484165ce48759970b158a
+---
+ src/nfc/nci/nci_hmsgs.cc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/nfc/nci/nci_hmsgs.cc b/src/nfc/nci/nci_hmsgs.cc
+index 969638c2..2b89e39c 100755
+--- a/src/nfc/nci/nci_hmsgs.cc
++++ b/src/nfc/nci/nci_hmsgs.cc
+@@ -724,6 +724,10 @@ uint8_t nci_snd_set_routing_cmd(bool more, uint8_t num_tlv, uint8_t tlv_size,
+   uint8_t* pp;
+   uint8_t size = tlv_size + 2;
+ 
++  if (size < tlv_size) {
++    return (NCI_STATUS_FAILED);
++  }
++
+   if (tlv_size == 0) {
+     /* just to terminate routing table
+      * 2 bytes (more=false and num routing entries=0) */

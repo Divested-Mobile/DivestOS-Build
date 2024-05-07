@@ -1,0 +1,59 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Aishwarya Mallampati <amallampati@google.com>
+Date: Wed, 17 Aug 2022 23:21:18 +0000
+Subject: [PATCH] Check dir path before updating permissions.
+
+Bug: 240685104
+Test: atest android.telephonyprovider.cts.MmsPartTest
+      atest CtsTelephonyTestCases
+      Sanity check - sending and receiving sms and mms manually
+Change-Id: I2c60cc2cf8f1f6890678d3cd8c6cfdf31356349f
+Merged-In: I2c60cc2cf8f1f6890678d3cd8c6cfdf31356349f
+(cherry picked from commit 0c3e2ce2810e4f5988b342f96bdd600c293c3187)
+Merged-In: I2c60cc2cf8f1f6890678d3cd8c6cfdf31356349f
+---
+ .../providers/telephony/MmsProvider.java      | 23 +++++++++++++++----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
+
+diff --git a/src/com/android/providers/telephony/MmsProvider.java b/src/com/android/providers/telephony/MmsProvider.java
+index 30158c34..6ba775ba 100644
+--- a/src/com/android/providers/telephony/MmsProvider.java
++++ b/src/com/android/providers/telephony/MmsProvider.java
+@@ -44,7 +44,10 @@ import android.provider.Telephony.Mms.Part;
+ import android.provider.Telephony.Mms.Rate;
+ import android.provider.Telephony.MmsSms;
+ import android.provider.Telephony.Threads;
++import android.system.ErrnoException;
++import android.system.Os;
+ import android.text.TextUtils;
++import android.util.EventLog;
+ import android.util.Log;
+ 
+ import com.google.android.mms.pdu.PduHeaders;
+@@ -815,11 +818,21 @@ public class MmsProvider extends ContentProvider {
+             case MMS_PART_RESET_FILE_PERMISSION:
+                 String path = getContext().getDir(PARTS_DIR_NAME, 0).getPath() + '/' +
+                         uri.getPathSegments().get(1);
+-                // Reset the file permission back to read for everyone but me.
+-                int result = FileUtils.setPermissions(path, 0644, -1, -1);
+-                if (LOCAL_LOGV) {
+-                    Log.d(TAG, "MmsProvider.update setPermissions result: " + result +
+-                            " for path: " + path);
++                try {
++                    String partsDirPath = getContext().getDir(PARTS_DIR_NAME, 0).getCanonicalPath();
++                    if (!new File(path).getCanonicalPath().startsWith(partsDirPath)) {
++                        EventLog.writeEvent(0x534e4554, "240685104",
++                                Binder.getCallingUid(), (TAG + " update: path " + path +
++                                        " does not start with " + partsDirPath));
++                        return 0;
++                    }
++                    // Reset the file permission back to read for everyone but me.
++                    Os.chmod(path, 0644);
++                    if (LOCAL_LOGV) {
++                        Log.d(TAG, "MmsProvider.update chmod is successful for path: " + path);
++                    }
++                } catch (ErrnoException | IOException e) {
++                    Log.e(TAG, "Exception in chmod: " + e);
+                 }
+                 return 0;
+ 

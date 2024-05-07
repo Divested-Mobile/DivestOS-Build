@@ -1,0 +1,61 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hugh Chen <hughchen@google.com>
+Date: Tue, 10 May 2022 09:39:12 +0000
+Subject: [PATCH] RESTRICT AUTOMERGE Make bluetooth not discoverable via
+ SliceDeepLinkTrampoline
+
+- Don't let device be discovered when the user launch "Connected Devices
+  settings" through SliceDeepLinkTrampoline.
+
+Bug: 228450811
+Test: make -j42 RunSettingsRoboTests and use test apk to manually test
+to verify the device is not discoversable when open "Connected settings"
+through test apk.
+
+Change-Id: I5490b58675b1fd9fc36305766867f65caa6ccb6c
+(cherry picked from commit 205752dcf2062eb3deeb7f3b7d1eb8af7d8b2634)
+(cherry picked from commit 06139d3ffc37cb4b7974f95ccf08512c6fcad26d)
+Merged-In: I5490b58675b1fd9fc36305766867f65caa6ccb6c
+---
+ .../ConnectedDeviceDashboardFragment.java         | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/src/com/android/settings/connecteddevice/ConnectedDeviceDashboardFragment.java b/src/com/android/settings/connecteddevice/ConnectedDeviceDashboardFragment.java
+index 241648c3a09..432e0eea365 100644
+--- a/src/com/android/settings/connecteddevice/ConnectedDeviceDashboardFragment.java
++++ b/src/com/android/settings/connecteddevice/ConnectedDeviceDashboardFragment.java
+@@ -44,6 +44,7 @@ public class ConnectedDeviceDashboardFragment extends DashboardFragment {
+     private static final String SETTINGS_PACKAGE_NAME = "com.android.settings";
+     private static final String SYSTEMUI_PACKAGE_NAME = "com.android.systemui";
+     private static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
++    private static final String SLICE_ACTION = "com.android.settings.SEARCH_RESULT_TRAMPOLINE";
+ 
+     @VisibleForTesting
+     static final String KEY_CONNECTED_DEVICES = "connected_device_list";
+@@ -94,15 +95,23 @@ public class ConnectedDeviceDashboardFragment extends DashboardFragment {
+         super.onAttach(context);
+ 
+         String callingAppPackageName = getCallingAppPackageName(getActivity().getActivityToken());
++        String action = getIntent() != null ? getIntent().getAction() : "";
+         if (DEBUG) {
+-            Log.d(TAG, "onAttach() calling package name is : " + callingAppPackageName);
++            Log.d(TAG, "onAttach() calling package name is : " + callingAppPackageName
++                    + ", action : " + action);
+         }
+         use(AvailableMediaDeviceGroupController.class).init(this);
+         use(ConnectedDeviceGroupController.class).init(this);
+         use(PreviouslyConnectedDevicePreferenceController.class).init(this);
+         use(DiscoverableFooterPreferenceController.class).init(this,
+-                TextUtils.equals(SETTINGS_PACKAGE_NAME, callingAppPackageName)
+-                        || TextUtils.equals(SYSTEMUI_PACKAGE_NAME, callingAppPackageName));
++                isAlwaysDiscoverable(callingAppPackageName, action));
++    }
++
++    @VisibleForTesting
++    boolean isAlwaysDiscoverable(String callingAppPackageName, String action) {
++        return TextUtils.equals(SLICE_ACTION, action) ? false
++                : TextUtils.equals(SETTINGS_PACKAGE_NAME, callingAppPackageName)
++                || TextUtils.equals(SYSTEMUI_PACKAGE_NAME, callingAppPackageName);
+     }
+ 
+     private String getCallingAppPackageName(IBinder activityToken) {

@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Nate Myren <ntmyren@google.com>
+Date: Wed, 26 Oct 2022 17:37:26 +0000
+Subject: [PATCH] RESTRICT AUTOMERGE Revert "Revert "RESTRICT AUTOMERGE
+ Validate permission tree size..."
+
+Revert submission 20285709-revert-20103164-permTree-qt-dev-QWIEBZIWEA
+
+Reason for revert: resubmission
+Reverted Changes:
+I0a3b68aff:Revert "RESTRICT AUTOMERGE Add PermissionMemoryFoo...
+I4e8ec8b1a:Revert "RESTRICT AUTOMERGE Validate permission tre...
+
+Change-Id: I3cd1aa270373bb32f95dfbe8422faa783ee49dca
+(cherry picked from commit 4e83e59b27f7d6232ee9fe96f789e32debc19772)
+Merged-In: I3cd1aa270373bb32f95dfbe8422faa783ee49dca
+---
+ .../android/server/pm/permission/PermissionManagerService.java  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+index 79b2636481b3..a61f67d32452 100644
+--- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
++++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+@@ -688,8 +688,8 @@ public class PermissionManagerService {
+             BasePermission bp = mSettings.getPermissionLocked(info.name);
+             added = bp == null;
+             int fixedLevel = PermissionInfo.fixProtectionLevel(info.protectionLevel);
++            enforcePermissionCapLocked(info, tree);
+             if (added) {
+-                enforcePermissionCapLocked(info, tree);
+                 bp = new BasePermission(info.name, tree.getSourcePackageName(),
+                         BasePermission.TYPE_DYNAMIC);
+             } else if (!bp.isDynamic()) {

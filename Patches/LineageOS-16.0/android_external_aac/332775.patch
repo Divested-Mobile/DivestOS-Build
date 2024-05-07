@@ -1,0 +1,45 @@
+From e40800a613eb89b5b4c701774c3cecc1c2b7dd6c Mon Sep 17 00:00:00 2001
+From: Fraunhofer IIS FDK <audio-fdk@iis.fraunhofer.de>
+Date: Tue, 5 Apr 2022 18:53:20 +0200
+Subject: [PATCH] Reject invalid out of band config in
+ transportDec_OutOfBandConfig() and skip re-allocation.
+
+Bug: 224314979
+Bug: 221734266
+Test: adb shell /data/fuzz/arm64/C2FuzzerAacDec/C2FuzzerAacDec /data/local/tmp/clusterfuzz-testcase-minimized-C2FuzzerAacDec-5461414938804224
+Test: adb shell /data/fuzz/arm64/C2FuzzerAacDec/C2FuzzerAacDec /data/local/tmp/clusterfuzz-testcase-minimized-C2FuzzerAacDec-5062403589275648
+
+Change-Id: I64e7fe1b258be2f59c6d39c0b7b699fa881d79e6
+Merged-In: I64e7fe1b258be2f59c6d39c0b7b699fa881d79e6
+(cherry picked from commit eb07c22519d94e573f2a02947094acd2219dc07a)
+Merged-In: I64e7fe1b258be2f59c6d39c0b7b699fa881d79e6
+---
+ libMpegTPDec/src/tpdec_lib.cpp | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/libMpegTPDec/src/tpdec_lib.cpp b/libMpegTPDec/src/tpdec_lib.cpp
+index 1d8b7b3..c2dc964 100644
+--- a/libMpegTPDec/src/tpdec_lib.cpp
++++ b/libMpegTPDec/src/tpdec_lib.cpp
+@@ -1,7 +1,7 @@
+ /* -----------------------------------------------------------------------------
+ Software License for The Fraunhofer FDK AAC Codec Library for Android
+ 
+-© Copyright  1995 - 2018 Fraunhofer-Gesellschaft zur Förderung der angewandten
++© Copyright  1995 - 2022 Fraunhofer-Gesellschaft zur Förderung der angewandten
+ Forschung e.V. All rights reserved.
+ 
+  1.    INTRODUCTION
+@@ -351,6 +351,12 @@ TRANSPORTDEC_ERROR transportDec_OutOfBandConfig(HANDLE_TRANSPORTDEC hTp,
+         }
+       }
+     }
++
++    /* if an error is detected terminate config parsing to avoid that an invalid
++     * config is accepted in the second pass */
++    if (err != TRANSPORTDEC_OK) {
++      break;
++    }
+   }
+ 
+   if (err == TRANSPORTDEC_OK && fConfigFound) {

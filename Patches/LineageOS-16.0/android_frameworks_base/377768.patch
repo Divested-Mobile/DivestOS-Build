@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Marzia Favaro <marziana@google.com>
+Date: Mon, 31 Jul 2023 15:10:34 +0000
+Subject: [PATCH] BACKPORT: Require permission to unlock keyguard
+
+Bug: 288896339
+Test: Manual, verify that the app which can be found on the bug can no longer call
+keyguardGoingAway successfully
+
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:bd2aa5d309c5bf8e73161975bd5aba7945b25e84)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:ef1345d278bd2a8944c6362bf65cff7305ca6fc5)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:ad8e7e3b1db22684988a179e23639567a4096ca6)
+Merged-In: I7ba7e56f954c8e6f1f734311f735215918975bc6
+Change-Id: I7ba7e56f954c8e6f1f734311f735215918975bc6
+
+Change-Id: I8e12811b4171dba1c1ea564362f90c0ce006dc15
+---
+ .../core/java/com/android/server/am/ActivityManagerService.java | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
+index 44761a523abb..c0025e0a2018 100644
+--- a/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -19,6 +19,7 @@ package com.android.server.am;
+ import static android.Manifest.permission.BIND_VOICE_INTERACTION;
+ import static android.Manifest.permission.CHANGE_CONFIGURATION;
+ import static android.Manifest.permission.CHANGE_DEVICE_IDLE_TEMP_WHITELIST;
++import static android.Manifest.permission.CONTROL_KEYGUARD;
+ import static android.Manifest.permission.CONTROL_REMOTE_APP_TRANSITION_ANIMATIONS;
+ import static android.Manifest.permission.INTERACT_ACROSS_USERS;
+ import static android.Manifest.permission.INTERACT_ACROSS_USERS_FULL;
+@@ -8170,6 +8171,7 @@ public class ActivityManagerService extends IActivityManager.Stub
+ 
+     @Override
+     public void keyguardGoingAway(int flags) {
++        enforceCallingPermission(CONTROL_KEYGUARD, "keyguardGoingAway()");
+         enforceNotIsolatedCaller("keyguardGoingAway");
+         final long token = Binder.clearCallingIdentity();
+         try {

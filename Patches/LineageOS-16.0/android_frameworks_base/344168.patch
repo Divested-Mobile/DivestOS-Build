@@ -1,0 +1,102 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Aseem Kumar <aseemk@google.com>
+Date: Mon, 21 Mar 2022 20:35:20 -0700
+Subject: [PATCH] DO NOT MERGE Move accountname and typeName length check from
+ Account.java to AccountManagerService.
+
+Bug: 169762606
+Test: atest AccountManagerServiceTest
+Change-Id: I80fabf3a64c55837db98ff316e7e5420129c001b
+(cherry picked from commit 3f218c9a5e1f7c3213ceb84c15afca0d3041057b)
+Merged-In: I80fabf3a64c55837db98ff316e7e5420129c001b
+---
+ core/java/android/accounts/Account.java       |  7 -------
+ .../accounts/AccountManagerService.java       | 12 ++++++++++++
+ .../accounts/AccountManagerServiceTest.java   | 19 +++++++++++++++++++
+ 3 files changed, 31 insertions(+), 7 deletions(-)
+
+diff --git a/core/java/android/accounts/Account.java b/core/java/android/accounts/Account.java
+index 1546ae14862d..3f90f36fb2a1 100644
+--- a/core/java/android/accounts/Account.java
++++ b/core/java/android/accounts/Account.java
+@@ -28,7 +28,6 @@ import android.util.ArraySet;
+ import android.util.Log;
+ import com.android.internal.annotations.GuardedBy;
+ 
+-import java.util.Objects;
+ import java.util.Set;
+ 
+ /**
+@@ -81,12 +80,6 @@ public class Account implements Parcelable {
+         if (TextUtils.isEmpty(type)) {
+             throw new IllegalArgumentException("the type must not be empty: " + type);
+         }
+-        if (name.length() > 200) {
+-            throw new IllegalArgumentException("account name is longer than 200 characters");
+-        }
+-        if (type.length() > 200) {
+-            throw new IllegalArgumentException("account type is longer than 200 characters");
+-        }
+         this.name = name;
+         this.type = type;
+         this.accessId = accessId;
+diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
+index 9e8464728b9b..4c8acc5ffb63 100644
+--- a/services/core/java/com/android/server/accounts/AccountManagerService.java
++++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
+@@ -1777,6 +1777,14 @@ public class AccountManagerService
+         if (account == null) {
+             return false;
+         }
++        if (account.name != null && account.name.length() > 200) {
++            Log.w(TAG, "Account cannot be added - Name longer than 200 chars");
++            return false;
++        }
++        if (account.type != null && account.type.length() > 200) {
++            Log.w(TAG, "Account cannot be added - Name longer than 200 chars");
++            return false;
++        }
+         if (!isLocalUnlockedUser(accounts.userId)) {
+             Log.w(TAG, "Account " + account + " cannot be added - user " + accounts.userId
+                     + " is locked. callingUid=" + callingUid);
+@@ -1969,6 +1977,10 @@ public class AccountManagerService
+                 + ", pid " + Binder.getCallingPid());
+         }
+         if (accountToRename == null) throw new IllegalArgumentException("account is null");
++        if (newName != null && newName.length() > 200) {
++            Log.e(TAG, "renameAccount failed - account name longer than 200");
++            throw new IllegalArgumentException("account name longer than 200");
++        }
+         int userId = UserHandle.getCallingUserId();
+         if (!isAccountManagedByCaller(accountToRename.type, callingUid, userId)) {
+             String msg = String.format(
+diff --git a/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTest.java b/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTest.java
+index 149ef156a9fa..73267e4868a6 100644
+--- a/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTest.java
++++ b/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTest.java
+@@ -237,6 +237,25 @@ public class AccountManagerServiceTest extends AndroidTestCase {
+         assertEquals(a31, accounts[1]);
+     }
+ 
++    @SmallTest
++    public void testCheckAddAccountLongName() throws Exception {
++        unlockSystemUser();
++        String longString = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
++                + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
++                + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
++                + "aaaaa";
++        Account a11 = new Account(longString, AccountManagerServiceTestFixtures.ACCOUNT_TYPE_1);
++
++        mAms.addAccountExplicitly(a11, /* password= */ "p11", /* extras= */ null);
++
++        String[] list = new String[]{AccountManagerServiceTestFixtures.CALLER_PACKAGE};
++        when(mMockPackageManager.getPackagesForUid(anyInt())).thenReturn(list);
++        Account[] accounts = mAms.getAccountsAsUser(null,
++                UserHandle.getCallingUserId(), mContext.getOpPackageName());
++        assertEquals(0, accounts.length);
++    }
++
++
+     @SmallTest
+     public void testPasswords() throws Exception {
+         unlockSystemUser();

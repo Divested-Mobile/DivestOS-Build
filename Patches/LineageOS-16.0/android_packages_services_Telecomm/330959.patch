@@ -1,0 +1,61 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tyler Gunn <tgunn@google.com>
+Date: Mon, 7 Mar 2022 09:32:42 -0800
+Subject: [PATCH] Handle null bindings returned from ConnectionService.
+
+When a ConnectionService returns a null binding, immediately unbind from
+the ConnectionService and cancel any ongoing calls related to it.
+
+Bug: 211114016
+Test: Added new CTS test to verify auto unbind from null binding ConnectionService.
+Test: Manually tested using test app which implements null binding ConnectionService and verified via telecom log inspection that the service is unbound and the call is terminated.
+Change-Id: I0757557e66725dddfd871cd9857071a8749bd7ba
+(cherry picked from commit 410ce026004bb485c39afcc7d86e89d26ff1af94)
+Merged-In: I0757557e66725dddfd871cd9857071a8749bd7ba
+---
+ .../android/server/telecom/ServiceBinder.java | 25 ++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/server/telecom/ServiceBinder.java b/src/com/android/server/telecom/ServiceBinder.java
+index f15570b44..7866fa01f 100644
+--- a/src/com/android/server/telecom/ServiceBinder.java
++++ b/src/com/android/server/telecom/ServiceBinder.java
+@@ -146,7 +146,6 @@ abstract class ServiceBinder {
+                     Log.i(this, "Service bound %s", componentName);
+ 
+                     Log.addEvent(mCall, LogUtils.Events.CS_BOUND, componentName);
+-                    mCall = null;
+ 
+                     // Unbind request was queued so unbind immediately.
+                     if (mIsBindingAborted) {
+@@ -188,6 +187,30 @@ abstract class ServiceBinder {
+                 Log.endSession();
+             }
+         }
++
++        /**
++         * Handles the case where the {@link ConnectionService} we bound to returned a null binding.
++         * We want to unbind from the service and cleanup and call resources at this time.
++         * @param componentName The component of the {@link ConnectionService}.
++         */
++        @Override
++        public void onNullBinding(ComponentName componentName) {
++            try {
++                Log.startSession("SBC.oNB");
++                synchronized (mLock) {
++                    Log.w(this, "Null binding %s", componentName);
++                    Log.addEvent(mCall, "NULL_BINDING", componentName);
++                    String componentStr = componentName == null ? "null" : componentName.toString();
++                    android.util.EventLog.writeEvent(0x534e4554, "211114016", -1, componentStr);
++                    logServiceDisconnected("onNullBinding");
++                    mContext.unbindService(this);
++                    clearAbort();
++                    handleFailedConnection();
++                }
++            } finally {
++                Log.endSession();
++            }
++        }
+     }
+ 
+     private void handleDisconnect() {

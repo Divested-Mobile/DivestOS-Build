@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Eric Biggers <ebiggers@google.com>
+Date: Sat, 26 Mar 2022 01:08:07 +0000
+Subject: [PATCH] Log to EventLog on prepareUserStorage failure
+
+Bug: 224585613
+Change-Id: Id6dfb4f4c48d5cf4e71f54bdb6d0d6eea527caf5
+(cherry picked from commit fbb632ea95ac5b6d9efa89e09d0988a9df4f19e4)
+Merged-In: Id6dfb4f4c48d5cf4e71f54bdb6d0d6eea527caf5
+(cherry picked from commit 2f2e7d84f8f856e897056064b64c6b7213ba5d86)
+Merged-In: Id6dfb4f4c48d5cf4e71f54bdb6d0d6eea527caf5
+---
+ .../core/java/com/android/server/StorageManagerService.java     | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/services/core/java/com/android/server/StorageManagerService.java b/services/core/java/com/android/server/StorageManagerService.java
+index dc77f414c9e2..dcd1a7b03075 100644
+--- a/services/core/java/com/android/server/StorageManagerService.java
++++ b/services/core/java/com/android/server/StorageManagerService.java
+@@ -105,6 +105,7 @@ import android.text.format.DateUtils;
+ import android.util.ArrayMap;
+ import android.util.AtomicFile;
+ import android.util.DataUnit;
++import android.util.EventLog;
+ import android.util.Log;
+ import android.util.Pair;
+ import android.util.Slog;
+@@ -2611,6 +2612,7 @@ class StorageManagerService extends IStorageManager.Stub
+         try {
+             mVold.prepareUserStorage(volumeUuid, userId, serialNumber, flags);
+         } catch (Exception e) {
++            EventLog.writeEvent(0x534e4554, "224585613", -1, "");
+             Slog.wtf(TAG, e);
+             // Make sure to re-throw this exception; we must not ignore failure
+             // to prepare the user storage as it could indicate that encryption

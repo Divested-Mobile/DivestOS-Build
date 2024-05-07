@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Fri, 12 Aug 2022 17:26:19 +0000
+Subject: [PATCH] Add negative length check in process_service_search_rsp
+
+Bug: 225876506
+Test: run supplied POC (updated to Android T)
+Tag: #security
+Ignore-AOSP-First: Security
+Change-Id: I0054806e47ed9d6eb8b034a41c8c872fee7f1eca
+(cherry picked from commit 18d69eb958493d4879786e2edb42ff4e60334a2f)
+Merged-In: I0054806e47ed9d6eb8b034a41c8c872fee7f1eca
+---
+ stack/sdp/sdp_discovery.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/stack/sdp/sdp_discovery.cc b/stack/sdp/sdp_discovery.cc
+index 0c99495fc..420259800 100644
+--- a/stack/sdp/sdp_discovery.cc
++++ b/stack/sdp/sdp_discovery.cc
+@@ -292,7 +292,7 @@ static void process_service_search_rsp(tCONN_CB* p_ccb, uint8_t* p_reply,
+ 
+   orig = p_ccb->num_handles;
+   p_ccb->num_handles += cur_handles;
+-  if (p_ccb->num_handles == 0) {
++  if (p_ccb->num_handles == 0 || p_ccb->num_handles < orig) {
+     SDP_TRACE_WARNING("SDP - Rcvd ServiceSearchRsp, no matches");
+     sdp_disconnect(p_ccb, SDP_NO_RECS_MATCH);
+     return;

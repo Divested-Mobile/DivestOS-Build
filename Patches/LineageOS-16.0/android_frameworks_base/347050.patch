@@ -1,0 +1,129 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Nate Myren <ntmyren@google.com>
+Date: Fri, 23 Sep 2022 12:04:57 -0700
+Subject: [PATCH] RESTRICT AUTOMERGE Revoke SYSTEM_ALERT_WINDOW on upgrade past
+ api 23
+
+Bug: 221040577
+Test: atest PermissionTest23#testPre23AppsWithSystemAlertWindowGetDeniedOnUpgrade
+Change-Id: I4b4605aaae107875811070dea6d031c5d9f25c96
+(cherry picked from commit f6ba142a84a38014e56c3178f0aa322a377b77cd)
+Merged-In: I4b4605aaae107875811070dea6d031c5d9f25c96
+---
+ .../server/pm/PackageManagerService.java      |  4 +-
+ .../permission/PermissionManagerInternal.java | 20 ++++-----
+ .../permission/PermissionManagerService.java  | 44 ++++++++++++++++++-
+ 3 files changed, 54 insertions(+), 14 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index 5b454f2d8939..25f70b23e68f 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -11812,8 +11812,8 @@ public class PackageManagerService extends IPackageManager.Stub
+ 
+                 AsyncTask.execute(() -> {
+                     if (hasOldPkg) {
+-                        mPermissionManager.revokeRuntimePermissionsIfGroupChanged(pkg, oldPkg,
+-                                allPackageNames, mPermissionCallback);
++                        mPermissionManager.onPackageUpdated(pkg, oldPkg, allPackageNames,
++                                 mPermissionCallback);
+                     }
+                     if (hasPermissionDefinitionChanges) {
+                         mPermissionManager.revokeRuntimePermissionsIfPermissionDefinitionChanged(
+diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerInternal.java b/services/core/java/com/android/server/pm/permission/PermissionManagerInternal.java
+index 185e0e1fda5f..0f98126171d8 100644
+--- a/services/core/java/com/android/server/pm/permission/PermissionManagerInternal.java
++++ b/services/core/java/com/android/server/pm/permission/PermissionManagerInternal.java
+@@ -91,17 +91,15 @@ public abstract class PermissionManagerInternal {
+     public abstract void updateAllPermissions(@Nullable String volumeUuid, boolean sdkUpdated,
+             @NonNull Collection<PackageParser.Package> allPacakges, PermissionCallback callback);
+ 
+-    /**
+-     * We might auto-grant permissions if any permission of the group is already granted. Hence if
+-     * the group of a granted permission changes we need to revoke it to avoid having permissions of
+-     * the new group auto-granted.
+-     *
+-     * @param newPackage The new package that was installed
+-     * @param oldPackage The old package that was updated
+-     * @param allPackageNames All packages
+-     * @param permissionCallback Callback for permission changed
+-     */
+-    public abstract void revokeRuntimePermissionsIfGroupChanged(
++     /**
++      * If the app is updated, then some checks need to be performed to ensure the package is not 
++      * attempting to expoit permission changes across API boundaries.
++      * @param newPackage The new package that was installed
++      * @param oldPackage The old package that was updated
++      * @param allPackageNames The current packages in the system
++      * @param permissionCallback Callback for permission changed
++      */
++    public abstract void onPackageUpdated(
+             @NonNull PackageParser.Package newPackage,
+             @NonNull PackageParser.Package oldPackage,
+             @NonNull ArrayList<String> allPackageNames,
+diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+index a61f67d32452..bdfe64c2c348 100644
+--- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
++++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+@@ -392,6 +392,46 @@ public class PermissionManagerService {
+         return protectionLevel;
+     }
+ 
++    /**
++     * If the package was below api 23, got the SYSTEM_ALERT_WINDOW permission automatically, and
++     * then updated past api 23, and the app does not satisfy any of the other SAW permission flags,
++     * the permission should be revoked.
++     *
++     * @param newPackage The new package that was installed
++     * @param oldPackage The old package that was updated
++     */
++    private void revokeSystemAlertWindowIfUpgradedPast23(
++            @NonNull PackageParser.Package newPackage,
++            @NonNull PackageParser.Package oldPackage,
++            @NonNull PermissionCallback permissionCallback) {
++        if (oldPackage.applicationInfo.targetSdkVersion >= Build.VERSION_CODES.M
++                || newPackage.applicationInfo.targetSdkVersion < Build.VERSION_CODES.M
++                || !newPackage.requestedPermissions
++                .contains(Manifest.permission.SYSTEM_ALERT_WINDOW)) {
++            return;
++        }
++
++        BasePermission saw;
++        final int callingUid = Binder.getCallingUid();
++        synchronized (mLock) {
++            saw = mSettings.getPermissionLocked(Manifest.permission.SYSTEM_ALERT_WINDOW);
++        }
++        final PackageSetting ps = (PackageSetting) newPackage.mExtras;
++        if (grantSignaturePermission(Manifest.permission.SYSTEM_ALERT_WINDOW, newPackage, saw,
++                ps.getPermissionsState())) {
++            return;
++        }
++        for (int userId: mUserManagerInt.getUserIds()) {
++            try {
++                revokeRuntimePermission(Manifest.permission.SYSTEM_ALERT_WINDOW,
++                        newPackage.packageName, false, callingUid, userId, permissionCallback);
++            } catch (IllegalStateException | SecurityException e) {
++                Log.e(TAG, "unable to revoke SYSTEM_ALERT_WINDOW for "
++                        + newPackage.packageName + " user " + userId, e);
++            }
++        }
++    }
++
+     /**
+      * We might auto-grant permissions if any permission of the group is already granted. Hence if
+      * the group of a granted permission changes we need to revoke it to avoid having permissions of
+@@ -2127,11 +2167,13 @@ public class PermissionManagerService {
+             return PermissionManagerService.this.isPermissionsReviewRequired(pkg, userId);
+         }
+         @Override
+-        public void revokeRuntimePermissionsIfGroupChanged(
++        public void onPackageUpdated(
+                 @NonNull PackageParser.Package newPackage,
+                 @NonNull PackageParser.Package oldPackage,
+                 @NonNull ArrayList<String> allPackageNames,
+                 @NonNull PermissionCallback permissionCallback) {
++            PermissionManagerService.this.revokeSystemAlertWindowIfUpgradedPast23(newPackage,
++                    oldPackage, permissionCallback);
+             PermissionManagerService.this.revokeRuntimePermissionsIfGroupChanged(newPackage,
+                     oldPackage, allPackageNames, permissionCallback);
+         }

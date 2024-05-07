@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Eric Biggers <ebiggers@google.com>
+Date: Fri, 13 Aug 2021 13:37:55 -0700
+Subject: [PATCH] StorageManagerService: don't ignore failures to prepare user
+ storage
+
+We must never leave directories unencrypted.
+
+Bug: 164488924
+Bug: 224585613
+Change-Id: I9a38ab5cca1ae9c9ebff81fca04615fd83ebe4b2
+(cherry picked from commit 50946dd15fd14cbf92b5c7e32ac7a0f088b8b302)
+Merged-In: I9a38ab5cca1ae9c9ebff81fca04615fd83ebe4b2
+(cherry picked from commit f80dd3ecd46db03005423e7fac28a0def49d0140)
+Merged-In: I9a38ab5cca1ae9c9ebff81fca04615fd83ebe4b2
+---
+ .../core/java/com/android/server/StorageManagerService.java | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/StorageManagerService.java b/services/core/java/com/android/server/StorageManagerService.java
+index 910e3e345f69..f6ca63a48a39 100644
+--- a/services/core/java/com/android/server/StorageManagerService.java
++++ b/services/core/java/com/android/server/StorageManagerService.java
+@@ -2609,8 +2609,12 @@ class StorageManagerService extends IStorageManager.Stub
+ 
+         try {
+             mVold.prepareUserStorage(volumeUuid, userId, serialNumber, flags);
+-        } catch (Exception e) {
++        } catch (RemoteException e) {
+             Slog.wtf(TAG, e);
++            // Make sure to re-throw this exception; we must not ignore failure
++            // to prepare the user storage as it could indicate that encryption
++            // wasn't successfully set up.
++            throw new RuntimeException(e);
+         }
+     }
+ 

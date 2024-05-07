@@ -1,0 +1,52 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Pinyao Ting <pinyaoting@google.com>
+Date: Thu, 14 Jul 2022 11:25:54 -0700
+Subject: [PATCH] Fix a security issue in app widget service.
+
+Bug: 234013191
+Test: atest RemoteViewsAdapterTest
+Change-Id: Icd2eccb7a90124aca18a3dd463c3f79e3a595c20
+Merged-In: Icd2eccb7a90124aca18a3dd463c3f79e3a595c20
+(cherry picked from commit 263d7d0ba8818c471a27938c4e002bae33569f01)
+(cherry picked from commit 0ee21ef3e652c78c934d257632a4951bd6d38011)
+Merged-In: Icd2eccb7a90124aca18a3dd463c3f79e3a595c20
+---
+ core/java/android/appwidget/AppWidgetManager.java          | 4 +++-
+ .../com/android/server/appwidget/AppWidgetServiceImpl.java | 7 ++++---
+ 2 files changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/core/java/android/appwidget/AppWidgetManager.java b/core/java/android/appwidget/AppWidgetManager.java
+index 20248b90d1e9..b8d33b1c8a17 100644
+--- a/core/java/android/appwidget/AppWidgetManager.java
++++ b/core/java/android/appwidget/AppWidgetManager.java
+@@ -1089,7 +1089,9 @@ public class AppWidgetManager {
+      * @param intent        The intent of the service which will be providing the data to the
+      *                      RemoteViewsAdapter.
+      * @param connection    The callback interface to be notified when a connection is made or lost.
+-     * @param flags         Flags used for binding to the service
++     * @param flags         Flags used for binding to the service. Currently only
++     *                     {@link Context#BIND_AUTO_CREATE} and
++     *                     {@link Context#BIND_FOREGROUND_SERVICE_WHILE_AWAKE} are supported.
+      *
+      * @see Context#getServiceDispatcher(ServiceConnection, Handler, int)
+      * @hide
+diff --git a/services/appwidget/java/com/android/server/appwidget/AppWidgetServiceImpl.java b/services/appwidget/java/com/android/server/appwidget/AppWidgetServiceImpl.java
+index da52d408e125..9c18029ec693 100644
+--- a/services/appwidget/java/com/android/server/appwidget/AppWidgetServiceImpl.java
++++ b/services/appwidget/java/com/android/server/appwidget/AppWidgetServiceImpl.java
+@@ -1299,11 +1299,12 @@ class AppWidgetServiceImpl extends IAppWidgetService.Stub implements WidgetBacku
+             try {
+                 // Ask ActivityManager to bind it. Notice that we are binding the service with the
+                 // caller app instead of DevicePolicyManagerService.
+-                if(ActivityManager.getService().bindService(
++                if (ActivityManager.getService().bindService(
+                         caller, activtiyToken, intent,
+                         intent.resolveTypeIfNeeded(mContext.getContentResolver()),
+-                        connection, flags, mContext.getOpPackageName(),
+-                        widget.provider.getUserId()) != 0) {
++                        connection, flags & (Context.BIND_AUTO_CREATE
++                                | Context.BIND_FOREGROUND_SERVICE_WHILE_AWAKE),
++                        mContext.getOpPackageName(), widget.provider.getUserId()) != 0) {
+ 
+                     // Add it to the mapping of RemoteViewsService to appWidgetIds so that we
+                     // can determine when we can call back to the RemoteViewsService later to

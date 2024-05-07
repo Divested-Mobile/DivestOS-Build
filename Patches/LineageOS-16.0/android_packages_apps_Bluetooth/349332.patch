@@ -1,0 +1,47 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Tue, 8 Nov 2022 23:32:46 +0000
+Subject: [PATCH] Fix OPP comparison
+
+isBluetoothShareUri_correctlyCheckUri (under
+com.android.bluetooth.opp.BluetoothOppUtilityTest) is failing
+on null input due to an incorrect comparison in
+isBluetoothShareUri.  Change the comparison to one which can
+cope with null input.
+
+Bug: 257190999
+Test: atest: BluetoothOppUtilityTest
+Tag: #security
+Ignore-AOSP-First: Security
+Change-Id: Ia6a08e7092c2084e1816b782317c13254e78719b
+(cherry picked from commit 90dc6fcdcba6c0c2b0f9bdaad28457a81c9af4ba)
+Merged-In: Ia6a08e7092c2084e1816b782317c13254e78719b
+---
+ src/com/android/bluetooth/opp/BluetoothOppUtility.java | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/bluetooth/opp/BluetoothOppUtility.java b/src/com/android/bluetooth/opp/BluetoothOppUtility.java
+index d6211d701..a002c1829 100644
+--- a/src/com/android/bluetooth/opp/BluetoothOppUtility.java
++++ b/src/com/android/bluetooth/opp/BluetoothOppUtility.java
+@@ -58,6 +58,7 @@ import java.math.RoundingMode;
+ import java.text.DecimalFormat;
+ import java.util.ArrayList;
+ import java.util.List;
++import java.util.Objects;
+ import java.util.concurrent.ConcurrentHashMap;
+ 
+ /**
+@@ -73,10 +74,10 @@ public class BluetoothOppUtility {
+ 
+     public static boolean isBluetoothShareUri(Uri uri) {
+         if (uri.toString().startsWith(BluetoothShare.CONTENT_URI.toString())
+-                && !uri.getAuthority().equals(BluetoothShare.CONTENT_URI.getAuthority())) {
++                && !Objects.equals(uri.getAuthority(), BluetoothShare.CONTENT_URI.getAuthority())) {
+             EventLog.writeEvent(0x534e4554, "225880741", -1, "");
+         }
+-        return uri.getAuthority().equals(BluetoothShare.CONTENT_URI.getAuthority());
++        return Objects.equals(uri.getAuthority(), BluetoothShare.CONTENT_URI.getAuthority());
+     }
+ 
+     public static BluetoothOppTransferInfo queryRecord(Context context, Uri uri) {

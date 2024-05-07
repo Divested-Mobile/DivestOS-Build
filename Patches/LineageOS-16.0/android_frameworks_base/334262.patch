@@ -1,0 +1,56 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Julia Reynolds <juliacr@google.com>
+Date: Wed, 7 Jul 2021 16:19:44 -0400
+Subject: [PATCH] DO NOT MERGE Crash invalid FGS notifications
+
+Test: CTS, ActivityManagerProcessStateTest
+Fixes: 191981182
+Change-Id: I13a0202b25c8118db47edba11a93c1939c94b392
+Merged-In: I13a0202b25c8118db47edba11a93c1939c94b392
+(cherry picked from commit 6f657f8f5b7d41af426d6cd8d60bfda6e12057c0)
+(cherry picked from commit b6b2906ea6472d182e6ae03c581a63802cd84f08)
+Merged-In: I13a0202b25c8118db47edba11a93c1939c94b392
+
+Backport to P:
+Make method Notification.isForegroundService() public, as it is the case
+in Android 10 and later, see Ia13c1aac0cf91c400594df96ce267e768133f8d1
+
+Change-Id: I214b6ab4f6ecab332fb8b3293fbc3b2212790b38
+---
+ core/java/android/app/Notification.java                    | 3 ++-
+ .../server/notification/NotificationManagerService.java    | 7 +++++--
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/android/app/Notification.java b/core/java/android/app/Notification.java
+index 78d23f368900..21bc17172b1f 100644
+--- a/core/java/android/app/Notification.java
++++ b/core/java/android/app/Notification.java
+@@ -5857,8 +5857,9 @@ public class Notification implements Parcelable
+ 
+     /**
+      * @return whether this notification is a foreground service notification
++     * @hide
+      */
+-    private boolean isForegroundService() {
++    public boolean isForegroundService() {
+         return (flags & Notification.FLAG_FOREGROUND_SERVICE) != 0;
+     }
+ 
+diff --git a/services/core/java/com/android/server/notification/NotificationManagerService.java b/services/core/java/com/android/server/notification/NotificationManagerService.java
+index 3e34039548d3..dd202a172d66 100755
+--- a/services/core/java/com/android/server/notification/NotificationManagerService.java
++++ b/services/core/java/com/android/server/notification/NotificationManagerService.java
+@@ -4161,8 +4161,11 @@ public class NotificationManagerService extends SystemService {
+                 notification.flags &= ~Notification.FLAG_CAN_COLORIZE;
+             }
+ 
+-        } catch (NameNotFoundException e) {
+-            Slog.e(TAG, "Cannot create a context for sending app", e);
++        } catch (Exception e) {
++            if (notification.isForegroundService()) {
++                throw new SecurityException("Invalid FGS notification", e);
++            }
++            Slog.e(TAG, "Cannot fix notification", e);
+             return;
+         }
+ 

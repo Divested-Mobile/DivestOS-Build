@@ -1,0 +1,150 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Thomas Stuart <tjstuart@google.com>
+Date: Thu, 28 Apr 2022 16:53:40 -0700
+Subject: [PATCH] enforce stricter CallLogProvider query
+
+changes:
+- phoneNumber is now a selectionArgument
+- if the user makes a query request for the CALLS_FILTER case,
+  throw a SE if the cursor is empty && SQL is detected
+
+Bug: 224771921
+Test: 2 manual,
+	manual 1: test app 1 can still make valid call filter query
+	manual 2: test app 2 with invalid query crashes b/c of SE
+
+      2 CTS tests,
+      test 1: ensures the existing functionality still works
+      test 2: ensures a SE is thrown on an invalid query for call filter
+
+Change-Id: Ia445bb59581abb14e247aa8d9f0177e02307cf96
+Merged-In: Ia445bb59581abb14e247aa8d9f0177e02307cf96
+(cherry picked from commit c8b6397d364c2741baf5d850bfdd1693782af940)
+Merged-In: Ia445bb59581abb14e247aa8d9f0177e02307cf96
+---
+ .../providers/contacts/CallLogProvider.java   | 77 ++++++++++++++++++-
+ 1 file changed, 75 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/providers/contacts/CallLogProvider.java b/src/com/android/providers/contacts/CallLogProvider.java
+index 3d221bf2..04fc9998 100644
+--- a/src/com/android/providers/contacts/CallLogProvider.java
++++ b/src/com/android/providers/contacts/CallLogProvider.java
+@@ -34,6 +34,7 @@ import android.database.Cursor;
+ import android.database.DatabaseUtils;
+ import android.database.sqlite.SQLiteDatabase;
+ import android.database.sqlite.SQLiteQueryBuilder;
++import android.database.sqlite.SQLiteTokenizer;
+ import android.net.Uri;
+ import android.os.Binder;
+ import android.os.UserHandle;
+@@ -45,6 +46,7 @@ import android.telecom.PhoneAccountHandle;
+ import android.telecom.TelecomManager;
+ import android.text.TextUtils;
+ import android.util.ArrayMap;
++import android.util.EventLog;
+ import android.util.Log;
+ 
+ import com.android.internal.annotations.VisibleForTesting;
+@@ -59,6 +61,9 @@ import java.io.PrintWriter;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+ import java.util.List;
++import java.util.Locale;
++import java.util.Set;
++import java.util.UUID;
+ import java.util.concurrent.CountDownLatch;
+ 
+ /**
+@@ -333,9 +338,10 @@ public class CallLogProvider extends ContentProvider {
+                 List<String> pathSegments = uri.getPathSegments();
+                 String phoneNumber = pathSegments.size() >= 2 ? pathSegments.get(2) : null;
+                 if (!TextUtils.isEmpty(phoneNumber)) {
+-                    qb.appendWhere("PHONE_NUMBERS_EQUAL(number, ");
+-                    qb.appendWhereEscapeString(phoneNumber);
++                    qb.appendWhere("PHONE_NUMBERS_EQUAL(number, ?");
+                     qb.appendWhere(mUseStrictPhoneNumberComparation ? ", 1)" : ", 0)");
++                    selectionArgs = copyArrayAndAppendElement(selectionArgs,
++                            "'" + phoneNumber + "'");
+                 } else {
+                     qb.appendWhere(Calls.NUMBER_PRESENTATION + "!="
+                             + Calls.PRESENTATION_ALLOWED);
+@@ -357,12 +363,79 @@ public class CallLogProvider extends ContentProvider {
+         final SQLiteDatabase db = mDbHelper.getReadableDatabase();
+         final Cursor c = qb.query(db, projection, selectionBuilder.build(), selectionArgs, null,
+                 null, sortOrder, limitClause);
++
++        if (match == CALLS_FILTER && selectionArgs.length > 0) {
++            // throw SE if the user is sending requests that try to bypass voicemail permissions
++            examineEmptyCursorCause(c, selectionArgs[selectionArgs.length - 1]);
++        }
++
+         if (c != null) {
+             c.setNotificationUri(getContext().getContentResolver(), CallLog.CONTENT_URI);
+         }
+         return c;
+     }
+ 
++    /**
++     * Helper method for queryInternal that appends an extra argument to the existing selection
++     * arguments array.
++     *
++     * @param oldSelectionArguments the existing selection argument array in queryInternal
++     * @param phoneNumber           the phoneNumber that was passed into queryInternal
++     * @return the new selection argument array with the phoneNumber as the last argument
++     */
++    private String[] copyArrayAndAppendElement(String[] oldSelectionArguments, String phoneNumber) {
++        if (oldSelectionArguments == null) {
++            return new String[]{phoneNumber};
++        }
++        String[] newSelectionArguments = new String[oldSelectionArguments.length + 1];
++        System.arraycopy(oldSelectionArguments, 0, newSelectionArguments, 0,
++                oldSelectionArguments.length);
++        newSelectionArguments[oldSelectionArguments.length] = phoneNumber;
++        return newSelectionArguments;
++    }
++
++    /**
++     * Helper that throws a Security Exception if the Cursor object is empty && the phoneNumber
++     * appears to have SQL.
++     *
++     * @param cursor      returned from the query.
++     * @param phoneNumber string to check for SQL.
++     */
++    private void examineEmptyCursorCause(Cursor cursor, String phoneNumber) {
++        // checks if the cursor is empty
++        if ((cursor == null) || !cursor.moveToFirst()) {
++            try {
++                // tokenize the phoneNumber and run each token through a checker
++                SQLiteTokenizer.tokenize(phoneNumber, SQLiteTokenizer.OPTION_NONE,
++                        this::enforceStrictPhoneNumber);
++            } catch (IllegalArgumentException e) {
++                EventLog.writeEvent(0x534e4554, "224771921", Binder.getCallingUid(),
++                        ("invalid phoneNumber passed to queryInternal"));
++                throw new SecurityException("invalid phoneNumber passed to queryInternal");
++            }
++        }
++    }
++
++    private void enforceStrictPhoneNumber(String token) {
++        boolean isAllowedKeyword = SQLiteTokenizer.isKeyword(token);
++        switch (token.toUpperCase(Locale.US)) {
++            case "SELECT":
++            case "FROM":
++            case "WHERE":
++            case "GROUP":
++            case "HAVING":
++            case "WINDOW":
++            case "VALUES":
++            case "ORDER":
++            case "LIMIT":
++                isAllowedKeyword = false;
++                break;
++        }
++        if (!isAllowedKeyword) {
++            throw new IllegalArgumentException("Invalid token " + token);
++        }
++    }
++
+     private void queryForTesting(Uri uri) {
+         if (!uri.getBooleanQueryParameter(PARAM_KEY_QUERY_FOR_TESTING, false)) {
+             return;

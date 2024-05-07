@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: nxf32288 <ganesh.deva_1@nxp.com>
+Date: Wed, 4 Sep 2019 16:41:11 +0530
+Subject: [PATCH] {android10_r2}: Prevent OOB write in
+ nfc_ncif_proc_ee_discover_req
+
+Change-Id: Icedf5245ecfcb0767c67e9389d85d0e9c9456a62
+---
+ src/nfc/nfc/nfc_ncif.cc | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/src/nfc/nfc/nfc_ncif.cc b/src/nfc/nfc/nfc_ncif.cc
+index 91be27fa..7fa95510 100755
+--- a/src/nfc/nfc/nfc_ncif.cc
++++ b/src/nfc/nfc/nfc_ncif.cc
+@@ -2095,6 +2095,13 @@ void nfc_ncif_proc_ee_discover_req(uint8_t* p, uint16_t plen) {
+   uint8_t u8;
+ 
+   DLOG_IF(INFO, nfc_debug_enabled) << StringPrintf("nfc_ncif_proc_ee_discover_req %d len:%d", *p, plen);
++
++  if (*p > NFC_MAX_EE_DISC_ENTRIES) {
++    android_errorWriteLog(0x534e4554, "122361874");
++    LOG(ERROR) << __func__ << "Exceed NFC_MAX_EE_DISC_ENTRIES";
++    return;
++  }
++
+   if (p_cback) {
+     u8 = *p;
+     ee_disc_req.status = NFC_STATUS_OK;

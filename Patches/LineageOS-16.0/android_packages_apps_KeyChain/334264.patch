@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ayush Sharma <ayushsha@google.com>
+Date: Tue, 10 May 2022 14:09:40 +0000
+Subject: [PATCH] Encode authority part of uri before showing in UI
+
+As per rfc2396, allowing only characters that are reserved|unreserved|@
+to be in non escaped form, all the other characters will be escaped.
+This would cover all the possible characters there can be in valid
+authority as per the rfc2396. android.net.Uri conforms to  RFC 2396.
+
+Bug: 221859869
+Test: Manual
+Change-Id: Ib4f5431bd80b7f4c72c4414f98d99eeb7ca900ed
+Merged-In: Ib4f5431bd80b7f4c72c4414f98d99eeb7ca900ed
+(cherry picked from commit 8550c37c186099926ce364b65b61ffbf6ed7958d)
+Merged-In: Ib4f5431bd80b7f4c72c4414f98d99eeb7ca900ed
+---
+ src/com/android/keychain/KeyChainActivity.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/com/android/keychain/KeyChainActivity.java b/src/com/android/keychain/KeyChainActivity.java
+index aa50888..6db4855 100644
+--- a/src/com/android/keychain/KeyChainActivity.java
++++ b/src/com/android/keychain/KeyChainActivity.java
+@@ -333,7 +333,7 @@ public class KeyChainActivity extends Activity {
+         Uri uri = getIntent().getParcelableExtra(KeyChain.EXTRA_URI);
+         if (uri != null) {
+             String hostMessage = String.format(res.getString(R.string.requesting_server),
+-                                               uri.getAuthority());
++                    Uri.encode(uri.getAuthority(), "$,;:@&=+"));
+             if (contextMessage == null) {
+                 contextMessage = hostMessage;
+             } else {

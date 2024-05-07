@@ -1,0 +1,55 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Nate Myren <ntmyren@google.com>
+Date: Fri, 2 Dec 2022 09:44:31 -0800
+Subject: [PATCH] RESTRICT AUTOMERGE Revoke dev perm if app is upgrading to
+ post 23 and perm has pre23 flag
+
+If a permission has the "pre23" flag, and an app is upgrading past api
+23, then we should not assume that a "development" permission remains
+granted
+
+Fixes: 259458532
+Test: atest RevokeSawPermissionTest
+Change-Id: I214396f455c5ed9e8bac2e50b1525b86475c81c7
+(cherry picked from commit 2f30a63b11e59f9daf42f51eb85aa91c86f4baf4)
+Merged-In: I214396f455c5ed9e8bac2e50b1525b86475c81c7
+---
+ .../pm/permission/PermissionManagerService.java       | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+index bdfe64c2c348..b902001cd359 100644
+--- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
++++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
+@@ -418,7 +418,7 @@ public class PermissionManagerService {
+         }
+         final PackageSetting ps = (PackageSetting) newPackage.mExtras;
+         if (grantSignaturePermission(Manifest.permission.SYSTEM_ALERT_WINDOW, newPackage, saw,
+-                ps.getPermissionsState())) {
++                ps.getPermissionsState(), true)) {
+             return;
+         }
+         for (int userId: mUserManagerInt.getUserIds()) {
+@@ -1147,6 +1147,13 @@ public class PermissionManagerService {
+ 
+     private boolean grantSignaturePermission(String perm, PackageParser.Package pkg,
+             BasePermission bp, PermissionsState origPermissions) {
++        return grantSignaturePermission(perm, pkg, bp, origPermissions, false);
++    }
++
++
++    private boolean grantSignaturePermission(String perm, PackageParser.Package pkg,
++            BasePermission bp, PermissionsState origPermissions,
++            boolean isApi23Upgrade) {
+         boolean oemPermission = bp.isOEM();
+         boolean vendorPrivilegedPermission = bp.isVendorPrivileged();
+         boolean privilegedPermission = bp.isPrivileged() || bp.isVendorPrivileged();
+@@ -1324,7 +1331,7 @@ public class PermissionManagerService {
+                 // Any pre-installed system app is allowed to get this permission.
+                 allowed = true;
+             }
+-            if (!allowed && bp.isDevelopment()) {
++            if (!allowed && bp.isDevelopment() && !(bp.isPre23() && isApi23Upgrade)) {
+                 // For development permissions, a development permission
+                 // is granted only if it was already granted.
+                 allowed = origPermissions.hasInstallPermission(perm);

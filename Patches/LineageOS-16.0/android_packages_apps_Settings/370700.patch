@@ -1,0 +1,136 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Weng Su <wengsu@google.com>
+Date: Fri, 7 Jul 2023 19:52:04 +0800
+Subject: [PATCH] Restrict ApnEditor settings
+
+- Finish ApnEditor settings if user is not an admin
+
+- Finish ApnEditor settings if user has DISALLOW_CONFIG_MOBILE_NETWORKS restriction
+
+Bug: 279902472
+Test: manual test
+make RunSettingsRoboTests ROBOTEST_FILTER=ApnEditorTest
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:5c2d727b8f9198bf758a4896eda7c9e5385435ff)
+Merged-In: Iecdbbff7e21dfb11e3ba385858747a220cfd3e04
+Change-Id: Iecdbbff7e21dfb11e3ba385858747a220cfd3e04
+---
+ .../android/settings/network/ApnEditor.java   | 23 ++++++++++++++
+ .../settings/network/ApnEditorTest.java       | 31 ++++++++++++++++++-
+ 2 files changed, 53 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/settings/network/ApnEditor.java b/src/com/android/settings/network/ApnEditor.java
+index cceb31d29e7..74a7fed07fc 100644
+--- a/src/com/android/settings/network/ApnEditor.java
++++ b/src/com/android/settings/network/ApnEditor.java
+@@ -27,6 +27,7 @@ import android.database.Cursor;
+ import android.net.Uri;
+ import android.os.Bundle;
+ import android.os.PersistableBundle;
++import android.os.UserManager;
+ import android.provider.Telephony;
+ import android.support.annotation.VisibleForTesting;
+ import android.support.v14.preference.MultiSelectListPreference;
+@@ -203,6 +204,11 @@ public class ApnEditor extends SettingsPreferenceFragment
+     @Override
+     public void onCreate(Bundle icicle) {
+         super.onCreate(icicle);
++        if (isUserRestricted()) {
++            Log.e(TAG, "This setting isn't available due to user restriction.");
++            finish();
++            return;
++        }
+ 
+         addPreferencesFromResource(R.xml.apn_editor);
+ 
+@@ -1166,6 +1172,23 @@ public class ApnEditor extends SettingsPreferenceFragment
+         return userEnteredApnType;
+     }
+ 
++    @VisibleForTesting
++    boolean isUserRestricted() {
++        UserManager userManager = getContext().getSystemService(UserManager.class);
++        if (userManager == null) {
++            return false;
++        }
++        if (!userManager.isAdminUser()) {
++            Log.e(TAG, "User is not an admin");
++            return true;
++        }
++        if (userManager.hasUserRestriction(UserManager.DISALLOW_CONFIG_MOBILE_NETWORKS)) {
++            Log.e(TAG, "User is not allowed to configure mobile network");
++            return true;
++        }
++        return false;
++    }
++
+     public static class ErrorDialog extends InstrumentedDialogFragment {
+ 
+         public static void showError(ApnEditor editor) {
+diff --git a/tests/robotests/src/com/android/settings/network/ApnEditorTest.java b/tests/robotests/src/com/android/settings/network/ApnEditorTest.java
+index 35f68a06698..ed82b59be5b 100644
+--- a/tests/robotests/src/com/android/settings/network/ApnEditorTest.java
++++ b/tests/robotests/src/com/android/settings/network/ApnEditorTest.java
+@@ -32,6 +32,7 @@ import android.content.Context;
+ import android.content.res.Resources;
+ import android.database.Cursor;
+ import android.net.Uri;
++import android.os.UserManager;
+ import android.support.v14.preference.MultiSelectListPreference;
+ import android.support.v14.preference.SwitchPreference;
+ import android.support.v7.preference.EditTextPreference;
+@@ -97,6 +98,8 @@ public class ApnEditorTest {
+ 
+     private ApnEditor mApnEditorUT;
+     private Activity mActivity;
++    @Mock
++    private UserManager mUserManager;
+     private Resources mResources;
+ 
+     @Before
+@@ -111,6 +114,11 @@ public class ApnEditorTest {
+         doNothing().when(mApnEditorUT).finish();
+         doNothing().when(mApnEditorUT).showError();
+ 
++        doReturn(mUserManager).when(mContext).getSystemService(UserManager.class);
++        doReturn(true).when(mUserManager).isAdminUser();
++        doReturn(false).when(mUserManager)
++                .hasUserRestriction(UserManager.DISALLOW_CONFIG_MOBILE_NETWORKS);
++
+         setMockPreference(mActivity);
+         mApnEditorUT.mApnData = new FakeApnData(APN_DATA);
+         mApnEditorUT.sNotSet = "Not Set";
+@@ -447,6 +455,27 @@ public class ApnEditorTest {
+         assertThat(ApnEditor.formatInteger("not an int")).isEqualTo("not an int");
+     }
+ 
++    @Test
++    @Config(shadows = ShadowFragment.class)
++    public void onCreate_notAdminUser_shouldFinish() {
++        doReturn(false).when(mUserManager).isAdminUser();
++
++        mApnEditorUT.onCreate(null);
++
++        verify(mApnEditorUT).finish();
++    }
++
++    @Test
++    @Config(shadows = ShadowFragment.class)
++    public void onCreate_hasUserRestriction_shouldFinish() {
++        doReturn(true).when(mUserManager)
++                .hasUserRestriction(UserManager.DISALLOW_CONFIG_MOBILE_NETWORKS);
++
++        mApnEditorUT.onCreate(null);
++
++        verify(mApnEditorUT).finish();
++    }
++
+     private void initCursor() {
+         doReturn(2).when(mCursor).getColumnCount();
+         doReturn(Integer.valueOf(2)).when(mCursor).getInt(CURSOR_INTEGER_INDEX);
+@@ -489,4 +518,4 @@ public class ApnEditorTest {
+             mUri = uri;
+         }
+     }
+-}
+\ No newline at end of file
++}

@@ -1,0 +1,120 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Kevin Jeon <kevinjeon@google.com>
+Date: Fri, 17 Feb 2023 20:17:54 +0000
+Subject: [PATCH] Update Traceur to check admin user status
+
+This change updates Traceur to check for admin user privileges wherever
+a developer options check occurs. This is intended to address the case
+in which developer options (a global setting not differentiated on
+current user privileges) being enabled would allow guest users to open
+Traceur through a 3P app and view its trace files. This would previously
+be possible even when ADB debugging was disabled by the admin user.
+
+Traceur now listens for user changes so that its document root
+(containing traces) is enabled/disabled based on the new user's admin
+status.
+
+This change also includes a partial fix for a previous less-severe
+security vulnerability (developer options checks; terminating ongoing
+traces if the state of developer options changes). The entire fix is not
+included because the full vulnerability did not exist in this branch.
+
+Because Traceur is a platform app in R, a separate change to grant
+MANAGE_USERS access in the privapp permissions allowlist is /not/
+required (as in S).
+
+Test: On a local CF build (cf_x86_64_phone-userdebug), explictly
+      enable multi-user + apply aosp/1625022 and check that:
+      - CtsIntentSignatureTestCases passes (b/270791503)
+      - TraceurUiTests passes
+      - Traceur cannot be opened through 'am start' on a guest account
+      - Opening Files on a guest account no longer shows a System Traces
+        folder (even if Traceur's onCreate is somehow called)
+      - System tracing no longer appears in settings for guests
+Bug: 262243665
+Bug: 262244249
+Bug: 204992293
+Bug: 160155846
+Ignore-AOSP-First: Internal-first security fix
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:0c0b30d30dfad851cdce35e1b9097b62fffabc5f)
+Merged-In: I14ee42d18802e7869bae8cb437c4d0b65dbea999
+Change-Id: I14ee42d18802e7869bae8cb437c4d0b65dbea999
+---
+ AndroidManifest.xml                              |  3 +++
+ src/com/google/android/traceur/MainActivity.java | 16 ++++++++++++++++
+ .../google/android/traceur/SearchProvider.java   |  7 +++++--
+ 3 files changed, 24 insertions(+), 2 deletions(-)
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 42a4296..101e623 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -26,6 +26,9 @@
+     <!-- Used for adding the Quick Settings tile to the status bar. -->
+     <uses-permission android:name="android.permission.STATUS_BAR" />
+ 
++    <!-- Used to check that the current user is an admin user. -->
++    <uses-permission android:name="android.permission.MANAGE_USERS" />
++
+     <!-- Declare Android TV support. -->
+     <uses-feature android:name="android.software.leanback" android:required="false" />
+ 
+diff --git a/src/com/google/android/traceur/MainActivity.java b/src/com/google/android/traceur/MainActivity.java
+index a8c8a2b..ef1577e 100644
+--- a/src/com/google/android/traceur/MainActivity.java
++++ b/src/com/google/android/traceur/MainActivity.java
+@@ -16,7 +16,9 @@ package com.android.traceur;
+  */
+ 
+ import android.app.Activity;
++import android.provider.Settings;
+ import android.os.Bundle;
++import android.os.UserManager;
+ 
+ public class MainActivity extends Activity {
+     @Override
+@@ -24,4 +26,18 @@ public class MainActivity extends Activity {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity);
+     }
++
++    @Override
++    protected void onStart() {
++        super.onStart();
++        boolean developerOptionsIsEnabled =
++            Settings.Global.getInt(getContentResolver(),
++                Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
++        boolean isAdminUser = getApplicationContext()
++                .getSystemService(UserManager.class).isAdminUser();
++
++        if (!developerOptionsIsEnabled || !isAdminUser) {
++            finish();
++        }
++    }
+ }
+diff --git a/src/com/google/android/traceur/SearchProvider.java b/src/com/google/android/traceur/SearchProvider.java
+index 202d2b0..9098e89 100644
+--- a/src/com/google/android/traceur/SearchProvider.java
++++ b/src/com/google/android/traceur/SearchProvider.java
+@@ -31,6 +31,7 @@ import android.content.Context;
+ import android.content.Intent;
+ import android.database.Cursor;
+ import android.database.MatrixCursor;
++import android.os.UserManager;
+ import android.provider.SearchIndexablesProvider;
+ import android.provider.Settings;
+ 
+@@ -69,9 +70,11 @@ public class SearchProvider extends SearchIndexablesProvider {
+         boolean developerOptionsIsEnabled =
+             Settings.Global.getInt(getContext().getContentResolver(),
+                 Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
++        boolean isAdminUser = getContext().getSystemService(UserManager.class).isAdminUser();
+ 
+-        // If developer options is not enabled, System Tracing shouldn't be searchable.
+-        if (!developerOptionsIsEnabled) {
++        // System Tracing shouldn't be searchable if developer options are not enabled or if the
++        // user is not an admin.
++        if (!developerOptionsIsEnabled || !isAdminUser) {
+             MatrixCursor cursor = new MatrixCursor(NON_INDEXABLES_KEYS_COLUMNS);
+             Object[] row = new Object[] {getContext().getString(R.string.system_tracing)};
+             cursor.addRow(row);

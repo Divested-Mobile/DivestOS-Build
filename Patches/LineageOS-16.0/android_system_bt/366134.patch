@@ -1,0 +1,80 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Qiyu Hu <qiyuh@google.com>
+Date: Wed, 13 Jun 2018 08:08:17 -0700
+Subject: [PATCH] Fix reliable write.
+
+We cannot simply assume the write is terminated in reliable write. When
+the reliable write value is longer than MTU allows, the current
+implementation can only send whatever MTU allows and naively set the
+status to GATT_SUCCESS, in the name of "application should verify handle
+offset and value are matched or not". That's why MTU negotiation is a
+workaround as people mention in b/37031096, which just fits all the write
+value into a single request.
+
+This also blocks our test on CtsVerifier.
+
+Bug: 37031096
+Test: Manual test and confirm that we don't simply send partial value
+Change-Id: I907877608f4672f24c002e630e58bf9133937a5e
+---
+ stack/gatt/gatt_cl.cc | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
+
+diff --git a/stack/gatt/gatt_cl.cc b/stack/gatt/gatt_cl.cc
+index f8d5bab92..16a7171f6 100644
+--- a/stack/gatt/gatt_cl.cc
++++ b/stack/gatt/gatt_cl.cc
+@@ -297,7 +297,7 @@ void gatt_send_queue_write_cancel(tGATT_TCB& tcb, tGATT_CLCB* p_clcb,
+ bool gatt_check_write_long_terminate(tGATT_TCB& tcb, tGATT_CLCB* p_clcb,
+                                      tGATT_VALUE* p_rsp_value) {
+   tGATT_VALUE* p_attr = (tGATT_VALUE*)p_clcb->p_attr_buf;
+-  bool exec = false;
++  bool terminate = false;
+   tGATT_EXEC_FLAG flag = GATT_PREP_WRITE_EXEC;
+ 
+   VLOG(1) << __func__;
+@@ -310,19 +310,18 @@ bool gatt_check_write_long_terminate(tGATT_TCB& tcb, tGATT_CLCB* p_clcb,
+       /* data does not match    */
+       p_clcb->status = GATT_ERROR;
+       flag = GATT_PREP_WRITE_CANCEL;
+-      exec = true;
++      terminate = true;
+     } else /* response checking is good */
+     {
+       p_clcb->status = GATT_SUCCESS;
+       /* update write offset and check if end of attribute value */
+-      if ((p_attr->offset += p_rsp_value->len) >= p_attr->len) exec = true;
++      if ((p_attr->offset += p_rsp_value->len) >= p_attr->len) terminate = true;
+     }
+   }
+-  if (exec) {
++  if (terminate && p_clcb->op_subtype != GATT_WRITE_PREPARE) {
+     gatt_send_queue_write_cancel(tcb, p_clcb, flag);
+-    return true;
+   }
+-  return false;
++  return terminate;
+ }
+ 
+ /** Send prepare write */
+@@ -587,15 +586,15 @@ void gatt_process_prep_write_rsp(tGATT_TCB& tcb, tGATT_CLCB* p_clcb,
+ 
+   memcpy(value.value, p, value.len);
+ 
++  if (!gatt_check_write_long_terminate(tcb, p_clcb, &value)) {
++    gatt_send_prepare_write(tcb, p_clcb);
++    return;
++  }
++
+   if (p_clcb->op_subtype == GATT_WRITE_PREPARE) {
+-    p_clcb->status = GATT_SUCCESS;
+     /* application should verify handle offset
+        and value are matched or not */
+-
+     gatt_end_operation(p_clcb, p_clcb->status, &value);
+-  } else if (p_clcb->op_subtype == GATT_WRITE) {
+-    if (!gatt_check_write_long_terminate(tcb, p_clcb, &value))
+-      gatt_send_prepare_write(tcb, p_clcb);
+   }
+ }
+ /*******************************************************************************

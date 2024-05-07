@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Adrian Roos <roosa@google.com>
+Date: Thu, 24 Sep 2020 15:30:46 +0200
+Subject: [PATCH] IMMS: Make IMMS PendingIntents immutable
+
+Fixes: 154913391
+Test: n/a
+Change-Id: I34a95732ef3e7c20d6549b57230c11f0c3db04d6
+Merged-In: I34a95732ef3e7c20d6549b57230c11f0c3db04d6
+(cherry picked from commit d4b625994f7664666ac7b53bf6a7d79a6459b3f1)
+(cherry picked from commit 6842f03c9d2f128785df5ce2bd02c61f35226554)
+(cherry picked from commit 2b859826165bddb11f17b217d097253c442f6045)
+Merged-In: I34a95732ef3e7c20d6549b57230c11f0c3db04d6
+---
+ .../java/com/android/server/InputMethodManagerService.java  | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/InputMethodManagerService.java b/services/core/java/com/android/server/InputMethodManagerService.java
+index 412b314aefbf..e728b0aa92e8 100644
+--- a/services/core/java/com/android/server/InputMethodManagerService.java
++++ b/services/core/java/com/android/server/InputMethodManagerService.java
+@@ -1402,7 +1402,8 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
+ 
+         Intent intent = new Intent(ACTION_SHOW_INPUT_METHOD_PICKER)
+                 .setPackage(mContext.getPackageName());
+-        mImeSwitchPendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
++        mImeSwitchPendingIntent = PendingIntent.getBroadcast(mContext, 0, intent,
++                PendingIntent.FLAG_IMMUTABLE);
+ 
+         mShowOngoingImeSwitcherForPhones = false;
+ 
+@@ -2003,7 +2004,8 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
+         mCurIntent.putExtra(Intent.EXTRA_CLIENT_LABEL,
+                 com.android.internal.R.string.input_method_binding_label);
+         mCurIntent.putExtra(Intent.EXTRA_CLIENT_INTENT, PendingIntent.getActivity(
+-                mContext, 0, new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS), 0));
++                mContext, 0, new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS),
++                PendingIntent.FLAG_IMMUTABLE));
+         if (bindCurrentInputMethodServiceLocked(mCurIntent, this, IME_CONNECTION_BIND_FLAGS)) {
+             mLastBindTime = SystemClock.uptimeMillis();
+             mHaveConnection = true;

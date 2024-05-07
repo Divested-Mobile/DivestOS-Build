@@ -1,0 +1,55 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Andre Przywara <andre.przywara@arm.com>
+Date: Mon, 21 Sep 2020 17:52:50 +0100
+Subject: [PATCH] FROMGIT: libfdt: fdt_offset_ptr(): Fix comparison warnings
+
+With -Wsign-compare, compilers warn about mismatching signedness in
+comparisons in fdt_offset_ptr().
+
+This mostly stems from "offset" being passed in as a signed integer,
+even though the function would not really tolerate negative values.
+
+Short of changing the prototype, check that offset is not negative, and
+use an unsigned type internally.
+
+Bug: 230794395
+Test: manual - see bug
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Message-Id: <20200921165303.9115-2-andre.przywara@arm.com>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Change-Id: I33c4ac27780d6bdd46c5504a839c0827c9c76bfc
+Merged-In: Idb30ae90e2b263d1dd2e931ef1d3662a23812120
+Merged-In: Ice02ecc84d6e9ab30773d039a54664b259979521
+(cherry picked from commit 35c4c2b27acf66c217865451eeecf09bc82dae66)
+Merged-In: I33c4ac27780d6bdd46c5504a839c0827c9c76bfc
+---
+ libfdt/fdt.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/libfdt/fdt.c b/libfdt/fdt.c
+index 22286a1..5baaed3 100644
+--- a/libfdt/fdt.c
++++ b/libfdt/fdt.c
+@@ -76,15 +76,19 @@ int fdt_check_header(const void *fdt)
+ 
+ const void *fdt_offset_ptr(const void *fdt, int offset, unsigned int len)
+ {
+-	unsigned absoffset = offset + fdt_off_dt_struct(fdt);
++	unsigned int uoffset = offset;
++	unsigned int absoffset = offset + fdt_off_dt_struct(fdt);
+ 
+-	if ((absoffset < offset)
++	if (offset < 0)
++		return NULL;
++
++	if ((absoffset < uoffset)
+ 	    || ((absoffset + len) < absoffset)
+ 	    || (absoffset + len) > fdt_totalsize(fdt))
+ 		return NULL;
+ 
+ 	if (fdt_version(fdt) >= 0x11)
+-		if (((offset + len) < offset)
++		if (((uoffset + len) < uoffset)
+ 		    || ((offset + len) > fdt_size_dt_struct(fdt)))
+ 			return NULL;
+ 

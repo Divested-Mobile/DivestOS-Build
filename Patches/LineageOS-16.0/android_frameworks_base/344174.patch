@@ -1,0 +1,353 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matt Pietal <mpietal@google.com>
+Date: Thu, 18 Aug 2022 12:04:43 +0000
+Subject: [PATCH] Do not dismiss keyguard after SIM PUK unlock
+
+After PUK unlock, multiple calls to
+KeyguardSecurityContainerController#dismiss() were being called from
+the KeyguardSimPukViewController, which begins the transition to the
+next security screen, if any. At the same time, other parts of the
+system, also listening to SIM events, recognize the PUK unlock and
+call KeyguardSecurityContainer#showSecurityScreen, which updates which
+security method comes next. After boot, this should be one of PIN,
+Password, Pattern, assuming they have a security method. If one of the
+first dismiss() calls comes AFTER the security method changes, this is
+incorrectly recognized by the code as a successful
+PIN/pattern/password unlock. This causes the keyguard to be marked as
+done, causing screen flickers and incorrect system state.
+
+The solution: every call to dismiss() should include a new parameter
+for the security method used. If there is a difference between this
+parameter and the current value in KeyguardSecurityContainerCallback,
+ignore the request, as the system state has changed.
+
+Bug: 218500036
+Test: atest KeyguardSecurityContainerTest
+
+Merged-In: I7c8714a177bc85fbce92f6e8fe911f74ca2ac243
+Change-Id: I30226bc7b5eda9480d471b35fe81e106b0491ff8
+(cherry picked from commit a30148b8a40a36cababba1ff434d053cfd7dd6e3)
+Merged-In: I30226bc7b5eda9480d471b35fe81e106b0491ff8
+---
+ .../keyguard/KeyguardAbsKeyInputView.java     |  4 ++-
+ .../android/keyguard/KeyguardHostView.java    | 13 +++++---
+ .../com/android/keyguard/KeyguardPINView.java |  6 ++++
+ .../keyguard/KeyguardPasswordView.java        |  6 ++++
+ .../android/keyguard/KeyguardPatternView.java |  3 +-
+ .../keyguard/KeyguardSecurityCallback.java    |  5 ++-
+ .../keyguard/KeyguardSecurityContainer.java   | 32 +++++++++++++++----
+ .../android/keyguard/KeyguardSimPinView.java  | 10 +++++-
+ .../android/keyguard/KeyguardSimPukView.java  | 12 +++++--
+ 9 files changed, 73 insertions(+), 18 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/keyguard/KeyguardAbsKeyInputView.java b/packages/SystemUI/src/com/android/keyguard/KeyguardAbsKeyInputView.java
+index c3119793eaf5..959da444cee7 100644
+--- a/packages/SystemUI/src/com/android/keyguard/KeyguardAbsKeyInputView.java
++++ b/packages/SystemUI/src/com/android/keyguard/KeyguardAbsKeyInputView.java
+@@ -29,6 +29,7 @@ import android.view.KeyEvent;
+ import android.view.View;
+ import android.widget.LinearLayout;
+ 
++import com.android.keyguard.KeyguardSecurityModel.SecurityMode;
+ import com.android.internal.util.LatencyTracker;
+ import com.android.internal.widget.LockPatternChecker;
+ import com.android.internal.widget.LockPatternUtils;
+@@ -92,6 +93,7 @@ public abstract class KeyguardAbsKeyInputView extends LinearLayout
+ 
+     protected abstract int getPasswordTextViewId();
+     protected abstract void resetState();
++    protected abstract SecurityMode getSecurityMode();
+ 
+     @Override
+     protected void onFinishInflate() {
+@@ -191,7 +193,7 @@ public abstract class KeyguardAbsKeyInputView extends LinearLayout
+             mCallback.reportUnlockAttempt(userId, true, 0);
+             if (dismissKeyguard) {
+                 mDismissing = true;
+-                mCallback.dismiss(true, userId);
++                mCallback.dismiss(true, userId, getSecurityMode());
+             }
+         } else {
+             if (isValidPassword) {
+diff --git a/packages/SystemUI/src/com/android/keyguard/KeyguardHostView.java b/packages/SystemUI/src/com/android/keyguard/KeyguardHostView.java
+index aa0bcc5cf2b8..27e7d79bd6f5 100644
+--- a/packages/SystemUI/src/com/android/keyguard/KeyguardHostView.java
++++ b/packages/SystemUI/src/com/android/keyguard/KeyguardHostView.java
+@@ -89,7 +89,7 @@ public class KeyguardHostView extends FrameLayout implements SecurityCallback {
+                         // the user proved presence via some other way to the trust agent.
+                         Log.i(TAG, "TrustAgent dismissed Keyguard.");
+                     }
+-                    dismiss(false /* authenticated */, userId);
++                    dismiss(false /* authenticated */, userId, SecurityMode.Invalid);
+                 } else {
+                     mViewMediatorCallback.playTrustedSound();
+                 }
+@@ -189,12 +189,13 @@ public class KeyguardHostView extends FrameLayout implements SecurityCallback {
+      * @return True if the keyguard is done.
+      */
+     public boolean dismiss(int targetUserId) {
+-        return dismiss(false, targetUserId);
++        return dismiss(false, targetUserId, getCurrentSecurityMode());
+     }
+ 
+     public boolean handleBackKey() {
+         if (mSecurityContainer.getCurrentSecuritySelection() != SecurityMode.None) {
+-            mSecurityContainer.dismiss(false, KeyguardUpdateMonitor.getCurrentUser());
++            mSecurityContainer.dismiss(false, KeyguardUpdateMonitor.getCurrentUser(),
++                getCurrentSecurityMode());
+             return true;
+         }
+         return false;
+@@ -205,8 +206,10 @@ public class KeyguardHostView extends FrameLayout implements SecurityCallback {
+     }
+ 
+     @Override
+-    public boolean dismiss(boolean authenticated, int targetUserId) {
+-        return mSecurityContainer.showNextSecurityScreenOrFinish(authenticated, targetUserId);
++    public boolean dismiss(boolean authenticated, int targetUserId,
++            SecurityMode expectedSecurityMode) {
++        return mSecurityContainer.showNextSecurityScreenOrFinish(authenticated, targetUserId,
++            expectedSecurityMode);
+     }
+ 
+     /**
+diff --git a/packages/SystemUI/src/com/android/keyguard/KeyguardPINView.java b/packages/SystemUI/src/com/android/keyguard/KeyguardPINView.java
+index 4058d3e0f6c0..c75997a89c2e 100644
+--- a/packages/SystemUI/src/com/android/keyguard/KeyguardPINView.java
++++ b/packages/SystemUI/src/com/android/keyguard/KeyguardPINView.java
+@@ -23,6 +23,7 @@ import android.view.ViewGroup;
+ import android.view.animation.AnimationUtils;
+ import android.widget.LinearLayout;
+ 
++import com.android.keyguard.KeyguardSecurityModel.SecurityMode;
+ import com.android.settingslib.animation.AppearAnimationUtils;
+ import com.android.settingslib.animation.DisappearAnimationUtils;
+ 
+@@ -212,4 +213,9 @@ public class KeyguardPINView extends KeyguardPinBasedInputView {
+     public boolean hasOverlappingRendering() {
+         return false;
+     }
++
++    @Override
++    public SecurityMode getSecurityMode() {
++        return SecurityMode.PIN;
++    }
+ }
+diff --git a/packages/SystemUI/src/com/android/keyguard/KeyguardPasswordView.java b/packages/SystemUI/src/com/android/keyguard/KeyguardPasswordView.java
+index 5dd2655a8f16..16cb7796d13f 100644
+--- a/packages/SystemUI/src/com/android/keyguard/KeyguardPasswordView.java
++++ b/packages/SystemUI/src/com/android/keyguard/KeyguardPasswordView.java
+@@ -36,6 +36,7 @@ import android.widget.TextView;
+ import android.widget.TextView.OnEditorActionListener;
+ 
+ import com.android.internal.widget.TextViewInputDisabler;
++import com.android.keyguard.KeyguardSecurityModel.SecurityMode;
+ 
+ import java.util.List;
+ /**
+@@ -368,4 +369,9 @@ public class KeyguardPasswordView extends KeyguardAbsKeyInputView
+         return getContext().getString(
+                 com.android.internal.R.string.keyguard_accessibility_password_unlock);
+     }
++
++    @Override
++    public SecurityMode getSecurityMode() {
++        return SecurityMode.Password;
++    }
+ }
+diff --git a/packages/SystemUI/src/com/android/keyguard/KeyguardPatternView.java b/packages/SystemUI/src/com/android/keyguard/KeyguardPatternView.java
+index 69e3b0d50020..ef2ef4febcac 100644
+--- a/packages/SystemUI/src/com/android/keyguard/KeyguardPatternView.java
++++ b/packages/SystemUI/src/com/android/keyguard/KeyguardPatternView.java
+@@ -37,6 +37,7 @@ import com.android.internal.util.LatencyTracker;
+ import com.android.internal.widget.LockPatternChecker;
+ import com.android.internal.widget.LockPatternUtils;
+ import com.android.internal.widget.LockPatternView;
++import com.android.keyguard.KeyguardSecurityModel.SecurityMode;
+ import com.android.settingslib.animation.AppearAnimationCreator;
+ import com.android.settingslib.animation.AppearAnimationUtils;
+ import com.android.settingslib.animation.DisappearAnimationUtils;
+@@ -321,7 +322,7 @@ public class KeyguardPatternView extends LinearLayout implements KeyguardSecurit
+                 mCallback.reportUnlockAttempt(userId, true, 0);
+                 if (dismissKeyguard) {
+                     mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Correct);
+-                    mCallback.dismiss(true, userId);
++                    mCallback.dismiss(true, userId, SecurityMode.Pattern);
+                 }
+             } else {
+                 mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Wrong);
+diff --git a/packages/SystemUI/src/com/android/keyguard/KeyguardSecurityCallback.java b/packages/SystemUI/src/com/android/keyguard/KeyguardSecurityCallback.java
+index 5b743c1a20c5..c8eec6b80897 100644
+--- a/packages/SystemUI/src/com/android/keyguard/KeyguardSecurityCallback.java
++++ b/packages/SystemUI/src/com/android/keyguard/KeyguardSecurityCallback.java
+@@ -15,14 +15,17 @@
+  */
+ package com.android.keyguard;
+ 
++import com.android.keyguard.KeyguardSecurityModel.SecurityMode;
++
+ public interface KeyguardSecurityCallback {
+ 
+     /**
+      * Dismiss the given security screen.
+      * @param securityVerified true if the user correctly entered credentials for the given screen.
+      * @param targetUserId a user that needs to be the foreground user at the dismissal completion.
++     * @param expectedSecurityMode The security mode that is invoking this dismiss.
+      */
+-    void dismiss(boolean securityVerified, int targetUserId);
++    void dismiss(boolean securityVerified, int targetUserId, SecurityMode expectedSecurityMode);
+ 
+     /**
+      * Manually report user activity to keep the device awake.
+diff --git a/packages/SystemUI/src/com/android/keyguard/KeyguardSecurityContainer.java b/packages/SystemUI/src/com/android/keyguard/KeyguardSecurityContainer.java
+index 9c69432d3178..6a71cf84759c 100644
+--- a/packages/SystemUI/src/com/android/keyguard/KeyguardSecurityContainer.java
++++ b/packages/SystemUI/src/com/android/keyguard/KeyguardSecurityContainer.java
+@@ -54,7 +54,8 @@ public class KeyguardSecurityContainer extends FrameLayout implements KeyguardSe
+ 
+     // Used to notify the container when something interesting happens.
+     public interface SecurityCallback {
+-        public boolean dismiss(boolean authenticated, int targetUserId);
++        public boolean dismiss(boolean authenticated, int targetUserId,
++            SecurityMode expectedSecurityMode);
+         public void userActivity();
+         public void onSecurityModeChanged(SecurityMode securityMode, boolean needsInput);
+ 
+@@ -312,10 +313,20 @@ public class KeyguardSecurityContainer extends FrameLayout implements KeyguardSe
+      * @param authenticated true if the user entered the correct authentication
+      * @param targetUserId a user that needs to be the foreground user at the finish (if called)
+      *     completion.
++     * @param expectedSecurityMode SecurityMode that is invoking this request. SecurityMode.Invalid
++     *      indicates that no check should be done
+      * @return true if keyguard is done
+      */
+-    boolean showNextSecurityScreenOrFinish(boolean authenticated, int targetUserId) {
++    boolean showNextSecurityScreenOrFinish(boolean authenticated, int targetUserId,
++            SecurityMode expectedSecurityMode) {
+         if (DEBUG) Log.d(TAG, "showNextSecurityScreenOrFinish(" + authenticated + ")");
++        if (expectedSecurityMode != SecurityMode.Invalid
++                && expectedSecurityMode != getCurrentSecurityMode()) {
++            Log.w(TAG, "Attempted to invoke showNextSecurityScreenOrFinish with securityMode "
++                    + expectedSecurityMode + ", but current mode is " + getCurrentSecurityMode());
++            return false;
++        }
++
+         boolean finish = false;
+         boolean strongAuth = false;
+         if (mUpdateMonitor.getUserCanSkipBouncer(targetUserId)) {
+@@ -417,8 +428,13 @@ public class KeyguardSecurityContainer extends FrameLayout implements KeyguardSe
+             }
+         }
+ 
+-        public void dismiss(boolean authenticated, int targetId) {
+-            mSecurityCallback.dismiss(authenticated, targetId);
++        /**
++         * Potentially dismiss the current security screen, after validating that all device
++         * security has been unlocked. Otherwise show the next screen.
++         */
++        public void dismiss(boolean authenticated, int targetId,
++                SecurityMode expectedSecurityMode) {
++            mSecurityCallback.dismiss(authenticated, targetId, expectedSecurityMode);
+         }
+ 
+         public boolean isVerifyUnlockOnly() {
+@@ -454,7 +470,8 @@ public class KeyguardSecurityContainer extends FrameLayout implements KeyguardSe
+         @Override
+         public boolean isVerifyUnlockOnly() { return false; }
+         @Override
+-        public void dismiss(boolean securityVerified, int targetUserId) { }
++        public void dismiss(boolean securityVerified, int targetUserId,
++                SecurityMode expectedSecurityMode) { }
+         @Override
+         public void reset() {}
+     };
+@@ -500,8 +517,9 @@ public class KeyguardSecurityContainer extends FrameLayout implements KeyguardSe
+         return mCurrentSecuritySelection;
+     }
+ 
+-    public void dismiss(boolean authenticated, int targetUserId) {
+-        mCallback.dismiss(authenticated, targetUserId);
++    public void dismiss(boolean authenticated, int targetUserId,
++            SecurityMode expectedSecurityMode) {
++        mCallback.dismiss(authenticated, targetUserId, expectedSecurityMode);
+     }
+ 
+     public boolean needsInput() {
+diff --git a/packages/SystemUI/src/com/android/keyguard/KeyguardSimPinView.java b/packages/SystemUI/src/com/android/keyguard/KeyguardSimPinView.java
+index df9fb355ce2f..f2cfdd2f4c86 100644
+--- a/packages/SystemUI/src/com/android/keyguard/KeyguardSimPinView.java
++++ b/packages/SystemUI/src/com/android/keyguard/KeyguardSimPinView.java
+@@ -42,6 +42,8 @@ import android.view.View;
+ import android.view.WindowManager;
+ import android.widget.ImageView;
+ 
++import com.android.keyguard.KeyguardSecurityModel.SecurityMode;
++
+ /**
+  * Displays a PIN pad for unlocking.
+  */
+@@ -342,7 +344,8 @@ public class KeyguardSimPinView extends KeyguardPinBasedInputView {
+                                 mRemainingAttempts = -1;
+                                 mShowDefaultMessage = true;
+                                 if (mCallback != null) {
+-                                    mCallback.dismiss(true, KeyguardUpdateMonitor.getCurrentUser());
++                                    mCallback.dismiss(true, KeyguardUpdateMonitor.getCurrentUser(),
++                                        SecurityMode.SimPin);
+                                 }
+                             } else {
+                                 mShowDefaultMessage = false;
+@@ -390,5 +393,10 @@ public class KeyguardSimPinView extends KeyguardPinBasedInputView {
+         return getContext().getString(
+                 com.android.internal.R.string.keyguard_accessibility_sim_pin_unlock);
+     }
++
++    @Override
++    public SecurityMode getSecurityMode() {
++        return SecurityMode.SimPin;
++    }
+ }
+ 
+diff --git a/packages/SystemUI/src/com/android/keyguard/KeyguardSimPukView.java b/packages/SystemUI/src/com/android/keyguard/KeyguardSimPukView.java
+index 5da764d90f73..08ba8d4ef6e8 100644
+--- a/packages/SystemUI/src/com/android/keyguard/KeyguardSimPukView.java
++++ b/packages/SystemUI/src/com/android/keyguard/KeyguardSimPukView.java
+@@ -40,6 +40,7 @@ import com.android.internal.telephony.ITelephony;
+ import com.android.internal.telephony.IccCardConstants;
+ import com.android.internal.telephony.PhoneConstants;
+ import com.android.internal.telephony.IccCardConstants.State;
++import com.android.keyguard.KeyguardSecurityModel.SecurityMode;
+ 
+ 
+ /**
+@@ -78,7 +79,8 @@ public class KeyguardSimPukView extends KeyguardPinBasedInputView {
+                     // mCallback can be null if onSimStateChanged callback is called when keyguard
+                     // isn't active.
+                     if (mCallback != null) {
+-                        mCallback.dismiss(true, KeyguardUpdateMonitor.getCurrentUser());
++                        mCallback.dismiss(true, KeyguardUpdateMonitor.getCurrentUser(),
++                            SecurityMode.SimPuk);
+                     }
+                     break;
+                 }
+@@ -408,7 +410,8 @@ public class KeyguardSimPukView extends KeyguardPinBasedInputView {
+                                 mRemainingAttempts = -1;
+                                 mShowDefaultMessage = true;
+                                 if (mCallback != null) {
+-                                    mCallback.dismiss(true, KeyguardUpdateMonitor.getCurrentUser());
++                                    mCallback.dismiss(true, KeyguardUpdateMonitor.getCurrentUser(),
++                                        SecurityMode.SimPuk);
+                                 }
+                             } else {
+                                 mShowDefaultMessage = false;
+@@ -463,6 +466,11 @@ public class KeyguardSimPukView extends KeyguardPinBasedInputView {
+         return getContext().getString(
+                 com.android.internal.R.string.keyguard_accessibility_sim_puk_unlock);
+     }
++
++    @Override
++    public SecurityMode getSecurityMode() {
++        return SecurityMode.SimPuk;
++    }
+ }
+ 
+ 

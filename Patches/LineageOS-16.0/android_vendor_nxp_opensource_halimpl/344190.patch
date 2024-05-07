@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alisher Alikhodjaev <alisher@google.com>
+Date: Wed, 3 Aug 2022 12:25:33 -0700
+Subject: [PATCH] OOBW in phNxpNciHal_write_unlocked()
+
+Bug: 230356196
+Test: builds ok
+Merged-In: Ief580984ad58dbc7c57c2537c511d6b81c91b581
+Change-Id: I7f22b9ce4a7f101a9218de746b71def74a5efa8c
+(cherry picked from commit a0c461b91a67f6ee0e86f856bcea2bdac2318491)
+Merged-In: I7f22b9ce4a7f101a9218de746b71def74a5efa8c
+---
+ halimpl/hal/phNxpNciHal_ext.cc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/halimpl/hal/phNxpNciHal_ext.cc b/halimpl/hal/phNxpNciHal_ext.cc
+index f6fbc47..ac40be8 100755
+--- a/halimpl/hal/phNxpNciHal_ext.cc
++++ b/halimpl/hal/phNxpNciHal_ext.cc
+@@ -866,7 +866,8 @@ NFCSTATUS phNxpNciHal_write_ext(uint16_t* cmd_len, uint8_t* p_cmd_data,
+     status = NFCSTATUS_FAILED;
+   }
+   // 2002 0904 3000 3100 3200 5000
+-  else if ((p_cmd_data[0] == 0x20 && p_cmd_data[1] == 0x02) &&
++  else if (*cmd_len <= (NCI_MAX_DATA_LEN - 1) &&
++           (p_cmd_data[0] == 0x20 && p_cmd_data[1] == 0x02) &&
+            ((p_cmd_data[2] == 0x09 && p_cmd_data[3] == 0x04) /*||
+             (p_cmd_data[2] == 0x0D && p_cmd_data[3] == 0x04)*/
+             )) {

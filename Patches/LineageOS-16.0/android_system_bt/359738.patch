@@ -1,0 +1,82 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Tue, 21 Mar 2023 22:39:16 +0000
+Subject: [PATCH] Revert "Revert "Fix wrong BR/EDR link key downgrades
+ (P_256->P_192)""
+
+This reverts commit d733c86cbc06ce0ec72216b9d41e172d1939c46f.
+
+Function btm_sec_encrypt_change() is called at most places
+with argument "encr_enable" treated as bool and not as per
+(tHCI_ENCRYPT_MODE = 0/1/2) expected by the function. The
+function has special handling for "encr_enable=1" to downgrade
+the link key type for BR/EDR case. This gets executed even
+when the caller/context did not mean/expect so. It appears
+this handling in btm_sec_encrypt_change() is not necessary and
+is removed by this commit to prevent accidental execution of it.
+
+Test: Verified re-pairing with an iPhone works fine now
+
+Issue Reproduction Steps:
+1. Enable Bluetooth Hotspot on Android device (DUT).
+2. Pair and connect an iPhone to DUT.
+3. Forget this pairing on DUT.
+4. On iPhone settings, click on old DUT's paired entry to connect.
+5. iPhone notifies to click 'Forget Device' and try fresh pairing.
+6. On iPhone, after doing 'Forget Device', discover DUT again.
+7. Attempt pairing to DUT by clicking on discovered DUT entry.
+   Pairing will be unsuccessful.
+
+Issue Cause:
+During re-pairing, DUT is seen to downgrade
+BR/EDR link key unexpectedly from link key type 0x8
+(BTM_LKEY_TYPE_AUTH_COMB_P_256) to 0x5 (BTM_LKEY_TYPE_AUTH_COMB).
+
+Log snippet (re-pairing time):
+btm_sec_link_key_notification set new_encr_key_256 to 1
+btif_dm_auth_cmpl_evt: Storing link key. key_type=0x8, bond_type=1
+btm_sec_encrypt_change new_encr_key_256 is 1
+--On DUT, HCI_Encryption_Key_Refresh_Complete event noticed---
+btm_sec_encrypt_change new_encr_key_256 is 0
+updated link key type to 5
+btif_dm_auth_cmpl_evt: Storing link key. key_type=0x5, bond_type=1
+
+This is a backport of the following patch: aosp/1890096
+
+Bug: 258834033
+
+Reason for revert: Reinstate original change for QPR
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:56891eedc68c86b40977191dad28d65ebf86a94f)
+Merged-In: Iba0c220b82bcf6b15368762b7052a3987ccbc0c6
+Change-Id: Iba0c220b82bcf6b15368762b7052a3987ccbc0c6
+---
+ stack/btm/btm_sec.cc | 16 ----------------
+ 1 file changed, 16 deletions(-)
+
+diff --git a/stack/btm/btm_sec.cc b/stack/btm/btm_sec.cc
+index 168750140..899b6b908 100644
+--- a/stack/btm/btm_sec.cc
++++ b/stack/btm/btm_sec.cc
+@@ -4030,22 +4030,6 @@ void btm_sec_encrypt_change(uint16_t handle, uint8_t status,
+           SMP_BR_PairWith(p_dev_rec->bd_addr);
+         }
+       }
+-    } else {
+-      // BR/EDR is successfully encrypted. Correct LK type if needed
+-      // (BR/EDR LK derived from LE LTK was used for encryption)
+-      if ((encr_enable == 1) && /* encryption is ON for SSP */
+-          /* LK type is for BR/EDR SC */
+-          (p_dev_rec->link_key_type == BTM_LKEY_TYPE_UNAUTH_COMB_P_256 ||
+-           p_dev_rec->link_key_type == BTM_LKEY_TYPE_AUTH_COMB_P_256)) {
+-        if (p_dev_rec->link_key_type == BTM_LKEY_TYPE_UNAUTH_COMB_P_256)
+-          p_dev_rec->link_key_type = BTM_LKEY_TYPE_UNAUTH_COMB;
+-        else /* BTM_LKEY_TYPE_AUTH_COMB_P_256 */
+-          p_dev_rec->link_key_type = BTM_LKEY_TYPE_AUTH_COMB;
+-
+-        BTM_TRACE_DEBUG("updated link key type to %d",
+-                        p_dev_rec->link_key_type);
+-        btm_send_link_key_notif(p_dev_rec);
+-      }
+     }
+   }
+ 

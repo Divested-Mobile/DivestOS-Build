@@ -1,0 +1,109 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Lin Yuan <linyuan@google.com>
+Date: Tue, 31 May 2022 19:13:41 -0400
+Subject: [PATCH] RESTRICT AUTOMERGE Fix: policy enforcement for location wifi
+ scanning
+
+Make DISALLOW_CONFIG_LOCATION effectively disallow wifi scanning and
+bluetooth scanning settings for location services.
+
+screenshots: https://screenshot.googleplex.com/49nR5HQ8g5bgNVq
+
+Bug: 228315522
+Bug: 228315529
+Test: on device
+Change-Id: I92b22567011c32f0874bcecb3898ef678bb549a1
+(cherry picked from commit 9eff8f7a8d5140a4b674fa09cf333dce07fde76c)
+Merged-In: I92b22567011c32f0874bcecb3898ef678bb549a1
+---
+ res/xml/location_scanning.xml                          |  4 ++--
+ .../BluetoothScanningPreferenceController.java         | 10 ++++++++++
+ .../location/WifiScanningPreferenceController.java     | 10 ++++++++++
+ 3 files changed, 22 insertions(+), 2 deletions(-)
+
+diff --git a/res/xml/location_scanning.xml b/res/xml/location_scanning.xml
+index 5e7bd244520..f4847681150 100644
+--- a/res/xml/location_scanning.xml
++++ b/res/xml/location_scanning.xml
+@@ -18,13 +18,13 @@
+         android:title="@string/location_scanning_screen_title"
+         android:key="scanning_screen">
+ 
+-        <SwitchPreference
++        <com.android.settingslib.RestrictedSwitchPreference
+             android:title="@string/location_scanning_wifi_always_scanning_title"
+             android:summary="@string/location_scanning_wifi_always_scanning_description"
+             android:defaultValue="true"
+             android:key="wifi_always_scanning" />
+ 
+-        <SwitchPreference
++        <com.android.settingslib.RestrictedSwitchPreference
+             android:title="@string/location_scanning_bluetooth_always_scanning_title"
+             android:summary="@string/location_scanning_bluetooth_always_scanning_description"
+             android:defaultValue="true"
+diff --git a/src/com/android/settings/location/BluetoothScanningPreferenceController.java b/src/com/android/settings/location/BluetoothScanningPreferenceController.java
+index c97bc7d8033..c0bc159f83a 100644
+--- a/src/com/android/settings/location/BluetoothScanningPreferenceController.java
++++ b/src/com/android/settings/location/BluetoothScanningPreferenceController.java
+@@ -14,11 +14,15 @@
+ package com.android.settings.location;
+ 
+ import android.content.Context;
++import android.os.UserHandle;
++import android.os.UserManager;
+ import android.provider.Settings;
+ import android.support.v14.preference.SwitchPreference;
+ import android.support.v7.preference.Preference;
+ 
+ import com.android.settings.core.PreferenceControllerMixin;
++import com.android.settingslib.RestrictedLockUtils;
++import com.android.settingslib.RestrictedSwitchPreference;
+ import com.android.settingslib.core.AbstractPreferenceController;
+ 
+ public class BluetoothScanningPreferenceController extends AbstractPreferenceController
+@@ -45,6 +49,12 @@ public class BluetoothScanningPreferenceController extends AbstractPreferenceCon
+         ((SwitchPreference) preference).setChecked(
+                 Settings.Global.getInt(mContext.getContentResolver(),
+                         Settings.Global.BLE_SCAN_ALWAYS_AVAILABLE, 0) == 1);
++        final RestrictedLockUtils.EnforcedAdmin admin =
++            RestrictedLockUtils.checkIfRestrictionEnforced(
++                mContext, UserManager.DISALLOW_CONFIG_LOCATION, UserHandle.myUserId());
++        if (admin != null) {
++          ((RestrictedSwitchPreference) preference).setDisabledByAdmin(admin);
++        }
+     }
+ 
+     @Override
+diff --git a/src/com/android/settings/location/WifiScanningPreferenceController.java b/src/com/android/settings/location/WifiScanningPreferenceController.java
+index 8d4cf985d49..02e99225424 100644
+--- a/src/com/android/settings/location/WifiScanningPreferenceController.java
++++ b/src/com/android/settings/location/WifiScanningPreferenceController.java
+@@ -14,11 +14,15 @@
+ package com.android.settings.location;
+ 
+ import android.content.Context;
++import android.os.UserHandle;
++import android.os.UserManager;
+ import android.provider.Settings;
+ import android.support.v14.preference.SwitchPreference;
+ import android.support.v7.preference.Preference;
+ 
+ import com.android.settings.core.PreferenceControllerMixin;
++import com.android.settingslib.RestrictedLockUtils;
++import com.android.settingslib.RestrictedSwitchPreference;
+ import com.android.settingslib.core.AbstractPreferenceController;
+ 
+ public class WifiScanningPreferenceController extends AbstractPreferenceController
+@@ -45,6 +49,12 @@ public class WifiScanningPreferenceController extends AbstractPreferenceControll
+         ((SwitchPreference) preference).setChecked(
+                 Settings.Global.getInt(mContext.getContentResolver(),
+                         Settings.Global.WIFI_SCAN_ALWAYS_AVAILABLE, 0) == 1);
++        final RestrictedLockUtils.EnforcedAdmin admin =
++            RestrictedLockUtils.checkIfRestrictionEnforced(
++                mContext, UserManager.DISALLOW_CONFIG_LOCATION, UserHandle.myUserId());
++        if (admin != null) {
++          ((RestrictedSwitchPreference) preference).setDisabledByAdmin(admin);
++        }
+     }
+ 
+     @Override

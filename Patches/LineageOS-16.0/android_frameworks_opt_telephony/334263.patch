@@ -1,0 +1,94 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ling Ma <linggm@google.com>
+Date: Tue, 3 May 2022 18:13:57 -0700
+Subject: [PATCH] Enforce privileged phone state for
+ getSubscriptionProperty(GROUP_UUID)
+
+Bug: 213457638
+Test: atest
+Change-Id: I8d7cc836402a9a7695c972860d38035c4ec0fa44
+Merged-In: I8d7cc836402a9a7695c972860d38035c4ec0fa44
+Merged-In: Ie8017c39a495f93603aeb5d1a335fe2fe528cf77
+(cherry picked from commit b0e3c5d17e44b6de4ddb5e1ad0018243d38e2cc4)
+(cherry picked from commit 12db8db9b127a3a9b414a8a09f6445c2a58f553e)
+Merged-In: I8d7cc836402a9a7695c972860d38035c4ec0fa44
+---
+ .../telephony/SubscriptionController.java     | 18 +++++++++--
+ .../telephony/SubscriptionControllerTest.java | 30 +++++++++++++++++++
+ 2 files changed, 45 insertions(+), 3 deletions(-)
+
+diff --git a/src/java/com/android/internal/telephony/SubscriptionController.java b/src/java/com/android/internal/telephony/SubscriptionController.java
+index 5f9458d2c8..7848367369 100644
+--- a/src/java/com/android/internal/telephony/SubscriptionController.java
++++ b/src/java/com/android/internal/telephony/SubscriptionController.java
+@@ -16,6 +16,8 @@
+ 
+ package com.android.internal.telephony;
+ 
++import static android.content.pm.PackageManager.PERMISSION_GRANTED;
++
+ import android.Manifest;
+ import android.annotation.Nullable;
+ import android.app.AppOpsManager;
+@@ -2075,9 +2077,19 @@ public class SubscriptionController extends ISub.Stub {
+      */
+     @Override
+     public String getSubscriptionProperty(int subId, String propKey, String callingPackage) {
+-        if (!TelephonyPermissions.checkCallingOrSelfReadPhoneState(
+-                mContext, subId, callingPackage, "getSubscriptionProperty")) {
+-            return null;
++        switch (propKey) {
++            case "group_uuid":
++                if (mContext.checkCallingOrSelfPermission(
++                        Manifest.permission.READ_PRIVILEGED_PHONE_STATE) != PERMISSION_GRANTED) {
++                    EventLog.writeEvent(0x534e4554, "213457638", Binder.getCallingUid());
++                    return null;
++                }
++                break;
++            default:
++                if (!TelephonyPermissions.checkCallingOrSelfReadPhoneState(mContext, subId,
++                        callingPackage, "getSubscriptionProperty")) {
++                    return null;
++                }
+         }
+         String resultValue = null;
+         ContentResolver resolver = mContext.getContentResolver();
+diff --git a/tests/telephonytests/src/com/android/internal/telephony/SubscriptionControllerTest.java b/tests/telephonytests/src/com/android/internal/telephony/SubscriptionControllerTest.java
+index ef9f7d4b86..358fddbe94 100644
+--- a/tests/telephonytests/src/com/android/internal/telephony/SubscriptionControllerTest.java
++++ b/tests/telephonytests/src/com/android/internal/telephony/SubscriptionControllerTest.java
+@@ -422,4 +422,34 @@ public class SubscriptionControllerTest extends TelephonyTest {
+                 SubscriptionManager.WFC_IMS_ROAMING_MODE,
+                 mCallingPackage));
+     }
++
++    @Test
++    @SmallTest
++    public void testGetSubscriptionProperty() throws Exception {
++        testInsertSim();
++        ContentValues values = new ContentValues();
++        values.put(SubscriptionManager.GROUP_UUID, 1);
++        mFakeTelephonyProvider.update(SubscriptionManager.CONTENT_URI, values,
++                SubscriptionManager.UNIQUE_KEY_SUBSCRIPTION_ID + "=" + 1, null);
++
++        mContextFixture.removeCallingOrSelfPermission(ContextFixture.PERMISSION_ENABLE_ALL);
++        mContextFixture.addCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE);
++
++        // should succeed with read phone state permission
++        String prop = mSubscriptionControllerUT.getSubscriptionProperty(1,
++                SubscriptionManager.CB_EXTREME_THREAT_ALERT, mContext.getOpPackageName());
++
++        assertNotEquals(null, prop);
++
++        // group UUID requires privileged phone state permission
++        prop = mSubscriptionControllerUT.getSubscriptionProperty(1, SubscriptionManager.GROUP_UUID,
++                    mContext.getOpPackageName());
++        assertEquals(null, prop);
++
++        // group UUID should succeed once privileged phone state permission is granted
++        mContextFixture.addCallingOrSelfPermission(Manifest.permission.READ_PRIVILEGED_PHONE_STATE);
++        prop = mSubscriptionControllerUT.getSubscriptionProperty(1, SubscriptionManager.GROUP_UUID,
++                mContext.getOpPackageName());
++        assertNotEquals(null, prop);
++    }
+ }

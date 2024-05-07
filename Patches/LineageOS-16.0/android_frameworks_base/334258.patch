@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Eric Biggers <ebiggers@google.com>
+Date: Fri, 4 Mar 2022 00:07:29 +0000
+Subject: [PATCH] UserDataPreparer: reboot to recovery for system user only
+
+With the next CL, old devices might contain a combination of old users
+with prepareUserStorage error checking disabled and new users with
+prepareUserStorage error checking enabled.  Factory resetting the whole
+device when any user fails to prepare may be too aggressive.  Also,
+UserDataPreparer already destroys the affected user's storage when it
+fails to prepare, which seems to be fairly effective at breaking things
+for that user (absent proper error handling by upper layers).
+
+Therefore, let's only factory reset the device if the failing user is
+the system user.
+
+Bug: 164488924
+Bug: 224585613
+Change-Id: Ia1db01ab4ec6b3b17d725f391c3500d92aa00f97
+(cherry picked from commit 4c76da76c9831266e4e63c0618150bed10a929a7)
+Merged-In: Ia1db01ab4ec6b3b17d725f391c3500d92aa00f97
+(cherry picked from commit a296a2b724f3b7233952740231a49d432949276b)
+Merged-In: Ia1db01ab4ec6b3b17d725f391c3500d92aa00f97
+---
+ .../core/java/com/android/server/pm/UserDataPreparer.java  | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/UserDataPreparer.java b/services/core/java/com/android/server/pm/UserDataPreparer.java
+index 504769064808..95482d7c7f1a 100644
+--- a/services/core/java/com/android/server/pm/UserDataPreparer.java
++++ b/services/core/java/com/android/server/pm/UserDataPreparer.java
+@@ -118,8 +118,11 @@ class UserDataPreparer {
+                     flags | StorageManager.FLAG_STORAGE_DE, false);
+             } else {
+                 try {
+-                    Log.e(TAG, "prepareUserData failed", e);
+-                    RecoverySystem.rebootPromptAndWipeUserData(mContext, "prepareUserData failed");
++                    Log.wtf(TAG, "prepareUserData failed for user " + userId, e);
++                    if (userId == UserHandle.USER_SYSTEM) {
++                        RecoverySystem.rebootPromptAndWipeUserData(mContext,
++                                "prepareUserData failed for system user");
++                    }
+                 } catch (IOException e2) {
+                     throw new RuntimeException("error rebooting into recovery", e2);
+                 }

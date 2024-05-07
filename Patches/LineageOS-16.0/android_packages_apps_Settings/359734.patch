@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Dementyev <dementyev@google.com>
+Date: Tue, 7 Mar 2023 10:36:41 -0800
+Subject: [PATCH] Convert argument to intent in AddAccountSettings.
+
+Bug: 265798353
+Test: manual
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:c7e8052b527434ed8660e3babdab718f7f3cd7da)
+Merged-In: I0051e5d5fc9fd3691504cb5fbb959f701e0bce6a
+Change-Id: I0051e5d5fc9fd3691504cb5fbb959f701e0bce6a
+---
+ src/com/android/settings/accounts/AddAccountSettings.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/settings/accounts/AddAccountSettings.java b/src/com/android/settings/accounts/AddAccountSettings.java
+index cca15c96d3c..2e23e931241 100644
+--- a/src/com/android/settings/accounts/AddAccountSettings.java
++++ b/src/com/android/settings/accounts/AddAccountSettings.java
+@@ -102,7 +102,8 @@ public class AddAccountSettings extends Activity {
+                     addAccountOptions.putParcelable(EXTRA_USER, mUserHandle);
+                     intent.putExtras(addAccountOptions);
+                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+-                    startActivityForResultAsUser(intent, ADD_ACCOUNT_REQUEST, mUserHandle);
++                    startActivityForResultAsUser(
++                            new Intent(intent), ADD_ACCOUNT_REQUEST, mUserHandle);
+                 } else {
+                     setResult(RESULT_OK);
+                     if (mPendingIntent != null) {

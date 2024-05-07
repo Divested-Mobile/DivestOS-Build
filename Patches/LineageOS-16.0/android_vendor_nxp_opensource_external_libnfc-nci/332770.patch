@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alisher Alikhodjaev <alisher@google.com>
+Date: Thu, 17 Mar 2022 15:39:20 -0700
+Subject: [PATCH] Out of Bounds Read in nfa_dm_check_set_config
+
+Bug: 221216105
+Test: build ok
+Change-Id: I1930de8531f6c15e6be400a7b1ab3e7cf86b4229
+(cherry picked from commit 88c5c267e889699c71412022e3fcb03d20100e99)
+Merged-In: I1930de8531f6c15e6be400a7b1ab3e7cf86b4229
+---
+ src/nfa/dm/nfa_dm_main.cc | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/src/nfa/dm/nfa_dm_main.cc b/src/nfa/dm/nfa_dm_main.cc
+index eab0b9d0..745558d6 100755
+--- a/src/nfa/dm/nfa_dm_main.cc
++++ b/src/nfa/dm/nfa_dm_main.cc
+@@ -45,6 +45,7 @@
+ 
+ #include <android-base/stringprintf.h>
+ #include <base/logging.h>
++#include <log/log.h>
+ 
+ #include "nfa_api.h"
+ #include "nfa_dm_int.h"
+@@ -279,6 +280,12 @@ tNFA_STATUS nfa_dm_check_set_config(uint8_t tlv_list_len, uint8_t* p_tlv_list,
+     len = *(p_tlv_list + xx + 1);
+     p_value = p_tlv_list + xx + 2;
+     p_cur_len = NULL;
++    if (len > (tlv_list_len - xx - 2)) {
++      LOG(ERROR) << StringPrintf("error: invalid TLV length: t:0x%x, l:%d",
++                                 type, len);
++      android_errorWriteLog(0x534e4554, "221216105");
++      return NFA_STATUS_FAILED;
++    }
+ 
+     switch (type) {
+       /*

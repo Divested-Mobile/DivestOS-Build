@@ -1,0 +1,60 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ioana Alexandru <aioana@google.com>
+Date: Thu, 27 Apr 2023 14:55:28 +0000
+Subject: [PATCH] Verify URI permissions for notification shortcutIcon.
+
+Bug: 277593270
+Test: atest NotificationManagerServiceTest
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:47e661cbf37e1dedf676f482ac07ffc433c92d0b)
+Merged-In: I1efaa1301bca36895ad4322a919d7421156a60df
+Change-Id: I1efaa1301bca36895ad4322a919d7421156a60df
+---
+ core/java/android/app/Notification.java | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/core/java/android/app/Notification.java b/core/java/android/app/Notification.java
+index 21bc17172b1f..d8e7d0199615 100644
+--- a/core/java/android/app/Notification.java
++++ b/core/java/android/app/Notification.java
+@@ -17,6 +17,7 @@
+ package android.app;
+ 
+ import static com.android.internal.util.NotificationColorUtil.satisfiesTextContrast;
++import static android.graphics.drawable.Icon.TYPE_URI;
+ 
+ import android.annotation.ColorInt;
+ import android.annotation.DrawableRes;
+@@ -2329,6 +2330,14 @@ public class Notification implements Parcelable
+         }
+     }
+ 
++    private static void visitIconUri(@NonNull Consumer<Uri> visitor, @Nullable Icon icon) {
++        if (icon == null) return;
++        final int iconType = icon.getType();
++        if (iconType == TYPE_URI /*|| iconType == TYPE_URI_ADAPTIVE_BITMAP*/) {
++            visitor.accept(icon.getUri());
++        }
++    }
++
+     /**
+      * Note all {@link Uri} that are referenced internally, with the expectation
+      * that Uri permission grants will need to be issued to ensure the recipient
+@@ -2344,7 +2353,18 @@ public class Notification implements Parcelable
+         if (bigContentView != null) bigContentView.visitUris(visitor);
+         if (headsUpContentView != null) headsUpContentView.visitUris(visitor);
+ 
++        visitIconUri(visitor, mSmallIcon);
++        visitIconUri(visitor, mLargeIcon);
++
++        if (actions != null) {
++            for (Action action : actions) {
++                visitIconUri(visitor, action.getIcon());
++            }
++        }
++
+         if (extras != null) {
++            visitIconUri(visitor, extras.getParcelable(EXTRA_LARGE_ICON_BIG));
++
+             visitor.accept(extras.getParcelable(EXTRA_AUDIO_CONTENTS_URI));
+             visitor.accept(extras.getParcelable(EXTRA_BACKGROUND_IMAGE_URI));
+         }

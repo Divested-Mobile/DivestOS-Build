@@ -1,0 +1,133 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ted Wang <tedwang@google.com>
+Date: Fri, 1 Apr 2022 11:22:34 +0800
+Subject: [PATCH] Fix potential interger overflow when parsing vendor response
+
+Add check for str_len to prevent potential OOB read in vendor response.
+
+Bug: 205570663
+Tag: #security
+Test: net_test_stack:StackAvrcpTest
+Ignore-AOSP-First: Security
+Change-Id: Iea2c3e17c2c8cc56468c4456822e1c4c5c15f5bc
+Merged-In: Iea2c3e17c2c8cc56468c4456822e1c4c5c15f5bc
+(cherry picked from commit 96ef1fc9cbe38f1224b4e4a2dca3ecfb44a6aece)
+Merged-In: Iea2c3e17c2c8cc56468c4456822e1c4c5c15f5bc
+---
+ stack/avrc/avrc_pars_ct.cc     | 19 ++++++++++---
+ stack/test/stack_avrcp_test.cc | 50 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 65 insertions(+), 4 deletions(-)
+
+diff --git a/stack/avrc/avrc_pars_ct.cc b/stack/avrc/avrc_pars_ct.cc
+index 1ab547913..3ea798f38 100644
+--- a/stack/avrc/avrc_pars_ct.cc
++++ b/stack/avrc/avrc_pars_ct.cc
+@@ -228,7 +228,7 @@ static tAVRC_STS avrc_pars_browse_rsp(tAVRC_MSG_BROWSE* p_msg,
+   }
+   BE_STREAM_TO_UINT8(pdu, p);
+   uint16_t pkt_len;
+-  int min_len = 0;
++  uint16_t min_len = 0;
+   /* read the entire packet len */
+   BE_STREAM_TO_UINT16(pkt_len, p);
+ 
+@@ -371,8 +371,14 @@ static tAVRC_STS avrc_pars_browse_rsp(tAVRC_MSG_BROWSE* p_msg,
+               /* Parse the name now */
+               BE_STREAM_TO_UINT16(attr_entry->name.charset_id, p);
+               BE_STREAM_TO_UINT16(attr_entry->name.str_len, p);
++              if (static_cast<uint16_t>(min_len + attr_entry->name.str_len) <
++                  min_len) {
++                // Check for overflow
++                android_errorWriteLog(0x534e4554, "205570663");
++              }
++              if (pkt_len - min_len < attr_entry->name.str_len)
++                goto browse_length_error;
+               min_len += attr_entry->name.str_len;
+-              if (pkt_len < min_len) goto browse_length_error;
+               attr_entry->name.p_str = (uint8_t*)osi_malloc(
+                   attr_entry->name.str_len * sizeof(uint8_t));
+               BE_STREAM_TO_ARRAY(p, attr_entry->name.p_str,
+@@ -775,8 +781,12 @@ static tAVRC_STS avrc_ctrl_pars_vendor_rsp(tAVRC_MSG_VENDOR* p_msg,
+           BE_STREAM_TO_UINT32(p_attrs[i].attr_id, p);
+           BE_STREAM_TO_UINT16(p_attrs[i].name.charset_id, p);
+           BE_STREAM_TO_UINT16(p_attrs[i].name.str_len, p);
+-          min_len += p_attrs[i].name.str_len;
+-          if (len < min_len) {
++          if (static_cast<uint16_t>(min_len + p_attrs[i].name.str_len) <
++              min_len) {
++            // Check for overflow
++            android_errorWriteLog(0x534e4554, "205570663");
++          }
++          if (len - min_len < p_attrs[i].name.str_len) {
+             for (int j = 0; j < i; j++) {
+               osi_free(p_attrs[j].name.p_str);
+             }
+@@ -784,6 +794,7 @@ static tAVRC_STS avrc_ctrl_pars_vendor_rsp(tAVRC_MSG_VENDOR* p_msg,
+             p_result->get_attrs.num_attrs = 0;
+             goto length_error;
+           }
++          min_len += p_attrs[i].name.str_len;
+           if (p_attrs[i].name.str_len > 0) {
+             p_attrs[i].name.p_str =
+                 (uint8_t*)osi_calloc(p_attrs[i].name.str_len);
+diff --git a/stack/test/stack_avrcp_test.cc b/stack/test/stack_avrcp_test.cc
+index d3a51658d..bca30cd1c 100644
+--- a/stack/test/stack_avrcp_test.cc
++++ b/stack/test/stack_avrcp_test.cc
+@@ -27,6 +27,56 @@ class StackAvrcpTest : public ::testing::Test {
+   virtual ~StackAvrcpTest() = default;
+ };
+ 
++TEST_F(StackAvrcpTest, test_avrcp_ctrl_parse_vendor_rsp) {
++  uint8_t scratch_buf[512]{};
++  uint16_t scratch_buf_len = 512;
++  tAVRC_MSG msg{};
++  tAVRC_RESPONSE result{};
++  uint8_t vendor_rsp_buf[512]{};
++
++  msg.hdr.opcode = AVRC_OP_VENDOR;
++  msg.hdr.ctype = AVRC_CMD_STATUS;
++
++  memset(vendor_rsp_buf, 0, sizeof(vendor_rsp_buf));
++  vendor_rsp_buf[0] = AVRC_PDU_GET_ELEMENT_ATTR;
++  uint8_t* p = &vendor_rsp_buf[2];
++  UINT16_TO_BE_STREAM(p, 0x0009);   // parameter length
++  UINT8_TO_STREAM(p, 0x01);         // number of attributes
++  UINT32_TO_STREAM(p, 0x00000000);  // attribute ID
++  UINT16_TO_STREAM(p, 0x0000);      // character set ID
++  UINT16_TO_STREAM(p, 0xffff);      // attribute value length
++  msg.vendor.p_vendor_data = vendor_rsp_buf;
++  msg.vendor.vendor_len = 13;
++  EXPECT_EQ(
++      AVRC_Ctrl_ParsResponse(&msg, &result, scratch_buf, &scratch_buf_len),
++      AVRC_STS_INTERNAL_ERR);
++}
++
++TEST_F(StackAvrcpTest, test_avrcp_parse_browse_rsp) {
++  uint8_t scratch_buf[512]{};
++  uint16_t scratch_buf_len = 512;
++  tAVRC_MSG msg{};
++  tAVRC_RESPONSE result{};
++  uint8_t browse_rsp_buf[512]{};
++
++  msg.hdr.opcode = AVRC_OP_BROWSE;
++
++  memset(browse_rsp_buf, 0, sizeof(browse_rsp_buf));
++  browse_rsp_buf[0] = AVRC_PDU_GET_ITEM_ATTRIBUTES;
++  uint8_t* p = &browse_rsp_buf[1];
++  UINT16_TO_BE_STREAM(p, 0x000a);   // parameter length;
++  UINT8_TO_STREAM(p, 0x04);         // status
++  UINT8_TO_STREAM(p, 0x01);         // number of attribute
++  UINT32_TO_STREAM(p, 0x00000000);  // attribute ID
++  UINT16_TO_STREAM(p, 0x0000);      // character set ID
++  UINT16_TO_STREAM(p, 0xffff);      // attribute value length
++  msg.browse.p_browse_data = browse_rsp_buf;
++  msg.browse.browse_len = 13;
++  EXPECT_EQ(
++      AVRC_Ctrl_ParsResponse(&msg, &result, scratch_buf, &scratch_buf_len),
++      AVRC_STS_BAD_CMD);
++}
++
+ TEST_F(StackAvrcpTest, test_avrcp_parse_browse_cmd) {
+   uint8_t scratch_buf[512]{};
+   tAVRC_MSG msg{};

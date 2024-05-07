@@ -1,0 +1,198 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Eric Biggers <ebiggers@google.com>
+Date: Fri, 4 Mar 2022 00:07:43 +0000
+Subject: [PATCH] Ignore errors preparing user storage for existing users
+
+Unfortunately we can't rule out the existence of devices where the user
+storage wasn't properly prepared, due to StorageManagerService
+previously ignoring errors from mVold.prepareUserStorage, combined with
+OEMs potentially creating files in per-user directories too early.  And
+forcing these broken devices to be factory reset upon taking an OTA is
+not currently considered to be acceptable.
+
+One option is to only check for prepareUserStorage errors on devices
+that launched with T or later.  However, this is a serious issue and it
+would be strongly preferable to do more than that.
+
+Therefore, this CL makes it so that errors are checked for all new
+users, rather than all new devices.  A field ignorePrepareStorageErrors
+is added to the user record; it is only ever set to true implicitly,
+when reading a user record from disk that lacks this field.  This field
+is used by StorageManagerService to decide whether to check for errors.
+
+Bug: 164488924
+Bug: 224585613
+Test: Intentionally made a device affected by this issue by reverting
+      the CLs that introduced the error checks, and changing vold to
+      inject an error into prepareUserStorage.   Then, flashed a build
+      with this CL without wiping userdata.  The device still boots, as
+      expected, and the log shows that the error was intentionally
+      ignored.  Tested that if a second user is added, the error is
+      *not* ignored and the second user's storage is destroyed before it
+      can be used.  Finally, wiped the device and verified that it won't
+      boot up anymore, as expected since error checking is enabled for
+      the system user in that case.
+Change-Id: I9bdd1a4bf5b14542adb901f264a91d489115c89b
+(cherry picked from commit 60d8318c47b7b659716d71243d087b34ab327f64)
+Merged-In: I9bdd1a4bf5b14542adb901f264a91d489115c89b
+(cherry picked from commit 493aa93b84b4281378e6b767bf2df6139bd0975d)
+Merged-In: I9bdd1a4bf5b14542adb901f264a91d489115c89b
+---
+ core/java/android/os/UserManagerInternal.java |  8 ++++
+ .../android/server/StorageManagerService.java | 12 +++++-
+ .../android/server/pm/UserManagerService.java | 42 +++++++++++++++++++
+ 3 files changed, 61 insertions(+), 1 deletion(-)
+
+diff --git a/core/java/android/os/UserManagerInternal.java b/core/java/android/os/UserManagerInternal.java
+index 1f6c3cc76ddd..674dcc024ddc 100644
+--- a/core/java/android/os/UserManagerInternal.java
++++ b/core/java/android/os/UserManagerInternal.java
+@@ -221,4 +221,12 @@ public abstract class UserManagerInternal {
+      */
+     public abstract boolean isSettingRestrictedForUser(String setting, int userId, String value,
+             int callingUid);
++
++    /**
++     * Returns {@code true} if the system should ignore errors when preparing
++     * the storage directories for the user with ID {@code userId}. This will
++     * return {@code false} for all new users; it will only return {@code true}
++     * for users that already existed on-disk from an older version of Android.
++     */
++    public abstract boolean shouldIgnorePrepareStorageErrors(int userId);
+ }
+diff --git a/services/core/java/com/android/server/StorageManagerService.java b/services/core/java/com/android/server/StorageManagerService.java
+index f6ca63a48a39..dc77f414c9e2 100644
+--- a/services/core/java/com/android/server/StorageManagerService.java
++++ b/services/core/java/com/android/server/StorageManagerService.java
+@@ -86,6 +86,7 @@ import android.os.SystemClock;
+ import android.os.SystemProperties;
+ import android.os.UserHandle;
+ import android.os.UserManager;
++import android.os.UserManagerInternal;
+ import android.os.storage.DiskInfo;
+ import android.os.storage.IObbActionListener;
+ import android.os.storage.IStorageEventListener;
+@@ -2609,11 +2610,20 @@ class StorageManagerService extends IStorageManager.Stub
+ 
+         try {
+             mVold.prepareUserStorage(volumeUuid, userId, serialNumber, flags);
+-        } catch (RemoteException e) {
++        } catch (Exception e) {
+             Slog.wtf(TAG, e);
+             // Make sure to re-throw this exception; we must not ignore failure
+             // to prepare the user storage as it could indicate that encryption
+             // wasn't successfully set up.
++            //
++            // Very unfortunately, these errors need to be ignored for broken
++            // users that already existed on-disk from older Android versions.
++            UserManagerInternal umInternal = LocalServices.getService(UserManagerInternal.class);
++            if (umInternal.shouldIgnorePrepareStorageErrors(userId)) {
++                Slog.wtf(TAG, "ignoring error preparing storage for existing user " + userId
++                        + "; device may be insecure!");
++                return;
++            }
+             throw new RuntimeException(e);
+         }
+     }
+diff --git a/services/core/java/com/android/server/pm/UserManagerService.java b/services/core/java/com/android/server/pm/UserManagerService.java
+index 1a22a84908f8..56d737d50fbf 100644
+--- a/services/core/java/com/android/server/pm/UserManagerService.java
++++ b/services/core/java/com/android/server/pm/UserManagerService.java
+@@ -175,6 +175,8 @@ public class UserManagerService extends IUserManager.Stub {
+     private static final String TAG_ENTRY = "entry";
+     private static final String TAG_VALUE = "value";
+     private static final String TAG_SEED_ACCOUNT_OPTIONS = "seedAccountOptions";
++    private static final String TAG_IGNORE_PREPARE_STORAGE_ERRORS =
++            "ignorePrepareStorageErrors";
+     private static final String ATTR_KEY = "key";
+     private static final String ATTR_VALUE_TYPE = "type";
+     private static final String ATTR_MULTIPLE = "m";
+@@ -270,6 +272,22 @@ public class UserManagerService extends IUserManager.Stub {
+         /** Elapsed realtime since boot when the user was unlocked. */
+         long unlockRealtime;
+ 
++        /**
++         * {@code true} if the system should ignore errors when preparing the
++         * storage directories for this user. This is {@code false} for all new
++         * users; it will only be {@code true} for users that already existed
++         * on-disk from an older version of Android.
++         */
++        private boolean mIgnorePrepareStorageErrors;
++
++        boolean getIgnorePrepareStorageErrors() {
++            return mIgnorePrepareStorageErrors;
++        }
++
++        void setIgnorePrepareStorageErrors() {
++            mIgnorePrepareStorageErrors = true;
++        }
++
+         void clearSeedAccountData() {
+             seedAccountName = null;
+             seedAccountType = null;
+@@ -2307,6 +2325,10 @@ public class UserManagerService extends IUserManager.Stub {
+             serializer.endTag(null, TAG_SEED_ACCOUNT_OPTIONS);
+         }
+ 
++        serializer.startTag(/* namespace */ null, TAG_IGNORE_PREPARE_STORAGE_ERRORS);
++        serializer.text(String.valueOf(userData.getIgnorePrepareStorageErrors()));
++        serializer.endTag(/* namespace */ null, TAG_IGNORE_PREPARE_STORAGE_ERRORS);
++
+         serializer.endTag(null, TAG_USER);
+ 
+         serializer.endDocument();
+@@ -2413,6 +2435,7 @@ public class UserManagerService extends IUserManager.Stub {
+         Bundle baseRestrictions = null;
+         Bundle localRestrictions = null;
+         Bundle globalRestrictions = null;
++        boolean ignorePrepareStorageErrors = true; // default is true for old users
+ 
+         XmlPullParser parser = Xml.newPullParser();
+         parser.setInput(is, StandardCharsets.UTF_8.name());
+@@ -2486,6 +2509,11 @@ public class UserManagerService extends IUserManager.Stub {
+                 } else if (TAG_SEED_ACCOUNT_OPTIONS.equals(tag)) {
+                     seedAccountOptions = PersistableBundle.restoreFromXml(parser);
+                     persistSeedData = true;
++                } else if (TAG_IGNORE_PREPARE_STORAGE_ERRORS.equals(tag)) {
++                    type = parser.next();
++                    if (type == XmlPullParser.TEXT) {
++                        ignorePrepareStorageErrors = Boolean.parseBoolean(parser.getText());
++                    }
+                 }
+             }
+         }
+@@ -2510,6 +2538,9 @@ public class UserManagerService extends IUserManager.Stub {
+         userData.seedAccountType = seedAccountType;
+         userData.persistSeedData = persistSeedData;
+         userData.seedAccountOptions = seedAccountOptions;
++        if (ignorePrepareStorageErrors) {
++            userData.setIgnorePrepareStorageErrors();
++        }
+ 
+         synchronized (mRestrictionsLock) {
+             if (baseRestrictions != null) {
+@@ -3663,6 +3694,9 @@ public class UserManagerService extends IUserManager.Stub {
+                             pw.println();
+                         }
+                     }
++
++                    pw.println("    Ignore errors preparing storage: "
++                            + userData.getIgnorePrepareStorageErrors());
+                 }
+             }
+             pw.println();
+@@ -4008,6 +4042,14 @@ public class UserManagerService extends IUserManager.Stub {
+             return UserRestrictionsUtils.isSettingRestrictedForUser(mContext, setting, userId,
+                     value, callingUid);
+         }
++
++        @Override
++        public boolean shouldIgnorePrepareStorageErrors(int userId) {
++            synchronized (mUsersLock) {
++                UserData userData = mUsers.get(userId);
++                return userData != null && userData.getIgnorePrepareStorageErrors();
++            }
++        }
+     }
+ 
+     /* Remove all the users except of the system one. */

@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Steven Moreland <smoreland@google.com>
+Date: Wed, 30 Mar 2022 21:46:29 +0000
+Subject: [PATCH] Parcel: recycle recycles
+
+Before, it was like getting a used pan with food stuck on it. We run
+a clean ship here. You want a Parcel? You get a fresh Parcel. When
+we recycle a Parcel, we do a real clean-up job. Air freshener. All
+bits brushed over. These Parcel objects are clean as heck now!
+
+(specifically cleans mClassCookies)
+
+Bug: 208279300
+Test: build
+Merged-In: I250872f5c6796bb64e2dc68008154c0e90feb218
+Change-Id: I250872f5c6796bb64e2dc68008154c0e90feb218
+(cherry picked from commit 46770fa49c9a5e51a5ea5a3afc7aab0dba2e59bd)
+(cherry picked from commit b5c79e141a81fa86fc834980d46886ac3c86ab11)
+Merged-In: I250872f5c6796bb64e2dc68008154c0e90feb218
+---
+ core/java/android/os/Parcel.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/core/java/android/os/Parcel.java b/core/java/android/os/Parcel.java
+index 460f12510d45..8d44ba1ad625 100644
+--- a/core/java/android/os/Parcel.java
++++ b/core/java/android/os/Parcel.java
+@@ -406,6 +406,7 @@ public final class Parcel {
+      */
+     public final void recycle() {
+         if (DEBUG_RECYCLE) mStack = null;
++        mClassCookies = null;
+         freeBuffer();
+ 
+         final Parcel[] pool;

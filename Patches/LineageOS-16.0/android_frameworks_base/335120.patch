@@ -1,0 +1,70 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: chiachangwang <chiachangwang@google.com>
+Date: Thu, 2 Jun 2022 10:22:20 +0000
+Subject: [PATCH] Stop using invalid URL to prevent unexpected crash
+
+Verify the input PAC Uri before performing follow-up actions.
+
+Check if the URL is a valid URL to filter some invalid URLs since
+these invalid URLs could not fall into any subclass of existing
+URLConnections. When the PAC Uri is other invalid URL scheme, it
+will cause an UnsupportedOperationException if there is no proper
+subclass that implements the openConnection() method.
+A malformed URL may crash the system.
+
+Even it's a valid URL, some subclasses(e.g. JarURLConnection)
+may not have openConnection() implemented. It will also hit the
+problem, so convert the possbile exception from openConnection()
+to re-throw it to IOException which is handled in the existing
+code.
+
+Bug: 219498290
+Test: atest FrameworksNetTests CtsNetTestCases
+Test: Test with malformed URL
+Merged-In: I22903414380b62051f514e43b93af992f45740b4
+Merged-In: I2abff75ec59a17628ef006aad348c53fadbed076
+Change-Id: I4d6cec1da9cf3f70dec0dcf4223254d3da4f30a3
+(cherry picked from commit 6390b37a3b32fc7583154d53fda3af8fbd95f59f)
+(cherry picked from commit 6d6f4106948bbad67b9845603392d084078997c4)
+Merged-In: I4d6cec1da9cf3f70dec0dcf4223254d3da4f30a3
+---
+ .../server/connectivity/PacManager.java       | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
+
+diff --git a/services/core/java/com/android/server/connectivity/PacManager.java b/services/core/java/com/android/server/connectivity/PacManager.java
+index 3a27fcb352aa..f597c8135701 100644
+--- a/services/core/java/com/android/server/connectivity/PacManager.java
++++ b/services/core/java/com/android/server/connectivity/PacManager.java
+@@ -37,6 +37,7 @@ import android.os.SystemClock;
+ import android.os.SystemProperties;
+ import android.provider.Settings;
+ import android.util.Log;
++import android.webkit.URLUtil;
+ 
+ import com.android.internal.annotations.GuardedBy;
+ import com.android.net.IProxyCallback;
+@@ -211,8 +212,22 @@ public class PacManager {
+      * @throws IOException
+      */
+     private static String get(Uri pacUri) throws IOException {
+-        URL url = new URL(pacUri.toString());
+-        URLConnection urlConnection = url.openConnection(java.net.Proxy.NO_PROXY);
++        if (!URLUtil.isValidUrl(pacUri.toString()))  {
++            throw new IOException("Malformed URL:" + pacUri);
++        }
++
++        final URL url = new URL(pacUri.toString());
++        URLConnection urlConnection;
++        try {
++            urlConnection = url.openConnection(java.net.Proxy.NO_PROXY);
++            // Catch the possible exceptions and rethrow as IOException to not to crash the system
++            // for illegal input.
++        } catch (IllegalArgumentException e) {
++            throw new IOException("Incorrect proxy type for " + pacUri);
++        } catch (UnsupportedOperationException e) {
++            throw new IOException("Unsupported URL connection type for " + pacUri);
++        }
++
+         long contentLength = -1;
+         try {
+             contentLength = Long.parseLong(urlConnection.getHeaderField("Content-Length"));

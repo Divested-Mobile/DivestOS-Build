@@ -1,0 +1,449 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Thomas Stuart <tjstuart@google.com>
+Date: Mon, 21 Nov 2022 17:36:52 -0800
+Subject: [PATCH] enforce stricter rules when registering phoneAccounts
+
+- include disable accounts when looking up accounts for a package to
+  check if the limit is reached (10)
+- put a new limit of 10 supported schemes
+- put a new limit of 256 characters per scheme
+- put a new limit of 256 characters per address
+- ensure the Icon can write to memory w/o an exception
+
+bug: 259064622
+bug: 256819769
+Test: cts + unit
+Change-Id: I5eb2a127a44d5ec725d0ba39cb0ef478b12013de
+Merged-In: I5eb2a127a44d5ec725d0ba39cb0ef478b12013de
+(cherry picked from commit on googleplex-android-review.googlesource.com host: 56ef9e15506f71ae555a4535d5c0ac9bd3f587f1)
+Merged-In: I5eb2a127a44d5ec725d0ba39cb0ef478b12013de
+---
+ .../server/telecom/PhoneAccountRegistrar.java | 185 ++++++++++++++++--
+ .../server/telecom/TelecomServiceImpl.java    |   4 +-
+ .../tests/PhoneAccountRegistrarTest.java      | 101 ++++++++++
+ .../telecom/tests/TelecomServiceImplTest.java |   2 +-
+ 4 files changed, 276 insertions(+), 16 deletions(-)
+
+diff --git a/src/com/android/server/telecom/PhoneAccountRegistrar.java b/src/com/android/server/telecom/PhoneAccountRegistrar.java
+index 0864683be..a077e4a4b 100644
+--- a/src/com/android/server/telecom/PhoneAccountRegistrar.java
++++ b/src/com/android/server/telecom/PhoneAccountRegistrar.java
+@@ -17,6 +17,7 @@
+ package com.android.server.telecom;
+ 
+ import android.Manifest;
++import android.annotation.NonNull;
+ import android.content.ComponentName;
+ import android.content.Context;
+ import android.content.Intent;
+@@ -28,6 +29,7 @@ import android.graphics.Bitmap;
+ import android.graphics.BitmapFactory;
+ import android.graphics.drawable.Icon;
+ import android.net.Uri;
++import android.os.Binder;
+ import android.os.Bundle;
+ import android.os.AsyncTask;
+ import android.os.PersistableBundle;
+@@ -137,9 +139,14 @@ public class PhoneAccountRegistrar {
+     }
+ 
+     private static final String FILE_NAME = "phone-account-registrar-state.xml";
++    public static final String ICON_ERROR_MSG =
++            "Icon cannot be written to memory. Try compressing or downsizing";
+     @VisibleForTesting
+     public static final int EXPECTED_STATE_VERSION = 9;
+     public static final int MAX_PHONE_ACCOUNT_REGISTRATIONS = 10;
++    public static final int MAX_PHONE_ACCOUNT_EXTRAS_KEY_PAIR_LIMIT = 100;
++    public static final int MAX_PHONE_ACCOUNT_FIELD_CHAR_LIMIT = 256;
++    public static final int MAX_SCHEMES_PER_ACCOUNT = 10;
+ 
+     /** Keep in sync with the same in SipSettings.java */
+     private static final String SIP_SHARED_PREFERENCES = "SIP_PREFERENCES";
+@@ -652,12 +659,25 @@ public class PhoneAccountRegistrar {
+         return getPhoneAccountHandles(0, null, packageName, false, userHandle);
+     }
+ 
++
++    /**
++     * includes disabled, includes crossUserAccess
++     */
++    public List<PhoneAccountHandle> getAllPhoneAccountHandlesForPackage(UserHandle userHandle,
++            String packageName) {
++        return getPhoneAccountHandles(0, null, packageName, true /* includeDisabled */, userHandle);
++    }
++
++
+     /**
+      * Performs checks before calling addOrReplacePhoneAccount(PhoneAccount)
+      *
+      * @param account The {@code PhoneAccount} to add or replace.
+-     * @throws SecurityException if package does not have BIND_TELECOM_CONNECTION_SERVICE permission
++     * @throws SecurityException        if package does not have BIND_TELECOM_CONNECTION_SERVICE
++     *                                  permission
+      * @throws IllegalArgumentException if MAX_PHONE_ACCOUNT_REGISTRATIONS are reached
++     * @throws IllegalArgumentException if MAX_PHONE_ACCOUNT_FIELD_CHAR_LIMIT is reached
++     * @throws IllegalArgumentException if writing the Icon to memory will cause an Exception
+      */
+     public void registerPhoneAccount(PhoneAccount account) {
+         // Enforce the requirement that a connection service for a phone account has the correct
+@@ -669,21 +689,155 @@ public class PhoneAccountRegistrar {
+             throw new SecurityException("PhoneAccount connection service requires "
+                     + "BIND_TELECOM_CONNECTION_SERVICE permission.");
+         }
+-        //Enforce an upper bound on the number of PhoneAccount's a package can register.
+-        // Most apps should only require 1-2.
+-        if (getPhoneAccountsForPackage(
+-                account.getAccountHandle().getComponentName().getPackageName(),
+-                account.getAccountHandle().getUserHandle()).size()
++        enforceCharacterLimit(account);
++        enforceIconSizeLimit(account);
++        enforceMaxPhoneAccountLimit(account);
++        addOrReplacePhoneAccount(account);
++    }
++
++    /**
++     * Enforce an upper bound on the number of PhoneAccount's a package can register.
++     * Most apps should only require 1-2.  * Include disabled accounts.
++     *
++     * @param account to enforce check on
++     * @throws IllegalArgumentException if MAX_PHONE_ACCOUNT_REGISTRATIONS are reached
++     */
++    private void enforceMaxPhoneAccountLimit(@NonNull PhoneAccount account) {
++        final PhoneAccountHandle accountHandle = account.getAccountHandle();
++        final UserHandle user = accountHandle.getUserHandle();
++        final ComponentName componentName = accountHandle.getComponentName();
++
++        if (getPhoneAccountHandles(0, null, componentName.getPackageName(),
++                true /* includeDisabled */, user).size()
+                 >= MAX_PHONE_ACCOUNT_REGISTRATIONS) {
+-            Log.w(this, "Phone account %s reached max registration limit for package",
+-                    account.getAccountHandle());
++            EventLog.writeEvent(0x534e4554, "259064622", Binder.getCallingUid(),
++                    "enforceMaxPhoneAccountLimit");
+             throw new IllegalArgumentException(
+                     "Error, cannot register phone account " + account.getAccountHandle()
+                             + " because the limit, " + MAX_PHONE_ACCOUNT_REGISTRATIONS
+                             + ", has been reached");
+         }
++    }
++    /**
++     * determine if there will be an issue writing the icon to memory
++     *
++     * @param account to enforce check on
++     * @throws IllegalArgumentException if writing the Icon to memory will cause an Exception
++     */
++    @VisibleForTesting
++    public void enforceIconSizeLimit(PhoneAccount account) {
++        if (account.getIcon() == null) {
++            return;
++        }
++        String text = "";
++        // convert the icon into a Base64 String
++        try {
++            text = XmlSerialization.writeIconToBase64String(account.getIcon());
++        } catch (IOException e) {
++            EventLog.writeEvent(0x534e4554, "259064622", Binder.getCallingUid(),
++                    "enforceIconSizeLimit");
++            throw new IllegalArgumentException(ICON_ERROR_MSG);
++        }
++    }
+ 
+-        addOrReplacePhoneAccount(account);
++    /**
++     * All {@link PhoneAccount} and{@link PhoneAccountHandle} String and Char-Sequence fields
++     * should be restricted to character limit of MAX_PHONE_ACCOUNT_CHAR_LIMIT to prevent exceptions
++     * when writing large character streams to XML-Serializer.
++     *
++     * @param account to enforce character limit checks on
++     * @throws IllegalArgumentException if MAX_PHONE_ACCOUNT_FIELD_CHAR_LIMIT reached
++     */
++    public void enforceCharacterLimit(PhoneAccount account) {
++        if (account == null) {
++            return;
++        }
++        PhoneAccountHandle handle = account.getAccountHandle();
++
++        String[] fields =
++                {"Package Name", "Class Name", "PhoneAccountHandle Id", "Label", "ShortDescription",
++                        "GroupId", "Address", "SubscriptionAddress"};
++        CharSequence[] args = {handle.getComponentName().getPackageName(),
++                handle.getComponentName().getClassName(), handle.getId(), account.getLabel(),
++                account.getShortDescription(), account.getGroupId(),
++                (account.getAddress() != null ? account.getAddress().toString() : ""),
++                (account.getSubscriptionAddress() != null ?
++                        account.getSubscriptionAddress().toString() : "")};
++
++        for (int i = 0; i < fields.length; i++) {
++            if (args[i] != null && args[i].length() > MAX_PHONE_ACCOUNT_FIELD_CHAR_LIMIT) {
++                EventLog.writeEvent(0x534e4554, "259064622", Binder.getCallingUid(),
++                        "enforceCharacterLimit");
++                throw new IllegalArgumentException("The PhoneAccount or PhoneAccountHandle"
++                        + fields[i] + " field has an invalid character count. PhoneAccount and "
++                        + "PhoneAccountHandle String and Char-Sequence fields are limited to "
++                        + MAX_PHONE_ACCOUNT_FIELD_CHAR_LIMIT + " characters.");
++            }
++        }
++
++        // Enforce limits on the URI Schemes provided
++        enforceLimitsOnSchemes(account);
++
++        // Enforce limit on the PhoneAccount#mExtras
++        Bundle extras = account.getExtras();
++        if (extras != null) {
++            if (extras.keySet().size() > MAX_PHONE_ACCOUNT_EXTRAS_KEY_PAIR_LIMIT) {
++                EventLog.writeEvent(0x534e4554, "259064622", Binder.getCallingUid(),
++                        "enforceCharacterLimit");
++                throw new IllegalArgumentException("The PhoneAccount#mExtras is limited to " +
++                        MAX_PHONE_ACCOUNT_EXTRAS_KEY_PAIR_LIMIT + " (key,value) pairs.");
++            }
++
++            for (String key : extras.keySet()) {
++                Object value = extras.get(key);
++
++                if ((key != null && key.length() > MAX_PHONE_ACCOUNT_FIELD_CHAR_LIMIT) ||
++                        (value instanceof String &&
++                                ((String) value).length() > MAX_PHONE_ACCOUNT_FIELD_CHAR_LIMIT)) {
++                    EventLog.writeEvent(0x534e4554, "259064622", Binder.getCallingUid(),
++                            "enforceCharacterLimit");
++                    throw new IllegalArgumentException("The PhoneAccount#mExtras contains a String"
++                            + " key or value that has an invalid character count. PhoneAccount and "
++                            + "PhoneAccountHandle String and Char-Sequence fields are limited to "
++                            + MAX_PHONE_ACCOUNT_FIELD_CHAR_LIMIT + " characters.");
++                }
++            }
++        }
++    }
++
++    /**
++     * Enforce a character limit on all PA and PAH string or char-sequence fields.
++     *
++     * @param account to enforce check on
++     * @throws IllegalArgumentException if MAX_PHONE_ACCOUNT_FIELD_CHAR_LIMIT reached
++     */
++    @VisibleForTesting
++    public void enforceLimitsOnSchemes(@NonNull PhoneAccount account) {
++        List<String> schemes = account.getSupportedUriSchemes();
++
++        if (schemes == null) {
++            return;
++        }
++
++        if (schemes.size() > MAX_SCHEMES_PER_ACCOUNT) {
++            EventLog.writeEvent(0x534e4554, "259064622", Binder.getCallingUid(),
++                    "enforceLimitsOnSchemes");
++            throw new IllegalArgumentException(
++                    "Error, cannot register phone account " + account.getAccountHandle()
++                            + " because the URI scheme limit of "
++                            + MAX_SCHEMES_PER_ACCOUNT + " has been reached");
++        }
++
++        for (String scheme : schemes) {
++            if (scheme.length() > MAX_PHONE_ACCOUNT_FIELD_CHAR_LIMIT) {
++                EventLog.writeEvent(0x534e4554, "259064622", Binder.getCallingUid(),
++                        "enforceLimitsOnSchemes");
++                throw new IllegalArgumentException(
++                        "Error, cannot register phone account " + account.getAccountHandle()
++                                + " because the max scheme limit of "
++                                + MAX_PHONE_ACCOUNT_FIELD_CHAR_LIMIT + " has been reached");
++            }
++        }
+     }
+ 
+     /**
+@@ -1396,17 +1550,20 @@ public class PhoneAccountRegistrar {
+         protected void writeIconIfNonNull(String tagName, Icon value, XmlSerializer serializer)
+                 throws IOException {
+             if (value != null) {
+-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+-                value.writeToStream(stream);
+-                byte[] iconByteArray = stream.toByteArray();
+-                String text = Base64.encodeToString(iconByteArray, 0, iconByteArray.length, 0);
+-
++                String text = writeIconToBase64String(value);
+                 serializer.startTag(null, tagName);
+                 serializer.text(text);
+                 serializer.endTag(null, tagName);
+             }
+         }
+ 
++        public static String writeIconToBase64String(Icon icon) throws IOException {
++            ByteArrayOutputStream stream = new ByteArrayOutputStream();
++            icon.writeToStream(stream);
++            byte[] iconByteArray = stream.toByteArray();
++            return Base64.encodeToString(iconByteArray, 0, iconByteArray.length, 0);
++        }
++
+         protected void writeLong(String tagName, long value, XmlSerializer serializer)
+                 throws IOException {
+             serializer.startTag(null, tagName);
+diff --git a/src/com/android/server/telecom/TelecomServiceImpl.java b/src/com/android/server/telecom/TelecomServiceImpl.java
+index 8c28a7b6f..74a7d840b 100644
+--- a/src/com/android/server/telecom/TelecomServiceImpl.java
++++ b/src/com/android/server/telecom/TelecomServiceImpl.java
+@@ -60,7 +60,9 @@ import com.android.server.telecom.settings.BlockedNumbersActivity;
+ import java.io.FileDescriptor;
+ import java.io.PrintWriter;
+ import java.util.Collections;
++import java.util.HashSet;
+ import java.util.List;
++import java.util.Set;
+ 
+ // TODO: Needed for move to system service: import com.android.internal.R;
+ 
+@@ -264,7 +266,7 @@ public class TelecomServiceImpl {
+                 try {
+                     Log.startSession("TSI.gPAFP");
+                     return new ParceledListSlice<>(mPhoneAccountRegistrar
+-                            .getPhoneAccountsForPackage(packageName, callingUserHandle));
++                            .getAllPhoneAccountHandlesForPackage(callingUserHandle, packageName));
+                 } catch (Exception e) {
+                     Log.e(this, e, "getPhoneAccountsForPackage %s", packageName);
+                     throw e;
+diff --git a/tests/src/com/android/server/telecom/tests/PhoneAccountRegistrarTest.java b/tests/src/com/android/server/telecom/tests/PhoneAccountRegistrarTest.java
+index f8acb9d2c..b223cdc12 100644
+--- a/tests/src/com/android/server/telecom/tests/PhoneAccountRegistrarTest.java
++++ b/tests/src/com/android/server/telecom/tests/PhoneAccountRegistrarTest.java
+@@ -57,6 +57,8 @@ import java.io.BufferedOutputStream;
+ import java.io.ByteArrayInputStream;
+ import java.io.ByteArrayOutputStream;
+ import java.io.File;
++import java.io.IOException;
++import java.io.OutputStream;
+ import java.util.Arrays;
+ import java.util.List;
+ import java.util.Map;
+@@ -68,8 +70,18 @@ import static org.junit.Assert.assertNotNull;
+ import static org.junit.Assert.assertNull;
+ import static org.junit.Assert.assertTrue;
+ import static org.junit.Assert.fail;
++import static org.mockito.ArgumentMatchers.any;
++import static org.mockito.ArgumentMatchers.anyObject;
++import static org.mockito.ArgumentMatchers.isA;
+ import static org.mockito.Matchers.anyInt;
+ import static org.mockito.Matchers.anyString;
++import static org.mockito.Mockito.clearInvocations;
++import static org.mockito.Mockito.doThrow;
++import static org.mockito.Mockito.mock;
++import static org.mockito.Mockito.never;
++import static org.mockito.Mockito.spy;
++import static org.mockito.Mockito.times;
++import static org.mockito.Mockito.verify;
+ import static org.mockito.Mockito.when;
+ 
+ @RunWith(JUnit4.class)
+@@ -78,6 +90,9 @@ public class PhoneAccountRegistrarTest extends TelecomTestCase {
+     private static final int MAX_VERSION = Integer.MAX_VALUE;
+     private static final String FILE_NAME = "phone-account-registrar-test-1223.xml";
+     private static final String TEST_LABEL = "right";
++    private static final String TEST_ID = "123";
++    private final String PACKAGE_1 = "PACKAGE_1";
++    private final String PACKAGE_2 = "PACKAGE_2";
+     private PhoneAccountRegistrar mRegistrar;
+     @Mock private TelecomManager mTelecomManager;
+     @Mock private DefaultDialerCache mDefaultDialerCache;
+@@ -909,6 +924,92 @@ public class PhoneAccountRegistrarTest extends TelecomTestCase {
+         assertEquals(account1, account2);
+     }
+ 
++    /**
++     * Ensure an IllegalArgumentException is thrown when adding more than 10 schemes for a single
++     * account
++     */
++    @Test
++    public void testLimitOnSchemeCount() {
++        PhoneAccountHandle handle = makeQuickAccountHandle(TEST_ID);
++        PhoneAccount.Builder builder = new PhoneAccount.Builder(handle, TEST_LABEL);
++        for (int i = 0; i < PhoneAccountRegistrar.MAX_PHONE_ACCOUNT_REGISTRATIONS + 1; i++) {
++            builder.addSupportedUriScheme(Integer.toString(i));
++        }
++        try {
++            mRegistrar.enforceLimitsOnSchemes(builder.build());
++            fail("should have hit exception in enforceLimitOnSchemes");
++        } catch (IllegalArgumentException e) {
++            // pass test
++        }
++    }
++
++    /**
++     * Ensure an IllegalArgumentException is thrown when adding more 256 chars for a single
++     * account
++     */
++    @Test
++    public void testLimitOnSchemeLength() {
++        PhoneAccountHandle handle = makeQuickAccountHandle(TEST_ID);
++        PhoneAccount.Builder builder = new PhoneAccount.Builder(handle, TEST_LABEL);
++        builder.addSupportedUriScheme(generateStringOfLen(257));
++        try {
++            mRegistrar.enforceLimitsOnSchemes(builder.build());
++            fail("should have hit exception in enforceLimitOnSchemes");
++        } catch (IllegalArgumentException e) {
++            // pass test
++        }
++    }
++
++    /**
++     * Ensure an IllegalArgumentException is thrown when adding an address over the limit
++     */
++    @Test
++    public void testLimitOnAddress() {
++        String text = generateStringOfLen(100);
++        PhoneAccountHandle handle = makeQuickAccountHandle(TEST_ID);
++        PhoneAccount.Builder builder = new PhoneAccount.Builder(handle,TEST_LABEL)
++                .setAddress(Uri.fromParts(text, text, text));
++        try {
++            mRegistrar.enforceCharacterLimit(builder.build());
++            fail("failed to throw IllegalArgumentException");
++        } catch (IllegalArgumentException e) {
++            // pass test
++        }
++        finally {
++            mRegistrar.unregisterPhoneAccount(handle);
++        }
++    }
++
++    /**
++     * Ensure an IllegalArgumentException is thrown when an Icon that throws an IOException is given
++     */
++    @Test
++    public void testLimitOnIcon() throws Exception {
++        Icon mockIcon = mock(Icon.class);
++        // GIVEN
++        PhoneAccount.Builder builder = new PhoneAccount.Builder(
++                makeQuickAccountHandle(TEST_ID), TEST_LABEL).setIcon(mockIcon);
++        try {
++            // WHEN
++            Mockito.doThrow(new IOException())
++                    .when(mockIcon).writeToStream(any(OutputStream.class));
++            //THEN
++            mRegistrar.enforceIconSizeLimit(builder.build());
++            fail("failed to throw IllegalArgumentException");
++        } catch (IllegalArgumentException e) {
++            // pass test
++            assertTrue(e.getMessage().contains(PhoneAccountRegistrar.ICON_ERROR_MSG));
++        }
++    }
++
++   private String generateStringOfLen(int len){
++       StringBuilder sb = new StringBuilder();
++       for(int i=0; i < len; i++){
++           sb.append("a");
++       }
++       return sb.toString();
++   }
++
+     private static ComponentName makeQuickConnectionServiceComponentName() {
+         return new ComponentName(
+                 "com.android.server.telecom.tests",
+diff --git a/tests/src/com/android/server/telecom/tests/TelecomServiceImplTest.java b/tests/src/com/android/server/telecom/tests/TelecomServiceImplTest.java
+index 092227b47..521d05aae 100644
+--- a/tests/src/com/android/server/telecom/tests/TelecomServiceImplTest.java
++++ b/tests/src/com/android/server/telecom/tests/TelecomServiceImplTest.java
+@@ -362,7 +362,7 @@ public class TelecomServiceImplTest extends TelecomTestCase {
+             add(SIP_PA_HANDLE_17);
+         }};
+         when(mFakePhoneAccountRegistrar
+-                .getPhoneAccountsForPackage(anyString(), any(UserHandle.class)))
++                .getAllPhoneAccountHandlesForPackage(any(UserHandle.class), anyString()))
+                 .thenReturn(phoneAccountHandleList);
+         makeAccountsVisibleToAllUsers(TEL_PA_HANDLE_16, SIP_PA_HANDLE_17);
+         assertEquals(phoneAccountHandleList,

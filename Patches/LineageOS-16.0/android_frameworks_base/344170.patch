@@ -1,0 +1,84 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Louis Chang <louischang@google.com>
+Date: Tue, 2 Aug 2022 03:33:39 +0000
+Subject: [PATCH] Do not send new Intent to non-exported activity when
+ navigateUpTo
+
+The new Intent was delivered to a non-exported activity while
+'#navigateUpTo was called from an Activity of a different uid.
+
+Backport to pie:
+ * services/core/java/com/android/server/am directory (not wm)
+ * back port of getPid() method
+
+Bug: 238605611
+Test: atest StartActivityTests
+Change-Id: I854dd825bfd9a2c08851980d480d1f3a177af6cf
+Merged-In: I854dd825bfd9a2c08851980d480d1f3a177af6cf
+(cherry picked from commit b9a934064598aa655fab4ce75c8eab6165409670)
+Merged-In: I854dd825bfd9a2c08851980d480d1f3a177af6cf
+---
+ .../com/android/server/am/ActivityRecord.java  |  4 ++++
+ .../com/android/server/am/ActivityStack.java   | 18 +++++++++++++++++-
+ .../com/android/server/am/ProcessRecord.java   |  4 ++++
+ 3 files changed, 25 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/am/ActivityRecord.java b/services/core/java/com/android/server/am/ActivityRecord.java
+index 2c5b8568515f..089a3984a480 100644
+--- a/services/core/java/com/android/server/am/ActivityRecord.java
++++ b/services/core/java/com/android/server/am/ActivityRecord.java
+@@ -2922,6 +2922,10 @@ final class ActivityRecord extends ConfigurationContainer implements AppWindowCo
+         return info.applicationInfo.uid;
+     }
+ 
++    int getPid() {
++        return app != null ? app.getPid() : 0;
++    }
++
+     void setShowWhenLocked(boolean showWhenLocked) {
+         mShowWhenLocked = showWhenLocked;
+         mStackSupervisor.ensureActivitiesVisibleLocked(null, 0 /* configChanges */,
+diff --git a/services/core/java/com/android/server/am/ActivityStack.java b/services/core/java/com/android/server/am/ActivityStack.java
+index dddcc9e466a4..68af5184dec0 100644
+--- a/services/core/java/com/android/server/am/ActivityStack.java
++++ b/services/core/java/com/android/server/am/ActivityStack.java
+@@ -4008,7 +4008,23 @@ class ActivityStack<T extends StackWindowController> extends ConfigurationContai
+                     parentLaunchMode == ActivityInfo.LAUNCH_SINGLE_TASK ||
+                     parentLaunchMode == ActivityInfo.LAUNCH_SINGLE_TOP ||
+                     (destIntentFlags & Intent.FLAG_ACTIVITY_CLEAR_TOP) != 0) {
+-                parent.deliverNewIntentLocked(callingUid, destIntent, srec.packageName);
++                boolean abort;
++                try {
++                    final int callingPid = srec.app != null ? srec.app.getPid() : 0;
++                    abort = !mStackSupervisor.checkStartAnyActivityPermission(destIntent,
++                            parent.info, null /* resultWho */, -1 /* requestCode */, callingPid,
++                            callingUid, srec.info.packageName, false /* ignoreTargetSecurity */,
++                            false /* launchingInTask */, srec.app, null /* resultRecord */,
++                            null /* resultRootTask */);
++                } catch (SecurityException e) {
++                    abort = true;
++                }
++                if (abort) {
++                    android.util.EventLog.writeEvent(0x534e4554, "238605611", callingUid, "");
++                    foundParentInTask = false;
++                } else {
++                    parent.deliverNewIntentLocked(callingUid, destIntent, srec.packageName);
++                }
+             } else {
+                 try {
+                     ActivityInfo aInfo = AppGlobals.getPackageManager().getActivityInfo(
+diff --git a/services/core/java/com/android/server/am/ProcessRecord.java b/services/core/java/com/android/server/am/ProcessRecord.java
+index e3e839f63172..b15cf6a606cc 100644
+--- a/services/core/java/com/android/server/am/ProcessRecord.java
++++ b/services/core/java/com/android/server/am/ProcessRecord.java
+@@ -520,6 +520,10 @@ final class ProcessRecord {
+         stringName = null;
+     }
+ 
++    public int getPid() {
++        return pid;
++    }
++
+     public void makeActive(IApplicationThread _thread, ProcessStatsService tracker) {
+         if (thread == null) {
+             final ProcessState origBase = baseProcessTracker;

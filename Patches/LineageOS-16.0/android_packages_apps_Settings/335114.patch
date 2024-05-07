@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Arc Wang <arcwang@google.com>
+Date: Mon, 16 May 2022 14:36:19 +0800
+Subject: [PATCH] Fix Settings crash when setting a null ringtone
+
+Ringtone picker may callback a null ringtone Uri
+if users select None.
+
+This change pass null ringtone Uri to RingtoneManager
+and return.
+
+Bug: 232502532
+Bug: 221041256
+Test: maunal
+      Settings - Sound & Vibration -> Phone ringtone
+      -> My Sounds -> None
+Change-Id: I044b680871472a3c272f6264c4ef272df542112e
+Merged-In: I044b680871472a3c272f6264c4ef272df542112e
+(cherry picked from commit d94b73b3041614a5ff57c7745f50f235bf6c7783)
+Merged-In: I044b680871472a3c272f6264c4ef272df542112e
+---
+ src/com/android/settings/DefaultRingtonePreference.java | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/com/android/settings/DefaultRingtonePreference.java b/src/com/android/settings/DefaultRingtonePreference.java
+index 751eb8c8e7c..226cde693b1 100644
+--- a/src/com/android/settings/DefaultRingtonePreference.java
++++ b/src/com/android/settings/DefaultRingtonePreference.java
+@@ -44,6 +44,11 @@ public class DefaultRingtonePreference extends RingtonePreference {
+ 
+     @Override
+     protected void onSaveRingtone(Uri ringtoneUri) {
++        if (ringtoneUri == null) {
++            setActualDefaultRingtoneUri(ringtoneUri);
++            return;
++        }
++
+         String mimeType = getContext().getContentResolver().getType(ringtoneUri);
+         if (mimeType == null) {
+             Log.e(TAG, "onSaveRingtone for URI:" + ringtoneUri

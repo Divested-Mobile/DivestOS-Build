@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Rahul Sabnis <rahulsabnis@google.com>
+Date: Wed, 6 Apr 2022 18:08:18 +0000
+Subject: [PATCH] Removes app access to BluetoothAdapter#setScanMode by
+ requiring BLUETOOTH_PRIVILEGED permission.
+
+Bug: 203431023
+Test: Manual
+Merged-In: I50d5ed327a7c90a3f73a9924e5b2b66310dff76c
+Change-Id: I50d5ed327a7c90a3f73a9924e5b2b66310dff76c
+(cherry picked from commit 95cbb22647ef5e4505f64d97b7dcbfad2a9fb0e0)
+Merged-In: I50d5ed327a7c90a3f73a9924e5b2b66310dff76c
+---
+ src/com/android/bluetooth/btservice/AdapterService.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/bluetooth/btservice/AdapterService.java b/src/com/android/bluetooth/btservice/AdapterService.java
+index c0772dd30..3b804db7a 100644
+--- a/src/com/android/bluetooth/btservice/AdapterService.java
++++ b/src/com/android/bluetooth/btservice/AdapterService.java
+@@ -1701,7 +1701,8 @@ public class AdapterService extends Service {
+     }
+ 
+     boolean setScanMode(int mode, int duration) {
+-        enforceCallingOrSelfPermission(BLUETOOTH_PERM, "Need BLUETOOTH permission");
++        enforceCallingOrSelfPermission(
++                BLUETOOTH_PRIVILEGED, "Need BLUETOOTH PRIVILEGED permission");
+ 
+         setDiscoverableTimeout(duration);
+ 

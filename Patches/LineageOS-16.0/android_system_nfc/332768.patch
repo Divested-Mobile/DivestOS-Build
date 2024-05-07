@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alisher Alikhodjaev <alisher@google.com>
+Date: Mon, 21 Mar 2022 19:31:28 -0700
+Subject: [PATCH] OOBR in nfc_ncif_proc_ee_discover_req()
+
+Bug: 221856662
+Test: build ok
+Change-Id: If4b4872e4101fc65172596b4f7579b259b6f6b63
+(cherry picked from commit 1c6ab25b3d76c2ced764dc649bec6cf05aecd198)
+Merged-In: If4b4872e4101fc65172596b4f7579b259b6f6b63
+---
+ src/nfc/nfc/nfc_ncif.cc | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/src/nfc/nfc/nfc_ncif.cc b/src/nfc/nfc/nfc_ncif.cc
+index 6d6607d..4bb6ba6 100644
+--- a/src/nfc/nfc/nfc_ncif.cc
++++ b/src/nfc/nfc/nfc_ncif.cc
+@@ -1179,6 +1179,12 @@ void nfc_ncif_proc_ee_discover_req(uint8_t* p, uint16_t plen) {
+ 
+   DLOG_IF(INFO, nfc_debug_enabled)
+       << StringPrintf("nfc_ncif_proc_ee_discover_req %d len:%d", *p, plen);
++
++  if (!plen) {
++    android_errorWriteLog(0x534e4554, "221856662");
++    return;
++  }
++
+   if (p_cback) {
+     u8 = *p;
+     ee_disc_req.status = NFC_STATUS_OK;

@@ -1,0 +1,61 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Grace Jia <xiaotonj@google.com>
+Date: Thu, 22 Sep 2022 14:20:57 -0700
+Subject: [PATCH] Fix security vulnerability when register phone accounts.
+
+Currently if the registered self-managed phone account updated to a call
+provider phone account, the enable state will be directly copied to the
+updated one so that malicious app can perform call spoofing attack
+without any permission requirements. Fix this by disallowing change a
+self-managed phone account to a managed phone account.
+
+Bug: 246930197
+Test: CtsTelecomTestCases:SelfManagedConnectionSreviceTest
+Change-Id: I8f7984cd491632b3219133044438b82ca4dec80e
+Merged-In: I8f7984cd491632b3219133044438b82ca4dec80e
+(cherry picked from commit 833dd8480adc773e36d388521a14fd8cd11d6a30)
+Merged-In: I8f7984cd491632b3219133044438b82ca4dec80e
+---
+ .../server/telecom/PhoneAccountRegistrar.java     | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/src/com/android/server/telecom/PhoneAccountRegistrar.java b/src/com/android/server/telecom/PhoneAccountRegistrar.java
+index b94e5b85a..0864683be 100644
+--- a/src/com/android/server/telecom/PhoneAccountRegistrar.java
++++ b/src/com/android/server/telecom/PhoneAccountRegistrar.java
+@@ -48,6 +48,7 @@ import android.telephony.TelephonyManager;
+ import android.text.TextUtils;
+ import android.util.AtomicFile;
+ import android.util.Base64;
++import android.util.EventLog;
+ import android.util.Xml;
+ 
+ // TODO: Needed for move to system service: import com.android.internal.R;
+@@ -702,6 +703,7 @@ public class PhoneAccountRegistrar {
+ 
+         PhoneAccount oldAccount = getPhoneAccountUnchecked(account.getAccountHandle());
+         if (oldAccount != null) {
++            enforceSelfManagedAccountUnmodified(account, oldAccount);
+             mState.accounts.remove(oldAccount);
+             isEnabled = oldAccount.isEnabled();
+             Log.i(this, "Modify account: %s", getAccountDiffString(account, oldAccount));
+@@ -760,6 +762,19 @@ public class PhoneAccountRegistrar {
+         }
+     }
+ 
++    private void enforceSelfManagedAccountUnmodified(PhoneAccount newAccount,
++            PhoneAccount oldAccount) {
++        if (oldAccount.hasCapabilities(PhoneAccount.CAPABILITY_SELF_MANAGED) &&
++                (!newAccount.hasCapabilities(PhoneAccount.CAPABILITY_SELF_MANAGED))) {
++            EventLog.writeEvent(0x534e4554, "246930197");
++            Log.w(this, "Self-managed phone account %s replaced by a non self-managed one",
++                    newAccount.getAccountHandle());
++            throw new IllegalArgumentException("Error, cannot change a self-managed "
++                    + "phone account " + newAccount.getAccountHandle()
++                    + " to other kinds of phone account");
++        }
++    }
++
+     /**
+      * Un-registers all phone accounts associated with a specified package.
+      *

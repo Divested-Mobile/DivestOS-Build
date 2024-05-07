@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Josh Wu <joshwu@google.com>
+Date: Fri, 29 Apr 2022 00:02:23 -0700
+Subject: [PATCH] Security: Fix out of bound read in AT_SKIP_REST
+
+Bug: 220732646
+Test: build
+Tag: #security
+Ignore-AOSP-First: Security bug
+Change-Id: Ia49f26e4979f9e57c448190a52d0d01b70e342c4
+(cherry picked from commit 4ce5a3c374fb5d24f367a202a6a3dcab4ba4dffd)
+Merged-In: Ia49f26e4979f9e57c448190a52d0d01b70e342c4
+---
+ bta/hf_client/bta_hf_client_at.cc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/bta/hf_client/bta_hf_client_at.cc b/bta/hf_client/bta_hf_client_at.cc
+index 2e5a68b1a..ecdf0daec 100644
+--- a/bta/hf_client/bta_hf_client_at.cc
++++ b/bta/hf_client/bta_hf_client_at.cc
+@@ -787,9 +787,9 @@ void bta_hf_client_binp(tBTA_HF_CLIENT_CB* client_cb, char* number) {
+   } while (0)
+ 
+ /* skip rest of AT string up to <cr> */
+-#define AT_SKIP_REST(buf)           \
+-  do {                              \
+-    while (*(buf) != '\r') (buf)++; \
++#define AT_SKIP_REST(buf)                             \
++  do {                                                \
++    while (*(buf) != '\r' && *(buf) != '\0') (buf)++; \
+   } while (0)
+ 
+ static char* bta_hf_client_parse_ok(tBTA_HF_CLIENT_CB* client_cb,

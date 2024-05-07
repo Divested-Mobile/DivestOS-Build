@@ -1,0 +1,113 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Manjeet Rulhania <mrulhania@google.com>
+Date: Thu, 28 Apr 2022 20:23:58 +0000
+Subject: [PATCH] Fix duplicate permission privilege escalation
+
+Duplicate permissions definition with different group allows
+privilege permission escalation to a different permission group.
+
+Android studio and gradle plugin does not allow duplicate
+permissions with different attributes, these tools only allow
+if duplicate permissions are exact copies.
+
+Also platform stores permissions in map at multiple places with
+permission name as key. This suggests that we can disallow
+duplicate permissions during package install/update.
+
+Bug: 213323615
+Test: manual
+Change-Id: I6f44e740897305e7a0553c1cf6c3af37faf02a2e
+Merged-In: I1910dca44104e35a57eba4acfa8188cd9b8626ac
+Merged-In: I34120fff2ec2a158dfa55779d2afd4bbd49487ff
+Merged-In: I9bc839836786a0876e67fd73c05f8944bb532249
+(cherry picked from commit 31bd425bb66b108cdec357a00f4a586379bcd33a)
+Merged-In: I6f44e740897305e7a0553c1cf6c3af37faf02a2e
+---
+ .../android/content/pm/PackageParser.java     | 53 +++++++++++++++++++
+ 1 file changed, 53 insertions(+)
+
+diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android/content/pm/PackageParser.java
+index e0c2d2dc6dde..c56dfbe97895 100644
+--- a/core/java/android/content/pm/PackageParser.java
++++ b/core/java/android/content/pm/PackageParser.java
+@@ -81,6 +81,7 @@ import android.util.AttributeSet;
+ import android.util.Base64;
+ import android.util.ByteStringUtils;
+ import android.util.DisplayMetrics;
++import android.util.EventLog;
+ import android.util.Log;
+ import android.util.PackageUtils;
+ import android.util.Pair;
+@@ -125,6 +126,7 @@ import java.util.Collections;
+ import java.util.Comparator;
+ import java.util.Iterator;
+ import java.util.List;
++import java.util.Objects;
+ import java.util.Set;
+ import java.util.UUID;
+ import java.util.concurrent.atomic.AtomicInteger;
+@@ -2469,6 +2471,12 @@ public class PackageParser {
+             }
+         }
+ 
++        if (declareDuplicatePermission(pkg)) {
++            outError[0] = "Found duplicate permission with a different attribute value.";
++            mParseError = PackageManager.INSTALL_PARSE_FAILED_MANIFEST_MALFORMED;
++            return null;
++        }
++
+         if (supportsSmallScreens < 0 || (supportsSmallScreens > 0
+                 && pkg.applicationInfo.targetSdkVersion
+                         >= android.os.Build.VERSION_CODES.DONUT)) {
+@@ -2507,6 +2515,51 @@ public class PackageParser {
+         return pkg;
+     }
+ 
++    /**
++     * @return {@code true} if the package declares malformed duplicate permissions.
++     */
++    public static boolean declareDuplicatePermission(@NonNull Package pkg) {
++        final List<Permission> permissions = pkg.permissions;
++        final int size = permissions.size();
++        if (size > 0) {
++            final ArrayMap<String, Permission> checkDuplicatePerm = new ArrayMap<>(size);
++            for (int i = 0; i < size; i++) {
++                final Permission permissionDefinition = permissions.get(i);
++                final String name = permissionDefinition.info.name;
++                final Permission perm = checkDuplicatePerm.get(name);
++                if (isMalformedDuplicate(permissionDefinition, perm)) {
++                    // Fix for b/213323615
++                    EventLog.writeEvent(0x534e4554, "213323615",
++                            "The package " + pkg.packageName + " seems malicious");
++                    return true;
++                }
++                checkDuplicatePerm.put(name, permissionDefinition);
++            }
++        }
++        return false;
++    }
++
++    /**
++     * Determines if a duplicate permission is malformed .i.e. defines different protection level
++     * or group.
++     */
++    private static boolean isMalformedDuplicate(Permission p1, Permission p2) {
++        // Since a permission tree is also added as a permission with normal protection
++        // level, we need to skip if the parsedPermission is a permission tree.
++        if (p1 == null || p2 == null || p1.tree || p2.tree) {
++            return false;
++        }
++
++        if (p1.info.getProtection() != p2.info.getProtection()) {
++            return true;
++        }
++        if (!Objects.equals(p1.info.group, p2.info.group)) {
++            return true;
++        }
++
++        return false;
++    }
++
+     private boolean checkOverlayRequiredSystemProperty(String propName, String propValue) {
+ 
+         if (TextUtils.isEmpty(propName) || TextUtils.isEmpty(propValue)) {

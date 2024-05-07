@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Raghavender Reddy Bujala <c-bujalr@codeaurora.org>
+Date: Thu, 2 Dec 2021 16:04:19 +0530
+Subject: [PATCH] BT: Once AT command is retrieved, return from method.
+
+- Observed SIGSEV issue in Defensics, when received
+buf is more than BTA_HF_CLIENT_AT_PARSER_MAX_LEN.
+
+- Commented recover cut data, after AT command is
+retrieved because leftover data/buf is more than
+BTA_HF_CLIENT_AT_PARSER_MAX_LEN and leading to
+offset corruption.
+
+CRs-Fixed: 3052411
+Change-Id: I6375d00eebfbf97ffc40456622a6d39e4388f4b2
+---
+ bta/hf_client/bta_hf_client_at.cc | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/bta/hf_client/bta_hf_client_at.cc b/bta/hf_client/bta_hf_client_at.cc
+index ecdf0daec..8c285fbe7 100644
+--- a/bta/hf_client/bta_hf_client_at.cc
++++ b/bta/hf_client/bta_hf_client_at.cc
+@@ -1615,9 +1615,13 @@ void bta_hf_client_at_parse(tBTA_HF_CLIENT_CB* client_cb, char* buf,
+     bta_hf_client_at_parse_start(client_cb);
+     bta_hf_client_at_clear_buf(client_cb);
+ 
+-    /* recover cut data */
+-    memcpy(client_cb->at_cb.buf, tmp_buff, tmp);
+-    client_cb->at_cb.offset += tmp;
++    /* TODO: recover cut data */
++    // memcpy(client_cb->at_cb.buf, tmp_buff, tmp);
++    // client_cb->at_cb.offset += tmp;
++    // Observed SIGSEV issue in Defensics, when received buf is more than
++    // BTA_HF_CLIENT_AT_PARSER_MAX_LEN.
++    // Assuming to return from here, Once AT command is retrieved.
++    return;
+   }
+ 
+   memcpy(client_cb->at_cb.buf + client_cb->at_cb.offset, buf, len);

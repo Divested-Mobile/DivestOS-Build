@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Roopa Sattiraju <sattiraju@google.com>
+Date: Wed, 25 May 2022 21:00:01 +0000
+Subject: [PATCH] Removing bonded device when auth fails due to missing keys
+
+Bug: 231161832
+Test: Test against trying to connect using the same address
+Change-Id: I2a23440303758faf281989abdb2a614708f05d36
+Merged-In: I2a23440303758faf281989abdb2a614708f05d36
+(cherry picked from commit 21df1076a4b9c1d1bbe3f5ecb475fe0b7c1b8c2a)
+Merged-In: I2a23440303758faf281989abdb2a614708f05d36
+---
+ btif/src/btif_dm.cc | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/btif/src/btif_dm.cc b/btif/src/btif_dm.cc
+index f2347cc64..56d1cec7d 100644
+--- a/btif/src/btif_dm.cc
++++ b/btif/src/btif_dm.cc
+@@ -1163,14 +1163,12 @@ static void btif_dm_auth_cmpl_evt(tBTA_DM_AUTH_CMPL* p_auth_cmpl) {
+         break;
+ 
+       case HCI_ERR_PAIRING_NOT_ALLOWED:
+-        btif_storage_remove_bonded_device(&bd_addr);
+         status = BT_STATUS_AUTH_REJECTED;
+         break;
+ 
+       /* map the auth failure codes, so we can retry pairing if necessary */
+       case HCI_ERR_AUTH_FAILURE:
+       case HCI_ERR_KEY_MISSING:
+-        btif_storage_remove_bonded_device(&bd_addr);
+       case HCI_ERR_HOST_REJECT_SECURITY:
+       case HCI_ERR_ENCRY_MODE_NOT_ACCEPTABLE:
+       case HCI_ERR_UNIT_KEY_USED:
+@@ -1200,7 +1198,6 @@ static void btif_dm_auth_cmpl_evt(tBTA_DM_AUTH_CMPL* p_auth_cmpl) {
+       /* Remove Device as bonded in nvram as authentication failed */
+       BTIF_TRACE_DEBUG("%s(): removing hid pointing device from nvram",
+                        __func__);
+-      btif_storage_remove_bonded_device(&bd_addr);
+     }
+     bond_state_changed(status, bd_addr, state);
+   }

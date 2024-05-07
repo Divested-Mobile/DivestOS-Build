@@ -1,0 +1,338 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tetiana Meronyk <tetianameronyk@google.com>
+Date: Wed, 10 Jan 2024 16:25:13 +0000
+Subject: [PATCH] Fix security vulnerability that creates user with no
+ restrictions when accountOptions are too long.
+
+Bug: 293602970
+Test: atest UserManagerTest#testAddUserAccountData_validStringValuesAreSaved_validBundleIsSaved && atest UserManagerTest#testAddUserAccountData_invalidStringValuesAreTruncated_invalidBundleIsDropped
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:944ea959ab8464c39a8f6a4fc391fb6953e1df89)
+Merged-In: I23c971f671546ac085060add89485cfac6691ca3
+Change-Id: I23c971f671546ac085060add89485cfac6691ca3
+---
+ core/java/android/os/PersistableBundle.java   |  37 +++++++
+ core/java/android/os/UserManager.java         |  23 +++-
+ .../app/ConfirmUserCreationActivity.java      |  12 +++
+ .../android/server/pm/UserManagerService.java |  29 ++---
+ .../android/server/pm/UserManagerTest.java    | 102 ++++++++++++++++++
+ 5 files changed, 187 insertions(+), 16 deletions(-)
+
+diff --git a/core/java/android/os/PersistableBundle.java b/core/java/android/os/PersistableBundle.java
+index 6a6ff64c5a5f..88e383fc69d3 100644
+--- a/core/java/android/os/PersistableBundle.java
++++ b/core/java/android/os/PersistableBundle.java
+@@ -268,6 +268,43 @@ public final class PersistableBundle extends BaseBundle implements Cloneable, Pa
+         XmlUtils.writeMapXml(mMap, out, this);
+     }
+ 
++    /**
++     * Checks whether all keys and values are within the given character limit.
++     * Note: Maximum character limit of String that can be saved to XML as part of bundle is 65535.
++     * Otherwise IOException is thrown.
++     * @param limit length of String keys and values in the PersistableBundle, including nested
++     *                    PersistableBundles to check against.
++     *
++     * @hide
++     */
++    public boolean isBundleContentsWithinLengthLimit(int limit) {
++        unparcel();
++        if (mMap == null) {
++            return true;
++        }
++        for (int i = 0; i < mMap.size(); i++) {
++            if (mMap.keyAt(i) != null && mMap.keyAt(i).length() > limit) {
++                return false;
++            }
++            final Object value = mMap.valueAt(i);
++            if (value instanceof String && ((String) value).length() > limit) {
++                return false;
++            } else if (value instanceof String[]) {
++                String[] stringArray =  (String[]) value;
++                for (int j = 0; j < stringArray.length; j++) {
++                    if (stringArray[j] != null
++                            && stringArray[j].length() > limit) {
++                        return false;
++                    }
++                }
++            } else if (value instanceof PersistableBundle
++                    && !((PersistableBundle) value).isBundleContentsWithinLengthLimit(limit)) {
++                return false;
++            }
++        }
++        return true;
++    }
++
+     /** @hide */
+     static class MyReadMapCallback implements  XmlUtils.ReadMapCallback {
+         @Override
+diff --git a/core/java/android/os/UserManager.java b/core/java/android/os/UserManager.java
+index 4188ea34bb8e..b000c157e338 100644
+--- a/core/java/android/os/UserManager.java
++++ b/core/java/android/os/UserManager.java
+@@ -74,6 +74,21 @@ public class UserManager {
+ 
+     private Boolean mIsManagedProfileCached;
+ 
++    /** Maximum length of username.
++     * @hide
++     */
++    public static final int MAX_USER_NAME_LENGTH = 100;
++
++    /** Maximum length of user property String value.
++     * @hide
++     */
++    public static final int MAX_ACCOUNT_STRING_LENGTH = 500;
++
++    /** Maximum length of account options String values.
++     * @hide
++     */
++    public static final int MAX_ACCOUNT_OPTIONS_LENGTH = 1000;
++
+     /**
+      * @hide
+      * No user restriction.
+@@ -1958,15 +1973,15 @@ public class UserManager {
+      * time, the preferred user name and account information are used by the setup process for that
+      * user.
+      *
+-     * @param userName Optional name to assign to the user.
++     * @param userName Optional name to assign to the user. Character limit is 100.
+      * @param accountName Optional account name that will be used by the setup wizard to initialize
+-     *                    the user.
++     *                    the user. Character limit is 500.
+      * @param accountType Optional account type for the account to be created. This is required
+-     *                    if the account name is specified.
++     *                    if the account name is specified. Character limit is 500.
+      * @param accountOptions Optional bundle of data to be passed in during account creation in the
+      *                       new user via {@link AccountManager#addAccount(String, String, String[],
+      *                       Bundle, android.app.Activity, android.accounts.AccountManagerCallback,
+-     *                       Handler)}.
++     *                       Handler)}. Character limit is 1000.
+      * @return An Intent that can be launched from an Activity.
+      * @see #USER_CREATION_FAILED_NOT_PERMITTED
+      * @see #USER_CREATION_FAILED_NO_MORE_USERS
+diff --git a/core/java/com/android/internal/app/ConfirmUserCreationActivity.java b/core/java/com/android/internal/app/ConfirmUserCreationActivity.java
+index 03da9bc939ec..74dedc38a922 100644
+--- a/core/java/com/android/internal/app/ConfirmUserCreationActivity.java
++++ b/core/java/com/android/internal/app/ConfirmUserCreationActivity.java
+@@ -110,6 +110,14 @@ public class ConfirmUserCreationActivity extends AlertActivity
+         if (cantCreateUser) {
+             setResult(UserManager.USER_CREATION_FAILED_NOT_PERMITTED);
+             return null;
++        } else if (!(isUserPropertyWithinLimit(mUserName, UserManager.MAX_USER_NAME_LENGTH)
++                && isUserPropertyWithinLimit(mAccountName, UserManager.MAX_ACCOUNT_STRING_LENGTH)
++                && isUserPropertyWithinLimit(mAccountType, UserManager.MAX_ACCOUNT_STRING_LENGTH))
++                || (mAccountOptions != null && !mAccountOptions.isBundleContentsWithinLengthLimit(
++                UserManager.MAX_ACCOUNT_OPTIONS_LENGTH))) {
++            setResult(UserManager.USER_CREATION_FAILED_NOT_PERMITTED);
++            Log.i(TAG, "User properties must not exceed their character limits");
++            return null;
+         } else if (cantCreateAnyMoreUsers) {
+             setResult(UserManager.USER_CREATION_FAILED_NO_MORE_USERS);
+             return null;
+@@ -137,4 +145,8 @@ public class ConfirmUserCreationActivity extends AlertActivity
+         }
+         finish();
+     }
++
++    private boolean isUserPropertyWithinLimit(String property, int limit) {
++        return property == null || property.length() <= limit;
++    }
+ }
+diff --git a/services/core/java/com/android/server/pm/UserManagerService.java b/services/core/java/com/android/server/pm/UserManagerService.java
+index 7b121ba5a0f6..553a96374d61 100644
+--- a/services/core/java/com/android/server/pm/UserManagerService.java
++++ b/services/core/java/com/android/server/pm/UserManagerService.java
+@@ -216,8 +216,6 @@ public class UserManagerService extends IUserManager.Stub {
+ 
+     private static final int USER_VERSION = 7;
+ 
+-    private static final int MAX_USER_STRING_LENGTH = 500;
+-
+     private static final long EPOCH_PLUS_30_YEARS = 30L * 365 * 24 * 60 * 60 * 1000L; // ms
+ 
+     // Maximum number of managed profiles permitted per user is 1. This cannot be increased
+@@ -2295,16 +2293,18 @@ public class UserManagerService extends IUserManager.Stub {
+         if (userData.persistSeedData) {
+             if (userData.seedAccountName != null) {
+                 serializer.attribute(null, ATTR_SEED_ACCOUNT_NAME,
+-                        truncateString(userData.seedAccountName));
++                        truncateString(userData.seedAccountName,
++                                UserManager.MAX_ACCOUNT_STRING_LENGTH));
+             }
+             if (userData.seedAccountType != null) {
+                 serializer.attribute(null, ATTR_SEED_ACCOUNT_TYPE,
+-                        truncateString(userData.seedAccountType));
++                        truncateString(userData.seedAccountType,
++                                UserManager.MAX_ACCOUNT_STRING_LENGTH));
+             }
+         }
+         if (userInfo.name != null) {
+             serializer.startTag(null, TAG_NAME);
+-            serializer.text(truncateString(userInfo.name));
++            serializer.text(truncateString(userInfo.name, UserManager.MAX_USER_NAME_LENGTH));
+             serializer.endTag(null, TAG_NAME);
+         }
+         synchronized (mRestrictionsLock) {
+@@ -2339,11 +2339,11 @@ public class UserManagerService extends IUserManager.Stub {
+         serializer.endDocument();
+     }
+ 
+-    private String truncateString(String original) {
+-        if (original == null || original.length() <= MAX_USER_STRING_LENGTH) {
++    private String truncateString(String original, int limit) {
++        if (original == null || original.length() <= limit) {
+             return original;
+         }
+-        return original.substring(0, MAX_USER_STRING_LENGTH);
++        return original.substring(0, limit);
+     }
+ 
+     /*
+@@ -2643,7 +2643,7 @@ public class UserManagerService extends IUserManager.Stub {
+ 
+     private UserInfo createUserInternalUnchecked(String name, int flags, int parentId,
+             String[] disallowedPackages) {
+-        String truncatedName = truncateString(name);
++        String truncatedName = truncateString(name, UserManager.MAX_USER_NAME_LENGTH);
+         DeviceStorageMonitorInternal dsm = LocalServices
+                 .getService(DeviceStorageMonitorInternal.class);
+         if (dsm.isMemoryLow()) {
+@@ -3553,9 +3553,14 @@ public class UserManagerService extends IUserManager.Stub {
+                     Slog.e(LOG_TAG, "No such user for settings seed data u=" + userId);
+                     return;
+                 }
+-                userData.seedAccountName = truncateString(accountName);
+-                userData.seedAccountType = truncateString(accountType);
+-                userData.seedAccountOptions = accountOptions;
++                userData.seedAccountName = truncateString(accountName,
++                        UserManager.MAX_ACCOUNT_STRING_LENGTH);
++                userData.seedAccountType = truncateString(accountType,
++                        UserManager.MAX_ACCOUNT_STRING_LENGTH);
++                if (accountOptions != null && accountOptions.isBundleContentsWithinLengthLimit(
++                        UserManager.MAX_ACCOUNT_OPTIONS_LENGTH)) {
++                    userData.seedAccountOptions = accountOptions;
++                }
+                 userData.persistSeedData = persist;
+             }
+             if (persist) {
+diff --git a/services/tests/servicestests/src/com/android/server/pm/UserManagerTest.java b/services/tests/servicestests/src/com/android/server/pm/UserManagerTest.java
+index 7bcb5719c357..1f6ca27ee4bb 100644
+--- a/services/tests/servicestests/src/com/android/server/pm/UserManagerTest.java
++++ b/services/tests/servicestests/src/com/android/server/pm/UserManagerTest.java
+@@ -24,6 +24,7 @@ import android.content.pm.PackageManager;
+ import android.content.pm.UserInfo;
+ import android.app.ActivityManager;
+ import android.os.Bundle;
++import android.os.PersistableBundle;
+ import android.os.UserHandle;
+ import android.os.UserManager;
+ import android.provider.Settings;
+@@ -536,6 +537,107 @@ public class UserManagerTest extends AndroidTestCase {
+         assertEquals(canBeCreatedCount, created.get());
+     }
+ 
++    @Test
++    public void testAddUserAccountData_validStringValuesAreSaved_validBundleIsSaved() {
++        assumeManagedUsersSupported();
++
++        String userName = "User";
++        String accountName = "accountName";
++        String accountType = "accountType";
++        String arrayKey = "StringArrayKey";
++        String stringKey = "StringKey";
++        String intKey = "IntKey";
++        String nestedBundleKey = "PersistableBundleKey";
++        String value1 = "Value 1";
++        String value2 = "Value 2";
++        String value3 = "Value 3";
++
++        UserInfo userInfo = mUserManager.createUser(userName,
++                UserManager.USER_TYPE_FULL_SECONDARY, 0);
++
++        PersistableBundle accountOptions = new PersistableBundle();
++        String[] stringArray = {value1, value2};
++        accountOptions.putInt(intKey, 1234);
++        PersistableBundle nested = new PersistableBundle();
++        nested.putString(stringKey, value3);
++        accountOptions.putPersistableBundle(nestedBundleKey, nested);
++        accountOptions.putStringArray(arrayKey, stringArray);
++
++        mUserManager.clearSeedAccountData();
++        mUserManager.setSeedAccountData(mContext.getUserId(), accountName,
++                accountType, accountOptions);
++
++        //assert userName accountName and accountType were saved correctly
++        assertTrue(mUserManager.getUserInfo(userInfo.id).name.equals(userName));
++        assertTrue(mUserManager.getSeedAccountName().equals(accountName));
++        assertTrue(mUserManager.getSeedAccountType().equals(accountType));
++
++        //assert bundle with correct values was added
++        assertThat(mUserManager.getSeedAccountOptions().containsKey(arrayKey)).isTrue();
++        assertThat(mUserManager.getSeedAccountOptions().getPersistableBundle(nestedBundleKey)
++                .getString(stringKey)).isEqualTo(value3);
++        assertThat(mUserManager.getSeedAccountOptions().getStringArray(arrayKey)[0])
++                .isEqualTo(value1);
++
++        mUserManager.removeUser(userInfo.id);
++    }
++
++    @Test
++    public void testAddUserAccountData_invalidStringValuesAreTruncated_invalidBundleIsDropped() {
++        assumeManagedUsersSupported();
++
++        String tooLongString = generateLongString();
++        String userName = "User " + tooLongString;
++        String accountType = "Account Type " + tooLongString;
++        String accountName = "accountName " + tooLongString;
++        String arrayKey = "StringArrayKey";
++        String stringKey = "StringKey";
++        String intKey = "IntKey";
++        String nestedBundleKey = "PersistableBundleKey";
++        String value1 = "Value 1";
++        String value2 = "Value 2";
++
++        UserInfo userInfo = mUserManager.createUser(userName,
++                UserManager.USER_TYPE_FULL_SECONDARY, 0);
++
++        PersistableBundle accountOptions = new PersistableBundle();
++        String[] stringArray = {value1, value2};
++        accountOptions.putInt(intKey, 1234);
++        PersistableBundle nested = new PersistableBundle();
++        nested.putString(stringKey, tooLongString);
++        accountOptions.putPersistableBundle(nestedBundleKey, nested);
++        accountOptions.putStringArray(arrayKey, stringArray);
++        mUserManager.clearSeedAccountData();
++        mUserManager.setSeedAccountData(mContext.getUserId(), accountName,
++                accountType, accountOptions);
++
++        //assert userName was truncated
++        assertTrue(mUserManager.getUserInfo(userInfo.id).name.length()
++                == UserManager.MAX_USER_NAME_LENGTH);
++
++        //assert accountName and accountType got truncated
++        assertTrue(mUserManager.getSeedAccountName().length()
++                == UserManager.MAX_ACCOUNT_STRING_LENGTH);
++        assertTrue(mUserManager.getSeedAccountType().length()
++                == UserManager.MAX_ACCOUNT_STRING_LENGTH);
++
++        //assert bundle with invalid values was dropped
++        assertThat(mUserManager.getSeedAccountOptions() == null).isTrue();
++
++        mUserManager.removeUser(userInfo.id);
++    }
++
++    private String generateLongString() {
++        String partialString = "Test Name Test Name Test Name Test Name Test Name Test Name Test "
++                + "Name Test Name Test Name Test Name "; //String of length 100
++        StringBuilder resultString = new StringBuilder();
++        for (int i = 0; i < 600; i++) {
++            resultString.append(partialString);
++        }
++        return resultString.toString();
++    }
++
++
+     private boolean isPackageInstalledForUser(String packageName, int userId) {
+         try {
+             return mPackageManager.getPackageInfoAsUser(packageName, 0, userId) != null;

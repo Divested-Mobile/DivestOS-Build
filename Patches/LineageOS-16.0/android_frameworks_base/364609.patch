@@ -1,0 +1,51 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Beverly <beverlyt@google.com>
+Date: Mon, 8 May 2023 16:33:12 +0000
+Subject: [PATCH] On device lockdown, always show the keyguard
+
+Manual test steps:
+1. Enable app pinning and disable "Ask for PIN before unpinning" setting
+2. Pin an app (ie: Settings)
+3. Lockdown from the power menu
+Observe: user is brought to the keyguard, primary auth is required
+to enter the device. After entering credential, the device is still in
+app pinning mode.
+
+Test: atest KeyguardViewMediatorTest
+Test: manual steps outlined above
+Bug: 218495634
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:b23c2d5fb6630ea0da503b937f62880594b13e94)
+Merged-In: I9a7c5e1acadabd4484e58573331f98dba895f2a2
+Change-Id: I9a7c5e1acadabd4484e58573331f98dba895f2a2
+---
+ .../systemui/keyguard/KeyguardViewMediator.java        | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
+index bac481c8e478..f0d389c15228 100644
+--- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
++++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardViewMediator.java
+@@ -586,6 +586,13 @@ public class KeyguardViewMediator extends SystemUI {
+                 notifyHasLockscreenWallpaperChanged(hasLockscreenWallpaper);
+             }
+         }
++
++        @Override
++        public void onStrongAuthStateChanged(int userId) {
++            if (mLockPatternUtils.isUserInLockdown(KeyguardUpdateMonitor.getCurrentUser())) {
++                doKeyguardLocked(null);
++            }
++        }
+     };
+ 
+     ViewMediatorCallback mViewMediatorCallback = new ViewMediatorCallback() {
+@@ -1341,7 +1348,8 @@ public class KeyguardViewMediator extends SystemUI {
+         }
+ 
+         // if another app is disabling us, don't show
+-        if (!mExternallyEnabled) {
++        if (!mExternallyEnabled
++            && !mLockPatternUtils.isUserInLockdown(KeyguardUpdateMonitor.getCurrentUser())) {
+             if (DEBUG) Log.d(TAG, "doKeyguard: not showing because externally disabled");
+ 
+             // note: we *should* set mNeedToReshowWhenReenabled=true here, but that makes

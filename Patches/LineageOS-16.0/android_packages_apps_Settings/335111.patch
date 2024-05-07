@@ -1,0 +1,54 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Arc Wang <arcwang@google.com>
+Date: Fri, 6 May 2022 17:42:30 +0800
+Subject: [PATCH] Verify ringtone from ringtone picker is audio
+
+To improve privacy.
+
+Bug: 221041256
+Test: atest com.android.settings.DefaultRingtonePreferenceTest
+Change-Id: I0a9ca163f5ae91b67c9f957fde4c6db326b8718d
+Merged-In: I0a9ca163f5ae91b67c9f957fde4c6db326b8718d
+(cherry picked from commit e4c22580c9a66a3d5523782c2daa707531210227)
+(cherry picked from commit 640eab60f2baa9052d395fccd4a0324103ad6c7a)
+Merged-In: I0a9ca163f5ae91b67c9f957fde4c6db326b8718d
+---
+ .../settings/DefaultRingtonePreference.java    | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/src/com/android/settings/DefaultRingtonePreference.java b/src/com/android/settings/DefaultRingtonePreference.java
+index 9f9f832b100..751eb8c8e7c 100644
+--- a/src/com/android/settings/DefaultRingtonePreference.java
++++ b/src/com/android/settings/DefaultRingtonePreference.java
+@@ -22,6 +22,7 @@ import android.content.Intent;
+ import android.media.RingtoneManager;
+ import android.net.Uri;
+ import android.util.AttributeSet;
++import android.util.Log;
+ 
+ public class DefaultRingtonePreference extends RingtonePreference {
+     private static final String TAG = "DefaultRingtonePreference";
+@@ -43,6 +44,23 @@ public class DefaultRingtonePreference extends RingtonePreference {
+ 
+     @Override
+     protected void onSaveRingtone(Uri ringtoneUri) {
++        String mimeType = getContext().getContentResolver().getType(ringtoneUri);
++        if (mimeType == null) {
++            Log.e(TAG, "onSaveRingtone for URI:" + ringtoneUri
++                    + " ignored: failure to find mimeType (no access from this context?)");
++            return;
++        }
++
++        if (!(mimeType.startsWith("audio/") || mimeType.equals("application/ogg"))) {
++            Log.e(TAG, "onSaveRingtone for URI:" + ringtoneUri
++                    + " ignored: associated mimeType:" + mimeType + " is not an audio type");
++            return;
++        }
++
++        setActualDefaultRingtoneUri(ringtoneUri);
++    }
++
++    void setActualDefaultRingtoneUri(Uri ringtoneUri) {
+         RingtoneManager.setActualDefaultRingtoneUri(mUserContext, getRingtoneType(), ringtoneUri);
+     }
+ 

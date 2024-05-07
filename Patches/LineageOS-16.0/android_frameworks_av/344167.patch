@@ -1,0 +1,67 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Edwin Wong <edwinwong@google.com>
+Date: Tue, 21 Jun 2022 01:36:43 +0000
+Subject: [PATCH] RESTRICT AUTOMERGE - [Fix vulnerability] setSecurityLevel in
+ clearkey
+
+Potential race condition in clearkey setSecurityLevel.
+
+POC test in http://go/ag/19083795
+
+Test: sts-tradefed run sts-dynamic-develop -m StsHostTestCases -t android.security.sts.CVE_2022_2209#testPocCVE_2022_2209
+
+Bug: 235601882
+Change-Id: I6447fb539ef0cb395772c61e6f3e1504ccde331b
+(cherry picked from commit dab37c25e3337387809fd35c7cd46abf76088b83)
+Merged-In: I6447fb539ef0cb395772c61e6f3e1504ccde331b
+---
+ drm/mediadrm/plugins/clearkey/hidl/DrmPlugin.cpp       | 2 ++
+ drm/mediadrm/plugins/clearkey/hidl/include/DrmPlugin.h | 8 +++++++-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/drm/mediadrm/plugins/clearkey/hidl/DrmPlugin.cpp b/drm/mediadrm/plugins/clearkey/hidl/DrmPlugin.cpp
+index 0737851acc..923e4d500e 100644
+--- a/drm/mediadrm/plugins/clearkey/hidl/DrmPlugin.cpp
++++ b/drm/mediadrm/plugins/clearkey/hidl/DrmPlugin.cpp
+@@ -381,6 +381,7 @@ Return<void> DrmPlugin::getSecurityLevel(const hidl_vec<uint8_t>& sessionId,
+         return Void();
+     }
+ 
++    Mutex::Autolock lock(mSecurityLevelLock);
+     std::map<std::vector<uint8_t>, SecurityLevel>::iterator itr =
+             mSecurityLevel.find(sid);
+     if (itr == mSecurityLevel.end()) {
+@@ -411,6 +412,7 @@ Return<Status> DrmPlugin::setSecurityLevel(const hidl_vec<uint8_t>& sessionId,
+         return Status::ERROR_DRM_SESSION_NOT_OPENED;
+     }
+ 
++    Mutex::Autolock lock(mSecurityLevelLock);
+     std::map<std::vector<uint8_t>, SecurityLevel>::iterator itr =
+             mSecurityLevel.find(sid);
+     if (itr != mSecurityLevel.end()) {
+diff --git a/drm/mediadrm/plugins/clearkey/hidl/include/DrmPlugin.h b/drm/mediadrm/plugins/clearkey/hidl/include/DrmPlugin.h
+index 7d9650f4bf..5360623aef 100644
+--- a/drm/mediadrm/plugins/clearkey/hidl/include/DrmPlugin.h
++++ b/drm/mediadrm/plugins/clearkey/hidl/include/DrmPlugin.h
+@@ -323,7 +323,8 @@ private:
+     std::vector<KeyValue> mPlayPolicy;
+     std::map<std::string, std::string> mStringProperties;
+     std::map<std::string, std::vector<uint8_t> > mByteArrayProperties;
+-    std::map<std::vector<uint8_t>, SecurityLevel> mSecurityLevel;
++    std::map<std::vector<uint8_t>, SecurityLevel> mSecurityLevel
++        GUARDED_BY(mSecurityLevelLock);
+     sp<IDrmPluginListener> mListener;
+     SessionLibrary *mSessionLibrary;
+     int64_t mOpenSessionOkCount;
+@@ -332,6 +333,11 @@ private:
+     uint32_t mNextSecureStopId;
+     android::Mutex mPlayPolicyLock;
+ 
++    DeviceFiles mFileHandle GUARDED_BY(mFileHandleLock);
++    Mutex mFileHandleLock;
++    Mutex mSecureStopLock;
++    Mutex mSecurityLevelLock;
++
+     CLEARKEY_DISALLOW_COPY_AND_ASSIGN_AND_NEW(DrmPlugin);
+ };
+ 

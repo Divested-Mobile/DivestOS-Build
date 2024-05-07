@@ -1,0 +1,114 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chienyuan <chienyuanhuang@google.com>
+Date: Tue, 12 Feb 2019 16:01:00 +0800
+Subject: [PATCH] Fix OOB in bnep_is_packet_allowed
+
+Bug: 112050983
+Test: PoC
+Change-Id: I5d331f46cdba86c8e61de206a2ede1d2b348d7e4
+(cherry picked from commit 230f252b8a1a1073ec1a4081545b2ff62393d16d)
+CRs-Fixed: 3155069
+---
+ stack/bnep/bnep_api.cc   | 13 +++++++++++--
+ stack/bnep/bnep_int.h    |  4 ++--
+ stack/bnep/bnep_utils.cc | 12 +++++++++++-
+ 3 files changed, 24 insertions(+), 5 deletions(-)
+
+diff --git a/stack/bnep/bnep_api.cc b/stack/bnep/bnep_api.cc
+index 0e7b69208..aaa97603f 100644
+--- a/stack/bnep/bnep_api.cc
++++ b/stack/bnep/bnep_api.cc
+@@ -349,7 +349,7 @@ tBNEP_RESULT BNEP_WriteBuf(uint16_t handle, const RawAddress& p_dest_addr,
+   /* Check if the packet should be filtered out */
+   p_data = (uint8_t*)(p_buf + 1) + p_buf->offset;
+   if (bnep_is_packet_allowed(p_bcb, p_dest_addr, protocol, fw_ext_present,
+-                             p_data) != BNEP_SUCCESS) {
++                             p_data, p_buf->len) != BNEP_SUCCESS) {
+     /*
+     ** If packet is filtered and ext headers are present
+     ** drop the data and forward the ext headers
+@@ -361,6 +361,11 @@ tBNEP_RESULT BNEP_WriteBuf(uint16_t handle, const RawAddress& p_dest_addr,
+       org_len = p_buf->len;
+       new_len = 0;
+       do {
++        if ((new_len + 2) > org_len) {
++          osi_free(p_buf);
++          return BNEP_IGNORE_CMD;
++        }
++
+         ext = *p_data++;
+         length = *p_data++;
+         p_data += length;
+@@ -448,7 +453,7 @@ tBNEP_RESULT BNEP_Write(uint16_t handle, const RawAddress& p_dest_addr,
+ 
+   /* Check if the packet should be filtered out */
+   if (bnep_is_packet_allowed(p_bcb, p_dest_addr, protocol, fw_ext_present,
+-                             p_data) != BNEP_SUCCESS) {
++                             p_data, len) != BNEP_SUCCESS) {
+     /*
+     ** If packet is filtered and ext headers are present
+     ** drop the data and forward the ext headers
+@@ -461,6 +466,10 @@ tBNEP_RESULT BNEP_Write(uint16_t handle, const RawAddress& p_dest_addr,
+       new_len = 0;
+       p = p_data;
+       do {
++        if ((new_len + 2) > org_len) {
++          return BNEP_IGNORE_CMD;
++        }
++
+         ext = *p_data++;
+         length = *p_data++;
+         p_data += length;
+diff --git a/stack/bnep/bnep_int.h b/stack/bnep/bnep_int.h
+index 2587147cc..5bba15da8 100644
+--- a/stack/bnep/bnep_int.h
++++ b/stack/bnep/bnep_int.h
+@@ -229,7 +229,7 @@ extern void bnep_sec_check_complete(const RawAddress* bd_addr,
+ extern tBNEP_RESULT bnep_is_packet_allowed(tBNEP_CONN* p_bcb,
+                                            const RawAddress& p_dest_addr,
+                                            uint16_t protocol,
+-                                           bool fw_ext_present,
+-                                           uint8_t* p_data);
++                                           bool fw_ext_present, uint8_t* p_data,
++                                           uint16_t org_len);
+ 
+ #endif
+diff --git a/stack/bnep/bnep_utils.cc b/stack/bnep/bnep_utils.cc
+index 48fd5d12b..f8c0203a9 100644
+--- a/stack/bnep/bnep_utils.cc
++++ b/stack/bnep/bnep_utils.cc
+@@ -1259,23 +1259,33 @@ void bnep_sec_check_complete(UNUSED_ATTR const RawAddress* bd_addr,
+ tBNEP_RESULT bnep_is_packet_allowed(tBNEP_CONN* p_bcb,
+                                     const RawAddress& p_dest_addr,
+                                     uint16_t protocol, bool fw_ext_present,
+-                                    uint8_t* p_data) {
++                                    uint8_t* p_data, uint16_t org_len) {
+   if (p_bcb->rcvd_num_filters) {
+     uint16_t i, proto;
+ 
+     /* Findout the actual protocol to check for the filtering */
+     proto = protocol;
+     if (proto == BNEP_802_1_P_PROTOCOL) {
++      uint16_t new_len = 0;
+       if (fw_ext_present) {
+         uint8_t len, ext;
+         /* parse the extension headers and findout actual protocol */
+         do {
++          if ((new_len + 2) > org_len) {
++            return BNEP_IGNORE_CMD;
++          }
++
+           ext = *p_data++;
+           len = *p_data++;
+           p_data += len;
+ 
++          new_len += (len + 2);
++
+         } while (ext & 0x80);
+       }
++      if ((new_len + 4) > org_len) {
++        return BNEP_IGNORE_CMD;
++      }
+       p_data += 2;
+       BE_STREAM_TO_UINT16(proto, p_data);
+     }

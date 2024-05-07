@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chen Chen <cncn@google.com>
+Date: Fri, 15 Apr 2022 14:24:48 -0700
+Subject: [PATCH] Security: Fix out of bound write in HFP client
+
+Bug: 224536184
+Test: build
+Tag: #security
+Ignore-AOSP-First: Security bug
+Change-Id: I9f0be0de6c4e1569095a43e92e9d8f9d73ca5fda
+(cherry picked from commit 01136338f6d739226e027716b6e5304df379fa4c)
+Merged-In: I9f0be0de6c4e1569095a43e92e9d8f9d73ca5fda
+---
+ bta/hf_client/bta_hf_client_at.cc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/bta/hf_client/bta_hf_client_at.cc b/bta/hf_client/bta_hf_client_at.cc
+index 5bcc68ecb..2e5a68b1a 100644
+--- a/bta/hf_client/bta_hf_client_at.cc
++++ b/bta/hf_client/bta_hf_client_at.cc
+@@ -332,6 +332,10 @@ static void bta_hf_client_handle_cind_list_item(tBTA_HF_CLIENT_CB* client_cb,
+ 
+   APPL_TRACE_DEBUG("%s: %lu.%s <%lu:%lu>", __func__, index, name, min, max);
+ 
++  if (index >= BTA_HF_CLIENT_AT_INDICATOR_COUNT) {
++    return;
++  }
++
+   /* look for a matching indicator on list of supported ones */
+   for (i = 0; i < BTA_HF_CLIENT_AT_SUPPORTED_INDICATOR_COUNT; i++) {
+     if (strcmp(name, BTA_HF_CLIENT_INDICATOR_SERVICE) == 0) {

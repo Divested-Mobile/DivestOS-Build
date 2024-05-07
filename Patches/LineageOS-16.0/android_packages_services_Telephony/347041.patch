@@ -1,0 +1,108 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Thomas Stuart <tjstuart@google.com>
+Date: Wed, 28 Sep 2022 09:40:14 -0700
+Subject: [PATCH] prevent overlays on the phone settings
+
+A report came in showing a 3rd party app could overlay a button
+on the phone settings causing unwanted behavior.  In order to prevent
+this, a new system flag has been added that only allows system overlays.
+
+bug: 246933785
+Test: manual
+Change-Id: I427b65bc6c1acf06676e1753a34a7a38e21bbae0
+Merged-In: I427b65bc6c1acf06676e1753a34a7a38e21bbae0
+(cherry picked from commit e827d8f13c1c92622474fa2bf9e41a1f4ce21e2c)
+Merged-In: I427b65bc6c1acf06676e1753a34a7a38e21bbae0
+---
+ AndroidManifest.xml                                       | 3 +++
+ .../phone/settings/AccessibilitySettingsActivity.java     | 8 ++++++--
+ .../phone/settings/PhoneAccountSettingsActivity.java      | 4 ++++
+ .../android/phone/settings/VoicemailSettingsActivity.java | 4 ++++
+ 4 files changed, 17 insertions(+), 2 deletions(-)
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 9e2764762..64d7d64ca 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -203,6 +203,9 @@
+     <uses-permission android:name="android.permission.BIND_TELEPHONY_DATA_SERVICE" />
+     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+ 
++    <!-- Needed to block unwanted malicious pop up overlays -->
++    <uses-permission android:name="android.permission.HIDE_NON_SYSTEM_OVERLAY_WINDOWS"/>
++
+     <application android:name="PhoneApp"
+             android:persistent="true"
+             android:label="@string/phoneAppLabel"
+diff --git a/src/com/android/phone/settings/AccessibilitySettingsActivity.java b/src/com/android/phone/settings/AccessibilitySettingsActivity.java
+index 99b14780d..e039441f6 100644
+--- a/src/com/android/phone/settings/AccessibilitySettingsActivity.java
++++ b/src/com/android/phone/settings/AccessibilitySettingsActivity.java
+@@ -20,17 +20,21 @@ import android.app.ActionBar;
+ import android.os.Bundle;
+ import android.preference.PreferenceActivity;
+ import android.view.MenuItem;
++import android.view.WindowManager;
+ 
+ import com.android.phone.R;
+ 
+ public class AccessibilitySettingsActivity extends PreferenceActivity {
+ 
+-   @Override
++    @Override
+     protected void onCreate(Bundle icicle) {
+         super.onCreate(icicle);
++        getWindow().addPrivateFlags(
++                android.view.WindowManager.LayoutParams
++                        .PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);
+         final ActionBar actionBar = getActionBar();
+         if (actionBar != null) {
+-          actionBar.setTitle(R.string.accessibility_settings_activity_title);
++            actionBar.setTitle(R.string.accessibility_settings_activity_title);
+         }
+         getFragmentManager().beginTransaction().replace(
+                 android.R.id.content, new AccessibilitySettingsFragment()).commit();
+diff --git a/src/com/android/phone/settings/PhoneAccountSettingsActivity.java b/src/com/android/phone/settings/PhoneAccountSettingsActivity.java
+index 56f559466..f0eaa4d9e 100644
+--- a/src/com/android/phone/settings/PhoneAccountSettingsActivity.java
++++ b/src/com/android/phone/settings/PhoneAccountSettingsActivity.java
+@@ -20,6 +20,7 @@ import android.app.ActionBar;
+ import android.os.Bundle;
+ import android.preference.PreferenceActivity;
+ import android.view.MenuItem;
++import android.view.WindowManager;
+ 
+ import com.android.phone.R;
+ 
+@@ -28,6 +29,9 @@ public class PhoneAccountSettingsActivity extends PreferenceActivity {
+     @Override
+     protected void onCreate(Bundle icicle) {
+         super.onCreate(icicle);
++        getWindow().addPrivateFlags(
++                android.view.WindowManager.LayoutParams
++                        .PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);
+         final ActionBar actionBar = getActionBar();
+         if (actionBar != null) {
+             actionBar.setTitle(R.string.phone_accounts);
+diff --git a/src/com/android/phone/settings/VoicemailSettingsActivity.java b/src/com/android/phone/settings/VoicemailSettingsActivity.java
+index 74b8e4ed3..0f58d195b 100644
+--- a/src/com/android/phone/settings/VoicemailSettingsActivity.java
++++ b/src/com/android/phone/settings/VoicemailSettingsActivity.java
+@@ -40,6 +40,7 @@ import android.text.TextDirectionHeuristics;
+ import android.text.TextUtils;
+ import android.util.Log;
+ import android.view.MenuItem;
++import android.view.WindowManager;
+ import android.widget.ListAdapter;
+ import android.widget.Toast;
+ 
+@@ -211,6 +212,9 @@ public class VoicemailSettingsActivity extends PreferenceActivity
+     @Override
+     protected void onCreate(Bundle icicle) {
+         super.onCreate(icicle);
++        getWindow().addPrivateFlags(
++                android.view.WindowManager.LayoutParams
++                        .PRIVATE_FLAG_HIDE_NON_SYSTEM_OVERLAY_WINDOWS);
+         // Make sure we are running as the primary user only
+         UserManager userManager = getApplicationContext().getSystemService(UserManager.class);
+         if (!userManager.isPrimaryUser()) {

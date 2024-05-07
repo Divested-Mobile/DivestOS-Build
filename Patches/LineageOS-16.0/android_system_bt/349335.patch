@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Delwiche <delwiche@google.com>
+Date: Tue, 27 Sep 2022 22:05:08 +0000
+Subject: [PATCH] Add bounds check in avdt_scb_act.cc
+
+Bug: 242535997
+Test: BT unit tests, validated against researcher POC
+Tag: #security
+Ignore-AOSP-First: Security
+Change-Id: I3b982e5d447cb98ad269b3da3d7d591819b2e4e4
+(cherry picked from commit eca4a3cdb0da240496341f546a57397434ec85dd)
+Merged-In: I3b982e5d447cb98ad269b3da3d7d591819b2e4e4
+---
+ stack/avdt/avdt_scb_act.cc | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/stack/avdt/avdt_scb_act.cc b/stack/avdt/avdt_scb_act.cc
+index 31745bb2f..ce53c45eb 100644
+--- a/stack/avdt/avdt_scb_act.cc
++++ b/stack/avdt/avdt_scb_act.cc
+@@ -977,6 +977,11 @@ void avdt_scb_hdl_write_req(AvdtpScb* p_scb, tAVDT_SCB_EVT* p_data) {
+ 
+   /* Build a media packet, and add an RTP header if required. */
+   if (add_rtp_header) {
++    if (p_data->apiwrite.p_buf->offset < AVDT_MEDIA_HDR_SIZE) {
++      android_errorWriteWithInfoLog(0x534e4554, "242535997", -1, NULL, 0);
++      return;
++    }
++
+     ssrc = avdt_scb_gen_ssrc(p_scb);
+ 
+     p_data->apiwrite.p_buf->len += AVDT_MEDIA_HDR_SIZE;

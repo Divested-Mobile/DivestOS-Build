@@ -1,0 +1,158 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tsung-Mao Fang <tmfang@google.com>
+Date: Mon, 3 Jan 2022 18:25:04 +0800
+Subject: [PATCH] FRP bypass defense in the settings app
+
+Over the last few years, there have been a number of
+Factory Reset Protection bypass bugs in the SUW flow.
+It's unlikely to defense all points from individual apps.
+
+Therefore, we decide to block some critical pages when
+user doesn't complete the SUW flow.
+
+Test: Can't open the certain pages in the suw flow.
+Bug: 258422561
+Fix: 200746457
+Bug: 202975040
+Fix: 213091525
+Fix: 213090835
+Fix: 201561699
+Fix: 213090827
+Fix: 213090875
+Change-Id: Ia18f367109df5af7da0a5acad7702898a459d32e
+Merged-In: Ia18f367109df5af7da0a5acad7702898a459d32e
+(cherry picked from commit ff5bfb40c8b09ab477efaae6a0199911a0d703dd)
+Merged-In: Ia18f367109df5af7da0a5acad7702898a459d32e
+---
+ .../settings/SettingsPreferenceFragment.java  | 22 ++++++++++++++++++-
+ .../accounts/AccountDashboardFragment.java    |  7 +++++-
+ .../appinfo/AppInfoDashboardFragment.java     |  5 +++++
+ .../DevelopmentSettingsDashboardFragment.java |  5 +++++
+ .../system/ResetDashboardFragment.java        |  5 +++++
+ 5 files changed, 42 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/settings/SettingsPreferenceFragment.java b/src/com/android/settings/SettingsPreferenceFragment.java
+index 95a039ba63b..beb7643f554 100644
+--- a/src/com/android/settings/SettingsPreferenceFragment.java
++++ b/src/com/android/settings/SettingsPreferenceFragment.java
+@@ -47,6 +47,7 @@ import com.android.settings.core.instrumentation.InstrumentedDialogFragment;
+ import com.android.settings.search.actionbar.SearchMenuController;
+ import com.android.settings.support.actionbar.HelpMenuController;
+ import com.android.settings.support.actionbar.HelpResourceProvider;
++import com.android.settings.Utils;
+ import com.android.settings.widget.HighlightablePreferenceGroupAdapter;
+ import com.android.settings.widget.LoadingViewController;
+ import com.android.settingslib.CustomDialogPreference;
+@@ -62,7 +63,7 @@ import java.util.UUID;
+ public abstract class SettingsPreferenceFragment extends InstrumentedPreferenceFragment
+         implements DialogCreatable, HelpResourceProvider {
+ 
+-    private static final String TAG = "SettingsPreference";
++    private static final String TAG = "SettingsPreferenceFragment";
+ 
+     private static final String SAVE_HIGHLIGHTED_KEY = "android:preference_highlighted";
+ 
+@@ -126,6 +127,15 @@ public abstract class SettingsPreferenceFragment extends InstrumentedPreferenceF
+     @VisibleForTesting
+     public boolean mPreferenceHighlighted = false;
+ 
++    @Override
++    public void onAttach(Context context) {
++        if (shouldSkipForInitialSUW() && !Utils.isDeviceProvisioned(getContext())) {
++            Log.w(TAG, "Skip " + getClass().getSimpleName() + " before SUW completed.");
++            finish();
++        }
++        super.onAttach(context);
++    }
++
+     @Override
+     public void onCreate(Bundle icicle) {
+         super.onCreate(icicle);
+@@ -261,6 +271,16 @@ public abstract class SettingsPreferenceFragment extends InstrumentedPreferenceF
+         return 0;
+     }
+ 
++    /**
++     * Whether UI should be skipped in the initial SUW flow.
++     *
++     * @return {@code true} when UI should be skipped in the initial SUW flow.
++     * {@code false} when UI should not be skipped in the initial SUW flow.
++     */
++    protected boolean shouldSkipForInitialSUW() {
++        return false;
++    }
++
+     protected void onDataSetChanged() {
+         highlightPreferenceIfNeeded();
+         updateEmptyView();
+diff --git a/src/com/android/settings/accounts/AccountDashboardFragment.java b/src/com/android/settings/accounts/AccountDashboardFragment.java
+index b97694031e6..df7056aa108 100644
+--- a/src/com/android/settings/accounts/AccountDashboardFragment.java
++++ b/src/com/android/settings/accounts/AccountDashboardFragment.java
+@@ -64,6 +64,11 @@ public class AccountDashboardFragment extends DashboardFragment {
+         return R.string.help_url_user_and_account_dashboard;
+     }
+ 
++    @Override
++    protected boolean shouldSkipForInitialSUW() {
++        return true;
++    }
++
+     @Override
+     protected List<AbstractPreferenceController> createPreferenceControllers(Context context) {
+         final List<AbstractPreferenceController> controllers = new ArrayList<>();
+@@ -142,4 +147,4 @@ public class AccountDashboardFragment extends DashboardFragment {
+                     return Arrays.asList(sir);
+                 }
+             };
+-}
+\ No newline at end of file
++}
+diff --git a/src/com/android/settings/applications/appinfo/AppInfoDashboardFragment.java b/src/com/android/settings/applications/appinfo/AppInfoDashboardFragment.java
+index 597884b1c23..b37f94d18c2 100755
+--- a/src/com/android/settings/applications/appinfo/AppInfoDashboardFragment.java
++++ b/src/com/android/settings/applications/appinfo/AppInfoDashboardFragment.java
+@@ -522,6 +522,11 @@ public class AppInfoDashboardFragment extends DashboardFragment
+         return mInstantAppButtonPreferenceController.createDialog(id);
+     }
+ 
++    @Override
++    protected boolean shouldSkipForInitialSUW() {
++        return true;
++    }
++
+     private void uninstallPkg(String packageName, boolean allUsers, boolean andDisable) {
+         stopListeningToPackageRemove();
+         // Create new intent to launch Uninstaller activity
+diff --git a/src/com/android/settings/development/DevelopmentSettingsDashboardFragment.java b/src/com/android/settings/development/DevelopmentSettingsDashboardFragment.java
+index f2011bc612b..0090045573b 100644
+--- a/src/com/android/settings/development/DevelopmentSettingsDashboardFragment.java
++++ b/src/com/android/settings/development/DevelopmentSettingsDashboardFragment.java
+@@ -175,6 +175,11 @@ public class DevelopmentSettingsDashboardFragment extends RestrictedDashboardFra
+         }
+     }
+ 
++    @Override
++    protected boolean shouldSkipForInitialSUW() {
++        return true;
++    }
++
+     @Override
+     public View onCreateView(LayoutInflater inflater, ViewGroup container,
+             Bundle savedInstanceState) {
+diff --git a/src/com/android/settings/system/ResetDashboardFragment.java b/src/com/android/settings/system/ResetDashboardFragment.java
+index 03543cc4989..0050eff5fc8 100644
+--- a/src/com/android/settings/system/ResetDashboardFragment.java
++++ b/src/com/android/settings/system/ResetDashboardFragment.java
+@@ -56,6 +56,11 @@ public class ResetDashboardFragment extends DashboardFragment {
+         return buildPreferenceControllers(context, getLifecycle());
+     }
+ 
++    @Override
++    protected boolean shouldSkipForInitialSUW() {
++        return true;
++    }
++
+     private static List<AbstractPreferenceController> buildPreferenceControllers(Context context,
+             Lifecycle lifecycle) {
+         final List<AbstractPreferenceController> controllers = new ArrayList<>();

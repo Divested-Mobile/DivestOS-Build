@@ -1,0 +1,64 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Norman <danielnorman@google.com>
+Date: Wed, 5 Oct 2022 16:28:20 -0700
+Subject: [PATCH] RESTRICT AUTOMERGE Disable all A11yServices from an
+ uninstalled package.
+
+Previous logic would exit the loop after removing the first service
+matching the uninstalled package.
+
+Bug: 243378132
+Test: atest AccessibilityEndToEndTest
+Test: m sts;
+      sts-tradefed run sts-dynamic-develop -m \
+        CtsAccessibilityServiceTestCases
+Change-Id: I4ba30345d8600674ee8a9ea3ff411aecbf3655a3
+(cherry picked from commit 37966299859153377e61a6a97b036388d231c2d0)
+Merged-In: I4ba30345d8600674ee8a9ea3ff411aecbf3655a3
+---
+ .../AccessibilityManagerService.java          | 24 ++++++++++---------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
+
+diff --git a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
+index 58a1beed70c9..91d1b7576ca7 100644
+--- a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
++++ b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
+@@ -379,25 +379,27 @@ public class AccessibilityManagerService extends IAccessibilityManager.Stub
+                     }
+                     UserState userState = getUserStateLocked(userId);
+                     Iterator<ComponentName> it = userState.mEnabledServices.iterator();
++                    boolean anyServiceRemoved = false;
+                     while (it.hasNext()) {
+                         ComponentName comp = it.next();
+                         String compPkg = comp.getPackageName();
+                         if (compPkg.equals(packageName)) {
+                             it.remove();
+-                            // Update the enabled services setting.
+-                            persistComponentNamesToSettingLocked(
+-                                    Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
+-                                    userState.mEnabledServices, userId);
+-                            // Update the touch exploration granted services setting.
+                             userState.mTouchExplorationGrantedServices.remove(comp);
+-                            persistComponentNamesToSettingLocked(
+-                                    Settings.Secure.
+-                                    TOUCH_EXPLORATION_GRANTED_ACCESSIBILITY_SERVICES,
+-                                    userState.mTouchExplorationGrantedServices, userId);
+-                            onUserStateChangedLocked(userState);
+-                            return;
++                            anyServiceRemoved = true;
+                         }
+                     }
++                    if (anyServiceRemoved) {
++                        // Update the enabled services setting.
++                        persistComponentNamesToSettingLocked(
++                                Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
++                                userState.mEnabledServices, userId);
++                        // Update the touch exploration granted services setting.
++                        persistComponentNamesToSettingLocked(
++                                Settings.Secure.TOUCH_EXPLORATION_GRANTED_ACCESSIBILITY_SERVICES,
++                                userState.mTouchExplorationGrantedServices, userId);
++                        onUserStateChangedLocked(userState);
++                    }
+                 }
+             }
+ 

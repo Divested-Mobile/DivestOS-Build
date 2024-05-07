@@ -1,0 +1,57 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Norman <danielnorman@google.com>
+Date: Fri, 12 Aug 2022 11:40:41 -0700
+Subject: [PATCH] Do not send AccessibilityEvent if notification is for
+ different user.
+
+Bug: 237540408
+Test: BuzzBeepBlinkTest#testA11yCrossUserEventNotSent
+Change-Id: I62a875e26e214847ec72ce3c41b4f2fa8e597e07
+Merged-In: I62a875e26e214847ec72ce3c41b4f2fa8e597e07
+(cherry picked from commit 18f2ec86d680bff26ce9248061878894ad16e05f)
+Merged-In: I62a875e26e214847ec72ce3c41b4f2fa8e597e07
+---
+ .../notification/NotificationManagerService.java  |  3 ++-
+ .../server/notification/BuzzBeepBlinkTest.java    | 15 +++++++++++++++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/notification/NotificationManagerService.java b/services/core/java/com/android/server/notification/NotificationManagerService.java
+index acef7148cd2f..a53f2aec436c 100755
+--- a/services/core/java/com/android/server/notification/NotificationManagerService.java
++++ b/services/core/java/com/android/server/notification/NotificationManagerService.java
+@@ -4985,7 +4985,8 @@ public class NotificationManagerService extends SystemService {
+         boolean sentAccessibilityEvent = false;
+         // If the notification will appear in the status bar, it should send an accessibility
+         // event
+-        if (!record.isUpdate && record.getImportance() > IMPORTANCE_MIN) {
++        if (!record.isUpdate && record.getImportance() > IMPORTANCE_MIN
++                && isNotificationForCurrentUser(record)) {
+             sendAccessibilityEvent(record);
+             sentAccessibilityEvent = true;
+         }
+diff --git a/services/tests/uiservicestests/src/com/android/server/notification/BuzzBeepBlinkTest.java b/services/tests/uiservicestests/src/com/android/server/notification/BuzzBeepBlinkTest.java
+index 3b3f128b6ca5..feae34dcb68c 100644
+--- a/services/tests/uiservicestests/src/com/android/server/notification/BuzzBeepBlinkTest.java
++++ b/services/tests/uiservicestests/src/com/android/server/notification/BuzzBeepBlinkTest.java
+@@ -1102,6 +1102,21 @@ public class BuzzBeepBlinkTest extends UiServiceTestCase {
+         verify(mAccessibilityService, times(1)).sendAccessibilityEvent(any(), anyInt());
+     }
+ 
++    @Test
++    public void testA11yCrossUserEventNotSent() throws Exception {
++        final Notification n = new Builder(getContext(), "test")
++                .setSmallIcon(android.R.drawable.sym_def_app_icon).build();
++        int userId = mUser.getIdentifier() + 1;
++        StatusBarNotification sbn = new StatusBarNotification(mPkg, mPkg, 0, mTag, mUid,
++                mPid, n, UserHandle.of(userId), null, System.currentTimeMillis());
++        NotificationRecord r = new NotificationRecord(getContext(), sbn,
++                new NotificationChannel("test", "test", IMPORTANCE_HIGH));
++
++        mService.buzzBeepBlinkLocked(r);
++
++        verify(mAccessibilityService, never()).sendAccessibilityEvent(any(), anyInt());
++    }
++
+     @Test
+     public void testLightsScreenOn() {
+         mService.mScreenOn = true;

@@ -1,0 +1,72 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Raphael Kim <raphk@google.com>
+Date: Fri, 22 Apr 2022 00:32:08 +0000
+Subject: [PATCH] Remove package title from notification access confirmation
+ intent
+
+Bug: 228178437
+Test: Manually confirmed on an application
+Change-Id: Idad6dc0c71d7b39de0bd9e4ad922b5e6020a6184
+Merged-In: Idad6dc0c71d7b39de0bd9e4ad922b5e6020a6184
+(cherry picked from commit 51d47ec7c875cf964f46965a27a5d36343ea999d)
+Merged-In: Idad6dc0c71d7b39de0bd9e4ad922b5e6020a6184
+---
+ ...NotificationAccessConfirmationActivityContract.java | 10 ++++++----
+ .../companion/CompanionDeviceManagerService.java       |  9 ++-------
+ 2 files changed, 8 insertions(+), 11 deletions(-)
+
+diff --git a/core/java/com/android/internal/notification/NotificationAccessConfirmationActivityContract.java b/core/java/com/android/internal/notification/NotificationAccessConfirmationActivityContract.java
+index 4ce6f609ef73..fdf0e9046eef 100644
+--- a/core/java/com/android/internal/notification/NotificationAccessConfirmationActivityContract.java
++++ b/core/java/com/android/internal/notification/NotificationAccessConfirmationActivityContract.java
+@@ -17,6 +17,7 @@
+ package com.android.internal.notification;
+ 
+ import android.content.ComponentName;
++import android.content.Context;
+ import android.content.Intent;
+ 
+ public final class NotificationAccessConfirmationActivityContract {
+@@ -25,13 +26,14 @@ public final class NotificationAccessConfirmationActivityContract {
+             "com.android.settings.notification.NotificationAccessConfirmationActivity");
+     public static final String EXTRA_USER_ID = "user_id";
+     public static final String EXTRA_COMPONENT_NAME = "component_name";
+-    public static final String EXTRA_PACKAGE_TITLE = "package_title";
+ 
+-    public static Intent launcherIntent(int userId, ComponentName component, String packageTitle) {
++    /**
++     * Creates a launcher intent for NotificationAccessConfirmationActivity.
++     */
++    public static Intent launcherIntent(Context context, int userId, ComponentName component) {
+         return new Intent()
+                 .setComponent(COMPONENT_NAME)
+                 .putExtra(EXTRA_USER_ID, userId)
+-                .putExtra(EXTRA_COMPONENT_NAME, component)
+-                .putExtra(EXTRA_PACKAGE_TITLE, packageTitle);
++                .putExtra(EXTRA_COMPONENT_NAME, component);
+     }
+ }
+diff --git a/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java b/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java
+index 0e77715e1563..e39652d77b7a 100644
+--- a/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java
++++ b/services/companion/java/com/android/server/companion/CompanionDeviceManagerService.java
+@@ -290,17 +290,12 @@ public class CompanionDeviceManagerService extends SystemService implements Bind
+             String callingPackage = component.getPackageName();
+             checkCanCallNotificationApi(callingPackage);
+             int userId = getCallingUserId();
+-            String packageTitle = BidiFormatter.getInstance().unicodeWrap(
+-                    getPackageInfo(callingPackage, userId)
+-                            .applicationInfo
+-                            .loadSafeLabel(getContext().getPackageManager())
+-                            .toString());
+-            long identity = Binder.clearCallingIdentity();
++            final long identity = Binder.clearCallingIdentity();
+             try {
+                 return PendingIntent.getActivity(getContext(),
+                         0 /* request code */,
+                         NotificationAccessConfirmationActivityContract.launcherIntent(
+-                                userId, component, packageTitle),
++                                getContext(), userId, component),
+                         PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_ONE_SHOT
+                                 | PendingIntent.FLAG_CANCEL_CURRENT);
+             } finally {
