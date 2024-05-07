@@ -76,7 +76,7 @@ sed -i '50i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 sed -i '296iLOCAL_AAPT_FLAGS += --auto-add-overlay' core/package_internal.mk;
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
 awk -i inplace '!/Exchange2/' target/product/core.mk;
-sed -i 's/2021-06-05/2024-04-05/' core/version_defaults.mk; #Bump Security String #n-asb-2024-04 #XXX
+sed -i 's/2021-06-05/2024-05-05/' core/version_defaults.mk; #Bump Security String #n-asb-2024-05 #XXX
 fi;
 
 if enterAndClear "device/qcom/sepolicy"; then
@@ -143,6 +143,7 @@ fi;
 
 if enterAndClear "external/sonivox"; then
 applyPatch "$DOS_PATCHES/android_external_sonivox/317038.patch"; #n-asb-2021-10 Fix global buffer overflow in WT_InterpolateNoLoop
+applyPatch "$DOS_PATCHES/android_external_sonivox/391896.patch"; #n-asb-2024-05 Fix buffer overrun in eas_wtengine
 fi;
 
 if enterAndClear "external/sqlite"; then
@@ -493,6 +494,7 @@ fi;
 if enterAndClear "packages/providers/TelephonyProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/343954.patch"; #n-asb-2022-11 Check dir path before updating permissions.
 applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/364040-backport.patch"; #R_asb_2023-08 Update file permissions using canonical path
+applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/376079.patch"; #n-asb-2023-11 Block access to sms/mms db from work profile.
 fi;
 
 if enterAndClear "system/bt"; then

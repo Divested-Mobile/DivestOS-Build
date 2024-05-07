@@ -1,0 +1,121 @@
+From 3d934a327765cdcadc1453c2a5615a83d9162d6f Mon Sep 17 00:00:00 2001
+From: Ray Essick <essick@google.com>
+Date: Wed, 14 Feb 2024 11:10:41 -0600
+Subject: [PATCH] fix buffer overrun in eas_wtengine
+
+avoid a buffer overrun in eas_wtengine.
+Check buffer limits during application of gain
+Clip calculated length in eas_wtsynth
+
+Bug: 317780080
+Test: POC with bug
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:6b66e7665dbcd891ff23081c13ab0b1637bb1dda)
+backporting fix from main
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:f9d489385ecb04bbfe06f92d6fb03a69d2734fad)
+Merged-In: I3609d6a36d89b26ae7eb3ae84cbe7772f6c3bee0
+Change-Id: I3609d6a36d89b26ae7eb3ae84cbe7772f6c3bee0
+---
+ arm-wt-22k/lib_src/eas_wtengine.c | 24 ++++++++++++++++++++++++
+ arm-wt-22k/lib_src/eas_wtsynth.c  | 12 +++++++++++-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+
+diff --git a/arm-wt-22k/lib_src/eas_wtengine.c b/arm-wt-22k/lib_src/eas_wtengine.c
+index 68a0400..fd57672 100644
+--- a/arm-wt-22k/lib_src/eas_wtengine.c
++++ b/arm-wt-22k/lib_src/eas_wtengine.c
+@@ -95,6 +95,10 @@ void WT_VoiceGain (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame)
+         ALOGE("b/26366256");
+         android_errorWriteLog(0x534e4554, "26366256");
+         return;
++    } else if (numSamples > BUFFER_SIZE_IN_MONO_SAMPLES) {
++        ALOGE("b/317780080 clip numSamples %ld -> %d", numSamples, BUFFER_SIZE_IN_MONO_SAMPLES);
++        android_errorWriteLog(0x534e4554, "317780080");
++        numSamples = BUFFER_SIZE_IN_MONO_SAMPLES;
+     }
+     pMixBuffer = pWTIntFrame->pMixBuffer;
+     pInputBuffer = pWTIntFrame->pAudioBuffer;
+@@ -194,6 +198,10 @@ void WT_Interpolate (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame)
+         ALOGE("b/26366256");
+         android_errorWriteLog(0x534e4554, "26366256");
+         return;
++    } else if (numSamples > BUFFER_SIZE_IN_MONO_SAMPLES) {
++        ALOGE("b/317780080 clip numSamples %ld -> %d", numSamples, BUFFER_SIZE_IN_MONO_SAMPLES);
++        android_errorWriteLog(0x534e4554, "317780080");
++        numSamples = BUFFER_SIZE_IN_MONO_SAMPLES;
+     }
+     pOutputBuffer = pWTIntFrame->pAudioBuffer;
+ 
+@@ -293,6 +301,10 @@ void WT_InterpolateNoLoop (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame)
+         ALOGE("b/26366256");
+         android_errorWriteLog(0x534e4554, "26366256");
+         return;
++    } else if (numSamples > BUFFER_SIZE_IN_MONO_SAMPLES) {
++        ALOGE("b/317780080 clip numSamples %ld -> %d", numSamples, BUFFER_SIZE_IN_MONO_SAMPLES);
++        android_errorWriteLog(0x534e4554, "317780080");
++        numSamples = BUFFER_SIZE_IN_MONO_SAMPLES;
+     }
+     pOutputBuffer = pWTIntFrame->pAudioBuffer;
+ 
+@@ -393,6 +405,10 @@ void WT_VoiceFilter (S_FILTER_CONTROL *pFilter, S_WT_INT_FRAME *pWTIntFrame)
+         ALOGE("b/26366256");
+         android_errorWriteLog(0x534e4554, "26366256");
+         return;
++    } else if (numSamples > BUFFER_SIZE_IN_MONO_SAMPLES) {
++        ALOGE("b/317780080 clip numSamples %ld -> %d", numSamples, BUFFER_SIZE_IN_MONO_SAMPLES);
++        android_errorWriteLog(0x534e4554, "317780080");
++        numSamples = BUFFER_SIZE_IN_MONO_SAMPLES;
+     }
+     pAudioBuffer = pWTIntFrame->pAudioBuffer;
+ 
+@@ -461,6 +477,10 @@ void WT_VoiceFilter (S_FILTER_CONTROL *pFilter, S_WT_INT_FRAME *pWTIntFrame)
+         ALOGE("b/26366256");
+         android_errorWriteLog(0x534e4554, "26366256");
+         return;
++    } else if (numSamples > BUFFER_SIZE_IN_MONO_SAMPLES) {
++        ALOGE("b/317780080 clip numSamples %ld -> %d", numSamples, BUFFER_SIZE_IN_MONO_SAMPLES);
++        android_errorWriteLog(0x534e4554, "317780080");
++        numSamples = BUFFER_SIZE_IN_MONO_SAMPLES;
+     }
+     pOutputBuffer = pWTIntFrame->pAudioBuffer;
+     phaseInc = pWTIntFrame->frame.phaseIncrement;
+@@ -609,6 +629,10 @@ void WT_InterpolateMono (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame)
+         ALOGE("b/26366256");
+         android_errorWriteLog(0x534e4554, "26366256");
+         return;
++    } else if (numSamples > BUFFER_SIZE_IN_MONO_SAMPLES) {
++        ALOGE("b/317780080 clip numSamples %ld -> %d", numSamples, BUFFER_SIZE_IN_MONO_SAMPLES);
++        android_errorWriteLog(0x534e4554, "317780080");
++        numSamples = BUFFER_SIZE_IN_MONO_SAMPLES;
+     }
+     pMixBuffer = pWTIntFrame->pMixBuffer;
+ 
+diff --git a/arm-wt-22k/lib_src/eas_wtsynth.c b/arm-wt-22k/lib_src/eas_wtsynth.c
+index 8488fe2..cc8990f 100644
+--- a/arm-wt-22k/lib_src/eas_wtsynth.c
++++ b/arm-wt-22k/lib_src/eas_wtsynth.c
+@@ -467,7 +467,12 @@ EAS_BOOL WT_CheckSampleEnd (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame, E
+         /*lint -e{703} use shift for performance */
+         numSamples = (EAS_I32) ((numSamples << NUM_PHASE_FRAC_BITS) - pWTVoice->phaseFrac);
+         if (pWTIntFrame->frame.phaseIncrement) {
+-            pWTIntFrame->numSamples = 1 + (numSamples / pWTIntFrame->frame.phaseIncrement);
++            EAS_I32 oldMethod = 1 + (numSamples / pWTIntFrame->frame.phaseIncrement);
++            pWTIntFrame->numSamples =
++                (numSamples + pWTIntFrame->frame.phaseIncrement - 1) / pWTIntFrame->frame.phaseIncrement;
++            if (oldMethod != pWTIntFrame->numSamples) {
++                ALOGE("b/317780080 old %ld new %ld", oldMethod, pWTIntFrame->numSamples);
++            }
+         } else {
+             pWTIntFrame->numSamples = numSamples;
+         }
+@@ -475,6 +480,11 @@ EAS_BOOL WT_CheckSampleEnd (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame, E
+             ALOGE("b/26366256");
+             android_errorWriteLog(0x534e4554, "26366256");
+             pWTIntFrame->numSamples = 0;
++        } else if (pWTIntFrame->numSamples > BUFFER_SIZE_IN_MONO_SAMPLES) {
++            ALOGE("b/317780080 clip numSamples %ld -> %d",
++                  pWTIntFrame->numSamples, BUFFER_SIZE_IN_MONO_SAMPLES);
++            android_errorWriteLog(0x534e4554, "317780080");
++            pWTIntFrame->numSamples = BUFFER_SIZE_IN_MONO_SAMPLES;
+         }
+ 
+         /* sound will be done this frame */
