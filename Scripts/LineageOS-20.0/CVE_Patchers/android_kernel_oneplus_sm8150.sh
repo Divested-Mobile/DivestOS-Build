@@ -610,6 +610,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0340/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0639/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0775/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-21468/ANY/0002.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-21475/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-22099/^6.8/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-23849/^6.7/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-24855/^6.4/0001.patch
@@ -664,7 +665,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27388/^6.8/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-0466/4.14/0005.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-24586/4.14/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-27830/4.14/0002.patch
-editKernelLocalversion "-dos.p664"
+editKernelLocalversion "-dos.p665"
 else echo "kernel_oneplus_sm8150 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
