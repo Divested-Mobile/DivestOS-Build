@@ -1,4 +1,4 @@
-From 3d934a327765cdcadc1453c2a5615a83d9162d6f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ray Essick <essick@google.com>
 Date: Wed, 14 Feb 2024 11:10:41 -0600
 Subject: [PATCH] fix buffer overrun in eas_wtengine

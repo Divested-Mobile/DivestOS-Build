@@ -1,4 +1,4 @@
-From e399bfb1393225413dd08c407930dbec02915b9a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Aishwarya Mallampati <amallampati@google.com>
 Date: Wed, 23 Aug 2023 18:30:46 +0000
 Subject: [PATCH] DO NOT MERGE Block access to sms/mms db from work profile.
@@ -23,10 +23,10 @@ Change-Id: I7e4cf14fabb2c00e916504ce44816462a8b5215e
  4 files changed, 189 insertions(+), 68 deletions(-)
 
 diff --git a/src/com/android/providers/telephony/MmsProvider.java b/src/com/android/providers/telephony/MmsProvider.java
-index ba057828d..7e50535c6 100755
+index ba057828..7e50535c 100755
 --- a/src/com/android/providers/telephony/MmsProvider.java
 +++ b/src/com/android/providers/telephony/MmsProvider.java
-@@ -35,6 +35,7 @@
+@@ -35,6 +35,7 @@ import android.os.Binder;
  import android.os.FileUtils;
  import android.os.ParcelFileDescriptor;
  import android.os.UserHandle;
@@ -34,7 +34,7 @@ index ba057828d..7e50535c6 100755
  import android.provider.BaseColumns;
  import android.provider.Telephony;
  import android.provider.Telephony.CanonicalAddressesColumns;
-@@ -161,6 +162,16 @@ private Cursor getPdus(int itemCount, int dataCount, String[] data) {
+@@ -161,6 +162,16 @@ public class MmsProvider extends ContentProvider {
      @Override
      public Cursor query(Uri uri, String[] projection,
              String selection, String[] selectionArgs, String sortOrder) {
@@ -51,7 +51,7 @@ index ba057828d..7e50535c6 100755
          // First check if a restricted view of the "pdu" table should be used based on the
          // caller's identity. Only system, phone or the default sms app can have full access
          // of mms data. For other apps, we present a restricted view which only contains sent
-@@ -508,6 +519,15 @@ public Uri insert(Uri uri, ContentValues values) {
+@@ -508,6 +519,15 @@ public class MmsProvider extends ContentProvider {
          if (values != null && values.containsKey(Part._DATA)) {
              return null;
          }
@@ -67,7 +67,7 @@ index ba057828d..7e50535c6 100755
          final int callerUid = Binder.getCallingUid();
          final String callerPkg = getCallingPackage();
          int msgBox = Mms.MESSAGE_BOX_ALL;
-@@ -787,6 +807,14 @@ private int getMessageBoxByMatch(int match) {
+@@ -787,6 +807,14 @@ public class MmsProvider extends ContentProvider {
      @Override
      public int delete(Uri uri, String selection,
              String[] selectionArgs) {
@@ -82,7 +82,7 @@ index ba057828d..7e50535c6 100755
          int match = sURLMatcher.match(uri);
          if (LOCAL_LOGV) {
              Log.v(TAG, "Delete uri=" + uri + ", match=" + match);
-@@ -960,6 +988,14 @@ private static int deleteDataRows(SQLiteDatabase db, String table,
+@@ -960,6 +988,14 @@ public class MmsProvider extends ContentProvider {
  
      @Override
      public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
@@ -98,10 +98,10 @@ index ba057828d..7e50535c6 100755
          // it from being inadvertently set. This is not supposed to be a protection against
          // malicious attack, since sql injection could still be attempted to bypass the check. On
 diff --git a/src/com/android/providers/telephony/MmsSmsDatabaseHelper.java b/src/com/android/providers/telephony/MmsSmsDatabaseHelper.java
-index 9e5715dd6..64cc50cd0 100644
+index 9e5715dd..64cc50cd 100644
 --- a/src/com/android/providers/telephony/MmsSmsDatabaseHelper.java
 +++ b/src/com/android/providers/telephony/MmsSmsDatabaseHelper.java
-@@ -636,78 +636,92 @@ private void createThreadIdIndex(SQLiteDatabase db) {
+@@ -636,78 +636,92 @@ public class MmsSmsDatabaseHelper extends SQLiteOpenHelper {
          }
      }
  
@@ -263,10 +263,10 @@ index 9e5715dd6..64cc50cd0 100644
          // Restricted view of pdu table, only sent/received messages without wap pushes
          db.execSQL("CREATE VIEW " + MmsProvider.VIEW_PDU_RESTRICTED + " AS " +
 diff --git a/src/com/android/providers/telephony/MmsSmsProvider.java b/src/com/android/providers/telephony/MmsSmsProvider.java
-index 7b44583e6..a9914257d 100644
+index 7b44583e..a9914257 100644
 --- a/src/com/android/providers/telephony/MmsSmsProvider.java
 +++ b/src/com/android/providers/telephony/MmsSmsProvider.java
-@@ -23,12 +23,14 @@
+@@ -23,12 +23,14 @@ import android.content.Context;
  import android.content.UriMatcher;
  import android.database.Cursor;
  import android.database.DatabaseUtils;
@@ -281,7 +281,7 @@ index 7b44583e6..a9914257d 100644
  import android.provider.BaseColumns;
  import android.provider.Telephony;
  import android.provider.Telephony.CanonicalAddressesColumns;
-@@ -335,6 +337,16 @@ public boolean onCreate() {
+@@ -335,6 +337,16 @@ public class MmsSmsProvider extends ContentProvider {
      @Override
      public Cursor query(Uri uri, String[] projection,
              String selection, String[] selectionArgs, String sortOrder) {
@@ -298,7 +298,7 @@ index 7b44583e6..a9914257d 100644
          // First check if restricted views of the "sms" and "pdu" tables should be used based on the
          // caller's identity. Only system, phone or the default sms app can have full access
          // of sms/mms data. For other apps, we present a restricted view which only contains sent
-@@ -1244,6 +1256,14 @@ public String getType(Uri uri) {
+@@ -1244,6 +1256,14 @@ public class MmsSmsProvider extends ContentProvider {
      @Override
      public int delete(Uri uri, String selection,
              String[] selectionArgs) {
@@ -313,7 +313,7 @@ index 7b44583e6..a9914257d 100644
          SQLiteDatabase db = mOpenHelper.getWritableDatabase();
          Context context = getContext();
          int affectedRows = 0;
-@@ -1300,6 +1320,14 @@ private int deleteConversation(Uri uri, String selection, String[] selectionArgs
+@@ -1300,6 +1320,14 @@ public class MmsSmsProvider extends ContentProvider {
  
      @Override
      public Uri insert(Uri uri, ContentValues values) {
@@ -328,7 +328,7 @@ index 7b44583e6..a9914257d 100644
          if (URI_MATCHER.match(uri) == URI_PENDING_MSG) {
              SQLiteDatabase db = mOpenHelper.getWritableDatabase();
              long rowId = db.insert(TABLE_PENDING_MSG, null, values);
-@@ -1311,6 +1339,14 @@ public Uri insert(Uri uri, ContentValues values) {
+@@ -1311,6 +1339,14 @@ public class MmsSmsProvider extends ContentProvider {
      @Override
      public int update(Uri uri, ContentValues values,
              String selection, String[] selectionArgs) {
@@ -344,10 +344,10 @@ index 7b44583e6..a9914257d 100644
          final String callerPkg = getCallingPackage();
          SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 diff --git a/src/com/android/providers/telephony/SmsProvider.java b/src/com/android/providers/telephony/SmsProvider.java
-index 208175645..6fa858751 100644
+index 20817564..6fa85875 100644
 --- a/src/com/android/providers/telephony/SmsProvider.java
 +++ b/src/com/android/providers/telephony/SmsProvider.java
-@@ -38,6 +38,7 @@
+@@ -38,6 +38,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
  import android.net.Uri;
  import android.os.Binder;
  import android.os.UserHandle;
@@ -355,7 +355,7 @@ index 208175645..6fa858751 100644
  import android.provider.Contacts;
  import android.provider.Telephony;
  import android.provider.Telephony.MmsSms;
-@@ -146,6 +147,16 @@ public static String getSmsTable(boolean accessRestricted) {
+@@ -146,6 +147,16 @@ public class SmsProvider extends ContentProvider {
      @Override
      public Cursor query(Uri url, String[] projectionIn, String selection,
              String[] selectionArgs, String sort) {
@@ -372,7 +372,7 @@ index 208175645..6fa858751 100644
          // First check if a restricted view of the "sms" table should be used based on the
          // caller's identity. Only system, phone or the default sms app can have full access
          // of sms data. For other apps, we present a restricted view which only contains sent
-@@ -521,6 +532,14 @@ public Uri insert(Uri url, ContentValues initialValues) {
+@@ -521,6 +532,14 @@ public class SmsProvider extends ContentProvider {
      }
  
      private Uri insertInner(Uri url, ContentValues initialValues, int callerUid, String callerPkg) {
@@ -387,7 +387,7 @@ index 208175645..6fa858751 100644
          ContentValues values;
          long rowID;
          int type = Sms.MESSAGE_TYPE_ALL;
-@@ -1050,6 +1069,14 @@ private static int charToBCD(char c) {
+@@ -1050,6 +1069,14 @@ public class SmsProvider extends ContentProvider {
  
      @Override
      public int delete(Uri url, String where, String[] whereArgs) {
@@ -402,7 +402,7 @@ index 208175645..6fa858751 100644
          int count;
          int match = sURLMatcher.match(url);
          SQLiteDatabase db = getDBOpenHelper(match).getWritableDatabase();
-@@ -1161,6 +1188,14 @@ private int deleteMessageFromIcc(String messageIndexString, int subId) {
+@@ -1161,6 +1188,14 @@ public class SmsProvider extends ContentProvider {
  
      @Override
      public int update(Uri url, ContentValues values, String where, String[] whereArgs) {
