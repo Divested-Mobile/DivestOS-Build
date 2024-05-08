@@ -1,0 +1,61 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Aishwarya Mallampati <amallampati@google.com>
+Date: Tue, 1 Nov 2022 17:04:35 +0000
+Subject: [PATCH] DO NOT MERGE Grant carrier privileges if package has carrier
+ config access.
+
+TelephonyManager#hasCarrierPrivileges internally uses
+SubscriptionManager#canManageSubscription to decide whether to grant
+carrier privilege status to an app or not.
+SubscriptionManager#canManageSubscription returns true if caller APK's
+certificate matches with one of the mNativeAccessRules or
+mCarrierConfigAccessRules. This over-grants carrier privilege status
+to apps that only has mNativeAccessRules.
+Carrier privilege status should
+be granted to the caller APK only if it's certificate matches with one
+of mCarrierConfigAccessRules.
+Replaced SubscriptionManager#canManageSubscription with
+PhoneInterfaceManager#hasCarrierConfigAccess which returns true only if
+caller APK certificates matches with one of mCarrierConfigAccessRules of
+the given subscription.
+
+Bug: 226593252
+Test: Manual Testing as explained in b/226593252#comment51
+      atest CtsTelephonyTestCases
+      Flashed build on raven-userdebug and performed basic
+      funtionality tests
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:e46bce078fef9dba500a7411e843f7f00a7a33c2)
+Merged-In: I662064529d2a9348f395fe3b541366de8bc2fe7d
+Change-Id: I662064529d2a9348f395fe3b541366de8bc2fe7d
+---
+ telephony/java/android/telephony/SubscriptionInfo.java | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/telephony/java/android/telephony/SubscriptionInfo.java b/telephony/java/android/telephony/SubscriptionInfo.java
+index 471edad80bc6..eb7c00a9fc78 100644
+--- a/telephony/java/android/telephony/SubscriptionInfo.java
++++ b/telephony/java/android/telephony/SubscriptionInfo.java
+@@ -16,6 +16,7 @@
+ 
+ package android.telephony;
+ 
++import android.annotation.NonNull;
+ import android.annotation.Nullable;
+ import android.annotation.SystemApi;
+ import android.annotation.UnsupportedAppUsage;
+@@ -658,6 +659,15 @@ public class SubscriptionInfo implements Parcelable {
+         return merged.isEmpty() ? null : merged;
+     }
+ 
++    /**
++     * @hide
++     * @return mCarrierConfigAccessRules associated with this subscription.
++     */
++    public @NonNull List<UiccAccessRule> getCarrierConfigAccessRules() {
++        return mCarrierConfigAccessRules == null ? Collections.emptyList() :
++            Arrays.asList(mCarrierConfigAccessRules);
++    }
++
+     /**
+      * Returns the card string if the calling app has been granted the READ_PRIVILEGED_PHONE_STATE
+      * permission, has carrier privileges (see {@link TelephonyManager#hasCarrierPrivileges}), or

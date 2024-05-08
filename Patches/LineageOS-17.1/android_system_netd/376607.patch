@@ -1,0 +1,197 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ken Chen <cken@google.com>
+Date: Thu, 15 Jun 2023 17:46:16 +0800
+Subject: [PATCH] Fix use-after-free in DNS64 discovery thread
+
+DNS64 discovery thread is detached from binder requesting thread. But
+the discovery thread references resources not belongs to itself, which
+can be destroyed in dnsresolver destruction.
+
+Holds a strong pointer of Dns64Configuration in DNS64 discovery thread
+so that the instance of Dns64Configuration will keep until the DNS64
+thread is force terminated.
+
+Ignore-AOSP-First: Fix security vulnerability
+Bug: 278303745
+Test: m, fuzzing
+Fuzzing: mma resolv_service_fuzzer && adb sync data && adb shell /data/fuzz/arm64/resolv_service_fuzzer/resolv_service_fuzzer
+
+(cherry picked from commit 254115584ff558fb87ee6ec5f5bb043f76219910)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:cad5a8c884345689f5f2a1b6679c89524b066d15)
+Merged-In: Id74ea4e6f54a00805d3cc8a9d7e15e58a473b7d3
+Change-Id: Id74ea4e6f54a00805d3cc8a9d7e15e58a473b7d3
+---
+ resolv/Android.bp             |  1 +
+ resolv/Dns64Configuration.cpp | 17 ++++++++++-------
+ resolv/Dns64Configuration.h   |  3 ++-
+ resolv/ResolverController.cpp | 15 +++++++--------
+ resolv/ResolverController.h   |  2 +-
+ 5 files changed, 21 insertions(+), 17 deletions(-)
+
+diff --git a/resolv/Android.bp b/resolv/Android.bp
+index 50243f2b..6064fe21 100644
+--- a/resolv/Android.bp
++++ b/resolv/Android.bp
+@@ -91,6 +91,7 @@ cc_library {
+         "libutils",
+         "netd_event_listener_interface-ndk_platform",
+         "dnsresolver_aidl_interface-ndk_platform",
++        "libutils",
+         "server_configurable_flags",
+         "stats_proto",
+         "libprotobuf-cpp-lite",
+diff --git a/resolv/Dns64Configuration.cpp b/resolv/Dns64Configuration.cpp
+index a1dfdca0..865583e6 100644
+--- a/resolv/Dns64Configuration.cpp
++++ b/resolv/Dns64Configuration.cpp
+@@ -21,6 +21,7 @@
+ 
+ #include <log/log.h>
+ #include <netdb.h>
++#include <utils/StrongPointer.h>
+ #include <thread>
+ #include <utility>
+ 
+@@ -38,6 +39,7 @@
+ namespace android {
+ 
+ using android::net::NetworkDnsEventReported;
++using android::sp;
+ using netdutils::DumpWriter;
+ using netdutils::IPAddress;
+ using netdutils::IPPrefix;
+@@ -61,8 +63,9 @@ void Dns64Configuration::startPrefixDiscovery(unsigned netId) {
+     // Emplace a copy of |cfg| in the map.
+     mDns64Configs.emplace(std::make_pair(netId, cfg));
+ 
++    const sp<Dns64Configuration> thiz = this;
+     // Note that capturing |cfg| in this lambda creates a copy.
+-    std::thread discovery_thread([this, cfg] {
++    std::thread discovery_thread([thiz, cfg] {
+         // Make a mutable copy rather than mark the whole lambda mutable.
+         // No particular reason.
+         Dns64Config evalCfg(cfg);
+@@ -73,28 +76,28 @@ void Dns64Configuration::startPrefixDiscovery(unsigned netId) {
+                                .build();
+ 
+         while (true) {
+-            if (!this->shouldContinueDiscovery(evalCfg)) break;
++            if (!thiz->shouldContinueDiscovery(evalCfg)) break;
+ 
+             android_net_context netcontext{};
+-            mGetNetworkContextCallback(evalCfg.netId, 0, &netcontext);
++            thiz->mGetNetworkContextCallback(evalCfg.netId, 0, &netcontext);
+ 
+             // Prefix discovery must bypass private DNS because in strict mode
+             // the server generally won't know the NAT64 prefix.
+             netcontext.flags |= NET_CONTEXT_FLAG_USE_LOCAL_NAMESERVERS;
+             if (doRfc7050PrefixDiscovery(netcontext, &evalCfg)) {
+-                this->recordDns64Config(evalCfg);
++                thiz->recordDns64Config(evalCfg);
+                 break;
+             }
+ 
+-            if (!this->shouldContinueDiscovery(evalCfg)) break;
++            if (!thiz->shouldContinueDiscovery(evalCfg)) break;
+ 
+             if (!backoff.hasNextTimeout()) break;
+             {
+-                std::unique_lock<std::mutex> cvGuard(mMutex);
++                std::unique_lock<std::mutex> cvGuard(thiz->mMutex);
+                 // TODO: Consider some chrono math, combined with wait_until()
+                 // perhaps, to prevent early re-resolves from the removal of
+                 // other netids with IPv6-only nameservers.
+-                mCv.wait_for(cvGuard, backoff.getNextTimeout());
++                thiz->mCv.wait_for(cvGuard, backoff.getNextTimeout());
+             }
+         }
+     });
+diff --git a/resolv/Dns64Configuration.h b/resolv/Dns64Configuration.h
+index 58b115eb..aa899189 100644
+--- a/resolv/Dns64Configuration.h
++++ b/resolv/Dns64Configuration.h
+@@ -26,6 +26,7 @@
+ #include <android-base/thread_annotations.h>
+ #include "netdutils/DumpWriter.h"
+ #include "netdutils/InternetAddresses.h"
++#include <utils/RefBase.h>
+ 
+ struct android_net_context;
+ 
+@@ -47,7 +48,7 @@ namespace net {
+  * Thread-safety: All public methods in this class MUST be thread-safe.
+  * (In other words: this class handles all its locking privately.)
+  */
+-class Dns64Configuration {
++class Dns64Configuration : virtual public RefBase {
+   public:
+     // Simple data struct for passing back packet NAT64 prefix event information to the
+     // Dns64PrefixCallback callback.
+diff --git a/resolv/ResolverController.cpp b/resolv/ResolverController.cpp
+index ac242596..b3515ff0 100644
+--- a/resolv/ResolverController.cpp
++++ b/resolv/ResolverController.cpp
+@@ -175,17 +175,17 @@ int getDnsInfo(unsigned netId, std::vector<std::string>* servers, std::vector<st
+ }  // namespace
+ 
+ ResolverController::ResolverController()
+-    : mDns64Configuration(
++    : mDns64Configuration(new Dns64Configuration(
+               [](uint32_t netId, uint32_t uid, android_net_context* netcontext) {
+                   gResNetdCallbacks.get_network_context(netId, uid, netcontext);
+               },
+-              std::bind(sendNat64PrefixEvent, _1)) {}
++              std::bind(sendNat64PrefixEvent, _1))) {}
+ 
+ void ResolverController::destroyNetworkCache(unsigned netId) {
+     LOG(VERBOSE) << __func__ << ": netId = " << netId;
+ 
+     resolv_delete_cache_for_net(netId);
+-    mDns64Configuration.stopPrefixDiscovery(netId);
++    mDns64Configuration->stopPrefixDiscovery(netId);
+     gPrivateDnsConfiguration.clear(netId);
+ }
+ 
+@@ -280,16 +280,16 @@ int ResolverController::getResolverInfo(int32_t netId, std::vector<std::string>*
+ }
+ 
+ void ResolverController::startPrefix64Discovery(int32_t netId) {
+-    mDns64Configuration.startPrefixDiscovery(netId);
++    mDns64Configuration->startPrefixDiscovery(netId);
+ }
+ 
+ void ResolverController::stopPrefix64Discovery(int32_t netId) {
+-    return mDns64Configuration.stopPrefixDiscovery(netId);
++    return mDns64Configuration->stopPrefixDiscovery(netId);
+ }
+ 
+ // TODO: use StatusOr<T> to wrap the result.
+ int ResolverController::getPrefix64(unsigned netId, netdutils::IPPrefix* prefix) {
+-    netdutils::IPPrefix p = mDns64Configuration.getPrefix64(netId);
++    netdutils::IPPrefix p = mDns64Configuration->getPrefix64(netId);
+     if (p.family() != AF_INET6 || p.length() == 0) {
+         LOG(ERROR) << "No valid NAT64 prefix (" << netId << ", " << p.toString().c_str() << ")";
+ 
+@@ -355,8 +355,7 @@ void ResolverController::dump(DumpWriter& dw, unsigned netId) {
+                     params.sample_validity, params.success_threshold, params.min_samples,
+                     params.max_samples, params.base_timeout_msec, params.retry_count);
+         }
+-
+-        mDns64Configuration.dump(dw, netId);
++        mDns64Configuration->dump(dw, netId);
+         ExternalPrivateDnsStatus privateDnsStatus = {PrivateDnsMode::OFF, 0, {}};
+         gPrivateDnsConfiguration.getStatus(netId, &privateDnsStatus);
+         dw.println("Private DNS mode: %s", getPrivateDnsModeString(privateDnsStatus.mode));
+diff --git a/resolv/ResolverController.h b/resolv/ResolverController.h
+index 6d08cdbe..2163a080 100644
+--- a/resolv/ResolverController.h
++++ b/resolv/ResolverController.h
+@@ -59,7 +59,7 @@ class ResolverController {
+     void dump(netdutils::DumpWriter& dw, unsigned netId);
+ 
+   private:
+-    Dns64Configuration mDns64Configuration;
++    android::sp<Dns64Configuration> mDns64Configuration;
+ };
+ }  // namespace net
+ }  // namespace android

@@ -1,0 +1,50 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Collin Fijalkovich <cfijalkovich@google.com>
+Date: Wed, 8 Jul 2020 15:00:03 -0700
+Subject: [PATCH] Block Traceur MainTvActivity when development options
+ disabled.
+
+The system tracing app is intended to only be accessible when
+development options are enabled, but this requirement could be bypassed
+by sending an intent to launch the MainTvActivity. This change causes
+the activity to immediately exit if development options are disabled.
+
+Bug: 160155846
+Test: am start com.android.traceur/com.android.traceur.MainTvActivity
+failed when development options were disabled.
+
+Change-Id: I371538eaff180dfc38fa6403a773c24cbbfd4dcf
+Merged-In: I371538eaff180dfc38fa6403a773c24cbbfd4dcf
+---
+ src/com/google/android/traceur/MainTvActivity.java | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/src/com/google/android/traceur/MainTvActivity.java b/src/com/google/android/traceur/MainTvActivity.java
+index 18fbe04..91f67c4 100644
+--- a/src/com/google/android/traceur/MainTvActivity.java
++++ b/src/com/google/android/traceur/MainTvActivity.java
+@@ -17,6 +17,7 @@ package com.android.traceur;
+ 
+ import android.app.Activity;
+ import android.os.Bundle;
++import android.provider.Settings;
+ 
+ public class MainTvActivity extends Activity {
+     @Override
+@@ -24,4 +25,16 @@ public class MainTvActivity extends Activity {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity);
+     }
++
++    @Override
++    protected void onStart() {
++        super.onStart();
++        boolean developerOptionsIsEnabled =
++            Settings.Global.getInt(getApplicationContext().getContentResolver(),
++                Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
++
++        if (!developerOptionsIsEnabled) {
++            finish();
++        }
++    }
+ }

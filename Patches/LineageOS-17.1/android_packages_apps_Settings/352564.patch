@@ -1,0 +1,378 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tsung-Mao Fang <tmfang@google.com>
+Date: Mon, 3 Jan 2022 18:25:04 +0800
+Subject: [PATCH] FRP bypass defense in the settings app
+
+Over the last few years, there have been a number of
+Factory Reset Protection bypass bugs in the SUW flow.
+It's unlikely to defense all points from individual apps.
+
+Therefore, we decide to block some critical pages when
+user doesn't complete the SUW flow.
+
+Test: Can't open the certain pages in the suw flow.
+Bug: 258422561
+Fix: 200746457
+Bug: 202975040
+Fix: 213091525
+Fix: 213090835
+Fix: 201561699
+Fix: 213090827
+Fix: 213090875
+Change-Id: Ia18f367109df5af7da0a5acad7702898a459d32e
+Merged-In: Ia18f367109df5af7da0a5acad7702898a459d32e
+(cherry picked from commit ff5bfb40c8b09ab477efaae6a0199911a0d703dd)
+Merged-In: Ia18f367109df5af7da0a5acad7702898a459d32e
+---
+ .../settings/SettingsPreferenceFragment.java  | 23 +++++-
+ .../accounts/AccountDashboardFragment.java    |  5 ++
+ .../appinfo/AppInfoDashboardFragment.java     |  5 ++
+ .../DevelopmentSettingsDashboardFragment.java |  5 ++
+ .../system/ResetDashboardFragment.java        |  5 ++
+ .../SettingsPreferenceFragmentTest.java       | 74 +++++++++++++++++++
+ .../AccountDashboardFragmentTest.java         |  5 ++
+ .../appinfo/AppInfoDashboardFragmentTest.java |  5 ++
+ ...elopmentSettingsDashboardFragmentTest.java |  5 ++
+ .../system/ResetDashboardFragmentTest.java    | 40 ++++++++++
+ 10 files changed, 171 insertions(+), 1 deletion(-)
+ create mode 100644 tests/robotests/src/com/android/settings/system/ResetDashboardFragmentTest.java
+
+diff --git a/src/com/android/settings/SettingsPreferenceFragment.java b/src/com/android/settings/SettingsPreferenceFragment.java
+index 6b29b2e1e48..0c537534dff 100644
+--- a/src/com/android/settings/SettingsPreferenceFragment.java
++++ b/src/com/android/settings/SettingsPreferenceFragment.java
+@@ -56,6 +56,8 @@ import com.android.settingslib.core.instrumentation.Instrumentable;
+ import com.android.settingslib.widget.FooterPreferenceMixinCompat;
+ import com.android.settingslib.widget.LayoutPreference;
+ 
++import com.google.android.setupcompat.util.WizardManagerHelper;
++
+ import java.util.UUID;
+ 
+ /**
+@@ -64,7 +66,7 @@ import java.util.UUID;
+ public abstract class SettingsPreferenceFragment extends InstrumentedPreferenceFragment
+         implements DialogCreatable, HelpResourceProvider, Indexable {
+ 
+-    private static final String TAG = "SettingsPreference";
++    private static final String TAG = "SettingsPreferenceFragment";
+ 
+     private static final String SAVE_HIGHLIGHTED_KEY = "android:preference_highlighted";
+ 
+@@ -128,6 +130,15 @@ public abstract class SettingsPreferenceFragment extends InstrumentedPreferenceF
+     @VisibleForTesting
+     public boolean mPreferenceHighlighted = false;
+ 
++    @Override
++    public void onAttach(Context context) {
++        if (shouldSkipForInitialSUW() && !WizardManagerHelper.isDeviceProvisioned(getContext())) {
++            Log.w(TAG, "Skip " + getClass().getSimpleName() + " before SUW completed.");
++            finish();
++        }
++        super.onAttach(context);
++    }
++
+     @Override
+     public void onCreate(Bundle icicle) {
+         super.onCreate(icicle);
+@@ -264,6 +275,16 @@ public abstract class SettingsPreferenceFragment extends InstrumentedPreferenceF
+         return 0;
+     }
+ 
++    /**
++     * Whether UI should be skipped in the initial SUW flow.
++     *
++     * @return {@code true} when UI should be skipped in the initial SUW flow.
++     * {@code false} when UI should not be skipped in the initial SUW flow.
++     */
++    protected boolean shouldSkipForInitialSUW() {
++        return false;
++    }
++
+     protected void onDataSetChanged() {
+         highlightPreferenceIfNeeded();
+         updateEmptyView();
+diff --git a/src/com/android/settings/accounts/AccountDashboardFragment.java b/src/com/android/settings/accounts/AccountDashboardFragment.java
+index 515008af596..627a3177d29 100644
+--- a/src/com/android/settings/accounts/AccountDashboardFragment.java
++++ b/src/com/android/settings/accounts/AccountDashboardFragment.java
+@@ -67,6 +67,11 @@ public class AccountDashboardFragment extends DashboardFragment {
+         return buildPreferenceControllers(context, this /* parent */, authorities);
+     }
+ 
++    @Override
++    protected boolean shouldSkipForInitialSUW() {
++        return true;
++    }
++
+     private static List<AbstractPreferenceController> buildPreferenceControllers(Context context,
+             SettingsPreferenceFragment parent, String[] authorities) {
+         final List<AbstractPreferenceController> controllers = new ArrayList<>();
+diff --git a/src/com/android/settings/applications/appinfo/AppInfoDashboardFragment.java b/src/com/android/settings/applications/appinfo/AppInfoDashboardFragment.java
+index 9917d352e8d..b757380c5dd 100755
+--- a/src/com/android/settings/applications/appinfo/AppInfoDashboardFragment.java
++++ b/src/com/android/settings/applications/appinfo/AppInfoDashboardFragment.java
+@@ -473,6 +473,11 @@ public class AppInfoDashboardFragment extends DashboardFragment
+         return true;
+     }
+ 
++    @Override
++    protected boolean shouldSkipForInitialSUW() {
++        return true;
++    }
++
+     private void uninstallPkg(String packageName, boolean allUsers, boolean andDisable) {
+         stopListeningToPackageRemove();
+         // Create new intent to launch Uninstaller activity
+diff --git a/src/com/android/settings/development/DevelopmentSettingsDashboardFragment.java b/src/com/android/settings/development/DevelopmentSettingsDashboardFragment.java
+index f18225e8fb5..ca46b24a313 100644
+--- a/src/com/android/settings/development/DevelopmentSettingsDashboardFragment.java
++++ b/src/com/android/settings/development/DevelopmentSettingsDashboardFragment.java
+@@ -181,6 +181,11 @@ public class DevelopmentSettingsDashboardFragment extends RestrictedDashboardFra
+         }
+     }
+ 
++    @Override
++    protected boolean shouldSkipForInitialSUW() {
++        return true;
++    }
++
+     @Override
+     public View onCreateView(LayoutInflater inflater, ViewGroup container,
+             Bundle savedInstanceState) {
+diff --git a/src/com/android/settings/system/ResetDashboardFragment.java b/src/com/android/settings/system/ResetDashboardFragment.java
+index 5243d6a393b..aa06691d67d 100644
+--- a/src/com/android/settings/system/ResetDashboardFragment.java
++++ b/src/com/android/settings/system/ResetDashboardFragment.java
+@@ -58,6 +58,11 @@ public class ResetDashboardFragment extends DashboardFragment {
+         return buildPreferenceControllers(context, getSettingsLifecycle());
+     }
+ 
++    @Override
++    protected boolean shouldSkipForInitialSUW() {
++        return true;
++    }
++
+     private static List<AbstractPreferenceController> buildPreferenceControllers(Context context,
+             Lifecycle lifecycle) {
+         final List<AbstractPreferenceController> controllers = new ArrayList<>();
+diff --git a/tests/robotests/src/com/android/settings/SettingsPreferenceFragmentTest.java b/tests/robotests/src/com/android/settings/SettingsPreferenceFragmentTest.java
+index cce01550a78..71c531a4c99 100644
+--- a/tests/robotests/src/com/android/settings/SettingsPreferenceFragmentTest.java
++++ b/tests/robotests/src/com/android/settings/SettingsPreferenceFragmentTest.java
+@@ -23,11 +23,13 @@ import static org.mockito.Mockito.doReturn;
+ import static org.mockito.Mockito.mock;
+ import static org.mockito.Mockito.never;
+ import static org.mockito.Mockito.spy;
++import static org.mockito.Mockito.times;
+ import static org.mockito.Mockito.verify;
+ import static org.mockito.Mockito.when;
+ 
+ import android.content.Context;
+ import android.os.Bundle;
++import android.provider.Settings;
+ import android.view.View;
+ 
+ import androidx.fragment.app.FragmentActivity;
+@@ -39,6 +41,7 @@ import androidx.preference.PreferenceScreen;
+ import com.android.settings.testutils.FakeFeatureFactory;
+ import com.android.settings.widget.WorkOnlyCategory;
+ 
++import org.junit.After;
+ import org.junit.Before;
+ import org.junit.Test;
+ import org.junit.runner.RunWith;
+@@ -61,7 +64,9 @@ public class SettingsPreferenceFragmentTest {
+     private PreferenceScreen mPreferenceScreen;
+     private Context mContext;
+     private TestFragment mFragment;
++    private TestFragment2 mFragment2;
+     private View mEmptyView;
++    private int mInitDeviceProvisionedValue;
+ 
+     @Before
+     public void setUp() {
+@@ -69,13 +74,24 @@ public class SettingsPreferenceFragmentTest {
+         FakeFeatureFactory.setupForTest();
+         mContext = RuntimeEnvironment.application;
+         mFragment = spy(new TestFragment());
++        mFragment2 = spy(new TestFragment2());
+         doReturn(mActivity).when(mFragment).getActivity();
+         when(mFragment.getContext()).thenReturn(mContext);
++        when(mFragment2.getContext()).thenReturn(mContext);
+ 
+         mEmptyView = new View(mContext);
+         ReflectionHelpers.setField(mFragment, "mEmptyView", mEmptyView);
+ 
+         doReturn(ITEM_COUNT).when(mPreferenceScreen).getPreferenceCount();
++
++        mInitDeviceProvisionedValue = Settings.Global.getInt(mContext.getContentResolver(),
++                Settings.Global.DEVICE_PROVISIONED, 0);
++    }
++
++    @After
++    public void tearDown() {
++        Settings.Global.putInt(mContext.getContentResolver(),
++                Settings.Global.DEVICE_PROVISIONED, mInitDeviceProvisionedValue);
+     }
+ 
+     @Test
+@@ -187,8 +203,66 @@ public class SettingsPreferenceFragmentTest {
+         verify(workOnlyCategory).setVisible(false);
+     }
+ 
++    @Test
++    public void onAttach_shouldNotSkipForSUWAndDeviceIsProvisioned_notCallFinish() {
++        Settings.Global.putInt(mContext.getContentResolver(),
++                Settings.Global.DEVICE_PROVISIONED, 1);
++
++        mFragment.onAttach(mContext);
++
++        verify(mFragment, never()).finish();
++    }
++
++    @Test
++    public void onAttach_shouldNotSkipForSUWAndDeviceIsNotProvisioned_notCallFinish() {
++        Settings.Global.putInt(mContext.getContentResolver(),
++                Settings.Global.DEVICE_PROVISIONED, 0);
++
++        mFragment.onAttach(mContext);
++
++        verify(mFragment, never()).finish();
++    }
++
++    @Test
++    public void onAttach_shouldSkipForSUWAndDeviceIsDeviceProvisioned_notCallFinish() {
++        Settings.Global.putInt(mContext.getContentResolver(),
++                Settings.Global.DEVICE_PROVISIONED, 1);
++
++        mFragment2.onAttach(mContext);
++
++        verify(mFragment2, never()).finish();
++    }
++
++    @Test
++    public void onAttach_shouldSkipForSUWAndDeviceProvisioned_notCallFinish() {
++        Settings.Global.putInt(mContext.getContentResolver(),
++                Settings.Global.DEVICE_PROVISIONED, 0);
++
++        mFragment2.onAttach(mContext);
++
++        verify(mFragment2, times(1)).finish();
++    }
++
+     public static class TestFragment extends SettingsPreferenceFragment {
+ 
++        @Override
++        protected boolean shouldSkipForInitialSUW() {
++            return false;
++        }
++
++        @Override
++        public int getMetricsCategory() {
++            return 0;
++        }
++    }
++
++    public static class TestFragment2 extends SettingsPreferenceFragment {
++
++        @Override
++        protected boolean shouldSkipForInitialSUW() {
++            return true;
++        }
++
+         @Override
+         public int getMetricsCategory() {
+             return 0;
+diff --git a/tests/robotests/src/com/android/settings/accounts/AccountDashboardFragmentTest.java b/tests/robotests/src/com/android/settings/accounts/AccountDashboardFragmentTest.java
+index 006087516cf..b04d5c76375 100644
+--- a/tests/robotests/src/com/android/settings/accounts/AccountDashboardFragmentTest.java
++++ b/tests/robotests/src/com/android/settings/accounts/AccountDashboardFragmentTest.java
+@@ -53,4 +53,9 @@ public class AccountDashboardFragmentTest {
+         assertThat(indexRes).isNotNull();
+         assertThat(indexRes.get(0).xmlResId).isEqualTo(mFragment.getPreferenceScreenResId());
+     }
++
++    @Test
++    public void shouldSkipForInitialSUW_returnTrue() {
++        assertThat(mFragment.shouldSkipForInitialSUW()).isTrue();
++    }
+ }
+diff --git a/tests/robotests/src/com/android/settings/applications/appinfo/AppInfoDashboardFragmentTest.java b/tests/robotests/src/com/android/settings/applications/appinfo/AppInfoDashboardFragmentTest.java
+index e46cd06afe6..5292c60f869 100644
+--- a/tests/robotests/src/com/android/settings/applications/appinfo/AppInfoDashboardFragmentTest.java
++++ b/tests/robotests/src/com/android/settings/applications/appinfo/AppInfoDashboardFragmentTest.java
+@@ -384,6 +384,11 @@ public final class AppInfoDashboardFragmentTest {
+                 .isTrue();
+     }
+ 
++    @Test
++    public void shouldSkipForInitialSUW_returnTrue() {
++        assertThat(mFragment.shouldSkipForInitialSUW()).isTrue();
++    }
++
+     @Implements(AppUtils.class)
+     public static class ShadowAppUtils {
+ 
+diff --git a/tests/robotests/src/com/android/settings/development/DevelopmentSettingsDashboardFragmentTest.java b/tests/robotests/src/com/android/settings/development/DevelopmentSettingsDashboardFragmentTest.java
+index 83a48809681..d460d13e9ea 100644
+--- a/tests/robotests/src/com/android/settings/development/DevelopmentSettingsDashboardFragmentTest.java
++++ b/tests/robotests/src/com/android/settings/development/DevelopmentSettingsDashboardFragmentTest.java
+@@ -275,6 +275,11 @@ public class DevelopmentSettingsDashboardFragmentTest {
+         verify(controller).onDisableLogPersistDialogRejected();
+     }
+ 
++    @Test
++    public void shouldSkipForInitialSUW_returnTrue() {
++        assertThat(mDashboard.shouldSkipForInitialSUW()).isTrue();
++    }
++
+     @Implements(EnableDevelopmentSettingWarningDialog.class)
+     public static class ShadowEnableDevelopmentSettingWarningDialog {
+ 
+diff --git a/tests/robotests/src/com/android/settings/system/ResetDashboardFragmentTest.java b/tests/robotests/src/com/android/settings/system/ResetDashboardFragmentTest.java
+new file mode 100644
+index 00000000000..c1d47887a70
+--- /dev/null
++++ b/tests/robotests/src/com/android/settings/system/ResetDashboardFragmentTest.java
+@@ -0,0 +1,40 @@
++/*
++ * Copyright (C) 2022 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.settings.system;
++
++import static com.google.common.truth.Truth.assertThat;
++
++import org.junit.Before;
++import org.junit.Test;
++import org.junit.runner.RunWith;
++import org.robolectric.RobolectricTestRunner;
++
++@RunWith(RobolectricTestRunner.class)
++public class ResetDashboardFragmentTest {
++
++    private ResetDashboardFragment mFragment;
++
++    @Before
++    public void setup() {
++        mFragment = new ResetDashboardFragment();
++    }
++
++    @Test
++    public void shouldSkipForInitialSUW_returnTrue() {
++        assertThat(mFragment.shouldSkipForInitialSUW()).isTrue();
++    }
++}

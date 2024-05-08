@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Alexander Grund <flamefire89@gmail.com>
+Date: Fri, 22 Dec 2023 14:45:39 +0100
+Subject: [PATCH] Fix `find_rfc_slot_by_pending_sdp` not finding active slot
+ with max ID
+
+UINT32_MAX is a valid `id` however using `rfc_slots[i].id < min_id`
+with an initial `min_id = UINT32_MAX` can never find a slot with that id.
+Use `<=` instead assuming the ids are unique anyway.
+
+Also store the pointer to the slot directly instead of using a condition
+in the return path.
+
+Change-Id: I4c7d1d7a5203ee8df8e734441d121c46e80eaac4
+---
+ btif/src/btif_sock_rfc.cc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/btif/src/btif_sock_rfc.cc b/btif/src/btif_sock_rfc.cc
+index 3c9e26e51..3f9dc559d 100644
+--- a/btif/src/btif_sock_rfc.cc
++++ b/btif/src/btif_sock_rfc.cc
+@@ -171,15 +171,15 @@ static rfc_slot_t* find_rfc_slot_by_id(uint32_t id) {
+ 
+ static rfc_slot_t* find_rfc_slot_by_pending_sdp(void) {
+   uint32_t min_id = UINT32_MAX;
+-  int slot = -1;
++  rfc_slot_t* slot = NULL;
+   for (size_t i = 0; i < ARRAY_SIZE(rfc_slots); ++i)
+     if (rfc_slots[i].id && rfc_slots[i].f.pending_sdp_request &&
+-        rfc_slots[i].id < min_id) {
++        rfc_slots[i].id <= min_id) {
+       min_id = rfc_slots[i].id;
+-      slot = i;
++      slot = &rfc_slots[i];
+     }
+ 
+-  return (slot == -1) ? NULL : &rfc_slots[slot];
++  return slot;
+ }
+ 
+ static bool is_requesting_sdp(void) {

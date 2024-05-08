@@ -1,0 +1,76 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jing Ji <jji@google.com>
+Date: Thu, 4 Aug 2022 11:36:26 -0700
+Subject: [PATCH] DO NOT MERGE: Context#startInstrumentation could be started
+ from SHELL only now.
+
+Or, if an instrumentation starts another instrumentation and so on,
+and the original instrumentation is started from SHELL, allow all
+Context#startInstrumentation calls in this chain.
+
+Otherwise, it'll throw a SecurityException.
+
+Bug: 237766679
+Test: atest CtsAppTestCases:InstrumentationTest
+Merged-In: Ia08f225c21a3933067d066a578ea4af9c23e7d4c
+Merged-In: I1b76f61c5fd6c9f7e738978592260945a606f40c
+Merged-In: I3ea7aa27bd776fec546908a37f667f680da9c892
+Change-Id: I7ca7345b064e8e74f7037b8fa3ed45bb6423e406
+(cherry picked from commit 8c90891a38ecb5047e115e13baf700a8b486a5d1)
+Merged-In: I7ca7345b064e8e74f7037b8fa3ed45bb6423e406
+---
+ .../server/am/ActivityManagerService.java     | 34 +++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+
+diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
+index bb78408617b8..efbccb3b8f94 100644
+--- a/services/core/java/com/android/server/am/ActivityManagerService.java
++++ b/services/core/java/com/android/server/am/ActivityManagerService.java
+@@ -15761,6 +15761,17 @@ public class ActivityManagerService extends IActivityManager.Stub
+                 reportStartInstrumentationFailureLocked(watcher, className, msg);
+                 throw new SecurityException(msg);
+             }
++            if (!Build.IS_DEBUGGABLE && callingUid != ROOT_UID && callingUid != SHELL_UID
++                    && callingUid != SYSTEM_UID && !hasActiveInstrumentationLocked(callingPid)) {
++                // If it's not debug build and not called from root/shell/system uid, reject it.
++                final String msg = "Permission Denial: instrumentation test "
++                        + className + " from pid=" + callingPid + ", uid=" + callingUid
++                        + ", pkgName=" + getPackageNameByPid(callingPid)
++                        + " not allowed because it's not started from SHELL";
++                Slog.wtfQuiet(TAG, msg);
++                reportStartInstrumentationFailureLocked(watcher, className, msg);
++                throw new SecurityException(msg);
++            }
+ 
+             ActiveInstrumentation activeInstr = new ActiveInstrumentation(this);
+             activeInstr.mClass = className;
+@@ -15817,6 +15828,29 @@ public class ActivityManagerService extends IActivityManager.Stub
+         return true;
+     }
+ 
++    @GuardedBy("this")
++    private boolean hasActiveInstrumentationLocked(int pid) {
++        if (pid == 0) {
++            return false;
++        }
++        synchronized (mPidsSelfLocked) {
++            ProcessRecord process = mPidsSelfLocked.get(pid);
++            return process != null && process.getActiveInstrumentation() != null;
++        }
++    }
++
++    private String getPackageNameByPid(int pid) {
++        synchronized (mPidsSelfLocked) {
++            final ProcessRecord app = mPidsSelfLocked.get(pid);
++
++            if (app != null && app.info != null) {
++                return app.info.packageName;
++            }
++
++            return null;
++        }
++    }
++
+     private boolean isCallerShell() {
+         final int callingUid = Binder.getCallingUid();
+         return callingUid == SHELL_UID || callingUid == ROOT_UID;

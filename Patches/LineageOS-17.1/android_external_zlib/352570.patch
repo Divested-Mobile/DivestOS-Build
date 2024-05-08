@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Sadaf Ebrahimi <sadafebrahimi@google.com>
+Date: Tue, 22 Nov 2022 22:00:13 +0000
+Subject: [PATCH] Fix a bug when getting a gzip header extra field with
+ inflate().
+
+If the extra field was larger than the space the user provided with
+inflateGetHeader(), and if multiple calls of inflate() delivered
+the extra header data, then there could be a buffer overflow of the
+provided space. This commit assures that provided space is not
+exceeded.
+
+Bug: http://b/242299736
+Test: TreeHugger
+
+Change-Id: I4eabb3e135c1568e06b2b9740651a3ae11b21140
+(cherry picked from commit 1c4806afd7ae034aa9f86df35d4341a0b175a90a)
+Merged-In: I4eabb3e135c1568e06b2b9740651a3ae11b21140
+---
+ src/inflate.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/src/inflate.c b/src/inflate.c
+index ac333e8..cd01857 100644
+--- a/src/inflate.c
++++ b/src/inflate.c
+@@ -759,8 +759,9 @@ int flush;
+                 if (copy > have) copy = have;
+                 if (copy) {
+                     if (state->head != Z_NULL &&
+-                        state->head->extra != Z_NULL) {
+-                        len = state->head->extra_len - state->length;
++                        state->head->extra != Z_NULL &&
++                        (len = state->head->extra_len - state->length) <
++                            state->head->extra_max) {
+                         zmemcpy(state->head->extra + len, next,
+                                 len + copy > state->head->extra_max ?
+                                 state->head->extra_max - len : copy);

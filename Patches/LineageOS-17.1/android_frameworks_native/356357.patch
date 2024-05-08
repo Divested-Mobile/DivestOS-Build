@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Devin Moore <devinmoore@google.com>
+Date: Fri, 17 Feb 2023 17:12:46 +0000
+Subject: [PATCH] Check for malformed Sensor Flattenable
+
+Test: libsensorserviceaidl_fuzzer with testcase from bug
+Bug: 269014004
+Merged-In: I0e255c64243c38876fb657cbf942fc1613363216
+Change-Id: I0e255c64243c38876fb657cbf942fc1613363216
+(cherry picked from commit aeec1802f7befc8fbb18313ad3ac0969c3811870)
+Merged-In: I0e255c64243c38876fb657cbf942fc1613363216
+(cherry picked from commit on googleplex-android-review.googlesource.com host: f1aa5fb53437ec2fabc9be00099af836da5f07f2)
+Merged-In: I0e255c64243c38876fb657cbf942fc1613363216
+---
+ libs/sensor/Sensor.cpp | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/libs/sensor/Sensor.cpp b/libs/sensor/Sensor.cpp
+index abc910302c..9d8c6c34e3 100644
+--- a/libs/sensor/Sensor.cpp
++++ b/libs/sensor/Sensor.cpp
+@@ -591,7 +591,13 @@ bool Sensor::unflattenString8(void const*& buffer, size_t& size, String8& output
+         return false;
+     }
+     outputString8.setTo(static_cast<char const*>(buffer), len);
++
++    if (size < FlattenableUtils::align<4>(len)) {
++        ALOGE("Malformed Sensor String8 field. Should be in a 4-byte aligned buffer but is not.");
++        return false;
++    }
+     FlattenableUtils::advance(buffer, size, FlattenableUtils::align<4>(len));
++
+     return true;
+ }
+ 

@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Julia Reynolds <juliacr@google.com>
+Date: Mon, 16 May 2022 15:28:24 -0400
+Subject: [PATCH] Move service initialization
+
+Occasionally ILockSettings can fail to be initialized otherwise
+Fixes: 232714129
+Test: boot (and eventually bootstress/reboot-long)
+
+Change-Id: I2f9f9bdba37f4ebfaea56c1a6662f0474ae8a002
+Merged-In: I2f9f9bdba37f4ebfaea56c1a6662f0474ae8a002
+(cherry picked from commit 0340c219c094cbd0a07600eac471cfeeaceba60e)
+---
+ .../server/notification/NotificationManagerService.java       | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/services/core/java/com/android/server/notification/NotificationManagerService.java b/services/core/java/com/android/server/notification/NotificationManagerService.java
+index 347811d82862..c9831781b543 100755
+--- a/services/core/java/com/android/server/notification/NotificationManagerService.java
++++ b/services/core/java/com/android/server/notification/NotificationManagerService.java
+@@ -1567,7 +1567,6 @@ public class NotificationManagerService extends SystemService {
+         }
+     }
+ 
+-    private LockPatternUtils mLockPatternUtils;
+     private StrongAuthTracker mStrongAuthTracker;
+ 
+     public NotificationManagerService(Context context) {
+@@ -1761,7 +1760,6 @@ public class NotificationManagerService extends SystemService {
+ 
+         mHandler = new WorkerHandler(looper);
+         mRankingThread.start();
+-        mLockPatternUtils = new LockPatternUtils(getContext());
+         mStrongAuthTracker = new StrongAuthTracker(getContext());
+         String[] extractorNames;
+         try {
+@@ -2059,7 +2057,7 @@ public class NotificationManagerService extends SystemService {
+             mRoleObserver = new RoleObserver(getContext().getSystemService(RoleManager.class),
+                     mPackageManager, getContext().getMainExecutor());
+             mRoleObserver.init();
+-            mLockPatternUtils.registerStrongAuthTracker(mStrongAuthTracker);
++            new LockPatternUtils(getContext()).registerStrongAuthTracker(mStrongAuthTracker);
+         } else if (phase == SystemService.PHASE_THIRD_PARTY_APPS_CAN_START) {
+             // This observer will force an update when observe is called, causing us to
+             // bind to listener services.

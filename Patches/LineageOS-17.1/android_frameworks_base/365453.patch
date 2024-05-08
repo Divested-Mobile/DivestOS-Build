@@ -1,0 +1,61 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ioana Alexandru <aioana@google.com>
+Date: Mon, 15 May 2023 16:15:55 +0000
+Subject: [PATCH] Check URIs in notification public version.
+
+Bug: 276294099
+Test: atest NotificationManagerServiceTest NotificationVisitUrisTest
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:9663d493142b59c65311bc09d48427d3bdde0222)
+Merged-In: I670198b213abb2cb29a9865eb9d1e897700508b4
+Change-Id: I670198b213abb2cb29a9865eb9d1e897700508b4
+---
+ core/java/android/app/Notification.java       |  4 ++++
+ .../NotificationManagerServiceTest.java       | 20 +++++++++++++++++++
+ 2 files changed, 24 insertions(+)
+
+diff --git a/core/java/android/app/Notification.java b/core/java/android/app/Notification.java
+index 5b9e1ea6daf1..7921a89ca96f 100644
+--- a/core/java/android/app/Notification.java
++++ b/core/java/android/app/Notification.java
+@@ -2451,6 +2451,10 @@ public class Notification implements Parcelable
+      * @hide
+      */
+     public void visitUris(@NonNull Consumer<Uri> visitor) {
++        if (publicVersion != null) {
++            publicVersion.visitUris(visitor);
++        }
++
+         visitor.accept(sound);
+ 
+         if (tickerView != null) tickerView.visitUris(visitor);
+diff --git a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
+index da4a2420b924..f3a9ef1eb63e 100755
+--- a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
++++ b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
+@@ -3436,6 +3436,26 @@ public class NotificationManagerServiceTest extends UiServiceTestCase {
+         verify(visitor, times(1)).accept(eq(largeIcon.getUri()));
+     }
+ 
++    @Test
++    public void testVisitUris_publicVersion() throws Exception {
++        final Icon smallIconPublic = Icon.createWithContentUri("content://media/small/icon");
++        final Icon largeIconPrivate = Icon.createWithContentUri("content://media/large/icon");
++
++        Notification publicVersion = new Notification.Builder(mContext, "a")
++                .setContentTitle("notification with uris")
++                .setSmallIcon(smallIconPublic)
++                .build();
++        Notification n = new Notification.Builder(mContext, "a")
++                .setLargeIcon(largeIconPrivate)
++                .setPublicVersion(publicVersion)
++                .build();
++
++        Consumer<Uri> visitor = (Consumer<Uri>) spy(Consumer.class);
++        n.visitUris(visitor);
++        verify(visitor, times(1)).accept(eq(smallIconPublic.getUri()));
++        verify(visitor, times(1)).accept(eq(largeIconPrivate.getUri()));
++    }
++
+     @Test
+     public void testVisitUris_messagingStyle() {
+         final Icon personIcon1 = Icon.createWithContentUri("content://media/person1");

@@ -1,0 +1,54 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hui Peng <phui@google.com>
+Date: Thu, 8 Dec 2022 01:08:11 +0000
+Subject: [PATCH] Fix OOB access in avdt_scb_hdl_pkt_no_frag
+
+This is a back port of the following 2 CLs:
+- Id13b1ebde8f603123c8b7a49922b2f1378ab788f
+- If0c7b25f2e6cb4531bbb6254e176e8ad1b5c5fb4
+
+Regression test: I9c87e30ed58e7ad6a34ab7c96b0a8fb06324ad54
+
+Bug: 142546355 258057241
+Test: atest net_test_stack_avdtp
+Ignore-AOSP-First: security
+Change-Id: Ie1707385d6452ece47915c153f4faaa1c8a287c9
+(cherry picked from commit b0b968e8c6214e20a5dc3617d66567225df0884f)
+Merged-In: Ie1707385d6452ece47915c153f4faaa1c8a287c9
+---
+ stack/avdt/avdt_scb_act.cc | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/stack/avdt/avdt_scb_act.cc b/stack/avdt/avdt_scb_act.cc
+index ce53c45eb..f2de4ba35 100644
+--- a/stack/avdt/avdt_scb_act.cc
++++ b/stack/avdt/avdt_scb_act.cc
+@@ -255,19 +255,24 @@ void avdt_scb_hdl_pkt_no_frag(AvdtpScb* p_scb, tAVDT_SCB_EVT* p_data) {
+     if (offset > len) goto length_error;
+     p += 2;
+     BE_STREAM_TO_UINT16(ex_len, p);
+-    offset += ex_len * 4;
+     p += ex_len * 4;
+   }
+ 
++  if ((p - p_start) >= len) {
++    AVDT_TRACE_WARNING("%s: handling malformatted packet: ex_len too large", __func__);
++    osi_free_and_reset((void**)&p_data->p_pkt);
++    return;
++  }
++  offset = p - p_start;
++
+   /* adjust length for any padding at end of packet */
+   if (o_p) {
+     /* padding length in last byte of packet */
+-    pad_len = *(p_start + p_data->p_pkt->len);
++    pad_len = *(p_start + len - 1);
+   }
+ 
+   /* do sanity check */
+-  if ((offset > p_data->p_pkt->len) ||
+-      ((pad_len + offset) > p_data->p_pkt->len)) {
++  if (pad_len >= (len - offset)) {
+     AVDT_TRACE_WARNING("Got bad media packet");
+     osi_free_and_reset((void**)&p_data->p_pkt);
+   }

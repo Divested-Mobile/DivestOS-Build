@@ -1,0 +1,152 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Louis Chang <louischang@google.com>
+Date: Wed, 28 Sep 2022 06:46:29 +0000
+Subject: [PATCH] Strip part of the activity info of another uid if no
+ privilege
+
+The activity info could be from another uid which is different
+from the app that hosts the task. The information should be
+trimmed if the caller app doesn't have the privilege.
+
+However, removing the entire info may result in app compatibility
+issues. So, only swiping the info that are sensitive to empty
+string.
+
+Bug: 243130512
+Test: verified market app locally
+Test: atest RecentTasksTest
+Change-Id: I5b6775dd3c4e2ccdacd30741884d336b2eaa70da
+Merged-In: I5b6775dd3c4e2ccdacd30741884d336b2eaa70da
+(cherry picked from commit 5ba72200f6a66b5da48c9c3abd103a73aea1ef95)
+(cherry picked from commit e534fa2a7119f39cb76f1d08557b7dcae3b6d94e)
+(cherry picked from commit 20fc1c7244cdf840e4a6cbfa71904b4d608bb093)
+Merged-In: I5b6775dd3c4e2ccdacd30741884d336b2eaa70da
+---
+ .../com/android/server/wm/AppTaskImpl.java    |  3 +-
+ .../com/android/server/wm/RecentTasks.java    |  8 +++--
+ .../com/android/server/wm/RunningTasks.java   |  7 ++++
+ .../com/android/server/wm/TaskRecord.java     | 34 +++++++++++++++++++
+ 4 files changed, 49 insertions(+), 3 deletions(-)
+
+diff --git a/services/core/java/com/android/server/wm/AppTaskImpl.java b/services/core/java/com/android/server/wm/AppTaskImpl.java
+index f221c3a4573f..e12c8259d8a7 100644
+--- a/services/core/java/com/android/server/wm/AppTaskImpl.java
++++ b/services/core/java/com/android/server/wm/AppTaskImpl.java
+@@ -84,7 +84,8 @@ class AppTaskImpl extends IAppTask.Stub {
+                 if (tr == null) {
+                     throw new IllegalArgumentException("Unable to find task ID " + mTaskId);
+                 }
+-                return mService.getRecentTasks().createRecentTaskInfo(tr);
++                return mService.getRecentTasks().createRecentTaskInfo(tr,
++                        true /* getTasksAllowed */);
+             } finally {
+                 Binder.restoreCallingIdentity(origId);
+             }
+diff --git a/services/core/java/com/android/server/wm/RecentTasks.java b/services/core/java/com/android/server/wm/RecentTasks.java
+index 541a8bbc8865..67fb4c28cf22 100644
+--- a/services/core/java/com/android/server/wm/RecentTasks.java
++++ b/services/core/java/com/android/server/wm/RecentTasks.java
+@@ -944,7 +944,7 @@ class RecentTasks {
+                 continue;
+             }
+ 
+-            final ActivityManager.RecentTaskInfo rti = createRecentTaskInfo(tr);
++            final ActivityManager.RecentTaskInfo rti = createRecentTaskInfo(tr, getTasksAllowed);
+             if (!getDetailedTasks) {
+                 rti.baseIntent.replaceExtras((Bundle) null);
+             }
+@@ -1715,12 +1715,16 @@ class RecentTasks {
+     /**
+      * Creates a new RecentTaskInfo from a TaskRecord.
+      */
+-    ActivityManager.RecentTaskInfo createRecentTaskInfo(TaskRecord tr) {
++    ActivityManager.RecentTaskInfo createRecentTaskInfo(TaskRecord tr,
++            boolean getTasksAllowed) {
+         ActivityManager.RecentTaskInfo rti = new ActivityManager.RecentTaskInfo();
+         tr.fillTaskInfo(rti);
+         // Fill in some deprecated values
+         rti.id = rti.isRunning ? rti.taskId : INVALID_TASK_ID;
+         rti.persistentId = rti.taskId;
++        if (!getTasksAllowed) {
++            TaskRecord.trimIneffectiveInfo(tr, rti);
++        }
+         return rti;
+     }
+ 
+diff --git a/services/core/java/com/android/server/wm/RunningTasks.java b/services/core/java/com/android/server/wm/RunningTasks.java
+index 81a85476c53a..16d041a7a1c0 100644
+--- a/services/core/java/com/android/server/wm/RunningTasks.java
++++ b/services/core/java/com/android/server/wm/RunningTasks.java
+@@ -39,6 +39,8 @@ class RunningTasks {
+     private final TreeSet<TaskRecord> mTmpSortedSet = new TreeSet<>(LAST_ACTIVE_TIME_COMPARATOR);
+     private final ArrayList<TaskRecord> mTmpStackTasks = new ArrayList<>();
+ 
++    private boolean mAllowed;
++
+     void getTasks(int maxNum, List<RunningTaskInfo> list, @ActivityType int ignoreActivityType,
+             @WindowingMode int ignoreWindowingMode, ArrayList<ActivityDisplay> activityDisplays,
+             int callingUid, boolean allowed, boolean crossUser, ArraySet<Integer> profileIds) {
+@@ -49,6 +51,7 @@ class RunningTasks {
+ 
+         // Gather all of the tasks across all of the tasks, and add them to the sorted set
+         mTmpSortedSet.clear();
++        mAllowed = allowed;
+         final int numDisplays = activityDisplays.size();
+         for (int displayNdx = 0; displayNdx < numDisplays; ++displayNdx) {
+             final ActivityDisplay display = activityDisplays.get(displayNdx);
+@@ -82,6 +85,10 @@ class RunningTasks {
+         task.fillTaskInfo(rti);
+         // Fill in some deprecated values
+         rti.id = rti.taskId;
++
++        if (!mAllowed) {
++            TaskRecord.trimIneffectiveInfo(task, rti);
++        }
+         return rti;
+     }
+ }
+diff --git a/services/core/java/com/android/server/wm/TaskRecord.java b/services/core/java/com/android/server/wm/TaskRecord.java
+index 361f66e3106a..78d13e95df81 100644
+--- a/services/core/java/com/android/server/wm/TaskRecord.java
++++ b/services/core/java/com/android/server/wm/TaskRecord.java
+@@ -2436,6 +2436,40 @@ class TaskRecord extends ConfigurationContainer {
+         info.configuration.setTo(getConfiguration());
+     }
+ 
++    /**
++     * Removes the activity info if the activity belongs to a different uid, which is
++     * different from the app that hosts the task.
++     */
++    static void trimIneffectiveInfo(TaskRecord task, TaskInfo info) {
++        int topActivityUid = task.effectiveUid;
++        for (int i = task.mActivities.size() - 1; i >= 0; --i) {
++            final ActivityRecord r = task.mActivities.get(i);
++            if (r.finishing || r.isState(ActivityState.INITIALIZING)) {
++                continue;
++            }
++            topActivityUid = r.info.applicationInfo.uid;
++            break;
++        }
++
++        if (task.effectiveUid != topActivityUid) {
++            info.topActivity = new ComponentName("", "");
++        }
++
++        int baseActivityUid = task.effectiveUid;
++        for (int i = 0; i < task.mActivities.size(); ++i) {
++            final ActivityRecord r = task.mActivities.get(i);
++            if (r.finishing) {
++                continue;
++            }
++            baseActivityUid = r.info.applicationInfo.uid;
++            break;
++        }
++
++        if (task.effectiveUid != baseActivityUid) {
++            info.baseActivity = new ComponentName("", "");
++        }
++    }
++
+     /**
+      * Returns a  {@link TaskInfo} with information from this task.
+      */

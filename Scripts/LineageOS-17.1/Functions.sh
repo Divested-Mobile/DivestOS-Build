@@ -77,25 +77,11 @@ patchWorkspaceReal() {
 	verifyAllPlatformTags;
 	gpgVerifyGitHead "$DOS_BUILD_BASE/external/chromium-webview";
 
-	source build/envsetup.sh;
-	repopick 378493; #repopick: Add `--list` option
-	repopick 378494; #repopick: Require --force for closed changes found via --query
-	repopick 378458; #repopick: Fix apply order of dependent commits
+	#source build/envsetup.sh;
+	#repopick 378493; #repopick: Add `--list` option
+	#repopick 378494; #repopick: Require --force for closed changes found via --query
+	#repopick 378458; #repopick: Fix apply order of dependent commits
 	#repopick -it ten-firewall;
-	repopick 353117; #bonus for Q_asb_2023-01
-	repopick -t Q_asb_2023-03 -e 352333,352570;
-	repopick -t Q_asb_2023-04;
-	repopick -t Q_asb_2023-05;
-	repopick -t Q_asb_2023-06;
-	repopick -t Q_asb_2023-07 -e 362202,376559;
-	repopick -t Q_asb_2023-08 -e 365443,376560,376561,376562;
-	repopick -t Q_asb_2023-09;
-	repopick -t Q_asb_2023-10 -e 376554;
-	repopick -t Q_asb_2023-11 -e 376555,376595,376596,376563,376568;
-	repopick -t Q_asb_2023-12 -e 377251,378083,378084,378085,378086,378087,378088,378314,378315;
-	repopick -t Q_asb_2024-01;
-	repopick -t Q_asb_2024-02;
-	repopick -t Q_asb_2024-03;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";

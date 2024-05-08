@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hui Peng <phui@google.com>
+Date: Tue, 28 Nov 2023 19:57:20 +0000
+Subject: [PATCH] Fix an OOB bug in smp_proc_sec_req
+
+This is a backport of I400cfa3523c6d8b25c233205748c2db5dc803d1d
+
+Bug: 300903400
+Test: m com.android.btservices
+Ignore-AOSP-First: security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:970c95d7c06c909c34a849587f701098129fc2ef)
+Merged-In: Id4c65801ff8519aff18b24007e344934493cab55
+Change-Id: Id4c65801ff8519aff18b24007e344934493cab55
+---
+ stack/smp/smp_act.cc | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/stack/smp/smp_act.cc b/stack/smp/smp_act.cc
+index 196eeacd7..a18d8389b 100755
+--- a/stack/smp/smp_act.cc
++++ b/stack/smp/smp_act.cc
+@@ -429,6 +429,13 @@ void smp_send_ltk_reply(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
+  * Description  process security request.
+  ******************************************************************************/
+ void smp_proc_sec_req(tSMP_CB* p_cb, tSMP_INT_DATA* p_data) {
++  if (smp_command_has_invalid_length(p_cb)) {
++    tSMP_INT_DATA smp_int_data;
++    smp_int_data.status = SMP_INVALID_PARAMETERS;
++    smp_sm_event(p_cb, SMP_AUTH_CMPL_EVT, &smp_int_data);
++    return;
++  }
++
+   tBTM_LE_AUTH_REQ auth_req = *(tBTM_LE_AUTH_REQ*)p_data->p_data;
+   tBTM_BLE_SEC_REQ_ACT sec_req_act;
+ 

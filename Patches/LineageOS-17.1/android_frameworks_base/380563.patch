@@ -1,0 +1,104 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tetiana Meronyk <tetianameronyk@google.com>
+Date: Thu, 24 Aug 2023 16:27:30 +0000
+Subject: [PATCH] Truncate user data to a limit of 500 characters
+
+Fix vulnerability that allows creating users with no restrictions. This is done by creating an intent to create a user and putting extras that are too long to be serialized. It causes IOException and the restrictions are not written in the file.
+
+By truncating the string values when writing them to the file, we ensure that the exception does not happen and it can be recorded correctly.
+
+Bug: 293602317
+Test: install app provided in the bug, open app and click add. Check logcat to see there is no more IOException. Reboot the device by either opening User details page or running adb shell dumpsys user | grep -A12 heen and see that the restrictions are in place.
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:48d45b507df64708a214a800082b970c8b2bf827)
+Merged-In: I633dc10974a64ef2abd07e67ff2d209847129989
+Change-Id: I633dc10974a64ef2abd07e67ff2d209847129989
+---
+ .../android/server/pm/UserManagerService.java | 27 +++++++++++++------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/UserManagerService.java b/services/core/java/com/android/server/pm/UserManagerService.java
+index b7e9c7907f2c..318c11141cfe 100644
+--- a/services/core/java/com/android/server/pm/UserManagerService.java
++++ b/services/core/java/com/android/server/pm/UserManagerService.java
+@@ -225,6 +225,8 @@ public class UserManagerService extends IUserManager.Stub {
+ 
+     private static final int USER_VERSION = 7;
+ 
++    private static final int MAX_USER_STRING_LENGTH = 500;
++
+     private static final long EPOCH_PLUS_30_YEARS = 30L * 365 * 24 * 60 * 60 * 1000L; // ms
+ 
+     // Maximum number of managed profiles permitted per user is 1. This cannot be increased
+@@ -2417,15 +2419,17 @@ public class UserManagerService extends IUserManager.Stub {
+         // Write seed data
+         if (userData.persistSeedData) {
+             if (userData.seedAccountName != null) {
+-                serializer.attribute(null, ATTR_SEED_ACCOUNT_NAME, userData.seedAccountName);
++                serializer.attribute(null, ATTR_SEED_ACCOUNT_NAME,
++                        truncateString(userData.seedAccountName));
+             }
+             if (userData.seedAccountType != null) {
+-                serializer.attribute(null, ATTR_SEED_ACCOUNT_TYPE, userData.seedAccountType);
++                serializer.attribute(null, ATTR_SEED_ACCOUNT_TYPE,
++                        truncateString(userData.seedAccountType));
+             }
+         }
+         if (userInfo.name != null) {
+             serializer.startTag(null, TAG_NAME);
+-            serializer.text(userInfo.name);
++            serializer.text(truncateString(userInfo.name));
+             serializer.endTag(null, TAG_NAME);
+         }
+         synchronized (mRestrictionsLock) {
+@@ -2466,6 +2470,13 @@ public class UserManagerService extends IUserManager.Stub {
+         serializer.endDocument();
+     }
+ 
++    private String truncateString(String original) {
++        if (original == null || original.length() <= MAX_USER_STRING_LENGTH) {
++            return original;
++        }
++        return original.substring(0, MAX_USER_STRING_LENGTH);
++    }
++
+     /*
+      * Writes the user list file in this format:
+      *
+@@ -2808,7 +2819,7 @@ public class UserManagerService extends IUserManager.Stub {
+     private UserInfo createUserInternalUncheckedNoTracing(@Nullable String name,
+             @UserInfoFlag int flags, @UserIdInt int parentId, boolean preCreate,
+             @Nullable String[] disallowedPackages, @NonNull TimingsTraceLog t) {
+-
++        String truncatedName = truncateString(name);
+         // First try to use a pre-created user (if available).
+         // NOTE: currently we don't support pre-created managed profiles
+         if (!preCreate && (parentId < 0 && !UserInfo.isManagedProfile(flags))) {
+@@ -2835,7 +2846,7 @@ public class UserManagerService extends IUserManager.Stub {
+                             + UserInfo.flagsToString(preCreatedUser.flags)
+                             + " new-user flags: " + UserInfo.flagsToString(flags));
+                 }
+-                preCreatedUser.name = name;
++                preCreatedUser.name = truncatedName;
+                 preCreatedUser.preCreated = false;
+                 preCreatedUser.creationTime = getCreationTime();
+ 
+@@ -2934,7 +2945,7 @@ public class UserManagerService extends IUserManager.Stub {
+                         flags |= UserInfo.FLAG_EPHEMERAL;
+                     }
+ 
+-                    userInfo = new UserInfo(userId, name, null, flags);
++                    userInfo = new UserInfo(userId, truncatedName, null, flags);
+                     userInfo.serialNumber = mNextSerialNumber++;
+                     userInfo.creationTime = getCreationTime();
+                     userInfo.partial = true;
+@@ -3866,8 +3877,8 @@ public class UserManagerService extends IUserManager.Stub {
+                     Slog.e(LOG_TAG, "No such user for settings seed data u=" + userId);
+                     return;
+                 }
+-                userData.seedAccountName = accountName;
+-                userData.seedAccountType = accountType;
++                userData.seedAccountName = truncateString(accountName);
++                userData.seedAccountType = truncateString(accountType);
+                 userData.seedAccountOptions = accountOptions;
+                 userData.persistSeedData = persist;
+             }

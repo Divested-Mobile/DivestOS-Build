@@ -1,0 +1,138 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Sally Qi <sallyqi@google.com>
+Date: Wed, 5 Oct 2022 11:42:30 -0700
+Subject: [PATCH] Mitigate the security vulnerability by sanitizing the
+ transaction flags.
+
+- This is part of fix of commit
+  Id9d9012d4ede9c8330f0ce1096bcb78e51b7c5df for backporting.
+- Part of commit Id9d9012d4ede9c8330f0ce1096bcb78e51b7c5df which
+  sanitizes the transaction flags from DisplayState instead.
+- In rvc, we only have ACCESS_SURFACE_FLINGER permission check passed as
+  `privileged` argument in SF::applyTransactionState. We can directly
+  utilize it for sanitization in DiaplyState.
+- In rvc code base, SF::setTransactionState pass a const array of
+  displayState objects and then call SF::applyTransactionState. To
+  successfully sanitize the flags for each displayState object, we
+  convert this const array into non-const one before calling
+  SF::applyTransactionState.
+
+Bug: 248031255
+Test: test using displaytoken app manually on the phone, test shell
+screenrecord during using displaytoken; atest
+android.hardware.camera2.cts.FastBasicsTest
+
+Change-Id: Id9d9012d4ede9c8330f0ce1096bcb78e51b7c5df
+Merged-In: Id9d9012d4ede9c8330f0ce1096bcb78e51b7c5df
+(cherry picked from commit 03d4458ea0cb00c28f695d99aae5e4c6b15fc237)
+Merged-In: Id9d9012d4ede9c8330f0ce1096bcb78e51b7c5df
+---
+ libs/gui/LayerState.cpp                    | 21 +++++++++++++++++++++
+ libs/gui/include/gui/LayerState.h          |  1 +
+ services/surfaceflinger/SurfaceFlinger.cpp | 14 ++++++++++----
+ services/surfaceflinger/SurfaceFlinger.h   |  5 ++---
+ 4 files changed, 34 insertions(+), 7 deletions(-)
+
+diff --git a/libs/gui/LayerState.cpp b/libs/gui/LayerState.cpp
+index 6066421faf..293f042de2 100644
+--- a/libs/gui/LayerState.cpp
++++ b/libs/gui/LayerState.cpp
+@@ -237,6 +237,27 @@ void DisplayState::merge(const DisplayState& other) {
+     }
+ }
+ 
++void DisplayState::sanitize(bool privileged) {
++    if (what & DisplayState::eLayerStackChanged) {
++        if (!privileged) {
++            what &= ~DisplayState::eLayerStackChanged;
++            ALOGE("Stripped attempt to set eLayerStackChanged in sanitize");
++        }
++    }
++    if (what & DisplayState::eDisplayProjectionChanged) {
++        if (!privileged) {
++            what &= ~DisplayState::eDisplayProjectionChanged;
++            ALOGE("Stripped attempt to set eDisplayProjectionChanged in sanitize");
++        }
++    }
++    if (what & DisplayState::eSurfaceChanged) {
++        if (!privileged) {
++            what &= ~DisplayState::eSurfaceChanged;
++            ALOGE("Stripped attempt to set eSurfaceChanged in sanitize");
++        }
++    }
++}
++
+ void layer_state_t::merge(const layer_state_t& other) {
+     if (other.what & ePositionChanged) {
+         what |= ePositionChanged;
+diff --git a/libs/gui/include/gui/LayerState.h b/libs/gui/include/gui/LayerState.h
+index f438eb3d01..8a07602e41 100644
+--- a/libs/gui/include/gui/LayerState.h
++++ b/libs/gui/include/gui/LayerState.h
+@@ -231,6 +231,7 @@ struct DisplayState {
+ 
+     DisplayState();
+     void merge(const DisplayState& other);
++    void sanitize(bool privileged);
+ 
+     uint32_t what;
+     sp<IBinder> token;
+diff --git a/services/surfaceflinger/SurfaceFlinger.cpp b/services/surfaceflinger/SurfaceFlinger.cpp
+index db26808cc2..21e9e8eb96 100644
+--- a/services/surfaceflinger/SurfaceFlinger.cpp
++++ b/services/surfaceflinger/SurfaceFlinger.cpp
+@@ -3675,7 +3675,7 @@ bool SurfaceFlinger::flushTransactionQueues() {
+             auto& [applyToken, transactionQueue] = *it;
+ 
+             while (!transactionQueue.empty()) {
+-                const auto& transaction = transactionQueue.front();
++                auto& transaction = transactionQueue.front();
+                 if (!transactionIsReadyToBeApplied(transaction.desiredPresentTime,
+                                                    transaction.states)) {
+                     setTransactionFlags(eTransactionFlushNeeded);
+@@ -3794,12 +3794,17 @@ void SurfaceFlinger::setTransactionState(const Vector<ComposerState>& states,
+         return;
+     }
+ 
+-    applyTransactionState(states, displays, flags, inputWindowCommands, desiredPresentTime,
++    Vector<DisplayState> displaysList;
++    for (auto& d : displays) {
++        displaysList.add(d);
++    }
++
++    applyTransactionState(states, displaysList, flags, inputWindowCommands, desiredPresentTime,
+                           uncacheBuffer, listenerCallbacks, postTime, privileged);
+ }
+ 
+ void SurfaceFlinger::applyTransactionState(const Vector<ComposerState>& states,
+-                                           const Vector<DisplayState>& displays, uint32_t flags,
++                                           Vector<DisplayState>& displays, uint32_t flags,
+                                            const InputWindowCommands& inputWindowCommands,
+                                            const int64_t desiredPresentTime,
+                                            const client_cache_t& uncacheBuffer,
+@@ -3824,7 +3829,8 @@ void SurfaceFlinger::applyTransactionState(const Vector<ComposerState>& states,
+         }
+     }
+ 
+-    for (const DisplayState& display : displays) {
++    for (DisplayState& display : displays) {
++        display.sanitize(privileged);
+         transactionFlags |= setDisplayStateLocked(display);
+     }
+ 
+diff --git a/services/surfaceflinger/SurfaceFlinger.h b/services/surfaceflinger/SurfaceFlinger.h
+index e58caa63b3..c4578d0dbb 100644
+--- a/services/surfaceflinger/SurfaceFlinger.h
++++ b/services/surfaceflinger/SurfaceFlinger.h
+@@ -568,9 +568,8 @@ private:
+     /* ------------------------------------------------------------------------
+      * Transactions
+      */
+-    void applyTransactionState(const Vector<ComposerState>& state,
+-                               const Vector<DisplayState>& displays, uint32_t flags,
+-                               const InputWindowCommands& inputWindowCommands,
++    void applyTransactionState(const Vector<ComposerState>& state, Vector<DisplayState>& displays,
++                               uint32_t flags, const InputWindowCommands& inputWindowCommands,
+                                const int64_t desiredPresentTime,
+                                const client_cache_t& uncacheBuffer,
+                                const std::vector<ListenerCallbacks>& listenerCallbacks,

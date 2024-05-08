@@ -1,0 +1,167 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Brian Lee <brnlee@google.com>
+Date: Fri, 17 Feb 2023 16:05:17 -0800
+Subject: [PATCH] Check key intent for selectors and prohibited flags
+
+Bug: 265015796
+Test: atest
+FrameworksServicesTests: com.android.server.accounts.AccountManagerServiceTest
+(cherry picked from commit e53a96304352e2965176c8d32ac1b504e52ef185)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:92114886bdce8467c52c655c186f3e7ab1e134d8)
+Merged-In: Ie16f8654337bd75eaad3156817470674b4f0cee3
+Change-Id: Ie16f8654337bd75eaad3156817470674b4f0cee3
+---
+ .../accounts/AccountManagerService.java       | 18 +++++++---
+ .../accounts/AccountManagerServiceTest.java   | 36 +++++++++++++++++++
+ .../AccountManagerServiceTestFixtures.java    |  5 ++-
+ .../TestAccountType1Authenticator.java        |  5 +--
+ 4 files changed, 54 insertions(+), 10 deletions(-)
+
+diff --git a/services/core/java/com/android/server/accounts/AccountManagerService.java b/services/core/java/com/android/server/accounts/AccountManagerService.java
+index b4edf94927b2..a9c7b0c6a3f1 100644
+--- a/services/core/java/com/android/server/accounts/AccountManagerService.java
++++ b/services/core/java/com/android/server/accounts/AccountManagerService.java
+@@ -4808,10 +4808,6 @@ public class AccountManagerService
+             if (intent.getClipData() == null) {
+                 intent.setClipData(ClipData.newPlainText(null, null));
+             }
+-            intent.setFlags(intent.getFlags() & ~(Intent.FLAG_GRANT_READ_URI_PERMISSION
+-                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+-                    | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+-                    | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION));
+             long bid = Binder.clearCallingIdentity();
+             try {
+                 PackageManager pm = mContext.getPackageManager();
+@@ -4858,7 +4854,19 @@ public class AccountManagerService
+             if (intent == null) {
+                 return (simulateIntent == null);
+             }
+-            return intent.filterEquals(simulateIntent);
++            if (!intent.filterEquals(simulateIntent)) {
++                return false;
++            }
++
++            if (intent.getSelector() != simulateIntent.getSelector()) {
++                return false;
++            }
++
++            int prohibitedFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
++                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
++                    | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
++                    | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION;
++            return (simulateIntent.getFlags() & prohibitedFlags) == 0;
+         }
+ 
+         private boolean isExportedSystemActivity(ActivityInfo activityInfo) {
+diff --git a/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTest.java b/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTest.java
+index 215f1e8e2a9e..d379e8131268 100644
+--- a/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTest.java
++++ b/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTest.java
+@@ -18,6 +18,7 @@ package com.android.server.accounts;
+ 
+ import static android.database.sqlite.SQLiteDatabase.deleteDatabase;
+ 
++import static org.mockito.ArgumentMatchers.contains;
+ import static org.mockito.Matchers.any;
+ import static org.mockito.Matchers.anyBoolean;
+ import static org.mockito.Matchers.anyInt;
+@@ -686,6 +687,41 @@ public class AccountManagerServiceTest extends AndroidTestCase {
+         assertNotNull(intent.getParcelableExtra(AccountManagerServiceTestFixtures.KEY_CALLBACK));
+     }
+ 
++    @SmallTest
++    public void testStartAddAccountSessionWhereAuthenticatorReturnsIntentWithProhibitedFlags()
++            throws Exception {
++        unlockSystemUser();
++        ResolveInfo resolveInfo = new ResolveInfo();
++        resolveInfo.activityInfo = new ActivityInfo();
++        resolveInfo.activityInfo.applicationInfo = new ApplicationInfo();
++        when(mMockPackageManager.resolveActivityAsUser(
++                any(Intent.class), anyInt(), anyInt())).thenReturn(resolveInfo);
++        when(mMockPackageManager.checkSignatures(
++                anyInt(), anyInt())).thenReturn(PackageManager.SIGNATURE_MATCH);
++
++        final CountDownLatch latch = new CountDownLatch(1);
++        Response response = new Response(latch, mMockAccountManagerResponse);
++        Bundle options = createOptionsWithAccountName(
++                AccountManagerServiceTestFixtures.ACCOUNT_NAME_INTERVENE);
++        int prohibitedFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
++                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
++                | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
++                | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION;
++        options.putInt(AccountManagerServiceTestFixtures.KEY_INTENT_FLAGS, prohibitedFlags);
++
++        mAms.startAddAccountSession(
++                response, // response
++                AccountManagerServiceTestFixtures.ACCOUNT_TYPE_1, // accountType
++                "authTokenType",
++                null, // requiredFeatures
++                true, // expectActivityLaunch
++                options); // optionsIn
++        waitForLatch(latch);
++
++        verify(mMockAccountManagerResponse).onError(
++                eq(AccountManager.ERROR_CODE_INVALID_RESPONSE), contains("invalid intent"));
++    }
++
+     @SmallTest
+     public void testStartAddAccountSessionError() throws Exception {
+         unlockSystemUser();
+diff --git a/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTestFixtures.java b/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTestFixtures.java
+index 73f30d9f9e79..b98a6a891d55 100644
+--- a/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTestFixtures.java
++++ b/services/tests/servicestests/src/com/android/server/accounts/AccountManagerServiceTestFixtures.java
+@@ -17,9 +17,6 @@ package com.android.server.accounts;
+ 
+ import android.accounts.Account;
+ 
+-import java.util.ArrayList;
+-import java.util.List;
+-
+ /**
+  * Constants shared between test AccountAuthenticators and AccountManagerServiceTest.
+  */
+@@ -31,6 +28,8 @@ public final class AccountManagerServiceTestFixtures {
+             "account_manager_service_test:account_status_token_key";
+     public static final String KEY_ACCOUNT_PASSWORD =
+             "account_manager_service_test:account_password_key";
++    public static final String KEY_INTENT_FLAGS =
++            "account_manager_service_test:intent_flags_key";
+     public static final String KEY_OPTIONS_BUNDLE =
+             "account_manager_service_test:option_bundle_key";
+     public static final String ACCOUNT_NAME_SUCCESS = "success_on_return@fixture.com";
+diff --git a/services/tests/servicestests/src/com/android/server/accounts/TestAccountType1Authenticator.java b/services/tests/servicestests/src/com/android/server/accounts/TestAccountType1Authenticator.java
+index 8106364477d9..924443e9d5cf 100644
+--- a/services/tests/servicestests/src/com/android/server/accounts/TestAccountType1Authenticator.java
++++ b/services/tests/servicestests/src/com/android/server/accounts/TestAccountType1Authenticator.java
+@@ -24,8 +24,6 @@ import android.content.Context;
+ import android.content.Intent;
+ import android.os.Bundle;
+ 
+-import com.android.frameworks.servicestests.R;
+-
+ import java.util.concurrent.atomic.AtomicInteger;
+ 
+ /**
+@@ -270,11 +268,13 @@ public class TestAccountType1Authenticator extends AbstractAccountAuthenticator
+         String accountName = null;
+         Bundle sessionBundle = null;
+         String password = null;
++        int intentFlags = 0;
+         if (options != null) {
+             accountName = options.getString(AccountManagerServiceTestFixtures.KEY_ACCOUNT_NAME);
+             sessionBundle = options.getBundle(
+                     AccountManagerServiceTestFixtures.KEY_ACCOUNT_SESSION_BUNDLE);
+             password = options.getString(AccountManagerServiceTestFixtures.KEY_ACCOUNT_PASSWORD);
++            intentFlags = options.getInt(AccountManagerServiceTestFixtures.KEY_INTENT_FLAGS, 0);
+         }
+ 
+         Bundle result = new Bundle();
+@@ -302,6 +302,7 @@ public class TestAccountType1Authenticator extends AbstractAccountAuthenticator
+             intent.putExtra(AccountManagerServiceTestFixtures.KEY_RESULT,
+                     eventualActivityResultData);
+             intent.putExtra(AccountManagerServiceTestFixtures.KEY_CALLBACK, response);
++            intent.setFlags(intentFlags);
+ 
+             result.putParcelable(AccountManager.KEY_INTENT, intent);
+         } else {

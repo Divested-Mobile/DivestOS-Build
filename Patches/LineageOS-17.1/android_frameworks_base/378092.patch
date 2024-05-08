@@ -1,0 +1,221 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Julia Reynolds <juliacr@google.com>
+Date: Tue, 7 Mar 2023 15:44:49 -0500
+Subject: [PATCH] Allow filtering of services
+
+Test: ServiceListingTest
+Bug: 260570119
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:44dcb8351e61f4b3a63ec68fa5d8490501e8a823)
+Merged-In: Ib4740ba401667de62fa1a33334c2c1fbee25b760
+Change-Id: Ib4740ba401667de62fa1a33334c2c1fbee25b760
+---
+ .../applications/ServiceListing.java          | 16 ++-
+ .../applications/ServiceListingTest.java      | 98 ++++++++++++++++++-
+ 2 files changed, 111 insertions(+), 3 deletions(-)
+
+diff --git a/packages/SettingsLib/src/com/android/settingslib/applications/ServiceListing.java b/packages/SettingsLib/src/com/android/settingslib/applications/ServiceListing.java
+index 454d1dce0b2f..59bb2730bcf6 100644
+--- a/packages/SettingsLib/src/com/android/settingslib/applications/ServiceListing.java
++++ b/packages/SettingsLib/src/com/android/settingslib/applications/ServiceListing.java
+@@ -35,6 +35,7 @@ import android.util.Slog;
+ import java.util.ArrayList;
+ import java.util.HashSet;
+ import java.util.List;
++import java.util.function.Predicate;
+ 
+ /**
+  * Class for managing services matching a given intent and requesting a given permission.
+@@ -50,11 +51,12 @@ public class ServiceListing {
+     private final HashSet<ComponentName> mEnabledServices = new HashSet<>();
+     private final List<ServiceInfo> mServices = new ArrayList<>();
+     private final List<Callback> mCallbacks = new ArrayList<>();
++    private final Predicate mValidator;
+ 
+     private boolean mListening;
+ 
+     private ServiceListing(Context context, String tag,
+-            String setting, String intentAction, String permission, String noun) {
++            String setting, String intentAction, String permission, String noun, Predicate validator) {
+         mContentResolver = context.getContentResolver();
+         mContext = context;
+         mTag = tag;
+@@ -62,6 +64,7 @@ public class ServiceListing {
+         mIntentAction = intentAction;
+         mPermission = permission;
+         mNoun = noun;
++        mValidator = validator;
+     }
+ 
+     public void addCallback(Callback callback) {
+@@ -141,6 +144,9 @@ public class ServiceListing {
+                         + mPermission);
+                 continue;
+             }
++            if (mValidator != null && !mValidator.test(info)) {
++                continue;
++            }
+             mServices.add(info);
+         }
+         for (Callback callback : mCallbacks) {
+@@ -186,6 +192,7 @@ public class ServiceListing {
+         private String mIntentAction;
+         private String mPermission;
+         private String mNoun;
++        private Predicate mValidator;
+ 
+         public Builder(Context context) {
+             mContext = context;
+@@ -216,8 +223,13 @@ public class ServiceListing {
+             return this;
+         }
+ 
++        public Builder setValidator(Predicate<ServiceInfo> validator) {
++            mValidator = validator;
++            return this;
++        }
++
+         public ServiceListing build() {
+-            return new ServiceListing(mContext, mTag, mSetting, mIntentAction, mPermission, mNoun);
++            return new ServiceListing(mContext, mTag, mSetting, mIntentAction, mPermission, mNoun, mValidator);
+         }
+     }
+ }
+diff --git a/packages/SettingsLib/tests/robotests/src/com/android/settingslib/applications/ServiceListingTest.java b/packages/SettingsLib/tests/robotests/src/com/android/settingslib/applications/ServiceListingTest.java
+index f7fd25b9fb7d..7ff0988c494d 100644
+--- a/packages/SettingsLib/tests/robotests/src/com/android/settingslib/applications/ServiceListingTest.java
++++ b/packages/SettingsLib/tests/robotests/src/com/android/settingslib/applications/ServiceListingTest.java
+@@ -18,20 +18,35 @@ package com.android.settingslib.applications;
+ 
+ import static com.google.common.truth.Truth.assertThat;
+ 
++import static org.mockito.ArgumentMatchers.any;
++import static org.mockito.ArgumentMatchers.anyInt;
+ import static org.mockito.ArgumentMatchers.anyList;
+ import static org.mockito.Mockito.mock;
++import static org.mockito.Mockito.spy;
+ import static org.mockito.Mockito.times;
+ import static org.mockito.Mockito.verify;
++import static org.mockito.Mockito.when;
+ 
+ import android.content.ComponentName;
++import android.content.Context;
++import android.content.pm.PackageManager;
++import android.content.pm.ResolveInfo;
++import android.content.pm.ServiceInfo;
+ import android.provider.Settings;
+ 
++import androidx.test.core.app.ApplicationProvider;
++
++import com.google.common.collect.ImmutableList;
++
+ import org.junit.Before;
+ import org.junit.Test;
+ import org.junit.runner.RunWith;
++import org.mockito.ArgumentCaptor;
+ import org.robolectric.RobolectricTestRunner;
+ import org.robolectric.RuntimeEnvironment;
+ 
++import java.util.List;
++
+ @RunWith(RobolectricTestRunner.class)
+ public class ServiceListingTest {
+ 
+@@ -39,16 +54,97 @@ public class ServiceListingTest {
+     private static final String TEST_INTENT = "com.example.intent";
+ 
+     private ServiceListing mServiceListing;
++    private Context mContext;
++    private PackageManager mPm;
+ 
+     @Before
+     public void setUp() {
+-        mServiceListing = new ServiceListing.Builder(RuntimeEnvironment.application)
++        mPm = mock(PackageManager.class);
++        mContext = spy(ApplicationProvider.getApplicationContext());
++        when(mContext.getPackageManager()).thenReturn(mPm);
++
++        mServiceListing = new ServiceListing.Builder(mContext)
++                .setTag("testTag")
++                .setSetting(TEST_SETTING)
++                .setNoun("testNoun")
++                .setIntentAction(TEST_INTENT)
++                .setPermission("testPermission")
++                .build();
++    }
++
++    @Test
++    public void testValidator() {
++        ServiceInfo s1 = new ServiceInfo();
++        s1.permission = "testPermission";
++        s1.packageName = "pkg";
++        ServiceInfo s2 = new ServiceInfo();
++        s2.permission = "testPermission";
++        s2.packageName = "pkg2";
++        ResolveInfo r1 = new ResolveInfo();
++        r1.serviceInfo = s1;
++        ResolveInfo r2 = new ResolveInfo();
++        r2.serviceInfo = s2;
++
++        when(mPm.queryIntentServicesAsUser(any(), anyInt(), anyInt())).thenReturn(
++                ImmutableList.of(r1, r2));
++
++        mServiceListing = new ServiceListing.Builder(mContext)
++                .setTag("testTag")
++                .setSetting(TEST_SETTING)
++                .setNoun("testNoun")
++                .setIntentAction(TEST_INTENT)
++                .setValidator(info -> {
++                    if (info.packageName.equals("pkg")) {
++                        return true;
++                    }
++                    return false;
++                })
++                .setPermission("testPermission")
++                .build();
++        ServiceListing.Callback callback = mock(ServiceListing.Callback.class);
++        mServiceListing.addCallback(callback);
++        mServiceListing.reload();
++
++        verify(mPm).queryIntentServicesAsUser(any(), anyInt(), anyInt());
++        ArgumentCaptor<List<ServiceInfo>> captor = ArgumentCaptor.forClass(List.class);
++        verify(callback, times(1)).onServicesReloaded(captor.capture());
++
++        assertThat(captor.getValue().size()).isEqualTo(1);
++        assertThat(captor.getValue().get(0)).isEqualTo(s1);
++    }
++
++    @Test
++    public void testNoValidator() {
++        ServiceInfo s1 = new ServiceInfo();
++        s1.permission = "testPermission";
++        s1.packageName = "pkg";
++        ServiceInfo s2 = new ServiceInfo();
++        s2.permission = "testPermission";
++        s2.packageName = "pkg2";
++        ResolveInfo r1 = new ResolveInfo();
++        r1.serviceInfo = s1;
++        ResolveInfo r2 = new ResolveInfo();
++        r2.serviceInfo = s2;
++
++        when(mPm.queryIntentServicesAsUser(any(), anyInt(), anyInt())).thenReturn(
++                ImmutableList.of(r1, r2));
++
++        mServiceListing = new ServiceListing.Builder(mContext)
+                 .setTag("testTag")
+                 .setSetting(TEST_SETTING)
+                 .setNoun("testNoun")
+                 .setIntentAction(TEST_INTENT)
+                 .setPermission("testPermission")
+                 .build();
++        ServiceListing.Callback callback = mock(ServiceListing.Callback.class);
++        mServiceListing.addCallback(callback);
++        mServiceListing.reload();
++
++        verify(mPm).queryIntentServicesAsUser(any(), anyInt(), anyInt());
++        ArgumentCaptor<List<ServiceInfo>> captor = ArgumentCaptor.forClass(List.class);
++        verify(callback, times(1)).onServicesReloaded(captor.capture());
++
++        assertThat(captor.getValue().size()).isEqualTo(2);
+     }
+ 
+     @Test

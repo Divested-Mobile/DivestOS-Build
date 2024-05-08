@@ -1,0 +1,148 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ioana Alexandru <aioana@google.com>
+Date: Thu, 27 Apr 2023 14:55:28 +0000
+Subject: [PATCH] Verify URI permissions for notification shortcutIcon.
+
+Bug: 277593270
+Test: atest NotificationManagerServiceTest
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:47e661cbf37e1dedf676f482ac07ffc433c92d0b)
+Merged-In: I1efaa1301bca36895ad4322a919d7421156a60df
+Change-Id: I1efaa1301bca36895ad4322a919d7421156a60df
+---
+ core/java/android/app/Notification.java       | 24 +++++++++
+ .../NotificationManagerServiceTest.java       | 51 ++++++++++++++++++-
+ 2 files changed, 74 insertions(+), 1 deletion(-)
+
+diff --git a/core/java/android/app/Notification.java b/core/java/android/app/Notification.java
+index 3e75c52bf893..5b9e1ea6daf1 100644
+--- a/core/java/android/app/Notification.java
++++ b/core/java/android/app/Notification.java
+@@ -18,6 +18,7 @@ package android.app;
+ 
+ import static android.annotation.Dimension.DP;
+ import static android.graphics.drawable.Icon.TYPE_BITMAP;
++import static android.graphics.drawable.Icon.TYPE_URI;
+ 
+ import static com.android.internal.util.ContrastColorUtil.satisfiesTextContrast;
+ 
+@@ -2434,6 +2435,14 @@ public class Notification implements Parcelable
+         }
+     }
+ 
++    private static void visitIconUri(@NonNull Consumer<Uri> visitor, @Nullable Icon icon) {
++        if (icon == null) return;
++        final int iconType = icon.getType();
++        if (iconType == TYPE_URI) {
++            visitor.accept(icon.getUri());
++        }
++    }
++
+     /**
+      * Note all {@link Uri} that are referenced internally, with the expectation
+      * that Uri permission grants will need to be issued to ensure the recipient
+@@ -2449,7 +2458,18 @@ public class Notification implements Parcelable
+         if (bigContentView != null) bigContentView.visitUris(visitor);
+         if (headsUpContentView != null) headsUpContentView.visitUris(visitor);
+ 
++        visitIconUri(visitor, mSmallIcon);
++        visitIconUri(visitor, mLargeIcon);
++
++        if (actions != null) {
++            for (Action action : actions) {
++                visitIconUri(visitor, action.getIcon());
++            }
++        }
++
+         if (extras != null) {
++            visitIconUri(visitor, extras.getParcelable(EXTRA_LARGE_ICON_BIG));
++
+             visitor.accept(extras.getParcelable(EXTRA_AUDIO_CONTENTS_URI));
+             if (extras.containsKey(EXTRA_BACKGROUND_IMAGE_URI)) {
+                 visitor.accept(Uri.parse(extras.getString(EXTRA_BACKGROUND_IMAGE_URI)));
+@@ -2473,6 +2493,10 @@ public class Notification implements Parcelable
+                 }
+             }
+         }
++
++        if (mBubbleMetadata != null) {
++            visitIconUri(visitor, mBubbleMetadata.getIcon());
++        }
+     }
+ 
+     /**
+diff --git a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
+index 6c1620751866..da4a2420b924 100755
+--- a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
++++ b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
+@@ -3414,6 +3414,8 @@ public class NotificationManagerServiceTest extends UiServiceTestCase {
+     public void testVisitUris() throws Exception {
+         final Uri audioContents = Uri.parse("content://com.example/audio");
+         final Uri backgroundImage = Uri.parse("content://com.example/background");
++        final Icon smallIcon = Icon.createWithContentUri("content://media/small/icon");
++        final Icon largeIcon = Icon.createWithContentUri("content://media/large/icon");
+ 
+         Bundle extras = new Bundle();
+         extras.putParcelable(Notification.EXTRA_AUDIO_CONTENTS_URI, audioContents);
+@@ -3421,7 +3423,8 @@ public class NotificationManagerServiceTest extends UiServiceTestCase {
+ 
+         Notification n = new Notification.Builder(mContext, "a")
+                 .setContentTitle("notification with uris")
+-                .setSmallIcon(android.R.drawable.sym_def_app_icon)
++                .setSmallIcon(smallIcon)
++                .setLargeIcon(largeIcon)
+                 .addExtras(extras)
+                 .build();
+ 
+@@ -3429,6 +3432,52 @@ public class NotificationManagerServiceTest extends UiServiceTestCase {
+         n.visitUris(visitor);
+         verify(visitor, times(1)).accept(eq(audioContents));
+         verify(visitor, times(1)).accept(eq(backgroundImage));
++        verify(visitor, times(1)).accept(eq(smallIcon.getUri()));
++        verify(visitor, times(1)).accept(eq(largeIcon.getUri()));
++    }
++
++    @Test
++    public void testVisitUris_messagingStyle() {
++        final Icon personIcon1 = Icon.createWithContentUri("content://media/person1");
++        final Icon personIcon2 = Icon.createWithContentUri("content://media/person2");
++        final Icon personIcon3 = Icon.createWithContentUri("content://media/person3");
++        final Person person1 = new Person.Builder()
++                .setName("Messaging Person 1")
++                .setIcon(personIcon1)
++                .build();
++        final Person person2 = new Person.Builder()
++                .setName("Messaging Person 2")
++                .setIcon(personIcon2)
++                .build();
++        final Person person3 = new Person.Builder()
++                .setName("Messaging Person 3")
++                .setIcon(personIcon3)
++                .build();
++        Icon shortcutIcon = Icon.createWithContentUri("content://media/shortcut");
++
++        Notification.Builder builder = new Notification.Builder(mContext, "a")
++                .setCategory(Notification.CATEGORY_MESSAGE)
++                .setContentTitle("new message!")
++                .setContentText("Conversation Notification")
++                .setSmallIcon(android.R.drawable.sym_def_app_icon);
++        Notification.MessagingStyle.Message message1 = new Notification.MessagingStyle.Message(
++                "Marco?", System.currentTimeMillis(), person2);
++        Notification.MessagingStyle.Message message2 = new Notification.MessagingStyle.Message(
++                "Polo!", System.currentTimeMillis(), person3);
++        Notification.MessagingStyle style = new Notification.MessagingStyle(person1)
++                .addMessage(message1)
++                .addMessage(message2)
++                .setShortcutIcon(shortcutIcon);
++        builder.setStyle(style);
++        Notification n = builder.build();
++
++        Consumer<Uri> visitor = (Consumer<Uri>) spy(Consumer.class);
++        n.visitUris(visitor);
++
++        verify(visitor, times(1)).accept(eq(shortcutIcon.getUri()));
++        verify(visitor, times(1)).accept(eq(personIcon1.getUri()));
++        verify(visitor, times(1)).accept(eq(personIcon2.getUri()));
++        verify(visitor, times(1)).accept(eq(personIcon3.getUri()));
+     }
+ 
+     @Test

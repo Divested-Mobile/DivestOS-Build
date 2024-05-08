@@ -1,0 +1,101 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Vova Sharaienko <sharaienko@google.com>
+Date: Mon, 24 Jul 2023 23:19:34 +0000
+Subject: [PATCH] RESTRICT AUTOMERGE Make log reader thread a class member
+
+pushedEventThread references class members after detaching. Making
+pushedEventThread as class member and joining in statsService
+destructor. Adding a method to stop readLogs thread.
+
+Ignore-AOSP-First: Bug is in still security triage and fuzzer is
+crashing on startup.
+Test: atest statsd_test
+Test: m statsd_service_fuzzer && adb sync data && adb shell
+/data/fuzz/arm64/statsd_service_fuzzer/statsd_service_fuzzer -runs=10000
+Bug: 285645039
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:03de4e4f1a0546fdd3b002651851bee9ffe0e11b)
+Merged-In: I1e886f9ccb7203714216da061c35e793b2a63d8a
+Change-Id: I1e886f9ccb7203714216da061c35e793b2a63d8a
+---
+ cmds/statsd/src/StatsService.cpp | 23 +++++++++++++++++++++--
+ cmds/statsd/src/StatsService.h   |  8 ++++++++
+ 2 files changed, 29 insertions(+), 2 deletions(-)
+
+diff --git a/cmds/statsd/src/StatsService.cpp b/cmds/statsd/src/StatsService.cpp
+index 64b7aae01619..f158723f16a0 100644
+--- a/cmds/statsd/src/StatsService.cpp
++++ b/cmds/statsd/src/StatsService.cpp
+@@ -205,12 +205,15 @@ StatsService::StatsService(const sp<Looper>& handlerLooper, shared_ptr<LogEventQ
+     init_system_properties();
+ 
+     if (mEventQueue != nullptr) {
+-        std::thread pushedEventThread([this] { readLogs(); });
+-        pushedEventThread.detach();
++        mLogsReaderThread = std::make_unique<std::thread>([this] { readLogs(); });
+     }
+ }
+ 
+ StatsService::~StatsService() {
++    if (mEventQueue != nullptr) {
++        stopReadingLogs();
++        mLogsReaderThread->join();
++    }
+ }
+ 
+ /* Runs on a dedicated thread to process pushed events. */
+@@ -219,6 +222,13 @@ void StatsService::readLogs() {
+     while (1) {
+         // Block until an event is available.
+         auto event = mEventQueue->waitPop();
++
++        // Below flag will be set when statsd is exiting and log event will be pushed to break
++        // out of waitPop.
++        if (mIsStopRequested) {
++            break;
++        }
++
+         // Pass it to StatsLogProcess to all configs/metrics
+         // At this point, the LogEventQueue is not blocked, so that the socketListener
+         // can read events from the socket and write to buffer to avoid data drop.
+@@ -1605,6 +1615,15 @@ void StatsService::binderDied(const wp <IBinder>& who) {
+     mPullerManager->SetStatsCompanionService(nullptr);
+ }
+ 
++void StatsService::stopReadingLogs() {
++    mIsStopRequested = true;
++    // Push this event so that readLogs will process and break out of the loop
++    // after the stop is requested.
++    int64_t timeStamp;
++    std::unique_ptr<LogEvent> logEvent = std::make_unique<LogEvent>(/*uid=*/0, /*pid=*/0);
++    mEventQueue->push(std::move(logEvent), &timeStamp);
++}
++
+ }  // namespace statsd
+ }  // namespace os
+ }  // namespace android
+diff --git a/cmds/statsd/src/StatsService.h b/cmds/statsd/src/StatsService.h
+index 5f1335efc2e0..1d27e09dbf91 100644
+--- a/cmds/statsd/src/StatsService.h
++++ b/cmds/statsd/src/StatsService.h
+@@ -397,6 +397,13 @@ private:
+      */
+     void set_config(int uid, const string& name, const StatsdConfig& config);
+ 
++    /**
++     *  This method is used to stop log reader thread.
++     */
++    void stopReadingLogs();
++
++    std::atomic<bool> mIsStopRequested = false;
++
+     /**
+      * Tracks the uid <--> package name mapping.
+      */
+@@ -439,6 +446,7 @@ private:
+      */
+     mutable mutex mShellSubscriberMutex;
+     std::shared_ptr<LogEventQueue> mEventQueue;
++    std::unique_ptr<std::thread> mLogsReaderThread;
+ 
+     FRIEND_TEST(StatsLogProcessorTest, TestActivationsPersistAcrossSystemServerRestart);
+     FRIEND_TEST(StatsServiceTest, TestAddConfig_simple);

@@ -1,0 +1,153 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tyler Gunn <tgunn@google.com>
+Date: Mon, 27 Jan 2020 10:32:08 -0800
+Subject: [PATCH] Support for API cleanups.
+
+New @SystemApis on Conference and PhoneAccount were missing the required
+permissions annotations; add permission enforcement in Telecom.
+Renames for various methods/properties in the API surface.
+
+Test: Run Telecom and Telephony CTS tests.
+Test: Run Telephony unit tests.
+Test: Perform manual single-party-conference regression test to confirm
+that conference behavior does not regress.
+Bug: 148286830
+Bug: 148284863
+Bug: 148284843
+Bug: 148287068
+Bug: 148285484
+Bug: 148285560
+Change-Id: I1f446d81859fa109d74af3661a42a0bd224de5aa
+---
+ .../telecom/ConnectionServiceWrapper.java     | 49 +++++++++++++++++++
+ .../server/telecom/TelecomServiceImpl.java    | 12 +++++
+ 2 files changed, 61 insertions(+)
+
+diff --git a/src/com/android/server/telecom/ConnectionServiceWrapper.java b/src/com/android/server/telecom/ConnectionServiceWrapper.java
+index d06460784..bd5e37f89 100644
+--- a/src/com/android/server/telecom/ConnectionServiceWrapper.java
++++ b/src/com/android/server/telecom/ConnectionServiceWrapper.java
+@@ -16,9 +16,12 @@
+ 
+ package com.android.server.telecom;
+ 
++import static android.Manifest.permission.MODIFY_PHONE_STATE;
++
+ import android.app.AppOpsManager;
+ import android.content.ComponentName;
+ import android.content.Context;
++import android.content.pm.PackageManager;
+ import android.graphics.drawable.Icon;
+ import android.net.Uri;
+ import android.os.Binder;
+@@ -444,6 +447,29 @@ public class ConnectionServiceWrapper extends ServiceBinder implements
+                 Session.Info sessionInfo) {
+             Log.startSession(sessionInfo, LogUtils.Sessions.CSW_ADD_CONFERENCE_CALL);
+ 
++            if (parcelableConference.getConnectElapsedTimeMillis() != 0
++                    && mContext.checkCallingOrSelfPermission(MODIFY_PHONE_STATE)
++                            != PackageManager.PERMISSION_GRANTED) {
++                Log.w(this, "addConferenceCall from caller without permission!");
++                parcelableConference = new ParcelableConference(
++                        parcelableConference.getPhoneAccount(),
++                        parcelableConference.getState(),
++                        parcelableConference.getConnectionCapabilities(),
++                        parcelableConference.getConnectionProperties(),
++                        parcelableConference.getConnectionIds(),
++                        parcelableConference.getVideoProvider(),
++                        parcelableConference.getVideoState(),
++                        0 /* connectTimeMillis */,
++                        0 /* connectElapsedRealTime */,
++                        parcelableConference.getStatusHints(),
++                        parcelableConference.getExtras(),
++                        parcelableConference.getHandle(),
++                        parcelableConference.getHandlePresentation(),
++                        "" /* callerDisplayName */,
++                        TelecomManager.PRESENTATION_UNKNOWN /* callerDisplayNamePresentation */
++                        );
++            }
++
+             UserHandle callingUserHandle = Binder.getCallingUserHandle();
+             // Check status hints image for cross user access
+             if (parcelableConference.getStatusHints() != null) {
+@@ -746,6 +772,13 @@ public class ConnectionServiceWrapper extends ServiceBinder implements
+         public void setAddress(String callId, Uri address, int presentation,
+                 Session.Info sessionInfo) {
+             Log.startSession(sessionInfo, "CSW.sA");
++
++            if (mContext.checkCallingOrSelfPermission(MODIFY_PHONE_STATE)
++                    != PackageManager.PERMISSION_GRANTED) {
++                Log.w(this, "setAddress from caller without permission.");
++                return;
++            }
++
+             long token = Binder.clearCallingIdentity();
+             try {
+                 synchronized (mLock) {
+@@ -830,6 +863,13 @@ public class ConnectionServiceWrapper extends ServiceBinder implements
+                 mAppOpsManager.checkPackage(Binder.getCallingUid(),
+                         callingPhoneAccountHandle.getComponentName().getPackageName());
+             }
++
++            if (mContext.checkCallingOrSelfPermission(MODIFY_PHONE_STATE)
++                    != PackageManager.PERMISSION_GRANTED) {
++                Log.w(this, "addExistingConnection from caller without permission!");
++                return;
++            }
++
+             long token = Binder.clearCallingIdentity();
+             try {
+                 synchronized (mLock) {
+@@ -1037,6 +1077,13 @@ public class ConnectionServiceWrapper extends ServiceBinder implements
+         public void setConferenceState(String callId, boolean isConference,
+                 Session.Info sessionInfo) throws RemoteException {
+             Log.startSession(sessionInfo, "CSW.sCS");
++
++            if (mContext.checkCallingOrSelfPermission(MODIFY_PHONE_STATE)
++                    != PackageManager.PERMISSION_GRANTED) {
++                Log.w(this, "setConferenceState from caller without permission.");
++                return;
++            }
++
+             long token = Binder.clearCallingIdentity();
+             try {
+                 synchronized (mLock) {
+@@ -1065,6 +1112,7 @@ public class ConnectionServiceWrapper extends ServiceBinder implements
+     private final PhoneAccountRegistrar mPhoneAccountRegistrar;
+     private final CallsManager mCallsManager;
+     private final AppOpsManager mAppOpsManager;
++    private final Context mContext;
+ 
+     private ConnectionServiceFocusManager.ConnectionServiceFocusListener mConnSvrFocusListener;
+ 
+@@ -1095,6 +1143,7 @@ public class ConnectionServiceWrapper extends ServiceBinder implements
+         mPhoneAccountRegistrar = phoneAccountRegistrar;
+         mCallsManager = callsManager;
+         mAppOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
++        mContext = context;
+     }
+ 
+     /** See {@link IConnectionService#addConnectionServiceAdapter}. */
+diff --git a/src/com/android/server/telecom/TelecomServiceImpl.java b/src/com/android/server/telecom/TelecomServiceImpl.java
+index 8c498fc55..f784fa59c 100644
+--- a/src/com/android/server/telecom/TelecomServiceImpl.java
++++ b/src/com/android/server/telecom/TelecomServiceImpl.java
+@@ -513,6 +513,18 @@ public class TelecomServiceImpl {
+                         if (callingUid != Process.SHELL_UID) {
+                             enforceUserHandleMatchesCaller(account.getAccountHandle());
+                         }
++
++                        if (TextUtils.isEmpty(account.getGroupId())
++                                && mContext.checkCallingOrSelfPermission(MODIFY_PHONE_STATE)
++                                != PackageManager.PERMISSION_GRANTED) {
++                            Log.w(this, "registerPhoneAccount - attempt to set a"
++                                    + " group from a non-system caller.");
++                            // Not permitted to set group, so null it out.
++                            account = new PhoneAccount.Builder(account)
++                                    .setGroupId(null)
++                                    .build();
++                        }
++
+                         final long token = Binder.clearCallingIdentity();
+                         try {
+                             mPhoneAccountRegistrar.registerPhoneAccount(account);

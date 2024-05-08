@@ -19,8 +19,7 @@ Cherry-picking this CL as a security fix
 Bug: 222446076
 (cherry picked from https://googleplex-android-review.googlesource.com/q/commit:09f004722284ef6b9790ddf9338a1708b3f0833c)
 Merged-In: If4360dd6ae2e5f79b43eaf1a29687ac9cc4b6101
-AOSP-Change-Id: If4360dd6ae2e5f79b43eaf1a29687ac9cc4b6101
-Change-Id: Id6eb8eff88481f9ec2c9cbcde9d7b0f78a349d98
+Change-Id: If4360dd6ae2e5f79b43eaf1a29687ac9cc4b6101
 ---
  .../src/com/android/keyguard/KeyguardSecurityContainer.java     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)

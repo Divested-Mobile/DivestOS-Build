@@ -1,0 +1,51 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Abhijeet Kaur <abkaur@google.com>
+Date: Wed, 23 Nov 2022 08:47:27 +0000
+Subject: [PATCH] Canonicalise path before extracting relative path
+
+This helps us make accurate access checks on the given path.
+
+Bug: 228833816
+Bug: 228450832
+Test: atest FileUtilsTest
+Test: atest LegacyStorageHostTest
+Change-Id: Id620644ffdfe20e9281773e2e23851c56732dd11
+Merged-In: Id620644ffdfe20e9281773e2e23851c56732dd11
+(cherry picked from commit 93f5186e4b4a044e00a168c55e05fd3835033221)
+(cherry picked from commit 0f59f42685f186fd207355c01c580038436713ba)
+(cherry picked from commit 797621ad93ef96064eb603366f3dc37716f39f2d)
+Merged-In: Id620644ffdfe20e9281773e2e23851c56732dd11
+---
+ src/com/android/providers/media/MediaProvider.java | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/src/com/android/providers/media/MediaProvider.java b/src/com/android/providers/media/MediaProvider.java
+index 9032644e7..b8ec75cdd 100644
+--- a/src/com/android/providers/media/MediaProvider.java
++++ b/src/com/android/providers/media/MediaProvider.java
+@@ -2309,7 +2309,9 @@ public class MediaProvider extends ContentProvider {
+     }
+ 
+     private static @Nullable String extractRelativePath(@Nullable String data) {
++        data = getCanonicalPath(data);
+         if (data == null) return null;
++
+         final Matcher matcher = PATTERN_RELATIVE_PATH.matcher(data);
+         if (matcher.find()) {
+             final int lastSlash = data.lastIndexOf('/');
+@@ -6694,4 +6696,15 @@ public class MediaProvider extends ContentProvider {
+         }
+         return s.toString();
+     }
++
++    @Nullable
++    private static String getCanonicalPath(@Nullable String path) {
++        if (path == null) return null;
++        try {
++            return new File(path).getCanonicalPath();
++        } catch (IOException e) {
++            Log.d(TAG, "Unable to get canonical path from invalid data path: " + path, e);
++            return null;
++        }
++    }
+ }

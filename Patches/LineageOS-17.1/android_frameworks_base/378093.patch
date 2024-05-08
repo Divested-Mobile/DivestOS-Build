@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jeff DeCew <jeffdq@google.com>
+Date: Fri, 24 Mar 2023 16:15:24 +0000
+Subject: [PATCH] Add BubbleMetadata detection to block FSI
+
+Bug: 274759612
+Test: atest NotificationInterruptStateProviderImplTest
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:c60e264a551df9f880fd73683321b7e821429da7)
+Merged-In: I40e1aa6377b8a60d91cb2f4189df1e9a4a4578a2
+Change-Id: I40e1aa6377b8a60d91cb2f4189df1e9a4a4578a2
+---
+ .../NotificationInterruptionStateProvider.java     | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/NotificationInterruptionStateProvider.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/NotificationInterruptionStateProvider.java
+index ff71db4dc3b5..579c2023e4bf 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/NotificationInterruptionStateProvider.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/NotificationInterruptionStateProvider.java
+@@ -461,6 +461,20 @@ public class NotificationInterruptionStateProvider {
+             return false;
+         }
+ 
++        // If the notification has suppressive BubbleMetadata, block FSI and warn.
++        Notification.BubbleMetadata bubbleMetadata = sbn.getNotification().getBubbleMetadata();
++        if (bubbleMetadata != null && bubbleMetadata.isNotificationSuppressed()) {
++            // b/274759612: Detect and report an event when a notification has both an FSI and a
++            // suppressive BubbleMetadata, and now correctly block the FSI from firing.
++            final int uid = entry.notification.getUid();
++            android.util.EventLog.writeEvent(0x534e4554, "274759612", uid, "bubbleMetadata");
++            if (DEBUG) {
++                Log.w(TAG, "No FullScreenIntent: WARNING: BubbleMetadata may prevent HUN: "
++                        + entry.key);
++            }
++            return false;
++        }
++
+         // If the screen is off, then launch the FullScreenIntent
+         if (!mPowerManager.isInteractive()) {
+             if (DEBUG) {

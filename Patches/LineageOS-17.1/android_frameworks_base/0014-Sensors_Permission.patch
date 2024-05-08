@@ -34,7 +34,7 @@ index b99634c11742..d74627f45dbd 100644
      field public static final String SENSORS = "android.permission-group.SENSORS";
      field public static final String SMS = "android.permission-group.SMS";
 diff --git a/core/java/android/content/pm/PackageParser.java b/core/java/android/content/pm/PackageParser.java
-index 7f728febe5d9..f9f3ead23fb8 100644
+index 3da6255ff7e0..ff520f7a38f7 100644
 --- a/core/java/android/content/pm/PackageParser.java
 +++ b/core/java/android/content/pm/PackageParser.java
 @@ -288,6 +288,8 @@ public class PackageParser {
@@ -100,7 +100,7 @@ index 2cf2b923ef90..ae206c1f5872 100644
      <string name="permlab_readCalendar">Read calendar events and details</string>
      <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index feaa92d0f615..ce9ceb573a39 100644
+index adf6fa87be3e..648502f7ba02 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -1024,7 +1024,7 @@ public class PermissionManagerService {

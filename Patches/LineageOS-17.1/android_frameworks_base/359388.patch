@@ -1,0 +1,263 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Valentin Iftime <valiiftime@google.com>
+Date: Wed, 15 Feb 2023 20:39:44 +0100
+Subject: [PATCH] Wait for preloading images to complete before inflating
+ notifications
+
+ NotificationContentInflater waits on SysUiBg thread for images to load, with a timeout
+ of 1000ms.
+
+Test: 1. Build a test app that posts MessagingStyle notifications with a huge image (8k+) set as data Uri.
+ 2. SystemUi should not ANR
+ 3. adb logcat | grep NotificationInlineImageCache  - shows timeout/cancellation logs
+
+Bug: 252766417
+Bug: 223859644
+
+(cherry picked from commit 195043f40e46ddcd2fe534a9dac344792d39d91c)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:733089e71ca4b98417586e593a1fb0e50f3a5c61)
+Merged-In: I341db60223214cf2282b5c0270e343e1ce95fa01
+Change-Id: I341db60223214cf2282b5c0270e343e1ce95fa01
+---
+ .../row/NotificationContentInflater.java      | 22 ++++++-
+ .../row/NotificationInlineImageCache.java     | 24 ++++++--
+ .../row/NotificationInlineImageResolver.java  | 57 ++++++++++++++++++-
+ 3 files changed, 92 insertions(+), 11 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationContentInflater.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationContentInflater.java
+index a612a1721c41..29aaf5201412 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationContentInflater.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationContentInflater.java
+@@ -475,6 +475,7 @@ public class NotificationContentInflater {
+         CancellationSignal cancellationSignal = new CancellationSignal();
+         cancellationSignal.setOnCancelListener(
+                 () -> runningInflations.values().forEach(CancellationSignal::cancel));
++
+         return cancellationSignal;
+     }
+ 
+@@ -751,6 +752,7 @@ public class NotificationContentInflater {
+     public static class AsyncInflationTask extends AsyncTask<Void, Void, InflationProgress>
+             implements InflationCallback, InflationTask {
+ 
++        private static final long IMG_PRELOAD_TIMEOUT_MS = 1000L;
+         private final StatusBarNotification mSbn;
+         private final Context mContext;
+         private final boolean mInflateSynchronously;
+@@ -817,9 +819,15 @@ public class NotificationContentInflater {
+                 InflationProgress inflationProgress = createRemoteViews(mReInflateFlags,
+                         recoveredBuilder, mIsLowPriority, mIsChildInGroup, mUsesIncreasedHeight,
+                         mUsesIncreasedHeadsUpHeight, packageContext);
+-                return inflateSmartReplyViews(inflationProgress, mReInflateFlags, mRow.getEntry(),
++
++                InflationProgress result = inflateSmartReplyViews(inflationProgress, mReInflateFlags, mRow.getEntry(),
+                         mRow.getContext(), packageContext, mRow.getHeadsUpManager(),
+                         mRow.getExistingSmartRepliesAndActions());
++
++                // wait for image resolver to finish preloading
++                mRow.getImageResolver().waitForPreloadedImages(IMG_PRELOAD_TIMEOUT_MS);
++
++                return result;
+             } catch (Exception e) {
+                 mError = e;
+                 return null;
+@@ -842,8 +850,13 @@ public class NotificationContentInflater {
+             final String ident = sbn.getPackageName() + "/0x"
+                     + Integer.toHexString(sbn.getId());
+             Log.e(StatusBar.TAG, "couldn't inflate view for notification " + ident, e);
+-            mCallback.handleInflationException(sbn,
+-                    new InflationException("Couldn't inflate contentViews" + e));
++            if (mCallback != null) {
++                mCallback.handleInflationException(sbn,
++                        new InflationException("Couldn't inflate contentViews" + e));
++            }
++
++            // Cancel any image loading tasks, not useful any more
++            mRow.getImageResolver().cancelRunningTasks();
+         }
+ 
+         @Override
+@@ -877,6 +890,9 @@ public class NotificationContentInflater {
+             // Notify the resolver that the inflation task has finished,
+             // try to purge unnecessary cached entries.
+             mRow.getImageResolver().purgeCache();
++
++            // Cancel any image loading tasks that have not completed at this point
++            mRow.getImageResolver().cancelRunningTasks();
+         }
+     }
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageCache.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageCache.java
+index 4b0e2ffd5d7f..6fdc8a3dce0b 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageCache.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageCache.java
+@@ -21,10 +21,12 @@ import android.net.Uri;
+ import android.os.AsyncTask;
+ import android.util.Log;
+ 
+-import java.io.IOException;
+ import java.util.Set;
++import java.util.concurrent.CancellationException;
+ import java.util.concurrent.ConcurrentHashMap;
+ import java.util.concurrent.ExecutionException;
++import java.util.concurrent.TimeUnit;
++import java.util.concurrent.TimeoutException;
+ 
+ /**
+  * A cache for inline images of image messages.
+@@ -57,12 +59,13 @@ public class NotificationInlineImageCache implements NotificationInlineImageReso
+     }
+ 
+     @Override
+-    public Drawable get(Uri uri) {
++    public Drawable get(Uri uri, long timeoutMs) {
+         Drawable result = null;
+         try {
+-            result = mCache.get(uri).get();
+-        } catch (InterruptedException | ExecutionException ex) {
+-            Log.d(TAG, "get: Failed get image from " + uri);
++            result = mCache.get(uri).get(timeoutMs, TimeUnit.MILLISECONDS);
++        } catch (InterruptedException | ExecutionException
++                | TimeoutException | CancellationException ex) {
++            Log.d(TAG, "get: Failed get image from " + uri + " " + ex);
+         }
+         return result;
+     }
+@@ -73,6 +76,15 @@ public class NotificationInlineImageCache implements NotificationInlineImageReso
+         mCache.entrySet().removeIf(entry -> !wantedSet.contains(entry.getKey()));
+     }
+ 
++    @Override
++    public void cancelRunningTasks() {
++        mCache.forEach((key, value) -> {
++            if (value.getStatus() != AsyncTask.Status.FINISHED) {
++                value.cancel(true);
++            }
++        });
++    }
++
+     private static class PreloadImageTask extends AsyncTask<Uri, Void, Drawable> {
+         private final NotificationInlineImageResolver mResolver;
+ 
+@@ -87,7 +99,7 @@ public class NotificationInlineImageCache implements NotificationInlineImageReso
+ 
+             try {
+                 drawable = mResolver.resolveImage(target);
+-            } catch (IOException | SecurityException ex) {
++            } catch (Exception ex) {
+                 Log.d(TAG, "PreloadImageTask: Resolve failed from " + target, ex);
+             }
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageResolver.java b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageResolver.java
+index a3e13053d169..466be072afdb 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageResolver.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/notification/row/NotificationInlineImageResolver.java
+@@ -23,6 +23,7 @@ import android.graphics.drawable.Drawable;
+ import android.net.Uri;
+ import android.os.Bundle;
+ import android.os.Parcelable;
++import android.os.SystemClock;
+ import android.util.Log;
+ 
+ import com.android.internal.widget.ImageResolver;
+@@ -40,6 +41,9 @@ import java.util.Set;
+ public class NotificationInlineImageResolver implements ImageResolver {
+     private static final String TAG = NotificationInlineImageResolver.class.getSimpleName();
+ 
++    // Timeout for loading images from ImageCache when calling from UI thread
++    private static final long MAX_UI_THREAD_TIMEOUT_MS = 100L;
++
+     private final Context mContext;
+     private final ImageCache mImageCache;
+     private Set<Uri> mWantedUriSet;
+@@ -76,17 +80,37 @@ public class NotificationInlineImageResolver implements ImageResolver {
+         return LocalImageResolver.resolveImage(uri, mContext);
+     }
+ 
++    /**
++     * Loads an image from the Uri.
++     * This method is synchronous and is usually called from the Main thread.
++     * It will time-out after MAX_UI_THREAD_TIMEOUT_MS.
++     *
++     * @param uri Uri of the target image.
++     * @return drawable of the image, null if loading failed/timeout
++     */
+     @Override
+     public Drawable loadImage(Uri uri) {
+         Drawable result = null;
+         try {
+-            result = hasCache() ? mImageCache.get(uri) : resolveImage(uri);
++            if (hasCache()) {
++                result = loadImageFromCache(uri, MAX_UI_THREAD_TIMEOUT_MS);
++            } else {
++                result = resolveImage(uri);
++            }
+         } catch (IOException | SecurityException ex) {
+             Log.d(TAG, "loadImage: Can't load image from " + uri, ex);
+         }
+         return result;
+     }
+ 
++    private Drawable loadImageFromCache(Uri uri, long timeoutMs) {
++        // if the uri isn't currently cached, try caching it first
++        if (!mImageCache.hasEntry(uri)) {
++            mImageCache.preload((uri));
++        }
++        return mImageCache.get(uri, timeoutMs);
++    }
++
+     /**
+      * Resolve the message list from specified notification and
+      * refresh internal cache according to the result.
+@@ -158,6 +182,30 @@ public class NotificationInlineImageResolver implements ImageResolver {
+         return mWantedUriSet;
+     }
+ 
++    /**
++     * Wait for a maximum timeout for images to finish preloading
++     * @param timeoutMs total timeout time
++     */
++    void waitForPreloadedImages(long timeoutMs) {
++        if (!hasCache()) {
++            return;
++        }
++        Set<Uri> preloadedUris = getWantedUriSet();
++        if (preloadedUris != null) {
++            // Decrement remaining timeout after each image check
++            long endTimeMs = SystemClock.elapsedRealtime() + timeoutMs;
++            preloadedUris.forEach(
++                    uri -> loadImageFromCache(uri, endTimeMs - SystemClock.elapsedRealtime()));
++        }
++    }
++
++    void cancelRunningTasks() {
++        if (!hasCache()) {
++            return;
++        }
++        mImageCache.cancelRunningTasks();
++    }
++
+     /**
+      * A interface for internal cache implementation of this resolver.
+      */
+@@ -167,7 +215,7 @@ public class NotificationInlineImageResolver implements ImageResolver {
+          * @param uri The uri of the image.
+          * @return Drawable of the image.
+          */
+-        Drawable get(Uri uri);
++        Drawable get(Uri uri, long timeoutMs);
+ 
+         /**
+          * Set the image resolver that actually resolves image from specified uri.
+@@ -192,6 +240,11 @@ public class NotificationInlineImageResolver implements ImageResolver {
+          * Purge unnecessary entries in the cache.
+          */
+         void purge();
++
++        /**
++         * Cancel all unfinished image loading tasks
++         */
++        void cancelRunningTasks();
+     }
+ 
+ }

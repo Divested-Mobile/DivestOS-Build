@@ -1,0 +1,79 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Shruti Bihani <shrutibihani@google.com>
+Date: Mon, 10 Jul 2023 08:53:42 +0000
+Subject: [PATCH] Fix for heap buffer overflow issue flagged by fuzzer test.
+
+OOB write occurs when a value is assigned to a buffer index which is greater than the buffer size. Adding a check on buffer bounds fixes the issue.
+
+Similar checks have been added wherever applicable on other such methods of the class.
+
+Bug: 243463593
+Test: Build mtp_packet_fuzzer and run on the target device
+(cherry picked from commit a669e34bb8e6f0f7b5d7a35144bd342271a24712)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:1401a723899766632363129265b30d433ac69c44)
+Merged-In: Icd0f2307803a1a35e655bc08d9d4cca5e2b58a9b
+Change-Id: Icd0f2307803a1a35e655bc08d9d4cca5e2b58a9b
+---
+ media/mtp/MtpPacket.cpp | 40 +++++++++++++++++++++++++++++++---------
+ 1 file changed, 31 insertions(+), 9 deletions(-)
+
+diff --git a/media/mtp/MtpPacket.cpp b/media/mtp/MtpPacket.cpp
+index 3b298a9bf3..e4467bbfdc 100644
+--- a/media/mtp/MtpPacket.cpp
++++ b/media/mtp/MtpPacket.cpp
+@@ -92,24 +92,46 @@ void MtpPacket::copyFrom(const MtpPacket& src) {
+ }
+ 
+ uint16_t MtpPacket::getUInt16(int offset) const {
+-    return ((uint16_t)mBuffer[offset + 1] << 8) | (uint16_t)mBuffer[offset];
++    if ((unsigned long)(offset+2) <= mBufferSize) {
++        return ((uint16_t)mBuffer[offset + 1] << 8) | (uint16_t)mBuffer[offset];
++    }
++    else {
++        ALOGE("offset for buffer read is greater than buffer size!");
++        abort();
++    }
+ }
+ 
+ uint32_t MtpPacket::getUInt32(int offset) const {
+-    return ((uint32_t)mBuffer[offset + 3] << 24) | ((uint32_t)mBuffer[offset + 2] << 16) |
+-           ((uint32_t)mBuffer[offset + 1] << 8)  | (uint32_t)mBuffer[offset];
++    if ((unsigned long)(offset+4) <= mBufferSize) {
++        return ((uint32_t)mBuffer[offset + 3] << 24) | ((uint32_t)mBuffer[offset + 2] << 16) |
++               ((uint32_t)mBuffer[offset + 1] << 8)  | (uint32_t)mBuffer[offset];
++    }
++    else {
++        ALOGE("offset for buffer read is greater than buffer size!");
++        abort();
++    }
+ }
+ 
+ void MtpPacket::putUInt16(int offset, uint16_t value) {
+-    mBuffer[offset++] = (uint8_t)(value & 0xFF);
+-    mBuffer[offset++] = (uint8_t)((value >> 8) & 0xFF);
++    if ((unsigned long)(offset+2) <= mBufferSize) {
++        mBuffer[offset++] = (uint8_t)(value & 0xFF);
++        mBuffer[offset++] = (uint8_t)((value >> 8) & 0xFF);
++    }
++    else {
++        ALOGE("offset for buffer write is greater than buffer size!");
++    }
+ }
+ 
+ void MtpPacket::putUInt32(int offset, uint32_t value) {
+-    mBuffer[offset++] = (uint8_t)(value & 0xFF);
+-    mBuffer[offset++] = (uint8_t)((value >> 8) & 0xFF);
+-    mBuffer[offset++] = (uint8_t)((value >> 16) & 0xFF);
+-    mBuffer[offset++] = (uint8_t)((value >> 24) & 0xFF);
++    if ((unsigned long)(offset+4) <= mBufferSize) {
++        mBuffer[offset++] = (uint8_t)(value & 0xFF);
++        mBuffer[offset++] = (uint8_t)((value >> 8) & 0xFF);
++        mBuffer[offset++] = (uint8_t)((value >> 16) & 0xFF);
++        mBuffer[offset++] = (uint8_t)((value >> 24) & 0xFF);
++    }
++    else {
++        ALOGE("offset for buffer write is greater than buffer size!");
++    }
+ }
+ 
+ uint16_t MtpPacket::getContainerCode() const {

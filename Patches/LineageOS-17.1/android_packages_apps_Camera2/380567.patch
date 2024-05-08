@@ -1,0 +1,36 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Shuzhen Wang <shuzhenwang@google.com>
+Date: Fri, 27 Oct 2023 16:08:05 -0700
+Subject: [PATCH] Camera2: Do not pass location info for startActivity case
+
+If the Camera2 activity is started by startActivity, we shouldn't
+unconditionally grant location.
+
+Test: Use Camera2 app both independently and with INTENT
+Bug: 285142084
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:3c097bb0e516b1d071f00ac99a8f29f4a72579ff)
+Merged-In: I3b78840f9b0fefeadea44150ea319886f06c1485
+Change-Id: I3b78840f9b0fefeadea44150ea319886f06c1485
+---
+ src/com/android/camera/CameraActivity.java | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/camera/CameraActivity.java b/src/com/android/camera/CameraActivity.java
+index af64c1091..026c8397f 100644
+--- a/src/com/android/camera/CameraActivity.java
++++ b/src/com/android/camera/CameraActivity.java
+@@ -1760,8 +1760,12 @@ public class CameraActivity extends QuickActivity
+     private boolean shouldUseNoOpLocation () {
+         String callingPackage = getCallingPackage();
+         if (callingPackage == null) {
+-            // Activity not started through startActivityForResult.
+-            return false;
++            if (isCaptureIntent()) {
++                // Activity not started through startActivityForResult.
++                return true;
++            } else {
++                callingPackage = mAppContext.getPackageName();
++            }
+         }
+         PackageInfo packageInfo = null;
+         try {

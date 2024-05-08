@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dipankar Bhardwaj <dipankarb@google.com>
+Date: Thu, 6 Jul 2023 10:01:20 +0000
+Subject: [PATCH] Canonicalize file path for insertion by legacy apps
+
+Apps with legacy external storage can try to create entries in MP for
+file paths in other apps external private directories by using a
+non-canonical path in insertion calls.
+
+Test: atest LegacyStorageHostTest#testInsertToOtherAppPrivateDirFails
+Bug: 276898626
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:3c0f583f5dc3f4d395fa2423ab72dbd902c0c6c8)
+Merged-In: If4c941c8156f19459b3ec6cbaf705824ecc2ba77
+Change-Id: If4c941c8156f19459b3ec6cbaf705824ecc2ba77
+---
+ src/com/android/providers/media/MediaProvider.java | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/providers/media/MediaProvider.java b/src/com/android/providers/media/MediaProvider.java
+index b8ec75cdd..822d69537 100644
+--- a/src/com/android/providers/media/MediaProvider.java
++++ b/src/com/android/providers/media/MediaProvider.java
+@@ -1526,9 +1526,17 @@ public class MediaProvider extends ContentProvider {
+         values.remove(ImageColumns.PRIMARY_DIRECTORY);
+         values.remove(ImageColumns.SECONDARY_DIRECTORY);
+ 
+-        final String data = values.getAsString(MediaColumns.DATA);
++        String data = values.getAsString(MediaColumns.DATA);
+         if (TextUtils.isEmpty(data)) return;
+ 
++        try {
++            data = new File(data).getCanonicalPath();
++            values.put(MediaColumns.DATA, data);
++        } catch (IOException e) {
++            throw new IllegalArgumentException(
++                    String.format(Locale.ROOT, "Invalid file path:%s in request.", data));
++        }
++
+         final File file = new File(data);
+         final File fileLower = new File(data.toLowerCase());
+ 

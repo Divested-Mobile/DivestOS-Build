@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Haibo Huang <hhb@google.com>
+Date: Tue, 28 Apr 2020 14:47:47 -0700
+Subject: [PATCH] Fix the use of pdfium
+
+FPDF_LoadPage returns FPDF_PAGE and that's also what expected by other
+APIs. There's no need for conversion.
+
+This works now because FPDF_PAGE is defined as void*. But will fails
+with new pdfium.
+
+Bug: 155031873
+Change-Id: I74381ec8ec36797a5901ea3de845c2b5d798ba0c
+(cherry picked from commit 24fca180a146ec6e94a5058280c593216edbae15)
+---
+ core/jni/android/graphics/pdf/PdfEditor.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/jni/android/graphics/pdf/PdfEditor.cpp b/core/jni/android/graphics/pdf/PdfEditor.cpp
+index 10c30260d7e3..913952f9e76c 100644
+--- a/core/jni/android/graphics/pdf/PdfEditor.cpp
++++ b/core/jni/android/graphics/pdf/PdfEditor.cpp
+@@ -111,7 +111,7 @@ static void nativeSetTransformAndClip(JNIEnv* env, jclass thiz, jlong documentPt
+         jlong transformPtr, jint clipLeft, jint clipTop, jint clipRight, jint clipBottom) {
+     FPDF_DOCUMENT document = reinterpret_cast<FPDF_DOCUMENT>(documentPtr);
+ 
+-    FPDF_PAGE* page = (FPDF_PAGE*) FPDF_LoadPage(document, pageIndex);
++    FPDF_PAGE page = FPDF_LoadPage(document, pageIndex);
+     if (!page) {
+         jniThrowException(env, "java/lang/IllegalStateException",
+                 "cannot open page");

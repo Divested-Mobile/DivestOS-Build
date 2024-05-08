@@ -1,0 +1,132 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Aishwarya Mallampati <amallampati@google.com>
+Date: Fri, 28 Oct 2022 23:39:20 +0000
+Subject: [PATCH] DO NOT MERGE Grant carrier privileges if package has carrier
+ config access.
+
+TelephonyManager#hasCarrierPrivileges internally uses
+SubscriptionManager#canManageSubscription to decide whether to grant
+carrier privilege status to an app or not.
+SubscriptionManager#canManageSubscription returns true if caller APK's
+certificate matches with one of the mNativeAccessRules or
+mCarrierConfigAccessRules. This over-grants carrier privilege status
+to apps that only has mNativeAccessRules.
+Carrier privilege status should
+be granted to the caller APK only if it's certificate matches with one
+of mCarrierConfigAccessRules.
+Replaced SubscriptionManager#canManageSubscription with
+PhoneInterfaceManager#hasCarrierConfigAccess which returns true only if
+caller APK certificates matches with one of mCarrierConfigAccessRules of
+the given subscription.
+
+Bug: 226593252
+Test: Manual Testing as explained in b/226593252#comment51
+      atest CtsTelephonyTestCases
+      Flashed build on raven-userdebug and performed basic funtionality
+      tests
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:213aba7e18ddadf800be981b802d8e242c61e0ad)
+Merged-In: I6899de902e6e3ffda47b48d0ae806ac9c17ee2a6
+Change-Id: I6899de902e6e3ffda47b48d0ae806ac9c17ee2a6
+---
+ .../android/phone/PhoneInterfaceManager.java  | 57 ++++++++++++++++---
+ 1 file changed, 49 insertions(+), 8 deletions(-)
+
+diff --git a/src/com/android/phone/PhoneInterfaceManager.java b/src/com/android/phone/PhoneInterfaceManager.java
+index aad961f14..11b8909ac 100755
+--- a/src/com/android/phone/PhoneInterfaceManager.java
++++ b/src/com/android/phone/PhoneInterfaceManager.java
+@@ -21,6 +21,7 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+ import static com.android.internal.telephony.PhoneConstants.SUBSCRIPTION_KEY;
+ 
+ import android.Manifest.permission;
++import android.annotation.NonNull;
+ import android.annotation.Nullable;
+ import android.app.AppOpsManager;
+ import android.app.PendingIntent;
+@@ -86,6 +87,7 @@ import android.telephony.SubscriptionManager;
+ import android.telephony.TelephonyHistogram;
+ import android.telephony.TelephonyManager;
+ import android.telephony.TelephonyScanManager;
++import android.telephony.UiccAccessRule;
+ import android.telephony.UiccCardInfo;
+ import android.telephony.UiccSlotInfo;
+ import android.telephony.UssdResponse;
+@@ -4808,14 +4810,18 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
+         int uid = Binder.getCallingUid();
+         PackageManager pkgMgr = phone.getContext().getPackageManager();
+         String[] packages = pkgMgr.getPackagesForUid(uid);
++        if (packages == null) {
++            return privilegeFromSim;
++        }
+ 
+         final long identity = Binder.clearCallingIdentity();
+         try {
+-            SubscriptionInfo subInfo = subController.getSubscriptionInfo(phone.getSubId());
+-            SubscriptionManager subManager = (SubscriptionManager)
+-                    phone.getContext().getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
++            int subId = phone.getSubId();
++            SubscriptionInfo subInfo = subController.getSubscriptionInfo(subId);
++            List<UiccAccessRule> carrierConfigAccessRules = subInfo.getCarrierConfigAccessRules();
++
+             for (String pkg : packages) {
+-                if (subManager.canManageSubscription(subInfo, pkg)) {
++                if (hasCarrierConfigAccess(pkg, pkgMgr, carrierConfigAccessRules)) {
+                     return TelephonyManager.CARRIER_PRIVILEGE_STATUS_HAS_ACCESS;
+                 }
+             }
+@@ -4834,16 +4840,51 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
+ 
+         final long identity = Binder.clearCallingIdentity();
+         try {
+-            SubscriptionInfo subInfo = subController.getSubscriptionInfo(phone.getSubId());
+-            SubscriptionManager subManager = (SubscriptionManager)
+-                    phone.getContext().getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+-            return subManager.canManageSubscription(subInfo, pkgName)
++            int subId = phone.getSubId();
++            SubscriptionInfo subInfo = subController.getSubscriptionInfo(subId);
++            List<UiccAccessRule> carrierConfigAccessRules = subInfo.getCarrierConfigAccessRules();
++
++            return hasCarrierConfigAccess(pkgName, phone.getContext().getPackageManager(),
++                carrierConfigAccessRules)
+                 ? TelephonyManager.CARRIER_PRIVILEGE_STATUS_HAS_ACCESS : privilegeFromSim;
+         } finally {
+             Binder.restoreCallingIdentity(identity);
+         }
+     }
+ 
++    /**
++     * Check whether carrier privilege status can be granted to the provided app for this
++     * subscription based on the carrier config access rules of the subscription.
++     *
++     * @param packageName package name of the app to check
++     * @param packageManager package manager
++     * @param carrierConfigAccessRules carrier config access rules of the subscription
++     * @return true if the app is included in the mCarrierConfigAccessRules of this subscription.
++     */
++    private boolean hasCarrierConfigAccess(String packageName, PackageManager packageManager,
++        @NonNull List<UiccAccessRule> carrierConfigAccessRules) {
++        if ((packageName == null) || (carrierConfigAccessRules.isEmpty())) {
++            return false;
++        }
++
++        PackageInfo packageInfo;
++        try {
++            packageInfo = packageManager.getPackageInfo(packageName,
++                PackageManager.GET_SIGNING_CERTIFICATES);
++        } catch (PackageManager.NameNotFoundException e) {
++            logv("Unknown package: " + packageName);
++            return false;
++        }
++
++        for (UiccAccessRule rule : carrierConfigAccessRules) {
++            if (rule.getCarrierPrivilegeStatus(packageInfo)
++                == TelephonyManager.CARRIER_PRIVILEGE_STATUS_HAS_ACCESS) {
++                return true;
++            }
++        }
++        return false;
++    }
++
+     @Override
+     public int getCarrierPrivilegeStatus(int subId) {
+         final Phone phone = getPhone(subId);

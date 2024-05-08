@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: "Nate(Qiang) Jiang" <qiangjiang@google.com>
+Date: Wed, 12 Apr 2023 18:32:50 +0000
+Subject: [PATCH] DO NOT MERGE: Limit the ServiceFriendlyNames
+
+Bug: 274445194
+Test: atest android.net.wifi
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:6b1746ab6f0ff4020c78381833554f20344c2e2a)
+Merged-In: Id4e16007531ba1ce3e3f9fa3d3111b5af57751be
+Change-Id: Id4e16007531ba1ce3e3f9fa3d3111b5af57751be
+---
+ .../wifi/hotspot2/PasspointConfiguration.java   | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/wifi/java/android/net/wifi/hotspot2/PasspointConfiguration.java b/wifi/java/android/net/wifi/hotspot2/PasspointConfiguration.java
+index 9095b5d927a2..dd23e504c467 100644
+--- a/wifi/java/android/net/wifi/hotspot2/PasspointConfiguration.java
++++ b/wifi/java/android/net/wifi/hotspot2/PasspointConfiguration.java
+@@ -597,6 +597,23 @@ public final class PasspointConfiguration implements Parcelable {
+                 }
+             }
+         }
++        if (mServiceFriendlyNames != null) {
++            if (mServiceFriendlyNames.size() > MAX_NUMBER_OF_ENTRIES) {
++                Log.e(TAG, "ServiceFriendlyNames exceed the max!");
++                return false;
++            }
++            for (Map.Entry<String, String> names : mServiceFriendlyNames.entrySet()) {
++                if (names.getKey() == null || names.getValue() == null) {
++                    Log.e(TAG, "Service friendly name entry should not be null");
++                    return false;
++                }
++                if (names.getKey().length() > MAX_STRING_LENGTH
++                        || names.getValue().length() > MAX_STRING_LENGTH) {
++                    Log.e(TAG, "Service friendly name is to long");
++                    return false;
++                }
++            }
++        }
+         return true;
+     }
+ 

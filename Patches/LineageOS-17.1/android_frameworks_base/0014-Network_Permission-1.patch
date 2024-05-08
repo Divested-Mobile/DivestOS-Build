@@ -22,7 +22,7 @@ index a8dd041454c9..6940b9eb36ed 100644
      <!-- Allows applications to access information about networks.
           <p>Protection level: normal
 diff --git a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
-index 4649b88b9804..feaa92d0f615 100644
+index 65646aef6c9e..adf6fa87be3e 100644
 --- a/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 +++ b/services/core/java/com/android/server/pm/permission/PermissionManagerService.java
 @@ -1024,7 +1024,7 @@ public class PermissionManagerService {

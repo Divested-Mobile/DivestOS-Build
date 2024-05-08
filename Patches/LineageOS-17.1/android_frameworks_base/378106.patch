@@ -1,0 +1,82 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mat=C3=ADas=20Hern=C3=A1ndez?= <matiashe@google.com>
+Date: Fri, 11 Aug 2023 18:27:57 +0200
+Subject: [PATCH] Visit Uris related to Notification style extras
+
+Even if the corresponding styles themselves were not applied to the Notification.Builder.
+
+Test: atest NotificationManagerServiceTest
+Bug: 287640400
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:a7e0c6585fd155d5bd9354b8b15516f4788c33a7)
+Merged-In: I25acab19be7dd486aabede8c91dbad5a1a217abf
+Change-Id: I25acab19be7dd486aabede8c91dbad5a1a217abf
+---
+ core/java/android/app/Notification.java       |  4 +--
+ .../NotificationManagerServiceTest.java       | 34 +++++++++++++++++++
+ 2 files changed, 36 insertions(+), 2 deletions(-)
+
+diff --git a/core/java/android/app/Notification.java b/core/java/android/app/Notification.java
+index 068e85b24321..e7f226d091d6 100644
+--- a/core/java/android/app/Notification.java
++++ b/core/java/android/app/Notification.java
+@@ -2492,13 +2492,13 @@ public class Notification implements Parcelable
+                 }
+             }
+ 
++            // Extras for MessagingStyle. We visit them even if not isStyle(MessagingStyle), since
++            // Notification Listeners might use directly (without the isStyle check).
+             final Person person = extras.getParcelable(EXTRA_MESSAGING_PERSON);
+             if (person != null && person.getIconUri() != null) {
+                 visitor.accept(person.getIconUri());
+             }
+-        }
+ 
+-        if (MessagingStyle.class.equals(getNotificationStyle()) && extras != null) {
+             final Parcelable[] messages = extras.getParcelableArray(EXTRA_MESSAGES);
+             if (!ArrayUtils.isEmpty(messages)) {
+                 for (MessagingStyle.Message message : MessagingStyle.Message
+diff --git a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
+index 61297cf67ee0..bcb4c49336cf 100755
+--- a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
++++ b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
+@@ -3528,6 +3528,40 @@ public class NotificationManagerServiceTest extends UiServiceTestCase {
+         verify(visitor, times(1)).accept(eq(personIcon3.getUri()));
+     }
+ 
++    @Test
++    public void testVisitUris_styleExtrasWithoutStyle() {
++        Notification notification = new Notification.Builder(mContext, "a")
++                .setSmallIcon(android.R.drawable.sym_def_app_icon)
++                .build();
++
++        Notification.MessagingStyle messagingStyle = new Notification.MessagingStyle(
++                personWithIcon("content://user"))
++                .addHistoricMessage(new Notification.MessagingStyle.Message("Heyhey!",
++                                System.currentTimeMillis(),
++                                personWithIcon("content://historicalMessenger")))
++                .addMessage(new Notification.MessagingStyle.Message("Are you there",
++                                System.currentTimeMillis(),
++                                personWithIcon("content://messenger")))
++                        .setShortcutIcon(
++                                Icon.createWithContentUri("content://conversationShortcut"));
++        messagingStyle.addExtras(notification.extras); // Instead of Builder.setStyle(style).
++
++        Consumer<Uri> visitor = (Consumer<Uri>) spy(Consumer.class);
++        notification.visitUris(visitor);
++
++        verify(visitor).accept(eq(Uri.parse("content://user")));
++        verify(visitor).accept(eq(Uri.parse("content://historicalMessenger")));
++        verify(visitor).accept(eq(Uri.parse("content://messenger")));
++        verify(visitor).accept(eq(Uri.parse("content://conversationShortcut")));
++    }
++
++    private static Person personWithIcon(String iconUri) {
++        return new Person.Builder()
++                .setName("Mr " + iconUri)
++                .setIcon(Icon.createWithContentUri(iconUri))
++                .build();
++    }
++
+     @Test
+     public void testVisitUris_wearableExtender() {
+         Icon actionIcon = Icon.createWithContentUri("content://media/action");

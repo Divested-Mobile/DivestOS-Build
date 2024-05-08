@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Yanting Yang <yantingyang@google.com>
+Date: Wed, 4 Jan 2023 09:40:38 +0000
+Subject: [PATCH] Add DISALLOW_APPS_CONTROL check into uninstall app for all
+ users
+
+Settings App info page supports a "Uninstall for all users" function
+when multiple users are enabled. It bypasses the restriction of
+DISALLOW_APPS_CONTROL which breaks the user isolation guideline.
+
+To fix this vulnerability, we should check the DISALLOW_APPS_CONTROL
+restriction to provide the "Uninstall for all users" function.
+
+Bug: 258653813
+Test: manual & robotests
+Change-Id: I5d3bbcbaac439c4f7a1e6a9ade7775ff4f2f2ec6
+Merged-In: I5d3bbcbaac439c4f7a1e6a9ade7775ff4f2f2ec6
+(cherry picked from commit 86914bedc84474c152e4536fb3cfa2fb488030b8)
+Merged-In: I5d3bbcbaac439c4f7a1e6a9ade7775ff4f2f2ec6
+---
+ .../applications/appinfo/AppInfoDashboardFragment.java    | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+ mode change 100755 => 100644 src/com/android/settings/applications/appinfo/AppInfoDashboardFragment.java
+
+diff --git a/src/com/android/settings/applications/appinfo/AppInfoDashboardFragment.java b/src/com/android/settings/applications/appinfo/AppInfoDashboardFragment.java
+old mode 100755
+new mode 100644
+index b757380c5dd..bbbb7113d50
+--- a/src/com/android/settings/applications/appinfo/AppInfoDashboardFragment.java
++++ b/src/com/android/settings/applications/appinfo/AppInfoDashboardFragment.java
+@@ -355,7 +355,13 @@ public class AppInfoDashboardFragment extends DashboardFragment
+             return;
+         }
+         super.onPrepareOptionsMenu(menu);
+-        menu.findItem(UNINSTALL_ALL_USERS_MENU).setVisible(shouldShowUninstallForAll(mAppEntry));
++        final MenuItem uninstallAllUsersItem = menu.findItem(UNINSTALL_ALL_USERS_MENU);
++        uninstallAllUsersItem.setVisible(
++                shouldShowUninstallForAll(mAppEntry) && !mAppsControlDisallowedBySystem);
++        if (uninstallAllUsersItem.isVisible()) {
++            RestrictedLockUtilsInternal.setMenuItemAsDisabledByAdmin(getActivity(),
++                    uninstallAllUsersItem, mAppsControlDisallowedAdmin);
++        }
+         mUpdatedSysApp = (mAppEntry.info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0;
+         final MenuItem uninstallUpdatesItem = menu.findItem(UNINSTALL_UPDATES);
+         final boolean uninstallUpdateDisabled = getContext().getResources().getBoolean(

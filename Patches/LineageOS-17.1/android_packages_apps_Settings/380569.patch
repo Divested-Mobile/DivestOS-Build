@@ -1,0 +1,315 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Valentin Iftime <valiiftime@google.com>
+Date: Tue, 3 Oct 2023 17:28:34 +0200
+Subject: [PATCH] Validate ringtone URIs before setting
+
+ Add checks URIs for content from other users.
+ Fail for users that are not profiles of the current user.
+
+Test: atest DefaultRingtonePreferenceTest
+Bug: 299614635
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:7ba175eaeb6e8f1ea54e2ec13685d1cf1e9aad1c)
+Merged-In: Ib266b285a3a1c6c5265ae2321159e61e08e349f6
+Change-Id: Ib266b285a3a1c6c5265ae2321159e61e08e349f6
+---
+ .../settings/DefaultRingtonePreference.java   | 11 +--
+ .../android/settings/RingtonePreference.java  | 82 +++++++++++++++++++
+ .../NotificationSoundPreference.java          | 12 ++-
+ .../DefaultRingtonePreferenceTest.java        | 75 ++++++++++++++++-
+ 4 files changed, 165 insertions(+), 15 deletions(-)
+
+diff --git a/src/com/android/settings/DefaultRingtonePreference.java b/src/com/android/settings/DefaultRingtonePreference.java
+index 9bf626c9898..4c654887227 100644
+--- a/src/com/android/settings/DefaultRingtonePreference.java
++++ b/src/com/android/settings/DefaultRingtonePreference.java
+@@ -51,16 +51,9 @@ public class DefaultRingtonePreference extends RingtonePreference {
+             return;
+         }
+ 
+-        String mimeType = mUserContext.getContentResolver().getType(ringtoneUri);
+-        if (mimeType == null) {
++        if (!isValidRingtoneUri(ringtoneUri)) {
+             Log.e(TAG, "onSaveRingtone for URI:" + ringtoneUri
+-                    + " ignored: failure to find mimeType (no access from this context?)");
+-            return;
+-        }
+-
+-        if (!(mimeType.startsWith("audio/") || mimeType.equals("application/ogg"))) {
+-            Log.e(TAG, "onSaveRingtone for URI:" + ringtoneUri
+-                    + " ignored: associated mimeType:" + mimeType + " is not an audio type");
++                    + " ignored: invalid ringtone Uri");
+             return;
+         }
+ 
+diff --git a/src/com/android/settings/RingtonePreference.java b/src/com/android/settings/RingtonePreference.java
+index 8f9c618d5e8..808420e7557 100644
+--- a/src/com/android/settings/RingtonePreference.java
++++ b/src/com/android/settings/RingtonePreference.java
+@@ -16,6 +16,8 @@
+ 
+ package com.android.settings;
+ 
++import android.content.ContentProvider;
++import android.content.ContentResolver;
+ import android.content.Context;
+ import android.content.Intent;
+ import android.content.res.TypedArray;
+@@ -23,9 +25,11 @@ import android.media.AudioAttributes;
+ import android.media.RingtoneManager;
+ import android.net.Uri;
+ import android.os.UserHandle;
++import android.os.UserManager;
+ import android.provider.Settings.System;
+ import android.text.TextUtils;
+ import android.util.AttributeSet;
++import android.util.Log;
+ 
+ import androidx.preference.Preference;
+ import androidx.preference.PreferenceManager;
+@@ -239,4 +243,82 @@ public class RingtonePreference extends Preference {
+         return true;
+     }
+ 
++    public boolean isDefaultRingtone(Uri ringtoneUri) {
++        // null URIs are valid (None/silence)
++        return ringtoneUri == null || RingtoneManager.isDefault(ringtoneUri);
++    }
++
++    protected boolean isValidRingtoneUri(Uri ringtoneUri) {
++        if (isDefaultRingtone(ringtoneUri)) {
++            return true;
++        }
++
++        // Return early for android resource URIs
++        if (ContentResolver.SCHEME_ANDROID_RESOURCE.equals(ringtoneUri.getScheme())) {
++            return true;
++        }
++
++        String mimeType = mUserContext.getContentResolver().getType(ringtoneUri);
++        if (mimeType == null) {
++            Log.e(TAG, "isValidRingtoneUri for URI:" + ringtoneUri
++                    + " failed: failure to find mimeType (no access from this context?)");
++            return false;
++        }
++
++        if (!(mimeType.startsWith("audio/") || mimeType.equals("application/ogg")
++                || mimeType.equals("application/x-flac"))) {
++            Log.e(TAG, "isValidRingtoneUri for URI:" + ringtoneUri
++                    + " failed: associated mimeType:" + mimeType + " is not an audio type");
++            return false;
++        }
++
++        // Validate userId from URIs: content://{userId}@...
++        final int userIdFromUri = ContentProvider.getUserIdFromUri(ringtoneUri, mUserId);
++        if (userIdFromUri != mUserId) {
++            final UserManager userManager = mUserContext.getSystemService(UserManager.class);
++
++            if (!userManager.isSameProfileGroup(mUserId, userIdFromUri)) {
++                Log.e(TAG,
++                    "isValidRingtoneUri for URI:" + ringtoneUri + " failed: user " + userIdFromUri
++                        + " and user " + mUserId + " are not in the same profile group");
++                return false;
++            }
++
++            final int parentUserId;
++            final int profileUserId;
++            if (userManager.getProfileParent(mUserId) != null) {
++                profileUserId = mUserId;
++                parentUserId = userIdFromUri;
++            } else {
++                parentUserId = mUserId;
++                profileUserId = userIdFromUri;
++            }
++
++            final UserHandle parent = userManager.getProfileParent(UserHandle.of(profileUserId));
++            if (parent == null || parent.getIdentifier() != parentUserId) {
++                Log.e(TAG,
++                    "isValidRingtoneUri for URI:" + ringtoneUri + " failed: user " + profileUserId
++                        + " is not a profile of user " + parentUserId);
++                return false;
++            }
++
++            // Allow parent <-> managed profile sharing, unless restricted
++            if (userManager.hasUserRestriction(
++                UserManager.DISALLOW_SHARE_INTO_MANAGED_PROFILE, UserHandle.of(parentUserId))) {
++                Log.e(TAG,
++                    "isValidRingtoneUri for URI:" + ringtoneUri + " failed: user " + parentUserId
++                        + " has restriction: " + UserManager.DISALLOW_SHARE_INTO_MANAGED_PROFILE);
++                return false;
++            }
++
++            if (!userManager.isManagedProfile(profileUserId)) {
++                Log.e(TAG, "isValidRingtoneUri for URI:" + ringtoneUri
++                    + " failed: user " + profileUserId + " is not a managed profile");
++                return false;
++            }
++        }
++
++        return true;
++    }
++
+ }
+diff --git a/src/com/android/settings/notification/NotificationSoundPreference.java b/src/com/android/settings/notification/NotificationSoundPreference.java
+index 71684d5cf75..19c4bb8984d 100644
+--- a/src/com/android/settings/notification/NotificationSoundPreference.java
++++ b/src/com/android/settings/notification/NotificationSoundPreference.java
+@@ -25,10 +25,13 @@ import android.net.Uri;
+ import android.os.AsyncTask;
+ import android.util.AttributeSet;
+ 
++import android.util.Log;
+ import com.android.settings.R;
+ import com.android.settings.RingtonePreference;
+ 
+ public class NotificationSoundPreference extends RingtonePreference {
++    private static final String TAG = "NotificationSoundPreference";
++
+     private Uri mRingtone;
+ 
+     public NotificationSoundPreference(Context context, AttributeSet attrs) {
+@@ -50,8 +53,13 @@ public class NotificationSoundPreference extends RingtonePreference {
+     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+         if (data != null) {
+             Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+-            setRingtone(uri);
+-            callChangeListener(uri);
++            if (isValidRingtoneUri(uri)) {
++                setRingtone(uri);
++                callChangeListener(uri);
++            } else {
++                Log.e(TAG, "onActivityResult for URI:" + uri
++                    + " ignored: invalid ringtone Uri");
++            }
+         }
+ 
+         return true;
+diff --git a/tests/unit/src/com/android/settings/DefaultRingtonePreferenceTest.java b/tests/unit/src/com/android/settings/DefaultRingtonePreferenceTest.java
+index 7877684dce6..360a8a555b4 100644
+--- a/tests/unit/src/com/android/settings/DefaultRingtonePreferenceTest.java
++++ b/tests/unit/src/com/android/settings/DefaultRingtonePreferenceTest.java
+@@ -16,16 +16,19 @@
+ 
+ package com.android.settings;
+ 
++import static org.mockito.ArgumentMatchers.any;
+ import static org.mockito.Mockito.doReturn;
+ import static org.mockito.Mockito.never;
+ import static org.mockito.Mockito.spy;
+ import static org.mockito.Mockito.verify;
+ import static org.mockito.Mockito.when;
+ 
++import android.content.ContentInterface;
+ import android.content.ContentResolver;
+ import android.content.Context;
+-import android.media.RingtoneManager;
+ import android.net.Uri;
++import android.os.UserHandle;
++import android.os.UserManager;
+ 
+ import androidx.test.core.app.ApplicationProvider;
+ import androidx.test.ext.junit.runners.AndroidJUnit4;
+@@ -34,17 +37,22 @@ import org.junit.Before;
+ import org.junit.Test;
+ import org.junit.runner.RunWith;
+ import org.mockito.Mock;
++import org.mockito.Mockito;
+ import org.mockito.MockitoAnnotations;
+ 
+ /** Unittest for DefaultRingtonePreference. */
+ @RunWith(AndroidJUnit4.class)
+ public class DefaultRingtonePreferenceTest {
+ 
++    private static final int OWNER_USER_ID = 1;
++    private static final int OTHER_USER_ID = 10;
++    private static final int INVALID_RINGTONE_TYPE = 0;
+     private DefaultRingtonePreference mDefaultRingtonePreference;
+ 
+     @Mock
+     private ContentResolver mContentResolver;
+     @Mock
++    private UserManager mUserManager;
+     private Uri mRingtoneUri;
+ 
+     @Before
+@@ -52,14 +60,24 @@ public class DefaultRingtonePreferenceTest {
+         MockitoAnnotations.initMocks(this);
+ 
+         Context context = spy(ApplicationProvider.getApplicationContext());
+-        doReturn(mContentResolver).when(context).getContentResolver();
++        mContentResolver = ContentResolver.wrap(Mockito.mock(ContentInterface.class));
++        when(context.getContentResolver()).thenReturn(mContentResolver);
+ 
+         mDefaultRingtonePreference = spy(new DefaultRingtonePreference(context, null /* attrs */));
+         doReturn(context).when(mDefaultRingtonePreference).getContext();
++
++        // Use INVALID_RINGTONE_TYPE to return early in RingtoneManager.setActualDefaultRingtoneUri
+         when(mDefaultRingtonePreference.getRingtoneType())
+-                .thenReturn(RingtoneManager.TYPE_RINGTONE);
+-        mDefaultRingtonePreference.setUserId(1);
++                .thenReturn(INVALID_RINGTONE_TYPE);
++
++        mDefaultRingtonePreference.setUserId(OWNER_USER_ID);
+         mDefaultRingtonePreference.mUserContext = context;
++        when(mDefaultRingtonePreference.isDefaultRingtone(any(Uri.class))).thenReturn(false);
++
++        when(context.getSystemServiceName(UserManager.class)).thenReturn(Context.USER_SERVICE);
++        when(context.getSystemService(Context.USER_SERVICE)).thenReturn(mUserManager);
++
++        mRingtoneUri = Uri.parse("content://none");
+     }
+ 
+     @Test
+@@ -79,4 +97,53 @@ public class DefaultRingtonePreferenceTest {
+ 
+         verify(mDefaultRingtonePreference, never()).setActualDefaultRingtoneUri(mRingtoneUri);
+     }
++
++    @Test
++    public void onSaveRingtone_notManagedProfile_shouldNotSetRingtone() {
++        mRingtoneUri = Uri.parse("content://" + OTHER_USER_ID + "@ringtone");
++        when(mContentResolver.getType(mRingtoneUri)).thenReturn("audio/*");
++        when(mUserManager.isSameProfileGroup(OWNER_USER_ID, OTHER_USER_ID)).thenReturn(true);
++        when(mUserManager.getProfileParent(UserHandle.of(OTHER_USER_ID))).thenReturn(
++                UserHandle.of(OWNER_USER_ID));
++        when(mUserManager.isManagedProfile(OTHER_USER_ID)).thenReturn(false);
++
++        mDefaultRingtonePreference.onSaveRingtone(mRingtoneUri);
++
++        verify(mDefaultRingtonePreference, never()).setActualDefaultRingtoneUri(mRingtoneUri);
++    }
++
++    @Test
++    public void onSaveRingtone_notSameUser_shouldNotSetRingtone() {
++        mRingtoneUri = Uri.parse("content://" + OTHER_USER_ID + "@ringtone");
++        when(mContentResolver.getType(mRingtoneUri)).thenReturn("audio/*");
++        when(mUserManager.isSameProfileGroup(OWNER_USER_ID, OTHER_USER_ID)).thenReturn(false);
++
++        mDefaultRingtonePreference.onSaveRingtone(mRingtoneUri);
++
++        verify(mDefaultRingtonePreference, never()).setActualDefaultRingtoneUri(mRingtoneUri);
++    }
++
++    @Test
++    public void onSaveRingtone_isManagedProfile_shouldSetRingtone() {
++        mRingtoneUri = Uri.parse("content://" + OTHER_USER_ID + "@ringtone");
++        when(mContentResolver.getType(mRingtoneUri)).thenReturn("audio/*");
++        when(mUserManager.isSameProfileGroup(OWNER_USER_ID, OTHER_USER_ID)).thenReturn(true);
++        when(mUserManager.getProfileParent(UserHandle.of(OTHER_USER_ID))).thenReturn(
++                UserHandle.of(OWNER_USER_ID));
++        when(mUserManager.isManagedProfile(OTHER_USER_ID)).thenReturn(true);
++
++        mDefaultRingtonePreference.onSaveRingtone(mRingtoneUri);
++
++        verify(mDefaultRingtonePreference).setActualDefaultRingtoneUri(mRingtoneUri);
++    }
++
++    @Test
++    public void onSaveRingtone_defaultUri_shouldSetRingtone() {
++        mRingtoneUri = Uri.parse("default_ringtone");
++        when(mDefaultRingtonePreference.isDefaultRingtone(any(Uri.class))).thenReturn(true);
++
++        mDefaultRingtonePreference.onSaveRingtone(mRingtoneUri);
++
++        verify(mDefaultRingtonePreference).setActualDefaultRingtoneUri(mRingtoneUri);
++    }
+ }

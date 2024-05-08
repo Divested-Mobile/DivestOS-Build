@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chinmay Dhodapkar <chinmayd@google.com>
+Date: Sun, 4 Dec 2022 09:46:34 -0800
+Subject: [PATCH] DO NOT MERGE do not process content uri in call Intents
+
+Add checks in Telecom so content uris are not processed
+
+Bug: 257030107
+Test: atest NewOutgoingCallIntentBroadcasterTest
+Test: adb shell am start -a android.intent.action.CALL -d tel:xxx
+Change-Id: Ic2c3014cecfd5db84dc2023b4c247d96ad1c3414
+Merged-In: Ic2c3014cecfd5db84dc2023b4c247d96ad1c3414
+(cherry picked from commit 9636518478fb887dd1834c0433eb3a71eb72faaf)
+Merged-In: Ic2c3014cecfd5db84dc2023b4c247d96ad1c3414
+---
+ .../telecom/NewOutgoingCallIntentBroadcaster.java  | 14 ++++++++++++--
+ .../NewOutgoingCallIntentBroadcasterTest.java      | 13 +++++++++++++
+ 2 files changed, 25 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/server/telecom/NewOutgoingCallIntentBroadcaster.java b/src/com/android/server/telecom/NewOutgoingCallIntentBroadcaster.java
+index 7a641af3c..960be80a3 100644
+--- a/src/com/android/server/telecom/NewOutgoingCallIntentBroadcaster.java
++++ b/src/com/android/server/telecom/NewOutgoingCallIntentBroadcaster.java
+@@ -313,8 +313,18 @@ public class NewOutgoingCallIntentBroadcaster {
+     }
+ 
+     private String getNumberFromCallIntent(Intent intent) {
+-        String number;
+-        number = mPhoneNumberUtilsAdapter.getNumberFromIntent(intent, mContext);
++        String number = null;
++
++        Uri uri = intent.getData();
++        if (uri != null) {
++            String scheme = uri.getScheme();
++            if (scheme != null) {
++                if (scheme.equals("tel") || scheme.equals("sip")) {
++                    number = uri.getSchemeSpecificPart();
++                }
++            }
++        }
++
+         if (TextUtils.isEmpty(number)) {
+             Log.w(this, "Empty number obtained from the call intent.");
+             return null;
+diff --git a/tests/src/com/android/server/telecom/tests/NewOutgoingCallIntentBroadcasterTest.java b/tests/src/com/android/server/telecom/tests/NewOutgoingCallIntentBroadcasterTest.java
+index 81b43265f..b618bba1e 100644
+--- a/tests/src/com/android/server/telecom/tests/NewOutgoingCallIntentBroadcasterTest.java
++++ b/tests/src/com/android/server/telecom/tests/NewOutgoingCallIntentBroadcasterTest.java
+@@ -186,6 +186,19 @@ public class NewOutgoingCallIntentBroadcasterTest extends TelecomTestCase {
+         verifyNoCallPlaced();
+     }
+ 
++    @Test
++    public void testNoCallsPlacedWithContentUri() {
++        Uri handle = Uri.parse("content://com.android.contacts/data/1");
++        Intent intent = new Intent(Intent.ACTION_CALL, handle);
++
++        int result = processIntent(intent, true).disconnectCause;
++
++        assertEquals(DisconnectCause.NO_PHONE_NUMBER_SUPPLIED, result);
++        verify(mContext, never()).getContentResolver();
++        verifyNoBroadcastSent();
++        verifyNoCallPlaced();
++    }
++
+     @SmallTest
+     @Test
+     public void testEmergencyCallWithNonDefaultDialer() {

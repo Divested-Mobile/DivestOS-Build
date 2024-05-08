@@ -17,17 +17,20 @@ Merged-In: I77f4218599511ff4f9f3790e4942a329d5a18da4
 Change-Id: I77f4218599511ff4f9f3790e4942a329d5a18da4
 ---
  .../java/com/android/apksig/ApkVerifier.java  |  29 +++++
+ .../java/com/android/apksig/Constants.java    |  30 ++++++
+ .../internal/apk/ApkSigningBlockUtils.java    |  18 ++++
  .../internal/apk/v1/V1SchemeSigner.java       |   7 ++
  .../internal/apk/v1/V1SchemeVerifier.java     |   7 ++
- .../internal/apk/v2/V2SchemeSigner.java       |   6 ++
- .../internal/apk/v2/V2SchemeVerifier.java     |   4 +
+ .../internal/apk/v2/V2SchemeSigner.java       |   8 ++
+ .../internal/apk/v2/V2SchemeVerifier.java     |   5 +
  .../com/android/apksig/ApkSignerTest.java     | 100 ++++++++++++++++++
  .../com/android/apksig/ApkVerifierTest.java   |  31 ++++++
  .../com/android/apksig/v1-only-10-signers.apk | Bin 0 -> 18389 bytes
  .../com/android/apksig/v1-only-11-signers.apk | Bin 0 -> 22297 bytes
  .../com/android/apksig/v2-only-10-signers.apk | Bin 0 -> 20688 bytes
  .../com/android/apksig/v2-only-11-signers.apk | Bin 0 -> 24784 bytes
- 11 files changed, 184 insertions(+)
+ 13 files changed, 235 insertions(+)
+ create mode 100644 src/main/java/com/android/apksig/Constants.java
  create mode 100644 src/test/resources/com/android/apksig/v1-only-10-signers.apk
  create mode 100644 src/test/resources/com/android/apksig/v1-only-11-signers.apk
  create mode 100644 src/test/resources/com/android/apksig/v2-only-10-signers.apk
@@ -87,16 +90,92 @@ index 3e1e7da..cfbc8d2 100644
          /**
           * APK Signature Scheme v2 signature contains no signers.
           */
+diff --git a/src/main/java/com/android/apksig/Constants.java b/src/main/java/com/android/apksig/Constants.java
+new file mode 100644
+index 0000000..b0d1e76
+--- /dev/null
++++ b/src/main/java/com/android/apksig/Constants.java
+@@ -0,0 +1,30 @@
++/*
++ * Copyright (C) 2020 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.apksig;
++
++/**
++ * Exports internally defined constants to allow clients to reference these values without relying
++ * on internal code.
++ */
++public class Constants {
++    private Constants() {}
++
++    /**
++     * The maximum number of signers supported by the v1 and v2 APK Signature Schemes.
++     */
++    public static final int MAX_APK_SIGNERS = 10;
++}
+diff --git a/src/main/java/com/android/apksig/internal/apk/ApkSigningBlockUtils.java b/src/main/java/com/android/apksig/internal/apk/ApkSigningBlockUtils.java
+index cc69af3..3867b47 100644
+--- a/src/main/java/com/android/apksig/internal/apk/ApkSigningBlockUtils.java
++++ b/src/main/java/com/android/apksig/internal/apk/ApkSigningBlockUtils.java
+@@ -1240,6 +1240,20 @@ public class ApkSigningBlockUtils {
+             mErrors.add(new ApkVerifier.IssueWithParams(msg, parameters));
+         }
+ 
++        public boolean containsWarnings() {
++            if (!mWarnings.isEmpty()) {
++                return true;
++            }
++            if (!signers.isEmpty()) {
++                for (Result.SignerInfo signer : signers) {
++                    if (signer.containsWarnings()) {
++                        return true;
++                    }
++                }
++            }
++            return false;
++        }
++
+         public void addWarning(ApkVerifier.Issue msg, Object... parameters) {
+             mWarnings.add(new ApkVerifier.IssueWithParams(msg, parameters));
+         }
+@@ -1280,6 +1294,10 @@ public class ApkSigningBlockUtils {
+                 return !mErrors.isEmpty();
+             }
+ 
++            public boolean containsWarnings() {
++                return !mWarnings.isEmpty();
++            }
++
+             public List<ApkVerifier.IssueWithParams> getErrors() {
+                 return mErrors;
+             }
 diff --git a/src/main/java/com/android/apksig/internal/apk/v1/V1SchemeSigner.java b/src/main/java/com/android/apksig/internal/apk/v1/V1SchemeSigner.java
-index f900211..05721ed 100644
+index f900211..6422af0 100644
 --- a/src/main/java/com/android/apksig/internal/apk/v1/V1SchemeSigner.java
 +++ b/src/main/java/com/android/apksig/internal/apk/v1/V1SchemeSigner.java
-@@ -246,9 +246,16 @@ public abstract class V1SchemeSigner {
-             String createdBy)
-                     throws NoSuchAlgorithmException, ApkFormatException, InvalidKeyException,
-                             CertificateException, SignatureException {
+@@ -16,6 +16,8 @@
+ 
+ package com.android.apksig.internal.apk.v1;
+ 
++import static com.android.apksig.Constants.MAX_APK_SIGNERS;
 +
-+        int MAX_APK_SIGNERS = 10;
+ import com.android.apksig.apk.ApkFormatException;
+ import com.android.apksig.internal.asn1.Asn1DerEncoder;
+ import com.android.apksig.internal.asn1.Asn1EncodingException;
+@@ -249,6 +251,11 @@ public abstract class V1SchemeSigner {
          if (signerConfigs.isEmpty()) {
              throw new IllegalArgumentException("At least one signer config must be provided");
          }
@@ -109,25 +188,18 @@ index f900211..05721ed 100644
                  generateManifestFile(
                          jarEntryDigestAlgorithm, jarEntryDigests, sourceManifestBytes);
 diff --git a/src/main/java/com/android/apksig/internal/apk/v1/V1SchemeVerifier.java b/src/main/java/com/android/apksig/internal/apk/v1/V1SchemeVerifier.java
-index 47d5b01..d633514 100644
+index 47d5b01..615215c 100644
 --- a/src/main/java/com/android/apksig/internal/apk/v1/V1SchemeVerifier.java
 +++ b/src/main/java/com/android/apksig/internal/apk/v1/V1SchemeVerifier.java
-@@ -16,6 +16,7 @@
+@@ -16,6 +16,8 @@
  
  package com.android.apksig.internal.apk.v1;
  
++import static com.android.apksig.Constants.MAX_APK_SIGNERS;
 +
  import com.android.apksig.ApkVerifier.Issue;
  import com.android.apksig.ApkVerifier.IssueWithParams;
  import com.android.apksig.apk.ApkFormatException;
-@@ -275,6 +276,7 @@ public abstract class V1SchemeVerifier {
-             // * All JAR entries listed in JAR manifest are present in the APK.
- 
-             // Identify signers
-+            int MAX_APK_SIGNERS = 10;
-             List<Signer> signers = new ArrayList<>(sigBlockEntries.size());
-             for (CentralDirectoryRecord sigBlockEntry : sigBlockEntries) {
-                 String sigBlockEntryName = sigBlockEntry.getName();
 @@ -303,6 +305,11 @@ public abstract class V1SchemeVerifier {
                  result.addError(Issue.JAR_SIG_NO_SIGNATURES);
                  return;
@@ -141,35 +213,52 @@ index 47d5b01..d633514 100644
              // Verify each signer's signature block file .(RSA|DSA|EC) against the corresponding
              // signature file .SF. Any error encountered for any signer terminates verification, to
 diff --git a/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeSigner.java b/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeSigner.java
-index d8e4723..a423bdd 100644
+index d8e4723..03a0311 100644
 --- a/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeSigner.java
 +++ b/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeSigner.java
-@@ -162,6 +162,12 @@ public abstract class V2SchemeSigner {
-                     throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+@@ -16,6 +16,7 @@
+ 
+ package com.android.apksig.internal.apk.v2;
+ 
++import static com.android.apksig.Constants.MAX_APK_SIGNERS;
+ import static com.android.apksig.internal.apk.ApkSigningBlockUtils.encodeAsSequenceOfLengthPrefixedElements;
+ import static com.android.apksig.internal.apk.ApkSigningBlockUtils.encodeAsSequenceOfLengthPrefixedPairsOfIntAndLengthPrefixedBytes;
+ import static com.android.apksig.internal.apk.ApkSigningBlockUtils.encodeCertificates;
+@@ -28,6 +29,7 @@ import com.android.apksig.internal.apk.SignatureAlgorithm;
+ import com.android.apksig.internal.util.Pair;
+ import com.android.apksig.util.DataSource;
+ import com.android.apksig.util.RunnablesExecutor;
++
+ import java.io.IOException;
+ import java.nio.ByteBuffer;
+ import java.nio.ByteOrder;
+@@ -163,6 +165,12 @@ public abstract class V2SchemeSigner {
          // FORMAT:
          // * length-prefixed sequence of length-prefixed signer blocks.
-+        int MAX_APK_SIGNERS = 10;
+ 
 +        if (signerConfigs.size() > MAX_APK_SIGNERS) {
 +            throw new IllegalArgumentException(
 +                    "APK Signature Scheme v2 only supports a maximum of " + MAX_APK_SIGNERS + ", "
 +                            + signerConfigs.size() + " provided");
 +        }
- 
++
          List<byte[]> signerBlocks = new ArrayList<>(signerConfigs.size());
          int signerNumber = 0;
+         for (SignerConfig signerConfig : signerConfigs) {
 diff --git a/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeVerifier.java b/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeVerifier.java
-index 51c40bd..e3e7e8d 100644
+index 51c40bd..651ed5d 100644
 --- a/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeVerifier.java
 +++ b/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeVerifier.java
-@@ -184,6 +184,7 @@ public abstract class V2SchemeVerifier {
-             int maxSdkVersion,
-             ApkSigningBlockUtils.Result result) throws NoSuchAlgorithmException {
-         ByteBuffer signers;
-+        int MAX_APK_SIGNERS = 10;
-         try {
-             signers = ApkSigningBlockUtils.getLengthPrefixedSlice(apkSignatureSchemeV2Block);
-         } catch (ApkFormatException e) {
-@@ -225,6 +226,9 @@ public abstract class V2SchemeVerifier {
+@@ -16,6 +16,8 @@
+ 
+ package com.android.apksig.internal.apk.v2;
+ 
++import static com.android.apksig.Constants.MAX_APK_SIGNERS;
++
+ import com.android.apksig.ApkVerifier.Issue;
+ import com.android.apksig.apk.ApkFormatException;
+ import com.android.apksig.apk.ApkUtils;
+@@ -225,6 +227,9 @@ public abstract class V2SchemeVerifier {
                  return;
              }
          }

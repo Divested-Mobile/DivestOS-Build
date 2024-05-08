@@ -1,0 +1,1218 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Bill Yi <byi@google.com>
+Date: Thu, 28 Apr 2022 18:39:25 +0000
+Subject: [PATCH] Import translations. DO NOT MERGE ANYWHERE
+
+BUG:205460459
+
+Auto-generated-cl: translation import
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:ac6b0bdef68e99e0a34656a2148483d7cb77159e)
+Merged-In: I669099ad00ba7d90013836e3d456d530ae725b2f
+Change-Id: I669099ad00ba7d90013836e3d456d530ae725b2f
+---
+ res/values-af/strings.xml        | 2 +-
+ res/values-am/strings.xml        | 2 +-
+ res/values-ar/strings.xml        | 2 +-
+ res/values-as/strings.xml        | 2 +-
+ res/values-az/strings.xml        | 2 +-
+ res/values-b+sr+Latn/strings.xml | 2 +-
+ res/values-be/strings.xml        | 2 +-
+ res/values-bg/strings.xml        | 2 +-
+ res/values-bn/strings.xml        | 2 +-
+ res/values-bs/strings.xml        | 2 +-
+ res/values-ca/strings.xml        | 2 +-
+ res/values-cs/strings.xml        | 2 +-
+ res/values-da/strings.xml        | 2 +-
+ res/values-de/strings.xml        | 2 +-
+ res/values-el/strings.xml        | 2 +-
+ res/values-en-rAU/strings.xml    | 2 +-
+ res/values-en-rCA/strings.xml    | 2 +-
+ res/values-en-rGB/strings.xml    | 2 +-
+ res/values-en-rIN/strings.xml    | 2 +-
+ res/values-en-rXC/strings.xml    | 2 +-
+ res/values-es-rUS/strings.xml    | 2 +-
+ res/values-es/strings.xml        | 6 +++---
+ res/values-et/strings.xml        | 2 +-
+ res/values-eu/strings.xml        | 2 +-
+ res/values-fa/strings.xml        | 2 +-
+ res/values-fi/strings.xml        | 2 +-
+ res/values-fr-rCA/strings.xml    | 2 +-
+ res/values-fr/strings.xml        | 2 +-
+ res/values-gl/strings.xml        | 2 +-
+ res/values-gu/strings.xml        | 2 +-
+ res/values-hi/strings.xml        | 4 ++--
+ res/values-hr/strings.xml        | 2 +-
+ res/values-hu/strings.xml        | 2 +-
+ res/values-hy/strings.xml        | 2 +-
+ res/values-in/strings.xml        | 2 +-
+ res/values-is/strings.xml        | 2 +-
+ res/values-it/strings.xml        | 2 +-
+ res/values-iw/strings.xml        | 6 +++---
+ res/values-ja/strings.xml        | 2 +-
+ res/values-ka/strings.xml        | 2 +-
+ res/values-kk/strings.xml        | 2 +-
+ res/values-km/strings.xml        | 2 +-
+ res/values-kn/strings.xml        | 2 +-
+ res/values-ko/strings.xml        | 2 +-
+ res/values-ky/strings.xml        | 2 +-
+ res/values-lo/strings.xml        | 2 +-
+ res/values-lt/strings.xml        | 2 +-
+ res/values-lv/strings.xml        | 2 +-
+ res/values-mk/strings.xml        | 2 +-
+ res/values-ml/strings.xml        | 2 +-
+ res/values-mn/strings.xml        | 4 ++--
+ res/values-mr/strings.xml        | 2 +-
+ res/values-ms/strings.xml        | 2 +-
+ res/values-my/strings.xml        | 2 +-
+ res/values-nb/strings.xml        | 2 +-
+ res/values-ne/strings.xml        | 2 +-
+ res/values-nl/strings.xml        | 2 +-
+ res/values-or/strings.xml        | 2 +-
+ res/values-pa/strings.xml        | 4 ++--
+ res/values-pl/strings.xml        | 2 +-
+ res/values-pt-rBR/strings.xml    | 2 +-
+ res/values-pt-rPT/strings.xml    | 2 +-
+ res/values-pt/strings.xml        | 2 +-
+ res/values-ro/strings.xml        | 2 +-
+ res/values-ru/strings.xml        | 2 +-
+ res/values-si/strings.xml        | 2 +-
+ res/values-sk/strings.xml        | 2 +-
+ res/values-sl/strings.xml        | 2 +-
+ res/values-sq/strings.xml        | 2 +-
+ res/values-sr/strings.xml        | 2 +-
+ res/values-sv/strings.xml        | 2 +-
+ res/values-sw/strings.xml        | 2 +-
+ res/values-ta/strings.xml        | 2 +-
+ res/values-te/strings.xml        | 2 +-
+ res/values-th/strings.xml        | 2 +-
+ res/values-tl/strings.xml        | 2 +-
+ res/values-tr/strings.xml        | 2 +-
+ res/values-uk/strings.xml        | 2 +-
+ res/values-ur/strings.xml        | 2 +-
+ res/values-uz/strings.xml        | 2 +-
+ res/values-vi/strings.xml        | 2 +-
+ res/values-zh-rCN/strings.xml    | 2 +-
+ res/values-zh-rHK/strings.xml    | 2 +-
+ res/values-zh-rTW/strings.xml    | 2 +-
+ res/values-zu/strings.xml        | 2 +-
+ 85 files changed, 92 insertions(+), 92 deletions(-)
+
+diff --git a/res/values-af/strings.xml b/res/values-af/strings.xml
+index 4b5a26e7b44..579125667ac 100644
+--- a/res/values-af/strings.xml
++++ b/res/values-af/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Koppel aan <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Ontkoppel hierdie VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Ontkoppel"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Weergawe <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Weergawe"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Vergeet VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Vervang bestaande VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Stel altyd-aan VPN?"</string>
+diff --git a/res/values-am/strings.xml b/res/values-am/strings.xml
+index 592dd27ca48..a5851166f68 100644
+--- a/res/values-am/strings.xml
++++ b/res/values-am/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"ከ<xliff:g id="PROFILE">%s</xliff:g> ጋር ተገናኝ"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"የዚህ ቪፒኤን ግንኙነት ይቋረጥ?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"ግንኙነት አቋርጥ"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"ሥሪት <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"ስሪት"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPNን እርሳ"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"አሁን ያለው VPN ይተካ?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"ሁልጊዜ-የበራ VPN ይቀናበር?"</string>
+diff --git a/res/values-ar/strings.xml b/res/values-ar/strings.xml
+index fec53643bd8..c738f103c96 100644
+--- a/res/values-ar/strings.xml
++++ b/res/values-ar/strings.xml
+@@ -2996,7 +2996,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"الاتصال بـ <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"‏هل تريد قطع الاتصال بهذه الشبكة الافتراضية الخاصة (VPN)؟"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"قطع الاتصال"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"الإصدار <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"الإصدار"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"نسيان الشبكة الافتراضية الخاصة"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"هل تريد استبدال الشبكة الافتراضية الخاصة الحالية؟"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"هل تريد تشغيل الشبكة الافتراضية الخاصة باستمرار؟"</string>
+diff --git a/res/values-as/strings.xml b/res/values-as/strings.xml
+index 29e3c2835ea..458c05c56ee 100644
+--- a/res/values-as/strings.xml
++++ b/res/values-as/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g>ৰ সৈতে সংযোগ কৰক"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"এই ভিপিএনটোৰ সৈতে সংযোগ বিচ্ছিন্ন কৰিবনে?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"সংযোগ বিচ্ছিন্ন কৰক"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"সংস্কৰণ <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"সংস্কৰণ"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"ভিপিএন পাহৰক"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"পূৰ্বৰ ভিপিএনটো সলনি কৰেনে?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"ভিপিএনক যিকোনো সময়ত অন থকা অবস্থাত ছেট কৰিবনে?"</string>
+diff --git a/res/values-az/strings.xml b/res/values-az/strings.xml
+index fb874c1bc33..fbb73a174ab 100644
+--- a/res/values-az/strings.xml
++++ b/res/values-az/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> profilinə qoşulun"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Bu VPN bağlantısı kəsilsin?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Bağlantını kəsin"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versiya <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versiya"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN\'i unudun"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Mövcud VPN əvəz edilsin?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Hər zaman aktiv VPN quraşdırılsın?"</string>
+diff --git a/res/values-b+sr+Latn/strings.xml b/res/values-b+sr+Latn/strings.xml
+index 0693b625af7..a2351c604fb 100644
+--- a/res/values-b+sr+Latn/strings.xml
++++ b/res/values-b+sr+Latn/strings.xml
+@@ -2885,7 +2885,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Povezivanje na profil <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Želite li da prekinete vezu sa ovim VPN-om?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Prekini vezu"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Verzija <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Verzija"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Zaboravi VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Želite li da zamenite postojeći VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Želite li da podesite uvek uključeni VPN?"</string>
+diff --git a/res/values-be/strings.xml b/res/values-be/strings.xml
+index c65cfe996e1..30b4f0dc1cc 100644
+--- a/res/values-be/strings.xml
++++ b/res/values-be/strings.xml
+@@ -2922,7 +2922,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Падключэнне да профiлю <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Адключыць гэту VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Адключыць"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Версія <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Версія"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Забыць VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Замяніць існуючую VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Наладзіць заўсёды ўключаную VPN?"</string>
+diff --git a/res/values-bg/strings.xml b/res/values-bg/strings.xml
+index 0e01c761e5d..ba1d9360eb8 100644
+--- a/res/values-bg/strings.xml
++++ b/res/values-bg/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Свързване със: <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Да се прекрати ли връзката с тази виртуална частна мрежа (VPN)?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Прекратяване на връзката"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Версия <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Версия"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Забравяне на вирт. частна мрежа (VPN)"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Да се замени ли съществуващата VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Да се зададе ли винаги включена виртуална частна мрежа (VPN)?"</string>
+diff --git a/res/values-bn/strings.xml b/res/values-bn/strings.xml
+index 8e3925870b6..7465cad219a 100644
+--- a/res/values-bn/strings.xml
++++ b/res/values-bn/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> এতে কানেক্ট করুন"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"এই VPN থেকে ডিসকানেক্ট করবেন?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"ডিসকানেক্ট করুন"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"ভার্সন<xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"ভার্সন"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN সরিয়ে দিন"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"বিদ্যমান VPN প্রতিস্থাপন করতে চান?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"সর্বদা-চালু VPN সেট করতে চান?"</string>
+diff --git a/res/values-bs/strings.xml b/res/values-bs/strings.xml
+index e0eb3bb1d1f..0998d5cbac3 100644
+--- a/res/values-bs/strings.xml
++++ b/res/values-bs/strings.xml
+@@ -2885,7 +2885,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Poveži se na <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Želite li prekinuti vezu s ovim VPN-om?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Prekini vezu"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Verzija <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Verzija"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Zaboravi VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Želite li zamijeniti postojeći VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Želite li postaviti uvijek uključen VPN?"</string>
+diff --git a/res/values-ca/strings.xml b/res/values-ca/strings.xml
+index a276b75467d..edb9d53e016 100644
+--- a/res/values-ca/strings.xml
++++ b/res/values-ca/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Connexió amb <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Vols desconnectar aquesta VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Desconnecta"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versió <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versió"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Oblida la VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Vols substituir la VPN actual?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Vols definir la VPN sempre activa?"</string>
+diff --git a/res/values-cs/strings.xml b/res/values-cs/strings.xml
+index 7a46f53c4b9..1c808cc19e8 100644
+--- a/res/values-cs/strings.xml
++++ b/res/values-cs/strings.xml
+@@ -2922,7 +2922,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Připojit k profilu <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Odpojit tuto síť VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Odpojit"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Verze <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Verze"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Zapomenout VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Nahradit stávající síť VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Nastavit trvalou síť VPN?"</string>
+diff --git a/res/values-da/strings.xml b/res/values-da/strings.xml
+index 52d9416ae51..a6614fa459e 100644
+--- a/res/values-da/strings.xml
++++ b/res/values-da/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Opret forbindelse til <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Vil du afbryde dette VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Afbryd"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Version <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Version"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Glem VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Erstat det eksisterende VPN-netværk?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Vil du konfigurere konstant VPN?"</string>
+diff --git a/res/values-de/strings.xml b/res/values-de/strings.xml
+index e0b5bebaecc..4fbc64b83e2 100644
+--- a/res/values-de/strings.xml
++++ b/res/values-de/strings.xml
+@@ -2849,7 +2849,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Mit <xliff:g id="PROFILE">%s</xliff:g> verbinden"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Verbindung zu diesem VPN trennen?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Verbindung trennen"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Version <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Version"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN entfernen"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Aktuelles VPN ersetzen?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Durchgehend aktives VPN aktivieren?"</string>
+diff --git a/res/values-el/strings.xml b/res/values-el/strings.xml
+index 6ce0b8c4859..65c727d53c5 100644
+--- a/res/values-el/strings.xml
++++ b/res/values-el/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Σύνδεση στο προφίλ <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Να αποσυνδεθεί αυτό το VPN;"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Αποσύνδεση"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Έκδοση <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Έκδοση"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Διαγραφή VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Αντικατάσταση υπάρχοντος VPN;"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Ενεργοποίηση του μονίμως ενεργού VPN;"</string>
+diff --git a/res/values-en-rAU/strings.xml b/res/values-en-rAU/strings.xml
+index 8ebc0c989dd..c1136d930b1 100644
+--- a/res/values-en-rAU/strings.xml
++++ b/res/values-en-rAU/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Connect to <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Disconnect this VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Disconnect"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Version <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Version"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Forget VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Replace existing VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Set always-on VPN?"</string>
+diff --git a/res/values-en-rCA/strings.xml b/res/values-en-rCA/strings.xml
+index f5aedb406ea..3c196931d2b 100644
+--- a/res/values-en-rCA/strings.xml
++++ b/res/values-en-rCA/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Connect to <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Disconnect this VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Disconnect"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Version <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Version"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Forget VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Replace existing VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Set always-on VPN?"</string>
+diff --git a/res/values-en-rGB/strings.xml b/res/values-en-rGB/strings.xml
+index 8ebc0c989dd..c1136d930b1 100644
+--- a/res/values-en-rGB/strings.xml
++++ b/res/values-en-rGB/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Connect to <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Disconnect this VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Disconnect"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Version <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Version"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Forget VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Replace existing VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Set always-on VPN?"</string>
+diff --git a/res/values-en-rIN/strings.xml b/res/values-en-rIN/strings.xml
+index 30e311a859e..fc1785a09e6 100644
+--- a/res/values-en-rIN/strings.xml
++++ b/res/values-en-rIN/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Connect to <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Disconnect this VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Disconnect"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Version <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Version"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Forget VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Replace existing VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Set always-on VPN?"</string>
+diff --git a/res/values-en-rXC/strings.xml b/res/values-en-rXC/strings.xml
+index 863ea021cd2..2cd3296588a 100644
+--- a/res/values-en-rXC/strings.xml
++++ b/res/values-en-rXC/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‎‏‎‏‏‎‎‎‎‎‎‎‏‏‏‏‎‎‏‏‏‏‏‏‎‏‏‎‎‏‏‏‎‎‎‏‎‏‎‏‎‎‎‏‎‎‏‏‎‎‎‏‏‎‎‎‏‏‎‏‎‎Connect to ‎‏‎‎‏‏‎<xliff:g id="PROFILE">%s</xliff:g>‎‏‎‎‏‏‏‎‎‏‎‎‏‎"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‏‏‏‏‎‏‏‎‎‎‎‎‏‏‎‏‏‏‏‏‎‏‏‎‏‎‎‎‏‏‏‎‏‏‏‎‏‎‏‎‎‎‎‎‏‏‎‏‏‏‎‎‎‏‏‏‏‎‎‎‎‎‏‎‏‏‎Disconnect this VPN?‎‏‎‎‏‎"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‏‏‏‏‏‎‏‎‏‏‏‎‎‏‏‎‏‏‎‎‎‏‎‎‎‎‎‎‏‎‏‎‏‏‎‎‏‎‏‏‎‏‏‏‎‎‎‎‏‏‏‎‎‎‎‏‎‏‎‏‎‏‎‎‎‏‎Disconnect‎‏‎‎‏‎"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‎‎‎‏‎‎‏‎‏‎‎‏‎‏‏‎‏‎‎‎‏‎‏‎‎‎‎‎‏‎‏‎‏‏‏‏‏‏‎‎‏‏‎‏‏‎‎‏‏‏‎‎‏‏‎‏‏‏‏‎Version ‎‏‎‎‏‏‎<xliff:g id="VERSION">%s</xliff:g>‎‏‎‎‏‏‏‎‎‏‎‎‏‎"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‏‏‏‏‎‏‏‎‎‎‎‎‎‎‏‎‏‏‎‎‎‎‎‎‏‎‎‏‏‏‎‎‏‎‏‏‎‎‎‎‎‏‏‏‏‎‏‎‏‎‏‏‏‎‏‎‏‎‎‏‎‏‎‎‎‎‎Version‎‏‎‎‏‎"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‏‎‎‏‎‏‎‎‎‎‏‏‏‏‎‎‏‏‎‎‏‎‏‏‏‏‎‏‏‏‏‏‎‎‎‏‏‎‎‎‎‏‎‏‎‏‏‏‏‎‏‎‎‎‏‏‏‏‏‏‏‎‏‎Forget VPN‎‏‎‎‏‎"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‏‏‎‏‏‎‏‏‏‎‏‏‎‏‏‏‎‎‏‎‏‎‏‏‏‏‏‏‎‎‏‎‏‎‏‎‎‏‏‎‎‎‏‏‏‏‎‎‏‎‎‎‏‎‏‏‏‏‎‏‏‏‎‎‎‎Replace existing VPN?‎‏‎‎‏‎"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‏‎‏‏‏‏‎‏‏‎‏‏‏‎‎‏‎‎‏‎‎‎‏‎‎‏‎‏‎‎‏‎‏‎‎‏‏‎‎‏‎‎‏‎‏‎‏‏‏‏‏‏‏‏‏‏‏‎‏‏‏‏‏‏‏‏‎‏‎‎Set always-on VPN?‎‏‎‎‏‎"</string>
+diff --git a/res/values-es-rUS/strings.xml b/res/values-es-rUS/strings.xml
+index e54a92c783b..a9fa502daad 100644
+--- a/res/values-es-rUS/strings.xml
++++ b/res/values-es-rUS/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Conectar a <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"¿Deseas desconectar esta VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Desconectar"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versión <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versión"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Borrar VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"¿Reemplazar VPN existente?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"¿Configurar la VPN siempre activa?"</string>
+diff --git a/res/values-es/strings.xml b/res/values-es/strings.xml
+index 02d75882f65..dbbf7896be6 100644
+--- a/res/values-es/strings.xml
++++ b/res/values-es/strings.xml
+@@ -2848,9 +2848,9 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Conectar a <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"¿Desconectar esta VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Desconectar"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versión <xliff:g id="VERSION">%s</xliff:g>"</string>
+-    <string name="vpn_forget_long" msgid="729132269203870205">"Borrar VPN"</string>
+-    <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"¿Sustituir VPN actual?"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versión"</string>
++    <string name="vpn_forget_long" msgid="729132269203870205">"Olvidar VPN"</string>
++    <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"¿Reemplazar VPN actual?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"¿Configurar el modo de VPN siempre activada?"</string>
+     <string name="vpn_first_always_on_vpn_message" msgid="2769478310633047870">"Si esta opción está activada, no tendrás acceso a Internet hasta que se conecte la red VPN"</string>
+     <string name="vpn_replace_always_on_vpn_enable_message" msgid="9154843462740876652">"La nueva red VPN sustituirá a la actual y no tendrás acceso a Internet hasta que dicha VPN se conecte"</string>
+diff --git a/res/values-et/strings.xml b/res/values-et/strings.xml
+index 9ca32f1bfa4..a2b8e88fa79 100644
+--- a/res/values-et/strings.xml
++++ b/res/values-et/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Profiiliga <xliff:g id="PROFILE">%s</xliff:g> ühendamine"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Kas soovite katkestada ühenduse selle VPN-iga?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Katkesta ühendus"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versioon <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versioon"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Unusta VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Kas asendada olemasolev VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Kas määrata alati sisselülitatud VPN?"</string>
+diff --git a/res/values-eu/strings.xml b/res/values-eu/strings.xml
+index a0734d9206b..15e2eb57bd3 100644
+--- a/res/values-eu/strings.xml
++++ b/res/values-eu/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Konektatu <xliff:g id="PROFILE">%s</xliff:g> profilera"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"VPN saretik deskonektatu nahi duzu?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Deskonektatu"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"<xliff:g id="VERSION">%s</xliff:g> bertsioa"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Bertsioa"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Ahaztu VPN konexioa"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Dagoen VPN konexioa ordeztu nahi duzu?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"VPNa beti aktibatuta egoteko aukera ezarri nahi duzu?"</string>
+diff --git a/res/values-fa/strings.xml b/res/values-fa/strings.xml
+index 5fd5813b93a..fca17928007 100644
+--- a/res/values-fa/strings.xml
++++ b/res/values-fa/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"اتصال به <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"‏اتصال به این VPN.قطع‌ شود؟"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"قطع ارتباط"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"نسخه <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"نسخه"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"‏فراموش کردن VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"‏VPN موجود جایگزین شود؟"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"‏VPN همیشه روشن تنظیم شود؟"</string>
+diff --git a/res/values-fi/strings.xml b/res/values-fi/strings.xml
+index 453bf21ce47..bc1736fe153 100644
+--- a/res/values-fi/strings.xml
++++ b/res/values-fi/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Yhdistä profiiliin <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Katkaistaanko VPN-yhteys?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Katkaise yhteys"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versio <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versio"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Unohda VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Korvataanko nykyinen VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Määritetäänkö aina käytössä oleva VPN?"</string>
+diff --git a/res/values-fr-rCA/strings.xml b/res/values-fr-rCA/strings.xml
+index 2eb74cf926c..5fd574cc3d0 100644
+--- a/res/values-fr-rCA/strings.xml
++++ b/res/values-fr-rCA/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Se connecter à <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Déconnecter ce RPV?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Déconnecter"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Version <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Version"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Oublier le profil RPV"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Remplacer le RPV existant?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Définir le RPV permanent?"</string>
+diff --git a/res/values-fr/strings.xml b/res/values-fr/strings.xml
+index fe92e77035a..d58b81e95df 100644
+--- a/res/values-fr/strings.xml
++++ b/res/values-fr/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Se connecter à <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Déconnecter ce VPN ?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Déconnecter"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Version <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Version"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Supprimer le VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Remplacer le VPN existant ?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Définir le VPN permanent ?"</string>
+diff --git a/res/values-gl/strings.xml b/res/values-gl/strings.xml
+index 662a6922bb9..ec47f9186bf 100644
+--- a/res/values-gl/strings.xml
++++ b/res/values-gl/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Conectar con <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Queres desconectar esta VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Desconectar"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versión <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versión"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Esquecer perfil da VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Queres substituír a VPN existente?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Queres definir a VPN como sempre activa?"</string>
+diff --git a/res/values-gu/strings.xml b/res/values-gu/strings.xml
+index 299322392a3..ec5884f2fae 100644
+--- a/res/values-gu/strings.xml
++++ b/res/values-gu/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> સાથે કનેક્ટ કરો"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"આ VPNને ડિસ્કનેક્ટ કરીએ?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"ડિસ્કનેક્ટ કરો"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"સંસ્કરણ <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"વર્ઝન"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN ભૂલી ગયાં"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"અસ્તિત્વમાંની VPN ને બદલીએ?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"હંમેશાં ચાલુ VPN સેટ કરીએ?"</string>
+diff --git a/res/values-hi/strings.xml b/res/values-hi/strings.xml
+index d0617150b70..04f08bf55c7 100644
+--- a/res/values-hi/strings.xml
++++ b/res/values-hi/strings.xml
+@@ -2848,8 +2848,8 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">" <xliff:g id="PROFILE">%s</xliff:g> से कनेक्ट करें"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"इस VPN को डिसकनेक्ट करना चाहते हैं?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"डिसकनेक्ट करें"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"वर्शन <xliff:g id="VERSION">%s</xliff:g>"</string>
+-    <string name="vpn_forget_long" msgid="729132269203870205">"VPN भूल जाएं"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"वर्शन"</string>
++    <string name="vpn_forget_long" msgid="729132269203870205">"वीपीएन भूल जाएं"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"मौजूदा VPN को बदलें?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"हमेशा-चालू VPN सेट करें?"</string>
+     <string name="vpn_first_always_on_vpn_message" msgid="2769478310633047870">"यह सेटिंग चालू होने पर, आपके पास तब तक इंटरनेट कनेक्शन नहीं होगा, जब तक कि VPN अच्छी तरह कनेक्ट नहीं हो जाता"</string>
+diff --git a/res/values-hr/strings.xml b/res/values-hr/strings.xml
+index fb9c1f09e8f..74bb5db2df8 100644
+--- a/res/values-hr/strings.xml
++++ b/res/values-hr/strings.xml
+@@ -2885,7 +2885,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Povezivanje s profilom <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Prekinuti vezu s VPN-om?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Prekini vezu"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Verzija <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Verzija"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Zaboravi VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Želite li zamijeniti dosadašnji VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Želite li postaviti uvijek uključeni VPN?"</string>
+diff --git a/res/values-hu/strings.xml b/res/values-hu/strings.xml
+index ff703cf6090..32e7fdad691 100644
+--- a/res/values-hu/strings.xml
++++ b/res/values-hu/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Csatlakozás a következőhöz: <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Leválasztja a VPN-t?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Leválasztás"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Verzió: <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Verzió"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN elfelejtése"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Lecseréli a meglévő VPN-t?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Beállítja a mindig bekapcsolt VPN-t?"</string>
+diff --git a/res/values-hy/strings.xml b/res/values-hy/strings.xml
+index e731b9480f5..49b18073658 100644
+--- a/res/values-hy/strings.xml
++++ b/res/values-hy/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Միանալ <xliff:g id="PROFILE">%s</xliff:g>-ին"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Անջատե՞լ այս VPN-ը:"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Անջատել"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Տարբերակ <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Տարբերակ"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Մոռանալ VPN-ը"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Փոխարինե՞լ ընթացիկ VPN-ը:"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Սահմանե՞լ որպես «միշտ միացված» VPN:"</string>
+diff --git a/res/values-in/strings.xml b/res/values-in/strings.xml
+index d2c21cd7c9a..15b3d1b3080 100644
+--- a/res/values-in/strings.xml
++++ b/res/values-in/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Menyambung ke <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Putuskan sambungan VPN ini?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Putuskan sambungan"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versi <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versi"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Lupakan VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Ganti VPN yang sudah ada?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Setel VPN selalu aktif?"</string>
+diff --git a/res/values-is/strings.xml b/res/values-is/strings.xml
+index 3d9a0e8c29a..ce546c518d2 100644
+--- a/res/values-is/strings.xml
++++ b/res/values-is/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Tengjast <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Aftengja þessa VPN-tengingu?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Aftengja"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Útgáfa <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Útgáfa"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Gleyma VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Skipta út núverandi VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Velja VPN sem alltaf er kveikt á?"</string>
+diff --git a/res/values-it/strings.xml b/res/values-it/strings.xml
+index 5f3fc03050e..b95c77e7513 100644
+--- a/res/values-it/strings.xml
++++ b/res/values-it/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Connessione a <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Disconnettere questa VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Disconnetti"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versione <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versione"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Rimuovi VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Sostituire la rete VPN esistente?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Impostare la rete VPN sempre attiva?"</string>
+diff --git a/res/values-iw/strings.xml b/res/values-iw/strings.xml
+index 273dfe64d02..05d5db92df7 100644
+--- a/res/values-iw/strings.xml
++++ b/res/values-iw/strings.xml
+@@ -2921,9 +2921,9 @@
+     <string name="vpn_forget" msgid="2913950864877236737">"אפשר לשכוח"</string>
+     <string name="vpn_connect_to" msgid="216709261691085594">"התחברות אל <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"‏האם לנתק את ה-VPN הזה?"</string>
+-    <string name="vpn_disconnect" msgid="7753808961085867345">"נתק"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"גרסה <xliff:g id="VERSION">%s</xliff:g>"</string>
+-    <string name="vpn_forget_long" msgid="729132269203870205">"‏שכח VPN"</string>
++    <string name="vpn_disconnect" msgid="7753808961085867345">"ניתוק"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"גרסה"</string>
++    <string name="vpn_forget_long" msgid="729132269203870205">"‏שכחה מ-VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"‏האם להחליף רשת VPN קיימת?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"‏האם להגדיר את רשת ה-VPN בחיבור תמידי?"</string>
+     <string name="vpn_first_always_on_vpn_message" msgid="2769478310633047870">"‏לאחר שהגדרה זו תופעל, לא יהיה לך חיבור אינטרנט עד שה-VPN יחובר בהצלחה"</string>
+diff --git a/res/values-ja/strings.xml b/res/values-ja/strings.xml
+index f953d4f89e3..f538342edc3 100644
+--- a/res/values-ja/strings.xml
++++ b/res/values-ja/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g>に接続"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"この VPN の接続を解除しますか？"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"接続を解除"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"バージョン<xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"バージョン"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN を削除"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"既存の VPN を置き換えますか？"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"常時接続 VPN を設定しますか？"</string>
+diff --git a/res/values-ka/strings.xml b/res/values-ka/strings.xml
+index 8628e7492a1..537e39358e9 100644
+--- a/res/values-ka/strings.xml
++++ b/res/values-ka/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"დაკავშირებულია <xliff:g id="PROFILE">%s</xliff:g>-თან"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"გსურთ ამ VPN-თან კავშირის გაწყვეტა?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"კავშირის გაწყვეტა"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"ვერსია <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"ვერსია"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN-ის დავიწყება"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"გსურთ არსებული VPN-ის ჩანაცვლება?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"გსურთ ყოველთვის ჩართული VPN-ის დაყენება?"</string>
+diff --git a/res/values-kk/strings.xml b/res/values-kk/strings.xml
+index 99a6f481e28..e6c089179b3 100644
+--- a/res/values-kk/strings.xml
++++ b/res/values-kk/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> профайлына жалғау"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Осы VPN желісі ажыратылсын ба?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Ажырату"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Нұсқасы: <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Нұсқа"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN ұмыту"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Бар VPN қолданбасын ауыстыру керек пе?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Әрқашан қосулы VPN режимін орнату"</string>
+diff --git a/res/values-km/strings.xml b/res/values-km/strings.xml
+index 16e3219d1f9..340ca7ac5f6 100644
+--- a/res/values-km/strings.xml
++++ b/res/values-km/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"តភ្ជាប់ <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"ផ្តាច់ VPN នេះ?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"ផ្ដាច់"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"កំណែ <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"កំណែ"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"បំភ្លេច VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"ជំនួស VPN ដែលមានស្រាប់ឬ?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"កំណត់ VPN ឲ្យបើកជានិច្ចឬ?"</string>
+diff --git a/res/values-kn/strings.xml b/res/values-kn/strings.xml
+index dc05b17376b..101a33baeb8 100644
+--- a/res/values-kn/strings.xml
++++ b/res/values-kn/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> ಗೆ ಸಂಪರ್ಕಿಸಿ"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"ಈ VPN ಸಂಪರ್ಕ ಕಡಿತಗೊಳಿಸುವುದೇ?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"ಸಂಪರ್ಕ ಕಡಿತಗೊಳಿಸು"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"<xliff:g id="VERSION">%s</xliff:g> ಆವೃತ್ತಿ"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"ಆವೃತ್ತಿ"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN ಮರೆತುಬಿಡು"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ VPN ಸ್ಥಾನಾಂತರಿಸುವುದೇ?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"VPN ಯಾವಾಗಲೂ ಆನ್ ಆಗಿರುವಂತೆ ಹೊಂದಿಸುವುದೇ?"</string>
+diff --git a/res/values-ko/strings.xml b/res/values-ko/strings.xml
+index f970fba05a2..d54b394dc37 100644
+--- a/res/values-ko/strings.xml
++++ b/res/values-ko/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g>에 연결"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"이 VPN을 연결 해제하시겠습니까?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"연결 해제"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"버전 <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"버전"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN 삭제"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"기존 VPN을 교체하시겠습니까?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"연결 유지 VPN을 설정하시겠습니까?"</string>
+diff --git a/res/values-ky/strings.xml b/res/values-ky/strings.xml
+index a093c850c0e..4b1b9e061e2 100644
+--- a/res/values-ky/strings.xml
++++ b/res/values-ky/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> менен байланышуу"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Бул VPN ажыратылсынбы?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Ажыратуу"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"<xliff:g id="VERSION">%s</xliff:g> версиясы"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Версия"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN профили унутулсун"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Учурдагы VPN алмаштырылсынбы?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Туруктуу VPN\'ди жөндөйсүзбү?"</string>
+diff --git a/res/values-lo/strings.xml b/res/values-lo/strings.xml
+index 30f30a9723e..16b7e0b4a56 100644
+--- a/res/values-lo/strings.xml
++++ b/res/values-lo/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"ເຊື່ອມຕໍ່ຫາ <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"ຕັດການເຊື່ອມຕໍ່ VPN ນີ້ບໍ?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"ຕັດການເຊື່ອມຕໍ່"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"ເວີ​ຊັນ <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"ເວີຊັນ"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"ລືມ VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"ຂຽນທັບ VPN ທີ່ມີຢູ່ກ່ອນແລ້ວຂອງທ່ານບໍ?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Set always-on VPN?"</string>
+diff --git a/res/values-lt/strings.xml b/res/values-lt/strings.xml
+index 7b268c00dec..1a1e77d897e 100644
+--- a/res/values-lt/strings.xml
++++ b/res/values-lt/strings.xml
+@@ -2922,7 +2922,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Prisijungti prie <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Atsijungti nuo šio VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Atsijungti"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"<xliff:g id="VERSION">%s</xliff:g> versija"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versija"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Pamiršti VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Pakeisti esamą VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Nustatyti visada įjungtą VPN?"</string>
+diff --git a/res/values-lv/strings.xml b/res/values-lv/strings.xml
+index a430a45b17e..ea44da0627c 100644
+--- a/res/values-lv/strings.xml
++++ b/res/values-lv/strings.xml
+@@ -2885,7 +2885,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Savienojuma izveide ar <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Vai pārtraukt šo VPN savienojumu?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Pārtraukt savienojumu"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versija <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versija"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Aizmirst VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Vai aizstāt esošo VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Vai iestatīt vienmēr ieslēgtu VPN?"</string>
+diff --git a/res/values-mk/strings.xml b/res/values-mk/strings.xml
+index a379267171b..7875da24579 100644
+--- a/res/values-mk/strings.xml
++++ b/res/values-mk/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Поврзи се со <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Да се исклучи оваа VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Исклучи"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Верзија <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Верзија"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Заборави VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Да се замени постојната VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Да се постави „секогаш вклучена“ VPN?"</string>
+diff --git a/res/values-ml/strings.xml b/res/values-ml/strings.xml
+index 0741939f74e..491befa629f 100644
+--- a/res/values-ml/strings.xml
++++ b/res/values-ml/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> എന്നതിലേക്ക് കണക്റ്റുചെയ്യുക"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"ഈ VPN വിച്ഛേദിക്കണോ?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"വിച്ഛേദിക്കുക"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"പതിപ്പ് <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"പതിപ്പ്"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN മറക്കുക"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"നിലവിലുള്ള VPN-ന് പകരം പുതിയതാക്കണോ?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"\'എല്ലായ്പ്പോഴും ഓൺ\' VPN സജ്ജമാക്കണോ?"</string>
+diff --git a/res/values-mn/strings.xml b/res/values-mn/strings.xml
+index c5af3fabbbf..dedccd22e39 100644
+--- a/res/values-mn/strings.xml
++++ b/res/values-mn/strings.xml
+@@ -2848,8 +2848,8 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> руу холбогдох"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Энэ VPN-г салгах уу?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Салгах"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Хувилбар <xliff:g id="VERSION">%s</xliff:g>"</string>
+-    <string name="vpn_forget_long" msgid="729132269203870205">"VPN мартсан"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Хувилбар"</string>
++    <string name="vpn_forget_long" msgid="729132269203870205">"VPN-г мартах"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Энэ VPN-г солих уу?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"VPN-г тогтмол асаалттайгаар тохируулах уу?"</string>
+     <string name="vpn_first_always_on_vpn_message" msgid="2769478310633047870">"Энэ тохиргоо асаалттай үед та VPN-г амжилттай холбох хүртэл интернетэд холбогдохгүй"</string>
+diff --git a/res/values-mr/strings.xml b/res/values-mr/strings.xml
+index db14d4b5ad2..5db3d9a7950 100644
+--- a/res/values-mr/strings.xml
++++ b/res/values-mr/strings.xml
+@@ -2849,7 +2849,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> शी कनेक्ट करा"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"हे VPN डिस्कनेक्ट करायचे?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"‍डिस्कनेक्ट करा"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"आवृत्ती <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"आवृत्ती"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN विसरा"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"विद्यमान VPN पुनर्स्थित करायचे?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"नेहमी-चालू VPN सेट करायचे?"</string>
+diff --git a/res/values-ms/strings.xml b/res/values-ms/strings.xml
+index bc21575833f..648f09b1105 100644
+--- a/res/values-ms/strings.xml
++++ b/res/values-ms/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Sambung ke <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Putuskan sambungan VPN ini?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Putuskan sambungan"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versi <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versi"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Lupakan VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Gantikan VPN yang sedia ada?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Tetapkan VPN sentiasa hidup?"</string>
+diff --git a/res/values-my/strings.xml b/res/values-my/strings.xml
+index 086961ae669..5a1b48ca490 100644
+--- a/res/values-my/strings.xml
++++ b/res/values-my/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> နှင့် ချိတ်ဆက်ခြင်း"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"ဤ VPN အား ချိတ်ဆက်မှု ဖြုတ်လိုပါသလား။"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"ဆက်သွယ်မှု ဖြတ်ရန်"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"ဗားရှင်း <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"ဗားရှင်း"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN ကိုမေ့လိုက်ပါ"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"ရှိပြီးသား VPN ကိုအစားထိုးမလား။"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"VPN ကို အမြဲတမ်းဖွင့်ထားရန် သတ်မှတ်မလား။"</string>
+diff --git a/res/values-nb/strings.xml b/res/values-nb/strings.xml
+index 63ccdab2e0f..b6f7dce4abe 100644
+--- a/res/values-nb/strings.xml
++++ b/res/values-nb/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Koble til <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Vil du koble fra dette VPN-et?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Koble fra"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versjon <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versjon"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Glem VPN-profilen"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Vil du erstatte det nåværende VPN-et?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Vil du angi alltid på-VPN?"</string>
+diff --git a/res/values-ne/strings.xml b/res/values-ne/strings.xml
+index 258a4e297f0..af7103dbf3f 100644
+--- a/res/values-ne/strings.xml
++++ b/res/values-ne/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> मा जोड्नुहोस्"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"यो VPN को जडान विच्छेद गर्ने हो?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"विच्छेदन गर्नुहोस्"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"संस्करण <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"संस्करण"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN लाई बिर्सनुहोस्"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"विद्यमान VPN लाई बदल्ने हो?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"सधैँ-सक्रिय VPN लाई सेट गर्ने हो?"</string>
+diff --git a/res/values-nl/strings.xml b/res/values-nl/strings.xml
+index bb95a1c94a3..b98e18dda97 100644
+--- a/res/values-nl/strings.xml
++++ b/res/values-nl/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Verbinding maken met <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Verbinding met dit VPN verbreken?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Verbinding verbreken"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versie <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versie"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN vergeten"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Bestaande VPN vervangen?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Always-on VPN instellen?"</string>
+diff --git a/res/values-or/strings.xml b/res/values-or/strings.xml
+index 2660400d9ed..8ead9e4d018 100644
+--- a/res/values-or/strings.xml
++++ b/res/values-or/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> ସହ ସଂଯୋଗ କରନ୍ତୁ"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"ଏହି VPNକୁ ବିଚ୍ଛିନ୍ନ କରିବେ?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"ବିଚ୍ଛିନ୍ନ କରନ୍ତୁ"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"ସଂସ୍କରଣ <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"ସଂସ୍କରଣ"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPNକୁ ଭୁଲିଯାଅ"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"ପୂର୍ବରୁ ଥିବା VPNକୁ ବଦଳାଇବେ?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"ସର୍ବଦା-ଅନ୍‌ ଥିବା VPN ସେଟ୍‌ କରିବେ?"</string>
+diff --git a/res/values-pa/strings.xml b/res/values-pa/strings.xml
+index 9523fc8e822..4dac0c8eb1f 100644
+--- a/res/values-pa/strings.xml
++++ b/res/values-pa/strings.xml
+@@ -2848,8 +2848,8 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> ਨਾਲ ਕਨੈਕਟ ਕਰੋ"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"ਇਹ VPN ਡਿਸਕਨੈਕਟ ਕਰੀਏ?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"ਡਿਸਕਨੈਕਟ ਕਰੋ"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"ਵਰਜਨ <xliff:g id="VERSION">%s</xliff:g>"</string>
+-    <string name="vpn_forget_long" msgid="729132269203870205">"VPN ਨੂੰ ਛੱਡੋ"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"ਵਰਜਨ"</string>
++    <string name="vpn_forget_long" msgid="729132269203870205">"VPN ਨੂੰ ਭੁੱਲ ਜਾਓ"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"ਕੀ ਮੌਜੂਦਾ VPN ਨੂੰ ਤਬਦੀਲ ਕਰਨਾ ਹੈ?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"ਕੀ ਹਮੇਸ਼ਾ-ਚਾਲੂ VPN ਨੂੰ ਸੈੱਟ ਕਰਨਾ ਹੈ?"</string>
+     <string name="vpn_first_always_on_vpn_message" msgid="2769478310633047870">"ਜਦੋਂ ਇਹ ਸੈਟਿੰਗ ਚਾਲੂ ਹੁੰਦੀ ਹੈ, ਤਾਂ ਤੁਹਾਡੇ ਕੋਲ ਇੱਕ ਇੰਟਰਨੈੱਟ ਕਨੈਕਸ਼ਨ ਤਦ ਤੱਕ ਨਹੀਂ ਹੋਵੇਗਾ ਜਦ ਤੱਕ VPN ਸਫ਼ਲਤਾਪੂਰਵਕ ਕਨੈਕਟ ਨਹੀਂ ਹੋ ਜਾਂਦਾ"</string>
+diff --git a/res/values-pl/strings.xml b/res/values-pl/strings.xml
+index 2f3b3111d49..64509c3224c 100644
+--- a/res/values-pl/strings.xml
++++ b/res/values-pl/strings.xml
+@@ -2922,7 +2922,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Połącz z: <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Odłączyć tę sieć VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Odłącz"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Wersja <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Wersja"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Zapomnij VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Zastąpić obecną sieć VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Ustawić stały VPN?"</string>
+diff --git a/res/values-pt-rBR/strings.xml b/res/values-pt-rBR/strings.xml
+index 54f2fbdc75b..4929813f59e 100644
+--- a/res/values-pt-rBR/strings.xml
++++ b/res/values-pt-rBR/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Conectar a <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Desconectar esta VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Desconectar"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versão <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versão"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Esquecer VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Substituir VPN já existente?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Configurar VPN sempre ativa?"</string>
+diff --git a/res/values-pt-rPT/strings.xml b/res/values-pt-rPT/strings.xml
+index 4d8fbb26496..3ac7d1a3b40 100644
+--- a/res/values-pt-rPT/strings.xml
++++ b/res/values-pt-rPT/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Ligar a <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Pretende desligar esta VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Desligar"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versão <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versão"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Esquecer VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Pretende substituir a VPN existente?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Pretende definir a VPN como sempre ativa?"</string>
+diff --git a/res/values-pt/strings.xml b/res/values-pt/strings.xml
+index 54f2fbdc75b..4929813f59e 100644
+--- a/res/values-pt/strings.xml
++++ b/res/values-pt/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Conectar a <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Desconectar esta VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Desconectar"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versão <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versão"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Esquecer VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Substituir VPN já existente?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Configurar VPN sempre ativa?"</string>
+diff --git a/res/values-ro/strings.xml b/res/values-ro/strings.xml
+index 5d29fb99d6d..4e6760f1a65 100644
+--- a/res/values-ro/strings.xml
++++ b/res/values-ro/strings.xml
+@@ -2885,7 +2885,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Conectați-vă la <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Doriți să vă deconectați de la această rețea VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Deconectați-vă"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versiunea <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versiune"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Eliminați profilul VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Înlocuiți rețeaua VPN existentă?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Setați rețeaua VPN ca activată permanent?"</string>
+diff --git a/res/values-ru/strings.xml b/res/values-ru/strings.xml
+index 5f2bbdadec7..d4d38b3a04d 100644
+--- a/res/values-ru/strings.xml
++++ b/res/values-ru/strings.xml
+@@ -2922,7 +2922,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Подключение к <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Отключиться от VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Да"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Версия <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Версия"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Удалить VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Сменить текущую VPN-сеть?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Настроить постоянную VPN-сеть?"</string>
+diff --git a/res/values-si/strings.xml b/res/values-si/strings.xml
+index 84eb74c21f6..080891875da 100644
+--- a/res/values-si/strings.xml
++++ b/res/values-si/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> වෙත සම්බන්ධ කරන්න"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"මෙම VPN එක විසන්ධි කරන්නද?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"විසන්ධි කරන්න"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"අනුවාදය <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"අනුවාදය"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN අමතක කරන්න"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"පවතින VPN ප්‍රතිස්ථාපනය කරන්නද?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"සැම විට ක්‍රියාත්මක VPN සකසන්නද?"</string>
+diff --git a/res/values-sk/strings.xml b/res/values-sk/strings.xml
+index bf1bce02925..7bc15a95fb5 100644
+--- a/res/values-sk/strings.xml
++++ b/res/values-sk/strings.xml
+@@ -2922,7 +2922,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Pripojiť k profilu <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Odpojiť tento profil VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Odpojiť"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Verzia <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Verzia"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Zabudnúť profil VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Nahradiť existujúcu sieť VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Nastaviť sieť VPN, ktorá je vždy zapnutá?"</string>
+diff --git a/res/values-sl/strings.xml b/res/values-sl/strings.xml
+index 90459d96824..6e96754a32e 100644
+--- a/res/values-sl/strings.xml
++++ b/res/values-sl/strings.xml
+@@ -2922,7 +2922,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Povezovanje z <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Prekinitev povezave s tem omrežjem VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Prekini povezavo"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Različica <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Različica"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Pozabi omrežje VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Želite zamenjati obstoječe omrežje VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Ali želite, da je omrežje VPN stalno vklopljeno?"</string>
+diff --git a/res/values-sq/strings.xml b/res/values-sq/strings.xml
+index 6ac7a9989c2..c0da91fec28 100644
+--- a/res/values-sq/strings.xml
++++ b/res/values-sq/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Lidhu me <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Shkëpute këtë rrjet VPN"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Shkëpute"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Versioni <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versioni"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Harroje rrjetin VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Të zëvendësohet rrjeti ekzistues VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Të caktohet rrjeti VPN gjithmonë aktiv?"</string>
+diff --git a/res/values-sr/strings.xml b/res/values-sr/strings.xml
+index 0bf4de633cb..88c21cc7039 100644
+--- a/res/values-sr/strings.xml
++++ b/res/values-sr/strings.xml
+@@ -2885,7 +2885,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Повезивање на профил <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Желите ли да прекинете везу са овим VPN-ом?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Прекини везу"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Верзија <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Верзија"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Заборави VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Желите ли да замените постојећи VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Желите ли да подесите увек укључени VPN?"</string>
+diff --git a/res/values-sv/strings.xml b/res/values-sv/strings.xml
+index 1bf227c63cf..d3724488f22 100644
+--- a/res/values-sv/strings.xml
++++ b/res/values-sv/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Anslut till <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Vill du koppla från VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Koppla från"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Version <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Version"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Glöm VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Vill du byta ut befintligt VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Vill du ange Always-on VPN?"</string>
+diff --git a/res/values-sw/strings.xml b/res/values-sw/strings.xml
+index 4876b513e08..22ec957b3c5 100644
+--- a/res/values-sw/strings.xml
++++ b/res/values-sw/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Unganisha kwa <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Ungependa kuondoa VPN hii?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Kata muungnisho"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Toleo la <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Toleo"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Ondoa VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Ungependa kubadilisha VPN iliyopo?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Ungependa kuweka VPN iliyowashwa kila mara?"</string>
+diff --git a/res/values-ta/strings.xml b/res/values-ta/strings.xml
+index 8438d8131d4..3791d4130f8 100644
+--- a/res/values-ta/strings.xml
++++ b/res/values-ta/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> உடன் இணை"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"VPNஐத் துண்டிக்கவா?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"தொடர்பைத் துண்டி"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"பதிப்பு <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"பதிப்பு"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPNஐ நீக்கு"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"தற்போதுள்ள VPNஐ மாற்றியமைக்கவா?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"எப்போதும் இயங்கும் VPNஐ அமைக்கவா?"</string>
+diff --git a/res/values-te/strings.xml b/res/values-te/strings.xml
+index a3e54662b26..198d3ee4649 100644
+--- a/res/values-te/strings.xml
++++ b/res/values-te/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g>కి కనెక్ట్ చేయండి"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"ఈ VPNను డిస్‌కనెక్ట్ చేయాలా?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"డిస్‌కనెక్ట్ చేయి"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"వెర్షన్ <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"వెర్షన్"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPNని విస్మరించు"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"ఇప్పటికే ఉన్న VPNని భర్తీ చేయాలా?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"ఎల్లప్పుడూ ఆన్‌లో ఉండే VPNని సెట్ చేయాలా?"</string>
+diff --git a/res/values-th/strings.xml b/res/values-th/strings.xml
+index a3ea84372f5..15b096a6a4e 100644
+--- a/res/values-th/strings.xml
++++ b/res/values-th/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"เชื่อมต่อกับ <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"ยกเลิกการเชื่อมต่อ VPN นี้ไหม"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"ยกเลิกการเชื่อมต่อ"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"เวอร์ชัน <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"รุ่น"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"ลืม VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"แทนที่ VPN ที่มีอยู่หรือไม่"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"ตั้งค่า VPN แบบเปิดตลอดเวลาหรือไม่"</string>
+diff --git a/res/values-tl/strings.xml b/res/values-tl/strings.xml
+index f405a94496c..b1d0de6d7d7 100644
+--- a/res/values-tl/strings.xml
++++ b/res/values-tl/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Kumonekta sa <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Putulin ang koneksyon ng VPN na ito?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Putulin ang koneksyon"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Bersyon <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Bersyon"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Kalimutan ang VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Gusto mo bang palitan ang dati nang VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Gusto mo bang itakda ang VPN na palaging naka-on?"</string>
+diff --git a/res/values-tr/strings.xml b/res/values-tr/strings.xml
+index 5da530a0a9d..843c5de2f15 100644
+--- a/res/values-tr/strings.xml
++++ b/res/values-tr/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> profiline bağlan"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Bu VPN\'nin bağlantısı kesilsin mi?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Bağlantıyı kes"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Sürüm <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Sürüm"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPN\'yi unut"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Mevcut VPN değiştirilsin mi?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Her zaman açık VPN ayarlansın mı?"</string>
+diff --git a/res/values-uk/strings.xml b/res/values-uk/strings.xml
+index dedac46511e..7f3c1f35806 100644
+--- a/res/values-uk/strings.xml
++++ b/res/values-uk/strings.xml
+@@ -2922,7 +2922,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Під’єднатися до профілю <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Відключити цю мережу VPN?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Відключити"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Версія <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Версія"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Забути мережу VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Замінити наявну мережу VPN?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Увімкнути постійну мережу VPN?"</string>
+diff --git a/res/values-ur/strings.xml b/res/values-ur/strings.xml
+index 0d2a4743811..aeefec22f5c 100644
+--- a/res/values-ur/strings.xml
++++ b/res/values-ur/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> سے مربوط کریں"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"‏اس VPN سے غیر منسلک کریں؟"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"غیر منسلک کریں"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"ورژن <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"ورژن"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"‏VPN بھول جائیں"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"‏موجودہ VPN بدلیں؟"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"‏ہمیشہ آن VPN سیٹ کریں؟"</string>
+diff --git a/res/values-uz/strings.xml b/res/values-uz/strings.xml
+index db3adfe2b84..01b553ec892 100644
+--- a/res/values-uz/strings.xml
++++ b/res/values-uz/strings.xml
+@@ -2858,7 +2858,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"<xliff:g id="PROFILE">%s</xliff:g> tarmog‘iga ulanish"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Bu VPN bilan aloqa uzilsinmi?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Aloqani uzish"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"<xliff:g id="VERSION">%s</xliff:g> versiya"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Versiya"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"VPNni o‘chirish"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Mavjud VPN tarmog‘i almashtirilsinmi?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Doimiy VPN o‘rnatilsinmi?"</string>
+diff --git a/res/values-vi/strings.xml b/res/values-vi/strings.xml
+index b2948c9833a..ccd6c4a55ee 100644
+--- a/res/values-vi/strings.xml
++++ b/res/values-vi/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Kết nối với <xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Ngắt kết nối VPN này?"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Ngắt kết nối"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Phiên bản <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Phiên bản"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Xóa VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Thay thế VPN hiện có?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Đặt VPN luôn bật?"</string>
+diff --git a/res/values-zh-rCN/strings.xml b/res/values-zh-rCN/strings.xml
+index 18b56078e03..be0f83491d3 100644
+--- a/res/values-zh-rCN/strings.xml
++++ b/res/values-zh-rCN/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"连接到<xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"要断开与此 VPN 的连接吗？"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"断开连接"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"版本 <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"版本"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"取消保存 VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"要替换现有 VPN 吗？"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"要设置始终开启的 VPN 吗？"</string>
+diff --git a/res/values-zh-rHK/strings.xml b/res/values-zh-rHK/strings.xml
+index cc64e5cb384..c4816d8d78f 100644
+--- a/res/values-zh-rHK/strings.xml
++++ b/res/values-zh-rHK/strings.xml
+@@ -2849,7 +2849,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"連接「<xliff:g id="PROFILE">%s</xliff:g>」"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"要解除連結此 VPN 嗎？"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"中斷連線"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"版本為：<xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"版本"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"刪除 VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"要取代目前的 VPN 嗎？"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"要設定保持開啟的 VPN 嗎？"</string>
+diff --git a/res/values-zh-rTW/strings.xml b/res/values-zh-rTW/strings.xml
+index e8b3cd54a95..afce39db08f 100644
+--- a/res/values-zh-rTW/strings.xml
++++ b/res/values-zh-rTW/strings.xml
+@@ -2848,7 +2848,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"連線到「<xliff:g id="PROFILE">%s</xliff:g>」"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"要中斷這個 VPN 連線嗎？"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"中斷連線"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"版本 <xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"版本"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"清除 VPN 設定檔"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"要取代現有的 VPN 嗎？"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"要設定永久連線的 VPN 嗎？"</string>
+diff --git a/res/values-zu/strings.xml b/res/values-zu/strings.xml
+index a8de0116fa5..775d795abbd 100644
+--- a/res/values-zu/strings.xml
++++ b/res/values-zu/strings.xml
+@@ -2849,7 +2849,7 @@
+     <string name="vpn_connect_to" msgid="216709261691085594">"Xhuma ku-<xliff:g id="PROFILE">%s</xliff:g>"</string>
+     <string name="vpn_disconnect_confirm" msgid="6356789348816854539">"Nqamula le-VPN"</string>
+     <string name="vpn_disconnect" msgid="7753808961085867345">"Nqamula"</string>
+-    <string name="vpn_version" msgid="41856553718304367">"Inguqulo engu-<xliff:g id="VERSION">%s</xliff:g>"</string>
++    <string name="vpn_version" msgid="6344167191984400976">"Uhlobo"</string>
+     <string name="vpn_forget_long" msgid="729132269203870205">"Khohlwa i-VPN"</string>
+     <string name="vpn_replace_vpn_title" msgid="3994226561866340280">"Shintshanisa i-VPN ekhona?"</string>
+     <string name="vpn_set_vpn_title" msgid="1667539483005810682">"Setha i-VPN ehlala ivuliwe?"</string>

@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Pinyao Ting <pinyaoting@google.com>
+Date: Mon, 24 Jul 2023 14:58:56 -0700
+Subject: [PATCH] Validate userId when publishing shortcuts
+
+Bug: 288110451
+Test: manual
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:01bfd04ff445db6290ae430d44ea1bf1a115fe3c)
+Merged-In: Idbde676f871db83825155730e3714f3727e25762
+Change-Id: Idbde676f871db83825155730e3714f3727e25762
+---
+ services/core/java/com/android/server/pm/ShortcutService.java | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/services/core/java/com/android/server/pm/ShortcutService.java b/services/core/java/com/android/server/pm/ShortcutService.java
+index 5e58ca73ccd4..2e2883dcb2a5 100644
+--- a/services/core/java/com/android/server/pm/ShortcutService.java
++++ b/services/core/java/com/android/server/pm/ShortcutService.java
+@@ -1594,6 +1594,10 @@ public class ShortcutService extends IShortcutService.Stub {
+             android.util.EventLog.writeEvent(0x534e4554, "109824443", -1, "");
+             throw new SecurityException("Shortcut package name mismatch");
+         }
++        final int callingUid = injectBinderCallingUid();
++        if (UserHandle.getUserId(callingUid) != si.getUserId()) {
++            throw new SecurityException("User-ID in shortcut doesn't match the caller");
++        }
+     }
+ 
+     private void verifyShortcutInfoPackages(

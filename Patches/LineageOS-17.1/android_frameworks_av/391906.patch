@@ -1,0 +1,105 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Haripriya Deshmukh <haripriya.deshmukh@ittiam.com>
+Date: Tue, 19 Sep 2023 20:42:45 +0000
+Subject: [PATCH] Validate OMX Params for VPx encoders
+
+Bug: 273936274
+Bug: 273937171
+Bug: 273937136
+Bug: 273936553
+Bug: 273936601
+Test: POC in bug descriptions
+(cherry picked from https://partner-android-review.googlesource.com/q/commit:022086b76536cd2e19a44053271190bdf6e181f7)
+(cherry picked from commit 0e4ca1cb5c16af8f1dfb0ae41941c16c104d38e8)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:90641b2799fd3940cdf0bf8a73b2f76839e651a6)
+Merged-In: I9bb17112d9f0217b6af0343afecc9c943453b757
+Change-Id: I9bb17112d9f0217b6af0343afecc9c943453b757
+---
+ media/libstagefright/codecs/on2/enc/SoftVP8Encoder.cpp | 10 ++++++++++
+ media/libstagefright/codecs/on2/enc/SoftVP9Encoder.cpp | 10 ++++++++++
+ media/libstagefright/codecs/on2/enc/SoftVPXEncoder.cpp |  9 +++++++++
+ 3 files changed, 29 insertions(+)
+
+diff --git a/media/libstagefright/codecs/on2/enc/SoftVP8Encoder.cpp b/media/libstagefright/codecs/on2/enc/SoftVP8Encoder.cpp
+index 04737a9ccf..9198b7c327 100644
+--- a/media/libstagefright/codecs/on2/enc/SoftVP8Encoder.cpp
++++ b/media/libstagefright/codecs/on2/enc/SoftVP8Encoder.cpp
+@@ -120,6 +120,11 @@ OMX_ERRORTYPE SoftVP8Encoder::internalSetParameter(OMX_INDEXTYPE index,
+ 
+ OMX_ERRORTYPE SoftVP8Encoder::internalGetVp8Params(
+         OMX_VIDEO_PARAM_VP8TYPE* vp8Params) {
++    if (!isValidOMXParam(vp8Params)) {
++        android_errorWriteLog(0x534e4554, "273936274");
++        return OMX_ErrorBadParameter;
++    }
++
+     if (vp8Params->nPortIndex != kOutputPortIndex) {
+         return OMX_ErrorUnsupportedIndex;
+     }
+@@ -133,6 +138,11 @@ OMX_ERRORTYPE SoftVP8Encoder::internalGetVp8Params(
+ 
+ OMX_ERRORTYPE SoftVP8Encoder::internalSetVp8Params(
+         const OMX_VIDEO_PARAM_VP8TYPE* vp8Params) {
++    if (!isValidOMXParam(vp8Params)) {
++        android_errorWriteLog(0x534e4554, "273937171");
++        return OMX_ErrorBadParameter;
++    }
++
+     if (vp8Params->nPortIndex != kOutputPortIndex) {
+         return OMX_ErrorUnsupportedIndex;
+     }
+diff --git a/media/libstagefright/codecs/on2/enc/SoftVP9Encoder.cpp b/media/libstagefright/codecs/on2/enc/SoftVP9Encoder.cpp
+index 1ea1c85f76..f8495c2da4 100644
+--- a/media/libstagefright/codecs/on2/enc/SoftVP9Encoder.cpp
++++ b/media/libstagefright/codecs/on2/enc/SoftVP9Encoder.cpp
+@@ -119,6 +119,11 @@ OMX_ERRORTYPE SoftVP9Encoder::internalSetParameter(
+ 
+ OMX_ERRORTYPE SoftVP9Encoder::internalGetVp9Params(
+         OMX_VIDEO_PARAM_VP9TYPE *vp9Params) {
++    if (!isValidOMXParam(vp9Params)) {
++        android_errorWriteLog(0x534e4554, "273936553");
++        return OMX_ErrorBadParameter;
++    }
++
+     if (vp9Params->nPortIndex != kOutputPortIndex) {
+         return OMX_ErrorUnsupportedIndex;
+     }
+@@ -133,6 +138,11 @@ OMX_ERRORTYPE SoftVP9Encoder::internalGetVp9Params(
+ 
+ OMX_ERRORTYPE SoftVP9Encoder::internalSetVp9Params(
+         const OMX_VIDEO_PARAM_VP9TYPE *vp9Params) {
++    if (!isValidOMXParam(vp9Params)) {
++        android_errorWriteLog(0x534e4554, "273937136");
++        return OMX_ErrorBadParameter;
++    }
++
+     if (vp9Params->nPortIndex != kOutputPortIndex) {
+         return OMX_ErrorUnsupportedIndex;
+     }
+diff --git a/media/libstagefright/codecs/on2/enc/SoftVPXEncoder.cpp b/media/libstagefright/codecs/on2/enc/SoftVPXEncoder.cpp
+index d0cb0718c2..054413e7c0 100644
+--- a/media/libstagefright/codecs/on2/enc/SoftVPXEncoder.cpp
++++ b/media/libstagefright/codecs/on2/enc/SoftVPXEncoder.cpp
+@@ -485,6 +485,11 @@ OMX_ERRORTYPE SoftVPXEncoder::internalSetBitrateParams(
+ 
+ OMX_ERRORTYPE SoftVPXEncoder::internalGetAndroidVpxParams(
+         OMX_VIDEO_PARAM_ANDROID_VP8ENCODERTYPE *vpxAndroidParams) {
++    if (!isValidOMXParam(vpxAndroidParams)) {
++        android_errorWriteLog(0x534e4554, "273936601");
++        return OMX_ErrorBadParameter;
++    }
++
+     if (vpxAndroidParams->nPortIndex != kOutputPortIndex) {
+         return OMX_ErrorUnsupportedIndex;
+     }
+@@ -501,6 +506,10 @@ OMX_ERRORTYPE SoftVPXEncoder::internalGetAndroidVpxParams(
+ 
+ OMX_ERRORTYPE SoftVPXEncoder::internalSetAndroidVpxParams(
+         const OMX_VIDEO_PARAM_ANDROID_VP8ENCODERTYPE *vpxAndroidParams) {
++    if (!isValidOMXParam(vpxAndroidParams)) {
++        android_errorWriteLog(0x534e4554, "273937551");
++        return OMX_ErrorBadParameter;
++    }
+     if (vpxAndroidParams->nPortIndex != kOutputPortIndex) {
+         return OMX_ErrorUnsupportedIndex;
+     }

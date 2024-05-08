@@ -1,0 +1,52 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Songchun Fan <schfan@google.com>
+Date: Thu, 2 Feb 2023 10:35:56 -0800
+Subject: [PATCH] still allow debuggable for system app downgrades
+
+Turns out we do have internal tests that downgrades system apps, so adding this exception to allow for that.
+
+BUG: 267232653
+BUG: 256202273
+
+Test: manual
+Change-Id: Ie281bbdc8788ee64ff99a7c5150da7ce7926235e
+(cherry picked from commit ceeca68b8c3f0ed8427b0212f63defe2f075146e)
+(cherry picked from commit on googleplex-android-review.googlesource.com host: 341669af524058dd4c64a176ddc54ada589591e1)
+Merged-In: Ie281bbdc8788ee64ff99a7c5150da7ce7926235e
+---
+ .../server/pm/PackageManagerService.java      | 22 +++++++++++--------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index 37b85cf4fe79..27282c0a2dda 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -15324,15 +15324,19 @@ public class PackageManagerService extends IPackageManager.Stub
+                         if (disabledPs != null) {
+                             dataOwnerPkg = disabledPs.pkg;
+                         }
+-                        try {
+-                            checkDowngrade(dataOwnerPkg, pkgLite);
+-                        } catch (PackageManagerException e) {
+-                            String errorMsg = "System app: " + packageName
+-                                    + " cannot be downgraded to"
+-                                    + " older than its preloaded version on the system image. "
+-                                    + e.getMessage();
+-                            Slog.w(TAG, errorMsg);
+-                            return PackageHelper.RECOMMEND_FAILED_VERSION_DOWNGRADE;
++                        if (!Build.IS_DEBUGGABLE && (dataOwnerPkg.applicationInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
++                            // Only restrict non-debuggable builds and non-debuggable version of
++                            // the app
++                            try {
++                                checkDowngrade(dataOwnerPkg, pkgLite);
++                            } catch (PackageManagerException e) {
++                                String errorMsg = "System app: " + packageName
++                                        + " cannot be downgraded to"
++                                        + " older than its preloaded version on the system image. "
++                                        + e.getMessage();
++                                Slog.w(TAG, errorMsg);
++                                return PackageHelper.RECOMMEND_FAILED_VERSION_DOWNGRADE;
++                            }
+                         }
+                     }
+                 }

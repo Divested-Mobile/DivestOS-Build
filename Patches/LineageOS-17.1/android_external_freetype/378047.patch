@@ -1,0 +1,171 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Antony Lee <anntzer.lee@gmail.com>
+Date: Sat, 6 Apr 2019 06:37:42 +0200
+Subject: [PATCH] Make `glyph_name' parameter to `FT_Get_Name_Index' a `const'.
+
+* include/freetype/freetype.h (FT_Get_Name_Index),
+include/freetype/internal/ftobjs.h (FT_Face_GetGlyphNameIndexFunc),
+include/freetype/internal/services/svgldict.h
+(FT_GlyphDict_NameIndexFunc), src/base/ftobjs.c (FT_Get_Name_Index),
+src/cff/cffdrivr.c (cff_get_name_index), src/sfnt/sfdriver.c
+(sfnt_get_name_index), src/type1/t1driver.c (t1_get_name_index),
+src/type42/t42drivr.c (t42_get_name_index): Add `const' to second
+argument.
+
+Change-Id: I62a3de96a2e1c7b351fb138858ba42dc6c4f073a
+---
+ ChangeLog                                     | 13 +++++++++++++
+ include/freetype/freetype.h                   |  4 ++--
+ include/freetype/internal/ftobjs.h            |  4 ++--
+ include/freetype/internal/services/svgldict.h |  4 ++--
+ src/base/ftobjs.c                             |  4 ++--
+ src/cff/cffdrivr.c                            |  4 ++--
+ src/sfnt/sfdriver.c                           |  4 ++--
+ src/type1/t1driver.c                          |  4 ++--
+ src/type42/t42drivr.c                         |  4 ++--
+ 9 files changed, 29 insertions(+), 16 deletions(-)
+
+diff --git a/ChangeLog b/ChangeLog
+index 79b2c354c..75cc28207 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -6,6 +6,19 @@
+ 
+ 	* src/sfnt/pngshim.c (Load_SBit_Png): Test bitmap size earlier.
+ 
++2019-04-06  Antony Lee  <anntzer.lee@gmail.com>
++
++	Make `glyph_name' parameter to `FT_Get_Name_Index' a `const'.
++
++	* include/freetype/freetype.h (FT_Get_Name_Index),
++	include/freetype/internal/ftobjs.h (FT_Face_GetGlyphNameIndexFunc),
++	include/freetype/internal/services/svgldict.h
++	(FT_GlyphDict_NameIndexFunc), src/base/ftobjs.c (FT_Get_Name_Index),
++	src/cff/cffdrivr.c (cff_get_name_index), src/sfnt/sfdriver.c
++	(sfnt_get_name_index), src/type1/t1driver.c (t1_get_name_index),
++	src/type42/t42drivr.c (t42_get_name_index): Add `const' to second
++	argument.
++
+ 2018-08-10  Ben Wagner  <bungeman@google.com>
+ 
+ 	* src/sfnt/sfobjs.c (sfnt_done_face): Fix memory leak (#54435).
+diff --git a/include/freetype/freetype.h b/include/freetype/freetype.h
+index 620df4c7a..9192baf84 100644
+--- a/include/freetype/freetype.h
++++ b/include/freetype/freetype.h
+@@ -4076,8 +4076,8 @@ FT_BEGIN_HEADER
+    *   The glyph index.  0~means `undefined character code'.
+    */
+   FT_EXPORT( FT_UInt )
+-  FT_Get_Name_Index( FT_Face     face,
+-                     FT_String*  glyph_name );
++  FT_Get_Name_Index( FT_Face           face,
++                     const FT_String*  glyph_name );
+ 
+ 
+   /*************************************************************************
+diff --git a/include/freetype/internal/ftobjs.h b/include/freetype/internal/ftobjs.h
+index 88ced183f..3413b7752 100644
+--- a/include/freetype/internal/ftobjs.h
++++ b/include/freetype/internal/ftobjs.h
+@@ -966,8 +966,8 @@ FT_BEGIN_HEADER
+                                FT_UInt     buffer_max );
+ 
+   typedef FT_UInt
+-  (*FT_Face_GetGlyphNameIndexFunc)( FT_Face     face,
+-                                    FT_String*  glyph_name );
++  (*FT_Face_GetGlyphNameIndexFunc)( FT_Face           face,
++                                    const FT_String*  glyph_name );
+ 
+ 
+ #ifndef FT_CONFIG_OPTION_NO_DEFAULT_SYSTEM
+diff --git a/include/freetype/internal/services/svgldict.h b/include/freetype/internal/services/svgldict.h
+index 0840b584a..9cb83c983 100644
+--- a/include/freetype/internal/services/svgldict.h
++++ b/include/freetype/internal/services/svgldict.h
+@@ -41,8 +41,8 @@ FT_BEGIN_HEADER
+                                FT_UInt     buffer_max );
+ 
+   typedef FT_UInt
+-  (*FT_GlyphDict_NameIndexFunc)( FT_Face     face,
+-                                 FT_String*  glyph_name );
++  (*FT_GlyphDict_NameIndexFunc)( FT_Face           face,
++                                 const FT_String*  glyph_name );
+ 
+ 
+   FT_DEFINE_SERVICE( GlyphDict )
+diff --git a/src/base/ftobjs.c b/src/base/ftobjs.c
+index 7fdf15372..80253ebb2 100644
+--- a/src/base/ftobjs.c
++++ b/src/base/ftobjs.c
+@@ -4040,8 +4040,8 @@
+   /* documentation is in freetype.h */
+ 
+   FT_EXPORT_DEF( FT_UInt )
+-  FT_Get_Name_Index( FT_Face     face,
+-                     FT_String*  glyph_name )
++  FT_Get_Name_Index( FT_Face           face,
++                     const FT_String*  glyph_name )
+   {
+     FT_UInt  result = 0;
+ 
+diff --git a/src/cff/cffdrivr.c b/src/cff/cffdrivr.c
+index 6eaad8bbd..7a7fd6a22 100644
+--- a/src/cff/cffdrivr.c
++++ b/src/cff/cffdrivr.c
+@@ -381,8 +381,8 @@
+ 
+ 
+   static FT_UInt
+-  cff_get_name_index( CFF_Face    face,
+-                      FT_String*  glyph_name )
++  cff_get_name_index( CFF_Face          face,
++                      const FT_String*  glyph_name )
+   {
+     CFF_Font            cff;
+     CFF_Charset         charset;
+diff --git a/src/sfnt/sfdriver.c b/src/sfnt/sfdriver.c
+index ae6d6cdbc..876840d3e 100644
+--- a/src/sfnt/sfdriver.c
++++ b/src/sfnt/sfdriver.c
+@@ -182,8 +182,8 @@
+ 
+ 
+   static FT_UInt
+-  sfnt_get_name_index( FT_Face     face,
+-                       FT_String*  glyph_name )
++  sfnt_get_name_index( FT_Face           face,
++                       const FT_String*  glyph_name )
+   {
+     TT_Face  ttface = (TT_Face)face;
+ 
+diff --git a/src/type1/t1driver.c b/src/type1/t1driver.c
+index 4d46e3ee6..fb9b8f1c4 100644
+--- a/src/type1/t1driver.c
++++ b/src/type1/t1driver.c
+@@ -70,8 +70,8 @@
+ 
+ 
+   static FT_UInt
+-  t1_get_name_index( T1_Face     face,
+-                     FT_String*  glyph_name )
++  t1_get_name_index( T1_Face           face,
++                     const FT_String*  glyph_name )
+   {
+     FT_Int  i;
+ 
+diff --git a/src/type42/t42drivr.c b/src/type42/t42drivr.c
+index 103650315..461ca4476 100644
+--- a/src/type42/t42drivr.c
++++ b/src/type42/t42drivr.c
+@@ -69,8 +69,8 @@
+ 
+ 
+   static FT_UInt
+-  t42_get_name_index( T42_Face    face,
+-                      FT_String*  glyph_name )
++  t42_get_name_index( T42_Face          face,
++                      const FT_String*  glyph_name )
+   {
+     FT_Int  i;
+ 

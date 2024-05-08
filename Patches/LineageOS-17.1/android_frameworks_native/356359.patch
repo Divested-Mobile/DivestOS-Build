@@ -1,0 +1,71 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Anthony Stange <stange@google.com>
+Date: Tue, 21 Feb 2023 17:57:38 +0000
+Subject: [PATCH] Add removeInstanceForPackageMethod to SensorManager
+
+In order to ensure that clients don't leak their sensor manager
+instance that we currently store in a static map, they need to be able
+to remove their instance. Otherwise, this instance is never removed from
+the list and will hang around until our SensorManage instance is
+destroyed.
+
+Bug: 269014004
+Test: Run ./libsensorserviceaidl_fuzzer
+Change-Id: I52185f74ae8d28b379440235ca6f03c5089081f5
+(cherry picked from commit 9532f7c682fdd4b1e6e553cd6f61fc0cf2555902)
+Merged-In: I52185f74ae8d28b379440235ca6f03c5089081f5
+(cherry picked from commit on googleplex-android-review.googlesource.com host: 4521fbf8095439a1c1681b5c709b306a5dc1d1e3)
+Merged-In: I52185f74ae8d28b379440235ca6f03c5089081f5
+---
+ libs/sensor/SensorManager.cpp                 | 10 ++++++++++
+ libs/sensor/include/sensor/SensorManager.h    |  1 +
+ services/sensorservice/hidl/SensorManager.cpp |  3 +++
+ 3 files changed, 14 insertions(+)
+
+diff --git a/libs/sensor/SensorManager.cpp b/libs/sensor/SensorManager.cpp
+index e09672c9a4..180a0ebd85 100644
+--- a/libs/sensor/SensorManager.cpp
++++ b/libs/sensor/SensorManager.cpp
+@@ -92,6 +92,16 @@ SensorManager& SensorManager::getInstanceForPackage(const String16& packageName)
+     return *sensorManager;
+ }
+ 
++void SensorManager::removeInstanceForPackage(const String16& packageName) {
++    Mutex::Autolock _l(sLock);
++    auto iterator = sPackageInstances.find(packageName);
++    if (iterator != sPackageInstances.end()) {
++        SensorManager* sensorManager = iterator->second;
++        delete sensorManager;
++        sPackageInstances.erase(iterator);
++    }
++}
++
+ SensorManager::SensorManager(const String16& opPackageName)
+     : mSensorList(nullptr), mOpPackageName(opPackageName), mDirectConnectionHandle(1) {
+     Mutex::Autolock _l(mLock);
+diff --git a/libs/sensor/include/sensor/SensorManager.h b/libs/sensor/include/sensor/SensorManager.h
+index f09c9c67b4..127f74f4b2 100644
+--- a/libs/sensor/include/sensor/SensorManager.h
++++ b/libs/sensor/include/sensor/SensorManager.h
+@@ -54,6 +54,7 @@ class SensorManager : public ASensorManager
+ {
+ public:
+     static SensorManager& getInstanceForPackage(const String16& packageName);
++    static void removeInstanceForPackage(const String16& packageName);
+     ~SensorManager();
+ 
+     ssize_t getSensorList(Sensor const* const** list);
+diff --git a/services/sensorservice/hidl/SensorManager.cpp b/services/sensorservice/hidl/SensorManager.cpp
+index 938060063f..0a4e68412d 100644
+--- a/services/sensorservice/hidl/SensorManager.cpp
++++ b/services/sensorservice/hidl/SensorManager.cpp
+@@ -60,6 +60,9 @@ SensorManager::~SensorManager() {
+     if (mPollThread.joinable()) {
+         mPollThread.join();
+     }
++
++    ::android::SensorManager::removeInstanceForPackage(
++            String16(ISensorManager::descriptor));
+ }
+ 
+ // Methods from ::android::frameworks::sensorservice::V1_0::ISensorManager follow.

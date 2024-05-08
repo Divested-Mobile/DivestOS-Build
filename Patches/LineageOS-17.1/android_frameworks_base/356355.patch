@@ -1,0 +1,138 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Orion Hodson <oth@google.com>
+Date: Thu, 7 Apr 2022 21:42:04 +0100
+Subject: [PATCH] Uri: check authority and scheme as part of determining URI
+ path
+
+The interpretation of the path depends on whether the scheme or
+authority are specified and should be observed when unparcelling
+URIs.
+
+Bug: 171966843
+Test: atest FrameworksCoreTests:android.net.UriTest
+Test: atest com.android.devicehealthchecks.SystemAppCheck
+Change-Id: I06981d1c6e387b16df792494523994518848db37
+Merged-In: I06981d1c6e387b16df792494523994518848db37
+(cherry picked from commit f37a94ae920fa5879c557603fc285942ec4b84b1)
+(cherry picked from commit on googleplex-android-review.googlesource.com host: c87f0623be4042c39a9b73f7a6e02aa116925e50)
+Merged-In: I06981d1c6e387b16df792494523994518848db37
+---
+ core/java/android/net/Uri.java                | 22 +++++---
+ .../coretests/src/android/net/UriTest.java    | 54 +++++++++++++++++++
+ 2 files changed, 69 insertions(+), 7 deletions(-)
+
+diff --git a/core/java/android/net/Uri.java b/core/java/android/net/Uri.java
+index 8cf182b41566..33acef7f9506 100644
+--- a/core/java/android/net/Uri.java
++++ b/core/java/android/net/Uri.java
+@@ -1194,13 +1194,16 @@ public abstract class Uri implements Parcelable, Comparable<Uri> {
+         }
+ 
+         static Uri readFrom(Parcel parcel) {
+-            return new HierarchicalUri(
+-                parcel.readString(),
+-                Part.readFrom(parcel),
+-                PathPart.readFrom(parcel),
+-                Part.readFrom(parcel),
+-                Part.readFrom(parcel)
+-            );
++            final String scheme = parcel.readString();
++            final Part authority = Part.readFrom(parcel);
++            // In RFC3986 the path should be determined based on whether there is a scheme or
++            // authority present (https://www.rfc-editor.org/rfc/rfc3986.html#section-3.3).
++            final boolean hasSchemeOrAuthority =
++                    (scheme != null && scheme.length() > 0) || !authority.isEmpty();
++            final PathPart path = PathPart.readFrom(hasSchemeOrAuthority, parcel);
++            final Part query = Part.readFrom(parcel);
++            final Part fragment = Part.readFrom(parcel);
++            return new HierarchicalUri(scheme, authority, path, query, fragment);
+         }
+ 
+         public int describeContents() {
+@@ -2263,6 +2266,11 @@ public abstract class Uri implements Parcelable, Comparable<Uri> {
+             }
+         }
+ 
++        static PathPart readFrom(boolean hasSchemeOrAuthority, Parcel parcel) {
++            final PathPart path = readFrom(parcel);
++            return hasSchemeOrAuthority ? makeAbsolute(path) : path;
++        }
++
+         /**
+          * Creates a path from the encoded string.
+          *
+diff --git a/core/tests/coretests/src/android/net/UriTest.java b/core/tests/coretests/src/android/net/UriTest.java
+index f20220c4ab9b..670aefd21d36 100644
+--- a/core/tests/coretests/src/android/net/UriTest.java
++++ b/core/tests/coretests/src/android/net/UriTest.java
+@@ -48,6 +48,7 @@ public class UriTest extends TestCase {
+     public void testParcelling() {
+         parcelAndUnparcel(Uri.parse("foo:bob%20lee"));
+         parcelAndUnparcel(Uri.fromParts("foo", "bob lee", "fragment"));
++        parcelAndUnparcel(Uri.fromParts("https", "www.google.com", null));
+         parcelAndUnparcel(new Uri.Builder()
+             .scheme("http")
+             .authority("crazybob.org")
+@@ -873,9 +874,62 @@ public class UriTest extends TestCase {
+             Throwable targetException = expected.getTargetException();
+             // Check that the exception was thrown for the correct reason.
+             assertEquals("Unknown representation: 0", targetException.getMessage());
++        } finally {
++            parcel.recycle();
+         }
+     }
+ 
++    private Uri buildUriFromRawParcel(boolean argumentsEncoded,
++                                      String scheme,
++                                      String authority,
++                                      String path,
++                                      String query,
++                                      String fragment) {
++        // Representation value (from AbstractPart.REPRESENTATION_{ENCODED,DECODED}).
++        final int representation = argumentsEncoded ? 1 : 2;
++        Parcel parcel = Parcel.obtain();
++        try {
++            parcel.writeInt(3);  // hierarchical
++            parcel.writeString8(scheme);
++            parcel.writeInt(representation);
++            parcel.writeString8(authority);
++            parcel.writeInt(representation);
++            parcel.writeString8(path);
++            parcel.writeInt(representation);
++            parcel.writeString8(query);
++            parcel.writeInt(representation);
++            parcel.writeString8(fragment);
++            parcel.setDataPosition(0);
++            return Uri.CREATOR.createFromParcel(parcel);
++        } finally {
++            parcel.recycle();
++        }
++    }
++
++    public void testUnparcelMalformedPath() {
++        // Regression tests for b/171966843.
++
++        // Test cases with arguments encoded (covering testing `scheme` * `authority` options).
++        Uri uri0 = buildUriFromRawParcel(true, "https", "google.com", "@evil.com", null, null);
++        assertEquals("https://google.com/@evil.com", uri0.toString());
++        Uri uri1 = buildUriFromRawParcel(true, null, "google.com", "@evil.com", "name=spark", "x");
++        assertEquals("//google.com/@evil.com?name=spark#x", uri1.toString());
++        Uri uri2 = buildUriFromRawParcel(true, "http:", null, "@evil.com", null, null);
++        assertEquals("http::/@evil.com", uri2.toString());
++        Uri uri3 = buildUriFromRawParcel(true, null, null, "@evil.com", null, null);
++        assertEquals("@evil.com", uri3.toString());
++
++        // Test cases with arguments not encoded (covering testing `scheme` * `authority` options).
++        Uri uriA = buildUriFromRawParcel(false, "https", "google.com", "@evil.com", null, null);
++        assertEquals("https://google.com/%40evil.com", uriA.toString());
++        Uri uriB = buildUriFromRawParcel(false, null, "google.com", "@evil.com", null, null);
++        assertEquals("//google.com/%40evil.com", uriB.toString());
++        Uri uriC = buildUriFromRawParcel(false, "http:", null, "@evil.com", null, null);
++        assertEquals("http::/%40evil.com", uriC.toString());
++        Uri uriD = buildUriFromRawParcel(false, null, null, "@evil.com", "name=spark", "y");
++        assertEquals("%40evil.com?name%3Dspark#y", uriD.toString());
++    }
++
+     public void testToSafeString() {
+         checkToSafeString("tel:xxxxxx", "tel:Google");
+         checkToSafeString("tel:xxxxxxxxxx", "tel:1234567890");

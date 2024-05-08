@@ -1,0 +1,183 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Kevin Jeon <kevinjeon@google.com>
+Date: Wed, 29 Mar 2023 16:38:23 -0400
+Subject: [PATCH] Add DISALLOW_DEBUGGING_FEATURES check
+
+This change adds a check for the DISALLOW_DEBUGGING_FEATURES restriction
+wherever a developer options or admin-privileges check exists.
+
+Test: Apply this change to the relevant branches and verify that Traceur
+      cannot be opened through the researcher-provided APK.
+Bug: 270050064
+Bug: 270050191
+Ignore-AOSP-First: Internal-first security fix.
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:44480ce656dfa33a63bda978b4067bb4e67ee312)
+Merged-In: I95d308f6e73a19e489f5eb09558275ca6fb3c4aa
+Change-Id: I95d308f6e73a19e489f5eb09558275ca6fb3c4aa
+---
+ .../google/android/traceur/MainActivity.java    | 10 +++++++---
+ .../google/android/traceur/MainTvActivity.java  | 10 +++++++---
+ src/com/google/android/traceur/Receiver.java    | 17 ++++++++++++-----
+ .../google/android/traceur/SearchProvider.java  |  7 +++++--
+ .../android/traceur/StopTraceService.java       |  7 +++++--
+ .../google/android/traceur/StorageProvider.java |  7 +++++--
+ .../google/android/traceur/TraceService.java    |  7 +++++--
+ 7 files changed, 46 insertions(+), 19 deletions(-)
+
+diff --git a/src/com/google/android/traceur/MainActivity.java b/src/com/google/android/traceur/MainActivity.java
+index 72e6aba..074c466 100644
+--- a/src/com/google/android/traceur/MainActivity.java
++++ b/src/com/google/android/traceur/MainActivity.java
+@@ -33,10 +33,14 @@ public class MainActivity extends Activity {
+         boolean developerOptionsIsEnabled =
+             Settings.Global.getInt(getApplicationContext().getContentResolver(),
+                 Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
+-        boolean isAdminUser = getApplicationContext()
+-                .getSystemService(UserManager.class).isAdminUser();
+ 
+-        if (!developerOptionsIsEnabled || !isAdminUser) {
++        UserManager userManager = getApplicationContext()
++                .getSystemService(UserManager.class);
++        boolean isAdminUser = userManager.isAdminUser();
++        boolean debuggingDisallowed = userManager.hasUserRestriction(
++                UserManager.DISALLOW_DEBUGGING_FEATURES);
++
++        if (!developerOptionsIsEnabled || !isAdminUser || debuggingDisallowed) {
+             finish();
+         }
+     }
+diff --git a/src/com/google/android/traceur/MainTvActivity.java b/src/com/google/android/traceur/MainTvActivity.java
+index 7459b7a..de8c2bd 100644
+--- a/src/com/google/android/traceur/MainTvActivity.java
++++ b/src/com/google/android/traceur/MainTvActivity.java
+@@ -33,10 +33,14 @@ public class MainTvActivity extends Activity {
+         boolean developerOptionsIsEnabled =
+             Settings.Global.getInt(getApplicationContext().getContentResolver(),
+                 Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
+-        boolean isAdminUser = getApplicationContext()
+-                .getSystemService(UserManager.class).isAdminUser();
+ 
+-        if (!developerOptionsIsEnabled || !isAdminUser) {
++        UserManager userManager = getApplicationContext()
++                .getSystemService(UserManager.class);
++        boolean isAdminUser = userManager.isAdminUser();
++        boolean debuggingDisallowed = userManager.hasUserRestriction(
++                UserManager.DISALLOW_DEBUGGING_FEATURES);
++
++        if (!developerOptionsIsEnabled || !isAdminUser || debuggingDisallowed) {
+             finish();
+         }
+     }
+diff --git a/src/com/google/android/traceur/Receiver.java b/src/com/google/android/traceur/Receiver.java
+index 36b5ab5..7a46ecd 100644
+--- a/src/com/google/android/traceur/Receiver.java
++++ b/src/com/google/android/traceur/Receiver.java
+@@ -84,8 +84,12 @@ public class Receiver extends BroadcastReceiver {
+             boolean developerOptionsEnabled = (1 ==
+                 Settings.Global.getInt(context.getContentResolver(),
+                     Settings.Global.DEVELOPMENT_SETTINGS_ENABLED , 0));
+-            boolean isAdminUser = context.getSystemService(UserManager.class).isAdminUser();
+-            updateStorageProvider(context, developerOptionsEnabled && isAdminUser);
++            UserManager userManager = context.getSystemService(UserManager.class);
++            boolean isAdminUser = userManager.isAdminUser();
++            boolean debuggingDisallowed = userManager.hasUserRestriction(
++                    UserManager.DISALLOW_DEBUGGING_FEATURES);
++            updateStorageProvider(context,
++                    developerOptionsEnabled && isAdminUser && !debuggingDisallowed);
+         } else if (STOP_ACTION.equals(intent.getAction())) {
+             prefs.edit().putBoolean(context.getString(R.string.pref_key_tracing_on), false).commit();
+             updateTracing(context);
+@@ -201,9 +205,12 @@ public class Receiver extends BroadcastReceiver {
+                         boolean developerOptionsEnabled = (1 ==
+                             Settings.Global.getInt(context.getContentResolver(),
+                                 Settings.Global.DEVELOPMENT_SETTINGS_ENABLED , 0));
+-                        boolean isAdminUser = context.getSystemService(UserManager.class)
+-                                .isAdminUser();
+-                        updateStorageProvider(context, developerOptionsEnabled && isAdminUser);
++                        UserManager userManager = context.getSystemService(UserManager.class);
++                        boolean isAdminUser = userManager.isAdminUser();
++                        boolean debuggingDisallowed = userManager.hasUserRestriction(
++                                UserManager.DISALLOW_DEBUGGING_FEATURES);
++                        updateStorageProvider(context,
++                                developerOptionsEnabled && isAdminUser && !debuggingDisallowed);
+ 
+                         if (!developerOptionsEnabled) {
+                             SharedPreferences prefs =
+diff --git a/src/com/google/android/traceur/SearchProvider.java b/src/com/google/android/traceur/SearchProvider.java
+index 9098e89..8e96dc6 100644
+--- a/src/com/google/android/traceur/SearchProvider.java
++++ b/src/com/google/android/traceur/SearchProvider.java
+@@ -70,11 +70,14 @@ public class SearchProvider extends SearchIndexablesProvider {
+         boolean developerOptionsIsEnabled =
+             Settings.Global.getInt(getContext().getContentResolver(),
+                 Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
+-        boolean isAdminUser = getContext().getSystemService(UserManager.class).isAdminUser();
++        UserManager userManager = getContext().getSystemService(UserManager.class);
++        boolean isAdminUser = userManager.isAdminUser();
++        boolean debuggingDisallowed = userManager.hasUserRestriction(
++                UserManager.DISALLOW_DEBUGGING_FEATURES);
+ 
+         // System Tracing shouldn't be searchable if developer options are not enabled or if the
+         // user is not an admin.
+-        if (!developerOptionsIsEnabled || !isAdminUser) {
++        if (!developerOptionsIsEnabled || !isAdminUser || debuggingDisallowed) {
+             MatrixCursor cursor = new MatrixCursor(NON_INDEXABLES_KEYS_COLUMNS);
+             Object[] row = new Object[] {getContext().getString(R.string.system_tracing)};
+             cursor.addRow(row);
+diff --git a/src/com/google/android/traceur/StopTraceService.java b/src/com/google/android/traceur/StopTraceService.java
+index ed20906..ad48c54 100644
+--- a/src/com/google/android/traceur/StopTraceService.java
++++ b/src/com/google/android/traceur/StopTraceService.java
+@@ -50,8 +50,11 @@ public class StopTraceService extends TraceService {
+             EventLog.writeEvent(0x534e4554, "204992293", -1, "");
+             return;
+         }
+-        boolean isAdminUser = context.getSystemService(UserManager.class).isAdminUser();
+-        if (!isAdminUser) {
++        UserManager userManager = context.getSystemService(UserManager.class);
++        boolean isAdminUser = userManager.isAdminUser();
++        boolean debuggingDisallowed = userManager.hasUserRestriction(
++                UserManager.DISALLOW_DEBUGGING_FEATURES);
++        if (!isAdminUser || debuggingDisallowed) {
+             return;
+         }
+         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+diff --git a/src/com/google/android/traceur/StorageProvider.java b/src/com/google/android/traceur/StorageProvider.java
+index e27b450..d8d8b5e 100644
+--- a/src/com/google/android/traceur/StorageProvider.java
++++ b/src/com/google/android/traceur/StorageProvider.java
+@@ -79,11 +79,14 @@ public class StorageProvider extends FileSystemProvider{
+         boolean developerOptionsIsEnabled =
+             Settings.Global.getInt(getContext().getContentResolver(),
+                 Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0;
+-        boolean isAdminUser = getContext().getSystemService(UserManager.class).isAdminUser();
++        UserManager userManager = getContext().getSystemService(UserManager.class);
++        boolean isAdminUser = userManager.isAdminUser();
++        boolean debuggingDisallowed = userManager.hasUserRestriction(
++                UserManager.DISALLOW_DEBUGGING_FEATURES);
+ 
+         // If developer options is not enabled or the user is not an admin, return an empty root
+         // cursor. This removes the provider from the list entirely.
+-        if (!developerOptionsIsEnabled || !isAdminUser) {
++        if (!developerOptionsIsEnabled || !isAdminUser || debuggingDisallowed) {
+             return null;
+         }
+ 
+diff --git a/src/com/google/android/traceur/TraceService.java b/src/com/google/android/traceur/TraceService.java
+index e3a3c3c..1668a44 100644
+--- a/src/com/google/android/traceur/TraceService.java
++++ b/src/com/google/android/traceur/TraceService.java
+@@ -108,8 +108,11 @@ public class TraceService extends IntentService {
+             EventLog.writeEvent(0x534e4554, "204992293", -1, "");
+             return;
+         }
+-        boolean isAdminUser = context.getSystemService(UserManager.class).isAdminUser();
+-        if (!isAdminUser) {
++        UserManager userManager = context.getSystemService(UserManager.class);
++        boolean isAdminUser = userManager.isAdminUser();
++        boolean debuggingDisallowed = userManager.hasUserRestriction(
++                UserManager.DISALLOW_DEBUGGING_FEATURES);
++        if (!isAdminUser || debuggingDisallowed) {
+             return;
+         }
+ 

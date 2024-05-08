@@ -1,0 +1,241 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Rhed Jao <rhedjao@google.com>
+Date: Wed, 11 Jan 2023 16:02:27 +0800
+Subject: [PATCH] Fix bypass BG-FGS and BAL via package manager APIs
+
+Opt-in for BAL of PendingIntent for following APIs:
+
+* PackageInstaller.uninstall()
+* PackageInstaller.installExistingPackage()
+* PackageInstaller.uninstallExistingPackage()
+* PackageInstaller.Session.commit()
+* PackageInstaller.Session.commitTransferred()
+* PackageManager.freeStorage()
+
+Bug: 230492955
+Bug: 243377226
+Test: atest android.security.cts.PackageInstallerTest
+Test: atest CtsStagedInstallHostTestCases
+Change-Id: I9b6f801d69ea6d2244a38dbe689e81afa4e798bf
+(cherry picked from commit b0b1ddb4b4ba5db27f5616b02ae2cdca8b63496f)
+Merged-In: I9b6f801d69ea6d2244a38dbe689e81afa4e798bf
+---
+ core/java/android/content/IntentSender.java   | 42 ++++++++++++++++++-
+ .../server/pm/PackageInstallerService.java    | 21 ++++++++--
+ .../server/pm/PackageInstallerSession.java    | 19 +++++++--
+ .../server/pm/PackageManagerService.java      | 10 ++++-
+ 4 files changed, 81 insertions(+), 11 deletions(-)
+
+diff --git a/core/java/android/content/IntentSender.java b/core/java/android/content/IntentSender.java
+index ec0bac486c65..0ef0a71fffe0 100644
+--- a/core/java/android/content/IntentSender.java
++++ b/core/java/android/content/IntentSender.java
+@@ -16,8 +16,10 @@
+ 
+ package android.content;
+ 
++import android.annotation.Nullable;
+ import android.annotation.UnsupportedAppUsage;
+ import android.app.ActivityManager;
++import android.app.ActivityOptions;
+ import android.os.Bundle;
+ import android.os.RemoteException;
+ import android.os.Handler;
+@@ -154,7 +156,7 @@ public class IntentSender implements Parcelable {
+      */
+     public void sendIntent(Context context, int code, Intent intent,
+             OnFinished onFinished, Handler handler) throws SendIntentException {
+-        sendIntent(context, code, intent, onFinished, handler, null);
++        sendIntent(context, code, intent, onFinished, handler, null, null /* options */);
+     }
+ 
+     /**
+@@ -186,6 +188,42 @@ public class IntentSender implements Parcelable {
+     public void sendIntent(Context context, int code, Intent intent,
+             OnFinished onFinished, Handler handler, String requiredPermission)
+             throws SendIntentException {
++        sendIntent(context, code, intent, onFinished, handler, requiredPermission,
++                null /* options */);
++    }
++
++    /**
++     * Perform the operation associated with this IntentSender, allowing the
++     * caller to specify information about the Intent to use and be notified
++     * when the send has completed.
++     *
++     * @param context The Context of the caller.  This may be null if
++     * <var>intent</var> is also null.
++     * @param code Result code to supply back to the IntentSender's target.
++     * @param intent Additional Intent data.  See {@link Intent#fillIn
++     * Intent.fillIn()} for information on how this is applied to the
++     * original Intent.  Use null to not modify the original Intent.
++     * @param onFinished The object to call back on when the send has
++     * completed, or null for no callback.
++     * @param handler Handler identifying the thread on which the callback
++     * should happen.  If null, the callback will happen from the thread
++     * pool of the process.
++     * @param requiredPermission Name of permission that a recipient of the PendingIntent
++     * is required to hold.  This is only valid for broadcast intents, and
++     * corresponds to the permission argument in
++     * {@link Context#sendBroadcast(Intent, String) Context.sendOrderedBroadcast(Intent, String)}.
++     * If null, no permission is required.
++     * @param options Additional options the caller would like to provide to modify the sending
++     * behavior.  May be built from an {@link ActivityOptions} to apply to an activity start.
++     *
++     * @throws SendIntentException Throws CanceledIntentException if the IntentSender
++     * is no longer allowing more intents to be sent through it.
++     * @hide
++     */
++    public void sendIntent(Context context, int code, Intent intent,
++            OnFinished onFinished, Handler handler, String requiredPermission,
++            @Nullable Bundle options)
++            throws SendIntentException {
+         try {
+             String resolvedType = intent != null ?
+                     intent.resolveTypeIfNeeded(context.getContentResolver())
+@@ -195,7 +233,7 @@ public class IntentSender implements Parcelable {
+                     onFinished != null
+                             ? new FinishedDispatcher(this, onFinished, handler)
+                             : null,
+-                    requiredPermission, null);
++                    requiredPermission, options);
+             if (res < 0) {
+                 throw new SendIntentException();
+             }
+diff --git a/services/core/java/com/android/server/pm/PackageInstallerService.java b/services/core/java/com/android/server/pm/PackageInstallerService.java
+index c73f489cb143..ea144fd7c4d5 100644
+--- a/services/core/java/com/android/server/pm/PackageInstallerService.java
++++ b/services/core/java/com/android/server/pm/PackageInstallerService.java
+@@ -23,6 +23,7 @@ import android.Manifest;
+ import android.app.ActivityManager;
+ import android.app.AppGlobals;
+ import android.app.AppOpsManager;
++import android.app.BroadcastOptions;
+ import android.app.Notification;
+ import android.app.NotificationManager;
+ import android.app.PackageDeleteObserver;
+@@ -1021,7 +1022,10 @@ public class PackageInstallerService extends IPackageInstaller.Stub implements
+                     PackageInstaller.STATUS_PENDING_USER_ACTION);
+             fillIn.putExtra(Intent.EXTRA_INTENT, intent);
+             try {
+-                mTarget.sendIntent(mContext, 0, fillIn, null, null);
++                final BroadcastOptions options = BroadcastOptions.makeBasic();
++                options.setPendingIntentBackgroundActivityLaunchAllowed(false);
++                mTarget.sendIntent(mContext, 0, fillIn, null /* onFinished*/,
++                        null /* handler */, null /* requiredPermission */, options.toBundle());
+             } catch (SendIntentException ignored) {
+             }
+         }
+@@ -1046,7 +1050,10 @@ public class PackageInstallerService extends IPackageInstaller.Stub implements
+                     PackageManager.deleteStatusToString(returnCode, msg));
+             fillIn.putExtra(PackageInstaller.EXTRA_LEGACY_STATUS, returnCode);
+             try {
+-                mTarget.sendIntent(mContext, 0, fillIn, null, null);
++                final BroadcastOptions options = BroadcastOptions.makeBasic();
++                options.setPendingIntentBackgroundActivityLaunchAllowed(false);
++                mTarget.sendIntent(mContext, 0, fillIn, null /* onFinished*/,
++                        null /* handler */, null /* requiredPermission */, options.toBundle());
+             } catch (SendIntentException ignored) {
+             }
+         }
+@@ -1076,7 +1083,10 @@ public class PackageInstallerService extends IPackageInstaller.Stub implements
+                     PackageInstaller.STATUS_PENDING_USER_ACTION);
+             fillIn.putExtra(Intent.EXTRA_INTENT, intent);
+             try {
+-                mTarget.sendIntent(mContext, 0, fillIn, null, null);
++                final BroadcastOptions options = BroadcastOptions.makeBasic();
++                options.setPendingIntentBackgroundActivityLaunchAllowed(false);
++                mTarget.sendIntent(mContext, 0, fillIn, null /* onFinished*/,
++                        null /* handler */, null /* requiredPermission */, options.toBundle());
+             } catch (SendIntentException ignored) {
+             }
+         }
+@@ -1116,7 +1126,10 @@ public class PackageInstallerService extends IPackageInstaller.Stub implements
+                 }
+             }
+             try {
+-                mTarget.sendIntent(mContext, 0, fillIn, null, null);
++                final BroadcastOptions options = BroadcastOptions.makeBasic();
++                options.setPendingIntentBackgroundActivityLaunchAllowed(false);
++                mTarget.sendIntent(mContext, 0, fillIn, null /* onFinished*/,
++                        null /* handler */, null /* requiredPermission */, options.toBundle());
+             } catch (SendIntentException ignored) {
+             }
+         }
+diff --git a/services/core/java/com/android/server/pm/PackageInstallerSession.java b/services/core/java/com/android/server/pm/PackageInstallerSession.java
+index 5a880cb5fa52..71d06d8a2d03 100644
+--- a/services/core/java/com/android/server/pm/PackageInstallerSession.java
++++ b/services/core/java/com/android/server/pm/PackageInstallerSession.java
+@@ -44,6 +44,7 @@ import static com.android.server.pm.PackageInstallerService.prepareStageDir;
+ import android.Manifest;
+ import android.annotation.NonNull;
+ import android.annotation.Nullable;
++import android.app.BroadcastOptions;
+ import android.app.admin.DevicePolicyEventLogger;
+ import android.app.admin.DevicePolicyManagerInternal;
+ import android.content.Context;
+@@ -960,13 +961,21 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
+                         try {
+                             intent.putExtra(PackageInstaller.EXTRA_SESSION_ID,
+                                     PackageInstallerSession.this.sessionId);
+-                            mStatusReceiver.sendIntent(mContext, 0, intent, null, null);
++                            final BroadcastOptions options = BroadcastOptions.makeBasic();
++                            options.setPendingIntentBackgroundActivityLaunchAllowed(false);
++                            mStatusReceiver.sendIntent(mContext, 0, intent,
++                                    null /* onFinished*/, null /* handler */,
++                                    null /* requiredPermission */, options.toBundle());
+                         } catch (IntentSender.SendIntentException ignore) {
+                         }
+                     }
+                 } else if (PackageInstaller.STATUS_PENDING_USER_ACTION == status) {
+                     try {
+-                        mStatusReceiver.sendIntent(mContext, 0, intent, null, null);
++                        final BroadcastOptions options = BroadcastOptions.makeBasic();
++                        options.setPendingIntentBackgroundActivityLaunchAllowed(false);
++                        mStatusReceiver.sendIntent(mContext, 0, intent,
++                                null /* onFinished*/, null /* handler */,
++                                null /* requiredPermission */, options.toBundle());
+                     } catch (IntentSender.SendIntentException ignore) {
+                     }
+                 } else {
+@@ -974,7 +983,11 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
+                             PackageInstallerSession.this.sessionId);
+                     mChildSessionsRemaining.clear(); // we're done. Don't send any more.
+                     try {
+-                        mStatusReceiver.sendIntent(mContext, 0, intent, null, null);
++                        final BroadcastOptions options = BroadcastOptions.makeBasic();
++                        options.setPendingIntentBackgroundActivityLaunchAllowed(false);
++                        mStatusReceiver.sendIntent(mContext, 0, intent,
++                                null /* onFinished*/, null /* handler */,
++                                null /* requiredPermission */, options.toBundle());
+                     } catch (IntentSender.SendIntentException ignore) {
+                     }
+                 }
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index 1bd1396c6d45..ef97d61d26d7 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -4893,7 +4893,10 @@ public class PackageManagerService extends IPackageManager.Stub
+             }
+             if (pi != null) {
+                 try {
+-                    pi.sendIntent(null, success ? 1 : 0, null, null, null);
++                    final BroadcastOptions options = BroadcastOptions.makeBasic();
++                    options.setPendingIntentBackgroundActivityLaunchAllowed(false);
++                    pi.sendIntent(null, success ? 1 : 0, null /* intent */, null /* onFinished*/,
++                            null /* handler */, null /* requiredPermission */, options.toBundle());
+                 } catch (SendIntentException e) {
+                     Slog.w(TAG, e);
+                 }
+@@ -13738,7 +13741,10 @@ public class PackageManagerService extends IPackageManager.Stub
+         fillIn.putExtra(PackageInstaller.EXTRA_STATUS,
+                 PackageManager.installStatusToPublicStatus(returnCode));
+         try {
+-            target.sendIntent(context, 0, fillIn, null, null);
++            final BroadcastOptions options = BroadcastOptions.makeBasic();
++            options.setPendingIntentBackgroundActivityLaunchAllowed(false);
++            target.sendIntent(context, 0, fillIn, null /* onFinished*/,
++                    null /* handler */, null /* requiredPermission */, options.toBundle());
+         } catch (SendIntentException ignored) {
+         }
+     }

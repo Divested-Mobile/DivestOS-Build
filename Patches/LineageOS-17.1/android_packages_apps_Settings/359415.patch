@@ -1,0 +1,190 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Bonian Chen <bonianchen@google.com>
+Date: Thu, 18 Nov 2021 10:27:34 +0800
+Subject: [PATCH] Move display of VPN version into summary text
+
+Move the display of version text within VPN into summary part of the
+display, and limit the height of summary area.
+
+Bug: 205460459
+Test: install apk from b/205460459#comment3 and verify
+(cherry picked from commit 144f295d7aa66bae8556ba030553a49615eab0b2)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:dddd74a491a206178feb10d5ef983d5cd273504d)
+Merged-In: I666b9db356feeebf04e3be688897c2d9110a5275
+Change-Id: I666b9db356feeebf04e3be688897c2d9110a5275
+---
+ res/values/strings.xml                        |  2 +-
+ res/values/styles.xml                         | 10 ++++
+ res/xml/vpn_app_management.xml                | 14 ++++-
+ .../settings/vpn2/AppManagementFragment.java  | 51 +++++++++++++++++--
+ 4 files changed, 71 insertions(+), 6 deletions(-)
+
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 2180ea45f60..f6e3b0f62df 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -6613,7 +6613,7 @@
+     <!-- Button label to disconnect from a VPN profile. [CHAR LIMIT=40] -->
+     <string name="vpn_disconnect">Disconnect</string>
+     <!-- Field label to show the version number for a VPN app. [CHAR LIMIT=40] -->
+-    <string name="vpn_version">Version <xliff:g id="version" example="3.3.0">%s</xliff:g></string>
++    <string name="vpn_version">Version</string>
+     <!-- Button label to forget a VPN profile [CHAR LIMIT=40] -->
+     <string name="vpn_forget_long">Forget VPN</string>
+     <!-- Dialog message title to set another VPN app to be always-on [CHAR LIMIT=40] -->
+diff --git a/res/values/styles.xml b/res/values/styles.xml
+index d3d3199f62b..ec66bc8d1b8 100644
+--- a/res/values/styles.xml
++++ b/res/values/styles.xml
+@@ -197,6 +197,16 @@
+         <item name="android:textAppearance">@android:style/TextAppearance.DeviceDefault.Small</item>
+     </style>
+ 
++    <style name="vpn_app_management_version_title">
++        <item name="android:textAppearance">?android:attr/textAppearanceListItem</item>
++        <item name="android:textColor">?android:attr/textColorPrimary</item>
++    </style>
++
++    <style name="vpn_app_management_version_summary">
++        <item name="android:textAppearance">?android:attr/textAppearanceListItemSecondary</item>
++        <item name="android:textColor">?android:attr/textColorSecondary</item>
++    </style>
++
+     <style name="TextAppearance" parent="android:TextAppearance.DeviceDefault"/>
+ 
+     <style name="TextAppearance.info_label">
+diff --git a/res/xml/vpn_app_management.xml b/res/xml/vpn_app_management.xml
+index bcaa6b0a62f..adc441d8468 100644
+--- a/res/xml/vpn_app_management.xml
++++ b/res/xml/vpn_app_management.xml
+@@ -15,14 +15,24 @@
+ -->
+ 
+ <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+-        xmlns:settings="http://schemas.android.com/apk/res-auto">
++        xmlns:settings="http://schemas.android.com/apk/res-auto"
++        orderingFromXml="false"
++        >
++
++        <!-- To limit the size (in height) of version Preference displayed here,
++             maximum height of TextView need to be set programmingly.
++             Therefore, this Preference got removed from here and will be added
++             dynamically through source code.
+ 
+         <Preference
++                android:order="0"
+                 android:key="version"
+                 android:textColor="?android:attr/textColorSecondary"
+                 android:selectable="false"/>
++        -->
+ 
+         <com.android.settingslib.RestrictedSwitchPreference
++                android:order="10"
+                 android:key="always_on_vpn"
+                 android:title="@string/vpn_menu_lockdown"
+                 android:defaultValue="false"
+@@ -32,6 +42,7 @@
+                 settings:restrictedSwitchSummary="@string/disabled_by_admin_summary_text" />
+ 
+         <com.android.settingslib.RestrictedSwitchPreference
++                android:order="20"
+                 android:key="lockdown_vpn"
+                 android:title="@string/vpn_require_connection"
+                 android:defaultValue="false"
+@@ -41,6 +52,7 @@
+                 settings:restrictedSwitchSummary="@string/disabled_by_admin_summary_text" />
+ 
+         <com.android.settingslib.RestrictedPreference
++                android:order="30"
+                 android:key="forget_vpn"
+                 android:title="@string/vpn_forget_long"
+                 android:icon="@drawable/ic_delete"
+diff --git a/src/com/android/settings/vpn2/AppManagementFragment.java b/src/com/android/settings/vpn2/AppManagementFragment.java
+index 5f4644614c7..805ffb2854a 100644
+--- a/src/com/android/settings/vpn2/AppManagementFragment.java
++++ b/src/com/android/settings/vpn2/AppManagementFragment.java
+@@ -35,11 +35,13 @@ import android.os.UserHandle;
+ import android.os.UserManager;
+ import android.text.TextUtils;
+ import android.util.Log;
++import android.widget.TextView;
+ 
+ import androidx.annotation.VisibleForTesting;
+ import androidx.appcompat.app.AlertDialog;
+ import androidx.fragment.app.DialogFragment;
+ import androidx.preference.Preference;
++import androidx.preference.PreferenceViewHolder;
+ 
+ import com.android.internal.net.VpnConfig;
+ import com.android.internal.util.ArrayUtils;
+@@ -76,7 +78,6 @@ public class AppManagementFragment extends SettingsPreferenceFragment
+     private String mVpnLabel;
+ 
+     // UI preference
+-    private Preference mPreferenceVersion;
+     private RestrictedSwitchPreference mPreferenceAlwaysOn;
+     private RestrictedSwitchPreference mPreferenceLockdown;
+     private RestrictedPreference mPreferenceForget;
+@@ -122,7 +123,6 @@ public class AppManagementFragment extends SettingsPreferenceFragment
+         mConnectivityService = IConnectivityManager.Stub
+                 .asInterface(ServiceManager.getService(Context.CONNECTIVITY_SERVICE));
+ 
+-        mPreferenceVersion = findPreference(KEY_VERSION);
+         mPreferenceAlwaysOn = (RestrictedSwitchPreference) findPreference(KEY_ALWAYS_ON_VPN);
+         mPreferenceLockdown = (RestrictedSwitchPreference) findPreference(KEY_LOCKDOWN_VPN);
+         mPreferenceForget = (RestrictedPreference) findPreference(KEY_FORGET_VPN);
+@@ -138,9 +138,52 @@ public class AppManagementFragment extends SettingsPreferenceFragment
+ 
+         boolean isInfoLoaded = loadInfo();
+         if (isInfoLoaded) {
+-            mPreferenceVersion.setTitle(
+-                    getPrefContext().getString(R.string.vpn_version, mPackageInfo.versionName));
+             updateUI();
++
++            Preference version = getPreferenceScreen().findPreference(KEY_VERSION);
++            if (version != null) {
++                // Version field has been added.
++                return;
++            }
++
++            /**
++             * Create version field at runtime, and set max height on the display area.
++             *
++             * When long length of text given within version field, a large text area
++             * might be created and inconvenient to the user (User need to scroll
++             * for a long time in order to get to the Preferences after this field.)
++             */
++            version = new Preference(getPrefContext()) {
++                @Override
++                public void onBindViewHolder(PreferenceViewHolder holder) {
++                    super.onBindViewHolder(holder);
++
++                    TextView titleView =
++                            (TextView) holder.findViewById(android.R.id.title);
++                    if (titleView != null) {
++                        titleView.setTextAppearance(R.style.vpn_app_management_version_title);
++                    }
++
++                    TextView summaryView =
++                            (TextView) holder.findViewById(android.R.id.summary);
++                    if (summaryView != null) {
++                        summaryView.setTextAppearance(R.style.vpn_app_management_version_summary);
++
++                        // Set max height in summary area.
++                        int versionMaxHeight = getListView().getHeight();
++                        summaryView.setMaxHeight(versionMaxHeight);
++                        summaryView.setVerticalScrollBarEnabled(false);
++                        summaryView.setHorizontallyScrolling(false);
++                    }
++                }
++            };
++            version.setOrder(0);            // Set order to 0 in order to be placed
++                                            // in front of other Preference(s).
++            version.setKey(KEY_VERSION);    // Set key to avoid from creating multi instance.
++            version.setTitle(R.string.vpn_version);
++            version.setSummary(mPackageInfo.versionName);
++            version.setSelectable(false);
++            getPreferenceScreen().addPreference(version);
+         } else {
+             finish();
+         }

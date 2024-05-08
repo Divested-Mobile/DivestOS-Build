@@ -1,0 +1,131 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Collin Fijalkovich <cfijalkovich@google.com>
+Date: Thu, 7 May 2020 16:54:24 -0700
+Subject: [PATCH] Initialize developer options ContentObserver at app start
+
+Previously we initialized the ContentObserver in Receiver on receipt of
+the BOOT_COMPLETE signal, but the process that handles that signal now
+dies during boot. This change initializes the ContentObserver at
+application start to ensure we always have an observer in place.
+
+Additionally, we add the ContentObserver when the quick settings tile
+service starts. This ensures that even if we do not open Traceur before
+disabling developer options, the tile will be removed.
+
+Bug: 150612980
+Test: Traceur QS tile disappears after disabling developer options
+Change-Id: I8512d9d1854490290c90b646f4cab2e939aa61c6
+---
+ .../google/android/traceur/MainFragment.java  |  2 +
+ src/com/google/android/traceur/QsService.java |  1 +
+ src/com/google/android/traceur/Receiver.java  | 70 ++++++++++---------
+ 3 files changed, 39 insertions(+), 34 deletions(-)
+
+diff --git a/src/com/google/android/traceur/MainFragment.java b/src/com/google/android/traceur/MainFragment.java
+index e69b2b3..1d80576 100644
+--- a/src/com/google/android/traceur/MainFragment.java
++++ b/src/com/google/android/traceur/MainFragment.java
+@@ -83,6 +83,8 @@ public class MainFragment extends PreferenceFragment {
+     public void onCreate(@Nullable Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+ 
++        Receiver.updateDeveloperOptionsWatcher(getContext());
++
+         mPrefs = PreferenceManager.getDefaultSharedPreferences(
+                 getActivity().getApplicationContext());
+ 
+diff --git a/src/com/google/android/traceur/QsService.java b/src/com/google/android/traceur/QsService.java
+index 0ddbf36..60e42e5 100644
+--- a/src/com/google/android/traceur/QsService.java
++++ b/src/com/google/android/traceur/QsService.java
+@@ -57,6 +57,7 @@ public class QsService extends TileService {
+         getQsTile().setState(tracingOn ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+         getQsTile().setLabel(titleString);
+         getQsTile().updateTile();
++        Receiver.updateDeveloperOptionsWatcher(this);
+     }
+ 
+     /** When we click the tile, toggle tracing state.
+diff --git a/src/com/google/android/traceur/Receiver.java b/src/com/google/android/traceur/Receiver.java
+index b58dec6..4f3415d 100644
+--- a/src/com/google/android/traceur/Receiver.java
++++ b/src/com/google/android/traceur/Receiver.java
+@@ -180,42 +180,44 @@ public class Receiver extends BroadcastReceiver {
+      * preference to false to hide the tile. The user will need to re-enable the
+      * preference if they decide to turn Developer Options back on again.
+      */
+-    private static void updateDeveloperOptionsWatcher(Context context) {
+-        Uri settingUri = Settings.Global.getUriFor(
+-            Settings.Global.DEVELOPMENT_SETTINGS_ENABLED);
+-
+-        ContentObserver developerOptionsObserver =
+-            new ContentObserver(new Handler()) {
+-                @Override
+-                public void onChange(boolean selfChange) {
+-                    super.onChange(selfChange);
+-
+-                    boolean developerOptionsEnabled = (1 ==
+-                        Settings.Global.getInt(context.getContentResolver(),
+-                            Settings.Global.DEVELOPMENT_SETTINGS_ENABLED , 0));
+-
+-                    ComponentName name = new ComponentName(context,
+-                        StorageProvider.class);
+-                    context.getPackageManager().setComponentEnabledSetting(name,
+-                       developerOptionsEnabled
+-                            ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+-                            : PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+-                        PackageManager.DONT_KILL_APP);
+-
+-                    if (!developerOptionsEnabled) {
+-                        SharedPreferences prefs =
+-                            PreferenceManager.getDefaultSharedPreferences(context);
+-                        prefs.edit().putBoolean(
+-                            context.getString(R.string.pref_key_quick_setting), false)
+-                            .commit();
+-                        updateQuickSettings(context);
++    static void updateDeveloperOptionsWatcher(Context context) {
++        if (mDeveloperOptionsObserver == null) {
++            Uri settingUri = Settings.Global.getUriFor(
++                Settings.Global.DEVELOPMENT_SETTINGS_ENABLED);
++
++            mDeveloperOptionsObserver =
++                new ContentObserver(new Handler()) {
++                    @Override
++                    public void onChange(boolean selfChange) {
++                        super.onChange(selfChange);
++
++                        boolean developerOptionsEnabled = (1 ==
++                            Settings.Global.getInt(context.getContentResolver(),
++                                Settings.Global.DEVELOPMENT_SETTINGS_ENABLED , 0));
++
++                        ComponentName name = new ComponentName(context,
++                            StorageProvider.class);
++                        context.getPackageManager().setComponentEnabledSetting(name,
++                           developerOptionsEnabled
++                                ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
++                                : PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
++                            PackageManager.DONT_KILL_APP);
++
++                        if (!developerOptionsEnabled) {
++                            SharedPreferences prefs =
++                                PreferenceManager.getDefaultSharedPreferences(context);
++                            prefs.edit().putBoolean(
++                                context.getString(R.string.pref_key_quick_setting), false)
++                                .commit();
++                            updateQuickSettings(context);
++                        }
+                     }
+-                }
+-            };
++                };
+ 
+-        context.getContentResolver().registerContentObserver(settingUri,
+-            false, developerOptionsObserver);
+-        developerOptionsObserver.onChange(true);
++            context.getContentResolver().registerContentObserver(settingUri,
++                false, mDeveloperOptionsObserver);
++            mDeveloperOptionsObserver.onChange(true);
++        }
+     }
+ 
+     private static void postCategoryNotification(Context context, SharedPreferences prefs) {

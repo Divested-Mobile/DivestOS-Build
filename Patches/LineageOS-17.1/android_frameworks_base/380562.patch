@@ -1,0 +1,62 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Aaron Liu <aaronjli@google.com>
+Date: Fri, 11 Aug 2023 11:02:33 -0700
+Subject: [PATCH] DO NOT MERGE Ensure finish lockscreen when usersetup
+ incomplete
+
+Ensure that when the usersetup for the user is not complete, we do not
+want to go to lockscreen, even if lockscreen is not disabled.
+
+Bug: 222446076
+Test: add Unit test,
+Test: Wipe device, auth sim pin in setup, observe that lockscreen is
+not there.
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:01ea2f91df5a1c67da2546d83beeee75c2c1ef94)
+Merged-In: I8e33db8eb6e2c917966cab3d6a4f982670473040
+Change-Id: I8e33db8eb6e2c917966cab3d6a4f982670473040
+---
+ .../android/keyguard/KeyguardSecurityContainer.java    | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/keyguard/KeyguardSecurityContainer.java b/packages/SystemUI/src/com/android/keyguard/KeyguardSecurityContainer.java
+index 89514a52d0bd..56051c90982c 100644
+--- a/packages/SystemUI/src/com/android/keyguard/KeyguardSecurityContainer.java
++++ b/packages/SystemUI/src/com/android/keyguard/KeyguardSecurityContainer.java
+@@ -49,6 +49,7 @@ import com.android.systemui.Dependency;
+ import com.android.systemui.R;
+ import com.android.systemui.SystemUIFactory;
+ import com.android.systemui.statusbar.phone.UnlockMethodCache;
++import com.android.systemui.statusbar.policy.DeviceProvisionedController;
+ import com.android.systemui.util.InjectionInflationController;
+ 
+ public class KeyguardSecurityContainer extends FrameLayout implements KeyguardSecurityView {
+@@ -100,6 +101,7 @@ public class KeyguardSecurityContainer extends FrameLayout implements KeyguardSe
+     private int mActivePointerId = -1;
+     private boolean mIsDragging;
+     private float mStartTouchY = -1;
++    private final DeviceProvisionedController mDeviceProvisionedController;
+ 
+     // Used to notify the container when something interesting happens.
+     public interface SecurityCallback {
+@@ -136,6 +138,7 @@ public class KeyguardSecurityContainer extends FrameLayout implements KeyguardSe
+             SystemUIFactory.getInstance().getRootComponent());
+         mUnlockMethodCache = UnlockMethodCache.getInstance(context);
+         mViewConfiguration = ViewConfiguration.get(context);
++       mDeviceProvisionedController = Dependency.get(DeviceProvisionedController.class);
+     }
+ 
+     public void setSecurityCallback(SecurityCallback callback) {
+@@ -529,8 +532,11 @@ public class KeyguardSecurityContainer extends FrameLayout implements KeyguardSe
+                 case SimPuk:
+                     // Shortcut for SIM PIN/PUK to go to directly to user's security screen or home
+                     SecurityMode securityMode = mSecurityModel.getSecurityMode(targetUserId);
+-                    if (securityMode == SecurityMode.None && mLockPatternUtils.isLockScreenDisabled(
+-                            KeyguardUpdateMonitor.getCurrentUser())) {
++                    boolean isLockscreenDisabled = mLockPatternUtils.isLockScreenDisabled(
++                            KeyguardUpdateMonitor.getCurrentUser())
++                            || !mDeviceProvisionedController.isUserSetup(targetUserId);
++
++                    if (securityMode == SecurityMode.None || isLockscreenDisabled) {
+                         finish = true;
+                         eventSubtype = BOUNCER_DISMISS_SIM;
+                     } else {

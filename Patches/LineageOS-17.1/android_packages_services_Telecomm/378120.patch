@@ -1,0 +1,79 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Pranav Madapurmath <pmadapurmath@google.com>
+Date: Tue, 21 Mar 2023 23:28:56 +0000
+Subject: [PATCH] Call Redirection: unbind service when onBind returns null
+
+The call redirection service does not handle the corner case of
+onNullBinding (occurs when onBind returns null). This vulnerability
+would give the app that has the call redirection role unintentional
+access to launch background activities outside the scope of a call
+lifecycle.
+
+Fixes: 273260090
+Test: Unit test to ensure we unbind the service on null onBind
+Test: CTS for similar assertion
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:c3580d96071a7232ce11ad83848d6394b93121d8)
+Merged-In: Ib9d44d239833131eb055e83801cb635e8efe0b81
+Change-Id: Ib9d44d239833131eb055e83801cb635e8efe0b81
+---
+ .../CallRedirectionProcessor.java             | 13 ++++++++++
+ .../tests/CallRedirectionProcessorTest.java   | 24 +++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+
+diff --git a/src/com/android/server/telecom/callredirection/CallRedirectionProcessor.java b/src/com/android/server/telecom/callredirection/CallRedirectionProcessor.java
+index 7a54118f8..5de576ccb 100644
+--- a/src/com/android/server/telecom/callredirection/CallRedirectionProcessor.java
++++ b/src/com/android/server/telecom/callredirection/CallRedirectionProcessor.java
+@@ -140,6 +140,19 @@ public class CallRedirectionProcessor implements CallRedirectionCallback {
+                 }
+             }
+ 
++            @Override
++            public void onNullBinding(ComponentName componentName) {
++                // Make sure we unbind the service if onBind returns null
++                Log.startSession("CRSC.oNB");
++                try {
++                    synchronized (mTelecomLock) {
++                        finishCallRedirection();
++                    }
++                } finally {
++                    Log.endSession();
++                }
++            }
++
+             @Override
+             public void onServiceDisconnected(ComponentName componentName) {
+                 Log.startSession("CRSC.oSD");
+diff --git a/tests/src/com/android/server/telecom/tests/CallRedirectionProcessorTest.java b/tests/src/com/android/server/telecom/tests/CallRedirectionProcessorTest.java
+index 169c56acf..82e32b24b 100644
+--- a/tests/src/com/android/server/telecom/tests/CallRedirectionProcessorTest.java
++++ b/tests/src/com/android/server/telecom/tests/CallRedirectionProcessorTest.java
+@@ -280,4 +280,28 @@ public class CallRedirectionProcessorTest extends TelecomTestCase {
+                 eq(mPhoneAccountHandle), eq(mGatewayInfo), eq(SPEAKER_PHONE_ON), eq(VIDEO_STATE),
+                 eq(false), eq(CallRedirectionProcessor.UI_TYPE_NO_ACTION));
+     }
++
++    @Test
++    public void testUnbindOnNullBind() throws Exception {
++        startProcessWithNoGateWayInfo();
++        // To make sure tests are not flaky, clean all the previous handler messages
++        waitForHandlerAction(mProcessor.getHandler(), HANDLER_TIMEOUT_DELAY);
++        enableUserDefinedCallRedirectionService();
++        disableCarrierCallRedirectionService();
++
++        mProcessor.performCallRedirection();
++
++        // Capture the binder
++        ArgumentCaptor<ServiceConnection> serviceConnectionCaptor = ArgumentCaptor.forClass(
++                ServiceConnection.class);
++        // Verify binding occurred
++        verify(mContext, times(1)).bindServiceAsUser(any(Intent.class),
++                serviceConnectionCaptor.capture(), anyInt(), eq(UserHandle.CURRENT));
++        // Simulate null return from onBind
++        serviceConnectionCaptor.getValue().onNullBinding(USER_DEFINED_SERVICE_TEST_COMPONENT_NAME);
++
++        // Verify service was unbound
++        verify(mContext, times(1)).
++                unbindService(any(ServiceConnection.class));
++    }
+ }

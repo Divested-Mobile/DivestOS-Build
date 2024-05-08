@@ -1,0 +1,81 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Norman <danielnorman@google.com>
+Date: Thu, 9 Feb 2023 12:28:26 -0800
+Subject: [PATCH] Checks if AccessibilityServiceInfo is within parcelable size.
+
+- If too large when parsing service XMLs then skip this service.
+- If too large when a service attempts to update its own info
+  then throw an error.
+
+Bug: 261589597
+Test: atest AccessibilityServiceInfoTest
+Change-Id: Iffc0cd48cc713f7904d68059e141cb7de5a4b906
+Merged-In: Iffc0cd48cc713f7904d68059e141cb7de5a4b906
+(cherry picked from commit on googleplex-android-review.googlesource.com host: 553232c29079fbeab28f95307d025c1426aa7142)
+Merged-In: Iffc0cd48cc713f7904d68059e141cb7de5a4b906
+---
+ .../accessibilityservice/AccessibilityService.java     |  4 ++++
+ .../accessibilityservice/AccessibilityServiceInfo.java | 10 ++++++++++
+ .../accessibility/AccessibilityManagerService.java     |  6 ++++++
+ 3 files changed, 20 insertions(+)
+
+diff --git a/core/java/android/accessibilityservice/AccessibilityService.java b/core/java/android/accessibilityservice/AccessibilityService.java
+index 90b80e73c323..5820dbee7e87 100644
+--- a/core/java/android/accessibilityservice/AccessibilityService.java
++++ b/core/java/android/accessibilityservice/AccessibilityService.java
+@@ -1585,6 +1585,10 @@ public abstract class AccessibilityService extends Service {
+         IAccessibilityServiceConnection connection =
+             AccessibilityInteractionClient.getInstance().getConnection(mConnectionId);
+         if (mInfo != null && connection != null) {
++            if (!mInfo.isWithinParcelableSize()) {
++                throw new IllegalStateException(
++                        "Cannot update service info: size is larger than safe parcelable limits.");
++            }
+             try {
+                 connection.setServiceInfo(mInfo);
+                 mInfo = null;
+diff --git a/core/java/android/accessibilityservice/AccessibilityServiceInfo.java b/core/java/android/accessibilityservice/AccessibilityServiceInfo.java
+index cf24b8e1ffa6..3cb35a8723ab 100644
+--- a/core/java/android/accessibilityservice/AccessibilityServiceInfo.java
++++ b/core/java/android/accessibilityservice/AccessibilityServiceInfo.java
+@@ -31,6 +31,7 @@ import android.content.res.Resources;
+ import android.content.res.TypedArray;
+ import android.content.res.XmlResourceParser;
+ import android.hardware.fingerprint.FingerprintManager;
++import android.os.IBinder;
+ import android.os.Parcel;
+ import android.os.Parcelable;
+ import android.util.AttributeSet;
+@@ -850,6 +851,15 @@ public class AccessibilityServiceInfo implements Parcelable {
+         return 0;
+     }
+ 
++    /** @hide */
++    public final boolean isWithinParcelableSize() {
++        final Parcel parcel = Parcel.obtain();
++        writeToParcel(parcel, 0);
++        final boolean result = parcel.dataSize() <= IBinder.MAX_IPC_SIZE;
++        parcel.recycle();
++        return result;
++    }
++
+     public void writeToParcel(Parcel parcel, int flagz) {
+         parcel.writeInt(eventTypes);
+         parcel.writeStringArray(packageNames);
+diff --git a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
+index 457f27e679ef..194c90e125f9 100644
+--- a/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
++++ b/services/accessibility/java/com/android/server/accessibility/AccessibilityManagerService.java
+@@ -1371,6 +1371,12 @@ public class AccessibilityManagerService extends IAccessibilityManager.Stub
+             AccessibilityServiceInfo accessibilityServiceInfo;
+             try {
+                 accessibilityServiceInfo = new AccessibilityServiceInfo(resolveInfo, mContext);
++                if (!accessibilityServiceInfo.isWithinParcelableSize()) {
++                    Slog.e(LOG_TAG, "Skipping service "
++                            + accessibilityServiceInfo.getResolveInfo().getComponentInfo()
++                            + " because service info size is larger than safe parcelable limits.");
++                    continue;
++                }
+                 mTempAccessibilityServiceInfoList.add(accessibilityServiceInfo);
+             } catch (XmlPullParserException | IOException xppe) {
+                 Slog.e(LOG_TAG, "Error while initializing AccessibilityServiceInfo", xppe);

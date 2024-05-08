@@ -1,0 +1,75 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hui Peng <phui@google.com>
+Date: Wed, 4 Jan 2023 22:45:13 +0000
+Subject: [PATCH] Fix an OOB write in SDP_AddAttribute
+
+When the `attr_pad` becomes full, it is possible
+that un index of `-1` is computed write
+a zero byte to `p_val`, rusulting OOB write.
+
+```
+  p_val[SDP_MAX_PAD_LEN - p_rec->free_pad_ptr - 1] = '\0';
+```
+
+This is a backport of I937d22a2df26fca1d7f06b10182c4e713ddfed1b
+
+Bug: 261867748
+Test: manual
+Tag: #security
+Ignore-AOSP-First: security
+Change-Id: Ibdda754e628cfc9d1706c14db114919a15d8d6b1
+(cherry picked from commit cc527a97f78a2999a0156a579e488afe9e3675b2)
+Merged-In: Ibdda754e628cfc9d1706c14db114919a15d8d6b1
+---
+ stack/sdp/sdp_db.cc | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
+
+diff --git a/stack/sdp/sdp_db.cc b/stack/sdp/sdp_db.cc
+index ea5b84d23..4130ae71a 100644
+--- a/stack/sdp/sdp_db.cc
++++ b/stack/sdp/sdp_db.cc
+@@ -362,6 +362,11 @@ bool SDP_AddAttribute(uint32_t handle, uint16_t attr_id, uint8_t attr_type,
+   uint16_t xx, yy, zz;
+   tSDP_RECORD* p_rec = &sdp_cb.server_db.record[0];
+ 
++  if (p_val == nullptr) {
++    SDP_TRACE_WARNING("Trying to add attribute with p_val == nullptr, skipped");
++    return (false);
++  }
++
+   if (sdp_cb.trace_level >= BT_TRACE_LEVEL_DEBUG) {
+     if ((attr_type == UINT_DESC_TYPE) ||
+         (attr_type == TWO_COMP_INT_DESC_TYPE) ||
+@@ -398,6 +403,13 @@ bool SDP_AddAttribute(uint32_t handle, uint16_t attr_id, uint8_t attr_type,
+     if (p_rec->record_handle == handle) {
+       tSDP_ATTRIBUTE* p_attr = &p_rec->attribute[0];
+ 
++      // error out early, no need to look up
++      if (p_rec->free_pad_ptr >= SDP_MAX_PAD_LEN) {
++        SDP_TRACE_ERROR("the free pad for SDP record with handle %d is "
++                        "full, skip adding the attribute", handle);
++        return (false);
++      }
++
+       /* Found the record. Now, see if the attribute already exists */
+       for (xx = 0; xx < p_rec->num_attributes; xx++, p_attr++) {
+         /* The attribute exists. replace it */
+@@ -437,15 +449,13 @@ bool SDP_AddAttribute(uint32_t handle, uint16_t attr_id, uint8_t attr_type,
+           attr_len = 0;
+       }
+ 
+-      if ((attr_len > 0) && (p_val != 0)) {
++      if (attr_len > 0) {
+         p_attr->len = attr_len;
+         memcpy(&p_rec->attr_pad[p_rec->free_pad_ptr], p_val, (size_t)attr_len);
+         p_attr->value_ptr = &p_rec->attr_pad[p_rec->free_pad_ptr];
+         p_rec->free_pad_ptr += attr_len;
+-      } else if ((attr_len == 0 &&
+-                  p_attr->len !=
+-                      0) || /* if truncate to 0 length, simply don't add */
+-                 p_val == 0) {
++      } else if (attr_len == 0 && p_attr->len != 0) {
++        /* if truncate to 0 length, simply don't add */
+         SDP_TRACE_ERROR(
+             "SDP_AddAttribute fail, length exceed maximum: ID %d: attr_len:%d ",
+             attr_id, attr_len);

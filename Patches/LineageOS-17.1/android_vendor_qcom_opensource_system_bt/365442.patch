@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: tyiu <tyiu@google.com>
+Date: Tue, 28 Mar 2023 18:40:51 +0000
+Subject: [PATCH] Fix gatt_end_operation buffer overflow
+
+Added boundary check for gatt_end_operation to prevent writing out of
+boundary.
+
+Since response of the GATT server is handled in
+gatt_client_handle_server_rsp() and gatt_process_read_rsp(), the maximum
+lenth that can be passed into the handlers is bounded by
+GATT_MAX_MTU_SIZE, which is set to 517, which is greater than
+GATT_MAX_ATTR_LEN which is set to 512. The fact that there is no spec
+that gaurentees MTU response to be less than or equal to 512 bytes can
+cause a buffer overflow when performing memcpy without length check.
+
+Bug: 261068592
+Test: No test since not affecting behavior
+Tag: #security
+Ignore-AOSP-First: security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:dd7298e982e4bbf0138a490562679c9a4a755200)
+Merged-In: I49e2797cd9300ee4cd69f2c7fa5f0073db78b873
+Change-Id: I49e2797cd9300ee4cd69f2c7fa5f0073db78b873
+---
+ stack/gatt/gatt_utils.cc | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/stack/gatt/gatt_utils.cc b/stack/gatt/gatt_utils.cc
+index 291cd1062..eb2a12dbc 100644
+--- a/stack/gatt/gatt_utils.cc
++++ b/stack/gatt/gatt_utils.cc
+@@ -1198,6 +1198,13 @@ void gatt_end_operation(tGATT_CLCB* p_clcb, tGATT_STATUS status, void* p_data) {
+       cb_data.att_value.handle = p_clcb->s_handle;
+       cb_data.att_value.len = p_clcb->counter;
+ 
++      if (cb_data.att_value.len > GATT_MAX_ATTR_LEN) {
++        LOG(WARNING) << __func__
++                     << StringPrintf(" Large cb_data.att_value, size=%d",
++                                     cb_data.att_value.len);
++        cb_data.att_value.len = GATT_MAX_ATTR_LEN;
++      }
++
+       if (p_data && p_clcb->counter)
+         memcpy(cb_data.att_value.value, p_data, cb_data.att_value.len);
+     }

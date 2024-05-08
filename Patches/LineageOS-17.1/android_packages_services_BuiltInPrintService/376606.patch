@@ -1,0 +1,122 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Glade Diviney <mopriadevteam@gmail.com>
+Date: Sun, 22 Nov 2020 17:42:27 -0800
+Subject: [PATCH] Adjust APIs for CUPS 2.3.3
+
+Bug: 168903843
+Test: Build the code, flash the device and run fuzzer
+Test: Perform a print job
+Signed-off-by: Glade Diviney <mopriadevteam@gmail.com>
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:78aedf410610768bdfd8f6c87a704e82a4fd1526)
+Merged-In: I0000b0950bf38e0b09e47a4bdf970b0e2b2684d1
+Change-Id: I0000b0950bf38e0b09e47a4bdf970b0e2b2684d1
+---
+ jni/include/lib_wprint.h  |  2 ++
+ jni/ipphelper/ipp_print.c | 15 ++++++++-------
+ jni/ipphelper/ipphelper.c | 14 ++++++++------
+ 3 files changed, 18 insertions(+), 13 deletions(-)
+
+diff --git a/jni/include/lib_wprint.h b/jni/include/lib_wprint.h
+index 0d2fd12..57cf9f3 100644
+--- a/jni/include/lib_wprint.h
++++ b/jni/include/lib_wprint.h
+@@ -53,6 +53,8 @@
+ #define MAX_ID_STRING_LENGTH    (64)
+ #define MAX_NAME_LENGTH         (255)
+ 
++#define HTTP_TIMEOUT_MILLIS 30000
++
+ #ifdef __cplusplus
+ extern "C"
+ {
+diff --git a/jni/ipphelper/ipp_print.c b/jni/ipphelper/ipp_print.c
+index 36b7015..8ea4a20 100644
+--- a/jni/ipphelper/ipp_print.c
++++ b/jni/ipphelper/ipp_print.c
+@@ -98,17 +98,20 @@ static status_t _init(const ifc_print_job_t *this_p, const char *printer_address
+     ipp_scheme = (use_secure_uri) ? IPPS_PREFIX : IPP_PREFIX;
+ 
+     httpAssembleURIf(HTTP_URI_CODING_ALL, ipp_job->printer_uri, sizeof(ipp_job->printer_uri),
+-            ipp_scheme, NULL, printer_address, ippPortNumber, printer_uri);
++            ipp_scheme, NULL, printer_address, ippPortNumber, "%s", printer_uri);
+     getResourceFromURI(ipp_job->printer_uri, ipp_job->http_resource, 1024);
+     if (use_secure_uri) {
+-        ipp_job->http = httpConnectEncrypt(printer_address, ippPortNumber, HTTP_ENCRYPTION_ALWAYS);
++        ipp_job->http = httpConnect2(printer_address, ippPortNumber, NULL, AF_UNSPEC,
++                HTTP_ENCRYPTION_ALWAYS, 1, HTTP_TIMEOUT_MILLIS, NULL);
+ 
+         // If ALWAYS doesn't work, fall back to REQUIRED
+         if (ipp_job->http == NULL) {
+-            ipp_job->http = httpConnectEncrypt(printer_address, ippPortNumber, HTTP_ENCRYPT_REQUIRED);
++            ipp_job->http = httpConnect2(printer_address, ippPortNumber, NULL, AF_UNSPEC,
++                    HTTP_ENCRYPTION_REQUIRED, 1, HTTP_TIMEOUT_MILLIS, NULL);
+         }
+     } else {
+-        ipp_job->http = httpConnectEncrypt(printer_address, ippPortNumber, HTTP_ENCRYPTION_IF_REQUESTED);
++        ipp_job->http = httpConnect2(printer_address, ippPortNumber, NULL, AF_UNSPEC,
++                HTTP_ENCRYPTION_IF_REQUESTED, 1, HTTP_TIMEOUT_MILLIS, NULL);
+     }
+ 
+     httpSetTimeout(ipp_job->http, DEFAULT_IPP_TIMEOUT, NULL, 0);
+@@ -514,8 +517,6 @@ static status_t _start_job(const ifc_print_job_t *this_p, const wprint_job_param
+                 ippDelete(request);
+                 continue;
+             }
+-
+-            _cupsSetHTTPError(ipp_job->status);
+         }
+         ippDelete(request);
+         LOGI("_start_job httpPrint fd %d status %d ipp_status %d", ipp_job->http->fd,
+@@ -615,4 +616,4 @@ static status_t _end_job(const ifc_print_job_t *this_p) {
+     LOGD("_end_job: exit status %d job_id %d", ipp_job->status, job_id);
+ 
+     return result;
+-}
+\ No newline at end of file
++}
+diff --git a/jni/ipphelper/ipphelper.c b/jni/ipphelper/ipphelper.c
+index 8b7f00d..27a4090 100644
+--- a/jni/ipphelper/ipphelper.c
++++ b/jni/ipphelper/ipphelper.c
+@@ -1198,19 +1198,22 @@ http_t *ipp_cups_connect(const wprint_connect_info_t *connect_info, char *printe
+     int ippPortNumber = ((connect_info->port_num == IPP_PORT) ? ippPort() : connect_info->port_num);
+ 
+     if (strstr(connect_info->uri_scheme,IPPS_PREFIX) != NULL) {
+-        curl_http = httpConnectEncrypt(connect_info->printer_addr, ippPortNumber, HTTP_ENCRYPTION_ALWAYS);
++        curl_http = httpConnect2(connect_info->printer_addr, ippPortNumber, NULL, AF_UNSPEC,
++                HTTP_ENCRYPTION_ALWAYS, 1, HTTP_TIMEOUT_MILLIS, NULL);
+ 
+         // If ALWAYS doesn't work, fall back to REQUIRED
+         if (curl_http == NULL) {
+-            curl_http = httpConnectEncrypt(connect_info->printer_addr, ippPortNumber, HTTP_ENCRYPT_REQUIRED);
++            curl_http = httpConnect2(connect_info->printer_addr, ippPortNumber, NULL, AF_UNSPEC,
++                    HTTP_ENCRYPTION_REQUIRED, 1, HTTP_TIMEOUT_MILLIS, NULL);
+         }
+     } else {
+-        curl_http = httpConnectEncrypt(connect_info->printer_addr, ippPortNumber, HTTP_ENCRYPTION_IF_REQUESTED);
++        curl_http = httpConnect2(connect_info->printer_addr, ippPortNumber, NULL, AF_UNSPEC,
++                HTTP_ENCRYPTION_IF_REQUESTED, 1, HTTP_TIMEOUT_MILLIS, NULL);
+     }
+ 
+     httpSetTimeout(curl_http, (double)connect_info->timeout / 1000, NULL, 0);
+     httpAssembleURIf(HTTP_URI_CODING_ALL, printer_uri, uriLength, connect_info->uri_scheme, NULL,
+-            connect_info->printer_addr, ippPortNumber, uri_path);
++            connect_info->printer_addr, ippPortNumber, "%s", uri_path);
+ 
+     if (curl_http == NULL) {
+         LOGD("ipp_cups_connect failed addr=%s port=%d", connect_info->printer_addr, ippPortNumber);
+@@ -1242,7 +1245,6 @@ static ipp_t *ippSendRequest(http_t *http, ipp_t *request, char *resource) {
+             LOGD("ippSendRequest: (Continue with NULL response) Retry");
+             retry = true;
+         } else if (result == HTTP_ERROR || result >= HTTP_BAD_REQUEST) {
+-            _cupsSetHTTPError(result);
+             break;
+         }
+ 
+@@ -1345,4 +1347,4 @@ ipp_t *ipp_doCupsRequest(http_t *http, ipp_t *request, char *http_resource, char
+     } while (1);
+ 
+     return response;
+-}
+\ No newline at end of file
++}

@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hongwei Wang <hwwang@google.com>
+Date: Thu, 23 Feb 2023 13:23:37 -0800
+Subject: [PATCH] Remove Activity if it enters PiP without window
+
+This is to prevent malicious app entering PiP without being visible
+first, like blocking onResume from completion. Which in turn
+leaves the PiP window in limbo and non-interactable.
+
+Bug: 265293293
+Test: atest PinnedStackTests
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:4fad1456409b79d6e649a29d5116a4fe3160bd21)
+Merged-In: I458a9508662e72a1adb9d9818105f2e9d7096d44
+Change-Id: I458a9508662e72a1adb9d9818105f2e9d7096d44
+---
+ .../core/java/com/android/server/wm/ActivityRecord.java     | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/services/core/java/com/android/server/wm/ActivityRecord.java b/services/core/java/com/android/server/wm/ActivityRecord.java
+index 55e8e19fd278..66514b44ba94 100644
+--- a/services/core/java/com/android/server/wm/ActivityRecord.java
++++ b/services/core/java/com/android/server/wm/ActivityRecord.java
+@@ -781,6 +781,12 @@ final class ActivityRecord extends ConfigurationContainer {
+             }
+             schedulePictureInPictureModeChanged(newConfig);
+             scheduleMultiWindowModeChanged(newConfig);
++            if (inPictureInPictureMode && mAppWindowToken != null && mAppWindowToken.findMainWindow() == null) {
++                // Prevent malicious app entering PiP without valid WindowState, which can in turn
++                // result a non-touchable PiP window since the InputConsumer for PiP requires it.
++                EventLog.writeEvent(0x534e4554, "265293293", -1, "");
++                mAppWindowToken.removeImmediately();
++            }
+         }
+     }
+ 
