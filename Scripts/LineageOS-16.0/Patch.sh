@@ -139,6 +139,11 @@ applyPatch "$DOS_PATCHES/android_external_expat/338356.patch"; #P_asb_2022-09 Pr
 applyPatch "$DOS_PATCHES/android_external_expat/349328.patch"; #P_asb_2023-02 [CVE-2022-43680] Fix overeager DTD destruction (fixes #649)
 fi;
 
+if enterAndClear "external/freetype"; then
+applyPatch "$DOS_PATCHES/android_external_freetype/361250.patch"; #P_asb_2023-07 Cherry-pick two upstream changes
+applyPatch "$DOS_PATCHES/android_external_freetype/364606.patch"; #P_asb_2023-08 Cherrypick following three changes
+fi;
+
 if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
 if enterAndClear "external/hardened_malloc"; then
 applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-legacy/0001-Broken_Audio.patch"; #DeviceDescriptor sorting wrongly relies on malloc addresses (GrapheneOS)
