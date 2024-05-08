@@ -2,7 +2,6 @@
 <manifest>
 
 	<remote name="gitlab" fetch="https://gitlab.com/" />
-	<remote name="angry" fetch="https://gitea.angry.im/" />
 
 <!-- START OF UNNECESSARY REPO REMOVAL -->
 	<remove-project name="LineageOS/android_external_ant-wireless_ant_native" />
@@ -51,10 +50,6 @@
 <!-- START OF ADDITIONAL REPOS -->
 	<!-- GrapheneOS -->
 	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="749640c274d54e084505a24fa758bcb5f96a25ef" />
-
-	<!-- OpenEUICC -->
-	<project path="packages/apps/OpenEUICC" name="PeterCxy/OpenEUICC" remote="angry" revision="6add8c89ac141f177cd8d124a0a955232f4222f9" />
-	<project path="prebuilts/openeuicc-deps" name="PeterCxy/android_prebuilts_openeuicc-deps" remote="angry" revision="55f3e2c7ab26484f7478b26540fa14392d0c2cd7" />
 <!-- END OF ADDITIONAL REPOS -->
 
 <!-- START OF DEVICE REPOS -->
