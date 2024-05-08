@@ -457,7 +457,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26851/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26901/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26955/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26956/4.4/0001.patch
-git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26981/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26981/4.4/0008.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26994/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27009/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/772877_0001-usb-core-Fix-use-after-free-for-hub-usb-device.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
@@ -465,7 +466,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
-editKernelLocalversion "-dos.p465"
+editKernelLocalversion "-dos.p466"
 else echo "kernel_samsung_smdk4412 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
