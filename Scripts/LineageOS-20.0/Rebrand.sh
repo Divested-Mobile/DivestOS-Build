@@ -86,7 +86,8 @@ sed -i 's|https://download.lineageos.org/<xliff:g id="device_name">%1$s</xliff:g
 fi;
 
 if enter "system/core"; then
-sed -i 's/LineageOS/'"$DOS_BRANDING_NAME"'/' debuggerd/libdebuggerd/tombstone.cpp; #not used (yet)
+sed -i 's/LineageOS/'"$DOS_BRANDING_NAME"'/' debuggerd/libdebuggerd/tombstone.cpp;
+sed -i 's/LineageOS/'"$DOS_BRANDING_NAME"'/' debuggerd/libdebuggerd/tombstone_proto_to_text.cpp;
 fi;
 
 if enter "vendor/lineage"; then
