@@ -131,7 +131,20 @@ rm -rfv androidtest;
 fi;
 fi;
 
+if enterAndClear "frameworks/av"; then
+applyPatch "$DOS_PATCHES/android_frameworks_av/385529.patch"; #R_asb_2024-03 Validate OMX Params for VPx encoders
+applyPatch "$DOS_PATCHES/android_frameworks_av/385530.patch"; #R_asb_2024-03 SoftVideoDecodeOMXComponent: validate OMX params for dynamic HDR
+applyPatch "$DOS_PATCHES/android_frameworks_av/385531.patch"; #R_asb_2024-03 Fix out of bounds read and write in onQueueFilled in outQueue
+fi;
+
 if enterAndClear "frameworks/base"; then
+applyPatch "$DOS_PATCHES/android_frameworks_base/385536.patch"; #R_asb_2024-03 Resolve custom printer icon boundary exploit.
+applyPatch "$DOS_PATCHES/android_frameworks_base/385537.patch"; #R_asb_2024-03 Validate package names passed to the installer.
+applyPatch "$DOS_PATCHES/android_frameworks_base/385538.patch"; #R_asb_2024-03 Disallow system apps to be installed/updated as instant.
+applyPatch "$DOS_PATCHES/android_frameworks_base/385539.patch"; #R_asb_2024-03 Close AccountManagerService.session after timeout.
+applyPatch "$DOS_PATCHES/android_frameworks_base/389131.patch"; #R_asb_2024-04 Added limitations for attributions to handle invalid cases
+applyPatch "$DOS_PATCHES/android_frameworks_base/389132.patch"; #R_asb_2024-04 isUserInLockDown can be true when there are other strong auth requirements
+applyPatch "$DOS_PATCHES/android_frameworks_base/389133.patch"; #R_asb_2024-04 Fix security vulnerability that creates user with no restrictions when accountOptions are too long.
 git revert --no-edit 438d9feacfcad73d3ee918541574132928a93644; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
@@ -391,6 +404,9 @@ applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/312102.pat
 fi;
 
 if enterAndClear "system/bt"; then
+applyPatch "$DOS_PATCHES/android_system_bt/385557.patch"; #R_asb_2024-03 Fix an OOB bug in smp_proc_sec_req
+applyPatch "$DOS_PATCHES/android_system_bt/385558.patch"; #R_asb_2024-03 Reland: Fix an OOB write bug in attp_build_value_cmd
+applyPatch "$DOS_PATCHES/android_system_bt/385559.patch"; #R_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 git am "$DOS_PATCHES/android_system_bt/a2dp-master-fixes.patch"; #topic (AOSP)
 applyPatch "$DOS_PATCHES_COMMON/android_system_bt/0001-alloc_size.patch"; #Add alloc_size attributes to the allocator (GrapheneOS)
 fi;
@@ -438,6 +454,12 @@ fi;
 
 if enterAndClear "system/vold"; then
 git revert --no-edit 3461ff5c9ad334c96780f3da14f1d23fcbee63ad; #breaks mako first boot
+fi;
+
+if enterAndClear "vendor/qcom/opensource/commonsys/system/bt"; then
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/385591.patch"; #R_asb_2024-03 Fix an OOB bug in smp_proc_sec_req
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/385592.patch"; #R_asb_2024-03 Reland: Fix an OOB write bug in attp_build_value_cmd
+applyPatch "$DOS_PATCHES/android_vendor_qcom_opensource_system_bt/385593.patch"; #R_asb_2024-03 Fix a security bypass issue in access_secure_service_from_temp_bond
 fi;
 
 if enterAndClear "vendor/lineage"; then

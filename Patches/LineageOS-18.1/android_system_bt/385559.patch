@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hui Peng <phui@google.com>
+Date: Tue, 9 Jan 2024 22:38:20 +0000
+Subject: [PATCH] Fix a security bypass issue in
+ access_secure_service_from_temp_bond
+
+Backport I48df2c2d77810077e97d4131540277273d441998
+to rvc-dev
+
+Bug: 318374503
+Test: m com.android.btservices | manual test against PoC | QA
+Ignore-AOSP-First: security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:e908c16d9157b9e4a936117f06b8f964cf8386b8)
+Merged-In: Ib7cf66019b3d45a2a23d235ad5f9dc406394456f
+Change-Id: Ib7cf66019b3d45a2a23d235ad5f9dc406394456f
+---
+ stack/btm/btm_sec.cc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/stack/btm/btm_sec.cc b/stack/btm/btm_sec.cc
+index 2f973ee0b..1eba879e3 100644
+--- a/stack/btm/btm_sec.cc
++++ b/stack/btm/btm_sec.cc
+@@ -237,8 +237,7 @@ static bool access_secure_service_from_temp_bond(const tBTM_SEC_DEV_REC* p_dev_r
+                                                  bool locally_initiated,
+                                                  uint16_t security_req) {
+   return !locally_initiated && (security_req & BTM_SEC_IN_AUTHENTICATE) &&
+-    btm_dev_authenticated(p_dev_rec) &&
+-    p_dev_rec->bond_type == BOND_TYPE_TEMPORARY;
++         p_dev_rec->bond_type == BOND_TYPE_TEMPORARY;
+ }
+ 
+ /*******************************************************************************

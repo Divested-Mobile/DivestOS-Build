@@ -1,0 +1,115 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Hui Peng <phui@google.com>
+Date: Fri, 15 Dec 2023 22:55:33 +0000
+Subject: [PATCH] Reland: Fix an OOB write bug in attp_build_value_cmd
+
+This is a backport of I291fd665a68d90813b8c21c80d23cc438f84f285
+
+Bug: 295887535
+Bug: 315127634
+Test: m com.android.btservices
+Test: atest net_test_stack_gatt
+Ignore-AOSP-First: security
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:70f7ff2b34e6683301c9c6cd021e1ddef76c5b1c)
+Merged-In: Ieffac6db5c6359b071efc599f7a70de609b80b72
+Change-Id: Ieffac6db5c6359b071efc599f7a70de609b80b72
+---
+ stack/gatt/att_protocol.cc | 56 ++++++++++++++++++++++++++++++--------
+ 1 file changed, 45 insertions(+), 11 deletions(-)
+
+diff --git a/stack/gatt/att_protocol.cc b/stack/gatt/att_protocol.cc
+index d1e0ece59..41839b072 100644
+--- a/stack/gatt/att_protocol.cc
++++ b/stack/gatt/att_protocol.cc
+@@ -278,46 +278,80 @@ BT_HDR* attp_build_opcode_cmd(uint8_t op_code) {
+ BT_HDR* attp_build_value_cmd(uint16_t payload_size, uint8_t op_code,
+                              uint16_t handle, uint16_t offset, uint16_t len,
+                              uint8_t* p_data) {
+-  uint8_t *p, *pp, pair_len, *p_pair_len;
++  uint8_t *p, *pp, *p_pair_len;
++  size_t pair_len;
++  size_t size_now = 1;
++
++#define CHECK_SIZE()                       \
++  do {                                     \
++    if (size_now > payload_size) {         \
++      LOG(ERROR) << "payload size too small"; \
++      osi_free(p_buf);                     \
++      return nullptr;                      \
++    }                                      \
++  } while (false)
++
+   BT_HDR* p_buf =
+       (BT_HDR*)osi_malloc(sizeof(BT_HDR) + payload_size + L2CAP_MIN_OFFSET);
+ 
+   p = pp = (uint8_t*)(p_buf + 1) + L2CAP_MIN_OFFSET;
++
++  CHECK_SIZE();
+   UINT8_TO_STREAM(p, op_code);
+   p_buf->offset = L2CAP_MIN_OFFSET;
+-  p_buf->len = 1;
+ 
+   if (op_code == GATT_RSP_READ_BY_TYPE) {
+-    p_pair_len = p;
++    p_pair_len = p++;
+     pair_len = len + 2;
+-    UINT8_TO_STREAM(p, pair_len);
+-    p_buf->len += 1;
++    size_now += 1;
++    CHECK_SIZE();
++    // this field will be backfilled in the end of this function
+   }
++
+   if (op_code != GATT_RSP_READ_BLOB && op_code != GATT_RSP_READ) {
++    size_now += 2;
++    CHECK_SIZE();
+     UINT16_TO_STREAM(p, handle);
+-    p_buf->len += 2;
+   }
+ 
+   if (op_code == GATT_REQ_PREPARE_WRITE || op_code == GATT_RSP_PREPARE_WRITE) {
++    size_now += 2;
++    CHECK_SIZE();
+     UINT16_TO_STREAM(p, offset);
+-    p_buf->len += 2;
+   }
+ 
+   if (len > 0 && p_data != NULL) {
+     /* ensure data not exceed MTU size */
+-    if (payload_size - p_buf->len < len) {
+-      len = payload_size - p_buf->len;
++    if (payload_size - size_now < len) {
++      len = payload_size - size_now;
+       /* update handle value pair length */
+-      if (op_code == GATT_RSP_READ_BY_TYPE) *p_pair_len = (len + 2);
++      if (op_code == GATT_RSP_READ_BY_TYPE) {
++        pair_len = (len + 2);
++      }
+ 
+       LOG(WARNING) << StringPrintf(
+           "attribute value too long, to be truncated to %d", len);
+     }
+ 
++    size_now += len;
++    CHECK_SIZE();
+     ARRAY_TO_STREAM(p, p_data, len);
+-    p_buf->len += len;
+   }
+ 
++  // backfill pair len field
++  if (op_code == GATT_RSP_READ_BY_TYPE) {
++    if (pair_len > UINT8_MAX) {
++      LOG(ERROR) << StringPrintf("pair_len greater than %d", UINT8_MAX);
++      osi_free(p_buf);
++      return nullptr;
++    }
++
++    *p_pair_len = (uint8_t)pair_len;
++  }
++
++#undef CHECK_SIZE
++
++  p_buf->len = (uint16_t)size_now;
+   return p_buf;
+ }
+ 

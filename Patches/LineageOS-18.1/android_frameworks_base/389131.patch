@@ -1,0 +1,87 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Kiran Ramachandra <kiranmr@google.com>
+Date: Tue, 19 Dec 2023 21:33:56 +0000
+Subject: [PATCH] BACKPORT: Added limitations for attributions to handle
+ invalid cases
+
+Bug: 304983146
+Test: Modified and introduced new tests to verify change -> atest CtsAppOpsTestCases:AttributionTest
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:63d122cf0e18ff6d8e77b7bcc8f0f3f8d4e4a018)
+Merged-In: Iee26fdb9cf1ca0fa8905e22732c32ec7d9b80fea
+Change-Id: Iee26fdb9cf1ca0fa8905e22732c32ec7d9b80fea
+---
+ .../android/server/appop/AppOpsService.java   | 54 +++++++++++++++++++
+ 1 file changed, 54 insertions(+)
+
+diff --git a/services/core/java/com/android/server/appop/AppOpsService.java b/services/core/java/com/android/server/appop/AppOpsService.java
+index 63b5af59c3c1..ae417e53024e 100644
+--- a/services/core/java/com/android/server/appop/AppOpsService.java
++++ b/services/core/java/com/android/server/appop/AppOpsService.java
+@@ -3092,6 +3092,11 @@ public class AppOpsService extends IAppOpsService.Stub {
+             return AppOpsManager.MODE_ERRORED;
+         }
+ 
++        if (proxyAttributionTag != null
++                && !isAttributionTagDefined(packageName, proxyPackageName, proxyAttributionTag)) {
++            proxyAttributionTag = null;
++        }
++
+         synchronized (this) {
+             final Ops ops = getOpsLocked(uid, packageName, attributionTag, bypass,
+                     true /* edit */);
+@@ -3958,6 +3963,55 @@ public class AppOpsService extends IAppOpsService.Stub {
+         return bypass;
+     }
+ 
++    private boolean isAttributionInPackage(@Nullable AndroidPackage pkg,
++            @Nullable String attributionTag) {
++        if (pkg == null) {
++            return false;
++        } else if (attributionTag == null) {
++            return true;
++        }
++        if (pkg.getAttributions() != null) {
++            int numAttributions = pkg.getAttributions().size();
++            for (int i = 0; i < numAttributions; i++) {
++                if (pkg.getAttributions().get(i).tag.equals(attributionTag)) {
++                    return true;
++                }
++            }
++        }
++
++        return false;
++    }
++
++    /**
++     * Checks to see if the attribution tag is defined in either package or proxyPackage.
++     * This method is intended for ProxyAttributionTag validation and returns false
++     * if it does not exist in either one of them.
++     *
++     * @param packageName Name of the package
++     * @param proxyPackageName Name of the proxy package
++     * @param attributionTag attribution tag to be checked
++     *
++     * @return boolean specifying if attribution tag is valid or not
++     */
++    private boolean isAttributionTagDefined(@Nullable String packageName,
++                                            @Nullable String proxyPackageName,
++                                            @Nullable String attributionTag) {
++        if (packageName == null) {
++            return false;
++        } else if (attributionTag == null) {
++            return true;
++        }
++        PackageManagerInternal pmInt = LocalServices.getService(PackageManagerInternal.class);
++        if (proxyPackageName != null) {
++            AndroidPackage proxyPkg = pmInt.getPackage(proxyPackageName);
++            if (proxyPkg != null && isAttributionInPackage(proxyPkg, attributionTag)) {
++                return true;
++            }
++        }
++        AndroidPackage pkg = pmInt.getPackage(packageName);
++        return isAttributionInPackage(pkg, attributionTag);
++    }
++
+     /**
+      * Get (and potentially create) ops.
+      *
