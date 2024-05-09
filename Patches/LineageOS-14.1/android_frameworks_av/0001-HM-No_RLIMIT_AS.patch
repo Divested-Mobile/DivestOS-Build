@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 5 Dec 2018 09:29:25 -0500
+Subject: [PATCH] avoid setting RLIMIT_AS with hardened malloc
+
+This needs to be ported to a better mechanism like memory control groups
+in order to remain compatible with hardening mechanisms based on large
+PROT_NONE address space reservations.
+
+Change-Id: Ibfb7164d764fcb9244055953bedc9a1c424cedcb
+---
+ media/libmedia/MediaUtils.cpp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/media/libmedia/MediaUtils.cpp b/media/libmedia/MediaUtils.cpp
+index a02ca65a7a..bb93e3d27f 100644
+--- a/media/libmedia/MediaUtils.cpp
++++ b/media/libmedia/MediaUtils.cpp
+@@ -31,6 +31,14 @@ void limitProcessMemory(
+     size_t numberOfBytes,
+     size_t percentageOfTotalMem) {
+ 
++#ifdef __LP64__
++    // This needs to be ported to a better mechanism like memory control groups
++    // in order to remain compatible with hardening mechanisms based on large
++    // PROT_NONE address space reservations.
++    ALOGW("Running with hardened malloc implementation, skip enforcing memory limitations.");
++    return;
++#endif
++
+     long pageSize = sysconf(_SC_PAGESIZE);
+     long numPages = sysconf(_SC_PHYS_PAGES);
+     size_t maxMem = SIZE_MAX;

@@ -1,0 +1,120 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 5 Dec 2018 01:51:56 -0500
+Subject: [PATCH] add hardened_malloc library
+
+---
+ libc/Android.bp               | 45 ++++++++++++++++++++++++++++-------
+ libc/bionic/malloc_common.cpp |  5 ++++
+ 2 files changed, 41 insertions(+), 9 deletions(-)
+
+diff --git a/libc/Android.bp b/libc/Android.bp
+index c92acf70b..7edf0c74f 100644
+--- a/libc/Android.bp
++++ b/libc/Android.bp
+@@ -83,6 +83,8 @@ cc_defaults {
+         "-Werror=int-to-pointer-cast",
+         "-Werror=type-limits",
+         "-Werror",
++
++        "-DH_MALLOC_PREFIX",
+     ],
+     // TODO: split out the asflags.
+     asflags: [
+@@ -99,7 +101,15 @@ cc_defaults {
+     ],
+     conlyflags: ["-std=gnu99"],
+     cppflags: [],
+-    include_dirs: ["external/jemalloc/include"],
++
++    multilib: {
++        lib32: {
++            include_dirs: ["external/jemalloc/include"],
++        },
++        lib64: {
++            include_dirs: ["external/hardened_malloc/"],
++        },
++    },
+ 
+     arch: {
+         // Clang/llvm has incompatible long double (fp128) for x86_64.
+@@ -1601,11 +1611,6 @@ cc_library_static {
+     name: "libc_ndk",
+     defaults: ["libc_defaults"],
+     srcs: libc_common_src_files + ["bionic/malloc_common.cpp"],
+-    multilib: {
+-        lib32: {
+-            srcs: libc_common_src_files_32,
+-        },
+-    },
+     arch: {
+         arm: {
+             srcs: [
+@@ -1635,8 +1640,17 @@ cc_library_static {
+         "libc_syscalls",
+         "libc_tzcode",
+         "libm",
+-        "libjemalloc",
+     ],
++
++    multilib: {
++        lib32: {
++            srcs: libc_common_src_files_32,
++            whole_static_libs: ["libjemalloc"],
++        },
++        lib64: {
++            whole_static_libs: ["libhardened_malloc"],
++        },
++    },
+ }
+ 
+ // ========================================================
+@@ -1714,7 +1728,11 @@ cc_library_static {
+ // ========================================================
+ cc_library_static {
+     defaults: ["libc_defaults"],
+-    srcs: ["bionic/jemalloc_wrapper.cpp"],
++    multilib: {
++        lib32: {
++            srcs: ["bionic/jemalloc_wrapper.cpp"],
++        },
++    },
+     cflags: ["-fvisibility=hidden"],
+ 
+     name: "libc_malloc",
+@@ -1765,7 +1783,16 @@ cc_library {
+     // you wanted!
+ 
+     shared_libs: ["libdl"],
+-    whole_static_libs: ["libc_common", "libjemalloc"],
++    whole_static_libs: ["libc_common"],
++
++    multilib: {
++        lib32: {
++            whole_static_libs: ["libjemalloc"],
++        },
++        lib64: {
++            whole_static_libs: ["libhardened_malloc"],
++        },
++    },
+ 
+     // We'd really like to do this for all architectures, but since this wasn't done
+     // before, these symbols must continue to be exported on LP32 for binary
+diff --git a/libc/bionic/malloc_common.cpp b/libc/bionic/malloc_common.cpp
+index e05061917..af544f3e1 100644
+--- a/libc/bionic/malloc_common.cpp
++++ b/libc/bionic/malloc_common.cpp
+@@ -46,8 +46,13 @@
+ #include <private/bionic_globals.h>
+ #include <private/bionic_malloc_dispatch.h>
+ 
++#ifdef __LP64__
++#include "h_malloc.h"
++#define Malloc(function)  h_ ## function
++#else
+ #include "jemalloc.h"
+ #define Malloc(function)  je_ ## function
++#endif
+ 
+ static constexpr MallocDispatch __libc_malloc_default_dispatch
+   __attribute__((unused)) = {

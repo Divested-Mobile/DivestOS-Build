@@ -1,0 +1,310 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Christopher Ferris <cferris@google.com>
+Date: Mon, 15 May 2017 15:50:19 -0700
+Subject: [PATCH] Add support for modifying decay timer.
+
+Add the mallopt function, and only a single option so far.
+
+Bug: 36401135
+
+Test: Built and booted bullhead.
+Test: Ran jemalloc unit tests.
+Test: Ran bionic unit tests.
+Test: Ran a test that allocated and free'd a large piece of memory,
+Test: and verified that after changing the parameter, the PSS
+Test: sticks around (decay timer set to 1), the PSS is purged (decay
+Test: timer set to 0).
+Change-Id: I6927929b0c539c1023d34772d9e26bb6a8a45877
+---
+ libc/bionic/jemalloc.h                        |  1 +
+ libc/bionic/jemalloc_wrapper.cpp              | 36 +++++++++++++++++++
+ libc/bionic/malloc_common.cpp                 | 13 +++++++
+ libc/include/malloc.h                         |  5 +++
+ libc/libc.arm.map                             |  1 +
+ libc/libc.arm64.map                           |  1 +
+ libc/libc.mips.map                            |  1 +
+ libc/libc.mips64.map                          |  1 +
+ libc/libc.x86.map                             |  1 +
+ libc/libc.x86_64.map                          |  1 +
+ libc/malloc_debug/malloc_debug.cpp            |  5 +++
+ .../tests/malloc_debug_unit_tests.cpp         | 16 +++++++++
+ libc/private/bionic_malloc_dispatch.h         |  2 ++
+ tests/malloc_test.cpp                         |  7 ++++
+ 14 files changed, 91 insertions(+)
+
+diff --git a/libc/bionic/jemalloc.h b/libc/bionic/jemalloc.h
+index fceb323d3..f7e877056 100644
+--- a/libc/bionic/jemalloc.h
++++ b/libc/bionic/jemalloc.h
+@@ -26,6 +26,7 @@
+ __BEGIN_DECLS
+ 
+ struct mallinfo je_mallinfo();
++int je_mallopt(int, int);
+ int je_iterate(uintptr_t, size_t, void (*)(uintptr_t, size_t, void*), void*);
+ void je_malloc_disable();
+ void je_malloc_enable();
+diff --git a/libc/bionic/jemalloc_wrapper.cpp b/libc/bionic/jemalloc_wrapper.cpp
+index e33d560a4..266b9660c 100644
+--- a/libc/bionic/jemalloc_wrapper.cpp
++++ b/libc/bionic/jemalloc_wrapper.cpp
+@@ -14,6 +14,7 @@
+  * limitations under the License.
+  */
+ 
++#include <malloc.h>
+ #include <sys/param.h>
+ #include <unistd.h>
+ 
+@@ -46,3 +47,38 @@ void* je_memalign_round_up_boundary(size_t boundary, size_t size) {
+   }
+   return je_memalign(boundary, size);
+ }
++
++int je_mallopt(int param, int value) {
++  // The only parameter we currently understand is M_DECAY_TIME.
++  if (param == M_DECAY_TIME) {
++    // Only support setting the value to 1 or 0.
++    ssize_t decay_time;
++    if (value) {
++      decay_time = 1;
++    } else {
++      decay_time = 0;
++    }
++    // First get the total number of arenas.
++    unsigned narenas;
++    size_t sz = sizeof(unsigned);
++    if (je_mallctl("arenas.narenas", &narenas, &sz, nullptr, 0) != 0) {
++      return 0;
++    }
++
++    // Set the decay time for any arenas that will be created in the future.
++    if (je_mallctl("arenas.decay_time", nullptr, nullptr, &decay_time, sizeof(decay_time)) != 0) {
++      return 0;
++    }
++
++    // Change the decay on the already existing arenas.
++    char buffer[100];
++    for (unsigned i = 0; i < narenas; i++) {
++      snprintf(buffer, sizeof(buffer), "arena.%d.decay_time", i);
++      if (je_mallctl(buffer, nullptr, nullptr, &decay_time, sizeof(decay_time)) != 0) {
++        break;
++      }
++    }
++    return 1;
++  }
++  return 0;
++}
+diff --git a/libc/bionic/malloc_common.cpp b/libc/bionic/malloc_common.cpp
+index af544f3e1..4257412a3 100644
+--- a/libc/bionic/malloc_common.cpp
++++ b/libc/bionic/malloc_common.cpp
+@@ -73,6 +73,7 @@ static constexpr MallocDispatch __libc_malloc_default_dispatch
+     Malloc(iterate),
+     Malloc(malloc_disable),
+     Malloc(malloc_enable),
++    Malloc(mallopt),
+   };
+ 
+ // In a VM process, this is set to 1 after fork()ing out of zygote.
+@@ -106,6 +107,14 @@ extern "C" struct mallinfo mallinfo() {
+   return Malloc(mallinfo)();
+ }
+ 
++extern "C" int mallopt(int param, int value) {
++  auto _mallopt = __libc_globals->malloc_dispatch.mallopt;
++  if (__predict_false(_mallopt != nullptr)) {
++    return _mallopt(param, value);
++  }
++  return Malloc(mallopt)(param, value);
++}
++
+ extern "C" void* malloc(size_t bytes) {
+   auto _malloc = __libc_globals->malloc_dispatch.malloc;
+   if (__predict_false(_malloc != nullptr)) {
+@@ -253,6 +262,10 @@ static bool InitMalloc(void* malloc_impl_handler, MallocDispatch* table, const c
+                                           prefix, "mallinfo")) {
+     return false;
+   }
++  if (!InitMallocFunction<MallocMallopt>(malloc_impl_handler, &table->mallopt,
++                                         prefix, "mallopt")) {
++    return false;
++  }
+   if (!InitMallocFunction<MallocMalloc>(malloc_impl_handler, &table->malloc,
+                                         prefix, "malloc")) {
+     return false;
+diff --git a/libc/include/malloc.h b/libc/include/malloc.h
+index 87555a96b..f0cdf82f3 100644
+--- a/libc/include/malloc.h
++++ b/libc/include/malloc.h
+@@ -70,6 +70,11 @@ extern struct mallinfo mallinfo(void);
+  */
+ extern int malloc_info(int, FILE *);
+ 
++/* mallopt options */
++#define M_DECAY_TIME -100
++
++int mallopt(int, int) __INTRODUCED_IN(26);
++
+ __END_DECLS
+ 
+ #endif  /* LIBC_INCLUDE_MALLOC_H_ */
+diff --git a/libc/libc.arm.map b/libc/libc.arm.map
+index 38f8437f4..52698b6f0 100644
+--- a/libc/libc.arm.map
++++ b/libc/libc.arm.map
+@@ -1494,4 +1494,5 @@ LIBC_PLATFORM {
+     malloc_disable;
+     malloc_enable;
+     malloc_iterate;
++    mallopt;
+ } LIBC_N;
+diff --git a/libc/libc.arm64.map b/libc/libc.arm64.map
+index afbd0ee4b..db7368ded 100644
+--- a/libc/libc.arm64.map
++++ b/libc/libc.arm64.map
+@@ -1209,4 +1209,5 @@ LIBC_PLATFORM {
+     malloc_disable;
+     malloc_enable;
+     malloc_iterate;
++    mallopt;
+ } LIBC_N;
+diff --git a/libc/libc.mips.map b/libc/libc.mips.map
+index 46c835b0b..2e272f5ca 100644
+--- a/libc/libc.mips.map
++++ b/libc/libc.mips.map
+@@ -1335,4 +1335,5 @@ LIBC_PLATFORM {
+     malloc_disable;
+     malloc_enable;
+     malloc_iterate;
++    mallopt;
+ } LIBC_N;
+diff --git a/libc/libc.mips64.map b/libc/libc.mips64.map
+index afbd0ee4b..db7368ded 100644
+--- a/libc/libc.mips64.map
++++ b/libc/libc.mips64.map
+@@ -1209,4 +1209,5 @@ LIBC_PLATFORM {
+     malloc_disable;
+     malloc_enable;
+     malloc_iterate;
++    mallopt;
+ } LIBC_N;
+diff --git a/libc/libc.x86.map b/libc/libc.x86.map
+index 9417d5620..6598e3d4b 100644
+--- a/libc/libc.x86.map
++++ b/libc/libc.x86.map
+@@ -1334,4 +1334,5 @@ LIBC_PLATFORM {
+     malloc_disable;
+     malloc_enable;
+     malloc_iterate;
++    mallopt;
+ } LIBC_N;
+diff --git a/libc/libc.x86_64.map b/libc/libc.x86_64.map
+index afbd0ee4b..db7368ded 100644
+--- a/libc/libc.x86_64.map
++++ b/libc/libc.x86_64.map
+@@ -1209,4 +1209,5 @@ LIBC_PLATFORM {
+     malloc_disable;
+     malloc_enable;
+     malloc_iterate;
++    mallopt;
+ } LIBC_N;
+diff --git a/libc/malloc_debug/malloc_debug.cpp b/libc/malloc_debug/malloc_debug.cpp
+index 1ee76897d..329e72505 100644
+--- a/libc/malloc_debug/malloc_debug.cpp
++++ b/libc/malloc_debug/malloc_debug.cpp
+@@ -76,6 +76,7 @@ void* debug_memalign(size_t alignment, size_t bytes);
+ void* debug_realloc(void* pointer, size_t bytes);
+ void* debug_calloc(size_t nmemb, size_t bytes);
+ struct mallinfo debug_mallinfo();
++int debug_mallopt(int param, int value);
+ int debug_posix_memalign(void** memptr, size_t alignment, size_t size);
+ int debug_iterate(uintptr_t base, size_t size,
+     void (*callback)(uintptr_t base, size_t size, void* arg), void* arg);
+@@ -584,6 +585,10 @@ struct mallinfo debug_mallinfo() {
+   return g_dispatch->mallinfo();
+ }
+ 
++int debug_mallopt(int param, int value) {
++  return g_dispatch->mallopt(param, value);
++}
++
+ int debug_posix_memalign(void** memptr, size_t alignment, size_t size) {
+   if (DebugCallsDisabled()) {
+     return g_dispatch->posix_memalign(memptr, alignment, size);
+diff --git a/libc/malloc_debug/tests/malloc_debug_unit_tests.cpp b/libc/malloc_debug/tests/malloc_debug_unit_tests.cpp
+index 014b91352..8014f0652 100644
+--- a/libc/malloc_debug/tests/malloc_debug_unit_tests.cpp
++++ b/libc/malloc_debug/tests/malloc_debug_unit_tests.cpp
+@@ -58,6 +58,7 @@ void debug_get_malloc_leak_info(uint8_t**, size_t*, size_t*, size_t*, size_t*);
+ void debug_free_malloc_leak_info(uint8_t*);
+ 
+ struct mallinfo debug_mallinfo();
++int debug_mallopt(int, int);
+ 
+ #if defined(HAVE_DEPRECATED_MALLOC_FUNCS)
+ void* debug_pvalloc(size_t);
+@@ -125,6 +126,7 @@ MallocDispatch MallocDebugTest::dispatch = {
+   nullptr,
+   nullptr,
+   nullptr,
++  mallopt,
+ };
+ 
+ void VerifyAllocCalls() {
+@@ -1471,6 +1473,20 @@ TEST_F(MallocDebugTest, debug_mallinfo) {
+   ASSERT_STREQ("", getFakeLogPrint().c_str());
+ }
+ 
++TEST_F(MallocDebugTest, debug_mallopt) {
++  Init("guard");
++
++  void* pointer = debug_malloc(150);
++  ASSERT_TRUE(pointer != nullptr);
++
++  EXPECT_EQ(0, debug_mallopt(-1000, 1));
++
++  debug_free(pointer);
++
++  ASSERT_STREQ("", getFakeLogBuf().c_str());
++  ASSERT_STREQ("", getFakeLogPrint().c_str());
++}
++
+ TEST_F(MallocDebugTest, debug_posix_memalign) {
+   Init("guard");
+ 
+diff --git a/libc/private/bionic_malloc_dispatch.h b/libc/private/bionic_malloc_dispatch.h
+index 02a092f40..cdae466c9 100644
+--- a/libc/private/bionic_malloc_dispatch.h
++++ b/libc/private/bionic_malloc_dispatch.h
+@@ -45,6 +45,7 @@ typedef void* (*MallocRealloc)(void*, size_t);
+ typedef int (*MallocIterate)(uintptr_t, size_t, void (*)(uintptr_t, size_t, void*), void*);
+ typedef void (*MallocMallocDisable)();
+ typedef void (*MallocMallocEnable)();
++typedef int (*MallocMallopt)(int, int);
+ 
+ #if defined(HAVE_DEPRECATED_MALLOC_FUNCS)
+ typedef void* (*MallocPvalloc)(size_t);
+@@ -69,6 +70,7 @@ struct MallocDispatch {
+   MallocIterate iterate;
+   MallocMallocDisable malloc_disable;
+   MallocMallocEnable malloc_enable;
++  MallocMallopt mallopt;
+ } __attribute__((aligned(32)));
+ 
+ #endif
+diff --git a/tests/malloc_test.cpp b/tests/malloc_test.cpp
+index 8fba1c449..a7b9d52e5 100644
+--- a/tests/malloc_test.cpp
++++ b/tests/malloc_test.cpp
+@@ -500,3 +500,10 @@ TEST(malloc, verify_alignment) {
+   delete[] values_64;
+   delete[] values_ldouble;
+ }
++
++TEST(malloc, mallopt_smoke) {
++  errno = 0;
++  ASSERT_EQ(0, mallopt(-1000, 1));
++  // mallopt doesn't set errno.
++  ASSERT_EQ(0, errno);
++}

@@ -62,9 +62,7 @@
 	<remove-project name="platform/prebuilts/qemu-kernel" />
 <!-- END OF UNNECESSARY REPO REMOVAL -->
 
-<!-- START OF ADDITIONAL REPOS -->
-	<!--<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />-->
-
+<!-- START OF BRANCH SWITCHING -->
 	<!-- Switch to the Mulch WebView -->
 	<remove-project name="LineageOS/android_external_chromium-webview" />
 	<project path="external/chromium-webview" name="divested-mobile/mulch" groups="pdk" clone-depth="1" remote="gitlab" revision="m119" />
@@ -84,6 +82,13 @@
 	<project path="external/ffmpeg" name="syphyr/android_external_ffmpeg" remote="github" revision="61190001372364379b095b4cd1de6787213def0e" />
 	<remove-project name="LineageOS/android_external_flac" />
 	<project path="external/flac" name="syphyr/android_external_flac" remote="github" revision="3c73deb884acf79764a769cac47a12d214929fa5" />
+<!-- END OF BRANCH SWITCHING -->
+
+<!-- START OF ADDITIONAL REPOS -->
+	<!--<project path="external/swiftshader" name="google/swiftshader" remote="github" revision="master" />-->
+
+	<!-- GrapheneOS -->
+	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="749640c274d54e084505a24fa758bcb5f96a25ef" />
 <!-- END OF ADDITIONAL REPOS -->
 
 <!-- START OF DEVICE REPOS -->
