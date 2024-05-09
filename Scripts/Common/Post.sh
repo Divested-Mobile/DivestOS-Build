@@ -34,16 +34,19 @@ if [ "$DOS_USE_KSM" = true ]; then
 	sed -i 's/static int slab_nomerge;/static int slab_nomerge = 0;/' kernel/*/*/mm/slab_common.c &>/dev/null || true; #3.18-4.12
 	sed -i 's/static bool slab_nomerge = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);/static bool slab_nomerge = false;/' kernel/*/*/mm/slab_common.c &>/dev/null || true; #4.13+
 	sed -i 's/static bool slab_nomerge __ro_after_init = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);/static bool slab_nomerge __ro_after_init = false;/' kernel/*/*/mm/slab_common.c &>/dev/null || true; #4.13+
+	sed -i 's/static bool slab_nomerge __ro_after_init = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);/static bool slab_nomerge __ro_after_init = false;/' kernel/*/*/*/*/mm/slab_common.c &>/dev/null || true; #4.13+
 else
 	#Disable slub/slab merging
 	sed -i 's/static int slub_nomerge;/static int slub_nomerge = 1;/' kernel/*/*/mm/slub.c &>/dev/null || true; #2.6.22-3.17
 	sed -i 's/static int slab_nomerge;/static int slab_nomerge = 1;/' kernel/*/*/mm/slab_common.c &>/dev/null || true; #3.18-4.12
 	sed -i 's/static bool slab_nomerge = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);/static bool slab_nomerge = true;/' kernel/*/*/mm/slab_common.c &>/dev/null || true; #4.13+
 	sed -i 's/static bool slab_nomerge __ro_after_init = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);/static bool slab_nomerge __ro_after_init = true;/' kernel/*/*/mm/slab_common.c &>/dev/null || true; #4.13+
+	sed -i 's/static bool slab_nomerge __ro_after_init = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);/static bool slab_nomerge __ro_after_init = true;/' kernel/*/*/*/*/mm/slab_common.c &>/dev/null || true; #4.13+
 fi;
 
 #Enable BPF JIT hardening
 sed -i 's/int bpf_jit_harden   __read_mostly;/int bpf_jit_harden   __read_mostly = 2;/' kernel/*/*/kernel/bpf/core.c &>/dev/null || true;
+sed -i 's/int bpf_jit_harden   __read_mostly;/int bpf_jit_harden   __read_mostly = 2;/' kernel/*/*/*/*/kernel/bpf/core.c &>/dev/null || true;
 sed -i 's/int bpf_jit_harden __read_mostly;/int bpf_jit_harden __read_mostly = 2;/' kernel/*/*/kernel/bpf/core.c &>/dev/null || true;
 
 #Enable page poisoning
