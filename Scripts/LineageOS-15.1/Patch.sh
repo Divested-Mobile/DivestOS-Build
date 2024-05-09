@@ -57,7 +57,11 @@ cp -r "$DOS_PATCHES_COMMON/android_vendor_divested/." "$DOS_BUILD_BASE/vendor/di
 
 if enterAndClear "bionic"; then
 applyPatch "$DOS_PATCHES_COMMON/android_bionic/0001-Wildcard_Hosts.patch"; #Support wildcards in cached hosts file (backport from 16.0+) (tdm)
-#if [ "$DOS_GRAPHENE_MALLOC_BROKEN" = true ]; then applyPatch "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi; #(GrapheneOS)
+if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
+applyPatch "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; #(GrapheneOS)
+applyPatch "$DOS_PATCHES/android_bionic/0002-Add_M_PURGE.patch"; #malloc: add M_PURGE mallopt flag
+applyPatch "$DOS_PATCHES/android_bionic/0003-Add_random.h.patch"; #Add <sys/random.h>.
+fi;
 fi;
 
 if enterAndClear "bootable/recovery"; then
@@ -117,14 +121,28 @@ if enterAndClear "external/freetype"; then
 applyPatch "$DOS_PATCHES/android_external_freetype/360951.patch"; #R_asb_2023-07 Cherry-pick two upstream changes
 fi;
 
-#if [ "$DOS_GRAPHENE_MALLOC_BROKEN" = true ]; then
-#if enterAndClear "external/hardened_malloc"; then
-#git revert --no-edit 3d18fb80742fd80a75481b580d102deb18c74af9; #compile fix
-#applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-legacy/0001-Broken_Audio.patch"; #DeviceDescriptor sorting wrongly relies on malloc addresses (GrapheneOS)
-#applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-legacy/0002-Broken_Cameras.patch"; #Expand workaround to all camera executables (DivestOS)
-#sed -i 's/struct mallinfo info = {0};/struct mallinfo info = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};/' h_malloc.c; #compile fix
-#fi;
-#fi;
+if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
+if enterAndClear "external/hardened_malloc"; then
+applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0001-Broken_Cameras-1.patch"; #Workarounds for Pixel 3 SoC era camera driver bugs (GrapheneOS)
+applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0001-Broken_Cameras-2.patch"; #Expand workaround to all camera executables (DivestOS)
+applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0002-Broken_Displays.patch"; #Add workaround for OnePlus 8 & 9 display driver crash (DivestOS)
+applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0003-Broken_Audio.patch"; #Workaround for audio service sorting bug (GrapheneOS)
+sed -i 's/34359738368/2147483648/' Android.bp; #revert 48-bit address space requirement
+sed -i -e '76,78d;' Android.bp; #fix compile under A13
+sed -i -e '22,24d;' androidtest/Android.bp; #fix compile under A12
+awk -i inplace '!/vendor_ramdisk_available/' Android.bp; #fix compile under A11
+rm -rfv androidtest;
+sed -i -e '76,78d;' Android.bp; #fix compile under A10
+awk -i inplace '!/ramdisk_available/' Android.bp;
+git revert --no-edit 8974af86d12f7e29b54b5090133ab3d7eea0e519;
+mv include/h_malloc.h  .
+awk -i inplace '!/recovery_available/' Android.bp; #fix compile under A8
+awk -i inplace '!/system_shared_libs/' Android.bp;
+sed -i 's/c17/c11/' Android.bp;
+git revert --no-edit a28da3c65aed0528036da9ebd33e0c05b2c5884a
+sed -i 's/struct mallinfo info = {0};/struct mallinfo info = {};/' h_malloc.c;
+fi;
+fi;
 
 if enterAndClear "external/libvpx"; then
 applyPatch "$DOS_PATCHES_COMMON/android_external_libvpx/CVE-2023-5217.patch"; #VP8: disallow thread count changes
@@ -147,7 +165,7 @@ applyPatch "$DOS_PATCHES/android_external_zlib/351909.patch"; #P_asb_2023-03 Fix
 fi;
 
 if enterAndClear "frameworks/av"; then
-#if [ "$DOS_GRAPHENE_MALLOC_BROKEN" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; fi; #(GrapheneOS)
+if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; fi; #(GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_av/358729.patch"; #n-asb-2023-06 Fix NuMediaExtractor::readSampleData buffer Handling
 applyPatch "$DOS_PATCHES/android_frameworks_av/365962.patch"; #R_asb_2023-09 Fix Segv on unknown address error flagged by fuzzer test.
 applyPatch "$DOS_PATCHES/android_frameworks_av/373949.patch"; #R_asb_2023-11 Fix for heap buffer overflow issue flagged by fuzzer test.
@@ -530,7 +548,7 @@ applyPatch "$DOS_PATCHES/android_system_core/332765.patch"; #P_asb_2022-06 Backp
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert --no-edit a6a4ce8e9a6d63014047a447c6bb3ac1fa90b3f4; #Always update recovery
 applyPatch "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysctl changes (GrapheneOS)
-#if [ "$DOS_GRAPHENE_MALLOC_BROKEN" = true ]; then applyPatch "$DOS_PATCHES/android_system_core/0002-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
+if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_system_core/0002-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
 fi;
 
 if enterAndClear "system/netd"; then
