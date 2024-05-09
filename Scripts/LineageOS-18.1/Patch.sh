@@ -127,7 +127,7 @@ sed -i 's/34359738368/2147483648/' Android.bp; #revert 48-bit address space requ
 sed -i -e '76,78d;' Android.bp; #fix compile under A13
 sed -i -e '22,24d;' androidtest/Android.bp; #fix compile under A12
 awk -i inplace '!/vendor_ramdisk_available/' Android.bp; #fix compile under A11
-rm -rfv androidtest;
+rm -rfv androidtest; #fix compile under A11
 fi;
 fi;
 

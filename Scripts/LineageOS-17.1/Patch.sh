@@ -140,11 +140,11 @@ sed -i 's/34359738368/2147483648/' Android.bp; #revert 48-bit address space requ
 sed -i -e '76,78d;' Android.bp; #fix compile under A13
 sed -i -e '22,24d;' androidtest/Android.bp; #fix compile under A12
 awk -i inplace '!/vendor_ramdisk_available/' Android.bp; #fix compile under A11
-rm -rfv androidtest;
+rm -rfv androidtest; #fix compile under A11
 sed -i -e '76,78d;' Android.bp; #fix compile under A10
-awk -i inplace '!/ramdisk_available/' Android.bp;
-git revert --no-edit 8974af86d12f7e29b54b5090133ab3d7eea0e519;
-mv include/h_malloc.h  .
+awk -i inplace '!/ramdisk_available/' Android.bp; #fix compile under A10
+git revert --no-edit 8974af86d12f7e29b54b5090133ab3d7eea0e519; #fix compile under A10
+mv include/h_malloc.h  . ; #fix compile under A10
 fi;
 fi;
 
