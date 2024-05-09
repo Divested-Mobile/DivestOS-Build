@@ -42,6 +42,10 @@ else
 	sed -i 's/static bool slab_nomerge __ro_after_init = !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT);/static bool slab_nomerge __ro_after_init = true;/' kernel/*/*/mm/slab_common.c &>/dev/null || true; #4.13+
 fi;
 
+#Enable BPF JIT hardening
+sed -i 's/int bpf_jit_harden   __read_mostly;/int bpf_jit_harden   __read_mostly = 2;/' kernel/*/*/kernel/bpf/core.c &>/dev/null || true;
+sed -i 's/int bpf_jit_harden __read_mostly;/int bpf_jit_harden __read_mostly = 2;/' kernel/*/*/kernel/bpf/core.c &>/dev/null || true;
+
 #Enable page poisoning
 #Commented as set by defconfig
 #sed -i 's/= IS_ENABLED(CONFIG_PAGE_POISONING_ENABLE_DEFAULT);/= true;/' kernel/*/*/mm/page_poison.c &>/dev/null || true; #4.4+ #XXX: shouldn't be enabled past 5.3
