@@ -80,7 +80,7 @@
 	<project path="external/svox" name="platform/external/svox" groups="pdk" remote="aosp" revision="master" />
 
 	<!-- GrapheneOS -->
-	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="464bfd4d829927f19fd5d2729a101ee241319d1e" />
+	<project path="external/hardened_malloc" name="GrapheneOS/hardened_malloc" remote="github" revision="749640c274d54e084505a24fa758bcb5f96a25ef" />
 <!-- END OF ADDITIONAL REPOS -->
 
 <!-- START OF DEVICE REPOS -->
