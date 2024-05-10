@@ -98,6 +98,7 @@ applyPatch "$DOS_PATCHES/android_build/0004-Selective_APEX.patch"; #Only enable 
 sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_util.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
+sed -i 's/2024-04-05/2024-05-05/' core/version_defaults.mk; #Bump Security String #x_asb_2024-05
 fi;
 
 if enterAndClear "build/soong"; then
@@ -124,12 +125,16 @@ sed -i -e '76,78d;' Android.bp; #fix compile under A13
 fi;
 fi;
 
+if enterAndClear "external/sonivox"; then
+applyPatch "$DOS_PATCHES_COMMON/android_external_sonivox/317780080.patch"; #x-asb_2024-05 Fix buffer overrun in eas_wtengine
+fi;
 
 if enterAndClear "frameworks/av"; then
 git am $DOS_PATCHES/ASB-2023-10/av-*.patch;
 fi;
 
 if enterAndClear "frameworks/base"; then
+applyPatch "$DOS_PATCHES/android_frameworks_base/293301736-20.patch"; #x-asb_2024-05 Prioritize system toasts
 git revert --no-edit d36faad3267522c6d3ff91ba9dcca8f6274bccd1; #Reverts "JobScheduler: Respect allow-in-power-save perm" in favor of below patch
 git revert --no-edit 90d6826548189ca850d91692e71fcc1be426f453; #Reverts "Remove sensitive info from SUPL requests" in favor of below patch
 git revert --no-edit 6d2955f0bd55e9938d5d49415182c27b50900b95; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
@@ -323,6 +328,7 @@ if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_pa
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/316891059-20.patch"; #x-asb_2024-05 Replace getCallingActivity() with getLaunchedFromPackage()
 git revert --no-edit 41b4ed345a91da1dd46c00ee11a151c2b5ff4f43;
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0005-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)

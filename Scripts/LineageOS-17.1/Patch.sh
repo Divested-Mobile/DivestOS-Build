@@ -98,7 +98,7 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
-sed -i 's/2023-02-05/2024-04-05/' core/version_defaults.mk; #Bump Security String #R_asb_2024-04
+sed -i 's/2023-02-05/2024-05-05/' core/version_defaults.mk; #Bump Security String #x_asb_2024-05
 fi;
 
 if enterAndClear "build/soong"; then
@@ -170,6 +170,10 @@ git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/87/3
 git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/88/378088/1 && git cherry-pick FETCH_HEAD;
 git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/14/378314/1 && git cherry-pick FETCH_HEAD;
 git fetch https://github.com/LineageOS/android_external_pdfium refs/changes/15/378315/1 && git cherry-pick FETCH_HEAD;
+fi;
+
+if enterAndClear "external/sonivox"; then
+applyPatch "$DOS_PATCHES_COMMON/android_external_sonivox/391896.patch"; #n-asb-2024-05 Fix buffer overrun in eas_wtengine
 fi;
 
 if enterAndClear "external/svox"; then
@@ -500,6 +504,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/368012.patch"; #Q_asb_20
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/378109.patch"; #Q_asb_2023-09 Settings: don't try to allow NLSes with too-long component names
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/378110.patch"; #Q_asb_2023-10 Restrict ApnEditor settings
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/380569.patch"; #Q_asb_2024-01 Validate ringtone URIs before setting
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/316891059-17.patch"; #x-asb_2024-05 Replace getCallingActivity() with getLaunchedFromPackage()
 git revert --no-edit 486980cfecce2ca64267f41462f9371486308e9d; #Don't hide OEM unlock
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/272651.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)

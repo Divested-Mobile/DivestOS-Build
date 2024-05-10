@@ -172,7 +172,7 @@ fi;
 
 if enterAndClear "external/sonivox"; then
 applyPatch "$DOS_PATCHES/android_external_sonivox/317038.patch"; #n-asb-2021-10 Fix global buffer overflow in WT_InterpolateNoLoop
-applyPatch "$DOS_PATCHES/android_external_sonivox/391896.patch"; #n-asb-2024-05 Fix buffer overrun in eas_wtengine
+applyPatch "$DOS_PATCHES_COMMON/android_external_sonivox/391896.patch"; #n-asb-2024-05 Fix buffer overrun in eas_wtengine
 fi;
 
 if enterAndClear "external/sqlite"; then

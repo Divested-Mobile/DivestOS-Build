@@ -99,7 +99,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_build/0001-verity-openssl3.patch"; #Fix 
 sed -i '74i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aapt2.mk; #Enable auto-add-overlay for packages, this allows the vendor overlay to easily work across all branches.
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 17/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 awk -i inplace '!/Email/' target/product/core.mk; #Remove Email
-sed -i 's/2022-01-05/2024-04-05/' core/version_defaults.mk; #Bump Security String #P_asb_2024-04 #XXX
+sed -i 's/2022-01-05/2024-05-05/' core/version_defaults.mk; #Bump Security String #P_asb_2024-04 #XXX
 fi;
 
 if enterAndClear "build/soong"; then
@@ -179,8 +179,8 @@ if enterAndClear "external/libxml2"; then
 applyPatch "$DOS_PATCHES/android_external_libxml2/370701.patch"; #P_asb_2023-10 malloc-fail: Fix OOB read after xmlRegGetCounter
 fi;
 
-if enterAndClear "external/zlib"; then
-applyPatch "$DOS_PATCHES/android_external_zlib/351909.patch"; #P_asb_2023-03 Fix a bug when getting a gzip header extra field with inflate().
+if enterAndClear "external/sonivox"; then
+applyPatch "$DOS_PATCHES_COMMON/android_external_sonivox/391896.patch"; #n-asb-2024-05 Fix buffer overrun in eas_wtengine
 fi;
 
 if enterAndClear "external/svox"; then
@@ -188,6 +188,10 @@ git revert --no-edit 1419d63b4889a26d22443fd8df1f9073bf229d3d; #Add back Makefil
 sed -i '12iLOCAL_SDK_VERSION := current' pico/Android.mk; #Fix build under Pie
 sed -i 's/about to delete/unable to delete/' pico/src/com/svox/pico/LangPackUninstaller.java;
 awk -i inplace '!/deletePackage/' pico/src/com/svox/pico/LangPackUninstaller.java;
+fi;
+
+if enterAndClear "external/zlib"; then
+applyPatch "$DOS_PATCHES/android_external_zlib/351909.patch"; #P_asb_2023-03 Fix a bug when getting a gzip header extra field with inflate().
 fi;
 
 if enterAndClear "frameworks/av"; then
@@ -526,6 +530,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/351915.patch"; #P_asb_20
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/359734.patch"; #P_asb_2023-06 Convert argument to intent in AddAccountSettings.
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/366136.patch"; #P_asb_2023-09 Prevent non-system IME from becoming device admin
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/370700.patch"; #P_asb_2023-10 Restrict ApnEditor settings
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/316891059-16.patch"; #x-asb_2024-05 Replace getCallingActivity() with getLaunchedFromPackage()
 git revert --no-edit c240992b4c86c7f226290807a2f41f2619e7e5e8; #Don't hide OEM unlock
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0004-Private_DNS.patch"; #More 'Private DNS' options (heavily based off of a CalyxOS patch) #TODO: Needs work

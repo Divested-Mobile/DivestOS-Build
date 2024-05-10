@@ -96,7 +96,7 @@ sed -i '75i$(my_res_package): PRIVATE_AAPT_FLAGS += --auto-add-overlay' core/aap
 awk -i inplace '!/updatable_apex.mk/' target/product/mainline_system.mk; #Disable APEX
 sed -i 's/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 23/PLATFORM_MIN_SUPPORTED_TARGET_SDK_VERSION := 28/' core/version_defaults.mk; #Set the minimum supported target SDK to Pie (GrapheneOS)
 #sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false/' core/product_config.mk; #broken by hardenDefconfig
-sed -i 's/2024-02-05/2024-04-05/' core/version_defaults.mk; #Bump Security String #R_asb_2024-04
+sed -i 's/2024-02-05/2024-05-05/' core/version_defaults.mk; #Bump Security String #x_asb_2024-04
 fi;
 
 if enterAndClear "build/soong"; then
@@ -129,6 +129,10 @@ sed -i -e '22,24d;' androidtest/Android.bp; #fix compile under A12
 awk -i inplace '!/vendor_ramdisk_available/' Android.bp; #fix compile under A11
 rm -rfv androidtest; #fix compile under A11
 fi;
+fi;
+
+if enterAndClear "external/sonivox"; then
+applyPatch "$DOS_PATCHES_COMMON/android_external_sonivox/391896.patch"; #n-asb-2024-05 Fix buffer overrun in eas_wtengine
 fi;
 
 if enterAndClear "frameworks/av"; then
@@ -341,6 +345,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_PermissionController/0002-Special
 fi;
 
 if enterAndClear "packages/apps/Settings"; then
+applyPatch "$DOS_PATCHES/android_packages_apps_Settings/316891059-18.patch"; #x-asb_2024-05 Replace getCallingActivity() with getLaunchedFromPackage()
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle.patch"; #Add option to disable captive portal checks (MSe1969)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Toggle-gos.patch"; #Add option to disable captive portal checks (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0003-Remove_SensorsOff_Tile.patch"; #Remove the Sensors Off development tile (DivestOS)

@@ -1,0 +1,142 @@
+diff --git a/services/core/java/com/android/server/clipboard/ClipboardService.java b/services/core/java/com/android/server/clipboard/ClipboardService.java
+index 093ecd57124f..18f397551be8 100644
+--- a/services/core/java/com/android/server/clipboard/ClipboardService.java
++++ b/services/core/java/com/android/server/clipboard/ClipboardService.java
+@@ -1006,7 +1006,7 @@ public class ClipboardService extends SystemService {
+                         getContext().getString(R.string.pasted_from_clipboard, callingAppLabel);
+                 Slog.i(TAG, message);
+                 Toast.makeText(
+-                        getContext(), UiThread.get().getLooper(), message, Toast.LENGTH_SHORT)
++                        getContext(), UiThread.get().getLooper(), message, Toast.LENGTH_LONG)
+                         .show();
+             } catch (PackageManager.NameNotFoundException e) {
+                 // do nothing
+diff --git a/services/core/java/com/android/server/notification/NotificationManagerService.java b/services/core/java/com/android/server/notification/NotificationManagerService.java
+index 1044611e1dad..438d7f67d775 100755
+--- a/services/core/java/com/android/server/notification/NotificationManagerService.java
++++ b/services/core/java/com/android/server/notification/NotificationManagerService.java
+@@ -3224,8 +3224,19 @@ public class NotificationManagerService extends SystemService {
+                                 null /* options */);
+                         record = getToastRecord(callingUid, callingPid, pkg, isSystemToast, token,
+                                 text, callback, duration, windowToken, displayId, textCallback);
+-                        mToastQueue.add(record);
+-                        index = mToastQueue.size() - 1;
++
++                        // Insert system toasts at the front of the queue
++                        int systemToastInsertIdx = mToastQueue.size();
++                        if (isSystemToast) {
++                            systemToastInsertIdx = getInsertIndexForSystemToastLocked();
++                        }
++                        if (systemToastInsertIdx < mToastQueue.size()) {
++                            index = systemToastInsertIdx;
++                            mToastQueue.add(index, record);
++                        } else {
++                            mToastQueue.add(record);
++                            index = mToastQueue.size() - 1;
++                        }
+                         keepProcessAliveForToastIfNeededLocked(callingPid);
+                     }
+                     // If it's at index 0, it's the current toast.  It doesn't matter if it's
+@@ -3241,6 +3252,23 @@ public class NotificationManagerService extends SystemService {
+             }
+         }
+ 
++        @GuardedBy("mToastQueue")
++        private int getInsertIndexForSystemToastLocked() {
++            // If there are other system toasts: insert after the last one
++            int idx = 0;
++            for (ToastRecord r : mToastQueue) {
++                if (idx == 0 && mIsCurrentToastShown) {
++                    idx++;
++                    continue;
++                }
++                if (!r.isSystemToast) {
++                    return idx;
++                }
++                idx++;
++            }
++            return idx;
++        }
++
+         private boolean checkCanEnqueueToast(String pkg, int callingUid,
+                 boolean isAppRenderedToast, boolean isSystemToast) {
+             final boolean isPackageSuspended = isPackagePaused(pkg);
+diff --git a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
+index dff3a1623403..afe3f4e93521 100755
+--- a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
++++ b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
+@@ -6125,6 +6125,74 @@ public class NotificationManagerServiceTest extends UiServiceTestCase {
+         assertEquals(NotificationManagerService.MAX_PACKAGE_TOASTS, mService.mToastQueue.size());
+     }
+ 
++    @Test
++    public void testPrioritizeSystemToasts() throws Exception {
++        // Insert non-system toasts
++        final String testPackage = "testPackageName";
++        assertEquals(0, mService.mToastQueue.size());
++        mService.isSystemUid = false;
++        mService.isSystemAppId = false;
++        setToastRateIsWithinQuota(true);
++        setIfPackageHasPermissionToAvoidToastRateLimiting(testPackage, false);
++
++        // package is not suspended
++        when(mPackageManager.isPackageSuspendedForUser(testPackage, UserHandle.getUserId(mUid)))
++                .thenReturn(false);
++
++        INotificationManager nmService = (INotificationManager) mService.mService;
++
++        // Enqueue maximum number of toasts for test package
++        for (int i = 0; i < NotificationManagerService.MAX_PACKAGE_TOASTS; i++) {
++            nmService.enqueueTextToast(testPackage, new Binder(), "Text", 2000, 0, null);
++        }
++
++        // Enqueue system toast
++        final String testPackageSystem = "testPackageNameSystem";
++        mService.isSystemUid = true;
++        setIfPackageHasPermissionToAvoidToastRateLimiting(testPackageSystem, false);
++        when(mPackageManager.isPackageSuspendedForUser(testPackageSystem, UserHandle.getUserId(mUid)))
++                .thenReturn(false);
++
++        nmService.enqueueToast(testPackageSystem, new Binder(), new TestableToastCallback(), 2000, 0);
++
++        // System toast is inserted at the front of the queue, behind current showing toast
++        assertEquals(testPackageSystem, mService.mToastQueue.get(1).pkg);
++    }
++
++    @Test
++    public void testPrioritizeSystemToasts_enqueueAfterExistingSystemToast() throws Exception {
++        // Insert system toasts
++        final String testPackageSystem1 = "testPackageNameSystem1";
++        assertEquals(0, mService.mToastQueue.size());
++        mService.isSystemUid = true;
++        setToastRateIsWithinQuota(true);
++        setIfPackageHasPermissionToAvoidToastRateLimiting(testPackageSystem1, false);
++
++        // package is not suspended
++        when(mPackageManager.isPackageSuspendedForUser(testPackageSystem1, UserHandle.getUserId(mUid)))
++                .thenReturn(false);
++
++        INotificationManager nmService = (INotificationManager) mService.mService;
++
++        // Enqueue maximum number of toasts for test package
++        for (int i = 0; i < NotificationManagerService.MAX_PACKAGE_TOASTS; i++) {
++            nmService.enqueueTextToast(testPackageSystem1, new Binder(), "Text", 2000, 0, null);
++        }
++
++        // Enqueue another system toast
++        final String testPackageSystem2 = "testPackageNameSystem2";
++        mService.isSystemUid = true;
++        setIfPackageHasPermissionToAvoidToastRateLimiting(testPackageSystem2, false);
++        when(mPackageManager.isPackageSuspendedForUser(testPackageSystem2, UserHandle.getUserId(mUid)))
++                .thenReturn(false);
++
++        nmService.enqueueToast(testPackageSystem2, new Binder(), new TestableToastCallback(), 2000, 0);
++
++        // System toast is inserted at the back of the queue, after the other system toasts
++        assertEquals(testPackageSystem2,
++                mService.mToastQueue.get(mService.mToastQueue.size() - 1).pkg);
++    }
++
+     private void setAppInForegroundForToasts(int uid, boolean inForeground) {
+         int importance = (inForeground) ? IMPORTANCE_FOREGROUND : IMPORTANCE_NONE;
+         when(mActivityManager.getUidImportance(mUid)).thenReturn(importance);

@@ -1,0 +1,100 @@
+diff --git a/arm-wt-22k/lib_src/eas_wtengine.c b/arm-wt-22k/lib_src/eas_wtengine.c
+index 950616e..9791fe8 100644
+--- a/arm-wt-22k/lib_src/eas_wtengine.c
++++ b/arm-wt-22k/lib_src/eas_wtengine.c
+@@ -99,6 +99,10 @@
+         ALOGE("b/26366256");
+         android_errorWriteLog(0x534e4554, "26366256");
+         return;
++    } else if (numSamples > BUFFER_SIZE_IN_MONO_SAMPLES) {
++        ALOGE("b/317780080 clip numSamples %ld -> %d", numSamples, BUFFER_SIZE_IN_MONO_SAMPLES);
++        android_errorWriteLog(0x534e4554, "317780080");
++        numSamples = BUFFER_SIZE_IN_MONO_SAMPLES;
+     }
+     pMixBuffer = pWTIntFrame->pMixBuffer;
+     pInputBuffer = pWTIntFrame->pAudioBuffer;
+@@ -196,6 +200,10 @@
+         ALOGE("b/26366256");
+         android_errorWriteLog(0x534e4554, "26366256");
+         return;
++    } else if (numSamples > BUFFER_SIZE_IN_MONO_SAMPLES) {
++        ALOGE("b/317780080 clip numSamples %ld -> %d", numSamples, BUFFER_SIZE_IN_MONO_SAMPLES);
++        android_errorWriteLog(0x534e4554, "317780080");
++        numSamples = BUFFER_SIZE_IN_MONO_SAMPLES;
+     }
+     pOutputBuffer = pWTIntFrame->pAudioBuffer;
+ 
+@@ -295,6 +303,10 @@
+         ALOGE("b/26366256");
+         android_errorWriteLog(0x534e4554, "26366256");
+         return;
++    } else if (numSamples > BUFFER_SIZE_IN_MONO_SAMPLES) {
++        ALOGE("b/317780080 clip numSamples %ld -> %d", numSamples, BUFFER_SIZE_IN_MONO_SAMPLES);
++        android_errorWriteLog(0x534e4554, "317780080");
++        numSamples = BUFFER_SIZE_IN_MONO_SAMPLES;
+     }
+     pOutputBuffer = pWTIntFrame->pAudioBuffer;
+ 
+@@ -395,6 +407,10 @@
+         ALOGE("b/26366256");
+         android_errorWriteLog(0x534e4554, "26366256");
+         return;
++    } else if (numSamples > BUFFER_SIZE_IN_MONO_SAMPLES) {
++        ALOGE("b/317780080 clip numSamples %ld -> %d", numSamples, BUFFER_SIZE_IN_MONO_SAMPLES);
++        android_errorWriteLog(0x534e4554, "317780080");
++        numSamples = BUFFER_SIZE_IN_MONO_SAMPLES;
+     }
+     pAudioBuffer = pWTIntFrame->pAudioBuffer;
+ 
+@@ -463,6 +479,10 @@
+         ALOGE("b/26366256");
+         android_errorWriteLog(0x534e4554, "26366256");
+         return;
++    } else if (numSamples > BUFFER_SIZE_IN_MONO_SAMPLES) {
++        ALOGE("b/317780080 clip numSamples %ld -> %d", numSamples, BUFFER_SIZE_IN_MONO_SAMPLES);
++        android_errorWriteLog(0x534e4554, "317780080");
++        numSamples = BUFFER_SIZE_IN_MONO_SAMPLES;
+     }
+     pOutputBuffer = pWTIntFrame->pAudioBuffer;
+     phaseInc = pWTIntFrame->frame.phaseIncrement;
+@@ -611,6 +631,10 @@
+         ALOGE("b/26366256");
+         android_errorWriteLog(0x534e4554, "26366256");
+         return;
++    } else if (numSamples > BUFFER_SIZE_IN_MONO_SAMPLES) {
++        ALOGE("b/317780080 clip numSamples %ld -> %d", numSamples, BUFFER_SIZE_IN_MONO_SAMPLES);
++        android_errorWriteLog(0x534e4554, "317780080");
++        numSamples = BUFFER_SIZE_IN_MONO_SAMPLES;
+     }
+     pMixBuffer = pWTIntFrame->pMixBuffer;
+ 
+diff --git a/arm-wt-22k/lib_src/eas_wtsynth.c b/arm-wt-22k/lib_src/eas_wtsynth.c
+index 74f78f5..ea1fe78 100644
+--- a/arm-wt-22k/lib_src/eas_wtsynth.c
++++ b/arm-wt-22k/lib_src/eas_wtsynth.c
+@@ -484,7 +484,12 @@
+         /*lint -e{703} use shift for performance */
+         numSamples = (numSamples << NUM_PHASE_FRAC_BITS) - (EAS_I32) pWTVoice->phaseFrac;
+         if (pWTIntFrame->frame.phaseIncrement) {
+-            pWTIntFrame->numSamples = 1 + (numSamples / pWTIntFrame->frame.phaseIncrement);
++            EAS_I32 oldMethod = 1 + (numSamples / pWTIntFrame->frame.phaseIncrement);
++            pWTIntFrame->numSamples =
++                (numSamples + pWTIntFrame->frame.phaseIncrement - 1) / pWTIntFrame->frame.phaseIncrement;
++            if (oldMethod != pWTIntFrame->numSamples) {
++                ALOGE("b/317780080 old %ld new %ld", oldMethod, pWTIntFrame->numSamples);
++            }
+         } else {
+             pWTIntFrame->numSamples = numSamples;
+         }
+@@ -492,6 +497,11 @@
+             ALOGE("b/26366256");
+             android_errorWriteLog(0x534e4554, "26366256");
+             pWTIntFrame->numSamples = 0;
++        } else if (pWTIntFrame->numSamples > BUFFER_SIZE_IN_MONO_SAMPLES) {
++            ALOGE("b/317780080 clip numSamples %ld -> %d",
++                  pWTIntFrame->numSamples, BUFFER_SIZE_IN_MONO_SAMPLES);
++            android_errorWriteLog(0x534e4554, "317780080");
++            pWTIntFrame->numSamples = BUFFER_SIZE_IN_MONO_SAMPLES;
+         }
+ 
+         /* sound will be done this frame */
