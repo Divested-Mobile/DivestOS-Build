@@ -136,7 +136,7 @@ applyPatch "$DOS_PATCHES_COMMON/android_external_sonivox/392224.patch"; #T_asb_2
 fi;
 
 if enterAndClear "frameworks/base"; then
-applyPatch "$DOS_PATCHES/android_frameworks_base/293301736-19.patch"; #x-asb_2024-05 Prioritize system toasts
+applyPatch "$DOS_PATCHES/android_frameworks_base/392225.patch"; #T_asb_2024-05 Prioritize system toasts
 git revert --no-edit 83fe523914728a3674debba17a6019cb74803045; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/344888-backport.patch"; #fixup! fw/b: Add support for allowing/disallowing apps on cellular, vpn and wifi networks (CalyxOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
