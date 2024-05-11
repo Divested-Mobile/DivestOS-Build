@@ -132,7 +132,7 @@ sed -i '11iLOCAL_OVERRIDES_PACKAGES := Camera Camera2 LegacyCamera Snap OpenCame
 fi;
 
 if enterAndClear "external/sonivox"; then
-applyPatch "$DOS_PATCHES_COMMON/android_external_sonivox/317780080.patch"; #x-asb_2024-05 Fix buffer overrun in eas_wtengine
+applyPatch "$DOS_PATCHES_COMMON/android_external_sonivox/392224.patch"; #T_asb_2024-05 Fix buffer overrun in eas_wtengine
 fi;
 
 if enterAndClear "frameworks/base"; then

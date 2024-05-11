@@ -1,8 +1,29 @@
+From f9b598c828134f60235b6ec13b3e2cc292d0a64d Mon Sep 17 00:00:00 2001
+From: Ray Essick <essick@google.com>
+Date: Wed, 14 Feb 2024 11:10:41 -0600
+Subject: [PATCH] fix buffer overrun in eas_wtengine
+
+avoid a buffer overrun in eas_wtengine.
+Check buffer limits during application of gain
+Clip calculated length in eas_wtsynth
+
+Bug: 317780080
+Test: POC with bug
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:6b66e7665dbcd891ff23081c13ab0b1637bb1dda)
+backporting fix from main
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:5d93ba096d54c157d106559c045d46357e51d158)
+Merged-In: I3609d6a36d89b26ae7eb3ae84cbe7772f6c3bee0
+Change-Id: I3609d6a36d89b26ae7eb3ae84cbe7772f6c3bee0
+---
+ arm-wt-22k/lib_src/eas_wtengine.c | 24 ++++++++++++++++++++++++
+ arm-wt-22k/lib_src/eas_wtsynth.c  | 12 +++++++++++-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+
 diff --git a/arm-wt-22k/lib_src/eas_wtengine.c b/arm-wt-22k/lib_src/eas_wtengine.c
-index 950616e..9791fe8 100644
+index b1ee749..dc8d864 100644
 --- a/arm-wt-22k/lib_src/eas_wtengine.c
 +++ b/arm-wt-22k/lib_src/eas_wtengine.c
-@@ -99,6 +99,10 @@
+@@ -99,6 +99,10 @@ void WT_VoiceGain (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame)
          ALOGE("b/26366256");
          android_errorWriteLog(0x534e4554, "26366256");
          return;
@@ -13,7 +34,7 @@ index 950616e..9791fe8 100644
      }
      pMixBuffer = pWTIntFrame->pMixBuffer;
      pInputBuffer = pWTIntFrame->pAudioBuffer;
-@@ -196,6 +200,10 @@
+@@ -196,6 +200,10 @@ void WT_Interpolate (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame)
          ALOGE("b/26366256");
          android_errorWriteLog(0x534e4554, "26366256");
          return;
@@ -24,7 +45,7 @@ index 950616e..9791fe8 100644
      }
      pOutputBuffer = pWTIntFrame->pAudioBuffer;
  
-@@ -295,6 +303,10 @@
+@@ -297,6 +305,10 @@ void WT_InterpolateNoLoop (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame)
          ALOGE("b/26366256");
          android_errorWriteLog(0x534e4554, "26366256");
          return;
@@ -35,7 +56,7 @@ index 950616e..9791fe8 100644
      }
      pOutputBuffer = pWTIntFrame->pAudioBuffer;
  
-@@ -395,6 +407,10 @@
+@@ -397,6 +409,10 @@ void WT_VoiceFilter (S_FILTER_CONTROL *pFilter, S_WT_INT_FRAME *pWTIntFrame)
          ALOGE("b/26366256");
          android_errorWriteLog(0x534e4554, "26366256");
          return;
@@ -46,7 +67,7 @@ index 950616e..9791fe8 100644
      }
      pAudioBuffer = pWTIntFrame->pAudioBuffer;
  
-@@ -463,6 +479,10 @@
+@@ -465,6 +481,10 @@ void WT_VoiceFilter (S_FILTER_CONTROL *pFilter, S_WT_INT_FRAME *pWTIntFrame)
          ALOGE("b/26366256");
          android_errorWriteLog(0x534e4554, "26366256");
          return;
@@ -57,7 +78,7 @@ index 950616e..9791fe8 100644
      }
      pOutputBuffer = pWTIntFrame->pAudioBuffer;
      phaseInc = pWTIntFrame->frame.phaseIncrement;
-@@ -611,6 +631,10 @@
+@@ -613,6 +633,10 @@ void WT_InterpolateMono (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame)
          ALOGE("b/26366256");
          android_errorWriteLog(0x534e4554, "26366256");
          return;
@@ -72,7 +93,7 @@ diff --git a/arm-wt-22k/lib_src/eas_wtsynth.c b/arm-wt-22k/lib_src/eas_wtsynth.c
 index 74f78f5..ea1fe78 100644
 --- a/arm-wt-22k/lib_src/eas_wtsynth.c
 +++ b/arm-wt-22k/lib_src/eas_wtsynth.c
-@@ -484,7 +484,12 @@
+@@ -484,7 +484,12 @@ EAS_BOOL WT_CheckSampleEnd (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame, E
          /*lint -e{703} use shift for performance */
          numSamples = (numSamples << NUM_PHASE_FRAC_BITS) - (EAS_I32) pWTVoice->phaseFrac;
          if (pWTIntFrame->frame.phaseIncrement) {
@@ -86,7 +107,7 @@ index 74f78f5..ea1fe78 100644
          } else {
              pWTIntFrame->numSamples = numSamples;
          }
-@@ -492,6 +497,11 @@
+@@ -492,6 +497,11 @@ EAS_BOOL WT_CheckSampleEnd (S_WT_VOICE *pWTVoice, S_WT_INT_FRAME *pWTIntFrame, E
              ALOGE("b/26366256");
              android_errorWriteLog(0x534e4554, "26366256");
              pWTIntFrame->numSamples = 0;
