@@ -56,7 +56,7 @@ index 63bf420c027..eaadbc2af50 100644
 -        if (isSettingsPackage || isWhitelistedPackage) {
 +        final boolean isSettingsPackage = TextUtils.equals(callerPackage, context.getPackageName())
 +                || TextUtils.equals(getSettingsIntelligencePkgName(context), callerPackage);
-+        final boolean isAllowlistedPackage = isSignatureAllowlisted(context, callerPackage);
++        final boolean isAllowlistedPackage = isSignatureWhitelisted(context, callerPackage);
 +        if (isSettingsPackage || isAllowlistedPackage) {
              return;
          }

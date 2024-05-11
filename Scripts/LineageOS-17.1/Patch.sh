@@ -296,8 +296,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/391910.patch"; #Q_asb_2024-03 A
 applyPatch "$DOS_PATCHES/android_frameworks_base/391911.patch"; #Q_asb_2024-03 Validate package names passed to the installer.
 applyPatch "$DOS_PATCHES/android_frameworks_base/391912.patch"; #Q_asb_2024-03 Disallow system apps to be installed/updated as instant.
 applyPatch "$DOS_PATCHES/android_frameworks_base/391913.patch"; #Q_asb_2024-03 Close AccountManagerService.session after timeout.
-applyPatch "$DOS_PATCHES/android_frameworks_base/389014-backport.patch"; #S_asb_2024-04 Fix security vulnerability that creates user with no restrictions when accountOptions are too long.
-applyPatch "$DOS_PATCHES/android_frameworks_base/389269-backport.patch"; #P_asb_2024-04 Close isUserInLockDown can be true when there are other strong auth requirements
+applyPatch "$DOS_PATCHES/android_frameworks_base/392204.patch"; #Q_asb_2024-04 isUserInLockDown can be true when there are other strong auth requirements
+applyPatch "$DOS_PATCHES/android_frameworks_base/392205.patch"; #Q_asb_2024-04 Fix security vulnerability that creates user with no restrictions when accountOptions are too long.
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272645.patch"; #ten-bt-sbc-hd-dualchannel: Add CHANNEL_MODE_DUAL_CHANNEL constant (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272646-forwardport.patch"; #ten-bt-sbc-hd-dualchannel: Add Dual Channel into Bluetooth Audio Channel Mode developer options menu (ValdikSS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/272647.patch"; #ten-bt-sbc-hd-dualchannel: Allow SBC as HD audio codec in Bluetooth device configuration (ValdikSS)

@@ -23,7 +23,7 @@ index 78c47edf046..262f220f8ab 100644
  import android.content.Context;
  import android.text.TextUtils;
  
-+import androidx.annotation.NonNull;
++import android.annotation.NonNull;
 +
  import com.android.internal.annotations.VisibleForTesting;
  import com.android.settings.overlay.FeatureFactory;
@@ -55,7 +55,7 @@ index 78c47edf046..262f220f8ab 100644
 -        if (isSettingsPackage || isWhitelistedPackage) {
 +        final boolean isSettingsPackage = TextUtils.equals(callerPackage, context.getPackageName())
 +                || TextUtils.equals(getSettingsIntelligencePkgName(), callerPackage);
-+        final boolean isAllowlistedPackage = isSignatureAllowlisted(context, callerPackage);
++        final boolean isAllowlistedPackage = isSignatureWhitelisted(context, callerPackage);
 +        if (isSettingsPackage || isAllowlistedPackage) {
              return;
          }

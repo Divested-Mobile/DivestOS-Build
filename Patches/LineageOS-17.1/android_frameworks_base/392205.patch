@@ -1,4 +1,4 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From f856be82ebd99d0f9f261058cea4fc58c729ad21 Mon Sep 17 00:00:00 2001
 From: Tetiana Meronyk <tetianameronyk@google.com>
 Date: Wed, 10 Jan 2024 16:25:13 +0000
 Subject: [PATCH] Fix security vulnerability that creates user with no
@@ -6,22 +6,22 @@ Subject: [PATCH] Fix security vulnerability that creates user with no
 
 Bug: 293602970
 Test: atest UserManagerTest#testAddUserAccountData_validStringValuesAreSaved_validBundleIsSaved && atest UserManagerTest#testAddUserAccountData_invalidStringValuesAreTruncated_invalidBundleIsDropped
-(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:944ea959ab8464c39a8f6a4fc391fb6953e1df89)
+(cherry picked from https://googleplex-android-review.googlesource.com/q/commit:8dc6feaee7c0a5cea093b5280acaad862921cf3e)
 Merged-In: I23c971f671546ac085060add89485cfac6691ca3
 Change-Id: I23c971f671546ac085060add89485cfac6691ca3
 ---
  core/java/android/os/PersistableBundle.java   |  37 +++++++
  core/java/android/os/UserManager.java         |  23 +++-
- .../app/ConfirmUserCreationActivity.java      |  12 +++
- .../android/server/pm/UserManagerService.java |  29 ++---
- .../android/server/pm/UserManagerTest.java    | 102 ++++++++++++++++++
- 5 files changed, 187 insertions(+), 16 deletions(-)
+ .../app/ConfirmUserCreationActivity.java      |  12 ++
+ .../android/server/pm/UserManagerService.java |  29 +++--
+ .../android/server/pm/UserManagerTest.java    | 103 ++++++++++++++++++
+ 5 files changed, 188 insertions(+), 16 deletions(-)
 
 diff --git a/core/java/android/os/PersistableBundle.java b/core/java/android/os/PersistableBundle.java
-index 3e6312754359..bf584c957aa0 100644
+index 3e63127543593..bf584c957aa0b 100644
 --- a/core/java/android/os/PersistableBundle.java
 +++ b/core/java/android/os/PersistableBundle.java
-@@ -268,6 +268,43 @@ public final class PersistableBundle extends BaseBundle implements Cloneable, Pa
+@@ -268,6 +268,43 @@ public void saveToXml(XmlSerializer out) throws IOException, XmlPullParserExcept
          XmlUtils.writeMapXml(mMap, out, this);
      }
  
@@ -66,7 +66,7 @@ index 3e6312754359..bf584c957aa0 100644
      static class MyReadMapCallback implements  XmlUtils.ReadMapCallback {
          @Override
 diff --git a/core/java/android/os/UserManager.java b/core/java/android/os/UserManager.java
-index da41478e91a6..fc714923bf41 100644
+index da41478e91a66..fc714923bf41d 100644
 --- a/core/java/android/os/UserManager.java
 +++ b/core/java/android/os/UserManager.java
 @@ -77,6 +77,21 @@ public class UserManager {
@@ -91,7 +91,7 @@ index da41478e91a6..fc714923bf41 100644
      /**
       * @hide
       * No user restriction.
-@@ -2199,15 +2214,15 @@ public class UserManager {
+@@ -2199,15 +2214,15 @@ public UserInfo createRestrictedProfile(String name) {
       * time, the preferred user name and account information are used by the setup process for that
       * user.
       *
@@ -112,10 +112,10 @@ index da41478e91a6..fc714923bf41 100644
       * @see #USER_CREATION_FAILED_NOT_PERMITTED
       * @see #USER_CREATION_FAILED_NO_MORE_USERS
 diff --git a/core/java/com/android/internal/app/ConfirmUserCreationActivity.java b/core/java/com/android/internal/app/ConfirmUserCreationActivity.java
-index 03da9bc939ec..74dedc38a922 100644
+index 03da9bc939ec5..74dedc38a9227 100644
 --- a/core/java/com/android/internal/app/ConfirmUserCreationActivity.java
 +++ b/core/java/com/android/internal/app/ConfirmUserCreationActivity.java
-@@ -110,6 +110,14 @@ public class ConfirmUserCreationActivity extends AlertActivity
+@@ -110,6 +110,14 @@ private String checkUserCreationRequirements() {
          if (cantCreateUser) {
              setResult(UserManager.USER_CREATION_FAILED_NOT_PERMITTED);
              return null;
@@ -130,7 +130,7 @@ index 03da9bc939ec..74dedc38a922 100644
          } else if (cantCreateAnyMoreUsers) {
              setResult(UserManager.USER_CREATION_FAILED_NO_MORE_USERS);
              return null;
-@@ -137,4 +145,8 @@ public class ConfirmUserCreationActivity extends AlertActivity
+@@ -137,4 +145,8 @@ public void onClick(DialogInterface dialog, int which) {
          }
          finish();
      }
@@ -140,7 +140,7 @@ index 03da9bc939ec..74dedc38a922 100644
 +    }
  }
 diff --git a/services/core/java/com/android/server/pm/UserManagerService.java b/services/core/java/com/android/server/pm/UserManagerService.java
-index 318c11141cfe..645ee1a2f12e 100644
+index 318c11141cfed..645ee1a2f12e5 100644
 --- a/services/core/java/com/android/server/pm/UserManagerService.java
 +++ b/services/core/java/com/android/server/pm/UserManagerService.java
 @@ -225,8 +225,6 @@ public class UserManagerService extends IUserManager.Stub {
@@ -152,7 +152,7 @@ index 318c11141cfe..645ee1a2f12e 100644
      private static final long EPOCH_PLUS_30_YEARS = 30L * 365 * 24 * 60 * 60 * 1000L; // ms
  
      // Maximum number of managed profiles permitted per user is 1. This cannot be increased
-@@ -2420,16 +2418,18 @@ public class UserManagerService extends IUserManager.Stub {
+@@ -2420,16 +2418,18 @@ void writeUserLP(UserData userData, OutputStream os)
          if (userData.persistSeedData) {
              if (userData.seedAccountName != null) {
                  serializer.attribute(null, ATTR_SEED_ACCOUNT_NAME,
@@ -174,7 +174,7 @@ index 318c11141cfe..645ee1a2f12e 100644
              serializer.endTag(null, TAG_NAME);
          }
          synchronized (mRestrictionsLock) {
-@@ -2470,11 +2470,11 @@ public class UserManagerService extends IUserManager.Stub {
+@@ -2470,11 +2470,11 @@ void writeUserLP(UserData userData, OutputStream os)
          serializer.endDocument();
      }
  
@@ -189,7 +189,7 @@ index 318c11141cfe..645ee1a2f12e 100644
      }
  
      /*
-@@ -2819,7 +2819,7 @@ public class UserManagerService extends IUserManager.Stub {
+@@ -2819,7 +2819,7 @@ private UserInfo createUserInternalUnchecked(@Nullable String name, @UserInfoFla
      private UserInfo createUserInternalUncheckedNoTracing(@Nullable String name,
              @UserInfoFlag int flags, @UserIdInt int parentId, boolean preCreate,
              @Nullable String[] disallowedPackages, @NonNull TimingsTraceLog t) {
@@ -198,7 +198,7 @@ index 318c11141cfe..645ee1a2f12e 100644
          // First try to use a pre-created user (if available).
          // NOTE: currently we don't support pre-created managed profiles
          if (!preCreate && (parentId < 0 && !UserInfo.isManagedProfile(flags))) {
-@@ -3877,9 +3877,14 @@ public class UserManagerService extends IUserManager.Stub {
+@@ -3877,9 +3877,14 @@ public void setSeedAccountData(int userId, String accountName, String accountTyp
                      Slog.e(LOG_TAG, "No such user for settings seed data u=" + userId);
                      return;
                  }
@@ -217,10 +217,19 @@ index 318c11141cfe..645ee1a2f12e 100644
              }
              if (persist) {
 diff --git a/services/tests/servicestests/src/com/android/server/pm/UserManagerTest.java b/services/tests/servicestests/src/com/android/server/pm/UserManagerTest.java
-index e9edba58a3dd..331bbb753ebf 100644
+index e9edba58a3dd7..69548f839c1e0 100644
 --- a/services/tests/servicestests/src/com/android/server/pm/UserManagerTest.java
 +++ b/services/tests/servicestests/src/com/android/server/pm/UserManagerTest.java
-@@ -24,6 +24,7 @@ import android.content.IntentFilter;
+@@ -16,6 +16,8 @@
+ 
+ package com.android.server.pm;
+ 
++import static org.junit.Assert.assertTrue;
++
+ import android.app.ActivityManager;
+ import android.content.BroadcastReceiver;
+ import android.content.Context;
+@@ -24,6 +26,7 @@
  import android.content.pm.PackageManager;
  import android.content.pm.UserInfo;
  import android.os.Bundle;
@@ -228,7 +237,7 @@ index e9edba58a3dd..331bbb753ebf 100644
  import android.os.UserHandle;
  import android.os.UserManager;
  import android.provider.Settings;
-@@ -601,6 +602,107 @@ public class UserManagerTest extends AndroidTestCase {
+@@ -601,6 +604,106 @@ public void testConcurrentUserCreate() throws Exception {
          assertEquals(canBeCreatedCount, created.get());
      }
  
@@ -331,7 +340,6 @@ index e9edba58a3dd..331bbb753ebf 100644
 +        }
 +        return resultString.toString();
 +    }
-+
 +
      private boolean isPackageInstalledForUser(String packageName, int userId) {
          try {

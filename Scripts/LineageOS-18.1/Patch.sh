@@ -149,6 +149,8 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/385539.patch"; #R_asb_2024-03 C
 applyPatch "$DOS_PATCHES/android_frameworks_base/389131.patch"; #R_asb_2024-04 Added limitations for attributions to handle invalid cases
 applyPatch "$DOS_PATCHES/android_frameworks_base/389132.patch"; #R_asb_2024-04 isUserInLockDown can be true when there are other strong auth requirements
 applyPatch "$DOS_PATCHES/android_frameworks_base/389133.patch"; #R_asb_2024-04 Fix security vulnerability that creates user with no restrictions when accountOptions are too long.
+applyPatch "$DOS_PATCHES/android_frameworks_base/392206.patch"; #R_asb_2024-05 Don't try to show the current toast again while it's showing.
+applyPatch "$DOS_PATCHES/android_frameworks_base/392207.patch"; #R_asb_2024-05 Prioritize system toasts
 git revert --no-edit 438d9feacfcad73d3ee918541574132928a93644; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
