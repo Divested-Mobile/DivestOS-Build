@@ -1,4 +1,4 @@
-From 14e41b9febe8d5eaf1da70e720bc33e708f8966e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Beverly <beverlyt@google.com>
 Date: Thu, 18 Jan 2024 20:13:52 +0000
 Subject: [PATCH] isUserInLockDown can be true when there are other strong auth
@@ -18,10 +18,10 @@ Change-Id: I5e979a7822dd7254b4579ab28ecf96df1db44179
  2 files changed, 37 insertions(+), 7 deletions(-)
 
 diff --git a/core/java/com/android/internal/widget/LockPatternUtils.java b/core/java/com/android/internal/widget/LockPatternUtils.java
-index 1f49cab989723..2857324d524cc 100644
+index 1f49cab98972..2857324d524c 100644
 --- a/core/java/com/android/internal/widget/LockPatternUtils.java
 +++ b/core/java/com/android/internal/widget/LockPatternUtils.java
-@@ -1794,8 +1794,8 @@ public boolean isBiometricAllowedForUser(int userId) {
+@@ -1794,8 +1794,8 @@ public class LockPatternUtils {
      }
  
      public boolean isUserInLockdown(int userId) {
@@ -33,10 +33,10 @@ index 1f49cab989723..2857324d524cc 100644
  
      private ICheckCredentialProgressCallback wrapCallback(
 diff --git a/core/tests/utiltests/src/com/android/internal/util/LockPatternUtilsTest.java b/core/tests/utiltests/src/com/android/internal/util/LockPatternUtilsTest.java
-index 9913531cdf132..433a35bffeb80 100644
+index 9913531cdf13..433a35bffeb8 100644
 --- a/core/tests/utiltests/src/com/android/internal/util/LockPatternUtilsTest.java
 +++ b/core/tests/utiltests/src/com/android/internal/util/LockPatternUtilsTest.java
-@@ -19,6 +19,9 @@
+@@ -19,6 +19,9 @@ package com.android.internal.util;
  import static android.app.admin.DevicePolicyManager.PASSWORD_QUALITY_MANAGED;
  import static android.app.admin.DevicePolicyManager.PASSWORD_QUALITY_UNSPECIFIED;
  
@@ -46,7 +46,7 @@ index 9913531cdf132..433a35bffeb80 100644
  import static org.junit.Assert.assertFalse;
  import static org.junit.Assert.assertTrue;
  import static org.mockito.Mockito.doReturn;
-@@ -48,12 +51,15 @@
+@@ -48,12 +51,15 @@ import org.mockito.Mockito;
  @SmallTest
  public class LockPatternUtilsTest {
  
@@ -62,7 +62,7 @@ index 9913531cdf132..433a35bffeb80 100644
          final Context context = spy(new ContextWrapper(InstrumentationRegistry.getTargetContext()));
  
          final MockContentResolver cr = new MockContentResolver(context);
-@@ -61,13 +67,12 @@ private void configureTest(boolean isSecure, boolean isDemoUser, int deviceDemoM
+@@ -61,13 +67,12 @@ public class LockPatternUtilsTest {
          when(context.getContentResolver()).thenReturn(cr);
          Settings.Global.putInt(cr, Settings.Global.DEVICE_DEMO_MODE, deviceDemoMode);
  
@@ -80,7 +80,7 @@ index 9913531cdf132..433a35bffeb80 100644
          doReturn(true).when(mLockPatternUtils).hasSecureLockScreen();
  
          final UserInfo userInfo = Mockito.mock(UserInfo.class);
-@@ -77,6 +82,31 @@ private void configureTest(boolean isSecure, boolean isDemoUser, int deviceDemoM
+@@ -77,6 +82,31 @@ public class LockPatternUtilsTest {
          when(context.getSystemService(Context.USER_SERVICE)).thenReturn(um);
      }
  

@@ -134,7 +134,7 @@ git am $DOS_PATCHES/ASB-2023-10/av-*.patch;
 fi;
 
 if enterAndClear "frameworks/base"; then
-applyPatch "$DOS_PATCHES/android_frameworks_base/293301736-20.patch"; #x-asb_2024-05 Prioritize system toasts
+applyPatch "$DOS_PATCHES/android_frameworks_base/392225.patch"; #T_asb_2024-05 Prioritize system toasts
 git revert --no-edit d36faad3267522c6d3ff91ba9dcca8f6274bccd1; #Reverts "JobScheduler: Respect allow-in-power-save perm" in favor of below patch
 git revert --no-edit 90d6826548189ca850d91692e71fcc1be426f453; #Reverts "Remove sensitive info from SUPL requests" in favor of below patch
 git revert --no-edit 6d2955f0bd55e9938d5d49415182c27b50900b95; #Reverts "Allow signature spoofing for microG Companion/Services" in favor of below patch
