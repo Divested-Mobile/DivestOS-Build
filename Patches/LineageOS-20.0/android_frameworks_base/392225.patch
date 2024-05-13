@@ -1,4 +1,4 @@
-From e9260ee4913c64be7c2dd9fd4fd433be80db04f3 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Valentin Iftime <valiiftime@google.com>
 Date: Mon, 16 Oct 2023 09:29:17 +0200
 Subject: [PATCH] Prioritize system toasts
@@ -19,10 +19,10 @@ Change-Id: I13547f853476bc88d12026c545aba9f857ce8724
  3 files changed, 100 insertions(+), 4 deletions(-)
 
 diff --git a/services/core/java/com/android/server/clipboard/ClipboardService.java b/services/core/java/com/android/server/clipboard/ClipboardService.java
-index 6f9a17682dd7b..20157dd60b63b 100644
+index 6f9a17682dd7..20157dd60b63 100644
 --- a/services/core/java/com/android/server/clipboard/ClipboardService.java
 +++ b/services/core/java/com/android/server/clipboard/ClipboardService.java
-@@ -1189,11 +1189,11 @@ private void showAccessNotificationLocked(String callingPackage, int uid, @UserI
+@@ -1189,11 +1189,11 @@ public class ClipboardService extends SystemService {
                              .getDrawable(R.drawable.ic_safety_protection);
                      toastToShow = Toast.makeCustomToastWithIcon(getContext(),
                              UiThread.get().getLooper(), message,
@@ -37,10 +37,10 @@ index 6f9a17682dd7b..20157dd60b63b 100644
                  toastToShow.show();
              } catch (PackageManager.NameNotFoundException e) {
 diff --git a/services/core/java/com/android/server/notification/NotificationManagerService.java b/services/core/java/com/android/server/notification/NotificationManagerService.java
-index a59e2dbfe0f28..1c8c85cf8d291 100755
+index a59e2dbfe0f2..1c8c85cf8d29 100755
 --- a/services/core/java/com/android/server/notification/NotificationManagerService.java
 +++ b/services/core/java/com/android/server/notification/NotificationManagerService.java
-@@ -3369,8 +3369,19 @@ record = mToastQueue.get(index);
+@@ -3369,8 +3369,19 @@ public class NotificationManagerService extends SystemService {
                                  null /* options */);
                          record = getToastRecord(callingUid, callingPid, pkg, isSystemToast, token,
                                  text, callback, duration, windowToken, displayId, textCallback);
@@ -62,7 +62,7 @@ index a59e2dbfe0f28..1c8c85cf8d291 100755
                          keepProcessAliveForToastIfNeededLocked(callingPid);
                      }
                      // If it's at index 0, it's the current toast.  It doesn't matter if it's
-@@ -3386,6 +3397,23 @@ record = getToastRecord(callingUid, callingPid, pkg, isSystemToast, token,
+@@ -3386,6 +3397,23 @@ public class NotificationManagerService extends SystemService {
              }
          }
  
@@ -87,10 +87,10 @@ index a59e2dbfe0f28..1c8c85cf8d291 100755
                  boolean isAppRenderedToast, boolean isSystemToast) {
              final boolean isPackageSuspended = isPackagePaused(pkg);
 diff --git a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
-index 7a3754e4e5fa9..4f0a7ca0ad51f 100755
+index 7a3754e4e5fa..4f0a7ca0ad51 100755
 --- a/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
 +++ b/services/tests/uiservicestests/src/com/android/server/notification/NotificationManagerServiceTest.java
-@@ -7117,6 +7117,74 @@ public void testLimitNumberOfQueuedToastsFromPackage() throws Exception {
+@@ -7117,6 +7117,74 @@ public class NotificationManagerServiceTest extends UiServiceTestCase {
          assertEquals(NotificationManagerService.MAX_PACKAGE_TOASTS, mService.mToastQueue.size());
      }
  
