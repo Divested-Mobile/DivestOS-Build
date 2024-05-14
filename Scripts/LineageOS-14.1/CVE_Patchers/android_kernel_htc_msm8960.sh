@@ -544,6 +544,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26956/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26981/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-26994/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27009/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27401/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/797912_0001-usb-gadget-Fix-synchronization-issue-between-f_audio.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/870057_0001-wcnss-add-null-check-in-pm_ops-unregister.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2017-13167/3.4/0014.patch
@@ -551,7 +552,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
-editKernelLocalversion "-dos.p551"
+editKernelLocalversion "-dos.p552"
 else echo "kernel_htc_msm8960 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

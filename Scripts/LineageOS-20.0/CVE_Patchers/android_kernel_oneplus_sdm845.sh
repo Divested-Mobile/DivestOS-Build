@@ -215,11 +215,13 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27059/^6.8/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27074/^6.8/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27388/^6.8/0002.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27393/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27399/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27401/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-fortify/4.9/0003.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.9/0005.patch
-editKernelLocalversion "-dos.p219"
+editKernelLocalversion "-dos.p221"
 else echo "kernel_oneplus_sdm845 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

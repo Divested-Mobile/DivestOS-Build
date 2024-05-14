@@ -536,6 +536,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27008/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27009/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27059/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27388/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27401/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/Untracked-02/ANY/1035495_0001-cnss-Add-NULL-check-for-PM-related-APIs.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14053/3.4/0002.patch
@@ -543,7 +544,7 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2019-14283/3.18/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-29660/3.18/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2022-20423/3.4/0010.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
-editKernelLocalversion "-dos.p543"
+editKernelLocalversion "-dos.p544"
 else echo "kernel_cyanogen_msm8916 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"
