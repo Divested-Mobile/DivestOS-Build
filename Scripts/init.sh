@@ -99,8 +99,17 @@ export DOS_BRANDING_BOOTANIMATION_COLOR="#FF5722-#03A9F4"; #plasma
 export DOS_BRANDING_LINK_ABOUT="https://divestos.org/pages/about";
 export DOS_BRANDING_LINK_NEWS="https://divestos.org/pages/news";
 export DOS_BRANDING_LINK_PRIVACY="https://divestos.org/pages/privacy_policy";
-export DOS_BRANDING_SERVER_OTA="https://divestos.org/updater.php";
-export DOS_BRANDING_SERVER_OTA_ONION="$DOS_BRANDING_SERVER_OTA"; #TODO: need to handle allow cleartext
+
+#OTAs
+export DOS_OTA_SERVER_LEGACY="https://divestos.org/updater.php";
+export DOS_OTA_SERVER_EXTENDED=true; #Enable to provide mutliple choices as set below
+export DOS_OTA_SERVER_PRIMARY="https://divestos.org/updater.php";
+export DOS_OTA_SERVER_SECONDARY="https://divestos.eeyo.re/updater.php";
+export DOS_OTA_SERVER_SECONDARY_NAME="Cloudflare";
+export DOS_OTA_SERVER_ONION_PRIMARY="http://divestoseb5nncsydt7zzf5hrfg44md4bxqjs5ifcv4t7gt7u6ohjyyd.onion/updater.php";
+export DOS_OTA_SERVER_ONION_SECONDARY="http://2ceyag7ppvhliszes2v25n5lmpwhzqrc7sv72apqka6hwggfi42y2uid.onion/updater.php";
+export DOS_OTA_SERVER_ONION_DOMAIN_PRIMARY="divestoseb5nncsydt7zzf5hrfg44md4bxqjs5ifcv4t7gt7u6ohjyyd.onion"; #Used for network security config
+export DOS_OTA_SERVER_ONION_DOMAIN_SECONDARY="2ceyag7ppvhliszes2v25n5lmpwhzqrc7sv72apqka6hwggfi42y2uid.onion";
 
 #Theme
 export DOS_THEME_50="FFCA28"; #Amber 400
