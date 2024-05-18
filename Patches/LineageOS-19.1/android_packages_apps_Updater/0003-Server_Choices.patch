@@ -1,0 +1,207 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tavi <tavi@divested.dev>
+Date: Sat, 18 May 2024 11:21:24 -0400
+Subject: [PATCH] Add server choices
+
+Change-Id: I43524f0567eabff163ce81c4a93cf145542a3d5d
+Signed-off-by: Tavi <tavi@divested.dev>
+---
+ AndroidManifest.xml                           |  3 ++-
+ res/layout/preferences_dialog.xml             | 22 +++++++++++++++
+ res/values/arrays.xml                         |  7 +++++
+ res/values/strings.xml                        |  5 ++++
+ res/xml/network_security_config.xml           |  8 ++++++
+ .../lineageos/updater/UpdatesActivity.java    |  4 +++
+ src/org/lineageos/updater/misc/Constants.java | 11 ++++++++
+ src/org/lineageos/updater/misc/Utils.java     | 27 ++++++++++++++++---
+ 8 files changed, 82 insertions(+), 5 deletions(-)
+ create mode 100644 res/xml/network_security_config.xml
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 91e85a3..d953252 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -23,7 +23,8 @@
+         android:requestLegacyExternalStorage="true"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme"
+-        android:usesCleartextTraffic="false">
++        android:usesCleartextTraffic="false"
++        android:networkSecurityConfig="@xml/network_security_config">
+ 
+         <activity
+             android:name=".UpdatesActivity"
+diff --git a/res/layout/preferences_dialog.xml b/res/layout/preferences_dialog.xml
+index b1536ea..bceffa4 100644
+--- a/res/layout/preferences_dialog.xml
++++ b/res/layout/preferences_dialog.xml
+@@ -29,6 +29,28 @@
+             android:entries="@array/menu_auto_updates_check_interval_entries" />
+     </LinearLayout>
+ 
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_marginBottom="16dp"
++        android:orientation="horizontal">
++
++        <TextView
++            android:layout_width="0dp"
++            android:layout_height="wrap_content"
++            android:layout_weight="1"
++            android:text="@string/menu_server_choice"
++            android:textColor="@color/inverted"
++            android:textSize="16sp" />
++
++        <Spinner
++            android:id="@+id/preferences_server_choice"
++            android:layout_width="0dp"
++            android:layout_height="wrap_content"
++            android:layout_weight="1"
++            android:entries="@array/menu_server_choice_entries" />
++    </LinearLayout>
++
+     <androidx.appcompat.widget.SwitchCompat
+         android:id="@+id/preferences_onion_routing"
+         android:layout_width="match_parent"
+diff --git a/res/values/arrays.xml b/res/values/arrays.xml
+index 287c221..777c8ef 100644
+--- a/res/values/arrays.xml
++++ b/res/values/arrays.xml
+@@ -21,4 +21,11 @@
+         <item>@string/menu_auto_updates_check_interval_weekly</item>
+         <item>@string/menu_auto_updates_check_interval_monthly</item>
+     </string-array>
++
++    <string-array name="menu_server_choice_entries" translatable="false">
++        <item>@string/menu_server_choice_primary</item>
++        <item>@string/menu_server_choice_secondary</item>
++        <item>@string/menu_server_choice_onion_primary</item>
++        <item>@string/menu_server_choice_onion_secondary</item>
++    </string-array>
+ </resources>
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 916e1e6..73f3979 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -70,6 +70,11 @@
+     <string name="menu_auto_updates_check_interval_weekly">Once a week</string>
+     <string name="menu_auto_updates_check_interval_monthly">Once a month</string>
+     <string name="menu_auto_updates_check_interval_never">Never</string>
++    <string name="menu_server_choice">Server Choice</string>
++    <string name="menu_server_choice_primary">Primary</string>
++    <string name="menu_server_choice_secondary">0OTA_SERVER_CLEARNET_SECONDARY_NAME0</string>
++    <string name="menu_server_choice_onion_primary">Onion #1</string>
++    <string name="menu_server_choice_onion_secondary">Onion #2</string>
+     <string name="menu_onion_routing">Perform requests over Tor</string>
+     <string name="menu_auto_delete_updates">Delete updates when installed</string>
+     <string name="menu_delete_update">Delete</string>
+diff --git a/res/xml/network_security_config.xml b/res/xml/network_security_config.xml
+new file mode 100644
+index 0000000..09b655b
+--- /dev/null
++++ b/res/xml/network_security_config.xml
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="utf-8"?>
++<network-security-config>
++    <domain-config cleartextTrafficPermitted="true">
++        <domain includeSubdomains="false">0OTA_SERVER_ONION_DOMAIN_PRIMARY0</domain>
++        <domain includeSubdomains="false">0OTA_SERVER_ONION_DOMAIN_SECONDARY0</domain>
++    </domain-config>
++</network-security-config>
++
+diff --git a/src/org/lineageos/updater/UpdatesActivity.java b/src/org/lineageos/updater/UpdatesActivity.java
+index 766fb83..6afd4ca 100644
+--- a/src/org/lineageos/updater/UpdatesActivity.java
++++ b/src/org/lineageos/updater/UpdatesActivity.java
+@@ -484,6 +484,7 @@ public class UpdatesActivity extends UpdatesListActivity {
+     private void showPreferencesDialog() {
+         View view = LayoutInflater.from(this).inflate(R.layout.preferences_dialog, null);
+         Spinner autoCheckInterval = view.findViewById(R.id.preferences_auto_updates_check_interval);
++        Spinner serverChoice = view.findViewById(R.id.preferences_server_choice);
+         SwitchCompat onionRouting = view.findViewById(R.id.preferences_onion_routing);
+         SwitchCompat autoDelete = view.findViewById(R.id.preferences_auto_delete_updates);
+         SwitchCompat dataWarning = view.findViewById(R.id.preferences_mobile_data_warning);
+@@ -496,6 +497,7 @@ public class UpdatesActivity extends UpdatesListActivity {
+ 
+         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+         autoCheckInterval.setSelection(Utils.getUpdateCheckSetting(this));
++        serverChoice.setSelection(Utils.getServerChoiceSetting(this));
+         onionRouting.setChecked(prefs.getBoolean(Constants.PREF_ONION_ROUTING, false));
+         autoDelete.setChecked(prefs.getBoolean(Constants.PREF_AUTO_DELETE_UPDATES, false));
+         dataWarning.setChecked(prefs.getBoolean(Constants.PREF_MOBILE_DATA_WARNING, true));
+@@ -536,6 +538,8 @@ public class UpdatesActivity extends UpdatesListActivity {
+                     prefs.edit()
+                             .putInt(Constants.PREF_AUTO_UPDATES_CHECK_INTERVAL,
+                                     autoCheckInterval.getSelectedItemPosition())
++                            .putInt(Constants.PREF_SERVER_CHOICE,
++                                    serverChoice.getSelectedItemPosition())
+                             .putBoolean(Constants.PREF_ONION_ROUTING,
+                                     onionRouting.isChecked() && Utils.isOrbotInstalled(getApplicationContext()))
+                             .putBoolean(Constants.PREF_AUTO_DELETE_UPDATES, autoDelete.isChecked())
+diff --git a/src/org/lineageos/updater/misc/Constants.java b/src/org/lineageos/updater/misc/Constants.java
+index 37e81d8..d6f22d2 100644
+--- a/src/org/lineageos/updater/misc/Constants.java
++++ b/src/org/lineageos/updater/misc/Constants.java
+@@ -28,8 +28,19 @@ public final class Constants {
+     public static final int AUTO_UPDATES_CHECK_INTERVAL_WEEKLY = 2;
+     public static final int AUTO_UPDATES_CHECK_INTERVAL_MONTHLY = 3;
+ 
++    public static final int PREF_SERVER_CHOICE_PRIMARY = 0;
++    public static final int PREF_SERVER_CHOICE_SECONDARY = 1;
++    public static final int PREF_SERVER_CHOICE_ONION_PRIMARY = 2;
++    public static final int PREF_SERVER_CHOICE_ONION_SECONDARY = 3;
++
++    public static final String PREF_SERVER_CHOICE_PRIMARY_ACTUAL = "0OTA_SERVER_CLEARNET_PRIMARY0";
++    public static final String PREF_SERVER_CHOICE_SECONDARY_ACTUAL = "0OTA_SERVER_CLEARNET_SECONDARY0";
++    public static final String PREF_SERVER_CHOICE_ONION_PRIMARY_ACTUAL = "0OTA_SERVER_ONION_PRIMARY0";
++    public static final String PREF_SERVER_CHOICE_ONION_SECONDARY_ACTUAL = "0OTA_SERVER_ONION_SECONDARY0";
++
+     public static final String PREF_LAST_UPDATE_CHECK = "last_update_check";
+     public static final String PREF_AUTO_UPDATES_CHECK_INTERVAL = "auto_updates_check_interval";
++    public static final String PREF_SERVER_CHOICE = "server_choice";
+     public static final String PREF_ONION_ROUTING = "onion_routing";
+     public static final String PREF_AUTO_DELETE_UPDATES = "auto_delete_updates";
+     public static final String PREF_AB_PERF_MODE = "ab_perf_mode";
+diff --git a/src/org/lineageos/updater/misc/Utils.java b/src/org/lineageos/updater/misc/Utils.java
+index 2b42726..7ba5f48 100644
+--- a/src/org/lineageos/updater/misc/Utils.java
++++ b/src/org/lineageos/updater/misc/Utils.java
+@@ -210,14 +210,33 @@ public class Utils {
+         return listening;
+     }
+ 
++    public static int getServerChoiceSetting(Context context) {
++        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
++        return preferences.getInt(Constants.PREF_SERVER_CHOICE,
++                Constants.PREF_SERVER_CHOICE_PRIMARY);
++    }
++
++    public static String getServerBaseUrl(Context context) {
++        switch (Utils.getServerChoiceSetting(context)) {
++            case Constants.PREF_SERVER_CHOICE_PRIMARY:
++            default:
++                return Constants.PREF_SERVER_CHOICE_PRIMARY_ACTUAL;
++            case Constants.PREF_SERVER_CHOICE_SECONDARY:
++                return Constants.PREF_SERVER_CHOICE_SECONDARY_ACTUAL;
++            case Constants.PREF_SERVER_CHOICE_ONION_PRIMARY:
++                return Constants.PREF_SERVER_CHOICE_ONION_PRIMARY_ACTUAL;
++            case Constants.PREF_SERVER_CHOICE_ONION_SECONDARY:
++                return Constants.PREF_SERVER_CHOICE_ONION_SECONDARY_ACTUAL;
++        }
++    }
++
+     public static String getServerURL(Context context) {
+         String incrementalVersion = SystemProperties.get(Constants.PROP_BUILD_VERSION_INCREMENTAL);
+         String device = SystemProperties.get(Constants.PROP_NEXT_DEVICE,
+                 SystemProperties.get(Constants.PROP_DEVICE));
+-        String server = "0OTA_SERVER_CLEARNET0";
+-        String serverOnion = "0OTA_SERVER_ONION0";
+-        if(serverOnion.toLowerCase().startsWith("http") && isOnionRoutingEnabled(context)) {
+-            server = serverOnion;
++        String server = getServerBaseUrl(context);
++        if (!isOnionRoutingEnabled(context) && server.toLowerCase().startsWith("http://") && server.toLowerCase().contains(".onion/")) {
++            server = Constants.PREF_SERVER_CHOICE_PRIMARY_ACTUAL;
+         }
+ 
+         return server + "?base=LineageOS&device=" + device + "&inc=" + incrementalVersion;

@@ -104,7 +104,7 @@ index 3d4aab9..28c8fe5 100644
 +            default:
 +                return Constants.PREF_SERVER_CHOICE_PRIMARY_ACTUAL;
 +            case Constants.PREF_SERVER_CHOICE_SECONDARY:
-+                return Constants.PREF_SERVER_CHOICE_PRIMARY_ACTUAL;
++                return Constants.PREF_SERVER_CHOICE_SECONDARY_ACTUAL;
 +            case Constants.PREF_SERVER_CHOICE_ONION_PRIMARY:
 +                return Constants.PREF_SERVER_CHOICE_ONION_PRIMARY_ACTUAL;
 +            case Constants.PREF_SERVER_CHOICE_ONION_SECONDARY:
