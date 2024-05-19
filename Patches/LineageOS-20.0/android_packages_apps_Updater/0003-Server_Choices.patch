@@ -85,7 +85,7 @@ index 825e1a0..eac5451 100644
      public static final String PREF_AUTO_DELETE_UPDATES = "auto_delete_updates";
      public static final String PREF_AB_PERF_MODE = "ab_perf_mode";
 diff --git a/app/src/main/java/org/lineageos/updater/misc/Utils.java b/app/src/main/java/org/lineageos/updater/misc/Utils.java
-index 3d4aab9..28c8fe5 100644
+index 3d4aab9..e6a98a7 100644
 --- a/app/src/main/java/org/lineageos/updater/misc/Utils.java
 +++ b/app/src/main/java/org/lineageos/updater/misc/Utils.java
 @@ -201,14 +201,33 @@ public class Utils {
