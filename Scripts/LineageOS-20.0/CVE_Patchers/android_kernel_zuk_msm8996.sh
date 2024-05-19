@@ -1,6 +1,6 @@
 #!/bin/bash
 if cd "$DOS_BUILD_BASE""kernel/zuk/msm8996"; then
-git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes-Steam/^6.0/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes-Steam/^5.19/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0015.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0020.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-bugon/4.4/0003.patch
@@ -252,6 +252,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52605/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52615/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52620/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52646/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52685/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52693/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0340/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0639/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0775/4.4/0001.patch
@@ -323,9 +325,25 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27074/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27388/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27393/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27401/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27410/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27419/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27420/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27421/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27426/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27427/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27428/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27429/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27430/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35812/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35821/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35828/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35830/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35849/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2020-26145/qcacld-2.0/0008.patch --directory=drivers/staging/qcacld-2.0
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
-editKernelLocalversion "-dos.p325"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
+editKernelLocalversion "-dos.p343"
 else echo "kernel_zuk_msm8996 is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

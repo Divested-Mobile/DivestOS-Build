@@ -1,6 +1,6 @@
 #!/bin/bash
 if cd "$DOS_BUILD_BASE""kernel/google/wahoo"; then
-git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes-Steam/^6.0/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/0002-Misc_Fixes-Steam/^5.19/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0006-AndroidHardening-Kernel_Hardening/ANY/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0015.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-allocsize/4.9/0020.patch
@@ -258,6 +258,8 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52605/4.4/0008.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52615/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52620/4.4/0007.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52646/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52685/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52693/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0340/^6.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-0639/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-1086/4.4/0008.patch
@@ -325,11 +327,27 @@ git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27074/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27388/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27393/^6.9/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27401/^6.9/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27410/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27419/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27420/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27421/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27426/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27427/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27428/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27429/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27430/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35812/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35821/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35828/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35830/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-35849/4.4/0001.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0016.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-ro/4.9/0029.patch
 git apply $DOS_PATCHES_LINUX_CVES/0008-Graphene-Kernel_Hardening-slab/4.4/0004.patch
 git apply $DOS_PATCHES_LINUX_CVES/CVE-2023-52601/4.4/0008.patch
-editKernelLocalversion "-dos.p329"
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27424/4.4/0001.patch
+git apply $DOS_PATCHES_LINUX_CVES/CVE-2024-27425/4.4/0001.patch
+editKernelLocalversion "-dos.p347"
 else echo "kernel_google_wahoo is unavailable, not patching.";
 fi;
 cd "$DOS_BUILD_BASE"

@@ -102,7 +102,7 @@ export DOS_BRANDING_LINK_PRIVACY="https://divestos.org/pages/privacy_policy";
 
 #OTAs
 export DOS_OTA_SERVER_LEGACY="https://divestos.org/updater.php";
-export DOS_OTA_SERVER_EXTENDED=true; #Enable to provide mutliple choices as set below
+export DOS_OTA_SERVER_EXTENDED=true; #Enable to provide multiple choices as set below
 export DOS_OTA_SERVER_PRIMARY="$DOS_OTA_SERVER_LEGACY";
 export DOS_OTA_SERVER_SECONDARY="https://divestos.eeyo.re/updater.php";
 export DOS_OTA_SERVER_SECONDARY_NAME="Cloudflare";
