@@ -6,9 +6,9 @@ Subject: [PATCH] Remove analytics
 Change-Id: I044dd6b137b8a1d4a6dde3a63c0aaa454309341f
 ---
  res/layout/setup_lineage_settings.xml         | 29 -----------------
- .../lineageos/setupwizard/FinishActivity.java | 13 --------
  .../setupwizard/LineageSettingsActivity.java  | 32 -------------------
  .../lineageos/setupwizard/SetupWizardApp.java |  1 -
+ .../setupwizard/util/SetupWizardUtils.java    | 13 --------
  4 files changed, 75 deletions(-)
 
 diff --git a/res/layout/setup_lineage_settings.xml b/res/layout/setup_lineage_settings.xml
@@ -51,44 +51,6 @@ index 6c99b30..ea2094f 100644
                      <!-- Checkbox for using on-screen nav keys -->
                      <LinearLayout
                          android:id="@+id/nav_keys"
-diff --git a/src/org/lineageos/setupwizard/FinishActivity.java b/src/org/lineageos/setupwizard/FinishActivity.java
-index 0427a4d..11348fe 100644
---- a/src/org/lineageos/setupwizard/FinishActivity.java
-+++ b/src/org/lineageos/setupwizard/FinishActivity.java
-@@ -14,7 +14,6 @@ import static org.lineageos.setupwizard.SetupWizardApp.ACTION_FINISHED;
- import static org.lineageos.setupwizard.SetupWizardApp.ACTION_SETUP_COMPLETE;
- import static org.lineageos.setupwizard.SetupWizardApp.DISABLE_NAV_KEYS;
- import static org.lineageos.setupwizard.SetupWizardApp.ENABLE_RECOVERY_UPDATE;
--import static org.lineageos.setupwizard.SetupWizardApp.KEY_SEND_METRICS;
- import static org.lineageos.setupwizard.SetupWizardApp.LOGV;
- import static org.lineageos.setupwizard.SetupWizardApp.NAVIGATION_OPTION_KEY;
- import static org.lineageos.setupwizard.SetupWizardApp.UPDATE_RECOVERY_PROP;
-@@ -172,7 +171,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
-     }
- 
-     private void completeSetup() {
--        handleEnableMetrics(mSetupWizardApp);
-         handleNavKeys(mSetupWizardApp);
-         handleRecoveryUpdate(mSetupWizardApp);
-         handleNavigationOption(mSetupWizardApp);
-@@ -185,17 +183,6 @@ public class FinishActivity extends BaseSetupWizardActivity {
-         Log.i(TAG, "Setup complete!");
-     }
- 
--    private static void handleEnableMetrics(SetupWizardApp setupWizardApp) {
--        Bundle privacyData = setupWizardApp.getSettingsBundle();
--        if (privacyData != null
--                && privacyData.containsKey(KEY_SEND_METRICS)) {
--            LineageSettings.Secure.putInt(setupWizardApp.getContentResolver(),
--                    LineageSettings.Secure.STATS_COLLECTION,
--                    privacyData.getBoolean(KEY_SEND_METRICS)
--                            ? 1 : 0);
--        }
--    }
--
-     private static void handleNavKeys(SetupWizardApp setupWizardApp) {
-         if (setupWizardApp.getSettingsBundle().containsKey(DISABLE_NAV_KEYS)) {
-             writeDisableNavkeysOption(setupWizardApp,
 diff --git a/src/org/lineageos/setupwizard/LineageSettingsActivity.java b/src/org/lineageos/setupwizard/LineageSettingsActivity.java
 index 974bd15..0632e32 100644
 --- a/src/org/lineageos/setupwizard/LineageSettingsActivity.java
@@ -165,10 +127,10 @@ index 974bd15..0632e32 100644
          if (mSupportsKeyDisabler) {
              final Bundle myPageBundle = mSetupWizardApp.getSettingsBundle();
 diff --git a/src/org/lineageos/setupwizard/SetupWizardApp.java b/src/org/lineageos/setupwizard/SetupWizardApp.java
-index 9be3b10..d7aa052 100644
+index 34b8b1b..2aa217c 100644
 --- a/src/org/lineageos/setupwizard/SetupWizardApp.java
 +++ b/src/org/lineageos/setupwizard/SetupWizardApp.java
-@@ -44,7 +44,6 @@ public class SetupWizardApp extends Application {
+@@ -36,7 +36,6 @@ public class SetupWizardApp extends Application {
      public static final String EXTRA_PREFS_SET_BACK_TEXT = "extra_prefs_set_back_text";
      public static final String EXTRA_ENABLE_NEXT_ON_CONNECT = "wifi_enable_next_on_connect";
  
@@ -176,3 +138,41 @@ index 9be3b10..d7aa052 100644
      public static final String DISABLE_NAV_KEYS = "disable_nav_keys";
      public static final String ENABLE_RECOVERY_UPDATE = "enable_recovery_update";
      public static final String UPDATE_RECOVERY_PROP = "persist.vendor.recovery_update";
+diff --git a/src/org/lineageos/setupwizard/util/SetupWizardUtils.java b/src/org/lineageos/setupwizard/util/SetupWizardUtils.java
+index 7b10a1f..99f0156 100644
+--- a/src/org/lineageos/setupwizard/util/SetupWizardUtils.java
++++ b/src/org/lineageos/setupwizard/util/SetupWizardUtils.java
+@@ -20,7 +20,6 @@ import static com.google.android.setupcompat.util.ResultCodes.RESULT_SKIP;
+ 
+ import static org.lineageos.setupwizard.SetupWizardApp.DISABLE_NAV_KEYS;
+ import static org.lineageos.setupwizard.SetupWizardApp.ENABLE_RECOVERY_UPDATE;
+-import static org.lineageos.setupwizard.SetupWizardApp.KEY_SEND_METRICS;
+ import static org.lineageos.setupwizard.SetupWizardApp.LOGV;
+ import static org.lineageos.setupwizard.SetupWizardApp.NAVIGATION_OPTION_KEY;
+ import static org.lineageos.setupwizard.SetupWizardApp.UPDATE_RECOVERY_PROP;
+@@ -195,7 +194,6 @@ public class SetupWizardUtils {
+                     Settings.Secure.TV_USER_SETUP_COMPLETE, 1);
+         }
+ 
+-        handleEnableMetrics(context);
+         handleNavKeys(context);
+         handleRecoveryUpdate();
+         handleNavigationOption();
+@@ -293,17 +291,6 @@ public class SetupWizardUtils {
+                 enabledState, DONT_KILL_APP);
+     }
+ 
+-    private static void handleEnableMetrics(Context context) {
+-        Bundle privacyData = SetupWizardApp.getSettingsBundle();
+-        if (privacyData != null
+-                && privacyData.containsKey(KEY_SEND_METRICS)) {
+-            LineageSettings.Secure.putInt(context.getContentResolver(),
+-                    LineageSettings.Secure.STATS_COLLECTION,
+-                    privacyData.getBoolean(KEY_SEND_METRICS)
+-                            ? 1 : 0);
+-        }
+-    }
+-
+     private static void handleNavKeys(Context context) {
+         if (SetupWizardApp.getSettingsBundle().containsKey(DISABLE_NAV_KEYS)) {
+             writeDisableNavkeysOption(context,

@@ -1,4 +1,4 @@
-From 6510b84f39264c63deb1c89ee72798da611acdd1 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: renlord <me@renlord.com>
 Date: Fri, 15 Oct 2021 20:02:51 +0530
 Subject: [PATCH] add option to always randomize MAC
@@ -26,10 +26,10 @@ index 77afedc3042..075b751e710 100644
  
          <LinearLayout
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index f84afec09fc..1ca428bc8c3 100644
+index 085a33bc53f..b3511593319 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
-@@ -1053,6 +1053,12 @@
+@@ -1172,6 +1172,12 @@
          <item>Treat as unmetered</item>
      </string-array>
  
@@ -42,7 +42,7 @@ index f84afec09fc..1ca428bc8c3 100644
      <string-array name="wifi_privacy_entries">
          <item>Use randomized MAC (default)</item>
          <item>Use device MAC</item>
-@@ -1070,6 +1076,7 @@
+@@ -1189,6 +1195,7 @@
      </string-array>
  
      <string-array name="wifi_privacy_values" translatable="false">
@@ -67,7 +67,7 @@ diff --git a/src/com/android/settings/wifi/details2/WifiDetailPreferenceControll
 index b67c84832fb..e0c9ba89ab7 100644
 --- a/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
 +++ b/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
-@@ -747,7 +747,7 @@ private void refreshWifiType() {
+@@ -747,7 +747,7 @@ public class WifiDetailPreferenceController2 extends AbstractPreferenceControlle
      }
  
      private int getMacAddressTitle() {
@@ -99,7 +99,7 @@ index 8c78e805d69..4ec97ba5f42 100644
      public WifiPrivacyPreferenceController2(Context context) {
          super(context, KEY_WIFI_PRIVACY);
  
-@@ -93,8 +98,6 @@ int getRandomizationValue() {
+@@ -93,8 +98,6 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
          return mWifiEntry.getPrivacy();
      }
  
@@ -108,7 +108,7 @@ index 8c78e805d69..4ec97ba5f42 100644
  
      /**
       * Returns preference index value.
-@@ -103,8 +106,14 @@ int getRandomizationValue() {
+@@ -103,8 +106,14 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
       * @return index value of preference
       */
      public static int translateMacRandomizedValueToPrefValue(int macRandomized) {
@@ -125,7 +125,7 @@ index 8c78e805d69..4ec97ba5f42 100644
      }
  
      /**
-@@ -114,8 +123,14 @@ public static int translateMacRandomizedValueToPrefValue(int macRandomized) {
+@@ -114,8 +123,14 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
       * @return mac randomized value
       */
      public static int translatePrefValueToMacRandomizedValue(int prefMacRandomized) {

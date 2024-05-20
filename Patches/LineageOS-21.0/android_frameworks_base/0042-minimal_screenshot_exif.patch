@@ -12,10 +12,10 @@ Change-Id: I6f38c5cf04539e09b8bfe0102c646bd8faa50f5b
  1 file changed, 11 deletions(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/screenshot/ImageExporter.java b/packages/SystemUI/src/com/android/systemui/screenshot/ImageExporter.java
-index 898f58d342d6..d8602685758c 100644
+index 0c73a81e542e..f52f37764bc6 100644
 --- a/packages/SystemUI/src/com/android/systemui/screenshot/ImageExporter.java
 +++ b/packages/SystemUI/src/com/android/systemui/screenshot/ImageExporter.java
-@@ -404,19 +404,8 @@ public class ImageExporter {
+@@ -411,19 +411,8 @@ public class ImageExporter {
  
      static void updateExifAttributes(ExifInterface exif, UUID uniqueId, int width, int height,
              ZonedDateTime captureTime) {

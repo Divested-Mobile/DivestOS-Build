@@ -12,10 +12,10 @@ Change-Id: I46e3fc4ac896a509ab8ca90ae4ce09b820da434b
  2 files changed, 14 insertions(+), 3 deletions(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index d050ed783..e828916d6 100644
+index e48fa1554..43edd67fa 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
-@@ -237,9 +237,9 @@ int FirstStageMain(int argc, char** argv) {
+@@ -333,9 +333,9 @@ int FirstStageMain(int argc, char** argv) {
      CHECKCALL(mkdir("/dev/pts", 0755));
      CHECKCALL(mkdir("/dev/socket", 0755));
      CHECKCALL(mkdir("/dev/dm-user", 0755));
@@ -27,7 +27,7 @@ index d050ed783..e828916d6 100644
  #undef MAKE_STR
      // Don't expose the raw commandline to unprivileged processes.
      CHECKCALL(chmod("/proc/cmdline", 0440));
-@@ -251,7 +251,7 @@ int FirstStageMain(int argc, char** argv) {
+@@ -347,7 +347,7 @@ int FirstStageMain(int argc, char** argv) {
      android::base::ReadFileToString("/proc/bootconfig", &bootconfig);
      gid_t groups[] = {AID_READPROC};
      CHECKCALL(setgroups(arraysize(groups), groups));
@@ -37,10 +37,10 @@ index d050ed783..e828916d6 100644
  
      CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 2b53d883e..fa91825d7 100644
+index eb67c8cd0..0a8dd41f1 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -304,6 +304,17 @@ on init
+@@ -310,6 +310,17 @@ on init
      write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
      write /proc/sys/kernel/sched_child_runs_first 0
  

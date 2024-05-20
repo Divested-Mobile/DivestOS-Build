@@ -14,10 +14,10 @@ Change-Id: I49e3ff6f2ce8d74383da1c4dfd42913c713016c6
  2 files changed, 37 insertions(+)
 
 diff --git a/data/etc/preinstalled-packages-platform.xml b/data/etc/preinstalled-packages-platform.xml
-index ff8d96dd23f2..97027ebbca2d 100644
+index 421bc25d60e9..7e46319dca38 100644
 --- a/data/etc/preinstalled-packages-platform.xml
 +++ b/data/etc/preinstalled-packages-platform.xml
-@@ -110,4 +110,10 @@ to pre-existing users, but cannot uninstall pre-existing system packages from pr
+@@ -128,4 +128,10 @@ to pre-existing users, but cannot uninstall pre-existing system packages from pr
      <install-in-user-type package="com.android.wallpaperbackup">
          <install-in user-type="FULL" />
      </install-in-user-type>

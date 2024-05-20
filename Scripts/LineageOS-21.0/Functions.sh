@@ -33,7 +33,7 @@ export -f scanWorkspaceForMalware;
 buildDevice() {
 	cd "$DOS_BUILD_BASE";
 	if [[ -d "$DOS_SIGNING_KEYS/$1" ]]; then
-		breakfast "lineage_$1-user" && mka target-files-package otatools && processRelease $1 true $2;
+		breakfast "lineage_$1-ap1a-user" && mka target-files-package otatools && processRelease $1 true $2;
 	else
 		echo -e "\e[0;31mNo signing keys available for $1\e[0m";
 	fi;
@@ -42,7 +42,7 @@ export -f buildDevice;
 
 buildDeviceDebug() {
 	cd "$DOS_BUILD_BASE";
-	brunch "lineage_$1-eng";
+	brunch "lineage_$1-ap1a-eng";
 }
 export -f buildDeviceDebug;
 
@@ -79,7 +79,7 @@ patchWorkspaceReal() {
 	sh "$DOS_SCRIPTS/Rebrand.sh";
 	sh "$DOS_SCRIPTS_COMMON/Optimize.sh";
 	sh "$DOS_SCRIPTS_COMMON/Deblob.sh";
-	#sh "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
+	#sh "$DOS_SCRIPTS_COMMON/Patch_CVE.sh"; #TODO: 21REBASE
 	sh "$DOS_SCRIPTS_COMMON/Post.sh";
 	source build/envsetup.sh;
 }

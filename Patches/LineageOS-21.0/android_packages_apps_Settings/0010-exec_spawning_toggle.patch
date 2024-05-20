@@ -12,10 +12,10 @@ Subject: [PATCH] add exec spawning toggle
  create mode 100644 src/com/android/settings/security/ExecSpawnPreferenceController.java
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 553d210a17..e090ad8a05 100644
+index 8ad86f32445..2905e96d006 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -747,6 +747,9 @@
+@@ -668,6 +668,9 @@
      <string name="auto_reboot_title">Auto reboot</string>
      <string name="auto_reboot_summary">Automatically reboot the device, if the phone hasn\'t been unlocked within the selected number of hours.</string>
  
@@ -26,7 +26,7 @@ index 553d210a17..e090ad8a05 100644
      <string name="native_debug_summary">Generate useful logs / bug reports from crashes and permit debugging native code.</string>
  
 diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
-index 61e2db495a..3a06288497 100644
+index 61e2db495a0..3a062884976 100644
 --- a/res/xml/security_dashboard_settings.xml
 +++ b/res/xml/security_dashboard_settings.xml
 @@ -69,6 +69,12 @@
@@ -44,7 +44,7 @@ index 61e2db495a..3a06288497 100644
              android:title="@string/native_debug_title"
 diff --git a/src/com/android/settings/security/ExecSpawnPreferenceController.java b/src/com/android/settings/security/ExecSpawnPreferenceController.java
 new file mode 100644
-index 0000000000..98cc3c29e1
+index 00000000000..98cc3c29e12
 --- /dev/null
 +++ b/src/com/android/settings/security/ExecSpawnPreferenceController.java
 @@ -0,0 +1,106 @@
@@ -155,7 +155,7 @@ index 0000000000..98cc3c29e1
 +    }
 +}
 diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
-index ecf8f02e9d..e48164ae62 100644
+index d29325d0fbc..4c6e1c99815 100644
 --- a/src/com/android/settings/security/SecuritySettings.java
 +++ b/src/com/android/settings/security/SecuritySettings.java
 @@ -106,6 +106,7 @@ public class SecuritySettings extends DashboardFragment {

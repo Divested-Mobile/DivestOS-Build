@@ -440,12 +440,14 @@ fi;
 if enterAndClear "device/google/gs101"; then
 git revert --no-edit adfcf46ec8c099e77cf58ec87d02bafc78a0d01e; #potential breakage
 if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i '/google iwlan/,+8d' device.mk; fi; #fix stray
+awk -i inplace '!/widevine.mk/' device.mk;
 fi;
 
 if enterAndClear "device/google/gs201"; then
 if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i '/google iwlan/,+8d' device.mk; fi; #fix stray
 if [ "$DOS_DEBLOBBER_REMOVE_EUICC" = true ]; then sed -i '/eSIM MEP/,+4d' device.mk; fi; #fix stray
 rm -rfv widevine;
+awk -i inplace '!/widevine.mk/' device.mk;
 fi;
 
 if enterAndClear "device/google/gs-common"; then
