@@ -208,7 +208,7 @@ processRelease() {
 	local OUT_DIR="$DOS_BUILD_BASE/out/target/product/$DEVICE/";
 
 	local RELEASETOOLS_PREFIX="build/tools/releasetools/";
-	if [[ "$DOS_VERSION" == "LineageOS-18.1" ]] || [[ "$DOS_VERSION" == "LineageOS-19.1" ]] || [[ "$DOS_VERSION" == "LineageOS-20.0" ]]; then
+	if [[ "$DOS_VERSION" == "LineageOS-18.1" ]] || [[ "$DOS_VERSION" == "LineageOS-19.1" ]] || [[ "$DOS_VERSION" == "LineageOS-20.0" ]] || [[ "$DOS_VERSION" == "LineageOS-21.0" ]]; then
 		local RELEASETOOLS_PREFIX="";
 	fi;
 
@@ -240,10 +240,10 @@ processRelease() {
 		--extra_apks ServiceUwbResources.apk="$KEY_DIR/releasekey" \
 		--extra_apks ServiceWifiResources.apk="$KEY_DIR/releasekey" \
 		--extra_apks WifiDialog.apk="$KEY_DIR/releasekey");
-	if [[ "$DOS_VERSION" == "LineageOS-20.0" ]]; then
+	if [[ "$DOS_VERSION" == "LineageOS-20.0" ]] || [[ "$DOS_VERSION" == "LineageOS-21.0" ]]; then
 		local APK_SWITCHES_EXTRA=(--extra_apks Bluetooth.apk="$KEY_DIR/bluetooth");
 	fi;
-	if [[ "$DOS_VERSION" == "LineageOS-17.1" ]] || [[ "$DOS_VERSION" == "LineageOS-18.1" ]] || [[ "$DOS_VERSION" == "LineageOS-19.1" ]] || [[ "$DOS_VERSION" == "LineageOS-20.0" ]]; then
+	if [[ "$DOS_VERSION" == "LineageOS-17.1" ]] || [[ "$DOS_VERSION" == "LineageOS-18.1" ]] || [[ "$DOS_VERSION" == "LineageOS-19.1" ]] || [[ "$DOS_VERSION" == "LineageOS-20.0" ]] || [[ "$DOS_VERSION" == "LineageOS-21.0" ]]; then
 		local APEX_SWITCHES=(--extra_apks com.android.adbd.apex="$KEY_DIR/releasekey" \
 			--extra_apex_payload_key com.android.adbd.apex="$KEY_DIR/avb.pem" \
 			--extra_apks com.android.adservices.apex="$KEY_DIR/releasekey" \
@@ -561,7 +561,7 @@ hardenLocationSerials() {
 	#Prevent Qualcomm location stack from sending chipset serial number
 
 	#Devices using blob xtra-daemon (which Deblob.sh removes)
-	if [[ "$DOS_VERSION" != "LineageOS-20.0" ]]; then #20.0 has sysfs_soc_sensitive label
+	if [[ "$DOS_VERSION" != "LineageOS-20.0" ]] && [[ "$DOS_VERSION" != "LineageOS-21.0" ]]; then #20.0+ has sysfs_soc_sensitive label
 		find device -name "hal_gnss*.te" -type f -exec sh -c "awk -i inplace '!/sysfs_soc/' {}" \;
 		find device -name "location.te" -type f -exec sh -c "awk -i inplace '!/sysfs_soc/' {}" \;
 	fi;
@@ -583,11 +583,6 @@ hardenLocationConf() {
 	#Debugging: adb logcat -b all | grep -i -e locsvc -e izat -e gps -e gnss -e location -e xtra
 	#sed -i 's|DEBUG_LEVEL = .|DEBUG_LEVEL = 4|' "$gpsConfig" &> /dev/null || true; #Debug
 	#sed -i 's|DEBUG_LEVEL = .|DEBUG_LEVEL = 2|' "$gpsConfig" &> /dev/null || true; #Warning
-	#Enable GLONASS
-	if [ "$DOS_GPS_GLONASS_FORCED" = true ]; then
-	sed -i 's/#A_GLONASS_POS_PROTOCOL_SELECT =/A_GLONASS_POS_PROTOCOL_SELECT =/' "$gpsConfig" &>/dev/null || true;
-	sed -i 's/A_GLONASS_POS_PROTOCOL_SELECT = 0.*/A_GLONASS_POS_PROTOCOL_SELECT = 15/' "$gpsConfig" &>/dev/null || true;
-	fi;
 	#Change capabilities
 	sed -i 's|CAPABILITIES=.*|CAPABILITIES=0x13|' "$gpsConfig" &> /dev/null || true; #Disable MSA (privacy) and geofencing/ULP (both broken by deblobber)
 	sed -i 's|CAPABILITIES = .*|CAPABILITIES = 0x13|' "$gpsConfig" &> /dev/null || true;
@@ -633,10 +628,6 @@ export -f hardenLocationConf;
 
 hardenLocationFWB() {
 	local dir=$1;
-	#Enable GLONASS
-	if [ "$DOS_GPS_GLONASS_FORCED" = true ]; then
-	sed -i 's|A_GLONASS_POS_PROTOCOL_SELECT=0.*</item>|A_GLONASS_POS_PROTOCOL_SELECT=15</item>|' "$dir"/frameworks/base/core/res/res/values*/*.xml &>/dev/null || true;
-	fi;
 	#Change capabilities
 	sed -i "s|SUPL_MODE=3|SUPL_MODE=1|" "$dir"/frameworks/base/core/res/res/values*/*.xml &> /dev/null || true; #Disable MSA (privacy)
 	sed -i "s|LPP_PROFILE=.*</item>|LPP_PROFILE=0</item>|" "$dir"/frameworks/base/core/res/res/values*/*.xml &> /dev/null || true; #Disable LPP (privacy)
@@ -669,7 +660,7 @@ hardenUserdata() {
 
 	#TODO: Ensure: noatime,nosuid,nodev
 	sed -i '/\/data/{/discard/!s|nosuid|discard,nosuid|}' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
-	if [ "$1" != "device/samsung/tuna" ] && [ "$1" != "device/amazon/hdx-common" ] && [ "$1" != "device/motorola/athene" ] && [[ "$DOS_VERSION" != "LineageOS-20.0" ]]; then #tuna needs first boot to init, hdx-c has broken encryption
+	if [ "$1" != "device/samsung/tuna" ] && [ "$1" != "device/amazon/hdx-common" ] && [ "$1" != "device/motorola/athene" ] && [[ "$DOS_VERSION" != "LineageOS-20.0" ]] && [[ "$DOS_VERSION" != "LineageOS-21.0" ]]; then #tuna needs first boot to init, hdx-c has broken encryption
 		sed -i 's|encryptable=/|forceencrypt=/|' *fstab* */*fstab* */*/*fstab* &>/dev/null || true;
 	fi;
 	echo "Hardened /data for $1";
@@ -771,16 +762,6 @@ disableAPEX() {
 }
 export -f disableAPEX;
 
-enableStrongEncryption() {
-	cd "$DOS_BUILD_BASE/$1";
-	if [ -f BoardConfig.mk ]; then
-		echo "TARGET_WANTS_STRONG_ENCRYPTION := true" >> BoardConfig.mk;
-		echo "Enabled AES-256 encryption for $1";
-	fi;
-	cd "$DOS_BUILD_BASE";
-}
-export -f enableStrongEncryption;
-
 addAdbKey() {
 	if [ -f ~/.android/adbkey.pub ]; then
 		cp ~/.android/adbkey.pub "$DOS_BUILD_BASE/vendor/divested/";
@@ -795,102 +776,24 @@ changeDefaultDNS() {
 	local dnsSecondary="";
 	local dnsSecondaryV6="";
 	if [ ! -z "$DOS_DEFAULT_DNS_PRESET" ]; then
-		if [[ "$DOS_DEFAULT_DNS_PRESET" == "AdGuard" ]]; then #https://adguard.com/en/adguard-dns/overview.html
-			dnsHex="0xb0678282L";
-			dnsPrimary="176.103.130.130";
-			dnsPrimaryV6="2a00:5a60::ad1:0ff";
-			dnsSecondary="176.103.130.131";
-			dnsSecondaryV6="2a00:5a60::ad2:0ff";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "AdGuard-NOBL" ]]; then #https://adguard.com/en/adguard-dns/overview.html
-			dnsHex="0xb0678288L";
-			dnsPrimary="176.103.130.136";
-			dnsPrimaryV6="2a00:5a60::01:ff";
-			dnsSecondary="176.103.130.137";
-			dnsSecondaryV6="2a00:5a60::02:ff";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "CensurfriDNS" ]]; then #https://uncensoreddns.org
-			dnsHex="0x5bef6464L";
-			dnsPrimary="91.239.100.100";
-			dnsPrimaryV6="2001:67c:28a4::";
-			dnsSecondary="89.233.43.71";
-			dnsSecondaryV6="2a01:3a0:53:53::";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Cloudflare" ]]; then #https://developers.cloudflare.com/1.1.1.1/commitment-to-privacy/privacy-policy/privacy-policy
-			dnsHex="0x01000001L";
-			dnsPrimary="1.0.0.1";
-			dnsPrimaryV6="2606:4700:4700::1001";
-			dnsSecondary="1.1.1.1";
-			dnsSecondaryV6="2606:4700:4700::1111";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Cloudflare-BL" ]]; then #https://developers.cloudflare.com/1.1.1.1/commitment-to-privacy/privacy-policy/privacy-policy
+		if [[ "$DOS_DEFAULT_DNS_PRESET" == "Cloudflare" ]]; then #https://developers.cloudflare.com/1.1.1.1/commitment-to-privacy/privacy-policy/privacy-policy
 			dnsHex="0x01000002L";
 			dnsPrimary="1.0.0.2";
 			dnsPrimaryV6="2606:4700:4700::1002";
 			dnsSecondary="1.1.1.2";
 			dnsSecondaryV6="2606:4700:4700::1112";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "DNSWATCH" ]]; then #https://dns.watch
-			dnsHex="0x54c84550L";
-			dnsPrimary="84.200.69.80";
-			dnsPrimaryV6="2001:1608:10:25::1c04:b12f";
-			dnsSecondary="84.200.70.40";
-			dnsSecondaryV6="2001:1608:10:25::9249:d69b";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Google" ]]; then #https://developers.google.com/speed/public-dns/privacy
 			dnsHex="0x08080808L";
 			dnsPrimary="8.8.8.8";
 			dnsPrimaryV6="2001:4860:4860::8888";
 			dnsSecondary="8.8.4.4";
 			dnsSecondaryV6="2001:4860:4860::8844";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Neustar" ]]; then #https://www.security.neustar/digital-performance/dns-services/recursive-dns
-			dnsHex="0x9c9a4602L";
-			dnsPrimary="156.154.70.2";
-			dnsPrimaryV6="2610:a1:1018::2";
-			dnsSecondary="156.154.71.2";
-			dnsSecondaryV6="2610:a1:1019::2";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Neustar-NOBL" ]]; then #https://www.security.neustar/digital-performance/dns-services/recursive-dns
-			dnsHex="0x9c9a4605L";
-			dnsPrimary="156.154.70.5";
-			dnsPrimaryV6="2610:a1:1018::5";
-			dnsSecondary="156.154.71.5";
-			dnsSecondaryV6="2610:a1:1019::5";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "OpenDNS" ]]; then #https://www.cisco.com/c/en/us/about/legal/privacy-full.html
-			dnsHex="0xd043dedeL";
-			dnsPrimary="208.67.222.222";
-			dnsPrimaryV6="2620:0:ccc::2";
-			dnsSecondary="208.67.220.220";
-			dnsSecondaryV6="2620:0:ccd::2";
 		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Quad9" ]]; then #https://www.quad9.net/privacy
 			dnsHex="0x09090909L";
 			dnsPrimary="9.9.9.9";
 			dnsPrimaryV6="2620:fe::fe";
 			dnsSecondary="149.112.112.112";
 			dnsSecondaryV6="2620:fe::9";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Quad9-EDNS" ]]; then #https://www.quad9.net/privacy
-			dnsHex="0x0909090bL";
-			dnsPrimary="9.9.9.11";
-			dnsPrimaryV6="2620:fe::11";
-			dnsSecondary="149.112.112.11";
-			dnsSecondaryV6="2620:fe::fe:11";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Quad9-NOBL" ]]; then #https://www.quad9.net/privacy
-			dnsHex="0x0909090aL";
-			dnsPrimary="9.9.9.10";
-			dnsPrimaryV6="2620:fe::10";
-			dnsSecondary="149.112.112.10";
-			dnsSecondaryV6="2620:fe::fe:10";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Verisign" ]]; then #https://www.verisign.com/en_US/security-services/public-dns/terms-of-service/index.xhtml
-			dnsHex="0x40064006L";
-			dnsPrimary="64.6.64.6";
-			dnsPrimaryV6="2620:74:1b::1:1";
-			dnsSecondary="64.6.65.6";
-			dnsSecondaryV6="2620:74:1c::2:2";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Yandex" ]]; then #https://dns.yandex.com/advanced
-			dnsHex="0x4d580858L";
-			dnsPrimary="77.88.8.88";
-			dnsPrimaryV6="2a02:6b8::feed:bad";
-			dnsSecondary="77.88.8.2";
-			dnsSecondaryV6="2a02:6b8:0:1::feed:bad";
-		elif [[ "$DOS_DEFAULT_DNS_PRESET" == "Yandex-NOBL" ]]; then #https://dns.yandex.com/advanced
-			dnsHex="0x4d580808L";
-			dnsPrimary="77.88.8.8";
-			dnsPrimaryV6="2a02:6b8::feed:0ff";
-			dnsSecondary="77.88.8.1";
-			dnsSecondaryV6="2a02:6b8:0:1::feed:0ff";
 		fi;
 	else
 		echo "You must first set a preset via the DOS_DEFAULT_DNS_PRESET variable in init.sh!";
@@ -910,7 +813,6 @@ export -f changeDefaultDNS;
 editKernelLocalversion() {
 	local defconfigPath=$(getDefconfig)
 	local replacement=$1;
-	if [ "$DOS_SNET" = true ]; then local replacement="-oink"; fi;
 	sed -i 's/CONFIG_LOCALVERSION=".*"/CONFIG_LOCALVERSION="'"$replacement"'"/' $defconfigPath &>/dev/null || true;
 	sed -zi '/CONFIG_LOCALVERSION="'"$replacement"'"/!s/$/\nCONFIG_LOCALVERSION="'"$replacement"'"/' $defconfigPath &>/dev/null;
 }
@@ -1154,7 +1056,7 @@ hardenDefconfig() {
 	optionsNo+=("HARDENED_USERCOPY_FALLBACK");
 	optionsNo+=("SECURITY_SELINUX_DISABLE" "SECURITY_WRITABLE_HOOKS");
 	if [ "$DOS_USE_KSM" = false ]; then optionsNo+=("SLAB_MERGE_DEFAULT"); fi;
-	if [[ "$DOS_VERSION" != "LineageOS-20.0" ]]; then optionsNo+=("USERFAULTFD"); fi;
+	if [[ "$DOS_VERSION" != "LineageOS-20.0" ]] && [[ "$DOS_VERSION" != "LineageOS-21.0" ]]; then optionsNo+=("USERFAULTFD"); fi;
 	#optionsNo+=("CFI_PERMISSIVE");
 	#misc
 	optionsNo+=("FB_MSM_MDSS_XLOG_DEBUG" "MSM_BUSPM_DEV" "MSMB_CAMERA_DEBUG" "MSM_CAMERA_DEBUG" "MSM_SMD_DEBUG");
@@ -1170,15 +1072,13 @@ hardenDefconfig() {
 	#optionsNo+=("PROC_PAGE_MONITOR"); #breaks memory stats
 	#optionsNo+=("SCHED_DEBUG"); #breaks compile
 
-	if [ "$DOS_DEFCONFIG_DISABLER" = true ]; then
-		for option in "${optionsNo[@]}"
-		do
-			#If the option is enabled, disable it
-			sed -i 's/CONFIG_'"$option"'=y/CONFIG_'"$option"'=n/' $defconfigPath &>/dev/null || true;
-			#If the option isn't present, add it disabled
-			sed -zi '/CONFIG_'"$option"'=n/!s/$/\nCONFIG_'"$option"'=n/' $defconfigPath &>/dev/null || true;
-		done
-	fi;
+	for option in "${optionsNo[@]}"
+	do
+		#If the option is enabled, disable it
+		sed -i 's/CONFIG_'"$option"'=y/CONFIG_'"$option"'=n/' $defconfigPath &>/dev/null || true;
+		#If the option isn't present, add it disabled
+		sed -zi '/CONFIG_'"$option"'=n/!s/$/\nCONFIG_'"$option"'=n/' $defconfigPath &>/dev/null || true;
+	done
 
 	#Extras
 	sed -i 's/CONFIG_ARCH_MMAP_RND_BITS=8/CONFIG_ARCH_MMAP_RND_BITS=16/' $defconfigPath &>/dev/null || true;

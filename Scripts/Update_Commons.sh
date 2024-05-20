@@ -38,11 +38,3 @@ wget "https://github.com/LineageOS/android_packages_apps_LineageParts/raw/lineag
 #TODO: CA store
 #https://android.googlesource.com/platform/system/ca-certificates
 #Last: 2024/05/03
-
-#TODO: Carrier List, unused
-#https://android.googlesource.com/platform/packages/providers/TelephonyProvider/
-#Last: 2024/05/03
-
-#TODO: Carrier Configs, unused
-#https://android.googlesource.com/platform/packages/apps/CarrierConfig/
-#Last: 2024/05/03

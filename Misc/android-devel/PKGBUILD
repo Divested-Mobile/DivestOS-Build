@@ -1,9 +1,0 @@
-#Created from aosp-devel and lineageos-devel by p4block
-pkgname=android-devel
-pkgver=0.1
-pkgrel=1
-pkgdesc='Metapackage to pull all dependencies required to build Android'
-arch=('x86_64')
-url='https://wiki.archlinux.org/index.php/Android#Building_Android'
-license=('None')
-depends=('gcc' 'git' 'gnupg' 'flex' 'bison' 'gperf' 'sdl' 'wxgtk' 'squashfs-tools' 'curl' 'ncurses' 'zlib' 'schedtool' 'perl-switch' 'zip' 'unzip' 'libxslt' 'python2-virtualenv' 'bc' 'rsync' 'lib32-zlib' 'lib32-ncurses' 'lib32-readline' 'xml2' 'lzop' 'pngcrush' 'imagemagick' 'repo' 'ccache' 'maven' 'gradle' 'ninja' 'lib32-ncurses5-compat-libs' 'ncurses5-compat-libs' 'firejail' 'optipng' 'jpegoptim')

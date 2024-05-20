@@ -33,7 +33,6 @@ export -f scanWorkspaceForMalware;
 buildDevice() {
 	cd "$DOS_BUILD_BASE";
 	if [[ -d "$DOS_SIGNING_KEYS/$1" ]]; then
-		#export OTA_KEY_OVERRIDE_DIR="$DOS_SIGNING_KEYS/$1";
 		breakfast "lineage_$1-user" && mka target-files-package otatools && processRelease $1 true $2;
 	else
 		echo -e "\e[0;31mNo signing keys available for $1\e[0m";
@@ -43,7 +42,6 @@ export -f buildDevice;
 
 buildDeviceDebug() {
 	cd "$DOS_BUILD_BASE";
-	unset OTA_KEY_OVERRIDE_DIR;
 	brunch "lineage_$1-eng";
 }
 export -f buildDeviceDebug;
@@ -176,10 +174,6 @@ patchWorkspaceReal() {
 			sh "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
 			sh "$DOS_SCRIPTS_COMMON/Post.sh";
 			source build/envsetup.sh;
-
-			#Deblobbing fixes
-			##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
-			#none yet
 		else
 			echo -e "\e[0;33mWARNING: CHECKOUT INCORRECT, NOT PATCHING!\e[0m";
 			echo "Please apply Patches/LineageOS-20.0/android/0001-tensor.patch to .repo/manifests and sync";

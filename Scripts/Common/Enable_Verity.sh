@@ -39,10 +39,6 @@ enableAVB() {
 		if [[ "$1" == *"xiaomi"* ]]; then #XXX: broken
 			sed -i 's/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 2/' *.mk &>/dev/null || true;
 			echo "Setting PERMISSIVE AVB for $1";
-		elif [[ "$DOS_VERSION" == "LineageOS-18.1" ]] && [[ "$1" == *"oneplus/sdm845-common"* ]]; then #XXX: uses stock /vendor
-			sed -i 's/AVB_MAKE_VBMETA_IMAGE_ARGS += --flag 2/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 2/' *.mk &>/dev/null || true;
-			sed -i 's/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3/AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 2/' *.mk &>/dev/null || true;
-			echo "Setting PERMISSIVE AVB for $1";
 		else
 			awk -i inplace '!/AVB_MAKE_VBMETA_IMAGE_ARGS \+= --flag/' *.mk &>/dev/null || true;
 			echo "Setting ENFORCING AVB for $1";

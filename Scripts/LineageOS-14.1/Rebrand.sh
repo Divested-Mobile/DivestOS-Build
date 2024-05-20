@@ -58,8 +58,8 @@ sed -i '/.*setup_services/s/LineageOS/'"$DOS_BRANDING_NAME"'/g' res/values*/stri
 fi;
 
 if enter "packages/apps/Updater"; then
-sed -i 's|0OTA_SERVER_CLEARNET0|'"$DOS_OTA_SERVER_LEGACY"'|' src/org/lineageos/updater/misc/Utils.java;
-sed -i 's|0OTA_SERVER_ONION0|'"$DOS_OTA_SERVER_LEGACY"'|' src/org/lineageos/updater/misc/Utils.java;
+sed -i 's|0OTA_SERVER_CLEARNET0|'"$DOS_OTA_SERVER_PRIMARY"'|' src/org/lineageos/updater/misc/Utils.java;
+sed -i 's|0OTA_SERVER_ONION0|'"$DOS_OTA_SERVER_PRIMARY"'|' src/org/lineageos/updater/misc/Utils.java;
 sed -i 's|>LineageOS|>'"$DOS_BRANDING_NAME"'|' res/values*/strings.xml;
 sed -i 's|https://download.lineageos.org/<xliff:g id="device_name">%1$s</xliff:g>/changes|'"$DOS_BRANDING_LINK_NEWS"'|g' res/values*/strings.xml;
 fi;

@@ -34,7 +34,6 @@ echo "Deblobbing...";
 	overlay="invalid_placeholder_aekiekan";
 	ipcSec="";
 	kernels=""; #Delimited using " "
-	sepolicy="";
 
 	#ACDB (Audio Calibration DataBase) [Qualcomm] XXX: Breaks audio output
 	#blobs=$blobs".*.acdb|florida.*.bin"; #databases
@@ -43,7 +42,6 @@ echo "Deblobbing...";
 	#ADSP/Hexagon (Hardware Digital Signal Processor) [Qualcomm]
 	#blobs=$blobs"[/]adsp[/]|.*adspd.*|.*adsprpc.*";
 	#blobs=$blobs"|libfastcvadsp_stub.so|libfastcvopt.so|libadsp.*.so|libscve.*.so";
-	#sepolicy=$sepolicy" adspd.te adsprpcd.te";
 
 	#IFAA (???) [Qualcomm/OnePlus?]
 	blobs=$blobs"ifaadaemon|ifaadaemonProxy";
@@ -86,7 +84,6 @@ echo "Deblobbing...";
 		blobs=$blobs"|vendor.qti.atcmdfwd.*|vendor.qti.hardware.radio.atcmdfwd.*";
 		blobs=$blobs"|atfwd.apk";
 		#makes=$makes"|atfwd";
-		sepolicy=$sepolicy" atfwd.te";
 		manifests=$manifests"|AtCmdFwd";
 	fi;
 
@@ -120,7 +117,6 @@ echo "Deblobbing...";
 		#blobs=$blobs"|vendor.qti.data.factory.*|vendor.qti.hardware.data.dynamicdds.*|vendor.qti.hardware.data.latency.*|vendor.qti.hardware.data.qmi.*|vendor.qti.latency.*|vendor.qti.hardware.data.iwlan.*";
 		overlay=$overlay"|config_wlan_data_service_package|config_wlan_network_service_package|config_qualified_networks_service_package";
 		#makes=$makes"|libcnefeatureconfig"; XXX: breaks radio
-		sepolicy=$sepolicy" cnd.te qcneservice.te";
 		manifests=$manifests"|com.quicinc.cne|iwlan";
 		blobs=$blobs"|QualifiedNetworksService.apk"; #Google
 		blobs=$blobs"|qualifiednetworksservice.xml";
@@ -174,7 +170,6 @@ echo "Deblobbing...";
 		blobs=$blobs"|dpmserviceapp.apk";
 		blobs=$blobs"|libdpmctmgr.so|libdpmfdmgr.so|libdpmframework.so|libdpmnsrm.so|libdpmtcm.so|libdpmqmihal.so";
 		blobs=$blobs"|com.qualcomm.qti.dpm.*";
-		sepolicy=$sepolicy" dpmd.te";
 		ipcSec=$ipcSec"|47:4294967295:1001:3004|48:4294967295:1000:3004";
 		manifests=$manifests"|dpmQmiService";
 		makes=$makes"|dpmserviceapp";
@@ -199,8 +194,6 @@ echo "Deblobbing...";
 	manifests=$manifests"|android.hardware.drm";
 	#makes=$makes"|libdrmframework.*"; #necessary to compile
 	#makes=$makes"|mediadrmserver|com.android.mediadrm.signer.*|drmserver"; #Works but causes long boot times
-	#sepolicy=$sepolicy" drmserver.te mediadrmserver.te";
-	sepolicy=$sepolicy" hal_drm_default.te hal_drm.te hal_drm_widevine.te";
 
 	#eMBMS [Qualcomm]
 	blobs=$blobs"|embms.apk";
@@ -212,7 +205,7 @@ echo "Deblobbing...";
 	#External Accessories
 	if [ "$DOS_DEBLOBBER_REMOVE_ACCESSORIES" = true ]; then
 		#tangorpro
-		if [[ "$DOS_VERSION" == "LineageOS-20.0" ]]; then
+		if [[ "$DOS_VERSION" == "LineageOS-20.0" ]] || [[ "$DOS_VERSION" == "LineageOS-21.0" ]]; then
 			blobs=$blobs"|AndroidMediaShell.apk|CastAuthPrebuilt.apk|UsoniaPrebuilt.apk|HomegraphPrebuilt.apk|SmartDisplayPrebuilt.apk|DockManagerPrebuilt.apk|DockSetup.apk";
 			blobs=$blobs"|default-permissions_SmartDisplayPrebuilt.xml|com.google.android.apps.mediashell.xml|com.google.android.apps.nest.castauth.xml|pixel_docking_experience_2022.xml|appcompat[/]compat_framework_overrides.xml|com.google.assistant.hubui.xml|sysconfig[/]communal.xml|com.google.android.apps.nest.dockmanager.app.xml|google-nest-hiddenapi-package-whitelist.xml";
 		fi;
@@ -248,22 +241,19 @@ echo "Deblobbing...";
 	#blobs=$blobs"|flp.conf";
 
 	#Graphics
-	if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
-		blobs=$blobs"|eglsubAndroid.so|eglSubDriverAndroid.so|libbccQTI.so|libC2D2.so|libc2d30_bltlib.so|libc2d30.so|libc2d30.*.so|libCB.so|libEGL.*.so|libGLES.*.so|libgsl.so|libq3dtools_esx.so|libq3dtools.*.so|libQTapGLES.so|libscale.so|libsc.*.so";
-		blobs=$blobs"|libglcore.so|libnvblit.so|libnvddk_vic.so|libnvglsi.so|libnvgr.so|libnvptx.so|libnvrmapi.*.so|libnvrm_graphics.so|libnvrm.so|libnvwsi.so"; #NVIDIA
-		blobs=$blobs"|gralloc.*.so|hwcomposer.*.so|memtrack.*.so";
-		blobs=$blobs"|libadreno_utils.so"; #Adreno
-		blobs=$blobs"|libllvm.*.so"; #LLVM
-		blobs=$blobs"|libOpenCL.*.so|libclcore_nvidia.bc"; #OpenCL
-		blobs=$blobs"|vulkan.*.so"; #Vulkan
-		makes=$makes"|android.hardware.vulkan.*|libvulkan";
-	fi;
-	if [ "$DOS_DEBLOBBER_REMOVE_RENDERSCRIPT" = true ] || [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
-		blobs=$blobs"|android.hardware.renderscript.*";
-		blobs=$blobs"|librs.*.so|libRSDriver.*.so|libnvRSCompiler.so|libnvRSDriver.so"; #Adreno
-		blobs=$blobs"|libPVRRS.*.so|libufwriter.so"; #Intel
-		makes=$makes"|android.hardware.renderscript.*";
-	fi;
+	#blobs=$blobs"|eglsubAndroid.so|eglSubDriverAndroid.so|libbccQTI.so|libC2D2.so|libc2d30_bltlib.so|libc2d30.so|libc2d30.*.so|libCB.so|libEGL.*.so|libGLES.*.so|libgsl.so|libq3dtools_esx.so|libq3dtools.*.so|libQTapGLES.so|libscale.so|libsc.*.so";
+	#blobs=$blobs"|libglcore.so|libnvblit.so|libnvddk_vic.so|libnvglsi.so|libnvgr.so|libnvptx.so|libnvrmapi.*.so|libnvrm_graphics.so|libnvrm.so|libnvwsi.so"; #NVIDIA
+	#blobs=$blobs"|gralloc.*.so|hwcomposer.*.so|memtrack.*.so";
+	#blobs=$blobs"|libadreno_utils.so"; #Adreno
+	#blobs=$blobs"|libllvm.*.so"; #LLVM
+	#blobs=$blobs"|libOpenCL.*.so|libclcore_nvidia.bc"; #OpenCL
+	#blobs=$blobs"|vulkan.*.so"; #Vulkan
+	#makes=$makes"|android.hardware.vulkan.*|libvulkan";
+	#Renderscript
+	#blobs=$blobs"|android.hardware.renderscript.*";
+	#blobs=$blobs"|librs.*.so|libRSDriver.*.so|libnvRSCompiler.so|libnvRSDriver.so"; #Adreno
+	#blobs=$blobs"|libPVRRS.*.so|libufwriter.so"; #Intel
+	#makes=$makes"|android.hardware.renderscript.*";
 
 	#Felicia [Google?]
 	blobs=$blobs"|MobileFeliCaClient.apk|MobileFeliCaMenuMainApp.apk|MobileFeliCaSettingApp.apk|MobileFeliCaWebPlugin.apk|MobileFeliCaWebPluginBoot.apk";
@@ -386,7 +376,6 @@ echo "Deblobbing...";
 		blobs=$blobs"|lib-dplmedia.so|librcc.so|libvcel.so|libvoice-svc.so";
 		blobs=$blobs"|volte_modem[/]";
 		makes=$makes"|ims-ext-common";
-		sepolicy=$sepolicy" ims.te imscm.te imswmsproxy.te";
 		ipcSec=$ipcSec"|32:4294967295:1001";
 		manifests=$manifests"|qti.ims|radio.ims";
 	fi;
@@ -593,13 +582,10 @@ echo "Deblobbing...";
 	#Time Service [Qualcomm]
 	#https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/time-services/ [headers]
 	#Requires that android_hardware_sony_timekeep be included in repo manifest
-	if [ "$DOS_DEBLOBBER_REPLACE_TIME" = true ]; then
-		#blobs=$blobs"|libtime_genoff.so"; #XXX: Breaks radio
-		blobs=$blobs"|libTimeService.so";
-		blobs=$blobs"|TimeService.apk";
-		blobs=$blobs"|time_daemon";
-		sepolicy=$sepolicy" qtimeservice.te";
-	fi;
+	#blobs=$blobs"|libtime_genoff.so"; #XXX: Breaks radio
+	#blobs=$blobs"|libTimeService.so";
+	#blobs=$blobs"|TimeService.apk";
+	#blobs=$blobs"|time_daemon";
 
 	#[T-Mobile]
 	blobs=$blobs"|TmobileGrsuPrebuilt.apk";
@@ -673,7 +659,6 @@ echo "Deblobbing...";
 	export overlay;
 	export ipcSec;
 	export kernels;
-	export sepolicy;
 	export manifests;
 #
 #END OF BLOBS ARRAY
@@ -685,8 +670,6 @@ echo "Deblobbing...";
 deblobDevice() {
 	local devicePath="$1";
 	cd "$DOS_BUILD_BASE/$devicePath";
-	if [ "$DOS_DEBLOBBER_REPLACE_TIME" = false ]; then local replaceTime="false"; fi; #Disable Time replacement
-	if ! grep -qi "qcom" BoardConfig*.mk; then local replaceTime="false"; fi; #Disable Time Replacement
 	if [ -f Android.mk ]; then
 		#Some devices store these in a dedicated firmware partition, others in /system/vendor/firmware, either way the following are just symlinks
 		#sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(CMN_SYMLINKS)//' Android.mk; #Remove CMN firmware
@@ -699,17 +682,6 @@ deblobDevice() {
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WIDEVINE_SYMLINKS)//' Android.mk; #Remove Google Widevine firmware
 		sed -i '/ALL_DEFAULT_INSTALLED_MODULES/s/$(WV_SYMLINKS)//' Android.mk; #Remove Google Widevine firmware
 	fi;
-	if [ -f BoardConfig.mk ]; then
-		if [ -z "$replaceTime" ]; then
-			sed -i 's/BOARD_USES_QC_TIME_SERVICES := true/BOARD_USES_QC_TIME_SERVICES := false/' BoardConfig*.mk &>/dev/null || true; #Switch to Sony TimeKeep
-			if ! grep -q "BOARD_USES_QC_TIME_SERVICES := false" BoardConfig.mk; then echo "BOARD_USES_QC_TIME_SERVICES := false" >> BoardConfig.mk; fi; #Switch to Sony TimeKeep
-		fi;
-		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
-			#sed -i 's/USE_OPENGL_RENDERER := true/USE_OPENGL_RENDERER := false/' BoardConfig.mk;
-			#if ! grep -q "USE_OPENGL_RENDERER := false" BoardConfig.mk; then echo "USE_OPENGL_RENDERER := false" >> BoardConfig.mk; fi;
-			if ! grep -q "USE_OPENGL_RENDERER := true" BoardConfig.mk; then echo "USE_OPENGL_RENDERER := true" >> BoardConfig.mk; fi;
-		fi;
-	fi;
 	if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then sed -i 's/BOARD_USES_QCNE := true/BOARD_USES_QCNE := false/' BoardConfig*.mk &>/dev/null || true; fi; #Disable CNE
 	sed -i 's/BOARD_USES_WIPOWER := true/BOARD_USES_WIPOWER := false/' BoardConfig*.mk &>/dev/null || true; #Disable WiPower
 	sed -i 's/TARGET_HAS_HDR_DISPLAY := true/TARGET_HAS_HDR_DISPLAY := false/' BoardConfig*.mk &>/dev/null || true; #Disable HDR
@@ -719,27 +691,7 @@ deblobDevice() {
 	if [ "$DOS_DEBLOBBER_REMOVE_AUDIOFX" = true ]; then sed -i 's/AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := true/AUDIO_FEATURE_ENABLED_DS2_DOLBY_DAP := false/' BoardConfig*.mk &>/dev/null || true; fi; #Disable Dolby
 	sed -i 's/BOARD_ANT_WIRELESS_DEVICE := true/BOARD_ANT_WIRELESS_DEVICE := false/' BoardConfig*.mk &>/dev/null || true; #Disable ANT
 	awk -i inplace '!/BOARD_ANT_WIRELESS_DEVICE/' BoardConfig*.mk &>/dev/null || true;
-	if [ "$DOS_DEBLOBBER_REMOVE_RENDERSCRIPT" = true ] || [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
-		awk -i inplace '!/RS_DRIVER/' BoardConfig*.mk &>/dev/null || true;
-	fi;
-	if [ -f device.mk ]; then
-		if [ -z "$replaceTime" ]; then
-			echo "PRODUCT_PACKAGES += timekeep TimeKeep" >> device.mk; #Switch to Sony TimeKeep
-		fi;
-		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
-			echo "PRODUCT_PACKAGES += libyuv libEGL_swiftshader libGLESv1_CM_swiftshader libGLESv2_swiftshader" >> device.mk; #Build SwiftShader
-		fi;
-	fi;
-	local baseDirTmp=${PWD##*/};
-	local suffixTmp="-common";
-	if [ -f "${PWD##*/}".mk ] && [ "${PWD##*/}".mk != "sepolicy" ]; then
-		if [ -z "$replaceTime" ]; then
-			echo "PRODUCT_PACKAGES += timekeep TimeKeep" >> "${PWD##*/}".mk; #Switch to Sony TimeKeep
-		fi;
-		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
-			echo "PRODUCT_PACKAGES += libyuv libEGL_swiftshader libGLESv1_CM_swiftshader libGLESv2_swiftshader" >> "${PWD##*/}".mk; #Build SwiftShader
-		fi;
-	fi;
+	#awk -i inplace '!/RS_DRIVER/' BoardConfig*.mk &>/dev/null || true; #Renderscript
 
 	sed -i '/loc.nlp_name/d' *.prop *.mk &>/dev/null || true; #Disable QC Location Provider
 	sed -i 's/drm.service.enabled=true/drm.service.enabled=false/' *.prop *.mk &>/dev/null || true;
@@ -757,12 +709,6 @@ deblobDevice() {
 	sed -i '/vendor.camera.extensions/d' *.prop *.mk &>/dev/null || true; #Disable camera extensions
 	if [ -f system.prop ]; then
 		if ! grep -q "drm.service.enabled=false" system.prop; then echo "drm.service.enabled=false" >> system.prop; fi; #Disable DRM server
-		if [ "$DOS_DEBLOBBER_REMOVE_GRAPHICS" = true ]; then
-			echo "sys.ui.hw=disable" >> system.prop;
-			#echo "graphics.gles20.disable_on_bootanim=1" >> system.prop;
-			echo "debug.sf.nobootanimation=1" >> system.prop;
-			sed -i 's/opengles.version=.*/opengles.version=131072/' system.prop;
-		fi;
 	fi
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
 		sed -i 's/ims.volte=true/ims.volte=false/' *.prop *.mk &>/dev/null || true;
@@ -819,27 +765,6 @@ deblobDevice() {
 	sed -i 's|<bool name="config_uiBlurEnabled">true</bool>|<bool name="config_uiBlurEnabled">false</bool>|' overlay*/frameworks/base/core/res/res/values/config.xml &>/dev/null || true; #Disable UIBlur
 	awk -i inplace '!/platform_carrier_config_package/' overlay*/packages/services/Telephony/res/values/config.xml &>/dev/null || true;
 	awk -i inplace '!/config_show_adaptive_connectivity/' overlay*/packages/apps/Settings/res/values/config.xml &>/dev/null || true;
-	if [ -d sepolicy ]; then
-		if [ -z "$replaceTime" ]; then
-			numfiles=(*); numfiles=${#numfiles[@]};
-			if [ "$numfiles" -gt "5" ]; then #only if device doesn't use a common sepolicy dir
-				#Switch to Sony TimeKeep
-				#Credit: @aviraxp
-				#Reference: https://github.com/LineageOS/android_device_oneplus_oneplus2/commit/3b152a3c1198d795de4175e6b9927493caf01bf0
-				echo "/sys/devices/soc\.0/qpnp-rtc-8/rtc/rtc0(/.*)? u:object_r:sysfs_rtc:s0" >> sepolicy/file_contexts;
-				echo "/(system/vendor|vendor)/bin/timekeep u:object_r:timekeep_exec:s0" >> sepolicy/file_contexts;
-				echo "type vendor_timekeep_prop, property_type;" >> sepolicy/property.te;
-				echo "persist.vendor.timeadjust u:object_r:vendor_timekeep_prop:s0" >> sepolicy/property_contexts;
-				echo "user=system seinfo=platform name=com.sony.timekeep domain=timekeep_app type=app_data_file" >> sepolicy/seapp_contexts;
-				cp "$DOS_PATCHES_COMMON/android_timekeep_sepolicy/timekeep.te" sepolicy/;
-				cp "$DOS_PATCHES_COMMON/android_timekeep_sepolicy/timekeep_app.te" sepolicy/;
-			fi;
-		fi;
-	fi;
-	if [ -z "$replaceTime" ]; then #Switch to Sony TimeKeep
-		#sed -i 's|service time_daemon /system/bin/time_daemon|service time_daemon /system/bin/timekeep restore\n    oneshot|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true;
-		awk -i inplace '!|mkdir /data/time/ 0700 system system|' init.*.rc rootdir/init.*.rc rootdir/etc/init.*.rc &> /dev/null || true;
-	fi;
 	if [ "$DOS_DEBLOBBER_REMOVE_CNE" = true ]; then rm -f board/qcom-cne.mk product/qcom-cne.mk; fi; #Remove CNE
 	if [ "$DOS_DEBLOBBER_REMOVE_IMS" = true ]; then
 		rm -f rootdir/etc/init.qti.ims.sh rootdir/init.qti.ims.sh init.qti.ims.sh; #Remove IMS startup script
@@ -866,17 +791,6 @@ deblobKernel() {
 	cd "$DOS_BUILD_BASE";
 }
 export -f deblobKernel;
-
-deblobSepolicy() {
-	local sepolicyPath="$1";
-	cd "$DOS_BUILD_BASE/$sepolicyPath";
-	if [ -d sepolicy ]; then
-		cd sepolicy;
-		rm -f $sepolicy;
-	fi;
-	cd "$DOS_BUILD_BASE";
-}
-export -f deblobSepolicy;
 
 deblobVendors() {
 	cd "$DOS_BUILD_BASE";
@@ -922,7 +836,6 @@ cd "$DOS_BUILD_BASE";
 find build -name "*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'awk -i inplace "!/$makes/" "{}"'; #Deblob all makefiles
 find device -maxdepth 2 -mindepth 2 -type d -exec bash -c 'deblobDevice "$0"' {} \;; #Deblob all device directories
 find device -name "*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'awk -i inplace "!/$makes/" "{}"'; #Deblob all makefiles
-#find device -maxdepth 3 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobSepolicy "{}"'; #Deblob all device sepolicy directories XXX: Breaks builds when other sepolicy files reference deleted ones
 #find kernel -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobKernel "{}"'; #Deblob all kernel directories
 find vendor -name "*endor*.mk" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobVendorMk "{}"'; #Deblob all makefiles
 find vendor -name "Android.bp" -type f -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'deblobVendorBp "{}"'; #Deblob all makefiles

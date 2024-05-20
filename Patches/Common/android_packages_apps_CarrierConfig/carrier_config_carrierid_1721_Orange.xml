@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<carrier_config>
-    <string-array name="carrier_certificate_string_array" num="1">
-        <item value="b67affcda89e3193b1595036d7c6cdbe22be5ca24c9f6cf93fc6b48f91d7310d:com.orange.myorange.osn,com.orange.phone.mea,com.orange.update"/>
-    </string-array>
-    <string name="config_plans_package_override_string">com.orange.myorange.osn</string>
-</carrier_config>

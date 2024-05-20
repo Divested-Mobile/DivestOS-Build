@@ -68,7 +68,6 @@ patchWorkspaceReal() {
 
 	#source build/envsetup.sh;
 	#repopick -ift twelve-bt-sbc-hd-dualchannel;
-	#repopick -it twelve-colors;
 
 	sh "$DOS_SCRIPTS/Patch.sh";
 	sh "$DOS_SCRIPTS_COMMON/Enable_Verity.sh";
@@ -80,10 +79,6 @@ patchWorkspaceReal() {
 	sh "$DOS_SCRIPTS_COMMON/Patch_CVE.sh";
 	sh "$DOS_SCRIPTS_COMMON/Post.sh";
 	source build/envsetup.sh;
-
-	#Deblobbing fixes
-	##setup-makefiles doesn't execute properly for some devices, running it twice seems to fix whatever is wrong
-	#none yet
 }
 export -f patchWorkspaceReal;
 

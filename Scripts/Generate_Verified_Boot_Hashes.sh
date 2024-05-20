@@ -51,8 +51,6 @@ do
 	if [[ " ${AVB_DEVICES[@]} " =~ " ${device} " ]]; then
 		echo "Device: $device";
 		sha256=$(cat $f | openssl dgst -sha256 | sed 's/SHA2-256(stdin)= //' | tr [a-z] [A-Z]);
-		#echo -e "\tID:"; #Not really needed
-		#echo -e "\t\t${sha256:0:8}";
 		echo -e "\tSHA-256:";
 		echo -e "\t\t${sha256:0:16}";
 		echo -e "\t\t${sha256:16:16}";

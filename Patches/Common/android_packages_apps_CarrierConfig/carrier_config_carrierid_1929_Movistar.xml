@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<carrier_config>
-    <boolean name="enabledMMS" value="false"/>
-    <boolean name="enableGroupMms" value="false"/>
-    <boolean name="enableMultipartSMS" value="true"/>
-</carrier_config>

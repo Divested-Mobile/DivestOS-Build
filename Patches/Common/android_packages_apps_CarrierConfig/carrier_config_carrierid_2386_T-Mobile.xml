@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<carrier_config>
-    <string-array name="carrier_certificate_string_array" num="3">
-        <item value="191A9C9711282CCD1133C9F9EFA7D1077BCAAFB99E379A438207EE0D86218917:de.telekom.tsc"/>
-        <item value="EE403A97B076CDEA7A8E8E9BC8011C0A45CEC08905F400EBECE62C946614977D:de.telekom.appstarter"/>
-        <item value="66D1423581F5C3FC7AE91C53DCEFA2AD7DEF0265FE261ED4FB7423E0F57C0AFE:nl.oberon.tmobile.my"/>
-    </string-array>
-</carrier_config>

@@ -38,7 +38,7 @@ source "$DOS_SCRIPTS_COMMON/Shell.sh";
 #
 #Download some (non-executable) out-of-tree files for use later on
 cd "$DOS_TMP_DIR";
-if [ "$DOS_HOSTS_BLOCKING" = true ]; then $DOS_TOR_WRAPPER wget --no-verbose "$DOS_HOSTS_BLOCKING_LIST" -N -O "$DOS_HOSTS_FILE"; fi;
+if [ "$DOS_HOSTS_BLOCKING" = true ]; then wget --no-verbose "$DOS_HOSTS_BLOCKING_LIST" -N -O "$DOS_HOSTS_FILE"; fi;
 cd "$DOS_BUILD_BASE";
 #
 #END OF PREPRATION
@@ -56,12 +56,11 @@ cp -r "$DOS_PREBUILT_APPS/android_vendor_FDroid_PrebuiltApps/." "$DOS_BUILD_BASE
 cp -r "$DOS_PATCHES_COMMON/android_vendor_divested/." "$DOS_BUILD_BASE/vendor/divested/"; #Add our vendor files
 
 if enterAndClear "art"; then
-if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_art/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_art/0001-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
 if enterAndClear "bionic"; then
-if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; fi; #(GrapheneOS)
-if [ "$DOS_GRAPHENE_BIONIC" = true ]; then
+applyPatch "$DOS_PATCHES/android_bionic/0001-HM-Use_HM.patch"; #(GrapheneOS)
 applyPatch "$DOS_PATCHES/android_bionic/0002-Graphene_Bionic_Hardening-1.patch"; #Add a real explicit_bzero implementation (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_bionic/0002-Graphene_Bionic_Hardening-2.patch"; #Replace brk and sbrk with stubs (GrapheneOS) #XXX: some vendor blobs use sbrk
 #applyPatch "$DOS_PATCHES/android_bionic/0002-Graphene_Bionic_Hardening-3.patch"; #Use blocking getrandom and avoid urandom fallback (GrapheneOS) #XXX: some kernels do not have (working) getrandom
@@ -77,7 +76,6 @@ applyPatch "$DOS_PATCHES/android_bionic/0002-Graphene_Bionic_Hardening-9.patch";
 #applyPatch "$DOS_PATCHES/android_bionic/0002-Graphene_Bionic_Hardening-13.patch"; #Add XOR mangling mitigation for thread-local dtors (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_bionic/0002-Graphene_Bionic_Hardening-14.patch"; #Use a better pthread_attr junk filling pattern (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_bionic/0002-Graphene_Bionic_Hardening-15.patch"; #Move pthread_internal_t out of the stack mapping (GrapheneOS)
-fi;
 #applyPatch "$DOS_PATCHES/android_bionic/0004-hosts_toggle.patch"; #Add a toggle to disable /etc/hosts lookup (DivestOS)
 fi;
 
@@ -117,12 +115,11 @@ applyPatch "$DOS_PATCHES/android_external_aac/364605.patch"; #P_asb_2023-08 Incr
 fi;
 
 if enterAndClear "external/chromium-webview"; then
-if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then DOS_WEBVIEW_CHERRYPICK; fi; #Update the WebView to latest if available
-if [ "$DOS_WEBVIEW_LFS" = true ]; then git lfs pull; fi; #Ensure the objects are available
+git lfs pull; #Ensure the objects are available
 fi;
 
 if enterAndClear "external/conscrypt"; then
-if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_external_conscrypt/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_external_conscrypt/0001-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
 if enterAndClear "external/dtc"; then
@@ -144,12 +141,11 @@ applyPatch "$DOS_PATCHES/android_external_freetype/361250.patch"; #P_asb_2023-07
 applyPatch "$DOS_PATCHES/android_external_freetype/364606.patch"; #P_asb_2023-08 Cherrypick following three changes
 fi;
 
-if [ "$DOS_GRAPHENE_MALLOC" = true ]; then
 if enterAndClear "external/hardened_malloc"; then
-applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0001-Broken_Cameras-1.patch"; #Workarounds for Pixel 3 SoC era camera driver bugs (GrapheneOS)
-applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0001-Broken_Cameras-2.patch"; #Expand workaround to all camera executables (DivestOS)
-applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0002-Broken_Displays.patch"; #Add workaround for OnePlus 8 & 9 display driver crash (DivestOS)
-applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0003-Broken_Audio.patch"; #Workaround for audio service sorting bug (GrapheneOS)
+applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc/0001-Broken_Cameras-1.patch"; #Workarounds for Pixel 3 SoC era camera driver bugs (GrapheneOS)
+applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc/0001-Broken_Cameras-2.patch"; #Expand workaround to all camera executables (DivestOS)
+applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc/0002-Broken_Displays.patch"; #Add workaround for OnePlus 8 & 9 display driver crash (DivestOS)
+applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc/0003-Broken_Audio.patch"; #Workaround for audio service sorting bug (GrapheneOS)
 sed -i 's/34359738368/2147483648/' Android.bp; #revert 48-bit address space requirement
 sed -i -e '76,78d;' Android.bp; #fix compile under A13
 sed -i -e '22,24d;' androidtest/Android.bp; #fix compile under A12
@@ -163,7 +159,6 @@ mv include/h_malloc.h  . ; #fix compile under A10
 awk -i inplace '!/recovery_available/' Android.bp; #fix compile under A9
 awk -i inplace '!/system_shared_libs/' Android.bp; #fix compile under A9
 sed -i 's/c17/c11/' Android.bp; #fix compile under A9
-fi;
 fi;
 
 if enterAndClear "external/libcups"; then
@@ -205,7 +200,7 @@ applyPatch "$DOS_PATCHES/android_frameworks_av/379788.patch"; #P_asb_2024-01 Fix
 applyPatch "$DOS_PATCHES/android_frameworks_av/383562.patch"; #P_asb_2024-02 Update mtp packet buffer
 applyPatch "$DOS_PATCHES/android_frameworks_av/385670.patch"; #P_asb_2024-03 Validate OMX Params for VPx encoders
 applyPatch "$DOS_PATCHES/android_frameworks_av/385671.patch"; #P_asb_2024-03 Fix out of bounds read and write in onQueueFilled in outQueue
-if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; fi; #(GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_av/0001-HM-No_RLIMIT_AS.patch"; #(GrapheneOS)
 fi;
 
 if enterAndClear "frameworks/base"; then
@@ -328,7 +323,6 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/389270.patch"; #P_asb_2024-04 F
 applyPatch "$DOS_PATCHES/android_frameworks_base/0007-Always_Restict_Serial.patch"; #Always restrict access to Build.SERIAL (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0008-Browser_No_Location.patch"; #Don't grant location permission to system browsers (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0009-SystemUI_No_Permission_Review.patch"; #Allow SystemUI to directly manage Bluetooth/WiFi (GrapheneOS)
-if [ "$DOS_GRAPHENE_EXEC" = true ]; then
 applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-1.patch"; #Add exec-based spawning support (GrapheneOS)
 applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-2.patch";
 applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-3.patch";
@@ -341,7 +335,6 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-9.patc
 applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-10.patch";
 applyPatch "$DOS_PATCHES/android_frameworks_base/0010-Exec_Based_Spawning-11.patch";
 sed -i 's/sys.spawn.exec/persist.security.exec_spawn_new/' core/java/com/android/internal/os/ZygoteConnection.java;
-fi;
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0003-SUPL_No_IMSI.patch"; #Don't send IMSI to SUPL (MSe1969)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0004-Fingerprint_Lockout.patch"; #Enable fingerprint lockout after five failed attempts (GrapheneOS)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0005-User_Logout.patch"; #Allow user logout (GrapheneOS)
@@ -352,10 +345,9 @@ applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Network_Permission-2.patch
 applyPatch "$DOS_PATCHES/android_frameworks_base/0013-Sensors_Permission.patch"; #Add special runtime permission for other sensors (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/0015-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_frameworks_base/0016-Bluetooth_Timeout.patch"; #Timeout for Bluetooth (GrapheneOS)
-if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0014-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
-#if [ "$DOS_MICROG_SUPPORT" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_base/0021-Unprivileged_microG_Handling.patch"; fi; #Unprivileged microG handling (heavily based off of a CalyxOS patch)
+applyPatch "$DOS_PATCHES/android_frameworks_base/0014-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
+#applyPatch "$DOS_PATCHES/android_frameworks_base/0021-Unprivileged_microG_Handling.patch"; #Unprivileged microG handling (heavily based off of a CalyxOS patch)
 applyPatch "$DOS_PATCHES_COMMON/android_frameworks_base/0008-No_Crash_GSF.patch"; #Don't crash apps that depend on missing Gservices provider (GrapheneOS)
-if [ "$DOS_SNET" = true ]; then git am "$DOS_PATCHES/android_frameworks_base/snet-16.patch"; fi;
 sed -i 's/DEFAULT_MAX_FILES = 1000;/DEFAULT_MAX_FILES = 0;/' services/core/java/com/android/server/DropBoxManagerService.java; #Disable DropBox internal logging service
 sed -i 's/DEFAULT_MAX_FILES_LOWRAM = 300;/DEFAULT_MAX_FILES_LOWRAM = 0;/' services/core/java/com/android/server/DropBoxManagerService.java;
 sed -i 's/(notif.needNotify)/(true)/' location/java/com/android/internal/location/GpsNetInitiatedHandler.java; #Notify the user if their location is requested via SUPL
@@ -388,7 +380,7 @@ fi;
 fi;
 
 if enterAndClear "frameworks/opt/net/wifi"; then
-if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_frameworks_opt_net_wifi/0001-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
 if enterAndClear "frameworks/opt/telephony"; then
@@ -442,7 +434,7 @@ fi;
 
 if enterAndClear "libcore"; then
 applyPatch "$DOS_PATCHES/android_libcore/0001-Network_Permission.patch"; #Expose the NETWORK permission (GrapheneOS)
-if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_libcore/0002-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_libcore/0002-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
 if enterAndClear "lineage-sdk"; then
@@ -456,7 +448,7 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/332759.patch"; #P_asb_2
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/345907.patch"; #P_asb_2022-12 Fix URI check in BluetoothOppUtility.java
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/349332.patch"; #P_asb_2023-02 Fix OPP comparison
 applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/377774.patch"; #P_asb_2023-12 Fix UAF in ~CallbackEnv
-if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_Bluetooth/0001-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
 if enterAndClear "packages/apps/Car/Settings"; then
@@ -501,7 +493,7 @@ fi;
 if enterAndClear "packages/apps/Nfc"; then
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/332762.patch"; #P_asb_2022-06 OOB read in phNciNfc_RecvMfResp()
 applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/347043.patch"; #P_asb_2023-01 OOBW in Mfc_Transceive()
-if [ "$DOS_GRAPHENE_CONSTIFY" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/0001-constify_JNINativeMethod.patch"; fi; #Constify JNINativeMethod tables (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_packages_apps_Nfc/0001-constify_JNINativeMethod.patch"; #Constify JNINativeMethod tables (GrapheneOS)
 fi;
 
 if enterAndClear "packages/apps/PackageInstaller"; then
@@ -537,9 +529,9 @@ applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0001-Captive_Portal_Togg
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0005-Automatic_Reboot.patch"; #Timeout for reboot (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0006-Bluetooth_Timeout.patch"; #Timeout for Bluetooth (CalyxOS)
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0008-ptrace_scope.patch"; #Add native debugging setting (GrapheneOS)
-#if [ "$DOS_GRAPHENE_EXEC" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0009-exec_spawning_toggle.patch"; fi; #Add exec spawning toggle (GrapheneOS)
+#applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0009-exec_spawning_toggle.patch"; #Add exec spawning toggle (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0012-hosts_toggle.patch"; #Add a toggle to disable /etc/hosts lookup (heavily based off of a GrapheneOS patch)
-#if [ "$DOS_MICROG_SUPPORT" = true ]; then applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0014-microG_Toggle.patch"; fi; #Add a toggle for microG enablement (heavily based off of a GrapheneOS patch)
+#applyPatch "$DOS_PATCHES/android_packages_apps_Settings/0014-microG_Toggle.patch"; #Add a toggle for microG enablement (heavily based off of a GrapheneOS patch)
 sed -i 's/private int mPasswordMaxLength = 16;/private int mPasswordMaxLength = 64;/' src/com/android/settings/password/ChooseLockPassword.java; #Increase default max password length to 64 (GrapheneOS)
 sed -i 's/if (isFullDiskEncrypted()) {/if (false) {/' src/com/android/settings/accessibility/*AccessibilityService*.java; #Never disable secure start-up when enabling an accessibility service
 fi;
@@ -587,7 +579,6 @@ if enterAndClear "packages/providers/TelephonyProvider"; then
 applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/344182.patch"; #P_asb_2022-11 Check dir path before updating permissions.
 applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/364616.patch"; #P_asb_2023-08 Update file permissions using canonical path
 applyPatch "$DOS_PATCHES/android_packages_providers_TelephonyProvider/374920.patch"; #P_asb_2023-11 Block access to sms/mms db from work profile.
-#cp $DOS_PATCHES_COMMON/android_packages_providers_TelephonyProvider/carrier_list.* assets/;
 fi;
 
 if enterAndClear "packages/services/BuiltInPrintService"; then
@@ -675,10 +666,9 @@ applyPatch "$DOS_PATCHES/android_system_core/332765.patch"; #P_asb_2022-06 Backp
 if [ "$DOS_HOSTS_BLOCKING" = true ]; then cat "$DOS_HOSTS_FILE" >> rootdir/etc/hosts; fi; #Merge in our HOSTS file
 git revert --no-edit b3609d82999d23634c5e6db706a3ecbc5348309a; #Always update recovery
 applyPatch "$DOS_PATCHES/android_system_core/0001-Harden.patch"; #Harden mounts with nodev/noexec/nosuid + misc sysctl changes (GrapheneOS)
-if [ "$DOS_GRAPHENE_MALLOC" = true ]; then applyPatch "$DOS_PATCHES/android_system_core/0002-HM-Increase_vm_mmc.patch"; fi; #(GrapheneOS)
-if [ "$DOS_GRAPHENE_BIONIC" = true ]; then applyPatch "$DOS_PATCHES/android_system_core/0003-Zero_Sensitive_Info.patch"; fi; #Zero sensitive information with explicit_bzero (GrapheneOS)
+applyPatch "$DOS_PATCHES/android_system_core/0002-HM-Increase_vm_mmc.patch"; #(GrapheneOS)
+applyPatch "$DOS_PATCHES/android_system_core/0003-Zero_Sensitive_Info.patch"; #Zero sensitive information with explicit_bzero (GrapheneOS)
 #applyPatch "$DOS_PATCHES/android_system_core/0004-ptrace_scope.patch"; #Add a property for controlling ptrace_scope (GrapheneOS)
-if [ "$DOS_SNET_EXTRA" = true ]; then applyPatch "$DOS_PATCHES/android_system_core/snet-16.patch"; fi;
 fi;
 
 if enterAndClear "system/extras"; then
@@ -781,7 +771,7 @@ find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {}
 find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'hardenUserdata "{}"';
 find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenDefconfig "{}"';
 find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'updateRegDb "{}"';
-if [ "$DOS_GRAPHENE_EXEC" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'disableEnforceRRO "{}"'; fi;
+find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'disableEnforceRRO "{}"';
 cd "$DOS_BUILD_BASE";
 deblobAudio;
 removeBuildFingerprints;

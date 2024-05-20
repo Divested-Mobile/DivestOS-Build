@@ -118,7 +118,6 @@ patchWorkspaceReal() {
 	source build/envsetup.sh;
 	#repopick -it eleven-firewall;
 	#repopick -i 314453; #TaskViewTouchController: Null check current animation on drag
-	#repopick -i 325011; #lineage: Opt-in to shipping full recovery image by default
 	repopick -fit msm8974-display-r;
 	repopick -fit msm8974-gps-r;
 	repopick -fit hh-vsync;

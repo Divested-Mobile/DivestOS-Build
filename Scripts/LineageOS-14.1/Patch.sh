@@ -38,7 +38,7 @@ source "$DOS_SCRIPTS_COMMON/Shell.sh";
 #
 #Download some (non-executable) out-of-tree files for use later on
 cd "$DOS_TMP_DIR";
-if [ "$DOS_HOSTS_BLOCKING" = true ]; then $DOS_TOR_WRAPPER wget --no-verbose "$DOS_HOSTS_BLOCKING_LIST" -N -O "$DOS_HOSTS_FILE"; fi;
+if [ "$DOS_HOSTS_BLOCKING" = true ]; then wget --no-verbose "$DOS_HOSTS_BLOCKING_LIST" -N -O "$DOS_HOSTS_FILE"; fi;
 cd "$DOS_BUILD_BASE";
 #
 #END OF PREPRATION
@@ -100,8 +100,7 @@ applyPatch "$DOS_PATCHES/android_external_apache-http/0001-Fix.patch"; #Fix comp
 fi;
 
 if enterAndClear "external/chromium-webview"; then
-if [ "$(type -t DOS_WEBVIEW_CHERRYPICK)" = "alias" ] ; then DOS_WEBVIEW_CHERRYPICK; fi; #Update the WebView to latest if available
-if [ "$DOS_WEBVIEW_LFS" = true ]; then git lfs pull; fi; #Ensure the objects are available
+git lfs pull; #Ensure the objects are available
 fi;
 
 if enterAndClear "external/expat"; then
@@ -118,10 +117,10 @@ fi;
 
 #if [ "$DOS_GRAPHENE_MALLOC_STAGING" = true ]; then
 #if enterAndClear "external/hardened_malloc"; then
-#applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0001-Broken_Cameras-1.patch"; #Workarounds for Pixel 3 SoC era camera driver bugs (GrapheneOS)
-#applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0001-Broken_Cameras-2.patch"; #Expand workaround to all camera executables (DivestOS)
-#applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0002-Broken_Displays.patch"; #Add workaround for OnePlus 8 & 9 display driver crash (DivestOS)
-#applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc-modern/0003-Broken_Audio.patch"; #Workaround for audio service sorting bug (GrapheneOS)
+#applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc/0001-Broken_Cameras-1.patch"; #Workarounds for Pixel 3 SoC era camera driver bugs (GrapheneOS)
+#applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc/0001-Broken_Cameras-2.patch"; #Expand workaround to all camera executables (DivestOS)
+#applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc/0002-Broken_Displays.patch"; #Add workaround for OnePlus 8 & 9 display driver crash (DivestOS)
+#applyPatch "$DOS_PATCHES_COMMON/android_external_hardened_malloc/0003-Broken_Audio.patch"; #Workaround for audio service sorting bug (GrapheneOS)
 #sed -i 's/34359738368/2147483648/' Android.bp; #revert 48-bit address space requirement
 #sed -i -e '76,78d;' Android.bp; #fix compile under A13
 #sed -i -e '22,24d;' androidtest/Android.bp; #fix compile under A12
@@ -608,10 +607,6 @@ applyPatch "$DOS_PATCHES/android_system_sepolicy/248600.patch"; #Restrict access
 applyPatch "$DOS_PATCHES/android_system_sepolicy/0001-LGE_Fixes.patch"; #Fix -user builds for LGE devices (DivestOS)
 fi;
 
-if enterAndClear "system/vold"; then
-applyPatch "$DOS_PATCHES/android_system_vold/0001-AES256.patch"; #Add a variable for enabling AES-256 bit encryption (DivestOS)
-fi;
-
 if enterAndClear "vendor/cm"; then
 rm build/target/product/security/lineage.x509.pem; #Remove Lineage keys
 rm -rf overlay/common/vendor/cmsdk/packages; #Remove analytics
@@ -728,7 +723,6 @@ find "device" -type d -name "overlay" -print0 | xargs -0 -n 1 -P 4 -I {} bash -c
 if [ "$DOS_DEBLOBBER_REMOVE_IMS" = "false" ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'volteOverride "{}"'; fi;
 #find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'enableDexPreOpt "{}"';
 find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'hardenUserdata "{}"';
-if [ "$DOS_STRONG_ENCRYPTION_ENABLED" = true ]; then find "device" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'enableStrongEncryption "{}"'; fi;
 find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 4 -I {} bash -c 'hardenDefconfig "{}"';
 find "kernel" -maxdepth 2 -mindepth 2 -type d -print0 | xargs -0 -n 1 -P 8 -I {} bash -c 'updateRegDb "{}"';
 cd "$DOS_BUILD_BASE";

@@ -87,8 +87,8 @@ if [ "$DOS_OTA_SERVER_EXTENDED" = true ]; then
 	sed -i 's|0OTA_SERVER_ONION_DOMAIN_PRIMARY0|'"$DOS_OTA_SERVER_ONION_DOMAIN_PRIMARY"'|' res/xml/network_security_config.xml;
 	sed -i 's|0OTA_SERVER_ONION_DOMAIN_SECONDARY0|'"$DOS_OTA_SERVER_ONION_DOMAIN_SECONDARY"'|' res/xml/network_security_config.xml;
 else
-	sed -i 's|0OTA_SERVER_CLEARNET0|'"$DOS_OTA_SERVER_LEGACY"'|' src/org/lineageos/updater/misc/Utils.java;
-	sed -i 's|0OTA_SERVER_ONION0|'"$DOS_OTA_SERVER_LEGACY"'|' src/org/lineageos/updater/misc/Utils.java;
+	sed -i 's|0OTA_SERVER_CLEARNET0|'"$DOS_OTA_SERVER_PRIMARY"'|' src/org/lineageos/updater/misc/Utils.java;
+	sed -i 's|0OTA_SERVER_ONION0|'"$DOS_OTA_SERVER_PRIMARY"'|' src/org/lineageos/updater/misc/Utils.java;
 fi;
 sed -i 's|>LineageOS|>'"$DOS_BRANDING_NAME"'|' res/values*/strings.xml;
 sed -i '/.*toast_forced_update_recovery/s/Lineage/'"$DOS_BRANDING_NAME"'/g' res/values*/strings.xml;

@@ -1,6 +1,0 @@
-<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
-<carrier_config_list>
-    <carrier_config>
-        <boolean name="hide_lte_plus_data_icon_bool" value="false" />
-    </carrier_config>
-</carrier_config_list>

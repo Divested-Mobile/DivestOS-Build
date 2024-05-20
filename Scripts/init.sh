@@ -31,8 +31,6 @@ export DOS_SIGNING_GPG="$DOS_WORKSPACE_ROOT/Signing_Keys/gnupg";
 export CCACHE_COMPRESS=1;
 export CCACHE_COMPRESSLEVEL=1;
 #export DOS_BINARY_PATCHER="";
-export DOS_TOR_WRAPPER="";
-#export DOS_TOR_WRAPPER="torsocks"; #Uncomment to perform select build operations over Tor
 export DOS_MALWARE_SCAN_ENABLED=false; #Set true to perform a fast scan on patchWorkspace() and a through scan on buildAll()
 export DOS_MALWARE_SCAN_SETTING="quick"; #buildAll() scan speed. Options: quick, extra, slow, full
 export DOS_REFRESH_PATCHES=true; #Set true to refresh branch-specific patches on apply
@@ -47,33 +45,18 @@ export DOS_DEBLOBBER_REMOVE_DPM=true; #Set true to remove all DPM blobs #XXX: Ma
 export DOS_DEBLOBBER_REMOVE_DPP=false; #Set true to remove all Display Post Processing blobs #XXX: Breaks boot on select devices
 export DOS_DEBLOBBER_REMOVE_FACE=false; #Set true to remove all face unlock blobs
 export DOS_DEBLOBBER_REMOVE_FP=false; #Set true to remove all fingerprint reader blobs
-export DOS_DEBLOBBER_REMOVE_GRAPHICS=false; #Set true to remove all graphics blobs and use SwiftShader CPU renderer #TODO: Needs work
 export DOS_DEBLOBBER_REMOVE_EUICC=true; #Set true to remove all Google eUICC blobs
 export DOS_DEBLOBBER_REMOVE_EUICC_FULL=false; #Set true to remove all hardware eUICC blobs
 export DOS_DEBLOBBER_REMOVE_IMS=false; #Set true to remove all IMS blobs #XXX: Carriers are phasing out 3G, making IMS mandatory for calls
 export DOS_DEBLOBBER_REMOVE_IPA=false; #Set true to remove all IPA blobs
 export DOS_DEBLOBBER_REMOVE_IR=false; #Set true to remove all IR blobs
 export DOS_DEBLOBBER_REMOVE_RCS=true; #Set true to remove all RCS blobs
-export DOS_DEBLOBBER_REMOVE_RENDERSCRIPT=false; #Set true to remove RenderScript blobs
-export DOS_DEBLOBBER_REPLACE_TIME=false; #Set true to replace Qualcomm Time Services with the open source Sony TimeKeep reimplementation #TODO: Needs testing
 
 #Features
-export DOS_GPS_GLONASS_FORCED=false; #Enables GLONASS on all devices
-export DOS_DEFCONFIG_DISABLER=true; #Enables the disablement of various kernel options
-export DOS_GRAPHENE_BIONIC=true; #Enables the bionic hardening patchset on 16.0+17.1+18.1+19.1+20.0
-export DOS_GRAPHENE_CONSTIFY=true; #Enables 'Constify JNINativeMethod tables' patchset on 16.0+17.1+18.1+19.1+20.0
-export DOS_GRAPHENE_MALLOC=true; #Enables use of GrapheneOS' hardened memory allocator on 64-bit platforms on 15.1+16.0+17.1+18.1+19.1+20.0
-export DOS_GRAPHENE_EXEC=true; #Enables use of GrapheneOS' exec spawning feature on 16.0+17.1+18.1+19.1+20.0
 export DOS_HOSTS_BLOCKING=true; #Set false to prevent inclusion of a HOSTS file
 export DOS_HOSTS_BLOCKING_LIST="https://divested.dev/hosts-wildcards"; #Must be in the format "127.0.0.1 bad.domain.tld"
-export DOS_MICROG_SUPPORT=true; #Opt-in unprivileged microG support on 17.1+18.1+19.1+20.0
-export DOS_SNET=false; #Selectively spoof select build properties
-export DOS_SNET_EXTRA=false; #Globally spoof select bootloader properties
 export DOS_SENSORS_PERM=false; #Set true to provide a per-app sensors permission for 14.1/15.1 #XXX: can break things like camera
-export DOS_STRONG_ENCRYPTION_ENABLED=false; #Set true to enable AES 256-bit FDE encryption on 14.1+15.1 #XXX: THIS WILL **DESTROY** EXISTING INSTALLS!
 export DOS_USE_KSM=false; #Set true to use KSM for increased memory efficiency at the cost of easier side-channel attacks and increased CPU usage #XXX: testing only
-export DOS_WEBVIEW_LFS=true; #Whether to `git lfs pull` in the WebView repository
-#alias DOS_WEBVIEW_CHERRYPICK='git pull "https://github.com/LineageOS/android_external_chromium-webview" refs/changes/00/316600/2';
 
 #Servers
 export DOS_DEFAULT_DNS_PRESET="Quad9"; #Sets default DNS. Options: See changeDefaultDNS() in Scripts/Common/Functions.sh
@@ -82,7 +65,7 @@ export DOS_GPS_SUPL_HOST="supl.google.com"; #Options: Any *valid* SUPL server
 
 #Release Processing
 export DOS_MALWARE_SCAN_BEFORE_SIGN=false; #Scan device files for malware before signing
-export DOS_GENERATE_DELTAS=true; #Creates deltas from existing target_files in $DOS_BUILDS
+export DOS_GENERATE_DELTAS=false; #Creates deltas from existing target_files in $DOS_BUILDS
 export DOS_AUTO_ARCHIVE_BUILDS=true; #Copies files to $DOS_BUILDS after signing
 export DOS_REMOVE_AFTER=true; #Removes device OUT directory after complete to reclaim space. Requires AUTO_ARCHIVE_BUILDS=true
 export DOS_REMOVE_AFTER_FULL=false; #Removes the entire OUT directory
@@ -101,9 +84,8 @@ export DOS_BRANDING_LINK_NEWS="https://divestos.org/pages/news";
 export DOS_BRANDING_LINK_PRIVACY="https://divestos.org/pages/privacy_policy";
 
 #OTAs
-export DOS_OTA_SERVER_LEGACY="https://divestos.org/updater.php";
+export DOS_OTA_SERVER_PRIMARY="https://divestos.org/updater.php";
 export DOS_OTA_SERVER_EXTENDED=true; #Enable to provide multiple choices as set below
-export DOS_OTA_SERVER_PRIMARY="$DOS_OTA_SERVER_LEGACY";
 export DOS_OTA_SERVER_SECONDARY="https://divestos.eeyo.re/updater.php";
 export DOS_OTA_SERVER_SECONDARY_NAME="Cloudflare";
 export DOS_OTA_SERVER_ONION_PRIMARY="http://divestoseb5nncsydt7zzf5hrfg44md4bxqjs5ifcv4t7gt7u6ohjyyd.onion/updater.php";
@@ -156,11 +138,6 @@ if [ ! -d "$DOS_BUILD_BASE" ]; then
 	return 1;
 fi;
 
-if [ "$DOS_MICROG_SUPPORT" = false ]; then
-	export DOS_SNET=false;
-	export DOS_SNET_EXTRA=false;
-fi;
-
 export DOS_TMP_DIR="/tmp/dos_tmp";
 mkdir -p "$DOS_TMP_DIR";
 export DOS_HOSTS_FILE="$DOS_TMP_DIR/hosts";
@@ -198,7 +175,7 @@ export TZ=:/etc/localtime;
 export LC_ALL=C;
 export LANG=C.UTF-8;
 
-if [[ "$DOS_VERSION" != "LineageOS-20.0" ]]; then export DOS_DEBLOBBER_REMOVE_EUICC_FULL=true; fi;
+if [[ "$DOS_VERSION" != "LineageOS-20.0" ]] && [[ "$DOS_VERSION" != "LineageOS-21.0" ]]; then export DOS_DEBLOBBER_REMOVE_EUICC_FULL=true; fi;
 
 #START OF VERIFICATION
 gpgVerifyGitHead "$DOS_WORKSPACE_ROOT";
