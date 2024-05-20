@@ -1,0 +1,144 @@
+From 6510b84f39264c63deb1c89ee72798da611acdd1 Mon Sep 17 00:00:00 2001
+From: renlord <me@renlord.com>
+Date: Fri, 15 Oct 2021 20:02:51 +0530
+Subject: [PATCH] add option to always randomize MAC
+
+RANDOMIZATION_ALWAYS is set as the default option
+---
+ res/layout/wifi_network_config.xml            |  2 +-
+ res/values/arrays.xml                         |  7 +++++
+ res/xml/wifi_network_details_fragment2.xml    |  2 +-
+ .../WifiDetailPreferenceController2.java      |  2 +-
+ .../WifiPrivacyPreferenceController2.java     | 27 ++++++++++++++-----
+ 5 files changed, 31 insertions(+), 9 deletions(-)
+
+diff --git a/res/layout/wifi_network_config.xml b/res/layout/wifi_network_config.xml
+index 77afedc3042..075b751e710 100644
+--- a/res/layout/wifi_network_config.xml
++++ b/res/layout/wifi_network_config.xml
+@@ -694,7 +694,7 @@
+                      android:layout_height="wrap_content"
+                      style="@style/wifi_item_spinner"
+                      android:prompt="@string/wifi_privacy_settings"
+-                     android:entries="@array/wifi_privacy_entries"/>
++                     android:entries="@array/wifi_privacy_entries_extended"/>
+         </LinearLayout>
+ 
+         <LinearLayout
+diff --git a/res/values/arrays.xml b/res/values/arrays.xml
+index f84afec09fc..1ca428bc8c3 100644
+--- a/res/values/arrays.xml
++++ b/res/values/arrays.xml
+@@ -1053,6 +1053,12 @@
+         <item>Treat as unmetered</item>
+     </string-array>
+ 
++    <string-array name="wifi_privacy_entries_extended">
++        <item>Use per-connection randomized MAC (default)</item>
++        <item>Use per-network randomized MAC</item>
++        <item>Use device MAC</item>
++    </string-array>
++
+     <string-array name="wifi_privacy_entries">
+         <item>Use randomized MAC (default)</item>
+         <item>Use device MAC</item>
+@@ -1070,6 +1076,7 @@
+     </string-array>
+ 
+     <string-array name="wifi_privacy_values" translatable="false">
++        <item>100</item>
+         <item>1</item>
+         <item>0</item>
+     </string-array>
+diff --git a/res/xml/wifi_network_details_fragment2.xml b/res/xml/wifi_network_details_fragment2.xml
+index daff20f5a28..7c54ee1fc1d 100644
+--- a/res/xml/wifi_network_details_fragment2.xml
++++ b/res/xml/wifi_network_details_fragment2.xml
+@@ -94,7 +94,7 @@
+         android:key="privacy"
+         android:icon="@drawable/ic_wifi_privacy_24dp"
+         android:title="@string/wifi_privacy_settings"
+-        android:entries="@array/wifi_privacy_entries"
++        android:entries="@array/wifi_privacy_entries_extended"
+         android:entryValues="@array/wifi_privacy_values"/>
+ 
+     <Preference
+diff --git a/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java b/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
+index b67c84832fb..e0c9ba89ab7 100644
+--- a/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
++++ b/src/com/android/settings/wifi/details2/WifiDetailPreferenceController2.java
+@@ -747,7 +747,7 @@ private void refreshWifiType() {
+     }
+ 
+     private int getMacAddressTitle() {
+-        if (mWifiEntry.getPrivacy() == WifiEntry.PRIVACY_RANDOMIZED_MAC) {
++        if (mWifiEntry.getPrivacy() != WifiEntry.PRIVACY_DEVICE_MAC) {
+             return mWifiEntry.getConnectedState() == WifiEntry.CONNECTED_STATE_CONNECTED
+                     ? R.string.wifi_advanced_randomized_mac_address_title
+                     : R.string.wifi_advanced_randomized_mac_address_disconnected_title;
+diff --git a/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java b/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java
+index 8c78e805d69..4ec97ba5f42 100644
+--- a/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java
++++ b/src/com/android/settings/wifi/details2/WifiPrivacyPreferenceController2.java
+@@ -17,6 +17,7 @@
+ package com.android.settings.wifi.details2;
+ 
+ import android.content.Context;
++import android.net.wifi.WifiConfiguration;
+ import android.net.wifi.WifiManager;
+ 
+ import androidx.annotation.NonNull;
+@@ -38,6 +39,10 @@ public class WifiPrivacyPreferenceController2 extends BasePreferenceController i
+     private final WifiManager mWifiManager;
+     private WifiEntry mWifiEntry;
+ 
++    private static final int PREF_RANDOMIZATION_ALWAYS = 0;
++    private static final int PREF_RANDOMIZATION_PERSISTENT = 1;
++    private static final int PREF_RANDOMIZATION_NONE = 2;
++
+     public WifiPrivacyPreferenceController2(Context context) {
+         super(context, KEY_WIFI_PRIVACY);
+ 
+@@ -93,8 +98,6 @@ int getRandomizationValue() {
+         return mWifiEntry.getPrivacy();
+     }
+ 
+-    private static final int PREF_RANDOMIZATION_PERSISTENT = 0;
+-    private static final int PREF_RANDOMIZATION_NONE = 1;
+ 
+     /**
+      * Returns preference index value.
+@@ -103,8 +106,14 @@ int getRandomizationValue() {
+      * @return index value of preference
+      */
+     public static int translateMacRandomizedValueToPrefValue(int macRandomized) {
+-        return (macRandomized == WifiEntry.PRIVACY_RANDOMIZED_MAC)
+-            ? PREF_RANDOMIZATION_PERSISTENT : PREF_RANDOMIZATION_NONE;
++        switch (macRandomized) {
++            case WifiEntry.PRIVACY_RANDOMIZED_MAC:
++                return PREF_RANDOMIZATION_PERSISTENT;
++            case WifiEntry.PRIVACY_DEVICE_MAC:
++                return PREF_RANDOMIZATION_NONE;
++            default:
++                return PREF_RANDOMIZATION_ALWAYS;
++        }
+     }
+ 
+     /**
+@@ -114,8 +123,14 @@ public static int translateMacRandomizedValueToPrefValue(int macRandomized) {
+      * @return mac randomized value
+      */
+     public static int translatePrefValueToMacRandomizedValue(int prefMacRandomized) {
+-        return (prefMacRandomized == PREF_RANDOMIZATION_PERSISTENT)
+-            ? WifiEntry.PRIVACY_RANDOMIZED_MAC : WifiEntry.PRIVACY_DEVICE_MAC;
++        switch (prefMacRandomized) {
++            case PREF_RANDOMIZATION_PERSISTENT:
++                return WifiEntry.PRIVACY_RANDOMIZED_MAC;
++            case PREF_RANDOMIZATION_NONE:
++                return WifiEntry.PRIVACY_DEVICE_MAC;
++            default:
++                return WifiEntry.PRIVACY_RANDOMIZATION_ALWAYS;
++        }
+     }
+ 
+     private void updateSummary(ListPreference preference, int macRandomized) {

@@ -1,0 +1,168 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: flawedworld <38294951+flawedworld@users.noreply.github.com>
+Date: Tue, 6 Apr 2021 01:15:32 +0100
+Subject: [PATCH] add native debugging setting
+
+---
+ res/values/strings.xml                        |   3 +
+ res/xml/security_dashboard_settings.xml       |   6 +
+ .../NativeDebugPreferenceController.java      | 106 ++++++++++++++++++
+ .../settings/security/SecuritySettings.java   |   1 +
+ 4 files changed, 116 insertions(+)
+ create mode 100644 src/com/android/settings/security/NativeDebugPreferenceController.java
+
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index de8ed4718e4..8ad86f32445 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -668,6 +668,9 @@
+     <string name="auto_reboot_title">Auto reboot</string>
+     <string name="auto_reboot_summary">Automatically reboot the device, if the phone hasn\'t been unlocked within the selected number of hours.</string>
+ 
++    <string name="native_debug_title">Enable native code debugging</string>
++    <string name="native_debug_summary">Generate useful logs / bug reports from crashes and permit debugging native code.</string>
++
+     <!-- Text shown for summary of owner info setting (if none set) [CHAR LIMIT=40]-->
+     <string name="owner_info_settings_summary">None</string>
+     <!-- Hint text shown in owner info edit text [CHAR LIMIT=50] -->
+diff --git a/res/xml/security_dashboard_settings.xml b/res/xml/security_dashboard_settings.xml
+index d0aeb27fe53..61e2db495a0 100644
+--- a/res/xml/security_dashboard_settings.xml
++++ b/res/xml/security_dashboard_settings.xml
+@@ -68,6 +68,12 @@
+             android:persistent="false"
+             android:entries="@array/auto_reboot_entries"
+             android:entryValues="@array/auto_reboot_values" />
++
++        <SwitchPreference
++            android:key="native_debug"
++            android:title="@string/native_debug_title"
++            android:summary="@string/native_debug_summary"
++            android:persistent="false" />
+     </PreferenceCategory>
+ 
+     <Preference
+diff --git a/src/com/android/settings/security/NativeDebugPreferenceController.java b/src/com/android/settings/security/NativeDebugPreferenceController.java
+new file mode 100644
+index 00000000000..9271e6e21cf
+--- /dev/null
++++ b/src/com/android/settings/security/NativeDebugPreferenceController.java
+@@ -0,0 +1,106 @@
++/*
++ * Copyright (C) 2020 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License
++ */
++
++package com.android.settings.security;
++
++import android.content.Context;
++
++import android.os.UserHandle;
++import android.os.UserManager;
++import android.os.SystemProperties;
++
++import android.provider.Settings;
++
++import androidx.preference.Preference;
++import androidx.preference.PreferenceCategory;
++import androidx.preference.PreferenceGroup;
++import androidx.preference.PreferenceScreen;
++import androidx.preference.TwoStatePreference;
++import androidx.preference.SwitchPreference;
++
++import com.android.internal.widget.LockPatternUtils;
++import com.android.settings.core.PreferenceControllerMixin;
++import com.android.settingslib.core.AbstractPreferenceController;
++import com.android.settingslib.core.lifecycle.events.OnResume;
++
++public class NativeDebugPreferenceController extends AbstractPreferenceController
++        implements PreferenceControllerMixin, OnResume, Preference.OnPreferenceChangeListener {
++
++    private static final String SYS_KEY_NATIVE_DEBUG = "persist.native_debug";
++    private static final String PREF_KEY_NATIVE_DEBUG = "native_debug";
++    private static final String PREF_KEY_SECURITY_CATEGORY = "security_category";
++
++    private PreferenceCategory mSecurityCategory;
++    private SwitchPreference mNativeDebug;
++    private boolean mIsAdmin;
++    private UserManager mUm;
++
++    public NativeDebugPreferenceController(Context context) {
++        super(context);
++        mUm = UserManager.get(context);
++    }
++
++    @Override
++    public void displayPreference(PreferenceScreen screen) {
++        super.displayPreference(screen);
++        mSecurityCategory = screen.findPreference(PREF_KEY_SECURITY_CATEGORY);
++        updatePreferenceState();
++    }
++
++    @Override
++    public boolean isAvailable() {
++        mIsAdmin = mUm.isAdminUser();
++        return mIsAdmin;
++    }
++
++    @Override
++    public String getPreferenceKey() {
++        return PREF_KEY_NATIVE_DEBUG;
++    }
++
++    // TODO: should we use onCreatePreferences() instead?
++    private void updatePreferenceState() {
++        if (mSecurityCategory == null) {
++            return;
++        }
++
++        if (mIsAdmin) {
++            mNativeDebug = (SwitchPreference) mSecurityCategory.findPreference(PREF_KEY_NATIVE_DEBUG);
++            mNativeDebug.setChecked(SystemProperties.getBoolean(SYS_KEY_NATIVE_DEBUG, true));
++        } else {
++            mSecurityCategory.removePreference(mSecurityCategory.findPreference(PREF_KEY_NATIVE_DEBUG));
++        }
++    }
++
++    @Override
++    public void onResume() {
++        updatePreferenceState();
++        if (mNativeDebug != null) {
++                boolean mode = mNativeDebug.isChecked();
++                SystemProperties.set(SYS_KEY_NATIVE_DEBUG, Boolean.toString(mode));
++        }
++    }
++
++    @Override
++    public boolean onPreferenceChange(Preference preference, Object value) {
++        final String key = preference.getKey();
++        if (PREF_KEY_NATIVE_DEBUG.equals(key)) {
++            final boolean mode = !mNativeDebug.isChecked();
++            SystemProperties.set(SYS_KEY_NATIVE_DEBUG, Boolean.toString(mode));
++        }
++        return true;
++    }
++}
+diff --git a/src/com/android/settings/security/SecuritySettings.java b/src/com/android/settings/security/SecuritySettings.java
+index 7aaa1b1e58f..d29325d0fbc 100644
+--- a/src/com/android/settings/security/SecuritySettings.java
++++ b/src/com/android/settings/security/SecuritySettings.java
+@@ -106,6 +106,7 @@ public class SecuritySettings extends DashboardFragment {
+                 context, lifecycle));
+         securityPreferenceControllers.add(new ChangeScreenLockPreferenceController(context, host));
+         securityPreferenceControllers.add(new AutoRebootPreferenceController(context));
++        securityPreferenceControllers.add(new NativeDebugPreferenceController(context));
+         controllers.add(new PreferenceCategoryController(context, SECURITY_CATEGORY)
+                 .setChildren(securityPreferenceControllers));
+         controllers.addAll(securityPreferenceControllers);

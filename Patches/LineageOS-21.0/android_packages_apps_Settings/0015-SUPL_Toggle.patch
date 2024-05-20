@@ -1,0 +1,95 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
+Date: Fri, 10 Feb 2023 12:44:30 +0200
+Subject: [PATCH] add a toggle for forcibly disabling SUPL
+
+---
+ res/values/strings.xml                        |  3 ++
+ res/xml/location_settings.xml                 |  7 +++
+ .../ForceDisableSuplPrefController.java       | 45 +++++++++++++++++++
+ 3 files changed, 55 insertions(+)
+ create mode 100644 src/com/android/settings/location/ForceDisableSuplPrefController.java
+
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 980ecbdbd9a..6b86c5a12bc 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -12470,6 +12470,9 @@
+     <string name="connectivity_check_title">Internet connectivity check</string>
+     <string name="connectivity_check_summary">HTTP endpoints to use for performing internet connectivity checks.</string>
+ 
++    <string name="force_disable_supl_title">Force disable Secure User Plane Location (SUPL)</string>
++    <string name="force_disable_supl_summary">Always disable SUPL assisted location support regardless of carrier configuration or emergency call status (does not disable control plane A-GNSS and DivestOS does not send IMSI to the SUPL)</string>
++
+     <!-- Accessibility Software Cursor -->
+ 
+     <!-- [CHAR LIMIT=NONE] Title for Accessibility Software Cursor setting for trigger hints. -->
+diff --git a/res/xml/location_settings.xml b/res/xml/location_settings.xml
+index 6e105046582..85a64098ea7 100644
+--- a/res/xml/location_settings.xml
++++ b/res/xml/location_settings.xml
+@@ -72,6 +72,13 @@
+             android:title="@string/location_services_preference_title"
+             settings:controller="com.android.settings.location.LocationServicesPreferenceController"/>
+ 
++
++        <com.android.settingslib.RestrictedSwitchPreference
++            android:key="force_disable_supl"
++            android:title="@string/force_disable_supl_title"
++            android:summary="@string/force_disable_supl_summary"
++            settings:controller="com.android.settings.location.ForceDisableSuplPrefController"/>
++
+     </PreferenceCategory>
+ 
+     <com.android.settingslib.widget.FooterPreference
+diff --git a/src/com/android/settings/location/ForceDisableSuplPrefController.java b/src/com/android/settings/location/ForceDisableSuplPrefController.java
+new file mode 100644
+index 00000000000..3a44261cc5d
+--- /dev/null
++++ b/src/com/android/settings/location/ForceDisableSuplPrefController.java
+@@ -0,0 +1,45 @@
++package com.android.settings.location;
++
++import android.content.Context;
++import android.os.Process;
++import android.provider.Settings;
++
++import com.android.settings.core.TogglePreferenceController;
++
++public class ForceDisableSuplPrefController extends TogglePreferenceController {
++
++    public ForceDisableSuplPrefController(Context ctx, String key) {
++        super(ctx, key);
++    }
++
++    @Override
++    public int getAvailabilityStatus() {
++        if (!Process.myUserHandle().isSystem()) {
++            return DISABLED_FOR_USER;
++        }
++
++        return AVAILABLE;
++    }
++
++    @Override
++    public boolean isChecked() {
++        var cr = mContext.getContentResolver();
++        String key = Settings.Global.FORCE_DISABLE_SUPL;
++        int def = Settings.Global.FORCE_DISABLE_SUPL_DEFAULT;
++
++        return Settings.Global.getInt(cr, key, def) == 1;
++    }
++
++    @Override
++    public boolean setChecked(boolean isChecked) {
++        var cr = mContext.getContentResolver();
++        String key = Settings.Global.FORCE_DISABLE_SUPL;
++
++        return Settings.Global.putInt(cr, key, isChecked ? 1 : 0);
++    }
++
++    @Override
++    public int getSliceHighlightMenuRes() {
++        return NO_RES;
++    }
++}

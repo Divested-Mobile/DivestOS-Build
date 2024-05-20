@@ -1,0 +1,238 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Oliver Scott <olivercscott@gmail.com>
+Date: Thu, 25 Feb 2021 11:31:14 -0500
+Subject: [PATCH] add Wi-Fi timeout feature
+
+---
+ res/values/arrays.xml                         |  44 +++++++
+ res/values/strings.xml                        |  19 +++
+ res/xml/wifi_configure_settings.xml           |   8 ++
+ .../wifi/WifiTimeoutPreferenceController.java | 115 ++++++++++++++++++
+ 4 files changed, 186 insertions(+)
+ create mode 100644 src/com/android/settings/wifi/WifiTimeoutPreferenceController.java
+
+diff --git a/res/values/arrays.xml b/res/values/arrays.xml
+index 8982867bb0e..085a33bc53f 100644
+--- a/res/values/arrays.xml
++++ b/res/values/arrays.xml
+@@ -62,6 +62,50 @@
+         <item>28800000</item>
+     </string-array>
+ 
++    <!-- Wifi settings.  The delay in inactivity before wifi is turned off. These are shown in a list dialog. -->
++    <string-array name="wifi_timeout_entries">
++        <item>@string/wifi_timeout_summary_never</item>
++        <item>@string/wifi_timeout_summary_15secs</item>
++        <item>@string/wifi_timeout_summary_30secs</item>
++        <item>@string/wifi_timeout_summary_1min</item>
++        <item>@string/wifi_timeout_summary_2mins</item>
++        <item>@string/wifi_timeout_summary_5mins</item>
++        <item>@string/wifi_timeout_summary_10mins</item>
++        <item>@string/wifi_timeout_summary_30mins</item>
++        <item>@string/wifi_timeout_summary_1hour</item>
++        <item>@string/wifi_timeout_summary_2hours</item>
++        <item>@string/wifi_timeout_summary_4hours</item>
++        <item>@string/wifi_timeout_summary_8hours</item>
++    </string-array>
++
++    <!-- Do not translate. -->
++    <string-array name="wifi_timeout_values" translatable="false">
++        <!-- Do not translate. -->
++        <item>0</item>
++        <!-- Do not translate. -->
++        <item>15000</item>
++        <!-- Do not translate. -->
++        <item>30000</item>
++        <!-- Do not translate. -->
++        <item>60000</item>
++        <!-- Do not translate. -->
++        <item>120000</item>
++        <!-- Do not translate. -->
++        <item>300000</item>
++        <!-- Do not translate. -->
++        <item>600000</item>
++        <!-- Do not translate. -->
++        <item>1800000</item>
++        <!-- Do not translate. -->
++        <item>3600000</item>
++        <!-- Do not translate. -->
++        <item>7200000</item>
++        <!-- Do not translate. -->
++        <item>14400000</item>
++        <!-- Do not translate. -->
++        <item>28800000</item>
++    </string-array>
++
+     <!-- Display settings.  The delay in inactivity before the screen is turned off. These are shown in a list dialog. -->
+     <string-array name="screen_timeout_entries">
+         <item>15 seconds</item>
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 48b67197e77..de8ed4718e4 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -46,6 +46,25 @@
+     <string name="bluetooth_timeout_summary_4hours">4 hours</string>
+     <string name="bluetooth_timeout_summary_8hours">8 hours</string>
+ 
++    <!--  screen, setting option name to change wifi timeout -->
++    <string name="wifi_timeout">Turn off Wi-Fi automatically</string>
++
++    <!--  screen, setting option summary to change wifi timeout -->
++    <string name="wifi_timeout_summary">Wi-Fi will turn off after <xliff:g id="timeout_description">%1$s</xliff:g> if no network connected</string>
++    <string name="wifi_timeout_summary2">Disabled</string>
++    <string name="wifi_timeout_summary_never">Never</string>
++    <string name="wifi_timeout_summary_15secs">15 seconds</string>
++    <string name="wifi_timeout_summary_30secs">30 seconds</string>
++    <string name="wifi_timeout_summary_1min">1 minute</string>
++    <string name="wifi_timeout_summary_2mins">2 minutes</string>
++    <string name="wifi_timeout_summary_5mins">5 minutes</string>
++    <string name="wifi_timeout_summary_10mins">10 minutes</string>
++    <string name="wifi_timeout_summary_30mins">30 minutes</string>
++    <string name="wifi_timeout_summary_1hour">1 hour</string>
++    <string name="wifi_timeout_summary_2hours">2 hours</string>
++    <string name="wifi_timeout_summary_4hours">4 hours</string>
++    <string name="wifi_timeout_summary_8hours">8 hours</string>
++
+     <!-- Device Info screen. Used for a status item's value when the proper value is not known -->
+     <string name="device_info_default">Unknown</string>
+     <!-- String for removal of sensitive info on about, depending on tap -->
+diff --git a/res/xml/wifi_configure_settings.xml b/res/xml/wifi_configure_settings.xml
+index bf795d057d1..63ad940984f 100644
+--- a/res/xml/wifi_configure_settings.xml
++++ b/res/xml/wifi_configure_settings.xml
+@@ -26,6 +26,14 @@
+         android:summary="@string/wifi_wakeup_summary"
+         settings:controller="com.android.settings.wifi.WifiWakeupPreferenceController"/>
+ 
++    <ListPreference
++        android:key="wifi_timeout"
++        android:title="@string/wifi_timeout"
++        android:summary="@string/wifi_timeout_summary"
++        android:entries="@array/wifi_timeout_entries"
++        android:entryValues="@array/wifi_timeout_values"
++        settings:controller="com.android.settings.wifi.WifiTimeoutPreferenceController"/>
++
+     <SwitchPreferenceCompat
+         android:key="notify_open_networks"
+         android:title="@string/wifi_notify_open_networks"
+diff --git a/src/com/android/settings/wifi/WifiTimeoutPreferenceController.java b/src/com/android/settings/wifi/WifiTimeoutPreferenceController.java
+new file mode 100644
+index 00000000000..7116c905190
+--- /dev/null
++++ b/src/com/android/settings/wifi/WifiTimeoutPreferenceController.java
+@@ -0,0 +1,115 @@
++/*
++ * Copyright (C) 2020 The Calyx Institute
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.settings.wifi;
++
++import android.content.Context;
++import android.net.wifi.WifiManager;
++import android.provider.Settings;
++import android.util.Log;
++
++import androidx.preference.ListPreference;
++import androidx.preference.Preference;
++
++import com.android.settings.R;
++import com.android.settings.core.BasePreferenceController;
++import com.android.settings.core.PreferenceControllerMixin;
++
++public class WifiTimeoutPreferenceController extends BasePreferenceController implements
++        PreferenceControllerMixin, Preference.OnPreferenceChangeListener {
++    private static final String TAG = "WifiTimeoutPrefCtrl";
++
++    public static final int FALLBACK_WIFI_TIMEOUT_VALUE = 0;
++
++    private final String mWifiTimeoutKey;
++
++    protected WifiManager mWifiManager;
++
++    public WifiTimeoutPreferenceController(Context context, String key) {
++        super(context, key);
++        mWifiTimeoutKey = key;
++
++        mWifiManager = context.getSystemService(WifiManager.class);
++        if (mWifiManager == null) {
++            Log.e(TAG, "Wifi is not supported on this device");
++            return;
++        }
++    }
++
++    @Override
++    public int getAvailabilityStatus() {
++        return mWifiManager != null ? AVAILABLE : UNSUPPORTED_ON_DEVICE;
++    }
++
++    @Override
++    public String getPreferenceKey() {
++        return mWifiTimeoutKey;
++    }
++
++    @Override
++    public void updateState(Preference preference) {
++        final ListPreference timeoutListPreference = (ListPreference) preference;
++        final long currentTimeout = Settings.Global.getLong(mContext.getContentResolver(),
++                Settings.Global.WIFI_OFF_TIMEOUT, FALLBACK_WIFI_TIMEOUT_VALUE);
++        timeoutListPreference.setValue(String.valueOf(currentTimeout));
++        updateTimeoutPreferenceDescription(timeoutListPreference,
++                Long.parseLong(timeoutListPreference.getValue()));
++    }
++
++    @Override
++    public boolean onPreferenceChange(Preference preference, Object newValue) {
++        try {
++            long value = Long.parseLong((String) newValue);
++            Settings.Global.putLong(mContext.getContentResolver(), Settings.Global.WIFI_OFF_TIMEOUT, value);
++            updateTimeoutPreferenceDescription((ListPreference) preference, value);
++        } catch (NumberFormatException e) {
++            Log.e(TAG, "could not persist wifi timeout setting", e);
++        }
++        return true;
++    }
++
++    public static CharSequence getTimeoutDescription(
++            long currentTimeout, CharSequence[] entries, CharSequence[] values) {
++        if (currentTimeout < 0 || entries == null || values == null
++                || values.length != entries.length) {
++            return null;
++        }
++
++        for (int i = 0; i < values.length; i++) {
++            long timeout = Long.parseLong(values[i].toString());
++            if (currentTimeout == timeout) {
++                return entries[i];
++            }
++        }
++        return null;
++    }
++
++    private void updateTimeoutPreferenceDescription(ListPreference preference,
++                                                    long currentTimeout) {
++        final CharSequence[] entries = preference.getEntries();
++        final CharSequence[] values = preference.getEntryValues();
++        final CharSequence timeoutDescription = getTimeoutDescription(
++                currentTimeout, entries, values);
++        String summary = "";
++        if (timeoutDescription != null) {
++            if (currentTimeout != 0)
++                summary = mContext.getString(R.string.wifi_timeout_summary, timeoutDescription);
++            else
++                summary = mContext.getString(R.string.wifi_timeout_summary2);
++        }
++        preference.setSummary(summary);
++    }
++}
